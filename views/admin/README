@@ -1,0 +1,11 @@
+Flexible interface-only app designed to be configurable on a module
+level and interface directly with an API, rather than provide direct 
+DB interaction. Very much in-progress...
+
+
+
+All code ©2009 CASH Music. Shared using an AGPL license. More info:
+
+http://cashmusic.org/
+
+(Ultimately we'll store proper license info here. But right now the file 'license.txt' also serves to mark the application root...)

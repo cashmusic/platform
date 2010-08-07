@@ -1,0 +1,81 @@
+/* TAG RESETS */
+html {margin:0;padding:0;}
+body {color:#000;background-color:#ffffff;text-align:center;font:75%/1.5em helvetica,"helvetica neue",arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:750px;}
+a {color:#999;text-decoration:none;}
+a:hover {text-decoration:underline;}
+a:active, a:focus {outline:0;}
+img {border:0;}
+ul {padding:0.5em 0 0.5em 0;}
+p {padding:0 0 1.5em 0;}
+h1 {font-size:2.75em;line-height:1em;margin:0;padding:0;}
+h3 {font-size:1.5em;line-height:1em;margin:0;padding:0;font-weight:normal;padding-bottom:0.35em;}
+
+/* GENERAL PAGE LAYOUT */
+#pagecontent {position:relative;clear:both;width:750px;padding:4em 1em 3em 1em;margin:0 auto;text-align:left;}
+.col_onehalf {float:left;width:47%;padding-right:5%;}
+.col_onethird {float:left;width:29%;padding-right:6%;}
+.col_twothirds {float:left;width:64%;padding-right:6%;}
+.col_onefourth {float:left;width:21%;padding-right:5%;}
+.col_threefourths {float:left;width:73%;padding-right:5%;}
+.lastcol {padding:0;float:right;}
+.row_seperator {position:relative;clear:both;height:1em;overflow:hidden;visibility:hidden;}
+
+/* FORMS */
+input {padding:0.42em 0 0.42em 0;border:1px solid #ccc;width:100%;}
+input:active, input:focus {outline:0;border:1px solid #888;}
+input.button {background-color:#ccc;padding:0.6em 1.75em 0.6em 1.75em;font-weight:bold;cursor:pointer;width:auto;}
+input.button:hover {background-color:#aaa;}
+input.checkorradio {width:auto;}
+label {font-size:0.85em;text-transform:uppercase;color:#999;}
+
+/* COLORS */
+.bgcolor1, div.usecolor1 input.button {background-color:#df0854;}
+.bgcolor2, div.usecolor2 input.button {background-color:#df9b08;}
+.bgcolor3, div.usecolor3 input.button {background-color:#aacd07;}
+.bgcolor4, div.usecolor4 input.button {background-color:#0891df;}
+.bgcolor5, div.usecolor5 input.button {background-color:#9b08df;}
+div.usecolor1 input.button:hover {background-color:#cd074d;}
+div.usecolor2 input.button:hover {background-color:#ca8c07;}
+div.usecolor3 input.button:hover {background-color:#97b800;}
+div.usecolor4 input.button:hover {background-color:#0080c9;}
+div.usecolor5 input.button:hover {background-color:#8a00ca;}
+#pagecontent a, #pageTips a {color:#0891df;}
+div.usecolor1 #pagecontent a, div.usecolor1 #pageTips a {color:#cd074d;}
+div.usecolor2 #pagecontent a, div.usecolor2 #pageTips a {color:#ca8c07;}
+div.usecolor3 #pagecontent a, div.usecolor3 #pageTips a {color:#97b800;}
+div.usecolor4 #pagecontent a, div.usecolor4 #pageTips a {color:#0080c9;}
+div.usecolor5 #pagecontent a, div.usecolor5 #pageTips a {color:#8a00ca;}
+
+/* NAVIGATION */
+#accountmenu {position:absolute;right:60px;top:14px;font-size:0.9em;z-index:600;}
+#accountmenu a {margin-left:1.5em;color:#bbb;}
+#accountmenu a:hover, #tipspc a:hover {color:#666;}
+#navmenu {position:relative;width:100%;height:auto;min-width:750px;padding-top:46px;text-align:left;color:#fff;text-align:right;font-size:0.9em;line-height:1.3em;z-index:500;}
+#navmenu .navitem {float:left;margin:0;padding:3px 8px;width:130px;height:72px;cursor:pointer;}
+#navmenu .currentnav {background-image:url(../images/currentnav.png);background-position:left top;background-repeat:no-repeat;}
+#navmenu .navitem:hover {background-color:#fff;color:#000;background-image:none;}
+#navmenu h2 {margin:0;padding:0;font-size:1.65em;line-height:1.15em;}
+#navmenu a {color:#fff;}
+#navmenu a:hover, #navmenu .navitem:hover a {color:#000;text-decoration:none;}
+#tipspc {clear:both;position:relative;padding-top:8px;color:#666;width:722px;}
+#tipspc a {color:#bbb;}
+#pageTips {display:none;width:425px;text-align:left;margin:0 0 0 auto;}
+#sectionmenu a {text-transform:lowercase;margin-right:1.5em;}
+#navmenu .currentnav, #navmenu .currentnav a {color:#000;}
+
+/* FOOTER (base code taken from cssstickyfooter.com) */
+* {margin-top:0;margin-bottom;padding:0;} 
+html, body, #wrap {height:100%;}
+body > #wrap {height:auto;min-height:100%;}
+#mainspc {padding-bottom: 150px;}
+#footer {position:relative;margin-top:-36px;height:36px;color:#666;text-align:left;font-size:0.9em;line-height:1em;clear:both;background-color:#000;}
+#footer p {padding:12px 8px 0px 8px;}
+#footer a {color:#666;}
+#footer a:hover {color:#fff;}
+/* CLEAR FIX*/
+.clearfix:after {content: ".";display:block;height:0;clear:both;visibility:hidden;}
+.clearfix {display:inline-block;}
+/* Hides from IE-mac \*/
+* html .clearfix { height: 1%;}
+.clearfix {display: block;}
+/* End hide from IE-mac */
