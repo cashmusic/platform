@@ -5,6 +5,9 @@
  * @package seed.org.cashmusic
  * @author Jesse von Doom / CASH Music
  * @link http://cashmuisc.org/
+ *
+ * began with official Paypal examples, much editing and pushing...
+ *
  **/
 class PaypalSeed {
 	protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token;
@@ -17,14 +20,14 @@ class PaypalSeed {
 		$this->api_version = urlencode('63.0');
 		$this->error_message = 'No error.';
 		
-		// Check for GET/POST token, else set false or manually-set at start
+		// Check for GET token, else set false or manually-set at start
 		if (isset($_GET['token'])) {
 			$this->token = urldecode($_GET['token']);
 		} else {
 			$this->token = $token_;
 		}
 		
-		// Environments: 'sadbox' / 'beta-sandbox' / 'live'
+		// Environments: 'sandbox' / 'beta-sandbox' / 'live'
 		$this->api_endpoint = "https://api-3t.paypal.com/nvp";
 		$this->paypal_base_url = "https://www.paypal.com/webscr&cmd=";
 		if("sandbox" === $environment || "beta-sandbox" === $environment) {
@@ -96,12 +99,13 @@ class PaypalSeed {
 	
 	public function setExpressCheckout(
 		$payment_amount,
-		$description,
+		$ordername,
+		$orderdescription,
 		$return_url,
 		$cancel_url,
 		$request_shipping_info=true,
 		$allow_cc=true,
-		$allow_note=true,
+		$allow_note=false,
 		$invoice=false,
 		$currency_id='USD', /* 'USD', 'GBP', 'EUR', 'JPY', 'CAD', 'AUD' */
 		$payment_type='Sale', /* 'Sale', 'Order', or 'Authorization' */
@@ -116,7 +120,9 @@ class PaypalSeed {
 		$nvp_str .= "&PAYMENTREQUEST_0_CURRENCYCODE=" . urlencode($currency_id);
 		$nvp_str .= "&RETURNURL=" . urlencode($return_url);
 		$nvp_str .= "&CANCELURL=" . urlencode($cancel_url);
-		$nvp_str .= "&PAYMENTREQUEST_0_DESC=" . urlencode($description);
+		$nvp_str .= "&L_PAYMENTREQUEST_0_AMT0=" . urlencode($payment_amount);
+		$nvp_str .= "&L_PAYMENTREQUEST_0_NAME0=" . urlencode($ordername);
+		$nvp_str .= "&L_PAYMENTREQUEST_0_DESC0=" . urlencode($orderdescription);
 		if ($request_shipping_info) {
 			$nvp_str .= "&NOSHIPPING=0";
 		} else {
@@ -161,6 +167,8 @@ class PaypalSeed {
 			if (!$parsed_response) {
 				$this->setErrorMessage('GetExpressCheckoutDetails failed: ' . $this->getErrorMessage());
 				return false;
+			} else {
+				return $parsed_response;
 			}
 		} else {
 			$this->setErrorMessage("No token was found.");
@@ -168,21 +176,22 @@ class PaypalSeed {
 		}
 	}
 	
-	public function DoExpressCheckout($payment_amount,$currency_id='USD',$payment_type='Sale') {
+	public function doExpressCheckout($payment_type='Sale') {
 		if ($this->token) {
 			$token_details = $this->getExpressCheckout();
-			$payer_id = $token_details['PAYERID'];
 			$nvp_str = "&TOKEN=" . $this->token;
-			$nvp_str .= "&PAYERID=" . $payer_id;
+			$nvp_str .= "&PAYERID=" . $token_details['PAYERID'];
 			$nvp_str .= "&PAYMENTREQUEST_0_PAYMENTACTION=" . $payment_type;
-			$nvp_str .= "&PAYMENTREQUEST_0_AMT=" . urlencode($payment_amount);
-			$nvp_str .= "&PAYMENTREQUEST_0_CURRENCYCODE=" . $currency_id;
+			$nvp_str .= "&PAYMENTREQUEST_0_AMT=" . $token_details['PAYMENTREQUEST_0_AMT'];
+			$nvp_str .= "&PAYMENTREQUEST_0_CURRENCYCODE=" . $token_details['PAYMENTREQUEST_0_CURRENCYCODE'];
 			
 			$parsed_response = $this->postToPaypal('DoExpressCheckoutPayment', $nvp_str);
 			
 			if (!$parsed_response) {
 				$this->setErrorMessage('DoExpressCheckout failed: ' . $this->getErrorMessage());
 				return false;
+			} else {
+				return $parsed_response;
 			}
 		} else {
 			$this->setErrorMessage("No token was found.");

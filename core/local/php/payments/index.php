@@ -1,14 +1,28 @@
 <?php
-include('classes/paypal.php');
-$ppobj = new PaypalSeed('sell_1275529145_biz_api1.cashmusic.org','1275529151','AFcWxV21C7fd0v3bYYYRCpSSRl31AGCG62tWdLmw5MVRVpwXFOJVoCjk');
-if (!$ppobj->SetExpressCheckout(5,'stuff','http://localhost:8888/payments/','http://localhost:8888/payments/',false,true,true,false,'USD','Sale',false,'000000','000000','000000')) {
-	echo $ppobj->getErrorMessage();
+$pageState = 'before transaction';
+$response = 'none yet';
+if ($_GET['begintest'] == 'go') {
+	include('classes/paypal.php');
+	$ppobj = new PaypalSeed('sell_1275529145_biz_api1.cashmusic.org','1275529151','AFcWxV21C7fd0v3bYYYRCpSSRl31AGCG62tWdLmw5MVRVpwXFOJVoCjk');
+	if (!$ppobj->SetExpressCheckout(5,'stuff','the finest stuff in the world','http://cashmusic.org/tools/_payments/','http://cashmusic.org/tools/_payments/',false,true,false,false,'USD','Sale',false,'000000','000000','000000')) {
+		echo $ppobj->getErrorMessage();
+	}
+} else if (isset($_GET['token']) && isset($_GET['PayerID'])) {
+	// data returned from Paypal
+	$pageState = 'after paypal redirect';
+	include('classes/paypal.php');
+	$ppobj = new PaypalSeed('sell_1275529145_biz_api1.cashmusic.org','1275529151','AFcWxV21C7fd0v3bYYYRCpSSRl31AGCG62tWdLmw5MVRVpwXFOJVoCjk');
+	$response = $ppobj->doExpressCheckout();
+	// handle all processing then redirect to the page clean?
+} else if (isset($_GET['token']) && !isset($_GET['PayerID'])) {
+	// cancellation return from Paypal
+	$pageState = 'cancelled transaction';
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>Showcase / CASH Music</title>
+<title>Payment Test / CASH Music</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="alternate" type="application/rss+xml" title="CASH Music blog RSS Feed" href="http://feeds.feedburner.com/cashmusic" /> 
 <meta name="description" content="CASH Music is a nonprofit music tech foundation." />
@@ -38,15 +52,26 @@ if (!$ppobj->SetExpressCheckout(5,'stuff','http://localhost:8888/payments/','htt
 		</div>
 
 		<div id="cashstatement">
-			<h1>Test</h1>
+			<h1>Payment Test</h1>
 			<p>
-				
+				Running through basic Paypal API integration with S3 downloads.
 			</p>
 		</div>
 	</div>
 	
 	<div id="mainspc">
-		
+		<a href="./?begintest=go">Begin Test</a><br /><br />
+		<pre>
+			<?php
+			echo "<br />CURRENT STATE:<br />".$pageState."<br /><br />";
+			echo "<br />GET:<br />";
+			var_dump($_GET);
+			echo "<br /><br />POST:<br />";
+			var_dump($_POST);
+			echo "<br /><br />RESPONSE:<br />";
+			var_dump($response);
+			?>
+		</pre>
 	</div>
 </div>
 
