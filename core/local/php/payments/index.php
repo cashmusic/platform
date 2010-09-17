@@ -1,23 +1,5 @@
 <?php
-$pageState = 'before transaction';
-$response = 'none yet';
-if ($_GET['begintest'] == 'go') {
-	include('classes/paypal.php');
-	$ppobj = new PaypalSeed('sell_1275529145_biz_api1.cashmusic.org','1275529151','AFcWxV21C7fd0v3bYYYRCpSSRl31AGCG62tWdLmw5MVRVpwXFOJVoCjk');
-	if (!$ppobj->SetExpressCheckout(5,'stuff','the finest stuff in the world','http://cashmusic.org/tools/_payments/','http://cashmusic.org/tools/_payments/',false,true,false,false,'USD','Sale',false,'000000','000000','000000')) {
-		echo $ppobj->getErrorMessage();
-	}
-} else if (isset($_GET['token']) && isset($_GET['PayerID'])) {
-	// data returned from Paypal
-	$pageState = 'after paypal redirect';
-	include('classes/paypal.php');
-	$ppobj = new PaypalSeed('sell_1275529145_biz_api1.cashmusic.org','1275529151','AFcWxV21C7fd0v3bYYYRCpSSRl31AGCG62tWdLmw5MVRVpwXFOJVoCjk');
-	$response = $ppobj->doExpressCheckout();
-	// handle all processing then redirect to the page clean?
-} else if (isset($_GET['token']) && !isset($_GET['PayerID'])) {
-	// cancellation return from Paypal
-	$pageState = 'cancelled transaction';
-}
+	include('logic/paypal.php');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -60,16 +42,12 @@ if ($_GET['begintest'] == 'go') {
 	</div>
 	
 	<div id="mainspc">
-		<a href="./?begintest=go">Begin Test</a><br /><br />
+		<a href="./?paypalseed=go">Begin Test</a><br /><br />
 		<pre>
 			<?php
-			echo "<br />CURRENT STATE:<br />".$pageState."<br /><br />";
-			echo "<br />GET:<br />";
-			var_dump($_GET);
-			echo "<br /><br />POST:<br />";
-			var_dump($_POST);
+			echo "<br />CURRENT STATE:<br />".$_SESSION['seed_state']."<br /><br />";
 			echo "<br /><br />RESPONSE:<br />";
-			var_dump($response);
+			var_dump($_SESSION['seed_response']);
 			?>
 		</pre>
 	</div>

@@ -8,6 +8,10 @@
  *
  * began with official Paypal examples, much editing and pushing...
  *
+ * Copyright (c) 2010, CASH Music
+ * Licensed under the Affero General Public License version 3.
+ * See http://www.gnu.org/licenses/agpl-3.0.html
+ *
  **/
 class PaypalSeed {
 	protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token;
@@ -199,7 +203,7 @@ class PaypalSeed {
 		}
 	}
 	
-	public function DoRefund($transaction_id, $refund_amount, $fullrefund=true,$memo=false,$currency_id='USD') {
+	public function doRefund($transaction_id, $refund_amount, $fullrefund=true,$memo=false,$currency_id='USD') {
 		if ($fullrefund) {
 			$refund_type = "Full";
 		} else {
