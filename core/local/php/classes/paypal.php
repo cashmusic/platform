@@ -103,8 +103,8 @@ class PaypalSeed {
 	
 	public function setExpressCheckout(
 		$payment_amount,
+		$ordersku,
 		$ordername,
-		$orderdescription,
 		$return_url,
 		$cancel_url,
 		$request_shipping_info=true,
@@ -125,8 +125,8 @@ class PaypalSeed {
 		$nvp_str .= "&RETURNURL=" . urlencode($return_url);
 		$nvp_str .= "&CANCELURL=" . urlencode($cancel_url);
 		$nvp_str .= "&L_PAYMENTREQUEST_0_AMT0=" . urlencode($payment_amount);
+		$nvp_str .= "&L_PAYMENTREQUEST_0_NUMBER0=" . urlencode($ordersku);
 		$nvp_str .= "&L_PAYMENTREQUEST_0_NAME0=" . urlencode($ordername);
-		$nvp_str .= "&L_PAYMENTREQUEST_0_DESC0=" . urlencode($orderdescription);
 		if ($request_shipping_info) {
 			$nvp_str .= "&NOSHIPPING=0";
 		} else {

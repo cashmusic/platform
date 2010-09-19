@@ -56,7 +56,10 @@
 					'country: ' . urldecode($_SESSION['seed_response']['COUNTRYCODE']) . '<br />' .
 					'currency: ' . urldecode($_SESSION['seed_response']['PAYMENTREQUEST_0_CURRENCYCODE']) . '<br />' .
 					'amount: ' . urldecode($_SESSION['seed_response']['PAYMENTREQUEST_0_AMT']) . '<br />' .
+					'order sku: ' . urldecode($_SESSION['seed_request']['L_PAYMENTREQUEST_0_NUMBER0']) . '<br />' .
+					'order name: ' . urldecode($_SESSION['seed_request']['L_PAYMENTREQUEST_0_NAME0']) . '<br />' .
 					'transaction id: ' . urldecode($_SESSION['seed_response']['PAYMENTREQUEST_0_TRANSACTIONID']) . '<br /><br />' .
+					'full request, JSON-encoded:<br />' . str_replace(',',', ',json_encode($_SESSION['seed_request'])) . '<br /><br />' .
 					'full response, JSON-encoded:<br />' . str_replace(',',', ',json_encode($_SESSION['seed_response']))
 				);
 				// once we're done flush session data

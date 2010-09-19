@@ -25,6 +25,7 @@ define('PAYPAL_SECRET', 'AFcWxV21C7fd0v3bYYYRCpSSRl31AGCG62tWdLmw5MVRVpwXFOJVoCj
 // define session variables
 session_start();
 if (!isset($_SESSION['seed_state'])) $_SESSION['seed_state'] = 'before';
+if (!isset($_SESSION['seed_request'])) $_SESSION['seed_request'] = false;
 if (!isset($_SESSION['seed_response'])) $_SESSION['seed_response'] = false;
 if (!isset($_SESSION['seed_error'])) $_SESSION['seed_error'] = false;
 
@@ -39,14 +40,16 @@ if ($_GET['seed_begin'] == 'go') {
 	
 	include(__DIR__.'/../classes/paypal.php');
 	$seed_ppobj = new PaypalSeed(PAYPAL_ADDRESS,PAYPAL_KEY,PAYPAL_SECRET);
-	if (!$seed_ppobj->SetExpressCheckout(5,'stuff','the finest stuff in the world',$urlMinusGet,$urlMinusGet,false,true,false,false,'USD','Sale',false,'000000','000000','000000')) {
+	if (!$seed_ppobj->SetExpressCheckout(5,'stuff001','the finest stuff in the world',$urlMinusGet,$urlMinusGet,false,true,false,false,'USD','Sale',false,'000000','000000','000000')) {
 		$_SESSION['seed_state'] = 'error';
 		$_SESSION['seed_error'] = $seed_ppobj->getErrorMessage();
 	}
+	exit;
 } else if (isset($_GET['token']) && isset($_GET['PayerID'])) {
 	// data returned from Paypal
 	include(__DIR__.'/../classes/paypal.php');
 	$seed_ppobj = new PaypalSeed(PAYPAL_ADDRESS,PAYPAL_KEY,PAYPAL_SECRET);
+	$_SESSION['seed_request'] = $seed_ppobj->getExpressCheckout();
 	$seed_ppobj->doExpressCheckout();
 	$_SESSION['seed_response'] = $seed_ppobj->getExpressCheckout();
 	
@@ -66,5 +69,7 @@ if ($_GET['seed_begin'] == 'go') {
 } else if (isset($_GET['token']) && !isset($_GET['PayerID'])) {
 	// cancellation return from Paypal
 	$_SESSION['seed_state'] = 'cancelled';
+	header("Location: $urlMinusGet");
+	exit;
 }
 ?>
