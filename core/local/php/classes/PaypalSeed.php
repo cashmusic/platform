@@ -122,6 +122,7 @@ class PaypalSeed {
 		$nvp_str = "&PAYMENTREQUEST_0_AMT=" . urlencode($payment_amount);
 		$nvp_str .= "&PAYMENTREQUEST_0_PAYMENTACTION=" . urlencode($payment_type);
 		$nvp_str .= "&PAYMENTREQUEST_0_CURRENCYCODE=" . urlencode($currency_id);
+		$nvp_str .= "&PAYMENTREQUEST_0_ALLOWEDPAYMENTMETHOD=InstantPaymentOnly";
 		$nvp_str .= "&RETURNURL=" . urlencode($return_url);
 		$nvp_str .= "&CANCELURL=" . urlencode($cancel_url);
 		$nvp_str .= "&L_PAYMENTREQUEST_0_AMT0=" . urlencode($payment_amount);
@@ -188,6 +189,7 @@ class PaypalSeed {
 			$nvp_str .= "&PAYMENTREQUEST_0_PAYMENTACTION=" . $payment_type;
 			$nvp_str .= "&PAYMENTREQUEST_0_AMT=" . $token_details['PAYMENTREQUEST_0_AMT'];
 			$nvp_str .= "&PAYMENTREQUEST_0_CURRENCYCODE=" . $token_details['PAYMENTREQUEST_0_CURRENCYCODE'];
+			$nvp_str .= "&PAYMENTREQUEST_0_ALLOWEDPAYMENTMETHOD=InstantPaymentOnly";
 			
 			$parsed_response = $this->postToPaypal('DoExpressCheckoutPayment', $nvp_str);
 			
