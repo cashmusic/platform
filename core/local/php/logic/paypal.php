@@ -25,14 +25,12 @@ define('PAYPAL_MICRO_ADDRESS', 'sell_1275529145_biz_api1.cashmusic.org');
 define('PAYPAL_MICRO_KEY', '1275529151');
 define('PAYPAL_MICRO_SECRET', 'AFcWxV21C7fd0v3bYYYRCpSSRl31AGCG62tWdLmw5MVRVpwXFOJVoCjk');
 
-define('DB_HOSTNAME', '');
-define('DB_USERNAME', '');
-define('DB_PASSWORD', '');
-define('DB_DATABASE', '');
+define('DB_HOSTNAME', 'internal-db.s28122.gridserver.com');
+define('DB_USERNAME', 'db28122');
+define('DB_PASSWORD', 'r7!BBxL49m');
+define('DB_DATABASE', 'db28122_cashmusic_seed');
 
 define('SMALLEST_ALLOWED_TRANSACTION', 0.4);
-
-define('ADD', 0.4);
 
 // session variables (API requests/responses, state, messages, micro or regular)
 session_start();
@@ -44,7 +42,8 @@ if (!isset($_SESSION['seed_error'])) $_SESSION['seed_error'] = false;
 if (!isset($_SESSION['seed_microtransaction'])) $_SESSION['seed_microtransaction'] = false;
 
 // function to set correct paypal keys
-function setPaypalKeys();
+function setPaypalKeys() {
+	global $paypal_address, $paypal_key, $paypal_secret;
 	if ($_SESSION['seed_microtransaction']) {
 		$paypal_address = PAYPAL_MICRO_ADDRESS;
 		$paypal_key = PAYPAL_MICRO_KEY;
@@ -93,8 +92,9 @@ if ($_REQUEST['seed_begin'] == 'go') {
 				if (!$pp->SetExpressCheckout($total_amt,$productInfo['sku'],$productInfo['title'],$url_minus_get,$url_minus_get,false)) {
 					$_SESSION['seed_state'] = 'error';
 					$_SESSION['seed_error'] = $pp->getErrorMessage();
+				} else {
+					exit;
 				}
-				exit;
 			}
 		} else {
 			$_SESSION['seed_error'] = 'No matching product was found.';
