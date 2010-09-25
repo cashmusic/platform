@@ -17,29 +17,30 @@
  **/
 
 // define contants (paypal credentials, db, S3, etc)
-define('PAYPAL_ADDRESS', 'sell_1275529145_biz_api1.cashmusic.org');
-define('PAYPAL_KEY', '1275529151');
-define('PAYPAL_SECRET', 'AFcWxV21C7fd0v3bYYYRCpSSRl31AGCG62tWdLmw5MVRVpwXFOJVoCjk');
+define('PAYPAL_ADDRESS', '');
+define('PAYPAL_KEY', '');
+define('PAYPAL_SECRET', '');
 
-define('PAYPAL_MICRO_ADDRESS', 'sell_1275529145_biz_api1.cashmusic.org');
-define('PAYPAL_MICRO_KEY', '1275529151');
-define('PAYPAL_MICRO_SECRET', 'AFcWxV21C7fd0v3bYYYRCpSSRl31AGCG62tWdLmw5MVRVpwXFOJVoCjk');
+define('PAYPAL_MICRO_ADDRESS', '');
+define('PAYPAL_MICRO_KEY', '');
+define('PAYPAL_MICRO_SECRET', '');
 
-define('DB_HOSTNAME', 'internal-db.s28122.gridserver.com');
-define('DB_USERNAME', 'db28122');
-define('DB_PASSWORD', 'r7!BBxL49m');
-define('DB_DATABASE', 'db28122_cashmusic_seed');
+define('DB_HOSTNAME', '');
+define('DB_USERNAME', '');
+define('DB_PASSWORD', '');
+define('DB_DATABASE', '');
 
 define('SMALLEST_ALLOWED_TRANSACTION', 0.4);
 
 // session variables (API requests/responses, state, messages, micro or regular)
 session_start();
-if (!isset($_SESSION['seed_state'])) $_SESSION['seed_state'] = 'before';
+if (!isset($_SESSION['seed_state_payment'])) $_SESSION['seed_state_payment'] = 'before';
 if (!isset($_SESSION['seed_request'])) $_SESSION['seed_request'] = false;
 if (!isset($_SESSION['seed_response'])) $_SESSION['seed_response'] = false;
 if (!isset($_SESSION['seed_details'])) $_SESSION['seed_details'] = false;
 if (!isset($_SESSION['seed_error'])) $_SESSION['seed_error'] = false;
 if (!isset($_SESSION['seed_microtransaction'])) $_SESSION['seed_microtransaction'] = false;
+if (!isset($_SESSION['seed_referral'])) $_SESSION['seed_referral'] = '';
 
 // function to set correct paypal keys
 function setPaypalKeys() {
@@ -61,11 +62,15 @@ $url_minus_get = 'http'.((empty($_SERVER['HTTPS'])&&$_SERVER['SERVER_PORT']!=443
 $PaypalSeed_location = __DIR__.'/../classes/PaypalSeed.php';
 $MySQLSeed_location = __DIR__.'/../classes/MySQLSeed.php';
 $ProductSeed_location = __DIR__.'/../classes/ProductSeed.php';
+$TransactionSeed_location = __DIR__.'/../classes/TransactionSeed.php';
 
-if ($_REQUEST['seed_begin'] == 'go') {
+if ($_REQUEST['seed_payment'] == 'go') {
+	if (isset($_REQUEST['seed_referral'])) {
+		$_SESSION['seed_referral'] = urldecode($_REQUEST['seed_referral']);
+	}
 	if (isset($_REQUEST['seed_sku'])) {
 		// reset all session variables, just in case
-		$_SESSION['seed_state'] = 'before';
+		$_SESSION['seed_state_payment'] = 'before';
 		$_SESSION['seed_response'] = false;
 		$_SESSION['seed_error'] = false;
 	
@@ -75,14 +80,14 @@ if ($_REQUEST['seed_begin'] == 'go') {
 		$db = new MySQLSeed(DB_HOSTNAME,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
 		$product = new ProductSeed($db,$_REQUEST['seed_sku']);
 		$productInfo = $product->getInfo();
-
+		
 		if ($productInfo) {
 			$total_amt = $productInfo['price'];
 			if (isset($_REQUEST['seed_addtoamt'])) {
 				$total_amt += $_REQUEST['seed_addtoamt'];
 			}
 			if ($total_amt < SMALLEST_ALLOWED_TRANSACTION) {
-				$_SESSION['seed_state'] = 'zerototal';
+				$_SESSION['seed_state_payment'] = 'zerototal';
 			} else {
 				if ($total_amt < 12) {
 					$_SESSION['seed_microtransaction'] = true;
@@ -90,7 +95,7 @@ if ($_REQUEST['seed_begin'] == 'go') {
 				}
 				$pp = new PaypalSeed($paypal_address,$paypal_key,$paypal_secret);
 				if (!$pp->SetExpressCheckout($total_amt,$productInfo['sku'],$productInfo['title'],$url_minus_get,$url_minus_get,false)) {
-					$_SESSION['seed_state'] = 'error';
+					$_SESSION['seed_state_payment'] = 'error';
 					$_SESSION['seed_error'] = $pp->getErrorMessage();
 				} else {
 					exit;
@@ -98,11 +103,11 @@ if ($_REQUEST['seed_begin'] == 'go') {
 			}
 		} else {
 			$_SESSION['seed_error'] = 'No matching product was found.';
-			$_SESSION['seed_state'] = 'error';
+			$_SESSION['seed_state_payment'] = 'error';
 		}
 	} else {
 		$_SESSION['seed_error'] = 'No product was specified.';
-		$_SESSION['seed_state'] = 'error';
+		$_SESSION['seed_state_payment'] = 'error';
 	}
 } else if (isset($_GET['token']) && isset($_GET['PayerID'])) {
 	// data returned from Paypal
@@ -119,22 +124,49 @@ if ($_REQUEST['seed_begin'] == 'go') {
 				$_SESSION['seed_response']['PAYMENTINFO_0_PAYMENTSTATUS'] == 'In-Progress' || 
 				$_SESSION['seed_response']['PAYMENTINFO_0_PAYMENTSTATUS'] == 'Processed' || 
 				$_SESSION['seed_response']['PAYMENTINFO_0_PAYMENTSTATUS'] == 'Pending') {
-					$_SESSION['seed_state'] = 'completed';
+					include($MySQLSeed_location);
+					include($TransactionSeed_location);
+					$db = new MySQLSeed(DB_HOSTNAME,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+					$transaction = new TransactionSeed($db);
+					$_SESSION['seed_state_payment'] = 'completed';
+					$success = $transaction->addTransaction(
+						urldecode($_SESSION['seed_details']['TIMESTAMP']),
+						urldecode($_SESSION['seed_details']['EMAIL']),
+						urldecode($_SESSION['seed_details']['PAYERID']),
+						urldecode($_SESSION['seed_details']['FIRSTNAME']),
+						urldecode($_SESSION['seed_details']['LASTNAME']),
+						urldecode($_SESSION['seed_details']['COUNTRYCODE']),
+						urldecode($_SESSION['seed_request']['L_PAYMENTREQUEST_0_NUMBER0']),
+						urldecode($_SESSION['seed_request']['L_PAYMENTREQUEST_0_NAME0']),
+						urldecode($_SESSION['seed_details']['PAYMENTREQUEST_0_TRANSACTIONID']),
+						$_SESSION['seed_response']['PAYMENTINFO_0_PAYMENTSTATUS'],
+						urldecode($_SESSION['seed_details']['PAYMENTREQUEST_0_CURRENCYCODE']),
+						urldecode($_SESSION['seed_details']['PAYMENTREQUEST_0_AMT']),
+						urldecode($_SESSION['seed_response']['PAYMENTINFO_0_FEEAMT']),
+						1,
+						$_SESSION['seed_referral'],
+						urldecode(json_encode($_SESSION['seed_request'])),
+						urldecode(json_encode($_SESSION['seed_response'])),
+						urldecode(json_encode($_SESSION['seed_details']))
+					);
+					if (!$success) {
+						$_SESSION['seed_error'] = mysql_error();
+					}
 			} else {
-				$_SESSION['seed_state'] = 'failed';
+				$_SESSION['seed_state_payment'] = 'failed';
 			}
 	        break;
 	    case 'PaymentActionFailed':
-			$_SESSION['seed_state'] = 'failed';
+			$_SESSION['seed_state_payment'] = 'failed';
 	        break;
 	    default:
-	       $_SESSION['seed_state'] = 'uncompleted';
+	       $_SESSION['seed_state_payment'] = 'uncompleted';
 	}
 	header("Location: $url_minus_get");
 	exit;
 } else if (isset($_GET['token']) && !isset($_GET['PayerID'])) {
 	// cancellation return from Paypal
-	$_SESSION['seed_state'] = 'cancelled';
+	$_SESSION['seed_state_payment'] = 'cancelled';
 	header("Location: $url_minus_get");
 	exit;
 }
