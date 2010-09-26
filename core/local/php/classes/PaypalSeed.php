@@ -145,12 +145,14 @@ class PaypalSeed {
 			$nvp_str .= "&SOLUTIONTYPE=Sole";
 			$nvp_str .= "&LANDINGPAGE=Billing";
 		}
-		if ($invoice) {
-			$hdr_img .= "&HDRIMG=" . urlencode($hdr_img);
-		}
-		$nvp_str .= "&HDRBORDERCOLOR=" . $hdr_img_bordercolor;
-		$nvp_str .= "&HDRBACKCOLOR=" . $hdr_bgcolor;
-		$nvp_str .= "&PAYFLOWCOLOR=" . $page_bgcolor;
+		
+		// color and image customization was returning "Bad Request" errors on Paypal
+		//if ($hdr_img) {
+		//	$nvp_str .= "&HDRIMG=" . urlencode($hdr_img);
+		//}
+		//$nvp_str .= "&HDRBORDERCOLOR=" . $hdr_img_bordercolor;
+		//$nvp_str .= "&HDRBACKCOLOR=" . $hdr_bgcolor;
+		//$nvp_str .= "&PAYFLOWCOLOR=" . $page_bgcolor;
 		
 		$parsed_response = $this->postToPaypal('SetExpressCheckout', $nvp_str);
 		if (!$parsed_response) {
