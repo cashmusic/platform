@@ -1,7 +1,7 @@
 <?php
-	include('logic/prep.php');
-	include('logic/paypal.php');
-	include('logic/emaillist.php');
+	include('../../seed/logic/prep.php');
+	include('../../seed/logic/paypal.php');
+	include('../../seed/logic/emaillist.php');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -88,18 +88,38 @@
 							Our EIN is 26-3804037.
 						</span>
 					</small>
+					<br /><br />
+					<div style="margin-top:40px;line-height:30px;" class="nofx">
+						<a href="http://twitter.com/share" class="twitter-share-button nofx" data-url="http://cashmusic.org/donate/" data-text="Help @cashmusic change the music industry." data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script><br />
+						<a name="fb_share" type="button_count" share_url="http://cashmusic.org/donate/" href="http://www.facebook.com/sharer.php" class="nofx">Share</a><script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script><br />
+						<script type="text/javascript" src="http://widgets.digg.com/buttons.js"></script><a class="DiggThisButton DiggCompact nofx"></a>
+					</div>
 				</div>
-				<div class="oneoftwo lastcol">
-					<form method="post" action="#"> 
-					<input type="text" name="seed_email" value="" style="width:18em;" />
+				<div class="oneoftwo lastcol" style="padding-top:4.25em;">
+					<h2>Sign Up, Spread The Word:</h2>
+					<small>
+					Please consider taking a minute to sign up for our mailing list. And if you like you can leave your name and a brief public message for this page it'd be appreciated, but
+					no pressure — you can just leave that part blank if you'd prefer. 
+					</small><br /><br />
+					<form method="post" action="#">
+					<label for="seed_email">Email Address:</label><br /> 
+					<input type="text" name="seed_email" value="" style="width:18em;" /><br /><br />
+					<label for="seed_emailname">Name:</label><br /> 
+					<input type="text" name="seed_emailname" value="" style="width:18em;" /><br />
+					<label for="seed_emailcomment">Comment:</label><br /> 
+					<textarea name="seed_emailcomment" style="width:18em;"></textarea><br />
 					<input type="hidden" name="seed_emaillist" value="go" /> 
 					<input type="hidden" name="seed_listid" value="1" /> 
+					<input type="hidden" name="seed_verified" value="1" /><br />
 					<input type="submit" value="sign me up" class="button" /><br />  
 					</form> 
 					<span class="notation"> 
+					<br />
 					We won't share, sell, or be jerks with your email address. 
 					</span>
 				</div>
+				
+				<div class="clearfix">.</div> 
 				
 				<?php
 				// once we're done flush session data
@@ -109,9 +129,17 @@
 		        break;
 		    case 'failed':
 				echo '<p>Sorry, the payment failed. Please check your login and payment source and <a href="./?seed_payment=go">try again</a>.</p>';
+				// once we're done flush session data
+				$_SESSION = array();
+				session_destroy();
+				session_write_close();
 		        break;
 		    case 'uncompleted':
 				echo '<p>Sorry, your transaction could not be completed. Please <a href="./?seed_payment=go">try again</a>.</p>';
+				// once we're done flush session data
+				$_SESSION = array();
+				session_destroy();
+				session_write_close();
 				break;
 			default:
 				?>
@@ -120,7 +148,8 @@
 					We believe that establishing a neutral organization focussed on providing music technology through open code is vital
 					to the long-term health of the new music industry. To do that we need your help.
 				</p><p> 
-					Please consider making a donation.<br /><br />
+					Please consider making a donation via Paypal. (You do <b>not</b> need a Paypal account. One-time credit card transactions
+					are also accepted in the paypal checkout process.)<br /><br />
 				</p>
 				
 				<div class="oneoffour firstcol callout">
@@ -163,6 +192,11 @@
 				<div class="oneoftwo lastcol" style="padding-top:8.5em;">
 					<h2>Others Who've Helped:</h2>
 					<?php
+					
+					include_once('../../seed/classes/MySQLSeed.php');
+					$db = new MySQLSeed(DB_HOSTNAME,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+					$query = "SELECT * FROM emal_addresses WHERE list_id=1 AND initial_comment != '' AND name != 'Anonymous' LIMIT 0,18";
+					$latest_signups = $db->doQueryForMultiAssoc($query);
 
 					/**
 					 * Get either a Gravatar URL or complete image tag for a specified email address.
@@ -188,8 +222,12 @@
 						}
 						return $url;
 					}
-
-					echo get_gravatar('jesse@cashmusic.org',40,'mm','pg',true,array('class'=>'gravatar'));
+					
+					if ($latest_signups) {
+						foreach ($latest_signups as $address) {
+							echo '<div style="margin-top:10px;">' . get_gravatar($address['email_address'],40,'mm','pg',true,array('style'=>'float:left;margin-right:10px;')) . "<div style=\"padding-left:50px;\"><small><b>{$address['name']}</b><br />{$address['initial_comment']}</small></div></div><div class=\"clearfix\">.</div>";
+						}
+					}
 
 					?>
 					
@@ -198,6 +236,7 @@
 					<input type="text" name="seed_email" value="" style="width:18em;" />
 					<input type="hidden" name="seed_emaillist" value="go" /> 
 					<input type="hidden" name="seed_listid" value="1" /> 
+					<input type="hidden" name="seed_verified" value="1" />  	
 					<input type="submit" value="sign me up" class="button" /><br />  
 					</form> 
 					<span class="notation"> 

@@ -24,8 +24,13 @@ class EmailListSeed {
 		$query = "SELECT * FROM emal_addresses WHERE email_address='$email' AND list_id={$this->list_id}";
 		return $this->dbseed->doQueryForAssoc($query);
 	}
+	
+	public function getAddresses($limit=100,$start=0) {
+		$query = "SELECT * FROM emal_addresses WHERE list_id={$this->list_id} LIMIT $start,$limit";
+		return $this->dbseed->doQueryForMultiAssoc($query);
+	}
 
-	public function emailIsVerified($email) {
+	public function addressIsVerified($email) {
 		$email_information = $this->getAddressInformation($email);
 		if (!$email_information) {
 			return false; 
@@ -34,11 +39,15 @@ class EmailListSeed {
 		}
 	}
 
-	public function addEmailAddress($email,$initial_comment,$verified=0,$name='Anonymous') {
+	public function addAddress($email,$initial_comment,$verified=0,$name='Anonymous') {
 		$email = mysql_real_escape_string(strtolower($email));
 		// first check to see if the email is already on the list
 		if (!$this->getAddressInformation($email)) {
 			$initial_comment = mysql_real_escape_string(strip_tags($initial_comment));
+			$name = mysql_real_escape_string(strip_tags($name));
+			if ($name == '') {
+				$name = 'Anonymous';
+			}
 			$creation_date = time();
 			$query = "INSERT INTO emal_addresses (email_address,list_id,initial_comment,verified,name,creation_date) VALUES ('$email',{$this->list_id},'$initial_comment',$verified,'$name',$creation_date)";
 			if ($this->dbseed->doQuery($query)) { 
@@ -52,7 +61,7 @@ class EmailListSeed {
 		}
 	}
 
-	public function setEmailVerification($email) {
+	public function setAddressVerification($email) {
 		$email = mysql_real_escape_string(strtolower($email));
 		$verification_code = time();
 		$query = "UPDATE emal_addresses SET verification_code='$verification_code',modification_date=$verification_code WHERE email_address='$email' AND list_id={$this->list_id}";
@@ -63,9 +72,9 @@ class EmailListSeed {
 		}
 	}
 
-	public function doEmailVerification($email,$verification_code) {
+	public function doAddressVerification($email,$verification_code) {
 		$email = mysql_real_escape_string(strtolower($email));
-		$alreadyverified = $this->emailIsVerified($email);
+		$alreadyverified = $this->addressIsVerified($email);
 		if ($alreadyverified == 1) {
 			$addressInfo = $this->getAddressInformation($email);
 			return $addressInfo['id'];

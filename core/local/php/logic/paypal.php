@@ -16,22 +16,6 @@
  *
  **/
 
-// define contants (paypal credentials, db, S3, etc)
-define('PAYPAL_ADDRESS', '');
-define('PAYPAL_KEY', '');
-define('PAYPAL_SECRET', '');
-
-define('PAYPAL_MICRO_ADDRESS', '');
-define('PAYPAL_MICRO_KEY', '');
-define('PAYPAL_MICRO_SECRET', '');
-
-define('DB_HOSTNAME', '');
-define('DB_USERNAME', '');
-define('DB_PASSWORD', '');
-define('DB_DATABASE', '');
-
-define('SMALLEST_ALLOWED_TRANSACTION', 0.4);
-
 // session variables (API requests/responses, state, messages, micro or regular)
 session_start();
 if (!isset($_SESSION['seed_state_payment'])) $_SESSION['seed_state_payment'] = 'before';
@@ -74,9 +58,9 @@ if ($_REQUEST['seed_payment'] == 'go') {
 		$_SESSION['seed_response'] = false;
 		$_SESSION['seed_error'] = false;
 	
-		include($PaypalSeed_location);
-		include($MySQLSeed_location);
-		include($ProductSeed_location);
+		include_once($PaypalSeed_location);
+		include_once($MySQLSeed_location);
+		include_once($ProductSeed_location);
 		$db = new MySQLSeed(DB_HOSTNAME,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
 		$product = new ProductSeed($db,$_REQUEST['seed_sku']);
 		$productInfo = $product->getInfo();
@@ -111,7 +95,7 @@ if ($_REQUEST['seed_payment'] == 'go') {
 	}
 } else if (isset($_GET['token']) && isset($_GET['PayerID'])) {
 	// data returned from Paypal
-	include($PaypalSeed_location);
+	include_once($PaypalSeed_location);
 	$pp = new PaypalSeed($paypal_address,$paypal_key,$paypal_secret);
 	$_SESSION['seed_request'] = $pp->getExpressCheckout();
 	$_SESSION['seed_response'] = $pp->doExpressCheckout();
@@ -124,8 +108,8 @@ if ($_REQUEST['seed_payment'] == 'go') {
 				$_SESSION['seed_response']['PAYMENTINFO_0_PAYMENTSTATUS'] == 'In-Progress' || 
 				$_SESSION['seed_response']['PAYMENTINFO_0_PAYMENTSTATUS'] == 'Processed' || 
 				$_SESSION['seed_response']['PAYMENTINFO_0_PAYMENTSTATUS'] == 'Pending') {
-					include($MySQLSeed_location);
-					include($TransactionSeed_location);
+					include_once($MySQLSeed_location);
+					include_once($TransactionSeed_location);
 					$db = new MySQLSeed(DB_HOSTNAME,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
 					$transaction = new TransactionSeed($db);
 					$_SESSION['seed_state_payment'] = 'completed';
