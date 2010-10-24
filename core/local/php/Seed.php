@@ -16,19 +16,13 @@
  *
  **/
 
-// handy little __DIR__ fix posted anonymously here: 
-// http://php.net/manual/en/language.constants.predefined.php
+// if < PHP 5.3, define __DIR__
 if (!defined('__DIR__')) { 
-	class __FILE_CLASS__ { 
-		function  __toString() { 
-			$X = debug_backtrace(); 
-			return dirname($X[1]['file']); 
-		} 
-	} 
-	define('__DIR__', new __FILE_CLASS__); 
+	$FILE__ = dirname(__FILE__); 
+	define('__DIR__', $FILE__); 
 }
 
-$ini = parse_ini_file(__DIR__.'/../settings/seed.ini');
+$ini = parse_ini_file(__DIR__.'/../settings/seed.ini.php');
 define('PAYPAL_ADDRESS', $ini['paypal_address']);
 define('PAYPAL_KEY', $ini['paypal_key']);
 define('PAYPAL_SECRET', $ini['paypal_secret']);
