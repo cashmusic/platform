@@ -123,6 +123,7 @@ class PaypalSeed {
 		$nvp_str .= "&PAYMENTREQUEST_0_PAYMENTACTION=" . urlencode($payment_type);
 		$nvp_str .= "&PAYMENTREQUEST_0_CURRENCYCODE=" . urlencode($currency_id);
 		$nvp_str .= "&PAYMENTREQUEST_0_ALLOWEDPAYMENTMETHOD=InstantPaymentOnly";
+		$nvp_str .= "&PAYMENTREQUEST_0_DESC=" . urlencode($ordername);
 		$nvp_str .= "&RETURNURL=" . urlencode($return_url);
 		$nvp_str .= "&CANCELURL=" . urlencode($cancel_url);
 		$nvp_str .= "&L_PAYMENTREQUEST_0_AMT0=" . urlencode($payment_amount);

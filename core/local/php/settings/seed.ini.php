@@ -8,23 +8,7 @@
 ; See http://www.gnu.org/licenses/agpl-3.0.html
 
 [database_connection]
-hostname = ""
-username = ""
-password = ""
-database = ""
-
-[paypal_primary_account]
-paypal_address = ""
-paypal_key = ""
-paypal_secret = ""
-
-[paypal microtransaction account]
-; use primary account settings if no microtransaction account
-paypal_micro_address = ""
-paypal_micro_key = ""
-paypal_micro_secret = ""
-
-[other paypal settings]
-smallest_allowed_transaction = 
-
-[s3_settings]
+hostname = "localhost:8889"
+username = "root"
+password = "root"
+database = "seed"

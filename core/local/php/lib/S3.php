@@ -764,6 +764,7 @@ class S3 {
 		// add the difference to the lifetime.
 		//
 		// Intended for quick unlock/redirect scripts
+		$timediff = 0;
 		if ($lifetime < 180) {
 			$rest = new S3Request('HEAD');
 			$rest = $rest->getResponse();
