@@ -16,7 +16,7 @@ abstract class SeedBase extends DBConnection {
 
 	protected function getSeedSettings() {
 		if ($this->settings_type) {
-			require_once(SEED_ROOT.'/settings/SeedSettings.php');
+			require_once(SEED_ROOT.'/classes/core/SeedSettings.php');
 			if ($this->use_specific_settings) {
 				if ($this->settings = new SeedSettings($this->settings_type,$this->use_specific_settings)) {
 					return $this->settings->getSettings();

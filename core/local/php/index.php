@@ -2,9 +2,12 @@
 	include('Seed.php');
 
 	if (isset($_GET['down'])) {
+		/*
 		include('classes/seeds/S3Seed.php');
 		$s3test = new S3Seed();
-		header("Location: " . $s3test->getExpiryURL('cashmusic','users/urgeoverkill/UrgeOverkill_Effigy.mp3'));
+		header("Location: " . $s3test->getExpiryURL('users/urgeoverkill/UrgeOverkill_Effigy.mp3'));
+		*/
+		$test = new SeedRequest(array('seed_action' => 'asset', 'seed_command' => 'redirect','asset_id' => 1));
 	}
 	
 ?>
@@ -13,13 +16,10 @@
 <head>
 <title>CASH Music : Seed Test</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="alternate" type="application/rss+xml" title="CASH Music blog RSS Feed" href="http://feeds.feedburner.com/cashmusic" /> 
-
 </head>
 
 <body>
 
-Test: <a href="?down=1">download</a>
-
+Test: <a href="?down=f">download</a>
 </body>
 </html>

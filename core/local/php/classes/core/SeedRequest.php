@@ -32,7 +32,7 @@ class SeedRequest {
 					$file_path = SEED_ROOT.'/classes/plants/'.$this->plant_array[$requested_action];
 					$class_name = substr_replace($this->plant_array[$requested_action], '', -4);
 					require_once($file_path);
-					$this->plant = new $class_name($this->request);
+					$this->plant = new $class_name($this->request_type,$this->request);
 				}
 			}
 		}
@@ -43,7 +43,7 @@ class SeedRequest {
 			// determine correct request source
 			if (isset($_POST['seed_action'])) {
 				$this->request = $_POST;
-				$this->request_type = 'get';
+				$this->request_type = 'post';
 			} else if (isset($_GET['seed_action'])) {
 				$this->request = $_GET;
 				$this->request_type = 'get';

@@ -12,8 +12,9 @@
  *
  **/
 class EchoPlant {
-	public function __construct($echome) {
-		print_r($echome);
+	public function __construct($request_type,$request) {
+		echo $request_type . ": \n";
+		print_r($request);
 	}
 } // END class 
 ?>

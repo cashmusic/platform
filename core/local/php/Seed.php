@@ -7,9 +7,6 @@
  * @package seed.org.cashmusic
  * @author Jesse von Doom / CASH Music
  * @link http://cashmuisc.org/
- * 
- * scans querystring values to get current page state and inititate PaypalSeed
- * objects where needed and setting a pageState variable to indicate progress
  *
  * Copyright (c) 2010, CASH Music
  * Licensed under the Affero General Public License version 3.
@@ -36,6 +33,7 @@ define('SEED_ROOT', $root);
 
 // required includes
 require_once(SEED_ROOT.'/classes/core/DBConnection.php');
+require_once(SEED_ROOT.'/classes/core/PlantBase.php');
 require_once(SEED_ROOT.'/classes/core/SeedBase.php');
 require_once(SEED_ROOT.'/classes/core/SeedRequest.php');
 require_once(SEED_ROOT.'/classes/core/SeedResponse.php');
