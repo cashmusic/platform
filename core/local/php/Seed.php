@@ -23,7 +23,7 @@ if (get_magic_quotes_gpc()) {
 }
 
 // begin session
-session_cache_limiter('private_no_expire');
+session_cache_limiter('nocache');
 session_cache_expire(240);
 session_start();
 

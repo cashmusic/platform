@@ -37,7 +37,7 @@ class AssetPlant extends PlantBase {
 				$asset = $this->getAssetInfo($asset_id);
 				switch ($asset['type']) {
 					case 'com.amazon.aws':
-						include('classes/seeds/S3Seed.php');
+						include(SEED_ROOT.'/classes/seeds/S3Seed.php');
 						$s3 = new S3Seed();
 						header("Location: " . $s3->getExpiryURL($asset['location']));
 						break;

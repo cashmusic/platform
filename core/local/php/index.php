@@ -2,11 +2,6 @@
 	include('Seed.php');
 
 	if (isset($_GET['down'])) {
-		/*
-		include('classes/seeds/S3Seed.php');
-		$s3test = new S3Seed();
-		header("Location: " . $s3test->getExpiryURL('users/urgeoverkill/UrgeOverkill_Effigy.mp3'));
-		*/
 		$test = new SeedRequest(array('seed_action' => 'asset', 'seed_command' => 'redirect','asset_id' => 1));
 	}
 	
@@ -20,6 +15,6 @@
 
 <body>
 
-Test: <a href="?down=f">download</a>
+Test: <a href="?down=xx">download</a>
 </body>
 </html>
