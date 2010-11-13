@@ -26,8 +26,6 @@ if (get_magic_quotes_gpc()) {
 session_cache_limiter('nocache');
 session_cache_expire(240);
 session_start();
-$_SESSION['seed_last_response'] = false;
-$_SESSION['seed_persistent'] = false;
 
 // define constants (use sparingly!)
 $root = dirname(__FILE__); 
