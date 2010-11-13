@@ -11,7 +11,7 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  **/
-abstract class SeedBase extends DBConnection {
+abstract class SeedBase extends SeedData {
 	protected $settings,$settings_type=false;
 
 	protected function getSeedSettings() {

@@ -32,7 +32,7 @@ $root = dirname(__FILE__);
 define('SEED_ROOT', $root); 
 
 // required includes
-require_once(SEED_ROOT.'/classes/core/DBConnection.php');
+require_once(SEED_ROOT.'/classes/core/SeedData.php');
 require_once(SEED_ROOT.'/classes/core/PlantBase.php');
 require_once(SEED_ROOT.'/classes/core/SeedBase.php');
 require_once(SEED_ROOT.'/classes/core/SeedRequest.php');

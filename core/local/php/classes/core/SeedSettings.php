@@ -11,7 +11,7 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  **/
-class SeedSettings extends DBConnection {
+class SeedSettings extends SeedData {
 	public function __construct($settings_type,$settings_name='default') {
 		$this->settings_name = $settings_name;
 		$this->settings_type = $settings_type;

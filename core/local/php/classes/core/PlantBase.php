@@ -11,7 +11,7 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  **/
-abstract class PlantBase extends DBConnection {
+abstract class PlantBase extends SeedData {
 	protected $request_type,$request;
 
 	abstract public function processRequest();
