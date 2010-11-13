@@ -66,9 +66,5 @@ class MySQLSeed {
 			return false;
 		}
 	}
-	
-	public function __destruct() {
-		mysql_close($this->db);
-	}
 } // END class 
 ?>

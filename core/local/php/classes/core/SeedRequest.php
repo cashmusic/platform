@@ -1,6 +1,6 @@
 <?php
 /**
- * Simple class for interfacing with Donovan Schönknecht's S3 library
+ * Handle incoming requests, pass to the appropriate plant, return response
  *
  * @package seed.org.cashmusic
  * @author Jesse von Doom / CASH Music
@@ -12,7 +12,7 @@
  *
  **/
 class SeedRequest {
-	protected $request=false,$request_type,$plant_array=array(),$plant;
+	protected $request=false,$response,$request_type,$plant_array=array(),$plant;
 	
 	public function __construct($direct_request=false) {
 		if ($direct_request) {
@@ -33,6 +33,8 @@ class SeedRequest {
 					$class_name = substr_replace($this->plant_array[$requested_action], '', -4);
 					require_once($file_path);
 					$this->plant = new $class_name($this->request_type,$this->request);
+					$this->response = $this->plant->processRequest();
+					return($this->response);
 				}
 			}
 		}

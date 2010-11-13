@@ -14,11 +14,18 @@
 class AssetPlant extends PlantBase {	
 	public function __construct($request_type,$request) {
 		$this->plantPrep($request_type,$request);
-		switch ($request['seed_command']) {
-			case 'redirect':
-				$this->redirectToAsset($request['asset_id']);
-		    default:
-		        // error: command was not understood
+	}
+	
+	public function processRequest() {
+		if (isset($this->request['seed_command'])) {
+			switch ($this->request['seed_command']) {
+				case 'redirect':
+					$this->redirectToAsset($this->request['asset_id']);
+				default:
+					// error: command was not understood
+			}
+		} else {
+			// error: try sending a command, dummy
 		}
 	}
 	

@@ -14,6 +14,8 @@
 abstract class PlantBase extends DBConnection {
 	protected $request_type,$request;
 
+	abstract public function processRequest();
+
 	protected function plantPrep($request_type,$request) {
 		$this->request_type = $request_type;
 		$this->request = $request;
