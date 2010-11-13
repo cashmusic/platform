@@ -65,6 +65,8 @@ abstract class SeedData {
 		session_regenerate_id(true);
 		if (is_array($_SESSION['seed_persistent_store'])) {
 			$_SESSION['seed_persistent_store']["$key"] = $value;
+		} else {
+			$_SESSION['seed_persistent_store'] = array("$key" => $value);
 		}
 	}
 
