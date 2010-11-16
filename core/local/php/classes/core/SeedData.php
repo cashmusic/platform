@@ -29,7 +29,6 @@ abstract class SeedData {
 	}
 
 	protected function resetSeedSession() {
-		$_SESSION['seed_state'] = 'neutral';
 		$_SESSION['seed_last_reply'] = false;
 		$_SESSION['seed_persistent_store'] = false;
 		return true;

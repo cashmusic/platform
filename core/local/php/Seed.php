@@ -38,5 +38,5 @@ require_once(SEED_ROOT.'/classes/core/SeedBase.php');
 require_once(SEED_ROOT.'/classes/core/SeedRequest.php');
 require_once(SEED_ROOT.'/classes/core/SeedResponse.php');
 
-$seed_response = new SeedRequest();
+$seed_request = new SeedRequest();
 ?>

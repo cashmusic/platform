@@ -12,27 +12,28 @@
  *
  **/
 class SeedRequest {
-	protected $request=false,$response,$request_type,$plant_array=array(),$plant;
+	protected $request=false,$request_method,$plant_array=array(),$plant;
+	public $response;
 	
 	public function __construct($direct_request=false) {
 		if ($direct_request) {
 			// skip detect on direct requests
 			$this->request = $direct_request;
-			$this->request_type = 'direct';
+			$this->request_method = 'direct';
 		} else {
 			$this->detectRequest();
 		}
 		if ($this->request) {
 			// found something, let's make sure it's legit and do work
-			$requested_action = strtolower(trim($this->request['seed_action']));
-			unset($this->request['seed_action']);
+			$requested_action = strtolower(trim($this->request['seed_request_type']));
+			unset($this->request['seed_request_type']);
 			if ($requested_action != '' && count($this->request) > 0) {
 				$this->buildPlantArray();
 				if (isset($this->plant_array[$requested_action])) {
 					$file_path = SEED_ROOT.'/classes/plants/'.$this->plant_array[$requested_action];
 					$class_name = substr_replace($this->plant_array[$requested_action], '', -4);
 					require_once($file_path);
-					$this->plant = new $class_name($this->request_type,$this->request);
+					$this->plant = new $class_name($this->request_method,$this->request);
 					$this->response = $this->plant->processRequest();
 					return($this->response);
 				}
@@ -43,15 +44,15 @@ class SeedRequest {
 	protected function detectRequest() {
 		if (!$this->request) {
 			// determine correct request source
-			if (isset($_POST['seed_action'])) {
+			if (isset($_POST['seed_request_type'])) {
 				$this->request = $_POST;
-				$this->request_type = 'post';
-			} else if (isset($_GET['seed_action'])) {
+				$this->request_method = 'post';
+			} else if (isset($_GET['seed_request_type'])) {
 				$this->request = $_GET;
-				$this->request_type = 'get';
+				$this->request_method = 'get';
 			} else if (php_sapi_name() == 'cli' && empty($_SERVER['REMOTE_ADDR'])) {
 				$this->request = $_SERVER['argv'];
-				$this->request_type = 'commandline';
+				$this->request_method = 'commandline';
 			}
 		}
 	}

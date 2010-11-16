@@ -11,10 +11,16 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  **/
-class EchoPlant {
+class EchoPlant extends PlantBase {
 	public function __construct($request_type,$request) {
-		echo $request_type . ": \n";
-		print_r($request);
+		$this->request_type = 'echo';
+		$this->db_required = false;
+		$this->plantPrep($request_type,$request);
+	}
+	
+	public function processRequest() {
+		$result = $this->response->pushResponse(200,$this->request_type,$this->action,$this->request,'no context for a simple echo');
+		return $result;
 	}
 } // END class 
 ?>

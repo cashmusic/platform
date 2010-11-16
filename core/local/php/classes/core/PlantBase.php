@@ -12,14 +12,20 @@
  *
  **/
 abstract class PlantBase extends SeedData {
-	protected $request_type,$request;
+	protected $request_method,$request_type,$action=false,$request,$response,$db_required=true;
 
 	abstract public function processRequest();
 
-	protected function plantPrep($request_type,$request) {
-		$this->request_type = $request_type;
+	protected function plantPrep($request_method,$request) {
+		$this->request_method = $request_method;
 		$this->request = $request;
-		$this->connectDB();
+		if (isset($this->request['seed_action'])) {
+			$this->action = $this->request['seed_action'];
+		}
+		$this->response = new SeedResponse();
+		if ($this->db_required) {
+			$this->connectDB();
+		}
 	}
 
 	protected function restrictExecutionTo() {
@@ -27,7 +33,7 @@ abstract class PlantBase extends SeedData {
 		if ($args_count > 0) {
 			$args = func_get_args();
 			foreach ($args as $arg) {
-			    if ($arg == $this->request_type) {
+			    if ($arg == $this->request_method) {
 					return true;
 				}
 			}

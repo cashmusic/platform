@@ -13,19 +13,40 @@
  **/
 class AssetPlant extends PlantBase {	
 	public function __construct($request_type,$request) {
+		$this->request_type = 'asset';
 		$this->plantPrep($request_type,$request);
 	}
 	
 	public function processRequest() {
-		if (isset($this->request['seed_command'])) {
-			switch ($this->request['seed_command']) {
+		if ($this->action) {
+			switch ($this->action) {
 				case 'redirect':
+					$this->response->pushResponse(
+						200,
+						$this->request_type,
+						$this->action,
+						$this->request,
+						'redirect executed successfully'
+					);
 					$this->redirectToAsset($this->request['asset_id']);
+					die();
 				default:
-					// error: command was not understood
+					return $this->response->pushResponse(
+						400,
+						$this->request_type,
+						$this->action,
+						$this->request,
+						'unknown action'
+					);
 			}
 		} else {
-			// error: try sending a command, dummy
+			return $this->response->pushResponse(
+				400,
+				$this->request_type,
+				$this->action,
+				$this->request,
+				'no action specified'
+			);
 		}
 	}
 	
