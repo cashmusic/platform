@@ -21,15 +21,18 @@ class AssetPlant extends PlantBase {
 		if ($this->action) {
 			switch ($this->action) {
 				case 'redirect':
-					$this->response->pushResponse(
-						200,
-						$this->request_type,
-						$this->action,
-						$this->request,
-						'redirect executed successfully'
-					);
-					$this->redirectToAsset($this->request['asset_id']);
-					die();
+					if (isset($this->request['asset_id'])) {
+						$this->redirectToAsset($this->request['asset_id']);
+					} else {
+						return $this->response->pushResponse(
+							400,
+							$this->request_type,
+							$this->action,
+							$this->request,
+							'no asset specified'
+						);
+					}
+					break;
 				default:
 					return $this->response->pushResponse(
 						400,
@@ -67,17 +70,34 @@ class AssetPlant extends PlantBase {
 					case 'com.amazon.aws':
 						include(SEED_ROOT.'/classes/seeds/S3Seed.php');
 						$s3 = new S3Seed();
+						$this->response->pushResponse(
+							200,
+							$this->request_type,
+							$this->action,
+							$this->request,
+							'redirect executed successfully'
+						);
 						header("Location: " . $s3->getExpiryURL($asset['location']));
+						die();
 						break;
 				    default:
-				        // error: type not known
+				        return $this->response->pushResponse(
+							500,
+							$this->request_type,
+							$this->action,
+							$this->request,
+							'unknown asset type, please as an admin to check the asset type'
+						);
 				}
-			} else {
-				// error: no asset specified
 			}
 		} else {
-			// error: you need to call this action a from a different type
-			//        of request. try a direct call.
+			return $this->response->pushResponse(
+				403,
+				$this->request_type,
+				$this->action,
+				$this->request,
+				'you cannot initiate a redirect from GET or POST calls, try a direct call'
+			);
 		}
 	}
 } // END class 

@@ -28,8 +28,9 @@ session_cache_expire(240);
 session_start();
 
 // define constants (use sparingly!)
-$root = dirname(__FILE__); 
-define('SEED_ROOT', $root); 
+$root = dirname(__FILE__);
+define('SEED_ROOT', $root);
+define('SEED_CURRENT_URL', 'http'.((empty($_SERVER['HTTPS'])&&$_SERVER['SERVER_PORT']!=443)?'':'s').'://'.$_SERVER['HTTP_HOST'].strtok($_SERVER['REQUEST_URI'],'?'));
 
 // required includes
 require_once(SEED_ROOT.'/classes/core/SeedData.php');
