@@ -3,7 +3,7 @@
  * Plant handling assets: query information, handle download codes/passwords, etc
  *
  * @package seed.org.cashmusic
- * @author Jesse von Doom / CASH Music
+ * @author CASH Music
  * @link http://cashmusic.org/
  *
  * Copyright (c) 2010, CASH Music
@@ -63,34 +63,7 @@ class AssetPlant extends PlantBase {
 	}
 	
 	public function redirectToAsset($asset_id) {
-		if ($this->restrictExecutionTo('direct')) {
-			if ($asset_id) {
-				$asset = $this->getAssetInfo($asset_id);
-				switch ($asset['type']) {
-					case 'com.amazon.aws':
-						include(SEED_ROOT.'/classes/seeds/S3Seed.php');
-						$s3 = new S3Seed();
-						$this->response->pushResponse(
-							200,
-							$this->request_type,
-							$this->action,
-							$this->request,
-							'redirect executed successfully'
-						);
-						header("Location: " . $s3->getExpiryURL($asset['location']));
-						die();
-						break;
-				    default:
-				        return $this->response->pushResponse(
-							500,
-							$this->request_type,
-							$this->action,
-							$this->request,
-							'unknown asset type, please as an admin to check the asset type'
-						);
-				}
-			}
-		} else {
+		if (!$this->checkRequestMethodFor('direct')) {
 			return $this->response->pushResponse(
 				403,
 				$this->request_type,
@@ -98,6 +71,32 @@ class AssetPlant extends PlantBase {
 				$this->request,
 				'you cannot initiate a redirect from GET or POST calls, try a direct call'
 			);
+		}
+		if ($asset_id) {
+			$asset = $this->getAssetInfo($asset_id);
+			switch ($asset['type']) {
+				case 'com.amazon.aws':
+					include(SEED_ROOT.'/classes/seeds/S3Seed.php');
+					$s3 = new S3Seed();
+					$this->response->pushResponse(
+						200,
+						$this->request_type,
+						$this->action,
+						$this->request,
+						'redirect executed successfully'
+					);
+					header("Location: " . $s3->getExpiryURL($asset['location']));
+					die();
+					break;
+			    default:
+			        return $this->response->pushResponse(
+						500,
+						$this->request_type,
+						$this->action,
+						$this->request,
+						'unknown asset type, please as an admin to check the asset type'
+					);
+			}
 		}
 	}
 } // END class 

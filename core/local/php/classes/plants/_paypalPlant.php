@@ -4,7 +4,7 @@
  * PaypalSeed page-state handler script
  *
  * @package seed.org.cashmusic
- * @author Jesse von Doom / CASH Music
+ * @author CASH Music
  * @link http://cashmusic.org/
  * 
  * scans querystring values to get current page state and inititate PaypalSeed

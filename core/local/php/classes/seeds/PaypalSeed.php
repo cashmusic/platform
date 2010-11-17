@@ -3,7 +3,7 @@
  * The PaypalSeed class sets up cURL and speaks to the Paypal NVP API.
  *
  * @package seed.org.cashmusic
- * @author Jesse von Doom / CASH Music
+ * @author CASH Music
  * @link http://cashmusic.org/
  *
  * began with official Paypal examples, much editing and pushing...

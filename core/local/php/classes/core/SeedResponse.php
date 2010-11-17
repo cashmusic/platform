@@ -3,15 +3,14 @@
  * Output a consistent response to every request
  *
  * @package seed.org.cashmusic
- * @author Jesse von Doom / CASH Music
+ * @author CASH Music
  * @link http://cashmusic.org/
  *
  * Copyright (c) 2010, CASH Music
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
- **/
-class SeedResponse extends SeedData  {
+ */class SeedResponse extends SeedData  {
 	protected $response;
 	
 	protected $status_codes = array(
@@ -26,7 +25,11 @@ class SeedResponse extends SeedData  {
 		'503' => 'Service Unavailable: Third party settings are incorrect or unknown.'
 	);
 	
-	public function pushResponse($status_code,$request_type,$action,$response_details,$contextual_message) {
+	/**
+	 * Formats a proper response, stores it in the session, and returns it
+	 *
+	 * @return array
+	 */public function pushResponse($status_code,$request_type,$action,$response_details,$contextual_message) {
 		$this->response = array(
 			'status_code' => $status_code,
 			'status_uid' => $request_type . '_' . $action . '_' . $status_code,
@@ -36,7 +39,7 @@ class SeedResponse extends SeedData  {
 			'action' => $action,
 			'payload' => $response_details
 		);
-		$this->sessionSetLastReply($this->response);
+		$this->sessionSetLastResponse($this->response);
 		return $this->response;
 	}
 } // END class 

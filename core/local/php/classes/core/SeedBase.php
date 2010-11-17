@@ -3,7 +3,7 @@
  * Base for all Seed classes
  *
  * @package seed.org.cashmusic
- * @author Jesse von Doom / CASH Music
+ * @author CASH Music
  * @link http://cashmusic.org/
  *
  * Copyright (c) 2010, CASH Music
@@ -14,7 +14,12 @@
 abstract class SeedBase extends SeedData {
 	protected $settings,$settings_type=false;
 
-	protected function getSeedSettings() {
+	/**
+	 * Retrieves any needed settings (API keys, passwords, etc) based on the
+	 * type of Seed — returns false if no settings are found
+	 *
+	 * @return array|false
+	 */protected function getSeedSettings() {
 		if ($this->settings_type) {
 			require_once(SEED_ROOT.'/classes/core/SeedSettings.php');
 			if ($this->use_specific_settings) {

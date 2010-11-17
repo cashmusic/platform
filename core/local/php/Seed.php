@@ -5,7 +5,7 @@
  * Include required classes, execute request/response
  *
  * @package seed.org.cashmusic
- * @author Jesse von Doom / CASH Music
+ * @author CASH Music
  * @link http://cashmusic.org/
  *
  * Copyright (c) 2010, CASH Music
