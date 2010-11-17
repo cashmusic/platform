@@ -5,7 +5,7 @@
  *
  * @package seed.org.cashmusic
  * @author Jesse von Doom / CASH Music
- * @link http://cashmuisc.org/
+ * @link http://cashmusic.org/
  * 
  * scans querystring values to get current page state and inititate PaypalSeed
  * objects where needed and setting a pageState variable to indicate progress

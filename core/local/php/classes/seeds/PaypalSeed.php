@@ -4,7 +4,7 @@
  *
  * @package seed.org.cashmusic
  * @author Jesse von Doom / CASH Music
- * @link http://cashmuisc.org/
+ * @link http://cashmusic.org/
  *
  * began with official Paypal examples, much editing and pushing...
  *

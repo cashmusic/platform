@@ -4,7 +4,7 @@
  *
  * @package seed.org.cashmusic
  * @author Jesse von Doom / CASH Music
- * @link http://cashmuisc.org/
+ * @link http://cashmusic.org/
  *
  * Copyright (c) 2010, CASH Music
  * Licensed under the Affero General Public License version 3.
@@ -15,7 +15,7 @@ abstract class PlantBase extends SeedData {
 	protected $request_method,$request_type,$action=false,$request,$response,$db_required=true;
 
 	abstract public function processRequest();
-
+	
 	protected function plantPrep($request_method,$request) {
 		$this->request_method = $request_method;
 		$this->request = $request;

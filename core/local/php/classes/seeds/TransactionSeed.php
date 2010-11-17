@@ -4,7 +4,7 @@
  *
  * @package seed.org.cashmusic
  * @author Jesse von Doom / CASH Music
- * @link http://cashmuisc.org/
+ * @link http://cashmusic.org/
  *
  * Copyright (c) 2010, CASH Music
  * Licensed under the Affero General Public License version 3.
