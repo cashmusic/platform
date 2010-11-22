@@ -29,7 +29,7 @@
 		$this->request_method = $request_method;
 		$this->request = $request;
 		if (isset($this->request['seed_action'])) {
-			$this->action = $this->request['seed_action'];
+			$this->action = strtolower($this->request['seed_action']);
 		}
 		$this->response = new SeedResponse();
 		if ($this->db_required) {
@@ -53,11 +53,40 @@
 					return true;
 				}
 			}
+			$this->response->pushResponse(
+				400, $this->request_type, $this->action,
+				$this->request,
+				"please try another request method, '{$this->request_method}' is not allowed"
+			);
 			return false;
 		} else {
 			// error: at least one argument must be given
 			return false;
 		}
+	}
+	
+	/**
+	 * Checks the request for certain required parameters, quits and returns
+	 * an error response if not foun
+	 *
+	 * @param {string} one or more strings specifying allowed request methods
+	 * @return boolean
+	 */protected function requireParameters() {
+		$args_count = func_num_args();
+		if ($args_count > 0) {
+			$args = func_get_args();
+			foreach ($args as $arg) {
+			    if (!isset($this->request["$arg"])) {
+					$this->response->pushResponse(
+						400, $this->request_type, $this->action,
+						$this->request,
+						"required parameter missing: '$arg'"
+					);
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 } // END class 
 ?>
