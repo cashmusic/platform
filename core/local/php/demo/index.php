@@ -1,5 +1,5 @@
 <?php
-	include('Seed.php');
+	include('../Seed.php');
 
 	if (isset($_GET['down'])) {
 		$test = new SeedRequest(array('seed_request_type' => 'asset', 'seed_action' => 'redirect','asset_id' => 1));

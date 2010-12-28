@@ -1,0 +1,18 @@
+RewriteEngine On 
+Options +FollowSymlinks 
+Options -Indexes 
+
+# create controller redirects
+#
+# with subdomain
+# RewriteCond %{HTTP_HOST} ([^.]+)\.([^.]+)\.(.*)
+# RewriteCond %{REQUEST_FILENAME} !-s
+# RewriteCond %{REQUEST_FILENAME} !-l
+# RewriteRule (.*) controller.php?p=$1&c=%1 [L]
+#
+# no subdomain
+RewriteCond %{REQUEST_FILENAME} !-s
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule (.*) controller.php?p=$1 [L]
+
+AddHandler php5-script .php
