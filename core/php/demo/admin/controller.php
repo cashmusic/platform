@@ -1,27 +1,27 @@
 <?php
-require('./constants.php');
-$interface_path = ADMIN_BASE_PATH . '/interface/';
+require('./includes/constants.php');
+$pages_path = ADMIN_BASE_PATH . '/includes/pages/';
 
 // grab path from .htaccess redirect
-if (isset($_REQUEST['p'])) {
+if ($_REQUEST['p']) {
 	define('REQUEST_STRING', str_replace('/','_',trim($_REQUEST['p'],'/')));
 	$requested_filename = REQUEST_STRING.'.php';
 } else {
-	$requested_filename = 'default.php';
+	$requested_filename = 'dashboard.php';
 }
 
-session_start();
+include_once(SEED_PATH);
 
-if (file_exists($interface_path . $requested_filename)) {
-	include($interface_path . 'base/' . $requested_filename);
+if (file_exists($pages_path . 'base/' . $requested_filename)) {
+	include($pages_path . 'base/' . $requested_filename);
 } else {
-	include($interface_path . 'base/error.php');
+	include($pages_path . 'base/error.php');
 }
-include(ADMIN_BASE_PATH . '/includes/top.php');
-if (file_exists($interface_path . 'base/content/' . $requested_filename)) {
-	include($interface_path . 'base/content/' . $requested_filename);
+include(ADMIN_BASE_PATH . '/includes/ui/default/top.php');
+if (file_exists($pages_path . 'base/content/' . $requested_filename)) {
+	include($pages_path . 'base/content/' . $requested_filename);
 } else {
-	include($interface_path . 'base/content/error.php');
+	include($pages_path . 'base/content/error.php');
 }
-include(ADMIN_BASE_PATH . '/includes/bottom.php');
+include(ADMIN_BASE_PATH . '/includes/ui/default/bottom.php');
 ?>

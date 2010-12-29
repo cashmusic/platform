@@ -68,7 +68,7 @@
 				guestlist
 			</div>
 			
-			<div id="accountmenu"><a href="<?php echo WWW_BASE_PATH; ?>/"><b>Dashboard</b></a> <a href="<?php echo WWW_BASE_PATH; ?>/settings/">Settings</a> <a href="<?php echo WWW_BASE_PATH; ?>/help/">Help</a> <a href="<?php echo WWW_BASE_PATH; ?>/logout/">Logout</a></div>
+			<div id="accountmenu"><a href="<?php echo WWW_BASE_PATH; ?>/"><b>Dashboard</b></a> <a href="<?php echo WWW_BASE_PATH; ?>/settings/">Settings</a> <a href="http://help.cashmusic.org/">Help</a> <a href="<?php echo WWW_BASE_PATH; ?>/logout/">Logout</a></div>
 		</div>
 		
 		<div id="pagecontent">
@@ -86,8 +86,52 @@
 				<a href="/help/" id="tiplink" class="flower_drawertoggle" rev="drawer:target=pageTips,altLinkText=Hide Tips">Tips for <b>this</b> page</a>
 			</div>
 			
-			<div id="pagemenu">
-				<h3>Actions</h3>
-				gonna put a fucking submenu here, y'all!
-			</div>
+			<?php
+				$page_base = REQUEST_STRING;
+				if (strrpos(REQUEST_STRING ,'_')) {
+					if (isset($pagememu)) {
+						$current_pagemenu = $pagememu;
+					}
+					$exploded_request = explode('_',REQUEST_STRING);
+					$page_base = $exploded_request[0];
+					if (file_exists($pages_path . 'base/' . $page_base . '.php')) {
+						include($pages_path . 'base/' . $page_base . '.php');
+					} else {
+						include($pages_path . 'base/error.php');
+					}
+				}
+				if (isset($pagememu)) {
+					if (is_array($pagememu)) {
+			?>
+					<div id="pagemenu">
+						<?php
+						
+						foreach ($pagememu as $menutitle => $menuarray) {
+							$menulevel = 1;
+							echo "<h3>$menutitle</h3>";
+							echo '<ul class="pagebasemenu">';
+							foreach ($menuarray as $key => $value) {
+								$new_menulevel = substr_count($key, '/');
+								if ($new_menulevel < $menulevel) {
+									echo "</ul>";
+								}
+								if ($new_menulevel > $menulevel) {
+									echo "<ul>";
+								}
+								if ($new_menulevel > 1 && str_replace('/','_',$key) == REQUEST_STRING) {
+									echo "<li style=\"margin-left:" . (16 * ($new_menulevel-1)) . "px;\">$value</li>";
+								} else {
+									echo "<li style=\"margin-left:" . (16 * ($new_menulevel-1)) . "px;\"><a href=\"" . WWW_BASE_PATH . "/$key\">$value</a></li>";
+								}
+								$menulevel = $new_menulevel;
+							}
+							echo '</ul>';
+						}
+						?>
+					</div>
+			<?php
+					}
+				}
+			?>
+			
 			<div id="pagedisplay">

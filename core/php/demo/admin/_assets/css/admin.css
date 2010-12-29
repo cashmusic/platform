@@ -5,13 +5,15 @@ a {color:#999;text-decoration:none;}
 a:hover {text-decoration:underline;}
 a:active, a:focus {outline:0;}
 img {border:0;}
-ul {padding:0.5em 0 0.5em 0;}
-p {padding:0 0 1.5em 0;}
+ul {padding:0.5em 0 0.5em 1.5em;}
+p {margin:0 0 1.5em 0;}
 h1 {font-size:2.75em;line-height:1em;margin:0;padding:0;}
 h3 {font-size:1.5em;line-height:1em;margin:0;padding:0;padding-bottom:0.35em;}
 
 /* GENERAL PAGE LAYOUT */
-#pagecontent {position:relative;clear:both;width:900px;padding:4em 1em 3em 1em;margin:0 auto;text-align:left;}
+#pagecontent {position:relative;clear:both;width:900px;padding:180px 1em 3em 1em;margin:0 auto;text-align:left;}
+#cash_sitelogo {position:absolute;top:8px;right:8px;text-align:right;overflow:hidden;height:30px;width:30px;z-index:2345;}
+#cash_sitelogo img {display:block;padding:0;margin:0;border:0;}
 .col_onehalf {float:left;width:47%;padding-right:5%;}
 .col_onethird {float:left;width:29%;padding-right:6%;}
 .col_twothirds {float:left;width:64%;padding-right:6%;}
@@ -22,9 +24,9 @@ h3 {font-size:1.5em;line-height:1em;margin:0;padding:0;padding-bottom:0.35em;}
 .clearfix {visibility:hidden;overflow:hidden;clear:both;height:1px;}
 
 /* FORMS */
-input {padding:0.42em 0 0.42em 0;border:1px solid #ccc;width:100%;}
+input {padding:6px 3px 6px 3px;border:1px solid #ccc;width:100%;}
 input:active, input:focus {outline:0;border:1px solid #888;}
-input.button {background-color:#ccc;padding:0.6em 1.75em 0.6em 1.75em;font-weight:bold;cursor:pointer;width:auto;}
+input.button {background-color:#ccc;padding:6px 18px 6px 18px;font-weight:bold;cursor:pointer;width:auto;}
 input.button:hover {background-color:#aaa;}
 input.checkorradio {width:auto;}
 label {font-size:0.85em;text-transform:uppercase;color:#999;}
@@ -48,23 +50,27 @@ div.usecolor4 #pagecontent a, div.usecolor4 #pageTips a {color:#0080c9;}
 div.usecolor5 #pagecontent a, div.usecolor5 #pageTips a {color:#8a00ca;}
 
 /* NAVIGATION */
-#accountmenu {position:relative;clear:both;z-index:600;padding:12px 8px 0 0;font-size:1.125em;}
-#navmenu {position:relative;width:730px;height:auto;padding-top:46px;text-align:left;color:#fff;text-align:right;font-size:0.9em;line-height:1.3em;z-index:500;}
+#accountmenu {position:relative;clear:both;z-index:600;padding:8px 6px 8px 0;font-size:1.125em;background-color:#fff;}
+#navmenu {position:fixed;top:46px;left:0;width:730px;height:72px;text-align:left;color:#fff;text-align:right;font-size:0.9em;line-height:1.3em;z-index:500;}
 #navmenu .navitem {float:left;margin:0;padding:3px 8px;width:130px;height:72px;cursor:pointer;}
 #navmenu .currentnav {background-image:url(../images/currentnav.png);background-position:left top;background-repeat:no-repeat;}
 #navmenu .navitem:hover {background-color:#fff;color:#000;background-image:none;}
 #navmenu h2 {margin:0;padding:0;font-size:1.65em;line-height:1.15em;}
 #navmenu a {color:#fff;}
 #navmenu a:hover, #navmenu .navitem:hover a {color:#000;text-decoration:none;}
-#accountmenu a {margin-left:1.5em;color:#000;}
-#accountmenu a:hover, #tipspc a:hover {color:#666;}
+#accountmenu a {margin-left:1.5em;color:#000;padding:2px;}
+#accountmenu a:hover, #tipspc a:hover {background-color:#ff0;}
 #tipspc {clear:both;position:relative;padding-top:8px;color:#666;width:722px;margin-bottom:16px;}
 #tipspc a {color:#666;}
 #pageTips {display:none;width:660px;text-align:left;margin:0;}
 #sectionmenu a {text-transform:lowercase;margin-right:1.5em;}
 #navmenu .currentnav, #navmenu .currentnav a {color:#000;}
-#pagecontent #tiplink {color:#fff;background-color:#ccc;font-size:0.9em;line-height:1.25em;padding:1px;}
+#pagecontent #tiplink {color:#999;font-size:0.9em;line-height:1.25em;padding:1px;}
 #pagecontent #tiplink:hover {color:#000;background-color:#ff0;text-decoration:none;}
+ul.pagebasemenu {margin-top:0;margin-bottom:1.5em;font-size:1.25em;font-weight:bold;line-height:1.5em;color:#666;}
+ul.pagebasemenu li {list-style-type:none;}
+ul.pagebasemenu ul {margin-top:0;margin-bottom:0;font-size:0.8em;font-weight:normal;}
+.currentpagemenu {margin-left:16px;}
 
 /* PAGE ELEMENTS */
 #pagemenu {width:200px;margin-right:49px;float:left;}
@@ -74,11 +80,8 @@ div.usecolor5 #pagecontent a, div.usecolor5 #pageTips a {color:#8a00ca;}
 * {margin-top:0;margin-bottom;padding:0;} 
 html, body, #wrap {height:100%;}
 body > #wrap {height:auto;min-height:100%;}
-#mainspc {padding-bottom: 150px;}
+#mainspc {padding-bottom: 60px;}
 #footer {position:relative;margin-top:-36px;height:36px;color:#666;text-align:left;font-size:0.9em;line-height:1em;clear:both;background-color:#000;}
 #footer p {padding:12px 8px 0px 8px;}
 #footer a {color:#666;margin-left:24px;}
 #footer a:hover {color:#fff;}
-
-#cash_sitelogo {position:absolute;top:8px;right:8px;text-align:right;overflow:hidden;height:30px;width:30px;z-index:2345;}
-#cash_sitelogo img {display:block;padding:0;margin:0;border:0;}
