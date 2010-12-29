@@ -25,9 +25,9 @@
 		}
 	?>
 
-	<script src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.3/mootools-yui-compressed.js" type="text/javascript"></script>
-	<script src="http://mercury.cashmusic.org/scripts/hg2/hg_core.js" type="text/javascript" id="hg_core"></script>
-	<script src="http://mercury.cashmusic.org/scripts/hg2/hg_init.js" type="text/javascript"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js" type="text/javascript"></script>
+	<script src="<?php echo WWW_BASE_PATH; ?>/_assets/scripts/flower/flower_core.js" type="text/javascript" id="hg_core"></script>
+	<script src="<?php echo WWW_BASE_PATH; ?>/_assets/scripts/flower/flower_init.js" type="text/javascript"></script>
 	<script src="<?php echo WWW_BASE_PATH; ?>/_assets/scripts/admin_misc.js" type="text/javascript"></script>
 
 </head>
@@ -83,7 +83,7 @@
 						}
 					?>
 				</div>
-				<a href="/help/" id="tiplink" class="hg_drawertoggle" rev="drawer:target=pageTips,altLinkText=Hide Tips">Tips for <b>this</b> page</a>
+				<a href="/help/" id="tiplink" class="flower_drawertoggle" rev="drawer:target=pageTips,altLinkText=Hide Tips">Tips for <b>this</b> page</a>
 			</div>
 			
 			<div id="pagemenu">
