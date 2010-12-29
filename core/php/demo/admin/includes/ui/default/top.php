@@ -37,7 +37,7 @@
 	<div id="mainspc" class="<?php echo $specialcolor ?>">
 		<div id="cash_sitelogo"><a href="http://cashmusic.org/"><img src="<?php echo WWW_BASE_PATH; ?>/_assets/images/cash.png" alt="CASH Music" width="30" height="30" /></a></div>
 		<div id="navmenu">
-			<div class="navitem bgcolor1<?php echo ($dirname == 'content' ? ' currentnav' : ''); ?>">
+			<div class="navitem bgcolor1<?php echo ($dirname == 'elements' ? ' currentnav' : ''); ?>">
 				<h2><a href="<?php echo WWW_BASE_PATH; ?>/elements/">Elements</a></h2>
 				pages<br />
 				widgets<br />
