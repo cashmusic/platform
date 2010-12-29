@@ -34,9 +34,8 @@
 <body>
 
 <div id="wrap">
-	<div id="mainspc" class="clearfix<?php echo $specialcolor ?>">
+	<div id="mainspc" class="<?php echo $specialcolor ?>">
 		<div id="cash_sitelogo"><a href="http://cashmusic.org/"><img src="<?php echo WWW_BASE_PATH; ?>/_assets/images/cash.png" alt="CASH Music" width="30" height="30" /></a></div>
-		<div id="accountmenu"><a href="<?php echo WWW_BASE_PATH; ?>/"><b>Dashboard</b></a> <a href="<?php echo WWW_BASE_PATH; ?>/settings/">Settings</a> <a href="<?php echo WWW_BASE_PATH; ?>/help/">Help</a> <a href="<?php echo WWW_BASE_PATH; ?>/logout/">Logout</a></div>
 		<div id="navmenu">
 			<div class="navitem bgcolor1<?php echo ($dirname == 'content' ? ' currentnav' : ''); ?>">
 				<h2><a href="<?php echo WWW_BASE_PATH; ?>/elements/">Elements</a></h2>
@@ -62,13 +61,18 @@
 				fulfill<br />
 				pledge
 			</div>
-			<div class="navitem bgcolor5<?php echo ($dirname == 'analytics' ? ' currentnav' : ''); ?>">
+			<div class="navitem bgcolor5<?php echo ($dirname == 'calendar' ? ' currentnav' : ''); ?>">
 				<h2><a href="<?php echo WWW_BASE_PATH; ?>/calendar/">Calendar</a></h2>
 				planning<br />
 				shows<br />
 				guestlist
 			</div>
 			
+			<div id="accountmenu"><a href="<?php echo WWW_BASE_PATH; ?>/"><b>Dashboard</b></a> <a href="<?php echo WWW_BASE_PATH; ?>/settings/">Settings</a> <a href="<?php echo WWW_BASE_PATH; ?>/help/">Help</a> <a href="<?php echo WWW_BASE_PATH; ?>/logout/">Logout</a></div>
+		</div>
+		
+		<div id="pagecontent">
+			<h1><?php echo $pagetitle ?></h1>
 			<div id="tipspc">
 				<div id="pageTips">
 					<?php
@@ -79,9 +83,11 @@
 						}
 					?>
 				</div>
-				<a href="/help/" id="tiplink" class="hg_drawertoggle" rev="drawer:target=pageTips,altLinkText=Hide Tips">Tips for using <i>this page</i></a>
+				<a href="/help/" id="tiplink" class="hg_drawertoggle" rev="drawer:target=pageTips,altLinkText=Hide Tips">Tips for <b>this</b> page</a>
 			</div>
-		</div>
-		
-		<div id="pagecontent">
-			<h1><?php echo $pagetitle ?></h1>
+			
+			<div id="pagemenu">
+				<h3>Actions</h3>
+				gonna put a fucking submenu here, y'all!
+			</div>
+			<div id="pagedisplay">

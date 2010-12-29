@@ -1,28 +1,27 @@
 <?php
-// set initial variabes
-$root_path = realpath('.');
-$interface_path = $root_path . '/interface/';
-define('WWW_BASE_PATH', '/admin');
+require('./constants.php');
+$interface_path = ADMIN_BASE_PATH . '/interface/';
 
 // grab path from .htaccess redirect
 if (isset($_REQUEST['p'])) {
-	$requested_content = str_replace('/','_',trim($_REQUEST['p'],'/')).'.php';
+	define('REQUEST_STRING', str_replace('/','_',trim($_REQUEST['p'],'/')));
+	$requested_filename = REQUEST_STRING.'.php';
 } else {
-	$requested_content = 'default.php';
+	$requested_filename = 'default.php';
 }
 
 session_start();
 
-if (file_exists($interface_path . $requested_content)) {
-	include($interface_path . $requested_content);
+if (file_exists($interface_path . $requested_filename)) {
+	include($interface_path . 'base/' . $requested_filename);
 } else {
-	include($interface_path . 'error.php');
+	include($interface_path . 'base/error.php');
 }
-include($root_path . '/includes/top.php');
-if (file_exists($interface_path . 'content/' . $requested_content)) {
-	include($interface_path . 'content/' . $requested_content);
+include(ADMIN_BASE_PATH . '/includes/top.php');
+if (file_exists($interface_path . 'base/content/' . $requested_filename)) {
+	include($interface_path . 'base/content/' . $requested_filename);
 } else {
-	include($interface_path . 'content/' . 'error.php');
+	include($interface_path . 'base/content/error.php');
 }
-include($root_path . '/includes/bottom.php');
+include(ADMIN_BASE_PATH . '/includes/bottom.php');
 ?>
