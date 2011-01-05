@@ -37,6 +37,7 @@
 	<div id="mainspc" class="<?php echo $specialcolor ?>">
 		<div id="cash_sitelogo"><a href="http://cashmusic.org/"><img src="<?php echo WWW_BASE_PATH; ?>/_assets/images/cash.png" alt="CASH Music" width="30" height="30" /></a></div>
 		<div id="navmenu">
+			<div id="accountmenu"><a href="<?php echo WWW_BASE_PATH; ?>/"><b>Dashboard</b></a> <a href="<?php echo WWW_BASE_PATH; ?>/settings/">Settings</a> <a href="http://help.cashmusic.org/">Help</a> <a href="<?php echo WWW_BASE_PATH; ?>/logout/">Logout</a></div>
 			<div class="navitem bgcolor1<?php echo ($dirname == 'elements' ? ' currentnav' : ''); ?>">
 				<h2><a href="<?php echo WWW_BASE_PATH; ?>/elements/">Elements</a></h2>
 				pages<br />
@@ -67,8 +68,6 @@
 				shows<br />
 				guestlist
 			</div>
-			
-			<div id="accountmenu"><a href="<?php echo WWW_BASE_PATH; ?>/"><b>Dashboard</b></a> <a href="<?php echo WWW_BASE_PATH; ?>/settings/">Settings</a> <a href="http://help.cashmusic.org/">Help</a> <a href="<?php echo WWW_BASE_PATH; ?>/logout/">Logout</a></div>
 		</div>
 		
 		<div id="pagecontent">

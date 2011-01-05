@@ -25,6 +25,20 @@ h3 {font:1.5em/1.5em HelveticaNeueLTStd-UltLt,"HelveticaNeueLT Std UltLt","Helve
 <div id="mainspc">
 	<h2>Tests</h2>
 	Test: <a href="?down=xx">download</a>
+	
+	<br /><br />
+	
+	<form method="post" action="#"> 
+		<input type="text" name="address" value="" style="width:18em;" /> 
+		<input type="hidden" name="seed_request_type" value="emaillist" /> 
+		<input type="hidden" name="seed_action" value="signup" /> 
+		<input type="hidden" name="list_id" value="1" /> 
+		<input type="hidden" name="verified" value="1" />  	
+		<input type="submit" value="sign me up" class="button" /><br />  
+	</form> 
+	<span class="notation">
+		We won't share, sell, or be jerks with your email address.
+	</span>
 
 	<div id="debug">
 		<h3>debug $seed_request->response:</h3>

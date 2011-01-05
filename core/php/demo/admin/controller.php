@@ -7,6 +7,7 @@ if ($_REQUEST['p']) {
 	define('REQUEST_STRING', str_replace('/','_',trim($_REQUEST['p'],'/')));
 	$requested_filename = REQUEST_STRING.'.php';
 } else {
+	define('REQUEST_STRING','');
 	$requested_filename = 'dashboard.php';
 }
 

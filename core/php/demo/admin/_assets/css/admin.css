@@ -51,7 +51,7 @@ div.usecolor5 #pagecontent a, div.usecolor5 #pageTips a {color:#8a00ca;}
 
 /* NAVIGATION */
 #accountmenu {position:relative;clear:both;z-index:600;padding:8px 6px 8px 0;font-size:1.125em;background-color:#fff;}
-#navmenu {position:fixed;top:46px;left:0;width:730px;height:72px;text-align:left;color:#fff;text-align:right;font-size:0.9em;line-height:1.3em;z-index:500;}
+#navmenu {position:fixed;top:26px;left:0;padding-bottom:20px;width:730px;height:72px;text-align:left;color:#fff;text-align:right;font-size:0.9em;line-height:1.3em;z-index:500;}
 #navmenu .navitem {float:left;margin:0;padding:3px 8px;width:130px;height:72px;cursor:pointer;}
 #navmenu .currentnav {background-image:url(../images/currentnav.png);background-position:left top;background-repeat:no-repeat;}
 #navmenu .navitem:hover {background-color:#fff;color:#000;background-image:none;}
@@ -67,9 +67,9 @@ div.usecolor5 #pagecontent a, div.usecolor5 #pageTips a {color:#8a00ca;}
 #navmenu .currentnav, #navmenu .currentnav a {color:#000;}
 #pagecontent #tiplink {color:#999;font-size:0.9em;line-height:1.25em;padding:1px;}
 #pagecontent #tiplink:hover {color:#000;background-color:#ff0;text-decoration:none;}
-ul.pagebasemenu {margin-top:0;margin-bottom:1.5em;font-size:1.25em;font-weight:bold;line-height:1.5em;color:#666;}
+ul.pagebasemenu {padding:0;margin-top:0;margin-bottom:1.5em;font-size:1.25em;font-weight:bold;line-height:1.5em;color:#666;}
 ul.pagebasemenu li {list-style-type:none;}
-ul.pagebasemenu ul {margin-top:0;margin-bottom:0;font-size:0.8em;font-weight:normal;}
+ul.pagebasemenu ul {padding:0;margin-top:0;margin-bottom:0;font-size:0.8em;font-weight:normal;}
 .currentpagemenu {margin-left:16px;}
 
 /* PAGE ELEMENTS */
