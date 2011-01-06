@@ -13,16 +13,26 @@ if ($_REQUEST['p']) {
 
 include_once(SEED_PATH);
 
-if (file_exists($pages_path . 'base/' . $requested_filename)) {
-	include($pages_path . 'base/' . $requested_filename);
-} else {
-	include($pages_path . 'base/error.php');
+if (isset($_POST['login'])) {
+	if ($_POST['login'] == 'sure') {
+		$_SESSION['seed_admin_login'] = true;
+	}
 }
-include(ADMIN_BASE_PATH . '/includes/ui/default/top.php');
-if (file_exists($pages_path . 'base/content/' . $requested_filename)) {
-	include($pages_path . 'base/content/' . $requested_filename);
+
+if ($_SESSION['seed_admin_login'] === true) {
+	if (file_exists($pages_path . 'base/' . $requested_filename)) {
+		include($pages_path . 'base/' . $requested_filename);
+	} else {
+		include($pages_path . 'base/error.php');
+	}
+	include(ADMIN_BASE_PATH . '/includes/ui/default/top.php');
+	if (file_exists($pages_path . 'base/content/' . $requested_filename)) {
+		include($pages_path . 'base/content/' . $requested_filename);
+	} else {
+		include($pages_path . 'base/content/error.php');
+	}
+	include(ADMIN_BASE_PATH . '/includes/ui/default/bottom.php');
 } else {
-	include($pages_path . 'base/content/error.php');
+	include(ADMIN_BASE_PATH . '/includes/ui/default/login.php');
 }
-include(ADMIN_BASE_PATH . '/includes/ui/default/bottom.php');
 ?>

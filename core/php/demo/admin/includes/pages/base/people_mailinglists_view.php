@@ -1,5 +1,5 @@
 <?php
 // add unique page settings:
-$pagetitle = 'Hi. Login to start.';
+$pagetitle = 'People: View List';
 $pageTips = '';
 ?>

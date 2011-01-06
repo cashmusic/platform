@@ -9,9 +9,10 @@ ul {padding:0.5em 0 0.5em 1.5em;}
 p {margin:0 0 1.5em 0;}
 h1 {font-size:2.75em;line-height:1em;margin:0;padding:0;}
 h3 {font-size:1.5em;line-height:1em;margin:0;padding:0;padding-bottom:0.35em;}
+table {font-size:0.85em;}
 
 /* GENERAL PAGE LAYOUT */
-#pagecontent {position:relative;clear:both;width:900px;padding:180px 1em 3em 1em;margin:0 auto;text-align:left;}
+#pagecontent {position:relative;clear:both;width:920px;padding:180px 2em 3em 2em;margin:0 auto;text-align:left;}
 #cash_sitelogo {position:absolute;top:8px;right:8px;text-align:right;overflow:hidden;height:30px;width:30px;z-index:2345;}
 #cash_sitelogo img {display:block;padding:0;margin:0;border:0;}
 .col_onehalf {float:left;width:47%;padding-right:5%;}
@@ -50,8 +51,8 @@ div.usecolor4 #pagecontent a, div.usecolor4 #pageTips a {color:#0080c9;}
 div.usecolor5 #pagecontent a, div.usecolor5 #pageTips a {color:#8a00ca;}
 
 /* NAVIGATION */
-#accountmenu {position:relative;clear:both;z-index:600;padding:8px 6px 8px 0;font-size:1.125em;background-color:#fff;}
-#navmenu {position:fixed;top:26px;left:0;padding-bottom:20px;width:730px;height:72px;text-align:left;color:#fff;text-align:right;font-size:0.9em;line-height:1.3em;z-index:500;}
+#accountmenu {position:relative;clear:both;z-index:600;padding:8px 6px 8px 0;font-size:1.125em;background-color:#fff;opacity:0.9;}
+#navmenu {position:fixed;top:26px;left:0;padding-bottom:20px;width:730px;height:72px;text-align:left;color:#fff;text-align:right;font-size:0.9em;line-height:1.3em;z-index:500;opacity:0.96;}
 #navmenu .navitem {float:left;margin:0;padding:3px 8px;width:130px;height:72px;cursor:pointer;}
 #navmenu .currentnav {background-image:url(../images/currentnav.png);background-position:left top;background-repeat:no-repeat;}
 #navmenu .navitem:hover {background-color:#fff;color:#000;background-image:none;}
@@ -73,8 +74,8 @@ ul.pagebasemenu ul {padding:0;margin-top:0;margin-bottom:0;font-size:0.8em;font-
 .currentpagemenu {margin-left:16px;}
 
 /* PAGE ELEMENTS */
-#pagemenu {width:200px;margin-right:49px;float:left;}
-#pagedisplay {width:650px;float:left;}
+#pagemenu {width:180px;margin-right:24px;float:left;}
+#pagedisplay {width:710px;float:left;}
 
 /* FOOTER (base code taken from cssstickyfooter.com) */
 * {margin-top:0;margin-bottom;padding:0;} 

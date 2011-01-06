@@ -1,0 +1,28 @@
+@font-face {
+	font-family: 'LeagueGothicRegular';
+	src: url('../fonts/league-gothic.eot');
+	src: local('☺'), url('../fonts/league-gothic.woff') format('woff'), url('../fonts/league-gothic.otf') format('opentype'), url('../fonts/league-gothic.svg#webfontgV33cNdL') format('svg');
+}
+
+body {font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:12px;background:#666 url(../images/bg.jpg) right center fixed no-repeat;color:#fff;}
+h1 {font:106px/1em "LeagueGothicRegular","Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:normal;margin:0;}
+h2 {font:48px/1em "LeagueGothicRegular","Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:normal;margin:0 0 52px 0;color:#000;}
+h3 {font:14px/1.25em HelveticaNeueLTStd-UltLt,"HelveticaNeueLT Std UltLt","Helvetica Neue Ultra Light","Helvetica Neue",HelveticaNeue-UltraLight,HelveticaLTStd-Light,Helvetica,Arial,sans-serif;font-weight:100;margin:0;}
+pre {font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:10px;}
+
+a.download {font:36px/1em "LeagueGothicRegular","Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:normal;margin:20px 0 20px 0;color:#09f;text-decoration:none;}
+a.download:hover {color:#fff;}
+
+.notation {font-size:10px;color:#000;margin-top:8px;}
+.error {font-weight:bold;color:#ff0;margin-bottom:15px;}
+
+#mainspc {width:450px;margin:0 auto;padding:200px 250px 30px 20px;font-family:helvetica,arial,sans-serif;}
+#debug {position:fixed;top:12px;right:12px;width:380px;height:auto;color:#fff;background:#000 url(assets/images/seed_w36.gif) 12px 12px no-repeat;padding:24px 12px 12px 60px;border-radius:9px;opacity:0.8;}
+
+/* FORMS */
+input {padding:6px 3px 6px 3px;border:1px solid #000;width:100%;}
+input:active, input:focus {outline:0;border:1px solid #09f;}
+input.button {background-color:#000;color:#ccc;padding:6px 25px 6px 25px;font-weight:bold;cursor:pointer;width:auto;}
+input.button:hover {background-color:#666;color:#fff;}
+input.checkorradio {width:auto;}
+label {font-size:0.85em;text-transform:uppercase;color:#999;}
