@@ -4,39 +4,58 @@
 tr:nth-child(odd) {
     background-color:#eee;
 }
-td, th {padding:3px;}
+td, th {padding:2px 5px 2px 5px;vertical-align:top;}
 th {background-color:#000;color:#fff;}
+* #pagecontent td a,
+div.usecolor1 #pagecontent td a, 
+div.usecolor2 #pagecontent td a, 
+div.usecolor3 #pagecontent td a, 
+div.usecolor4 #pagecontent td a, 
+div.usecolor5 #pagecontent td a {color:#333;}
 </style>
-	
-<table style="width:100%">
-	<colgroup span="2" title="title" />
-	<thead>
-		<tr>
-			<th scope="col">Email</th>
-			<th scope="col">Name</th>
-			<th scope="col">Joined</th>
-			<th scope="col">Comment</th>
-		</tr>
-	</thead>
 
-	<tbody>
-		<tr>
-			<td>jesse.vondoom.james@musicisdoomed.com</td>
-			<td>Jesse von Doom James III</td>
-			<td>Sith</td>
-			<td>Dark</td>
-		</tr>
-		<tr>
-			<td>Obi Wan Kenobi</td>
-			<td>Anonymous</td>
-			<td>Feb 9, 2011</td>
-			<td>Dark</td>
-		</tr>
-		<tr>
-			<td>Greedo</td>
-			<td>South</td>
-			<td>Dec 15, 2010</td>
-			<td>I also really need to see what a big long ol' comment looks like up in this piece. Want it to be sort of substantial</td>
-		</tr>
-	</tbody>
-</table>
+<?php
+
+if (isset($seed_request->response)) {
+	if ($seed_request->response['status_uid'] == 'emaillist_viewlist_200') {
+		if (is_array($seed_request->response['payload']))
+		?>
+		<table style="width:100%;">
+			<colgroup style="width:32%;" />
+			<colgroup style="width:23%;" />
+			<colgroup style="width:12%;" />
+			<colgroup />	
+
+			<thead>
+				<tr>
+					<th scope="col">Email</th>
+					<th scope="col">Name</th>
+					<th scope="col">Joined</th>
+					<th scope="col">Comment</th>
+				</tr>
+			</thead>
+
+			<tbody>
+		<?php
+		foreach ($seed_request->response['payload'] as $entry) {
+		    ?>
+			<tr>
+				<td><a href="mailto:<?php echo $entry['email_address']; ?>"><?php echo $entry['email_address']; ?></a></td>
+				<td><?php echo $entry['name']; ?></td>
+				<td><?php echo date('M j, Y',$entry['creation_date']); ?></td>
+				<td><?php echo $entry['initial_comment']; ?></td>
+			</tr>
+			<?php
+		}
+		?>
+			</tbody>
+		</table>
+		<?php
+	} else {
+		echo "Error getting list.";
+	}
+} else {
+	echo "No list. Please select one.";
+}
+
+?>

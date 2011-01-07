@@ -50,6 +50,24 @@ class EmailListPlant extends PlantBase {
 						);
 					}
 					break;
+					case 'viewlist':
+						// REQUIRE DIRECT REQUEST!
+						if (!$this->requireParameters('list_id')) { return $this->sessionGetLastResponse(); }
+							$result = $this->getAddresses($this->request['list_id']);
+							if ($result) {
+								return $this->response->pushResponse(
+									200,$this->request_type,$this->action,
+									$result,
+									'success. list included in payload'
+								);
+							} else {
+								return $this->response->pushResponse(
+									500,$this->request_type,$this->action,
+									$this->request,
+									'there was an error retrieving the list'
+								);
+							}
+						break;
 				default:
 					return $this->response->pushResponse(
 						400,$this->request_type,$this->action,
@@ -79,7 +97,7 @@ class EmailListPlant extends PlantBase {
 	}
 	
 	public function getAddresses($list_id,$limit=100,$start=0) {
-		$query = "SELECT * FROM emal_addresses WHERE list_id=$list_id LIMIT $start,$limit";
+		$query = "SELECT * FROM emal_addresses WHERE list_id=$list_id ORDER BY creation_date DESC LIMIT $start,$limit";
 		return $this->db->doQueryForMultiAssoc($query);
 	}
 
