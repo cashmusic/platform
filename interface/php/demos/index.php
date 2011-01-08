@@ -1,5 +1,5 @@
 <?php
-	include('../Seed.php');
+	include('../../../core/php/Seed.php');
 
 	// will replace with persistent-storage unlock mechanism:
 	if (isset($_GET['down'])) {

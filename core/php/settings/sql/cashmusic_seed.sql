@@ -1,5 +1,28 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
+DROP TABLE IF EXISTS `asst_assets`;
+
+CREATE TABLE `asst_assets` (
+  `id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) default NULL,
+  `parent_id` int(11) default NULL,
+  `location` text,
+  `seed_settings_id` int(11) default NULL,
+  `title` text,
+  `description` text,
+  `comment` text NOT NULL,
+  `creation_date` int(11) default NULL,
+  `modification_date` int(11) default '0',
+  PRIMARY KEY  (`id`),
+  KEY `parent_id` (`parent_id`),
+  KEY `user_id` (`user_id`),
+  KEY `seed_settings_id` (`seed_settings_id`),
+  CONSTRAINT `owner` FOREIGN KEY (`user_id`) REFERENCES `seed_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `parent_child` FOREIGN KEY (`parent_id`) REFERENCES `asst_assets` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `settings_type` FOREIGN KEY (`seed_settings_id`) REFERENCES `seed_settings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='InnoDB free: 3072 kB; (`parent_id`) REFER `seed/asts_assets`';
+
+
 DROP TABLE IF EXISTS `asst_licenses`;
 
 CREATE TABLE `asst_licenses` (
@@ -115,6 +138,35 @@ CREATE TABLE `live_venues` (
   `creation_date` int(11) default NULL,
   `modification_date` int(11) default NULL,
   PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `lock_codes`;
+
+CREATE TABLE `lock_codes` (
+  `id` int(11) NOT NULL auto_increment,
+  `uid` tinytext,
+  `asset_id` int(11) default NULL,
+  `claim_date` int(11) default NULL,
+  `creation_date` int(11) default '0',
+  `modification_date` int(11) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `asset_id` (`asset_id`),
+  CONSTRAINT `associated_asset` FOREIGN KEY (`asset_id`) REFERENCES `asst_assets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `lock_passwords`;
+
+CREATE TABLE `lock_passwords` (
+  `id` int(11) NOT NULL auto_increment,
+  `password` text,
+  `asset_id` int(11) default NULL,
+  `creation_date` int(11) default '0',
+  `modification_date` int(11) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `asset_id` (`asset_id`),
+  CONSTRAINT `lock_passwords_ibfk_1` FOREIGN KEY (`asset_id`) REFERENCES `asst_assets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -252,56 +304,6 @@ CREATE TABLE `strm_streams_admin` (
   `creation_date` int(11) default NULL,
   `modification_date` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `asst_assets`;
-
-CREATE TABLE `asst_assets` (
-  `id` int(11) NOT NULL auto_increment,
-  `user_id` int(11) default NULL,
-  `parent_id` int(11) default NULL,
-  `location` text,
-  `title` text,
-  `description` text,
-  `location_type` text,
-  `creation_date` int(11) default NULL,
-  `modification_date` int(11) default '0',
-  PRIMARY KEY  (`id`),
-  KEY `parent_id` (`parent_id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `asst_assets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `seed_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `asst_assets_ibfk_2` FOREIGN KEY (`parent_id`) REFERENCES `asst_assets` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='InnoDB free: 3072 kB; (`parent_id`) REFER `seed/asts_assets`';
-
-
-DROP TABLE IF EXISTS `dnld_codes`;
-
-CREATE TABLE `dnld_codes` (
-  `id` int(11) NOT NULL auto_increment,
-  `uid` tinytext,
-  `asset_id` int(11) default NULL,
-  `claim_date` int(11) default NULL,
-  `creation_date` int(11) default '0',
-  `modification_date` int(11) default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `asset_id` (`asset_id`),
-  CONSTRAINT `dnld_codes_ibfk_1` FOREIGN KEY (`asset_id`) REFERENCES `asst_assets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `dnld_passwords`;
-
-CREATE TABLE `dnld_passwords` (
-  `id` int(11) NOT NULL auto_increment,
-  `uid` tinytext,
-  `asset_id` int(11) default NULL,
-  `claim_date` int(11) default NULL,
-  `creation_date` int(11) default '0',
-  `modification_date` int(11) default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `asset_id` (`asset_id`),
-  CONSTRAINT `dnld_passwords_ibfk_1` FOREIGN KEY (`asset_id`) REFERENCES `asst_assets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
