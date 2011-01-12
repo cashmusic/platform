@@ -11,7 +11,7 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  **/
-class emailfordownload {
+class EmailForDownload {
 	public function __construct($status_uid,$options) {
 		$this->status_uid = $status_uid;
 		$this->options = $options;
@@ -28,7 +28,7 @@ class emailfordownload {
 				$markup = "<div class=\"error\">";
 				$markup .= "Sorry, that email address wasn't valid. Please try again.";
 				$markup .= "</div>";
-				$markup .= "<form method=\"post\" action=\"#\">";
+				$markup .= "<form method=\"post\" action=\"\">";
 				$markup .= "<input type=\"text\" name=\"address\" value=\"\" style=\"width:18em;\" />";
 				$markup .= "<input type=\"hidden\" name=\"seed_request_type\" value=\"emaillist\" />";
 				$markup .= "<input type=\"hidden\" name=\"seed_action\" value=\"signup\" />"; 
@@ -41,7 +41,7 @@ class emailfordownload {
 				$markup .= "</div>";
 				break;
 			default:
-				$markup = "<form method=\"post\" action=\"#\">";
+				$markup = "<form method=\"post\" action=\"\">";
 				$markup .= "<input type=\"text\" name=\"address\" value=\"\" style=\"width:18em;\" />";
 				$markup .= "<input type=\"hidden\" name=\"seed_request_type\" value=\"emaillist\" />";
 				$markup .= "<input type=\"hidden\" name=\"seed_action\" value=\"signup\" />"; 

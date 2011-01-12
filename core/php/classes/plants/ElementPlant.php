@@ -13,9 +13,12 @@
  *
  **/
 class ElementPlant extends PlantBase {
+	protected $markup_array=array();
+	
 	public function __construct($request_type,$request) {
 		$this->request_type = 'element';
 		$this->plantPrep($request_type,$request);
+		$this->buildMarkupArray();
 	}
 	
 	public function processRequest() {
@@ -94,6 +97,23 @@ class ElementPlant extends PlantBase {
 		}
 	}
 	
+	/**
+	 * Builds an associative array of all Element markup files in /markup/elements/
+	 * stored as $this->markup_array and used include proper markup in getElementMarkup()
+	 *
+	 * @return void
+	 */protected function buildMarkupArray() {
+		if ($markup_dir = opendir(SEED_ROOT.'/markup/elements/')) {
+			while (false !== ($file = readdir($markup_dir))) {
+				if (substr($file,0,1) != "." && !is_dir($file)) {
+					$tmpKey = strtolower(substr_replace($file, '', -4));
+					$this->markup_array["$tmpKey"] = $file;
+				}
+			}
+			closedir($markup_dir);
+		}
+	}
+	
 	public function getElement($element_id) {
 		$query = "SELECT name,type,options FROM seed_elements WHERE id = $element_id";
 		$result = $this->db->doQueryForAssoc($query);
@@ -114,9 +134,10 @@ class ElementPlant extends PlantBase {
 		$element_type = $element['type'];
 		$element_options = $element['options'];
 		if ($element_type) {
-			$for_include = SEED_ROOT.'/elements/'.$element_type.'.php';
+			$for_include = SEED_ROOT.'/markup/elements/'.$this->markup_array[$element_type];
 			if (file_exists($for_include)) {
 				include($for_include);
+				$element_object_type = substr_replace($this->markup_array[$element_type], '', -4);
 				$element_object = new $element_type($status_uid,$element_options);
 				return $element_object->getMarkup();
 			}
