@@ -14,7 +14,7 @@
  **/
 class ElementPlant extends PlantBase {
 	public function __construct($request_type,$request) {
-		$this->request_type = 'event';
+		$this->request_type = 'element';
 		$this->plantPrep($request_type,$request);
 	}
 	
@@ -22,7 +22,6 @@ class ElementPlant extends PlantBase {
 		if ($this->action) {
 			switch ($this->action) {
 				case 'addelement':
-					// REQUIRE DIRECT REQUEST!
 					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
 					if (!$this->requireParameters('name')) { return $this->sessionGetLastResponse(); }
 					if (!$this->requireParameters('type')) { return $this->sessionGetLastResponse(); }
@@ -43,8 +42,6 @@ class ElementPlant extends PlantBase {
 					}
 					break;
 				case 'getelement':
-					// REQUIRE DIRECT REQUEST!
-					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
 					if (!$this->requireParameters('element_id')) { return $this->sessionGetLastResponse(); }
 						$result = $this->getElement($this->request['element_id']);
 						if ($result) {
@@ -60,6 +57,24 @@ class ElementPlant extends PlantBase {
 								'there was an error retrieving the element'
 							);
 						}
+					break;
+				case 'getmarkup':
+					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
+					if (!$this->requireParameters('element_id')) { return $this->sessionGetLastResponse(); }
+					$result = $this->getElementMarkup($this->request['element_id'],$this->request['status_uid']);
+					if ($result) {
+						return $this->response->pushResponse(
+							200,$this->request_type,$this->action,
+							$result,
+							'success. markup in the payload'
+						);
+					} else {
+						return $this->response->pushResponse(
+							500,$this->request_type,$this->action,
+							$this->request,
+							'markup not found'
+						);
+					}
 					break;
 				default:
 					return $this->response->pushResponse(
@@ -83,8 +98,28 @@ class ElementPlant extends PlantBase {
 		$query = "SELECT name,type,options FROM seed_elements WHERE id = $element_id";
 		$result = $this->db->doQueryForAssoc($query);
 		if ($result) {
-			$the_element = array($result['name'],$result['type'],json_decode($result['options']);
+			$the_element = array(
+				'name' => $result['name'],
+				'type' => $result['type'],
+				'options' => json_decode($result['options'])
+			);
 			return $the_element;
+		} else {
+			return false;
+		}
+	}
+
+	public function getElementMarkup($element_id,$status_uid) {
+		$element = $this->getElement($element_id);
+		$element_type = $element['type'];
+		$element_options = $element['options'];
+		if ($element_type) {
+			$for_include = SEED_ROOT.'/elements/'.$element_type.'.php';
+			if (file_exists($for_include)) {
+				include($for_include);
+				$element_object = new $element_type($status_uid,$element_options);
+				return $element_object->getMarkup();
+			}
 		} else {
 			return false;
 		}

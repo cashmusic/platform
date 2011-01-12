@@ -22,32 +22,11 @@
 	<h1>BAD BOOKS</h1>
 	<h2>our mailing list</h2>
 
-	<?php if ($seed_request->response['status_uid'] == 'emaillist_signup_200') { // SEED email signup success ?>
-		Thanks! You're all signed up. Here's your download: 
-		<br /><br />
-		<a href="?down=xx" class="download">“You Wouldn’t Have To Ask” MP3</a>
-	<?php } else { ?>
-		<?php if ($seed_request->response['status_uid'] == 'emaillist_signup_400') { // SEED invalid address ?>
-			<div class="error">
-				Sorry, that email address wasn't valid. Please try again.
-			</div>
-		<?php } // SEED default state: signup form ?>
-		<p>
-			Sign up now for our mailing list and receive a free download.
-		</p>
-	
-		<form method="post" action="#"> 
-			<input type="text" name="address" value="" style="width:18em;" /> 
-			<input type="hidden" name="seed_request_type" value="emaillist" /> 
-			<input type="hidden" name="seed_action" value="signup" /> 
-			<input type="hidden" name="list_id" value="1" /> 
-			<input type="hidden" name="verified" value="1" />  	
-			<input type="submit" value="sign me up" class="button" /><br />  
-		</form> 
-		<div class="notation">
-			We won't share, sell, or be jerks with your email address.
-		</div>
-	<?php } ?>
+	<?php // Seed email list signup code
+		$seed_body_request = new SeedRequest(array(
+			'seed_request_type' => 'element', 'seed_action' => 'getmarkup','element_id' => 1, 'status_uid' => $seed_request->response['status_uid']
+		));echo $seed_body_request->response['payload'];
+	?>
 
 	<?php include('debug/seed_debug.php') ?>
 </div>
