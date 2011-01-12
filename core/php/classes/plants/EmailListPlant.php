@@ -50,24 +50,24 @@ class EmailListPlant extends PlantBase {
 						);
 					}
 					break;
-					case 'viewlist':
-						// REQUIRE DIRECT REQUEST!
-						if (!$this->requireParameters('list_id')) { return $this->sessionGetLastResponse(); }
-							$result = $this->getAddresses($this->request['list_id']);
-							if ($result) {
-								return $this->response->pushResponse(
-									200,$this->request_type,$this->action,
-									$result,
-									'success. list included in payload'
-								);
-							} else {
-								return $this->response->pushResponse(
-									500,$this->request_type,$this->action,
-									$this->request,
-									'there was an error retrieving the list'
-								);
-							}
-						break;
+				case 'viewlist':
+					// REQUIRE DIRECT REQUEST!
+					if (!$this->requireParameters('list_id')) { return $this->sessionGetLastResponse(); }
+					$result = $this->getAddresses($this->request['list_id']);
+					if ($result) {
+						return $this->response->pushResponse(
+							200,$this->request_type,$this->action,
+							$result,
+							'success. list included in payload'
+						);
+					} else {
+						return $this->response->pushResponse(
+							500,$this->request_type,$this->action,
+							$this->request,
+							'there was an error retrieving the list'
+						);
+					}
+					break;
 				default:
 					return $this->response->pushResponse(
 						400,$this->request_type,$this->action,
@@ -87,7 +87,7 @@ class EmailListPlant extends PlantBase {
 	}
 	
 	/**
-	 * Increments through an array based on $inc_by, wrapping at the end
+	 * Returns email address information for a specific list / address
 	 *
 	 * @param {string} $address -  the email address in question
 	 * @return array|false
