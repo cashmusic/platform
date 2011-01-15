@@ -34,9 +34,9 @@ You dig?
 $pagememu = array(
 	'Actions' => array(
 		'assets/add' => 'Add Assets',
-			'assets/add/adhoc' => 'Add Ad-Hoc Asset',
-			'assets/add/collection' => 'Add A Collection',
-			'assets/add/release' => 'Add A Release',
+			'assets/adhoc/add' => 'Add Ad-Hoc Asset',
+			'assets/collection/add' => 'Add A Collection',
+			'assets/release/add' => 'Add A Release',
 		'assets/find' => 'Find Assets'
 	)
 );

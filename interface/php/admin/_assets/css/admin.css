@@ -3,7 +3,6 @@ html {margin:0;padding:0;}
 body {color:#000;background:#fff url(../images/bg.jpg) center bottom repeat-x fixed;text-align:center;font:75%/1.5em helvetica,"helvetica neue",arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:750px;}
 a {color:#999;text-decoration:none;}
 a:hover {text-decoration:underline;}
-a:active, a:focus {outline:0;}
 img {border:0;}
 ul {padding:0.5em 0 0.5em 1.5em;}
 p {margin:0 0 1.5em 0;}
@@ -23,6 +22,7 @@ table {font-size:0.85em;}
 .lastcol {padding:0;float:right;}
 .row_seperator {position:relative;clear:both;height:1em;overflow:hidden;visibility:hidden;}
 .clearfix {visibility:hidden;overflow:hidden;clear:both;height:1px;}
+.tar {text-align:right;}
 
 /* FORMS */
 input {padding:6px 3px 6px 3px;border:1px solid #ccc;width:100%;}
@@ -30,6 +30,8 @@ input:active, input:focus {outline:0;border:1px solid #888;}
 input.button {background-color:#ccc;padding:6px 18px 6px 18px;font-weight:bold;cursor:pointer;width:auto;}
 input.button:hover {background-color:#aaa;}
 input.checkorradio {width:auto;}
+select {padding:6px 3px 6px 3px;border:1px solid #ccc;width:100%;}
+select:active, select:focus {outline:2px solid #ff0;}
 label {font-size:0.85em;text-transform:uppercase;color:#999;}
 
 /* COLORS */
@@ -59,6 +61,7 @@ div.usecolor5 #pagecontent a, div.usecolor5 #pageTips a {color:#8a00ca;}
 #navmenu h2 {margin:0;padding:0;font-size:1.65em;line-height:1.15em;}
 #navmenu a {color:#fff;}
 #navmenu a:hover, #navmenu .navitem:hover a {color:#000;text-decoration:none;}
+#navmenu a:active, #navmenu a:focus {color:#000;}
 #accountmenu a {margin-left:1.5em;color:#000;padding:2px;}
 #accountmenu a:hover, #tipspc a:hover {background-color:#ff0;}
 #tipspc {clear:both;position:relative;padding-top:8px;color:#666;width:722px;margin-bottom:16px;}
@@ -67,7 +70,6 @@ div.usecolor5 #pagecontent a, div.usecolor5 #pageTips a {color:#8a00ca;}
 #sectionmenu a {text-transform:lowercase;margin-right:1.5em;}
 #navmenu .currentnav, #navmenu .currentnav a {color:#000;}
 #pagecontent #tiplink {color:#999;font-size:0.9em;line-height:1.25em;padding:1px;}
-#pagecontent #tiplink:hover {color:#000;background-color:#ff0;text-decoration:none;}
 ul.pagebasemenu {padding:0;margin-top:0;margin-bottom:1.5em;font-size:1.25em;font-weight:bold;line-height:1.5em;color:#666;}
 ul.pagebasemenu li {list-style-type:none;}
 ul.pagebasemenu ul {padding:0;margin-top:0;margin-bottom:0;font-size:0.8em;font-weight:normal;}
@@ -86,3 +88,14 @@ body > #wrap {height:auto;min-height:100%;}
 #footer p {padding:12px 8px 0px 8px;}
 #footer a {color:#666;margin-left:24px;}
 #footer a:hover {color:#fff;}
+#footer .donatelink {color:#999;}
+
+/* ACCESSIBILITY STUFFS */
+a:active, a:focus, div.usecolor1 #pagecontent a:active, div.usecolor1 #pageTips a:active, div.usecolor1 #pagecontent a:focus, 
+div.usecolor1 #pageTips a:focus, div.usecolor2 #pagecontent a:active, div.usecolor2 #pageTips a:active, div.usecolor2 #pagecontent a:focus, 
+div.usecolor2 #pageTips a:focus, div.usecolor3 #pagecontent a:active, div.usecolor3 #pageTips a:active, div.usecolor3 #pagecontent a:focus, 
+div.usecolor3 #pageTips a:focus, div.usecolor4 #pagecontent a:active, div.usecolor4 #pageTips a:active, div.usecolor4 #pagecontent a:focus, 
+div.usecolor4 #pageTips a:focus, div.usecolor5 #pagecontent a:active, div.usecolor5 #pageTips a:active, div.usecolor5 #pagecontent a:focus, 
+div.usecolor5 #pageTips a:focus, #navmenu a:active, #navmenu a:focus, #footer a:active, #footer a:focus, #footer a.donatelink:active, 
+#footer a.donatelink:focus, input.checkorradio:focus, input.checkorradio:active
+{outline:2px solid #ff0;background-color:#ff0;color:#000;}

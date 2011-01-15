@@ -39,5 +39,18 @@ require_once(SEED_ROOT.'/classes/core/SeedBase.php');
 require_once(SEED_ROOT.'/classes/core/SeedRequest.php');
 require_once(SEED_ROOT.'/classes/core/SeedResponse.php');
 
+function seed_embedElement($element_id) {
+	global $seed_request;
+	$seed_body_request = new SeedRequest(
+		array(
+			'seed_request_type' => 'element', 
+			'seed_action' => 'getmarkup',
+			'element_id' => $element_id, 
+			'status_uid' => $seed_request->response['status_uid']
+		)
+	);
+	echo $seed_body_request->response['payload'];
+}
+
 $seed_request = new SeedRequest();
 ?>

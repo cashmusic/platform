@@ -19,13 +19,9 @@
 	<h1>BAD BOOKS</h1>
 	<h2>our mailing list</h2>
 
-	<?php // Seed email list signup code
-		$seed_body_request = new SeedRequest(array(
-			'seed_request_type' => 'element', 'seed_action' => 'getmarkup','element_id' => 1, 'status_uid' => $seed_request->response['status_uid']
-		));echo $seed_body_request->response['payload'];
-	?>
+	<?php seed_embedElement(1); // Seed element (Bad Books YWHTA Email For Download) ?>
 
-	<?php include('debug/seed_debug.php') ?>
+	<?php include('debug/seed_debug.php'); // Seed debug DO NOT INCLUDE IN PRODUCTION! ?>
 </div>
 
 </body>
