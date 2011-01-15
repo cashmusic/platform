@@ -33,11 +33,11 @@ You dig?
 */
 $pagememu = array(
 	'Actions' => array(
-		'assets/add' => 'Add Assets',
-			'assets/adhoc/add' => 'Add Ad-Hoc Asset',
-			'assets/collection/add' => 'Add A Collection',
-			'assets/release/add' => 'Add A Release',
-		'assets/find' => 'Find Assets'
+		'assets/add/' => 'Add Assets',
+			'assets/adhoc/add/' => 'Add Ad-Hoc Asset',
+			'assets/collection/add/' => 'Add A Collection',
+			'assets/release/add/' => 'Add A Release',
+		'assets/find/' => 'Find Assets'
 	)
 );
 ?>

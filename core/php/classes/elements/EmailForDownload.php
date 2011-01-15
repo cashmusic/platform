@@ -12,9 +12,16 @@
  *
  **/
 class EmailForDownload {
-	public function __construct($status_uid,$options) {
+	protected $name = 'Email For Download';
+	protected $status_uid, $options;
+	
+	public function __construct($status_uid=false,$options=false) {
 		$this->status_uid = $status_uid;
 		$this->options = $options;
+	}
+	
+	public function getName() {
+		return $this->name;
 	}
 	
 	public function getMarkup() {

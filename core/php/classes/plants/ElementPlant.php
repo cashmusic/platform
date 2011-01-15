@@ -13,12 +13,13 @@
  *
  **/
 class ElementPlant extends PlantBase {
-	protected $markup_array=array();
+	protected $elements_array=array();
+	protected $typenames_array=array();
 	
 	public function __construct($request_type,$request) {
 		$this->request_type = 'element';
 		$this->plantPrep($request_type,$request);
-		$this->buildMarkupArray();
+		$this->buildElementsArray();
 	}
 	
 	public function processRequest() {
@@ -98,22 +99,37 @@ class ElementPlant extends PlantBase {
 	}
 	
 	/**
-	 * Builds an associative array of all Element markup files in /markup/elements/
-	 * stored as $this->markup_array and used include proper markup in getElementMarkup()
+	 * Builds an associative array of all Element class files in /classes/elements/
+	 * stored as $this->elements_array and used to include proper markup in getElementMarkup()
 	 *
 	 * @return void
-	 */protected function buildMarkupArray() {
-		if ($markup_dir = opendir(SEED_ROOT.'/markup/elements/')) {
-			while (false !== ($file = readdir($markup_dir))) {
+	 */protected function buildElementsArray() {
+		if ($elements_dir = opendir(SEED_ROOT.'/classes/elements/')) {
+			while (false !== ($file = readdir($elements_dir))) {
 				if (substr($file,0,1) != "." && !is_dir($file)) {
 					$tmpKey = strtolower(substr_replace($file, '', -4));
-					$this->markup_array["$tmpKey"] = $file;
+					$this->elements_array["$tmpKey"] = $file;
 				}
 			}
-			closedir($markup_dir);
+			closedir($elements_dir);
 		}
 	}
-	
+
+	public function buildTypeNamesArray() {
+		if ($elements_dir = opendir(SEED_ROOT.'/classes/elements/')) {
+			while (false !== ($file = readdir($elements_dir))) {
+				if (substr($file,0,1) != "." && !is_dir($file)) {
+					$element_object_type = substr_replace($file, '', -4);
+					$tmpKey = strtolower($element_object_type);
+					include(SEED_ROOT.'/classes/elements/'.$file);
+					$element_object = new $element_object_type($status_uid,$element_options);
+					$this->typenames_array["$tmpKey"] = $element_object->getName();
+				}
+			}
+			closedir($elements_dir);
+		}
+	}
+
 	public function getElement($element_id) {
 		$query = "SELECT name,type,options FROM seed_elements WHERE id = $element_id";
 		$result = $this->db->doQueryForAssoc($query);
@@ -134,11 +150,11 @@ class ElementPlant extends PlantBase {
 		$element_type = $element['type'];
 		$element_options = $element['options'];
 		if ($element_type) {
-			$for_include = SEED_ROOT.'/markup/elements/'.$this->markup_array[$element_type];
+			$for_include = SEED_ROOT.'/classes/elements/'.$this->elements_array[$element_type];
 			if (file_exists($for_include)) {
 				include($for_include);
-				$element_object_type = substr_replace($this->markup_array[$element_type], '', -4);
-				$element_object = new $element_type($status_uid,$element_options);
+				$element_object_type = substr_replace($this->elements_array[$element_type], '', -4);
+				$element_object = new $element_object_type($status_uid,$element_options);
 				return $element_object->getMarkup();
 			}
 		} else {
