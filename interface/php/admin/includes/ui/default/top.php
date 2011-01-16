@@ -110,14 +110,14 @@
 							echo "<h3>$menutitle</h3>";
 							echo '<ul class="pagebasemenu">';
 							foreach ($menuarray as $key => $value) {
-								$new_menulevel = substr_count($key, '/');
+								$new_menulevel = substr_count(trim($key,'/'), '/');
 								if ($new_menulevel < $menulevel) {
 									echo "</ul>";
 								}
 								if ($new_menulevel > $menulevel) {
 									echo "<ul>";
 								}
-								if ($new_menulevel > 1 && str_replace('/','_',$key) == REQUEST_STRING) {
+								if ($new_menulevel > 1 && str_replace('/','_',trim($key,'/')) == REQUEST_STRING) {
 									echo "<li style=\"margin-left:" . (16 * ($new_menulevel-1)) . "px;\">$value</li>";
 								} else {
 									echo "<li style=\"margin-left:" . (16 * ($new_menulevel-1)) . "px;\"><a href=\"" . WWW_BASE_PATH . "/$key\">$value</a></li>";

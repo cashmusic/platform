@@ -15,6 +15,7 @@ a.download:hover {color:#fff;}
 
 .seed_notation {font-size:10px;color:#000;margin-top:8px;}
 .seed_error {font-weight:bold;color:#ff0;margin-bottom:15px;}
+.seed_input {width:18em;}
 
 #mainspc {width:450px;margin:0 auto;padding:200px 250px 30px 20px;font-family:helvetica,arial,sans-serif;}
 #debug {position:fixed;top:12px;right:12px;width:380px;height:auto;color:#fff;background:#000 url(../images/seed_w36.gif) 12px 12px no-repeat;padding:24px 12px 12px 60px;border-radius:9px;opacity:0.8;}

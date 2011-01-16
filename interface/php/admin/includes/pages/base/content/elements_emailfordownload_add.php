@@ -1,37 +1,97 @@
-<form method="post" action="">
-<div class="col_onehalf">
-	<h3>Element Details</h3>
+<?php if (!isset($_POST['doelementadd'])) { ?>
+	<form method="post" action="">
+		<input type="hidden" name="doelementadd" value="makeitso">
+		<input type="hidden" name="element_type" value="emailfordownload">
+		<div class="col_onehalf">
+			<h3>Element Details</h3>
 		
-	<label for="text1">Name</label><br />
-	<input type="text" id="text1" /> 
+			<label for="element_name">Name</label><br />
+			<input type="text" id="element_name" name="element_name" /> 
 	
-	<div class="row_seperator">.</div><br />
+			<div class="row_seperator">.</div>
+			
+			<label for="asset_id">Target Mailing List</label><br />
+			<select id="emal_list_id" name="emal_list_id">
+				<option value="1">Bad Books</option>
+			</select>
+			
+			<div class="row_seperator">.</div>
 	
-	<label for="text2">Invalid Email Error Message</label><br />
-	<input type="text" id="text2" value="Sorry, that email address wasn't valid. Please try again." />
+			<label for="asset_id">The Downloadable Asset</label><br />
+			<select id="asset_id" name="asset_id">
+				<option value="1">“You Wouldn’t Have To Ask” MP3</option>
+			</select>
+			
+			<br /><br />
 	
-	<label for="text3">Privacy Message</label><br />
-	<input type="text" id="text3" value="We won't share, sell, or be jerks with your email address." />	
-</div>
+			<a href="<?php echo WWW_BASE_PATH; ?>/assets/add/"><small>OR ADD NEW ASSET</small></a>
+			
+		</div>
 
-<div class="col_onehalf lastcol">
-	<h3>&nbsp;</h3>
-	<label for="text1">The Downloadable Asset</label><br />
-	<select id="select1">
-		<option>“You Wouldn’t Have To Ask” MP3</option>
-	</select>
-	<br /><br />
+		<div class="col_onehalf lastcol">
+			<h3>&nbsp;</h3>
+			<label for="message_invalid_email">Invalid Email Error Message</label><br />
+			<input type="text" id="message_invalid_email" name="message_invalid_email" value="Sorry, that email address wasn't valid. Please try again." />
 	
-	<a href="<?php echo WWW_BASE_PATH; ?>/assets/add/"><small>ADD NEW ASSET</small></a>
+			<label for="message_privacy">Privacy Message</label><br />
+			<input type="text" id="message_privacy" name="message_privacy" value="We won't share, sell, or be jerks with your email address." />
+			
+			<label for="message_success">Success Message</label><br />
+			<input type="text" id="message_success" name="message_success" value="Thanks! You're all signed up. Here's your download:" />
+			
+			<div class="row_seperator">.</div><br />
 	
-	<div class="row_seperator">.</div><br />
-	
-	<label>Comment Or Agreement</label><br />
-	<input type="radio" name="radio1" class="checkorradio" checked="checked" /> Neither &nbsp; &nbsp; <input type="radio" name="radio1" class="checkorradio" /> Comment &nbsp; &nbsp; <input type="radio" name="radio1" class="checkorradio" /> Agreement 
-</div>
-<div class="row_seperator">.</div><br />
-<div class="tar">
-	<input class="button" type="submit" value="Add That Element!" />
-</div>
+			<label for="comment_or_radio">Comment Or Agreement</label><br />
+			<input type="radio" name="comment_or_radio" class="checkorradio" value="none" checked="checked" /> Neither &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="comment" /> Comment &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="agreement" /> Agreement 
+		</div>
+		<div class="row_seperator">.</div><br />
+		<div class="tar">
+			<input class="button" type="submit" value="Add That Element" />
+		</div>
 
-</form>
+	</form>
+		
+<?php } else { 
+	$element_add_request = new SeedRequest(
+		array(
+			'seed_request_type' => 'element', 
+			'seed_action' => 'addelement',
+			'name' => $_POST['element_name'],
+			'type' => $_POST['element_type'],
+			'options_data' => array(
+				'message_invalid_email' => $_POST['message_invalid_email'],
+				'message_privacy' => $_POST['message_privacy'],
+				'message_success' => $_POST['message_success'],
+				'emal_list_id' => $_POST['emal_list_id'],
+				'asset_id' => $_POST['asset_id'],
+				'comment_or_radio' => $_POST['comment_or_radio']
+			)
+		)
+	);
+	if ($element_add_request->response['status_uid'] == 'element_addelement_200') {
+	?>
+	
+		<h3>Success</h3>
+		<p>
+		Your new <b>Email For Download</b> element is ready to go. To begin using it immediately insert
+		this Seed embed code on any page:
+		</p>
+		<code>
+			&lt;?php seed_embedElement(<?php echo $element_add_request->response['payload']['element_id']; ?>); // Seed element (<?php echo $_POST['element_name'] . ' / ' . $_POST['element_type']; ?>) ?&gt;
+		</code>
+		<br />
+		<p>
+		Enjoy!
+		</p>
+
+	<?php } else { ?>
+		
+		<h3>Error</h3>
+		<p>
+		There was a problem creating the element. <a href="./">Please try again.</a>
+		</p>
+
+<?php 
+	}
+}	
+?>

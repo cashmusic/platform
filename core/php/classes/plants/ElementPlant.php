@@ -166,7 +166,7 @@ class ElementPlant extends PlantBase {
 		$options_data = json_encode($options_data);
 		$options_data = "'" . mysql_real_escape_string($options_data) . "'";
 		$current_date = time();
-		$query = "INSERT INTO seed_elements (name,type,data,user_id,creation_date) VALUES ($name,$type,$options_data,$user_id,$current_date)";
+		$query = "INSERT INTO seed_elements (name,type,options,user_id,creation_date) VALUES ('$name','$type',$options_data,$user_id,$current_date)";
 		if ($this->db->doQuery($query)) { 
 			return mysql_insert_id();
 		} else {

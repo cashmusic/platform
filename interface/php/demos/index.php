@@ -19,7 +19,7 @@
 	<h1>BAD BOOKS</h1>
 	<h2>our mailing list</h2>
 
-	<?php seed_embedElement(1); // Seed element (Bad Books YWHTA Email For Download) ?>
+	<?php seed_embedElement(9); // Seed element (Bad Books YWHTA EFD / emailfordownload) ?>
 
 	<?php include('debug/seed_debug.php'); // Seed debug DO NOT INCLUDE IN PRODUCTION! ?>
 </div>

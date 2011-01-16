@@ -3,6 +3,7 @@ html {margin:0;padding:0;}
 body {color:#000;background:#fff url(../images/bg.jpg) center bottom repeat-x fixed;text-align:center;font:75%/1.5em helvetica,"helvetica neue",arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:750px;}
 a {color:#999;text-decoration:none;}
 a:hover {text-decoration:underline;}
+code {display:block;padding:2em;margin:0 0 1.5em 0;;background-color:#ddd;background-image:url(../images/currentnav.png);background-position:left top;background-repeat:no-repeat;margin:0 auto;}
 img {border:0;}
 ul {padding:0.5em 0 0.5em 1.5em;}
 p {margin:0 0 1.5em 0;}
@@ -25,7 +26,7 @@ table {font-size:0.85em;}
 .tar {text-align:right;}
 
 /* FORMS */
-input {padding:6px 3px 6px 3px;border:1px solid #ccc;width:100%;}
+input {padding:6px 2% 6px 2%;border:1px solid #ccc;width:96%;}
 input:active, input:focus {outline:0;border:1px solid #888;}
 input.button {background-color:#ccc;padding:6px 18px 6px 18px;font-weight:bold;cursor:pointer;width:auto;}
 input.button:hover {background-color:#aaa;}
@@ -80,7 +81,7 @@ ul.pagebasemenu ul {padding:0;margin-top:0;margin-bottom:0;font-size:0.8em;font-
 #pagedisplay {width:710px;float:left;}
 
 /* FOOTER (base code taken from cssstickyfooter.com) */
-* {margin-top:0;margin-bottom;padding:0;} 
+* {margin-top:0;padding:0;} 
 html, body, #wrap {height:100%;}
 body > #wrap {height:auto;min-height:100%;}
 #mainspc {padding-bottom: 60px;}
