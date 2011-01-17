@@ -71,7 +71,7 @@ div.usecolor5 #pagecontent a, div.usecolor5 #pageTips a {color:#8a00ca;}
 #sectionmenu a {text-transform:lowercase;margin-right:1.5em;}
 #navmenu .currentnav, #navmenu .currentnav a {color:#000;}
 #pagecontent #tiplink {color:#999;font-size:0.9em;line-height:1.25em;padding:1px;}
-ul.pagebasemenu {padding:0;margin-top:0;margin-bottom:1.5em;font-size:1.25em;font-weight:bold;line-height:1.5em;color:#666;}
+ul.pagebasemenu {padding:0;margin-top:0;margin-bottom:1.5em;font-size:1.25em;font-weight:bold;line-height:1.5em;color:#999;}
 ul.pagebasemenu li {list-style-type:none;}
 ul.pagebasemenu ul {padding:0;margin-top:0;margin-bottom:0;font-size:0.8em;font-weight:normal;}
 .currentpagemenu {margin-left:16px;}

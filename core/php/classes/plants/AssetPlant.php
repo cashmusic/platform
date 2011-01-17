@@ -27,8 +27,7 @@ class AssetPlant extends PlantBase {
 	public function processRequest() {
 		if ($this->action) {
 			switch ($this->action) {
-				case 'redirect':
-					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
+				case 'claim':
 					if (!$this->requireParameters('asset_id')) { return $this->sessionGetLastResponse(); }
 					$this->redirectToAsset($this->request['asset_id']);
 					break;
@@ -47,6 +46,42 @@ class AssetPlant extends PlantBase {
 							500,$this->request_type,$this->action,
 							$this->request,
 							'there was an error adding the code'
+						);
+					}
+					break;
+				case 'unlock':
+					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
+					if (!$this->requireParameters('asset_id')) { return $this->sessionGetLastResponse(); }
+					$result = $this->unlockAsset($this->request['asset_id']);
+					if ($result) {
+						return $this->response->pushResponse(
+							200,$this->request_type,$this->action,
+							true,
+							'asset unlocked successfully'
+						);
+					} else {
+						return $this->response->pushResponse(
+							500,$this->request_type,$this->action,
+							$this->request,
+							'there was an error unlocking the asset'
+						);
+					}
+					break;
+				case 'getasset':
+					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
+					if (!$this->requireParameters('asset_id')) { return $this->sessionGetLastResponse(); }
+					$result = $this->getAssetInfo($this->request['asset_id']);
+					if ($result) {
+						return $this->response->pushResponse(
+							200,$this->request_type,$this->action,
+							$result,
+							'asset details in payload'
+						);
+					} else {
+						return $this->response->pushResponse(
+							500,$this->request_type,$this->action,
+							$this->request,
+							'there was an error getting asset details'
 						);
 					}
 					break;
@@ -229,7 +264,7 @@ class AssetPlant extends PlantBase {
 
 	public function getLockCodeDetails($uid,$asset_id) {
 		$query = "SELECT * FROM lock_codes WHERE uid='$uid' AND asset_id=$asset_id";
-		return $this->queryAndReturnAssoc($query);
+		return $this->db->doQueryForAssoc($query);
 	}
 
 	public function parseLockCode($code) {
@@ -257,6 +292,59 @@ class AssetPlant extends PlantBase {
 			return false;
 		}
 	}
+	
+	/**
+	 * Adds an unlock state to Seed session persistent store
+	 *
+	 * @return boolean
+	 */protected function unlockAsset($asset_id) {
+		$current_unlocked_assets = $this->sessionGetPersistent('unlocked_assets');
+		if (is_array($current_unlocked_assets)) {
+			$current_unlocked_assets[""."$asset_id"]=true;
+			$this->sessionSetPersistent('unlocked_assets',$current_unlocked_assets);
+			return true;
+		} else {
+			$this->sessionSetPersistent('unlocked_assets',array(""."$asset_id" => true));
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Returns true if an assetIsUnlocked, false if not
+	 *
+	 * @return boolean
+	 */protected function getUnlockedStatus($asset_id) {
+		if ($this->getPublicStatus($asset_id)) {
+			return true;
+		}
+		$current_unlocked_assets = $this->sessionGetPersistent('unlocked_assets');
+		if (is_array($current_unlocked_assets)) {
+			if (array_key_exists(""."$asset_id",$current_unlocked_assets)) {
+				if ($current_unlocked_assets[""."$asset_id"] === true) {
+					return true;
+				}
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Returns true if asset is public, false otherwise
+	 *
+	 * @return boolean
+	 */protected function getPublicStatus($asset_id) {
+		$query = "SELECT public_status FROM asst_assets WHERE id=$asset_id";
+		$result = $this->db->doQueryForAssoc($query);
+		if ($result['public_status']) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	/**
 	 * Reads asset details and redirects to the file directly. The success 
@@ -266,7 +354,7 @@ class AssetPlant extends PlantBase {
 	 * @param {integer} $asset_id - the asset you are trying to retrieve
 	 * @return string
 	 */public function redirectToAsset($asset_id) {
-		if ($asset_id) {
+		if ($this->getUnlockedStatus($asset_id)) {
 			$asset = $this->getAssetInfo($asset_id);
 			switch ($asset['type']) {
 				case 'com.amazon.aws':

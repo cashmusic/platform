@@ -14,7 +14,8 @@
 class EmailForDownload {
 	protected $name = 'Email For Download';
 	protected $type = 'emailfordownload';
-	protected $status_uid, $options;
+	protected $status_uid;
+	protected $options;
 	
 	public function __construct($status_uid=false,$options=false) {
 		$this->status_uid = $status_uid;
@@ -29,9 +30,22 @@ class EmailForDownload {
 		$markup = '';
 		switch ($this->status_uid) {
 			case 'emaillist_signup_200':
+				$unlock_request = new SeedRequest(array(
+					'seed_request_type' => 'asset', 
+					'seed_action' => 'unlock',
+					'asset_id' => $this->options->asset_id
+				));
+				$asset_request = new SeedRequest(array(
+					'seed_request_type' => 'asset', 
+					'seed_action' => 'getasset',
+					'asset_id' => $this->options->asset_id
+				));
+				$asset_title = $asset_request->response['payload']['title'];
+				$asset_description = $asset_request->response['payload']['description'];
 				$markup = "<div class=\"seed_success ". $this->type ."\">";
 				$markup .= $this->options->message_success . "<br /><br />";
-				$markup .= "<a href=\"?down=xx\" class=\"download\">“You Wouldn’t Have To Ask” MP3</a>";
+				$markup .= "<a href=\"?seed_request_type=asset&seed_action=claim&asset_id=".$this->options->asset_id."\" class=\"download\">$asset_title</a>";
+				$markup .= "<div class=\"description\">$asset_description</div>";
 				$markup .= "</div>";
 				break;
 			case 'emaillist_signup_400':
