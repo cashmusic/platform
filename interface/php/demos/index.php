@@ -1,4 +1,4 @@
-<?php include('../../../core/php/Seed.php'); // Initialize Seed ?>
+<?php include('/Users/jessevondoom/Code/cashmusic-github/Seed/core/php/Seed.php'); // Initialize Seed ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -14,9 +14,10 @@
 	<h1>BAD BOOKS</h1>
 	<h2>our mailing list</h2>
 
-	<?php seed_embedElement(9); // Seed element (Bad Books YWHTA EFD / emailfordownload) ?>
+	<?php seed_embedElement(10); // Seed element (Bad Books Email promo / emailfordownload) ?>
+	
+	<?php include('/Users/jessevondoom/Code/cashmusic-github/Seed/core/php/settings/debug/seed_debug.php'); // Seed Debug ?>
 
-	<?php include('debug/seed_debug.php'); // Seed debug DO NOT INCLUDE IN PRODUCTION! ?>
 </div>
 
 </body>
