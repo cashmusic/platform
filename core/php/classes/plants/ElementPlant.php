@@ -131,13 +131,16 @@ class ElementPlant extends PlantBase {
 	}
 
 	public function getElement($element_id) {
-		$query = "SELECT name,type,options FROM seed_elements WHERE id = $element_id";
-		$result = $this->db->doQueryForAssoc($query);
+		$result = $this->db->getData(
+			'seed_elements',
+			'name,type,options',
+			"id = $element_id"
+		);
 		if ($result) {
 			$the_element = array(
-				'name' => $result['name'],
-				'type' => $result['type'],
-				'options' => json_decode($result['options'])
+				'name' => $result[0]['name'],
+				'type' => $result[0]['type'],
+				'options' => json_decode($result[0]['options'])
 			);
 			return $the_element;
 		} else {

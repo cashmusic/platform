@@ -6,7 +6,9 @@
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * began with official Paypal examples, much editing and pushing...
+ * began with official Paypal SDK examples, much editing and pushing...
+ * original script(s) here:
+ * https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/library_download_sdks#NVP
  *
  * Copyright (c) 2010, CASH Music
  * Licensed under the Affero General Public License version 3.

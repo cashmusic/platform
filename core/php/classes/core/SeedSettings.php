@@ -15,21 +15,26 @@
 	public function __construct($settings_type,$settings_name='default') {
 		$this->settings_name = $settings_name;
 		$this->settings_type = $settings_type;
-		$this->settings_name_escaped = "'" . mysql_real_escape_string($this->settings_name) . "'";
-		$this->settings_type_escaped = "'" . mysql_real_escape_string($this->settings_type) . "'";
 		$this->settings = null;
 		$this->connectDB();
 	}
 	
 	public function getSettings() {
 		if ($this->settings_name == 'default') {
-			$query = "SELECT data FROM seed_settings WHERE type = {$this->settings_type_escaped} AND isdefault = 1";
+			$result = $this->db->getData(
+				'seed_settings',
+				'data',
+				"type = '{$this->settings_type}' AND isdefault = 1"
+			);
 		} else {
-			$query = "SELECT data FROM seed_settings WHERE name = {$this->settings_name_escaped} AND type = {$this->settings_type_escaped}";
+			$result = $this->db->getData(
+				'seed_settings',
+				'data',
+				"name = '{$this->settings_name}' AND type = '{$this->settings_type}'"
+			);
 		}
-		$result = $this->db->doQueryForAssoc($query);
 		if ($result) {
-			$this->settings = json_decode($result['data']);
+			$this->settings = json_decode($result[0]['data']);
 			return $this->settings;
 		} else {
 			return false;
@@ -46,26 +51,34 @@
 
 	public function addSettings($settings_data,$set_default=false) {
 		$settings_data = json_encode($settings_data);
-		$settings_data = "'" . mysql_real_escape_string($settings_data) . "'";
 		if ($this->checkUniqueName() && $this->settings_name != 'default') {
 			$current_date = time();
 			if ($set_default) {
-				$query = "UPDATE seed_settings SET isdefault=false,modification_date=$current_date WHERE type = {$this->settings_type_escaped}";
-				$success = $this->db->doQuery($query);
-				if (!$success) {
+				$result = $this->db->setData(
+					'seed_settings',
+					array(
+						'name' => $this->settings_name,
+						'type' => $this->settings_type,
+						'data' => $settings_data,
+						'isdefault' => false
+					),
+					"type = '{$this->settings_type}'"
+				);
+				if (!$result) {
 					// error: could not reset defaults in existing settings
 					return false;
 				}
-				$set_default = 'true';
-			} else {
-				if ($this->checkFirstByType()) {
-					$set_default = 'true';
-				} else {
-					$set_default = 'false';
-				}
 			}
-			$query = "INSERT INTO seed_settings (name,type,data,isdefault,creation_date) VALUES ({$this->settings_name_escaped},{$this->settings_type_escaped},$settings_data,$set_default,$current_date)";
-			if ($this->db->doQuery($query)) { 
+			$result = $this->db->setData(
+				'seed_settings',
+				array(
+					'name' => $this->settings_name,
+					'type' => $this->settings_type,
+					'data' => $settings_data,
+					'isdefault' => $set_default
+				)
+			);
+			if ($result) { 
 				return true;
 			} else {
 				// error inserting settings
@@ -78,9 +91,12 @@
 	}
 	
 	private function checkUniqueName() {
-		$query = "SELECT name FROM seed_settings WHERE name = {$this->settings_name_escaped} AND type = {$this->settings_type_escaped}";
-		$count = $this->db->doQueryForCount($query);
-		if ($count) {
+		$result = $this->db->getData(
+			'seed_settings',
+			'name',
+			"name = '{$this->settings_name}' AND type = '{$this->settings_type}'"
+		);
+		if ($result) {
 			return false;
 		} else {
 			return true;
@@ -88,9 +104,12 @@
 	}
 	
 	private function checkFirstByType() {
-		$query = "SELECT name FROM seed_settings WHERE type = {$this->settings_type_escaped}";
-		$count = $this->db->doQueryForCount($query);
-		if ($count) {
+		$result = $this->db->getData(
+			'seed_settings',
+			'name',
+			"name = 'type = '{$this->settings_type}'"
+		);
+		if ($result) {
 			return false;
 		} else {
 			return true;
