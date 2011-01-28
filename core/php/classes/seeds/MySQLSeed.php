@@ -6,7 +6,7 @@
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2010, CASH Music
+ * Copyright (c) 2011, CASH Music
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
@@ -19,37 +19,12 @@ class MySQLSeed {
 		mysql_select_db($database, $this->db) or die("Named database was not found, unable to select database");
 	}
 	
-	public function doQuery($query) {
+	protected function doQuery($query) {
 		$result = mysql_query($query,$this->db);
 		return $result;
 	}
 	
-	public function doQueryForCount($query) {
-		$result = mysql_query($query,$this->db);
-		if ($result) {
-			$rowcount = mysql_num_rows($result);
-			return $rowcount;
-		} else {
-			return 0;
-		}
-	}
-
-	public function doQueryForAssoc($query) {
-		$result = mysql_query($query,$this->db);
-		if ($result) {
-			if (mysql_num_rows($result)) {
-				$row = mysql_fetch_assoc($result);
-				mysql_free_result($result);
-				return $row;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
-	}
-
-	public function doQueryForMultiAssoc($query) {
+	protected function doQueryForArray($query) {
 		$result = mysql_query($query,$this->db);
 		if ($result) {
 			if (mysql_num_rows($result)) {
@@ -139,7 +114,6 @@ class MySQLSeed {
 				}
 			// WHERE email_address='$address' AND list_id=$list_id";
 			} else {
-				echo "trying INSERT";
 				// no condition? we're doing an INSERT
 				$creation_date = time();
 				$query = "INSERT INTO $tablename (";
@@ -165,12 +139,47 @@ class MySQLSeed {
 		} 
 		if ($query) {
 			$returnvalue = mysql_query($query,$this->db);
+			if ($returnvalue) {
+				$returnvalue = mysql_insert_id();
+			} 
 		}
 		return $returnvalue;
 	}
 	
-	public function doSpecialQuery($queryname) {
-		
+	public function doSpecialQuery($query_name,$query_options=false) {
+		switch ($query_name) {
+			case 'AssetPlant_getAssetInfo':
+				$query = "SELECT a.user_id,a.parent_id,a.location,a.title,a.description,a.comment,a.seed_settings_id,";
+				$query .= "s.name,s.type ";
+				$query .= "FROM asst_assets a LEFT OUTER JOIN seed_settings s ON a.seed_settings_id = s.id ";
+				$query .= "WHERE a.id = {$query_options['asset_id']}";
+				return $this->doQueryForArray($query);
+				break;
+			case 'EventPlant_getAllDates':
+				$query = "SELECT d.id,u.display_name as user_display_name,d.date,d.publish,d.cancelled,d.comments,";
+				$query .= "v.name as venuename,v.address1,v.address2,v.city,v.region,v.country,v.postalcode,v.website,v.phone ";
+				$query .= "FROM live_events d JOIN live_venues v ON d.venue_id = v.id JOIN seed_users u ON d.user_id = u.id ";
+				$query .= "WHERE d.date > {$query_options['cutoffdate']} AND u.id = {$query_options['user_id']} ORDER BY d.date ASC";
+				return $this->doQueryForArray($query);
+				break;
+		    case 'EventPlant_getDatesBetween':
+				$query = "SELECT d.id,u.display_name as user_display_name,d.date,d.publish,d.cancelled,d.comments,";
+				$query .= "v.name as venuename,v.address1,v.address2,v.city,v.region,v.country,v.postalcode,v.website,v.phone ";
+				$query .= "FROM live_events d JOIN live_venues v ON d.venue_id = v.id JOIN seed_users u ON d.user_id = u.id ";
+				$query .= "WHERE d.date > {$query_options['afterdate']} AND d.date < {$query_options['beforedate']} ";
+				$query .= "AND u.id = {$query_options['user_id']} ORDER BY d.date ASC";
+				return $this->doQueryForArray($query);
+				break;
+			case 'EventPlant_getDatesByArtistAndDate':
+				$query = "SELECT d.id,u.display_name as user_display_name,d.date,d.publish,d.cancelled,d.comments";
+				$query .= "v.name as venuename,v.address1,v.address2,v.city,v.region,v.country,v.postalcode,v.website,v.phone ";
+				$query .= "FROM live_events d JOIN live_venues v ON d.venue_id = v.id JOIN seed_users u ON d.user_id = u.id ";
+				$query .= "WHERE d.date = {$query_options['date']} AND u.id = {$query_options['user_id']} ORDER BY d.date ASC";
+				return $this->doQueryForArray($query);
+				break;
+		    default:
+		       return false;
+		}
 	}
 } // END class 
 ?>

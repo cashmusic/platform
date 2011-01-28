@@ -6,7 +6,7 @@
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2010, CASH Music
+ * Copyright (c) 2011, CASH Music
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
@@ -92,13 +92,26 @@ class EmailListPlant extends PlantBase {
 	 * @param {string} $address -  the email address in question
 	 * @return array|false
 	 */public function getAddressInformation($address,$list_id) {
-		$query = "SELECT * FROM emal_addresses WHERE email_address='$address' AND list_id=$list_id";
-		return $this->db->doQueryForAssoc($query);
+		$result = $this->db->getData(
+			'emal_addresses',
+			'*',
+			array(
+				"email_address='$address'",
+				"list_id=$list_id"
+			)
+		);
+		return $result[0];
 	}
 	
 	public function getAddresses($list_id,$limit=100,$start=0) {
-		$query = "SELECT * FROM emal_addresses WHERE list_id=$list_id ORDER BY creation_date DESC LIMIT $start,$limit";
-		return $this->db->doQueryForMultiAssoc($query);
+		$result = $this->db->getData(
+			'emal_addresses',
+			'*',
+			"list_id=$list_id",
+			"$start,$limit",
+			'creation_date DESC'
+		);
+		return $result;
 	}
 
 	public function addressIsVerified($address,$list_id) {
@@ -116,17 +129,20 @@ class EmailListPlant extends PlantBase {
 			if (!$this->getAddressInformation($address,$list_id)) {
 				$initial_comment = strip_tags($initial_comment);
 				$name = strip_tags($name);
-				$creation_date = time();
-				$query = "INSERT INTO emal_addresses (email_address,list_id,initial_comment,verified,name,creation_date) VALUES ('$address',$list_id,'$initial_comment',$verified,'$name',$creation_date)";
-				if ($this->db->doQuery($query)) { 
-					return true;
-				} else {
-					return false;
-				}
+				$result = $this->db->setData(
+					'emal_addresses',
+					array(
+						'email_address' => $address,
+						'list_id' => $list_id,
+						'initial_comment' => $initial_comment,
+						'verified' => $verified,
+						'name' => $name
+					)
+				);
+				return $result;
 			} else {
-				// email already added. do no more.
-				// 
-				// REVISIT: consider overwriting the comment if new != old
+				// overwrite the name and comment if new != old? doing nothing
+				// for now. maybe push into proper "user" status for updates?
 				return true;
 			}
 		} else {
@@ -136,8 +152,17 @@ class EmailListPlant extends PlantBase {
 
 	public function setAddressVerification($address,$list_id) {
 		$verification_code = time();
-		$query = "UPDATE emal_addresses SET verification_code='$verification_code',modification_date=$verification_code WHERE email_address='$address' AND list_id=$list_id";
-		if ($this->db->doQuery($query)) { 
+		$result = $this->db->setData(
+			'emal_addresses',
+			array(
+				'verification_code' => $verification_code
+			),
+			array(
+				"email_address='$address'",
+				"list_id=$list_id"
+			)
+		);
+		if ($result) { 
 			return $verification_code;
 		} else {
 			return false;
@@ -150,13 +175,21 @@ class EmailListPlant extends PlantBase {
 			$addressInfo = $this->getAddressInformation($address);
 			return $addressInfo['id'];
 		} else {
-			$query = "SELECT * FROM emal_addresses WHERE email_address='$address' AND verification_code='$verification_code' AND list_id=$list_id";
-			$result = $this->db->doQueryForAssoc($query);
+			$result = $this->db->getData(
+				'emal_addresses',
+				'*',
+				array("email_address='$address'","verification_code='$verification_code'","list_id=$list_id")
+			);
 			if ($result !== false) { 
-				$id = $result['id'];
-				$modified = time();
-				$query = "UPDATE emal_addresses SET verified=1,modification_date=$modified WHERE id=$id";
-				if ($this->db->doQuery($query)) { 
+				$id = $result[0]['id'];
+				$result = $this->db->setData(
+					'emal_addresses',
+					array(
+						'verified' => 1
+					),
+					"id=$id"
+				);
+				if ($result) { 
 					return $id;
 				} else {
 					return false;

@@ -8,7 +8,7 @@
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2010, CASH Music
+ * Copyright (c) 2011, CASH Music
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
@@ -53,4 +53,10 @@ function seed_embedElement($element_id) {
 }
 
 $seed_request = new SeedRequest();
+/*
+// check to see if we need to regenerate the session id
+if ($seed_request->sessionGetPersistent('session_regenerate_id')) {
+	session_regenerate_id(true);
+	$seed_request->sessionClearPersistent('session_regenerate_id');
+}
 ?>

@@ -6,7 +6,7 @@
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2010, CASH Music
+ * Copyright (c) 2011, CASH Music
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
@@ -88,12 +88,12 @@
 		if (!isset($_SESSION['seed_persistent_store'])) {
 			$this->resetSeedSession();
 		}
-		session_regenerate_id(true);
 		if (is_array($_SESSION['seed_persistent_store'])) {
-			$_SESSION['seed_persistent_store']["$key"] = $value;
+			$_SESSION['seed_persistent_store'][(string)$key] = $value;
 		} else {
-			$_SESSION['seed_persistent_store'] = array("$key" => $value);
+			$_SESSION['seed_persistent_store'] = array((string)$key => $value);
 		}
+		$_SESSION['seed_persistent_store']['session_regenerate_id'] = true;
 		return true;
 	}
 
@@ -106,8 +106,9 @@
 		if (!isset($_SESSION['seed_persistent_store'])) {
 			$this->resetSeedSession();
 			return false;
-		} else if (isset($_SESSION['seed_persistent_store']["$key"])) {
-			return $_SESSION['seed_persistent_store']["$key"];
+		} 
+		if (isset($_SESSION['seed_persistent_store'][(string)$key])) {
+			return $_SESSION['seed_persistent_store'][(string)$key];
 		} else {
 			return false;
 		}
@@ -121,8 +122,8 @@
 	 */public function sessionClearPersistent($key) {
 		if (!isset($_SESSION['seed_persistent_store'])) {
 			$this->resetSeedSession();
-		} else if (isset($_SESSION['seed_persistent_store']["$key"])) {
-			unset($_SESSION['seed_persistent_store']["$key"]);
+		} else if (isset($_SESSION['seed_persistent_store'][(string)$key])) {
+			unset($_SESSION['seed_persistent_store'][(string)$key]);
 		} 
 	}
 

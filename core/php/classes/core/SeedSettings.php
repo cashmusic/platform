@@ -6,7 +6,7 @@
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2010, CASH Music
+ * Copyright (c) 2011, CASH Music
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
@@ -78,12 +78,7 @@
 					'isdefault' => $set_default
 				)
 			);
-			if ($result) { 
-				return true;
-			} else {
-				// error inserting settings
-				return false;
-			}
+			return $result;
 		} else {
 			// error: you must specify unique a name when adding settings
 			return false;
@@ -96,11 +91,7 @@
 			'name',
 			"name = '{$this->settings_name}' AND type = '{$this->settings_type}'"
 		);
-		if ($result) {
-			return false;
-		} else {
-			return true;
-		}
+		return $result;
 	}
 	
 	private function checkFirstByType() {
@@ -109,11 +100,7 @@
 			'name',
 			"name = 'type = '{$this->settings_type}'"
 		);
-		if ($result) {
-			return false;
-		} else {
-			return true;
-		}
+		return $result;
 	}
 } // END class 
 ?>

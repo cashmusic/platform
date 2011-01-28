@@ -7,7 +7,7 @@
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2010, CASH Music
+ * Copyright (c) 2011, CASH Music
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
@@ -167,9 +167,15 @@ class ElementPlant extends PlantBase {
 
 	public function addElement($name,$type,$options_data,$user_id=0) {
 		$options_data = json_encode($options_data);
-		$options_data = "'" . mysql_real_escape_string($options_data) . "'";
-		$current_date = time();
-		$query = "INSERT INTO seed_elements (name,type,options,user_id,creation_date) VALUES ('$name','$type',$options_data,$user_id,$current_date)";
+		$result = $this->db->setData(
+			'seed_elements',
+			array(
+				'name' => $name,
+				'type' => $type,
+				'data' => $options_data,
+				'user_id' => $user_id
+			)
+		);
 		if ($this->db->doQuery($query)) { 
 			return mysql_insert_id();
 		} else {

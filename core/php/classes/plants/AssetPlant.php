@@ -6,7 +6,7 @@
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2010, CASH Music
+ * Copyright (c) 2011, CASH Music
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
@@ -104,18 +104,13 @@ class AssetPlant extends PlantBase {
 	}
 	
 	public function getAssetInfo($asset_id) {
-		$query = "SELECT a.user_id,a.parent_id,a.location,a.title,a.description,a.comment,a.seed_settings_id,";
-		$query .= "s.name,s.type ";
-		$query .= "FROM asst_assets a LEFT OUTER JOIN seed_settings s ON a.seed_settings_id = s.id ";
-		$query .= "WHERE a.id = $asset_id";
-		return $this->db->doQueryForAssoc($query);
+		$result = $this->db->doSpecialQuery('AssetPlant_getAssetInfo',array('asset_id' => $asset_id));
+		if ($result) {
+			return $result[0];
+		} else {
+			return false;
+		}
 	}
-	
-	
-	
-	
-	
-	
 	
 	/**
 	 * Retrieves the last known UID or if none are found creates and returns a 
@@ -123,10 +118,15 @@ class AssetPlant extends PlantBase {
 	 *
 	 * @return string
 	 */protected function getLastLockCodeUID() {
-		$query= "SELECT uid FROM lock_codes ORDER BY creation_date DESC LIMIT 1";
-		$result = $this->db->doQueryForAssoc($query);
+		$result = $this->db->getData(
+			'lock_codes',
+			'uid',
+			"list_id=$list_id",
+			1,
+			'creation_date DESC'
+		);
 		if ($result) {
-			return $result['uid'];
+			return $result[0]['uid'];
 		} else {
 			$num_chars = $this->lockCodeCharacters['num_chars'];
 			$txt_chars = $this->lockCodeCharacters['txt_chars'];
@@ -183,9 +183,15 @@ class AssetPlant extends PlantBase {
 	}
 
 	public function verifyUniqueLockCodeUID($lookup_uid) {
-		$query = "SELECT uid FROM lock_codes WHERE uid='$lookup_uid'";
-		$result = $this->db->doQueryForCount($query);
-		if ($result > 0) {
+		$result = $this->db->getData(
+			'lock_codes',
+			'uid',
+			"uid='$lookup_uid'",
+			1
+		);
+		// backwards return. if we find results, return false for not unique.
+		// if there are none return true. broke. yer. mindz.
+		if ($result) {
 			return false;
 		} else {
 			return true;
@@ -200,9 +206,14 @@ class AssetPlant extends PlantBase {
 	 */protected function addLockCode($asset_id){
 		$uid = $this->getNextLockCodeUID();
 		if ($uid) {
-			$current_date = time();
-			$query = "INSERT INTO lock_codes (uid,asset_id,creation_date) VALUES ('$uid',$asset_id,$current_date)";
-			if ($this->db->doQuery($query)) { 
+			$result = $this->db->setData(
+				'lock_codes',
+				array(
+					'uid' => $uid,
+					'asset_id' => $asset_id
+				)
+			);
+			if ($result) { 
 				return $uid;
 			} else {
 				return false;
@@ -263,8 +274,17 @@ class AssetPlant extends PlantBase {
 	}
 
 	public function getLockCodeDetails($uid,$asset_id) {
-		$query = "SELECT * FROM lock_codes WHERE uid='$uid' AND asset_id=$asset_id";
 		return $this->db->doQueryForAssoc($query);
+		$result = $this->db->getData(
+			'lock_codes',
+			'*',
+			array(
+				"uid='$lookup_uid'",
+				"asset_id=$asset_id"
+			),
+			1
+		);
+		return $result[0];
 	}
 
 	public function parseLockCode($code) {
@@ -337,9 +357,13 @@ class AssetPlant extends PlantBase {
 	 *
 	 * @return boolean
 	 */protected function getPublicStatus($asset_id) {
-		$query = "SELECT public_status FROM asst_assets WHERE id=$asset_id";
-		$result = $this->db->doQueryForAssoc($query);
-		if ($result['public_status']) {
+		$result = $this->db->getData(
+			'asst_assets',
+			'public_status',
+			"id=$asset_id",
+			1
+		);
+		if ($result[0]['public_status']) {
 			return true;
 		} else {
 			return false;
