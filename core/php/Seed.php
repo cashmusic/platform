@@ -53,7 +53,7 @@ function seed_embedElement($element_id) {
 }
 
 $seed_request = new SeedRequest();
-/*
+
 // check to see if we need to regenerate the session id
 if ($seed_request->sessionGetPersistent('session_regenerate_id')) {
 	session_regenerate_id(true);
