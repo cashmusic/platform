@@ -39,6 +39,7 @@ require_once(SEED_ROOT.'/classes/core/SeedBase.php');
 require_once(SEED_ROOT.'/classes/core/SeedRequest.php');
 require_once(SEED_ROOT.'/classes/core/SeedResponse.php');
 
+// define seed_embedElement in global scope
 function seed_embedElement($element_id) {
 	global $seed_request;
 	$seed_body_request = new SeedRequest(
@@ -52,9 +53,10 @@ function seed_embedElement($element_id) {
 	echo $seed_body_request->response['payload'];
 }
 
+// fire up seed
 $seed_request = new SeedRequest();
 
-// check to see if we need to regenerate the session id
+// check on each load to see if we need to regenerate the session id
 if ($seed_request->sessionGetPersistent('session_regenerate_id')) {
 	session_regenerate_id(true);
 	$seed_request->sessionClearPersistent('session_regenerate_id');

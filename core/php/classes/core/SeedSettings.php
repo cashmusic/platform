@@ -19,7 +19,12 @@
 		$this->connectDB();
 	}
 	
-	public function getSettings() {
+	/**
+	 * Returns the decoded JSON for the setting type/name the SeedSettings
+	 * object was instantiated with. 
+	 *
+	 * @return settings obj
+	 */public function getSettings() {
 		if ($this->settings_name == 'default') {
 			$result = $this->db->getData(
 				'seed_settings',
@@ -41,7 +46,12 @@
 		}
 	}
 
-	public function getSetting($setting_name) {
+	/**
+	 * Returns the specific setting
+	 *
+	 * @param {string} settings name
+	 * @return settings obj
+	 */public function getSetting($setting_name) {
 		if (isset($this->settings->$setting_name)) {
 			return $this->settings->$setting_name;
 		} else {
@@ -49,7 +59,13 @@
 		}
 	}
 
-	public function addSettings($settings_data,$set_default=false) {
+	/**
+	 * 
+	 *
+	 * @param {array} settings_data: settings data as associative array
+	 * @param {boolean} set_default: whether or not these settings should be default for this type
+	 * @return boolean
+	 */public function addSettings($settings_data,$set_default=false) {
 		$settings_data = json_encode($settings_data);
 		if ($this->checkUniqueName() && $this->settings_name != 'default') {
 			$current_date = time();
@@ -85,7 +101,11 @@
 		}
 	}
 	
-	private function checkUniqueName() {
+	/**
+	 * Ensures that the specified name / type combination is unique per user
+	 *
+	 * @return boolean
+	 */private function checkUniqueName() {
 		$result = $this->db->getData(
 			'seed_settings',
 			'name',
@@ -94,7 +114,11 @@
 		return $result;
 	}
 	
-	private function checkFirstByType() {
+	/**
+	 * Checks to see if this is the first setting of a given type
+	 *
+	 * @return boolean
+	 */private function checkFirstByType() {
 		$result = $this->db->getData(
 			'seed_settings',
 			'name',
