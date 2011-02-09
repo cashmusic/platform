@@ -10,6 +10,8 @@
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
+ * This file is generously sponsored by fluorine
+ * fluorine was here: http://polvo.ca/fluorine/ 
  *
  */abstract class PlantBase extends SeedData {
 	protected $request_method,$request_type,$action=false,$request,$response,$db_required=true;
