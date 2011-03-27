@@ -1,7 +1,7 @@
-#Seed#
-Seed is very much still a work in progress in it's pre-release lifecycle.  
+#CASH Music Platform / DIY#
+The CASH Platform is very much still a work in progress in it's pre-release lifecycle.  
   
-Seed is a locally-installable API intended to work in a request/response model 
+The DIY version of the CASH platform is a locally-installable API intended to work in a request/response model 
 similar to a REST implementation and handle complex functionality around the
 marketing, promotion, and sale of music on an artist's site. It is designed to
 work as a freestanding API or integrated with publishing and CMS systems like
