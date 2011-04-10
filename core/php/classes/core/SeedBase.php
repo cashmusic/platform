@@ -16,7 +16,7 @@
  *
  **/
 abstract class SeedBase extends SeedData {
-	protected $settings,$settings_type=false;
+	protected $settings,$settings_type=false,$user_id=null;
 
 	/**
 	 * Retrieves any needed settings (API keys, passwords, etc) based on the
@@ -27,13 +27,13 @@ abstract class SeedBase extends SeedData {
 		if ($this->settings_type) {
 			require_once(CASH_PLATFORM_ROOT.'/classes/core/SeedSettings.php');
 			if ($this->use_specific_settings) {
-				if ($this->settings = new SeedSettings($this->settings_type,$this->use_specific_settings)) {
+				if ($this->settings = new SeedSettings($this->settings_type,$this->user_id,$this->use_specific_settings)) {
 					return $this->settings->getSettings();
 				} else {
 					return false;
 				}
 			} else {
-				if ($this->settings = new SeedSettings($this->settings_type)) {
+				if ($this->settings = new SeedSettings($this->settings_type,$this->user_id)) {
 					return $this->settings->getSettings();
 				} else {
 					return false;
