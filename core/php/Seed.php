@@ -24,20 +24,21 @@ if (get_magic_quotes_gpc()) {
 
 // begin session
 session_cache_limiter('nocache');
-session_cache_expire(240);
+$session_length = 1800;
+ini_set("session.gc_maxlifetime", $session_length); 
 session_start();
 
 // define constants (use sparingly!)
 $root = dirname(__FILE__);
-define('SEED_ROOT', $root);
-define('SEED_CURRENT_URL', 'http'.((empty($_SERVER['HTTPS'])&&$_SERVER['SERVER_PORT']!=443)?'':'s').'://'.$_SERVER['HTTP_HOST'].strtok($_SERVER['REQUEST_URI'],'?'));
+define('CASH_PLATFORM_ROOT', $root);
+define('CASH_PLATFORM_CURRENT_URL', 'http'.((empty($_SERVER['HTTPS'])&&$_SERVER['SERVER_PORT']!=443)?'':'s').'://'.$_SERVER['HTTP_HOST'].strtok($_SERVER['REQUEST_URI'],'?'));
 
 // required includes
-require_once(SEED_ROOT.'/classes/core/SeedData.php');
-require_once(SEED_ROOT.'/classes/core/PlantBase.php');
-require_once(SEED_ROOT.'/classes/core/SeedBase.php');
-require_once(SEED_ROOT.'/classes/core/SeedRequest.php');
-require_once(SEED_ROOT.'/classes/core/SeedResponse.php');
+require_once(CASH_PLATFORM_ROOT.'/classes/core/SeedData.php');
+require_once(CASH_PLATFORM_ROOT.'/classes/core/PlantBase.php');
+require_once(CASH_PLATFORM_ROOT.'/classes/core/SeedBase.php');
+require_once(CASH_PLATFORM_ROOT.'/classes/core/SeedRequest.php');
+require_once(CASH_PLATFORM_ROOT.'/classes/core/SeedResponse.php');
 
 // define seed_embedElement in global scope
 function seed_embedElement($element_id) {

@@ -35,7 +35,7 @@
 			if ($requested_plant != '' && count($this->request) > 0) {
 				$this->buildPlantArray();
 				if (isset($this->plant_array[$requested_plant])) {
-					$file_path = SEED_ROOT.'/classes/plants/'.$this->plant_array[$requested_plant];
+					$file_path = CASH_PLATFORM_ROOT.'/classes/plants/'.$this->plant_array[$requested_plant];
 					$class_name = substr_replace($this->plant_array[$requested_plant], '', -4);
 					require_once($file_path);
 					$this->plant = new $class_name($this->request_method,$this->request);
@@ -73,7 +73,7 @@
 	 *
 	 * @return void
 	 */protected function buildPlantArray() {
-		if ($plant_dir = opendir(SEED_ROOT.'/classes/plants/')) {
+		if ($plant_dir = opendir(CASH_PLATFORM_ROOT.'/classes/plants/')) {
 			while (false !== ($file = readdir($plant_dir))) {
 				if (substr($file,0,1) != "." && !is_dir($file)) {
 					$tmpKey = strtolower(substr_replace($file, '', -9));

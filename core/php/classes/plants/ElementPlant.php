@@ -104,7 +104,7 @@ class ElementPlant extends PlantBase {
 	 *
 	 * @return void
 	 */protected function buildElementsArray() {
-		if ($elements_dir = opendir(SEED_ROOT.'/classes/elements/')) {
+		if ($elements_dir = opendir(CASH_PLATFORM_ROOT.'/classes/elements/')) {
 			while (false !== ($file = readdir($elements_dir))) {
 				if (substr($file,0,1) != "." && !is_dir($file)) {
 					$tmpKey = strtolower(substr_replace($file, '', -4));
@@ -116,12 +116,12 @@ class ElementPlant extends PlantBase {
 	}
 
 	public function buildTypeNamesArray() {
-		if ($elements_dir = opendir(SEED_ROOT.'/classes/elements/')) {
+		if ($elements_dir = opendir(CASH_PLATFORM_ROOT.'/classes/elements/')) {
 			while (false !== ($file = readdir($elements_dir))) {
 				if (substr($file,0,1) != "." && !is_dir($file)) {
 					$element_object_type = substr_replace($file, '', -4);
 					$tmpKey = strtolower($element_object_type);
-					include(SEED_ROOT.'/classes/elements/'.$file);
+					include(CASH_PLATFORM_ROOT.'/classes/elements/'.$file);
 					$element_object = new $element_object_type($status_uid,$element_options);
 					$this->typenames_array["$tmpKey"] = $element_object->getName();
 				}
@@ -153,7 +153,7 @@ class ElementPlant extends PlantBase {
 		$element_type = $element['type'];
 		$element_options = $element['options'];
 		if ($element_type) {
-			$for_include = SEED_ROOT.'/classes/elements/'.$this->elements_array[$element_type];
+			$for_include = CASH_PLATFORM_ROOT.'/classes/elements/'.$this->elements_array[$element_type];
 			if (file_exists($for_include)) {
 				include($for_include);
 				$element_object_type = substr_replace($this->elements_array[$element_type], '', -4);
