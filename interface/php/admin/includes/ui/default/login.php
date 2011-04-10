@@ -40,12 +40,12 @@
 				<h1>Seed.</h1>
 				<h2>Log In:</h2>
 				
-				<form method="post" action="./"> 
+				<form method="post" action=""> 
 					<label for="address">email</label>
 					<input type="text" name="address" value="" /><br />
 					<label for="address">password</label>
 					<input type="password" name="password" value="" /><br />
-					<input type="hidden" name="login" value="sure" /> 
+					<input type="hidden" name="login" value="1" /> 
 					<div style="text-align:right;">
 					<input type="submit" value="log in" class="button" /><br />
 					</div>

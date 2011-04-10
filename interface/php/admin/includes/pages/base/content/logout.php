@@ -1,3 +1,4 @@
 <?php
-	$_SESSION['seed_admin_login'] = false;
+	session_unset();
+	session_destroy();
 ?>

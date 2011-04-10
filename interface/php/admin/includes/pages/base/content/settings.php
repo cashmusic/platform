@@ -4,7 +4,7 @@
 	of all Seed pages, before other code:
 </p>
 <code>
-	&lt?php include('<?php echo realpath(SEED_PATH); ?>'); // Initialize Seed ?&gt
+	&lt?php include('<?php echo realpath(CASH_PLATFORM_PATH); ?>'); // Initialize Seed ?&gt
 </code>
 <br />
 <h3>Debug Include:</h3>
@@ -15,5 +15,5 @@
 	pretty dandelion seed picture.
 </p>
 <code>
-	&lt?php include('<?php echo realpath(SEED_ROOT); ?>/settings/debug/seed_debug.php'); // Seed Debug ?&gt
+	&lt?php include('<?php echo realpath(CASH_PLATFORM_ROOT); ?>/settings/debug/seed_debug.php'); // Seed Debug ?&gt
 </code>

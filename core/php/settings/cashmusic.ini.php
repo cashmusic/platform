@@ -12,3 +12,6 @@ hostname = "localhost:8889"
 username = "root"
 password = "root"
 database = "seed"
+
+[security]
+salt = "I was born of sun beams; Warming up our limbs"

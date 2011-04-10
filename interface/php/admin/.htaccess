@@ -1,6 +1,7 @@
 RewriteEngine On 
 Options +FollowSymlinks 
 Options -Indexes 
+DirectorySlash Off
 
 AddHandler php5-script .php
 

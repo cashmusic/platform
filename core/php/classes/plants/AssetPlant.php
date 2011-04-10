@@ -382,7 +382,7 @@ class AssetPlant extends PlantBase {
 			$asset = $this->getAssetInfo($asset_id);
 			switch ($asset['type']) {
 				case 'com.amazon.aws':
-					include(SEED_ROOT.'/classes/seeds/S3Seed.php');
+					include(CASH_PLATFORM_ROOT.'/classes/seeds/S3Seed.php');
 					$s3 = new S3Seed();
 					$this->response->pushResponse(
 						200,$this->request_type,$this->action,

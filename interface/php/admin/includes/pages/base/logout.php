@@ -1,5 +1,5 @@
 <?php
 // add unique page settings:
-$pagetitle = 'Okay, you’re logged out. Bye.';
+$pagetitle = 'Okay, you’re logged out. Bye now.';
 $pageTips = '';
 ?>

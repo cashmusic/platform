@@ -19,7 +19,7 @@ class S3Seed extends SeedBase {
 		$this->use_specific_settings = $use_specific_settings;
 		$this->connectDB();
 		if ($this->getSeedSettings()) {
-			require_once(SEED_ROOT.'/lib/S3.php');
+			require_once(CASH_PLATFORM_ROOT.'/lib/S3.php');
 			$this->s3 = new S3($this->settings->getSetting('key'), $this->settings->getSetting('secret'));
 			$this->bucket = $this->settings->getSetting('bucket');
 		} else {

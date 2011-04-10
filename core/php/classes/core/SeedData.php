@@ -14,13 +14,13 @@
 	protected $db=false;
 
 	/**
-	 * Grabs database connection properties from /settings/seed.ini.php and
+	 * Grabs database connection properties from /settings/cashmusic.ini.php and
 	 * opens the appropriate connection
 	 *
 	 * @return void
 	 */protected function connectDB() {
-		$seed_db_settings = parse_ini_file(SEED_ROOT.'/settings/seed.ini.php');
-		require_once(SEED_ROOT.'/classes/seeds/MySQLSeed.php');
+		$seed_db_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
+		require_once(CASH_PLATFORM_ROOT.'/classes/seeds/MySQLSeed.php');
 		$this->db = new MySQLSeed(
 			$seed_db_settings['hostname'],
 			$seed_db_settings['username'],
