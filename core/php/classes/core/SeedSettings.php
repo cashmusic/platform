@@ -12,9 +12,10 @@
  *
  */class SeedSettings extends SeedData {
 	
-	public function __construct($settings_type,$settings_name='default') {
+	public function __construct($settings_type,$user_id,$settings_name='default') {
 		$this->settings_name = $settings_name;
 		$this->settings_type = $settings_type;
+		$this->user_id = $user_id;
 		$this->settings = null;
 		$this->connectDB();
 	}
@@ -29,13 +30,13 @@
 			$result = $this->db->getData(
 				'seed_settings',
 				'data',
-				"type = '{$this->settings_type}' AND isdefault = 1"
+				"type = '{$this->settings_type}' AND isdefault = 1 AND user_id = {$this->user_id}"
 			);
 		} else {
 			$result = $this->db->getData(
 				'seed_settings',
 				'data',
-				"name = '{$this->settings_name}' AND type = '{$this->settings_type}'"
+				"name = '{$this->settings_name}' AND type = '{$this->settings_type}' AND user_id = {$this->user_id}"
 			);
 		}
 		if ($result) {
@@ -75,6 +76,7 @@
 					array(
 						'name' => $this->settings_name,
 						'type' => $this->settings_type,
+						'user_id' => $this->user_id,
 						'data' => $settings_data,
 						'isdefault' => false
 					),
@@ -90,6 +92,7 @@
 				array(
 					'name' => $this->settings_name,
 					'type' => $this->settings_type,
+					'user_id' => $this->user_id,
 					'data' => $settings_data,
 					'isdefault' => $set_default
 				)
@@ -109,20 +112,7 @@
 		$result = $this->db->getData(
 			'seed_settings',
 			'name',
-			"name = '{$this->settings_name}' AND type = '{$this->settings_type}'"
-		);
-		return $result;
-	}
-	
-	/**
-	 * Checks to see if this is the first setting of a given type
-	 *
-	 * @return boolean
-	 */private function checkFirstByType() {
-		$result = $this->db->getData(
-			'seed_settings',
-			'name',
-			"name = 'type = '{$this->settings_type}'"
+			"name = '{$this->settings_name}' AND type = '{$this->settings_type}' AND user_id = {$this->user_id}"
 		);
 		return $result;
 	}
