@@ -1,7 +1,7 @@
 <?php
 // add unique page settings:
-$pagetitle = 'People: Main';
-$pageTips = '';
+$page_title = 'People: Main';
+$page_tips = '';
 $pagememu = array(
 	'Actions' => array(
 		'people/mailinglists/' => 'Mailing Lists',
