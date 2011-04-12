@@ -2,7 +2,7 @@
 /**
  * No frills DB connection class
  *
- * @package seed.org.cashmusic
+ * @package diy.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *

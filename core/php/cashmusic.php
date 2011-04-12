@@ -4,7 +4,7 @@
  * Prep the environment (strip stupid shit like magic quotes...ooh...magic!)
  * Include required classes, execute request/response
  *
- * @package seed.org.cashmusic
+ * @package diy.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *
@@ -34,32 +34,32 @@ define('CASH_PLATFORM_ROOT', $root);
 define('CASH_PLATFORM_CURRENT_URL', 'http'.((empty($_SERVER['HTTPS'])&&$_SERVER['SERVER_PORT']!=443)?'':'s').'://'.$_SERVER['HTTP_HOST'].strtok($_SERVER['REQUEST_URI'],'?'));
 
 // required includes
-require_once(CASH_PLATFORM_ROOT.'/classes/core/SeedData.php');
+require_once(CASH_PLATFORM_ROOT.'/classes/core/CASHData.php');
 require_once(CASH_PLATFORM_ROOT.'/classes/core/PlantBase.php');
 require_once(CASH_PLATFORM_ROOT.'/classes/core/SeedBase.php');
-require_once(CASH_PLATFORM_ROOT.'/classes/core/SeedRequest.php');
-require_once(CASH_PLATFORM_ROOT.'/classes/core/SeedResponse.php');
+require_once(CASH_PLATFORM_ROOT.'/classes/core/CASHRequest.php');
+require_once(CASH_PLATFORM_ROOT.'/classes/core/CASHResponse.php');
 
-// define seed_embedElement in global scope
-function seed_embedElement($element_id) {
-	global $seed_request;
-	$seed_body_request = new SeedRequest(
+// define cash_embedElement in global scope
+function cash_embedElement($element_id) {
+	global $cash_primary_request;
+	$cash_body_request = new CASHRequest(
 		array(
-			'seed_request_type' => 'element', 
-			'seed_action' => 'getmarkup',
+			'cash_primary_request_type' => 'element', 
+			'cash_action' => 'getmarkup',
 			'element_id' => $element_id, 
-			'status_uid' => $seed_request->response['status_uid']
+			'status_uid' => $cash_primary_request->response['status_uid']
 		)
 	);
-	echo $seed_body_request->response['payload'];
+	echo $cash_body_request->response['payload'];
 }
 
 // fire up seed
-$seed_request = new SeedRequest();
+$cash_primary_request = new CASHRequest();
 
 // check on each load to see if we need to regenerate the session id
-if ($seed_request->sessionGetPersistent('session_regenerate_id')) {
+if ($cash_primary_request->sessionGetPersistent('session_regenerate_id')) {
 	session_regenerate_id(true);
-	$seed_request->sessionClearPersistent('session_regenerate_id');
+	$cash_primary_request->sessionClearPersistent('session_regenerate_id');
 }
 ?>

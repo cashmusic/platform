@@ -16,9 +16,9 @@ div.usecolor5 #pagecontent td a {color:#333;}
 
 <?php
 
-if (isset($seed_request->response)) {
-	if ($seed_request->response['status_uid'] == 'emaillist_viewlist_200') {
-		if (is_array($seed_request->response['payload']))
+if (isset($cash_primary_request->response)) {
+	if ($cash_primary_request->response['status_uid'] == 'emaillist_viewlist_200') {
+		if (is_array($cash_primary_request->response['payload']))
 		?>
 		<table style="width:100%;">
 			<colgroup style="width:32%;" />
@@ -37,7 +37,7 @@ if (isset($seed_request->response)) {
 
 			<tbody>
 		<?php
-		foreach ($seed_request->response['payload'] as $entry) {
+		foreach ($cash_primary_request->response['payload'] as $entry) {
 		    ?>
 			<tr>
 				<td><a href="mailto:<?php echo $entry['email_address']; ?>"><?php echo $entry['email_address']; ?></a></td>

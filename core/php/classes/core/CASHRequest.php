@@ -2,7 +2,7 @@
 /**
  * Handle incoming requests, pass to the appropriate plant, return response
  *
- * @package seed.org.cashmusic
+ * @package diy.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *
@@ -10,7 +10,7 @@
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
- */class SeedRequest extends SeedData {
+ */class CASHRequest extends CASHData {
 	protected $request=false,$request_method,$plant_array=array(),$plant;
 	public $response;
 	
@@ -21,7 +21,7 @@
 	 * @param {boolean} $direct_request [default: false] - can only be set when
 	 *        called directly, so set to true to indicate direct request method
 	 */public function __construct($direct_request=false) {
-		$this->startSeedSession();
+		$this->startSession();
 		if ($direct_request) {
 			// skip detect on direct requests
 			$this->request = $direct_request;
@@ -31,8 +31,8 @@
 		}
 		if ($this->request) {
 			// found something, let's make sure it's legit and do work
-			$requested_plant = strtolower(trim($this->request['seed_request_type']));
-			unset($this->request['seed_request_type']);
+			$requested_plant = strtolower(trim($this->request['cash_primary_request_type']));
+			unset($this->request['cash_primary_request_type']);
 			if ($requested_plant != '' && count($this->request) > 0) {
 				$this->buildPlantArray();
 				if (isset($this->plant_array[$requested_plant])) {
@@ -54,10 +54,10 @@
 	 */protected function detectRequest() {
 		if (!$this->request) {
 			// determine correct request source
-			if (isset($_POST['seed_request_type'])) {
+			if (isset($_POST['cash_primary_request_type'])) {
 				$this->request = $_POST;
 				$this->request_method = 'post';
-			} else if (isset($_GET['seed_request_type'])) {
+			} else if (isset($_GET['cash_primary_request_type'])) {
 				$this->request = $_GET;
 				$this->request_method = 'get';
 			} else if (php_sapi_name() == 'cli' && empty($_SERVER['REMOTE_ADDR'])) {
@@ -70,7 +70,7 @@
 	/**
 	 * Builds an associative array of all Plant class files in /classes/plants/
 	 * stored as $this->plant_array and used to initialize the appropriate class 
-	 * based on the seed_request_type
+	 * based on the cash_primary_request_type
 	 *
 	 * @return void
 	 */protected function buildPlantArray() {

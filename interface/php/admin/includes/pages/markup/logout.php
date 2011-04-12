@@ -1,4 +1,4 @@
 <?php
-	$logout_request = new SeedRequest();
+	$logout_request = new CASHRequest();
 	$logout_request->sessionClearAllPersistent();
 ?>

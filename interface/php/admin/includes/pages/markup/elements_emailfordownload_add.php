@@ -52,10 +52,10 @@
 	</form>
 		
 <?php } else { 
-	$element_add_request = new SeedRequest(
+	$element_add_request = new CASHRequest(
 		array(
-			'seed_request_type' => 'element', 
-			'seed_action' => 'addelement',
+			'cash_primary_request_type' => 'element', 
+			'cash_action' => 'addelement',
 			'name' => $_POST['element_name'],
 			'type' => $_POST['element_type'],
 			'options_data' => array(
@@ -77,7 +77,7 @@
 		this Seed embed code on any page:
 		</p>
 		<code>
-			&lt;?php seed_embedElement(<?php echo $element_add_request->response['payload']['element_id']; ?>); // Seed element (<?php echo $_POST['element_name'] . ' / ' . $_POST['element_type']; ?>) ?&gt;
+			&lt;?php cash_embedElement(<?php echo $element_add_request->response['payload']['element_id']; ?>); // Seed element (<?php echo $_POST['element_name'] . ' / ' . $_POST['element_type']; ?>) ?&gt;
 		</code>
 		<br />
 		<p>

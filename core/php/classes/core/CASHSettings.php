@@ -2,7 +2,7 @@
 /**
  * Store and retrieve settings, designed to add/get JSON data from DB
  *
- * @package seed.org.cashmusic
+ * @package diy.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *
@@ -10,7 +10,7 @@
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
- */class SeedSettings extends SeedData {
+ */class CASHSettings extends CASHData {
 	
 	public function __construct($settings_type,$user_id,$settings_name='default') {
 		$this->settings_name = $settings_name;
@@ -21,7 +21,7 @@
 	}
 	
 	/**
-	 * Returns the decoded JSON for the setting type/name the SeedSettings
+	 * Returns the decoded JSON for the setting type/name the CASHSettings
 	 * object was instantiated with. 
 	 *
 	 * @return settings obj

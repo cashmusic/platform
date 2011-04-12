@@ -2,7 +2,7 @@
 /**
  * Add/manage transaction data
  *
- * @package seed.org.cashmusic
+ * @package diy.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *

@@ -3,7 +3,7 @@
  * Takes an element ID finds it's settings, returns either raw data or markup
  * to be used in the requesting app
  *
- * @package seed.org.cashmusic
+ * @package diy.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *
