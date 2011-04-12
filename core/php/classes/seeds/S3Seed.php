@@ -2,7 +2,7 @@
 /**
  * Simple class for interfacing with Donovan Schönknecht's S3 library
  *
- * @package seed.org.cashmusic
+ * @package diy.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *
@@ -19,7 +19,7 @@ class S3Seed extends SeedBase {
 		$this->user_id = $user_id;
 		$this->use_specific_settings = $use_specific_settings;
 		$this->connectDB();
-		if ($this->getSeedSettings()) {
+		if ($this->getCASHSettings()) {
 			require_once(CASH_PLATFORM_ROOT.'/lib/S3.php');
 			$this->s3 = new S3($this->settings->getSetting('key'), $this->settings->getSetting('secret'));
 			$this->bucket = $this->settings->getSetting('bucket');

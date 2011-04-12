@@ -17,30 +17,30 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH))) {
 }
 
 include_once(CASH_PLATFORM_PATH);
-$admin_primary_seed_request = new SeedRequest();
+$admin_primary_cash_primary_request = new CASHRequest();
 
 if (isset($_POST['login'])) {
-	$login_request = new SeedRequest(
+	$login_request = new CASHRequest(
 		array(
-			'seed_request_type' => 'user', 
-			'seed_action' => 'validatelogin',
+			'cash_primary_request_type' => 'user', 
+			'cash_action' => 'validatelogin',
 			'address' => $_POST['address'], 
 			'password' => $_POST['password']
 		)
 	);
 	if ($login_request->response['payload'] !== false) {
-		$admin_primary_seed_request->sessionSetPersistent('cash_actual_user',$login_request->response['payload']);
-		$admin_primary_seed_request->sessionSetPersistent('cash_effectiveuser',$login_request->response['payload']);
+		$admin_primary_cash_primary_request->sessionSetPersistent('cash_actual_user',$login_request->response['payload']);
+		$admin_primary_cash_primary_request->sessionSetPersistent('cash_effectiveuser',$login_request->response['payload']);
 		if ($requested_filename == 'logout.php') {
 			header('Location: ' . WWW_BASE_PATH);
 			exit;
 		}
 	} else {
-		$admin_primary_seed_request->sessionClearAllPersistent();
+		$admin_primary_cash_primary_request->sessionClearAllPersistent();
 	}
 }
 
-if ($admin_primary_seed_request->sessionGetPersistent('cash_actual_user')) {
+if ($admin_primary_cash_primary_request->sessionGetPersistent('cash_actual_user')) {
 	if (file_exists($pages_path . 'definitions/' . $requested_filename)) {
 		include($pages_path . 'definitions/' . $requested_filename);
 	} else {

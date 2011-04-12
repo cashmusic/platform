@@ -2,7 +2,7 @@
 /**
  * Base for all Plant classes
  *
- * @package seed.org.cashmusic
+ * @package diy.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *
@@ -13,11 +13,11 @@
  * This file is generously sponsored by fluorine
  * fluorine was here: http://polvo.ca/fluorine/ 
  *
- */abstract class PlantBase extends SeedData {
+ */abstract class PlantBase extends CASHData {
 	protected $request_method,$request_type,$action=false,$request,$response,$db_required=true;
 
 	/**
-	 * Called by SedRequest to begin action and return an instance of SeedResponse 
+	 * Called by SedRequest to begin action and return an instance of CASHResponse 
 	 *
 	 */abstract public function processRequest();
 	
@@ -30,10 +30,10 @@
 	 */protected function plantPrep($request_method,$request) {
 		$this->request_method = $request_method;
 		$this->request = $request;
-		if (isset($this->request['seed_action'])) {
-			$this->action = strtolower($this->request['seed_action']);
+		if (isset($this->request['cash_action'])) {
+			$this->action = strtolower($this->request['cash_action']);
 		}
-		$this->response = new SeedResponse();
+		$this->response = new CASHResponse();
 		if ($this->db_required) {
 			$this->connectDB();
 		}

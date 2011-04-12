@@ -3,7 +3,7 @@
  *
  * PaypalSeed page-state handler script
  *
- * @package seed.org.cashmusic
+ * @package diy.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  * 
@@ -19,7 +19,7 @@
 // session variables (API requests/responses, state, messages, micro or regular)
 session_start();
 if (!isset($_SESSION['seed_state_payment'])) $_SESSION['seed_state_payment'] = 'before';
-if (!isset($_SESSION['seed_request'])) $_SESSION['seed_request'] = false;
+if (!isset($_SESSION['cash_primary_request'])) $_SESSION['cash_primary_request'] = false;
 if (!isset($_SESSION['seed_response'])) $_SESSION['seed_response'] = false;
 if (!isset($_SESSION['seed_details'])) $_SESSION['seed_details'] = false;
 if (!isset($_SESSION['seed_error'])) $_SESSION['seed_error'] = false;
@@ -97,7 +97,7 @@ if ($_REQUEST['seed_payment'] == 'go') {
 	// data returned from Paypal
 	include_once($PaypalSeed_location);
 	$pp = new PaypalSeed($paypal_address,$paypal_key,$paypal_secret);
-	$_SESSION['seed_request'] = $pp->getExpressCheckout();
+	$_SESSION['cash_primary_request'] = $pp->getExpressCheckout();
 	$_SESSION['seed_response'] = $pp->doExpressCheckout();
 	$_SESSION['seed_details'] = $pp->getExpressCheckout();
 	
@@ -120,8 +120,8 @@ if ($_REQUEST['seed_payment'] == 'go') {
 						urldecode($_SESSION['seed_details']['FIRSTNAME']),
 						urldecode($_SESSION['seed_details']['LASTNAME']),
 						urldecode($_SESSION['seed_details']['COUNTRYCODE']),
-						urldecode($_SESSION['seed_request']['L_PAYMENTREQUEST_0_NUMBER0']),
-						urldecode($_SESSION['seed_request']['L_PAYMENTREQUEST_0_NAME0']),
+						urldecode($_SESSION['cash_primary_request']['L_PAYMENTREQUEST_0_NUMBER0']),
+						urldecode($_SESSION['cash_primary_request']['L_PAYMENTREQUEST_0_NAME0']),
 						urldecode($_SESSION['seed_details']['PAYMENTREQUEST_0_TRANSACTIONID']),
 						$_SESSION['seed_response']['PAYMENTINFO_0_PAYMENTSTATUS'],
 						urldecode($_SESSION['seed_details']['PAYMENTREQUEST_0_CURRENCYCODE']),
@@ -129,7 +129,7 @@ if ($_REQUEST['seed_payment'] == 'go') {
 						urldecode($_SESSION['seed_response']['PAYMENTINFO_0_FEEAMT']),
 						1,
 						$_SESSION['seed_referral'],
-						urldecode(json_encode($_SESSION['seed_request'])),
+						urldecode(json_encode($_SESSION['cash_primary_request'])),
 						urldecode(json_encode($_SESSION['seed_response'])),
 						urldecode(json_encode($_SESSION['seed_details']))
 					);

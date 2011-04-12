@@ -11,15 +11,15 @@ Wordpress or Drupal.
 ##Notes##
 Most of the code is currently found in /core/local/php/ and centers around a
 single-include workflow. The Seed.php does some basic housekeeping before 
-firing up a SeedRequest instance that parses an incoming request. That request
+firing up a CASHRequest instance that parses an incoming request. That request
 is passed to the appropriate Plant (factory) class which then figures out what 
 to do with the request and fires off any necessary Seed (worker) classes. When
-done the Plant returns any information in a standard SeedResponse format which
-is stored in a standardized session variable and in the original SeedRequest.
+done the Plant returns any information in a standard CASHResponse format which
+is stored in a standardized session variable and in the original CASHRequest.
 
 So something like this:
 
-SeedRequest->Plant->(Seed(s) if needed)->SeedResponse
+CASHRequest->Plant->(Seed(s) if needed)->CASHResponse
 
 Long-term goal is to use standardized requests/responses to enable full action
 chaining for new functionality.

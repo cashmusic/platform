@@ -2,7 +2,7 @@
 /**
  * Output a consistent response to every request
  *
- * @package seed.org.cashmusic
+ * @package diy.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *
@@ -10,7 +10,7 @@
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
- */class SeedResponse extends SeedData  {
+ */class CASHResponse extends CASHData  {
 	protected $response;
 	
 	protected $status_codes = array(

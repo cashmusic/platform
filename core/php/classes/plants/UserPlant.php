@@ -2,7 +2,7 @@
 /**
  * Plant handling assets: query information, handle download codes/passwords, etc
  *
- * @package seed.org.cashmusic
+ * @package diy.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *
