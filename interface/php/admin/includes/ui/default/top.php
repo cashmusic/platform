@@ -71,14 +71,14 @@
 		</div>
 		
 		<div id="pagecontent">
-			<h1><?php echo $pagetitle ?></h1>
+			<h1><?php echo $page_title ?></h1>
 			<div id="tipspc">
 				<div id="pageTips">
 					<?php
-						if ($pageTips == '') {
+						if ($page_tips == '') {
 							echo 'There are no tips currently written for this page. If you\'d like to suggest a specific idea, please email <a href="mailto:help@cashmusic.org">help@cashmusic.org</a>.';
 						} else {
-							echo $pageTips;
+							echo $page_tips;
 						}
 					?>
 				</div>

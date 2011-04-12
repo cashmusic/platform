@@ -1,7 +1,7 @@
 <?php
 if(strrpos($_SERVER['REQUEST_URI'],'controller.php') !== false) {
-  header('Location: ./');
-  exit;
+	header('Location: ./');
+	exit;
 }
 
 require('./includes/constants.php');
@@ -17,6 +17,7 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH))) {
 }
 
 include_once(CASH_PLATFORM_PATH);
+$admin_primary_seed_request = new SeedRequest();
 
 if (isset($_POST['login'])) {
 	$login_request = new SeedRequest(
@@ -28,22 +29,28 @@ if (isset($_POST['login'])) {
 		)
 	);
 	if ($login_request->response['payload'] !== false) {
-		$_SESSION['cash_actual_user'] = $login_request->response['payload'];
-		$_SESSION['cash_effectiveuser'] = $login_request->response['payload'];
+		$admin_primary_seed_request->sessionSetPersistent('cash_actual_user',$login_request->response['payload']);
+		$admin_primary_seed_request->sessionSetPersistent('cash_effectiveuser',$login_request->response['payload']);
+		if ($requested_filename == 'logout.php') {
+			header('Location: ' . WWW_BASE_PATH);
+			exit;
+		}
+	} else {
+		$admin_primary_seed_request->sessionClearAllPersistent();
 	}
 }
 
-if (isset($_SESSION['cash_actual_user'])) {
-	if (file_exists($pages_path . 'base/' . $requested_filename)) {
-		include($pages_path . 'base/' . $requested_filename);
+if ($admin_primary_seed_request->sessionGetPersistent('cash_actual_user')) {
+	if (file_exists($pages_path . 'definitions/' . $requested_filename)) {
+		include($pages_path . 'definitions/' . $requested_filename);
 	} else {
-		include($pages_path . 'base/error.php');
+		include($pages_path . 'definitions/error.php');
 	}
 	include(ADMIN_BASE_PATH . '/includes/ui/default/top.php');
-	if (file_exists($pages_path . 'base/content/' . $requested_filename)) {
-		include($pages_path . 'base/content/' . $requested_filename);
+	if (file_exists($pages_path . 'markup/' . $requested_filename)) {
+		include($pages_path . 'markup/' . $requested_filename);
 	} else {
-		include($pages_path . 'base/content/error.php');
+		include($pages_path . 'markup/error.php');
 	}
 	include(ADMIN_BASE_PATH . '/includes/ui/default/bottom.php');
 } else {

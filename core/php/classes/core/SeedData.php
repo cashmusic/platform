@@ -11,7 +11,7 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  */abstract class SeedData {
-	protected $db=false;
+	protected $db = false,$seed_session_timeout = 1800;
 
 	/**
 	 * Grabs database connection properties from /settings/cashmusic.ini.php and
@@ -35,7 +35,23 @@
 	 * @return boolean
 	 */protected function resetSeedSession() {
 		$_SESSION['seed_last_response'] = false;
+		$_SESSION['seed_last_request_time'] = 9999999999;
 		$_SESSION['seed_persistent_store'] = false;
+		return true;
+	}
+	
+	/**
+	 * Sets the time against which the 
+	 *
+	 * @return boolean
+	 */protected function startSeedSession() {
+		$this->seed_session_timeout = ini_get("session.gc_maxlifetime");
+		if (isset($_SESSION['seed_last_request_time'])) {
+			if ($_SESSION['seed_last_request_time'] + $this->seed_session_timeout < time()) {
+				$this->resetSeedSession();
+			}
+		}
+		$_SESSION['seed_last_request_time'] = time();
 		return true;
 	}
 
@@ -84,7 +100,7 @@
 	 * @param {string} $key - the key to associate with the new data
 	 * @param {*} $value - the data to store
 	 * @return boolean
-	 */protected function sessionSetPersistent($key,$value) {
+	 */public function sessionSetPersistent($key,$value) {
 		if (!isset($_SESSION['seed_persistent_store'])) {
 			$this->resetSeedSession();
 		}
@@ -130,9 +146,8 @@
 	/**
 	 * Removes all data from $_SESSION['seed_persistent_store'], setting it false
 	 *
-	 * @param {string} $key - the key to be removed
 	 * @return void
-	 */public function sessionClearAllPersistent($varname) {
+	 */public function sessionClearAllPersistent() {
 		$_SESSION['seed_persistent_store'] = false;
 	}
 } // END class 
