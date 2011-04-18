@@ -86,17 +86,15 @@
 			</div>
 			
 			<?php
-				$page_base = REQUEST_STRING;
-				if (strrpos(REQUEST_STRING ,'_')) {
+				$page_base = BASE_PAGENAME;
+				if (strrpos(BASE_PAGENAME ,'_')) {
 					if (isset($pagememu)) {
 						$current_pagemenu = $pagememu;
 					}
-					$exploded_request = explode('_',REQUEST_STRING);
+					$exploded_request = explode('_',BASE_PAGENAME);
 					$page_base = $exploded_request[0];
-					if (file_exists($pages_path . 'base/' . $page_base . '.php')) {
-						include($pages_path . 'base/' . $page_base . '.php');
-					} else {
-						include($pages_path . 'base/error.php');
+					if (file_exists($pages_path . 'definitions/' . $page_base . '.php')) {
+						include($pages_path . 'definitions/' . $page_base . '.php');
 					}
 				}
 				if (isset($pagememu)) {
@@ -117,7 +115,7 @@
 								if ($new_menulevel > $menulevel) {
 									echo "<ul>";
 								}
-								if (str_replace('/','_',trim($key,'/')) == REQUEST_STRING) {
+								if (str_replace('/','_',trim($key,'/')) == BASE_PAGENAME) {
 									echo "<li style=\"margin-left:" . (16 * ($new_menulevel-1)) . "px;\">$value</li>";
 								} else {
 									echo "<li style=\"margin-left:" . (16 * ($new_menulevel-1)) . "px;\"><a href=\"" . WWW_BASE_PATH . "/$key\">$value</a></li>";

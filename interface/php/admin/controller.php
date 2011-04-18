@@ -4,21 +4,71 @@ if(strrpos($_SERVER['REQUEST_URI'],'controller.php') !== false) {
 	exit;
 }
 
-require('./includes/constants.php');
+// include the necessary bits, define the page directory
+require_once('./includes/constants.php');
+require_once(CASH_PLATFORM_PATH);
 $pages_path = ADMIN_BASE_PATH . '/includes/pages/';
+$admin_primary_cash_primary_request = new CASHRequest();
+$request_parameters = null;
 
 // grab path from .htaccess redirect
 if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH))) {
-	define('REQUEST_STRING', str_replace('/','_',trim($_REQUEST['p'],'/')));
-	$requested_filename = REQUEST_STRING.'.php';
+	$parsed_request = str_replace('/','_',trim($_REQUEST['p'],'/'));
+	if (file_exists($pages_path . 'definitions/' . $parsed_request . '.php') && file_exists($pages_path . 'markup/' . $parsed_request . '.php')) {
+		define('BASE_PAGENAME', $parsed_request);
+		$include_filename = BASE_PAGENAME.'.php';
+	} else {
+		// cascade through a "failure" to see if it is a true bad request, or a page requested
+		// with parameters requested — always show the last good true filename and attempt to
+		// process any parameters in a key/value/key/value format
+		if (strpos($parsed_request,'_') !== false) {
+			$fails_at_level = 0;
+			$successful_request = '';
+			$exploded_request = explode('_',$parsed_request);
+			for($i = 0, $a = sizeof($exploded_request); $i < $a; ++$i) {
+				if ($i > 0) {
+					$test_request = $successful_request . '_' . $exploded_request[$i];
+				} else {
+					$test_request = $successful_request . $exploded_request[$i];
+				}
+				if (file_exists($pages_path . 'definitions/' . $test_request . '.php') && file_exists($pages_path . 'markup/' . $test_request . '.php')) {
+					$successful_request = $test_request;
+				} else {
+					$fails_at_level = $i;
+					break;
+				}
+			}
+			if ($fails_at_level == 0) {
+				define('BASE_PAGENAME', '');
+				$include_filename = 'error.php';
+			} else {
+				// define page as successful request
+				define('BASE_PAGENAME', $successful_request);
+				$include_filename = BASE_PAGENAME.'.php';
+				// push the rest of the request into the key/value parameters array
+				$sliced_request = array_slice($exploded_request, 0 - (sizeof($exploded_request) - ($fails_at_level)));
+				$request_parameters = array();
+				for($i = 0, $a = sizeof($sliced_request); $i < $a; ++$i) {
+					if (isset($sliced_request[$i+1])) {
+						$request_parameters[$sliced_request[$i]] = $sliced_request[$i+1];
+						++$i;
+					} else {
+						$request_parameters[$sliced_request[$i]] = null;
+						break;
+					}
+				}
+			}
+		} else {
+			define('BASE_PAGENAME', '');
+			$include_filename = 'error.php';
+		}
+	}
 } else {
-	define('REQUEST_STRING','');
-	$requested_filename = 'dashboard.php';
+	define('BASE_PAGENAME','');
+	$include_filename = 'dashboard.php';
 }
 
-include_once(CASH_PLATFORM_PATH);
-$admin_primary_cash_primary_request = new CASHRequest();
-
+// if a login needs doing, do it
 if (isset($_POST['login'])) {
 	$login_request = new CASHRequest(
 		array(
@@ -31,7 +81,7 @@ if (isset($_POST['login'])) {
 	if ($login_request->response['payload'] !== false) {
 		$admin_primary_cash_primary_request->sessionSetPersistent('cash_actual_user',$login_request->response['payload']);
 		$admin_primary_cash_primary_request->sessionSetPersistent('cash_effectiveuser',$login_request->response['payload']);
-		if ($requested_filename == 'logout.php') {
+		if ($include_filename == 'logout.php') {
 			header('Location: ' . WWW_BASE_PATH);
 			exit;
 		}
@@ -40,18 +90,11 @@ if (isset($_POST['login'])) {
 	}
 }
 
+// finally, output the template and page-specific markup (checking for current login)
 if ($admin_primary_cash_primary_request->sessionGetPersistent('cash_actual_user')) {
-	if (file_exists($pages_path . 'definitions/' . $requested_filename)) {
-		include($pages_path . 'definitions/' . $requested_filename);
-	} else {
-		include($pages_path . 'definitions/error.php');
-	}
+	include($pages_path . 'definitions/' . $include_filename);
 	include(ADMIN_BASE_PATH . '/includes/ui/default/top.php');
-	if (file_exists($pages_path . 'markup/' . $requested_filename)) {
-		include($pages_path . 'markup/' . $requested_filename);
-	} else {
-		include($pages_path . 'markup/error.php');
-	}
+	include($pages_path . 'markup/' . $include_filename);
 	include(ADMIN_BASE_PATH . '/includes/ui/default/bottom.php');
 } else {
 	include(ADMIN_BASE_PATH . '/includes/ui/default/login.php');

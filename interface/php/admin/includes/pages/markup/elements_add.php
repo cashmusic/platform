@@ -13,3 +13,8 @@ description, etc. Also some description of the embedding process.
 <li>Audio stream</li>
 <li>Secure audio stream</li>
 </ul>
+
+<?php
+	echo "test:<br />";
+	print_r($request_parameters);
+?>
