@@ -24,7 +24,7 @@ if (get_magic_quotes_gpc()) {
 
 // begin session
 session_cache_limiter('nocache');
-$session_length = 1800;
+$session_length = 3600;
 ini_set("session.gc_maxlifetime", $session_length); 
 session_start();
 
@@ -45,7 +45,7 @@ function cash_embedElement($element_id) {
 	global $cash_primary_request;
 	$cash_body_request = new CASHRequest(
 		array(
-			'cash_primary_request_type' => 'element', 
+			'cash_request_type' => 'element', 
 			'cash_action' => 'getmarkup',
 			'element_id' => $element_id, 
 			'status_uid' => $cash_primary_request->response['status_uid']

@@ -54,7 +54,7 @@
 <?php } else { 
 	$element_add_request = new CASHRequest(
 		array(
-			'cash_primary_request_type' => 'element', 
+			'cash_request_type' => 'element', 
 			'cash_action' => 'addelement',
 			'name' => $_POST['element_name'],
 			'type' => $_POST['element_type'],

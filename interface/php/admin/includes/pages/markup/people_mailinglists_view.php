@@ -16,9 +16,9 @@ div.usecolor5 #pagecontent td a {color:#333;}
 
 <?php
 
-if (isset($cash_primary_request->response)) {
-	if ($cash_primary_request->response['status_uid'] == 'emaillist_viewlist_200') {
-		if (is_array($cash_primary_request->response['payload']))
+if (isset($page_request->response)) {
+	if ($page_request->response['status_uid'] == 'emaillist_viewlist_200') {
+		if (is_array($page_request->response['payload']))
 		?>
 		<table style="width:100%;">
 			<colgroup style="width:32%;" />
@@ -37,7 +37,7 @@ if (isset($cash_primary_request->response)) {
 
 			<tbody>
 		<?php
-		foreach ($cash_primary_request->response['payload'] as $entry) {
+		foreach ($page_request->response['payload'] as $entry) {
 		    ?>
 			<tr>
 				<td><a href="mailto:<?php echo $entry['email_address']; ?>"><?php echo $entry['email_address']; ?></a></td>
@@ -55,7 +55,7 @@ if (isset($cash_primary_request->response)) {
 		echo "Error getting list.";
 	}
 } else {
-	echo "No list. Please select one.";
+	echo "No list. Please select one. [List lists...]";
 }
 
 ?>

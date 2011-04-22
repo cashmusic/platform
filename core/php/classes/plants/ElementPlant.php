@@ -80,6 +80,23 @@ class ElementPlant extends PlantBase {
 						);
 					}
 					break;
+				case 'getsupportedtypes':
+					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
+					$result = $this->getSupportedTypes();
+					if ($result) {
+						return $this->response->pushResponse(
+							200,$this->request_type,$this->action,
+							$result,
+							'success. types array in the payload'
+						);
+					} else {
+						return $this->response->pushResponse(
+							500,$this->request_type,$this->action,
+							$this->request,
+							'there was a problem getting the array'
+						);
+					}
+					break;
 				default:
 					return $this->response->pushResponse(
 						400,$this->request_type,$this->action,
@@ -122,8 +139,10 @@ class ElementPlant extends PlantBase {
 					$element_object_type = substr_replace($file, '', -4);
 					$tmpKey = strtolower($element_object_type);
 					include(CASH_PLATFORM_ROOT.'/classes/elements/'.$file);
-					$element_object = new $element_object_type($status_uid,$element_options);
-					$this->typenames_array["$tmpKey"] = $element_object->getName();
+					
+					// Would rather do this with $element_object_type::type but that requires 5.3.0+
+					// Any ideas?
+					$this->typenames_array["$tmpKey"] = constant($element_object_type . '::name');
 				}
 			}
 			closedir($elements_dir);
@@ -146,6 +165,10 @@ class ElementPlant extends PlantBase {
 		} else {
 			return false;
 		}
+	}
+
+	public function getSupportedTypes() {
+		return array_keys($this->elements_array);
 	}
 
 	public function getElementMarkup($element_id,$status_uid) {
@@ -172,12 +195,12 @@ class ElementPlant extends PlantBase {
 			array(
 				'name' => $name,
 				'type' => $type,
-				'data' => $options_data,
+				'options' => $options_data,
 				'user_id' => $user_id
 			)
 		);
-		if ($this->db->doQuery($query)) { 
-			return mysql_insert_id();
+		if ($result) { 
+			return $result;
 		} else {
 			return false;
 		}

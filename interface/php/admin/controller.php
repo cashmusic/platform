@@ -19,8 +19,8 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH))) {
 		$include_filename = BASE_PAGENAME.'.php';
 	} else {
 		// cascade through a "failure" to see if it is a true bad request, or a page requested
-		// with parameters requested — always show the last good true filename and attempt to
-		// process any parameters in a key/value/key/value format
+		// with parameters requested — always show the last good true filename and push the
+		// remaining request portions into te request_parameters array
 		if (strpos($parsed_request,'_') !== false) {
 			$fails_at_level = 0;
 			$successful_request = '';
@@ -45,18 +45,8 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH))) {
 				// define page as successful request
 				define('BASE_PAGENAME', $successful_request);
 				$include_filename = BASE_PAGENAME.'.php';
-				// push the rest of the request into the key/value parameters array
-				$sliced_request = array_slice($exploded_request, 0 - (sizeof($exploded_request) - ($fails_at_level)));
-				$request_parameters = array();
-				for($i = 0, $a = sizeof($sliced_request); $i < $a; ++$i) {
-					if (isset($sliced_request[$i+1])) {
-						$request_parameters[$sliced_request[$i]] = $sliced_request[$i+1];
-						++$i;
-					} else {
-						$request_parameters[$sliced_request[$i]] = null;
-						break;
-					}
-				}
+				// turn the rest of the request into the parameters array
+				$request_parameters = array_slice($exploded_request, 0 - (sizeof($exploded_request) - ($fails_at_level)));
 			}
 		} else {
 			define('BASE_PAGENAME', '');
@@ -72,7 +62,7 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH))) {
 if (isset($_POST['login'])) {
 	$login_request = new CASHRequest(
 		array(
-			'cash_primary_request_type' => 'user', 
+			'cash_request_type' => 'user', 
 			'cash_action' => 'validatelogin',
 			'address' => $_POST['address'], 
 			'password' => $_POST['password']

@@ -19,7 +19,7 @@ class MySQLSeed {
 		mysql_select_db($database, $this->db) or die("Named database was not found, unable to select database");
 	}
 	
-	protected function doQuery($query) {
+	public function doQuery($query) {
 		$result = mysql_query($query,$this->db);
 		return $result;
 	}
@@ -112,7 +112,6 @@ class MySQLSeed {
 				} else {
 					$query .= $conditions;
 				}
-			// WHERE email_address='$address' AND list_id=$list_id";
 			} else {
 				// no condition? we're doing an INSERT
 				$creation_date = time();
