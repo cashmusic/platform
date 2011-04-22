@@ -1,20 +1,32 @@
-Add some value here. We'll list off each type of element with a thorough 
-description, etc. Also some description of the embedding process.
-<br /><br />
-<ul>
-<li>Tweet for download</li>
-<li>FB like for download</li>
-<li>Download for current social followers</li>
-<li>Email for download</li>
-<li>Email capture</li>
-<li>Download for current mailing list participants</li>
-<li>Download codes</li>
-<li>Paid downloads</li>
-<li>Audio stream</li>
-<li>Secure audio stream</li>
-</ul>
-
 <?php
-	echo "test:<br />";
-	print_r($request_parameters);
+	if (isset($element_addtype) && $page_request->response) {
+		$supported_elements = $page_request->response['payload'];
+		if (array_search($element_addtype, $supported_elements) !== false) {
+			if (@file_exists(ADMIN_BASE_PATH.'/includes/elements' . '/' . $element_addtype . '/add.php')) {
+				include(ADMIN_BASE_PATH.'/includes/elements' . '/' . $element_addtype . '/add.php');
+			} else {
+				$page_error = "Could not find the add.php file for this .";
+			}
+		} else {
+			$page_error = "You're trying to add an unsupported element. That's lame.";
+		}
+	} else {
+		if (isset($page_request->response) && $elements_data) {
+			$supported_elements = $page_request->response['payload'];
+			foreach ($elements_data as $element => $data) {
+				if (array_search($element, $supported_elements) !== false) {
+					?>
+					<div>
+						<h2><?php echo $data->name; ?></h2>
+						<small>by <a href="<?php echo $data->url; ?>"><?php echo $data->author; ?></a></small>
+						<p><?php echo $data->description; ?></p>
+						<a href="<?php echo $element; ?>">Add this now</a>
+					</div>
+					<?php
+				}
+			}
+		} else {
+			$page_error = "Could not get all needed information.";
+		}
+	}
 ?>

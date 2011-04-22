@@ -5,8 +5,7 @@ $page_tips = 'This is where specific functionalities will be deployed, pages ins
 $pagememu = array(
 	'Elements' => array(
 		'elements/view/' => 'View Element',
-		'elements/add/' => 'Add Element',
-			'elements/emailfordownload/add/' => 'Email For Download',
+		'elements/add/' => 'Add Element'
 	)
 );
 ?>
