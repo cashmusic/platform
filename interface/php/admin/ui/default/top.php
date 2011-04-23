@@ -5,7 +5,7 @@
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="icon" type="image/png" href="http://cashmusic.org/images/icons/cash.png" />
-	<link href="<?php echo WWW_BASE_PATH; ?>/_assets/css/admin.css" rel="stylesheet" type="text/css" />
+	<link href="<?php echo WWW_BASE_PATH; ?>/ui/default/assets/css/admin.css" rel="stylesheet" type="text/css" />
 	
 	<?php
 		$fixed_dirnames = str_replace(WWW_BASE_PATH,'',$_SERVER['REQUEST_URI']);
@@ -26,16 +26,16 @@
 	?>
 
 	<script src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js" type="text/javascript"></script>
-	<script src="<?php echo WWW_BASE_PATH; ?>/_assets/scripts/flower/flower_core.js" type="text/javascript" id="hg_core"></script>
-	<script src="<?php echo WWW_BASE_PATH; ?>/_assets/scripts/flower/flower_init.js" type="text/javascript"></script>
-	<script src="<?php echo WWW_BASE_PATH; ?>/_assets/scripts/admin_misc.js" type="text/javascript"></script>
+	<script src="<?php echo WWW_BASE_PATH; ?>/ui/default/assets/scripts/flower/flower_core.js" type="text/javascript" id="hg_core"></script>
+	<script src="<?php echo WWW_BASE_PATH; ?>/ui/default/assets/scripts/flower/flower_init.js" type="text/javascript"></script>
+	<script src="<?php echo WWW_BASE_PATH; ?>/ui/default/assets/scripts/admin_misc.js" type="text/javascript"></script>
 
 </head>
 <body>
 
 <div id="wrap">
 	<div id="mainspc" class="<?php echo $specialcolor ?>">
-		<div id="cash_sitelogo"><a href="http://cashmusic.org/"><img src="<?php echo WWW_BASE_PATH; ?>/_assets/images/cash.png" alt="CASH Music" width="30" height="30" /></a></div>
+		<div id="cash_sitelogo"><a href="http://cashmusic.org/"><img src="<?php echo WWW_BASE_PATH; ?>/ui/default/assets/images/cash.png" alt="CASH Music" width="30" height="30" /></a></div>
 		<div id="navmenu">
 			<div id="accountmenu"><a href="<?php echo WWW_BASE_PATH; ?>/"><b>Dashboard</b></a> <a href="<?php echo WWW_BASE_PATH; ?>/settings/">Settings</a> <a href="http://help.cashmusic.org/">Help</a> <a href="<?php echo WWW_BASE_PATH; ?>/logout/">Logout</a></div>
 			<div class="navitem bgcolor1<?php echo ($dirname == 'elements' ? ' currentnav' : ''); ?>">
@@ -86,6 +86,7 @@
 			</div>
 			
 			<?php
+				$is_menu_set = ' class="nopagemenu"';
 				$page_base = BASE_PAGENAME;
 				if (strrpos(BASE_PAGENAME ,'_')) {
 					if (isset($pagememu)) {
@@ -99,6 +100,7 @@
 				}
 				if (isset($pagememu)) {
 					if (is_array($pagememu)) {
+						$is_menu_set = '';
 			?>
 					<div id="pagemenu">
 						<?php
@@ -131,4 +133,4 @@
 				}
 			?>
 			
-			<div id="pagedisplay">
+			<div id="pagedisplay"<?php echo $is_menu_set; ?>>
