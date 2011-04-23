@@ -5,9 +5,9 @@ if(strrpos($_SERVER['REQUEST_URI'],'controller.php') !== false) {
 }
 
 // include the necessary bits, define the page directory
-require_once('./includes/constants.php');
+require_once('./components/constants.php');
 require_once(CASH_PLATFORM_PATH);
-$pages_path = ADMIN_BASE_PATH . '/includes/pages/';
+$pages_path = ADMIN_BASE_PATH . '/components/pages/';
 $admin_primary_cash_request = new CASHRequest();
 $request_parameters = null;
 

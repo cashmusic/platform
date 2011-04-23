@@ -52,7 +52,7 @@
 	</form>
 		
 <?php } else {
-	include_once(ADMIN_BASE_PATH.'/includes/helpers.php');
+	include_once(ADMIN_BASE_PATH.'/components/helpers.php');
 	$effective_user = getEffectiveUser();
 	
 	$element_add_request = new CASHRequest(
