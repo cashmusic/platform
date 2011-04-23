@@ -1,5 +1,5 @@
 <?php
-$root = dirname(__FILE__) . "/..";
+$root = dirname(__FILE__);
 $cashmusic_root = $root . "/../../../core/php/cashmusic.php";
 
 define('ADMIN_BASE_PATH', $root);
