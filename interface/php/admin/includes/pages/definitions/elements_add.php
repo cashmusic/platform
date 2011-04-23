@@ -10,7 +10,7 @@ $page_request = new CASHRequest(
 	)
 );
 
-include(ADMIN_BASE_PATH.'/includes/helpers.php');
+include_once(ADMIN_BASE_PATH.'/includes/helpers.php');
 $elements_data = getElementsData();
 
 if ($request_parameters) {

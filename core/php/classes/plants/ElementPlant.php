@@ -30,7 +30,8 @@ class ElementPlant extends PlantBase {
 					if (!$this->requireParameters('name')) { return $this->sessionGetLastResponse(); }
 					if (!$this->requireParameters('type')) { return $this->sessionGetLastResponse(); }
 					if (!$this->requireParameters('options_data')) { return $this->sessionGetLastResponse(); }
-					$result = $this->addElement($this->request['name'],$this->request['type'],$this->request['options_data']);
+					if (!$this->requireParameters('user_id')) { return $this->sessionGetLastResponse(); }
+					$result = $this->addElement($this->request['name'],$this->request['type'],$this->request['options_data'],$this->request['user_id']);
 					if ($result) {
 						return $this->response->pushResponse(
 							200,$this->request_type,$this->action,
