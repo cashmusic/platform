@@ -51,7 +51,10 @@
 
 	</form>
 		
-<?php } else { 
+<?php } else {
+	include_once(ADMIN_BASE_PATH.'/includes/helpers.php');
+	$effective_user = getEffectiveUser();
+	
 	$element_add_request = new CASHRequest(
 		array(
 			'cash_request_type' => 'element', 
@@ -65,7 +68,8 @@
 				'emal_list_id' => $_POST['emal_list_id'],
 				'asset_id' => $_POST['asset_id'],
 				'comment_or_radio' => $_POST['comment_or_radio']
-			)
+			),
+			'user_id' => $effective_user
 		)
 	);
 	if ($element_add_request->response['status_uid'] == 'element_addelement_200') {

@@ -8,7 +8,7 @@ if(strrpos($_SERVER['REQUEST_URI'],'controller.php') !== false) {
 require_once('./includes/constants.php');
 require_once(CASH_PLATFORM_PATH);
 $pages_path = ADMIN_BASE_PATH . '/includes/pages/';
-$admin_primary_cash_primary_request = new CASHRequest();
+$admin_primary_cash_request = new CASHRequest();
 $request_parameters = null;
 
 // grab path from .htaccess redirect
@@ -69,19 +69,19 @@ if (isset($_POST['login'])) {
 		)
 	);
 	if ($login_request->response['payload'] !== false) {
-		$admin_primary_cash_primary_request->sessionSetPersistent('cash_actual_user',$login_request->response['payload']);
-		$admin_primary_cash_primary_request->sessionSetPersistent('cash_effectiveuser',$login_request->response['payload']);
+		$admin_primary_cash_request->sessionSetPersistent('cash_actual_user',$login_request->response['payload']);
+		$admin_primary_cash_request->sessionSetPersistent('cash_effective_user',$login_request->response['payload']);
 		if ($include_filename == 'logout.php') {
 			header('Location: ' . WWW_BASE_PATH);
 			exit;
 		}
 	} else {
-		$admin_primary_cash_primary_request->sessionClearAllPersistent();
+		$admin_primary_cash_request->sessionClearAllPersistent();
 	}
 }
 
 // finally, output the template and page-specific markup (checking for current login)
-if ($admin_primary_cash_primary_request->sessionGetPersistent('cash_actual_user')) {
+if ($admin_primary_cash_request->sessionGetPersistent('cash_actual_user')) {
 	include($pages_path . 'definitions/' . $include_filename);
 	include(ADMIN_BASE_PATH . '/includes/ui/default/top.php');
 	include($pages_path . 'markup/' . $include_filename);
