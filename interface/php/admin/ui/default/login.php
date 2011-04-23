@@ -5,7 +5,7 @@
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="icon" type="image/png" href="http://cashmusic.org/images/icons/cash.png" />
-	<link href="<?php echo WWW_BASE_PATH; ?>/_assets/css/admin.css" rel="stylesheet" type="text/css" />
+	<link href="<?php echo WWW_BASE_PATH; ?>/ui/default/assets/css/admin.css" rel="stylesheet" type="text/css" />
 	<style type="text/css">
 		#mainspc {padding-top:150px;}
 		#navmenu {top:0;height:4px;overflow:hidden;padding-top:0;padding-bottom:0;}
@@ -27,7 +27,7 @@
 
 <div id="wrap">
 	<div id="mainspc">
-		<div id="cash_sitelogo"><a href="http://cashmusic.org/"><img src="<?php echo WWW_BASE_PATH; ?>/_assets/images/cash.png" alt="CASH Music" width="30" height="30" /></a></div>
+		<div id="cash_sitelogo"><a href="http://cashmusic.org/"><img src="<?php echo WWW_BASE_PATH; ?>/ui/default/assets/images/cash.png" alt="CASH Music" width="30" height="30" /></a></div>
 		<div id="navmenu">
 			<div class="navitem bgcolor1"></div>
 			<div class="navitem bgcolor2"></div>
