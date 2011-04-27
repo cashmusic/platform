@@ -121,7 +121,12 @@ class AssetPlant extends PlantBase {
 		$result = $this->db->getData(
 			'lock_codes',
 			'uid',
-			"list_id=$list_id",
+			array(
+				"list_id" => array(
+					"condition" => "=",
+					"value" => $list_id
+				)
+			),
 			1,
 			'creation_date DESC'
 		);
@@ -186,7 +191,12 @@ class AssetPlant extends PlantBase {
 		$result = $this->db->getData(
 			'lock_codes',
 			'uid',
-			"uid='$lookup_uid'",
+			array(
+				"uid" => array(
+					"condition" => "=",
+					"value" => $lookup_uid
+				)
+			),
 			1
 		);
 		// backwards return. if we find results, return false for not unique.
@@ -279,8 +289,14 @@ class AssetPlant extends PlantBase {
 			'lock_codes',
 			'*',
 			array(
-				"uid='$lookup_uid'",
-				"asset_id=$asset_id"
+				"uid" => array(
+					"condition" => "=",
+					"value" => $lookup_uid
+				),
+				"asset_id" => array(
+					"condition" => "=",
+					"value" => $asset_id
+				)
 			),
 			1
 		);
@@ -360,7 +376,12 @@ class AssetPlant extends PlantBase {
 		$result = $this->db->getData(
 			'asst_assets',
 			'public_status',
-			"id=$asset_id",
+			array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $asset_id
+				)
+			),
 			1
 		);
 		if ($result[0]['public_status']) {

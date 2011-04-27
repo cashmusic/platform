@@ -84,7 +84,10 @@ class UserPlant extends PlantBase {
 			'seed_users',
 			'id,password',
 			array(
-				"email_address='$address'"
+				"email_address" => array(
+					"condition" => "=",
+					"value" => $address
+				)
 			)
 		);
 		if ($password_hash == $result[0]['password']) {
