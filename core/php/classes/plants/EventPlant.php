@@ -85,7 +85,12 @@ class EventPlant extends PlantBase {
 		$result = $this->db->getData(
 			'live_venues',
 			'*',
-			"id = $venue_id"
+			array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $venue_id
+				)
+			)
 		);
 		return $result[0];
 	}

@@ -8,6 +8,7 @@
 ; See http://www.gnu.org/licenses/agpl-3.0.html
 
 [database_connection]
+driver = "mysql"
 hostname = "localhost:8889"
 username = "root"
 password = "root"

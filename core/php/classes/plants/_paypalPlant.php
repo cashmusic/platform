@@ -44,7 +44,7 @@ setPaypalKeys();
 // grab the page URL
 $url_minus_get = 'http'.((empty($_SERVER['HTTPS'])&&$_SERVER['SERVER_PORT']!=443)?'':'s').'://'.$_SERVER['HTTP_HOST'].strtok($_SERVER['REQUEST_URI'],'?');
 $PaypalSeed_location = __DIR__.'/../classes/PaypalSeed.php';
-$MySQLSeed_location = __DIR__.'/../classes/MySQLSeed.php';
+$DBASeed_location = __DIR__.'/../classes/DBASeed.php';
 $ProductSeed_location = __DIR__.'/../classes/ProductSeed.php';
 $TransactionSeed_location = __DIR__.'/../classes/TransactionSeed.php';
 
@@ -59,9 +59,9 @@ if ($_REQUEST['seed_payment'] == 'go') {
 		$_SESSION['seed_error'] = false;
 	
 		include_once($PaypalSeed_location);
-		include_once($MySQLSeed_location);
+		include_once($DBASeed_location);
 		include_once($ProductSeed_location);
-		$db = new MySQLSeed(DB_HOSTNAME,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+		$db = new DBASeed(DB_HOSTNAME,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
 		$product = new ProductSeed($db,$_REQUEST['seed_sku']);
 		$productInfo = $product->getInfo();
 		
@@ -108,9 +108,9 @@ if ($_REQUEST['seed_payment'] == 'go') {
 				$_SESSION['seed_response']['PAYMENTINFO_0_PAYMENTSTATUS'] == 'In-Progress' || 
 				$_SESSION['seed_response']['PAYMENTINFO_0_PAYMENTSTATUS'] == 'Processed' || 
 				$_SESSION['seed_response']['PAYMENTINFO_0_PAYMENTSTATUS'] == 'Pending') {
-					include_once($MySQLSeed_location);
+					include_once($DBASeed_location);
 					include_once($TransactionSeed_location);
-					$db = new MySQLSeed(DB_HOSTNAME,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+					$db = new DBASeed(DB_HOSTNAME,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
 					$transaction = new TransactionSeed($db);
 					$_SESSION['seed_state_payment'] = 'completed';
 					$success = $transaction->addTransaction(

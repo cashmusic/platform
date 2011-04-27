@@ -30,13 +30,39 @@
 			$result = $this->db->getData(
 				'seed_settings',
 				'data',
-				"type = '{$this->settings_type}' AND isdefault = 1 AND user_id = {$this->user_id}"
+				array(
+					"type" => array(
+						"condition" => "=",
+						"value" => $this->settings_type
+					),
+					"isdefault" => array(
+						"condition" => "=",
+						"value" => 1
+					),
+					"user_id" => array(
+						"condition" => "=",
+						"value" => $this->user_id
+					)
+				)
 			);
 		} else {
 			$result = $this->db->getData(
 				'seed_settings',
 				'data',
-				"name = '{$this->settings_name}' AND type = '{$this->settings_type}' AND user_id = {$this->user_id}"
+				array(
+					"type" => array(
+						"condition" => "=",
+						"value" => $this->settings_type
+					),
+					"name" => array(
+						"condition" => "=",
+						"value" => $this->settings_name
+					),
+					"user_id" => array(
+						"condition" => "=",
+						"value" => $this->user_id
+					)
+				)
 			);
 		}
 		if ($result) {
@@ -80,7 +106,12 @@
 						'data' => $settings_data,
 						'isdefault' => false
 					),
-					"type = '{$this->settings_type}'"
+					array(
+						'type' => array(
+							'condition' => '=',
+							'value' => $this->settings_type
+						)
+					)
 				);
 				if (!$result) {
 					// error: could not reset defaults in existing settings
@@ -112,7 +143,20 @@
 		$result = $this->db->getData(
 			'seed_settings',
 			'name',
-			"name = '{$this->settings_name}' AND type = '{$this->settings_type}' AND user_id = {$this->user_id}"
+			array(
+				'type' => array(
+					'condition' => '=',
+					'value' => $this->settings_type
+				),
+				'name' => array(
+					'condition' => '=',
+					'value' => $this->settings_name
+				),
+				'user_id' => array(
+					'condition' => '=',
+					'value' => $this->user_id
+				)
+			)
 		);
 		return $result;
 	}

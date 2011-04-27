@@ -154,7 +154,12 @@ class ElementPlant extends PlantBase {
 		$result = $this->db->getData(
 			'seed_elements',
 			'name,type,options',
-			"id = $element_id"
+			array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $element_id
+				)
+			)
 		);
 		if ($result) {
 			$the_element = array(

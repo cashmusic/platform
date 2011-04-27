@@ -11,138 +11,159 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  **/
-class MySQLSeed {
+class DBASeed {
 	protected $db;
+	private $hostname,
+			$username,
+			$password,
+			$dbname,
+			$driver,
+			$port,
+			$error = 'Relax. Everything is okay.';
 
-	public function __construct($hostname,$username,$password,$database) {
-		$this->db = mysql_connect($hostname,$username,$password) or die("Unable to connect to database");
-		mysql_select_db($database, $this->db) or die("Named database was not found, unable to select database");
+	public function __construct($hostname,$username,$password,$database,$driver) {
+		if (strpos($hostname,':') === false) {
+			$this->hostname = $hostname;
+			$this->port = 3306;
+		} else {
+			$host_and_port = explode(':',$hostname);
+			$this->hostname = $host_and_port[0];
+			$this->port = $host_and_port[1];
+		}
+		$this->username = $username;
+		$this->password = $password;
+		$this->dbname = $database;
+		$this->driver = $driver;
 	}
-	
-	public function doQuery($query) {
-		$result = mysql_query($query,$this->db);
-		return $result;
+
+	public function connect() {
+		try {  
+			$this->db = new PDO("{$this->driver}:host={$this->hostname};port={$this->port};dbname={$this->dbname}", $this->username, $this->password);
+			$this->db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+		} catch(PDOException $e) {  
+			$this->error = $e->getMessage();  
+			echo $this->error;
+			die();
+		}
 	}
-	
-	protected function doQueryForArray($query) {
-		$result = mysql_query($query,$this->db);
+
+	public function getErrorMessage() {
+		return $this->error;
+	}
+
+	public function doQuery($query,$values=false) {
+		if ($values) {
+			$q = $this->db->prepare($query);
+			$q->execute($values);
+		} else {
+			$q = $this->db->query($query);
+		}
+		$q->setFetchMode(PDO::FETCH_ASSOC);
+		try {  
+			$result = $q->fetchAll();
+		} catch(PDOException $e) {  
+			$this->error = $e->getMessage();
+		}
 		if ($result) {
-			if (mysql_num_rows($result)) {
-				$returnarray = array();
-				while ($row = mysql_fetch_assoc($result)) {
-					$returnarray[] = $row;
-				}
-				return $returnarray;
-				mysql_free_result($result);
-			} else {
+			if (count($result) == 0) {
 				return false;
+			} else {
+				return $result;
+			}
+		}
+	}
+	
+	public function parseConditions($conditions) {
+		$return_str = " WHERE ";
+		$separator = '';
+		foreach ($conditions as $value => $details) {
+			$return_str .= $separator . $value . ' ' . $details['condition'] . ' ' . ':where' . $value;
+			$separator = ' AND ';
+		}
+		return $return_str;
+	}
+
+	public function getData($tablename,$data,$conditions=false,$limit=false,$orderby=false) {
+		if (!is_object($this->db)) {
+			$this->connect();
+		}
+		$query = false;
+		if ($data) {
+			$query = "SELECT $data FROM $tablename";
+			if ($conditions) {
+				$query .= $this->parseConditions($conditions);
+			}
+			if ($orderby) $query .= " ORDER BY $orderby";
+			if ($limit) $query .= " LIMIT $limit";
+		}
+		if ($query) {
+			if ($conditions) {
+				$values_array = array();
+				foreach ($conditions as $value => $details) {
+					$values_array[':where'.$value] = $details['value'];
+				}
+				return $this->doQuery($query,$values_array);
+			} else {
+				return $this->doQuery($query);
 			}
 		} else {
 			return false;
 		}
 	}
 	
-	public function getData($tablename,$data,$conditions=false,$limit=false,$orderby=false) {
-		$returnvalue = false;
-		$query = false;
-		if ($data) {
-			$query = "SELECT $data FROM $tablename";
-			if ($conditions) {
-				$query .= " WHERE ";
-				if (is_array($conditions)) {
-					$separator = '';
-					foreach ($conditions as $value) {
-						$query .= $separator.$value;
-						$separator = ' AND ';
-					}
-				} else {
-					$query .= $conditions;
-				}
-				// Here we'll need to add an "AND user_id=$effective_user_id" for specific
-				// tables. 
-			}
-			if ($orderby) {
-				$query .= " ORDER BY $orderby";
-			}
-			if ($limit) {
-				$query .= " LIMIT $limit";
-			}
-		}
-		if ($query) {
-			$result = mysql_query($query,$this->db);
-			if ($result) {
-				if (mysql_num_rows($result)) {
-					$returnarray = array();
-					while ($row = mysql_fetch_assoc($result)) {
-						$returnarray[] = $row;
-					}
-					return $returnarray;
-					mysql_free_result($result);
-				}
-			}
-		}
-		return $returnvalue;
-	}
-	
 	public function setData($tablename,$data,$conditions=false) {
-		$returnvalue = false;
+		if (!is_object($this->db)) {
+			$this->connect();
+		}
+		$query = false;
 		if (is_array($data)) {
 			if ($conditions) {
 				// if $condition is set then we're doing an UPDATE
-				$modification_date = time();
+				$data['modification_date'] = time();
 				$query = "UPDATE $tablename SET ";
 				$separator = '';
 				foreach ($data as $fieldname => $value) {
-				    if (is_string($value)) {
-						$query .= $separator."$fieldname='".mysql_real_escape_string($value)."'";
-					} else if (is_bool($value)) {
-						$query .= $separator."$fieldname=".(int)$value;
-					} else {
-						$query .= $separator."$fieldname=$value";
-					}
+					$query .= $separator."$fieldname=:$fieldname";
 					$separator = ',';
 				}
-				$query .= ",modification_date=$modification_date WHERE ";
-				if (is_array($conditions)) {
-					$separator = '';
-					foreach ($conditions as $value) {
-						$query .= $separator.$value;
-						$separator = ' AND ';
-					}
-				} else {
-					$query .= $conditions;
+				$query .= $this->parseConditions($conditions);
+
+				$values_array = array();
+				foreach ($conditions as $value => $details) {
+					$values_array[':where'.$value] = $details['value'];
 				}
+				$data = array_merge($data,$values_array);
 			} else {
 				// no condition? we're doing an INSERT
-				$creation_date = time();
+				$data['creation_date'] = time();
 				$query = "INSERT INTO $tablename (";
 				$separator = '';
 				foreach ($data as $fieldname => $value) {
 					$query .= $separator.$fieldname;
 					$separator = ',';
 				}
-				$query .= ",creation_date) VALUES (";
+				$query .= ") VALUES (";
 				$separator = '';
-				foreach ($data as $value) {
-					if (is_string($value)) {
-						$query .= $separator."'".mysql_real_escape_string($value)."'";
-					} else if (is_bool($value)) {
-						$query .= $separator.(int)$value;
-					} else {
-						$query .= $separator.$value;
-					}
+				foreach ($data as $fieldname => $value) {
+					$query .= $separator.':'.$fieldname;
 					$separator = ',';
 				}
-				$query .= ",$creation_date)";
+				$query .= ")";
 			}
-		} 
-		if ($query) {
-			$returnvalue = mysql_query($query,$this->db);
-			if ($returnvalue) {
-				$returnvalue = mysql_insert_id();
-			} 
+			if ($query) {
+				try {  
+					$q = $this->db->prepare($query);
+					$q->execute($data);
+					return $this->db->lastInsertId();
+				} catch(PDOException $e) {  
+					$this->error = $e->getMessage();
+				}	
+			} else {
+				return false;
+			}
+		} else {
+			return false;
 		}
-		return $returnvalue;
 	}
 	
 	public function doSpecialQuery($query_name,$query_options=false) {

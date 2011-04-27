@@ -96,8 +96,14 @@ class EmailListPlant extends PlantBase {
 			'emal_addresses',
 			'*',
 			array(
-				"email_address='$address'",
-				"list_id=$list_id"
+				"email_address" => array(
+					"condition" => "=",
+					"value" => $address
+				),
+				"list_id" => array(
+					"condition" => "=",
+					"value" => $list_id
+				)
 			)
 		);
 		return $result[0];
@@ -107,7 +113,12 @@ class EmailListPlant extends PlantBase {
 		$result = $this->db->getData(
 			'emal_addresses',
 			'*',
-			"list_id=$list_id",
+			array(
+				"list_id" => array(
+					"condition" => "=",
+					"value" => $list_id
+				)
+			),
 			"$start,$limit",
 			'creation_date DESC'
 		);
@@ -178,7 +189,20 @@ class EmailListPlant extends PlantBase {
 			$result = $this->db->getData(
 				'emal_addresses',
 				'*',
-				array("email_address='$address'","verification_code='$verification_code'","list_id=$list_id")
+				array(
+					"email_address" => array(
+						"condition" => "=",
+						"value" => $address
+					),
+					"verification_code" => array(
+						"condition" => "=",
+						"value" => $verification_code
+					),
+					"list_id" => array(
+						"condition" => "=",
+						"value" => $list_id
+					)
+				)
 			);
 			if ($result !== false) { 
 				$id = $result[0]['id'];
