@@ -374,7 +374,7 @@ class AssetPlant extends PlantBase {
 	 * @return boolean
 	 */protected function getPublicStatus($asset_id) {
 		$result = $this->db->getData(
-			'asst_assets',
+			'assets',
 			'public_status',
 			array(
 				"id" => array(

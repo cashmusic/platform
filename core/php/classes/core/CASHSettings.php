@@ -28,7 +28,7 @@
 	 */public function getSettings() {
 		if ($this->settings_name == 'default') {
 			$result = $this->db->getData(
-				'seed_settings',
+				'settings',
 				'data',
 				array(
 					"type" => array(
@@ -47,7 +47,7 @@
 			);
 		} else {
 			$result = $this->db->getData(
-				'seed_settings',
+				'settings',
 				'data',
 				array(
 					"type" => array(
@@ -98,7 +98,7 @@
 			$current_date = time();
 			if ($set_default) {
 				$result = $this->db->setData(
-					'seed_settings',
+					'settings',
 					array(
 						'name' => $this->settings_name,
 						'type' => $this->settings_type,
@@ -119,7 +119,7 @@
 				}
 			}
 			$result = $this->db->setData(
-				'seed_settings',
+				'settings',
 				array(
 					'name' => $this->settings_name,
 					'type' => $this->settings_type,
@@ -141,7 +141,7 @@
 	 * @return boolean
 	 */private function checkUniqueName() {
 		$result = $this->db->getData(
-			'seed_settings',
+			'settings',
 			'name',
 			array(
 				'type' => array(
