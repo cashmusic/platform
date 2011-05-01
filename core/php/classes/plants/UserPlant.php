@@ -81,7 +81,7 @@ class UserPlant extends PlantBase {
 	 */public function validateLogin($address,$password) {
 		$password_hash = hash_hmac('sha256', $password, $this->salt);
 		$result = $this->db->getData(
-			'seed_users',
+			'users',
 			'id,password',
 			array(
 				"email_address" => array(
@@ -106,7 +106,7 @@ class UserPlant extends PlantBase {
 	 */public function setLogin($address,$password) {
 		$password_hash = hash_hmac('sha256', $password, $this->salt);
 		$result = $this->db->setData(
-			'seed_users',
+			'users',
 			array(
 				'email_address' => $address,
 				'password' => $password_hash

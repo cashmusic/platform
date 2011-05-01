@@ -152,7 +152,7 @@ class ElementPlant extends PlantBase {
 
 	public function getElement($element_id) {
 		$result = $this->db->getData(
-			'seed_elements',
+			'elements',
 			'name,type,options',
 			array(
 				"id" => array(
@@ -197,7 +197,7 @@ class ElementPlant extends PlantBase {
 	public function addElement($name,$type,$options_data,$user_id=0) {
 		$options_data = json_encode($options_data);
 		$result = $this->db->setData(
-			'seed_elements',
+			'elements',
 			array(
 				'name' => $name,
 				'type' => $type,

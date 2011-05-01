@@ -24,7 +24,7 @@ class EventPlant extends PlantBase {
 	
 	public function addVenue($name,$address1,$address2,$city,$region,$country,$postalcode,$website,$phone) {
 		$result = $this->db->setData(
-			'live_venues',
+			'venues',
 			array(
 				'name' => $name,
 				'address1' => $address1,
@@ -42,7 +42,7 @@ class EventPlant extends PlantBase {
 
 	public function addDate($date,$user_id,$venue_id,$publish,$cancelled,$comment) {
 		$result = $this->db->setData(
-			'live_events',
+			'events',
 			array(
 				'date' => $date,
 				'user_id' => $user_id,
@@ -83,7 +83,7 @@ class EventPlant extends PlantBase {
 
 	public function getVenueById($venue_id) {
 		$result = $this->db->getData(
-			'live_venues',
+			'venues',
 			'*',
 			array(
 				"id" => array(

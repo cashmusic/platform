@@ -93,7 +93,7 @@ class EmailListPlant extends PlantBase {
 	 * @return array|false
 	 */public function getAddressInformation($address,$list_id) {
 		$result = $this->db->getData(
-			'emal_addresses',
+			'email_addresses',
 			'*',
 			array(
 				"email_address" => array(
@@ -111,7 +111,7 @@ class EmailListPlant extends PlantBase {
 	
 	public function getAddresses($list_id,$limit=100,$start=0) {
 		$result = $this->db->getData(
-			'emal_addresses',
+			'email_addresses',
 			'*',
 			array(
 				"list_id" => array(
@@ -141,7 +141,7 @@ class EmailListPlant extends PlantBase {
 				$initial_comment = strip_tags($initial_comment);
 				$name = strip_tags($name);
 				$result = $this->db->setData(
-					'emal_addresses',
+					'email_addresses',
 					array(
 						'email_address' => $address,
 						'list_id' => $list_id,
@@ -164,7 +164,7 @@ class EmailListPlant extends PlantBase {
 	public function setAddressVerification($address,$list_id) {
 		$verification_code = time();
 		$result = $this->db->setData(
-			'emal_addresses',
+			'email_addresses',
 			array(
 				'verification_code' => $verification_code
 			),
@@ -187,7 +187,7 @@ class EmailListPlant extends PlantBase {
 			return $addressInfo['id'];
 		} else {
 			$result = $this->db->getData(
-				'emal_addresses',
+				'email_addresses',
 				'*',
 				array(
 					"email_address" => array(
@@ -207,7 +207,7 @@ class EmailListPlant extends PlantBase {
 			if ($result !== false) { 
 				$id = $result[0]['id'];
 				$result = $this->db->setData(
-					'emal_addresses',
+					'email_addresses',
 					array(
 						'verified' => 1
 					),

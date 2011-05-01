@@ -50,6 +50,25 @@ class DBASeed {
 	public function getErrorMessage() {
 		return $this->error;
 	}
+	
+	public function lookupTableName($data_name) {
+		$table_lookup = array(
+			'assets' => 'asst_assets',
+			'elements' => 'seed_elements',
+			'email_addresses' => 'emal_addresses',
+			'events' => 'live_events',
+			'lock_codes' => 'lock_codes',
+			'lock_passwords' => 'lock_passwords',
+			'settings' => 'seed_settings',
+			'users' => 'seed_users',
+			'venues' => 'live_venues'
+		);
+		if (array_key_exists($data_name, $table_lookup)) {
+		    return $table_lookup[$data_name];
+		} else {
+			return false;
+		}
+	}
 
 	public function doQuery($query,$values=false) {
 		if ($values) {
@@ -83,13 +102,17 @@ class DBASeed {
 		return $return_str;
 	}
 
-	public function getData($tablename,$data,$conditions=false,$limit=false,$orderby=false) {
+	public function getData($data_name,$data,$conditions=false,$limit=false,$orderby=false) {
 		if (!is_object($this->db)) {
 			$this->connect();
 		}
 		$query = false;
+		$table_name = $this->lookupTableName($data_name);
+		if ($table_name === false) {
+			return getSpecialData($data_name,$conditions,$limit,$orderby);
+		}
 		if ($data) {
-			$query = "SELECT $data FROM $tablename";
+			$query = "SELECT $data FROM $table_name";
 			if ($conditions) {
 				$query .= $this->parseConditions($conditions);
 			}
@@ -111,16 +134,17 @@ class DBASeed {
 		}
 	}
 	
-	public function setData($tablename,$data,$conditions=false) {
+	public function setData($data_name,$data,$conditions=false) {
 		if (!is_object($this->db)) {
 			$this->connect();
 		}
 		$query = false;
-		if (is_array($data)) {
+		$table_name = $this->lookupTableName($data_name);
+		if (is_array($data) && $table_name) {
 			if ($conditions) {
 				// if $condition is set then we're doing an UPDATE
 				$data['modification_date'] = time();
-				$query = "UPDATE $tablename SET ";
+				$query = "UPDATE $table_name SET ";
 				$separator = '';
 				foreach ($data as $fieldname => $value) {
 					$query .= $separator."$fieldname=:$fieldname";
@@ -136,7 +160,7 @@ class DBASeed {
 			} else {
 				// no condition? we're doing an INSERT
 				$data['creation_date'] = time();
-				$query = "INSERT INTO $tablename (";
+				$query = "INSERT INTO $table_name (";
 				$separator = '';
 				foreach ($data as $fieldname => $value) {
 					$query .= $separator.$fieldname;
@@ -164,6 +188,10 @@ class DBASeed {
 		} else {
 			return false;
 		}
+	}
+	
+	public function getSpecialData($data_name,$conditions,$limit,$orderby) {
+		return false;
 	}
 	
 	public function doSpecialQuery($query_name,$query_options=false) {
