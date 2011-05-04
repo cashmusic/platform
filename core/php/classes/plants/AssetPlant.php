@@ -36,17 +36,9 @@ class AssetPlant extends PlantBase {
 					if (!$this->requireParameters('asset_id')) { return $this->sessionGetLastResponse(); }
 					$new_code = $this->addLockCode($this->request['asset_id']);
 					if ($new_code) {
-						return $this->response->pushResponse(
-							200,$this->request_type,$this->action,
-							array('code' => $new_code),
-							'code added successfully'
-						);
+						return $this->pushSuccess(array('code' => $new_code),'code added successfully');
 					} else {
-						return $this->response->pushResponse(
-							500,$this->request_type,$this->action,
-							$this->request,
-							'there was an error adding the code'
-						);
+						return $this->pushFailure('there was an error adding the code');
 					}
 					break;
 				case 'unlock':
@@ -54,17 +46,9 @@ class AssetPlant extends PlantBase {
 					if (!$this->requireParameters('asset_id')) { return $this->sessionGetLastResponse(); }
 					$result = $this->unlockAsset($this->request['asset_id']);
 					if ($result) {
-						return $this->response->pushResponse(
-							200,$this->request_type,$this->action,
-							true,
-							'asset unlocked successfully'
-						);
+						return $this->pushSuccess(true,'asset unlocked successfully');
 					} else {
-						return $this->response->pushResponse(
-							500,$this->request_type,$this->action,
-							$this->request,
-							'there was an error unlocking the asset'
-						);
+						return $this->pushFailure('there was an error unlocking the asset');
 					}
 					break;
 				case 'getasset':
@@ -72,17 +56,9 @@ class AssetPlant extends PlantBase {
 					if (!$this->requireParameters('asset_id')) { return $this->sessionGetLastResponse(); }
 					$result = $this->getAssetInfo($this->request['asset_id']);
 					if ($result) {
-						return $this->response->pushResponse(
-							200,$this->request_type,$this->action,
-							$result,
-							'asset details in payload'
-						);
+						return $this->pushSuccess($result,'asset details in payload');
 					} else {
-						return $this->response->pushResponse(
-							500,$this->request_type,$this->action,
-							$this->request,
-							'there was an error getting asset details'
-						);
+						return $this->pushFailure('there was an error getting asset details');
 					}
 					break;
 				default:

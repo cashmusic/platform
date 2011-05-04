@@ -26,76 +26,72 @@ class ElementPlant extends PlantBase {
 		if ($this->action) {
 			switch ($this->action) {
 				case 'addelement':
-					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('name')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('type')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('options_data')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('user_id')) { return $this->sessionGetLastResponse(); }
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
+					if (!$this->requireParameters('name','type','options_data','user_id')) return $this->sessionGetLastResponse();
 					$result = $this->addElement($this->request['name'],$this->request['type'],$this->request['options_data'],$this->request['user_id']);
 					if ($result) {
-						return $this->response->pushResponse(
-							200,$this->request_type,$this->action,
-							array('element_id' => $result),
-							'success. element id included in payload'
-						);
+						return $this->pushSuccess(array('element_id' => $result),'success. element id included in payload');
 					} else {
-						return $this->response->pushResponse(
-							500,$this->request_type,$this->action,
-							$this->request,
-							'there was an error adding the element'
-						);
+						return $this->pushFailure('there was an error adding the element');
+					}
+					break;
+				case 'editelement':
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
+					if (!$this->requireParameters('element_id','name','options_data')) return $this->sessionGetLastResponse();
+					$result = $this->editElement($this->request['element_id'],$this->request['name'],$this->request['options_data']);
+					if ($result) {
+						return $this->pushSuccess($this->getElement($result),'success. element included in payload');
+					} else {
+						return $this->pushFailure('there was an error editing the element');
 					}
 					break;
 				case 'getelement':
-					if (!$this->requireParameters('element_id')) { return $this->sessionGetLastResponse(); }
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
+					if (!$this->requireParameters('element_id')) return $this->sessionGetLastResponse();
 						$result = $this->getElement($this->request['element_id']);
 						if ($result) {
-							return $this->response->pushResponse(
-								200,$this->request_type,$this->action,
-								$result,
-								'success. element included in payload'
-							);
+							return $this->pushSuccess($result,'success. element included in payload');
 						} else {
-							return $this->response->pushResponse(
-								500,$this->request_type,$this->action,
-								$this->request,
-								'there was an error retrieving the element'
-							);
+							return $this->pushFailure('there was an error retrieving the element');
+						}
+					break;
+				case 'deleteelement':
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
+					if (!$this->requireParameters('element_id')) return $this->sessionGetLastResponse();
+						$result = $this->deleteElement($this->request['element_id']);
+						if ($result) {
+							return $this->pushSuccess($result,'success. deleted');
+						} else {
+							return $this->pushFailure('there was an error deleting the element');
+						}
+					break;
+				case 'getelementsforuser':
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
+					if (!$this->requireParameters('user_id')) return $this->sessionGetLastResponse();
+						$result = $this->getElementsForUser($this->request['user_id']);
+						if ($result) {
+							return $this->pushSuccess($result,'success. element(s) array included in payload');
+						} else {
+							return $this->pushFailure('no elements were found or there was an error retrieving the elements');
 						}
 					break;
 				case 'getmarkup':
-					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('element_id')) { return $this->sessionGetLastResponse(); }
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
+					if (!$this->requireParameters('element_id')) return $this->sessionGetLastResponse();
 					$result = $this->getElementMarkup($this->request['element_id'],$this->request['status_uid']);
 					if ($result) {
-						return $this->response->pushResponse(
-							200,$this->request_type,$this->action,
-							$result,
-							'success. markup in the payload'
-						);
+						return $this->pushSuccess($result,'success. markup in the payload');
 					} else {
-						return $this->response->pushResponse(
-							500,$this->request_type,$this->action,
-							$this->request,
-							'markup not found'
-						);
+						return $this->pushFailure('markup not found');
 					}
 					break;
 				case 'getsupportedtypes':
-					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
 					$result = $this->getSupportedTypes();
 					if ($result) {
-						return $this->response->pushResponse(
-							200,$this->request_type,$this->action,
-							$result,
-							'success. types array in the payload'
-						);
+						return $this->pushSuccess($result,'success. types array in the payload');
 					} else {
-						return $this->response->pushResponse(
-							500,$this->request_type,$this->action,
-							$this->request,
-							'there was a problem getting the array'
-						);
+						return $this->pushFailure('there was a problem getting the array');
 					}
 					break;
 				default:
@@ -153,7 +149,7 @@ class ElementPlant extends PlantBase {
 	public function getElement($element_id) {
 		$result = $this->db->getData(
 			'elements',
-			'name,type,options',
+			'id,name,type,user_id,options',
 			array(
 				"id" => array(
 					"condition" => "=",
@@ -163,11 +159,31 @@ class ElementPlant extends PlantBase {
 		);
 		if ($result) {
 			$the_element = array(
+				'id' => $result[0]['id'],
 				'name' => $result[0]['name'],
 				'type' => $result[0]['type'],
+				'user_id' => $result[0]['user_id'],
 				'options' => json_decode($result[0]['options'])
 			);
 			return $the_element;
+		} else {
+			return false;
+		}
+	}
+	
+	public function getElementsForUser($user_id) {
+		$result = $this->db->getData(
+			'elements',
+			'*',
+			array(
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				)
+			)
+		);
+		if ($result) {
+			return $result;
 		} else {
 			return false;
 		}
@@ -203,6 +219,45 @@ class ElementPlant extends PlantBase {
 				'type' => $type,
 				'options' => $options_data,
 				'user_id' => $user_id
+			)
+		);
+		if ($result) { 
+			return $result;
+		} else {
+			return false;
+		}
+	}
+	
+	public function editElement($element_id,$name,$options_data) {
+		$options_data = json_encode($options_data);
+		$result = $this->db->setData(
+			'elements',
+			array(
+				'name' => $name,
+				'options' => $options_data,
+			),
+			array(
+				'id' => array(
+					'condition' => '=',
+					'value' => $element_id
+				)
+			)
+		);
+		if ($result) { 
+			return $result;
+		} else {
+			return false;
+		}
+	}
+
+	public function deleteElement($element_id) {
+		$result = $this->db->deleteData(
+			'elements',
+			array(
+				'id' => array(
+					'condition' => '=',
+					'value' => $element_id
+				)
 			)
 		);
 		if ($result) { 

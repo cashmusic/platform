@@ -90,5 +90,25 @@
 		}
 		return true;
 	}
+	
+	protected function pushSuccess($payload,$message) {
+		return $this->response->pushResponse(
+			200,
+			$this->request_type,
+			$this->action,
+			$payload,
+			$message
+		);
+	}
+	
+	protected function pushFailure($message) {
+		return $this->response->pushResponse(
+			500,
+			$this->request_type,
+			$this->action,
+			$this->request,
+			$message
+		);
+	}
 } // END class 
 ?>

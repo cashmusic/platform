@@ -92,11 +92,20 @@ class DBASeed {
 		}
 	}
 	
-	public function parseConditions($conditions) {
+	public function parseConditions($conditions,$prepared=true) {
 		$return_str = " WHERE ";
 		$separator = '';
 		foreach ($conditions as $value => $details) {
-			$return_str .= $separator . $value . ' ' . $details['condition'] . ' ' . ':where' . $value;
+			if ($prepared) {
+				$return_str .= $separator . $value . ' ' . $details['condition'] . ' ' . ':where' . $value;
+			} else {
+				if (is_string($details['value'])) {
+					$query_value = "'" . str_replace("'","\'",$details['value']) . "'";
+				} else {
+					$query_value = $details['value'];
+				}
+				$return_str .= $separator . $value . ' ' . $details['condition'] . ' ' . $query_value;
+			}
 			$separator = ' AND ';
 		}
 		return $return_str;
@@ -177,13 +186,50 @@ class DBASeed {
 			if ($query) {
 				try {  
 					$q = $this->db->prepare($query);
-					$q->execute($data);
-					return $this->db->lastInsertId();
+					$success = $q->execute($data);
+					if ($success) {
+						if ($conditions) {
+							if (array_key_exists('id',$conditions)) {
+								return $conditions['id']['value'];
+							} else {
+								return true;
+							}
+						} else {
+							return $this->db->lastInsertId();
+						}
+					} else {
+						return false;
+					}
 				} catch(PDOException $e) {  
 					$this->error = $e->getMessage();
 				}	
 			} else {
 				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
+	public function deleteData($data_name,$conditions=false) {
+		if (!is_object($this->db)) {
+			$this->connect();
+		}
+		$query = false;
+		$table_name = $this->lookupTableName($data_name);
+		if ($conditions) {
+			$query = "DELETE FROM $table_name" . $this->parseConditions($conditions,false);
+			try {  
+				$result = $this->db->exec($query);
+				if ($result) {
+					return true;
+				} else {
+					return false;
+				}
+			} catch(PDOException $e) {  
+				$this->error = $e->getMessage();  
+				echo $this->error;
+				die();
 			}
 		} else {
 			return false;

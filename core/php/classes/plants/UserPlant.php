@@ -26,8 +26,7 @@ class UserPlant extends PlantBase {
 			switch ($this->action) {
 				case 'validatelogin':
 					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('address')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('password')) { return $this->sessionGetLastResponse(); }
+					if (!$this->requireParameters('address','password')) { return $this->sessionGetLastResponse(); }
 					$result = $this->validateLogin($this->request['address'],$this->request['password']);
 					return $this->response->pushResponse(
 						200,$this->request_type,$this->action,
@@ -37,21 +36,12 @@ class UserPlant extends PlantBase {
 					break;
 				case 'setlogin':
 					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('address')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('password')) { return $this->sessionGetLastResponse(); }
+					if (!$this->requireParameters('address','password')) { return $this->sessionGetLastResponse(); }
 					$result = $this->setLogin($this->request['address'],$this->request['password']);
 					if ($result) {
-						return $this->response->pushResponse(
-							200,$this->request_type,$this->action,
-							$result,
-							'success. true or false included in payload'
-						);
+						return $this->pushSuccess($result,'success. true or false included in payload');
 					} else {
-						return $this->response->pushResponse(
-							500,$this->request_type,$this->action,
-							$this->request,
-							'there was an error'
-						);
+						return $this->pushFailure('there was an error');
 					}
 					break;
 				default:

@@ -72,7 +72,7 @@ if (isset($_POST['login'])) {
 		$admin_primary_cash_request->sessionSetPersistent('cash_actual_user',$login_request->response['payload']);
 		$admin_primary_cash_request->sessionSetPersistent('cash_effective_user',$login_request->response['payload']);
 		if ($include_filename == 'logout.php') {
-			header('Location: ' . WWW_BASE_PATH);
+			header('Location: ' . ADMIN_WWW_BASE_PATH);
 			exit;
 		}
 	} else {

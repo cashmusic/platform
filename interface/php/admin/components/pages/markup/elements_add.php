@@ -13,16 +13,24 @@
 	} else {
 		if (isset($page_request->response) && $elements_data) {
 			$supported_elements = $page_request->response['payload'];
+			$colcount = 1;
 			foreach ($elements_data as $element => $data) {
 				if (array_search($element, $supported_elements) !== false) {
+					if ($colcount % 3 == 0) {
+						$secondclass = ' lastcol';
+					} else {
+						$secondclass = '';
+					}
 					?>
-					<div>
-						<h2><?php echo $data->name; ?></h2>
+					<div class="col_onethird<?php echo $secondclass; ?>">
+						<div class="element_image" style="background-image:url(<?php echo ADMIN_WWW_BASE_PATH . '/components/elements/' . $element . '/image.png'; ?>);"></div>
+						<h3><?php echo $data->name; ?></h3>
 						<small>by <a href="<?php echo $data->url; ?>"><?php echo $data->author; ?></a></small>
 						<p><?php echo $data->description; ?></p>
-						<a href="<?php echo $element; ?>">Add this now</a>
+						<a href="<?php echo $element; ?>" class="mockbutton">Add this now</a>
 					</div>
 					<?php
+					$colcount++;
 				}
 			}
 		} else {

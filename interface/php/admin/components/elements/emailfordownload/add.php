@@ -24,7 +24,7 @@
 			
 			<br /><br />
 	
-			<a href="<?php echo WWW_BASE_PATH; ?>/assets/add/"><small>OR ADD NEW ASSET</small></a>
+			<a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/assets/add/"><small>OR ADD NEW ASSET</small></a>
 			
 		</div>
 
@@ -78,10 +78,10 @@
 		<h3>Success</h3>
 		<p>
 		Your new <b>Email For Download</b> element is ready to go. To begin using it immediately insert
-		this Seed embed code on any page:
+		this embed code on any page:
 		</p>
 		<code>
-			&lt;?php cash_embedElement(<?php echo $element_add_request->response['payload']['element_id']; ?>); // Seed element (<?php echo $_POST['element_name'] . ' / ' . $_POST['element_type']; ?>) ?&gt;
+			&lt;?php cash_embedElement(<?php echo $element_add_request->response['payload']['element_id']; ?>); // CASH element (<?php echo $_POST['element_name'] . ' / ' . $_POST['element_type']; ?>) ?&gt;
 		</code>
 		<br />
 		<p>
