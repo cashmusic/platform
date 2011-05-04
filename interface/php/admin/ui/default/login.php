@@ -5,13 +5,13 @@
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="icon" type="image/png" href="http://cashmusic.org/images/icons/cash.png" />
-	<link href="<?php echo WWW_BASE_PATH; ?>/ui/default/assets/css/admin.css" rel="stylesheet" type="text/css" />
+	<link href="<?php echo ADMIN_WWW_BASE_PATH; ?>/ui/default/assets/css/admin.css" rel="stylesheet" type="text/css" />
 	<style type="text/css">
 		#mainspc {padding-top:150px;}
 		#navmenu {top:0;height:4px;overflow:hidden;padding-top:0;padding-bottom:0;}
 		#navmenu .navitem:hover {background-color:#fff;background-image:none;cursor:auto;}
 		#pagedisplay {margin:0 auto;}
-		#loginspc {margin:0 auto;width:160px;height:220px;padding:70px 40px 50px 100px;background:#ff0 url(<?php echo WWW_BASE_PATH; ?>/_assets/images/bg_login.gif) left top no-repeat;text-align:left;}
+		#loginspc {margin:0 auto;width:160px;height:220px;padding:70px 40px 50px 100px;background:#ff0 url(<?php echo ADMIN_WWW_BASE_PATH; ?>/ui/default/assets/images/bg_login.gif) left top no-repeat;text-align:left;}
 		#loginspc h1 {font-size:3.5em;color:#fff;margin-left:-3px;}
 		#loginspc h2 {margin-top:20px;}
 		#loginspc label {color:#000;}
@@ -27,7 +27,7 @@
 
 <div id="wrap">
 	<div id="mainspc">
-		<div id="cash_sitelogo"><a href="http://cashmusic.org/"><img src="<?php echo WWW_BASE_PATH; ?>/ui/default/assets/images/cash.png" alt="CASH Music" width="30" height="30" /></a></div>
+		<div id="cash_sitelogo"><a href="http://cashmusic.org/"><img src="<?php echo ADMIN_WWW_BASE_PATH; ?>/ui/default/assets/images/cash.png" alt="CASH Music" width="30" height="30" /></a></div>
 		<div id="navmenu">
 			<div class="navitem bgcolor1"></div>
 			<div class="navitem bgcolor2"></div>
@@ -58,7 +58,7 @@
 </div>
 
 <div id="footer">
-	<p><b>&copy; 2011 CASH Music.</b> All our code is open-source. <a href="<?php echo WWW_BASE_PATH; ?>/licenses/" style="margin-left:0;">Learn more</a>. <a href="http://help.cashmusic.org/">Get help</a> <a href="http://cashmusic.org/donate" class="donatelink"><b>Donate</b></a></p>
+	<p><b>&copy; 2011 CASH Music.</b> All our code is open-source. <a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/licenses/" style="margin-left:0;">Learn more</a>. <a href="http://help.cashmusic.org/">Get help</a> <a href="http://cashmusic.org/donate" class="donatelink"><b>Donate</b></a></p>
 </div>
 
 </body>

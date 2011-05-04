@@ -14,7 +14,7 @@
 	<h1>BAD BOOKS</h1>
 	<h2>our mailing list</h2>
 
-	<?php cash_embedElement(10); // Seed element (Bad Books Email promo / emailfordownload) ?>
+	<?php cash_embedElement(10); // CASH element (Bad Books Email promo / emailfordownload) ?>
 	
 	<?php include('/Users/jessevondoom/Code/cashmusic-github/DIY/core/php/settings/debug/seed_debug.php'); // Seed Debug ?>
 

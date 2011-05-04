@@ -19,8 +19,7 @@ class EchoPlant extends PlantBase {
 	}
 	
 	public function processRequest() {
-		$result = $this->response->pushResponse(200,$this->request_type,$this->action,$this->request,'no context for a simple echo');
-		return $result;
+		return $this->pushSuccess($this->request,'no context for a simple echo. no context for a simple echo.');
 	}
 } // END class 
 ?>

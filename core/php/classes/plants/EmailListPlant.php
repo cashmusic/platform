@@ -22,30 +22,21 @@ class EmailListPlant extends PlantBase {
 		if ($this->action) {
 			switch ($this->action) {
 				case 'signup':
-					if (!$this->requireParameters('list_id')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('address')) { return $this->sessionGetLastResponse(); }
+					if (!$this->requireParameters('list_id','address')) { return $this->sessionGetLastResponse(); }
 					if (filter_var($this->request['address'], FILTER_VALIDATE_EMAIL)) {
 						if (isset($this->request['comment'])) {$initial_comment = $this->request['comment'];} else {$initial_comment = '';}
 						if (isset($this->request['verified'])) {$verified = $this->request['verified'];} else {$verified = 0;}
 						if (isset($this->request['name'])) {$name = $this->request['name'];} else {$name = 'Anonymous';}
 						$result = $this->addAddress($this->request['address'],$this->request['list_id'],$initial_comment,$verified,$name);
 						if ($result) {
-							return $this->response->pushResponse(
-								200,$this->request_type,$this->action,
-								$this->request,
-								'email address successfully added to list'
-							);
+							return $this->pushSuccess($this->request,'email address successfully added to list');
 						} else {
-							return $this->response->pushResponse(
-								500,$this->request_type,$this->action,
-								$this->request,
-								'there was an error adding an email to the list'
-							);
+							return $this->pushFailure('there was an error adding an email to the list');
 						}
 					} else {
 						return $this->response->pushResponse(
 							400,$this->request_type,$this->action,
-							$this->request,
+							$this->request['address'],
 							'invalid email address'
 						);
 					}
@@ -55,17 +46,9 @@ class EmailListPlant extends PlantBase {
 					if (!$this->requireParameters('list_id')) { return $this->sessionGetLastResponse(); }
 					$result = $this->getAddresses($this->request['list_id']);
 					if ($result) {
-						return $this->response->pushResponse(
-							200,$this->request_type,$this->action,
-							$result,
-							'success. list included in payload'
-						);
+						return $this->pushSuccess($result,'success. list included in payload');
 					} else {
-						return $this->response->pushResponse(
-							500,$this->request_type,$this->action,
-							$this->request,
-							'there was an error retrieving the list'
-						);
+						return $this->pushFailure('there was an error retrieving the list');
 					}
 					break;
 				default:
