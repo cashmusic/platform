@@ -6,7 +6,7 @@
 			<h3>Element Details</h3>
 		
 			<label for="element_name">Name</label><br />
-			<input type="text" id="element_name" name="element_name" /> 
+			<input type="text" id="element_name" name="element_name" placeholder="Give It A Name" /> 
 	
 			<div class="row_seperator">.</div>
 			

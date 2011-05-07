@@ -80,7 +80,16 @@ class AssetPlant extends PlantBase {
 	}
 	
 	public function getAssetInfo($asset_id) {
-		$result = $this->db->doSpecialQuery('AssetPlant_getAssetInfo',array('asset_id' => $asset_id));
+		$result = $this->db->getData(
+			'assets_getAssetInfo',
+			false,
+			array(
+				"asset_id" => array(
+					"condition" => "=",
+					"value" => $asset_id
+				)
+			)
+		);
 		if ($result) {
 			return $result[0];
 		} else {
@@ -381,11 +390,7 @@ class AssetPlant extends PlantBase {
 				case 'com.amazon.aws':
 					include(CASH_PLATFORM_ROOT.'/classes/seeds/S3Seed.php');
 					$s3 = new S3Seed($asset['user_id']);
-					$this->response->pushResponse(
-						200,$this->request_type,$this->action,
-						array('asset' => $asset_id),
-						'redirect executed successfully'
-					);
+					$this->pushSuccess(array('asset' => $asset_id),'redirect executed successfully');
 					header("Location: " . $s3->getExpiryURL($asset['location']));
 					die();
 					break;
