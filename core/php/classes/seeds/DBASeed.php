@@ -118,7 +118,7 @@ class DBASeed {
 		$query = false;
 		$table_name = $this->lookupTableName($data_name);
 		if ($table_name === false) {
-			return getSpecialData($data_name,$conditions,$limit,$orderby);
+			return $this->getSpecialData($data_name,$conditions);
 		}
 		if ($data) {
 			$query = "SELECT $data FROM $table_name";
@@ -236,43 +236,51 @@ class DBASeed {
 		}
 	}
 	
-	public function getSpecialData($data_name,$conditions,$limit,$orderby) {
-		return false;
-	}
-	
-	public function doSpecialQuery($query_name,$query_options=false) {
-		switch ($query_name) {
-			case 'AssetPlant_getAssetInfo':
-				$query = "SELECT a.user_id,a.parent_id,a.location,a.title,a.description,a.comment,a.seed_settings_id,";
-				$query .= "s.name,s.type ";
-				$query .= "FROM asst_assets a LEFT OUTER JOIN seed_settings s ON a.seed_settings_id = s.id ";
-				$query .= "WHERE a.id = {$query_options['asset_id']}";
-				return $this->doQueryForArray($query);
+	public function getSpecialData($data_name,$conditions=false) {
+		if (!is_object($this->db)) {
+			$this->connect();
+		}
+		switch ($data_name) {
+			case 'assets_getAssetInfo':
+				$query = "SELECT a.user_id,a.parent_id,a.location,a.title,a.description,a.comment,a.seed_settings_id,"
+				. "s.name,s.type "
+				. "FROM asst_assets a LEFT OUTER JOIN seed_settings s ON a.seed_settings_id = s.id "
+				. "WHERE a.id = :asset_id";
 				break;
 			case 'EventPlant_getAllDates':
-				$query = "SELECT d.id,u.display_name as user_display_name,d.date,d.publish,d.cancelled,d.comments,";
-				$query .= "v.name as venuename,v.address1,v.address2,v.city,v.region,v.country,v.postalcode,v.website,v.phone ";
-				$query .= "FROM live_events d JOIN live_venues v ON d.venue_id = v.id JOIN seed_users u ON d.user_id = u.id ";
-				$query .= "WHERE d.date > {$query_options['cutoffdate']} AND u.id = {$query_options['user_id']} ORDER BY d.date ASC";
-				return $this->doQueryForArray($query);
+				$query = "SELECT d.id,u.display_name as user_display_name,d.date,d.publish,d.cancelled,d.comments,"
+				. "v.name as venuename,v.address1,v.address2,v.city,v.region,v.country,v.postalcode,v.website,v.phone "
+				. "FROM live_events d JOIN live_venues v ON d.venue_id = v.id JOIN seed_users u ON d.user_id = u.id "
+				. "WHERE d.date > {$query_options['cutoffdate']} AND u.id = {$query_options['user_id']} ORDER BY d.date ASC";
 				break;
 		    case 'EventPlant_getDatesBetween':
-				$query = "SELECT d.id,u.display_name as user_display_name,d.date,d.publish,d.cancelled,d.comments,";
-				$query .= "v.name as venuename,v.address1,v.address2,v.city,v.region,v.country,v.postalcode,v.website,v.phone ";
-				$query .= "FROM live_events d JOIN live_venues v ON d.venue_id = v.id JOIN seed_users u ON d.user_id = u.id ";
-				$query .= "WHERE d.date > {$query_options['afterdate']} AND d.date < {$query_options['beforedate']} ";
-				$query .= "AND u.id = {$query_options['user_id']} ORDER BY d.date ASC";
-				return $this->doQueryForArray($query);
+				$query = "SELECT d.id,u.display_name as user_display_name,d.date,d.publish,d.cancelled,d.comments,"
+				. "v.name as venuename,v.address1,v.address2,v.city,v.region,v.country,v.postalcode,v.website,v.phone "
+				. "FROM live_events d JOIN live_venues v ON d.venue_id = v.id JOIN seed_users u ON d.user_id = u.id "
+				. "WHERE d.date > {$query_options['afterdate']} AND d.date < {$query_options['beforedate']} "
+				. "AND u.id = {$query_options['user_id']} ORDER BY d.date ASC";
 				break;
 			case 'EventPlant_getDatesByArtistAndDate':
-				$query = "SELECT d.id,u.display_name as user_display_name,d.date,d.publish,d.cancelled,d.comments";
-				$query .= "v.name as venuename,v.address1,v.address2,v.city,v.region,v.country,v.postalcode,v.website,v.phone ";
-				$query .= "FROM live_events d JOIN live_venues v ON d.venue_id = v.id JOIN seed_users u ON d.user_id = u.id ";
-				$query .= "WHERE d.date = {$query_options['date']} AND u.id = {$query_options['user_id']} ORDER BY d.date ASC";
-				return $this->doQueryForArray($query);
+				$query = "SELECT d.id,u.display_name as user_display_name,d.date,d.publish,d.cancelled,d.comments"
+				. "v.name as venuename,v.address1,v.address2,v.city,v.region,v.country,v.postalcode,v.website,v.phone "
+				. "FROM live_events d JOIN live_venues v ON d.venue_id = v.id JOIN seed_users u ON d.user_id = u.id "
+				. "WHERE d.date = {$query_options['date']} AND u.id = {$query_options['user_id']} ORDER BY d.date ASC";
 				break;
 		    default:
 		       return false;
+		}
+		if ($query) {
+			if ($conditions) {
+				$values_array = array();
+				foreach ($conditions as $value => $details) {
+					$values_array[':'.$value] = $details['value'];
+				}
+				return $this->doQuery($query,$values_array);
+			} else {
+				return $this->doQuery($query);
+			}
+		} else {
+			return false;
 		}
 	}
 } // END class 

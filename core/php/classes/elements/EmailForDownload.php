@@ -46,40 +46,40 @@ class EmailForDownload {
 				));
 				$asset_title = $asset_request->response['payload']['title'];
 				$asset_description = $asset_request->response['payload']['description'];
-				$markup = "<div class=\"seed_success ". self::type ."\">";
-				$markup .= $this->options->message_success . "<br /><br />";
-				$markup .= "<a href=\"?cash_request_type=asset&cash_action=claim&asset_id=".$this->options->asset_id."\" class=\"download\">$asset_title</a>";
-				$markup .= "<div class=\"description\">$asset_description</div>";
-				$markup .= "</div>";
+				$markup = "<div class=\"seed_success ". self::type ."\">"
+				. $this->options->message_success . "<br /><br />"
+				. "<a href=\"?cash_request_type=asset&cash_action=claim&asset_id=".$this->options->asset_id."\" class=\"download\">$asset_title</a>"
+				. "<div class=\"description\">$asset_description</div>"
+				. "</div>";
 				break;
 			case 'emaillist_signup_400':
-				$markup = "<div class=\"seed_error ". self::type ."\">";
-				$markup .= $this->options->message_invalid_email;
-				$markup .= "</div>";
-				$markup .= "<form class=\"seed_form ". self::type ."\" method=\"post\" action=\"\">";
-				$markup .= "<input type=\"text\" name=\"address\" value=\"\" class=\"seed_input\" />";
-				$markup .= "<input type=\"hidden\" name=\"cash_request_type\" value=\"emaillist\" />";
-				$markup .= "<input type=\"hidden\" name=\"cash_action\" value=\"signup\" />"; 
-				$markup .= "<input type=\"hidden\" name=\"list_id\" value=\"".$this->options->emal_list_id."\" />";
-				$markup .= "<input type=\"hidden\" name=\"verified\" value=\"1\" />";
-				$markup .= "<input type=\"submit\" value=\"sign me up\" class=\"button\" /><br />";
-				$markup .= "</form>";
-				$markup .= "<div class=\"seed_notation\">";
-				$markup .= $this->options->message_privacy;
-				$markup .= "</div>";
+				$markup = "<div class=\"seed_error ". self::type ."\">"
+				. $this->options->message_invalid_email
+				. "</div>"
+				. "<form class=\"seed_form ". self::type ."\" method=\"post\" action=\"\">"
+				. "<input type=\"email\" name=\"address\" value=\"\" class=\"seed_input\" />"
+				. "<input type=\"hidden\" name=\"cash_request_type\" value=\"emaillist\" />"
+				. "<input type=\"hidden\" name=\"cash_action\" value=\"signup\" />"
+				. "<input type=\"hidden\" name=\"list_id\" value=\"".$this->options->emal_list_id."\" />"
+				. "<input type=\"hidden\" name=\"verified\" value=\"1\" />"
+				. "<input type=\"submit\" value=\"sign me up\" class=\"button\" /><br />"
+				. "</form>"
+				. "<div class=\"seed_notation\">"
+				. $this->options->message_privacy
+				. "</div>";
 				break;
 			default:
-				$markup = "<form class=\"seed_form ". self::type ."\" method=\"post\" action=\"\">";
-				$markup .= "<input type=\"text\" name=\"address\" value=\"\" class=\"seed_input\" />";
-				$markup .= "<input type=\"hidden\" name=\"cash_request_type\" value=\"emaillist\" />";
-				$markup .= "<input type=\"hidden\" name=\"cash_action\" value=\"signup\" />"; 
-				$markup .= "<input type=\"hidden\" name=\"list_id\" value=\"".$this->options->emal_list_id."\" />";
-				$markup .= "<input type=\"hidden\" name=\"verified\" value=\"1\" />";
-				$markup .= "<input type=\"submit\" value=\"sign me up\" class=\"button\" /><br />";
-				$markup .= "</form>";
-				$markup .= "<div class=\"seed_notation\">";
-				$markup .= $this->options->message_privacy;
-				$markup .= "</div>";
+				$markup = "<form class=\"seed_form ". self::type ."\" method=\"post\" action=\"\">"
+				. "<input type=\"email\" name=\"address\" value=\"\" class=\"seed_input\" />"
+				. "<input type=\"hidden\" name=\"cash_request_type\" value=\"emaillist\" />"
+				. "<input type=\"hidden\" name=\"cash_action\" value=\"signup\" />"
+				. "<input type=\"hidden\" name=\"list_id\" value=\"".$this->options->emal_list_id."\" />"
+				. "<input type=\"hidden\" name=\"verified\" value=\"1\" />"
+				. "<input type=\"submit\" value=\"sign me up\" class=\"button\" /><br />"
+				. "</form>"
+				. "<div class=\"seed_notation\">"
+				. $this->options->message_privacy
+				. "</div>";
 		}
 		return $markup;	
 	}
