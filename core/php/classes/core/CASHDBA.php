@@ -11,7 +11,7 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  **/
-class DBASeed {
+class CASHDBA {
 	protected $db;
 	private $hostname,
 			$username,

@@ -60,10 +60,18 @@
 			} else if (isset($_GET['cash_request_type'])) {
 				$this->request = $_GET;
 				$this->request_method = 'get';
-			} else if (php_sapi_name() == 'cli' && empty($_SERVER['REMOTE_ADDR'])) {
-				$this->request = $_SERVER['argv'];
-				$this->request_method = 'commandline';
-			}
+			}  /*
+				* Removed command-line support for easier testing until there's
+				* a proper reason/method anyway...
+				*
+				* 	else if (php_sapi_name() == 'cli' && empty($_SERVER['REMOTE_ADDR'])) {
+				* 	if (count($_SERVER['argv']) > 1) {
+				* 		print_r($_SERVER['argv']);
+				* 		$this->request = $_SERVER['argv'];
+				* 		$this->request_method = 'commandline';
+				* 	}
+				* }
+				*/
 		}
 	}
 	

@@ -33,14 +33,16 @@ $root = dirname(__FILE__);
 define('CASH_PLATFORM_ROOT', $root);
 define('CASH_PLATFORM_CURRENT_URL', 'http'.((empty($_SERVER['HTTPS'])&&$_SERVER['SERVER_PORT']!=443)?'':'s').'://'.$_SERVER['HTTP_HOST'].strtok($_SERVER['REQUEST_URI'],'?'));
 
-// required includes
-require_once(CASH_PLATFORM_ROOT.'/classes/core/CASHData.php');
-require_once(CASH_PLATFORM_ROOT.'/classes/core/PlantBase.php');
-require_once(CASH_PLATFORM_ROOT.'/classes/core/SeedBase.php');
-require_once(CASH_PLATFORM_ROOT.'/classes/core/CASHRequest.php');
-require_once(CASH_PLATFORM_ROOT.'/classes/core/CASHResponse.php');
+// set up autoload for core classes
+function cash_autoloadCore($classname) {
+	$file = CASH_PLATFORM_ROOT.'/classes/core/'.$classname.'.php';
+	if (file_exists($file)) {
+		require_once($file);
+	}
+}
+spl_autoload_register('cash_autoloadCore');
 
-// define cash_embedElement in global scope
+// define cash_embedElement function
 function cash_embedElement($element_id) {
 	global $cash_primary_request;
 	$cash_body_request = new CASHRequest(
