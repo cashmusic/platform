@@ -20,8 +20,8 @@
 	 * @return void
 	 */protected function connectDB() {
 		$cash_db_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
-		require_once(CASH_PLATFORM_ROOT.'/classes/seeds/DBASeed.php');
-		$this->db = new DBASeed(
+		require_once(CASH_PLATFORM_ROOT.'/classes/core/CASHDBA.php');
+		$this->db = new CASHDBA(
 			$cash_db_settings['hostname'],
 			$cash_db_settings['username'],
 			$cash_db_settings['password'],
