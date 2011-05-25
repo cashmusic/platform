@@ -3,12 +3,12 @@
 ini_set('display_errors',1);
 error_reporting(E_ALL|E_STRICT);
 
-require_once 'PHPUnit/Autoload.php';
-require_once dirname(__FILE__).'/../../core/php/cashmusic.php';
+require_once('lib/simpletest/autorun.php');
+require_once('core/php/cashmusic.php');
 
-class BasicTests extends PHPUnit_Framework_TestCase {
+class BasicTests extends UnitTestCase {
 	public function testCASHInstance() {
-		$this->assertInstanceOf('CASHRequest', new CASHRequest);
+		$this->assertIsA('CASHRequest', new CASHRequest);
 	}
 
 	public function testCoreExists() {
