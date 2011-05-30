@@ -54,13 +54,13 @@ class CASHDBA {
 	public function lookupTableName($data_name) {
 		$table_lookup = array(
 			'assets' => 'asst_assets',
-			'elements' => 'seed_elements',
+			'elements' => 'cash_elements',
 			'email_addresses' => 'emal_addresses',
 			'events' => 'live_events',
 			'lock_codes' => 'lock_codes',
 			'lock_passwords' => 'lock_passwords',
-			'settings' => 'seed_settings',
-			'users' => 'seed_users',
+			'settings' => 'cash_settings',
+			'users' => 'cash_users',
 			'venues' => 'live_venues'
 		);
 		if (array_key_exists($data_name, $table_lookup)) {
@@ -242,28 +242,28 @@ class CASHDBA {
 		}
 		switch ($data_name) {
 			case 'assets_getAssetInfo':
-				$query = "SELECT a.user_id,a.parent_id,a.location,a.title,a.description,a.comment,a.seed_settings_id,"
+				$query = "SELECT a.user_id,a.parent_id,a.location,a.title,a.description,a.comment,a.settings_id,"
 				. "s.name,s.type "
-				. "FROM asst_assets a LEFT OUTER JOIN seed_settings s ON a.seed_settings_id = s.id "
+				. "FROM asst_assets a LEFT OUTER JOIN cash_settings s ON a.settings_id = s.id "
 				. "WHERE a.id = :asset_id";
 				break;
 			case 'EventPlant_getAllDates':
 				$query = "SELECT d.id,u.display_name as user_display_name,d.date,d.publish,d.cancelled,d.comments,"
 				. "v.name as venuename,v.address1,v.address2,v.city,v.region,v.country,v.postalcode,v.website,v.phone "
-				. "FROM live_events d JOIN live_venues v ON d.venue_id = v.id JOIN seed_users u ON d.user_id = u.id "
+				. "FROM live_events d JOIN live_venues v ON d.venue_id = v.id JOIN cash_users u ON d.user_id = u.id "
 				. "WHERE d.date > {$query_options['cutoffdate']} AND u.id = {$query_options['user_id']} ORDER BY d.date ASC";
 				break;
 		    case 'EventPlant_getDatesBetween':
 				$query = "SELECT d.id,u.display_name as user_display_name,d.date,d.publish,d.cancelled,d.comments,"
 				. "v.name as venuename,v.address1,v.address2,v.city,v.region,v.country,v.postalcode,v.website,v.phone "
-				. "FROM live_events d JOIN live_venues v ON d.venue_id = v.id JOIN seed_users u ON d.user_id = u.id "
+				. "FROM live_events d JOIN live_venues v ON d.venue_id = v.id JOIN cash_users u ON d.user_id = u.id "
 				. "WHERE d.date > {$query_options['afterdate']} AND d.date < {$query_options['beforedate']} "
 				. "AND u.id = {$query_options['user_id']} ORDER BY d.date ASC";
 				break;
 			case 'EventPlant_getDatesByArtistAndDate':
 				$query = "SELECT d.id,u.display_name as user_display_name,d.date,d.publish,d.cancelled,d.comments"
 				. "v.name as venuename,v.address1,v.address2,v.city,v.region,v.country,v.postalcode,v.website,v.phone "
-				. "FROM live_events d JOIN live_venues v ON d.venue_id = v.id JOIN seed_users u ON d.user_id = u.id "
+				. "FROM live_events d JOIN live_venues v ON d.venue_id = v.id JOIN cash_users u ON d.user_id = u.id "
 				. "WHERE d.date = {$query_options['date']} AND u.id = {$query_options['user_id']} ORDER BY d.date ASC";
 				break;
 		    default:
