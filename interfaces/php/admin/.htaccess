@@ -11,8 +11,6 @@ Options +FollowSymlinks
 Options -Indexes 
 DirectorySlash On
 
-AddHandler php5-script .php
-
 # create controller redirects
 
 # no GET querystring
