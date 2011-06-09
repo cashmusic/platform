@@ -22,7 +22,7 @@ CREATE TABLE `asst_assets` (
   CONSTRAINT `settings_type` FOREIGN KEY (`settings_id`) REFERENCES `cash_settings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `owner` FOREIGN KEY (`user_id`) REFERENCES `cash_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `parent_child` FOREIGN KEY (`parent_id`) REFERENCES `asst_assets` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='InnoDB free: 3072 kB; (`parent_id`) REFER `seed/asts_assets`';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='InnoDB free: 3072 kB; (`parent_id`) REFER `seed/asts_assets`';
 
 
 DROP TABLE IF EXISTS `asst_licenses`;
@@ -95,7 +95,7 @@ CREATE TABLE `emal_addresses` (
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `emal_lists`;
@@ -157,7 +157,7 @@ CREATE TABLE `lock_codes` (
   PRIMARY KEY (`id`),
   KEY `asset_id` (`asset_id`),
   CONSTRAINT `associated_asset` FOREIGN KEY (`asset_id`) REFERENCES `asst_assets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=264 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `lock_passwords`;
@@ -171,7 +171,7 @@ CREATE TABLE `lock_passwords` (
   PRIMARY KEY (`id`),
   KEY `asset_id` (`asset_id`),
   CONSTRAINT `lock_passwords_ibfk_1` FOREIGN KEY (`asset_id`) REFERENCES `asst_assets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `strm_permissions`;
@@ -248,7 +248,7 @@ CREATE TABLE `cash_settings` (
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `cash_users`;
@@ -273,7 +273,7 @@ CREATE TABLE `cash_users` (
   `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `email` (`email_address`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `cash_organizations`;
@@ -298,7 +298,7 @@ CREATE TABLE `cash_elements` (
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `cash_users_resetpassword`;
