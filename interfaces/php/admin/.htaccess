@@ -9,7 +9,7 @@ RewriteEngine On
 RewriteBase /admin
 Options +FollowSymlinks 
 Options -Indexes 
-DirectorySlash Off
+DirectorySlash On
 
 AddHandler php5-script .php
 
