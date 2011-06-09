@@ -1,4 +1,12 @@
+# ----------------------------------------------------------------------
+# CASH Music admin-specific rewrites
+#
+# The RewriteBase will need to be set as a part of the installer, but
+# the rest is pretty much stock
+# ----------------------------------------------------------------------
+
 RewriteEngine On 
+RewriteBase /admin
 Options +FollowSymlinks 
 Options -Indexes 
 DirectorySlash Off
