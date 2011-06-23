@@ -9,6 +9,13 @@
  *
  * Usage: just upload and run.
  *
+ * A NOTE ABOUT SECURITY:
+ * This file deletes itself for a reason. It clearly opens up some vulnerabilities
+ * were it to be a public-facing script. Rather than wrestle with sanitizing all 
+ * input we've chosen to use PDO to sanitize the SQL and remove the file when it
+ * has run its course to avoid additional file edits. 
+ * 
+ *
  * @package diy.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
@@ -86,8 +93,8 @@ if (!isset($_POST['installstage'])) {
 	img {border:0;}
 	ul {padding:0.5em 0 0.5em 1.5em;}
 	p {margin:0 0 1.5em 0;}
-	h1 {font-size:2.75em;line-height:1em;margin:0;padding:0;}
-	h3 {font-size:1.5em;line-height:1em;margin:0;padding:0;padding-bottom:0.35em;}
+	h1 {font-size:3.75em;line-height:1.25em;margin:0;padding:0;}
+	h3 {font-size:1.5em;line-height:1em;margin:20px 0 0 0;padding:0;padding-bottom:0.35em;}
 	small {font-size:0.85em;line-height:1.25em;}
 	small a {color:#000 !important;font-weight:bold;}
 	table {font-size:0.85em;}
@@ -130,7 +137,7 @@ if (!isset($_POST['installstage'])) {
 	* {margin-top:0;padding:0;} 
 	html, body, #wrap {height:100%;}
 	body > #wrap {height:auto;min-height:100%;}
-	#mainspc {padding-bottom: 60px;padding-top:150px;width:400px;margin:0 auto;}
+	#mainspc {padding-bottom:90px;padding-top:150px;width:400px;margin:0 auto;}
 	#footer {position:relative;margin-top:-36px;height:36px;color:#666;text-align:left;font-size:0.9em;line-height:1em;clear:both;background-color:#000;}
 	#footer p {padding:12px 8px 0px 8px;}
 	#footer a {color:#666;margin-left:24px;}
@@ -158,6 +165,7 @@ if (!isset($_POST['installstage'])) {
 					}
 
 					var myHTMLRequest = new Request.HTML({onComplete: function(response){
+						targetEl.addClass('usecolor'+currentColor);
 						targetEl.empty().adopt(response);
 						prepPage();
 					}}).post(this);
@@ -243,7 +251,8 @@ if (!isset($_POST['installstage'])) {
 			 * anyone at github mad.
 			*/
 			$source_message = '<h1>Installing Source.</h1><p>Copying files from the repo. '
-				. 'This should take a few minutes. We throttle the downloads to play nice with github.</p>';
+				. 'This should take a few minutes. We throttle the downloads to play nice with github.</p>'
+				. '<div class="nextstep">Copying files from repository:</div>';
 			if (!file_exists('./manifest.diy.org.cashmusic')) {
 				$admin_dir = dirname($_SERVER['REQUEST_URI']) . '/admin';
 				$source_dir = dirname($_SERVER['REQUEST_URI']) . '/source';
@@ -288,7 +297,8 @@ if (!isset($_POST['installstage'])) {
 								if (file_exists('./manifest.diy.org.cashmusic')) {
 									unlink('./manifest.diy.org.cashmusic');
 								}
-								echo '<script type="text/javascript">hideProgress();</script>';
+								echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="3" /></form>';
+								echo '<script type="text/javascript">hideProgress();(function(){document.id("nextstepform").fireEvent("submit");}).delay(100);</script>';
 							}
 							break;
 						} else {
@@ -300,56 +310,119 @@ if (!isset($_POST['installstage'])) {
 				}
 			}
 			break;
-		case "4":
-			// if the cash root location doesn't exist, create it. if it does, check for core
-			// and blow it away if it exists
-
-			if (!$cash_root_location) {
-				// if $cash_root_location is not set above make a directory above the root
-				$cash_root_location = dirname($_SERVER['DOCUMENT_ROOT']) . '/cashmusic';
+		case "3":
+			/**
+			 * GET SETTINGS FROM USER
+			 *
+			 * Locations, MySQL, and email address
+			*/
+			$settings_message = '<h1>Basic Settings.</h1><p>You don\'t want us to just start putting '
+				. 'files all over the place, do you? The form is auto-loaded with our best guess at a '
+				. 'location for the core files, but you can put them wherever. Ideally these should be '
+				. 'above the web root.</p> '
+				. '<p>For the development installer we also need MySQL info. Don\'t worry, you\'re an '
+				. 'expert. While you\'re at it, add an email address for the main admin account.'
+				. ' (<b>Hint:</b> use a real email address so you can reset your password if need be.)</p>';
+			if (is_dir('./source/')) {
+				if (!$cash_root_location) {
+					// if $cash_root_location is not set above make a directory above the root
+					$cash_root_location = dirname($_SERVER['DOCUMENT_ROOT']) . '/cashmusic';
+				}
+				echo $settings_message;
+				echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="4" />';
+				echo '<h3>Install core files to:</h3><input type="text" name="corelocation" value="' . $cash_root_location . '" />';
+				echo '<h3>Admin email account:</h3><input type="text" name="adminemailaccount" value="admin@' . $_SERVER['SERVER_NAME'] . '" />';
+				echo '<h3><br />MySQL settings:</h3>';
+				echo '<label for="mysqlhost">Host (hostname or hostname:port)</label> <input type="text" name="mysqlhost" id="mysqlhost" value="localhost" />';
+				echo '<br /><br /><label for="mysqluser">Username</label> <input type="text" name="mysqluser" id="mysqluser" value="root" />';
+				echo '<br /><br /><label for="mysqlpass">Password</label> <input type="text" name="mysqlpass" id="mysqlpass" value="root" />';
+				echo '<br /><br /><label for="mysqldbname">Database name</label> <input type="text" name="mysqldbname" id="mysqldbname" value="cashmusic" />';
+				echo '<div class="nextstep"><br /><br />Alright then:<br /><br /><input type="submit" class="button" value="Set it all up" /></div>';
+				echo '</form>';
+			} else {
+				echo '<h1>Oh. Shit. Something\'s wrong.</h1> No source directory found.<br />';
 			}
-			if (!is_dir($cash_root_location)) {
-				if (mkdir($cash_root_location)) {
-					echo 'created directory: ' . $cash_root_location . '<br />';
+			break;
+		case "4":
+			/**
+			 * MAKE IT ALL HAPPEN
+			 *
+			 * Edit and move files, write redirects, set up DBs, remove the installer script, party.
+			*/
+			
+			$admin_dir = dirname($_SERVER['REQUEST_URI']) . '/admin';
+			$user_settings = array(
+				'corelocation' => (string)$_POST['corelocation'],
+				'adminemailaccount' => (string)$_POST['adminemailaccount'],
+				'mysqlhost' => (string)$_POST['mysqlhost'],
+				'mysqluser' => (string)$_POST['mysqluser'],
+				'mysqlpass' => (string)$_POST['mysqlpass'],
+				'mysqldbname' => (string)$_POST['mysqldbname']
+			);
+
+			if ($user_settings['corelocation']) {
+				if (!is_dir($user_settings['corelocation'])) {
+					if (!mkdir($user_settings['corelocation'])) {
+						echo "<h1>Oh. Shit. Something's wrong.</h1><p>Couldn't create a directory at" . $user_settings['corelocation'] . ".</p>";
+						break;
+					}
 				} else {
-					echo 'error creating directory: ' . $cash_root_location . '<br />';
+					if (is_dir($user_settings['corelocation'] . '/core')) {
+						rrmdir($user_settings['corelocation'] . '/core');
+						//echo 'removed old core directory at ' . $cash_root_location . '/core' . '<br />';
+					}
 				}
 			} else {
-				if (is_dir($cash_root_location . '/core')) {
-					rrmdir($cash_root_location . '/core');
-					echo 'removed old core directory at ' . $cash_root_location . '/core' . '<br />';
-				}
+				echo "<h1>Oh. Shit. Something's wrong.</h1><p>No core location specified.</p>";
+				break;
+			}
+		
+			// modify settings files
+			if (
+				!findReplaceInFile('./source/interfaces/php/admin/.htaccess','RewriteBase /admin','RewriteBase ' . $admin_dir) || 
+				
+				!findReplaceInFile('./source/interfaces/php/admin/constants.php','$cashmusic_root = $root . "/../../../core/php/cashmusic.php','$cashmusic_root = "' . $user_settings['corelocation'] . '/core/cashmusic.php') || 
+				!findReplaceInFile('./source/interfaces/php/admin/constants.php','define(\'ADMIN_WWW_BASE_PATH\', \'/admin','define(\'ADMIN_WWW_BASE_PATH\', \'' . $admin_dir) || 
+				
+				!findReplaceInFile('./source/core/php/settings/cashmusic.ini.php','hostname = "localhost:8889','hostname = "' . $user_settings['mysqlhost']) || 
+				!findReplaceInFile('./source/core/php/settings/cashmusic.ini.php','username = "root','username = "' . $user_settings['mysqluser']) || 
+				!findReplaceInFile('./source/core/php/settings/cashmusic.ini.php','password = "root','password = "' . $user_settings['mysqlpass']) || 
+				!findReplaceInFile('./source/core/php/settings/cashmusic.ini.php','database = "seed','database = "' . $user_settings['mysqldbname']) ||
+				!findReplaceInFile('./source/core/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . md5($user_settings['adminemailaccount'] . time()))
+			) {
+				echo "<h1>Oh. Shit. Something's wrong.</h1><p>We had trouble editing a few files. Please try again.</p>";
+				break;
 			}
 			
-		
-			// setup database, remove sql folder, modify settings files
-			if (findReplaceInFile('./source/interfaces/php/admin/.htaccess','RewriteBase /admin','RewriteBase ' . $admin_dir)) {
-				echo 'set RewriteBase in .htaccess<br />';
-			} else {
-				echo 'could not set RewriteBase in .htaccess<br />';
-			}
-			if (findReplaceInFile('./source/interfaces/php/admin/constants.php','$cashmusic_root = $root . "/../../../core/php/cashmusic.php','$cashmusic_root = "' . $cash_root_location . '/core/cashmusic.php')) {
-				echo 'set $cashmusic_root in constants.php<br />';
-			} else {
-				echo 'could not set $cashmusic_root in constants.php<br />';
-			}
-			if (findReplaceInFile('./source/interfaces/php/admin/constants.php','define(\'ADMIN_WWW_BASE_PATH\', \'/admin','define(\'ADMIN_WWW_BASE_PATH\', \'' . $admin_dir)) {
-				echo 'set ADMIN_WWW_BASE_PATH in constants.php<br />';
-			} else {
-				echo 'could not set ADMIN_WWW_BASE_PATH in constants.php<br />';
-			}
+			// set up database, add user / password
+			$user_password = substr(md5($user_settings['adminemailaccount'] . time() . 'password'),4,7);
 
 			// move source files into place
-			if (rename('./source/core/php', $cash_root_location . '/core')) {
-				echo 'moved core files into place at: ' . $cash_root_location . '/core' . '<br />';
-			} else {
-				echo 'error moving core files to: ' . $cash_root_location . '/core' . '<br />';
+			if (
+				!rename('./source/core/php', $user_settings['corelocation'] . '/core') || 
+				!rename('./source/interfaces/php/admin', './admin')
+			) {
+				echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>We couldn\'t move files into place. Please make sure you have write access in '
+				. 'the directory you specified for the core.</p>';
+				break;
 			}
-			if (rename('./source/interfaces/php/admin', './admin')) {
-				echo 'moved admin files into place at: ' . $admin_dir . '<br />';
-			} else {
-				echo 'error moving admin files to: ' . $admin_dir . '<br />';
-			}
+			
+			// success message
+			echo '<h1>All done.</h1><p>Okay. Everything is set up, configured, and ready to go. Follow the link below and login with the given '
+			. 'credentials</p><p><br /><br /><big><a href="./admin/">Click to login</a></big><br /><b>Email address:</b> ' . $user_settings['adminemailaccount']
+			. '<br /><b>Password:</b> ' . $user_password;
+			
+			echo '<br /><br /><br /><br /><small>I feel compelled to point out that in the time it took you to read this, I, your helpful installer script, have deleted '
+			. 'myself in the name of security. It is a far, far better thing that I do, than I have ever done; it is a far, far better rest that I go to, than I '
+			. 'have ever known.</small>';
+			
+			// create an index.php with a redirect to ./admin in the current directory, 
+			// remove the installer and the remaining source directory
+			if (is_dir('./source')) rrmdir('./source');
+			if (is_file('./index.php')) unlink('./index.php');
+			@file_put_contents('./index.php',"<?php header('Location: ./admin/'); ?>");
+			if (is_file('./install.php')) unlink('./install.php');
+			
 			break;
 		default:
 			echo "<h1>Oh. Shit. Something's wrong.</h1><p>We ran into an error. Please make sure you have write permissions in this directory and try again.</p>";
