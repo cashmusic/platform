@@ -3,12 +3,14 @@ html {margin:0;padding:0;}
 body {color:#000;background:#fff url(../images/bg.jpg) center bottom repeat-x fixed;text-align:center;font:75%/1.5em helvetica,"helvetica neue",arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:750px;}
 a {color:#999;text-decoration:none;}
 a:hover {text-decoration:underline;}
-code {display:block;padding:2em;margin:0 0 1.5em 0;;background-color:#ddd;background-image:url(../images/currentnav.png);background-position:left top;background-repeat:no-repeat;margin:0 auto;}
+code {display:block;padding:2em;margin:0 0 1.5em 0;background-color:#ddd;background-image:url(../images/currentnav.png);background-position:left top;background-repeat:no-repeat;margin:0 auto;}
 img {border:0;}
-ul {padding:0.5em 0 0.5em 1.5em;}
+ul, ol {padding:0.5em 0 1.5em 1.5em;}
+ul.nobullets {padding-left:0;}
+ul.nobullets li {list-style-type:none;}
 p {margin:0 0 1.5em 0;}
 h1 {font-size:2.75em;line-height:1em;margin:0;padding:0;}
-h3 {font-size:1.5em;line-height:1em;margin:0;padding:0;padding-bottom:0.35em;}
+h2, h3 {font-size:1.5em;line-height:1em;margin:0;padding:0;padding-bottom:0.35em;}
 small {font-size:0.85em;line-height:1.25em;}
 small a {color:#000 !important;font-weight:bold;}
 table {font-size:0.85em;}
@@ -24,8 +26,8 @@ table {font-size:0.85em;}
 .col_threefourths {float:left;width:73%;padding-right:5%;}
 .lastcol {padding:0;float:right;}
 .row_seperator {position:relative;clear:both;height:1em;overflow:hidden;visibility:hidden;}
-.tall {height:2.5em;}
 .clearfix {visibility:hidden;overflow:hidden;clear:both;height:1px;}
+.tall {height:3em;}
 .tar {text-align:right;}
 
 /* FORMS */
@@ -50,11 +52,11 @@ div.usecolor3 input.button:hover, div.usecolor3 a.mockbutton:hover {background-c
 div.usecolor4 input.button:hover, div.usecolor4 a.mockbutton:hover {background-color:#0080c9;}
 div.usecolor5 input.button:hover, div.usecolor5 a.mockbutton:hover {background-color:#8a00ca;}
 #pagecontent a, #pageTips a {color:#0891df;}
-div.usecolor1 #pagecontent a, div.usecolor1 #pageTips a {color:#cd074d;}
-div.usecolor2 #pagecontent a, div.usecolor2 #pageTips a {color:#ca8c07;}
-div.usecolor3 #pagecontent a, div.usecolor3 #pageTips a {color:#97b800;}
-div.usecolor4 #pagecontent a, div.usecolor4 #pageTips a {color:#0080c9;}
-div.usecolor5 #pagecontent a, div.usecolor5 #pageTips a {color:#8a00ca;}
+div.usecolor1 #pagecontent a, div.usecolor1 #pageTips a, h2.usecolor1 {color:#cd074d;}
+div.usecolor2 #pagecontent a, div.usecolor2 #pageTips a, h2.usecolor2 {color:#ca8c07;}
+div.usecolor3 #pagecontent a, div.usecolor3 #pageTips a, h2.usecolor3 {color:#97b800;}
+div.usecolor4 #pagecontent a, div.usecolor4 #pageTips a, h2.usecolor4 {color:#0080c9;}
+div.usecolor5 #pagecontent a, div.usecolor5 #pageTips a, h2.usecolor5 {color:#8a00ca;}
 a.mockbutton {color:#000 !important;font-size:0.9em;}
 a.mockbutton:hover {text-decoration:none !important;}
 
