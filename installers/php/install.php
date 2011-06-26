@@ -167,8 +167,17 @@ if (!isset($_POST['installstage'])) {
 					var myHTMLRequest = new Request.HTML({onComplete: function(response){
 						targetEl.addClass('usecolor'+currentColor);
 						targetEl.empty().adopt(response);
+						document.id('mainspc').fade('in');
 						prepPage();
-					}}).post(this);
+					}});
+					
+					var that = this;
+					if (document.id('installstagefade')) {
+						document.id('mainspc').fade('out');
+						(function(){myHTMLRequest.post(that);}).delay(600);
+					} else {
+						myHTMLRequest.post(that);
+					}
 				});
 			}
 		}
@@ -220,6 +229,7 @@ if (!isset($_POST['installstage'])) {
 				Whenever you're ready:<br /><br />
 				<form action="" method="post" id="nextstepform">
 					<input type="hidden" name="installstage" id="installstageinput" value="2" />
+					<input type="hidden" id="installstagefade" value="1" />
 					<input type="submit" class="button" value="Start the installing" />
 				</form>
 			</div>
@@ -291,14 +301,14 @@ if (!isset($_POST['installstage'])) {
 							echo $source_message;
 							if ($currentfile != $filecount) {
 								echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
-								echo '<script type="text/javascript">showProgress(' . ceil(100 * ($currentfile / $filecount)) . ');(function(){document.id("nextstepform").fireEvent("submit");}).delay(750);</script>';
+								echo '<script type="text/javascript">showProgress(' . ceil(100 * ($currentfile / $filecount)) . ');(function(){document.id("nextstepform").fireEvent("submit");}).delay(650);</script>';
 							} else {
 								// we're done; remove the manifest file
 								if (file_exists('./manifest.diy.org.cashmusic')) {
 									unlink('./manifest.diy.org.cashmusic');
 								}
-								echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="3" /></form>';
-								echo '<script type="text/javascript">hideProgress();(function(){document.id("nextstepform").fireEvent("submit");}).delay(100);</script>';
+								echo '<form action="" method="post" id="nextstepform"><input type="hidden" id="installstagefade" value="1" /><input type="hidden" name="installstage" id="installstageinput" value="3" /></form>';
+								echo '<script type="text/javascript">hideProgress();(function(){document.id("nextstepform").fireEvent("submit");}).delay(500);</script>';
 							}
 							break;
 						} else {
@@ -329,16 +339,16 @@ if (!isset($_POST['installstage'])) {
 					$cash_root_location = dirname($_SERVER['DOCUMENT_ROOT']) . '/cashmusic';
 				}
 				echo $settings_message;
-				echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="4" />';
-				echo '<h3>Install core files to:</h3><input type="text" name="corelocation" value="' . $cash_root_location . '" />';
-				echo '<h3>Admin email account:</h3><input type="text" name="adminemailaccount" value="admin@' . $_SERVER['SERVER_NAME'] . '" />';
-				echo '<h3><br />MySQL settings:</h3>';
-				echo '<label for="mysqlhost">Host (hostname or hostname:port)</label> <input type="text" name="mysqlhost" id="mysqlhost" value="localhost" />';
-				echo '<br /><br /><label for="mysqluser">Username</label> <input type="text" name="mysqluser" id="mysqluser" value="root" />';
-				echo '<br /><br /><label for="mysqlpass">Password</label> <input type="text" name="mysqlpass" id="mysqlpass" value="root" />';
-				echo '<br /><br /><label for="mysqldbname">Database name</label> <input type="text" name="mysqldbname" id="mysqldbname" value="cashmusic" />';
-				echo '<div class="nextstep"><br /><br />Alright then:<br /><br /><input type="submit" class="button" value="Set it all up" /></div>';
-				echo '</form>';
+				echo '<form action="" method="post" id="nextstepform"><input type="hidden" id="installstagefade" value="1" /><input type="hidden" name="installstage" id="installstageinput" value="4" /> '
+				. '<h3>Install core files to:</h3><input type="text" name="corelocation" value="' . $cash_root_location . '" /> '
+				. '<h3>Admin email account:</h3><input type="text" name="adminemailaccount" value="admin@' . $_SERVER['SERVER_NAME'] . '" /> '
+				. '<h3><br />MySQL settings:</h3> '
+				. '<label for="mysqlhost">Host (hostname or hostname:port)</label> <input type="text" name="mysqlhost" id="mysqlhost" value="localhost" /> '
+				. '<br /><br /><label for="mysqluser">Username</label> <input type="text" name="mysqluser" id="mysqluser" value="root" /> '
+				. '<br /><br /><label for="mysqlpass">Password</label> <input type="text" name="mysqlpass" id="mysqlpass" value="root" /> '
+				. '<br /><br /><label for="mysqldbname">Database name</label> <input type="text" name="mysqldbname" id="mysqldbname" value="cashmusic" /> '
+				. '<div class="nextstep"><br /><br />Alright then:<br /><br /><input type="submit" class="button" value="Set it all up" /></div> '
+				. '</form>';
 			} else {
 				echo '<h1>Oh. Shit. Something\'s wrong.</h1> No source directory found.<br />';
 			}
@@ -357,7 +367,8 @@ if (!isset($_POST['installstage'])) {
 				'mysqlhost' => (string)$_POST['mysqlhost'],
 				'mysqluser' => (string)$_POST['mysqluser'],
 				'mysqlpass' => (string)$_POST['mysqlpass'],
-				'mysqldbname' => (string)$_POST['mysqldbname']
+				'mysqldbname' => (string)$_POST['mysqldbname'],
+				'systemsalt' => md5($user_settings['adminemailaccount'] . time())
 			);
 
 			if ($user_settings['corelocation']) {
@@ -388,14 +399,11 @@ if (!isset($_POST['installstage'])) {
 				!findReplaceInFile('./source/core/php/settings/cashmusic.ini.php','username = "root','username = "' . $user_settings['mysqluser']) || 
 				!findReplaceInFile('./source/core/php/settings/cashmusic.ini.php','password = "root','password = "' . $user_settings['mysqlpass']) || 
 				!findReplaceInFile('./source/core/php/settings/cashmusic.ini.php','database = "seed','database = "' . $user_settings['mysqldbname']) ||
-				!findReplaceInFile('./source/core/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . md5($user_settings['adminemailaccount'] . time()))
+				!findReplaceInFile('./source/core/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $user_settings['systemsalt'])
 			) {
 				echo "<h1>Oh. Shit. Something's wrong.</h1><p>We had trouble editing a few files. Please try again.</p>";
 				break;
 			}
-			
-			// set up database, add user / password
-			$user_password = substr(md5($user_settings['adminemailaccount'] . time() . 'password'),4,7);
 
 			// move source files into place
 			if (
@@ -406,7 +414,41 @@ if (!isset($_POST['installstage'])) {
 				. 'the directory you specified for the core.</p>';
 				break;
 			}
-			
+
+			// set up database, add user / password
+			$user_password = substr(md5($user_settings['systemsalt'] . 'password'),4,7);
+			try {
+				$pdo = new PDO ("mysql:host={$user_settings['mysqlhost']};dbname={$user_settings['mysqldbname']}",$user_settings['mysqluser'],$user_settings['mysqlpass']);
+			} catch (PDOException $e) {
+				echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>Couldn\'t connect to the database. Files are all in-place, so you can manually edit settings or start over.';
+				break;
+			}
+
+			if ($pdo->query(file_get_contents($user_settings['corelocation'] . '/core/settings/sql/cashmusic_db.sql'))) {
+				$password_hash = hash_hmac('sha256', $user_password, $user_settings['systemsalt']);
+				$data = array(
+					'email_address' => $user_settings['adminemailaccount'],
+					'password' => $password_hash,
+					'creation_date' => time()
+				);
+				$query = "INSERT INTO cash_users (email_address,password,creation_date) VALUES (:email_address,:password,:creation_date)";
+
+				try {  
+					$q = $pdo->prepare($query);
+					$success = $q->execute($data);
+					if (!$success) {
+						echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>Couldn\'t add the user to the database. Files are all in-place, so you can manually edit settings or start over.';
+						break;
+					}
+				} catch(PDOException $e) {  
+					echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>Couldn\'t add the user to the database. Files are all in-place, so you can manually edit settings or start over.';
+					break;
+				}	
+			} else {
+				echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>Couldn\'t create database tables. Files are all in-place, so you can manually edit settings or start over.';
+				break;
+			}
+
 			// success message
 			echo '<h1>All done.</h1><p>Okay. Everything is set up, configured, and ready to go. Follow the link below and login with the given '
 			. 'credentials</p><p><br /><br /><big><a href="./admin/">Click to login</a></big><br /><b>Email address:</b> ' . $user_settings['adminemailaccount']
