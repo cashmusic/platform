@@ -6,16 +6,17 @@ a:hover {text-decoration:underline;}
 code {display:block;padding:2em;margin:0 0 1.5em 0;background-color:#ddd;background-image:url(../images/currentnav.png);background-position:left top;background-repeat:no-repeat;margin:0 auto;}
 img {border:0;}
 ul, ol {padding:0.5em 0 1.5em 1.5em;}
-ul.nobullets {padding-left:0;}
-ul.nobullets li {list-style-type:none;}
 p {margin:0 0 1.5em 0;}
 h1 {font-size:2.75em;line-height:1em;margin:0;padding:0;}
 h2, h3 {font-size:1.5em;line-height:1em;margin:0;padding:0;padding-bottom:0.35em;}
+big {font-size:1.5em;line-height:1.25em;}
 small {font-size:0.85em;line-height:1.25em;}
 small a {color:#000 !important;font-weight:bold;}
 table {font-size:0.85em;}
 
 /* GENERAL PAGE LAYOUT */
+ul.nobullets {padding-left:0;}
+ul.nobullets li {list-style-type:none;}
 #pagecontent {position:relative;clear:both;width:920px;padding:180px 2em 3em 2em;margin:0 auto;text-align:left;}
 #cash_sitelogo {position:absolute;top:8px;right:8px;text-align:right;overflow:hidden;height:30px;width:30px;z-index:2345;}
 #cash_sitelogo img {display:block;padding:0;margin:0;border:0;}
@@ -24,11 +25,14 @@ table {font-size:0.85em;}
 .col_twothirds {float:left;width:64%;padding-right:6%;}
 .col_onefourth {float:left;width:21%;padding-right:5%;}
 .col_threefourths {float:left;width:73%;padding-right:5%;}
+.fadedtext {color:#999;}
+.smalltext {font-size:0.85em;}
 .lastcol {padding:0;float:right;}
 .row_seperator {position:relative;clear:both;height:1em;overflow:hidden;visibility:hidden;}
 .clearfix {visibility:hidden;overflow:hidden;clear:both;height:1px;}
 .tall {height:3em;}
 .tar {text-align:right;}
+.majorcallout {display:block;float:left;padding:7px 12px 7px 12px;margin:0 10px 10px 0;font-weight:bold;color:#fff;background-color:#999;font-size:2.5em;line-height:1em;}
 
 /* FORMS */
 input {padding:6px 2% 6px 2%;border:1px solid #ccc;width:96%;}
@@ -41,6 +45,7 @@ select:active, select:focus {outline:2px solid #ff0;}
 label {font-size:0.85em;text-transform:uppercase;color:#999;}
 
 /* COLORS */
+.bgcolor0 {background-color:#999;}
 .bgcolor1, div.usecolor1 input.button, div.usecolor1 a.mockbutton {background-color:#df0854;}
 .bgcolor2, div.usecolor2 input.button, div.usecolor2 a.mockbutton {background-color:#df9b08;}
 .bgcolor3, div.usecolor3 input.button, div.usecolor3 a.mockbutton {background-color:#aacd07;}
@@ -51,12 +56,12 @@ div.usecolor2 input.button:hover, div.usecolor2 a.mockbutton:hover {background-c
 div.usecolor3 input.button:hover, div.usecolor3 a.mockbutton:hover {background-color:#97b800;}
 div.usecolor4 input.button:hover, div.usecolor4 a.mockbutton:hover {background-color:#0080c9;}
 div.usecolor5 input.button:hover, div.usecolor5 a.mockbutton:hover {background-color:#8a00ca;}
-#pagecontent a, #pageTips a {color:#0891df;}
-div.usecolor1 #pagecontent a, div.usecolor1 #pageTips a, h2.usecolor1 {color:#cd074d;}
-div.usecolor2 #pagecontent a, div.usecolor2 #pageTips a, h2.usecolor2 {color:#ca8c07;}
-div.usecolor3 #pagecontent a, div.usecolor3 #pageTips a, h2.usecolor3 {color:#97b800;}
-div.usecolor4 #pagecontent a, div.usecolor4 #pageTips a, h2.usecolor4 {color:#0080c9;}
-div.usecolor5 #pagecontent a, div.usecolor5 #pageTips a, h2.usecolor5 {color:#8a00ca;}
+div.usecolor1 a, h2.usecolor1 {color:#cd074d;}
+div.usecolor2 a, h2.usecolor2 {color:#ca8c07;}
+div.usecolor3 a, h2.usecolor3 {color:#97b800;}
+div.usecolor4 a, h2.usecolor4 {color:#0080c9;}
+div.usecolor5 a, h2.usecolor5 {color:#8a00ca;}
+a.usecolor0 {color:#999 !important;}
 a.mockbutton {color:#000 !important;font-size:0.9em;}
 a.mockbutton:hover {text-decoration:none !important;}
 
