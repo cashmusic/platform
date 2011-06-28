@@ -12,8 +12,7 @@
 		#navmenu .navitem:hover {background-color:#fff;background-image:none;cursor:auto;}
 		#pagedisplay {margin:0 auto;}
 		#loginspc {margin:0 auto;width:160px;height:220px;padding:45px 100px 95px 40px;background:#418584 url(<?php echo ADMIN_WWW_BASE_PATH; ?>/ui/default/assets/images/bg_login.gif) left top no-repeat;text-align:left;}
-		#loginspc h1 {font-size:2.25em;color:#fff;margin-left:-3px;}
-		#loginspc h2 {margin-top:20px;}
+		#loginspc h1 {font-size:2.25em;color:#fff;margin:0 0 30px -3px;}
 		#loginspc label {color:#000;}
 		#loginspc input {border:1px solid #fff;}
 		#loginspc input:active, #loginspc input:focus {outline:0;border:1px solid #000;}
@@ -37,8 +36,7 @@
 		</div>
 
 			<div id="loginspc">
-				<h1>CASH Music</h1>
-				<h2>Log In:</h2>
+				<h1>Log In:</h1>
 				
 				<form method="post" action=""> 
 					<label for="address">email</label>
