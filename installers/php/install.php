@@ -127,6 +127,8 @@ if (!isset($_POST['installstage'])) {
 	div.usecolor5 input.button:hover, div.usecolor5 a.mockbutton:hover {background-color:#8a00ca;color:#fff;}
 	a.mockbutton {color:#000 !important;font-size:0.9em;}
 	a.mockbutton:hover {text-decoration:none !important;}
+	a.loginlink {color:#000;background-color:#ff0;font-size:2.5em;font-weight:bold;padding:0 12px 0 12px;}
+	a.loginlink:hover {background-color:#fff;}
 	
 	/* PROGRESS BAR */
 	#progressspc {position:relative;width:400px;height:30px;font-size:20px;line-height:30px;font-weight:bold;margin:0 auto;overflow:hidden;color:#eee;background-color:#ccc;visibility:hidden;}
@@ -451,7 +453,7 @@ if (!isset($_POST['installstage'])) {
 
 			// success message
 			echo '<h1>All done.</h1><p>Okay. Everything is set up, configured, and ready to go. Follow the link below and login with the given '
-			. 'credentials</p><p><br /><br /><big><a href="./admin/">Click to login</a></big><br /><b>Email address:</b> ' . $user_settings['adminemailaccount']
+			. 'credentials</p><p><br /><br /><a href="./admin/" class="loginlink">Click to login</a><br /><br /><b>Email address:</b> ' . $user_settings['adminemailaccount']
 			. '<br /><b>Password:</b> ' . $user_password;
 			
 			echo '<br /><br /><br /><br /><small>I feel compelled to point out that in the time it took you to read this, I, your helpful installer script, have deleted '
