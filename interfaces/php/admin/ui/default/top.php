@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>CASH Music: Admin</title>
+	<title><?php echo $page_title ?></title>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="icon" type="image/png" href="http://cashmusic.org/images/icons/cash.png" />
@@ -37,38 +37,40 @@
 
 <div id="wrap">
 	<div id="mainspc" class="<?php echo $specialcolor ?>">
-		<div id="cash_sitelogo"><a href="http://cashmusic.org/"><img src="<?php echo ADMIN_WWW_BASE_PATH; ?>/ui/default/assets/images/cash.png" alt="CASH Music" width="30" height="30" /></a></div>
-		<div id="navmenu">
-			<div id="accountmenu"><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/"><b>Dashboard</b></a> <a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/settings/">Settings</a> <a href="http://help.cashmusic.org/">Help</a> <a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/logout/">Logout</a></div>
-			<div class="navitem bgcolor1<?php echo ($dirname == 'elements' ? ' currentnav' : ''); ?>">
-				<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/elements/">Elements</a></h2>
-				pages<br />
-				widgets<br />
-				plugins
-			</div>
-			<div class="navitem bgcolor2<?php echo ($dirname == 'assets' ? ' currentnav' : ''); ?>">
-				<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/assets/">Assets</a></h2>
-				upload<br />
-				tag<br />
-				share
-			</div>
-			<div class="navitem bgcolor3<?php echo ($dirname == 'people' ? ' currentnav' : ''); ?>">
-				<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/people/">People</a></h2>
-				gather<br />
-				mail<br />
-				list
-			</div>
-			<div class="navitem bgcolor4<?php echo ($dirname == 'commerce' ? ' currentnav' : ''); ?>">
-				<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/commerce/">Commerce</a></h2>
-				review<br />
-				fulfill<br />
-				pledge
-			</div>
-			<div class="navitem bgcolor5<?php echo ($dirname == 'calendar' ? ' currentnav' : ''); ?>">
-				<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/calendar/">Calendar</a></h2>
-				planning<br />
-				shows<br />
-				guestlist
+		<div id="chromespc">
+			<div id="accountmenu"><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/logout/">Logout</a></div>
+			<div id="subnavemenu"><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/"><b>Dashboard</b></a> <a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/settings/">Settings</a> <a href="http://help.cashmusic.org/">Help</a></div>
+			<div id="navmenu">
+				<div class="navitem bgcolor1<?php echo ($dirname == 'elements' ? ' currentnav' : ''); ?>">
+					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/elements/">Elements</a></h2>
+					pages<br />
+					widgets<br />
+					plugins
+				</div>
+				<div class="navitem bgcolor2<?php echo ($dirname == 'assets' ? ' currentnav' : ''); ?>">
+					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/assets/">Assets</a></h2>
+					upload<br />
+					tag<br />
+					share
+				</div>
+				<div class="navitem bgcolor3<?php echo ($dirname == 'people' ? ' currentnav' : ''); ?>">
+					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/people/">People</a></h2>
+					gather<br />
+					mail<br />
+					list
+				</div>
+				<div class="navitem bgcolor4<?php echo ($dirname == 'commerce' ? ' currentnav' : ''); ?>">
+					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/commerce/">Commerce</a></h2>
+					review<br />
+					fulfill<br />
+					pledge
+				</div>
+				<div class="navitem bgcolor5<?php echo ($dirname == 'calendar' ? ' currentnav' : ''); ?>">
+					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/calendar/">Calendar</a></h2>
+					planning<br />
+					shows<br />
+					guestlist
+				</div>
 			</div>
 		</div>
 		
