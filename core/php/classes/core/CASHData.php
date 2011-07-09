@@ -14,6 +14,13 @@
 	protected $db = false,$cash_session_timeout = 1800;
 
 	/**
+	 * 
+	 * DATABASE CONNECTION
+	 * Create and store new CASHDBA
+	 *
+	 */
+
+	/**
 	 * Grabs database connection properties from /settings/cashmusic.ini.php and
 	 * opens the appropriate connection
 	 *
@@ -29,6 +36,15 @@
 			$cash_db_settings['driver']
 		);
 	}
+	
+	/**
+	 * 
+	 * SESSION HANDLERS
+	 * Currently using standard $_SESSION calls, but may be wise to overwrite
+	 * in favor of custom calls so we're not relying on over overwriting
+	 * other sessions?
+	 *
+	 */
 
 	/**
 	 * Empties (or creates empty) entries to the standard $_SESSION array
