@@ -1,14 +1,14 @@
 <?php
 # error reporting
-ini_set('display_errors',1);
-error_reporting(E_ALL|E_STRICT);
+# ini_set('display_errors',1);
+# error_reporting(E_ALL|E_STRICT);
 
-require_once 'PHPUnit/Autoload.php';
-require_once dirname(__FILE__).'/../../core/php/cashmusic.php';
+require_once('lib/simpletest/autorun.php');
+require_once('core/php/cashmusic.php');
 
-class BasicTests extends PHPUnit_Framework_TestCase {
+class BasicTests extends UnitTestCase {
 	public function testCASHInstance() {
-		$this->assertInstanceOf('CASHRequest', new CASHRequest);
+		$this->assertIsA(new CASHRequest, 'CASHRequest');
 	}
 
 	public function testCoreExists() {
@@ -30,8 +30,14 @@ class BasicTests extends PHPUnit_Framework_TestCase {
 				'string' => $test_string
 			)
 		);
-		$this->assertEquals($test_action, $test_request->response['payload']['cash_action']);
-		$this->assertEquals($test_string, $test_request->response['payload']['string']);
+		$this->assertEqual($test_action, $test_request->response['payload']['cash_action']);
+		$this->assertEqual($test_string, $test_request->response['payload']['string']);
 	}
+
+    function assertFileExists($filename, $message = '%s') {
+        $this->assertTrue(
+                file_exists($filename),
+                sprintf($message, 'File [$filename] existence check'));
+    }
 }
 ?>
