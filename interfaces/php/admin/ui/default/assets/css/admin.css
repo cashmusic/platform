@@ -66,13 +66,13 @@ a.mockbutton {color:#000 !important;font-size:0.9em;}
 a.mockbutton:hover {text-decoration:none !important;}
 
 /* NAVIGATION */
-#chromespc {position:fixed;top:0;left:0;width:100%;z-index:1000;margin:0;padding:0;}
+#chromespc {position:fixed;top:0;left:0;min-width:1060px;width:100%;z-index:1000;margin:0;padding:0;}
 #accountmenu {position:absolute;top:0;left:0;min-width:1060px;width:100%;height:14px;z-index:400;padding:8px 0 8px 0;font-size:11px;line-height:14px;background-color:#000;color:#666;text-align:right;}
 #accountmenu a {margin-right:1.5em;color:#666;}
 #subnavemenu {position:absolute;top:30px;left:0;min-width:1060px;width:100%;z-index:400;padding:8px 0 8px 0;font-size:11px;line-height:14px;background-color:#fff;color:#000;opacity:0.9;text-align:right;}
 #subnavemenu a {margin-right:1.5em;color:#000;padding:2px;}
 #subnavemenu a:hover, #tipspc a:hover {background-color:#ff0;}
-#navmenu {position:relative;width:1060px;margin:0 auto;height:72px;text-align:left;color:#fff;text-align:right;font-size:0.9em;line-height:1.3em;z-index:500;}
+#navmenu {position:absolute;top:0;left:50%;margin-left:-530px;width:730px;height:72px;text-align:left;color:#fff;text-align:right;font-size:0.9em;line-height:1.3em;z-index:500;}
 #navmenu .navitem {float:left;margin:0;padding:3px 8px;width:130px;height:72px;cursor:pointer;}
 #navmenu .currentnav {background-image:url(../images/bot_left.png);background-position:left bottom;background-repeat:no-repeat;}
 #navmenu .navitem:hover {background-color:#fff;color:#000;background-image:none;}
