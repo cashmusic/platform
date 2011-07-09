@@ -1,0 +1,10 @@
+{
+	"name":"Amazon S3",
+	"type":"com.amazon.s3",
+	"dataTypes": 
+		{
+			"key":"string",
+			"secret":"string",
+			"bucket":"string"
+		}
+}

@@ -15,7 +15,7 @@ class S3Seed extends SeedBase {
 	protected $s3,$bucket='';
 
 	public function __construct($user_id,$use_specific_settings=false) {
-		$this->settings_type = 'com.amazon.aws';
+		$this->settings_type = 'com.amazon.s3';
 		$this->user_id = $user_id;
 		$this->use_specific_settings = $use_specific_settings;
 		$this->connectDB();
