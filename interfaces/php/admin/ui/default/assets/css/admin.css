@@ -68,7 +68,7 @@ a.mockbutton:hover {text-decoration:none !important;}
 /* NAVIGATION */
 #chromespc {position:fixed;top:0;left:0;min-width:960px;width:100%;z-index:1000;margin:0;padding:0;}
 #accountspc {position:absolute;top:0;left:0;min-width:960px;width:100%;height:30px;z-index:400;font-size:11px;line-height:14px;background-color:#000;color:#666;text-align:right;}
-#accountmenu {width:auto;float:right;padding:8px 1.5em 8px 1.5em;color:#666;}
+#accountmenu {width:auto;min-width:200px;float:right;padding:8px 1.5em 8px 1.5em;color:#666;}
 #accountmenu ul {position:absolute;top:30px;right:0;margin:0;padding:0;list-style:none;width:auto;min-width:200px;display:none;}
 #accountmenu ul li {padding:0;background-color:#222;}
 #accountmenu ul li:hover {background-color:#000;}
