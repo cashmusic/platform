@@ -71,6 +71,7 @@ if (isset($_POST['login'])) {
 	if ($login_request->response['payload'] !== false) {
 		$admin_primary_cash_request->sessionSetPersistent('cash_actual_user',$login_request->response['payload']);
 		$admin_primary_cash_request->sessionSetPersistent('cash_effective_user',$login_request->response['payload']);
+		$admin_primary_cash_request->sessionSetPersistent('cash_effective_user_email',$_POST['address']);
 		if ($include_filename == 'logout.php') {
 			header('Location: ' . ADMIN_WWW_BASE_PATH);
 			exit;
