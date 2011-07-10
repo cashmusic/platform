@@ -38,7 +38,15 @@
 <div id="wrap">
 	<div id="mainspc" class="<?php echo $specialcolor ?>">
 		<div id="chromespc">
-			<div id="accountmenu"><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/logout/">Logout</a></div>
+			<div id="accountspc">
+				<div id="accountmenu">
+					<?php echo $admin_primary_cash_request->sessionGetPersistent('cash_effective_user_email'); ?>
+					<ul>
+						<li><a href="#">Your Account</a></li>
+						<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/logout/">Log Out</a></li>
+					</ul>
+				</div>
+			</div>
 			<div id="subnavemenu"><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/"><b>Dashboard</b></a> <a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/settings/">Settings</a> <a href="http://help.cashmusic.org/">Help</a></div>
 			<div id="navmenu">
 				<div class="navitem bgcolor1<?php echo ($dirname == 'elements' ? ' currentnav' : ''); ?>">
