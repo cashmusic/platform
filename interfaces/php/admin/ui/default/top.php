@@ -27,9 +27,7 @@
 		}
 	?>
 
-	<script src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js" type="text/javascript"></script>
-	<script src="<?php echo ADMIN_WWW_BASE_PATH; ?>/ui/default/assets/scripts/flower/flower_core.js" type="text/javascript" id="hg_core"></script>
-	<script src="<?php echo ADMIN_WWW_BASE_PATH; ?>/ui/default/assets/scripts/flower/flower_init.js" type="text/javascript"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/mootools/1.3.2/mootools-yui-compressed.js" type="text/javascript"></script>
 	<script src="<?php echo ADMIN_WWW_BASE_PATH; ?>/ui/default/assets/scripts/admin_misc.js" type="text/javascript"></script>
 
 </head>
@@ -42,12 +40,23 @@
 				<div id="accountmenu">
 					<?php echo $admin_primary_cash_request->sessionGetPersistent('cash_effective_user_email'); ?>
 					<ul>
-						<li><a href="#">Your Account</a></li>
-						<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/logout/">Log Out</a></li>
+						<li><a href="#">Your account</a></li>
+						<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/logout/">Log out</a></li>
 					</ul>
 				</div>
 			</div>
-			<div id="subnavemenu"><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/"><b>Dashboard</b></a> <a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/settings/">Settings</a> <a href="http://help.cashmusic.org/">Help</a></div>
+			<div id="subnavmenu">
+				<div id="helpmenu">
+					Help
+					<ul>
+						<li><a href="/help/" id="tipslink">Tips for <b>this</b> page</a></li>
+						<li><a href="#">Getting started</a></li>
+						<li><a href="http://help.cashmusic.org/">help.cashmusic.org</a></li>
+					</ul>
+				</div>
+				<div><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/settings/">Settings</a></div>
+				<div><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/"><b>Dashboard</b></a></div>
+			</div>
 			<div id="navmenu">
 				<div class="navitem bgcolor1<?php echo ($dirname == 'elements' ? ' currentnav' : ''); ?>">
 					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/elements/">Elements</a></h2>
@@ -80,12 +89,9 @@
 					guestlist
 				</div>
 			</div>
-		</div>
-		
-		<div id="pagecontent">
-			<h1><?php echo $page_title ?></h1>
+			
 			<div id="tipspc">
-				<div id="pageTips">
+				<div id="pagetips">
 					<?php
 						if ($page_tips == '') {
 							echo 'There are no tips currently written for this page. If you\'d like to suggest a specific idea, please email <a href="mailto:help@cashmusic.org">help@cashmusic.org</a>.';
@@ -93,10 +99,14 @@
 							echo $page_tips;
 						}
 					?>
+					<br /><br />
+					<a id="tipscloselink" href="#">close</a>
 				</div>
-				<a href="/help/" id="tiplink" class="flower_drawertoggle" rev="drawer:target=pageTips,altLinkText=Hide Tips">Tips for <b>this</b> page</a>
 			</div>
-			
+		</div>
+		
+		<div id="pagecontent">
+			<h1><?php echo $page_title ?></h1>
 			<?php
 				$is_menu_set = ' class="nopagemenu"';
 				$page_base = BASE_PAGENAME;
