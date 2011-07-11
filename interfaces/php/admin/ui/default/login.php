@@ -30,7 +30,7 @@
 
 		<div id="chromespc">
 			
-			<div id="accountmenu"></div>
+			<div id="accountspc"></div>
 			<div id="navmenu">
 				<div class="navitem bgcolor1"></div>
 				<div class="navitem bgcolor2"></div>

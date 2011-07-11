@@ -281,7 +281,7 @@ if (!isset($_POST['installstage'])) {
 				}
 				if (mkdir('./source')) {
 					//echo 'created directory: ' . $source_dir . '<br />';
-					copy('https://github.com/api/v2/json/blob/all/cashmusic/DIY/master','./manifest.diy.org.cashmusic');
+					copy('https://github.com/api/v2/json/blob/all/cashmusic/DIY/latest_stable','./manifest.diy.org.cashmusic');
 					echo $source_message;
 					echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
 					echo '<script type="text/javascript">showProgress(0);(function(){document.id("nextstepform").fireEvent("submit");}).delay(250);</script>';
