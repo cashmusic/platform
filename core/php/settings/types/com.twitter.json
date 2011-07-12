@@ -1,0 +1,10 @@
+{
+	"name":"Twitter",
+	"type":"com.twitter",
+	"dataTypes": 
+		{
+			"key":"string",
+			"secret":"string",
+			"username":"string"
+		}
+}

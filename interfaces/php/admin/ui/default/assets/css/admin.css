@@ -7,7 +7,7 @@ code {display:block;padding:2em;margin:0 0 1.5em 0;background-color:#ddd;backgro
 img {border:0;}
 ul, ol {padding:0.5em 0 1.5em 1.5em;}
 p {margin:0 0 1.5em 0;}
-h1 {font-size:42px;line-height:1em;margin:0;padding:0;}
+h1 {font-size:42px;line-height:1em;margin:0 0 0.5em 0;padding:0;}
 h2, h3 {font-size:1.5em;line-height:1em;margin:0;padding:0;padding-bottom:0.35em;}
 big {font-size:1.5em;line-height:1.25em;}
 small {font-size:0.85em;line-height:1.25em;}

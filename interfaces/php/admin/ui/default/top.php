@@ -49,8 +49,9 @@
 				<div id="helpmenu">
 					Help
 					<ul>
-						<li><a href="/help/" id="tipslink">Tips for <b>this</b> page</a></li>
-						<li><a href="#">Getting started</a></li>
+						<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/help/" id="tipslink">Tips for <b>this</b> page</a></li>
+						<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/help/gettingstarted/">Getting started</a></li>
+						<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/help/">FAQ</a></li>
 						<li><a href="http://help.cashmusic.org/">help.cashmusic.org</a></li>
 					</ul>
 				</div>
