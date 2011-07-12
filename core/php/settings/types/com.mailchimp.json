@@ -1,0 +1,8 @@
+{
+	"name":"MailChimp",
+	"type":"com.mailchimp",
+	"dataTypes": 
+		{
+			"key":"string"
+		}
+}

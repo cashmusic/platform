@@ -26,9 +26,18 @@ function getElementsData() {
 	}
 }
 
+// REFACTOR BELOW THIS LINE, YO
+
 function getEffectiveUser() {
 	$helper_cash_request = new CASHRequest();
 	$result = $helper_cash_request->sessionGetPersistent('cash_effective_user');
+	unset($helper_cash_request);
+	return $result;
+}
+
+function getSettingsTypes() {
+	$helper_cash_request = new CASHRequest();
+	$result = $helper_cash_request->getSettingsTypes();
 	unset($helper_cash_request);
 	return $result;
 }
