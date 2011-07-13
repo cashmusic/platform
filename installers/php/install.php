@@ -299,7 +299,7 @@ if (!isset($_POST['installstage'])) {
 					if (!file_exists('./source/'.$file)) {
 						$path = pathinfo($file);
 						if (!is_dir('./source/'.$path['dirname'])) mkdir('./source/'.$path['dirname'],0777,true);
-						if (determinedCopy('https://raw.github.com/cashmusic/DIY/master/'.$file,'./source/'.$file)) {
+						if (determinedCopy('https://raw.github.com/cashmusic/DIY/latest_stable/'.$file,'./source/'.$file)) {
 							echo $source_message;
 							if ($currentfile != $filecount) {
 								echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
