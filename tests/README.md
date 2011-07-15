@@ -2,6 +2,8 @@
 
 These are the CashMusic tests, which make sure that everything works as it should.
 
+Currently there are only PHP tests, which all live in the php/ directory.
+
 # Running the PHP tests
 
 ## Running an individual test file
