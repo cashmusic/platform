@@ -6,7 +6,7 @@
 require_once('tests/lib/simpletest/autorun.php');
 require_once('core/php/cashmusic.php');
 
-class BasicTests extends UnitTestCase {
+class CashDataTests extends UnitTestCase {
 
     function testCASHData(){
         $data = new CASHData();
