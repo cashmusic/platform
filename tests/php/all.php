@@ -6,8 +6,8 @@ class AllTests extends TestSuite {
         $this->TestSuite('All tests');
         // this sucks. We should auto-add anything in tests/php/*.php
         $this->addFile('tests/php/001_BasicTests.php');
-        $this->addFile('tests/php/002_CashData.php');
-        $this->addFile('tests/php/003_CASHDBA.php');
+        $this->addFile('tests/php/002_CashSettings.php');
+        // $this->addFile('tests/php/003_CASHDBA.php');
     }
 }
 ?>
