@@ -83,6 +83,7 @@ if (isset($_POST['login'])) {
 
 // finally, output the template and page-specific markup (checking for current login)
 if ($admin_primary_cash_request->sessionGetPersistent('cash_actual_user')) {
+	include_once(ADMIN_BASE_PATH.'/components/helpers.php');
 	include($pages_path . 'definitions/' . $include_filename);
 	include(ADMIN_BASE_PATH . '/ui/default/top.php');
 	include($pages_path . 'markup/' . $include_filename);

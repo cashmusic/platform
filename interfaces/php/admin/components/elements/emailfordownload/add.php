@@ -1,7 +1,7 @@
 <?php if (!isset($_POST['doelementadd'])) { ?>
 	<form method="post" action="">
-		<input type="hidden" name="doelementadd" value="makeitso">
-		<input type="hidden" name="element_type" value="emailfordownload">
+		<input type="hidden" name="doelementadd" value="makeitso" />
+		<input type="hidden" name="element_type" value="emailfordownload" />
 		<div class="col_onehalf">
 			<h3>Element Details</h3>
 		
@@ -52,8 +52,8 @@
 	</form>
 		
 <?php } else {
-	include_once(ADMIN_BASE_PATH.'/components/helpers.php');
-	$effective_user = getEffectiveUser();
+	
+	$effective_user = getPersistentData('cash_effective_user');
 	
 	$element_add_request = new CASHRequest(
 		array(

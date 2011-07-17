@@ -12,12 +12,100 @@
  *
  */class CASHSettings extends CASHData {
 	
-	public function __construct($settings_type,$user_id,$settings_name='default') {
-		$this->settings_name = $settings_name;
-		$this->settings_type = $settings_type;
+	public function __construct($user_id=false,$settings_id=false) {
 		$this->user_id = $user_id;
+		$this->settings_id = $settings_id;
 		$this->settings = null;
 		$this->connectDB();
+	}
+	
+	/**
+	 * 
+	 * PLATFORM / GENERAL USER SETTINGS
+	 * These functions don't handle specific settings, rather find what's available
+	 * on a platform level, find all settings for a given user, etc.
+	 *
+	 */
+	
+	/**
+	 * Finds all settings type JSON files, builds an array keyed by type
+	 *
+	 * @return array
+	 */public function getSettingsTypes() {
+		if ($settings_dir = opendir(CASH_PLATFORM_ROOT.'/settings/types')) {
+			$settings_types = array();
+			while (false !== ($file = readdir($settings_dir))) {
+				if (substr($file,0,1) != "." && !is_dir($file)) {
+					$tmpKey = strtolower(substr_replace($file, '', -5));
+					$settings_types["$tmpKey"] = json_decode(file_get_contents(CASH_PLATFORM_ROOT.'/settings/types/'.$file));
+				}
+			}
+			closedir($settings_dir);
+			return $settings_types;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Returns all settings for a given user
+	 *
+	 * @return array
+	 */public function getAllSettingsforUser() {
+		if ($this->user_id) {
+			$result = $this->db->getData(
+				'settings',
+				'*',
+				array(
+					"user_id" => array(
+						"condition" => "=",
+						"value" => $this->user_id
+					)
+				)
+			);
+			return $result;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * 
+	 * SPECIFIC SESSION FUNCTIONS
+	 * These return or set individual settings
+	 *
+	 */
+	
+	/**
+	 * Returns the decoded JSON for the setting id the CASHSettings
+	 * object was instantiated with. 
+	 *
+	 * @return settings obj
+	 */public function getSettings() {
+		if ($this->settings_id) {
+			$result = $this->db->getData(
+				'settings',
+				'data',
+				array(
+					"id" => array(
+						"condition" => "=",
+						"value" => $this->settings_id
+					),
+					"user_id" => array(
+						"condition" => "=",
+						"value" => $this->user_id
+					)
+				)
+			);
+			if ($result) {
+				$this->settings = json_decode($result[0]['data']);
+				return $this->settings;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 	
 	/**
@@ -25,46 +113,25 @@
 	 * object was instantiated with. 
 	 *
 	 * @return settings obj
-	 */public function getSettings() {
-		if ($this->settings_name == 'default') {
-			$result = $this->db->getData(
-				'settings',
-				'data',
-				array(
-					"type" => array(
-						"condition" => "=",
-						"value" => $this->settings_type
-					),
-					"isdefault" => array(
-						"condition" => "=",
-						"value" => 1
-					),
-					"user_id" => array(
-						"condition" => "=",
-						"value" => $this->user_id
-					)
+	 */public function getSettingsByNameAndType($settings_name,$settings_type) {
+		$result = $this->db->getData(
+			'settings',
+			'data',
+			array(
+				"type" => array(
+					"condition" => "=",
+					"value" => $settings_type
+				),
+				"name" => array(
+					"condition" => "=",
+					"value" => $settings_name
+				),
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $this->user_id
 				)
-			);
-		} else {
-			$result = $this->db->getData(
-				'settings',
-				'data',
-				array(
-					"type" => array(
-						"condition" => "=",
-						"value" => $this->settings_type
-					),
-					"name" => array(
-						"condition" => "=",
-						"value" => $this->settings_name
-					),
-					"user_id" => array(
-						"condition" => "=",
-						"value" => $this->user_id
-					)
-				)
-			);
-		}
+			)
+		);
 		if ($result) {
 			$this->settings = json_decode($result[0]['data']);
 			return $this->settings;
@@ -90,42 +157,17 @@
 	 * 
 	 *
 	 * @param {array} settings_data: settings data as associative array
-	 * @param {boolean} set_default: whether or not these settings should be default for this type
 	 * @return boolean
-	 */public function addSettings($settings_data,$set_default=false) {
+	 */public function addSettings($settings_name,$settings_type,$settings_data) {
 		$settings_data = json_encode($settings_data);
-		if ($this->checkUniqueName() && $this->settings_name != 'default') {
-			$current_date = time();
-			if ($set_default) {
-				$result = $this->db->setData(
-					'settings',
-					array(
-						'name' => $this->settings_name,
-						'type' => $this->settings_type,
-						'user_id' => $this->user_id,
-						'data' => $settings_data,
-						'isdefault' => false
-					),
-					array(
-						'type' => array(
-							'condition' => '=',
-							'value' => $this->settings_type
-						)
-					)
-				);
-				if (!$result) {
-					// error: could not reset defaults in existing settings
-					return false;
-				}
-			}
+		if ($this->checkUniqueName($settings_name,$settings_type)) {
 			$result = $this->db->setData(
 				'settings',
 				array(
-					'name' => $this->settings_name,
-					'type' => $this->settings_type,
+					'name' => $settings_name,
+					'type' => $settings_type,
 					'user_id' => $this->user_id,
-					'data' => $settings_data,
-					'isdefault' => $set_default
+					'data' => $settings_data
 				)
 			);
 			return $result;
@@ -139,18 +181,18 @@
 	 * Ensures that the specified name / type combination is unique per user
 	 *
 	 * @return boolean
-	 */private function checkUniqueName() {
+	 */private function checkUniqueName($settings_name,$settings_type) {
 		$result = $this->db->getData(
 			'settings',
 			'name',
 			array(
 				'type' => array(
 					'condition' => '=',
-					'value' => $this->settings_type
+					'value' => $settings_type
 				),
 				'name' => array(
 					'condition' => '=',
-					'value' => $this->settings_name
+					'value' => $settings_name
 				),
 				'user_id' => array(
 					'condition' => '=',
@@ -158,7 +200,11 @@
 				)
 			)
 		);
-		return $result;
+		if ($result) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 } // END class 
 ?>
