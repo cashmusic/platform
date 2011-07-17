@@ -10,11 +10,12 @@ $page_request = new CASHRequest(
 	)
 );
 
-include_once(ADMIN_BASE_PATH.'/components/helpers.php');
 $elements_data = getElementsData();
 
 if ($request_parameters) {
 	$element_addtype = $request_parameters[0];
-	$page_title = 'Elements: Add ' . $elements_data[$element_addtype]->name . ' Element';
+	if (isset($elements_data[$element_addtype])) {
+		$page_title = 'Elements: Add ' . $elements_data[$element_addtype]->name . ' Element';
+	}
 }
 ?>

@@ -387,9 +387,9 @@ class AssetPlant extends PlantBase {
 		if ($this->getUnlockedStatus($asset_id)) {
 			$asset = $this->getAssetInfo($asset_id);
 			switch ($asset['type']) {
-				case 'com.amazon.s3':
+				case 'com.amazon':
 					include(CASH_PLATFORM_ROOT.'/classes/seeds/S3Seed.php');
-					$s3 = new S3Seed($asset['user_id']);
+					$s3 = new S3Seed($asset['user_id'],$asset['settings_id']);
 					$this->pushSuccess(array('asset' => $asset_id),'redirect executed successfully');
 					header("Location: " . $s3->getExpiryURL($asset['location']));
 					die();

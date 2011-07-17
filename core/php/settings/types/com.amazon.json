@@ -1,6 +1,7 @@
 {
 	"name":"Amazon S3",
-	"type":"com.amazon.s3",
+	"description":"Each Amazon S3 connection require a key, secret, and bucket. The key and secret can be reused in another connection if you'd like to connect to another bucket.",
+	"type":"com.amazon",
 	"dataTypes": 
 		{
 			"key":"string",

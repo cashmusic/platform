@@ -16,7 +16,7 @@
  *
  **/
 abstract class SeedBase extends CASHData {
-	protected $settings,$settings_type=false,$user_id=null;
+	protected $settings,$settings_id=false,$user_id=null;
 
 	/**
 	 * Retrieves any needed settings (API keys, passwords, etc) based on the
@@ -24,20 +24,12 @@ abstract class SeedBase extends CASHData {
 	 *
 	 * @return array|false
 	 */protected function getCASHSettings() {
-		if ($this->settings_type) {
+		if ($this->settings_id) {
 			require_once(CASH_PLATFORM_ROOT.'/classes/core/CASHSettings.php');
-			if ($this->use_specific_settings) {
-				if ($this->settings = new CASHSettings($this->settings_type,$this->user_id,$this->use_specific_settings)) {
-					return $this->settings->getSettings();
-				} else {
-					return false;
-				}
+			if ($this->settings = new CASHSettings($this->user_id,$this->settings_id)) {
+				return $this->settings->getSettings();
 			} else {
-				if ($this->settings = new CASHSettings($this->settings_type,$this->user_id)) {
-					return $this->settings->getSettings();
-				} else {
-					return false;
-				}
+				return false;
 			}
 		}
 	}
