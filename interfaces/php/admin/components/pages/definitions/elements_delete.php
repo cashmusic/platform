@@ -16,9 +16,9 @@ $page_request = new CASHRequest(
 );
 
 if ($page_request->response['status_uid'] == 'element_getelement_200') {
-	include_once(ADMIN_BASE_PATH.'/components/helpers.php');
+	
 	$elements_data = getElementsData();
-	$effective_user = getEffectiveUser();
+	$effective_user = getPersistentData('cash_effective_user');
 	
 	if ($page_request->response['payload']['user_id'] == $effective_user) {
 		if (isset($_POST['doelementdelete'])) {
