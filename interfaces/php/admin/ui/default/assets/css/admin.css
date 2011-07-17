@@ -3,12 +3,12 @@ html {margin:0;padding:0;}
 body {color:#000;background-color:#fff;text-align:center;font:75%/1.5em helvetica,"helvetica neue",arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:1060px;}
 a {color:#999;text-decoration:none;}
 a:hover {text-decoration:underline;}
-code {display:block;padding:2em;margin:0 0 1.5em 0;background-color:#ddd;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;margin:0 auto;}
+code, div.callout {display:block;padding:2em 2em 1.75em 2em;margin:0 auto 1.5em auto;background-color:#ddd;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;}
 img {border:0;}
 ul, ol {padding:0.5em 0 1.5em 1.5em;}
 p {margin:0 0 1.5em 0;}
 h1 {font-size:42px;line-height:1em;margin:0 0 0.5em 0;padding:0;}
-h2, h3 {font-size:1.5em;line-height:1em;margin:0;padding:0;padding-bottom:0.35em;}
+h2, h3, h4 {font-size:1.5em;line-height:1.125em;margin:0;padding:0;padding-bottom:0.35em;}
 big {font-size:1.5em;line-height:1.25em;}
 small {font-size:0.85em;line-height:1.25em;}
 small a {color:#000 !important;font-weight:bold;}
@@ -31,6 +31,8 @@ ul.nobullets li {list-style-type:none;}
 .tall {height:3em;}
 .tar {text-align:right;}
 .majorcallout {display:block;float:left;padding:7px 12px 7px 12px;margin:0 10px 10px 0;font-weight:bold;color:#fff;background-color:#999;font-size:2.5em;line-height:1em;}
+.mininav {margin-left:1.5em;}
+.nobr  {white-space:nowrap;}
 
 /* FORMS */
 input {padding:6px 2% 6px 2%;border:1px solid #ccc;width:96%;}
@@ -62,6 +64,9 @@ div.usecolor5 a, h2.usecolor5 {color:#8a00ca;}
 a.usecolor0 {color:#999 !important;}
 a.mockbutton {color:#000 !important;font-size:0.9em;}
 a.mockbutton:hover {text-decoration:none !important;}
+div.callout a {font-weight:bold;color:#999;}
+div.callout a:hover {font-weight:bold;color:#000;}
+* a.needsconfirmation:hover {color:#f00 !important;}
 
 /* NAVIGATION */
 #chromespc {position:fixed;top:0;left:0;min-width:960px;width:100%;z-index:1000;margin:0;padding:0;}
@@ -125,5 +130,5 @@ body > #wrap {height:auto;min-height:100%;}
 #footer .donatelink {color:#aaa;}
 
 /* ACCESSIBILITY STUFFS */
-* a:active, * a:focus, #footer a.donatelink:active, #footer a.donatelink:focus, input.checkorradio:focus, input.checkorradio:active
+* a:focus, #footer a.donatelink:active, #footer a.donatelink:focus, input.checkorradio:focus, input.checkorradio:active
 {outline:2px solid #ff0;background-color:#ff0;color:#000;}

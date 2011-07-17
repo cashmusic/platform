@@ -39,34 +39,6 @@
 	
 	/**
 	 * 
-	 * SETTINGS INFO
-	 * List what settings are available and what specific formats those settings
-	 * contain. Metadata, not individual stored settings.
-	 *
-	 */
-
-	/**
-	 * Finds all settings type JSON files, builds an array keyed by type
-	 *
-	 * @return array
-	 */public function getSettingsTypes() {
-		if ($settings_dir = opendir(CASH_PLATFORM_ROOT.'/settings/types')) {
-			$settings_types = array();
-			while (false !== ($file = readdir($settings_dir))) {
-				if (substr($file,0,1) != "." && !is_dir($file)) {
-					$tmpKey = strtolower(substr_replace($file, '', -5));
-					$settings_types["$tmpKey"] = json_decode(file_get_contents(CASH_PLATFORM_ROOT.'/settings/types/'.$file));
-				}
-			}
-			closedir($settings_dir);
-			return $settings_types;
-		} else {
-			return false;
-		}
-	}
-	
-	/**
-	 * 
 	 * SESSION HANDLERS
 	 * Currently using standard $_SESSION calls, but may be wise to overwrite
 	 * in favor of custom calls so we're not relying on over overwriting

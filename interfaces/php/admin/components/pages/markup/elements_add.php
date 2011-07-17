@@ -1,4 +1,5 @@
 <?php
+	$page_error = false;
 	if (isset($element_addtype) && $page_request->response) {
 		$supported_elements = $page_request->response['payload'];
 		if (array_search($element_addtype, $supported_elements) !== false) {
@@ -36,5 +37,9 @@
 		} else {
 			$page_error = "Could not get all needed information.";
 		}
+	}
+	
+	if ($page_error) {
+		echo '<h3>Error</h3><p>' . $page_error . '</p>';
 	}
 ?>
