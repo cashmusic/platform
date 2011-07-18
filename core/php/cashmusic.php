@@ -23,10 +23,12 @@ if (get_magic_quotes_gpc()) {
 }
 
 // begin session
-session_cache_limiter('nocache');
-$session_length = 3600;
-ini_set("session.gc_maxlifetime", $session_length); 
-session_start();
+if(!defined('STDIN')) { // no session for CLI, suckers
+	session_cache_limiter('nocache');
+	$session_length = 3600;
+	ini_set("session.gc_maxlifetime", $session_length); 
+	session_start();
+}
 
 // define constants (use sparingly!)
 $root = dirname(__FILE__);
@@ -58,12 +60,14 @@ function cash_embedElement($element_id) {
 	echo $cash_body_request->response['payload'];
 }
 
-// fire up seed
+// fire up the platform
 $cash_primary_request = new CASHRequest();
 
 // check on each load to see if we need to regenerate the session id
-if ($cash_primary_request->sessionGetPersistent('session_regenerate_id')) {
-	session_regenerate_id(true);
-	$cash_primary_request->sessionClearPersistent('session_regenerate_id');
+if(!defined('STDIN')) { // no session for CLI
+	if ($cash_primary_request->sessionGetPersistent('session_regenerate_id')) {
+		session_regenerate_id(true);
+		$cash_primary_request->sessionClearPersistent('session_regenerate_id');
+	}
 }
 ?>
