@@ -31,7 +31,9 @@ session_start();
 // define constants (use sparingly!)
 $root = dirname(__FILE__);
 define('CASH_PLATFORM_ROOT', $root);
-define('CASH_PLATFORM_CURRENT_URL', 'http'.((empty($_SERVER['HTTPS'])&&$_SERVER['SERVER_PORT']!=443)?'':'s').'://'.$_SERVER['HTTP_HOST'].strtok($_SERVER['REQUEST_URI'],'?'));
+if(!defined('STDIN')) { // if we're not running command line then grab the current url for reference
+	define('CASH_PLATFORM_CURRENT_URL', 'http'.((empty($_SERVER['HTTPS'])&&$_SERVER['SERVER_PORT']!=443)?'':'s').'://'.$_SERVER['HTTP_HOST'].strtok($_SERVER['REQUEST_URI'],'?'));
+}
 
 // set up autoload for core classes
 function cash_autoloadCore($classname) {
