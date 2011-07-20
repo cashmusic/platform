@@ -23,7 +23,7 @@ jitterbug:
     on_failure_cc_email: duke@leto.net
     on_failure_from_email: donotreply@cashmusic.org
     on_failure_subject_prefix: "[jitterbug] FAIL "
-    on_failure_header: "Jitterbug Web Interace : http://dev.cashmusic.org:3000\n%%PROJECT%% : http://dev.cashmusic.org:3000/project/%%PROJECT%%\nFailing Commit Diff: https://github.com/cashmusic/%%PROJECT%%/commit/%%SHA1%%\n\n%%SUMMARY%%\n\n"
+    on_failure_header: "Jitterbug Web Interace : http://dev.cashmusic.org:3000\n%%PROJECT%% : http://dev.cashmusic.org:3000/project/%%PROJECT%%\nCommit Diff: https://github.com/cashmusic/%%PROJECT%%/commit/%%SHA1%%\n\n%%SUMMARY%%\n\n"
     on_failure_footer:
     on_failure_footer: "\n\nSorry, but your Princess is in another castle!!!"
     on_pass: "jitterbug::Emailer"
@@ -31,7 +31,7 @@ jitterbug:
     on_pass_cc_email: duke@leto.net
     on_pass_subject_prefix: "[jitterbug] PASS "
     on_pass_from_email: donotreply@cashmusic.org
-    on_pass_header: "Jitterbug Web Interace : http://dev.cashmusic.org:3000\n%%PROJECT%% : http://dev.cashmusic.org:3000/project/%%PROJECT%%\nFailing Commit Diff: https://github.com/cashmusic/%%PROJECT%%/commit/%%SHA1%%\n\n%%SUMMARY%%\n\n"
+    on_pass_header: "Jitterbug Web Interace : http://dev.cashmusic.org:3000\n%%PROJECT%% : http://dev.cashmusic.org:3000/project/%%PROJECT%%\nCommit Diff: https://github.com/cashmusic/%%PROJECT%%/commit/%%SHA1%%\n\n%%SUMMARY%%\n\n"
     on_pass_footer: "\n\nWOOOOOOOOT! Happy disrupting."
     reuse_repo:    1
 
