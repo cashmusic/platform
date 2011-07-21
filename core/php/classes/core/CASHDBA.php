@@ -54,13 +54,13 @@ class CASHDBA {
 	public function lookupTableName($data_name) {
 		$table_lookup = array(
 			'assets' => 'asst_assets',
-			'elements' => 'cash_elements',
+			'elements' => 'elmt_elements',
 			'email_addresses' => 'emal_addresses',
 			'events' => 'live_events',
 			'lock_codes' => 'lock_codes',
 			'lock_passwords' => 'lock_passwords',
-			'settings' => 'cash_settings',
-			'users' => 'cash_users',
+			'settings' => 'base_settings',
+			'users' => 'user_users',
 			'venues' => 'live_venues'
 		);
 		if (array_key_exists($data_name, $table_lookup)) {
