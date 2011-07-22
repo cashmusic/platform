@@ -8,7 +8,7 @@ if ($request_parameters) {
 	
 	$page_request = new CASHRequest(
 		array(
-			'cash_request_type' => 'emaillist', 
+			'cash_request_type' => 'userlist', 
 			'cash_action' => 'viewlist',
 			'list_id' => $request_list_id
 		)

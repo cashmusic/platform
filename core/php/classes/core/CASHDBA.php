@@ -55,12 +55,12 @@ class CASHDBA {
 		$table_lookup = array(
 			'assets' => 'asst_assets',
 			'elements' => 'elmt_elements',
-			'email_addresses' => 'emal_addresses',
 			'events' => 'live_events',
 			'lock_codes' => 'lock_codes',
 			'lock_passwords' => 'lock_passwords',
 			'settings' => 'base_settings',
 			'users' => 'user_users',
+			'list_members' => 'user_lists_members',
 			'venues' => 'live_venues'
 		);
 		if (array_key_exists($data_name, $table_lookup)) {
@@ -118,7 +118,7 @@ class CASHDBA {
 		$query = false;
 		$table_name = $this->lookupTableName($data_name);
 		if ($table_name === false) {
-			return $this->getSpecialData($data_name,$conditions);
+			return $this->getSpecialData($data_name,$conditions,$limit,$orderby);
 		}
 		if ($data) {
 			$query = "SELECT $data FROM $table_name";
@@ -236,16 +236,24 @@ class CASHDBA {
 		}
 	}
 	
-	public function getSpecialData($data_name,$conditions=false) {
+	public function getSpecialData($data_name,$conditions=false,$limit=false,$orderby=false) {
 		if (!is_object($this->db)) {
 			$this->connect();
 		}
 		switch ($data_name) {
-			case 'assets_getAssetInfo':
+			case 'AssetPlant_getAssetInfo':
 				$query = "SELECT a.user_id,a.parent_id,a.location,a.title,a.description,a.comment,a.settings_id,"
 				. "s.name,s.type "
-				. "FROM asst_assets a LEFT OUTER JOIN cash_settings s ON a.settings_id = s.id "
+				. "FROM asst_assets a LEFT OUTER JOIN base_settings s ON a.settings_id = s.id "
 				. "WHERE a.id = :asset_id";
+				break;
+			case 'UserListPlant_getAddressesForList':
+				$query = "SELECT u.id,u.email_address,u.display_name,"
+				. "l.initial_comment,l.additional_data,l.creation_date "
+				. "FROM user_users u LEFT OUTER JOIN user_lists_members l ON u.id = l.user_id "
+				. "WHERE l.list_id = :list_id AND l.verified = true";
+				if ($orderby) $query .= " ORDER BY $orderby";
+				if ($limit) $query .= " LIMIT $limit";
 				break;
 			case 'EventPlant_getAllDates':
 				$query = "SELECT d.id,u.display_name as user_display_name,d.date,d.publish,d.cancelled,d.comments,"

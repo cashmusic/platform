@@ -17,7 +17,7 @@ div.usecolor5 #pagecontent td a {color:#333;}
 <?php
 
 if (isset($page_request->response)) {
-	if ($page_request->response['status_uid'] == 'emaillist_viewlist_200') {
+	if ($page_request->response['status_uid'] == 'userlist_viewlist_200') {
 		if (is_array($page_request->response['payload']))
 		?>
 		<table style="width:100%;">
@@ -41,7 +41,7 @@ if (isset($page_request->response)) {
 		    ?>
 			<tr>
 				<td><a href="mailto:<?php echo $entry['email_address']; ?>"><?php echo $entry['email_address']; ?></a></td>
-				<td><?php echo $entry['name']; ?></td>
+				<td><?php echo $entry['display_name']; ?></td>
 				<td><?php echo date('M j, Y',$entry['creation_date']); ?></td>
 				<td><?php echo $entry['initial_comment']; ?></td>
 			</tr>

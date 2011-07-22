@@ -33,7 +33,7 @@ class EmailForDownload {
 	public function getMarkup() {
 		$markup = '';
 		switch ($this->status_uid) {
-			case 'emaillist_signup_200':
+			case 'userlist_signup_200':
 				$unlock_request = new CASHRequest(array(
 					'cash_request_type' => 'asset', 
 					'cash_action' => 'unlock',
@@ -52,13 +52,13 @@ class EmailForDownload {
 				. "<div class=\"description\">$asset_description</div>"
 				. "</div>";
 				break;
-			case 'emaillist_signup_400':
+			case 'userlist_signup_400':
 				$markup = "<div class=\"seed_error ". self::type ."\">"
 				. $this->options->message_invalid_email
 				. "</div>"
 				. "<form class=\"seed_form ". self::type ."\" method=\"post\" action=\"\">"
 				. "<input type=\"email\" name=\"address\" value=\"\" class=\"seed_input\" />"
-				. "<input type=\"hidden\" name=\"cash_request_type\" value=\"emaillist\" />"
+				. "<input type=\"hidden\" name=\"cash_request_type\" value=\"userlist\" />"
 				. "<input type=\"hidden\" name=\"cash_action\" value=\"signup\" />"
 				. "<input type=\"hidden\" name=\"list_id\" value=\"".$this->options->emal_list_id."\" />"
 				. "<input type=\"hidden\" name=\"verified\" value=\"1\" />"
@@ -71,7 +71,7 @@ class EmailForDownload {
 			default:
 				$markup = "<form class=\"seed_form ". self::type ."\" method=\"post\" action=\"\">"
 				. "<input type=\"email\" name=\"address\" value=\"\" class=\"seed_input\" />"
-				. "<input type=\"hidden\" name=\"cash_request_type\" value=\"emaillist\" />"
+				. "<input type=\"hidden\" name=\"cash_request_type\" value=\"userlist\" />"
 				. "<input type=\"hidden\" name=\"cash_action\" value=\"signup\" />"
 				. "<input type=\"hidden\" name=\"list_id\" value=\"".$this->options->emal_list_id."\" />"
 				. "<input type=\"hidden\" name=\"verified\" value=\"1\" />"

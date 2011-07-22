@@ -81,7 +81,7 @@ class AssetPlant extends PlantBase {
 	
 	public function getAssetInfo($asset_id) {
 		$result = $this->db->getData(
-			'assets_getAssetInfo',
+			'AssetPlant_getAssetInfo',
 			false,
 			array(
 				"asset_id" => array(

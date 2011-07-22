@@ -34,6 +34,16 @@ class UserPlant extends PlantBase {
 						'success. id or false included in payload'
 					);
 					break;
+				case 'validateadminlogin':
+					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
+					if (!$this->requireParameters('address','password')) { return $this->sessionGetLastResponse(); }
+					$result = $this->validateLogin($this->request['address'],$this->request['password'],true);
+					return $this->response->pushResponse(
+						200,$this->request_type,$this->action,
+						$result,
+						'success. id or false included in payload'
+					);
+					break;
 				case 'setlogin':
 					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
 					if (!$this->requireParameters('address','password')) { return $this->sessionGetLastResponse(); }
@@ -68,11 +78,11 @@ class UserPlant extends PlantBase {
 	 * @param {string} $address -  the email address in question
 	 * @param {string} $password - the password
 	 * @return array|false
-	 */public function validateLogin($address,$password) {
+	 */public function validateLogin($address,$password,$require_admin=false) {
 		$password_hash = hash_hmac('sha256', $password, $this->salt);
 		$result = $this->db->getData(
 			'users',
-			'id,password',
+			'id,password,is_admin',
 			array(
 				"email_address" => array(
 					"condition" => "=",
@@ -81,7 +91,11 @@ class UserPlant extends PlantBase {
 			)
 		);
 		if ($password_hash == $result[0]['password']) {
-			return $result[0]['id'];
+			if (($require_admin && $result[0]['is_admin']) || !$require_admin) {
+				return $result[0]['id'];
+			} else {
+				return false;
+			}
 		} else {
 			return false;
 		}
