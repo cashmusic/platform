@@ -1,17 +1,23 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
-DROP TABLE IF EXISTS `asst_analytics`;
+DROP TABLE IF EXISTS `asst_assets`;
 
-CREATE TABLE `asst_analytics` (
+CREATE TABLE `asst_assets` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `asset_id` int(11) NOT NULL DEFAULT '0',
-  `element_id` int(11) NOT NULL,
-  `access_time` int(11) NOT NULL,
-  `client_ip` varchar(15) NOT NULL,
-  `client_proxy` varchar(15) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `location` text,
+  `settings_id` int(11) DEFAULT NULL,
+  `title` text,
+  `description` text,
+  `comment` text NOT NULL,
+  `public_status` bit(1) DEFAULT b'0',
+  `license_id` int(11) DEFAULT '0',
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `asst_asets_parent_id` (`parent_id`),
+  KEY `asst_assets_user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -23,34 +29,6 @@ CREATE TABLE `asst_licenses` (
   `description` text NOT NULL,
   `fulltext` blob NOT NULL,
   `uri` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `base_settings`;
-
-CREATE TABLE `base_settings` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text,
-  `type` text NOT NULL,
-  `data` text NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `creation_date` int(11) DEFAULT NULL,
-  `modification_date` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `base_tags`;
-
-CREATE TABLE `base_tags` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `scope_table_alias` varchar(64) NOT NULL DEFAULT '',
-  `scope_table_id` int(11) NOT NULL DEFAULT '0',
-  `user_id` int(11) NOT NULL DEFAULT '0',
-  `tag` text,
-  `creation_date` int(11) DEFAULT NULL,
-  `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -69,7 +47,7 @@ CREATE TABLE `cmrc_products` (
   `creation_date` int(11) NOT NULL DEFAULT '0',
   `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `cmrc_transactions`;
@@ -97,36 +75,6 @@ CREATE TABLE `cmrc_transactions` (
   `creation_date` int(11) NOT NULL DEFAULT '0',
   `modification_date` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
-DROP TABLE IF EXISTS `elmt_analytics`;
-
-CREATE TABLE `elmt_analytics` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `element_id` int(11) NOT NULL,
-  `access_method` varchar(24) NOT NULL,
-  `access_location` text NOT NULL,
-  `access_time` int(11) NOT NULL,
-  `client_ip` varchar(15) NOT NULL,
-  `client_proxy` varchar(15) NOT NULL,
-  `creation_date` int(11) DEFAULT NULL,
-  `modification_date` int(11) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `elmt_elements`;
-
-CREATE TABLE `elmt_elements` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `name` text,
-  `type` text NOT NULL,
-  `options` text,
-  `creation_date` int(11) DEFAULT NULL,
-  `modification_date` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -142,7 +90,8 @@ CREATE TABLE `live_events` (
   `comments` text,
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `live_events_user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -167,10 +116,54 @@ CREATE TABLE `live_venues` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `lock_codes`;
+
+CREATE TABLE `lock_codes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` tinytext,
+  `element_id` int(11) DEFAULT NULL,
+  `claim_date` int(11) DEFAULT NULL,
+  `creation_date` int(11) DEFAULT '0',
+  `modification_date` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `lock_codes_element_id` (`element_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `lock_passwords`;
+
+CREATE TABLE `lock_passwords` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `password` text,
+  `element_id` int(11) DEFAULT NULL,
+  `creation_date` int(11) DEFAULT '0',
+  `modification_date` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `lock_passwords_element_id` (`element_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `asst_analytics`;
+
+CREATE TABLE `asst_analytics` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `asset_id` int(11) NOT NULL DEFAULT '0',
+  `element_id` int(11) DEFAULT NULL,
+  `access_time` int(11) NOT NULL,
+  `client_ip` varchar(15) NOT NULL,
+  `client_proxy` varchar(15) NOT NULL,
+  `creation_date` int(11) DEFAULT NULL,
+  `modification_date` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `asst_analytics_asset_id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 DROP TABLE IF EXISTS `lock_permissions`;
 
 CREATE TABLE `lock_permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
   `user_list_id` int(11) NOT NULL DEFAULT '0',
   `element_id` int(11) NOT NULL DEFAULT '0',
   `allowed_logins` int(11) NOT NULL DEFAULT '-1',
@@ -181,44 +174,8 @@ CREATE TABLE `lock_permissions` (
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `login_id` (`user_list_id`,`element_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `user_lists`;
-
-CREATE TABLE `user_lists` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(128) NOT NULL DEFAULT '',
-  `description` text,
-  `creation_date` int(11) DEFAULT NULL,
-  `modification_date` int(11) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `user_lists_members`;
-
-CREATE TABLE `user_lists_members` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `list_id` int(11) NOT NULL,
-  `creation_date` int(11) DEFAULT NULL,
-  `modification_date` int(11) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-DROP TABLE IF EXISTS `user_resetpassword`;
-
-CREATE TABLE `user_resetpassword` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `time_requested` int(11) NOT NULL DEFAULT '0',
-  `random_key` tinytext NOT NULL,
-  `user_id` int(11) NOT NULL DEFAULT '0',
-  `creation_date` int(11) DEFAULT NULL,
-  `modification_date` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  KEY `lock_permissions_login_id` (`user_list_id`,`element_id`),
+  KEY `lock_permissions_element_id` (`element_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -239,9 +196,6 @@ CREATE TABLE `user_users` (
   `address_region` tinytext,
   `address_postalcode` tinytext,
   `address_country` tinytext,
-  `comments` text,
-  `verification_code` text NOT NULL,
-  `verified` bit(1) NOT NULL,
   `is_admin` bit(1) NOT NULL DEFAULT b'0',
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT NULL,
@@ -250,53 +204,123 @@ CREATE TABLE `user_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS `lock_passwords`;
+DROP TABLE IF EXISTS `user_lists`;
 
-CREATE TABLE `lock_passwords` (
+CREATE TABLE `user_lists` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `password` text,
-  `asset_id` int(11) DEFAULT NULL,
-  `creation_date` int(11) DEFAULT '0',
-  `modification_date` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `asset_id` (`asset_id`)
+  `name` varchar(128) NOT NULL DEFAULT '',
+  `description` text,
+  `creation_date` int(11) DEFAULT NULL,
+  `modification_date` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS `asst_assets`;
+DROP TABLE IF EXISTS `user_resetpassword`;
 
-CREATE TABLE `asst_assets` (
+CREATE TABLE `user_resetpassword` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `time_requested` int(11) NOT NULL DEFAULT '0',
+  `random_key` tinytext NOT NULL,
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `creation_date` int(11) DEFAULT NULL,
+  `modification_date` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `elmt_elements`;
+
+CREATE TABLE `elmt_elements` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
-  `parent_id` int(11) DEFAULT NULL,
-  `location` text,
-  `settings_id` int(11) DEFAULT NULL,
-  `title` text,
-  `description` text,
-  `comment` text NOT NULL,
-  `public_status` bit(1) DEFAULT b'0',
-  `license_id` int(11) DEFAULT '0',
+  `name` text,
+  `type` text NOT NULL,
+  `options` text,
+  `creation_date` int(11) DEFAULT NULL,
+  `modification_date` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `elmt_analytics`;
+
+CREATE TABLE `elmt_analytics` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `element_id` int(11) NOT NULL,
+  `access_method` varchar(24) NOT NULL,
+  `access_location` text NOT NULL,
+  `lock_method_table` varchar(24) NOT NULL,
+  `lock_method_id` int(11) NOT NULL,
+  `access_time` int(11) NOT NULL,
+  `client_ip` varchar(15) NOT NULL,
+  `client_proxy` varchar(15) NOT NULL,
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `parent_id` (`parent_id`),
-  KEY `user_id` (`user_id`),
-  KEY `seed_settings_id` (`settings_id`),
-  KEY `settings_id` (`settings_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='InnoDB free: 3072 kB; (`parent_id`) REFER `seed/asts_assets`';
+  KEY `elmt_analytics_element_id` (`element_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS `lock_codes`;
+DROP TABLE IF EXISTS `base_settings`;
 
-CREATE TABLE `lock_codes` (
+CREATE TABLE `base_settings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uid` tinytext,
-  `asset_id` int(11) DEFAULT NULL,
-  `claim_date` int(11) DEFAULT NULL,
-  `creation_date` int(11) DEFAULT '0',
+  `name` text,
+  `type` text NOT NULL,
+  `data` text NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `creation_date` int(11) DEFAULT NULL,
+  `modification_date` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `user_lists_members`;
+
+CREATE TABLE `user_lists_members` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `list_id` int(11) NOT NULL,
+  `verification_code` text NOT NULL,
+  `verified` bit(1) NOT NULL,
+  `initial_comment` text NOT NULL,
+  `additional_data` text NOT NULL,
+  `creation_date` int(11) DEFAULT NULL,
+  `modification_date` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `user_lists_members_user_id` (`user_id`),
+  KEY `user_lists_members_list_id` (`list_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `live_guestlist`;
+
+CREATE TABLE `live_guestlist` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `event_id` int(128) NOT NULL,
+  `guest_name` text,
+  `total_attendees` int(11) NOT NULL DEFAULT '1',
+  `comment` text NOT NULL,
+  `creation_date` int(11) DEFAULT NULL,
+  `modification_date` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `base_metadata`;
+
+CREATE TABLE `base_metadata` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `scope_table_alias` varchar(64) NOT NULL DEFAULT '',
+  `scope_table_id` int(11) NOT NULL DEFAULT '0',
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `type` text,
+  `value` text NOT NULL,
+  `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `asset_id` (`asset_id`)
+  KEY `base_metadata_scope_table` (`scope_table_alias`,`scope_table_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
