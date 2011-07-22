@@ -11,10 +11,10 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  **/
-class EmailListPlant extends PlantBase {
+class UserListPlant extends PlantBase {
 	
 	public function __construct($request_type,$request) {
-		$this->request_type = 'emaillist';
+		$this->request_type = 'userlist';
 		$this->plantPrep($request_type,$request);
 	}
 	
@@ -27,7 +27,7 @@ class EmailListPlant extends PlantBase {
 						if (isset($this->request['comment'])) {$initial_comment = $this->request['comment'];} else {$initial_comment = '';}
 						if (isset($this->request['verified'])) {$verified = $this->request['verified'];} else {$verified = 0;}
 						if (isset($this->request['name'])) {$name = $this->request['name'];} else {$name = 'Anonymous';}
-						$result = $this->addAddress($this->request['address'],$this->request['list_id'],$initial_comment,$verified,$name);
+						$result = $this->addAddress($this->request['address'],$this->request['list_id'],$verified,$initial_comment,'',$name);
 						if ($result) {
 							return $this->pushSuccess($this->request,'email address successfully added to list');
 						} else {
@@ -44,7 +44,7 @@ class EmailListPlant extends PlantBase {
 				case 'viewlist':
 					// REQUIRE DIRECT REQUEST!
 					if (!$this->requireParameters('list_id')) { return $this->sessionGetLastResponse(); }
-					$result = $this->getAddresses($this->request['list_id']);
+					$result = $this->getAddressesForList($this->request['list_id']);
 					if ($result) {
 						return $this->pushSuccess($result,'success. list included in payload');
 					} else {
@@ -74,28 +74,57 @@ class EmailListPlant extends PlantBase {
 	 *
 	 * @param {string} $address -  the email address in question
 	 * @return array|false
-	 */public function getAddressInformation($address,$list_id) {
+	 */public function getAddressListInfo($address,$list_id) {
+		$user_id = $this->getUserIDForAddress($address);
+		if ($user_id) {
+			$result = $this->db->getData(
+				'list_members',
+				'*',
+				array(
+					"user_id" => array(
+						"condition" => "=",
+						"value" => $user_id
+					),
+					"list_id" => array(
+						"condition" => "=",
+						"value" => $list_id
+					)
+				)
+			);
+			if ($result) {
+				$return_array = $result[0];
+				$return_array['email_address'] = $address;
+				return $return_array;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
+	public function getUserIDForAddress($address) {
 		$result = $this->db->getData(
-			'email_addresses',
-			'*',
+			'users',
+			'id',
 			array(
 				"email_address" => array(
 					"condition" => "=",
 					"value" => $address
-				),
-				"list_id" => array(
-					"condition" => "=",
-					"value" => $list_id
 				)
 			)
 		);
-		return $result[0];
+		if ($result) {
+			return $result[0]['id'];
+		} else {
+			return false;
+		}
 	}
 	
-	public function getAddresses($list_id,$limit=100,$start=0) {
+	public function getAddressesForList($list_id,$limit=100,$start=0) {
 		$result = $this->db->getData(
-			'email_addresses',
-			'*',
+			'UserListPlant_getAddressesForList',
+			false,
 			array(
 				"list_id" => array(
 					"condition" => "=",
@@ -109,7 +138,7 @@ class EmailListPlant extends PlantBase {
 	}
 
 	public function addressIsVerified($address,$list_id) {
-		$address_information = $this->getAddressInformation($address,$list_id);
+		$address_information = $this->getAddressListInfo($address,$list_id);
 		if (!$address_information) {
 			return false; 
 		} else {
@@ -117,26 +146,38 @@ class EmailListPlant extends PlantBase {
 		}
 	}
 
-	public function addAddress($address,$list_id,$initial_comment='',$verified=0,$name='Anonymous') {
+	public function addAddress($address,$list_id,$verified=0,$initial_comment='',$additional_data='',$name) {
 		if (filter_var($address, FILTER_VALIDATE_EMAIL)) {
 			// first check to see if the email is already on the list
-			if (!$this->getAddressInformation($address,$list_id)) {
+			$user_id = $this->getUserIDForAddress($address);
+			if (!$this->getAddressListInfo($address,$list_id)) {
 				$initial_comment = strip_tags($initial_comment);
 				$name = strip_tags($name);
-				$result = $this->db->setData(
-					'email_addresses',
-					array(
-						'email_address' => $address,
-						'list_id' => $list_id,
-						'initial_comment' => $initial_comment,
-						'verified' => $verified,
-						'name' => $name
-					)
-				);
+				$user_id = $this->getUserIDForAddress($address);
+				if (!$user_id) {
+					$user_id = $this->db->setData(
+						'users',
+						array(
+							'email_address' => $address,
+							'display_name' => $name
+						)
+					);
+				}
+				if ($user_id) {
+					$result = $this->db->setData(
+						'list_members',
+						array(
+							'user_id' => $user_id,
+							'list_id' => $list_id,
+							'initial_comment' => $initial_comment,
+							'verified' => $verified,
+						)
+					);
+				} else {
+					return false;
+				}
 				return $result;
 			} else {
-				// overwrite the name and comment if new != old? doing nothing
-				// for now. maybe push into proper "user" status for updates?
 				return true;
 			}
 		} else {
@@ -166,7 +207,7 @@ class EmailListPlant extends PlantBase {
 	public function doAddressVerification($address,$list_id,$verification_code) {
 		$alreadyverified = $this->addressIsVerified($address);
 		if ($alreadyverified == 1) {
-			$addressInfo = $this->getAddressInformation($address);
+			$addressInfo = $this->getAddressListInfo($address);
 			return $addressInfo['id'];
 		} else {
 			$result = $this->db->getData(
