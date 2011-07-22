@@ -186,6 +186,11 @@ class UserListPlant extends PlantBase {
 	}
 
 	public function setAddressVerification($address,$list_id) {
+		/*
+		 *
+		 * --- MUST BE REWRITTEN, MAILER FUNCTIONS NEEDED IN THE CORE
+		 *
+		*/
 		$verification_code = time();
 		$result = $this->db->setData(
 			'email_addresses',
@@ -205,6 +210,11 @@ class UserListPlant extends PlantBase {
 	}
 
 	public function doAddressVerification($address,$list_id,$verification_code) {
+		/*
+		 *
+		 * --- MUST BE REWRITTEN, MAILER FUNCTIONS NEEDED IN THE CORE
+		 *
+		*/
 		$alreadyverified = $this->addressIsVerified($address);
 		if ($alreadyverified == 1) {
 			$addressInfo = $this->getAddressListInfo($address);
