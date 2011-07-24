@@ -42,7 +42,7 @@
 			<div id="loginspc">
 				<div id="loginbox">
 					<small><b>CASH Music</b></small>
-					<h1>Log In:</h1>
+					<h1><?php echo $login_message; ?>:</h1>
 			
 					<form method="post" action=""> 
 						<label for="address">email</label>
