@@ -59,6 +59,7 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH))) {
 }
 
 // if a login needs doing, do it
+$login_message = "Log In";
 if (isset($_POST['login'])) {
 	$login_request = new CASHRequest(
 		array(
@@ -78,6 +79,7 @@ if (isset($_POST['login'])) {
 		}
 	} else {
 		$admin_primary_cash_request->sessionClearAllPersistent();
+		$login_message = "Try Again";
 	}
 }
 
