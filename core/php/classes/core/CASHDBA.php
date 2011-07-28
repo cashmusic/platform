@@ -58,6 +58,7 @@ class CASHDBA {
 			'events' => 'live_events',
 			'lock_codes' => 'lock_codes',
 			'lock_passwords' => 'lock_passwords',
+			'metadata' => 'base_metadata',
 			'settings' => 'base_settings',
 			'users' => 'user_users',
 			'list_members' => 'user_lists_members',
