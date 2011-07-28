@@ -1,13 +1,12 @@
-<?php if (!isset($_POST['doelementadd'])) { ?>
+<?php if (!isset($_POST['doassetadd'])) { ?>
 	<form method="post" action="">
-		<input type="hidden" name="doelassetadd" value="makeitso" />
-		<input type="hidden" name="asset_type" value="single" />
+		<input type="hidden" name="doassetadd" value="makeitso" />
 		<div class="col_onehalf">
 			<h3>Asset Details</h3>
 			
 			<label for="settings_id">Use Settings</label><br />
 			<select id="settings_id" name="settings_id">
-				<option value="0">None (Normal http://... link)</option>
+				<option value="0" selected="selected">None (Normal http://... link)</option>
 			</select>
 			
 			<div class="row_seperator">.</div>
@@ -31,7 +30,7 @@
 			</div>
 			<div class="row_seperator">.</div>
 			<div>
-				<label>Metadata</label><br />
+				<label>Metadata (Advanced)</label><br />
 				<a href="#" class="injectbefore" rev="<div class='col_onehalf'><input type='text' name='metadatakey' value='' placeholder='Key (Data Type)' /></div><div class='col_onehalf lastcol'><input type='text' name='metadatavalue' value='' placeholder='Value' /></div>"><small>+ ADD CUSTOM METADATA</small></a>
 			</div>
 		</div>
@@ -45,45 +44,36 @@
 <?php } else {
 	
 	$effective_user = getPersistentData('cash_effective_user');
-	
-	$element_add_request = new CASHRequest(
+
+	$asset_add_request = new CASHRequest(
 		array(
-			'cash_request_type' => 'element', 
-			'cash_action' => 'addelement',
-			'name' => $_POST['element_name'],
-			'type' => $_POST['element_type'],
-			'options_data' => array(
-				'message_invalid_email' => $_POST['message_invalid_email'],
-				'message_privacy' => $_POST['message_privacy'],
-				'message_success' => $_POST['message_success'],
-				'emal_list_id' => $_POST['emal_list_id'],
-				'asset_id' => $_POST['asset_id'],
-				'comment_or_radio' => $_POST['comment_or_radio']
-			),
-			'user_id' => $effective_user
+			'cash_request_type' => 'asset', 
+			'cash_action' => 'addasset',
+			'title' => $asset_title,
+			'description' => $asset_description,
+			'location' => $asset_location,
+			'user_id' => $effective_user,
+			'settings_id' => $asset_settings,
+			'tags' => $asset_tags,
+			'metadata' => $asset_metadata
 		)
 	);
-	if ($element_add_request->response['status_uid'] == 'element_addelement_200') {
+	if ($asset_add_request->response['status_uid'] == 'asset_addasset_200') {
+	
 	?>
 	
 		<h3>Success</h3>
 		<p>
-		Your new <b>Email For Download</b> element is ready to go. To begin using it immediately insert
-		this embed code on any page:
+		The new asset is in the system and ready to use.
 		</p>
-		<code>
-			&lt;?php cash_embedElement(<?php echo $element_add_request->response['payload']['element_id']; ?>); // CASH element (<?php echo $_POST['element_name'] . ' / ' . $_POST['element_type']; ?>) ?&gt;
-		</code>
+		<a href="./"><b>Add another.</b></a>
 		<br />
-		<p>
-		Enjoy!
-		</p>
 
 	<?php } else { ?>
 		
 		<h3>Error</h3>
 		<p>
-		There was a problem creating the element. <a href="./">Please try again.</a>
+		There was a problem adding the asset. <a href="./">Please try again.</a>
 		</p>
 
 <?php 

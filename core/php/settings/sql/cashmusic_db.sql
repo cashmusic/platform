@@ -10,9 +10,7 @@ CREATE TABLE `asst_assets` (
   `settings_id` int(11) DEFAULT NULL,
   `title` text,
   `description` text,
-  `comment` text NOT NULL,
   `public_status` bit(1) DEFAULT b'0',
-  `license_id` int(11) DEFAULT '0',
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -237,6 +235,7 @@ CREATE TABLE `elmt_elements` (
   `name` text,
   `type` text NOT NULL,
   `options` text,
+  `license_id` int(11) DEFAULT '0',
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
