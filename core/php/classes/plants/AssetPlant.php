@@ -117,11 +117,8 @@ class AssetPlant extends PlantBase {
 				'public_status' => $public_status
 			)
 		);
-		if ($result && $tags) {
-			$this->batchSetTags('assets',$result,$user_id,$tags);
-		}
-		if ($result && $metadata) {
-			$this->batchSetMetaData('assets',$result,$user_id,$metadata);
+		if ($result) {
+			$this->setAllMetaData('assets',$result,$user_id,$tags,$metadata);
 		}
 		return $result;
 	}
@@ -145,12 +142,8 @@ class AssetPlant extends PlantBase {
 				)
 			)
 		);
-		$this->removeAllMetaDataForItem('assets',$asset_id,$user_id);
-		if ($result && $tags) {
-			$this->batchSetTags('assets',$result,$user_id,$tags);
-		}
-		if ($result && $metadata) {
-			$this->batchSetMetaData('assets',$result,$user_id,$metadata);
+		if ($result) {
+			$this->setAllMetaData('assets',$asset_id,$user_id,$tags,$metadata,true);
 		}
 		return $result;
 	}
@@ -166,7 +159,7 @@ class AssetPlant extends PlantBase {
 			)
 		);
 		if ($result) {
-			$this->removeAllMetaDataForItem('assets',$asset_id);
+			$this->removeAllMetaData('assets',$asset_id);
 		}
 		return $result;
 	}
