@@ -275,7 +275,7 @@
 		return $result;
 	}
 	
-	public function removeAllMetaDataForItem($scope_table_alias,$scope_table_id,$user_id=false) {
+	public function removeAllMetaData($scope_table_alias,$scope_table_id,$user_id=false,$ignore_or_match='match',$data_key=false) {
 		// set table / id up front. if no user is specified it will remove ALL
 		// metadata for a given table+id — used primarily when deleting the parent item
 		$conditions_array = array(
@@ -293,6 +293,16 @@
 			$conditions_array['user_id'] = array(
 				'condition' => '=',
 				'value' => $user_id
+			);
+		}
+		if ($data_key) {
+			$key_condition = "=";
+			if ($ignore_or_match = 'ignore') {
+				$key_condition = "!=";
+			}
+			$options_array['type'] = array(
+				"condition" => $key_condition,
+				"value" => $data_key
 			);
 		}
 		$result = $this->db->deleteData(
@@ -320,11 +330,11 @@
 		// most $data_keys will be unique per user per table+id, but tags need multiple
 		// so we'll add a filter. pass 'tag' as the final option to getAllMetaData
 		// to get an array of all tag rows for a single table+id
-		$key_condition = "=";
-		if ($ignore_or_match = 'ignore') {
-			$key_condition = "!=";
-		}
 		if ($data_key) {
+			$key_condition = "=";
+			if ($ignore_or_match = 'ignore') {
+				$key_condition = "!=";
+			}
 			$options_array['type'] = array(
 				"condition" => $key_condition,
 				"value" => $data_key
@@ -349,15 +359,49 @@
 		}
 	}
 	
-	public function batchSetTags($scope_table_alias,$scope_table_id,$user_id,$tags) {
-		foreach ($tags as $tag) {
-			$this->setMetaData($scope_table_alias,$scope_table_id,$user_id,'tag',$tag);
+	public function setAllMetaData($scope_table_alias,$scope_table_id,$user_id,$tags=false,$metadata=false,$delete_on_false=false) {
+		// also need to add $ignore_or_match='match',$data_key=false to removeAllMetaData
+		if ($tags) {
+			// first get current tags and remove any that are no longer in the list
+			$current_tags = $this->getAllMetaData($scope_table_alias,$scope_table_id,$user_id,'match','tag');
+			if ($current_tags) {
+				foreach ($current_tags as $tag) {
+					if (!in_array($tag, $tags)) {
+						$tag_details = $this->getMetaData($scope_table_alias,$scope_table_id,$user_id,'tag',$tag);
+						$tag_id = $tag_details[0]['id'];
+						$this->removeMetaData($tag_id);
+					}
+				}
+			}
+			// run setMetaData on all passed tags - will edit existing tags and add new ones
+			foreach ($tags as $tag) {
+				$this->setMetaData($scope_table_alias,$scope_table_id,$user_id,'tag',$tag);
+			}
+		} else {
+			// remove all tags if delete_on_false is set
+			if ($delete_on_false) {
+				$this->removeAllMetaData($scope_table_alias,$scope_table_id,$user_id,'match','tag');
+			}
 		}
-	}
-	
-	public function batchSetMetaData($scope_table_alias,$scope_table_id,$user_id,$metadata) {
-		foreach ($metadata as $key => $value) {
-			$this->setMetaData($scope_table_alias,$scope_table_id,$user_id,$key,$value);
+		if ($metadata) {
+			$current_metadata = $this->getAllMetaData($scope_table_alias,$scope_table_id,$user_id,'ignore','tag');
+			if ($current_metadata) {
+				foreach ($current_metadata as $key => $value) {
+					if (!array_key_exists($key, $metadata)) {
+						$metadata_details = $this->getMetaData($scope_table_alias,$scope_table_id,$user_id,$key,$value);
+						$metadata_id = $metadata_details['id'];
+						$this->removeMetaData($tag_id);
+					}
+				}
+			}
+			foreach ($metadata as $key => $value) {
+				$this->setMetaData($scope_table_alias,$scope_table_id,$user_id,$key,$value);
+			}
+		} else {
+			if ($delete_on_false) {
+				// remove all non-tag metadata if delete_on_false is set
+				$this->removeAllMetaData($scope_table_alias,$scope_table_id,$user_id,'ignore','tag');
+			}
 		}
 	}
 	
