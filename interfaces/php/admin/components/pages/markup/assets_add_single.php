@@ -6,7 +6,8 @@
 			
 			<label for="settings_id">Use Settings</label><br />
 			<select id="settings_id" name="settings_id">
-				<option value="0" selected="selected">None (Normal http://... link)</option>
+				<option value="0" selected="selected">None (Normal http:// link)</option>
+				<?php echoSettingsOptions('assets') ?>
 			</select>
 			
 			<div class="row_seperator">.</div>

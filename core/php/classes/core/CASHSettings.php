@@ -31,13 +31,22 @@
 	 * Finds all settings type JSON files, builds an array keyed by type
 	 *
 	 * @return array
-	 */public function getSettingsTypes() {
+	 */public function getSettingsTypes($filter_by_scope=false) {
 		if ($settings_dir = opendir(CASH_PLATFORM_ROOT.'/settings/types')) {
-			$settings_types = array();
+			$settings_types = false;
 			while (false !== ($file = readdir($settings_dir))) {
 				if (substr($file,0,1) != "." && !is_dir($file)) {
-					$tmpKey = strtolower(substr_replace($file, '', -5));
-					$settings_types["$tmpKey"] = json_decode(file_get_contents(CASH_PLATFORM_ROOT.'/settings/types/'.$file));
+					$tmp_key = strtolower(substr_replace($file, '', -5));
+					$tmp_value = json_decode(file_get_contents(CASH_PLATFORM_ROOT.'/settings/types/'.$file));
+					if ($filter_by_scope) {
+						if (!in_array($filter_by_scope, $tmp_value->scope)) {
+							$tmp_value = false;
+						}
+					}
+					if ($tmp_value !== false) {
+						if (!$settings_types) { $settings_types = array(); }
+						$settings_types["$tmp_key"] = $tmp_value;
+					}
 				}
 			}
 			closedir($settings_dir);
@@ -113,18 +122,14 @@
 	 * object was instantiated with. 
 	 *
 	 * @return settings obj
-	 */public function getSettingsByNameAndType($settings_name,$settings_type) {
+	 */public function getSettingsByType($settings_type) {
 		$result = $this->db->getData(
 			'settings',
-			'data',
+			'*',
 			array(
 				"type" => array(
 					"condition" => "=",
 					"value" => $settings_type
-				),
-				"name" => array(
-					"condition" => "=",
-					"value" => $settings_name
 				),
 				"user_id" => array(
 					"condition" => "=",
@@ -132,12 +137,7 @@
 				)
 			)
 		);
-		if ($result) {
-			$this->settings = json_decode($result[0]['data']);
-			return $this->settings;
-		} else {
-			return false;
-		}
+		return $result;
 	}
 
 	/**

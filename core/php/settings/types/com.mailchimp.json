@@ -2,6 +2,7 @@
 	"name":"MailChimp",
 	"description":"Enter a MailChimp API key to start working with MailChimp email lists.",
 	"type":"com.mailchimp",
+	"scope":["users","lists","list_members"],
 	"dataTypes": 
 		{
 			"key":"string"
