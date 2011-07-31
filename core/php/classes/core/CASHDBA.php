@@ -256,20 +256,20 @@ class CASHDBA {
 				if ($orderby) $query .= " ORDER BY $orderby";
 				if ($limit) $query .= " LIMIT $limit";
 				break;
-			case 'EventPlant_getAllDates':
+			case 'CalendarPlant_getAllDates':
 				$query = "SELECT d.id,u.display_name as user_display_name,d.date,d.publish,d.cancelled,d.comments,"
 				. "v.name as venuename,v.address1,v.address2,v.city,v.region,v.country,v.postalcode,v.website,v.phone "
 				. "FROM live_events d JOIN live_venues v ON d.venue_id = v.id JOIN cash_users u ON d.user_id = u.id "
 				. "WHERE d.date > {$query_options['cutoffdate']} AND u.id = {$query_options['user_id']} ORDER BY d.date ASC";
 				break;
-		    case 'EventPlant_getDatesBetween':
+		    case 'CalendarPlant_getDatesBetween':
 				$query = "SELECT d.id,u.display_name as user_display_name,d.date,d.publish,d.cancelled,d.comments,"
 				. "v.name as venuename,v.address1,v.address2,v.city,v.region,v.country,v.postalcode,v.website,v.phone "
 				. "FROM live_events d JOIN live_venues v ON d.venue_id = v.id JOIN cash_users u ON d.user_id = u.id "
 				. "WHERE d.date > {$query_options['afterdate']} AND d.date < {$query_options['beforedate']} "
 				. "AND u.id = {$query_options['user_id']} ORDER BY d.date ASC";
 				break;
-			case 'EventPlant_getDatesByArtistAndDate':
+			case 'CalendarPlant_getDatesByArtistAndDate':
 				$query = "SELECT d.id,u.display_name as user_display_name,d.date,d.publish,d.cancelled,d.comments"
 				. "v.name as venuename,v.address1,v.address2,v.city,v.region,v.country,v.postalcode,v.website,v.phone "
 				. "FROM live_events d JOIN live_venues v ON d.venue_id = v.id JOIN cash_users u ON d.user_id = u.id "

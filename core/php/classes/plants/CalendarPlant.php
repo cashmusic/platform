@@ -11,7 +11,7 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  **/
-class EventPlant extends PlantBase {
+class CalendarPlant extends PlantBase {
 	public function __construct($request_type,$request) {
 		$this->request_type = 'event';
 		$this->plantPrep($request_type,$request);
@@ -59,7 +59,7 @@ class EventPlant extends PlantBase {
 		$offset = 86400 * $offset;
 		$cutoffdate = time() - $offset;
 		$result = $this->db->doSpecialQuery(
-			'EventPlant_getAllDates',
+			'CalendarPlant_getAllDates',
 			array('user_id' => $user_id,'cutoffdate' => $cutoffdate)
 		);
 		return $result;
@@ -67,7 +67,7 @@ class EventPlant extends PlantBase {
 
 	public function getDatesBetween($user_id,$afterdate,$beforedate) {
 		$result = $this->db->doSpecialQuery(
-			'EventPlant_getDatesBetween',
+			'CalendarPlant_getDatesBetween',
 			array('user_id' => $user_id,'afterdate' => $afterdate,'beforedate' => $beforedate)
 		);
 		return $result;
@@ -75,7 +75,7 @@ class EventPlant extends PlantBase {
 
 	public function getDatesByArtistAndDate($user_id,$date) {
 		$result = $this->db->doSpecialQuery(
-			'EventPlant_getDatesByArtistAndDate',
+			'CalendarPlant_getDatesByArtistAndDate',
 			array('user_id' => $user_id,'date' => $date)
 		);
 		return $result;
