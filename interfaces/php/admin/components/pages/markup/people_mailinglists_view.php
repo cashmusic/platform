@@ -17,7 +17,7 @@ div.usecolor5 #pagecontent td a {color:#333;}
 <?php
 
 if (isset($page_request->response)) {
-	if ($page_request->response['status_uid'] == 'userlist_viewlist_200') {
+	if ($page_request->response['status_uid'] == 'people_viewlist_200') {
 		if (is_array($page_request->response['payload']))
 		?>
 		<table style="width:100%;">

@@ -248,7 +248,7 @@ class CASHDBA {
 				. "FROM asst_assets a LEFT OUTER JOIN base_settings s ON a.settings_id = s.id "
 				. "WHERE a.id = :asset_id";
 				break;
-			case 'UserListPlant_getAddressesForList':
+			case 'PeoplePlant_getAddressesForList':
 				$query = "SELECT u.id,u.email_address,u.display_name,"
 				. "l.initial_comment,l.additional_data,l.creation_date "
 				. "FROM user_users u LEFT OUTER JOIN user_lists_members l ON u.id = l.user_id "

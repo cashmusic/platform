@@ -11,10 +11,10 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  **/
-class UserPlant extends PlantBase {
+class SystemPlant extends PlantBase {
 	
 	public function __construct($request_type,$request) {
-		$this->request_type = 'user';
+		$this->request_type = 'system';
 		$this->plantPrep($request_type,$request);
 		// get global salt for hashing
 		$global_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');

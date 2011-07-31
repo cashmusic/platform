@@ -4,7 +4,7 @@
 # error_reporting(E_ALL|E_STRICT);
 
 require_once('tests/lib/simpletest/autorun.php');
-require_once('core/php/cashmusic.php');
+require_once('framework/php/cashmusic.php');
 
 class BasicTests extends UnitTestCase {
 	public function testCASHInstance() {

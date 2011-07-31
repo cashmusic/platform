@@ -11,7 +11,7 @@ publishing and CMS systems like Wordpress or Drupal.
 
 # Notes
 
-Most of the code is currently found in /core/local/php/ and centers around a
+Most of the code is currently found in /framework/local/php/ and centers around a
 single-include workflow. The Seed.php does some basic housekeeping before
 firing up a CASHRequest instance that parses an incoming request. That request
 is passed to the appropriate Plant (factory) class which then figures out what
