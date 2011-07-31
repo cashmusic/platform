@@ -1,4 +1,4 @@
-<?php include('/Users/jessevondoom/Code/cashmusic-github/DIY/core/php/cashmusic.php'); // Initialize Seed ?>
+<?php include('/Users/jessevondoom/Code/cashmusic-github/DIY/framework/php/cashmusic.php'); // Initialize Seed ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +16,7 @@
 
 	<?php cash_embedElement(10); // CASH element (Bad Books Email promo / emailfordownload) ?>
 	
-	<?php include('/Users/jessevondoom/Code/cashmusic-github/DIY/core/php/settings/debug/seed_debug.php'); // Seed Debug ?>
+	<?php include('/Users/jessevondoom/Code/cashmusic-github/DIY/framework/php/settings/debug/seed_debug.php'); // Seed Debug ?>
 
 </div>
 

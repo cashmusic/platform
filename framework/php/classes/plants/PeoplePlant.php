@@ -11,10 +11,10 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  **/
-class UserListPlant extends PlantBase {
+class PeoplePlant extends PlantBase {
 	
 	public function __construct($request_type,$request) {
-		$this->request_type = 'userlist';
+		$this->request_type = 'people';
 		$this->plantPrep($request_type,$request);
 	}
 	
@@ -123,7 +123,7 @@ class UserListPlant extends PlantBase {
 	
 	public function getAddressesForList($list_id,$limit=100,$start=0) {
 		$result = $this->db->getData(
-			'UserListPlant_getAddressesForList',
+			'PeoplePlant_getAddressesForList',
 			false,
 			array(
 				"list_id" => array(

@@ -373,16 +373,16 @@ if (!isset($_POST['installstage'])) {
 				'systemsalt' => md5($user_settings['adminemailaccount'] . time())
 			);
 
-			if ($user_settings['corelocation']) {
-				if (!is_dir($user_settings['corelocation'])) {
-					if (!mkdir($user_settings['corelocation'])) {
-						echo "<h1>Oh. Shit. Something's wrong.</h1><p>Couldn't create a directory at" . $user_settings['corelocation'] . ".</p>";
+			if ($user_settings['frameworklocation']) {
+				if (!is_dir($user_settings['frameworklocation'])) {
+					if (!mkdir($user_settings['frameworklocation'])) {
+						echo "<h1>Oh. Shit. Something's wrong.</h1><p>Couldn't create a directory at" . $user_settings['frameworklocation'] . ".</p>";
 						break;
 					}
 				} else {
-					if (is_dir($user_settings['corelocation'] . '/core')) {
-						rrmdir($user_settings['corelocation'] . '/core');
-						//echo 'removed old core directory at ' . $cash_root_location . '/core' . '<br />';
+					if (is_dir($user_settings['frameworklocation'] . '/framework')) {
+						rrmdir($user_settings['frameworklocation'] . '/framework');
+						//echo 'removed old framework directory at ' . $cash_root_location . '/framework' . '<br />';
 					}
 				}
 			} else {
@@ -394,14 +394,14 @@ if (!isset($_POST['installstage'])) {
 			if (
 				!findReplaceInFile('./source/interfaces/php/admin/.htaccess','RewriteBase /admin','RewriteBase ' . $admin_dir) || 
 				
-				!findReplaceInFile('./source/interfaces/php/admin/constants.php','$cashmusic_root = $root . "/../../../core/php/cashmusic.php','$cashmusic_root = "' . $user_settings['corelocation'] . '/core/cashmusic.php') || 
+				!findReplaceInFile('./source/interfaces/php/admin/constants.php','$cashmusic_root = $root . "/../../../framework/php/cashmusic.php','$cashmusic_root = "' . $user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
 				!findReplaceInFile('./source/interfaces/php/admin/constants.php','define(\'ADMIN_WWW_BASE_PATH\', \'/admin','define(\'ADMIN_WWW_BASE_PATH\', \'' . $admin_dir) || 
 				
-				!findReplaceInFile('./source/core/php/settings/cashmusic.ini.php','hostname = "localhost:8889','hostname = "' . $user_settings['mysqlhost']) || 
-				!findReplaceInFile('./source/core/php/settings/cashmusic.ini.php','username = "root','username = "' . $user_settings['mysqluser']) || 
-				!findReplaceInFile('./source/core/php/settings/cashmusic.ini.php','password = "root','password = "' . $user_settings['mysqlpass']) || 
-				!findReplaceInFile('./source/core/php/settings/cashmusic.ini.php','database = "seed','database = "' . $user_settings['mysqldbname']) ||
-				!findReplaceInFile('./source/core/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $user_settings['systemsalt'])
+				!findReplaceInFile('./source/framework/php/settings/cashmusic.ini.php','hostname = "localhost:8889','hostname = "' . $user_settings['mysqlhost']) || 
+				!findReplaceInFile('./source/framework/php/settings/cashmusic.ini.php','username = "root','username = "' . $user_settings['mysqluser']) || 
+				!findReplaceInFile('./source/framework/php/settings/cashmusic.ini.php','password = "root','password = "' . $user_settings['mysqlpass']) || 
+				!findReplaceInFile('./source/framework/php/settings/cashmusic.ini.php','database = "seed','database = "' . $user_settings['mysqldbname']) ||
+				!findReplaceInFile('./source/framework/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $user_settings['systemsalt'])
 			) {
 				echo "<h1>Oh. Shit. Something's wrong.</h1><p>We had trouble editing a few files. Please try again.</p>";
 				break;
@@ -409,7 +409,7 @@ if (!isset($_POST['installstage'])) {
 
 			// move source files into place
 			if (
-				!rename('./source/core/php', $user_settings['corelocation'] . '/core') || 
+				!rename('./source/framework/php', $user_settings['frameworklocation'] . '/framework') || 
 				!rename('./source/interfaces/php/admin', './admin')
 			) {
 				echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>We couldn\'t move files into place. Please make sure you have write access in '
@@ -426,7 +426,7 @@ if (!isset($_POST['installstage'])) {
 				break;
 			}
 
-			if ($pdo->query(file_get_contents($user_settings['corelocation'] . '/core/settings/sql/cashmusic_db.sql'))) {
+			if ($pdo->query(file_get_contents($user_settings['frameworklocation'] . '/framework/settings/sql/cashmusic_db.sql'))) {
 				$password_hash = hash_hmac('sha256', $user_password, $user_settings['systemsalt']);
 				$data = array(
 					'email_address' => $user_settings['adminemailaccount'],

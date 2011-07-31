@@ -63,7 +63,7 @@ $login_message = "Log In";
 if (isset($_POST['login'])) {
 	$login_request = new CASHRequest(
 		array(
-			'cash_request_type' => 'user', 
+			'cash_request_type' => 'system', 
 			'cash_action' => 'validateadminlogin',
 			'address' => $_POST['address'], 
 			'password' => $_POST['password']
