@@ -26,8 +26,17 @@ class AssetPlant extends PlantBase {
 					if (!$this->requireParameters('asset_id')) { return $this->sessionGetLastResponse(); }
 					$this->redirectToAsset($this->request['asset_id']);
 					break;
-				case 'getasset':
+				case 'unlock':
 					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
+					if (!$this->requireParameters('asset_id')) { return $this->sessionGetLastResponse(); }
+					$result = $this->unlockAsset($this->request['asset_id']);
+					if ($result) {
+						return $this->pushSuccess(true,'asset unlocked successfully');
+					} else {
+						return $this->pushFailure('there was an error unlocking the asset');
+					}
+					break;
+				case 'getasset':
 					if (!$this->requireParameters('asset_id')) { return $this->sessionGetLastResponse(); }
 					$result = $this->getAssetInfo($this->request['asset_id']);
 					if ($result) {
@@ -182,6 +191,45 @@ class AssetPlant extends PlantBase {
 		);
 		if ($result[0]['public_status']) {
 			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Adds an unlock state to platform session persistent store
+	 *
+	 * @return boolean
+	 */protected function unlockAsset($asset_id) {
+		$current_unlocked_assets = $this->sessionGetPersistent('unlocked_assets');
+		if (is_array($current_unlocked_assets)) {
+			$current_unlocked_assets[""."$asset_id"]=true;
+			$this->sessionSetPersistent('unlocked_assets',$current_unlocked_assets);
+			return true;
+		} else {
+			$this->sessionSetPersistent('unlocked_assets',array(""."$asset_id" => true));
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Returns true if an assetIsUnlocked, false if not
+	 *
+	 * @return boolean
+	 */protected function getUnlockedStatus($asset_id) {
+		if ($this->getPublicStatus($asset_id)) {
+			return true;
+		}
+		$current_unlocked_assets = $this->sessionGetPersistent('unlocked_assets');
+		if (is_array($current_unlocked_assets)) {
+			if (array_key_exists(""."$asset_id",$current_unlocked_assets)) {
+				if ($current_unlocked_assets[""."$asset_id"] === true) {
+					return true;
+				}
+			} else {
+				return false;
+			}
 		} else {
 			return false;
 		}
