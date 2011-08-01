@@ -243,7 +243,7 @@ class CASHDBA {
 		}
 		switch ($data_name) {
 			case 'AssetPlant_getAssetInfo':
-				$query = "SELECT a.user_id,a.parent_id,a.location,a.title,a.description,a.comment,a.settings_id,"
+				$query = "SELECT a.user_id,a.parent_id,a.location,a.title,a.description,a.settings_id,"
 				. "s.name,s.type "
 				. "FROM asst_assets a LEFT OUTER JOIN base_settings s ON a.settings_id = s.id "
 				. "WHERE a.id = :asset_id";
