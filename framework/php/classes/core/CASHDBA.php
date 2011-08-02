@@ -54,6 +54,7 @@ class CASHDBA {
 	public function lookupTableName($data_name) {
 		$table_lookup = array(
 			'assets' => 'asst_assets',
+			'assets_analytics' => 'asst_analytics',
 			'elements' => 'elmt_elements',
 			'events' => 'live_events',
 			'lock_codes' => 'lock_codes',

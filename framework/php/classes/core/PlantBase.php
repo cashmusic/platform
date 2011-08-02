@@ -17,7 +17,7 @@
 	protected $request_method,$request_type,$action=false,$request,$response,$db_required=true;
 
 	/**
-	 * Called by SedRequest to begin action and return an instance of CASHResponse 
+	 * Called by CASHRequest to begin action and return an instance of CASHResponse 
 	 *
 	 */abstract public function processRequest();
 	
