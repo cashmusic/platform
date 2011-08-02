@@ -24,7 +24,11 @@ class AssetPlant extends PlantBase {
 			switch ($this->action) {
 				case 'claim':
 					if (!$this->requireParameters('asset_id')) { return $this->sessionGetLastResponse(); }
-					$this->redirectToAsset($this->request['asset_id']);
+					$claim_element_id = 0;
+					if (isset($this->request['element_id'])) {
+						$claim_element_id = $this->request['element_id'];
+					}
+					$this->redirectToAsset($this->request['asset_id'],$claim_element_id);
 					break;
 				case 'unlock':
 					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
@@ -236,13 +240,32 @@ class AssetPlant extends PlantBase {
 	}
 
 	/**
+	 * Adds an unlock state to platform session persistent store
+	 *
+	 * @return boolean
+	 */protected function recordAnalytics($asset_id,$element_id=0) {
+		$ip_and_proxy = CASHSystem::getCurrentIP();
+		$result = $this->db->setData(
+			'assets_analytics',
+			array(
+				'asset_id' => $asset_id,
+				'element_id' => $element_id,
+				'access_time' => time(),
+				'client_ip' => $ip_and_proxy['ip'],
+				'client_proxy' => $ip_and_proxy['proxy']
+			)
+		);
+		return $result;
+	}
+
+	/**
 	 * Reads asset details and redirects to the file directly. The success 
 	 * Response is set here rather than in processRequest(), allowing it to 
 	 * exist in the session 
 	 *
 	 * @param {integer} $asset_id - the asset you are trying to retrieve
 	 * @return string
-	 */public function redirectToAsset($asset_id) {
+	 */public function redirectToAsset($asset_id,$element_id=0) {
 		if ($this->getUnlockedStatus($asset_id)) {
 			$asset = $this->getAssetInfo($asset_id);
 			switch ($asset['type']) {
@@ -250,9 +273,10 @@ class AssetPlant extends PlantBase {
 					include(CASH_PLATFORM_ROOT.'/classes/seeds/S3Seed.php');
 					$s3 = new S3Seed($asset['user_id'],$asset['settings_id']);
 					$this->pushSuccess(array('asset' => $asset_id),'redirect executed successfully');
+					$this->recordAnalytics($asset_id,$element_id);
 					header("Location: " . $s3->getExpiryURL($asset['location']));
 					die();
-					break;
+					break; // I know this break will never be executed, but it makes me feel better seeing it here
 			    default:
 			        return $this->response->pushResponse(
 						500,$this->request_type,$this->action,

@@ -1,8 +1,8 @@
-<?php include('/Users/jessevondoom/Code/cashmusic-github/DIY/framework/php/cashmusic.php'); // Initialize Seed ?>
+<?php include('/Users/jessevondoom/Code/cashmusic-github/DIY/framework/php/cashmusic.php'); // Initialize CASH Music ?>
 <!DOCTYPE html>
 <html>
 <head>
-<title>CASH Music : Seed Test</title>
+<title>CASH Music : Email For Download</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="assets/css/demo.css" rel="stylesheet" type="text/css" />
 
@@ -16,7 +16,7 @@
 
 	<?php cash_embedElement(10); // CASH element (Bad Books Email promo / emailfordownload) ?>
 	
-	<?php include('/Users/jessevondoom/Code/cashmusic-github/DIY/framework/php/settings/debug/seed_debug.php'); // Seed Debug ?>
+	<?php include('/Users/jessevondoom/Code/cashmusic-github/DIY/framework/php/settings/debug/seed_debug.php'); // Debug ?>
 
 </div>
 
