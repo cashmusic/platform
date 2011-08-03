@@ -56,6 +56,7 @@ class CASHDBA {
 			'assets' => 'asst_assets',
 			'assets_analytics' => 'asst_analytics',
 			'elements' => 'elmt_elements',
+			'elements_analytics' => 'elmt_analytics',
 			'events' => 'live_events',
 			'lock_codes' => 'lock_codes',
 			'lock_passwords' => 'lock_passwords',

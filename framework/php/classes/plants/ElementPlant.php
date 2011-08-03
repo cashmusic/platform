@@ -219,7 +219,70 @@ class ElementPlant extends PlantBase {
 		return array_keys($this->elements_array);
 	}
 
-	public function getElementMarkup($element_id,$status_uid) {
+	/**
+	 * Records the basic access data to the elements analytics table
+	 *
+	 * @return boolean
+	 */protected function recordAnalytics($element_id,$access_method,$lock_method_table='',$lock_method_id=0) {
+		$ip_and_proxy = CASHSystem::getCurrentIP();
+		$already_recorded = false;
+		// first check and see if we've recorded this session and circumstance yet
+		// only do this for empty lock_method_table queries so we don't repeat
+		// unnecessary rows and overwhelm the table
+		if ($lock_method_table == '') {
+			$already_recorded = $this->db->getData(
+				'elements_analytics',
+				'id',
+				array(
+					"element_id" => array(
+						"condition" => "=",
+						"value" => $element_id
+					),
+					"access_method" => array(
+						"condition" => "=",
+						"value" => $access_method
+					),
+					"access_location" => array(
+						"condition" => "=",
+						"value" => CASHSystem::getCurrentURL()
+					),
+					"cash_session_id" => array(
+						"condition" => "=",
+						"value" => $this->getCASHSessionID()
+					),
+					"client_ip" => array(
+						"condition" => "=",
+						"value" => $ip_and_proxy['ip']
+					),
+					"client_proxy" => array(
+						"condition" => "=",
+						"value" => $ip_and_proxy['proxy']
+					)
+				)
+			);
+		}
+		if (!$already_recorded) {
+			$result = $this->db->setData(
+				'elements_analytics',
+				array(
+					'element_id' => $element_id,
+					'access_method' => $access_method,
+					'access_location' => CASHSystem::getCurrentURL(),
+					'lock_method_table' => $lock_method_table,
+					'lock_method_id' => $lock_method_id,
+					'access_time' => time(),
+					'client_ip' => $ip_and_proxy['ip'],
+					'client_proxy' => $ip_and_proxy['proxy'],
+					'cash_session_id' => $this->getCASHSessionID()
+				)
+			);
+			return $result;
+		} else {
+			return true;
+		}
+	}
+
+	public function getElementMarkup($element_id,$status_uid,$access_method='direct') {
 		$element = $this->getElement($element_id);
 		$element_type = $element['type'];
 		$element_options = $element['options'];
@@ -229,6 +292,7 @@ class ElementPlant extends PlantBase {
 				include($for_include);
 				$element_object_type = substr_replace($this->elements_array[$element_type], '', -4);
 				$element_object = new $element_object_type($element_id,$status_uid,$element_options);
+				$this->recordAnalytics($element_id,$access_method);
 				return $element_object->getMarkup();
 			}
 		} else {
@@ -506,7 +570,7 @@ class ElementPlant extends PlantBase {
 	}
 	
 	/**
-	 * Adds an unlock state to Seed session persistent store
+	 * Adds an unlock state to cash session persistent store
 	 *
 	 * @return boolean
 	 */protected function unlockAsset($asset_id) {

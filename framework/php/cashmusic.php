@@ -22,6 +22,15 @@ if (get_magic_quotes_gpc()) {
 	unset($gpc);
 }
 
+// set up autoload for core classes
+function cash_autoloadCore($classname) {
+	$file = CASH_PLATFORM_ROOT.'/classes/core/'.$classname.'.php';
+	if (file_exists($file)) {
+		require_once($file);
+	}
+}
+spl_autoload_register('cash_autoloadCore');
+
 // begin session
 if(!defined('STDIN')) { // no session for CLI, suckers
 	session_cache_limiter('nocache');
@@ -33,18 +42,6 @@ if(!defined('STDIN')) { // no session for CLI, suckers
 // define constants (use sparingly!)
 $root = dirname(__FILE__);
 define('CASH_PLATFORM_ROOT', $root);
-if(!defined('STDIN')) { // if we're not running command line then grab the current url for reference
-	define('CASH_PLATFORM_CURRENT_URL', 'http'.((empty($_SERVER['HTTPS'])&&$_SERVER['SERVER_PORT']!=443)?'':'s').'://'.$_SERVER['HTTP_HOST'].strtok($_SERVER['REQUEST_URI'],'?'));
-}
-
-// set up autoload for core classes
-function cash_autoloadCore($classname) {
-	$file = CASH_PLATFORM_ROOT.'/classes/core/'.$classname.'.php';
-	if (file_exists($file)) {
-		require_once($file);
-	}
-}
-spl_autoload_register('cash_autoloadCore');
 
 // define cash_embedElement function
 function cash_embedElement($element_id) {

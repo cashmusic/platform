@@ -58,11 +58,15 @@
 	}
 	
 	/**
-	 * Sets the time against which the 
+	 * Sets the time against which the session is measured
 	 *
 	 * @return boolean
 	 */protected function startSession() {
 		$this->cash_session_timeout = ini_get("session.gc_maxlifetime");
+		if (!isset($_SESSION['cash_session_id'])) {
+			$modifier_array = array('deedee','johnny','joey','tommy','marky');
+			$_SESSION['cash_session_id'] = $modifier_array[array_rand($modifier_array)] . '_' . time();
+		}
 		if (isset($_SESSION['cash_last_request_time'])) {
 			if ($_SESSION['cash_last_request_time'] + $this->cash_session_timeout < time()) {
 				$this->resetSession();
@@ -70,6 +74,14 @@
 		}
 		$_SESSION['cash_last_request_time'] = time();
 		return true;
+	}
+	
+	/**
+	 * Returns the internal cash_session_id (Not the PHP session id)
+	 *
+	 * @return boolean
+	 */protected function getCASHSessionID() {
+		return $_SESSION['cash_session_id'];
 	}
 
 	/**

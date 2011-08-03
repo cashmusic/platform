@@ -240,7 +240,7 @@ class AssetPlant extends PlantBase {
 	}
 
 	/**
-	 * Adds an unlock state to platform session persistent store
+	 * Records the basic access data to the assets analytics table
 	 *
 	 * @return boolean
 	 */protected function recordAnalytics($asset_id,$element_id=0) {
@@ -252,7 +252,8 @@ class AssetPlant extends PlantBase {
 				'element_id' => $element_id,
 				'access_time' => time(),
 				'client_ip' => $ip_and_proxy['ip'],
-				'client_proxy' => $ip_and_proxy['proxy']
+				'client_proxy' => $ip_and_proxy['proxy'],
+				'cash_session_id' => $this->getCASHSessionID()
 			)
 		);
 		return $result;
