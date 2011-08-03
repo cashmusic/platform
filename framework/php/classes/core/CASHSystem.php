@@ -18,7 +18,7 @@
 	 * @return array
 	 */public static function getCurrentIP() {
 		$proxy = '';
-		if ($_SERVER["HTTP_X_FORWARDED_FOR"]) {
+		if (!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) {
 			if (!empty($_SERVER["HTTP_CLIENT_IP"])) {
 				$proxy = $_SERVER["HTTP_CLIENT_IP"];
 			} else {
@@ -38,5 +38,18 @@
 		);
 		return $ip_and_proxy;
 	}
+	
+	/**
+	 * Returns the (best guess at) current URL or false for CLI access
+	 *
+	 * @return array
+	 */public static function getCurrentURL() {
+		if(!defined('STDIN')) { // check for command line
+			return 'http'.((empty($_SERVER['HTTPS'])&&$_SERVER['SERVER_PORT']!=443)?'':'s') 
+					.'://'.$_SERVER['HTTP_HOST'].strtok($_SERVER['REQUEST_URI'],'?');
+		} else {
+			return false;
+		}
+	}	
 } // END class 
 ?>
