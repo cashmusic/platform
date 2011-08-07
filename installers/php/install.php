@@ -296,6 +296,9 @@ if (!isset($_POST['installstage'])) {
 				$currentfile = 1;
 
 				foreach ($files as $file) {
+					if (preg_match("/^tests/", $file)) { // Don't install tests
+						continue;
+					}
 					if (!file_exists('./source/'.$file)) {
 						$path = pathinfo($file);
 						if (!is_dir('./source/'.$path['dirname'])) mkdir('./source/'.$path['dirname'],0777,true);
