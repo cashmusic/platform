@@ -17,5 +17,12 @@ class SyntaxTests extends UnitTestCase {
             $this->assertTrue($code == 0);
         }
     }
+    public function testInterfaceSyntax() {
+        $test_files = glob("interfaces/php/*/*.php");
+        foreach ($test_files as $file){
+            system("php -l $file", $code);
+            $this->assertTrue($code == 0);
+        }
+    }
 }
 ?>
