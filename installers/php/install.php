@@ -296,7 +296,7 @@ if (!isset($_POST['installstage'])) {
 				$currentfile = 1;
 
 				foreach ($files as $file) {
-					if (preg_match("/^tests/", $file)) { // Don't install tests
+					if (preg_match("/^(tests|installers)/", $file)) { // Don't install tests or installers
 						continue;
 					}
 					if (!file_exists('./source/'.$file)) {
