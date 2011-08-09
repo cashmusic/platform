@@ -9,6 +9,5 @@ $settings_for_user = $page_data_object->getAllSettingsforUser();
 
 if ($request_parameters) {
 	$settings_action = $request_parameters[0];
-	$settings_type = $request_parameters[1];
 }
 ?>
