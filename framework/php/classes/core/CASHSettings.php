@@ -90,15 +90,20 @@
 	 * object was instantiated with. 
 	 *
 	 * @return settings obj
-	 */public function getSettings() {
-		if ($this->settings_id) {
+	 */public function getSettings($id_override=false) {
+		if (!$id_override) {
+			$settings_id = $this->settings_id;
+		} else {
+			$settings_id = $id_override;
+		}
+		if ($settings_id) {
 			$result = $this->db->getData(
 				'settings',
 				'data',
 				array(
 					"id" => array(
 						"condition" => "=",
-						"value" => $this->settings_id
+						"value" => $settings_id
 					),
 					"user_id" => array(
 						"condition" => "=",
@@ -158,9 +163,21 @@
 	 *
 	 * @param {array} settings_data: settings data as associative array
 	 * @return boolean
-	 */public function addSettings($settings_name,$settings_type,$settings_data) {
+	 */public function setSettings($settings_name,$settings_type,$settings_data,$settings_id=false) {
 		$settings_data = json_encode($settings_data);
-		if ($this->checkUniqueName($settings_name,$settings_type)) {
+		if ($settings_id) {
+			$settings_condition = array(
+				'id' => array(
+					'condition' => '=',
+					'value' => $settings_id
+				)
+			);
+			$allow_action = true;
+		} else {
+			$settings_condition = false;
+			$allow_action = $this->checkUniqueName($settings_name,$settings_type);
+		}
+		if ($allow_action) {
 			$result = $this->db->setData(
 				'settings',
 				array(
@@ -168,7 +185,8 @@
 					'type' => $settings_type,
 					'user_id' => $this->user_id,
 					'data' => $settings_data
-				)
+				),
+				$settings_condition
 			);
 			return $result;
 		} else {
@@ -176,7 +194,25 @@
 			return false;
 		}
 	}
-	
+
+	/**
+	 * 
+	 *
+	 * @param {int} settings_id
+	 * @return boolean
+	 */public function deleteSettings($settings_id) {
+		$result = $this->db->deleteData(
+			'settings',
+			array(
+				'id' => array(
+					'condition' => '=',
+					'value' => $settings_id
+				)
+			)
+		);
+		return $result;
+	}	
+
 	/**
 	 * Ensures that the specified name / type combination is unique per user
 	 *

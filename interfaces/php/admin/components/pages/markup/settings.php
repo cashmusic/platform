@@ -27,65 +27,155 @@
 <div class="col_onehalf lastcol">
 	<?php
 		if (isset($settings_action)) {
-			if ($settings_action == 'add') {
-				if (!isset($_POST['dosettingsadd'])) {
-					if (array_key_exists($settings_type, $settings_types_data)) {
-						echo '<h3>Connect to ' . $settings_types_data[$settings_type]->name . '</h3><p>' . $settings_types_data[$settings_type]->description . '</p>';
-						?>
-						<form method="post" action="">
-							<input type="hidden" name="dosettingsadd" value="makeitso" />
-							<input type="hidden" name="settings_type" value="<?php echo $settings_type; ?>" />
-							<label for="settings_name">Name</label><br />
-							<input type="text" id="settings_name" name="settings_name" placeholder="Give It A Name" />
-					
-							<div class="row_seperator tall">.</div>
-					
-							<?php
-							foreach ((array) $settings_types_data[$settings_type]->dataTypes as $key => $data) {
-								echo '<label for="settings_' . $key . '">' . $key . '</label><br />';
-								echo '<input type="text" id="settings_' . $key . '" name="settings_' . $key . '" placeholder="' . ucfirst($key) . '" />';
-								echo '<div class="row_seperator">.</div>';
-							}
+			switch ($settings_action) {
+				case 'add':
+					$settings_type = $request_parameters[1];
+					if (!isset($_POST['dosettingsadd'])) {
+						if (array_key_exists($settings_type, $settings_types_data)) {
+							echo '<h3>Connect to ' . $settings_types_data[$settings_type]->name . '</h3><p>' . $settings_types_data[$settings_type]->description . '</p>';
 							?>
-							<div class="row_seperator">.</div><br />
-							<div class="tar">
-								<input class="button" type="submit" value="Add The Connection" />
-							</div>
-						</form>
-						<?php
+							<form method="post" action="">
+								<input type="hidden" name="dosettingsadd" value="makeitso" />
+								<input type="hidden" name="settings_type" value="<?php echo $settings_type; ?>" />
+								<label for="settings_name">Name</label><br />
+								<input type="text" id="settings_name" name="settings_name" placeholder="Give It A Name" />
+
+								<div class="row_seperator tall">.</div>
+
+								<?php
+								foreach ((array) $settings_types_data[$settings_type]->dataTypes as $key => $data) {
+									echo '<label for="' . $key . '">' . $key . '</label><br />';
+									echo '<input type="text" id="' . $key . '" name="' . $key . '" placeholder="' . ucfirst($key) . '" />';
+									echo '<div class="row_seperator">.</div>';
+								}
+								?>
+								<div class="row_seperator">.</div><br />
+								<div class="tar">
+									<input class="button" type="submit" value="Add The Connection" />
+								</div>
+							</form>
+							<?php
+						} else {
+							echo '<h3>Error</h3><p>The requested setting type could not be found.</p>';
+						}
 					} else {
-						echo '<h3>Error</h3><p>The requested setting type could not be found.</p>';
+						$settings_data_array = array();
+						foreach ((array) $settings_types_data[$settings_type]->dataTypes as $key => $data) {
+							$settings_data_array[$key] = $_POST[$key];
+						}
+						$result = $page_data_object->setSettings(
+							$_POST['settings_name'],
+							$_POST['settings_type'],
+							$settings_data_array
+						);
+						if ($result) {
+							?>
+							<h3>Success</h3>
+							<p>
+								Everything was added successfully. You'll see the new connection added to the 
+								<a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/settings/">main settings list</a>.
+							</p>
+							<?php
+						} else {
+							?>
+							<h3>Error</h3>
+							<p>
+								Something went wrong. Please make sure you're using a unique name for this
+	 							setting. Not only is that just smart, it's required. 
+								<a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/settings/">Try again.</a>
+							</p>
+							<?php
+						}
 					}
-				} else {
-					$settings_data_array = array();
-					foreach ((array) $settings_types_data[$settings_type]->dataTypes as $key => $data) {
-						$settings_data_array['settings_' . $key] = $_POST['settings_' . $key];
+					break;
+				case 'edit':
+					$settings_id = $request_parameters[1];
+					$settings_name = $request_parameters[2];
+					$settings_type = $request_parameters[3];
+					$settings_details = $page_data_object->getSettings($settings_id);
+					if (!isset($_POST['dosettingsedit'])) {
+						if ($settings_details) {
+							echo '<h3>Edit ' . $settings_name . '</h3>';
+							?>
+							<form method="post" action="">
+								<input type="hidden" name="dosettingsedit" value="makeitso" />
+								<input type="hidden" name="settings_id" value="<?php echo $settings_id; ?>" />
+								<input type="hidden" name="settings_type" value="<?php echo $settings_type; ?>" />
+								<label for="settings_name">Name</label><br />
+								<input type="text" id="settings_name" name="settings_name" value="<? echo $settings_name; ?>" />
+
+								<div class="row_seperator tall">.</div>
+
+								<?php
+								foreach ((array) $settings_types_data[$settings_type]->dataTypes as $key => $data) {
+									echo '<label for="' . $key . '">' . $key . '</label><br />';
+									echo '<input type="text" id="' . $key . '" name="' . $key . '" value="' . $settings_details->{$key} . '" />';
+									echo '<div class="row_seperator">.</div>';
+								}
+								?>
+								<div class="row_seperator">.</div><br />
+								<div class="tar">
+									<input class="button" type="submit" value="Edit The Connection" />
+								</div>
+							</form>
+							<?php
+						} else {
+							echo '<h3>Error</h3><p>The requested settings could not be found.</p>';
+						}
+					} else {
+						$settings_data_array = array();
+						foreach ((array) $settings_types_data[$settings_type]->dataTypes as $key => $data) {
+							$settings_data_array[$key] = $_POST[$key];
+						}
+						$result = $page_data_object->setSettings(
+							$_POST['settings_name'],
+							$_POST['settings_type'],
+							$settings_data_array,
+							$_POST['settings_id']
+						);
+						if ($result) {
+							?>
+							<h3>Success</h3>
+							<p>
+								All changed. Head back to  
+								<a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/settings/">the main settings list</a>?
+							</p>
+							<?php
+						} else {
+							?>
+							<h3>Error</h3>
+							<p>
+								Something went wrong.  
+								<a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/settings/">Try again.</a>
+							</p>
+							<?php
+						}
 					}
-					$result = $page_data_object->addSettings(
-						$_POST['settings_name'],
-						$_POST['settings_type'],
-						$settings_data_array
-					);
+					break;
+				case 'delete':
+					$settings_id = $request_parameters[1];
+					$result = $page_data_object->deleteSettings($settings_id);
 					if ($result) {
 						?>
 						<h3>Success</h3>
 						<p>
-							Everything was added successfully. You'll see the new connection added to the 
-							<a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/settings/">main settings list</a>.
+							All gone. Head back to <a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/settings/">the main settings list</a>.
 						</p>
 						<?php
 					} else {
 						?>
 						<h3>Error</h3>
 						<p>
-							Something went wrong. Please make sure you're using a unique name for this
- 							setting. Not only is that just smart, it's required. 
+							Something went wrong.  
 							<a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/settings/">Try again.</a>
 						</p>
 						<?php
 					}
-				}
+					break;
 			}
+			
+			
+			
 		} else {
 			echo '<h3>Current connections:</h3><p>Here are the settings that have already been added:</p>';
 			foreach ($settings_for_user as $key => $data) {
@@ -101,7 +191,7 @@
 					?>
 					&nbsp; <span class="smalltext fadedtext">Created: <?php echo date('M jS, Y',$data['creation_date']); if ($data['modification_date']) { echo ' (Modified: ' . date('F jS, Y',$data['modification_date']) . ')'; } ?></span>
 					<div class="tar">
-						<a href="./delete/<?php echo $data['id']; ?>/" class="needsconfirmation mininav">Delete</a>
+						<a href="./edit/<?php echo $data['id']; ?>/<?php echo $data['name']; ?>/<?php echo $data['type']; ?>/" class="mininav">Edit</a> <a href="./delete/<?php echo $data['id']; ?>/" class="needsconfirmation mininav">Delete</a>
 					</div>
 				</div>
 			<?php
