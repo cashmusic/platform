@@ -49,6 +49,15 @@ class AssetPlant extends PlantBase {
 						return $this->pushFailure('there was an error getting asset details');
 					}
 					break;
+				case 'getanalytics':
+					if (!$this->requireParameters('analtyics_type','user_id')) { return $this->sessionGetLastResponse(); }
+					$result = $this->getAnalytics($this->request['analtyics_type'],$this->request['user_id']);
+					if ($result) {
+						return $this->pushSuccess($result,'asset list in payload');
+					} else {
+						return $this->pushFailure('there was an error getting asset details');
+					}
+					break;
 				case 'addasset':
 					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
 					if (!$this->requireParameters('title','description','location','user_id')) { return $this->sessionGetLastResponse(); }
@@ -257,6 +266,43 @@ class AssetPlant extends PlantBase {
 			)
 		);
 		return $result;
+	}
+
+	/**
+	 * Pulls analytics queries in a few different formats
+	 *
+	 * @return array
+	 */protected function getAnalytics($analtyics_type,$user_id) {
+		switch (strtolower($analtyics_type)) {
+			case 'mostaccessed':
+				$result = $this->db->getData(
+					'AssetPlant_getAnalytics_mostaccessed',
+					false,
+					array(
+						"user_id" => array(
+							"condition" => "=",
+							"value" => $user_id
+						)
+					)
+				);
+				return $result;
+				break;
+			case 'recentlyadded':
+				$result = $this->db->getData(
+					'assets',
+					'*',
+					array(
+						"user_id" => array(
+							"condition" => "=",
+							"value" => $user_id
+						)
+					),
+					false,
+					'creation_date DESC'
+				);
+				return $result;
+				break;
+		}
 	}
 
 	/**
