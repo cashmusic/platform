@@ -6,6 +6,7 @@ a:hover {text-decoration:underline;}
 code, div.callout {display:block;padding:2em 2em 1.75em 2em;margin:0 auto 1.5em auto;background-color:#ddd;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;}
 img {border:0;}
 ul, ol {padding:0.5em 0 1.5em 1.5em;}
+#pagecontent * li {margin-bottom:0.5em;}
 p {margin:0 0 1.5em 0;}
 h1 {font-size:42px;line-height:1em;margin:0 0 0.5em 0;padding:0;}
 h2, h3, h4 {font-size:1.5em;line-height:1.125em;margin:0;padding:0;padding-bottom:0.35em;}
@@ -118,6 +119,7 @@ ul.pagebasemenu ul {padding:0;margin-top:0;margin-bottom:0;font-size:0.8em;font-
 
 /* PAGE ELEMENTS */
 #pagemenu {width:180px;margin-right:24px;float:left;}
+#pagemenu * li {margin-bottom:0;}
 #pagedisplay {width:710px;float:left;}
 .nopagemenu {width:914px !important;}
 .element_image {position:relative;height:78px;background-repeat:no-repeat;background-position:center top;margin-bottom:6px;}

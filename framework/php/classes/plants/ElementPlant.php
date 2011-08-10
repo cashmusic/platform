@@ -81,6 +81,15 @@ class ElementPlant extends PlantBase {
 							return $this->pushFailure('no elements were found or there was an error retrieving the elements');
 						}
 					break;
+				case 'getanalytics':
+					if (!$this->requireParameters('analtyics_type','user_id')) { return $this->sessionGetLastResponse(); }
+					$result = $this->getAnalytics($this->request['analtyics_type'],$this->request['user_id']);
+					if ($result) {
+						return $this->pushSuccess($result,'asset list in payload');
+					} else {
+						return $this->pushFailure('there was an error getting asset details');
+					}
+					break;
 				case 'getmarkup':
 					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
 					if (!$this->requireParameters('element_id')) return $this->sessionGetLastResponse();
@@ -279,6 +288,43 @@ class ElementPlant extends PlantBase {
 			return $result;
 		} else {
 			return true;
+		}
+	}
+
+	/**
+	 * Pulls analytics queries in a few different formats
+	 *
+	 * @return array
+	 */protected function getAnalytics($analtyics_type,$user_id) {
+		switch (strtolower($analtyics_type)) {
+			case 'mostactive':
+				$result = $this->db->getData(
+					'ElementPlant_getAnalytics_mostactive',
+					false,
+					array(
+						"user_id" => array(
+							"condition" => "=",
+							"value" => $user_id
+						)
+					)
+				);
+				return $result;
+				break;
+			case 'recentlyadded':
+				$result = $this->db->getData(
+					'elements',
+					'*',
+					array(
+						"user_id" => array(
+							"condition" => "=",
+							"value" => $user_id
+						)
+					),
+					false,
+					'creation_date DESC'
+				);
+				return $result;
+				break;
 		}
 	}
 
