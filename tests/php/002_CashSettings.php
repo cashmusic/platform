@@ -1,7 +1,6 @@
 <?php
 
-require_once('tests/lib/simpletest/autorun.php');
-require_once('framework/php/cashmusic.php');
+require_once('tests/php/base.php');
 
 class CashDataTests extends UnitTestCase {
 

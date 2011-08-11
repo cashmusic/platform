@@ -1,6 +1,6 @@
 <?php
 
-require_once('tests/lib/simpletest/autorun.php');
+require_once('tests/php/base.php');
 
 class SyntaxTests extends UnitTestCase {
     public function testFrameworkSyntax() {
