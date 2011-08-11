@@ -54,6 +54,12 @@ When the tests pass, you should see something like this at the end:
 
 Our tests are written using [SimpleTest](http://www.simpletest.org/).
 
+# Continuous Integration
+
+We use something called [Jitterbug](http://jitterbug.pl) to run our tests every
+time someone pushes to the CASH Music DIY Github repo. You can see the results
+of each test run at http://dev.cashmusic.org:3000/project/DIY .
+
 # License
 
 CashMusic DIY is (c) 2010 CASH Music, licensed under a AGPL license:
