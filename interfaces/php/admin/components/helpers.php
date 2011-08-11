@@ -54,4 +54,36 @@ function echoSettingsOptions($filter) {
 		}
 	}
 }
+
+function echoFormOptions($base_type,$selected=0) {
+	switch ($base_type) {
+		case 'assets':
+			$plant_name = 'asset';
+			$action_name = 'getassetsforuser';
+			$display_information = 'title';
+			break;
+		case 'user_lists':
+			$plant_name = 'people';
+			$action_name = 'getlistsforuser';
+			$display_information = 'name';
+			break;	
+	}
+	$echoformoptions_cash_request = new CASHRequest(
+		array(
+			'cash_request_type' => $plant_name, 
+			'cash_action' => $action_name,
+			'user_id' => getPersistentData('cash_effective_user')
+		)
+	);
+	if (is_array($echoformoptions_cash_request->response['payload'])) {
+		foreach ($echoformoptions_cash_request->response['payload'] as $item) {
+			$selected_string = '';
+			if ($item['id'] == $selected) { 
+				$selected_string = ' selected="selected"';
+			}
+			echo '<option value="' . $item['id'] . '"' . $selected_string . '>' . $item[$display_information] . '</option>';
+		}
+	}
+	unset($echoformoptions_cash_request);
+}
 ?>
