@@ -1,5 +1,3 @@
-<h2>"Bad Books" List Details</h2>
-
 <style type="text/css">
 tr:nth-child(odd) {
     background-color:#eee;
@@ -15,10 +13,10 @@ div.usecolor5 #pagecontent td a {color:#333;}
 </style>
 
 <?php
-
 if (isset($page_request->response)) {
 	if ($page_request->response['status_uid'] == 'people_viewlist_200') {
 		if (is_array($page_request->response['payload']))
+		echo '<h2>List Details</h2>';
 		?>
 		<table style="width:100%;">
 			<colgroup style="width:32%;" />
@@ -52,9 +50,11 @@ if (isset($page_request->response)) {
 		</table>
 		<?php
 	} else {
+		echo '<h2>Sorry</h2>';
 		echo "Error getting list.";
 	}
 } else {
+	echo '<h2>Sorry</h2>';
 	echo "No list. Please select one. [List lists...]";
 }
 

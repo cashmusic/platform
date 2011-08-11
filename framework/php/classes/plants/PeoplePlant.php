@@ -41,8 +41,28 @@ class PeoplePlant extends PlantBase {
 						);
 					}
 					break;
+				case 'getlistsforuser':
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
+					if (!$this->requireParameters('user_id')) return $this->sessionGetLastResponse();
+						$result = $this->getListsForUser($this->request['user_id']);
+						if ($result) {
+							return $this->pushSuccess($result,'success. lists array included in payload');
+						} else {
+							return $this->pushFailure('no lists were found or there was an error retrieving the elements');
+						}
+					break;
+				case 'addlist':
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
+					if (!$this->requireParameters('user_id','list_name','list_description')) return $this->sessionGetLastResponse();
+						$result = $this->addList($this->request['list_name'],$this->request['list_description'],$this->request['user_id']);
+						if ($result) {
+							return $this->pushSuccess($result,'success. lists added.');
+						} else {
+							return $this->pushFailure('there was an error adding the list.');
+						}
+					break;
 				case 'viewlist':
-					// REQUIRE DIRECT REQUEST!
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
 					if (!$this->requireParameters('list_id')) { return $this->sessionGetLastResponse(); }
 					$result = $this->getAddressesForList($this->request['list_id']);
 					if ($result) {
@@ -137,6 +157,24 @@ class PeoplePlant extends PlantBase {
 		return $result;
 	}
 
+	public function getListsForUser($user_id) {
+		$result = $this->db->getData(
+			'user_lists',
+			'*',
+			array(
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				)
+			)
+		);
+		if ($result) {
+			return $result;
+		} else {
+			return false;
+		}
+	}
+
 	public function addressIsVerified($address,$list_id) {
 		$address_information = $this->getAddressListInfo($address,$list_id);
 		if (!$address_information) {
@@ -144,6 +182,19 @@ class PeoplePlant extends PlantBase {
 		} else {
 			return $address_information['verified'];
 		}
+	}
+
+	public function addList($name,$description,$user_id,$settings_id=0) {
+		$result = $this->db->setData(
+			'user_lists',
+			array(
+				'name' => $name,
+				'description' => $description,
+				'user_id' => $user_id,
+				'settings_id' => $settings_id
+			)
+		);
+		return $result;
 	}
 
 	public function addAddress($address,$list_id,$verified=0,$initial_comment='',$additional_data='',$name) {
