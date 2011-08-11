@@ -18,7 +18,7 @@ class SyntaxTests extends UnitTestCase {
         }
     }
     public function testInterfaceSyntax() {
-        $test_files = glob("interfaces/php/*/*.php");
+        $test_files = glob("{interfaces/php/*/*.php,interfaces/php/*/*/*.php,interfaces/php/*/*/*/*.php}", GLOB_BRACE);
         foreach ($test_files as $file){
             system("php -l $file", $code);
             $this->assertTrue($code == 0);
