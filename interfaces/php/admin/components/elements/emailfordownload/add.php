@@ -12,14 +12,16 @@
 			
 			<label for="asset_id">Target Mailing List</label><br />
 			<select id="emal_list_id" name="emal_list_id">
-				<option value="1">Bad Books</option>
+				<option value="0">none</option>
+				<?php echoFormOptions('user_lists'); ?>
 			</select>
 			
 			<div class="row_seperator">.</div>
 	
 			<label for="asset_id">The Downloadable Asset</label><br />
 			<select id="asset_id" name="asset_id">
-				<option value="1">“You Wouldn’t Have To Ask” MP3</option>
+				<option value="0">none</option>
+				<?php echoFormOptions('assets'); ?>
 			</select>
 			
 			<br /><br />

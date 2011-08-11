@@ -217,11 +217,7 @@ class ElementPlant extends PlantBase {
 				)
 			)
 		);
-		if ($result) {
-			return $result;
-		} else {
-			return false;
-		}
+		return $result;
 	}
 
 	public function getSupportedTypes() {

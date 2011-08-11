@@ -49,6 +49,16 @@ class AssetPlant extends PlantBase {
 						return $this->pushFailure('there was an error getting asset details');
 					}
 					break;
+				case 'getassetsforuser':
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
+					if (!$this->requireParameters('user_id')) return $this->sessionGetLastResponse();
+						$result = $this->getAssetsForUser($this->request['user_id']);
+						if ($result) {
+							return $this->pushSuccess($result,'success. asset(s) array included in payload');
+						} else {
+							return $this->pushFailure('no assets were found or there was an error retrieving the elements');
+						}
+					break;
 				case 'getanalytics':
 					if (!$this->requireParameters('analtyics_type','user_id')) { return $this->sessionGetLastResponse(); }
 					$result = $this->getAnalytics($this->request['analtyics_type'],$this->request['user_id']);
@@ -107,7 +117,21 @@ class AssetPlant extends PlantBase {
 			);
 		}
 	}
-	
+
+	public function getAssetsForUser($user_id) {
+		$result = $this->db->getData(
+			'assets',
+			'*',
+			array(
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				)
+			)
+		);
+		return $result;
+	}
+
 	public function getAssetInfo($asset_id) {
 		$result = $this->db->getData(
 			'AssetPlant_getAssetInfo',
