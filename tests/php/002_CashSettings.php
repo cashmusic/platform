@@ -6,7 +6,8 @@ require_once('framework/php/cashmusic.php');
 class CashDataTests extends UnitTestCase {
 
     function testCASHSettings(){
-        $data = new CASHSettings();
+        $settings = new CASHSettings();
+        $this->assertIsa($settings, 'CASHSettings');
     }
 
 }
