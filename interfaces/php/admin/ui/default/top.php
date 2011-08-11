@@ -112,8 +112,8 @@
 				$is_menu_set = ' class="nopagemenu"';
 				$page_base = BASE_PAGENAME;
 				if (strrpos(BASE_PAGENAME ,'_')) {
-					if (isset($pagememu)) {
-						$current_pagemenu = $pagememu;
+					if (isset($page_memu)) {
+						$current_pagemenu = $page_memu;
 					}
 					$exploded_request = explode('_',BASE_PAGENAME);
 					$page_base = $exploded_request[0];
@@ -121,14 +121,14 @@
 						include($pages_path . 'definitions/' . $page_base . '.php');
 					}
 				}
-				if (isset($pagememu)) {
-					if (is_array($pagememu)) {
+				if (isset($page_memu)) {
+					if (is_array($page_memu)) {
 						$is_menu_set = '';
 			?>
 					<div id="pagemenu">
 						<?php
 						
-						foreach ($pagememu as $menutitle => $menuarray) {
+						foreach ($page_memu as $menutitle => $menuarray) {
 							$menulevel = 1;
 							echo "<h3>$menutitle</h3>";
 							echo '<ul class="pagebasemenu">';

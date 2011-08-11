@@ -12,7 +12,7 @@
 			
 			<div class="row_seperator">.</div>
 	
-			<label for="Asset Title">Title / Name</label><br />
+			<label for="asset_title">Title / Name</label><br />
 			<input type="text" id="asset_title" name="asset_title" value="" placeholder="Give It A Name" />
 	
 			<label for="asset_location">Location (URI)</label><br />

@@ -209,6 +209,8 @@ CREATE TABLE `user_lists` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL DEFAULT '',
   `description` text,
+  `user_id` int(11) NOT NULL,
+  `settings_id` int(11) NOT NULL,
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)

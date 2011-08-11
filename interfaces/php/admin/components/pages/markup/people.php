@@ -1,6 +1,24 @@
 <div class="col_onehalf">
 	<h2>Mailing Lists</h2>
-	<a href="http://localhost:8888/admin/people/mailinglists/view/1">"Bad Books" List</a>
+	<?php
+	if (!is_array($page_data['lists'])) {
+		echo "No lists were found. Sorry.";
+	} else {
+		foreach ($page_data['lists'] as $list) {
+			?>
+			<div class="callout">
+				<h4><?php echo $list['name']; ?></h4>
+				<?php echo $list['description']; ?><br />
+				<span class="smalltext fadedtext nobr">Created: <?php echo date('M jS, Y',$list['creation_date']); if ($list['modification_date']) { echo ' (Modified: ' . date('F jS, Y',$list['modification_date']) . ')'; } ?></span>
+				<div class="tar">
+					<br />
+					<a href="<?php echo ADMIN_WWW_BASE_PATH . '/people/mailinglists/view/' . $list['id']; ?>" class="mininav">View List</a>
+				</div>
+			</div>
+			<?php
+		}
+	}
+	?>
 </div>
 <div class="col_onehalf lastcol">
 	<h2>Social</h2>

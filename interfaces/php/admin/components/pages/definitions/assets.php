@@ -10,7 +10,7 @@ keyed to arrays of menu options. Menu depth is determined by the number of
 slashes in the menu option key, which serves as the link for the menu item.
 
 So: 
-$pagememu = array(
+$page_memu = array(
 	'Actions' => array(
 		'assets/add' => 'Add Assets',
 			'assets/add/adhoc' => 'Add Ad-Hoc Asset',
@@ -31,7 +31,7 @@ Actions
 You dig?
 
 */
-$pagememu = array(
+$page_memu = array(
 	'Actions' => array(
 		'assets/add/' => 'Add Assets',
 			'assets/add/single/' => 'Add Single Asset',

@@ -24,7 +24,7 @@
 			
 			<br /><br />
 	
-			<a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/assets/add/"><small>OR ADD NEW ASSET</small></a>
+			<a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/assets/add/single/"><small>OR ADD NEW ASSET</small></a>
 			
 		</div>
 
@@ -39,10 +39,12 @@
 			<label for="message_success">Success Message</label><br />
 			<input type="text" id="message_success" name="message_success" value="Thanks! You're all signed up. Here's your download:" />
 			
+			<!--
 			<div class="row_seperator">.</div><br />
 	
 			<label for="comment_or_radio">Comment Or Agreement</label><br />
 			<input type="radio" name="comment_or_radio" class="checkorradio" value="none" checked="checked" /> Neither &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="comment" /> Comment &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="agreement" /> Agreement 
+			-->
 		</div>
 		<div class="row_seperator">.</div><br />
 		<div class="tar">

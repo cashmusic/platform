@@ -63,6 +63,7 @@ class CASHDBA {
 			'metadata' => 'base_metadata',
 			'settings' => 'base_settings',
 			'users' => 'user_users',
+			'user_lists' => 'user_lists',
 			'list_members' => 'user_lists_members',
 			'venues' => 'live_venues'
 		);
