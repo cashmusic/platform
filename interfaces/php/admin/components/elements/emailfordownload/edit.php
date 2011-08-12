@@ -83,10 +83,13 @@ if (isset($_POST['doelementedit'])) {
 			<label for="message_success">Success Message</label><br />
 			<input type="text" id="message_success" name="message_success" value="<?php echo $page_data['options']->message_success; ?>" />
 			
+			<!--
 			<div class="row_seperator">.</div><br />
 	
 			<label for="comment_or_radio">Comment Or Agreement</label><br />
 			<input type="radio" name="comment_or_radio" class="checkorradio" value="none" checked="checked" /> Neither &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="comment" /> Comment &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="agreement" /> Agreement 
+			
+			-->
 		</div>
 		<div class="row_seperator">.</div><br />
 		<div class="tar">

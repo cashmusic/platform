@@ -39,4 +39,27 @@ $page_memu = array(
 		'assets/find/' => 'Find Assets'
 	)
 );
+
+$page_data = array();
+
+$page_request = new CASHRequest(
+	array(
+		'cash_request_type' => 'asset', 
+		'cash_action' => 'getanalytics',
+		'analtyics_type' => 'mostaccessed',
+		'user_id' => getPersistentData('cash_effective_user')
+	)
+);
+$page_data['asset_mostaccessed'] = $page_request->response['payload'];
+
+$page_request = new CASHRequest(
+	array(
+		'cash_request_type' => 'asset', 
+		'cash_action' => 'getanalytics',
+		'analtyics_type' => 'recentlyadded',
+		'user_id' => getPersistentData('cash_effective_user')
+	)
+);
+$page_data['asset_recentlyadded'] = $page_request->response['payload'];
+
 ?>

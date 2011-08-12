@@ -2,7 +2,7 @@
 	<h3>Find Assets</h3>
 	<form>	
 	<label for="text1">Search Terms</label><br />
-	<input type="text" id="text1" /> 
+	<input type="text" id="text1" placeholder="Disabled" /> 
 
 	<div class="row_seperator">.</div>
 	<label>Search For</label><br />

@@ -81,7 +81,7 @@
 		}
 		echo '</ul>';
 	} else {
-		echo '<p>No assets have been accessed yet.</p>';
+		echo '<p>No assets have been added yet.</p>';
 	}
 	?>
 </div><div class="col_onefourth usecolor3">

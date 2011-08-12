@@ -22,5 +22,12 @@
 </div>
 <div class="col_onehalf lastcol">
 	<h2>Social</h2>
-	Twitter and Facebook integrations not set up.
+	<p>
+		Twitter and Facebook integrations not set up.
+	</p>
+	
+	<h2>Locked Elements by List</h2>
+	<p>
+		There are no locked elements.
+	</p>
 </div>
