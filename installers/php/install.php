@@ -296,9 +296,9 @@ if (!isset($_POST['installstage'])) {
 				$currentfile = 1;
 
 				foreach ($files as $file) {
-					if (preg_match("/^(tests|installers)/", $file)) { // Don't install tests or installers
-						continue;
-					}
+					//if (preg_match("/^(tests|installers)/", $file)) { // Don't install tests or installers
+					//	continue;
+					//}
 					if (!file_exists('./source/'.$file)) {
 						$path = pathinfo($file);
 						if (!is_dir('./source/'.$path['dirname'])) mkdir('./source/'.$path['dirname'],0777,true);
@@ -345,7 +345,7 @@ if (!isset($_POST['installstage'])) {
 				}
 				echo $settings_message;
 				echo '<form action="" method="post" id="nextstepform"><input type="hidden" id="installstagefade" value="1" /><input type="hidden" name="installstage" id="installstageinput" value="4" /> '
-				. '<h3>Install core files to:</h3><input type="text" name="corelocation" value="' . $cash_root_location . '" /> '
+				. '<h3>Install core files to:</h3><input type="text" name="frameworklocation" value="' . $cash_root_location . '" /> '
 				. '<h3>Admin email account:</h3><input type="text" name="adminemailaccount" value="admin@' . $_SERVER['SERVER_NAME'] . '" /> '
 				. '<h3><br />MySQL settings:</h3> '
 				. '<label for="mysqlhost">Host (hostname or hostname:port)</label> <input type="text" name="mysqlhost" id="mysqlhost" value="localhost" /> '
@@ -367,7 +367,7 @@ if (!isset($_POST['installstage'])) {
 			
 			$admin_dir = dirname($_SERVER['REQUEST_URI']) . '/admin';
 			$user_settings = array(
-				'corelocation' => (string)$_POST['corelocation'],
+				'frameworklocation' => (string)$_POST['frameworklocation'],
 				'adminemailaccount' => (string)$_POST['adminemailaccount'],
 				'mysqlhost' => (string)$_POST['mysqlhost'],
 				'mysqluser' => (string)$_POST['mysqluser'],
@@ -436,7 +436,7 @@ if (!isset($_POST['installstage'])) {
 					'password' => $password_hash,
 					'creation_date' => time()
 				);
-				$query = "INSERT INTO cash_users (email_address,password,creation_date) VALUES (:email_address,:password,:creation_date)";
+				$query = "INSERT INTO user_users (email_address,password,creation_date) VALUES (:email_address,:password,:creation_date)";
 
 				try {  
 					$q = $pdo->prepare($query);

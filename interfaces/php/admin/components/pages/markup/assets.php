@@ -10,11 +10,10 @@
 </form>
 
 <br /><br /><br /><br />
-<h3>At A Glance</h3>
 <div class="col_onehalf">
 	<h2>Most Accessed</h2>
 		<?php
-		if ($page_data['asset_mostaccessed']) {
+		if (!is_array($page_data['asset_mostaccessed'])) {
 			$loopcount = 1;
 			echo '<ol class="fadedtext">';
 			foreach ($page_data['asset_mostaccessed'] as $asset) {
@@ -30,7 +29,7 @@
 </div><div class="col_onehalf lastcol">
 	<h2>Recently Added</h2>
 	<?php
-	if ($page_data['asset_recentlyadded']) {
+	if (!is_array($page_data['asset_recentlyadded'])) {
 		$loopcount = 1;
 		echo '<ul class="nobullets fadedtext">';
 		foreach ($page_data['asset_recentlyadded'] as $asset) {

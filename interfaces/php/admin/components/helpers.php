@@ -75,7 +75,7 @@ function echoFormOptions($base_type,$selected=0) {
 			'user_id' => getPersistentData('cash_effective_user')
 		)
 	);
-	if (is_array($echoformoptions_cash_request->response['payload'])) {
+	if (is_array($echoformoptions_cash_request->response['payload']) && ($echoformoptions_cash_request->response['status_code'] == 200)) {
 		foreach ($echoformoptions_cash_request->response['payload'] as $item) {
 			$selected_string = '';
 			if ($item['id'] == $selected) { 

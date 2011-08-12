@@ -10,14 +10,14 @@
 	<h2 class="usecolor1">Elements</h2>
 	<div class="col_onethird" style="font-weight:bold;">
 		At a Glance<br />
-		<span class="majorcallout bgcolor1"><?php echo $page_data['element_active_count']; ?></span> <a href="<?php echo ADMIN_WWW_BASE_PATH . '/elements/' ?>"><big>Active <br />Element<?php if($page_data['element_active_count'] > 1) { echo 's'; } ?></big></a>
+		<span class="majorcallout bgcolor1"><?php echo $page_data['element_active_count']; ?></span> <a href="<?php echo ADMIN_WWW_BASE_PATH . '/elements/' ?>"><big>Active <br />Element<?php if($page_data['element_active_count'] != 1) { echo 's'; } ?></big></a>
 		<div class="clearfix">.</div>
-		<span class="majorcallout bgcolor0"><?php echo $page_data['element_inactive_count']; ?></span> <a href="<?php echo ADMIN_WWW_BASE_PATH . '/elements/view/' ?>" class="usecolor0"><big>Inactive <br />Element<?php if($page_data['element_inactive_count'] > 1) { echo 's'; } ?></big></a>
+		<span class="majorcallout bgcolor0"><?php echo $page_data['element_inactive_count']; ?></span> <a href="<?php echo ADMIN_WWW_BASE_PATH . '/elements/view/' ?>" class="usecolor0"><big>Inactive <br />Element<?php if($page_data['element_inactive_count'] != 1) { echo 's'; } ?></big></a>
 	</div>
 	<div class="col_onethird">
 		<b>Most Active</b>
 		<?php
-		if ($page_data['element_mostactive']) {
+		if (is_array($page_data['element_mostactive'])) {
 			$loopcount = 1;
 			echo '<ol class="fadedtext">';
 			foreach ($page_data['element_mostactive'] as $element) {
@@ -34,7 +34,7 @@
 	<div class="col_onethird lastcol">
 		<b>Recently Added</b>
 		<?php
-		if ($page_data['element_recentlyadded']) {
+		if (is_array($page_data['element_recentlyadded'])) {
 			$loopcount = 1;
 			echo '<ul class="nobullets fadedtext">';
 			foreach ($page_data['element_recentlyadded'] as $element) {
@@ -56,7 +56,7 @@
 	<h2 class="usecolor2">Assets</h2>
 	<b>Most Accessed</b>
 		<?php
-		if ($page_data['asset_mostaccessed']) {
+		if (is_array($page_data['asset_mostaccessed'])) {
 			$loopcount = 1;
 			echo '<ol class="fadedtext">';
 			foreach ($page_data['asset_mostaccessed'] as $asset) {
@@ -71,7 +71,7 @@
 		?>
 	<b>Recently Added</b>
 	<?php
-	if ($page_data['asset_recentlyadded']) {
+	if (is_array($page_data['asset_recentlyadded'])) {
 		$loopcount = 1;
 		echo '<ul class="nobullets fadedtext">';
 		foreach ($page_data['asset_recentlyadded'] as $asset) {
