@@ -8,4 +8,24 @@ $page_memu = array(
 		'elements/add/' => 'Add Element'
 	)
 );
+
+$element_page_request = new CASHRequest(
+	array(
+		'cash_request_type' => 'element', 
+		'cash_action' => 'getanalytics',
+		'analtyics_type' => 'mostactive',
+		'user_id' => getPersistentData('cash_effective_user')
+	)
+);
+$page_data['element_mostactive'] = $page_request->response['payload'];
+
+$element_page_request = new CASHRequest(
+	array(
+		'cash_request_type' => 'element', 
+		'cash_action' => 'getanalytics',
+		'analtyics_type' => 'recentlyadded',
+		'user_id' => getPersistentData('cash_effective_user')
+	)
+);
+$page_data['element_recentlyadded'] = $page_request->response['payload'];
 ?>
