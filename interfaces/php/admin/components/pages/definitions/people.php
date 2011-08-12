@@ -19,5 +19,10 @@ $page_section_request = new CASHRequest(
 		'user_id' => getPersistentData('cash_effective_user')
 	)
 );
-$page_data['lists'] = $page_section_request->response['payload'];
+if ($page_section_request->response['status_uid'] == 'people_getlistsforuser_200') {
+	$page_data['lists'] = $page_section_request->response['payload'];
+} else {
+	$page_data['lists'] = false;
+}
+
 ?>
