@@ -9,15 +9,33 @@ complex functionality around the marketing, promotion, and sale of music on an
 artist's site. It is designed to work as a freestanding API or integrated with
 publishing and CMS systems like Wordpress or Drupal.
 
+# Requirements
+
+One of the fundamental goals of CASH Music is the be as widely deployable as possible,
+and hence, to have extremely minimal dependencies outside of what comes bundled. Current
+requirements:
+
+ * [PHP](http://php.net) 5.2.3
+ * MySQL (other databases may work, but have not been tested)
+
+Plans are in the works to support SQLite.
+
 # Notes
 
 Most of the code is currently found in framework/local/php/ and centers around a
-single-include workflow. The Seed.php does some basic housekeeping before
-firing up a CASHRequest instance that parses an incoming request. That request
-is passed to the appropriate Plant (factory) class which then figures out what
-to do with the request and fires off any necessary Seed (worker) classes. When
-done the Plant returns any information in a standard CASHResponse format which
-is stored in a standardized session variable and in the original CASHRequest.
+single-include workflow, which means the only thing you need to do to add CM to your
+site/page is include this single file:
+
+    // this loads CASH Music DIY
+    require_once('framework/php/cashmusic.php');
+
+The Seed.php does some basic housekeeping before firing up a CASHRequest
+instance that parses an incoming request. That request is passed to the
+appropriate Plant (kind of like a Factory) class which then figures out what to
+do with the request and fires off any necessary Seed (kind of like a Worker)
+classes. When done the Plant returns any information in a standard CASHResponse
+format which is stored in a standardized session variable and in the original
+CASHRequest.
 
 So something like this:
 
@@ -38,10 +56,11 @@ this if you must, since it is much slower and uses up more bandwidth:
     git clone https://leto@github.com/cashmusic/DIY.git
 
 We have a test suite to make sure that things don't break when we add features
-and fix bugs. Currently is it small and only syntax checks all the PHP files,
-but soon it will be a beautiful butterfly.
+and fix bugs. Currently we syntax check all the PHP files and have a few basic
+tests for creating the most basic CASHMusic DIY objects, but soon it will be a
+beautiful butterfly.
 
-To run the CASH Music tests, run this command from the root directory of the
+To run the CASH Music PHP tests, run this command from the root directory of the
 CASH Music git repo:
 
     cd DIY
@@ -52,7 +71,8 @@ When the tests pass, you should see something like this at the end:
     OK
     Test cases run: 3/3, Passes: 43, Failures: 0, Exceptions: 0
 
-Our tests are written using [SimpleTest](http://www.simpletest.org/).
+Our PHP tests are written using [SimpleTest](http://www.simpletest.org/). Currently
+we do not have any Javascript tests, but those are on the way.
 
 # Continuous Integration
 

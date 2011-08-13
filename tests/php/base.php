@@ -6,7 +6,7 @@
 // this includes the basic SimpleTest library
 require_once('tests/lib/simpletest/autorun.php');
 
-// this load CASH Music DIY
+// this loads CASH Music DIY
 require_once('framework/php/cashmusic.php');
 
 ?>
