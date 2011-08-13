@@ -74,6 +74,14 @@ When the tests pass, you should see something like this at the end:
 Our PHP tests are written using [SimpleTest](http://www.simpletest.org/). Currently
 we do not have any Javascript tests, but those are on the way.
 
+# CASHMusic Branches + Tags
+
+Each week, we do a developer release on Thursday. The developer releases are tagged
+with names in the form of 'dev_release_N' and are cut from the 'latest_stable' branch.
+The 'master' branch is the tip of development, where new commits and pull requests get
+merged into, and will be more unstable and possibly broken for short periods of time.
+The 'latest_stable' branch will always point to the most recent developer release.
+
 # Continuous Integration
 
 We use something called [Jitterbug](http://jitterbug.pl) to run our tests every
