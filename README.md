@@ -44,7 +44,7 @@ So something like this:
 Long-term goal is to use standardized requests/responses to enable full action
 chaining for new functionality.
 
-# Hacking on CASH Music
+# Getting the CASH Music codebase
 
 To hack on CASH Music DIY, first grab the git repo:
 
@@ -54,6 +54,8 @@ If you are behind a pesky firewall, you might need to use https, but only do
 this if you must, since it is much slower and uses up more bandwidth:
 
     git clone https://leto@github.com/cashmusic/DIY.git
+
+# Running CASHMusic Tests
 
 We have a test suite to make sure that things don't break when we add features
 and fix bugs. Currently we syntax check all the PHP files and have a few basic
@@ -78,9 +80,40 @@ we do not have any Javascript tests, but those are on the way.
 
 Each week, we do a developer release on Thursday. The developer releases are tagged
 with names in the form of 'dev_release_N' and are cut from the 'latest_stable' branch.
+For example, [this](https://github.com/cashmusic/DIY/commits/dev_release_1) is our first
+dev release tag.
+
 The 'master' branch is the tip of development, where new commits and pull requests get
 merged into, and will be more unstable and possibly broken for short periods of time.
 The 'latest_stable' branch will always point to the most recent developer release.
+
+# Contributing to CASH Music
+
+We highly encourage *everybody* to scratch their itch and contribute back to CASH Music.
+
+We prefer [Github](https://github.com) [pull requests](http://help.github.com/send-pull-requests/),
+but we will take contributions any way we can get them. If you need to etch a
+patch on a grain of rice, please send a magnifying glass.
+
+We assume that you already have a free [Github account](https://github.com/signup/free). If you don't already,
+do that now. We promise, it is the bees knees.
+
+First, you will want to create your "fork" of CASH Music DIY. To do this, go to
+the [CASH Music DIY Github project](https://github.com/cashmusic/DIY) and click
+on the grey "Fork" button on the top right. You should see a note about
+"Hardcore Forking Action" happening (teehee) and then the page will reload so
+you can look at your spiffy new fork!
+
+Next, click the little button next to "Read+Write access" just above the the
+box describing the latest commit.  That will copy the URL of your fork to your
+clipboard.
+
+    git clone git@github.com:USERNAME/DIY.git
+    cd DIY
+    git checkout latest_stable
+    git checkout -b my_cool_feature_branch
+
+TO BE FINISHED
 
 # Continuous Integration
 
