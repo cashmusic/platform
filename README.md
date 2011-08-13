@@ -22,9 +22,9 @@ Plans are in the works to support SQLite.
 
 # Notes
 
-Most of the code is currently found in framework/local/php/ and centers around a
-single-include workflow, which means the only thing you need to do to add CM to your
-site/page is include this single file:
+Most of the code is currently found in framework/php/ and centers around a
+single-include workflow, which means the only thing you need to do to add CM to
+your site/page is include this single file:
 
     // this loads CASH Music DIY
     require_once('framework/php/cashmusic.php');
