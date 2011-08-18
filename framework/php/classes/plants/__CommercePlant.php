@@ -1,7 +1,9 @@
 <?php
 /**
  *
- * PaypalSeed page-state handler script
+ * Older Paypal page-stage handler code. The __ in the filename indicates that
+ * this class has not yet been integrated into the main platform and will 
+ * undergo huge changes.
  *
  * @package diy.org.cashmusic
  * @author CASH Music
