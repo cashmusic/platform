@@ -178,23 +178,27 @@
 			
 		} else {
 			echo '<h3>Current connections:</h3><p>Here are the settings that have already been added:</p>';
-			foreach ($settings_for_user as $key => $data) {
-			?>
-				<div class="callout">
-					<h4><?php echo $data['name']; ?></h4>
-					<?php
-					if (array_key_exists($data['type'],$settings_types_data)) {
-						echo '<b>' . $settings_types_data[$data['type']]->name . '</b> ';
-					} else {
-						//echo '<b>' . $data['type'] . '</b> ';
-					}
-					?>
-					&nbsp; <span class="smalltext fadedtext">Created: <?php echo date('M jS, Y',$data['creation_date']); if ($data['modification_date']) { echo ' (Modified: ' . date('F jS, Y',$data['modification_date']) . ')'; } ?></span>
-					<div class="tar">
-						<a href="./edit/<?php echo $data['id']; ?>/<?php echo $data['name']; ?>/<?php echo $data['type']; ?>/" class="mininav">Edit</a> <a href="./delete/<?php echo $data['id']; ?>/" class="needsconfirmation mininav">Delete</a>
+			if (is_array($settings_for_user)) {
+				foreach ($settings_for_user as $key => $data) {
+				?>
+					<div class="callout">
+						<h4><?php echo $data['name']; ?></h4>
+						<?php
+						if (array_key_exists($data['type'],$settings_types_data)) {
+							echo '<b>' . $settings_types_data[$data['type']]->name . '</b> ';
+						} else {
+							//echo '<b>' . $data['type'] . '</b> ';
+						}
+						?>
+						&nbsp; <span class="smalltext fadedtext">Created: <?php echo date('M jS, Y',$data['creation_date']); if ($data['modification_date']) { echo ' (Modified: ' . date('F jS, Y',$data['modification_date']) . ')'; } ?></span>
+						<div class="tar">
+							<a href="./edit/<?php echo $data['id']; ?>/<?php echo $data['name']; ?>/<?php echo $data['type']; ?>/" class="mininav">Edit</a> <a href="./delete/<?php echo $data['id']; ?>/" class="needsconfirmation mininav">Delete</a>
+						</div>
 					</div>
-				</div>
-			<?php
+				<?php
+				}
+			} else {
+				echo 'No settings have been added.';
 			}
 		}
 	?>
