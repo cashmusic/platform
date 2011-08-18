@@ -1,4 +1,4 @@
-## CASH Music Platform ##
+# CASH Music Platform #
 At the heart of the CASH Music platform is a transactional framework tailored 
 specifically to music promotion, sales, and digital distribution. We've abstracted 
 things like data access, asset storage, and third party API management leaving 
