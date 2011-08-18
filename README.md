@@ -1,4 +1,4 @@
-# CASH Music Platform / DIY
+# CASH Music Platform
 
 The CASH Music Platform is very much still a work in progress in its pre-release
 lifecycle.
@@ -9,7 +9,7 @@ complex functionality around the marketing, promotion, and sale of music on an
 artist's site. It is designed to work as a freestanding API or integrated with
 publishing and CMS systems like Wordpress or Drupal.
 
-# Requirements
+## Requirements
 
 One of the fundamental goals of CASH Music is the be as widely deployable as possible,
 and hence, to have extremely minimal dependencies outside of what comes bundled. Current
@@ -20,7 +20,7 @@ requirements:
 
 Plans are in the works to support SQLite.
 
-# Notes
+## Notes
 
 Most of the code is currently found in framework/php/ and centers around a
 single-include workflow, which means the only thing you need to do to add CM to
@@ -44,7 +44,7 @@ So something like this:
 Long-term goal is to use standardized requests/responses to enable full action
 chaining for new functionality.
 
-# Getting the CASH Music codebase
+## Getting the CASH Music codebase
 
 To hack on CASH Music DIY, first grab the git repo:
 
@@ -55,7 +55,7 @@ this if you must, since it is much slower and uses up more bandwidth:
 
     git clone https://leto@github.com/cashmusic/DIY.git
 
-# Running CASHMusic Tests
+## Running CASHMusic Tests
 
 We have a test suite to make sure that things don't break when we add features
 and fix bugs. Currently we syntax check all the PHP files and have a few basic
@@ -76,7 +76,7 @@ When the tests pass, you should see something like this at the end:
 Our PHP tests are written using [SimpleTest](http://www.simpletest.org/). Currently
 we do not have any Javascript tests, but those are on the way.
 
-# CASHMusic Branches + Tags
+## CASHMusic Branches + Tags
 
 Each week, we do a developer release on Thursday. The developer releases are tagged
 with names in the form of 'dev_release_N' and are cut from the 'latest_stable' branch.
@@ -87,7 +87,7 @@ The 'master' branch is the tip of development, where new commits and pull reques
 merged into, and will be more unstable and possibly broken for short periods of time.
 The 'latest_stable' branch will always point to the most recent developer release.
 
-# Contributing to CASH Music
+## Contributing to CASH Music
 
 We highly encourage *everybody* to scratch their itch and contribute back to CASH Music.
 
@@ -115,13 +115,13 @@ clipboard.
 
 TO BE FINISHED
 
-# Continuous Integration
+## Continuous Integration
 
 We use something called [Jitterbug](http://jitterbug.pl) to run our tests every
 time someone pushes to the CASH Music DIY Github repo. You can see the results
 of each test run at http://dev.cashmusic.org:3000/project/DIY .
 
-# License
+## License
 
 CashMusic DIY is (c) 2010 CASH Music, licensed under a AGPL license:
 <http://www.gnu.org/licenses/agpl-3.0.html>
