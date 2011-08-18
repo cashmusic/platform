@@ -1,6 +1,7 @@
 <?php
 /**
  *
+ * This is the framework bootstrap script.
  * Prep the environment (strip stupid shit like magic quotes...ooh...magic!)
  * Include required classes, execute request/response
  *

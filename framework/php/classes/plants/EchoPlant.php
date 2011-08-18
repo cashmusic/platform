@@ -1,6 +1,6 @@
 <?php
 /**
- * So dumb. So needed.
+ * So dumb. So needed. Echoes a request back to the response for testing.
  *
  * @package diy.org.cashmusic
  * @author CASH Music
