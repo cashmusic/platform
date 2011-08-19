@@ -230,7 +230,7 @@ $index_array = array(
 );
 
 
-$output_dir = './autodocs';
+$output_dir = '../autodocs';
 if (readAndWriteAllDocs($index_array,$output_dir)) {
 	echo "success creating docs";
 } else {
