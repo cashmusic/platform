@@ -68,6 +68,6 @@ body > #wrap {height:auto;min-height:100%;}
 </head> 
 
 <body> 
-
+<a href="http://github.com/cashmusic/DIY"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 <div id="wrap"> 
 	<div id="mainspc">
