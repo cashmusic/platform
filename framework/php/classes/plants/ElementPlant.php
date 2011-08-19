@@ -1,7 +1,7 @@
 <?php
 /**
- * Takes an element ID finds it's settings, returns either raw data or markup
- * to be used in the requesting app
+ * ElementPlant Takes an element ID finds it's settings, returns either raw data 
+ * or markup ready to be used in the requesting app.
  *
  * @package diy.org.cashmusic
  * @author CASH Music

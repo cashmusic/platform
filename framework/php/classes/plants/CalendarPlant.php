@@ -1,6 +1,7 @@
 <?php
 /**
- * Live shows. Parties. Good times.
+ * Live shows. Parties. Good times. CalendarPlant will undergo additional changes 
+ * by the time the platform reaches 1.0 release.
  *
  * @package diy.org.cashmusic
  * @author CASH Music

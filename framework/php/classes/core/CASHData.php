@@ -1,6 +1,8 @@
 <?php
 /**
- * Data access for all Seed classes, DB and Session handling
+ * Data access for all Plant and Seed classes. CASHData abstracts out SESSION 
+ * data handling, provides a CASHDBA object as $this->db, and provides functions 
+ * to access metadata for all tables. 
  *
  * @package diy.org.cashmusic
  * @author CASH Music

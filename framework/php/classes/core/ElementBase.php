@@ -1,6 +1,6 @@
 <?php
 /**
- * Base for all elements
+ * Abstract base for all elements
  *
  * @package diy.org.cashmusic
  * @author CASH Music

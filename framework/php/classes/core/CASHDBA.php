@@ -1,6 +1,9 @@
 <?php
 /**
- * No frills DB connection class
+ * No frills DBA connection class using PHP's PDO library. CASHDBA provides 
+ * easy functions for data access using a get/set convention and auto-detection 
+ * of conditions. All database tables are abstracted using a lookupTableName() 
+ * function to centralize any future schema changes.
  *
  * @package diy.org.cashmusic
  * @author CASH Music

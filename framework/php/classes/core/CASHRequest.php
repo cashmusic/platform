@@ -1,6 +1,9 @@
 <?php
 /**
- * Handle incoming requests, pass to the appropriate plant, return response
+ * The CASHRequest / CASHResponse relationship is the core of the CASH framework. 
+ * CASHRequest looks for direct or indirect (POST/GET) requests for CASH resources 
+ * then determines the correct Plant to instantiate in order to fulfill the request 
+ * and return a proper CASHResponse.
  *
  * @package diy.org.cashmusic
  * @author CASH Music
