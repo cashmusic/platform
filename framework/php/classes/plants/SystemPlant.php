@@ -1,6 +1,8 @@
 <?php
 /**
- * Plant handling assets: query information, handle download codes/passwords, etc
+ * SystemPlant deals with any low-level or secure requests that need processing. 
+ * Some things like user logins appear here instead of their more natural homes 
+ * in order to centralize potential security risks.
  *
  * @package diy.org.cashmusic
  * @author CASH Music

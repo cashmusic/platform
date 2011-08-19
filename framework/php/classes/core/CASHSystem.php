@@ -1,6 +1,7 @@
 <?php
 /**
- * A collection of lower level static functions that are useful across classes
+ * An abstract collection of lower level static functions that are useful 
+ * across other classes.
  *
  * @package diy.org.cashmusic
  * @author CASH Music

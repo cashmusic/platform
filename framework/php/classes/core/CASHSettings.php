@@ -1,6 +1,9 @@
 <?php
 /**
- * Store and retrieve settings, designed to add/get JSON data from DB
+ * CASHSettings stores and retrieves 3rd party API connection settings from the 
+ * database. API settings definitions are stored as JSON flat files in /settings/types 
+ * then read in by this class. Actual API keys and needed settings are stored as JSON 
+ * in the settings table in the database.
  *
  * @package diy.org.cashmusic
  * @author CASH Music

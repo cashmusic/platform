@@ -26,6 +26,7 @@ span.classdescription {font-size:1.5em;}
 span.classdescription br {display:none}
 ul.nobullets {padding-left:0;}
 ul.nobullets li {list-style-type:none;}
+div.commentblock {border-left:8px solid #eee;padding-left:12px;}
 #pagemenu {position:absolute;top:80px;left:50%;margin-left:-400px;text-align:left;width:220px;text-align:right;}
 #pagemenu h2 {margin-top:0.75em;}
 

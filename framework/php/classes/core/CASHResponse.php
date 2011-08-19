@@ -1,6 +1,8 @@
 <?php
 /**
- * Output a consistent response to every request
+ * The CASHRequest / CASHResponse relationship is the core of the CASH framework. 
+ * CASHResponse takes output from all Plants and gives consistent output including 
+ * REST-style status codes, contextual messages, and a data payload.
  *
  * @package diy.org.cashmusic
  * @author CASH Music

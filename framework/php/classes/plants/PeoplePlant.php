@@ -1,6 +1,7 @@
 <?php
 /**
- * Plant handling assets: query information, handle download codes/passwords, etc
+ * PeoplePlant handles all user functions except login. It manages lists of users 
+ * and will sync those lists between services.
  *
  * @package diy.org.cashmusic
  * @author CASH Music

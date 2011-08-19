@@ -1,9 +1,12 @@
 <?php
 /**
  *
- * This is the framework bootstrap script.
- * Prep the environment (strip stupid shit like magic quotes...ooh...magic!)
- * Include required classes, execute request/response
+ * This is the framework bootstrap script. It preps the environment (strips out 
+ * stupid shit like magic quotes), includes required classes, and instantiates
+ * a CASH request ready to use — pre-populated with any REQUEST data that may
+ * have been passed to the page. 
+ *
+ * (Usage: included at the top of all pages.)
  *
  * @package diy.org.cashmusic
  * @author CASH Music

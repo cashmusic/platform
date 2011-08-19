@@ -1,6 +1,6 @@
 <?php
 /**
- * Base for all Seed classes
+ * Abstract base for all Seed classes
  *
  * @package diy.org.cashmusic
  * @author CASH Music

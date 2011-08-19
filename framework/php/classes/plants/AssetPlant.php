@@ -1,6 +1,8 @@
 <?php
 /**
- * Plant handling assets: query information, handle download codes/passwords, etc
+ * AssetPlant handles the abstraction for things like grabbing and adding 
+ * metadata to assets, claiming private downloads, and adding new files to the 
+ * system. It is settings-aware and works across multiple storage systems.
  *
  * @package diy.org.cashmusic
  * @author CASH Music
