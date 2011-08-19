@@ -4,7 +4,7 @@ function parseComments($filename) {
 
 	if (file_exists($filename)) {
 		if (strpos($filename,'.md')) {
-			include_once('./lib/markdown.php');
+			include_once(dirname(__FILE__) . '/lib/markdown.php');
 			return Markdown(file_get_contents($filename));
 		} else {
 			$file_contents = file_get_contents($filename);
@@ -12,7 +12,7 @@ function parseComments($filename) {
 			if (basename($filename) !== 'cashmusic.php') {
 				$function_names = array(basename($filename, ".php"));
 			} else {
-				$function_names = array($filename);
+				$function_names = array('cashmusic.php');
 			}
 
 			// time to find function names
@@ -89,8 +89,8 @@ function formatParsedArray($comments_array) {
 
 function buildDocOutput($comments_or_text,$index_array,$is_index=false) {
 	$final_doc_contents = '';
-	if (file_exists('./page_header.inc')) {
-		$final_doc_contents .= file_get_contents('./page_header.inc');
+	if (file_exists(dirname(__FILE__) . '/page_header.inc')) {
+		$final_doc_contents .= file_get_contents(dirname(__FILE__) . '/page_header.inc');
 	}
 	$final_doc_contents .= '<div id="pagemenu">' . buildMenu($index_array,$is_index) . '</div>';
 	
@@ -99,8 +99,8 @@ function buildDocOutput($comments_or_text,$index_array,$is_index=false) {
 	} else {
 		$final_doc_contents .= $comments_or_text;
 	}
-	if (file_exists('./page_footer.inc')) {
-		$final_doc_contents .= file_get_contents('./page_footer.inc');
+	if (file_exists(dirname(__FILE__) . '/page_footer.inc')) {
+		$final_doc_contents .= file_get_contents(dirname(__FILE__) . '/page_footer.inc');
 	}
 	$replace_these = array('@param','@return');
 	$replace_these_with = array('<span class="param">@param</span>','<span class="return">@return</span>');
@@ -148,7 +148,7 @@ function formatMenuLink($nav_level,$key,$item,$index,$color=1) {
 		$color = 0;
 	}
 	if (is_string($key)) {
-		$replace_these = array(' ','(',')');
+		$replace_these = array(' ','(',')','.php');
 		$return_string .= '<a href="' . $nav_level . strtolower(str_replace(' ','',$index)) . '/' . strtolower(str_replace($replace_these,'',$key)) . '.html" class="usecolor' . $color . '">';
 		$return_string .= $key . '</a>';
 	} else {
@@ -195,7 +195,7 @@ function readAndWriteAllDocs($index_array,$output_dir) {
 									closedir($tmp_dir);
 								}
 							} else {
-								$replace_these = array(' ','(',')');
+								$replace_these = array(' ','(',')','.php');
 								file_put_contents($tmp_dirname . '/' . strtolower(str_replace($replace_these,'',$key)) . '.html',buildDocOutput(parseComments($item),$index_array));
 							}
 						}
@@ -211,21 +211,21 @@ function readAndWriteAllDocs($index_array,$output_dir) {
 
 $index_array = array(
 	'home' => array(
-		'../welcome.md'
+		dirname(__FILE__) . '/../welcome.md'
 	),
 	'Getting Started' => array(
-		'Overview' => '../README.md',
-		'Quick Start' => '../../README.md',
-		'Style Guide (code)' => '../styleguidecode.md'
+		'Overview' => dirname(__FILE__) . '/../README.md',
+		'Quick Start' => dirname(__FILE__) . '/../../README.md',
+		'Style Guide (code)' => dirname(__FILE__) . '/../styleguidecode.md'
 	),
 	'Bootstrap Script' => array(
-		'cashmusic.php' => '../../framework/php/cashmusic.php'
+		'cashmusic.php' => dirname(__FILE__) . '/../../framework/php/cashmusic.php'
 	),
 	'Core Classes' => array(
-		'../../framework/php/classes/core'
+		dirname(__FILE__) . '/../../framework/php/classes/core'
 	),
 	'Plant Classes' => array(
-		'../../framework/php/classes/plants'
+		dirname(__FILE__) . '/../../framework/php/classes/plants'
 	)
 );
 
