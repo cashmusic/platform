@@ -1,0 +1,219 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<title>Docs / CASH Music</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+
+<style type="text/css" /> 
+/* TAG RESETS */
+html {margin:0;padding:0;}
+body {color:#000;background-color:#fff;text-align:left;font:75%/1.5em "helvetica neue",helvetica,arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:750px;}
+a {color:#999;text-decoration:none;}
+a:hover {text-decoration:underline;}
+code {display:block;padding:2em;margin:0 0 1.5em 0;background-color:#ddd;background-position:left top;background-repeat:no-repeat;margin:0 auto;}
+img {border:0;}
+ul {padding:0.5em 0 0.5em 1.5em;}
+p {margin:0 0 1.5em 0;}
+h1 {font-size:3.75em;line-height:1.25em;margin:0;padding:0;}
+h2 {font-size:1.5em;line-height:1em;margin:2em 0 0 0;padding:0;padding-bottom:0.25em;}
+small {font-size:0.85em;line-height:1.25em;}
+small a {color:#000 !important;font-weight:bold;}
+table {font-size:0.85em;}
+
+/* GENERAL STYLES */
+span.param, span.return {font-weight:bold;}
+span.classdescription {font-size:1.5em;}
+span.classdescription br {display:none}
+ul.nobullets {padding-left:0;}
+ul.nobullets li {list-style-type:none;}
+div.commentblock {border-left:8px solid #eee;padding-left:12px;}
+#pagemenu {position:absolute;top:80px;left:50%;margin-left:-400px;text-align:left;width:220px;text-align:right;}
+#pagemenu h2 {margin-top:0.75em;}
+
+/* FORMS */
+input {padding:6px 2% 6px 2%;border:1px solid #ccc;width:96%;}
+input:active, input:focus {outline:0;border:1px solid #888;}
+input.button, a.mockbutton {background-color:#ccc;padding:6px 18px 6px 18px;font-weight:bold;cursor:pointer;width:auto;}
+input.button:hover {background-color:#aaa;}
+input.checkorradio {width:auto;}
+select {padding:6px 3px 6px 3px;border:1px solid #ccc;width:100%;}
+select:active, select:focus {outline:2px solid #ff0;}
+label {font-size:0.85em;text-transform:uppercase;color:#999;}
+
+/* COLORS */
+a.usecolor1 {color:#cd074d;}
+a.usecolor2 {color:#ca8c07;}
+a.usecolor3 {color:#97b800;}
+a.usecolor4 {color:#0080c9;}
+a.usecolor5 {color:#8a00ca;}
+a.usecolor0 {color:#999;}
+
+/* FOOTER (base code taken from cssstickyfooter.com) */
+* {margin-top:0;padding:0;} 
+html, body, #wrap {height:100%;}
+body > #wrap {height:auto;min-height:100%;}
+#mainspc {padding-bottom:90px;padding-top:80px;width:500px;padding-left:300px;margin:0 auto;}
+#footer {position:relative;margin-top:-36px;height:36px;color:#666;text-align:left;font-size:0.9em;line-height:1em;clear:both;background-color:#000;}
+#footer p {padding:12px 8px 0px 8px;}
+#footer a {color:#666;margin-left:24px;}
+#footer a:hover {color:#fff;}
+#footer .donatelink {color:#999;}
+
+/* ACCESSIBILITY STUFFS */
+* a:active, * a:focus, #footer a.donatelink:active, #footer a.donatelink:focus, input.checkorradio:focus, input.checkorradio:active
+{outline:2px solid #ff0;background-color:#ff0;color:#000;}
+</style>
+<link rel="icon" type="image/png" href="https://cashmusic.org/assets/images/icons/cash.png" /> 
+
+</head> 
+
+<body> 
+
+<div id="wrap"> 
+	<div id="mainspc">
+<div id="pagemenu"><h2><a href="../index.html">Index</a></h2><h2>Getting Started</h2><ul class="nobullets"><li><a href="../gettingstarted/overview.html" class="usecolor1">Overview</a></li><li><a href="../gettingstarted/quickstart.html" class="usecolor1">Quick Start</a></li><li><a href="../gettingstarted/styleguidecode.html" class="usecolor1">Style Guide (code)</a></li></ul><h2>Bootstrap Script</h2><ul class="nobullets"><li><a href="../bootstrapscript/cashmusic.php.html" class="usecolor2">cashmusic.php</a></li></ul><h2>Core Classes</h2><ul class="nobullets"><li><a href="../coreclasses/cashdata.html" class="usecolor3">CASHData</a></li><li><a href="../coreclasses/cashdba.html" class="usecolor3">CASHDBA</a></li><li><a href="../coreclasses/cashrequest.html" class="usecolor3">CASHRequest</a></li><li><a href="../coreclasses/cashresponse.html" class="usecolor3">CASHResponse</a></li><li><a href="../coreclasses/cashsettings.html" class="usecolor3">CASHSettings</a></li><li><a href="../coreclasses/cashsystem.html" class="usecolor3">CASHSystem</a></li><li><a href="../coreclasses/elementbase.html" class="usecolor3">ElementBase</a></li><li><a href="../coreclasses/plantbase.html" class="usecolor3">PlantBase</a></li><li><a href="../coreclasses/seedbase.html" class="usecolor3">SeedBase</a></li></ul><h2>Plant Classes</h2><ul class="nobullets"><li><a href="../plantclasses/__commerceplant.html" class="usecolor4">__CommercePlant</a></li><li><a href="../plantclasses/assetplant.html" class="usecolor4">AssetPlant</a></li><li><a href="../plantclasses/calendarplant.html" class="usecolor4">CalendarPlant</a></li><li><a href="../plantclasses/echoplant.html" class="usecolor4">EchoPlant</a></li><li><a href="../plantclasses/elementplant.html" class="usecolor4">ElementPlant</a></li><li><a href="../plantclasses/peopleplant.html" class="usecolor4">PeoplePlant</a></li><li><a href="../plantclasses/systemplant.html" class="usecolor4">SystemPlant</a></li></ul></div><h1>CASH Music Platform</h1>
+
+<p>The CASH Music Platform is very much still a work in progress in its pre-release
+lifecycle.</p>
+
+<p>The DIY version of the CASH platform is a locally-installable API intended to
+work in a request/response model similar to a REST implementation and handle
+complex functionality around the marketing, promotion, and sale of music on an
+artist's site. It is designed to work as a freestanding API or integrated with
+publishing and CMS systems like Wordpress or Drupal.</p>
+
+<h2>Requirements</h2>
+
+<p>One of the fundamental goals of CASH Music is the be as widely deployable as possible,
+and hence, to have extremely minimal dependencies outside of what comes bundled. Current
+requirements:</p>
+
+<ul>
+<li><a href="http://php.net">PHP</a> 5.2.3</li>
+<li>MySQL (other databases may work, but have not been tested)</li>
+</ul>
+
+<p>Plans are in the works to support SQLite.</p>
+
+<h2>Notes</h2>
+
+<p>Most of the code is currently found in framework/php/ and centers around a
+single-include workflow, which means the only thing you need to do to add CM to
+your site/page is include this single file:</p>
+
+<pre><code>// this loads CASH Music DIY
+require_once('framework/php/cashmusic.php');
+</code></pre>
+
+<p>The Seed.php does some basic housekeeping before firing up a CASHRequest
+instance that parses an incoming request. That request is passed to the
+appropriate Plant (kind of like a Factory) class which then figures out what to
+do with the request and fires off any necessary Seed (kind of like a Worker)
+classes. When done the Plant returns any information in a standard CASHResponse
+format which is stored in a standardized session variable and in the original
+CASHRequest.</p>
+
+<p>So something like this:</p>
+
+<pre><code>CASHRequest-&gt;Plant-&gt;(Seed(s) if needed)-&gt;CASHResponse
+</code></pre>
+
+<p>Long-term goal is to use standardized requests/responses to enable full action
+chaining for new functionality.</p>
+
+<h2>Getting the CASH Music codebase</h2>
+
+<p>To hack on CASH Music DIY, first grab the git repo:</p>
+
+<pre><code>git clone git://github.com/cashmusic/DIY.git
+</code></pre>
+
+<p>If you are behind a pesky firewall, you might need to use https, but only do
+this if you must, since it is much slower and uses up more bandwidth:</p>
+
+<pre><code>git clone https://leto@github.com/cashmusic/DIY.git
+</code></pre>
+
+<h2>Running CASHMusic Tests</h2>
+
+<p>We have a test suite to make sure that things don't break when we add features
+and fix bugs. Currently we syntax check all the PHP files and have a few basic
+tests for creating the most basic CASHMusic DIY objects, but soon it will be a
+beautiful butterfly.</p>
+
+<p>To run the CASH Music PHP tests, run this command from the root directory of the
+CASH Music git repo:</p>
+
+<pre><code>cd DIY
+php tests/php/all.php
+</code></pre>
+
+<p>When the tests pass, you should see something like this at the end:</p>
+
+<pre><code>OK
+Test cases run: 3/3, Passes: 43, Failures: 0, Exceptions: 0
+</code></pre>
+
+<p>Our PHP tests are written using <a href="http://www.simpletest.org/">SimpleTest</a>. Currently
+we do not have any Javascript tests, but those are on the way.</p>
+
+<h2>CASHMusic Branches + Tags</h2>
+
+<p>Each week, we do a developer release on Thursday. The developer releases are tagged
+with names in the form of 'dev<em>release</em>N' and are cut from the 'latest_stable' branch.
+For example, <a href="https://github.com/cashmusic/DIY/commits/dev_release_1">this</a> is our first
+dev release tag.</p>
+
+<p>The 'master' branch is the tip of development, where new commits and pull requests get
+merged into, and will be more unstable and possibly broken for short periods of time.
+The 'latest_stable' branch will always point to the most recent developer release.</p>
+
+<h2>Contributing to CASH Music</h2>
+
+<p>We highly encourage <em>everybody</em> to scratch their itch and contribute back to CASH Music.</p>
+
+<p>We prefer <a href="https://github.com">Github</a> <a href="http://help.github.com/send-pull-requests/">pull requests</a>,
+but we will take contributions any way we can get them. If you need to etch a
+patch on a grain of rice, please send a magnifying glass.</p>
+
+<p>We assume that you already have a free <a href="https://github.com/signup/free">Github account</a>. If you don't already,
+do that now. We promise, it is the bees knees.</p>
+
+<p>First, you will want to create your "fork" of CASH Music DIY. To do this, go to
+the <a href="https://github.com/cashmusic/DIY">CASH Music DIY Github project</a> and click
+on the grey "Fork" button on the top right. You should see a note about
+"Hardcore Forking Action" happening (teehee) and then the page will reload so
+you can look at your spiffy new fork!</p>
+
+<p>Next, click the little button next to "Read+Write access" just above the the
+box describing the latest commit.  That will copy the URL of your fork to your
+clipboard.</p>
+
+<pre><code>git clone git@github.com:USERNAME/DIY.git
+cd DIY
+git checkout latest_stable
+git checkout -b my_cool_feature_branch
+</code></pre>
+
+<p>TO BE FINISHED</p>
+
+<h2>Continuous Integration</h2>
+
+<p>We use something called <a href="http://jitterbug.pl">Jitterbug</a> to run our tests every
+time someone pushes to the CASH Music DIY Github repo. You can see the results
+of each test run at http://dev.cashmusic.org:3000/project/DIY .</p>
+
+<h2>License</h2>
+
+<p>CashMusic DIY is (c) 2010 CASH Music, licensed under a AGPL license:
+<a href="http://www.gnu.org/licenses/agpl-3.0.html">http://www.gnu.org/licenses/agpl-3.0.html</a></p>
+
+	</div>
+</div>
+
+<div id="footer">
+	<p><b>&copy; 2011 CASH Music.</b> All our code is open-source. <a href="http://cashmusic.org/why/" style="margin-left:0;">Learn more</a>. <a href="http://help.cashmusic.org/">Get help</a> <a href="http://cashmusic.org/donate" class="donatelink"><b>Donate</b></a></p>
+</div>
+
+</body>
+</html>
