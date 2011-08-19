@@ -147,14 +147,9 @@ function formatMenuLink($nav_level,$key,$item,$index,$color=1) {
 	if ($color > 5) { 
 		$color = 0;
 	}
-	if (is_string($key)) {
-		$replace_these = array(' ','(',')','.php');
-		$return_string .= '<a href="' . $nav_level . strtolower(str_replace(' ','',$index)) . '/' . strtolower(str_replace($replace_these,'',$key)) . '.html" class="usecolor' . $color . '">';
-		$return_string .= $key . '</a>';
-	} else {
-		$return_string .= '<a href="' . $nav_level . strtolower(str_replace(' ','',$index)) . '/' . basename($item,'.php') . '.html" class="usecolor' . $color . '">';
-		$return_string .= basename($item,'.php') . '</a>';
-	}
+	$replace_these = array(' ','(',')','.php','_');
+	$return_string .= '<a href="' . $nav_level . strtolower(str_replace(' ','',$index)) . '/' . strtolower(str_replace($replace_these,'',$key)) . '.html" class="usecolor' . $color . '">';
+	$return_string .= $key . '</a>';
 	return $return_string;
 }
 
@@ -185,17 +180,17 @@ function readAndWriteAllDocs($index_array,$output_dir) {
 				if (mkdir($tmp_dirname)) {
 					if (count($item_list)) {
 						foreach ($item_list as $key => $item) {
+							$replace_these = array(' ','(',')','.php','_');
 							if (is_dir($item)) {
 								if ($tmp_dir = opendir($item)) {
 									while (false !== ($file = readdir($tmp_dir))) {
 										if (substr($file,0,1) != "." && !is_dir($file)) {
-											file_put_contents($tmp_dirname . '/' . strtolower(basename($file,'.php')) . '.html',buildDocOutput(parseComments($item . '/' . $file),$index_array));
+											file_put_contents($tmp_dirname . '/' . strtolower(str_replace($replace_these,'',basename($file,'.php'))) . '.html',buildDocOutput(parseComments($item . '/' . $file),$index_array));
 										}
 									}
 									closedir($tmp_dir);
 								}
 							} else {
-								$replace_these = array(' ','(',')','.php');
 								file_put_contents($tmp_dirname . '/' . strtolower(str_replace($replace_these,'',$key)) . '.html',buildDocOutput(parseComments($item),$index_array));
 							}
 						}
