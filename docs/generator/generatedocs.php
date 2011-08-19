@@ -9,7 +9,7 @@ function parseComments($filename) {
 		} else {
 			$file_contents = file_get_contents($filename);
 			preg_match_all($regex, $file_contents, $comments); // parse out docblocks
-			if ($filename !== 'cashmusic.php') {
+			if (basename($filename) !== 'cashmusic.php') {
 				$function_names = array(basename($filename, ".php"));
 			} else {
 				$function_names = array($filename);
@@ -189,7 +189,7 @@ function readAndWriteAllDocs($index_array,$output_dir) {
 								if ($tmp_dir = opendir($item)) {
 									while (false !== ($file = readdir($tmp_dir))) {
 										if (substr($file,0,1) != "." && !is_dir($file)) {
-											file_put_contents($tmp_dirname . '/' . basename($file,'.php') . '.html',buildDocOutput(parseComments($item . '/' . $file),$index_array));
+											file_put_contents($tmp_dirname . '/' . strtolower(basename($file,'.php')) . '.html',buildDocOutput(parseComments($item . '/' . $file),$index_array));
 										}
 									}
 									closedir($tmp_dir);
