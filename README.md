@@ -108,18 +108,38 @@ Next, click the little button next to "Read+Write access" just above the the
 box describing the latest commit.  That will copy the URL of your fork to your
 clipboard.
 
+    # replace USERNAME with your github username (or just paste the URL you just copied above)
     git clone git@github.com:USERNAME/DIY.git
     cd DIY
+
+    # change to the latest_stable branch
     git checkout latest_stable
+
+    # create a new topic branch
     git checkout -b my_cool_feature_branch
 
-TO BE FINISHED
+At this point, you actually hack on code, fix some docs, make something better, whatever. When
+you get to a stopping point, add the files that you have changed or added:
+
+    git add new_file.php changed_file.php
+
+And then commit with a useful commit message:
+
+    git commit -m "I promise that awesome new feature X will not set your dog on fire"
+
+Commit early and often. It is like brushing your teeth: You can't do it too much. When you are
+ready to send your changes up to your fork on the Github mothership:
+
+    git push origin my_cool_feature_branch
+
+Now you will be able to get feedback on your code, submit pull requests and generally bask in the
+glory of social coding.
 
 ## Continuous Integration
 
 We use something called [Jitterbug](http://jitterbug.pl) to run our tests every
 time someone pushes to the CASH Music DIY Github repo. You can see the results
-of each test run at http://dev.cashmusic.org:3000/project/DIY .
+of each test run [here](http://dev.cashmusic.org:3000/project/DIY) .
 
 ## License
 
