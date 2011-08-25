@@ -268,7 +268,6 @@ class CASHDBA {
 				. "GROUP BY ea.element_id "
 				. "ORDER BY count DESC";
 				break;
-				break;
 			case 'PeoplePlant_getAddressesForList':
 				$query = "SELECT u.id,u.email_address,u.display_name,"
 				. "l.initial_comment,l.additional_data,l.creation_date "

@@ -228,13 +228,13 @@ class ElementPlant extends PlantBase {
 	 * Records the basic access data to the elements analytics table
 	 *
 	 * @return boolean
-	 */protected function recordAnalytics($element_id,$access_method,$access_action='view_markup',$access_data='') {
+	 */protected function recordAnalytics($element_id,$access_method,$access_action='getmarkup',$access_data='') {
 		$ip_and_proxy = CASHSystem::getCurrentIP();
 		$already_recorded = false;
 		// first check and see if we've recorded this session and circumstance yet
 		// only do this for empty lock_method_table queries so we don't repeat
 		// unnecessary rows and overwhelm the table
-		if ($access_action == 'view_markup') {
+		if ($access_action == 'getmarkup') {
 			$already_recorded = $this->db->getData(
 				'elements_analytics',
 				'id',

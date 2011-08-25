@@ -63,14 +63,16 @@
 	}
 	
 	/**
-	 * Sets the time against which the session is measured
+	 * Sets the time against which the session is measured. This function also
+	 * sets the cash_session_id internally as a mechanism for tracking analytics
+	 * against a consistent id, regardless of PHP session id.
 	 *
 	 * @return boolean
 	 */protected function startSession() {
 		$this->cash_session_timeout = ini_get("session.gc_maxlifetime");
 		if (!isset($_SESSION['cash_session_id'])) {
 			$modifier_array = array('deedee','johnny','joey','tommy','marky');
-			$_SESSION['cash_session_id'] = $modifier_array[array_rand($modifier_array)] . '_' . time();
+			$_SESSION['cash_session_id'] = $modifier_array[array_rand($modifier_array)] . '_' . rand(1000,9999) . substr((string)time(),4);
 		}
 		if (isset($_SESSION['cash_last_request_time'])) {
 			if ($_SESSION['cash_last_request_time'] + $this->cash_session_timeout < time()) {
