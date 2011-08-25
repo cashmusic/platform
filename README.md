@@ -152,9 +152,11 @@ of each test run [here](http://dev.cashmusic.org:3000/project/DIY) .
 
 ### Generatign a SQLite Database
 
-    sqlite3 cash.db < ./framework/php/settings/sql/cashmusic_db_sqlite.sql
+In the root of DIY.git type:
 
-This will likely become part of the web interface Real Soon Now.
+    make sqlite_db
+
+and a file called "cash.db" will be created. This will likely become part of the web interface Real Soon Now.
 
 ### Regenerating the SQLite Schema
 
@@ -164,7 +166,7 @@ you need to use a utility to convert it.
 
 You will need to install the [CPAN](http://cpan.org) module [SQL::Translator](https://metacpan.org/module/SQL::Translator), then run this from the root of the CM repo:
 
-    sqlt -f MySQL -t SQLite ./framework/php/settings/sql/cashmusic_db.sql > ./framework/php/settings/sql/cashmusic_db_sqlite.sql
+    make sqlite_schema
 
 NOTE: There is currently a
 [bug](https://rt.cpan.org/Ticket/Display.html?id=70473) in SQL::Translator
