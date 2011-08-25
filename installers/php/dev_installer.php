@@ -76,7 +76,34 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 			die();
 			break;
 		}
-	} else {
+	} else if ($db_engine == "sqlite") {
+		try {
+			$pdo = new PDO ("sqlite:./cash.db");
+		} catch (PDOException $e) {
+			echo "\nOh. Shit. Something's wrong: Couldn't connect to the database. $e\n\n";
+			die();
+			break;
+		}
+        $query = "INSERT INTO user_users (email_address,password,creation_date) VALUES (:email_address,:password,:creation_date)";
+
+        $success = false;
+        try {  
+            $q = $pdo->prepare($query);
+            $success = $q->execute($data);
+            if (!$success) {
+                echo "\nOh. Shit. Something's wrong. Couldn't add the user to the database.\n\n";
+                die();
+                break;
+            }
+        } catch(PDOException $e) {  
+            echo "\nOh. Shit. Something's wrong. Couldn't add the user to the database.\n\n";
+            die();
+            break;
+        }
+        if ($success) {
+            echo "\nSUCCESS!\nYou'll still need to edit /framework/php/settings/cashmusic.ini.php\n\nOnce done, login using:\n\nemail: $user_email\npassword: $user_password\n\n";
+        }
+    } else {
 		echo "\nSorry. I know we gave you the option, but we're only supporting mysql right now.\n\n";
 	}
 }
