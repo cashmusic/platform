@@ -27,7 +27,14 @@ single-include workflow, which means the only thing you need to do to add CM to
 your site/page is include this single file:
 
     // this loads CASH Music DIY
-    require_once('framework/php/cashmusic.php');
+    require_once("$CASHMUSIC/framework/php/cashmusic.php");
+
+where the $CASHMUSIC variable is the directory where you installed CASH Music
+on your server. For instance, if you installed it into /home/billybob/cashmusic
+then it would look like:
+
+    // this loads CASH Music DIY
+    require_once("/home/billybob/cashmusic/framework/php/cashmusic.php");
 
 The Seed.php does some basic housekeeping before firing up a CASHRequest
 instance that parses an incoming request. That request is passed to the
