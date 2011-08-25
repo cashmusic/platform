@@ -148,11 +148,17 @@ We use something called [Jitterbug](http://jitterbug.pl) to run our tests every
 time someone pushes to the CASH Music DIY Github repo. You can see the results
 of each test run [here](http://dev.cashmusic.org:3000/project/DIY) .
 
-## Converting the CASH Music Schema to SQLite
+## Using SQLite
+
+### Regenerating the SQLite Schema
+
+Currently, we check in the [MySQL schema](https://github.com/cashmusic/DIY/blob/master/framework/php/settings/sql/cashmusic_db.sql) to DIY.git each time it changes. To update the SQLite version of the schema, you need to use a utility to convert it.
 
 You will need to install the CPAN module SQL::Translator, then run this from the root of the CM repo:
 
-    sqlt -f MySQL -t SQLite ./framework/php/settings/sql/cashmusic_db.sql
+    sqlt -f MySQL -t SQLite ./framework/php/settings/sql/cashmusic_db.sql > ./framework/php/settings/sql/cashmusic_db_sqlite.sql
+
+If the SQLite schema is up to date, ```git status``` will not show anything as changed. If you *do* see changes, then commit the change and push it.
 
 An easy way to install it on Debian-based systems is:
 
