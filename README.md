@@ -150,6 +150,12 @@ of each test run [here](http://dev.cashmusic.org:3000/project/DIY) .
 
 ## Using SQLite
 
+### Generatign a SQLite Database
+
+    sqlite3 cash.db < ./framework/php/settings/sql/cashmusic_db_sqlite.sql
+
+This will likely become part of the web interface Real Soon Now.
+
 ### Regenerating the SQLite Schema
 
 Currently, we check in the [MySQL schema](https://github.com/cashmusic/DIY/blob/master/framework/php/settings/sql/cashmusic_db.sql)
