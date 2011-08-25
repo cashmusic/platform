@@ -160,6 +160,11 @@ You will need to install the [CPAN](http://cpan.org) module [SQL::Translator](ht
 
     sqlt -f MySQL -t SQLite ./framework/php/settings/sql/cashmusic_db.sql > ./framework/php/settings/sql/cashmusic_db_sqlite.sql
 
+NOTE: There is currently a
+[bug](https://rt.cpan.org/Ticket/Display.html?id=70473) in SQL::Translator
+where BIT column types are not parsed correctly, so you will need to manually
+convert those to BOOLs, like in 9085dce432 .
+
 If the SQLite schema is up to date, ```git status``` will not show anything as changed. If you *do* see changes, then commit the change and push it.
 
 An easy way to install it on Debian-based systems is:
