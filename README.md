@@ -148,6 +148,16 @@ We use something called [Jitterbug](http://jitterbug.pl) to run our tests every
 time someone pushes to the CASH Music DIY Github repo. You can see the results
 of each test run [here](http://dev.cashmusic.org:3000/project/DIY) .
 
+## Converting the CASH Music Schema to SQLite
+
+You will need to install the CPAN module SQL::Translator, then run this from the root of the CM repo:
+
+    sqlt -f MySQL -t SQLite ./framework/php/settings/sql/cashmusic_db.sql
+
+An easy way to install it on Debian-based systems is:
+
+    sudo apt-get install sqlfairy
+
 ## License
 
 CashMusic DIY is (c) 2010 CASH Music, licensed under a AGPL license:
