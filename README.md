@@ -156,7 +156,7 @@ Currently, we check in the [MySQL schema](https://github.com/cashmusic/DIY/blob/
 to DIY.git each time it changes. To update the [SQLite version of the schema](https://github.com/cashmusic/DIY/blob/master/framework/php/settings/sql/cashmusic_db_sqlite.sql),
 you need to use a utility to convert it.
 
-You will need to install the CPAN module SQL::Translator, then run this from the root of the CM repo:
+You will need to install the [CPAN](http://cpan.org) module [SQL::Translator](https://metacpan.org/module/SQL::Translator), then run this from the root of the CM repo:
 
     sqlt -f MySQL -t SQLite ./framework/php/settings/sql/cashmusic_db.sql > ./framework/php/settings/sql/cashmusic_db_sqlite.sql
 
