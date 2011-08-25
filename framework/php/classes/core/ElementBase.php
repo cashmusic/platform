@@ -15,7 +15,7 @@
  * Read Hypebot.com and MusicThinkTank.com
  *
  **/
-abstract class ElementBase {
+abstract class ElementBase extends CASHData {
 	protected $element_id, $status_uid, $options;
 	const type = 'unknown';
 	const name = 'Unknown Element';

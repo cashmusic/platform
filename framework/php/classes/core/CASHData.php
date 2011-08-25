@@ -13,7 +13,10 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  */abstract class CASHData {
-	protected $db = false,$cash_session_timeout = 1800;
+	protected $db = false,
+			  $cash_session_timeout = 1800,
+			  $cache_enabled = false,
+			  $cache_dir = null;
 
 	/**
 	 * 
@@ -418,6 +421,102 @@
 			}
 		}
 	}
+
+	/**
+	 *
+	 * FEED/DATA CACHE STUFF
+	 * Functions to read and write data to file — useful both for raw data and 
+	 * structured JSON. Primarily used for feeds from API scrapes, etc.
+	 *
+	 */
+
+	/**
+	 * Readies the basic file cache for JSON/feed caching — essentially just tests 
+	 * to ensure that the cache directory exists and is writeable. primeCache() will 
+	 * set $this->cache_enabled true on success.
+	 *
+	 * @return void
+	 */protected function primeCache($cache_dir=false) {
+		if (!$cache_dir) {
+			$cache_dir = CASH_PLATFORM_ROOT.'/../cache';
+		}
+		if (file_exists($cache_dir)) {
+			$this->cache_dir = $cache_dir;
+			if (is_writable($cache_dir) && is_readable($cache_dir)) {
+				$this->cache_enabled = true;
+			}
+		} else {
+			if (mkdir($cache_dir)) {
+				$this->cache_dir = $cache_dir;
+				$this->cache_enabled = true;
+			}
+		}
+	}
+
+	/**
+	 * Sets the contents of a given cache file. Setting $encode will tell it to 
+	 * encode the data as JSON or not.
+	 *
+	 * @return string or decoded JSON object/array
+	 */public function setCacheData($cache_name, $data_name, $data, $expires, $encode=true) {
+		if ($this->enabled) {
+			if ($encode) {
+				$payload = json_encode($data);
+				$file_extension = '.json';
+			} else {
+				$payload = $data;
+				$file_extension = '.utf8';
+			}
+			$datafile = $this->cache_dir . '/' . $cache_name . '/' . $data_name . $file_extension;
+			if (!file_exists($this->cache_dir . '/' . $cache_name)) {
+				mkdir($this->cache_dir . '/' . $cache_name, 0777, true);
+			}
+			$success = file_put_contents($datafile, $payload);
+			return $success;
+		} else {
+			return false;
+		}
+	}
 	
+	/**
+	 * Gets the contents of a given cache file. If $force_last is set it will 
+	 * ignore expiry state and simply return the data in the file regardless. 
+	 * Setting $decode will tell it to parse the data as JSON or not.
+	 *
+	 * @return string or decoded JSON object/array
+	 */public function getCacheData($cache_name, $data_name, $force_last=false, $decode=true) {
+		if ($decode) {
+			$file_extension = '.json';
+		} else {
+			$file_extension = '.utf8';
+		}
+		$datafile = $this->cache_dir . '/' . $cache_name . '/' . $data_name . $file_extension;
+		if ($this->enabled && file_exists($datafile)) {
+			if ($force_last || $this->getExpirationFor($cache_name, $data_name) >= 0) {
+				if ($decode) {
+					return json_decode(@file_get_contents($datafile));
+				} else {
+					return @file_get_contents($datafile);
+				}
+			}
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Tests whether a given set of data has expired based on the passed duration.
+	 *
+	 * @return int (remaining time in seconds) or false
+	 */private function getCacheExpirationFor($cache_name, $data_name, $file_extension='.json', $cache_duration=1200) {
+		$datafile = $this->cache_dir . '/' . $cache_name . '/' . $data_name . $file_extension;
+		$expiration = @filemtime($datafile) + $cache_duration;
+		if ($expiration) {
+			$remaining = $expiration - time();
+			return $remaining;
+		} else {
+			return false;
+		}
+	}
 } // END class 
 ?>
