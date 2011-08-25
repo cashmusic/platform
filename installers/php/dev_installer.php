@@ -39,7 +39,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		try {
 			$pdo = new PDO ("mysql:host=$db_server;port=$db_port;dbname=$db_name",$db_username,$db_password);
 		} catch (PDOException $e) {
-			echo "\nOh. Shit. Something's wrong: Couldn't connect to the database.\n\n";
+			echo "\nOh. Shit. Something's wrong: Couldn't connect to the database. $e\n\n";
 			die();
 			break;
 		}
@@ -63,7 +63,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 					break;
 				}
 			} catch(PDOException $e) {  
-				echo "\nOh. Shit. Something's wrong. Couldn't add the user to the database.\n\n";
+				echo "\nOh. Shit. Something's wrong. Couldn't add the user to the database. $e\n\n";
 				die();
 				break;
 			}
