@@ -1,4 +1,5 @@
 <?php
+// Courtesy of http://us3.php.net/manual/en/features.commandline.io-streams.php#101307
 function readStdin($prompt, $valid_inputs = false, $default = '') {
 	while(!isset($input) || (is_array($valid_inputs) && !in_array(strtolower($input), $valid_inputs))) {
 		echo $prompt;
