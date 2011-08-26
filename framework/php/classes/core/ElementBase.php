@@ -26,6 +26,7 @@ abstract class ElementBase extends CASHData {
 		$this->element_id = $element_id;
 		$this->status_uid = $status_uid;
 		$this->options = $options;
+		$this->primeCache();
 	}
 
 	public function getName() {
