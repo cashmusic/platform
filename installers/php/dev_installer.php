@@ -12,7 +12,7 @@ function readStdin($prompt, $valid_inputs = false, $default = '') {
 }
 
 if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
-	echo "Please run installer from the command line. usage:<br / >&gt; php ./dev_installer.php";
+	echo "Please run installer from the command line. usage:<br / >&gt; php installers/php/dev_installer.php";
 } else {
 	echo "\nCASH MUSIC PLATFORM DEV INSTALLER\n";
 	// you can input <Enter> or 1, 2, 3 
@@ -78,6 +78,11 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 			break;
 		}
 	} else if ($db_engine == "sqlite") {
+		// repeated here from the Makefile so we don't require make to do a dev install
+		$cmd = "sqlite3 ./db/cashmusic.db < ./framework/php/settings/sql/cashmusic_db_sqlite.sql";
+
+		// if the db already exists, it will warn but continue
+		system($cmd, $code);
 		try {
 			$pdo = new PDO ("sqlite:./db/cashmusic.db");
 		} catch (PDOException $e) {
