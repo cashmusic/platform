@@ -51,6 +51,35 @@
 		} else {
 			return false;
 		}
-	}	
+	}
+	
+	/**
+	 * Takes a datestamp or a string capable of being converted to a datestamp and
+	 * returns a "23 minutes ago" type string for it. Now you can be cute like 
+	 * Twitter.
+	 *
+	 * @return string
+	 */public static function formatTimeAgo($time) {
+		if (is_string($time)) {
+			$datestamp = strtotime($time);
+		} else {
+			$datestamp = $time;
+		}
+		$seconds = floor((time() - $datestamp));
+		if ($seconds < 60) {
+			$ago_str = $seconds . ' seconds ago';
+		} else if ($seconds >= 60 && $seconds < 120) {
+			$ago_str = '1 minute ago';
+		} else if ($seconds >= 120 && $seconds < 3600) {
+			$ago_str = floor($seconds / 60) .' minutes ago';
+		} else if ($seconds >= 3600 && $seconds < 7200) {
+			$ago_str = '1 hour ago';
+		} else if ($seconds >= 7200 && $seconds < 86400) {
+			$ago_str = floor($seconds / 3600) .' hours ago';
+		} else {
+			$ago_str = date('d M', $datestamp);
+		}
+		return $ago_str;
+	}
 } // END class 
 ?>

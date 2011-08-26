@@ -460,8 +460,8 @@
 	 * encode the data as JSON or not.
 	 *
 	 * @return string or decoded JSON object/array
-	 */public function setCacheData($cache_name, $data_name, $data, $expires, $encode=true) {
-		if ($this->enabled) {
+	 */public function setCacheData($cache_name, $data_name, $data, $encode=true) {
+		if ($this->cache_enabled) {
 			if ($encode) {
 				$payload = json_encode($data);
 				$file_extension = '.json';
@@ -493,8 +493,8 @@
 			$file_extension = '.utf8';
 		}
 		$datafile = $this->cache_dir . '/' . $cache_name . '/' . $data_name . $file_extension;
-		if ($this->enabled && file_exists($datafile)) {
-			if ($force_last || $this->getExpirationFor($cache_name, $data_name) >= 0) {
+		if ($this->cache_enabled && file_exists($datafile)) {
+			if ($force_last || $this->getCacheExpirationFor($datafile) >= 0) {
 				if ($decode) {
 					return json_decode(@file_get_contents($datafile));
 				} else {
@@ -510,8 +510,7 @@
 	 * Tests whether a given set of data has expired based on the passed duration.
 	 *
 	 * @return int (remaining time in seconds) or false
-	 */private function getCacheExpirationFor($cache_name, $data_name, $file_extension='.json', $cache_duration=1200) {
-		$datafile = $this->cache_dir . '/' . $cache_name . '/' . $data_name . $file_extension;
+	 */private function getCacheExpirationFor($datafile, $cache_duration=900) {
 		$expiration = @filemtime($datafile) + $cache_duration;
 		if ($expiration) {
 			$remaining = $expiration - time();
@@ -519,6 +518,27 @@
 		} else {
 			return false;
 		}
+	}
+	
+	/**
+	 * Takes a cache name, data name, and URL — first looks for viable cache data, 
+	 * then 
+	 *
+	 * @return int (remaining time in seconds) or false
+	 */protected function getPublicFeed($cache_name, $data_name, $data_url, $format='json', $decode=true) {
+		$url_contents = $this->getCacheData($cache_name,$data_name,false,$decode);
+		if (!$url_contents) {
+			$url_contents = @file_get_contents($data_url);
+			if (!$url_contents) {
+				$url_contents = $this->getCacheData($cache_name,$data_name,true,$decode);
+			} else {
+				if ($format == 'json') {
+					$url_contents = json_decode($url_contents);
+				}
+				$this->setCacheData($cache_name,$data_name,$url_contents);
+			}
+		}
+		return $url_contents;
 	}
 } // END class 
 ?>
