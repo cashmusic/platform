@@ -22,11 +22,11 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 			die();
 		}
 		
-		$db_server = readStdin('Database server (default: \'localhost:3306\'): ', false,'localhost:3306');
-		$db_name = readStdin('Database name: ');
+		$db_server   = readStdin('Database server (default: \'localhost:3306\'): ', false,'localhost:3306');
+		$db_name     = readStdin('Database name: ');
 		$db_username = readStdin('Database username: ');
 		$db_password = readStdin('Database password: ');
-		$user_email = readStdin("\nMain system login email address: ");
+		$user_email  = readStdin("\nMain system login email address: ");
 		
 		// set up database, add user / password
 		$user_password = substr(md5($user_email . 'password'),4,7);
@@ -48,7 +48,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 			$password_hash = hash_hmac('sha256', $user_password, $user_email);
 			$data = array(
 				'email_address' => $user_email,
-				'password' => $password_hash,
+				'password'      => $password_hash,
 				'creation_date' => time()
 			);
 			$query = "INSERT INTO user_users (email_address,password,creation_date) VALUES (:email_address,:password,:creation_date)";
@@ -78,17 +78,27 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		}
 	} else if ($db_engine == "sqlite") {
 		try {
-			$pdo = new PDO ("sqlite:./cash.db");
+			$pdo = new PDO ("sqlite:./db/cashmusic.db");
 		} catch (PDOException $e) {
 			echo "\nOh. Shit. Something's wrong: Couldn't connect to the database. $e\n\n";
 			die();
 			break;
 		}
+		$user_email    = readStdin("\nMain system login email address: ");
+		$user_password = substr(md5($user_email . 'password'),4,7);
+		$password_hash = hash_hmac('sha256', $user_password, $user_email);
+
+        $data = array(
+            'email_address' => $user_email,
+            'password'      => $password_hash,
+            'creation_date' => time()
+        );
+
         $query = "INSERT INTO user_users (email_address,password,creation_date) VALUES (:email_address,:password,:creation_date)";
 
         $success = false;
-        try {  
-            $q = $pdo->prepare($query);
+        try {
+            $q       = $pdo->prepare($query);
             $success = $q->execute($data);
             if (!$success) {
                 echo "\nOh. Shit. Something's wrong. Couldn't add the user to the database.\n\n";
@@ -96,7 +106,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
                 break;
             }
         } catch(PDOException $e) {  
-            echo "\nOh. Shit. Something's wrong. Couldn't add the user to the database.\n\n";
+            echo "\nOh. Shit. Something's wrong. Couldn't add the user to the database. $e\n\n";
             die();
             break;
         }
