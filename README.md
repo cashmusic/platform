@@ -150,6 +150,10 @@ of each test run [here](http://dev.cashmusic.org:3000/project/DIY) .
 
 ## Using SQLite
 
+PHP may not have SQLite support. On Debian-based systems, you can install it with
+
+    sudo apt-get install php5-sqlite
+
 ### Generatign a SQLite Database
 
 In the root of DIY.git type:
