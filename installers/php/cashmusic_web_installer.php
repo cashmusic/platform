@@ -400,11 +400,11 @@ if (!isset($_POST['installstage'])) {
 				!findReplaceInFile('./source/interfaces/php/admin/constants.php','$cashmusic_root = $root . "/../../../framework/php/cashmusic.php','$cashmusic_root = "' . $user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
 				!findReplaceInFile('./source/interfaces/php/admin/constants.php','define(\'ADMIN_WWW_BASE_PATH\', \'/interfaces/php/admin','define(\'ADMIN_WWW_BASE_PATH\', \'' . $admin_dir) || 
 				
-				!findReplaceInFile('./source/framework/php/settings/cashmusic.ini.php','hostname = "localhost:8889','hostname = "' . $user_settings['mysqlhost']) || 
-				!findReplaceInFile('./source/framework/php/settings/cashmusic.ini.php','username = "root','username = "' . $user_settings['mysqluser']) || 
-				!findReplaceInFile('./source/framework/php/settings/cashmusic.ini.php','password = "root','password = "' . $user_settings['mysqlpass']) || 
-				!findReplaceInFile('./source/framework/php/settings/cashmusic.ini.php','database = "seed','database = "' . $user_settings['mysqldbname']) ||
-				!findReplaceInFile('./source/framework/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $user_settings['systemsalt'])
+				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','hostname = "localhost:8889','hostname = "' . $user_settings['mysqlhost']) || 
+				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','username = "root','username = "' . $user_settings['mysqluser']) || 
+				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','password = "root','password = "' . $user_settings['mysqlpass']) || 
+				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','database = "seed','database = "' . $user_settings['mysqldbname']) ||
+				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $user_settings['systemsalt'])
 			) {
 				echo "<h1>Oh. Shit. Something's wrong.</h1><p>We had trouble editing a few files. Please try again.</p>";
 				break;
@@ -412,6 +412,7 @@ if (!isset($_POST['installstage'])) {
 
 			// move source files into place
 			if (
+				!rename('./source/framework/php/settings/cashmusic_template.ini.php', './source/framework/php/settings/cashmusic.ini.php') ||
 				!rename('./source/framework/php', $user_settings['frameworklocation'] . '/framework') || 
 				!rename('./source/interfaces/php/admin', './admin')
 			) {
