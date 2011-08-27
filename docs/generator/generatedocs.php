@@ -168,36 +168,34 @@ function rrmdir($dir) {
 
 function readAndWriteAllDocs($index_array,$output_dir) {
 	// this will blow away all old docs and make a new set each time. don't be precious.
-	if (is_dir($output_dir)) {
-		rrmdir($output_dir);
-	}
-	if (mkdir($output_dir)) {
-		foreach ($index_array as $index => $item_list) {
-			if ($index == 'home') {
-				file_put_contents($output_dir . '/index.html',buildDocOutput(parseComments($item_list[0]),$index_array,true));
-			} else {
-				$tmp_dirname = $output_dir . '/' . strtolower(str_replace(' ','',$index));
-				if (mkdir($tmp_dirname)) {
-					if (count($item_list)) {
-						foreach ($item_list as $key => $item) {
-							$replace_these = array(' ','(',')','.php','_');
-							if (is_dir($item)) {
-								if ($tmp_dir = opendir($item)) {
-									while (false !== ($file = readdir($tmp_dir))) {
-										if (substr($file,0,1) != "." && !is_dir($file)) {
-											file_put_contents($tmp_dirname . '/' . strtolower(str_replace($replace_these,'',basename($file,'.php'))) . '.html',buildDocOutput(parseComments($item . '/' . $file),$index_array));
-										}
+	foreach ($index_array as $index => $item_list) {
+		if ($index == 'home') {
+			file_put_contents($output_dir . '/index.html',buildDocOutput(parseComments($item_list[0]),$index_array,true));
+		} else {
+			$tmp_dirname = $output_dir . '/' . strtolower(str_replace(' ','',$index));
+			if (is_dir($tmp_dirname)) {
+				rrmdir($tmp_dirname);
+			}
+			if (mkdir($tmp_dirname)) {
+				if (count($item_list)) {
+					foreach ($item_list as $key => $item) {
+						$replace_these = array(' ','(',')','.php','_');
+						if (is_dir($item)) {
+							if ($tmp_dir = opendir($item)) {
+								while (false !== ($file = readdir($tmp_dir))) {
+									if (substr($file,0,1) != "." && !is_dir($file)) {
+										file_put_contents($tmp_dirname . '/' . strtolower(str_replace($replace_these,'',basename($file,'.php'))) . '.html',buildDocOutput(parseComments($item . '/' . $file),$index_array));
 									}
-									closedir($tmp_dir);
 								}
-							} else {
-								file_put_contents($tmp_dirname . '/' . strtolower(str_replace($replace_these,'',$key)) . '.html',buildDocOutput(parseComments($item),$index_array));
+								closedir($tmp_dir);
 							}
+						} else {
+							file_put_contents($tmp_dirname . '/' . strtolower(str_replace($replace_these,'',$key)) . '.html',buildDocOutput(parseComments($item),$index_array));
 						}
 					}
-				} else {
-					return false;
 				}
+			} else {
+				return false;
 			}
 		}
 	}
@@ -225,7 +223,7 @@ $index_array = array(
 );
 
 
-$output_dir = dirname(__FILE__) . '/../autodocs';
+$output_dir = dirname(__FILE__) . '/..';
 if (readAndWriteAllDocs($index_array,$output_dir)) {
 	echo "success creating docs";
 } else {

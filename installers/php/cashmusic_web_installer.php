@@ -395,10 +395,10 @@ if (!isset($_POST['installstage'])) {
 		
 			// modify settings files
 			if (
-				!findReplaceInFile('./source/interfaces/php/admin/.htaccess','RewriteBase /admin','RewriteBase ' . $admin_dir) || 
+				!findReplaceInFile('./source/interfaces/php/admin/.htaccess','RewriteBase /interfaces/php/admin','RewriteBase ' . $admin_dir) || 
 				
 				!findReplaceInFile('./source/interfaces/php/admin/constants.php','$cashmusic_root = $root . "/../../../framework/php/cashmusic.php','$cashmusic_root = "' . $user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
-				!findReplaceInFile('./source/interfaces/php/admin/constants.php','define(\'ADMIN_WWW_BASE_PATH\', \'/admin','define(\'ADMIN_WWW_BASE_PATH\', \'' . $admin_dir) || 
+				!findReplaceInFile('./source/interfaces/php/admin/constants.php','define(\'ADMIN_WWW_BASE_PATH\', \'/interfaces/php/admin','define(\'ADMIN_WWW_BASE_PATH\', \'' . $admin_dir) || 
 				
 				!findReplaceInFile('./source/framework/php/settings/cashmusic.ini.php','hostname = "localhost:8889','hostname = "' . $user_settings['mysqlhost']) || 
 				!findReplaceInFile('./source/framework/php/settings/cashmusic.ini.php','username = "root','username = "' . $user_settings['mysqluser']) || 
