@@ -280,8 +280,17 @@ if (!isset($_POST['installstage'])) {
 					//echo 'removed old admin directory at ' . $admin_dir . '<br />';
 				}
 				if (mkdir('./source')) {
-					//echo 'created directory: ' . $source_dir . '<br />';
-					copy('https://github.com/api/v2/json/blob/all/cashmusic/DIY/latest_stable','./manifest.diy.org.cashmusic');
+					// get repo from github, strip unnecessary files and write manifest:
+					$repo = json_decode(file_get_contents('https://github.com/api/v2/json/blob/all/cashmusic/DIY/latest_stable'));
+					$files = array_keys((array)$repo->blobs);
+					foreach ($files as $key => $file) {
+						if (preg_match("/^(tests|installers|interfaces\/php\/demos|docs|db|Makefile|index.html)/", $file)) {
+							unset($files[$key]);
+						}
+					}
+					$files = json_encode(array_merge($files)); // resets keys
+					file_put_contents('./manifest.diy.org.cashmusic',$files);
+					
 					echo $source_message;
 					echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
 					echo '<script type="text/javascript">showProgress(0);(function(){document.id("nextstepform").fireEvent("submit");}).delay(250);</script>';
@@ -289,9 +298,8 @@ if (!isset($_POST['installstage'])) {
 					echo '<h1>Oh. Shit. Something\'s wrong.</h1>error creating directory: ' . $source_dir . '<br />';
 				}
 			} else {
-				// download the latest source from github
-				$repo = json_decode(file_get_contents('./manifest.diy.org.cashmusic'));
-				$files = array_keys((array)$repo->blobs);
+				// grab our manifest:
+				$files = json_decode(file_get_contents('./manifest.diy.org.cashmusic'));
 				$filecount = count($files);
 				$currentfile = 1;
 
