@@ -77,7 +77,9 @@ opens the appropriate connection<br /><br /><span class="return">@return</span> 
  </div><h2 class="functionname">resetSession()</h2><div class="commentblock">
 Empties (or creates empty) entries to the standard $_SESSION array<br /><br /><span class="return">@return</span> boolean
  </div><h2 class="functionname">startSession()</h2><div class="commentblock">
-Sets the time against which the session is measured<br /><br /><span class="return">@return</span> boolean
+Sets the time against which the session is measured. This function also
+sets the cash_session_id internally as a mechanism for tracking analytics
+against a consistent id, regardless of PHP session id.<br /><br /><span class="return">@return</span> boolean
  </div><h2 class="functionname">getCASHSessionID()</h2><div class="commentblock">
 Returns the internal cash_session_id (Not the PHP session id)<br /><br /><span class="return">@return</span> boolean
  </div><h2 class="functionname">sessionSetLastResponse(<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$response,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$reset_session_id=false<br />)</h2><div class="commentblock">
@@ -98,7 +100,23 @@ Removes the key/value entry for a specified key<br /><br /><span class="param">@
 Removes all data from $_SESSION['cash_persistent_store'], setting it false<br /><br /><span class="return">@return</span> void
  </div><h2 class="functionname">setMetaData(<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$scope_table_alias,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$scope_table_id,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$user_id,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$data_key,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$data_value<br />)</h2><div class="commentblock"><br /><br />METADATA
 Metadata can be applied to any table by way of a scope table (alias) and
-id. These functions make access available to all plants.<br /><br /> </div>
+id. These functions make access available to all plants.<br /><br /> </div><h2 class="functionname">primeCache(<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$cache_dir=false<br />)</h2><div class="commentblock">
+Readies the basic file cache for JSON/feed caching — essentially just tests 
+to ensure that the cache directory exists and is writeable. primeCache() will 
+set $this->cache_enabled true on success.<br /><br /><span class="return">@return</span> void
+ </div><h2 class="functionname">setCacheData(<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$cache_name, <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$data_name, <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$data, <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$encode=true<br />)</h2><div class="commentblock">
+Sets the contents of a given cache file. Setting $encode will tell it to 
+encode the data as JSON or not.<br /><br /><span class="return">@return</span> string or decoded JSON object/array
+ </div><h2 class="functionname">getCacheData(<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$cache_name, <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$data_name, <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$force_last=false, <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$decode=true<br />)</h2><div class="commentblock">
+Gets the contents of a given cache file. If $force_last is set it will 
+ignore expiry state and simply return the data in the file regardless. 
+Setting $decode will tell it to parse the data as JSON or not.<br /><br /><span class="return">@return</span> string or decoded JSON object/array
+ </div><h2 class="functionname">getCacheExpirationFor(<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$datafile, <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$cache_duration=900<br />)</h2><div class="commentblock">
+Tests whether a given set of data has expired based on the passed duration.<br /><br /><span class="return">@return</span> int (remaining time in seconds) or false
+ </div><h2 class="functionname">getPublicFeed(<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$cache_name, <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$data_name, <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$data_url, <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$format='json', <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$decode=true<br />)</h2><div class="commentblock">
+Takes a cache name, data name, and URL — first looks for viable cache data, 
+then <br /><br /><span class="return">@return</span> int (remaining time in seconds) or false
+ </div>
 	</div>
 </div>
 

@@ -102,7 +102,15 @@ single-include workflow, which means the only thing you need to do to add CM to
 your site/page is include this single file:</p>
 
 <pre><code>// this loads CASH Music DIY
-require_once('framework/php/cashmusic.php');
+require_once("$CASHMUSIC/framework/php/cashmusic.php");
+</code></pre>
+
+<p>where the $CASHMUSIC variable is the directory where you installed CASH Music
+on your server. For instance, if you installed it into /home/billybob/cashmusic
+then it would look like:</p>
+
+<pre><code>// this loads CASH Music DIY
+require_once("/home/billybob/cashmusic/framework/php/cashmusic.php");
 </code></pre>
 
 <p>The Seed.php does some basic housekeeping before firing up a CASHRequest
@@ -189,19 +197,76 @@ you can look at your spiffy new fork!</p>
 box describing the latest commit.  That will copy the URL of your fork to your
 clipboard.</p>
 
-<pre><code>git clone git@github.com:USERNAME/DIY.git
+<pre><code># replace USERNAME with your github username (or just paste the URL you just copied above)
+git clone git@github.com:USERNAME/DIY.git
 cd DIY
+
+# change to the latest_stable branch
 git checkout latest_stable
+
+# create a new topic branch
 git checkout -b my_cool_feature_branch
 </code></pre>
 
-<p>TO BE FINISHED</p>
+<p>At this point, you actually hack on code, fix some docs, make something better, whatever. When
+you get to a stopping point, add the files that you have changed or added:</p>
+
+<pre><code>git add new_file.php changed_file.php
+</code></pre>
+
+<p>And then commit with a useful commit message:</p>
+
+<pre><code>git commit -m "I promise that awesome new feature X will not set your dog on fire"
+</code></pre>
+
+<p>Commit early and often. It is like brushing your teeth: You can't do it too much. When you are
+ready to send your changes up to your fork on the Github mothership:</p>
+
+<pre><code>git push origin my_cool_feature_branch
+</code></pre>
+
+<p>Now you will be able to get feedback on your code, submit pull requests and generally bask in the
+glory of social coding.</p>
 
 <h2>Continuous Integration</h2>
 
 <p>We use something called <a href="http://jitterbug.pl">Jitterbug</a> to run our tests every
 time someone pushes to the CASH Music DIY Github repo. You can see the results
-of each test run at http://dev.cashmusic.org:3000/project/DIY .</p>
+of each test run <a href="http://dev.cashmusic.org:3000/project/DIY">here</a> .</p>
+
+<h2>Using SQLite</h2>
+
+<h3>Generatign a SQLite Database</h3>
+
+<p>In the root of DIY.git type:</p>
+
+<pre><code>make sqlite_db
+</code></pre>
+
+<p>and a file called "cash.db" will be created. This will likely become part of the web interface Real Soon Now.</p>
+
+<h3>Regenerating the SQLite Schema</h3>
+
+<p>Currently, we check in the <a href="https://github.com/cashmusic/DIY/blob/master/framework/php/settings/sql/cashmusic_db.sql">MySQL schema</a>
+to DIY.git each time it changes. To update the <a href="https://github.com/cashmusic/DIY/blob/master/framework/php/settings/sql/cashmusic_db_sqlite.sql">SQLite version of the schema</a>,
+you need to use a utility to convert it.</p>
+
+<p>You will need to install the <a href="http://cpan.org">CPAN</a> module <a href="https://metacpan.org/module/SQL::Translator">SQL::Translator</a>, then run this from the root of the CM repo:</p>
+
+<pre><code>make sqlite_schema
+</code></pre>
+
+<p>NOTE: There is currently a
+<a href="https://rt.cpan.org/Ticket/Display.html?id=70473">bug</a> in SQL::Translator
+where BIT column types are not parsed correctly, so you will need to manually
+convert those to BOOLs, like in <a href="https://github.com/cashmusic/DIY/commit/9085dce432f8e710a1a13821806139ed6f5b1628">commit 9085dce</a> .</p>
+
+<p>If the SQLite schema is up to date, <code>git status</code> will not show anything as changed. If you <em>do</em> see changes, then commit the change and push it.</p>
+
+<p>An easy way to install it on Debian-based systems is:</p>
+
+<pre><code>sudo apt-get install sqlfairy
+</code></pre>
 
 <h2>License</h2>
 
