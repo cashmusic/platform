@@ -9,4 +9,6 @@ require_once('tests/lib/simpletest/autorun.php');
 // this loads CASH Music DIY
 require_once('framework/php/cashmusic.php');
 
+require_once('framework/php/classes/seeds/S3Seed.php');
+
 ?>

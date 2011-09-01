@@ -79,12 +79,12 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		}
 	} else if ($db_engine == "sqlite") {
 		// repeated here from the Makefile so we don't require make to do a dev install
-		$cmd = "sqlite3 ./db/cashmusic.db < ./framework/php/settings/sql/cashmusic_db_sqlite.sql";
+		$cmd = "sqlite3 framework/php/db/cashmusic.db < ./framework/php/settings/sql/cashmusic_db_sqlite.sql";
 
 		// if the db already exists, it will warn but continue
 		system($cmd, $code);
 		try {
-			$pdo = new PDO ("sqlite:./db/cashmusic.db");
+			$pdo = new PDO ("sqlite:./framework/php/db/cashmusic.db");
 		} catch (PDOException $e) {
 			echo "\nOh. Shit. Something's wrong: Couldn't connect to the database. $e\n\n";
 			die();
