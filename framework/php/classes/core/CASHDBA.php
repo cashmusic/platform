@@ -42,7 +42,7 @@ class CASHDBA {
 	public function connect() {
 		try {  
 			if ($this->driver == 'sqlite') {
-				$this->db = new PDO("sqlite:" . CASH_PLATFORM_ROOT . "./db/{$this->dbname}");
+				$this->db = new PDO("sqlite:" . CASH_PLATFORM_ROOT . "/db/{$this->dbname}");
 			} else {
 				$this->db = new PDO("{$this->driver}:host={$this->hostname};port={$this->port};dbname={$this->dbname}", $this->username, $this->password);
 			}
