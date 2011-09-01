@@ -525,7 +525,7 @@
 	 * then 
 	 *
 	 * @return int (remaining time in seconds) or false
-	 */protected function getPublicFeed($cache_name, $data_name, $data_url, $format='json', $decode=true) {
+	 */protected function getCachedURL($cache_name, $data_name, $data_url, $format='json', $decode=true) {
 		$url_contents = $this->getCacheData($cache_name,$data_name,false,$decode);
 		if (!$url_contents) {
 			$url_contents = @file_get_contents($data_url);
