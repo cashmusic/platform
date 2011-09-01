@@ -431,8 +431,15 @@ if (!isset($_POST['installstage'])) {
 
 			// set up database, add user / password
 			$user_password = substr(md5($user_settings['systemsalt'] . 'password'),4,7);
+			$db_server = $user_settings['mysqlhost'];
+			$db_port = 3306;
+			if (strpos($db_server,':') !== false) {
+				$host_and_port = explode(':',$db_server);
+				$db_server = $host_and_port[0];
+				$db_port = $host_and_port[1];
+			}
 			try {
-				$pdo = new PDO ("mysql:host={$user_settings['mysqlhost']};dbname={$user_settings['mysqldbname']}",$user_settings['mysqluser'],$user_settings['mysqlpass']);
+				$pdo = new PDO ("mysql:host=$db_server;port=$db_port;dbname={$user_settings['mysqldbname']}",$user_settings['mysqluser'],$user_settings['mysqlpass']);
 			} catch (PDOException $e) {
 				echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>Couldn\'t connect to the database. Files are all in-place, so you can manually edit settings or start over.';
 				break;
