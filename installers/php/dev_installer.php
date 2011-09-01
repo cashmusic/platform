@@ -14,7 +14,8 @@ function readStdin($prompt, $valid_inputs = false, $default = '') {
 if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 	echo "Please run installer from the command line. usage:<br / >&gt; php installers/php/dev_installer.php";
 } else {
-	echo "\nCASH MUSIC PLATFORM DEV INSTALLER\n";
+	$success = false;
+	echo "\nCASH MUSIC PLATFORM DEV INSTALLER\nYou are in an open field west of a big white house with a boarded front door.\n\n";
 	// you can input <Enter> or 1, 2, 3 
 	$db_engine = readStdin('What database engine do you want to use? (\'mysql\'|\'sqlite\'): ', array('mysql', 'sqlite'));
 	if ($db_engine == 'mysql') {
@@ -28,9 +29,10 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		$db_username = readStdin('Database username: ');
 		$db_password = readStdin('Database password: ');
 		$user_email  = readStdin("\nMain system login email address: ");
+		$system_salt => md5($user_email . time());
 		
 		// set up database, add user / password
-		$user_password = substr(md5($user_email . 'password'),4,7);
+		$user_password = (md5($system_salt . 'password'),4,7);
 		$db_port = 3306;
 		if (strpos($db_server,':') !== false) {
 			$host_and_port = explode(':',$db_server);
@@ -46,7 +48,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		}
 		
 		if ($pdo->query(file_get_contents(dirname(__FILE__) . '/../../framework/php/settings/sql/cashmusic_db.sql'))) {
-			$password_hash = hash_hmac('sha256', $user_password, $user_email);
+			$password_hash = hash_hmac('sha256', $user_password, $system_salt);
 			$data = array(
 				'email_address' => $user_email,
 				'password'      => $password_hash,
@@ -54,7 +56,6 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 			);
 			$query = "INSERT INTO user_users (email_address,password,creation_date) VALUES (:email_address,:password,:creation_date)";
 
-			$success = false;
 			try {  
 				$q = $pdo->prepare($query);
 				$success = $q->execute($data);
@@ -91,8 +92,8 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 			break;
 		}
 		$user_email    = readStdin("\nMain system login email address: ");
-		$user_password = substr(md5($user_email . 'password'),4,7);
-		$password_hash = hash_hmac('sha256', $user_password, $user_email);
+		$user_password = (md5($system_salt . 'password'),4,7);
+		$password_hash = hash_hmac('sha256', $user_password, $system_salt);
 		
 		$data = array(
 		    'email_address' => $user_email,
@@ -101,7 +102,6 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		);
 		$query = "INSERT INTO user_users (email_address,password,creation_date) VALUES (:email_address,:password,:creation_date)";
 		
-		$success = false;
 		try {
 			$q       = $pdo->prepare($query);
 			$success = $q->execute($data);
@@ -115,11 +115,37 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 			die();
 			break;
 		}
-		if ($success) {
+    } 
+
+	if ($success) {
+		$installer_root = dirname(__FILE__)
+		// modify settings files
+		if (
+			!copy($installer_root.'/../../framework/php/settings/cashmusic_template.ini.php',$installer_root.'/../../framework/php/settings/cashmusic.ini.php')
+		) {
+			echo '\nOh. Shit. Something\'s wrong. Couldn\'t write the config file.\n\n'
+			. 'the directory you specified for the framework.</p>';
+			break;
+		}
+
+		// move source files into place
+		if (
+			if ($db_engine == "sqlite") {
+				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','database = "seed','database = "' . $db_name) ||
+				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
+			} else {
+				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','hostname = "localhost:8889','hostname = "' . $db_server) || 
+				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','username = "root','username = "' . $db_username || 
+				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','password = "root','password = "' . $db_password || 
+				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','database = "seed','database = "' . $db_name) ||
+				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
+			}
+		) {
+			echo "<h1>Oh. Shit. Something's wrong.</h1><p>We had trouble editing a few files. Please try again.</p>";
+			break;
+		} else {
 			echo "\nSUCCESS!\nYou'll still need to edit /framework/php/settings/cashmusic.ini.php\n\nOnce done, login using:\n\nemail: $user_email\npassword: $user_password\n\n";
 		}
-    } else {
-		echo "\nSorry. I know we gave you the option, but we're only supporting mysql right now.\n\n";
 	}
 }
 ?>
