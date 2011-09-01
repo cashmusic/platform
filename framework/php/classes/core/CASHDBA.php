@@ -41,7 +41,11 @@ class CASHDBA {
 
 	public function connect() {
 		try {  
-			$this->db = new PDO("{$this->driver}:host={$this->hostname};port={$this->port};dbname={$this->dbname}", $this->username, $this->password);
+			if ($this->driver == 'sqlite') {
+				$this->db = new PDO("sqlite:./db/cashmusic.db");
+			} else {
+				$this->db = new PDO("{$this->driver}:host={$this->hostname};port={$this->port};dbname={$this->dbname}", $this->username, $this->password);
+			}
 			$this->db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 		} catch(PDOException $e) {  
 			$this->error = $e->getMessage();  
