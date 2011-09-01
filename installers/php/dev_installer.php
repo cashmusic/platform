@@ -14,6 +14,20 @@ function readStdin($prompt, $valid_inputs = false, $default = '') {
 if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 	echo "Please run installer from the command line. usage:<br / >&gt; php installers/php/dev_installer.php";
 } else {
+	function findReplaceInFile($filename,$find,$replace) {
+		if (is_file($filename)) {
+			$file = file_get_contents($filename);
+			$file = str_replace($find, $replace, $file);
+			if (file_put_contents($filename, $file)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
 	$success = false;
 	echo "\nCASH MUSIC PLATFORM DEV INSTALLER\nYou are in an open field west of a big white house with a boarded front door.\n\n";
 	// you can input <Enter> or 1, 2, 3 
@@ -29,10 +43,10 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		$db_username = readStdin('Database username: ');
 		$db_password = readStdin('Database password: ');
 		$user_email  = readStdin("\nMain system login email address: ");
-		$system_salt => md5($user_email . time());
+		$system_salt = md5($user_email . time());
 		
 		// set up database, add user / password
-		$user_password = (md5($system_salt . 'password'),4,7);
+		$user_password = substr(md5($system_salt . 'password'),4,7);
 		$db_port = 3306;
 		if (strpos($db_server,':') !== false) {
 			$host_and_port = explode(':',$db_server);
@@ -92,7 +106,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 			break;
 		}
 		$user_email    = readStdin("\nMain system login email address: ");
-		$user_password = (md5($system_salt . 'password'),4,7);
+		$user_password = substr(md5($system_salt . 'password'),4,7);
 		$password_hash = hash_hmac('sha256', $user_password, $system_salt);
 		
 		$data = array(
@@ -118,7 +132,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
     } 
 
 	if ($success) {
-		$installer_root = dirname(__FILE__)
+		$installer_root = dirname(__FILE__);
 		// modify settings files
 		if (
 			!copy($installer_root.'/../../framework/php/settings/cashmusic_template.ini.php',$installer_root.'/../../framework/php/settings/cashmusic.ini.php')
@@ -129,19 +143,27 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		}
 
 		// move source files into place
-		if (
-			if ($db_engine == "sqlite") {
+		$file_write_success = false;
+		if ($db_engine == "sqlite") {
+			if (
 				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','database = "seed','database = "' . $db_name) ||
 				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
-			} else {
+			) {
+				$file_write_success = true;
+			} 
+		} else {
+			if (
 				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','hostname = "localhost:8889','hostname = "' . $db_server) || 
-				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','username = "root','username = "' . $db_username || 
-				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','password = "root','password = "' . $db_password || 
+				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','username = "root','username = "' . $db_username) || 
+				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','password = "root','password = "' . $db_password) || 
 				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','database = "seed','database = "' . $db_name) ||
 				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
+			) {
+				$file_write_success = true;
 			}
-		) {
-			echo "<h1>Oh. Shit. Something's wrong.</h1><p>We had trouble editing a few files. Please try again.</p>";
+		}
+		if (!$file_write_success) {
+			echo "\nOh. Shit. Something's wrong. We had trouble editing a few files. Please try again.\n\n";
 			break;
 		} else {
 			echo "\nSUCCESS!\nYou'll still need to edit /framework/php/settings/cashmusic.ini.php\n\nOnce done, login using:\n\nemail: $user_email\npassword: $user_password\n\n";
