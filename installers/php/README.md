@@ -29,8 +29,11 @@ system default, like so:
 
      /Applications/MAMP/bin/php5.2/bin/php /path/to/DIY/installers/php/dev_installer.php
 
-The installer will prompt for mysql or sqlite (sqlite in progress) then will ask
-for:
+The installer will prompt for mysql or sqlite. We recommend starting with sqlite 
+where you only need specify an email address to use as your admin login. (It can
+be a fake address...only stored locally.)
+
+If you choose MySQL you'll need to specify the following:
 
 - database server (include ports for non-standard using localhost:8889)
 - database name (you'll need to create an empty db first)
@@ -39,12 +42,5 @@ for:
 - main system email (for logging in to the admin)
 
 When complete the installer will confirm success and assign a temporary password
-for the email address you entered. Now point Apache (via MAMP or otherwise) to:
-
-     /path/to/DIY/interfaces/php
-
-One final step:
-As a temporary measure you'll need to edit the /path/to/DIY/framework/php/settings/cashmusic.ini.php 
-file manually. It's a drag, but we're using the default settings in that file
-as part of the web installer. We'll fix that ASAP, but please do not push your 
-changes to the repo. We'll fix this soon.
+for the email address you entered. Now point Apache (via MAMP or otherwise) to 
+the top level of the repo directory and you'll be up and running.

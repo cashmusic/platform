@@ -1,9 +1,10 @@
-#CASH Music
+<h1>CASH Music Platform<br /><span class="usecolor0" style="font-weight:normal;">Documentation</span></h1>
 
+<br />
 Welcome. CASH is a nonprofit open source organization building digital tools for 
-artists and labels. This platform is a first step towards making the web easier 
-for creatives. It's a little/no programming environment that allows complicated 
-ideas to be built without complicated code. 
+artists and labels. This platform makes web easier for musicians. It's a 
+no-programming environment that allows complicated ideas to be built without 
+complicated code. 
  
 <img src="http://blog.cashmusic.org/wp-content/uploads/2011/08/th4.jpg" width="100%" />
  

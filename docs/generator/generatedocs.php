@@ -225,9 +225,9 @@ $index_array = array(
 
 $output_dir = dirname(__FILE__) . '/..';
 if (readAndWriteAllDocs($index_array,$output_dir)) {
-	echo "success creating docs";
+	echo "success creating docs\n\n";
 } else {
-	echo "failed to create docs";
+	echo "failed to create docs\n\n";
 }
 
 
