@@ -1,6 +1,6 @@
 <?php
 /**
- * CASH Music Installer
+ * CASH Music Web Installer
  *
  * This single file acts as a simple HTML5/JS website, downloading and installing
  * the latest platform files, configuring the database, setting and environment
@@ -449,10 +449,11 @@ if (!isset($_POST['installstage'])) {
 				$password_hash = hash_hmac('sha256', $user_password, $user_settings['systemsalt']);
 				$data = array(
 					'email_address' => $user_settings['adminemailaccount'],
-					'password' => $password_hash,
+					'password'      => $password_hash,
+					'is_admin'      => true,
 					'creation_date' => time()
 				);
-				$query = "INSERT INTO user_users (email_address,password,creation_date) VALUES (:email_address,:password,:creation_date)";
+				$query = "INSERT INTO user_users (email_address,password,is_admin,creation_date) VALUES (:email_address,:password,:is_admin,:creation_date)";
 
 				try {  
 					$q = $pdo->prepare($query);
