@@ -17,7 +17,7 @@ $element_page_request = new CASHRequest(
 		'user_id' => getPersistentData('cash_effective_user')
 	)
 );
-$page_data['element_mostactive'] = $page_request->response['payload'];
+$page_data['element_mostactive'] = $element_page_request->response['payload'];
 
 $element_page_request = new CASHRequest(
 	array(
@@ -27,5 +27,5 @@ $element_page_request = new CASHRequest(
 		'user_id' => getPersistentData('cash_effective_user')
 	)
 );
-$page_data['element_recentlyadded'] = $page_request->response['payload'];
+$page_data['element_recentlyadded'] = $element_page_request->response['payload'];
 ?>

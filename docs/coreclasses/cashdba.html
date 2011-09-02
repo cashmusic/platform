@@ -10,7 +10,7 @@ html {margin:0;padding:0;}
 body {color:#000;background-color:#fff;text-align:left;font:75%/1.5em "helvetica neue",helvetica,arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:750px;}
 a {color:#999;text-decoration:none;}
 a:hover {text-decoration:underline;}
-code {display:block;padding:2em;margin:0 0 1.5em 0;background-color:#ddd;background-position:left top;background-repeat:no-repeat;margin:0 auto;}
+code {display:block;padding:2em;margin:0 0 1.5em 0;background-color:#ddd;background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAPhJREFUeNqk1M0KgkAQAGCFXqSzBwW9KOg5gugBArGD9PN6KhiIl0Vcg0UUfI0QggRJawyKIjNdB/ayO3wMuzszuUEwI6Ku65PjOCvmNiIAyS3LmoE3pYaqqspt254/EFoIkLPruosXQgO1IkMhuJOL53nLL2QI1InAYns+f4EQ0jVNI78S/kJwXARBoKuqSrryOqEGwRivFUU5/iu5CyrDMDQAwX1+eCsEW2UURYYsy7hvq7RBJSHElCQJDem5D6ipJI5jUxRFNLR536EyTdM9z/M+zRR4QlWSJBtBEHzacdJAV6hkB5V4Y+YSm2XZluO4AzMy7gIMAJSSyK1ong48AAAAAElFTkSuQmCC);background-position:left top;background-repeat:no-repeat;margin:0 auto;}
 img {border:0;}
 ul {padding:0.5em 0 0.5em 1.5em;}
 p {margin:0 0 1.5em 0;}
@@ -41,12 +41,12 @@ select:active, select:focus {outline:2px solid #ff0;}
 label {font-size:0.85em;text-transform:uppercase;color:#999;}
 
 /* COLORS */
-a.usecolor1 {color:#cd074d;}
-a.usecolor2 {color:#ca8c07;}
-a.usecolor3 {color:#97b800;}
-a.usecolor4 {color:#0080c9;}
-a.usecolor5 {color:#8a00ca;}
-a.usecolor0 {color:#999;}
+.usecolor1 {color:#cd074d;}
+.usecolor2 {color:#ca8c07;}
+.usecolor3 {color:#97b800;}
+.usecolor4 {color:#0080c9;}
+.usecolor5 {color:#8a00ca;}
+.usecolor0 {color:#999;}
 
 /* FOOTER (base code taken from cssstickyfooter.com) */
 * {margin-top:0;padding:0;} 
