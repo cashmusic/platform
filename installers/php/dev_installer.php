@@ -94,18 +94,19 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		}
 	} else if ($db_engine == "sqlite") {
 		// repeated here from the Makefile so we don't require make to do a dev install
-		$cmd = "sqlite3 framework/php/db/cashmusic.db < ./framework/php/settings/sql/cashmusic_db_sqlite.sql";
+		$cmd = "sqlite3 " . dirname(__FILE__) . "'/../../framework/php/db/cashmusic.db < " . dirname(__FILE__) . "'/../../framework/php/settings/sql/cashmusic_db_sqlite.sql";
 
 		// if the db already exists, it will warn but continue
 		system($cmd, $code);
 		try {
-			$pdo = new PDO ("sqlite:./framework/php/db/cashmusic.db");
+			$pdo = new PDO ("sqlite:" . dirname(__FILE__) . "'/../../framework/php/framework/php/db/cashmusic.db");
 		} catch (PDOException $e) {
 			echo "\nOh. Shit. Something's wrong: Couldn't connect to the database. $e\n\n";
 			die();
 			break;
 		}
 		$user_email    = readStdin("\nMain system login email address: ");
+		$system_salt = md5($user_email . time());
 		$user_password = substr(md5($system_salt . 'password'),4,7);
 		$password_hash = hash_hmac('sha256', $user_password, $system_salt);
 		
@@ -146,18 +147,18 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		$file_write_success = false;
 		if ($db_engine == "sqlite") {
 			if (
-				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','database = "seed','database = "' . $db_name) ||
-				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','database = "seed','database = "cashmusic.db') ||
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
 			) {
 				$file_write_success = true;
 			} 
 		} else {
 			if (
-				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','hostname = "localhost:8889','hostname = "' . $db_server) || 
-				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','username = "root','username = "' . $db_username) || 
-				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','password = "root','password = "' . $db_password) || 
-				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','database = "seed','database = "' . $db_name) ||
-				!findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','hostname = "localhost:8889','hostname = "' . $db_server) || 
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','username = "root','username = "' . $db_username) || 
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','password = "root','password = "' . $db_password) || 
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','database = "seed','database = "' . $db_name) ||
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
 			) {
 				$file_write_success = true;
 			}
