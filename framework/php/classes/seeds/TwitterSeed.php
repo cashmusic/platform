@@ -31,7 +31,7 @@ class TwitterSeed extends SeedBase {
 	
 	public function getUserFeed($username,$exclude_replies=true,$count=200,$filter=false) {
 		if ($username) {
-			$twitter_url = 'http://api.twitter.com/1/statuses/user_timeline.json?screen_name=' . $username . '&exclude_replies=' . $exclude_replies . '&count=' . $count);
+			$twitter_url = 'http://api.twitter.com/1/statuses/user_timeline.json?screen_name=' . $username . '&exclude_replies=' . $exclude_replies . '&count=' . $count;
 			$feed_data = $this->getCachedURL('com.twitter', 'user_' . $username . (string) $exclude_replies . $count, $twitter_url);
 
 			// here we'll need to parse results and apply the filter
