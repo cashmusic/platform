@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>CASH Music : Email For Download</title>
+<title>Email For Download / CASH Music</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="assets/css/demo.css" rel="stylesheet" type="text/css" />
 
@@ -11,10 +11,12 @@
 <body>
 
 <div id="mainspc">
-	<h1>BAD BOOKS</h1>
-	<h2>our mailing list</h2>
+	<img src="assets/images/portugaltheman.png" width="325" height="63" alt="Portugal. The Man: Email List" />
+	<p>
+		Join our email list to get a free download of "When The War Ends" from our record <a href="http://store.portugaltheman.com/american-ghetto/"><i>American Ghetto</i></a>.
+	</p>
 
-	<?php cash_embedElement(10); // CASH element (Bad Books Email promo / emailfordownload) ?>
+	<?php cash_embedElement(10); // CASH element (Portugal email for download / emailfordownload) ?>
 	
 	<?php include('/Users/jessevondoom/Code/cashmusic-github/DIY/framework/php/settings/debug/seed_debug.php'); // Debug ?>
 
