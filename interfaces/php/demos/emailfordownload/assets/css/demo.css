@@ -1,21 +1,14 @@
-@font-face {
-	font-family: 'LeagueGothicRegular';
-	src: url('../fonts/league-gothic.eot');
-	src: local('☺'), url('../fonts/league-gothic.woff') format('woff'), url('../fonts/league-gothic.otf') format('opentype'), url('../fonts/league-gothic.svg#webfontgV33cNdL') format('svg');
-}
-
-body {font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:12px;background:#666 url(../images/bg.jpg) right center fixed no-repeat;color:#fff;}
-h1 {font:106px/1em "LeagueGothicRegular","Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:normal;margin:0;}
-h2 {font:48px/1em "LeagueGothicRegular","Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:normal;margin:0 0 52px 0;color:#000;}
-
-#mainspc {width:450px;margin:0 auto;padding:200px 250px 30px 20px;}
+body {font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:12px;line-height:1.5em;background:#aaa url(../images/bg.jpg) right center fixed no-repeat;color:#444;}
+a {color:#444;font-weight:bold;text-decoration:none;}
+a:hover {color:#179de6;}
+#mainspc {width:330px;margin:0 auto;padding:200px 20px 30px 230px;background:url(../images/cover.jpg) 20px 200px no-repeat;}
 
 /* SEED-SPECIFIC STYLES */
 div.seed_success div.description {display:none;}
-.seed_notation {font-size:10px;color:#000;margin-top:8px;}
+.seed_notation {font-size:10px;color:#777;margin-top:8px;}
 .seed_error {font-weight:bold;color:#ff0;margin-bottom:15px;}
 .seed_input {width:18em;}
-a.download {font:36px/1em "LeagueGothicRegular","Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:normal;margin:20px 0 20px 0;color:#09f;text-decoration:none;}
+a.download {font-size:22px;line-height:0.8em;font-weight:bold;margin:16px 0 20px 0;color:#09f;text-decoration:none;}
 a.download:hover {color:#fff;}
 
 /* FORMS */
