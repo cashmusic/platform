@@ -5,7 +5,7 @@
 <title>Email For Download / CASH Music</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="assets/css/demo.css" rel="stylesheet" type="text/css" />
-
+<link rel="icon" type="image/png" href="http://cashmusic.org/images/icons/cash.png" /> 
 </head>
 
 <body>
@@ -16,7 +16,7 @@
 		Join our email list to get a free download of "When The War Ends" from our record <a href="http://store.portugaltheman.com/american-ghetto/"><i>American Ghetto</i></a>.
 	</p>
 
-	<?php cash_embedElement(10); // CASH element (Portugal email for download / emailfordownload) ?>
+	<?php cash_embedElement(10); // CASH element (Portugal email for download / emailcollection) ?>
 	
 	<?php include('/Users/jessevondoom/Code/cashmusic-github/DIY/framework/php/settings/debug/seed_debug.php'); // Debug ?>
 

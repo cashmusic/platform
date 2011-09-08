@@ -11,9 +11,9 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  **/
-class EmailForDownload extends ElementBase {
-	const type = 'emailfordownload';
-	const name = 'Email For Download';
+class EmailCollection extends ElementBase {
+	const type = 'emailcollection';
+	const name = 'Email Collection';
 
 	public function getMarkup() {
 		$markup = '';
@@ -31,11 +31,13 @@ class EmailForDownload extends ElementBase {
 				));
 				$asset_title = $asset_request->response['payload']['title'];
 				$asset_description = $asset_request->response['payload']['description'];
-				$markup = '<div class="seed_success '. self::type .'">'
-				. $this->options->message_success . '<br /><br />'
-				. '<a href="?cash_request_type=asset&cash_action=claim&asset_id='.$this->options->asset_id.'&element_id='.$this->element_id.'" class="download">'. $asset_title .'</a>'
-				. '<div class="description">' . $asset_description . '</div>'
-				. '</div>';
+				$markup = '<div class="seed_success '. self::type .'">' . $this->options->message_success;
+				if ($this->options->asset_id !== 0) {
+					$markup .= '<br /><br />'
+					. '<a href="?cash_request_type=asset&cash_action=claim&asset_id='.$this->options->asset_id.'&element_id='.$this->element_id.'" class="download">'. $asset_title .'</a>'
+					. '<div class="description">' . $asset_description . '</div>';
+				}
+				$markup .= '</div>';
 				break;
 			case 'people_signup_400':
 				$markup = '<div class="seed_error '. self::type .'">'
