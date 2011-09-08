@@ -1,0 +1,76 @@
+/* FONTS */
+@font-face {
+    font-family: 'OstrichSansRoundedMedium';
+    src: url('../fonts/ostrich-rounded-webfont.eot');
+    src: url('../fonts/ostrich-rounded-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/ostrich-rounded-webfont.woff') format('woff'),
+         url('../fonts/ostrich-rounded-webfont.ttf') format('truetype'),
+         url('../fonts/ostrich-rounded-webfont.svg#OstrichSansRoundedMedium') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* TAG RESETS */
+html {margin:0;padding:0;}
+body {color:#231f20;background-color:#fff;text-align:left;font:75%/1.5em "helvetica neue",helvetica,arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:750px;}
+a {color:#999;text-decoration:none;}
+a:hover {text-decoration:underline;}
+code {display:block;padding:2em;margin:0 0 1.5em 0;background-color:#ddd;background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAPhJREFUeNqk1M0KgkAQAGCFXqSzBwW9KOg5gugBArGD9PN6KhiIl0Vcg0UUfI0QggRJawyKIjNdB/ayO3wMuzszuUEwI6Ku65PjOCvmNiIAyS3LmoE3pYaqqspt254/EFoIkLPruosXQgO1IkMhuJOL53nLL2QI1InAYns+f4EQ0jVNI78S/kJwXARBoKuqSrryOqEGwRivFUU5/iu5CyrDMDQAwX1+eCsEW2UURYYsy7hvq7RBJSHElCQJDem5D6ipJI5jUxRFNLR536EyTdM9z/M+zRR4QlWSJBtBEHzacdJAV6hkB5V4Y+YSm2XZluO4AzMy7gIMAJSSyK1ong48AAAAAElFTkSuQmCC);background-position:left top;background-repeat:no-repeat;margin:0 auto;}
+img {border:0;}
+ul {padding:0.5em 0 0.5em 1.5em;}
+p {margin:0 0 1.5em 0;}
+h1 {font-size:3.75em;line-height:1.25em;margin:0;padding:0;font-weight:normal;}
+h2 {font-size:1.5em;line-height:1em;margin:2em 0 0 0;padding:0 0 0.25em 0;}
+.fontface h1.maindocspage {font-size:154px;line-height:90px;margin:0;padding:0;font-family:OstrichSansRoundedMedium,"helvetica neue",helvetica,arial,sans-serif;white-space:nowrap;font-weight:normal;}
+.fontface h2.tight {font-size:48px;line-height:1em;margin:0;padding:0;font-family:OstrichSansRoundedMedium,"helvetica neue",helvetica,arial,sans-serif;font-weight:normal;}
+h3 {font:italic normal 12px/1em georgia,"times new roman",times,serif italic;font-weight:normal;margin:36px 0 3px 0;color:#a7a9ac;}
+small {font-size:0.85em;line-height:1.25em;}
+small a {color:#000 !important;font-weight:bold;}
+table {font-size:0.85em;}
+
+/* GENERAL STYLES */
+span.param, span.return {font-weight:bold;}
+span.classdescription {font-size:1.5em;}
+span.classdescription br {display:none}
+ul.nobullets {padding-left:0;}
+ul.nobullets li {list-style-type:none;}
+div.commentblock {border-left:8px solid #eee;padding-left:12px;}
+#pagemenu {position:absolute;top:95px;left:50%;margin-left:-400px;text-align:left;width:220px;text-align:right;}
+#pagemenu h2 {margin-top:0.75em;}
+#topspc {position:absolute;top:0;left:0;width:100%;height:6px;z-index:1234;background-color:#97b800;}
+#navspc {position:absolute;top:9px;left:50%;margin-left:-250px;padding-left:150px;width:auto;background-color:transparent;}
+#navspc a {font-size:32px;line-height:1em;margin:0 30px 0 0;padding:0;font-family:OstrichSansRoundedMedium,"helvetica neue",helvetica,arial,sans-serif;font-weight:normal;}
+#mainspc a {font-weight:bold;}
+
+/* FORMS */
+input {padding:6px 2% 6px 2%;border:1px solid #ccc;width:96%;}
+input:active, input:focus {outline:0;border:1px solid #888;}
+input.button, a.mockbutton {background-color:#ccc;padding:6px 18px 6px 18px;font-weight:bold;cursor:pointer;width:auto;}
+input.button:hover {background-color:#aaa;}
+input.checkorradio {width:auto;}
+select {padding:6px 3px 6px 3px;border:1px solid #ccc;width:100%;}
+select:active, select:focus {outline:2px solid #ff0;}
+label {font-size:0.85em;text-transform:uppercase;color:#999;}
+
+/* COLORS */
+.usecolor1 {color:#cd074d;}
+.usecolor2 {color:#ca8c07;}
+.usecolor3 {color:#97b800;}
+.usecolor4 {color:#0080c9;}
+.usecolor5 {color:#8a00ca;}
+.usecolor0 {color:#999;}
+
+/* FOOTER (base code taken from cssstickyfooter.com) */
+* {margin-top:0;padding:0;} 
+html, body, #wrap {height:100%;}
+body > #wrap {height:auto;min-height:100%;}
+#mainspc {padding-bottom:90px;padding-top:120px;width:500px;padding-left:300px;margin:0 auto;}
+#footer {position:relative;margin-top:-36px;height:36px;color:#bbb;text-align:left;font-size:0.9em;line-height:1em;clear:both;background-color:transparent;}
+#footer p {padding:12px 8px 0px 8px;}
+#footer a {color:#aaa;margin-left:24px;}
+#footer a:hover {color:#000;}
+#footer .donatelink {color:#999;}
+
+/* ACCESSIBILITY STUFFS */
+* a:active, * a:focus, #footer a.donatelink:active, #footer a.donatelink:focus, input.checkorradio:focus, input.checkorradio:active
+{outline:2px solid #ff0;background-color:#ff0;color:#000;}

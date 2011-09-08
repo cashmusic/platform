@@ -4,74 +4,32 @@
 <title>Docs / CASH Music</title> 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
 
-<style type="text/css" /> 
-/* TAG RESETS */
-html {margin:0;padding:0;}
-body {color:#000;background-color:#fff;text-align:left;font:75%/1.5em "helvetica neue",helvetica,arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:750px;}
-a {color:#999;text-decoration:none;}
-a:hover {text-decoration:underline;}
-code {display:block;padding:2em;margin:0 0 1.5em 0;background-color:#ddd;background-position:left top;background-repeat:no-repeat;margin:0 auto;}
-img {border:0;}
-ul {padding:0.5em 0 0.5em 1.5em;}
-p {margin:0 0 1.5em 0;}
-h1 {font-size:3.75em;line-height:1.25em;margin:0;padding:0;}
-h2 {font-size:1.5em;line-height:1em;margin:2em 0 0 0;padding:0;padding-bottom:0.25em;}
-small {font-size:0.85em;line-height:1.25em;}
-small a {color:#000 !important;font-weight:bold;}
-table {font-size:0.85em;}
+<link href="../assets/css/docs.css" rel="stylesheet" type="text/css" /> 
 
-/* GENERAL STYLES */
-span.param, span.return {font-weight:bold;}
-span.classdescription {font-size:1.5em;}
-span.classdescription br {display:none}
-ul.nobullets {padding-left:0;}
-ul.nobullets li {list-style-type:none;}
-div.commentblock {border-left:8px solid #eee;padding-left:12px;}
-#pagemenu {position:absolute;top:80px;left:50%;margin-left:-400px;text-align:left;width:220px;text-align:right;}
-#pagemenu h2 {margin-top:0.75em;}
+<script type="text/javascript">
+/* Modernizr 2.0.6 (Custom Build) | MIT & BSD
+ * Build: http://www.modernizr.com/download/#-fontface-cssclasses-teststyles
+ */
+;window.Modernizr=function(a,b,c){function y(a,b){return!!~(""+a).indexOf(b)}function x(a,b){return typeof a===b}function w(a,b){return v(prefixes.join(a+";")+(b||""))}function v(a){k.cssText=a}var d="2.0.6",e={},f=!0,g=b.documentElement,h=b.head||b.getElementsByTagName("head")[0],i="modernizr",j=b.createElement(i),k=j.style,l,m=Object.prototype.toString,n={},o={},p={},q=[],r=function(a,c,d,e){var f,h,j,k=b.createElement("div");if(parseInt(d,10))while(d--)j=b.createElement("div"),j.id=e?e[d]:i+(d+1),k.appendChild(j);f=["&shy;","<style>",a,"</style>"].join(""),k.id=i,k.innerHTML+=f,g.appendChild(k),h=c(k,a),k.parentNode.removeChild(k);return!!h},s,t={}.hasOwnProperty,u;!x(t,c)&&!x(t.call,c)?u=function(a,b){return t.call(a,b)}:u=function(a,b){return b in a&&x(a.constructor.prototype[b],c)};var z=function(a,c){var d=a.join(""),f=c.length;r(d,function(a,c){var d=b.styleSheets[b.styleSheets.length-1],g=d.cssRules&&d.cssRules[0]?d.cssRules[0].cssText:d.cssText||"",h=a.childNodes,i={};while(f--)i[h[f].id]=h[f];e.fontface=/src/i.test(g)&&g.indexOf(c.split(" ")[0])===0},f,c)}(['@font-face {font-family:"font";src:url("https://")}'],["fontface"]);n.fontface=function(){return e.fontface};for(var A in n)u(n,A)&&(s=A.toLowerCase(),e[s]=n[A](),q.push((e[s]?"":"no-")+s));v(""),j=l=null,e._version=d,e.testStyles=r,g.className=g.className.replace(/\bno-js\b/,"")+(f?" js "+q.join(" "):"");return e}(this,this.document);
 
-/* FORMS */
-input {padding:6px 2% 6px 2%;border:1px solid #ccc;width:96%;}
-input:active, input:focus {outline:0;border:1px solid #888;}
-input.button, a.mockbutton {background-color:#ccc;padding:6px 18px 6px 18px;font-weight:bold;cursor:pointer;width:auto;}
-input.button:hover {background-color:#aaa;}
-input.checkorradio {width:auto;}
-select {padding:6px 3px 6px 3px;border:1px solid #ccc;width:100%;}
-select:active, select:focus {outline:2px solid #ff0;}
-label {font-size:0.85em;text-transform:uppercase;color:#999;}
+var colors = ['cd074d','ca8c07','97b800','0080c9','8a00ca'];
+var pagecolor = colors[Math.floor(Math.random() * colors.length)];
+document.write('<style type="text/css">a {color:#' + pagecolor + ';}#topspc {background-color:#' + pagecolor + ';}</style>');
+</script>
 
-/* COLORS */
-a.usecolor1 {color:#cd074d;}
-a.usecolor2 {color:#ca8c07;}
-a.usecolor3 {color:#97b800;}
-a.usecolor4 {color:#0080c9;}
-a.usecolor5 {color:#8a00ca;}
-a.usecolor0 {color:#999;}
-
-/* FOOTER (base code taken from cssstickyfooter.com) */
-* {margin-top:0;padding:0;} 
-html, body, #wrap {height:100%;}
-body > #wrap {height:auto;min-height:100%;}
-#mainspc {padding-bottom:90px;padding-top:80px;width:500px;padding-left:300px;margin:0 auto;}
-#footer {position:relative;margin-top:-36px;height:36px;color:#666;text-align:left;font-size:0.9em;line-height:1em;clear:both;background-color:#000;}
-#footer p {padding:12px 8px 0px 8px;}
-#footer a {color:#666;margin-left:24px;}
-#footer a:hover {color:#fff;}
-#footer .donatelink {color:#999;}
-
-/* ACCESSIBILITY STUFFS */
-* a:active, * a:focus, #footer a.donatelink:active, #footer a.donatelink:focus, input.checkorradio:focus, input.checkorradio:active
-{outline:2px solid #ff0;background-color:#ff0;color:#000;}
-</style>
 <link rel="icon" type="image/png" href="https://cashmusic.org/assets/images/icons/cash.png" /> 
 
 </head> 
 
 <body> 
-<a href="http://github.com/cashmusic/DIY"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+<div id="topspc">
+	<div id="navspc">
+		<a href="/">Home</a> <a href="../">Docs</a>
+	</div>
+</div>
 <div id="wrap"> 
 	<div id="mainspc">
-<div id="pagemenu"><h2><a href="../index.html">Index</a></h2><h2>Getting Started</h2><ul class="nobullets"><li><a href="../gettingstarted/overview.html" class="usecolor1">Overview</a></li><li><a href="../gettingstarted/quickstart.html" class="usecolor1">Quick Start</a></li><li><a href="../gettingstarted/styleguidecode.html" class="usecolor1">Style Guide (code)</a></li></ul><h2>Bootstrap Script</h2><ul class="nobullets"><li><a href="../bootstrapscript/cashmusic.html" class="usecolor2">cashmusic.php</a></li></ul><h2>Core Classes</h2><ul class="nobullets"><li><a href="../coreclasses/cashdata.html" class="usecolor3">CASHData</a></li><li><a href="../coreclasses/cashdba.html" class="usecolor3">CASHDBA</a></li><li><a href="../coreclasses/cashrequest.html" class="usecolor3">CASHRequest</a></li><li><a href="../coreclasses/cashresponse.html" class="usecolor3">CASHResponse</a></li><li><a href="../coreclasses/cashsettings.html" class="usecolor3">CASHSettings</a></li><li><a href="../coreclasses/cashsystem.html" class="usecolor3">CASHSystem</a></li><li><a href="../coreclasses/elementbase.html" class="usecolor3">ElementBase</a></li><li><a href="../coreclasses/plantbase.html" class="usecolor3">PlantBase</a></li><li><a href="../coreclasses/seedbase.html" class="usecolor3">SeedBase</a></li></ul><h2>Plant Classes</h2><ul class="nobullets"><li><a href="../plantclasses/commerceplant.html" class="usecolor4">__CommercePlant</a></li><li><a href="../plantclasses/assetplant.html" class="usecolor4">AssetPlant</a></li><li><a href="../plantclasses/calendarplant.html" class="usecolor4">CalendarPlant</a></li><li><a href="../plantclasses/echoplant.html" class="usecolor4">EchoPlant</a></li><li><a href="../plantclasses/elementplant.html" class="usecolor4">ElementPlant</a></li><li><a href="../plantclasses/peopleplant.html" class="usecolor4">PeoplePlant</a></li><li><a href="../plantclasses/systemplant.html" class="usecolor4">SystemPlant</a></li></ul></div><h1 class="classname">SeedBase</h1><span class="classdescription"><br />Abstract base for all Seed classes<br /><br /></span><br /><br />@package diy.org.cashmusic<br />@author CASH Music<br />@link http://cashmusic.org/<br /><br />Copyright (c) 2011, CASH Music<br />Licensed under the Affero General Public License version 3.<br />See <a href="http://www.gnu.org/licenses/agpl-3.0.html">http://www.gnu.org/licenses/agpl-3.0.html</a><br /><br /><br />This file is generously sponsored by Hypebot and Music Think Tank<br />Read Hypebot.com and MusicThinkTank.com<br /><br /><h2 class="functionname">getCASHSettings()</h2><div class="commentblock">
+<div id="pagemenu"><h3>Getting Started</h3><ul class="nobullets"><li><a href="../gettingstarted/overview.html" class="usecolor1">Overview</a></li><li><a href="../gettingstarted/quickstart.html" class="usecolor1">Quick Start</a></li><li><a href="../gettingstarted/styleguidecode.html" class="usecolor1">Style Guide (code)</a></li></ul><h3>Bootstrap Script</h3><ul class="nobullets"><li><a href="../bootstrapscript/cashmusic.html" class="usecolor2">cashmusic.php</a></li></ul><h3>Core Classes</h3><ul class="nobullets"><li><a href="../coreclasses/cashdata.html" class="usecolor3">CASHData</a></li><li><a href="../coreclasses/cashdba.html" class="usecolor3">CASHDBA</a></li><li><a href="../coreclasses/cashrequest.html" class="usecolor3">CASHRequest</a></li><li><a href="../coreclasses/cashresponse.html" class="usecolor3">CASHResponse</a></li><li><a href="../coreclasses/cashsettings.html" class="usecolor3">CASHSettings</a></li><li><a href="../coreclasses/cashsystem.html" class="usecolor3">CASHSystem</a></li><li><a href="../coreclasses/elementbase.html" class="usecolor3">ElementBase</a></li><li><a href="../coreclasses/plantbase.html" class="usecolor3">PlantBase</a></li><li><a href="../coreclasses/seedbase.html" class="usecolor3">SeedBase</a></li></ul><h3>Plant Classes</h3><ul class="nobullets"><li><a href="../plantclasses/commerceplant.html" class="usecolor4">__CommercePlant</a></li><li><a href="../plantclasses/assetplant.html" class="usecolor4">AssetPlant</a></li><li><a href="../plantclasses/calendarplant.html" class="usecolor4">CalendarPlant</a></li><li><a href="../plantclasses/echoplant.html" class="usecolor4">EchoPlant</a></li><li><a href="../plantclasses/elementplant.html" class="usecolor4">ElementPlant</a></li><li><a href="../plantclasses/peopleplant.html" class="usecolor4">PeoplePlant</a></li><li><a href="../plantclasses/systemplant.html" class="usecolor4">SystemPlant</a></li></ul></div><h1 class="classname">SeedBase</h1><span class="classdescription"><br />Abstract base for all Seed classes<br /><br /></span><br /><br />@package diy.org.cashmusic<br />@author CASH Music<br />@link http://cashmusic.org/<br /><br />Copyright (c) 2011, CASH Music<br />Licensed under the Affero General Public License version 3.<br />See <a href="http://www.gnu.org/licenses/agpl-3.0.html">http://www.gnu.org/licenses/agpl-3.0.html</a><br /><br /><br />This file is generously sponsored by Hypebot and Music Think Tank<br />Read Hypebot.com and MusicThinkTank.com<br /><br /><h2 class="functionname">getCASHSettings()</h2><div class="commentblock">
 Retrieves any needed settings (API keys, passwords, etc) based on the
 type of Seed — returns false if no settings are found<br /><br /><span class="return">@return</span> array|false
  </div>
