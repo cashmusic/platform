@@ -14,8 +14,8 @@ window.addEvent('domready', function(){
 			// this whole block handles the check to see if an email has been set
 			// and verifies that a date has been selected. if not it shows an error
 			// message and gives instructions
-			var commentInput = document.id('cash_emailcollection_form_14').getFirst('input.cash_input_comment');
-			var emailInput = document.id('cash_emailcollection_form_14').getFirst('input.cash_input_address');
+			var commentInput = document.id('cash_emailcollection_form_101').getFirst('input.cash_input_comment');
+			var emailInput = document.id('cash_emailcollection_form_101').getFirst('input.cash_input_address');
 			
 			if (commentInput.get('value') == '' || emailInput.get('value').trim() == '') {
 				e.stop();
