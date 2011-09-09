@@ -46,11 +46,11 @@
 			</p>
 		</div>
 	</div> 
-	
-	<?php include('/Users/jessevondoom/Code/cashmusic-github/DIY/framework/php/settings/debug/cashmusic_debug.php'); // Debug ?>
 
 </div> 
 
 <div id="msgspc"></div>
+
+<?php include('/Users/jessevondoom/Code/cashmusic-github/DIY/framework/php/settings/debug/cashmusic_debug.php'); // Debug ?>
 </body> 
 </html>
