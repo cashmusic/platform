@@ -1,4 +1,4 @@
-<?php include('/Users/jessevondoom/Code/cashmusic-github/DIY/framework/php/cashmusic.php'); // Initialize CASH Music ?>
+<?php include('../../../../framework/php/cashmusic.php'); // Initialize CASH Music ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,6 +19,6 @@
 	<?php cash_embedElement(100); // CASH element (Portugal email for download / emailcollection) ?>
 </div>
 
-<?php include('/Users/jessevondoom/Code/cashmusic-github/DIY/framework/php/settings/debug/cashmusic_debug.php'); // Debug ?>
+<?php include('../../../../framework/php/settings/debug/cashmusic_debug.php'); // Debug ?>
 </body>
 </html>

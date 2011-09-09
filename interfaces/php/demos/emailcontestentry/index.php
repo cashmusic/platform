@@ -1,4 +1,4 @@
-<?php include('/Users/jessevondoom/Code/cashmusic-github/DIY/framework/php/cashmusic.php'); // Initialize CASH Music ?>
+<?php include('../../../../framework/php/cashmusic.php'); // Initialize CASH Music ?>
 <!DOCTYPE html>
 <head> 
 <title>Email Contest Entry / CASH Music</title>
@@ -51,6 +51,6 @@
 
 <div id="msgspc"></div>
 
-<?php include('/Users/jessevondoom/Code/cashmusic-github/DIY/framework/php/settings/debug/cashmusic_debug.php'); // Debug ?>
+<?php include('../../../../framework/php/settings/debug/cashmusic_debug.php'); // Debug ?>
 </body> 
 </html>
