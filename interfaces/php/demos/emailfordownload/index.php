@@ -17,10 +17,8 @@
 	</p>
 
 	<?php cash_embedElement(10); // CASH element (Portugal email for download / emailcollection) ?>
-	
-	<?php include('/Users/jessevondoom/Code/cashmusic-github/DIY/framework/php/settings/debug/cashmusic_debug.php'); // Debug ?>
-
 </div>
 
+<?php include('/Users/jessevondoom/Code/cashmusic-github/DIY/framework/php/settings/debug/cashmusic_debug.php'); // Debug ?>
 </body>
 </html>
