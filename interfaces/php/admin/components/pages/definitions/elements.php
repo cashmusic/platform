@@ -17,7 +17,11 @@ $element_page_request = new CASHRequest(
 		'user_id' => getPersistentData('cash_effective_user')
 	)
 );
-$page_data['element_mostactive'] = $element_page_request->response['payload'];
+if ($element_page_request->response['status_code'] == 200) {
+	$page_data['element_mostactive'] = $element_page_request->response['payload'];
+} else {
+	$page_data['element_mostactive'] = false;
+}
 
 $element_page_request = new CASHRequest(
 	array(
@@ -27,5 +31,9 @@ $element_page_request = new CASHRequest(
 		'user_id' => getPersistentData('cash_effective_user')
 	)
 );
-$page_data['element_recentlyadded'] = $element_page_request->response['payload'];
+if ($element_page_request->response['status_code'] == 200) {
+	$page_data['element_recentlyadded'] = $element_page_request->response['payload'];
+} else {
+	$page_data['element_recentlyadded'] = false;
+}
 ?>
