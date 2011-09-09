@@ -31,7 +31,7 @@ h2 {font-size:1.5em;line-height:1em;margin:2em 0 0 0;padding:0 0 0.25em 0;}
 .fontface h1 {font-size:154px;line-height:0.85em;margin:0;padding:0;font-family:OstrichSansRoundedMedium,"helvetica neue",helvetica,arial,sans-serif;white-space:nowrap;font-weight:normal;}
 .fontface h2 {font-size:48px;line-height:1em;margin:36px 0 0 0;padding:0;padding-bottom:6px;font-family:OstrichSansRoundedMedium,"helvetica neue",helvetica,arial,sans-serif;font-weight:normal;}
 .fontface h2.tight {margin:0;padding:0;}
-h3 {font:italic normal 12px/1em georgia,"times new roman",times,serif italic;font-weight:normal;margin:36px 0 3px 0;color:#a7a9ac;}
+h3 {font:italic normal 12px/1.5em georgia,"times new roman",times,serif italic;font-weight:normal;margin:36px 0 3px 0;color:#a7a9ac;}
 small {font-size:0.85em;line-height:1.25em;}
 small a {color:#000 !important;font-weight:bold;}
 table {font-size:0.85em;}
@@ -43,6 +43,9 @@ span.classdescription br {display:none}
 ul.nobullets {padding-left:0;}
 ul.nobullets li {list-style-type:none;}
 div.commentblock {border-left:8px solid #eee;padding-left:12px;}
+div.coloneoftwo {float:left;width:235px;margin-right:30;}
+div.lastcol {float:right;margin-right:0;}
+div.clearall {clear:both;height:1px;overflow:hidden;visibility:hidden;}
 #topspc {position:absolute;top:0;left:0;width:100%;height:6px;z-index:1234;background-color:#97b800;}
 #navspc {position:absolute;top:9px;left:50%;margin-left:-250px;width:auto;background-color:transparent;}
 #navspc a {font-size:32px;line-height:1em;margin:0 30px 0 0;padding:0;font-family:OstrichSansRoundedMedium,"helvetica neue",helvetica,arial,sans-serif;font-weight:normal;}
@@ -109,11 +112,30 @@ document.write('<style type="text/css">a {color:#' + pagecolor + ';}#topspc {bac
 		<h2 class="tight usecolor0">CASH Music</h2>
 		<h1>Demos</h1>
 
+		<h3>All demos have the CASH debug panel, showing SESSION data and the last CASH Request. We're using all media with permission from the respective artist — please support them by following purchase links, following them on social networks, or going out to see their shows.</h3>
+
 		<br />
 		<h3>Email Collection</h3>
 		<p>
-			A simple email-for-download element example with debug pane. Here's <a href="emailfordownload/">an email-for-download example</a> of a stock element with no customization. A second <a href="emailcontestentry/">email contest example</a> shows what's possible with some minor customization.
+			The Email Collection element is a simple way to gather email addresses to local mailing lists. 
+			All of the messages can be customized in the admin options, and an asset can be specified as 
+			a download reward for new signups. Fully CSS styleable.
 		</p>
+		<div class="coloneoftwo">
+			<a href="emailfordownload/"><img src="assets/images/thumbs/emailfordownload.jpg" width="235" height="135" alt="Email For Download" /></a>
+			<br /><a href="emailfordownload/">Portugal. The Man: Email for download</a>
+			<p class="usecolor0">
+				A basic demo — an email in exchange for a download with no scripting or customization of the element needed.
+			</p>
+		</div>
+		<div class="coloneoftwo lastcol">
+			<a href="emailcontestentry/"><img src="assets/images/thumbs/emailcontestentry.jpg" width="235" height="135" alt="Email Contest" /></a>
+			<br /><a href="emailcontestentry/">Iron &amp; Wine: Email contest entry</a>
+			<p class="usecolor0">
+				Shows email collection with no download — instead a short JavaScript enforces capture of a city and embeds a code in the comment field on signup.
+			</p>
+		</div>
+		<div class="clearall">.</div>
 	</div> 
 </div> 
  
