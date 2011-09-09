@@ -15,5 +15,5 @@
 	pretty dandelion seed picture.
 </p>
 <code>
-	&lt?php include('<?php echo realpath(CASH_PLATFORM_ROOT); ?>/settings/debug/seed_debug.php'); // CASH Music Debug ?&gt
+	&lt?php include('<?php echo realpath(CASH_PLATFORM_ROOT); ?>/settings/debug/cashmusic_debug.php'); // CASH Music Debug ?&gt
 </code>
