@@ -9,8 +9,8 @@ window.addEvent('domready', function(){
 		});
 	});
 	
-	if (document.id('cash_emailcollection_form_14')) {
-		document.id('cash_emailcollection_form_14').addEvent('submit', function(e){
+	if (document.id('cash_emailcollection_form_101')) {
+		document.id('cash_emailcollection_form_101').addEvent('submit', function(e){
 			// this whole block handles the check to see if an email has been set
 			// and verifies that a date has been selected. if not it shows an error
 			// message and gives instructions
@@ -35,7 +35,7 @@ window.addEvent('domready', function(){
 function fadeandhighlight(highlightel) {
 	// fades back all of the other dates, sets the comment in the form
 	document.id(highlightel).setStyle('opacity',1);
-	document.id('cash_emailcollection_form_14').getFirst('input.cash_input_comment').set('value',highlightel);
+	document.id('cash_emailcollection_form_101').getFirst('input.cash_input_comment').set('value',highlightel);
 	fadeplease = fadeplease.erase(highlightel);
 	fadeplease.each(function(item){
 		document.id(item).tween('opacity',0.35);
