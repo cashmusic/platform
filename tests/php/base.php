@@ -23,4 +23,7 @@ require_once('framework/php/cashmusic.php');
 
 require_once('framework/php/classes/seeds/S3Seed.php');
 
+// this deploys to SQLite and sets up cashmusic.ini.php
+system("php installers/php/test_installer.php");
+
 ?>
