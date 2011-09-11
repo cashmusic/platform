@@ -1,7 +1,7 @@
 <?php if (!isset($_POST['doelementadd'])) { ?>
 	<form method="post" action="">
 		<input type="hidden" name="doelementadd" value="makeitso" />
-		<input type="hidden" name="element_type" value="emailfordownload" />
+		<input type="hidden" name="element_type" value="emailcollection" />
 		<div class="col_onehalf">
 			<h3>Element Details</h3>
 		
@@ -81,7 +81,7 @@
 	
 		<h3>Success</h3>
 		<p>
-		Your new <b>Email For Download</b> element is ready to go. To begin using it immediately insert
+		Your new <b>Email Collection</b> element is ready to go. To begin using it immediately insert
 		this embed code on any page:
 		</p>
 		<code>

@@ -20,6 +20,13 @@ requirements:
 
 Plans are in the works to support SQLite.
 
+## (Really) Quick Start
+To get your hands on a working instance as quickly as possible, fork/clone this 
+repo and once it's local run /installers/php/dev_installer.php from the command 
+line ("php path/to/DIY//installers/php/dev_installer.php") — choose the SQLite 
+install option and supply an email for the admin login. Next just point Apache or 
+MAMP at the main repo directory and view http://localhost/ in a browser.
+
 ## Notes
 
 Most of the code is currently found in framework/php/ and centers around a

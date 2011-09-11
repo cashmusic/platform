@@ -1,0 +1,35 @@
+/* RESETS */
+html {height:100%;margin:0;padding:0;}
+body {height:100%;margin:0;padding:0;background:#000 url(../images/bg.jpg) right bottom fixed;font:12px/1.5em helvetica,arial,sans-serif;color:#fff;text-align:left;}
+img {border:0;}
+a {color:#49cff0;font-weight:bold;font-style:italic;font-size:18px;text-decoration:none;}
+a:hover {color:#b6e4f0;}
+h2 {font:14px/1.5em 'Abel',helvetica,arial,sans-serif;color:#aee3f0;margin:0;margin-bottom:15px;font-weight:normal;}
+p {margin:1em 0 2em 0;}
+
+#mainspc {position:relative;top:0;left:0;width:820px;height:auto;margin:0 auto;padding:175px 30px 30px 30px;}
+#contentspc {position:relative;float:right;width:335px;}
+#datesspc {float:left;width:380px;font-size:16px;}
+#linksp {margin-top:40px;text-align:right;margin-bottom:0.8em;}
+#toptxt {width:510px;float:right;margin:20px 0 40px 0;}
+#msgspc {display:none;position:absolute;top:370px;left:50%;width:340px;height:40px;padding:10px;padding-top:28px;margin-left:-180px;border-radius:8px;-moz-border-radius:8px;border:2px solid #666;background-color:#222;text-align:center;}
+
+.leftcol {width:240px;float:left;}
+.rightcol {width:370px;float:left;margin-left:40px;}
+.clearall {height:1px;overflow:hidden;visibility:hidden;clear:both;}
+.thankyou {padding-top:60px;width:270px;margin:0 auto;}
+
+.biglink {font-size:1.4em;font-weight:normal;font-style:italic;}
+.cash_notation {color:#1393b3;font-size:0.85em;font-family:helvetica,arial,sans-serif;}
+
+.selectshow {cursor:pointer;margin-bottom:30px;}
+.dateloc {font-size:36px;color:#ffbf4f;font-family:'Abel',helvetica,arial,sans-serif;}
+
+/* FORMS */
+input, textarea {padding:0.42em 8px 0.42em 8px;border:1px solid #999;width:180px;}
+textarea {height:4em;overflow:hidden;}
+input:active, input:focus, textarea:active, textarea:focus {outline:0;border:1px solid #000;}
+input.button {background-color:#ef3a24;padding:0.4em 1.75em 0.4em 1.75em;font-weight:bold;cursor:pointer;width:auto;border:1px solid #999;color:#fff;}
+input.button:hover {background-color:#ffbf4f;border:1px solid #999;color:#000;}
+input.checkorradio {width:auto;}
+label {font-size:0.9em;text-transform:uppercase;color:#000;text-align:right;display:block;width:368px;}
