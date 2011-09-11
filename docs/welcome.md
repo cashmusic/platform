@@ -1,4 +1,5 @@
-<h1>CASH Music Platform<br /><span class="usecolor0" style="font-weight:normal;">Documentation</span></h1>
+<h2 class="tight usecolor0">CASH Music</h2>
+<h1 class="maindocspage">Docs</h1>
 
 <br />
 Welcome. CASH is a nonprofit open source organization building digital tools for 

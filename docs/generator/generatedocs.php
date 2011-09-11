@@ -90,7 +90,11 @@ function formatParsedArray($comments_array) {
 function buildDocOutput($comments_or_text,$index_array,$is_index=false) {
 	$final_doc_contents = '';
 	if (file_exists(dirname(__FILE__) . '/page_header.inc')) {
-		$final_doc_contents .= file_get_contents(dirname(__FILE__) . '/page_header.inc');
+		$page_header = file_get_contents(dirname(__FILE__) . '/page_header.inc');
+		if ($is_index) {
+			$page_header = str_replace('../','',$page_header);
+		}
+		$final_doc_contents .= $page_header;
 	}
 	$final_doc_contents .= '<div id="pagemenu">' . buildMenu($index_array,$is_index) . '</div>';
 	
@@ -113,11 +117,11 @@ function buildMenu($index_array,$is_index=false) {
 		$nav_level = '';
 	}
 	$first_category = true;
-	$return_string = '<h2><a href="' . $nav_level . 'index.html">Index</a></h2>';
+	$return_string = '';
 	$usecolor = 0;
 	foreach ($index_array as $index => $item_list) {
 		if ($index !== 'home') {
-			$return_string .= '<h2>' . $index . '</h2>';
+			$return_string .= '<h3>' . $index . '</h3>';
 			$usecolor++;
 			if (count($item_list)) {
 				$return_string .= '<ul class="nobullets">';

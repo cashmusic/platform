@@ -351,11 +351,19 @@ class AssetPlant extends PlantBase {
 					die();
 					break; // I know this break will never be executed, but it makes me feel better seeing it here
 			    default:
-			        return $this->response->pushResponse(
-						500,$this->request_type,$this->action,
-						$this->request,
-						'unknown asset type, please as an admin to check the asset type'
-					);
+					if (parse_url($asset['location']) || strpos($asset['location'], '/') !== false) {
+						$this->pushSuccess(array('asset' => $asset_id),'redirect executed successfully');
+						$this->recordAnalytics($asset_id,$element_id);
+						header("Location: " . $asset['location']);
+						die();
+						break; // This one won't get executed either ...sucker!
+					} else {
+						return $this->response->pushResponse(
+							500,$this->request_type,$this->action,
+							$this->request,
+							'unknown asset type, please as an admin to check the asset type'
+						);
+					}
 			}
 		}
 	}
