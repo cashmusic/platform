@@ -263,14 +263,14 @@ class CASHDBA {
 				. "WHERE a.id = :asset_id";
 				break;
 			case 'AssetPlant_getAnalytics_mostaccessed':
-				$query = "SELECT aa.asset_id as 'id', COUNT(aa.id) as 'count', a.title, a.description "
+				$query = "SELECT aa.asset_id as 'id', COUNT(aa.id) as 'count', a.title as 'title', a.description as 'description' "
 				. "FROM asst_analytics aa JOIN asst_assets a ON aa.asset_id = a.id "
 				. "WHERE a.user_id = :user_id AND a.parent_id = 0 "
 				. "GROUP BY aa.asset_id "
 				. "ORDER BY count DESC";
 				break;
 			case 'ElementPlant_getAnalytics_mostactive':
-				$query = "SELECT ea.element_id as 'id', COUNT(ea.id) as 'count', e.name "
+				$query = "SELECT ea.element_id as 'id', COUNT(ea.id) as 'count', e.name as 'name' "
 				. "FROM elmt_analytics ea JOIN elmt_elements e ON ea.element_id = e.id "
 				. "WHERE e.user_id = :user_id AND ea.access_time > " . (time() - 1209600) . " " // active == used in the last 2 weeks
 				. "GROUP BY ea.element_id "
