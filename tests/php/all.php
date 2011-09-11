@@ -1,6 +1,5 @@
 <?php
-//require_once('tests/php/base.php');
-require_once('tests/lib/simpletest/unit_tester.php');
+require_once('tests/php/base.php');
 
 $test = new TestSuite('All tests');
 // All tests should be of the form NNN_description.php
@@ -9,8 +8,15 @@ $test_files = glob("tests/php/*_*.php");
 foreach ($test_files as $file) {
     $test->addFile($file);
 }
+
 if (TextReporter::inCli()) {
-    exit ($test->run(new TextReporter()) ? 0 : 1);
+    $code = $test->run(new TextReporter()) ? 0 : 1;
+    if ($code == 0) {
+        print("\nPASS\n");
+    } else {
+        print("\nFAIL\n");
+    }
+    exit($code);
 }
 
 ?>
