@@ -204,7 +204,7 @@ CREATE TABLE user_users (
   modification_date int(11) DEFAULT NULL
 );
 
-CREATE INDEX email ON user_users (email_address);
+CREATE INDEX email_address ON user_users (email_address);
 
 --
 -- Table: user_lists

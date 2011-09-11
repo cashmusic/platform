@@ -153,7 +153,7 @@ class PeoplePlant extends PlantBase {
 				)
 			),
 			"$start,$limit",
-			'creation_date DESC'
+			'l.creation_date DESC' //this fix is less than ideal because it references the query alias l. ...but whatevs
 		);
 		return $result;
 	}
