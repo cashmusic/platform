@@ -12,9 +12,9 @@ foreach ($test_files as $file) {
 if (TextReporter::inCli()) {
     $code = $test->run(new TextReporter()) ? 0 : 1;
     if ($code == 0) {
-        print("\nResult: PASS\n");
+        echo("\nResult: PASS\n");
     } else {
-        print("\nResult: FAIL\n");
+        echo("\nResult: FAIL\n");
     }
     exit($code);
 }
