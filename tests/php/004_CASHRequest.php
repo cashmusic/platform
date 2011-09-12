@@ -18,6 +18,22 @@ class CASHRequestTests extends UnitTestCase {
 			'asset_id'          => 42,
 		));
 		$this->assertIsa($cr, 'CASHRequest');
+
+		$value = $cr->sessionGetPersistent("foobar");
+		$this->assertFalse($value);
+
+		$cr->sessionSetPersistent("foobar", "baz");
+		$value = $cr->sessionGetPersistent("foobar");
+		$this->assertEqual($value, "baz");
+
+		$cr->sessionClearPersistent("foobar");
+		$value = $cr->sessionGetPersistent("foobar");
+		$this->assertFalse($value);
+
+		$cr->sessionSetPersistent("foobar", "baz");
+		$cr->sessionClearAllPersistent();
+		$value = $cr->sessionGetPersistent("foobar");
+		$this->assertFalse($value);
 	}
 
 }
