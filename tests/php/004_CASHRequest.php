@@ -18,6 +18,15 @@ class CASHRequestTests extends UnitTestCase {
 			'asset_id'          => 42,
 		));
 		$this->assertIsa($cr, 'CASHRequest');
+		$value1 = $cr->sessionGetLastResponse();
+		// TODO: deeper testing of response
+		$this->assertTrue($value1);
+
+		$value = $cr->sessionClearLastResponse();
+		$this->assertTrue($value);
+
+		$value2 = $cr->sessionGetLastResponse();
+		$this->assertNotEqual($value1, $value2);
 
 		$value = $cr->sessionGetPersistent("foobar");
 		$this->assertFalse($value);
