@@ -16,7 +16,7 @@ and hence, to have extremely minimal dependencies outside of what comes bundled.
 requirements:
 
  * [PHP](http://php.net) 5.2.3
- * MySQL (other databases may work, but have not been tested)
+ * MySQL OR SQLite. Other databases have not yet been tried.
 
 Plans are in the works to support SQLite.
 
