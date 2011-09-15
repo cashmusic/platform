@@ -1,8 +1,11 @@
-# CashMusic Tests
+# The CASHMusic Test Suite
 
-These are the CashMusic tests, which make sure that everything works as it should.
+This is the CASHMusic test suite.
 
-Currently there are only PHP tests, which all live in the php/ directory.
+Currently there are only PHP tests, which all live in the tests/php/ directory.
+Our PHP tests are written using [SimpleTest](http://www.simpletest.org/).
+
+JS tests are coming Real Soon Now.
 
 # Running the PHP tests
 
@@ -12,11 +15,20 @@ If you just wrote a new test, you probably just want to run that single test fil
 
 From the "root" of this repo (one directory up from here), run
 
-    php tests/php/001_BasicTests.php
+    php tests/php/run-tests.php foobar
+
+where the string foobar appears in the filename of the test(s) that you want to run.
 
 ## Running the entire test suite
 
-Before you send a pull request, it is best to see if any new code introduced bugs by
-running the full test suite:
+Before you send a pull request, please run the full test suite:
 
     php tests/php/all.php
+
+to make sure your changes have not accidentally broken someting.
+When the tests pass, you should see something like this at the end:
+
+    OK
+    Test cases run: 3/3, Passes: 43, Failures: 0, Exceptions: 0
+
+Recent [Test Suite Results](http://dev.cashmusic.org:3000/project/DIY)
