@@ -71,24 +71,7 @@ this if you must, since it is much slower and uses up more bandwidth:
 
 ## Running CASHMusic Tests
 
-We have a test suite to make sure that things don't break when we add features
-and fix bugs. Currently we syntax check all the PHP files and have a few basic
-tests for creating the most basic CASHMusic DIY objects, but soon it will be a
-beautiful butterfly.
-
-To run the CASH Music PHP tests, run this command from the root directory of the
-CASH Music git repo:
-
-    cd DIY
-    php tests/php/all.php
-
-When the tests pass, you should see something like this at the end:
-
-    OK
-    Test cases run: 3/3, Passes: 43, Failures: 0, Exceptions: 0
-
-Our PHP tests are written using [SimpleTest](http://www.simpletest.org/). Currently
-we do not have any Javascript tests, but those are on the way.
+Read the test suite [https://github.com/cashmusic/DIY/blob/master/tests/README.md](README)
 
 ## CASHMusic Branches + Tags
 
