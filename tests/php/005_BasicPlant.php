@@ -14,8 +14,15 @@ class CASHPlantTests extends UnitTestCase {
 	}
 
 	function testElementPlant(){
-		$e = new ElementPlant(42, 69);
+		$cr = new CASHRequest(array());
+		$e  = new ElementPlant(42, 0);
 		$this->assertIsa($e, 'ElementPlant');
+		$output = $e->processRequest();
+		$this->assertTrue($output);
+
+		// element id 1 shouldn't exist yet
+		$output = $e->getElement(1);
+		$this->assertFalse($output);
 	}
 }
 ?>
