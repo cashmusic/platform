@@ -3,7 +3,8 @@ global $argv, $argc;
 
 $test_pattern = $argc > 1 ? $argv[1] : '';
 if (!$test_pattern) {
-    die("Usage: $argv[0] foobar # runs test matching 'foobar'\n");
+    fwrite(STDERR, "Usage: $argv[0] foobar # runs test matching 'foobar'\n");
+    exit(1);
 }
 
 require_once('tests/php/base.php');
