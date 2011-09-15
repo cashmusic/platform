@@ -1,8 +1,11 @@
 <?php
 
-ini_set('track_errors', 1); 
+// why is it so hard to tell PHP you want to see errors?
+ini_set('track_errors', 1);
 error_reporting(-1); // report all errors
 
+// The Terminator helps keep our code "strong like bull"
+// by exiting with a non-sucessful exit code for any PHP error
 function terminator($errno, $errstr, $errfile, $errline)
 {
 	fwrite(STDERR,"$errstr in $errfile line $errline");
