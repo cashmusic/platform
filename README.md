@@ -15,8 +15,11 @@ One of the fundamental goals of CASH Music is the be as widely deployable as pos
 and hence, to have extremely minimal dependencies outside of what comes bundled. Current
 requirements:
 
- * [PHP](http://php.net) 5.2.3
+ * [PHP](http://php.net) 5.2.7
+ * PDO
  * MySQL OR SQLite. Other databases have not yet been tried.
+ * mod_rewrite (for admin)
+ * fopen wrappers (allow_url_fopen = true)
 
 Plans are in the works to support SQLite.
 
