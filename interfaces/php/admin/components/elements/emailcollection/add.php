@@ -47,6 +47,7 @@
 			<label for="comment_or_radio">Comment Or Agreement</label><br />
 			<input type="radio" name="comment_or_radio" class="checkorradio" value="none" checked="checked" /> Neither &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="comment" /> Comment &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="agreement" /> Agreement 
 			-->
+			<input type="hidden" name="comment_or_radio" value="none" />
 		</div>
 		<div class="row_seperator">.</div><br />
 		<div class="tar">
