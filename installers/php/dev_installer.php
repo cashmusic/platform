@@ -79,7 +79,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 			die();
 			break;
 		}
-		
+
 		if ($pdo->query(file_get_contents(dirname(__FILE__) . '/../../framework/php/settings/sql/cashmusic_db.sql'))) {
 			$password_hash = hash_hmac('sha256', $user_password, $system_salt);
 			$data = array(
@@ -130,7 +130,12 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 			die();
 			break;
 		}
-		
+
+		if ($pdo) {
+			chmod($installer_root . '/../../framework/php/db',0777);
+			chmod($installer_root . '/../../framework/php/db/cashmusic.db',0777);
+		}
+
 		// push in all the tables
 		try {
 			$pdo->exec(file_get_contents($installer_root . '/../../framework/php/settings/sql/cashmusic_db_sqlite.sql'));
