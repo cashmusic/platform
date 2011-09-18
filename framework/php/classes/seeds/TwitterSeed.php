@@ -60,6 +60,22 @@ class TwitterSeed extends SeedBase {
 		$innermarkup = "<div class=\"cashmusic_social cashmusic_twitter\"><img src=\"$tmp_profile_img\" class=\"cashmusic_twitter_avatar\" alt=\"avatar\" />"
 		. "<div class=\"cashmusic_twitter_namespc\"><a href=\"http://twitter.com/" . $tweet->user->screen_name . "\">@" . $tweet->user->screen_name . "</a><br />" . $tweet->user->name . "</div><div class=\"cashmusic_clearall\">.</div>"
 		. "<div class=\"tweet\">" . $tweet->text . '<div class="cashmusic_social_date"><a href="http://twitter.com/#!/' . $tweet->user->screen_name . '/status/' . $tweet->id_str . '" target="_blank">' . CASHSystem::formatAgo($tweet->created_at) . ' / twitter</a> </div></div>';
+		/*
+		The CSS to go along with the twitter markup:
+		
+		From our stuff up on http://marketairglovamusic.com/
+		
+		.cashmusic_social {margin:10px 0 20px 0;padding:15px;background-color:#fff;border-top-left-radius:5px 5px;border-top-right-radius:5px 5px;border-bottom-right-radius:5px 5px;border-bottom-left-radius:5px 5px;}
+		.cashmusic_social a {color:#cdcdcd;}
+		.cashmusic_twitter {font:14.5px/1.75em georgia,'times new roman',times,serif;}
+		.cashmusic_twitter_avatar {float:left;margin:1px 8px 8px 0;}
+		.cashmusic_twitter_namespc {color:#cdcdcd;font:11px/1.5em helvetica,"helvetica neue",arial,sans-serif;}
+		.cashmusic_twitter_namespc a {color:#007e3d;font:bold 15px/1.85em helvetica,"helvetica neue",arial,sans-serif;}
+		.cashmusic_twitter a {color:#007e3d;}
+		.cashmusic_tumblr h2, .cashmusic_tumblr h2 a, #topmenu * a, h2 {color:#111;font:28px/1em 'IM Fell English',georgia,'times new roman',times,serif;}
+		.cashmusic_social_date {margin-top:10px;color:#cdcdcd;font:11px/1.75em helvetica,"helvetica neue",arial,sans-serif;}
+		.cashmusic_clearall {clear:both;height:1px;overflow:hidden;visibility:hidden;}
+		*/
 	}
 } // END class 
 ?>
