@@ -11,7 +11,7 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  **/
-class TwitterSeed extends SeedBase {
+class TumblrSeed extends SeedBase {
 	protected $twitter;
 
 	public function __construct($user_id=false,$settings_id=false) {

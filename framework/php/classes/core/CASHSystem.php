@@ -81,5 +81,42 @@
 		}
 		return $ago_str;
 	}
+
+	/**
+	 * Gets the contents from a URL. First tries file_get_contents then cURL. 
+	 * If neither of those work, then the server asks a friend to print out the 
+	 * page at the URL and mail it to the data center. Since this takes a couple
+	 * days we return false, but that's taking nothing away from the Postal 
+	 * service. They've got a hard job, so say thank you next time you get some
+	 * mail from the postman. 
+	 *
+	 * @return string
+	 */public static function getURLContents($data_url) {
+		$url_contents = false;
+		if (ini_get('allow_url_fopen')) {
+			// try with fopen wrappers
+			$url_contents = @file_get_contents($data_url);
+		} elseif (in_array('curl', get_loaded_extensions())) {
+			// fall back to cURL
+			// tip of the cap: http://davidwalsh.name/download-urls-content-php-curl
+			$ch = curl_init();
+			$timeout = 5;
+			$userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.5; rv:7.0) Gecko/20100101 Firefox/7.0';
+			
+			curl_setopt($ch,CURLOPT_URL,$data_url);
+			
+			curl_setopt($ch, CURLOPT_USERAGENT, $userAgent);
+			curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+			curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
+			curl_setopt($ch, CURLOPT_FAILONERROR, true);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+			curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+			$data = curl_exec($ch);
+			curl_close($ch);
+			$url_contents = $data;
+		}
+		return $url_contents;
+	}
 } // END class 
 ?>
