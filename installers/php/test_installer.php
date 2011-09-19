@@ -71,7 +71,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 
 	$user_email    = 'root@localhost';
 	$system_salt   = md5($user_email . time());
-	$user_password = substr(md5($system_salt . 'password'),4,7);
+	$user_password = "hack_my_gibson";
 	$password_hash = hash_hmac('sha256', $user_password, $system_salt);
 
 	$data = array(
