@@ -19,7 +19,7 @@ requirements:
  * PDO
  * MySQL OR SQLite. Other databases have not yet been tried.
  * mod_rewrite (for admin)
- * fopen wrappers (allow_url_fopen = true)
+ * fopen wrappers OR cURL (either, for fetching external feeds)
 
 Plans are in the works to support SQLite.
 
