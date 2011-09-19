@@ -103,7 +103,7 @@
 	
 	protected function pushFailure($message) {
 		return $this->response->pushResponse(
-			500,
+			400,
 			$this->request_type,
 			$this->action,
 			$this->request,
