@@ -4,6 +4,15 @@
 	<title><?php echo $page_title ?></title>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	
+	<?php
+		if (isset($_SESSION['cash_last_response'])) {
+			echo '<meta name="cashmusic-status-code" content="' . $_SESSION['cash_last_response']['status_code'] . '" />' . "\n\t";
+			echo '<meta name="cashmusic-status-uid" content="' . $_SESSION['cash_last_response']['status_uid'] . '" />' . "\n\t";
+			echo '<meta name="cashmusic-contextual-message" content="' . $_SESSION['cash_last_response']['contextual_message'] . '" />' . "\n\t";
+		}
+	?>
+	
 	<link rel="icon" type="image/png" href="http://cashmusic.org/images/icons/cash.png" />
 	<link href="<?php echo ADMIN_WWW_BASE_PATH; ?>/ui/default/assets/css/admin.css" rel="stylesheet" type="text/css" />
 	
