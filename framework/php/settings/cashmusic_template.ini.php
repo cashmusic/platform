@@ -16,3 +16,6 @@ database = "seed"
 
 [security]
 salt = "I was born of sun beams; Warming up our limbs"
+
+[core]
+debug = 0
