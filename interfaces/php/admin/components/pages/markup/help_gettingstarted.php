@@ -1,7 +1,7 @@
-<h3>Main Seed Include:</h3>
+<h3>Using the DIY Platform</h3>
 <p>
-	This on line gets Seed up and running. It should be included at the very top 
-	of all Seed pages, before other code:
+This one line gets the DIY Platform up and running. It should be included at the very top
+of all pages, before any other code:
 </p>
 <code>
 	&lt?php include('<?php echo realpath(CASH_PLATFORM_PATH); ?>'); // CASH Music ?&gt
