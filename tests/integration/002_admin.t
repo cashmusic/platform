@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::Most tests => 6;
+use Test::Most tests => 7;
 use Test::WWW::Mechanize;
 
 my $base = $ENV{CASHMUSIC_TEST_URL} || 'http://localhost:80';
@@ -15,9 +15,10 @@ $mech->submit_form_ok({
     form_number => 1,
     fields      => {
         # these are specified in the test installer
-        email    => 'root@localhost',
+        address  => 'root@localhost',
         password => 'hack_my_gibson',
         login    => 1,
     },
 }, 'log in to admin area');
+$mech->content_unlike(qr/Try Again/);
 $mech->get_ok("$base/interfaces/php/admin/settings/");
