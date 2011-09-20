@@ -3,6 +3,7 @@
 require_once('tests/php/base.php');
 require_once('framework/php/classes/plants/ElementPlant.php');
 require_once('framework/php/classes/plants/EchoPlant.php');
+require_once('framework/php/classes/plants/CalendarPlant.php');
 
 class CASHPlantTests extends UnitTestCase {
 
@@ -23,6 +24,11 @@ class CASHPlantTests extends UnitTestCase {
 		// element id 1 shouldn't exist yet
 		$output = $e->getElement(1);
 		$this->assertFalse($output);
+	}
+
+	function testCalendarPlant(){
+		$cplant = new CalendarPlant('blarg',1);
+		$this->assertIsa($cplant, 'CalendarPlant');
 	}
 }
 ?>

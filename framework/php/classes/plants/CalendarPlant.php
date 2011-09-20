@@ -14,7 +14,7 @@
  **/
 class CalendarPlant extends PlantBase {
 	public function __construct($request_type,$request) {
-		$this->request_type = 'event';
+		$this->request_type = 'calendar';
 		$this->plantPrep($request_type,$request);
 	}
 	
