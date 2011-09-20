@@ -83,7 +83,7 @@ CREATE TABLE `live_events` (
   `date` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `venue_id` int(11) DEFAULT NULL,
-  `publish` tinyint(1) DEFAULT NULL,
+  `published` tinyint(1) DEFAULT NULL,
   `cancelled` tinyint(1) DEFAULT NULL,
   `purchase_url` text,
   `comments` text,

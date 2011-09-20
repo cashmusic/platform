@@ -30,5 +30,19 @@ class CASHPlantTests extends UnitTestCase {
 		$cplant = new CalendarPlant('blarg',1);
 		$this->assertIsa($cplant, 'CalendarPlant');
 	}
+	
+	function testAddVenue() {
+		$test_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'calendar', 
+				'cash_action' => 'addvenue',
+				'name' => 'Test Name', 
+				'city' => 'Test City',
+				'region' => 'Test Region'
+			)
+		);
+		$this->assertEqual($test_request->response['status_code'],200);
+		unset($test_request);
+	}
 }
 ?>
