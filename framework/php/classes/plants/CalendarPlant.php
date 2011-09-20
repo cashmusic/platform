@@ -80,15 +80,16 @@ class CalendarPlant extends PlantBase {
 		return $result;
 	}
 
-	public function addDate($date,$user_id,$venue_id,$publish,$cancelled,$comment) {
+	public function addEvent($date,$user_id,$venue_id,$published,$cancelled,$purchase_url,$comment) {
 		$result = $this->db->setData(
 			'events',
 			array(
 				'date' => $date,
 				'user_id' => $user_id,
 				'venue_id' => $venue_id,
-				'publish' => $publish,
+				'published' => $publish,
 				'cancelled' => $cancelled,
+				'purchase_url' => $purchase_url,
 				'comments' => $comment
 			)
 		);
