@@ -44,6 +44,23 @@ class CalendarPlant extends PlantBase {
 						return $this->pushFailure('there was an error adding the venue');
 					}
 					break;
+				case 'addevent':
+					if (!$this->requireParameters('date','user_id','venue_id')) { return $this->sessionGetLastResponse(); }
+					$addevent_purchase_url = '';
+					$addevent_comment = '';
+					$addevent_published = 0;
+					$addevent_cancelled = 0;
+					if (isset($this->request['purchase_url'])) { $addevent_purchase_url = $this->request['purchase_url']; }
+					if (isset($this->request['comment'])) { $addevent_comment = $this->request['comment']; }
+					if (isset($this->request['published'])) { $addevent_published = $this->request['published']; }
+					if (isset($this->request['cancelled'])) { $addevent_cancelled = $this->request['cancelled']; }
+					$result = $this->addEvent($this->request['date'],$this->request['user_id'],$this->request['venue_id'],$addevent_purchase_url,$addevent_comment,$addevent_published,$addevent_cancelled);
+					if ($result) {
+						return $this->pushSuccess($result,'Venue added. Id in payload.');
+					} else {
+						return $this->pushFailure('there was an error adding the venue');
+					}
+					break;
 				default:
 					return $this->response->pushResponse(
 						400,$this->request_type,$this->action,
@@ -80,14 +97,14 @@ class CalendarPlant extends PlantBase {
 		return $result;
 	}
 
-	public function addEvent($date,$user_id,$venue_id,$published,$cancelled,$purchase_url,$comment) {
+	public function addEvent($date,$user_id,$venue_id,$purchase_url,$comment,$published,$cancelled) {
 		$result = $this->db->setData(
 			'events',
 			array(
 				'date' => $date,
 				'user_id' => $user_id,
 				'venue_id' => $venue_id,
-				'published' => $publish,
+				'published' => $published,
 				'cancelled' => $cancelled,
 				'purchase_url' => $purchase_url,
 				'comments' => $comment
