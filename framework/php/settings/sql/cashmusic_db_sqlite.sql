@@ -90,6 +90,7 @@ CREATE TABLE live_events (
   venue_id int(11) DEFAULT NULL,
   publish tinyint(1) DEFAULT NULL,
   cancelled tinyint(1) DEFAULT NULL,
+  purchase_url text,
   comments text,
   creation_date int(11) DEFAULT NULL,
   modification_date int(11) DEFAULT NULL
@@ -111,7 +112,7 @@ CREATE TABLE live_venues (
   postalcode text,
   latitude float(8,2) DEFAULT NULL,
   longitude float(8,2) DEFAULT NULL,
-  website text,
+  url text,
   phone text,
   creation_date int(11) DEFAULT NULL,
   modification_date int(11) DEFAULT NULL
