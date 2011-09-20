@@ -44,5 +44,21 @@ class CASHPlantTests extends UnitTestCase {
 		$this->assertEqual($test_request->response['status_code'],200);
 		unset($test_request);
 	}
+
+	function testAddEvent() {
+		$test_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'calendar', 
+				'cash_action' => 'addevent', 
+				'date' => 1321063200,
+				'user_id' => 1,
+				'venue_id' => 1,
+				'published' => 1,
+				'comment' => 'Test Comment'
+			)
+		);
+		$this->assertEqual($test_request->response['status_code'],200);
+		unset($test_request);
+	}
 }
 ?>
