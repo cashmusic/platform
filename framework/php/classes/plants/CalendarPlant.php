@@ -19,11 +19,50 @@ class CalendarPlant extends PlantBase {
 	}
 	
 	public function processRequest() {
-		$result = $this->response->pushResponse(200,$this->request_type,$this->action,$this->request,'no context for a simple echo');
-		return $result;
+		if ($this->action) {
+			switch ($this->action) {
+				case 'addvenue':
+					if (!$this->requireParameters('name','city')) { return $this->sessionGetLastResponse(); }
+					$addvenue_address1 = '';
+					$addvenue_address2 = '';
+					$addvenue_region = '';
+					$addvenue_country = 'USA';
+					$addvenue_postalcode = '';
+					$addvenue_url = '';
+					$addvenue_phone = '';
+					if (isset($this->request['address1'])) { $addvenue_address1 = $this->request['address1']; }
+					if (isset($this->request['address2'])) { $addvenue_address2 = $this->request['address2']; }
+					if (isset($this->request['region'])) { $addvenue_region = $this->request['region']; }
+					if (isset($this->request['country'])) { $addvenue_country = $this->request['country']; }
+					if (isset($this->request['postalcode'])) { $addvenue_postalcode = $this->request['postalcode']; }
+					if (isset($this->request['url'])) { $addvenue_url = $this->request['url']; }
+					if (isset($this->request['phone'])) { $addvenue_phone = $this->request['phone']; }
+					$result = $this->addVenue($this->request['name'],$addvenue_address1,$addvenue_address2,$this->request['city'],$addvenue_region,$addvenue_country,$addvenue_postalcode,$addvenue_url,$addvenue_phone);
+					if ($result) {
+						return $this->pushSuccess($result,'Venue added. Id in payload.');
+					} else {
+						return $this->pushFailure('there was an error adding the venue');
+					}
+					break;
+				default:
+					return $this->response->pushResponse(
+						400,$this->request_type,$this->action,
+						$this->request,
+						'unknown action'
+					);
+			}
+		} else {
+			return $this->response->pushResponse(
+				400,
+				$this->request_type,
+				$this->action,
+				$this->request,
+				'no action specified'
+			);
+		}
 	}
 	
-	public function addVenue($name,$address1,$address2,$city,$region,$country,$postalcode,$website,$phone) {
+	public function addVenue($name,$address1,$address2,$city,$region,$country,$postalcode,$url,$phone) {
 		$result = $this->db->setData(
 			'venues',
 			array(
@@ -34,7 +73,7 @@ class CalendarPlant extends PlantBase {
 				'region' => $region,
 				'country' => $country,
 				'postalcode' => $postalcode,
-				'website' => $website,
+				'url' => $url,
 				'phone' => $phone
 			)
 		);

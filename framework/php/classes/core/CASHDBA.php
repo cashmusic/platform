@@ -285,23 +285,22 @@ class CASHDBA {
 				if ($limit) $query .= " LIMIT $limit";
 				break;
 			case 'CalendarPlant_getAllDates':
-				$query = "SELECT d.id,u.display_name as user_display_name,d.date,d.publish,d.cancelled,d.comments,"
-				. "v.name as venuename,v.address1,v.address2,v.city,v.region,v.country,v.postalcode,v.website,v.phone "
-				. "FROM live_events d JOIN live_venues v ON d.venue_id = v.id JOIN cash_users u ON d.user_id = u.id "
-				. "WHERE d.date > {$query_options['cutoffdate']} AND u.id = {$query_options['user_id']} ORDER BY d.date ASC";
+				$query = "SELECT e.id as 'event_id', e.date as 'date',e.published as 'published',e.cancelled as 'cancelled',e.purchase_url as 'purchase_url',e.comments as 'comments', "
+				. "v.name as 'venue_name',v.address1 as 'venue_address1',v.address2 as 'venue_address2',v.city 'venue_city',v.region as 'venue_region',v.country as 'venue_country',v.postalcode as 'venue_postalcode',v.url as 'venue_url',v.phone as 'venue_phone'"
+				. "FROM live_events e JOIN live_venues v ON e.venue_id = v.id "
+				. "WHERE e.date > :cutoff_date AND e.user_id = :user_id AND e.published = :published_status AND e.cancelled = :cancelled_status ORDER BY e.date ASC";
 				break;
-		    case 'CalendarPlant_getDatesBetween':
-				$query = "SELECT d.id,u.display_name as user_display_name,d.date,d.publish,d.cancelled,d.comments,"
-				. "v.name as venuename,v.address1,v.address2,v.city,v.region,v.country,v.postalcode,v.website,v.phone "
-				. "FROM live_events d JOIN live_venues v ON d.venue_id = v.id JOIN cash_users u ON d.user_id = u.id "
-				. "WHERE d.date > {$query_options['afterdate']} AND d.date < {$query_options['beforedate']} "
-				. "AND u.id = {$query_options['user_id']} ORDER BY d.date ASC";
+			case 'CalendarPlant_getDatesBetween':
+				$query = "SELECT e.id as 'event_id', e.date as 'date',e.published as 'published',e.cancelled as 'cancelled',e.purchase_url as 'purchase_url',e.comments as 'comments', "
+				. "v.name as 'venue_name',v.address1 as 'venue_address1',v.address2 as 'venue_address2',v.city 'venue_city',v.region as 'venue_region',v.country as 'venue_country',v.postalcode as 'venue_postalcode',v.url as 'venue_url',v.phone as 'venue_phone'"
+				. "FROM live_events e JOIN live_venues v ON e.venue_id = v.id "
+				. "WHERE e.date > :cutoff_date_low e.date < :cutoff_date_high AND e.user_id = :user_id ORDER BY e.date ASC";
 				break;
-			case 'CalendarPlant_getDatesByArtistAndDate':
-				$query = "SELECT d.id,u.display_name as user_display_name,d.date,d.publish,d.cancelled,d.comments"
-				. "v.name as venuename,v.address1,v.address2,v.city,v.region,v.country,v.postalcode,v.website,v.phone "
-				. "FROM live_events d JOIN live_venues v ON d.venue_id = v.id JOIN cash_users u ON d.user_id = u.id "
-				. "WHERE d.date = {$query_options['date']} AND u.id = {$query_options['user_id']} ORDER BY d.date ASC";
+			case 'CalendarPlant_getDatesById':
+				$query = "SELECT e.id as 'event_id', e.date as 'date',e.published as 'published',e.cancelled as 'cancelled',e.purchase_url as 'purchase_url',e.comments as 'comments', "
+				. "v.name as 'venue_name',v.address1 as 'venue_address1',v.address2 as 'venue_address2',v.city 'venue_city',v.region as 'venue_region',v.country as 'venue_country',v.postalcode as 'venue_postalcode',v.url as 'venue_url',v.phone as 'venue_phone'"
+				. "FROM live_events e JOIN live_venues v ON e.venue_id = v.id "
+				. "WHERE e.id = :date_id LIMIT 1";
 				break;
 		    default:
 		       return false;
