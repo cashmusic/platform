@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::Most tests => 14;
+use Test::Most tests => 16;
 use Test::WWW::Mechanize;
 
 my $base = $ENV{CASHMUSIC_TEST_URL} || 'http://localhost:80';
@@ -22,7 +22,9 @@ $mech->submit_form_ok({
 }, 'log in to admin area');
 $mech->content_unlike(qr/Try Again/);
 
-my @admin_urls = qw{settings commerce people elements assets calendar help help/gettingstarted};
-for my $url (@admin_urls) {
+my @admin_urls    = qw{settings commerce people elements assets calendar help help/gettingstarted};
+my @metadata_urls = map { "components/elements/$_/metadata.json" } qw{emailcollection tourdates};
+
+for my $url (@admin_urls, @metadata_urls) {
     $mech->get_ok("$base/interfaces/php/admin/$url");
 }
