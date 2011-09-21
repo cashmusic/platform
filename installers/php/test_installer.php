@@ -122,10 +122,11 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 			echo "\nOh. Shit. Something's wrong. We had trouble editing a few files. Please try again.\n\n";
 			break;
 		} else {
-			if ($pdo->exec(file_get_contents(dirname(__FILE__) . '/../../framework/php/settings/sql/cashmusic_demo_data.sql'))) {
-				echo "\nTEST DATABASE DEPLOYED! Fear of testing is the mind-killer.";
-			} else {
-				echo "\nSOME SUCCESS, SOME FAILURE:\nEverything is set up properly, but there was an error writing demo data.\n\nLogin using:\n\nemail: $user_email\npassword: $user_password\n\n";
+			try {
+				$pdo->exec(file_get_contents(dirname(__FILE__) . '/../../framework/php/settings/sql/cashmusic_demo_data.sql'));
+				echo "\nTEST DATABASE DEPLOYED! Fear of testing is the mind-killer.\n";
+			} catch (PDOException $e) { 
+				echo "\nSOME SUCCESS, SOME FAILURE:\nEverything is set up properly, but there was an error writing demo data.\n$e\n";
 			}
 		}
 	}
