@@ -1,5 +1,6 @@
-<?php
-// add unique page settings:
-$page_title = 'Okay, you’re logged out. Bye now.';
-$page_tips = '';
+<?
+$logout_request = new CASHRequest();
+$logout_request->sessionClearAllPersistent();
+
+header('Location: ' . ADMIN_WWW_BASE_PATH . '/')
 ?>
