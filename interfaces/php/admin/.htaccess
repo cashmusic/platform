@@ -9,7 +9,7 @@ RewriteEngine On
 RewriteBase /interfaces/php/admin
 Options +FollowSymlinks 
 Options -Indexes 
-DirectorySlash On
+DirectorySlash Off
 
 # create controller redirects
 
