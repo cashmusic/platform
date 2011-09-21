@@ -29,9 +29,13 @@ class CASHDBA {
 			$this->hostname = $hostname;
 			$this->port = 3306;
 		} else {
-			$host_and_port = explode(':',$hostname);
-			$this->hostname = $host_and_port[0];
-			$this->port = $host_and_port[1];
+			if (substr($this->hostname,0,2) == ':/') {
+				$this->hostname = $hostname;
+			} else {
+				$host_and_port = explode(':',$hostname);
+				$this->hostname = $host_and_port[0];
+				$this->port = $host_and_port[1];
+			}
 		}
 		$this->username = $username;
 		$this->password = $password;
@@ -44,7 +48,11 @@ class CASHDBA {
 			if ($this->driver == 'sqlite') {
 				$this->db = new PDO("sqlite:" . CASH_PLATFORM_ROOT . "/db/{$this->dbname}");
 			} else {
-				$this->db = new PDO("{$this->driver}:host={$this->hostname};port={$this->port};dbname={$this->dbname}", $this->username, $this->password);
+				if (substr($this->hostname,0,2) == ':/') {
+					$this->db = new PDO("{$this->driver}:unix_socket={$this->hostname};dbname={$this->dbname}", $this->username, $this->password);
+				} else {
+					$this->db = new PDO("{$this->driver}:host={$this->hostname};port={$this->port};dbname={$this->dbname}", $this->username, $this->password);
+				}
 			}
 			// For try/catch (production)
 			$this->db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
