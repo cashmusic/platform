@@ -1,29 +1,21 @@
 /* RESETS */
 html {height:100%;margin:0;padding:0;}
-body {height:100%;margin:0;padding:0;background:#000 url(../images/bg.jpg) right bottom fixed;font:12px/1.5em helvetica,arial,sans-serif;color:#fff;text-align:left;}
+body {height:100%;margin:0;padding:0;background:#fff url(../images/bg.jpg) left bottom fixed no-repeat;font:11px/1.5em helvetica,arial,sans-serif;color:#000;text-align:left;min-width:860px;}
 img {border:0;}
-a {color:#49cff0;font-weight:bold;font-style:italic;font-size:18px;text-decoration:none;}
-a:hover {color:#b6e4f0;}
+a {color:#f26921;font-weight:bold;text-decoration:none;margin-right:1em;}
+a:hover {color:#fef200;}
 h2 {font:14px/1.5em 'Abel',helvetica,arial,sans-serif;color:#aee3f0;margin:0;margin-bottom:15px;font-weight:normal;}
 p {margin:1em 0 2em 0;}
 
-#mainspc {position:relative;top:0;left:0;width:820px;height:auto;margin:0 auto;padding:175px 30px 30px 30px;}
-#contentspc {position:relative;float:right;width:335px;}
-#datesspc {float:left;width:380px;font-size:16px;}
-#linksp {margin-top:40px;text-align:right;margin-bottom:0.8em;}
-#toptxt {width:510px;float:right;margin:20px 0 40px 0;}
-#msgspc {display:none;position:absolute;top:370px;left:50%;width:340px;height:40px;padding:10px;padding-top:28px;margin-left:-180px;border-radius:8px;-moz-border-radius:8px;border:2px solid #666;background-color:#222;text-align:center;}
+#wrap {position:relative;width:860px;margin:0 auto;}
+#contentspc {position:relative;float:left;width:420px;margin-right:60px;text-align:right;padding-top:80px;line-height:26px;}
+#contentspc a {text-transform:uppercase;margin:16px 0 0;font-weight:normal;font-size:14px;color:#111;}
+#datesspc {position:relative;float:right;width:380px;padding-top:110px;}
 
-.leftcol {width:240px;float:left;}
-.rightcol {width:370px;float:left;margin-left:40px;}
 .clearall {height:1px;overflow:hidden;visibility:hidden;clear:both;}
-.thankyou {padding-top:60px;width:270px;margin:0 auto;}
 
-.biglink {font-size:1.4em;font-weight:normal;font-style:italic;}
-.cash_notation {color:#1393b3;font-size:0.85em;font-family:helvetica,arial,sans-serif;}
-
-.selectshow {cursor:pointer;margin-bottom:30px;}
-.dateloc {font-size:36px;color:#ffbf4f;font-family:'Abel',helvetica,arial,sans-serif;}
+.cash_tourdates_date {font-weight:bold;}
+.cash_tourdates_comments {display:block;color:#999;}
 
 /* FORMS */
 input, textarea {padding:0.42em 8px 0.42em 8px;border:1px solid #999;width:180px;}
