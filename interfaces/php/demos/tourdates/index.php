@@ -12,18 +12,20 @@
 	<div id="wrap">
 		<div id="contentspc">
 			<img src="assets/images/wildflag.png" width="420" height="61" alt="Wild Flag" /><br />
-			
+
 			<a href="http://twitter.com/wildflagmusic">Wild Flag on Twitter</a><br />
-			
+
 			<a href="http://www.facebook.com/WILDFLAG">Wild Flag on Facebook</a><br /><br />
-			
+
 			<a href="http://www.youtube.com/watch?v=8J8n9R8rnB8">Watch the video for “Romance”</a><br />
-			
+
 			<a href="http://mergerecords.com/store/store_detail.php?catalog_id=751">Buy the record</a><br />
 		</div>
-	
+
 		<div id="datesspc">
 			<?php cash_embedElement(102); // CASH element (Wild Flag Test / tourdates) ?>
+			
+			<br /><br />
 		</div>
 	</div>
 
