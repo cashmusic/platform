@@ -11,24 +11,46 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  **/
-class EmailCollection extends ElementBase {
+class TourDates extends ElementBase {
 	const type = 'tourdates';
 	const name = 'Tour Dates';
 
 	public function getMarkup() {
 		$markup = '';
-		$markup = '<form id="cash_'. self::type .'_form_' . $this->element_id . '" class="cash_form '. self::type .'" method="post" action="">'
-		. '<input type="email" name="address" value="" class="cash_input cash_input_address" />'
-		. '<input type="hidden" name="cash_request_type" value="people" />'
-		. '<input type="hidden" name="cash_action" value="signup" />'
-		. '<input type="hidden" name="list_id" value="'.$this->options->emal_list_id.'" class="cash_input cash_input_list_id" />'
-		. '<input type="hidden" name="verified" value="1" class="cash_input cash_input_verified" />'
-		. '<input type="hidden" name="comment" value="" class="cash_input cash_input_comment" />'
-		. '<input type="submit" value="sign me up" class="button" /><br />'
-		. '</form>'
-		. '<div class="cash_notation">'
-		. $this->options->message_privacy
-		. '</div>';
+		$tourdates_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'calendar', 
+				'cash_action' => 'gettourdates',
+				'visible_event_types' => $this->options->visible_event_types,
+				'user_id' => (integer) $this->element['user_id']
+			)
+		);
+		if ($tourdates_request->response['status_uid'] == "calendar_gettourdates_200") {
+			// spit out the dates
+			foreach ($tourdates_request->response['payload'] as $event) {
+				$event_location = $event['venue_city'] . ', ' . $event['venue_country'];
+				if (strtolower($event['venue_country']) == 'usa' || strtolower($event['venue_country']) == 'canada') {
+					$event_location = $event['venue_city'] . ', ' . $event['venue_region'];
+				}
+				$markup .= '<div class="cash_'. self::type .'_event"> '
+						. '<span class="cash_'. self::type .'_date">' . date('d F, Y',$event['date']) . ':</span> '
+						. '<span class="cash_'. self::type .'_location">' . $event_location . '</span> '
+						. '<span class="cash_'. self::type .'_venue">@ ' . $event['venue_name'] . '</span> ';
+				if ($event['comments']) {
+					$markup .= '<span class="cash_'. self::type .'_comments">' . $event['comments'] . '</span> ';
+				}
+				if ($event['purchase_url']) {
+					$markup .= '<span class="cash_'. self::type .'_purchase_url"><a href="' . $event['purchase_url'] . '" class="external">Tickets</a></span> ';
+				}
+				if ($event['venue_address1'] && $event['venue_city'] && $event['venue_country']) {
+					$markup .= '<span class="cash_'. self::type .'_purchase_url"><a href="http://maps.google.com/maps?f=q&hl=en&geocode=&q=' . $event['venue_address1'] . '+' . $event['venue_city'] . '+' . $event['venue_region'] . '+' . $event['venue_country'] . '+(' . $event['venue_name'] . ')" class="external">Map</a></span> ';
+				}
+				$markup .= '</div>';
+			}
+		} else {
+			// no dates matched
+			$markup .= 'There are no dates to display right now.';
+		}
 		return $markup;	
 	}
 } // END class 

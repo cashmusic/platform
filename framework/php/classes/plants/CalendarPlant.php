@@ -61,6 +61,35 @@ class CalendarPlant extends PlantBase {
 						return $this->pushFailure('there was an error adding the venue');
 					}
 					break;
+				case 'gettourdates':
+					if (!$this->requireParameters('user_id','visible_event_types')) { return $this->sessionGetLastResponse(); }
+					$offset = 0;
+					$published_status = 1;
+					$cancelled_status = '*';
+					switch ($this->request['visible_event_types']) {
+						case 'upcoming':
+							$cutoff_date_low = 'now';
+							$cutoff_date_high = 2051244000;
+							break;
+						case 'archive':
+							$cutoff_date_low = 229305600; // april 8, 1977 -> yes it's significant
+							$cutoff_date_high = 'now';
+							break;
+						case 'both':
+							$cutoff_date_low = 229305600;
+							$cutoff_date_high = 2051244000;
+							break;
+					}
+					if (isset($this->request['offset'])) { $offset = $this->request['offset']; }
+					if (isset($this->request['published_status'])) { $published_status = $this->request['published_status']; }
+					if (isset($this->request['cancelled_status'])) { $cancelled_status = $this->request['cancelled_status']; }
+					$result = $this->getDatesBetween($this->request['user_id'],$offset,$cutoff_date_low,$cancelled_status,$published_status,$cutoff_date_high);
+					if ($result) {
+						return $this->pushSuccess($result,'Success. Array of events in payload.');
+					} else {
+						return $this->pushFailure('No tourdates were found matching your criteria.');
+					}
+					break;
 				default:
 					return $this->response->pushResponse(
 						400,$this->request_type,$this->action,
@@ -113,28 +142,51 @@ class CalendarPlant extends PlantBase {
 		return $result;
 	}
 
-	public function getAllDates($user_id,$offset=0) {
+	public function getDatesBetween($user_id,$offset=0,$cutoff_date_low='now',$cancelled_status=0,$published_status=1,$cutoff_date_high=2051244000) {
+		// offset = allow dates to hang around for x days after they've passed
+		// beforedate=2051244000 = jan 1, 2035. don't book dates that far in advance, jerks
 		$offset = 86400 * $offset;
-		$cutoffdate = time() - $offset;
-		$result = $this->db->doSpecialQuery(
-			'CalendarPlant_getAllDates',
-			array('user_id' => $user_id,'cutoffdate' => $cutoffdate)
-		);
-		return $result;
-	}
-
-	public function getDatesBetween($user_id,$afterdate,$beforedate) {
-		$result = $this->db->doSpecialQuery(
+		if ($cutoff_date_low == 'now') {
+			$cutoff_date_low = time();
+		}
+		if ($cutoff_date_high == 'now') {
+			$cutoff_date_high = time();
+		}
+		$cutoff_date_low = $cutoff_date_low - $offset;
+		$cutoff_date_high = $cutoff_date_high + $offset;
+		$result = $this->db->getData(
 			'CalendarPlant_getDatesBetween',
-			array('user_id' => $user_id,'afterdate' => $afterdate,'beforedate' => $beforedate)
+			false,
+			array(
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				),
+				"cutoff_date_high" => array(
+					"condition" => "<",
+					"value" => $cutoff_date_high
+				),
+				"cutoff_date_low" => array(
+					"condition" => ">",
+					"value" => $cutoff_date_low
+				),
+				"cancelled_status" => array(
+					"condition" => "=",
+					"value" => $cancelled_status
+				),
+				"published_status" => array(
+					"condition" => "=",
+					"value" => $published_status
+				)
+			)
 		);
 		return $result;
 	}
 
-	public function getDatesByArtistAndDate($user_id,$date) {
+	public function getDateByID($date_id) {
 		$result = $this->db->doSpecialQuery(
-			'CalendarPlant_getDatesByArtistAndDate',
-			array('user_id' => $user_id,'date' => $date)
+			'CalendarPlant_getDatesById',
+			array('date_id' => $date_id)
 		);
 		return $result;
 	}
