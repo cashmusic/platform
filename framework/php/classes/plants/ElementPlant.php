@@ -333,7 +333,7 @@ class ElementPlant extends PlantBase {
 			if (file_exists($for_include)) {
 				include($for_include);
 				$element_object_type = substr_replace($this->elements_array[$element_type], '', -4);
-				$element_object = new $element_object_type($element_id,$status_uid,$element_options);
+				$element_object = new $element_object_type($element_id,$element,$status_uid);
 				$this->recordAnalytics($element_id,$access_method);
 				return $element_object->getMarkup();
 			}
