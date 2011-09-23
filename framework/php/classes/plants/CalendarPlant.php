@@ -65,7 +65,7 @@ class CalendarPlant extends PlantBase {
 					if (!$this->requireParameters('user_id','visible_event_types')) { return $this->sessionGetLastResponse(); }
 					$offset = 0;
 					$published_status = 1;
-					$cancelled_status = '*';
+					$cancelled_status = 0; // need to find a way to set this to a wildcard. '*' doesn't work for sqlite, but does for mysql
 					switch ($this->request['visible_event_types']) {
 						case 'upcoming':
 							$cutoff_date_low = 'now';
@@ -147,13 +147,11 @@ class CalendarPlant extends PlantBase {
 		// beforedate=2051244000 = jan 1, 2035. don't book dates that far in advance, jerks
 		$offset = 86400 * $offset;
 		if ($cutoff_date_low == 'now') {
-			$cutoff_date_low = time();
+			$cutoff_date_low = time() - $offset;
 		}
 		if ($cutoff_date_high == 'now') {
-			$cutoff_date_high = time();
+			$cutoff_date_high = time() + $offset;
 		}
-		$cutoff_date_low = $cutoff_date_low - $offset;
-		$cutoff_date_high = $cutoff_date_high + $offset;
 		$result = $this->db->getData(
 			'CalendarPlant_getDatesBetween',
 			false,
@@ -162,13 +160,13 @@ class CalendarPlant extends PlantBase {
 					"condition" => "=",
 					"value" => $user_id
 				),
-				"cutoff_date_high" => array(
-					"condition" => "<",
-					"value" => $cutoff_date_high
-				),
 				"cutoff_date_low" => array(
 					"condition" => ">",
 					"value" => $cutoff_date_low
+				),
+				"cutoff_date_high" => array(
+					"condition" => "<",
+					"value" => $cutoff_date_high
 				),
 				"cancelled_status" => array(
 					"condition" => "=",
