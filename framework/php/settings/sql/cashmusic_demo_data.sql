@@ -124,7 +124,7 @@ INSERT INTO `live_events` (`id`, `date`, `user_id`, `venue_id`, `published`, `ca
 VALUES (104,1318132800,1,104,1,0,'','w/ Yellow Fever',1316730630);
 
 INSERT INTO `live_events` (`id`, `date`, `user_id`, `venue_id`, `published`, `cancelled`, `purchase_url`, `comments`, `creation_date`) 
-VALUES (105,1318219200,1,104,1,0,'','w/ Yellow Fever',1316730630);
+VALUES (105,1318219200,1,104,1,0,'','',1316730630);
 
 INSERT INTO `live_events` (`id`, `date`, `user_id`, `venue_id`, `published`, `cancelled`, `purchase_url`, `comments`, `creation_date`) 
 VALUES (106,1318305600,1,105,1,0,'http://www.ticketweb.com/t3/sale/SaleEventDetail?dispatch=loadSelectionData&eventId=3756565','w/ Yellow Fever',1316730630);
@@ -166,41 +166,41 @@ INSERT INTO `live_events` (`id`, `date`, `user_id`, `venue_id`, `published`, `ca
 VALUES (118,1319774400,1,117,1,0,'https://www.stubwire.com/order/options.php?order=265340daf9b35b7e6372d35812027d80','',1316730630);
 
 INSERT INTO `live_events` (`id`, `date`, `user_id`, `venue_id`, `published`, `cancelled`, `purchase_url`, `comments`, `creation_date`) 
-VALUES (119,1319860800,1,118,1,0,'http://tactics.frontgatetickets.com/choose.php?a=1&lid=56744&eid=64726&utm_source=&utm_medium=social-media&utm_content=loft-ticketlink-top&utm_campaign=wildflag','w/ Pastor’s Wives',1316730630);
+VALUES (119,1319860800,1,118,1,0,'http://tactics.frontgatetickets.com/choose.php?a=1&lid=56744&eid=64726&utm_source=&utm_medium=social-media&utm_content=loft-ticketlink-top&utm_campaign=wildflag','w/ Drew Grow &amp; the Pastor’s Wives',1316730630);
 
 INSERT INTO `live_events` (`id`, `date`, `user_id`, `venue_id`, `published`, `cancelled`, `purchase_url`, `comments`, `creation_date`) 
-VALUES (120,1319947200,1,119,1,0,'http://lazonarosa.frontgatetickets.com/choose.php?a=1&lid=59871&eid=68122','w/ Pastor’s Wives',1316730630);
+VALUES (120,1319947200,1,119,1,0,'http://lazonarosa.frontgatetickets.com/choose.php?a=1&lid=59871&eid=68122','w/ Drew Grow &amp; the Pastor’s Wives',1316730630);
 
 INSERT INTO `live_events` (`id`, `date`, `user_id`, `venue_id`, `published`, `cancelled`, `purchase_url`, `comments`, `creation_date`) 
-VALUES (121,1320120000,1,120,1,0,'','w/ Pastor’s Wives',1316730630);
+VALUES (121,1320120000,1,120,1,0,'','w/ Drew Grow &amp; the Pastor’s Wives',1316730630);
 
 INSERT INTO `live_events` (`id`, `date`, `user_id`, `venue_id`, `published`, `cancelled`, `purchase_url`, `comments`, `creation_date`) 
-VALUES (122,1320206400,1,121,1,0,'http://casbah.frontgatetickets.com/choose.php?a=1&lid=56489&eid=64452','w/ Pastor’s Wives',1316730630);
+VALUES (122,1320206400,1,121,1,0,'http://casbah.frontgatetickets.com/choose.php?a=1&lid=56489&eid=64452','w/ Drew Grow &amp; the Pastor’s Wives',1316730630);
 
 INSERT INTO `live_events` (`id`, `date`, `user_id`, `venue_id`, `published`, `cancelled`, `purchase_url`, `comments`, `creation_date`) 
-VALUES (123,1320292800,1,122,1,0,'http://www.ticketfly.com/purchase/event/49021?__utma=1.243892687.1316716918.1316716918.1316716918.1&__utmb=1.2.10.1316716918&__utmc=1&__utmx=-&__utmz=1.1316716918.1.1.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=Troubadour%20los%20angeles&__utmv=-&__utmk=167633214','w/ Pastor’s Wives',1316730630);
+VALUES (123,1320292800,1,122,1,0,'http://www.ticketfly.com/purchase/event/49021?__utma=1.243892687.1316716918.1316716918.1316716918.1&__utmb=1.2.10.1316716918&__utmc=1&__utmx=-&__utmz=1.1316716918.1.1.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=Troubadour%20los%20angeles&__utmv=-&__utmk=167633214','w/ Drew Grow &amp; the Pastor’s Wives',1316730630);
 
 INSERT INTO `live_events` (`id`, `date`, `user_id`, `venue_id`, `published`, `cancelled`, `purchase_url`, `comments`, `creation_date`) 
-VALUES (124,1320379200,1,122,1,0,'http://www.ticketfly.com/purchase/event/49025?__utma=1.243892687.1316716918.1316716918.1316716918.1&__utmb=1.2.10.1316716918&__utmc=1&__utmx=-&__utmz=1.1316716918.1.1.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=Troubadour%20los%20angeles&__utmv=-&__utmk=167633214','w/ Pastor’s Wives',1316730630);
+VALUES (124,1320379200,1,122,1,0,'http://www.ticketfly.com/purchase/event/49025?__utma=1.243892687.1316716918.1316716918.1316716918.1&__utmb=1.2.10.1316716918&__utmc=1&__utmx=-&__utmz=1.1316716918.1.1.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=Troubadour%20los%20angeles&__utmv=-&__utmk=167633214','w/ Drew Grow &amp; the Pastor’s Wives',1316730630);
 
 INSERT INTO `live_events` (`id`, `date`, `user_id`, `venue_id`, `published`, `cancelled`, `purchase_url`, `comments`, `creation_date`) 
-VALUES (125,1320465600,1,123,1,0,'http://www.gamhtickets.com/events/155665/Wild%20Flag','w/ Pastor’s Wives',1316730630);
+VALUES (125,1320465600,1,123,1,0,'http://www.gamhtickets.com/events/155665/Wild%20Flag','w/ Drew Grow &amp; the Pastor’s Wives',1316730630);
 
 INSERT INTO `live_events` (`id`, `date`, `user_id`, `venue_id`, `published`, `cancelled`, `purchase_url`, `comments`, `creation_date`) 
-VALUES (126,1320552000,1,123,1,0,'http://www.gamhtickets.com/events/155666/Wild%20Flag','w/ Pastor’s Wives',1316730630);
+VALUES (126,1320552000,1,123,1,0,'http://www.gamhtickets.com/events/155666/Wild%20Flag','w/ Drew Grow &amp; the Pastor’s Wives',1316730630);
 
 INSERT INTO `live_events` (`id`, `date`, `user_id`, `venue_id`, `published`, `cancelled`, `purchase_url`, `comments`, `creation_date`) 
-VALUES (127,1320724800,1,124,1,0,'','w/ Pastor’s Wives',1316730630);
+VALUES (127,1320724800,1,124,1,0,'','w/ Drew Grow &amp; the Pastor’s Wives',1316730630);
 
 INSERT INTO `live_events` (`id`, `date`, `user_id`, `venue_id`, `published`, `cancelled`, `purchase_url`, `comments`, `creation_date`) 
-VALUES (128,1320897600,1,125,1,0,'http://www.ticketfly.com/purchase/event/48245?utm_medium=bks','w/ Pastor’s Wives',1316730630);
+VALUES (128,1320897600,1,125,1,0,'http://www.ticketfly.com/purchase/event/48245?utm_medium=bks','w/ Drew Grow &amp; the Pastor’s Wives',1316730630);
 
 INSERT INTO `live_events` (`id`, `date`, `user_id`, `venue_id`, `published`, `cancelled`, `purchase_url`, `comments`, `creation_date`) 
-VALUES (129,1320984000,1,125,1,0,'http://www.ticketfly.com/purchase/event/48247?utm_medium=bks','w/ Pastor’s Wives',1316730630);
+VALUES (129,1320984000,1,125,1,0,'http://www.ticketfly.com/purchase/event/48247?utm_medium=bks','w/ Drew Grow &amp; the Pastor’s Wives',1316730630);
 
 INSERT INTO `live_events` (`id`, `date`, `user_id`, `venue_id`, `published`, `cancelled`, `purchase_url`, `comments`, `creation_date`) 
-VALUES (130,1321070400,1,126,1,0,'https://www.etix.com/ticket/online/performanceSearch.jsp?performance_id=1504572&cobrand=neumos','w/ Pastor’s Wives',1316730630);
+VALUES (130,1321070400,1,126,1,0,'https://www.etix.com/ticket/online/performanceSearch.jsp?performance_id=1504572&cobrand=neumos','w/ Drew Grow &amp; the Pastor’s Wives',1316730630);
 
 INSERT INTO `live_events` (`id`, `date`, `user_id`, `venue_id`, `published`, `cancelled`, `purchase_url`, `comments`, `creation_date`) 
-VALUES (131,1321156800,1,127,1,0,'http://www.ticketweb.ca/t3/sale/SaleEventDetail?dispatch=loadSelectionData&eventId=3757025','w/ Pastor’s Wives',1316730630);
+VALUES (131,1321156800,1,127,1,0,'http://www.ticketweb.ca/t3/sale/SaleEventDetail?dispatch=loadSelectionData&eventId=3757025','w/ Drew Grow &amp; the Pastor’s Wives',1316730630);
 

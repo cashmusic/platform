@@ -33,9 +33,11 @@ class TourDates extends ElementBase {
 					$event_location = $event['venue_city'] . ', ' . $event['venue_region'];
 				}
 				$markup .= '<div class="cash_'. self::type .'_event"> '
+						. '<div class="cash_'. self::type .'_timeandplace"> '
 						. '<span class="cash_'. self::type .'_date">' . date('d F, Y',$event['date']) . ':</span> '
 						. '<span class="cash_'. self::type .'_location">' . $event_location . '</span> '
-						. '<span class="cash_'. self::type .'_venue">@ ' . $event['venue_name'] . '</span> ';
+						. '<span class="cash_'. self::type .'_venue">@ ' . $event['venue_name'] . '</span> '
+						. '</div> ';
 				if ($event['comments']) {
 					$markup .= '<span class="cash_'. self::type .'_comments">' . $event['comments'] . '</span> ';
 				}
