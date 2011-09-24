@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::Most tests => 22;
+use Test::Most tests => 23;
 use Test::WWW::Mechanize;
 use Test::JSON;
 
@@ -40,3 +40,5 @@ $mech->get_ok("$base/interfaces/php/admin/elements/view/100");
 $mech->content_contains("Portugal. The Man");
 $mech->get_ok("$base/interfaces/php/admin/elements/view/101");
 $mech->content_contains("Iron & Wine");
+
+$mech->get_ok("$base/interfaces/php/admin/assets/add/single/");
