@@ -4,6 +4,12 @@
 <title>Tour Dates / CASH Music</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="assets/css/demo.css" rel="stylesheet" type="text/css" />
+
+<!--[if !IE]>-->
+<link href="assets/css/demo_mobile.css" type="text/css" rel="stylesheet" media="only screen and (max-device-width: 480px)" />
+<link href="assets/css/demo_mobile.css" type="text/css" rel="stylesheet" media="only screen and (-webkit-min-device-pixel-ratio: 2)" />
+<!--<![endif]-->
+
 <link rel="icon" type="image/png" href="http://cashmusic.org/images/icons/cash.png" />
 
 </head> 
