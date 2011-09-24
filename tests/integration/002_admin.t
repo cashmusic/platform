@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::Most tests => 18;
+use Test::Most tests => 22;
 use Test::WWW::Mechanize;
 use Test::JSON;
 
@@ -35,3 +35,8 @@ for my $url (@metadata_urls) {
     $mech->get_ok($full_url);
     is_valid_json($mech->content, "$full_url is valid JSON");
 }
+
+$mech->get_ok("$base/interfaces/php/admin/elements/view/100");
+$mech->content_contains("Portugal. The Man");
+$mech->get_ok("$base/interfaces/php/admin/elements/view/101");
+$mech->content_contains("Iron & Wine");
