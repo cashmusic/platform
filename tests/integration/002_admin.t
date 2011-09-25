@@ -1,12 +1,17 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::Most tests => 38;
+use Test::Most tests => 40;
 use Test::WWW::Mechanize;
 use Test::JSON;
 
 my $base = $ENV{CASHMUSIC_TEST_URL} || 'http://localhost:80';
 my $mech = Test::WWW::Mechanize->new;
+
+BEGIN {
+    # Run the test installer every time we run these tests
+    qx "php installers/php/test_installer.php";
+}
 
 $mech->get_ok("$base/interfaces/php/admin/");
 $mech->content_contains('email');
@@ -57,6 +62,9 @@ $mech->submit_form_ok({
 # Look for errors like
 # SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
 $mech->content_unlike(qr/SQLSTATE.*error/i);
+
+$mech->get_ok("$base/interfaces/php/admin/assets/add/playlist/");
+$mech->content_contains('Add Playlist');
 
 $mech->get_ok("$base/interfaces/php/admin/assets/add/single/");
 $mech->submit_form_ok({
