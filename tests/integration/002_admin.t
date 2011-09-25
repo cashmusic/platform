@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::Most tests => 35;
+use Test::Most tests => 38;
 use Test::WWW::Mechanize;
 use Test::JSON;
 
@@ -59,6 +59,19 @@ $mech->submit_form_ok({
 $mech->content_unlike(qr/SQLSTATE.*error/i);
 
 $mech->get_ok("$base/interfaces/php/admin/assets/add/single/");
+$mech->submit_form_ok({
+    form_number => 1,
+    fields      => {
+        asset_description => 'asdf',
+        asset_location    => 'http://aasdf.com',
+        asset_title       => 'adsf',
+        doassetadd        => 'makeitso',
+        settings_id       => 0
+    },
+}, 'add asset form');
+$mech->content_unlike(qr/Error/);
+$mech->content_contains('Success');
+
 $mech->get_ok("$base/interfaces/php/admin/elements/add/tourdates");
 $mech->get_ok("$base/interfaces/php/admin/elements/add/emailcollection");
 
