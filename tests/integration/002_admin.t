@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::Most tests => 30;
+use Test::Most tests => 32;
 use Test::WWW::Mechanize;
 use Test::JSON;
 
