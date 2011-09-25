@@ -49,3 +49,14 @@ $mech->content_contains('cash_embedElement(102)');
 $mech->get_ok("$base/interfaces/php/admin/assets/add/single/");
 $mech->get_ok("$base/interfaces/php/admin/elements/add/tourdates");
 $mech->get_ok("$base/interfaces/php/admin/elements/add/emailcollection");
+
+$mech->submit_form_ok({
+    form_number => 1,
+    fields      => {
+        doelementadd        => 'makeitso',
+        element_name        => 'Nyarlathotep Live Tour',
+        element_type        => 'tourdates',
+        visible_event_types => 'upcoming',
+    },
+}, 'add tourdates form');
+$mech->content_unlike(qr/Error/);
