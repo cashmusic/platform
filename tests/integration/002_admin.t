@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::Most tests => 32;
+use Test::Most tests => 35;
 use Test::WWW::Mechanize;
 use Test::JSON;
 
@@ -45,6 +45,18 @@ $mech->content_contains('cash_embedElement(101)');
 $mech->get_ok("$base/interfaces/php/admin/elements/view/102");
 $mech->content_contains("Wild Flag");
 $mech->content_contains('cash_embedElement(102)');
+
+$mech->get_ok("$base/interfaces/php/admin/elements/delete/101");
+$mech->submit_form_ok({
+    form_number => 1,
+    fields => {
+        doelementdelete => "makeitso",
+    },
+}, 'delete element form');
+
+# Look for errors like
+# SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
+$mech->content_unlike(qr/SQLSTATE.*error/i);
 
 $mech->get_ok("$base/interfaces/php/admin/assets/add/single/");
 $mech->get_ok("$base/interfaces/php/admin/elements/add/tourdates");
