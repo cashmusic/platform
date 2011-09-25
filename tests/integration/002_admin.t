@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::Most tests => 23;
+use Test::Most tests => 30;
 use Test::WWW::Mechanize;
 use Test::JSON;
 
@@ -38,7 +38,14 @@ for my $url (@metadata_urls) {
 
 $mech->get_ok("$base/interfaces/php/admin/elements/view/100");
 $mech->content_contains("Portugal. The Man");
+$mech->content_contains('cash_embedElement(100)');
 $mech->get_ok("$base/interfaces/php/admin/elements/view/101");
 $mech->content_contains("Iron & Wine");
+$mech->content_contains('cash_embedElement(101)');
+$mech->get_ok("$base/interfaces/php/admin/elements/view/102");
+$mech->content_contains("Wild Flag");
+$mech->content_contains('cash_embedElement(102)');
 
 $mech->get_ok("$base/interfaces/php/admin/assets/add/single/");
+$mech->get_ok("$base/interfaces/php/admin/elements/add/tourdates");
+$mech->get_ok("$base/interfaces/php/admin/elements/add/emailcollection");
