@@ -1,9 +1,10 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::Most tests => 40;
+use Test::Most;
 use Test::WWW::Mechanize;
 use Test::JSON;
+#use Carp::Always;
 
 my $base = $ENV{CASHMUSIC_TEST_URL} || 'http://localhost:80';
 my $mech = Test::WWW::Mechanize->new;
@@ -80,11 +81,26 @@ $mech->submit_form_ok({
 $mech->content_unlike(qr/Error/);
 $mech->content_contains('Success');
 
-$mech->get_ok("$base/interfaces/php/admin/elements/add/tourdates");
 $mech->get_ok("$base/interfaces/php/admin/elements/add/emailcollection");
-
 $mech->submit_form_ok({
-    form_number => 1,
+    form_name   => 'emailcollection',
+    fields      => {
+        asset_id         =>   '100',
+        comment_or_radio =>   'none',
+        doelementadd     =>   'makeitso',
+        element_name     =>   'foooobaf',
+        element_type     =>   'emailcollection',
+        emal_list_id     =>   '100',
+        message_invalid_email =>  "Sorry, that email address wasn't valid. Please try again.",
+        message_privacy  => "We won't share, sell, or be jerks with your email address.",
+        message_success  => "Thanks! You're all signed up. Here's your download",
+   },
+}, 'add email collection form');
+$mech->content_like(qr/Success/);
+
+$mech->get_ok("$base/interfaces/php/admin/elements/add/tourdates");
+$mech->submit_form_ok({
+    form_name   => "tourdates",
     fields      => {
         doelementadd        => 'makeitso',
         element_name        => 'Nyarlathotep Live Tour',
@@ -93,3 +109,5 @@ $mech->submit_form_ok({
     },
 }, 'add tourdates form');
 $mech->content_unlike(qr/Error/);
+
+done_testing;
