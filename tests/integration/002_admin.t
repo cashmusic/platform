@@ -29,7 +29,11 @@ $mech->submit_form_ok({
 }, 'log in to admin area');
 $mech->content_unlike(qr/Try Again/);
 
-my @admin_urls    = qw{settings commerce people elements assets calendar help help/gettingstarted};
+my @admin_urls    = qw{
+    settings commerce elements assets calendar
+    people people/mailinglists people/mailinglists/view people/mailinglists/export
+    help help/gettingstarted
+};
 my @metadata_urls = map { "components/elements/$_/metadata.json" } qw{emailcollection tourdates};
 
 for my $url (@admin_urls) {
@@ -109,5 +113,6 @@ $mech->submit_form_ok({
     },
 }, 'add tourdates form');
 $mech->content_unlike(qr/Error/);
+$mech->content_like(qr/Success/);
 
 done_testing;
