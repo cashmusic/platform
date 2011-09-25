@@ -14,6 +14,9 @@ function terminator($errno, $errstr, $errfile, $errline)
 
 set_error_handler("terminator");
 
+// this deploys to SQLite and sets up cashmusic.ini.php
+system("php installers/php/test_installer.php");
+
 // All tests should include this file, so we can modify basic test functionality
 // here without needing to modify all our tests
 
@@ -25,8 +28,5 @@ require_once('tests/lib/simpletest/reporter.php');
 require_once('framework/php/cashmusic.php');
 
 require_once('framework/php/classes/seeds/S3Seed.php');
-
-// this deploys to SQLite and sets up cashmusic.ini.php
-system("php installers/php/test_installer.php");
 
 ?>
