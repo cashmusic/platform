@@ -60,6 +60,7 @@
 		<h3>Error</h3>
 		<p>
 		There was a problem creating the element. <a href="./">Please try again.</a>
+<!-- <? var_dump($element_add_request->response) ?> -->
 		</p>
 
 <?php 
