@@ -1,5 +1,5 @@
 <?php if (!isset($_POST['doelementadd'])) { ?>
-	<form method="post" action="">
+	<form name="tourdates" method="post" action="">
 		<input type="hidden" name="doelementadd" value="makeitso" />
 		<input type="hidden" name="element_type" value="tourdates" />
 		<div class="col_onehalf">
