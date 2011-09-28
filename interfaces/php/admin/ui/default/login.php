@@ -8,16 +8,16 @@
 	<link href="<?php echo ADMIN_WWW_BASE_PATH; ?>/ui/default/assets/css/admin.css" rel="stylesheet" type="text/css" />
 	<style type="text/css">
 		#mainspc {padding-top:150px;}
-		#navmenu {top:0;height:30px;overflow:hidden;padding-top:0;padding-bottom:0;}
+		#navmenu {top:0;height:6px;overflow:hidden;padding-top:0;padding-bottom:0;}
 		#navmenu .navitem:hover {background-image:none;cursor:auto;}
 		#pagedisplay {margin:0 auto;}
-		#loginspc {position:relative;top:30px;width:1060px;height:220px;margin:0 auto;}
+		#loginspc {position:relative;top:6px;width:960px;height:220px;margin:0 auto;}
 		#loginbox {position:relative;width:260px;height:220px;padding:35px 430px 105px 40px;background:#418584 url(<?php echo ADMIN_WWW_BASE_PATH; ?>/ui/default/assets/images/bg_login.gif) left top no-repeat;text-align:left;}
-		#loginbox h1 {font-size:42px;color:#fff;margin:0 0 30px -3px;}
+		#loginbox h1 {font-size:88px;color:#fff;margin:6px 0 26px 0;white-space:nowrap;}
 		#loginbox label {color:#000;}
 		#loginbox input {border:1px solid #fff;}
 		#loginbox input:active, #loginspc input:focus {outline:0;border:1px solid #000;}
-		#loginbox input.button {margin:24px 0 0 0;background-color:#ff0;border:1px solid #ff0;}
+		#loginbox input.button {margin:18px 0 0 0;background-color:#ff0;border:1px solid #ff0;}
 		#loginbox input.button:hover {background-color:#000;color:#fff;border:1px solid #000;}
 		#loginbox input.button:active {background-color:#fff;color:#000;}
 	</style>
