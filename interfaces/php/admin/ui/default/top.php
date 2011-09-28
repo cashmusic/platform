@@ -49,54 +49,48 @@
 				<div id="accountmenu">
 					<?php echo $admin_primary_cash_request->sessionGetPersistent('cash_effective_user_email'); ?>
 					<ul>
+						<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/">Your dashboard</a></li>
 						<li><a href="#">Your account</a></li>
+						<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/settings/">System settings</a></li>
 						<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/logout/">Log out</a></li>
 					</ul>
 				</div>
 			</div>
-			<div id="subnavmenu">
+			<div id="navmenu">
+				<div class="navitem bgcolor1<?php echo ($dirname == 'elements' ? ' currentnav' : ''); ?>">
+					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/elements/">Elements</a></h2>
+					create<br />
+					embed<br />
+				</div>
+				<div class="navitem bgcolor2<?php echo ($dirname == 'assets' ? ' currentnav' : ''); ?>">
+					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/assets/">Assets</a></h2>
+					upload<br />
+					organize<br />
+				</div>
+				<div class="navitem bgcolor3<?php echo ($dirname == 'people' ? ' currentnav' : ''); ?>">
+					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/people/">People</a></h2>
+					manage<br />
+					organize
+				</div>
+				<div class="navitem bgcolor4<?php echo ($dirname == 'commerce' ? ' currentnav' : ''); ?>">
+					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/commerce/">Commerce</a></h2>
+					review<br />
+					fulfill<br />
+				</div>
+				<div class="navitem bgcolor5<?php echo ($dirname == 'calendar' ? ' currentnav' : ''); ?>">
+					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/calendar/">Calendar</a></h2>
+					shows<br />
+					guestlist
+				</div>
+				
 				<div id="helpmenu">
-					Help
+					<span id="mainhelplink">Help</span>
 					<ul>
 						<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/help/" id="tipslink">Tips for <b>this</b> page</a></li>
 						<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/help/gettingstarted/">Getting started</a></li>
 						<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/help/">FAQ</a></li>
 						<li><a href="http://help.cashmusic.org/">help.cashmusic.org</a></li>
 					</ul>
-				</div>
-				<div><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/settings/">Settings</a></div>
-				<div><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/"><b>Dashboard</b></a></div>
-			</div>
-			<div id="navmenu">
-				<div class="navitem bgcolor1<?php echo ($dirname == 'elements' ? ' currentnav' : ''); ?>">
-					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/elements/">Elements</a></h2>
-					pages<br />
-					widgets<br />
-					plugins
-				</div>
-				<div class="navitem bgcolor2<?php echo ($dirname == 'assets' ? ' currentnav' : ''); ?>">
-					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/assets/">Assets</a></h2>
-					upload<br />
-					organize<br />
-					tag
-				</div>
-				<div class="navitem bgcolor3<?php echo ($dirname == 'people' ? ' currentnav' : ''); ?>">
-					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/people/">People</a></h2>
-					gather<br />
-					mail<br />
-					list
-				</div>
-				<div class="navitem bgcolor4<?php echo ($dirname == 'commerce' ? ' currentnav' : ''); ?>">
-					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/commerce/">Commerce</a></h2>
-					review<br />
-					fulfill<br />
-					pledge
-				</div>
-				<div class="navitem bgcolor5<?php echo ($dirname == 'calendar' ? ' currentnav' : ''); ?>">
-					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/calendar/">Calendar</a></h2>
-					planning<br />
-					shows<br />
-					guestlist
 				</div>
 			</div>
 			

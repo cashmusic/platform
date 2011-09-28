@@ -1,8 +1,8 @@
 <div class="col_onethird">
 	<h2>Welcome!</h2>
-	<p>
+	<p class="longercopy">
 	This is the default landing page. We'll keep this corner for news, updates, and system information.
-	</p><p> 
+	</p><p class="longercopy"> 
 	The other sections of the page will focus on high-level data showing element usage, traffic, and
 	relevant statistics. Imagine it looks really fancy.
 	</p>
