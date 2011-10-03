@@ -106,6 +106,8 @@ VALUES (126,'Neumo’s','925 East Pike Street','','Seattle','WA','USA','98122','
 INSERT INTO `live_venues` (`id`, `name`, `address1`, `address2`, `city`, `region`, `country`, `postalcode`, `url`, `phone`, `creation_date`) 
 VALUES (127,'Biltmore Caberet','395 Kingsway','','Vancouver','BC','Canada','V5T 3J5','http://www.biltmorecabaret.com/','(604) 676-0541',1316730630);
 
+INSERT INTO `live_venues` (`id`, `name`, `address1`, `address2`, `city`, `region`, `country`, `postalcode`, `url`, `phone`, `creation_date`) 
+VALUES (128,'Wesleyan University','','','Middletown','CT','USA','06459-0442','http://www.wesleyan.edu/','',1316730630);
 
 
 INSERT INTO `live_events` (`id`, `date`, `user_id`, `venue_id`, `published`, `cancelled`, `purchase_url`, `comments`, `creation_date`) 
@@ -204,3 +206,5 @@ VALUES (130,1321070400,1,126,1,0,'https://www.etix.com/ticket/online/performance
 INSERT INTO `live_events` (`id`, `date`, `user_id`, `venue_id`, `published`, `cancelled`, `purchase_url`, `comments`, `creation_date`) 
 VALUES (131,1321156800,1,127,1,0,'http://www.ticketweb.ca/t3/sale/SaleEventDetail?dispatch=loadSelectionData&eventId=3757025','w/ Drew Grow &amp; the Pastors’ Wives',1316730630);
 
+INSERT INTO `live_events` (`id`, `date`, `user_id`, `venue_id`, `published`, `cancelled`, `purchase_url`, `comments`, `creation_date`) 
+VALUES (132,1318554000,1,128,1,0,'','',1316730630);
