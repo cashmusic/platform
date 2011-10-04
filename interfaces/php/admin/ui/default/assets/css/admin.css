@@ -98,15 +98,15 @@ div.callout a:hover {font-weight:bold;color:#000;}
 #accountmenu ul li {padding:0;background-color:#222;}
 #accountmenu ul li:hover {background-color:#000;}
 #accountmenu ul li a {color:#666;display:block;padding:8px 1.5em 8px 1.5em;color:#999;text-decoration:none;margin:0;}
-#accountmenu ul li a:hover {text-decoration:underline;}
+#accountmenu ul li a:hover {text-decoration:underline;color:#fff;}
 #accountmenu:hover ul {display:block;}
 #helpmenu {cursor:pointer;position:absolute;bottom:-42px;right:0;height:14px;z-index:300;padding:9px 0 9px 0;font-size:11px;line-height:14px;color:#000;text-align:right;}
 #helpmenu:hover {background-color:#ff0;}
 #helpmenu ul {position:absolute;top:30px;right:0;margin:0;padding:0;list-style:none;width:auto;min-width:auto;display:none;}
-#helpmenu ul li {padding:0;background-color:#eee;}
-#helpmenu ul li:hover {background-color:#ff0;}
+#helpmenu ul li {padding:0;background-color:#ff0;}
+#helpmenu ul li:hover {background-color:#000;}
 #helpmenu ul li a {display:block;padding:8px 1.5em 8px 1.5em;text-decoration:none;margin:0;color:#000;}
-#helpmenu ul li a:hover {text-decoration:underline;}
+#helpmenu ul li a:hover {text-decoration:underline;color:#fff;}
 #helpmenu:hover ul {display:block;}
 #mainhelplink {background-color:#ff0;padding:2px 9px 2px 9px;}
 #navmenu {position:absolute;top:0;left:50%;margin-left:-480px;width:730px;height:72px;text-align:left;color:#fff;text-align:right;font-size:0.9em;line-height:1.3em;z-index:500;}
