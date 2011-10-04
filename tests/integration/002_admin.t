@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+
 use strict;
 use warnings;
 use Test::Most;
@@ -31,7 +32,7 @@ $mech->content_unlike(qr/Try Again/);
 
 my @admin_urls    = qw{
     settings commerce elements assets calendar
-    people people/mailinglists people/mailinglists/view people/mailinglists/export
+    people people/mailinglists people/mailinglists/view people/mailinglists/export people/mailinglists/add
     help help/gettingstarted
 };
 my @metadata_urls = map { "components/elements/$_/metadata.json" } qw{emailcollection tourdates};
