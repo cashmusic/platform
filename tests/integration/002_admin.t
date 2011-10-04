@@ -30,6 +30,7 @@ $mech->submit_form_ok({
 }, 'log in to admin area');
 $mech->content_unlike(qr/Try Again/);
 
+
 my @admin_urls    = qw{
     settings commerce elements assets calendar
     people people/mailinglists people/mailinglists/view people/mailinglists/export people/mailinglists/add
@@ -114,6 +115,18 @@ $mech->submit_form_ok({
     },
 }, 'add tourdates form');
 $mech->content_unlike(qr/Error/);
+$mech->content_like(qr/Success/);
+
+$mech->get("$base/interfaces/php/admin/people/mailinglists/add");
+$mech->submit_form_ok({
+    form_number => 1,
+    fields      => {
+        dolistadd        =>   'makeitso',
+        list_description =>   'Ultharian cats',
+        list_name        =>   'cats_of_ulthar',
+        settings_id      =>   0,
+    },
+}, 'add mailing list');
 $mech->content_like(qr/Success/);
 
 done_testing;
