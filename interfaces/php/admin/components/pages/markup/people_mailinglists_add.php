@@ -2,7 +2,7 @@
 	<form method="post" action="">
 		<input type="hidden" name="dolistadd" value="makeitso" />
 		<div class="col_onehalf">
-			<h3>Asset Details</h3>
+			<h3>List Details</h3>
 			
 			<label for="list_name">Name</label><br />
 			<input type="text" id="list_name" name="list_name" value="" placeholder="Give It A Name" />
