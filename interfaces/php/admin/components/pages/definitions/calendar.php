@@ -5,6 +5,7 @@ $page_tips = 'Here folks will manage their show calendars, guestlists, and choos
 $page_memu = array(
 	'Actions' => array(
 		'calendar/events/' => 'Events',
+		'calendar/venues/' => 'Venues',
 		'calendar/guestlists/' => 'Guestlists'
 	)
 );
