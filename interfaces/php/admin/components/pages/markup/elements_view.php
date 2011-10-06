@@ -41,11 +41,14 @@ if ($request_parameters) {
 						<a href="<?php echo $data['id']; ?>" class="mininav">Details</a> <a href="../edit/<?php echo $data['id']; ?>/" class="mininav">Edit</a> <a href="../delete/<?php echo $data['id']; ?>/" class="needsconfirmation mininav">Delete</a>
 					</div>
 				</div>
+				<br />
 			</div>
 			<?php
+			/*
 			if ($colcount % 2 == 0) {
 				echo '<div class="row_seperator">.</div>';
 			}
+			*/
 			$colcount++;
 		}
 	}
