@@ -32,7 +32,7 @@ window.addEvent('domready', function() {
 			container = new Element('div', {
 				'html': item.getProperty('rev')
 			});
-			container.getElements('input').each(function(el){
+			container.getElements('input,select').each(function(el){
 				el.set('name',el.get('name')+item.retrieve('nameiteration',1));
 			});
 			container.inject(item, 'before');
