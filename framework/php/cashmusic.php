@@ -28,9 +28,11 @@ if (get_magic_quotes_gpc()) {
 
 // set up autoload for core classes
 function cash_autoloadCore($classname) {
-	$file = CASH_PLATFORM_ROOT.'/classes/core/'.$classname.'.php';
-	if (file_exists($file)) {
-		require_once($file);
+	foreach (array('/classes/core/','/classes/seeds/') as $location) {
+		$file = CASH_PLATFORM_ROOT.$location.$classname.'.php';
+		if (file_exists($file)) {
+			require_once($file);
+		}
 	}
 }
 spl_autoload_register('cash_autoloadCore');
