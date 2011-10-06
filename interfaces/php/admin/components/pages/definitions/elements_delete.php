@@ -21,7 +21,7 @@ if ($page_request->response['status_uid'] == 'element_getelement_200') {
 	$effective_user = getPersistentData('cash_effective_user');
 	
 	if ($page_request->response['payload']['user_id'] == $effective_user) {
-		if (isset($_POST['doelementdelete'])) {
+		if (isset($_POST['doelementdelete']) || isset($_GET['modalconfirm'])) {
 			$element_delete_request = new CASHRequest(
 				array(
 					'cash_request_type' => 'element', 
