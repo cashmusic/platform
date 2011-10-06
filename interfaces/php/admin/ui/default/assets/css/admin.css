@@ -56,12 +56,12 @@ ul.nobullets li {list-style-type:none;}
 .modaldialog input:hover {background-color:#ff0;color:#000;border:1px solid #bbb;}
 
 /* FORMS */
-input,textarea {padding:6px 2% 6px 2%;border:1px solid #ccc;width:96%;}
+form span {line-height:2.5em;}
+input,textarea,select {padding:6px 2% 6px 2%;border:1px solid #ccc;width:96%;}
 input:active, input:focus, textarea:focus {outline:0;border:1px solid #888;}
 input.button, a.mockbutton {background-color:#ccc;padding:6px 18px 6px 18px;font-weight:bold;cursor:pointer;width:auto;}
 input.button:hover {background-color:#aaa;}
 input.checkorradio {width:auto;}
-select {padding:6px 3px 6px 3px;border:1px solid #ccc;width:100%;}
 select:active, select:focus {outline:2px solid #ff0;}
 label {font-size:0.85em;text-transform:uppercase;color:#999;}
 
