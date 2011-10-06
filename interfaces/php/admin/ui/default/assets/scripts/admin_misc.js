@@ -11,6 +11,22 @@ window.addEvent('domready', function() {
 		});
 	});
 	$$('a.injectbefore').each(function(item){
+		/*
+		The injectbefore class is used by a link to inject any HTML into a div
+		right before the link. Useful for doing things like n number of dates
+		in an admin form.
+		
+		Usage: 
+		Add the HTML needed to the 'rev' property of the link. Any 'name'
+		property will be appended with the 'nameiteration' count. 
+		
+		Set the rel property to begin iterations at a different number. 
+		(rel="3") means iteration starts at 3, etc...
+		*/ 
+		var aRel = item.getProperty('rel');
+		if (aRel > 0) {
+			item.store('nameiteration',aRel);
+		}
 		item.addEvent('click', function(e) {
 			e.stop();
 			container = new Element('div', {
