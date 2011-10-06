@@ -76,7 +76,7 @@ function doModalConfirm(url) {
 		'value':'Yes, do it',
 		events: {
 			click: function(){
- 				window.location = url;
+ 				window.location = url + '?modalconfirm=1';
 			}
 		}
 	}).inject(buttonspc);
