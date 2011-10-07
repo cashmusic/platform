@@ -29,13 +29,27 @@ class TwitterSeed extends SeedBase {
 		}
 	}
 	
-	public function getUserFeed($username,$exclude_replies=true,$count=200,$filter=false) {
+	public function getUserFeed($username,$exclude_replies=true,$count=200,$filtertype=false,$filter=false) {
 		if ($username) {
 			$twitter_url = 'http://api.twitter.com/1/statuses/user_timeline.json?screen_name=' . $username . '&exclude_replies=' . $exclude_replies . '&count=' . $count;
 			$feed_data = $this->getCachedURL('com.twitter', 'user_' . $username . (string) $exclude_replies . $count, $twitter_url);
 
-			// here we'll need to parse results and apply the filter
-			
+			if ($filtertype) {
+				$return_feed = array();
+				foreach ($feed_data as $tweet) {
+					if ($filtertype == 'beginwith') {
+						if (strrpos($tweet->text,$filter) === 0) {
+							$return_feed[] = $tweet;
+						}
+					} else {
+						if (strrpos($tweet->text,$filter) !== false) {
+							$return_feed[] = $tweet;
+						}
+					}
+				}
+				$feed_data = $return_feed;
+			}
+
 			return $feed_data;
 		} else {
 			return false;
@@ -57,9 +71,12 @@ class TwitterSeed extends SeedBase {
 		if ($tmp_profile_img == 'http://static.twitter.com/images/default_profile_normal.png') {
 			$tmp_profile_img = 'http://a2.twimg.com/sticky/default_profile_images/default_profile_' . rand(0, 6) . '_normal.png';
 		}
-		$innermarkup = "<div class=\"cashmusic_social cashmusic_twitter\"><img src=\"$tmp_profile_img\" class=\"cashmusic_twitter_avatar\" alt=\"avatar\" />"
+		$innermarkup = "<div class=\"cashmusic_social cashmusic_twitter cashmusic_twitter_" . $tweet->user->screen_name . "\"><img src=\"$tmp_profile_img\" class=\"cashmusic_twitter_avatar\" alt=\"avatar\" />"
 		. "<div class=\"cashmusic_twitter_namespc\"><a href=\"http://twitter.com/" . $tweet->user->screen_name . "\">@" . $tweet->user->screen_name . "</a><br />" . $tweet->user->name . "</div><div class=\"cashmusic_clearall\">.</div>"
-		. "<div class=\"tweet\">" . $tweet->text . '<div class="cashmusic_social_date"><a href="http://twitter.com/#!/' . $tweet->user->screen_name . '/status/' . $tweet->id_str . '" target="_blank">' . CASHSystem::formatAgo($tweet->created_at) . ' / twitter</a> </div></div>';
+		. "<div class=\"tweet\">" . CASHSystem::linkifyText($tweet->text,true) . '<div class="cashmusic_social_date"><a href="http://twitter.com/#!/' . $tweet->user->screen_name . '/status/' . $tweet->id_str . '" target="_blank">' . CASHSystem::formatTimeAgo($tweet->created_at) . ' / twitter</a> </div></div>'
+		. "</div>";
+		
+		return $innermarkup;
 		/*
 		The CSS to go along with the twitter markup:
 		

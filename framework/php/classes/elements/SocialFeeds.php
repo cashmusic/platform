@@ -14,44 +14,49 @@
 class SocialFeeds extends ElementBase {
 	const type = 'socialfeeds';
 	const name = 'Social Feeds';
+	const twitter_seed = false;
+
+	public function getData() {
+		$this->twitter_seed = new TwitterSeed();
+		$all_feeds = array();
+		$twitter_feeds = array();
+		$tumblr_feeds = array();
+		
+		$feedcount = 1;
+		foreach($this->options->twitter as $feedname => $feed) {
+			$twitter_feeds['feed'.$feedcount] = $this->twitter_seed->getUserFeed($feed->twitterusername,$feed->twitterhidereplies,200,$feed->twitterfiltertype,$feed->twitterfiltervalue);
+			$feedcount = $feedcount + 1;
+		}
+		$feedcount = 1;
+		
+		$all_feeds['twitter'] = $twitter_feeds;
+		$all_feeds['tumblr'] = $tumblr_feeds;
+		
+		return $all_feeds;
+	}
 
 	public function getMarkup() {
+		$feed_data = $this->getData();
 		$markup = '';
-		$tourdates_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'calendar', 
-				'cash_action' => 'gettourdates',
-				'visible_event_types' => $this->options->visible_event_types,
-				'user_id' => (integer) $this->element['user_id']
-			)
-		);
-		if ($tourdates_request->response['status_uid'] == "calendar_gettourdates_200") {
-			// spit out the dates
-			foreach ($tourdates_request->response['payload'] as $event) {
-				$event_location = $event['venue_city'] . ', ' . $event['venue_country'];
-				if (strtolower($event['venue_country']) == 'usa' || strtolower($event['venue_country']) == 'canada') {
-					$event_location = $event['venue_city'] . ', ' . $event['venue_region'];
+		if ($feed_data) {
+			$all_posts = array();
+			
+			foreach ($feed_data['twitter'] as $feed) {
+				foreach ($feed as $tweet) {
+					$all_posts[strtotime($tweet->created_at)] = array(
+						'type' => 'twitter',
+						'markup' => $this->twitter_seed->prepMarkup($tweet)
+					);
 				}
-				$markup .= '<div class="cash_'. self::type .'_event"> '
-						. '<div class="cash_'. self::type .'_timeandplace"> '
-						. '<span class="cash_'. self::type .'_date">' . date('d F, Y',$event['date']) . ':</span> '
-						. '<span class="cash_'. self::type .'_location">' . $event_location . '</span> '
-						. '<span class="cash_'. self::type .'_venue">@ ' . $event['venue_name'] . '</span> '
-						. '</div> ';
-				if ($event['comments']) {
-					$markup .= '<span class="cash_'. self::type .'_comments">' . $event['comments'] . '</span> ';
-				}
-				if ($event['purchase_url']) {
-					$markup .= '<span class="cash_'. self::type .'_purchase_url"><a href="' . $event['purchase_url'] . '" class="external">Tickets</a></span> ';
-				}
-				if ($event['venue_address1'] && $event['venue_city'] && $event['venue_country']) {
-					$markup .= '<span class="cash_'. self::type .'_purchase_url"><a href="http://maps.google.com/maps?f=q&hl=en&geocode=&q=' . $event['venue_address1'] . '+' . $event['venue_city'] . '+' . $event['venue_region'] . '+' . $event['venue_country'] . '+(' . $event['venue_name'] . ')" class="external">Map</a></span> ';
-				}
-				$markup .= '</div>';
+			}
+			
+			krsort($all_posts);
+			foreach ($all_posts as $post) {
+				$markup .= $post['markup'];
 			}
 		} else {
 			// no dates matched
-			$markup .= 'There are no dates to display right now.';
+			$markup .= 'There are no posts to display right now.';
 		}
 		return $markup;	
 	}
