@@ -1,0 +1,42 @@
+/* RESETS */
+html {height:100%;margin:0;padding:0;}
+body {height:100%;margin:0;padding:0;background:#d9d9d9 url(../images/bg.jpg) center bottom fixed no-repeat;font:11px/1.5em helvetica,arial,sans-serif;color:#000;text-align:left;min-width:860px;}
+img {border:0;}
+a {color:#f26921;font-weight:bold;text-decoration:none;}
+a:hover {color:#fef200;}
+h2 {font:14px/1.5em 'Abel',helvetica,arial,sans-serif;color:#aee3f0;margin:0;margin-bottom:15px;font-weight:normal;}
+p {margin:1em 0 2em 0;}
+
+#contentspc {position:relative;margin:0 auto;width:482px;text-align:left;padding:120px 0 305px 0;z-index:10;}
+#titleimg {position:fixed;bottom:0;left:50%;display:block;margin:0;padding:0;width:482px;height:300px;margin-left:-241px;z-index:100;}
+
+.cashmusic_social {position:relative;margin:10px 15px 20px 15px;padding:15px;background-color:#fff;border-top-left-radius:5px 5px;border-top-right-radius:5px 5px;border-bottom-right-radius:5px 5px;border-bottom-left-radius:5px 5px;}
+.cashmusic_social a {color:#cdcdcd;font-weight:normal;}
+.cashmusic_twitter_neilhimself:after {position:absolute;bottom:20px;left:-15px;width:15px;height:9px;content:'';background:transparent url(../images/arrowl.png) left bottom;}
+.cashmusic_twitter_amandapalmer:after {position:absolute;bottom:20px;right:-15px;width:15px;height:9px;content:'';background:transparent url(../images/arrowr.png) right bottom;}
+.cashmusic_twitter {font:14.5px/1.75em georgia,'times new roman',times,serif;}
+.cashmusic_twitter_avatar {float:left;margin:1px 8px 8px 0;}
+.cashmusic_twitter_namespc {color:#ccc;font:11px/1.5em helvetica,"helvetica neue",arial,sans-serif;}
+.cashmusic_twitter_namespc a {color:#007e3d;font:bold 15px/1.85em helvetica,"helvetica neue",arial,sans-serif;}
+.cashmusic_twitter a {color:#007e3d;}
+.cashmusic_twitter_neilhimself a {color:#1F98C7;}
+.cashmusic_twitter_amandapalmer a {color:#782D00;}
+.cashmusic_tumblr h2, .cashmusic_tumblr h2 a, #topmenu * a, h2 {color:#111;font:28px/1em 'IM Fell English',georgia,'times new roman',times,serif;}
+.cashmusic_social_date {margin-top:10px;color:#cdcdcd;font:11px/1.75em helvetica,"helvetica neue",arial,sans-serif;}
+.cashmusic_social_date a {color:#ccc;}
+.cashmusic_clearall {clear:both;height:1px;overflow:hidden;visibility:hidden;}
+
+.clearall {height:1px;overflow:hidden;visibility:hidden;clear:both;}
+
+.cash_tourdates_event {margin-bottom:18px;}
+.cash_tourdates_date {font-weight:bold;}
+.cash_tourdates_comments {display:block;color:#999;}
+
+/* FORMS */
+input, textarea {padding:0.42em 8px 0.42em 8px;border:1px solid #999;width:180px;}
+textarea {height:4em;overflow:hidden;}
+input:active, input:focus, textarea:active, textarea:focus {outline:0;border:1px solid #000;}
+input.button {background-color:#ef3a24;padding:0.4em 1.75em 0.4em 1.75em;font-weight:bold;cursor:pointer;width:auto;border:1px solid #999;color:#fff;}
+input.button:hover {background-color:#ffbf4f;border:1px solid #999;color:#000;}
+input.checkorradio {width:auto;}
+label {font-size:0.9em;text-transform:uppercase;color:#000;text-align:right;display:block;width:368px;}

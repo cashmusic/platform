@@ -343,7 +343,6 @@ class AssetPlant extends PlantBase {
 			$asset = $this->getAssetInfo($asset_id);
 			switch ($asset['type']) {
 				case 'com.amazon':
-					include(CASH_PLATFORM_ROOT.'/classes/seeds/S3Seed.php');
 					$s3 = new S3Seed($asset['user_id'],$asset['settings_id']);
 					$this->pushSuccess(array('asset' => $asset_id),'redirect executed successfully');
 					$this->recordAnalytics($asset_id,$element_id);
