@@ -12,16 +12,39 @@
  *
  **/
 class MailchimpSeed extends SeedBase {
-	protected $mailchimp;
-	public $url;
+	protected $api;
+	public $url, $key;
 
-	public function __construct($apikey) {
+	public function __construct($key) {
 		$this->settings_type = 'com.mailchimp';
 		$this->connectDB();
 		$this->getCASHSettings();
 		require_once(CASH_PLATFORM_ROOT.'/lib/mailchimp/MCAPI.class.php');
-		$this->mailchimp = new MCAPI($apikey);
-		$this->url       = 'http://us2.api.mailchimp.com/1.3/';
+		$this->key = $key;
+		$this->api = new MCAPI($key);
+		$this->url = 'http://us2.api.mailchimp.com/1.3/';
+	}
+
+	public function lists() {
+		$lists = $this->api->lists();
+		if ($this->api->errorCode) {
+			// TODO: throw a proper error
+			echo "\n\tCode=".$this->api->errorCode;
+			echo "\n\tMsg=".$this->api->errorMessage."\n";
+		} else {
+			return $lists;
+		}
+	}
+	
+	public function listWebhooks($list_id) {
+		$webhooks = $this->api->listWebhooks($this->key,$list_id);
+		if ($this->api->errorCode) {
+			// TODO: throw a proper error
+			echo "\n\tCode=".$this->api->errorCode;
+			echo "\n\tMsg=".$this->api->errorMessage."\n";
+		} else {
+			return $webhooks;
+		}
 	}
 } // END class
 ?>
