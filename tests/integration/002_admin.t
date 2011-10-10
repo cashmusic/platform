@@ -133,9 +133,16 @@ $mech->get("$base/interfaces/php/admin/elements/add/socialfeeds");
 $mech->submit_form_ok({
     form_number => 1,
     fields      => {
-        doelementadd => 'makeitso',
-        element_name => 'miskatonic_fireside_chat',
-        element_type => 'socialfeeds',
+        doelementadd        => 'makeitso',
+        element_name        => 'miskatonic_fireside_chat',
+        element_type        => 'socialfeeds',
+        tumblrurl1          => 'http://example.com/tumblr',
+        twitterusername1    => '@bob',
+        twitterusername2    => '@alice',
+        twitterfiltertype1  => 'beginwith',
+        twitterfiltertype2  => 'contain',
+        twitterfiltervalue1 => 'FOO',
+        twitterfiltervalue2 => 'BAR',
     },
 }, 'add social feeds');
 $mech->content_like(qr/Success/);
