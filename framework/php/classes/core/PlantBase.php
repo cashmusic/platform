@@ -77,8 +77,16 @@
 		$args_count = func_num_args();
 		if ($args_count > 0) {
 			$args = func_get_args();
+			$invalid_arg = false;
 			foreach ($args as $arg) {
 			    if (!isset($this->request["$arg"])) {
+					$invalid_arg = true;
+				} else {
+					if ($this->request["$arg"] === '') {
+						$invalid_arg = true;
+					}
+				}
+				if ($invalid_arg) {
 					$this->response->pushResponse(
 						400, $this->request_type, $this->action,
 						$this->request,
