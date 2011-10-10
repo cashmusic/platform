@@ -24,3 +24,6 @@ VALUES (101,'Waiting Room','6212 Maple Street','','Omaha','NE','USA','68104','ht
 
 INSERT INTO `live_venues` (`id`, `name`, `address1`, `address2`, `city`, `region`, `country`, `postalcode`, `url`, `phone`, `creation_date`) 
 VALUES (102,'Record Bar','1020 Westport Road','','Kansas City','MO','USA','64111','http://www.therecordbar.com/','(816) 753-5207',1316730630);
+
+INSERT INTO `elmt_elements` (`id`, `user_id`, `name`, `type`, `options`, `license_id`, `creation_date`, `modification_date`)
+VALUES (103, 1, 'Palmer/Gaiman filtered social feeds', 'socialfeeds', '{"tumblr":[],"twitter":[{"twitterusername":"neilhimself","twitterhidereplies":false,"twitterfilte
