@@ -14,9 +14,11 @@ class CashSeedTests extends UnitTestCase {
 		$this->assertIsa($twitter, 'TwitterSeed');
 	}
 	function testMailchimpSeed(){
-		$settings = new MailchimpSeed('keyblarg-us42');
+		$settings = new MailchimpSeed('keyblarg-us2');
 		$this->assertIsa($settings, 'MailchimpSeed');
 		$this->assertTrue($settings->url);
+		$this->assertTrue($settings->lists());
+		$this->assertTrue($settings->listWebhooks(42));
 	}
 }
 ?>
