@@ -5,6 +5,7 @@
 	"scope":["users","lists","list_members"],
 	"dataTypes": 
 		{
-			"key":"string"
+			"key":"string",
+			"list":"string"
 		}
 }
