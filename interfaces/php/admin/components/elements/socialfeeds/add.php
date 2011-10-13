@@ -31,7 +31,7 @@
 		
 <?php } else {
 	
-	$effective_user = getPersistentData('cash_effective_user');
+	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
 
 	// parse for feeds
 	$all_feeds = array();

@@ -10,7 +10,7 @@ $page_request = new CASHRequest(
 	)
 );
 
-$elements_data = getElementsData();
+$elements_data = AdminHelper::getElementsData();
 
 if ($request_parameters) {
 	$element_addtype = $request_parameters[0];

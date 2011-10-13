@@ -17,8 +17,8 @@ $page_request = new CASHRequest(
 
 if ($page_request->response['status_uid'] == 'element_getelement_200') {
 	
-	$elements_data = getElementsData();
-	$effective_user = getPersistentData('cash_effective_user');
+	$elements_data = AdminHelper::getElementsData();
+	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
 	
 	if ($page_request->response['payload']['user_id'] == $effective_user) {
 		if (isset($_POST['doelementdelete']) || isset($_GET['modalconfirm'])) {

@@ -9,7 +9,7 @@ $page_request = new CASHRequest(
 		'cash_request_type' => 'asset', 
 		'cash_action' => 'getanalytics',
 		'analtyics_type' => 'mostaccessed',
-		'user_id' => getPersistentData('cash_effective_user')
+		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
 	)
 );
 if ($page_request->response['status_code'] == 200) {
@@ -23,7 +23,7 @@ $page_request = new CASHRequest(
 		'cash_request_type' => 'asset', 
 		'cash_action' => 'getanalytics',
 		'analtyics_type' => 'recentlyadded',
-		'user_id' => getPersistentData('cash_effective_user')
+		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
 	)
 );
 if ($page_request->response['status_code'] == 200) {
@@ -37,7 +37,7 @@ $page_request = new CASHRequest(
 		'cash_request_type' => 'element', 
 		'cash_action' => 'getanalytics',
 		'analtyics_type' => 'mostactive',
-		'user_id' => getPersistentData('cash_effective_user')
+		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
 	)
 );
 if ($page_request->response['status_code'] == 200) {
@@ -51,7 +51,7 @@ $page_request = new CASHRequest(
 		'cash_request_type' => 'element', 
 		'cash_action' => 'getanalytics',
 		'analtyics_type' => 'recentlyadded',
-		'user_id' => getPersistentData('cash_effective_user')
+		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
 	)
 );
 if ($page_request->response['status_code'] == 200) {
@@ -64,7 +64,7 @@ $page_request = new CASHRequest(
 	array(
 		'cash_request_type' => 'element', 
 		'cash_action' => 'getelementsforuser',
-		'user_id' => getPersistentData('cash_effective_user')
+		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
 	)
 );
 if ($page_data['element_mostactive']) {

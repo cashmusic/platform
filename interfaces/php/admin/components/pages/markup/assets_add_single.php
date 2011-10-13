@@ -7,7 +7,7 @@
 			<label for="settings_id">Use Settings</label><br />
 			<select id="settings_id" name="settings_id">
 				<option value="0" selected="selected">None (Normal http:// link)</option>
-				<?php echoSettingsOptions('assets') ?>
+				<?php AdminHelper::echoSettingsOptions('assets') ?>
 			</select>
 			
 			<div class="row_seperator">.</div>
@@ -44,7 +44,7 @@
 		
 <?php } else {
 	
-	$effective_user = getPersistentData('cash_effective_user');
+	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
 
 	$asset_add_request = new CASHRequest(
 		array(
