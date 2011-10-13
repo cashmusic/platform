@@ -25,7 +25,7 @@
 		
 <?php } else {
 	
-	$effective_user = getPersistentData('cash_effective_user');
+	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
 	
 	$element_add_request = new CASHRequest(
 		array(

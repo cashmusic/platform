@@ -11,6 +11,18 @@ $pages_path = ADMIN_BASE_PATH . '/components/pages/';
 $admin_primary_cash_request = new CASHRequest();
 $request_parameters = null;
 
+// admin-specific autoloader
+function cash_admin_autoloadCore($classname) {
+	$file = ADMIN_BASE_PATH . '/components/classes/'.$classname.'.php';
+	if (file_exists($file)) {
+		require_once($file);
+	}
+}
+spl_autoload_register('cash_admin_autoloadCore');
+
+// make a few objects to use throughout the pages
+$cash_admin = new AdminCore();
+
 // grab path from .htaccess redirect
 if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH))) {
 	$parsed_request = str_replace('/','_',trim($_REQUEST['p'],'/'));
@@ -85,7 +97,6 @@ if (isset($_POST['login'])) {
 
 // finally, output the template and page-specific markup (checking for current login)
 if ($admin_primary_cash_request->sessionGetPersistent('cash_actual_user')) {
-	include_once(ADMIN_BASE_PATH.'/components/helpers.php');
 	include($pages_path . 'definitions/' . $include_filename);
 	include(ADMIN_BASE_PATH . '/ui/default/top.php');
 	include($pages_path . 'markup/' . $include_filename);

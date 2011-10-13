@@ -47,7 +47,7 @@ $page_request = new CASHRequest(
 		'cash_request_type' => 'asset', 
 		'cash_action' => 'getanalytics',
 		'analtyics_type' => 'mostaccessed',
-		'user_id' => getPersistentData('cash_effective_user')
+		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
 	)
 );
 $page_data['asset_mostaccessed'] = $page_request->response['payload'];
@@ -57,7 +57,7 @@ $page_request = new CASHRequest(
 		'cash_request_type' => 'asset', 
 		'cash_action' => 'getanalytics',
 		'analtyics_type' => 'recentlyadded',
-		'user_id' => getPersistentData('cash_effective_user')
+		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
 	)
 );
 $page_data['asset_recentlyadded'] = $page_request->response['payload'];

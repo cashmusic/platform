@@ -12,18 +12,16 @@ $page_memu = array(
 		'people/social/' => 'Social'
 	)
 );
-$page_data = array();
-$page_section_request = new CASHRequest(
+
+$current_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'people', 
 		'cash_action' => 'getlistsforuser',
-		'user_id' => getPersistentData('cash_effective_user')
-	)
+		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
+	),
+	'getlistsforuser'
 );
-if ($page_section_request->response['status_uid'] == 'people_getlistsforuser_200') {
-	$page_data['lists'] = $page_section_request->response['payload'];
-} else {
-	$page_data['lists'] = false;
+if ($current_response['status_uid'] == 'people_getlistsforuser_200') {
+	$cash_admin->storeData($current_response['payload'],'alllists');
 }
-
 ?>

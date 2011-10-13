@@ -1,10 +1,10 @@
 <div class="col_onehalf">
 	<h2>Mailing Lists</h2>
 	<?php
-	if (!is_array($page_data['lists'])) {
+	if (!is_array($cash_admin->getStoredData('alllists'))) {
 		echo "No lists were found. Sorry.";
 	} else {
-		foreach ($page_data['lists'] as $list) {
+		foreach ($cash_admin->getStoredData('alllists') as $list) {
 			?>
 			<div class="callout">
 				<h4><?php echo $list['name']; ?></h4>

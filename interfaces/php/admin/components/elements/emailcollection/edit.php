@@ -55,7 +55,7 @@ if (isset($_POST['doelementedit'])) {
 			<label for="asset_id">Target Mailing List</label><br />
 			<select id="emal_list_id" name="emal_list_id">
 				<option value="0">none</option>
-				<?php echoFormOptions('user_lists',$page_data['options']->emal_list_id); ?>
+				<?php AdminHelper::echoFormOptions('user_lists',$page_data['options']->emal_list_id); ?>
 			</select>
 			
 			<div class="row_seperator">.</div>
@@ -63,7 +63,7 @@ if (isset($_POST['doelementedit'])) {
 			<label for="asset_id">The Downloadable Asset</label><br />
 			<select id="asset_id" name="asset_id">
 				<option value="0">none</option>
-				<?php echoFormOptions('assets',$page_data['options']->asset_id); ?>
+				<?php AdminHelper::echoFormOptions('assets',$page_data['options']->asset_id); ?>
 			</select>
 			
 			<br /><br />

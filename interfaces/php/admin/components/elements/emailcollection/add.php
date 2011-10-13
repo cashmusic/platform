@@ -13,7 +13,7 @@
 			<label for="asset_id">Target Mailing List</label><br />
 			<select id="emal_list_id" name="emal_list_id">
 				<option value="0">none</option>
-				<?php echoFormOptions('user_lists'); ?>
+				<?php AdminHelper::echoFormOptions('user_lists'); ?>
 			</select>
 			
 			<div class="row_seperator">.</div>
@@ -21,7 +21,7 @@
 			<label for="asset_id">The Downloadable Asset</label><br />
 			<select id="asset_id" name="asset_id">
 				<option value="0">none</option>
-				<?php echoFormOptions('assets'); ?>
+				<?php AdminHelper::echoFormOptions('assets'); ?>
 			</select>
 			
 			<br /><br />
@@ -58,7 +58,7 @@
 		
 <?php } else {
 	
-	$effective_user = getPersistentData('cash_effective_user');
+	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
 	
 	$element_add_request = new CASHRequest(
 		array(
