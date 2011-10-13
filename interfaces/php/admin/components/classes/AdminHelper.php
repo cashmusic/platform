@@ -102,7 +102,7 @@
 			array(
 				'cash_request_type' => $plant_name, 
 				'cash_action' => $action_name,
-				'user_id' => getPersistentData('cash_effective_user')
+				'user_id' => AdminHelper::getPersistentData('cash_effective_user')
 			)
 		);
 		if (is_array($echoformoptions_cash_request->response['payload']) && ($echoformoptions_cash_request->response['status_code'] == 200)) {
