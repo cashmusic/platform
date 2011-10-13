@@ -1,7 +1,7 @@
 <?php
 // add unique page settings:
 $page_title = 'Elements: Delete Element';
-$page_tips = 'None yet.';
+$page_tips = 'Confirm to delete.';
 
 if (!$request_parameters) {
 	header('Location: ' . ADMIN_WWW_BASE_PATH . '/elements/view/');

@@ -1,7 +1,7 @@
 <?php
 // add unique page settings:
 $page_title = 'Elements: Add Elements';
-$page_tips = 'They give an email, you give a download.';
+$page_tips = 'Choose an element type and click the "Add this now" button.';
 
 $page_request = new CASHRequest(
 	array(
@@ -16,6 +16,13 @@ if ($request_parameters) {
 	$element_addtype = $request_parameters[0];
 	if (isset($elements_data[$element_addtype])) {
 		$page_title = 'Elements: Add ' . $elements_data[$element_addtype]->name . ' Element';
+	}
+}
+
+$supported_elements = $page_request->response['payload'];
+if (array_search($element_addtype, $supported_elements) !== false) {
+	if (@file_exists(ADMIN_BASE_PATH.'/components/elements' . '/' . $element_addtype . '/help.php')) {
+		$page_tips = file_get_contents(ADMIN_BASE_PATH.'/components/elements' . '/' . $element_addtype . '/help.php');
 	}
 }
 ?>

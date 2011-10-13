@@ -1,7 +1,7 @@
 <?php
 // add unique page settings:
 $page_title = 'Elements: Edit Element';
-$page_tips = 'None yet.';
+$page_tips = 'Edit the element per instructions.';
 
 if (!$request_parameters) {
 	header('Location: ' . ADMIN_WWW_BASE_PATH . '/elements/view/');
@@ -27,5 +27,10 @@ if ($page_request->response['status_uid'] == 'element_getelement_200') {
 	}
 } else {
 	header('Location: ' . ADMIN_WWW_BASE_PATH . '/elements/view/');
+}
+
+$element_type = $page_request->response['payload']['type'];
+if (@file_exists(ADMIN_BASE_PATH.'/components/elements' . '/' . $element_type . '/help.php')) {
+	$page_tips = file_get_contents(ADMIN_BASE_PATH.'/components/elements' . '/' . $element_type . '/help.php');
 }
 ?>
