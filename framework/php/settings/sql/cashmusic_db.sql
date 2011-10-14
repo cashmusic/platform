@@ -288,6 +288,7 @@ CREATE TABLE `user_lists_members` (
   `list_id` int(11) NOT NULL,
   `verification_code` text,
   `verified` bit(1),
+  `active` bit(1) DEFAULT '1',
   `initial_comment` text,
   `additional_data` text,
   `creation_date` int(11) DEFAULT NULL,
