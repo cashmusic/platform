@@ -35,9 +35,13 @@
 	 * Gets a previously stored CASH Response
 	 *
 	 * @return array
-	 */public function getStoredResponse($store_name) {
+	 */public function getStoredResponse($store_name,$return_payload=false) {
 		if (isset($this->stored_responses[$store_name])) {
-			return $this->stored_responses[$store_name];
+			if ($return_payload) {
+				return $this->stored_responses[$store_name]['payload'];
+			} else {
+				return $this->stored_responses[$store_name];
+			}
 		} else {
 			return false;
 		}
