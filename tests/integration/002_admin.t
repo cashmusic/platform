@@ -3,23 +3,20 @@
 use strict;
 use warnings;
 use Test::Most;
-use Test::WWW::Mechanize;
 use Test::JSON;
+use Test::WWW::Mechanize;
+use File::Spec::Functions;
+use lib catdir(qw/tests lib/);
+use Test::Cashmusic qw/mech/;
 #use Carp::Always;
 
 my $base = $ENV{CASHMUSIC_TEST_URL} || 'http://localhost:80';
-my $mech = Test::WWW::Mechanize->new;
 
-BEGIN {
-    # Run the test installer every time we run these tests
-    qx "php installers/php/test_installer.php";
-}
-
-$mech->get_ok("$base/interfaces/php/admin/");
-$mech->content_contains('email');
-$mech->content_contains('password');
-$mech->content_contains('CASH Music');
-$mech->submit_form_ok({
+mech->get_ok("$base/interfaces/php/admin/");
+mech->content_contains('email');
+mech->content_contains('password');
+mech->content_contains('CASH Music');
+mech->submit_form_ok({
     form_number => 1,
     fields      => {
         # these are specified in the test installer
@@ -28,7 +25,7 @@ $mech->submit_form_ok({
         login    => 1,
     },
 }, 'log in to admin area');
-$mech->content_unlike(qr/Try Again/);
+mech->content_unlike(qr/Try Again/);
 
 
 my @admin_urls    = qw{
@@ -39,33 +36,33 @@ my @admin_urls    = qw{
 my @metadata_urls = map { "components/elements/$_/metadata.json" } qw{emailcollection tourdates};
 
 for my $url (@admin_urls) {
-    $mech->get_ok("$base/interfaces/php/admin/$url");
+    mech->get_ok("$base/interfaces/php/admin/$url");
 }
 
 for my $url (@metadata_urls) {
     my $full_url = "$base/interfaces/php/admin/$url";
-    $mech->get_ok($full_url);
-    is_valid_json($mech->content, "$full_url is valid JSON");
+    mech->get_ok($full_url);
+    is_valid_json(mech->content, "$full_url is valid JSON");
 }
 
-$mech->get_ok("$base/interfaces/php/admin/elements/view/100");
-$mech->content_contains("Portugal. The Man");
-$mech->content_contains('cash_embedElement(100)');
+mech->get_ok("$base/interfaces/php/admin/elements/view/100");
+mech->content_contains("Portugal. The Man");
+mech->content_contains('cash_embedElement(100)');
 
-$mech->get_ok("$base/interfaces/php/admin/elements/view/101");
-$mech->content_contains("Iron & Wine");
-$mech->content_contains('cash_embedElement(101)');
+mech->get_ok("$base/interfaces/php/admin/elements/view/101");
+mech->content_contains("Iron & Wine");
+mech->content_contains('cash_embedElement(101)');
 
-$mech->get_ok("$base/interfaces/php/admin/elements/view/102");
-$mech->content_contains("Wild Flag");
-$mech->content_contains('cash_embedElement(102)');
+mech->get_ok("$base/interfaces/php/admin/elements/view/102");
+mech->content_contains("Wild Flag");
+mech->content_contains('cash_embedElement(102)');
 
-$mech->get_ok("$base/interfaces/php/admin/elements/view/103");
-$mech->content_contains('Palmer/Gaiman filtered social feeds');
-$mech->content_contains('cash_embedElement(103)');
+mech->get_ok("$base/interfaces/php/admin/elements/view/103");
+mech->content_contains('Palmer/Gaiman filtered social feeds');
+mech->content_contains('cash_embedElement(103)');
 
-$mech->get_ok("$base/interfaces/php/admin/elements/delete/101");
-$mech->submit_form_ok({
+mech->get_ok("$base/interfaces/php/admin/elements/delete/101");
+mech->submit_form_ok({
     form_number => 1,
     fields => {
         doelementdelete => "makeitso",
@@ -74,13 +71,13 @@ $mech->submit_form_ok({
 
 # Look for errors like
 # SQLSTATE[HY000]: General error: 8 attempt to write a readonly database
-$mech->content_unlike(qr/SQLSTATE.*error/i);
+mech->content_unlike(qr/SQLSTATE.*error/i);
 
-$mech->get_ok("$base/interfaces/php/admin/assets/add/playlist/");
-$mech->content_contains('Add Playlist');
+mech->get_ok("$base/interfaces/php/admin/assets/add/playlist/");
+mech->content_contains('Add Playlist');
 
-$mech->get_ok("$base/interfaces/php/admin/assets/add/single/");
-$mech->submit_form_ok({
+mech->get_ok("$base/interfaces/php/admin/assets/add/single/");
+mech->submit_form_ok({
     form_number => 1,
     fields      => {
         asset_description => 'asdf',
@@ -90,11 +87,11 @@ $mech->submit_form_ok({
         settings_id       => 0
     },
 }, 'add asset form');
-$mech->content_unlike(qr/Error/);
-$mech->content_contains('Success');
+mech->content_unlike(qr/Error/);
+mech->content_contains('Success');
 
-$mech->get_ok("$base/interfaces/php/admin/elements/add/emailcollection");
-$mech->submit_form_ok({
+mech->get_ok("$base/interfaces/php/admin/elements/add/emailcollection");
+mech->submit_form_ok({
     form_name   => 'emailcollection',
     fields      => {
         asset_id         =>   '100',
@@ -108,10 +105,10 @@ $mech->submit_form_ok({
         message_success  => "Thanks! You're all signed up. Here's your download",
    },
 }, 'add email collection form');
-$mech->content_like(qr/Success/);
+mech->content_like(qr/Success/);
 
-$mech->get_ok("$base/interfaces/php/admin/elements/add/tourdates");
-$mech->submit_form_ok({
+mech->get_ok("$base/interfaces/php/admin/elements/add/tourdates");
+mech->submit_form_ok({
     form_name   => "tourdates",
     fields      => {
         doelementadd        => 'makeitso',
@@ -120,11 +117,11 @@ $mech->submit_form_ok({
         visible_event_types => 'upcoming',
     },
 }, 'add tourdates form');
-$mech->content_unlike(qr/Error/);
-$mech->content_like(qr/Success/);
+mech->content_unlike(qr/Error/);
+mech->content_like(qr/Success/);
 
-$mech->get("$base/interfaces/php/admin/people/mailinglists/add");
-$mech->submit_form_ok({
+mech->get("$base/interfaces/php/admin/people/mailinglists/add");
+mech->submit_form_ok({
     form_number => 1,
     fields      => {
         dolistadd        =>   'makeitso',
@@ -133,10 +130,10 @@ $mech->submit_form_ok({
         settings_id      =>   0,
     },
 }, 'add mailing list');
-$mech->content_like(qr/Success/);
+mech->content_like(qr/Success/);
 
-$mech->get("$base/interfaces/php/admin/elements/add/socialfeeds");
-$mech->submit_form_ok({
+mech->get("$base/interfaces/php/admin/elements/add/socialfeeds");
+mech->submit_form_ok({
     form_number => 1,
     fields      => {
         doelementadd        => 'makeitso',
@@ -151,6 +148,6 @@ $mech->submit_form_ok({
         twitterfiltervalue2 => 'BAR',
     },
 }, 'add social feeds');
-$mech->content_like(qr/Success/);
+mech->content_like(qr/Success/);
 
 done_testing;
