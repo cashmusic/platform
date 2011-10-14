@@ -10,17 +10,18 @@
 	<h2 class="usecolor1">Elements</h2>
 	<div class="col_onethird" style="font-weight:bold;">
 		At a Glance<br />
-		<span class="majorcallout bgcolor1"><?php echo $page_data['element_active_count']; ?></span> <a href="<?php echo ADMIN_WWW_BASE_PATH . '/elements/' ?>"><big>Active <br />Element<?php if($page_data['element_active_count'] != 1) { echo 's'; } ?></big></a>
+		<span class="majorcallout bgcolor1"><?php echo (int) $cash_admin->getStoredData('element_active_count'); ?></span> <a href="<?php echo ADMIN_WWW_BASE_PATH . '/elements/' ?>"><big>Active <br />Element<?php if((int) $cash_admin->getStoredData('element_active_count') != 1) { echo 's'; } ?></big></a>
 		<div class="clearfix">.</div>
-		<span class="majorcallout bgcolor0"><?php echo $page_data['element_inactive_count']; ?></span> <a href="<?php echo ADMIN_WWW_BASE_PATH . '/elements/view/' ?>" class="usecolor0"><big>Inactive <br />Element<?php if($page_data['element_inactive_count'] != 1) { echo 's'; } ?></big></a>
+		<span class="majorcallout bgcolor0"><?php echo (int) $cash_admin->getStoredData('element_inactive_count'); ?></span> <a href="<?php echo ADMIN_WWW_BASE_PATH . '/elements/view/' ?>" class="usecolor0"><big>Inactive <br />Element<?php if((int) $cash_admin->getStoredData('element_inactive_count') != 1) { echo 's'; } ?></big></a>
 	</div>
+
 	<div class="col_onethird">
 		<b>Most Active</b>
 		<?php
-		if (is_array($page_data['element_mostactive'])) {
+		if (is_array($cash_admin->getStoredResponse('element_mostactive',true))) {
 			$loopcount = 1;
 			echo '<ol class="fadedtext">';
-			foreach ($page_data['element_mostactive'] as $element) {
+			foreach ($cash_admin->getStoredResponse('element_mostactive',true) as $element) {
 				echo '<li><a href="' . ADMIN_WWW_BASE_PATH . '/elements/view/' . $element['id'] . '">' . $element['name'] . '</a> <span class="smalltext nobr">(accessed: ' . $element['count'] . ')</span></li>';
 				$loopcount = $loopcount + 1;
 				if ($loopcount == 3) { break; }
@@ -34,10 +35,10 @@
 	<div class="col_onethird lastcol">
 		<b>Recently Added</b>
 		<?php
-		if (is_array($page_data['element_recentlyadded'])) {
+		if (is_array($cash_admin->getStoredResponse('element_recentlyadded',true))) {
 			$loopcount = 1;
 			echo '<ul class="nobullets fadedtext">';
-			foreach ($page_data['element_recentlyadded'] as $element) {
+			foreach ($cash_admin->getStoredResponse('element_recentlyadded',true) as $element) {
 				echo '<li><a href="' . ADMIN_WWW_BASE_PATH . '/elements/view/' . $element['id'] . '">' . $element['name'] . '</a></li>';
 				if ($loopcount == 3) { break; }
 				$loopcount = $loopcount + 1;
@@ -56,10 +57,10 @@
 	<h2 class="usecolor2">Assets</h2>
 	<b>Most Accessed</b>
 		<?php
-		if (is_array($page_data['asset_mostaccessed'])) {
+		if (is_array($cash_admin->getStoredResponse('asset_mostaccessed',true))) {
 			$loopcount = 1;
 			echo '<ol class="fadedtext">';
-			foreach ($page_data['asset_mostaccessed'] as $asset) {
+			foreach ($cash_admin->getStoredResponse('asset_mostaccessed',true) as $asset) {
 				echo '<li><a href="#">' . $asset['title'] . '</a> <span class="smalltext nobr">(accessed: ' . $asset['count'] . ')</span></li>';
 				$loopcount = $loopcount + 1;
 				if ($loopcount == 3) { break; }
@@ -71,10 +72,10 @@
 		?>
 	<b>Recently Added</b>
 	<?php
-	if (is_array($page_data['asset_recentlyadded'])) {
+	if (is_array($cash_admin->getStoredResponse('asset_recentlyadded',true))) {
 		$loopcount = 1;
 		echo '<ul class="nobullets fadedtext">';
-		foreach ($page_data['asset_recentlyadded'] as $asset) {
+		foreach ($cash_admin->getStoredResponse('asset_recentlyadded',true) as $asset) {
 			echo '<li><a href="#">' . $asset['title'] . '</a></li>';
 			if ($loopcount == 3) { break; }
 			$loopcount = $loopcount + 1;
@@ -117,5 +118,16 @@
 	</p>
 </div><div class="col_onefourth lastcol usecolor5">
 	<h2 class="usecolor5">Calendar</h2>
-	<p class="fadedtext">There are no upcoming shows or events.</p>
+	<b>This week</b><br />
+	<?php
+	if (is_array($cash_admin->getStoredResponse('events_thisweek',true))) {
+		echo '<ul class="nobullets fadedtext">';
+		foreach ($cash_admin->getStoredResponse('events_thisweek',true) as $event) {
+			echo '<li><a href="#">' . date('m/d',$event['date']) . ': ' . $event['venue_city'] . ', ' . $event['venue_region'] . '</a><br /><span class="smalltext nobr">@ ' . $event['venue_name'] . '</span></li>';
+		}
+		echo '</ul>';
+	} else {
+		echo '<p class="fadedtext">There are no upcoming events.</p>';
+	}
+	?>
 </div>

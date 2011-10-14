@@ -4,77 +4,78 @@ $page_title = 'Your Dashboard';
 $page_tips = 'Here\'s an overview of your account. Look for help tips on every page.';
 $page_data = array();
 
-$page_request = new CASHRequest(
+// most accessed assets
+$eval_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'asset', 
 		'cash_action' => 'getanalytics',
 		'analtyics_type' => 'mostaccessed',
 		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-	)
+	),
+	'asset_mostaccessed'
 );
-if ($page_request->response['status_code'] == 200) {
-	$page_data['asset_mostaccessed'] = $page_request->response['payload'];
-} else {
-	$page_data['asset_mostaccessed'] = false;
-}
 
-$page_request = new CASHRequest(
+// recently added assets
+$eval_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'asset', 
 		'cash_action' => 'getanalytics',
 		'analtyics_type' => 'recentlyadded',
 		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-	)
+	),
+	'asset_recentlyadded'
 );
-if ($page_request->response['status_code'] == 200) {
-	$page_data['asset_recentlyadded'] = $page_request->response['payload'];
-} else {
-	$page_data['asset_recentlyadded'] = false;
-}
 
-$page_request = new CASHRequest(
+// next week of events
+$cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'calendar', 
+		'cash_action' => 'gettourdatesbetween',
+		'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
+		'cutoff_date_low' => 'now',
+		'cutoff_date_high' => time() + (60*60*24*7) // weird time format, but easy to understand
+	),
+	'events_thisweek'
+);
+
+// most active elements
+$eval_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'element', 
 		'cash_action' => 'getanalytics',
 		'analtyics_type' => 'mostactive',
 		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-	)
+	),
+	'element_mostactive'
 );
-if ($page_request->response['status_code'] == 200) {
-	$page_data['element_mostactive'] = $page_request->response['payload'];
-} else {
-	$page_data['element_mostactive'] = false;
-}
 
-$page_request = new CASHRequest(
+// recently added elements
+$eval_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'element', 
 		'cash_action' => 'getanalytics',
 		'analtyics_type' => 'recentlyadded',
 		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-	)
+	),
+	'element_recentlyadded'
 );
-if ($page_request->response['status_code'] == 200) {
-	$page_data['element_recentlyadded'] = $page_request->response['payload'];
-} else {
-	$page_data['element_recentlyadded'] = false;
-}
 
-$page_request = new CASHRequest(
+// get all elements
+$eval_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'element', 
 		'cash_action' => 'getelementsforuser',
 		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-	)
+	),
+	'element_allelements'
 );
-if ($page_data['element_mostactive']) {
-	$page_data['element_active_count'] = count($page_data['element_mostactive']);
-} else {
-	$page_data['element_active_count'] = 0;
-}
-if ($page_data['element_active_count']) {
-	$page_data['element_inactive_count'] = count($page_request->response['payload']) - $page_data['element_active_count'];
-} else {
-	$page_data['element_inactive_count'] = 0;
-}
+
+// count the active elements
+if ($cash_admin->getStoredResponse('element_mostactive',true)) {
+	$cash_admin->storeData(count($cash_admin->getStoredResponse('element_mostactive',true)),'element_active_count');
+} 
+// if active elements are found, subtract them from the total to get inactive elements
+if ($cash_admin->getStoredData('element_active_count')) {
+	$cash_admin->storeData(count($cash_admin->getStoredResponse('element_allelements',true)) - $cash_admin->getStoredData('element_active_count'),'element_inactive_count');
+} 
 ?>
