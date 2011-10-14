@@ -90,6 +90,21 @@ class CalendarPlant extends PlantBase {
 						return $this->pushFailure('No tourdates were found matching your criteria.');
 					}
 					break;
+				case 'gettourdatesbetween':
+					if (!$this->requireParameters('user_id','cutoff_date_low','cutoff_date_high')) { return $this->sessionGetLastResponse(); }
+					$offset = 0;
+					$published_status = 1;
+					$cancelled_status = 0; // need to find a way to set this to a wildcard. '*' doesn't work for sqlite, but does for mysql
+					if (isset($this->request['offset'])) { $offset = $this->request['offset']; }
+					if (isset($this->request['published_status'])) { $published_status = $this->request['published_status']; }
+					if (isset($this->request['cancelled_status'])) { $cancelled_status = $this->request['cancelled_status']; }
+					$result = $this->getDatesBetween($this->request['user_id'],$offset,$this->request['cutoff_date_low'],$cancelled_status,$published_status,$this->request['cutoff_date_high']);
+					if ($result) {
+						return $this->pushSuccess($result,'Success. Array of events in payload.');
+					} else {
+						return $this->pushFailure('No tourdates were found matching your criteria.');
+					}
+					break;
 				default:
 					return $this->response->pushResponse(
 						400,$this->request_type,$this->action,
@@ -183,7 +198,7 @@ class CalendarPlant extends PlantBase {
 
 	public function getDateByID($date_id) {
 		$result = $this->db->doSpecialQuery(
-			'CalendarPlant_getDatesById',
+			'CalendarPlant_getDateById',
 			array('date_id' => $date_id)
 		);
 		return $result;

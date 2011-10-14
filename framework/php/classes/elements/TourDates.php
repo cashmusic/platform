@@ -53,7 +53,7 @@ class TourDates extends ElementBase {
 			// no dates matched
 			$markup .= 'There are no dates to display right now.';
 		}
-		return $markup;	
+		return $markup;
 	}
 } // END class 
 ?>

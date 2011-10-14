@@ -25,13 +25,7 @@
 	 *
 	 * @return array
 	 */public function requestAndStore($request_array,$store_name) {
-		$cash_admin_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'people', 
-				'cash_action' => 'getlistsforuser',
-				'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-			)
-		);
+		$cash_admin_request = new CASHRequest($request_array);
 		$this->stored_responses[$store_name] = $cash_admin_request->response;
 		unset($cash_admin_request);
 		return $this->stored_responses[$store_name];
