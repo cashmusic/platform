@@ -13,13 +13,13 @@
 <div class="col_onehalf">
 	<h2>Most Accessed</h2>
 		<?php
-		if (!is_array($page_data['asset_mostaccessed'])) {
+		if (is_array($cash_admin->getStoredResponse('asset_mostaccessed',true))) {
 			$loopcount = 1;
 			echo '<ol class="fadedtext">';
-			foreach ($page_data['asset_mostaccessed'] as $asset) {
+			foreach ($cash_admin->getStoredResponse('asset_mostaccessed',true) as $asset) {
 				echo '<li><a href="#">' . $asset['title'] . '</a> <span class="smalltext nobr">(accessed: ' . $asset['count'] . ')</span></li>';
 				$loopcount = $loopcount + 1;
-				if ($loopcount == 6) { break; }
+				if ($loopcount == 3) { break; }
 			}
 			echo '</ol>';
 		} else {
@@ -28,18 +28,18 @@
 		?>
 </div><div class="col_onehalf lastcol">
 	<h2>Recently Added</h2>
-	<?php
-	if (!is_array($page_data['asset_recentlyadded'])) {
-		$loopcount = 1;
-		echo '<ul class="nobullets fadedtext">';
-		foreach ($page_data['asset_recentlyadded'] as $asset) {
-			echo '<li><a href="#">' . $asset['title'] . '</a></li>';
-			if ($loopcount == 6) { break; }
-			$loopcount = $loopcount + 1;
+		<?php
+		if (is_array($cash_admin->getStoredResponse('asset_recentlyadded',true))) {
+			$loopcount = 1;
+			echo '<ul class="nobullets fadedtext">';
+			foreach ($cash_admin->getStoredResponse('asset_recentlyadded',true) as $asset) {
+				echo '<li><a href="#">' . $asset['title'] . '</a></li>';
+				if ($loopcount == 3) { break; }
+				$loopcount = $loopcount + 1;
+			}
+			echo '</ul>';
+		} else {
+			echo '<p>No assets have been added yet.</p>';
 		}
-		echo '</ul>';
-	} else {
-		echo '<p>No assets have been added yet.</p>';
-	}
-	?>
+		?>
 </div>

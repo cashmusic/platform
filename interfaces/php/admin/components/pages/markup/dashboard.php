@@ -71,20 +71,20 @@
 		}
 		?>
 	<b>Recently Added</b>
-	<?php
-	if (is_array($cash_admin->getStoredResponse('asset_recentlyadded',true))) {
-		$loopcount = 1;
-		echo '<ul class="nobullets fadedtext">';
-		foreach ($cash_admin->getStoredResponse('asset_recentlyadded',true) as $asset) {
-			echo '<li><a href="#">' . $asset['title'] . '</a></li>';
-			if ($loopcount == 3) { break; }
-			$loopcount = $loopcount + 1;
+		<?php
+		if (is_array($cash_admin->getStoredResponse('asset_recentlyadded',true))) {
+			$loopcount = 1;
+			echo '<ul class="nobullets fadedtext">';
+			foreach ($cash_admin->getStoredResponse('asset_recentlyadded',true) as $asset) {
+				echo '<li><a href="#">' . $asset['title'] . '</a></li>';
+				if ($loopcount == 3) { break; }
+				$loopcount = $loopcount + 1;
+			}
+			echo '</ul>';
+		} else {
+			echo '<p>No assets have been added yet.</p>';
 		}
-		echo '</ul>';
-	} else {
-		echo '<p>No assets have been added yet.</p>';
-	}
-	?>
+		?>
 </div><div class="col_onefourth usecolor3">
 	<h2 class="usecolor3">People</h2>
 	<p>
