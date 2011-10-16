@@ -2,7 +2,7 @@
 tr:nth-child(odd) {
     background-color:#eee;
 }
-td, th {padding:2px 5px 2px 5px;vertical-align:top;}
+td, th {padding:6px 5px 6px 5px;vertical-align:top;}
 th {background-color:#000;color:#fff;}
 * #pagecontent td a,
 div.usecolor1 #pagecontent td a, 

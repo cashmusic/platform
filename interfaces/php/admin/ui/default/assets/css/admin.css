@@ -36,10 +36,12 @@ table {font-size:11px;}
 ul.nobullets {padding:0;}
 ul.nobullets li {list-style-type:none;margin-bottom:12px;}
 ul.alternating {padding:0;}
-ul.alternating li {list-style-type:none;padding:0;background-color:#ededef;}
+ul.alternating li {list-style-type:none;padding:9px;background-color:#ededef;}
 ul.alternating li.alternate {background-color:#f9f9ff;}
 ul.alternating li:hover {background-color:#fff;}
-ul.alternating li a {display:block;padding:9px;}
+ul.alternating li a {line-height:1.5em;}
+ul.linkonly li {padding:0 !important;}
+ul.linkonly li a {display:block;padding:9px;}
 #pagecontent {position:relative;clear:both;width:920px;padding:140px 2em 3em 2em;margin:0 auto;text-align:left;z-index:500;}
 .col_oneoftwo {float:left;width:47%;padding-right:5%;}
 .col_oneofthree {float:left;width:29%;padding-right:6%;}
@@ -142,8 +144,8 @@ label {font-size:11px;text-transform:uppercase;color:#999;}
 #navmenu a:active, #navmenu a:focus {color:#000;}
 #tipspc {clear:both;position:relative;padding-top:8px;color:#666;width:722px;margin-bottom:16px;}
 #tipspc a {color:#231F20;}
-#tipspc a:hover {background-color:#fff;}
-#tipscloselink {font-weight:bold;}
+#tipscloselink {position:relative;left:-4px;font-weight:bold;padding:4px;}
+#tipscloselink:hover {background-color:#000;color:#fff;text-decoration:none;}
 #pagetips {position:fixed;top:72px;z-index:1234;right:1.5em;;width:238px;background-color:#ff0;color:#231F20;font-size:11px;line-height:14px;padding:1.75em 1.3em 1.5em 2em;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;text-align:left;margin:0;}
 #sectionmenu a {text-transform:lowercase;margin-right:1.5em;}
 #navmenu .currentnav, #navmenu .currentnav a {color:#000;}

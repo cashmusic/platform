@@ -31,7 +31,7 @@
 		<?php
 		if (is_array($cash_admin->getStoredResponse('asset_recentlyadded',true))) {
 			$loopcount = 1;
-			echo '<ul class="alternating fadedtext">';
+			echo '<ul class="alternating linkonly fadedtext">';
 			foreach ($cash_admin->getStoredResponse('asset_recentlyadded',true) as $asset) {
 				$altclass = '';
 				if ($loopcount % 2 == 0) { $altclass = ' class="alternate"'; }

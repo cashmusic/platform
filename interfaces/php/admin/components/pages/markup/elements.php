@@ -18,7 +18,7 @@
 	<?php
 	if ($page_data['element_recentlyadded']) {
 		$loopcount = 1;
-		echo '<ul class="alternating fadedtext">';
+		echo '<ul class="alternating linkonly fadedtext">';
 		foreach ($page_data['element_recentlyadded'] as $element) {
 			$altclass = '';
 			if ($loopcount % 2 == 0) { $altclass = ' class="alternate"'; }
