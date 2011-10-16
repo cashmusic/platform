@@ -3,7 +3,7 @@
 $page_title = 'Calendar: Main';
 $page_tips = 'Here folks will manage their show calendars, guestlists, and choose what is published in any elements they create.';
 $page_memu = array(
-	'Actions' => array(
+	'Calendar' => array(
 		'calendar/events/' => 'Events',
 		'calendar/venues/' => 'Venues',
 		'calendar/guestlists/' => 'Guestlists'
@@ -25,7 +25,7 @@ $cash_admin->requestAndStore(
 		'cash_request_type' => 'calendar', 
 		'cash_action' => 'gettourdates',
 		'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
-		'cash_action' => 'gettourdates',
+		'visible_event_types' => 'upcoming',
 		'published_status' => 0
 	),
 	'events_unpublished'
@@ -44,13 +44,8 @@ function calendar_format_dates($dates_response) {
 					. '<h4>' . date('d F',$event['date']) . ': ' . $event_location . '</h4> '
 					. '<b>@ ' . $event['venue_name'] . '</b> - ';
 			if ($event['comments']) {
-				$markup .= $event['comments'];
+				$markup .= '<span class="fadedtext">' . $event['comments'] . '</span>';
 			}
-			$markup .= '<br /><span class="smalltext fadedtext nobr">Created: ' . date('M jS, Y',$event['creation_date']); 
-			if ($event['modification_date']) { 
-				$markup .= ' (Modified: ' . date('F jS, Y',$event['modification_date']) . ')'; 
-			}
-			$markup .= '</span>';
 			
 			$markup .= '<div class="tar"><br /><a href="' . $event['event_id'] . '" class="mininav">Edit</a> <a href="../delete/' . $event['event_id'] . '" class="needsconfirmation mininav">Delete</a></div>';
 			$markup .= '</div>';

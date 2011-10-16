@@ -1,5 +1,5 @@
-<div class="col_onehalf">
-	<h2>Mailing Lists</h2>
+<div class="col_oneoftwo">
+	<h2>Lists</h2>
 	<?php
 	if (!is_array($cash_admin->getStoredData('alllists'))) {
 		echo "No lists were found. Sorry.";
@@ -20,14 +20,9 @@
 	}
 	?>
 </div>
-<div class="col_onehalf lastcol">
+<div class="col_oneoftwo lastcol">
 	<h2>Social</h2>
 	<p>
 		Twitter and Facebook integrations not set up.
-	</p>
-	
-	<h2>Locked Elements by List</h2>
-	<p>
-		There are no locked elements.
 	</p>
 </div>

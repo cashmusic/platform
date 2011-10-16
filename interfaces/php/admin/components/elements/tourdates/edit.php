@@ -39,22 +39,23 @@ if (isset($_POST['doelementedit'])) {
 	<form method="post" action="">
 		<input type="hidden" name="doelementedit" value="makeitso">
 		<input type="hidden" name="element_id" value="<?php echo $page_data['id']; ?>">
-		<div class="col_onehalf">
+		<div class="col_oneoftwo">
 			<h3>Element Details</h3>
 		
 			<label for="element_name">Name</label><br />
 			<input type="text" id="element_name" name="element_name" value="<?php echo $page_data['name']; ?>" /> 
 		</div>
 
-		<div class="col_onehalf lastcol">
+		<div class="col_oneoftwo lastcol">
 			<h3>&nbsp;</h3>
 			<label for="visible_event_types">Which Dates Should It Show?</label><br />
 			<input type="radio" name="visible_event_types" class="checkorradio" value="upcoming" <?php if ($page_data['options']->visible_event_types == 'upcoming') { echo 'checked="checked"'; } ?> /> Upcoming Dates <br />
 			<input type="radio" name="visible_event_types" class="checkorradio" value="archive" <?php if ($page_data['options']->visible_event_types == 'archive') { echo 'checked="checked"'; } ?> /> Archive Dates <br /> 
 			<input type="radio" name="visible_event_types" class="checkorradio" value="both" <?php if ($page_data['options']->visible_event_types == 'both') { echo 'checked="checked"'; } ?> /> All Dates 
 		</div>
-		<div class="row_seperator">.</div><br />
-		<div class="tar">
+		<div class="row_seperator">.</div>
+		<div>
+			<br />
 			<input class="button" type="submit" value="Edit The Element" />
 		</div>
 

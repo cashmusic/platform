@@ -23,7 +23,7 @@
 						$secondclass = '';
 					}
 					?>
-					<div class="col_onethird<?php echo $secondclass; ?>">
+					<div class="col_oneofthree<?php echo $secondclass; ?>">
 						<a href="<?php echo $element; ?>"><img src="<?php echo ADMIN_WWW_BASE_PATH . '/components/elements/' . $element . '/image.png'; ?>" width="100%" alt="<?php echo $data->name; ?>" /></a><br />
 						<h3><?php echo $data->name; ?></h3>
 						<small>by <a href="<?php echo $data->url; ?>"><?php echo $data->author; ?></a></small>

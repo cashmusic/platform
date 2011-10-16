@@ -1,7 +1,7 @@
 <?php if (!isset($_POST['dolistadd'])) { ?>
 	<form method="post" action="">
 		<input type="hidden" name="dolistadd" value="makeitso" />
-		<div class="col_onehalf">
+		<div class="col_oneoftwo">
 			<h3>List Details</h3>
 			
 			<label for="list_name">Name</label><br />
@@ -16,7 +16,7 @@
 			</select>
 		</div>
 
-		<div class="col_onehalf lastcol">
+		<div class="col_oneoftwo lastcol">
 			<h3>&nbsp;</h3>
 			<label for="list_description">Description</label><br />
 			<textarea rows="3" id="list_description" name="list_description"></textarea>

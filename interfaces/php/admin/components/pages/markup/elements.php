@@ -1,4 +1,4 @@
-<div class="col_onehalf">
+<div class="col_oneoftwo">
 	<h2>Most Active Elements</h2>
 	<?php
 	if ($page_data['element_mostactive']) {
@@ -30,7 +30,7 @@
 	}
 	?>
 </div>
-<div class="col_onehalf lastcol">
+<div class="col_oneoftwo lastcol">
 	<h2>Elements In Progress</h2>
 	<ul>
 	<li>Tweet for download</li>

@@ -32,7 +32,7 @@ You dig?
 
 */
 $page_memu = array(
-	'Actions' => array(
+	'Assets' => array(
 		'assets/add/' => 'Add Assets',
 			'assets/add/single/' => 'Add Single Asset',
 			'assets/add/playlist/' => 'Add Playlist',

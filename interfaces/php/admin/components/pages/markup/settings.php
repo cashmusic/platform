@@ -1,4 +1,4 @@
-<div class="col_onehalf">
+<div class="col_oneoftwo">
 	<h3>Add a new service connection:</h3>
 	<p>
 		Easily connect to any of these services:
@@ -6,9 +6,9 @@
 	<?php
 	$colcount = 1;
 	foreach ($settings_types_data as $key => $data) {
-		$class_string = 'col_onehalf';
+		$class_string = 'col_oneoftwo';
 		if ($colcount % 2 == 0) {
-			$class_string = 'col_onehalf lastcol';
+			$class_string = 'col_oneoftwo lastcol';
 		}
 		echo '<div class="' . $class_string . '">';
 		echo '<a href="' . ADMIN_WWW_BASE_PATH . '/settings/add/' . $key . '">';
@@ -24,7 +24,7 @@
 	}
 	?>
 </div>
-<div class="col_onehalf lastcol">
+<div class="col_oneoftwo lastcol">
 	<?php
 		if (isset($settings_action)) {
 			switch ($settings_action) {

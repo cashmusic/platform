@@ -65,16 +65,11 @@ if (isset($_POST['doelementedit'])) {
 	<form name="socialfeeds" method="post" action="">
 		<input type="hidden" name="doelementedit" value="makeitso" />
 		<input type="hidden" name="element_id" value="<?php echo $page_data['id']; ?>">
-		<div class="col_onehalf">
-			<h3>Element Details</h3>
+		<h3>Element Details</h3>
 	
-			<label for="element_name">Name</label><br />
-			<input type="text" id="element_name" name="element_name" value="<?php echo $page_data['name']; ?>" /> 
-		</div>
+		<label for="element_name">Name</label><br />
+		<input type="text" id="element_name" name="element_name" value="<?php echo $page_data['name']; ?>" /> 
 
-		<div class="col_onehalf lastcol">
-			<h3>&nbsp;</h3>
-		</div>
 		<div class="row_seperator">.</div><br />
 		<div>
 			<label>Twitter</label><br />
@@ -98,11 +93,11 @@ if (isset($_POST['doelementedit'])) {
 							break;
 					}
 					
-					echo "<div class='col_onehalf'><input type='text' name='twitterusername$twitter_counter' value='{$tw->twitterusername}' /><br /><input type='checkbox' class='checkorradio' name='twitterhidereplies$twitter_counter' value=''$checkstring /> Hide @-replies?</div><div class='col_onehalf lastcol'><div class='col_onehalf'><select name='twitterfiltertype$twitter_counter'>$optionsstring</select></div><div class='col_onehalf lastcol'><input type='text' name='twitterfiltervalue$twitter_counter' value='{$tw->twitterfiltervalue}' /></div></div><div class='row_seperator'>.</div><br />";
+					echo "<div class='col_oneofthree'><input type='text' name='twitterusername$twitter_counter' value='{$tw->twitterusername}' /><br /><input type='checkbox' class='checkorradio' name='twitterhidereplies$twitter_counter' value=''$checkstring /> Hide @-replies?</div><div class='col_oneofthree'><select name='twitterfiltertype$twitter_counter'>$optionsstring</select></div><div class='col_oneofthree lastcol'><input type='text' name='twitterfiltervalue$twitter_counter' value='{$tw->twitterfiltervalue}' /></div><div class='row_seperator'>.</div><br />";
 					$twitter_counter = $twitter_counter+1;
 				}
 			?>
-			<a href="#" class="injectbefore" rel="<?php echo $twitter_counter; ?>" rev="<div class='col_onehalf'><input type='text' name='twitterusername' value='' placeholder='@username' /><br /><input type='checkbox' class='checkorradio' name='twitterhidereplies' value='' checked='checked' /> Hide @-replies?</div><div class='col_onehalf lastcol'><div class='col_onehalf'><select name='twitterfiltertype'><option value='none' selected='selected'>Do not filter</option><option value='contain'>Tweets containing:</option><option value='beginwith'>Tweets begin with:</option></select></div><div class='col_onehalf lastcol'><input type='text' name='twitterfiltervalue' value='' placeholder='Filter value' /></div></div><div class='row_seperator'>.</div><br />"><small>+ ADD TWITTER FEED</small></a>
+			<a href="#" class="injectbefore" rel="<?php echo $twitter_counter; ?>" rev="<div class='col_oneoftwo'><input type='text' name='twitterusername' value='' placeholder='@username' /><br /><input type='checkbox' class='checkorradio' name='twitterhidereplies' value='' checked='checked' /> Hide @-replies?</div><div class='col_oneoftwo lastcol'><div class='col_oneoftwo'><select name='twitterfiltertype'><option value='none' selected='selected'>Do not filter</option><option value='contain'>Tweets containing:</option><option value='beginwith'>Tweets begin with:</option></select></div><div class='col_oneoftwo lastcol'><input type='text' name='twitterfiltervalue' value='' placeholder='Filter value' /></div></div><div class='row_seperator'>.</div><br />"><small>+ ADD TWITTER FEED</small></a>
 		</div>
 		<div class="row_seperator">.</div><br />
 		<div>
@@ -117,7 +112,8 @@ if (isset($_POST['doelementedit'])) {
 			<a href="#" class="injectbefore" rev="<input type='text' name='tumblrurl' value='' placeholder='Tumblr URL' />"><small>+ ADD TUMBLR FEED</small></a>
 		</div>
 		<div class="row_seperator">.</div>
-		<div class="tar">
+		<div>
+			<br />
 			<input class="button" type="submit" value="Add That Element" />
 		</div>
 
