@@ -6,9 +6,6 @@ $page_memu = array(
 	'People' => array(
 		'people/contacts/' => 'Contacts',
 		'people/mailinglists/' => 'Lists',
-			'people/mailinglists/add/' => 'Add Mailing List',
-			'people/mailinglists/view/' => 'View Mailing List',
-			'people/mailinglists/export/' => 'Export Mailing List',
 		'people/social/' => 'Social'
 	)
 );

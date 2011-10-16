@@ -23,7 +23,7 @@
 		</div>
 
 		<div class="row_seperator">.</div><br />
-		<div class="tar">
+		<div>
 			<input class="button" type="submit" value="Add The New List" />
 		</div>
 

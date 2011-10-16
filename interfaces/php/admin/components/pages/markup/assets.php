@@ -31,10 +31,12 @@
 		<?php
 		if (is_array($cash_admin->getStoredResponse('asset_recentlyadded',true))) {
 			$loopcount = 1;
-			echo '<ul class="nobullets fadedtext">';
+			echo '<ul class="alternating fadedtext">';
 			foreach ($cash_admin->getStoredResponse('asset_recentlyadded',true) as $asset) {
-				echo '<li><a href="#">' . $asset['title'] . '</a></li>';
-				if ($loopcount == 3) { break; }
+				$altclass = '';
+				if ($loopcount % 2 == 0) { $altclass = ' class="alternate"'; }
+				echo '<li' . $altclass . '><a href="#">' . $asset['title'] . '</a></li>';
+				if ($loopcount == 5) { break; }
 				$loopcount = $loopcount + 1;
 			}
 			echo '</ul>';

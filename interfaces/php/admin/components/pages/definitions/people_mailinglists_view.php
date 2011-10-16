@@ -13,5 +13,7 @@ if ($request_parameters) {
 			'list_id' => $request_list_id
 		)
 	);
+} else {
+	header('Location: ' . ADMIN_WWW_BASE_PATH . '/people/mailinglists/');
 }
 ?>

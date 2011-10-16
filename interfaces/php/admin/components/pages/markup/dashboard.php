@@ -76,7 +76,7 @@
 			$loopcount = 1;
 			echo '<ul class="nobullets fadedtext">';
 			foreach ($cash_admin->getStoredResponse('asset_recentlyadded',true) as $asset) {
-				echo '<li><a href="#">' . $asset['title'] . '</a></li>';
+				echo '<li><a href="#">' . $asset['title'] . '</a><br /><span class="smalltext fadedtext nobr">created: ' . date('M jS, Y',$asset['creation_date']) . '</span></li>';
 				if ($loopcount == 3) { break; }
 				$loopcount = $loopcount + 1;
 			}

@@ -18,9 +18,11 @@
 	<?php
 	if ($page_data['element_recentlyadded']) {
 		$loopcount = 1;
-		echo '<ul class="nobullets fadedtext">';
+		echo '<ul class="alternating fadedtext">';
 		foreach ($page_data['element_recentlyadded'] as $element) {
-			echo '<li><a href="' . ADMIN_WWW_BASE_PATH . '/elements/view/' . $element['id'] . '">' . $element['name'] . '</a></li>';
+			$altclass = '';
+			if ($loopcount % 2 == 0) { $altclass = ' class="alternate"'; }
+			echo '<li' . $altclass . '><a href="' . ADMIN_WWW_BASE_PATH . '/elements/view/' . $element['id'] . '">' . $element['name'] . '</a></li>';
 			if ($loopcount == 6) { break; }
 			$loopcount = $loopcount + 1;
 		}
