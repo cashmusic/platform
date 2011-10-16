@@ -16,7 +16,7 @@ FONTS
 html {margin:0;padding:0;}
 body {color:#231F20;background-color:#fff;text-align:center;font:13px/1.5em helvetica,"helvetica neue",arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:920px;}
 a {color:#999;text-decoration:none;}
-a:hover {text-decoration:underline;}
+a:hover {text-decoration:underline;color:#000 !important;}
 code, div.callout {display:block;font-size:11px;padding:22px 18px 18px 18px;margin:0 auto 1.5em auto;background-color:#ededef;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;}
 div.callout {font-size:12px;}
 img {border:0;}
@@ -73,11 +73,6 @@ ul.linkonly li a {display:block;padding:9px;}
 .bgcolor3, div.usecolor3 input.button, div.usecolor3 a.mockbutton {background-color:#aacd07;}
 .bgcolor4, div.usecolor4 input.button, div.usecolor4 a.mockbutton {background-color:#0891df;}
 .bgcolor5, div.usecolor5 input.button, div.usecolor5 a.mockbutton {background-color:#9b08df;}
-div.usecolor1 input.button:hover, div.usecolor1 a.mockbutton:hover {background-color:#cd074d;}
-div.usecolor2 input.button:hover, div.usecolor2 a.mockbutton:hover {background-color:#ca8c07;}
-div.usecolor3 input.button:hover, div.usecolor3 a.mockbutton:hover {background-color:#97b800;}
-div.usecolor4 input.button:hover, div.usecolor4 a.mockbutton:hover {background-color:#0080c9;}
-div.usecolor5 input.button:hover, div.usecolor5 a.mockbutton:hover {background-color:#8a00ca;}
 div.usecolor1 a, h2.usecolor1 {color:#cd074d;}
 div.usecolor2 a, h2.usecolor2 {color:#ca8c07;}
 div.usecolor3 a, h2.usecolor3 {color:#97b800;}
@@ -90,7 +85,7 @@ a.usecolor3 {color:#97b800 !important;}
 a.usecolor4 {color:#0080c9 !important;}
 a.usecolor5 {color:#8a00ca !important;}
 a.mockbutton {color:#fff !important;font-size:13px;}
-a.mockbutton:hover {text-decoration:none !important;}
+a.mockbutton:hover {background-color:#000 !important;text-decoration:none !important;}
 div.callout a {font-weight:bold;color:#999;}
 div.callout a:hover {font-weight:bold;color:#231F20;}
 * a.needsconfirmation:hover {color:#f00 !important;}
@@ -107,7 +102,7 @@ input,textarea,select {padding:8px 2% 8px 2%;border:1px solid #ccc;width:96%;fon
 #pagedisplay div.col_threeoffour input,#pagedisplay div.col_threeoffour textarea {width:478px;padding:8px;}
 input:active, input:focus, textarea:focus {outline:0;border:1px solid #888;}
 input.button, a.mockbutton {background-color:#ccc;padding:8px 18px 8px 18px !important;font-weight:bold;cursor:pointer;width:auto !important;border:none;color:#fff;}
-input.button:hover {background-color:#aaa;}
+input.button:hover {background-color:#000 !important;color:#fff;}
 input.checkorradio {width:auto !important;margin-top:8px;}
 select {height:34px;line-height:34px;width:100%;padding:8px;border:none;background-color:#ededef;background-image:linear-gradient(top, #dfdfdf 0%, #efefef 100%);background-image:-moz-linear-gradient(top, #dfdfdf 0%, #efefef 100%);border-radius:5px;}
 select option {padding:8px;}
@@ -158,6 +153,8 @@ ul.pagebasemenu ul {padding:0;margin-top:0;margin-bottom:0;font-size:0.8em;font-
 /* PAGE ELEMENTS */
 #pagemenu {position:relative;top:-20px;width:200px;margin-right:24px;float:left;}
 #pagemenu * li {margin-bottom:0;line-height:1.5em;}
+#pagemenu a:hover {text-decoration:none;}
+#pagemenu a:hover.pagemenutitle {text-decoration:underline;}
 #pagemenu a.pagemenutitle {color:#231F20;font-weight:bold;}
 #pagedisplay {width:680px;float:right;}
 .nopagemenu {width:914px !important;}
