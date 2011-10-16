@@ -35,7 +35,7 @@ if ($request_parameters) {
 						//echo '<b>' . $data['type'] . '</b> ';
 					}
 					?>
-					&nbsp; <span class="smalltext fadedtext nobr">Created: <?php echo date('M jS, Y',$data['creation_date']); if ($data['modification_date']) { echo ' (Modified: ' . date('F jS, Y',$data['modification_date']) . ')'; } ?></span>
+					&nbsp; <span class="smalltext fadedtext nobr">created: <?php echo date('M jS, Y',$data['creation_date']); if ($data['modification_date']) { echo ' (modified: ' . date('F jS, Y',$data['modification_date']) . ')'; } ?></span>
 					<div class="tar">
 						<br />
 						<a href="<?php echo $data['id']; ?>" class="mininav">Details</a> <a href="../edit/<?php echo $data['id']; ?>/" class="mininav">Edit</a> <a href="../delete/<?php echo $data['id']; ?>/" class="needsconfirmation mininav">Delete</a>

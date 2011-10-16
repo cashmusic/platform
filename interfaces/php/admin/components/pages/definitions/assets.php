@@ -34,9 +34,7 @@ You dig?
 $page_memu = array(
 	'Assets' => array(
 		'assets/add/' => 'Add Assets',
-			'assets/add/single/' => 'Add Single Asset',
-			'assets/add/playlist/' => 'Add Playlist',
-		'assets/find/' => 'Find Assets'
+		'assets/find/' => 'Search'
 	)
 );
 
