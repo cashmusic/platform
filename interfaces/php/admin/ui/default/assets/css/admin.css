@@ -36,8 +36,10 @@ table {font-size:11px;}
 ul.nobullets {padding:0;}
 ul.nobullets li {list-style-type:none;margin-bottom:12px;}
 ul.alternating {padding:0;}
-ul.alternating li {list-style-type:none;padding:9px;background-color:#ededef;}
+ul.alternating li {list-style-type:none;padding:0;background-color:#ededef;}
 ul.alternating li.alternate {background-color:#f9f9ff;}
+ul.alternating li:hover {background-color:#fff;}
+ul.alternating li a {display:block;padding:9px;}
 #pagecontent {position:relative;clear:both;width:920px;padding:140px 2em 3em 2em;margin:0 auto;text-align:left;z-index:500;}
 .col_oneoftwo {float:left;width:47%;padding-right:5%;}
 .col_oneofthree {float:left;width:29%;padding-right:6%;}
@@ -56,6 +58,7 @@ ul.alternating li.alternate {background-color:#f9f9ff;}
 .spaced {margin-right:1.5em;}
 .nobr  {white-space:nowrap;}
 .longercopy {font:italic 12px/1.75em georgia, times, serif;}
+.highlightcopy {padding:2px 6px 2px 6px;background-color:#ff0;font:italic 12px/1.75em georgia, times, serif;}
 .modalbg {position:fixed;top:0px;left:0px;width:100%;height:100%;background-color:rgba(255,255,255,0.9);z-index:5432;}
 .modaldialog {position:absolute;top:250px;left:50%;margin-left:-172px;padding:24px;width:320px;height:auto;background-color:#ddd;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;text-align:left;z-index:10;}
 .modaldialog input {background-color:#231F20;border:1px solid #231F20;color:#fff;width:auto;padding:6px 18px 6px 18px;font-weight:bold;cursor:pointer;margin-left:9px;}
@@ -151,7 +154,7 @@ ul.pagebasemenu ul {padding:0;margin-top:0;margin-bottom:0;font-size:0.8em;font-
 .currentpagemenu {margin-left:16px;}
 
 /* PAGE ELEMENTS */
-#pagemenu {width:200px;margin-right:24px;float:left;}
+#pagemenu {position:relative;top:-20px;width:200px;margin-right:24px;float:left;}
 #pagemenu * li {margin-bottom:0;line-height:1.5em;}
 #pagemenu a.pagemenutitle {color:#231F20;font-weight:bold;}
 #pagedisplay {width:680px;float:right;}
