@@ -96,6 +96,11 @@
 				$plant_name = 'people';
 				$action_name = 'getlistsforuser';
 				$display_information = 'name';
+				break;
+			case 'venues':
+				$plant_name = 'calendar';
+				$action_name = 'getallvenues';
+				$display_information = 'name';
 				break;	
 		}
 		$echoformoptions_cash_request = new CASHRequest(

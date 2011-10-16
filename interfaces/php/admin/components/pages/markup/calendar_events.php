@@ -1,21 +1,45 @@
 <div class="col_oneoftwo">
 	<h2>Add an event</h2>
-	<label for="settings_id">Use Settings</label><br />
-	<select id="settings_id" name="settings_id">
-		<option value="0" selected="selected">None (Normal http:// link)</option>
-		<?php AdminHelper::echoSettingsOptions('assets') ?>
-	</select>
+	<p>
+		Quickly add a date to the system. Information about published/unpublished status and
+		cancellation can be found in the page tips.
+	</p>
 	
-	<div class="row_seperator">.</div>
+	<p><span class="highlightcopy">
+		The date and venue selectors are far from ideal. We'll be enhancing these with fancy
+		interfaces soon.
+	</span></p>
 
-	<label for="asset_title">Title / Name</label><br />
-	<input type="text" id="asset_title" name="asset_title" value="" placeholder="Give It A Name" />
+	<form method="post" action="">
+		<input type="hidden" name="doeventadd" value="makeitso" />
 
-	<label for="asset_location">Location (URI)</label><br />
-	<input type="text" id="asset_location" name="asset_location" value="" placeholder="URL, S3 path, or SoundCloud URL" />
+		<label for="event_date">Date</label><br />
+		<input type="text" id="event_date" name="event_date" value="" placeholder="MM/DD/YYYY" />
+
+		<div class="row_seperator">.</div>
+
+		<label for="event_venue">Venue</label><br />
+		<select id="event_venue" name="event_venue">
+			<option value="0" selected="selected">Unknown (Will be listed as 'TBA')</option>
+			<?php AdminHelper::echoFormOptions('venues') ?>
+		</select>
+
+		<div class="row_seperator">.</div>
+		<label for="event_comments">Comments (Support, CD Release, etc)</label><br />
+		<textarea rows="3" id="event_comments" name="event_comments"></textarea>
+
+		<div class="row_seperator">.</div>
+		<label for="event_purchase_url">Ticket Purchase URL</label><br />
+		<input type="text" id="event_purchase_url" name="event_purchase_url" value="" placeholder="Ticket Link URL" />
+
+		<div class="row_seperator">.</div>
+		<input type='checkbox' class='checkorradio' name='event_ispublished' value='' checked='checked' /> Published?
+		&nbsp; <input type='checkbox' class='checkorradio' name='event_iscancelled' value='' /> Cancelled?
+
+		<div class="row_seperator">.</div><br />
+		<input class="button" type="submit" value="Add That Element" />
 	
-	<div class="row_seperator">.</div><br />
-	<input class="button" type="submit" value="Add That Element" />
+	</form>
 </div>
 <div class="col_oneoftwo lastcol">
 	<h2>All upcoming events</h2>

@@ -105,6 +105,14 @@ class CalendarPlant extends PlantBase {
 						return $this->pushFailure('No tourdates were found matching your criteria.');
 					}
 					break;
+				case 'getallvenues':
+					$result = $this->getAllVenues();
+					if ($result) {
+						return $this->pushSuccess($result,'Success. Known venues in payload.');
+					} else {
+						return $this->pushFailure('There was an error.');
+					}
+					break;
 				default:
 					return $this->response->pushResponse(
 						400,$this->request_type,$this->action,
@@ -216,6 +224,17 @@ class CalendarPlant extends PlantBase {
 			)
 		);
 		return $result[0];
+	}
+
+	public function getAllVenues() {
+		$result = $this->db->getData(
+			'venues',
+			'*',
+			false,
+			false,
+			'name ASC'
+		);
+		return $result;
 	}
 
 } // END class 
