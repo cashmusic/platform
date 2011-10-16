@@ -70,7 +70,7 @@
 				<div class="navitem bgcolor3<?php echo ($dirname == 'people' ? ' currentnav' : ''); ?>">
 					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/people/">People</a></h2>
 					manage<br />
-					organize
+					list
 				</div>
 				<div class="navitem bgcolor4<?php echo ($dirname == 'commerce' ? ' currentnav' : ''); ?>">
 					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/commerce/">Commerce</a></h2>
@@ -133,7 +133,7 @@
 						
 						foreach ($page_memu as $menutitle => $menuarray) {
 							$menulevel = 1;
-							echo "<h3>$menutitle</h3>";
+							echo '<a href="'. ADMIN_WWW_BASE_PATH . '/' . $page_base . '" class="pagemenutitle">' . $menutitle . '</a>';
 							echo '<ul class="pagebasemenu">';
 							foreach ($menuarray as $key => $value) {
 								$new_menulevel = substr_count(trim($key,'/'), '/');
@@ -144,7 +144,7 @@
 									echo "<ul>";
 								}
 								if (str_replace('/','_',trim($key,'/')) == BASE_PAGENAME) {
-									echo "<li style=\"margin-left:" . (16 * ($new_menulevel-1)) . "px;\">$value</li>";
+									echo "<li style=\"margin-left:" . (16 * ($new_menulevel-1)) . "px;\"><a href=\"" . ADMIN_WWW_BASE_PATH . "/$key\" class=\"fadedtext\">$value</a></li>";
 								} else {
 									echo "<li style=\"margin-left:" . (16 * ($new_menulevel-1)) . "px;\"><a href=\"" . ADMIN_WWW_BASE_PATH . "/$key\">$value</a></li>";
 								}

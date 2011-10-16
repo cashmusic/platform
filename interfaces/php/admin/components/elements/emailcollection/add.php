@@ -2,22 +2,23 @@
 	<form name="emailcollection" method="post" action="">
 		<input type="hidden" name="doelementadd" value="makeitso" />
 		<input type="hidden" name="element_type" value="emailcollection" />
-		<div class="col_onehalf">
-			<h3>Element Details</h3>
-		
-			<label for="element_name">Name</label><br />
-			<input type="text" id="element_name" name="element_name" placeholder="Give It A Name" /> 
-	
-			<div class="row_seperator">.</div>
-			
+		<h3>Element Details</h3>
+
+		<label for="element_name">Name</label><br />
+		<input type="text" id="element_name" name="element_name" placeholder="Give It A Name" /> 
+
+		<div class="row_seperator">.</div>
+		<div class="col_oneoftwo">
+
 			<label for="asset_id">Target Mailing List</label><br />
 			<select id="emal_list_id" name="emal_list_id">
 				<option value="0">none</option>
 				<?php AdminHelper::echoFormOptions('user_lists'); ?>
 			</select>
-			
-			<div class="row_seperator">.</div>
-	
+
+		</div>
+		<div class="col_oneoftwo lastcol">
+
 			<label for="asset_id">The Downloadable Asset</label><br />
 			<select id="asset_id" name="asset_id">
 				<option value="0">none</option>
@@ -30,27 +31,29 @@
 			
 		</div>
 
-		<div class="col_onehalf lastcol">
-			<h3>&nbsp;</h3>
-			<label for="message_invalid_email">Invalid Email Error Message</label><br />
-			<input type="text" id="message_invalid_email" name="message_invalid_email" value="Sorry, that email address wasn't valid. Please try again." />
-	
-			<label for="message_privacy">Privacy Message</label><br />
-			<input type="text" id="message_privacy" name="message_privacy" value="We won't share, sell, or be jerks with your email address." />
-			
-			<label for="message_success">Success Message</label><br />
-			<input type="text" id="message_success" name="message_success" value="Thanks! You're all signed up. Here's your download:" />
-			
-			<!--
-			<div class="row_seperator">.</div><br />
-	
-			<label for="comment_or_radio">Comment Or Agreement</label><br />
-			<input type="radio" name="comment_or_radio" class="checkorradio" value="none" checked="checked" /> Neither &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="comment" /> Comment &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="agreement" /> Agreement 
-			-->
-			<input type="hidden" name="comment_or_radio" value="none" />
-		</div>
+		<div class="row_seperator">.</div>
+		<label for="message_invalid_email">Invalid Email Error Message</label><br />
+		<input type="text" id="message_invalid_email" name="message_invalid_email" value="Sorry, that email address wasn't valid. Please try again." />
+
+		<div class="row_seperator">.</div>
+		<label for="message_privacy">Privacy Message</label><br />
+		<input type="text" id="message_privacy" name="message_privacy" value="We won't share, sell, or be jerks with your email address." />
+
+		<div class="row_seperator">.</div>
+		<label for="message_success">Success Message</label><br />
+		<input type="text" id="message_success" name="message_success" value="Thanks! You're all signed up. Here's your download:" />
+
+		<!--
 		<div class="row_seperator">.</div><br />
-		<div class="tar">
+
+		<label for="comment_or_radio">Comment Or Agreement</label><br />
+		<input type="radio" name="comment_or_radio" class="checkorradio" value="none" checked="checked" /> Neither &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="comment" /> Comment &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="agreement" /> Agreement 
+		-->
+		<input type="hidden" name="comment_or_radio" value="none" />
+
+		<div class="row_seperator">.</div>
+		<div>
+			<br />
 			<input class="button" type="submit" value="Add That Element" />
 		</div>
 

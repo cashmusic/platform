@@ -1,4 +1,4 @@
-<div class="col_onethird">
+<div class="col_oneofthree">
 	<h2>Welcome!</h2>
 	<p class="longercopy">
 	This is the default landing page. We'll keep this corner for news, updates, and system information.
@@ -6,16 +6,16 @@
 	The other sections of the page will focus on high-level data showing element usage, traffic, and
 	relevant statistics. Imagine it looks really fancy.
 	</p>
-</div><div class="col_twothirds lastcol usecolor1">
+</div><div class="col_twoofthree lastcol usecolor1 callout" style="width:61%;">
 	<h2 class="usecolor1">Elements</h2>
-	<div class="col_onethird" style="font-weight:bold;">
+	<div class="col_oneofthree" style="font-weight:bold;">
 		At a Glance<br />
-		<span class="majorcallout bgcolor1"><?php echo (int) $cash_admin->getStoredData('element_active_count'); ?></span> <a href="<?php echo ADMIN_WWW_BASE_PATH . '/elements/' ?>"><big>Active <br />Element<?php if((int) $cash_admin->getStoredData('element_active_count') != 1) { echo 's'; } ?></big></a>
+		<span class="majorcallout bgcolor1"><?php echo (int) $cash_admin->getStoredData('element_active_count'); ?></span> <a href="<?php echo ADMIN_WWW_BASE_PATH . '/elements/' ?>" class="usecolor1"><big>Active <br />Element<?php if((int) $cash_admin->getStoredData('element_active_count') != 1) { echo 's'; } ?></big></a>
 		<div class="clearfix">.</div>
 		<span class="majorcallout bgcolor0"><?php echo (int) $cash_admin->getStoredData('element_inactive_count'); ?></span> <a href="<?php echo ADMIN_WWW_BASE_PATH . '/elements/view/' ?>" class="usecolor0"><big>Inactive <br />Element<?php if((int) $cash_admin->getStoredData('element_inactive_count') != 1) { echo 's'; } ?></big></a>
 	</div>
 
-	<div class="col_onethird">
+	<div class="col_oneofthree">
 		<b>Most Active</b>
 		<?php
 		if (is_array($cash_admin->getStoredResponse('element_mostactive',true))) {
@@ -32,7 +32,7 @@
 		}
 		?>
 	</div>
-	<div class="col_onethird lastcol">
+	<div class="col_oneofthree lastcol">
 		<b>Recently Added</b>
 		<?php
 		if (is_array($cash_admin->getStoredResponse('element_recentlyadded',true))) {
@@ -53,7 +53,7 @@
 	
 <div class="clearfix tall">.</div>
 
-<div class="col_onefourth usecolor2">
+<div class="col_oneoffour usecolor2">
 	<h2 class="usecolor2">Assets</h2>
 	<b>Most Accessed</b>
 		<?php
@@ -85,7 +85,7 @@
 			echo '<p>No assets have been added yet.</p>';
 		}
 		?>
-</div><div class="col_onefourth usecolor3">
+</div><div class="col_oneoffour usecolor3">
 	<h2 class="usecolor3">People</h2>
 	<p>
 		<b>List Name</b><br />
@@ -102,7 +102,7 @@
 		</span>
 		<a href="#">view details</a>
 	</p>
-</div><div class="col_onefourth usecolor4">
+</div><div class="col_oneoffour usecolor4">
 	<h2 class="usecolor4">Commerce</h2>
 	<p>
 		<b>There are 13 outstanding orders that require fulfillment</b><br />
@@ -116,14 +116,14 @@
 		</span>
 		<a href="#">view details</a>
 	</p>
-</div><div class="col_onefourth lastcol usecolor5">
+</div><div class="col_oneoffour lastcol usecolor5">
 	<h2 class="usecolor5">Calendar</h2>
 	<b>This week</b><br />
 	<?php
 	if (is_array($cash_admin->getStoredResponse('events_thisweek',true))) {
 		echo '<ul class="nobullets fadedtext">';
 		foreach ($cash_admin->getStoredResponse('events_thisweek',true) as $event) {
-			echo '<li><a href="#">' . date('m/d',$event['date']) . ': ' . $event['venue_city'] . ', ' . $event['venue_region'] . '</a><br /><span class="smalltext nobr">@ ' . $event['venue_name'] . '</span></li>';
+			echo '<li><a href="#">' . date('d M',$event['date']) . ': ' . $event['venue_city'] . ', ' . $event['venue_region'] . '</a><br /><span class="smalltext nobr">@ ' . $event['venue_name'] . '</span></li>';
 		}
 		echo '</ul>';
 	} else {

@@ -44,22 +44,23 @@ if (isset($_POST['doelementedit'])) {
 	<form method="post" action="">
 		<input type="hidden" name="doelementedit" value="makeitso">
 		<input type="hidden" name="element_id" value="<?php echo $page_data['id']; ?>">
-		<div class="col_onehalf">
-			<h3>Element Details</h3>
-		
-			<label for="element_name">Name</label><br />
-			<input type="text" id="element_name" name="element_name" value="<?php echo $page_data['name']; ?>" /> 
-	
-			<div class="row_seperator">.</div>
-			
+		<h3>Element Details</h3>
+
+		<label for="element_name">Name</label><br />
+		<input type="text" id="element_name" name="element_name" value="<?php echo $page_data['name']; ?>" /> 
+
+		<div class="row_seperator">.</div>
+		<div class="col_oneoftwo">
+
 			<label for="asset_id">Target Mailing List</label><br />
 			<select id="emal_list_id" name="emal_list_id">
 				<option value="0">none</option>
 				<?php AdminHelper::echoFormOptions('user_lists',$page_data['options']->emal_list_id); ?>
 			</select>
-			
-			<div class="row_seperator">.</div>
-	
+
+		</div>
+		<div class="col_oneoftwo lastcol">
+
 			<label for="asset_id">The Downloadable Asset</label><br />
 			<select id="asset_id" name="asset_id">
 				<option value="0">none</option>
@@ -72,27 +73,29 @@ if (isset($_POST['doelementedit'])) {
 			
 		</div>
 
-		<div class="col_onehalf lastcol">
-			<h3>&nbsp;</h3>
-			<label for="message_invalid_email">Invalid Email Error Message</label><br />
-			<input type="text" id="message_invalid_email" name="message_invalid_email" value="<?php echo $page_data['options']->message_invalid_email; ?>" />
-	
-			<label for="message_privacy">Privacy Message</label><br />
-			<input type="text" id="message_privacy" name="message_privacy" value="<?php echo $page_data['options']->message_privacy; ?>" />
-			
-			<label for="message_success">Success Message</label><br />
-			<input type="text" id="message_success" name="message_success" value="<?php echo $page_data['options']->message_success; ?>" />
-			
-			<!--
-			<div class="row_seperator">.</div><br />
-	
-			<label for="comment_or_radio">Comment Or Agreement</label><br />
-			<input type="radio" name="comment_or_radio" class="checkorradio" value="none" checked="checked" /> Neither &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="comment" /> Comment &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="agreement" /> Agreement 
-			
-			-->
-		</div>
+		<div class="row_seperator">.</div>
+		<label for="message_invalid_email">Invalid Email Error Message</label><br />
+		<input type="text" id="message_invalid_email" name="message_invalid_email" value="<?php echo $page_data['options']->message_invalid_email; ?>" />
+
+		<div class="row_seperator">.</div>
+		<label for="message_privacy">Privacy Message</label><br />
+		<input type="text" id="message_privacy" name="message_privacy" value="<?php echo $page_data['options']->message_privacy; ?>" />
+
+		<div class="row_seperator">.</div>
+		<label for="message_success">Success Message</label><br />
+		<input type="text" id="message_success" name="message_success" value="<?php echo $page_data['options']->message_success; ?>" />
+
+		<!--
 		<div class="row_seperator">.</div><br />
-		<div class="tar">
+
+		<label for="comment_or_radio">Comment Or Agreement</label><br />
+		<input type="radio" name="comment_or_radio" class="checkorradio" value="none" checked="checked" /> Neither &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="comment" /> Comment &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="agreement" /> Agreement 
+		
+		-->
+
+		<div class="row_seperator">.</div>
+		<div>
+			<br />
 			<input class="button" type="submit" value="Edit The Element" />
 		</div>
 

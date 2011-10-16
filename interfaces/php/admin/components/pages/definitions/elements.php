@@ -3,7 +3,7 @@
 $page_title = 'Elements: Main';
 $page_tips = 'This is where specific functionalities will be deployed, pages installed, and widgets set up. It is really the heart of the public-facing tools — the other tabs are more aimed at management, lightweight CRM, and fulfillment.';
 $page_memu = array(
-	'Actions' => array(
+	'Elements' => array(
 		'elements/view/' => 'Your Elements',
 		'elements/add/' => 'Add Element'
 	)

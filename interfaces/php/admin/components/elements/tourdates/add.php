@@ -2,22 +2,23 @@
 	<form name="tourdates" method="post" action="">
 		<input type="hidden" name="doelementadd" value="makeitso" />
 		<input type="hidden" name="element_type" value="tourdates" />
-		<div class="col_onehalf">
+		<div class="col_oneoftwo">
 			<h3>Element Details</h3>
 		
 			<label for="element_name">Name</label><br />
 			<input type="text" id="element_name" name="element_name" placeholder="Give It A Name" /> 
 		</div>
 
-		<div class="col_onehalf lastcol">
+		<div class="col_oneoftwo lastcol">
 			<h3>&nbsp;</h3>
 			<label for="visible_event_types">Which Dates Should It Show?</label><br />
 			<input type="radio" name="visible_event_types" class="checkorradio" value="upcoming" checked="checked" /> Upcoming Dates <br />
 			<input type="radio" name="visible_event_types" class="checkorradio" value="archive" /> Archive Dates <br /> 
 			<input type="radio" name="visible_event_types" class="checkorradio" value="both" /> All Dates 
 		</div>
-		<div class="row_seperator">.</div><br />
-		<div class="tar">
+		<div class="row_seperator">.</div>
+		<div>
+			<br />
 			<input class="button" type="submit" value="Add That Element" />
 		</div>
 

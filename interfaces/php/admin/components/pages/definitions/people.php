@@ -3,7 +3,7 @@
 $page_title = 'People: Main';
 $page_tips = '';
 $page_memu = array(
-	'Actions' => array(
+	'People' => array(
 		'people/contacts/' => 'Contacts',
 		'people/mailinglists/' => 'Lists',
 			'people/mailinglists/add/' => 'Add Mailing List',

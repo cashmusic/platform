@@ -1,16 +1,16 @@
 <h3>Quick Asset Search</h3>
 <form method="post">
 	<label for="text1">Title / Tags</label><br />
-	<div class="col_onethird">
+	<div class="col_oneofthree">
 	<input type="text" id="text1" placeholder="Disabled" /> 
 	</div>
-	<div class="col_onethird">
+	<div class="col_oneofthree">
 	<input class="button" type="submit" value="Search" />
 	</div>
 </form>
 
 <br /><br /><br /><br />
-<div class="col_onehalf">
+<div class="col_oneoftwo">
 	<h2>Most Accessed</h2>
 		<?php
 		if (is_array($cash_admin->getStoredResponse('asset_mostaccessed',true))) {
@@ -26,7 +26,7 @@
 			echo '<p>No assets have been accessed yet.</p>';
 		}
 		?>
-</div><div class="col_onehalf lastcol">
+</div><div class="col_oneoftwo lastcol">
 	<h2>Recently Added</h2>
 		<?php
 		if (is_array($cash_admin->getStoredResponse('asset_recentlyadded',true))) {

@@ -25,7 +25,7 @@ if ($request_parameters) {
 				$secondclass = '';
 			}
 			?>
-			<div class="col_onehalf<?php echo $secondclass; ?>">
+			<div class="col_oneoftwo<?php echo $secondclass; ?>">
 				<div class="callout">
 					<h4><?php echo $data['name']; ?></h4>
 					<?php
@@ -41,7 +41,6 @@ if ($request_parameters) {
 						<a href="<?php echo $data['id']; ?>" class="mininav">Details</a> <a href="../edit/<?php echo $data['id']; ?>/" class="mininav">Edit</a> <a href="../delete/<?php echo $data['id']; ?>/" class="needsconfirmation mininav">Delete</a>
 					</div>
 				</div>
-				<br />
 			</div>
 			<?php
 			/*

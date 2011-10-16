@@ -67,7 +67,7 @@ function doModalConfirm(url) {
 		'value':'Cancel',
 		events: {
 			click: function(){
- 				modalbg.fade('hide');
+ 				modalbg.fade('out');
 			}
 		}
 	}).inject(buttonspc);
@@ -81,6 +81,7 @@ function doModalConfirm(url) {
 		}
 	}).inject(buttonspc);
 
+	modalbg.set('tween', {duration: 'short'});
 	modalbg.fade('hide');
 	modalbg.fade('in');
 }
