@@ -1,11 +1,11 @@
 <h3>Quick Asset Search</h3>
 <form method="post">
 	<label for="text1">Title / Tags</label><br />
-	<div class="col_oneofthree">
+	<div class="col_threeoffour">
 	<input type="text" id="text1" placeholder="Disabled" /> 
 	</div>
-	<div class="col_oneofthree">
-	<input class="button" type="submit" value="Search" />
+	<div class="col_oneoffour lastcol">
+	<input class="button" type="submit" style="width:141px !important;" value="Search" />
 	</div>
 </form>
 
