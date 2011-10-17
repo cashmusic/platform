@@ -1,15 +1,18 @@
-<h3>Quick Asset Search</h3>
-<form method="post">
-	<label for="text1">Title / Tags</label><br />
-	<div class="col_threeoffour">
-	<input type="text" id="text1" placeholder="Disabled" /> 
-	</div>
-	<div class="col_oneoffour lastcol">
-	<input class="button" type="submit" style="width:141px !important;" value="Search" />
-	</div>
-</form>
+<div class="callout">
+	<h3>Quick Asset Search</h3>
+	<form method="post">
+		<label for="text1">Title / Tags</label><br />
+		<div class="col_threeoffour">
+		<input type="text" id="text1" placeholder="Disabled" /> 
+		</div>
+		<div class="col_oneoffour lastcol">
+		<input class="button" type="submit" style="width:136px !important;" value="Search" />
+		</div>
+	</form>
+	<div class="row_seperator">.</div>
+</div>
 
-<br /><br /><br /><br />
+<div class="row_seperator">.</div>
 <div class="col_oneoftwo">
 	<h2>Most Accessed</h2>
 		<?php
@@ -17,7 +20,7 @@
 			$loopcount = 1;
 			echo '<ol class="fadedtext">';
 			foreach ($cash_admin->getStoredResponse('asset_mostaccessed',true) as $asset) {
-				echo '<li><a href="#">' . $asset['title'] . '</a> <span class="smalltext nobr">(accessed: ' . $asset['count'] . ')</span></li>';
+				echo '<li><a href="#">' . $asset['title'] . '</a> <span class="smalltext nobr"> // accessed: ' . $asset['count'] . '</span></li>';
 				$loopcount = $loopcount + 1;
 				if ($loopcount == 3) { break; }
 			}

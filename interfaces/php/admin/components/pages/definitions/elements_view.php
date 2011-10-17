@@ -1,6 +1,6 @@
 <?php
 // add unique page settings:
-$page_title = 'Elements: View All Elements';
+$page_title = 'Elements: Your Elements';
 $page_tips = 'This page lists all your defined elements. Click any of them to see embed details, make edits, or delete them.';
 
 

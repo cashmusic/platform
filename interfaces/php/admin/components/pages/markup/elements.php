@@ -5,7 +5,7 @@
 		$loopcount = 1;
 		echo '<ol class="fadedtext">';
 		foreach ($page_data['element_mostactive'] as $element) {
-			echo '<li><a href="' . ADMIN_WWW_BASE_PATH . '/elements/view/' . $element['id'] . '">' . $element['name'] . '</a> <span class="smalltext nobr">(accessed: ' . $element['count'] . ')</span></li>';
+			echo '<li><a href="' . ADMIN_WWW_BASE_PATH . '/elements/view/' . $element['id'] . '">' . $element['name'] . '</a> <span class="smalltext nobr">// accessed: ' . $element['count'] . '</span></li>';
 			$loopcount = $loopcount + 1;
 			if ($loopcount == 6) { break; }
 		}

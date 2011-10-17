@@ -12,7 +12,7 @@
 				<span class="smalltext fadedtext nobr">Created: <?php echo date('M jS, Y',$list['creation_date']); if ($list['modification_date']) { echo ' (Modified: ' . date('F jS, Y',$list['modification_date']) . ')'; } ?></span>
 				<div class="tar">
 					<br />
-					<a href="<?php echo ADMIN_WWW_BASE_PATH . '/people/mailinglists/view/' . $list['id']; ?>" class="mininav">View</a> <a href="<?php echo ADMIN_WWW_BASE_PATH . '/people/mailinglists/view/' . $list['id']; ?>" class="mininav">Edit</a> <a href="<?php echo ADMIN_WWW_BASE_PATH . '/people/mailinglists/view/' . $list['id']; ?>" class="mininav">Export</a> <a href="<?php echo ADMIN_WWW_BASE_PATH . '/people/mailinglists/view/' . $list['id']; ?>" class="mininav">Delete</a>
+					<a href="<?php echo ADMIN_WWW_BASE_PATH . '/people/mailinglists/view/' . $list['id']; ?>" class="mininav_spaced">View</a> <a href="<?php echo ADMIN_WWW_BASE_PATH . '/people/mailinglists/view/' . $list['id']; ?>" class="mininav_spaced">Edit</a> <a href="<?php echo ADMIN_WWW_BASE_PATH . '/people/mailinglists/view/' . $list['id']; ?>" class="mininav_spaced">Export</a> <a href="<?php echo ADMIN_WWW_BASE_PATH . '/people/mailinglists/view/' . $list['id']; ?>" class="mininav_spaced">Delete</a>
 				</div>
 			</div>
 			<?php
