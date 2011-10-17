@@ -47,7 +47,7 @@ function calendar_format_dates($dates_response) {
 				$markup .= '<span class="fadedtext">' . $event['comments'] . '</span>';
 			}
 			
-			$markup .= '<div class="tar"><br /><a href="' . $event['event_id'] . '" class="mininav">Edit</a> <a href="../delete/' . $event['event_id'] . '" class="needsconfirmation mininav">Delete</a></div>';
+			$markup .= '<div class="tar"><br /><a href="' . $event['event_id'] . '" class="mininav_spaced">Edit</a> <a href="../delete/' . $event['event_id'] . '" class="needsconfirmation mininav_spaced">Delete</a></div>';
 			$markup .= '</div>';
 		}
 	} else {

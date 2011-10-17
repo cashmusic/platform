@@ -38,8 +38,8 @@ ul.nobullets li {list-style-type:none;margin-bottom:12px;}
 ul.alternating {padding:0;}
 ul.alternating li {list-style-type:none;padding:9px;background-color:#ededef;}
 ul.alternating li.alternate {background-color:#f9f9ff;}
-ul.alternating li:hover {background-color:#fff;}
 ul.alternating li a {line-height:1.5em;}
+ul.linkonly li:hover {background-color:#fff;}
 ul.linkonly li {padding:0 !important;}
 ul.linkonly li a {display:block;padding:9px;}
 #pagecontent {position:relative;clear:both;width:920px;padding:140px 2em 3em 2em;margin:0 auto;text-align:left;z-index:500;}
@@ -56,8 +56,8 @@ ul.linkonly li a {display:block;padding:9px;}
 .tall {height:3em;}
 .tar {text-align:right;}
 .majorcallout {display:block;float:left;padding:7px 12px 7px 12px;margin:0 10px 10px 0;font-weight:bold;color:#fff;background-color:#999;font-size:2.5em;line-height:1em;}
-.mininav {margin-left:1.5em;}
-.spaced {margin-right:1.5em;}
+.mininav_spaced {font-weight:bold;margin:0 0 0 1.5em;}
+.mininav_flush {font-weight:bold;margin:0 1.5em 0 0;}
 .nobr  {white-space:nowrap;}
 .longercopy {font:italic 12px/1.75em georgia, times, serif;}
 .highlightcopy {padding:2px 6px 2px 6px;background-color:#ff0;font:italic 12px/1.75em georgia, times, serif;}
