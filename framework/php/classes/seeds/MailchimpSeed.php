@@ -37,7 +37,7 @@ class MailchimpSeed extends SeedBase {
 	}
 	
 	public function listWebhooks($list_id) {
-		$webhooks = $this->api->listWebhooks($this->key,$list_id);
+		$webhooks = $this->api->listWebhooks($list_id);
 		if ($this->api->errorCode) {
 			// TODO: throw a proper error
 			echo "\n\tCode=".$this->api->errorCode;
@@ -55,6 +55,12 @@ class MailchimpSeed extends SeedBase {
 	}
 	public function listSubscribe($list_id, $email) {
 		$api->listSubscribe( $list_id, $email, null);
+	}
+	public function listUnsubscribe($list_id, $email) {
+		$delete       = 0;
+		$send_goodbye = 1;
+		$send_notify  = 1;
+		$api->listUnsubscribe( $list_id, $email, $delete, $send_goodbye, $send_notify);
 	}
 } // END class
 ?>
