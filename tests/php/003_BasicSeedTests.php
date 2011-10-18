@@ -16,11 +16,13 @@ class CashSeedTests extends UnitTestCase {
 	function testMailchimpSeed(){
 		if(array_key_exists('MAILCHIMP_API_KEY', $_ENV)) {
 			$key = $_ENV['MAILCHIMP_API_KEY'];
-			$settings = new MailchimpSeed($key);
-			$this->assertIsa($settings, 'MailchimpSeed');
-			$this->assertTrue($settings->url);
-			$this->assertTrue($settings->lists());
-			$this->assertTrue($settings->listWebhooks(42));
+			$mc = new MailchimpSeed($key);
+			$this->assertIsa($mc, 'MailchimpSeed');
+			$this->assertTrue($mc->url);
+			$this->assertTrue($mc->lists());
+			$this->assertTrue($mc->listWebhooks(42));
+			$this->assertTrue($mc->listWebhooks(42));
+			$this->assertTrue($mc->listMembers(1));
 		} else {
 			fwrite(STDERR,"Mailchimp api key not found, skipping mailchimp tests\n");
 			return;
