@@ -20,9 +20,11 @@ class CashSeedTests extends UnitTestCase {
 			$this->assertIsa($mc, 'MailchimpSeed');
 			$this->assertTrue($mc->url);
 			$this->assertTrue($mc->lists());
-			$this->assertTrue($mc->listWebhooks(42));
-			$this->assertTrue($mc->listWebhooks(42));
-			$this->assertTrue($mc->listMembers(1));
+			// an already-created list for testing
+			$test_id = "b607c6d911";
+			$webhooks = $mc->listWebhooks($test_id);
+			$this->assertTrue(isset($webhooks));
+			$this->assertTrue($mc->listMembers($test_id));
 		} else {
 			fwrite(STDERR,"Mailchimp api key not found, skipping mailchimp tests\n");
 			return;
