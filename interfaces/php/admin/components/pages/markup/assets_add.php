@@ -1,5 +1,11 @@
 <h3>Choose An Asset Type</h3>
-<p>
-<a href="./single/">Single Asset</a><br />
-<a href="./playlist/">Playlist</a>
-</p>
+<br />
+
+<div class="col_oneofthree">
+	<a href="./single/"><b>Single Asset</b></a><br />
+	A single asset of any type.
+</div>
+<div class="col_oneofthree">
+<a href="./playlist/"><b>Playlist</b></a><br />
+	A group of tracks, grouped and ordered as a single asset.
+</div>

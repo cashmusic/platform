@@ -37,7 +37,7 @@
 		&nbsp; <input type='checkbox' class='checkorradio' name='event_iscancelled' value='' /> Cancelled?
 
 		<div class="row_seperator">.</div><br />
-		<input class="button" type="submit" value="Add That Element" />
+		<input class="button" type="submit" value="Add That Event" />
 	
 	</form>
 </div>
