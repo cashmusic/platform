@@ -30,7 +30,7 @@ function calendar_events_format_dates($dates_response) {
 					. '<b>' . date('d M',$event['date']) . ': ' . $event_location . '</b> '
 					. '<span class="nobr">@ ' . $event['venue_name'] . '</span>';
 
-			$markup .= '<br /><a href="' . $event['event_id'] . '" class="mininav_flush noblock">Edit</a> <a href="../delete/' . $event['event_id'] . '" class="needsconfirmation mininav_flush noblock">Delete</a>';
+			$markup .= '<div class="itemnav"><a href="' . $event['event_id'] . '" class="mininav_flush noblock">Edit</a> <a href="../delete/' . $event['event_id'] . '" class="needsconfirmation mininav_flush noblock">Delete</a></div>';
 			$markup .= '</li>';
 			$loopcount = $loopcount + 1;
 		}
