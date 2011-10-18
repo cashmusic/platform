@@ -50,7 +50,7 @@ class MailchimpSeed extends SeedBase {
 		$page    = 0;
 		$max     = 5000;
 		$since   = null;
-		$members = $api->listMembers($list_id, 'subscribed', $since, $page, $max);
+		$members = $this->api->listMembers($list_id, 'subscribed', $since, $page, $max);
 		return $members;
 	}
 	public function listSubscribe($list_id, $email) {

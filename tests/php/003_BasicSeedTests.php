@@ -14,9 +14,9 @@ class CashSeedTests extends UnitTestCase {
 		$this->assertIsa($twitter, 'TwitterSeed');
 	}
 	function testMailchimpSeed(){
-		if(array_key_exists('MAILCHIMP_API_KEY', $_ENV)) {
-			$key = $_ENV['MAILCHIMP_API_KEY'];
-			$mc = new MailchimpSeed($key);
+		$api_key = getenv("MAILCHIMP_API_KEY");
+		if($api_key) {
+			$mc = new MailchimpSeed($api_key);
 			$this->assertIsa($mc, 'MailchimpSeed');
 			$this->assertTrue($mc->url);
 			$this->assertTrue($mc->lists());
