@@ -46,5 +46,15 @@ class MailchimpSeed extends SeedBase {
 			return $webhooks;
 		}
 	}
+	public function listMembers($list_id) {
+		$page    = 0;
+		$max     = 5000;
+		$since   = null;
+		$members = $api->listMembers($list_id, 'subscribed', $since, $page, $max);
+		return $members;
+	}
+	public function listSubscribe($list_id, $email) {
+		$api->listSubscribe( $list_id, $email, null);
+	}
 } // END class
 ?>
