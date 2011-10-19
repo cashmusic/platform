@@ -42,9 +42,9 @@ function calendar_format_dates($dates_response) {
 			}
 			$markup .= '<div class="callout"> '
 					. '<h4>' . date('d F',$event['date']) . ': ' . $event_location . '</h4> '
-					. '<b>@ ' . $event['venue_name'] . '</b> - ';
+					. '<b>@ ' . $event['venue_name'] . ' &nbsp; </b> ';
 			if ($event['comments']) {
-				$markup .= '<span class="fadedtext">' . $event['comments'] . '</span>';
+				$markup .= '<span class="fadedtext altcopystyle">' . $event['comments'] . '</span>';
 			}
 			
 			$markup .= '<div class="tar"><br /><a href="' . $event['event_id'] . '" class="mininav_spaced">Edit</a> <a href="../delete/' . $event['event_id'] . '" class="needsconfirmation mininav_spaced">Delete</a></div>';
