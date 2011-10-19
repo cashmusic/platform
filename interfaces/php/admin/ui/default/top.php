@@ -144,7 +144,7 @@
 									echo "<ul>";
 								}
 								if (str_replace('/','_',trim($key,'/')) == BASE_PAGENAME) {
-									echo "<li style=\"margin-left:" . (16 * ($new_menulevel-1)) . "px;\"><a href=\"" . ADMIN_WWW_BASE_PATH . "/$key\" style=\"color:#ceced0;\">$value</a></li>";
+									echo "<li style=\"margin-left:" . (16 * ($new_menulevel-1)) . "px;\"><a href=\"" . ADMIN_WWW_BASE_PATH . "/$key\" style=\"color:#babac4;\">$value</a></li>";
 								} else {
 									echo "<li style=\"margin-left:" . (16 * ($new_menulevel-1)) . "px;\"><a href=\"" . ADMIN_WWW_BASE_PATH . "/$key\">$value</a></li>";
 								}

@@ -55,7 +55,11 @@ class PeoplePlant extends PlantBase {
 				case 'addlist':
 					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
 					if (!$this->requireParameters('user_id','list_name','list_description')) return $this->sessionGetLastResponse();
-						$result = $this->addList($this->request['list_name'],$this->request['list_description'],$this->request['user_id']);
+						$settings_id = 0;
+						if (isset($this->request['settings_id'])) {
+							$settings_id = (int) $this->request['settings_id'];
+						}
+						$result = $this->addList($this->request['list_name'],$this->request['list_description'],$this->request['user_id'],$settings_id);
 						if ($result) {
 							return $this->pushSuccess($result,'success. lists added.');
 						} else {
@@ -67,7 +71,12 @@ class PeoplePlant extends PlantBase {
 					if (!$this->requireParameters('list_id')) { return $this->sessionGetLastResponse(); }
 					$result = $this->getAddressesForList($this->request['list_id']);
 					if ($result) {
-						return $this->pushSuccess($result,'success. list included in payload');
+						$list_details = $this->getListById($this->request['list_id']);
+						$payload_data = array(
+							'details' => $list_details,
+							'members' => $result
+						);
+						return $this->pushSuccess($payload_data,'success. list included in payload');
 					} else {
 						return $this->pushFailure('there was an error retrieving the list');
 					}
@@ -169,6 +178,23 @@ class PeoplePlant extends PlantBase {
 				)
 			)
 		);
+		return $result;
+	}
+
+	public function getListById($list_id) {
+		$result = $this->db->getData(
+			'user_lists',
+			'*',
+			array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $list_id
+				)
+			)
+		);
+		if ($result) {
+			return $result[0];
+		}
 		return $result;
 	}
 
