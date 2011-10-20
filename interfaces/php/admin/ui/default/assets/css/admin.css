@@ -36,7 +36,7 @@ table {font-size:11px;}
 ul.nobullets {padding:0;}
 ul.nobullets li {list-style-type:none;margin-bottom:12px;}
 ul.alternating {padding:0;}
-ul.alternating li {list-style-type:none;padding:9px;background-color:#ececed;}
+ul.alternating li {list-style-type:none;padding:9px;background-color:#ececed;border-bottom:1px solid #fff;}
 ul.alternating li:nth-child(odd) {background-color:#f8f8fd;}
 ul.alternating li a {line-height:1.5em;}
 ul.linkonly li:hover {background-color:#fff;}

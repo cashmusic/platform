@@ -286,7 +286,7 @@ class CASHDBA {
 				break;
 			case 'PeoplePlant_getAddressesForList':
 				$query = "SELECT u.id,u.email_address,u.display_name,"
-				. "l.initial_comment,l.additional_data,l.creation_date "
+				. "l.initial_comment,l.additional_data,l.active,l.creation_date "
 				. "FROM user_users u LEFT OUTER JOIN user_lists_members l ON u.id = l.user_id "
 				. "WHERE l.list_id = :list_id AND l.verified = 1";
 				if ($orderby) $query .= " ORDER BY $orderby";
