@@ -131,7 +131,7 @@
 		return $markup;
 	}
 
-	public function simpleULFromResponse($response,$conpact=false,$limit=false) {
+	public function simpleULFromResponse($response,$compact=false,$limit=false) {
 		$markup = '';
 		if ($response['status_code'] == 200) {
 			// spit out the dates
@@ -144,9 +144,13 @@
 					if (strtolower($item['venue_country']) == 'usa' || strtolower($item['venue_country']) == 'canada') {
 						$event_location = $item['venue_city'] . ', ' . $item['venue_region'];
 					}
-					$markup .= '<b>' . date('d M',$item['date']) . ': ' . $event_location . '</b> '
-							. '<span class="nobr">@ ' . $item['venue_name'] . '</span>';
-
+					if ($compact) {
+						$markup .= '<b>' . date('d M',$item['date']) . ': ' . $event_location . '</b> '
+								. '<span class="nobr">@ ' . $item['venue_name'] . '</span>';
+					} else {
+						$markup .= '<h4>' . date('d M',$item['date']) . ': ' . $event_location . '</h4> '
+								. '<span class="nobr"><b>@ ' . $item['venue_name'] . '</b></span> <span class="altcopystyle fadedtext">' . $item['comments'] . '</span><br />';
+					}
 					$markup .= '<div class="itemnav">'
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/calendar/events/edit/' . $item['event_id'] . '" class="mininav_flush noblock">Edit</a> '
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/calendar/events/delete/' . $item['event_id'] . '" class="needsconfirmation mininav_flush noblock">Delete</a>'
@@ -154,7 +158,7 @@
 					$markup .= '</li>';
 				} elseif ($response['status_uid'] == "people_getlistsforuser_200") {
 					$markup .= '<h4>' . $item['name'] . '</h4>'
-							. '<span class="altcopystyle">' . $item['description'] . '</span><br />'
+							. '<span class="altcopystyle fadedtext">' . $item['description'] . '</span><br />'
 							. '<div class="itemnav">'
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/view/' . $item['id'] . '" class="mininav_flush">View</a> '
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/edit/' . $item['id'] . '" class="mininav_flush">Edit</a> '
@@ -185,10 +189,10 @@
 			// no dates matched
 			switch($response['action']) {
 				case 'gettourdates':
-					$markup .= 'There are no upcoming dates.';
+					$markup .= 'There are no matching dates.';
 					break;
 				case 'gettourdatesbetween':
-					$markup .= 'There are no upcoming dates.';
+					$markup .= 'There are no matching dates.';
 					break;
 				case 'getlistsforuser':
 					$markup .= 'No lists have been created.';

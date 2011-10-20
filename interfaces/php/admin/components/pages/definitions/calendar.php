@@ -30,30 +30,4 @@ $cash_admin->requestAndStore(
 	),
 	'events_unpublished'
 );
-
-function calendar_format_dates($dates_response) {
-	$markup = '';
-	if ($dates_response['status_uid'] == "calendar_gettourdates_200" || $dates_response['status_uid'] == "calendar_gettourdatesbetween_200") {
-		// spit out the dates
-		foreach ($dates_response['payload'] as $event) {
-			$event_location = $event['venue_city'] . ', ' . $event['venue_country'];
-			if (strtolower($event['venue_country']) == 'usa' || strtolower($event['venue_country']) == 'canada') {
-				$event_location = $event['venue_city'] . ', ' . $event['venue_region'];
-			}
-			$markup .= '<div class="callout"> '
-					. '<h4>' . date('d F',$event['date']) . ': ' . $event_location . '</h4> '
-					. '<b>@ ' . $event['venue_name'] . ' &nbsp; </b> ';
-			if ($event['comments']) {
-				$markup .= '<span class="fadedtext altcopystyle">' . $event['comments'] . '</span>';
-			}
-			
-			$markup .= '<div class="tar"><br /><a href="' . $event['event_id'] . '" class="mininav_spaced">Edit</a> <a href="../delete/' . $event['event_id'] . '" class="needsconfirmation mininav_spaced">Delete</a></div>';
-			$markup .= '</div>';
-		}
-	} else {
-		// no dates matched
-		$markup .= 'There are no dates of this type to display right now.';
-	}
-	return $markup;
-}
 ?>
