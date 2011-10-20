@@ -1,6 +1,6 @@
 <div class="col_oneoftwo">
 	<h2>Your Lists</h2>
-	<?php echo people_format_lists($cash_admin->getStoredResponse('getlistsforuser')); ?>
+	<?php echo AdminHelper::simpleULFromResponse($cash_admin->getStoredResponse('getlistsforuser')); ?>
 </div>
 <div class="col_oneoftwo lastcol">
 	<h2>Add A New List</h2>

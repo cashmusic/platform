@@ -37,11 +37,11 @@ ul.nobullets {padding:0;}
 ul.nobullets li {list-style-type:none;margin-bottom:12px;}
 ul.alternating {padding:0;}
 ul.alternating li {list-style-type:none;padding:9px;background-color:#ededef;}
-ul.alternating li.alternate {background-color:#f9f9ff;}
+ul.alternating li:nth-child(odd) {background-color:#f9f9ff;}
 ul.alternating li a {line-height:1.5em;}
 ul.linkonly li:hover {background-color:#fff;}
 ul.linkonly li {padding:0 !important;}
-ul.linkonly li a {display:block;padding:9px;}
+ul.linkonly li a {display:block;padding:9px;color:#231F20 !important;}
 #pagecontent {position:relative;clear:both;width:920px;padding:140px 2em 3em 2em;margin:0 auto;text-align:left;z-index:500;}
 .col_oneoftwo {float:left;width:47%;padding-right:5%;}
 .col_oneofthree {float:left;width:29%;padding-right:6%;}

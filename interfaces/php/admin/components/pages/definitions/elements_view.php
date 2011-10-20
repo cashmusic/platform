@@ -26,12 +26,13 @@ if ($request_parameters) {
 		header('Location: ' . ADMIN_WWW_BASE_PATH . '/elements/view/');
 	}
 } else {
-	$page_request = new CASHRequest(
+	$cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'element', 
 			'cash_action' => 'getelementsforuser',
 			'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-		)
+		),
+		'getelementsforuser'
 	);
 }
 ?>
