@@ -43,5 +43,5 @@
 </div>
 <div class="col_oneoftwo lastcol">
 	<h2>All upcoming events</h2>
-	<?php echo calendar_events_format_dates($cash_admin->getStoredResponse('events_allfuture')); ?>
+	<?php echo AdminHelper::simpleULFromResponse($cash_admin->getStoredResponse('events_allfuture')); ?>
 </div>

@@ -121,6 +121,84 @@
 		}
 		unset($echoformoptions_cash_request);
 	}
-	
+
+	public function createdModifiedFromRow($row) {
+		$markup = '<div class="smalltext fadedtext created_mod">Created: ' . date('M jS, Y',$row['creation_date']); 
+		if ($row['modification_date']) { 
+			$markup .= ' (Modified: ' . date('F jS, Y',$row['modification_date']) . ')'; 
+		}
+		$markup .= '</div>';
+		return $markup;
+	}
+
+	public function simpleULFromResponse($response,$conpact=false,$limit=false) {
+		$markup = '';
+		if ($response['status_code'] == 200) {
+			// spit out the dates
+			$markup .= '<ul class="alternating"> ';
+			$loopcount = 1;
+			foreach ($response['payload'] as $item) {
+				$markup .= '<li> ';
+				if ($response['status_uid'] == "calendar_gettourdates_200" || $response['status_uid'] == "calendar_gettourdatesbetween_200") {
+					$event_location = $item['venue_city'] . ', ' . $item['venue_country'];
+					if (strtolower($item['venue_country']) == 'usa' || strtolower($item['venue_country']) == 'canada') {
+						$event_location = $item['venue_city'] . ', ' . $item['venue_region'];
+					}
+					$markup .= '<b>' . date('d M',$item['date']) . ': ' . $event_location . '</b> '
+							. '<span class="nobr">@ ' . $item['venue_name'] . '</span>';
+
+					$markup .= '<div class="itemnav">'
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/calendar/events/edit/' . $item['event_id'] . '" class="mininav_flush noblock">Edit</a> '
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/calendar/events/delete/' . $item['event_id'] . '" class="needsconfirmation mininav_flush noblock">Delete</a>'
+							. '</div>';
+					$markup .= '</li>';
+				} elseif ($response['status_uid'] == "people_getlistsforuser_200") {
+					$markup .= '<h4>' . $item['name'] . '</h4>'
+							. '<span class="altcopystyle">' . $item['description'] . '</span><br />'
+							. '<div class="itemnav">'
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/view/' . $item['id'] . '" class="mininav_flush">View</a> '
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/edit/' . $item['id'] . '" class="mininav_flush">Edit</a> '
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/export/' . $item['id'] . '" class="mininav_flush">Export</a> '
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/delete/' . $item['id'] . '" class="mininav_flush needsconfirmation">Delete</a>'
+							. '</div>';
+					$markup .= AdminHelper::createdModifiedFromRow($item);
+				} elseif ($response['status_uid'] == "element_getelementsforuser_200") {
+					$elements_data = AdminHelper::getElementsData();
+					$markup .= '<h4>' . $item['name'];
+					if (array_key_exists($item['type'],$elements_data)) {
+						$markup .= ' <small class="fadedtext nobr" style="font-weight:normal;"> // ' . $elements_data[$item['type']]->name . '</small> ';
+					}
+					$markup .= '</h4>'
+							. '<div class="itemnav">'
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/elements/view/' . $item['id'] . '" class="mininav_flush">View</a> '
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/elements/edit/' . $item['id'] . '" class="mininav_flush">Edit</a> '
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/elements/delete/' . $item['id'] . '" class="mininav_flush needsconfirmation">Delete</a>'
+							. '</div>';
+					$markup .= AdminHelper::createdModifiedFromRow($item);
+				}
+				$markup .= '</li>';
+				if ($loopcount == $limit) { break; }
+				$loopcount = $loopcount + 1;
+			}
+			$markup .= '</ul>';
+		} else {
+			// no dates matched
+			switch($response['action']) {
+				case 'gettourdates':
+					$markup .= 'There are no upcoming dates.';
+					break;
+				case 'gettourdatesbetween':
+					$markup .= 'There are no upcoming dates.';
+					break;
+				case 'getlistsforuser':
+					$markup .= 'No lists have been created.';
+					break;
+				case 'getelementsforuser':
+					$markup .= 'No elements were found. None. Zero. Zip. If you\'re looking to add one to the system, <a href="' . ADMIN_WWW_BASE_PATH . '/elements/add/">go here</a>.';
+					break;
+			}
+		}
+		return $markup;
+	}
 } // END class 
 ?>

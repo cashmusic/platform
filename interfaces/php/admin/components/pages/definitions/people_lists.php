@@ -11,7 +11,4 @@ $current_response = $cash_admin->requestAndStore(
 	),
 	'getlistsforuser'
 );
-if ($current_response['status_uid'] == 'people_getlistsforuser_200') {
-	$cash_admin->storeData($current_response['payload'],'alllists');
-}
 ?>

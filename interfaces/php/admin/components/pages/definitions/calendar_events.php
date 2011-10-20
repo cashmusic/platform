@@ -12,33 +12,4 @@ $cash_admin->requestAndStore(
 	),
 	'events_allfuture'
 );
-
-function calendar_events_format_dates($dates_response) {
-	$markup = '';
-	if ($dates_response['status_uid'] == "calendar_gettourdates_200" || $dates_response['status_uid'] == "calendar_gettourdatesbetween_200") {
-		// spit out the dates
-		$markup .= '<ul class="alternating"> ';
-		$loopcount = 1;
-		foreach ($dates_response['payload'] as $event) {
-			$event_location = $event['venue_city'] . ', ' . $event['venue_country'];
-			if (strtolower($event['venue_country']) == 'usa' || strtolower($event['venue_country']) == 'canada') {
-				$event_location = $event['venue_city'] . ', ' . $event['venue_region'];
-			}
-			$altclass = '';
-			if ($loopcount % 2 == 0) { $altclass = ' class="alternate"'; }
-			$markup .= '<li' . $altclass . '> '
-					. '<b>' . date('d M',$event['date']) . ': ' . $event_location . '</b> '
-					. '<span class="nobr">@ ' . $event['venue_name'] . '</span>';
-
-			$markup .= '<div class="itemnav"><a href="' . $event['event_id'] . '" class="mininav_flush noblock">Edit</a> <a href="../delete/' . $event['event_id'] . '" class="needsconfirmation mininav_flush noblock">Delete</a></div>';
-			$markup .= '</li>';
-			$loopcount = $loopcount + 1;
-		}
-		$markup .= '</ul>';
-	} else {
-		// no dates matched
-		$markup .= 'There are no upcoming dates.';
-	}
-	return $markup;
-}
 ?>
