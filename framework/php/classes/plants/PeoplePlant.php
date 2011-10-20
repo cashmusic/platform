@@ -81,6 +81,26 @@ class PeoplePlant extends PlantBase {
 						return $this->pushFailure('there was an error retrieving the list');
 					}
 					break;
+				case 'deletelist':
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
+					if (!$this->requireParameters('list_id')) { return $this->sessionGetLastResponse(); }
+					$result = $this->deleteList($this->request['list_id']);
+					if ($result) {
+						return $this->pushSuccess($result,'success. list and list members removed.');
+					} else {
+						return $this->pushFailure('there was an error retrieving the list');
+					}
+					break;
+				case 'getlistinfo':
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
+					if (!$this->requireParameters('list_id')) { return $this->sessionGetLastResponse(); }
+					$result = $this->getListById($this->request['list_id']);
+					if ($result) {
+						return $this->pushSuccess($result,'success. list info included in payload');
+					} else {
+						return $this->pushFailure('there was an error retrieving the list');
+					}
+					break;
 				default:
 					return $this->response->pushResponse(
 						400,$this->request_type,$this->action,
@@ -194,6 +214,34 @@ class PeoplePlant extends PlantBase {
 		);
 		if ($result) {
 			return $result[0];
+		}
+		return $result;
+	}
+
+	public function deleteList($list_id) {
+		$result = $this->db->deleteData(
+			'user_lists',
+			array(
+				'id' => array(
+					'condition' => '=',
+					'value' => $list_id
+				)
+			)
+		);
+		if ($result) {
+			// check and make sure that the list has addresses associated
+			if ($this->getAddressesForList($list_id)) {
+				// it does? delete them
+				$result = $this->db->deleteData(
+					'list_members',
+					array(
+						'list_id' => array(
+							'condition' => '=',
+							'value' => $list_id
+						)
+					)
+				);
+			}
 		}
 		return $result;
 	}
