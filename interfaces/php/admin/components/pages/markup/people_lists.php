@@ -4,7 +4,7 @@
 </div>
 <div class="col_oneoftwo lastcol">
 	<h2>Add A New List</h2>
-	<form method="post" action="<?php echo ADMIN_WWW_BASE_PATH . '/people/lists/add/'; ?>">
+	<form method="post" action="<?php echo ADMIN_WWW_BASE_PATH . '/people/lists/add/'; ?>" id="lists">
 		<input type="hidden" name="dolistadd" value="makeitso" />
 
 		<label for="list_name">Name</label><br />
