@@ -58,7 +58,7 @@
 	 * Finds settings matching a specified scope and echoes them out formatted
 	 * for a dropdown box in a form
 	 *
-	 */public function echoSettingsOptions($scope) {
+	 */public function echoSettingsOptions($scope,$selected=false) {
 		// get system settings:
 		$page_data_object = new CASHSettings(AdminHelper::getPersistentData('cash_effective_user'));
 		$settings_types_data = $page_data_object->getSettingsTypes($scope);
@@ -75,7 +75,9 @@
 		if ($applicable_settings_array) {
 			$settings_count = 1;
 			foreach ($applicable_settings_array as $setting) {
-				echo '<option value="' . $setting['id'] . '">' . $setting['name'] . '</option>';
+				$echo_selected = '';
+				if ($setting['id'] == $selected) { $echo_selected = ' selected="selected"'; }
+				echo '<option value="' . $setting['id'] . '"' . $echo_selected . '>' . $setting['name'] . '</option>';
 			}
 		}
 	}

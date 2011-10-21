@@ -66,6 +66,20 @@ class PeoplePlant extends PlantBase {
 							return $this->pushFailure('there was an error adding the list.');
 						}
 					break;
+				case 'editlist':
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
+					if (!$this->requireParameters('list_id','list_name','list_description')) return $this->sessionGetLastResponse();
+						$settings_id = 0;
+						if (isset($this->request['settings_id'])) {
+							$settings_id = (int) $this->request['settings_id'];
+						}
+						$result = $this->editList($this->request['list_id'],$this->request['list_name'],$this->request['list_description'],$settings_id);
+						if ($result) {
+							return $this->pushSuccess($result,'success. lists edited.');
+						} else {
+							return $this->pushFailure('there was an error editing the list.');
+						}
+					break;
 				case 'viewlist':
 					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
 					if (!$this->requireParameters('list_id')) { return $this->sessionGetLastResponse(); }
@@ -263,6 +277,24 @@ class PeoplePlant extends PlantBase {
 				'description' => $description,
 				'user_id' => $user_id,
 				'settings_id' => $settings_id
+			)
+		);
+		return $result;
+	}
+
+	public function editList($list_id,$name,$description,$settings_id=0) {
+		$result = $this->db->setData(
+			'user_lists',
+			array(
+				'name' => $name,
+				'description' => $description,
+				'settings_id' => $settings_id
+			),
+			array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $list_id
+				)
 			)
 		);
 		return $result;

@@ -1,6 +1,6 @@
 <?php
 // add unique page settings:
-$page_title = 'People: Mailing Lists';
+$page_title = 'People: Lists';
 $page_tips = '';
 
 $current_response = $cash_admin->requestAndStore(
