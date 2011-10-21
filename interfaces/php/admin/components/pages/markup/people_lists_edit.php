@@ -1,44 +1,47 @@
-<?php if (!isset($_POST['dolistadd'])) { ?>
+<?php 
+	$current_list = $cash_admin->getStoredResponse('getlistinfo', true);
+	if (!isset($_POST['dolistedit'])) { 
+?>
 	<form method="post" action="">
-		<input type="hidden" name="dolistadd" value="makeitso" />
+		<input type="hidden" name="dolistedit" value="makeitso" />
 		<div class="col_oneoftwo">
 			<h3>List Details</h3>
 			
 			<label for="list_name">Name</label><br />
-			<input type="text" id="list_name" name="list_name" value="" placeholder="Give It A Name" />
+			<input type="text" id="list_name" name="list_name" value="<?php echo $current_list['name']; ?>" />
 
 			<div class="row_seperator">.</div>
 
 			<label for="settings_id">Connect To</label><br />
 			<select id="settings_id" name="settings_id">
-				<option value="0" selected="selected">None (local list only)</option>
-				<?php AdminHelper::echoSettingsOptions('lists') ?>
+				<option value="0"<?php if ($current_list['settings_id'] == 0) { ?> selected="selected"<?php } ?>>None (local list only)</option>
+				<?php AdminHelper::echoSettingsOptions('lists',$current_list['settings_id']) ?>
 			</select>
 		</div>
 
 		<div class="col_oneoftwo lastcol">
 			<h3>&nbsp;</h3>
 			<label for="list_description">Description</label><br />
-			<textarea rows="3" id="list_description" name="list_description"></textarea>
+			<textarea rows="3" id="list_description" name="list_description"><?php echo $current_list['description']; ?></textarea>
 		</div>
 
 		<div class="row_seperator">.</div><br />
 		<div>
-			<input class="button" type="submit" value="Add The New List" />
+			<input class="button" type="submit" value="Edit The List" />
 		</div>
 
 	</form>
 		
 <?php } else {
-	if ($list_add_request->response['status_uid'] == 'people_addlist_200') {
+	if ($list_edit_request->response['status_uid'] == 'people_editlist_200') {
 	
 	?>
 
 		<h3>Success</h3>
 		<p>
-		The new list is good and ready to use.
+		You're all edited and changed up.
 		</p>
-		<a href="./"><b>Add another?</b></a>
+		<a href=".././"><b>Back to lists</b></a>
 		<br />
 
 	<?php } else { ?>
