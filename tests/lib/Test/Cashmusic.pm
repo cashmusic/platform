@@ -8,7 +8,7 @@ use parent 'Exporter';
 our @EXPORT_OK = qw/mech login_ok/;
 
 my $base = $ENV{CASHMUSIC_TEST_URL} || 'http://localhost:80';
-my $mech = Test::WWW::Mechanize->new;
+my $mech = Test::WWW::Mechanize->new(autolint => 1);
 
 BEGIN {
     # Run the test installer every time we run these tests
