@@ -1,5 +1,5 @@
 <?php if (!isset($_POST['doelementadd'])) { ?>
-	<form name="emailcollection" method="post" action="">
+	<form name="emailcollection" method="post" action="" id="emailcollection">
 		<input type="hidden" name="doelementadd" value="makeitso" />
 		<input type="hidden" name="element_type" value="emailcollection" />
 		<h3>Element Details</h3>

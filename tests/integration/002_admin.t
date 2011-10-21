@@ -120,7 +120,7 @@ mech->submit_form_ok({
 mech->content_unlike(qr/Error/);
 mech->content_like(qr/Success/);
 
-mech->get("$base/interfaces/php/admin/people/mailinglists/add");
+mech->get("$base/interfaces/php/admin/people/lists");
 mech->submit_form_ok({
     form_number => 1,
     fields      => {
@@ -129,12 +129,12 @@ mech->submit_form_ok({
         list_name        =>   'cats_of_ulthar',
         settings_id      =>   0,
     },
-}, 'add mailing list');
+}, 'add mailing list') or diag mech->content;
 mech->content_like(qr/Success/);
 
 mech->get("$base/interfaces/php/admin/elements/add/socialfeeds");
 mech->submit_form_ok({
-    form_number => 1,
+    form_name => 'socialfeeds',
     fields      => {
         doelementadd        => 'makeitso',
         element_name        => 'miskatonic_fireside_chat',

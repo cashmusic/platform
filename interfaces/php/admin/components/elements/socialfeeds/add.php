@@ -1,5 +1,5 @@
 <?php if (!isset($_POST['doelementadd'])) { ?>
-	<form name="socialfeeds" method="post" action="">
+	<form name="socialfeeds" method="post" action="" id="socialfeeds">
 		<input type="hidden" name="doelementadd" value="makeitso" />
 		<input type="hidden" name="element_type" value="socialfeeds" />
 		<h3>Element Details</h3>
