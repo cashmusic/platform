@@ -17,7 +17,7 @@ if (isset($list_details)) {
 	if ($list_details['status_uid'] == 'people_viewlist_200') {
 		echo '"email address","display name","initial comment","additional data","join date"' . "\n";
 		foreach ($list_details['payload']['members'] as $entry) {
-		    echo '"' . $entry['email_address'] . '"';
+		    echo '"' . str_replace ('"','""',$entry['email_address']) . '"';
 			echo ',"' . str_replace ('"','""',$entry['display_name']) . '"';
 			echo ',"' . str_replace ('"','""',$entry['initial_comment']) . '"';
 			echo ',"' . str_replace ('"','""',$entry['additional_data']) . '"';
