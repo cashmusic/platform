@@ -56,12 +56,38 @@ class CalendarPlant extends PlantBase {
 					if (isset($this->request['cancelled'])) { $addevent_cancelled = $this->request['cancelled']; }
 					$result = $this->addEvent($this->request['date'],$this->request['user_id'],$this->request['venue_id'],$addevent_purchase_url,$addevent_comment,$addevent_published,$addevent_cancelled);
 					if ($result) {
-						return $this->pushSuccess($result,'Venue added. Id in payload.');
+						return $this->pushSuccess($result,'Event added. Id in payload.');
 					} else {
-						return $this->pushFailure('there was an error adding the venue');
+						return $this->pushFailure('there was an error adding the event');
 					}
 					break;
-				case 'gettourdates':
+				case 'editevent':
+					if (!$this->requireParameters('date','event_id','venue_id')) { return $this->sessionGetLastResponse(); }
+					$addevent_purchase_url = '';
+					$addevent_comment = '';
+					$addevent_published = 0;
+					$addevent_cancelled = 0;
+					if (isset($this->request['purchase_url'])) { $addevent_purchase_url = $this->request['purchase_url']; }
+					if (isset($this->request['comment'])) { $addevent_comment = $this->request['comment']; }
+					if (isset($this->request['published'])) { $addevent_published = $this->request['published']; }
+					if (isset($this->request['cancelled'])) { $addevent_cancelled = $this->request['cancelled']; }
+					$result = $this->editEvent($this->request['date'],$this->request['event_id'],$this->request['venue_id'],$addevent_purchase_url,$addevent_comment,$addevent_published,$addevent_cancelled);
+					if ($result) {
+						return $this->pushSuccess($result,'Event edited.');
+					} else {
+						return $this->pushFailure('there was an error');
+					}
+					break;
+				case 'getevent':
+					if (!$this->requireParameters('event_id')) { return $this->sessionGetLastResponse(); }
+					$result = $this->getEventById($this->request['event_id']);
+					if ($result) {
+						return $this->pushSuccess($result,'Event information in payload.');
+					} else {
+						return $this->pushFailure('could not find event');
+					}
+					break;
+				case 'getevents':
 					if (!$this->requireParameters('user_id','visible_event_types')) { return $this->sessionGetLastResponse(); }
 					$offset = 0;
 					$published_status = 1;
@@ -90,7 +116,7 @@ class CalendarPlant extends PlantBase {
 						return $this->pushFailure('No tourdates were found matching your criteria.');
 					}
 					break;
-				case 'gettourdatesbetween':
+				case 'geteventsbetween':
 					if (!$this->requireParameters('user_id','cutoff_date_low','cutoff_date_high')) { return $this->sessionGetLastResponse(); }
 					$offset = 0;
 					$published_status = 1;
@@ -165,6 +191,27 @@ class CalendarPlant extends PlantBase {
 		return $result;
 	}
 
+	public function editEvent($date,$event_id,$venue_id,$purchase_url,$comment,$published,$cancelled) {
+		$result = $this->db->setData(
+			'events',
+			array(
+				'date' => $date,
+				'venue_id' => $venue_id,
+				'published' => $published,
+				'cancelled' => $cancelled,
+				'purchase_url' => $purchase_url,
+				'comments' => $comment
+			),
+			array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $event_id
+				)
+			)
+		);
+		return $result;
+	}
+
 	public function getDatesBetween($user_id,$offset=0,$cutoff_date_low='now',$cancelled_status=0,$published_status=1,$cutoff_date_high=2051244000) {
 		// offset = allow dates to hang around for x days after they've passed
 		// beforedate=2051244000 = jan 1, 2035. don't book dates that far in advance, jerks
@@ -204,12 +251,18 @@ class CalendarPlant extends PlantBase {
 		return $result;
 	}
 
-	public function getDateByID($date_id) {
-		$result = $this->db->doSpecialQuery(
-			'CalendarPlant_getDateById',
-			array('date_id' => $date_id)
+	public function getEventById($event_id) {
+		$result = $this->db->getData(
+			'CalendarPlant_getEventById',
+			false,
+			array(
+				"event_id" => array(
+					"condition" => "=",
+					"value" => $event_id
+				)
+			)
 		);
-		return $result;
+		return $result[0];
 	}
 
 	public function getVenueById($venue_id) {

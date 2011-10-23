@@ -141,17 +141,27 @@
 			$loopcount = 1;
 			foreach ($response['payload'] as $item) {
 				$markup .= '<li> ';
-				if ($response['status_uid'] == "calendar_gettourdates_200" || $response['status_uid'] == "calendar_gettourdatesbetween_200") {
+				if ($response['status_uid'] == "calendar_getevents_200" || $response['status_uid'] == "calendar_geteventsbetween_200") {
 					$event_location = $item['venue_city'] . ', ' . $item['venue_country'];
 					if (strtolower($item['venue_country']) == 'usa' || strtolower($item['venue_country']) == 'canada') {
 						$event_location = $item['venue_city'] . ', ' . $item['venue_region'];
 					}
 					if ($compact) {
-						$markup .= '<b>' . date('d M',$item['date']) . ': ' . $event_location . '</b> '
-								. '<span class="nobr">@ ' . $item['venue_name'] . '</span>';
+						if ($item['venue_name']) { 
+							$markup .= '<b>' . date('d M',$item['date']) . ': ' . $event_location . '</b> '
+									.'<span class="nobr">@ ' . $item['venue_name'] . '</span>'; 
+						} else {
+							$markup .= '<b>' . date('d M',$item['date']) . ' TBA</b> ';
+						}
+								
 					} else {
-						$markup .= '<h4>' . date('d M',$item['date']) . ': ' . $event_location . '</h4> '
-								. '<span class="nobr"><b>@ ' . $item['venue_name'] . '</b></span> <span class="altcopystyle fadedtext">' . $item['comments'] . '</span><br />';
+						if ($item['venue_name']) { 
+							$markup .= '<h4>' . date('d M',$item['date']) . ': ' . $event_location . '</h4> '
+									. '<span class="nobr"><b>@ ' . $item['venue_name'] . '</b></span> <span class="altcopystyle fadedtext">' . $item['comments'] . '</span><br />';
+						} else {
+							$markup .= '<h4>' . date('d M',$item['date']) . ' TBA</h4> '
+									. '<span class="altcopystyle fadedtext">' . $item['comments'] . '</span><br />';
+						}
 					}
 					$markup .= '<div class="itemnav">'
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/calendar/events/edit/' . $item['event_id'] . '" class="mininav_flush noblock">Edit</a> '
@@ -190,10 +200,10 @@
 		} else {
 			// no dates matched
 			switch($response['action']) {
-				case 'gettourdates':
+				case 'getevents':
 					$markup .= 'There are no matching dates.';
 					break;
-				case 'gettourdatesbetween':
+				case 'geteventsbetween':
 					$markup .= 'There are no matching dates.';
 					break;
 				case 'getlistsforuser':

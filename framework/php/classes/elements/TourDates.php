@@ -20,12 +20,12 @@ class TourDates extends ElementBase {
 		$tourdates_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'calendar', 
-				'cash_action' => 'gettourdates',
+				'cash_action' => 'getevents',
 				'visible_event_types' => $this->options->visible_event_types,
 				'user_id' => (integer) $this->element['user_id']
 			)
 		);
-		if ($tourdates_request->response['status_uid'] == "calendar_gettourdates_200") {
+		if ($tourdates_request->response['status_uid'] == "calendar_getevents_200") {
 			// spit out the dates
 			foreach ($tourdates_request->response['payload'] as $event) {
 				$event_location = $event['venue_city'] . ', ' . $event['venue_country'];
@@ -34,10 +34,14 @@ class TourDates extends ElementBase {
 				}
 				$markup .= '<div class="cash_'. self::type .'_event"> '
 						. '<div class="cash_'. self::type .'_timeandplace"> '
-						. '<span class="cash_'. self::type .'_date">' . date('d F, Y',$event['date']) . ':</span> '
-						. '<span class="cash_'. self::type .'_location">' . $event_location . '</span> '
-						. '<span class="cash_'. self::type .'_venue">@ ' . $event['venue_name'] . '</span> '
-						. '</div> ';
+						. '<span class="cash_'. self::type .'_date">' . date('d F, Y',$event['date']) . ':</span> ';
+				if ($event['venue_name']) {
+					$markup .= '<span class="cash_'. self::type .'_location">' . $event_location . '</span> '
+							. '<span class="cash_'. self::type .'_venue">@ ' . $event['venue_name'] . '</span> ';
+				} else {
+					$markup .= '<span class="cash_'. self::type .'_location">TBA</span> ';
+				}	
+				$markup .= '</div> ';
 				if ($event['comments']) {
 					$markup .= '<span class="cash_'. self::type .'_comments">' . $event['comments'] . '</span> ';
 				}
