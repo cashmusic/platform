@@ -1,6 +1,22 @@
 <?php 
 	$current_list = $cash_admin->getStoredResponse('getlistinfo', true);
-	if (!isset($_POST['dolistedit'])) { 
+	if (isset($_POST['dolistedit'])) {
+		if ($list_edit_request->response['status_uid'] == 'people_editlist_200') {
+		?>
+			<h3>Success</h3>
+			<p>
+			You're all edited and changed up. <a href=".././"><b>Back to lists</b></a>
+			</p>
+			<br />
+		<?php } else { ?>
+			<h3>Error</h3>
+			<p>
+			There was a problem. <a href="./">Please try again.</a>
+			</p>
+<?php 
+		}
+	}
+	if ($current_list) {
 ?>
 	<form method="post" action="">
 		<input type="hidden" name="dolistedit" value="makeitso" />
@@ -31,27 +47,6 @@
 		</div>
 
 	</form>
-		
-<?php } else {
-	if ($list_edit_request->response['status_uid'] == 'people_editlist_200') {
-	
-	?>
-
-		<h3>Success</h3>
-		<p>
-		You're all edited and changed up.
-		</p>
-		<a href=".././"><b>Back to lists</b></a>
-		<br />
-
-	<?php } else { ?>
-		
-		<h3>Error</h3>
-		<p>
-		There was a problem adding the list. <a href="./">Please try again.</a>
-		</p>
-
-<?php 
+<?php
 	}
-}	
 ?>

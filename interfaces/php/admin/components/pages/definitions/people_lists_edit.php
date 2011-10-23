@@ -32,6 +32,14 @@ if ($current_response['status_uid'] == 'people_getlistinfo_200') {
 				'settings_id' => $_POST['settings_id']
 			)
 		);
+		$cash_admin->requestAndStore(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'getlistinfo',
+				'list_id' => $request_parameters[0]
+			),
+			'getlistinfo'
+		);
 	}
 } else {
 	header('Location: ' . ADMIN_WWW_BASE_PATH . '/people/lists/');

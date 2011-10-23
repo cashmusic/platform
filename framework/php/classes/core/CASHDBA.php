@@ -295,14 +295,14 @@ class CASHDBA {
 			case 'CalendarPlant_getDatesBetween':
 				$query = "SELECT e.id as 'event_id', e.date as 'date',e.published as 'published',e.cancelled as 'cancelled',e.purchase_url as 'purchase_url',e.comments as 'comments',e.creation_date as 'creation_date',e.modification_date as 'modification_date', "
 				. "v.name as 'venue_name',v.address1 as 'venue_address1',v.address2 as 'venue_address2',v.city 'venue_city',v.region as 'venue_region',v.country as 'venue_country',v.postalcode as 'venue_postalcode',v.url as 'venue_url',v.phone as 'venue_phone'"
-				. "FROM live_events e JOIN live_venues v ON e.venue_id = v.id "
+				. "FROM live_events e LEFT OUTER JOIN live_venues v ON e.venue_id = v.id "
 				. "WHERE e.date > :cutoff_date_low AND e.date < :cutoff_date_high AND e.user_id = :user_id AND e.published = :published_status AND e.cancelled = :cancelled_status ORDER BY e.date ASC";
 				break;
-			case 'CalendarPlant_getDateById':
+			case 'CalendarPlant_getEventById':
 				$query = "SELECT e.id as 'event_id', e.date as 'date',e.published as 'published',e.cancelled as 'cancelled',e.purchase_url as 'purchase_url',e.comments as 'comments',e.creation_date as 'creation_date',e.modification_date as 'modification_date', "
-				. "v.name as 'venue_name',v.address1 as 'venue_address1',v.address2 as 'venue_address2',v.city 'venue_city',v.region as 'venue_region',v.country as 'venue_country',v.postalcode as 'venue_postalcode',v.url as 'venue_url',v.phone as 'venue_phone'"
-				. "FROM live_events e JOIN live_venues v ON e.venue_id = v.id "
-				. "WHERE e.id = :date_id LIMIT 1";
+				. "v.id as 'venue_id',v.name as 'venue_name',v.address1 as 'venue_address1',v.address2 as 'venue_address2',v.city 'venue_city',v.region as 'venue_region',v.country as 'venue_country',v.postalcode as 'venue_postalcode',v.url as 'venue_url',v.phone as 'venue_phone'"
+				. "FROM live_events e LEFT OUTER JOIN live_venues v ON e.venue_id = v.id "
+				. "WHERE e.id = :event_id LIMIT 1";
 				break;
 		    default:
 		       return false;

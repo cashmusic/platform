@@ -1,16 +1,16 @@
-<div class="col_oneoftwo">
+<?php if (!isset($_POST['doeventadd'])) { ?>
 	<h2>Add an event</h2>
 	<p>
 		Quickly add a date to the system. Information about published/unpublished status and
 		cancellation can be found in the page tips.
 	</p>
-	
+
 	<p><span class="highlightcopy">
 		The date and venue selectors are far from ideal. We'll be enhancing these with fancy
 		interfaces soon.
 	</span></p>
 
-	<form method="post" action="./add/">
+	<form method="post" action="">
 		<input type="hidden" name="doeventadd" value="makeitso" />
 
 		<label for="event_date">Date</label><br />
@@ -38,10 +38,28 @@
 
 		<div class="row_seperator">.</div><br />
 		<input class="button" type="submit" value="Add That Event" />
-	
+
 	</form>
-</div>
-<div class="col_oneoftwo lastcol">
-	<h2>All upcoming events</h2>
-	<?php echo AdminHelper::simpleULFromResponse($cash_admin->getStoredResponse('events_allfuture'), true); ?>
-</div>
+<?php } else {
+	$add_event_response = $cash_admin->getStoredResponse('eventaddattempt');
+	if ($add_event_response['status_uid'] == 'calendar_addevent_200') {
+	?>
+
+		<h3>Success</h3>
+		<p>
+		The new event has been added
+		</p>
+		<a href="./"><b>Add another?</b></a>
+		<br />
+
+	<?php } else { ?>
+
+		<h3>Error</h3>
+		<p>
+		There was a problem adding the event. <a href="./">Please try again.</a>
+		</p>
+
+<?php 
+	}
+}	
+?>
