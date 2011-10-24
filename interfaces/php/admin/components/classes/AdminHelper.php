@@ -157,10 +157,10 @@
 					} else {
 						if ($item['venue_name']) { 
 							$markup .= '<h4>' . date('d M',$item['date']) . ': ' . $event_location . '</h4> '
-									. '<span class="nobr"><b>@ ' . $item['venue_name'] . '</b></span> <span class="altcopystyle fadedtext">' . $item['comments'] . '</span><br />';
+									. '<span class="nobr"><b>@ ' . $item['venue_name'] . '</b></span> <span class="fadedtext">' . $item['comments'] . '</span><br />';
 						} else {
 							$markup .= '<h4>' . date('d M',$item['date']) . ' TBA</h4> '
-									. '<span class="altcopystyle fadedtext">' . $item['comments'] . '</span><br />';
+									. '<span class="fadedtext">' . $item['comments'] . '</span><br />';
 						}
 					}
 					$markup .= '<div class="itemnav">'
