@@ -170,7 +170,7 @@
 					$markup .= '</li>';
 				} elseif ($response['status_uid'] == "people_getlistsforuser_200") {
 					$markup .= '<h4>' . $item['name'] . '</h4>'
-							. '<span class="altcopystyle fadedtext">' . $item['description'] . '</span><br />'
+							. '<span class="fadedtext">' . $item['description'] . '</span><br />'
 							. '<div class="itemnav">'
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/view/' . $item['id'] . '" class="mininav_flush">View</a> '
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/edit/' . $item['id'] . '" class="mininav_flush">Edit</a> '
