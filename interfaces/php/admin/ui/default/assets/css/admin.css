@@ -66,7 +66,7 @@ ul.linkonly li a {display:block;padding:9px;color:#231F20 !important;}
 .modaldialog {position:absolute;top:250px;left:50%;margin-left:-172px;padding:24px;width:320px;height:auto;background-color:#ddd;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;text-align:left;z-index:10;}
 .modaldialog input {background-color:#231F20;border:1px solid #231F20;color:#fff;width:auto;padding:6px 18px 6px 18px;font-weight:bold;cursor:pointer;margin-left:9px;}
 .modaldialog input:hover {background-color:#ff0;color:#231F20;border:1px solid #ff0;}
-.created_mod {padding:6px 0 0 0;text-align:right;white-space:nowrap;}
+.created_mod {padding:12px 0 0 0;text-align:right;white-space:nowrap;}
 
 /* COLORS */
 .bgcolor0 {background-color:#999;}
