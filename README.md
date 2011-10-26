@@ -35,14 +35,11 @@ single-include workflow, which means the only thing you need to do to add CM to
 your site/page is include this single file:
 
     // this loads CASH Music DIY
+    $CASHMUSIC = "/home/billybob/cashmusic";
     require_once("$CASHMUSIC/framework/php/cashmusic.php");
 
 where the $CASHMUSIC variable is the directory where you installed CASH Music
-on your server. For instance, if you installed it into /home/billybob/cashmusic
-then it would look like:
-
-    // this loads CASH Music DIY
-    require_once("/home/billybob/cashmusic/framework/php/cashmusic.php");
+on your server.
 
 The Seed.php does some basic housekeeping before firing up a CASHRequest
 instance that parses an incoming request. That request is passed to the
@@ -162,11 +159,6 @@ you need to use a utility to convert it.
 You will need to install the [CPAN](http://cpan.org) module [SQL::Translator](https://metacpan.org/module/SQL::Translator), then run this from the root of the CM repo:
 
     make sqlite_schema
-
-NOTE: There is currently a
-[bug](https://rt.cpan.org/Ticket/Display.html?id=70473) in SQL::Translator
-where BIT column types are not parsed correctly, so you will need to manually
-convert those to BOOLs, like in [commit 9085dce](https://github.com/cashmusic/DIY/commit/9085dce432f8e710a1a13821806139ed6f5b1628) .
 
 If the SQLite schema is up to date, ```git status``` will not show anything as changed. If you *do* see changes, then commit the change and push it.
 
