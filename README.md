@@ -17,11 +17,9 @@ requirements:
 
  * [PHP](http://php.net) 5.2.7
  * PDO
- * MySQL OR SQLite. Other databases have not yet been tried.
+ * MySQL or SQLite. Other databases could be supported if needed.
  * mod_rewrite (for admin)
  * fopen wrappers OR cURL (either, for fetching external feeds)
-
-Plans are in the works to support SQLite.
 
 ## (Really) Quick Start
 To get your hands on a working instance as quickly as possible, fork/clone this 
