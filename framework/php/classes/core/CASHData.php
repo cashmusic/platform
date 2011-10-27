@@ -331,7 +331,7 @@
 		return $result;
 	}
 
-	public function getAllMetaData($scope_table_alias,$scope_table_id,$user_id,$ignore_or_match='match',$data_key=false) {
+	public function getAllMetaData($scope_table_alias,$scope_table_id,$data_key=false,$ignore_or_match='match') {
 		$options_array = array(
 			"scope_table_alias" => array(
 				"condition" => "=",
@@ -340,10 +340,6 @@
 			"scope_table_id" => array(
 				"condition" => "=",
 				"value" => $scope_table_id
-			),
-			"user_id" => array(
-				"condition" => "=",
-				"value" => $user_id
 			)
 		);
 		// most $data_keys will be unique per user per table+id, but tags need multiple
@@ -351,7 +347,7 @@
 		// to get an array of all tag rows for a single table+id
 		if ($data_key) {
 			$key_condition = "=";
-			if ($ignore_or_match = 'ignore') {
+			if ($ignore_or_match == 'ignore') {
 				$key_condition = "!=";
 			}
 			$options_array['type'] = array(
@@ -370,15 +366,18 @@
 				if ($data_key == 'tag' && $ignore_or_match == 'match') {
 					$return_array[] = $row['value'];
 				} else {
-					$return_array[$row['type']] = $row['value'];
+					if ($row['type'] !== 'tag') {
+						$return_array[$row['type']] = $row['value'];
+					}
 				}
 			}
+			return $return_array;
 		} else {
 			return false;
 		}
 	}
 	
-	public function setAllMetaData($scope_table_alias,$scope_table_id,$user_id,$tags=false,$metadata=false,$delete_on_false=false) {
+	public function setAllMetaData($scope_table_alias,$scope_table_id,$user_id,$tags=false,$metadata=false,$delete_existing=false) {
 		// also need to add $ignore_or_match='match',$data_key=false to removeAllMetaData
 		if ($tags) {
 			// first get current tags and remove any that are no longer in the list
@@ -397,8 +396,8 @@
 				$this->setMetaData($scope_table_alias,$scope_table_id,$user_id,'tag',$tag);
 			}
 		} else {
-			// remove all tags if delete_on_false is set
-			if ($delete_on_false) {
+			// remove all tags if delete_existing is set
+			if ($delete_existing) {
 				$this->removeAllMetaData($scope_table_alias,$scope_table_id,$user_id,'match','tag');
 			}
 		}
@@ -417,8 +416,8 @@
 				$this->setMetaData($scope_table_alias,$scope_table_id,$user_id,$key,$value);
 			}
 		} else {
-			if ($delete_on_false) {
-				// remove all non-tag metadata if delete_on_false is set
+			if ($delete_existing) {
+				// remove all non-tag metadata if delete_existing is set
 				$this->removeAllMetaData($scope_table_alias,$scope_table_id,$user_id,'ignore','tag');
 			}
 		}

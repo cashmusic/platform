@@ -49,24 +49,8 @@
 	</form>
 		
 <?php } else {
-	
-	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
-
-	$asset_add_request = new CASHRequest(
-		array(
-			'cash_request_type' => 'asset', 
-			'cash_action' => 'addasset',
-			'title' => $asset_title,
-			'description' => $asset_description,
-			'location' => $asset_location,
-			'user_id' => $effective_user,
-			'settings_id' => $asset_settings,
-			'tags' => $asset_tags,
-			'metadata' => $asset_metadata
-		)
-	);
-	if ($asset_add_request->response['status_uid'] == 'asset_addasset_200') {
-	
+	$asset_add_request = $cash_admin->getStoredResponse('addasset');
+	if ($asset_add_request['status_uid'] == 'asset_addasset_200') {	
 	?>
 	
 		<h3>Success</h3>

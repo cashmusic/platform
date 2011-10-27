@@ -20,7 +20,7 @@
 			$loopcount = 1;
 			echo '<ol class="fadedtext">';
 			foreach ($cash_admin->getStoredResponse('asset_mostaccessed',true) as $asset) {
-				echo '<li><a href="#">' . $asset['title'] . '</a> <span class="smalltext nobr"> // accessed: ' . $asset['count'] . '</span></li>';
+				echo '<li><a href="./edit/single/' . $asset['id'] . '">' . $asset['title'] . '</a> <span class="smalltext nobr"> // accessed: ' . $asset['count'] . '</span></li>';
 				$loopcount = $loopcount + 1;
 				if ($loopcount == 3) { break; }
 			}
@@ -36,9 +36,7 @@
 			$loopcount = 1;
 			echo '<ul class="alternating linkonly fadedtext">';
 			foreach ($cash_admin->getStoredResponse('asset_recentlyadded',true) as $asset) {
-				$altclass = '';
-				if ($loopcount % 2 == 0) { $altclass = ' class="alternate"'; }
-				echo '<li' . $altclass . '><a href="#">' . $asset['title'] . '</a></li>';
+				echo '<li><a href="./edit/single/' . $asset['id'] . '">' . $asset['title'] . '</a></li>';
 				if ($loopcount == 5) { break; }
 				$loopcount = $loopcount + 1;
 			}

@@ -102,6 +102,39 @@ class AssetPlant extends PlantBase {
 						return $this->pushFailure('there was an error adding the asset');
 					}
 					break;
+				case 'editasset':
+					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
+					if (!$this->requireParameters('title','description','location','asset_id','user_id')) { return $this->sessionGetLastResponse(); }
+					// defaults:
+					$addasset_settings_id = 0;
+					$addasset_tags = false;
+					$addasset_metadata = false;
+					$addasset_parent_id = 0;
+					$addasset_public_status = 1;
+					if (isset($this->request['settings_id'])) { $addasset_settings_id = $this->request['settings_id']; }
+					if (isset($this->request['tags'])) { $addasset_tags = $this->request['tags']; }
+					if (isset($this->request['metadata'])) { $addasset_metadata = $this->request['metadata']; }
+					if (isset($this->request['parent_id'])) { $addasset_parent_id = $this->request['parent_id']; }
+					if (isset($this->request['public_status'])) { $addasset_public_status = $this->request['public_status']; }
+
+					$result = $this->editAsset(
+						$this->request['asset_id'],
+						$this->request['user_id'],
+						$this->request['title'],
+						$this->request['description'],
+						$this->request['location'],
+						$addasset_settings_id,
+						$addasset_tags,
+						$addasset_metadata,
+						$addasset_parent_id,
+						$addasset_public_status
+					);
+					if ($result) {
+						return $this->pushSuccess($result,'asset id payload');
+					} else {
+						return $this->pushFailure('there was an error editing the asset');
+					}
+					break;
 				default:
 					return $this->response->pushResponse(
 						400,$this->request_type,$this->action,
@@ -146,7 +179,10 @@ class AssetPlant extends PlantBase {
 			)
 		);
 		if ($result) {
-			return $result[0];
+			$asset_info = $result[0];
+			$asset_info['tags'] = $this->getAllMetaData('assets',$asset_id,'tag');
+			$asset_info['metadata'] = $this->getAllMetaData('assets',$asset_id);
+			return $asset_info;
 		} else {
 			return false;
 		}
@@ -171,14 +207,13 @@ class AssetPlant extends PlantBase {
 		return $result;
 	}
 	
-	public function editAsset($asset_id,$title,$description,$location,$user_id,$settings_id,$tags,$metadata,$parent_id,$public_status) {
+	public function editAsset($asset_id,$user_id,$title,$description,$location,$settings_id,$tags,$metadata,$parent_id,$public_status) {
 		$result = $this->db->setData(
 			'assets',
 			array(
 				'title' => $title,
 				'description' => $description,
 				'location' => $location,
-				'user_id' => $user_id,
 				'settings_id' => $settings_id,
 				'parent_id' => $parent_id,
 				'public_status' => $public_status
