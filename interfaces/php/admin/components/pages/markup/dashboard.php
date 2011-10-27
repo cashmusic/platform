@@ -105,6 +105,10 @@
 </div><div class="col_oneoffour usecolor4">
 	<h2 class="usecolor4">Commerce</h2>
 	<p>
+		Coming soon.
+	</p>
+	<!-->
+	<p>
 		<b>There are 13 outstanding orders that require fulfillment</b><br />
 		<a href="#">view outstanding orders</a>
 	</p><p>
@@ -116,6 +120,7 @@
 		</span>
 		<a href="#">view details</a>
 	</p>
+	-->
 </div><div class="col_oneoffour lastcol usecolor5">
 	<h2 class="usecolor5">Calendar</h2>
 	<b>This week</b><br />
