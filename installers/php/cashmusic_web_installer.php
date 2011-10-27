@@ -154,7 +154,7 @@ if (!isset($_POST['installstage'])) {
 	label {font-size:11px;text-transform:uppercase;color:#9c9ca9;}
 	
 	/* PROGRESS BAR */
-	#progressspc {position:relative;width:400px;height:30px;font-size:20px;line-height:30px;font-weight:bold;margin:0 auto;overflow:hidden;color:#eee;background-color:#ccc;visibility:hidden;}
+	#progressspc {position:relative;width:400px;height:30px;font-size:18px;line-height:30px;font-weight:bold;margin:0 auto;overflow:hidden;color:#eee;background-color:#ccc;visibility:hidden;}
 	#progressbar {position:absolute;top:0;left:0;width:0;height:30px;color:#fff;background-color:#0080c9;z-index:100;overflow:hidden;}
 	p.progressamount {position:absolute;top:0;left:0;margin:0;padding:0 0 0 8px;z-index:10;}
 
@@ -287,25 +287,27 @@ if (!isset($_POST['installstage'])) {
 			*/
 			$source_message = '<h1>Installing.</h1><p>Copying files from github. '
 				. 'This should take a few minutes. We throttle the downloads to play nice with their servers.</p>'
-				. '<div class="nextstep">Copying files from repository:</div>';
+				. '<div class="altcopystyle fadedtext" style="margin-bottom:6px;">Copying files:</div>';
 			if (!file_exists('./manifest.diy.org.cashmusic')) {
 				$admin_dir = dirname($_SERVER['REQUEST_URI']) . '/admin';
-				$demos_dir = dirname($_SERVER['REQUEST_URI']) . '/demos';
 				$source_dir = dirname($_SERVER['REQUEST_URI']) . '/source';
 
 				// create the directory structure: remove any existing source files and re-download
 				// we'll make a proper update script later.
 				if (is_dir('./source')) {
 					rrmdir('./source');
-					//echo 'removed old source directory at ' . $source_dir . '<br />';
 				}
 				if (is_dir('./admin')) {
 					rrmdir('./admin');
-					//echo 'removed old admin directory at ' . $admin_dir . '<br />';
+				}
+				if (is_dir('./api')) {
+					rrmdir('./api');
 				}
 				if (is_dir('./demos')) {
 					rrmdir('./demos');
-					//echo 'removed old admin directory at ' . $admin_dir . '<br />';
+				}
+				if (is_dir('./public')) {
+					rrmdir('./public');
 				}
 				if (mkdir('./source')) {
 					// get repo from github, strip unnecessary files and write manifest:
@@ -379,6 +381,7 @@ if (!isset($_POST['installstage'])) {
 				echo '<form action="" method="post" id="nextstepform"><input type="hidden" id="installstagefade" value="1" /><input type="hidden" name="installstage" id="installstageinput" value="4" /> '
 				. '<h3>Install core files to:</h3><input type="text" name="frameworklocation" value="' . $cash_root_location . '" /> '
 				. '<h3>Admin email account:</h3><input type="text" name="adminemailaccount" value="admin@' . $_SERVER['SERVER_NAME'] . '" /> '
+				. '<br /><br /><div class="altcopystyle fadedtext" style="margin-bottom:6px;">Alright then:</div><input type="submit" class="button" value="Set it all up" /></div> '
 				. '</form>';
 			} else {
 				echo '<h1>Oh. Shit. Something\'s wrong.</h1> No source directory found.<br />';
@@ -392,7 +395,6 @@ if (!isset($_POST['installstage'])) {
 			*/
 			
 			$admin_dir = dirname($_SERVER['REQUEST_URI']) . '/admin';
-			$demos_dir = dirname($_SERVER['REQUEST_URI']) . '/demos';
 
 			$user_settings = array(
 				'frameworklocation' => (string)$_POST['frameworklocation'],
@@ -424,6 +426,17 @@ if (!isset($_POST['installstage'])) {
 				!findReplaceInFile('./source/interfaces/php/admin/constants.php','$cashmusic_root = $root . "/../../../framework/php/cashmusic.php','$cashmusic_root = "' . $user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
 				!findReplaceInFile('./source/interfaces/php/admin/constants.php','define(\'ADMIN_WWW_BASE_PATH\', \'/interfaces/php/admin','define(\'ADMIN_WWW_BASE_PATH\', \'' . $admin_dir) || 
 				
+				!findReplaceInFile('./source/interfaces/php/demos/index.html','../../../docs/assets/fonts','https://cashmusic.s3.amazonaws.com/permalink/fonts') || 
+				!findReplaceInFile('./source/interfaces/php/demos/index.html','<a href="/interfaces/php/admin/">Admin</a> <a href="/interfaces/php/demos/">Demos</a> <a href="/docs/">Docs</a> <a href="http://github.com/cashmusic/DIY">Github Repo</a>','<a href="../admin/">Admin</a> <a href="http://cashmusic.github.com/DIY/">Docs</a> <a href="http://github.com/cashmusic/DIY">Github Repo</a>') || 
+				!findReplaceInFile('./source/interfaces/php/demos/emailcontestentry/index.php','../../../../framework/php/cashmusic.php',$user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
+				!findReplaceInFile('./source/interfaces/php/demos/emailfordownload/index.php','../../../../framework/php/cashmusic.php',$user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
+				!findReplaceInFile('./source/interfaces/php/demos/filteredsocialfeeds/index.php','../../../../framework/php/cashmusic.php',$user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
+				!findReplaceInFile('./source/interfaces/php/demos/tourdates/index.php','../../../../framework/php/cashmusic.php',$user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
+				!findReplaceInFile('./source/interfaces/php/demos/emailcontestentry/index.php','../../../../framework/php/settings/debug/cashmusic_debug.php',$user_settings['frameworklocation'] . '/framework/settings/debug/cashmusic_debug.php') || 
+				!findReplaceInFile('./source/interfaces/php/demos/emailfordownload/index.php','../../../../framework/php/settings/debug/cashmusic_debug.php',$user_settings['frameworklocation'] . '/framework/settings/debug/cashmusic_debug.php') || 
+				!findReplaceInFile('./source/interfaces/php/demos/filteredsocialfeeds/index.php','../../../../framework/php/settings/debug/cashmusic_debug.php',$user_settings['frameworklocation'] . '/framework/settings/debug/cashmusic_debug.php') || 
+				!findReplaceInFile('./source/interfaces/php/demos/tourdates/index.php','../../../../framework/php/settings/debug/cashmusic_debug.php',$user_settings['frameworklocation'] . '/framework/settings/debug/cashmusic_debug.php') ||
+				
 				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','driver = "mysql','driver = "sqlite') || 
 				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','database = "seed','database = "cashmusic.db') || 
 				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $user_settings['systemsalt'])
@@ -436,7 +449,10 @@ if (!isset($_POST['installstage'])) {
 			if (
 				!rename('./source/framework/php/settings/cashmusic_template.ini.php', './source/framework/php/settings/cashmusic.ini.php') ||
 				!rename('./source/framework/php', $user_settings['frameworklocation'] . '/framework') || 
-				!rename('./source/interfaces/php/admin', './admin')
+				!rename('./source/interfaces/php/admin', './admin') || 
+				!rename('./source/interfaces/php/api', './api') || 
+				!rename('./source/interfaces/php/demos', './demos') || 
+				!rename('./source/interfaces/php/public', './public')
 			) {
 				echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>We couldn\'t move files into place. Please make sure you have write access in '
 				. 'the directory you specified for the core.</p>';
@@ -447,13 +463,13 @@ if (!isset($_POST['installstage'])) {
 			$user_password = substr(md5($user_settings['systemsalt'] . 'password'),4,7);
 			
 			// if the directory was never created then create it now
-			if (!file_exists('./source/framework/php/db')) {
-				mkdir('./source/framework/php/db');
+			if (!file_exists($user_settings['frameworklocation'] . '/framework/db')) {
+				mkdir($user_settings['frameworklocation'] . '/framework/db');
 			}
 			
 			// connect to the new db...will create if not found
 			try {
-				$pdo = new PDO ('sqlite:./source/framework/php/db/cashmusic.db');
+				$pdo = new PDO ('sqlite:' . $user_settings['frameworklocation'] . '/framework/db/cashmusic.db');
 				$pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 			} catch (PDOException $e) {
 				echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>Couldn\'t connect to the database.</p>';
@@ -462,14 +478,14 @@ if (!isset($_POST['installstage'])) {
 			}
 
 			if ($pdo) {
-				chmod('./source/framework/php/db',0777);
-				chmod('./source/framework/php/db/cashmusic.db',0777);
+				chmod($user_settings['frameworklocation'] . '/framework/db',0777);
+				chmod($user_settings['frameworklocation'] . '/framework/db/cashmusic.db',0777);
 			}
 
 			// push in all the tables
 			try {
-				$pdo->exec(file_get_contents('./source/framework/php/settings/sql/cashmusic_db_sqlite.sql'));
-				$pdo->exec(file_get_contents('./source/framework/php/settings/sql/cashmusic_demo_data.sql'));
+				$pdo->exec(file_get_contents($user_settings['frameworklocation'] . '/framework/settings/sql/cashmusic_db_sqlite.sql'));
+				$pdo->exec(file_get_contents($user_settings['frameworklocation'] . '/framework/settings/sql/cashmusic_demo_data.sql'));
 			} catch (PDOException $e) {
 				echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>Couldn\'t create database tables. Files are all in-place, so you can manually edit settings or start over.';
 				die();
@@ -515,7 +531,7 @@ if (!isset($_POST['installstage'])) {
 			if (is_dir('./source')) rrmdir('./source');
 			if (is_file('./index.php')) unlink('./index.php');
 			@file_put_contents('./index.php',"<?php header('Location: ./admin/'); ?>");
-			if (is_file('./install.php')) unlink('./install.php');
+			if (is_file('./cashmusic_web_installer.php')) unlink('./cashmusic_web_installer.php');
 			
 			break;
 		default:
