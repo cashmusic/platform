@@ -133,6 +133,26 @@
 		return $markup;
 	}
 
+	public function parseMetaData($post_data) {
+		$metadata_and_tags = array(
+			'metadata_details' => array(),
+			'tags_details' => array()
+		);
+		foreach ($post_data as $key => $value) {
+			if (substr($key,0,3) == 'tag' && $value !== '') {
+				$metadata_and_tags['tags_details'][] = $value;
+				$metadata_and_tags['total_tags'] = count($metadata_and_tags['tags_details']);
+			}
+			if (substr($key,0,11) == 'metadatakey' && $value !== '') {
+				$metadatavalue = $_POST[str_replace('metadatakey','metadatavalue',$key)];
+				if ($metadatavalue) {
+					$metadata_and_tags['metadata_details'][$value] = $metadatavalue;
+				}
+			}
+		}
+		return $metadata_and_tags;
+	}
+
 	public function simpleULFromResponse($response,$compact=false,$limit=false) {
 		$markup = '';
 		if ($response['status_code'] == 200) {

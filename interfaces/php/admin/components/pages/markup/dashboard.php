@@ -61,7 +61,7 @@
 			$loopcount = 1;
 			echo '<ol class="fadedtext">';
 			foreach ($cash_admin->getStoredResponse('asset_mostaccessed',true) as $asset) {
-				echo '<li><a href="#">' . $asset['title'] . '</a> <span class="smalltext nobr">(accessed: ' . $asset['count'] . ')</span></li>';
+				echo '<li><a href="./assets/edit/single/' . $asset['id'] . '">' . $asset['title'] . '</a> <span class="smalltext nobr">(accessed: ' . $asset['count'] . ')</span></li>';
 				$loopcount = $loopcount + 1;
 				if ($loopcount == 3) { break; }
 			}
@@ -76,7 +76,7 @@
 			$loopcount = 1;
 			echo '<ul class="nobullets fadedtext">';
 			foreach ($cash_admin->getStoredResponse('asset_recentlyadded',true) as $asset) {
-				echo '<li><a href="#">' . $asset['title'] . '</a><br /><span class="smalltext fadedtext nobr">created: ' . date('M jS, Y',$asset['creation_date']) . '</span></li>';
+				echo '<li><a href="./assets/edit/single/' . $asset['id'] . '">' . $asset['title'] . '</a><br /><span class="smalltext fadedtext nobr">created: ' . date('M jS, Y',$asset['creation_date']) . '</span></li>';
 				if ($loopcount == 3) { break; }
 				$loopcount = $loopcount + 1;
 			}
@@ -123,7 +123,7 @@
 	if (is_array($cash_admin->getStoredResponse('events_thisweek',true))) {
 		echo '<ul class="nobullets fadedtext">';
 		foreach ($cash_admin->getStoredResponse('events_thisweek',true) as $event) {
-			echo '<li><a href="#">' . date('d M',$event['date']) . ': ' . $event['venue_city'] . ', ' . $event['venue_region'] . '</a><br /><span class="smalltext nobr">@ ' . $event['venue_name'] . '</span></li>';
+			echo '<li><a href="./calendar/events/edit/' . $event['event_id'] . '">' . date('d M',$event['date']) . ': ' . $event['venue_city'] . ', ' . $event['venue_region'] . '</a><br /><span class="smalltext nobr">@ ' . $event['venue_name'] . '</span></li>';
 		}
 		echo '</ul>';
 	} else {
