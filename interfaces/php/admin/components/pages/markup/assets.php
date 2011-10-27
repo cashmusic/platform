@@ -16,17 +16,18 @@
 <div class="col_oneoftwo">
 	<h2>Most Accessed</h2>
 		<?php
-		if (is_array($cash_admin->getStoredResponse('asset_mostaccessed',true))) {
+		$mostaccessed_response = $cash_admin->getStoredResponse('asset_mostaccessed');
+		if ($mostaccessed_response['status_uid'] == 'asset_getanalytics_200') {
 			$loopcount = 1;
 			echo '<ol class="fadedtext">';
-			foreach ($cash_admin->getStoredResponse('asset_mostaccessed',true) as $asset) {
-				echo '<li><a href="./edit/single/' . $asset['id'] . '">' . $asset['title'] . '</a> <span class="smalltext nobr"> // accessed: ' . $asset['count'] . '</span></li>';
+			foreach ($mostaccessed_response['payload'] as $asset) {
+				echo '<li><a href="./assets/edit/single/' . $asset['id'] . '">' . $asset['title'] . '</a> <span class="smalltext nobr">(accessed: ' . $asset['count'] . ')</span></li>';
 				$loopcount = $loopcount + 1;
 				if ($loopcount == 3) { break; }
 			}
 			echo '</ol>';
 		} else {
-			echo '<p>No assets have been accessed yet.</p>';
+			echo '<p class="fadedtext">No assets have been accessed.</p>';
 		}
 		?>
 </div><div class="col_oneoftwo lastcol">
