@@ -84,51 +84,74 @@ if (!isset($_POST['installstage'])) {
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
 
 	<style type="text/css" /> 
+	/* FONTS */
+	@font-face {
+		font-family: 'OstrichSansRoundedMedium';
+		src: url('https://cashmusic.s3.amazonaws.com/permalink/fonts/ostrich-rounded-webfont.eot');
+		src: url('https://cashmusic.s3.amazonaws.com/permalink/fonts/ostrich-rounded-webfont.eot?#iefix') format('embedded-opentype'),
+			 url('https://cashmusic.s3.amazonaws.com/permalink/fonts/ostrich-rounded-webfont.woff') format('woff'),
+			 url('https://cashmusic.s3.amazonaws.com/permalink/fonts/ostrich-rounded-webfont.ttf') format('truetype'),
+			 url('https://cashmusic.s3.amazonaws.com/permalink/fonts/ostrich-rounded-webfont.svg#OstrichSansRoundedMedium') format('svg');
+		font-weight: normal;
+		font-style: normal;
+	}
+	
 	/* TAG RESETS */
 	html {margin:0;padding:0;}
-	body {color:#000;background-color:#fff;text-align:left;font:75%/1.5em "helvetica neue",helvetica,arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:750px;}
+	body {color:#231F20;background-color:#fff;text-align:left;font:13px/1.5em "helvetica neue",helvetica,arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:750px;}
 	a {color:#999;text-decoration:none;}
-	a:hover {text-decoration:underline;}
+	a:hover {text-decoration:underline;color:#000 !important;}
 	code {display:block;padding:2em;margin:0 0 1.5em 0;background-color:#ddd;background-image:url(../images/currentnav.png);background-position:left top;background-repeat:no-repeat;margin:0 auto;}
 	img {border:0;}
 	ul {padding:0.5em 0 0.5em 1.5em;}
 	p {margin:0 0 1.5em 0;}
-	h1 {font-size:3.75em;line-height:1.25em;margin:0;padding:0;}
+	h1,h2 {font-size:60px;line-height:60px;margin:0;padding:0;font-family:OstrichSansRoundedMedium,"helvetica neue",helvetica,arial,sans-serif;font-weight:normal;}
+	h2 {font-size:34px;line-height:34px;}
 	h3 {font-size:1.5em;line-height:1em;margin:20px 0 0 0;padding:0;padding-bottom:0.35em;}
 	small {font-size:0.85em;line-height:1.25em;}
 	small a {color:#000 !important;font-weight:bold;}
 	table {font-size:0.85em;}
 
 	/* GENERAL PAGE LAYOUT */
-	#cash_sitelogo {position:absolute;top:8px;right:8px;text-align:right;overflow:hidden;height:30px;width:30px;z-index:2345;}
-	#cash_sitelogo img {display:block;padding:0;margin:0;border:0;}
-
-	/* FORMS */
-	input {padding:6px 2% 6px 2%;border:1px solid #ccc;width:96%;}
-	input:active, input:focus {outline:0;border:1px solid #888;}
-	input.button, a.mockbutton {background-color:#ccc;padding:6px 18px 6px 18px;font-weight:bold;cursor:pointer;width:auto;}
-	input.button:hover {background-color:#aaa;}
-	input.checkorradio {width:auto;}
-	select {padding:6px 3px 6px 3px;border:1px solid #ccc;width:100%;}
-	select:active, select:focus {outline:2px solid #ff0;}
-	label {font-size:0.85em;text-transform:uppercase;color:#999;}
-	.nextstep {text-align:right;font-weight:bold;}
+	#topstrip {position:absolute;top:0;left:0;width:100%;height:6px;z-index:400;background-color:#000;color:#666;text-align:right;}
+	.altcopystyle {font:italic 12px/1.5em georgia, times, serif;color:#4d4d4f;}
+	.fadedtext {color:#9c9ca9 !important;}
 
 	/* COLORS */
-	.bgcolor1, div.usecolor1 input.button, div.usecolor1 a.mockbutton {background-color:#df0854;color:#fff;}
-	.bgcolor2, div.usecolor2 input.button, div.usecolor2 a.mockbutton {background-color:#df9b08;color:#fff;}
-	.bgcolor3, div.usecolor3 input.button, div.usecolor3 a.mockbutton {background-color:#aacd07;color:#fff;}
-	.bgcolor4, div.usecolor4 input.button, div.usecolor4 a.mockbutton {background-color:#0891df;color:#fff;}
-	.bgcolor5, div.usecolor5 input.button, div.usecolor5 a.mockbutton {background-color:#9b08df;color:#fff;}
-	div.usecolor1 input.button:hover, div.usecolor1 a.mockbutton:hover {background-color:#cd074d;color:#fff;}
-	div.usecolor2 input.button:hover, div.usecolor2 a.mockbutton:hover {background-color:#ca8c07;color:#fff;}
-	div.usecolor3 input.button:hover, div.usecolor3 a.mockbutton:hover {background-color:#97b800;color:#fff;}
-	div.usecolor4 input.button:hover, div.usecolor4 a.mockbutton:hover {background-color:#0080c9;color:#fff;}
-	div.usecolor5 input.button:hover, div.usecolor5 a.mockbutton:hover {background-color:#8a00ca;color:#fff;}
-	a.mockbutton {color:#000 !important;font-size:0.9em;}
-	a.mockbutton:hover {text-decoration:none !important;}
-	a.loginlink {color:#000;background-color:#ff0;font-size:2.5em;font-weight:bold;padding:0 12px 0 12px;}
-	a.loginlink:hover {background-color:#fff;}
+	.bgcolor0 {background-color:#999;}
+	.bgcolor1, div.usecolor1 input.button, div.usecolor1 a.mockbutton {background-color:#df0854;}
+	.bgcolor2, div.usecolor2 input.button, div.usecolor2 a.mockbutton {background-color:#df9b08;}
+	.bgcolor3, div.usecolor3 input.button, div.usecolor3 a.mockbutton {background-color:#aacd07;}
+	.bgcolor4, div.usecolor4 input.button, div.usecolor4 a.mockbutton {background-color:#0891df;}
+	.bgcolor5, div.usecolor5 input.button, div.usecolor5 a.mockbutton {background-color:#9b08df;}
+	div.usecolor1 a, h2.usecolor1 {color:#cd074d;}
+	div.usecolor2 a, h2.usecolor2 {color:#ca8c07;}
+	div.usecolor3 a, h2.usecolor3 {color:#97b800;}
+	div.usecolor4 a, h2.usecolor4 {color:#0080c9;}
+	div.usecolor5 a, h2.usecolor5 {color:#8a00ca;}
+	a.usecolor0 {color:#999 !important;}
+	a.usecolor1 {color:#cd074d !important;}
+	a.usecolor2 {color:#ca8c07 !important;}
+	a.usecolor3 {color:#97b800 !important;}
+	a.usecolor4 {color:#0080c9 !important;}
+	a.usecolor5 {color:#8a00ca !important;}
+	a.mockbutton {color:#fff !important;font-size:13px;}
+	a.mockbutton:hover {background-color:#000 !important;text-decoration:none !important;}
+	div.callout a {font-weight:bold;color:#999;}
+	div.callout a:hover {font-weight:bold;color:#231F20;}
+	* a.needsconfirmation:hover {color:#f00 !important;}
+
+	/* FORMS */
+	form span {line-height:2.5em;}
+	input,textarea,select {font:italic 13px/1.25em georgia, times, serif !important;padding:8px 2% 8px 2%;border:1px solid #dddddf;width:96%;}
+	input:active, input:focus, textarea:focus {outline:0;border:1px solid #888;}
+	input.button, a.mockbutton {background-color:#ccc;padding:8px 18px 8px 18px !important;font:bold 13px/1.25em helvetica,arial,sans-serif !important;cursor:pointer;width:auto !important;border:none;color:#fff;}
+	input.button:hover {background-color:#000 !important;color:#fff;}
+	input.checkorradio {width:auto !important;margin-top:8px;}
+	select {height:34px;line-height:34px;width:100%;padding:8px;border:none;background-color:#ededef;background-image:linear-gradient(top, #dfdfdf 0%, #efefef 100%);background-image:-moz-linear-gradient(top, #dfdfdf 0%, #efefef 100%);border-radius:5px;}
+	select option {padding:8px;}
+	select:active, select:focus {outline:2px solid #ff0;}
+	label {font-size:11px;text-transform:uppercase;color:#9c9ca9;}
 	
 	/* PROGRESS BAR */
 	#progressspc {position:relative;width:400px;height:30px;font-size:20px;line-height:30px;font-weight:bold;margin:0 auto;overflow:hidden;color:#eee;background-color:#ccc;visibility:hidden;}
@@ -138,13 +161,13 @@ if (!isset($_POST['installstage'])) {
 	/* FOOTER (base code taken from cssstickyfooter.com) */
 	* {margin-top:0;padding:0;} 
 	html, body, #wrap {height:100%;}
-	body > #wrap {height:auto;min-height:100%;}
-	#mainspc {padding-bottom:90px;padding-top:150px;width:400px;margin:0 auto;}
-	#footer {position:relative;margin-top:-36px;height:36px;color:#666;text-align:left;font-size:0.9em;line-height:1em;clear:both;background-color:#000;}
-	#footer p {padding:12px 8px 0px 8px;}
-	#footer a {color:#666;margin-left:24px;}
-	#footer a:hover {color:#fff;}
-	#footer .donatelink {color:#999;}
+	body > #wrap {height:auto;min-height:99%;}
+	#mainspc {padding-bottom:40px;padding-top:150px;width:400px;margin:0 auto;}
+	#footer {position:relative;margin-top:-32px;height:36px;color:#babac4;text-align:left;font-size:11px;line-height:1em;clear:both;background-color:transparent;}
+	#footer p {padding:12px 8px 0px 12px;}
+	#footer a {color:#babac4;margin-left:24px;}
+	#footer a:hover {color:#231F20;}
+	#footer .donatelink {color:#aaa;}
 
 	/* ACCESSIBILITY STUFFS */
 	* a:active, * a:focus, #footer a.donatelink:active, #footer a.donatelink:focus, input.checkorradio:focus, input.checkorradio:active
@@ -208,27 +231,27 @@ if (!isset($_POST['installstage'])) {
 	</head> 
 
 	<body> 
-
+	<div id="topstrip">&nbsp;</div>
 	<div id="wrap"> 
 	 	<div id="mainspc" class="usecolor1">
 			<h1>Hi.</h1>
 			<p>
-				This is the development installer for the CASH Music platform. By <b>development</b> 
-				we mean it'll grab the latest working version of the platform, install it, and configure
-				the bits like database settings. Be cautious because this is installing in-progress
-				software, and it's not an updater. So you know...it'll blow any current CASH files away without a care. 
+				This is the installer for the CASH Music platform. It'll grab the latest working 
+				version of the platform, install it, and configure the bits and settings. 
+				Be cautious because this is installing in-progress / pre-release software, 
+				and it's not an updater. So you know...it'll blow any current CASH files away 
+				without a care. 
 			</p><p>
 				Because it doesn't care. 
 			</p><p>
 				But we do.
-			</p><p>
-				xo,<br />
-				<a href="http://cashmusic.org/"><b>CASH Music</b></a>
 			</p>
+				xo,
+				<h2><a href="http://cashmusic.org/">CASH Music</a></h2>
 		
-			<br />
+			<br /><br />
 			<div class="nextstep">
-				Whenever you're ready:<br /><br />
+				<div class="altcopystyle fadedtext" style="margin-bottom:6px;">Whenever you're ready:</div>
 				<form action="" method="post" id="nextstepform">
 					<input type="hidden" name="installstage" id="installstageinput" value="2" />
 					<input type="hidden" id="installstagefade" value="1" />
@@ -262,11 +285,12 @@ if (!isset($_POST['installstage'])) {
 			 * github API, grab the files, looped AJAX delay so we don't make
 			 * anyone at github mad.
 			*/
-			$source_message = '<h1>Installing Source.</h1><p>Copying files from the repo. '
-				. 'This should take a few minutes. We throttle the downloads to play nice with github.</p>'
+			$source_message = '<h1>Installing.</h1><p>Copying files from github. '
+				. 'This should take a few minutes. We throttle the downloads to play nice with their servers.</p>'
 				. '<div class="nextstep">Copying files from repository:</div>';
 			if (!file_exists('./manifest.diy.org.cashmusic')) {
 				$admin_dir = dirname($_SERVER['REQUEST_URI']) . '/admin';
+				$demos_dir = dirname($_SERVER['REQUEST_URI']) . '/demos';
 				$source_dir = dirname($_SERVER['REQUEST_URI']) . '/source';
 
 				// create the directory structure: remove any existing source files and re-download
@@ -279,12 +303,16 @@ if (!isset($_POST['installstage'])) {
 					rrmdir('./admin');
 					//echo 'removed old admin directory at ' . $admin_dir . '<br />';
 				}
+				if (is_dir('./demos')) {
+					rrmdir('./demos');
+					//echo 'removed old admin directory at ' . $admin_dir . '<br />';
+				}
 				if (mkdir('./source')) {
 					// get repo from github, strip unnecessary files and write manifest:
 					$repo = json_decode(file_get_contents('https://github.com/api/v2/json/blob/all/cashmusic/DIY/latest_stable'));
 					$files = array_keys((array)$repo->blobs);
 					foreach ($files as $key => $file) {
-						if (preg_match("/^(tests|installers|interfaces\/php\/demos|docs|db|Makefile|index.html)/", $file)) {
+						if (preg_match("/^(tests|installers|interfaces\/php\/docs|db|Makefile|index.html)/", $file)) {
 							unset($files[$key]);
 						}
 					}
@@ -304,9 +332,6 @@ if (!isset($_POST['installstage'])) {
 				$currentfile = 1;
 
 				foreach ($files as $file) {
-					//if (preg_match("/^(tests|installers)/", $file)) { // Don't install tests or installers
-					//	continue;
-					//}
 					if (!file_exists('./source/'.$file)) {
 						$path = pathinfo($file);
 						if (!is_dir('./source/'.$path['dirname'])) mkdir('./source/'.$path['dirname'],0777,true);
@@ -339,12 +364,11 @@ if (!isset($_POST['installstage'])) {
 			 *
 			 * Locations, MySQL, and email address
 			*/
-			$settings_message = '<h1>Basic Settings.</h1><p>You don\'t want us to just start putting '
+			$settings_message = '<h1>Settings.</h1><p>You don\'t want us to just start putting '
 				. 'files all over the place, do you? The form is auto-loaded with our best guess at a '
 				. 'location for the core files, but you can put them wherever. Ideally these should be '
 				. 'above the web root.</p> '
-				. '<p>For the development installer we also need MySQL info. Don\'t worry, you\'re an '
-				. 'expert. While you\'re at it, add an email address for the main admin account.'
+				. '<p>While you\'re at it, add an email address for the main admin account.'
 				. ' (<b>Hint:</b> use a real email address so you can reset your password if need be.)</p>';
 			if (is_dir('./source/')) {
 				if (!$cash_root_location) {
@@ -355,12 +379,6 @@ if (!isset($_POST['installstage'])) {
 				echo '<form action="" method="post" id="nextstepform"><input type="hidden" id="installstagefade" value="1" /><input type="hidden" name="installstage" id="installstageinput" value="4" /> '
 				. '<h3>Install core files to:</h3><input type="text" name="frameworklocation" value="' . $cash_root_location . '" /> '
 				. '<h3>Admin email account:</h3><input type="text" name="adminemailaccount" value="admin@' . $_SERVER['SERVER_NAME'] . '" /> '
-				. '<h3><br />MySQL settings:</h3> '
-				. '<label for="mysqlhost">Host (hostname or hostname:port)</label> <input type="text" name="mysqlhost" id="mysqlhost" value="localhost" /> '
-				. '<br /><br /><label for="mysqluser">Username</label> <input type="text" name="mysqluser" id="mysqluser" value="root" /> '
-				. '<br /><br /><label for="mysqlpass">Password</label> <input type="text" name="mysqlpass" id="mysqlpass" value="root" /> '
-				. '<br /><br /><label for="mysqldbname">Database name</label> <input type="text" name="mysqldbname" id="mysqldbname" value="cashmusic" /> '
-				. '<div class="nextstep"><br /><br />Alright then:<br /><br /><input type="submit" class="button" value="Set it all up" /></div> '
 				. '</form>';
 			} else {
 				echo '<h1>Oh. Shit. Something\'s wrong.</h1> No source directory found.<br />';
@@ -374,13 +392,11 @@ if (!isset($_POST['installstage'])) {
 			*/
 			
 			$admin_dir = dirname($_SERVER['REQUEST_URI']) . '/admin';
+			$demos_dir = dirname($_SERVER['REQUEST_URI']) . '/demos';
+
 			$user_settings = array(
 				'frameworklocation' => (string)$_POST['frameworklocation'],
 				'adminemailaccount' => (string)$_POST['adminemailaccount'],
-				'mysqlhost' => (string)$_POST['mysqlhost'],
-				'mysqluser' => (string)$_POST['mysqluser'],
-				'mysqlpass' => (string)$_POST['mysqlpass'],
-				'mysqldbname' => (string)$_POST['mysqldbname'],
 				'systemsalt' => md5($user_settings['adminemailaccount'] . time())
 			);
 
@@ -408,10 +424,8 @@ if (!isset($_POST['installstage'])) {
 				!findReplaceInFile('./source/interfaces/php/admin/constants.php','$cashmusic_root = $root . "/../../../framework/php/cashmusic.php','$cashmusic_root = "' . $user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
 				!findReplaceInFile('./source/interfaces/php/admin/constants.php','define(\'ADMIN_WWW_BASE_PATH\', \'/interfaces/php/admin','define(\'ADMIN_WWW_BASE_PATH\', \'' . $admin_dir) || 
 				
-				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','hostname = "localhost:8889','hostname = "' . $user_settings['mysqlhost']) || 
-				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','username = "root','username = "' . $user_settings['mysqluser']) || 
-				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','password = "root','password = "' . $user_settings['mysqlpass']) || 
-				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','database = "seed','database = "' . $user_settings['mysqldbname']) ||
+				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','driver = "mysql','driver = "sqlite') || 
+				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','database = "seed','database = "cashmusic.db') || 
 				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $user_settings['systemsalt'])
 			) {
 				echo "<h1>Oh. Shit. Something's wrong.</h1><p>We had trouble editing a few files. Please try again.</p>";
@@ -431,43 +445,59 @@ if (!isset($_POST['installstage'])) {
 
 			// set up database, add user / password
 			$user_password = substr(md5($user_settings['systemsalt'] . 'password'),4,7);
-			$db_server = $user_settings['mysqlhost'];
-			$db_port = 3306;
-			if (strpos($db_server,':') !== false) {
-				$host_and_port = explode(':',$db_server);
-				$db_server = $host_and_port[0];
-				$db_port = $host_and_port[1];
+			
+			// if the directory was never created then create it now
+			if (!file_exists('./source/framework/php/db')) {
+				mkdir('./source/framework/php/db');
 			}
+			
+			// connect to the new db...will create if not found
 			try {
-				$pdo = new PDO ("mysql:host=$db_server;port=$db_port;dbname={$user_settings['mysqldbname']}",$user_settings['mysqluser'],$user_settings['mysqlpass']);
+				$pdo = new PDO ('sqlite:./source/framework/php/db/cashmusic.db');
+				$pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 			} catch (PDOException $e) {
-				echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>Couldn\'t connect to the database. Files are all in-place, so you can manually edit settings or start over.';
+				echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>Couldn\'t connect to the database.</p>';
+				die();
 				break;
 			}
 
-			if ($pdo->query(file_get_contents($user_settings['frameworklocation'] . '/framework/settings/sql/cashmusic_db.sql'))) {
-				$password_hash = hash_hmac('sha256', $user_password, $user_settings['systemsalt']);
-				$data = array(
-					'email_address' => $user_settings['adminemailaccount'],
-					'password'      => $password_hash,
-					'is_admin'      => true,
-					'creation_date' => time()
-				);
-				$query = "INSERT INTO user_users (email_address,password,is_admin,creation_date) VALUES (:email_address,:password,:is_admin,:creation_date)";
+			if ($pdo) {
+				chmod('./source/framework/php/db',0777);
+				chmod('./source/framework/php/db/cashmusic.db',0777);
+			}
 
-				try {  
-					$q = $pdo->prepare($query);
-					$success = $q->execute($data);
-					if (!$success) {
-						echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>Couldn\'t add the user to the database. Files are all in-place, so you can manually edit settings or start over.';
-						break;
-					}
-				} catch(PDOException $e) {  
-					echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>Couldn\'t add the user to the database. Files are all in-place, so you can manually edit settings or start over.';
-					break;
-				}	
-			} else {
+			// push in all the tables
+			try {
+				$pdo->exec(file_get_contents('./source/framework/php/settings/sql/cashmusic_db_sqlite.sql'));
+				$pdo->exec(file_get_contents('./source/framework/php/settings/sql/cashmusic_demo_data.sql'));
+			} catch (PDOException $e) {
 				echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>Couldn\'t create database tables. Files are all in-place, so you can manually edit settings or start over.';
+				die();
+				break;
+			}
+
+			$password_hash = hash_hmac('sha256', $user_password, $user_settings['systemsalt']);
+			$data = array(
+				'email_address' => $user_settings['adminemailaccount'],
+				'password'      => $password_hash,
+				'is_admin'      => true,
+				'creation_date' => time()
+			);
+			$query = "INSERT INTO user_users (email_address,password,is_admin,creation_date) VALUES (:email_address,:password,:is_admin,:creation_date)";
+
+			try {
+				$q = $pdo->prepare($query);
+			} catch (PDOException $e) {
+				echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>Couldn\'t add the user to the database.</p>';
+				die();
+				break;
+			}
+
+			try {
+				$success = $q->execute($data);
+			} catch(PDOException $e) {
+				echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>Couldn\'t add the user to the database.</p>';
+				die();
 				break;
 			}
 
@@ -476,7 +506,7 @@ if (!isset($_POST['installstage'])) {
 			. 'credentials</p><p><br /><br /><a href="./admin/" class="loginlink">Click to login</a><br /><br /><b>Email address:</b> ' . $user_settings['adminemailaccount']
 			. '<br /><b>Password:</b> ' . $user_password;
 			
-			echo '<br /><br /><br /><br /><small>I feel compelled to point out that in the time it took you to read this, I, your helpful installer script, have deleted '
+			echo '<br /><br /><br /><br /><small class="altcopystyle fadedtext">I feel compelled to point out that in the time it took you to read this, I, your helpful installer script, have deleted '
 			. 'myself in the name of security. It is a far, far better thing that I do, than I have ever done; it is a far, far better rest that I go to, than I '
 			. 'have ever known.</small>';
 			
