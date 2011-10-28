@@ -1,10 +1,10 @@
-<div class="col_oneoftwo">
-	<h2>Quick add a venue</h2>
-	<p>
-		Quickly add a venue with just the basics.
-	</p>
+<?php if (!isset($_POST['dovenueadd'])) { ?>
+	<h2>Add a venue</h2>
+	<p><span class="highlightcopy">
+		Full version of venue addition with all fields will go here.
+	</span></p>
 
-	<form method="post" action="./add/">
+	<form method="post" action="">
 		<input type="hidden" name="dovenueadd" value="makeitso" />
 
 		<label for="venue_name">Name</label><br />
@@ -233,8 +233,26 @@
 		<input class="button" type="submit" value="Add That Venue" />
 	
 	</form>
-</div>
-<div class="col_oneoftwo lastcol">
-	<h2>All venues</h2>
-	<?php echo AdminHelper::simpleULFromResponse($cash_admin->getStoredResponse('getallvenues'), true); ?>
-</div>
+<?php } else {
+	$add_venue_response = $cash_admin->getStoredResponse('venueaddattempt');
+	if ($add_venue_response['status_uid'] == 'calendar_addvenue_200') {
+	?>
+
+		<h3>Success</h3>
+		<p>
+		The new venue has been added
+		</p>
+		<a href="../"><b>Add another?</b></a>
+		<br />
+
+	<?php } else { ?>
+
+		<h3>Error</h3>
+		<p>
+		There was a problem adding the event. <a href="../">Please try again.</a>
+		</p>
+
+<?php 
+	}
+}	
+?>
