@@ -188,9 +188,21 @@
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/calendar/events/delete/' . $item['event_id'] . '" class="needsconfirmation mininav_flush noblock">Delete</a>'
 							. '</div>';
 					$markup .= '</li>';
+				} elseif ($response['status_uid'] == "calendar_getallvenues_200") {
+					$venue_location = $item['city'] . ', ' . $item['country'];
+					if (strtolower($item['country']) == 'usa' || strtolower($item['country']) == 'canada') {
+						$venue_location = $item['city'] . ', ' . $item['region'];
+					}
+					$markup .= '<b>' . $item['name'] . '</b> '
+							.'// <span class="nobr">' . $venue_location . '</span>'; 
+					$markup .= '<div class="itemnav">'
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/calendar/venues/edit/' . $item['id'] . '" class="mininav_flush noblock">Edit</a> '
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/calendar/venues/delete/' . $item['id'] . '" class="needsconfirmation mininav_flush noblock">Delete</a>'
+							. '</div>';
+					$markup .= '</li>';
 				} elseif ($response['status_uid'] == "people_getlistsforuser_200") {
 					$markup .= '<h4>' . $item['name'] . '</h4>'
-							. '<span class="fadedtext">' . $item['description'] . '</span><br />'
+							. $item['description'] . '<br />'
 							. '<div class="itemnav">'
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/view/' . $item['id'] . '" class="mininav_flush">View</a> '
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/edit/' . $item['id'] . '" class="mininav_flush">Edit</a> '
