@@ -4,7 +4,7 @@
 		Full version of venue addition with all fields will go here.
 	</span></p>
 
-	<form method="post" action="">
+	<form method="post" action="" name="venue_add">
 		<input type="hidden" name="dovenueadd" value="makeitso" />
 
 		<label for="venue_name">Name</label><br />
