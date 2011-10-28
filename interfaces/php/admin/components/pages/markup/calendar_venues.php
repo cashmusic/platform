@@ -4,7 +4,7 @@
 		Quickly add a venue with just the basics.
 	</p>
 
-	<form method="post" action="./add/">
+	<form method="post" action="./add/" name="quick_add_venue">
 		<input type="hidden" name="dovenueadd" value="makeitso" />
 
 		<label for="venue_name">Name</label><br />
