@@ -39,13 +39,47 @@ function rrmdir($dir) {
 	} 
 }
 
-function determinedCopy($source,$dest,$retries=1) {
+function determinedCopy($source,$dest,$retries=3) {
 	$retries++;
 	while($retries > 0) {
-		if (@copy($source,$dest)) {
-			return true;
+		if (ini_get('allow_url_fopen')) {
+			if (@copy($source,$dest)) {
+				return true;
+			} else {
+				sleep(1);
+			}
 		} else {
-			sleep(1);
+			// fall back to cURL
+			$ch = curl_init();
+			$timeout = 3;
+			$userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.5; rv:7.0) Gecko/20100101 Firefox/7.0';
+			
+			curl_setopt($ch,CURLOPT_URL,$source);
+			
+			curl_setopt($ch, CURLOPT_USERAGENT, $userAgent);
+			curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+			curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
+			curl_setopt($ch, CURLOPT_FAILONERROR, true);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+			curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+			curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+			
+			$destfile = fopen($dest, 'wb'); 
+			curl_setopt($ch, CURLOPT_FILE, $destfile);
+			
+			if (curl_exec($ch)) {
+				fclose($destfile); 
+				curl_close($ch);
+				return true;
+			} else {
+				fclose($destfile); 
+				if (file_exists($dest)) {
+					unlink($dest);
+				}
+				curl_close($ch);
+				sleep(4);
+			}
 		}
 		$retries--;
 	}
