@@ -10,7 +10,7 @@
 		interfaces soon.
 	</span></p>
 
-	<form method="post" action="./add/">
+	<form method="post" action="./add/" name="add_event">
 		<input type="hidden" name="doeventadd" value="makeitso" />
 
 		<label for="event_date">Date</label><br />

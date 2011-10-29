@@ -4,9 +4,10 @@ use strict;
 use warnings;
 use autodie;
 use Test::WWW::Mechanize;
+use Test::More;
 use parent 'Exporter';
 #use Carp::Always;
-our @EXPORT_OK = qw/mech login_ok/;
+our @EXPORT_OK = qw/mech login_ok mech_success_ok/;
 
 my $base = $ENV{CASHMUSIC_TEST_URL} || 'http://localhost:80';
 # This is temporary until I add a feature to allow a custom lint object
@@ -19,6 +20,10 @@ BEGIN {
 
 sub mech {
     $mech
+}
+
+sub mech_success_ok {
+    mech->content_like(qr/Success/) or diag mech->content;
 }
 
 sub login_ok {

@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use File::Spec::Functions;
 use lib catdir(qw/tests lib/);
-use Test::Cashmusic qw/mech login_ok/;
+use Test::Cashmusic qw/mech login_ok mech_success_ok/;
 use Test::Most;
 use Test::JSON;
 #use Carp::Always;
@@ -28,7 +28,9 @@ mech->submit_form_ok({
         venue_country => 'USA',
     },
 }, 'quick add venue');
-mech->content_like(qr/Success/) or diag mech->content;
+
+mech_success_ok;
+
 mech->get_ok("$base/interfaces/php/admin/calendar/venues/");
 # make sure Backspace shows up on the list of venues
 mech->content_like(qr/Backspace/);
@@ -36,5 +38,20 @@ mech->content_like(qr/Backspace/);
 # make sure Backspace shows up on the list of venues an event can be at
 mech->get_ok("$base/interfaces/php/admin/calendar/events/");
 mech->content_like(qr/Backspace/);
+
+mech->submit_form_ok({
+    form_name   => "add_event",
+    fields      => {
+        doeventadd         => 'makeitso',
+        event_date         => '01-01-2012',
+        event_venue        => 114,
+        event_comment      => "blarg",
+        event_purchase_url => "http://cashmusic.org/tickets",
+        event_ispublished  => 1,
+        event_canceled     => 0,
+    },
+}, 'quick add event');
+
+mech_success_ok;
 
 done_testing;
