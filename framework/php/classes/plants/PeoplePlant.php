@@ -309,6 +309,9 @@ class PeoplePlant extends PlantBase {
 		 - first test to see if any members are present on the list, if so store them
 		 - do a pull from remote list and add all members
 		 - if the initial test found members, push them to the remote list
+		
+		 - if remote list supports webhooks we should set those up here (if possible)
+		   to enable 2-way sync
 		*/
 	}
 
