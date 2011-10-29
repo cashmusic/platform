@@ -30,6 +30,11 @@ mech->submit_form_ok({
 }, 'quick add venue');
 mech->content_like(qr/Success/) or diag mech->content;
 mech->get_ok("$base/interfaces/php/admin/calendar/venues/");
+# make sure Backspace shows up on the list of venues
+mech->content_like(qr/Backspace/);
+
+# make sure Backspace shows up on the list of venues an event can be at
+mech->get_ok("$base/interfaces/php/admin/calendar/events/");
 mech->content_like(qr/Backspace/);
 
 done_testing;
