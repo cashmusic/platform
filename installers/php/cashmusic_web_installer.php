@@ -323,9 +323,6 @@ if (!isset($_POST['installstage'])) {
 				. 'This should take a few minutes. We throttle the downloads to play nice with their servers.</p>'
 				. '<div class="altcopystyle fadedtext" style="margin-bottom:6px;">Copying files:</div>';
 			if (!file_exists('./manifest.diy.org.cashmusic')) {
-				$admin_dir = dirname($_SERVER['REQUEST_URI']) . '/admin';
-				$source_dir = dirname($_SERVER['REQUEST_URI']) . '/source';
-
 				// create the directory structure: remove any existing source files and re-download
 				// we'll make a proper update script later.
 				if (is_dir('./source')) {
@@ -359,7 +356,7 @@ if (!isset($_POST['installstage'])) {
 					echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
 					echo '<script type="text/javascript">showProgress(0);(function(){document.id("nextstepform").fireEvent("submit");}).delay(250);</script>';
 				} else {
-					echo '<h1>Oh. Shit. Something\'s wrong.</h1>error creating directory: ' . $source_dir . '<br />';
+					echo '<h1>Oh. Shit. Something\'s wrong.</h1>error creating source directory<br />';
 				}
 			} else {
 				// grab our manifest:
@@ -428,7 +425,7 @@ if (!isset($_POST['installstage'])) {
 			 * Edit and move files, write redirects, set up DBs, remove the installer script, party.
 			*/
 			
-			$admin_dir = dirname($_SERVER['REQUEST_URI']) . '/admin';
+			$admin_dir = rtrim(dirname($_SERVER['REQUEST_URI']),'/') . '/admin';
 
 			$user_settings = array(
 				'frameworklocation' => (string)$_POST['frameworklocation'],
