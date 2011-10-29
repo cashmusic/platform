@@ -2,6 +2,7 @@ package Test::Cashmusic;
 
 use strict;
 use warnings;
+use autodie;
 use Test::WWW::Mechanize;
 use parent 'Exporter';
 #use Carp::Always;

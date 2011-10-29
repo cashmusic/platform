@@ -12,6 +12,9 @@ my $builder = Module::Build->new(
     dist_abstract       => 'Integration tests for CASH Music',
     dist_version        => '0.01',
     include_dirs        => '',
+    requires            => {
+        autodie => 0,
+    },
     build_requires => {
         'Test::Most'           => 0,
         'Test::JSON'           => 0,
