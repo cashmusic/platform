@@ -18,7 +18,7 @@ my $builder = Module::Build->new(
     build_requires => {
         'Test::Most'           => 0,
         'Test::JSON'           => 0,
-        'Test::WWW::Mechanize' => 0,
+        'Test::WWW::Mechanize' => '1.38',
     },
 );
 
