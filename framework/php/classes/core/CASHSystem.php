@@ -137,5 +137,36 @@
 		}
 		return $url_contents;
 	}
+	
+	/*
+	This is just a straight dump of the old mail program from the CASH v1 stuff. 
+	It should be modified to include a css file from the /public/assets/css folder
+	either directly or in a <link> tag. (Guessing direct is better...)
+	*/
+	public static function sendEmail($subject,$fromaddress,$toaddress,$message_text,$message_title) {
+		//create a boundary string. It must be unique 
+		//so we use the MD5 algorithm to generate a random hash
+		$random_hash = md5(date('r', time())); 
+		//define the headers we want passed. Note that they are separated with \r\n
+		$headers = "From: $fromaddress\r\nReply-To: $fromaddress";
+		//add boundary string and mime type specification
+		$headers .= "\r\nContent-Type: multipart/alternative; boundary=\"PHP-alt-".$random_hash."\""; 
+		//define the body of the message.
+		$message = "--PHP-alt-$random_hash\n";
+		$message .= "Content-Type: text/plain; charset=\"iso-8859-1\"\n";
+		$message .= "Content-Transfer-Encoding: 7bit\n\n";
+		$message .= "$message_title\n\n";
+		$message .= $message_text;
+		$message .= "\n--PHP-alt-$random_hash\n"; 
+		$message .= "Content-Type: text/html; charset=\"iso-8859-1\"\n";
+		$message .= "Content-Transfer-Encoding: 7bit\n\n";
+		$message .= "<p style=\"font-family:helvetica,arial,sans-serif;font-size:2em;margin-bottom:0.75em;margin-top:0;\"><img src=\"http://my.cashmusic.org/images/cashlogo.gif\" width=\"36\" height=\"36\" style=\"position:relative;top:9px;margin-right:8px;\" alt=\"CASH Music\" />$message_title</p>\n";
+		$message .= "<p style=\"font-family:helvetica,arial,sans-serif;padding-left:44px;\">";
+		$message .= str_replace("\n","<br />\n",preg_replace('/(http:\/\/(\S*))/', '<a href="\1">\1</a>', $message_text));
+		$message .= "\n--PHP-alt-$random_hash--\n";
+		//send the email
+		$mail_sent = @mail($toaddress,$subject,$message,$headers);
+		return $mail_sent;
+	}
 } // END class 
 ?>
