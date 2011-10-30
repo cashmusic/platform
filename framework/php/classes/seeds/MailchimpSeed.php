@@ -45,6 +45,18 @@ class MailchimpSeed extends SeedBase {
 		$this->handleError();
 		return $webhooks;
 	}
+	// http://apidocs.mailchimp.com/api/1.3/listwebhookadd.func.php
+	public function listWebhookAdd($list_id, $url, $actions, $sources) {
+		$this->api->listWebhookAdd($list_id, $url, $actions, $sources);
+		$this->handleError();
+		return $this;
+	}
+	// http://apidocs.mailchimp.com/api/1.3/listwebhookdel.func.php
+	public function listWebhookDel($list_id, $url) {
+		$this->api->listWebhookDel($list_id, $url);
+		$this->handleError();
+		return $this;
+	}
 	// http://apidocs.mailchimp.com/api/1.3/listmembers.func.php
 	public function listMembers($list_id) {
 		$page    = 0;
