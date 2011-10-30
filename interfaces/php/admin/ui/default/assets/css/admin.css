@@ -18,13 +18,11 @@ body {color:#231F20;background-color:#fff;text-align:center;font:13px/1.5em helv
 a {color:#999;text-decoration:none;}
 a:hover {text-decoration:underline;color:#000 !important;}
 code, div.callout {display:block;font-size:11px;padding:22px 18px 18px 18px;margin:0 auto 1.5em auto;background-color:#ededef;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;}
-div.callout {font-size:12px;}
 img {border:0;}
 ul, ol {padding:0.5em 0 1em 1.5em;}
 li {line-height:1.25em;}
 ol li {margin-bottom:0.85em;}
 p {margin:0 0 1.5em 0;}
-/* h1 {font-size:42px;line-height:1em;margin:0 0 0.5em 0;padding:0;} */
 h1 {font-size:52px;line-height:50px;margin:0 0 24px 0;padding:0;font-family:OstrichSansRoundedMedium,"helvetica neue",helvetica,arial,sans-serif;font-weight:normal;}
 h2, h3, h4 {font-size:17px;line-height:1.125em;margin:0;padding:0;padding-bottom:0.35em;}
 big {font-size:1.5em;line-height:1.25em;}
@@ -32,7 +30,8 @@ small {font-size:0.85em;line-height:1.25em;}
 small a {color:#231F20 !important;font-weight:bold;}
 table {font-size:11px;}
 
-/* GENERAL PAGE LAYOUT */
+/* ELEMENT TYPES */
+div.callout {font-size:12px;}
 ul.nobullets {padding:0;}
 ul.nobullets li {list-style-type:none;margin-bottom:12px;}
 ul.alternating {padding:0;}
@@ -42,31 +41,36 @@ ul.alternating li a {line-height:1.5em;}
 ul.linkonly li:hover {background-color:#fff;}
 ul.linkonly li {padding:0 !important;}
 ul.linkonly li a {display:block;padding:9px;color:#231F20 !important;}
-#pagecontent {position:relative;clear:both;width:920px;padding:140px 2em 3em 2em;margin:0 auto;text-align:left;z-index:500;}
+
+/* GENERAL PAGE LAYOUT */
+.clearfix {visibility:hidden;overflow:hidden;clear:both;height:1px;}
 .col_oneoftwo {float:left;width:47%;padding-right:5%;}
 .col_oneofthree {float:left;width:29%;padding-right:6%;}
 .col_twoofthree {float:left;width:64%;padding-right:6%;}
 .col_oneoffour {float:left;width:21%;padding-right:5%;}
 .col_threeoffour {float:left;width:73%;padding-right:5%;}
-.fadedtext {color:#9c9ca9 !important;}
-.smalltext {font-size:0.85em;}
 .lastcol {padding:0;float:right;}
 .row_seperator {position:relative;clear:both;height:12px;overflow:hidden;visibility:hidden;}
-.clearfix {visibility:hidden;overflow:hidden;clear:both;height:1px;}
-.tall {height:3em;}
-.tar {text-align:right;}
-.majorcallout {display:block;float:left;padding:7px 12px 7px 12px;margin:0 10px 10px 0;font-weight:bold;color:#fff;background-color:#999;font-size:2.5em;line-height:1em;}
-.mininav_spaced {font-weight:bold;margin:0 0 0 1.5em;color:#9c9ca9 !important;}
-.mininav_flush {font-weight:bold;margin:0 1.5em 0 0;color:#9c9ca9 !important;text-shadow: 0px 1px 0px #fff;}
-.itemnav {padding:0;margin:8px 0 4px 0;}
-.nobr  {white-space:nowrap;}
+
+/* MISC STYLES */
 .altcopystyle {font:italic 12px/1.5em georgia, times, serif;color:#4d4d4f;}
+.created_mod {padding:12px 0 0 0;text-align:right;white-space:nowrap;}
+.element_image {position:relative;height:78px;background-repeat:no-repeat;background-position:center top;margin-bottom:6px;}
+.fadedtext {color:#9c9ca9 !important;}
 .highlightcopy {padding:2px 6px 2px 6px;background-color:#ff0;font:italic 12px/1.75em georgia, times, serif;}
+.itemnav {padding:0;margin:8px 0 4px 0;}
+.majorcallout {display:block;float:left;padding:7px 12px 7px 12px;margin:0 10px 10px 0;font-weight:bold;color:#fff;background-color:#999;font-size:2.5em;line-height:1em;}
+.mininav_flush {font-weight:bold;margin:0 1.5em 0 0;color:#9c9ca9 !important;text-shadow: 0px 1px 0px #fff;}
+.mininav_spaced {font-weight:bold;margin:0 0 0 1.5em;color:#9c9ca9 !important;}
 .modalbg {position:fixed;top:0px;left:0px;width:100%;height:100%;background-color:rgba(255,255,255,0.9);z-index:5432;}
 .modaldialog {position:absolute;top:250px;left:50%;margin-left:-172px;padding:24px;width:320px;height:auto;background-color:#ddd;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;text-align:left;z-index:10;}
 .modaldialog input {background-color:#231F20;border:1px solid #231F20;color:#fff;width:auto;padding:6px 18px 6px 18px;font-weight:bold;cursor:pointer;margin-left:9px;}
 .modaldialog input:hover {background-color:#ff0;color:#231F20;border:1px solid #ff0;}
-.created_mod {padding:12px 0 0 0;text-align:right;white-space:nowrap;}
+.nobr  {white-space:nowrap;}
+.nopagemenu {width:914px !important;}
+.smalltext {font-size:0.85em;}
+.tall {height:3em;}
+.tar {text-align:right;}
 
 /* COLORS */
 .bgcolor0 {background-color:#999;}
@@ -92,26 +96,25 @@ div.callout a {font-weight:bold;color:#999;}
 div.callout a:hover {font-weight:bold;color:#231F20;}
 * a.needsconfirmation:hover {color:#f00 !important;}
 
-
 /* FORMS */
 form span {line-height:2.5em;}
 input,textarea,select {font:italic 13px/1.25em georgia, times, serif !important;padding:8px 2% 8px 2%;border:1px solid #dddddf;width:96%;}
+input:active, input:focus, textarea:focus {outline:0;border:1px solid #888;}
+input.button, a.mockbutton {background-color:#ccc;padding:8px 18px 8px 18px !important;font:bold 13px/1.25em helvetica,arial,sans-serif !important;cursor:pointer;width:auto !important;border:none;color:#fff;}
+input.button:hover {background-color:#000 !important;color:#fff;}
+input.checkorradio {width:auto !important;margin-top:8px;}
+label {font-size:11px;text-transform:uppercase;color:#9c9ca9;}
+select {height:34px;line-height:34px;width:100%;padding:8px;border:none;background-color:#ededef;background-image:linear-gradient(top, #dfdfdf 0%, #efefef 100%);background-image:-moz-linear-gradient(top, #dfdfdf 0%, #efefef 100%);border-radius:5px;}
+select option {padding:8px;}
+select:active, select:focus {outline:2px solid #ff0;}
 #pagedisplay input,textarea {width:664px;padding:8px;}
 #pagedisplay div.col_oneoftwo input,#pagedisplay div.col_oneoftwo textarea {width:302px;padding:8px;}
 #pagedisplay div.col_oneofthree input,#pagedisplay div.col_oneofthree textarea {width:179px;padding:8px;}
 #pagedisplay div.col_twoofthree input,#pagedisplay div.col_twoofthree textarea {width:416px;padding:8px;}
 #pagedisplay div.col_oneoffour input,#pagedisplay div.col_oneoffour textarea {width:125px;padding:8px;}
 #pagedisplay div.col_threeoffour input,#pagedisplay div.col_threeoffour textarea {width:478px;padding:8px;}
-input:active, input:focus, textarea:focus {outline:0;border:1px solid #888;}
-input.button, a.mockbutton {background-color:#ccc;padding:8px 18px 8px 18px !important;font:bold 13px/1.25em helvetica,arial,sans-serif !important;cursor:pointer;width:auto !important;border:none;color:#fff;}
-input.button:hover {background-color:#000 !important;color:#fff;}
-input.checkorradio {width:auto !important;margin-top:8px;}
-select {height:34px;line-height:34px;width:100%;padding:8px;border:none;background-color:#ededef;background-image:linear-gradient(top, #dfdfdf 0%, #efefef 100%);background-image:-moz-linear-gradient(top, #dfdfdf 0%, #efefef 100%);border-radius:5px;}
-select option {padding:8px;}
-select:active, select:focus {outline:2px solid #ff0;}
-label {font-size:11px;text-transform:uppercase;color:#9c9ca9;}
 
-/* NAVIGATION */
+/* MAIN NAVIGATION/INTERFACE ELEMENTS */
 #chromespc {position:fixed;top:0;left:0;min-width:960px;width:100%;z-index:1000;margin:0;padding:0;}
 #accountspc {position:absolute;top:0;left:0;min-width:960px;width:100%;height:6px;z-index:400;font-size:11px;line-height:14px;background-color:#000;color:#666;text-align:right;}
 #accountmenu {width:auto;min-width:166px;float:right;margin-top:6px;padding:8px 12px 8px 12px;color:#babac4;cursor:pointer;}
@@ -139,28 +142,27 @@ label {font-size:11px;text-transform:uppercase;color:#9c9ca9;}
 #navmenu a {color:#fff;}
 #navmenu a:hover, #navmenu .navitem:hover a {color:#000;text-decoration:none;}
 #navmenu a:active, #navmenu a:focus {color:#000;}
+#navmenu .currentnav, #navmenu .currentnav a {color:#000;}
+#pagetips {position:fixed;top:72px;z-index:1234;right:1.5em;;width:238px;background-color:#ff0;color:#231F20;font-size:11px;line-height:14px;padding:1.75em 1.3em 1.5em 2em;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;text-align:left;margin:0;}
+#sectionmenu a {text-transform:lowercase;margin-right:1.5em;}
 #tipspc {clear:both;position:relative;padding-top:8px;color:#666;width:722px;margin-bottom:16px;}
 #tipspc a {color:#231F20;}
 #tipscloselink {position:relative;left:-4px;font-weight:bold;padding:4px;}
 #tipscloselink:hover {background-color:#000;color:#fff;text-decoration:none;}
-#pagetips {position:fixed;top:72px;z-index:1234;right:1.5em;;width:238px;background-color:#ff0;color:#231F20;font-size:11px;line-height:14px;padding:1.75em 1.3em 1.5em 2em;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;text-align:left;margin:0;}
-#sectionmenu a {text-transform:lowercase;margin-right:1.5em;}
-#navmenu .currentnav, #navmenu .currentnav a {color:#000;}
 #pagecontent #tipslink {color:#999;font-size:11px;line-height:1.25em;padding:1px;}
-ul.pagebasemenu {padding:0;margin-top:0;margin-bottom:1.5em;font-size:16px;font-weight:bold;line-height:1.5em;color:#999;}
-ul.pagebasemenu li {list-style-type:none;}
-ul.pagebasemenu ul {padding:0;margin-top:0;margin-bottom:0;font-size:0.8em;font-weight:normal;}
-.currentpagemenu {margin-left:16px;}
 
 /* PAGE ELEMENTS */
+#pagecontent {position:relative;clear:both;width:920px;padding:140px 2em 3em 2em;margin:0 auto;text-align:left;z-index:500;}
+#pagedisplay {width:680px;float:right;}
 #pagemenu {position:relative;top:-20px;width:200px;margin-right:24px;float:left;}
 #pagemenu * li {margin-bottom:0;line-height:1.5em;}
 #pagemenu a:hover {text-decoration:none;}
 #pagemenu a:hover.pagemenutitle {text-decoration:underline;}
 #pagemenu a.pagemenutitle {color:#231F20;font-weight:bold;}
-#pagedisplay {width:680px;float:right;}
-.nopagemenu {width:914px !important;}
-.element_image {position:relative;height:78px;background-repeat:no-repeat;background-position:center top;margin-bottom:6px;}
+.currentpagemenu {margin-left:16px;}
+ul.pagebasemenu {padding:0;margin-top:0;margin-bottom:1.5em;font-size:16px;font-weight:bold;line-height:1.5em;color:#999;}
+ul.pagebasemenu li {list-style-type:none;}
+ul.pagebasemenu ul {padding:0;margin-top:0;margin-bottom:0;font-size:0.8em;font-weight:normal;}
 
 /* FOOTER (base code taken from cssstickyfooter.com) */
 * {margin-top:0;padding:0;} 
