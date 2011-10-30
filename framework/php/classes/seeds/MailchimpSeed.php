@@ -15,6 +15,13 @@ class MailchimpSeed extends SeedBase {
 	protected $api;
 	public $url, $key;
 
+	private function handleError() {
+		if ($this->api->errorCode) {
+			// TODO: throw a proper error
+			echo "\n\tCode=".$this->api->errorCode;
+			echo "\n\tMsg=".$this->api->errorMessage."\n";
+		}
+	}
 	public function __construct($key) {
 		$this->settings_type = 'com.mailchimp';
 		$this->connectDB();
@@ -27,40 +34,34 @@ class MailchimpSeed extends SeedBase {
 
 	public function lists() {
 		$lists = $this->api->lists();
-		if ($this->api->errorCode) {
-			// TODO: throw a proper error
-			echo "\n\tCode=".$this->api->errorCode;
-			echo "\n\tMsg=".$this->api->errorMessage."\n";
-		} else {
-			return $lists;
-		}
+		$this->handleError();
+		return $lists;
 	}
 	
 	public function listWebhooks($list_id) {
 		$webhooks = $this->api->listWebhooks($list_id);
-		if ($this->api->errorCode) {
-			// TODO: throw a proper error
-			echo "\n\tCode=".$this->api->errorCode;
-			echo "\n\tMsg=".$this->api->errorMessage."\n";
-		} else {
-			return $webhooks;
-		}
+		$this->handleError();
+		return $webhooks;
 	}
 	public function listMembers($list_id) {
 		$page    = 0;
 		$max     = 5000;
 		$since   = null;
 		$members = $this->api->listMembers($list_id, 'subscribed', $since, $page, $max);
+		$this->handleError();
 		return $members;
 	}
 	public function listSubscribe($list_id, $email) {
 		$api->listSubscribe( $list_id, $email, null);
+		return $this;
 	}
 	public function listUnsubscribe($list_id, $email) {
 		$delete       = 0;
 		$send_goodbye = 1;
 		$send_notify  = 1;
 		$api->listUnsubscribe( $list_id, $email, $delete, $send_goodbye, $send_notify);
+		$this->handleError();
+		return $this;
 	}
 } // END class
 ?>
