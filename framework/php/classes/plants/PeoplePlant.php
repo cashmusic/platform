@@ -301,6 +301,7 @@ class PeoplePlant extends PlantBase {
 	}
 
 	public function doListSync($list_id,$pull=true,$push=false) {
+		$list_info = $this->getListInfo($list_id);
 		/*
 		We should call this function whenever a list is first synced to a remote
 		source. If part of an addlist call we only need to do a pull. If it's a
@@ -345,9 +346,10 @@ class PeoplePlant extends PlantBase {
 					);
 					if ($result) {
 						/*
-						Check for list sync. If found, use the appropriate seed
-						to add the user to the remote list
+						TODO: Check for list sync
 						*/
+						// sync the new list data remotely
+						$this->doListSync($list_id, $pull=false, $push=true);
 					}
 					return $result;
 				}
