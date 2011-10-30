@@ -349,7 +349,9 @@ class PeoplePlant extends PlantBase {
 						TODO: Check for list sync
 						*/
 						// sync the new list data remotely
-						$this->doListSync($list_id, $pull=false, $push=true);
+						$api = new Mailchimp();
+						// TODO: verified?
+						$api->listSusbcribe($list_id, $address);
 					}
 					return $result;
 				}
@@ -382,6 +384,8 @@ class PeoplePlant extends PlantBase {
 					Check for list sync. If found, use the appropriate seed
 					to remove the user to the remote list
 					*/
+					$api = new Mailchimp();
+					$api->listUnsusbcribe($list_id, $address);
 				}
 				return $result;
 			} else {
@@ -390,6 +394,8 @@ class PeoplePlant extends PlantBase {
 				now check to see if the list is synced to another list remotely. if
 				so, use the appropriate seed to remove user remotely
 				*/
+				$api = new Mailchimp();
+				$api->listUnsusbcribe($list_id, $address);
 				return true;
 			}
 		} else {
