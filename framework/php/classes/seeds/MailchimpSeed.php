@@ -29,20 +29,23 @@ class MailchimpSeed extends SeedBase {
 		require_once(CASH_PLATFORM_ROOT.'/lib/mailchimp/MCAPI.class.php');
 		$this->key = $key;
 		$this->api = new MCAPI($key);
+		// TODO: choose the url correctly based on the key
 		$this->url = 'http://us2.api.mailchimp.com/1.3/';
 	}
 
+	// http://apidocs.mailchimp.com/api/1.3/lists.func.php
 	public function lists() {
 		$lists = $this->api->lists();
 		$this->handleError();
 		return $lists;
 	}
-	
+	// http://apidocs.mailchimp.com/api/1.3/listwebhooks.func.php
 	public function listWebhooks($list_id) {
 		$webhooks = $this->api->listWebhooks($list_id);
 		$this->handleError();
 		return $webhooks;
 	}
+	// http://apidocs.mailchimp.com/api/1.3/listmembers.func.php
 	public function listMembers($list_id) {
 		$page    = 0;
 		$max     = 5000;
@@ -51,10 +54,12 @@ class MailchimpSeed extends SeedBase {
 		$this->handleError();
 		return $members;
 	}
+	// http://apidocs.mailchimp.com/api/1.3/listsubscribe.func.php
 	public function listSubscribe($list_id, $email) {
 		$api->listSubscribe( $list_id, $email, null);
 		return $this;
 	}
+	// http://apidocs.mailchimp.com/api/1.3/listunsubscribe.func.php
 	public function listUnsubscribe($list_id, $email) {
 		$delete       = 0;
 		$send_goodbye = 1;
