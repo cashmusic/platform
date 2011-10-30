@@ -29,8 +29,8 @@ class MailchimpSeed extends SeedBase {
 		require_once(CASH_PLATFORM_ROOT.'/lib/mailchimp/MCAPI.class.php');
 		$this->key = $key;
 		$this->api = new MCAPI($key);
-		// TODO: choose the url correctly based on the key
-		$this->url = 'http://us2.api.mailchimp.com/1.3/';
+		$parts = explode("-", $key);
+		$this->url = 'http://' . $parts[1] . '.api.mailchimp.com/1.3/';
 	}
 
 	// http://apidocs.mailchimp.com/api/1.3/lists.func.php
