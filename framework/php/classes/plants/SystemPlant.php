@@ -29,27 +29,21 @@ class SystemPlant extends PlantBase {
 				case 'validatelogin':
 					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
 					if (!$this->requireParameters('address','password')) { return $this->sessionGetLastResponse(); }
-					$result = $this->validateLogin($this->request['address'],$this->request['password']);
+					$require_admin = false;
+					if (isset($this->request['require_admin'])) {
+						$require_admin = $this->request['require_admin'];
+					}
+					$result = $this->validateLogin($this->request['address'],$this->request['password'],$require_admin);
 					return $this->response->pushResponse(
 						200,$this->request_type,$this->action,
 						$result,
 						'success. id or false included in payload'
 					);
 					break;
-				case 'validateadminlogin':
+				case 'addlogin':
 					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
 					if (!$this->requireParameters('address','password')) { return $this->sessionGetLastResponse(); }
-					$result = $this->validateLogin($this->request['address'],$this->request['password'],true);
-					return $this->response->pushResponse(
-						200,$this->request_type,$this->action,
-						$result,
-						'success. id or false included in payload'
-					);
-					break;
-				case 'setlogin':
-					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('address','password')) { return $this->sessionGetLastResponse(); }
-					$result = $this->setLogin($this->request['address'],$this->request['password']);
+					$result = $this->addLogin($this->request['address'],$this->request['password']);
 					if ($result) {
 						return $this->pushSuccess($result,'success. true or false included in payload');
 					} else {
@@ -109,7 +103,7 @@ class SystemPlant extends PlantBase {
 	 * @param {string} $address -  the email address in question
 	 * @param {string} $password - the password
 	 * @return array|false
-	 */public function setLogin($address,$password) {
+	 */public function addLogin($address,$password) {
 		$password_hash = hash_hmac('sha256', $password, $this->salt);
 		$result = $this->db->setData(
 			'users',
