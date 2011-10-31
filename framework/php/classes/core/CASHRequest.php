@@ -14,7 +14,11 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  */class CASHRequest extends CASHData {
-	protected $request=false,$request_method,$plant_array=array(),$plant;
+	protected $request=false,
+			  $request_method,
+			  $plant_array=array(),
+			  $plant,
+			  $user;
 	public $response;
 	
 	/**
@@ -23,12 +27,13 @@
 	 *
 	 * @param {boolean} $direct_request [default: false] - can only be set when
 	 *        called directly, so set to true to indicate direct request method
-	 */public function __construct($direct_request=false) {
+	 */public function __construct($direct_request=false,$method='direct',$authorized_user=false) {
 		$this->startSession();
 		if ($direct_request) {
 			// skip detect on direct requests
 			$this->request = $direct_request;
-			$this->request_method = 'direct';
+			$this->request_method = $method;
+			$this->user = $authorized_user;
 		} else {
 			$this->detectRequest();
 		}
