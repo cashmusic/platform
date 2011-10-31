@@ -67,8 +67,8 @@ class MailchimpSeed extends SeedBase {
 		return $members;
 	}
 	// http://apidocs.mailchimp.com/api/1.3/listsubscribe.func.php
-	public function listSubscribe($list_id, $email) {
-		$this->api->listSubscribe( $list_id, $email, null);
+	public function listSubscribe($list_id, $email, $merge_vars=null, $email_type=null, $double_optin=true, $update_existing=false, $replace_interests=true, $send_welcome=false) {
+		$this->api->listSubscribe( $list_id, $email, $merge_vars, $email_type, $double_optin, $update_existing, $replace_interests, $send_welcome);
 		return $this;
 	}
 	// http://apidocs.mailchimp.com/api/1.3/listunsubscribe.func.php

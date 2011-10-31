@@ -29,7 +29,7 @@ class CashSeedTests extends UnitTestCase {
 			$this->assertTrue($members['total'] == 1 );
 			$this->assertTrue($members['data'][0]['email'] == 'duke@leto.net');
 
-			$mc->listSubscribe($test_id, "testing@testing.com");
+			$mc->listSubscribe($test_id, "testing@testing.com", null, $optin=false);
 			$members2 = $mc->listMembers($test_id);
 			// var_dump($members2);
 			$this->assertTrue($members2);
