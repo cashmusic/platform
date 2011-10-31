@@ -13,7 +13,7 @@ $request_parameters = null;
 
 // admin-specific autoloader
 function cash_admin_autoloadCore($classname) {
-	$file = ADMIN_BASE_PATH . '/components/classes/'.$classname.'.php';
+	$file = ADMIN_BASE_PATH . '/classes/'.$classname.'.php';
 	if (file_exists($file)) {
 		require_once($file);
 	}
