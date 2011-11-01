@@ -5,7 +5,7 @@ if (isset($_POST['doelementedit'])) {
 		array(
 			'cash_request_type' => 'element', 
 			'cash_action' => 'editelement',
-			'element_id' => $page_request->response['payload']['id'],
+			'id' => $page_request->response['payload']['id'],
 			'name' => $_POST['element_name'],
 			'options_data' => array(
 				'message_invalid_email' => $_POST['message_invalid_email'],

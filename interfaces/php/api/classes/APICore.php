@@ -127,16 +127,17 @@
 				// echo the response from 
 				header($this->http_codes[$api_request->response['status_code']], true, $api_request->response['status_code']);
 				$api_request->response['api_version'] = $this->version;
+				$api_request->response['timestamp'] = time();
 				echo json_encode($api_request->response);
 				exit;
 			} else {
 				header(400, true, 400);
-				echo json_encode(array('status_code'=>400,'status_message'=>$this->http_codes[400],'contextual_message'=>'You did that wrong.','api_version'=>$this->version));
+				echo json_encode(array('status_code'=>400,'status_message'=>$this->http_codes[400],'contextual_message'=>'You did that wrong.','api_version'=>$this->version,'timestamp'=>time()));
 				exit;
 			}
 		} else {
 			header($this->http_codes[302], true, 302);
-			echo json_encode(array('greeting'=>'hi.','api_version'=>$this->version));
+			echo json_encode(array('greeting'=>'hi.','api_version'=>$this->version,'timestamp'=>time()));
 			exit;
 		}
 	}

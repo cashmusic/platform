@@ -11,10 +11,12 @@ function cash_autoloadCore($classname) {
 }
 spl_autoload_register('cash_autoloadCore');
 
+// push away anyone who's trying to access the controller directly
 if (strrpos($_SERVER['REQUEST_URI'],'controller.php') !== false) {
 	header($http_codes[403], true, 403);
 	exit;
 } else {
+	// instantiate the API, pass the request from .htaccess to it
 	require_once('./classes/APICore.php');
 	new APICore($_REQUEST['p']);
 	exit;

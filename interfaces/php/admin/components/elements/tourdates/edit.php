@@ -5,7 +5,7 @@ if (isset($_POST['doelementedit'])) {
 		array(
 			'cash_request_type' => 'element', 
 			'cash_action' => 'editelement',
-			'element_id' => $page_request->response['payload']['id'],
+			'id' => $page_request->response['payload']['id'],
 			'name' => $_POST['element_name'],
 			'options_data' => array(
 				'visible_event_types' => $_POST['visible_event_types']

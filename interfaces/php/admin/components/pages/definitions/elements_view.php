@@ -12,7 +12,7 @@ if ($request_parameters) {
 		array(
 			'cash_request_type' => 'element', 
 			'cash_action' => 'getelement',
-			'element_id' => $request_parameters[0]
+			'id' => $request_parameters[0]
 		)
 	);
 	if ($page_request->response['payload']['user_id'] == $effective_user) {
