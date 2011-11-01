@@ -11,7 +11,7 @@ $page_request = new CASHRequest(
 	array(
 		'cash_request_type' => 'element', 
 		'cash_action' => 'getelement',
-		'element_id' => $request_parameters[0]
+		'id' => $request_parameters[0]
 	)
 );
 
@@ -26,7 +26,7 @@ if ($page_request->response['status_uid'] == 'element_getelement_200') {
 				array(
 					'cash_request_type' => 'element', 
 					'cash_action' => 'deleteelement',
-					'element_id' => $request_parameters[0]
+					'id' => $request_parameters[0]
 				)
 			);
 			if ($element_delete_request->response['status_uid'] == 'element_deleteelement_200') {

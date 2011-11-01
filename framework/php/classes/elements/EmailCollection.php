@@ -22,19 +22,19 @@ class EmailCollection extends ElementBase {
 				$unlock_request = new CASHRequest(array(
 					'cash_request_type' => 'asset', 
 					'cash_action' => 'unlock',
-					'asset_id' => $this->options->asset_id
+					'id' => $this->options->asset_id
 				));
 				$asset_request = new CASHRequest(array(
 					'cash_request_type' => 'asset', 
 					'cash_action' => 'getasset',
-					'asset_id' => $this->options->asset_id
+					'id' => $this->options->asset_id
 				));
 				$asset_title = $asset_request->response['payload']['title'];
 				$asset_description = $asset_request->response['payload']['description'];
 				$markup = '<div class="cash_success '. self::type .'">' . $this->options->message_success;
 				if ($this->options->asset_id !== 0) {
 					$markup .= '<br /><br />'
-					. '<a href="?cash_request_type=asset&cash_action=claim&asset_id='.$this->options->asset_id.'&element_id='.$this->element_id.'" class="download">'. $asset_title .'</a>'
+					. '<a href="?cash_request_type=asset&cash_action=claim&id='.$this->options->asset_id.'&element_id='.$this->element_id.'" class="download">'. $asset_title .'</a>'
 					. '<div class="description">' . $asset_description . '</div>';
 				}
 				$markup .= '</div>';

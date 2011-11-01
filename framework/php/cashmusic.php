@@ -56,7 +56,7 @@ function cash_embedElement($element_id) {
 		array(
 			'cash_request_type' => 'element', 
 			'cash_action' => 'getmarkup',
-			'element_id' => $element_id, 
+			'id' => $element_id, 
 			'status_uid' => $cash_primary_request->response['status_uid']
 		)
 	);

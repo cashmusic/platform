@@ -25,17 +25,17 @@ class AssetPlant extends PlantBase {
 		if ($this->action) {
 			switch ($this->action) {
 				case 'claim':
-					if (!$this->requireParameters('asset_id')) { return $this->sessionGetLastResponse(); }
+					if (!$this->requireParameters('id')) { return $this->sessionGetLastResponse(); }
 					$claim_element_id = 0;
 					if (isset($this->request['element_id'])) {
 						$claim_element_id = $this->request['element_id'];
 					}
-					$this->redirectToAsset($this->request['asset_id'],$claim_element_id);
+					$this->redirectToAsset($this->request['id'],$claim_element_id);
 					break;
 				case 'unlock':
 					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('asset_id')) { return $this->sessionGetLastResponse(); }
-					$result = $this->unlockAsset($this->request['asset_id']);
+					if (!$this->requireParameters('id')) { return $this->sessionGetLastResponse(); }
+					$result = $this->unlockAsset($this->request['id']);
 					if ($result) {
 						return $this->pushSuccess(true,'asset unlocked successfully');
 					} else {
@@ -43,8 +43,8 @@ class AssetPlant extends PlantBase {
 					}
 					break;
 				case 'getasset':
-					if (!$this->requireParameters('asset_id')) { return $this->sessionGetLastResponse(); }
-					$result = $this->getAssetInfo($this->request['asset_id']);
+					if (!$this->requireParameters('id')) { return $this->sessionGetLastResponse(); }
+					$result = $this->getAssetInfo($this->request['id']);
 					if ($result) {
 						return $this->pushSuccess($result,'asset details in payload');
 					} else {
@@ -104,7 +104,7 @@ class AssetPlant extends PlantBase {
 					break;
 				case 'editasset':
 					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('title','description','location','asset_id','user_id')) { return $this->sessionGetLastResponse(); }
+					if (!$this->requireParameters('title','description','location','id','user_id')) { return $this->sessionGetLastResponse(); }
 					// defaults:
 					$addasset_settings_id = 0;
 					$addasset_tags = false;
@@ -118,7 +118,7 @@ class AssetPlant extends PlantBase {
 					if (isset($this->request['public_status'])) { $addasset_public_status = $this->request['public_status']; }
 
 					$result = $this->editAsset(
-						$this->request['asset_id'],
+						$this->request['id'],
 						$this->request['user_id'],
 						$this->request['title'],
 						$this->request['description'],
