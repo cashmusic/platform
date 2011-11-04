@@ -281,11 +281,12 @@ class PeoplePlant extends PlantBase {
 		);
 		if ($result) {
 			$this->doListSync($list_id);
-			return $this->pushSuccess($result,'success. lists added.');
+			$this->pushSuccess($result,'success. lists added.');
 		} else {
-			return $this->pushFailure("there was an error adding the list");
+			$this->pushFailure("there was an error adding the list");
 		}
-	}
+	return $result;
+}
 
 	public function editList($list_id,$name,$description,$settings_id=0) {
 		$result = $this->db->setData(
@@ -306,7 +307,7 @@ class PeoplePlant extends PlantBase {
 	}
 
 	public function doListSync($list_id,$pull=true,$push=false) {
-		$list_info = $this->getListInfo($list_id);
+		$list_info = $this->getListById($list_id);
 		/*
 		We should call this function whenever a list is first synced to a remote
 		source. If part of an addlist call we only need to do a pull. If it's a
