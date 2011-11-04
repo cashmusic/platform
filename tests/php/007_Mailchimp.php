@@ -23,8 +23,9 @@ class MailchimpTests extends UnitTestCase {
 			$test_email = "duke$time@cashmusic.org";
 
 			$rc = $mc->listSubscribe($test_id, $test_email, null, null, $optin=false);
+			$this->assertTrue($rc);
 			if (!$rc) {
-				fwrite(STDERR,"Failed to add email to list $test_id");
+				fwrite(STDERR,"Failed to add $test_email to list $test_id");
 				exit(1);
 			}
 			$members2 = $mc->listMembers($test_id);
@@ -33,6 +34,10 @@ class MailchimpTests extends UnitTestCase {
 
 			$rc = $mc->listUnsubscribe($test_id, $test_email);
 			$this->assertTrue($rc);
+			if (!$rc) {
+				fwrite(STDERR,"Failed to remove $test_email from list $test_id");
+				exit(1);
+			}
 
 			$members3 = $mc->listMembers($test_id);
 			$this->assertTrue($members3);
