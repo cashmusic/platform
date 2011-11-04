@@ -4,6 +4,7 @@ require_once('tests/php/base.php');
 
 class MailchimpTests extends UnitTestCase {
 	function testMailchimpSeed(){
+		$time = time();
 		$api_key = getenv("MAILCHIMP_API_KEY");
 		if($api_key) {
 			$mc = new MailchimpSeed($api_key);
@@ -16,14 +17,26 @@ class MailchimpTests extends UnitTestCase {
 			$this->assertTrue(isset($webhooks));
 			$members = $mc->listMembers($test_id);
 			$this->assertTrue($members);
-			$this->assertTrue($members['total'] == 1 );
+			$total1 = $members['total'];
+			$this->assertTrue($total1);
 			$this->assertTrue($members['data'][0]['email'] == 'duke@leto.net');
+			$test_email = "duke$time@cashmusic.org";
 
-			$mc->listSubscribe($test_id, "testing@testing.com", null, $optin=false);
+			$rc = $mc->listSubscribe($test_id, $test_email, null, null, $optin=false);
+			if (!$rc) {
+				fwrite(STDERR,"Failed to add email to list $test_id");
+				exit(1);
+			}
 			$members2 = $mc->listMembers($test_id);
-			// var_dump($members2);
 			$this->assertTrue($members2);
-			$this->assertTrue($members2['total'] == 2 );
+			$this->assertTrue($members2['total'] > $total1 );
+
+			$rc = $mc->listUnsubscribe($test_id, $test_email);
+			$this->assertTrue($rc);
+
+			$members3 = $mc->listMembers($test_id);
+			$this->assertTrue($members3);
+			$this->assertTrue($members3['total'] == $total1 );
 		} else {
 			fwrite(STDERR,"Mailchimp api key not found, skipping mailchimp tests\n");
 			return;
