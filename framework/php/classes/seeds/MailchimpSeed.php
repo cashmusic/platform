@@ -46,7 +46,7 @@ class MailchimpSeed extends SeedBase {
 		return $webhooks;
 	}
 	// http://apidocs.mailchimp.com/api/1.3/listwebhookadd.func.php
-	public function listWebhookAdd($list_id, $url, $actions, $sources) {
+	public function listWebhookAdd($list_id, $url, $actions=null, $sources=null) {
 		$this->api->listWebhookAdd($list_id, $url, $actions, $sources);
 		$this->handleError();
 		return $this;
