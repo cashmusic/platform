@@ -279,7 +279,12 @@ class PeoplePlant extends PlantBase {
 				'settings_id' => $settings_id
 			)
 		);
-		return $result;
+		if ($result) {
+			$this->doListSync($list_id);
+			return $this->pushSuccess($result,'success. lists added.');
+		} else {
+			return $this->pushFailure("there was an error adding the list");
+		}
 	}
 
 	public function editList($list_id,$name,$description,$settings_id=0) {
