@@ -76,7 +76,7 @@ class MailchimpSeed extends SeedBase {
 		$delete       = 0;
 		$send_goodbye = 1;
 		$send_notify  = 1;
-		$api->listUnsubscribe( $list_id, $email, $delete, $send_goodbye, $send_notify);
+		$this->api->listUnsubscribe( $list_id, $email, $delete, $send_goodbye, $send_notify);
 		$this->handleError();
 		return $this;
 	}
