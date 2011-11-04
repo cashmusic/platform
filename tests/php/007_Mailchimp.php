@@ -1,0 +1,32 @@
+<?php
+
+require_once('tests/php/base.php');
+
+class MailchimpTests extends UnitTestCase {
+	function testMailchimpSeed(){
+		$api_key = getenv("MAILCHIMP_API_KEY");
+		if($api_key) {
+			$mc = new MailchimpSeed($api_key);
+			$this->assertIsa($mc, 'MailchimpSeed');
+			$this->assertTrue($mc->url);
+			$this->assertTrue($mc->lists());
+			// an already-created list for testing
+			$test_id = "b607c6d911";
+			$webhooks = $mc->listWebhooks($test_id);
+			$this->assertTrue(isset($webhooks));
+			$members = $mc->listMembers($test_id);
+			$this->assertTrue($members);
+			$this->assertTrue($members['total'] == 1 );
+			$this->assertTrue($members['data'][0]['email'] == 'duke@leto.net');
+
+			$mc->listSubscribe($test_id, "testing@testing.com", null, $optin=false);
+			$members2 = $mc->listMembers($test_id);
+			// var_dump($members2);
+			$this->assertTrue($members2);
+			$this->assertTrue($members2['total'] == 2 );
+		} else {
+			fwrite(STDERR,"Mailchimp api key not found, skipping mailchimp tests\n");
+			return;
+		}
+	}
+}
