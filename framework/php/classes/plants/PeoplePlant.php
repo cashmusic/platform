@@ -300,6 +300,7 @@ class PeoplePlant extends PlantBase {
 				)
 			)
 		);
+		// TODO: update remote list
 		return $result;
 	}
 
@@ -394,7 +395,10 @@ class PeoplePlant extends PlantBase {
 					to remove the user to the remote list
 					*/
 					$api = new Mailchimp();
-					$api->listUnsusbcribe($list_id, $address);
+					$rc = $api->listUnsusbcribe($list_id, $address);
+					if (!$rc) {
+						return false;
+					}
 				}
 				return $result;
 			} else {
@@ -404,7 +408,10 @@ class PeoplePlant extends PlantBase {
 				so, use the appropriate seed to remove user remotely
 				*/
 				$api = new Mailchimp();
-				$api->listUnsusbcribe($list_id, $address);
+				$rc  = $api->listUnsusbcribe($list_id, $address);
+				if (!$rc) {
+					return false;
+				}
 				return true;
 			}
 		} else {
