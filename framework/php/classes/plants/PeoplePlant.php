@@ -281,12 +281,9 @@ class PeoplePlant extends PlantBase {
 		);
 		if ($result) {
 			$this->doListSync($list_id);
-			$this->pushSuccess($result,'success. lists added.');
-		} else {
-			$this->pushFailure("there was an error adding the list");
 		}
-	return $result;
-}
+		return $result;
+	}
 
 	public function editList($list_id,$name,$description,$settings_id=0) {
 		$result = $this->db->setData(
@@ -308,6 +305,11 @@ class PeoplePlant extends PlantBase {
 
 	public function doListSync($list_id,$pull=true,$push=false) {
 		$list_info = $this->getListById($list_id);
+
+		if ($pull) {
+		}
+		if ($push) {
+		}
 		/*
 		We should call this function whenever a list is first synced to a remote
 		source. If part of an addlist call we only need to do a pull. If it's a
@@ -351,13 +353,14 @@ class PeoplePlant extends PlantBase {
 						)
 					);
 					if ($result) {
-						/*
-						TODO: Check for list sync
-						*/
+						/* TODO: Check if there is an associated thing to sync */
 						// sync the new list data remotely
 						$api = new Mailchimp();
-						// TODO: verified?
-						$api->listSusbcribe($list_id, $address);
+						// TODO: this is currently hardcoded to require a double opt-in
+						$rc = $api->listSusbcribe($list_id, $address, $merge_vars=null, $email_type=null, $double_optin=true);
+						if (!$rc) {
+							return false;
+						}
 					}
 					return $result;
 				}
