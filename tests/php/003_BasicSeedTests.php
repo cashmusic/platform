@@ -26,7 +26,7 @@ class CashSeedTests extends UnitTestCase {
 			$this->assertTrue(isset($webhooks));
 			$members = $mc->listMembers($test_id);
 			$this->assertTrue($members);
-			$this->assertTrue($members['total'] == 1 );
+			$this->assertTrue($members['total']);
 			$this->assertTrue($members['data'][0]['email'] == 'duke@leto.net');
 		} else {
 			fwrite(STDERR,"Mailchimp api key not found, skipping mailchimp tests\n");
