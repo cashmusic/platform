@@ -39,16 +39,18 @@
 		}
 		if ($this->request) {
 			// found something, let's make sure it's legit and do work
-			$requested_plant = strtolower(trim($this->request['cash_request_type']));
-			unset($this->request['cash_request_type']);
-			if ($requested_plant != '' && count($this->request) > 0) {
-				$this->buildPlantArray();
-				if (isset($this->plant_array[$requested_plant])) {
-					$file_path = CASH_PLATFORM_ROOT.'/classes/plants/'.$this->plant_array[$requested_plant];
-					$class_name = substr_replace($this->plant_array[$requested_plant], '', -4);
-					require_once($file_path);
-					$this->plant = new $class_name($this->request_method,$this->request);
-					$this->response = $this->plant->processRequest();
+			if (is_array($this->request)) {
+				$requested_plant = strtolower(trim($this->request['cash_request_type']));
+				unset($this->request['cash_request_type']);
+				if ($requested_plant != '' && count($this->request) > 0) {
+					$this->buildPlantArray();
+					if (isset($this->plant_array[$requested_plant])) {
+						$file_path = CASH_PLATFORM_ROOT.'/classes/plants/'.$this->plant_array[$requested_plant];
+						$class_name = substr_replace($this->plant_array[$requested_plant], '', -4);
+						require_once($file_path);
+						$this->plant = new $class_name($this->request_method,$this->request);
+						$this->response = $this->plant->processRequest();
+					}
 				}
 			}
 		}
