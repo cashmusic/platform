@@ -49,7 +49,6 @@
 				<div id="accountmenu">
 					<?php echo $admin_primary_cash_request->sessionGetPersistent('cash_effective_user_email'); ?>
 					<ul>
-						<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/">Your dashboard</a></li>
 						<li><a href="#">Your account</a></li>
 						<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/settings/">System settings</a></li>
 						<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/logout/">Log out</a></li>
@@ -82,6 +81,8 @@
 					shows<br />
 					guestlist
 				</div>
+				
+				<a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/" id="dashboardlink">Main Page</a>
 				
 				<div id="helpmenu">
 					<span id="mainhelplink">Help</span>
