@@ -125,6 +125,8 @@ select:active, select:focus {outline:2px solid #ff0;}
 #accountmenu ul li:hover {background-color:#000;}
 #accountmenu ul li a {color:#666;display:block;padding:8px 1.5em 8px 1.5em;color:#999;text-decoration:none;margin:0;}
 #accountmenu ul li a:hover {text-decoration:underline;color:#fff !important;}
+#dashboardlink {position:absolute;bottom:-42px;right:70px;height:14px;z-index:400;padding:9px 2px 9px 2px;font-size:11px;color:#babac4 !important;line-height:14px;}
+#dashboardlink:hover {color:#231F20 !important;background-color:transparent !important;}
 #helpmenu {cursor:pointer;position:absolute;bottom:-42px;right:0;height:14px;z-index:300;padding:9px 0 9px 0;font-size:11px;line-height:14px;color:#231F20;text-align:right;}
 #helpmenu:hover {background-color:#ff0;}
 #helpmenu ul {position:absolute;top:30px;right:0;margin:0;padding:0;list-style:none;width:auto;min-width:auto;height:1px;overflow:hidden;visibility:hidden;-webkit-transition:all 0.1s ease-out;-moz-transition: all 0.1s ease-out;-o-transition: all 0.1s ease-out;transition: all  0.1s ease-out;}

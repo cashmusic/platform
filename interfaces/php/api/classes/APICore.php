@@ -86,6 +86,9 @@
 				'cash_request_type' => $request_parameters['plant'], 
 				'cash_action' => $request_parameters['action']
 			);
+			if ($request_parameters['id']) {
+				$request_array['id'] = $request_parameters['id'];
+			}
 			if (count($exploded_request)) {
 				$is_parameter = true;
 				foreach ($exploded_request as $position => $parameter) {
