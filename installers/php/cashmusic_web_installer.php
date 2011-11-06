@@ -469,7 +469,7 @@ if (!isset($_POST['installstage'])) {
 				!findReplaceInFile('./source/interfaces/php/demos/tourdates/index.php','../../../../framework/php/settings/debug/cashmusic_debug.php',$user_settings['frameworklocation'] . '/framework/settings/debug/cashmusic_debug.php') ||
 				
 				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','driver = "mysql','driver = "sqlite') || 
-				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','database = "seed','database = "cashmusic.db') || 
+				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','database = "seed','database = "cashmusic.sqlite') || 
 				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $user_settings['systemsalt'])
 			) {
 				echo "<h1>Oh. Shit. Something's wrong.</h1><p>We had trouble editing a few files. Please try again.</p>";
@@ -494,13 +494,13 @@ if (!isset($_POST['installstage'])) {
 			$user_password = substr(md5($user_settings['systemsalt'] . 'password'),4,7);
 			
 			// if the directory was never created then create it now
-			if (!file_exists($user_settings['frameworklocation'] . '/framework/db')) {
-				mkdir($user_settings['frameworklocation'] . '/framework/db');
+			if (!file_exists($user_settings['frameworklocation'] . '/db')) {
+				mkdir($user_settings['frameworklocation'] . '/db');
 			}
 			
 			// connect to the new db...will create if not found
 			try {
-				$pdo = new PDO ('sqlite:' . $user_settings['frameworklocation'] . '/framework/db/cashmusic.db');
+				$pdo = new PDO ('sqlite:' . $user_settings['frameworklocation'] . '/db/cashmusic.sqlite');
 				$pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 			} catch (PDOException $e) {
 				echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>Couldn\'t connect to the database.</p>';
@@ -509,8 +509,8 @@ if (!isset($_POST['installstage'])) {
 			}
 
 			if ($pdo) {
-				chmod($user_settings['frameworklocation'] . '/framework/db',0777);
-				chmod($user_settings['frameworklocation'] . '/framework/db/cashmusic.db',0777);
+				chmod($user_settings['frameworklocation'] . '/db',0777);
+				chmod($user_settings['frameworklocation'] . '/db/cashmusic.sqlite',0777);
 			}
 
 			// push in all the tables
