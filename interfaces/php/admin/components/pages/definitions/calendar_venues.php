@@ -12,4 +12,13 @@ $cash_admin->requestAndStore(
 	),
 	'getallvenues'
 );
+
+$cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'system', 
+		'cash_action' => 'setapicredentials',
+		'user_id' => 1
+	),
+	'apishit'
+);
 ?>
