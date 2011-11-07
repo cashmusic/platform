@@ -37,19 +37,13 @@ function cash_autoloadCore($classname) {
 }
 spl_autoload_register('cash_autoloadCore');
 
-// begin session
-if(!defined('STDIN')) { // no session for CLI, suckers
-	session_cache_limiter('nocache');
-	$session_length = 3600;
-	ini_set("session.gc_maxlifetime", $session_length); 
-	session_start();
-}
-
 // define constants (use sparingly!)
 $root = dirname(__FILE__);
 define('CASH_PLATFORM_ROOT', $root);
 
 // define cash_embedElement function
+// to the children of the future: move this into the CASHSystem class for clarity
+// slightly tricky because we'll need to rely on the global-scope $cash_primary_request
 function cash_embedElement($element_id) {
 	global $cash_primary_request;
 	$cash_body_request = new CASHRequest(
@@ -65,12 +59,4 @@ function cash_embedElement($element_id) {
 
 // fire up the platform
 $cash_primary_request = new CASHRequest();
-
-// check on each load to see if we need to regenerate the session id
-if(!defined('STDIN')) { // no session for CLI
-	if ($cash_primary_request->sessionGetPersistent('session_regenerate_id')) {
-		session_regenerate_id(true);
-		$cash_primary_request->sessionClearPersistent('session_regenerate_id');
-	}
-}
 ?>

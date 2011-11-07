@@ -62,7 +62,7 @@
 	 * Formats a proper response, stores it in the session, and returns it
 	 *
 	 * @return array
-	 */public function pushResponse($status_code,$request_type,$action,$response_details,$contextual_message) {
+	 */public function pushResponse($status_code,$request_type,$action,$response_details,$contextual_message,$reset_session_id=false) {
 		$this->response = array(
 			'status_code' => $status_code,
 			'status_uid' => $request_type . '_' . $action . '_' . $status_code,
@@ -72,7 +72,7 @@
 			'action' => $action,
 			'payload' => $response_details
 		);
-		$this->sessionSetLastResponse($this->response);
+		$this->sessionSetLastResponse($this->response,$reset_session_id);
 		return $this->response;
 	}
 } // END class 
