@@ -23,6 +23,7 @@ class CalendarPlant extends PlantBase {
 			switch ($this->action) {
 				case 'addvenue':
 					if (!$this->requireParameters('name','city')) { return $this->sessionGetLastResponse(); }
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
 					$addvenue_address1 = '';
 					$addvenue_address2 = '';
 					$addvenue_region = '';
@@ -44,6 +45,26 @@ class CalendarPlant extends PlantBase {
 						return $this->pushFailure('there was an error adding the venue');
 					}
 					break;
+				case 'editvenue':
+					if (!$this->requireParameters('id','name','city')) { return $this->sessionGetLastResponse(); }
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
+					$result = $this->editVenue($this->request['id'],$this->request['name'],$this->request['address1'],$this->request['address2'],$this->request['city'],$this->request['region'],$this->request['country'],$this->request['postalcode'],$this->request['url'],$this->request['phone']);
+					if ($result) {
+						return $this->pushSuccess($result,'Venue added. Id in payload.');
+					} else {
+						return $this->pushFailure('there was an error adding the venue');
+					}
+					break;
+				case 'deletevenue':
+					if (!$this->requireParameters('id')) { return $this->sessionGetLastResponse(); }
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
+					$result = $this->deleteVenue($this->request['id']);
+					if ($result) {
+						return $this->pushSuccess($result,'success. deleted');
+					} else {
+						return $this->pushFailure('there was an error deleting the venue');
+					}
+					break;
 				case 'addevent':
 					if (!$this->requireParameters('date','user_id','venue_id')) { return $this->sessionGetLastResponse(); }
 					$addevent_purchase_url = '';
@@ -63,6 +84,7 @@ class CalendarPlant extends PlantBase {
 					break;
 				case 'editevent':
 					if (!$this->requireParameters('date','event_id','venue_id')) { return $this->sessionGetLastResponse(); }
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
 					$addevent_purchase_url = '';
 					$addevent_comment = '';
 					$addevent_published = 0;
@@ -131,7 +153,18 @@ class CalendarPlant extends PlantBase {
 						return $this->pushFailure('No tourdates were found matching your criteria.');
 					}
 					break;
+				case 'getvenue':
+					if (!$this->requireParameters('id')) { return $this->sessionGetLastResponse(); }
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
+					$result = $this->getVenueById($this->request['id']);
+					if ($result) {
+						return $this->pushSuccess($result,'Success. Venue information in payload.');
+					} else {
+						return $this->pushFailure('There was an error.');
+					}
+					break;
 				case 'getallvenues':
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
 					$result = $this->getAllVenues();
 					if ($result) {
 						return $this->pushSuccess($result,'Success. Known venues in payload.');
@@ -170,6 +203,43 @@ class CalendarPlant extends PlantBase {
 				'postalcode' => $postalcode,
 				'url' => $url,
 				'phone' => $phone
+			)
+		);
+		return $result;
+	}
+
+	public function editVenue($venue_id,$name,$address1,$address2,$city,$region,$country,$postalcode,$url,$phone) {
+		$result = $this->db->setData(
+			'venues',
+			array(
+				'name' => $name,
+				'address1' => $address1,
+				'address2' => $address2,
+				'city' => $city,
+				'region' => $region,
+				'country' => $country,
+				'postalcode' => $postalcode,
+				'url' => $url,
+				'phone' => $phone
+			),
+			array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $venue_id
+				)
+			)
+		);
+		return $result;
+	}
+
+	public function deleteVenue($venue_id) {
+		$result = $this->db->deleteData(
+			'venues',
+			array(
+				'id' => array(
+					'condition' => '=',
+					'value' => $venue_id
+				)
 			)
 		);
 		return $result;
