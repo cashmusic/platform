@@ -50,6 +50,16 @@ class SystemPlant extends PlantBase {
 						return $this->pushFailure('there was an error');
 					}
 					break;
+				case 'setapicredentials':
+					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
+					if (!$this->requireParameters('user_id')) { return $this->sessionGetLastResponse(); }
+					$result = $this->setAPICredentialsForUser($this->request['user_id']);
+					if ($result) {
+						return $this->pushSuccess($result,'success. credentials array included in payload');
+					} else {
+						return $this->pushFailure('there was an error');
+					}
+					break;
 				default:
 					return $this->response->pushResponse(
 						400,$this->request_type,$this->action,
@@ -114,6 +124,36 @@ class SystemPlant extends PlantBase {
 		);
 		return $result;
 	}
-		
+
+	/**
+	 * Adds a new user to the system, setting login details
+	 *
+	 * @param {int} $user_id -  the user
+	 * @return array|false
+	 */public function setAPICredentialsForUser($user_id) {
+		$some_shit = time() . $user_id . rand(976654,1234567267);
+		$api_key = hash_hmac('md5', $some_shit, $this->salt) . substr((string) time(),6);
+		$api_secret = hash_hmac('sha256', $some_shit, $this->salt);
+		$credentials = array(
+			'api_key' => $api_key,
+			'api_secret' => $api_secret
+		);
+		$result = $this->db->setData(
+			'users',
+			$credentials,
+			array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				)
+			)
+		);
+		if ($result) {
+			return $credentials;
+		} else {
+			return false;
+		}
+	}
+
 } // END class 
 ?>

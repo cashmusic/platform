@@ -545,6 +545,8 @@ if (!isset($_POST['installstage'])) {
 				'email_address' => $user_settings['adminemailaccount'],
 				'password'      => $password_hash,
 				'is_admin'      => true,
+				'api_key'       => $api_key = hash_hmac('md5', time() . $password_hash . rand(976654,1234567267), $user_settings['systemsalt']) . substr((string) time(),6),
+				'api_secret'    => hash_hmac('sha256', time() . $password_hash . rand(976654,1234567267), $user_settings['systemsalt']),
 				'creation_date' => time()
 			);
 			$query = "INSERT INTO user_users (email_address,password,is_admin,creation_date) VALUES (:email_address,:password,:is_admin,:creation_date)";
