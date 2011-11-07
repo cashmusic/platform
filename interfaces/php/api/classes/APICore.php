@@ -132,9 +132,32 @@
 		// check the parsed_url to see if things are good
 		if ($parsed_url) {
 			// make a request based on the parsed url data
+			$request_method = 'api_public';
+			// fold in any POST/GET
+			if(!empty($_POST)) {
+				$parsed_url = array_merge($_POST,$parsed_url);
+			}
+			if(!empty($_GET)) {
+				$parsed_url = array_merge($_GET,$parsed_url);
+			}
+			if (isset($parsed_url['api_key'])) {
+				$api_key = $parsed_url['api_key'];
+				unset($parsed_url['api_key']);
+				$auth_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'system', 
+						'cash_action' => 'validateapicredentials',
+						'api_key' => $api_key
+					)
+				);
+				if ($auth_request->response['status_code'] == '200') {
+					$request_method = $auth_request->response['payload']['auth_type'];
+					$parsed_url['user_id'] = $auth_request->response['payload']['user_id'];
+				}
+			}
 			$api_request = new CASHRequest(
 				$parsed_url,
-				'api_public'
+				$request_method
 			);
 			if ($api_request->response) {
 				// echo the response from 
