@@ -91,7 +91,7 @@ class ElementPlant extends PlantBase {
 					}
 					break;
 				case 'getmarkup':
-					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
+					if (!$this->checkRequestMethodFor('direct','api_key','api_public')) return $this->sessionGetLastResponse();
 					if (!$this->requireParameters('id')) return $this->sessionGetLastResponse();
 					$result = $this->getElementMarkup($this->request['id'],$this->request['status_uid']);
 					if ($result) {

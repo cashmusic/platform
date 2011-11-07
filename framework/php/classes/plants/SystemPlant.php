@@ -53,9 +53,19 @@ class SystemPlant extends PlantBase {
 				case 'setapicredentials':
 					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
 					if (!$this->requireParameters('user_id')) { return $this->sessionGetLastResponse(); }
-					$result = $this->setAPICredentialsForUser($this->request['user_id']);
+					$result = $this->setAPICredentials($this->request['user_id']);
 					if ($result) {
 						return $this->pushSuccess($result,'success. credentials array included in payload');
+					} else {
+						return $this->pushFailure('there was an error');
+					}
+					break;
+				case 'validateapicredentials':
+					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
+					if (!$this->requireParameters('api_key')) { return $this->sessionGetLastResponse(); }
+					$result = $this->validateAPICredentials($this->request['api_key']);
+					if ($result) {
+						return $this->pushSuccess($result,'success. auth_type and user_id in payload as array.');
 					} else {
 						return $this->pushFailure('there was an error');
 					}
@@ -126,11 +136,11 @@ class SystemPlant extends PlantBase {
 	}
 
 	/**
-	 * Adds a new user to the system, setting login details
+	 * Sets or resets API credentials for a user
 	 *
 	 * @param {int} $user_id -  the user
 	 * @return array|false
-	 */public function setAPICredentialsForUser($user_id) {
+	 */public function setAPICredentials($user_id) {
 		$some_shit = time() . $user_id . rand(976654,1234567267);
 		$api_key = hash_hmac('md5', $some_shit, $this->salt) . substr((string) time(),6);
 		$api_secret = hash_hmac('sha256', $some_shit, $this->salt);
@@ -150,6 +160,40 @@ class SystemPlant extends PlantBase {
 		);
 		if ($result) {
 			return $credentials;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Verifies API credentials and returns authorization type (api_key || api_fullauth || none) and user_id
+	 *
+	 * @param {int} $user_id -  the user
+	 * @return array|false
+	 */public function validateAPICredentials($api_key,$api_secret=false) {
+		$user_id = false;
+		$auth_type = 'none';
+		if (!$api_secret) {
+			$auth_type = 'api_key';
+			$user = $this->db->getData(
+				'users',
+				'id',
+				array(
+					"api_key" => array(
+						"condition" => "=",
+						"value" => $api_key
+					)
+				)
+			);
+			if ($user) {
+				$user_id = $user[0]['id'];
+			}
+		}
+		if ($user_id) {
+			return array(
+				'auth_type' => $auth_type,
+				'user_id' => $user_id
+			);
 		} else {
 			return false;
 		}
