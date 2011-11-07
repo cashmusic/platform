@@ -24,6 +24,9 @@
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
 */
+session_start();
+$_SESSION['copying'] = false;
+
 $cash_root_location = false;
 
 function rrmdir($dir) { 
@@ -41,49 +44,54 @@ function rrmdir($dir) {
 
 function determinedCopy($source,$dest,$retries=3) {
 	$retries++;
-	while($retries > 0) {
-		if (ini_get('allow_url_fopen')) {
-			if (@copy($source,$dest)) {
-				return true;
-			} else {
-				sleep(1);
-			}
-		} else {
-			// fall back to cURL
-			$ch = curl_init();
-			$timeout = 3;
-			$userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.5; rv:7.0) Gecko/20100101 Firefox/7.0';
-			
-			curl_setopt($ch,CURLOPT_URL,$source);
-			
-			curl_setopt($ch, CURLOPT_USERAGENT, $userAgent);
-			curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-			curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
-			curl_setopt($ch, CURLOPT_FAILONERROR, true);
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-			curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-			curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
-			curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
-			
-			$destfile = fopen($dest, 'wb'); 
-			curl_setopt($ch, CURLOPT_FILE, $destfile);
-			
-			if (curl_exec($ch)) {
-				fclose($destfile); 
-				curl_close($ch);
-				return true;
-			} else {
-				fclose($destfile); 
-				if (file_exists($dest)) {
-					unlink($dest);
+	if (!$_SESSION['copying']) {
+		$_SESSION['copying'] = true;
+		while($retries > 0) {
+			if (ini_get('allow_url_fopen')) {
+				if (@copy($source,$dest)) {
+					$_SESSION['copying'] = false;
+					return true;
+				} else {
+					sleep(1);
 				}
-				curl_close($ch);
-				sleep(4);
+			} else {
+				// fall back to cURL
+				$ch = curl_init();
+				$timeout = 3;
+				$userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.5; rv:7.0) Gecko/20100101 Firefox/7.0';
+			
+				curl_setopt($ch,CURLOPT_URL,$source);
+			
+				curl_setopt($ch, CURLOPT_USERAGENT, $userAgent);
+				curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+				curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
+				curl_setopt($ch, CURLOPT_FAILONERROR, true);
+				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+				curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+				curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+				curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+			
+				$destfile = fopen($dest, 'wb'); 
+				curl_setopt($ch, CURLOPT_FILE, $destfile);
+			
+				if (curl_exec($ch)) {
+					fclose($destfile); 
+					curl_close($ch);
+					return true;
+				} else {
+					fclose($destfile); 
+					if (file_exists($dest)) {
+						unlink($dest);
+					}
+					curl_close($ch);
+					sleep(4);
+				}
 			}
+			$retries--;
 		}
-		$retries--;
+		$_SESSION['copying'] = false;
+		return false;
 	}
-	return false;
 }
 
 function findReplaceInFile($filename,$find,$replace) {
@@ -322,73 +330,82 @@ if (!isset($_POST['installstage'])) {
 			$source_message = '<h1>Installing.</h1><p>Copying files from github. '
 				. 'This should take a few minutes. We throttle the downloads to play nice with their servers.</p>'
 				. '<div class="altcopystyle fadedtext" style="margin-bottom:6px;">Copying files:</div>';
-			if (!file_exists('./manifest.diy.org.cashmusic')) {
-				// create the directory structure: remove any existing source files and re-download
-				// we'll make a proper update script later.
-				if (is_dir('./source')) {
-					rrmdir('./source');
-				}
-				if (is_dir('./admin')) {
-					rrmdir('./admin');
-				}
-				if (is_dir('./api')) {
-					rrmdir('./api');
-				}
-				if (is_dir('./demos')) {
-					rrmdir('./demos');
-				}
-				if (is_dir('./public')) {
-					rrmdir('./public');
-				}
-				if (mkdir('./source')) {
-					// get repo from github, strip unnecessary files and write manifest:
-					$repo = json_decode(file_get_contents('https://github.com/api/v2/json/blob/all/cashmusic/DIY/latest_stable'));
-					$files = array_keys((array)$repo->blobs);
-					foreach ($files as $key => $file) {
-						if (preg_match("/^(tests|installers|interfaces\/php\/docs|db|Makefile|index.html)/", $file)) {
-							unset($files[$key]);
-						}
+			// as long as determinedCopy isn't spinning we can copy files from the repo
+			if (!$_SESSION['copying']) {
+				if (!file_exists('./manifest.diy.org.cashmusic')) {
+					// create the directory structure: remove any existing source files and re-download
+					// we'll make a proper update script later.
+					if (is_dir('./source')) {
+						rrmdir('./source');
 					}
-					$files = json_encode(array_merge($files)); // resets keys
-					file_put_contents('./manifest.diy.org.cashmusic',$files);
+					if (is_dir('./admin')) {
+						rrmdir('./admin');
+					}
+					if (is_dir('./api')) {
+						rrmdir('./api');
+					}
+					if (is_dir('./demos')) {
+						rrmdir('./demos');
+					}
+					if (is_dir('./public')) {
+						rrmdir('./public');
+					}
+					if (mkdir('./source')) {
+						// get repo from github, strip unnecessary files and write manifest:
+						if (determinedCopy('https://github.com/api/v2/json/blob/all/cashmusic/DIY/latest_stable','./manifest.diy.org.cashmusic')) {
+							$repo = json_decode(file_get_contents('./manifest.diy.org.cashmusic'));
+							$files = array_keys((array)$repo->blobs);
+							foreach ($files as $key => $file) {
+								if (preg_match("/^(tests|installers|interfaces\/php\/docs|db|Makefile|index.html)/", $file)) {
+									unset($files[$key]);
+								}
+							}
+							$files = json_encode(array_merge($files)); // resets keys
+							file_put_contents('./manifest.diy.org.cashmusic',$files);
 					
-					echo $source_message;
-					echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
-					echo '<script type="text/javascript">showProgress(0);(function(){document.id("nextstepform").fireEvent("submit");}).delay(250);</script>';
+							echo $source_message;
+							echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
+							echo '<script type="text/javascript">showProgress(0);(function(){document.id("nextstepform").fireEvent("submit");}).delay(250);</script>';
+						}
+					} else {
+						echo '<h1>Oh. Shit. Something\'s wrong.</h1>error creating source directory<br />';
+					}
 				} else {
-					echo '<h1>Oh. Shit. Something\'s wrong.</h1>error creating source directory<br />';
+					// grab our manifest:
+					$files = json_decode(file_get_contents('./manifest.diy.org.cashmusic'));
+					$filecount = count($files);
+					$currentfile = 1;
+
+					foreach ($files as $file) {
+						if (!file_exists('./source/'.$file)) {
+							$path = pathinfo($file);
+							if (!is_dir('./source/'.$path['dirname'])) mkdir('./source/'.$path['dirname'],0777,true);
+							if (determinedCopy('https://raw.github.com/cashmusic/DIY/latest_stable/'.$file,'./source/'.$file)) {
+								echo $source_message;
+								if ($currentfile != $filecount) {
+									echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
+									echo '<script type="text/javascript">showProgress(' . ceil(100 * ($currentfile / $filecount)) . ');(function(){document.id("nextstepform").fireEvent("submit");}).delay(650);</script>';
+								} else {
+									// we're done; remove the manifest file
+									if (file_exists('./manifest.diy.org.cashmusic')) {
+										unlink('./manifest.diy.org.cashmusic');
+									}
+									echo '<form action="" method="post" id="nextstepform"><input type="hidden" id="installstagefade" value="1" /><input type="hidden" name="installstage" id="installstageinput" value="3" /></form>';
+									echo '<script type="text/javascript">hideProgress();(function(){document.id("nextstepform").fireEvent("submit");}).delay(500);</script>';
+								}
+								break;
+							} else {
+								echo '<h1>Oh. Shit. Something\'s wrong.</h1>error copying file: ' . (string)$file . '<br />';
+								break;
+							}
+						}
+						$currentfile = ++$currentfile;
+					}
 				}
 			} else {
-				// grab our manifest:
-				$files = json_decode(file_get_contents('./manifest.diy.org.cashmusic'));
-				$filecount = count($files);
-				$currentfile = 1;
-
-				foreach ($files as $file) {
-					if (!file_exists('./source/'.$file)) {
-						$path = pathinfo($file);
-						if (!is_dir('./source/'.$path['dirname'])) mkdir('./source/'.$path['dirname'],0777,true);
-						if (determinedCopy('https://raw.github.com/cashmusic/DIY/latest_stable/'.$file,'./source/'.$file)) {
-							echo $source_message;
-							if ($currentfile != $filecount) {
-								echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
-								echo '<script type="text/javascript">showProgress(' . ceil(100 * ($currentfile / $filecount)) . ');(function(){document.id("nextstepform").fireEvent("submit");}).delay(650);</script>';
-							} else {
-								// we're done; remove the manifest file
-								if (file_exists('./manifest.diy.org.cashmusic')) {
-									unlink('./manifest.diy.org.cashmusic');
-								}
-								echo '<form action="" method="post" id="nextstepform"><input type="hidden" id="installstagefade" value="1" /><input type="hidden" name="installstage" id="installstageinput" value="3" /></form>';
-								echo '<script type="text/javascript">hideProgress();(function(){document.id("nextstepform").fireEvent("submit");}).delay(500);</script>';
-							}
-							break;
-						} else {
-							echo '<h1>Oh. Shit. Something\'s wrong.</h1>error copying file: ' . (string)$file . '<br />';
-							break;
-						}
-					}
-					$currentfile = ++$currentfile;
-				}
+				echo $source_message;
+				echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
+				echo '<script type="text/javascript">showProgress(0);(function(){document.id("nextstepform").fireEvent("submit");}).delay(250);</script>';
 			}
 			break;
 		case "3":
