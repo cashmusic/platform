@@ -71,10 +71,10 @@
 	 */protected function startSession() {
 		// begin PHP session
 		if(!defined('STDIN')) { // no session for CLI, suckers
-			session_cache_limiter('nocache');
+			@session_cache_limiter('nocache');
 			$session_length = 3600;
-			ini_set("session.gc_maxlifetime", $session_length); 
-			session_start();
+			@ini_set("session.gc_maxlifetime", $session_length); 
+			@session_start();
 		}
 		
 		$this->cash_session_timeout = ini_get("session.gc_maxlifetime");
