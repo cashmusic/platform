@@ -30,7 +30,7 @@
 		</div>
 
 		<div id="datesspc">
-			<?php cash_embedElement(102); // CASH element (Wild Flag Test / tourdates) ?>
+			<?php CASHSystem::embedElement(102); // CASH element (Wild Flag Test / tourdates) ?>
 			
 			<br /><br />
 		</div>

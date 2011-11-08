@@ -13,7 +13,7 @@
 	<img src="assets/images/title.png" id="titleimg" alt="Amanda and Neil Have a Conversation" />
 
 	<div id="contentspc">
-		<?php cash_embedElement(103); // CASH element (Palmer/Gaiman filtered social feeds / socialfeeds) ?>
+		<?php CASHSystem::embedElement(103); // CASH element (Palmer/Gaiman filtered social feeds / socialfeeds) ?>
 	</div>
 
 <?php include('../../../../framework/php/settings/debug/cashmusic_debug.php'); // Debug ?>

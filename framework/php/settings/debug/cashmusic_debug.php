@@ -1,6 +1,7 @@
 <?php 
-	$originals = array('  ',"\n");
-	$replacements = array('&nbsp;&nbsp;','<br />');
+	$originals = array("Array\n(\n",'  ',"\n",'<br />)');
+	$replacements = array('','&nbsp;&nbsp;','<br />','');
+	//var_dump($cash_primary_request);
 ?>
 <script type="text/javascript">
 	function cashShowHideDebugPanel (showOrHide) {
@@ -20,11 +21,11 @@
 </div>
 <div id="cash_debug_panel" style="font:12px/1.5em 'Helvetica Neue',Helvetica,Arial,sans-serif;display:none;position:absolute;z-index:4321;top:0;right:60px;width:480px;height:auto;color:#fff;padding:28px;opacity:0.92;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;background-color:#222;margin-bottom:36px;">
 	<div style="margin:0;padding:0;position:relative;z-index:100;">
-	<h3 style="font:14px/1.25em 'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:bold;margin:0;">debug $cash_primary_request->response:</h3>
-	<div style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:10px;"><?php echo str_replace($originals,$replacements,htmlspecialchars(print_r($cash_primary_request->response,true))); ?></div>
+	<h3 style="font:14px/1.25em 'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:bold;margin:0;">last platform response:</h3>
+	<div style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:10px;"><?php echo str_replace($originals,$replacements,htmlspecialchars(print_r($_SESSION['cash_last_response'],true))); ?></div>
 	<br /><br />
-	<h3 style="font:14px/1.25em 'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:bold;margin:0;">debug $_SESSION:</h3>
-	<div style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:10px;"><?php echo str_replace($originals,$replacements,htmlspecialchars(print_r($_SESSION,true))); ?></div>
+	<h3 style="font:14px/1.25em 'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:bold;margin:0;">persistent data:</h3>
+	<div style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:10px;"><?php echo str_replace($originals,$replacements,htmlspecialchars(print_r($_SESSION['cash_persistent_store'],true))); ?></div>
 	<br /><br />
 	<a href="#" onclick="cashShowHideDebugPanel('hide');return false;" id="cash_hide_debug_panel_link" style="font:10px/1.25em 'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:bold;margin:0;color:#aacd07;">hide debug panel</a>
 	</div>

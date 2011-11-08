@@ -23,7 +23,7 @@ class PeoplePlant extends PlantBase {
 		if ($this->action) {
 			switch ($this->action) {
 				case 'signup':
-					if (!$this->checkRequestMethodFor('direct','api_key')) return $this->sessionGetLastResponse();
+					if (!$this->checkRequestMethodFor('direct','post','api_key')) return $this->sessionGetLastResponse();
 					if (!$this->requireParameters('list_id','address')) { return $this->sessionGetLastResponse(); }
 					if (isset($this->request['user_id'])) {
 						$list_auth_request = new CASHRequest(
