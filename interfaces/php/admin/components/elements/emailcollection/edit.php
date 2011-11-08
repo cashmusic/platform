@@ -26,7 +26,7 @@ if (isset($_POST['doelementedit'])) {
 		</p>
 		Your edits have been made and can be seen below. To embed the element us this code:
 		<code>
-			&lt;?php cash_embedElement(<?php echo $page_data['id']; ?>); // CASH element (<?php echo $page_data['name'] . ' / ' . $page_data['type']; ?>) ?&gt;
+			&lt;?php CASHSystem::embedElement(<?php echo $page_data['id']; ?>); // CASH element (<?php echo $page_data['name'] . ' / ' . $page_data['type']; ?>) ?&gt;
 		</code>
 		<br />
 

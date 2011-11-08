@@ -49,7 +49,7 @@
 		this embed code on any page:
 		</p>
 		<code>
-			&lt;?php cash_embedElement(<?php echo $element_add_request->response['payload']['element_id']; ?>); // CASH element (<?php echo $_POST['element_name'] . ' / ' . $_POST['element_type']; ?>) ?&gt;
+			&lt;?php CASHSystem::embedElement(<?php echo $element_add_request->response['payload']['element_id']; ?>); // CASH element (<?php echo $_POST['element_name'] . ' / ' . $_POST['element_type']; ?>) ?&gt;
 		</code>
 		<br />
 		<p>
