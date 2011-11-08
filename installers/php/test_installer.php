@@ -87,7 +87,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		'api_secret'    => hash_hmac('sha256', time() . $password_hash . rand(976654,1234567267), $system_salt),
 		'creation_date' => time()
 	);
-	$query = "INSERT INTO user_users (email_address,password,is_admin,creation_date) VALUES (:email_address,:password,:is_admin,:creation_date)";
+	$query = "INSERT INTO user_users (email_address,password,is_admin,api_key,api_secret,creation_date) VALUES (:email_address,:password,:is_admin,:api_key,:api_secret,:creation_date)";
 	
 	try {
 		$q = $pdo->prepare($query);
