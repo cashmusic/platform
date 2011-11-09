@@ -199,11 +199,13 @@
 	}
 	
 	/*
-	This is just a straight dump of the old mail program from the CASH v1 stuff. 
-	It should be modified to include a css file from the /public/assets/css folder
-	either directly or in a <link> tag. (Guessing direct is better...)
-	*/
-	public static function sendEmail($subject,$fromaddress,$toaddress,$message_text,$message_title) {
+	 * Sends a plain text and HTML email for system things like email verification,
+	 * password resets, etc.
+	 *
+	 * USAGE:
+	 * ASHSystem::sendEmail('test email','CASH Music <info@cashmusic.org>','dev@cashmusic.org','message, with link: http://cashmusic.org/','title');
+	 *
+	 */public static function sendEmail($subject,$fromaddress,$toaddress,$message_text,$message_title) {
 		//create a boundary string. It must be unique 
 		//so we use the MD5 algorithm to generate a random hash
 		$random_hash = md5(date('r', time())); 
@@ -220,9 +222,16 @@
 		$message .= "\n--PHP-alt-$random_hash\n"; 
 		$message .= "Content-Type: text/html; charset=\"iso-8859-1\"\n";
 		$message .= "Content-Transfer-Encoding: 7bit\n\n";
-		$message .= "<p style=\"font-family:helvetica,arial,sans-serif;font-size:2em;margin-bottom:0.75em;margin-top:0;\"><img src=\"http://my.cashmusic.org/images/cashlogo.gif\" width=\"36\" height=\"36\" style=\"position:relative;top:9px;margin-right:8px;\" alt=\"CASH Music\" />$message_title</p>\n";
-		$message .= "<p style=\"font-family:helvetica,arial,sans-serif;padding-left:44px;\">";
+		$message .= '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' . $message_title . '</title></head><body>';
+		$message .= "<style type=\"text/css\">\n";
+		if (file_exists(CASH_PLATFORM_ROOT.'/settings/defaults/system_email_styles.css')) {
+			$message .= file_get_contents(CASH_PLATFORM_ROOT.'/settings/defaults/system_email_styles.css');
+		}
+		$message .= "</style>\n";
+		$message .= "<h1>$message_title</h1>\n";
+		$message .= "<p>";
 		$message .= str_replace("\n","<br />\n",preg_replace('/(http:\/\/(\S*))/', '<a href="\1">\1</a>', $message_text));
+		$message .= "</p></body></html>";
 		$message .= "\n--PHP-alt-$random_hash--\n";
 		//send the email
 		$mail_sent = @mail($toaddress,$subject,$message,$headers);
