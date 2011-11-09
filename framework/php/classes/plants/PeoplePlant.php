@@ -319,7 +319,9 @@ class PeoplePlant extends PlantBase {
 				)
 			)
 		);
-		// TODO: update remote list
+		if ($result) {
+			$this->doListSync($list_id);
+		}
 		return $result;
 	}
 
