@@ -36,15 +36,15 @@ class ElementPlant extends PlantBase {
 					if (!$this->requireParameters('name','type','options_data','user_id')) return $this->sessionGetLastResponse();
 					$result = $this->addElement($this->request['name'],$this->request['type'],$this->request['options_data'],$this->request['user_id']);
 					if ($result) {
-						return $this->pushSuccess(array('element_id' => $result),'success. element id included in payload');
+						return $this->pushSuccess(array('id' => $result),'success. element id included in payload');
 					} else {
 						return $this->pushFailure('there was an error adding the element');
 					}
 					break;
 				case 'editelement':
 					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
-					if (!$this->requireParameters('element_id','name','options_data')) return $this->sessionGetLastResponse();
-					$result = $this->editElement($this->request['element_id'],$this->request['name'],$this->request['options_data']);
+					if (!$this->requireParameters('id','name','options_data')) return $this->sessionGetLastResponse();
+					$result = $this->editElement($this->request['id'],$this->request['name'],$this->request['options_data']);
 					if ($result) {
 						return $this->pushSuccess($this->getElement($result),'success. element included in payload');
 					} else {
@@ -53,8 +53,8 @@ class ElementPlant extends PlantBase {
 					break;
 				case 'getelement':
 					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
-					if (!$this->requireParameters('element_id')) return $this->sessionGetLastResponse();
-						$result = $this->getElement($this->request['element_id']);
+					if (!$this->requireParameters('id')) return $this->sessionGetLastResponse();
+						$result = $this->getElement($this->request['id']);
 						if ($result) {
 							return $this->pushSuccess($result,'success. element included in payload');
 						} else {
@@ -63,8 +63,8 @@ class ElementPlant extends PlantBase {
 					break;
 				case 'deleteelement':
 					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
-					if (!$this->requireParameters('element_id')) return $this->sessionGetLastResponse();
-						$result = $this->deleteElement($this->request['element_id']);
+					if (!$this->requireParameters('id')) return $this->sessionGetLastResponse();
+						$result = $this->deleteElement($this->request['id']);
 						if ($result) {
 							return $this->pushSuccess($result,'success. deleted');
 						} else {
@@ -91,9 +91,9 @@ class ElementPlant extends PlantBase {
 					}
 					break;
 				case 'getmarkup':
-					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
-					if (!$this->requireParameters('element_id')) return $this->sessionGetLastResponse();
-					$result = $this->getElementMarkup($this->request['element_id'],$this->request['status_uid']);
+					if (!$this->checkRequestMethodFor('direct','api_key','api_public')) return $this->sessionGetLastResponse();
+					if (!$this->requireParameters('id')) return $this->sessionGetLastResponse();
+					$result = $this->getElementMarkup($this->request['id'],$this->request['status_uid']);
 					if ($result) {
 						return $this->pushSuccess($result,'success. markup in the payload');
 					} else {

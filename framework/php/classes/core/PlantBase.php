@@ -56,7 +56,7 @@
 				}
 			}
 			$this->response->pushResponse(
-				400, $this->request_type, $this->action,
+				403, $this->request_type, $this->action,
 				$this->request,
 				"please try another request method, '{$this->request_method}' is not allowed"
 			);

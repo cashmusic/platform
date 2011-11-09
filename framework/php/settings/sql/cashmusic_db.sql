@@ -197,6 +197,8 @@ CREATE TABLE `user_users` (
   `address_postalcode` tinytext,
   `address_country` tinytext,
   `is_admin` bool NOT NULL DEFAULT '0',
+  `api_key` char(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `api_secret` char(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),

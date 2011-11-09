@@ -7,7 +7,7 @@ $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'asset', 
 		'cash_action' => 'getasset',
-		'asset_id' => $request_parameters[0]
+		'id' => $request_parameters[0]
 	),
 	'getasset'
 );
@@ -26,7 +26,7 @@ if (isset($_POST['doassetedit'])) {
 		array(
 			'cash_request_type' => 'asset', 
 			'cash_action' => 'editasset',
-			'asset_id' => $request_parameters[0],
+			'id' => $request_parameters[0],
 			'user_id' => $effective_user,
 			'title' => $asset_title,
 			'description' => $asset_description,
@@ -43,7 +43,7 @@ if (isset($_POST['doassetedit'])) {
 		array(
 			'cash_request_type' => 'asset', 
 			'cash_action' => 'getasset',
-			'asset_id' => $request_parameters[0]
+			'id' => $request_parameters[0]
 		),
 		'getasset'
 	);

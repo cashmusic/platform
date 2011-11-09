@@ -69,6 +69,14 @@
 	 *
 	 * @return boolean
 	 */protected function startSession() {
+		// begin PHP session
+		if(!defined('STDIN')) { // no session for CLI, suckers
+			@session_cache_limiter('nocache');
+			$session_length = 3600;
+			@ini_set("session.gc_maxlifetime", $session_length); 
+			@session_start();
+		}
+		
 		$this->cash_session_timeout = ini_get("session.gc_maxlifetime");
 		if (!isset($_SESSION['cash_session_id'])) {
 			$modifier_array = array('deedee','johnny','joey','tommy','marky');
@@ -102,7 +110,7 @@
 		if (!isset($_SESSION['cash_last_response'])) {
 			$this->resetSession();
 		}
-		if ($reset_session_id) {
+		if ($reset_session_id && !defined('STDIN')) {
 			session_regenerate_id(true);
 		}
 		$_SESSION['cash_last_response'] = $response;
@@ -145,7 +153,9 @@
 		} else {
 			$_SESSION['cash_persistent_store'] = array((string)$key => $value);
 		}
-		$_SESSION['cash_persistent_store']['session_regenerate_id'] = true;
+		if(!defined('STDIN')) {
+			session_regenerate_id(true);
+		}
 		return true;
 	}
 

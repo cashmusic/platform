@@ -37,7 +37,7 @@
 		
 		<div id="contentspc">
 			<h2>2. Enter your email to win tickets:</h2>
-			<?php cash_embedElement(101); // CASH element (Iron & Wine ticket contest / emailcollection) ?>
+			<?php CASHSystem::embedElement(101); // CASH element (Iron & Wine ticket contest / emailcollection) ?>
 
 			<br /><br />
 

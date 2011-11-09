@@ -47,19 +47,19 @@ for my $url (@metadata_urls) {
 
 mech->get_ok("$base/interfaces/php/admin/elements/view/100");
 mech->content_contains("Portugal. The Man");
-mech->content_contains('cash_embedElement(100)');
+mech->content_contains('CASHSystem::embedElement(100)');
 
 mech->get_ok("$base/interfaces/php/admin/elements/view/101");
 mech->content_contains("Iron & Wine");
-mech->content_contains('cash_embedElement(101)');
+mech->content_contains('CASHSystem::embedElement(101)');
 
 mech->get_ok("$base/interfaces/php/admin/elements/view/102");
 mech->content_contains("Wild Flag");
-mech->content_contains('cash_embedElement(102)');
+mech->content_contains('CASHSystem::embedElement(102)');
 
 mech->get_ok("$base/interfaces/php/admin/elements/view/103");
 mech->content_contains('Palmer/Gaiman filtered social feeds');
-mech->content_contains('cash_embedElement(103)');
+mech->content_contains('CASHSystem::embedElement(103)');
 
 mech->get_ok("$base/interfaces/php/admin/elements/delete/101");
 mech->submit_form_ok({

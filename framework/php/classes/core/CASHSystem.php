@@ -12,7 +12,67 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  */abstract class CASHSystem  {
-	
+
+	/**
+	 * Handle annoying environment issues like magic quotes, constants and 
+	 * auto-loaders before firing up the CASH platform and whatnot
+	 *
+	 * @return array
+	 */public static function startUp() {
+		// remove magic quotes, never call them "magic" in front of your friends
+		if (get_magic_quotes_gpc()) {
+		    function stripslashes_from_gpc(&$value) {$value = stripslashes($value);}
+		    $gpc = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
+		    array_walk_recursive($gpc, 'stripslashes_from_gpc');
+			unset($gpc);
+		}
+		
+		// define constants (use sparingly!)
+		$root = realpath(dirname(__FILE__) . '/../..');
+		define('CASH_PLATFORM_ROOT', $root);
+		
+		// set up auto-load
+		spl_autoload_register('CASHSystem::autoloadClasses');
+	}
+
+	/**
+	 * The main public method to embed elements. Notice that it echoes rather
+	 * than returns, because it's meant to be used simply by calling and spitting
+	 * out the needed code...
+	 *
+	 * @return none
+	 */public static function embedElement($element_id) {
+		// fire up the platform sans-direct-request to catch any GET/POST info sent
+		// in to the page
+		$cash_page_request = new CASHRequest();
+		
+		$cash_body_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'element', 
+				'cash_action' => 'getmarkup',
+				'id' => $element_id, 
+				'status_uid' => $cash_page_request->response['status_uid']
+			)
+		);
+		echo $cash_body_request->response['payload'];
+		unset($cash_page_request);
+		unset($cash_body_request);
+	}
+
+	/**
+	 * If the function name doesn't describe what this one does well enough then
+	 * seriously: you need to stop reading the comments and not worry about it
+	 *
+	 */public static function autoloadClasses($classname) {
+		foreach (array('/classes/core/','/classes/seeds/') as $location) {
+			$file = CASH_PLATFORM_ROOT.$location.$classname.'.php';
+			if (file_exists($file)) {
+				// using 'include' instead of 'require_once' because of efficiency
+				include($file);
+			}
+		}
+	}
+
 	/**
 	 * Formats a proper response, stores it in the session, and returns it
 	 *

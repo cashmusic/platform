@@ -5,7 +5,7 @@ if (isset($_POST['doelementedit'])) {
 		array(
 			'cash_request_type' => 'element', 
 			'cash_action' => 'editelement',
-			'element_id' => $page_request->response['payload']['id'],
+			'id' => $page_request->response['payload']['id'],
 			'name' => $_POST['element_name'],
 			'options_data' => array(
 				'visible_event_types' => $_POST['visible_event_types']
@@ -21,7 +21,7 @@ if (isset($_POST['doelementedit'])) {
 		</p>
 		Your edits have been made and can be seen below. To embed the element us this code:
 		<code>
-			&lt;?php cash_embedElement(<?php echo $page_data['id']; ?>); // CASH element (<?php echo $page_data['name'] . ' / ' . $page_data['type']; ?>) ?&gt;
+			&lt;?php CASHSystem::embedElement(<?php echo $page_data['id']; ?>); // CASH element (<?php echo $page_data['name'] . ' / ' . $page_data['type']; ?>) ?&gt;
 		</code>
 		<br />
 
