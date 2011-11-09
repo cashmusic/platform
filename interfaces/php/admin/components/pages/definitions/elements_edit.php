@@ -11,7 +11,7 @@ $page_request = new CASHRequest(
 	array(
 		'cash_request_type' => 'element', 
 		'cash_action' => 'getelement',
-		'element_id' => $request_parameters[0]
+		'id' => $request_parameters[0]
 	)
 );
 

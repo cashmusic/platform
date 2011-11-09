@@ -23,7 +23,26 @@ class PeoplePlant extends PlantBase {
 		if ($this->action) {
 			switch ($this->action) {
 				case 'signup':
+					if (!$this->checkRequestMethodFor('direct','post','api_key')) return $this->sessionGetLastResponse();
 					if (!$this->requireParameters('list_id','address')) { return $this->sessionGetLastResponse(); }
+					if (isset($this->request['user_id'])) {
+						$list_auth_request = new CASHRequest(
+							array(
+								'cash_request_type' => 'people', 
+								'cash_action' => 'getlistinfo',
+								'id' => $this->request['list_id']
+							)
+						);
+						if ($list_auth_request->response['status_code'] == '200') {
+							if ($list_auth_request->response['payload']['user_id'] != $this->request['user_id']) {
+								return $this->response->pushResponse(
+									403,$this->request_type,$this->action,
+									null,
+									'awfully presumptuous. you do not have permission to modify this list.'
+								);
+							}
+						}
+					}
 					if (filter_var($this->request['address'], FILTER_VALIDATE_EMAIL)) {
 						if (isset($this->request['comment'])) {$initial_comment = $this->request['comment'];} else {$initial_comment = '';}
 						if (isset($this->request['verified'])) {$verified = $this->request['verified'];} else {$verified = 0;}
@@ -106,9 +125,9 @@ class PeoplePlant extends PlantBase {
 					}
 					break;
 				case 'getlistinfo':
-					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
-					if (!$this->requireParameters('list_id')) { return $this->sessionGetLastResponse(); }
-					$result = $this->getListById($this->request['list_id']);
+					if (!$this->checkRequestMethodFor('direct','api_key')) return $this->sessionGetLastResponse();
+					if (!$this->requireParameters('id')) { return $this->sessionGetLastResponse(); }
+					$result = $this->getListById($this->request['id']);
 					if ($result) {
 						return $this->pushSuccess($result,'success. list info included in payload');
 					} else {

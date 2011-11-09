@@ -50,7 +50,7 @@
 								}
 								?>
 								<div class="row_seperator">.</div><br />
-								<div class="tar">
+								<div>
 									<input class="button" type="submit" value="Add The Connection" />
 								</div>
 							</form>
@@ -114,7 +114,7 @@
 								}
 								?>
 								<div class="row_seperator">.</div><br />
-								<div class="tar">
+								<div>
 									<input class="button" type="submit" value="Edit The Connection" />
 								</div>
 							</form>
@@ -191,7 +191,7 @@
 						}
 						?>
 						&nbsp; <span class="smalltext fadedtext">Created: <?php echo date('M jS, Y',$data['creation_date']); if ($data['modification_date']) { echo ' (Modified: ' . date('F jS, Y',$data['modification_date']) . ')'; } ?></span>
-						<div class="tar">
+						<div>
 							<a href="./edit/<?php echo $data['id']; ?>/<?php echo $data['name']; ?>/<?php echo $data['type']; ?>/" class="mininav">Edit</a> <a href="./delete/<?php echo $data['id']; ?>/" class="needsconfirmation mininav">Delete</a>
 						</div>
 					</div>

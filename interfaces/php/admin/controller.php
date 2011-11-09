@@ -13,7 +13,7 @@ $request_parameters = null;
 
 // admin-specific autoloader
 function cash_admin_autoloadCore($classname) {
-	$file = ADMIN_BASE_PATH . '/components/classes/'.$classname.'.php';
+	$file = ADMIN_BASE_PATH . '/classes/'.$classname.'.php';
 	if (file_exists($file)) {
 		require_once($file);
 	}
@@ -76,9 +76,10 @@ if (isset($_POST['login'])) {
 	$login_request = new CASHRequest(
 		array(
 			'cash_request_type' => 'system', 
-			'cash_action' => 'validateadminlogin',
+			'cash_action' => 'validatelogin',
 			'address' => $_POST['address'], 
-			'password' => $_POST['password']
+			'password' => $_POST['password'],
+			'require_admin' => true
 		)
 	);
 	if ($login_request->response['payload'] !== false) {

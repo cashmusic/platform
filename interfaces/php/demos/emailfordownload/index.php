@@ -16,7 +16,7 @@
 		Join our email list to get a free download of "When The War Ends" from our record <a href="http://store.portugaltheman.com/american-ghetto/"><i>American Ghetto</i></a>.
 	</p>
 
-	<?php cash_embedElement(100); // CASH element (Portugal email for download / emailcollection) ?>
+	<?php CASHSystem::embedElement(100); // CASH element (Portugal email for download / emailcollection) ?>
 </div>
 
 <?php include('../../../../framework/php/settings/debug/cashmusic_debug.php'); // Debug ?>

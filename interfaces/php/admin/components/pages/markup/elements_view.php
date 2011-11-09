@@ -5,7 +5,7 @@ if ($request_parameters) {
 		The embed code for this element is:
 		</p>
 		<code>
-			&lt;?php cash_embedElement(<?php echo $page_request->response['payload']['id']; ?>); // CASH element (<?php echo $page_request->response['payload']['name'] . ' / ' . $page_request->response['payload']['type']; ?>) ?&gt;
+			&lt;?php CASHSystem::embedElement(<?php echo $page_request->response['payload']['id']; ?>); // CASH element (<?php echo $page_request->response['payload']['name'] . ' / ' . $page_request->response['payload']['type']; ?>) ?&gt;
 		</code>
 		<br /><br />
 		<span class="highlightcopy">Add usage statistics, embed locations, any other analytics...</span>

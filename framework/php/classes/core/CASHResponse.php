@@ -16,32 +16,63 @@
 	protected $response;
 	
 	protected $status_codes = array(
-		'200' => 'OK: Success!',
-		'304' => 'Not Modified: There was no new data to return.',
-		'400' => 'Bad Request: The request was invalid.',
-		'401' => 'Unauthorized: Authentication credentials were missing or incorrect.',
-		'403' => 'Forbidden: The request is understood, but it has been refused.',
-		'404' => 'Not Found: The requested resource does not exists.',
-		'500' => 'Internal Server Error: Something is broken.',
-		'502' => 'Bad Gateway: Seed has not been properly installed and/or configured.',
-		'503' => 'Service Unavailable: Third party settings are incorrect or unknown.'
+		100 => 'Continue',
+		101 => 'Switching Protocols',
+		200 => 'OK',
+		201 => 'Created',
+		202 => 'Accepted',
+		203 => 'Non-Authoritative Information',
+		204 => 'No Content',
+		205 => 'Reset Content',
+		206 => 'Partial Content',
+		300 => 'Multiple Choices',
+		301 => 'Moved Permanently',
+		302 => 'Found',
+		303 => 'See Other',
+		304 => 'Not Modified',
+		305 => 'Use Proxy',
+		307 => 'Temporary Redirect',
+		400 => 'Bad Request',
+		401 => 'Unauthorized',
+		402 => 'Payment Required',
+		403 => 'Forbidden',
+		404 => 'Not Found',
+		405 => 'Method Not Allowed',
+		406 => 'Not Acceptable',
+		407 => 'Proxy Authentication Required',
+		408 => 'Request Time-out',
+		409 => 'Conflict',
+		410 => 'Gone',
+		411 => 'Length Required',
+		412 => 'Precondition Failed',
+		413 => 'Request Entity Too Large',
+		414 => 'Request-URI Too Large',
+		415 => 'Unsupported Media Type',
+		416 => 'Requested Range Not Satisfiable',
+		417 => 'Expectation Failed',
+		500 => 'Internal Server Error',
+		501 => 'Not Implemented',
+		502 => 'Bad Gateway',
+		503 => 'Service Unavailable',
+		504 => 'Gateway Time-out',
+		505 => 'HTTP Version Not Supported'
 	);
 	
 	/**
 	 * Formats a proper response, stores it in the session, and returns it
 	 *
 	 * @return array
-	 */public function pushResponse($status_code,$request_type,$action,$response_details,$contextual_message) {
+	 */public function pushResponse($status_code,$request_type,$action,$response_details,$contextual_message,$reset_session_id=false) {
 		$this->response = array(
 			'status_code' => $status_code,
 			'status_uid' => $request_type . '_' . $action . '_' . $status_code,
-			'status_message' => $this->status_codes["$status_code"],
+			'status_message' => $this->status_codes[(int) $status_code],
 			'contextual_message' => $contextual_message,
 			'request_type' => $request_type,
 			'action' => $action,
 			'payload' => $response_details
 		);
-		$this->sessionSetLastResponse($this->response);
+		$this->sessionSetLastResponse($this->response,$reset_session_id);
 		return $this->response;
 	}
 } // END class 
