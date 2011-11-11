@@ -25,7 +25,6 @@ abstract class SeedBase extends CASHData {
 	 * @return array|false
 	 */protected function getCASHSettings() {
 		if ($this->settings_id) {
-			require_once(CASH_PLATFORM_ROOT.'/classes/core/CASHSettings.php');
 			if ($this->settings = new CASHSettings($this->user_id,$this->settings_id)) {
 				return $this->settings->getSettings();
 			} else {
