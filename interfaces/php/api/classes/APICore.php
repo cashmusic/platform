@@ -112,7 +112,8 @@
 					}
 				}
 			} else {
-				$request_array = "we'll put the proper REST interface stuff here...";
+				// proper REST stuff goes here. for now return false
+				$request_array = false;
 			}
 			return $request_array;
 		} else {
