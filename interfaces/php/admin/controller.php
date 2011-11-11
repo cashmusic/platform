@@ -5,7 +5,14 @@ if(strrpos($_SERVER['REQUEST_URI'],'controller.php') !== false) {
 }
 
 // include the necessary bits, define the page directory
-require_once('constants.php');
+// Define constants too
+$root = dirname(__FILE__);
+$cashmusic_root = $root . "/../../../framework/php/cashmusic.php";
+
+define('ADMIN_BASE_PATH', $root);
+define('ADMIN_WWW_BASE_PATH', '/interfaces/php/admin');
+define('CASH_PLATFORM_PATH', $cashmusic_root);
+
 require_once(CASH_PLATFORM_PATH);
 $pages_path = ADMIN_BASE_PATH . '/components/pages/';
 $admin_primary_cash_request = new CASHRequest();
@@ -19,6 +26,12 @@ function cash_admin_autoloadCore($classname) {
 	}
 }
 spl_autoload_register('cash_admin_autoloadCore');
+
+$api_details = AdminHelper::getAPIDetails();
+if ($api_details) {
+	define('CASH_API_URL', $api_details['api_url']);
+	define('CASH_API_VERSION', $api_details['api_version']);
+}
 
 // make a few objects to use throughout the pages
 $cash_admin = new AdminCore();
