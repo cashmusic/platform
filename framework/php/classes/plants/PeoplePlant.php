@@ -337,20 +337,21 @@ class PeoplePlant extends PlantBase {
 		$connection_id = $list_info['settings_id'];
 		$user_id       = $list_info['user_id'];
 
-		$connection_type = $this->getConnectionType($connection_id);
-		switch($connection_type) {
-			case 'com.mailchimp':
-				$mc = new Mailchimp($user_id, $connection_id);
-				$rc = $mc->WebhookAdd($list_id, $api_url, $actions=null, $sources=null);
-				if (!$rc) {
-					// TODO: What do we do when adding a webhook fails?
-					// TODO: Try multiple times?
+		if ($connection_id) {
+			$connection_type = $this->getConnectionType($connection_id);
+			switch($connection_type) {
+				case 'com.mailchimp':
+					$mc = new Mailchimp($user_id, $connection_id);
+					$rc = $mc->WebhookAdd($list_id, $api_url, $actions=null, $sources=null);
+					if (!$rc) {
+						// TODO: What do we do when adding a webhook fails?
+						// TODO: Try multiple times?
+						return false;
+					}
+				default:
 					return false;
-				}
-			default:
-				return false;
+			}
 		}
-
 
 		/*
 		We should call this function whenever a list is first synced to a remote
