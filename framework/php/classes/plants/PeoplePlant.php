@@ -298,6 +298,9 @@ class PeoplePlant extends PlantBase {
 				'settings_id' => $settings_id
 			)
 		);
+		if ($result) {
+			$this->doListSync($list_id);
+		}
 		return $result;
 	}
 
@@ -316,10 +319,19 @@ class PeoplePlant extends PlantBase {
 				)
 			)
 		);
+		if ($result) {
+			$this->doListSync($list_id);
+		}
 		return $result;
 	}
 
 	public function doListSync($list_id,$pull=true,$push=false) {
+		$list_info = $this->getListById($list_id);
+
+		if ($pull) {
+		}
+		if ($push) {
+		}
 		/*
 		We should call this function whenever a list is first synced to a remote
 		source. If part of an addlist call we only need to do a pull. If it's a
@@ -363,10 +375,14 @@ class PeoplePlant extends PlantBase {
 						)
 					);
 					if ($result) {
-						/*
-						Check for list sync. If found, use the appropriate seed
-						to add the user to the remote list
-						*/
+						/* TODO: Check if there is an associated thing to sync */
+						// sync the new list data remotely
+						$api = new Mailchimp();
+						// TODO: this is currently hardcoded to require a double opt-in
+						$rc = $api->listSusbcribe($list_id, $address, $merge_vars=null, $email_type=null, $double_optin=true);
+						if (!$rc) {
+							return false;
+						}
 					}
 					return $result;
 				}
@@ -399,6 +415,11 @@ class PeoplePlant extends PlantBase {
 					Check for list sync. If found, use the appropriate seed
 					to remove the user to the remote list
 					*/
+					$api = new Mailchimp();
+					$rc = $api->listUnsusbcribe($list_id, $address);
+					if (!$rc) {
+						return false;
+					}
 				}
 				return $result;
 			} else {
@@ -407,6 +428,11 @@ class PeoplePlant extends PlantBase {
 				now check to see if the list is synced to another list remotely. if
 				so, use the appropriate seed to remove user remotely
 				*/
+				$api = new Mailchimp();
+				$rc  = $api->listUnsusbcribe($list_id, $address);
+				if (!$rc) {
+					return false;
+				}
 				return true;
 			}
 		} else {
