@@ -549,5 +549,31 @@
 		}
 		return $url_contents;
 	}
+
+	/**
+	 *
+	 * CONNECTIONS STUFF
+	 * Get more info about third-party connections
+	 *
+	 */
+
+	/**
+	 * Returns connection type for connection_id
+	 *
+	 * @return string or false
+	 */protected function getConnectionType($connection_id) {
+		if ($this->settings = new CASHSettings('false',$connection_id)) {
+			$connection = $this->settings->getSettings();
+			if ($connection) {
+				return $connection['type'];
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
+	
 } // END class 
 ?>
