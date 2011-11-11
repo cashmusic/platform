@@ -299,7 +299,10 @@ class PeoplePlant extends PlantBase {
 			)
 		);
 		if ($result) {
-			$this->doListSync($list_id);
+			$rc = $this->doListSync($list_id);
+			if (!$rc) {
+				// TODO: syncing failed, what now?
+			}
 		}
 		return $result;
 	}
@@ -320,7 +323,10 @@ class PeoplePlant extends PlantBase {
 			)
 		);
 		if ($result) {
-			$this->doListSync($list_id);
+			$rc = $this->doListSync($list_id);
+			if (!$rc) {
+				// TODO: syncing failed, what now?
+			}
 		}
 		return $result;
 	}
@@ -336,6 +342,11 @@ class PeoplePlant extends PlantBase {
 			case 'com.mailchimp':
 				$mc = new Mailchimp($user_id, $connection_id);
 				$rc = $mc->WebhookAdd($list_id, $api_url, $actions=null, $sources=null);
+				if (!$rc) {
+					// TODO: What do we do when adding a webhook fails?
+					// TODO: Try multiple times?
+					return false;
+				}
 			default:
 				return false;
 		}
