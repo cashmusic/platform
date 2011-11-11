@@ -325,13 +325,22 @@ class PeoplePlant extends PlantBase {
 		return $result;
 	}
 
-	public function doListSync($list_id,$pull=true,$push=false) {
-		$list_info = $this->getListById($list_id);
+	public function doListSync($list_id, $api_url=false) {
+		$list_info     = $this->getListById($list_id);
+		// settings are called connections now
+		$connection_id = $list_info['settings_id'];
+		$user_id       = $list_info['user_id'];
 
-		if ($pull) {
+		$connection_type = $this->getConnectionType($connection_id);
+		switch($connection_type) {
+			case 'com.mailchimp':
+				$mc = new Mailchimp($user_id, $connection_id);
+				$rc = $mc->WebhookAdd($list_id, $api_url, $actions=null, $sources=null);
+			default:
+				return false;
 		}
-		if ($push) {
-		}
+
+
 		/*
 		We should call this function whenever a list is first synced to a remote
 		source. If part of an addlist call we only need to do a pull. If it's a
