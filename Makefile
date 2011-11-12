@@ -4,3 +4,6 @@ sqlite_schema:
 
 sqlite_db:
 	sqlite3 ./framework/php/db/cashmusic.sqlite < ./framework/php/settings/sql/cashmusic_db_sqlite.sql
+
+test:
+	php tests/php/all.php
