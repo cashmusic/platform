@@ -344,9 +344,10 @@ class PeoplePlant extends PlantBase {
 					$mc = new Mailchimp($user_id, $connection_id);
 
 					$mailchimp_members = sort($mc->listMembers($list_id));
-					$local_members	   = array(); // TODO: need a function
+					// TODO: fix hard-coded limit
+					$local_members	   = $this->getAddressesForList($list_id, $limit = 100000 );
 					$mailchimp_count   = $mailchimp_members['total'];
-					$local_count       = $local_members['total'];
+					$local_count       = count($local_members);
 
 					if ($local_count == 0 && $mailchimp_count == 0 ) {
 						// nothing to sync
