@@ -342,7 +342,24 @@ class PeoplePlant extends PlantBase {
 			switch($connection_type) {
 				case 'com.mailchimp':
 					$mc = new Mailchimp($user_id, $connection_id);
+
+					$mailchimp_members = sort($mc->listMembers($list_id));
+					$local_members	   = array(); // TODO: need a function
+					$mailchimp_count   = $mailchimp_members['total'];
+					$local_count       = $local_members['total'];
+
+					if ($local_count == 0 && $mailchimp_count == 0 ) {
+						// nothing to sync
+					} else {
+						$remote_diff = array_diff($mailchimp_members, $local_members);
+						$local_diff  = array_diff($local_members, $mailchimp_members);
+						// TODO: implement these functions
+						$this->addToRemoteList($list_id, $local_diff);
+						$this->addToLocalList($list_id, $remote_diff);
+					}
+
 					$rc = $mc->WebhookAdd($list_id, $api_url, $actions=null, $sources=null);
+
 					if (!$rc) {
 						// TODO: What do we do when adding a webhook fails?
 						// TODO: Try multiple times?
