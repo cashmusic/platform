@@ -110,8 +110,8 @@
 		if (!isset($_SESSION['cash_last_response'])) {
 			$this->resetSession();
 		}
-		if ($reset_session_id && !defined('STDIN')) {
-			session_regenerate_id(true);
+		if ($reset_session_id) {
+			@session_regenerate_id(true);
 		}
 		$_SESSION['cash_last_response'] = $response;
 		return true;
@@ -152,9 +152,6 @@
 			$_SESSION['cash_persistent_store'][(string)$key] = $value;
 		} else {
 			$_SESSION['cash_persistent_store'] = array((string)$key => $value);
-		}
-		if(!defined('STDIN')) {
-			session_regenerate_id(true);
 		}
 		return true;
 	}

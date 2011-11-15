@@ -132,7 +132,8 @@
 	<h2 class="usecolor5">Calendar</h2>
 	<b>This week</b><br />
 	<?php
-	if (is_array($cash_admin->getStoredResponse('events_thisweek',true))) {
+	$thisweek_response = $cash_admin->getStoredResponse('events_thisweek');
+	if ($thisweek_response['status_uid'] == 'calendar_geteventsbetween_200') {
 		echo '<ul class="nobullets fadedtext">';
 		foreach ($cash_admin->getStoredResponse('events_thisweek',true) as $event) {
 			echo '<li><a href="./calendar/events/edit/' . $event['event_id'] . '">' . date('d M',$event['date']) . ': ' . $event['venue_city'] . ', ' . $event['venue_region'] . '</a><br /><span class="smalltext nobr">@ ' . $event['venue_name'] . '</span></li>';
