@@ -33,6 +33,11 @@
 		
 		// set up auto-load
 		spl_autoload_register('CASHSystem::autoloadClasses');
+		
+		// fire off new CASHRequest to cover any immediate-need things like GET
+		// asset requests, etc...
+		$cash_page_request = new CASHRequest();
+		unset($cash_page_request);
 	}
 
 	/**
