@@ -48,7 +48,34 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 	}
 	
 	$success = false;
-	echo "\nCASH MUSIC PLATFORM DEV INSTALLER\nYou are in an open field west of a big white house with a boarded front door.\n\n";
+
+echo "\n                       :+#\n"
+	. "              #   +###+###`\n"
+	. "              ############\n"
+	. "               ###########:\n"
+	. "               ,###########`\n"
+	. "                ############\n"
+	. "                #############;\n"
+	. "                .################\n"
+	. "                 :#################\n"
+	. "                 ;##################\n"
+	. "                  .##################\n"
+	. "                   ;#################\n"
+	. "                    #################;\n"
+	. "                     ############ ###;\n"
+	. "                     ############;###\n"
+	. "                     ###,####+,###'##\n"
+	. "                     ###    ,# ### ##\n"
+	. "                     ###     # +## #+\n"
+	. "                     ,##     # .## ;+\n"
+	. "                      ##     #+ ## :#\n"
+	. "                      ##     ## ## '#\n"
+	. "                      ##     .  ## ##\n"
+	. "                      ##        ## ##\n"
+	. "                      ``            \n\n"
+	. "                     C A S H  M U S I C\n"
+	. "                   PLATFORM DEV INSTALLER";
+	echo "\n\nYou are in an open field west of a big white house with a boarded front door.\n\n";
 	// you can input <Enter> or 1, 2, 3 
 	$db_engine = readStdin('What database engine do you want to use? (\'mysql\'|\'sqlite\'): ', array('mysql', 'sqlite'));
 	if ($db_engine == 'mysql') {
