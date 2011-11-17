@@ -27,20 +27,26 @@ my $base = $ENV{CASHMUSIC_TEST_URL} || 'http://localhost:80';
     ok( defined $response->{contextual_message}, 'contextual_message is present' );
     ok( defined $response->{status_message}, 'status_message is present' );
 }
-{
-    # TODO: the api_key needs to be set properly
-    my $key = "19c1353614eb51d286a81a106a79d0990407";
-    mech->post("$base/interfaces/php/api/verbose/people/processwebhook/api_key/$key");
-    my $json = mech->content;
-    is_valid_json($json, 'processwebhook json');
-    diag $json;
+sub test_processwebhook {
+    my (@methods) = @_;
+    for my $method (@methods) {
+        # TODO: the api_key needs to be set properly
+        my $key = "19c1353614eb51d286a81a106a79d0990407";
+        mech->$method("$base/interfaces/php/api/verbose/people/processwebhook/api_key/$key");
+        my $json = mech->content;
+        is_valid_json($json, 'processwebhook json');
+        diag $json;
 
-    my $response = $j->from_json($json);
-    cmp_ok($response->{status_code},'==',200,'got a 200 status_code from processwebhook');
-    cmp_ok($response->{contextual_message},'ne','unknown action','contextual_message != unknown action');
-    cmp_ok($response->{request_type},'eq','people','request_type = system');
-    cmp_ok($response->{action},'eq','processwebhook','processwebhook = system');
+        my $response = $j->from_json($json);
+        cmp_ok($response->{status_code},'==',200,'got a 200 status_code from processwebhook');
+        cmp_ok($response->{contextual_message},'ne','unknown action','contextual_message != unknown action');
+        cmp_ok($response->{request_type},'eq','people','request_type = system');
+        cmp_ok($response->{action},'eq','processwebhook','processwebhook = system');
+    }
 }
+
+test_processwebhook(qw/get post/);
+
 {
     mech->get("$base/interfaces/php/api/verbose/system/");
     my $json = mech->content;
