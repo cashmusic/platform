@@ -40,7 +40,7 @@ sub test_processwebhook {
         cmp_ok($response->{status_code},'==',200,"$method 200 status_code from processwebhook");
         cmp_ok($response->{contextual_message},'ne','unknown action','contextual_message != unknown action');
         cmp_ok($response->{request_type},'eq','people','request_type = people');
-        cmp_ok($response->{action},'eq','processwebhook','processwebhook = system');
+        cmp_ok($response->{action},'eq','processwebhook','action = processwebhook');
     }
 }
 
@@ -58,7 +58,7 @@ sub test_getlistinfo {
         cmp_ok($response->{status_code},'==',200,"$method 200 status_code from getlistinfo");
         cmp_ok($response->{contextual_message},'ne','unknown action','contextual_message != unknown action');
         cmp_ok($response->{request_type},'eq','people','request_type = people');
-        cmp_ok($response->{action},'eq','getlistinfo','getlistinfo = system');
+        cmp_ok($response->{action},'eq','getlistinfo','action = getlistinfo');
     }
 }
 
