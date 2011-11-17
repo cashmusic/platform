@@ -205,6 +205,11 @@ class PeoplePlant extends PlantBase {
 	}
 	
 	public function getAddressesForList($list_id,$limit=100,$start=0) {
+		$query_limit = false;
+		if ($limit) {
+			$query_limit = "$start,$limit";
+		}
+		
 		$result = $this->db->getData(
 			'PeoplePlant_getAddressesForList',
 			false,
@@ -214,7 +219,7 @@ class PeoplePlant extends PlantBase {
 					"value" => $list_id
 				)
 			),
-			"$start,$limit",
+			$query_limit,
 			'l.creation_date DESC' //this fix is less than ideal because it references the query alias l. ...but whatevs
 		);
 		return $result;
@@ -341,11 +346,11 @@ class PeoplePlant extends PlantBase {
 			$connection_type = $this->getConnectionType($connection_id);
 			switch($connection_type) {
 				case 'com.mailchimp':
-					$mc = new Mailchimp($user_id, $connection_id);
+					$mc = new MailchimpSeed($user_id, $connection_id);
 
 					$mailchimp_members = sort($mc->listMembers($list_id));
 					// TODO: fix hard-coded limit
-					$local_members	   = $this->getAddressesForList($list_id, $limit = 100000 );
+					$local_members	   = $this->getAddressesForList($list_id,false);
 					$mailchimp_count   = $mailchimp_members['total'];
 					$local_count       = count($local_members);
 

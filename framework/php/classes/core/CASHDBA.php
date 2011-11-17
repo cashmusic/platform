@@ -264,12 +264,6 @@ class CASHDBA {
 			$this->connect();
 		}
 		switch ($data_name) {
-			case 'AssetPlant_getAssetInfo':
-				$query = "SELECT a.user_id,a.parent_id,a.location,a.title,a.description,a.settings_id,"
-				. "s.name,s.type "
-				. "FROM asst_assets a LEFT OUTER JOIN base_settings s ON a.settings_id = s.id "
-				. "WHERE a.id = :asset_id";
-				break;
 			case 'AssetPlant_getAnalytics_mostaccessed':
 				$query = "SELECT aa.asset_id as 'id', COUNT(aa.id) as 'count', a.title as 'title', a.description as 'description' "
 				. "FROM asst_analytics aa JOIN asst_assets a ON aa.asset_id = a.id "
