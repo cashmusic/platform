@@ -138,11 +138,11 @@ class PeoplePlant extends PlantBase {
 					break;
 				case 'processwebhook':
 					if (!$this->checkRequestMethodFor('direct','api_key')) return $this->sessionGetLastResponse();
-					$result = $this->processWebhook();
+					$result = $this->processWebhook($this->request);
 					if ($result) {
-						return $this->pushSuccess('this is fake','success. your fake response is in the payload');
+						return $this->pushSuccess($result,'success. your fake response is in the payload');
 					} else {
-						return $this->pushFailure('seriously there shouldn\'t be an error');
+						return $this->pushFailure('there was a problem with the request');
 					}
 					break;
 				default:
@@ -383,7 +383,7 @@ class PeoplePlant extends PlantBase {
 
 					// webhooks
 					$api_credentials = $cash_admin->getAPICredentials();
-					$webhook_api_url = CASH_API_URL . 'people/processwebhook/origin/com.mailchimp/api_key/' . $api_credentials['api_key'];
+					$webhook_api_url = CASH_API_URL . 'people/processwebhook/origin/com.mailchimp/list_id/' . $list_id . '/api_key/' . $api_credentials['api_key'];
 					$rc = $mc->webhookAdd($list_id, $api_url, $actions=null, $sources=null);
 
 					if (!$rc) {
@@ -579,8 +579,8 @@ class PeoplePlant extends PlantBase {
 		}
 	}
 
-	public function processWebhook() {
-		return true;
+	public function processWebhook($incoming_request) {
+		return $incoming_request;
 	}
 } // END class 
 ?>
