@@ -11,6 +11,8 @@
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
+ * violet           hope
+ *
  **/
 class PeoplePlant extends PlantBase {
 	
@@ -359,14 +361,13 @@ class PeoplePlant extends PlantBase {
 					$mc = new MailchimpSeed($user_id, $connection_id);
 
 					$mailchimp_members = sort($mc->listMembers($list_id));
-					// TODO: fix hard-coded limit
+					// TODO: fix hard-coded limit...TO-DONE!
 					$local_members	   = $this->getAddressesForList($list_id,false);
 					$mailchimp_count   = $mailchimp_members['total'];
 					$local_count       = count($local_members);
 
-					if ($local_count == 0 && $mailchimp_count == 0 ) {
-						// nothing to sync
-					} else {
+					if ($local_count > 0 || $mailchimp_count > 0 ) {
+						// test that sync is needed
 						$remote_diff = array_diff($mailchimp_members, $local_members);
 						$local_diff  = array_diff($local_members, $mailchimp_members);
 						// TODO: implement these functions
@@ -380,7 +381,10 @@ class PeoplePlant extends PlantBase {
 						$base_api_url = "/interfaces/php/api/verbose/people/processwebhook/origin/$connection_type/list_id/$list_id/api_key/$api_key";
 					}
 
-					$rc = $mc->WebhookAdd($list_id, $api_url, $actions=null, $sources=null);
+					// webhooks
+					$api_credentials = $cash_admin->getAPICredentials();
+					$webhook_api_url = CASH_API_URL . 'people/processwebhook/origin/com.mailchimp/api_key/' . $api_credentials['api_key'];
+					$rc = $mc->webhookAdd($list_id, $api_url, $actions=null, $sources=null);
 
 					if (!$rc) {
 						// TODO: What do we do when adding a webhook fails?
@@ -437,7 +441,7 @@ class PeoplePlant extends PlantBase {
 					if ($result) {
 						/* TODO: Check if there is an associated thing to sync */
 						// sync the new list data remotely
-						$api = new Mailchimp();
+						$api = new MailchimpSeed();
 						// TODO: this is currently hardcoded to require a double opt-in
 						$rc = $api->listSusbcribe($list_id, $address, $merge_vars=null, $email_type=null, $double_optin=true);
 						if (!$rc) {
