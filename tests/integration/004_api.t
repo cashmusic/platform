@@ -29,7 +29,8 @@ my $base = $ENV{CASHMUSIC_TEST_URL} || 'http://localhost:80';
 }
 {
     # TODO: the api_key needs to be set properly
-    mech->get("$base/interfaces/php/api/verbose/system/processwebhook/api_key/19c13");
+    my $key = "19c1353614eb51d286a81a106a79d0990407";
+    mech->post("$base/interfaces/php/api/verbose/people/processwebhook/api_key/$key");
     my $json = mech->content;
     is_valid_json($json, 'processwebhook json');
     diag $json;
@@ -37,7 +38,7 @@ my $base = $ENV{CASHMUSIC_TEST_URL} || 'http://localhost:80';
     my $response = $j->from_json($json);
     cmp_ok($response->{status_code},'==',200,'got a 200 status_code from processwebhook');
     cmp_ok($response->{contextual_message},'ne','unknown action','contextual_message != unknown action');
-    cmp_ok($response->{request_type},'eq','system','request_type = system');
+    cmp_ok($response->{request_type},'eq','people','request_type = system');
     cmp_ok($response->{action},'eq','processwebhook','processwebhook = system');
 }
 {
