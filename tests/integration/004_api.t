@@ -37,14 +37,34 @@ sub test_processwebhook {
         #diag $json;
 
         my $response = $j->from_json($json);
-        cmp_ok($response->{status_code},'==',200,'got a 200 status_code from processwebhook');
+        cmp_ok($response->{status_code},'==',200,"$method 200 status_code from processwebhook");
         cmp_ok($response->{contextual_message},'ne','unknown action','contextual_message != unknown action');
-        cmp_ok($response->{request_type},'eq','people','request_type = system');
+        cmp_ok($response->{request_type},'eq','people','request_type = people');
         cmp_ok($response->{action},'eq','processwebhook','processwebhook = system');
     }
 }
 
-test_processwebhook(qw/get post/);
+
+sub test_getlistinfo {
+    my (@methods) = @_;
+    for my $method (@methods) {
+        my $key = "42";
+        mech->$method("$base/interfaces/php/api/verbose/people/getlistinfo/api_key/$key/id/100");
+        my $json = mech->content;
+        is_valid_json($json, 'getlistinfo json');
+        #diag $json;
+
+        my $response = $j->from_json($json);
+        cmp_ok($response->{status_code},'==',200,"$method 200 status_code from getlistinfo");
+        cmp_ok($response->{contextual_message},'ne','unknown action','contextual_message != unknown action');
+        cmp_ok($response->{request_type},'eq','people','request_type = people');
+        cmp_ok($response->{action},'eq','getlistinfo','getlistinfo = system');
+    }
+}
+
+my @methods = qw/get post/;
+test_processwebhook(@methods);
+test_getlistinfo(@methods);
 
 {
     mech->get("$base/interfaces/php/api/verbose/system/");
