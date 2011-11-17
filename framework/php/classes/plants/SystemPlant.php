@@ -60,6 +60,16 @@ class SystemPlant extends PlantBase {
 						return $this->pushFailure('there was an error');
 					}
 					break;
+				case 'getapicredentials':
+					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
+					if (!$this->requireParameters('user_id')) { return $this->sessionGetLastResponse(); }
+					$result = $this->getAPICredentials($this->request['user_id']);
+					if ($result) {
+						return $this->pushSuccess($result,'success. credentials array included in payload');
+					} else {
+						return $this->pushFailure('there was an error');
+					}
+					break;
 				case 'validateapicredentials':
 					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
 					if (!$this->requireParameters('api_key')) { return $this->sessionGetLastResponse(); }
@@ -160,6 +170,32 @@ class SystemPlant extends PlantBase {
 		);
 		if ($result) {
 			return $credentials;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Gets API credentials for a user id
+	 *
+	 * @param {int} $user_id -  the user
+	 * @return array|false
+	 */public function getAPICredentials($user_id) {
+		$user = $this->db->getData(
+			'users',
+			'api_key,api_secret',
+			array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				)
+			)
+		);
+		if ($user) {
+			return array(
+				'api_key' => $user[0]['api_key'],
+				'api_secret' => $user[0]['api_secret']
+			);
 		} else {
 			return false;
 		}
