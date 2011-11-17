@@ -134,6 +134,15 @@ class PeoplePlant extends PlantBase {
 						return $this->pushFailure('there was an error retrieving the list');
 					}
 					break;
+				case 'processwebhook':
+					if (!$this->checkRequestMethodFor('direct','api_key')) return $this->sessionGetLastResponse();
+					$result = $this->processWebhook();
+					if ($result) {
+						return $this->pushSuccess('this is fake','success. your fake response is in the payload');
+					} else {
+						return $this->pushFailure('seriously there shouldn\'t be an error');
+					}
+					break;
 				default:
 					return $this->response->pushResponse(
 						400,$this->request_type,$this->action,
@@ -557,6 +566,10 @@ class PeoplePlant extends PlantBase {
 				return false;
 			}
 		}
-	}		
+	}
+
+	public function processWebhook() {
+		return true;
+	}
 } // END class 
 ?>
