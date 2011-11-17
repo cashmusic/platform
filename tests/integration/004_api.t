@@ -36,6 +36,9 @@ my $base = $ENV{CASHMUSIC_TEST_URL} || 'http://localhost:80';
 
     my $response = $j->from_json($json);
     cmp_ok($response->{status_code},'==',200,'got a 200 status_code from processwebhook');
+    cmp_ok($response->{contextual_message},'ne','unknown action','contextual_message != unknown action');
+    cmp_ok($response->{request_type},'eq','system','request_type = system');
+    cmp_ok($response->{action},'eq','processwebhook','processwebhook = system');
 }
 
 done_testing;
