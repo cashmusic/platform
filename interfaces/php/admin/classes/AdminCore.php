@@ -65,6 +65,28 @@
 		} else {
 			return false;
 		}
-	}	
+	}
+
+	/**
+	 * Gets API credentials for the effective or actual user
+	 *
+	 * @param {string} effective || actual
+	 * @return array
+	 */public function getAPICredentials($user_type='effective') {
+		$data_request = new CASHRequest();
+		$user_id = $data_request->sessionGetPersistent('cash_' . $user_type . '_user');
+		if ($user_id) {
+			$data_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'system', 
+					'cash_action' => 'getapicredentials',
+					'user_id' => $user_id
+				)
+			);
+			return $data_request->response['payload'];
+		}
+		return false;
+
+	}
 } // END class 
 ?>
