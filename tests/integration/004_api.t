@@ -30,12 +30,11 @@ my $base = $ENV{CASHMUSIC_TEST_URL} || 'http://localhost:80';
 sub test_processwebhook {
     my (@methods) = @_;
     for my $method (@methods) {
-        # TODO: the api_key needs to be set properly
-        my $key = "19c1353614eb51d286a81a106a79d0990407";
+        my $key = "42";
         mech->$method("$base/interfaces/php/api/verbose/people/processwebhook/api_key/$key");
         my $json = mech->content;
         is_valid_json($json, 'processwebhook json');
-        diag $json;
+        #diag $json;
 
         my $response = $j->from_json($json);
         cmp_ok($response->{status_code},'==',200,'got a 200 status_code from processwebhook');

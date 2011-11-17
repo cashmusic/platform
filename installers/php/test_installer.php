@@ -83,8 +83,8 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		'email_address' => $user_email,
 		'password'      => $password_hash,
 		'is_admin'      => true,
-		'api_key'       => $api_key = hash_hmac('md5', time() . $password_hash . rand(976654,1234567267), $system_salt) . substr((string) time(),6),
-		'api_secret'    => hash_hmac('sha256', time() . $password_hash . rand(976654,1234567267), $system_salt),
+		'api_key'       => "42",
+		'api_secret'    => "43",
 		'creation_date' => time()
 	);
 	$query = "INSERT INTO user_users (email_address,password,is_admin,api_key,api_secret,creation_date) VALUES (:email_address,:password,:is_admin,:api_key,:api_secret,:creation_date)";
