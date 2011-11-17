@@ -18,7 +18,7 @@ my $base = $ENV{CASHMUSIC_TEST_URL} || 'http://localhost:80';
 
     my $json = mech->content;
     is_valid_json($json, 'invalid query still returns valid json');
-#diag $json;
+    #diag $json;
 
     my $response = $j->from_json($json);
     cmp_ok($response->{status_code},'==',400,'got a 400 status_code');
@@ -40,5 +40,15 @@ my $base = $ENV{CASHMUSIC_TEST_URL} || 'http://localhost:80';
     cmp_ok($response->{request_type},'eq','system','request_type = system');
     cmp_ok($response->{action},'eq','processwebhook','processwebhook = system');
 }
+{
+    mech->get("$base/interfaces/php/api/verbose/system/");
+    my $json = mech->content;
+    is_valid_json($json, 'valid json');
+    #diag $json;
 
+    my $response = $j->from_json($json);
+    cmp_ok($response->{status_code},'==',400,'got a 400 status_code');
+    cmp_ok($response->{api_version},'>=',1,'got an API version >= 1');
+    cmp_ok($response->{timestamp},'>=',0,'got an non-zero timestamp');
+}
 done_testing;
