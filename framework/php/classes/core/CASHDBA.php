@@ -278,6 +278,11 @@ class CASHDBA {
 				. "GROUP BY ea.element_id "
 				. "ORDER BY count DESC";
 				break;
+			case 'PeoplePlant_getAnalytics_membership':
+				$query = "SELECT COUNT(*) AS total, COUNT(CASE WHEN creation_date > " . (time() - 604800) . " THEN 1 END) AS last_week"
+				. "FROM user_lists_members"
+				. "WHERE list_id = :list_id";
+				break;
 			case 'PeoplePlant_getAddressesForList':
 				$query = "SELECT u.id,u.email_address,u.display_name,"
 				. "l.initial_comment,l.additional_data,l.creation_date "
