@@ -13,7 +13,7 @@
  **/
 class MailchimpSeed extends SeedBase {
 	protected $api;
-	public $url, $key;
+	public $url, $key, $list_id;
 
 	private function handleError() {
 		if ($this->api->errorCode) {
@@ -33,6 +33,7 @@ class MailchimpSeed extends SeedBase {
 			$this->settings_id = $settings_id;
 			$this->getCASHSettings();
 			$this->key = $this->settings->getSetting('key');
+			$this->list_id = $this->settings->getSetting('list');
 		}
 		$this->api = new MCAPI($this->key);
 
@@ -40,6 +41,9 @@ class MailchimpSeed extends SeedBase {
 		$this->url = 'http://' . $parts[1] . '.api.mailchimp.com/1.3/';
 	}
 
+	public function getListId() {
+		return $this->list_id;
+	}
 	// http://apidocs.mailchimp.com/api/1.3/lists.func.php
 	public function lists() {
 		$lists = $this->api->lists();
@@ -47,43 +51,43 @@ class MailchimpSeed extends SeedBase {
 		return $lists;
 	}
 	// http://apidocs.mailchimp.com/api/1.3/listwebhooks.func.php
-	public function listWebhooks($list_id) {
-		$webhooks = $this->api->listWebhooks($list_id);
+	public function listWebhooks() {
+		$webhooks = $this->api->listWebhooks($this->list_id);
 		$this->handleError();
 		return $webhooks;
 	}
 	// http://apidocs.mailchimp.com/api/1.3/listwebhookadd.func.php
-	public function listWebhookAdd($list_id, $url, $actions=null, $sources=null) {
-		$this->api->listWebhookAdd($list_id, $url, $actions, $sources);
+	public function listWebhookAdd($url, $actions=null, $sources=null) {
+		$this->api->listWebhookAdd($this->list_id, $url, $actions, $sources);
 		$this->handleError();
 		return $this;
 	}
 	// http://apidocs.mailchimp.com/api/1.3/listwebhookdel.func.php
-	public function listWebhookDel($list_id, $url) {
-		$this->api->listWebhookDel($list_id, $url);
+	public function listWebhookDel($url) {
+		$this->api->listWebhookDel($this->list_id, $url);
 		$this->handleError();
 		return $this;
 	}
 	// http://apidocs.mailchimp.com/api/1.3/listmembers.func.php
-	public function listMembers($list_id) {
+	public function listMembers() {
 		$page    = 0;
 		$max     = 5000;
 		$since   = null;
-		$members = $this->api->listMembers($list_id, 'subscribed', $since, $page, $max);
+		$members = $this->api->listMembers($this->list_id, 'subscribed', $since, $page, $max);
 		$this->handleError();
 		return $members;
 	}
 	// http://apidocs.mailchimp.com/api/1.3/listsubscribe.func.php
-	public function listSubscribe($list_id, $email, $merge_vars=null, $email_type=null, $double_optin=true, $update_existing=false, $replace_interests=true, $send_welcome=false) {
-		$this->api->listSubscribe( $list_id, $email, $merge_vars, $email_type, $double_optin, $update_existing, $replace_interests, $send_welcome);
+	public function listSubscribe($email, $merge_vars=null, $email_type=null, $double_optin=true, $update_existing=false, $replace_interests=true, $send_welcome=false) {
+		$this->api->listSubscribe($this->list_id, $email, $merge_vars, $email_type, $double_optin, $update_existing, $replace_interests, $send_welcome);
 		return $this;
 	}
 	// http://apidocs.mailchimp.com/api/1.3/listunsubscribe.func.php
-	public function listUnsubscribe($list_id, $email) {
+	public function listUnsubscribe($email) {
 		$delete       = 0;
 		$send_goodbye = 1;
 		$send_notify  = 1;
-		$this->api->listUnsubscribe( $list_id, $email, $delete, $send_goodbye, $send_notify);
+		$this->api->listUnsubscribe($this->list_id, $email, $delete, $send_goodbye, $send_notify);
 		$this->handleError();
 		return $this;
 	}
