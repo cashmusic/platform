@@ -681,11 +681,30 @@ class PeoplePlant extends PlantBase {
 				$mailchimp_type = $incoming_request['type'];
 				$mailchimp_details = $incoming_request['data'];
 				if ($mailchimp_type == 'subscribe') {
-					// add user to list
+					$user_name = 'Anonymous';
+					if (!empty($mailchimp_details['merges']['FNAME'])) {
+						$user_name = $mailchimp_details['merges']['FNAME'] . ' ' . $mailchimp_details['merges']['LNAME'];
+					}
+					$result = $this->addAddress(
+						$mailchimp_details['email'],
+						$incoming_request['list_id'],
+						1, // verified. trust all users from mailchimp
+						'', // no initial comment
+						'{"source":"com.mailchimp"}', // might as well store where it came from
+						$user_name // this is the display name we put together up there a bit
+					);
+					if ($result) {
+						return true;
+					}
 				} else if ($mailchimp_type == 'unsubscribe' || $mailchimp_type == 'cleaned') {
 					// move user from active to inactive
+					$result = $this->removeAddress($mailchimp_details['email'],$incoming_request['list_id']);
+					if ($result) {
+						return true;
+					}
 				} else if ($mailchimp_type ==  'upemail') {
 					// update email address with data in $mailchimp_details
+					// this is a do-later bit...editing a users email address...
 				}
 				break;
 			default:
