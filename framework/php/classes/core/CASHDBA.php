@@ -283,7 +283,7 @@ class CASHDBA {
 				. "FROM user_lists_members"
 				. "WHERE list_id = :list_id";
 				break;
-			case 'PeoplePlant_getAddressesForList':
+			case 'PeoplePlant_getUsersForList':
 				$query = "SELECT u.id,u.email_address,u.display_name,"
 				. "l.initial_comment,l.additional_data,l.creation_date "
 				. "FROM user_users u LEFT OUTER JOIN user_lists_members l ON u.id = l.user_id "

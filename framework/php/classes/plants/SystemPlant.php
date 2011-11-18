@@ -43,9 +43,22 @@ class SystemPlant extends PlantBase {
 				case 'addlogin':
 					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
 					if (!$this->requireParameters('address','password')) { return $this->sessionGetLastResponse(); }
-					$result = $this->addLogin($this->request['address'],$this->request['password']);
+					
+					// defaults:
+					$display_name = 'Anonymous';
+					$first_name = '';
+					$last_name = '';
+					$organization = '';
+					$is_admin = 0;
+					if (isset($this->request['display_name'])) { $display_name = $this->request['display_name']; }
+					if (isset($this->request['first_name'])) { $first_name = $this->request['first_name']; }
+					if (isset($this->request['last_name'])) { $last_name = $this->request['last_name']; }
+					if (isset($this->request['organization'])) { $organization = $this->request['organization']; }
+					if (isset($this->request['is_admin'])) { $is_admin = $this->request['is_admin']; }
+					
+					$result = $this->addLogin($this->request['address'],$this->request['password'],$display_name,$first_name,$last_name,$organization,$is_admin);
 					if ($result) {
-						return $this->pushSuccess($result,'success. true or false included in payload');
+						return $this->pushSuccess($result,'success. id or false included in payload');
 					} else {
 						return $this->pushFailure('there was an error');
 					}
@@ -141,13 +154,18 @@ class SystemPlant extends PlantBase {
 	 * @param {string} $address -  the email address in question
 	 * @param {string} $password - the password
 	 * @return array|false
-	 */public function addLogin($address,$password) {
+	 */public function addLogin($address,$password,$display_name='Anonymous',$first_name='',$last_name='',$organization='',$is_admin=0) {
 		$password_hash = hash_hmac('sha256', $password, $this->salt);
 		$result = $this->db->setData(
 			'users',
 			array(
 				'email_address' => $address,
-				'password' => $password_hash
+				'password' => $password_hash,
+				'display_name' => $display_name,
+				'first_name' => $first_name,
+				'last_name' => $last_name,
+				'organization' => $organization,
+				'is_admin' => $is_admin
 			)
 		);
 		return $result;

@@ -28,21 +28,13 @@ class PeoplePlant extends PlantBase {
 					if (!$this->checkRequestMethodFor('direct','post','api_key')) return $this->sessionGetLastResponse();
 					if (!$this->requireParameters('list_id','address')) { return $this->sessionGetLastResponse(); }
 					if (isset($this->request['user_id'])) {
-						$list_auth_request = new CASHRequest(
-							array(
-								'cash_request_type' => 'people', 
-								'cash_action' => 'getlistinfo',
-								'id' => $this->request['list_id']
-							)
-						);
-						if ($list_auth_request->response['status_code'] == '200') {
-							if ($list_auth_request->response['payload']['user_id'] != $this->request['user_id']) {
-								return $this->response->pushResponse(
-									403,$this->request_type,$this->action,
-									null,
-									'awfully presumptuous. you do not have permission to modify this list.'
-								);
-							}
+						$ownership = $this->verifyListOwner($this->request['user_id'],$this->request['list_id']);
+						if (!$ownership) {
+							return $this->response->pushResponse(
+								403,$this->request_type,$this->action,
+								null,
+								'awfully presumptuous. you do not have permission to modify this list.'
+							);
 						}
 					}
 					if (filter_var($this->request['address'], FILTER_VALIDATE_EMAIL)) {
@@ -104,7 +96,7 @@ class PeoplePlant extends PlantBase {
 				case 'viewlist':
 					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
 					if (!$this->requireParameters('list_id')) { return $this->sessionGetLastResponse(); }
-					$result = $this->getAddressesForList($this->request['list_id']);
+					$result = $this->getUsersForList($this->request['list_id']);
 					if ($result) {
 						$list_details = $this->getListById($this->request['list_id']);
 						$payload_data = array(
@@ -162,149 +154,23 @@ class PeoplePlant extends PlantBase {
 			);
 		}
 	}
-	
+
 	/**
-	 * Returns email address information for a specific list / address
 	 *
-	 * @param {string} $address -  the email address in question
-	 * @return array|false
-	 */public function getAddressListInfo($address,$list_id) {
-		$user_id = $this->getUserIDForAddress($address);
-		if ($user_id) {
-			$result = $this->db->getData(
-				'list_members',
-				'*',
-				array(
-					"user_id" => array(
-						"condition" => "=",
-						"value" => $user_id
-					),
-					"list_id" => array(
-						"condition" => "=",
-						"value" => $list_id
-					)
-				)
-			);
-			if ($result) {
-				$return_array = $result[0];
-				$return_array['email_address'] = $address;
-				return $return_array;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
-	}
-	
-	public function getUserIDForAddress($address) {
-		$result = $this->db->getData(
-			'users',
-			'id',
-			array(
-				"email_address" => array(
-					"condition" => "=",
-					"value" => $address
-				)
-			)
-		);
-		if ($result) {
-			return $result[0]['id'];
-		} else {
-			return false;
-		}
-	}
-	
-	public function getAddressesForList($list_id,$limit=100,$start=0) {
-		$query_limit = false;
-		if ($limit) {
-			$query_limit = "$start,$limit";
-		}
-		
-		$result = $this->db->getData(
-			'PeoplePlant_getAddressesForList',
-			false,
-			array(
-				"list_id" => array(
-					"condition" => "=",
-					"value" => $list_id
-				)
-			),
-			$query_limit,
-			'l.creation_date DESC' //this fix is less than ideal because it references the query alias l. ...but whatevs
-		);
-		return $result;
-	}
+	 * LISTS
+	 * Add, edit, and sync the actual lists themselves
+	 *
+	 */
 
-	public function getListsForUser($user_id) {
-		$result = $this->db->getData(
-			'user_lists',
-			'*',
-			array(
-				"user_id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				)
-			)
-		);
-		return $result;
-	}
-
-	public function getListById($list_id) {
-		$result = $this->db->getData(
-			'user_lists',
-			'*',
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $list_id
-				)
-			)
-		);
-		if ($result) {
-			return $result[0];
-		}
-		return $result;
-	}
-
-	public function deleteList($list_id) {
-		$result = $this->db->deleteData(
-			'user_lists',
-			array(
-				'id' => array(
-					'condition' => '=',
-					'value' => $list_id
-				)
-			)
-		);
-		if ($result) {
-			// check and make sure that the list has addresses associated
-			if ($this->getAddressesForList($list_id)) {
-				// it does? delete them
-				$result = $this->db->deleteData(
-					'list_members',
-					array(
-						'list_id' => array(
-							'condition' => '=',
-							'value' => $list_id
-						)
-					)
-				);
-			}
-		}
-		return $result;
-	}
-
-	public function addressIsVerified($address,$list_id) {
-		$address_information = $this->getAddressListInfo($address,$list_id);
-		if (!$address_information) {
-			return false; 
-		} else {
-			return $address_information['verified'];
-		}
-	}
-
-	public function addList($name,$description,$user_id,$settings_id=0) {
+	/**
+	 * Adds a new list to the system
+	 *
+	 * @param {int} $list_id -      the list
+	 * @param {int} $name -         a name given to the list for easy recognition
+	 * @param {int} $description -  a description, in case the name is terrible and offers no help
+	 * @param {int} $settings_id -  a third party connection with which the list should sync
+	 * @return id|false
+	 */public function addList($name,$description,$user_id,$settings_id=0) {
 		$result = $this->db->setData(
 			'user_lists',
 			array(
@@ -323,7 +189,15 @@ class PeoplePlant extends PlantBase {
 		return $result;
 	}
 
-	public function editList($list_id,$name,$description,$settings_id=0) {
+	/**
+	 * Edits the details of a given list
+	 *
+	 * @param {int} $list_id -      the list
+	 * @param {int} $name -         a name given to the list for easy recognition
+	 * @param {int} $description -  a description, in case the name is terrible and offers no help
+	 * @param {int} $settings_id -  a third party connection with which the list should sync
+	 * @return id|false
+	 */public function editList($list_id,$name,$description,$settings_id=0) {
 		$result = $this->db->setData(
 			'user_lists',
 			array(
@@ -347,7 +221,44 @@ class PeoplePlant extends PlantBase {
 		return $result;
 	}
 
-	public function doListSync($list_id, $api_url=false) {
+	/**
+	 * Removes an entire list and all member records. Use with caution.
+	 *
+	 * @param {int} $list_id - the list
+	 * @return bool
+	 */public function deleteList($list_id) {
+		$result = $this->db->deleteData(
+			'user_lists',
+			array(
+				'id' => array(
+					'condition' => '=',
+					'value' => $list_id
+				)
+			)
+		);
+		if ($result) {
+			// check and make sure that the list has addresses associated
+			if ($this->getUsersForList($list_id)) {
+				// it does? delete them
+				$result = $this->db->deleteData(
+					'list_members',
+					array(
+						'list_id' => array(
+							'condition' => '=',
+							'value' => $list_id
+						)
+					)
+				);
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Does all the messy bits to make sure a list is synced with a 3rd-party
+	 * email service if that's the kind of thing you're into...
+	 *
+	 */public function doListSync($list_id, $api_url=false) {
 		$list_info     = $this->getListById($list_id);
 		// settings are called connections now
 		$connection_id = $list_info['settings_id'];
@@ -361,7 +272,7 @@ class PeoplePlant extends PlantBase {
 
 					$mailchimp_members = sort($mc->listMembers($list_id));
 					// TODO: fix hard-coded limit...TO-DONE!
-					$local_members	   = $this->getAddressesForList($list_id,false);
+					$local_members	   = $this->getUsersForList($list_id,false);
 					$mailchimp_count   = $mailchimp_members['total'];
 					$local_count       = count($local_members);
 
@@ -388,22 +299,113 @@ class PeoplePlant extends PlantBase {
 					return false;
 			}
 		}
-
-		/*
-		We should call this function whenever a list is first synced to a remote
-		source. If part of an addlist call we only need to do a pull. If it's a
-		new sync added to an existing list then we should, in order:
-		
-		 - first test to see if any members are present on the list, if so store them
-		 - do a pull from remote list and add all members
-		 - if the initial test found members, push them to the remote list
-		
-		 - if remote list supports webhooks we should set those up here (if possible)
-		   to enable 2-way sync
-		*/
 	}
 
-	public function addAddress($address,$list_id,$verified=0,$initial_comment='',$additional_data='',$name) {
+	/**
+	 * Returns true or false that a user owns a given list
+	 *
+	 * @param {int} $user_id - the user
+	 * @param {int} $list_id - the list
+	 * @return bool
+	 */public function verifyListOwner($user_id,$list_id) {
+		$list_details = $this->getListById($this->request['id']);
+		if ($list_details) {
+			if ($list_details['user_id'] == $user_id) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	/**
+	 * Returns user information for a given list, including all signup data
+	 *
+	 * @param {int} $list_id -  the id of the list
+	 * @param {int} $limit -    the number of users to return
+	 * @param {int} $start -    start-at for the limit (pagination)
+	 * @return array|false
+	 */public function getUsersForList($list_id,$limit=100,$start=0) {
+		$query_limit = false;
+		if ($limit) {
+			$query_limit = "$start,$limit";
+		}
+		
+		$result = $this->db->getData(
+			'PeoplePlant_getUsersForList',
+			false,
+			array(
+				"list_id" => array(
+					"condition" => "=",
+					"value" => $list_id
+				)
+			),
+			$query_limit,
+			'l.creation_date DESC' //this fix is less than ideal because it references the query alias l. ...but whatevs
+		);
+		return $result;
+	}
+
+	/**
+	 * Returns all lists owned by a user
+	 *
+	 * @param {int} $user_id - the user
+	 * @return array|false
+	 */public function getListsForUser($user_id) {
+		$result = $this->db->getData(
+			'user_lists',
+			'*',
+			array(
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				)
+			)
+		);
+		return $result;
+	}
+
+	/**
+	 * Returns basic information about a list
+	 *
+	 * @param {int} $list_id -     the id of the list
+	 * @return array|false
+	 */public function getListById($list_id) {
+		$result = $this->db->getData(
+			'user_lists',
+			'*',
+			array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $list_id
+				)
+			)
+		);
+		if ($result) {
+			return $result[0];
+		}
+		return $result;
+	}
+
+	/**
+	 *
+	 * INDIVIDUAL USERS
+	 * Add and remove individual users from a list, verify them, etc.
+	 *
+	 */
+
+	/**
+	 * Adds a user to a list. If no user exists for the email address passed, a
+	 * new user will be created then added to the list.
+	 *
+	 * @param {string} $address -           the email address in question
+	 * @param {int} $list_id -              the id of the list
+	 * @param {bool} $verified -            0 for unverified, 1 to skip verification and mark ok
+	 * @param {string} $initial_comment -   a comment passed with the list signup
+	 * @param {string} $additional_data -   any extra data (JSON, etc) a dev might pass with signup for later use
+	 * @param {string} $name -              if the user doesn't exist in the system this will be used as their display name
+	 * @return bool
+	 */public function addAddress($address,$list_id,$verified=0,$initial_comment='',$additional_data='',$name='Anonymous') {
 		if (filter_var($address, FILTER_VALIDATE_EMAIL)) {
 			// first check to see if the email is already on the list
 			$user_id = $this->getUserIDForAddress($address);
@@ -412,13 +414,20 @@ class PeoplePlant extends PlantBase {
 				$name = strip_tags($name);
 				$user_id = $this->getUserIDForAddress($address);
 				if (!$user_id) {
-					$user_id = $this->db->setData(
-						'users',
+					$addlogin_request = new CASHRequest(
 						array(
-							'email_address' => $address,
+							'cash_request_type' => 'system', 
+							'cash_action' => 'addlogin',
+							'address' => $address,
+							'password' => rand(23456,9876541),
 							'display_name' => $name
 						)
 					);
+					if ($addlogin_request->response['status_code'] == 200) {
+						$user_id = $addlogin_request->response['payload'];
+					} else {
+						return false;
+					}
 				}
 				if ($user_id) {
 					$result = $this->db->setData(
@@ -434,11 +443,13 @@ class PeoplePlant extends PlantBase {
 					if ($result) {
 						/* TODO: Check if there is an associated thing to sync */
 						// sync the new list data remotely
-						$api = new MailchimpSeed();
-						// TODO: this is currently hardcoded to require a double opt-in
-						$rc = $api->listSusbcribe($list_id, $address, $merge_vars=null, $email_type=null, $double_optin=true);
-						if (!$rc) {
-							return false;
+						if (false) { // if false bullshit to remind about if statement and avoid executing code
+							$api = new MailchimpSeed();
+							// TODO: this is currently hardcoded to require a double opt-in
+							$rc = $api->listSusbcribe($list_id, $address, $merge_vars=null, $email_type=null, $double_optin=true);
+							if (!$rc) {
+								return false;
+							}
 						}
 					}
 					return $result;
@@ -451,7 +462,14 @@ class PeoplePlant extends PlantBase {
 		return false;
 	}
 
-	public function removeAddress($address,$list_id) {
+	/**
+	 * Sets a user inactive for a given list. If the user is not present on the 
+	 * list it returns true.
+	 *
+	 * @param {string} $address -  the email address in question
+	 * @param {int} $list_id -     the id of the list
+	 * @return bool
+	 */public function removeAddress($address,$list_id) {
 		$membership_info = $this->getAddressListInfo($address,$list_id);
 		if ($membership_info) {
 			if ($membership_info['active']) {
@@ -496,6 +514,21 @@ class PeoplePlant extends PlantBase {
 			// true for successful removal. user was never part of our list,
 			// do nothing, do not attempt to sync
 			return true;
+		}
+	}
+
+	/**
+	 * Returns true/false as to whether a user is verified for a specific list
+	 *
+	 * @param {string} $address -  the email address in question
+	 * @param {int} $list_id -     the id of the list
+	 * @return bool
+	 */public function addressIsVerified($address,$list_id) {
+		$address_information = $this->getAddressListInfo($address,$list_id);
+		if (!$address_information) {
+			return false; 
+		} else {
+			return $address_information['verified'];
 		}
 	}
 
@@ -572,9 +605,79 @@ class PeoplePlant extends PlantBase {
 		}
 	}
 
+	/**
+	 * Returns email address information for a specific list / address
+	 *
+	 * @param {string} $address -  the email address in question
+	 * @return array|false
+	 */public function getAddressListInfo($address,$list_id) {
+		$user_id = $this->getUserIDForAddress($address);
+		if ($user_id) {
+			$result = $this->db->getData(
+				'list_members',
+				'*',
+				array(
+					"user_id" => array(
+						"condition" => "=",
+						"value" => $user_id
+					),
+					"list_id" => array(
+						"condition" => "=",
+						"value" => $list_id
+					)
+				)
+			);
+			if ($result) {
+				$return_array = $result[0];
+				$return_array['email_address'] = $address;
+				return $return_array;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Returns user id for a given email address
+	 *
+	 * @param {string} $address -  the email address in question
+	 * @return id|false
+	 */public function getUserIDForAddress($address) {
+		$result = $this->db->getData(
+			'users',
+			'id',
+			array(
+				"email_address" => array(
+					"condition" => "=",
+					"value" => $address
+				)
+			)
+		);
+		if ($result) {
+			return $result[0]['id'];
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 *
+	 * WEBHOOKS
+	 * Handle incoming webhooks
+	 *
+	 */
+
 	public function processWebhook($incoming_request) {
 		switch ($incoming_request['origin']) {
 			case 'com.mailchimp':
+				// make sure the API key matches the user_id of the list owner
+				$ownership = $this->verifyListOwner($incoming_request['user_id'],$incoming_request['list_id']);
+				if (!$ownership) {
+					return false;
+				}
+				// matches. go:
 				$mailchimp_type = $incoming_request['type'];
 				$mailchimp_details = $incoming_request['data'];
 				if ($mailchimp_type == 'subscribe') {
