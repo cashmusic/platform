@@ -269,8 +269,8 @@ class PeoplePlant extends PlantBase {
 			switch($connection_type) {
 				case 'com.mailchimp':
 					$mc = new MailchimpSeed($user_id, $connection_id);
-
-					$mailchimp_members = sort($mc->listMembers($list_id));
+					
+					$mailchimp_members = sort($mc->listMembers());
 					// TODO: fix hard-coded limit...TO-DONE!
 					$local_members	   = $this->getUsersForList($list_id,false);
 					$mailchimp_count   = $mailchimp_members['total'];
@@ -288,9 +288,8 @@ class PeoplePlant extends PlantBase {
 					// webhooks
 					$api_credentials = CASHSystem::getAPICredentials();
 					// TODO: fix this crap
-					//$webhook_api_url = CASH_API_URL . 'people/processwebhook/origin/com.mailchimp/list_id/' . $list_id . '/api_key/' . $api_credentials['api_key'];
-					$webhook_api_url = 'http://cashmusic.org/people/processwebhook/origin/com.mailchimp/list_id/' . $list_id . '/api_key/' . $api_credentials['api_key'];
-					$rc = $mc->listWebhookAdd($list_id, $webhook_api_url, $actions=null, $sources=null);
+					$webhook_api_url = CASH_API_URL . 'people/processwebhook/origin/com.mailchimp/list_id/' . $list_id . '/api_key/' . $api_credentials['api_key'];
+					$rc = $mc->listWebhookAdd($webhook_api_url, $actions=null, $sources=null);
 
 					if (!$rc) {
 						// TODO: What do we do when adding a webhook fails?
