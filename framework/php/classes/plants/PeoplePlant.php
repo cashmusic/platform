@@ -353,7 +353,6 @@ class PeoplePlant extends PlantBase {
 		$connection_id = $list_info['settings_id'];
 		$user_id       = $list_info['user_id'];
 
-
 		if ($connection_id) {
 			$connection_type = $this->getConnectionType($connection_id);
 			switch($connection_type) {
@@ -373,12 +372,6 @@ class PeoplePlant extends PlantBase {
 						// TODO: implement these functions
 						$this->addToRemoteList($list_id, $local_diff);
 						$this->addToLocalList($list_id, $remote_diff);
-					}
-					if (!$api_url) { // If no API URL is given, generate a reasonable default
-						#/interfaces/php/api/verbose/people/processwebhook/origin/com.mailchimp/list_id/101/api_key
-						// TODO: grab the actual api key
-						$api_key = "42";
-						$base_api_url = "/interfaces/php/api/verbose/people/processwebhook/origin/$connection_type/list_id/$list_id/api_key/$api_key";
 					}
 
 					// webhooks
