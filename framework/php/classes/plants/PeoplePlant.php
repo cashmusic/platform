@@ -377,7 +377,7 @@ class PeoplePlant extends PlantBase {
 					// webhooks
 					$api_credentials = $cash_admin->getAPICredentials();
 					$webhook_api_url = CASH_API_URL . 'people/processwebhook/origin/com.mailchimp/list_id/' . $list_id . '/api_key/' . $api_credentials['api_key'];
-					$rc = $mc->webhookAdd($list_id, $api_url, $actions=null, $sources=null);
+					$rc = $mc->webhookAdd($list_id, $webhook_api_url, $actions=null, $sources=null);
 
 					if (!$rc) {
 						// TODO: What do we do when adding a webhook fails?
