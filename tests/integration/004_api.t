@@ -32,7 +32,7 @@ sub test_processwebhook {
     my (@methods) = @_;
     for my $method (@methods) {
         my $key = "42";
-        mech->$method("$base/interfaces/php/api/verbose/people/processwebhook/api_key/$key");
+        mech->$method("$base/interfaces/php/api/verbose/people/processwebhook/origin/com.mailchimp/list_id/100/api_key/$key");
         my $json = mech->content;
         is_valid_json($json, 'processwebhook json');
         #diag $json;
@@ -49,7 +49,7 @@ sub test_processwebhook_invalid_key {
     my (@methods) = @_;
     for my $method (@methods) {
         my $key = "69";
-        mech->$method("$base/interfaces/php/api/verbose/people/processwebhook/api_key/$key");
+        mech->$method("$base/interfaces/php/api/verbose/people/processwebhook/origin/com.mailchimp/list_id/100/api_key/$key");
         my $json = mech->content;
         is_valid_json($json, 'processwebhook with invalid key returns valid json');
         #diag $json;
