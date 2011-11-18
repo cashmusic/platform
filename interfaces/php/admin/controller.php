@@ -27,12 +27,6 @@ function cash_admin_autoloadCore($classname) {
 }
 spl_autoload_register('cash_admin_autoloadCore');
 
-$api_details = AdminHelper::getAPIDetails();
-if ($api_details) {
-	define('CASH_API_URL', $api_details['api_url']);
-	define('CASH_API_VERSION', $api_details['api_version']);
-}
-
 // make a few objects to use throughout the pages
 $cash_admin = new AdminCore();
 

@@ -52,6 +52,8 @@
 		// define constants (use sparingly!)
 		$root = realpath(dirname(__FILE__) . '/../..');
 		define('CASH_PLATFORM_ROOT', $root);
+		$cash_db_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
+		define('CASH_API_URL', $cash_db_settings['apilocation']);
 		
 		// set up auto-load
 		spl_autoload_register('CASHSystem::autoloadClasses');
