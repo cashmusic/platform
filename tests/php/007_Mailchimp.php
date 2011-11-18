@@ -54,11 +54,17 @@ class MailchimpTests extends UnitTestCase {
 		$time = time();
 		$api_key = getenv("MAILCHIMP_API_KEY");
 		if($api_key) {
+			$api_credentials = CASHSystem::getAPICredentials();
+			$list_id = "100";
+			// TODO: fix this crap
+			//$webhook_api_url = CASH_API_URL . 'people/processwebhook/origin/com.mailchimp/list_id/' . $list_id . '/api_key/' . $api_credentials['api_key'];
+			$webhook_api_url = 'http://cashmusic.org/people/processwebhook/origin/com.mailchimp/list_id/' . $list_id . '/api_key/' . $api_credentials['api_key'];
+
 			$mc = new MailchimpSeed(false, false, $api_key);
-			$rc = $mc->listWebhookAdd($test_id, 'http://cashmusic.com/api/not/yet');
+			$rc = $mc->listWebhookAdd($test_id, $webhook_api_url);
 			$this->assertTrue($rc);
 
-			$rc = $mc->listWebhookDel($test_id, 'http://cashmusic.com/api/not/yet');
+			$rc = $mc->listWebhookDel($test_id, $webhook_api_url);
 			$this->assertTrue($rc);
 		} else {
 			fwrite(STDERR,"Mailchimp api key not found, skipping mailchimp tests\n");
