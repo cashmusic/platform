@@ -16,6 +16,9 @@ VALUES (100, 'Portugal List', 'The demo list for Portugal. The Man’s email dow
 INSERT INTO `user_lists` (`id`, `name`, `description`, `user_id`, `settings_id`, `creation_date`, `modification_date`)
 VALUES (101, 'Iron & Wine List', 'The demo list for Iron & Wine’s email contest demo.', 1, 0, 1313045289, 0);
 
+INSERT INTO `user_lists` (`id`, `name`, `description`, `user_id`, `settings_id`, `creation_date`, `modification_date`)
+VALUES (99, 'no-user list', 'This list is assigned to a non-existent user', 123, 0, 1313045389, 0);
+
 INSERT INTO `live_venues` (`id`, `name`, `address1`, `address2`, `city`, `region`, `country`, `postalcode`, `url`, `phone`, `creation_date`) 
 VALUES (100,'Varsity Theatre','1308 4TH STREET SE','','Minneapolis','MN','USA','55414','http://www.varsitytheater.org/','(612) 604-0222',1316730630);
 
