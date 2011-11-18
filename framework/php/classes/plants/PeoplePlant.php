@@ -580,7 +580,21 @@ class PeoplePlant extends PlantBase {
 	}
 
 	public function processWebhook($incoming_request) {
-		return $incoming_request;
+		switch ($incoming_request['origin']) {
+			case 'com.mailchimp':
+				$mailchimp_type = $incoming_request['type'];
+				$mailchimp_details = $incoming_request['data'];
+				if ($mailchimp_type == 'subscribe') {
+					// add user to list
+				} else if ($mailchimp_type == 'unsubscribe' || $mailchimp_type == 'cleaned') {
+					// move user from active to inactive
+				} else if ($mailchimp_type ==  'upemail') {
+					// update email address with data in $mailchimp_details
+				}
+				break;
+			default:
+				return false;
+		}
 	}
 } // END class 
 ?>
