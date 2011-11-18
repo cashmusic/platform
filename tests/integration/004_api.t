@@ -103,11 +103,31 @@ sub test_getlistinfo_nonexistent {
     }
 }
 
+sub test_getlistinfo_on_somebody_elses_list {
+    my (@methods) = @_;
+    for my $method (@methods) {
+        my $key = "42";
+        # list 99 is owned by a non-existent user
+        my $url = "$base/interfaces/php/api/verbose/people/getlistinfo/api_key/$key/id/99";
+        mech->$method($url);
+        my $json = mech->content;
+        is_valid_json($json, "$url returns valid json");
+        diag $json;
+
+        my $response = $j->from_json($json);
+        cmp_ok($response->{status_code},'==',400,"$method 400 status_code from getlistinfo");
+        cmp_ok($response->{contextual_message},'ne','unknown action','contextual_message != unknown action');
+        cmp_ok($response->{request_type},'eq','people','request_type = people');
+        cmp_ok($response->{action},'eq','getlistinfo','action = getlistinfo');
+    }
+}
+
 my @methods = qw/get post/;
 test_processwebhook(@methods);
 test_processwebhook_invalid_key(@methods);
 test_getlistinfo(@methods);
 test_getlistinfo_nonexistent(@methods);
+test_getlistinfo_on_somebody_elses_list(@methods);
 
 {
     mech->get("$base/interfaces/php/api/verbose/system/");
