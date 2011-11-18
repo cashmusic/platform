@@ -286,9 +286,11 @@ class PeoplePlant extends PlantBase {
 					}
 
 					// webhooks
-					$api_credentials = $cash_admin->getAPICredentials();
-					$webhook_api_url = CASH_API_URL . 'people/processwebhook/origin/com.mailchimp/list_id/' . $list_id . '/api_key/' . $api_credentials['api_key'];
-					$rc = $mc->webhookAdd($list_id, $webhook_api_url, $actions=null, $sources=null);
+					$api_credentials = CASHSystem::getAPICredentials();
+					// TODO: fix this crap
+					//$webhook_api_url = CASH_API_URL . 'people/processwebhook/origin/com.mailchimp/list_id/' . $list_id . '/api_key/' . $api_credentials['api_key'];
+					$webhook_api_url = 'http://cashmusic.org/people/processwebhook/origin/com.mailchimp/list_id/' . $list_id . '/api_key/' . $api_credentials['api_key'];
+					$rc = $mc->listWebhookAdd($list_id, $webhook_api_url, $actions=null, $sources=null);
 
 					if (!$rc) {
 						// TODO: What do we do when adding a webhook fails?
