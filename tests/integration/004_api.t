@@ -71,9 +71,10 @@ sub test_getlistinfo {
     my (@methods) = @_;
     for my $method (@methods) {
         my $key = "42";
-        mech->$method("$base/interfaces/php/api/verbose/people/getlistinfo/api_key/$key/id/100");
+        my $url = "$base/interfaces/php/api/verbose/people/getlistinfo/api_key/$key/id/100";
+        mech->$method($url);
         my $json = mech->content;
-        is_valid_json($json, 'getlistinfo json');
+        is_valid_json($json, "$url returns valid json");
         #diag $json;
 
         my $response = $j->from_json($json);
@@ -84,10 +85,29 @@ sub test_getlistinfo {
     }
 }
 
+sub test_getlistinfo_nonexistent {
+    my (@methods) = @_;
+    for my $method (@methods) {
+        my $key = "42";
+        my $url = "$base/interfaces/php/api/verbose/people/getlistinfo/api_key/$key/id/69";
+        mech->$method($url);
+        my $json = mech->content;
+        is_valid_json($json, "$url returns valid json");
+        #diag $json;
+
+        my $response = $j->from_json($json);
+        cmp_ok($response->{status_code},'==',400,"$method 400 status_code from getlistinfo");
+        cmp_ok($response->{contextual_message},'ne','unknown action','contextual_message != unknown action');
+        cmp_ok($response->{request_type},'eq','people','request_type = people');
+        cmp_ok($response->{action},'eq','getlistinfo','action = getlistinfo');
+    }
+}
+
 my @methods = qw/get post/;
 test_processwebhook(@methods);
 test_processwebhook_invalid_key(@methods);
 test_getlistinfo(@methods);
+test_getlistinfo_nonexistent(@methods);
 
 {
     mech->get("$base/interfaces/php/api/verbose/system/");
