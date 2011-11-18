@@ -9,38 +9,41 @@ class MailchimpTests extends UnitTestCase {
 		// an already-created list for testing
 		$test_id = "b607c6d911";
 		if($api_key) {
-			// Not optimal
-			$mc = new MailchimpSeed(false, false, $api_key);
+			$c = new CASHSettings();
+			$settings_id = $c->setSettings('MailChimp', 'com.mailchimp',
+				array( "key" => $api_key, "list" => $test_id ) );
+
+			$mc = new MailchimpSeed(false, $settings_id);
 			$this->assertIsa($mc, 'MailchimpSeed');
 			$this->assertTrue($mc->url);
 			$this->assertTrue($mc->lists());
-			$webhooks = $mc->listWebhooks($test_id);
+			$webhooks = $mc->listWebhooks();
 			$this->assertTrue(isset($webhooks));
-			$members = $mc->listMembers($test_id);
+			$members = $mc->listMembers();
 			$this->assertTrue($members);
 			$total1 = $members['total'];
 			$this->assertTrue($total1);
 			$this->assertTrue($members['data'][0]['email'] == 'duke@leto.net');
 			$test_email = "duke$time@cashmusic.org";
 
-			$rc = $mc->listSubscribe($test_id, $test_email, null, null, $optin=false);
+			$rc = $mc->listSubscribe($test_email, null, null, $optin=false);
 			$this->assertTrue($rc);
 			if (!$rc) {
 				fwrite(STDERR,"Failed to add $test_email to list $test_id");
 				exit(1);
 			}
-			$members2 = $mc->listMembers($test_id);
+			$members2 = $mc->listMembers();
 			$this->assertTrue($members2);
 			$this->assertTrue($members2['total'] > $total1 );
 
-			$rc = $mc->listUnsubscribe($test_id, $test_email);
+			$rc = $mc->listUnsubscribe($test_email);
 			$this->assertTrue($rc);
 			if (!$rc) {
 				fwrite(STDERR,"Failed to remove $test_email from list $test_id");
 				exit(1);
 			}
 
-			$members3 = $mc->listMembers($test_id);
+			$members3 = $mc->listMembers();
 			$this->assertTrue($members3);
 			$this->assertTrue($members3['total'] == $total1 );
 		} else {
@@ -61,10 +64,10 @@ class MailchimpTests extends UnitTestCase {
 			$webhook_api_url = 'http://cashmusic.org/people/processwebhook/origin/com.mailchimp/list_id/' . $list_id . '/api_key/' . $api_credentials['api_key'];
 
 			$mc = new MailchimpSeed(false, false, $api_key);
-			$rc = $mc->listWebhookAdd($test_id, $webhook_api_url);
+			$rc = $mc->listWebhookAdd($webhook_api_url);
 			$this->assertTrue($rc);
 
-			$rc = $mc->listWebhookDel($test_id, $webhook_api_url);
+			$rc = $mc->listWebhookDel($webhook_api_url);
 			$this->assertTrue($rc);
 		} else {
 			fwrite(STDERR,"Mailchimp api key not found, skipping mailchimp tests\n");

@@ -19,7 +19,7 @@ class PeoplePlantTests extends UnitTestCase {
 			// editList, then verify it worked
 			// deleteList, then verify local list is removed and remote list is unchanged
 			$c = new CASHSettings();
-			$c->setSettings('MailChimp', 'com.mailchimp',
+			$settings_id = $c->setSettings('MailChimp', 'com.mailchimp',
 				array( "key", $api_key, "list", $test_id) );
 		}
 	}
