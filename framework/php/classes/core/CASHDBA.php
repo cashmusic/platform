@@ -279,7 +279,7 @@ class CASHDBA {
 				. "ORDER BY count DESC";
 				break;
 			case 'PeoplePlant_getAnalytics_membership':
-				$query = "SELECT COUNT(*) AS total, COUNT(CASE WHEN creation_date > " . (time() - 604800) . " THEN 1 END) AS last_week"
+				$query = "SELECT COUNT(*) AS total, COUNT(CASE WHEN active = 1 THEN 1 END) AS active, COUNT(CASE WHEN active = 0 THEN 1 END) AS inactive, COUNT(CASE WHEN creation_date > " . (time() - 604800) . " THEN 1 END) AS last_week"
 				. "FROM user_lists_members"
 				. "WHERE list_id = :list_id";
 				break;
