@@ -18,6 +18,9 @@ class PeoplePlantTests extends UnitTestCase {
 			// add syncing from a local list to $test_id mailchimp list
 			// editList, then verify it worked
 			// deleteList, then verify local list is removed and remote list is unchanged
+			$c = new CASHSettings();
+			$c->setSettings('MailChimp', 'com.mailchimp',
+				array( "key", $api_key, "list", $test_id) );
 		}
 	}
 }
