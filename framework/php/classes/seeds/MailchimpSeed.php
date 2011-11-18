@@ -22,23 +22,26 @@ class MailchimpSeed extends SeedBase {
 			echo "\n\tMsg=".$this->api->errorMessage."\n";
 		}
 	}
-	public function __construct($user_id, $settings_id, $api_key=false) {
+	public function __construct($user_id, $settings_id) {
 		$this->settings_type = 'com.mailchimp';
-		$this->connectDB();
 		require_once(CASH_PLATFORM_ROOT.'/lib/mailchimp/MCAPI.class.php');
 
-		if ($api_key) {
-			$this->key = $api_key;
-		} else {
-			$this->settings_id = $settings_id;
-			$this->getCASHSettings();
-			$this->key = $this->settings->getSetting('key');
-			$this->list_id = $this->settings->getSetting('list');
-		}
-		$this->api = new MCAPI($this->key);
+		$this->settings_id        = $settings_id;
+		$this->connectDB();
+		if ($this->getCASHSettings()) {
+			$this->key                = $this->settings->getSetting('key');
+			$this->list_id            = $this->settings->getSetting('list');
+			$this->api                = new MCAPI($this->key);
 
-		$parts = explode("-", $this->key);
-		$this->url = 'http://' . $parts[1] . '.api.mailchimp.com/1.3/';
+			if ($this->key) {
+				$parts = explode("-", $this->key);
+				$this->url = 'http://' . $parts[1] . '.api.mailchimp.com/1.3/';
+			} else {
+				print "API KEY NOT FOUND\n";
+			}
+		} else {
+			print "could not get cash settings!\n";
+		}
 	}
 
 	public function getListId() {
