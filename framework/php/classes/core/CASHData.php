@@ -559,13 +559,18 @@
 	 *
 	 * @return string or false
 	 */protected function getConnectionType($connection_id) {
-		if ($this->settings = new CASHSettings('false',$connection_id)) {
-			$connection = $this->settings->getSettings();
-			if ($connection) {
-				return $connection['type'];
-			} else {
-				return false;
-			}
+		$result = $this->db->getData(
+			'settings',
+			'type',
+			array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $connection_id
+				)
+			)
+		);
+		if ($result) {
+			return $result[0]['type'];
 		} else {
 			return false;
 		}
