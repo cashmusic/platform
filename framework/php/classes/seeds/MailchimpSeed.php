@@ -12,7 +12,7 @@
  *
  **/
 class MailchimpSeed extends SeedBase {
-	protected $api;
+	private $api;
 	public $url, $key, $list_id;
 
 	private function handleError() {
@@ -24,23 +24,22 @@ class MailchimpSeed extends SeedBase {
 	}
 	public function __construct($user_id, $settings_id) {
 		$this->settings_type = 'com.mailchimp';
-		require_once(CASH_PLATFORM_ROOT.'/lib/mailchimp/MCAPI.class.php');
-
-		$this->settings_id        = $settings_id;
-		$this->connectDB();
+		$this->user_id = $user_id;
+		$this->settings_id = $settings_id;
 		if ($this->getCASHSettings()) {
+			require_once(CASH_PLATFORM_ROOT.'/lib/mailchimp/MCAPI.class.php');
 			$this->key                = $this->settings->getSetting('key');
 			$this->list_id            = $this->settings->getSetting('list');
 			$this->api                = new MCAPI($this->key);
-
+			
 			if ($this->key) {
 				$parts = explode("-", $this->key);
 				$this->url = 'http://' . $parts[1] . '.api.mailchimp.com/1.3/';
 			} else {
-				print "API KEY NOT FOUND\n";
+				// echo "API KEY NOT FOUND\n";
 			}
 		} else {
-			print "could not get cash settings!\n";
+			echo "could not get cash settings!\n";
 		}
 	}
 

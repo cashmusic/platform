@@ -3,17 +3,22 @@
 require_once('tests/php/base.php');
 
 class MailchimpTests extends UnitTestCase {
+	private $mailchimp_settings_id, 
+			$test_id='b607c6d911', // an already-created list for testing
+			$cash_user_id=1, // arbitrary user id so settings/queries match
+			$api_key=false;
+	
+	function __construct() {
+		$this->api_key = getenv("MAILCHIMP_API_KEY");
+		$c = new CASHSettings($this->cash_user_id); // the '1' sets a user id=1
+		$this->mailchimp_settings_id = $c->setSettings('MailChimp', 'com.mailchimp',
+			array( "key" => $this->api_key, "list" => $this->test_id ) );
+	}
+	
 	function testMailchimpSeed(){
 		$time = time();
-		$api_key = getenv("MAILCHIMP_API_KEY");
-		// an already-created list for testing
-		$test_id = "b607c6d911";
-		if($api_key) {
-			$c = new CASHSettings();
-			$settings_id = $c->setSettings('MailChimp', 'com.mailchimp',
-				array( "key" => $api_key, "list" => $test_id ) );
-
-			$mc = new MailchimpSeed(false, $settings_id);
+		if($this->api_key) {
+			$mc = new MailchimpSeed($this->cash_user_id, $this->mailchimp_settings_id); // the '1' sets a user id=1
 			$this->assertIsa($mc, 'MailchimpSeed');
 			$this->assertTrue($mc->url);
 			$this->assertTrue($mc->lists());
@@ -52,18 +57,14 @@ class MailchimpTests extends UnitTestCase {
 		}
 	}
 	function testMailchimpWebhooks(){
-		// an already-created list for testing
-		$test_id = "b607c6d911";
 		$time = time();
-		$api_key = getenv("MAILCHIMP_API_KEY");
-		if($api_key) {
+		if($this->api_key) {
 			$api_credentials = CASHSystem::getAPICredentials();
 			$list_id = "100";
 			// TODO: fix this crap
-			//$webhook_api_url = CASH_API_URL . 'people/processwebhook/origin/com.mailchimp/list_id/' . $list_id . '/api_key/' . $api_credentials['api_key'];
-			$webhook_api_url = 'http://cashmusic.org/people/processwebhook/origin/com.mailchimp/list_id/' . $list_id . '/api_key/' . $api_credentials['api_key'];
-
-			$mc = new MailchimpSeed(false, false, $api_key);
+			$webhook_api_url = CASH_API_URL . 'people/processwebhook/origin/com.mailchimp/list_id/' . $list_id . '/api_key/' . $api_credentials['api_key'];
+			
+			$mc = new MailchimpSeed($this->cash_user_id, $this->mailchimp_settings_id);
 			$rc = $mc->listWebhookAdd($webhook_api_url);
 			$this->assertTrue($rc);
 
