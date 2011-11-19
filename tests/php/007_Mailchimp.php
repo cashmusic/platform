@@ -66,11 +66,27 @@ class MailchimpTests extends UnitTestCase {
 			$webhook_api_url = 'http://dev.cashmusic.org/?' . $list_id . '/api_key/' . $api_credentials['api_key'];
 			
 			$mc = new MailchimpSeed($this->cash_user_id, $this->mailchimp_settings_id);
-			$rc = $mc->listWebhookAdd($webhook_api_url);
+
+			$webhooks1 = $mc->listWebhooks();
+			$this->assertTrue(count($webhooks1) == 0, 'zero webhooks initially');
+
+			$rc        = $mc->listWebhookAdd($webhook_api_url);
 			$this->assertTrue($rc);
 
-			$rc = $mc->listWebhookDel($webhook_api_url);
+			$webhooks2 = $mc->listWebhooks();
+			$this->assertIsa($webhooks2, 'Array');
+			$this->assertTrue($webhooks2);
+			$this->assertTrue(count($webhooks2) == 1, 'added a single webhook');
+			$this->assertTrue($webhooks2[0]);
+			$this->assertTrue($webhooks2[0]['url']);
+			$this->assertPattern('/api_key/i', $webhooks2[0]['url'], 'url has api_key in it');
+
+			$rc        = $mc->listWebhookDel($webhook_api_url);
 			$this->assertTrue($rc);
+
+			$webhooks3 = $mc->listWebhooks();
+			$this->assertEqual($webhooks1, $webhooks3, 'webhooks get deleted properly');
+
 		} else {
 			fwrite(STDERR,"Mailchimp api key not found, skipping mailchimp tests\n");
 			return;
