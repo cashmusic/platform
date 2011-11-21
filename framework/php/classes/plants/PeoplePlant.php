@@ -534,51 +534,18 @@ class PeoplePlant extends PlantBase {
 	}
 
 	public function setAddressVerification($address,$list_id) {
-		/*
-		 *
-		 * --- MUST BE REWRITTEN, MAILER FUNCTIONS NEEDED IN THE CORE
-		 *
-		*/
 		$verification_code = time();
-		$result = $this->db->setData(
-			'email_addresses',
-			array(
-				'verification_code' => $verification_code
-			),
-			array(
-				"email_address='$address'",
-				"list_id=$list_id"
-			)
-		);
-		if ($result) { 
-			return $verification_code;
-		} else {
-			return false;
-		}
-	}
-
-	public function doAddressVerification($address,$list_id,$verification_code) {
-		/*
-		 *
-		 * --- MUST BE REWRITTEN, MAILER FUNCTIONS NEEDED IN THE CORE
-		 *
-		*/
-		$alreadyverified = $this->addressIsVerified($address);
-		if ($alreadyverified == 1) {
-			$addressInfo = $this->getAddressListInfo($address);
-			return $addressInfo['id'];
-		} else {
-			$result = $this->db->getData(
-				'email_addresses',
-				'*',
+		$user_id = $this->getUserIDForAddress($address);
+		if ($user_id) {
+			$result = $this->db->setData(
+				'list_members',
 				array(
-					"email_address" => array(
+					'verification_code' => $verification_code
+				),
+				array(
+					"user_id" => array(
 						"condition" => "=",
-						"value" => $address
-					),
-					"verification_code" => array(
-						"condition" => "=",
-						"value" => $verification_code
+						"value" => $user_id
 					),
 					"list_id" => array(
 						"condition" => "=",
@@ -586,24 +553,56 @@ class PeoplePlant extends PlantBase {
 					)
 				)
 			);
-			if ($result !== false) { 
-				$id = $result[0]['id'];
-				$result = $this->db->setData(
-					'email_addresses',
-					array(
-						'verified' => 1
-					),
-					"id=$id"
-				);
-				if ($result) { 
-					return $id;
-				} else {
-					return false;
-				}
+			if ($result) { 
+				return $verification_code;
+			}
+		}	
+		return false;
+	}
+
+	public function doAddressVerification($address,$list_id,$verification_code) {
+		$user_id = $this->getUserIDForAddress($address);
+		if ($user_id) {
+			$alreadyverified = $this->addressIsVerified($address,$list_id);
+			if ($alreadyverified == 1) {
+				$addressInfo = $this->getAddressListInfo($address,$list_id);
+				return $addressInfo['id'];
 			} else {
-				return false;
+				$result = $this->db->getData(
+					'list_members',
+					'id',
+					array(
+						"user_id" => array(
+							"condition" => "=",
+							"value" => $user_id
+						),
+						"verification_code" => array(
+							"condition" => "=",
+							"value" => $verification_code
+						),
+						"list_id" => array(
+							"condition" => "=",
+							"value" => $list_id
+						)
+					)
+				);
+				if ($result !== false) { 
+					$id = $result[0]['id'];
+					$result = $this->db->setData(
+						'list_members',
+						array(
+							'verified' => 1
+						),
+						"id=$id"
+					);
+					if ($result) { 
+						//CASHSystem::sendEmail($subject,$fromaddress,$address,$message_text,$message_title);
+						return $id;
+					}
+				}
 			}
 		}
+		return false;
 	}
 
 	/**
