@@ -114,18 +114,26 @@ sub test_getlistinfo_on_somebody_elses_list {
     }
 }
 
+sub test_verbose_system {
+    my (@methods) = @_;
+    for my $method (@methods) {
+        my $json     = json_ok("$base/interfaces/php/api/verbose/system/", $method);
+        my $response = $j->from_json($json);
+        cmp_ok($response->{status_code},'==',400,'got a 400 status_code');
+        cmp_ok($response->{api_version},'>=',1,'got an API version >= 1');
+        cmp_ok($response->{timestamp},'>=',0,'got an non-zero timestamp');
+    }
+}
+
+# actually run tests
+
 my @methods = qw/get post/;
+
 test_processwebhook(@methods);
 test_processwebhook_invalid_key(@methods);
 test_getlistinfo(@methods);
 test_getlistinfo_nonexistent(@methods);
 test_getlistinfo_on_somebody_elses_list(@methods);
+test_verbose_system(@methods);
 
-{
-    my $json     = json_ok("$base/interfaces/php/api/verbose/system/");
-    my $response = $j->from_json($json);
-    cmp_ok($response->{status_code},'==',400,'got a 400 status_code');
-    cmp_ok($response->{api_version},'>=',1,'got an API version >= 1');
-    cmp_ok($response->{timestamp},'>=',0,'got an non-zero timestamp');
-}
 done_testing;
