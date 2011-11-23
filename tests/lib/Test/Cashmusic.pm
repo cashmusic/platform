@@ -43,10 +43,11 @@ sub login_ok {
 }
 
 sub json_ok {
-    my ($url) = @_;
-    mech->get($url);
+    my ($url, $method) = @_;
+    $method ||= 'get';
+    mech->$method($url);
     my $json = mech->content;
-    is_valid_json($json,"$url is valid JSON");
+    is_valid_json($json,"$method $url is valid JSON");
     diag $json if $ENV{CASHMUSIC_DEBUG_JSON};
     # return the JSON for further testing
     return $json;
