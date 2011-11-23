@@ -7,3 +7,8 @@ sqlite_db:
 
 test:
 	php tests/php/all.php
+
+integration_test:
+	prove -lrv tests/integration
+
+fulltest: test integration_test
