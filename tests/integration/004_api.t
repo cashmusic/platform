@@ -12,8 +12,9 @@ use JSON::Any;
 my $j = JSON::Any->new;
 my $base = $ENV{CASHMUSIC_TEST_URL} || 'http://localhost:80';
 
-{
-    for my $method (qw/get post/) {
+sub test_basic {
+    my (@methods) = @_;
+    for my $method (@methods) {
         my $json = json_ok("$base/interfaces/php/api/", $method);
 
         my $response = $j->from_json($json);
@@ -22,8 +23,9 @@ my $base = $ENV{CASHMUSIC_TEST_URL} || 'http://localhost:80';
     }
 }
 
-{
-    for my $method (qw/get post/) {
+sub test_basic_verbose {
+    my (@methods) = @_;
+    for my $method (@methods) {
         my $json = json_ok("$base/interfaces/php/api/verbose", $method);
 
         my $response = $j->from_json($json);
@@ -32,6 +34,17 @@ my $base = $ENV{CASHMUSIC_TEST_URL} || 'http://localhost:80';
         cmp_ok($response->{timestamp},'>=',0,'got an non-zero timestamp');
         ok( defined $response->{contextual_message}, 'contextual_message is present' );
         ok( defined $response->{status_message}, 'status_message is present' );
+    }
+}
+
+sub test_basic_invalid {
+    my (@methods) = @_;
+    for my $method (@methods) {
+        my $json = json_ok("$base/interfaces/php/api/junk", $method);
+
+        my $response = $j->from_json($json);
+        cmp_ok($response->{api_version},'>=',1,'got an API version >= 1');
+        cmp_ok($response->{greeting},'eq','hi.','was greeted properly');
     }
 }
 
@@ -129,6 +142,9 @@ sub test_verbose_system {
 
 my @methods = qw/get post/;
 
+test_basic(@methods);
+test_basic_verbose(@methods);
+test_basic_invalid(@methods);
 test_processwebhook(@methods);
 test_processwebhook_invalid_key(@methods);
 test_getlistinfo(@methods);
