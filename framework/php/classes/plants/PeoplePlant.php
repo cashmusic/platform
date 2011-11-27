@@ -485,7 +485,7 @@ class PeoplePlant extends PlantBase {
 								case 'com.mailchimp':
 									$mc = $api_connection['api'];
 									// TODO: this is currently hardcoded to require a double opt-in
-									$mc->listSusbcribe($address, $merge_vars=null, $email_type=null, $double_optin=true);
+									$mc->listSubscribe($address, $merge_vars=null, $email_type=null, $double_optin=true);
 									// TODO: test for webhook add failure...try again?
 									break;
 							}
@@ -534,7 +534,7 @@ class PeoplePlant extends PlantBase {
 				switch($api_connection['connection_type']) {
 					case 'com.mailchimp':
 						$mc = $api_connection['api'];
-						$mc->listUnsusbcribe($address);
+						$mc->listUnsubscribe($address);
 						break;
 				}
 			}
