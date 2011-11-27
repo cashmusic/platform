@@ -42,6 +42,11 @@ function rrmdir($dir) {
 	} 
 }
 
+function getBaseURL() {
+	return 'http'.((empty($_SERVER['HTTPS'])&&$_SERVER['SERVER_PORT']!=443)?'':'s') 
+		  .'://'.$_SERVER['HTTP_HOST'];
+}
+
 function determinedCopy($source,$dest,$retries=3) {
 	$retries++;
 	if (!$_SESSION['copying']) {
@@ -487,6 +492,7 @@ if (!isset($_POST['installstage'])) {
 				
 				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','driver = "mysql','driver = "sqlite') || 
 				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','database = "seed','database = "cashmusic.sqlite') || 
+				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','apilocation = "http://localhost:8888/interfaces/php/api/','apilocation = "' . getBaseURL() . str_replace('/admin', '/api', $admin_dir)) || 
 				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $user_settings['systemsalt'])
 			) {
 				echo "<h1>Oh. Shit. Something's wrong.</h1><p>We had trouble editing a few files. Please try again.</p>";
