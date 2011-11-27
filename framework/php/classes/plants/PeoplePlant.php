@@ -181,10 +181,7 @@ class PeoplePlant extends PlantBase {
 			)
 		);
 		if ($result) {
-			$rc = $this->doListSync($list_id);
-			if (!$rc) {
-				// TODO: syncing failed, what now?
-			}
+			$this->manageWebhooks($list_id,'add');
 		}
 		return $result;
 	}
@@ -213,10 +210,8 @@ class PeoplePlant extends PlantBase {
 			)
 		);
 		if ($result) {
-			$rc = $this->doListSync($list_id);
-			if (!$rc) {
-				// TODO: syncing failed, what now?
-			}
+			$this->manageWebhooks($list_id,'remove');
+			$this->manageWebhooks($list_id,'add');
 		}
 		return $result;
 	}
@@ -227,6 +222,7 @@ class PeoplePlant extends PlantBase {
 	 * @param {int} $list_id - the list
 	 * @return bool
 	 */public function deleteList($list_id) {
+		$this->manageWebhooks($list_id,'remove');
 		$result = $this->db->deleteData(
 			'user_lists',
 			array(
@@ -252,6 +248,38 @@ class PeoplePlant extends PlantBase {
 			}
 		}
 		return $result;
+	}
+
+	public function manageWebhooks($list_id,$action='add') {
+		$list_info     = $this->getListById($list_id);
+		// settings are called connections now
+		$connection_id = $list_info['settings_id'];
+		$user_id       = $list_info['user_id'];
+		
+		// if there is an external connection
+		if ($connection_id) {
+			$connection_type = $this->getConnectionType($connection_id);
+			switch($connection_type) {
+				case 'com.mailchimp':
+					$mc = new MailchimpSeed($user_id, $connection_id);
+					// webhooks
+					$api_credentials = CASHSystem::getAPICredentials();
+					$webhook_api_url = CASH_API_URL . 'people/processwebhook/origin/com.mailchimp/list_id/' . $list_id . '/api_key/' . $api_credentials['api_key'];
+					if ($action == 'remove') {
+						return $mc->listWebhookDel($webhook_api_url);
+					} else {
+						return $mc->listWebhookAdd($webhook_api_url, $actions=null, $sources=null);
+						// TODO: What do we do when adding a webhook fails?
+						// TODO: Try multiple times?
+					}
+				default:
+					// confused, return false
+					return false;
+			}
+		} else {
+			// no connection, simply return true
+			return true;
+		}
 	}
 
 	/**
@@ -283,18 +311,6 @@ class PeoplePlant extends PlantBase {
 						// TODO: implement these functions
 						$this->addToRemoteList($list_id, $local_diff);
 						$this->addToLocalList($list_id, $remote_diff);
-					}
-
-					// webhooks
-					$api_credentials = CASHSystem::getAPICredentials();
-					// TODO: fix this crap
-					$webhook_api_url = CASH_API_URL . 'people/processwebhook/origin/com.mailchimp/list_id/' . $list_id . '/api_key/' . $api_credentials['api_key'];
-					$rc = $mc->listWebhookAdd($webhook_api_url, $actions=null, $sources=null);
-
-					if (!$rc) {
-						// TODO: What do we do when adding a webhook fails?
-						// TODO: Try multiple times?
-						return false;
 					}
 				default:
 					return false;
