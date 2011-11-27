@@ -13,13 +13,12 @@
  **/
 class MailchimpSeed extends SeedBase {
 	private $api;
-	public $url, $key, $list_id;
+	public $url, $key, $list_id, $error_code=false, $error_message=false;
 
 	private function handleError() {
 		if ($this->api->errorCode) {
-			// TODO: throw a proper error
-			echo "\n\tCode=".$this->api->errorCode;
-			echo "\n\tMsg=".$this->api->errorMessage."\n";
+			$this->error_code = $this->api->errorCode;
+			$this->error_message = $this->api->errorMessage;
 		}
 	}
 	public function __construct($user_id, $settings_id) {
@@ -50,25 +49,41 @@ class MailchimpSeed extends SeedBase {
 	public function lists() {
 		$lists = $this->api->lists();
 		$this->handleError();
-		return $lists;
+		if ($this->error_code !== false) {
+			return false;
+		} else {
+			return $lists;
+		}
 	}
 	// http://apidocs.mailchimp.com/api/1.3/listwebhooks.func.php
 	public function listWebhooks() {
 		$webhooks = $this->api->listWebhooks($this->list_id);
 		$this->handleError();
-		return $webhooks;
+		if ($this->error_code !== false) {
+			return false;
+		} else {
+			return $webhooks;
+		}
 	}
 	// http://apidocs.mailchimp.com/api/1.3/listwebhookadd.func.php
 	public function listWebhookAdd($url, $actions=null, $sources=null) {
 		$this->api->listWebhookAdd($this->list_id, $url, $actions, $sources);
 		$this->handleError();
-		return $this;
+		if ($this->error_code !== false) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 	// http://apidocs.mailchimp.com/api/1.3/listwebhookdel.func.php
 	public function listWebhookDel($url) {
 		$this->api->listWebhookDel($this->list_id, $url);
 		$this->handleError();
-		return $this;
+		if ($this->error_code !== false) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 	// http://apidocs.mailchimp.com/api/1.3/listmembers.func.php
 	public function listMembers() {
@@ -77,12 +92,21 @@ class MailchimpSeed extends SeedBase {
 		$since   = null;
 		$members = $this->api->listMembers($this->list_id, 'subscribed', $since, $page, $max);
 		$this->handleError();
-		return $members;
+		if ($this->error_code !== false) {
+			return false;
+		} else {
+			return $members;
+		}
 	}
 	// http://apidocs.mailchimp.com/api/1.3/listsubscribe.func.php
 	public function listSubscribe($email, $merge_vars=null, $email_type=null, $double_optin=true, $update_existing=false, $replace_interests=true, $send_welcome=false) {
 		$this->api->listSubscribe($this->list_id, $email, $merge_vars, $email_type, $double_optin, $update_existing, $replace_interests, $send_welcome);
-		return $this;
+		$this->handleError();
+		if ($this->error_code !== false) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 	// http://apidocs.mailchimp.com/api/1.3/listunsubscribe.func.php
 	public function listUnsubscribe($email) {
@@ -91,7 +115,11 @@ class MailchimpSeed extends SeedBase {
 		$send_notify  = 1;
 		$this->api->listUnsubscribe($this->list_id, $email, $delete, $send_goodbye, $send_notify);
 		$this->handleError();
-		return $this;
+		if ($this->error_code !== false) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 } // END class
 ?>
