@@ -39,9 +39,20 @@ class PeoplePlant extends PlantBase {
 					}
 					if (filter_var($this->request['address'], FILTER_VALIDATE_EMAIL)) {
 						if (isset($this->request['comment'])) {$initial_comment = $this->request['comment'];} else {$initial_comment = '';}
-						if (isset($this->request['verified'])) {$verified = $this->request['verified'];} else {$verified = 0;}
 						if (isset($this->request['name'])) {$name = $this->request['name'];} else {$name = 'Anonymous';}
-						$result = $this->addAddress($this->request['address'],$this->request['list_id'],$verified,$initial_comment,'',$name);
+						if (isset($this->request['element_id'])) {
+							$element_request = new CASHRequest(
+								array(
+									'cash_request_type' => 'element', 
+									'cash_action' => 'getelement',
+									'id' => $this->request['element_id']
+								)
+							);
+							$do_not_verify = (bool) $element_request->response['payload']['options']->do_not_verify;
+						} else {
+							$do_not_verify = false;
+						}
+						$result = $this->addAddress($this->request['address'],$this->request['list_id'],$do_not_verify,$initial_comment,'',$name);
 						if ($result) {
 							return $this->pushSuccess($this->request,'email address successfully added to list');
 						} else {
@@ -54,6 +65,21 @@ class PeoplePlant extends PlantBase {
 							'invalid email address'
 						);
 					}
+					break;
+				case 'verifyaddress':
+					if (!$this->requireParameters('address','list_id','verification_code')) return $this->sessionGetLastResponse();
+					$result = $this->doAddressVerification($this->request['address'],$this->request['list_id'],$this->request['verification_code']);
+					if ($result) {
+						return $this->pushSuccess($result,'success. lists array included in payload');
+					} else {
+						return $this->pushFailure('no lists were found or there was an error retrieving the elements');
+					}
+					break;
+				case 'checkverification':
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
+					if (!$this->requireParameters('address','list_id')) return $this->sessionGetLastResponse();
+					$result = $this->addressIsVerified($this->request['address'],$this->request['list_id']);
+					return $this->pushSuccess($result,'success. boolean included in payload');
 					break;
 				case 'getlistsforuser':
 					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
@@ -442,7 +468,7 @@ class PeoplePlant extends PlantBase {
 	 * @param {string} $additional_data -   any extra data (JSON, etc) a dev might pass with signup for later use
 	 * @param {string} $name -              if the user doesn't exist in the system this will be used as their display name
 	 * @return bool
-	 */public function addAddress($address,$list_id,$verified=0,$initial_comment='',$additional_data='',$name='Anonymous') {
+	 */public function addAddress($address,$list_id,$do_not_verify=false,$initial_comment='',$additional_data='',$name='Anonymous',$force_verification_url=false) {
 		if (filter_var($address, FILTER_VALIDATE_EMAIL)) {
 			// first check to see if the email is already on the list
 			$user_id = $this->getUserIDForAddress($address);
@@ -473,27 +499,44 @@ class PeoplePlant extends PlantBase {
 							'user_id' => $user_id,
 							'list_id' => $list_id,
 							'initial_comment' => $initial_comment,
-							'verified' => $verified,
+							'verified' => 0,
 							'active' => 1
 						)
 					);
 					if ($result) {
-						$api_connection = $this->getConnectionAPI($list_id);
-						$rc             = -1;
-						if ($api_connection) {
-							// connection found, api instantiated
-							switch($api_connection['connection_type']) {
-								case 'com.mailchimp':
-									$mc = $api_connection['api'];
-									// TODO: this is currently hardcoded to require a double opt-in
-									$rc = $mc->listSubscribe($address, $merge_vars=null, $email_type=null, $double_optin=true);
-									break;
+						if ($do_not_verify) {
+							$api_connection = $this->getConnectionAPI($list_id);
+							$rc             = -1;
+							if ($api_connection) {
+								// connection found, api instantiated
+								switch($api_connection['connection_type']) {
+									case 'com.mailchimp':
+										$mc = $api_connection['api'];
+										// TODO: this is currently hardcoded to require a double opt-in
+										$rc = $mc->listSubscribe($address, $merge_vars=null, $email_type=null, $double_optin=true);
+										break;
+								}
+								if (!$rc) {
+									// TODO: try again?
+								}
 							}
+						} else {
+							$list_details = $this->getListById($list_id);
+							$verification_code = $this->setAddressVerification($address,$list_id);
+							$verification_url = $force_verification_url;
+							if (!$verification_url) {
+								$verification_url = CASHSystem::getCurrentURL();
+							}
+							$verification_url .= '?cash_request_type=people&cash_action=verifyaddress&address=' . urlencode($address) . '&list_id=' . $list_id . '&verification_code=' . $verification_code;
+							CASHSystem::sendEmail(
+								'Complete sign-up for: ' . $list_details['name'],
+								CASHSystem::getDefaultEmail(),
+								$address,
+								'You requested to join the ' . $list_details['name'] . ' email list. If this message has been sent in error ignore it.'
+									. 'To complete your sign-up simply visit: ' . "\n\n" . $verification_url,
+								'Please confirm your membership'
+							);
 						}
-					}
-					if (!$rc) {
-						// TODO: try again?
-						return false;
 					}
 					return $result;
 				}
@@ -542,10 +585,9 @@ class PeoplePlant extends PlantBase {
 						$rc = $mc->listUnsubscribe($address);
 						break;
 				}
-			}
-			// TODO: try again?
-			if (!$rc) {
-				return false;
+				if (!$rc) {
+					// TODO: try again?
+				}
 			}
 			// useer marked inactive, webhook removal attempts made
 			return true;
@@ -601,10 +643,10 @@ class PeoplePlant extends PlantBase {
 	public function doAddressVerification($address,$list_id,$verification_code) {
 		$user_id = $this->getUserIDForAddress($address);
 		if ($user_id) {
-			$alreadyverified = $this->addressIsVerified($address,$list_id);
-			if ($alreadyverified == 1) {
-				$addressInfo = $this->getAddressListInfo($address,$list_id);
-				return $addressInfo['id'];
+			$already_verified = $this->addressIsVerified($address,$list_id);
+			if ($already_verified) {
+				$address_info = $this->getAddressListInfo($address,$list_id);
+				return $address_info['id'];
 			} else {
 				$result = $this->db->getData(
 					'list_members',
@@ -624,17 +666,36 @@ class PeoplePlant extends PlantBase {
 						)
 					)
 				);
-				if ($result !== false) { 
+				if ($result) { 
 					$id = $result[0]['id'];
 					$result = $this->db->setData(
 						'list_members',
 						array(
 							'verified' => 1
 						),
-						"id=$id"
+						array(
+							"id" => array(
+								"condition" => "=",
+								"value" => $id
+							)
+						)
 					);
 					if ($result) { 
-						//CASHSystem::sendEmail($subject,$fromaddress,$address,$message_text,$message_title);
+						$api_connection = $this->getConnectionAPI($list_id);
+						$rc             = -1;
+						if ($api_connection) {
+							// connection found, api instantiated
+							switch($api_connection['connection_type']) {
+								case 'com.mailchimp':
+									$mc = $api_connection['api'];
+									// TODO: this is currently hardcoded to require a double opt-in
+									$rc = $mc->listSubscribe($address, $merge_vars=null, $email_type=null, $double_optin=false);
+									break;
+							}
+							if (!$rc) {
+								// TODO: try again?
+							}
+						}
 						return $id;
 					}
 				}
