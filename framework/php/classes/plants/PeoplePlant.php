@@ -479,17 +479,21 @@ class PeoplePlant extends PlantBase {
 					);
 					if ($result) {
 						$api_connection = $this->getConnectionAPI($list_id);
+						$rc             = -1;
 						if ($api_connection) {
 							// connection found, api instantiated
 							switch($api_connection['connection_type']) {
 								case 'com.mailchimp':
 									$mc = $api_connection['api'];
 									// TODO: this is currently hardcoded to require a double opt-in
-									$mc->listSubscribe($address, $merge_vars=null, $email_type=null, $double_optin=true);
-									// TODO: test for webhook add failure...try again?
+									$rc = $mc->listSubscribe($address, $merge_vars=null, $email_type=null, $double_optin=true);
 									break;
 							}
 						}
+					}
+					if (!$rc) {
+						// TODO: try again?
+						return false;
 					}
 					return $result;
 				}
@@ -529,16 +533,20 @@ class PeoplePlant extends PlantBase {
 				}
 			} 
 			$api_connection = $this->getConnectionAPI($list_id);
+			$rc = -1;
 			if ($api_connection) {
 				// connection found, api instantiated
 				switch($api_connection['connection_type']) {
 					case 'com.mailchimp':
 						$mc = $api_connection['api'];
-						$mc->listUnsubscribe($address);
+						$rc = $mc->listUnsubscribe($address);
 						break;
 				}
 			}
-			// TODO: test for webhook removal failure...try again?
+			// TODO: try again?
+			if (!$rc) {
+				return false;
+			}
 			// useer marked inactive, webhook removal attempts made
 			return true;
 		} else {
