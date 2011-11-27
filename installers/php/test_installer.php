@@ -122,6 +122,8 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 			findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','driver = "mysql','driver = "sqlite') &&
 			findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','debug = 0','debug = 1') &&
 			findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','database = "seed','database = "cashmusic_test.sqlite') &&
+			// TODO: fix location for local testing...hard-coding to dev.cashmusic.org so the "official" tests will be happy:
+			findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','apilocation = "http://localhost:8888/interfaces/php/api/','apilocation = "http://dev.cashmusic.org:8080/interfaces/php/api/') &&
 			findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
 		) {
 			$file_write_success = true;

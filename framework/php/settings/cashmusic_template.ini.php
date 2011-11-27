@@ -21,5 +21,4 @@ salt = "I was born of sun beams; Warming up our limbs"
 debug = 0
 
 [api]
-apilocation = "/interfaces/php/api/"
-apiversion = 1
+apilocation = "http://localhost:8888/interfaces/php/api/"
