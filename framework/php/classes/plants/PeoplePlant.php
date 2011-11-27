@@ -249,8 +249,8 @@ class PeoplePlant extends PlantBase {
 		}
 		return $result;
 	}
-
-	public function manageWebhooks($list_id,$action='add') {
+	
+	public function getConnectionAPI($list_id) {
 		$list_info     = $this->getListById($list_id);
 		// settings are called connections now
 		$connection_id = $list_info['settings_id'];
@@ -262,6 +262,25 @@ class PeoplePlant extends PlantBase {
 			switch($connection_type) {
 				case 'com.mailchimp':
 					$mc = new MailchimpSeed($user_id, $connection_id);
+					return array('connection_type' => $connection_type, 'api' => $mc);
+					break;
+				default:
+					// unknown type
+					return false;
+			}
+		} else {
+			// no connection, return false
+			return false;
+		}
+	}
+
+	public function manageWebhooks($list_id,$action='add') {
+		$api_connection = $this->getConnectionAPI($list_id);
+		if ($api_connection) {
+			// connection found, api instantiated
+			switch($api_connection['connection_type']) {
+				case 'com.mailchimp':
+					$mc = $api_connection['api'];
 					// webhooks
 					$api_credentials = CASHSystem::getAPICredentials();
 					$webhook_api_url = CASH_API_URL . 'people/processwebhook/origin/com.mailchimp/list_id/' . $list_id . '/api_key/' . $api_credentials['api_key'];
@@ -272,6 +291,7 @@ class PeoplePlant extends PlantBase {
 						// TODO: What do we do when adding a webhook fails?
 						// TODO: Try multiple times?
 					}
+					break;
 				default:
 					// confused, return false
 					return false;
@@ -458,14 +478,16 @@ class PeoplePlant extends PlantBase {
 						)
 					);
 					if ($result) {
-						/* TODO: Check if there is an associated thing to sync */
-						// sync the new list data remotely
-						if (false) { // if false bullshit to remind about if statement and avoid executing code
-							$api = new MailchimpSeed();
-							// TODO: this is currently hardcoded to require a double opt-in
-							$rc = $api->listSusbcribe($list_id, $address, $merge_vars=null, $email_type=null, $double_optin=true);
-							if (!$rc) {
-								return false;
+						$api_connection = $this->getConnectionAPI($list_id);
+						if ($api_connection) {
+							// connection found, api instantiated
+							switch($api_connection['connection_type']) {
+								case 'com.mailchimp':
+									$mc = $api_connection['api'];
+									// TODO: this is currently hardcoded to require a double opt-in
+									$mc->listSusbcribe($address, $merge_vars=null, $email_type=null, $double_optin=true);
+									// TODO: test for webhook add failure...try again?
+									break;
 							}
 						}
 					}
@@ -502,31 +524,23 @@ class PeoplePlant extends PlantBase {
 						)
 					)
 				);
-				if ($result) {
-					/*
-					Check for list sync. If found, use the appropriate seed
-					to remove the user to the remote list
-					*/
-					$api = new Mailchimp();
-					$rc = $api->listUnsusbcribe($list_id, $address);
-					if (!$rc) {
-						return false;
-					}
+				if (!$result) {
+					return false; // couldn't remove from the list
 				}
-				return $result;
-			} else {
-				/*
-				user found on our list but already marked inactive. we should
-				now check to see if the list is synced to another list remotely. if
-				so, use the appropriate seed to remove user remotely
-				*/
-				$api = new Mailchimp();
-				$rc  = $api->listUnsusbcribe($list_id, $address);
-				if (!$rc) {
-					return false;
+			} 
+			$api_connection = $this->getConnectionAPI($list_id);
+			if ($api_connection) {
+				// connection found, api instantiated
+				switch($api_connection['connection_type']) {
+					case 'com.mailchimp':
+						$mc = $api_connection['api'];
+						$mc->listUnsusbcribe($address);
+						break;
 				}
-				return true;
 			}
+			// TODO: test for webhook removal failure...try again?
+			// useer marked inactive, webhook removal attempts made
+			return true;
 		} else {
 			// true for successful removal. user was never part of our list,
 			// do nothing, do not attempt to sync
