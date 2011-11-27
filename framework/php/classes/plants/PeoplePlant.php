@@ -195,6 +195,7 @@ class PeoplePlant extends PlantBase {
 	 * @param {int} $settings_id -  a third party connection with which the list should sync
 	 * @return id|false
 	 */public function editList($list_id,$name,$description,$settings_id=0) {
+		$this->manageWebhooks($list_id,'remove');
 		$result = $this->db->setData(
 			'user_lists',
 			array(
@@ -210,7 +211,6 @@ class PeoplePlant extends PlantBase {
 			)
 		);
 		if ($result) {
-			$this->manageWebhooks($list_id,'remove');
 			$this->manageWebhooks($list_id,'add');
 		}
 		return $result;
