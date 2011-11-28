@@ -70,7 +70,7 @@ sub test_processwebhook_invalid_key {
     for my $method (@methods) {
         my $key = "69";
         my $url = "$base/interfaces/php/api/verbose/people/processwebhook/origin/com.mailchimp/list_id/100/api_key/$key";
-        my $json = json_ok($url);
+        my $json = json_ok($url, $method);
 
         my $response = $j->from_json($json);
         cmp_ok($response->{status_code},'==',403,"$method 403 status_code from processwebhook");
@@ -86,7 +86,7 @@ sub test_getlistinfo {
     for my $method (@methods) {
         my $key = "42";
         my $url = "$base/interfaces/php/api/verbose/people/getlistinfo/api_key/$key/id/100";
-        my $json = json_ok($url);
+        my $json = json_ok($url, $method);
 
         my $response = $j->from_json($json);
         cmp_ok($response->{status_code},'==',200,"$method 200 status_code from getlistinfo");
@@ -101,7 +101,7 @@ sub test_getlistinfo_nonexistent {
     for my $method (@methods) {
         my $key = "42";
         my $url = "$base/interfaces/php/api/verbose/people/getlistinfo/api_key/$key/id/69";
-        my $json = json_ok($url);
+        my $json = json_ok($url, $method);
 
         my $response = $j->from_json($json);
         cmp_ok($response->{status_code},'==',400,"$method 400 status_code from getlistinfo");
@@ -117,7 +117,7 @@ sub test_getlistinfo_on_somebody_elses_list {
         my $key = "42";
         # list 99 is owned by a non-existent user
         my $url = "$base/interfaces/php/api/verbose/people/getlistinfo/api_key/$key/id/99";
-        my $json = json_ok($url);
+        my $json = json_ok($url, $method);
 
         my $response = $j->from_json($json);
         cmp_ok($response->{status_code},'==',400,"$method 400 status_code from getlistinfo");
