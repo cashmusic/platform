@@ -50,6 +50,7 @@
 		<input type="radio" name="comment_or_radio" class="checkorradio" value="none" checked="checked" /> Neither &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="comment" /> Comment &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="agreement" /> Agreement 
 		-->
 		<input type="hidden" name="comment_or_radio" value="none" />
+		<input type="hidden" name="do_not_verify" value="1" />
 
 		<div class="row_seperator">.</div>
 		<div>
@@ -75,7 +76,8 @@
 				'message_success' => $_POST['message_success'],
 				'emal_list_id' => $_POST['emal_list_id'],
 				'asset_id' => $_POST['asset_id'],
-				'comment_or_radio' => $_POST['comment_or_radio']
+				'comment_or_radio' => $_POST['comment_or_radio'],
+				'do_not_verify' => $_POST['do_not_verify']
 			),
 			'user_id' => $effective_user
 		)
