@@ -52,8 +52,8 @@
 		// define constants (use sparingly!)
 		$root = realpath(dirname(__FILE__) . '/../..');
 		define('CASH_PLATFORM_ROOT', $root);
-		$cash_db_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
-		define('CASH_API_URL', $cash_db_settings['apilocation']);
+		$cash_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
+		define('CASH_API_URL', $cash_settings['apilocation']);
 		
 		// set up auto-load
 		spl_autoload_register('CASHSystem::autoloadClasses');
@@ -226,13 +226,24 @@
 		}
 		return $url_contents;
 	}
-	
+
+	/*
+	 * Returns the system default email address from the settings ini file
+	 *
+	 * USAGE:
+	 * ASHSystem::getDefaultEmail();
+	 *
+	 */public static function getDefaultEmail() {
+		$cash_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
+		return $cash_settings['systememail'];
+	}
+
 	/*
 	 * Sends a plain text and HTML email for system things like email verification,
 	 * password resets, etc.
 	 *
 	 * USAGE:
-	 * ASHSystem::sendEmail('test email','CASH Music <info@cashmusic.org>','dev@cashmusic.org','message, with link: http://cashmusic.org/','title');
+	 * CASHSystem::sendEmail('test email','CASH Music <info@cashmusic.org>','dev@cashmusic.org','message, with link: http://cashmusic.org/','title');
 	 *
 	 */public static function sendEmail($subject,$fromaddress,$toaddress,$message_text,$message_title) {
 		//create a boundary string. It must be unique 
