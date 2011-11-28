@@ -53,7 +53,7 @@ sub test_processwebhook {
     for my $method (@methods) {
         my $key      = "42";
         my $url      = "$base/interfaces/php/api/verbose/people/processwebhook/origin/com.mailchimp/list_id/100/api_key/$key";
-        my $json     = json_ok($url);
+        my $json     = json_ok($url, $method);
         my $response = $j->from_json($json);
 
         { local $TODO = "returns 400 instead of 200";
