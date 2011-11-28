@@ -13,7 +13,8 @@ if (isset($_POST['doelementedit'])) {
 				'message_success' => $_POST['message_success'],
 				'emal_list_id' => $_POST['emal_list_id'],
 				'asset_id' => $_POST['asset_id'],
-				'comment_or_radio' => $_POST['comment_or_radio']
+				'comment_or_radio' => $_POST['comment_or_radio'],
+				'do_not_verify' => $_POST['do_not_verify']
 			)
 		)
 	);
