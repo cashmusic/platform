@@ -22,3 +22,6 @@ debug = 0
 
 [api]
 apilocation = "http://localhost:8888/interfaces/php/api/"
+
+[email]
+systememail = "info@cashmusic.org"

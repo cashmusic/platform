@@ -493,7 +493,8 @@ if (!isset($_POST['installstage'])) {
 				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','driver = "mysql','driver = "sqlite') || 
 				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','database = "seed','database = "cashmusic.sqlite') || 
 				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','apilocation = "http://localhost:8888/interfaces/php/api/','apilocation = "' . getBaseURL() . str_replace('/admin', '/api', $admin_dir)) || 
-				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $user_settings['systemsalt'])
+				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $user_settings['systemsalt']) ||
+				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','systememail = "info@cashmusic.org','systememail = "system@' . $_SERVER['SERVER_NAME'])
 			) {
 				echo "<h1>Oh. Shit. Something's wrong.</h1><p>We had trouble editing a few files. Please try again.</p>";
 				break;

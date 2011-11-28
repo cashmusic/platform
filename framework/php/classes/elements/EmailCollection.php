@@ -16,14 +16,31 @@ class EmailCollection extends ElementBase {
 	const name = 'Email Collection';
 
 	public function getMarkup() {
+		// define $markup to store all screen output
 		$markup = '';
+		// the default form and basic elements:
+		$default_markup = '<form id="cash_'. self::type .'_form_' . $this->element_id . '" class="cash_form '. self::type .'" method="post" action="">'
+			. '<input type="email" name="address" value="" class="cash_input cash_input_address" />'
+			. '<input type="hidden" name="cash_request_type" value="people" />'
+			. '<input type="hidden" name="cash_action" value="signup" />'
+			. '<input type="hidden" name="list_id" value="'.$this->options->emal_list_id.'" class="cash_input cash_input_list_id" />'
+			. '<input type="hidden" name="verified" value="1" class="cash_input cash_input_verified" />'
+			. '<input type="hidden" name="comment" value="" class="cash_input cash_input_comment" />'
+			. '<input type="submit" value="sign me up" class="button" /><br />'
+			. '</form>'
+			. '<div class="cash_notation">'
+			. $this->options->message_privacy
+			. '</div>';
 		switch ($this->status_uid) {
 			case 'people_signup_200':
+				// successful submit, return asset link
+				// first we "unlock" the asset, telling the platform it's okay to generate a link for non-private assets
 				$unlock_request = new CASHRequest(array(
 					'cash_request_type' => 'asset', 
 					'cash_action' => 'unlock',
 					'id' => $this->options->asset_id
 				));
+				// next we make the link
 				$asset_request = new CASHRequest(array(
 					'cash_request_type' => 'asset', 
 					'cash_action' => 'getasset',
@@ -40,35 +57,15 @@ class EmailCollection extends ElementBase {
 				$markup .= '</div>';
 				break;
 			case 'people_signup_400':
+				// error, likely in the email format. error message + default form
 				$markup = '<div class="cash_error '. self::type .'">'
 				. $this->options->message_invalid_email
 				. '</div>'
-				. '<form id="cash_'. self::type .'_form_' . $this->element_id . '" class="cash_form '. self::type .'" method="post" action="">'
-				. '<input type="email" name="address" value="" class="cash_input cash_input_address" />'
-				. '<input type="hidden" name="cash_request_type" value="people" />'
-				. '<input type="hidden" name="cash_action" value="signup" />'
-				. '<input type="hidden" name="list_id" value="'.$this->options->emal_list_id.'" class="cash_input cash_input_list_id" />'
-				. '<input type="hidden" name="verified" value="1" class="cash_input cash_input_verified" />'
-				. '<input type="hidden" name="comment" value="" class="cash_input cash_input_comment" />'
-				. '<input type="submit" value="sign me up" class="button" /><br />'
-				. '</form>'
-				. '<div class="cash_notation">'
-				. $this->options->message_privacy
-				. '</div>';
+				. $default_markup;
 				break;
 			default:
-				$markup = '<form id="cash_'. self::type .'_form_' . $this->element_id . '" class="cash_form '. self::type .'" method="post" action="">'
-				. '<input type="email" name="address" value="" class="cash_input cash_input_address" />'
-				. '<input type="hidden" name="cash_request_type" value="people" />'
-				. '<input type="hidden" name="cash_action" value="signup" />'
-				. '<input type="hidden" name="list_id" value="'.$this->options->emal_list_id.'" class="cash_input cash_input_list_id" />'
-				. '<input type="hidden" name="verified" value="1" class="cash_input cash_input_verified" />'
-				. '<input type="hidden" name="comment" value="" class="cash_input cash_input_comment" />'
-				. '<input type="submit" value="sign me up" class="button" /><br />'
-				. '</form>'
-				. '<div class="cash_notation">'
-				. $this->options->message_privacy
-				. '</div>';
+				// default form
+				$markup = $default_markup;
 		}
 		return $markup;	
 	}
