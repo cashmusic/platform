@@ -1,6 +1,11 @@
 <?php 
 $page_data = $page_request->response['payload'];
 if (isset($_POST['doelementedit'])) {
+	if (isset($_POST['do_not_verify'])) {
+		$do_not_verify = 1;
+	} else {
+		$do_not_verify = 0;
+	}
 	$element_edit_request = new CASHRequest(
 		array(
 			'cash_request_type' => 'element', 
@@ -14,7 +19,7 @@ if (isset($_POST['doelementedit'])) {
 				'emal_list_id' => $_POST['emal_list_id'],
 				'asset_id' => $_POST['asset_id'],
 				'comment_or_radio' => $_POST['comment_or_radio'],
-				'do_not_verify' => $_POST['do_not_verify']
+				'do_not_verify' => $do_not_verify
 			)
 		)
 	);
@@ -58,6 +63,16 @@ if (isset($_POST['doelementedit'])) {
 				<option value="0">none</option>
 				<?php AdminHelper::echoFormOptions('user_lists',$page_data['options']->emal_list_id); ?>
 			</select>
+			<br /><br />
+			<?php
+			if ($page_data['options']->do_not_verify) {
+				$checkstring = "checked='checked'";
+				
+			} else {
+				$checkstring = "";
+			}
+			?>
+			<input type='checkbox' class='checkorradio' name='do_not_verify' value='' <?php echo $checkstring; ?> /> <label for="do_not_verify">Skip email verification</label>
 
 		</div>
 		<div class="col_oneoftwo lastcol">
@@ -75,6 +90,7 @@ if (isset($_POST['doelementedit'])) {
 		</div>
 
 		<div class="row_seperator">.</div>
+		<br />
 		<label for="message_invalid_email">Invalid Email Error Message</label><br />
 		<input type="text" id="message_invalid_email" name="message_invalid_email" value="<?php echo $page_data['options']->message_invalid_email; ?>" />
 

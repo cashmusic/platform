@@ -15,6 +15,8 @@
 				<option value="0">none</option>
 				<?php AdminHelper::echoFormOptions('user_lists'); ?>
 			</select>
+			<br /><br />
+			<input type='checkbox' class='checkorradio' name='do_not_verify' value='' /> <label for="do_not_verify">Skip email verification</label>
 
 		</div>
 		<div class="col_oneoftwo lastcol">
@@ -32,6 +34,7 @@
 		</div>
 
 		<div class="row_seperator">.</div>
+		<br />
 		<label for="message_invalid_email">Invalid Email Error Message</label><br />
 		<input type="text" id="message_invalid_email" name="message_invalid_email" value="Sorry, that email address wasn't valid. Please try again." />
 
@@ -63,6 +66,11 @@
 <?php } else {
 	
 	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
+	if (isset($_POST['do_not_verify'])) {
+		$do_not_verify = 1;
+	} else {
+		$do_not_verify = 0;
+	}
 	
 	$element_add_request = new CASHRequest(
 		array(
@@ -77,7 +85,7 @@
 				'emal_list_id' => $_POST['emal_list_id'],
 				'asset_id' => $_POST['asset_id'],
 				'comment_or_radio' => $_POST['comment_or_radio'],
-				'do_not_verify' => $_POST['do_not_verify']
+				'do_not_verify' => $do_not_verify
 			),
 			'user_id' => $effective_user
 		)
