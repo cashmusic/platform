@@ -43,9 +43,9 @@ sub login_ok {
 }
 
 sub json_ok {
-    my ($url, $method) = @_;
+    my ($url, $method, $data) = @_;
     $method ||= 'get';
-    mech->$method($url);
+    $data ? mech->$method($url, Content => $data) : mech->$method($url);
     my $json = mech->content;
     is_valid_json($json,"$method $url is valid JSON");
     diag $json if $ENV{CASHMUSIC_DEBUG_JSON};
