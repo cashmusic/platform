@@ -74,13 +74,19 @@
 		// fire up the platform sans-direct-request to catch any GET/POST info sent
 		// in to the page
 		$cash_page_request = new CASHRequest();
-		
+		$status_uid = false;
+		$original_request = false;
+		if (!empty($cash_page_request->response)) {
+			$status_uid = $cash_page_request->response['status_uid'];
+			$original_request = $cash_page_request;
+		}
 		$cash_body_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'element', 
 				'cash_action' => 'getmarkup',
 				'id' => $element_id, 
-				'status_uid' => $cash_page_request->response['status_uid']
+				'status_uid' => $status_uid,
+				'original_request' => $original_request
 			)
 		);
 		echo $cash_body_request->response['payload'];

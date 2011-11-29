@@ -14,13 +14,13 @@
  *
  **/
 abstract class ElementBase extends CASHData {
-	protected $element_id, $status_uid, $options, $element;
+	protected $element_id, $status_uid, $original_request, $options, $element;
 	const type = 'unknown';
 	const name = 'Unknown Element';
 
 	abstract public function getMarkup();
 
-	public function __construct($element_id=0,$element=false,$status_uid=false) {
+	public function __construct($element_id=0,$element=false,$status_uid=false,$original_request=false) {
 		// FYI: the element class takes an element object by reference because
 		// ElementPlant needs to query the element_type anyway. So there didn't 
 		// seem like much point in hitting the database twice every request.
@@ -29,6 +29,7 @@ abstract class ElementBase extends CASHData {
 		// -- jvd
 		$this->element = $element;
 		$this->element_id = $element_id;
+		$this->original_request = $original_request;
 		$this->status_uid = $status_uid;
 		$this->options = $element['options'];
 	}
