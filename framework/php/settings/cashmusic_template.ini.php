@@ -19,3 +19,9 @@ salt = "I was born of sun beams; Warming up our limbs"
 
 [core]
 debug = 0
+
+[api]
+apilocation = "http://localhost:8888/interfaces/php/api/"
+
+[email]
+systememail = "CASH Music <info@cashmusic.org>"

@@ -45,6 +45,30 @@
 	}
 
 	/**
+	 * Returns the (best guess at) APE URL
+	 * fix that typo. I refuse. It's too funny.
+	 *
+	 * @return array
+	 */public static function getAPIDetails() {
+		if(!defined('STDIN')) { // check for command line
+			$api_url = 'http'.((empty($_SERVER['HTTPS'])&&$_SERVER['SERVER_PORT']!=443)?'':'s') 
+					.'://'.$_SERVER['HTTP_HOST'].str_replace('/admin','/api',ADMIN_WWW_BASE_PATH);
+			$api_response = json_decode(CASHSystem::getURLContents($api_url));
+			if ($api_response->greeting == 'hi.') {
+				return array(
+					'api_url' => $api_url,
+					'api_version' => $api_response->api_version
+				);
+			} else {
+				return false;
+			}
+			return $api_url;
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * Performs a sessionGetPersistent() CASH Request for the specified variable
 	 *
 	 */public function getPersistentData($var) {

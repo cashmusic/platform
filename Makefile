@@ -4,3 +4,11 @@ sqlite_schema:
 
 sqlite_db:
 	sqlite3 ./framework/php/db/cashmusic.sqlite < ./framework/php/settings/sql/cashmusic_db_sqlite.sql
+
+test:
+	php tests/php/all.php
+
+integration_test:
+	prove -lrv tests/integration
+
+fulltest: test integration_test

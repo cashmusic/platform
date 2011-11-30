@@ -169,10 +169,10 @@ class AssetPlant extends PlantBase {
 
 	public function getAssetInfo($asset_id) {
 		$result = $this->db->getData(
-			'AssetPlant_getAssetInfo',
-			false,
+			'assets',
+			'*',
 			array(
-				"asset_id" => array(
+				"id" => array(
 					"condition" => "=",
 					"value" => $asset_id
 				)
@@ -376,7 +376,10 @@ class AssetPlant extends PlantBase {
 	 */public function redirectToAsset($asset_id,$element_id=0) {
 		if ($this->getUnlockedStatus($asset_id)) {
 			$asset = $this->getAssetInfo($asset_id);
-			switch ($asset['type']) {
+			
+			$connection_id = $asset['settings_id'];
+			$connection_type = $this->getConnectionType($connection_id);
+			switch ($connection_type) {
 				case 'com.amazon':
 					$s3 = new S3Seed($asset['user_id'],$asset['settings_id']);
 					$this->pushSuccess(array('asset' => $asset_id),'redirect executed successfully');

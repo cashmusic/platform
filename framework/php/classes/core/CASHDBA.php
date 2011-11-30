@@ -264,12 +264,6 @@ class CASHDBA {
 			$this->connect();
 		}
 		switch ($data_name) {
-			case 'AssetPlant_getAssetInfo':
-				$query = "SELECT a.user_id,a.parent_id,a.location,a.title,a.description,a.settings_id,"
-				. "s.name,s.type "
-				. "FROM asst_assets a LEFT OUTER JOIN base_settings s ON a.settings_id = s.id "
-				. "WHERE a.id = :asset_id";
-				break;
 			case 'AssetPlant_getAnalytics_mostaccessed':
 				$query = "SELECT aa.asset_id as 'id', COUNT(aa.id) as 'count', a.title as 'title', a.description as 'description' "
 				. "FROM asst_analytics aa JOIN asst_assets a ON aa.asset_id = a.id "
@@ -284,7 +278,12 @@ class CASHDBA {
 				. "GROUP BY ea.element_id "
 				. "ORDER BY count DESC";
 				break;
-			case 'PeoplePlant_getAddressesForList':
+			case 'PeoplePlant_getAnalytics_membership':
+				$query = "SELECT COUNT(*) AS total, COUNT(CASE WHEN active = 1 THEN 1 END) AS active, COUNT(CASE WHEN active = 0 THEN 1 END) AS inactive, COUNT(CASE WHEN creation_date > " . (time() - 604800) . " THEN 1 END) AS last_week"
+				. "FROM user_lists_members"
+				. "WHERE list_id = :list_id";
+				break;
+			case 'PeoplePlant_getUsersForList':
 				$query = "SELECT u.id,u.email_address,u.display_name,"
 				. "l.initial_comment,l.additional_data,l.creation_date "
 				. "FROM user_users u LEFT OUTER JOIN user_lists_members l ON u.id = l.user_id "

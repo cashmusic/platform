@@ -546,5 +546,36 @@
 		}
 		return $url_contents;
 	}
+
+	/**
+	 *
+	 * CONNECTIONS STUFF
+	 * Get more info about third-party connections
+	 *
+	 */
+
+	/**
+	 * Returns connection type for connection_id
+	 *
+	 * @return string or false
+	 */protected function getConnectionType($connection_id) {
+		$result = $this->db->getData(
+			'settings',
+			'type',
+			array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $connection_id
+				)
+			)
+		);
+		if ($result) {
+			return $result[0]['type'];
+		} else {
+			return false;
+		}
+	}
+	
+	
 } // END class 
 ?>

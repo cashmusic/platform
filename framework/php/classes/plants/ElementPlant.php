@@ -92,8 +92,10 @@ class ElementPlant extends PlantBase {
 					break;
 				case 'getmarkup':
 					if (!$this->checkRequestMethodFor('direct','api_key','api_public')) return $this->sessionGetLastResponse();
-					if (!$this->requireParameters('id')) return $this->sessionGetLastResponse();
-					$result = $this->getElementMarkup($this->request['id'],$this->request['status_uid']);
+					if (!$this->requireParameters('id','status_uid')) return $this->sessionGetLastResponse();
+					$original_request = false;
+					if (isset($this->request['original_request'])) { $original_request = $this->request['original_request']; }
+					$result = $this->getElementMarkup($this->request['id'],$this->request['status_uid'],$original_request,$this->request_method);
 					if ($result) {
 						return $this->pushSuccess($result,'success. markup in the payload');
 					} else {
@@ -324,7 +326,7 @@ class ElementPlant extends PlantBase {
 		}
 	}
 
-	public function getElementMarkup($element_id,$status_uid,$access_method='direct') {
+	public function getElementMarkup($element_id,$status_uid,$original_request=false,$access_method='direct') {
 		$element = $this->getElement($element_id);
 		$element_type = $element['type'];
 		$element_options = $element['options'];
@@ -333,7 +335,7 @@ class ElementPlant extends PlantBase {
 			if (file_exists($for_include)) {
 				include($for_include);
 				$element_object_type = substr_replace($this->elements_array[$element_type], '', -4);
-				$element_object = new $element_object_type($element_id,$element,$status_uid);
+				$element_object = new $element_object_type($element_id,$element,$status_uid,$original_request);
 				$this->recordAnalytics($element_id,$access_method);
 				return $element_object->getMarkup();
 			}
