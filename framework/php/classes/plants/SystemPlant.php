@@ -43,9 +43,22 @@ class SystemPlant extends PlantBase {
 				case 'addlogin':
 					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
 					if (!$this->requireParameters('address','password')) { return $this->sessionGetLastResponse(); }
-					$result = $this->addLogin($this->request['address'],$this->request['password']);
+					
+					// defaults:
+					$display_name = 'Anonymous';
+					$first_name = '';
+					$last_name = '';
+					$organization = '';
+					$is_admin = 0;
+					if (isset($this->request['display_name'])) { $display_name = $this->request['display_name']; }
+					if (isset($this->request['first_name'])) { $first_name = $this->request['first_name']; }
+					if (isset($this->request['last_name'])) { $last_name = $this->request['last_name']; }
+					if (isset($this->request['organization'])) { $organization = $this->request['organization']; }
+					if (isset($this->request['is_admin'])) { $is_admin = $this->request['is_admin']; }
+					
+					$result = $this->addLogin($this->request['address'],$this->request['password'],$display_name,$first_name,$last_name,$organization,$is_admin);
 					if ($result) {
-						return $this->pushSuccess($result,'success. true or false included in payload');
+						return $this->pushSuccess($result,'success. id or false included in payload');
 					} else {
 						return $this->pushFailure('there was an error');
 					}
@@ -54,6 +67,16 @@ class SystemPlant extends PlantBase {
 					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
 					if (!$this->requireParameters('user_id')) { return $this->sessionGetLastResponse(); }
 					$result = $this->setAPICredentials($this->request['user_id']);
+					if ($result) {
+						return $this->pushSuccess($result,'success. credentials array included in payload');
+					} else {
+						return $this->pushFailure('there was an error');
+					}
+					break;
+				case 'getapicredentials':
+					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
+					if (!$this->requireParameters('user_id')) { return $this->sessionGetLastResponse(); }
+					$result = $this->getAPICredentials($this->request['user_id']);
 					if ($result) {
 						return $this->pushSuccess($result,'success. credentials array included in payload');
 					} else {
@@ -70,6 +93,14 @@ class SystemPlant extends PlantBase {
 						return $this->pushFailure('there was an error');
 					}
 					break;
+				case 'fitmk':
+					// for Duke...you're awesome.
+					$litany = "I must not fear. Fear is the mind-killer. "
+							 . "Fear is the little-death that brings total obliteration. "
+							 . "I will face my fear. I will permit it to pass over me and through me. "
+							 . "And when it has gone past I will turn the inner eye to see its path. "
+							 . "Where the fear has gone there will be nothing. Only I will remain. -- Frank Herbert";
+					return $this->pushSuccess($litany,'check it');
 				default:
 					return $this->response->pushResponse(
 						400,$this->request_type,$this->action,
@@ -123,13 +154,18 @@ class SystemPlant extends PlantBase {
 	 * @param {string} $address -  the email address in question
 	 * @param {string} $password - the password
 	 * @return array|false
-	 */public function addLogin($address,$password) {
+	 */public function addLogin($address,$password,$display_name='Anonymous',$first_name='',$last_name='',$organization='',$is_admin=0) {
 		$password_hash = hash_hmac('sha256', $password, $this->salt);
 		$result = $this->db->setData(
 			'users',
 			array(
 				'email_address' => $address,
-				'password' => $password_hash
+				'password' => $password_hash,
+				'display_name' => $display_name,
+				'first_name' => $first_name,
+				'last_name' => $last_name,
+				'organization' => $organization,
+				'is_admin' => $is_admin
 			)
 		);
 		return $result;
@@ -160,6 +196,32 @@ class SystemPlant extends PlantBase {
 		);
 		if ($result) {
 			return $credentials;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Gets API credentials for a user id
+	 *
+	 * @param {int} $user_id -  the user
+	 * @return array|false
+	 */public function getAPICredentials($user_id) {
+		$user = $this->db->getData(
+			'users',
+			'api_key,api_secret',
+			array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				)
+			)
+		);
+		if ($user) {
+			return array(
+				'api_key' => $user[0]['api_key'],
+				'api_secret' => $user[0]['api_secret']
+			);
 		} else {
 			return false;
 		}

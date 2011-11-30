@@ -83,8 +83,8 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		'email_address' => $user_email,
 		'password'      => $password_hash,
 		'is_admin'      => true,
-		'api_key'       => $api_key = hash_hmac('md5', time() . $password_hash . rand(976654,1234567267), $system_salt) . substr((string) time(),6),
-		'api_secret'    => hash_hmac('sha256', time() . $password_hash . rand(976654,1234567267), $system_salt),
+		'api_key'       => "42",
+		'api_secret'    => "43",
 		'creation_date' => time()
 	);
 	$query = "INSERT INTO user_users (email_address,password,is_admin,api_key,api_secret,creation_date) VALUES (:email_address,:password,:is_admin,:api_key,:api_secret,:creation_date)";
@@ -118,10 +118,13 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 
 		// move source files into place
 		$file_write_success = false;
+		$test_url   = getenv("CASHMUSIC_TEST_URL");
+		if (!$test_url) { $test_url   = "http://dev.cashmusic.org:8080"; }
 		if (
 			findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','driver = "mysql','driver = "sqlite') &&
 			findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','debug = 0','debug = 1') &&
 			findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','database = "seed','database = "cashmusic_test.sqlite') &&
+			findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','apilocation = "http://localhost:8888/interfaces/php/api/','apilocation = "'.$test_url.'/interfaces/php/api/') &&
 			findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
 		) {
 			$file_write_success = true;

@@ -4,10 +4,11 @@ use strict;
 use warnings;
 use autodie;
 use Test::WWW::Mechanize;
-use Test::More;
+use Test::Most;
+use Test::JSON;
 use parent 'Exporter';
 #use Carp::Always;
-our @EXPORT_OK = qw/mech login_ok mech_success_ok/;
+our @EXPORT_OK = qw/mech login_ok mech_success_ok json_ok/;
 
 my $base = $ENV{CASHMUSIC_TEST_URL} || 'http://localhost:80';
 # This is temporary until I add a feature to allow a custom lint object
@@ -40,5 +41,17 @@ sub login_ok {
     mech->content_unlike(qr/Try Again/);
     return mech;
 }
+
+sub json_ok {
+    my ($url, $method) = @_;
+    $method ||= 'get';
+    mech->$method($url);
+    my $json = mech->content;
+    is_valid_json($json,"$method $url is valid JSON");
+    diag $json if $ENV{CASHMUSIC_DEBUG_JSON};
+    # return the JSON for further testing
+    return $json;
+}
+
 
 1;

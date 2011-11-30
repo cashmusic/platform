@@ -65,6 +65,7 @@
 		} else {
 			return false;
 		}
-	}	
+	}
+
 } // END class 
 ?>

@@ -14,6 +14,28 @@
  */abstract class CASHSystem  {
 
 	/**
+	 * Gets API credentials for the effective or actual user
+	 *
+	 * @param {string} effective || actual
+	 * @return array
+	 */public static function getAPICredentials($user_type='effective') {
+		$data_request = new CASHRequest();
+		$user_id = $data_request->sessionGetPersistent('cash_' . $user_type . '_user');
+		if ($user_id) {
+			$data_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'system', 
+					'cash_action' => 'getapicredentials',
+					'user_id' => $user_id
+				)
+			);
+			return $data_request->response['payload'];
+		}
+		return false;
+
+	}
+
+	/**
 	 * Handle annoying environment issues like magic quotes, constants and 
 	 * auto-loaders before firing up the CASH platform and whatnot
 	 *
@@ -30,6 +52,8 @@
 		// define constants (use sparingly!)
 		$root = realpath(dirname(__FILE__) . '/../..');
 		define('CASH_PLATFORM_ROOT', $root);
+		$cash_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
+		define('CASH_API_URL', $cash_settings['apilocation']);
 		
 		// set up auto-load
 		spl_autoload_register('CASHSystem::autoloadClasses');
@@ -50,13 +74,19 @@
 		// fire up the platform sans-direct-request to catch any GET/POST info sent
 		// in to the page
 		$cash_page_request = new CASHRequest();
-		
+		$status_uid = false;
+		$original_request = false;
+		if (!empty($cash_page_request->response)) {
+			$status_uid = $cash_page_request->response['status_uid'];
+			$original_request = $cash_page_request;
+		}
 		$cash_body_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'element', 
 				'cash_action' => 'getmarkup',
 				'id' => $element_id, 
-				'status_uid' => $cash_page_request->response['status_uid']
+				'status_uid' => $status_uid,
+				'original_request' => $original_request
 			)
 		);
 		echo $cash_body_request->response['payload'];
@@ -202,7 +232,18 @@
 		}
 		return $url_contents;
 	}
-	
+
+	/*
+	 * Returns the system default email address from the settings ini file
+	 *
+	 * USAGE:
+	 * ASHSystem::getDefaultEmail();
+	 *
+	 */public static function getDefaultEmail() {
+		$cash_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
+		return $cash_settings['systememail'];
+	}
+
 	/*
 	 * Sends a plain text and HTML email for system things like email verification,
 	 * password resets, etc.
