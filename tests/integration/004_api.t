@@ -53,7 +53,20 @@ sub test_processwebhook {
     for my $method (@methods) {
         my $key      = "42";
         my $url      = "$base/interfaces/php/api/verbose/people/processwebhook/origin/com.mailchimp/list_id/100/api_key/$key";
-        my $json     = json_ok($url, $method);
+        # http://apidocs.mailchimp.com/webhooks/
+        my $jdata    = $j->to_json({
+            type => 'subscribe',
+            fired_at => "2009-03-26 21:35:57",
+            data => {
+                id         => "8a25ff1d98", # what is this used for?
+                list_id    => "b607c6d911", # cash music testing list
+                email      => 'billybob@aol.com',
+                email_type => 'html',
+                ip_opt     => '10.10.10.10',
+                ip_signup  => '10.10.10.10',
+            },
+        });
+        my $json     = json_ok($url, $method, $jdata);
         my $response = $j->from_json($json);
 
         { local $TODO = "returns 400 instead of 200";
