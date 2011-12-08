@@ -29,8 +29,12 @@
 						<small>by <a href="<?php echo $data->url; ?>"><?php echo $data->author; ?></a></small>
 						<p><?php echo $data->description; ?></p>
 						<a href="<?php echo $element; ?>" class="mockbutton">Add this now</a>
+						<br /><br /><br />
 					</div>
 					<?php
+					if ($colcount % 3 == 0) {
+						echo "\n" . '<div class="clearfix">.</div>' . "\n";
+					}
 					$colcount++;
 				}
 			}
