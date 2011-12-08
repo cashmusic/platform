@@ -31,6 +31,11 @@ abstract class ElementBase extends CASHData {
 		$this->element_id = $element_id;
 		$this->original_request = $original_request;
 		$this->status_uid = $status_uid;
+		if (isset($_REQUEST['element_id'])) {
+			if ($_REQUEST['element_id'] != $this->element_id) {
+				$this->status_uid = false;
+			}
+		}
 		$this->options = $element['options'];
 	}
 

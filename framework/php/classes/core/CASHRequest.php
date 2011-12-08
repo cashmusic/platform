@@ -14,12 +14,12 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  */class CASHRequest extends CASHData {
-	protected $request=false,
-			  $request_method,
+	protected $request_method,
 			  $plant_array=array(),
 			  $plant,
 			  $user;
-	public $response;
+	public $request=false,
+		   $response;
 	
 	/**
 	 * Sets object parameters, calls detectRequest(), and attempts to initialize
