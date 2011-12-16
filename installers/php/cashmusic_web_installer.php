@@ -25,10 +25,19 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
 */
 session_start();
-$_SESSION['copying'] = false;
+$_SESSION['copying'] = false; // we'll use this in the AJAX copy loops later
+
+if (!isset($_SESSION['branch'])) {
+	if(isset($_GET['edge'])) {
+		$_SESSION['branch'] = 'master';
+	} else {
+		$_SESSION['branch'] = 'latest_stable';
+	}
+}
 
 $cash_root_location = false;
 
+// recursive rmdir:
 function rrmdir($dir) { 
 	if (is_dir($dir)) { 
 	$objects = scandir($dir); 
@@ -357,7 +366,7 @@ if (!isset($_POST['installstage'])) {
 					}
 					if (mkdir('./source')) {
 						// get repo from github, strip unnecessary files and write manifest:
-						if (determinedCopy('https://github.com/api/v2/json/blob/all/cashmusic/DIY/latest_stable','./manifest.diy.org.cashmusic')) {
+						if (determinedCopy('https://github.com/api/v2/json/blob/all/cashmusic/DIY/'.$_SESSION['branch'],'./manifest.diy.org.cashmusic')) {
 							$repo = json_decode(file_get_contents('./manifest.diy.org.cashmusic'));
 							$files = array_keys((array)$repo->blobs);
 							foreach ($files as $key => $file) {
@@ -385,7 +394,7 @@ if (!isset($_POST['installstage'])) {
 						if (!file_exists('./source/'.$file)) {
 							$path = pathinfo($file);
 							if (!is_dir('./source/'.$path['dirname'])) mkdir('./source/'.$path['dirname'],0777,true);
-							if (determinedCopy('https://raw.github.com/cashmusic/DIY/latest_stable/'.$file,'./source/'.$file)) {
+							if (determinedCopy('https://raw.github.com/cashmusic/DIY/'.$_SESSION['branch'].'/'.$file,'./source/'.$file)) {
 								echo $source_message;
 								if ($currentfile != $filecount) {
 									echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';

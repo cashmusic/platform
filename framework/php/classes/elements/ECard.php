@@ -20,6 +20,9 @@ class ECard extends ElementBase {
 		$markup = '';
 		// the default form and basic elements:
 		$default_markup = '<p class="cash_element_intro">' . $this->options->message_instructions . '</p>';
+		if (!empty($this->options->image_url)) {
+			$default_markup .= '<img src="'. $this->options->image_url . '" alt="E-Card" class="cash_image_ecard" />';
+		}
 		$default_markup .= '<form id="cash_'. self::type .'_form_' . $this->element_id . '" class="cash_form '. self::type .'" method="post" action="">'
 			. '<div class="cash_main_name_container"><label for="address">Your Name: (The \'from\' for the card)</label>'
 			. '<input type="text" name="main_name" value="" class="cash_input cash_input_address cash_main_name" /></div>'
