@@ -18,7 +18,7 @@
 	 *
 	 * @return array | false
 	 */public function getElementsData() {
-		$elements_dirname = ADMIN_BASE_PATH.'/components/elements';
+		$elements_dirname = CASH_PLATFORM_ROOT.'/elements';
 		if ($elements_dir = opendir($elements_dirname)) {
 			$tmpArray = array();
 			while (false !== ($dir = readdir($elements_dir))) {

@@ -27,7 +27,7 @@
 session_start();
 $_SESSION['copying'] = false; // we'll use this in the AJAX copy loops later
 
-if (!isset($_SESSION['branch'])) {
+if (!isset($_SESSION['branch']) || isset($_GET['edge'])) {
 	if(isset($_GET['edge'])) {
 		$_SESSION['branch'] = 'master';
 	} else {

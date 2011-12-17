@@ -1,8 +1,8 @@
 <?php
 
 require_once('tests/php/base.php');
-require_once('framework/php/classes/elements/TourDates.php');
-require_once('framework/php/classes/elements/SocialFeeds.php');
+require_once('framework/php/elements/TourDates.php');
+require_once('framework/php/elements/SocialFeeds.php');
 
 class ElementTests extends UnitTestCase {
 	function testTourDates(){
