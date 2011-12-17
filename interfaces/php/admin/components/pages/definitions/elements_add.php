@@ -20,8 +20,8 @@ if ($request_parameters) {
 	
 	$supported_elements = $page_request->response['payload'];
 	if (array_search($element_addtype, $supported_elements) !== false) {
-		if (@file_exists(ADMIN_BASE_PATH.'/components/elements' . '/' . $element_addtype . '/help.php')) {
-			$page_tips = file_get_contents(ADMIN_BASE_PATH.'/components/elements' . '/' . $element_addtype . '/help.php');
+		if (@file_exists(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_addtype . '/help.php')) {
+			$page_tips = file_get_contents(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_addtype . '/help.php');
 		}
 	}
 }

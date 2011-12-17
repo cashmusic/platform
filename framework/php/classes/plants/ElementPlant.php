@@ -150,12 +150,12 @@ class ElementPlant extends PlantBase {
 	}
 	
 	/**
-	 * Builds an associative array of all Element class files in /classes/elements/
+	 * Builds an associative array of all Element class files in /elements/
 	 * stored as $this->elements_array and used to include proper markup in getElementMarkup()
 	 *
 	 * @return void
 	 */protected function buildElementsArray() {
-		if ($elements_dir = opendir(CASH_PLATFORM_ROOT.'/classes/elements/')) {
+		if ($elements_dir = opendir(CASH_PLATFORM_ROOT.'/elements/')) {
 			while (false !== ($file = readdir($elements_dir))) {
 				if (substr($file,0,1) != "." && !is_dir($file)) {
 					$tmpKey = strtolower(substr_replace($file, '', -4));
@@ -167,12 +167,12 @@ class ElementPlant extends PlantBase {
 	}
 
 	public function buildTypeNamesArray() {
-		if ($elements_dir = opendir(CASH_PLATFORM_ROOT.'/classes/elements/')) {
+		if ($elements_dir = opendir(CASH_PLATFORM_ROOT.'/elements/')) {
 			while (false !== ($file = readdir($elements_dir))) {
 				if (substr($file,0,1) != "." && !is_dir($file)) {
 					$element_object_type = substr_replace($file, '', -4);
 					$tmpKey = strtolower($element_object_type);
-					include(CASH_PLATFORM_ROOT.'/classes/elements/'.$file);
+					include(CASH_PLATFORM_ROOT.'/elements/'.$file);
 					
 					// Would rather do this with $element_object_type::type but that requires 5.3.0+
 					// Any ideas?
@@ -331,7 +331,7 @@ class ElementPlant extends PlantBase {
 		$element_type = $element['type'];
 		$element_options = $element['options'];
 		if ($element_type) {
-			$for_include = CASH_PLATFORM_ROOT.'/classes/elements/'.$this->elements_array[$element_type];
+			$for_include = CASH_PLATFORM_ROOT.'/elements/'.$this->elements_array[$element_type];
 			if (file_exists($for_include)) {
 				include($for_include);
 				$element_object_type = substr_replace($this->elements_array[$element_type], '', -4);

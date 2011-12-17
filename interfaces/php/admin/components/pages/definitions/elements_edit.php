@@ -30,7 +30,7 @@ if ($page_request->response['status_uid'] == 'element_getelement_200') {
 }
 
 $element_type = $page_request->response['payload']['type'];
-if (@file_exists(ADMIN_BASE_PATH.'/components/elements' . '/' . $element_type . '/help.php')) {
-	$page_tips = file_get_contents(ADMIN_BASE_PATH.'/components/elements' . '/' . $element_type . '/help.php');
+if (@file_exists(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_type . '/help.php')) {
+	$page_tips = file_get_contents(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_type . '/help.php');
 }
 ?>

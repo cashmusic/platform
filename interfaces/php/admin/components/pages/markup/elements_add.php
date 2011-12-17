@@ -3,8 +3,8 @@
 	if (isset($element_addtype) && $page_request->response) {
 		$supported_elements = $page_request->response['payload'];
 		if (array_search($element_addtype, $supported_elements) !== false) {
-			if (@file_exists(ADMIN_BASE_PATH.'/components/elements' . '/' . $element_addtype . '/add.php')) {
-				include(ADMIN_BASE_PATH.'/components/elements' . '/' . $element_addtype . '/add.php');
+			if (@file_exists(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_addtype . '/add.php')) {
+				include(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_addtype . '/add.php');
 			} else {
 				$page_error = "Could not find the add.php file for this .";
 			}
