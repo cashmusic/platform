@@ -24,7 +24,14 @@
 					}
 					?>
 					<div class="col_oneofthree<?php echo $secondclass; ?>">
-						<a href="<?php echo $element; ?>"><img src="<?php echo ADMIN_WWW_BASE_PATH . '/components/elements/' . $element . '/image.png'; ?>" width="100%" alt="<?php echo $data->name; ?>" /></a><br />
+						<?php 
+						$element_img = CASH_PLATFORM_ROOT.'/elements/'.$element.'/image.jpg';
+						if (file_exists($element_img)) {
+						?>
+						<a href="<?php echo $element; ?>"><img src="data:image/jpg;base64,<?php echo base64_encode(file_get_contents($element_img)); ?>" width="100%" alt="<?php echo $data->name; ?>" /></a><br />
+						<?php
+						}
+						?>
 						<h3><?php echo $data->name; ?></h3>
 						<small>by <a href="<?php echo $data->url; ?>"><?php echo $data->author; ?></a></small>
 						<p><?php echo $data->description; ?></p>
