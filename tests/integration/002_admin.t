@@ -33,16 +33,9 @@ my @admin_urls    = qw{
     people people/mailinglists people/mailinglists/view people/mailinglists/export people/mailinglists/add
     help help/gettingstarted elements/add/socialfeeds
 };
-my @metadata_urls = map { "components/elements/$_/metadata.json" } qw{emailcollection tourdates};
 
 for my $url (@admin_urls) {
     mech->get_ok("$base/interfaces/php/admin/$url");
-}
-
-for my $url (@metadata_urls) {
-    my $full_url = "$base/interfaces/php/admin/$url";
-    mech->get_ok($full_url);
-    is_valid_json(mech->content, "$full_url is valid JSON");
 }
 
 mech->get_ok("$base/interfaces/php/admin/elements/view/100");
