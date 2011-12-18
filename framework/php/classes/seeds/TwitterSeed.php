@@ -36,18 +36,20 @@ class TwitterSeed extends SeedBase {
 
 			if ($filtertype) {
 				$return_feed = array();
-				foreach ($feed_data as $tweet) {
-					if ($filtertype == 'beginwith') {
-						if (strrpos($tweet->text,$filter) === 0) {
-							$return_feed[] = $tweet;
-						}
-					} else {
-						if (strrpos($tweet->text,$filter) !== false) {
-							$return_feed[] = $tweet;
+				if (is_array($feed_data)) {
+					foreach ($feed_data as $tweet) {
+						if ($filtertype == 'beginwith') {
+							if (strrpos($tweet->text,$filter) === 0) {
+								$return_feed[] = $tweet;
+							}
+						} else {
+							if (strrpos($tweet->text,$filter) !== false) {
+								$return_feed[] = $tweet;
+							}
 						}
 					}
+					$feed_data = $return_feed;
 				}
-				$feed_data = $return_feed;
 			}
 
 			return $feed_data;
