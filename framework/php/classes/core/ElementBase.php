@@ -37,6 +37,10 @@ abstract class ElementBase extends CASHData {
 			}
 		}
 		$this->options = $element['options'];
+		// check for an init() in the defined element. if it exists, call it
+		if (method_exists($this,'init')) {
+			$this->init();
+		}
 	}
 
 	public function getName() {
