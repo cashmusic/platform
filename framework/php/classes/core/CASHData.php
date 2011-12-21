@@ -58,7 +58,8 @@
 	 */protected function resetSession() {
 		$_SESSION['cash_last_response'] = false;
 		$_SESSION['cash_last_request_time'] = 9999999999;
-		$_SESSION['cash_persistent_store'] = false;
+		$_SESSION['cash_persistent_store'] = array();
+		$GLOBALS['cash_script_store'] = array();
 		return true;
 	}
 	
@@ -88,6 +89,9 @@
 			}
 		}
 		$_SESSION['cash_last_request_time'] = time();
+		if (!is_array($GLOBALS['cash_script_store'])) {
+			$GLOBALS['cash_script_store'] = array();
+		}
 		return true;
 	}
 	
@@ -144,16 +148,16 @@
 	 * @param {string} $key - the key to associate with the new data
 	 * @param {*} $value - the data to store
 	 * @return boolean
-	 */public function sessionSetPersistent($key,$value) {
-		if (!isset($_SESSION['cash_persistent_store'])) {
-			$this->resetSession();
-		}
-		if (is_array($_SESSION['cash_persistent_store'])) {
+	 */public function sessionSet($key,$value,$scope='persistent') {
+		if ($scope == 'persistent') {
+			if (!isset($_SESSION['cash_persistent_store'])) {
+				$this->resetSession();
+			}
 			$_SESSION['cash_persistent_store'][(string)$key] = $value;
+			return true;
 		} else {
-			$_SESSION['cash_persistent_store'] = array((string)$key => $value);
+			$GLOBALS['cash_script_store'][(string)$key] = $value;
 		}
-		return true;
 	}
 
 	/**
@@ -161,15 +165,23 @@
 	 *
 	 * @param {string} $key - the key associated with the requested data
 	 * @return *|false
-	 */public function sessionGetPersistent($key) {
-		if (!isset($_SESSION['cash_persistent_store'])) {
-			$this->resetSession();
-			return false;
-		} 
-		if (isset($_SESSION['cash_persistent_store'][(string)$key])) {
-			return $_SESSION['cash_persistent_store'][(string)$key];
+	 */public function sessionGet($key,$scope='persistent') {
+		if ($scope == 'persistent') {
+			if (!isset($_SESSION['cash_persistent_store'])) {
+				$this->resetSession();
+				return false;
+			} 
+			if (isset($_SESSION['cash_persistent_store'][(string)$key])) {
+				return $_SESSION['cash_persistent_store'][(string)$key];
+			} else {
+				return false;
+			}
 		} else {
-			return false;
+			if (isset($GLOBALS['cash_script_store'][(string)$key])) {
+				return $GLOBALS['cash_script_store'][(string)$key];
+			} else {
+				return false;
+			}
 		}
 	}
 
@@ -178,20 +190,27 @@
 	 *
 	 * @param {string} $key - the key to be removed
 	 * @return void
-	 */public function sessionClearPersistent($key) {
-		if (!isset($_SESSION['cash_persistent_store'])) {
-			$this->resetSession();
-		} else if (isset($_SESSION['cash_persistent_store'][(string)$key])) {
-			unset($_SESSION['cash_persistent_store'][(string)$key]);
-		} 
+	 */public function sessionClear($key,$scope='persistent') {
+		if ($scope == 'persistent') {
+			if (!isset($_SESSION['cash_persistent_store'])) {
+				$this->resetSession();
+			} else if (isset($_SESSION['cash_persistent_store'][(string)$key])) {
+				unset($_SESSION['cash_persistent_store'][(string)$key]);
+			}
+		} else {
+			if (isset($GLOBALS['cash_script_store'][(string)$key])) {
+				unset($GLOBALS['cash_script_store'][(string)$key]);
+			}
+		}
 	}
 
 	/**
-	 * Removes all data from $_SESSION['cash_persistent_store'], setting it false
+	 * Removes all data from $_SESSION['cash_persistent_store'], unsetting it
 	 *
 	 * @return void
-	 */public function sessionClearAllPersistent() {
-		$_SESSION['cash_persistent_store'] = false;
+	 */public function sessionClearAll() {
+		unset($_SESSION['cash_persistent_store']);
+		$GLOBALS['cash_script_store'] = array();
 	}
 	
 	/**
