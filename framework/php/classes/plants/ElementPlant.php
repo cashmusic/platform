@@ -96,7 +96,9 @@ class ElementPlant extends PlantBase {
 					$original_request = false;
 					if (isset($this->request['original_request'])) { $original_request = $this->request['original_request']; }
 					$result = $this->getElementMarkup($this->request['id'],$this->request['status_uid'],$original_request,$this->request_method);
-					if ($result) {
+					// we do a hard !== comparison here to allow for blank markup. otherwise it resolves as false, and we
+					// actually want blank markup at times.
+					if ($result !== false) {
 						return $this->pushSuccess($result,'success. markup in the payload');
 					} else {
 						return $this->pushFailure('markup not found');
@@ -333,7 +335,7 @@ class ElementPlant extends PlantBase {
 		if ($element_type) {
 			$for_include = CASH_PLATFORM_ROOT.'/elements/'.$this->elements_array[$element_type];
 			if (file_exists($for_include)) {
-				include($for_include);
+				include_once($for_include);
 				$element_object_type = substr_replace($this->elements_array[$element_type], '', -4);
 				$element_object = new $element_object_type($element_id,$element,$status_uid,$original_request);
 				$this->recordAnalytics($element_id,$access_method);
@@ -618,13 +620,13 @@ class ElementPlant extends PlantBase {
 	 *
 	 * @return boolean
 	 */protected function unlockAsset($asset_id) {
-		$current_unlocked_assets = $this->sessionGetPersistent('unlocked_assets');
+		$current_unlocked_assets = $this->sessionGet('unlocked_assets');
 		if (is_array($current_unlocked_assets)) {
 			$current_unlocked_assets[""."$asset_id"]=true;
-			$this->sessionSetPersistent('unlocked_assets',$current_unlocked_assets);
+			$this->sessionSet('unlocked_assets',$current_unlocked_assets);
 			return true;
 		} else {
-			$this->sessionSetPersistent('unlocked_assets',array(""."$asset_id" => true));
+			$this->sessionSet('unlocked_assets',array(""."$asset_id" => true));
 			return true;
 		}
 		return false;
@@ -638,7 +640,7 @@ class ElementPlant extends PlantBase {
 		if ($this->getPublicStatus($asset_id)) {
 			return true;
 		}
-		$current_unlocked_assets = $this->sessionGetPersistent('unlocked_assets');
+		$current_unlocked_assets = $this->sessionGet('unlocked_assets');
 		if (is_array($current_unlocked_assets)) {
 			if (array_key_exists(""."$asset_id",$current_unlocked_assets)) {
 				if ($current_unlocked_assets[""."$asset_id"] === true) {

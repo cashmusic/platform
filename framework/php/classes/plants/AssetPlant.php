@@ -275,13 +275,13 @@ class AssetPlant extends PlantBase {
 	 *
 	 * @return boolean
 	 */protected function unlockAsset($asset_id) {
-		$current_unlocked_assets = $this->sessionGetPersistent('unlocked_assets');
+		$current_unlocked_assets = $this->sessionGet('unlocked_assets');
 		if (is_array($current_unlocked_assets)) {
 			$current_unlocked_assets[""."$asset_id"]=true;
-			$this->sessionSetPersistent('unlocked_assets',$current_unlocked_assets);
+			$this->sessionSet('unlocked_assets',$current_unlocked_assets);
 			return true;
 		} else {
-			$this->sessionSetPersistent('unlocked_assets',array(""."$asset_id" => true));
+			$this->sessionSet('unlocked_assets',array(""."$asset_id" => true));
 			return true;
 		}
 		return false;
@@ -295,7 +295,7 @@ class AssetPlant extends PlantBase {
 		if ($this->getPublicStatus($asset_id)) {
 			return true;
 		}
-		$current_unlocked_assets = $this->sessionGetPersistent('unlocked_assets');
+		$current_unlocked_assets = $this->sessionGet('unlocked_assets');
 		if (is_array($current_unlocked_assets)) {
 			if (array_key_exists(""."$asset_id",$current_unlocked_assets)) {
 				if ($current_unlocked_assets[""."$asset_id"] === true) {

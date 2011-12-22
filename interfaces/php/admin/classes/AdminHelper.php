@@ -69,11 +69,11 @@
 	}
 
 	/**
-	 * Performs a sessionGetPersistent() CASH Request for the specified variable
+	 * Performs a sessionGet() CASH Request for the specified variable
 	 *
 	 */public function getPersistentData($var) {
 		$helper_cash_request = new CASHRequest();
-		$result = $helper_cash_request->sessionGetPersistent($var);
+		$result = $helper_cash_request->sessionGet($var);
 		unset($helper_cash_request);
 		return $result;
 	}

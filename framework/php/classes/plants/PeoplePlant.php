@@ -154,6 +154,16 @@ class PeoplePlant extends PlantBase {
 						return $this->pushFailure('there was an error retrieving the list');
 					}
 					break;
+				case 'signintolist':
+					if (!$this->checkRequestMethodFor('post','direct','api_key')) return $this->sessionGetLastResponse();
+					if (!$this->requireParameters('address','password','list_id')) { return $this->sessionGetLastResponse(); }
+					$result = $this->validateUserForList($this->request['address'],$this->request['password'],$this->request['list_id']);
+					if ($result) {
+						return $this->pushSuccess($result,'success. boolean true in payload');
+					} else {
+						return $this->pushFailure('user/password not correct or user not present in the list');
+					}
+					break;
 				case 'processwebhook':
 					if (!$this->checkRequestMethodFor('direct','api_key')) return $this->sessionGetLastResponse();
 					$result = $this->processWebhook($this->request);
@@ -759,6 +769,39 @@ class PeoplePlant extends PlantBase {
 		} else {
 			return false;
 		}
+	}
+
+	public function validateUserForList($address,$password,$list_id) {
+		$validate = false;
+		$user_id = $this->getUserIDForAddress($address);
+		$list_info = $this->getListById($list_id) ;
+		$user_list_info = $this->getAddressListInfo($address,$list_id);
+		if ($list_info['user_id'] == $user_id) {
+			// user is the owner of the list, set validate to true
+			$validate = true;
+		}
+		if ($user_list_info && !$validate) {
+			// user is in the list, check that they're active then set validate to true
+			if ($user_list_info['active'] == 1) {
+				$validate = true;
+			}
+		}
+		if ($validate) {
+			$login_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'system', 
+					'cash_action' => 'validatelogin',
+					'address' => $address, 
+					'password' => $password,
+					'require_admin' => false
+				)
+			);
+			if ($login_request->response['payload'] !== false) {
+				return true;
+			}
+		}
+		// we never validated, so automatically return false
+		return false;
 	}
 
 	/**

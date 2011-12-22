@@ -90,21 +90,21 @@ if (isset($_POST['login'])) {
 		)
 	);
 	if ($login_request->response['payload'] !== false) {
-		$admin_primary_cash_request->sessionSetPersistent('cash_actual_user',$login_request->response['payload']);
-		$admin_primary_cash_request->sessionSetPersistent('cash_effective_user',$login_request->response['payload']);
-		$admin_primary_cash_request->sessionSetPersistent('cash_effective_user_email',$_POST['address']);
+		$admin_primary_cash_request->sessionSet('cash_actual_user',$login_request->response['payload']);
+		$admin_primary_cash_request->sessionSet('cash_effective_user',$login_request->response['payload']);
+		$admin_primary_cash_request->sessionSet('cash_effective_user_email',$_POST['address']);
 		if ($include_filename == 'logout.php') {
 			header('Location: ' . ADMIN_WWW_BASE_PATH);
 			exit;
 		}
 	} else {
-		$admin_primary_cash_request->sessionClearAllPersistent();
+		$admin_primary_cash_request->sessionClearAll();
 		$login_message = "Try Again";
 	}
 }
 
 // finally, output the template and page-specific markup (checking for current login)
-if ($admin_primary_cash_request->sessionGetPersistent('cash_actual_user')) {
+if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
 	include($pages_path . 'definitions/' . $include_filename);
 	include(ADMIN_BASE_PATH . '/ui/default/top.php');
 	include($pages_path . 'markup/' . $include_filename);
