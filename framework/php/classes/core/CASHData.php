@@ -89,7 +89,7 @@
 			}
 		}
 		$_SESSION['cash_last_request_time'] = time();
-		if (!is_array($GLOBALS['cash_script_store'])) {
+		if (!isset($GLOBALS['cash_script_store'])) {
 			$GLOBALS['cash_script_store'] = array();
 		}
 		return true;
@@ -157,6 +157,7 @@
 			return true;
 		} else {
 			$GLOBALS['cash_script_store'][(string)$key] = $value;
+			return true;
 		}
 	}
 

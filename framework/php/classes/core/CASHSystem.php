@@ -20,7 +20,7 @@
 	 * @return array
 	 */public static function getAPICredentials($user_type='effective') {
 		$data_request = new CASHRequest();
-		$user_id = $data_request->sessionGetPersistent('cash_' . $user_type . '_user');
+		$user_id = $data_request->sessionGet('cash_' . $user_type . '_user');
 		if ($user_id) {
 			$data_request = new CASHRequest(
 				array(
@@ -90,6 +90,11 @@
 			)
 		);
 		echo $cash_body_request->response['payload'];
+		if ($cash_body_request->sessionGet('initialized_element_' . $element_id,'script')) {
+			if (ob_get_level()) {
+				ob_flush();
+			}
+		}
 		unset($cash_page_request);
 		unset($cash_body_request);
 	}

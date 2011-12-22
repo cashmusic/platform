@@ -41,9 +41,6 @@ class ECard extends ElementBase {
 			. '<input type="hidden" name="comment" value="" class="cash_input cash_input_comment" />'
 			. '<input type="submit" value="send the cards" class="button" /><br />'
 			. '</form>';
-		if (!empty($this->options->image_url)) {
-			$default_markup .= '<img src="'. $this->options->image_url . '" alt="E-Card" class="cash_image_ecard" />';
-		}
 		switch ($this->status_uid) {
 			case 'people_signup_200' || 'people_verifyaddress_200':
 				// successful submit, return messaging and optionally an asset link

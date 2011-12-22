@@ -47,14 +47,14 @@ Replaces $_SESSION['cash_last_response'] with a new response<br /><br /><span cl
 Returns the current value of $_SESSION['cash_last_response']<br /><br /><span class="return">@return</span> array|false
  </div><h2 class="functionname">sessionClearLastResponse()</h2><div class="commentblock">
 Sets $_SESSION['cash_last_response'] to false<br /><br /><span class="return">@return</span> array|false
- </div><h2 class="functionname">sessionSetPersistent(<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$key,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$value<br />)</h2><div class="commentblock">
+ </div><h2 class="functionname">sessionSet(<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$key,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$value<br />)</h2><div class="commentblock">
 Adds new data to the $_SESSION['cash_persistent_store'] array and resets
 the session id as a security precaution. <br /><br /><span class="param">@param</span> {string} $key - the key to associate with the new data<br /><span class="param">@param</span> {*} $value - the data to store<br /><span class="return">@return</span> boolean
- </div><h2 class="functionname">sessionGetPersistent(<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$key<br />)</h2><div class="commentblock">
+ </div><h2 class="functionname">sessionGet(<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$key<br />)</h2><div class="commentblock">
 Returns data from the $_SESSION['cash_persistent_store'] array<br /><br /><span class="param">@param</span> {string} $key - the key associated with the requested data<br /><span class="return">@return</span>|false
- </div><h2 class="functionname">sessionClearPersistent(<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$key<br />)</h2><div class="commentblock">
+ </div><h2 class="functionname">sessionClear(<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$key<br />)</h2><div class="commentblock">
 Removes the key/value entry for a specified key<br /><br /><span class="param">@param</span> {string} $key - the key to be removed<br /><span class="return">@return</span> void
- </div><h2 class="functionname">sessionClearAllPersistent()</h2><div class="commentblock">
+ </div><h2 class="functionname">sessionClearAll()</h2><div class="commentblock">
 Removes all data from $_SESSION['cash_persistent_store'], setting it false<br /><br /><span class="return">@return</span> void
  </div><h2 class="functionname">setMetaData(<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$scope_table_alias,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$scope_table_id,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$user_id,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$data_key,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$data_value<br />)</h2><div class="commentblock"><br /><br />METADATA
 Metadata can be applied to any table by way of a scope table (alias) and

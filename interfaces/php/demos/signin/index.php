@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>E-Card / CASH Music</title>
+<title>Sign-In / CASH Music</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="assets/css/demo.css" rel="stylesheet" type="text/css" />
 <link rel="icon" type="image/png" href="http://cashmusic.org/images/icons/cash.png" /> 
@@ -11,7 +11,10 @@
 <body>
 
 <div id="mainspc">
-	<?php CASHSystem::embedElement(104); // CASH element (Dandy's e-card test / ecard) ?>
+	<img src="assets/images/funzone.png" width="250" height="120" id="titleimg" />
+	<?php CASHSystem::embedElement(106); // CASH element (Dandy's e-card test / ecard) ?>
+		SECURE
+	<?php CASHSystem::embedElement(106); // CASH element (Dandy's e-card test / ecard) ?>
 </div>
 
 <?php include('../../../../framework/php/settings/debug/cashmusic_debug.php'); // Debug ?>

@@ -14,7 +14,7 @@
  *
  **/
 abstract class ElementBase extends CASHData {
-	protected $element_id, $status_uid, $original_request, $options, $element;
+	protected $element_id, $status_uid, $original_request, $options, $element, $unlocked = false;
 	const type = 'unknown';
 	const name = 'Unknown Element';
 
@@ -37,9 +37,50 @@ abstract class ElementBase extends CASHData {
 			}
 		}
 		$this->options = $element['options'];
+		if ($this->isUnlocked()) {
+			$this->unlocked = true;
+		}
 		// check for an init() in the defined element. if it exists, call it
 		if (method_exists($this,'init')) {
 			$this->init();
+		}
+	}
+
+	public function lock() {
+		$lock_session = $this->sessionGet('unlocked_elements');
+		if (is_array($lock_session)) {
+			$key = array_search($this->element_id, $lock_session);
+			if ($key !== false) {
+				unset($lock_session[$key]);
+				$this->sessionSet('unlocked_elements',$lock_session);
+			}
+		}
+		$this->unlocked = false;
+	}
+
+	public function unlock() {
+		$lock_session = $this->sessionGet('unlocked_elements');
+		if (is_array($lock_session)) {
+			$key = array_search($this->element_id, $lock_session);
+			if ($key === false) {
+				$lock_session[] = $this->element_id;
+				$this->sessionSet('unlocked_elements',$lock_session);
+			}
+		} else {
+			$this->sessionSet('unlocked_elements',array($this->element_id));
+		}
+		$this->unlocked = true;
+	}
+
+	public function isUnlocked() {
+		$lock_session = $this->sessionGet('unlocked_elements');
+		if (is_array($lock_session)) {
+			$key = array_search($this->element_id, $lock_session);
+			if ($key !== false) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
 

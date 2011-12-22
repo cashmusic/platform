@@ -47,7 +47,7 @@
 		<div id="chromespc">
 			<div id="accountspc">
 				<div id="accountmenu">
-					<?php echo $admin_primary_cash_request->sessionGetPersistent('cash_effective_user_email'); ?>
+					<?php echo $admin_primary_cash_request->sessionGet('cash_effective_user_email'); ?>
 					<ul>
 						<li><a href="#">Your account</a></li>
 						<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/settings/">System settings</a></li>
