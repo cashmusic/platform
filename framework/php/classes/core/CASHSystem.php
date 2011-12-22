@@ -89,7 +89,12 @@
 				'original_request' => $original_request
 			)
 		);
-		echo $cash_body_request->response['payload'];
+		if ($cash_body_request->response['status_uid'] == 'element_getmarkup_400') {
+			echo '<div class="cash_system_error">Element #' . $element_id . ' could not be found.</div>';
+		}
+		if (is_string($cash_body_request->response['payload'])) {
+			echo $cash_body_request->response['payload'];
+		}
 		if ($cash_body_request->sessionGet('initialized_element_' . $element_id,'script')) {
 			if (ob_get_level()) {
 				ob_flush();
