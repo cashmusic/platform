@@ -1,9 +1,13 @@
-body {font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5em;background:#fff url(../images/bg.jpg) center center;color:#444;}
-a {color:#444;font-weight:bold;text-decoration:none;}
-a:hover {color:#179de6;}
+body {font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5em;background:#fff url(../images/bg.jpg) center top;color:#444;}
+a {color:#444;text-decoration:none;}
+a:hover {color:#ec008c;}
 h2 {margin:0;}
-#mainspc {position:relative;width:600px;margin:110px auto 0 auto;padding:70px 20px 20px 20px;background-color:#fff;background-color:rgba(255, 255, 255, 0.9);border-radius:12px;}
-#titleimg {position:absolute;top:-28px;right:20px;}
+#mainspc {position:relative;width:664px;margin:110px auto 30px auto;padding:30px 20px 20px 20px;background-color:#fff;background-color:rgba(255, 255, 255, 0.9);border-radius:12px;min-height:480px;}
+#navmenu {font-family:'Open Sans Condensed',sans-serif;font-style:italic;font-size:30px;white-space:nowrap;margin-bottom:36px;}
+#navmenu a {margin-right:12px;}
+#navmenu a.selected {color:#ec008c;}
+#navtitle {font-size:0.8em;color:#aaa;}
+#titleimg {position:absolute;top:-88px;right:20px;}
 
 /* SEED-SPECIFIC STYLES */
 div.cash_success div.description {display:none;}
