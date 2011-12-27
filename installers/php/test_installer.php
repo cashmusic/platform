@@ -93,7 +93,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 
 	// if the file exists already, rename it as a backup
 	if (file_exists($installer_root . '/../../framework/db/cashmusic_test.sqlite')) {
-		rename($installer_root . '/../../framework/db/cashmusic_test.sqlite',$installer_root . '/../../framework/db/cashmusic_test.sqlite.bak');
+		rename($installer_root . '/../../framework/db/cashmusic_test.sqlite',$installer_root . '/../../framework/db/cashmusic_test.sqlite.pretest.bak');
 	} else {
 		// if the directory was never created then create it now
 		if (!file_exists($installer_root . '/../../framework/db')) {
@@ -159,6 +159,9 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 	if ($success) {
 		$installer_root = dirname(__FILE__);
 		// modify settings files
+		if (file_exists($installer_root . '/../../framework/php/settings/cashmusic.ini.php')) {
+			rename($installer_root . '/../../framework/php/settings/cashmusic.ini.php',$installer_root . '/../../framework/php/settings/cashmusic.ini.pretest.bak');
+		}
 		if (
 			!copy($installer_root.'/../../framework/php/settings/cashmusic_template.ini.php',$installer_root.'/../../framework/php/settings/cashmusic.ini.php')
 		) {
