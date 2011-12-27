@@ -12,7 +12,7 @@
 		#navmenu .navitem:hover {background-image:none;cursor:auto;}
 		#pagedisplay {margin:0 auto;}
 		#loginspc {position:relative;top:6px;width:960px;height:220px;margin:0 auto;}
-		#loginbox {position:relative;width:260px;height:220px;padding:35px 430px 105px 40px;background:#418584 url(<?php echo ADMIN_WWW_BASE_PATH; ?>/ui/default/assets/images/bg_login.gif) left top no-repeat;text-align:left;}
+		#loginbox {position:relative;width:260px;height:220px;padding:35px 430px 105px 40px;background:#418584 url(<?php echo ADMIN_WWW_BASE_PATH; ?>/ui/default/assets/images/bg_login.jpg) left top no-repeat;text-align:left;}
 		#loginbox h1 {font-size:88px;color:#fff;margin:6px 0 26px 0;white-space:nowrap;}
 		#loginbox label {color:#000;}
 		#loginbox input {border:1px solid #fff;width:244px;padding:8px;}
