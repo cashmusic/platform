@@ -86,7 +86,6 @@ class SignIn extends ElementBase {
 				$markup = $default_markup;
 		}
 		return $markup;
-		ob_flush();
 	}
 } // END class 
 ?>
