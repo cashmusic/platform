@@ -74,12 +74,12 @@ class AssetPlant extends PlantBase {
 					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
 					if (!$this->requireParameters('title','description','location','user_id')) { return $this->sessionGetLastResponse(); }
 					// defaults:
-					$addasset_settings_id = 0;
+					$addasset_connection_id = 0;
 					$addasset_tags = false;
 					$addasset_metadata = false;
 					$addasset_parent_id = 0;
 					$addasset_public_status = 1;
-					if (isset($this->request['settings_id'])) { $addasset_settings_id = $this->request['settings_id']; }
+					if (isset($this->request['connection_id'])) { $addasset_connection_id = $this->request['connection_id']; }
 					if (isset($this->request['tags'])) { $addasset_tags = $this->request['tags']; }
 					if (isset($this->request['metadata'])) { $addasset_metadata = $this->request['metadata']; }
 					if (isset($this->request['parent_id'])) { $addasset_parent_id = $this->request['parent_id']; }
@@ -90,7 +90,7 @@ class AssetPlant extends PlantBase {
 						$this->request['description'],
 						$this->request['location'],
 						$this->request['user_id'],
-						$addasset_settings_id,
+						$addasset_connection_id,
 						$addasset_tags,
 						$addasset_metadata,
 						$addasset_parent_id,
@@ -106,12 +106,12 @@ class AssetPlant extends PlantBase {
 					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
 					if (!$this->requireParameters('title','description','location','id','user_id')) { return $this->sessionGetLastResponse(); }
 					// defaults:
-					$addasset_settings_id = 0;
+					$addasset_connection_id = 0;
 					$addasset_tags = false;
 					$addasset_metadata = false;
 					$addasset_parent_id = 0;
 					$addasset_public_status = 1;
-					if (isset($this->request['settings_id'])) { $addasset_settings_id = $this->request['settings_id']; }
+					if (isset($this->request['connection_id'])) { $addasset_connection_id = $this->request['connection_id']; }
 					if (isset($this->request['tags'])) { $addasset_tags = $this->request['tags']; }
 					if (isset($this->request['metadata'])) { $addasset_metadata = $this->request['metadata']; }
 					if (isset($this->request['parent_id'])) { $addasset_parent_id = $this->request['parent_id']; }
@@ -123,7 +123,7 @@ class AssetPlant extends PlantBase {
 						$this->request['title'],
 						$this->request['description'],
 						$this->request['location'],
-						$addasset_settings_id,
+						$addasset_connection_id,
 						$addasset_tags,
 						$addasset_metadata,
 						$addasset_parent_id,
@@ -188,7 +188,7 @@ class AssetPlant extends PlantBase {
 		}
 	}
 	
-	public function addAsset($title,$description,$location,$user_id,$settings_id=0,$tags=false,$metadata=false,$parent_id=0,$public_status=1) {
+	public function addAsset($title,$description,$location,$user_id,$connection_id=0,$tags=false,$metadata=false,$parent_id=0,$public_status=1) {
 		$result = $this->db->setData(
 			'assets',
 			array(
@@ -196,7 +196,7 @@ class AssetPlant extends PlantBase {
 				'description' => $description,
 				'location' => $location,
 				'user_id' => $user_id,
-				'settings_id' => $settings_id,
+				'connection_id' => $connection_id,
 				'parent_id' => $parent_id,
 				'public_status' => $public_status
 			)
@@ -207,14 +207,14 @@ class AssetPlant extends PlantBase {
 		return $result;
 	}
 	
-	public function editAsset($asset_id,$user_id,$title,$description,$location,$settings_id,$tags,$metadata,$parent_id,$public_status) {
+	public function editAsset($asset_id,$user_id,$title,$description,$location,$connection_id,$tags,$metadata,$parent_id,$public_status) {
 		$result = $this->db->setData(
 			'assets',
 			array(
 				'title' => $title,
 				'description' => $description,
 				'location' => $location,
-				'settings_id' => $settings_id,
+				'connection_id' => $connection_id,
 				'parent_id' => $parent_id,
 				'public_status' => $public_status
 			),
@@ -377,11 +377,11 @@ class AssetPlant extends PlantBase {
 		if ($this->getUnlockedStatus($asset_id)) {
 			$asset = $this->getAssetInfo($asset_id);
 			
-			$connection_id = $asset['settings_id'];
+			$connection_id = $asset['connection_id'];
 			$connection_type = $this->getConnectionType($connection_id);
 			switch ($connection_type) {
 				case 'com.amazon':
-					$s3 = new S3Seed($asset['user_id'],$asset['settings_id']);
+					$s3 = new S3Seed($asset['user_id'],$asset['connection_id']);
 					$this->pushSuccess(array('asset' => $asset_id),'redirect executed successfully');
 					$this->recordAnalytics($asset_id,$element_id);
 					header("Location: " . $s3->getExpiryURL($asset['location']));

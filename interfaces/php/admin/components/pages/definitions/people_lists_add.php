@@ -13,7 +13,7 @@ if (isset($_POST['dolistadd'])) {
 			'cash_action' => 'addlist',
 			'list_name' => $_POST['list_name'],
 			'list_description' => $_POST['list_description'],
-			'settings_id' => $_POST['settings_id'],
+			'connection_id' => $_POST['connection_id'],
 			'user_id' => $effective_user,
 		)
 	);

@@ -80,7 +80,7 @@ class CASHDBA {
 			'lock_codes' => 'lock_codes',
 			'lock_passwords' => 'lock_passwords',
 			'metadata' => 'base_metadata',
-			'settings' => 'base_settings',
+			'settings' => 'base_connections',
 			'users' => 'user_users',
 			'user_lists' => 'user_lists',
 			'list_members' => 'user_lists_members',

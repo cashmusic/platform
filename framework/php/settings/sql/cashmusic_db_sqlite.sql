@@ -14,7 +14,7 @@ CREATE TABLE asst_assets (
   user_id int(11) DEFAULT NULL,
   parent_id int(11) DEFAULT NULL,
   location text,
-  settings_id int(11) DEFAULT NULL,
+  connection_id int(11) DEFAULT NULL,
   title text,
   description text,
   public_status bool DEFAULT '0',
@@ -218,7 +218,7 @@ CREATE TABLE user_lists (
   name varchar(128) NOT NULL DEFAULT '',
   description text,
   user_id int(11) NOT NULL,
-  settings_id int(11) NOT NULL,
+  connection_id int(11) NOT NULL,
   creation_date int(11) DEFAULT NULL,
   modification_date int(11) DEFAULT '0'
 );
@@ -270,14 +270,27 @@ CREATE TABLE elmt_analytics (
 CREATE INDEX elmt_analytics_element_id ON elmt_analytics (element_id);
 
 --
--- Table: base_settings
+-- Table: base_connections
 --
-CREATE TABLE base_settings (
+CREATE TABLE base_connections (
   id INTEGER PRIMARY KEY NOT NULL,
   name text,
   type text NOT NULL,
   data text NOT NULL,
   user_id int(11) NOT NULL,
+  creation_date int(11) DEFAULT NULL,
+  modification_date int(11) DEFAULT NULL
+);
+
+--
+-- Table: base_connections
+--
+CREATE TABLE base_analytics (
+  id INTEGER PRIMARY KEY NOT NULL,
+  type text NOT NULL,
+  data text NOT NULL,
+  user_id int(11) NOT NULL,
+  element_id int(11) DEFAULT NULL,
   creation_date int(11) DEFAULT NULL,
   modification_date int(11) DEFAULT NULL
 );

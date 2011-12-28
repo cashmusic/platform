@@ -1,7 +1,7 @@
 <?php
 /**
- * CASHSettings stores and retrieves 3rd party API connection settings from the 
- * database. API settings definitions are stored as JSON flat files in /settings/types 
+ * CASHConnections stores and retrieves 3rd party API connection settings from the 
+ * database. API settings definitions are stored as JSON flat files in /settings/connections 
  * then read in by this class. Actual API keys and needed settings are stored as JSON 
  * in the settings table in the database.
  *
@@ -13,11 +13,11 @@
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
- */class CASHSettings extends CASHData {
+ */class CASHConnections extends CASHData {
 	
-	public function __construct($user_id=false,$settings_id=false) {
+	public function __construct($user_id=false,$connection_id=false) {
 		$this->user_id = $user_id;
-		$this->settings_id = $settings_id;
+		$this->connection_id = $connection_id;
 		$this->settings = null;
 		$this->connectDB();
 	}
@@ -35,12 +35,12 @@
 	 *
 	 * @return array
 	 */public function getSettingsTypes($filter_by_scope=false) {
-		if ($settings_dir = opendir(CASH_PLATFORM_ROOT.'/settings/types')) {
+		if ($settings_dir = opendir(CASH_PLATFORM_ROOT.'/settings/connections')) {
 			$settings_types = false;
 			while (false !== ($file = readdir($settings_dir))) {
 				if (substr($file,0,1) != "." && !is_dir($file)) {
 					$tmp_key = strtolower(substr_replace($file, '', -5));
-					$tmp_value = json_decode(file_get_contents(CASH_PLATFORM_ROOT.'/settings/types/'.$file));
+					$tmp_value = json_decode(file_get_contents(CASH_PLATFORM_ROOT.'/settings/connections/'.$file));
 					if ($filter_by_scope) {
 						if (!in_array($filter_by_scope, $tmp_value->scope)) {
 							$tmp_value = false;
@@ -89,24 +89,24 @@
 	 */
 	
 	/**
-	 * Returns the decoded JSON for the setting id the CASHSettings
+	 * Returns the decoded JSON for the setting id the CASHConnections
 	 * object was instantiated with. 
 	 *
 	 * @return settings obj
 	 */public function getSettings($id_override=false) {
 		if (!$id_override) {
-			$settings_id = $this->settings_id;
+			$connection_id = $this->connection_id;
 		} else {
-			$settings_id = $id_override;
+			$connection_id = $id_override;
 		}
-		if ($settings_id) {
+		if ($connection_id) {
 			$result = $this->db->getData(
 				'settings',
 				'data',
 				array(
 					"id" => array(
 						"condition" => "=",
-						"value" => $settings_id
+						"value" => $connection_id
 					),
 					"user_id" => array(
 						"condition" => "=",
@@ -126,7 +126,7 @@
 	}
 	
 	/**
-	 * Returns the decoded JSON for the setting type/name the CASHSettings
+	 * Returns the decoded JSON for the setting type/name the CASHConnections
 	 * object was instantiated with. 
 	 *
 	 * @return settings obj
@@ -166,13 +166,13 @@
 	 *
 	 * @param {array} settings_data: settings data as associative array
 	 * @return boolean
-	 */public function setSettings($settings_name,$settings_type,$settings_data,$settings_id=false) {
+	 */public function setSettings($settings_name,$settings_type,$settings_data,$connection_id=false) {
 		$settings_data = json_encode($settings_data);
-		if ($settings_id) {
+		if ($connection_id) {
 			$settings_condition = array(
 				'id' => array(
 					'condition' => '=',
-					'value' => $settings_id
+					'value' => $connection_id
 				)
 			);
 			$allow_action = true;
@@ -201,15 +201,15 @@
 	/**
 	 * 
 	 *
-	 * @param {int} settings_id
+	 * @param {int} connection_id
 	 * @return boolean
-	 */public function deleteSettings($settings_id) {
+	 */public function deleteSettings($connection_id) {
 		$result = $this->db->deleteData(
 			'settings',
 			array(
 				'id' => array(
 					'condition' => '=',
-					'value' => $settings_id
+					'value' => $connection_id
 				)
 			)
 		);

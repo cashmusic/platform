@@ -7,7 +7,7 @@ CREATE TABLE `asst_assets` (
   `user_id` int(11) DEFAULT NULL,
   `parent_id` int(11) DEFAULT NULL,
   `location` text,
-  `settings_id` int(11) DEFAULT NULL,
+  `connection_id` int(11) DEFAULT NULL,
   `title` text,
   `description` text,
   `public_status` bool DEFAULT '0',
@@ -213,7 +213,7 @@ CREATE TABLE `user_lists` (
   `name` varchar(128) NOT NULL DEFAULT '',
   `description` text,
   `user_id` int(11) NOT NULL,
-  `settings_id` int(11) NOT NULL,
+  `connection_id` int(11) NOT NULL,
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
@@ -268,14 +268,28 @@ CREATE TABLE `elmt_analytics` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS `base_settings`;
+DROP TABLE IF EXISTS `base_connections`;
 
-CREATE TABLE `base_settings` (
+CREATE TABLE `base_connections` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` text,
   `type` text NOT NULL,
   `data` text NOT NULL,
   `user_id` int(11) NOT NULL,
+  `creation_date` int(11) DEFAULT NULL,
+  `modification_date` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `base_analytics`;
+
+CREATE TABLE `base_analytics` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` text NOT NULL,
+  `data` text NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `element_id` int(11) DEFAULT NULL,
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)

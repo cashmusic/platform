@@ -89,17 +89,17 @@
 					}
 					break;
 				case 'edit':
-					$settings_id = $request_parameters[1];
+					$connection_id = $request_parameters[1];
 					$settings_name = $request_parameters[2];
 					$settings_type = $request_parameters[3];
-					$settings_details = $page_data_object->getSettings($settings_id);
+					$settings_details = $page_data_object->getSettings($connection_id);
 					if (!isset($_POST['dosettingsedit'])) {
 						if ($settings_details) {
 							echo '<h3>Edit ' . $settings_name . '</h3>';
 							?>
 							<form method="post" action="">
 								<input type="hidden" name="dosettingsedit" value="makeitso" />
-								<input type="hidden" name="settings_id" value="<?php echo $settings_id; ?>" />
+								<input type="hidden" name="connection_id" value="<?php echo $connection_id; ?>" />
 								<input type="hidden" name="settings_type" value="<?php echo $settings_type; ?>" />
 								<label for="settings_name">Name</label><br />
 								<input type="text" id="settings_name" name="settings_name" value="<? echo $settings_name; ?>" />
@@ -131,7 +131,7 @@
 							$_POST['settings_name'],
 							$_POST['settings_type'],
 							$settings_data_array,
-							$_POST['settings_id']
+							$_POST['connection_id']
 						);
 						if ($result) {
 							?>
@@ -153,8 +153,8 @@
 					}
 					break;
 				case 'delete':
-					$settings_id = $request_parameters[1];
-					$result = $page_data_object->deleteSettings($settings_id);
+					$connection_id = $request_parameters[1];
+					$result = $page_data_object->deleteSettings($connection_id);
 					if ($result) {
 						?>
 						<h3>Success</h3>

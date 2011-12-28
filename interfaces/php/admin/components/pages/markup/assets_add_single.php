@@ -12,8 +12,8 @@
 
 		<div class="row_seperator">.</div>
 		<div class="col_oneoftwo">
-			<label for="settings_id">Use Settings</label><br />
-			<select id="settings_id" name="settings_id">
+			<label for="connection_id">Use Settings</label><br />
+			<select id="connection_id" name="connection_id">
 				<option value="0" selected="selected">None (Normal http:// link)</option>
 				<?php AdminHelper::echoSettingsOptions('assets') ?>
 			</select>

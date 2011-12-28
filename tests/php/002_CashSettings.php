@@ -4,9 +4,9 @@ require_once('tests/php/base.php');
 
 class CashDataTests extends UnitTestCase {
 
-    function testCASHSettings(){
-        $settings = new CASHSettings();
-        $this->assertIsa($settings, 'CASHSettings');
+    function testCASHConnections(){
+        $settings = new CASHConnections();
+        $this->assertIsa($settings, 'CASHConnections');
     }
 
 }

@@ -12,11 +12,36 @@
  *
  */class CASHDaemon extends CASHData {
 	public $lottery_val,
+		   $user_id = false,
 		   $go = false;
-	public function __construct($chance=3) {
+
+	public function __construct($user_id=false,$chance=3) {
 		$this->lottery_val = rand(1,100);
+		$this->user_id = $user_id;
 		if ($this->lottery_val <= $chance) {
 			$this->go = true;
+		}
+	}
+
+	private function clearOldSessions() {
+		
+	}
+
+	private function clearOldTokens() {
+		
+	}
+
+	private function pollUserAccounts() {
+		
+	}
+
+	public function __destruct() {
+		if ($this->go) {
+			$this->clearOldSessions();
+			$this->clearOldTokens();
+			if ($this->user_id) {
+				$this->pollUserAccounts();
+			}
 		}
 	}
 } // END class 

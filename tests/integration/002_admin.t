@@ -77,7 +77,7 @@ mech->submit_form_ok({
         asset_location    => 'http://aasdf.com',
         asset_title       => 'adsf',
         doassetadd        => 'makeitso',
-        settings_id       => 0
+        connection_id       => 0
     },
 }, 'add asset form');
 mech->content_unlike(qr/Error/);
@@ -120,7 +120,7 @@ mech->submit_form_ok({
         dolistadd        =>   'makeitso',
         list_description =>   'Ultharian cats',
         list_name        =>   'cats_of_ulthar',
-        settings_id      =>   0,
+        connection_id      =>   0,
     },
 }, 'add mailing list') or diag mech->content;
 mech->content_like(qr/Success/);

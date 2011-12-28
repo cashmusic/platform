@@ -9,8 +9,8 @@ class CashSeedTests extends UnitTestCase {
 	}
 	function testTwitterSeed(){
 		$user_id      = 1;
-		$settings_id  = 1;
-		$twitter      = new TwitterSeed($user_id,$settings_id);
+		$connection_id  = 1;
+		$twitter      = new TwitterSeed($user_id,$connection_id);
 		$this->assertIsa($twitter, 'TwitterSeed');
 	}
 }

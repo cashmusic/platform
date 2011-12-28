@@ -14,12 +14,12 @@
 class S3Seed extends SeedBase {
 	protected $s3,$bucket='';
 
-	public function __construct($user_id,$settings_id) {
+	public function __construct($user_id,$connection_id) {
 		$this->settings_type = 'com.amazon';
 		$this->user_id = $user_id;
-		$this->settings_id = $settings_id;
+		$this->connection_id = $connection_id;
 		$this->connectDB();
-		if ($this->getCASHSettings()) {
+		if ($this->getCASHConnections()) {
 			require_once(CASH_PLATFORM_ROOT.'/lib/S3.php');
 			$this->s3 = new S3($this->settings->getSetting('key'), $this->settings->getSetting('secret'));
 			$this->bucket = $this->settings->getSetting('bucket');
