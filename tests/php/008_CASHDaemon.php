@@ -9,7 +9,7 @@ class CASHDaemonTests extends UnitTestCase {
 		$this->assertIsa($d, 'CASHDaemon');
 	}
  
-	function testCASHDaemonRandomizes() {
+	function testRandomize() {
 		// tests to make sure that CASHDaemon is choosing a random number 
 		// properly on init
 		$d = new CASHDaemon();
@@ -27,5 +27,13 @@ class CASHDaemonTests extends UnitTestCase {
 		return false;
 	}
 
+	function testGoChance() {
+		// Set chance to 100%
+		$d = new CASHDaemon(false,100);
+		$this->assertTrue($d->go);
+		// Set chance to 0%
+		$d = new CASHDaemon(false,0);
+		$this->assertFalse($d->go);
+	}
 }
 ?>

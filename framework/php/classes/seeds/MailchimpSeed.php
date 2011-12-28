@@ -21,11 +21,11 @@ class MailchimpSeed extends SeedBase {
 			$this->error_message = $this->api->errorMessage;
 		}
 	}
-	public function __construct($user_id, $settings_id) {
+	public function __construct($user_id, $connection_id) {
 		$this->settings_type = 'com.mailchimp';
 		$this->user_id = $user_id;
-		$this->settings_id = $settings_id;
-		if ($this->getCASHSettings()) {
+		$this->connection_id = $connection_id;
+		if ($this->getCASHConnections()) {
 			require_once(CASH_PLATFORM_ROOT.'/lib/mailchimp/MCAPI.class.php');
 			$this->key                = $this->settings->getSetting('key');
 			$this->list_id            = $this->settings->getSetting('list');

@@ -94,11 +94,11 @@ class PeoplePlant extends PlantBase {
 				case 'addlist':
 					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
 					if (!$this->requireParameters('user_id','list_name','list_description')) return $this->sessionGetLastResponse();
-						$settings_id = 0;
-						if (isset($this->request['settings_id'])) {
-							$settings_id = (int) $this->request['settings_id'];
+						$connection_id = 0;
+						if (isset($this->request['connection_id'])) {
+							$connection_id = (int) $this->request['connection_id'];
 						}
-						$result = $this->addList($this->request['list_name'],$this->request['list_description'],$this->request['user_id'],$settings_id);
+						$result = $this->addList($this->request['list_name'],$this->request['list_description'],$this->request['user_id'],$connection_id);
 						if ($result) {
 							return $this->pushSuccess($result,'success. lists added.');
 						} else {
@@ -108,11 +108,11 @@ class PeoplePlant extends PlantBase {
 				case 'editlist':
 					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
 					if (!$this->requireParameters('list_id','list_name','list_description')) return $this->sessionGetLastResponse();
-						$settings_id = 0;
-						if (isset($this->request['settings_id'])) {
-							$settings_id = (int) $this->request['settings_id'];
+						$connection_id = 0;
+						if (isset($this->request['connection_id'])) {
+							$connection_id = (int) $this->request['connection_id'];
 						}
-						$result = $this->editList($this->request['list_id'],$this->request['list_name'],$this->request['list_description'],$settings_id);
+						$result = $this->editList($this->request['list_id'],$this->request['list_name'],$this->request['list_description'],$connection_id);
 						if ($result) {
 							return $this->pushSuccess($result,'success. lists edited.');
 						} else {
@@ -204,16 +204,16 @@ class PeoplePlant extends PlantBase {
 	 * @param {int} $list_id -      the list
 	 * @param {int} $name -         a name given to the list for easy recognition
 	 * @param {int} $description -  a description, in case the name is terrible and offers no help
-	 * @param {int} $settings_id -  a third party connection with which the list should sync
+	 * @param {int} $connection_id -  a third party connection with which the list should sync
 	 * @return id|false
-	 */public function addList($name,$description,$user_id,$settings_id=0) {
+	 */public function addList($name,$description,$user_id,$connection_id=0) {
 		$result = $this->db->setData(
 			'user_lists',
 			array(
 				'name' => $name,
 				'description' => $description,
 				'user_id' => $user_id,
-				'settings_id' => $settings_id
+				'connection_id' => $connection_id
 			)
 		);
 		if ($result) {
@@ -228,16 +228,16 @@ class PeoplePlant extends PlantBase {
 	 * @param {int} $list_id -      the list
 	 * @param {int} $name -         a name given to the list for easy recognition
 	 * @param {int} $description -  a description, in case the name is terrible and offers no help
-	 * @param {int} $settings_id -  a third party connection with which the list should sync
+	 * @param {int} $connection_id -  a third party connection with which the list should sync
 	 * @return id|false
-	 */public function editList($list_id,$name,$description,$settings_id=0) {
+	 */public function editList($list_id,$name,$description,$connection_id=0) {
 		$this->manageWebhooks($list_id,'remove');
 		$result = $this->db->setData(
 			'user_lists',
 			array(
 				'name' => $name,
 				'description' => $description,
-				'settings_id' => $settings_id
+				'connection_id' => $connection_id
 			),
 			array(
 				"id" => array(
@@ -289,7 +289,7 @@ class PeoplePlant extends PlantBase {
 	public function getConnectionAPI($list_id) {
 		$list_info     = $this->getListById($list_id);
 		// settings are called connections now
-		$connection_id = $list_info['settings_id'];
+		$connection_id = $list_info['connection_id'];
 		$user_id       = $list_info['user_id'];
 		
 		// if there is an external connection
@@ -345,7 +345,7 @@ class PeoplePlant extends PlantBase {
 	 */public function doListSync($list_id, $api_url=false) {
 		$list_info     = $this->getListById($list_id);
 		// settings are called connections now
-		$connection_id = $list_info['settings_id'];
+		$connection_id = $list_info['connection_id'];
 		$user_id       = $list_info['user_id'];
 
 		if ($connection_id) {

@@ -14,7 +14,7 @@ $cash_admin->requestAndStore(
 
 // parsing posted data:
 if (isset($_POST['doassetedit'])) {
-	$asset_settings = $_POST['settings_id'];
+	$asset_settings = $_POST['connection_id'];
 	$asset_title = $_POST['asset_title'];
 	$asset_location = $_POST['asset_location'];
 	$asset_description = $_POST['asset_description'];
@@ -32,7 +32,7 @@ if (isset($_POST['doassetedit'])) {
 			'description' => $asset_description,
 			'location' => $asset_location,
 			'user_id' => $effective_user,
-			'settings_id' => $asset_settings,
+			'connection_id' => $asset_settings,
 			'tags' => $metadata_and_tags['tags_details'],
 			'metadata' => $metadata_and_tags['metadata_details']
 		),

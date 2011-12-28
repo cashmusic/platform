@@ -29,7 +29,7 @@ if ($current_response['status_uid'] == 'people_getlistinfo_200') {
 				'list_id' => $request_parameters[0],
 				'list_name' => $_POST['list_name'],
 				'list_description' => $_POST['list_description'],
-				'settings_id' => $_POST['settings_id']
+				'connection_id' => $_POST['connection_id']
 			)
 		);
 		$cash_admin->requestAndStore(

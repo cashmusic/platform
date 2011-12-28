@@ -14,14 +14,14 @@
 class TwitterSeed extends SeedBase {
 	protected $twitter;
 
-	public function __construct($user_id=false,$settings_id=false) {
+	public function __construct($user_id=false,$connection_id=false) {
 		$this->settings_type = 'com.twitter';
 		$this->user_id = $user_id;
-		$this->settings_id = $settings_id;
+		$this->connection_id = $connection_id;
 		$this->primeCache();
-		if ($user_id && $settings_id) {
+		if ($user_id && $connection_id) {
 			$this->connectDB();
-			if ($this->getCASHSettings()) {
+			if ($this->getCASHConnections()) {
 				// fire up an instance of the lib
 			} else {
 				// error out — potentially to special error message page.

@@ -15,8 +15,8 @@
 		<textarea rows="3" id="list_description" name="list_description"></textarea>
 
 		<div class="row_seperator">.</div>
-		<label for="settings_id">Connect To</label><br />
-		<select id="settings_id" name="settings_id">
+		<label for="connection_id">Connect To</label><br />
+		<select id="connection_id" name="connection_id">
 			<option value="0" selected="selected">None (local list only)</option>
 			<?php AdminHelper::echoSettingsOptions('lists') ?>
 		</select>

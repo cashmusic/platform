@@ -3,22 +3,22 @@
 require_once('tests/php/base.php');
 
 class MailchimpTests extends UnitTestCase {
-	private $mailchimp_settings_id, 
+	private $mailchimp_connection_id, 
 			$test_id='b607c6d911', // an already-created list for testing
 			$cash_user_id=1, // arbitrary user id so settings/queries match
 			$api_key=false;
 	
 	function __construct() {
 		$this->api_key = getenv("MAILCHIMP_API_KEY");
-		$c = new CASHSettings($this->cash_user_id); // the '1' sets a user id=1
-		$this->mailchimp_settings_id = $c->setSettings('MailChimp', 'com.mailchimp',
+		$c = new CASHConnections($this->cash_user_id); // the '1' sets a user id=1
+		$this->mailchimp_connection_id = $c->setSettings('MailChimp', 'com.mailchimp',
 			array( "key" => $this->api_key, "list" => $this->test_id ) );
 	}
 	
 	function testMailchimpSeed(){
 		$time = time();
 		if($this->api_key) {
-			$mc = new MailchimpSeed($this->cash_user_id, $this->mailchimp_settings_id); // the '1' sets a user id=1
+			$mc = new MailchimpSeed($this->cash_user_id, $this->mailchimp_connection_id); // the '1' sets a user id=1
 			$this->assertIsa($mc, 'MailchimpSeed');
 			$this->assertTrue($mc->url);
 			$this->assertTrue($mc->lists());
@@ -65,7 +65,7 @@ class MailchimpTests extends UnitTestCase {
 			// faking the URL to a valid 200 response for now, but need to update the test installer so it's...you know...less fake
 			$webhook_api_url = 'http://dev.cashmusic.org/?' . $list_id . '/api_key/' . $api_credentials['api_key'];
 			
-			$mc = new MailchimpSeed($this->cash_user_id, $this->mailchimp_settings_id);
+			$mc = new MailchimpSeed($this->cash_user_id, $this->mailchimp_connection_id);
 
 			$webhooks1 = $mc->listWebhooks();
 			$this->assertTrue(count($webhooks1) == 0, 'zero webhooks initially');

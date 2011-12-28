@@ -1,4 +1,4 @@
-INSERT INTO `asst_assets` (`id`, `user_id`, `parent_id`, `location`, `settings_id`, `title`, `description`, `public_status`, `creation_date`, `modification_date`)
+INSERT INTO `asst_assets` (`id`, `user_id`, `parent_id`, `location`, `connection_id`, `title`, `description`, `public_status`, `creation_date`, `modification_date`)
 VALUES (100, 1, 0, 'http://cashmusic.s3.amazonaws.com/permalink/demos/portugaltheman/WhenTheWarEnds_987yh.mp3', 0, '"When The World Ends" MP3', '320kbps MP3', 1, 1311928519, 0);
 
 
@@ -17,10 +17,10 @@ VALUES (103, 1, 'Palmer/Gaiman filtered social feeds', 'socialfeeds', '{"tumblr"
 
 
 
-INSERT INTO `user_lists` (`id`, `name`, `description`, `user_id`, `settings_id`, `creation_date`, `modification_date`)
+INSERT INTO `user_lists` (`id`, `name`, `description`, `user_id`, `connection_id`, `creation_date`, `modification_date`)
 VALUES (100, 'Portugal List', 'The demo list for Portugal. The Man’s email download demo.', 1, 0, 1311316210, 0);
 
-INSERT INTO `user_lists` (`id`, `name`, `description`, `user_id`, `settings_id`, `creation_date`, `modification_date`)
+INSERT INTO `user_lists` (`id`, `name`, `description`, `user_id`, `connection_id`, `creation_date`, `modification_date`)
 VALUES (101, 'Iron & Wine List', 'The demo list for Iron & Wine’s email contest demo.', 1, 0, 1313045289, 0);
 
 

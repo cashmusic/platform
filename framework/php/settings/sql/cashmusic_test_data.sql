@@ -1,4 +1,4 @@
-INSERT INTO `asst_assets` (`id`, `user_id`, `parent_id`, `location`, `settings_id`, `title`, `description`, `public_status`, `creation_date`, `modification_date`)
+INSERT INTO `asst_assets` (`id`, `user_id`, `parent_id`, `location`, `connection_id`, `title`, `description`, `public_status`, `creation_date`, `modification_date`)
 VALUES (100, 1, 0, 'http://cashmusic.s3.amazonaws.com/permalink/demos/portugaltheman/WhenTheWarEnds_987yh.mp3', 0, '"When The World Ends" MP3', '320kbps MP3', 1, 1311928519, 0);
 
 INSERT INTO `elmt_elements` (`id`, `user_id`, `name`, `type`, `options`, `license_id`, `creation_date`, `modification_date`)
@@ -10,13 +10,13 @@ VALUES (101, 1, 'Iron & Wine ticket contest', 'emailcollection', '{"message_inva
 INSERT INTO `elmt_elements` (`id`, `user_id`, `name`, `type`, `options`, `license_id`, `creation_date`, `modification_date`)
 VALUES (102, 1, 'Wild Flag Tour Dates', 'tourdates', '{"visible_event_types":"upcoming"}', 0, 1316730460, NULL);
 
-INSERT INTO `user_lists` (`id`, `name`, `description`, `user_id`, `settings_id`, `creation_date`, `modification_date`)
+INSERT INTO `user_lists` (`id`, `name`, `description`, `user_id`, `connection_id`, `creation_date`, `modification_date`)
 VALUES (100, 'Portugal List', 'The demo list for Portugal. The Man’s email download demo.', 1, 0, 1311316210, 0);
 
-INSERT INTO `user_lists` (`id`, `name`, `description`, `user_id`, `settings_id`, `creation_date`, `modification_date`)
+INSERT INTO `user_lists` (`id`, `name`, `description`, `user_id`, `connection_id`, `creation_date`, `modification_date`)
 VALUES (101, 'Iron & Wine List', 'The demo list for Iron & Wine’s email contest demo.', 1, 0, 1313045289, 0);
 
-INSERT INTO `user_lists` (`id`, `name`, `description`, `user_id`, `settings_id`, `creation_date`, `modification_date`)
+INSERT INTO `user_lists` (`id`, `name`, `description`, `user_id`, `connection_id`, `creation_date`, `modification_date`)
 VALUES (99, 'no-user list', 'This list is assigned to a non-existent user', 123, 0, 1313045389, 0);
 
 INSERT INTO `live_venues` (`id`, `name`, `address1`, `address2`, `city`, `region`, `country`, `postalcode`, `url`, `phone`, `creation_date`) 

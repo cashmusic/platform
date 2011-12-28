@@ -16,16 +16,16 @@
  *
  **/
 abstract class SeedBase extends CASHData {
-	protected $settings,$settings_id=false,$user_id=null;
+	protected $settings,$connection_id=false,$user_id=null;
 
 	/**
 	 * Retrieves any needed settings (API keys, passwords, etc) based on the
 	 * type of Seed — returns false if no settings are found
 	 *
 	 * @return array|false
-	 */protected function getCASHSettings() {
-		if ($this->settings_id) {
-			if ($this->settings = new CASHSettings($this->user_id,$this->settings_id)) {
+	 */protected function getCASHConnections() {
+		if ($this->connection_id) {
+			if ($this->settings = new CASHConnections($this->user_id,$this->connection_id)) {
 				return $this->settings->getSettings();
 			} else {
 				return false;
