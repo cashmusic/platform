@@ -7,6 +7,7 @@
 	<link rel="icon" type="image/png" href="http://cashmusic.org/images/icons/cash.png" />
 	<link href="<?php echo ADMIN_WWW_BASE_PATH; ?>/ui/default/assets/css/admin.css" rel="stylesheet" type="text/css" />
 	<style type="text/css">
+		h1.tryagain {color:#ff0 !important;}
 		#mainspc {padding-top:150px;}
 		#navmenu {top:0;height:6px;overflow:hidden;padding-top:0;padding-bottom:0;}
 		#navmenu .navitem:hover {background-image:none;cursor:auto;}
@@ -42,7 +43,7 @@
 			<div id="loginspc">
 				<div id="loginbox">
 					<small><b>CASH Music</b></small>
-					<h1><?php echo $login_message; ?>:</h1>
+					<h1<?php if ($login_message == 'Try Again') {echo ' class="tryagain"';} ?>><?php echo $login_message; ?>:</h1>
 			
 					<form method="post" action=""> 
 						<label for="address">email</label>
