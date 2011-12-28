@@ -58,6 +58,9 @@
 		// set up auto-load
 		spl_autoload_register('CASHSystem::autoloadClasses');
 		
+		// set timezone
+		date_default_timezone_set($cash_settings['timezone']);
+		
 		// fire off new CASHRequest to cover any immediate-need things like GET
 		// asset requests, etc...
 		$cash_page_request = new CASHRequest();
