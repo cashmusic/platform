@@ -23,9 +23,9 @@ abstract class SeedBase extends CASHData {
 	 * type of Seed — returns false if no settings are found
 	 *
 	 * @return array|false
-	 */protected function getCASHConnections() {
+	 */protected function getCASHConnection() {
 		if ($this->connection_id) {
-			if ($this->settings = new CASHConnections($this->user_id,$this->connection_id)) {
+			if ($this->settings = new CASHConnection($this->user_id,$this->connection_id)) {
 				return $this->settings->getSettings();
 			} else {
 				return false;

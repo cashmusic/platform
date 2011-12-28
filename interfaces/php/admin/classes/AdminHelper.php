@@ -84,7 +84,7 @@
 	 *
 	 */public function echoSettingsOptions($scope,$selected=false) {
 		// get system settings:
-		$page_data_object = new CASHConnections(AdminHelper::getPersistentData('cash_effective_user'));
+		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
 		$settings_types_data = $page_data_object->getSettingsTypes($scope);
 		$applicable_settings_array = false;
 		foreach ($settings_types_data as $type_data) {
