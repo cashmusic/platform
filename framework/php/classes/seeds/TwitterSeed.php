@@ -21,7 +21,7 @@ class TwitterSeed extends SeedBase {
 		$this->primeCache();
 		if ($user_id && $connection_id) {
 			$this->connectDB();
-			if ($this->getCASHConnections()) {
+			if ($this->getCASHConnection()) {
 				// fire up an instance of the lib
 			} else {
 				// error out — potentially to special error message page.

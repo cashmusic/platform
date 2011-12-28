@@ -1,6 +1,6 @@
 <?php
 /**
- * CASHConnections stores and retrieves 3rd party API connection settings from the 
+ * CASHConnection stores and retrieves 3rd party API connection settings from the 
  * database. API settings definitions are stored as JSON flat files in /settings/connections 
  * then read in by this class. Actual API keys and needed settings are stored as JSON 
  * in the settings table in the database.
@@ -13,7 +13,7 @@
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
- */class CASHConnections extends CASHData {
+ */class CASHConnection extends CASHData {
 	
 	public function __construct($user_id=false,$connection_id=false) {
 		$this->user_id = $user_id;
@@ -89,7 +89,7 @@
 	 */
 	
 	/**
-	 * Returns the decoded JSON for the setting id the CASHConnections
+	 * Returns the decoded JSON for the setting id the CASHConnection
 	 * object was instantiated with. 
 	 *
 	 * @return settings obj
@@ -126,7 +126,7 @@
 	}
 	
 	/**
-	 * Returns the decoded JSON for the setting type/name the CASHConnections
+	 * Returns the decoded JSON for the setting type/name the CASHConnection
 	 * object was instantiated with. 
 	 *
 	 * @return settings obj

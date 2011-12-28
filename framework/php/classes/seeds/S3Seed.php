@@ -19,7 +19,7 @@ class S3Seed extends SeedBase {
 		$this->user_id = $user_id;
 		$this->connection_id = $connection_id;
 		$this->connectDB();
-		if ($this->getCASHConnections()) {
+		if ($this->getCASHConnection()) {
 			require_once(CASH_PLATFORM_ROOT.'/lib/S3.php');
 			$this->s3 = new S3($this->settings->getSetting('key'), $this->settings->getSetting('secret'));
 			$this->bucket = $this->settings->getSetting('bucket');
