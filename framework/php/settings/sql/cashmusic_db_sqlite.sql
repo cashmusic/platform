@@ -290,7 +290,8 @@ CREATE TABLE base_analytics (
   type text NOT NULL,
   data text NOT NULL,
   user_id int(11) NOT NULL,
-  element_id int(11) DEFAULT NULL,
+  scope_table_alias text DEFAULT NULL,
+  scope_table_id int(11) DEFAULT NULL,
   creation_date int(11) DEFAULT NULL,
   modification_date int(11) DEFAULT NULL
 );
