@@ -35,6 +35,15 @@
 		
 	}
 
+	private function setAnalytics() {
+		
+	}
+
+	public function getAnalytics() {
+		$return_array = array('last_run' => rand(1,110283348));
+		return $return_array;
+	}
+
 	public function __destruct() {
 		if ($this->go) {
 			$this->clearOldSessions();
@@ -42,6 +51,7 @@
 			if ($this->user_id) {
 				$this->pollUserAccounts();
 			}
+			$this->setAnalytics();
 		}
 	}
 } // END class 
