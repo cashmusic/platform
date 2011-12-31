@@ -314,7 +314,7 @@ class AssetPlant extends PlantBase {
 	 *
 	 * @return boolean
 	 */protected function recordAnalytics($asset_id,$element_id=0) {
-		$ip_and_proxy = CASHSystem::getCurrentIP();
+		$ip_and_proxy = CASHSystem::getRemoteIP();
 		$result = $this->db->setData(
 			'assets_analytics',
 			array(
