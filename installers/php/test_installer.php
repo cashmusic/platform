@@ -138,7 +138,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		'api_secret'    => "43",
 		'creation_date' => time()
 	);
-	$query = "INSERT INTO user_users (email_address,password,is_admin,api_key,api_secret,creation_date) VALUES (:email_address,:password,:is_admin,:api_key,:api_secret,:creation_date)";
+	$query = "INSERT INTO people (email_address,password,is_admin,api_key,api_secret,creation_date) VALUES (:email_address,:password,:is_admin,:api_key,:api_secret,:creation_date)";
 	
 	try {
 		$q = $pdo->prepare($query);

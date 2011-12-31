@@ -565,7 +565,7 @@ if (!isset($_POST['installstage'])) {
 				'api_secret'    => hash_hmac('sha256', time() . $password_hash . rand(976654,1234567267), $user_settings['systemsalt']),
 				'creation_date' => time()
 			);
-			$query = "INSERT INTO user_users (email_address,password,is_admin,api_key,api_secret,creation_date) VALUES (:email_address,:password,:is_admin,:api_key,:api_secret,:creation_date)";
+			$query = "INSERT INTO people (email_address,password,is_admin,api_key,api_secret,creation_date) VALUES (:email_address,:password,:is_admin,:api_key,:api_secret,:creation_date)";
 
 			try {
 				$q = $pdo->prepare($query);

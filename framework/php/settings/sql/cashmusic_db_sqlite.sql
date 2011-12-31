@@ -7,9 +7,9 @@
 BEGIN TRANSACTION;
 
 --
--- Table: asst_assets
+-- Table: assets
 --
-CREATE TABLE asst_assets (
+CREATE TABLE assets (
   id INTEGER PRIMARY KEY NOT NULL,
   user_id int(11) DEFAULT NULL,
   parent_id int(11) DEFAULT NULL,
@@ -22,14 +22,14 @@ CREATE TABLE asst_assets (
   modification_date int(11) DEFAULT '0'
 );
 
-CREATE INDEX asst_asets_parent_id ON asst_assets (parent_id);
+CREATE INDEX asst_asets_parent_id ON assets (parent_id);
 
-CREATE INDEX asst_assets_user_id ON asst_assets (user_id);
+CREATE INDEX assets_user_id ON assets (user_id);
 
 --
--- Table: asst_licenses
+-- Table: assets_licenses
 --
-CREATE TABLE asst_licenses (
+CREATE TABLE assets_licenses (
   id INTEGER PRIMARY KEY NOT NULL,
   name text NOT NULL,
   description text NOT NULL,
@@ -38,9 +38,9 @@ CREATE TABLE asst_licenses (
 );
 
 --
--- Table: cmrc_products
+-- Table: commerce_products
 --
-CREATE TABLE cmrc_products (
+CREATE TABLE commerce_products (
   id INTEGER PRIMARY KEY NOT NULL,
   sku varchar(20) DEFAULT NULL,
   title varchar(100) DEFAULT NULL,
@@ -54,9 +54,9 @@ CREATE TABLE cmrc_products (
 );
 
 --
--- Table: cmrc_transactions
+-- Table: commerce_transactions
 --
-CREATE TABLE cmrc_transactions (
+CREATE TABLE commerce_transactions (
   id INTEGER PRIMARY KEY NOT NULL,
   order_timestamp varchar(24) NOT NULL DEFAULT '',
   payer_email varchar(75) NOT NULL DEFAULT '',
@@ -81,9 +81,9 @@ CREATE TABLE cmrc_transactions (
 );
 
 --
--- Table: live_events
+-- Table: calendar_events
 --
-CREATE TABLE live_events (
+CREATE TABLE calendar_events (
   id INTEGER PRIMARY KEY NOT NULL,
   date int(11) DEFAULT NULL,
   user_id int(11) DEFAULT NULL,
@@ -96,12 +96,12 @@ CREATE TABLE live_events (
   modification_date int(11) DEFAULT NULL
 );
 
-CREATE INDEX live_events_user_id ON live_events (user_id);
+CREATE INDEX calendar_events_user_id ON calendar_events (user_id);
 
 --
--- Table: live_venues
+-- Table: calendar_venues
 --
-CREATE TABLE live_venues (
+CREATE TABLE calendar_venues (
   id INTEGER PRIMARY KEY NOT NULL,
   name text NOT NULL,
   address1 text,
@@ -119,9 +119,9 @@ CREATE TABLE live_venues (
 );
 
 --
--- Table: lock_codes
+-- Table: system_lock_codes
 --
-CREATE TABLE lock_codes (
+CREATE TABLE system_lock_codes (
   id INTEGER PRIMARY KEY NOT NULL,
   uid tinytext,
   element_id int(11) DEFAULT NULL,
@@ -130,12 +130,12 @@ CREATE TABLE lock_codes (
   modification_date int(11) DEFAULT NULL
 );
 
-CREATE INDEX lock_codes_element_id ON lock_codes (element_id);
+CREATE INDEX system_lock_codes_element_id ON system_lock_codes (element_id);
 
 --
--- Table: lock_passwords
+-- Table: system_lock_passwords
 --
-CREATE TABLE lock_passwords (
+CREATE TABLE system_lock_passwords (
   id INTEGER PRIMARY KEY NOT NULL,
   password text,
   element_id int(11) DEFAULT NULL,
@@ -143,12 +143,12 @@ CREATE TABLE lock_passwords (
   modification_date int(11) DEFAULT NULL
 );
 
-CREATE INDEX lock_passwords_element_id ON lock_passwords (element_id);
+CREATE INDEX system_lock_passwords_element_id ON system_lock_passwords (element_id);
 
 --
--- Table: asst_analytics
+-- Table: assets_analytics
 --
-CREATE TABLE asst_analytics (
+CREATE TABLE assets_analytics (
   id INTEGER PRIMARY KEY NOT NULL,
   asset_id int(11) NOT NULL DEFAULT '0',
   element_id int(11) DEFAULT NULL,
@@ -160,12 +160,12 @@ CREATE TABLE asst_analytics (
   modification_date int(11) DEFAULT '0'
 );
 
-CREATE INDEX asst_analytics_asset_id ON asst_analytics (id);
+CREATE INDEX assets_analytics_asset_id ON assets_analytics (id);
 
 --
--- Table: lock_permissions
+-- Table: system_lock_permissions
 --
-CREATE TABLE lock_permissions (
+CREATE TABLE system_lock_permissions (
   id INTEGER PRIMARY KEY NOT NULL,
   user_id int(11) NOT NULL,
   user_list_id int(11) NOT NULL DEFAULT '0',
@@ -179,14 +179,14 @@ CREATE TABLE lock_permissions (
   modification_date int(11) DEFAULT NULL
 );
 
-CREATE INDEX lock_permissions_login_id ON lock_permissions (user_list_id, element_id);
+CREATE INDEX system_lock_permissions_login_id ON system_lock_permissions (user_list_id, element_id);
 
-CREATE INDEX lock_permissions_element_id ON lock_permissions (element_id);
+CREATE INDEX system_lock_permissions_element_id ON system_lock_permissions (element_id);
 
 --
--- Table: user_users
+-- Table: people
 --
-CREATE TABLE user_users (
+CREATE TABLE people (
   id INTEGER PRIMARY KEY NOT NULL,
   email_address varchar(255) NOT NULL DEFAULT '',
   password char(64) NOT NULL DEFAULT '',
@@ -208,12 +208,12 @@ CREATE TABLE user_users (
   modification_date int(11) DEFAULT NULL
 );
 
-CREATE INDEX email ON user_users (email_address);
+CREATE INDEX email ON people (email_address);
 
 --
--- Table: user_lists
+-- Table: people_lists
 --
-CREATE TABLE user_lists (
+CREATE TABLE people_lists (
   id INTEGER PRIMARY KEY NOT NULL,
   name varchar(128) NOT NULL DEFAULT '',
   description text,
@@ -224,9 +224,9 @@ CREATE TABLE user_lists (
 );
 
 --
--- Table: user_resetpassword
+-- Table: people_resetpassword
 --
-CREATE TABLE user_resetpassword (
+CREATE TABLE people_resetpassword (
   id INTEGER PRIMARY KEY NOT NULL,
   time_requested int(11) NOT NULL DEFAULT '0',
   random_key tinytext NOT NULL,
@@ -236,9 +236,9 @@ CREATE TABLE user_resetpassword (
 );
 
 --
--- Table: elmt_elements
+-- Table: elements
 --
-CREATE TABLE elmt_elements (
+CREATE TABLE elements (
   id INTEGER PRIMARY KEY NOT NULL,
   user_id int(11) DEFAULT NULL,
   name text,
@@ -250,9 +250,9 @@ CREATE TABLE elmt_elements (
 );
 
 --
--- Table: elmt_analytics
+-- Table: elements_analytics
 --
-CREATE TABLE elmt_analytics (
+CREATE TABLE elements_analytics (
   id INTEGER PRIMARY KEY NOT NULL,
   element_id int(11) NOT NULL,
   access_method varchar(24) NOT NULL,
@@ -267,12 +267,12 @@ CREATE TABLE elmt_analytics (
   modification_date int(11) DEFAULT '0'
 );
 
-CREATE INDEX elmt_analytics_element_id ON elmt_analytics (element_id);
+CREATE INDEX elements_analytics_element_id ON elements_analytics (element_id);
 
 --
--- Table: base_connections
+-- Table: system_connections
 --
-CREATE TABLE base_connections (
+CREATE TABLE system_connections (
   id INTEGER PRIMARY KEY NOT NULL,
   name text,
   type text NOT NULL,
@@ -283,9 +283,9 @@ CREATE TABLE base_connections (
 );
 
 --
--- Table: base_connections
+-- Table: system_connections
 --
-CREATE TABLE base_analytics (
+CREATE TABLE system_analytics (
   id INTEGER PRIMARY KEY NOT NULL,
   type text NOT NULL,
   data text NOT NULL,
@@ -297,9 +297,9 @@ CREATE TABLE base_analytics (
 );
 
 --
--- Table: user_lists_members
+-- Table: people_lists_members
 --
-CREATE TABLE user_lists_members (
+CREATE TABLE people_lists_members (
   id INTEGER PRIMARY KEY NOT NULL,
   user_id int(11) NOT NULL,
   list_id int(11) NOT NULL,
@@ -312,14 +312,14 @@ CREATE TABLE user_lists_members (
   modification_date int(11) DEFAULT '0'
 );
 
-CREATE INDEX user_lists_members_user_id ON user_lists_members (user_id);
+CREATE INDEX people_lists_members_user_id ON people_lists_members (user_id);
 
-CREATE INDEX user_lists_members_list_id ON user_lists_members (list_id);
+CREATE INDEX people_lists_members_list_id ON people_lists_members (list_id);
 
 --
--- Table: live_guestlist
+-- Table: calendar_guestlist
 --
-CREATE TABLE live_guestlist (
+CREATE TABLE calendar_guestlist (
   id INTEGER PRIMARY KEY NOT NULL,
   event_id int(128) NOT NULL,
   guest_name text,
@@ -330,9 +330,9 @@ CREATE TABLE live_guestlist (
 );
 
 --
--- Table: base_metadata
+-- Table: system_metadata
 --
-CREATE TABLE base_metadata (
+CREATE TABLE system_metadata (
   id INTEGER PRIMARY KEY NOT NULL,
   scope_table_alias varchar(64) NOT NULL DEFAULT '',
   scope_table_id int(11) NOT NULL DEFAULT '0',
@@ -343,6 +343,6 @@ CREATE TABLE base_metadata (
   modification_date int(11) DEFAULT NULL
 );
 
-CREATE INDEX base_metadata_scope_table ON base_metadata (scope_table_alias, scope_table_id);
+CREATE INDEX system_metadata_scope_table ON system_metadata (scope_table_alias, scope_table_id);
 
 COMMIT;

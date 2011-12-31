@@ -72,7 +72,7 @@ if (isset($_POST['doelementedit'])) {
 			<label for="asset_id">Target Mailing List</label><br />
 			<select id="emal_list_id" name="emal_list_id">
 				<option value="0">none</option>
-				<?php AdminHelper::echoFormOptions('user_lists',$page_data['options']->emal_list_id); ?>
+				<?php AdminHelper::echoFormOptions('people_lists',$page_data['options']->emal_list_id); ?>
 			</select>
 			<br /><br />
 			<?php

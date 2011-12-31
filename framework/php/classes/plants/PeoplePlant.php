@@ -208,7 +208,7 @@ class PeoplePlant extends PlantBase {
 	 * @return id|false
 	 */public function addList($name,$description,$user_id,$connection_id=0) {
 		$result = $this->db->setData(
-			'user_lists',
+			'people_lists',
 			array(
 				'name' => $name,
 				'description' => $description,
@@ -233,7 +233,7 @@ class PeoplePlant extends PlantBase {
 	 */public function editList($list_id,$name,$description,$connection_id=0) {
 		$this->manageWebhooks($list_id,'remove');
 		$result = $this->db->setData(
-			'user_lists',
+			'people_lists',
 			array(
 				'name' => $name,
 				'description' => $description,
@@ -260,7 +260,7 @@ class PeoplePlant extends PlantBase {
 	 */public function deleteList($list_id) {
 		$this->manageWebhooks($list_id,'remove');
 		$result = $this->db->deleteData(
-			'user_lists',
+			'people_lists',
 			array(
 				'id' => array(
 					'condition' => '=',
@@ -426,7 +426,7 @@ class PeoplePlant extends PlantBase {
 	 * @return array|false
 	 */public function getListsForUser($user_id) {
 		$result = $this->db->getData(
-			'user_lists',
+			'people_lists',
 			'*',
 			array(
 				"user_id" => array(
@@ -445,7 +445,7 @@ class PeoplePlant extends PlantBase {
 	 * @return array|false
 	 */public function getListById($list_id) {
 		$result = $this->db->getData(
-			'user_lists',
+			'people_lists',
 			'*',
 			array(
 				"id" => array(

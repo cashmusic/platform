@@ -21,7 +21,7 @@
 			<label for="asset_id">Target Mailing List</label><br />
 			<select id="emal_list_id" name="emal_list_id">
 				<option value="0">none</option>
-				<?php AdminHelper::echoFormOptions('user_lists'); ?>
+				<?php AdminHelper::echoFormOptions('people_lists'); ?>
 			</select>
 			<br /><br />
 			<input type='checkbox' class='checkorradio' name='do_not_verify' value='' /> <label for="do_not_verify">Skip email verification</label>
