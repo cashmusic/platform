@@ -8,12 +8,16 @@ class BasicTests extends UnitTestCase {
 	}
 
 	public function testCoreExists() {
+		$this->assertFileExists(CASH_PLATFORM_ROOT.'/classes/core/CASHConnection.php');
+		$this->assertFileExists(CASH_PLATFORM_ROOT.'/classes/core/CASHDaemon.php');
 		$this->assertFileExists(CASH_PLATFORM_ROOT.'/classes/core/CASHData.php');
-		$this->assertFileExists(CASH_PLATFORM_ROOT.'/classes/core/PlantBase.php');
-		$this->assertFileExists(CASH_PLATFORM_ROOT.'/classes/core/SeedBase.php');
+		$this->assertFileExists(CASH_PLATFORM_ROOT.'/classes/core/CASHDBA.php');
 		$this->assertFileExists(CASH_PLATFORM_ROOT.'/classes/core/CASHRequest.php');
 		$this->assertFileExists(CASH_PLATFORM_ROOT.'/classes/core/CASHResponse.php');
-		$this->assertFileExists(CASH_PLATFORM_ROOT.'/classes/core/CASHDBA.php');
+		$this->assertFileExists(CASH_PLATFORM_ROOT.'/classes/core/CASHSystem.php');
+		$this->assertFileExists(CASH_PLATFORM_ROOT.'/classes/core/ElementBase.php');
+		$this->assertFileExists(CASH_PLATFORM_ROOT.'/classes/core/PlantBase.php');
+		$this->assertFileExists(CASH_PLATFORM_ROOT.'/classes/core/SeedBase.php');
 	}
 	
 	public function testEcho() {

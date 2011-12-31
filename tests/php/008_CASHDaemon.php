@@ -35,5 +35,17 @@ class CASHDaemonTests extends UnitTestCase {
 		$d = new CASHDaemon(false,0);
 		$this->assertFalse($d->go);
 	}
+
+	function testDestructorLogging() {
+		// tests that the destructor fires and logs the run properly
+		$d = new CASHDaemon(false,100);
+		$daemon_analytics = $d->getAnalytics();
+		$last_run = $daemon_analytics['last_run'];
+		unset($d);
+		$d = new CASHDaemon(false,0);
+		$daemon_analytics = $d->getAnalytics();
+		$new_last_run = $daemon_analytics['last_run'];
+		$this->assertNotEqual($last_run,$new_last_run);
+	}
 }
 ?>

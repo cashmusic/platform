@@ -2,7 +2,7 @@
 
 require_once('tests/php/base.php');
 
-class CashDataTests extends UnitTestCase {
+class CASHConnectionTests extends UnitTestCase {
 
     function testCASHConnection(){
         $settings = new CASHConnection();
