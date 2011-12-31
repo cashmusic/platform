@@ -63,7 +63,7 @@ class TransactionSeed {
 		/* 
 		 * THIS SHIT NEEDS TO BE UPDATED TO setData() FOR REALSIES!
 		 */
-		$query = "INSERT INTO cmrc_transactions (order_timestamp,payer_email,payer_id,payer_firstname,payer_lastname,country,product_sku,product_name,transaction_id,transaction_status,transaction_currency,transaction_amount,transaction_fee,is_fulfilled,referral_code,nvp_request_json,nvp_response_json,nvp_details_json,creation_date) VALUES ($order_timestamp,$payer_email,$payer_id,$payer_firstname,$payer_lastname,$country,$product_sku,$product_name,$transaction_id,$transaction_status,$transaction_currency,$transaction_amount,$transaction_fee,$is_fulfilled,$referral_code,$nvp_request_json,$nvp_response_json,$nvp_details_json,$creation_date)";
+		$query = "INSERT INTO commerce_transactions (order_timestamp,payer_email,payer_id,payer_firstname,payer_lastname,country,product_sku,product_name,transaction_id,transaction_status,transaction_currency,transaction_amount,transaction_fee,is_fulfilled,referral_code,nvp_request_json,nvp_response_json,nvp_details_json,creation_date) VALUES ($order_timestamp,$payer_email,$payer_id,$payer_firstname,$payer_lastname,$country,$product_sku,$product_name,$transaction_id,$transaction_status,$transaction_currency,$transaction_amount,$transaction_fee,$is_fulfilled,$referral_code,$nvp_request_json,$nvp_response_json,$nvp_details_json,$creation_date)";
 		if ($this->dbseed->doQuery($query)) { 
 			return true;
 		} else {

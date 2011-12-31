@@ -118,7 +118,7 @@
 				$action_name = 'getassetsforuser';
 				$display_information = 'title';
 				break;
-			case 'user_lists':
+			case 'people_lists':
 				$plant_name = 'people';
 				$action_name = 'getlistsforuser';
 				$display_information = 'name';

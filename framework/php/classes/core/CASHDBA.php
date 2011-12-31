@@ -72,19 +72,19 @@ class CASHDBA {
 	
 	public function lookupTableName($data_name) {
 		$table_lookup = array(
-			'assets' => 'asst_assets',
-			'assets_analytics' => 'asst_analytics',
-			'elements' => 'elmt_elements',
-			'elements_analytics' => 'elmt_analytics',
-			'events' => 'live_events',
-			'lock_codes' => 'lock_codes',
-			'lock_passwords' => 'lock_passwords',
-			'metadata' => 'base_metadata',
-			'settings' => 'base_connections',
-			'users' => 'user_users',
-			'user_lists' => 'user_lists',
-			'list_members' => 'user_lists_members',
-			'venues' => 'live_venues'
+			'assets' => 'assets',
+			'assets_analytics' => 'assets_analytics',
+			'elements' => 'elements',
+			'elements_analytics' => 'elements_analytics',
+			'events' => 'calendar_events',
+			'system_lock_codes' => 'system_lock_codes',
+			'system_lock_passwords' => 'system_lock_passwords',
+			'metadata' => 'system_metadata',
+			'settings' => 'system_connections',
+			'users' => 'people',
+			'people_lists' => 'people_lists',
+			'list_members' => 'people_lists_members',
+			'venues' => 'calendar_venues'
 		);
 		if (array_key_exists($data_name, $table_lookup)) {
 		    return $table_lookup[$data_name];
@@ -266,27 +266,27 @@ class CASHDBA {
 		switch ($data_name) {
 			case 'AssetPlant_getAnalytics_mostaccessed':
 				$query = "SELECT aa.asset_id as 'id', COUNT(aa.id) as 'count', a.title as 'title', a.description as 'description' "
-				. "FROM asst_analytics aa JOIN asst_assets a ON aa.asset_id = a.id "
+				. "FROM assets_analytics aa JOIN assets a ON aa.asset_id = a.id "
 				. "WHERE a.user_id = :user_id AND a.parent_id = 0 "
 				. "GROUP BY aa.asset_id "
 				. "ORDER BY count DESC";
 				break;
 			case 'ElementPlant_getAnalytics_mostactive':
 				$query = "SELECT ea.element_id as 'id', COUNT(ea.id) as 'count', e.name as 'name' "
-				. "FROM elmt_analytics ea JOIN elmt_elements e ON ea.element_id = e.id "
+				. "FROM elements_analytics ea JOIN elements e ON ea.element_id = e.id "
 				. "WHERE e.user_id = :user_id AND ea.access_time > " . (time() - 1209600) . " " // active == used in the last 2 weeks
 				. "GROUP BY ea.element_id "
 				. "ORDER BY count DESC";
 				break;
 			case 'PeoplePlant_getAnalytics_membership':
 				$query = "SELECT COUNT(*) AS total, COUNT(CASE WHEN active = 1 THEN 1 END) AS active, COUNT(CASE WHEN active = 0 THEN 1 END) AS inactive, COUNT(CASE WHEN creation_date > " . (time() - 604800) . " THEN 1 END) AS last_week"
-				. "FROM user_lists_members"
+				. "FROM people_lists_members"
 				. "WHERE list_id = :list_id";
 				break;
 			case 'PeoplePlant_getUsersForList':
 				$query = "SELECT u.id,u.email_address,u.display_name,"
 				. "l.initial_comment,l.additional_data,l.creation_date "
-				. "FROM user_users u LEFT OUTER JOIN user_lists_members l ON u.id = l.user_id "
+				. "FROM people u LEFT OUTER JOIN people_lists_members l ON u.id = l.user_id "
 				. "WHERE l.list_id = :list_id AND l.verified = 1 AND l.active = 1";
 				if ($orderby) $query .= " ORDER BY $orderby";
 				if ($limit) $query .= " LIMIT $limit";
@@ -294,13 +294,13 @@ class CASHDBA {
 			case 'CalendarPlant_getDatesBetween':
 				$query = "SELECT e.id as 'event_id', e.date as 'date',e.published as 'published',e.cancelled as 'cancelled',e.purchase_url as 'purchase_url',e.comments as 'comments',e.creation_date as 'creation_date',e.modification_date as 'modification_date', "
 				. "v.name as 'venue_name',v.address1 as 'venue_address1',v.address2 as 'venue_address2',v.city 'venue_city',v.region as 'venue_region',v.country as 'venue_country',v.postalcode as 'venue_postalcode',v.url as 'venue_url',v.phone as 'venue_phone'"
-				. "FROM live_events e LEFT OUTER JOIN live_venues v ON e.venue_id = v.id "
+				. "FROM calendar_events e LEFT OUTER JOIN calendar_venues v ON e.venue_id = v.id "
 				. "WHERE e.date > :cutoff_date_low AND e.date < :cutoff_date_high AND e.user_id = :user_id AND e.published = :published_status AND e.cancelled = :cancelled_status ORDER BY e.date ASC";
 				break;
 			case 'CalendarPlant_getEventById':
 				$query = "SELECT e.id as 'event_id', e.date as 'date',e.published as 'published',e.cancelled as 'cancelled',e.purchase_url as 'purchase_url',e.comments as 'comments',e.creation_date as 'creation_date',e.modification_date as 'modification_date', "
 				. "v.id as 'venue_id',v.name as 'venue_name',v.address1 as 'venue_address1',v.address2 as 'venue_address2',v.city 'venue_city',v.region as 'venue_region',v.country as 'venue_country',v.postalcode as 'venue_postalcode',v.url as 'venue_url',v.phone as 'venue_phone'"
-				. "FROM live_events e LEFT OUTER JOIN live_venues v ON e.venue_id = v.id "
+				. "FROM calendar_events e LEFT OUTER JOIN calendar_venues v ON e.venue_id = v.id "
 				. "WHERE e.id = :event_id LIMIT 1";
 				break;
 		    default:
