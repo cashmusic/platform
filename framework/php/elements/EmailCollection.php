@@ -31,8 +31,11 @@ class EmailCollection extends ElementBase {
 			. '<div class="cash_notation">'
 			. $this->options->message_privacy
 			. '</div>';
+		if ($this->status_uid == 'people_signup_200' || $this->status_uid == 'people_verifyaddress_200') {
+			$this->status_uid = 'final';
+		}
 		switch ($this->status_uid) {
-			case 'people_signup_200' || 'people_verifyaddress_200':
+			case 'final':
 				// successful submit, return messaging and optionally an asset link
 				$markup = '<div class="cash_success '. self::type .'">';
 				$show_final_message = true;
