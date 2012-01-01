@@ -29,7 +29,7 @@ document.write('<style type="text/css">a {color:#' + pagecolor + ';}#topspc {bac
 </div>
 <div id="wrap"> 
 	<div id="mainspc">
-<div id="pagemenu"><h3>Getting Started</h3><ul class="nobullets"><li><a href="../gettingstarted/overview.html" class="usecolor1">Overview</a></li><li><a href="../gettingstarted/quickstart.html" class="usecolor1">Quick Start</a></li><li><a href="../gettingstarted/styleguidecode.html" class="usecolor1">Style Guide (code)</a></li></ul><h3>Bootstrap Script</h3><ul class="nobullets"><li><a href="../bootstrapscript/cashmusic.html" class="usecolor2">cashmusic.php</a></li></ul><h3>Core Classes</h3><ul class="nobullets"><li><a href="../coreclasses/cashdata.html" class="usecolor3">CASHData</a></li><li><a href="../coreclasses/cashdba.html" class="usecolor3">CASHDBA</a></li><li><a href="../coreclasses/cashrequest.html" class="usecolor3">CASHRequest</a></li><li><a href="../coreclasses/cashresponse.html" class="usecolor3">CASHResponse</a></li><li><a href="../coreclasses/CASHConnection.html" class="usecolor3">CASHConnection</a></li><li><a href="../coreclasses/cashsystem.html" class="usecolor3">CASHSystem</a></li><li><a href="../coreclasses/elementbase.html" class="usecolor3">ElementBase</a></li><li><a href="../coreclasses/plantbase.html" class="usecolor3">PlantBase</a></li><li><a href="../coreclasses/seedbase.html" class="usecolor3">SeedBase</a></li></ul><h3>Plant Classes</h3><ul class="nobullets"><li><a href="../plantclasses/commerceplant.html" class="usecolor4">__CommercePlant</a></li><li><a href="../plantclasses/assetplant.html" class="usecolor4">AssetPlant</a></li><li><a href="../plantclasses/calendarplant.html" class="usecolor4">CalendarPlant</a></li><li><a href="../plantclasses/echoplant.html" class="usecolor4">EchoPlant</a></li><li><a href="../plantclasses/elementplant.html" class="usecolor4">ElementPlant</a></li><li><a href="../plantclasses/peopleplant.html" class="usecolor4">PeoplePlant</a></li><li><a href="../plantclasses/systemplant.html" class="usecolor4">SystemPlant</a></li></ul></div><h1>CASH Music Platform</h1>
+<div id="pagemenu"><h3>Getting Started</h3><ul class="nobullets"><li><a href="../gettingstarted/overview.html" class="usecolor1">Overview</a></li><li><a href="../gettingstarted/quickstart.html" class="usecolor1">Quick Start</a></li><li><a href="../gettingstarted/styleguidecode.html" class="usecolor1">Style Guide (code)</a></li></ul><h3>Bootstrap Script</h3><ul class="nobullets"><li><a href="../bootstrapscript/cashmusic.html" class="usecolor2">cashmusic.php</a></li></ul><h3>Core Classes</h3><ul class="nobullets"><li><a href="../coreclasses/cashconnection.html" class="usecolor3">CASHConnection</a></li><li><a href="../coreclasses/cashdaemon.html" class="usecolor3">CASHDaemon</a></li><li><a href="../coreclasses/cashdata.html" class="usecolor3">CASHData</a></li><li><a href="../coreclasses/cashdba.html" class="usecolor3">CASHDBA</a></li><li><a href="../coreclasses/cashrequest.html" class="usecolor3">CASHRequest</a></li><li><a href="../coreclasses/cashresponse.html" class="usecolor3">CASHResponse</a></li><li><a href="../coreclasses/cashsystem.html" class="usecolor3">CASHSystem</a></li><li><a href="../coreclasses/elementbase.html" class="usecolor3">ElementBase</a></li><li><a href="../coreclasses/plantbase.html" class="usecolor3">PlantBase</a></li><li><a href="../coreclasses/seedbase.html" class="usecolor3">SeedBase</a></li></ul><h3>Plant Classes</h3><ul class="nobullets"><li><a href="../plantclasses/commerceplant.html" class="usecolor4">__CommercePlant</a></li><li><a href="../plantclasses/assetplant.html" class="usecolor4">AssetPlant</a></li><li><a href="../plantclasses/calendarplant.html" class="usecolor4">CalendarPlant</a></li><li><a href="../plantclasses/echoplant.html" class="usecolor4">EchoPlant</a></li><li><a href="../plantclasses/elementplant.html" class="usecolor4">ElementPlant</a></li><li><a href="../plantclasses/peopleplant.html" class="usecolor4">PeoplePlant</a></li><li><a href="../plantclasses/systemplant.html" class="usecolor4">SystemPlant</a></li></ul></div><h1>CASH Music Platform</h1>
 
 <p>The CASH Music Platform is very much still a work in progress in its pre-release
 lifecycle.</p>
@@ -47,11 +47,12 @@ and hence, to have extremely minimal dependencies outside of what comes bundled.
 requirements:</p>
 
 <ul>
-<li><a href="http://php.net">PHP</a> 5.2.3</li>
-<li>MySQL (other databases may work, but have not been tested)</li>
+<li><a href="http://php.net">PHP</a> 5.2.7</li>
+<li>PDO</li>
+<li>MySQL or SQLite. Other databases could be supported if needed.</li>
+<li>mod_rewrite (for admin)</li>
+<li>fopen wrappers OR cURL (either, for fetching external feeds)</li>
 </ul>
-
-<p>Plans are in the works to support SQLite.</p>
 
 <h2>(Really) Quick Start</h2>
 
@@ -68,16 +69,12 @@ single-include workflow, which means the only thing you need to do to add CM to
 your site/page is include this single file:</p>
 
 <pre><code>// this loads CASH Music DIY
+$CASHMUSIC = "/home/billybob/cashmusic";
 require_once("$CASHMUSIC/framework/php/cashmusic.php");
 </code></pre>
 
 <p>where the $CASHMUSIC variable is the directory where you installed CASH Music
-on your server. For instance, if you installed it into /home/billybob/cashmusic
-then it would look like:</p>
-
-<pre><code>// this loads CASH Music DIY
-require_once("/home/billybob/cashmusic/framework/php/cashmusic.php");
-</code></pre>
+on your server.</p>
 
 <p>The Seed.php does some basic housekeeping before firing up a CASHRequest
 instance that parses an incoming request. That request is passed to the
@@ -110,26 +107,7 @@ this if you must, since it is much slower and uses up more bandwidth:</p>
 
 <h2>Running CASHMusic Tests</h2>
 
-<p>We have a test suite to make sure that things don't break when we add features
-and fix bugs. Currently we syntax check all the PHP files and have a few basic
-tests for creating the most basic CASHMusic DIY objects, but soon it will be a
-beautiful butterfly.</p>
-
-<p>To run the CASH Music PHP tests, run this command from the root directory of the
-CASH Music git repo:</p>
-
-<pre><code>cd DIY
-php tests/php/all.php
-</code></pre>
-
-<p>When the tests pass, you should see something like this at the end:</p>
-
-<pre><code>OK
-Test cases run: 3/3, Passes: 43, Failures: 0, Exceptions: 0
-</code></pre>
-
-<p>Our PHP tests are written using <a href="http://www.simpletest.org/">SimpleTest</a>. Currently
-we do not have any Javascript tests, but those are on the way.</p>
+<p>Read the test suite <a href="README">https://github.com/cashmusic/DIY/blob/master/tests/README.md</a></p>
 
 <h2>CASHMusic Branches + Tags</h2>
 
@@ -226,11 +204,6 @@ you need to use a utility to convert it.</p>
 
 <pre><code>make sqlite_schema
 </code></pre>
-
-<p>NOTE: There is currently a
-<a href="https://rt.cpan.org/Ticket/Display.html?id=70473">bug</a> in SQL::Translator
-where BIT column types are not parsed correctly, so you will need to manually
-convert those to BOOLs, like in <a href="https://github.com/cashmusic/DIY/commit/9085dce432f8e710a1a13821806139ed6f5b1628">commit 9085dce</a> .</p>
 
 <p>If the SQLite schema is up to date, <code>git status</code> will not show anything as changed. If you <em>do</em> see changes, then commit the change and push it.</p>
 
