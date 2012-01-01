@@ -163,27 +163,6 @@ CREATE TABLE assets_analytics (
 CREATE INDEX assets_analytics_asset_id ON assets_analytics (id);
 
 --
--- Table: system_lock_permissions
---
-CREATE TABLE system_lock_permissions (
-  id INTEGER PRIMARY KEY NOT NULL,
-  user_id int(11) NOT NULL,
-  user_list_id int(11) NOT NULL DEFAULT '0',
-  element_id int(11) NOT NULL DEFAULT '0',
-  allowed_logins int(11) NOT NULL DEFAULT '-1',
-  total_logins int(11) NOT NULL DEFAULT '0',
-  date_expires int(11) NOT NULL DEFAULT '-1',
-  element_password tinytext,
-  added_by int(11) NOT NULL DEFAULT '0',
-  creation_date int(11) DEFAULT NULL,
-  modification_date int(11) DEFAULT NULL
-);
-
-CREATE INDEX system_lock_permissions_login_id ON system_lock_permissions (user_list_id, element_id);
-
-CREATE INDEX system_lock_permissions_element_id ON system_lock_permissions (element_id);
-
---
 -- Table: people
 --
 CREATE TABLE people (
