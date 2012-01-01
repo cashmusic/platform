@@ -159,26 +159,6 @@ CREATE TABLE `assets_analytics` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS `system_lock_permissions`;
-
-CREATE TABLE `system_lock_permissions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `user_list_id` int(11) NOT NULL DEFAULT '0',
-  `element_id` int(11) NOT NULL DEFAULT '0',
-  `allowed_logins` int(11) NOT NULL DEFAULT '-1',
-  `total_logins` int(11) NOT NULL DEFAULT '0',
-  `date_expires` int(11) NOT NULL DEFAULT '-1',
-  `element_password` tinytext,
-  `added_by` int(11) NOT NULL DEFAULT '0',
-  `creation_date` int(11) DEFAULT NULL,
-  `modification_date` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `system_lock_permissions_login_id` (`user_list_id`,`element_id`),
-  KEY `system_lock_permissions_element_id` (`element_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
 DROP TABLE IF EXISTS `people`;
 
 CREATE TABLE `people` (
