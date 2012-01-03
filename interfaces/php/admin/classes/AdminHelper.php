@@ -12,6 +12,19 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  */abstract class AdminHelper  {
+
+	public function doLogin($email_address,$password,$require_admin=true) {
+		$login_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'validatelogin',
+				'address' => $email_address, 
+				'password' => $password,
+				'require_admin' => $require_admin
+			)
+		);
+		return $login_request->response['payload'];
+	}
 	
 	/**
 	 * Returns metadata for all elements in a keyed array

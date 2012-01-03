@@ -154,6 +154,16 @@ class PeoplePlant extends PlantBase {
 						return $this->pushFailure('there was an error retrieving the list');
 					}
 					break;
+				case 'getuser':
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
+					if (!$this->requireParameters('id')) { return $this->sessionGetLastResponse(); }
+					$result = $this->getUser($this->request['id']);
+					if ($result) {
+						return $this->pushSuccess($result,'success. user info included in payload');
+					} else {
+						return $this->pushFailure('there was an error retrieving the user');
+					}
+					break;
 				case 'signintolist':
 					if (!$this->checkRequestMethodFor('post','direct','api_key')) return $this->sessionGetLastResponse();
 					if (!$this->requireParameters('address','password','list_id')) { return $this->sessionGetLastResponse(); }
@@ -466,6 +476,24 @@ class PeoplePlant extends PlantBase {
 	 * Add and remove individual users from a list, verify them, etc.
 	 *
 	 */
+
+	public function getUser($user_id) {
+		$result = $this->db->getData(
+			'users',
+			'*',
+			array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				)
+			)
+		);
+		if ($result) {
+			return $result[0];
+		} else {
+			return false;
+		}
+	}
 
 	/**
 	 * Adds a user to a list. If no user exists for the email address passed, a

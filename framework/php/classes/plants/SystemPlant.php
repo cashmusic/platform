@@ -63,6 +63,16 @@ class SystemPlant extends PlantBase {
 						return $this->pushFailure('there was an error');
 					}
 					break;
+				case 'setlogincredentials':
+					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
+					if (!$this->requireParameters('user_id','address','password')) { return $this->sessionGetLastResponse(); }
+					$result = $this->setLoginCredentials($this->request['user_id'],$this->request['address'],$this->request['password']);
+					if ($result) {
+						return $this->pushSuccess($result,'success. boolean in payload');
+					} else {
+						return $this->pushFailure('there was an error');
+					}
+					break;
 				case 'setapicredentials':
 					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
 					if (!$this->requireParameters('user_id')) { return $this->sessionGetLastResponse(); }
@@ -166,6 +176,30 @@ class SystemPlant extends PlantBase {
 				'last_name' => $last_name,
 				'organization' => $organization,
 				'is_admin' => $is_admin
+			)
+		);
+		return $result;
+	}
+
+	/**
+	 * Resets email/password credentials for a user
+	 *
+	 * @param {int} $user_id -  the user
+	 * @return array|false
+	 */public function setLoginCredentials($user_id,$address,$password) {
+		$password_hash = hash_hmac('sha256', $password, $this->salt);
+		$credentials = array(
+			'email_address' => $address,
+			'password' => $password_hash
+		);
+		$result = $this->db->setData(
+			'users',
+			$credentials,
+			array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				)
 			)
 		);
 		return $result;
