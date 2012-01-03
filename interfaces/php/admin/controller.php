@@ -80,18 +80,10 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH))) {
 // if a login needs doing, do it
 $login_message = "Log In";
 if (isset($_POST['login'])) {
-	$login_request = new CASHRequest(
-		array(
-			'cash_request_type' => 'system', 
-			'cash_action' => 'validatelogin',
-			'address' => $_POST['address'], 
-			'password' => $_POST['password'],
-			'require_admin' => true
-		)
-	);
-	if ($login_request->response['payload'] !== false) {
-		$admin_primary_cash_request->sessionSet('cash_actual_user',$login_request->response['payload']);
-		$admin_primary_cash_request->sessionSet('cash_effective_user',$login_request->response['payload']);
+	$login_details = AdminHelper::doLogin($_POST['address'],$_POST['password']);
+	if ($login_details !== false) {
+		$admin_primary_cash_request->sessionSet('cash_actual_user',$login_details);
+		$admin_primary_cash_request->sessionSet('cash_effective_user',$login_details);
 		$admin_primary_cash_request->sessionSet('cash_effective_user_email',$_POST['address']);
 		if ($include_filename == 'logout.php') {
 			header('Location: ' . ADMIN_WWW_BASE_PATH);
