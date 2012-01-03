@@ -12,10 +12,10 @@
 		#navmenu {top:0;height:6px;overflow:hidden;padding-top:0;padding-bottom:0;}
 		#navmenu .navitem:hover {background-image:none;cursor:auto;}
 		#pagedisplay {margin:0 auto;}
-		#loginspc {position:relative;top:6px;width:960px;height:220px;margin:0 auto;}
+		#loginspc {position:relative;top:6px;width:960px;height:220px;margin:0 auto;color:#000;}
 		#loginbox {position:relative;width:260px;height:220px;padding:35px 430px 105px 40px;background:#418584 url(<?php echo ADMIN_WWW_BASE_PATH; ?>/ui/default/assets/images/bg_login.jpg) left top no-repeat;text-align:left;}
 		#loginbox h1 {font-size:88px;color:#fff;margin:6px 0 26px 0;white-space:nowrap;}
-		#loginbox label {color:#000;}
+		#loginbox label {color:#69d;}
 		#loginbox input {border:1px solid #fff;width:244px;padding:8px;}
 		#loginbox input:active, #loginspc input:focus {outline:0;border:1px solid #000;}
 		#loginbox input.button {margin:18px 0 0 0;background-color:#ff0;color:#000;border:1px solid #ff0;}
