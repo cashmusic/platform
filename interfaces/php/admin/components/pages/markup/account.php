@@ -44,8 +44,11 @@
 <div class="row_seperator tall">.</div><br />
 <div>
 	<h3>API Key / Secret</h3>
-	
+	<p>
+		API details for developer access:
+	</p>
 	<code>
+	<b>API endpoint:</b> <?php echo CASH_API_URL; ?><br /><br />
 	<b>Key:</b> <?php echo $user_details['api_key']; ?> &nbsp; &nbsp; <b>Secret:</b> 
 		<?php if (isset($_GET['reveal'])) {
 			echo $user_details['api_secret'];

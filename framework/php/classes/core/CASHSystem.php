@@ -52,7 +52,7 @@
 		// define constants (use sparingly!)
 		$root = realpath(dirname(__FILE__) . '/../..');
 		define('CASH_PLATFORM_ROOT', $root);
-		$cash_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
+		$cash_settings = CASHSystem::getSystemSettings();
 		define('CASH_API_URL', $cash_settings['apilocation']);
 		
 		// set up auto-load
@@ -65,6 +65,50 @@
 		// asset requests, etc...
 		$cash_page_request = new CASHRequest();
 		unset($cash_page_request);
+	}
+	
+	public static function findReplaceInFile($filename,$find,$replace) {
+		if (is_file($filename)) {
+			$file = file_get_contents($filename);
+			$file = str_replace($find, $replace, $file);
+			if (file_put_contents($filename, $file)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	public static function getSystemSettings($setting_name='all') {
+		$cash_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
+		if ($setting_name == 'all') {
+			return $cash_settings;
+		} else {
+			if (array_key_exists($setting_name, $cash_settings)) {
+				return $cash_settings[$setting_name];
+			} else {
+				return false;
+			}
+		}
+	}
+
+	public static function setSystemSetting($setting_name=false,$value='') {
+		if ($setting_name) {		
+			$cash_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
+			if (array_key_exists($setting_name, $cash_settings)) {
+				$success = CASHSystem::findReplaceInFile(
+					CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php',
+					$setting_name . ' = "' . $cash_settings[$setting_name],
+					$setting_name . ' = "' . $value
+				);
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 
 	/**

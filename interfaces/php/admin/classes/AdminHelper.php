@@ -98,7 +98,7 @@
 	 */public function echoSettingsOptions($scope,$selected=false) {
 		// get system settings:
 		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
-		$settings_types_data = $page_data_object->getSettingsTypes($scope);
+		$settings_types_data = $page_data_object->getConnectionTypes($scope);
 		$applicable_settings_array = false;
 		foreach ($settings_types_data as $type_data) {
 			$result = $page_data_object->getSettingsByType($type_data->type);
@@ -406,7 +406,136 @@
 				$all_options .= ' selected="selected"';
 				$has_selected = true;
 			}
-			$all_options .= '">' . $code . '</option>';
+			$all_options .= '>' . $code . '</option>';
+		}
+		return $all_options;
+	}
+
+	public function drawTimeZones($selected='US/Pacific') {
+		$all_zones = array(
+			'US/Alaska',
+			'US/Arizona',
+			'US/Central',
+			'US/East-Indiana',
+			'US/Eastern',
+			'US/Hawaii',
+			'US/Mountain',
+			'US/Pacific',
+			'US/Samoa',
+			'Africa/Cairo',
+			'Africa/Casablanca',
+			'Africa/Harare',
+			'Africa/Monrovia',
+			'Africa/Nairobi',
+			'America/Bogota',
+			'America/Buenos_Aires',
+			'America/Caracas',
+			'America/Chihuahua',
+			'America/La_Paz',
+			'America/Lima',
+			'America/Mazatlan',
+			'America/Mexico_City',
+			'America/Monterrey',
+			'America/Santiago',
+			'America/Tijuana',
+			'Asia/Almaty',
+			'Asia/Baghdad',
+			'Asia/Baku',
+			'Asia/Bangkok',
+			'Asia/Chongqing',
+			'Asia/Dhaka',
+			'Asia/Hong_Kong',
+			'Asia/Irkutsk',
+			'Asia/Jakarta',
+			'Asia/Jerusalem',
+			'Asia/Kabul',
+			'Asia/Kamchatka',
+			'Asia/Karachi',
+			'Asia/Kathmandu',
+			'Asia/Kolkata',
+			'Asia/Krasnoyarsk',
+			'Asia/Kuala_Lumpur',
+			'Asia/Kuwait',
+			'Asia/Magadan',
+			'Asia/Muscat',
+			'Asia/Novosibirsk',
+			'Asia/Riyadh',
+			'Asia/Seoul',
+			'Asia/Singapore',
+			'Asia/Taipei',
+			'Asia/Tashkent',
+			'Asia/Tbilisi',
+			'Asia/Tehran',
+			'Asia/Tokyo',
+			'Asia/Ulaanbaatar',
+			'Asia/Urumqi',
+			'Asia/Vladivostok',
+			'Asia/Yakutsk',
+			'Asia/Yekaterinburg',
+			'Asia/Yerevan',
+			'Atlantic/Azores',
+			'Atlantic/Cape_Verde',
+			'Atlantic/Stanley',
+			'Australia/Adelaide',
+			'Australia/Brisbane',
+			'Australia/Canberra',
+			'Australia/Darwin',
+			'Australia/Hobart',
+			'Australia/Melbourne',
+			'Australia/Perth',
+			'Australia/Sydney',
+			'Canada/Atlantic',
+			'Canada/Newfoundland',
+			'Canada/Saskatchewan',
+			'Europe/Amsterdam',
+			'Europe/Athens',
+			'Europe/Belgrade',
+			'Europe/Berlin',
+			'Europe/Bratislava',
+			'Europe/Brussels',
+			'Europe/Bucharest',
+			'Europe/Budapest',
+			'Europe/Copenhagen',
+			'Europe/Dublin',
+			'Europe/Helsinki',
+			'Europe/Istanbul',
+			'Europe/Kiev',
+			'Europe/Lisbon',
+			'Europe/Ljubljana',
+			'Europe/London',
+			'Europe/Madrid',
+			'Europe/Minsk',
+			'Europe/Moscow',
+			'Europe/Paris',
+			'Europe/Prague',
+			'Europe/Riga',
+			'Europe/Rome',
+			'Europe/Sarajevo',
+			'Europe/Skopje',
+			'Europe/Sofia',
+			'Europe/Stockholm',
+			'Europe/Tallinn',
+			'Europe/Vienna',
+			'Europe/Vilnius',
+			'Europe/Volgograd',
+			'Europe/Warsaw',
+			'Europe/Zagreb',
+			'Greenland',
+			'Pacific/Auckland',
+			'Pacific/Fiji',
+			'Pacific/Guam',
+			'Pacific/Midway',
+			'Pacific/Port_Moresby'
+		);
+		$all_options = '';
+		$has_selected = false;
+		foreach ($all_zones as $zone) {
+			$all_options .= '<option value="' . $zone . '"';
+			if (!$has_selected && $zone == $selected) {
+				$all_options .= ' selected="selected"';
+				$has_selected = true;
+			}
+			$all_options .= '>' . $zone . '</option>';
 		}
 		return $all_options;
 	}

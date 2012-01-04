@@ -1,6 +1,6 @@
-<h3>Using the DIY Platform</h3>
+<h3>Using the platform</h3>
 <p>
-This one line gets the DIY Platform up and running. It should be included at the very top
+This one line gets the platform up and running. It should be included at the very top
 of all pages, before any other code:
 </p>
 <code>

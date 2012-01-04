@@ -25,4 +25,4 @@ apilocation = "http://localhost:8888/interfaces/php/api/"
 
 [system]
 systememail = "CASH Music <info@cashmusic.org>"
-timezone = "America/Vancouver"
+timezone = "US/Pacific"

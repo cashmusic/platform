@@ -3,11 +3,17 @@
 $page_title = 'Platform Settings';
 $page_tips = 'This page manages settings for all external services and APIs. Connect to third-party accounts like Twitter, S3, MailChimp, and more.';
 
-$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
-$settings_types_data = $page_data_object->getSettingsTypes();
-$settings_for_user = $page_data_object->getAllSettingsforUser();
+$page_memu = array(
+	'System Settings' => array(
+		'settings/connections/' => 'Connections'
+	)
+);
 
-if ($request_parameters) {
-	$settings_action = $request_parameters[0];
+$misc_message = false;
+if (isset($_POST['domisc'])) {
+	CASHSystem::setSystemSetting('timezone',$_POST['timezone']);
+	CASHSystem::setSystemSetting('systememail',$_POST['systememail']);
+	$misc_message = 'All changed.';
 }
+$platform_settings = $return = CASHSystem::getSystemSettings();
 ?>
