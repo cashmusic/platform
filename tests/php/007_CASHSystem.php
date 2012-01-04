@@ -4,6 +4,35 @@ require_once('tests/php/base.php');
 
 class CASHSystemTests extends UnitTestCase {
 
+	function test_getSystemSettings() {
+		// get all settings
+		$return = CASHSystem::getSystemSettings(); 
+		$this->assertTrue(is_array($return));
+		// check the basic structure of the settings
+		$this->assertTrue(array_key_exists('driver',$return));
+		$this->assertTrue(array_key_exists('hostname',$return));
+		$this->assertTrue(array_key_exists('username',$return));
+		$this->assertTrue(array_key_exists('password',$return));
+		$this->assertTrue(array_key_exists('database',$return));
+		$this->assertTrue(array_key_exists('salt',$return));
+		$this->assertTrue(array_key_exists('debug',$return));
+		$this->assertTrue(array_key_exists('apilocation',$return));
+		$this->assertTrue(array_key_exists('systememail',$return));
+		$this->assertTrue(array_key_exists('timezone',$return));
+		// check that grabbing a single setting works
+		$return = CASHSystem::getSystemSettings('driver'); // get db driver ('sqlite')
+		$this->assertEqual('sqlite',$return);
+	}
+	
+	function test_setSystemSetting() {
+		// also tests findAndReplaceInFile()
+		$control = CASHSystem::getSystemSettings('timezone'); 
+		CASHSystem::setSystemSetting('timezone','Not really a timezone');
+		$return = CASHSystem::getSystemSettings('timezone'); 
+		$this->assertNotEqual($control,$return);
+		$this->assertEqual('Not really a timezone',$return);
+	}
+
 	function test_formatTimeAgo() {
 		$return_date = CASHSystem::formatTimeAgo(time() - 90000);
 		$return_hours = CASHSystem::formatTimeAgo(time() - 25000);

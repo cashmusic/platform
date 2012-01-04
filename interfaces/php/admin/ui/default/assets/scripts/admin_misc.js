@@ -64,6 +64,7 @@ function doModalConfirm(url) {
 	}).inject(modaldialog);
 	cancelbutton = new Element('input', {
 		'type':'button',
+		'class':'button',
 		'value':'Cancel',
 		events: {
 			click: function(){
@@ -73,6 +74,7 @@ function doModalConfirm(url) {
 	}).inject(buttonspc);
 	gobutton = new Element('input', {
 		'type':'button',
+		'class':'button',
 		'value':'Yes, do it',
 		events: {
 			click: function(){

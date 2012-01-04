@@ -34,7 +34,7 @@
 	 * Finds all settings type JSON files, builds an array keyed by type
 	 *
 	 * @return array
-	 */public function getSettingsTypes($filter_by_scope=false) {
+	 */public function getConnectionTypes($filter_by_scope=false) {
 		if ($settings_dir = opendir(CASH_PLATFORM_ROOT.'/settings/connections')) {
 			$settings_types = false;
 			while (false !== ($file = readdir($settings_dir))) {
@@ -63,7 +63,7 @@
 	 * Returns all settings for a given user
 	 *
 	 * @return array
-	 */public function getAllSettingsforUser() {
+	 */public function getAllConnectionsforUser() {
 		if ($this->user_id) {
 			$result = $this->db->getData(
 				'settings',
