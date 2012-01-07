@@ -262,27 +262,51 @@
 	 * mail from the postman. 
 	 *
 	 * @return string
-	 */public static function getURLContents($data_url) {
+	 */public static function getURLContents($data_url,$post_data=false,$ignore_errors=false) {
 		$url_contents = false;
+		$user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.5; rv:7.0) Gecko/20100101 Firefox/7.0';
+		$do_post = is_array($post_data);
+		if ($do_post) {
+			$post_query = http_build_query($post_data);
+			$post_length = count($post_data);
+		}
 		if (ini_get('allow_url_fopen')) {
 			// try with fopen wrappers
-			$url_contents = @file_get_contents($data_url);
+			$options = array(
+				'http' => array(
+					'user_agent' => $user_agent
+				));
+			if ($do_post) {
+				$options['http']['method'] = 'POST';
+				$options['http']['content'] = $post_query;
+			} 
+			if ($ignore_errors) {
+				$options['http']['ignore_errors'] = true;
+			}
+			$context = stream_context_create($options);
+			$url_contents = @file_get_contents($data_url,false,$context);
 		} elseif (in_array('curl', get_loaded_extensions())) {
 			// fall back to cURL
 			// tip of the cap: http://davidwalsh.name/download-urls-content-php-curl
 			$ch = curl_init();
 			$timeout = 5;
-			$userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.5; rv:7.0) Gecko/20100101 Firefox/7.0';
 			
 			curl_setopt($ch,CURLOPT_URL,$data_url);
-			
-			curl_setopt($ch, CURLOPT_USERAGENT, $userAgent);
-			curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-			curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
-			curl_setopt($ch, CURLOPT_FAILONERROR, true);
+			if ($do_post) {
+				curl_setopt($ch,CURLOPT_POST,$post_length);
+				curl_setopt($ch,CURLOPT_POSTFIELDS,$post_query);
+			}
+			curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,$timeout);
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 			curl_setopt($ch, CURLOPT_AUTOREFERER, true);
 			curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+			if ($ignore_errors) {
+				curl_setopt($ch, CURLOPT_FAILONERROR, false);
+			} else {
+				curl_setopt($ch, CURLOPT_FAILONERROR, true);
+			}
 			$data = curl_exec($ch);
 			curl_close($ch);
 			$url_contents = $data;
