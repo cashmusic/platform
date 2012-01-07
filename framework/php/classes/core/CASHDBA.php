@@ -250,8 +250,7 @@ class CASHDBA {
 					return false;
 				}
 			} catch(PDOException $e) {  
-				$this->error = $e->getMessage();  
-				echo $this->error;
+				$this->error = $e->getMessage();
 				die();
 			}
 		} else {
@@ -284,6 +283,14 @@ class CASHDBA {
 				. "WHERE list_id = :list_id";
 				break;
 			case 'PeoplePlant_getUsersForList':
+				$query = "SELECT u.id,u.email_address,u.display_name,"
+				. "l.initial_comment,l.additional_data,l.creation_date "
+				. "FROM people u LEFT OUTER JOIN people_lists_members l ON u.id = l.user_id "
+				. "WHERE l.list_id = :list_id AND l.active = 1";
+				if ($orderby) $query .= " ORDER BY $orderby";
+				if ($limit) $query .= " LIMIT $limit";
+				break;
+			case 'PeoplePlant_getVerifiedUsersForList':
 				$query = "SELECT u.id,u.email_address,u.display_name,"
 				. "l.initial_comment,l.additional_data,l.creation_date "
 				. "FROM people u LEFT OUTER JOIN people_lists_members l ON u.id = l.user_id "

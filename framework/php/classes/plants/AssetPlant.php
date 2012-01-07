@@ -366,6 +366,23 @@ class AssetPlant extends PlantBase {
 		}
 	}
 
+	public function getFinalAssetLocation($connection_id,$user_id,$asset_location) {
+		$connection_type = $this->getConnectionType($connection_id);
+		$final_asset_location = false;
+		switch ($connection_type) {
+			case 'com.amazon':
+				$s3 = new S3Seed($user_id,$connection_id);
+				$final_asset_location = $s3->getExpiryURL($asset_location);
+				break;
+		    default:
+				if (parse_url($asset_location) || strpos($asset_location, '/') !== false) {
+					$final_asset_location = $asset_location;
+					break;
+				}
+		}
+		return $final_asset_location;
+	}
+
 	/**
 	 * Reads asset details and redirects to the file directly. The success 
 	 * Response is set here rather than in processRequest(), allowing it to 
@@ -376,31 +393,22 @@ class AssetPlant extends PlantBase {
 	 */public function redirectToAsset($asset_id,$element_id=0) {
 		if ($this->getUnlockedStatus($asset_id)) {
 			$asset = $this->getAssetInfo($asset_id);
-			
-			$connection_id = $asset['connection_id'];
-			$connection_type = $this->getConnectionType($connection_id);
-			switch ($connection_type) {
-				case 'com.amazon':
-					$s3 = new S3Seed($asset['user_id'],$asset['connection_id']);
-					$this->pushSuccess(array('asset' => $asset_id),'redirect executed successfully');
-					$this->recordAnalytics($asset_id,$element_id);
-					header("Location: " . $s3->getExpiryURL($asset['location']));
-					die();
-					break; // I know this break will never be executed, but it makes me feel better seeing it here
-			    default:
-					if (parse_url($asset['location']) || strpos($asset['location'], '/') !== false) {
-						$this->pushSuccess(array('asset' => $asset_id),'redirect executed successfully');
-						$this->recordAnalytics($asset_id,$element_id);
-						header("Location: " . $asset['location']);
-						die();
-						break; // This one won't get executed either ...sucker!
-					} else {
-						return $this->response->pushResponse(
-							500,$this->request_type,$this->action,
-							$this->request,
-							'unknown asset type, please as an admin to check the asset type'
-						);
-					}
+			$final_asset_location = $this->getFinalAssetLocation(
+				$asset['connection_id'],
+				$asset['user_id'],
+				$asset['location']
+			);
+			if ($final_asset_location !== false) {
+				$this->pushSuccess(array('asset' => $asset_id),'redirect executed successfully');
+				$this->recordAnalytics($asset_id,$element_id);
+				header("Location: " . $final_asset_location);
+				die();
+			} else {
+				return $this->response->pushResponse(
+					500,$this->request_type,$this->action,
+					$this->request,
+					'unknown asset type, please as an admin to check the asset type'
+				);
 			}
 		}
 	}
