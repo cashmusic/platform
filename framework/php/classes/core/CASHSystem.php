@@ -19,7 +19,7 @@
 	 * @param {string} effective || actual
 	 * @return array
 	 */public static function getAPICredentials($user_type='effective') {
-		$data_request = new CASHRequest();
+		$data_request = new CASHRequest(null);
 		$user_id = $data_request->sessionGet('cash_' . $user_type . '_user');
 		if ($user_id) {
 			$data_request = new CASHRequest(
@@ -171,19 +171,23 @@
 	 * @return array
 	 */public static function getRemoteIP() {
 		$proxy = '';
-		if (!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) {
-			if (!empty($_SERVER["HTTP_CLIENT_IP"])) {
-				$proxy = $_SERVER["HTTP_CLIENT_IP"];
+		if(!defined('STDIN')) {
+			if (!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) {
+				if (!empty($_SERVER["HTTP_CLIENT_IP"])) {
+					$proxy = $_SERVER["HTTP_CLIENT_IP"];
+				} else {
+					$proxy = $_SERVER["REMOTE_ADDR"];
+				}
+				$ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
 			} else {
-				$proxy = $_SERVER["REMOTE_ADDR"];
+				if (!empty($_SERVER["HTTP_CLIENT_IP"])) {
+					$ip = $_SERVER["HTTP_CLIENT_IP"];
+				} else {
+					$ip = $_SERVER["REMOTE_ADDR"];
+				}
 			}
-			$ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
 		} else {
-			if (!empty($_SERVER["HTTP_CLIENT_IP"])) {
-				$ip = $_SERVER["HTTP_CLIENT_IP"];
-			} else {
-				$ip = $_SERVER["REMOTE_ADDR"];
-			}
+			$ip = 'local';
 		}
 		$ip_and_proxy = array(
 			'ip' => $ip,

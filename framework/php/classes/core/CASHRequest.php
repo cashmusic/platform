@@ -35,7 +35,9 @@
 			$this->request_method = $method;
 			$this->user = $authorized_user;
 		} else {
-			$this->detectRequest();
+			if ($direct_request !== null) {
+				$this->detectRequest();
+			}
 		}
 		if ($this->request) {
 			// found something, let's make sure it's legit and do work

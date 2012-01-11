@@ -82,6 +82,7 @@ class CASHDBA {
 			'metadata' => 'system_metadata',
 			'settings' => 'system_connections',
 			'users' => 'people',
+			'people_analytics' => 'people_analytics',
 			'people_lists' => 'people_lists',
 			'list_members' => 'people_lists_members',
 			'venues' => 'calendar_venues'

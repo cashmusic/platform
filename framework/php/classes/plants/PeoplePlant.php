@@ -169,10 +169,11 @@ class PeoplePlant extends PlantBase {
 					if (!$this->checkRequestMethodFor('post','direct','api_key')) return $this->sessionGetLastResponse();
 					if (!$this->requireParameters('list_id')) { return $this->sessionGetLastResponse(); }
 					$browserid_assertion = false;
-					if (!empty($this->request['browseridassertion'])) {
-						$browserid_assertion = $this->request['browseridassertion'];
-					}
-					$result = $this->validateUserForList($this->request['address'],$this->request['password'],$browserid_assertion,$this->request['list_id']);
+					$element_id = null;
+					if (isset($this->request['browseridassertion'])) { $browserid_assertion = $this->request['browseridassertion']; }
+					if (isset($this->request['element_id'])) { $element_id = $this->request['element_id']; }
+					
+					$result = $this->validateUserForList($this->request['address'],$this->request['password'],$browserid_assertion,$this->request['list_id'],$element_id);
 					if ($result) {
 						return $this->pushSuccess($result,'success. boolean true in payload');
 					} else {
@@ -804,7 +805,7 @@ class PeoplePlant extends PlantBase {
 		}
 	}
 
-	public function validateUserForList($address,$password,$browserid_assertion,$list_id) {
+	public function validateUserForList($address,$password,$browserid_assertion,$list_id,$element_id=null) {
 		$validate = false;
 		$verified_address = false;
 		if ($browserid_assertion) {
@@ -837,7 +838,8 @@ class PeoplePlant extends PlantBase {
 					'password' => $password,
 					'verified_address' => $verified_address,
 					'browserid_assertion' => $browserid_assertion,
-					'require_admin' => false
+					'require_admin' => false,
+					'element_id' => $element_id
 				)
 			);
 			if ($login_request->response['payload'] !== false) {
