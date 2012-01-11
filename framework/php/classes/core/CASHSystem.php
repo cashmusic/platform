@@ -64,6 +64,17 @@
 		// fire off new CASHRequest to cover any immediate-need things like GET
 		// asset requests, etc...
 		$cash_page_request = new CASHRequest();
+		if (!empty($cash_page_request->response)) {
+			$cash_page_request->sessionSet(
+				'initial_page_request',
+				array(
+					'request' => $cash_page_request->request,
+					'response' => $cash_page_request->response,
+					'status_uid' => $cash_page_request->response['status_uid']
+				),
+				'script'
+			);
+		}
 		unset($cash_page_request);
 	}
 	
@@ -120,12 +131,16 @@
 	 */public static function embedElement($element_id) {
 		// fire up the platform sans-direct-request to catch any GET/POST info sent
 		// in to the page
-		$cash_page_request = new CASHRequest();
-		$status_uid = false;
-		$original_request = false;
-		if (!empty($cash_page_request->response)) {
-			$status_uid = $cash_page_request->response['status_uid'];
-			$original_request = $cash_page_request;
+		$cash_page_request = new CASHRequest(null);
+		$initial_page_request = $cash_page_request->sessionGet('initial_page_request','script');
+		if ($initial_page_request) {
+			$status_uid = $initial_page_request['status_uid'];
+			$original_request = $initial_page_request['request'];
+			$original_response = $initial_page_request['response'];
+		} else {
+			$status_uid = false;
+			$original_request = false;
+			$original_response = false;
 		}
 		$cash_body_request = new CASHRequest(
 			array(
@@ -133,7 +148,8 @@
 				'cash_action' => 'getmarkup',
 				'id' => $element_id, 
 				'status_uid' => $status_uid,
-				'original_request' => $original_request
+				'original_request' => $original_request,
+				'original_response' => $original_response
 			)
 		);
 		if ($cash_body_request->response['status_uid'] == 'element_getmarkup_400') {

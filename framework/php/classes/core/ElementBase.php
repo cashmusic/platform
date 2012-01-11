@@ -20,7 +20,7 @@ abstract class ElementBase extends CASHData {
 
 	abstract public function getMarkup();
 
-	public function __construct($element_id=0,$element=false,$status_uid=false,$original_request=false) {
+	public function __construct($element_id=0,$element=false,$status_uid=false,$original_request=false,$original_response=false) {
 		// FYI: the element class takes an element object by reference because
 		// ElementPlant needs to query the element_type anyway. So there didn't 
 		// seem like much point in hitting the database twice every request.
@@ -30,6 +30,7 @@ abstract class ElementBase extends CASHData {
 		$this->element = $element;
 		$this->element_id = $element_id;
 		$this->original_request = $original_request;
+		$this->original_response = $original_response;
 		$this->status_uid = $status_uid;
 		if (isset($_REQUEST['element_id'])) {
 			if ($_REQUEST['element_id'] != $this->element_id) {

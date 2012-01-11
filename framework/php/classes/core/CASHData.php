@@ -156,6 +156,7 @@
 			$_SESSION['cash_persistent_store'][(string)$key] = $value;
 			return true;
 		} else {
+			// set scope to 'script' -- or you know, whatever
 			$GLOBALS['cash_script_store'][(string)$key] = $value;
 			return true;
 		}

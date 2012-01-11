@@ -51,7 +51,7 @@ class ECard extends ElementBase {
 					$verification_request = new CASHRequest(array(
 						'cash_request_type' => 'people', 
 						'cash_action' => 'checkverification',
-						'address' => $this->original_request->response['payload']['address'],
+						'address' => $this->original_response['payload']['address'],
 						'list_id' => $this->options->emal_list_id
 					));
 					if (!$verification_request->response['payload']) {
@@ -62,11 +62,11 @@ class ECard extends ElementBase {
 				} 
 				if ($show_final_message) {
 					
-					$all_friends = array($this->original_request->request['friend1'],$this->original_request->request['friend2'],$this->original_request->request['friend3']);
-					if (!empty($this->original_request->request['main_name'])) {
-						$from_name = $this->original_request->request['main_name'];
+					$all_friends = array($this->original_request['friend1'],$this->original_request['friend2'],$this->original_request['friend3']);
+					if (!empty($this->original_request['main_name'])) {
+						$from_name = $this->original_request['main_name'];
 					} else {
-						$from_name = $this->original_request->request['address'];
+						$from_name = $this->original_request['address'];
 					}
 					if (!empty($this->options->email_html_message)) {
 						$html_message = str_replace('</body>','<br /><br /><br /><small>This e-card was sent from <a href="' . CASHSystem::getCurrentURL() . '">' . CASHSystem::getCurrentURL() . '</a></small></body>',$this->options->email_html_message);

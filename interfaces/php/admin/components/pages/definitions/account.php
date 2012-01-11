@@ -5,7 +5,6 @@ $page_tips = '';
 
 function checkLogin() {
 	if (isset($_POST['email_address']) && isset($_POST['password'])) {
-		$admin_request = new CASHRequest();
 		$login_details = AdminHelper::doLogin($_POST['email_address'],$_POST['password']);
 		if ($login_details !== false) {
 			return true;

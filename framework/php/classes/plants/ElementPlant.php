@@ -94,8 +94,10 @@ class ElementPlant extends PlantBase {
 					if (!$this->checkRequestMethodFor('direct','api_key','api_public')) return $this->sessionGetLastResponse();
 					if (!$this->requireParameters('id','status_uid')) return $this->sessionGetLastResponse();
 					$original_request = false;
+					$original_response = false;
 					if (isset($this->request['original_request'])) { $original_request = $this->request['original_request']; }
-					$result = $this->getElementMarkup($this->request['id'],$this->request['status_uid'],$original_request,$this->request_method);
+					if (isset($this->request['original_response'])) { $original_response = $this->request['original_response']; }
+					$result = $this->getElementMarkup($this->request['id'],$this->request['status_uid'],$original_request,$original_response,$this->request_method);
 					// we do a hard !== comparison here to allow for blank markup. otherwise it resolves as false, and we
 					// actually want blank markup at times.
 					if ($result !== false) {
@@ -328,7 +330,7 @@ class ElementPlant extends PlantBase {
 		}
 	}
 
-	public function getElementMarkup($element_id,$status_uid,$original_request=false,$access_method='direct') {
+	public function getElementMarkup($element_id,$status_uid,$original_request=false,$original_response=false,$access_method='direct') {
 		$element = $this->getElement($element_id);
 		$element_type = $element['type'];
 		$element_options = $element['options'];
@@ -337,7 +339,7 @@ class ElementPlant extends PlantBase {
 			if (file_exists($for_include)) {
 				include_once($for_include);
 				$element_object_type = substr_replace($this->elements_array[$element_type], '', -4);
-				$element_object = new $element_object_type($element_id,$element,$status_uid,$original_request);
+				$element_object = new $element_object_type($element_id,$element,$status_uid,$original_request,$original_response);
 				$this->recordAnalytics($element_id,$access_method);
 				return $element_object->getMarkup();
 			}
