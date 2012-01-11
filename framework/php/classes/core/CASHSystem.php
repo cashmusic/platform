@@ -133,10 +133,13 @@
 		// in to the page
 		$cash_page_request = new CASHRequest(null);
 		$initial_page_request = $cash_page_request->sessionGet('initial_page_request','script');
-		if ($initial_page_request) {
-			$status_uid = $initial_page_request['status_uid'];
-			$original_request = $initial_page_request['request'];
-			$original_response = $initial_page_request['response'];
+		if ($initial_page_request && isset($initial_page_request['request']['element_id'])) {
+			// now test that the initial POST/GET was targeted for this element:
+			if ($initial_page_request['request']['element_id'] == $element_id) {
+				$status_uid = $initial_page_request['status_uid'];
+				$original_request = $initial_page_request['request'];
+				$original_response = $initial_page_request['response'];
+			}
 		} else {
 			$status_uid = false;
 			$original_request = false;
