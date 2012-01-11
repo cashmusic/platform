@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="assets/css/demo.css" rel="stylesheet" type="text/css" />
 <link rel="icon" type="image/png" href="http://cashmusic.org/images/icons/cash.png" /> 
-<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Arimo:700' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
@@ -15,7 +15,7 @@
 	<img src="assets/images/funzone.png" width="160" height="77" id="titleimg" />
 	<span id="navtitle">&nbsp;MGMT<b>FUNZONE</b></span>
 	<div id="navmenu">
-		<a href="#">NEWS</a><a href="#">EVENTS</a><a href="#" class="selected">TICKETS</a><a href="#">MERCH</a><a href="#">PHOTOS</a><a href="#">MUSIC+VIDEO</a><a href="#">SHOW</a><a href="#">ARCHIVE</a>
+		<a href="#">NEWS</a><a href="#">EVENTS</a><a href="#" class="selected">TICKETS</a><a href="#">MERCH</a><a href="#">PHOTOS</a><a href="#">MUSIC+VIDEO</a><a href="#">SHOW ARCHIVE</a>
 	</div>
 	<?php CASHSystem::embedElement(106); // CASH element (Dandy's e-card test / ecard) ?>
 		SECURE

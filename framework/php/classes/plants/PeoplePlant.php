@@ -165,9 +165,14 @@ class PeoplePlant extends PlantBase {
 					}
 					break;
 				case 'signintolist':
+					
 					if (!$this->checkRequestMethodFor('post','direct','api_key')) return $this->sessionGetLastResponse();
-					if (!$this->requireParameters('address','password','list_id')) { return $this->sessionGetLastResponse(); }
-					$result = $this->validateUserForList($this->request['address'],$this->request['password'],$this->request['list_id']);
+					if (!$this->requireParameters('list_id')) { return $this->sessionGetLastResponse(); }
+					$browserid_assertion = false;
+					if (!empty($this->request['browseridassertion'])) {
+						$browserid_assertion = $this->request['browseridassertion'];
+					}
+					$result = $this->validateUserForList($this->request['address'],$this->request['password'],$browserid_assertion,$this->request['list_id']);
 					if ($result) {
 						return $this->pushSuccess($result,'success. boolean true in payload');
 					} else {
@@ -799,8 +804,17 @@ class PeoplePlant extends PlantBase {
 		}
 	}
 
-	public function validateUserForList($address,$password,$list_id) {
+	public function validateUserForList($address,$password,$browserid_assertion,$list_id) {
 		$validate = false;
+		$verified_address = false;
+		if ($browserid_assertion) {
+			$address = CASHSystem::getBrowserIdStatus($browserid_assertion);
+			if (!$address) {
+				return false;
+			} else {
+				$verified_address = true;
+			}
+		}
 		$user_id = $this->getUserIDForAddress($address);
 		$list_info = $this->getListById($list_id) ;
 		$user_list_info = $this->getAddressListInfo($address,$list_id);
@@ -821,6 +835,8 @@ class PeoplePlant extends PlantBase {
 					'cash_action' => 'validatelogin',
 					'address' => $address, 
 					'password' => $password,
+					'verified_address' => $verified_address,
+					'browserid_assertion' => $browserid_assertion,
 					'require_admin' => false
 				)
 			);

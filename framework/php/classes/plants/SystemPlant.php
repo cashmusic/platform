@@ -28,17 +28,24 @@ class SystemPlant extends PlantBase {
 			switch ($this->action) {
 				case 'validatelogin':
 					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('address','password')) { return $this->sessionGetLastResponse(); }
+					$address = false;
+					$password = false;
+					$verified_address = false;
+					$browserid_assertion = false;
 					$require_admin = false;
-					if (isset($this->request['require_admin'])) {
-						$require_admin = $this->request['require_admin'];
+					
+					if (isset($this->request['address'])) { $address = $this->request['address']; }
+					if (isset($this->request['password'])) { $password = $this->request['password']; }
+					if (isset($this->request['verified_address'])) { $verified_address = $this->request['verified_address']; }
+					if (isset($this->request['browserid_assertion'])) { $browserid_assertion = $this->request['browserid_assertion']; }
+					if (isset($this->request['require_admin'])) { $require_admin = $this->request['require_admin']; }
+					
+					$result = $this->validateLogin($address,$password,$require_admin,$verified_address,$browserid_assertion);
+					if ($result) {
+						return $this->pushSuccess($result,'success.');
+					} else {
+						return $this->pushFailure('there was an error');
 					}
-					$result = $this->validateLogin($this->request['address'],$this->request['password'],$require_admin);
-					return $this->response->pushResponse(
-						200,$this->request_type,$this->action,
-						$result,
-						'success. id or false included in payload'
-					);
 					break;
 				case 'addlogin':
 					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
@@ -135,8 +142,27 @@ class SystemPlant extends PlantBase {
 	 * @param {string} $address -  the email address in question
 	 * @param {string} $password - the password
 	 * @return array|false
-	 */public function validateLogin($address,$password,$require_admin=false) {
+	 */public function validateLogin($address,$password,$require_admin=false,$verified_address=false,$browserid_assertion=false) {
+		if ($verified_address && !$address) {
+			// claiming verified without an address? false!
+			return false;
+		} else if ((!$address && !$browserid_assertion) && (!$address && !$password)) {
+			// none of the fancy stuff but you're trying to push through no user/pass? bullshit! false!
+			return false;
+		}
+		if (!$password) {
+			// set a password string for hashing
+			$password = 'password'; // ha! i just made someone doing a security review really sad.
+		}
 		$password_hash = hash_hmac('sha256', $password, $this->salt);
+		if ($browserid_assertion && !$verified_address) {
+			$address = CASHSystem::getBrowserIdStatus($browserid_assertion);
+			if (!$address) {
+				return false;
+			} else {
+				$verified_address = true;
+			}
+		}
 		$result = $this->db->getData(
 			'users',
 			'id,password,is_admin',
@@ -147,7 +173,7 @@ class SystemPlant extends PlantBase {
 				)
 			)
 		);
-		if ($password_hash == $result[0]['password']) {
+		if ($password_hash == $result[0]['password'] || $verified_address) {
 			if (($require_admin && $result[0]['is_admin']) || !$require_admin) {
 				return $result[0]['id'];
 			} else {
