@@ -33,14 +33,16 @@ class SystemPlant extends PlantBase {
 					$verified_address = false;
 					$browserid_assertion = false;
 					$require_admin = false;
+					$element_id = null;
 					
 					if (isset($this->request['address'])) { $address = $this->request['address']; }
 					if (isset($this->request['password'])) { $password = $this->request['password']; }
 					if (isset($this->request['verified_address'])) { $verified_address = $this->request['verified_address']; }
 					if (isset($this->request['browserid_assertion'])) { $browserid_assertion = $this->request['browserid_assertion']; }
 					if (isset($this->request['require_admin'])) { $require_admin = $this->request['require_admin']; }
+					if (isset($this->request['element_id'])) { $element_id = $this->request['element_id']; }
 					
-					$result = $this->validateLogin($address,$password,$require_admin,$verified_address,$browserid_assertion);
+					$result = $this->validateLogin($address,$password,$require_admin,$verified_address,$browserid_assertion,$element_id);
 					if ($result) {
 						return $this->pushSuccess($result,'success.');
 					} else {
@@ -142,7 +144,8 @@ class SystemPlant extends PlantBase {
 	 * @param {string} $address -  the email address in question
 	 * @param {string} $password - the password
 	 * @return array|false
-	 */public function validateLogin($address,$password,$require_admin=false,$verified_address=false,$browserid_assertion=false) {
+	 */public function validateLogin($address,$password,$require_admin=false,$verified_address=false,$browserid_assertion=false,$element_id=null) {
+		$login_method = 'internal';
 		if ($verified_address && !$address) {
 			// claiming verified without an address? false!
 			return false;
@@ -161,7 +164,11 @@ class SystemPlant extends PlantBase {
 				return false;
 			} else {
 				$verified_address = true;
+				$login_method = 'browserid';				
 			}
+		}
+		if ($browserid_assertion && $verified_address) {
+			$login_method = 'browserid';
 		}
 		$result = $this->db->getData(
 			'users',
@@ -175,6 +182,7 @@ class SystemPlant extends PlantBase {
 		);
 		if ($password_hash == $result[0]['password'] || $verified_address) {
 			if (($require_admin && $result[0]['is_admin']) || !$require_admin) {
+				$this->recordLoginAnalytics($result[0]['id'],$element_id,$login_method);
 				return $result[0]['id'];
 			} else {
 				return false;
@@ -182,6 +190,26 @@ class SystemPlant extends PlantBase {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Records the basic login data to the people analytics table
+	 *
+	 * @return boolean
+	 */protected function recordLoginAnalytics($user_id,$element_id=null,$login_method='internal') {
+		$ip_and_proxy = CASHSystem::getRemoteIP();
+		$result = $this->db->setData(
+			'people_analytics',
+			array(
+				'user_id' => $user_id,
+				'element_id' => $element_id,
+				'access_time' => time(),
+				'client_ip' => $ip_and_proxy['ip'],
+				'client_proxy' => $ip_and_proxy['proxy'],
+				'login_method' => $login_method
+			)
+		);
+		return $result;
 	}
 
 	/**

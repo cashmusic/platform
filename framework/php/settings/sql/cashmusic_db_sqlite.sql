@@ -190,6 +190,21 @@ CREATE TABLE people (
 CREATE INDEX email ON people (email_address);
 
 --
+-- Table: people_analytics
+--
+CREATE TABLE people_analytics (
+  id INTEGER PRIMARY KEY NOT NULL,
+  user_id int(11) NOT NULL DEFAULT '0',
+  element_id int(11) DEFAULT NULL,
+  access_time int(11) NOT NULL,
+  client_ip varchar(39) NOT NULL,
+  client_proxy varchar(39) NOT NULL,
+  login_method varchar(15) DEFAULT NULL,
+  creation_date int(11) DEFAULT NULL,
+  modification_date int(11) DEFAULT '0'
+);
+
+--
 -- Table: people_lists
 --
 CREATE TABLE people_lists (
