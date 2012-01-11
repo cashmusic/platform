@@ -3,16 +3,20 @@ a {color:#444;text-decoration:none;}
 a:hover {color:#ec008c;}
 h2 {margin:0;}
 #mainspc {position:relative;width:664px;margin:110px auto 30px auto;padding:30px 20px 20px 20px;background-color:#fff;background-color:rgba(255, 255, 255, 0.9);border-radius:12px;min-height:480px;}
-#navmenu {font-family:'Open Sans Condensed',sans-serif;font-style:italic;font-size:30px;white-space:nowrap;margin-bottom:36px;}
-#navmenu a {margin-right:12px;}
+#navmenu {font-family:'Arimo',sans-serif;text-transform:lowercase;font-weight:bold;font-size:21px;white-space:nowrap;margin-bottom:36px;}
+#navmenu a {margin-right:14px;color:#888;}
+#navmenu a:hover {color:#ec008c;}
 #navmenu a.selected {color:#ec008c;}
 #navtitle {font-size:0.8em;color:#aaa;}
 #titleimg {position:absolute;top:-88px;right:20px;}
 
 /* SEED-SPECIFIC STYLES */
+.signin {padding:20px 30px 0 30px;}
+.cash_divider_text {padding:0 16px 0 16px;font-size:0.8em;color:#999;}
+.cash_browserid_button {width:80px;height:28px;position:relative;top:10px;}
 div.cash_success div.description {display:none;}
 .cash_notation {font-size:10px;color:#777;margin-top:8px;}
-.cash_error {font-weight:bold;color:#ff0;margin-bottom:15px;}
+.cash_error {font-weight:bold;color:#f05;margin-bottom:15px;}
 .cash_friend_address2 {margin:0 17px 0 17px;}
 .cash_image_ecard {margin-top:24px;}
 .cash_address_container {float:left;width:285px;}
@@ -25,7 +29,7 @@ a.download:hover {color:#000;}
 /* FORMS */
 input {padding:9px 3px 9px 3px;border:1px solid #aaa;width:100%;}
 input:active, input:focus {outline:0;border:1px solid #000;}
-input.button {display:block;margin-top:18px;background-color:#000;color:#ccc;padding:6px 25px 6px 25px;font-weight:bold;cursor:pointer;width:auto;border-radius:6px;}
+input.button {margin-top:18px;background-color:#000;color:#ccc;padding:6px 25px 6px 25px;font-weight:bold;cursor:pointer;width:auto;border-radius:6px;}
 input.button:hover {background-color:#666;color:#fff;}
 input.checkorradio {width:auto;}
 label {display:block;margin-top:12px;font-size:11px;text-transform:uppercase;color:#999;}

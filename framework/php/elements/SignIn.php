@@ -60,21 +60,24 @@ class SignIn extends ElementBase {
 		if ($this->options->display_message) {
 			$default_markup .= '<p class="cash_message">' . $this->options->display_message . '</p>';
 		}
-		$default_markup .= '<div class="cash_address_container"><label for="address">Email</label>'
+		$default_markup .= ''
+			. '<div class="cash_address_container"><label for="address">Email</label>'
 			. '<input type="email" name="address"  placeholder="Your Email Address" value="" class="cash_input cash_input_address" /></div>'
 			. '<div class="cash_password_container"><label for="password">Password</label>'
 			. '<input type="password" name="password" value="" class="cash_input cash_input_password" /></div>'
 			. '<div class="cash_hidden"><input type="hidden" name="cash_request_type" value="people" />'
 			. '<input type="hidden" name="cash_action" value="signintolist" />'
 			. '<input type="hidden" name="list_id" value="'.$this->options->emal_list_id.'" class="cash_input cash_input_list_id" />'
-			. '<input type="hidden" name="element_id" value="'.$this->element_id.'" class="cash_input cash_input_element_id" /></div>'
-			. '<input type="submit" value="log in" class="button" /><br />'
+			. '<input type="hidden" name="element_id" value="'.$this->element_id.'" class="cash_input cash_input_element_id" />'
+			. '<input type="hidden" id="browseridassertion_'.$this->element_id.'" name="browseridassertion" value="" class="cash_input cash_input_element_id" /></div>'
+			. '<input type="submit" value="log in" class="button" /> <span class="cash_divider_text"> - or - </span> <a href="javascript:void(0)" id="browserid_login_link_' . $this->element_id . '"><img src="' . CASH_PUBLIC_URL . 'assets/images/browserid.png" alt="log in with browser id" class="cash_browserid_button" /></a>'
 			. '</form>';
+		$default_markup .= CASHSystem::getBrowserIdJS($this->element_id);
 		switch ($this->status_uid) {
 			case 'people_signintolist_400':
 				// error, likely in the email format. error message + default form
 				$markup = '<div class="cash_error '. self::type .'">'
-				. $this->options->message_invalid_email
+				. 'We could not verify your login. Please try again.'
 				. '</div>'
 				. $default_markup;
 				break;

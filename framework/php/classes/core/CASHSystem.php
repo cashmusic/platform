@@ -54,7 +54,7 @@
 		define('CASH_PLATFORM_ROOT', $root);
 		$cash_settings = CASHSystem::getSystemSettings();
 		define('CASH_API_URL', $cash_settings['apilocation']);
-		
+		define('CASH_PUBLIC_URL',str_replace('api/','public/',$cash_settings['apilocation']));
 		// set up auto-load
 		spl_autoload_register('CASHSystem::autoloadClasses');
 		
@@ -196,10 +196,16 @@
 	 * Returns the (best guess at) current URL or false for CLI access
 	 *
 	 * @return array
-	 */public static function getCurrentURL() {
+	 */public static function getCurrentURL($domain_only=false) {
 		if(!defined('STDIN')) { // check for command line
-			return 'http'.((empty($_SERVER['HTTPS'])&&$_SERVER['SERVER_PORT']!=443)?'':'s') 
-					.'://'.$_SERVER['HTTP_HOST'].strtok($_SERVER['REQUEST_URI'],'?');
+			if ($domain_only) {
+				return strtok($_SERVER['HTTP_HOST'],':');
+			} else {
+				$root = 'http'.((empty($_SERVER['HTTPS'])&&$_SERVER['SERVER_PORT']!=443)?'':'s') 
+						.'://'.$_SERVER['HTTP_HOST'];
+				$page = strtok($_SERVER['REQUEST_URI'],'?');
+				return $root.$page;
+			}
 		} else {
 			return false;
 		}
@@ -287,7 +293,6 @@
 			$url_contents = @file_get_contents($data_url,false,$context);
 		} elseif (in_array('curl', get_loaded_extensions())) {
 			// fall back to cURL
-			// tip of the cap: http://davidwalsh.name/download-urls-content-php-curl
 			$ch = curl_init();
 			$timeout = 5;
 			
@@ -323,6 +328,74 @@
 	 */public static function getDefaultEmail() {
 		$cash_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
 		return $cash_settings['systememail'];
+	}
+
+	public static function getBrowserIdStatus($assertion,$return_details=false) {
+		if (!$assertion) {
+			return false;
+		} else {
+			$post_data = array(
+				'assertion' => $assertion,
+				'audience' => CASHSystem::getCurrentURL(true)
+			);
+			$status = json_decode(CASHSystem::getURLContents('https://browserid.org/verify',$post_data,true),true);
+			if ($return_details || !$status) {
+				return $status;
+			} else {
+				if ($status['status'] == 'okay') {
+					return $status['email'];
+				} else {
+					return false;
+				}
+			}
+		}
+	}
+
+	public static function getBrowserIdJS($element_id=false) {
+		$js_string = '<script src="https://browserid.org/include.js" type="text/javascript">'
+				   . '</script><script type="text/javascript">'
+				   . "(function(){function ha() {navigator.id.get(function(a){if(a){var i = document.getElementById('browseridassertion');if(i){i.value = a;var f=document.getElementById('cash_signin_form');if(f){f.submit();}}}});}var el=document.getElementById('browserid_login_link');if(el.attachEvent){el.attachEvent('onclick',ha);}else{el.addEventListener('click',ha,false);}}());"
+				   . '</script>';
+		if ($element_id) {
+			 $js_string = str_replace(
+				array('browseridassertion','browserid_login_link','cash_signin_form'),
+				array('browseridassertion_'.$element_id,'browserid_login_link_'.$element_id,'cash_signin_form_'.$element_id),
+				$js_string
+			);
+		}
+		return $js_string;
+		/*
+		ORIGINAL un-minified JavaScript:
+		
+		<script src="https://browserid.org/include.js" type="text/javascript"></script>
+		<script type="text/javascript">
+		(function() {
+			// deal with the return from browserid.org
+			function handleAssertion() {
+				navigator.id.get(function(assertion) {
+					if (assertion) {
+						var assertioninput = document.getElementById('browseridassertion_106');
+						if (assertioninput) {
+							assertioninput.value = assertion;
+							var loginform = document.getElementById('cash_signin_form_106');
+							if (loginform) {
+								loginform.submit();
+							}
+						}
+					}
+				});
+			}
+
+			// attach elements
+			var el = document.getElementById('browserid_login_link');
+			if (el.attachEvent) { // handle IE freakshowfirst — fucking seriously? it's 2012 dudes, get with it
+				el.attachEvent('onclick',handleAssertion);
+			} else {
+				el.addEventListener('click',handleAssertion,false);
+			}
+		}());
+		</script>
+		*/
 	}
 
 	/*

@@ -114,7 +114,7 @@
 			400,
 			$this->request_type,
 			$this->action,
-			$this->request,
+			false,
 			$message
 		);
 	}
