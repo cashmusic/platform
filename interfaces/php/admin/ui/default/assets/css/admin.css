@@ -14,7 +14,7 @@ FONTS
 
 /* TAG RESETS */
 html {margin:0;padding:0;}
-body {color:#231F20;background-color:#fff;text-align:center;font:13px/1.5em helvetica,"helvetica neue",arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:920px;}
+body {color:#231F20;background-color:#fafaf8;text-align:center;font:13px/1.5em helvetica,"helvetica neue",arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:920px;text-rendering:optimizelegibility;}
 a {color:#999;text-decoration:none;}
 a:hover {text-decoration:underline;color:#000 !important;}
 code, div.callout {display:block;font-size:11px;padding:22px 18px 18px 18px;margin:0 auto 1.5em auto;background-color:#ededef;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;}
@@ -37,9 +37,9 @@ ul.nobullets {padding:0;}
 ul.nobullets li {list-style-type:none;margin-bottom:12px;}
 ul.alternating {padding:0;}
 ul.alternating li {list-style-type:none;padding:9px;background-color:#ececed;border-bottom:1px solid #fff;}
-ul.alternating li:nth-child(odd) {background-color:#f8f8fd;}
+ul.alternating li:nth-child(odd) {background-color:#f5f5f4;}
 ul.alternating li a {line-height:1.5em;}
-ul.linkonly li:hover {background-color:#fff;}
+ul.linkonly li:hover, ul.alternating li:hover {background-color:#fff;}
 ul.linkonly li {padding:0 !important;}
 ul.linkonly li a {display:block;padding:9px;color:#231F20 !important;}
 
@@ -126,7 +126,7 @@ select:active, select:focus {outline:2px solid #ff0;}
 #accountmenu ul li:hover {background-color:#000;}
 #accountmenu ul li a {color:#666;display:block;padding:8px 1.5em 8px 1.5em;color:#999;text-decoration:none;margin:0;}
 #accountmenu ul li a:hover {text-decoration:underline;color:#fff !important;}
-#dashboardlink {position:absolute;bottom:-34px;right:70px;height:14px;z-index:400;padding:2px 7px 2px 7px;font-size:11px;color:#babac4 !important;line-height:14px;background-color:#fff;}
+#dashboardlink {position:absolute;bottom:-34px;right:70px;height:14px;z-index:400;padding:2px 7px 2px 7px;font-size:11px;color:#babac4 !important;line-height:14px;background-color:#fafaf8;}
 #dashboardlink:hover {color:#231F20 !important;background-color:#fff !important;}
 #helpmenu {cursor:pointer;position:absolute;bottom:-42px;right:0;height:14px;z-index:300;padding:9px 0 9px 0;font-size:11px;line-height:14px;color:#231F20;text-align:right;}
 #helpmenu:hover {background-color:#ff0;}
@@ -140,11 +140,12 @@ select:active, select:focus {outline:2px solid #ff0;}
 #navmenu {position:absolute;top:0;left:50%;margin-left:-480px;width:730px;height:72px;text-align:left;color:#fff;text-align:right;font-size:11px;line-height:1.3em;z-index:500;}
 #navmenu .navitem {float:left;margin:0;padding:3px 8px;width:130px;height:66px;cursor:pointer;}
 #navmenu .currentnav {background-image:url(../images/bot_left.png);background-position:left bottom;background-repeat:no-repeat;}
-#navmenu .navitem:hover {background-color:#fff;color:#000;background-image:none;}
+#navmenu .navitem:hover {background-color:transparent;color:#000;background-image:none;}
 #navmenu h2 {font-size:32px;line-height:30px;margin:0;padding:0;font-family:OstrichSansRoundedMedium,"helvetica neue",helvetica,arial,sans-serif;font-weight:normal;}
 #navmenu a {color:#fff;}
 #navmenu a:hover, #navmenu .navitem:hover a {color:#000;text-decoration:none;}
 #navmenu a:active, #navmenu a:focus {color:#000;}
+#navmenu a:active {background-color:transparent;}
 #navmenu .currentnav, #navmenu .currentnav a {color:#000;}
 #pagetips {position:fixed;top:72px;z-index:1234;right:1.5em;;width:238px;background-color:#ff0;color:#231F20;font-size:11px;line-height:14px;padding:1.75em 1.3em 1.5em 2em;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;text-align:left;margin:0;}
 #sectionmenu a {text-transform:lowercase;margin-right:1.5em;}
