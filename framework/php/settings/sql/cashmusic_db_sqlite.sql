@@ -1,342 +1,348 @@
 -- 
--- Created by SQL::Translator::Producer::SQLite
--- Created on Fri Sep 16 13:38:43 2011
--- 
-
+-- CASH Music distributed platform
+-- flavor: SQLite
+-- schema version: 1
+-- modified: January 13, 2012
 
 BEGIN TRANSACTION;
 
---
--- Table: assets
---
+-- 
+-- 
+-- Section: ASSETS
+-- 
 CREATE TABLE assets (
-  id INTEGER PRIMARY KEY NOT NULL,
-  user_id int(11) DEFAULT NULL,
-  parent_id int(11) DEFAULT NULL,
+  id INTEGER PRIMARY KEY,
+  user_id integer DEFAULT NULL,
+  parent_id integer DEFAULT NULL,
   location text,
-  connection_id int(11) DEFAULT NULL,
+  connection_id integer DEFAULT NULL,
   title text,
   description text,
-  public_status bool DEFAULT '0',
-  creation_date int(11) DEFAULT NULL,
-  modification_date int(11) DEFAULT '0'
+  public_status integer DEFAULT '0',
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT '0'
 );
-
 CREATE INDEX asst_asets_parent_id ON assets (parent_id);
-
 CREATE INDEX assets_user_id ON assets (user_id);
 
---
--- Table: assets_licenses
---
-CREATE TABLE assets_licenses (
-  id INTEGER PRIMARY KEY NOT NULL,
-  name text NOT NULL,
-  description text NOT NULL,
-  fulltext blob NOT NULL,
-  uri text NOT NULL
+CREATE TABLE assets_analytics (
+  id INTEGER PRIMARY KEY,
+  asset_id integer DEFAULT '0',
+  element_id integer DEFAULT NULL,
+  access_time integer,
+  client_ip text,
+  client_proxy text,
+  cash_session_id text,
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT '0'
 );
+CREATE INDEX assets_analytics_asset_id ON assets_analytics (id);
 
---
--- Table: commerce_products
---
-CREATE TABLE commerce_products (
-  id INTEGER PRIMARY KEY NOT NULL,
-  sku varchar(20) DEFAULT NULL,
-  title varchar(100) DEFAULT NULL,
-  price decimal(9,2) DEFAULT NULL,
-  type varchar(100) DEFAULT NULL,
-  beneficiary varchar(50) DEFAULT NULL,
-  sub_term_seconds int(11) DEFAULT NULL,
-  qty_total int(11) NOT NULL DEFAULT '0',
-  creation_date int(11) NOT NULL DEFAULT '0',
-  modification_date int(11) DEFAULT NULL
-);
 
---
--- Table: commerce_transactions
---
-CREATE TABLE commerce_transactions (
-  id INTEGER PRIMARY KEY NOT NULL,
-  order_timestamp varchar(24) NOT NULL DEFAULT '',
-  payer_email varchar(75) NOT NULL DEFAULT '',
-  payer_id varchar(60) NOT NULL DEFAULT '',
-  payer_firstname varchar(127) NOT NULL DEFAULT '',
-  payer_lastname varchar(127) NOT NULL DEFAULT '',
-  country varchar(8) NOT NULL DEFAULT '',
-  product_sku varchar(48) NOT NULL DEFAULT '',
-  product_name varchar(255) NOT NULL DEFAULT '',
-  transaction_id varchar(24) NOT NULL DEFAULT '',
-  transaction_status varchar(32) NOT NULL DEFAULT '',
-  transaction_currency varchar(8) NOT NULL DEFAULT '',
-  transaction_amount int(11) NOT NULL DEFAULT '0',
-  transaction_fee decimal(9,2) NOT NULL DEFAULT '0.00',
-  is_fulfilled smallint(1) NOT NULL DEFAULT '0',
-  referral_code varchar(191) DEFAULT NULL,
-  nvp_request_json text,
-  nvp_response_json text,
-  nvp_details_json text,
-  creation_date int(11) NOT NULL DEFAULT '0',
-  modification_date int(11) DEFAULT '0'
-);
-
---
--- Table: calendar_events
---
+-- 
+-- 
+-- Section: CALENDAR
+-- 
 CREATE TABLE calendar_events (
-  id INTEGER PRIMARY KEY NOT NULL,
-  date int(11) DEFAULT NULL,
-  user_id int(11) DEFAULT NULL,
-  venue_id int(11) DEFAULT NULL,
-  published tinyint(1) DEFAULT NULL,
-  cancelled tinyint(1) DEFAULT NULL,
+  id INTEGER PRIMARY KEY,
+  date integer DEFAULT NULL,
+  user_id integer DEFAULT NULL,
+  venue_id integer DEFAULT NULL,
+  published integer DEFAULT NULL,
+  cancelled integer DEFAULT NULL,
   purchase_url text,
   comments text,
-  creation_date int(11) DEFAULT NULL,
-  modification_date int(11) DEFAULT NULL
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT NULL
 );
-
 CREATE INDEX calendar_events_user_id ON calendar_events (user_id);
 
---
--- Table: calendar_venues
---
 CREATE TABLE calendar_venues (
-  id INTEGER PRIMARY KEY NOT NULL,
-  name text NOT NULL,
+  id INTEGER PRIMARY KEY,
+  name text,
   address1 text,
   address2 text,
   city text,
   region text,
   country text,
   postalcode text,
-  latitude float(8,2) DEFAULT NULL,
-  longitude float(8,2) DEFAULT NULL,
+  latitude numeric DEFAULT NULL,
+  longitude numeric DEFAULT NULL,
   url text,
   phone text,
-  creation_date int(11) DEFAULT NULL,
-  modification_date int(11) DEFAULT NULL
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT NULL
 );
 
---
--- Table: system_lock_codes
---
-CREATE TABLE system_lock_codes (
-  id INTEGER PRIMARY KEY NOT NULL,
-  uid tinytext,
-  element_id int(11) DEFAULT NULL,
-  claim_date int(11) DEFAULT NULL,
-  creation_date int(11) DEFAULT '0',
-  modification_date int(11) DEFAULT NULL
+CREATE TABLE calendar_guestlist (
+  id INTEGER PRIMARY KEY,
+  event_id integer,
+  guest_name text,
+  total_attendees integer DEFAULT '1',
+  comment text,
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT '0'
 );
 
-CREATE INDEX system_lock_codes_element_id ON system_lock_codes (element_id);
 
---
--- Table: system_lock_passwords
---
-CREATE TABLE system_lock_passwords (
-  id INTEGER PRIMARY KEY NOT NULL,
-  password text,
-  element_id int(11) DEFAULT NULL,
-  creation_date int(11) DEFAULT '0',
-  modification_date int(11) DEFAULT NULL
+-- 
+-- 
+-- Section: COMMERCE
+-- 
+CREATE TABLE commerce_assets (
+  id integer AUTO_INCREMENT,
+  asset_id integer,
+  scope_table_alias text,
+  scope_table_id integer DEFAULT NULL,
+  type text DEFAULT 'preview',
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT NULL,
+  PRIMARY KEY (id)
 );
 
-CREATE INDEX system_lock_passwords_element_id ON system_lock_passwords (element_id);
-
---
--- Table: assets_analytics
---
-CREATE TABLE assets_analytics (
-  id INTEGER PRIMARY KEY NOT NULL,
-  asset_id int(11) NOT NULL DEFAULT '0',
-  element_id int(11) DEFAULT NULL,
-  access_time int(11) NOT NULL,
-  client_ip varchar(39) NOT NULL,
-  client_proxy varchar(39) NOT NULL,
-  cash_session_id varchar(24) NOT NULL,
-  creation_date int(11) DEFAULT NULL,
-  modification_date int(11) DEFAULT '0'
-);
-
-CREATE INDEX assets_analytics_asset_id ON assets_analytics (id);
-
---
--- Table: people
---
-CREATE TABLE people (
-  id INTEGER PRIMARY KEY NOT NULL,
-  email_address varchar(255) NOT NULL DEFAULT '',
-  password char(64) NOT NULL DEFAULT '',
-  username varchar(32) NOT NULL DEFAULT '',
-  display_name tinytext,
-  first_name tinytext,
-  last_name tinytext,
-  organization tinytext,
-  address_line1 tinytext,
-  address_line2 tinytext,
-  address_city tinytext,
-  address_region tinytext,
-  address_postalcode tinytext,
-  address_country tinytext,
-  is_admin bool NOT NULL DEFAULT '0',
-  api_key char(64) NOT NULL DEFAULT '',
-  api_secret char(64) NOT NULL DEFAULT '',
-  creation_date int(11) DEFAULT NULL,
-  modification_date int(11) DEFAULT NULL
-);
-
-CREATE INDEX email ON people (email_address);
-
---
--- Table: people_analytics
---
-CREATE TABLE people_analytics (
-  id INTEGER PRIMARY KEY NOT NULL,
-  user_id int(11) NOT NULL DEFAULT '0',
-  element_id int(11) DEFAULT NULL,
-  access_time int(11) NOT NULL,
-  client_ip varchar(39) NOT NULL,
-  client_proxy varchar(39) NOT NULL,
-  login_method varchar(15) DEFAULT NULL,
-  creation_date int(11) DEFAULT NULL,
-  modification_date int(11) DEFAULT '0'
-);
-
---
--- Table: people_lists
---
-CREATE TABLE people_lists (
-  id INTEGER PRIMARY KEY NOT NULL,
-  name varchar(128) NOT NULL DEFAULT '',
+CREATE TABLE commerce_items (
+  id integer AUTO_INCREMENT,
+  user_id integer,
+  name text DEFAULT NULL,
   description text,
-  user_id int(11) NOT NULL,
-  connection_id int(11) NOT NULL,
-  creation_date int(11) DEFAULT NULL,
-  modification_date int(11) DEFAULT '0'
+  sku text DEFAULT NULL,
+  price numeric DEFAULT NULL,
+  digital_fulfillment integer DEFAULT '0',
+  physical_fulfillment integer DEFAULT '0',
+  physical_weight integer,
+  physical_width integer,
+  physical_height integer,
+  physical_depth integer,
+  available_units integer DEFAULT '0',
+  creation_date integer DEFAULT '0',
+  modification_date integer DEFAULT NULL,
+  PRIMARY KEY (id)
 );
 
---
--- Table: people_resetpassword
---
-CREATE TABLE people_resetpassword (
-  id INTEGER PRIMARY KEY NOT NULL,
-  time_requested int(11) NOT NULL DEFAULT '0',
-  random_key tinytext NOT NULL,
-  user_id int(11) NOT NULL DEFAULT '0',
-  creation_date int(11) DEFAULT NULL,
-  modification_date int(11) DEFAULT NULL
+CREATE TABLE commerce_offers (
+  id integer AUTO_INCREMENT,
+  user_id integer,
+  name text DEFAULT NULL,
+  description text,
+  sku text DEFAULT NULL,
+  price numeric DEFAULT NULL,
+  recurring_payment integer DEFAULT '0',
+  recurring_interval integer DEFAULT '0',
+  creation_date integer DEFAULT '0',
+  modification_date integer DEFAULT NULL,
+  PRIMARY KEY (id)
 );
 
---
--- Table: elements
---
+CREATE TABLE commerce_offers_included_items (
+  id integer AUTO_INCREMENT,
+  offer_id integer,
+  item_id integer DEFAULT NULL,
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE commerce_orders (
+  id integer AUTO_INCREMENT,
+  user_id integer,
+  customer_user_id integer,
+  transaction_id integer,
+  order_contents text,
+  fulfilled integer DEFAULT '0',
+  notes text,
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT '0',
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE commerce_transactions (
+  id integer AUTO_INCREMENT,
+  user_id integer,
+  connection_id integer,
+  connection_type text,
+  service_timestamp integer,
+  sercice_transaction_id text DEFAULT '',
+  data_sent text,
+  data_returned text,
+  successful integer DEFAULT '0',
+  gross_price numeric,
+  service_fee numeric,
+  creation_date integer DEFAULT '0',
+  modification_date integer DEFAULT '0',
+  PRIMARY KEY (id)
+);
+
+
+-- 
+-- 
+-- Section: ELEMENTS
+-- 
 CREATE TABLE elements (
-  id INTEGER PRIMARY KEY NOT NULL,
-  user_id int(11) DEFAULT NULL,
+  id INTEGER PRIMARY KEY,
+  user_id integer DEFAULT NULL,
   name text,
-  type text NOT NULL,
+  type text,
   options text,
-  license_id int(11) DEFAULT '0',
-  creation_date int(11) DEFAULT NULL,
-  modification_date int(11) DEFAULT NULL
+  license_id integer DEFAULT '0',
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT NULL
 );
 
---
--- Table: elements_analytics
---
 CREATE TABLE elements_analytics (
-  id INTEGER PRIMARY KEY NOT NULL,
-  element_id int(11) NOT NULL,
-  access_method varchar(24) NOT NULL,
-  access_location text NOT NULL,
-  access_action text NOT NULL,
-  access_data text NOT NULL,
-  access_time int(11) NOT NULL,
-  client_ip varchar(39) NOT NULL,
-  client_proxy varchar(39) NOT NULL,
-  cash_session_id varchar(24) NOT NULL,
-  creation_date int(11) DEFAULT NULL,
-  modification_date int(11) DEFAULT '0'
+  id INTEGER PRIMARY KEY,
+  element_id integer,
+  access_method text,
+  access_location text,
+  access_action text,
+  access_data text,
+  access_time integer,
+  client_ip text,
+  client_proxy text,
+  cash_session_id text,
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT '0'
 );
-
 CREATE INDEX elements_analytics_element_id ON elements_analytics (element_id);
 
---
--- Table: system_connections
---
-CREATE TABLE system_connections (
-  id INTEGER PRIMARY KEY NOT NULL,
-  name text,
-  type text NOT NULL,
-  data text NOT NULL,
-  user_id int(11) NOT NULL,
-  creation_date int(11) DEFAULT NULL,
-  modification_date int(11) DEFAULT NULL
+
+-- 
+-- 
+-- Section: PEOPLE
+-- 
+CREATE TABLE people (
+  id INTEGER PRIMARY KEY,
+  email_address text DEFAULT '',
+  password text DEFAULT '',
+  username text DEFAULT '',
+  display_name text,
+  first_name text,
+  last_name text,
+  organization text,
+  address_line1 text,
+  address_line2 text,
+  address_city text,
+  address_region text,
+  address_postalcode text,
+  address_country text,
+  is_admin integer DEFAULT '0',
+  api_key text DEFAULT '',
+  api_secret text DEFAULT '',
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT NULL
+);
+CREATE INDEX email ON people (email_address);
+
+CREATE TABLE people_analytics (
+  id INTEGER PRIMARY KEY,
+  user_id integer DEFAULT '0',
+  element_id integer DEFAULT NULL,
+  access_time integer,
+  client_ip text,
+  client_proxy text,
+  login_method text DEFAULT NULL,
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT '0'
 );
 
---
--- Table: system_connections
---
-CREATE TABLE system_analytics (
-  id INTEGER PRIMARY KEY NOT NULL,
-  type text NOT NULL,
-  data text NOT NULL,
-  user_id int(11) NOT NULL,
-  scope_table_alias text DEFAULT NULL,
-  scope_table_id int(11) DEFAULT NULL,
-  creation_date int(11) DEFAULT NULL,
-  modification_date int(11) DEFAULT NULL
+CREATE TABLE people_lists (
+  id INTEGER PRIMARY KEY,
+  name text DEFAULT '',
+  description text,
+  user_id integer,
+  connection_id integer,
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT '0'
 );
 
---
--- Table: people_lists_members
---
 CREATE TABLE people_lists_members (
-  id INTEGER PRIMARY KEY NOT NULL,
-  user_id int(11) NOT NULL,
-  list_id int(11) NOT NULL,
+  id INTEGER PRIMARY KEY,
+  user_id integer,
+  list_id integer,
   verification_code text,
-  verified bool DEFAULT '0',
-  active bool DEFAULT '1',
+  verified integer DEFAULT '0',
+  active integer DEFAULT '1',
   initial_comment text,
   additional_data text,
-  creation_date int(11) DEFAULT NULL,
-  modification_date int(11) DEFAULT '0'
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT '0'
 );
-
 CREATE INDEX people_lists_members_user_id ON people_lists_members (user_id);
-
 CREATE INDEX people_lists_members_list_id ON people_lists_members (list_id);
 
---
--- Table: calendar_guestlist
---
-CREATE TABLE calendar_guestlist (
-  id INTEGER PRIMARY KEY NOT NULL,
-  event_id int(128) NOT NULL,
-  guest_name text,
-  total_attendees int(11) NOT NULL DEFAULT '1',
-  comment text NOT NULL,
-  creation_date int(11) DEFAULT NULL,
-  modification_date int(11) DEFAULT '0'
+CREATE TABLE people_resetpassword (
+  id INTEGER PRIMARY KEY,
+  time_requested integer DEFAULT '0',
+  random_key text,
+  user_id integer DEFAULT '0',
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT NULL
 );
 
---
--- Table: system_metadata
---
-CREATE TABLE system_metadata (
-  id INTEGER PRIMARY KEY NOT NULL,
-  scope_table_alias varchar(64) NOT NULL DEFAULT '',
-  scope_table_id int(11) NOT NULL DEFAULT '0',
-  user_id int(11) NOT NULL DEFAULT '0',
+
+-- 
+-- 
+-- Section: SYSTEM
+-- 
+CREATE TABLE system_analytics (
+  id INTEGER PRIMARY KEY,
+  key text,
+  value text,
+  user_id integer,
+  scope_table_alias text DEFAULT NULL,
+  scope_table_id integer DEFAULT NULL,
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT NULL
+);
+
+CREATE TABLE system_connections (
+  id INTEGER PRIMARY KEY,
+  name text,
   type text,
-  value text NOT NULL,
-  creation_date int(11) DEFAULT NULL,
-  modification_date int(11) DEFAULT NULL
+  data text,
+  user_id integer,
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT NULL
 );
 
+CREATE TABLE system_licenses (
+  id INTEGER PRIMARY KEY,
+  name text,
+  description text,
+  fulltext blob,
+  url text
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT NULL
+);
+
+CREATE TABLE system_lock_codes (
+  id INTEGER PRIMARY KEY,
+  uid text,
+  element_id integer DEFAULT NULL,
+  claim_date integer DEFAULT NULL,
+  creation_date integer DEFAULT '0',
+  modification_date integer DEFAULT NULL
+);
+CREATE INDEX system_lock_codes_element_id ON system_lock_codes (element_id);
+
+CREATE TABLE system_lock_passwords (
+  id INTEGER PRIMARY KEY,
+  password text,
+  element_id integer DEFAULT NULL,
+  creation_date integer DEFAULT '0',
+  modification_date integer DEFAULT NULL
+);
+CREATE INDEX system_lock_passwords_element_id ON system_lock_passwords (element_id);
+
+CREATE TABLE system_metadata (
+  id INTEGER PRIMARY KEY,
+  scope_table_alias vartext DEFAULT '',
+  scope_table_id integer DEFAULT '0',
+  user_id integer DEFAULT '0',
+  type text,
+  value text,
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT NULL
+);
 CREATE INDEX system_metadata_scope_table ON system_metadata (scope_table_alias, scope_table_id);
 
 COMMIT;

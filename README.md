@@ -3,7 +3,7 @@
 The CASH Music Platform is very much still a work in progress in its pre-release
 lifecycle.
 
-The DIY version of the CASH platform is a locally-installable API intended to
+The DIY version of the CASH platform is a locally-installable framework intended to
 work in a request/response model similar to a REST implementation and handle
 complex functionality around the marketing, promotion, and sale of music on an
 artist's site. It is designed to work as a freestanding API or integrated with
@@ -41,21 +41,6 @@ your site/page is include this single file:
 where the $CASHMUSIC variable is the directory where you installed CASH Music
 on your server.
 
-The Seed.php does some basic housekeeping before firing up a CASHRequest
-instance that parses an incoming request. That request is passed to the
-appropriate Plant (kind of like a Factory) class which then figures out what to
-do with the request and fires off any necessary Seed (kind of like a Worker)
-classes. When done the Plant returns any information in a standard CASHResponse
-format which is stored in a standardized session variable and in the original
-CASHRequest.
-
-So something like this:
-
-    CASHRequest->Plant->(Seed(s) if needed)->CASHResponse
-
-Long-term goal is to use standardized requests/responses to enable full action
-chaining for new functionality.
-
 ## Getting the CASH Music codebase
 
 To hack on CASH Music DIY, first grab the git repo:
@@ -73,14 +58,15 @@ Read the test suite [https://github.com/cashmusic/DIY/blob/master/tests/README.m
 
 ## CASHMusic Branches + Tags
 
-Each week, we do a developer release on Thursday. The developer releases are tagged
-with names in the form of 'dev_release_N' and are cut from the 'latest_stable' branch.
-For example, [this](https://github.com/cashmusic/DIY/commits/dev_release_1) is our first
-dev release tag.
+We try to keep the 'master' branch release-ready at all times, but it is the first 
+place new changes are merged into — be aware that it will break from time to time.
 
-The 'master' branch is the tip of development, where new commits and pull requests get
-merged into, and will be more unstable and possibly broken for short periods of time.
-The 'latest_stable' branch will always point to the most recent developer release.
+We work on specific features in feature branches named for the feature, for example:
+'feature_browserid' or similar.
+
+Contributors are asked to fork, create a branch, and submit pull requests to 'master.'
+
+The 'latest_stable' branch will always point to the most recent public release.
 
 ## Contributing to CASH Music
 
@@ -138,33 +124,12 @@ of each test run [here](http://dev.cashmusic.org:3000/project/DIY) .
 
 ## Using SQLite
 
-PHP may not have SQLite support. On Debian-based systems, you can install it with
+PHP may not have SQLite support. We work around PHP's native SQLite implementation by going
+through the PDO object for all queries — which allows SQLite3 support in PHP 5.2. This is
+still dependent on the underlying system supporting SQLite, and in some instances it will not
+be available.
 
-    sudo apt-get install php5-sqlite
-
-### Generatign a SQLite Database
-
-In the root of DIY.git type:
-
-    make sqlite_db
-
-and a file called "cash.db" will be created. This will likely become part of the web interface Real Soon Now.
-
-### Regenerating the SQLite Schema
-
-Currently, we check in the [MySQL schema](https://github.com/cashmusic/DIY/blob/master/framework/php/settings/sql/cashmusic_db.sql)
-to DIY.git each time it changes. To update the [SQLite version of the schema](https://github.com/cashmusic/DIY/blob/master/framework/php/settings/sql/cashmusic_db_sqlite.sql),
-you need to use a utility to convert it.
-
-You will need to install the [CPAN](http://cpan.org) module [SQL::Translator](https://metacpan.org/module/SQL::Translator), then run this from the root of the CM repo:
-
-    make sqlite_schema
-
-If the SQLite schema is up to date, ```git status``` will not show anything as changed. If you *do* see changes, then commit the change and push it.
-
-An easy way to install it on Debian-based systems is:
-
-    sudo apt-get install sqlfairy
+Separate schemas are maintained for SQLite and MySQL out of necessity.
 
 ## License
 
