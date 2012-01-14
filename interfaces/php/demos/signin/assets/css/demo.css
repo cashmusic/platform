@@ -1,4 +1,4 @@
-body {font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5em;background:#fff url(../images/bg.jpg) center top;color:#444;}
+body {font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5em;background:#fff url(../images/bg.jpg) center top;color:#444;text-legibility:optimizelegibility;}
 a {color:#444;text-decoration:none;}
 a:hover {color:#ec008c;}
 h2 {margin:0;}
