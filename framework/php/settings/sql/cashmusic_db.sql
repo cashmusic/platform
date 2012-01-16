@@ -382,17 +382,6 @@ CREATE TABLE `system_lock_codes` (
   KEY `system_lock_codes_element_id` (`element_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `system_lock_passwords`;
-CREATE TABLE `system_lock_passwords` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `password` varchar(255),
-  `element_id` int(11) DEFAULT NULL,
-  `creation_date` int(11) DEFAULT '0',
-  `modification_date` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `system_lock_passwords_element_id` (`element_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 DROP TABLE IF EXISTS `system_metadata`;
 CREATE TABLE `system_metadata` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

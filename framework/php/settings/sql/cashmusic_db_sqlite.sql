@@ -324,15 +324,6 @@ CREATE TABLE system_lock_codes (
 );
 CREATE INDEX system_lock_codes_element_id ON system_lock_codes (element_id);
 
-CREATE TABLE system_lock_passwords (
-  id INTEGER PRIMARY KEY,
-  password text,
-  element_id integer DEFAULT NULL,
-  creation_date integer DEFAULT '0',
-  modification_date integer DEFAULT NULL
-);
-CREATE INDEX system_lock_passwords_element_id ON system_lock_passwords (element_id);
-
 CREATE TABLE system_metadata (
   id INTEGER PRIMARY KEY,
   scope_table_alias vartext DEFAULT '',
