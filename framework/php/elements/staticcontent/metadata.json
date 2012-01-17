@@ -1,0 +1,7 @@
+{
+	"name":"Static Content",
+	"description":"Simple element to store and display static content like text or html markup.",
+	"version":1.0,
+	"author":"CASH Music",
+	"url":"http://cashmusic.org/"
+}
