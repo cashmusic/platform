@@ -108,6 +108,7 @@ label {font-size:11px;text-transform:uppercase;color:#9c9ca9;}
 select {height:34px;line-height:34px;width:100%;padding:8px;border:none;background-color:#ededef;background-image:linear-gradient(top, #dfdfdf 0%, #efefef 100%);background-image:-moz-linear-gradient(top, #dfdfdf 0%, #efefef 100%);border-radius:5px;}
 select option {padding:8px;}
 select:active, select:focus {outline:2px solid #ff0;}
+textarea.tall {height:200px;}
 #pagedisplay input,textarea {width:664px;padding:8px;}
 #pagedisplay div.col_oneoftwo input,#pagedisplay div.col_oneoftwo textarea {width:302px;padding:8px;}
 #pagedisplay div.col_oneofthree input,#pagedisplay div.col_oneofthree textarea {width:179px;padding:8px;}
