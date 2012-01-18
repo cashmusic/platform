@@ -189,6 +189,16 @@ class PeoplePlant extends PlantBase {
 						return $this->pushFailure('there was a problem with the request');
 					}
 					break;
+				case 'addaddresstolist':
+					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
+					if (!$this->requireParameters('address','list_id')) { return $this->sessionGetLastResponse(); }
+					$result = $this->addAddress($this->request['address'],$this->request['list_id'],true);
+					if ($result) {
+						return $this->pushSuccess($result,'success.');
+					} else {
+						return $this->pushFailure('there was a problem with the request');
+					}
+					break;
 				default:
 					return $this->response->pushResponse(
 						400,$this->request_type,$this->action,
@@ -201,7 +211,7 @@ class PeoplePlant extends PlantBase {
 				400,
 				$this->request_type,
 				$this->action,
-				$this->request,
+				false,
 				'no action specified'
 			);
 		}

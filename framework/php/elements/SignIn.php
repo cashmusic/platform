@@ -67,7 +67,7 @@ class SignIn extends ElementBase {
 			. '<input type="password" name="password" value="" class="cash_input cash_input_password" /></div>'
 			. '<div class="cash_hidden"><input type="hidden" name="cash_request_type" value="people" />'
 			. '<input type="hidden" name="cash_action" value="signintolist" />'
-			. '<input type="hidden" name="list_id" value="'.$this->options->emal_list_id.'" class="cash_input cash_input_list_id" />'
+			. '<input type="hidden" name="list_id" value="'.$this->options->email_list_id.'" class="cash_input cash_input_list_id" />'
 			. '<input type="hidden" name="element_id" value="'.$this->element_id.'" class="cash_input cash_input_element_id" />'
 			. '<input type="hidden" id="browseridassertion_'.$this->element_id.'" name="browseridassertion" value="" class="cash_input cash_input_element_id" /></div>'
 			. '<input type="submit" value="log in" class="button" /> <span class="cash_divider_text"> - or - </span> <a href="javascript:void(0)" id="browserid_login_link_' . $this->element_id . '"><img src="' . CASH_PUBLIC_URL . 'assets/images/browserid.png" alt="log in with browser id" class="cash_browserid_button" /></a>'

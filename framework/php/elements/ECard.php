@@ -36,7 +36,7 @@ class ECard extends ElementBase {
 			. '</div>'
 			. '<input type="hidden" name="cash_request_type" value="people" />'
 			. '<input type="hidden" name="cash_action" value="signup" />'
-			. '<input type="hidden" name="list_id" value="'.$this->options->emal_list_id.'" class="cash_input cash_input_list_id" />'
+			. '<input type="hidden" name="list_id" value="'.$this->options->email_list_id.'" class="cash_input cash_input_list_id" />'
 			. '<input type="hidden" name="element_id" value="'.$this->element_id.'" class="cash_input cash_input_element_id" />'
 			. '<input type="hidden" name="comment" value="" class="cash_input cash_input_comment" />'
 			. '<input type="submit" value="send the cards" class="button" /><br />'
@@ -52,7 +52,7 @@ class ECard extends ElementBase {
 						'cash_request_type' => 'people', 
 						'cash_action' => 'checkverification',
 						'address' => $this->original_response['payload']['address'],
-						'list_id' => $this->options->emal_list_id
+						'list_id' => $this->options->email_list_id
 					));
 					if (!$verification_request->response['payload']) {
 						// not verified, so do not show the final message, and instead give a "you must verify" jam

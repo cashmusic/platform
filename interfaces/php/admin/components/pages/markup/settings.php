@@ -17,6 +17,9 @@ Advanced settings have been hidden and should not be changed unless you like bro
 		echo $db_type;
 	?>
 	 &nbsp; [ migrate database ]
+	<div class="row_seperator">.</div><br />
+	<h3>Connections</h3>
+	<a href="./connections/">Manage connections to third-party services.</a>
 </div>
 <div class="col_oneoftwo lastcol">
 	<h3>Miscellaneous</h3>

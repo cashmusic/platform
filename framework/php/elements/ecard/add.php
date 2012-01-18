@@ -19,7 +19,7 @@
 		<div class="col_oneoftwo">
 
 			<label for="asset_id">Target Mailing List</label><br />
-			<select id="emal_list_id" name="emal_list_id">
+			<select id="email_list_id" name="email_list_id">
 				<option value="0">none</option>
 				<?php AdminHelper::echoFormOptions('people_lists'); ?>
 			</select>
@@ -96,7 +96,7 @@
 				'email_message' => $_POST['email_message'],
 				'email_html_message' => $_POST['email_html_message'],
 				'message_success' => $_POST['message_success'],
-				'emal_list_id' => $_POST['emal_list_id'],
+				'email_list_id' => $_POST['email_list_id'],
 				'asset_id' => $_POST['asset_id'],
 				'do_not_verify' => $do_not_verify
 			),

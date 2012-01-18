@@ -161,8 +161,10 @@
 		unset($echoformoptions_cash_request);
 	}
 
-	public function createdModifiedFromRow($row) {
-		$markup = '<div class="smalltext fadedtext created_mod">Created: ' . date('M jS, Y',$row['creation_date']); 
+	public function createdModifiedFromRow($row,$top=false) {
+		$addtoclass = '';
+		if ($top) { $addtoclass = '_top'; }
+		$markup = '<div class="smalltext fadedtext created_mod' . $addtoclass . '">Created: ' . date('M jS, Y',$row['creation_date']); 
 		if ($row['modification_date']) { 
 			$markup .= ' (Modified: ' . date('F jS, Y',$row['modification_date']) . ')'; 
 		}
@@ -589,6 +591,7 @@
 					$markup .= '</li>';
 				} elseif ($response['status_uid'] == "people_getlistsforuser_200") {
 					$markup .= '<h4>' . $item['name'] . '</h4>'
+							. AdminHelper::createdModifiedFromRow($item,true)
 							. $item['description'] . '<br />'
 							. '<div class="itemnav">'
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/view/' . $item['id'] . '" class="mininav_flush">View</a> '
@@ -596,7 +599,6 @@
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/export/' . $item['id'] . '" class="mininav_flush">Export</a> '
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/delete/' . $item['id'] . '" class="mininav_flush needsconfirmation">Delete</a>'
 							. '</div>';
-					$markup .= AdminHelper::createdModifiedFromRow($item);
 				} elseif ($response['status_uid'] == "element_getelementsforuser_200") {
 					$elements_data = AdminHelper::getElementsData();
 					$markup .= '<h4>' . $item['name'];

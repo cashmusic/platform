@@ -57,7 +57,7 @@
 			}
 			$this->response->pushResponse(
 				403, $this->request_type, $this->action,
-				$this->request,
+				false,
 				"please try another request method, '{$this->request_method}' is not allowed"
 			);
 			return false;
@@ -89,7 +89,7 @@
 				if ($invalid_arg) {
 					$this->response->pushResponse(
 						400, $this->request_type, $this->action,
-						$this->request,
+						false,
 						"required parameter missing: '$arg'"
 					);
 					return false;
