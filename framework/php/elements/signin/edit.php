@@ -13,7 +13,7 @@ if (isset($_POST['doelementedit'])) {
 			'id' => $page_request->response['payload']['id'],
 			'name' => $_POST['element_name'],
 			'options_data' => array(
-				'emal_list_id' => $_POST['emal_list_id'],
+				'email_list_id' => $_POST['email_list_id'],
 				'display_title' => $_POST['display_title'],
 				'display_message' => $_POST['display_message']
 			),
@@ -52,10 +52,10 @@ if (isset($_POST['doelementedit'])) {
 		<input type="text" id="element_name" name="element_name" value="<?php echo $page_data['name']; ?>" /> 
 
 		<div class="row_seperator">.</div>
-			<label for="asset_id">Target Mailing List</label><br />
-			<select id="emal_list_id" name="emal_list_id">
+			<label for="email_list_id">Target Mailing List</label><br />
+			<select id="email_list_id" name="email_list_id">
 				<option value="0">none</option>
-				<?php AdminHelper::echoFormOptions('people_lists',$page_data['options']->emal_list_id); ?>
+				<?php AdminHelper::echoFormOptions('people_lists',$page_data['options']->email_list_id); ?>
 			</select>
 
 		<div class="row_seperator">.</div>

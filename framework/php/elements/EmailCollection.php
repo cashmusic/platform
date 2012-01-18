@@ -23,7 +23,7 @@ class EmailCollection extends ElementBase {
 			. '<input type="email" name="address" value="" class="cash_input cash_input_address" />'
 			. '<input type="hidden" name="cash_request_type" value="people" />'
 			. '<input type="hidden" name="cash_action" value="signup" />'
-			. '<input type="hidden" name="list_id" value="'.$this->options->emal_list_id.'" class="cash_input cash_input_list_id" />'
+			. '<input type="hidden" name="list_id" value="'.$this->options->email_list_id.'" class="cash_input cash_input_list_id" />'
 			. '<input type="hidden" name="element_id" value="'.$this->element_id.'" class="cash_input cash_input_element_id" />'
 			. '<input type="hidden" name="comment" value="" class="cash_input cash_input_comment" />'
 			. '<input type="submit" value="sign me up" class="button" /><br />'
@@ -45,7 +45,7 @@ class EmailCollection extends ElementBase {
 						'cash_request_type' => 'people', 
 						'cash_action' => 'checkverification',
 						'address' => $this->original_request->response['payload']['address'],
-						'list_id' => $this->options->emal_list_id
+						'list_id' => $this->options->email_list_id
 					));
 					if (!$verification_request->response['payload']) {
 						// not verified, so do not show the final message, and instead give a "you must verify" jam

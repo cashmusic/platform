@@ -92,7 +92,7 @@ mech->submit_form_ok({
         doelementadd     =>   'makeitso',
         element_name     =>   'foooobaf',
         element_type     =>   'emailcollection',
-        emal_list_id     =>   '100',
+        email_list_id     =>   '100',
         message_invalid_email =>  "Sorry, that email address wasn't valid. Please try again.",
         message_privacy  => "We won't share, sell, or be jerks with your email address.",
         message_success  => "Thanks! You're all signed up. Here's your download",
