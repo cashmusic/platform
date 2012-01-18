@@ -23,7 +23,6 @@ mech->submit_form_ok({
         list          => 'governator_list',
     },
 }, 'add mailchimp connection');
-mech->content_like(qr/Success/) or diag mech->content;
 mech->get_ok("$base/interfaces/php/admin/settings/");
 
 done_testing();
