@@ -84,7 +84,7 @@
 			}
 			echo '</ul>';
 		} else {
-			echo '<p>No assets have been added yet.</p>';
+			echo '<p class="fadedtext">No assets have been added yet.</p>';
 		}
 		?>
 </div><div class="col_oneoffour usecolor3">
