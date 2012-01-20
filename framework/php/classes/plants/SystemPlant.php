@@ -25,107 +25,55 @@ class SystemPlant extends PlantBase {
 	
 	public function processRequest() {
 		if ($this->action) {
-			switch ($this->action) {
-				case 'validatelogin':
-					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
-					$address = false;
-					$password = false;
-					$verified_address = false;
-					$browserid_assertion = false;
-					$require_admin = false;
-					$element_id = null;
-					
-					if (isset($this->request['address'])) { $address = $this->request['address']; }
-					if (isset($this->request['password'])) { $password = $this->request['password']; }
-					if (isset($this->request['verified_address'])) { $verified_address = $this->request['verified_address']; }
-					if (isset($this->request['browserid_assertion'])) { $browserid_assertion = $this->request['browserid_assertion']; }
-					if (isset($this->request['require_admin'])) { $require_admin = $this->request['require_admin']; }
-					if (isset($this->request['element_id'])) { $element_id = $this->request['element_id']; }
-					
-					$result = $this->validateLogin($address,$password,$require_admin,$verified_address,$browserid_assertion,$element_id);
-					if ($result) {
-						return $this->pushSuccess($result,'success.');
-					} else {
-						return $this->pushFailure('there was an error');
-					}
-					break;
-				case 'addlogin':
-					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('address','password')) { return $this->sessionGetLastResponse(); }
-					
-					// defaults:
-					$display_name = 'Anonymous';
-					$first_name = '';
-					$last_name = '';
-					$organization = '';
-					$is_admin = 0;
-					if (isset($this->request['display_name'])) { $display_name = $this->request['display_name']; }
-					if (isset($this->request['first_name'])) { $first_name = $this->request['first_name']; }
-					if (isset($this->request['last_name'])) { $last_name = $this->request['last_name']; }
-					if (isset($this->request['organization'])) { $organization = $this->request['organization']; }
-					if (isset($this->request['is_admin'])) { $is_admin = $this->request['is_admin']; }
-					
-					$result = $this->addLogin($this->request['address'],$this->request['password'],$display_name,$first_name,$last_name,$organization,$is_admin);
-					if ($result) {
-						return $this->pushSuccess($result,'success. id or false included in payload');
-					} else {
-						return $this->pushFailure('there was an error');
-					}
-					break;
-				case 'setlogincredentials':
-					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('user_id','address','password')) { return $this->sessionGetLastResponse(); }
-					$result = $this->setLoginCredentials($this->request['user_id'],$this->request['address'],$this->request['password']);
-					if ($result) {
-						return $this->pushSuccess($result,'success. boolean in payload');
-					} else {
-						return $this->pushFailure('there was an error');
-					}
-					break;
-				case 'setapicredentials':
-					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('user_id')) { return $this->sessionGetLastResponse(); }
-					$result = $this->setAPICredentials($this->request['user_id']);
-					if ($result) {
-						return $this->pushSuccess($result,'success. credentials array included in payload');
-					} else {
-						return $this->pushFailure('there was an error');
-					}
-					break;
-				case 'getapicredentials':
-					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('user_id')) { return $this->sessionGetLastResponse(); }
-					$result = $this->getAPICredentials($this->request['user_id']);
-					if ($result) {
-						return $this->pushSuccess($result,'success. credentials array included in payload');
-					} else {
-						return $this->pushFailure('there was an error');
-					}
-					break;
-				case 'validateapicredentials':
-					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('api_key')) { return $this->sessionGetLastResponse(); }
-					$result = $this->validateAPICredentials($this->request['api_key']);
-					if ($result) {
-						return $this->pushSuccess($result,'success. auth_type and user_id in payload as array.');
-					} else {
-						return $this->pushFailure('there was an error');
-					}
-					break;
-				case 'fitmk':
-					// for Duke...you're awesome.
-					$litany = "I must not fear. Fear is the mind-killer. "
-							 . "Fear is the little-death that brings total obliteration. "
-							 . "I will face my fear. I will permit it to pass over me and through me. "
-							 . "And when it has gone past I will turn the inner eye to see its path. "
-							 . "Where the fear has gone there will be nothing. Only I will remain. -- Frank Herbert";
-					return $this->pushSuccess($litany,'check it');
-				default:
-					return $this->response->pushResponse(
-						400,$this->request_type,$this->action,
-						$this->request,
-						'unknown action'
-					);
+			$this->routing_table = array(
+				// alphabetical for ease of reading
+				'addlogin' => array(
+					'target_method' => 'addLogin',
+					'request_methods' => array('direct')
+				),
+				'getapicredentials' => array(
+					'target_method' => 'getAPICredentials',
+					'request_methods' => array('direct')
+				),
+				'setapicredentials' => array(
+					'target_method' => 'setAPICredentials',
+					'request_methods' => array('direct')
+				),
+				'setlogincredentials' => array(
+					'target_method' => 'setLoginCredentials',
+					'request_methods' => array('direct')
+				),
+				'validateapicredentials' => array(
+					'target_method' => 'validateAPICredentials',
+					'request_methods' => array('direct')
+				),
+				'validatelogin' => array(
+					'target_method' => 'validateLogin',
+					'request_methods' => array('direct')
+				),
+			);
+			// see if the action matches the routing table:
+			$basic_routing = $this->routeBasicRequest();
+			if ($basic_routing !== false) {
+				return $basic_routing;
+			} else {
+				// switch statement for cases that require more thinking than a straight pass-throgh
+				switch ($this->action) {
+					case 'fitmk':
+						// for Duke...you're awesome.
+						$litany = "I must not fear. Fear is the mind-killer. "
+								 . "Fear is the little-death that brings total obliteration. "
+								 . "I will face my fear. I will permit it to pass over me and through me. "
+								 . "And when it has gone past I will turn the inner eye to see its path. "
+								 . "Where the fear has gone there will be nothing. Only I will remain. -- Frank Herbert";
+						return $this->pushSuccess($litany,'check it');
+					default:
+						return $this->response->pushResponse(
+							400,$this->request_type,$this->action,
+							$this->request,
+							'unknown action'
+						);
+				}
 			}
 		} else {
 			return $this->response->pushResponse(
@@ -144,7 +92,7 @@ class SystemPlant extends PlantBase {
 	 * @param {string} $address -  the email address in question
 	 * @param {string} $password - the password
 	 * @return array|false
-	 */public function validateLogin($address,$password,$require_admin=false,$verified_address=false,$browserid_assertion=false,$element_id=null) {
+	 */protected function validateLogin($address,$password,$require_admin=false,$verified_address=false,$browserid_assertion=false,$element_id=null) {
 		$login_method = 'internal';
 		if ($verified_address && !$address) {
 			// claiming verified without an address? false!
@@ -218,7 +166,7 @@ class SystemPlant extends PlantBase {
 	 * @param {string} $address -  the email address in question
 	 * @param {string} $password - the password
 	 * @return array|false
-	 */public function addLogin($address,$password,$display_name='Anonymous',$first_name='',$last_name='',$organization='',$is_admin=0) {
+	 */protected function addLogin($address,$password,$display_name='Anonymous',$first_name='',$last_name='',$organization='',$is_admin=0) {
 		$password_hash = hash_hmac('sha256', $password, $this->salt);
 		$result = $this->db->setData(
 			'users',
@@ -240,7 +188,7 @@ class SystemPlant extends PlantBase {
 	 *
 	 * @param {int} $user_id -  the user
 	 * @return array|false
-	 */public function setLoginCredentials($user_id,$address,$password) {
+	 */protected function setLoginCredentials($user_id,$address,$password) {
 		$password_hash = hash_hmac('sha256', $password, $this->salt);
 		$credentials = array(
 			'email_address' => $address,
@@ -264,7 +212,7 @@ class SystemPlant extends PlantBase {
 	 *
 	 * @param {int} $user_id -  the user
 	 * @return array|false
-	 */public function setAPICredentials($user_id) {
+	 */protected function setAPICredentials($user_id) {
 		$some_shit = time() . $user_id . rand(976654,1234567267);
 		$api_key = hash_hmac('md5', $some_shit, $this->salt) . substr((string) time(),6);
 		$api_secret = hash_hmac('sha256', $some_shit, $this->salt);
@@ -294,7 +242,7 @@ class SystemPlant extends PlantBase {
 	 *
 	 * @param {int} $user_id -  the user
 	 * @return array|false
-	 */public function getAPICredentials($user_id) {
+	 */protected function getAPICredentials($user_id) {
 		$user = $this->db->getData(
 			'users',
 			'api_key,api_secret',
@@ -320,7 +268,7 @@ class SystemPlant extends PlantBase {
 	 *
 	 * @param {int} $user_id -  the user
 	 * @return array|false
-	 */public function validateAPICredentials($api_key,$api_secret=false) {
+	 */protected function validateAPICredentials($api_key,$api_secret=false) {
 		$user_id = false;
 		$auth_type = 'none';
 		if (!$api_secret) {

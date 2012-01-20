@@ -14,7 +14,7 @@
  * fluorine was here: http://polvo.ca/fluorine/ 
  *
  */abstract class PlantBase extends CASHData {
-	protected $request_method,$request_type,$action=false,$request,$response,$db_required=true;
+	protected $request_method,$request_type,$action=false,$request,$response,$db_required=true,$routing_table;
 
 	/**
 	 * Called by CASHRequest to begin action and return an instance of CASHResponse 
@@ -50,7 +50,12 @@
 		$args_count = func_num_args();
 		if ($args_count > 0) {
 			$args = func_get_args();
-			foreach ($args as $arg) {
+			if (is_array($args[0])) {
+				$test_args = $args[0];
+			} else {
+				$test_args = $args;
+			}
+			foreach ($test_args as $arg) {
 			    if ($arg == $this->request_method) {
 					return true;
 				}
@@ -98,7 +103,50 @@
 		}
 		return true;
 	}
-	
+
+	public function routeBasicRequest() {
+		if (isset($this->routing_table[$this->action])) {
+			if (!$this->checkRequestMethodFor($this->routing_table[$this->action]['request_methods'])) { 
+				return $this->pushFailure('request method not allowed'); 
+			}
+			try {
+				$target_method = $this->routing_table[$this->action]['target_method'];
+				$method = new ReflectionMethod(get_class($this), $target_method);
+				$params = $method->getParameters();
+				$final_parameters = array();
+				foreach ($params as $param) {
+					// $param is an instance of ReflectionParameter
+					$param_name = $param->getName();
+					if ($param->isOptional()) {
+						if (isset($this->request[$param_name])) {
+							$final_parameters[$param_name] = $this->request[$param_name];
+						} else {
+							$final_parameters[$param_name] = $param->getDefaultValue();
+						}
+					} else {
+						// required, return failure if missing
+						if (isset($this->request[$param_name])) {
+							$final_parameters[$param_name] = $this->request[$param_name];
+						} else {
+							return $this->pushFailure('missing required parameter: ' . $param_name);
+						}
+					}
+				}
+				$result = call_user_func_array(array($this, $target_method), $final_parameters);
+				if ($result) {
+					return $this->pushSuccess($result,'success.');
+				} else {
+					return $this->pushFailure('there was an error');
+				}
+			} catch (Exception $e) {
+				return $this->pushFailure('corresponding class method not found');
+			}
+		} else {
+			// not found in standard routing table
+			return false;
+		}
+	}
+
 	protected function pushSuccess($payload,$message) {
 		return $this->response->pushResponse(
 			200,

@@ -139,6 +139,10 @@
 				$status_uid = $initial_page_request['status_uid'];
 				$original_request = $initial_page_request['request'];
 				$original_response = $initial_page_request['response'];
+			} else {
+				$status_uid = false;
+				$original_request = false;
+				$original_response = false;
 			}
 		} else {
 			$status_uid = false;
