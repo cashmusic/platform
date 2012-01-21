@@ -31,7 +31,6 @@ if (isset($_POST['doassetedit'])) {
 			'title' => $asset_title,
 			'description' => $asset_description,
 			'location' => $asset_location,
-			'user_id' => $effective_user,
 			'connection_id' => $asset_settings,
 			'tags' => $metadata_and_tags['tags_details'],
 			'metadata' => $metadata_and_tags['metadata_details']

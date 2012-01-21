@@ -30,117 +30,32 @@ class ElementPlant extends PlantBase {
 	
 	public function processRequest() {
 		if ($this->action) {
-			switch ($this->action) {
-				case 'addelement':
-					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
-					if (!$this->requireParameters('name','type','options_data','user_id')) return $this->sessionGetLastResponse();
-					$result = $this->addElement($this->request['name'],$this->request['type'],$this->request['options_data'],$this->request['user_id']);
-					if ($result) {
-						return $this->pushSuccess(array('id' => $result),'success. element id included in payload');
-					} else {
-						return $this->pushFailure('there was an error adding the element');
-					}
-					break;
-				case 'editelement':
-					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
-					if (!$this->requireParameters('id','name','options_data')) return $this->sessionGetLastResponse();
-					$result = $this->editElement($this->request['id'],$this->request['name'],$this->request['options_data']);
-					if ($result) {
-						return $this->pushSuccess($this->getElement($result),'success. element included in payload');
-					} else {
-						return $this->pushFailure('there was an error editing the element');
-					}
-					break;
-				case 'getelement':
-					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
-					if (!$this->requireParameters('id')) return $this->sessionGetLastResponse();
-						$result = $this->getElement($this->request['id']);
-						if ($result) {
-							return $this->pushSuccess($result,'success. element included in payload');
-						} else {
-							return $this->pushFailure('there was an error retrieving the element');
-						}
-					break;
-				case 'deleteelement':
-					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
-					if (!$this->requireParameters('id')) return $this->sessionGetLastResponse();
-						$result = $this->deleteElement($this->request['id']);
-						if ($result) {
-							return $this->pushSuccess($result,'success. deleted');
-						} else {
-							return $this->pushFailure('there was an error deleting the element');
-						}
-					break;
-				case 'getelementsforuser':
-					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
-					if (!$this->requireParameters('user_id')) return $this->sessionGetLastResponse();
-						$result = $this->getElementsForUser($this->request['user_id']);
-						if ($result) {
-							return $this->pushSuccess($result,'success. element(s) array included in payload');
-						} else {
-							return $this->pushFailure('no elements were found or there was an error retrieving the elements');
-						}
-					break;
-				case 'getanalytics':
-					if (!$this->requireParameters('analtyics_type','user_id')) { return $this->sessionGetLastResponse(); }
-					$result = $this->getAnalytics($this->request['analtyics_type'],$this->request['user_id']);
-					if ($result) {
-						return $this->pushSuccess($result,'asset list in payload');
-					} else {
-						return $this->pushFailure('there was an error getting asset details');
-					}
-					break;
-				case 'getmarkup':
-					if (!$this->checkRequestMethodFor('direct','api_key','api_public')) return $this->sessionGetLastResponse();
-					if (!$this->requireParameters('id','status_uid')) return $this->sessionGetLastResponse();
-					$original_request = false;
-					$original_response = false;
-					if (isset($this->request['original_request'])) { $original_request = $this->request['original_request']; }
-					if (isset($this->request['original_response'])) { $original_response = $this->request['original_response']; }
-					$result = $this->getElementMarkup($this->request['id'],$this->request['status_uid'],$original_request,$original_response,$this->request_method);
-					// we do a hard !== comparison here to allow for blank markup. otherwise it resolves as false, and we
-					// actually want blank markup at times.
-					if ($result !== false) {
-						return $this->pushSuccess($result,'success. markup in the payload');
-					} else {
-						return $this->pushFailure('markup not found');
-					}
-					break;
-				case 'getsupportedtypes':
-					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
-					$result = $this->getSupportedTypes();
-					if ($result) {
-						return $this->pushSuccess($result,'success. types array in the payload');
-					} else {
-						return $this->pushFailure('there was a problem getting the array');
-					}
-					break;
-				case 'addlockcode':
-					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('asset_id')) { return $this->sessionGetLastResponse(); }
-					$new_code = $this->addLockCode($this->request['asset_id']);
-					if ($new_code) {
-						return $this->pushSuccess(array('code' => $new_code),'code added successfully');
-					} else {
-						return $this->pushFailure('there was an error adding the code');
-					}
-					break;
-				case 'unlock':
-					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('asset_id')) { return $this->sessionGetLastResponse(); }
-					$result = $this->unlockAsset($this->request['asset_id']);
-					if ($result) {
-						return $this->pushSuccess(true,'asset unlocked successfully');
-					} else {
-						return $this->pushFailure('there was an error unlocking the asset');
-					}
-					break;
-				default:
-					return $this->response->pushResponse(
-						400,$this->request_type,$this->action,
-						$this->request,
-						'unknown action'
-					);
+			$this->routing_table = array(
+				// alphabetical for ease of reading
+				// first value  = target method to call
+				// second value = allowed request methods (string or array of strings)
+				'addelement'           => array('addElement','direct'),
+				'deleteelement'        => array('deleteElement','direct'),
+				'editelement'          => array('editElement','direct'),
+				'getanalytics'         => array('getAnalytics','direct'),
+				'getelement'           => array('getElement','direct'),
+				'getelementsforuser'   => array('getElementsForUser','direct'),
+				'getmarkup'            => array('getElementMarkup','direct'),
+				'getsupportedtypes'    => array('getSupportedTypes','direct')
+			);
+			// see if the action matches the routing table:
+			$basic_routing = $this->routeBasicRequest();
+			if ($basic_routing !== false) {
+				return $basic_routing;
+			} else {
+				switch ($this->action) {
+					default:
+						return $this->response->pushResponse(
+							400,$this->request_type,$this->action,
+							$this->request,
+							'unknown action'
+						);
+				}
 			}
 		} else {
 			return $this->response->pushResponse(
@@ -187,14 +102,14 @@ class ElementPlant extends PlantBase {
 		}
 	}
 
-	public function getElement($element_id) {
+	public function getElement($id) {
 		$result = $this->db->getData(
 			'elements',
 			'id,name,type,user_id,options',
 			array(
 				"id" => array(
 					"condition" => "=",
-					"value" => $element_id
+					"value" => $id
 				)
 			)
 		);
@@ -234,7 +149,7 @@ class ElementPlant extends PlantBase {
 	 * Records the basic access data to the elements analytics table
 	 *
 	 * @return boolean
-	 */protected function recordAnalytics($element_id,$access_method,$access_action='getmarkup',$access_data='') {
+	 */protected function recordAnalytics($id,$access_method,$access_action='getmarkup',$access_data='') {
 		$ip_and_proxy = CASHSystem::getRemoteIP();
 		$already_recorded = false;
 		// first check and see if we've recorded this session and circumstance yet
@@ -247,7 +162,7 @@ class ElementPlant extends PlantBase {
 				array(
 					"element_id" => array(
 						"condition" => "=",
-						"value" => $element_id
+						"value" => $id
 					),
 					"access_method" => array(
 						"condition" => "=",
@@ -276,7 +191,7 @@ class ElementPlant extends PlantBase {
 			$result = $this->db->setData(
 				'elements_analytics',
 				array(
-					'element_id' => $element_id,
+					'element_id' => $id,
 					'access_method' => $access_method,
 					'access_location' => CASHSystem::getCurrentURL(),
 					'access_action' => $access_action,
@@ -330,8 +245,8 @@ class ElementPlant extends PlantBase {
 		}
 	}
 
-	public function getElementMarkup($element_id,$status_uid,$original_request=false,$original_response=false,$access_method='direct') {
-		$element = $this->getElement($element_id);
+	public function getElementMarkup($id,$status_uid,$original_request=false,$original_response=false,$access_method='direct') {
+		$element = $this->getElement($id);
 		$element_type = $element['type'];
 		$element_options = $element['options'];
 		if ($element_type) {
@@ -339,8 +254,8 @@ class ElementPlant extends PlantBase {
 			if (file_exists($for_include)) {
 				include_once($for_include);
 				$element_object_type = substr_replace($this->elements_array[$element_type], '', -4);
-				$element_object = new $element_object_type($element_id,$element,$status_uid,$original_request,$original_response);
-				$this->recordAnalytics($element_id,$access_method);
+				$element_object = new $element_object_type($id,$element,$status_uid,$original_request,$original_response);
+				$this->recordAnalytics($id,$access_method);
 				return $element_object->getMarkup();
 			}
 		} else {
@@ -362,7 +277,7 @@ class ElementPlant extends PlantBase {
 		return $result;
 	}
 	
-	public function editElement($element_id,$name,$options_data) {
+	public function editElement($id,$name,$options_data) {
 		$options_data = json_encode($options_data);
 		$result = $this->db->setData(
 			'elements',
@@ -373,20 +288,20 @@ class ElementPlant extends PlantBase {
 			array(
 				'id' => array(
 					'condition' => '=',
-					'value' => $element_id
+					'value' => $id
 				)
 			)
 		);
 		return $result;
 	}
 
-	public function deleteElement($element_id) {
+	public function deleteElement($id) {
 		$result = $this->db->deleteData(
 			'elements',
 			array(
 				'id' => array(
 					'condition' => '=',
-					'value' => $element_id
+					'value' => $id
 				)
 			)
 		);
@@ -610,45 +525,6 @@ class ElementPlant extends PlantBase {
 				}
 			} else {
 				// email is required, yo
-				return false;
-			}
-		} else {
-			return false;
-		}
-	}
-	
-	/**
-	 * Adds an unlock state to cash session persistent store
-	 *
-	 * @return boolean
-	 */protected function unlockAsset($asset_id) {
-		$current_unlocked_assets = $this->sessionGet('unlocked_assets');
-		if (is_array($current_unlocked_assets)) {
-			$current_unlocked_assets[""."$asset_id"]=true;
-			$this->sessionSet('unlocked_assets',$current_unlocked_assets);
-			return true;
-		} else {
-			$this->sessionSet('unlocked_assets',array(""."$asset_id" => true));
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Returns true if an assetIsUnlocked, false if not
-	 *
-	 * @return boolean
-	 */protected function getUnlockedStatus($asset_id) {
-		if ($this->getPublicStatus($asset_id)) {
-			return true;
-		}
-		$current_unlocked_assets = $this->sessionGet('unlocked_assets');
-		if (is_array($current_unlocked_assets)) {
-			if (array_key_exists(""."$asset_id",$current_unlocked_assets)) {
-				if ($current_unlocked_assets[""."$asset_id"] === true) {
-					return true;
-				}
-			} else {
 				return false;
 			}
 		} else {

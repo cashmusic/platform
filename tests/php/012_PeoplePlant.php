@@ -8,9 +8,6 @@ class PeoplePlantTests extends UnitTestCase {
 		$p = new PeoplePlant('people', $r);
 		$this->assertIsa($p, 'PeoplePlant');
 
-		$p->doListSync(1);
-		$this->assertTrue(1, 'Called doListSync');
-
 		$api_key = getenv("MAILCHIMP_API_KEY");
 		// an already-created list for testing
 		$test_id = "b607c6d911";
