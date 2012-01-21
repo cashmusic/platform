@@ -27,30 +27,14 @@ class SystemPlant extends PlantBase {
 		if ($this->action) {
 			$this->routing_table = array(
 				// alphabetical for ease of reading
-				'addlogin' => array(
-					'target_method' => 'addLogin',
-					'request_methods' => array('direct')
-				),
-				'getapicredentials' => array(
-					'target_method' => 'getAPICredentials',
-					'request_methods' => array('direct')
-				),
-				'setapicredentials' => array(
-					'target_method' => 'setAPICredentials',
-					'request_methods' => array('direct')
-				),
-				'setlogincredentials' => array(
-					'target_method' => 'setLoginCredentials',
-					'request_methods' => array('direct')
-				),
-				'validateapicredentials' => array(
-					'target_method' => 'validateAPICredentials',
-					'request_methods' => array('direct')
-				),
-				'validatelogin' => array(
-					'target_method' => 'validateLogin',
-					'request_methods' => array('direct')
-				),
+				// first value  = target method to call
+				// second value = allowed request methods (string or array of strings)
+				'addlogin'                => array('addLogin','direct'),
+				'getapicredentials'       => array('getAPICredentials','direct'),
+				'setapicredentials'       => array('setAPICredentials','direct'),
+				'setlogincredentials'     => array('setLoginCredentials','direct'),
+				'validateapicredentials'  => array('validateAPICredentials','direct'),
+				'validatelogin'           => array('validateLogin','direct')
 			);
 			// see if the action matches the routing table:
 			$basic_routing = $this->routeBasicRequest();

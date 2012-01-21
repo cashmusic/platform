@@ -23,124 +23,32 @@ class AssetPlant extends PlantBase {
 	
 	public function processRequest() {
 		if ($this->action) {
-			switch ($this->action) {
-				case 'claim':
-					if (!$this->requireParameters('id')) { return $this->sessionGetLastResponse(); }
-					$claim_element_id = 0;
-					if (isset($this->request['element_id'])) {
-						$claim_element_id = $this->request['element_id'];
-					}
-					$this->redirectToAsset($this->request['id'],$claim_element_id);
-					break;
-				case 'unlock':
-					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('id')) { return $this->sessionGetLastResponse(); }
-					$result = $this->unlockAsset($this->request['id']);
-					if ($result) {
-						return $this->pushSuccess(true,'asset unlocked successfully');
-					} else {
-						return $this->pushFailure('there was an error unlocking the asset');
-					}
-					break;
-				case 'getasset':
-					if (!$this->requireParameters('id')) { return $this->sessionGetLastResponse(); }
-					$result = $this->getAssetInfo($this->request['id']);
-					if ($result) {
-						return $this->pushSuccess($result,'asset details in payload');
-					} else {
-						return $this->pushFailure('there was an error getting asset details');
-					}
-					break;
-				case 'getassetsforuser':
-					if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
-					if (!$this->requireParameters('user_id')) return $this->sessionGetLastResponse();
-						$result = $this->getAssetsForUser($this->request['user_id']);
-						if ($result) {
-							return $this->pushSuccess($result,'success. asset(s) array included in payload');
-						} else {
-							return $this->pushFailure('no assets were found or there was an error retrieving the elements');
-						}
-					break;
-				case 'getanalytics':
-					if (!$this->requireParameters('analtyics_type','user_id')) { return $this->sessionGetLastResponse(); }
-					$result = $this->getAnalytics($this->request['analtyics_type'],$this->request['user_id']);
-					if ($result) {
-						return $this->pushSuccess($result,'asset list in payload');
-					} else {
-						return $this->pushFailure('there was an error getting asset details');
-					}
-					break;
-				case 'addasset':
-					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('title','description','location','user_id')) { return $this->sessionGetLastResponse(); }
-					// defaults:
-					$addasset_connection_id = 0;
-					$addasset_tags = false;
-					$addasset_metadata = false;
-					$addasset_parent_id = 0;
-					$addasset_public_status = 1;
-					if (isset($this->request['connection_id'])) { $addasset_connection_id = $this->request['connection_id']; }
-					if (isset($this->request['tags'])) { $addasset_tags = $this->request['tags']; }
-					if (isset($this->request['metadata'])) { $addasset_metadata = $this->request['metadata']; }
-					if (isset($this->request['parent_id'])) { $addasset_parent_id = $this->request['parent_id']; }
-					if (isset($this->request['public_status'])) { $addasset_public_status = $this->request['public_status']; }
-
-					$result = $this->addAsset(
-						$this->request['title'],
-						$this->request['description'],
-						$this->request['location'],
-						$this->request['user_id'],
-						$addasset_connection_id,
-						$addasset_tags,
-						$addasset_metadata,
-						$addasset_parent_id,
-						$addasset_public_status
-					);
-					if ($result) {
-						return $this->pushSuccess($result,'asset id payload');
-					} else {
-						return $this->pushFailure('there was an error adding the asset');
-					}
-					break;
-				case 'editasset':
-					if (!$this->checkRequestMethodFor('direct')) { return $this->sessionGetLastResponse(); }
-					if (!$this->requireParameters('title','description','location','id','user_id')) { return $this->sessionGetLastResponse(); }
-					// defaults:
-					$addasset_connection_id = 0;
-					$addasset_tags = false;
-					$addasset_metadata = false;
-					$addasset_parent_id = 0;
-					$addasset_public_status = 1;
-					if (isset($this->request['connection_id'])) { $addasset_connection_id = $this->request['connection_id']; }
-					if (isset($this->request['tags'])) { $addasset_tags = $this->request['tags']; }
-					if (isset($this->request['metadata'])) { $addasset_metadata = $this->request['metadata']; }
-					if (isset($this->request['parent_id'])) { $addasset_parent_id = $this->request['parent_id']; }
-					if (isset($this->request['public_status'])) { $addasset_public_status = $this->request['public_status']; }
-
-					$result = $this->editAsset(
-						$this->request['id'],
-						$this->request['user_id'],
-						$this->request['title'],
-						$this->request['description'],
-						$this->request['location'],
-						$addasset_connection_id,
-						$addasset_tags,
-						$addasset_metadata,
-						$addasset_parent_id,
-						$addasset_public_status
-					);
-					if ($result) {
-						return $this->pushSuccess($result,'asset id payload');
-					} else {
-						return $this->pushFailure('there was an error editing the asset');
-					}
-					break;
-				default:
-					return $this->response->pushResponse(
-						400,$this->request_type,$this->action,
-						$this->request,
-						'unknown action'
-					);
+			$this->routing_table = array(
+				// alphabetical for ease of reading
+				// first value  = target method to call
+				// second value = allowed request methods (string or array of strings)
+				'addasset'          => array('addAsset','direct'),
+				'claim'             => array('redirectToAsset',array('get','post','direct')),
+				'editasset'         => array('editAsset','direct'),
+				'getanalytics'      => array('getAnalytics','direct'),
+				'getasset'          => array('getAssetInfo','direct'),
+				'getassetsforuser'  => array('getAssetsForUser','direct'),
+				'unlock'            => array('unlockAsset','direct')
+			);
+			// see if the action matches the routing table:
+			$basic_routing = $this->routeBasicRequest();
+			if ($basic_routing !== false) {
+				return $basic_routing;
+			} else {
+				// switch statement for cases that require more thinking than a straight pass-throgh
+				switch ($this->action) {
+					default:
+						return $this->response->pushResponse(
+							400,$this->request_type,$this->action,
+							$this->request,
+							'unknown action'
+						);
+				}
 			}
 		} else {
 			return $this->response->pushResponse(
@@ -153,7 +61,7 @@ class AssetPlant extends PlantBase {
 		}
 	}
 
-	public function getAssetsForUser($user_id) {
+	protected function getAssetsForUser($user_id) {
 		$result = $this->db->getData(
 			'assets',
 			'*',
@@ -167,28 +75,28 @@ class AssetPlant extends PlantBase {
 		return $result;
 	}
 
-	public function getAssetInfo($asset_id) {
+	protected function getAssetInfo($id) {
 		$result = $this->db->getData(
 			'assets',
 			'*',
 			array(
 				"id" => array(
 					"condition" => "=",
-					"value" => $asset_id
+					"value" => $id
 				)
 			)
 		);
 		if ($result) {
 			$asset_info = $result[0];
-			$asset_info['tags'] = $this->getAllMetaData('assets',$asset_id,'tag');
-			$asset_info['metadata'] = $this->getAllMetaData('assets',$asset_id);
+			$asset_info['tags'] = $this->getAllMetaData('assets',$id,'tag');
+			$asset_info['metadata'] = $this->getAllMetaData('assets',$id);
 			return $asset_info;
 		} else {
 			return false;
 		}
 	}
 	
-	public function addAsset($title,$description,$location,$user_id,$connection_id=0,$tags=false,$metadata=false,$parent_id=0,$public_status=1) {
+	protected function addAsset($title,$description,$location,$user_id,$connection_id=0,$tags=false,$metadata=false,$parent_id=0,$public_status=1) {
 		$result = $this->db->setData(
 			'assets',
 			array(
@@ -207,7 +115,7 @@ class AssetPlant extends PlantBase {
 		return $result;
 	}
 	
-	public function editAsset($asset_id,$user_id,$title,$description,$location,$connection_id,$tags,$metadata,$parent_id,$public_status) {
+	protected function editAsset($id,$user_id,$title,$description,$location,$connection_id,$tags,$metadata,$parent_id=0,$public_status=0) {
 		$result = $this->db->setData(
 			'assets',
 			array(
@@ -221,28 +129,28 @@ class AssetPlant extends PlantBase {
 			array(
 				'id' => array(
 					'condition' => '=',
-					'value' => $asset_id
+					'value' => $id
 				)
 			)
 		);
 		if ($result) {
-			$this->setAllMetaData('assets',$asset_id,$user_id,$tags,$metadata,true);
+			$this->setAllMetaData('assets',$id,$user_id,$tags,$metadata,true);
 		}
 		return $result;
 	}
 
-	public function deleteAsset($asset_id) {
+	protected function deleteAsset($id) {
 		$result = $this->db->deleteData(
 			'assets',
 			array(
 				'id' => array(
 					'condition' => '=',
-					'value' => $asset_id
+					'value' => $id
 				)
 			)
 		);
 		if ($result) {
-			$this->removeAllMetaData('assets',$asset_id);
+			$this->removeAllMetaData('assets',$id);
 		}
 		return $result;
 	}
@@ -251,14 +159,14 @@ class AssetPlant extends PlantBase {
 	 * Returns true if asset is public, false otherwise
 	 *
 	 * @return boolean
-	 */protected function getPublicStatus($asset_id) {
+	 */protected function getPublicStatus($id) {
 		$result = $this->db->getData(
 			'assets',
 			'public_status',
 			array(
 				"id" => array(
 					"condition" => "=",
-					"value" => $asset_id
+					"value" => $id
 				)
 			),
 			1
@@ -274,14 +182,14 @@ class AssetPlant extends PlantBase {
 	 * Adds an unlock state to platform session persistent store
 	 *
 	 * @return boolean
-	 */protected function unlockAsset($asset_id) {
+	 */protected function unlockAsset($id) {
 		$current_unlocked_assets = $this->sessionGet('unlocked_assets');
 		if (is_array($current_unlocked_assets)) {
-			$current_unlocked_assets[""."$asset_id"]=true;
+			$current_unlocked_assets[""."$id"]=true;
 			$this->sessionSet('unlocked_assets',$current_unlocked_assets);
 			return true;
 		} else {
-			$this->sessionSet('unlocked_assets',array(""."$asset_id" => true));
+			$this->sessionSet('unlocked_assets',array(""."$id" => true));
 			return true;
 		}
 		return false;
@@ -291,14 +199,14 @@ class AssetPlant extends PlantBase {
 	 * Returns true if an assetIsUnlocked, false if not
 	 *
 	 * @return boolean
-	 */protected function getUnlockedStatus($asset_id) {
-		if ($this->getPublicStatus($asset_id)) {
+	 */protected function getUnlockedStatus($id) {
+		if ($this->getPublicStatus($id)) {
 			return true;
 		}
 		$current_unlocked_assets = $this->sessionGet('unlocked_assets');
 		if (is_array($current_unlocked_assets)) {
-			if (array_key_exists(""."$asset_id",$current_unlocked_assets)) {
-				if ($current_unlocked_assets[""."$asset_id"] === true) {
+			if (array_key_exists(""."$id",$current_unlocked_assets)) {
+				if ($current_unlocked_assets[""."$id"] === true) {
 					return true;
 				}
 			} else {
@@ -313,12 +221,12 @@ class AssetPlant extends PlantBase {
 	 * Records the basic access data to the assets analytics table
 	 *
 	 * @return boolean
-	 */protected function recordAnalytics($asset_id,$element_id=0) {
+	 */protected function recordAnalytics($id,$element_id=0) {
 		$ip_and_proxy = CASHSystem::getRemoteIP();
 		$result = $this->db->setData(
 			'assets_analytics',
 			array(
-				'asset_id' => $asset_id,
+				'asset_id' => $id,
 				'element_id' => $element_id,
 				'access_time' => time(),
 				'client_ip' => $ip_and_proxy['ip'],
@@ -366,7 +274,7 @@ class AssetPlant extends PlantBase {
 		}
 	}
 
-	public function getFinalAssetLocation($connection_id,$user_id,$asset_location) {
+	protected function getFinalAssetLocation($connection_id,$user_id,$asset_location) {
 		$connection_type = $this->getConnectionType($connection_id);
 		$final_asset_location = false;
 		switch ($connection_type) {
@@ -388,19 +296,19 @@ class AssetPlant extends PlantBase {
 	 * Response is set here rather than in processRequest(), allowing it to 
 	 * exist in the session 
 	 *
-	 * @param {integer} $asset_id - the asset you are trying to retrieve
+	 * @param {integer} $id - the asset you are trying to retrieve
 	 * @return string
-	 */public function redirectToAsset($asset_id,$element_id=0) {
-		if ($this->getUnlockedStatus($asset_id)) {
-			$asset = $this->getAssetInfo($asset_id);
+	 */protected function redirectToAsset($id,$element_id=0) {
+		if ($this->getUnlockedStatus($id)) {
+			$asset = $this->getAssetInfo($id);
 			$final_asset_location = $this->getFinalAssetLocation(
 				$asset['connection_id'],
 				$asset['user_id'],
 				$asset['location']
 			);
 			if ($final_asset_location !== false) {
-				$this->pushSuccess(array('asset' => $asset_id),'redirect executed successfully');
-				$this->recordAnalytics($asset_id,$element_id);
+				$this->pushSuccess(array('asset' => $id),'redirect executed successfully');
+				$this->recordAnalytics($id,$element_id);
 				header("Location: " . $final_asset_location);
 				die();
 			} else {

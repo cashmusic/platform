@@ -1,6 +1,6 @@
 <?php
 	$current_asset = $cash_admin->getStoredResponse('getasset',true);
-	
+
 	if(isset($_POST['doassetedit'])) {
 		$asset_edit_request = $cash_admin->getStoredResponse('asseteditattempt');
 		if ($asset_edit_request['status_uid'] == 'asset_editasset_200') {	
@@ -17,8 +17,9 @@
 			<p>
 			There was a problem adding the asset. <a href="./">Please try again.</a>
 			</p>
-		
+
 	<?php 
+		var_dump($asset_edit_request);
 		}
 	}
 	if ($current_asset) {

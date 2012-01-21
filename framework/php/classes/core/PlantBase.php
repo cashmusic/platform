@@ -106,11 +106,11 @@
 
 	public function routeBasicRequest() {
 		if (isset($this->routing_table[$this->action])) {
-			if (!$this->checkRequestMethodFor($this->routing_table[$this->action]['request_methods'])) { 
+			if (!$this->checkRequestMethodFor($this->routing_table[$this->action][1])) { 
 				return $this->pushFailure('request method not allowed'); 
 			}
 			try {
-				$target_method = $this->routing_table[$this->action]['target_method'];
+				$target_method = $this->routing_table[$this->action][0];
 				$method = new ReflectionMethod(get_class($this), $target_method);
 				$params = $method->getParameters();
 				$final_parameters = array();
@@ -132,14 +132,17 @@
 						}
 					}
 				}
+				// call the method using call_user_func_array — slower than ReflectionMethod::invokeArgs
+				// but allows us to stay in $this context, calling protected methods the proper way
 				$result = call_user_func_array(array($this, $target_method), $final_parameters);
-				if ($result) {
+				unset($method);
+				if ($result !== false) {
 					return $this->pushSuccess($result,'success.');
 				} else {
 					return $this->pushFailure('there was an error');
 				}
 			} catch (Exception $e) {
-				return $this->pushFailure('corresponding class method not found');
+				return $this->pushFailure('corresponding class method not found, exception: ' . $e);
 			}
 		} else {
 			// not found in standard routing table
