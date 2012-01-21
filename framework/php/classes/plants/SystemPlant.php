@@ -24,33 +24,21 @@ class SystemPlant extends PlantBase {
 	}
 	
 	public function processRequest() {
+
+	// Uncle Duke says this is OK, because we control all input into this eval-in-disguise
+	// We can't use actual anonymous functions (lambdas) because we need to support PHP 5.2.7 :(
+	// Public Service Announcement: NEVER PASS USER INPUT INTO the $router function. Now have this lollipop.
+	$router = create_function('$target_method,$request_method','return array( "target_method" => $target_method, "request_methods" => array( $request_method ) );');
+
 		if ($this->action) {
 			$this->routing_table = array(
 				// alphabetical for ease of reading
-				'addlogin' => array(
-					'target_method' => 'addLogin',
-					'request_methods' => array('direct')
-				),
-				'getapicredentials' => array(
-					'target_method' => 'getAPICredentials',
-					'request_methods' => array('direct')
-				),
-				'setapicredentials' => array(
-					'target_method' => 'setAPICredentials',
-					'request_methods' => array('direct')
-				),
-				'setlogincredentials' => array(
-					'target_method' => 'setLoginCredentials',
-					'request_methods' => array('direct')
-				),
-				'validateapicredentials' => array(
-					'target_method' => 'validateAPICredentials',
-					'request_methods' => array('direct')
-				),
-				'validatelogin' => array(
-					'target_method' => 'validateLogin',
-					'request_methods' => array('direct')
-				),
+				'addlogin'               => $router('addLogin','direct'),
+				'getapicredentials'      => $router('getAPICredentials','direct'),
+				'setapicredentials'      => $router('setAPICredentials','direct'),
+				'setlogincredentials'    => $router('setLoginCredentials','direct'),
+				'validateapicredentials' => $router('validateAPICredentials','direct'),
+				'validatelogin'          => $router('validateLogin','direct')
 			);
 			// see if the action matches the routing table:
 			$basic_routing = $this->routeBasicRequest();
