@@ -14,7 +14,7 @@
  *
  **/
 abstract class ElementBase extends CASHData {
-	protected $element_id, $status_uid, $original_request, $options, $element, $unlocked = false;
+	protected $element_id, $status_uid, $original_request, $original_response, $options, $element, $unlocked = false;
 	const type = 'unknown';
 	const name = 'Unknown Element';
 
