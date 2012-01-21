@@ -44,7 +44,7 @@ class EmailCollection extends ElementBase {
 					$verification_request = new CASHRequest(array(
 						'cash_request_type' => 'people', 
 						'cash_action' => 'checkverification',
-						'address' => $this->original_request->response['payload']['address'],
+						'address' => $this->original_response['payload']['address'],
 						'list_id' => $this->options->email_list_id
 					));
 					if (!$verification_request->response['payload']) {
