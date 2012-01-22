@@ -107,9 +107,8 @@ class CalendarPlant extends PlantBase {
 		return $result;
 	}
 
-	protected function editVenue($venue_id,$name,$address1,$address2,$city,$region,$country,$postalcode,$url,$phone) {
-		$result = $this->db->setData(
-			'venues',
+	protected function editVenue($venue_id,$name=false,$address1=false,$address2=false,$city=false,$region=false,$country=false,$postalcode=false,$url=false,$phone=false) {
+		$final_edits = array_filter(
 			array(
 				'name' => $name,
 				'address1' => $address1,
@@ -121,6 +120,11 @@ class CalendarPlant extends PlantBase {
 				'url' => $url,
 				'phone' => $phone
 			),
+			'CASHSystem::notExplicitFalse'
+		);
+		$result = $this->db->setData(
+			'venues',
+			$final_edits,
 			array(
 				"id" => array(
 					"condition" => "=",
@@ -160,9 +164,8 @@ class CalendarPlant extends PlantBase {
 		return $result;
 	}
 
-	protected function editEvent($date,$event_id,$venue_id,$purchase_url,$comment,$published,$cancelled) {
-		$result = $this->db->setData(
-			'events',
+	protected function editEvent($event_id,$date=false,$venue_id=false,$purchase_url=false,$comment=false,$published=false,$cancelled=false) {
+		$final_edits = array_filter(
 			array(
 				'date' => $date,
 				'venue_id' => $venue_id,
@@ -171,6 +174,11 @@ class CalendarPlant extends PlantBase {
 				'purchase_url' => $purchase_url,
 				'comments' => $comment
 			),
+			'CASHSystem::notExplicitFalse'
+		);
+		$result = $this->db->setData(
+			'events',
+			$final_edits,
 			array(
 				"id" => array(
 					"condition" => "=",
@@ -222,7 +230,7 @@ class CalendarPlant extends PlantBase {
 
 	protected function getEvent($event_id) {
 		$result = $this->db->getData(
-			'CalendarPlant_getEventById',
+			'CalendarPlant_getEvent',
 			false,
 			array(
 				"event_id" => array(
