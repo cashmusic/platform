@@ -13,8 +13,6 @@ class BasicHTTPAPITests extends UnitTestCase {
 	}
 
 	function testReturnStatuses() {
-		//forbidden / bad are returning false for some reason, but working fine in-browser. fopen thing? bah...
-		
 		$forbidden_return = json_decode(CASHSystem::getURLContents(CASH_API_URL . 'verbose/element/getelement/321',false,true));
 		$badrequest_return = json_decode(CASHSystem::getURLContents(CASH_API_URL . 'verbose/element/getmarkup/321/status_uid/whatever',false,true));
 		$ok_return = json_decode(CASHSystem::getURLContents(CASH_API_URL . 'verbose/element/getmarkup/100/status_uid/whatever'));
@@ -25,28 +23,27 @@ class BasicHTTPAPITests extends UnitTestCase {
 	}
 
 	function testValidReturn() {
-		$return = json_decode(CASHSystem::getURLContents(CASH_API_URL . 'verbose/element/getmarkup/100/status_uid/whatever'));
+		$return = json_decode(CASHSystem::getURLContents(CASH_API_URL . 'verbose/element/getmarkup/100/status_uid/whatever',false,true));
+			// make sure all the bits and pieces are in place
+			$this->assertTrue(isset($return->status_code));
+			$this->assertTrue(isset($return->status_uid));
+			$this->assertTrue(isset($return->status_message));
+			$this->assertTrue(isset($return->contextual_message));
+			$this->assertTrue(isset($return->request_type));
+			$this->assertTrue(isset($return->action));
+			$this->assertTrue(isset($return->payload));
+			$this->assertTrue(isset($return->api_version));
+			$this->assertTrue(isset($return->timestamp));
 		
-		// make sure all the bits and pieces are in place
-		$this->assertTrue(isset($return->status_code));
-		$this->assertTrue(isset($return->status_uid));
-		$this->assertTrue(isset($return->status_message));
-		$this->assertTrue(isset($return->contextual_message));
-		$this->assertTrue(isset($return->request_type));
-		$this->assertTrue(isset($return->action));
-		$this->assertTrue(isset($return->payload));
-		$this->assertTrue(isset($return->api_version));
-		$this->assertTrue(isset($return->timestamp));
-		
-		// test types for the standardized bits, ignore the variable pieces
-		$this->assertTrue(is_int($return->status_code));
-		$this->assertTrue(is_string($return->status_uid));
-		$this->assertTrue(is_string($return->status_message));
-		$this->assertTrue(is_string($return->contextual_message));
-		$this->assertTrue(is_string($return->request_type));
-		$this->assertTrue(is_string($return->action));
-		$this->assertTrue(is_int($return->api_version));
-		$this->assertTrue(is_int($return->timestamp));
+			// test types for the standardized bits, ignore the variable pieces
+			$this->assertTrue(is_int($return->status_code));
+			$this->assertTrue(is_string($return->status_uid));
+			$this->assertTrue(is_string($return->status_message));
+			$this->assertTrue(is_string($return->contextual_message));
+			$this->assertTrue(is_string($return->request_type));
+			$this->assertTrue(is_string($return->action));
+			$this->assertTrue(is_int($return->api_version));
+			$this->assertTrue(is_int($return->timestamp));
 	}
 
 }

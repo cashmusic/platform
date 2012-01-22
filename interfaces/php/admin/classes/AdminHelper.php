@@ -606,7 +606,7 @@
 						$markup .= ' <small class="fadedtext nobr" style="font-weight:normal;"> // ' . $elements_data[$item['type']]->name . '</small> ';
 					}
 					$markup .= '</h4>'
-							. '<div class="itemnav">'
+							. '<div>'
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/elements/view/' . $item['id'] . '" class="mininav_flush"><span class="icon magnifying_glass"></span> Details</a> '
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/elements/edit/' . $item['id'] . '" class="mininav_flush"><span class="icon pen"></span> Edit</a> '
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/elements/delete/' . $item['id'] . '" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>'
