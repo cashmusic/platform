@@ -5,7 +5,7 @@ $page_tips = 'This page manages settings for all external services and APIs. Con
 
 $page_memu = array(
 	'System Settings' => array(
-		'settings/connections/' => 'Connections'
+		'settings/connections/' => array('Connections','share')
 	)
 );
 

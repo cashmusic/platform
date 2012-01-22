@@ -33,8 +33,8 @@ You dig?
 */
 $page_memu = array(
 	'Assets' => array(
-		'assets/add/' => 'Add Assets',
-		'assets/find/' => 'Search'
+		'assets/add/' => array('Add Assets','plus_alt'),
+		'assets/find/' => array('Search','magnifying_glass')
 	)
 );
 
