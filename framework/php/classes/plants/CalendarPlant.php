@@ -41,7 +41,13 @@ class CalendarPlant extends PlantBase {
 			} else {
 				switch ($this->action) {
 					case 'getevents':
-						if (!$this->checkRequestMethodFor('direct')) { return $this->pushFailure('request method not allowed'); }
+						if (!$this->checkRequestMethodFor('direct')) { 
+							return $this->response->pushResponse(
+								403, $this->request_type, $this->action,
+								false,
+								"please try another request method, '{$this->request_method}' is not allowed"
+							);
+						}
 						if (!$this->requireParameters('user_id','visible_event_types')) { return $this->pushFailure('missing required parameter'); }
 						$offset = 0;
 						$published_status = 1;

@@ -23,8 +23,8 @@ if ($request_parameters) {
 			$page_tips = file_get_contents(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_type . '/help.php');
 		}
 	} else {
-		var_dump($page_request->response);
-		//header('Location: ' . ADMIN_WWW_BASE_PATH . '/elements/view/');
+		// var_dump($page_request->response);
+		header('Location: ' . ADMIN_WWW_BASE_PATH . '/elements/view/');
 	}
 } else {
 	$cash_admin->requestAndStore(

@@ -60,11 +60,6 @@
 					return true;
 				}
 			}
-			$this->response->pushResponse(
-				403, $this->request_type, $this->action,
-				false,
-				"please try another request method, '{$this->request_method}' is not allowed"
-			);
 			return false;
 		} else {
 			// error: at least one argument must be given
@@ -92,11 +87,6 @@
 					}
 				}
 				if ($invalid_arg) {
-					$this->response->pushResponse(
-						400, $this->request_type, $this->action,
-						false,
-						"required parameter missing: '$arg'"
-					);
 					return false;
 				}
 			}
@@ -107,7 +97,11 @@
 	public function routeBasicRequest() {
 		if (isset($this->routing_table[$this->action])) {
 			if (!$this->checkRequestMethodFor($this->routing_table[$this->action][1])) { 
-				return $this->pushFailure('request method not allowed'); 
+				return $this->response->pushResponse(
+					403, $this->request_type, $this->action,
+					false,
+					"please try another request method, '{$this->request_method}' is not allowed"
+				);
 			}
 			try {
 				$target_method = $this->routing_table[$this->action][0];

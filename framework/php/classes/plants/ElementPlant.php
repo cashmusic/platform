@@ -40,7 +40,7 @@ class ElementPlant extends PlantBase {
 				'getanalytics'         => array('getAnalytics','direct'),
 				'getelement'           => array('getElement','direct'),
 				'getelementsforuser'   => array('getElementsForUser','direct'),
-				'getmarkup'            => array('getElementMarkup','direct'),
+				'getmarkup'            => array('getElementMarkup',array('direct','get','post','api_public','api_key','api_fullauth')),
 				'getsupportedtypes'    => array('getSupportedTypes','direct')
 			);
 			// see if the action matches the routing table:

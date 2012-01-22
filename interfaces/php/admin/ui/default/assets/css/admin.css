@@ -62,7 +62,7 @@ ul.linkonly li a {display:block;padding:9px;color:#231F20 !important;}
 
 /* MISC STYLES */
 .altcopystyle {font:italic 12px/1.5em georgia, times, serif;color:#4d4d4f;}
-.created_mod {padding:12px 0 0 0;text-align:right;white-space:nowrap;}
+.created_mod {padding:8px 0 0 0;text-align:right;white-space:nowrap;}
 .created_mod_top {padding:0 0 4px 0;text-align:left;white-space:nowrap;}
 .element_image {position:relative;height:78px;background-repeat:no-repeat;background-position:center top;margin-bottom:6px;}
 .fadedtext {color:#9c9ca9 !important;}
