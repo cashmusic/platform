@@ -357,6 +357,14 @@
 		return $cash_settings['systememail'];
 	}
 
+	public static function notExplicitFalse($test) {
+		if ($test === false) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	public static function getBrowserIdStatus($assertion,$return_details=false) {
 		if (!$assertion) {
 			return false;

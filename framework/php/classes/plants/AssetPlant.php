@@ -14,8 +14,6 @@
  *
  **/
 class AssetPlant extends PlantBase {
-	
-	
 	public function __construct($request_type,$request) {
 		$this->request_type = 'asset';
 		$this->plantPrep($request_type,$request);
@@ -115,9 +113,8 @@ class AssetPlant extends PlantBase {
 		return $result;
 	}
 	
-	protected function editAsset($id,$user_id,$title,$description,$location,$connection_id,$tags,$metadata,$parent_id=0,$public_status=0) {
-		$result = $this->db->setData(
-			'assets',
+	protected function editAsset($id,$title=false,$description=false,$location=false,$connection_id=false,$parent_id=false,$public_status=false,$user_id=false,$tags=false,$metadata=false) {
+		$final_edits = array_filter(
 			array(
 				'title' => $title,
 				'description' => $description,
@@ -126,6 +123,11 @@ class AssetPlant extends PlantBase {
 				'parent_id' => $parent_id,
 				'public_status' => $public_status
 			),
+			'CASHSystem::notExplicitFalse'
+		);
+		$result = $this->db->setData(
+			'assets',
+			$final_edits,
 			array(
 				'id' => array(
 					'condition' => '=',
@@ -133,7 +135,7 @@ class AssetPlant extends PlantBase {
 				)
 			)
 		);
-		if ($result) {
+		if ($result && $tags && $metadata && $user_id) {
 			$this->setAllMetaData('assets',$id,$user_id,$tags,$metadata,true);
 		}
 		return $result;

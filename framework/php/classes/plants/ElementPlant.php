@@ -85,7 +85,7 @@ class ElementPlant extends PlantBase {
 		}
 	}
 
-	public function buildTypeNamesArray() {
+	protected function buildTypeNamesArray() {
 		if ($elements_dir = opendir(CASH_PLATFORM_ROOT.'/elements/')) {
 			while (false !== ($file = readdir($elements_dir))) {
 				if (substr($file,0,1) != "." && !is_dir($file)) {
@@ -102,7 +102,7 @@ class ElementPlant extends PlantBase {
 		}
 	}
 
-	public function getElement($id) {
+	protected function getElement($id) {
 		$result = $this->db->getData(
 			'elements',
 			'id,name,type,user_id,options',
@@ -127,7 +127,7 @@ class ElementPlant extends PlantBase {
 		}
 	}
 	
-	public function getElementsForUser($user_id) {
+	protected function getElementsForUser($user_id) {
 		$result = $this->db->getData(
 			'elements',
 			'*',
@@ -141,7 +141,7 @@ class ElementPlant extends PlantBase {
 		return $result;
 	}
 
-	public function getSupportedTypes() {
+	protected function getSupportedTypes() {
 		return array_keys($this->elements_array);
 	}
 
@@ -245,7 +245,7 @@ class ElementPlant extends PlantBase {
 		}
 	}
 
-	public function getElementMarkup($id,$status_uid,$original_request=false,$original_response=false,$access_method='direct') {
+	protected function getElementMarkup($id,$status_uid,$original_request=false,$original_response=false,$access_method='direct') {
 		$element = $this->getElement($id);
 		$element_type = $element['type'];
 		$element_options = $element['options'];
@@ -263,7 +263,7 @@ class ElementPlant extends PlantBase {
 		}
 	}
 
-	public function addElement($name,$type,$options_data,$user_id) {
+	protected function addElement($name,$type,$options_data,$user_id) {
 		$options_data = json_encode($options_data);
 		$result = $this->db->setData(
 			'elements',
@@ -277,7 +277,7 @@ class ElementPlant extends PlantBase {
 		return $result;
 	}
 	
-	public function editElement($id,$name,$options_data) {
+	protected function editElement($id,$name,$options_data) {
 		$options_data = json_encode($options_data);
 		$result = $this->db->setData(
 			'elements',
@@ -295,7 +295,7 @@ class ElementPlant extends PlantBase {
 		return $result;
 	}
 
-	public function deleteElement($id) {
+	protected function deleteElement($id) {
 		$result = $this->db->deleteData(
 			'elements',
 			array(
@@ -390,7 +390,7 @@ class ElementPlant extends PlantBase {
 		return $final_value;
 	}
 
-	public function verifyUniqueLockCodeUID($lookup_uid) {
+	protected function verifyUniqueLockCodeUID($lookup_uid) {
 		$result = $this->db->getData(
 			'system_lock_codes',
 			'uid',
@@ -486,7 +486,7 @@ class ElementPlant extends PlantBase {
 		return $next_uid;
 	}
 
-	public function getLockCodeDetails($uid,$asset_id) {
+	protected function getLockCodeDetails($uid,$asset_id) {
 		return $this->db->doQueryForAssoc($query);
 		$result = $this->db->getData(
 			'system_lock_codes',
@@ -506,14 +506,14 @@ class ElementPlant extends PlantBase {
 		return $result[0];
 	}
 
-	public function parseLockCode($code) {
+	protected function parseLockCode($code) {
 		return array(
 			'id' => substr($code,0,(strlen($code)-10)),
 			'uid' => substr($code,-10)
 		);
 	}
 
-	public function verifyLockCode($code,$email=false) {
+	protected function verifyLockCode($code,$email=false) {
 		$identifier = $this->parseLockCode($code);
 		$result = $this->getLockCodeDetails($identifier['uid'],$identifier['id']);
 		if ($result !== false) {

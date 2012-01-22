@@ -305,8 +305,8 @@ class CASHDBA {
 				. "FROM calendar_events e LEFT OUTER JOIN calendar_venues v ON e.venue_id = v.id "
 				. "WHERE e.date > :cutoff_date_low AND e.date < :cutoff_date_high AND e.user_id = :user_id AND e.published = :published_status AND e.cancelled = :cancelled_status ORDER BY e.date ASC";
 				break;
-			case 'CalendarPlant_getEventById':
-				$query = "SELECT e.id as 'event_id', e.date as 'date',e.published as 'published',e.cancelled as 'cancelled',e.purchase_url as 'purchase_url',e.comments as 'comments',e.creation_date as 'creation_date',e.modification_date as 'modification_date', "
+			case 'CalendarPlant_getEvent':
+				$query = "SELECT e.id as 'event_id', e.user_id as 'user_id', e.date as 'date',e.published as 'published',e.cancelled as 'cancelled',e.purchase_url as 'purchase_url',e.comments as 'comments',e.creation_date as 'creation_date',e.modification_date as 'modification_date', "
 				. "v.id as 'venue_id',v.name as 'venue_name',v.address1 as 'venue_address1',v.address2 as 'venue_address2',v.city 'venue_city',v.region as 'venue_region',v.country as 'venue_country',v.postalcode as 'venue_postalcode',v.url as 'venue_url',v.phone as 'venue_phone'"
 				. "FROM calendar_events e LEFT OUTER JOIN calendar_venues v ON e.venue_id = v.id "
 				. "WHERE e.id = :event_id LIMIT 1";

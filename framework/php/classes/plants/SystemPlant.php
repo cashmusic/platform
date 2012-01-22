@@ -150,7 +150,7 @@ class SystemPlant extends PlantBase {
 	 * @param {string} $address -  the email address in question
 	 * @param {string} $password - the password
 	 * @return array|false
-	 */protected function addLogin($address,$password,$display_name='Anonymous',$first_name='',$last_name='',$organization='',$is_admin=0) {
+	 */protected function addLogin($address,$password,$is_admin=0,$display_name='Anonymous',$first_name='',$last_name='',$organization='') {
 		$password_hash = hash_hmac('sha256', $password, $this->salt);
 		$result = $this->db->setData(
 			'users',
@@ -267,9 +267,25 @@ class SystemPlant extends PlantBase {
 					)
 				)
 			);
-			if ($user) {
-				$user_id = $user[0]['id'];
-			}
+		} else {
+			$auth_type = 'api_fullauth';
+			$user = $this->db->getData(
+				'users',
+				'id',
+				array(
+					"api_key" => array(
+						"condition" => "=",
+						"value" => $api_key
+					),
+					"api_secret" => array(
+						"condition" => "=",
+						"value" => $api_secret
+					),
+				)
+			);
+		}
+		if ($user) {
+			$user_id = $user[0]['id'];
 		}
 		if ($user_id) {
 			return array(
