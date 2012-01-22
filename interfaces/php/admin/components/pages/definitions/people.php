@@ -4,9 +4,9 @@ $page_title = 'People: Main';
 $page_tips = '';
 $page_memu = array(
 	'People' => array(
-		'people/contacts/' => 'Contacts',
-		'people/lists/' => 'Lists',
-		'people/social/' => 'Social'
+		'people/contacts/' => array('Contacts','user'),
+		'people/lists/' => array('Lists','list'),
+		'people/social/' => array('Social','chat')
 	)
 );
 

@@ -47,7 +47,7 @@
 		<div id="chromespc">
 			<div id="accountspc">
 				<div id="accountmenu">
-					<?php echo $admin_primary_cash_request->sessionGet('cash_effective_user_email'); ?>
+					<span class="icon cog"></span> <?php echo $admin_primary_cash_request->sessionGet('cash_effective_user_email'); ?>
 					<ul>
 						<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/account/">Your account</a></li>
 						<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/settings/">System settings</a></li>
@@ -145,9 +145,9 @@
 									echo "<ul>";
 								}
 								if (str_replace('/','_',trim($key,'/')) == BASE_PAGENAME) {
-									echo "<li style=\"margin-left:" . (16 * ($new_menulevel-1)) . "px;\"><a href=\"" . ADMIN_WWW_BASE_PATH . "/$key\" style=\"color:#babac4;\">$value</a></li>";
+									echo "<li style=\"margin-left:" . (16 * ($new_menulevel-1)) . "px;\"><a href=\"" . ADMIN_WWW_BASE_PATH . "/$key\" style=\"color:#babac4;\"><span class=\"icon {$value[1]}\"></span> {$value[0]}</a></li>";
 								} else {
-									echo "<li style=\"margin-left:" . (16 * ($new_menulevel-1)) . "px;\"><a href=\"" . ADMIN_WWW_BASE_PATH . "/$key\">$value</a></li>";
+									echo "<li style=\"margin-left:" . (16 * ($new_menulevel-1)) . "px;\"><a href=\"" . ADMIN_WWW_BASE_PATH . "/$key\"><span class=\"icon {$value[1]}\"></span> {$value[0]}</a></li>";
 								}
 								$menulevel = $new_menulevel;
 							}

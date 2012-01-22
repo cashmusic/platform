@@ -573,8 +573,8 @@
 						}
 					}
 					$markup .= '<div class="itemnav">'
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/calendar/events/edit/' . $item['event_id'] . '" class="mininav_flush noblock">Edit</a> '
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/calendar/events/delete/' . $item['event_id'] . '" class="needsconfirmation mininav_flush noblock">Delete</a>'
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/calendar/events/edit/' . $item['event_id'] . '" class="mininav_flush noblock"><span class="icon pen"></span> Edit</a> '
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/calendar/events/delete/' . $item['event_id'] . '" class="needsconfirmation mininav_flush noblock"><span class="icon x_alt"></span> Delete</a>'
 							. '</div>';
 					$markup .= '</li>';
 				} elseif ($response['status_uid'] == "calendar_getallvenues_200") {
@@ -585,8 +585,8 @@
 					$markup .= '<b>' . $item['name'] . '</b> '
 							.'// <span class="nobr">' . $venue_location . '</span>'; 
 					$markup .= '<div class="itemnav">'
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/calendar/venues/edit/' . $item['id'] . '" class="mininav_flush noblock">Edit</a> '
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/calendar/venues/delete/' . $item['id'] . '" class="needsconfirmation mininav_flush noblock">Delete</a>'
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/calendar/venues/edit/' . $item['id'] . '" class="mininav_flush noblock"><span class="icon pen"></span> Edit</a> '
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/calendar/venues/delete/' . $item['id'] . '" class="needsconfirmation mininav_flush noblock"><span class="icon x_alt"></span> Delete</a>'
 							. '</div>';
 					$markup .= '</li>';
 				} elseif ($response['status_uid'] == "people_getlistsforuser_200") {
@@ -594,10 +594,10 @@
 							. AdminHelper::createdModifiedFromRow($item,true)
 							. $item['description'] . '<br />'
 							. '<div class="itemnav">'
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/view/' . $item['id'] . '" class="mininav_flush">View</a> '
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/edit/' . $item['id'] . '" class="mininav_flush">Edit</a> '
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/export/' . $item['id'] . '" class="mininav_flush">Export</a> '
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/delete/' . $item['id'] . '" class="mininav_flush needsconfirmation">Delete</a>'
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/view/' . $item['id'] . '" class="mininav_flush"><span class="icon magnifying_glass"></span> View</a> '
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/edit/' . $item['id'] . '" class="mininav_flush"><span class="icon pen"></span> Edit</a> '
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/export/' . $item['id'] . '" class="mininav_flush"><span class="icon download"></span> Export</a> '
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/delete/' . $item['id'] . '" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>'
 							. '</div>';
 				} elseif ($response['status_uid'] == "element_getelementsforuser_200") {
 					$elements_data = AdminHelper::getElementsData();
@@ -607,9 +607,9 @@
 					}
 					$markup .= '</h4>'
 							. '<div class="itemnav">'
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/elements/view/' . $item['id'] . '" class="mininav_flush">View</a> '
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/elements/edit/' . $item['id'] . '" class="mininav_flush">Edit</a> '
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/elements/delete/' . $item['id'] . '" class="mininav_flush needsconfirmation">Delete</a>'
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/elements/view/' . $item['id'] . '" class="mininav_flush"><span class="icon magnifying_glass"></span> Details</a> '
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/elements/edit/' . $item['id'] . '" class="mininav_flush"><span class="icon pen"></span> Edit</a> '
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/elements/delete/' . $item['id'] . '" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>'
 							. '</div>';
 					$markup .= AdminHelper::createdModifiedFromRow($item);
 				}

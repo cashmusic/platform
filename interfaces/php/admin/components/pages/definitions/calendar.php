@@ -4,9 +4,9 @@ $page_title = 'Calendar: Main';
 $page_tips = 'Here folks will manage their show calendars, guestlists, and choose what is published in any elements they create.';
 $page_memu = array(
 	'Calendar' => array(
-		'calendar/events/' => 'Events',
-		'calendar/venues/' => 'Venues',
-		'calendar/guestlists/' => 'Guestlists'
+		'calendar/events/' => array('Events','calendar_alt_fill'),
+		'calendar/venues/' => array('Venues','map_pin_fill'),
+		'calendar/guestlists/' => array('Guestlists','list')
 	)
 );
 
