@@ -20,6 +20,7 @@ my $builder = Module::Build->new(
         'Test::Most'           => 0,
         'Test::JSON'           => 0,
         'Test::WWW::Mechanize' => '1.38',
+        'URL::Encode'          => 0,
     },
 );
 
