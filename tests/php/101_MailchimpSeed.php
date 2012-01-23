@@ -29,7 +29,7 @@ class MailchimpTests extends UnitTestCase {
 			$total1 = $members['total'];
 			$this->assertTrue($total1);
 			$this->assertTrue($members['data'][0]['email'] == 'duke@leto.net');
-			$test_email = "duke$time@cashmusic.org";
+			$test_email = "dev+$time@cashmusic.org";
 
 			$rc = $mc->listSubscribe($test_email, null, null, $optin=false);
 			$this->assertTrue($rc);
