@@ -7,7 +7,7 @@ integration_test:
 cleanup:
 	php installers/php/test_uninstaller.php
 
-test: 
+test:
 	-php tests/php/all.php
 	php installers/php/test_uninstaller.php
 
@@ -15,3 +15,4 @@ fulltest: unit_test integration_test cleanup
 
 documentation:
 	php docs/generator/generatedocs.php
+
