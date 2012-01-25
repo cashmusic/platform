@@ -1,6 +1,8 @@
 {
 	"name":"Email Collection",
-	"description":"Collect an email address, optionally give a download. Everyone wins, optionally.",
+	"description":"Collect an email address, optionally give a download in exchange.",
+	"longdescription":"This can be used as an email-for-download promotion or as a customizable email collection widget.",
+	"lastupdated":"Jan 25, 2012",
 	"version":1.1,
 	"author":"CASH Music",
 	"url":"http://cashmusic.org/"

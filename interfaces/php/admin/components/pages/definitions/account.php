@@ -50,7 +50,7 @@ $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'people', 
 		'cash_action' => 'getuser',
-		'id' => $effective_user
+		'user_id' => $effective_user
 	),
 	'userdetails'
 );

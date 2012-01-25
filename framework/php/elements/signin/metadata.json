@@ -1,6 +1,8 @@
 {
 	"name":"Sign-In",
-	"description":"Wrap content with a login that works against any list. Fan clubs, exclusive content, etc.",
+	"description":"Put any content behind a login.",
+	"longdescription":"This can be useful for fanclubs or as a way of giving rewards to mailing list members. Just point it at a list and go.",
+	"lastupdated":"Jan 25, 2012",
 	"version":1.0,
 	"author":"CASH Music",
 	"url":"http://cashmusic.org/"

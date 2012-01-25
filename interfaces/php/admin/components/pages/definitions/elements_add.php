@@ -12,6 +12,42 @@ $page_request = new CASHRequest(
 
 $elements_data = AdminHelper::getElementsData();
 
+$elements_sorted = array(
+	'col1' => array(),
+	'col2' => array(),
+	'col3' => array()
+);
+
+$supported_elements = $page_request->response['payload'];
+$colcount = 1;
+foreach ($elements_data as $element => $data) {
+	if (array_search($element, $supported_elements) !== false) {
+		if ($colcount == 3) {
+			$elements_sorted['col3'][$element] = $data;
+			$colcount = 1;
+		} elseif ($colcount == 2) {
+			$elements_sorted['col2'][$element] = $data;
+			$colcount++;
+		} else {
+			$elements_sorted['col1'][$element] = $data;
+			$colcount++;
+		}
+	}
+}
+
+function drawFeaturedElement($element,$data) {
+	echo '<div class="featuredelement">';
+		$element_img = CASH_PLATFORM_ROOT.'/elements/'.$element.'/image.jpg';
+		if (file_exists($element_img)) {
+			echo '<a href="' . $element . '"><img src="data:image/jpg;base64,' . base64_encode(file_get_contents($element_img)) . '" width="100%" alt="' .  $data->name . '" /></a><br />';
+		}
+		echo '<h3>' . $data->name . '</h3>';
+		echo '<p>' . $data->description . '</p>';
+		echo '<div class="elementdetails"><p><span class="altcopystyle">' . $data->longdescription . '</span></p><small>Author: <a href="' . $data->url . '">' . $data->author . '</a><br />Last updated: ' . $data->lastupdated . '<br />Version: ' . $data->version . '</small></div>';
+		echo '<div class="itemnav"><a href="' . $element . '"><span class="icon plus_alt"></span> Add this now</a><br /><small><a href="' . $element . '" class="fadedtext showelementdetails"><span class="icon magnifying_glass"></span> More details</a></small></div>';
+	echo '</div>';
+}
+
 if ($request_parameters) {
 	$element_addtype = $request_parameters[0];
 	if (isset($elements_data[$element_addtype])) {

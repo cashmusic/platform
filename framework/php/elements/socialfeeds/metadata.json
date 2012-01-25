@@ -1,6 +1,8 @@
 {
 	"name":"Social Feeds",
-	"description":"Set up a feed combining your Twitter, Tumblr, YouTube, Vimeo, and others. Filter, sort, and combine.",
+	"description":"Set up a single feed from your Twitter or Tumblr feeds. Filter, sort, and combine.",
+	"longdescription":"Combine any number of feeds, filtering twitter by search term or exclude @-replies, and filtering Tumblr by post type.",
+	"lastupdated":"Jan 25, 2012",
 	"version":1.0,
 	"author":"CASH Music",
 	"url":"http://cashmusic.org/"

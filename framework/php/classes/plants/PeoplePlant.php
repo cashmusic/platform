@@ -46,7 +46,7 @@ class PeoplePlant extends PlantBase {
 			} else {
 				switch ($this->action) {
 					case 'signup':
-						if (!$this->checkRequestMethodFor('direct','post','api_key')) return $this->sessionGetLastResponse();
+						if (!$this->checkRequestMethodFor('direct','post','get','api_key')) return $this->sessionGetLastResponse();
 						if (!$this->requireParameters('list_id','address')) { return $this->sessionGetLastResponse(); }
 						if (isset($this->request['user_id'])) {
 							$ownership = $this->verifyListOwner($this->request['user_id'],$this->request['list_id']);
