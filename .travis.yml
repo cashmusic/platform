@@ -4,4 +4,3 @@ php:
   - 5.3
   - 5.4
 script: "php tests/php/all.php"
-env:
