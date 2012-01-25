@@ -1,6 +1,8 @@
 {
 	"name":"Static Content",
-	"description":"Simple element to store and display static content like text or html markup.",
+	"description":"Simple element to display static content like text or html.",
+	"longdescription":"The future of copy-and-paste! Actually just copy-and-paste, regular. Boring, but useful.",
+	"lastupdated":"Jan 25, 2012",
 	"version":1.0,
 	"author":"CASH Music",
 	"url":"http://cashmusic.org/"

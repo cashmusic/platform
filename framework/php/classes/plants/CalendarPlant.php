@@ -231,6 +231,9 @@ class CalendarPlant extends PlantBase {
 				)
 			)
 		);
+		if ($result == NULL) {
+			$result = false;
+		}
 		return $result;
 	}
 

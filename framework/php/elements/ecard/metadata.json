@@ -1,6 +1,8 @@
 {
 	"name":"E-Card",
-	"description":"Add an email to your list, let them send a card to friends, bonus download.",
+	"description":"The cheezy time-honored classic. Use wisely.",
+	"longdescription":"Collect someone's email to one of your lists, let them send a card to friends. You can also offer a download as a reward.",
+	"lastupdated":"Jan 25, 2012",
 	"version":1.0,
 	"author":"CASH Music",
 	"url":"http://cashmusic.org/"
