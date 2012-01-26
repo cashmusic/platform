@@ -44,7 +44,6 @@ class PeoplePlantTests extends UnitTestCase {
 				'list_id' => $this->testingList
 			)
 		);
-		// should work fine with no description or connection_id
 		$this->assertEqual($list_request->response['payload']['name'],'Test List');
 	}
 
@@ -59,7 +58,6 @@ class PeoplePlantTests extends UnitTestCase {
 				'connection_id' => '322'
 			)
 		);
-		// should work fine with no description or connection_id
 		$this->assertTrue($list_request->response['payload']);
 		
 		$list_request = new CASHRequest(
@@ -74,6 +72,28 @@ class PeoplePlantTests extends UnitTestCase {
 			$this->assertEqual($list_request->response['payload']['description'],'New List Description');
 			$this->assertEqual($list_request->response['payload']['connection_id'],'322');
 		}
+	}
+
+	function testDeleteList() {
+		// delete it
+		$list_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'deletelist',
+				'list_id' => $this->testingList
+			)
+		);
+		$this->assertTrue($list_request->response['payload']);
+		
+		// test that it's really gone
+		$list_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'getlist',
+				'list_id' => $this->testingList
+			)
+		);
+		$this->assertFalse($list_request->response['payload']);
 	}
 }
 
