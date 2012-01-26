@@ -1,5 +1,5 @@
 <?php 
-$page_data = $page_request->response['payload'];
+$page_data = $cash_admin->getStoredResponse('originalelement',true);
 if (isset($_POST['doelementedit'])) {
 	// parse for feeds
 	$all_feeds = array();
@@ -33,12 +33,19 @@ if (isset($_POST['doelementedit'])) {
 		array(
 			'cash_request_type' => 'element', 
 			'cash_action' => 'editelement',
-			'id' => $page_request->response['payload']['id'],
+			'id' => $page_data['id'],
 			'name' => $_POST['element_name'],
 			'options_data' => $all_feeds
 		)
 	);
 	if ($element_edit_request->response['status_uid'] == 'element_editelement_200') {
+		$element_edit_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'element', 
+				'cash_action' => 'getelement',
+				'id' => $page_data['id']
+			)
+		);
 		$page_data = $element_edit_request->response['payload'];
 	?>
 	

@@ -63,7 +63,7 @@
 		this embed code on any page:
 		</p>
 		<code>
-			&lt;?php CASHSystem::embedElement(<?php echo $element_add_request->response['payload']['element_id']; ?>); // CASH element (<?php echo $_POST['element_name'] . ' / ' . $_POST['element_type']; ?>) ?&gt;
+			&lt;?php CASHSystem::embedElement(<?php echo $element_add_request->response['payload']; ?>); // CASH element (<?php echo $_POST['element_name'] . ' / ' . $_POST['element_type']; ?>) ?&gt;
 		</code>
 		<br />
 		<p>
@@ -75,7 +75,6 @@
 		<h3>Error</h3>
 		<p>
 		There was a problem creating the element. <a href="./">Please try again.</a>
-<!-- <? var_dump($element_add_request->response) ?> -->
 		</p>
 
 <?php 

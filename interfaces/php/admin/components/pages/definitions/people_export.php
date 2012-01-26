@@ -17,6 +17,6 @@ if ($request_parameters) {
 	
 	$page_title = 'People: View "' . $current_response['payload']['details']['name'] . '"';
 } else {
-	header('Location: ' . ADMIN_WWW_BASE_PATH . '/people/mailinglists/');
+	header('Location: ' . ADMIN_WWW_BASE_PATH . '/people/lists/');
 }
 ?>

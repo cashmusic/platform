@@ -278,14 +278,14 @@ class CASHDBA {
 				. "GROUP BY ea.element_id "
 				. "ORDER BY count DESC";
 				break;
-			case 'PeoplePlant_getAnalytics_membership':
-				$query = "SELECT COUNT(*) AS total, COUNT(CASE WHEN active = 1 THEN 1 END) AS active, COUNT(CASE WHEN active = 0 THEN 1 END) AS inactive, COUNT(CASE WHEN creation_date > " . (time() - 604800) . " THEN 1 END) AS last_week"
-				. "FROM people_lists_members"
+			case 'PeoplePlant_getAnalytics_listmembership':
+				$query = "SELECT COUNT(*) AS total, COUNT(CASE WHEN active = 1 THEN 1 END) AS active, COUNT(CASE WHEN active = 0 THEN 1 END) AS inactive, COUNT(CASE WHEN creation_date > " . (time() - 604800) . " THEN 1 END) AS last_week "
+				. "FROM people_lists_members "
 				. "WHERE list_id = :list_id";
 				break;
 			case 'PeoplePlant_getUsersForList':
 				$query = "SELECT u.id,u.email_address,u.display_name,"
-				. "l.initial_comment,l.additional_data,l.creation_date "
+				. "l.initial_comment,l.additional_data,l.active,l.verified,l.creation_date "
 				. "FROM people u LEFT OUTER JOIN people_lists_members l ON u.id = l.user_id "
 				. "WHERE l.list_id = :list_id AND l.active = 1";
 				if ($orderby) $query .= " ORDER BY $orderby";

@@ -31,13 +31,13 @@ class PeoplePlant extends PlantBase {
 				'addlist'           => array('addList','direct'),
 				'deletelist'        => array('deleteList','direct'),
 				'editlist'          => array('editList','direct'),
+				'getanalytics'      => array('getAnalytics','direct'),
 				'getlistsforuser'   => array('getListsForUser','direct'),
 				'getlist'           => array('getList',array('direct','api_key')),
 				'getuser'           => array('getUser',array('direct','api_key')),
 				'processwebhook'    => array('processWebhook',array('direct','api_key')),
 				'signintolist'      => array('validateUserForList',array('post','direct','api_key')),
 				'verifyaddress'     => array('doAddressVerification','direct'),
-
 			);
 			// see if the action matches the routing table:
 			$basic_routing = $this->routeBasicRequest();
@@ -399,6 +399,31 @@ class PeoplePlant extends PlantBase {
 			return $result[0];
 		}
 		return $result;
+	}
+
+	/**
+	 * Pulls analytics queries in a few different formats
+	 *
+	 * @return array
+	 */protected function getAnalytics($analtyics_type,$user_id=0,$list_id=false) {
+		switch (strtolower($analtyics_type)) {
+			case 'listmembership':
+				$result = $this->db->getData(
+					'PeoplePlant_getAnalytics_listmembership',
+					false,
+					array(
+						"list_id" => array(
+							"condition" => "=",
+							"value" => $list_id
+						)
+					)
+				);
+				if ($result) {
+					return $result[0];
+				}
+				break;
+		}
+		return false;
 	}
 
 	/**
