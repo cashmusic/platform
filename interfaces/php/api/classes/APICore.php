@@ -11,7 +11,7 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  */class APICore  {
-	public $version = 1;
+	public $version;
 	private $cash_framework_core;
 	private $passed_url;
 	public $http_codes = array(
@@ -62,6 +62,10 @@
 	public function __construct($incoming_url) {
 		// future: deal with headers/methods before url stuff
 		// present: url stuff
+		if (!class_exists('CASHRequest')) {
+			exit('{"api_error":"API could not connect to the core framework. (class CASHRequest not defined.)"}');
+		}
+		$this->version = CASHRequest::$version;
 		$this->respond($this->parseURL($incoming_url));
 	}
 	
