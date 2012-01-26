@@ -7,8 +7,6 @@ use lib catdir(qw/tests lib/);
 use Test::Cashmusic qw/mech login_ok mech_success_ok json_ok/;
 use Test::Most;
 use JSON::Any;
-use URL::Encode qw/url_encode/;
-use Data::Dumper;
 #use Carp::Always;
 
 my $j = JSON::Any->new;
@@ -72,7 +70,7 @@ sub test_processwebhook {
         my $response = $j->from_json($json);
 
         { local $TODO = "returns 400 instead of 200";
-        cmp_ok($response->{status_code},'==',200,"$method 200 status_code from processwebhook") or diag Dumper $response;
+        cmp_ok($response->{status_code},'==',200,"$method 200 status_code from processwebhook");
         }
         cmp_ok($response->{contextual_message},'ne','unknown action','contextual_message != unknown action');
         cmp_ok($response->{request_type},'eq','people','request_type = people');
@@ -88,76 +86,57 @@ sub test_processwebhook_invalid_key {
         my $json = json_ok($url, $method);
 
         my $response = $j->from_json($json);
-        cmp_ok($response->{status_code},'==',400,"$method 400 status_code from processwebhook invalid key") or diag Dumper $response;
+        cmp_ok($response->{status_code},'==',403,"$method 403 status_code from processwebhook");
         cmp_ok($response->{contextual_message},'ne','unknown action','contextual_message != unknown action');
         cmp_ok($response->{request_type},'eq','people','request_type = people');
         cmp_ok($response->{action},'eq','processwebhook','action = processwebhook');
     }
 }
 
-sub test_signup_verbose {
-    my (@methods) = @_;
-    for my $method (@methods) {
-        my $key           = "42";
-        my $list_id       = "b607c6d911";
-        my $time          = time;
-        my $encoded_email = url_encode("dev+$time\@cashmusic.org");
-        my $url           = "$base/interfaces/php/api/verbose/people/signup/api_key/$key/id/100/list_id/$list_id/address/$encoded_email";
-        my $json          = json_ok($url, $method);
 
-        my $response = $j->from_json($json);
-        { local $TODO = 'verbose api is a bit wonky still';
-        cmp_ok($response->{status_code},'==',200,"$method 200 status_code from signup") or diag Dumper $response;
-        }
-        cmp_ok($response->{contextual_message},'ne','unknown action','contextual_message != unknown action');
-        cmp_ok($response->{request_type},'eq','people','request_type = people');
-        cmp_ok($response->{action},'eq','signup','action = signup');
-    }
-}
-
-sub test_getlistinfo {
+sub test_getlist {
     my (@methods) = @_;
     for my $method (@methods) {
         my $key = "42";
-        my $url = "$base/interfaces/php/api/verbose/people/getlistinfo/api_key/$key/list_id/100";
+        my $url = "$base/interfaces/php/api/verbose/people/getlist/api_key/$key/id/100";
         my $json = json_ok($url, $method);
 
         my $response = $j->from_json($json);
-        cmp_ok($response->{status_code},'==',200,"$method 200 status_code from getlistinfo") or diag Dumper $response;
+        cmp_ok($response->{status_code},'==',200,"$method 200 status_code from getlist");
         cmp_ok($response->{contextual_message},'ne','unknown action','contextual_message != unknown action');
         cmp_ok($response->{request_type},'eq','people','request_type = people');
-        cmp_ok($response->{action},'eq','getlistinfo','action = getlistinfo');
+        cmp_ok($response->{action},'eq','getlist','action = getlist');
     }
 }
 
-sub test_getlistinfo_nonexistent {
+sub test_getlist_nonexistent {
     my (@methods) = @_;
     for my $method (@methods) {
         my $key = "42";
-        my $url = "$base/interfaces/php/api/verbose/people/getlistinfo/api_key/$key/id/69";
+        my $url = "$base/interfaces/php/api/verbose/people/getlist/api_key/$key/id/69";
         my $json = json_ok($url, $method);
 
         my $response = $j->from_json($json);
-        cmp_ok($response->{status_code},'==',400,"$method 400 status_code from getlistinfo") or diag Dumper $response;
+        cmp_ok($response->{status_code},'==',400,"$method 400 status_code from getlist");
         cmp_ok($response->{contextual_message},'ne','unknown action','contextual_message != unknown action');
         cmp_ok($response->{request_type},'eq','people','request_type = people');
-        cmp_ok($response->{action},'eq','getlistinfo','action = getlistinfo');
+        cmp_ok($response->{action},'eq','getlist','action = getlist');
     }
 }
 
-sub test_getlistinfo_on_somebody_elses_list {
+sub test_getlist_on_somebody_elses_list {
     my (@methods) = @_;
     for my $method (@methods) {
         my $key = "42";
         # list 99 is owned by a non-existent user
-        my $url = "$base/interfaces/php/api/verbose/people/getlistinfo/api_key/$key/id/99";
+        my $url = "$base/interfaces/php/api/verbose/people/getlist/api_key/$key/id/99";
         my $json = json_ok($url, $method);
 
         my $response = $j->from_json($json);
-        cmp_ok($response->{status_code},'==',400,"$method 400 status_code from getlistinfo");
+        cmp_ok($response->{status_code},'==',400,"$method 400 status_code from getlist");
         cmp_ok($response->{contextual_message},'ne','unknown action','contextual_message != unknown action');
         cmp_ok($response->{request_type},'eq','people','request_type = people');
-        cmp_ok($response->{action},'eq','getlistinfo','action = getlistinfo');
+        cmp_ok($response->{action},'eq','getlist','action = getlist');
     }
 }
 
@@ -179,15 +158,11 @@ my @methods = qw/get post/;
 test_basic(@methods);
 test_basic_verbose(@methods);
 test_basic_invalid(@methods);
-
-# processwebhook only responds to POSTs with an API key
-test_processwebhook(qw/post/);
-test_processwebhook_invalid_key(qw/post/);
-
-test_getlistinfo(@methods);
-test_getlistinfo_nonexistent(@methods);
-test_getlistinfo_on_somebody_elses_list(@methods);
+test_processwebhook(@methods);
+test_processwebhook_invalid_key(@methods);
+test_getlist(@methods);
+test_getlist_nonexistent(@methods);
+test_getlist_on_somebody_elses_list(@methods);
 test_verbose_system(@methods);
-test_signup_verbose(@methods);
 
 done_testing;

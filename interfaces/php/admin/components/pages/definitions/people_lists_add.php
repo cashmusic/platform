@@ -11,11 +11,12 @@ if (isset($_POST['dolistadd'])) {
 		array(
 			'cash_request_type' => 'people', 
 			'cash_action' => 'addlist',
-			'list_name' => $_POST['list_name'],
-			'list_description' => $_POST['list_description'],
+			'name' => $_POST['list_name'],
+			'description' => $_POST['list_description'],
 			'connection_id' => $_POST['connection_id'],
 			'user_id' => $effective_user,
 		)
 	);
+	var_dump($list_add_request->response);
 }
 ?>
