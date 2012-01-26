@@ -278,6 +278,20 @@ class CASHDBA {
 				. "GROUP BY ea.element_id "
 				. "ORDER BY count DESC";
 				break;
+			case 'ElementPlant_getAnalytics_elementbylocation':
+				$query = "SELECT access_location, COUNT(cash_session_id) as 'total' "
+				. "FROM elements_analytics "
+				. "WHERE element_id = :element_id "
+				. "GROUP BY access_location "
+				. "ORDER BY total DESC";
+				break;
+			case 'ElementPlant_getAnalytics_elementbymethod':
+				$query = "SELECT access_method, COUNT(cash_session_id) as 'total' "
+				. "FROM elements_analytics "
+				. "WHERE element_id = :element_id "
+				. "GROUP BY access_method "
+				. "ORDER BY total DESC";
+				break;
 			case 'PeoplePlant_getAnalytics_listmembership':
 				$query = "SELECT COUNT(*) AS total, COUNT(CASE WHEN active = 1 THEN 1 END) AS active, COUNT(CASE WHEN active = 0 THEN 1 END) AS inactive, COUNT(CASE WHEN creation_date > " . (time() - 604800) . " THEN 1 END) AS last_week "
 				. "FROM people_lists_members "

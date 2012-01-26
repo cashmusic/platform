@@ -212,7 +212,7 @@ class ElementPlant extends PlantBase {
 	 * Pulls analytics queries in a few different formats
 	 *
 	 * @return array
-	 */protected function getAnalytics($analtyics_type,$user_id) {
+	 */protected function getAnalytics($analtyics_type,$user_id,$element_id=0) {
 		switch (strtolower($analtyics_type)) {
 			case 'mostactive':
 				$result = $this->db->getData(
@@ -222,6 +222,32 @@ class ElementPlant extends PlantBase {
 						"user_id" => array(
 							"condition" => "=",
 							"value" => $user_id
+						)
+					)
+				);
+				return $result;
+				break;
+			case 'elementbylocation':
+				$result = $this->db->getData(
+					'ElementPlant_getAnalytics_elementbylocation',
+					false,
+					array(
+						"element_id" => array(
+							"condition" => "=",
+							"value" => $element_id
+						)
+					)
+				);
+				return $result;
+				break;
+			case 'elementbymethod':
+				$result = $this->db->getData(
+					'ElementPlant_getAnalytics_elementbymethod',
+					false,
+					array(
+						"element_id" => array(
+							"condition" => "=",
+							"value" => $element_id
 						)
 					)
 				);
