@@ -62,9 +62,11 @@ if ($request_parameters) {
 				<tbody>
 			<?php
 			foreach ($method_analytics as $entry) {
+				$methods_string = array ('direct','api_public','api_key','api_fullauth');
+				$methods_translation = array('direct (embedded on this site)','api_public (shared to another site)','api_key (shared to another site)','api_fullauth (another site with your API credentials)');
 			    ?>
 				<tr>
-					<td><?php echo $entry['access_method']; ?></td>
+					<td><?php echo str_replace($methods_string,$methods_translation,$entry['access_method']); ?></td>
 					<td><?php echo $entry['total']; ?></td>
 				</tr>
 				<?php
