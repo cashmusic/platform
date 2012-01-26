@@ -14,11 +14,13 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  */class CASHRequest extends CASHData {
+	public static $version = 1;
+	
 	protected $request_method,
 			  $plant_array=array(),
 			  $plant,
 			  $user;
-	public $request=false,
+	public $request = false,
 		   $response;
 	
 	/**
@@ -56,6 +58,10 @@
 				}
 			}
 		}
+	}
+
+	public function getVersion() {
+		return self::$version;
 	}
 	
 	/**
