@@ -11,7 +11,7 @@
 			$class_string = 'col_oneoftwo lastcol';
 		}
 		echo '<div class="' . $class_string . '">';
-		echo '<a href="' . ADMIN_WWW_BASE_PATH . '/settings/add/' . $key . '">';
+		echo '<a href="' . ADMIN_WWW_BASE_PATH . '/settings/connections/add/' . $key . '">';
 		if (file_exists(ADMIN_BASE_PATH.'/assets/images/settings/' . $key . '.png')) {
 			echo '<img src="' . ADMIN_WWW_BASE_PATH . '/assets/images/settings/' . $key . '.png" width="100%" alt="' . $data->name . '" /><br />';
 		}
