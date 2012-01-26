@@ -1,5 +1,5 @@
 <?php 
-$page_data = $page_request->response['payload'];
+$page_data = $cash_admin->getStoredResponse('originalelement',true);
 if (isset($_POST['doelementedit'])) {
 	if (isset($_POST['do_not_verify'])) {
 		$do_not_verify = 1;
@@ -10,7 +10,7 @@ if (isset($_POST['doelementedit'])) {
 		array(
 			'cash_request_type' => 'element', 
 			'cash_action' => 'editelement',
-			'id' => $page_request->response['payload']['id'],
+			'id' => $page_data['id'],
 			'name' => $_POST['element_name'],
 			'options_data' => array(
 				'message_invalid_email' => $_POST['message_invalid_email'],
@@ -27,6 +27,13 @@ if (isset($_POST['doelementedit'])) {
 		)
 	);
 	if ($element_edit_request->response['status_uid'] == 'element_editelement_200') {
+		$element_edit_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'element', 
+				'cash_action' => 'getelement',
+				'id' => $page_data['id']
+			)
+		);
 		$page_data = $element_edit_request->response['payload'];
 	?>
 	

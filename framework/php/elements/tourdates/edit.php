@@ -1,11 +1,11 @@
 <?php 
-$page_data = $page_request->response['payload'];
+$page_data = $cash_admin->getStoredResponse('originalelement',true);
 if (isset($_POST['doelementedit'])) {
 	$element_edit_request = new CASHRequest(
 		array(
 			'cash_request_type' => 'element', 
 			'cash_action' => 'editelement',
-			'id' => $page_request->response['payload']['id'],
+			'id' => $page_data['id'],
 			'name' => $_POST['element_name'],
 			'options_data' => array(
 				'visible_event_types' => $_POST['visible_event_types']
@@ -13,6 +13,13 @@ if (isset($_POST['doelementedit'])) {
 		)
 	);
 	if ($element_edit_request->response['status_uid'] == 'element_editelement_200') {
+		$element_edit_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'element', 
+				'cash_action' => 'getelement',
+				'id' => $page_data['id']
+			)
+		);
 		$page_data = $element_edit_request->response['payload'];
 	?>
 	

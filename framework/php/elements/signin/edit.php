@@ -1,25 +1,27 @@
 <?php 
-$page_data = $page_request->response['payload'];
+$page_data = $cash_admin->getStoredResponse('originalelement',true);
 if (isset($_POST['doelementedit'])) {
-	if (isset($_POST['do_not_verify'])) {
-		$do_not_verify = 1;
-	} else {
-		$do_not_verify = 0;
-	}
 	$element_edit_request = new CASHRequest(
 		array(
 			'cash_request_type' => 'element', 
 			'cash_action' => 'editelement',
-			'id' => $page_request->response['payload']['id'],
+			'id' => $page_data['id'],
 			'name' => $_POST['element_name'],
 			'options_data' => array(
 				'email_list_id' => $_POST['email_list_id'],
 				'display_title' => $_POST['display_title'],
 				'display_message' => $_POST['display_message']
-			),
+			)
 		)
 	);
-	if ($element_edit_request->response['status_uid'] == 'element_editelement_200') {
+	if ($element_edit_request->response['payload']) {
+		$element_edit_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'element', 
+				'cash_action' => 'getelement',
+				'id' => $page_data['id']
+			)
+		);
 		$page_data = $element_edit_request->response['payload'];
 	?>
 	
