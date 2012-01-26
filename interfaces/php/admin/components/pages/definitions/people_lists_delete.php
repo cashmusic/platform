@@ -10,15 +10,15 @@ if (!$request_parameters) {
 $page_request = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'people', 
-		'cash_action' => 'getlistinfo',
+		'cash_action' => 'getlist',
 		'list_id' => $request_parameters[0]
 	),
-	'getlistinfo'
+	'getlist'
 );
 
 //var_dump($page_request);
 
-if ($page_request['status_uid'] == 'people_getlistinfo_200') {
+if ($page_request['status_uid'] == 'people_getlist_200') {
 	
 	$elements_data = AdminHelper::getElementsData();
 	$effective_user = AdminHelper::getPersistentData('cash_effective_user');

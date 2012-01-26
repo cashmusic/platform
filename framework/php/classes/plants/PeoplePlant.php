@@ -32,7 +32,7 @@ class PeoplePlant extends PlantBase {
 				'deletelist'        => array('deleteList','direct'),
 				'editlist'          => array('editList','direct'),
 				'getlistsforuser'   => array('getListsForUser','direct'),
-				'getlistinfo'       => array('getList',array('direct','api_key')),
+				'getlist'           => array('getList',array('direct','api_key')),
 				'getuser'           => array('getUser',array('direct','api_key')),
 				'processwebhook'    => array('processWebhook',array('direct','api_key')),
 				'signintolist'      => array('validateUserForList',array('post','direct','api_key')),
@@ -142,7 +142,7 @@ class PeoplePlant extends PlantBase {
 	 * @param {int} $description -  a description, in case the name is terrible and offers no help
 	 * @param {int} $connection_id -  a third party connection with which the list should sync
 	 * @return id|false
-	 */protected function addList($name,$description,$user_id,$connection_id=0) {
+	 */protected function addList($name,$user_id,$description='',$connection_id=0) {
 		$result = $this->db->setData(
 			'people_lists',
 			array(
@@ -153,6 +153,7 @@ class PeoplePlant extends PlantBase {
 			)
 		);
 		if ($result) {
+			$list_id = $result;
 			$this->manageWebhooks($list_id,'add');
 		}
 		return $result;
@@ -166,15 +167,19 @@ class PeoplePlant extends PlantBase {
 	 * @param {int} $description -  a description, in case the name is terrible and offers no help
 	 * @param {int} $connection_id -  a third party connection with which the list should sync
 	 * @return id|false
-	 */protected function editList($list_id,$name,$description,$connection_id=0) {
+	 */protected function editList($list_id,$name=false,$description=false,$connection_id=false) {
 		$this->manageWebhooks($list_id,'remove');
-		$result = $this->db->setData(
-			'people_lists',
+		$final_edits = array_filter(
 			array(
 				'name' => $name,
 				'description' => $description,
 				'connection_id' => $connection_id
 			),
+			'CASHSystem::notExplicitFalse'
+		);
+		$result = $this->db->setData(
+			'people_lists',
+			$final_edits,
 			array(
 				"id" => array(
 					"condition" => "=",

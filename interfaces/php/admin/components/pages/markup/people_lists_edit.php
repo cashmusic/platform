@@ -1,5 +1,5 @@
 <?php 
-	$current_list = $cash_admin->getStoredResponse('getlistinfo', true);
+	$current_list = $cash_admin->getStoredResponse('getlist', true);
 	if (isset($_POST['dolistedit'])) {
 		if ($list_edit_request->response['status_uid'] == 'people_editlist_200') {
 		?>
