@@ -1,17 +1,3 @@
-<style type="text/css">
-tr {background-color:#f5f5f4;}
-tr:nth-child(odd) {background-color:#ececed;}
-tr:hover {background-color:#fff;}
-td, th {padding:6px 5px 6px 5px;vertical-align:top;}
-th {background-color:#000;color:#fff;}
-* #pagecontent td a,
-div.usecolor1 #pagecontent td a, 
-div.usecolor2 #pagecontent td a, 
-div.usecolor3 #pagecontent td a, 
-div.usecolor4 #pagecontent td a, 
-div.usecolor5 #pagecontent td a {color:#000;}
-</style>
-
 <?php
 $list_details = $cash_admin->getStoredResponse('listdetails');
 if (isset($list_details)) {	

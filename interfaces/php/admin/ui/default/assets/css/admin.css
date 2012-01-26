@@ -36,7 +36,6 @@ h2, h3, h4 {font-size:17px;line-height:1.125em;margin:0;padding:0;padding-bottom
 big {font-size:1.5em;line-height:1.25em;}
 small {font-size:0.85em;line-height:1.25em;}
 small a {color:#231F20 !important;font-weight:bold;}
-table {font-size:11px;}
 
 /* ELEMENT TYPES */
 div.callout {font-size:12px;}
@@ -284,6 +283,15 @@ textarea.tall {height:200px;}
 #pagedisplay div.col_twoofthree input,#pagedisplay div.col_twoofthree textarea {width:416px;padding:8px;}
 #pagedisplay div.col_oneoffour input,#pagedisplay div.col_oneoffour textarea {width:125px;padding:8px;}
 #pagedisplay div.col_threeoffour input,#pagedisplay div.col_threeoffour textarea {width:478px;padding:8px;}
+
+/* TABLES */
+table {font-size:11px;}
+th {background-color:#000;color:#fff;}
+tr {background-color:#f5f5f4;}
+tr:nth-child(odd) {background-color:#ececed;}
+tr:hover {background-color:#fff;}
+td, th {padding:6px 5px 6px 5px;vertical-align:top;}
+* #pagecontent td a, div.usecolor1 #pagecontent td a, div.usecolor2 #pagecontent td a, div.usecolor3 #pagecontent td a, div.usecolor4 #pagecontent td a, div.usecolor5 #pagecontent td a {color:#000;}
 
 /* MAIN NAVIGATION/INTERFACE ELEMENTS */
 #chromespc {position:fixed;top:0;left:0;min-width:960px;width:100%;z-index:1000;margin:0;padding:0;}

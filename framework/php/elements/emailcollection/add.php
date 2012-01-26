@@ -84,7 +84,7 @@
 				'message_success' => $_POST['message_success'],
 				'email_list_id' => $_POST['email_list_id'],
 				'asset_id' => $_POST['asset_id'],
-				'comment_or_radio' => $_POST['comment_or_radio'],
+				'comment_or_radio' => 0,
 				'do_not_verify' => $do_not_verify
 			),
 			'user_id' => $effective_user
