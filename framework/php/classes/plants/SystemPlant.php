@@ -300,13 +300,13 @@ class SystemPlant extends PlantBase {
 		}
 	}
 
-	protected function deleteSettings($user_id,$settings_id) {
+	protected function deleteSettings($user_id,$key) {
 		$result = $this->db->deleteData(
 			'settings',
 			array(
-				"id" => array(
+				"key" => array(
 					"condition" => "=",
-					"value" => $settings_id
+					"value" => $key
 				),
 				"user_id" => array(
 					"condition" => "=",
@@ -317,14 +317,14 @@ class SystemPlant extends PlantBase {
 		return $result;
 	}
 
-	protected function getSettings($user_id,$settings_id) {
+	protected function getSettings($user_id,$key) {
 		$result = $this->db->getData(
 			'settings',
 			'*',
 			array(
-				"id" => array(
+				"key" => array(
 					"condition" => "=",
-					"value" => $settings_id
+					"value" => $key
 				),
 				"user_id" => array(
 					"condition" => "=",
@@ -339,27 +339,56 @@ class SystemPlant extends PlantBase {
 		}
 	}
 
-	protected function setSettings($user_id,$key,$value,$settings_id=false) {
-		if ($settings_id) {
-			$condition = array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $settings_id
-				)
-			);
-		} else {
-			$condition = false;
-		}
-		$result = $this->db->setData(
+	protected function setSettings($user_id,$key,$value) {
+		$go = true;
+		$condition = false;
+		// first check to see if the user/key combo exists.
+		// a little inelegant, but necessary for a key/value store
+		$exists = $this->db->getData(
 			'settings',
+			'id,value',
 			array(
-				'user_id' => $user_id,
-				'key' => $key,
-				'value' => $value
-			),
-			$condition
+				"key" => array(
+					"condition" => "=",
+					"value" => $key
+				),
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				)
+			)
 		);
-		return $result;
+		if ($exists) {
+			// the key/user exists, so first compare value
+			if ($exists[0]['value'] == $value) {
+				// equal to what's there already? do nothing, return true
+				$go = false;
+			} else {
+				// different? set conditions to perform an update
+				$condition = array(
+					"id" => array(
+						"condition" => "=",
+						"value" => $exists[0]['id']
+					)
+				);
+			}
+		} 
+		if ($go) {
+			// insert/update
+			$result = $this->db->setData(
+				'settings',
+				array(
+					'user_id' => $user_id,
+					'key' => $key,
+					'value' => $value
+				),
+				$condition
+			);
+			return $result;
+		} else {
+			// we're already up to date...do nothing but signal 'okay'
+			return true;
+		}
 	}
 } // END class 
 ?>
