@@ -37,14 +37,11 @@ foreach ($elements_data as $element => $data) {
 
 function drawFeaturedElement($element,$data) {
 	echo '<div class="featuredelement">';
-		$element_img = CASH_PLATFORM_ROOT.'/elements/'.$element.'/image.jpg';
-		if (file_exists($element_img)) {
-			echo '<a href="' . $element . '"><img src="data:image/jpg;base64,' . base64_encode(file_get_contents($element_img)) . '" width="100%" alt="' .  $data->name . '" /></a><br />';
-		}
+		echo '<a href="' . ADMIN_WWW_BASE_PATH . '/elements/add/' . $element . '"><img src="' . ADMIN_WWW_BASE_PATH . '/assets/images/elementheader.php?element=' . $element . '" width="100%" alt="' .  $data->name . '" /></a><br />';
 		echo '<h3>' . $data->name . '</h3>';
 		echo '<p>' . $data->description . '</p>';
 		echo '<div class="elementdetails"><p><span class="altcopystyle">' . $data->longdescription . '</span></p><small>Author: <a href="' . $data->url . '">' . $data->author . '</a><br />Last updated: ' . $data->lastupdated . '<br />Version: ' . $data->version . '</small></div>';
-		echo '<div class="itemnav"><a href="' . $element . '"><span class="icon plus_alt"></span> Add this now</a><br /><small><a href="' . $element . '" class="fadedtext showelementdetails"><span class="icon magnifying_glass"></span> More details</a></small></div>';
+		echo '<div class="itemnav"><a href="' . ADMIN_WWW_BASE_PATH . '/elements/add/' . $element . '"><span class="icon plus_alt"></span> Add this now</a><br /><small><a href="' . $element . '" class="fadedtext showelementdetails"><span class="icon magnifying_glass"></span> More details</a></small></div>';
 	echo '</div>';
 }
 
