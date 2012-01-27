@@ -581,7 +581,7 @@
 	 * @return string or false
 	 */protected function getConnectionType($connection_id) {
 		$result = $this->db->getData(
-			'settings',
+			'connections',
 			'type',
 			array(
 				"id" => array(

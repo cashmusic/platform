@@ -30,9 +30,12 @@ class SystemPlant extends PlantBase {
 				// first value  = target method to call
 				// second value = allowed request methods (string or array of strings)
 				'addlogin'                => array('addLogin','direct'),
+				'deletesettings'          => array('deleteSettings','direct'),
 				'getapicredentials'       => array('getAPICredentials','direct'),
+				'getsettings'             => array('getSettings','direct'),
 				'setapicredentials'       => array('setAPICredentials','direct'),
 				'setlogincredentials'     => array('setLoginCredentials','direct'),
+				'setsettings'             => array('setSettings','direct'),
 				'validateapicredentials'  => array('validateAPICredentials','direct'),
 				'validatelogin'           => array('validateLogin','direct')
 			);
@@ -297,5 +300,66 @@ class SystemPlant extends PlantBase {
 		}
 	}
 
+	protected function deleteSettings($user_id,$settings_id) {
+		$result = $this->db->deleteData(
+			'settings',
+			array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $settings_id
+				),
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				)
+			)
+		);
+		return $result;
+	}
+
+	protected function getSettings($user_id,$settings_id) {
+		$result = $this->db->getData(
+			'settings',
+			'*',
+			array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $settings_id
+				),
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				)
+			)
+		);
+		if ($result) {
+			return $result[0];
+		} else {
+			return false;
+		}
+	}
+
+	protected function setSettings($user_id,$key,$value,$settings_id=false) {
+		if ($settings_id) {
+			$condition = array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $settings_id
+				)
+			);
+		} else {
+			$condition = false;
+		}
+		$result = $this->db->setData(
+			'settings',
+			array(
+				'user_id' => $user_id,
+				'key' => $key,
+				'value' => $value
+			),
+			$condition
+		);
+		return $result;
+	}
 } // END class 
 ?>

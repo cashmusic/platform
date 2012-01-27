@@ -74,13 +74,14 @@ class CASHDBA {
 		$table_lookup = array(
 			'assets' => 'assets',
 			'assets_analytics' => 'assets_analytics',
+			'connections' => 'system_connections',
 			'elements' => 'elements',
 			'elements_analytics' => 'elements_analytics',
 			'events' => 'calendar_events',
 			'system_lock_codes' => 'system_lock_codes',
 			'system_lock_passwords' => 'system_lock_passwords',
 			'metadata' => 'system_metadata',
-			'settings' => 'system_connections',
+			'settings' => 'system_settings',
 			'users' => 'people',
 			'people_analytics' => 'people_analytics',
 			'people_lists' => 'people_lists',
@@ -226,6 +227,7 @@ class CASHDBA {
 					}
 				} catch(PDOException $e) {  
 					$this->error = $e->getMessage();
+					var_dump($e->getMessage());
 				}	
 			} else {
 				return false;

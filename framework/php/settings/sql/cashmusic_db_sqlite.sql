@@ -326,7 +326,7 @@ CREATE INDEX system_lock_codes_element_id ON system_lock_codes (element_id);
 
 CREATE TABLE system_metadata (
   id INTEGER PRIMARY KEY,
-  scope_table_alias vartext DEFAULT '',
+  scope_table_alias text DEFAULT '',
   scope_table_id integer DEFAULT '0',
   user_id integer DEFAULT '0',
   type text,
@@ -335,5 +335,14 @@ CREATE TABLE system_metadata (
   modification_date integer DEFAULT NULL
 );
 CREATE INDEX system_metadata_scope_table ON system_metadata (scope_table_alias, scope_table_id);
+
+CREATE TABLE system_settings (
+  id INTEGER PRIMARY KEY,
+  key text,
+  value text,
+  user_id integer,
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT NULL
+);
 
 COMMIT;
