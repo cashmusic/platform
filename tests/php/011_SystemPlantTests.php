@@ -169,6 +169,7 @@ class SystemPlantTests extends UnitTestCase {
 	}
 
 	function testSettings() {
+		// first test creating a new setting
 		$settings_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'system', 
@@ -179,28 +180,51 @@ class SystemPlantTests extends UnitTestCase {
 			)
 		);
 		$this->assertTrue($settings_request->response['payload']);
-		$testingsettings = $settings_request->response['payload'];
-
+		// now test getting that setting
 		$settings_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'system', 
 				'cash_action' => 'getsettings',
-				'settings_id' => $testingsettings,
+				'key' => 'tests',
 				'user_id' => 1
 			)
 		);
 		$this->assertTrue($settings_request->response['payload']);
+		// make sure values were set correctly
 		if ($settings_request->response['payload']) {
 			$decoded = json_decode($settings_request->response['payload']['value'],true);
 			$this->assertEqual($decoded['testkey'],'testval');
 			$this->assertEqual($decoded['second'],'value');
 		}
 
+		// test overwriting with a new value by key/user
+		$settings_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'setsettings',
+				'key' => 'tests',
+				'value' => 'we changed it!',
+				'user_id' => 1
+			)
+		);
+		$this->assertTrue($settings_request->response['payload']);
+		// now test the new values have been set correctly
+		$settings_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'getsettings',
+				'key' => 'tests',
+				'user_id' => 1
+			)
+		);
+		$this->assertEqual($settings_request->response['payload']['value'],'we changed it!');
+
+		// okay, blow it away and make sure it's gone
 		$settings_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'system', 
 				'cash_action' => 'deletesettings',
-				'settings_id' => $testingsettings,
+				'key' => 'tests',
 				'user_id' => 1
 			)
 		);
@@ -209,7 +233,7 @@ class SystemPlantTests extends UnitTestCase {
 			array(
 				'cash_request_type' => 'system', 
 				'cash_action' => 'getsettings',
-				'settings_id' => $testingsettings,
+				'key' => 'tests',
 				'user_id' => 1
 			)
 		);
