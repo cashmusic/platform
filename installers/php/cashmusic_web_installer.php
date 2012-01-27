@@ -485,8 +485,8 @@ if (!isset($_POST['installstage'])) {
 			if (
 				!findReplaceInFile('./source/interfaces/php/admin/.htaccess','RewriteBase /interfaces/php/admin','RewriteBase ' . $admin_dir) || 
 				
-				!findReplaceInFile('./source/interfaces/php/admin/controller.php','$cashmusic_root = $root . "/../../../framework/php/cashmusic.php','$cashmusic_root = "' . $user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
-				!findReplaceInFile('./source/interfaces/php/admin/controller.php','define(\'ADMIN_WWW_BASE_PATH\', \'/interfaces/php/admin','define(\'ADMIN_WWW_BASE_PATH\', \'' . $admin_dir) || 
+				!findReplaceInFile('./source/interfaces/php/admin/constants.php','$cashmusic_root = $root . "/../../../framework/php/cashmusic.php','$cashmusic_root = "' . $user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
+				!findReplaceInFile('./source/interfaces/php/admin/constants.php','define(\'ADMIN_WWW_BASE_PATH\', \'/interfaces/php/admin','define(\'ADMIN_WWW_BASE_PATH\', \'' . $admin_dir) || 
 				
 				!findReplaceInFile('./source/interfaces/php/demos/index.html','../../../docs/assets/fonts','https://cashmusic.s3.amazonaws.com/permalink/fonts') || 
 				!findReplaceInFile('./source/interfaces/php/demos/index.html','<a href="/interfaces/php/admin/">Admin</a> <a href="/interfaces/php/demos/">Demos</a> <a href="/docs/">Docs</a> <a href="http://github.com/cashmusic/DIY">Github Repo</a>','<a href="../admin/">Admin</a> <a href="http://cashmusic.github.com/DIY/">Docs</a> <a href="http://github.com/cashmusic/DIY">Github Repo</a>') || 
