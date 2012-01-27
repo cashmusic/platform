@@ -149,7 +149,7 @@ class SystemPlantTests extends UnitTestCase {
 			$this->assertEqual($credentials_request->response['payload']['user_id'],'1');
 		}
 
-		// test calidating the credentials
+		// test validating the credentials
 		$credentials_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'system', 
@@ -166,6 +166,54 @@ class SystemPlantTests extends UnitTestCase {
 			$this->assertEqual($credentials_request->response['payload']['user_id'],'1');
 		}
 		unset($credentials_request);
+	}
+
+	function testSettings() {
+		$settings_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'setsettings',
+				'key' => 'tests',
+				'value' => json_encode(array('testkey' => 'testval','second' => 'value')),
+				'user_id' => 1
+			)
+		);
+		$this->assertTrue($settings_request->response['payload']);
+		$testingsettings = $settings_request->response['payload'];
+
+		$settings_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'getsettings',
+				'settings_id' => $testingsettings,
+				'user_id' => 1
+			)
+		);
+		$this->assertTrue($settings_request->response['payload']);
+		if ($settings_request->response['payload']) {
+			$decoded = json_decode($settings_request->response['payload']['value'],true);
+			$this->assertEqual($decoded['testkey'],'testval');
+			$this->assertEqual($decoded['second'],'value');
+		}
+
+		$settings_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'deletesettings',
+				'settings_id' => $testingsettings,
+				'user_id' => 1
+			)
+		);
+		$this->assertTrue($settings_request->response['payload']);
+		$settings_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'getsettings',
+				'settings_id' => $testingsettings,
+				'user_id' => 1
+			)
+		);
+		$this->assertFalse($settings_request->response['payload']);
 	}
 }
 ?>

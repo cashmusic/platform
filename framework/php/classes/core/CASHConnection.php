@@ -66,7 +66,7 @@
 	 */public function getAllConnectionsforUser() {
 		if ($this->user_id) {
 			$result = $this->db->getData(
-				'settings',
+				'connections',
 				'*',
 				array(
 					"user_id" => array(
@@ -101,7 +101,7 @@
 		}
 		if ($connection_id) {
 			$result = $this->db->getData(
-				'settings',
+				'connections',
 				'data',
 				array(
 					"id" => array(
@@ -132,7 +132,7 @@
 	 * @return settings obj
 	 */public function getSettingsByType($settings_type) {
 		$result = $this->db->getData(
-			'settings',
+			'connections',
 			'*',
 			array(
 				"type" => array(
@@ -182,7 +182,7 @@
 		}
 		if ($allow_action) {
 			$result = $this->db->setData(
-				'settings',
+				'connections',
 				array(
 					'name' => $settings_name,
 					'type' => $settings_type,
@@ -205,7 +205,7 @@
 	 * @return boolean
 	 */public function deleteSettings($connection_id) {
 		$result = $this->db->deleteData(
-			'settings',
+			'connections',
 			array(
 				'id' => array(
 					'condition' => '=',
@@ -222,7 +222,7 @@
 	 * @return boolean
 	 */private function checkUniqueName($settings_name,$settings_type) {
 		$result = $this->db->getData(
-			'settings',
+			'connections',
 			'name',
 			array(
 				'type' => array(
