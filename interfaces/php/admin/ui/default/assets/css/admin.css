@@ -345,6 +345,7 @@ td, th {padding:6px 5px 6px 5px;vertical-align:top;}
 ul.pagebasemenu {padding:0;margin-top:0;margin-bottom:1.5em;font-size:16px;font-weight:bold;line-height:1.5em;color:#999;}
 ul.pagebasemenu li {list-style-type:none;}
 ul.pagebasemenu ul {padding:0;margin-top:0;margin-bottom:0;font-size:0.8em;font-weight:normal;}
+.introductorybanner {padding:16px;height:120px;background-color:#fff;margin-bottom:24px;box-shadow:-2px 2px 2px #dededc;}
 
 /* FOOTER (base code taken from cssstickyfooter.com) */
 * {margin-top:0;padding:0;} 

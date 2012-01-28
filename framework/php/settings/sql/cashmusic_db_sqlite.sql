@@ -285,7 +285,7 @@ CREATE TABLE people_resetpassword (
 -- 
 CREATE TABLE system_analytics (
   id INTEGER PRIMARY KEY,
-  key text,
+  type text,
   value text,
   user_id integer,
   scope_table_alias text DEFAULT NULL,
@@ -338,7 +338,7 @@ CREATE INDEX system_metadata_scope_table ON system_metadata (scope_table_alias, 
 
 CREATE TABLE system_settings (
   id INTEGER PRIMARY KEY,
-  key text,
+  type text,
   value text,
   user_id integer,
   creation_date integer DEFAULT NULL,

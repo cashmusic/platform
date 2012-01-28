@@ -14,12 +14,58 @@
  */class AdminCore  {
 	protected $stored_responses;
 	protected $stored_data;
+	protected $effective_user_id;
 	
-	public function __construct() {
+	// default admin settings:
+	protected $default_user_settings = array(
+		'banners' => array(
+			'mainpage' => true,
+			'elements' => true,
+			'assets' => true,
+			'people' => true,
+			'commerce' => true,
+			'calendar' => true
+		)
+	);
+	
+	public function __construct($effective_user_id=false) {
 		$this->stored_responses = array();
 		$this->stored_data = array();
+		if ($effective_user_id) {
+			$this->effective_user_id = $effective_user_id;
+		}
 	}
-	
+
+	public function getUserSettings() {
+		$settings_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'getsettings',
+				'type' => 'cashmusic_admin_settings',
+				'user_id' => $this->effective_user_id
+			)
+		);
+		if ($settings_request->response['payload']['value']) {
+			return json_decode($settings_request->response['payload']['value'],true);
+		} else {
+			$this->setUserSettings($this->default_user_settings);
+			return $this->default_user_settings;
+		}
+	}
+
+	public function setUserSettings($settings_array) {
+		$settings_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'setsettings',
+				'type' => 'cashmusic_admin_settings',
+				'value' => json_encode($settings_array),
+				'user_id' => $this->effective_user_id
+			)
+		);
+		return $settings_request;
+	}
+
 	/**
 	 * Does a CASH Request and stores the response in $stored_responses
 	 *

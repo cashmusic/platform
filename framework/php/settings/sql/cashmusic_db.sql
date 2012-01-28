@@ -336,7 +336,7 @@ CREATE TABLE `people_resetpassword` (
 DROP TABLE IF EXISTS `system_analytics`;
 CREATE TABLE `system_analytics` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `key` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
   `value` text NOT NULL,
   `user_id` int(11) NOT NULL,
   `scope_table_alias` text DEFAULT NULL,
@@ -399,7 +399,7 @@ CREATE TABLE `system_metadata` (
 DROP TABLE IF EXISTS `system_settings`;
 CREATE TABLE `system_settings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `key` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
   `value` text NOT NULL,
   `user_id` int(11) NOT NULL,
   `creation_date` int(11) DEFAULT NULL,

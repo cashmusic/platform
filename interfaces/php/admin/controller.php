@@ -19,9 +19,6 @@ function cash_admin_autoloadCore($classname) {
 }
 spl_autoload_register('cash_admin_autoloadCore');
 
-// make a few objects to use throughout the pages
-$cash_admin = new AdminCore();
-
 // grab path from .htaccess redirect
 if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH))) {
 	$parsed_request = str_replace('/','_',trim($_REQUEST['p'],'/'));
@@ -86,6 +83,9 @@ if (isset($_POST['login'])) {
 		$login_message = "Try Again";
 	}
 }
+
+// make a few objects to use throughout the pages
+$cash_admin = new AdminCore($admin_primary_cash_request->sessionGet('cash_effective_user'));
 
 // finally, output the template and page-specific markup (checking for current login)
 if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {

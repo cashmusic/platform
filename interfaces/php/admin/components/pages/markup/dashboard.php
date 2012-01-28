@@ -1,3 +1,10 @@
+<?php
+$settings = $cash_admin->getUserSettings();
+if ($settings['banners']['mainpage']) {
+	echo '<div class="introductorybanner">banner</div>';
+}
+?>
+
 <div class="col_oneofthree">
 	<h2>Welcome!</h2>
 	<p class="altcopystyle">
