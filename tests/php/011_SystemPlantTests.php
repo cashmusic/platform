@@ -174,7 +174,7 @@ class SystemPlantTests extends UnitTestCase {
 			array(
 				'cash_request_type' => 'system', 
 				'cash_action' => 'setsettings',
-				'key' => 'tests',
+				'type' => 'tests',
 				'value' => json_encode(array('testkey' => 'testval','second' => 'value')),
 				'user_id' => 1
 			)
@@ -185,7 +185,7 @@ class SystemPlantTests extends UnitTestCase {
 			array(
 				'cash_request_type' => 'system', 
 				'cash_action' => 'getsettings',
-				'key' => 'tests',
+				'type' => 'tests',
 				'user_id' => 1
 			)
 		);
@@ -202,7 +202,7 @@ class SystemPlantTests extends UnitTestCase {
 			array(
 				'cash_request_type' => 'system', 
 				'cash_action' => 'setsettings',
-				'key' => 'tests',
+				'type' => 'tests',
 				'value' => 'we changed it!',
 				'user_id' => 1
 			)
@@ -213,7 +213,7 @@ class SystemPlantTests extends UnitTestCase {
 			array(
 				'cash_request_type' => 'system', 
 				'cash_action' => 'getsettings',
-				'key' => 'tests',
+				'type' => 'tests',
 				'user_id' => 1
 			)
 		);
@@ -224,7 +224,7 @@ class SystemPlantTests extends UnitTestCase {
 			array(
 				'cash_request_type' => 'system', 
 				'cash_action' => 'deletesettings',
-				'key' => 'tests',
+				'type' => 'tests',
 				'user_id' => 1
 			)
 		);
@@ -233,7 +233,7 @@ class SystemPlantTests extends UnitTestCase {
 			array(
 				'cash_request_type' => 'system', 
 				'cash_action' => 'getsettings',
-				'key' => 'tests',
+				'type' => 'tests',
 				'user_id' => 1
 			)
 		);

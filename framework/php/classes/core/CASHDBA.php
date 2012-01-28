@@ -227,7 +227,6 @@ class CASHDBA {
 					}
 				} catch(PDOException $e) {  
 					$this->error = $e->getMessage();
-					var_dump($e->getMessage());
 				}	
 			} else {
 				return false;

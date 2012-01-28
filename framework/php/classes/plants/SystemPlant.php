@@ -300,13 +300,13 @@ class SystemPlant extends PlantBase {
 		}
 	}
 
-	protected function deleteSettings($user_id,$key) {
+	protected function deleteSettings($user_id,$type) {
 		$result = $this->db->deleteData(
 			'settings',
 			array(
-				"key" => array(
+				"type" => array(
 					"condition" => "=",
-					"value" => $key
+					"value" => $type
 				),
 				"user_id" => array(
 					"condition" => "=",
@@ -317,14 +317,14 @@ class SystemPlant extends PlantBase {
 		return $result;
 	}
 
-	protected function getSettings($user_id,$key) {
+	protected function getSettings($user_id,$type) {
 		$result = $this->db->getData(
 			'settings',
 			'*',
 			array(
-				"key" => array(
+				"type" => array(
 					"condition" => "=",
-					"value" => $key
+					"value" => $type
 				),
 				"user_id" => array(
 					"condition" => "=",
@@ -339,7 +339,7 @@ class SystemPlant extends PlantBase {
 		}
 	}
 
-	protected function setSettings($user_id,$key,$value) {
+	protected function setSettings($user_id,$type,$value) {
 		$go = true;
 		$condition = false;
 		// first check to see if the user/key combo exists.
@@ -348,9 +348,9 @@ class SystemPlant extends PlantBase {
 			'settings',
 			'id,value',
 			array(
-				"key" => array(
+				"type" => array(
 					"condition" => "=",
-					"value" => $key
+					"value" => $type
 				),
 				"user_id" => array(
 					"condition" => "=",
@@ -379,7 +379,7 @@ class SystemPlant extends PlantBase {
 				'settings',
 				array(
 					'user_id' => $user_id,
-					'key' => $key,
+					'type' => $type,
 					'value' => $value
 				),
 				$condition

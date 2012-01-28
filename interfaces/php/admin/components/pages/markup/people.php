@@ -1,3 +1,10 @@
+<?php
+$settings = $cash_admin->getUserSettings();
+if ($settings['banners']['people']) {
+	echo '<div class="introductorybanner">banner</div>';
+}
+?>
+
 <div class="col_oneoftwo">
 	<h2>Lists</h2>
 	<?php echo AdminHelper::simpleULFromResponse($cash_admin->getStoredResponse('getlistsforuser')); ?>
