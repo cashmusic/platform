@@ -90,11 +90,11 @@ ul.linkonly li a {display:block;padding:9px;color:#231F20 !important;}
 
 /* COLORS */
 .bgcolor0 {background-color:#999;}
-.bgcolor1, div.usecolor1 input.button, div.usecolor1 a.mockbutton {background-color:#df0854;}
-.bgcolor2, div.usecolor2 input.button, div.usecolor2 a.mockbutton {background-color:#df9b08;}
-.bgcolor3, div.usecolor3 input.button, div.usecolor3 a.mockbutton {background-color:#aacd07;}
-.bgcolor4, div.usecolor4 input.button, div.usecolor4 a.mockbutton {background-color:#0891df;}
-.bgcolor5, div.usecolor5 input.button, div.usecolor5 a.mockbutton {background-color:#9b08df;}
+.bgcolor1, div.usecolor1 input.button, div.usecolor1 a.mockbutton, div.usecolor1 div.introductorybanner {background-color:#df0854;}
+.bgcolor2, div.usecolor2 input.button, div.usecolor2 a.mockbutton, div.usecolor2 div.introductorybanner {background-color:#df9b08;}
+.bgcolor3, div.usecolor3 input.button, div.usecolor3 a.mockbutton, div.usecolor3 div.introductorybanner {background-color:#aacd07;}
+.bgcolor4, div.usecolor4 input.button, div.usecolor4 a.mockbutton, div.usecolor4 div.introductorybanner {background-color:#0891df;}
+.bgcolor5, div.usecolor5 input.button, div.usecolor5 a.mockbutton, div.usecolor5 div.introductorybanner {background-color:#9b08df;}
 div.usecolor1 a, h2.usecolor1 {color:#cd074d;}
 div.usecolor2 a, h2.usecolor2 {color:#ca8c07;}
 div.usecolor3 a, h2.usecolor3 {color:#97b800;}
@@ -345,7 +345,11 @@ td, th {padding:6px 5px 6px 5px;vertical-align:top;}
 ul.pagebasemenu {padding:0;margin-top:0;margin-bottom:1.5em;font-size:16px;font-weight:bold;line-height:1.5em;color:#999;}
 ul.pagebasemenu li {list-style-type:none;}
 ul.pagebasemenu ul {padding:0;margin-top:0;margin-bottom:0;font-size:0.8em;font-weight:normal;}
-.introductorybanner {padding:16px;height:120px;background-color:#fff;margin-bottom:24px;box-shadow:-2px 2px 2px #dededc;}
+.introductorybanner {position:relative;padding:33px 24px 40px 170px;height:auto;min-height:65px;background:#fff url(../images/top_right.png) right top no-repeat;margin-bottom:24px;box-shadow:-2px 2px 2px #dededc;font-size:17px;line-height:1.3em;color:#111;}
+.introductorybanner div.closelink {position:absolute;right:5px;bottom:4px;text-align:right;font-size:12px;}
+.introductorybanner div.closelink a {color:#fff;}
+.introductorybanner div.titlespc {position:absolute;left:10px;top:4px;font-size:11px;line-height:1.3em;color:#fff;}
+.introductorybanner h2 {font-size:32px;line-height:30px;margin:0 0 1px 0;padding:0;font-family:OstrichSansRoundedMedium,"helvetica neue",helvetica,arial,sans-serif;font-weight:normal;}
 
 /* FOOTER (base code taken from cssstickyfooter.com) */
 * {margin-top:0;padding:0;} 

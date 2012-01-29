@@ -1,3 +1,12 @@
+<?php
+$settings = $cash_admin->getUserSettings();
+if ($settings['banners'][BASE_PAGENAME]) {
+	echo '<div class="introductorybanner"><div class="titlespc"><h2>Elements</h2>manage your <b>contacts</b><br />create and maintain <b>lists</b><br />monitor <b>social</b> media</div>';
+	echo 'An app store for your site. Combine everything else and build functionality, check analytics for existing elements, and get embed codes to use your elements on your site.';
+	echo '<div class="closelink"><a href="?hidebanner=true">close <span class="icon x_alt"></span></a></div></div>';
+}
+?>
+
 <div class="col_oneoftwo">
 	<h2>Most Active Elements</h2>
 	<?php
