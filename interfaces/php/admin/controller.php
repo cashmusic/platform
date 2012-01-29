@@ -86,6 +86,14 @@ if (isset($_POST['login'])) {
 
 // make a few objects to use throughout the pages
 $cash_admin = new AdminCore($admin_primary_cash_request->sessionGet('cash_effective_user'));
+if (isset($_GET['hidebanner'])) {
+	$current_settings = $cash_admin->getUserSettings();
+	if (isset($current_settings['banners'][BASE_PAGENAME])) {
+		$current_settings['banners'][BASE_PAGENAME] = false;
+		$cash_admin->setUserSettings($current_settings);
+	}
+	echo BASE_PAGENAME;
+}
 
 // finally, output the template and page-specific markup (checking for current login)
 if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
