@@ -316,7 +316,8 @@ td, th {padding:6px 5px 6px 5px;vertical-align:top;}
 #helpmenu ul li a:hover {text-decoration:underline;color:#fff !important;}
 #mainhelplink {background-color:#ff0;padding:2px 9px 2px 9px;}
 #navmenu {position:absolute;top:0;left:50%;margin-left:-480px;width:730px;height:72px;text-align:left;color:#fff;text-align:right;font-size:11px;line-height:1.3em;z-index:500;}
-#navmenu .navitem {float:left;margin:0;padding:3px 8px;width:130px;height:66px;cursor:pointer;}
+#navmenu #contentmask {position:absolute;top:6px;left:0;width:100%;height:66px;background-color:rgba(250,250,248,0.85);z-index:10;}
+#navmenu .navitem {position:relative;float:left;margin:0;padding:3px 8px;width:130px;height:66px;cursor:pointer;z-index:100;}
 #navmenu .currentnav {background-image:url(../images/bot_left.png);background-position:left bottom;background-repeat:no-repeat;}
 #navmenu .navitem:hover {background-color:transparent;color:#000;background-image:none;}
 #navmenu h2 {font-size:32px;line-height:30px;margin:0;padding:0;font-family:OstrichSansRoundedMedium,"helvetica neue",helvetica,arial,sans-serif;font-weight:normal;}

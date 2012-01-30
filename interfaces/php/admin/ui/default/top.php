@@ -56,6 +56,7 @@
 				</div>
 			</div>
 			<div id="navmenu">
+				<div id="contentmask">&nbsp;</div>
 				<div class="navitem bgcolor1<?php echo ($dirname == 'elements' ? ' currentnav' : ''); ?>">
 					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/elements/">Elements</a></h2>
 					create<br />

@@ -10,7 +10,6 @@ if ($settings['banners'][BASE_PAGENAME]) {
 ?>
 
 <div class="col_oneofthree">
-	<h2>Welcome!</h2>
 	<p class="altcopystyle">
 	This is the default landing page. We'll keep this corner for news, updates, and system information.
 	</p><p class="altcopystyle"> 
@@ -100,26 +99,20 @@ if ($settings['banners'][BASE_PAGENAME]) {
 		?>
 </div><div class="col_oneoffour usecolor3">
 	<h2 class="usecolor3">People</h2>
-	<p class="fadedtext">
-		Dashboard interface coming soon. Please see the <a href="people/">People</a> section for more.
-	</p>
-	<!--
-	<p>
-		<b>List Name</b><br />
-		<span class="fadedtext">
-			Total members: 4321<br />
-			Last 7 days: 123<br />
-		</span>
-		<a href="#">view details</a>
-	</p><p>
-		<b>List Name</b><br />
-		<span class="fadedtext">
-			Total members: 4321<br />
-			Last 7 days: 123<br />
-		</span>
-		<a href="#">view details</a>
-	</p>
-	-->
+	<?php
+		if (count($lists_array)) {
+			foreach ($lists_array as $list) {
+				echo '<p><b>' . $list['name'] . '</b><br />';
+				echo '<span class="fadedtext">';
+				echo 'Total members: ' . $list['total'] . '<br />';
+				echo 'Last 7 days:' . $list['lastweek'] . '<br />';
+				echo '</span>';
+				echo '<a href="./people/lists/view/' . $list['id'] . '">view details</a></p>';
+			}
+		} else {
+			echo '<p class="fadedtext">There are no lists defined.</p>';
+		}
+	?>
 </div><div class="col_oneoffour usecolor4">
 	<h2 class="usecolor4">Commerce</h2>
 	<p class="fadedtext">
