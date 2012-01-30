@@ -141,9 +141,10 @@
 		if (!$settings_action || isset($_POST['dosettingsadd']) || isset($_POST['dosettingsedit']) || $settings_action == 'delete' ) {
 			echo '<h3>Current connections:</h3>';
 			if ($action_message) {
-				echo '<p class="highlightcopy">' . $action_message . '</p>';
+				echo '<p><span class="highlightcopy">' . $action_message . '</span></p>';
 			}
 			echo '<p>Here are the settings that have already been added:</p>';
+			$settings_for_user = $page_data_object->getAllConnectionsforUser();
 			if (is_array($settings_for_user)) {
 				foreach ($settings_for_user as $key => $data) {
 				?>

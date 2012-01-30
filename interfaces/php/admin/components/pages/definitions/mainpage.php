@@ -70,6 +70,38 @@ $eval_response = $cash_admin->requestAndStore(
 	'element_allelements'
 );
 
+$lists_response = new CASHRequest(
+	array(
+		'cash_request_type' => 'people', 
+		'cash_action' => 'getlistsforuser',
+		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
+	)
+);
+$lists_array = array();
+$lists_count = 1;
+foreach ($lists_response->response['payload'] as $list) {
+	$analytics_request = new CASHRequest(
+		array(
+			'cash_request_type' => 'people', 
+			'cash_action' => 'getanalytics',
+			'analtyics_type' => 'listmembership',
+			'list_id' => $list['id'],
+			'user_id' => AdminHelper::getPersistentData('cash_effective_user')
+		)
+	);
+	$lists_array[] = array(
+		'id' => $list['id'],
+		'name' => $list['name'],
+		'total' => $analytics_request->response['payload']['active'],
+		'lastweek' => $analytics_request->response['payload']['last_week']
+	);
+	unset($analytics_request);
+	$lists_count++;
+	if ($lists_count > 3) {
+		break;
+	}
+}
+
 // count the active elements
 if ($cash_admin->getStoredResponse('element_mostactive',true)) {
 	$cash_admin->storeData(count($cash_admin->getStoredResponse('element_mostactive',true)),'element_active_count');
