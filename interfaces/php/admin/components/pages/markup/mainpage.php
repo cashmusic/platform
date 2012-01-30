@@ -1,7 +1,11 @@
 <?php
 $settings = $cash_admin->getUserSettings();
-if ($settings['banners']['mainpage']) {
-	echo '<div class="introductorybanner">banner</div>';
+if ($settings['banners'][BASE_PAGENAME]) {
+	echo '<div class="mainpage introductorybanner"><img src="ui/default/assets/images/bg_mainpagebanner.jpg" class="bannerbg" alt="jackson" /><div class="mainbannercontent">';
+	echo '<a href="assets/" class="usecolor2">Assets</a>, your songs, photos, cover art, etc. <a href="people/" class="usecolor3">People</a>, fans, mailing lists, anyone you need to connect with on a regular basis. <a href="commerce/" class="usecolor4">Commerce</a> is where you’ll find info on all your orders. And <a href="calendar/" class="usecolor5">Calendar</a>, keeps a record of all your shows in one place.<br /><br />';
+	echo 'The last main category is <a href="elements/" class="usecolor1">Elements</a>, where Assets, People, Commerce, and Calendar can be combined to make customized tools for your site. Things like email collection, song players, and social feeds all just a copy/paste away.<br /><br />';
+	echo '<div class="moreinfospc">Need more info? Check out the <a href="help/gettingstarted/" class="helplink">Getting Started</a> page.</div>';
+	echo '</div><div class="closelink"><a href="mainpage?hidebanner=true">close <span class="icon x_alt"></span></a></div></div>';
 }
 ?>
 

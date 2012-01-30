@@ -1,6 +1,6 @@
 <?php
 // add unique page settings:
-$page_title = 'Main Page';
+$page_title = 'CASH Music: Main Page';
 $page_tips = 'Here\'s an overview of your account. Look for help tips on every page.';
 $page_data = array();
 
