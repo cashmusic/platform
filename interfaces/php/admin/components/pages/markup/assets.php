@@ -1,7 +1,7 @@
 <?php
 $settings = $cash_admin->getUserSettings();
 if ($settings['banners'][BASE_PAGENAME]) {
-	echo '<div class="introductorybanner"><div class="titlespc"><h2>Assets</h2>manage your <b>contacts</b><br />create and maintain <b>lists</b><br />monitor <b>social</b> media</div>';
+	echo '<div class="introductorybanner"><div class="titlespc"><h2>Assets</h2><b>upload</b> files<br /><b>organize</b> assets for use<br />add <b>tags</b> and <b>metadata</b></div>';
 	echo 'Enter details about all the files that matter to you, either on a connected S3 account or simple URLs. These assets will be used in the elements you define.';
 	echo '<div class="closelink"><a href="?hidebanner=true">close <span class="icon x_alt"></span></a></div></div>';
 }

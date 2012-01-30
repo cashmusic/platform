@@ -62,8 +62,8 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH))) {
 		}
 	}
 } else {
-	define('BASE_PAGENAME','');
-	$include_filename = 'dashboard.php';
+	define('BASE_PAGENAME','mainpage');
+	$include_filename = 'mainpage.php';
 }
 
 // if a login needs doing, do it
@@ -92,7 +92,6 @@ if (isset($_GET['hidebanner'])) {
 		$current_settings['banners'][BASE_PAGENAME] = false;
 		$cash_admin->setUserSettings($current_settings);
 	}
-	echo BASE_PAGENAME;
 }
 
 // finally, output the template and page-specific markup (checking for current login)

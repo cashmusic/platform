@@ -2,7 +2,7 @@
 $settings = $cash_admin->getUserSettings();
 if ($settings['banners'][BASE_PAGENAME]) {
 	echo '<div class="introductorybanner"><div class="titlespc"><h2>People</h2>manage your <b>contacts</b><br />create and maintain <b>lists</b><br />monitor <b>social</b> media</div>';
-	echo 'Connecting to people is the reason for all of this. Manage contacts on an individual basis or define lists to use for private login lists, mailing lists, etc.';
+	echo 'Manage contacts on an individual basis or define lists to use for private login lists, mailing lists, etc. ';
 	echo '<div class="closelink"><a href="?hidebanner=true">close <span class="icon x_alt"></span></a></div></div>';
 }
 ?>
