@@ -1,11 +1,11 @@
 <?php
 $settings = $cash_admin->getUserSettings();
 if ($settings['banners'][BASE_PAGENAME]) {
-	echo '<div class="mainpage introductorybanner"><img src="ui/default/assets/images/bg_mainpagebanner.jpg" class="bannerbg" alt="jackson" /><div class="mainbannercontent">';
-	echo '<a href="assets/" class="usecolor2">Assets</a>, your songs, photos, cover art, etc. <a href="people/" class="usecolor3">People</a>, fans, mailing lists, anyone you need to connect with on a regular basis. <a href="commerce/" class="usecolor4">Commerce</a> is where you’ll find info on all your orders. And <a href="calendar/" class="usecolor5">Calendar</a>, keeps a record of all your shows in one place.<br /><br />';
-	echo 'The last main category is <a href="elements/" class="usecolor1">Elements</a>, where Assets, People, Commerce, and Calendar can be combined to make customized tools for your site. Things like email collection, song players, and social feeds all just a copy/paste away.<br /><br />';
-	echo '<div class="moreinfospc">Need more info? Check out the <a href="help/gettingstarted/" class="helplink">Getting Started</a> page.</div>';
-	echo '</div><div class="closelink"><a href="mainpage?hidebanner=true">close <span class="icon x_alt"></span></a></div></div>';
+	echo '<div class="mainpage introductorybanner"><img src="' . ADMIN_WWW_BASE_PATH . '/ui/default/assets/images/bg_mainpagebanner.jpg" class="bannerbg" alt="jackson" /><div class="mainbannercontent">';
+	echo '<a href="' . ADMIN_WWW_BASE_PATH . '/assets/" class="usecolor2">Assets</a>, your songs, photos, cover art, etc. <a href="' . ADMIN_WWW_BASE_PATH . '/people/" class="usecolor3">People</a>, fans, mailing lists, anyone you need to connect with on a regular basis. <a href="' . ADMIN_WWW_BASE_PATH . '/commerce/" class="usecolor4">Commerce</a> is where you’ll find info on all your orders. And <a href="' . ADMIN_WWW_BASE_PATH . '/calendar/" class="usecolor5">Calendar</a>, keeps a record of all your shows in one place.<br /><br />';
+	echo 'The last main category is <a href="' . ADMIN_WWW_BASE_PATH . '/elements/" class="usecolor1">Elements</a>, where Assets, People, Commerce, and Calendar can be combined to make customized tools for your site. Things like email collection, song players, and social feeds all just a copy/paste away.<br /><br />';
+	echo '<div class="moreinfospc">Need more info? Check out the <a href="' . ADMIN_WWW_BASE_PATH . '/help/gettingstarted/" class="helplink">Getting Started</a> page.</div>';
+	echo '</div><div class="closelink"><a href="' . ADMIN_WWW_BASE_PATH . '/mainpage?hidebanner=true">close <span class="icon x_alt"></span></a></div></div>';
 }
 ?>
 
@@ -29,7 +29,7 @@ if ($settings['banners'][BASE_PAGENAME]) {
 		<b>Most Active</b>
 		<?php
 		$mostaccessed_response = $cash_admin->getStoredResponse('element_mostactive');
-		if ($mostaccessed_response['status_uid'] == 'element_getanalytics_200') {
+		if ((int) $cash_admin->getStoredData('element_active_count')) {
 			$loopcount = 1;
 			echo '<ol class="fadedtext">';
 			foreach ($mostaccessed_response['payload'] as $element) {
@@ -69,7 +69,7 @@ if ($settings['banners'][BASE_PAGENAME]) {
 	<b>Most Accessed</b>
 		<?php
 		$mostaccessed_response = $cash_admin->getStoredResponse('asset_mostaccessed');
-		if ($mostaccessed_response['status_uid'] == 'asset_getanalytics_200') {
+		if (is_array($mostaccessed_response['payload'])) {
 			$loopcount = 1;
 			echo '<ol class="fadedtext">';
 			foreach ($mostaccessed_response['payload'] as $asset) {
