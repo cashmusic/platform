@@ -7,7 +7,46 @@ if (isset($_POST['doelementedit'])) {
 	$twitter_feeds = array();
 	foreach ($_POST as $key => $value) {
 		if (substr($key,0,9) == 'tumblrurl' && $value !== '') {
-			$tumblr_feeds[] = $value;
+			$tag = $_POST[str_replace('tumblrurl','tumblrtag',$key)];
+			if (empty($tag)) {
+				$tag = false;
+			}
+			$post_types = array(
+				'regular' => false,
+				'link' => false,
+				'quote' => false,
+				'photo' => false,
+				'conversation' => false,
+				'video' => false,
+				'audio' => false,
+				'answer' => false
+			);
+			if (isset($_POST[str_replace('tumblrurl','post_type_regular',$key)])) {
+				$post_types['regular'] = true;
+			}
+			if (isset($_POST[str_replace('tumblrurl','post_type_link',$key)])) {
+				$post_types['link'] = true;
+			}
+			if (isset($_POST[str_replace('tumblrurl','post_type_quote',$key)])) {
+				$post_types['quote'] = true;
+			}
+			if (isset($_POST[str_replace('tumblrurl','post_type_photo',$key)])) {
+				$post_types['photo'] = true;
+			}
+			if (isset($_POST[str_replace('tumblrurl','post_type_video',$key)])) {
+				$post_types['video'] = true;
+			}
+			if (isset($_POST[str_replace('tumblrurl','post_type_audio',$key)])) {
+				$post_types['audio'] = true;
+			}
+			if (isset($_POST[str_replace('tumblrurl','post_type_answer',$key)])) {
+				$post_types['answer'] = true;
+			}
+			$tumblr_feeds[] = array(
+				'tumblrurl' => $value,
+				'tumblrtag' => $tag,
+				'post_types' => $post_types
+			);
 		}
 		if (substr($key,0,15) == 'twitterusername' && $value !== '') {
 			$twitterusername = str_replace('@','',$value);
@@ -28,6 +67,7 @@ if (isset($_POST['doelementedit'])) {
 	}
 	$all_feeds['tumblr'] = $tumblr_feeds;
 	$all_feeds['twitter'] = $twitter_feeds;
+	$all_feeds['post_limit'] = $_POST['post_limit'];
 	
 	$element_edit_request = new CASHRequest(
 		array(
@@ -73,9 +113,15 @@ if (isset($_POST['doelementedit'])) {
 		<input type="hidden" name="doelementedit" value="makeitso" />
 		<input type="hidden" name="element_id" value="<?php echo $page_data['id']; ?>">
 		<h3>Element Details</h3>
-	
-		<label for="element_name">Name</label><br />
-		<input type="text" id="element_name" name="element_name" value="<?php echo $page_data['name']; ?>" /> 
+
+		<div class="col_twoofthree">
+			<label for="element_name">Name</label><br />	
+			<input type="text" id="element_name" name="element_name" value="<?php echo $page_data['name']; ?>" /> 
+		</div>
+		<div class="col_oneofthree lastcol">
+			<label for="post_limit">Max posts returned</label><br />	
+			<input type="text" id="post_limit" name="post_limit" value="<?php echo $page_data['options']->{'post_limit'} ?>" /> 
+		</div>
 
 		<div class="row_seperator">.</div><br />
 		<div>
@@ -100,11 +146,11 @@ if (isset($_POST['doelementedit'])) {
 							break;
 					}
 					
-					echo "<div class='col_oneofthree'><input type='text' name='twitterusername$twitter_counter' value='{$tw->twitterusername}' /><br /><input type='checkbox' class='checkorradio' name='twitterhidereplies$twitter_counter' value=''$checkstring /> Hide @-replies?</div><div class='col_oneofthree'><select name='twitterfiltertype$twitter_counter'>$optionsstring</select></div><div class='col_oneofthree lastcol'><input type='text' name='twitterfiltervalue$twitter_counter' value='{$tw->twitterfiltervalue}' /></div><div class='row_seperator'>.</div><br />";
+					echo "<div class='col_oneofthree'><label>Username</label><input type='text' name='twitterusername$twitter_counter' value='{$tw->twitterusername}' /><br /><input type='checkbox' class='checkorradio' name='twitterhidereplies$twitter_counter' value=''$checkstring /> Hide @-replies?</div><div class='col_oneofthree'><label>Fliter?</label><select name='twitterfiltertype$twitter_counter'>$optionsstring</select></div><div class='col_oneofthree lastcol'><label>Fliter By</label><input type='text' name='twitterfiltervalue$twitter_counter' value='{$tw->twitterfiltervalue}' /></div><div class='row_seperator'>.</div><br />";
 					$twitter_counter = $twitter_counter+1;
 				}
 			?>
-			<a href="#" class="injectbefore" rel="<?php echo $twitter_counter; ?>" rev="<div class='col_oneoftwo'><input type='text' name='twitterusername' value='' placeholder='@username' /><br /><input type='checkbox' class='checkorradio' name='twitterhidereplies' value='' checked='checked' /> Hide @-replies?</div><div class='col_oneoftwo lastcol'><div class='col_oneoftwo'><select name='twitterfiltertype'><option value='none' selected='selected'>Do not filter</option><option value='contain'>Tweets containing:</option><option value='beginwith'>Tweets begin with:</option></select></div><div class='col_oneoftwo lastcol'><input type='text' name='twitterfiltervalue' value='' placeholder='Filter value' /></div></div><div class='row_seperator'>.</div><br />"><small>+ ADD TWITTER FEED</small></a>
+			<a href="#" class="injectbefore" rel="<?php echo $twitter_counter; ?>" rev="<div class='col_oneoftwo'><label>Username</label><input type='text' name='twitterusername' value='' placeholder='@username' /><br /><input type='checkbox' class='checkorradio' name='twitterhidereplies' value='' checked='checked' /> Hide @-replies?</div><div class='col_oneoftwo lastcol'><div class='col_oneoftwo'><label>Filter?</label><select name='twitterfiltertype'><option value='none' selected='selected'>Do not filter</option><option value='contain'>Tweets containing:</option><option value='beginwith'>Tweets begin with:</option></select></div><div class='col_oneoftwo lastcol'><label>Filter By</label><input type='text' name='twitterfiltervalue' value='' placeholder='Filter value' /></div></div><div class='row_seperator'>.</div><br />"><small>+ ADD TWITTER FEED</small></a>
 		</div>
 		<div class="row_seperator">.</div><br />
 		<div>
@@ -112,7 +158,15 @@ if (isset($_POST['doelementedit'])) {
 			<?php
 				$tumblr_counter = 1;
 				foreach ($page_data['options']->tumblr as $tu) {
-					echo "<input type='text' name='tumblrurl$tumblr_counter' value='$tu' />";
+					$checkstring = '';
+					foreach (array('regular','photo','video','link','audio','quote','answer') as $post_type) {
+						$checkstring .= "<input type='checkbox' class='checkorradio' name='post_type_$post_type$tumblr_counter' ";
+						if ($tu->post_types->{$post_type}) {
+							$checkstring .= "checked='checked'";
+						}
+						$checkstring .= " /> $post_type &nbsp;";
+					}
+					echo "<div class='col_twoofthree'><label>Tumblr URL</label><input type='text' name='tumblrurl$tumblr_counter' value='{$tu->tumblrurl}' /></div><div class='col_oneofthree lastcol'><label>Filter by tag</label><input type='text' name='tumblrtag$tumblr_counter' value='{$tu->tumblrtag}' placeholder='do not filter' /></div><br /><div><br /><br /><label>Post types</label><br />$checkstring</div><br /><br />";
 					$tumblr_counter = $tumblr_counter+1;
 				}
 			?>
@@ -121,7 +175,7 @@ if (isset($_POST['doelementedit'])) {
 		<div class="row_seperator">.</div>
 		<div>
 			<br />
-			<input class="button" type="submit" value="Add That Element" />
+			<input class="button" type="submit" value="Edit That Element" />
 		</div>
 
 	</form>

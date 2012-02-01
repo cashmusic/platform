@@ -26,7 +26,7 @@ if ($settings['banners'][BASE_PAGENAME]) {
 	<h2>Most Accessed</h2>
 		<?php
 		$mostaccessed_response = $cash_admin->getStoredResponse('asset_mostaccessed');
-		if ($mostaccessed_response['status_uid'] == 'asset_getanalytics_200') {
+		if (is_array($mostaccessed_response['payload'])) {
 			$loopcount = 1;
 			echo '<ol class="fadedtext">';
 			foreach ($mostaccessed_response['payload'] as $asset) {
