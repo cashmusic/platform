@@ -13,7 +13,7 @@ INSERT INTO `elements` (`id`, `user_id`, `name`, `type`, `options`, `license_id`
 VALUES (102, 1, 'Wild Flag tour dates', 'tourdates', '{"visible_event_types":"upcoming"}', 0, 1316730460, NULL);
 
 INSERT INTO `elements` (`id`, `user_id`, `name`, `type`, `options`, `license_id`, `creation_date`, `modification_date`)
-VALUES (103, 1, 'Palmer/Gaiman filtered social feeds', 'socialfeeds', '{"tumblr":[],"twitter":[{"twitterusername":"neilhimself","twitterhidereplies":false,"twitterfiltertype":"beginwith","twitterfiltervalue":"@amandapalmer"},{"twitterusername":"amandapalmer","twitterhidereplies":false,"twitterfiltertype":"beginwith","twitterfiltervalue":"@neilhimself"}]}', 0, 1317978017, NULL);
+VALUES (103, 1, 'Palmer/Gaiman filtered social feeds', 'socialfeeds', '{"tumblr":[],"twitter":[{"twitterusername":"neilhimself","twitterhidereplies":false,"twitterfiltertype":"beginwith","twitterfiltervalue":"@amandapalmer"},{"twitterusername":"amandapalmer","twitterhidereplies":false,"twitterfiltertype":"beginwith","twitterfiltervalue":"@neilhimself"}],"post_limit":"40"}', 0, 1317978017, NULL);
 
 
 
