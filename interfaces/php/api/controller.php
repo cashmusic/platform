@@ -1,6 +1,5 @@
 <?php
-$api_root = dirname(__FILE__);
-define('CASH_PLATFORM_ROOT', $api_root.'/../../../framework/php');
+define('CASH_PLATFORM_ROOT', dirname(__FILE__).'/../../../framework/php');
 
 // set up autoload for core classes
 function cash_autoloadCore($classname) {
