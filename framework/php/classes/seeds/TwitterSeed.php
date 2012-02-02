@@ -28,7 +28,32 @@ class TwitterSeed extends SeedBase {
 			}
 		}
 	}
-	
+
+	public function getUser($username,$extended_detail=false) {
+		$username = str_replace('@','',$username);
+		$endoint_url = 'https://api.twitter.com/users/show.json?screen_name=' . $username;
+		$user_data = json_decode(CASHSystem::getURLContents($endoint_url),true);
+		if ($user_data && !$extended_detail) {
+			// let's trim out some of the things we don't need
+			unset($user_data['status']);
+			unset($user_data['follow_request_sent']);
+			unset($user_data['profile_background_color']);
+			unset($user_data['profile_background_tile']);
+			unset($user_data['profile_sidebar_fill_color']);
+			unset($user_data['notifications']);
+			unset($user_data['default_profile_image']);
+			unset($user_data['show_all_inline_media']);
+			unset($user_data['profile_sidebar_border_color']);
+			unset($user_data['following']);
+			unset($user_data['is_translator']);
+			unset($user_data['profile_use_background_image']);
+			unset($user_data['profile_text_color']);
+			unset($user_data['profile_background_image_url']);
+			unset($user_data['profile_link_color']);
+		}
+		return $user_data;
+	}
+
 	public function getUserFeed($username,$exclude_replies=true,$count=200,$filtertype=false,$filter=false) {
 		if ($username) {
 			if ($filter) {
