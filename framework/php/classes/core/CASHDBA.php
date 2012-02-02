@@ -72,14 +72,14 @@ class CASHDBA {
 	
 	public function lookupTableName($data_name) {
 		$table_lookup = array(
+			'analytics' => 'system_analytics',
 			'assets' => 'assets',
 			'assets_analytics' => 'assets_analytics',
 			'connections' => 'system_connections',
 			'elements' => 'elements',
 			'elements_analytics' => 'elements_analytics',
 			'events' => 'calendar_events',
-			'system_lock_codes' => 'system_lock_codes',
-			'system_lock_passwords' => 'system_lock_passwords',
+			'lock_codes' => 'system_lock_codes',
 			'metadata' => 'system_metadata',
 			'settings' => 'system_settings',
 			'users' => 'people',

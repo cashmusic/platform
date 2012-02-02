@@ -286,7 +286,9 @@ CREATE TABLE people_resetpassword (
 CREATE TABLE system_analytics (
   id INTEGER PRIMARY KEY,
   type text,
-  value text,
+  filter text,
+  primary_value text,
+  details text,
   user_id integer,
   scope_table_alias text DEFAULT NULL,
   scope_table_id integer DEFAULT NULL,
