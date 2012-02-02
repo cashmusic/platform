@@ -348,7 +348,7 @@ class ElementPlant extends PlantBase {
 	 * @return string
 	 */protected function getLastLockCodeUID() {
 		$result = $this->db->getData(
-			'system_lock_codes',
+			'lock_codes',
 			'uid',
 			array(
 				"list_id" => array(
@@ -418,7 +418,7 @@ class ElementPlant extends PlantBase {
 
 	protected function verifyUniqueLockCodeUID($lookup_uid) {
 		$result = $this->db->getData(
-			'system_lock_codes',
+			'lock_codes',
 			'uid',
 			array(
 				"uid" => array(
@@ -446,7 +446,7 @@ class ElementPlant extends PlantBase {
 		$uid = $this->getNextLockCodeUID();
 		if ($uid) {
 			$result = $this->db->setData(
-				'system_lock_codes',
+				'lock_codes',
 				array(
 					'uid' => $uid,
 					'asset_id' => $asset_id
@@ -515,7 +515,7 @@ class ElementPlant extends PlantBase {
 	protected function getLockCodeDetails($uid,$asset_id) {
 		return $this->db->doQueryForAssoc($query);
 		$result = $this->db->getData(
-			'system_lock_codes',
+			'lock_codes',
 			'*',
 			array(
 				"uid" => array(

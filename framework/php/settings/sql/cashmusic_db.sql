@@ -337,7 +337,9 @@ DROP TABLE IF EXISTS `system_analytics`;
 CREATE TABLE `system_analytics` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(255) NOT NULL,
-  `value` text NOT NULL,
+  `filter` varchar(255) NOT NULL,
+  `primary_value` varchar(255) NOT NULL,
+  `details` text NOT NULL,
   `user_id` int(11) NOT NULL,
   `scope_table_alias` text DEFAULT NULL,
   `scope_table_id` int(11) DEFAULT NULL,
