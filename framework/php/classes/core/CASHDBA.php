@@ -29,7 +29,7 @@ class CASHDBA {
 			$this->hostname = $hostname;
 			$this->port = 3306;
 		} else {
-			if (substr($this->hostname,0,2) == ':/') {
+			if (substr($hostname,0,2) == ':/') {
 				$this->hostname = $hostname;
 			} else {
 				$host_and_port = explode(':',$hostname);
@@ -113,6 +113,113 @@ class CASHDBA {
 				return false;
 			} else {
 				return $result;
+			}
+		}
+	}
+	
+	public function getRealTableNames() {
+		if ($this->driver == 'sqlite') {
+			$query = 'SELECT name FROM sqlite_master WHERE type=\'table\'';
+		} else {
+			$query = 'SELECT DISTINCT(table_name) FROM information_schema.columns WHERE table_schema = \'' . $this->dbname . '\'';
+		}
+		if (!is_object($this->db)) {
+			$this->connect();
+		}
+		$result = $this->doQuery($query);
+		if (is_array($result)) {
+			// if we got a result, get ready to strip it to just an array of table names
+			$names_only = array();
+			foreach ($result as $table) {
+				// this removes text text key and makes the value easier to reference consistently
+				$stripped_table = array_values($table);
+				$names_only[] = $stripped_table[0];
+			}
+			// sort alphabetically to return consistent results no matter the DB engine
+			sort($names_only);
+			return $names_only;
+		} else {
+			return false;
+		}
+	}
+	
+	public function migrateDB($todriver='mysql',$tosettings=false) {
+		/* for mysql we're expecting a $tosettings array that looks like:
+		   hostname => hostname[:port]
+		   username => username
+		   password => password
+		   database => databasename
+		*/
+		if ($todriver != 'mysql' || !is_array($tosettings)) {
+			return false;
+		} else {
+			$newdb_hostname = false;
+			$newdb_port = false;
+			if (strpos($tosettings['hostname'],':') === false) {
+				$newdb_hostname = $tosettings['hostname'];
+				$newdb_port = 3306;
+			} else {
+				if (substr($tosettings['hostname'],0,2) == ':/') {
+					$newdb_hostname = $tosettings['hostname'];
+				} else {
+					$host_and_port = explode(':',$tosettings['hostname']);
+					$newdb_hostname = $host_and_port[0];
+					$newdb_port = $host_and_port[1];
+				}
+			}
+			if ($newdb_hostname) {
+				try {  
+					if (substr($this->hostname,0,2) == ':/') {
+						$newdb = new PDO("$todriver:unix_socket=$newdb_hostname;dbname={$tosettings['database']}", $tosettings['username'], $tosettings['password']);
+					} else {
+						$newdb = new PDO("$todriver:host=$newdb_hostname;port=$newdb_port;dbname={$tosettings['database']}", $tosettings['username'], $tosettings['password']);
+					}
+					$newdb->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+				} catch(PDOException $e) {  
+					return false;
+				}
+				// run the baseline sql file — will blow away any old bullshit but leave non-standard tables
+				if ($newdb->query(file_get_contents(CASH_PLATFORM_ROOT.'/settings/sql/cashmusic_db.sql'))) {
+					// begin a transaction for the newdb
+					$newdb->beginTransaction();
+					// get all the current tables
+					$current_tables = $this->getRealTableNames();
+					foreach ($current_tables as $tablename) {
+						// looping through and starting the CRAAAAZZZZEEEEEE
+						// first get all data in the current table
+						$tabledata = $this->doQuery('SELECT * FROM ' . $tablename);
+						// now jam that junk into an insert on the new 
+						if (is_array($tabledata)) {
+							echo 'trying ' . $tablename . '<br />';
+							foreach ($tabledata as $data) {
+								$query = "INSERT INTO $tablename (";
+								$separator = '';
+								$query_columns = '';
+								$query_values = '';
+								foreach ($data as $fieldname => $value) {
+									$query_columns .= $separator.$fieldname;
+									$query_values .= $separator.':'.$fieldname;
+									$separator = ',';
+								}
+								$query .= "$query_columns) VALUES ($query_values)";
+								try {  
+									$q = $newdb->prepare($query);
+									$q->execute($data);
+								} catch(PDOException $e) {
+									var_dump($e);
+									var_dump($query);
+									$newdb->rollBack();
+									return false;
+								}
+							}
+						}
+					}
+					// fuckin a right.
+					$result = $newdb->commit();
+					return $result;
+				}
+			} else {
+				return false;
 			}
 		}
 	}

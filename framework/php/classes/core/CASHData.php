@@ -13,7 +13,7 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  */abstract class CASHData {
-	protected $db = false,
+	public $db = false,
 			  $cash_session_timeout = 1800,
 			  $cache_enabled = false,
 			  $cache_dir = null;
@@ -30,7 +30,7 @@
 	 * opens the appropriate connection
 	 *
 	 * @return void
-	 */protected function connectDB() {
+	 */public function connectDB() {
 		$cash_db_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
 		require_once(CASH_PLATFORM_ROOT.'/classes/core/CASHDBA.php');
 		$this->db = new CASHDBA(
