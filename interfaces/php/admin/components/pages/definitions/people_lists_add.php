@@ -17,6 +17,5 @@ if (isset($_POST['dolistadd'])) {
 			'user_id' => $effective_user,
 		)
 	);
-	var_dump($list_add_request->response);
 }
 ?>

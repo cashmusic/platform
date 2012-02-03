@@ -33,6 +33,7 @@ class SystemPlant extends PlantBase {
 				'deletesettings'          => array('deleteSettings','direct'),
 				'getapicredentials'       => array('getAPICredentials','direct'),
 				'getsettings'             => array('getSettings','direct'),
+				'migratedb'               => array('doMigrateDB','direct'),
 				'setapicredentials'       => array('setAPICredentials','direct'),
 				'setlogincredentials'     => array('setLoginCredentials','direct'),
 				'setsettings'             => array('setSettings','direct'),
@@ -71,6 +72,10 @@ class SystemPlant extends PlantBase {
 				'no action specified'
 			);
 		}
+	}
+	
+	protected function doMigrateDB($todriver,$tosettings) {
+		return $this->db->migrateDB($todriver,$tosettings);
 	}
 	
 	/**
