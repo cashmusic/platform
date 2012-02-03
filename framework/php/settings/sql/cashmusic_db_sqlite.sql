@@ -244,6 +244,24 @@ CREATE TABLE people_analytics (
   modification_date integer DEFAULT '0'
 );
 
+CREATE TABLE people_contacts (
+  id INTEGER PRIMARY KEY,
+  user_id integer DEFAULT '0',
+  email_address text,
+  first_name text,
+  last_name text,
+  organization text,
+  address_line1 text,
+  address_line2 text,
+  address_city text,
+  address_region text,
+  address_postalcode text,
+  address_country text,
+  notes text,
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT NULL
+);
+
 CREATE TABLE people_lists (
   id INTEGER PRIMARY KEY,
   name text DEFAULT '',

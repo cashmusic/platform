@@ -232,8 +232,8 @@ CREATE TABLE `elements_analytics` (
 DROP TABLE IF EXISTS `people`;
 CREATE TABLE `people` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
-  `password` char(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `email_address` varchar(255) NOT NULL DEFAULT '',
+  `password` char(64) NOT NULL DEFAULT '',
   `username` varchar(32) NOT NULL DEFAULT '',
   `display_name` varchar(255),
   `first_name` varchar(255),
@@ -246,8 +246,8 @@ CREATE TABLE `people` (
   `address_postalcode` varchar(255),
   `address_country` varchar(255),
   `is_admin` bool NOT NULL DEFAULT '0',
-  `api_key` char(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
-  `api_secret` char(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `api_key` char(64) DEFAULT '',
+  `api_secret` char(64) DEFAULT '',
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
