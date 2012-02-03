@@ -188,9 +188,9 @@ class CASHDBA {
 						// looping through and starting the CRAAAAZZZZEEEEEE
 						// first get all data in the current table
 						$tabledata = $this->doQuery('SELECT * FROM ' . $tablename);
-						// now jam that junk into an insert on the new 
+						// now jam that junk into an insert on the new db
 						if (is_array($tabledata)) {
-							echo 'trying ' . $tablename . '<br />';
+							// we found data, so loop through each one with an insert
 							foreach ($tabledata as $data) {
 								$query = "INSERT INTO $tablename (";
 								$separator = '';
@@ -206,8 +206,7 @@ class CASHDBA {
 									$q = $newdb->prepare($query);
 									$q->execute($data);
 								} catch(PDOException $e) {
-									var_dump($e);
-									var_dump($query);
+									// something went wrong. roll back and quit
 									$newdb->rollBack();
 									return false;
 								}
@@ -216,7 +215,17 @@ class CASHDBA {
 					}
 					// fuckin a right.
 					$result = $newdb->commit();
-					return $result;
+					if ($result) {
+						CASHSystem::setSystemSetting('driver',$todriver);
+						CASHSystem::setSystemSetting('hostname',$tosettings['hostname']);
+						CASHSystem::setSystemSetting('username',$tosettings['username']);
+						CASHSystem::setSystemSetting('password',$tosettings['password']);
+						CASHSystem::setSystemSetting('database',$tosettings['database']);
+						return $result;
+					} else {
+						return $result;
+					}
+					
 				}
 			} else {
 				return false;
