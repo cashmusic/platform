@@ -24,14 +24,26 @@ requirements:
 ## (Really) Quick Start
 To get your hands on a working instance as quickly as possible, fork/clone this 
 repo and once it's local run /installers/php/dev_installer.php from the command 
-line ("php path/to/DIY//installers/php/dev_installer.php") — choose the SQLite 
-install option and supply an email for the admin login. Next just point Apache or 
-MAMP at the main repo directory and view http://localhost/ in a browser.
+
+```php
+php path/to/DIY//installers/php/dev_installer.php
+````
+
+choose the SQLite install option and supply an email for the admin login. 
+Next just point Apache or MAMP at the main repo directory and view http://localhost/ 
+in a browser.
+
+## Web Installer
+
+We've included a web installer specifically meant for installing the CASH platform 
+to a remote host. To use, simply download it [here](https://github.com/cashmusic/DIY/downloads), 
+FTP to your web host, create a folder for it, and visit in a web browser. The 
+installer will do the rest. 
 
 ## Notes
 
 Most of the code is currently found in framework/php/ and centers around a
-single-include workflow, which means the only thing you need to do to add CM to
+single-include workflow, which means the only thing you need to do to add CASH to
 your site/page is include this single file:
 
     // this loads CASH Music DIY
