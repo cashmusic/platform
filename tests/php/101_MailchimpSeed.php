@@ -9,7 +9,7 @@ class MailchimpTests extends UnitTestCase {
 			$api_key=false;
 	
 	function __construct() {
-		$this->api_key = getenv("MAILCHIMP_API_KEY");
+		$this->api_key = getTestEnv("MAILCHIMP_API_KEY");
 		$c = new CASHConnection($this->cash_user_id); // the '1' sets a user id=1
 		$this->mailchimp_connection_id = $c->setSettings('MailChimp', 'com.mailchimp',
 			array( "key" => $this->api_key, "list" => $this->test_id ) );

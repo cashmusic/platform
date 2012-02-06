@@ -5,3 +5,4 @@ framework/php/cache/*
 framework/php/settings/cashmusic.ini.php
 framework/db/*
 framework/php/db/*
+tests/php/__test_environment.json
