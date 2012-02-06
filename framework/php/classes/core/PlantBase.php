@@ -94,6 +94,54 @@
 		return true;
 	}
 
+	/**
+	 * Returns an array of all allowed requests for the child class
+	 *
+	 * @return array
+	 */public function profileRequests() {
+		if (empty($routing_table)) {
+			// set a bogus action, fire procesRequest to set routing table
+			$this->action = 'profileallowedrequests';
+			$this->processRequest();
+		}
+		// this will hold all found requests
+		$requests = array();
+		// cycle through the entire routing table
+		if (is_array($this->routing_table)) {
+			foreach ($this->routing_table as $route => $details) {
+				$target_method = $details[0];
+				$allowed_methods = $details[1];
+
+				// reflect the target method for each route, returning an array of params
+				$method = new ReflectionMethod(get_class($this), $target_method);
+				$params = $method->getParameters();
+				$final_parameters = array();
+				foreach ($params as $param) {
+					// $param is an instance of ReflectionParameter
+					$param_name = $param->getName();
+					$param_optional = false;
+					$param_default = null;
+					if ($param->isOptional()) {
+						$param_optional = true;
+						$param_default = $param->getDefaultValue();
+					}
+					$final_parameters[$param_name] = array(
+						'optional' => $param_optional,
+						'default' => $param_default
+					);
+				}
+				// add to the final array of acceptable requests
+				$requests[$route] = array(
+					'allowed_methods' => $allowed_methods,
+					'parameters' => $final_parameters
+				);
+			}
+			return $requests;
+		} else {
+			return false;
+		}
+	}
+
 	public function routeBasicRequest() {
 		if (isset($this->routing_table[$this->action])) {
 			if (!$this->checkRequestMethodFor($this->routing_table[$this->action][1])) { 
