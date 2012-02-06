@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><?php echo $page_title ?></title>
+	<title><?php if (isset($page_title)) { echo $page_title; } else { echo 'CASH Music'; } ?></title>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	
@@ -99,6 +99,7 @@
 			<div id="tipspc">
 				<div id="pagetips">
 					<?php
+						if (!isset($page_tips)) { $page_tips = ''; }
 						if ($page_tips == '') {
 							echo 'There are no tips currently written for this page. If you\'d like to suggest a specific idea, please email <a href="mailto:help@cashmusic.org">help@cashmusic.org</a>.';
 						} else {
@@ -112,7 +113,7 @@
 		</div>
 		
 		<div id="pagecontent">
-			<h1><?php echo $page_title ?></h1>
+			<h1><?php if (isset($page_title)) { echo $page_title; } else { echo ''; } ?></h1>
 			<?php
 				$is_menu_set = ' class="nopagemenu"';
 				$page_base = BASE_PAGENAME;
