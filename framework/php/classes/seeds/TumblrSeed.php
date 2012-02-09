@@ -102,12 +102,12 @@ class TumblrSeed extends SeedBase {
 				break;
 			case 'photo':
 				$innermarkup = "<div class=\"cashmusic_social cashmusic_tumblr\">"
-				. '<div class="cashmusic_social_photo"><a><img src="' . $post->{'photo-url-500'} . '" width="100%" alt="" /><br />' . $post->{'photo-caption'} . '</div><div class="cashmusic_social_date"><a href="' . $post->{'url-with-slug'} . '" target="_blank">' . CASHSystem::formatTimeAgo($post->{'unix-timestamp'}) . ' / tumblr</a> </div>'
+				. '<div class="cashmusic_social_photo"><img src="' . $post->{'photo-url-500'} . '" width="100%" alt="" /><br />' . $post->{'photo-caption'} . '</div><div class="cashmusic_social_date"><a href="' . $post->{'url-with-slug'} . '" target="_blank">' . CASHSystem::formatTimeAgo($post->{'unix-timestamp'}) . ' / tumblr</a> </div>'
 				. '<div class="cashmusic_clearall">.</div></div>';
 				break;
 			case 'video':
 				$innermarkup = "<div class=\"cashmusic_social cashmusic_tumblr\">"
-				. '<div class="cashmusic_social_video"><a><div class="cashmusic_social_video_container">' . $post->{'video-player'} . '</div><br />' . $post->{'video-caption'} . '</div><div class="cashmusic_social_date"><a href="' . $post->{'url-with-slug'} . '" target="_blank">' . CASHSystem::formatTimeAgo($post->{'unix-timestamp'}) . ' / tumblr</a> </div>'
+				. '<div class="cashmusic_social_video"><div class="cashmusic_social_video_container">' . $post->{'video-player'} . '</div><br />' . $post->{'video-caption'} . '</div><div class="cashmusic_social_date"><a href="' . $post->{'url-with-slug'} . '" target="_blank">' . CASHSystem::formatTimeAgo($post->{'unix-timestamp'}) . ' / tumblr</a> </div>'
 				. '<div class="cashmusic_clearall">.</div></div>';
 				break;
 			case 'audio':
