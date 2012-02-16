@@ -323,21 +323,21 @@
 			$ch = curl_init();
 			$timeout = 5;
 			
-			curl_setopt($ch,CURLOPT_URL,$data_url);
+			@curl_setopt($ch,CURLOPT_URL,$data_url);
 			if ($do_post) {
 				curl_setopt($ch,CURLOPT_POST,$post_length);
 				curl_setopt($ch,CURLOPT_POSTFIELDS,$post_query);
 			}
-			curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,$timeout);
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-			curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-			curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+			@curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
+			@curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+			@curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,$timeout);
+			@curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+			@curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+			@curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
 			if ($ignore_errors) {
-				curl_setopt($ch, CURLOPT_FAILONERROR, false);
+				@curl_setopt($ch, CURLOPT_FAILONERROR, false);
 			} else {
-				curl_setopt($ch, CURLOPT_FAILONERROR, true);
+				@curl_setopt($ch, CURLOPT_FAILONERROR, true);
 			}
 			$data = curl_exec($ch);
 			curl_close($ch);

@@ -133,7 +133,7 @@
 		// pass basic no-cache headers
 		header("Cache-Control: no-store, no-cache, must-revalidate, private");
 		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
-		
+
 		// check the parsed_url to see if things are good
 		if ($parsed_url) {
 			// make a request based on the parsed url data

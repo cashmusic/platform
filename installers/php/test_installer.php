@@ -21,6 +21,8 @@
 if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 	echo "Please run installer from the command line. usage:<br / >&gt; php installers/php/test_installer.php";
 } else {
+	require_once(dirname(__FILE__) .'/../../tests/php/functions.php');
+	
 	function findReplaceInFile($filename,$find,$replace) {
 		if (is_file($filename)) {
 			$file = file_get_contents($filename);
@@ -172,7 +174,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 
 		// move source files into place
 		$file_write_success = false;
-		$test_url   = getenv("CASHMUSIC_TEST_URL");
+		$test_url   = getTestEnv("CASHMUSIC_TEST_URL");
 		if (!$test_url) { $test_url   = "http://dev.cashmusic.org:8080"; }
 		if (
 			findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','driver = "mysql','driver = "sqlite') &&
