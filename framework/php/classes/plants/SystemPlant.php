@@ -172,6 +172,9 @@ class SystemPlant extends PlantBase {
 				'is_admin' => $is_admin
 			)
 		);
+		if ($result && $is_admin) {
+			$this->setAPICredentials($result);
+		}
 		return $result;
 	}
 

@@ -27,17 +27,18 @@ class PeoplePlant extends PlantBase {
 				// alphabetical for ease of reading
 				// first value  = target method to call
 				// second value = allowed request methods (string or array of strings)
-				'addaddresstolist'  => array('addAddress','direct'),
-				'addlist'           => array('addList','direct'),
-				'deletelist'        => array('deleteList','direct'),
-				'editlist'          => array('editList','direct'),
-				'getanalytics'      => array('getAnalytics','direct'),
-				'getlistsforuser'   => array('getListsForUser','direct'),
-				'getlist'           => array('getList',array('direct','api_key')),
-				'getuser'           => array('getUser',array('direct','api_key')),
-				'processwebhook'    => array('processWebhook',array('direct','api_key')),
-				'signintolist'      => array('validateUserForList',array('post','direct','api_key')),
-				'verifyaddress'     => array('doAddressVerification','direct'),
+				'addaddresstolist'   => array('addAddress','direct'),
+				'addlist'            => array('addList','direct'),
+				'deletelist'         => array('deleteList','direct'),
+				'editlist'           => array('editList','direct'),
+				'getaddresslistinfo' => array('getAddressListInfo','direct'),
+				'getanalytics'       => array('getAnalytics','direct'),
+				'getlistsforuser'    => array('getListsForUser','direct'),
+				'getlist'            => array('getList',array('direct','api_key')),
+				'getuser'            => array('getUser',array('direct','api_key')),
+				'removeaddress'      => array('removeAddress','direct'),
+				'signintolist'       => array('validateUserForList',array('post','direct','api_key')),
+				'verifyaddress'      => array('doAddressVerification','direct'),
 			);
 			// see if the action matches the routing table:
 			$basic_routing = $this->routeBasicRequest();
@@ -106,6 +107,15 @@ class PeoplePlant extends PlantBase {
 							return $this->pushSuccess($payload_data,'success. list included in payload');
 						} else {
 							return $this->pushFailure('there was an error retrieving the list');
+						}
+						break;
+					case 'processwebhook':
+						if (!$this->checkRequestMethodFor('direct','api_key')) return $this->sessionGetLastResponse();
+						$result = $this->processWebhook($this->request);
+						if ($result) {
+							return $this->pushSuccess($result,'processed');
+						} else {
+							return $this->pushFailure('there was an error');
 						}
 						break;
 					default:
@@ -238,6 +248,11 @@ class PeoplePlant extends PlantBase {
 			$connection_type = $this->getConnectionType($connection_id);
 			switch($connection_type) {
 				case 'com.mailchimp':
+					//
+					//
+					//
+					// TO-DO: autoload not firing??? Works for S3Seed,throws error or MailchimpSeed
+					require_once(dirname(__FILE__) . '/../seeds/MailchimpSeed.php');
 					$mc = new MailchimpSeed($user_id, $connection_id);
 					return array('connection_type' => $connection_type, 'api' => $mc);
 					break;
@@ -260,7 +275,7 @@ class PeoplePlant extends PlantBase {
 					$mc = $api_connection['api'];
 					// webhooks
 					$api_credentials = CASHSystem::getAPICredentials();
-					$webhook_api_url = CASH_API_URL . 'people/processwebhook/origin/com.mailchimp/list_id/' . $list_id . '/api_key/' . $api_credentials['api_key'];
+					$webhook_api_url = CASH_API_URL . 'verbose/people/processwebhook/origin/com.mailchimp/list_id/' . $list_id . '/api_key/' . $api_credentials['api_key'];
 					if ($action == 'remove') {
 						return $mc->listWebhookDel($webhook_api_url);
 					} else {
@@ -322,7 +337,7 @@ class PeoplePlant extends PlantBase {
 	 * @param {int} $list_id - the list
 	 * @return bool
 	 */protected function verifyListOwner($user_id,$list_id) {
-		$list_details = $this->getList($this->request['id']);
+		$list_details = $this->getList($list_id);
 		if ($list_details) {
 			if ($list_details['user_id'] == $user_id) {
 				return true;
@@ -462,7 +477,7 @@ class PeoplePlant extends PlantBase {
 	 * @param {string} $additional_data -   any extra data (JSON, etc) a dev might pass with signup for later use
 	 * @param {string} $name -              if the user doesn't exist in the system this will be used as their display name
 	 * @return bool
-	 */protected function addAddress($address,$list_id,$do_not_verify=false,$initial_comment='',$additional_data='',$name='Anonymous',$force_verification_url=false) {
+	 */protected function addAddress($address,$list_id,$do_not_verify=false,$initial_comment='',$additional_data='',$name='Anonymous',$force_verification_url=false,$request_from_service=false,$service_opt_in=true) {
 		if (filter_var($address, FILTER_VALIDATE_EMAIL)) {
 			// first check to see if the email is already on the list
 			$user_id = $this->getUserIDForAddress($address);
@@ -497,21 +512,19 @@ class PeoplePlant extends PlantBase {
 							'active' => 1
 						)
 					);
-					if ($result) {
+					if ($result && !$request_from_service) {
 						if ($do_not_verify) {
 							$api_connection = $this->getConnectionAPI($list_id);
-							$rc             = -1;
 							if ($api_connection) {
 								// connection found, api instantiated
 								switch($api_connection['connection_type']) {
 									case 'com.mailchimp':
 										$mc = $api_connection['api'];
-										// TODO: this is currently hardcoded to require a double opt-in
-										$rc = $mc->listSubscribe($address, $merge_vars=null, $email_type=null, $double_optin=true);
+										// mailchimp found. subscribe user and request opt-in
+										// error_log(json_encode($mc));
+										$rc = $mc->listSubscribe($address, null, null, $service_opt_in);
+										// error_log(json_encode($rc));
 										break;
-								}
-								if (!$rc) {
-									// TODO: try again?
 								}
 							}
 						} else {
@@ -823,13 +836,16 @@ class PeoplePlant extends PlantBase {
 					if (!empty($mailchimp_details['merges']['FNAME'])) {
 						$user_name = $mailchimp_details['merges']['FNAME'] . ' ' . $mailchimp_details['merges']['LNAME'];
 					}
+					$mailchimp_details['source'] = 'com.mailchimp';
 					$result = $this->addAddress(
 						$mailchimp_details['email'],
 						$incoming_request['list_id'],
 						1, // verified. trust all users from mailchimp
 						'', // no initial comment
-						'{"source":"com.mailchimp"}', // might as well store where it came from
-						$user_name // this is the display name we put together up there a bit
+						json_encode($mailchimp_details), // might as well store where it came from
+						$user_name, // this is the display name we put together up there a bit,
+						false, // don't need to verify
+						true // tell the function that the add came from the service, no verification needed
 					);
 					if ($result) {
 						return true;
