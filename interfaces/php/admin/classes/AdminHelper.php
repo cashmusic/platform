@@ -13,7 +13,7 @@
  *
  */abstract class AdminHelper  {
 
-	public function doLogin($email_address,$password,$require_admin=true) {
+	public static function doLogin($email_address,$password,$require_admin=true) {
 		$login_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'system', 
@@ -30,7 +30,7 @@
 	 * Returns metadata for all elements in a keyed array
 	 *
 	 * @return array | false
-	 */public function getElementsData() {
+	 */public static function getElementsData() {
 		$elements_dirname = CASH_PLATFORM_ROOT.'/elements';
 		if ($elements_dir = opendir($elements_dirname)) {
 			$tmpArray = array();
@@ -84,7 +84,7 @@
 	/**
 	 * Performs a sessionGet() CASH Request for the specified variable
 	 *
-	 */public function getPersistentData($var) {
+	 */public static function getPersistentData($var) {
 		$helper_cash_request = new CASHRequest(null);
 		$result = $helper_cash_request->sessionGet($var);
 		unset($helper_cash_request);
@@ -95,7 +95,7 @@
 	 * Finds settings matching a specified scope and echoes them out formatted
 	 * for a dropdown box in a form
 	 *
-	 */public function echoSettingsOptions($scope,$selected=false) {
+	 */public static function echoSettingsOptions($scope,$selected=false) {
 		// get system settings:
 		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
 		$settings_types_data = $page_data_object->getConnectionTypes($scope);
@@ -124,7 +124,7 @@
 	 * at the speed of light — it'll make a supersonic nerd of you. Don't stop it.
 	 *
 	 * @return array
-	 */public function echoFormOptions($base_type,$selected=0) {
+	 */public static function echoFormOptions($base_type,$selected=0) {
 		switch ($base_type) {
 			case 'assets':
 				$plant_name = 'asset';
@@ -161,7 +161,7 @@
 		unset($echoformoptions_cash_request);
 	}
 
-	public function createdModifiedFromRow($row,$top=false) {
+	public static function createdModifiedFromRow($row,$top=false) {
 		$addtoclass = '';
 		if ($top) { $addtoclass = '_top'; }
 		$markup = '<div class="smalltext fadedtext created_mod' . $addtoclass . '">Created: ' . date('M jS, Y',$row['creation_date']); 
@@ -172,7 +172,7 @@
 		return $markup;
 	}
 
-	public function parseMetaData($post_data) {
+	public static function parseMetaData($post_data) {
 		$metadata_and_tags = array(
 			'metadata_details' => array(),
 			'tags_details' => array()
@@ -192,7 +192,7 @@
 		return $metadata_and_tags;
 	}
 
-	public function drawCountryCodeUL($selected='USA') {
+	public static function drawCountryCodeUL($selected='USA') {
 		$all_codes = array(
 			'USA',
 			'Brazil',
@@ -413,7 +413,7 @@
 		return $all_options;
 	}
 
-	public function drawTimeZones($selected='US/Pacific') {
+	public static function drawTimeZones($selected='US/Pacific') {
 		$all_zones = array(
 			'US/Alaska',
 			'US/Arizona',
@@ -542,7 +542,7 @@
 		return $all_options;
 	}
 
-	public function simpleULFromResponse($response,$compact=false,$limit=false) {
+	public static function simpleULFromResponse($response,$compact=false,$limit=false) {
 		$markup = '';
 		if ($response['status_code'] == 200) {
 			// spit out the dates
