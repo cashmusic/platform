@@ -19,7 +19,6 @@
 			</p>
 
 	<?php 
-		var_dump($asset_edit_request);
 		}
 	}
 	if ($current_asset) {
