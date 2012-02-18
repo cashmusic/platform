@@ -22,7 +22,6 @@ if ($current_response['status_uid'] == 'people_getlist_200') {
 	if (isset($_POST['dolistedit'])) {
 		// do the actual list add stuffs...
 		$effective_user = AdminHelper::getPersistentData('cash_effective_user');
-		var_dump($_POST);
 		$list_edit_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'people', 
