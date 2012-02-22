@@ -143,7 +143,10 @@ be available.
 
 Separate schemas are maintained for SQLite and MySQL out of necessity.
 
+## Copyright
+
+CASH Music DIY is (c) 2010-2012 CASH Music
+
 ## License
 
-CASH Music DIY is (c) 2010-2012 CASH Music, licensed under a AGPL license:
-<http://www.gnu.org/licenses/agpl-3.0.html>
+Licensed under the [AGPL license](http://www.gnu.org/licenses/agpl-3.0.html)
