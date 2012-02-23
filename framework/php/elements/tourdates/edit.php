@@ -1,5 +1,9 @@
 <?php 
 $page_data = $cash_admin->getStoredResponse('originalelement',true);
+// max_display_dates was not present in v1 of this element, check for backwards compatibility
+if (!isset($page_data['max_display_dates'])) {
+	$page_data['max_display_dates'] = 60;
+}
 if (isset($_POST['doelementedit'])) {
 	$element_edit_request = new CASHRequest(
 		array(
@@ -8,7 +12,8 @@ if (isset($_POST['doelementedit'])) {
 			'id' => $page_data['id'],
 			'name' => $_POST['element_name'],
 			'options_data' => array(
-				'visible_event_types' => $_POST['visible_event_types']
+				'visible_event_types' => $_POST['visible_event_types'],
+				'max_display_dates' => $_POST['max_display_dates']
 			)
 		)
 	);
@@ -51,6 +56,9 @@ if (isset($_POST['doelementedit'])) {
 		
 			<label for="element_name">Name</label><br />
 			<input type="text" id="element_name" name="element_name" value="<?php echo $page_data['name']; ?>" /> 
+			<br /><br />
+			<label for="max_display_dates">Max dates displayed</label><br />
+			<input type="range" id="max_display_dates" name="max_display_dates" min="0" max="250" value="<?php echo $page_data['options']->max_display_dates; ?>" />
 		</div>
 
 		<div class="col_oneoftwo lastcol">

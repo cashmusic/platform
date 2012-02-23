@@ -3,7 +3,7 @@
 	"description":"Display all of the dates from your calendar, filter by upcoming or previous, etc.",
 	"longdescription":"The filters let you set up tourdate archives as well as upcoming shows. The element will automatically update itself as dates expire or move to an archive.",
 	"lastupdated":"Jan 25, 2012",
-	"version":1.0,
+	"version":2,
 	"author":"CASH Music",
 	"url":"http://cashmusic.org/"
 }

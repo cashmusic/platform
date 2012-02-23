@@ -27,7 +27,16 @@ class TourDates extends ElementBase {
 		);
 		if ($tourdates_request->response['status_uid'] == "calendar_getevents_200") {
 			// spit out the dates
+			$count = 0;
+			$max_dates = 60;
+			if (isset($this->options->max_display_dates)) {
+				$max_dates = $this->options->max_display_dates;
+			}
 			foreach ($tourdates_request->response['payload'] as $event) {
+				if ($count == $max_dates) {
+					break;
+				}
+				$count = $count+1;
 				$event_location = $event['venue_city'] . ', ' . $event['venue_country'];
 				if (strtolower($event['venue_country']) == 'usa' || strtolower($event['venue_country']) == 'canada') {
 					$event_location = $event['venue_city'] . ', ' . $event['venue_region'];
