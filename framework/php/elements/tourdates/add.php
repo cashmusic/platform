@@ -7,6 +7,9 @@
 		
 			<label for="element_name">Name</label><br />
 			<input type="text" id="element_name" name="element_name" placeholder="Give It A Name" /> 
+			<br /><br />
+			<label for="max_display_dates">Max dates displayed</label><br />
+			<input type="range" id="max_display_dates" name="max_display_dates" min="0" max="250" value="60" />
 		</div>
 
 		<div class="col_oneoftwo lastcol">
