@@ -10,7 +10,7 @@ INSERT INTO `elements` (`id`, `user_id`, `name`, `type`, `options`, `license_id`
 VALUES (101, 1, 'Iron & Wine ticket contest', 'emailcollection', '{"message_invalid_email":"Sorry, that email address wasn’t valid. Please try again.","message_privacy":"Your email won’t be shared and we’ll use it respectfully. ","message_success":"Thanks! You’re all signed up. Winners will be emailed prior to the concert.","email_list_id":"101","asset_id":"0","comment_or_radio":null,"do_not_verify":"1"}', 0, 1315519963, NULL);
 
 INSERT INTO `elements` (`id`, `user_id`, `name`, `type`, `options`, `license_id`, `creation_date`, `modification_date`)
-VALUES (102, 1, 'Wild Flag tour dates', 'tourdates', '{"visible_event_types":"upcoming"}', 0, 1316730460, NULL);
+VALUES (102, 1, 'Wild Flag tour dates', 'tourdates', '{"visible_event_types":"archive"}', 0, 1316730460, NULL);
 
 INSERT INTO `elements` (`id`, `user_id`, `name`, `type`, `options`, `license_id`, `creation_date`, `modification_date`)
 VALUES (103, 1, 'Palmer/Gaiman filtered social feeds', 'socialfeeds', '{"tumblr":[],"twitter":[{"twitterusername":"neilhimself","twitterhidereplies":false,"twitterfiltertype":"beginwith","twitterfiltervalue":"@amandapalmer"},{"twitterusername":"amandapalmer","twitterhidereplies":false,"twitterfiltertype":"beginwith","twitterfiltervalue":"@neilhimself"}],"post_limit":"40"}', 0, 1317978017, NULL);
