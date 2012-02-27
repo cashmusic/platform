@@ -9,6 +9,8 @@ complex functionality around the marketing, promotion, and sale of music on an
 artist's site. It is designed to work as a freestanding API or integrated with
 publishing and CMS systems like Wordpress or Drupal.
 
+[![Build Status](https://secure.travis-ci.org/cashmusic/DIY.png)](http://travis-ci.org/cashmusic/DIY)
+
 ## Requirements
 
 One of the fundamental goals of CASH Music is the be as widely deployable as possible,
