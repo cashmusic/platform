@@ -15,12 +15,6 @@ class MailchimpSeed extends SeedBase {
 	private $api;
 	public $url, $key, $list_id, $error_code=false, $error_message=false;
 
-	private function handleError() {
-		if ($this->api->errorCode) {
-			$this->error_code = $this->api->errorCode;
-			$this->error_message = $this->api->errorMessage;
-		}
-	}
 	public function __construct($user_id, $connection_id) {
 		$this->settings_type = 'com.mailchimp';
 		$this->user_id = $user_id;
@@ -35,10 +29,17 @@ class MailchimpSeed extends SeedBase {
 				$parts = explode("-", $this->key);
 				$this->url = 'http://' . $parts[1] . '.api.mailchimp.com/1.3/';
 			} else {
-				// echo "API KEY NOT FOUND\n";
+				$this->error_message = 'no API key found';
 			}
 		} else {
-			echo "could not get cash settings!\n";
+			$this->error_message = 'could not get connection';
+		}
+	}
+
+	private function handleError() {
+		if ($this->api->errorCode) {
+			$this->error_code = $this->api->errorCode;
+			$this->error_message = $this->api->errorMessage;
 		}
 	}
 

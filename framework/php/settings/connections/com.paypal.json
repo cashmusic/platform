@@ -1,0 +1,13 @@
+{
+	"name":"Paypal",
+	"description":"Paypal issues an API username (generally your email), an API password, and an API signature. Check 'sandbox' to run in testing mode.",
+	"type":"com.paypal",
+	"scope":["commerce"],
+	"dataTypes": 
+		{
+			"username":"string",
+			"password":"string",
+			"signature":"string",
+			"sandboxed":"bool"
+		}
+}
