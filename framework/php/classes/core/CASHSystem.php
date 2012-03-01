@@ -78,6 +78,21 @@
 		unset($cash_page_request);
 	}
 	
+	/**
+	 * Very basic. Takes a URL and checks if headers have been sent. If not we
+	 * do a proper location header redirect. If headers have been sent it 
+	 * returns a line of JS to initiate a client-side redirect.
+	 *
+	 * @return none
+	 */public static function redirectToUrl($url) {
+		if (!headers_sent()) {
+			header("Location: $url");
+			exit;
+		} else {
+			return '<script type="text/javascript">window.location = "' . $url . '";</script>';
+		}
+	}
+	
 	public static function findReplaceInFile($filename,$find,$replace) {
 		if (is_file($filename)) {
 			$file = file_get_contents($filename);
