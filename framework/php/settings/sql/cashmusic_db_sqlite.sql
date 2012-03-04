@@ -90,18 +90,17 @@ CREATE TABLE calendar_guestlist (
 -- Section: COMMERCE
 -- 
 CREATE TABLE commerce_assets (
-  id integer AUTO_INCREMENT,
+  id integer PRIMARY KEY,
   asset_id integer,
   scope_table_alias text,
   scope_table_id integer DEFAULT NULL,
   type text DEFAULT 'preview',
   creation_date integer DEFAULT NULL,
-  modification_date integer DEFAULT NULL,
-  PRIMARY KEY (id)
+  modification_date integer DEFAULT NULL
 );
 
 CREATE TABLE commerce_items (
-  id integer AUTO_INCREMENT,
+  id integer PRIMARY KEY,
   user_id integer,
   name text DEFAULT NULL,
   description text,
@@ -115,12 +114,11 @@ CREATE TABLE commerce_items (
   physical_depth integer,
   available_units integer DEFAULT '0',
   creation_date integer DEFAULT '0',
-  modification_date integer DEFAULT NULL,
-  PRIMARY KEY (id)
+  modification_date integer DEFAULT NULL
 );
 
 CREATE TABLE commerce_offers (
-  id integer AUTO_INCREMENT,
+  id integer PRIMARY KEY,
   user_id integer,
   name text DEFAULT NULL,
   description text,
@@ -129,21 +127,19 @@ CREATE TABLE commerce_offers (
   recurring_payment integer DEFAULT '0',
   recurring_interval integer DEFAULT '0',
   creation_date integer DEFAULT '0',
-  modification_date integer DEFAULT NULL,
-  PRIMARY KEY (id)
+  modification_date integer DEFAULT NULL
 );
 
 CREATE TABLE commerce_offers_included_items (
-  id integer AUTO_INCREMENT,
+  id integer PRIMARY KEY,
   offer_id integer,
   item_id integer DEFAULT NULL,
   creation_date integer DEFAULT NULL,
-  modification_date integer DEFAULT NULL,
-  PRIMARY KEY (id)
+  modification_date integer DEFAULT NULL
 );
 
 CREATE TABLE commerce_orders (
-  id integer AUTO_INCREMENT,
+  id integer PRIMARY KEY,
   user_id integer,
   customer_user_id integer,
   transaction_id integer,
@@ -151,12 +147,11 @@ CREATE TABLE commerce_orders (
   fulfilled integer DEFAULT '0',
   notes text,
   creation_date integer DEFAULT NULL,
-  modification_date integer DEFAULT '0',
-  PRIMARY KEY (id)
+  modification_date integer DEFAULT '0'
 );
 
 CREATE TABLE commerce_transactions (
-  id integer AUTO_INCREMENT,
+  id integer PRIMARY KEY,
   user_id integer,
   connection_id integer,
   connection_type text,
@@ -168,8 +163,7 @@ CREATE TABLE commerce_transactions (
   gross_price numeric,
   service_fee numeric,
   creation_date integer DEFAULT '0',
-  modification_date integer DEFAULT '0',
-  PRIMARY KEY (id)
+  modification_date integer DEFAULT '0'
 );
 
 
