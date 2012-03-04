@@ -21,9 +21,9 @@ class MailchimpSeed extends SeedBase {
 		$this->connection_id = $connection_id;
 		if ($this->getCASHConnection()) {
 			require_once(CASH_PLATFORM_ROOT.'/lib/mailchimp/MCAPI.class.php');
-			$this->key                = $this->settings->getSetting('key');
-			$this->list_id            = $this->settings->getSetting('list');
-			$this->api                = new MCAPI($this->key);
+			$this->key      = $this->settings->getSetting('key');
+			$this->list_id  = $this->settings->getSetting('list');
+			$this->api      = new MCAPI($this->key);
 			
 			if ($this->key) {
 				$parts = explode("-", $this->key);
