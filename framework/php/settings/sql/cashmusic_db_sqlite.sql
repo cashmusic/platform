@@ -156,7 +156,7 @@ CREATE TABLE commerce_transactions (
   connection_id integer,
   connection_type text,
   service_timestamp integer,
-  sercice_transaction_id text DEFAULT '',
+  service_transaction_id text DEFAULT '',
   data_sent text,
   data_returned text,
   successful integer DEFAULT '0',
