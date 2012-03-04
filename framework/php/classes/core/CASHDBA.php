@@ -15,14 +15,14 @@
  *
  **/
 class CASHDBA {
+	public    $error = 'Relax. Everything is okay.';
 	protected $db;
-	private $hostname,
-			$username,
-			$password,
-			$dbname,
-			$driver,
-			$port,
-			$error = 'Relax. Everything is okay.';
+	private   $hostname,
+			  $username,
+			  $password,
+			  $dbname,
+			  $driver,
+			  $port;
 
 	public function __construct($hostname,$username,$password,$database,$driver) {
 		if (strpos($hostname,':') === false) {
@@ -75,17 +75,22 @@ class CASHDBA {
 			'analytics' => 'system_analytics',
 			'assets' => 'assets',
 			'assets_analytics' => 'assets_analytics',
+			'commerce_assets' => 'commerce_assets',
 			'connections' => 'system_connections',
 			'elements' => 'elements',
 			'elements_analytics' => 'elements_analytics',
 			'events' => 'calendar_events',
+			'items' => 'commerce_items',
 			'lock_codes' => 'system_lock_codes',
 			'metadata' => 'system_metadata',
+			'offers' => 'commerce_offers',
+			'orders' => 'commerce_orders',
 			'settings' => 'system_settings',
 			'users' => 'people',
 			'people_analytics' => 'people_analytics',
 			'people_lists' => 'people_lists',
 			'list_members' => 'people_lists_members',
+			'transactions' => 'commerce_transactions',
 			'venues' => 'calendar_venues'
 		);
 		if (array_key_exists($data_name, $table_lookup)) {

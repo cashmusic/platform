@@ -2,12 +2,12 @@
 
 require_once('tests/php/base.php');
 
-class MailchimpTests extends UnitTestCase {
+class MailchimpSeedTests extends UnitTestCase {
 	var $test_list_id;
 	private $mailchimp_connection_id, 
-			$test_id='b607c6d911', // an already-created list for testing
-			$cash_user_id=1, // arbitrary user id so settings/queries match
-			$api_key=false;
+			$api_list_id,
+			$api_key=false,
+			$cash_user_id=1; // arbitrary user id so settings/queries match
 	
 	function __construct() {
 		// add a new admin user for this
@@ -24,9 +24,10 @@ class MailchimpTests extends UnitTestCase {
 		
 		// add a new connection 
 		$this->api_key = getTestEnv("MAILCHIMP_API_KEY");
+		$this->api_list_id = getTestEnv("MAILCHIMP_LIST_ID");
 		$c = new CASHConnection($this->cash_user_id); // the '1' sets a user id=1
 		$this->mailchimp_connection_id = $c->setSettings('MailChimp', 'com.mailchimp',
-			array( "key" => $this->api_key, "list" => $this->test_id ) );
+			array( "key" => $this->api_key, "list" => $this->api_list_id ) );
 		
 		// add a new list
 		$list_add_request = new CASHRequest(
