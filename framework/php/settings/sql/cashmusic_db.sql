@@ -119,6 +119,7 @@ CREATE TABLE `commerce_items` (
   `description` text,
   `sku` varchar(20) DEFAULT NULL,
   `price` decimal(9,2) DEFAULT NULL,
+  `flexible_price` bool DEFAULT '0',
   `digital_fulfillment` bool DEFAULT '0',
   `physical_fulfillment` bool DEFAULT '0',
   `physical_weight` int(11) NOT NULL,
@@ -139,6 +140,7 @@ CREATE TABLE `commerce_offers` (
   `description` text,
   `sku` varchar(20) DEFAULT NULL,
   `price` decimal(9,2) DEFAULT NULL,
+  `flexible_price` bool DEFAULT '0',
   `recurring_payment` bool DEFAULT '0',
   `recurring_interval` int(11) NOT NULL DEFAULT '0',
   `creation_date` int(11) NOT NULL DEFAULT '0',
@@ -165,6 +167,7 @@ CREATE TABLE `commerce_orders` (
   `order_contents` text NOT NULL,
   `fulfilled` bool DEFAULT '0',
   `notes` text NOT NULL,
+  `country_code` varchar(255),
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
