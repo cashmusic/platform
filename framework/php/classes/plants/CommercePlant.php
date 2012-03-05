@@ -34,7 +34,9 @@ class CommercePlant extends PlantBase {
 				'edittransaction'  => array('editTransaction','direct'),
 				'getitem'          => array('getItem','direct'),
 				'getorder'         => array('getOrder','direct'),
-				'gettransaction'   => array('getTransaction','direct')
+				'gettransaction'   => array('getTransaction','direct'),
+				'finalizepayment'  => array('finalizeRedirectedPayment',array('get','post','direct'))
+				'initiatecheckout' => array('initiateCheckout',array('get','post','direct'))
 			);
 			// see if the action matches the routing table:
 			$basic_routing = $this->routeBasicRequest();
@@ -216,10 +218,11 @@ class CommercePlant extends PlantBase {
 	protected function addOrder(
 		$user_id,
 		$order_contents,
-		$customer_user_id,
+		$customer_user_id=0,
 		$transaction_id=-1,
 		$fulfilled=0,
-		$notes=''
+		$notes='',
+		$country_code=''
 	) {
 		if (is_array($order_contents)) {
 			/*
@@ -246,7 +249,8 @@ class CommercePlant extends PlantBase {
 					'transaction_id' => $transaction_id,
 					'order_contents' => $final_order_contents,
 					'fulfilled' => $fulfilled,
-					'notes' => $notes
+					'notes' => $notes,
+					'country_code' => $country_code
 				)
 			);
 			return $result;
@@ -278,7 +282,8 @@ class CommercePlant extends PlantBase {
 		$order_contents=false,
 		$transaction_id=false,
 		$fulfilled=false,
-		$notes=false
+		$notes=false,
+		$country_code=false
 	) {
 		if ($order_contents) {
 			$order_contents = json_encode($order_contents);
@@ -288,7 +293,8 @@ class CommercePlant extends PlantBase {
 				'transaction_id' => $transaction_id,
 				'order_contents' => $order_contents,
 				'fulfilled' => $fulfilled,
-				'notes' => $notes
+				'notes' => $notes,
+				'country_code' => $country_code
 			),
 			'CASHSystem::notExplicitFalse'
 		);
@@ -384,9 +390,77 @@ class CommercePlant extends PlantBase {
 		return $result;
 	}
 	
-	protected function initiatePaymentRedirect() {}
+	protected function initiateCheckout($user_id,$connection_id,$order_contents=false,$item_id=false) {
+		if (!$order_contents && !$item_id) {
+			return false;
+		} else {
+			if (!$order_contents) {
+				$order_contents = array();
+			}
+			if ($item_id) {
+				$order_contents[] = $this->getItem($item_id);
+			}
+			$transaction_id = $this->addTransaction(
+				$user_id,
+				$connection_id,
+				$this->getConnectionType($connection_type)
+			);
+			$order_id = $this->addOrder(
+				$user_id,
+				$order_contents,
+				0,
+				$transaction_id
+			);
+			if ($order_id) {
+				$success = $this->initiatePaymentRedirect($order_id);
+				return $success;
+			} else {
+				return false;
+			}
+		}
+	}
 	
-	protected function finalizeRedirectedPayment() {}
+	protected function getOrderTotals($order_contents) {
+		$contents = json_decode($order_contents,true);
+		$return_array = array(
+			'price' => 0,
+			'description' => ''
+		);
+		foreach($contents as $item) {
+			$return_array['price'] += $item['price'];
+			$return_array['description'] .= $item['name'] . "\n";
+		}
+		return $return_array;
+	}
+	
+	protected function initiatePaymentRedirect($order_id) {
+		$order_details = $this->getOrder($order_id);
+		$order_totals = $this->getOrderTotals($order_details['order_contents']);
+		$connection_type = $this->getConnectionType($order_details['connection_id']);
+		switch ($connection_type) {
+			case 'com.paypal':
+				$pp = new PaypalSeed($order_details['user_id'],$order_details['connection_id']);
+				$redirect_url = $pp->setExpressCheckout(
+					$order_totals['price'],
+					'order-' . $order_id,
+					$order_totals['description'],
+					CASHSystem::getCurrentURL() . '?cash_request_type=commerce&cash_action=finalizepayment&order_id=' . $order_id . '&creation_date=' . $order_details['creation_date'],
+					CASHSystem::getCurrentURL()
+				);
+				$redirect = CASHSystem::redirectToUrl($redirect_url);
+				// the return will only happen if headers have already been sent
+				// if they haven't redirectToUrl() will handle it and call exit
+				return $redirect;
+				break;
+		    default:
+				return false;
+		}
+		return $final_redirect;
+	}
+	
+	protected function finalizeRedirectedPayment($order_id,$creation_date,$full_cash_request) {
+		// TODO: finalize checkout, alter order/transaction, return order_id on success
+	}
 	
 } // END class 
 ?>
