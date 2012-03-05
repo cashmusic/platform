@@ -170,7 +170,15 @@
 						if (isset($this->request[$param_name])) {
 							$final_parameters[$param_name] = $this->request[$param_name];
 						} else {
-							return $this->pushFailure('missing required parameter: ' . $param_name);
+							if ($param_name == 'full_cash_request') {
+								// this is a special case. it allows us to add a required
+								// parameter called 'full_cash_request' to any method and
+								// get all of the values passed in as an array — useful 
+								// for parsing variable data POSTed to a request
+								$final_parameters[$param_name] = $this->request;
+							} else {
+								return $this->pushFailure('missing required parameter: ' . $param_name);
+							}
 						}
 					}
 				}
