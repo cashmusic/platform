@@ -35,7 +35,7 @@ class CommercePlant extends PlantBase {
 				'getitem'          => array('getItem','direct'),
 				'getorder'         => array('getOrder','direct'),
 				'gettransaction'   => array('getTransaction','direct'),
-				'finalizepayment'  => array('finalizeRedirectedPayment',array('get','post','direct'))
+				'finalizepayment'  => array('finalizeRedirectedPayment',array('get','post','direct')),
 				'initiatecheckout' => array('initiateCheckout',array('get','post','direct'))
 			);
 			// see if the action matches the routing table:
