@@ -106,6 +106,7 @@ CREATE TABLE commerce_items (
   description text,
   sku text DEFAULT NULL,
   price numeric DEFAULT NULL,
+  flexible_price numeric DEFAULT NULL,
   digital_fulfillment integer DEFAULT '0',
   physical_fulfillment integer DEFAULT '0',
   physical_weight integer,
@@ -124,6 +125,7 @@ CREATE TABLE commerce_offers (
   description text,
   sku text DEFAULT NULL,
   price numeric DEFAULT NULL,
+  flexible_price numeric DEFAULT NULL,
   recurring_payment integer DEFAULT '0',
   recurring_interval integer DEFAULT '0',
   creation_date integer DEFAULT '0',
@@ -146,6 +148,7 @@ CREATE TABLE commerce_orders (
   order_contents text,
   fulfilled integer DEFAULT '0',
   notes text,
+  country_code text,
   creation_date integer DEFAULT NULL,
   modification_date integer DEFAULT '0'
 );
