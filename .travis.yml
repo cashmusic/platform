@@ -1,5 +1,6 @@
 language: php
 before_script:
+    - sudo apt-get install liblocal-lib-perl
     - perl --version
     - curl -L http://cpanmin.us | sudo perl - --self-upgrade
 #    - export CI_USER=$USER
