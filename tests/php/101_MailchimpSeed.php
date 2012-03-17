@@ -69,7 +69,7 @@ class MailchimpSeedTests extends UnitTestCase {
 			$rc = $mc->listSubscribe($test_email, null, null, false);
 			$this->assertTrue($rc);
 			if (!$rc) {
-				fwrite(STDERR,"Failed to add $test_email to list $test_id");
+				fwrite(STDERR,"Failed to add $test_email to list " . $this->api_list_id);
 				exit(1);
 			}
 			$members2 = $mc->listMembers();
