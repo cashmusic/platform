@@ -16,4 +16,4 @@ php:
   - 5.4
 script: "make fulltest"
 env:
-    - CI_USER=vagrant CASHMUSIC_TEST_URL = 'http://dev.cashmusic.org:8080'
+    - CI_USER=vagrant CASHMUSIC_TEST_URL='http://dev.cashmusic.org:8080'
