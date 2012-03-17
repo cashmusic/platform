@@ -1,4 +1,11 @@
 language: php
+before_script:
+    - curl -L http://cpanmin.us | sudo perl - --self-upgrade
+    - export CI_USER=$USER
+    - mkdir ~/perl5 && perl -Mlocal::lib >> /tmp/local_lib_junk.sh && source /tmp/local_lib_junk.sh
+    - sudo chown -R $CI_USER ~/.cpanm
+    - sudo chown -R $CI_USER ~/perl5
+    - cpanm -n Test::Most Test::WWW::Mechanize Test::JSON URL::Encode
 php:
   - 5.2
   - 5.3
