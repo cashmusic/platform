@@ -3,4 +3,6 @@ php:
   - 5.2
   - 5.3
   - 5.4
-script: "php tests/php/all.php"
+script: "make fulltest"
+env:
+    - export CASHMUSIC_TEST_URL = 'http://dev.cashmusic.org:8080'
