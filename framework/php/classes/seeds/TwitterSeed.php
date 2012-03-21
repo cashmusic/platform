@@ -31,7 +31,7 @@ class TwitterSeed extends SeedBase {
 
 	public function getUser($username,$extended_detail=false) {
 		$username = str_replace('@','',$username);
-		$endoint_url = 'https://api.twitter.com/users/show.json?screen_name=' . $username;
+		$endoint_url = 'https://api.twitter.com/1/users/show.json?screen_name=' . $username;
 		$user_data = json_decode(CASHSystem::getURLContents($endoint_url),true);
 		if ($user_data && !$extended_detail) {
 			// let's trim out some of the things we don't need
