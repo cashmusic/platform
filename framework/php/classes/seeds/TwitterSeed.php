@@ -64,7 +64,11 @@ class TwitterSeed extends SeedBase {
 					$count = $count * 3;
 				}
 			}
-			$twitter_url = 'http://api.twitter.com/statuses/user_timeline.json?screen_name=' . $username . '&exclude_replies=' . $exclude_replies . '&count=' . $count;
+			$exclude_replies_str = 'false';
+			if ($exclude_replies) {
+				$exclude_replies_str = 'true';
+			}
+			$twitter_url = 'http://api.twitter.com/1/statuses/user_timeline.json?screen_name=' . $username . '&trim_user=false&exclude_replies=' . $exclude_replies_str . '&count=' . $count;
 			$feed_data = $this->getCachedURL('com.twitter', 'user_' . $username . (string) $exclude_replies . $count, $twitter_url);
 
 			if (is_array($feed_data) && $filter) {

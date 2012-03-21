@@ -116,8 +116,18 @@ class TumblrSeed extends SeedBase {
 				. '<div class="cashmusic_clearall">.</div></div>';
 				break;
 			case 'link':
+				$description = '';
+				if ($summarize && !empty($post->{'link-description'})) {
+					$descriptionarray = explode('.',strip_tags($post->{'link-description'}));
+					if (count($descriptionarray) > 3) {
+						$descriptionarray = array_slice($descriptionarray,0,3);
+					}
+					$description = implode('.',$descriptionarray) . '...';
+				} else {
+					$description = $post->{'link-description'};
+				}
 				$innermarkup = "<div class=\"cashmusic_social cashmusic_tumblr\">"
-				. '<div class="cashmusic_social_link"><a href="' . $post->{'link-url'} . '">' . $post->{'link-text'} . '</a></div><div class="cashmusic_social_date"><a href="' . $post->{'url-with-slug'} . '" target="_blank">' . CASHSystem::formatTimeAgo($post->{'unix-timestamp'}) . ' / tumblr</a> </div>'
+				. '<div class="cashmusic_social_link"><a href="' . $post->{'link-url'} . '">' . $post->{'link-text'} . '</a><div>' . $description . '</div></div><div class="cashmusic_social_date"><a href="' . $post->{'url-with-slug'} . '" target="_blank">' . CASHSystem::formatTimeAgo($post->{'unix-timestamp'}) . ' / tumblr</a> </div>'
 				. '<div class="cashmusic_clearall">.</div></div>';
 				break;
 			case 'answer':
