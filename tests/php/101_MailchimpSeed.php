@@ -5,7 +5,7 @@ require_once('tests/php/base.php');
 class MailchimpSeedTests extends UnitTestCase {
 	var $test_list_id;
 	private $mailchimp_connection_id, 
-			$api_list_id,
+			$api_list_id=false,
 			$api_key=false,
 			$cash_user_id=1; // arbitrary user id so settings/queries match
 	
@@ -29,30 +29,36 @@ class MailchimpSeedTests extends UnitTestCase {
 		$this->mailchimp_connection_id = $c->setSettings('MailChimp', 'com.mailchimp',
 			array( "key" => $this->api_key, "list" => $this->api_list_id ) );
 		
-		// add a new list
-		$list_add_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'people', 
-				'cash_action' => 'addlist',
-				'name' => 'Test List',
-				'description' => 'Test Description',
-				'user_id' => $this->cash_user_id,
-				'connection_id' => $this->mailchimp_connection_id
-			)
-		);
-		// should work fine with no description or connection_id
-		$this->test_list_id = $list_add_request->response['payload'];
+		if ($this->mailchimp_connection_id) {
+			// add a new list
+			$list_add_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'people', 
+					'cash_action' => 'addlist',
+					'name' => 'Test List',
+					'description' => 'Test Description',
+					'user_id' => $this->cash_user_id,
+					'connection_id' => $this->mailchimp_connection_id
+				)
+			);
+			// should work fine with no description or connection_id
+			$this->test_list_id = $list_add_request->response['payload'];
+		}
 	}
 
 	function testSetIDs() {
-		// make sure the added connection has been set
-		$this->assertTrue($this->mailchimp_connection_id);
-		$this->assertTrue($this->test_list_id);
+		// only run if key / list have been set properly
+		if ($this->api_key && $this->api_list_id) {
+			// make sure the added connection has been set
+			$this->assertTrue($this->mailchimp_connection_id);
+			$this->assertTrue($this->test_list_id);
+		}
 	}
 
 	function testMailchimpSeed(){
 		$time = time();
-		if($this->api_key) {
+		// only run if key / list have been set properly
+		if ($this->api_key && $this->api_list_id) {
 			$mc = new MailchimpSeed($this->cash_user_id, $this->mailchimp_connection_id); // the '1' sets a user id=1
 			$this->assertIsa($mc, 'MailchimpSeed');
 			$this->assertTrue($mc->url);
@@ -94,7 +100,8 @@ class MailchimpSeedTests extends UnitTestCase {
 
 	function testMailchimpWebhooks(){
 		$time = time();
-		if($this->api_key) {
+		// only run if key / list have been set properly
+		if ($this->api_key && $this->api_list_id) {
 			// A valid 200 OK for an external server (don't rely on true API URL in case of localhost):
 			$webhook_test_url = 'http://cashmusic.org/';
 			
@@ -128,7 +135,8 @@ class MailchimpSeedTests extends UnitTestCase {
 
 	function testProcessWebhooks(){
 		$time = time();
-		if($this->api_key) {
+		// only run if key / list have been set properly
+		if ($this->api_key && $this->api_list_id) {
 			$data_request = new CASHRequest(
 				array(
 					'cash_request_type' => 'system', 
@@ -201,7 +209,8 @@ class MailchimpSeedTests extends UnitTestCase {
 
 	function testListAddSync(){
 		$time = time();
-		if($this->api_key) {
+		// only run if key / list have been set properly
+		if ($this->api_key && $this->api_list_id) {
 			$test_address = 'dev+testlistaddsync' . $time . '@cashmusic.org';
 			$add_request = new CASHRequest(
 				array(
