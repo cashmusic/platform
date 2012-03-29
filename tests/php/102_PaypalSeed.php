@@ -31,7 +31,7 @@ class PaypalSeedTests extends UnitTestCase {
 		);
 	}
 
-	function testMailchimpSeed(){
+	function testPaypalSeed(){
 		if($this->paypal_username) {
 			$pp = new PaypalSeed($this->cash_user_id, $this->paypal_connection_id);
 			$this->assertIsa($pp, 'PaypalSeed');
