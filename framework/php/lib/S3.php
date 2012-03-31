@@ -953,6 +953,20 @@ class S3
 
 
 	/**
+	* Get the current system time on AWS servers, needed to check for sync issues
+	* between local clock and AWS system clock.
+	*
+	* @return int
+	*/
+	public static function getAWSSystemTime()
+	{
+		$rest = new S3Request('HEAD');
+		$rest = $rest->getResponse();
+		return $rest->headers['server-time'];
+	}
+
+
+	/**
 	* Get a query string authenticated URL
 	*
 	* @param string $bucket Bucket name
@@ -960,16 +974,38 @@ class S3
 	* @param integer $lifetime Lifetime in seconds
 	* @param boolean $hostBucket Use the bucket name as the hostname
 	* @param boolean $https Use HTTPS ($hostBucket should be false for SSL verification)
+	* @param array $headers An associative array of headers/values to override in the response see: 
+	*                       http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectGET.html
 	* @return string
 	*/
-	public static function getAuthenticatedURL($bucket, $uri, $lifetime, $hostBucket = false, $https = false)
+	public static function getAuthenticatedURL($bucket, $uri, $lifetime, $hostBucket = false, $https = false, $headers = false)
 	{
-		$expires = time() + $lifetime;
+		if ($lifetime < 180) {
+			/**
+			* Many shared servers are still running cron+rdate for clock sync, and drift can add up to
+			* a significant difference between system clock and AWS time. So for requests under 3 minutes
+			* total we get the clock time from AWS to prepare an expiration time, rather than system time.
+			*/
+			$expires = self::getAWSSystemTime() + $lifetime;
+		} else {
+			$expires = time() + $lifetime;
+		}
 		$uri = str_replace(array('%2F', '%2B'), array('/', '+'), rawurlencode($uri)); // URI should be encoded (thanks Sean O'Dea)
-		return sprintf(($https ? 'https' : 'http').'://%s/%s?AWSAccessKeyId=%s&Expires=%u&Signature=%s',
-		// $hostBucket ? $bucket : $bucket.'.s3.amazonaws.com', $uri, self::$__accessKey, $expires,
-		$hostBucket ? $bucket : 's3.amazonaws.com/'.$bucket, $uri, self::$__accessKey, $expires,
-		urlencode(self::__getHash("GET\n\n\n{$expires}\n/{$bucket}/{$uri}")));
+				
+		$finalUrl = sprintf(($https ? 'https' : 'http').'://%s/%s?',
+		$hostBucket ? $bucket : $bucket.'.s3.amazonaws.com', $uri);
+		$requestToSign = "GET\n\n\n{$expires}\n/{$bucket}/{$uri}";
+		if (is_array($headers)) {
+			ksort($headers); // AMZ servers reject signatures if headers are not in alphabetical order
+			$appendString = '?';
+			foreach ($headers as $header => $value) {
+				$finalUrl .= $header . '=' . urlencode($value) . '&';
+				$requestToSign .= $appendString . $header . '=' . $value;
+				$appendString = '&';
+			}
+		}
+		$finalUrl .= 'AWSAccessKeyId=' . self::$__accessKey . '&Expires=' . $expires . '&Signature=' . urlencode(self::__getHash($requestToSign));
+		return $finalUrl;
 	}
 
 
@@ -1945,6 +1981,8 @@ final class S3Request
 				$this->response->headers['size'] = (int)$value;
 			elseif ($header == 'Content-Type')
 				$this->response->headers['type'] = $value;
+			elseif ($header == 'Date')
+				$this->response->headers['server-time'] = strtotime($value);
 			elseif ($header == 'ETag')
 				$this->response->headers['hash'] = $value{0} == '"' ? substr($value, 1, -1) : $value;
 			elseif (preg_match('/^x-amz-meta-.*$/', $header))
