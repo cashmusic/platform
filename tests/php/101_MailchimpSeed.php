@@ -149,6 +149,13 @@ class MailchimpSeedTests extends UnitTestCase {
 			
 			$webhook_api_url = CASH_API_URL . 'verbose/people/processwebhook/origin/com.mailchimp/list_id/' . $this->test_list_id . '/api_key/' . $api_credentials['api_key'];
 			
+			// make sure we're rejecting bad keys
+			$bad_webhook_api_url  = CASH_API_URL . 'verbose/people/processwebhook/origin/com.mailchimp/list_id/' . $this->test_list_id . '/api_key/incorrect';
+			$response = json_decode(CASHSystem::getURLContents($bad_webhook_api_url,array('sample'=>'data'),true));
+			// TODO: this is currently returning 400, we need to get that to 403, but we'll test for not-200 
+			//       which at least proves we're not accepting bad keys
+			$this->assertNotEqual($response->status_code,200);
+			
 			$test_address = 'dev+shouldnotsubscribe' . $time . '@cashmusic.org';
 			$add_post_data = array(
 				"type" => "subscribe", 
