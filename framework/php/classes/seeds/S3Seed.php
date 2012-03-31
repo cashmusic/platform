@@ -34,12 +34,50 @@ class S3Seed extends SeedBase {
 		}
 	}
 	
-	public function getExpiryURL($path,$timeout=1000) {
-		return $this->s3->getAuthenticatedURL($this->bucket, $path, $timeout);
+	public function getExpiryURL($path,$timeout=1000,$attachment=true,$private=true) {
+		$headers = false;
+		if ($attachment || $private) {
+			$headers = array();
+			if ($attachment) {
+				$headers['response-content-disposition'] = 'attachment';
+			}
+			if ($private) {
+				$headers['response-cache-control'] = 'no-cache';
+			}
+		}
+		return $this->s3->getAuthenticatedURL($this->bucket, $path, $timeout, false, false, $headers);
 		/*
 		 * In case of error we should be redirecting to a special-case error message page
 		 * as mentioned above. 
 		*/
+	}
+	
+	public function uploadFile($local_file,$remote_key=false,$private=true) {
+		if ($private) {
+			$s3_acl = S3::ACL_PRIVATE;
+		} else {
+			$s3_acl = S3::ACL_PUBLIC_READ;
+		}
+		if (!$remote_key) {
+			$remote_key = baseName($local_file);
+		}
+		return $this->s3->putObjectFile($local_file, $this->bucket, $remote_key,$s3_acl);
+	}
+
+	public function deleteFile($remote_key) {
+		return $this->s3->deleteObject($this->bucket, $remote_key);
+	}
+
+	public function getFileDetails($remote_key) {
+		return $this->s3->getObjectInfo($this->bucket, $remote_key);
+	}
+
+	public function listAllFiles() {
+		return $this->s3->getBucket($this->bucket);
+	}
+
+	public function getAWSSystemTime() {
+		return $this->s3->getAWSSystemTime();
 	}
 } // END class 
 ?>
