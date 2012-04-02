@@ -34,6 +34,7 @@ You dig?
 $page_memu = array(
 	'Assets' => array(
 		'assets/add/' => array('Add Assets','plus_alt'),
+		'assets/browse/' => array('Browse Assets','list'),
 		'assets/find/' => array('Search','magnifying_glass')
 	)
 );
