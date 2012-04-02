@@ -31,7 +31,7 @@
 			<label for="connection_id">Connect To</label><br />
 			<select id="connection_id" name="connection_id">
 				<option value="0"<?php if ($current_list['connection_id'] == 0) { ?> selected="selected"<?php } ?>>None (local list only)</option>
-				<?php AdminHelper::echoSettingsOptions('lists',$current_list['connection_id']) ?>
+				<?php AdminHelper::echoConnectionsOptions('lists',$current_list['connection_id']) ?>
 			</select>
 		</div>
 
