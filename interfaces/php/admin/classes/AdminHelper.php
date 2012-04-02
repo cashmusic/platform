@@ -95,12 +95,12 @@
 	 * Finds settings matching a specified scope and echoes them out formatted
 	 * for a dropdown box in a form
 	 *
-	 */public static function echoSettingsOptions($scope,$selected=false) {
+	 */public static function echoConnectionsOptions($scope,$selected=false) {
 		// get system settings:
 		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
-		$settings_types_data = $page_data_object->getConnectionTypes($scope);
+		$connection_types_data = $page_data_object->getConnectionTypes($scope);
 		$applicable_settings_array = false;
-		foreach ($settings_types_data as $type_data) {
+		foreach ($connection_types_data as $type_data) {
 			$result = $page_data_object->getSettingsByType($type_data->type);
 			if ($result) {
 				if (!$applicable_settings_array) { $applicable_settings_array = array(); }

@@ -12,7 +12,7 @@
 			<label for="connection_id">Connect To</label><br />
 			<select id="connection_id" name="connection_id">
 				<option value="0" selected="selected">None (local list only)</option>
-				<?php AdminHelper::echoSettingsOptions('lists') ?>
+				<?php AdminHelper::echoConnectionsOptions('lists') ?>
 			</select>
 		</div>
 

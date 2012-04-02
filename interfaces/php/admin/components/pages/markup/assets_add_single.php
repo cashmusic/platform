@@ -15,7 +15,7 @@
 			<label for="connection_id">Use Settings</label><br />
 			<select id="connection_id" name="connection_id">
 				<option value="0" selected="selected">None (Normal http:// link)</option>
-				<?php AdminHelper::echoSettingsOptions('assets') ?>
+				<?php AdminHelper::echoConnectionsOptions('assets') ?>
 			</select>
 		</div>
 
