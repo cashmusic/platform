@@ -372,11 +372,11 @@ class AssetPlant extends PlantBase {
 				
 					//find deltas
 					$deltas = array_diff_assoc($compare_remote,$compare_local);
+					$deltas = array_merge($deltas,array_diff_assoc($compare_local,$compare_remote));
 					if (is_array($deltas)) {
 						foreach ($deltas as $location => $change) {
 							if (array_key_exists($location,$compare_local) && array_key_exists($location,$compare_remote)) {
 								// keys in both location - means hash has changed. edit local.
-								echo '<br /><br />trying edit<br /><br />';
 								$this->editAsset(
 									$id_lookup[$location],
 									$all_remote_files[$location]['hash'],
