@@ -28,6 +28,7 @@ class AssetPlant extends PlantBase {
 				'addasset'                => array('addAsset','direct'),
 				'claim'                   => array('redirectToAsset',array('get','post','direct')),
 				'editasset'               => array('editAsset','direct'),
+				'findconnectiondeltas'    => array('findConnectionAssetDeltas','direct'),
 				'getanalytics'            => array('getAnalytics','direct'),
 				'getasset'                => array('getAssetInfo','direct'),
 				'getassetsforconnection'  => array('getAssetsForConnection','direct'),
@@ -344,9 +345,33 @@ class AssetPlant extends PlantBase {
 		}
 	}
 
-	protected function syncConnectionAssets($connection_id) {
-		$connection = $this->getConnectionDetails($connection_id);
-
+	protected function findConnectionAssetDeltas($connection_id,$connection=false) {
+		if (!$connection) {
+			$connection = $this->getConnectionDetails($connection_id);
+		}
+		$all_local_assets = $this->getAssetsForConnection($connection_id);
+		if (!$all_local_assets) {
+			$all_local_assets = array();
+		}
+		$all_remote_files = false;
+		
+		// create reference arrays
+		$id_lookup = array();
+		$compare_local = array();
+		$compare_remote = array();
+		// populate local reference arrays
+		foreach ($all_local_assets as $asset) {
+			$id_lookup[$asset['location']] = $asset['id'];
+			$compare_local[$asset['location']] = $asset['hash'];
+		}
+		
+		// grab remotes, format $compare_remote[] as:
+		// $compare_remote['resource_location'] => file or generated hash
+		// 
+		// IMPORTANT:
+		// if $all_remote_files must be keyed by service URI and each entry
+		// must contain a value for 'size' and 'hash' -- each service Seed 
+		// should comply to that formatting but if not, fix it there, not here
 		switch ($connection['type']) {
 			case 'com.amazon':
 				$s3 = new S3Seed($connection['user_id'],$connection_id);
@@ -355,55 +380,77 @@ class AssetPlant extends PlantBase {
 					// could not get remote list. boo. abort.
 					return false;
 				} else {
-					$all_local_assets = $this->getAssetsForConnection($connection_id);
-				
-					$id_lookup = array();
-					$compare_local = array();
-					$compare_remote = array();
-				
-					// create reference arrays
-					foreach ($all_local_assets as $asset) {
-						$id_lookup[$asset['location']] = $asset['id'];
-						$compare_local[$asset['location']] = $asset['hash'];
-					}
+					// populate remote reference array
 					foreach ($all_remote_files as $file) {
 						$compare_remote[$file['name']] = $file['hash'];
 					}
-				
-					//find deltas
-					$deltas = array_diff_assoc($compare_remote,$compare_local);
-					$deltas = array_merge($deltas,array_diff_assoc($compare_local,$compare_remote));
-					if (is_array($deltas)) {
-						foreach ($deltas as $location => $change) {
-							if (array_key_exists($location,$compare_local) && array_key_exists($location,$compare_remote)) {
-								// keys in both location - means hash has changed. edit local.
-								$this->editAsset(
-									$id_lookup[$location],
-									$all_remote_files[$location]['hash'],
-									$all_remote_files[$location]['size']
-								);
-							} else {
-								if (array_key_exists($location,$compare_remote)) {
-									// remote key only - means new file. add local.
-									$this->addAsset(
-										$location,
-										'',
-										$location,
-										$connection['user_id'],
-										$connection_id,
-										$all_remote_files[$location]['hash'],
-										$all_remote_files[$location]['size']
-									);
-								} else {
-									// local key only - means file is gone. remove local.
-									$this->deleteAsset($id_lookup[$location]);
-								}
-							}
-						}
-					}
-					return true;
 				}
-				break;
+		}
+		
+		if ($all_remote_files) {
+			//find deltas
+			$deltas = array_diff_assoc($compare_remote,$compare_local);
+			$deltas = array_merge($deltas,array_diff_assoc($compare_local,$compare_remote));
+			
+			foreach ($deltas as $location => &$change) {
+				if (array_key_exists($location,$compare_local) && array_key_exists($location,$compare_remote)) {
+					$change = 'update'; // keys in both location - means hash has changed. edit local.
+				} else {
+					if (array_key_exists($location,$compare_remote)) {
+						$change = 'add'; // remote key only - means new file. add local.
+					} else {
+						$change = 'delete'; // local key only - means file is gone. remove local.
+					}
+				}
+			}
+			
+			$return_array = array(
+				'local_id_reference' => $id_lookup,
+				'remote_details' => $all_remote_files,
+				'deltas' => $deltas
+			);
+			return $return_array;
+		} else {
+			return false;
+		}
+	}
+
+	protected function syncConnectionAssets($connection_id) {
+		$connection = $this->getConnectionDetails($connection_id);
+		$deltas = $this->findConnectionAssetDeltas($connection_id,$connection);
+		
+		if (!$deltas) {
+			return false;
+		} else {
+			if (count($deltas['deltas'])) {
+				$all_remote_files = $deltas['remote_details'];
+				$id_lookup = $deltas['local_id_reference'];
+				foreach ($deltas['deltas'] as $location => $change) {
+					if ($change == 'update') {
+						$this->editAsset(
+							$id_lookup[$location],
+							$all_remote_files[$location]['hash'],
+							$all_remote_files[$location]['size']
+						);
+					} elseif ($change == 'add') {
+						$this->addAsset(
+							$location,
+							'',
+							$location,
+							$connection['user_id'],
+							$connection_id,
+							$all_remote_files[$location]['hash'],
+							$all_remote_files[$location]['size']
+						);
+					} elseif ($change == 'delete') {
+						$this->deleteAsset($id_lookup[$location]);
+					}
+				}
+				return true;
+			} else {
+				// no changes needed. return true
+				return true;
+			}
 		}
 	}
 } // END class 
