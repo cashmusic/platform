@@ -13,18 +13,7 @@ function terminator($errno, $errstr, $errfile, $errline)
 set_error_handler("terminator");
 
 // Get environment variables from local file or from environment
-function getTestEnv($varname) {
-	if (file_exists(dirname(__FILE__) . '/__test_environment.json')) {
-		$environment = json_decode(file_get_contents(dirname(__FILE__) . '/__test_environment.json'),true);
-		if (isset($environment[$varname])) {
-			return $environment[$varname];
-		} else {
-			return false;
-		}
-	} else {
-		return getenv($varname);
-	}
-}
+require_once(dirname(__FILE__) .'/functions.php');
 
 // this deploys to SQLite and sets up cashmusic.ini.php
 // sleep to avoid race condition if PHP is set to handle system as sub-process
