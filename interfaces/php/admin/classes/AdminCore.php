@@ -113,5 +113,25 @@
 		}
 	}
 
+	/**
+	 * Performs basic tasks each time a user logs in
+	 *
+	 */public function runAtLogin() {
+		// sync all assets
+		$c = new CASHConnection($this->effective_user_id);
+		$applicable_connections = $c->getConnectionsByScope('assets');
+		if (is_array($applicable_connections)) {
+			foreach ($applicable_connections as $connection) {
+				$sync_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'asset', 
+						'cash_action' => 'syncconnectionassets',
+						'connection_id' => $connection['id']
+					)
+				);
+			}
+		}
+	}
+
 } // END class 
 ?>

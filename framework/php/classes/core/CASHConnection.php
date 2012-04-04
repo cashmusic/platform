@@ -130,7 +130,7 @@
 	 * object was instantiated with. 
 	 *
 	 * @return settings obj
-	 */public function getSettingsByType($settings_type) {
+	 */public function getConnectionsByType($settings_type) {
 		$result = $this->db->getData(
 			'connections',
 			'*',
@@ -146,6 +146,31 @@
 			)
 		);
 		return $result;
+	}
+
+	/**
+	 * Returns the decoded JSON for the specified connection scope
+	 *
+	 * @return settings obj
+	 */public function getConnectionsByScope($scope) {
+		$connection_types_data = $this->getConnectionTypes($scope);
+		$applicable_settings_array = false;
+		$all_connections = $this->getAllConnectionsforUser();
+		$filtered_connections = array();
+		
+		if (is_array($all_connections)) {
+			foreach ($all_connections as $key => $data) {
+				if (array_key_exists($data['type'],$connection_types_data)) {
+					$filtered_connections[] = $data;
+				}
+			}
+		}
+		
+		if (count($filtered_connections)) {
+			return $filtered_connections;
+		} else {
+			return false;
+		}
 	}
 
 	/**
