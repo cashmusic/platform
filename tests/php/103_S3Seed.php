@@ -116,64 +116,66 @@ class S3SeedTests extends UnitTestCase {
 	}
 
 	function testS3AssetSync() {
-		$asset_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'asset', 
-				'cash_action' => 'addasset',
-				'title' => 'shouldedit',
-				'description' => '',
-				'location' => 'test_private' . $this->timestamp,
-				'user_id' => $this->cash_user_id,
-				'connection_id' => $this->s3_connection_id
-			)
-		);
-		$asset_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'asset', 
-				'cash_action' => 'addasset',
-				'title' => 'shoulddelete',
-				'description' => '',
-				'location' => 'thisdoesnotexist',
-				'user_id' => $this->cash_user_id,
-				'connection_id' => $this->s3_connection_id
-			)
-		);
-		$delta_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'asset', 
-				'cash_action' => 'findconnectiondeltas',
-				'connection_id' => $this->s3_connection_id
-			)
-		);
-		$deltas = $delta_request->response['payload']['deltas'];
-		// should be at least 3 differences...could be more so test >=
-		$this->assertTrue(count($deltas) >= 3);
-		if (count($deltas)) {
-			// test each delta to make sure the correct type of change has been detected:
-			$this->assertEqual($deltas['test' . $this->timestamp],'add');
-			$this->assertEqual($deltas['test_private' . $this->timestamp],'update');
-			$this->assertEqual($deltas['thisdoesnotexist'],'delete');
-		}
+		if($this->s3_key) {
+			$asset_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'asset', 
+					'cash_action' => 'addasset',
+					'title' => 'shouldedit',
+					'description' => '',
+					'location' => 'test_private' . $this->timestamp,
+					'user_id' => $this->cash_user_id,
+					'connection_id' => $this->s3_connection_id
+				)
+			);
+			$asset_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'asset', 
+					'cash_action' => 'addasset',
+					'title' => 'shoulddelete',
+					'description' => '',
+					'location' => 'thisdoesnotexist',
+					'user_id' => $this->cash_user_id,
+					'connection_id' => $this->s3_connection_id
+				)
+			);
+			$delta_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'asset', 
+					'cash_action' => 'findconnectiondeltas',
+					'connection_id' => $this->s3_connection_id
+				)
+			);
+			$deltas = $delta_request->response['payload']['deltas'];
+			// should be at least 3 differences...could be more so test >=
+			$this->assertTrue(count($deltas) >= 3);
+			if (count($deltas)) {
+				// test each delta to make sure the correct type of change has been detected:
+				$this->assertEqual($deltas['test' . $this->timestamp],'add');
+				$this->assertEqual($deltas['test_private' . $this->timestamp],'update');
+				$this->assertEqual($deltas['thisdoesnotexist'],'delete');
+			}
 		
-		// order a proper sync
-		$sync_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'asset', 
-				'cash_action' => 'syncconnectionassets',
-				'connection_id' => $this->s3_connection_id
-			)
-		);
-		// test for true return
-		$this->assertTrue($sync_request->response['payload']);
-		$delta_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'asset', 
-				'cash_action' => 'findconnectiondeltas',
-				'connection_id' => $this->s3_connection_id
-			)
-		);
-		// verify there are no remaining deltas to clean up
-		$this->assertEqual(count($delta_request->response['payload']['deltas']),0);
+			// order a proper sync
+			$sync_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'asset', 
+					'cash_action' => 'syncconnectionassets',
+					'connection_id' => $this->s3_connection_id
+				)
+			);
+			// test for true return
+			$this->assertTrue($sync_request->response['payload']);
+			$delta_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'asset', 
+					'cash_action' => 'findconnectiondeltas',
+					'connection_id' => $this->s3_connection_id
+				)
+			);
+			// verify there are no remaining deltas to clean up
+			$this->assertEqual(count($delta_request->response['payload']['deltas']),0);
+		}
 	}
 
 	function testDelete() {
