@@ -16,9 +16,7 @@ set_error_handler("terminator");
 require_once(dirname(__FILE__) .'/functions.php');
 
 // this deploys to SQLite and sets up cashmusic.ini.php
-// sleep to avoid race condition if PHP is set to handle system as sub-process
 system("php installers/php/test_installer.php");
-sleep(3);
 
 // All tests should include this file, so we can modify basic test functionality
 // here without needing to modify all our tests
