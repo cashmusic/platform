@@ -66,6 +66,9 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH))) {
 	$include_filename = 'mainpage.php';
 }
 
+// make an object to use throughout the pages
+$cash_admin = new AdminCore($admin_primary_cash_request->sessionGet('cash_effective_user'));
+
 // if a login needs doing, do it
 $login_message = "Log In";
 if (isset($_POST['login'])) {
@@ -74,6 +77,10 @@ if (isset($_POST['login'])) {
 		$admin_primary_cash_request->sessionSet('cash_actual_user',$login_details);
 		$admin_primary_cash_request->sessionSet('cash_effective_user',$login_details);
 		$admin_primary_cash_request->sessionSet('cash_effective_user_email',$_POST['address']);
+		
+		// handle initial login chores
+		$cash_admin->runAtLogin();
+		
 		if ($include_filename == 'logout.php') {
 			header('Location: ' . ADMIN_WWW_BASE_PATH);
 			exit;
@@ -84,8 +91,7 @@ if (isset($_POST['login'])) {
 	}
 }
 
-// make a few objects to use throughout the pages
-$cash_admin = new AdminCore($admin_primary_cash_request->sessionGet('cash_effective_user'));
+// handle the banner hiding
 if (isset($_GET['hidebanner'])) {
 	$current_settings = $cash_admin->getUserSettings();
 	if (isset($current_settings['banners'][BASE_PAGENAME])) {

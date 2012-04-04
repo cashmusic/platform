@@ -98,15 +98,7 @@
 	 */public static function echoConnectionsOptions($scope,$selected=false) {
 		// get system settings:
 		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
-		$connection_types_data = $page_data_object->getConnectionTypes($scope);
-		$applicable_settings_array = false;
-		foreach ($connection_types_data as $type_data) {
-			$result = $page_data_object->getSettingsByType($type_data->type);
-			if ($result) {
-				if (!$applicable_settings_array) { $applicable_settings_array = array(); }
-				$applicable_settings_array = $applicable_settings_array + $result;
-			}
-		}
+		$applicable_settings_array = $page_data_object->getConnectionsByScope($scope);
 
 		// echo out the proper dropdown bits
 		if ($applicable_settings_array) {

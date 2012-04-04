@@ -56,9 +56,11 @@
 				<label>Tags</label><br />
 				<?php
 				$tag_counter = 1;
-				foreach ($current_asset['tags'] as $tag) {
-					echo "<input type='text' name='tag$tag_counter' value='$tag' placeholder='Tag' />";
-					$tag_counter = $tag_counter+1;
+				if (is_array($current_asset['tags'])) {
+					foreach ($current_asset['tags'] as $tag) {
+						echo "<input type='text' name='tag$tag_counter' value='$tag' placeholder='Tag' />";
+						$tag_counter = $tag_counter+1;
+					}
 				}
 				?>
 				<a href="#" class="injectbefore" rev="<input type='text' name='tag' value='' placeholder='Tag' />" rel="<?php echo $tag_counter; ?>"><small>+ ADD TAG</small></a>
@@ -70,9 +72,11 @@
 				<label>Metadata (Advanced)</label><br />
 				<?php
 				$metadata_counter = 1;
-				foreach ($current_asset['metadata'] as $type => $value) {
-					echo "<input type='text' name='metadatakey$metadata_counter' value='$type' placeholder='Key (Data Type)' /><br /><input type='text' name='metadatavalue$metadata_counter' value='$value' placeholder='Value' /><br /><br />";
-					$metadata_counter = $metadata_counter+1;
+				if (is_array($current_asset['metadata'])) {
+					foreach ($current_asset['metadata'] as $type => $value) {
+						echo "<input type='text' name='metadatakey$metadata_counter' value='$type' placeholder='Key (Data Type)' /><br /><input type='text' name='metadatavalue$metadata_counter' value='$value' placeholder='Value' /><br /><br />";
+						$metadata_counter = $metadata_counter+1;
+					}
 				}
 				?>
 				<a href="#" class="injectbefore" rev="<input type='text' name='metadatakey' value='' placeholder='Key (Data Type)' /><br /><input type='text' name='metadatavalue' value='' placeholder='Value' /><br /><br />" rel="<?php echo $metadata_counter; ?>"><small>+ ADD CUSTOM METADATA</small></a>

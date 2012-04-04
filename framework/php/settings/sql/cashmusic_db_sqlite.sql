@@ -15,10 +15,14 @@ CREATE TABLE assets (
   user_id integer DEFAULT NULL,
   parent_id integer DEFAULT NULL,
   location text,
+  public_url text,
   connection_id integer DEFAULT NULL,
+  type text DEFAULT 'storage',
   title text,
   description text,
   public_status integer DEFAULT '0',
+  size integer DEFAULT '0',
+  hash text,
   creation_date integer DEFAULT NULL,
   modification_date integer DEFAULT '0'
 );

@@ -25,38 +25,50 @@ class AssetPlant extends PlantBase {
 				// alphabetical for ease of reading
 				// first value  = target method to call
 				// second value = allowed request methods (string or array of strings)
-				'addasset'          => array('addAsset','direct'),
-				'claim'             => array('redirectToAsset',array('get','post','direct')),
-				'editasset'         => array('editAsset','direct'),
-				'getanalytics'      => array('getAnalytics','direct'),
-				'getasset'          => array('getAssetInfo','direct'),
-				'getassetsforuser'  => array('getAssetsForUser','direct'),
-				'unlock'            => array('unlockAsset','direct')
+				'addasset'                => array('addAsset','direct'),
+				'claim'                   => array('redirectToAsset',array('get','post','direct')),
+				'editasset'               => array('editAsset','direct'),
+				'getanalytics'            => array('getAnalytics','direct'),
+				'getasset'                => array('getAssetInfo','direct'),
+				'getassetsforconnection'  => array('getAssetsForConnection','direct'),
+				'getassetsforuser'        => array('getAssetsForUser','direct'),
+				'syncconnectionassets'    => array('syncConnectionAssets','direct'),
+				'unlock'                  => array('unlockAsset','direct')
 			);
 			// see if the action matches the routing table:
 			$basic_routing = $this->routeBasicRequest();
 			if ($basic_routing !== false) {
 				return $basic_routing;
 			} else {
-				// switch statement for cases that require more thinking than a straight pass-throgh
-				switch ($this->action) {
-					default:
-						return $this->response->pushResponse(
-							400,$this->request_type,$this->action,
-							$this->request,
-							'unknown action'
-						);
-				}
+				return $this->response->pushResponse(
+					404,$this->request_type,$this->action,
+					$this->request,
+					'unknown action'
+				);
 			}
 		} else {
 			return $this->response->pushResponse(
-				400,
-				$this->request_type,
-				$this->action,
+				400,$this->request_type,$this->action,
 				$this->request,
 				'no action specified'
 			);
 		}
+	}
+
+	protected function getAssetsForConnection($connection_id) {
+		$result = $this->db->getData(
+			'assets',
+			'*',
+			array(
+				"connection_id" => array(
+					"condition" => "=",
+					"value" => $connection_id
+				)
+			),
+			false,
+			'location'
+		);
+		return $result;
 	}
 
 	protected function getAssetsForUser($user_id) {
@@ -94,7 +106,7 @@ class AssetPlant extends PlantBase {
 		}
 	}
 	
-	protected function addAsset($title,$description,$location,$user_id,$connection_id=0,$tags=false,$metadata=false,$parent_id=0,$public_status=1) {
+	protected function addAsset($title,$description,$location,$user_id,$connection_id=0,$hash='',$size=0,$public_url='',$type='storage',$tags=false,$metadata=false,$parent_id=0,$public_status=1) {
 		$result = $this->db->setData(
 			'assets',
 			array(
@@ -104,7 +116,12 @@ class AssetPlant extends PlantBase {
 				'user_id' => $user_id,
 				'connection_id' => $connection_id,
 				'parent_id' => $parent_id,
-				'public_status' => $public_status
+				'public_status' => $public_status,
+				'hash' => $hash,
+				'size' => $size,
+				'type' => $type,
+				'public_url' => $public_url=''
+				
 			)
 		);
 		if ($result) {
@@ -113,15 +130,19 @@ class AssetPlant extends PlantBase {
 		return $result;
 	}
 	
-	protected function editAsset($id,$title=false,$description=false,$location=false,$connection_id=false,$parent_id=false,$public_status=false,$user_id=false,$tags=false,$metadata=false) {
+	protected function editAsset($id,$hash=false,$size=false,$location=false,$title=false,$description=false,$public_url=false,$connection_id=false,$type=false,$parent_id=false,$public_status=false,$user_id=false,$tags=false,$metadata=false) {
 		$final_edits = array_filter(
 			array(
 				'title' => $title,
 				'description' => $description,
 				'location' => $location,
+				'public_url' => $public_url,
 				'connection_id' => $connection_id,
 				'parent_id' => $parent_id,
-				'public_status' => $public_status
+				'public_status' => $public_status,
+				'type' => $type,
+				'size' => $size,
+				'hash' => $hash
 			),
 			'CASHSystem::notExplicitFalse'
 		);
@@ -320,6 +341,69 @@ class AssetPlant extends PlantBase {
 					'unknown asset type, please as an admin to check the asset type'
 				);
 			}
+		}
+	}
+
+	protected function syncConnectionAssets($connection_id) {
+		$connection = $this->getConnectionDetails($connection_id);
+
+		switch ($connection['type']) {
+			case 'com.amazon':
+				$s3 = new S3Seed($connection['user_id'],$connection_id);
+				$all_remote_files = $s3->listAllFiles();
+				if (!is_array($all_remote_files)) {
+					// could not get remote list. boo. abort.
+					return false;
+				} else {
+					$all_local_assets = $this->getAssetsForConnection($connection_id);
+				
+					$id_lookup = array();
+					$compare_local = array();
+					$compare_remote = array();
+				
+					// create reference arrays
+					foreach ($all_local_assets as $asset) {
+						$id_lookup[$asset['location']] = $asset['id'];
+						$compare_local[$asset['location']] = $asset['hash'];
+					}
+					foreach ($all_remote_files as $file) {
+						$compare_remote[$file['name']] = $file['hash'];
+					}
+				
+					//find deltas
+					$deltas = array_diff_assoc($compare_remote,$compare_local);
+					if (is_array($deltas)) {
+						foreach ($deltas as $location => $change) {
+							if (array_key_exists($location,$compare_local) && array_key_exists($location,$compare_remote)) {
+								// keys in both location - means hash has changed. edit local.
+								echo '<br /><br />trying edit<br /><br />';
+								$this->editAsset(
+									$id_lookup[$location],
+									$all_remote_files[$location]['hash'],
+									$all_remote_files[$location]['size']
+								);
+							} else {
+								if (array_key_exists($location,$compare_remote)) {
+									// remote key only - means new file. add local.
+									$this->addAsset(
+										$location,
+										'',
+										$location,
+										$connection['user_id'],
+										$connection_id,
+										$all_remote_files[$location]['hash'],
+										$all_remote_files[$location]['size']
+									);
+								} else {
+									// local key only - means file is gone. remove local.
+									$this->deleteAsset($id_lookup[$location]);
+								}
+							}
+						}
+					}
+					return true;
+				}
+				break;
 		}
 	}
 } // END class 

@@ -72,8 +72,19 @@ class S3Seed extends SeedBase {
 		return $this->s3->getObjectInfo($this->bucket, $remote_key);
 	}
 
-	public function listAllFiles() {
-		return $this->s3->getBucket($this->bucket);
+	public function listAllFiles($show_folders=false) {
+		$raw_file_list = $this->s3->getBucket($this->bucket);
+		if (!$show_folders) {
+			$return_array = array();
+			foreach ($raw_file_list as $uri => $details) {
+				if (substr($uri,-1) !== '/') {
+					$return_array[$uri] = $details;
+				}
+			}
+		} else {
+			$return_array = $raw_file_list;
+		}
+		return $return_array;
 	}
 
 	public function getAWSSystemTime() {

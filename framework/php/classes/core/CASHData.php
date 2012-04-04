@@ -579,10 +579,10 @@
 	 * Returns connection type for connection_id
 	 *
 	 * @return string or false
-	 */protected function getConnectionType($connection_id) {
+	 */protected function getConnectionDetails($connection_id) {
 		$result = $this->db->getData(
 			'connections',
-			'type',
+			'*',
 			array(
 				"id" => array(
 					"condition" => "=",
@@ -591,7 +591,20 @@
 			)
 		);
 		if ($result) {
-			return $result[0]['type'];
+			return $result[0];
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Returns connection type for connection_id
+	 *
+	 * @return string or false
+	 */protected function getConnectionType($connection_id) {
+		$result = $this->getConnectionDetails($connection_id);
+		if ($result) {
+			return $result['type'];
 		} else {
 			return false;
 		}
