@@ -629,5 +629,17 @@
 		}
 		return $markup;
 	}
+	
+	/**
+	 * Spit out human readable byte size
+	 * swiped from comments: http://us2.php.net/manual/en/function.memory-get-usage.php
+	 *
+	 * @param $bytes (int)
+	 * @param $precision (int)
+	 * @return string
+	 */function bytesToSize($bytes, $precision = 2) {
+	    $unit = array('B','KB','MB','GB','TB','PB','EB');
+		return @round($bytes / pow(1024, ($i = floor(log($bytes, 1024)))), $precision) . ' ' . $unit[$i];
+	}
 } // END class 
 ?>
