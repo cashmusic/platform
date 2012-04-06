@@ -27,7 +27,7 @@ if (is_array($applicable_connections)) {
 			} else {
 				$asset_title = $asset['title'];
 			}
-			echo '<li><a href="' . ADMIN_WWW_BASE_PATH . '/assets/edit/single/' . $asset['id'] . '"><span class="icon document_alt_fill"></span> ' . $asset_title . '</a>';
+			echo '<li><a href="' . ADMIN_WWW_BASE_PATH . '/assets/edit/file/' . $asset['id'] . '"><span class="icon document_alt_fill"></span> ' . $asset_title . '</a>';
 			echo '<br /><span class="icon"></span> <span class="smalltext fadedtext nobr">' . $asset['location'] . '</span><br /><span class="icon"></span> <span class="smalltext fadedtext nobr">' . AdminHelper::bytesToSize($asset['size']) . ', accessed: [int]</span></li>';
 		}
 		echo '</ul>';

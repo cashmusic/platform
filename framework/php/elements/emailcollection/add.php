@@ -29,7 +29,7 @@
 			
 			<br /><br />
 	
-			<a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/assets/add/single/"><small>OR ADD NEW ASSET</small></a>
+			<a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/assets/add/file/"><small>OR ADD NEW ASSET</small></a>
 			
 		</div>
 

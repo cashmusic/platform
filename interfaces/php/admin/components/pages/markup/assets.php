@@ -30,7 +30,7 @@ if ($settings['banners'][BASE_PAGENAME]) {
 			$loopcount = 1;
 			echo '<ol class="fadedtext">';
 			foreach ($mostaccessed_response['payload'] as $asset) {
-				echo '<li><a href="./assets/edit/single/' . $asset['id'] . '">' . $asset['title'] . '</a> <span class="smalltext nobr">(accessed: ' . $asset['count'] . ')</span></li>';
+				echo '<li><a href="./assets/edit/file/' . $asset['id'] . '">' . $asset['title'] . '</a> <span class="smalltext nobr">(accessed: ' . $asset['count'] . ')</span></li>';
 				$loopcount = $loopcount + 1;
 				if ($loopcount == 3) { break; }
 			}
