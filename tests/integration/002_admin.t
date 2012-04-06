@@ -69,7 +69,7 @@ mech->content_unlike(qr/SQLSTATE.*error/i);
 mech->get_ok("$base/interfaces/php/admin/assets/add/playlist/");
 mech->content_contains('Add Playlist');
 
-mech->get_ok("$base/interfaces/php/admin/assets/add/single/");
+mech->get_ok("$base/interfaces/php/admin/assets/add/file/");
 mech->submit_form_ok({
     form_number => 1,
     fields      => {
