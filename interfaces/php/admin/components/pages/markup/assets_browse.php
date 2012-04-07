@@ -1,25 +1,25 @@
 <?php
 if (is_array($applicable_connections)) {
 	if (!$browse_path) {
-		echo "<h2>Stored Files</h2>\n";
+		echo "<h3>Stored Files</h3>\n";
 		
-		echo '<ul>';
+		echo '<ul class="assetbrowse">';
 		foreach ($list_connections as $connection) {
 			echo "<li><a href=\"connection/{$connection['id']}/\"><span class=\"icon box\"></span> <b>{$connection['name']}</b></a>";
 			echo ' <span class="smalltext fadedtext nobr"> &nbsp; ' . $connection['type'] . ', ' . $connection['filecount'] . ' assets</span></li>';
 		}
 		echo '</ul>';
 	} else {
-		echo '<h2>';
+		echo '<h3>';
 		if ($browse_path == '.') {
-			echo '<span class="icon box"></span> root';
+			echo '<span class="icon box"></span> '. $connection_name;
 		} else {
 			echo '<span class="icon folder_fill"></span> ' . basename($browse_path);
 		}
-		echo '</h2>';
-		echo '<ul>';
+		echo '</h3>';
+		echo '<ul class="assetbrowse">';
 		foreach ($list_assets['directories'] as $location => $directory) {
-			echo '<li><a href="' . ADMIN_WWW_BASE_PATH . '/assets/browse/connection/' . $connection_id . '/' . $location . '"><span class="icon folder_fill"></span> <b>' . basename($directory) . '</b></a></li>';
+			echo '<li><a href="' . ADMIN_WWW_BASE_PATH . '/assets/browse/connection/' . $connection_id . '/' . $location . '"><span class="icon folder_fill"></span> <b>/ ' . basename($directory) . '</b></a></li>';
 		}
 		foreach ($list_assets['assets'] as $asset) {
 			if ($asset['title'] == $asset['location']) {

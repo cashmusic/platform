@@ -93,7 +93,7 @@
 	 * object was instantiated with. 
 	 *
 	 * @return settings obj
-	 */public function getSettings($id_override=false) {
+	 */public function getConnectionSettings($id_override=false) {
 		if (!$id_override) {
 			$connection_id = $this->connection_id;
 		} else {

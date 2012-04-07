@@ -30,7 +30,7 @@ if ($settings['banners'][BASE_PAGENAME]) {
 			$loopcount = 1;
 			echo '<ol class="fadedtext">';
 			foreach ($mostaccessed_response['payload'] as $asset) {
-				echo '<li><a href="./assets/edit/file/' . $asset['id'] . '">' . $asset['title'] . '</a> <span class="smalltext nobr">(accessed: ' . $asset['count'] . ')</span></li>';
+				echo '<li><a href="' . ADMIN_WWW_BASE_PATH . '/assets/edit/file/' . $asset['id'] . '">' . $asset['title'] . '</a> <span class="smalltext nobr">(accessed: ' . $asset['count'] . ')</span></li>';
 				$loopcount = $loopcount + 1;
 				if ($loopcount == 3) { break; }
 			}
@@ -46,7 +46,7 @@ if ($settings['banners'][BASE_PAGENAME]) {
 			$loopcount = 1;
 			echo '<ul class="alternating linkonly fadedtext">';
 			foreach ($cash_admin->getStoredResponse('asset_recentlyadded',true) as $asset) {
-				echo '<li><a href="./edit/single/' . $asset['id'] . '">' . $asset['title'] . '</a></li>';
+				echo '<li><a href="' . ADMIN_WWW_BASE_PATH . '/assets/edit/file/' . $asset['id'] . '">' . $asset['title'] . '</a></li>';
 				if ($loopcount == 5) { break; }
 				$loopcount = $loopcount + 1;
 			}

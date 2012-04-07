@@ -79,7 +79,7 @@
 					$connection_id = $request_parameters[1];
 					$settings_name = $request_parameters[2];
 					$settings_type = $request_parameters[3];
-					$settings_details = $page_data_object->getSettings($connection_id);
+					$settings_details = $page_data_object->getConnectionSettings($connection_id);
 					if (!isset($_POST['dosettingsedit'])) {
 						if ($settings_details) {
 							echo '<h3>Edit ' . $settings_name . '</h3>';

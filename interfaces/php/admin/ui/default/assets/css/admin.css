@@ -48,6 +48,8 @@ ul.alternating li a {line-height:1.5em;}
 ul.linkonly li:hover, ul.alternating li:hover {background-color:#fff;}
 ul.linkonly li {padding:0 !important;}
 ul.linkonly li a {display:block;padding:9px;color:#231F20 !important;}
+ul.assetbrowse {padding:0;}
+ul.assetbrowse li {list-style-type:none;margin-top:10px;}
 
 /* GENERAL PAGE LAYOUT */
 .clearfix {visibility:hidden;overflow:hidden;clear:both;height:1px;}

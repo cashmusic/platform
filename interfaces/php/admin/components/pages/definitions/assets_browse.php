@@ -63,6 +63,11 @@ if (is_array($applicable_connections)) {
 			),
 			'allassets'
 		);
+		$connection_name = 'root';
+		$update_connection_name = AdminHelper::getConnectionName($connection_id);
+		if ($update_connection_name) {
+			$connection_name = $update_connection_name;
+		}
 		if (is_array($assets_reponse['payload'])) {
 			$list_assets = array(
 				'assets' => array(),

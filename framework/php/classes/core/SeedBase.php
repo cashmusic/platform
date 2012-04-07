@@ -26,7 +26,7 @@ abstract class SeedBase extends CASHData {
 	 */protected function getCASHConnection() {
 		if ($this->connection_id) {
 			if ($this->settings = new CASHConnection($this->user_id,$this->connection_id)) {
-				return $this->settings->getSettings();
+				return $this->settings->getConnectionSettings();
 			} else {
 				return false;
 			}
