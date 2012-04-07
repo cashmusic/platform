@@ -24,9 +24,23 @@
 	if ($current_asset) {
 ?>
 
+	<h3>
+		<?php 
+		if ($current_asset['title'] != $current_asset['location']) {
+			echo str_replace('"','&quot;',$current_asset['title']); 
+		} else {
+			echo str_replace('"','&quot;',basename($current_asset['title'])); 
+		}
+		?>
+	</h3>
+	<p class="smalltext fadedtext">
+		size: <?php echo AdminHelper::bytesToSize($current_asset['size']); ?>, &nbsp; stored on: <?php echo AdminHelper::getConnectionName($current_asset['connection_id']); ?><br />
+		location: <?php echo $current_asset['location'] ?>
+	</p>
+
 	<form method="post" action="">
 		<input type="hidden" name="doassetedit" value="makeitso" />
-
+		
 		<h3>Asset Details</h3>
 		<label for="asset_title">Title / Name</label><br />
 		<input type="text" id="asset_title" name="asset_title" value="<?php echo str_replace('"','&quot;',$current_asset['title']); ?>" />
@@ -40,7 +54,7 @@
 			<label for="connection_id">Use Settings</label><br />
 			<select id="connection_id" name="connection_id">
 				<option value="0" selected="selected">None (Normal http:// link)</option>
-				<?php AdminHelper::echoConnectionsOptions('assets', $current_asset['connection_id']) ?>
+				<?php AdminHelper::echoConnectionsOptions('assets', $current_asset['connection_id']); ?>
 			</select>
 		</div>
 

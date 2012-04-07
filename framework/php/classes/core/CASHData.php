@@ -579,7 +579,7 @@
 	 * Returns connection type for connection_id
 	 *
 	 * @return string or false
-	 */protected function getConnectionDetails($connection_id) {
+	 */public function getConnectionDetails($connection_id) {
 		$result = $this->db->getData(
 			'connections',
 			'*',

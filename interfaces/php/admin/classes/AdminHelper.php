@@ -111,6 +111,16 @@
 		}
 	}
 
+	public static function getConnectionName($connection_id) {
+		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+		$connection_name = false;
+		$connection_details = $page_data_object->getConnectionDetails($connection_id);
+		if ($connection_details) {
+			$connection_name = $connection_details['name'];
+		}
+		return $connection_name;
+	}
+
 	/**
 	 * Tell it what you need. It makes dropdowns. It's a dropdown robot travelling
 	 * at the speed of light — it'll make a supersonic nerd of you. Don't stop it.
