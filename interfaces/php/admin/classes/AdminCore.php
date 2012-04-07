@@ -45,8 +45,8 @@
 				'user_id' => $this->effective_user_id
 			)
 		);
-		if ($settings_request->response['payload']['value']) {
-			return json_decode($settings_request->response['payload']['value'],true);
+		if ($settings_request->response['payload']) {
+			return $settings_request->response['payload'];
 		} else {
 			$this->setUserSettings($this->default_user_settings);
 			return $this->default_user_settings;
@@ -59,7 +59,7 @@
 				'cash_request_type' => 'system', 
 				'cash_action' => 'setsettings',
 				'type' => 'cashmusic_admin_settings',
-				'value' => json_encode($settings_array),
+				'value' => $settings_array,
 				'user_id' => $this->effective_user_id
 			)
 		);

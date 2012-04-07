@@ -5,6 +5,8 @@ require_once('tests/php/base.php');
 class BasicHTTPAPITests extends UnitTestCase {
 
 	function testValidDestination() {
+		echo "Testing Basic (verbose) API\n";
+		
 		$return = json_decode(CASHSystem::getURLContents(CASH_API_URL));
 		
 		$this->assertNotNull($return); // invalid JSON should return NULL - though this is only a basic validation

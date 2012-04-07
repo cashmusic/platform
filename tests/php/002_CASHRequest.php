@@ -5,6 +5,8 @@ require_once('tests/php/base.php');
 class CASHRequestTests extends UnitTestCase {
 
 	function testCASHRequest(){
+		echo "Testing CASHRequest Class\n";
+		
 		$cr = new CASHRequest();
 		$this->assertIsa($cr, 'CASHRequest', 'can create a cash request with no params');
 

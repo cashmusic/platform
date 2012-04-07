@@ -6,6 +6,8 @@ require_once('framework/php/classes/plants/SystemPlant.php');
 class SystemPlantTests extends UnitTestCase {
 
 	function testSystemPlant() {
+		echo "Testing SystemPlant\n";
+		
 		$eplant = new SystemPlant('blarg',1);
 		$this->assertIsa($eplant, 'SystemPlant');
 	}
@@ -175,7 +177,7 @@ class SystemPlantTests extends UnitTestCase {
 				'cash_request_type' => 'system', 
 				'cash_action' => 'setsettings',
 				'type' => 'tests',
-				'value' => json_encode(array('testkey' => 'testval','second' => 'value')),
+				'value' => array('testkey' => 'testval','second' => 'value'),
 				'user_id' => 1
 			)
 		);
@@ -192,9 +194,8 @@ class SystemPlantTests extends UnitTestCase {
 		$this->assertTrue($settings_request->response['payload']);
 		// make sure values were set correctly
 		if ($settings_request->response['payload']) {
-			$decoded = json_decode($settings_request->response['payload']['value'],true);
-			$this->assertEqual($decoded['testkey'],'testval');
-			$this->assertEqual($decoded['second'],'value');
+			$this->assertEqual($settings_request->response['payload']['testkey'],'testval');
+			$this->assertEqual($settings_request->response['payload']['second'],'value');
 		}
 
 		// test overwriting with a new value by key/user
@@ -217,7 +218,7 @@ class SystemPlantTests extends UnitTestCase {
 				'user_id' => 1
 			)
 		);
-		$this->assertEqual($settings_request->response['payload']['value'],'we changed it!');
+		$this->assertEqual($settings_request->response['payload'],'we changed it!');
 
 		// okay, blow it away and make sure it's gone
 		$settings_request = new CASHRequest(

@@ -6,6 +6,8 @@ require_once('framework/php/classes/plants/EchoPlant.php');
 class CASHPlantTests extends UnitTestCase {
 
 	function testEchoPlant(){
+		echo "Testing Plant basics\n";
+		
 		$eplant = new EchoPlant('blarg',1);
 		$this->assertIsa($eplant, 'EchoPlant');
 		$output = $eplant->processRequest();

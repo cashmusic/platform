@@ -36,7 +36,9 @@
 	<p class="smalltext fadedtext">
 		size: <?php echo AdminHelper::bytesToSize($current_asset['size']); ?>, &nbsp; stored on: <?php echo AdminHelper::getConnectionName($current_asset['connection_id']); ?><br />
 		location: <?php echo $current_asset['location'] ?>
-	</p>
+	</p><p>
+		<a href="#" class="actionlink"><span class="icon heart_fill"></span> favorite this asset</a> <a href="#" class="actionlink"><span class="icon link"></span> generate private link</a>
+	</p><br />
 
 	<form method="post" action="">
 		<input type="hidden" name="doassetedit" value="makeitso" />

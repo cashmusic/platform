@@ -325,7 +325,7 @@ class SystemPlant extends PlantBase {
 		return $result;
 	}
 
-	protected function getSettings($user_id,$type) {
+	protected function getSettings($user_id,$type,$return_json=false) {
 		$result = $this->db->getData(
 			'settings',
 			'*',
@@ -341,7 +341,11 @@ class SystemPlant extends PlantBase {
 			)
 		);
 		if ($result) {
-			return $result[0];
+			if ($return_json) {
+				return $result[0];
+			} else {
+				return json_decode($result[0]['value'],true);
+			}
 		} else {
 			return false;
 		}
@@ -388,7 +392,7 @@ class SystemPlant extends PlantBase {
 				array(
 					'user_id' => $user_id,
 					'type' => $type,
-					'value' => $value
+					'value' => json_encode($value)
 				),
 				$condition
 			);

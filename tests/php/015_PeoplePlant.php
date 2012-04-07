@@ -6,6 +6,8 @@ class PeoplePlantTests extends UnitTestCase {
 	var $testing_list;
 	
 	function testPeoplePlant(){
+		echo "Testing PeoplePlant\n";
+		
 		$p = new PeoplePlant('People', array());
 		$this->assertIsa($p, 'PeoplePlant');
 	}

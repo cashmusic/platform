@@ -6,6 +6,8 @@ class AssetPlantTests extends UnitTestCase {
 	var $testingAsset;
 	
 	function testAssetPlant(){
+		echo "Testing AssetPlant\n";
+		
 		$a = new AssetPlant('people', array());
 		$this->assertIsa($a, 'AssetPlant');
 	}

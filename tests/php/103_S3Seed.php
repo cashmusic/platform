@@ -6,6 +6,8 @@ class S3SeedTests extends UnitTestCase {
 	private $s3_connection_id,$s3_key,$s3_bucket,$timestamp;
 	
 	function __construct() {
+		echo "Testing S3 Seed\n";
+		
 		// add a new admin user for this
 		$user_add_request = new CASHRequest(
 			array(
