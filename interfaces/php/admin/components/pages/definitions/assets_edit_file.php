@@ -1,7 +1,7 @@
 <?php
 // add unique page settings:
-$page_title = 'Assets: Edit Asset';
-$page_tips = 'Edit a single file.';
+$page_title = 'Assets: Asset Details';
+$page_tips = 'View/edit details for a file.';
 
 $cash_admin->requestAndStore(
 	array(
@@ -47,4 +47,14 @@ if (isset($_POST['doassetedit'])) {
 		'getasset'
 	);
 }
+
+if (isset($_REQUEST['togglefavorite'])) {
+	if ($cash_admin->isAssetAFavorite($request_parameters[0])) {
+		$cash_admin->unFavoriteAsset($request_parameters[0]);
+	} else {
+		$cash_admin->favoriteAsset($request_parameters[0]);
+	}
+}
+
+$cash_admin->storeData($cash_admin->isAssetAFavorite($request_parameters[0]),'is_favorite');
 ?>

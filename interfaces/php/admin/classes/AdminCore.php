@@ -25,7 +25,8 @@
 			'people' => true,
 			'commerce' => true,
 			'calendar' => true
-		)
+		),
+		'favorite_assets' => array()
 	);
 	
 	public function __construct($effective_user_id=false) {
@@ -64,6 +65,33 @@
 			)
 		);
 		return $settings_request;
+	}
+
+	public function favoriteAsset($asset_id) {
+		$user_settings = $this->getUserSettings();
+		if (!in_array($asset_id,$user_settings['favorite_assets'])) {
+			$user_settings['favorite_assets'][] = $asset_id;
+		}
+		$this->setUserSettings($user_settings);
+	}
+
+	public function unFavoriteAsset($asset_id) {
+		$user_settings = $this->getUserSettings();
+		$key = array_search($asset_id,$user_settings['favorite_assets']);
+		if ($key !== false) {
+			unset($user_settings['favorite_assets'][$key]);
+		}
+		$this->setUserSettings($user_settings);
+	}
+
+	public function getAllFavoriteAssets() {
+		$user_settings = $this->getUserSettings();
+		return $user_settings['favorite_assets'];
+	}
+	
+	public function isAssetAFavorite($asset_id) {
+		$favorites = $this->getAllFavoriteAssets();
+		return in_array($asset_id,$favorites);
 	}
 
 	/**

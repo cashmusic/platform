@@ -36,8 +36,18 @@
 	<p class="smalltext fadedtext">
 		size: <?php echo AdminHelper::bytesToSize($current_asset['size']); ?>, &nbsp; stored on: <?php echo AdminHelper::getConnectionName($current_asset['connection_id']); ?><br />
 		location: <?php echo $current_asset['location'] ?>
+		<?php 
+		if ($cash_admin->getStoredData('is_favorite')) { 
+			echo '<br /><br /><span class="icon heart_fill"></span> this asset is a favorite<br />';
+		}
+		?>
 	</p><p>
-		<a href="#" class="actionlink"><span class="icon heart_fill"></span> favorite this asset</a> <a href="#" class="actionlink"><span class="icon link"></span> generate private link</a>
+		<?php if (!$cash_admin->getStoredData('is_favorite')) { ?>
+			<a href="?togglefavorite=true" class="actionlink"><span class="icon heart_fill"></span> favorite this asset</a> 
+		<?php } else { ?>
+			<a href="?togglefavorite=true" class="actionlink"><span class="icon x_alt"></span> unfavorite this asset</a> 
+		<?php } ?>
+		<a href="#" class="actionlink"><span class="icon link"></span> generate private link</a>
 	</p><br />
 
 	<form method="post" action="">
