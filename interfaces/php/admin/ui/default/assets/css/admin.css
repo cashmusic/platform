@@ -113,6 +113,7 @@ a.mockbutton:hover {background-color:#000 !important;text-decoration:none !impor
 div.callout a {font-weight:bold;color:#999;}
 div.callout a:hover {font-weight:bold;color:#231F20;}
 * a.needsconfirmation:hover {color:#f00 !important;}
+* a.actionlink {font-weight:bold;margin-right:2em;}
 
 /* ICONS */
 .icon {display:inline-block;font-family:'IconicFill';font-weight:normal;width:1.35em;text-align:center;}

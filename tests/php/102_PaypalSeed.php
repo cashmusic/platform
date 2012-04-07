@@ -6,6 +6,8 @@ class PaypalSeedTests extends UnitTestCase {
 	private $paypal_connection_id, $paypal_username,$cash_user_id;
 	
 	function __construct() {
+		echo "Testing Paypal Seed\n";
+		
 		// add a new admin user for this
 		$user_add_request = new CASHRequest(
 			array(

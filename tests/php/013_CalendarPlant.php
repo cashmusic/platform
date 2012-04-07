@@ -6,6 +6,7 @@ class CalendarPlantTests extends UnitTestCase {
 	var $testingvenue, $testingevent;
 	
 	function testCalendarPlant(){
+		echo "Testing CalendarPlant\n";
 		$c = new CalendarPlant('calendar', array());
 		$this->assertIsa($c, 'CalendarPlant');
 	}

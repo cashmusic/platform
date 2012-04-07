@@ -5,6 +5,8 @@ require_once('tests/php/base.php');
 class CASHSystemTests extends UnitTestCase {
 
 	function test_getSystemSettings() {
+		echo "Testing CASHSystem:: functions\n";
+		
 		// get all settings
 		$return = CASHSystem::getSystemSettings(); 
 		$this->assertTrue(is_array($return));

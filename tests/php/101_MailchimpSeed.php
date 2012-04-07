@@ -10,6 +10,8 @@ class MailchimpSeedTests extends UnitTestCase {
 			$cash_user_id=1; // arbitrary user id so settings/queries match
 	
 	function __construct() {
+		echo "Testing MailChimp Seed\n";
+		
 		// add a new admin user for this
 		$user_add_request = new CASHRequest(
 			array(

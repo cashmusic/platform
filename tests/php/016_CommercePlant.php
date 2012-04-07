@@ -6,6 +6,8 @@ class CommercePlantTests extends UnitTestCase {
 	var $testing_item,$testing_order,$testing_transaction;
 	
 	function testCommercePlant(){
+		echo "Testing CommercePlant\n";
+		
 		$p = new CommercePlant('commerce', array());
 		$this->assertIsa($p, 'CommercePlant');
 	}
