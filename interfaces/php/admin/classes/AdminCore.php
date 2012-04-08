@@ -86,7 +86,11 @@
 
 	public function getAllFavoriteAssets() {
 		$user_settings = $this->getUserSettings();
-		return $user_settings['favorite_assets'];
+		if (!count($user_settings['favorite_assets'])) {
+			return false;
+		} else {
+			return $user_settings['favorite_assets'];
+		}
 	}
 	
 	public function isAssetAFavorite($asset_id) {

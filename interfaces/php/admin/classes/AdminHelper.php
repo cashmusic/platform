@@ -126,12 +126,17 @@
 	 * at the speed of light — it'll make a supersonic nerd of you. Don't stop it.
 	 *
 	 * @return array
-	 */public static function echoFormOptions($base_type,$selected=0) {
+	 */public static function echoFormOptions($base_type,$selected=0,$range=false) {
 		switch ($base_type) {
 			case 'assets':
 				$plant_name = 'asset';
 				$action_name = 'getassetsforuser';
 				$display_information = 'title';
+				if ($range) {
+					if (!in_array($selected,$range)) {
+						$range[] = $selected;
+					}
+				}
 				break;
 			case 'people_lists':
 				$plant_name = 'people';
@@ -153,11 +158,19 @@
 		);
 		if (is_array($echoformoptions_cash_request->response['payload']) && ($echoformoptions_cash_request->response['status_code'] == 200)) {
 			foreach ($echoformoptions_cash_request->response['payload'] as $item) {
-				$selected_string = '';
-				if ($item['id'] == $selected) { 
-					$selected_string = ' selected="selected"';
+				$doloop = true;
+				if ($range) {
+					if (!in_array($item['id'],$range)) {
+						$doloop = false;
+					}
 				}
-				echo '<option value="' . $item['id'] . '"' . $selected_string . '>' . $item[$display_information] . '</option>';
+				if ($doloop) {
+					$selected_string = '';
+					if ($item['id'] == $selected) { 
+						$selected_string = ' selected="selected"';
+					}
+					echo '<option value="' . $item['id'] . '"' . $selected_string . '>' . $item[$display_information] . '</option>';
+				}
 			}
 		}
 		unset($echoformoptions_cash_request);

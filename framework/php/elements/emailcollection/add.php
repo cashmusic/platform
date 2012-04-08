@@ -24,7 +24,7 @@
 			<label for="asset_id">The Downloadable Asset</label><br />
 			<select id="asset_id" name="asset_id">
 				<option value="0">none</option>
-				<?php AdminHelper::echoFormOptions('assets'); ?>
+				<?php AdminHelper::echoFormOptions('assets',false,$cash_admin->getAllFavoriteAssets()); ?>
 			</select>
 			
 			<br /><br />
