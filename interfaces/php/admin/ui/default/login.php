@@ -21,8 +21,9 @@
 		#loginbox input.button {margin:18px 0 0 0;background-color:#ff0;color:#000;border:1px solid #ff0;}
 		#loginbox input.button:hover {background-color:#000;color:#fff;border:1px solid #000;}
 		#loginbox input.button:active {background-color:#fff;color:#000;border:1px solid #fff;}
+		#alternateloginbox {position:relative;width:260px;height:auto;padding:16px 430px 105px 40px;text-align:right;}
+		.cash_browserid_button {width:80px;height:25px;}
 	</style>
-
 </head>
 <body>
 
@@ -45,16 +46,20 @@
 					<small><b>CASH Music</b></small>
 					<h1<?php if ($login_message == 'Try Again') {echo ' class="tryagain"';} ?>><?php echo $login_message; ?>:</h1>
 			
-					<form method="post" action=""> 
+					<form method="post" id="cash_signin_form" action=""> 
 						<label for="address">email</label>
 						<input type="text" name="address" value="" /><br />
 						<label for="address">password</label>
 						<input type="password" name="password" value="" /><br />
 						<input type="hidden" name="login" value="1" /> 
 						<div style="text-align:right;">
+						<input type="hidden" id="browseridassertion" name="browseridassertion" value="" />
 						<input type="submit" value="log in" class="button" /><br />
 						</div>
 					</form>
+				</div>
+				<div id="alternateloginbox">
+					<a href="javascript:void(0)" id="browserid_login_link"><img src="<?php echo ADMIN_WWW_BASE_PATH; ?>/ui/default/assets/images/browserid.png" alt="log in with browser id" class="cash_browserid_button" /></a>
 				</div>
 			</div>
 			
@@ -69,4 +74,5 @@
 </div>
 
 </body>
+<?php echo CASHSystem::getBrowserIdJS(); ?>
 </html>
