@@ -2,7 +2,7 @@
 <br />
 
 <div class="col_oneofthree">
-	<a href="./single/"><b>Single Asset</b></a><br />
+	<a href="./file/"><b>Single Asset</b></a><br />
 	A single asset of any type.
 </div>
 <div class="col_oneofthree">

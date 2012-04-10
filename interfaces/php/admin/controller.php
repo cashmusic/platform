@@ -71,7 +71,7 @@ $run_login_scripts = false;
 // if a login needs doing, do it
 $login_message = "Log In";
 if (isset($_POST['login'])) {
-	$login_details = AdminHelper::doLogin($_POST['address'],$_POST['password']);
+	$login_details = AdminHelper::doLogin($_POST['address'],$_POST['password'],$_POST['browseridassertion']);
 	if ($login_details !== false) {
 		$admin_primary_cash_request->sessionSet('cash_actual_user',$login_details);
 		$admin_primary_cash_request->sessionSet('cash_effective_user',$login_details);
