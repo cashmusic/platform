@@ -8,9 +8,9 @@ class AdminBasicIntegration extends UnitTestCase {
 	private $cash_user_id=1;
 	
 	public function __construct() {
-		echo 'Testing Basic Admin Integration';
 		$this->cc = new cURL();
 		$this->cash_test_url = getTestEnv('CASHMUSIC_TEST_URL');
+		echo "Testing basic admin integration at:\n" . $this->cash_test_url;
 		$user_add_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'system', 

@@ -10,6 +10,7 @@ foreach ($test_files as $file) {
 }
 
 if (TextReporter::inCli()) {
+	echo "\n\n";
     $code = $test->run(new TextReporter()) ? 0 : 1;
     if ($code == 0) {
         echo("\nResult: PASS\n");
