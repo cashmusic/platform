@@ -53,7 +53,7 @@
 						<input type="password" name="password" value="" /><br />
 						<input type="hidden" name="login" value="1" /> 
 						<div style="text-align:right;">
-						<input type="hidden" id="browseridassertion" name="browseridassertion" value="" />
+						<input type="hidden" id="browseridassertion" name="browseridassertion" value="-1" />
 						<input type="submit" value="log in" class="button" /><br />
 						</div>
 					</form>

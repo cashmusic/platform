@@ -13,14 +13,15 @@
  *
  */abstract class AdminHelper  {
 
-	public static function doLogin($email_address,$password,$require_admin=true) {
+	public static function doLogin($email_address,$password,$require_admin=true,$browserid_assertion=false) {
 		$login_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'system', 
 				'cash_action' => 'validatelogin',
 				'address' => $email_address, 
 				'password' => $password,
-				'require_admin' => $require_admin
+				'require_admin' => $require_admin,
+				'browserid_assertion' => $browserid_assertion
 			)
 		);
 		return $login_request->response['payload'];
