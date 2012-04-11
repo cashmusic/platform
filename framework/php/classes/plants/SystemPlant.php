@@ -93,9 +93,8 @@ class SystemPlant extends PlantBase {
 			// none of the fancy stuff but you're trying to push through no user/pass? bullshit! false!
 			return false;
 		}
-		if (!$password) {
-			// set a password string for hashing
-			$password = 'password'; // ha! i just made someone doing a security review really sad.
+		if (!$password && !$browserid_assertion) {
+			return false; // seriously no password? lame.
 		}
 		$password_hash = hash_hmac('sha256', $password, $this->salt);
 		if ($browserid_assertion && !$verified_address) {
@@ -120,7 +119,7 @@ class SystemPlant extends PlantBase {
 				)
 			)
 		);
-		if ($password_hash == $result[0]['password'] || $verified_address) {
+		if ($result && ($password_hash == $result[0]['password'] || $verified_address)) {
 			if (($require_admin && $result[0]['is_admin']) || !$require_admin) {
 				$this->recordLoginAnalytics($result[0]['id'],$element_id,$login_method);
 				return $result[0]['id'];
