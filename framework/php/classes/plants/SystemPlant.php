@@ -104,7 +104,7 @@ class SystemPlant extends PlantBase {
 				return false;
 			} else {
 				$verified_address = true;
-				$login_method = 'browserid';				
+				$login_method = 'browserid';
 			}
 		}
 		if ($browserid_assertion && $verified_address) {

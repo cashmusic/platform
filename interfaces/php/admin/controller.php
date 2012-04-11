@@ -71,11 +71,16 @@ $run_login_scripts = false;
 // if a login needs doing, do it
 $login_message = "Log In";
 if (isset($_POST['login'])) {
-	$login_details = AdminHelper::doLogin($_POST['address'],$_POST['password'],$_POST['browseridassertion']);
+	$login_details = AdminHelper::doLogin($_POST['address'],$_POST['password'],true,$_POST['browseridassertion']);
 	if ($login_details !== false) {
 		$admin_primary_cash_request->sessionSet('cash_actual_user',$login_details);
 		$admin_primary_cash_request->sessionSet('cash_effective_user',$login_details);
-		$admin_primary_cash_request->sessionSet('cash_effective_user_email',$_POST['address']);
+		if ($_POST['browseridassertion']) {
+			$address = CASHSystem::getBrowserIdStatus($_POST['browseridassertion']);
+		} else {
+			$address = $_POST['address'];
+		}
+		$admin_primary_cash_request->sessionSet('cash_effective_user_email',$address);
 		
 		$run_login_scripts = true;
 		
