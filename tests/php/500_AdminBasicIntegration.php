@@ -6,21 +6,31 @@ class AdminBasicIntegration extends UnitTestCase {
 	public $cc;
 	private $cash_test_url=false;
 	private $cash_user_id=1;
+	private $cash_user_login='email@example.com';
+	private $cash_user_password='hack_my_gibson';
 	
 	public function __construct() {
 		$this->cc = new cURL();
 		$this->cash_test_url = getTestEnv('CASHMUSIC_TEST_URL');
 		echo "Testing basic admin integration at:\n" . $this->cash_test_url;
-		$user_add_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'system', 
-				'cash_action' => 'addlogin',
-				'address' => 'email@example.com',
-				'password' => 'correct',
-				'is_admin' => 1
-			)
-		);
-		$this->cash_user_id = $user_add_request->response['payload'];
+		// force a static login for CI workers (Travs, etc):
+		$force_login = getTestEnv('CASH_CI_LOGIN');
+		$force_password = getTestEnv('CASH_CI_PASSWORD');
+		if ($force_login) {
+			$this->cash_user_login = $force_login;
+			$this->cash_user_password = $force_password;
+		} else {
+			$user_add_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'system', 
+					'cash_action' => 'addlogin',
+					'address' => $this->cash_user_login,
+					'password' => $this->cash_user_password,
+					'is_admin' => 1
+				)
+			);
+			$this->cash_user_id = $user_add_request->response['payload'];
+		}
     }
 	
 	public function testLogin() {
@@ -44,8 +54,8 @@ class AdminBasicIntegration extends UnitTestCase {
 			$src = $this->cc->post(
 				$this->cash_test_url . '/interfaces/php/admin/',
 				http_build_query(array(
-					'address'=>'email@example.com',
-					'password'=>'correct',
+					'address'=>$this->cash_user_login,
+					'password'=>$this->cash_user_password,
 					'login'=>'1'
 				))
 			);

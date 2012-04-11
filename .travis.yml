@@ -16,4 +16,4 @@ php:
   - 5.4
 script: "make test"
 env:
-    - CI_USER=vagrant CASHMUSIC_TEST_URL='http://dev.cashmusic.org:8080'
+    - CI_USER=vagrant CASHMUSIC_TEST_URL='http://dev.cashmusic.org:8080' CASH_CI_LOGIN='root@localhost' CASH_CI_PASSWORD='hack_my_gibson' 
