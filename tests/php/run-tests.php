@@ -7,7 +7,7 @@ if (!$test_pattern) {
 	exit(1);
 }
 
-require_once('tests/php/base.php');
+require_once(dirname(__FILE__) . '/base.php');
 
 $test         = new TestSuite('Run tests');
 $file_pattern = "tests/php/*$test_pattern*.php";

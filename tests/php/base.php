@@ -16,15 +16,15 @@ set_error_handler("terminator");
 require_once(dirname(__FILE__) .'/functions.php');
 
 // this deploys to SQLite and sets up cashmusic.ini.php
-system("php installers/php/test_installer.php");
+system("php " . dirname(__FILE__) . "/../../installers/php/test_installer.php");
 
 // All tests should include this file, so we can modify basic test functionality
 // here without needing to modify all our tests
 
 // this includes the basic SimpleTest library
-require_once('tests/lib/simpletest/unit_tester.php');
-require_once('tests/lib/simpletest/reporter.php');
+require_once(dirname(__FILE__) . '/../lib/simpletest/unit_tester.php');
+require_once(dirname(__FILE__) . '/../lib/simpletest/reporter.php');
 
 // this loads CASH Music DIY
-require_once('framework/php/cashmusic.php');
+require_once(dirname(__FILE__) . '/../../framework/php/cashmusic.php');
 ?>

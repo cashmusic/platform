@@ -1,5 +1,5 @@
 <?php
-require_once('tests/php/base.php');
+require_once(dirname(__FILE__) . '/base.php');
 
 $test = new TestSuite('All tests');
 // All tests should be of the form NNN_description.php

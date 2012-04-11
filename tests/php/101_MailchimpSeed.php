@@ -1,6 +1,6 @@
 <?php
 
-require_once('tests/php/base.php');
+require_once(dirname(__FILE__) . '/base.php');
 
 class MailchimpSeedTests extends UnitTestCase {
 	var $test_list_id;

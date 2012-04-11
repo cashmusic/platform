@@ -31,6 +31,10 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		rename($installer_root . '/../../framework/php/settings/cashmusic.ini.pretest.bak',$installer_root . '/../../framework/php/settings/cashmusic.ini.php');
 		$repairs++;
 	}
+	if (file_exists($installer_root . '/../../tests/php/cookies.txt')) {
+		unlink($installer_root . '/../../tests/php/cookies.txt');
+		$repairs++;
+	}
 	
 	if ($repairs) {
 		echo "Put things back as they belong. Test INI file and database removed.\n";
