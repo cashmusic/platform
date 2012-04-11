@@ -12,7 +12,7 @@ class AdminBasicIntegration extends UnitTestCase {
 	public function __construct() {
 		$this->cc = new cURL();
 		$this->cash_test_url = getTestEnv('CASHMUSIC_TEST_URL');
-		echo "Testing basic admin integration at:\n" . $this->cash_test_url;
+		echo "Testing basic admin integration at:\n" . $this->cash_test_url . "\n";
 		// force a static login for CI workers (Travs, etc):
 		$force_login = getTestEnv('CASH_CI_LOGIN');
 		$force_password = getTestEnv('CASH_CI_PASSWORD');
