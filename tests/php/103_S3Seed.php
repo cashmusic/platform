@@ -1,6 +1,6 @@
 <?php
 
-require_once('tests/php/base.php');
+require_once(dirname(__FILE__) . '/base.php');
 
 class S3SeedTests extends UnitTestCase {
 	private $s3_connection_id,$s3_key,$s3_bucket,$timestamp;
