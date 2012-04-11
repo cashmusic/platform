@@ -5,14 +5,14 @@ if (is_array($applicable_connections)) {
 		
 		echo '<ul class="assetbrowse">';
 		foreach ($list_connections as $connection) {
-			echo "<li><a href=\"connection/{$connection['id']}/\"><span class=\"icon box\"></span> <b>{$connection['name']}</b></a>";
+			echo "<li><a href=\"connection/{$connection['id']}/\"><span class=\"icon cloud_upload\"></span> <b>{$connection['name']}</b></a>";
 			echo ' <span class="smalltext fadedtext nobr"> &nbsp; ' . $connection['type'] . ', ' . $connection['filecount'] . ' assets</span></li>';
 		}
 		echo '</ul>';
 	} else {
 		echo '<h3>';
 		if ($browse_path == '.') {
-			echo '<span class="icon box"></span> '. $connection_name;
+			echo '<span class="icon cloud_upload"></span> '. $connection_name;
 		} else {
 			echo '<span class="icon folder_fill"></span> ' . basename($browse_path);
 		}
@@ -20,7 +20,7 @@ if (is_array($applicable_connections)) {
 		
 		if ($browse_path != '.') {
 			$current_link = ADMIN_WWW_BASE_PATH . '/assets/browse/connection/' . $connection_id;
-			echo '<span class="smalltext fadedtext"><a href="' . $current_link . '" class="fadedtext">' . '<span class="icon box"></span> '. $connection_name . '</a>';
+			echo '<span class="smalltext fadedtext"><a href="' . $current_link . '" class="fadedtext">' . '<span class="icon cloud_upload"></span> '. $connection_name . '</a>';
 			$exploded_location = explode('/',$browse_path);
 			foreach ($exploded_location as $level) {
 				$current_link .= '/' . $level;
