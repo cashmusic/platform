@@ -161,5 +161,5 @@
 					}
 				}
 			?>
-			
+
 			<div id="pagedisplay"<?php echo $is_menu_set; ?>>

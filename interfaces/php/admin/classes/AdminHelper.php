@@ -615,6 +615,13 @@
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/export/' . $item['id'] . '" class="mininav_flush"><span class="icon download"></span> Export</a> '
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/delete/' . $item['id'] . '" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>'
 							. '</div>';
+				} elseif ($response['status_uid'] == "commerce_getitemsforuser_200") {
+					$markup .= '<h4>' . $item['name'] . '</h4>'
+							. AdminHelper::createdModifiedFromRow($item,true)
+							. '<div class="itemnav">'
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/commerce/items/edit/' . $item['id'] . '" class="mininav_flush"><span class="icon pen"></span> Edit</a> '
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/commerce/items/delete/' . $item['id'] . '" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>'
+							. '</div>';
 				} elseif ($response['status_uid'] == "element_getelementsforuser_200") {
 					$elements_data = AdminHelper::getElementsData();
 					$markup .= '<h4>' . $item['name'];
