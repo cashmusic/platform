@@ -59,28 +59,38 @@
 				<div id="contentmask">&nbsp;</div>
 				<div class="navitem bgcolor1<?php echo ($dirname == 'elements' ? ' currentnav' : ''); ?>">
 					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/elements/">Elements</a></h2>
-					create<br />
-					embed<br />
+					<div class="navitemdescription">
+						create<br />
+						embed<br />
+					</div>
 				</div>
 				<div class="navitem bgcolor2<?php echo ($dirname == 'assets' ? ' currentnav' : ''); ?>">
 					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/assets/">Assets</a></h2>
-					upload<br />
-					organize<br />
+					<div class="navitemdescription">
+						upload<br />
+						organize<br />
+					</div>
 				</div>
 				<div class="navitem bgcolor3<?php echo ($dirname == 'people' ? ' currentnav' : ''); ?>">
 					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/people/">People</a></h2>
-					manage<br />
-					list
+					<div class="navitemdescription">
+						manage<br />
+						list
+					</div>
 				</div>
 				<div class="navitem bgcolor4<?php echo ($dirname == 'commerce' ? ' currentnav' : ''); ?>">
 					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/commerce/">Commerce</a></h2>
-					sell<br />
-					fulfill<br />
+					<div class="navitemdescription">	
+						sell<br />
+						fulfill<br />
+					</div>
 				</div>
 				<div class="navitem bgcolor5<?php echo ($dirname == 'calendar' ? ' currentnav' : ''); ?>">
 					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/calendar/">Calendar</a></h2>
-					shows<br />
-					guestlist
+					<div class="navitemdescription">
+						shows<br />
+						guestlist
+					</div>
 				</div>
 				
 				<a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/" id="dashboardlink">Main Page</a>
