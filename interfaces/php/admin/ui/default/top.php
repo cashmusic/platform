@@ -56,7 +56,6 @@
 				</div>
 			</div>
 			<div id="navmenu">
-				<div id="contentmask">&nbsp;</div>
 				<div class="navitem bgcolor1<?php echo ($dirname == 'elements' ? ' currentnav' : ''); ?>">
 					<h2><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/elements/">Elements</a></h2>
 					<div class="navitemdescription">
@@ -92,18 +91,6 @@
 						guestlist
 					</div>
 				</div>
-				
-				<a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/" id="dashboardlink">Main Page</a>
-				
-				<div id="helpmenu">
-					<span id="mainhelplink">Help</span>
-					<ul>
-						<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/help/" id="tipslink">Tips for <b>this</b> page</a></li>
-						<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/help/gettingstarted/">Getting started</a></li>
-						<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/help/">FAQ</a></li>
-						<li><a href="http://help.cashmusic.org/">help.cashmusic.org</a></li>
-					</ul>
-				</div>
 			</div>
 			
 			<div id="tipspc">
@@ -123,6 +110,17 @@
 		</div>
 		
 		<div id="pagecontent">
+			<a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/" id="dashboardlink">Main Page</a>
+			<div id="helpmenu">
+				<span id="mainhelplink">Help</span>
+				<ul>
+					<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/help/" id="tipslink">Tips for <b>this</b> page</a></li>
+					<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/help/gettingstarted/">Getting started</a></li>
+					<li><a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/help/">FAQ</a></li>
+					<li><a href="http://help.cashmusic.org/">help.cashmusic.org</a></li>
+				</ul>
+			</div>
+			
 			<h1><?php if (isset($page_title)) { echo $page_title; } else { echo ''; } ?></h1>
 			<?php
 				$is_menu_set = ' class="nopagemenu"';
