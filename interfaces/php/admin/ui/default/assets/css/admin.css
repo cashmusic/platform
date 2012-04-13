@@ -309,9 +309,9 @@ td, th {padding:6px 5px 6px 5px;vertical-align:top;}
 #accountmenu ul li:hover {background-color:#000;}
 #accountmenu ul li a {color:#666;display:block;padding:8px 1.5em 8px 1.5em;color:#999;text-decoration:none;margin:0;}
 #accountmenu ul li a:hover {text-decoration:underline;color:#fff !important;}
-#dashboardlink {position:absolute;bottom:-48px;left:13px;height:14px;z-index:400;padding:2px 7px 2px 7px;font-size:11px;color:#babac4 !important;line-height:14px;background-color:#fafaf8;}
+#dashboardlink {position:absolute;top:100px;left:17px;height:14px;z-index:400;padding:2px 7px 2px 7px;font-size:11px;color:#babac4 !important;line-height:14px;background-color:#fafaf8;}
 #dashboardlink:hover {color:#231F20 !important;background-color:#fff !important;}
-#helpmenu {cursor:pointer;position:absolute;bottom:-55px;left:100px;height:14px;z-index:300;padding:9px 0 9px 0;font-size:11px;line-height:14px;color:#231F20;text-align:right;}
+#helpmenu {cursor:pointer;position:absolute;top:93px;left:105px;height:14px;z-index:300;padding:9px 0 9px 0;font-size:11px;line-height:14px;color:#231F20;text-align:right;}
 #helpmenu:hover {background-color:#ff0;}
 #helpmenu ul {position:absolute;top:30px;right:0;margin:0;padding:0;list-style:none;width:auto;min-width:auto;height:1px;overflow:hidden;visibility:hidden;-webkit-transition:all 0.1s ease-out;-moz-transition: all 0.1s ease-out;-o-transition: all 0.1s ease-out;transition: all  0.1s ease-out;}
 #helpmenu:hover ul {height:120px;visibility:visible;}
@@ -321,7 +321,6 @@ td, th {padding:6px 5px 6px 5px;vertical-align:top;}
 #helpmenu ul li a:hover {text-decoration:underline;color:#fff !important;}
 #mainhelplink {background-color:#ff0;padding:2px 9px 2px 9px;}
 #navmenu {position:absolute;top:0;left:50%;margin-left:-480px;width:730px;height:72px;text-align:left;color:#fff;text-align:right;font-size:11px;line-height:1.3em;z-index:500;}
-#navmenu #contentmask {position:absolute;top:6px;left:0;width:100%;height:66px;background-color:rgba(250,250,248,0.85);z-index:10;}
 #navmenu .navitem {position:relative;float:left;margin:0;padding:3px 8px;width:130px;height:36px;cursor:pointer;z-index:100;color:#000;-webkit-transition:all 0.1s ease-out;-moz-transition: all 0.1s ease-out;-o-transition: all 0.1s ease-out;transition: all  0.1s ease-out;}
 #navmenu .navitem:hover {height:66px;}
 #navmenu .navitem .navitemdescription {height:1px;overflow:hidden;-webkit-transition:all 0.1s ease-out;-moz-transition: all 0.1s ease-out;-o-transition: all 0.1s ease-out;transition: all  0.1s ease-out;}
@@ -340,7 +339,6 @@ td, th {padding:6px 5px 6px 5px;vertical-align:top;}
 #tipspc a {color:#231F20;}
 #tipscloselink {position:relative;left:-4px;font-weight:bold;padding:4px;}
 #tipscloselink:hover {background-color:#000;color:#fff !important;text-decoration:none;}
-#pagecontent #tipslink {color:#999;font-size:11px;line-height:1.25em;padding:1px;}
 
 /* PAGE ELEMENTS */
 #pagecontent {position:relative;clear:both;width:920px;padding:140px 2em 3em 2em;margin:0 auto;text-align:left;z-index:500;}
