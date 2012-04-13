@@ -83,7 +83,7 @@ ul.assetbrowse li {list-style-type:none;margin-top:10px;}
 .tar {text-align:right;}
 
 /* FEATURED ELEMENT CARDS */
-.featuredelement {padding:6px;background-color:#fff;margin-bottom:36px;}
+.featuredelement {padding:6px;background-color:#fff;margin-bottom:36px;box-shadow:-2px 2px 2px #dededc;}
 .featuredelement h3 {margin-bottom:-0.25em;}
 .featuredelement .itemnav {padding:0 10px 0 0;text-align:right;}
 .featuredelement .itemnav a {font-weight:bold;}

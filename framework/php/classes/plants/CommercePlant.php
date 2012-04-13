@@ -33,6 +33,7 @@ class CommercePlant extends PlantBase {
 				'editorder'        => array('editOrder','direct'),
 				'edittransaction'  => array('editTransaction','direct'),
 				'getitem'          => array('getItem','direct'),
+				'getitemsforuser'  => array('getItemsForUser','direct'),
 				'getorder'         => array('getOrder','direct'),
 				'gettransaction'   => array('getTransaction','direct'),
 				'finalizepayment'  => array('finalizeRedirectedPayment',array('get','post','direct')),
@@ -68,7 +69,10 @@ class CommercePlant extends PlantBase {
 		$physical_weight=0,
 		$physical_width=0,
 		$physical_height=0,
-		$physical_depth=0
+		$physical_depth=0,
+		$variable_pricing=0,
+		$fulfillment_asset=0,
+		$descriptive_asset=0
 	   ) {
 		$result = $this->db->setData(
 			'items',
@@ -84,7 +88,10 @@ class CommercePlant extends PlantBase {
 				'physical_weight' => $physical_weight,
 				'physical_width' => $physical_width,
 				'physical_height' => $physical_height,
-				'physical_depth' => $physical_depth
+				'physical_depth' => $physical_depth,
+				'variable_pricing' => $variable_pricing,
+				'fulfillment_asset' => $fulfillment_asset,
+				'descriptive_asset' => $descriptive_asset
 			)
 		);
 		return $result;
@@ -120,7 +127,10 @@ class CommercePlant extends PlantBase {
 		$physical_weight=false,
 		$physical_width=false,
 		$physical_height=false,
-		$physical_depth=false
+		$physical_depth=false,
+		$variable_pricing=false,
+		$fulfillment_asset=false,
+		$descriptive_asset=false
 	   ) {
 		$final_edits = array_filter(
 			array(
@@ -134,7 +144,10 @@ class CommercePlant extends PlantBase {
 				'physical_weight' => $physical_weight,
 				'physical_width' => $physical_width,
 				'physical_height' => $physical_height,
-				'physical_depth' => $physical_depth
+				'physical_depth' => $physical_depth,
+				'variable_pricing' => $variable_pricing,
+				'fulfillment_asset' => $fulfillment_asset,
+				'descriptive_asset' => $descriptive_asset
 			),
 			'CASHSystem::notExplicitFalse'
 		);
@@ -163,58 +176,21 @@ class CommercePlant extends PlantBase {
 		);
 		return $result;
 	}
-	
-	protected function addAssetToItem($item_id,$asset_id,$type='download') {
-		$result = $this->db->setData(
-			'commerce_assets',
-			array(
-				'scope_table_alias' => 'items',
-				'scope_table_id' => $item_id,
-				'asset_id' => $asset_id,
-				'type' => $type
-			)
-		);
-		return $result;
-	}
-	
-	protected function getAssetsForItem($item_id) {
+
+	protected function getItemsForUser($user_id) {
 		$result = $this->db->getData(
-			'commerce_assets',
+			'items',
 			'*',
 			array(
-				'scope_table_alias' => array(
-					'condition' => '=',
-					'value' => 'items'
-				),
-				'scope_table_id' => array(
-					'condition' => '=',
-					'value' => $item_id
-				)
-			)
-		);
-		// TODO:
-		// loop through each returned asset and get al its details, return as
-		// on big array rather than an array of IDs
-		return $result;
-	}
-	
-	protected function deleteAssetsForItem($item_id) {
-		$result = $this->db->deleteData(
-			'commerce_assets',
-			array(
-				'scope_table_alias' => array(
-					'condition' => '=',
-					'value' => 'items'
-				),
-				'scope_table_id' => array(
-					'condition' => '=',
-					'value' => $item_id
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
 				)
 			)
 		);
 		return $result;
 	}
-	
+
 	protected function addOrder(
 		$user_id,
 		$order_contents,
