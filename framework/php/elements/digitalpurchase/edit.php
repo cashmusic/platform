@@ -1,11 +1,6 @@
 <?php 
 $page_data = $cash_admin->getStoredResponse('originalelement',true);
 if (isset($_POST['doelementedit'])) {
-	if (isset($_POST['do_not_verify'])) {
-		$do_not_verify = 1;
-	} else {
-		$do_not_verify = 0;
-	}
 	$element_edit_request = new CASHRequest(
 		array(
 			'cash_request_type' => 'element', 
@@ -13,13 +8,10 @@ if (isset($_POST['doelementedit'])) {
 			'id' => $page_data['id'],
 			'name' => $_POST['element_name'],
 			'options_data' => array(
-				'message_invalid_email' => $_POST['message_invalid_email'],
-				'message_privacy' => $_POST['message_privacy'],
+				'message_error' => $_POST['message_error'],
 				'message_success' => $_POST['message_success'],
-				'email_list_id' => $_POST['email_list_id'],
-				'asset_id' => $_POST['asset_id'],
-				'comment_or_radio' => 0,
-				'do_not_verify' => $do_not_verify
+				'item_id' => $_POST['item_id'],
+				'connection_id' => $_POST['connection_id']
 			)
 		)
 	);
@@ -64,63 +56,34 @@ if (isset($_POST['doelementedit'])) {
 
 		<div class="row_seperator">.</div>
 		<div class="col_oneoftwo">
-
-			<label for="asset_id">Target Mailing List</label><br />
-			<select id="email_list_id" name="email_list_id">
+			<label for="item_id">Item For Sale</label><br />
+			<select id="item_id" name="item_id">
 				<option value="0">none</option>
-				<?php AdminHelper::echoFormOptions('people_lists',$page_data['options']->email_list_id); ?>
+				<?php AdminHelper::echoFormOptions('items',$page_data['options']->item_id); ?>
 			</select>
-			<br /><br />
-			<?php
-			if ($page_data['options']->do_not_verify) {
-				$checkstring = "checked='checked'";
-				
-			} else {
-				$checkstring = "";
-			}
-			?>
-			<input type='checkbox' class='checkorradio' name='do_not_verify' value='' <?php echo $checkstring; ?> /> <label for="do_not_verify">Skip email verification</label>
-
 		</div>
 		<div class="col_oneoftwo lastcol">
 
-			<label for="asset_id">The Downloadable Asset</label><br />
-			<select id="asset_id" name="asset_id">
-				<option value="0">none</option>
-				<?php AdminHelper::echoFormOptions('assets',$page_data['options']->asset_id,$cash_admin->getAllFavoriteAssets()); ?>
+			<label for="connection_id">Connection to Use</label><br />
+			<select id="connection_id" name="connection_id">
+				<option value="0" selected="selected">None (Please add a commerce service)</option>
+				<?php AdminHelper::echoConnectionsOptions('commerce',$page_data['options']->connection_id) ?>
 			</select>
-			
-			<br /><br />
-	
-			<a href="<?php echo ADMIN_WWW_BASE_PATH; ?>/assets/add/"><small>OR ADD NEW ASSET</small></a>
-			
 		</div>
 
 		<div class="row_seperator">.</div>
 		<br />
-		<label for="message_invalid_email">Invalid Email Error Message</label><br />
-		<input type="text" id="message_invalid_email" name="message_invalid_email" value="<?php echo $page_data['options']->message_invalid_email; ?>" />
-
-		<div class="row_seperator">.</div>
-		<label for="message_privacy">Privacy Message</label><br />
-		<input type="text" id="message_privacy" name="message_privacy" value="<?php echo $page_data['options']->message_privacy; ?>" />
+		<label for="message_error">Error Message</label><br />
+		<input type="text" id="message_error" name="message_error" value="<?php echo $page_data['options']->message_error; ?>" />
 
 		<div class="row_seperator">.</div>
 		<label for="message_success">Success Message</label><br />
 		<input type="text" id="message_success" name="message_success" value="<?php echo $page_data['options']->message_success; ?>" />
 
-		<!--
-		<div class="row_seperator">.</div><br />
-
-		<label for="comment_or_radio">Comment Or Agreement</label><br />
-		<input type="radio" name="comment_or_radio" class="checkorradio" value="none" checked="checked" /> Neither &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="comment" /> Comment &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="agreement" /> Agreement 
-		
-		-->
-
 		<div class="row_seperator">.</div>
 		<div>
 			<br />
-			<input class="button" type="submit" value="Edit The Element" />
+			<input class="button" type="submit" value="Add That Element" />
 		</div>
 
 	</form>

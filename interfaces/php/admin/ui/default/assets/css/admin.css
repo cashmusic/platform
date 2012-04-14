@@ -301,8 +301,8 @@ td, th {padding:6px 5px 6px 5px;vertical-align:top;}
 /* MAIN NAVIGATION/INTERFACE ELEMENTS */
 #chromespc {position:fixed;top:0;left:0;min-width:960px;width:100%;z-index:1000;margin:0;padding:0;}
 #accountspc {position:absolute;top:0;left:0;min-width:960px;width:100%;height:6px;z-index:400;font-size:11px;line-height:14px;background-color:#000;color:#666;text-align:right;}
-#accountmenu {width:auto;min-width:166px;float:right;margin-top:6px;padding:8px 12px 8px 12px;color:#babac4;cursor:pointer;}
-#accountmenu:hover {background-color:#000;color:#fff;}
+#accountmenu {width:auto;min-width:166px;float:right;margin-top:6px;padding:8px 12px 8px 12px;color:#babac4;text-shadow:0 0 5px #fafaf8,0 0 5px #fafaf8,0 0 5px #fafaf8;cursor:pointer;}
+#accountmenu:hover {background-color:#000;color:#fff;text-shadow:none;}
 #accountmenu ul {position:absolute;top:36px;right:0;margin:0;padding:0;list-style:none;width:auto;min-width:190px;height:1px;overflow:hidden;visibility:hidden;-webkit-transition:all 0.1s ease-out;-moz-transition: all 0.1s ease-out;-o-transition: all 0.1s ease-out;transition: all  0.1s ease-out;}
 #accountmenu:hover ul {height:150px;visibility:visible;}
 #accountmenu ul li {padding:0;background-color:#222;}
