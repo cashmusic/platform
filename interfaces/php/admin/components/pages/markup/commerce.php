@@ -7,4 +7,10 @@ if ($settings['banners'][BASE_PAGENAME]) {
 }
 ?>
 
-In progress.
+<div class="col_oneoftwo">
+	<h2>Recent orders</h2>
+</div>
+<div class="col_oneoftwo lastcol">
+	<h2>All items</h2>
+	<?php echo AdminHelper::simpleULFromResponse($cash_admin->getStoredResponse('all_items'), false); ?>
+</div>

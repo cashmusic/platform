@@ -149,6 +149,11 @@
 				$action_name = 'getallvenues';
 				$display_information = 'name';
 				break;	
+			case 'items':
+				$plant_name = 'commerce';
+				$action_name = 'getitemsforuser';
+				$display_information = 'name';
+				break;
 		}
 		$echoformoptions_cash_request = new CASHRequest(
 			array(
