@@ -157,7 +157,7 @@ class SystemPlant extends PlantBase {
 	 * @param {string} $address -  the email address in question
 	 * @param {string} $password - the password
 	 * @return array|false
-	 */protected function addLogin($address,$password,$is_admin=0,$display_name='Anonymous',$first_name='',$last_name='',$organization='') {
+	 */protected function addLogin($address,$password,$is_admin=0,$display_name='Anonymous',$first_name='',$last_name='',$organization='',$address_country='') {
 		$password_hash = hash_hmac('sha256', $password, $this->salt);
 		$result = $this->db->setData(
 			'users',
@@ -168,6 +168,7 @@ class SystemPlant extends PlantBase {
 				'first_name' => $first_name,
 				'last_name' => $last_name,
 				'organization' => $organization,
+				'address_country' => $address_country,
 				'is_admin' => $is_admin
 			)
 		);

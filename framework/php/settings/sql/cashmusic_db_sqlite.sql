@@ -144,6 +144,9 @@ CREATE TABLE commerce_orders (
   transaction_id integer,
   order_contents text,
   fulfilled integer DEFAULT '0',
+  canceled integer DEFAULT '0',
+  physical integer DEFAULT '0',
+  digital integer DEFAULT '0',
   notes text,
   country_code text,
   creation_date integer DEFAULT NULL,
@@ -162,6 +165,7 @@ CREATE TABLE commerce_transactions (
   successful integer DEFAULT '0',
   gross_price numeric,
   service_fee numeric,
+  status text DEFAULT 'abandoned',
   creation_date integer DEFAULT '0',
   modification_date integer DEFAULT '0'
 );
