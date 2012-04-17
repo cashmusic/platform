@@ -178,7 +178,7 @@
 			echo '<div class="cash_system_error">Element #' . $element_id . ' could not be found.</div>';
 		}
 		if (is_string($cash_body_request->response['payload'])) {
-			echo $cash_body_request->response['payload'];
+			echo '<div class="cash_element cash_element_' . $element_id . '">' . $cash_body_request->response['payload'] . '</div>';
 		}
 		if ($cash_body_request->sessionGet('initialized_element_' . $element_id,'script')) {
 			if (ob_get_level()) {

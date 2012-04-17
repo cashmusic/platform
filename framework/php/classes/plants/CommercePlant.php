@@ -194,24 +194,17 @@ class CommercePlant extends PlantBase {
 	protected function addOrder(
 		$user_id,
 		$order_contents,
-		$customer_user_id=0,
 		$transaction_id=-1,
+		$physical=0,
+		$digital=0,
+		$customer_user_id=0,
 		$fulfilled=0,
+		$canceled=0,
 		$notes='',
 		$country_code=''
 	) {
 		if (is_array($order_contents)) {
 			/*
-			TO-DO: ensure that we're storing an array of:
-				items as at least:
-					id
-					name
-					description
-					price
-					physical (bool)
-					digital (bool)
-				and maybe just all traits...yeah?
-				
 				basically we store as JSON to prevent loss of order history
 				in the event an item changes or is deleted. we want accurate 
 				history so folks don't get all crazy bananas about teh $$s
@@ -225,6 +218,9 @@ class CommercePlant extends PlantBase {
 					'transaction_id' => $transaction_id,
 					'order_contents' => $final_order_contents,
 					'fulfilled' => $fulfilled,
+					'canceled' => $canceled,
+					'physical' => $physical,
+					'digital' => $digital,
 					'notes' => $notes,
 					'country_code' => $country_code
 				)
@@ -255,11 +251,15 @@ class CommercePlant extends PlantBase {
 	
 	protected function editOrder(
 		$id,
+		$fulfilled=false,
+		$canceled=false,
+		$notes=false,
+		$country_code=false,
+		$customer_user_id=false,
 		$order_contents=false,
 		$transaction_id=false,
-		$fulfilled=false,
-		$notes=false,
-		$country_code=false
+		$physical=false,
+		$digital=false
 	) {
 		if ($order_contents) {
 			$order_contents = json_encode($order_contents);
@@ -269,8 +269,12 @@ class CommercePlant extends PlantBase {
 				'transaction_id' => $transaction_id,
 				'order_contents' => $order_contents,
 				'fulfilled' => $fulfilled,
+				'canceled' => $canceled,
+				'physical' => $physical,
+				'digital' => $digital,
 				'notes' => $notes,
-				'country_code' => $country_code
+				'country_code' => $country_code,
+				'customer_user_id' => $customer_user_id
 			),
 			'CASHSystem::notExplicitFalse'
 		);
@@ -297,7 +301,8 @@ class CommercePlant extends PlantBase {
 		$data_returned='',
 		$successful=-1,
 		$gross_price=0,
-		$service_fee=0
+		$service_fee=0,
+		$status='abandoned'
 	) {
 		$result = $this->db->setData(
 			'transactions',
@@ -311,7 +316,8 @@ class CommercePlant extends PlantBase {
 				'data_returned' => $data_returned,
 				'successful' => $successful,
 				'gross_price' => $gross_price,
-				'service_fee' => $service_fee
+				'service_fee' => $service_fee,
+				'status' => $status
 			)
 		);
 		return $result;
@@ -337,19 +343,25 @@ class CommercePlant extends PlantBase {
 	
 	protected function editTransaction(
 		$id,
+		$service_timestamp=false,
+		$service_transaction_id=false,
 		$data_sent=false,
 		$data_returned=false,
 		$successful=false,
 		$gross_price=false,
-		$service_fee=false
+		$service_fee=false,
+		$status=false
 	) {
 		$final_edits = array_filter(
 			array(
+				'service_timestamp' => $service_timestamp,
+				'service_transaction_id' => $service_transaction_id,
 				'data_sent' => $data_sent,
 				'data_returned' => $data_returned,
 				'successful' => $successful,
 				'gross_price' => $gross_price,
-				'service_fee' => $service_fee
+				'service_fee' => $service_fee,
+				'status' => $status
 			),
 			'CASHSystem::notExplicitFalse'
 		);
@@ -366,7 +378,7 @@ class CommercePlant extends PlantBase {
 		return $result;
 	}
 	
-	protected function initiateCheckout($user_id,$connection_id,$order_contents=false,$item_id=false) {
+	protected function initiateCheckout($user_id,$connection_id,$order_contents=false,$item_id=false,$element_id=false) {
 		if (!$order_contents && !$item_id) {
 			return false;
 		} else {
@@ -379,16 +391,17 @@ class CommercePlant extends PlantBase {
 			$transaction_id = $this->addTransaction(
 				$user_id,
 				$connection_id,
-				$this->getConnectionType($connection_type)
+				$this->getConnectionType($connection_id)
 			);
 			$order_id = $this->addOrder(
 				$user_id,
 				$order_contents,
+				$transaction_id,
 				0,
-				$transaction_id
+				1
 			);
 			if ($order_id) {
-				$success = $this->initiatePaymentRedirect($order_id);
+				$success = $this->initiatePaymentRedirect($order_id,$element_id);
 				return $success;
 			} else {
 				return false;
@@ -409,33 +422,197 @@ class CommercePlant extends PlantBase {
 		return $return_array;
 	}
 	
-	protected function initiatePaymentRedirect($order_id) {
+	protected function initiatePaymentRedirect($order_id,$element_id=false) {
 		$order_details = $this->getOrder($order_id);
+		$transaction_details = $this->getTransaction($order_details['transaction_id']);
 		$order_totals = $this->getOrderTotals($order_details['order_contents']);
-		$connection_type = $this->getConnectionType($order_details['connection_id']);
+		$connection_type = $this->getConnectionType($transaction_details['connection_id']);
 		switch ($connection_type) {
 			case 'com.paypal':
-				$pp = new PaypalSeed($order_details['user_id'],$order_details['connection_id']);
+				$pp = new PaypalSeed($order_details['user_id'],$transaction_details['connection_id']);
+				$return_url = CASHSystem::getCurrentURL() . '?cash_request_type=commerce&cash_action=finalizepayment&order_id=' . $order_id . '&creation_date=' . $order_details['creation_date'];
+				if ($element_id) {
+					$return_url .= '&element_id=' . $element_id;
+				}
 				$redirect_url = $pp->setExpressCheckout(
 					$order_totals['price'],
 					'order-' . $order_id,
 					$order_totals['description'],
-					CASHSystem::getCurrentURL() . '?cash_request_type=commerce&cash_action=finalizepayment&order_id=' . $order_id . '&creation_date=' . $order_details['creation_date'],
-					CASHSystem::getCurrentURL()
+					$return_url,
+					$return_url
 				);
 				$redirect = CASHSystem::redirectToUrl($redirect_url);
 				// the return will only happen if headers have already been sent
 				// if they haven't redirectToUrl() will handle it and call exit
 				return $redirect;
 				break;
-		    default:
+			default:
 				return false;
 		}
 		return $final_redirect;
 	}
 	
-	protected function finalizeRedirectedPayment($order_id,$creation_date,$full_cash_request) {
-		// TODO: finalize checkout, alter order/transaction, return order_id on success
+	protected function finalizeRedirectedPayment($order_id,$creation_date,$direct_post_details=false) {
+		$order_details = $this->getOrder($order_id);
+		$transaction_details = $this->getTransaction($order_details['transaction_id']);
+		$connection_type = $this->getConnectionType($transaction_details['connection_id']);
+		switch ($connection_type) {
+			case 'com.paypal':
+				if (isset($_GET['token'])) {
+					if (isset($_GET['PayerID'])) {
+						$pp = new PaypalSeed($order_details['user_id'],$transaction_details['connection_id'],$_GET['token']);
+						$initial_details = $pp->getExpressCheckout();
+						if ($initial_details['ACK'] == 'Success') {
+							$order_totals = $this->getOrderTotals($order_details['order_contents']);
+							if ($initial_details['AMT'] >= $order_totals['price']) {
+								$final_details = $pp->doExpressCheckout();
+								if ($final_details) {
+									// look for a user to match the email. if not present, make one
+									$user_request = new CASHRequest(
+										array(
+											'cash_request_type' => 'people', 
+											'cash_action' => 'getuseridforaddress',
+											'address' => $initial_details['EMAIL']
+										)
+									);
+									$user_id = $user_request->response['payload'];
+									if (!$user_id) {
+										$user_request = new CASHRequest(
+											array(
+												'cash_request_type' => 'system', 
+												'cash_action' => 'addlogin',
+												'address' => $initial_details['EMAIL'], 
+												'password' => time(),
+												'is_admin' => 0,
+												'display_name' => $initial_details['FIRSTNAME'] . ' ' . $initial_details['LASTNAME'],
+												'first_name' => $initial_details['FIRSTNAME'],
+												'last_name' => $initial_details['LASTNAME'],
+												'address_country' => $initial_details['COUNTRYCODE']
+											)
+										);
+										$user_id = $user_request->response['payload'];
+									}
+									
+									// record the details to the order/transaction where appropriate
+									$this->editOrder(
+										$order_id,
+										1,
+										0,
+										false,
+										$initial_details['COUNTRYCODE'],
+										$user_id
+									);
+									$this->editTransaction(
+										$order_details['transaction_id'],
+										$service_timestamp=strtotime($final_details['TIMESTAMP']),
+										$service_transaction_id=$final_details['CORRELATIONID'],
+										$data_sent=json_encode($initial_details),
+										$data_returned=json_encode($final_details),
+										$successful=1,
+										$gross_price=$final_details['PAYMENTINFO_0_AMT'],
+										$service_fee=$final_details['PAYMENTINFO_0_FEEAMT'],
+										$status='complete'
+									);
+									return true;
+								} else {
+									// make sure this isn't an accidentally refreshed page
+									if ($initial_details['CHECKOUTSTATUS'] != 'PaymentActionCompleted'){
+										$initial_details['ERROR_MESSAGE'] = $pp->getErrorMessage();
+										// there was an error processing the transaction
+										var_dump();
+										$this->editOrder(
+											$order_id,
+											0,
+											1
+										);
+										$this->editTransaction(
+											$order_details['transaction_id'],
+											$service_timestamp=strtotime($initial_details['TIMESTAMP']),
+											$service_transaction_id=$initial_details['CORRELATIONID'],
+											$data_sent=false,
+											$data_returned=json_encode($initial_details),
+											$successful=0,
+											$gross_price=false,
+											$service_fee=false,
+											$status='error processing payment'
+										);
+										return false;
+									} else {
+										// this is a successful transaction with the user hitting refresh
+										// as long as it's within 30 minutes of the original return true, otherwise
+										// call it false and allow the page to expire
+										if (time() - strtotime($initial_details['TIMESTAMP']) < 180) {
+											return true;
+										} else {
+											return false;
+										}
+									}
+								}
+							} else {
+								// insufficient funds — user changed amount?
+								$this->editOrder(
+									$order_id,
+									0,
+									1
+								);
+								$this->editTransaction(
+									$order_details['transaction_id'],
+									$service_timestamp=strtotime($initial_details['TIMESTAMP']),
+									$service_transaction_id=$initial_details['CORRELATIONID'],
+									$data_sent=false,
+									$data_returned=json_encode($initial_details),
+									$successful=0,
+									$gross_price=false,
+									$service_fee=false,
+									$status='incorrect amount'
+								);
+								return false;
+							}
+						} else {
+							// order reporting failure
+							$this->editOrder(
+								$order_id,
+								0,
+								1
+							);
+							$this->editTransaction(
+								$order_details['transaction_id'],
+								$service_timestamp=strtotime($initial_details['TIMESTAMP']),
+								$service_transaction_id=$initial_details['CORRELATIONID'],
+								$data_sent=false,
+								$data_returned=json_encode($initial_details),
+								$successful=0,
+								$gross_price=false,
+								$service_fee=false,
+								$status='payment failed'
+							);
+							return false;
+						}
+					} else {
+						// user canceled transaction
+						$this->editOrder(
+							$order_id,
+							0,
+							1
+						);
+						$this->editTransaction(
+							$order_details['transaction_id'],
+							$service_timestamp=time(),
+							$service_transaction_id=false,
+							$data_sent=false,
+							$data_returned=false,
+							$successful=0,
+							$gross_price=false,
+							$service_fee=false,
+							$status='canceled'
+						);
+						return false;
+					}
+				}
+				break;
+			default:
+				return false;
+		}
 	}
 	
 } // END class 

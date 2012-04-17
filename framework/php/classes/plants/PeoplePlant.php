@@ -27,18 +27,19 @@ class PeoplePlant extends PlantBase {
 				// alphabetical for ease of reading
 				// first value  = target method to call
 				// second value = allowed request methods (string or array of strings)
-				'addaddresstolist'   => array('addAddress','direct'),
-				'addlist'            => array('addList','direct'),
-				'deletelist'         => array('deleteList','direct'),
-				'editlist'           => array('editList','direct'),
-				'getaddresslistinfo' => array('getAddressListInfo','direct'),
-				'getanalytics'       => array('getAnalytics','direct'),
-				'getlistsforuser'    => array('getListsForUser','direct'),
-				'getlist'            => array('getList',array('direct','api_key')),
-				'getuser'            => array('getUser',array('direct','api_key')),
-				'removeaddress'      => array('removeAddress','direct'),
-				'signintolist'       => array('validateUserForList',array('post','direct','api_key')),
-				'verifyaddress'      => array('doAddressVerification','direct'),
+				'addaddresstolist'    => array('addAddress','direct'),
+				'addlist'             => array('addList','direct'),
+				'deletelist'          => array('deleteList','direct'),
+				'editlist'            => array('editList','direct'),
+				'getaddresslistinfo'  => array('getAddressListInfo','direct'),
+				'getanalytics'        => array('getAnalytics','direct'),
+				'getlistsforuser'     => array('getListsForUser','direct'),
+				'getlist'             => array('getList',array('direct','api_key')),
+				'getuser'             => array('getUser',array('direct','api_key')),
+				'getuseridforaddress' => array('getUserIDForAddress','direct'),
+				'removeaddress'       => array('removeAddress','direct'),
+				'signintolist'        => array('validateUserForList',array('post','direct','api_key')),
+				'verifyaddress'       => array('doAddressVerification','direct'),
 			);
 			// see if the action matches the routing table:
 			$basic_routing = $this->routeBasicRequest();
