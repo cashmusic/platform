@@ -189,6 +189,32 @@
 		unset($cash_body_request);
 	}
 
+	public static function getSystemSalt() {
+		$cash_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
+		return $cash_settings['salt'];
+	}
+
+	/**
+	 * Super basic XOR encoding — used for encoding connection data 
+	 *
+	 */public static function simpleXOR($input, $key = false) {
+		if (!$key) {
+			$key = CASHSystem::getSystemSalt();
+		}
+		// append key on itself until it is longer than the input
+		while (strlen($key) < strlen($input)) { $key .= $key; }
+
+		// trim key to the length of the input
+		$key = substr($key, 0, strlen($input));
+
+		// Simple XOR'ing, each input byte with each key byte.
+		$result = '';
+		for ($i = 0; $i < strlen($input); $i++) {
+			$result .= $input{$i} ^ $key{$i};
+		}
+		return $result;
+	}
+
 	/**
 	 * If the function name doesn't describe what this one does well enough then
 	 * seriously: you need to stop reading the comments and not worry about it
