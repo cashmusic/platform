@@ -9,6 +9,9 @@ if ($settings['banners'][BASE_PAGENAME]) {
 
 <div class="col_oneoftwo">
 	<h2>Recent orders</h2>
+	<p>
+		Coming soon. See orders page for order details.
+	</p>
 </div>
 <div class="col_oneoftwo lastcol">
 	<h2>All items</h2>

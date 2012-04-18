@@ -35,6 +35,7 @@ class CommercePlant extends PlantBase {
 				'getitem'          => array('getItem','direct'),
 				'getitemsforuser'  => array('getItemsForUser','direct'),
 				'getorder'         => array('getOrder','direct'),
+				'getordersforuser' => array('getOrdersForUser','direct'),
 				'gettransaction'   => array('getTransaction','direct'),
 				'finalizepayment'  => array('finalizeRedirectedPayment',array('get','post','direct')),
 				'initiatecheckout' => array('initiateCheckout',array('get','post','direct'))
@@ -231,17 +232,41 @@ class CommercePlant extends PlantBase {
 		}
 	}
 	
-	protected function getOrder($id) {
-		$result = $this->db->getData(
-			'orders',
-			'*',
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $id
+	protected function getOrder($id,$deep=false) {
+		if ($deep) {
+			$result = $this->db->getData(
+				'CommercePlant_getOrder_deep',
+				false,
+				array(
+					"id" => array(
+						"condition" => "=",
+						"value" => $id
+					)
 				)
-			)
-		);
+			);
+			if ($result) {
+				$result[0]['order_totals'] = $this->getOrderTotals($result[0]['order_contents']);
+				$user_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'people', 
+						'cash_action' => 'getuser',
+						'user_id' => $result[0]['customer_user_id']
+					)
+				);
+				$result[0]['customer_details'] = $user_request->response['payload'];
+			}
+		} else {
+			$result = $this->db->getData(
+				'orders',
+				'*',
+				array(
+					"id" => array(
+						"condition" => "=",
+						"value" => $id
+					)
+				)
+			);
+		}
 		if ($result) {
 			return $result[0];
 		} else {
@@ -290,7 +315,23 @@ class CommercePlant extends PlantBase {
 		);
 		return $result;
 	}
-	
+
+	protected function getOrdersForUser($user_id) {
+		$result = $this->db->getData(
+			'orders',
+			'*',
+			array(
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				)
+			),
+			false,
+			'id DESC'
+		);
+		return $result;
+	}
+
 	protected function addTransaction(
 		$user_id,
 		$connection_id,
@@ -419,6 +460,7 @@ class CommercePlant extends PlantBase {
 			$return_array['price'] += $item['price'];
 			$return_array['description'] .= $item['name'] . "\n";
 		}
+		$return_array['description'] = rtrim($return_array['description']);
 		return $return_array;
 	}
 	
