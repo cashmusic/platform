@@ -25,6 +25,23 @@ if (is_array($request_parameters)) {
 	}
 }
 
+// look for local-only assets
+$local_assets_reponse =  $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'asset', 
+		'cash_action' => 'getassetsforconnection',
+		'connection_id' => 0
+	),
+	'localassets'
+);
+$local_assets = false;
+if (is_array($local_assets_reponse['payload'])) {
+	$filecount = count($local_assets_reponse['payload']);
+	if ($filecount) {
+		$local_assets = true;
+	}
+}
+
 $list_connections = false;
 $list_assets = false;
 if (is_array($applicable_connections)) {
@@ -43,15 +60,13 @@ if (is_array($applicable_connections)) {
 			);
 			if (is_array($assets_reponse['payload'])) {
 				$filecount = count($assets_reponse['payload']);
-			} else {
-				$filecount = 0;
+				$list_connections[] = array(
+					'id' => $connection['id'],
+					'name' => $connection['name'],
+					'type' => $connection['type'],
+					'filecount' => $filecount
+				);
 			}
-			$list_connections[] = array(
-				'id' => $connection['id'],
-				'name' => $connection['name'],
-				'type' => $connection['type'],
-				'filecount' => $filecount
-			);
 		}
 	} else {
 		// this means connection has been set, so grab it from the request
