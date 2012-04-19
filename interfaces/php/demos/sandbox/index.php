@@ -12,6 +12,15 @@
 		<?php CASHSystem::embedElement(113); ?> 
 	</div>
 
+<?php
+	$addcode_request = new CASHRequest(
+		array(
+			'cash_request_type' => 'element', 
+			'cash_action' => 'addlockcode',
+			'element_id' => 113
+		)
+	);
+
 <?php include('../../../../framework/php/settings/debug/cashmusic_debug.php'); // Debug ?>
 </body> 
 </html>
