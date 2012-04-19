@@ -39,8 +39,11 @@ class DigitalPurchase extends ElementBase {
 			. '<input type="hidden" name="user_id" value="' . $this->element['user_id'] . '" />'
 			. '<input type="submit" value="$' . $item['price'] . ' - Buy it now" class="button" /><br />'
 			. '</form>';
+		if ($this->status_uid == 'commerce_finalizepayment_200' || $this->status_uid == 'element_redeemcode_200') {
+			$this->status_uid = 'final';
+		}
 		switch ($this->status_uid) {
-			case 'commerce_finalizepayment_200':
+			case 'final':
 				if ($item['fulfillment_asset'] != 0) {
 					// first we "unlock" the asset, telling the platform it's okay to generate a link for non-private assets
 					$unlock_request = new CASHRequest(array(
@@ -64,7 +67,6 @@ class DigitalPurchase extends ElementBase {
 				}
 				break;
 			case 'commerce_finalizepayment_400':
-				// error, likely in the email format. error message + default form
 				// payerid is specific to paypal, so this is temporary to tell between canceled and errored:
 				if (isset($_GET['PayerID'])) {
 					$markup = '<div class="cash_error '. self::type .'">'
@@ -75,6 +77,12 @@ class DigitalPurchase extends ElementBase {
 					$markup = $default_markup;
 				}
 				break;
+				case 'element_redeemcode_400':
+					$markup = '<div class="cash_error '. self::type .'">'
+					. $this->options->message_error
+					. '</div>'
+					. $default_markup;
+					break;
 			default:
 				// default form
 				$markup = $default_markup;
