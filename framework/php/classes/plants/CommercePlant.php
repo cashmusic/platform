@@ -198,6 +198,8 @@ class CommercePlant extends PlantBase {
 		$transaction_id=-1,
 		$physical=0,
 		$digital=0,
+		$cash_session_id='',
+		$element_id=0,
 		$customer_user_id=0,
 		$fulfilled=0,
 		$canceled=0,
@@ -223,7 +225,9 @@ class CommercePlant extends PlantBase {
 					'physical' => $physical,
 					'digital' => $digital,
 					'notes' => $notes,
-					'country_code' => $country_code
+					'country_code' => $country_code,
+					'element_id' => $element_id,
+					'cash_session_id' => $cash_session_id
 				)
 			);
 			return $result;
@@ -439,7 +443,9 @@ class CommercePlant extends PlantBase {
 				$order_contents,
 				$transaction_id,
 				0,
-				1
+				1,
+				$this->getCASHSessionID(),
+				$element_id
 			);
 			if ($order_id) {
 				$success = $this->initiatePaymentRedirect($order_id,$element_id);
@@ -555,6 +561,24 @@ class CommercePlant extends PlantBase {
 										$service_fee=$final_details['PAYMENTINFO_0_FEEAMT'],
 										$status='complete'
 									);
+									$addcode_request = new CASHRequest(
+										array(
+											'cash_request_type' => 'element', 
+											'cash_action' => 'addlockcode',
+											'element_id' => $order_details['element_id']
+										)
+									);
+									// bit of a hack, hard-wiring the email bits:
+									CASHSystem::sendEmail(
+										'Your download is ready',
+										CASHSystem::getDefaultEmail(),
+										$initial_details['EMAIL'],
+										'Your download of "' . $initial_details['L_PAYMENTREQUEST_0_NAME0'] . '" is ready and can be found at: '
+										. CASHSystem::getCurrentURL() . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
+										. '&email=' . urlencode($initial_details['EMAIL']),
+										'Thank you'
+									);
+									
 									return true;
 								} else {
 									// make sure this isn't an accidentally refreshed page

@@ -166,6 +166,8 @@ CREATE TABLE `commerce_orders` (
   `digital` bool DEFAULT '0',
   `notes` text NOT NULL,
   `country_code` varchar(255),
+  `element_id` int(11),
+  `cash_session_id` varchar(24),
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)

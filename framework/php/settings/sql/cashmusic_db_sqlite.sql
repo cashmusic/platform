@@ -149,6 +149,8 @@ CREATE TABLE commerce_orders (
   digital integer DEFAULT '0',
   notes text,
   country_code text,
+  element_id integer,
+  cash_session_id text,
   creation_date integer DEFAULT NULL,
   modification_date integer DEFAULT '0'
 );
