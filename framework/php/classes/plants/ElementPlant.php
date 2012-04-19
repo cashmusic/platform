@@ -41,7 +41,8 @@ class ElementPlant extends PlantBase {
 				'getelement'           => array('getElement','direct'),
 				'getelementsforuser'   => array('getElementsForUser','direct'),
 				'getmarkup'            => array('getElementMarkup',array('direct','get','post','api_public','api_key','api_fullauth')),
-				'getsupportedtypes'    => array('getSupportedTypes','direct')
+				'getsupportedtypes'    => array('getSupportedTypes','direct'),
+				'redeemcode'           => array('redeemLockCode',array('direct','get','post'))
 			);
 			// see if the action matches the routing table:
 			$basic_routing = $this->routeBasicRequest();
@@ -382,6 +383,37 @@ class ElementPlant extends PlantBase {
 		);
 		if ($result) { 
 			return $code;
+		} else {
+			return false;
+		}
+	}
+
+	protected function redeemLockCode($code,$element_id) {
+		$code_details = $this->getLockCode($code,$element_id);
+		if ($code_details) {
+			// details found, means the code+element is correct...mark as claimed
+			if (!$code_details['claim_date']) {
+				$result = $this->db->setData(
+					'lock_codes',
+					array(
+						'claim_date' => time()
+					),
+					array(
+						"id" => array(
+							"condition" => "=",
+							"value" => $code_details['id']
+						)
+					)
+				);
+				return $result;
+			} else {
+				// allow retries for four hours after claim
+				if (($code_details['claim_date'] + 14400) > time()) {
+					return true;
+				} else {
+					return false;
+				}
+			}
 		} else {
 			return false;
 		}
