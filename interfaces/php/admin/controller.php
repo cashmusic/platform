@@ -22,7 +22,7 @@ spl_autoload_register('cash_admin_autoloadCore');
 // grab path from .htaccess redirect
 if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH))) {
 	$parsed_request = str_replace('/','_',trim($_REQUEST['p'],'/'));
-	if (file_exists($pages_path . 'definitions/' . $parsed_request . '.php') && file_exists($pages_path . 'markup/' . $parsed_request . '.php')) {
+	if (file_exists($pages_path . 'controllers/' . $parsed_request . '.php') && file_exists($pages_path . 'views/' . $parsed_request . '.php')) {
 		define('BASE_PAGENAME', $parsed_request);
 		$include_filename = BASE_PAGENAME.'.php';
 	} else {
@@ -39,7 +39,7 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH))) {
 				} else {
 					$test_request = $successful_request . $exploded_request[$i];
 				}
-				if (file_exists($pages_path . 'definitions/' . $test_request . '.php') && file_exists($pages_path . 'markup/' . $test_request . '.php')) {
+				if (file_exists($pages_path . 'controllers/' . $test_request . '.php') && file_exists($pages_path . 'views/' . $test_request . '.php')) {
 					$successful_request = $test_request;
 				} else {
 					$fails_at_level = $i;
@@ -118,9 +118,9 @@ if (isset($_GET['hidebanner'])) {
 
 // finally, output the template and page-specific markup (checking for current login)
 if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
-	include($pages_path . 'definitions/' . $include_filename);
+	include($pages_path . 'controllers/' . $include_filename);
 	include(ADMIN_BASE_PATH . '/ui/default/top.php');
-	include($pages_path . 'markup/' . $include_filename);
+	include($pages_path . 'views/' . $include_filename);
 	include(ADMIN_BASE_PATH . '/ui/default/bottom.php');
 } else {
 	include(ADMIN_BASE_PATH . '/ui/default/login.php');

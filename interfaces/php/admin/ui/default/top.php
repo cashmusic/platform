@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><?php if (isset($page_title)) { echo $page_title; } else { echo 'CASH Music'; } ?></title>
+	<title><?php echo AdminHelper::getPageTitle(); ?></title>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	
@@ -96,12 +96,7 @@
 			<div id="tipspc">
 				<div id="pagetips">
 					<?php
-						if (!isset($page_tips)) { $page_tips = ''; }
-						if ($page_tips == '') {
-							echo 'There are no tips currently written for this page. If you\'d like to suggest a specific idea, please email <a href="mailto:help@cashmusic.org">help@cashmusic.org</a>.';
-						} else {
-							echo $page_tips;
-						}
+						echo AdminHelper::getPageTipsString();
 					?>
 					<br /><br />
 					<a id="tipscloselink" href="#">close</a>
@@ -121,52 +116,19 @@
 				</ul>
 			</div>
 			
-			<h1><?php if (isset($page_title)) { echo $page_title; } else { echo ''; } ?></h1>
+			<h1><?php echo AdminHelper::getPageTitle(); ?></h1>
 			<?php
 				$is_menu_set = ' class="nopagemenu"';
-				$page_base = BASE_PAGENAME;
-				if (strrpos(BASE_PAGENAME ,'_')) {
-					if (isset($page_memu)) {
-						$current_pagemenu = $page_memu;
-					}
-					$exploded_request = explode('_',BASE_PAGENAME);
-					$page_base = $exploded_request[0];
-					if (file_exists($pages_path . 'definitions/' . $page_base . '.php')) {
-						include($pages_path . 'definitions/' . $page_base . '.php');
-					}
-				}
-				if (isset($page_memu)) {
-					if (is_array($page_memu)) {
-						$is_menu_set = '';
+				$page_menu = AdminHelper::buildSectionNav();
+				if ($page_menu) {
+					$is_menu_set = '';
 			?>
 					<div id="pagemenu">
 						<?php
-						
-						foreach ($page_memu as $menutitle => $menuarray) {
-							$menulevel = 1;
-							echo '<a href="'. ADMIN_WWW_BASE_PATH . '/' . $page_base . '" class="pagemenutitle">' . $menutitle . '</a>';
-							echo '<ul class="pagebasemenu">';
-							foreach ($menuarray as $key => $value) {
-								$new_menulevel = substr_count(trim($key,'/'), '/');
-								if ($new_menulevel < $menulevel) {
-									echo "</ul>";
-								}
-								if ($new_menulevel > $menulevel) {
-									echo "<ul>";
-								}
-								if (str_replace('/','_',trim($key,'/')) == BASE_PAGENAME) {
-									echo "<li style=\"margin-left:" . (16 * ($new_menulevel-1)) . "px;\"><a href=\"" . ADMIN_WWW_BASE_PATH . "/$key\" style=\"color:#babac4;\"><span class=\"icon {$value[1]}\"></span> {$value[0]}</a></li>";
-								} else {
-									echo "<li style=\"margin-left:" . (16 * ($new_menulevel-1)) . "px;\"><a href=\"" . ADMIN_WWW_BASE_PATH . "/$key\"><span class=\"icon {$value[1]}\"></span> {$value[0]}</a></li>";
-								}
-								$menulevel = $new_menulevel;
-							}
-							echo '</ul>';
-						}
+							echo $page_menu;
 						?>
 					</div>
 			<?php
-					}
 				}
 			?>
 

@@ -58,8 +58,65 @@
 		}
 	}
 
+	public static function buildSectionNav() {
+		$pages_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/menu/menu_en.json'),true);
+		$endpoint = str_replace('_','/',BASE_PAGENAME);
+		$endpoint_parts = explode('/',$endpoint);
+		$section_base = $pages_array[$endpoint_parts[0]];
+		$section_pages = array();
+		foreach ($pages_array as $page_endpoint => $page) {
+			if (strrpos($page_endpoint,$endpoint_parts[0]) !== false) {
+				$section_pages[$page_endpoint] = $page;
+			}
+		}
+		if (count($section_pages) > 1) {
+			$menustr = '<a href="'. ADMIN_WWW_BASE_PATH . '/' . $endpoint_parts[0] . '/" class="pagemenutitle">' . $section_base['page_name'] . '</a>';
+			$menustr .= '<ul class="pagebasemenu">';
+			foreach ($section_pages as $page_endpoint => $page) {
+				$menulevel = substr_count($page_endpoint, '/');
+				if ($menulevel == 1 && !isset($page['hide'])) { // only show top-level menu items
+					if (str_replace('/','_',$page_endpoint) == BASE_PAGENAME) {
+						$menustr .= "<li><a href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\" style=\"color:#babac4;\"><span class=\"icon {$page['menu_icon']}\"></span> {$page['page_name']}</a></li>";
+					} else {
+						$menustr .= "<li><a href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><span class=\"icon {$page['menu_icon']}\"></span> {$page['page_name']}</a></li>";
+					}
+				}
+			}
+			$menustr .= '</ul>';
+			return $menustr;
+		} else {
+			return false;
+		}
+	}
+
+	public static function getPageTitle() {
+		$pages_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/menu/menu_en.json'),true);
+		$endpoint = str_replace('_','/',BASE_PAGENAME);
+		if (isset($pages_array[$endpoint])) {
+			$endpoint_parts = explode('/',$endpoint);
+			$current_title = '';
+			if (count($endpoint_parts) > 1) {
+				$current_title .= $pages_array[$endpoint_parts[0]]['page_name'] . ': ';
+			}
+			$current_title .= $pages_array[$endpoint]['page_name'];
+			return $current_title;
+		}
+		return 'CASH Music';
+	}
+
+	public static function getPageTipsString() {
+		$tips_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/text/en/pagetips.json'),true);
+		$endpoint = str_replace('_','/',BASE_PAGENAME);
+		if (isset($tips_array[$endpoint])) {
+			if ($tips_array[$endpoint]) {
+				return $tips_array[$endpoint];
+			}
+		}
+		return $tips_array['default'];
+	}
+
 	/**
-	 * Returns the (best guess at) APE URL
+	 * Returns the (best guess at) API URL
 	 * fix that typo. I refuse. It's too funny.
 	 *
 	 * @return array
