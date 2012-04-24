@@ -15,6 +15,7 @@
 	protected $stored_responses;
 	protected $stored_data;
 	protected $effective_user_id;
+	public $page_data;
 	
 	// default admin settings:
 	protected $default_user_settings = array(
@@ -32,6 +33,7 @@
 	public function __construct($effective_user_id=false) {
 		$this->stored_responses = array();
 		$this->stored_data = array();
+		$this->page_data = array();
 		if ($effective_user_id) {
 			$this->effective_user_id = $effective_user_id;
 		}

@@ -118,10 +118,44 @@ if (isset($_GET['hidebanner'])) {
 
 // finally, output the template and page-specific markup (checking for current login)
 if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
-	include($pages_path . 'controllers/' . $include_filename);
-	include(ADMIN_BASE_PATH . '/ui/default/top.php');
-	include($pages_path . 'views/' . $include_filename);
-	include(ADMIN_BASE_PATH . '/ui/default/bottom.php');
+	// stop output
+	ob_start();
+	if (file_exists($pages_path . 'controllers/' . $include_filename)) {
+		include($pages_path . 'controllers/' . $include_filename);
+	}
+	if (file_exists($pages_path . 'views/' . $include_filename)) {
+		include($pages_path . 'views/' . $include_filename);
+	}
+	// set all the main page variables to the page_data array in admin
+	$cash_admin->page_data['content'] = ob_get_contents();
+	$cash_admin->page_data['title'] = AdminHelper::getPageTitle();
+	$cash_admin->page_data['www_path'] = ADMIN_WWW_BASE_PATH;
+	$cash_admin->page_data['page_tip'] = AdminHelper::getPageTipsString();
+	$cash_admin->page_data['section_menu'] = AdminHelper::buildSectionNav();
+	// set empty uid/code, then set if found
+	$cash_admin->page_data['status_code'] = '';
+	$cash_admin->page_data['status_uid'] = '';
+	if (isset($_SESSION['cash_last_response'])) {
+		$cash_admin->page_data['status_code'] = $_SESSION['cash_last_response']['status_code'];
+		$cash_admin->page_data['status_uid'] = $_SESSION['cash_last_response']['status_uid'];
+	}
+	// figure out the section color:
+	$exploded_base = explode('_',BASE_PAGENAME);
+	$cash_admin->page_data['section_name'] = $exploded_base[0];
+	$cash_admin->page_data['specialcolor'] = '';
+	if ($cash_admin->page_data['section_name'] == 'elements') {
+		$cash_admin->page_data['specialcolor'] = ' usecolor1';
+	} elseif ($cash_admin->page_data['section_name'] == 'assets') {
+		$cash_admin->page_data['specialcolor'] = ' usecolor2';
+	} elseif ($cash_admin->page_data['section_name'] == 'people') {
+		$cash_admin->page_data['specialcolor'] = ' usecolor3';
+	} elseif ($cash_admin->page_data['section_name'] == 'commerce') {
+		$cash_admin->page_data['specialcolor'] = ' usecolor4';
+	} elseif ($cash_admin->page_data['section_name'] == 'calendar') {
+		$cash_admin->page_data['specialcolor'] = ' usecolor5';
+	}
+	ob_end_clean();
+	include(ADMIN_BASE_PATH . '/ui/default/template.php');
 } else {
 	include(ADMIN_BASE_PATH . '/ui/default/login.php');
 }
