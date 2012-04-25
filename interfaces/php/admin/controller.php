@@ -68,8 +68,12 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH))) {
 
 $run_login_scripts = false;
 
+// make an object to use throughout the pages
+$cash_admin = new AdminCore($admin_primary_cash_request->sessionGet('cash_effective_user'));
+$cash_admin->page_data['www_path'] = ADMIN_WWW_BASE_PATH;
+
 // if a login needs doing, do it
-$login_message = "Log In";
+$cash_admin->page_data['login_message'] = 'Log In';
 if (isset($_POST['login'])) {
 	if ($_POST['browseridassertion'] == '-1') {
 		$browseridassertion = false;
@@ -95,12 +99,10 @@ if (isset($_POST['login'])) {
 		}
 	} else {
 		$admin_primary_cash_request->sessionClearAll();
-		$login_message = "Try Again";
+		$cash_admin->page_data['login_message'] = 'Try Again';
+		$cash_admin->page_data['login_error'] = true;
 	}
 }
-
-// make an object to use throughout the pages
-$cash_admin = new AdminCore($admin_primary_cash_request->sessionGet('cash_effective_user'));
 
 if ($run_login_scripts) {
 	// handle initial login chores
@@ -116,47 +118,55 @@ if (isset($_GET['hidebanner'])) {
 	}
 }
 
+// include Mustache because you know it's time for that
+include(ADMIN_BASE_PATH . '/lib/mustache.php/Mustache.php');
+$pencil_thin = new Mustache;
+
 // finally, output the template and page-specific markup (checking for current login)
 if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
-	// stop output
+	// start buffering output
 	ob_start();
-	if (file_exists($pages_path . 'controllers/' . $include_filename)) {
-		include($pages_path . 'controllers/' . $include_filename);
-	}
-	if (file_exists($pages_path . 'views/' . $include_filename)) {
-		include($pages_path . 'views/' . $include_filename);
-	}
-	// set all the main page variables to the page_data array in admin
-	$cash_admin->page_data['content'] = ob_get_contents();
+	// set basic data for the template
+	$cash_admin->page_data['user_email'] = $admin_primary_cash_request->sessionGet('cash_effective_user_email');
 	$cash_admin->page_data['title'] = AdminHelper::getPageTitle();
-	$cash_admin->page_data['www_path'] = ADMIN_WWW_BASE_PATH;
 	$cash_admin->page_data['page_tip'] = AdminHelper::getPageTipsString();
 	$cash_admin->page_data['section_menu'] = AdminHelper::buildSectionNav();
 	// set empty uid/code, then set if found
-	$cash_admin->page_data['status_code'] = '';
-	$cash_admin->page_data['status_uid'] = '';
-	if (isset($_SESSION['cash_last_response'])) {
-		$cash_admin->page_data['status_code'] = $_SESSION['cash_last_response']['status_code'];
-		$cash_admin->page_data['status_uid'] = $_SESSION['cash_last_response']['status_uid'];
-	}
-	// figure out the section color:
+	$cash_admin->page_data['status_code'] = (isset($_SESSION['cash_last_response'])) ? $_SESSION['cash_last_response']['status_code']: '';
+	$cash_admin->page_data['status_uid'] = (isset($_SESSION['cash_last_response'])) ? $_SESSION['cash_last_response']['status_uid']: '';
+	// figure out the section color and current section name:
+	$cash_admin->page_data['specialcolor'] = '';
 	$exploded_base = explode('_',BASE_PAGENAME);
 	$cash_admin->page_data['section_name'] = $exploded_base[0];
-	$cash_admin->page_data['specialcolor'] = '';
-	if ($cash_admin->page_data['section_name'] == 'elements') {
+	if ($exploded_base[0] == 'elements') {
 		$cash_admin->page_data['specialcolor'] = ' usecolor1';
-	} elseif ($cash_admin->page_data['section_name'] == 'assets') {
+	} elseif ($exploded_base[0] == 'assets') {
 		$cash_admin->page_data['specialcolor'] = ' usecolor2';
-	} elseif ($cash_admin->page_data['section_name'] == 'people') {
+	} elseif ($exploded_base[0] == 'people') {
 		$cash_admin->page_data['specialcolor'] = ' usecolor3';
-	} elseif ($cash_admin->page_data['section_name'] == 'commerce') {
+	} elseif ($exploded_base[0] == 'commerce') {
 		$cash_admin->page_data['specialcolor'] = ' usecolor4';
-	} elseif ($cash_admin->page_data['section_name'] == 'calendar') {
+	} elseif ($exploded_base[0] == 'calendar') {
 		$cash_admin->page_data['specialcolor'] = ' usecolor5';
 	}
+	// set true/false for each section being current
+	$cash_admin->page_data['current_elements'] = ($exploded_base[0] == 'elements') ? true: false;
+	$cash_admin->page_data['current_assets'] = ($exploded_base[0] == 'assets') ? true: false;
+	$cash_admin->page_data['current_people'] = ($exploded_base[0] == 'people') ? true: false;
+	$cash_admin->page_data['current_commerce'] = ($exploded_base[0] == 'commerce') ? true: false;
+	$cash_admin->page_data['current_calendar'] = ($exploded_base[0] == 'calendar') ? true: false;
+	// include controller/view for current page (if they each exist — technically the controller is optional)
+	if (file_exists($pages_path . 'controllers/' . $include_filename)) include($pages_path . 'controllers/' . $include_filename);
+	if (file_exists($pages_path . 'views/' . $include_filename)) include($pages_path . 'views/' . $include_filename);
+	// push buffer contents to "content" and stop buffering
+	$cash_admin->page_data['content'] = ob_get_contents();
 	ob_end_clean();
-	include(ADMIN_BASE_PATH . '/ui/default/template.php');
+	
+	// now let's get our {{mustache}} on
+	echo $pencil_thin->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/template.mustache'), $cash_admin->page_data);
 } else {
-	include(ADMIN_BASE_PATH . '/ui/default/login.php');
+	$cash_admin->page_data['browser_id_js'] = CASHSystem::getBrowserIdJS();
+	// magnum p.i. = sweet {{mustache}} > don draper
+	echo $pencil_thin->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/login.mustache'), $cash_admin->page_data);
 }
 ?>
