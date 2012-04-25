@@ -54,10 +54,10 @@ of slashes (/assets/add = assets_add.php.)
 The controller matches routes to filenames, but also allows data to be passed to 
 a controller using a non-get URL. Any path data sent to a page will be parsed and 
 added to a $request_parameters array in the order received. so a route like 
-/assets/edit/7 would call the assets_edit.php controller with $request_parameters = 0.
+/assets/edit/7 would call the assets_edit.php controller with $request_parameters[0] = 7.
 
-CASH framework request responses are passed from the definition to the markup 
-using a simple storage method in AdminCore, like so:  
+CASH framework request responses are currently passed from the controller to view
+at the page level using a simple storage method in AdminCore, like so:  
   
 ```php
 $cash_admin->requestAndStore(
