@@ -1,4 +1,5 @@
-##Admin Overview  
+![CASH Music Admin](https://cashmusic.s3.amazonaws.com/permalink/images/readme.jpg)
+
 The CASH admin app is a standalone process that interfaces with the CASH framework. 
 All relevant files are located in the repo at /interfaces/php/admin/  
 

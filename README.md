@@ -1,4 +1,4 @@
-# CASH Music Platform
+![CASH Music Self-Install Platform](https://cashmusic.s3.amazonaws.com/permalink/images/readme.jpg)
 
 The CASH Music Platform is very much still a work in progress in its pre-release
 lifecycle.

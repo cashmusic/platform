@@ -7,6 +7,9 @@ integration_test:
 cleanup:
 	php installers/php/test_uninstaller.php
 
+install:
+	php installers/php/dev_installer.php
+
 test:
 	-php tests/php/all.php
 	php installers/php/test_uninstaller.php
