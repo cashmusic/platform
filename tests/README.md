@@ -1,4 +1,4 @@
-![CASH Music Test Suite](https://cashmusic.s3.amazonaws.com/permalink/images/readme_testsuite_.jpg)
+![CASH Music Test Suite](https://cashmusic.s3.amazonaws.com/permalink/images/readme_testsuite.jpg)
 
 This is the CASHMusic test suite.
 
