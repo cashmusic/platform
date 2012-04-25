@@ -38,8 +38,38 @@
 			$this->effective_user_id = $effective_user_id;
 		}
 	}
+	
+	/**
+	 * Performs basic tasks each time a user logs in
+	 *
+	 */public function runAtLogin() {
+		// sync all assets
+		$c = new CASHConnection($this->effective_user_id);
+		$applicable_connections = $c->getConnectionsByScope('assets');
+		if (is_array($applicable_connections)) {
+			foreach ($applicable_connections as $connection) {
+				$sync_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'asset', 
+						'cash_action' => 'syncconnectionassets',
+						'connection_id' => $connection['id']
+					)
+				);
+			}
+		}
+	}
 
-	public function getUserSettings() {
+
+	/**********************************************
+	 *
+	 * USER SETTINGS
+	 *
+	 *********************************************/
+	/**
+	 * Gets the 'cashmusic_admin_settings' for the current user
+	 *
+	 * @return array
+	 */public function getUserSettings() {
 		$settings_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'system', 
@@ -56,7 +86,11 @@
 		}
 	}
 
-	public function setUserSettings($settings_array) {
+	/**
+	 * Sets user settings in the database, keyed as 'cashmusic_admin_settings'
+	 *
+	 * @return object / bool
+	 */public function setUserSettings($settings_array) {
 		$settings_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'system', 
@@ -69,7 +103,15 @@
 		return $settings_request;
 	}
 
-	public function favoriteAsset($asset_id) {
+	/**********************************************
+	 *
+	 * ASSETS
+	 *
+	 *********************************************/
+	/**
+	 * Marks an asset as a favorite
+	 *
+	 */public function favoriteAsset($asset_id) {
 		$user_settings = $this->getUserSettings();
 		if (!in_array($asset_id,$user_settings['favorite_assets'])) {
 			$user_settings['favorite_assets'][] = $asset_id;
@@ -77,7 +119,10 @@
 		$this->setUserSettings($user_settings);
 	}
 
-	public function unFavoriteAsset($asset_id) {
+	/**
+	 * Removes favorite status from an asset (or ignores if not a favorite)
+	 *
+	 */public function unFavoriteAsset($asset_id) {
 		$user_settings = $this->getUserSettings();
 		$key = array_search($asset_id,$user_settings['favorite_assets']);
 		if ($key !== false) {
@@ -86,7 +131,11 @@
 		$this->setUserSettings($user_settings);
 	}
 
-	public function getAllFavoriteAssets() {
+	/**
+	 * Returns all assets marked as favorites by the user
+	 *
+	 * @return array / bool
+	 */public function getAllFavoriteAssets() {
 		$user_settings = $this->getUserSettings();
 		if (!count($user_settings['favorite_assets'])) {
 			return false;
@@ -95,11 +144,20 @@
 		}
 	}
 	
-	public function isAssetAFavorite($asset_id) {
+	/**
+	 *  Detects if a given asset_id has been marked as a favorite
+	 *
+	 * @return bool
+	 */public function isAssetAFavorite($asset_id) {
 		$favorites = $this->getAllFavoriteAssets();
 		return in_array($asset_id,$favorites);
 	}
 
+	/**********************************************
+	 *
+	 * DATA & REQUEST STORAGE
+	 *
+	 *********************************************/
 	/**
 	 * Does a CASH Request and stores the response in $stored_responses
 	 *
@@ -144,26 +202,6 @@
 			return $this->stored_data[$store_name];
 		} else {
 			return false;
-		}
-	}
-
-	/**
-	 * Performs basic tasks each time a user logs in
-	 *
-	 */public function runAtLogin() {
-		// sync all assets
-		$c = new CASHConnection($this->effective_user_id);
-		$applicable_connections = $c->getConnectionsByScope('assets');
-		if (is_array($applicable_connections)) {
-			foreach ($applicable_connections as $connection) {
-				$sync_request = new CASHRequest(
-					array(
-						'cash_request_type' => 'asset', 
-						'cash_action' => 'syncconnectionassets',
-						'connection_id' => $connection['id']
-					)
-				);
-			}
 		}
 	}
 

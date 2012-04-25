@@ -2,6 +2,8 @@
 /**
  * The AdminHelper class provides a single location for various formatting and 
  * quick processing methods needed throughout the admin
+ * 
+ * Most functions that are simple/static framework wrappers or data formatting should go here
  *
  * @package diy.org.cashmusic
  * @author CASH Music
@@ -26,37 +28,12 @@
 		);
 		return $login_request->response['payload'];
 	}
-	
-	/**
-	 * Returns metadata for all elements in a keyed array
+
+	/**********************************************
 	 *
-	 * @return array | false
-	 */public static function getElementsData() {
-		$elements_dirname = CASH_PLATFORM_ROOT.'/elements';
-		if ($elements_dir = opendir($elements_dirname)) {
-			$tmpArray = array();
-			while (false !== ($dir = readdir($elements_dir))) {
-				if (substr($dir,0,1) != "." && is_dir($elements_dirname . '/' . $dir)) {
-					$tmpKey = strtolower($dir);
-					if (@file_exists($elements_dirname . '/' . $dir . '/metadata.json')) {
-						$tmpValue = json_decode(@file_get_contents($elements_dirname . '/' . $dir . '/metadata.json'));
-						if ($tmpValue) {
-							$tmpArray["$tmpKey"] = $tmpValue;
-						}
-					}
-				}
-			}
-			closedir($elements_dir);
-			if (count($tmpArray)) {
-				return $tmpArray;
-			} else {
-				return false;
-			}
-		} else {
-			echo 'not dir';
-			return false;
-		}
-	}
+	 * PAGE/UI RENDERING DETAILS
+	 *
+	 *********************************************/
 
 	public static function buildSectionNav() {
 		$pages_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/menu/menu_en.json'),true);
@@ -115,40 +92,11 @@
 		return $tips_array['default'];
 	}
 
-	/**
-	 * Returns the (best guess at) API URL
-	 * fix that typo. I refuse. It's too funny.
+	/**********************************************
 	 *
-	 * @return array
-	 */public static function getAPIDetails() {
-		if(!defined('STDIN')) { // check for command line
-			$api_url = 'http'.((empty($_SERVER['HTTPS'])&&$_SERVER['SERVER_PORT']!=443)?'':'s') 
-					.'://'.$_SERVER['HTTP_HOST'].str_replace('/admin','/api',ADMIN_WWW_BASE_PATH);
-			$api_response = json_decode(CASHSystem::getURLContents($api_url));
-			if ($api_response->greeting == 'hi.') {
-				return array(
-					'api_url' => $api_url,
-					'api_version' => $api_response->api_version
-				);
-			} else {
-				return false;
-			}
-			return $api_url;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Performs a sessionGet() CASH Request for the specified variable
+	 * CONNECTION DETAILS
 	 *
-	 */public static function getPersistentData($var) {
-		$helper_cash_request = new CASHRequest(null);
-		$result = $helper_cash_request->sessionGet($var);
-		unset($helper_cash_request);
-		return $result;
-	}
-
+	 *********************************************/
 	/**
 	 * Finds settings matching a specified scope and echoes them out formatted
 	 * for a dropdown box in a form
@@ -169,7 +117,10 @@
 		}
 	}
 
-	public static function getConnectionName($connection_id) {
+	/**
+	 * Returns the name given to a specific Connection
+	 *
+	 */public static function getConnectionName($connection_id) {
 		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
 		$connection_name = false;
 		$connection_details = $page_data_object->getConnectionDetails($connection_id);
@@ -179,65 +130,48 @@
 		return $connection_name;
 	}
 
-	/**
-	 * Tell it what you need. It makes dropdowns. It's a dropdown robot travelling
-	 * at the speed of light — it'll make a supersonic nerd of you. Don't stop it.
+	/**********************************************
 	 *
-	 * @return array
-	 */public static function echoFormOptions($base_type,$selected=0,$range=false) {
-		switch ($base_type) {
-			case 'assets':
-				$plant_name = 'asset';
-				$action_name = 'getassetsforuser';
-				$display_information = 'title';
-				if ($range) {
-					if (!in_array($selected,$range)) {
-						$range[] = $selected;
+	 * ELEMENT DETAILS
+	 *
+	 *********************************************/
+
+	/**
+	 * Returns metadata for all elements in a keyed array
+	 *
+	 * @return array | false
+	 */public static function getElementsData() {
+		$elements_dirname = CASH_PLATFORM_ROOT.'/elements';
+		if ($elements_dir = opendir($elements_dirname)) {
+			$tmpArray = array();
+			while (false !== ($dir = readdir($elements_dir))) {
+				if (substr($dir,0,1) != "." && is_dir($elements_dirname . '/' . $dir)) {
+					$tmpKey = strtolower($dir);
+					if (@file_exists($elements_dirname . '/' . $dir . '/metadata.json')) {
+						$tmpValue = json_decode(@file_get_contents($elements_dirname . '/' . $dir . '/metadata.json'));
+						if ($tmpValue) {
+							$tmpArray["$tmpKey"] = $tmpValue;
+						}
 					}
-				}
-				break;
-			case 'people_lists':
-				$plant_name = 'people';
-				$action_name = 'getlistsforuser';
-				$display_information = 'name';
-				break;
-			case 'venues':
-				$plant_name = 'calendar';
-				$action_name = 'getallvenues';
-				$display_information = 'name';
-				break;	
-			case 'items':
-				$plant_name = 'commerce';
-				$action_name = 'getitemsforuser';
-				$display_information = 'name';
-				break;
-		}
-		$echoformoptions_cash_request = new CASHRequest(
-			array(
-				'cash_request_type' => $plant_name, 
-				'cash_action' => $action_name,
-				'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-			)
-		);
-		if (is_array($echoformoptions_cash_request->response['payload']) && ($echoformoptions_cash_request->response['status_code'] == 200)) {
-			foreach ($echoformoptions_cash_request->response['payload'] as $item) {
-				$doloop = true;
-				if ($range) {
-					if (!in_array($item['id'],$range)) {
-						$doloop = false;
-					}
-				}
-				if ($doloop) {
-					$selected_string = '';
-					if ($item['id'] == $selected) { 
-						$selected_string = ' selected="selected"';
-					}
-					echo '<option value="' . $item['id'] . '"' . $selected_string . '>' . $item[$display_information] . '</option>';
 				}
 			}
+			closedir($elements_dir);
+			if (count($tmpArray)) {
+				return $tmpArray;
+			} else {
+				return false;
+			}
+		} else {
+			echo 'not dir';
+			return false;
 		}
-		unset($echoformoptions_cash_request);
 	}
+
+	/**********************************************
+	 *
+	 * SIMPLE DATA FORMATTING
+	 *
+	 *********************************************/
 
 	public static function createdModifiedFromRow($row,$top=false) {
 		$addtoclass = '';
@@ -249,6 +183,24 @@
 		$markup .= '</div>';
 		return $markup;
 	}
+
+	/**
+	 * Spit out human readable byte size
+	 * swiped from comments: http://us2.php.net/manual/en/function.memory-get-usage.php
+	 *
+	 * @param $bytes (int)
+	 * @param $precision (int)
+	 * @return string
+	 */function bytesToSize($bytes, $precision = 2) {
+	    $unit = array('B','KB','MB','GB','TB','PB','EB');
+		return @round($bytes / pow(1024, ($i = floor(log($bytes, 1024)))), $precision) . ' ' . $unit[$i];
+	}
+
+	/**********************************************
+	 *
+	 * MISCELLANEOUS
+	 *
+	 *********************************************/
 
 	public static function parseMetaData($post_data) {
 		$metadata_and_tags = array(
@@ -270,17 +222,25 @@
 		return $metadata_and_tags;
 	}
 
+	/**
+	 * Performs a sessionGet() CASH Request for the specified variable
+	 *
+	 */public static function getPersistentData($var) {
+		$helper_cash_request = new CASHRequest(null);
+		$result = $helper_cash_request->sessionGet($var);
+		unset($helper_cash_request);
+		return $result;
+	}
+
+	/**********************************************
+	 *
+	 * FORM HELPER FUNCTIONS
+	 *
+	 *********************************************/
+
 	public static function drawCountryCodeUL($selected='USA') {
 		$all_codes = array(
-			'USA',
-			'Brazil',
-			'Canada',
-			'Czech Republic',
-			'France',
-			'Germany',
-			'Italy',
-			'Japan',
-			'United Kingdom',
+			'USA','Brazil','Canada','Czech Republic','France','Germany','Italy','Japan','United Kingdom',
 			'',
 			'Afghanistan',
 			'Albania',
@@ -722,17 +682,66 @@
 		}
 		return $markup;
 	}
-	
+
 	/**
-	 * Spit out human readable byte size
-	 * swiped from comments: http://us2.php.net/manual/en/function.memory-get-usage.php
+	 * Tell it what you need. It makes dropdowns. It's a dropdown robot travelling
+	 * at the speed of light — it'll make a supersonic nerd of you. Don't stop it.
 	 *
-	 * @param $bytes (int)
-	 * @param $precision (int)
-	 * @return string
-	 */function bytesToSize($bytes, $precision = 2) {
-	    $unit = array('B','KB','MB','GB','TB','PB','EB');
-		return @round($bytes / pow(1024, ($i = floor(log($bytes, 1024)))), $precision) . ' ' . $unit[$i];
+	 * @return array
+	 */public static function echoFormOptions($base_type,$selected=0,$range=false) {
+		switch ($base_type) {
+			case 'assets':
+				$plant_name = 'asset';
+				$action_name = 'getassetsforuser';
+				$display_information = 'title';
+				if ($range) {
+					if (!in_array($selected,$range)) {
+						$range[] = $selected;
+					}
+				}
+				break;
+			case 'people_lists':
+				$plant_name = 'people';
+				$action_name = 'getlistsforuser';
+				$display_information = 'name';
+				break;
+			case 'venues':
+				$plant_name = 'calendar';
+				$action_name = 'getallvenues';
+				$display_information = 'name';
+				break;	
+			case 'items':
+				$plant_name = 'commerce';
+				$action_name = 'getitemsforuser';
+				$display_information = 'name';
+				break;
+		}
+		$echoformoptions_cash_request = new CASHRequest(
+			array(
+				'cash_request_type' => $plant_name, 
+				'cash_action' => $action_name,
+				'user_id' => AdminHelper::getPersistentData('cash_effective_user')
+			)
+		);
+		if (is_array($echoformoptions_cash_request->response['payload']) && ($echoformoptions_cash_request->response['status_code'] == 200)) {
+			foreach ($echoformoptions_cash_request->response['payload'] as $item) {
+				$doloop = true;
+				if ($range) {
+					if (!in_array($item['id'],$range)) {
+						$doloop = false;
+					}
+				}
+				if ($doloop) {
+					$selected_string = '';
+					if ($item['id'] == $selected) { 
+						$selected_string = ' selected="selected"';
+					}
+					echo '<option value="' . $item['id'] . '"' . $selected_string . '>' . $item[$display_information] . '</option>';
+				}
+			}
+		}
+		unset($echoformoptions_cash_request);
 	}
+	
 } // END class 
 ?>
