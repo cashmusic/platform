@@ -18,7 +18,7 @@ if ($page_request['status_uid'] == 'element_getelement_200') {
 	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
 	
 	if ($page_request['payload']['user_id'] == $effective_user) {
-		$page_title = 'Elements: Edit “' . $page_request['payload']['name'] . '”';
+		$cash_admin->page_data['title'] = 'Elements: Edit “' . $page_request['payload']['name'] . '”';
 	} else {
 		header('Location: ' . ADMIN_WWW_BASE_PATH . '/elements/view/');
 	}

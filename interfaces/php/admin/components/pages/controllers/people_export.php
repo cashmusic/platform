@@ -11,7 +11,7 @@ if ($request_parameters) {
 		'listdetails'
 	);
 	
-	$page_title = 'People: View "' . $current_response['payload']['details']['name'] . '"';
+	$cash_admin->page_data['title'] = 'People: View "' . $current_response['payload']['details']['name'] . '"';
 } else {
 	header('Location: ' . ADMIN_WWW_BASE_PATH . '/people/lists/');
 }

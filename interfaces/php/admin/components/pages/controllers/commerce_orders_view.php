@@ -12,7 +12,7 @@ if ($request_parameters) {
 	);
 	$order_details = $order_details_request->response['payload'];
 	if ($order_details['user_id'] == $effective_user) {
-		$page_title = 'Commerce: Order #' . str_pad($order_details['id'],6,0,STR_PAD_LEFT);
+		$cash_admin->page_data['title'] = 'Commerce: Order #' . str_pad($order_details['id'],6,0,STR_PAD_LEFT);
 		$order_details['order_date'] = date("M j, Y, g:i A", $order_details['modification_date']);
 
 	} else {

@@ -9,7 +9,7 @@ if ($request_parameters) {
 		),
 		'listdetails'
 	);
-	$page_title = 'People: View "' . $current_response['payload']['name'] . '"';
+	$cash_admin->page_data['title'] = 'People: View "' . $current_response['payload']['name'] . '"';
 
 	if ($current_response['payload']) {
 		$cash_admin->requestAndStore(

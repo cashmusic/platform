@@ -1,8 +1,4 @@
 <?php
-// add unique page settings:
-$page_title = 'Assets: Asset Details';
-$page_tips = 'View/edit details for a file.';
-
 $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'asset', 

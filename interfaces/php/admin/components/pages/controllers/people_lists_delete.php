@@ -32,7 +32,7 @@ if ($page_request['status_uid'] == 'people_getlist_200') {
 				header('Location: ' . ADMIN_WWW_BASE_PATH . '/people/lists/');
 			}
 		}
-		$page_title = 'People: Delete “' . $page_request->response['payload']['name'] . '”';
+		$cash_admin->page_data['title'] = 'People: Delete “' . $page_request->response['payload']['name'] . '”';
 	} else {
 		header('Location: ' . ADMIN_WWW_BASE_PATH . '/people/lists/');
 	}

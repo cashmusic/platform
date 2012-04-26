@@ -29,7 +29,7 @@ if ($page_request->response['status_uid'] == 'element_getelement_200') {
 				header('Location: ' . ADMIN_WWW_BASE_PATH . '/elements/view/');
 			}
 		}
-		$page_title = 'Elements: Delete “' . $page_request->response['payload']['name'] . '”';
+		$cash_admin->page_data['title'] = 'Elements: Delete “' . $page_request->response['payload']['name'] . '”';
 	} else {
 		header('Location: ' . ADMIN_WWW_BASE_PATH . '/elements/view/');
 	}

@@ -46,7 +46,7 @@ function drawFeaturedElement($element,$data) {
 if ($request_parameters) {
 	$element_addtype = $request_parameters[0];
 	if (isset($elements_data[$element_addtype])) {
-		$page_title = 'Elements: Add ' . $elements_data[$element_addtype]->name . ' Element';
+		$cash_admin->page_data['title'] = 'Elements: Add ' . $elements_data[$element_addtype]->name . ' Element';
 	}
 	
 	$supported_elements = $page_request->response['payload'];

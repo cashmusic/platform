@@ -13,7 +13,7 @@ $current_response = $cash_admin->requestAndStore(
 );
 
 if ($current_response['status_uid'] == 'people_getlist_200') {
-	$page_title = 'People: Edit "' . $current_response['payload']['name'] . '"';
+	$cash_admin->page_data['title'] = 'People: Edit "' . $current_response['payload']['name'] . '"';
 	// parsing posted data:
 	if (isset($_POST['dolistedit'])) {
 		// do the actual list add stuffs...

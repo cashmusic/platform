@@ -11,7 +11,7 @@ if ($request_parameters) {
 		)
 	);
 	if ($page_request->response['payload']['user_id'] == $effective_user) {
-		$page_title = 'Elements: View “' . $page_request->response['payload']['name'] . '”';
+		$cash_admin->page_data['title'] = 'Elements: View “' . $page_request->response['payload']['name'] . '”';
 		
 		$element_type = $page_request->response['payload']['type'];
 		if (@file_exists(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_type . '/help.php')) {

@@ -28,7 +28,7 @@ if ($page_request->response['status_uid'] == 'commerce_getitem_200') {
 				header('Location: ' . ADMIN_WWW_BASE_PATH . '/commerce/items/');
 			}
 		}
-		$page_title = 'Commerce: Delete “' . $page_request->response['payload']['name'] . '”';
+		$cash_admin->page_data['title'] = 'Commerce: Delete “' . $page_request->response['payload']['name'] . '”';
 	} else {
 		header('Location: ' . ADMIN_WWW_BASE_PATH . '/commerce/items/');
 	}
