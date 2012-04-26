@@ -60,6 +60,7 @@ CASH framework request responses are currently passed from the controller to vie
 at the page level using a simple storage method in AdminCore, like so:  
   
 ```php
+<?php
 $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'type', 
@@ -70,5 +71,6 @@ $cash_admin->requestAndStore(
 );
 
 $cash_admin->getStoredResponse('addasset');
+?>
 ```  
   
