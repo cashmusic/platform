@@ -60,26 +60,28 @@ will be nearly identical to future REST or verbose interactions.
 The PHP Request/Response looks like this: 
 
 ```php
-$sample_request = new CASHRequest(
-	array(
-		'cash_request_type' => 'calendar', 
-		'cash_action' => 'getevent',
-		'id' => 43
-	)
-);
+<?php 
+	$sample_request = new CASHRequest(
+		array(
+			'cash_request_type' => 'calendar', 
+			'cash_action' => 'getevent',
+			'id' => 43
+		)
+	);
 
-$sample_request->resonse:
-{
-	"status_code":404, // http-style status code
-	"status_uid":"calendar_getevent_404", // uid of the response (request + status)
-	"status_message":"Not Found", // http-style status message
-	"contextual_message":"Event not found", // more specific error message
-	"request_type":"calendar", // echo of the request type
-	"action":"getevent", // echo of the request action
-	"payload":false, // contents of the response, or false if error
-	"api_version":2, // version number
-	"timestamp":1335416260 // request timestamp
-}
+	$sample_request->resonse:
+	{
+		"status_code":404, // http-style status code
+		"status_uid":"calendar_getevent_404", // uid of the response (request + status)
+		"status_message":"Not Found", // http-style status message
+		"contextual_message":"Event not found", // more specific error message
+		"request_type":"calendar", // echo of the request type
+		"action":"getevent", // echo of the request action
+		"payload":false, // contents of the response, or false if error
+		"api_version":2, // version number
+		"timestamp":1335416260 // request timestamp
+	}
+?>
 ```
 
 ## Testing
