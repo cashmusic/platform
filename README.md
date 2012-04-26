@@ -86,7 +86,11 @@ The PHP Request/Response looks like this:
 
 ## Testing
 
-More about our testing habits in the test suite [https://github.com/cashmusic/DIY/blob/master/tests/README.md](README)
+More about our testing habits in the test suite [README](https://github.com/cashmusic/DIY/blob/master/tests/README.md)
+
+## Admin App
+
+We've got a [README](https://github.com/cashmusic/DIY/blob/master/interfaces/php/admin/README.md) for that dude too.
 
 ## CASH Music Branches + Tags
 
