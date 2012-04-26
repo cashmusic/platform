@@ -18,7 +18,7 @@ CREATE TABLE `assets` (
   `location` varchar(255),
   `public_url` varchar(255),
   `connection_id` int(11) DEFAULT NULL,
-  `type` varchar(255) DEFAUL 'storage',
+  `type` varchar(255) DEFAULT 'storage',
   `title` varchar(255),
   `description` text,
   `public_status` bool DEFAULT '0',
@@ -103,18 +103,6 @@ CREATE TABLE `calendar_venues` (
 -- 
 -- Section: COMMERCE
 -- 
-DROP TABLE IF EXISTS `commerce_assets`;
-CREATE TABLE `commerce_assets` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `asset_id` int(11) NOT NULL,
-  `scope_table_alias` varchar(255) NOT NULL,
-  `scope_table_id` int(11) DEFAULT NULL,
-  `type` varchar(255) NOT NULL DEFAULT 'preview',
-  `creation_date` int(11) DEFAULT NULL,
-  `modification_date` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 DROP TABLE IF EXISTS `commerce_items`;
 CREATE TABLE `commerce_items` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -131,6 +119,9 @@ CREATE TABLE `commerce_items` (
   `physical_height` int(11) NOT NULL,
   `physical_depth` int(11) NOT NULL,
   `available_units` int(11) NOT NULL DEFAULT '0',
+  `variable_pricing` bool DEFAULT '0',
+  `fulfillment_asset` int(11) NOT NULL DEFAULT '0',
+  `descriptive_asset` int(11) NOT NULL DEFAULT '0',
   `creation_date` int(11) NOT NULL DEFAULT '0',
   `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -170,8 +161,13 @@ CREATE TABLE `commerce_orders` (
   `transaction_id` int(11) NOT NULL,
   `order_contents` text NOT NULL,
   `fulfilled` bool DEFAULT '0',
+  `canceled` bool DEFAULT '0',
+  `physical` bool DEFAULT '0',
+  `digital` bool DEFAULT '0',
   `notes` text NOT NULL,
   `country_code` varchar(255),
+  `element_id` int(11),
+  `cash_session_id` varchar(24),
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
@@ -188,8 +184,9 @@ CREATE TABLE `commerce_transactions` (
   `data_sent` text NOT NULL,
   `data_returned` text NOT NULL,
   `successful` bool DEFAULT '0',
-  `gross_price` float NOT NULL,
-  `service_fee` float NOT NULL,
+  `gross_price` decimal(9,2) DEFAULT NULL,
+  `service_fee` decimal(9,2) DEFAULT NULL,
+  `status` varchar(255) DEFAULT 'abandoned',
   `creation_date` int(11) NOT NULL DEFAULT '0',
   `modification_date` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)

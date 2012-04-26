@@ -15,11 +15,10 @@
 class ElementPlant extends PlantBase {
 	protected $elements_array=array();
 	protected $typenames_array=array();
-	protected $lockCodeCharacters = array(
-		// hard-coded to avoid 0/o, l/1 type confusions on download cards
-		'num_chars' => array('2','3','4','6','7','8','9'),
-		'txt_chars' => array('a','b','c','d','e','f','g','h','i','j','k','m','n','p','q','r','s','t','u','v','w','x','y','z'),
-		'all_chars' => array('2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','m','n','p','q','r','s','t','u','v','w','x','y','z')
+	// hard-coded to avoid 0/o, l/1 type confusions on download cards
+	protected $lock_code_chars = array(
+		'all_chars' => array('2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','m','n','p','q','r','s','t','u','v','w','x','y','z'),
+		'code_break' => array(2,3,3,4,4,4,5)
 	);
 	
 	public function __construct($request_type,$request) {
@@ -35,13 +34,15 @@ class ElementPlant extends PlantBase {
 				// first value  = target method to call
 				// second value = allowed request methods (string or array of strings)
 				'addelement'           => array('addElement','direct'),
+				'addlockcode'          => array('addLockCode','direct'),
 				'deleteelement'        => array('deleteElement','direct'),
 				'editelement'          => array('editElement','direct'),
 				'getanalytics'         => array('getAnalytics','direct'),
 				'getelement'           => array('getElement','direct'),
 				'getelementsforuser'   => array('getElementsForUser','direct'),
 				'getmarkup'            => array('getElementMarkup',array('direct','get','post','api_public','api_key','api_fullauth')),
-				'getsupportedtypes'    => array('getSupportedTypes','direct')
+				'getsupportedtypes'    => array('getSupportedTypes','direct'),
+				'redeemcode'           => array('redeemLockCode',array('direct','get','post'))
 			);
 			// see if the action matches the routing table:
 			$basic_routing = $this->routeBasicRequest();
@@ -346,216 +347,157 @@ class ElementPlant extends PlantBase {
 	 * random UID as a starting point
 	 *
 	 * @return string
-	 */protected function getLastLockCodeUID() {
+	 */protected function getLastLockCode() {
 		$result = $this->db->getData(
 			'lock_codes',
 			'uid',
-			array(
-				"list_id" => array(
-					"condition" => "=",
-					"value" => $list_id
-				)
-			),
+			false,
 			1,
-			'creation_date DESC'
+			'id DESC'
 		);
 		if ($result) {
-			return $result[0]['uid'];
+			$code = $result[0]['uid'];
 		} else {
-			$num_chars = $this->lockCodeCharacters['num_chars'];
-			$txt_chars = $this->lockCodeCharacters['txt_chars'];
-			$all_chars = $this->lockCodeCharacters['all_chars'];
-			$char_count_num = count($num_chars)-1;
-			$char_count_txt = count($txt_chars)-1;
-			$char_count_all = count($all_chars)-1;
-
-			$firstUID = $all_chars[rand(0,$char_count_all)];
-			$firstUID .= $all_chars[rand(0,$char_count_all)];
-			$firstUID .= $num_chars[rand(0,$char_count_num)];
-			$firstUID .= $all_chars[rand(0,$char_count_all)];
-			$firstUID .= $txt_chars[rand(0,$char_count_txt)];
-			$firstUID .= $all_chars[rand(0,$char_count_all)];
-			$firstUID .= $all_chars[rand(0,$char_count_all)];
-			$firstUID .= $num_chars[rand(0,$char_count_num)];
-			$firstUID .= $txt_chars[rand(0,$char_count_txt)];
-			$firstUID .= $all_chars[rand(0,$char_count_all)];
-
-			return $firstUID;
+			$code = false;
 		}
-	}
-
-	/**
-	 * Increments through an array based on $inc_by, wrapping at the end
-	 *
-	 * @param {integer} $current -  the current position in the array
-	 * @param {integer} $inc_by - the increment amount	
-	 * @param {integer} $total - the total number of members in the array
-	 * @return string|false
-	 */protected function lockCodeUIDWrapInc($current,$inc_by,$total) {
-		if (($current+$inc_by) < ($total)) {
-			$final_value = $current+$inc_by;
-		} else {
-			$final_value = ($current-$total)+$inc_by;
-		}
-		return $final_value;
-	}
-
-	/**
-	 * Decrements through an array based on $dec_by, wrapping at the end
-	 *
-	 * @param {integer} $current -  the current position in the array
-	 * @param {integer} $dec_by - the decrement amount	
-	 * @param {integer} $total - the total number of members in the array
-	 * @return string|false
-	 */protected function lockCodeUIDWrapDec($current,$dec_by,$total) {
-		if (($current-$dec_by) > -1) {
-			$final_value = $current-$dec_by;
-		} else {
-			$final_value = ($total+$current) - $dec_by;
-		}
-		return $final_value;
-	}
-
-	protected function verifyUniqueLockCodeUID($lookup_uid) {
-		$result = $this->db->getData(
-			'lock_codes',
-			'uid',
-			array(
-				"uid" => array(
-					"condition" => "=",
-					"value" => $lookup_uid
-				)
-			),
-			1
-		);
-		// backwards return. if we find results, return false for not unique.
-		// if there are none return true. broke. yer. mindz.
-		if ($result) {
-			return false;
-		} else {
-			return true;
-		}
+		return $code;
 	}
 
 	/**
 	 * Creates a new lock/unlock code for and asset
 	 *
-	 * @param {integer} $asset_id - the asset for which you're adding the lock code
+	 * @param {integer} $element_id - the element for which you're adding the lock code
 	 * @return string|false
-	 */protected function addLockCode($asset_id){
-		$uid = $this->getNextLockCodeUID();
-		if ($uid) {
-			$result = $this->db->setData(
-				'lock_codes',
-				array(
-					'uid' => $uid,
-					'asset_id' => $asset_id
-				)
-			);
-			if ($result) { 
-				return $uid;
+	 */protected function addLockCode($element_id){
+		$code = $this->generateCode(
+			$this->lock_code_chars['all_chars'],
+			$this->lock_code_chars['code_break'],
+			$this->getLastLockCode()
+		);
+		$result = $this->db->setData(
+			'lock_codes',
+			array(
+				'uid' => $code,
+				'element_id' => $element_id
+			)
+		);
+		if ($result) { 
+			return $code;
+		} else {
+			return false;
+		}
+	}
+
+	protected function redeemLockCode($code,$element_id) {
+		$code_details = $this->getLockCode($code,$element_id);
+		if ($code_details) {
+			// details found, means the code+element is correct...mark as claimed
+			if (!$code_details['claim_date']) {
+				$result = $this->db->setData(
+					'lock_codes',
+					array(
+						'claim_date' => time()
+					),
+					array(
+						"id" => array(
+							"condition" => "=",
+							"value" => $code_details['id']
+						)
+					)
+				);
+				return $result;
 			} else {
-				return false;
+				// allow retries for four hours after claim
+				if (($code_details['claim_date'] + 14400) > time()) {
+					return true;
+				} else {
+					return false;
+				}
 			}
 		} else {
 			return false;
 		}
 	}
 
-	/**
-	 * Gets the last UID and computes the next in sequence
-	 *
-	 * @return string
-	 */protected function getNextComputedLockCodeUID() {
-		// no 1,l,0,or o to avoid confusion...
-		$num_chars = $this->lockCodeCharacters['num_chars'];
-		$txt_chars = $this->lockCodeCharacters['txt_chars'];
-		$all_chars = $this->lockCodeCharacters['all_chars'];
-		$last_uid = $this->getLastLockCodeUID();
-		$exploded_last_uid = str_split($last_uid);
-		$char_count_num = count($num_chars)-1;
-		$char_count_txt = count($txt_chars)-1;
-		$char_count_all = count($all_chars)-1;
-		
-		$next_uid = $all_chars[rand(0,$char_count_all)];
-		if ($exploded_last_uid[1] == $num_chars[3]) {
-			$next_uid .= $all_chars[$this->lockCodeUIDWrapInc(array_search($exploded_last_uid[1],$all_chars),1,$char_count_all)];
-		} else {
-			$next_uid .= $exploded_last_uid[1];
-		}
-		$next_uid .= $num_chars[$this->lockCodeUIDWrapDec(array_search($exploded_last_uid[2],$num_chars),rand(1,3),$char_count_num)];
-		$next_uid .= $all_chars[$this->lockCodeUIDWrapInc(array_search($exploded_last_uid[3],$all_chars),5,$char_count_all)];
-		$next_uid .= $txt_chars[$this->lockCodeUIDWrapDec(array_search($exploded_last_uid[4],$txt_chars),rand(1,3),$char_count_txt)];
-		$next_uid .= $all_chars[$this->lockCodeUIDWrapInc(array_search($exploded_last_uid[5],$all_chars),11,$char_count_all)];
-		if ($exploded_last_uid[0] == $all_chars[0]) {
-			$next_uid .=  $all_chars[$this->lockCodeUIDWrapDec(array_search($exploded_last_uid[6],$all_chars),1,$char_count_all)];
-		} else {
-			$next_uid .= $exploded_last_uid[6];
-		}
-		$next_uid .= $num_chars[$this->lockCodeUIDWrapDec(array_search($exploded_last_uid[7],$num_chars),3,$char_count_num)];
-		$next_uid .= $txt_chars[$this->lockCodeUIDWrapInc(array_search($exploded_last_uid[8],$all_chars),1,$char_count_txt)];
-		$next_uid .= $all_chars[rand(0,$char_count_all)];
-		
-		return $next_uid;
-	}
-	
-	/**
-	 * Calls getNextComputedLockCodeUID and ensures the result is unique
-	 *
-	 * @return string
-	 */protected function getNextLockCodeUID() {
-		$next_uid = $this->getNextComputedLockCodeUID();
-		$this->verifyUniqueLockCodeUID($next_uid);
-		while (!$this->verifyUniqueLockCodeUID($next_uid)) {
-			$next_uid = $this->getNextComputedLockCodeUID();
-		}
-		return $next_uid;
-	}
-
-	protected function getLockCodeDetails($uid,$asset_id) {
-		return $this->db->doQueryForAssoc($query);
+	protected function getLockCode($code,$element_id) {
 		$result = $this->db->getData(
 			'lock_codes',
 			'*',
 			array(
 				"uid" => array(
 					"condition" => "=",
-					"value" => $lookup_uid
+					"value" => $code
 				),
-				"asset_id" => array(
+				"element_id" => array(
 					"condition" => "=",
-					"value" => $asset_id
+					"value" => $element_id
 				)
 			),
 			1
 		);
-		return $result[0];
-	}
-
-	protected function parseLockCode($code) {
-		return array(
-			'id' => substr($code,0,(strlen($code)-10)),
-			'uid' => substr($code,-10)
-		);
-	}
-
-	protected function verifyLockCode($code,$email=false) {
-		$identifier = $this->parseLockCode($code);
-		$result = $this->getLockCodeDetails($identifier['uid'],$identifier['id']);
-		if ($result !== false) {
-			if (!$email) {
-				if ($result['expired'] == 1) {
-					return false;
-				} else {
-					return true;
-				}
-			} else {
-				// email is required, yo
-				return false;
-			}
+		if ($result) {
+			return $result[0];
 		} else {
 			return false;
 		}
+	}
+
+	protected function consistentShuffle(&$items, $seed=false) {
+		// original here: http://www.php.net/manual/en/function.shuffle.php#105931
+		$original = md5(serialize($items));
+		mt_srand(crc32(($seed) ? $seed : $items[0]));
+		for ($i = count($items) - 1; $i > 0; $i--){
+			$j = @mt_rand(0, $i);
+			list($items[$i], $items[$j]) = array($items[$j], $items[$i]);
+		}
+		if ($original == md5(serialize($items))) {
+			list($items[count($items) - 1], $items[0]) = array($items[0], $items[count($items) - 1]);
+		}
+	}
+	
+	protected function generateCode($all_chars,$code_break,$last_code=false) {
+		$seed = CASHSystem::getSystemSalt();
+		$this->consistentShuffle($all_chars,$seed);
+		$this->consistentShuffle($code_break,$seed);
+		if (!$last_code) {
+			$last_code = '';
+			for ($i = 1; $i <= 10; $i++) {
+				$last_code .= $all_chars[rand(0,count($all_chars) - 1)];
+			}
+		}
+		$sequential = substr($last_code,1,$code_break[0])
+					. substr($last_code,0 - (7 - $code_break[0]));
+		$sequential = $this->iterateChars($sequential,$all_chars);
+		$new_code = $all_chars[rand(0,count($all_chars) - 1)]
+		 		  . substr($sequential,0,$code_break[0])
+				  . $all_chars[rand(0,count($all_chars) - 1)]
+				  . $all_chars[rand(0,count($all_chars) - 1)]
+				  . substr($sequential,0 - (7 - $code_break[0]));
+		return $new_code;
+	}
+
+	protected function iterateChars($chars,$all_chars) {
+		$chars = str_split($chars);
+		// start with the last character of the $chars string
+		$current_char = count($chars) - 1;
+		$loop = 1;
+		do {
+			$loop--;
+			$current_key = array_search($chars[$current_char],$all_chars);
+			if ($current_key == count($all_chars) - 1) {
+				$loop++;
+				$chars[$current_char] = $all_chars[0];
+				if ($current_char == 0) {
+					$current_char = count($chars) - 1;
+				} else {
+					$current_char--;
+				}
+			} else {
+				$chars[$current_char] = $all_chars[$current_key + 1];
+			}
+		} while ($loop > 0);
+		$chars = implode($chars);
+		return $chars;
 	}
 
 } // END class 

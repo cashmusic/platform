@@ -1,0 +1,110 @@
+{
+	"account":
+		{"page_name":"Your Account", "menu_icon":""},
+		
+		
+	"assets":
+		{"page_name":"Assets", "menu_icon":""},
+	"assets/add":
+		{"page_name":"Add Assets", "menu_icon":"plus_alt"},
+	"assets/add/file":
+		{"page_name":"Add A Single Asset", "menu_icon":""},
+	"assets/add/playlist":
+		{"page_name":"Add Playlist", "menu_icon":""},
+	"assets/browse":
+		{"page_name":"Browse Assets", "menu_icon":"list"},
+	"assets/edit/file":
+		{"page_name":"Asset Details", "menu_icon":""},
+	"assets/find":
+		{"page_name":"Search", "menu_icon":"magnifying_glass"},
+		
+		
+	"calendar":
+		{"page_name":"Calendar", "menu_icon":""},
+	"calendar/events":
+		{"page_name":"Events", "menu_icon":"calendar_alt_fill"},
+	"calendar/events/add":
+		{"page_name":"Add Event", "menu_icon":""},
+	"calendar/events/edit":
+		{"page_name":"Edit Event", "menu_icon":""},
+	"calendar/guestlists":
+		{"page_name":"Guestlists", "menu_icon":"list"},
+	"calendar/venues":
+		{"page_name":"Venues", "menu_icon":"map_pin_fill"},
+	"calendar/venues/add":
+		{"page_name":"Add Venue", "menu_icon":""},
+	"calendar/venues/delete":
+		{"page_name":"Delete Venue", "menu_icon":""},
+	"calendar/venues/edit":
+		{"page_name":"Edit Venue", "menu_icon":""},
+		
+		
+	"commerce":
+		{"page_name":"Commerce", "menu_icon":""},
+	"commerce/items":
+		{"page_name":"Items", "menu_icon":"box"},
+	"commerce/items/delete":
+		{"page_name":"Delete Item", "menu_icon":""},
+	"commerce/items/edit":
+		{"page_name":"Edit Item", "menu_icon":""},
+	"commerce/orders":
+		{"page_name":"Orders", "menu_icon":"book"},
+	"commerce/orders/view":
+		{"page_name":"Order Details", "menu_icon":""},
+		
+		
+	"elements":
+		{"page_name":"Elements", "menu_icon":""},
+	"elements/add":
+		{"page_name":"Add Elements", "menu_icon":"plus_alt"},
+	"elements/delete":
+		{"page_name":"Delete Element", "menu_icon":"", "hide":true},
+	"elements/edit":
+		{"page_name":"Edit Element", "menu_icon":"", "hide":true},
+	"elements/view":
+		{"page_name":"Your Elements", "menu_icon":"heart_fill"},
+		
+		
+	"error":
+		{"page_name":"Page Not Found", "menu_icon":""},
+		
+		
+	"help":
+		{"page_name":"Help", "menu_icon":""},
+	"help/gettingstarted":
+		{"page_name":"Getting Started", "menu_icon":""},
+		
+		
+	"licenses":
+		{"page_name":"Licenses", "menu_icon":""},
+		
+		
+	"mainpage":
+		{"page_name":"CASH Music: Main Page", "menu_icon":""},
+		
+		
+	"people":
+		{"page_name":"People", "menu_icon":""},
+	"people/contacts":
+		{"page_name":"Contacts", "menu_icon":"user"},
+	"people/lists":
+		{"page_name":"Lists", "menu_icon":"list"},
+	"people/lists/add":
+		{"page_name":"Add List", "menu_icon":""},
+	"people/lists/delete":
+		{"page_name":"Delete List", "menu_icon":""},
+	"people/lists/edit":
+		{"page_name":"Edit List", "menu_icon":""},
+	"people/lists/export":
+		{"page_name":"Export List", "menu_icon":""},
+	"people/lists/view":
+		{"page_name":"List Details", "menu_icon":""},
+	"people/social":
+		{"page_name":"Social", "menu_icon":"chat"},
+		
+		
+	"settings":
+		{"page_name":"Settings", "menu_icon":""},
+	"settings/connections":
+		{"page_name":"Connections", "menu_icon":"share"}
+}

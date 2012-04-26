@@ -2,6 +2,8 @@
 /**
  * The AdminHelper class provides a single location for various formatting and 
  * quick processing methods needed throughout the admin
+ * 
+ * Most functions that are simple/static framework wrappers or data formatting should go here
  *
  * @package diy.org.cashmusic
  * @author CASH Music
@@ -13,19 +15,127 @@
  *
  */abstract class AdminHelper  {
 
-	public static function doLogin($email_address,$password,$require_admin=true) {
+	public static function doLogin($email_address,$password,$require_admin=true,$browserid_assertion=false) {
 		$login_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'system', 
 				'cash_action' => 'validatelogin',
 				'address' => $email_address, 
 				'password' => $password,
-				'require_admin' => $require_admin
+				'require_admin' => $require_admin,
+				'browserid_assertion' => $browserid_assertion
 			)
 		);
 		return $login_request->response['payload'];
 	}
-	
+
+	/**********************************************
+	 *
+	 * PAGE/UI RENDERING DETAILS
+	 *
+	 *********************************************/
+
+	public static function buildSectionNav() {
+		$pages_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/menu/menu_en.json'),true);
+		$endpoint = str_replace('_','/',BASE_PAGENAME);
+		$endpoint_parts = explode('/',$endpoint);
+		$section_base = $pages_array[$endpoint_parts[0]];
+		$section_pages = array();
+		foreach ($pages_array as $page_endpoint => $page) {
+			if (strrpos($page_endpoint,$endpoint_parts[0]) !== false) {
+				$section_pages[$page_endpoint] = $page;
+			}
+		}
+		if (count($section_pages) > 1) {
+			$menustr = '<a href="'. ADMIN_WWW_BASE_PATH . '/' . $endpoint_parts[0] . '/" class="pagemenutitle">' . $section_base['page_name'] . '</a>';
+			$menustr .= '<ul class="pagebasemenu">';
+			foreach ($section_pages as $page_endpoint => $page) {
+				$menulevel = substr_count($page_endpoint, '/');
+				if ($menulevel == 1 && !isset($page['hide'])) { // only show top-level menu items
+					if (str_replace('/','_',$page_endpoint) == BASE_PAGENAME) {
+						$menustr .= "<li><a href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\" style=\"color:#babac4;\"><span class=\"icon {$page['menu_icon']}\"></span> {$page['page_name']}</a></li>";
+					} else {
+						$menustr .= "<li><a href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><span class=\"icon {$page['menu_icon']}\"></span> {$page['page_name']}</a></li>";
+					}
+				}
+			}
+			$menustr .= '</ul>';
+			return $menustr;
+		} else {
+			return false;
+		}
+	}
+
+	public static function getPageTitle() {
+		$pages_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/menu/menu_en.json'),true);
+		$endpoint = str_replace('_','/',BASE_PAGENAME);
+		if (isset($pages_array[$endpoint])) {
+			$endpoint_parts = explode('/',$endpoint);
+			$current_title = '';
+			if (count($endpoint_parts) > 1) {
+				$current_title .= $pages_array[$endpoint_parts[0]]['page_name'] . ': ';
+			}
+			$current_title .= $pages_array[$endpoint]['page_name'];
+			return $current_title;
+		}
+		return 'CASH Music';
+	}
+
+	public static function getPageTipsString() {
+		$tips_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/text/en/pagetips.json'),true);
+		$endpoint = str_replace('_','/',BASE_PAGENAME);
+		if (isset($tips_array[$endpoint])) {
+			if ($tips_array[$endpoint]) {
+				return $tips_array[$endpoint];
+			}
+		}
+		return $tips_array['default'];
+	}
+
+	/**********************************************
+	 *
+	 * CONNECTION DETAILS
+	 *
+	 *********************************************/
+	/**
+	 * Finds settings matching a specified scope and echoes them out formatted
+	 * for a dropdown box in a form
+	 *
+	 */public static function echoConnectionsOptions($scope,$selected=false) {
+		// get system settings:
+		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+		$applicable_settings_array = $page_data_object->getConnectionsByScope($scope);
+
+		// echo out the proper dropdown bits
+		if ($applicable_settings_array) {
+			$settings_count = 1;
+			foreach ($applicable_settings_array as $setting) {
+				$echo_selected = '';
+				if ($setting['id'] == $selected) { $echo_selected = ' selected="selected"'; }
+				echo '<option value="' . $setting['id'] . '"' . $echo_selected . '>' . $setting['name'] . '</option>';
+			}
+		}
+	}
+
+	/**
+	 * Returns the name given to a specific Connection
+	 *
+	 */public static function getConnectionName($connection_id) {
+		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+		$connection_name = false;
+		$connection_details = $page_data_object->getConnectionDetails($connection_id);
+		if ($connection_details) {
+			$connection_name = $connection_details['name'];
+		}
+		return $connection_name;
+	}
+
+	/**********************************************
+	 *
+	 * ELEMENT DETAILS
+	 *
+	 *********************************************/
+
 	/**
 	 * Returns metadata for all elements in a keyed array
 	 *
@@ -57,124 +167,11 @@
 		}
 	}
 
-	/**
-	 * Returns the (best guess at) APE URL
-	 * fix that typo. I refuse. It's too funny.
+	/**********************************************
 	 *
-	 * @return array
-	 */public static function getAPIDetails() {
-		if(!defined('STDIN')) { // check for command line
-			$api_url = 'http'.((empty($_SERVER['HTTPS'])&&$_SERVER['SERVER_PORT']!=443)?'':'s') 
-					.'://'.$_SERVER['HTTP_HOST'].str_replace('/admin','/api',ADMIN_WWW_BASE_PATH);
-			$api_response = json_decode(CASHSystem::getURLContents($api_url));
-			if ($api_response->greeting == 'hi.') {
-				return array(
-					'api_url' => $api_url,
-					'api_version' => $api_response->api_version
-				);
-			} else {
-				return false;
-			}
-			return $api_url;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Performs a sessionGet() CASH Request for the specified variable
+	 * SIMPLE DATA FORMATTING
 	 *
-	 */public static function getPersistentData($var) {
-		$helper_cash_request = new CASHRequest(null);
-		$result = $helper_cash_request->sessionGet($var);
-		unset($helper_cash_request);
-		return $result;
-	}
-
-	/**
-	 * Finds settings matching a specified scope and echoes them out formatted
-	 * for a dropdown box in a form
-	 *
-	 */public static function echoConnectionsOptions($scope,$selected=false) {
-		// get system settings:
-		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
-		$applicable_settings_array = $page_data_object->getConnectionsByScope($scope);
-
-		// echo out the proper dropdown bits
-		if ($applicable_settings_array) {
-			$settings_count = 1;
-			foreach ($applicable_settings_array as $setting) {
-				$echo_selected = '';
-				if ($setting['id'] == $selected) { $echo_selected = ' selected="selected"'; }
-				echo '<option value="' . $setting['id'] . '"' . $echo_selected . '>' . $setting['name'] . '</option>';
-			}
-		}
-	}
-
-	public static function getConnectionName($connection_id) {
-		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
-		$connection_name = false;
-		$connection_details = $page_data_object->getConnectionDetails($connection_id);
-		if ($connection_details) {
-			$connection_name = $connection_details['name'];
-		}
-		return $connection_name;
-	}
-
-	/**
-	 * Tell it what you need. It makes dropdowns. It's a dropdown robot travelling
-	 * at the speed of light — it'll make a supersonic nerd of you. Don't stop it.
-	 *
-	 * @return array
-	 */public static function echoFormOptions($base_type,$selected=0,$range=false) {
-		switch ($base_type) {
-			case 'assets':
-				$plant_name = 'asset';
-				$action_name = 'getassetsforuser';
-				$display_information = 'title';
-				if ($range) {
-					if (!in_array($selected,$range)) {
-						$range[] = $selected;
-					}
-				}
-				break;
-			case 'people_lists':
-				$plant_name = 'people';
-				$action_name = 'getlistsforuser';
-				$display_information = 'name';
-				break;
-			case 'venues':
-				$plant_name = 'calendar';
-				$action_name = 'getallvenues';
-				$display_information = 'name';
-				break;	
-		}
-		$echoformoptions_cash_request = new CASHRequest(
-			array(
-				'cash_request_type' => $plant_name, 
-				'cash_action' => $action_name,
-				'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-			)
-		);
-		if (is_array($echoformoptions_cash_request->response['payload']) && ($echoformoptions_cash_request->response['status_code'] == 200)) {
-			foreach ($echoformoptions_cash_request->response['payload'] as $item) {
-				$doloop = true;
-				if ($range) {
-					if (!in_array($item['id'],$range)) {
-						$doloop = false;
-					}
-				}
-				if ($doloop) {
-					$selected_string = '';
-					if ($item['id'] == $selected) { 
-						$selected_string = ' selected="selected"';
-					}
-					echo '<option value="' . $item['id'] . '"' . $selected_string . '>' . $item[$display_information] . '</option>';
-				}
-			}
-		}
-		unset($echoformoptions_cash_request);
-	}
+	 *********************************************/
 
 	public static function createdModifiedFromRow($row,$top=false) {
 		$addtoclass = '';
@@ -186,6 +183,24 @@
 		$markup .= '</div>';
 		return $markup;
 	}
+
+	/**
+	 * Spit out human readable byte size
+	 * swiped from comments: http://us2.php.net/manual/en/function.memory-get-usage.php
+	 *
+	 * @param $bytes (int)
+	 * @param $precision (int)
+	 * @return string
+	 */function bytesToSize($bytes, $precision = 2) {
+	    $unit = array('B','KB','MB','GB','TB','PB','EB');
+		return @round($bytes / pow(1024, ($i = floor(log($bytes, 1024)))), $precision) . ' ' . $unit[$i];
+	}
+
+	/**********************************************
+	 *
+	 * MISCELLANEOUS
+	 *
+	 *********************************************/
 
 	public static function parseMetaData($post_data) {
 		$metadata_and_tags = array(
@@ -207,17 +222,25 @@
 		return $metadata_and_tags;
 	}
 
+	/**
+	 * Performs a sessionGet() CASH Request for the specified variable
+	 *
+	 */public static function getPersistentData($var) {
+		$helper_cash_request = new CASHRequest(null);
+		$result = $helper_cash_request->sessionGet($var);
+		unset($helper_cash_request);
+		return $result;
+	}
+
+	/**********************************************
+	 *
+	 * FORM HELPER FUNCTIONS
+	 *
+	 *********************************************/
+
 	public static function drawCountryCodeUL($selected='USA') {
 		$all_codes = array(
-			'USA',
-			'Brazil',
-			'Canada',
-			'Czech Republic',
-			'France',
-			'Germany',
-			'Italy',
-			'Japan',
-			'United Kingdom',
+			'USA','Brazil','Canada','Czech Republic','France','Germany','Italy','Japan','United Kingdom',
 			'',
 			'Afghanistan',
 			'Albania',
@@ -614,6 +637,13 @@
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/export/' . $item['id'] . '" class="mininav_flush"><span class="icon download"></span> Export</a> '
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/delete/' . $item['id'] . '" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>'
 							. '</div>';
+				} elseif ($response['status_uid'] == "commerce_getitemsforuser_200") {
+					$markup .= '<h4>' . $item['name'] . '</h4>'
+							. AdminHelper::createdModifiedFromRow($item,true)
+							. '<div class="itemnav">'
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/commerce/items/edit/' . $item['id'] . '" class="mininav_flush"><span class="icon pen"></span> Edit</a> '
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/commerce/items/delete/' . $item['id'] . '" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>'
+							. '</div>';
 				} elseif ($response['status_uid'] == "element_getelementsforuser_200") {
 					$elements_data = AdminHelper::getElementsData();
 					$markup .= '<h4>' . $item['name'];
@@ -652,17 +682,66 @@
 		}
 		return $markup;
 	}
-	
+
 	/**
-	 * Spit out human readable byte size
-	 * swiped from comments: http://us2.php.net/manual/en/function.memory-get-usage.php
+	 * Tell it what you need. It makes dropdowns. It's a dropdown robot travelling
+	 * at the speed of light — it'll make a supersonic nerd of you. Don't stop it.
 	 *
-	 * @param $bytes (int)
-	 * @param $precision (int)
-	 * @return string
-	 */function bytesToSize($bytes, $precision = 2) {
-	    $unit = array('B','KB','MB','GB','TB','PB','EB');
-		return @round($bytes / pow(1024, ($i = floor(log($bytes, 1024)))), $precision) . ' ' . $unit[$i];
+	 * @return array
+	 */public static function echoFormOptions($base_type,$selected=0,$range=false) {
+		switch ($base_type) {
+			case 'assets':
+				$plant_name = 'asset';
+				$action_name = 'getassetsforuser';
+				$display_information = 'title';
+				if ($range) {
+					if (!in_array($selected,$range)) {
+						$range[] = $selected;
+					}
+				}
+				break;
+			case 'people_lists':
+				$plant_name = 'people';
+				$action_name = 'getlistsforuser';
+				$display_information = 'name';
+				break;
+			case 'venues':
+				$plant_name = 'calendar';
+				$action_name = 'getallvenues';
+				$display_information = 'name';
+				break;	
+			case 'items':
+				$plant_name = 'commerce';
+				$action_name = 'getitemsforuser';
+				$display_information = 'name';
+				break;
+		}
+		$echoformoptions_cash_request = new CASHRequest(
+			array(
+				'cash_request_type' => $plant_name, 
+				'cash_action' => $action_name,
+				'user_id' => AdminHelper::getPersistentData('cash_effective_user')
+			)
+		);
+		if (is_array($echoformoptions_cash_request->response['payload']) && ($echoformoptions_cash_request->response['status_code'] == 200)) {
+			foreach ($echoformoptions_cash_request->response['payload'] as $item) {
+				$doloop = true;
+				if ($range) {
+					if (!in_array($item['id'],$range)) {
+						$doloop = false;
+					}
+				}
+				if ($doloop) {
+					$selected_string = '';
+					if ($item['id'] == $selected) { 
+						$selected_string = ' selected="selected"';
+					}
+					echo '<option value="' . $item['id'] . '"' . $selected_string . '>' . $item[$display_information] . '</option>';
+				}
+			}
+		}
+		unset($echoformoptions_cash_request);
 	}
+	
 } // END class 
 ?>

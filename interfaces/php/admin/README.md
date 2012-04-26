@@ -1,6 +1,8 @@
-##Admin Overview  
-The CASH admin app is a standalone process that interfaces with the CASH framework. 
-All relevant files are located in the repo at /interfaces/php/admin/  
+![CASH Music Admin](https://cashmusic.s3.amazonaws.com/permalink/images/readme_admin.jpg)
+
+The CASH admin app is a standalone webapp that interfaces with the CASH framework. It 
+gives a person using the framework an easy way to log in, work with their data, 
+define new elements, and check usage.
 
 The dev installer will set up the admin app, but for a manual install you need a 
 working install of the framework. The RewriteBase value in the admin .htaccess 
@@ -9,43 +11,56 @@ and ADMIN_WWW_BASE_PATH values in constants.php need to point to real framework 
 www locations.  
 
 
+##Admin App Workflow  
+All of the heavy lifting is handled in the framework, so the app itself is minimal.
+
+The .htaccess file routes all requests to a modest front controller 
+([controller.php](https://github.com/cashmusic/DIY/blob/master/interfaces/php/admin/controller.php)) 
+which parses the incoming URL pushes to a page-specific view/controller and ultimately 
+into a mustache-based UI template. There is no direct database access, with all 
+significant functionality happening in the form of Requests/Responses passed to 
+and from the CASH framework.
+
+
 ##Admin App Structure  
-The admin app is a little duct-tapey right now, with lots of improvements to the 
-PHP to come. All of the heavy lifting is handled in the framework, so the app itself 
-is minimal. The .htaccess file routes all requests to a modest front controller 
-(controller.php) which parses the incoming URL and turns it into a request. The 
-request is then sent to the appropriate script/markup and the result is all pushed 
-into the UI template. 
+A quick look at the files in the app: 
 
-The markup for the core of each page has been separated from the main UI with the 
-plan that all forms/pages could be more easily embedded in something like the 
-WordPress admin later on. 
-
-Page menus are generated in the main definition file for each section. This is a 
-pretty dumb choice, honestly. It'll change. For now, see /definitions/assets.php 
-for an example of this dumb choice in practice. 
+ - **/assets** <br /> UI-independent images (connection logos and a forward script for element headers)
+ - **/classes** <br /> The main AdminCore class and an AdminHelper comprised of static functions
+ - **/components**
+   - **/menu** <br /> Stores the site structure in JSON, used to build navigation menus
+   - **/pages** <br /> Views/controllers for each unique page — controllers are optional
+   - **/text** <br /> Page tips and help section text, separated by language code
+ - **/lib** <br /> External libraries (currently just Mustache.php)
+ - **/ui** <br /> Mustache templates, assets, and CSS for the main UI - multiple UIs are 
+   possible and should follow the pattern of the default UI template
 
 
 ##Admin Core Classes  
-The /interfaces/php/admin/classes folder contains two different classes for working 
-with the admin — AdminCore which needs to be instantiated and a static helper class 
-called AdminHelper. Both are auto-loaded — an instance of AdminCore is available to 
-all scripts as $cash_admin, and AdminHelper is included in the path for 
-AdminHelper::function() calls. 
+The ([/interfaces/php/admin/classes](https://github.com/cashmusic/DIY/blob/master/interfaces/php/admin/classes)) 
+directory contains two different classes for working with the admin — AdminCore which 
+needs to be instantiated and a static helper class called AdminHelper. Both are auto-
+loaded — an instance of AdminCore is available to all scripts as $cash_admin, and 
+AdminHelper is included in the path for AdminHelper::function() calls. 
 
 
-##Admin Url Structure  
-Page scripts/markup are stored in /interfaces/php/admin/components/pages — the 
-'definitions' directory contains a script for each page to process requests, and 
-'markup' stores the guts of the page for rendering the output. Script names follow 
-the URL patterns with underscores instead of slashes (/assets/add = assets_add.php) 
-— the controller selects the appropriate definition/markup based on the URL and 
-POSTS all remaining parts of the URL as postname1/value1/postname2/value2, etc.
+##Admin URL Structure  
+Page views/controllers are stored in 
+([/interfaces/php/admin/components/pages](https://github.com/cashmusic/DIY/blob/master/interfaces/php/admin/components/pages)). 
+Views are currently plain PHP but will be converted to mustache for true separation of 
+logic and presentation. Script names follow the URL patterns with underscores instead 
+of slashes (/assets/add = assets_add.php.) 
 
-CASH framework request responses are passed from the definition to the markup 
-using a simple storage method in AdminCore, like so:  
+The controller matches routes to filenames, but also allows data to be passed to 
+a controller using a non-get URL. Any path data sent to a page will be parsed and 
+added to a $request_parameters array in the order received. so a route like 
+/assets/edit/7 would call the assets_edit.php controller with $request_parameters[0] = 7.
+
+CASH framework request responses are currently passed from the controller to view
+at the page level using a simple storage method in AdminCore, like so:  
   
 ```php
+<?php
 $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'type', 
@@ -56,20 +71,6 @@ $cash_admin->requestAndStore(
 );
 
 $cash_admin->getStoredResponse('addasset');
+?>
 ```  
   
-Any other needed variables will persist in the global scope as we're just using 
-includes.  
-
-
-##What's Next  
- - We're planning to move to mustache templates for all markup so pages can be.  
- - generated by PHP or JS/AJAX with maximum portability. We'll move the JS itself 
-   to jQuery (from MooTools.)  
- - Better JS interaction in general.  
- - PHP structure could be improved/streamlined.  
- - OAuth setup of connections, post definition scripts to allow for extra 
-   processing (add a list from MailChimp, bring in assets, etc.)  
- - Get rid of the dumb menu definition stuff. It's dumb.
-
- 

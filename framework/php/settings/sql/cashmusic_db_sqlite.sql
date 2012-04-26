@@ -93,16 +93,6 @@ CREATE TABLE calendar_guestlist (
 -- 
 -- Section: COMMERCE
 -- 
-CREATE TABLE commerce_assets (
-  id integer PRIMARY KEY,
-  asset_id integer,
-  scope_table_alias text,
-  scope_table_id integer DEFAULT NULL,
-  type text DEFAULT 'preview',
-  creation_date integer DEFAULT NULL,
-  modification_date integer DEFAULT NULL
-);
-
 CREATE TABLE commerce_items (
   id integer PRIMARY KEY,
   user_id integer,
@@ -118,6 +108,9 @@ CREATE TABLE commerce_items (
   physical_height integer,
   physical_depth integer,
   available_units integer DEFAULT '0',
+  variable_pricing integer DEFAULT '0',
+  fulfillment_asset integer DEFAULT '0',
+  descriptive_asset integer DEFAULT '0',
   creation_date integer DEFAULT '0',
   modification_date integer DEFAULT NULL
 );
@@ -151,8 +144,13 @@ CREATE TABLE commerce_orders (
   transaction_id integer,
   order_contents text,
   fulfilled integer DEFAULT '0',
+  canceled integer DEFAULT '0',
+  physical integer DEFAULT '0',
+  digital integer DEFAULT '0',
   notes text,
   country_code text,
+  element_id integer,
+  cash_session_id text,
   creation_date integer DEFAULT NULL,
   modification_date integer DEFAULT '0'
 );
@@ -169,6 +167,7 @@ CREATE TABLE commerce_transactions (
   successful integer DEFAULT '0',
   gross_price numeric,
   service_fee numeric,
+  status text DEFAULT 'abandoned',
   creation_date integer DEFAULT '0',
   modification_date integer DEFAULT '0'
 );

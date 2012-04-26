@@ -93,9 +93,8 @@ class SystemPlant extends PlantBase {
 			// none of the fancy stuff but you're trying to push through no user/pass? bullshit! false!
 			return false;
 		}
-		if (!$password) {
-			// set a password string for hashing
-			$password = 'password'; // ha! i just made someone doing a security review really sad.
+		if (!$password && !$browserid_assertion) {
+			return false; // seriously no password? lame.
 		}
 		$password_hash = hash_hmac('sha256', $password, $this->salt);
 		if ($browserid_assertion && !$verified_address) {
@@ -104,7 +103,7 @@ class SystemPlant extends PlantBase {
 				return false;
 			} else {
 				$verified_address = true;
-				$login_method = 'browserid';				
+				$login_method = 'browserid';
 			}
 		}
 		if ($browserid_assertion && $verified_address) {
@@ -120,7 +119,7 @@ class SystemPlant extends PlantBase {
 				)
 			)
 		);
-		if ($password_hash == $result[0]['password'] || $verified_address) {
+		if ($result && ($password_hash == $result[0]['password'] || $verified_address)) {
 			if (($require_admin && $result[0]['is_admin']) || !$require_admin) {
 				$this->recordLoginAnalytics($result[0]['id'],$element_id,$login_method);
 				return $result[0]['id'];
@@ -158,7 +157,7 @@ class SystemPlant extends PlantBase {
 	 * @param {string} $address -  the email address in question
 	 * @param {string} $password - the password
 	 * @return array|false
-	 */protected function addLogin($address,$password,$is_admin=0,$display_name='Anonymous',$first_name='',$last_name='',$organization='') {
+	 */protected function addLogin($address,$password,$is_admin=0,$display_name='Anonymous',$first_name='',$last_name='',$organization='',$address_country='') {
 		$password_hash = hash_hmac('sha256', $password, $this->salt);
 		$result = $this->db->setData(
 			'users',
@@ -169,6 +168,7 @@ class SystemPlant extends PlantBase {
 				'first_name' => $first_name,
 				'last_name' => $last_name,
 				'organization' => $organization,
+				'address_country' => $address_country,
 				'is_admin' => $is_admin
 			)
 		);

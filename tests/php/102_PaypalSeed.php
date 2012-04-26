@@ -1,6 +1,6 @@
 <?php
 
-require_once('tests/php/base.php');
+require_once(dirname(__FILE__) . '/base.php');
 
 class PaypalSeedTests extends UnitTestCase {
 	private $paypal_connection_id, $paypal_username,$cash_user_id;

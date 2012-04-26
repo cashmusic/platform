@@ -115,7 +115,7 @@
 				)
 			);
 			if ($result) {
-				$this->settings = json_decode($result[0]['data']);
+				$this->settings = json_decode(CASHSystem::simpleXOR(base64_decode($result[0]['data'])));
 				return $this->settings;
 			} else {
 				return false;
@@ -126,8 +126,6 @@
 	}
 	
 	/**
-	 * Returns the decoded JSON for the setting type/name the CASHConnection
-	 * object was instantiated with. 
 	 *
 	 * @return settings obj
 	 */public function getConnectionsByType($settings_type) {
@@ -167,6 +165,9 @@
 		}
 		
 		if (count($filtered_connections)) {
+			foreach ($filtered_connections as &$connection) {
+				$connection['data'] = json_decode(CASHSystem::simpleXOR(base64_decode($connection['data'])));
+			}
 			return $filtered_connections;
 		} else {
 			return false;
@@ -212,7 +213,7 @@
 					'name' => $settings_name,
 					'type' => $settings_type,
 					'user_id' => $this->user_id,
-					'data' => $settings_data
+					'data' => base64_encode(CASHSystem::simpleXOR($settings_data))
 				),
 				$settings_condition
 			);

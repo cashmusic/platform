@@ -69,7 +69,7 @@ class PaypalSeed extends SeedBase {
 			foreach ($http_response as $i => $value) {
 				$tmpAr = explode("=", $value);
 				if(sizeof($tmpAr) > 1) {
-					$parsed_response[$tmpAr[0]] = $tmpAr[1];
+					$parsed_response[$tmpAr[0]] = urldecode($tmpAr[1]);
 				}
 			}
 
@@ -172,9 +172,8 @@ class PaypalSeed extends SeedBase {
 			);
 			
 			$parsed_response = $this->postToPaypal('DoExpressCheckoutPayment', $nvp_parameters);
-			
 			if (!$parsed_response) {
-				$this->setErrorMessage('DoExpressCheckout failed: ' . $this->getErrorMessage());
+				$this->setErrorMessage($this->getErrorMessage());
 				return false;
 			} else {
 				return $parsed_response;

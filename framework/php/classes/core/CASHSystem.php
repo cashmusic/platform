@@ -14,28 +14,6 @@
  */abstract class CASHSystem  {
 
 	/**
-	 * Gets API credentials for the effective or actual user
-	 *
-	 * @param {string} effective || actual
-	 * @return array
-	 */public static function getAPICredentials($user_type='effective') {
-		$data_request = new CASHRequest(null);
-		$user_id = $data_request->sessionGet('cash_' . $user_type . '_user');
-		if ($user_id) {
-			$data_request = new CASHRequest(
-				array(
-					'cash_request_type' => 'system', 
-					'cash_action' => 'getapicredentials',
-					'user_id' => $user_id
-				)
-			);
-			return $data_request->response['payload'];
-		}
-		return false;
-
-	}
-
-	/**
 	 * Handle annoying environment issues like magic quotes, constants and 
 	 * auto-loaders before firing up the CASH platform and whatnot
 	 *
@@ -77,7 +55,155 @@
 		}
 		unset($cash_page_request);
 	}
-	
+
+	/**
+	 * The main public method to embed elements. Notice that it echoes rather
+	 * than returns, because it's meant to be used simply by calling and spitting
+	 * out the needed code...
+	 *
+	 * @return none
+	 */public static function embedElement($element_id) {
+		// fire up the platform sans-direct-request to catch any GET/POST info sent
+		// in to the page
+		$cash_page_request = new CASHRequest(null);
+		$initial_page_request = $cash_page_request->sessionGet('initial_page_request','script');
+		if ($initial_page_request && isset($initial_page_request['request']['element_id'])) {
+			// now test that the initial POST/GET was targeted for this element:
+			if ($initial_page_request['request']['element_id'] == $element_id) {
+				$status_uid = $initial_page_request['status_uid'];
+				$original_request = $initial_page_request['request'];
+				$original_response = $initial_page_request['response'];
+			} else {
+				$status_uid = false;
+				$original_request = false;
+				$original_response = false;
+			}
+		} else {
+			$status_uid = false;
+			$original_request = false;
+			$original_response = false;
+		}
+		$cash_body_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'element', 
+				'cash_action' => 'getmarkup',
+				'id' => $element_id, 
+				'status_uid' => $status_uid,
+				'original_request' => $original_request,
+				'original_response' => $original_response
+			)
+		);
+		if ($cash_body_request->response['status_uid'] == 'element_getmarkup_400') {
+			echo '<div class="cash_system_error">Element #' . $element_id . ' could not be found.</div>';
+		}
+		if (is_string($cash_body_request->response['payload'])) {
+			echo '<div class="cash_element cash_element_' . $element_id . '">' . $cash_body_request->response['payload'] . '</div>';
+		}
+		if ($cash_body_request->sessionGet('initialized_element_' . $element_id,'script')) {
+			if (ob_get_level()) {
+				ob_flush();
+			}
+		}
+		unset($cash_page_request);
+		unset($cash_body_request);
+	}
+
+	/**
+	 * Gets the contents from a URL. First tries file_get_contents then cURL. 
+	 * If neither of those work, then the server asks a friend to print out the 
+	 * page at the URL and mail it to the data center. Since this takes a couple
+	 * days we return false, but that's taking nothing away from the Postal 
+	 * service. They've got a hard job, so say thank you next time you get some
+	 * mail from the postman. 
+	 *
+	 * @return string
+	 */public static function getURLContents($data_url,$post_data=false,$ignore_errors=false) {
+		$url_contents = false;
+		$user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.5; rv:7.0) Gecko/20100101 Firefox/7.0';
+		$do_post = is_array($post_data);
+		if ($do_post) {
+			$post_query = http_build_query($post_data);
+			$post_length = count($post_data);
+		}
+		if (ini_get('allow_url_fopen')) {
+			// try with fopen wrappers
+			$options = array(
+				'http' => array(
+					'user_agent' => $user_agent
+				));
+			if ($do_post) {
+				$options['http']['method'] = 'POST';
+				$options['http']['content'] = $post_query;
+			} 
+			if ($ignore_errors) {
+				$options['http']['ignore_errors'] = true;
+			}
+			$context = stream_context_create($options);
+			$url_contents = @file_get_contents($data_url,false,$context);
+		} elseif (in_array('curl', get_loaded_extensions())) {
+			// fall back to cURL
+			$ch = curl_init();
+			$timeout = 5;
+			
+			@curl_setopt($ch,CURLOPT_URL,$data_url);
+			if ($do_post) {
+				curl_setopt($ch,CURLOPT_POST,$post_length);
+				curl_setopt($ch,CURLOPT_POSTFIELDS,$post_query);
+			}
+			@curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
+			@curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+			@curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,$timeout);
+			@curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+			@curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+			@curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+			if ($ignore_errors) {
+				@curl_setopt($ch, CURLOPT_FAILONERROR, false);
+			} else {
+				@curl_setopt($ch, CURLOPT_FAILONERROR, true);
+			}
+			$data = curl_exec($ch);
+			curl_close($ch);
+			$url_contents = $data;
+		}
+		return $url_contents;
+	}
+
+	/**
+	 * If the function name doesn't describe what this one does well enough then
+	 * seriously: you need to stop reading the comments and not worry about it
+	 *
+	 */public static function autoloadClasses($classname) {
+		foreach (array('/classes/core/','/classes/seeds/') as $location) {
+			$file = CASH_PLATFORM_ROOT.$location.$classname.'.php';
+			if (file_exists($file)) {
+				// using 'include' instead of 'require_once' because of efficiency
+				include($file);
+			}
+		}
+	}
+
+	/**
+	 * Gets API credentials for the effective or actual user
+	 *
+	 * @param {string} effective || actual
+	 * @return array
+	 */public static function getAPICredentials($user_type='effective') {
+		$data_request = new CASHRequest(null);
+		$user_id = $data_request->sessionGet('cash_' . $user_type . '_user');
+		if ($user_id) {
+			$data_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'system', 
+					'cash_action' => 'getapicredentials',
+					'user_id' => $user_id
+				)
+			);
+			return $data_request->response['payload'];
+		}
+		return false;
+
+	}
+
 	/**
 	 * Very basic. Takes a URL and checks if headers have been sent. If not we
 	 * do a proper location header redirect. If headers have been sent it 
@@ -137,70 +263,30 @@
 		}
 	}
 
-	/**
-	 * The main public method to embed elements. Notice that it echoes rather
-	 * than returns, because it's meant to be used simply by calling and spitting
-	 * out the needed code...
-	 *
-	 * @return none
-	 */public static function embedElement($element_id) {
-		// fire up the platform sans-direct-request to catch any GET/POST info sent
-		// in to the page
-		$cash_page_request = new CASHRequest(null);
-		$initial_page_request = $cash_page_request->sessionGet('initial_page_request','script');
-		if ($initial_page_request && isset($initial_page_request['request']['element_id'])) {
-			// now test that the initial POST/GET was targeted for this element:
-			if ($initial_page_request['request']['element_id'] == $element_id) {
-				$status_uid = $initial_page_request['status_uid'];
-				$original_request = $initial_page_request['request'];
-				$original_response = $initial_page_request['response'];
-			} else {
-				$status_uid = false;
-				$original_request = false;
-				$original_response = false;
-			}
-		} else {
-			$status_uid = false;
-			$original_request = false;
-			$original_response = false;
-		}
-		$cash_body_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'element', 
-				'cash_action' => 'getmarkup',
-				'id' => $element_id, 
-				'status_uid' => $status_uid,
-				'original_request' => $original_request,
-				'original_response' => $original_response
-			)
-		);
-		if ($cash_body_request->response['status_uid'] == 'element_getmarkup_400') {
-			echo '<div class="cash_system_error">Element #' . $element_id . ' could not be found.</div>';
-		}
-		if (is_string($cash_body_request->response['payload'])) {
-			echo $cash_body_request->response['payload'];
-		}
-		if ($cash_body_request->sessionGet('initialized_element_' . $element_id,'script')) {
-			if (ob_get_level()) {
-				ob_flush();
-			}
-		}
-		unset($cash_page_request);
-		unset($cash_body_request);
+	public static function getSystemSalt() {
+		$cash_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
+		return $cash_settings['salt'];
 	}
 
 	/**
-	 * If the function name doesn't describe what this one does well enough then
-	 * seriously: you need to stop reading the comments and not worry about it
+	 * Super basic XOR encoding — used for encoding connection data 
 	 *
-	 */public static function autoloadClasses($classname) {
-		foreach (array('/classes/core/','/classes/seeds/') as $location) {
-			$file = CASH_PLATFORM_ROOT.$location.$classname.'.php';
-			if (file_exists($file)) {
-				// using 'include' instead of 'require_once' because of efficiency
-				include($file);
-			}
+	 */public static function simpleXOR($input, $key = false) {
+		if (!$key) {
+			$key = CASHSystem::getSystemSalt();
 		}
+		// append key on itself until it is longer than the input
+		while (strlen($key) < strlen($input)) { $key .= $key; }
+
+		// trim key to the length of the input
+		$key = substr($key, 0, strlen($input));
+
+		// Simple XOR'ing, each input byte with each key byte.
+		$result = '';
+		for ($i = 0; $i < strlen($input); $i++) {
+			$result .= $input{$i} ^ $key{$i};
+		}
+		return $result;
 	}
 
 	/**
@@ -299,66 +385,6 @@
 			$text= preg_replace("/\#(\w+)/", '<a href="http://search.twitter.com/search?q=$1" target="_blank">#$1</a>',$text);
 		}
 		return $text;
-	}
-
-	/**
-	 * Gets the contents from a URL. First tries file_get_contents then cURL. 
-	 * If neither of those work, then the server asks a friend to print out the 
-	 * page at the URL and mail it to the data center. Since this takes a couple
-	 * days we return false, but that's taking nothing away from the Postal 
-	 * service. They've got a hard job, so say thank you next time you get some
-	 * mail from the postman. 
-	 *
-	 * @return string
-	 */public static function getURLContents($data_url,$post_data=false,$ignore_errors=false) {
-		$url_contents = false;
-		$user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.5; rv:7.0) Gecko/20100101 Firefox/7.0';
-		$do_post = is_array($post_data);
-		if ($do_post) {
-			$post_query = http_build_query($post_data);
-			$post_length = count($post_data);
-		}
-		if (ini_get('allow_url_fopen')) {
-			// try with fopen wrappers
-			$options = array(
-				'http' => array(
-					'user_agent' => $user_agent
-				));
-			if ($do_post) {
-				$options['http']['method'] = 'POST';
-				$options['http']['content'] = $post_query;
-			} 
-			if ($ignore_errors) {
-				$options['http']['ignore_errors'] = true;
-			}
-			$context = stream_context_create($options);
-			$url_contents = @file_get_contents($data_url,false,$context);
-		} elseif (in_array('curl', get_loaded_extensions())) {
-			// fall back to cURL
-			$ch = curl_init();
-			$timeout = 5;
-			
-			@curl_setopt($ch,CURLOPT_URL,$data_url);
-			if ($do_post) {
-				curl_setopt($ch,CURLOPT_POST,$post_length);
-				curl_setopt($ch,CURLOPT_POSTFIELDS,$post_query);
-			}
-			@curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
-			@curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-			@curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,$timeout);
-			@curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-			@curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-			@curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
-			if ($ignore_errors) {
-				@curl_setopt($ch, CURLOPT_FAILONERROR, false);
-			} else {
-				@curl_setopt($ch, CURLOPT_FAILONERROR, true);
-			}
-			$data = curl_exec($ch);
-			curl_close($ch);
-			$url_contents = $data;
-		}
-		return $url_contents;
 	}
 
 	/*
