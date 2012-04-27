@@ -38,6 +38,9 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/mootools/1.3.2/mootools-yui-compressed.js" type="text/javascript"></script>
 	<script src="<?php echo ADMIN_WWW_BASE_PATH; ?>/ui/default/assets/scripts/admin_misc.js" type="text/javascript"></script>
+  
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+	<script src="<?php echo ADMIN_WWW_BASE_PATH; ?>/ui/default/assets/scripts/jquery.admin.js" type="text/javascript"></script>
 
 </head>
 <body>

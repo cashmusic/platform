@@ -1,4 +1,5 @@
 window.addEvent('domready', function() {
+  /*
 	document.id('pagetips').fade('hide');
 	document.id('tipslink').addEvent('click', function(e) {
 		e.stop();
@@ -8,7 +9,7 @@ window.addEvent('domready', function() {
 		e.stop();
 		document.id('pagetips').fade('out');
 	});
-	
+  
 	$$('div.navitem').each(function(item){
 		item.addEvent('click', function(e) {
 			window.location = item.getElement('a').getProperty('href');
@@ -20,6 +21,8 @@ window.addEvent('domready', function() {
 			doModalConfirm(item.getProperty('href'));
 		});
 	});
+  
+	*/
 	$$('a.injectbefore').each(function(item){
 		/*
 		The injectbefore class is used by a link to inject any HTML into a div
@@ -49,13 +52,14 @@ window.addEvent('domready', function() {
 			item.store('nameiteration',item.retrieve('nameiteration',1)+1);
 		});
 	});
-	
+	/*
 	$$('a.showelementdetails').each(function(item){
 		item.addEvent('click', function(e) {
 			e.stop();
 			item.getParent().getParent().getParent().getFirst('div.elementdetails').addClass('detailsshown');
 		});
 	});
+	*/
 });
 
 function doModalConfirm(url) {
