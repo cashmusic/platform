@@ -31,20 +31,26 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH))) {
 		// remaining request portions into te request_parameters array
 		if (strpos($parsed_request,'_') !== false) {
 			$fails_at_level = 0;
+			$last_good_level = 0;
 			$successful_request = '';
+			$last_request = '';
 			$exploded_request = explode('_',$parsed_request);
 			for($i = 0, $a = sizeof($exploded_request); $i < $a; ++$i) {
 				if ($i > 0) {
-					$test_request = $successful_request . '_' . $exploded_request[$i];
+					$test_request = $last_request . '_' . $exploded_request[$i];
 				} else {
-					$test_request = $successful_request . $exploded_request[$i];
+					$test_request = $last_request . $exploded_request[$i];
 				}
 				if (file_exists($pages_path . 'views/' . $test_request . '.php')) {
 					$successful_request = $test_request;
+					$last_good_level = $i;
 				} else {
-					$fails_at_level = $i;
-					break;
+					if (!$fails_at_level || $fails_at_level < $last_good_level) {
+						$fails_at_level = $i;
+					}
+					//break;
 				}
+				$last_request = $test_request;
 			}
 			if ($fails_at_level == 0) {
 				define('BASE_PAGENAME', '');
