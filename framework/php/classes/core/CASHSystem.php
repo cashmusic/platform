@@ -70,7 +70,7 @@
 		if ($initial_page_request && isset($initial_page_request['request']['element_id'])) {
 			// now test that the initial POST/GET was targeted for this element:
 			if ($initial_page_request['request']['element_id'] == $element_id) {
-				$status_uid = $initial_page_request['status_uid'];
+				$status_uid = $initial_page_request['response']['status_uid'];
 				$original_request = $initial_page_request['request'];
 				$original_response = $initial_page_request['response'];
 			} else {

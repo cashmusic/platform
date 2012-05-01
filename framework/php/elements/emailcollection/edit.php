@@ -68,11 +68,11 @@ if (isset($_POST['doelementedit'])) {
 			<label for="asset_id">Target Mailing List</label><br />
 			<select id="email_list_id" name="email_list_id">
 				<option value="0">none</option>
-				<?php AdminHelper::echoFormOptions('people_lists',$page_data['options']->email_list_id); ?>
+				<?php AdminHelper::echoFormOptions('people_lists',$page_data['options']['email_list_id']); ?>
 			</select>
 			<br /><br />
 			<?php
-			if ($page_data['options']->do_not_verify) {
+			if ($page_data['options']['do_not_verify']) {
 				$checkstring = "checked='checked'";
 				
 			} else {
@@ -87,7 +87,7 @@ if (isset($_POST['doelementedit'])) {
 			<label for="asset_id">The Downloadable Asset</label><br />
 			<select id="asset_id" name="asset_id">
 				<option value="0">none</option>
-				<?php AdminHelper::echoFormOptions('assets',$page_data['options']->asset_id,$cash_admin->getAllFavoriteAssets()); ?>
+				<?php AdminHelper::echoFormOptions('assets',$page_data['options']['asset_id'],$cash_admin->getAllFavoriteAssets()); ?>
 			</select>
 			
 			<br /><br />
@@ -99,15 +99,15 @@ if (isset($_POST['doelementedit'])) {
 		<div class="row_seperator">.</div>
 		<br />
 		<label for="message_invalid_email">Invalid Email Error Message</label><br />
-		<input type="text" id="message_invalid_email" name="message_invalid_email" value="<?php echo $page_data['options']->message_invalid_email; ?>" />
+		<input type="text" id="message_invalid_email" name="message_invalid_email" value="<?php echo $page_data['options']['message_invalid_email']; ?>" />
 
 		<div class="row_seperator">.</div>
 		<label for="message_privacy">Privacy Message</label><br />
-		<input type="text" id="message_privacy" name="message_privacy" value="<?php echo $page_data['options']->message_privacy; ?>" />
+		<input type="text" id="message_privacy" name="message_privacy" value="<?php echo $page_data['options']['message_privacy']; ?>" />
 
 		<div class="row_seperator">.</div>
 		<label for="message_success">Success Message</label><br />
-		<input type="text" id="message_success" name="message_success" value="<?php echo $page_data['options']->message_success; ?>" />
+		<input type="text" id="message_success" name="message_success" value="<?php echo $page_data['options']['message_success']; ?>" />
 
 		<!--
 		<div class="row_seperator">.</div><br />

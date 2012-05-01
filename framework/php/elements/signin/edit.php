@@ -57,17 +57,17 @@ if (isset($_POST['doelementedit'])) {
 			<label for="email_list_id">Target Mailing List</label><br />
 			<select id="email_list_id" name="email_list_id">
 				<option value="0">none</option>
-				<?php AdminHelper::echoFormOptions('people_lists',$page_data['options']->email_list_id); ?>
+				<?php AdminHelper::echoFormOptions('people_lists',$page_data['options']['email_list_id']); ?>
 			</select>
 
 		<div class="row_seperator">.</div>
 		<br />
 		<label for="display_title">Display Title (blank for none)</label><br />
-		<input type="text" id="display_title" name="display_title" value="<?php echo $page_data['options']->display_title; ?>" />
+		<input type="text" id="display_title" name="display_title" value="<?php echo $page_data['options']['display_title']; ?>" />
 
 		<div class="row_seperator">.</div>
 		<label for="display_message">Display Message</label><br />
-		<input type="text" id="display_message" name="display_message" value="<?php echo $page_data['options']->display_message; ?>" />
+		<input type="text" id="display_message" name="display_message" value="<?php echo $page_data['options']['display_message']; ?>" />
 
 		<div class="row_seperator">.</div>
 		<div>

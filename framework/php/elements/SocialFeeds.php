@@ -12,58 +12,52 @@
  *
  **/
 class SocialFeeds extends ElementBase {
-	const type = 'socialfeeds';
-	const name = 'Social Feeds';
-	const twitter_seed = false;
-	const tumblr_seed = false;
+	public $type = 'socialfeeds';
+	public $name = 'Social Feeds';
+	protected $twitter_seed = false;
+	protected $tumblr_seed = false;
 
 	public function getData() {
 		$this->twitter_seed = new TwitterSeed();
 		$this->tumblr_seed = new TumblrSeed();
-		$all_feeds = array();
+		$raw_feeds = array();
 		$twitter_feeds = array();
 		$tumblr_feeds = array();
 		
-		$feedcount = 1;
-		foreach($this->options->twitter as $feedname => $feed) {
-			$twitter_request = $this->twitter_seed->getUserFeed($feed->twitterusername,$feed->twitterhidereplies,$this->options->post_limit,$feed->twitterfiltertype,$feed->twitterfiltervalue);
+		$feedcount = 0;
+		foreach($this->options['twitter'] as $feedname => $feed) {
+			$twitter_request = $this->twitter_seed->getUserFeed($feed['twitterusername'],$feed['twitterhidereplies'],$this->options['post_limit'],$feed['twitterfiltertype'],$feed['twitterfiltervalue']);
 			if ($twitter_request) {
-				$twitter_feeds['feed'.$feedcount] = $twitter_request;
-				$feedcount = $feedcount + 1;
+				$twitter_feeds[] = $twitter_request;
+				$feedcount++;
 			}
 		}
-		foreach($this->options->tumblr as $feedname => $feed) {
-			$tumblr_request = $this->tumblr_seed->getTumblrFeed($feed->tumblrurl,0,$feed->tumblrtag,(array) $feed->post_types);
+		foreach($this->options['tumblr'] as $feedname => $feed) {
+			$tumblr_request = $this->tumblr_seed->getTumblrFeed($feed['tumblrurl'],0,$feed['tumblrtag'],(array) $feed['post_types']);
 			if ($tumblr_request) {
-				$tumblr_feeds['feed'.$feedcount] = $tumblr_request;
-				$feedcount = $feedcount + 1;
+				$tumblr_feeds[] = $tumblr_request;
+				$feedcount++;
 			}
 		}
 		
-		$all_feeds['twitter'] = $twitter_feeds;
-		$all_feeds['tumblr'] = $tumblr_feeds;
+		$raw_feeds['twitter'] = $twitter_feeds;
+		$raw_feeds['tumblr'] = $tumblr_feeds;
 		
-		return $all_feeds;
-	}
-
-	public function getMarkup() {
-		$feed_data = $this->getData();
-		$markup = '';
-		if ($feed_data) {
-			$all_posts = array();
+		if ($feedcount) {
+			$formatted_feed = array();
 			
-			foreach ($feed_data['twitter'] as $feed) {
+			foreach ($raw_feeds['twitter'] as $feed) {
 				foreach ($feed as $tweet) {
-					$all_posts[strtotime($tweet->created_at)] = array(
+					$formatted_feed[strtotime($tweet->created_at)] = array(
 						'type' => 'twitter',
 						'markup' => $this->twitter_seed->prepMarkup($tweet)
 					);
 				}
 			}
 
-			foreach ($feed_data['tumblr'] as $feed) {
+			foreach ($raw_feeds['tumblr'] as $feed) {
 				foreach ($feed as $post) {
-					$all_posts[$post->{'unix-timestamp'}] = array(
+					$formatted_feed[$post->{'unix-timestamp'}] = array(
 						'type' => 'tumblr',
 						'markup' => $this->tumblr_seed->prepMarkup($post)
 					);
@@ -71,16 +65,16 @@ class SocialFeeds extends ElementBase {
 				
 			}
 
-			krsort($all_posts);
-			$all_posts = array_slice($all_posts,0,$this->options->post_limit,true);
-			foreach ($all_posts as $post) {
-				$markup .= $post['markup'];
-			}
+			krsort($formatted_feed);
+			$formatted_feed = array_slice($formatted_feed,0,$this->options['post_limit'],true);
+			
+			$this->element_data['raw_feeds'] = $raw_feeds;
+			$this->element_data['formatted_feed'] = new ArrayIterator($formatted_feed);
 		} else {
 			// no dates matched
-			$markup .= 'There are no posts to display right now.';
+			$this->element_data['error_message'] =  'There are no posts to display right now.';
 		}
-		return $markup;	
+		return $this->element_data;
 	}
 } // END class 
 ?>

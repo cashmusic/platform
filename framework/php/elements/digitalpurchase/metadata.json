@@ -2,6 +2,7 @@
 	"name":"Digital Purchase",
 	"description":"A simple pay-for-media element using your Paypal account.",
 	"longdescription":"Connect your Paypal account and users will get a single-click purchase flow for any asset defined in the system.",
+	"pagetip":"All messages can be customized in the form.",
 	"lastupdated":"Apr 10, 2012",
 	"version":1.0,
 	"author":"CASH Music",

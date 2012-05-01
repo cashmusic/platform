@@ -14,9 +14,7 @@ if ($request_parameters) {
 		$cash_admin->page_data['title'] = 'Elements: View “' . $page_request->response['payload']['name'] . '”';
 		
 		$element_type = $page_request->response['payload']['type'];
-		if (@file_exists(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_type . '/help.php')) {
-			$page_tips = file_get_contents(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_type . '/help.php');
-		}
+		$page_tips = 'More soon.';
 		
 		$cash_admin->requestAndStore(
 			array(

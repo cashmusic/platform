@@ -59,7 +59,7 @@ if (isset($_POST['doelementedit'])) {
 			<label for="item_id">Item For Sale</label><br />
 			<select id="item_id" name="item_id">
 				<option value="0">none</option>
-				<?php AdminHelper::echoFormOptions('items',$page_data['options']->item_id); ?>
+				<?php AdminHelper::echoFormOptions('items',$page_data['options']['item_id']); ?>
 			</select>
 		</div>
 		<div class="col_oneoftwo lastcol">
@@ -67,18 +67,18 @@ if (isset($_POST['doelementedit'])) {
 			<label for="connection_id">Connection to Use</label><br />
 			<select id="connection_id" name="connection_id">
 				<option value="0" selected="selected">None (Please add a commerce service)</option>
-				<?php AdminHelper::echoConnectionsOptions('commerce',$page_data['options']->connection_id) ?>
+				<?php AdminHelper::echoConnectionsOptions('commerce',$page_data['options']['connection_id']) ?>
 			</select>
 		</div>
 
 		<div class="row_seperator">.</div>
 		<br />
 		<label for="message_error">Error Message</label><br />
-		<input type="text" id="message_error" name="message_error" value="<?php echo $page_data['options']->message_error; ?>" />
+		<input type="text" id="message_error" name="message_error" value="<?php echo $page_data['options']['message_error']; ?>" />
 
 		<div class="row_seperator">.</div>
 		<label for="message_success">Success Message</label><br />
-		<input type="text" id="message_success" name="message_success" value="<?php echo $page_data['options']->message_success; ?>" />
+		<input type="text" id="message_success" name="message_success" value="<?php echo $page_data['options']['message_success']; ?>" />
 
 		<div class="row_seperator">.</div>
 		<div>

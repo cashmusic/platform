@@ -14,11 +14,11 @@
  *
  **/
 abstract class ElementBase extends CASHData {
-	protected $element_id, $status_uid, $original_request, $original_response, $options, $element, $unlocked = false;
-	const type = 'unknown';
-	const name = 'Unknown Element';
+	protected $element_id, $status_uid, $template, $element_data, $original_request, $original_response, $options, $element, $unlocked=false, $mustache=false;
+	public $type = 'unknown';
+	public $name = 'Unknown Element';
 
-	abstract public function getMarkup();
+	abstract public function getData();
 
 	public function __construct($element_id=0,$element=false,$status_uid=false,$original_request=false,$original_response=false) {
 		// FYI: the element class takes an element object by reference because
@@ -32,6 +32,7 @@ abstract class ElementBase extends CASHData {
 		$this->original_request = $original_request;
 		$this->original_response = $original_response;
 		$this->status_uid = $status_uid;
+		$this->template = 'default';
 		if (isset($_REQUEST['element_id'])) {
 			if ($_REQUEST['element_id'] != $this->element_id) {
 				$this->status_uid = false;
@@ -40,6 +41,21 @@ abstract class ElementBase extends CASHData {
 		$this->options = $element['options'];
 		if ($this->isUnlocked()) {
 			$this->unlocked = true;
+		}
+		$this->element_data = array(
+			'element_id' => $this->element_id,
+			'element_type' => $this->type,
+			'status_uid' => $this->status_uid,
+			'user_id' => $this->element['user_id'],
+			'www_url' => CASH_PUBLIC_URL,
+			'api_url' => CASH_API_URL
+		);
+		if (is_array($this->options)) {
+			$this->element_data = array_merge($this->element_data,$this->options);
+		}
+		if (file_exists(CASH_PLATFORM_ROOT . '/lib/mustache.php/Mustache.php')) {
+			include_once(CASH_PLATFORM_ROOT . '/lib/mustache.php/Mustache.php');
+			$this->mustache = new Mustache;
 		}
 		// check for an init() in the defined element. if it exists, call it
 		if (method_exists($this,'init')) {
@@ -85,12 +101,25 @@ abstract class ElementBase extends CASHData {
 		}
 	}
 
-	public function getName() {
-		return self::name;
+	public function getMarkup() {
+		if ($this->template == 'default') {
+			$this->element_data['template'] = $this->getTemplate('default');
+		}
+		$this->getData(); // call getData() first as it not only sets data but the correct template
+		return $this->mustache->render($this->element_data['template'],$this->element_data);
 	}
 
-	public function getType() {
-		return self::type;
+	public function setTemplate($template_name) {
+		$this->template = $template_name;
+		$this->element_data['template'] = $this->getTemplate($template_name);
+	}
+
+	public function getTemplate() {
+		if (file_exists(CASH_PLATFORM_ROOT . '/elements/' . $this->type . '/templates/' . $this->template  . '.mustache')) {
+			return file_get_contents(CASH_PLATFORM_ROOT . '/elements/' . $this->type . '/templates/' . $this->template . '.mustache');
+		} else {
+			return false;
+		}
 	}
 
 } // END class 

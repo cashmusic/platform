@@ -2,6 +2,7 @@
 	"name":"Tour Dates",
 	"description":"Display all of the dates from your calendar, filter by upcoming or previous, etc.",
 	"longdescription":"The filters let you set up tourdate archives as well as upcoming shows. The element will automatically update itself as dates expire or move to an archive.",
+	"pagetip":"All dates and times are in the timezone of their venue.",
 	"lastupdated":"Jan 25, 2012",
 	"version":2,
 	"author":"CASH Music",

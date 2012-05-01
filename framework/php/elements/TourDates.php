@@ -12,61 +12,43 @@
  *
  **/
 class TourDates extends ElementBase {
-	const type = 'tourdates';
-	const name = 'Tour Dates';
+	public $type = 'tourdates';
+	public $name = 'Tour Dates';
 
-	public function getMarkup() {
-		$markup = '';
+	public function getData() {
 		$tourdates_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'calendar', 
 				'cash_action' => 'getevents',
-				'visible_event_types' => $this->options->visible_event_types,
-				'user_id' => (integer) $this->element['user_id']
+				'visible_event_types' => $this->options['visible_event_types'],
+				'user_id' => $this->element['user_id']
 			)
 		);
 		if ($tourdates_request->response['status_uid'] == "calendar_getevents_200") {
 			// spit out the dates
-			$count = 0;
 			$max_dates = 60;
 			if (isset($this->options->max_display_dates)) {
 				$max_dates = $this->options->max_display_dates;
 			}
-			foreach ($tourdates_request->response['payload'] as $event) {
-				if ($count == $max_dates) {
-					break;
-				}
-				$count = $count+1;
-				$event_location = $event['venue_city'] . ', ' . $event['venue_country'];
-				if (strtolower($event['venue_country']) == 'usa' || strtolower($event['venue_country']) == 'canada') {
-					$event_location = $event['venue_city'] . ', ' . $event['venue_region'];
-				}
-				$markup .= '<div class="cash_'. self::type .'_event"> '
-						. '<div class="cash_'. self::type .'_timeandplace"> '
-						. '<span class="cash_'. self::type .'_date">' . date('d F, Y',$event['date']) . ':</span> ';
-				if ($event['venue_name']) {
-					$markup .= '<span class="cash_'. self::type .'_location">' . $event_location . '</span> '
-							. '<span class="cash_'. self::type .'_venue">@ ' . $event['venue_name'] . '</span> ';
-				} else {
-					$markup .= '<span class="cash_'. self::type .'_location">TBA</span> ';
-				}	
-				$markup .= '</div> ';
-				if ($event['comments']) {
-					$markup .= '<span class="cash_'. self::type .'_comments">' . $event['comments'] . '</span> ';
-				}
-				if ($event['purchase_url']) {
-					$markup .= '<span class="cash_'. self::type .'_purchase_url"><a href="' . $event['purchase_url'] . '" class="external">Tickets</a></span> ';
-				}
-				if ($event['venue_address1'] && $event['venue_city'] && $event['venue_country']) {
-					$markup .= '<span class="cash_'. self::type .'_purchase_url"><a href="http://maps.google.com/maps?f=q&hl=en&geocode=&q=' . $event['venue_address1'] . '+' . $event['venue_city'] . '+' . $event['venue_region'] . '+' . $event['venue_country'] . '+(' . $event['venue_name'] . ')" class="external">Map</a></span> ';
-				}
-				$markup .= '</div>';
+			$all_events = $tourdates_request->response['payload'];
+			if ($this->options['visible_event_types'] == 'archive' && is_array($all_events)) {
+				$all_events = array_reverse($all_events);
 			}
-		} else {
-			// no dates matched
-			$markup .= 'There are no dates to display right now.';
+			$all_events = array_slice($all_events,0,$max_dates,true);
+			foreach ($all_events as &$event) {
+				if (strtolower($event['venue_country']) == 'usa' || strtolower($event['venue_country']) == 'canada') {
+					$event['location'] = $event['venue_city'] . ', ' . $event['venue_region'];
+				} else {
+					$event['location'] = $event['venue_city'] . ', ' . $event['venue_country'];
+				}
+				$event['formatted_date'] = date('d F, Y',$event['date']);
+				if (!$event['venue_name']) $event['venue_name'] ='TBA';
+			}
+			// add all dates to the element data 
+			$this->element_data['all_events'] = $all_events;
+			$this->setTemplate('tourdates');
 		}
-		return $markup;
+		return $this->element_data;
 	}
 } // END class 
 ?>

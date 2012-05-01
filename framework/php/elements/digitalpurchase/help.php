@@ -1,1 +1,0 @@
-All messages can be customized in the form.

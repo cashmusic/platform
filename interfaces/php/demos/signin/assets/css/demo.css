@@ -25,6 +25,7 @@ div.cash_success div.description {display:none;}
 .cash_hidden {clear:both;}
 a.download {font-size:22px;line-height:0.8em;font-weight:bold;margin:16px 0 20px 0;color:#d02;text-decoration:none;}
 a.download:hover {color:#000;}
+.clearfix {visibility:hidden;overflow:hidden;clear:both;height:1px;}
 
 /* FORMS */
 input {padding:9px 3px 9px 3px;border:1px solid #aaa;width:100%;}

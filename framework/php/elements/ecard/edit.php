@@ -67,11 +67,11 @@ if (isset($_POST['doelementedit'])) {
 
 		<div class="row_seperator">.</div>
 		<label for="message_instructions">Instructions Message</label><br />
-		<input type="text" id="message_instructions" name="message_instructions" value="<?php echo $page_data['options']->message_instructions; ?>" />
+		<input type="text" id="message_instructions" name="message_instructions" value="<?php echo $page_data['options']['message_instructions']; ?>" />
 
 		<div class="row_seperator">.</div>
 		<label for="image_url">Card Image URL</label><br />
-		<input type="text" id="image_url" name="image_url" value="<?php echo $page_data['options']->image_url; ?>" />
+		<input type="text" id="image_url" name="image_url" value="<?php echo $page_data['options']['image_url']; ?>" />
 
 		<div class="row_seperator">.</div>
 		<div class="col_oneoftwo">
@@ -79,11 +79,11 @@ if (isset($_POST['doelementedit'])) {
 			<label for="asset_id">Target Mailing List</label><br />
 			<select id="email_list_id" name="email_list_id">
 				<option value="0">none</option>
-				<?php AdminHelper::echoFormOptions('people_lists',$page_data['options']->email_list_id); ?>
+				<?php AdminHelper::echoFormOptions('people_lists',$page_data['options']['email_list_id']); ?>
 			</select>
 			<br /><br />
 			<?php
-			if ($page_data['options']->do_not_verify) {
+			if ($page_data['options']['do_not_verify']) {
 				$checkstring = "checked='checked'";
 				
 			} else {
@@ -98,7 +98,7 @@ if (isset($_POST['doelementedit'])) {
 			<label for="asset_id">The Downloadable Asset</label><br />
 			<select id="asset_id" name="asset_id">
 				<option value="0">none</option>
-				<?php AdminHelper::echoFormOptions('assets',$page_data['options']->asset_id,$cash_admin->getAllFavoriteAssets()); ?>
+				<?php AdminHelper::echoFormOptions('assets',$page_data['options']['asset_id'],$cash_admin->getAllFavoriteAssets()); ?>
 			</select>
 			
 			<br /><br />
@@ -110,31 +110,23 @@ if (isset($_POST['doelementedit'])) {
 		<div class="row_seperator">.</div>
 		<br />
 		<label for="message_invalid_email">Invalid Email Error Message</label><br />
-		<input type="text" id="message_invalid_email" name="message_invalid_email" value="<?php echo $page_data['options']->message_invalid_email; ?>" />
+		<input type="text" id="message_invalid_email" name="message_invalid_email" value="<?php echo $page_data['options']['message_invalid_email']; ?>" />
 
 		<div class="row_seperator">.</div>
 		<label for="message_success">Success Message</label><br />
-		<input type="text" id="message_success" name="message_success" value="<?php echo $page_data['options']->message_success; ?>" />
+		<input type="text" id="message_success" name="message_success" value="<?php echo $page_data['options']['message_success']; ?>" />
 
 		<div class="row_seperator">.</div><br />
 		<label for="email_subject">Friend Email Subject (Their email address will be appended)</label><br />
-		<input type="text" id="email_subject" name="email_subject" value="<?php echo $page_data['options']->email_subject; ?>" />
+		<input type="text" id="email_subject" name="email_subject" value="<?php echo $page_data['options']['email_subject']; ?>" />
 		
 		<div class="row_seperator">.</div>
 		<label for="email_message">Friend Email Message (Plain text)</label><br />
-		<textarea id="email_message" name="email_message"><?php echo $page_data['options']->email_message; ?></textarea>
+		<textarea id="email_message" name="email_message"><?php echo $page_data['options']['email_message']; ?></textarea>
 		
 		<div class="row_seperator">.</div>
 		<label for="email_html_message">Friend Email Message (HTML - blank will style plain text)</label><br />
-		<textarea id="email_html_message" name="email_html_message"><?php echo $page_data['options']->email_html_message; ?></textarea>
-
-		<!--
-		<div class="row_seperator">.</div><br />
-
-		<label for="comment_or_radio">Comment Or Agreement</label><br />
-		<input type="radio" name="comment_or_radio" class="checkorradio" value="none" checked="checked" /> Neither &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="comment" /> Comment &nbsp; &nbsp; <input type="radio" name="comment_or_radio" class="checkorradio" value="agreement" /> Agreement 
-		
-		-->
+		<textarea id="email_html_message" name="email_html_message"><?php echo $page_data['options']['email_html_message']; ?></textarea>
 
 		<div class="row_seperator">.</div>
 		<div>

@@ -18,7 +18,8 @@
 		<a href="#">NEWS</a><a href="#">EVENTS</a><a href="#" class="selected">TICKETS</a><a href="#">MERCH</a><a href="#">PHOTOS</a><a href="#">MUSIC+VIDEO</a><a href="#">SHOW ARCHIVE</a>
 	</div>
 	<?php CASHSystem::embedElement(106); // CASH element (Dandy's e-card test / ecard) ?>
-		<?php CASHSystem::embedElement(107); // CASH element (Testing Static shit) ?> 
+		It's working. Here's a sample element:<br />
+		<?php CASHSystem::embedElement(107); // CASH element (Front page news box) ?> 
 	<?php CASHSystem::embedElement(106); // CASH element (Dandy's e-card test / ecard) ?>
 </div>
 

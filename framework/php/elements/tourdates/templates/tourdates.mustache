@@ -1,0 +1,12 @@
+{{#all_events}}
+	<div class="cash_{{element_type}}_event">
+		<div class="cash_{{element_type}}_timeandplace">
+			<span class="cash_{{element_type}}_date">{{formatted_date}}:</span> 
+			{{#location}}<span class="cash_{{element_type}}_location">{{location}}</span> {{/location}}
+			<span class="cash_{{element_type}}_venue">@ {{venue_name}}</span> 
+		</div>
+		{{#comments}}<span class="cash_{{element_type}}_comments">{{comments}}</span>{{/comments}} 
+		{{#purchase_url}}<span class="cash_{{element_type}}_purchase_url"><a href="{{purchase_url}}" class="external">Tickets</a></span>{{/purchase_url}} 
+		{{#venue_address1}}<span class="cash_{{element_type}}_map_url"><a href="http://maps.google.com/maps?f=q&hl=en&geocode=&q={{venue_address1}}{{#venue_city}}+{{venue_city}}{{/venue_city}}{{#venue_region}}+{{venue_region}}{{/venue_region}}{{#venue_country}}+{{venue_country}}{{/venue_country}}+({{venue_name}})" class="external">Map</a></span>{{/venue_address1}} 
+	</div>
+{{/all_events}}

@@ -54,7 +54,7 @@ if (isset($_POST['doelementedit'])) {
 	<div class="row_seperator">.</div><br />
 	<div>
 		<label>Content</label><br />
-		<textarea id="element_content" name="element_content" class="tall"><?php echo $page_data['options']->storedcotent; ?></textarea>
+		<textarea id="element_content" name="element_content" class="tall"><?php echo $page_data['options']['storedcotent']; ?></textarea>
 	</div>
 	<div>
 		<br />

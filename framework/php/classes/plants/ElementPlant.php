@@ -120,7 +120,7 @@ class ElementPlant extends PlantBase {
 				'name' => $result[0]['name'],
 				'type' => $result[0]['type'],
 				'user_id' => $result[0]['user_id'],
-				'options' => json_decode($result[0]['options'])
+				'options' => json_decode($result[0]['options'],true)
 			);
 			return $the_element;
 		} else {

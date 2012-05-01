@@ -120,7 +120,7 @@ if (isset($_POST['doelementedit'])) {
 		</div>
 		<div class="col_oneofthree lastcol">
 			<label for="post_limit">Max posts returned</label><br />	
-			<input type="text" id="post_limit" name="post_limit" value="<?php echo $page_data['options']->{'post_limit'} ?>" /> 
+			<input type="text" id="post_limit" name="post_limit" value="<?php echo $page_data['options']['post_limit'] ?>" /> 
 		</div>
 
 		<div class="row_seperator">.</div><br />
@@ -128,7 +128,7 @@ if (isset($_POST['doelementedit'])) {
 			<label>Twitter</label><br />
 			<?php
 				$twitter_counter = 1;
-				foreach ($page_data['options']->twitter as $tw) {
+				foreach ($page_data['options']['twitter'] as $tw) {
 					if ($tw->twitterhidereplies) {
 						$checkstring = "checked='checked'";
 					} else {
@@ -157,7 +157,7 @@ if (isset($_POST['doelementedit'])) {
 			<label>Tumblr</label><br />
 			<?php
 				$tumblr_counter = 1;
-				foreach ($page_data['options']->tumblr as $tu) {
+				foreach ($page_data['options']['tumblr'] as $tu) {
 					$checkstring = '';
 					foreach (array('regular','photo','video','link','audio','quote','answer') as $post_type) {
 						$checkstring .= "<input type='checkbox' class='checkorradio' name='post_type_$post_type$tumblr_counter' ";

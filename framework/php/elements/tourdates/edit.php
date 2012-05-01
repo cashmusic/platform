@@ -58,15 +58,15 @@ if (isset($_POST['doelementedit'])) {
 			<input type="text" id="element_name" name="element_name" value="<?php echo $page_data['name']; ?>" /> 
 			<br /><br />
 			<label for="max_display_dates">Max dates displayed</label><br />
-			<input type="range" id="max_display_dates" name="max_display_dates" min="0" max="250" value="<?php echo $page_data['options']->max_display_dates; ?>" />
+			<input type="range" id="max_display_dates" name="max_display_dates" min="0" max="250" value="<?php echo $page_data['options']['max_display_dates']; ?>" />
 		</div>
 
 		<div class="col_oneoftwo lastcol">
 			<h3>&nbsp;</h3>
 			<label for="visible_event_types">Which Dates Should It Show?</label><br />
-			<input type="radio" name="visible_event_types" class="checkorradio" value="upcoming" <?php if ($page_data['options']->visible_event_types == 'upcoming') { echo 'checked="checked"'; } ?> /> Upcoming Dates <br />
-			<input type="radio" name="visible_event_types" class="checkorradio" value="archive" <?php if ($page_data['options']->visible_event_types == 'archive') { echo 'checked="checked"'; } ?> /> Archive Dates <br /> 
-			<input type="radio" name="visible_event_types" class="checkorradio" value="both" <?php if ($page_data['options']->visible_event_types == 'both') { echo 'checked="checked"'; } ?> /> All Dates 
+			<input type="radio" name="visible_event_types" class="checkorradio" value="upcoming" <?php if ($page_data['options']['visible_event_types'] == 'upcoming') { echo 'checked="checked"'; } ?> /> Upcoming Dates <br />
+			<input type="radio" name="visible_event_types" class="checkorradio" value="archive" <?php if ($page_data['options']['visible_event_types'] == 'archive') { echo 'checked="checked"'; } ?> /> Archive Dates <br /> 
+			<input type="radio" name="visible_event_types" class="checkorradio" value="both" <?php if ($page_data['options']['visible_event_types'] == 'both') { echo 'checked="checked"'; } ?> /> All Dates 
 		</div>
 		<div class="row_seperator">.</div>
 		<div>

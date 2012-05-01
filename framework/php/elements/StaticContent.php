@@ -12,19 +12,17 @@
  *
  **/
 class StaticContent extends ElementBase {
-	const type = 'staticcontent';
-	const name = 'Static Content';
+	public $type = 'staticcontent';
+	public $name = 'Static Content';
+	
+	public $markdown = false;
 
 	public function getData() {
-		$return_array = array(
-			'storedcontent' => $this->options->storedcotent
-		);
-		
-		return json_encode($return_array);
-	}
-
-	public function getMarkup() {
-		return $this->options->storedcotent;	
+		if (file_exists(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php')) {
+			include_once(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php');
+		}
+		$this->element_data['storedcotent'] = Markdown($this->element_data['storedcotent']);
+		return $this->element_data;
 	}
 } // END class 
 ?>

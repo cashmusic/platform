@@ -125,7 +125,7 @@ if (isset($_GET['hidebanner'])) {
 }
 
 // include Mustache because you know it's time for that
-include(ADMIN_BASE_PATH . '/lib/mustache.php/Mustache.php');
+include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache.php/Mustache.php');
 $pencil_thin = new Mustache;
 
 // finally, output the template and page-specific markup (checking for current login)

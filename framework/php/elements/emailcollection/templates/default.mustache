@@ -1,0 +1,14 @@
+{{#error_message}}<div class="cash_error cash_{{element_type}}_error">{{error_message}}</div>{{/error_message}}
+<form id="cash_{{element_type}}_form_{{element_id}}" class="cash_form {{element_type}}" method="post" action="">
+<input type="email" name="address" value="" class="cash_input cash_input_address" />
+<input type="hidden" name="cash_request_type" value="people" />
+<input type="hidden" name="cash_action" value="signup" />
+<input type="hidden" name="element_id" value="{{element_id}}" />
+<input type="hidden" name="list_id" value="{{email_list_id}}" />
+<input type="hidden" name="comment" value="" />
+<input type="hidden" name="additional_data" value="" />
+<input type="submit" value="sign me up" class="button" /><br />
+</form>
+<div class="cash_notation">
+	{{message_privacy}}
+</div>

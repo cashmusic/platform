@@ -48,8 +48,20 @@ class PeoplePlant extends PlantBase {
 			} else {
 				switch ($this->action) {
 					case 'signup':
-						if (!$this->checkRequestMethodFor('direct','post','get','api_key')) return $this->sessionGetLastResponse();
-						if (!$this->requireParameters('list_id','address')) { return $this->sessionGetLastResponse(); }
+						if (!$this->checkRequestMethodFor('direct','post','get','api_key')) {
+							return $this->response->pushResponse(
+								403,$this->request_type,$this->action,
+								null,
+								'request type not allowed'
+							);
+						}
+						if (!$this->requireParameters('list_id','address')) { 
+							return $this->response->pushResponse(
+								403,$this->request_type,$this->action,
+								null,
+								'missing parameters'
+							);
+						}
 						if (isset($this->request['user_id'])) {
 							$ownership = $this->verifyListOwner($this->request['user_id'],$this->request['list_id']);
 							if (!$ownership) {
@@ -71,7 +83,7 @@ class PeoplePlant extends PlantBase {
 										'id' => $this->request['element_id']
 									)
 								);
-								$do_not_verify = (bool) $element_request->response['payload']['options']->do_not_verify;
+								$do_not_verify = (bool) $element_request->response['payload']['options']['do_not_verify'];
 							} else {
 								$do_not_verify = false;
 							}
@@ -769,7 +781,7 @@ class PeoplePlant extends PlantBase {
 		}
 	}
 
-	protected function validateUserForList($address,$password,$browserid_assertion,$list_id,$element_id=null) {
+	protected function validateUserForList($address,$password,$list_id,$browserid_assertion=false,$element_id=null) {
 		$validate = false;
 		$verified_address = false;
 		if ($browserid_assertion) {

@@ -27,7 +27,5 @@ if ($page_request['status_uid'] == 'element_getelement_200') {
 }
 
 $element_type = $page_request['payload']['type'];
-if (@file_exists(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_type . '/help.php')) {
-	$page_tips = file_get_contents(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_type . '/help.php');
-}
+$page_tips = 'More soon.';
 ?>

@@ -12,83 +12,46 @@
  *
  **/
 class SignIn extends ElementBase {
-	const type = 'signin';
-	const name = 'Sign-In';
+	public $type = 'signin';
+	public $name = 'Sign-In';
+	
+	protected $hide = false;
 	
 	protected function init() {
 		if ($this->status_uid == 'people_signintolist_200' && !$this->unlocked) {
-			// unlock the element
-			$this->unlock();
+			$this->unlock(); // unlock the element
 		}
 		if ($this->sessionGet('initialized_element_' . $this->element_id,'script')) {
 			// element is initialized, meaning this is the closing embed
 			// unset element initialized state:
 			$this->sessionClear('initialized_element_' . $this->element_id,'script');
+			$this->hide = true;
 			if ($this->unlocked) {
 				// unlocked, so clean out the buffer and don't display anything further
-				$this->status_uid = 'empty';
-				if (ob_get_level()) {
-					ob_end_flush();
-				}
+				if (ob_get_level()) ob_end_flush();
 			} else {
 				// locked, delete the protected output and send an empty string
-				$this->status_uid = 'empty';
-				if (ob_get_level()) {
-					ob_end_clean();
-				}
+				if (ob_get_level()) ob_end_clean();
 			}
 		} else {
-			if ($this->unlocked) {
-				// element already unlocked. do nothing.
-				$this->status_uid = 'empty';
-			} else {
-				// element is locked. mark element as initialized, start output buffering, and display default markup
+			if (!$this->unlocked) {
+				// element is locked. mark as initialized, start output buffering
 				$this->sessionSet('initialized_element_' . $this->element_id,true,'script');
 				ob_start();
 			}
 		}
 	}
 
-	public function getMarkup() {
-		// define $markup to store all screen output
-		$markup = '';
-		// the default form and basic elements:
-		$default_markup = '<form id="cash_'. self::type .'_form_' . $this->element_id . '" class="cash_form '. self::type .'" method="post" action="">';
-		if ($this->options->display_title) {
-			$default_markup .= '<h2 class="cash_title">' . $this->options->display_title . '</h2>';
+	public function getData() {
+		if ($this->unlocked || $this->hide) {
+			$this->setTemplate('empty');
+		} else {
+			if ($this->status_uid == 'people_signintolist_400') {
+				$this->element_data['error_message'] = 'Could not verify your login. Please try again.';
+			}
+			$this->element_data['browserid_js'] = CASHSystem::getBrowserIdJS($this->element_id);
 		}
-		if ($this->options->display_message) {
-			$default_markup .= '<p class="cash_message">' . $this->options->display_message . '</p>';
-		}
-		$default_markup .= ''
-			. '<div class="cash_address_container"><label for="address">Email</label>'
-			. '<input type="email" name="address"  placeholder="Your Email Address" value="" class="cash_input cash_input_address" /></div>'
-			. '<div class="cash_password_container"><label for="password">Password</label>'
-			. '<input type="password" name="password" value="" class="cash_input cash_input_password" /></div>'
-			. '<div class="cash_hidden"><input type="hidden" name="cash_request_type" value="people" />'
-			. '<input type="hidden" name="cash_action" value="signintolist" />'
-			. '<input type="hidden" name="list_id" value="'.$this->options->email_list_id.'" class="cash_input cash_input_list_id" />'
-			. '<input type="hidden" name="element_id" value="'.$this->element_id.'" class="cash_input cash_input_element_id" />'
-			. '<input type="hidden" id="browseridassertion_'.$this->element_id.'" name="browseridassertion" value="" class="cash_input cash_input_element_id" /></div>'
-			. '<input type="submit" value="log in" class="button" /> <span class="cash_divider_text"> - or - </span> <a href="javascript:void(0)" id="browserid_login_link_' . $this->element_id . '"><img src="' . CASH_PUBLIC_URL . 'assets/images/browserid.png" alt="log in with browser id" class="cash_browserid_button" /></a>'
-			. '</form>';
-		$default_markup .= CASHSystem::getBrowserIdJS($this->element_id);
-		switch ($this->status_uid) {
-			case 'people_signintolist_400':
-				// error, likely in the email format. error message + default form
-				$markup = '<div class="cash_error '. self::type .'">'
-				. 'We could not verify your login. Please try again.'
-				. '</div>'
-				. $default_markup;
-				break;
-			case 'empty':
-				$markup = '';
-				break;
-			default:
-				// default form
-				$markup = $default_markup;
-		}
-		return $markup;
+		return $this->element_data;
 	}
 } // END class 
 ?>
