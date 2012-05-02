@@ -150,7 +150,9 @@
 	 * @return bool
 	 */public function isAssetAFavorite($asset_id) {
 		$favorites = $this->getAllFavoriteAssets();
-		return in_array($asset_id,$favorites);
+		if (is_array($favorites)) {
+			return in_array($asset_id,$favorites);
+		}
 	}
 
 	/**********************************************

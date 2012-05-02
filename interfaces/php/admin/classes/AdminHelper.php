@@ -39,7 +39,6 @@
 		$pages_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/menu/menu_en.json'),true);
 		$endpoint = str_replace('_','/',BASE_PAGENAME);
 		$endpoint_parts = explode('/',$endpoint);
-		$section_base = $pages_array[$endpoint_parts[0]];
 		$section_pages = array();
 		foreach ($pages_array as $page_endpoint => $page) {
 			if (strrpos($page_endpoint,$endpoint_parts[0]) !== false) {
@@ -47,6 +46,7 @@
 			}
 		}
 		if (count($section_pages) > 1) {
+			$section_base = $pages_array[$endpoint_parts[0]];
 			$menustr = '<a href="'. ADMIN_WWW_BASE_PATH . '/' . $endpoint_parts[0] . '/" class="pagemenutitle">' . $section_base['page_name'] . '</a>';
 			$menustr .= '<ul class="pagebasemenu">';
 			foreach ($section_pages as $page_endpoint => $page) {
