@@ -10,6 +10,7 @@ if (isset($_POST['dobatchcontactsadd'])) {
 					$add_request = new CASHRequest(array(
 						'cash_request_type' => 'people', 
 						'cash_action' => 'addaddresstolist',
+						'do_not_verify' => 1,
 						'address' => $address,
 						'list_id' => $_POST['email_list_id']
 					));

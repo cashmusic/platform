@@ -1,0 +1,19 @@
+{{#error_message}}<div class="cash_error cash_{{element_type}}_error">{{error_message}}</div>{{/error_message}}
+<form id="cash_{{element_type}}_form_{{element_id}}" class="cash_form {{element_id}}" method="post" action="">
+	<div class="cash_address_container">
+		<label for="address">Email</label>
+		<input type="email" name="address"  placeholder="Your Email Address" value="" class="cash_input cash_input_address" />
+	</div><div class="cash_password_container">
+		<label for="password">Password</label>
+		<input type="password" name="password" value="" class="cash_input cash_input_password" />
+	</div>
+	
+	<div class="clearfix">&nbsp;</div>
+	<input type="hidden" name="cash_request_type" value="people" />
+	<input type="hidden" name="cash_action" value="signintolist" />
+	<input type="hidden" name="list_id" value="{{email_list_id}}" />
+	<input type="hidden" name="element_id" value="{{element_id}}" />
+	<input type="hidden" name="browserid_assertion" value="" id="browseridassertion_{{element_id}}" />
+	<input type="submit" value="log in" class="button" /> <span class="cash_divider_text"> - or - </span> <a href="javascript:void(0)" id="browserid_login_link_{{element_id}}"><img src="{{www_url}}/assets/images/browserid.png" alt="log in with browser id" class="cash_browserid_button" /></a>
+</form>
+{{{browserid_js}}}

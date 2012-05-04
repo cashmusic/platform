@@ -582,7 +582,7 @@
 
 	public static function simpleULFromResponse($response,$compact=false,$limit=false) {
 		$markup = '';
-		if ($response['status_code'] == 200) {
+		if ($response['status_code'] == 200 && is_array($response['payload'])) {
 			// spit out the dates
 			$markup .= '<ul class="alternating"> ';
 			$loopcount = 1;
