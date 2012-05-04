@@ -20,6 +20,7 @@ class SecureDownload extends ElementBase {
 			$show_final_message = true;
 		} else {
 			$show_final_message = false;
+			$this->element_data['browserid_js'] = CASHSystem::getBrowserIdJS($this->element_id);
 			if ($this->status_uid == 'people_signintolist_200') {
 				$show_final_message = true;
 			} elseif ($this->status_uid == 'people_signintolist_400') {
