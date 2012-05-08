@@ -14,6 +14,11 @@
  *
  **/
 class SystemPlant extends PlantBase {
+	// hard-coded to avoid 0/o, l/1 type confusions on download cards
+	protected $lock_code_chars = array(
+		'all_chars' => array('2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','m','n','p','q','r','s','t','u','v','w','x','y','z'),
+		'code_break' => array(2,3,3,4,4,4,5)
+	);
 	
 	public function __construct($request_type,$request) {
 		$this->request_type = 'system';
@@ -30,10 +35,13 @@ class SystemPlant extends PlantBase {
 				// first value  = target method to call
 				// second value = allowed request methods (string or array of strings)
 				'addlogin'                => array('addLogin','direct'),
+				'addlockcode'             => array('addLockCode','direct'),
 				'deletesettings'          => array('deleteSettings','direct'),
 				'getapicredentials'       => array('getAPICredentials','direct'),
+				'getlockcodes'            => array('getLockCodes','direct'),
 				'getsettings'             => array('getSettings','direct'),
 				'migratedb'               => array('doMigrateDB','direct'),
+				'redeemlockcode'          => array('redeemLockCode',array('direct','get','post')),
 				'setapicredentials'       => array('setAPICredentials','direct'),
 				'setlogincredentials'     => array('setLoginCredentials','direct'),
 				'setsettings'             => array('setSettings','direct'),
@@ -402,5 +410,201 @@ class SystemPlant extends PlantBase {
 			return true;
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	/*
+	 *
+	 * Here lie a bunch of lock code functions that need to reference elements
+	 * instead of assets. duh.
+	 *
+	 */
+	
+	/**
+	 * Retrieves the last known UID or if none are found creates and returns a 
+	 * random UID as a starting point
+	 *
+	 * @return string
+	 */protected function getLastLockCode() {
+		$result = $this->db->getData(
+			'lock_codes',
+			'uid',
+			false,
+			1,
+			'id DESC'
+		);
+		if ($result) {
+			$code = $result[0]['uid'];
+		} else {
+			$code = false;
+		}
+		return $code;
+	}
+
+	/**
+	 * Creates a new lock/unlock code for and asset
+	 *
+	 * @param {integer} $element_id - the element for which you're adding the lock code
+	 * @return string|false
+	 */protected function addLockCode($scope_table_alias,$scope_table_id,$user_id=0){
+		$code = $this->generateCode(
+			$this->lock_code_chars['all_chars'],
+			$this->lock_code_chars['code_break'],
+			$this->getLastLockCode()
+		);
+		$result = $this->db->setData(
+			'lock_codes',
+			array(
+				'uid' => $code,
+				'scope_table_alias' => $scope_table_alias,
+				'scope_table_id' => $scope_table_id,
+				'user_id' => $user_id
+			)
+		);
+		if ($result) { 
+			return $code;
+		} else {
+			return false;
+		}
+	}
+
+	protected function redeemLockCode($code,$scope_table_alias,$scope_table_id) {
+		$code_details = $this->getLockCode($code,$scope_table_alias,$scope_table_id);
+		if ($code_details) {
+			// details found, means the code+element is correct...mark as claimed
+			if (!$code_details['claim_date']) {
+				$result = $this->db->setData(
+					'lock_codes',
+					array(
+						'claim_date' => time()
+					),
+					array(
+						"id" => array(
+							"condition" => "=",
+							"value" => $code_details['id']
+						)
+					)
+				);
+				return $result;
+			} else {
+				// allow retries for four hours after claim
+				if (($code_details['claim_date'] + 14400) > time()) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		} else {
+			return false;
+		}
+	}
+
+	protected function getLockCode($code,$scope_table_alias,$scope_table_id) {
+		$result = $this->db->getData(
+			'lock_codes',
+			'*',
+			array(
+				"uid" => array(
+					"condition" => "=",
+					"value" => $code
+				),
+				"scope_table_alias" => array(
+					"condition" => "=",
+					"value" => $scope_table_alias
+				),
+				"scope_table_id" => array(
+					"condition" => "=",
+					"value" => $scope_table_id
+				)
+			),
+			1
+		);
+		if ($result) {
+			return $result[0];
+		} else {
+			return false;
+		}
+	}
+
+	protected function getLockCodes($scope_table_alias,$scope_table_id) {
+		$result = $this->db->getData(
+			'lock_codes',
+			'*',
+			array(
+				"scope_table_alias" => array(
+					"condition" => "=",
+					"value" => $scope_table_alias
+				),
+				"scope_table_id" => array(
+					"condition" => "=",
+					"value" => $scope_table_id
+				)
+			)
+		);
+		return $result;
+	}
+
+	protected function consistentShuffle(&$items, $seed=false) {
+		// original here: http://www.php.net/manual/en/function.shuffle.php#105931
+		$original = md5(serialize($items));
+		mt_srand(crc32(($seed) ? $seed : $items[0]));
+		for ($i = count($items) - 1; $i > 0; $i--){
+			$j = @mt_rand(0, $i);
+			list($items[$i], $items[$j]) = array($items[$j], $items[$i]);
+		}
+		if ($original == md5(serialize($items))) {
+			list($items[count($items) - 1], $items[0]) = array($items[0], $items[count($items) - 1]);
+		}
+	}
+	
+	protected function generateCode($all_chars,$code_break,$last_code=false) {
+		$seed = CASHSystem::getSystemSalt();
+		$this->consistentShuffle($all_chars,$seed);
+		$this->consistentShuffle($code_break,$seed);
+		if (!$last_code) {
+			$last_code = '';
+			for ($i = 1; $i <= 10; $i++) {
+				$last_code .= $all_chars[rand(0,count($all_chars) - 1)];
+			}
+		}
+		$sequential = substr($last_code,1,$code_break[0])
+					. substr($last_code,0 - (7 - $code_break[0]));
+		$sequential = $this->iterateChars($sequential,$all_chars);
+		$new_code = $all_chars[rand(0,count($all_chars) - 1)]
+		 		  . substr($sequential,0,$code_break[0])
+				  . $all_chars[rand(0,count($all_chars) - 1)]
+				  . $all_chars[rand(0,count($all_chars) - 1)]
+				  . substr($sequential,0 - (7 - $code_break[0]));
+		return $new_code;
+	}
+
+	protected function iterateChars($chars,$all_chars) {
+		$chars = str_split($chars);
+		// start with the last character of the $chars string
+		$current_char = count($chars) - 1;
+		$loop = 1;
+		do {
+			$loop--;
+			$current_key = array_search($chars[$current_char],$all_chars);
+			if ($current_key == count($all_chars) - 1) {
+				$loop++;
+				$chars[$current_char] = $all_chars[0];
+				if ($current_char == 0) {
+					$current_char = count($chars) - 1;
+				} else {
+					$current_char--;
+				}
+			} else {
+				$chars[$current_char] = $all_chars[$current_key + 1];
+			}
+		} while ($loop > 0);
+		$chars = implode($chars);
+		return $chars;
+	}
+	
 } // END class 
 ?>

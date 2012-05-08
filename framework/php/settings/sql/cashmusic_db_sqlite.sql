@@ -337,12 +337,15 @@ CREATE TABLE system_licenses (
 CREATE TABLE system_lock_codes (
   id INTEGER PRIMARY KEY,
   uid text,
-  element_id integer DEFAULT NULL,
+  scope_table_alias text DEFAULT 'elements',
+  scope_table_id integer,
+  user_id integer,
   claim_date integer DEFAULT NULL,
   creation_date integer DEFAULT '0',
   modification_date integer DEFAULT NULL
 );
-CREATE INDEX system_lock_codes_element_id ON system_lock_codes (element_id);
+CREATE INDEX system_lock_codes_uid ON system_lock_codes (uid);
+CREATE INDEX system_lock_codes_user_id ON system_lock_codes (user_id);
 
 CREATE TABLE system_metadata (
   id INTEGER PRIMARY KEY,

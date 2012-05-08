@@ -334,170 +334,41 @@ class ElementPlant extends PlantBase {
 		);
 		return $result;
 	}
-	
-	/*
-	 *
-	 * Here lie a bunch of lock code functions that need to reference elements
-	 * instead of assets. duh.
-	 *
-	 */
-	
-	/**
-	 * Retrieves the last known UID or if none are found creates and returns a 
-	 * random UID as a starting point
-	 *
-	 * @return string
-	 */protected function getLastLockCode() {
-		$result = $this->db->getData(
-			'lock_codes',
-			'uid',
-			false,
-			1,
-			'id DESC'
-		);
-		if ($result) {
-			$code = $result[0]['uid'];
-		} else {
-			$code = false;
-		}
-		return $code;
-	}
 
 	/**
-	 * Creates a new lock/unlock code for and asset
+	 * Wrapper for system lock code call
 	 *
 	 * @param {integer} $element_id - the element for which you're adding the lock code
 	 * @return string|false
 	 */protected function addLockCode($element_id){
-		$code = $this->generateCode(
-			$this->lock_code_chars['all_chars'],
-			$this->lock_code_chars['code_break'],
-			$this->getLastLockCode()
-		);
-		$result = $this->db->setData(
-			'lock_codes',
+		$add_request = new CASHRequest(
 			array(
-				'uid' => $code,
-				'element_id' => $element_id
+				'cash_request_type' => 'system', 
+				'cash_action' => 'addlockcode',
+				'scope_table_alias' => 'elements', 
+				'scope_table_id' => $element_id
 			)
 		);
-		if ($result) { 
-			return $code;
-		} else {
-			return false;
-		}
+		return $add_request->response['payload'];
 	}
 
-	protected function redeemLockCode($code,$element_id) {
-		$code_details = $this->getLockCode($code,$element_id);
-		if ($code_details) {
-			// details found, means the code+element is correct...mark as claimed
-			if (!$code_details['claim_date']) {
-				$result = $this->db->setData(
-					'lock_codes',
-					array(
-						'claim_date' => time()
-					),
-					array(
-						"id" => array(
-							"condition" => "=",
-							"value" => $code_details['id']
-						)
-					)
-				);
-				return $result;
-			} else {
-				// allow retries for four hours after claim
-				if (($code_details['claim_date'] + 14400) > time()) {
-					return true;
-				} else {
-					return false;
-				}
-			}
-		} else {
-			return false;
-		}
-	}
-
-	protected function getLockCode($code,$element_id) {
-		$result = $this->db->getData(
-			'lock_codes',
-			'*',
+	/**
+	 * Wrapper for system lock code call
+	 *
+	 * @param {string} $code - the code
+	 * @param {integer} $element_id - the element for which you're adding the lock code
+	 * @return bool
+	 */protected function redeemLockCode($code,$element_id) {
+		$redeem_request = new CASHRequest(
 			array(
-				"uid" => array(
-					"condition" => "=",
-					"value" => $code
-				),
-				"element_id" => array(
-					"condition" => "=",
-					"value" => $element_id
-				)
-			),
-			1
+				'cash_request_type' => 'system', 
+				'cash_action' => 'redeemlockcode',
+				'code' => $code,
+				'scope_table_alias' => 'elements', 
+				'scope_table_id' => $element_id
+			)
 		);
-		if ($result) {
-			return $result[0];
-		} else {
-			return false;
-		}
-	}
-
-	protected function consistentShuffle(&$items, $seed=false) {
-		// original here: http://www.php.net/manual/en/function.shuffle.php#105931
-		$original = md5(serialize($items));
-		mt_srand(crc32(($seed) ? $seed : $items[0]));
-		for ($i = count($items) - 1; $i > 0; $i--){
-			$j = @mt_rand(0, $i);
-			list($items[$i], $items[$j]) = array($items[$j], $items[$i]);
-		}
-		if ($original == md5(serialize($items))) {
-			list($items[count($items) - 1], $items[0]) = array($items[0], $items[count($items) - 1]);
-		}
-	}
-	
-	protected function generateCode($all_chars,$code_break,$last_code=false) {
-		$seed = CASHSystem::getSystemSalt();
-		$this->consistentShuffle($all_chars,$seed);
-		$this->consistentShuffle($code_break,$seed);
-		if (!$last_code) {
-			$last_code = '';
-			for ($i = 1; $i <= 10; $i++) {
-				$last_code .= $all_chars[rand(0,count($all_chars) - 1)];
-			}
-		}
-		$sequential = substr($last_code,1,$code_break[0])
-					. substr($last_code,0 - (7 - $code_break[0]));
-		$sequential = $this->iterateChars($sequential,$all_chars);
-		$new_code = $all_chars[rand(0,count($all_chars) - 1)]
-		 		  . substr($sequential,0,$code_break[0])
-				  . $all_chars[rand(0,count($all_chars) - 1)]
-				  . $all_chars[rand(0,count($all_chars) - 1)]
-				  . substr($sequential,0 - (7 - $code_break[0]));
-		return $new_code;
-	}
-
-	protected function iterateChars($chars,$all_chars) {
-		$chars = str_split($chars);
-		// start with the last character of the $chars string
-		$current_char = count($chars) - 1;
-		$loop = 1;
-		do {
-			$loop--;
-			$current_key = array_search($chars[$current_char],$all_chars);
-			if ($current_key == count($all_chars) - 1) {
-				$loop++;
-				$chars[$current_char] = $all_chars[0];
-				if ($current_char == 0) {
-					$current_char = count($chars) - 1;
-				} else {
-					$current_char--;
-				}
-			} else {
-				$chars[$current_char] = $all_chars[$current_key + 1];
-			}
-		} while ($loop > 0);
-		$chars = implode($chars);
-		return $chars;
+		return $redeem_request->response['payload'];
 	}
 
 } // END class 

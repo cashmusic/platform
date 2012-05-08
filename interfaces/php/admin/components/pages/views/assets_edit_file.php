@@ -33,6 +33,11 @@
 		}
 		?>
 	</h3>
+	<?php
+		if ($page_message) {
+			echo '<p><span class="highlightcopy">' . $page_message . '</span></p>';
+		}
+	?>
 	<p class="smalltext fadedtext">
 		size: <?php echo AdminHelper::bytesToSize($current_asset['size']); ?>, &nbsp; stored on: <?php echo AdminHelper::getConnectionName($current_asset['connection_id']); ?><br />
 		location: <?php echo $current_asset['location'] ?>
@@ -48,12 +53,25 @@
 			<a href="?togglefavorite=true" class="actionlink"><span class="icon x_alt"></span> unfavorite this asset</a> 
 		<?php } ?>
 		<a href="#" class="actionlink"><span class="icon link"></span> generate private link</a>
-	</p><br />
+	</p>
+	<br />
+	<div>
+		<h3>Download codes</h3>
+		<?php
+		if ($asset_codes) {
+			echo 'There are currently ' . count($asset_codes) . ' codes for this asset. <form method="post" action="" class="inline"><input type="hidden" name="exportcodes" value="1" /><input type="submit" class="inlinesubmit" value="Export them!" /></form><br /><br />';
+		} else {
+			echo '<p>There are no download codes for this asset.</p>';
+		}
+		?>
+		<form method="post" action="" class="inline"><span class="icon plus_alt usecolor2"></span><input type="submit" class="inlinesubmit" value="add" /> <input type="text" name="add_codes_qty" id="add_codes" value="500" /> <input type="submit" class="inlinesubmit" value="download codes" /></form>
+	</div>
+	<br /><br />
 
 	<form method="post" action="">
 		<input type="hidden" name="doassetedit" value="makeitso" />
 		
-		<h3>Asset Details</h3>
+		<h3>Asset details</h3>
 		<label for="asset_title">Title / Name</label><br />
 		<input type="text" id="asset_title" name="asset_title" value="<?php echo str_replace('"','&quot;',$current_asset['title']); ?>" />
 

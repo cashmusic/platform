@@ -380,12 +380,15 @@ DROP TABLE IF EXISTS `system_lock_codes`;
 CREATE TABLE `system_lock_codes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` varchar(255),
-  `element_id` int(11) DEFAULT NULL,
+  `scope_table_alias` varchar(255) DEFAULT 'elements',
+  `scope_table_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `claim_date` int(11) DEFAULT NULL,
   `creation_date` int(11) DEFAULT '0',
   `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `system_lock_codes_element_id` (`element_id`)
+  KEY `system_lock_codes_uid` (`uid`)
+  KEY `system_lock_codes_user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `system_metadata`;

@@ -100,11 +100,11 @@ li:hover .itemnav {margin:12px 0 8px 0;height:auto;}
 .bgcolor3, div.usecolor3 input.button, div.usecolor3 a.mockbutton, div.usecolor3 div.introductorybanner {background-color:#aacd07;}
 .bgcolor4, div.usecolor4 input.button, div.usecolor4 a.mockbutton, div.usecolor4 div.introductorybanner {background-color:#0891df;}
 .bgcolor5, div.usecolor5 input.button, div.usecolor5 a.mockbutton, div.usecolor5 div.introductorybanner {background-color:#9b08df;}
-div.usecolor1 a, h2.usecolor1 {color:#cd074d;}
-div.usecolor2 a, h2.usecolor2 {color:#ca8c07;}
-div.usecolor3 a, h2.usecolor3 {color:#97b800;}
-div.usecolor4 a, h2.usecolor4 {color:#0080c9;}
-div.usecolor5 a, h2.usecolor5 {color:#8a00ca;}
+div.usecolor1 a, h2.usecolor1, span.usecolor1, div.usecolor1 form.inline input.inlinesubmit {color:#cd074d;}
+div.usecolor2 a, h2.usecolor2, span.usecolor2, div.usecolor2 form.inline input.inlinesubmit {color:#ca8c07;}
+div.usecolor3 a, h2.usecolor3, span.usecolor3, div.usecolor3 form.inline input.inlinesubmit {color:#97b800;}
+div.usecolor4 a, h2.usecolor4, span.usecolor4, div.usecolor4 form.inline input.inlinesubmit {color:#0080c9;}
+div.usecolor5 a, h2.usecolor5, span.usecolor5, div.usecolor5 form.inline input.inlinesubmit {color:#8a00ca;}
 a.usecolor0 {color:#999 !important;}
 a.usecolor1 {color:#cd074d !important;}
 a.usecolor2 {color:#ca8c07 !important;}
@@ -289,6 +289,10 @@ textarea.tall {height:200px;}
 #pagedisplay div.col_twoofthree input,#pagedisplay div.col_twoofthree textarea {width:416px;padding:8px;}
 #pagedisplay div.col_oneoffour input,#pagedisplay div.col_oneoffour textarea {width:125px;padding:8px;}
 #pagedisplay div.col_threeoffour input,#pagedisplay div.col_threeoffour textarea {width:478px;padding:8px;}
+form.inline {display:inline;}
+form.inline input {width:2.25em !important;border:1px solid #fafaf8;}
+form.inline input:active, form.inline input:focus {outline:0;border:1px solid #888;}
+form.inline input.inlinesubmit {font:13px/1.5em helvetica,"helvetica neue",arial,sans-serif !important;background-color:transparent;cursor:pointer;font-weight:bold !important;width:auto !important;padding-left:0 !important;padding-right:0 !important;}
 
 /* TABLES */
 table {font-size:11px;}

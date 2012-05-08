@@ -26,6 +26,7 @@ class AssetPlant extends PlantBase {
 				// first value  = target method to call
 				// second value = allowed request methods (string or array of strings)
 				'addasset'                => array('addAsset','direct'),
+				'addlockcode'             => array('addLockCode','direct'),
 				'claim'                   => array('redirectToAsset',array('get','post','direct')),
 				'editasset'               => array('editAsset','direct'),
 				'findconnectiondeltas'    => array('findConnectionAssetDeltas','direct'),
@@ -33,6 +34,7 @@ class AssetPlant extends PlantBase {
 				'getasset'                => array('getAssetInfo','direct'),
 				'getassetsforconnection'  => array('getAssetsForConnection','direct'),
 				'getassetsforuser'        => array('getAssetsForUser','direct'),
+				'redeemcode'              => array('redeemLockCode',array('direct','get','post')),
 				'syncconnectionassets'    => array('syncConnectionAssets','direct'),
 				'unlock'                  => array('unlockAsset','direct')
 			);
@@ -453,5 +455,55 @@ class AssetPlant extends PlantBase {
 			}
 		}
 	}
+
+	/**
+	 * Wrapper for system lock code call
+	 *
+	 * @param {integer} $element_id - the element for which you're adding the lock code
+	 * @return string|false
+	 */protected function addLockCode($asset_id){
+		$asset_info = $this->getAssetInfo($asset_id);
+		if ($asset_info) {
+			$user_id = $asset_info['user_id'];
+			$add_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'system', 
+					'cash_action' => 'addlockcode',
+					'scope_table_alias' => 'assets', 
+					'scope_table_id' => $asset_id,
+					'user_id' => $user_id
+				)
+			);
+			return $add_request->response['payload'];
+		}
+		return false;
+	}
+
+	/**
+	 * Wrapper for system lock code call
+	 *
+	 * @param {string} $code - the code
+	 * @param {integer} $element_id - the element for which you're adding the lock code
+	 * @return bool
+	 */protected function redeemLockCode($code,$asset_id,$user_id) {
+		$asset_info = $this->getAssetInfo($asset_id);
+		if ($asset_info) {
+			if ($asset_info['user_id'] == $user_id) {
+				$redeem_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'system', 
+						'cash_action' => 'redeemlockcode',
+						'code' => $code,
+						'scope_table_alias' => 'assets', 
+						'scope_table_id' => $asset_id,
+						'user_id' => $user_id
+					)
+				);
+				return $redeem_request->response['payload'];
+			}
+		}
+		return false;
+	}
+	
 } // END class 
 ?>

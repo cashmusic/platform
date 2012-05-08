@@ -33,6 +33,7 @@ class CASHSystemTests extends UnitTestCase {
 		$return = CASHSystem::getSystemSettings('timezone'); 
 		$this->assertNotEqual($control,$return);
 		$this->assertEqual('Not really a timezone',$return);
+		CASHSystem::setSystemSetting('timezone','US/Pacific');
 	}
 
 	function test_formatTimeAgo() {
