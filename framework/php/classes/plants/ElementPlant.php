@@ -15,11 +15,6 @@
 class ElementPlant extends PlantBase {
 	protected $elements_array=array();
 	protected $typenames_array=array();
-	// hard-coded to avoid 0/o, l/1 type confusions on download cards
-	protected $lock_code_chars = array(
-		'all_chars' => array('2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','m','n','p','q','r','s','t','u','v','w','x','y','z'),
-		'code_break' => array(2,3,3,4,4,4,5)
-	);
 	
 	public function __construct($request_type,$request) {
 		$this->request_type = 'element';
