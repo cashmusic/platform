@@ -1,0 +1,8 @@
+{{#error_message}}<div class="cash_error cash_{{element_type}}_error">{{error_message}}</div>{{/error_message}}
+<form id="cash_{{element_type}}_form_{{element_id}}" class="cash_form {{element_type}}" method="post" action="">
+<input type="text" name="code" value="" class="cash_input cash_input_code" />
+<input type="hidden" name="cash_request_type" value="asset" />
+<input type="hidden" name="cash_action" value="redeemcode" />
+<input type="hidden" name="element_id" value="{{element_id}}" />
+<input type="submit" value="redeem code" class="button" /><br />
+</form>

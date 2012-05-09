@@ -483,26 +483,34 @@ class AssetPlant extends PlantBase {
 	 * Wrapper for system lock code call
 	 *
 	 * @param {string} $code - the code
-	 * @param {integer} $element_id - the element for which you're adding the lock code
 	 * @return bool
-	 */protected function redeemLockCode($code,$asset_id,$user_id) {
-		$asset_info = $this->getAssetInfo($asset_id);
-		if ($asset_info) {
-			if ($asset_info['user_id'] == $user_id) {
+	 */protected function redeemLockCode($code,$user_id=false,$element_id=false) {
+			if (!$user_id && $element_id) {
+				$element_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'element', 
+						'cash_action' => 'getelement',
+						'id' => $element_id
+					)
+				);
+				if ($element_request->response['payload']) {
+					$user_id = $element_request->response['payload']['user_id'];
+				}
+			}
+			if ($user_id) {
 				$redeem_request = new CASHRequest(
 					array(
 						'cash_request_type' => 'system', 
 						'cash_action' => 'redeemlockcode',
 						'code' => $code,
-						'scope_table_alias' => 'assets', 
-						'scope_table_id' => $asset_id,
+						'scope_table_alias' => 'assets',
 						'user_id' => $user_id
 					)
 				);
 				return $redeem_request->response['payload'];
+			} else {
+				return false;
 			}
-		}
-		return false;
 	}
 	
 } // END class 

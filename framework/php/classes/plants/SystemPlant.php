@@ -472,30 +472,48 @@ class SystemPlant extends PlantBase {
 		}
 	}
 
-	protected function redeemLockCode($code,$scope_table_alias,$scope_table_id) {
-		$code_details = $this->getLockCode($code,$scope_table_alias,$scope_table_id);
+	protected function redeemLockCode($code,$scope_table_alias=false,$scope_table_id=false,$user_id=false) {
+		$code_details = $this->getLockCode($code);
 		if ($code_details) {
-			// details found, means the code+element is correct...mark as claimed
-			if (!$code_details['claim_date']) {
-				$result = $this->db->setData(
-					'lock_codes',
-					array(
-						'claim_date' => time()
-					),
-					array(
-						"id" => array(
-							"condition" => "=",
-							"value" => $code_details['id']
+			// check against optional arguments — if they're found then make sure they match
+			// the data stored with the code...if not invalidate the request and return false
+			$proceed = true;
+			if ($scope_table_alias && ($scope_table_alias != $code_details['scope_table_alias'])) {
+				$proceed = false;
+			}
+			if ($scope_table_id && ($scope_table_id != $code_details['scope_table_id'])) {
+				$proceed = false;
+			}
+			if ($user_id && ($user_id != $code_details['user_id'])) {
+				$proceed = false;
+			}
+			if ($proceed) {
+				// details found
+				if (!$code_details['claim_date']) {
+					$result = $this->db->setData(
+						'lock_codes',
+						array(
+							'claim_date' => time()
+						),
+						array(
+							"id" => array(
+								"condition" => "=",
+								"value" => $code_details['id']
+							)
 						)
-					)
-				);
-				return $result;
-			} else {
-				// allow retries for four hours after claim
-				if (($code_details['claim_date'] + 14400) > time()) {
-					return true;
+					);
+					if ($result) {
+						return $code_details;
+					} else {
+						return false;
+					}
 				} else {
-					return false;
+					// allow retries for four hours after claim
+					if (($code_details['claim_date'] + 14400) > time()) {
+						return $code_details;
+					} else {
+						return false;
+					}
 				}
 			}
 		} else {
@@ -503,7 +521,7 @@ class SystemPlant extends PlantBase {
 		}
 	}
 
-	protected function getLockCode($code,$scope_table_alias,$scope_table_id) {
+	protected function getLockCode($code) {
 		$result = $this->db->getData(
 			'lock_codes',
 			'*',
@@ -511,14 +529,6 @@ class SystemPlant extends PlantBase {
 				"uid" => array(
 					"condition" => "=",
 					"value" => $code
-				),
-				"scope_table_alias" => array(
-					"condition" => "=",
-					"value" => $scope_table_alias
-				),
-				"scope_table_id" => array(
-					"condition" => "=",
-					"value" => $scope_table_id
 				)
 			),
 			1
