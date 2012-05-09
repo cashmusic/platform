@@ -1,4 +1,24 @@
 <?php
+$page_message = false;
+if (isset($_POST['add_codes_qty']) && $request_parameters[0]) {
+	if ($_POST['add_codes_qty'] > 0) {
+		$total_added = 0;
+		for ($i = 1; $i <= $_POST['add_codes_qty']; $i++) {
+			$addcode_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'asset', 
+					'cash_action' => 'addlockcode',
+					'asset_id' => $request_parameters[0]
+				)
+			);
+			if ($addcode_request->response['payload']) {
+				$total_added++;
+			}
+		}
+		$page_message = 'Added ' . $total_added . 'new download codes';
+	}
+}
+
 $asset_codes = false;
 if ($request_parameters[0]) {
 	$getcodes_request = new CASHRequest(
@@ -83,26 +103,6 @@ if (isset($_REQUEST['togglefavorite']) && $request_parameters[0]) {
 		$cash_admin->unFavoriteAsset($request_parameters[0]);
 	} else {
 		$cash_admin->favoriteAsset($request_parameters[0]);
-	}
-}
-
-$page_message = false;
-if (isset($_POST['add_codes_qty']) && $request_parameters[0]) {
-	if ($_POST['add_codes_qty'] > 0) {
-		$total_added = 0;
-		for ($i = 1; $i <= $_POST['add_codes_qty']; $i++) {
-			$addcode_request = new CASHRequest(
-				array(
-					'cash_request_type' => 'asset', 
-					'cash_action' => 'addlockcode',
-					'asset_id' => $request_parameters[0]
-				)
-			);
-			if ($addcode_request->response['payload']) {
-				$total_added++;
-			}
-		}
-		$page_message = 'Added ' . $total_added . 'new download codes';
 	}
 }
 

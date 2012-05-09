@@ -35,7 +35,10 @@ class ElementPlant extends PlantBase {
 				'getanalytics'         => array('getAnalytics','direct'),
 				'getelement'           => array('getElement','direct'),
 				'getelementsforuser'   => array('getElementsForUser','direct'),
-				'getmarkup'            => array('getElementMarkup',array('direct','get','post','api_public','api_key','api_fullauth')),
+				//'getmarkup'            => array('getElementMarkup',array('direct','get','post','api_public','api_key','api_fullauth')),
+				// closing up the above -> security risk allowing people to simply request markup and pass a status UID via 
+				// API or GET. we'll need to require signed status codes and reopen...
+				'getmarkup'            => array('getElementMarkup','direct'),
 				'getsupportedtypes'    => array('getSupportedTypes','direct'),
 				'redeemcode'           => array('redeemLockCode',array('direct','get','post'))
 			);
