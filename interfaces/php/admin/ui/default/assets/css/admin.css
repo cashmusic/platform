@@ -379,7 +379,7 @@ body > #wrap {height:auto;min-height:99%;}
 #footer p {padding:12px 8px 0px 12px;}
 #footer a {color:#babac4;margin-left:24px;}
 #footer a:hover {color:#231F20;}
-#footer .donatelink {color:#aaa;}
+#footer .donatelink {color:#231F20;}
 
 /* ACCESSIBILITY STUFFS */
 * a:focus, #footer a.donatelink:active, #footer a.donatelink:focus, input.checkorradio:focus, input.checkorradio:active
