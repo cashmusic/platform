@@ -2,6 +2,7 @@
 	"name":"Social Feeds",
 	"description":"Set up a single feed from your Twitter or Tumblr feeds. Filter, sort, and combine.",
 	"longdescription":"Combine any number of feeds, filtering twitter by search term or exclude @-replies, and filtering Tumblr by post type.",
+	"instructions":"instructions",
 	"lastupdated":"Jan 25, 2012",
 	"pagetip":"You can add as many Twitter or Tumblr feeds as you want. You can also filter the Twitter messages for mentions of a specific person or hashtag.",
 	"version":1.0,

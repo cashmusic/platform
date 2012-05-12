@@ -2,6 +2,7 @@
 	"name":"E-Card",
 	"description":"The cheezy time-honored classic. Use wisely.",
 	"longdescription":"Collect someone's email to one of your lists, let them send a card to friends. You can also offer a download as a reward.",
+	"instructions":"instructions",
 	"pagetip":"Leave the asset set to 'none' for a straight email capture, or choose a target asset to try email-for-download.",
 	"lastupdated":"Jan 25, 2012",
 	"version":1.0,
