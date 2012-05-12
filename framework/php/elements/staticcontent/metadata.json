@@ -1,6 +1,6 @@
 {
-	"name":"Static Content",
-	"description":"Simple element to display static content like text or html.",
+	"name":"Plain Text",
+	"description":"Display static content like text, html, or markdown.",
 	"longdescription":"The future of copy-and-paste! Actually just copy-and-paste, regular. Boring, but useful.",
 	"pagetip":"Just what you need where you need it. Plain text, HTML, or markdown.",
 	"lastupdated":"Jan 25, 2012",

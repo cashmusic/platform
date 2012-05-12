@@ -13,7 +13,7 @@
  **/
 class StaticContent extends ElementBase {
 	public $type = 'staticcontent';
-	public $name = 'Static Content';
+	public $name = 'Plain Text';
 	
 	public $markdown = false;
 
