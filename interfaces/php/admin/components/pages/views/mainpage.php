@@ -9,61 +9,6 @@ if ($settings['banners'][BASE_PAGENAME]) {
 }
 ?>
 
-<div class="col_oneofthree">
-	<p class="altcopystyle">
-	This is the default landing page. We'll keep this corner for news, updates, and system information.
-	</p><p class="altcopystyle"> 
-	The other sections of the page will focus on high-level data showing element usage, traffic, and
-	relevant statistics. Imagine it looks really fancy.
-	</p>
-</div><div class="col_twoofthree lastcol usecolor1 callout" style="width:61%;">
-	<h2 class="usecolor1">Elements</h2>
-	<div class="col_oneofthree" style="font-weight:bold;">
-		At a Glance<br />
-		<span class="majorcallout bgcolor1"><?php echo (int) $cash_admin->getStoredData('element_active_count'); ?></span> <a href="<?php echo ADMIN_WWW_BASE_PATH . '/elements/' ?>" class="usecolor1"><big>Active <br />Element<?php if((int) $cash_admin->getStoredData('element_active_count') != 1) { echo 's'; } ?></big></a>
-		<div class="clearfix">.</div>
-		<span class="majorcallout bgcolor0"><?php echo (int) $cash_admin->getStoredData('element_inactive_count'); ?></span> <a href="<?php echo ADMIN_WWW_BASE_PATH . '/elements/view/' ?>" class="usecolor0"><big>Inactive <br />Element<?php if((int) $cash_admin->getStoredData('element_inactive_count') != 1) { echo 's'; } ?></big></a>
-	</div>
-
-	<div class="col_oneofthree">
-		<b>Most Active</b>
-		<?php
-		$mostaccessed_response = $cash_admin->getStoredResponse('element_mostactive');
-		if ((int) $cash_admin->getStoredData('element_active_count')) {
-			$loopcount = 1;
-			echo '<ol class="fadedtext">';
-			foreach ($mostaccessed_response['payload'] as $element) {
-				echo '<li><a href="' . ADMIN_WWW_BASE_PATH . '/elements/view/' . $element['id'] . '">' . $element['name'] . '</a> <span class="smalltext nobr">(accessed: ' . $element['count'] . ')</span></li>';
-				$loopcount = $loopcount + 1;
-				if ($loopcount == 3) { break; }
-			}
-			echo '</ol>';
-		} else {
-			echo '<p class="fadedtext">No elements have been accessed.</p>';
-		}
-		?>
-	</div>
-	<div class="col_oneofthree lastcol">
-		<b>Recently Added</b>
-		<?php
-		if (is_array($cash_admin->getStoredResponse('element_recentlyadded',true))) {
-			$loopcount = 1;
-			echo '<ul class="nobullets fadedtext">';
-			foreach ($cash_admin->getStoredResponse('element_recentlyadded',true) as $element) {
-				echo '<li><a href="' . ADMIN_WWW_BASE_PATH . '/elements/view/' . $element['id'] . '">' . $element['name'] . '</a></li>';
-				if ($loopcount == 3) { break; }
-				$loopcount = $loopcount + 1;
-			}
-			echo '</ul>';
-		} else {
-			echo '<p>No elements have been accessed yet.</p>';
-		}
-		?>
-	</div>
-</div>
-	
-<div class="clearfix tall">.</div>
-
 <div class="col_oneoffour usecolor2">
 	<h2 class="usecolor2">Assets</h2>
 	<b>Most Accessed</b>
