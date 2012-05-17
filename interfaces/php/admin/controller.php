@@ -144,15 +144,15 @@ if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
 	$cash_admin->page_data['specialcolor'] = '';
 	$exploded_base = explode('_',BASE_PAGENAME);
 	$cash_admin->page_data['section_name'] = $exploded_base[0];
-	if ($exploded_base[0] == 'elements') {
+	if ($exploded_base[0] == 'assets') {
 		$cash_admin->page_data['specialcolor'] = ' usecolor1';
-	} elseif ($exploded_base[0] == 'assets') {
-		$cash_admin->page_data['specialcolor'] = ' usecolor2';
 	} elseif ($exploded_base[0] == 'people') {
-		$cash_admin->page_data['specialcolor'] = ' usecolor3';
+		$cash_admin->page_data['specialcolor'] = ' usecolor2';
 	} elseif ($exploded_base[0] == 'commerce') {
-		$cash_admin->page_data['specialcolor'] = ' usecolor4';
+		$cash_admin->page_data['specialcolor'] = ' usecolor3';
 	} elseif ($exploded_base[0] == 'calendar') {
+		$cash_admin->page_data['specialcolor'] = ' usecolor4';
+	} elseif ($exploded_base[0] == 'elements') {
 		$cash_admin->page_data['specialcolor'] = ' usecolor5';
 	}
 	// set true/false for each section being current

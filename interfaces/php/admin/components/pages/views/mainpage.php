@@ -2,15 +2,15 @@
 $settings = $cash_admin->getUserSettings();
 if ($settings['banners'][BASE_PAGENAME]) {
 	echo '<div class="mainpage introductorybanner"><img src="' . ADMIN_WWW_BASE_PATH . '/ui/default/assets/images/bg_mainpagebanner.jpg" class="bannerbg" alt="jackson" /><div class="mainbannercontent">';
-	echo '<a href="' . ADMIN_WWW_BASE_PATH . '/assets/" class="usecolor2">Assets</a>, your songs, photos, cover art, etc. <a href="' . ADMIN_WWW_BASE_PATH . '/people/" class="usecolor3">People</a>, fans, mailing lists, anyone you need to connect with on a regular basis. <a href="' . ADMIN_WWW_BASE_PATH . '/commerce/" class="usecolor4">Commerce</a> is where you’ll find info on all your orders. And <a href="' . ADMIN_WWW_BASE_PATH . '/calendar/" class="usecolor5">Calendar</a>, keeps a record of all your shows in one place.<br /><br />';
-	echo 'The last main category is <a href="' . ADMIN_WWW_BASE_PATH . '/elements/" class="usecolor1">Elements</a>, where Assets, People, Commerce, and Calendar can be combined to make customized tools for your site. Things like email collection, song players, and social feeds all just a copy/paste away.<br /><br />';
+	echo '<a href="' . ADMIN_WWW_BASE_PATH . '/assets/" class="usecolor1">Assets</a>, your songs, photos, cover art, etc. <a href="' . ADMIN_WWW_BASE_PATH . '/people/" class="usecolor2">People</a>, fans, mailing lists, anyone you need to connect with on a regular basis. <a href="' . ADMIN_WWW_BASE_PATH . '/commerce/" class="usecolor3">Commerce</a> is where you’ll find info on all your orders. And <a href="' . ADMIN_WWW_BASE_PATH . '/calendar/" class="usecolor4">Calendar</a>, keeps a record of all your shows in one place.<br /><br />';
+	echo 'The last main category is <a href="' . ADMIN_WWW_BASE_PATH . '/elements/" class="usecolor5">Elements</a>, where Assets, People, Commerce, and Calendar can be combined to make customized tools for your site. Things like email collection, song players, and social feeds all just a copy/paste away.<br /><br />';
 	echo '<div class="moreinfospc">Need more info? Check out the <a href="' . ADMIN_WWW_BASE_PATH . '/help/gettingstarted/" class="helplink">Getting Started</a> page.</div>';
 	echo '</div><div class="closelink"><a href="' . ADMIN_WWW_BASE_PATH . '/mainpage?hidebanner=true">close <span class="icon x_alt"></span></a></div></div>';
 }
 ?>
 
-<div class="col_oneoffour usecolor2">
-	<h2 class="usecolor2">Assets</h2>
+<div class="col_oneoffour usecolor1">
+	<h2 class="usecolor1">Assets</h2>
 	<b>Most Accessed</b>
 		<?php
 		$mostaccessed_response = $cash_admin->getStoredResponse('asset_mostaccessed');
@@ -42,8 +42,8 @@ if ($settings['banners'][BASE_PAGENAME]) {
 			echo '<p class="fadedtext">No assets have been added yet.</p>';
 		}
 		?>
-</div><div class="col_oneoffour usecolor3">
-	<h2 class="usecolor3">People</h2>
+</div><div class="col_oneoffour usecolor2">
+	<h2 class="usecolor2">People</h2>
 	<?php
 		if (count($lists_array)) {
 			foreach ($lists_array as $list) {
@@ -58,8 +58,8 @@ if ($settings['banners'][BASE_PAGENAME]) {
 			echo '<p class="fadedtext">There are no lists defined.</p>';
 		}
 	?>
-</div><div class="col_oneoffour usecolor4">
-	<h2 class="usecolor4">Commerce</h2>
+</div><div class="col_oneoffour usecolor3">
+	<h2 class="usecolor3">Commerce</h2>
 	<p class="fadedtext">
 		Coming soon.
 	</p>
@@ -77,8 +77,8 @@ if ($settings['banners'][BASE_PAGENAME]) {
 		<a href="#">view details</a>
 	</p>
 	-->
-</div><div class="col_oneoffour lastcol usecolor5">
-	<h2 class="usecolor5">Calendar</h2>
+</div><div class="col_oneoffour lastcol usecolor4">
+	<h2 class="usecolor4">Calendar</h2>
 	<b>This week</b><br />
 	<?php
 	$thisweek_response = $cash_admin->getStoredResponse('events_thisweek');
