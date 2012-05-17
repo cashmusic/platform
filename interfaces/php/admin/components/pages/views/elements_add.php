@@ -1,16 +1,10 @@
 <?php
 	$page_error = false;
 	if (isset($element_addtype) && $page_request->response) {
-		$supported_elements = $page_request->response['payload'];
-		if (array_search($element_addtype, $supported_elements) !== false) {
-			if (@file_exists(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_addtype . '/add.php')) {
-				include(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_addtype . '/add.php');
-			} else {
-				$page_error = "Could not find the add.php file for this .";
-			}
-		} else {
-			$page_error = "You're trying to add an unsupported element. That's lame.";
+		if (isset($cash_admin->page_data['error_message'])) {
+			echo '<p><span class="highlightcopy">' . $cash_admin->page_data['error_message'] . '</span></p>';
 		}
+		echo $element_rendered_content;
 	} else {
 		if (isset($page_request->response) && $elements_data) {
 			?>

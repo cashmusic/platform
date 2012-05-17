@@ -126,7 +126,7 @@ if (isset($_GET['hidebanner'])) {
 
 // include Mustache because you know it's time for that
 include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache.php/Mustache.php');
-$pencil_thin = new Mustache;
+$cash_admin->mustache_groomer = new Mustache;
 
 // finally, output the template and page-specific markup (checking for current login)
 if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
@@ -134,8 +134,8 @@ if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
 	ob_start();
 	// set basic data for the template
 	$cash_admin->page_data['user_email'] = $admin_primary_cash_request->sessionGet('cash_effective_user_email');
-	$cash_admin->page_data['title'] = AdminHelper::getPageTitle();
-	$cash_admin->page_data['page_tip'] = AdminHelper::getPageTipsString();
+	$cash_admin->page_data['ui_title'] = AdminHelper::getPageTitle();
+	$cash_admin->page_data['ui_page_tip'] = AdminHelper::getPageTipsString();
 	$cash_admin->page_data['section_menu'] = AdminHelper::buildSectionNav();
 	// set empty uid/code, then set if found
 	$cash_admin->page_data['status_code'] = (isset($_SESSION['cash_last_response'])) ? $_SESSION['cash_last_response']['status_code']: '';
@@ -156,23 +156,23 @@ if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
 		$cash_admin->page_data['specialcolor'] = ' usecolor5';
 	}
 	// set true/false for each section being current
-	$cash_admin->page_data['current_elements'] = ($exploded_base[0] == 'elements') ? true: false;
-	$cash_admin->page_data['current_assets'] = ($exploded_base[0] == 'assets') ? true: false;
-	$cash_admin->page_data['current_people'] = ($exploded_base[0] == 'people') ? true: false;
-	$cash_admin->page_data['current_commerce'] = ($exploded_base[0] == 'commerce') ? true: false;
-	$cash_admin->page_data['current_calendar'] = ($exploded_base[0] == 'calendar') ? true: false;
+	$cash_admin->page_data['ui_current_elements'] = ($exploded_base[0] == 'elements') ? true: false;
+	$cash_admin->page_data['ui_current_assets'] = ($exploded_base[0] == 'assets') ? true: false;
+	$cash_admin->page_data['ui_current_people'] = ($exploded_base[0] == 'people') ? true: false;
+	$cash_admin->page_data['ui_current_commerce'] = ($exploded_base[0] == 'commerce') ? true: false;
+	$cash_admin->page_data['ui_current_calendar'] = ($exploded_base[0] == 'calendar') ? true: false;
 	// include controller/view for current page (if they each exist — technically the controller is optional)
 	if (file_exists($pages_path . 'controllers/' . $include_filename)) include($pages_path . 'controllers/' . $include_filename);
 	if (file_exists($pages_path . 'views/' . $include_filename)) include($pages_path . 'views/' . $include_filename);
 	// push buffer contents to "content" and stop buffering
 	$cash_admin->page_data['content'] = ob_get_contents();
 	ob_end_clean();
-	
+
 	// now let's get our {{mustache}} on
-	echo $pencil_thin->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/template.mustache'), $cash_admin->page_data);
+	echo $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/template.mustache'), $cash_admin->page_data);
 } else {
 	$cash_admin->page_data['browser_id_js'] = CASHSystem::getBrowserIdJS();
 	// magnum p.i. = sweet {{mustache}} > don draper
-	echo $pencil_thin->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/login.mustache'), $cash_admin->page_data);
+	echo $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/login.mustache'), $cash_admin->page_data);
 }
 ?>

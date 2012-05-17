@@ -1,10 +1,11 @@
 <form method="post" action="">
-	<input type="hidden" name="doelementedit" value="makeitso">
-	<input type="hidden" name="element_id" value="{{element_id}}">
+	<input type="hidden" name="{{form_state_action}}" value="makeitso">
+	{{#element_id}}<input type="hidden" name="element_id" value="{{element_id}}" />{{/element_id}}
+	{{#element_type}}<input type="hidden" name="element_type" value="{{element_type}}" />{{/element_type}}
 	<h3>Element Details</h3>
 
 	<label for="element_name">Name</label><br />
-	<input type="text" id="element_name" name="element_name" value="{{element_name}}" /> 
+	<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="Give It A Name"{{/element_name}} /> 
 
 	<div class="row_seperator">.</div>
 	<div class="col_oneoftwo">
@@ -12,10 +13,10 @@
 		<label for="asset_id">Target Mailing List</label><br />
 		<select id="email_list_id" name="email_list_id">
 			<option value="0">none</option>
-			{{list_form_options}}
+			{{{options_people_lists}}}
 		</select>
 		<br /><br />
-		<input type='checkbox' class='checkorradio' name='do_not_verify' value=''{{#do_not_verify_checked}} checked="checked"{{/do_not_verify_checked}} /> <label for="do_not_verify">Skip email verification</label>
+		<input type='checkbox' class='checkorradio' name='do_not_verify' value=''{{#options_do_not_verify}} checked="checked"{{/options_do_not_verify}} /> <label for="do_not_verify">Skip email verification</label>
 
 	</div>
 	<div class="col_oneoftwo lastcol">
@@ -23,32 +24,23 @@
 		<label for="asset_id">The Downloadable Asset</label><br />
 		<select id="asset_id" name="asset_id">
 			<option value="0">none</option>
-			{{asset_form_options}}
+			{{{options_assets}}}
 		</select>
-		
-		<br /><br />
-
-		<a href="{{www_base}}/assets/add/"><small>OR ADD NEW ASSET</small></a>
-		
 	</div>
 
 	<div class="row_seperator">.</div>
 	<br />
-	<label for="message_invalid_email">Invalid Email Error Message</label><br />
-	<input type="text" id="message_invalid_email" name="message_invalid_email" value="{{message_invalid_email}}" />
-
-	<div class="row_seperator">.</div>
-	<label for="message_privacy">Privacy Message</label><br />
-	<input type="text" id="message_privacy" name="message_privacy" value="{{message_privacy}}" />
+	<label for="alternate_password">Universal Password</label><br />
+	<input type="text" id="alternate_password" name="alternate_password" value="{{#options_alternate_password}}{{options_alternate_password}}{{/options_alternate_password}}"{{^options_alternate_password}} placeholder="A password or phrase to unlock this for every person."{{/options_alternate_password}} /> 
 
 	<div class="row_seperator">.</div>
 	<label for="message_success">Success Message</label><br />
-	<input type="text" id="message_success" name="message_success" value="{{message_success}}" />
+	<input type="text" id="message_success" name="message_success" value="{{#options_message_success}}{{options_message_success}}{{/options_message_success}}{{^options_message_success}}Click here for your download: {{/options_message_success}}" /> 
 
 	<div class="row_seperator">.</div>
 	<div>
 		<br />
-		<input class="button" type="submit" value="{{submit_action_message}}" />
+		<input class="button" type="submit" value="{{element_button_text}}" />
 	</div>
 
 </form>

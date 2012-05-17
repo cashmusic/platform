@@ -16,6 +16,8 @@
 	protected $stored_data;
 	protected $effective_user_id;
 	public $page_data;
+	public $error_state = false;
+	public $mustache_groomer;
 	
 	// default admin settings:
 	protected $default_user_settings = array(
@@ -205,6 +207,55 @@
 		} else {
 			return false;
 		}
+	}
+
+	/**********************************************
+	 *
+	 * ELEMENT PAGES
+	 *
+	 *********************************************/
+
+	public function setCurrentElement($element,$full_data=false) {
+		if ($full_data) {
+			$this->storeData($element,'current_working_element');
+		} else {
+			$element_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'element', 
+					'cash_action' => 'getelement',
+					'id' => $element
+				)
+			);
+			$this->storeData($element_request->response['payload'],'current_working_element');
+			return $element_request->response['payload'];
+		}
+	}
+
+	public function getCurrentElement() {
+		return $this->getStoredData('current_working_element');
+	}
+
+	public function setCurrentElementState($state) {
+		$this->storeData($state,'current_working_element_state');
+	}
+
+	public function getCurrentElementState() {
+		return $this->getStoredData('current_working_element_state');
+	}
+
+	/**********************************************
+	 *
+	 * ERROR HANDLING
+	 *
+	 *********************************************/
+
+	public function setErrorState($error_type) {
+		$this->error_state = $error_type;
+		$this->page_data['error_message'] = 'There was an error. (' . $error_type . ')';
+	}
+
+	public function getErrorState() {
+		return $this->error_state;
 	}
 
 } // END class 

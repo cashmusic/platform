@@ -1,0 +1,69 @@
+<form method="post" action="">
+	<input type="hidden" name="{{form_state_action}}" value="makeitso">
+	{{#element_id}}<input type="hidden" name="element_id" value="{{element_id}}" />{{/element_id}}
+	{{#element_type}}<input type="hidden" name="element_type" value="{{element_type}}" />{{/element_type}}
+	<h3>Element Details</h3>
+
+	<div class="col_twoofthree">
+		<label for="element_name">Name</label><br />
+		<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="Give It A Name"{{/element_name}} /> 
+	</div>
+	<div class="col_oneofthree lastcol">
+		<label for="post_limit">Max posts returned</label><br />	
+		<input type="text" id="post_limit" name="post_limit" value="{{#options_post_limit}}{{options_post_limit}}{{/options_post_limit}}{{^options_post_limit}}60{{/options_post_limit}}" />
+	</div>
+
+	<div class="row_seperator">.</div><br />
+	<div>
+		<label>Twitter</label><br />
+		{{#twitter_feeds}}
+			<div class="col_oneofthree">
+				<label>Username</label>
+				<input type="text" name="twitterusername{{feed_count}}" value="{{twitterusername}}" /><br />
+				<input type="checkbox" class="checkorradio" name="twitterhidereplies{{feed_count}}"{{#twitterhidereplies}} checked="checked"{{/twitterhidereplies}} /> Hide @-replies?
+			</div><div class="col_oneofthree">
+				<label>Fliter?</label>
+				<select name="twitterfiltertype{{feed_count}}">{{{options_string}}}</select>
+			</div><div class="col_oneofthree lastcol">
+				<label>Fliter By</label>
+				<input type="text" name="twitterfiltervalue{{feed_count}}" value="{{twitterfiltervalue}}" />
+			</div>
+			<div class="row_seperator">.</div><br />			
+		{{/twitter_feeds}}
+		<a href="#" class="injectbefore" rel="{{twitter_count}}" rev="<div class='col_oneofthree'><label>Username</label><input type='text' name='twitterusername' value='' placeholder='@username' /><br /><input type='checkbox' class='checkorradio' name='twitterhidereplies' value='' checked='checked' /> Hide @-replies?</div><div class='col_oneofthree'><label>Filter?</label><select name='twitterfiltertype'><option value='none' selected='selected'>Do not filter</option><option value='contain'>Tweets containing:</option><option value='beginwith'>Tweets begin with:</option></select></div><div class='col_oneofthree lastcol'><label>Filter By</label><input type='text' name='twitterfiltervalue' value='' placeholder='Filter value' /></div><div class='row_seperator'>.</div><br />">
+			<small>+ ADD TWITTER FEED</small>
+		</a>
+	</div>
+	<div class="row_seperator">.</div><br />
+	<div>
+		<label>Tumblr</label><br />
+		{{#tumblr_feeds}}
+			<div class="col_twoofthree">
+				<label>Tumblr URL</label>
+				<input type="text" name="tumblrurl{{feed_count}}" value="{{tumblrurl}}" />
+			</div><div class="col_oneofthree lastcol">
+				<label>Filter by tag</label>
+				<input type="text" name="tumblrtag{{feed_count}}" value="{{tumblrtag}}" placeholder="do not filter" />
+			</div>
+			<div class="row_seperator">.</div><br />
+			<div>
+				<label>Post types</label><br />
+				<input type="checkbox" class="checkorradio" name="post_type_regular{{feed_count}}"{{#regular}} checked="checked"{{/regular}} /> regular &nbsp;
+				<input type="checkbox" class="checkorradio" name="post_type_photo{{feed_count}}"{{#photo}} checked="checked"{{/photo}} /> photo &nbsp;
+				<input type="checkbox" class="checkorradio" name="post_type_video{{feed_count}}"{{#video}} checked="checked"{{/video}} /> video &nbsp;
+				<input type="checkbox" class="checkorradio" name="post_type_link{{feed_count}}"{{#link}} checked="checked"{{/link}} /> link &nbsp;
+				<input type="checkbox" class="checkorradio" name="post_type_audio{{feed_count}}"{{#audio}} checked="checked"{{/audio}} /> audio &nbsp;
+				<input type="checkbox" class="checkorradio" name="post_type_quote{{feed_count}}"{{#quote}} checked="checked"{{/quote}} /> quote &nbsp;
+				<input type="checkbox" class="checkorradio" name="post_type_answer{{feed_count}}"{{#answer}} checked="checked"{{/answer}} /> answer &nbsp;
+			</div><br /><br />
+		{{/tumblr_feeds}}
+
+		<a href="#" class="injectbefore" rev="<div class='col_twoofthree'><label>Tumblr URL</label><input type='text' name='tumblrurl' value='' placeholder='Tumblr URL' /></div><div class='col_oneofthree lastcol'><label>Filter by tag</label><input type='text' name='tumblrtag' value='' placeholder='do not filter' /></div><br /><div><br /><br /><label>Post types</label><br /><input type='checkbox' class='checkorradio' name='post_type_regular' checked='checked' /> regular &nbsp;<input type='checkbox' class='checkorradio' name='post_type_photo' checked='checked' /> photo &nbsp;<input type='checkbox' class='checkorradio' name='post_type_video' checked='checked' /> video &nbsp;<input type='checkbox' class='checkorradio' name='post_type_link' checked='checked' /> link &nbsp;<input type='checkbox' class='checkorradio' name='post_type_audio' checked='checked' /> audio &nbsp;<input type='checkbox' class='checkorradio' name='post_type_quote' /> quote &nbsp;<input type='checkbox' class='checkorradio' name='post_type_answer' /> answer &nbsp;</div><br /><br />">
+			<small>+ ADD TUMBLR FEED</small>
+		</a>
+	</div>
+	<div class="row_seperator">.</div>
+
+	<br />
+	<input class="button" type="submit" value="{{element_button_text}}" />
+</form>

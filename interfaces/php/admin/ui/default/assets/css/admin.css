@@ -24,7 +24,7 @@ html {margin:0;padding:0;}
 body {color:#231F20;background-color:#fafaf8;text-align:center;font:13px/1.5em helvetica,"helvetica neue",arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:920px;text-rendering:optimizelegibility;}
 a {color:#999;text-decoration:none;}
 a:hover {text-decoration:underline;color:#000 !important;}
-code, div.callout {display:block;font-size:11px;padding:22px 18px 18px 18px;margin:0 auto 1.5em auto;background-color:#ededef;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;}
+div.callout {display:block;font-size:11px;padding:22px 18px 18px 18px;margin:0 auto 1.5em auto;background-color:#ededef;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;}
 code a {color:#23c;}
 img {border:0;}
 ul, ol {padding:0.5em 0 1em 1.5em;}

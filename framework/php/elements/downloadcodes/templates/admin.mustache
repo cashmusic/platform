@@ -1,4 +1,4 @@
-<form name="staticcontent" method="post" action="" id="socialfeeds">
+<form name="downloadcodes" method="post" action="">
 	<input type="hidden" name="{{form_state_action}}" value="makeitso">
 	{{#element_id}}<input type="hidden" name="element_id" value="{{element_id}}" />{{/element_id}}
 	{{#element_type}}<input type="hidden" name="element_type" value="{{element_type}}" />{{/element_type}}
@@ -8,11 +8,9 @@
 	<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="Give It A Name"{{/element_name}} /> 
 
 	<div class="row_seperator">.</div><br />
-	<div>
-		<label>Content</label><br />
-		<textarea id="element_content" name="element_content" class="tall">{{#options_storedcotent}}{{{options_storedcotent}}}{{/options_storedcotent}}</textarea>
-	</div>
-	
+	<label for="message_success">Success Message</label><br />
+	<input type="text" id="message_success" name="message_success" value="{{#options_message_success}}{{options_message_success}}{{/options_message_success}}{{^options_message_success}}Thank you! Here's your download.{{/options_message_success}}" />
+
 	<div class="row_seperator">.</div><br />
 	<input class="button" type="submit" value="{{element_button_text}}" />
 </form>

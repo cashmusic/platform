@@ -101,7 +101,7 @@
 	 * Finds settings matching a specified scope and echoes them out formatted
 	 * for a dropdown box in a form
 	 *
-	 */public static function echoConnectionsOptions($scope,$selected=false) {
+	 */public static function echoConnectionsOptions($scope,$selected=false,$return=false) {
 		// get system settings:
 		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
 		$applicable_settings_array = $page_data_object->getConnectionsByScope($scope);
@@ -109,10 +109,16 @@
 		// echo out the proper dropdown bits
 		if ($applicable_settings_array) {
 			$settings_count = 1;
+			$all_connections = '';
 			foreach ($applicable_settings_array as $setting) {
 				$echo_selected = '';
 				if ($setting['id'] == $selected) { $echo_selected = ' selected="selected"'; }
-				echo '<option value="' . $setting['id'] . '"' . $echo_selected . '>' . $setting['name'] . '</option>';
+				$all_connections .= '<option value="' . $setting['id'] . '"' . $echo_selected . '>' . $setting['name'] . '</option>';
+			}
+			if ($return) {
+				return $all_connections;
+			} else {
+				echo $all_connections;
 			}
 		}
 	}
@@ -164,6 +170,64 @@
 		} else {
 			echo 'not dir';
 			return false;
+		}
+	}
+
+	public function elementFormSubmitted($post_data) {
+		if (isset($post_data['doelementadd']) || isset($post_data['doelementedit'])) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static function handleElementFormPOST($post_data,&$cash_admin,$options_array) {
+		if (isset($post_data['doelementadd'])) {
+			// Adding a new element:
+			$cash_admin->setCurrentElementState('add');
+			$element_add_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'element', 
+					'cash_action' => 'addelement',
+					'name' => $post_data['element_name'],
+					'type' => $post_data['element_type'],
+					'options_data' => $options_array,
+					'user_id' => AdminHelper::getPersistentData('cash_effective_user')
+				)
+			);
+			if ($element_add_request->response['status_uid'] != 'element_addelement_200') {
+				$cash_admin->setErrorState('element_add_failure');
+			} else {
+				$cash_admin->setCurrentElement($element_add_request->response['payload']);
+			}
+		} elseif (isset($post_data['doelementedit'])) {
+			// Editing an existing element:
+			$cash_admin->setCurrentElementState('edit');
+			$element_edit_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'element', 
+					'cash_action' => 'editelement',
+					'id' => $post_data['element_id'],
+					'name' => $post_data['element_name'],
+					'options_data' => $options_array
+				)
+			);
+			if ($element_edit_request->response['status_uid'] == 'element_editelement_200') {
+				$cash_admin->setCurrentElement($post_data['element_id']);
+			} else {
+				$cash_admin->setErrorState('element_edit_failure');
+			}
+		}
+
+		AdminHelper::setBasicElementFormData($cash_admin);
+	}
+
+	public static function setBasicElementFormData(&$cash_admin) {
+		$current_element = $cash_admin->getCurrentElement();
+		if ($current_element) {
+			// Current element found, so fill in the 'edit' form:
+			$cash_admin->page_data['element_id'] = $current_element['id'];
+			$cash_admin->page_data['element_name'] = $current_element['name'];
 		}
 	}
 
@@ -652,8 +716,7 @@
 					}
 					$markup .= '</h4>'
 							. '<div>'
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/elements/view/' . $item['id'] . '" class="mininav_flush"><span class="icon magnifying_glass"></span> Details</a> '
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/elements/edit/' . $item['id'] . '" class="mininav_flush"><span class="icon pen"></span> Edit</a> '
+							. '<a href="' . ADMIN_WWW_BASE_PATH . '/elements/edit/' . $item['id'] . '" class="mininav_flush"><span class="icon magnifying_glass"></span> Details</a> '
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/elements/delete/' . $item['id'] . '" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>'
 							. '</div>';
 					$markup .= AdminHelper::createdModifiedFromRow($item);
@@ -688,7 +751,7 @@
 	 * at the speed of light — it'll make a supersonic nerd of you. Don't stop it.
 	 *
 	 * @return array
-	 */public static function echoFormOptions($base_type,$selected=0,$range=false) {
+	 */public static function echoFormOptions($base_type,$selected=0,$range=false,$return=false) {
 		switch ($base_type) {
 			case 'assets':
 				$plant_name = 'asset';
@@ -723,6 +786,7 @@
 				'user_id' => AdminHelper::getPersistentData('cash_effective_user')
 			)
 		);
+		$all_options = '';
 		if (is_array($echoformoptions_cash_request->response['payload']) && ($echoformoptions_cash_request->response['status_code'] == 200)) {
 			foreach ($echoformoptions_cash_request->response['payload'] as $item) {
 				$doloop = true;
@@ -736,9 +800,14 @@
 					if ($item['id'] == $selected) { 
 						$selected_string = ' selected="selected"';
 					}
-					echo '<option value="' . $item['id'] . '"' . $selected_string . '>' . $item[$display_information] . '</option>';
+					$all_options .= '<option value="' . $item['id'] . '"' . $selected_string . '>' . $item[$display_information] . '</option>';
 				}
 			}
+		}
+		if ($return) {
+			return $all_options;
+		} else {
+			echo $all_options;
 		}
 		unset($echoformoptions_cash_request);
 	}

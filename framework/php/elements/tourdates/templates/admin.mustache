@@ -1,0 +1,28 @@
+<form name="staticcontent" method="post" action="" id="socialfeeds">
+	<input type="hidden" name="{{form_state_action}}" value="makeitso">
+	{{#element_id}}<input type="hidden" name="element_id" value="{{element_id}}" />{{/element_id}}
+	{{#element_type}}<input type="hidden" name="element_type" value="{{element_type}}" />{{/element_type}}
+
+	<div class="col_oneoftwo">
+		<h3>Element Details</h3>
+		
+		<label for="element_name">Name</label><br />
+		<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="Give It A Name"{{/element_name}} /> 
+
+		<br /><br />
+		<label for="max_display_dates">Max dates displayed</label><br />
+		<input type="text" id="max_display_dates" name="max_display_dates" value="{{#options_max_display_dates}}{{options_max_display_dates}}{{/options_max_display_dates}}{{^options_max_display_dates}}60{{/options_max_display_dates}}" />
+	</div>
+
+	<div class="col_oneoftwo lastcol">
+		<h3>&nbsp;</h3>
+		<label for="visible_event_types">Which Dates Should It Show?</label><br />
+		<input type="radio" name="visible_event_types" class="checkorradio" value="upcoming"{{#options_upcoming_checked}} checked="checked"{{/options_upcoming_checked}} /> Upcoming Dates <br />
+		<input type="radio" name="visible_event_types" class="checkorradio" value="archive"{{#options_archive_checked}} checked="checked"{{/options_archive_checked}} /> Archive Dates <br /> 
+		<input type="radio" name="visible_event_types" class="checkorradio" value="both"{{#options_both_checked}} checked="checked"{{/options_both_checked}} /> All Dates 
+	</div>
+	<div class="row_seperator">.</div>
+
+	<br />
+	<input class="button" type="submit" value="{{element_button_text}}" />
+</form>

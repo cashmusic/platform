@@ -98,13 +98,4 @@ foreach ($lists_response->response['payload'] as $list) {
 		break;
 	}
 }
-
-// count the active elements
-if ($cash_admin->getStoredResponse('element_mostactive',true)) {
-	$cash_admin->storeData(count($cash_admin->getStoredResponse('element_mostactive',true)),'element_active_count');
-} 
-// if active elements are found, subtract them from the total to get inactive elements
-if ($cash_admin->getStoredData('element_active_count')) {
-	$cash_admin->storeData(count($cash_admin->getStoredResponse('element_allelements',true)) - $cash_admin->getStoredData('element_active_count'),'element_inactive_count');
-} 
 ?>

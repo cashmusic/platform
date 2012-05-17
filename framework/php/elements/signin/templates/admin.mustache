@@ -1,0 +1,32 @@
+<form name="signin" method="post" action="" id="signin">
+	<input type="hidden" name="{{form_state_action}}" value="makeitso">
+	{{#element_id}}<input type="hidden" name="element_id" value="{{element_id}}" />{{/element_id}}
+	{{#element_type}}<input type="hidden" name="element_type" value="{{element_type}}" />{{/element_type}}
+	<h3>Element Details</h3>
+
+	<label for="element_name">Name</label><br />
+	<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="Give It A Name"{{/element_name}} /> 
+
+	<div class="row_seperator">.</div>
+		<label for="email_list_id">Target Mailing List</label><br />
+		<select id="email_list_id" name="email_list_id">
+			<option value="0">none</option>
+			{{{options_people_lists}}}
+		</select>
+
+	<div class="row_seperator">.</div>
+	<br />
+	<label for="display_title">Display Title (blank for none)</label><br />
+	<input type="text" id="display_title" name="display_title" value="{{#options_display_title}}{{options_display_title}}{{/options_display_title}}{{^options_display_title}}Please sign in.{{/options_display_title}}" />
+
+	<div class="row_seperator">.</div>
+	<label for="display_message">Display Message</label><br />
+	<input type="text" id="display_message" name="display_message" value="{{#options_display_message}}{{options_display_message}}{{/options_display_message}}{{^options_display_message}}Enter your email address and password below.{{/options_display_message}}" />
+
+	<div class="row_seperator">.</div>
+	<div>
+		<br />
+		<input class="button" type="submit" value="{{element_button_text}}" />
+	</div>
+
+</form>

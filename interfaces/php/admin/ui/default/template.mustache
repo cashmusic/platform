@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>{{title}}</title>
+	<title>{{ui_title}}</title>
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="cashmusic-status-code" content="{{status_code}}" />
@@ -33,31 +33,31 @@
 				</div>
 			</div>
 			<div id="navmenu">
-				<div class="navitem bgcolor1{{#current_elements}} currentnav{{/current_elements}}">
+				<div class="navitem bgcolor1{{#ui_current_elements}} currentnav{{/ui_current_elements}}">
 					<h2><a href="{{www_path}}/elements/">Elements</a></h2>
 					<div class="navitemdescription">
 						create<br />embed
 					</div>
 				</div>
-				<div class="navitem bgcolor2{{#current_assets}} currentnav{{/current_assets}}">
+				<div class="navitem bgcolor2{{#ui_current_assets}} currentnav{{/ui_current_assets}}">
 					<h2><a href="{{www_path}}/assets/">Assets</a></h2>
 					<div class="navitemdescription">
 						upload<br />organize
 					</div>
 				</div>
-				<div class="navitem bgcolor3{{#current_people}} currentnav{{/current_people}}">
+				<div class="navitem bgcolor3{{#ui_current_people}} currentnav{{/ui_current_people}}">
 					<h2><a href="{{www_path}}/people/">People</a></h2>
 					<div class="navitemdescription">
 						manage<br />list
 					</div>
 				</div>
-				<div class="navitem bgcolor4{{#current_commerce}} currentnav{{/current_commerce}}">
+				<div class="navitem bgcolor4{{#ui_current_commerce}} currentnav{{/ui_current_commerce}}">
 					<h2><a href="{{www_path}}/commerce/">Commerce</a></h2>
 					<div class="navitemdescription">	
 						sell<br />fulfill
 					</div>
 				</div>
-				<div class="navitem bgcolor5{{#current_calendar}} currentnav{{/current_calendar}}">
+				<div class="navitem bgcolor5{{#ui_current_calendar}} currentnav{{/ui_current_calendar}}">
 					<h2><a href="{{www_path}}/calendar/">Calendar</a></h2>
 					<div class="navitemdescription">
 						shows<br />guestlist
@@ -67,7 +67,7 @@
 			
 			<div id="tipspc">
 				<div id="pagetips">
-					{{{page_tip}}}
+					{{{ui_page_tip}}}
 					<br /><br />
 					<a id="tipscloselink" href="#">close</a>
 				</div>
@@ -86,7 +86,7 @@
 				</ul>
 			</div>
 			
-			<h1>{{title}}</h1>
+			<h1>{{ui_title}}</h1>
 			{{#section_menu}}
 				<div id="pagemenu">
 					{{{section_menu}}}

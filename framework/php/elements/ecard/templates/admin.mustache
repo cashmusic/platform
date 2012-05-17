@@ -8,9 +8,17 @@
 	<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="Give It A Name"{{/element_name}} /> 
 
 	<div class="row_seperator">.</div>
+	<label for="message_instructions">Instructions Message</label><br />
+	<input type="text" id="message_instructions" name="message_instructions" value="{{#options_message_instructions}}{{options_message_instructions}}{{/options_message_instructions}}{{^options_message_instructions}}Enter your email and a few of your friends. You'll join our list and get a free download, your friends will be sent the ecard below. No email addresses will be shared.{{/options_message_instructions}}" />
+
+	<div class="row_seperator">.</div>
+	<label for="image_url">Card Image URL</label><br />
+	<input type="text" id="image_url" name="image_url" value="{{#options_image_url}}{{options_image_url}}{{/options_image_url}}" />
+
+	<div class="row_seperator">.</div>
 	<div class="col_oneoftwo">
 
-		<label for="email_list_id">Target Mailing List</label><br />
+		<label for="asset_id">Target Mailing List</label><br />
 		<select id="email_list_id" name="email_list_id">
 			<option value="0">none</option>
 			{{{options_people_lists}}}
@@ -34,12 +42,20 @@
 	<input type="text" id="message_invalid_email" name="message_invalid_email" value="{{#options_message_invalid_email}}{{options_message_invalid_email}}{{/options_message_invalid_email}}{{^options_message_invalid_email}}Sorry, that email address wasn't valid. Please try again.{{/options_message_invalid_email}}" />
 
 	<div class="row_seperator">.</div>
-	<label for="message_privacy">Privacy Message</label><br />
-	<input type="text" id="message_privacy" name="message_privacy" value="{{#options_message_privacy}}{{options_message_privacy}}{{/options_message_privacy}}{{^options_message_privacy}}We won't share, sell, or be jerks with your email address.{{/options_message_privacy}}" />
-
-	<div class="row_seperator">.</div>
 	<label for="message_success">Success Message</label><br />
 	<input type="text" id="message_success" name="message_success" value="{{#options_message_success}}{{options_message_success}}{{/options_message_success}}{{^options_message_success}}Thanks! You're all signed up. Here's your download.{{/options_message_success}}" />
+
+	<div class="row_seperator">.</div><br />
+	<label for="email_subject">Friend Email Subject (Their email address will be appended)</label><br />
+	<input type="text" id="email_subject" name="email_subject" value="{{#options_email_subject}}{{options_email_subject}}{{/options_email_subject}}{{^options_email_subject}}An e-card from {{/options_email_subject}}" />
+	
+	<div class="row_seperator">.</div>
+	<label for="email_message">Friend Email Message (Plain text)</label><br />
+	<textarea id="email_message" name="email_message">{{#options_email_message}}{{options_email_message}}{{/options_email_message}}</textarea>
+	
+	<div class="row_seperator">.</div>
+	<label for="email_html_message">Friend Email Message (HTML - blank will style plain text)</label><br />
+	<textarea id="email_html_message" name="email_html_message">{{#options_email_html_message}}{{options_email_html_message}}{{/options_email_html_message}}</textarea>
 
 	<div class="row_seperator">.</div>
 	<div>
