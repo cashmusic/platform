@@ -9,6 +9,20 @@ $elements_response = $cash_admin->requestAndStore(
 	),
 	'getelementsforuser'
 );
-$cash_admin->page_data['elements_for_user'] = AdminHelper::simpleULFromResponse($elements_response);
+
+$elements_data = AdminHelper::getElementsData();
+foreach ($elements_response['payload'] as &$element) {
+	if (array_key_exists($element['type'],$elements_data)) {
+		$element['type_name'] = $elements_data[$element['type']]->name;
+	}
+}
+
+	
+if ($elements_response) {
+	$cash_admin->page_data['elements_for_user'] = new ArrayIterator($elements_response['payload']);
+} else {
+	$cash_admin->page_data['elements_for_user'] = false;
+}
+
 $cash_admin->setPageContentTemplate('elements_view');
 ?>

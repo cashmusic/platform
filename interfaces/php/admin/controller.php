@@ -81,10 +81,11 @@ $cash_admin->page_data['www_path'] = ADMIN_WWW_BASE_PATH;
 // if a login needs doing, do it
 $cash_admin->page_data['login_message'] = 'Log In';
 if (isset($_POST['login'])) {
-	if ($_POST['browseridassertion'] == '-1') {
-		$browseridassertion = false;
-	} else {
-		$browseridassertion = $_POST['browseridassertion'];
+	$browseridassertion = false;
+	if (isset($_POST['browseridassertion'])) {
+		if ($_POST['browseridassertion'] != -1) {
+			$browseridassertion = $_POST['browseridassertion'];
+		}
 	}
 	$login_details = AdminHelper::doLogin($_POST['address'],$_POST['password'],true,$browseridassertion);
 	if ($login_details !== false) {

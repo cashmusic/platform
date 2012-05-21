@@ -708,18 +708,6 @@
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/commerce/items/edit/' . $item['id'] . '" class="mininav_flush"><span class="icon pen"></span> Edit</a> '
 							. '<a href="' . ADMIN_WWW_BASE_PATH . '/commerce/items/delete/' . $item['id'] . '" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>'
 							. '</div>';
-				} elseif ($response['status_uid'] == "element_getelementsforuser_200") {
-					$elements_data = AdminHelper::getElementsData();
-					$markup .= '<h4>' . $item['name'];
-					if (array_key_exists($item['type'],$elements_data)) {
-						$markup .= ' <small class="fadedtext nobr" style="font-weight:normal;"> // ' . $elements_data[$item['type']]->name . '</small> ';
-					}
-					$markup .= '</h4>'
-							. '<div>'
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/elements/edit/' . $item['id'] . '" class="mininav_flush"><span class="icon magnifying_glass"></span> Details</a> '
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/elements/delete/' . $item['id'] . '" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>'
-							. '</div>';
-					$markup .= AdminHelper::createdModifiedFromRow($item);
 				}
 				$markup .= '</li>';
 				if ($loopcount == $limit) { break; }
@@ -737,9 +725,6 @@
 					break;
 				case 'getlistsforuser':
 					$markup .= 'No lists have been created.';
-					break;
-				case 'getelementsforuser':
-					$markup .= 'No elements were found. None. Zero. Zip. If you\'re looking to add one to the system, <a href="' . ADMIN_WWW_BASE_PATH . '/elements/add/">go here</a>.';
 					break;
 			}
 		}
