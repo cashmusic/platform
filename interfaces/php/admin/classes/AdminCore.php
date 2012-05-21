@@ -15,8 +15,9 @@
 	protected $stored_responses;
 	protected $stored_data;
 	protected $effective_user_id;
-	public $page_data;
 	public $error_state = false;
+	public $page_data;
+	public $page_content_template = '';
 	public $mustache_groomer;
 	
 	// default admin settings:
@@ -256,6 +257,19 @@
 
 	public function getErrorState() {
 		return $this->error_state;
+	}
+
+	/**********************************************
+	 *
+	 * PAGE RENDERING
+	 *
+	 *********************************************/
+
+	public function setPageContentTemplate($template_name) {
+		$template_path = ADMIN_BASE_PATH . '/components/pages/views/' . $template_name . '.mustache';
+		if (file_exists($template_path)) {
+			$this->page_content_template = file_get_contents($template_path);
+		}
 	}
 
 } // END class 

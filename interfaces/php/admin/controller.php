@@ -22,7 +22,7 @@ spl_autoload_register('cash_admin_autoloadCore');
 // grab path from .htaccess redirect
 if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH))) {
 	$parsed_request = str_replace('/','_',trim($_REQUEST['p'],'/'));
-	if (file_exists($pages_path . 'views/' . $parsed_request . '.php')) {
+	if (file_exists($pages_path . 'controllers/' . $parsed_request . '.php')) {
 		define('BASE_PAGENAME', $parsed_request);
 		$include_filename = BASE_PAGENAME.'.php';
 	} else {
@@ -41,7 +41,7 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH))) {
 				} else {
 					$test_request = $last_request . $exploded_request[$i];
 				}
-				if (file_exists($pages_path . 'views/' . $test_request . '.php')) {
+				if (file_exists($pages_path . 'controllers/' . $test_request . '.php')) {
 					$successful_request = $test_request;
 					$last_good_level = $i;
 				} else {
@@ -161,9 +161,17 @@ if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
 	$cash_admin->page_data['ui_current_people'] = ($exploded_base[0] == 'people') ? true: false;
 	$cash_admin->page_data['ui_current_commerce'] = ($exploded_base[0] == 'commerce') ? true: false;
 	$cash_admin->page_data['ui_current_calendar'] = ($exploded_base[0] == 'calendar') ? true: false;
-	// include controller/view for current page (if they each exist — technically the controller is optional)
-	if (file_exists($pages_path . 'controllers/' . $include_filename)) include($pages_path . 'controllers/' . $include_filename);
-	if (file_exists($pages_path . 'views/' . $include_filename)) include($pages_path . 'views/' . $include_filename);
+	// include controller for current page
+	include($pages_path . 'controllers/' . $include_filename);
+	if (file_exists($pages_path . 'views/' . $include_filename)) {
+		// phasing this out:
+		include($pages_path . 'views/' . $include_filename);
+	} else {
+		// the right way:
+		$cash_admin->page_data['page_content_markup'] = $cash_admin->mustache_groomer->render($cash_admin->page_content_template, $cash_admin->page_data);
+		// temporary fix. we'll ditch the buffering when all pages have been converted:
+		echo $cash_admin->page_data['page_content_markup'];
+	}
 	// push buffer contents to "content" and stop buffering
 	$cash_admin->page_data['content'] = ob_get_contents();
 	ob_end_clean();
