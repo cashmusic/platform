@@ -17,7 +17,7 @@ if ($page_request->response['status_uid'] == 'element_getelement_200') {
 	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
 	
 	if ($page_request->response['payload']['user_id'] == $effective_user) {
-		if (isset($_POST['doelementdelete']) || isset($_GET['modalconfirm'])) {
+		if (isset($_POST['dodelete']) || isset($_GET['modalconfirm'])) {
 			$element_delete_request = new CASHRequest(
 				array(
 					'cash_request_type' => 'element', 
@@ -36,4 +36,6 @@ if ($page_request->response['status_uid'] == 'element_getelement_200') {
 } else {
 	header('Location: ' . ADMIN_WWW_BASE_PATH . '/elements/view/');
 }
+
+$cash_admin->setPageContentTemplate('delete_confirm');
 ?>

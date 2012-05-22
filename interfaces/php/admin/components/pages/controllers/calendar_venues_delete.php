@@ -4,7 +4,7 @@ if (!$request_parameters) {
 }
 
 
-if (isset($_POST['dovenuedelete']) || isset($_GET['modalconfirm'])) {
+if (isset($_POST['dodelete']) || isset($_GET['modalconfirm'])) {
 	$venue_delete_request = new CASHRequest(
 		array(
 			'cash_request_type' => 'calendar', 
@@ -16,4 +16,6 @@ if (isset($_POST['dovenuedelete']) || isset($_GET['modalconfirm'])) {
 		header('Location: ' . ADMIN_WWW_BASE_PATH . '/calendar/venues/');
 	}
 }
+
+$cash_admin->setPageContentTemplate('delete_confirm');
 ?>

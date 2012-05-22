@@ -21,7 +21,7 @@
 		<label for="event_venue">Venue</label><br />
 		<select id="event_venue" name="event_venue">
 			<option value="0" selected="selected">Unknown (Will be listed as 'TBA')</option>
-			<?php AdminHelper::echoFormOptions('venues') ?>
+			{{{options_venues}}}
 		</select>
 
 		<div class="row_seperator">.</div>
@@ -43,5 +43,21 @@
 </div>
 <div class="col_oneoftwo lastcol">
 	<h2>All upcoming events</h2>
-	<?php echo AdminHelper::simpleULFromResponse($cash_admin->getStoredResponse('events_allfuture'), true); ?>
+	{{#events_allfuture}}
+	<ul class="alternating">
+		{{#events_allfuture}}
+		<li>
+			<b>{{formatted_date}}: {{event_location}}</b> <span class="nobr">@ {{venue_name}}</span>
+			<div class="itemnav">
+				<a href="{{www_path}}/calendar/events/edit/{{event_id}}" class="mininav_flush"><span class="icon magnifying_glass"></span> Details</a> 
+				<a href="{{www_path}}/calendar/events/delete/{{event_id}}" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>
+			</div>
+		</li>
+		{{/events_allfuture}}
+	</ul>
+	{{/events_allfuture}}
+
+	{{^events_allfuture}}
+	<p>No upcoming events were found.</p>
+	{{/events_allfuture}}
 </div>

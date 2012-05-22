@@ -652,46 +652,7 @@
 			$loopcount = 1;
 			foreach ($response['payload'] as $item) {
 				$markup .= '<li> ';
-				if ($response['status_uid'] == "calendar_getevents_200" || $response['status_uid'] == "calendar_geteventsbetween_200") {
-					$event_location = $item['venue_city'] . ', ' . $item['venue_country'];
-					if (strtolower($item['venue_country']) == 'usa' || strtolower($item['venue_country']) == 'canada') {
-						$event_location = $item['venue_city'] . ', ' . $item['venue_region'];
-					}
-					if ($compact) {
-						if ($item['venue_name']) { 
-							$markup .= '<b>' . date('d M',$item['date']) . ': ' . $event_location . '</b> '
-									.'<span class="nobr">@ ' . $item['venue_name'] . '</span>'; 
-						} else {
-							$markup .= '<b>' . date('d M',$item['date']) . ' TBA</b> ';
-						}
-								
-					} else {
-						if ($item['venue_name']) { 
-							$markup .= '<h4>' . date('d M',$item['date']) . ': ' . $event_location . '</h4> '
-									. '<span class="nobr"><b>@ ' . $item['venue_name'] . '</b></span> <span class="fadedtext">' . $item['comments'] . '</span><br />';
-						} else {
-							$markup .= '<h4>' . date('d M',$item['date']) . ' TBA</h4> '
-									. '<span class="fadedtext">' . $item['comments'] . '</span><br />';
-						}
-					}
-					$markup .= '<div class="itemnav">'
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/calendar/events/edit/' . $item['event_id'] . '" class="mininav_flush noblock"><span class="icon pen"></span> Edit</a> '
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/calendar/events/delete/' . $item['event_id'] . '" class="needsconfirmation mininav_flush noblock"><span class="icon x_alt"></span> Delete</a>'
-							. '</div>';
-					$markup .= '</li>';
-				} elseif ($response['status_uid'] == "calendar_getallvenues_200") {
-					$venue_location = $item['city'] . ', ' . $item['country'];
-					if (strtolower($item['country']) == 'usa' || strtolower($item['country']) == 'canada') {
-						$venue_location = $item['city'] . ', ' . $item['region'];
-					}
-					$markup .= '<b>' . $item['name'] . '</b> '
-							.'// <span class="nobr">' . $venue_location . '</span>'; 
-					$markup .= '<div class="itemnav">'
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/calendar/venues/edit/' . $item['id'] . '" class="mininav_flush noblock"><span class="icon pen"></span> Edit</a> '
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/calendar/venues/delete/' . $item['id'] . '" class="needsconfirmation mininav_flush noblock"><span class="icon x_alt"></span> Delete</a>'
-							. '</div>';
-					$markup .= '</li>';
-				} elseif ($response['status_uid'] == "people_getlistsforuser_200") {
+				if ($response['status_uid'] == "people_getlistsforuser_200") {
 					$markup .= '<h4>' . $item['name'] . '</h4>'
 							. AdminHelper::createdModifiedFromRow($item,true)
 							. $item['description'] . '<br />'
@@ -717,12 +678,6 @@
 		} else {
 			// no dates matched
 			switch($response['action']) {
-				case 'getevents':
-					$markup .= 'There are no matching dates.';
-					break;
-				case 'geteventsbetween':
-					$markup .= 'There are no matching dates.';
-					break;
 				case 'getlistsforuser':
 					$markup .= 'No lists have been created.';
 					break;

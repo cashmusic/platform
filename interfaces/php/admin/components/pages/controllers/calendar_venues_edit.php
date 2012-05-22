@@ -3,7 +3,7 @@ $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'calendar', 
 		'cash_action' => 'getvenue',
-		'id' => $request_parameters[0]
+		'venue_id' => $request_parameters[0]
 	),
 	'getvenue'
 );

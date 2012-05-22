@@ -1,6 +1,6 @@
 <?php
 	$current_venue = $cash_admin->getStoredResponse('getvenue',true);
-	
+
 	if(isset($_POST['dovenueedit'])) {
 		$venue_edit_request = $cash_admin->getStoredResponse('venueeditattempt');
 		if ($venue_edit_request['status_uid'] == 'calendar_editvenue_200') {	

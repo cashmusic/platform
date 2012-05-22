@@ -22,7 +22,7 @@
 
 		<label for="venue_country">Country</label><br />
 		<select id="venue_country" name="venue_country">
-			<?php echo AdminHelper::drawCountryCodeUL(); ?>
+			{{{country_codes}}}
 		</select>
 
 		<div class="row_seperator">.</div><br />
@@ -38,5 +38,21 @@
 	
 	<div class="row_seperator">.</div>
 	<h2>All venues</h2>
-	<?php echo AdminHelper::simpleULFromResponse($cash_admin->getStoredResponse('getallvenues'), true); ?>
+	{{#all_venues}}
+	<ul class="alternating">
+		{{#all_venues}}
+		<li>
+			<b>{{name}}</b> // <span class="nobr">{{formatted_location}}</span>
+			<div class="itemnav">
+				<a href="{{www_path}}/calendar/venues/edit/{{id}}" class="mininav_flush"><span class="icon magnifying_glass"></span> Details</a> 
+				<a href="{{www_path}}/calendar/venues/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>
+			</div>
+		</li>
+		{{/all_venues}}
+	</ul>
+	{{/all_venues}}
+
+	{{^all_venues}}
+	<p>No venues were found.</p>
+	{{/all_venues}}
 </div>
