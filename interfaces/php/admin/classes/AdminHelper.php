@@ -644,48 +644,6 @@
 		return $all_options;
 	}
 
-	public static function simpleULFromResponse($response,$compact=false,$limit=false) {
-		$markup = '';
-		if ($response['status_code'] == 200 && is_array($response['payload'])) {
-			// spit out the dates
-			$markup .= '<ul class="alternating"> ';
-			$loopcount = 1;
-			foreach ($response['payload'] as $item) {
-				$markup .= '<li> ';
-				if ($response['status_uid'] == "people_getlistsforuser_200") {
-					$markup .= '<h4>' . $item['name'] . '</h4>'
-							. AdminHelper::createdModifiedFromRow($item,true)
-							. $item['description'] . '<br />'
-							. '<div class="itemnav">'
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/view/' . $item['id'] . '" class="mininav_flush"><span class="icon magnifying_glass"></span> View</a> '
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/edit/' . $item['id'] . '" class="mininav_flush"><span class="icon pen"></span> Edit</a> '
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/export/' . $item['id'] . '" class="mininav_flush"><span class="icon download"></span> Export</a> '
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/delete/' . $item['id'] . '" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>'
-							. '</div>';
-				} elseif ($response['status_uid'] == "commerce_getitemsforuser_200") {
-					$markup .= '<h4>' . $item['name'] . '</h4>'
-							. AdminHelper::createdModifiedFromRow($item,true)
-							. '<div class="itemnav">'
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/commerce/items/edit/' . $item['id'] . '" class="mininav_flush"><span class="icon pen"></span> Edit</a> '
-							. '<a href="' . ADMIN_WWW_BASE_PATH . '/commerce/items/delete/' . $item['id'] . '" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>'
-							. '</div>';
-				}
-				$markup .= '</li>';
-				if ($loopcount == $limit) { break; }
-				$loopcount = $loopcount + 1;
-			}
-			$markup .= '</ul>';
-		} else {
-			// no dates matched
-			switch($response['action']) {
-				case 'getlistsforuser':
-					$markup .= 'No lists have been created.';
-					break;
-			}
-		}
-		return $markup;
-	}
-
 	/**
 	 * Tell it what you need. It makes dropdowns. It's a dropdown robot travelling
 	 * at the speed of light — it'll make a supersonic nerd of you. Don't stop it.

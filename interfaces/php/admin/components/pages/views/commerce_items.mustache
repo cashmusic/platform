@@ -21,7 +21,7 @@
 		<div class="row_seperator">.</div>
 		<label for="item_fulfillment_asset">Fulfillment asset</label><br />
 		<select id="item_fulfillment_asset" name="item_fulfillment_asset">
-			<?php AdminHelper::echoFormOptions('assets',false,$cash_admin->getAllFavoriteAssets()); ?>
+			{{{assets_options}}}
 		</select>
 
 		<div class="row_seperator">.</div><br />
@@ -31,5 +31,22 @@
 </div>
 <div class="col_oneoftwo lastcol">
 	<h2>All items</h2>
-	<?php echo AdminHelper::simpleULFromResponse($cash_admin->getStoredResponse('all_items'), false); ?>
+	{{#items_all}}
+	<ul class="alternating">
+		{{#items_all}}
+		<li>
+			<b>{{name}}</b>
+			{{#description}}<span class="fadedtext"> // {{description}}</span>{{/description}}<br />
+			<div class="itemnav">
+				<a href="{{www_path}}/commerce/items/edit/{{id}}" class="mininav_flush"><span class="icon pen"></span> Edit</a>
+				<a href="{{www_path}}/commerce/items/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>
+			</div>
+		</li>
+		{{/items_all}}
+	</ul>
+	{{/items_all}}
+
+	{{^items_all}}
+	<p>No items have been defined.</p>
+	{{/items_all}}
 </div>

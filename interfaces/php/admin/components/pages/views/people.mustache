@@ -1,0 +1,35 @@
+{{#banner_main_content}}
+	<div class="introductorybanner"><div class="titlespc">{{{banner_title_content}}}</div>
+	{{{banner_main_content}}}
+	<div class="closelink"><a href="?hidebanner=true">close <span class="icon x_alt"></span></a></div></div>
+{{/banner_main_content}}
+
+<div class="col_oneoftwo">
+	<h2>Lists</h2>
+	{{#lists_all}}
+	<ul class="alternating">
+		{{#lists_all}}
+		<li>
+			<b>{{name}}</b>
+			{{#description}}<br /><span class="fadedtext">{{description}}</span>{{/description}}<br />
+			<div class="itemnav">
+				<a href="{{www_path}}/people/lists/view/{{id}}" class="mininav_flush"><span class="icon magnifying_glass"></span> View</a>
+				<a href="{{www_path}}/people/lists/edit/{{id}}" class="mininav_flush"><span class="icon pen"></span> Edit</a>
+				<a href="{{www_path}}/people/lists/export/{{id}}" class="mininav_flush"><span class="icon download"></span> Export</a>
+				<a href="{{www_path}}/people/lists/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>
+			</div>
+		</li>
+		{{/lists_all}}
+	</ul>
+	{{/lists_all}}
+
+	{{^lists_all}}
+	<p>No lists have been created.</p>
+	{{/lists_all}}
+</div>
+<div class="col_oneoftwo lastcol">
+	<h2>Social</h2>
+	<p>
+		Twitter and Facebook integrations not set up.
+	</p>
+</div>

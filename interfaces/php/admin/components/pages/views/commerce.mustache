@@ -1,0 +1,33 @@
+{{#banner_main_content}}
+	<div class="introductorybanner"><div class="titlespc">{{{banner_title_content}}}</div>
+	{{{banner_main_content}}}
+	<div class="closelink"><a href="?hidebanner=true">close <span class="icon x_alt"></span></a></div></div>
+{{/banner_main_content}}
+
+<div class="col_oneoftwo">
+	<h2>Recent orders</h2>
+	<p>
+		Coming soon. See orders page for order details.
+	</p>
+</div>
+<div class="col_oneoftwo lastcol">
+	<h2>All items</h2>
+	{{#items_all}}
+	<ul class="alternating">
+		{{#items_all}}
+		<li>
+			<b>{{name}}</b>
+			{{#description}}<span class="fadedtext"> // {{description}}</span>{{/description}}<br />
+			<div class="itemnav">
+				<a href="{{www_path}}/commerce/items/edit/{{id}}" class="mininav_flush"><span class="icon pen"></span> Edit</a>
+				<a href="{{www_path}}/commerce/items/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>
+			</div>
+		</li>
+		{{/items_all}}
+	</ul>
+	{{/items_all}}
+
+	{{^items_all}}
+	<p>No items have been defined.</p>
+	{{/items_all}}
+</div>
