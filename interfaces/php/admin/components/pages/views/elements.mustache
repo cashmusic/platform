@@ -1,0 +1,38 @@
+{{#banner_main_content}}
+	<div class="introductorybanner"><div class="titlespc">{{{banner_title_content}}}</div>
+	{{{banner_main_content}}}
+	<div class="closelink"><a href="?hidebanner=true">close <span class="icon x_alt"></span></a></div></div>
+{{/banner_main_content}}
+
+<div class="col_oneoftwo">
+	<h2>Most Active Elements</h2>
+	{{#elements_mostactive}}
+	<ol class="fadedtext">
+		{{#elements_mostactive}}
+		<li>
+			<a href="{{www_path}}/elements/edit/{{id}}">{{name}}</a> <span class="smalltext nobr">// accessed: {{count}}</span>
+		</li>
+		{{/elements_mostactive}}
+	</ol>
+	{{/elements_mostactive}}
+
+	{{^elements_mostactive}}
+	<p>No elements have been accessed.</p>
+	{{/elements_mostactive}}
+</div>
+<div class="col_oneoftwo lastcol">
+	<h2>Recently Added Elements</h2>
+	{{#elements_recentlyadded}}
+	<ul class="alternating linkonly fadedtext">
+		{{#elements_recentlyadded}}
+		<li>
+			<a href="{{www_path}}/elements/edit/{{id}}"><b>{{name}}</b></a></span>
+		</li>
+		{{/elements_recentlyadded}}
+	</ul>
+	{{/elements_recentlyadded}}
+
+	{{^elements_recentlyadded}}
+	<p>No elements have been added.</p>
+	{{/elements_recentlyadded}}
+</div>

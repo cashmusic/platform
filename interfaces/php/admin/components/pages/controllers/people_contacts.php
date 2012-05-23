@@ -1,5 +1,4 @@
 <?php
-$page_message = false;
 if (isset($_POST['dobatchcontactsadd'])) {
 	if (!empty($_POST['element_content'])) {
 		$email_array = array_map('trim',explode(",",str_replace(PHP_EOL,',',$_POST['element_content'])));
@@ -18,11 +17,15 @@ if (isset($_POST['dobatchcontactsadd'])) {
 						$total_added++;
 					}
 				}
-				$page_message = 'Success. Added ' . $total_added . ' new emails to your list.';
+				$cash_admin->page_data['page_message'] = 'Success. Added ' . $total_added . ' new emails to your list.';
 			} else {
-				$page_message = 'Please select a list to add contacts to.';
+				$cash_admin->page_data['page_message'] = 'Please select a list to add contacts to.';
 			}
 		}
 	}
 }
+
+$cash_admin->page_data['list_options'] = AdminHelper::echoFormOptions('people_lists',0,false,true);
+
+$cash_admin->setPageContentTemplate('people_contacts');
 ?>
