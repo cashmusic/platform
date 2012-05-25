@@ -12,7 +12,7 @@ if (isset($_POST['dovenueadd'])) {
 	if (isset($_POST['venue_postalcode'])) { $addvenue_postalcode = $_POST['venue_postalcode']; }
 	if (isset($_POST['venue_url'])) { $addvenue_url = $_POST['venue_url']; }
 	if (isset($_POST['venue_phone'])) { $addvenue_phone = $_POST['venue_phone']; }
-	$cash_admin->requestAndStore(
+	$add_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'calendar', 
 			'cash_action' => 'addvenue',
@@ -28,5 +28,16 @@ if (isset($_POST['dovenueadd'])) {
 		),
 		'venueaddattempt'
 	);
+	if ($add_response['payload']) {
+		header('Location: ' . ADMIN_WWW_BASE_PATH . '/calendar/venues/edit/' . $add_response['payload']);
+	} else {
+		$cash_admin->page_data['error_message'] = 'Error. Something just didn\'t work right.';
+	}
 }
+
+$cash_admin->page_data['form_state_action'] = 'dovenueadd';
+$cash_admin->page_data['venue_button_text'] = 'Add the venue';
+$cash_admin->page_data['country_options'] = AdminHelper::drawCountryCodeUL();
+
+$cash_admin->setPageContentTemplate('calendar_venues_details');
 ?>

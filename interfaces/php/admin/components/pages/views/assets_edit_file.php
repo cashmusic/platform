@@ -64,7 +64,7 @@
 			echo '<p>There are no download codes for this asset.</p>';
 		}
 		?>
-		<form method="post" action="" class="inline"><span class="icon plus_alt usecolor2"></span><input type="submit" class="inlinesubmit" value="add" /> <input type="text" name="add_codes_qty" id="add_codes" value="500" /> <input type="submit" class="inlinesubmit" value="download codes" /></form>
+		<form method="post" action="" class="inline"><span class="icon plus_alt usecolor1"></span><input type="submit" class="inlinesubmit" value="add" /> <input type="text" name="add_codes_qty" id="add_codes" value="500" /> <input type="submit" class="inlinesubmit" value="download codes" /></form>
 	</div>
 	<br /><br />
 
@@ -130,7 +130,7 @@
 		<div class="row_seperator">.</div>
 		<div>
 			<br />
-			<input class="button" type="submit" value="Edit The Element" />
+			<input class="button" type="submit" value="Edit The Asset" />
 		</div>
 
 	</form>

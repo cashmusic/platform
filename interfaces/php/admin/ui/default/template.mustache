@@ -94,6 +94,8 @@
 			{{/section_menu}}
 
 			<div id="pagedisplay"{{^section_menu}} class="nopagemenu"{{/section_menu}}>
+				{{#error_message}}<p><span class="highlightcopy errormessage">{{error_message}}</span></p>{{/error_message}}
+				{{#page_message}}<p><span class="highlightcopy">{{page_message}}</span></p>{{/page_message}}
 				{{{content}}}
 			</div>
 			<div class="clearfix">.</div>

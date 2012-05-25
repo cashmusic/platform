@@ -43,7 +43,7 @@
 		<div class="row_seperator">.</div>
 		<div>
 			<br />
-			<input class="button" type="submit" value="Add That Element" />
+			<input class="button" type="submit" value="Add That Asset" />
 		</div>
 
 	</form>

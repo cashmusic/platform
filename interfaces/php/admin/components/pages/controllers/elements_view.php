@@ -13,7 +13,7 @@ $elements_response = $cash_admin->requestAndStore(
 $elements_data = AdminHelper::getElementsData();
 foreach ($elements_response['payload'] as &$element) {
 	if (array_key_exists($element['type'],$elements_data)) {
-		$element['type_name'] = $elements_data[$element['type']]->name;
+		$element['type_name'] = $elements_data[$element['type']]['name'];
 	}
 }
 

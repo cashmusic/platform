@@ -1,0 +1,29 @@
+<form method="post" action="">
+	<input type="hidden" name="{{form_state_action}}" value="makeitso" />
+	<div class="col_oneoftwo">
+		<h3>List Details</h3>
+		
+		<label for="list_name">Name</label><br />
+		<input type="text" id="list_name" name="list_name" value="{{name}}" />
+
+		<div class="row_seperator">.</div>
+
+		<label for="connection_id">Connect To</label><br />
+		<select id="connection_id" name="connection_id">
+			<option value="0"{{#no_selected_connection}} selected="selected"{{/no_selected_connection}}>None (local list only)</option>
+			{{{connection_options}}}
+		</select>
+	</div>
+
+	<div class="col_oneoftwo lastcol">
+		<h3>&nbsp;</h3>
+		<label for="list_description">Description</label><br />
+		<textarea rows="3" id="list_description" name="list_description">{{description}}</textarea>
+	</div>
+
+	<div class="row_seperator">.</div><br />
+	<div>
+		<input class="button" type="submit" value="{{list_button_text}}" />
+	</div>
+
+</form>

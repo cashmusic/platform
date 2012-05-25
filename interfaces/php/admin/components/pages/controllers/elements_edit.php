@@ -36,7 +36,7 @@ if ($current_element) {
 		if (@file_exists(CASH_PLATFORM_ROOT.'/elements' . '/' . $current_element['type'] . '/admin.php')) {
 			include(CASH_PLATFORM_ROOT.'/elements' . '/' . $current_element['type'] . '/admin.php');
 			$cash_admin->page_data['title'] = 'Elements: “' . $current_element['name'] . '”';
-			$cash_admin->page_data['element_button_text'] = 'Edit The Element';
+			$cash_admin->page_data['element_button_text'] = 'Edit the element';
 			$element_rendered_content = $cash_admin->mustache_groomer->render(file_get_contents(CASH_PLATFORM_ROOT.'/elements' . '/' . $current_element['type'] . '/templates/admin.mustache'), $cash_admin->page_data);
 		} else {
 			$element_rendered_content = "Could not find the admin.php file for this .";

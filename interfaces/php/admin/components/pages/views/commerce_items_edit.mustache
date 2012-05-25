@@ -1,0 +1,26 @@
+<h2>{{name}}</h2>
+
+<form method="post" action="" name="edit_item">
+	<input type="hidden" name="doitemedit" value="makeitso" />
+
+	<label for="item_name">Name</label><br />
+	<input type="text" id="item_name" name="item_name" value="{{name}}" />
+
+	<div class="row_seperator">.</div>
+	<label for="item_description">Description</label><br />
+	<textarea rows="3" id="item_description" name="item_description">{{description}}</textarea>
+
+	<div class="row_seperator">.</div>
+	<label for="item_price">Price ($ USD)</label><br />
+	<input type="text" id="item_price" name="item_price" value="{{price}}" />
+
+	<div class="row_seperator">.</div>
+	<label for="item_fulfillment_asset">Fulfillment asset</label><br />
+	<select id="item_fulfillment_asset" name="item_fulfillment_asset">
+		{{{asset_options}}}
+	</select>
+
+	<div class="row_seperator">.</div><br />
+	<input class="button" type="submit" value="Edit The Item" />
+
+</form>

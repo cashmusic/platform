@@ -154,7 +154,7 @@
 				if (substr($dir,0,1) != "." && is_dir($elements_dirname . '/' . $dir)) {
 					$tmpKey = strtolower($dir);
 					if (@file_exists($elements_dirname . '/' . $dir . '/metadata.json')) {
-						$tmpValue = json_decode(@file_get_contents($elements_dirname . '/' . $dir . '/metadata.json'));
+						$tmpValue = json_decode(@file_get_contents($elements_dirname . '/' . $dir . '/metadata.json'),true);
 						if ($tmpValue) {
 							$tmpArray["$tmpKey"] = $tmpValue;
 						}

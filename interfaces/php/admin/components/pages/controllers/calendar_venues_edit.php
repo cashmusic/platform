@@ -1,13 +1,4 @@
 <?php
-$cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'calendar', 
-		'cash_action' => 'getvenue',
-		'venue_id' => $request_parameters[0]
-	),
-	'getvenue'
-);
-
 // parsing posted data:
 if (isset($_POST['dovenueedit'])) {
 	$cash_admin->requestAndStore(
@@ -27,14 +18,25 @@ if (isset($_POST['dovenueedit'])) {
 		),
 		'venueeditattempt'
 	);
-	
-	$cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'calendar', 
-			'cash_action' => 'getvenue',
-			'id' => $request_parameters[0]
-		),
-		'getvenue'
-	);
 }
+
+$current_venue_response = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'calendar', 
+		'cash_action' => 'getvenue',
+		'venue_id' => $request_parameters[0]
+	),
+	'getvenue'
+);
+
+$current_venue = $current_venue_response['payload'];
+if (is_array($current_venue)) {
+	$cash_admin->page_data = array_merge($cash_admin->page_data,$current_venue);
+}
+
+$cash_admin->page_data['form_state_action'] = 'dovenueedit';
+$cash_admin->page_data['venue_button_text'] = 'Edit the venue';
+$cash_admin->page_data['country_options'] = AdminHelper::drawCountryCodeUL($current_venue['country']);
+
+$cash_admin->setPageContentTemplate('calendar_venues_details');
 ?>

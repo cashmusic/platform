@@ -1,0 +1,51 @@
+<p>
+Use this page to change primary system settings without editing the cashmusic.ini.php file. 
+Advanced settings have been hidden and should not be changed unless you like broken things.	
+</p><br />
+<div class="col_oneoftwo">
+	<h3>Connections</h3>
+	<a href="./connections/">Manage connections to third-party services.</a>
+	<div class="row_seperator">.</div><br />
+	<h3>Database</h3>
+	<label>Current database format</label><br />
+	{{db_type}}
+	{{#migrate_from_mysql}}
+	&nbsp; <span class="altcopystyle fadedtext">(SQLite export coming soon)</span>
+	{{/migrate_from_mysql}}
+	{{#migrate_from_sqlite}}
+	<br /><br /><b>Migrate to MySQL</b>
+	<p class="altcopystyle fadedtext">Migrating means things will be a lot more robust, and probably quicker too.</p>
+	<form method="post" action="">
+		<input type="hidden" name="domigrate" value="makeitso" />
+		<input type="hidden" name="driver" value="mysql" />
+		<label for="hostname">Server hostname</label><br />
+		<input type="text" id="hostname" name="hostname" />
+		<span class="altcopystyle fadedtext">server or server:port</span></span><br />
+		<label for="databasename">Database name</label><br />
+		<input type="text" id="databasename" name="databasename" />
+		<label for="adminuser">Admin User</label><br />
+		<input type="text" id="adminuser" name="adminuser" />
+		<label for="adminpassword">Admin Password</label><br />
+		<input type="password" id="adminpassword" name="adminpassword" />
+		<div class="row_seperator">.</div><br />
+		<input class="button" type="submit" value="Migrate" />
+	</form>
+	{{/migrate_from_sqlite}}
+</div>
+<div class="col_oneoftwo lastcol">
+	<h3>Miscellaneous</h3>
+	<form method="post" action="">
+		<input type="hidden" name="domisc" value="makeitso" />
+		<label for="systememail">Default system email address</label><br />
+		<input type="text" id="systememail" name="systememail" value="{{{system_email}}}" />
+		<span class="altcopystyle fadedtext">(name@domain.com or "<span class="nobr">Name &lt;name@domain.com&gt;</span>")</span>
+		<div class="row_seperator">.</div>
+		<label for="timezone">System time zone</label><br />
+		<select id="timezone" name="timezone">
+			{{{timezone_options}}}
+		</select>
+		<div class="row_seperator">.</div><br />
+		<input class="button" type="submit" value="Change settings" />
+	</form>	
+</div>
+<div class="row_seperator">.</div>

@@ -13,9 +13,8 @@ function checkLogin() {
 }
 
 if (isset($_POST['doemailchange']) || isset($_POST['dopasswordchange'])) {
-	$post_message = false;
 	if (!checkLogin()) {
-		$post_message = 'There was a problem with your password. Please try again.';
+		$cash_admin->page_data['error_message'] = 'Error. There was a problem with your password. Please try again.';
 	} else {
 		$email_address = $_POST['email_address'];
 		$password = $_POST['password'];
@@ -34,15 +33,15 @@ if (isset($_POST['doemailchange']) || isset($_POST['dopasswordchange'])) {
 			if (isset($_POST['doemailchange'])) {
 				$admin_primary_cash_request->sessionSet('cash_effective_user_email',$email_address);
 			}
-			$post_message = 'All changed.';
+			$cash_admin->page_data['page_message'] = 'Success. All changed.';
 		} else {
-			$post_message = 'We had a problem resetting your login. Please try again.';
+			$cash_admin->page_data['error_message'] = 'Error. We had a problem resetting your login. Please try again.';
 		}
 	}
 }
 
 $effective_user = AdminHelper::getPersistentData('cash_effective_user');
-$cash_admin->requestAndStore(
+$user_request = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'people', 
 		'cash_action' => 'getuser',
@@ -50,4 +49,15 @@ $cash_admin->requestAndStore(
 	),
 	'userdetails'
 );
+
+if (is_array($user_request['payload'])) {
+	$cash_admin->page_data['email_address'] = $user_request['payload']['email_address'];
+	$cash_admin->page_data['api_key'] = $user_request['payload']['api_key'];
+	$cash_admin->page_data['api_url'] = CASH_API_URL;
+	if (isset($_REQUEST['reveal'])) {
+		$cash_admin->page_data['api_secret'] = $user_request['payload']['api_secret'];
+	}
+}
+
+$cash_admin->setPageContentTemplate('account');
 ?>

@@ -13,58 +13,63 @@ if ($request_parameters) {
 	$cash_admin->page_data['form_state_action'] = 'doelementadd';
 	$cash_admin->page_data['element_type'] = $element_addtype;
 	if (isset($elements_data[$element_addtype])) {
-		$cash_admin->page_data['title'] = 'Elements: Add ' . $elements_data[$element_addtype]->name . ' Element';
+		$cash_admin->page_data['ui_title'] = 'Elements: Add ' . $elements_data[$element_addtype]['name'] . ' Element';
+		$cash_admin->page_data['ui_page_tip'] = $elements_data[$element_addtype]['pagetip'];
 	}
 
 	if (array_search($element_addtype, $supported_elements) !== false) {
 		if (@file_exists(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_addtype . '/admin.php')) {
 			include(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_addtype . '/admin.php');
-			$cash_admin->page_data['element_button_text'] = 'Add The Element';
-			//$page_tips = $elements_data[$element_addtype]->pagetip;
+			$cash_admin->page_data['element_button_text'] = 'Add the element';
 
 			if ($cash_admin->getCurrentElementState() == 'add' && !$cash_admin->getErrorState()) {
 				$current_element = $cash_admin->getCurrentElement();
 				header('Location: ' . ADMIN_WWW_BASE_PATH . '/elements/edit/' . $current_element['id']);
 			}
-			$element_rendered_content = $cash_admin->mustache_groomer->render(file_get_contents(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_addtype . '/templates/admin.mustache'), $cash_admin->page_data);
+			$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render(file_get_contents(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_addtype . '/templates/admin.mustache'), $cash_admin->page_data);
 		} else {
-			$element_rendered_content = "Could not find the admin.php file for this .";
+			$$cash_admin->page_data['element_rendered_content'] = "Could not find the admin.php file for this. Seriously, that element is broken like crazy.";
 		}
 	} else {
-		$element_rendered_content = "You're trying to add an unsupported element. That's lame.";
+		$cash_admin->page_data['element_rendered_content'] = "You're trying to add an unsupported element. That's lame.";
 	}
+
+	$cash_admin->setPageContentTemplate('elements_add_selected');
 } else {
-	$elements_sorted = array(
-		'col1' => array(),
-		'col2' => array(),
-		'col3' => array()
-	);
+	$column1 = array();
+	$column2 = array();
+	$column3 = array();
+
 	$colcount = 1;
 	foreach ($elements_data as $element => $data) {
 		if (array_search($element, $supported_elements) !== false) {
+			$formatted_element = array(
+				'element_type' => $element,
+				'element_type_name' => $data['name'],
+				'element_type_description' => $data['description'],
+				'element_type_longdescription' => $data['longdescription'],
+				'element_type_author' => $data['author'],
+				'element_type_authorurl' => $data['url'],
+				'element_type_updated' => $data['lastupdated'],
+				'element_type_version' => $data['version']
+			);
 			if ($colcount == 3) {
-				$elements_sorted['col3'][$element] = $data;
+				$column3[] = $formatted_element;
 				$colcount = 1;
 			} elseif ($colcount == 2) {
-				$elements_sorted['col2'][$element] = $data;
+				$column2[] = $formatted_element;
 				$colcount++;
 			} else {
-				$elements_sorted['col1'][$element] = $data;
+				$column1[] = $formatted_element;
 				$colcount++;
 			}
 		}
 	}
 
-	function drawFeaturedElement($element,$data) {
-		echo '<div class="featuredelement">';
-		echo '<a href="' . ADMIN_WWW_BASE_PATH . '/elements/add/' . $element . '"><img src="' . ADMIN_WWW_BASE_PATH . '/assets/images/elementheader.php?element=' . $element . '" width="100%" alt="' .  $data->name . '" /></a><br />';
-		echo '<div class="padding">';
-		echo '<h3>' . $data->name . '</h3>';
-		echo '<p>' . $data->description . '</p>';
-		echo '<div class="elementdetails"><p><span class="altcopystyle">' . $data->longdescription . '</span></p><small>Author: <a href="' . $data->url . '">' . $data->author . '</a><br />Last updated: ' . $data->lastupdated . '<br />Version: ' . $data->version . '</small></div>';
-		echo '<div class="itemnav"><a href="' . ADMIN_WWW_BASE_PATH . '/elements/add/' . $element . '"><span class="icon plus_alt"></span> Add this now</a><br /><small><a href="' . $element . '" class="fadedtext showelementdetails"><span class="icon magnifying_glass"></span> More details</a></small></div>';
-		echo '</div>';
-		echo '</div>';
-	}
+	$cash_admin->page_data['elements_col1'] = new ArrayIterator($column1);
+	$cash_admin->page_data['elements_col2'] = new ArrayIterator($column2);
+	$cash_admin->page_data['elements_col3'] = new ArrayIterator($column3);
+
+	$cash_admin->setPageContentTemplate('elements_add_select');
 }
 ?>

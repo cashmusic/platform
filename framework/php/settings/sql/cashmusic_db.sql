@@ -387,7 +387,7 @@ CREATE TABLE `system_lock_codes` (
   `creation_date` int(11) DEFAULT '0',
   `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `system_lock_codes_uid` (`uid`)
+  KEY `system_lock_codes_uid` (`uid`),
   KEY `system_lock_codes_user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

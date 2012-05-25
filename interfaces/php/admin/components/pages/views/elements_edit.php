@@ -1,7 +1,7 @@
 <div class="callout">
 	<h3 class="fadedtext">Embed it</h3>
 	<p class="fadedtext">To embed your element use one of these codes:</p>
-	<b class="fadedtext">PHP: <code></b> &lt;?php CASHSystem::embedElement(<?php echo $current_element['id']; ?>); // (<?php echo $current_element['name'] . ' / ' . $current_element['type']; ?>) ?&gt;</code>
+	<b class="fadedtext">PHP: <code></b> &lt;?php CASHSystem::embedElement(<?php echo $current_element['id']; ?>); // (<?php echo $current_element['name'] ?>) ?&gt;</code>
 </div>
 
 
