@@ -1,102 +1,16 @@
 <?php
-$page_data = array();
 $cash_admin->page_data['ui_title'] = 'CASH Music: Main Page';
 
-// most accessed assets
-$eval_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'asset', 
-		'cash_action' => 'getanalytics',
-		'analtyics_type' => 'mostaccessed',
-		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-	),
-	'asset_mostaccessed'
-);
-
-// recently added assets
-$eval_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'asset', 
-		'cash_action' => 'getanalytics',
-		'analtyics_type' => 'recentlyadded',
-		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-	),
-	'asset_recentlyadded'
-);
-
-// next week of events
-$cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'calendar', 
-		'cash_action' => 'geteventsbetween',
-		'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
-		'cutoff_date_low' => 'now',
-		'cutoff_date_high' => time() + (60*60*24*7) // weird time format, but easy to understand
-	),
-	'events_thisweek'
-);
-
-// most active elements
-$eval_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'element', 
-		'cash_action' => 'getanalytics',
-		'analtyics_type' => 'mostactive',
-		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-	),
-	'element_mostactive'
-);
-
-// recently added elements
-$eval_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'element', 
-		'cash_action' => 'getanalytics',
-		'analtyics_type' => 'recentlyadded',
-		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-	),
-	'element_recentlyadded'
-);
-
-// get all elements
-$eval_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'element', 
-		'cash_action' => 'getelementsforuser',
-		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-	),
-	'element_allelements'
-);
-
-$lists_response = new CASHRequest(
-	array(
-		'cash_request_type' => 'people', 
-		'cash_action' => 'getlistsforuser',
-		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-	)
-);
-$lists_array = array();
-$lists_count = 1;
-foreach ($lists_response->response['payload'] as $list) {
-	$analytics_request = new CASHRequest(
-		array(
-			'cash_request_type' => 'people', 
-			'cash_action' => 'getanalytics',
-			'analtyics_type' => 'listmembership',
-			'list_id' => $list['id'],
-			'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-		)
-	);
-	$lists_array[] = array(
-		'id' => $list['id'],
-		'name' => $list['name'],
-		'total' => $analytics_request->response['payload']['active'],
-		'lastweek' => $analytics_request->response['payload']['last_week']
-	);
-	unset($analytics_request);
-	$lists_count++;
-	if ($lists_count > 3) {
-		break;
-	}
+// banner stuff
+$settings = $cash_admin->getUserSettings();
+if ($settings['banners'][BASE_PAGENAME]) {
+	$cash_admin->page_data['banner_main_content'] = '<a href="' . ADMIN_WWW_BASE_PATH . '/assets/" class="usecolor1">Assets</a>, your songs, photos, cover art, etc. <a href="' 
+		. ADMIN_WWW_BASE_PATH . '/people/" class="usecolor2">People</a>, fans, mailing lists, anyone you need to connect with on a regular basis. <a href="' 
+		. ADMIN_WWW_BASE_PATH . '/commerce/" class="usecolor3">Commerce</a> is where you’ll find info on all your orders. And <a href="' 
+		. ADMIN_WWW_BASE_PATH . '/calendar/" class="usecolor4">Calendar</a>, keeps a record of all your shows in one place.<br /><br />'
+		. 'The last main category is <a href="' . ADMIN_WWW_BASE_PATH . '/elements/" class="usecolor5">Elements</a>, where Assets, People, Commerce, and Calendar can be combined to make customized tools for your site. Things like email collection, song players, and social feeds all just a copy/paste away.<br /><br />'
+		. '<div class="moreinfospc">Need more info? Check out the <a href="' . ADMIN_WWW_BASE_PATH . '/help/gettingstarted/" class="helplink">Getting Started</a> page.</div></div>';
 }
+
+$cash_admin->setPageContentTemplate('mainpage');
 ?>
