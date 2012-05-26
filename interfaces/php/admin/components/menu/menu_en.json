@@ -61,8 +61,6 @@
 		{"page_name":"Delete Element", "menu_icon":"", "hide":true},
 	"elements/edit":
 		{"page_name":"Edit Element", "menu_icon":"", "hide":true},
-	"elements/view":
-		{"page_name":"Your Elements", "menu_icon":"heart_fill"},
 		
 		
 	"error":

@@ -4,35 +4,20 @@
 	<div class="closelink"><a href="?hidebanner=true">close <span class="icon x_alt"></span></a></div></div>
 {{/banner_main_content}}
 
-<div class="col_oneoftwo">
-	<h2>Most Active Elements</h2>
-	{{#elements_mostactive}}
-	<ol class="fadedtext">
-		{{#elements_mostactive}}
-		<li>
-			<a href="{{www_path}}/elements/edit/{{id}}">{{name}}</a> <span class="smalltext nobr">// accessed: {{count}}</span>
-		</li>
-		{{/elements_mostactive}}
-	</ol>
-	{{/elements_mostactive}}
+{{#elements_for_user}}
+<ul class="alternating">
+	{{#elements_for_user}}
+	<li>
+		<h4>{{name}} <small class="fadedtext nobr" style="font-weight:normal;"> // {{type_name}}</small></h4>
+		<div class="itemnav">
+			<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><span class="icon magnifying_glass"></span> Details</a> 
+			<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>
+		</div>
+	</li>
+	{{/elements_for_user}}
+</ul>
+{{/elements_for_user}}
 
-	{{^elements_mostactive}}
-	<p>No elements have been accessed.</p>
-	{{/elements_mostactive}}
-</div>
-<div class="col_oneoftwo lastcol">
-	<h2>Recently Added Elements</h2>
-	{{#elements_recentlyadded}}
-	<ul class="alternating linkonly fadedtext">
-		{{#elements_recentlyadded}}
-		<li>
-			<a href="{{www_path}}/elements/edit/{{id}}"><b>{{name}}</b></a></span>
-		</li>
-		{{/elements_recentlyadded}}
-	</ul>
-	{{/elements_recentlyadded}}
-
-	{{^elements_recentlyadded}}
-	<p>No elements have been added.</p>
-	{{/elements_recentlyadded}}
-</div>
+{{^elements_for_user}}
+<p>No elements have been added yet.</p>
+{{/elements_for_user}}

@@ -3,7 +3,7 @@
 if (isset($_POST['dolistedit'])) {
 	// do the actual list add stuffs...
 	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
-	$list_edit_request = new CASHRequest(
+	$edit_response = new CASHRequest(
 		array(
 			'cash_request_type' => 'people', 
 			'cash_action' => 'editlist',
@@ -13,6 +13,11 @@ if (isset($_POST['dolistedit'])) {
 			'connection_id' => $_POST['connection_id']
 		)
 	);
+	if ($edit_response['status_uid'] == 'people_editlist_200') {
+		$cash_admin->page_data['page_message'] = 'Success. Edited.';
+	} else {
+		$cash_admin->page_data['error_message'] = 'Error. There was a problem editing the event.';
+	}
 }
 
 $current_response = $cash_admin->requestAndStore(

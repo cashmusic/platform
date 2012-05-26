@@ -7,7 +7,7 @@ if (isset($_POST['doeventadd'])) {
 	$eventiscancelled = 0;
 	if (isset($_POST['event_ispublished'])) { $eventispublished = 1; }
 	if (isset($_POST['event_iscancelled'])) { $eventiscancelled = 1; }
-	$cash_admin->requestAndStore(
+	$add_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'calendar', 
 			'cash_action' => 'addevent',
@@ -21,5 +21,17 @@ if (isset($_POST['doeventadd'])) {
 		),
 		'eventaddattempt'
 	);
+
+	if ($add_response['payload']) {
+		header('Location: ' . ADMIN_WWW_BASE_PATH . '/calendar/events/edit/' . $add_response['payload']);
+	} else {
+		$cash_admin->page_data['error_message'] = 'Error. Something just didn\'t work right.';
+	}
 }
+
+$cash_admin->page_data['venue_options'] = AdminHelper::echoFormOptions('venues',0,false,true);
+$cash_admin->page_data['form_state_action'] = 'doeventadd';
+$cash_admin->page_data['event_button_text'] = 'Add the event';
+
+$cash_admin->setPageContentTemplate('calendar_events_details');
 ?>

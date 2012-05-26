@@ -1,5 +1,6 @@
 <?php
 $page_data = array();
+$cash_admin->page_data['ui_title'] = 'CASH Music: Main Page';
 
 // most accessed assets
 $eval_response = $cash_admin->requestAndStore(

@@ -1,13 +1,4 @@
 <?php
-$cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'calendar', 
-		'cash_action' => 'getevent',
-		'event_id' => $request_parameters[0]
-	),
-	'getevent'
-);
-
 // parsing posted data:
 if (isset($_POST['doeventedit'])) {
 	// do the actual list add stuffs...
@@ -16,7 +7,7 @@ if (isset($_POST['doeventedit'])) {
 	$eventiscancelled = 0;
 	if (isset($_POST['event_ispublished'])) { $eventispublished = 1; }
 	if (isset($_POST['event_iscancelled'])) { $eventiscancelled = 1; }
-	$cash_admin->requestAndStore(
+	$edit_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'calendar', 
 			'cash_action' => 'editevent',
@@ -30,13 +21,35 @@ if (isset($_POST['doeventedit'])) {
 		),
 		'eventeditattempt'
 	);
-	$cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'calendar', 
-			'cash_action' => 'getevent',
-			'event_id' => $request_parameters[0]
-		),
-		'getevent'
-	);
+	if ($edit_response['status_uid'] == 'calendar_editevent_200') {
+		$cash_admin->page_data['page_message'] = 'Success. Edited.';
+	} else {
+		$cash_admin->page_data['error_message'] = 'Error. There was a problem editing the event.';
+	}
 }
+
+$event_response = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'calendar', 
+		'cash_action' => 'getevent',
+		'event_id' => $request_parameters[0]
+	),
+	'getevent'
+);
+
+$current_event = $event_response['payload'];
+
+if (is_array($current_event)) {	
+	$cash_admin->page_data = array_merge($cash_admin->page_data,$current_event);
+}
+
+$cash_admin->page_data['venue_options'] = AdminHelper::echoFormOptions('venues',$current_event['venue_id'],false,true);
+$cash_admin->page_data['formatted_date'] = date('m/j/Y h:iA T',$current_event['date']);
+if ($cash_admin->page_data['published']) {
+	$cash_admin->page_data['published'] = 1;
+}
+$cash_admin->page_data['form_state_action'] = 'doeventedit';
+$cash_admin->page_data['event_button_text'] = 'Edit the event';
+
+$cash_admin->setPageContentTemplate('calendar_events_details');
 ?>
