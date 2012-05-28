@@ -21,15 +21,16 @@
 
 /* TAG RESETS */
 html {margin:0;padding:0;}
-body {color:#231F20;background-color:#fafaf8;text-align:center;font:13px/1.5em helvetica,"helvetica neue",arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:920px;text-rendering:optimizelegibility;}
+body {color:#231F20;background-color:#fafaf8;text-align:center;font:14px/1.5em helvetica,"helvetica neue",arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:920px;text-rendering:optimizelegibility;}
 a {color:#999;text-decoration:none;}
 a:hover {text-decoration:underline;color:#000 !important;}
 div.callout {display:block;font-size:11px;padding:22px 18px 18px 18px;margin:0 auto 1.5em auto;background-color:#ededef;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;}
 div.callout.flush {background-image:none;}
+code {font-size:12px;}
 code a {color:#23c;}
 img {border:0;}
 ul, ol {padding:0.5em 0 1em 1.5em;}
-li {line-height:1.25em;}
+li {line-height:1.35em;}
 ol li {margin-bottom:0.85em;}
 p {margin:0 0 1.5em 0;}
 h1 {font-size:52px;line-height:50px;margin:0 0 24px 0;padding:0;font-family:OstrichSansRoundedMedium,"helvetica neue",helvetica,arial,sans-serif;font-weight:normal;}
@@ -67,14 +68,14 @@ ul.assetbrowse li {list-style-type:none;margin-top:10px;}
 .created_mod {padding:8px 0 0 0;text-align:right;white-space:nowrap;}
 .created_mod_top {padding:0 0 4px 0;text-align:left;white-space:nowrap;}
 .element_image {position:relative;height:78px;background-repeat:no-repeat;background-position:center top;margin-bottom:6px;}
-.fadedtext {color:#9c9ca9 !important;}
+.fadedtext {color:#a49c9c !important;}
 .highlightcopy {padding:2px 6px 2px 6px;background-color:#ff0;font:italic 12px/1.75em georgia, times, serif;}
-.itemnav {margin:12px 0 8px 0;}
+.itemnav {margin:12px 0 8px 0;font-size:12px;}
 li .itemnav {margin:4px 0 0 0;height:1px;overflow:hidden;-webkit-transition:all 0.1s ease-out;-moz-transition: all 0.1s ease-out;-o-transition: all 0.1s ease-out;transition: all  0.1s ease-out;}
 li:hover .itemnav {margin:12px 0 8px 0;height:auto;}
 .majorcallout {display:block;float:left;padding:7px 12px 7px 12px;margin:0 10px 10px 0;font-weight:bold;color:#fff;background-color:#999;font-size:2.5em;line-height:1em;}
-.mininav_flush {font-weight:bold;margin:0 1.25em 0 0;color:#9c9ca9 !important;text-shadow: 0px 1px 0px #fff;}
-.mininav_spaced {font-weight:bold;margin:0 0 0 1.25em;color:#9c9ca9 !important;}
+.mininav_flush {font-weight:bold;margin:0 1.25em 0 0;color:#a49c9c !important;text-shadow: 0px 1px 0px #fff;}
+.mininav_spaced {font-weight:bold;margin:0 0 0 1.25em;color:#a49c9c !important;}
 .modalbg {position:fixed;top:0px;left:0px;width:100%;height:100%;background-color:rgba(255,255,255,0.9);z-index:5432;}
 .modaldialog {position:absolute;top:250px;left:50%;margin-left:-172px;padding:24px;width:320px;height:auto;background-color:#ddd;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;text-align:left;z-index:10;}
 .modaldialog input {background-color:#231F20;border:1px solid #231F20;color:#fff;width:auto;padding:6px 18px 6px 18px;font-weight:bold;cursor:pointer;margin-left:9px;}
@@ -112,7 +113,7 @@ a.usecolor2 {color:#ca8c07 !important;}
 a.usecolor3 {color:#97b800 !important;}
 a.usecolor4 {color:#0080c9 !important;}
 a.usecolor5 {color:#8a00ca !important;}
-a.mockbutton {color:#fff !important;font-size:13px;}
+a.mockbutton {color:#fff !important;font-size:14px;}
 a.mockbutton:hover {background-color:#000 !important;text-decoration:none !important;}
 div.callout a {font-weight:bold;color:#999;}
 div.callout a:hover {font-weight:bold;color:#231F20;}
@@ -274,12 +275,12 @@ div.callout a:hover {font-weight:bold;color:#231F20;}
 
 /* FORMS */
 form span {line-height:2.5em;}
-input,textarea,select {font:italic 13px/1.25em georgia, times, serif !important;padding:8px 2% 8px 2%;border:1px solid #dddddf;width:96%;}
+input,textarea,select {font:italic 14px/1.25em georgia, times, serif !important;padding:8px 2% 8px 2%;border:1px solid #dddddf;width:96%;}
 input:active, input:focus, textarea:focus {outline:0;border:1px solid #888;}
-input.button, a.mockbutton {background-color:#777;padding:8px 18px 8px 18px !important;font:bold 13px/1.25em helvetica,arial,sans-serif !important;cursor:pointer;width:auto !important;border:1px solid transparent;color:#fff;}
+input.button, a.mockbutton {background-color:#777;padding:8px 18px 8px 18px !important;font:bold 14px/1.25em helvetica,arial,sans-serif !important;cursor:pointer;width:auto !important;border:1px solid transparent;color:#fff;}
 input.button:hover {background-color:#000 !important;color:#fff;}
 input.checkorradio {width:auto !important;margin-top:8px;}
-label {font-size:11px;text-transform:uppercase;color:#9c9ca9;}
+label {font-size:11px;text-transform:uppercase;color:#a49c9c;}
 select {height:34px;line-height:34px;width:100%;padding:8px;border:none;background-color:#ededef;background-image:linear-gradient(top, #dfdfdf 0%, #efefef 100%);background-image:-moz-linear-gradient(top, #dfdfdf 0%, #efefef 100%);border-radius:5px;}
 select option {padding:8px;}
 select:active, select:focus {outline:2px solid #ff0;}
@@ -293,7 +294,7 @@ textarea.tall {height:200px;}
 form.inline {display:inline;}
 form.inline input {width:2.25em !important;border:1px solid #fafaf8;}
 form.inline input:active, form.inline input:focus {outline:0;border:1px solid #888;}
-form.inline input.inlinesubmit {font:13px/1.5em helvetica,"helvetica neue",arial,sans-serif !important;background-color:transparent;cursor:pointer;font-weight:bold !important;width:auto !important;padding-left:0 !important;padding-right:0 !important;}
+form.inline input.inlinesubmit {font:14px/1.5em helvetica,"helvetica neue",arial,sans-serif !important;background-color:transparent;cursor:pointer;font-weight:bold !important;width:auto !important;padding-left:0 !important;padding-right:0 !important;}
 
 /* TABLES */
 table {font-size:11px;}
@@ -365,12 +366,25 @@ ul.pagebasemenu ul {padding:0;margin-top:0;margin-bottom:0;font-size:0.8em;font-
 .mainpage.introductorybanner {padding:33px 24px 40px 265px;min-height:165px;}
 .mainpage.introductorybanner a {font-weight:bold;}
 .mainpage.introductorybanner div.closelink a {color:#999997;font-weight:normal;}
-.mainpage.introductorybanner .moreinfospc {margin:0;padding:0;text-align:right;font-size:13px;}
+.mainpage.introductorybanner .moreinfospc {margin:0;padding:0;text-align:right;font-size:14px;}
 .mainpage.introductorybanner .moreinfospc a {color:#000;background-color:#ff0;padding:0 0.5em 0 0.5em;}
 .mainpage.introductorybanner .mainbannercontent {margin:0;padding:0;position:relative;z-index:100;}
 .mainpage.introductorybanner img.bannerbg {position:absolute;left:5px;bottom:0;z-index:10;width:352px;height:236px;}
 .introductorybanner div.titlespc {position:absolute;left:10px;top:4px;font-size:11px;line-height:1.3em;color:#fff;}
 .introductorybanner h2 {font-size:32px;line-height:30px;margin:0 0 1px 0;padding:0;font-family:OstrichSansRoundedMedium,"helvetica neue",helvetica,arial,sans-serif;font-weight:normal;}
+div.gettingstarted {font-size:17px;padding-top:18px;color:#a49c9c;}
+div.gettingstarted h2 {font-size:26px;}
+div.gettingstarted a.featured {font-weight:bold;line-height:1.75em;}
+div.gettingstarted a.featured:hover {color:#000 !important;text-decoration:none;}
+div.gettingstarted p {font-size:14px;line-height:1.5em;color:#231F20;}
+div.gettingstarted h3 {font-size:11px;line-height:1.5em;margin:0;text-transform:uppercase;font-weight:bold;color:#231F20;}
+div.gettingstarted h3:after {content:' (pending)';}
+div.gettingstarted div.complete {opacity: 0.25;}
+div.gettingstarted div.complete h3 {color:#449900;}
+div.gettingstarted div.complete h3:after {content:'';}
+div.gettingstarted span.helpspc {font-size:12px;color:#231F20;}
+div.gettingstarted a.helplink {color:#231F20;background-color:#ff0;padding:2px 9px 2px 9px;}
+
 
 /* FOOTER (base code taken from cssstickyfooter.com) */
 * {margin-top:0;padding:0;} 

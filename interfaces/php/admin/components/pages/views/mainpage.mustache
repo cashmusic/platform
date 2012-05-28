@@ -1,11 +1,71 @@
 {{#banner_main_content}}
-	<div class="mainpage introductorybanner flush"><img src="{{www_path}}/ui/default/assets/images/bg_mainpagebanner.jpg" class="bannerbg" alt="jackson" /><div class="mainbannercontent">
+	<div class="mainpage introductorybanner "><img src="{{www_path}}/ui/default/assets/images/bg_mainpagebanner.jpg" class="bannerbg" alt="jackson" /><div class="mainbannercontent">
 	{{{banner_main_content}}}
 	<div class="closelink"><a href="?hidebanner=true">close <span class="icon x_alt"></span></a></div></div>
 {{/banner_main_content}}
 
-<div class="callout flush">
-	<h2 class="fadedtext">Let's get started</h2>
-	Smart intro / next steps here...
-	<br /><br /><br /><br /><br />
+{{^elements_for_user}}
+<div class="gettingstarted">
+	<h2>You're done installing, now let's get started</h2>
+	So the database is set up and if you're seeing this all the configuration is right. There are just 
+	a few easy steps before you publishing your first working CASH Music element.
+
+	<div class="row_seperator">.</div><br />
+
+	<div class="col_oneofthree{{#step1_complete}} complete{{/step1_complete}}">
+		<h3>Step 1: System stettings</h3>
+		<p>
+			Before you go too far you should change default settings like the system email and the time-zone. Add any 
+			third-party connections you want to start using.
+		</p>
+		<a href="{{www_path}}/settings/" class="featured"><span class="icon cog"></span> Set email and time-zone</a><br />
+		<a href="{{www_path}}/settings/connections/" class="featured"><span class="icon share"></span> Add service connections</a>
+	</div>
+
+	<div class="col_oneofthree{{#step2_complete}} complete{{/step2_complete}}">
+		<h3>Step 2: Add your stuff</h3>
+		<p>
+			The platform works with your content and your world — so start by adding an MP3 or setting up an email list. 
+		</p>
+		<a href="{{www_path}}/assets/" class="usecolor1 featured"><span class="icon document_alt_fill"></span> Add a new asset</a><br />
+		<a href="{{www_path}}/people/" class="usecolor2 featured"><span class="icon list"></span> Create your first email list</a>
+	</div>
+
+	<div class="col_oneofthree lastcol">
+		<h3>Step 3: Publish!</h3>
+		<p>
+			You're ready to create your first element. Try something simple like an email capture element. Point
+			to an existing list, maybe offer a download, and then embed with the code you're given.
+		</p>
+		<a href="{{www_path}}/elements/add/" class="usecolor5 featured"><span class="icon plus_alt"></span> Add your first element</a>
+	</div>
+
+	<div class="row_seperator">.</div><br /><br />
+	<span class="helpspc"><b>Need more help?</b> Check out the <a href="{{www_path}}/help/gettingstarted/" class="helplink">Getting Started</a> page.</span>
 </div>
+{{/elements_for_user}}
+
+{{#elements_for_user}}
+	<div class="col_oneofthree">
+		<p>
+			We'll use this spot for the latest platform news, for new upgrade information, and for 
+			progress updates on the hosted. This is placeholder copy only — replace with a live feed 
+			before the proper release of v3. 
+		</p>
+	</div>
+
+	<div class="col_twoofthree lastcol">
+		<h2>Your elements</h2>
+		<ul class="alternating">
+			{{#elements_for_user}}
+			<li>
+				<h4>{{name}} <small class="fadedtext nobr" style="font-weight:normal;"> // {{type_name}}</small></h4>
+				<div class="itemnav">
+					<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><span class="icon magnifying_glass"></span> Details</a> 
+					<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>
+				</div>
+			</li>
+			{{/elements_for_user}}
+		</ul>
+	</div>
+{{/elements_for_user}}

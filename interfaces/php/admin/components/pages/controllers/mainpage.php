@@ -8,8 +8,54 @@ if ($settings['banners'][BASE_PAGENAME]) {
 		. ADMIN_WWW_BASE_PATH . '/people/" class="usecolor2">People</a>, fans, mailing lists, anyone you need to connect with on a regular basis. <a href="' 
 		. ADMIN_WWW_BASE_PATH . '/commerce/" class="usecolor3">Commerce</a> is where you’ll find info on all your orders. And <a href="' 
 		. ADMIN_WWW_BASE_PATH . '/calendar/" class="usecolor4">Calendar</a>, keeps a record of all your shows in one place.<br /><br />'
-		. 'The last main category is <a href="' . ADMIN_WWW_BASE_PATH . '/elements/" class="usecolor5">Elements</a>, where Assets, People, Commerce, and Calendar can be combined to make customized tools for your site. Things like email collection, song players, and social feeds all just a copy/paste away.<br /><br />'
-		. '<div class="moreinfospc">Need more info? Check out the <a href="' . ADMIN_WWW_BASE_PATH . '/help/gettingstarted/" class="helplink">Getting Started</a> page.</div></div>';
+		. 'The last main category is <a href="' . ADMIN_WWW_BASE_PATH . '/elements/" class="usecolor5">Elements</a>, where Assets, People, Commerce, and Calendar can be combined to make customized tools for your site. Things like email collection, digital sales, and social feeds all just a copy/paste away.<br /><br />'
+		. '<div class="moreinfospc">&nbsp;</div></div>';
+}
+
+
+$elements_response = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'element', 
+		'cash_action' => 'getelementsforuser',
+		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
+	),
+	'getelementsforuser'
+);
+if ($elements_response) {
+	$cash_admin->page_data['elements_for_user'] = new ArrayIterator($elements_response['payload']);
+} else {
+	// no elements found, meaning it's a newer install
+
+	// first check if they've changed the default email as a sign of step 1:
+	if (CASHSystem::getDefaultEmail() != 'CASH Music <info@cashmusic.org>') {
+		$cash_admin->page_data['step1_complete'] = 'complete';
+	}
+
+	// now check for assets and/or lists as a sign of step 2:
+	$asset_response = $cash_admin->requestAndStore(
+		array(
+			'cash_request_type' => 'asset', 
+			'cash_action' => 'getanalytics',
+			'analtyics_type' => 'recentlyadded',
+			'user_id' => AdminHelper::getPersistentData('cash_effective_user')
+		),
+		'asset_recently'
+	);
+	if (is_array($asset_response['payload'])) {
+		$cash_admin->page_data['step2_complete'] = 'complete';
+	} else {
+		$list_response = $cash_admin->requestAndStore(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'getlistsforuser',
+				'user_id' => AdminHelper::getPersistentData('cash_effective_user')
+			),
+			'getlistsforuser'
+		);
+		if (is_array($asset_response['payload'])) {
+			$cash_admin->page_data['step2_complete'] = 'complete';
+		}
+	}
 }
 
 $cash_admin->setPageContentTemplate('mainpage');

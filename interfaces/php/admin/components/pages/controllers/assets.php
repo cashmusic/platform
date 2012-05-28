@@ -19,7 +19,7 @@ if ($settings['banners'][BASE_PAGENAME]) {
 
 // most accessed
 if (is_array($mostaccessed_response['payload'])) {
-	$cash_admin->page_data['mostaccessed_assets'] = new ArrayIterator(array_slice($mostaccessed_response['payload'],5));
+	$cash_admin->page_data['mostaccessed_assets'] = new ArrayIterator(array_slice($mostaccessed_response['payload'],0,5));
 }
 
 $cash_admin->setPageContentTemplate('assets');
