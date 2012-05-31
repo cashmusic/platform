@@ -337,14 +337,21 @@ if (!isset($_POST['installstage'])) {
 			 * Rather than hunt through ini settings, etc we're going to perform a couple real-world
 			 * tests to make sure the server can run the install successfully. If not we fail 
 			 * gracefully, or at least early. Like I did in 7th grade Spanish.
+			 *
+			 * Possible Errors:
+			 * 1. directory not empty or in-progress
+			 * 2. no write access
+			 * 3. no curl / fopen wrappers
+			 * 4. no PDO support
+			 * 5. no sqlite / sqlite 3 support
 			*/
 			$all_tests_pass = true;
 			$test_error_number = 0;
 			$test_error_message = '';
 
-			// 1. test for EITHER empty directory or in-progress install
-
+			// this nested structure is kinda nutty, but you know...also fine / finite
   			if (count(scandir('.')) > 3) {
+  				// 1. test for EITHER empty directory or in-progress install
   				if (!file_exists('./manifest.diy.org.cashmusic')) {
   					$all_tests_pass = false;
   					$test_error_number = 1;
@@ -352,7 +359,49 @@ if (!isset($_POST['installstage'])) {
   										. 'files but no CASH manifest...looks like this folder is '
   										. 'already in use.';
   				}
+  			} else {
+  				if (!mkdir('./test',0755,true)) {
+	  				$all_tests_pass = false;
+					$test_error_number = 2;
+					$test_error_message = "Can't create a directory. Kind of need to do that. Sorry.";
+	  			} else {
+	  				if (!determinedCopy('https://github.com/api/v2/json/blob/all/cashmusic/DIY/'.$_SESSION['branch'],'./test/manifest.diy.org.cashmusic')) {
+		  				$all_tests_pass = false;
+						$test_error_number = 3;
+						$test_error_message = "I'm trying to copy files down from github but it's not working. "
+											. "This means I can't see the outside word.<br /><br />"
+											. 'cURL is' . (function_exists('curl_init') ? '' : ' not') . ' installed.<br />'
+											. 'fopen wrappers are' . (ini_get('allow_url_fopen') ? '' : ' not') . ' enabled.';
+		  			} else {
+		  				if (!defined(PDO::ATTR_ERRMODE)) {
+			  				$all_tests_pass = false;
+							$test_error_number = 4;
+							$test_error_message = "Couldn't find PDO. This is a required component of PHP that "
+												. 'is included by default in most builds of PHP — apparently it '
+												. 'has been turned off.';
+			  			} else {
+			  				// connect to the new db...will create if not found
+							try {
+								$pdo = new PDO ('sqlite:' . dirname('.') . '/test/test.sqlite');
+								$pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+								chmod(dirname('.') . '/test/test.sqlite',0755);
+								$pdo->exec('CREATE TABLE test (id INTEGER PRIMARY KEY, testint integer);');
+							} catch (PDOException $e) {
+								$all_tests_pass = false;
+								$test_error_number = 5;
+								$test_error_message = "Looks like there's no support for sqlite 3. "
+													. 'The exact error message given was: <br /><br />'
+													. $e->getMessage();
+							}
+			  			}
+		  			}
+	  			}
   			}
+
+  			// clean up testing mess:
+			if (is_dir('./test')) {
+				rrmdir('./test');
+			}
 
 			if (!$all_tests_pass) {
 				echo '<h1>Error #' . $test_error_number . ' </h1>';
@@ -452,8 +501,9 @@ if (!isset($_POST['installstage'])) {
 			*/
 			$settings_message = '<h1>Settings.</h1><p>You don\'t want us to just start putting '
 				. 'files all over the place, do you? The form is auto-loaded with our best guess at a '
-				. 'location for the core files, but you can put them wherever. Ideally these should be '
-				. 'above the web root.</p> '
+				. 'location for the core files, but you can put them anywhere.</p> '
+				. '<p>The core files should ideally be stored somewhere that isn\'t public, '
+				. 'so if possible keep them outside the www root folder that holds your site files.</p> '
 				. '<p>While you\'re at it, add an email address for the main admin account.'
 				. ' (<b>Hint:</b> use a real email address so you can reset your password if need be.)</p>';
 			if (is_dir('./source/')) {
@@ -559,8 +609,8 @@ if (!isset($_POST['installstage'])) {
 			}
 
 			if ($pdo) {
-				chmod($user_settings['frameworklocation'] . '/db',0777);
-				chmod($user_settings['frameworklocation'] . '/db/cashmusic.sqlite',0777);
+				chmod($user_settings['frameworklocation'] . '/db',0755);
+				chmod($user_settings['frameworklocation'] . '/db/cashmusic.sqlite',0755);
 			}
 
 			// push in all the tables
@@ -601,7 +651,7 @@ if (!isset($_POST['installstage'])) {
 
 			// success message
 			echo '<h1>All done.</h1><p>Okay. Everything is set up, configured, and ready to go. Follow the link below and login with the given '
-			. 'credentials</p><p><br /><br /><a href="./admin/" class="loginlink">Click to login</a><br /><br /><b>Email address:</b> ' . $user_settings['adminemailaccount']
+			. 'credentials. You will be emailed a password reset link.</p><p><br /><br /><a href="./admin/?dopasswordreset=true&address=' . urlencode($user_settings['adminemailaccount']) . '" class="loginlink">Click to login</a><br /><br /><b>Email address:</b> ' . $user_settings['adminemailaccount']
 			. '<br /><b>Temporary Password:</b> ' . $user_password;
 			
 			echo '<br /><br /><br /><br /><small class="altcopystyle fadedtext">I feel compelled to point out that in the time it took you to read this, I, your helpful installer script, have deleted '
