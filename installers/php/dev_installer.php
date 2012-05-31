@@ -84,12 +84,18 @@ echo "\n                       :+#\n"
 			die();
 		}
 		
-		$db_server   = readStdin('Database server (default: \'localhost:3306\'): ', false,'localhost:3306');
-		$db_name     = readStdin('Database name: ');
-		$db_username = readStdin('Database username: ');
-		$db_password = readStdin('Database password: ');
-		$user_email  = readStdin("\nMain system login email address: ");
-		$system_salt = md5($user_email . time());
+		$db_server     = readStdin('Database server (default: \'127.0.0.1:3306\'): ', false,'127.0.0.1:3306');
+		$db_name       = readStdin('Database name: ');
+		$db_username   = readStdin('Database username: ');
+		$db_password   = readStdin('Database password: ');
+		$user_email    = readStdin("\nMain system login email address: ");
+		$default_salt  = readStdin("\nUse defaut system salt? (y/n): ", false, 'y');
+
+		if (strtolower(substr($default_salt,0,1)) == 'y') {
+			$system_salt = 'I was born of sun beams; Warming up our limbs';
+		} else {
+			$system_salt = md5($user_email . time());
+		}
 		
 		// set up database, add user / password
 		$user_password = substr(md5($system_salt . 'password'),4,7);
@@ -220,17 +226,17 @@ echo "\n                       :+#\n"
 		if ($db_engine == "sqlite") {
 			if (
 				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','driver = "mysql','driver = "sqlite') &&
-				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','database = "seed','database = "cashmusic.sqlite') &&
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','database = "cashmusic','database = "cashmusic.sqlite') &&
 				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
 			) {
 				$file_write_success = true;
 			} 
 		} else {
 			if (
-				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','hostname = "localhost:8889','hostname = "' . $db_server) &&
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','hostname = "127.0.0.1:8889','hostname = "' . $db_server) &&
 				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','username = "root','username = "' . $db_username) &&
 				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','password = "root','password = "' . $db_password) &&
-				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','database = "seed','database = "' . $db_name) &&
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','database = "cashmusic','database = "' . $db_name) &&
 				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
 			) {
 				$file_write_success = true;

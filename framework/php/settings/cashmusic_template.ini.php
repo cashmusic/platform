@@ -9,10 +9,10 @@
 
 [database_connection]
 driver = "mysql"
-hostname = "localhost:8889"
+hostname = "127.0.0.1:8889"
 username = "root"
 password = "root"
-database = "seed"
+database = "cashmusic"
 
 [security]
 salt = "I was born of sun beams; Warming up our limbs"

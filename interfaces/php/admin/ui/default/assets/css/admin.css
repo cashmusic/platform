@@ -35,6 +35,7 @@ ol li {margin-bottom:0.85em;}
 p {margin:0 0 1.5em 0;}
 h1 {font-size:52px;line-height:50px;margin:0 0 24px 0;padding:0;font-family:OstrichSansRoundedMedium,"helvetica neue",helvetica,arial,sans-serif;font-weight:normal;}
 h2, h3, h4 {font-size:17px;line-height:1.125em;margin:0;padding:0;padding-bottom:0.35em;}
+h5 {font-size:11px;text-transform:uppercase;font-weight:bold;margin:0;}
 big {font-size:1.5em;line-height:1.25em;}
 small {font-size:0.85em;line-height:1.25em;}
 small a {color:#231F20 !important;font-weight:bold;}

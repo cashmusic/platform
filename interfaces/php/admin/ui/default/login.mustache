@@ -7,6 +7,8 @@
 	<link rel="icon" type="image/png" href="http://cashmusic.org/images/icons/cash.png" />
 	<link href="{{www_path}}/ui/default/assets/css/admin.css" rel="stylesheet" type="text/css" />
 	<style type="text/css">
+		a.reset {font-size:11px;text-transform:uppercase;color:#a49c9c;}
+		a.reset:hover {color:#ff0 !important;text-decoration:none;}
 		h1.tryagain {color:#ff0 !important;}
 		#mainspc {padding-top:150px;}
 		#navmenu {top:0;height:6px;overflow:hidden;padding-top:0;padding-bottom:0;}
@@ -47,9 +49,9 @@
 					<h1{{#login_error}} class="tryagain"{{/login_error}}>{{login_message}}:</h1>
 			
 					<form method="post" id="cash_signin_form" action=""> 
-						<label for="address">email</label>
+						<label for="address">email</label><br /> 
 						<input type="text" name="address" value="" /><br />
-						<label for="address">password</label>
+						<label for="address">password</label> <a href="?showpasswordreset" class="reset">(Forget your password?)</a><br />
 						<input type="password" name="password" value="" /><br />
 						<input type="hidden" name="login" value="1" /> 
 						<div style="text-align:right;">

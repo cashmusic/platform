@@ -27,9 +27,9 @@
 session_start();
 $_SESSION['copying'] = false; // we'll use this in the AJAX copy loops later
 
-if (!isset($_SESSION['branch']) || isset($_GET['edge'])) {
-	if(isset($_GET['edge'])) {
-		$_SESSION['branch'] = 'master';
+if (!isset($_SESSION['branch']) || isset($_GET['origin'])) {
+	if(isset($_GET['origin'])) {
+		$_SESSION['branch'] = $_GET['origin'];
 	} else {
 		$_SESSION['branch'] = 'latest_stable';
 	}
@@ -63,6 +63,7 @@ function determinedCopy($source,$dest,$retries=3) {
 		while($retries > 0) {
 			if (ini_get('allow_url_fopen')) {
 				if (@copy($source,$dest)) {
+					chmod($dest,0755);
 					$_SESSION['copying'] = false;
 					return true;
 				} else {
@@ -153,7 +154,7 @@ if (!isset($_POST['installstage'])) {
 	
 	/* TAG RESETS */
 	html {margin:0;padding:0;}
-	body {color:#231F20;background-color:#fff;text-align:left;font:13px/1.5em "helvetica neue",helvetica,arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:750px;}
+	body {color:#231F20;background-color:#fafaf8;text-align:left;font:14px/1.5em helvetica,"helvetica neue",arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:750px;text-rendering:optimizelegibility;}
 	a {color:#999;text-decoration:none;}
 	a:hover {text-decoration:underline;color:#000 !important;}
 	code {display:block;padding:2em;margin:0 0 1.5em 0;background-color:#ddd;background-image:url(../images/currentnav.png);background-position:left top;background-repeat:no-repeat;margin:0 auto;}
@@ -289,16 +290,14 @@ if (!isset($_POST['installstage'])) {
 	<div id="topstrip">&nbsp;</div>
 	<div id="wrap"> 
 	 	<div id="mainspc" class="usecolor1">
-			<h1>Hi.</h1>
+			<h1>Hello.</h1>
 			<p>
-				This is the installer for the CASH Music platform. It'll grab the latest working 
-				version of the platform, install it, and configure the bits and settings. 
-				Use for new installations only...it'll overwrite any current CASH files  
-				without a care. 
+				This is the installer for the CASH Music platform. It will first grab the latest working 
+				version of the platform, install it, then configure the bits and settings. 
 			</p><p>
-				Because it doesn't care. 
-			</p><p>
-				But we do.
+				You'll only need to answer a couple questions, but please run this file in an empty 
+				folder of it's own if you're installing next to a live site. If you have any questions 
+				please see <a href="http://help.cashmusic.org/" target="_blank">help.cashmusic.org</a> for more.
 			</p>
 				xo,
 				<h2><a href="http://cashmusic.org/">CASH Music</a></h2>
@@ -333,91 +332,116 @@ if (!isset($_POST['installstage'])) {
 	switch ($_POST['installstage']) {
 		case "2":
 			/**
-			 * INSTALL CURRENT SOURCE
+			 * TEST CAPABILITIES
 			 *
-			 * Don't even bother checking for git. Set up directories and hit the
-			 * github API, grab the files, looped AJAX delay so we don't make
-			 * anyone at github mad.
+			 * Rather than hunt through ini settings, etc we're going to perform a couple real-world
+			 * tests to make sure the server can run the install successfully. If not we fail 
+			 * gracefully, or at least early. Like I did in 7th grade Spanish.
 			*/
-			$source_message = '<h1>Installing.</h1><p>Copying files from github. '
-				. 'This should take a few minutes. We throttle the downloads to play nice with their servers.</p>'
-				. '<div class="altcopystyle fadedtext" style="margin-bottom:6px;">Copying files:</div>';
-			// as long as determinedCopy isn't spinning we can copy files from the repo
-			if (!$_SESSION['copying']) {
-				if (!file_exists('./manifest.diy.org.cashmusic')) {
-					// create the directory structure: remove any existing source files and re-download
-					// we'll make a proper update script later.
-					if (is_dir('./source')) {
-						rrmdir('./source');
-					}
-					if (is_dir('./admin')) {
-						rrmdir('./admin');
-					}
-					if (is_dir('./api')) {
-						rrmdir('./api');
-					}
-					if (is_dir('./demos')) {
-						rrmdir('./demos');
-					}
-					if (is_dir('./public')) {
-						rrmdir('./public');
-					}
-					if (mkdir('./source')) {
-						// get repo from github, strip unnecessary files and write manifest:
-						if (determinedCopy('https://github.com/api/v2/json/blob/all/cashmusic/DIY/'.$_SESSION['branch'],'./manifest.diy.org.cashmusic')) {
-							$repo = json_decode(file_get_contents('./manifest.diy.org.cashmusic'));
-							$files = array_keys((array)$repo->blobs);
-							foreach ($files as $key => $file) {
-								if (preg_match("/^(tests|installers|interfaces\/php\/docs|db|Makefile|index.html)/", $file)) {
-									unset($files[$key]);
+			$all_tests_pass = true;
+			$test_error_number = 0;
+			$test_error_message = '';
+
+			// 1. test for EITHER empty directory or in-progress install
+
+  			if (count(scandir('.')) > 3) {
+  				if (!file_exists('./manifest.diy.org.cashmusic')) {
+  					$all_tests_pass = false;
+  					$test_error_number = 1;
+  					$test_error_message = 'Please run this in an empty directory. I found extra '
+  										. 'files but no CASH manifest...looks like this folder is '
+  										. 'already in use.';
+  				}
+  			}
+
+			if (!$all_tests_pass) {
+				echo '<h1>Error #' . $test_error_number . ' </h1>';
+				echo '<p>' . $test_error_message . '</p>';
+			} else {
+				/**
+				 * INSTALL CURRENT SOURCE
+				 *
+				 * Don't even bother checking for git. Set up directories and hit the
+				 * github API, grab the files, looped AJAX delay so we don't make
+				 * anyone at github mad.
+				*/
+				$source_message = '<h1>Installing.</h1><p>Copying files from github. '
+					. 'This should take a few minutes. We throttle the downloads to play nice with their servers.</p>'
+					. '<div class="altcopystyle fadedtext" style="margin-bottom:6px;">Copying files:</div>';
+				// as long as determinedCopy isn't spinning we can copy files from the repo
+				if (!$_SESSION['copying']) {
+					if (!file_exists('./manifest.diy.org.cashmusic')) {
+						// create the directory structure: remove any existing source files and re-download
+						// we'll make a proper update script later.
+						if (is_dir('./source')) {
+							rrmdir('./source');
+						}
+						if (is_dir('./admin')) {
+							rrmdir('./admin');
+						}
+						if (is_dir('./api')) {
+							rrmdir('./api');
+						}
+						if (is_dir('./public')) {
+							rrmdir('./public');
+						}
+						if (mkdir('./source',0755,true)) {
+							// get repo from github, strip unnecessary files and write manifest:
+							if (determinedCopy('https://github.com/api/v2/json/blob/all/cashmusic/DIY/'.$_SESSION['branch'],'./manifest.diy.org.cashmusic')) {
+								$repo = json_decode(file_get_contents('./manifest.diy.org.cashmusic'));
+								$files = array_keys((array)$repo->blobs);
+								foreach ($files as $key => $file) {
+									if (preg_match("/^(tests|installers|interfaces\/php\/demos|docs|db|Makefile|index.html)/", $file)) {
+										unset($files[$key]);
+									}
 								}
+								$files = json_encode(array_merge($files)); // resets keys
+								file_put_contents('./manifest.diy.org.cashmusic',$files);
+						
+								echo $source_message;
+								echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
+								echo '<script type="text/javascript">showProgress(0);(function(){document.id("nextstepform").fireEvent("submit");}).delay(250);</script>';
 							}
-							$files = json_encode(array_merge($files)); // resets keys
-							file_put_contents('./manifest.diy.org.cashmusic',$files);
-					
-							echo $source_message;
-							echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
-							echo '<script type="text/javascript">showProgress(0);(function(){document.id("nextstepform").fireEvent("submit");}).delay(250);</script>';
+						} else {
+							echo '<h1>Oh. Shit. Something\'s wrong.</h1>error creating source directory<br />';
 						}
 					} else {
-						echo '<h1>Oh. Shit. Something\'s wrong.</h1>error creating source directory<br />';
+						// grab our manifest:
+						$files = json_decode(file_get_contents('./manifest.diy.org.cashmusic'));
+						$filecount = count($files);
+						$currentfile = 1;
+
+						foreach ($files as $file) {
+							if (!file_exists('./source/'.$file)) {
+								$path = pathinfo($file);
+								if (!is_dir('./source/'.$path['dirname'])) mkdir('./source/'.$path['dirname'],0755,true);
+								if (determinedCopy('https://raw.github.com/cashmusic/DIY/'.$_SESSION['branch'].'/'.$file,'./source/'.$file)) {
+									echo $source_message;
+									if ($currentfile != $filecount) {
+										echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
+										echo '<script type="text/javascript">showProgress(' . ceil(100 * ($currentfile / $filecount)) . ');(function(){document.id("nextstepform").fireEvent("submit");}).delay(650);</script>';
+									} else {
+										// we're done; remove the manifest file
+										if (file_exists('./manifest.diy.org.cashmusic')) {
+											unlink('./manifest.diy.org.cashmusic');
+										}
+										echo '<form action="" method="post" id="nextstepform"><input type="hidden" id="installstagefade" value="1" /><input type="hidden" name="installstage" id="installstageinput" value="3" /></form>';
+										echo '<script type="text/javascript">hideProgress();(function(){document.id("nextstepform").fireEvent("submit");}).delay(250);</script>';
+									}
+									break;
+								} else {
+									echo '<h1>Oh. Shit. Something\'s wrong.</h1>error copying file: ' . (string)$file . '<br />';
+									break;
+								}
+							}
+							$currentfile = ++$currentfile;
+						}
 					}
 				} else {
-					// grab our manifest:
-					$files = json_decode(file_get_contents('./manifest.diy.org.cashmusic'));
-					$filecount = count($files);
-					$currentfile = 1;
-
-					foreach ($files as $file) {
-						if (!file_exists('./source/'.$file)) {
-							$path = pathinfo($file);
-							if (!is_dir('./source/'.$path['dirname'])) mkdir('./source/'.$path['dirname'],0777,true);
-							if (determinedCopy('https://raw.github.com/cashmusic/DIY/'.$_SESSION['branch'].'/'.$file,'./source/'.$file)) {
-								echo $source_message;
-								if ($currentfile != $filecount) {
-									echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
-									echo '<script type="text/javascript">showProgress(' . ceil(100 * ($currentfile / $filecount)) . ');(function(){document.id("nextstepform").fireEvent("submit");}).delay(650);</script>';
-								} else {
-									// we're done; remove the manifest file
-									if (file_exists('./manifest.diy.org.cashmusic')) {
-										unlink('./manifest.diy.org.cashmusic');
-									}
-									echo '<form action="" method="post" id="nextstepform"><input type="hidden" id="installstagefade" value="1" /><input type="hidden" name="installstage" id="installstageinput" value="3" /></form>';
-									echo '<script type="text/javascript">hideProgress();(function(){document.id("nextstepform").fireEvent("submit");}).delay(500);</script>';
-								}
-								break;
-							} else {
-								echo '<h1>Oh. Shit. Something\'s wrong.</h1>error copying file: ' . (string)$file . '<br />';
-								break;
-							}
-						}
-						$currentfile = ++$currentfile;
-					}
+					echo $source_message;
+					echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
+					echo '<script type="text/javascript">showProgress(0);(function(){document.id("nextstepform").fireEvent("submit");}).delay(250);</script>';
 				}
-			} else {
-				echo $source_message;
-				echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
-				echo '<script type="text/javascript">showProgress(0);(function(){document.id("nextstepform").fireEvent("submit");}).delay(250);</script>';
 			}
 			break;
 		case "3":
@@ -464,7 +488,7 @@ if (!isset($_POST['installstage'])) {
 
 			if ($user_settings['frameworklocation']) {
 				if (!is_dir($user_settings['frameworklocation'])) {
-					if (!mkdir($user_settings['frameworklocation'])) {
+					if (!mkdir($user_settings['frameworklocation'],0755,true)) {
 						echo "<h1>Oh. Shit. Something's wrong.</h1><p>Couldn't create a directory at" . $user_settings['frameworklocation'] . ".</p>";
 						break;
 					}
@@ -488,19 +512,8 @@ if (!isset($_POST['installstage'])) {
 				
 				!findReplaceInFile('./source/interfaces/php/api/controller.php','dirname(__FILE__).\'/../../../framework/php','$cashmusic_root = "' . $user_settings['frameworklocation'] . '/framework') || 
 				
-				!findReplaceInFile('./source/interfaces/php/demos/index.html','../../../docs/assets/fonts','https://cashmusic.s3.amazonaws.com/permalink/fonts') || 
-				!findReplaceInFile('./source/interfaces/php/demos/index.html','<a href="/interfaces/php/admin/">Admin</a> <a href="/interfaces/php/demos/">Demos</a> <a href="/docs/">Docs</a> <a href="http://github.com/cashmusic/DIY">Github Repo</a>','<a href="../admin/">Admin</a> <a href="http://cashmusic.github.com/DIY/">Docs</a> <a href="http://github.com/cashmusic/DIY">Github Repo</a>') || 
-				!findReplaceInFile('./source/interfaces/php/demos/emailcontestentry/index.php','../../../../framework/php/cashmusic.php',$user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
-				!findReplaceInFile('./source/interfaces/php/demos/emailfordownload/index.php','../../../../framework/php/cashmusic.php',$user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
-				!findReplaceInFile('./source/interfaces/php/demos/filteredsocialfeeds/index.php','../../../../framework/php/cashmusic.php',$user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
-				!findReplaceInFile('./source/interfaces/php/demos/tourdates/index.php','../../../../framework/php/cashmusic.php',$user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
-				!findReplaceInFile('./source/interfaces/php/demos/emailcontestentry/index.php','../../../../framework/php/settings/debug/cashmusic_debug.php',$user_settings['frameworklocation'] . '/framework/settings/debug/cashmusic_debug.php') || 
-				!findReplaceInFile('./source/interfaces/php/demos/emailfordownload/index.php','../../../../framework/php/settings/debug/cashmusic_debug.php',$user_settings['frameworklocation'] . '/framework/settings/debug/cashmusic_debug.php') || 
-				!findReplaceInFile('./source/interfaces/php/demos/filteredsocialfeeds/index.php','../../../../framework/php/settings/debug/cashmusic_debug.php',$user_settings['frameworklocation'] . '/framework/settings/debug/cashmusic_debug.php') || 
-				!findReplaceInFile('./source/interfaces/php/demos/tourdates/index.php','../../../../framework/php/settings/debug/cashmusic_debug.php',$user_settings['frameworklocation'] . '/framework/settings/debug/cashmusic_debug.php') ||
-				
 				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','driver = "mysql','driver = "sqlite') || 
-				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','database = "seed','database = "cashmusic.sqlite') || 
+				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','database = "cashmusic','database = "cashmusic.sqlite') || 
 				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','apilocation = "http://localhost:8888/interfaces/php/api/','apilocation = "' . getBaseURL() . str_replace('/admin', '/api', $admin_dir)) || 
 				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $user_settings['systemsalt']) ||
 				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','systememail = "info@cashmusic.org','systememail = "system@' . $_SERVER['SERVER_NAME'])
@@ -515,7 +528,6 @@ if (!isset($_POST['installstage'])) {
 				!rename('./source/framework/php', $user_settings['frameworklocation'] . '/framework') || 
 				!rename('./source/interfaces/php/admin', './admin') || 
 				!rename('./source/interfaces/php/api', './api') || 
-				!rename('./source/interfaces/php/demos', './demos') || 
 				!rename('./source/interfaces/php/public', './public')
 			) {
 				echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>We couldn\'t move files into place. Please make sure you have write access in '
@@ -528,7 +540,12 @@ if (!isset($_POST['installstage'])) {
 			
 			// if the directory was never created then create it now
 			if (!file_exists($user_settings['frameworklocation'] . '/db')) {
-				mkdir($user_settings['frameworklocation'] . '/db');
+				mkdir($user_settings['frameworklocation'] . '/db',0755,true);
+			} else {
+				// blow away the old sqlite file. 
+				if (file_exists($user_settings['frameworklocation'] . '/db/cashmusic.sqlite')) {
+					unlink($user_settings['frameworklocation'] . '/db/cashmusic.sqlite');
+				}
 			}
 			
 			// connect to the new db...will create if not found
@@ -549,7 +566,6 @@ if (!isset($_POST['installstage'])) {
 			// push in all the tables
 			try {
 				$pdo->exec(file_get_contents($user_settings['frameworklocation'] . '/framework/settings/sql/cashmusic_db_sqlite.sql'));
-				$pdo->exec(file_get_contents($user_settings['frameworklocation'] . '/framework/settings/sql/cashmusic_demo_data.sql'));
 			} catch (PDOException $e) {
 				echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>Couldn\'t create database tables. Files are all in-place, so you can manually edit settings or start over.';
 				die();
@@ -586,7 +602,7 @@ if (!isset($_POST['installstage'])) {
 			// success message
 			echo '<h1>All done.</h1><p>Okay. Everything is set up, configured, and ready to go. Follow the link below and login with the given '
 			. 'credentials</p><p><br /><br /><a href="./admin/" class="loginlink">Click to login</a><br /><br /><b>Email address:</b> ' . $user_settings['adminemailaccount']
-			. '<br /><b>Password:</b> ' . $user_password;
+			. '<br /><b>Temporary Password:</b> ' . $user_password;
 			
 			echo '<br /><br /><br /><br /><small class="altcopystyle fadedtext">I feel compelled to point out that in the time it took you to read this, I, your helpful installer script, have deleted '
 			. 'myself in the name of security. It is a far, far better thing that I do, than I have ever done; it is a far, far better rest that I go to, than I '

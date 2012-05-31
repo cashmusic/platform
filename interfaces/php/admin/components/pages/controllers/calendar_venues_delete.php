@@ -9,7 +9,7 @@ if (isset($_POST['dodelete']) || isset($_GET['modalconfirm'])) {
 		array(
 			'cash_request_type' => 'calendar', 
 			'cash_action' => 'deletevenue',
-			'id' => $request_parameters[0]
+			'venue_id' => $request_parameters[0]
 		)
 	);
 	if ($venue_delete_request->response['status_uid'] == 'calendar_deletevenue_200') {

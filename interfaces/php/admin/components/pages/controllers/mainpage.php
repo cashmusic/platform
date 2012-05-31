@@ -21,7 +21,7 @@ $elements_response = $cash_admin->requestAndStore(
 	),
 	'getelementsforuser'
 );
-if ($elements_response) {
+if (is_array($elements_response['payload'])) {
 	$cash_admin->page_data['elements_for_user'] = new ArrayIterator($elements_response['payload']);
 } else {
 	// no elements found, meaning it's a newer install
