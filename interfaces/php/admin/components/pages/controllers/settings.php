@@ -46,5 +46,7 @@ if ($cash_admin->page_data['db_type'] == 'MySQL') {
 	$cash_admin->page_data['migrate_from_sqlite'] = true;
 }
 
+$cash_admin->page_data['platform_path'] = realpath(CASH_PLATFORM_PATH);
+
 $cash_admin->setPageContentTemplate('settings');
 ?>

@@ -14,7 +14,7 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  */class CASHRequest extends CASHData {
-	public static $version = 2;
+	public static $version = 3;
 	
 	protected $request_method,
 			  $plant_array=array(),

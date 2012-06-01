@@ -1,5 +1,6 @@
+<h3>Platform settings</h3>
 <p>
-Use this page to change primary system settings without editing the cashmusic.ini.php file. 
+Change primary system settings without editing the cashmusic.ini.php file. 
 Advanced settings have been hidden and should not be changed unless you like broken things.	
 </p><br />
 <div class="col_oneoftwo">
@@ -48,4 +49,15 @@ Advanced settings have been hidden and should not be changed unless you like bro
 		<input class="button" type="submit" value="Change settings" />
 	</form>	
 </div>
-<div class="row_seperator">.</div>
+<div class="row_seperator tall">.</div>
+<br /><br />
+<h3>Using the platform</h3>
+<p>
+This one line gets the platform up and running. It should be included at the very top
+of all pages, before any other code:
+</p>
+<div class="callout">	
+	<code>
+		&lt?php include('{{platform_path}}'); // CASH Music ?&gt
+	</code>
+</div>
