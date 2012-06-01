@@ -373,7 +373,7 @@ if (!isset($_POST['installstage'])) {
 											. 'cURL is' . (function_exists('curl_init') ? '' : ' not') . ' installed.<br />'
 											. 'fopen wrappers are' . (ini_get('allow_url_fopen') ? '' : ' not') . ' enabled.';
 		  			} else {
-		  				if (!defined(PDO::ATTR_ERRMODE)) {
+		  				if (!class_exists(PDO)) {
 			  				$all_tests_pass = false;
 							$test_error_number = 4;
 							$test_error_message = "Couldn't find PDO. This is a required component of PHP that "

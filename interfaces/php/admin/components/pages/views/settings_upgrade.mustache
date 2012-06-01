@@ -1,1 +1,13 @@
-Current platform version: {{platform_version}}
+<p>
+	<b>Current platform version:</b> {{platform_version}}<br />
+	<b>Upgrade available:</b> 
+		{{^upgrade_available}}No{{/upgrade_available}}
+		{{#upgrade_available}}Yes{{/upgrade_available}}
+</p>
+
+{{#is_edge}}
+	<p class="fadedtext altcopystyle">
+		Okay smarty-pants. Using an unstable edge release is cool and all, but no — you can't upgrade 
+		this one easily. Tread carefully.
+	</p>
+{{/is_edge}}
