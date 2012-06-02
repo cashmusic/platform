@@ -54,14 +54,10 @@ class CASHDBA {
 					$this->db = new PDO("{$this->driver}:host={$this->hostname};port={$this->port};dbname={$this->dbname}", $this->username, $this->password);
 				}
 			}
-			// For try/catch (production)
 			$this->db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-			
-			// For in-workflow php_error.log dumps (dev)
-			//$this->db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 		} catch(PDOException $e) {  
 			$this->error = $e->getMessage();  
-			echo $this->error;
+			error_log('CASHDBA error: ' . $this->error);
 			die();
 		}
 	}
@@ -112,6 +108,7 @@ class CASHDBA {
 			$result = $q->fetchAll();
 		} catch(PDOException $e) {  
 			$this->error = $e->getMessage();
+			error_log('CASHDBA error: ' . $this->error);
 		}
 		if ($result) {
 			if (count($result) == 0) {
@@ -348,6 +345,7 @@ class CASHDBA {
 					}
 				} catch(PDOException $e) {  
 					$this->error = $e->getMessage();
+					error_log('CASHDBA error: ' . $this->error);
 				}	
 			} else {
 				return false;
@@ -374,6 +372,7 @@ class CASHDBA {
 				}
 			} catch(PDOException $e) {  
 				$this->error = $e->getMessage();
+				error_log('CASHDBA error: ' . $this->error);
 				die();
 			}
 		} else {
