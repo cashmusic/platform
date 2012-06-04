@@ -9,7 +9,9 @@ RewriteEngine On
 RewriteBase /interfaces/php/admin
 Options +FollowSymlinks 
 Options -Indexes 
-DirectorySlash Off
+
+# add a slash to root requests
+RewriteRule ^admin$ admin/ [R]
 
 # create controller redirects
 

@@ -1,19 +1,8 @@
 <?php
 /**
- * CASH Music Web Installer
+ * CASH Music Updater
  *
- * This single file acts as a simple HTML5/JS website, downloading and installing
- * the latest platform files, configuring the database, setting and environment
- * details, and ultimately removing itself and any extra source from the host
- * server. (I kind of feel like a jerk making it delete itself.)
- *
- * Usage: just upload and run.
- *
- * A NOTE ABOUT SECURITY:
- * This file deletes itself for a reason. It clearly opens up some vulnerabilities
- * were it to be a public-facing script. Rather than wrestle with sanitizing all 
- * input we've chosen to use PDO to sanitize the SQL and remove the file when it
- * has run its course to avoid additional file edits. 
+ * To be launched from within the platform.
  * 
  *
  * @package diy.org.cashmusic
@@ -26,16 +15,12 @@
 */
 session_start();
 $_SESSION['copying'] = false; // we'll use this in the AJAX copy loops later
+$_SESSION['branch'] = 'master';
 
-if (!isset($_SESSION['branch']) || isset($_GET['origin'])) {
-	if(isset($_GET['origin'])) {
-		$_SESSION['branch'] = $_GET['origin'];
-	} else {
-		$_SESSION['branch'] = 'latest_stable';
-	}
-}
+include_once('./admin/constants.php');
+include_once(CASH_PLATFORM_PATH);
 
-$cash_root_location = false;
+$cash_root_location = str_replace('cashmusic.php','',CASH_PLATFORM_PATH);
 
 // recursive rmdir:
 function rrmdir($dir) { 
@@ -137,7 +122,7 @@ if (!isset($_POST['installstage'])) {
 	<!DOCTYPE html> 
 	<html> 
 	<head> 
-	<title>Install / CASH Music</title> 
+	<title>Update / CASH Music</title> 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
 
 	<style type="text/css" /> 
@@ -290,17 +275,16 @@ if (!isset($_POST['installstage'])) {
 	<div id="topstrip">&nbsp;</div>
 	<div id="wrap"> 
 	 	<div id="mainspc" class="usecolor1">
-			<h1>Hello.</h1>
+			<h1>Oh, Hi Again.</h1>
 			<p>
-				This is the installer for the CASH Music platform. It will first grab the latest working 
-				version of the platform, install it, then configure the bits and settings. 
+				Upgrading? No worries, it's easy. This script will work a lot like the original 
+				installer. First it'll grab new updates, and download new files. When that's done 
+				it'll swap out your old files for the new and you'll have the latest shiniest things
+				without losing any data along the way.
 			</p><p>
-				You'll only need to answer a couple questions, but please run this file in an empty 
-				folder of it's own if you're installing next to a live site. If you have any questions 
-				please see <a href="http://help.cashmusic.org/" target="_blank">help.cashmusic.org</a> for more.
+				As with anything monkeying in your databases, you should back up your current database 
+				now if possible.
 			</p>
-				xo,
-				<h2><a href="http://cashmusic.org/">CASH Music</a></h2>
 		
 			<br /><br />
 			<div class="nextstep">
@@ -308,7 +292,7 @@ if (!isset($_POST['installstage'])) {
 				<form action="" method="post" id="nextstepform">
 					<input type="hidden" name="installstage" id="installstageinput" value="2" />
 					<input type="hidden" id="installstagefade" value="1" />
-					<input type="submit" class="button" value="Start the installing" />
+					<input type="submit" class="button" value="Update" />
 				</form>
 			</div>
 		</div>
@@ -317,7 +301,7 @@ if (!isset($_POST['installstage'])) {
 	</div>
 
 	<div id="footer">
-		<p><b>&copy; 2011 CASH Music.</b> All our code is open-source. <a href="http://cashmusic.org/why/" style="margin-left:0;">Learn more</a>. <a href="http://help.cashmusic.org/">Get help</a> <a href="http://cashmusic.org/donate" class="donatelink"><b>Donate</b></a></p>
+		<p><b>&copy; 2012 CASH Music.</b> All our code is open-source. <a href="http://cashmusic.org/why/" style="margin-left:0;">Learn more</a>. <a href="http://help.cashmusic.org/">Get help</a> <a href="http://cashmusic.org/donate" class="donatelink"><b>Donate</b></a></p>
 	</div>
 
 	</body>
@@ -332,338 +316,150 @@ if (!isset($_POST['installstage'])) {
 	switch ($_POST['installstage']) {
 		case "2":
 			/**
-			 * TEST CAPABILITIES
+			 * INSTALL CURRENT SOURCE
 			 *
-			 * Rather than hunt through ini settings, etc we're going to perform a couple real-world
-			 * tests to make sure the server can run the install successfully. If not we fail 
-			 * gracefully, or at least early. Like I did in 7th grade Spanish.
-			 *
-			 * Possible Errors:
-			 * 1. directory not empty or in-progress
-			 * 2. no write access
-			 * 3. no curl / fopen wrappers
-			 * 4. no PDO support
-			 * 5. no sqlite / sqlite 3 support
+			 * Don't even bother checking for git. Set up directories and hit the
+			 * github API, grab the files, looped AJAX delay so we don't make
+			 * anyone at github mad.
 			*/
-			$all_tests_pass = true;
-			$test_error_number = 0;
-			$test_error_message = '';
-
-			// this nested structure is kinda nutty, but you know...also fine / finite
-  			if (count(scandir('.')) > 3) {
-  				// 1. test for EITHER empty directory or in-progress install
-  				if (!file_exists('./manifest.diy.org.cashmusic')) {
-  					$all_tests_pass = false;
-  					$test_error_number = 1;
-  					$test_error_message = 'Please run this in an empty directory. I found extra '
-  										. 'files but no CASH manifest...looks like this folder is '
-  										. 'already in use.';
-  				}
-  			} else {
-  				if (!mkdir('./test',0755,true)) {
-	  				$all_tests_pass = false;
-					$test_error_number = 2;
-					$test_error_message = "Can't create a directory. Kind of need to do that. Sorry.";
-	  			} else {
-	  				if (!determinedCopy('https://github.com/api/v2/json/blob/all/cashmusic/DIY/'.$_SESSION['branch'],'./test/manifest.diy.org.cashmusic')) {
-		  				$all_tests_pass = false;
-						$test_error_number = 3;
-						$test_error_message = "I'm trying to copy files down from github but it's not working. "
-											. "This means I can't see the outside word.<br /><br />"
-											. 'cURL is' . (function_exists('curl_init') ? '' : ' not') . ' installed.<br />'
-											. 'fopen wrappers are' . (ini_get('allow_url_fopen') ? '' : ' not') . ' enabled.';
-		  			} else {
-		  				if (!class_exists(PDO)) {
-			  				$all_tests_pass = false;
-							$test_error_number = 4;
-							$test_error_message = "Couldn't find PDO. This is a required component of PHP that "
-												. 'is included by default in most builds of PHP — apparently it '
-												. 'has been turned off.';
-			  			} else {
-			  				// connect to the new db...will create if not found
-							try {
-								$pdo = new PDO ('sqlite:' . dirname('.') . '/test/test.sqlite');
-								$pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-								chmod(dirname('.') . '/test/test.sqlite',0755);
-								$pdo->exec('CREATE TABLE test (id INTEGER PRIMARY KEY, testint integer);');
-							} catch (PDOException $e) {
-								$all_tests_pass = false;
-								$test_error_number = 5;
-								$test_error_message = "Looks like there's no support for sqlite 3. "
-													. 'The exact error message given was: <br /><br />'
-													. $e->getMessage();
-							}
-			  			}
-		  			}
-	  			}
-  			}
-
-  			// clean up testing mess:
-			if (is_dir('./test')) {
-				rrmdir('./test');
-			}
-
-			if (!$all_tests_pass) {
-				echo '<h1>Error #' . $test_error_number . ' </h1>';
-				echo '<p>' . $test_error_message . '</p>';
-			} else {
-				/**
-				 * INSTALL CURRENT SOURCE
-				 *
-				 * Don't even bother checking for git. Set up directories and hit the
-				 * github API, grab the files, looped AJAX delay so we don't make
-				 * anyone at github mad.
-				*/
-				$source_message = '<h1>Installing.</h1><p>Copying files from github. '
-					. 'This should take a few minutes. We throttle the downloads to play nice with their servers.</p>'
-					. '<div class="altcopystyle fadedtext" style="margin-bottom:6px;">Copying files:</div>';
-				// as long as determinedCopy isn't spinning we can copy files from the repo
-				if (!$_SESSION['copying']) {
-					if (!file_exists('./manifest.diy.org.cashmusic')) {
-						// create the directory structure: remove any existing source files and re-download
-						// we'll make a proper update script later.
-						if (is_dir('./source')) {
-							rrmdir('./source');
-						}
-						if (is_dir('./admin')) {
-							rrmdir('./admin');
-						}
-						if (is_dir('./api')) {
-							rrmdir('./api');
-						}
-						if (is_dir('./public')) {
-							rrmdir('./public');
-						}
-						if (mkdir('./source',0755,true)) {
-							// get repo from github, strip unnecessary files and write manifest:
-							if (determinedCopy('https://github.com/api/v2/json/blob/all/cashmusic/DIY/'.$_SESSION['branch'],'./manifest.diy.org.cashmusic')) {
-								$repo = json_decode(file_get_contents('./manifest.diy.org.cashmusic'));
-								$files = array_keys((array)$repo->blobs);
-								foreach ($files as $key => $file) {
-									if (preg_match("/^(tests|installers|interfaces\/php\/demos|docs|db|Makefile|.travis.yml|.gitignore|index.html)/", $file)) {
-										unset($files[$key]);
-									}
+			$source_message = '<h1>Copying files.</h1><p>'
+				. 'This should take a few minutes. We throttle the downloads to play nice with github servers.</p>'
+				. '<div class="altcopystyle fadedtext" style="margin-bottom:6px;">Progress:</div>';
+			// as long as determinedCopy isn't spinning we can copy files from the repo
+			if (!$_SESSION['copying']) {
+				if (!file_exists('./manifest.diy.org.cashmusic')) {
+					// create the directory structure: remove any existing source files and re-download
+					// we'll make a proper update script later.
+					if (is_dir('./update')) {
+						rrmdir('./update');
+					}
+					if (mkdir('./update',0755,true)) {
+						// get repo from github, strip unnecessary files and write manifest:
+						if (determinedCopy('https://github.com/api/v2/json/blob/all/cashmusic/DIY/'.$_SESSION['branch'],'./manifest.diy.org.cashmusic')) {
+							$repo = json_decode(file_get_contents('./manifest.diy.org.cashmusic'));
+							$files = array_keys((array)$repo->blobs);
+							foreach ($files as $key => $file) {
+								if (preg_match("/^(tests|interfaces\/php\/demos|docs|db|Makefile|.travis.yml|.gitignore|index.html)/", $file)) {
+									unset($files[$key]);
 								}
-								$files = json_encode(array_merge($files)); // resets keys
-								file_put_contents('./manifest.diy.org.cashmusic',$files);
-						
-								echo $source_message;
-								echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
-								echo '<script type="text/javascript">showProgress(0);(function(){document.id("nextstepform").fireEvent("submit");}).delay(250);</script>';
 							}
-						} else {
-							echo '<h1>Oh. Shit. Something\'s wrong.</h1>error creating source directory<br />';
+							$files = json_encode(array_merge($files)); // resets keys
+							file_put_contents('./manifest.diy.org.cashmusic',$files);
+					
+							echo $source_message;
+							echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
+							echo '<script type="text/javascript">showProgress(0);(function(){document.id("nextstepform").fireEvent("submit");}).delay(250);</script>';
 						}
 					} else {
-						// grab our manifest:
-						$files = json_decode(file_get_contents('./manifest.diy.org.cashmusic'));
-						$filecount = count($files);
-						$currentfile = 1;
-
-						foreach ($files as $file) {
-							if (!file_exists('./source/'.$file)) {
-								$path = pathinfo($file);
-								if (!is_dir('./source/'.$path['dirname'])) mkdir('./source/'.$path['dirname'],0755,true);
-								if (determinedCopy('https://raw.github.com/cashmusic/DIY/'.$_SESSION['branch'].'/'.$file,'./source/'.$file)) {
-									echo $source_message;
-									if ($currentfile != $filecount) {
-										echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
-										echo '<script type="text/javascript">showProgress(' . ceil(100 * ($currentfile / $filecount)) . ');(function(){document.id("nextstepform").fireEvent("submit");}).delay(650);</script>';
-									} else {
-										// we're done; remove the manifest file
-										if (file_exists('./manifest.diy.org.cashmusic')) {
-											unlink('./manifest.diy.org.cashmusic');
-										}
-										echo '<form action="" method="post" id="nextstepform"><input type="hidden" id="installstagefade" value="1" /><input type="hidden" name="installstage" id="installstageinput" value="3" /></form>';
-										echo '<script type="text/javascript">hideProgress();(function(){document.id("nextstepform").fireEvent("submit");}).delay(250);</script>';
-									}
-									break;
-								} else {
-									echo '<h1>Oh. Shit. Something\'s wrong.</h1>error copying file: ' . (string)$file . '<br />';
-									break;
-								}
-							}
-							$currentfile = ++$currentfile;
-						}
+						echo '<h1>Oh. Shit. Something\'s wrong.</h1>error creating source directory<br />';
 					}
 				} else {
-					echo $source_message;
-					echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
-					echo '<script type="text/javascript">showProgress(0);(function(){document.id("nextstepform").fireEvent("submit");}).delay(250);</script>';
+					// grab our manifest:
+					$files = json_decode(file_get_contents('./manifest.diy.org.cashmusic'));
+					$filecount = count($files);
+					$currentfile = 1;
+
+					foreach ($files as $file) {
+						if (!file_exists('./update/'.$file)) {
+							$path = pathinfo($file);
+							if (!is_dir('./update/'.$path['dirname'])) mkdir('./update/'.$path['dirname'],0755,true);
+							if (determinedCopy('https://raw.github.com/cashmusic/DIY/'.$_SESSION['branch'].'/'.$file,'./update/'.$file)) {
+								echo $source_message;
+								if ($currentfile != $filecount) {
+									echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
+									echo '<script type="text/javascript">showProgress(' . ceil(100 * ($currentfile / $filecount)) . ');(function(){document.id("nextstepform").fireEvent("submit");}).delay(650);</script>';
+								} else {
+									// we're done; remove the manifest file
+									if (file_exists('./manifest.diy.org.cashmusic')) {
+										unlink('./manifest.diy.org.cashmusic');
+									}
+									echo '<form action="" method="post" id="nextstepform"><input type="hidden" id="installstagefade" value="1" /><input type="hidden" name="installstage" id="installstageinput" value="3" /></form>';
+									echo '<script type="text/javascript">hideProgress();(function(){document.id("nextstepform").fireEvent("submit");}).delay(250);</script>';
+								}
+								break;
+							} else {
+								echo '<h1>Oh. Shit. Something\'s wrong.</h1>error copying file: ' . (string)$file . '<br />';
+								break;
+							}
+						}
+						$currentfile = ++$currentfile;
+					}
 				}
+			} else {
+				echo $source_message;
+				echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
+				echo '<script type="text/javascript">showProgress(0);(function(){document.id("nextstepform").fireEvent("submit");}).delay(250);</script>';
 			}
 			break;
 		case "3":
 			/**
-			 * GET SETTINGS FROM USER
-			 *
-			 * Locations, MySQL, and email address
-			*/
-			$settings_message = '<h1>Settings.</h1><p>You don\'t want us to just start putting '
-				. 'files all over the place, do you? The form is auto-loaded with our best guess at a '
-				. 'location for the core files, but you can put them anywhere.</p> '
-				. '<p>The core files should ideally be stored somewhere that isn\'t public, '
-				. 'so if possible keep them outside the www root folder that holds your site files.</p> '
-				. '<p>While you\'re at it, add an email address for the main admin account.'
-				. ' (<b>Hint:</b> use a real email address so you can reset your password if need be.)</p>';
-			if (is_dir('./source/')) {
-				if (!$cash_root_location) {
-					// if $cash_root_location is not set above make a directory above the root
-					$cash_root_location = dirname($_SERVER['DOCUMENT_ROOT']) . '/cashmusic';
-				}
-				echo $settings_message;
-				echo '<form action="" method="post" id="nextstepform"><input type="hidden" id="installstagefade" value="1" /><input type="hidden" name="installstage" id="installstageinput" value="4" /> '
-				. '<h3>Install core files to:</h3><input type="text" name="frameworklocation" value="' . $cash_root_location . '" /> '
-				. '<h3>Admin email account:</h3><input type="text" name="adminemailaccount" value="admin@' . $_SERVER['SERVER_NAME'] . '" /> '
-				. '<br /><br /><div class="altcopystyle fadedtext" style="margin-bottom:6px;">Alright then:</div><input type="submit" class="button" value="Set it all up" /></div> '
-				. '</form>';
-			} else {
-				echo '<h1>Oh. Shit. Something\'s wrong.</h1> No source directory found.<br />';
-			}
-			break;
-		case "4":
-			/**
 			 * MAKE IT ALL HAPPEN
 			 *
-			 * Edit and move files, write redirects, set up DBs, remove the installer script, party.
+			 * Edit and move files, remove the updated script, party again.
 			*/
-			
-			$admin_dir = rtrim(dirname($_SERVER['REQUEST_URI']),'/') . '/admin';
 
-			$user_settings = array(
-				'frameworklocation' => (string)$_POST['frameworklocation'],
-				'adminemailaccount' => (string)$_POST['adminemailaccount'],
-				'systemsalt' => md5($user_settings['adminemailaccount'] . time())
-			);
+			$current_version = CASHRequest::$version;
+			$upgrade_failure = false;
 
-			if ($user_settings['frameworklocation']) {
-				if (!is_dir($user_settings['frameworklocation'])) {
-					if (!mkdir($user_settings['frameworklocation'],0755,true)) {
-						echo "<h1>Oh. Shit. Something's wrong.</h1><p>Couldn't create a directory at" . $user_settings['frameworklocation'] . ".</p>";
+			$total_versions_upgraded = 0;
+
+			while (file_exists('./update/installers/php/update/updatescripts/' . $current_version . 'php')) {
+				include('./update/installers/php/update/updatescripts/' . $current_version . 'php');
+				if ($upgrade_failure) {
+					break;
+				} else {
+					$current_version++;
+					$total_versions_upgraded++;
+				}
+			}
+
+			if (!$upgrade_failure) {
+				if ($total_versions_upgraded) {
+					// move source files into place DO NOT OVERWRITE SETTINGS, DUMMY!
+					if (is_file($cash_root_location . '/framework/cashmusic.php')) unlink($cash_root_location . '/framework/cashmusic.php');
+					if (is_file('./admin/controller.php')) unlink('./admin/controller.php');
+					if (is_dir($cash_root_location . '/framework/classes')) rrmdir($cash_root_location . '/framework/classes');
+					if (is_dir($cash_root_location . '/framework/elements')) rrmdir($cash_root_location . '/framework/elements');
+					if (is_dir($cash_root_location . '/framework/lib')) rrmdir($cash_root_location . '/framework/lib');
+					if (is_dir('./admin/assets')) rrmdir('./admin/assets');
+					if (is_dir('./admin/classes')) rrmdir('./admin/classes');
+					if (is_dir('./admin/components')) rrmdir('./admin/components');
+					if (is_dir('./admin/ui')) rrmdir('./admin/ui');
+					if (is_dir('./api/classes')) rrmdir('./api/classes');
+					if (is_dir('./public')) rrmdir('./public');
+					if (
+						!rename('./update/framework/php/cashmusic.php', $cash_root_location . '/framework/cashmusic.php') || 
+						!rename('./update/framework/php/classes', $cash_root_location . '/framework/classes') || 
+						!rename('./update/framework/php/elements', $cash_root_location . '/framework/elements') || 
+						!rename('./update/framework/php/lib', $cash_root_location . '/framework/lib') || 
+						!rename('./update/interfaces/php/admin/controller.php', './admin/controller.php') || 
+						!rename('./update/interfaces/php/admin/assets', './admin/assets') || 
+						!rename('./update/interfaces/php/admin/classes', './admin/classes') || 
+						!rename('./update/interfaces/php/admin/components', './admin/components') || 
+						!rename('./update/interfaces/php/admin/ui', './admin/ui') || 
+						!rename('./update/interfaces/php/api/classes', './api/classes') || 
+						!rename('./update/interfaces/php/public', './public')
+					) {
+						echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>We couldn\'t move files into place. Please make sure you have write access in '
+						. 'the directory you specified for the core.</p>';
 						break;
 					}
+
+					// success message
+					echo '<h1>All done.</h1><p>Okay. You\'re all up-to-date.</p>';
+					echo '<br /><br /><br /><br /><small class="altcopystyle fadedtext">Like last time, I\'m deleting myself. This is goign to give me a complex.</small>';
 				} else {
-					if (is_dir($user_settings['frameworklocation'] . '/framework')) {
-						rrmdir($user_settings['frameworklocation'] . '/framework');
-						//echo 'removed old framework directory at ' . $cash_root_location . '/framework' . '<br />';
-					}
+					// error message
+				echo '<h1>No upgrades performed.</h1><p>Either you are current or we couldn\'t find updates. Your curent version is reported as: ' . $current_version . '</p>';
 				}
 			} else {
-				echo "<h1>Oh. Shit. Something's wrong.</h1><p>No core location specified.</p>";
-				break;
-			}
-		
-			// modify settings files
-			if (
-				!findReplaceInFile('./source/interfaces/php/admin/.htaccess','RewriteBase /interfaces/php/admin','RewriteBase ' . $admin_dir) || 
-				
-				!findReplaceInFile('./source/interfaces/php/admin/constants.php','$cashmusic_root = $root . "/../../../framework/php/cashmusic.php','$cashmusic_root = "' . $user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
-				!findReplaceInFile('./source/interfaces/php/admin/constants.php','define(\'ADMIN_WWW_BASE_PATH\', \'/interfaces/php/admin','define(\'ADMIN_WWW_BASE_PATH\', \'' . $admin_dir) || 
-				
-				!findReplaceInFile('./source/interfaces/php/api/controller.php','dirname(__FILE__).\'/../../../framework/php','$cashmusic_root = "' . $user_settings['frameworklocation'] . '/framework') || 
-				
-				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','driver = "mysql','driver = "sqlite') || 
-				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','database = "cashmusic','database = "cashmusic.sqlite') || 
-				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','apilocation = "http://localhost:8888/interfaces/php/api/','apilocation = "' . getBaseURL() . str_replace('/admin', '/api', $admin_dir)) || 
-				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $user_settings['systemsalt']) ||
-				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','systememail = "info@cashmusic.org','systememail = "system@' . $_SERVER['SERVER_NAME'])
-			) {
-				echo "<h1>Oh. Shit. Something's wrong.</h1><p>We had trouble editing a few files. Please try again.</p>";
-				break;
+				// error message
+				echo '<h1>Error converting database.</h1><p>There was a problem updating your database. SQLite databases have been restored and the upgrade has been cancelled. If you were using MySQL you should restore your backup.</p>';
 			}
 
-			// move source files into place
-			if (
-				!rename('./source/framework/php/settings/cashmusic_template.ini.php', './source/framework/php/settings/cashmusic.ini.php') ||
-				!rename('./source/framework/php', $user_settings['frameworklocation'] . '/framework') || 
-				!rename('./source/interfaces/php/admin', './admin') || 
-				!rename('./source/interfaces/php/api', './api') || 
-				!rename('./source/interfaces/php/public', './public')
-			) {
-				echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>We couldn\'t move files into place. Please make sure you have write access in '
-				. 'the directory you specified for the core.</p>';
-				break;
-			}
-
-			// set up database, add user / password
-			$user_password = substr(md5($user_settings['systemsalt'] . 'password'),4,7);
-			
-			// if the directory was never created then create it now
-			if (!file_exists($user_settings['frameworklocation'] . '/db')) {
-				mkdir($user_settings['frameworklocation'] . '/db',0755,true);
-			} else {
-				// blow away the old sqlite file. 
-				if (file_exists($user_settings['frameworklocation'] . '/db/cashmusic.sqlite')) {
-					unlink($user_settings['frameworklocation'] . '/db/cashmusic.sqlite');
-				}
-			}
-			
-			// connect to the new db...will create if not found
-			try {
-				$pdo = new PDO ('sqlite:' . $user_settings['frameworklocation'] . '/db/cashmusic.sqlite');
-				$pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-			} catch (PDOException $e) {
-				echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>Couldn\'t connect to the database.</p>';
-				die();
-				break;
-			}
-
-			if ($pdo) {
-				chmod($user_settings['frameworklocation'] . '/db',0755);
-				chmod($user_settings['frameworklocation'] . '/db/cashmusic.sqlite',0755);
-			}
-
-			// push in all the tables
-			try {
-				$pdo->exec(file_get_contents($user_settings['frameworklocation'] . '/framework/settings/sql/cashmusic_db_sqlite.sql'));
-			} catch (PDOException $e) {
-				echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>Couldn\'t create database tables. Files are all in-place, so you can manually edit settings or start over.';
-				die();
-				break;
-			}
-
-			$password_hash = hash_hmac('sha256', $user_password, $user_settings['systemsalt']);
-			$data = array(
-				'email_address' => $user_settings['adminemailaccount'],
-				'password'      => $password_hash,
-				'is_admin'      => true,
-				'api_key'       => $api_key = hash_hmac('md5', time() . $password_hash . rand(976654,1234567267), $user_settings['systemsalt']) . substr((string) time(),6),
-				'api_secret'    => hash_hmac('sha256', time() . $password_hash . rand(976654,1234567267), $user_settings['systemsalt']),
-				'creation_date' => time()
-			);
-			$query = "INSERT INTO people (email_address,password,is_admin,api_key,api_secret,creation_date) VALUES (:email_address,:password,:is_admin,:api_key,:api_secret,:creation_date)";
-
-			try {
-				$q = $pdo->prepare($query);
-			} catch (PDOException $e) {
-				echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>Couldn\'t add the user to the database.</p>';
-				die();
-				break;
-			}
-
-			try {
-				$success = $q->execute($data);
-			} catch(PDOException $e) {
-				echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>Couldn\'t add the user to the database.</p>';
-				die();
-				break;
-			}
-
-			// success message
-			echo '<h1>All done.</h1><p>Okay. Everything is set up, configured, and ready to go. Follow the link below and login with the given '
-			. 'credentials. You will be emailed a password reset link.</p><p><br /><br /><a href="./admin/#?dopasswordreset=true&address=' . urlencode($user_settings['adminemailaccount']) . '" class="loginlink">Click to login</a><br /><br /><b>Email address:</b> ' . $user_settings['adminemailaccount']
-			. '<br /><b>Temporary Password:</b> ' . $user_password;
-			
-			echo '<br /><br /><br /><br /><small class="altcopystyle fadedtext">I feel compelled to point out that in the time it took you to read this, I, your helpful installer script, have deleted '
-			. 'myself in the name of security. It is a far, far better thing that I do, than I have ever done; it is a far, far better rest that I go to, than I '
-			. 'have ever known.</small>';
-			
-			// create an index.php with a redirect to ./admin in the current directory, 
 			// remove the installer and the remaining source directory
-			if (is_dir('./source')) rrmdir('./source');
-			if (is_file('./index.php')) unlink('./index.php');
-			@file_put_contents('./index.php',"<?php header('Location: ./admin/'); ?>");
-			if (is_file('./cashmusic_web_installer.php')) unlink('./cashmusic_web_installer.php');
+			#if (is_dir('./update')) rrmdir('./update');
+			if (is_file('./update.php')) unlink('./update.php');
 			
 			break;
 		default:

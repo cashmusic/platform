@@ -110,7 +110,11 @@ class PeoplePlant extends PlantBase {
 					case 'viewlist':
 						if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
 						if (!$this->requireParameters('list_id')) { return $this->sessionGetLastResponse(); }
-						$result = $this->getUsersForList($this->request['list_id']);
+						if (isset($this->request['unlimited'])) {
+							$result = $this->getUsersForList($this->request['list_id'],false);
+						} else {
+							$result = $this->getUsersForList($this->request['list_id']);
+						}
 						if ($result) {
 							$list_details = $this->getList($this->request['list_id']);
 							$payload_data = array(

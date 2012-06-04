@@ -18,9 +18,6 @@ if (is_array($elements_response['payload'])) {
 			$element['type_name'] = $elements_data[$element['type']]['name'];
 		}
 	}
-}
-	
-if (is_array($elements_response['payload'])) {
 	$cash_admin->page_data['elements_for_user'] = new ArrayIterator($elements_response['payload']);
 } 
 

@@ -1,8 +1,8 @@
 -- 
 -- CASH Music distributed platform
 -- flavor: SQLite
--- schema version: 1
--- modified: January 13, 2012
+-- schema version: 3
+-- modified: May 7, 2012
 
 BEGIN TRANSACTION;
 

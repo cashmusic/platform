@@ -5,7 +5,8 @@ $list_details = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'people', 
 		'cash_action' => 'viewlist',
-		'list_id' => $request_list_id
+		'list_id' => $request_list_id,
+		'unlimited' => true
 	),
 	'listdetails'
 );
