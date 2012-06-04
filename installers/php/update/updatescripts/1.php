@@ -347,7 +347,7 @@ MYSQL;
       		$data = array(
       			'data' => base64_encode(simpleXOR($connection['data'], $key))
       		);
-      		$query = 'UPDATE connections SET data=:data WHERE id=' . $connection['id'];
+      		$query = 'UPDATE system_connections SET data=:data WHERE id=' . $connection['id'];
       		$q = $pdo->prepare($query);
       		$q->execute($data);
       	}
