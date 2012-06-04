@@ -403,8 +403,8 @@ if (!isset($_POST['installstage'])) {
 
 			$total_versions_upgraded = 0;
 
-			while (file_exists('./update/installers/php/update/updatescripts/' . $current_version . 'php')) {
-				include('./update/installers/php/update/updatescripts/' . $current_version . 'php');
+			while (is_file('./update/installers/php/update/updatescripts/' . $current_version . '.php')) {
+				include('./update/installers/php/update/updatescripts/' . $current_version . '.php');
 				if ($upgrade_failure) {
 					break;
 				} else {

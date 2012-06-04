@@ -17,7 +17,7 @@ $upgrade_failure = false;
 
 if ($current_version == 2) {
 
-	include_once(dirname(__FILE__) . '/../../../../admin/constants.php');
+	include_once(dirname(__FILE__) . '/../../../../../admin/constants.php');
 
 	/***************************
 	 *
