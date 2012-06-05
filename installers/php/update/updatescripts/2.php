@@ -48,7 +48,7 @@ if ($current_version == 2) {
       		chmod(CASH_PLATFORM_ROOT . "/../db/{$cash_settings['database']}.bak",0755);
 			$pdo = new PDO("sqlite:" . CASH_PLATFORM_ROOT . "/../db/{$cash_settings['database']}");
 		} else {
-			if (substr($this->hostname,0,2) == ':/') {
+			if (substr($cash_settings['hostname'],0,2) == ':/') {
 				$pdo = new PDO("{$cash_settings['driver']}:unix_socket={$cash_settings['hostname']};dbname={$cash_settings['database']}", $cash_settings['username'], $cash_settings['password']);
 			} else {
 				$pdo = new PDO("{$cash_settings['driver']}:host={$cash_settings['hostname']};port={$cash_settings['port']};dbname={$cash_settings['database']}", $cash_settings['username'], $cash_settings['password']);

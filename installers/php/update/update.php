@@ -20,7 +20,7 @@ $_SESSION['branch'] = 'master';
 include_once('./admin/constants.php');
 include_once(CASH_PLATFORM_PATH);
 
-$cash_root_location = str_replace('cashmusic.php','',CASH_PLATFORM_PATH);
+$cash_root_location = str_replace('/cashmusic.php','',CASH_PLATFORM_PATH);
 
 // recursive rmdir:
 function rrmdir($dir) { 
@@ -416,11 +416,11 @@ if (!isset($_POST['installstage'])) {
 			if (!$upgrade_failure) {
 				if ($total_versions_upgraded) {
 					// move source files into place DO NOT OVERWRITE SETTINGS, DUMMY!
-					if (is_file($cash_root_location . '/framework/cashmusic.php')) unlink($cash_root_location . '/framework/cashmusic.php');
+					if (is_file($cash_root_location . '/cashmusic.php')) unlink($cash_root_location . '/cashmusic.php');
 					if (is_file('./admin/controller.php')) unlink('./admin/controller.php');
-					if (is_dir($cash_root_location . '/framework/classes')) rrmdir($cash_root_location . '/framework/classes');
-					if (is_dir($cash_root_location . '/framework/elements')) rrmdir($cash_root_location . '/framework/elements');
-					if (is_dir($cash_root_location . '/framework/lib')) rrmdir($cash_root_location . '/framework/lib');
+					if (is_dir($cash_root_location . '/classes')) rrmdir($cash_root_location . '/classes');
+					if (is_dir($cash_root_location . '/elements')) rrmdir($cash_root_location . '/elements');
+					if (is_dir($cash_root_location . '/lib')) rrmdir($cash_root_location . '/lib');
 					if (is_dir('./admin/assets')) rrmdir('./admin/assets');
 					if (is_dir('./admin/classes')) rrmdir('./admin/classes');
 					if (is_dir('./admin/components')) rrmdir('./admin/components');
@@ -428,10 +428,10 @@ if (!isset($_POST['installstage'])) {
 					if (is_dir('./api/classes')) rrmdir('./api/classes');
 					if (is_dir('./public')) rrmdir('./public');
 					if (
-						!rename('./update/framework/php/cashmusic.php', $cash_root_location . '/framework/cashmusic.php') || 
-						!rename('./update/framework/php/classes', $cash_root_location . '/framework/classes') || 
-						!rename('./update/framework/php/elements', $cash_root_location . '/framework/elements') || 
-						!rename('./update/framework/php/lib', $cash_root_location . '/framework/lib') || 
+						!rename('./update/framework/php/cashmusic.php', $cash_root_location . '/cashmusic.php') || 
+						!rename('./update/framework/php/classes', $cash_root_location . '/classes') || 
+						!rename('./update/framework/php/elements', $cash_root_location . '/elements') || 
+						!rename('./update/framework/php/lib', $cash_root_location . '/lib') || 
 						!rename('./update/interfaces/php/admin/controller.php', './admin/controller.php') || 
 						!rename('./update/interfaces/php/admin/assets', './admin/assets') || 
 						!rename('./update/interfaces/php/admin/classes', './admin/classes') || 
@@ -446,8 +446,8 @@ if (!isset($_POST['installstage'])) {
 					}
 
 					// success message
-					echo '<h1>All done.</h1><p>Okay. You\'re all up-to-date.</p>';
-					echo '<br /><br /><br /><br /><small class="altcopystyle fadedtext">Like last time, I\'m deleting myself. This is goign to give me a complex.</small>';
+					echo '<h1>All done.</h1><p>Okay. You\'re all up-to-date.<br /><br /><a href="./admin/">Back to the admin</a></p>';
+					echo '<br /><br /><br /><br /><small class="altcopystyle fadedtext">Like last time, I\'m deleting myself. This is going to give me a complex.</small>';
 				} else {
 					// error message
 				echo '<h1>No upgrades performed.</h1><p>Either you are current or we couldn\'t find updates. Your curent version is reported as: ' . $current_version . '</p>';
@@ -458,7 +458,7 @@ if (!isset($_POST['installstage'])) {
 			}
 
 			// remove the installer and the remaining source directory
-			#if (is_dir('./update')) rrmdir('./update');
+			if (is_dir('./update')) rrmdir('./update');
 			if (is_file('./update.php')) unlink('./update.php');
 			
 			break;
