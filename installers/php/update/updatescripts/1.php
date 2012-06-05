@@ -337,7 +337,8 @@ MYSQL;
       $q = $pdo->query($query);
       $q->setFetchMode(PDO::FETCH_ASSOC);
     	$all_connections = $q->fetchAll();
-    } catch(PDOException $e) {  	
+    } catch(PDOException $e) { 
+      echo $e->getMessage(); 	
     	$upgrade_failure = true;
     }
 
