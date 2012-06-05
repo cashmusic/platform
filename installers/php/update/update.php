@@ -15,7 +15,7 @@
 */
 session_start();
 $_SESSION['copying'] = false; // we'll use this in the AJAX copy loops later
-$_SESSION['branch'] = 'master';
+$_SESSION['branch'] = 'latest_stable';
 
 include_once('./admin/constants.php');
 include_once(CASH_PLATFORM_PATH);
