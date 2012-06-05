@@ -334,6 +334,7 @@ MYSQL;
     $key = $cash_settings['salt'];
     $query = "SELECT * FROM system_connections";
     try {  
+      $pdo->closeCursor();
       $q = $pdo->query($query);
       $q->setFetchMode(PDO::FETCH_ASSOC);
     	$all_connections = $q->fetchAll();
