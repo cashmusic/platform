@@ -51,7 +51,7 @@
 					<form method="post" id="cash_signin_form" action=""> 
 						<label for="address">email</label><br /> 
 						<input type="text" name="address" value="" /><br />
-						<label for="address">password</label> <a href="?showpasswordreset" class="reset">(Forget your password?)</a><br />
+						<label for="address">password</label> {{#donotshowthisrightnow}}<a href="?showpasswordreset" class="reset">(Forget your password?)</a>{{/donotshowthisrightnow}}<br />
 						<input type="password" name="password" value="" /><br />
 						<input type="hidden" name="login" value="1" /> 
 						<div style="text-align:right;">

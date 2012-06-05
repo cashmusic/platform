@@ -172,6 +172,7 @@ if (!isset($_POST['installstage'])) {
 	#topstrip {position:absolute;top:0;left:0;width:100%;height:6px;z-index:400;background-color:#000;color:#666;text-align:right;}
 	.altcopystyle {font:italic 12px/1.5em georgia, times, serif;color:#4d4d4f;}
 	.fadedtext {color:#9c9ca9 !important;}
+	.loginlink {font-weight:bold;font-size:2em;}
 
 	/* COLORS */
 	.bgcolor0 {background-color:#999;}
@@ -504,7 +505,7 @@ if (!isset($_POST['installstage'])) {
 				. 'location for the core files, but you can put them anywhere.</p> '
 				. '<p>The core files should ideally be stored somewhere that isn\'t public, '
 				. 'so if possible keep them outside the www root folder that holds your site files.</p> '
-				. '<p>While you\'re at it, add an email address for the main admin account.'
+				. '<p>While you\'re at it, add an email address and password for the main admin account.'
 				. ' (<b>Hint:</b> use a real email address so you can reset your password if need be.)</p>';
 			if (is_dir('./source/')) {
 				if (!$cash_root_location) {
@@ -515,6 +516,7 @@ if (!isset($_POST['installstage'])) {
 				echo '<form action="" method="post" id="nextstepform"><input type="hidden" id="installstagefade" value="1" /><input type="hidden" name="installstage" id="installstageinput" value="4" /> '
 				. '<h3>Install core files to:</h3><input type="text" name="frameworklocation" value="' . $cash_root_location . '" /> '
 				. '<h3>Admin email account:</h3><input type="text" name="adminemailaccount" value="admin@' . $_SERVER['SERVER_NAME'] . '" /> '
+				. '<h3>Admin password:</h3><input type="text" name="adminpassword" value="" /><br /><span class="fadedtext altcopystyle">Password shown to avoid typos, but will be stored with secure encryption.</span><br /> '
 				. '<br /><br /><div class="altcopystyle fadedtext" style="margin-bottom:6px;">Alright then:</div><input type="submit" class="button" value="Set it all up" /></div> '
 				. '</form>';
 			} else {
@@ -533,6 +535,7 @@ if (!isset($_POST['installstage'])) {
 			$user_settings = array(
 				'frameworklocation' => (string)$_POST['frameworklocation'],
 				'adminemailaccount' => (string)$_POST['adminemailaccount'],
+				'adminpassword' => (string)$_POST['adminpassword'],
 				'systemsalt' => md5($user_settings['adminemailaccount'] . time())
 			);
 
@@ -584,9 +587,6 @@ if (!isset($_POST['installstage'])) {
 				. 'the directory you specified for the core.</p>';
 				break;
 			}
-
-			// set up database, add user / password
-			$user_password = substr(md5($user_settings['systemsalt'] . 'password'),4,7);
 			
 			// if the directory was never created then create it now
 			if (!file_exists($user_settings['frameworklocation'] . '/db')) {
@@ -622,7 +622,7 @@ if (!isset($_POST['installstage'])) {
 				break;
 			}
 
-			$password_hash = hash_hmac('sha256', $user_password, $user_settings['systemsalt']);
+			$password_hash = hash_hmac('sha256', $user_settings['adminpassword'], $user_settings['systemsalt']);
 			$data = array(
 				'email_address' => $user_settings['adminemailaccount'],
 				'password'      => $password_hash,
@@ -650,9 +650,8 @@ if (!isset($_POST['installstage'])) {
 			}
 
 			// success message
-			echo '<h1>All done.</h1><p>Okay. Everything is set up, configured, and ready to go. Follow the link below and login with the given '
-			. 'credentials. You will be emailed a password reset link.</p><p><br /><br /><a href="./admin/#?dopasswordreset=true&address=' . urlencode($user_settings['adminemailaccount']) . '" class="loginlink">Click to login</a><br /><br /><b>Email address:</b> ' . $user_settings['adminemailaccount']
-			. '<br /><b>Temporary Password:</b> ' . $user_password;
+			echo '<h1>All done.</h1><p>Okay. Everything is set up, configured, and ready to go. Follow the link below and login with your email.</p>'
+			. '<p><br /><br /><a href="./admin/" class="loginlink">Click to login</a><br />';
 			
 			echo '<br /><br /><br /><br /><small class="altcopystyle fadedtext">I feel compelled to point out that in the time it took you to read this, I, your helpful installer script, have deleted '
 			. 'myself in the name of security. It is a far, far better thing that I do, than I have ever done; it is a far, far better rest that I go to, than I '

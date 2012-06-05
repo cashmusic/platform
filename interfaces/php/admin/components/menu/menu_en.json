@@ -105,6 +105,6 @@
 		{"page_name":"Settings", "menu_icon":""},
 	"settings/connections":
 		{"page_name":"Connections", "menu_icon":"share"},
-	"settings/upgrade":
-		{"page_name":"Upgrade", "menu_icon":"arrow_up_alt1"}
+	"settings/update":
+		{"page_name":"System Update", "menu_icon":"arrow_up_alt1"}
 }
