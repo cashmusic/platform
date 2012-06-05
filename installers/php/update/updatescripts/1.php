@@ -332,7 +332,7 @@ MYSQL;
    ***************************/
   if (!$upgrade_failure) {
     $key = $cash_settings['salt'];
-    $query = "SELECT * FROM 'system_connections'";
+    $query = "SELECT * FROM system_connections";
     try {  
       $q = $pdo->query($query);
       $q->setFetchMode(PDO::FETCH_ASSOC);
