@@ -1,0 +1,20 @@
+<p>
+	<b>Current platform version:</b> {{platform_version}}<br />
+	<b>Upgrade available:</b> 
+		{{^upgrade_available}}No{{/upgrade_available}}
+		{{#upgrade_available}}Yes{{/upgrade_available}}
+</p>
+
+{{#upgrade_available}}
+	<form method="post" action="" name="add_event">
+		<input type="hidden" name="doupgrade" value="makeitso" />
+		<input class="button" type="submit" value="Launch the system update tool" />
+	</form>
+{{/upgrade_available}}
+
+{{#is_edge}}
+	<p class="fadedtext altcopystyle">
+		Okay smarty-pants. Using an unstable edge release is cool and all, but unless we've stated  
+		that it's update-safe please tread carefully. (v3 is update safe. Just saying.)
+	</p>
+{{/is_edge}}
