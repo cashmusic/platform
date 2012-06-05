@@ -333,8 +333,24 @@ MYSQL;
   if (!$upgrade_failure) {
     $key = $cash_settings['salt'];
     $query = "SELECT * FROM system_connections";
+    // unset and reset new PDO ...stupid thing pitches a cursor error in mysql if you don't.
+    unset($pdo);
     try {  
-      $pdo->closeCursor();
+      if ($cash_settings['driver'] == 'sqlite') {
+        $pdo = new PDO("sqlite:" . CASH_PLATFORM_ROOT . "/../db/{$cash_settings['database']}");
+      } else {
+        if (substr($cash_settings['hostname'],0,2) == ':/') {
+          $pdo = new PDO("{$cash_settings['driver']}:unix_socket={$cash_settings['hostname']};dbname={$cash_settings['database']}", $cash_settings['username'], $cash_settings['password']);
+        } else {
+          $pdo = new PDO("{$cash_settings['driver']}:host={$cash_settings['hostname']};port={$cash_settings['port']};dbname={$cash_settings['database']}", $cash_settings['username'], $cash_settings['password']);
+        }
+      }
+      $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+    } catch(PDOException $e) {  
+      $upgrade_failure = true;
+    }
+
+    try {  
       $q = $pdo->query($query);
       $q->setFetchMode(PDO::FETCH_ASSOC);
     	$all_connections = $q->fetchAll();
