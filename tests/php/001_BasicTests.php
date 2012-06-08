@@ -19,20 +19,6 @@ class BasicTests extends UnitTestCase {
 		$this->assertFileExists(CASH_PLATFORM_ROOT.'/classes/core/PlantBase.php');
 		$this->assertFileExists(CASH_PLATFORM_ROOT.'/classes/core/SeedBase.php');
 	}
-	
-	public function testEcho() {
-		$test_action = 'echo';
-		$test_string = 'test echo!';
-		$test_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'echo', 
-				'cash_action' => $test_action,
-				'string' => $test_string
-			)
-		);
-		$this->assertEqual($test_action, $test_request->response['payload']['cash_action']);
-		$this->assertEqual($test_string, $test_request->response['payload']['string']);
-	}
 
     function assertFileExists($filename, $message = '%s') {
         $this->assertTrue(

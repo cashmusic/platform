@@ -15,86 +15,24 @@
 class CalendarPlant extends PlantBase {
 	public function __construct($request_type,$request) {
 		$this->request_type = 'calendar';
+		$this->routing_table = array(
+			// alphabetical for ease of reading
+			// first value  = target method to call
+			// second value = allowed request methods (string or array of strings)
+			'addevent'          => array('addEvent','direct'),
+			'addvenue'          => array('addVenue','direct'),
+			'deletevenue'       => array('deleteVenue','direct'),
+			'editevent'         => array('editEvent','direct'),
+			'editvenue'         => array('editVenue','direct'),
+			'getallvenues'      => array('getAllVenues','direct'),
+			'geteventsbetween'  => array('getDatesBetween','direct'),
+			'getevent'          => array('getEvent','direct'),
+			'getevents'         => array('getEvents','direct'),
+			'getvenue'          => array('getVenue','direct')
+		);
 		$this->plantPrep($request_type,$request);
 	}
-	
-	public function processRequest() {
-		if ($this->action) {
-			$this->routing_table = array(
-				// alphabetical for ease of reading
-				// first value  = target method to call
-				// second value = allowed request methods (string or array of strings)
-				'addevent'          => array('addEvent','direct'),
-				'addvenue'          => array('addVenue','direct'),
-				'deletevenue'       => array('deleteVenue','direct'),
-				'editevent'         => array('editEvent','direct'),
-				'editvenue'         => array('editVenue','direct'),
-				'getallvenues'      => array('getAllVenues','direct'),
-				'geteventsbetween'  => array('getDatesBetween','direct'),
-				'getevent'          => array('getEvent','direct'),
-				'getvenue'          => array('getVenue','direct')
-			);
-			// see if the action matches the routing table:
-			$basic_routing = $this->routeBasicRequest();
-			if ($basic_routing !== false) {
-				return $basic_routing;
-			} else {
-				switch ($this->action) {
-					case 'getevents':
-						if (!$this->checkRequestMethodFor('direct')) { 
-							return $this->response->pushResponse(
-								403, $this->request_type, $this->action,
-								false,
-								"please try another request method, '{$this->request_method}' is not allowed"
-							);
-						}
-						if (!$this->requireParameters('user_id','visible_event_types')) { return $this->pushFailure('missing required parameter'); }
-						$offset = 0;
-						$published_status = 1;
-						$cancelled_status = 0; // need to find a way to set this to a wildcard. '*' doesn't work for sqlite, but does for mysql
-						switch ($this->request['visible_event_types']) {
-							case 'upcoming':
-								$cutoff_date_low = 'now';
-								$cutoff_date_high = 2051244000;
-								break;
-							case 'archive':
-								$cutoff_date_low = 229305600; // april 8, 1977 -> yes it's significant
-								$cutoff_date_high = 'now';
-								break;
-							case 'both':
-								$cutoff_date_low = 229305600;
-								$cutoff_date_high = 2051244000;
-								break;
-						}
-						if (isset($this->request['offset'])) { $offset = $this->request['offset']; }
-						if (isset($this->request['published_status'])) { $published_status = $this->request['published_status']; }
-						if (isset($this->request['cancelled_status'])) { $cancelled_status = $this->request['cancelled_status']; }
-						$result = $this->getDatesBetween($this->request['user_id'],$offset,$cutoff_date_low,$cancelled_status,$published_status,$cutoff_date_high);
-						if ($result) {
-							return $this->pushSuccess($result,'Success. Array of events in payload.');
-						} else {
-							return $this->pushFailure('No tourdates were found matching your criteria.');
-						}
-						break;
-					default:
-						return $this->response->pushResponse(
-							400,$this->request_type,$this->action,
-							$this->request,
-							'unknown action'
-						);
-				}
-			}
-		} else {
-			return $this->response->pushResponse(
-				400,
-				$this->request_type,
-				$this->action,
-				$this->request,
-				'no action specified'
-			);
-		}
-	}
-	
+
 	protected function addVenue($name,$city,$address1='',$address2='',$region='',$country='',$postalcode='',$url='',$phone='') {
 		$result = $this->db->setData(
 			'venues',
@@ -249,6 +187,25 @@ class CalendarPlant extends PlantBase {
 			)
 		);
 		return $result[0];
+	}
+
+	protected function getevents($user_id, $visible_event_types, $offset=0, $published_status=1, $cancelled_status=0) {
+		switch ($visible_event_types) {
+			case 'upcoming':
+				$cutoff_date_low = 'now';
+				$cutoff_date_high = 2051244000;
+				break;
+			case 'archive':
+				$cutoff_date_low = 229305600; // april 8, 1977 -> yes it's significant
+				$cutoff_date_high = 'now';
+				break;
+			case 'both':
+				$cutoff_date_low = 229305600;
+				$cutoff_date_high = 2051244000;
+				break;
+		}
+		$result = $this->getDatesBetween($user_id,$offset,$cutoff_date_low,$cancelled_status,$published_status,$cutoff_date_high);
+		return $result;
 	}
 
 	protected function getVenue($venue_id) {

@@ -18,53 +18,26 @@ class ElementPlant extends PlantBase {
 	
 	public function __construct($request_type,$request) {
 		$this->request_type = 'element';
-		$this->plantPrep($request_type,$request);
+		$this->routing_table = array(
+			// alphabetical for ease of reading
+			// first value  = target method to call
+			// second value = allowed request methods (string or array of strings)
+			'addelement'           => array('addElement','direct'),
+			'addlockcode'          => array('addLockCode','direct'),
+			'deleteelement'        => array('deleteElement','direct'),
+			'editelement'          => array('editElement','direct'),
+			'getanalytics'         => array('getAnalytics','direct'),
+			'getelement'           => array('getElement','direct'),
+			'getelementsforuser'   => array('getElementsForUser','direct'),
+			//'getmarkup'            => array('getElementMarkup',array('direct','get','post','api_public','api_key','api_fullauth')),
+			// closing up the above -> security risk allowing people to simply request markup and pass a status UID via 
+			// API or GET. we'll need to require signed status codes and reopen...
+			'getmarkup'            => array('getElementMarkup','direct'),
+			'getsupportedtypes'    => array('getSupportedTypes','direct'),
+			'redeemcode'           => array('redeemLockCode',array('direct','get','post'))
+		);
 		$this->buildElementsArray();
-	}
-	
-	public function processRequest() {
-		if ($this->action) {
-			$this->routing_table = array(
-				// alphabetical for ease of reading
-				// first value  = target method to call
-				// second value = allowed request methods (string or array of strings)
-				'addelement'           => array('addElement','direct'),
-				'addlockcode'          => array('addLockCode','direct'),
-				'deleteelement'        => array('deleteElement','direct'),
-				'editelement'          => array('editElement','direct'),
-				'getanalytics'         => array('getAnalytics','direct'),
-				'getelement'           => array('getElement','direct'),
-				'getelementsforuser'   => array('getElementsForUser','direct'),
-				//'getmarkup'            => array('getElementMarkup',array('direct','get','post','api_public','api_key','api_fullauth')),
-				// closing up the above -> security risk allowing people to simply request markup and pass a status UID via 
-				// API or GET. we'll need to require signed status codes and reopen...
-				'getmarkup'            => array('getElementMarkup','direct'),
-				'getsupportedtypes'    => array('getSupportedTypes','direct'),
-				'redeemcode'           => array('redeemLockCode',array('direct','get','post'))
-			);
-			// see if the action matches the routing table:
-			$basic_routing = $this->routeBasicRequest();
-			if ($basic_routing !== false) {
-				return $basic_routing;
-			} else {
-				switch ($this->action) {
-					default:
-						return $this->response->pushResponse(
-							400,$this->request_type,$this->action,
-							$this->request,
-							'unknown action'
-						);
-				}
-			}
-		} else {
-			return $this->response->pushResponse(
-				400,
-				$this->request_type,
-				$this->action,
-				$this->request,
-				'no action specified'
-			);
-		}
+		$this->plantPrep($request_type,$request);
 	}
 	
 	/**

@@ -25,7 +25,7 @@ class BasicHTTPAPITests extends UnitTestCase {
 		//$this->assertNotNull($ok_return);
 		
 		$this->assertEqual($forbidden_return->status_code,403);
-		$this->assertEqual($badrequest_return->status_code,400);
+		$this->assertEqual($badrequest_return->status_code,404);
 		//$this->assertEqual($ok_return->status_code,200);
 	}
 

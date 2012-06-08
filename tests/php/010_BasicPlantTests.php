@@ -1,18 +1,8 @@
 <?php
 require_once(dirname(__FILE__) . '/base.php');
 require_once('framework/php/classes/plants/ElementPlant.php');
-require_once('framework/php/classes/plants/EchoPlant.php');
 
 class CASHPlantTests extends UnitTestCase {
-
-	function testEchoPlant(){
-		echo "Testing Plant basics\n";
-		
-		$eplant = new EchoPlant('blarg',1);
-		$this->assertIsa($eplant, 'EchoPlant');
-		$output = $eplant->processRequest();
-		$this->assertTrue($output);
-	}
 
 	function testInitializePlant(){
 		$cr = new CASHRequest(array());

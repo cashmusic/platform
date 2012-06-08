@@ -22,15 +22,7 @@ class SystemPlant extends PlantBase {
 	
 	public function __construct($request_type,$request) {
 		$this->request_type = 'system';
-		$this->plantPrep($request_type,$request);
-		// get global salt for hashing
-		$global_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
-		$this->salt = $global_settings['salt'];
-	}
-	
-	public function processRequest() {
-		if ($this->action) {
-			$this->routing_table = array(
+		$this->routing_table = array(
 				// alphabetical for ease of reading
 				// first value  = target method to call
 				// second value = allowed request methods (string or array of strings)
@@ -48,38 +40,10 @@ class SystemPlant extends PlantBase {
 				'validateapicredentials'  => array('validateAPICredentials','direct'),
 				'validatelogin'           => array('validateLogin','direct')
 			);
-			// see if the action matches the routing table:
-			$basic_routing = $this->routeBasicRequest();
-			if ($basic_routing !== false) {
-				return $basic_routing;
-			} else {
-				// switch statement for cases that require more thinking than a straight pass-throgh
-				switch ($this->action) {
-					case 'fitmk':
-						// for Duke...you're awesome.
-						$litany = "I must not fear. Fear is the mind-killer. "
-								 . "Fear is the little-death that brings total obliteration. "
-								 . "I will face my fear. I will permit it to pass over me and through me. "
-								 . "And when it has gone past I will turn the inner eye to see its path. "
-								 . "Where the fear has gone there will be nothing. Only I will remain. -- Frank Herbert";
-						return $this->pushSuccess($litany,'check it');
-					default:
-						return $this->response->pushResponse(
-							400,$this->request_type,$this->action,
-							$this->request,
-							'unknown action'
-						);
-				}
-			}
-		} else {
-			return $this->response->pushResponse(
-				400,
-				$this->request_type,
-				$this->action,
-				$this->request,
-				'no action specified'
-			);
-		}
+		// get global salt for hashing
+		$global_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
+		$this->salt = $global_settings['salt'];
+		$this->plantPrep($request_type,$request);
 	}
 	
 	protected function doMigrateDB($todriver,$tosettings) {

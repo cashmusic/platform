@@ -19,7 +19,17 @@
 	/**
 	 * Called by CASHRequest to begin action and return an instance of CASHResponse 
 	 *
-	 */abstract public function processRequest();
+	 */public function processRequest() {
+		if ($this->action) {
+			return $this->routeBasicRequest();
+		} else {
+			return $this->response->pushResponse(
+				400,$this->request_type,$this->action,
+				$this->request,
+				'no action specified'
+			);
+		}
+	}
 	
 	/**
 	 * Sets object parameters and makes database connections if needed
@@ -196,7 +206,11 @@
 			}
 		} else {
 			// not found in standard routing table
-			return false;
+			return $this->response->pushResponse(
+				404,$this->request_type,$this->action,
+				$this->request,
+				'unknown action'
+			);
 		}
 	}
 

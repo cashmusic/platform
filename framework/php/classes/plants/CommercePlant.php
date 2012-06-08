@@ -16,46 +16,26 @@ class CommercePlant extends PlantBase {
 	
 	public function __construct($request_type,$request) {
 		$this->request_type = 'commerce';
+		$this->routing_table = array(
+			// alphabetical for ease of reading
+			// first value  = target method to call
+			// second value = allowed request methods (string or array of strings)
+			'additem'          => array('addItem','direct'),
+			'addorder'         => array('addOrder','direct'),
+			'addtransaction'   => array('addTransaction','direct'),
+			'deleteitem'       => array('deleteItem','direct'),
+			'edititem'         => array('editItem','direct'),
+			'editorder'        => array('editOrder','direct'),
+			'edittransaction'  => array('editTransaction','direct'),
+			'getitem'          => array('getItem','direct'),
+			'getitemsforuser'  => array('getItemsForUser','direct'),
+			'getorder'         => array('getOrder','direct'),
+			'getordersforuser' => array('getOrdersForUser','direct'),
+			'gettransaction'   => array('getTransaction','direct'),
+			'finalizepayment'  => array('finalizeRedirectedPayment',array('get','post','direct')),
+			'initiatecheckout' => array('initiateCheckout',array('get','post','direct'))
+		);
 		$this->plantPrep($request_type,$request);
-	}
-	
-	public function processRequest() {
-		if ($this->action) {
-			$this->routing_table = array(
-				// alphabetical for ease of reading
-				// first value  = target method to call
-				// second value = allowed request methods (string or array of strings)
-				'additem'          => array('addItem','direct'),
-				'addorder'         => array('addOrder','direct'),
-				'addtransaction'   => array('addTransaction','direct'),
-				'deleteitem'       => array('deleteItem','direct'),
-				'edititem'         => array('editItem','direct'),
-				'editorder'        => array('editOrder','direct'),
-				'edittransaction'  => array('editTransaction','direct'),
-				'getitem'          => array('getItem','direct'),
-				'getitemsforuser'  => array('getItemsForUser','direct'),
-				'getorder'         => array('getOrder','direct'),
-				'getordersforuser' => array('getOrdersForUser','direct'),
-				'gettransaction'   => array('getTransaction','direct'),
-				'finalizepayment'  => array('finalizeRedirectedPayment',array('get','post','direct')),
-				'initiatecheckout' => array('initiateCheckout',array('get','post','direct'))
-			);
-			// see if the action matches the routing table:
-			$basic_routing = $this->routeBasicRequest();
-			if ($basic_routing !== false) {
-				return $basic_routing;
-			} else {
-				return false;
-			}
-		} else {
-			return $this->response->pushResponse(
-				400,
-				$this->request_type,
-				$this->action,
-				false,
-				'no action specified'
-			);
-		}
 	}
 	
 	protected function addItem(

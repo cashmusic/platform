@@ -18,140 +18,29 @@ class PeoplePlant extends PlantBase {
 	
 	public function __construct($request_type,$request) {
 		$this->request_type = 'people';
+		$this->routing_table = array(
+			// alphabetical for ease of reading
+			// first value  = target method to call
+			// second value = allowed request methods (string or array of strings)
+			'addaddresstolist'    => array('addAddress','direct'),
+			'addlist'             => array('addList','direct'),
+			'checkverification'   => array('addressIsVerified','direct'),
+			'deletelist'          => array('deleteList','direct'),
+			'editlist'            => array('editList','direct'),
+			'getaddresslistinfo'  => array('getAddressListInfo','direct'),
+			'getanalytics'        => array('getAnalytics','direct'),
+			'getlistsforuser'     => array('getListsForUser','direct'),
+			'getlist'             => array('getList',array('direct','api_key')),
+			'getuser'             => array('getUser',array('direct','api_key')),
+			'getuseridforaddress' => array('getUserIDForAddress','direct'),
+			'processwebhook'      => array('processWebhook',array('direct','api_key')),
+			'removeaddress'       => array('removeAddress','direct'),
+			'signintolist'        => array('validateUserForList',array('post','direct','api_key')),
+			'signup'              => array('validateUserForList',array('direct','post','get','api_key')),
+			'verifyaddress'       => array('doAddressVerification','direct'),
+			'viewlist'            => array('viewList','direct')
+		);
 		$this->plantPrep($request_type,$request);
-	}
-	
-	public function processRequest() {
-		if ($this->action) {
-			$this->routing_table = array(
-				// alphabetical for ease of reading
-				// first value  = target method to call
-				// second value = allowed request methods (string or array of strings)
-				'addaddresstolist'    => array('addAddress','direct'),
-				'addlist'             => array('addList','direct'),
-				'deletelist'          => array('deleteList','direct'),
-				'editlist'            => array('editList','direct'),
-				'getaddresslistinfo'  => array('getAddressListInfo','direct'),
-				'getanalytics'        => array('getAnalytics','direct'),
-				'getlistsforuser'     => array('getListsForUser','direct'),
-				'getlist'             => array('getList',array('direct','api_key')),
-				'getuser'             => array('getUser',array('direct','api_key')),
-				'getuseridforaddress' => array('getUserIDForAddress','direct'),
-				'removeaddress'       => array('removeAddress','direct'),
-				'signintolist'        => array('validateUserForList',array('post','direct','api_key')),
-				'verifyaddress'       => array('doAddressVerification','direct'),
-			);
-			// see if the action matches the routing table:
-			$basic_routing = $this->routeBasicRequest();
-			if ($basic_routing !== false) {
-				return $basic_routing;
-			} else {
-				switch ($this->action) {
-					case 'signup':
-						if (!$this->checkRequestMethodFor('direct','post','get','api_key')) {
-							return $this->response->pushResponse(
-								403,$this->request_type,$this->action,
-								null,
-								'request type not allowed'
-							);
-						}
-						if (!$this->requireParameters('list_id','address')) { 
-							return $this->response->pushResponse(
-								403,$this->request_type,$this->action,
-								null,
-								'missing parameters'
-							);
-						}
-						if (isset($this->request['user_id'])) {
-							$ownership = $this->verifyListOwner($this->request['user_id'],$this->request['list_id']);
-							if (!$ownership) {
-								return $this->response->pushResponse(
-									403,$this->request_type,$this->action,
-									null,
-									'awfully presumptuous. you do not have permission to modify this list.'
-								);
-							}
-						}
-						if (filter_var($this->request['address'], FILTER_VALIDATE_EMAIL)) {
-							if (isset($this->request['comment'])) {$initial_comment = $this->request['comment'];} else {$initial_comment = '';}
-							if (isset($this->request['name'])) {$name = $this->request['name'];} else {$name = 'Anonymous';}
-							if (isset($this->request['element_id'])) {
-								$element_request = new CASHRequest(
-									array(
-										'cash_request_type' => 'element', 
-										'cash_action' => 'getelement',
-										'id' => $this->request['element_id']
-									)
-								);
-								$do_not_verify = (bool) $element_request->response['payload']['options']['do_not_verify'];
-							} else {
-								$do_not_verify = false;
-							}
-							$result = $this->addAddress($this->request['address'],$this->request['list_id'],$do_not_verify,$initial_comment,'',$name);
-							if ($result) {
-								return $this->pushSuccess($this->request,'email address successfully added to list');
-							} else {
-								return $this->pushFailure('there was an error adding an email to the list');
-							}
-						} else {
-							return $this->response->pushResponse(
-								400,$this->request_type,$this->action,
-								$this->request['address'],
-								'invalid email address'
-							);
-						}
-						break;
-					case 'checkverification':
-						if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
-						if (!$this->requireParameters('address','list_id')) return $this->sessionGetLastResponse();
-						$result = $this->addressIsVerified($this->request['address'],$this->request['list_id']);
-						return $this->pushSuccess($result,'success. boolean included in payload');
-						break;
-					case 'viewlist':
-						if (!$this->checkRequestMethodFor('direct')) return $this->sessionGetLastResponse();
-						if (!$this->requireParameters('list_id')) { return $this->sessionGetLastResponse(); }
-						if (isset($this->request['unlimited'])) {
-							$result = $this->getUsersForList($this->request['list_id'],false);
-						} else {
-							$result = $this->getUsersForList($this->request['list_id']);
-						}
-						if ($result) {
-							$list_details = $this->getList($this->request['list_id']);
-							$payload_data = array(
-								'details' => $list_details,
-								'members' => $result
-							);
-							return $this->pushSuccess($payload_data,'success. list included in payload');
-						} else {
-							return $this->pushFailure('there was an error retrieving the list');
-						}
-						break;
-					case 'processwebhook':
-						if (!$this->checkRequestMethodFor('direct','api_key')) return $this->sessionGetLastResponse();
-						$result = $this->processWebhook($this->request);
-						if ($result) {
-							return $this->pushSuccess($result,'processed');
-						} else {
-							return $this->pushFailure('there was an error');
-						}
-						break;
-					default:
-						return $this->response->pushResponse(
-							400,$this->request_type,$this->action,
-							$this->request,
-							'unknown action'
-						);
-				}
-			}
-		} else {
-			return $this->response->pushResponse(
-				400,
-				$this->request_type,
-				$this->action,
-				false,
-				'no action specified'
-			);
-		}
 	}
 
 	/**
@@ -160,6 +49,51 @@ class PeoplePlant extends PlantBase {
 	 * Add, edit, and sync the actual lists themselves
 	 *
 	 */
+
+	protected function doSignup($list_id,$address,$user_id=false,$comment='',$name='Anonymous',$element_id=false) {
+		if ($user_id) {
+			$ownership = $this->verifyListOwner($user_id,$list_id);
+			if (!$ownership) {
+				return false;
+			}
+		}
+		if (filter_var($address, FILTER_VALIDATE_EMAIL)) {
+			if ($element_id) {
+				$element_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'element', 
+						'cash_action' => 'getelement',
+						'id' => $element_id
+					)
+				);
+				$do_not_verify = (bool) $element_request->response['payload']['options']['do_not_verify'];
+			} else {
+				$do_not_verify = false;
+			}
+			$result = $this->addAddress($address,$list_id,$do_not_verify,$initial_comment,'',$name);
+			return $result;
+		} else {
+			return false;
+		}
+	}
+
+	protected function viewList($list_id,$unlimited=false) {
+		if ($unlimited) {
+			$result = $this->getUsersForList($list_id,false);
+		} else {
+			$result = $this->getUsersForList($list_id);
+		}
+		if ($result) {
+			$list_details = $this->getList($list_id);
+			$payload_data = array(
+				'details' => $list_details,
+				'members' => $result
+			);
+			return $payload_data;
+		} else {
+			return false;
+		}
+	}
 
 	/**
 	 * Adds a new list to the system
@@ -837,17 +771,17 @@ class PeoplePlant extends PlantBase {
 	 *
 	 */
 
-	protected function processWebhook($incoming_request) {
-		switch ($incoming_request['origin']) {
+	protected function processWebhook($origin,$user_id,$list_id=0,$type=false,$data=false) {
+		switch ($origin) {
 			case 'com.mailchimp':
 				// make sure the API key matches the user_id of the list owner
-				$ownership = $this->verifyListOwner($incoming_request['user_id'],$incoming_request['list_id']);
+				$ownership = $this->verifyListOwner($user_id,$list_id);
 				if (!$ownership) {
 					return false;
 				}
 				// matches. go:
-				$mailchimp_type = $incoming_request['type'];
-				$mailchimp_details = $incoming_request['data'];
+				$mailchimp_type = $type;
+				$mailchimp_details = $data;
 				if ($mailchimp_type == 'subscribe') {
 					$user_name = 'Anonymous';
 					if (!empty($mailchimp_details['merges']['FNAME'])) {
@@ -856,7 +790,7 @@ class PeoplePlant extends PlantBase {
 					$mailchimp_details['source'] = 'com.mailchimp';
 					$result = $this->addAddress(
 						$mailchimp_details['email'],
-						$incoming_request['list_id'],
+						$list_id,
 						1, // verified. trust all users from mailchimp
 						'', // no initial comment
 						json_encode($mailchimp_details), // might as well store where it came from
@@ -864,15 +798,11 @@ class PeoplePlant extends PlantBase {
 						false, // don't need to verify
 						true // tell the function that the add came from the service, no verification needed
 					);
-					if ($result) {
-						return true;
-					}
+					return $result;
 				} else if ($mailchimp_type == 'unsubscribe' || $mailchimp_type == 'cleaned') {
 					// move user from active to inactive
-					$result = $this->removeAddress($mailchimp_details['email'],$incoming_request['list_id']);
-					if ($result) {
-						return true;
-					}
+					$result = $this->removeAddress($mailchimp_details['email'],$list_id);
+					return $result;
 				} else if ($mailchimp_type ==  'upemail') {
 					// update email address with data in $mailchimp_details
 					// this is a do-later bit...editing a users email address...
