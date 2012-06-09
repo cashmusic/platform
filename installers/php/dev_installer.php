@@ -102,11 +102,11 @@ echo "\n                       :+#\n"
 		$db_port = 3306;
 		if (strpos($db_server,':') !== false) {
 			$host_and_port = explode(':',$db_server);
-			$db_server = $host_and_port[0];
+			$db_address = $host_and_port[0];
 			$db_port = $host_and_port[1];
 		}
 		try {
-			$pdo = new PDO ("mysql:host=$db_server;port=$db_port;dbname=$db_name",$db_username,$db_password);
+			$pdo = new PDO ("mysql:host=$db_address;port=$db_port;dbname=$db_name",$db_username,$db_password);
 		} catch (PDOException $e) {
 			echo "\nOh. Shit. Something's wrong: Couldn't connect to the database. $e\n\n";
 			die();
