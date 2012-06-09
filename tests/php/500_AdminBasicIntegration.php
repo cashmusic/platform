@@ -1,4 +1,4 @@
-<?
+<?php
 require_once(dirname(__FILE__) . '/base.php');
 require_once(dirname(__FILE__) . '/curl.php');
 
