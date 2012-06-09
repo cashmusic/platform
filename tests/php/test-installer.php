@@ -6,7 +6,7 @@
  * tests can be run against it.
  *
  * USAGE:
- * php installers/php/test_installer.php
+ * php tests/php/test-installer.php
  * 
  *
  * @package diy.org.cashmusic
@@ -19,7 +19,7 @@
 */
 
 if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
-	echo "Please run installer from the command line. usage:<br / >&gt; php installers/php/test_installer.php";
+	echo "Please run installer from the command line. usage:<br / >&gt; php tests/php/test-installer.php";
 } else {
 	require_once(dirname(__FILE__) .'/../../tests/php/functions.php');
 	

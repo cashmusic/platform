@@ -5,7 +5,7 @@
  * Cleans up after the test installer
  *
  * USAGE:
- * php installers/php/test_uninstaller.php
+ * php tests/php/test-uninstaller.php
  * 
  *
  * @package diy.org.cashmusic
@@ -18,7 +18,7 @@
 */
 
 if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
-	echo "Please run uninstaller from the command line. usage:<br / >&gt; php installers/php/test_uninstaller.php";
+	echo "Please run uninstaller from the command line. usage:<br / >&gt; php tests/php/test-uninstaller.php";
 } else {
 	$installer_root = dirname(__FILE__);
 	$repairs = 0;

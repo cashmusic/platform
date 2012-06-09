@@ -16,7 +16,7 @@ set_error_handler("terminator");
 require_once(dirname(__FILE__) .'/functions.php');
 
 // this deploys to SQLite and sets up cashmusic.ini.php
-system("php " . dirname(__FILE__) . "/../../installers/php/test_installer.php");
+system("php " . dirname(__FILE__) . "/test-installer.php");
 
 // All tests should include this file, so we can modify basic test functionality
 // here without needing to modify all our tests
