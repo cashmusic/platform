@@ -98,6 +98,8 @@ echo "\n                       :+#\n"
 			$host_and_port = explode(':',$db_server);
 			$db_address = $host_and_port[0];
 			$db_port = $host_and_port[1];
+		} else {
+			$db_address = $db_server;
 		}
 		try {
 			$pdo = new PDO ("mysql:host=$db_address;port=$db_port;dbname=$db_name",$db_username,$db_password);

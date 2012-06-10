@@ -40,6 +40,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		echo "Put things back as they belong. Test INI file and database removed.\n";
 	} else {
 		echo "Test INI file and database were not removed.\n";
+		exit(1);
 	}
 }
 ?>

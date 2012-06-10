@@ -97,7 +97,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		$db_engine = getTestEnv("CASHMUSIC_DB_TYPE");
 		if ($db_engine != 'mysql' && $db_engine != 'sqlite') {
 			echo "\nOh. Shit. Something's wrong: first argument must be either 'sqlite' or 'mysql' \n\n";
-			die();
+			exit(1);
 		}
 		if ($db_engine == 'mysql') {
 			$db_server    = getTestEnv("CASHMUSIC_DB_SERVER");
@@ -110,7 +110,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 	if ($db_engine == 'mysql') {
 		if (@new PDO()) {
 			echo "\nOh. Shit. Something's wrong: PDO is required.\n\n";
-			die();
+			exit(1);
 		}
 		
 		// set up database, add user / password
@@ -120,12 +120,14 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 			$host_and_port = explode(':',$db_server);
 			$db_address = $host_and_port[0];
 			$db_port = $host_and_port[1];
+		} else {
+			$db_address = $db_server;
 		}
 		try {
 			$pdo = new PDO ("mysql:host=$db_address;port=$db_port;dbname=$db_name",$db_username,$db_password);
 		} catch (PDOException $e) {
 			echo "\nOh. Shit. Something's wrong: Couldn't connect to the database. $e\n\n";
-			die();
+			exit(1);
 			break;
 		}
 
@@ -133,7 +135,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 			$success = true;
 		} else {
 			echo "\nOh. Shit. Something's wrong. Couldn't create database tables.\n\n";
-			die();
+			exit(1);
 			break;
 		}
 	} else if ($db_engine == 'sqlite') {
@@ -146,7 +148,6 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 				mkdir($installer_root . '/../../framework/php/db');
 			}
 		}
-		chmod($installer_root . '/../../framework/db',0755);
 		
 		// connect to the new db...will create if not found
 		try {
@@ -155,7 +156,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 			chmod($installer_root . '/../../framework/db/cashmusic_test.sqlite',0755);
 		} catch (PDOException $e) {
 			echo "\nOh. Shit. Something's wrong: Couldn't connect to the database. $e\n\n";
-			die();
+			exit(1);
 			break;
 		}
 
@@ -165,7 +166,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 			$success = true;
 		} catch (PDOException $e) {
 			echo "\nOh. Shit. Something's wrong: Couldn't write to the database. $e\n\n";
-			die();
+			exit(1);
 			break;
 		}
 	}
@@ -191,7 +192,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 			$success = $q->execute($data);
 		} catch(PDOException $e) {  
 			echo "\nOh. Shit. Something's wrong. Couldn't add the user to the database. $e\n\n";
-			die();
+			exit(1);
 			break;
 		}
 
