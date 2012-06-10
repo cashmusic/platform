@@ -12,4 +12,4 @@ env:
 before_script:
     - if [[ "$CASHMUSIC_DB_TYPE" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS testmusic;" -uroot; fi
 
-script: "make test"
+script: "make citest"

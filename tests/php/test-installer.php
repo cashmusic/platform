@@ -145,7 +145,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		} else {
 			// if the directory was never created then create it now
 			if (!file_exists($installer_root . '/../../framework/db')) {
-				mkdir($installer_root . '/../../framework/php/db');
+				mkdir($installer_root . '/../../framework/db');
 			}
 		}
 		
