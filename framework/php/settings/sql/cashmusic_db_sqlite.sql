@@ -160,7 +160,7 @@ CREATE TABLE commerce_transactions (
   user_id integer,
   connection_id integer,
   connection_type text,
-  service_timestamp integer,
+  service_timestamp text,
   service_transaction_id text DEFAULT '',
   data_sent text,
   data_returned text,

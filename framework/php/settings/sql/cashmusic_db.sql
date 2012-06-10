@@ -179,7 +179,7 @@ CREATE TABLE `commerce_transactions` (
   `user_id` int(11) NOT NULL,
   `connection_id` int(11) NOT NULL,
   `connection_type` varchar(255) NOT NULL,
-  `service_timestamp` int(11) NOT NULL,
+  `service_timestamp` varchar(255) NOT NULL,
   `service_transaction_id` varchar(255) NOT NULL DEFAULT '',
   `data_sent` text NOT NULL,
   `data_returned` text NOT NULL,
