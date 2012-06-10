@@ -1,19 +1,15 @@
 language: php
-before_script:
-    - env
-#    - sudo apt-get install liblocal-lib-perl
-#    - perl --version
-#    - curl -L http://cpanmin.us | sudo perl - --self-upgrade
-#    - export CI_USER=$USER
-#    - mkdir ~/perl5 
-#    - perl -Mlocal::lib >> /tmp/local_lib_junk.sh && source /tmp/local_lib_junk.sh
-#    - sudo chown -R $CI_USER ~/.cpanm
-#    - sudo chown -R $CI_USER ~/perl5
-#    - cpanm -n Test::Most Test::WWW::Mechanize Test::JSON URL::Encode
+
 php:
   - 5.2
   - 5.3
   - 5.4
-script: "make test"
+
 env:
     - CI_USER=vagrant CASHMUSIC_TEST_URL='http://dev.cashmusic.org:8080' CASH_CI_LOGIN='root@localhost' CASH_CI_PASSWORD='hack_my_gibson' 
+    - CI_USER=vagrant CASHMUSIC_TEST_URL='http://dev.cashmusic.org:8080' CASH_CI_LOGIN='root@localhost' CASH_CI_PASSWORD='hack_my_gibson' CASHMUSIC_DB_TYPE='mysql' CASHMUSIC_DB_SERVER='127.0.0.1' CASHMUSIC_DB_NAME='testmusic' CASHMUSIC_DB_USERNAME='root' CASHMUSIC_DB_PASSWORD=''
+
+before_script:
+    - if [[ "$CASHMUSIC_DB_TYPE" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS testmusic;" -uroot; fi
+
+script: "make test"
