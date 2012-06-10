@@ -22,8 +22,8 @@ class CASHSystemTests extends UnitTestCase {
 		$this->assertTrue(array_key_exists('systememail',$return));
 		$this->assertTrue(array_key_exists('timezone',$return));
 		// check that grabbing a single setting works
-		$return = CASHSystem::getSystemSettings('driver'); // get db driver ('sqlite')
-		$this->assertEqual('sqlite',$return);
+		$return = CASHSystem::getSystemSettings('debug'); // get db driver ('sqlite')
+		$this->assertEqual('1',$return);
 	}
 	
 	function test_setSystemSetting() {

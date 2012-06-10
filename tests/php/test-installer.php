@@ -93,73 +93,108 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 	$db_engine = 'sqlite';
 	$installer_root = dirname(__FILE__);
 
-	// if the file exists already, rename it as a backup
-	if (file_exists($installer_root . '/../../framework/db/cashmusic_test.sqlite')) {
-		rename($installer_root . '/../../framework/db/cashmusic_test.sqlite',$installer_root . '/../../framework/db/cashmusic_test.sqlite.pretest.bak');
-	} else {
-		// if the directory was never created then create it now
-		if (!file_exists($installer_root . '/../../framework/db')) {
-			mkdir($installer_root . '/../../framework/db');
+	if (getTestEnv("CASHMUSIC_DB_TYPE")) {
+		$db_engine = getTestEnv("CASHMUSIC_DB_TYPE");
+		if ($db_engine != 'mysql' && $db_engine != 'sqlite') {
+			echo "\nOh. Shit. Something's wrong: first argument must be either 'sqlite' or 'mysql' \n\n";
+			die();
+		}
+		if ($db_engine == 'mysql') {
+			$db_server    = getTestEnv("CASHMUSIC_DB_SERVER");
+			$db_name      = getTestEnv("CASHMUSIC_DB_NAME");
+			$db_username  = getTestEnv("CASHMUSIC_DB_USERNAME");
+			$db_password  = getTestEnv("CASHMUSIC_DB_PASSWORD");
 		}
 	}
-	
-	// connect to the new db...will create if not found
-	try {
-		$pdo = new PDO ('sqlite:' . $installer_root . '/../../framework/db/cashmusic_test.sqlite');
-		$pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-	} catch (PDOException $e) {
-		echo "\nOh. Shit. Something's wrong: Couldn't connect to the database. $e\n\n";
-		die();
-		break;
-	}
-	// TODO: Suboptimal
-	if ($pdo) {
-		chmod($installer_root . '/../../framework/db',0777);
-		chmod($installer_root . '/../../framework/db/cashmusic_test.sqlite',0777);
-	}
-	
-	// push in all the tables
-	try {
-		$pdo->exec(file_get_contents($installer_root . '/../../framework/php/settings/sql/cashmusic_db_sqlite.sql'));
-	} catch (PDOException $e) {
-		echo "\nOh. Shit. Something's wrong: Couldn't write to the database. $e\n\n";
-		die();
-		break;
-	}
 
-	$user_email    = 'root@localhost';
-	$system_salt   = md5($user_email . time());
-	$user_password = "hack_my_gibson";
-	$password_hash = hash_hmac('sha256', $user_password, $system_salt);
+	if ($db_engine == 'mysql') {
+		if (@new PDO()) {
+			echo "\nOh. Shit. Something's wrong: PDO is required.\n\n";
+			die();
+		}
+		
+		// set up database, add user / password
+		$user_password = substr(md5($system_salt . 'password'),4,7);
+		$db_port = 3306;
+		if (strpos($db_server,':') !== false) {
+			$host_and_port = explode(':',$db_server);
+			$db_address = $host_and_port[0];
+			$db_port = $host_and_port[1];
+		}
+		try {
+			$pdo = new PDO ("mysql:host=$db_address;port=$db_port;dbname=$db_name",$db_username,$db_password);
+		} catch (PDOException $e) {
+			echo "\nOh. Shit. Something's wrong: Couldn't connect to the database. $e\n\n";
+			die();
+			break;
+		}
 
-	$data = array(
-		'email_address' => $user_email,
-		'password'      => $password_hash,
-		'is_admin'      => true,
-		'api_key'       => "42",
-		'api_secret'    => "43",
-		'creation_date' => time()
-	);
-	$query = "INSERT INTO people (email_address,password,is_admin,api_key,api_secret,creation_date) VALUES (:email_address,:password,:is_admin,:api_key,:api_secret,:creation_date)";
-	
-	try {
-		$q = $pdo->prepare($query);
-	} catch (PDOException $e) {
-		echo "\nOh. Shit. Something's wrong: Couldn't prepare query. $e\n\n";
-		die();
-		break;
-	}
-	
-	try {
-		$success = $q->execute($data);
-	} catch(PDOException $e) {
-		echo "\nOh. Shit. Something's wrong. Couldn't add the user to the database. $e\n\n";
-		die();
-		break;
+		if ($pdo->query(file_get_contents(dirname(__FILE__) . '/../../framework/php/settings/sql/cashmusic_db.sql'))) {
+			$success = true;
+		} else {
+			echo "\nOh. Shit. Something's wrong. Couldn't create database tables.\n\n";
+			die();
+			break;
+		}
+	} else if ($db_engine == 'sqlite') {
+		// if the file exists already, rename it as a backup
+		if (file_exists($installer_root . '/../../framework/db/cashmusic_test.sqlite')) {
+			rename($installer_root . '/../../framework/db/cashmusic_test.sqlite',$installer_root . '/../../framework/db/cashmusic_test.sqlite.pretest.bak');
+		} else {
+			// if the directory was never created then create it now
+			if (!file_exists($installer_root . '/../../framework/db')) {
+				mkdir($installer_root . '/../../framework/php/db');
+			}
+		}
+		chmod($installer_root . '/../../framework/db',0755);
+		
+		// connect to the new db...will create if not found
+		try {
+			$pdo = new PDO ('sqlite:' . $installer_root . '/../../framework/db/cashmusic_test.sqlite');
+			$pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+			chmod($installer_root . '/../../framework/db/cashmusic_test.sqlite',0755);
+		} catch (PDOException $e) {
+			echo "\nOh. Shit. Something's wrong: Couldn't connect to the database. $e\n\n";
+			die();
+			break;
+		}
+
+		// push in all the tables
+		try {
+			$pdo->exec(file_get_contents($installer_root . '/../../framework/php/settings/sql/cashmusic_db_sqlite.sql'));
+			$success = true;
+		} catch (PDOException $e) {
+			echo "\nOh. Shit. Something's wrong: Couldn't write to the database. $e\n\n";
+			die();
+			break;
+		}
 	}
 
 	if ($success) {
-		$installer_root = dirname(__FILE__);
+		$user_email    = 'root@localhost';
+		$system_salt   = md5($user_email . time());
+		$user_password = 'hack_my_gibson';
+		$password_hash = hash_hmac('sha256', $user_password, $system_salt);
+	
+		$data = array(
+			'email_address' => $user_email,
+			'password'      => $password_hash,
+			'is_admin'      => true,
+			'api_key'       => '42',
+			'api_secret'    => '43',
+			'creation_date' => time()
+		);
+		$query = "INSERT INTO people (email_address,password,is_admin,api_key,api_secret,creation_date) VALUES (:email_address,:password,:is_admin,:api_key,:api_secret,:creation_date)";
+		
+		try {  
+			$q = $pdo->prepare($query);
+			$success = $q->execute($data);
+		} catch(PDOException $e) {  
+			echo "\nOh. Shit. Something's wrong. Couldn't add the user to the database. $e\n\n";
+			die();
+			break;
+		}
+
 		// modify settings files
 		if (file_exists($installer_root . '/../../framework/php/settings/cashmusic.ini.php')) {
 			rename($installer_root . '/../../framework/php/settings/cashmusic.ini.php',$installer_root . '/../../framework/php/settings/cashmusic.ini.pretest.bak');
@@ -174,24 +209,38 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 
 		// move source files into place
 		$file_write_success = false;
-		$test_url   = getTestEnv("CASHMUSIC_TEST_URL");
-		if (!$test_url) { $test_url   = "http://dev.cashmusic.org:8080"; }
-		if (
-			findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','driver = "mysql','driver = "sqlite') &&
-			findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','debug = 0','debug = 1') &&
-			findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','database = "cashmusic','database = "cashmusic_test.sqlite') &&
-			findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','apilocation = "http://localhost:8888/interfaces/php/api/','apilocation = "'.$test_url.'/interfaces/php/api/') &&
-			findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
-		) {
-			$file_write_success = true;
-		} 
+		$test_url = getTestEnv("CASHMUSIC_TEST_URL");
+		if (!$test_url) { $test_url = "http://dev.cashmusic.org:8080"; }
+		if ($db_engine == 'sqlite') {
+			if (
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','driver = "mysql','driver = "sqlite') &&
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','debug = 0','debug = 1') &&
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','database = "cashmusic','database = "cashmusic_test.sqlite') &&
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','apilocation = "http://localhost:8888/interfaces/php/api/','apilocation = "'.$test_url.'/interfaces/php/api/') &&
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
+			) {
+				$file_write_success = true;
+			} 
+		} else {
+			if (
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','hostname = "127.0.0.1:8889','hostname = "' . $db_server) &&
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','username = "root','username = "' . $db_username) &&
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','password = "root','password = "' . $db_password) &&
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','database = "cashmusic','database = "' . $db_name) &&
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','debug = 0','debug = 1') &&
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','apilocation = "http://localhost:8888/interfaces/php/api/','apilocation = "'.$test_url.'/interfaces/php/api/') &&
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
+			) {
+				$file_write_success = true;
+			}
+		}
 		if (!$file_write_success) {
 			echo "\nOh. Shit. Something's wrong. We had trouble editing a few files. Please try again.\n\n";
 			break;
 		} else {
 			try {
 				$pdo->exec(file_get_contents(dirname(__FILE__) . '/../../framework/php/settings/sql/cashmusic_demo_data.sql'));
-				echo "\nTEST DATABASE DEPLOYED! Fear of testing is the mind-killer.\n";
+				echo "\n" . strtoupper($db_engine) . " TEST DB DEPLOYED! Fear of testing is the mind-killer.\n";
 			} catch (PDOException $e) { 
 				echo "\nSOME SUCCESS, SOME FAILURE:\nEverything is set up properly, but there was an error writing demo data.\n$e\n";
 			}

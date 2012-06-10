@@ -78,6 +78,7 @@ echo "\n                       :+#\n"
 	echo "\n\nYou are in an open field west of a big white house with a boarded front door.\n\n";
 	// you can input <Enter> or 1, 2, 3 
 	$db_engine = readStdin('What database engine do you want to use? (\'mysql\'|\'sqlite\'): ', array('mysql', 'sqlite'));
+	$installer_root = dirname(__FILE__);
 
 	if ($db_engine == 'mysql') {
 		if (@new PDO()) {
@@ -114,8 +115,6 @@ echo "\n                       :+#\n"
 			break;
 		}
 	} else if ($db_engine == 'sqlite') {
-		$installer_root = dirname(__FILE__);
-
 		// if the file exists already, rename it as a backup
 		if (file_exists($installer_root . '/../../framework/db/cashmusic.sqlite')) {
 			rename($installer_root . '/../../framework/db/cashmusic.sqlite',$installer_root . '/../../framework/db/cashmusic.sqlite.bak');
@@ -181,9 +180,6 @@ echo "\n                       :+#\n"
 			break;
 		}
 
-
-
-		$installer_root = dirname(__FILE__);
 		// modify settings files
 		if (
 			!copy($installer_root.'/../../framework/php/settings/cashmusic_template.ini.php',$installer_root.'/../../framework/php/settings/cashmusic.ini.php')
