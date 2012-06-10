@@ -123,7 +123,7 @@ echo "\n                       :+#\n"
 		} else {
 			// if the directory was never created then create it now
 			if (!file_exists($installer_root . '/../../framework/db')) {
-				mkdir($installer_root . '/../../framework/php/db');
+				mkdir($installer_root . '/../../framework/db');
 			}
 		}
 		chmod($installer_root . '/../../framework/db',0755);
