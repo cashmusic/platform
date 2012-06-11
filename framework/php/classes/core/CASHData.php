@@ -347,7 +347,7 @@
 			if ($ignore_or_match = 'ignore') {
 				$key_condition = "!=";
 			}
-			$options_array['type'] = array(
+			$conditions_array['type'] = array(
 				"condition" => $key_condition,
 				"value" => $data_key
 			);
@@ -407,7 +407,12 @@
 	
 	public function setAllMetaData($scope_table_alias,$scope_table_id,$user_id,$tags=false,$metadata=false,$delete_existing=false) {
 		// also need to add $ignore_or_match='match',$data_key=false to removeAllMetaData
+
 		if ($tags) {
+			if ($delete_existing) {
+				// remove all tags if delete_existing is set
+				$this->removeAllMetaData($scope_table_alias,$scope_table_id,$user_id,'match','tag');
+			}
 			// first get current tags and remove any that are no longer in the list
 			$current_tags = $this->getAllMetaData($scope_table_alias,$scope_table_id,$user_id,'match','tag');
 			if ($current_tags) {
@@ -423,13 +428,12 @@
 			foreach ($tags as $tag) {
 				$this->setMetaData($scope_table_alias,$scope_table_id,$user_id,'tag',$tag);
 			}
-		} else {
-			// remove all tags if delete_existing is set
-			if ($delete_existing) {
-				$this->removeAllMetaData($scope_table_alias,$scope_table_id,$user_id,'match','tag');
-			}
-		}
+		} 
 		if ($metadata) {
+			if ($delete_existing) {
+				// remove all non-tag metadata if delete_existing is set
+				$this->removeAllMetaData($scope_table_alias,$scope_table_id,$user_id,'ignore','tag');
+			}
 			$current_metadata = $this->getAllMetaData($scope_table_alias,$scope_table_id,$user_id,'ignore','tag');
 			if ($current_metadata) {
 				foreach ($current_metadata as $key => $value) {
@@ -442,11 +446,6 @@
 			}
 			foreach ($metadata as $key => $value) {
 				$this->setMetaData($scope_table_alias,$scope_table_id,$user_id,$key,$value);
-			}
-		} else {
-			if ($delete_existing) {
-				// remove all non-tag metadata if delete_existing is set
-				$this->removeAllMetaData($scope_table_alias,$scope_table_id,$user_id,'ignore','tag');
 			}
 		}
 	}

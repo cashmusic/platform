@@ -3,7 +3,7 @@
 if (isset($_POST['dolistedit'])) {
 	// do the actual list add stuffs...
 	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
-	$edit_response = new CASHRequest(
+	$edit_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'people', 
 			'cash_action' => 'editlist',
@@ -11,7 +11,8 @@ if (isset($_POST['dolistedit'])) {
 			'name' => $_POST['list_name'],
 			'description' => $_POST['list_description'],
 			'connection_id' => $_POST['connection_id']
-		)
+		),
+		'editresponse'
 	);
 	if ($edit_response['status_uid'] == 'people_editlist_200') {
 		$cash_admin->page_data['page_message'] = 'Success. Edited.';
@@ -38,7 +39,7 @@ if (is_array($current_list)) {
 if ($current_list['connection_id'] == 0) {
 	$cash_admin->page_data['no_selected_connection'] = true;
 }
-$cash_admin->page_data['connection_options'] = AdminHelper::echoConnectionsOptions('lists',$current_list['connection_id'],false,true);
+$cash_admin->page_data['connection_options'] = AdminHelper::echoConnectionsOptions('lists',$current_list['connection_id'],true);
 $cash_admin->page_data['form_state_action'] = 'dolistedit';
 $cash_admin->page_data['list_button_text'] = 'Edit the list';
 

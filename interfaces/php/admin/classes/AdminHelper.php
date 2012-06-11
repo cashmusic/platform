@@ -257,6 +257,9 @@
 	 * @return string
 	 */function bytesToSize($bytes, $precision = 2) {
 	    $unit = array('B','KB','MB','GB','TB','PB','EB');
+	    if (!$bytes) {
+	    	return 'unknown';
+	    }
 		return @round($bytes / pow(1024, ($i = floor(log($bytes, 1024)))), $precision) . ' ' . $unit[$i];
 	}
 

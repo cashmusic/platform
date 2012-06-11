@@ -26,8 +26,12 @@ class MailchimpSeed extends SeedBase {
 			$this->api      = new MCAPI($this->key);
 			
 			if ($this->key) {
-				$parts = explode("-", $this->key);
-				$this->url = 'http://' . $parts[1] . '.api.mailchimp.com/1.3/';
+				if (strpos($this->key,'-') === false) {
+					$this->error_message = 'invalid API key';
+				} else {
+					$parts = explode("-", $this->key);
+					$this->url = 'http://' . $parts[1] . '.api.mailchimp.com/1.3/';
+				}
 			} else {
 				$this->error_message = 'no API key found';
 			}

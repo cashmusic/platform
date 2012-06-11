@@ -159,7 +159,7 @@ class AssetPlant extends PlantBase {
 				)
 			)
 		);
-		if ($result && $tags && $metadata && $user_id) {
+		if ($result && ($tags || $metadata) && $user_id) {
 			$this->setAllMetaData('assets',$id,$user_id,$tags,$metadata,true);
 		}
 		return $result;

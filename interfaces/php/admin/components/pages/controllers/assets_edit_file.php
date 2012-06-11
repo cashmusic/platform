@@ -71,7 +71,7 @@ if (isset($_POST['doassetedit'])) {
 
 	$metadata_and_tags = AdminHelper::parseMetaData($_POST);
 	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
-	
+
 	$cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'asset', 
