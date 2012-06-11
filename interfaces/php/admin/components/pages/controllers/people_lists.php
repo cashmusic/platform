@@ -13,7 +13,7 @@ if (is_array($list_response['payload'])) {
 	$cash_admin->page_data['lists_all'] = new ArrayIterator($list_response['payload']);
 }
 
-$cash_admin->page_data['list_connection_options'] = AdminHelper::echoConnectionsOptions('lists',true);
+$cash_admin->page_data['list_connection_options'] = AdminHelper::echoConnectionsOptions('lists',0,true);
 
 $cash_admin->setPageContentTemplate('people_lists');
 ?>
