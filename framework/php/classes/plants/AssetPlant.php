@@ -33,6 +33,7 @@ class AssetPlant extends PlantBase {
 				'getanalytics'            => array('getAnalytics','direct'),
 				'getasset'                => array('getAssetInfo','direct'),
 				'getassetsforconnection'  => array('getAssetsForConnection','direct'),
+				'getassetsforparent'      => array('getAssetsForParent','direct'),
 				'getassetsforuser'        => array('getAssetsForUser','direct'),
 				'redeemcode'              => array('redeemLockCode',array('direct','get','post')),
 				'syncconnectionassets'    => array('syncConnectionAssets','direct'),
@@ -109,6 +110,20 @@ class AssetPlant extends PlantBase {
 		}
 	}
 	
+	protected function getAssetsForParent($parent_id) {
+		$result = $this->db->getData(
+			'assets',
+			'*',
+			array(
+				"parent_id" => array(
+					"condition" => "=",
+					"value" => $parent_id
+				)
+			)
+		);
+		return $result;
+	}
+
 	protected function addAsset($title,$description,$location,$user_id,$connection_id=0,$hash='',$size=0,$public_url='',$type='storage',$tags=false,$metadata=false,$parent_id=0,$public_status=1) {
 		$result = $this->db->setData(
 			'assets',
@@ -210,15 +225,31 @@ class AssetPlant extends PlantBase {
 	 * @return boolean
 	 */protected function unlockAsset($id) {
 		$current_unlocked_assets = $this->sessionGet('unlocked_assets');
+		$assets_to_unlock = array($id);
+		$asset = $this->getAssetInfo($id);
+		if ($asset['type'] == 'folder') {
+			$children = $this->getAssetsForParent($id);
+			if (is_array($children)) {
+				foreach ($children as $child) {
+					$assets_to_unlock[] = $child['id'];
+				}
+			}
+		}
+		$error_state = false;
+		foreach ($assets_to_unlock as $asset_id) {
+			if (is_array($current_unlocked_assets)) {
+				$current_unlocked_assets[""."$asset_id"] = true;
+				$this->sessionSet('unlocked_assets',$current_unlocked_assets);
+			} else {
+				$this->sessionSet('unlocked_assets',array(""."$asset_id" => true));
+			}
+			$current_unlocked_assets = $this->sessionGet('unlocked_assets');
+		}
 		if (is_array($current_unlocked_assets)) {
-			$current_unlocked_assets[""."$id"]=true;
-			$this->sessionSet('unlocked_assets',$current_unlocked_assets);
 			return true;
 		} else {
-			$this->sessionSet('unlocked_assets',array(""."$id" => true));
-			return true;
+			return false;
 		}
-		return false;
 	}
 
 	/**

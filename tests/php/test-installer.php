@@ -125,6 +125,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		}
 		try {
 			$pdo = new PDO ("mysql:host=$db_address;port=$db_port;dbname=$db_name",$db_username,$db_password);
+			$pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 		} catch (PDOException $e) {
 			echo "\nOh. Shit. Something's wrong: Couldn't connect to the database. $e\n\n";
 			exit(1);
@@ -161,6 +162,13 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		}
 
 		// push in all the tables
+		// TO-DO:
+		// what the fuck?
+		// 
+		// $pdo->query doesn't work here. fails and doesn't write to the DB. exec works like a charm
+		// but for the MySQL version the behavior is reversed. should both (seemingly) work interchangeably
+		// 
+		// i don't fucking know.
 		try {
 			$pdo->exec(file_get_contents($installer_root . '/../../framework/php/settings/sql/cashmusic_db_sqlite.sql'));
 			$success = true;

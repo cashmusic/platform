@@ -93,6 +93,15 @@
 			<input type="text" id="asset_location" name="asset_location" value="<?php echo str_replace('"','&quot;',$current_asset['location']); ?>" />
 		</div>
 
+		<div class="row_seperator">.</div>
+		<div>
+			<label for="parent_id">Place in asset (Parent)</label><br />
+			<select id="parent_id" name="parent_id">
+				<option value="0" selected="selected">None</option>
+				<?php AdminHelper::echoFormOptions('assets',$current_asset['parent_id'],$cash_admin->getAllFavoriteAssets()); ?>
+			</select>
+		</div>
+
 		<div class="row_seperator">.</div><br />
 
 		<div class="col_oneoftwo">
