@@ -114,7 +114,6 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		}
 		
 		// set up database, add user / password
-		$user_password = substr(md5($system_salt . 'password'),4,7);
 		$db_port = 3306;
 		if (strpos($db_server,':') !== false) {
 			$host_and_port = explode(':',$db_server);
