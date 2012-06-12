@@ -40,12 +40,12 @@ $cash_root_location = false;
 // recursive rmdir:
 function rrmdir($dir) { 
 	if (is_dir($dir)) { 
-	$objects = scandir($dir); 
-	foreach ($objects as $object) { 
-		if ($object != "." && $object != "..") { 
-			if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object); 
+		$objects = scandir($dir); 
+		foreach ($objects as $object) { 
+			if ($object != "." && $object != "..") { 
+				if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object); 
+			} 
 		} 
-	} 
 		reset($objects); 
 		rmdir($dir); 
 	} 
@@ -347,66 +347,69 @@ if (!isset($_POST['installstage'])) {
 			 * 5. no sqlite / sqlite 3 support
 			*/
 			$all_tests_pass = true;
-			$test_error_number = 0;
-			$test_error_message = '';
+			if (!isset($_SESSION['testshaverun'])) {
+				$test_error_number = 0;
+				$test_error_message = '';
 
-			// this nested structure is kinda nutty, but you know...also fine / finite
-  			if (count(scandir('.')) > 3) {
-  				// 1. test for EITHER empty directory or in-progress install
-  				if (!file_exists('./manifest.diy.org.cashmusic')) {
-  					$all_tests_pass = false;
-  					$test_error_number = 1;
-  					$test_error_message = 'Please run this in an empty directory. I found extra '
-  										. 'files but no CASH manifest...looks like this folder is '
-  										. 'already in use.';
-  				}
-  			} else {
-  				if (!mkdir('./test',0755,true)) {
-	  				$all_tests_pass = false;
-					$test_error_number = 2;
-					$test_error_message = "Can't create a directory. Kind of need to do that. Sorry.";
+				// this nested structure is kinda nutty, but you know...also fine / finite
+	  			$total_files = scandir(dirname('.'));
+	  			$total_file_count = count($total_files);
+	  			if ($total_file_count > 3 && !file_exists('./manifest.diy.org.cashmusic')) {
+	  				// 1. test for EITHER empty directory or in-progress install
+					$all_tests_pass = false;
+					$test_error_number = 1;
+					$test_error_message = 'Please run this in an empty directory. I found extra '
+										. 'files but no CASH manifest...looks like this folder is '
+										. 'already in use. Detected ' . $total_file_count . ' files.';
 	  			} else {
-	  				if (!determinedCopy('https://github.com/api/v2/json/blob/all/cashmusic/DIY/'.$_SESSION['branch'],'./test/manifest.diy.org.cashmusic')) {
+	  				if (!mkdir('./test',0755,true)) {
 		  				$all_tests_pass = false;
-						$test_error_number = 3;
-						$test_error_message = "I'm trying to copy files down from github but it's not working. "
-											. "This means I can't see the outside word.<br /><br />"
-											. 'cURL is' . (function_exists('curl_init') ? '' : ' not') . ' installed.<br />'
-											. 'fopen wrappers are' . (ini_get('allow_url_fopen') ? '' : ' not') . ' enabled.';
+						$test_error_number = 2;
+						$test_error_message = "Can't create a directory. Kind of need to do that. Sorry.";
 		  			} else {
-		  				if (!class_exists(PDO)) {
+		  				if (!determinedCopy('https://github.com/api/v2/json/blob/all/cashmusic/DIY/'.$_SESSION['branch'],'./test/manifest.diy.org.cashmusic')) {
 			  				$all_tests_pass = false;
-							$test_error_number = 4;
-							$test_error_message = "Couldn't find PDO. This is a required component of PHP that "
-												. 'is included by default in most builds of PHP — apparently it '
-												. 'has been turned off.';
+							$test_error_number = 3;
+							$test_error_message = "I'm trying to copy files down from github but it's not working. "
+												. "This means I can't see the outside word.<br /><br />"
+												. 'cURL is' . (function_exists('curl_init') ? '' : ' not') . ' installed.<br />'
+												. 'fopen wrappers are' . (ini_get('allow_url_fopen') ? '' : ' not') . ' enabled.';
 			  			} else {
-			  				// connect to the new db...will create if not found
-							try {
-								$pdo = new PDO ('sqlite:' . dirname('.') . '/test/test.sqlite');
-								$pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-								chmod(dirname('.') . '/test/test.sqlite',0755);
-								$pdo->exec('CREATE TABLE test (id INTEGER PRIMARY KEY, testint integer);');
-							} catch (PDOException $e) {
-								$all_tests_pass = false;
-								$test_error_number = 5;
-								$test_error_message = "Looks like there's no support for sqlite 3. "
-													. 'The exact error message given was: <br /><br />'
-													. $e->getMessage();
-							}
+			  				if (!class_exists(PDO)) {
+				  				$all_tests_pass = false;
+								$test_error_number = 4;
+								$test_error_message = "Couldn't find PDO. This is a required component of PHP that "
+													. 'is included by default in most builds of PHP — apparently it '
+													. 'has been turned off.';
+				  			} else {
+				  				// connect to the new db...will create if not found
+								try {
+									$pdo = new PDO ('sqlite:' . dirname('.') . '/test/test.sqlite');
+									$pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+									chmod(dirname('.') . '/test/test.sqlite',0755);
+									$pdo->exec('CREATE TABLE test (id INTEGER PRIMARY KEY, testint integer);');
+								} catch (PDOException $e) {
+									$all_tests_pass = false;
+									$test_error_number = 5;
+									$test_error_message = "Looks like there's no support for sqlite 3. "
+														. 'The exact error message given was: <br /><br />'
+														. $e->getMessage();
+								}
+				  			}
 			  			}
 		  			}
 	  			}
-  			}
-
-  			// clean up testing mess:
-			if (is_dir('./test')) {
-				rrmdir('./test');
-			}
+	  			// clean up testing mess:
+	  			$_SESSION['testshaverun'] = true;
+				if (is_dir('./test')) {
+					rrmdir('./test');
+				}
+	  		}
 
 			if (!$all_tests_pass) {
 				echo '<h1>Error #' . $test_error_number . ' </h1>';
 				echo '<p>' . $test_error_message . '</p>';
+
 			} else {
 				/**
 				 * INSTALL CURRENT SOURCE
