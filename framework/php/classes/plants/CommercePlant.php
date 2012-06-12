@@ -565,7 +565,6 @@ class CommercePlant extends PlantBase {
 									if ($initial_details['CHECKOUTSTATUS'] != 'PaymentActionCompleted'){
 										$initial_details['ERROR_MESSAGE'] = $pp->getErrorMessage();
 										// there was an error processing the transaction
-										var_dump();
 										$this->editOrder(
 											$order_id,
 											0,

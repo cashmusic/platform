@@ -143,7 +143,7 @@
 		} elseif (in_array('curl', get_loaded_extensions())) {
 			// fall back to cURL
 			$ch = curl_init();
-			$timeout = 5;
+			$timeout = 20;
 			
 			@curl_setopt($ch,CURLOPT_URL,$data_url);
 			if ($do_post) {
