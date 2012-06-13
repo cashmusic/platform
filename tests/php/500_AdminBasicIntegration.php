@@ -12,24 +12,29 @@ class AdminBasicIntegration extends UnitTestCase {
 	public function __construct() {
 		$this->cc = new cURL();
 		$this->cash_test_url = getTestEnv('CASHMUSIC_TEST_URL');
-		echo "Testing basic admin integration at:\n" . $this->cash_test_url . "\n";
-		// force a static login for CI workers (Travs, etc):
-		$force_login = getTestEnv('CASH_CI_LOGIN');
-		$force_password = getTestEnv('CASH_CI_PASSWORD');
-		if ($force_login) {
-			$this->cash_user_login = $force_login;
-			$this->cash_user_password = $force_password;
+		if ($this->cash_test_url == 'http://dev.cashmusic.org:8080') {
+			echo 'Test URL is pointing to an external test server, skipping integration tests.';
+			$this->cash_test_url = false;
 		} else {
-			$user_add_request = new CASHRequest(
-				array(
-					'cash_request_type' => 'system', 
-					'cash_action' => 'addlogin',
-					'address' => $this->cash_user_login,
-					'password' => $this->cash_user_password,
-					'is_admin' => 1
-				)
-			);
-			$this->cash_user_id = $user_add_request->response['payload'];
+			echo "Testing basic admin integration at:\n" . $this->cash_test_url . "\n";
+			// force a static login for CI workers (Travs, etc):
+			$force_login = getTestEnv('CASH_CI_LOGIN');
+			$force_password = getTestEnv('CASH_CI_PASSWORD');
+			if ($force_login) {
+				$this->cash_user_login = $force_login;
+				$this->cash_user_password = $force_password;
+			} else {
+				$user_add_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'system', 
+						'cash_action' => 'addlogin',
+						'address' => $this->cash_user_login,
+						'password' => $this->cash_user_password,
+						'is_admin' => 1
+					)
+				);
+				$this->cash_user_id = $user_add_request->response['payload'];
+			}
 		}
     }
 	
@@ -68,11 +73,13 @@ class AdminBasicIntegration extends UnitTestCase {
     }
 
     public function testAllRoutes() {
-    	// run through all known routes and make sure we're getting pages, not error messages
-    	$all_routes = json_decode(file_get_contents(dirname(__FILE__) . '/../../interfaces/php/admin/components/menu/menu_en.json'),true);
-    	foreach ($all_routes as $route => $details) {
-    		$src = $this->cc->get($this->cash_test_url . '/' . $route);
-			$this->assertNoPattern('/<h1>Page Not Found<\/h1>/', $src);
+    	if ($this->cash_test_url) {
+	    	// run through all known routes and make sure we're getting pages, not error messages
+	    	$all_routes = json_decode(file_get_contents(dirname(__FILE__) . '/../../interfaces/php/admin/components/menu/menu_en.json'),true);
+	    	foreach ($all_routes as $route => $details) {
+	    		$src = $this->cc->get($this->cash_test_url . '/' . $route);
+				$this->assertNoPattern('/<h1>Page Not Found<\/h1>/', $src);
+	    	}
     	}
     }
 }
