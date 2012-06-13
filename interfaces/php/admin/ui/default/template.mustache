@@ -21,7 +21,34 @@
 <div id="wrap">
 	<div id="mainspc" class="{{specialcolor}}">
 		<div id="chromespc">
-			<div id="accountspc">
+			<div id="navmenumask">.</div>
+			<div id="navmenu">
+				<div class="navitem bgcolor1{{#ui_current_assets}} currentnav{{/ui_current_assets}}">
+					<h2><a href="{{www_path}}/assets/">Assets</a></h2>
+				</div>
+				<div class="navitem bgcolor2{{#ui_current_people}} currentnav{{/ui_current_people}}">
+					<h2><a href="{{www_path}}/people/">People</a></h2>
+				</div>
+				<div class="navitem bgcolor3{{#ui_current_commerce}} currentnav{{/ui_current_commerce}}">
+					<h2><a href="{{www_path}}/commerce/">Commerce</a></h2>
+				</div>
+				<div class="navitem bgcolor4{{#ui_current_calendar}} currentnav{{/ui_current_calendar}}">
+					<h2><a href="{{www_path}}/calendar/">Calendar</a></h2>
+				</div>
+				<div class="navitem bgcolor5{{#ui_current_elements}} currentnav{{/ui_current_elements}}">
+					<h2><a href="{{www_path}}/elements/">Elements</a></h2>
+				</div>
+			</div>
+		</div>
+		
+		<div id="pagecontent">
+			<div id="pagemenu">
+			{{#section_menu}}{{{section_menu}}}{{/section_menu}}
+			{{^section_menu}}&nbsp;{{/section_menu}}
+			</div>
+
+			<div id="subnavmenu">
+				<a href="{{www_path}}/"><span class="icon home"></span> Main page</a>
 				<div id="accountmenu">
 					<span class="icon cog"></span> {{user_email}}
 					<ul>
@@ -31,69 +58,28 @@
 						<li><a href="{{www_path}}/logout/">Log out</a></li>
 					</ul>
 				</div>
+				<div id="helpmenu">
+					<span class="icon compass"></span> Help
+					<ul>
+						<li><a href="{{www_path}}/help/" id="tipslink">Tips for <b>this</b> page</a></li>
+						<li><a href="{{www_path}}/help/gettingstarted/">Getting started</a></li>
+						<li><a href="{{www_path}}/help/">FAQ</a></li>
+						<li><a href="http://help.cashmusic.org/">help.cashmusic.org</a></li>
+					</ul>
+				</div>
+				<div class="clearfix">.</div>
 			</div>
-			<div id="navmenu">
-				<div class="navitem bgcolor1{{#ui_current_assets}} currentnav{{/ui_current_assets}}">
-					<h2><a href="{{www_path}}/assets/">Assets</a></h2>
-					<div class="navitemdescription">
-						upload<br />organize
-					</div>
-				</div>
-				<div class="navitem bgcolor2{{#ui_current_people}} currentnav{{/ui_current_people}}">
-					<h2><a href="{{www_path}}/people/">People</a></h2>
-					<div class="navitemdescription">
-						manage<br />list
-					</div>
-				</div>
-				<div class="navitem bgcolor3{{#ui_current_commerce}} currentnav{{/ui_current_commerce}}">
-					<h2><a href="{{www_path}}/commerce/">Commerce</a></h2>
-					<div class="navitemdescription">	
-						sell<br />fulfill
-					</div>
-				</div>
-				<div class="navitem bgcolor4{{#ui_current_calendar}} currentnav{{/ui_current_calendar}}">
-					<h2><a href="{{www_path}}/calendar/">Calendar</a></h2>
-					<div class="navitemdescription">
-						shows<br />guestlist
-					</div>
-				</div>
-				<div class="navitem bgcolor5{{#ui_current_elements}} currentnav{{/ui_current_elements}}">
-					<h2><a href="{{www_path}}/elements/">Elements</a></h2>
-					<div class="navitemdescription">
-						create<br />embed
-					</div>
-				</div>
-			</div>
-			
+
 			<div id="tipspc">
 				<div id="pagetips">
 					{{{ui_page_tip}}}
-					<br /><br />
+					<br />
 					<a id="tipscloselink" href="#">close</a>
 				</div>
 			</div>
-		</div>
-		
-		<div id="pagecontent">
-			<a href="{{www_path}}/" id="dashboardlink">Main Page</a>
-			<div id="helpmenu">
-				<span id="mainhelplink">Help</span>
-				<ul>
-					<li><a href="{{www_path}}/help/" id="tipslink">Tips for <b>this</b> page</a></li>
-					<li><a href="{{www_path}}/help/gettingstarted/">Getting started</a></li>
-					<li><a href="{{www_path}}/help/">FAQ</a></li>
-					<li><a href="http://help.cashmusic.org/">help.cashmusic.org</a></li>
-				</ul>
-			</div>
 			
 			<h1>{{ui_title}}</h1>
-			{{#section_menu}}
-				<div id="pagemenu">
-					{{{section_menu}}}
-				</div>
-			{{/section_menu}}
-
-			<div id="pagedisplay"{{^section_menu}} class="nopagemenu"{{/section_menu}}>
+			<div id="pagedisplay">
 				{{#error_message}}<p><span class="highlightcopy errormessage">{{error_message}}</span></p>{{/error_message}}
 				{{#page_message}}<p><span class="highlightcopy">{{page_message}}</span></p>{{/page_message}}
 				{{{content}}}

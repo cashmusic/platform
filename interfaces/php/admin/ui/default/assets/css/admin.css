@@ -1,15 +1,5 @@
 /* FONTS */
 @font-face {
-	font-family: 'OstrichSansRoundedMedium';
-	src: url('../fonts/ostrich-rounded-webfont.eot');
-	src: url('../fonts/ostrich-rounded-webfont.eot?#iefix') format('embedded-opentype'),
-		 url('../fonts/ostrich-rounded-webfont.woff') format('woff'),
-		 url('../fonts/ostrich-rounded-webfont.ttf') format('truetype'),
-		 url('../fonts/ostrich-rounded-webfont.svg#OstrichSansRoundedMedium') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-@font-face {
 	font-family: 'IconicFill';
 	src: url('../fonts/iconic_fill.eot');
 	src: url('../fonts/iconic_fill.eot?#iefix') format('embedded-opentype'),
@@ -21,19 +11,19 @@
 
 /* TAG RESETS */
 html {margin:0;padding:0;}
-body {color:#231F20;background-color:#fafaf8;text-align:center;font:14px/1.5em helvetica,"helvetica neue",arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:920px;text-rendering:optimizelegibility;}
+body {color:#231F20;background-color:#fafaf8;text-align:center;font:14px/1.5em helveticaneue,"helvetica neue",helvetica,arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:920px;text-rendering:optimizelegibility;}
 a {color:#999;text-decoration:none;}
 a:hover {text-decoration:underline;color:#000 !important;}
 div.callout {display:block;font-size:11px;padding:22px 18px 18px 18px;margin:0 auto 1.5em auto;background-color:#ededef;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;}
 div.callout.flush {background-image:none;}
-code {font-size:12px;}
+code {font-size:11px;}
 code a {color:#23c;}
 img {border:0;}
 ul, ol {padding:0.5em 0 1em 1.5em;}
 li {line-height:1.35em;}
 ol li {margin-bottom:0.85em;}
 p {margin:0 0 1.5em 0;}
-h1 {font-size:52px;line-height:50px;margin:0 0 24px 0;padding:0;font-family:OstrichSansRoundedMedium,"helvetica neue",helvetica,arial,sans-serif;font-weight:normal;}
+h1 {clear:both;font-size:34px;line-height:50px;margin:32px 0 24px 0;padding:0;font-weight:bold;}
 h2, h3, h4 {font-size:17px;line-height:1.125em;margin:0;padding:0;padding-bottom:0.35em;}
 h5 {font-size:11px;text-transform:uppercase;font-weight:bold;margin:0;}
 big {font-size:1.5em;line-height:1.25em;}
@@ -82,7 +72,6 @@ li:hover .itemnav {margin:12px 0 8px 0;height:auto;}
 .modaldialog input {background-color:#231F20;border:1px solid #231F20;color:#fff;width:auto;padding:6px 18px 6px 18px;font-weight:bold;cursor:pointer;margin-left:9px;}
 .modaldialog input:hover {background-color:#ff0;color:#231F20;border:1px solid #ff0;}
 .nobr  {white-space:nowrap;}
-.nopagemenu {width:914px !important;}
 .smalltext {font-size:0.85em;}
 .tall {height:3em;}
 .tar {text-align:right;}
@@ -307,64 +296,58 @@ td, th {padding:6px 5px 6px 5px;vertical-align:top;}
 * #pagecontent td a, div.usecolor1 #pagecontent td a, div.usecolor2 #pagecontent td a, div.usecolor3 #pagecontent td a, div.usecolor4 #pagecontent td a, div.usecolor5 #pagecontent td a {color:#999;}
 
 /* MAIN NAVIGATION/INTERFACE ELEMENTS */
-#chromespc {position:fixed;top:0;left:0;min-width:960px;width:100%;z-index:1000;margin:0;padding:0;}
-#accountspc {position:absolute;top:0;left:0;min-width:960px;width:100%;height:6px;z-index:400;font-size:11px;line-height:14px;background-color:#000;color:#666;text-align:right;}
-#accountmenu {width:auto;min-width:166px;float:right;margin-top:6px;padding:8px 12px 8px 12px;color:#babac4;text-shadow:0 0 5px #fafaf8,0 0 5px #fafaf8,0 0 5px #fafaf8;cursor:pointer;}
-#accountmenu:hover {background-color:#000;color:#fff;text-shadow:none;}
-#accountmenu ul {position:absolute;top:36px;right:0;margin:0;padding:0;list-style:none;width:auto;min-width:190px;height:1px;overflow:hidden;visibility:hidden;-webkit-transition:all 0.1s ease-out;-moz-transition: all 0.1s ease-out;-o-transition: all 0.1s ease-out;transition: all  0.1s ease-out;}
-#accountmenu:hover ul {height:150px;visibility:visible;}
-#accountmenu ul li {padding:0;background-color:#222;}
-#accountmenu ul li:hover {background-color:#000;}
-#accountmenu ul li a {color:#666;display:block;padding:8px 1.5em 8px 1.5em;color:#999;text-decoration:none;margin:0;}
-#accountmenu ul li a:hover {text-decoration:underline;color:#fff !important;}
-#dashboardlink {position:absolute;top:100px;left:17px;height:14px;z-index:400;padding:2px 7px 2px 7px;font-size:11px;color:#babac4 !important;line-height:14px;background-color:#fafaf8;}
-#dashboardlink:hover {color:#231F20 !important;background-color:#fff !important;}
-#helpmenu {cursor:pointer;position:absolute;top:93px;left:105px;height:14px;z-index:300;padding:9px 0 9px 0;font-size:11px;line-height:14px;color:#231F20;text-align:right;}
-#helpmenu:hover {background-color:#ff0;}
-#helpmenu ul {position:absolute;top:30px;right:0;margin:0;padding:0;list-style:none;width:auto;min-width:auto;height:1px;overflow:hidden;visibility:hidden;-webkit-transition:all 0.1s ease-out;-moz-transition: all 0.1s ease-out;-o-transition: all 0.1s ease-out;transition: all  0.1s ease-out;}
-#helpmenu:hover ul {height:120px;visibility:visible;}
-#helpmenu ul li {padding:0;background-color:#ff0;}
-#helpmenu ul li:hover {background-color:#000;}
-#helpmenu ul li a {display:block;padding:8px 1.5em 8px 1.5em;text-decoration:none;margin:0;color:#231F20;}
-#helpmenu ul li a:hover {text-decoration:underline;color:#fff !important;}
-#mainhelplink {background-color:#ff0;padding:2px 9px 2px 9px;}
-#navmenu {position:absolute;top:0;left:50%;margin-left:-480px;width:730px;height:72px;text-align:left;color:#fff;text-align:right;font-size:11px;line-height:1.3em;z-index:500;}
-#navmenu .navitem {position:relative;float:left;margin:0;padding:3px 8px;width:130px;height:36px;cursor:pointer;z-index:100;color:#000;-webkit-transition:all 0.1s ease-out;-moz-transition: all 0.1s ease-out;-o-transition: all 0.1s ease-out;transition: all  0.1s ease-out;}
-#navmenu .navitem:hover {height:66px;}
-#navmenu .navitem .navitemdescription {height:1px;overflow:hidden;-webkit-transition:all 0.1s ease-out;-moz-transition: all 0.1s ease-out;-o-transition: all 0.1s ease-out;transition: all  0.1s ease-out;}
-#navmenu .navitem:hover .navitemdescription {height:28px;}
-#navmenu .currentnav {height:66px;background-image:url(../images/bot_left.png);background-position:left bottom;background-repeat:no-repeat;}
-#navmenu .currentnav .navitemdescription {height:auto !important;}
-#navmenu h2 {font-size:32px;line-height:30px;margin:0;padding:0;font-family:OstrichSansRoundedMedium,"helvetica neue",helvetica,arial,sans-serif;font-weight:normal;}
-#navmenu a {color:#fff;}
-#navmenu a:hover, #navmenu .navitem:hover a {color:#000;text-decoration:none;}
-#navmenu a:active, #navmenu a:focus {color:#000;}
+#chromespc {position:fixed;top:0;left:0;min-width:960px;width:100%;z-index:1000;margin:0;padding:0;background-color:#000;height:6px;}
+#accountspc {position:absolute;top:0;left:0;min-width:960px;width:100%;height:6px;z-index:400;font-size:11px;line-height:14px;background-color:#000;color:#666;text-align:left;}
+#accountmenu {position:relative;width:auto;float:left;padding:8px 12px 8px 12px;color:#babac4;cursor:pointer;z-index:4321;}
+#accountmenu:hover {background-color:#f5f5f4;color:#231F20;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);}
+#accountmenu ul {position:absolute;top:30px;left:0;margin:0;padding:0;list-style:none;width:auto;height:1px;overflow:hidden;visibility:hidden;-webkit-transition:all 0.1s ease-out;-moz-transition: all 0.1s ease-out;-o-transition: all 0.1s ease-out;transition: all  0.1s ease-out;}
+#accountmenu:hover ul {height:130px;visibility:visible;background-color:#f5f5f4;color:#231F20;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);}
+#accountmenu ul li {display:block;}
+#accountmenu ul li a {color:#231F20 !important;display:block;padding:8px 1.5em 8px 1.5em;color:#999;text-decoration:none;margin:0;}
+#accountmenu ul li a:hover {text-decoration:underline;color:#231F20 !important;}
+#helpmenu {cursor:pointer;position:relative;height:14px;float:left;width:auto;padding:8px 12px 8px 12px;font-size:11px;line-height:14px;color:#babac4;z-index:4321;}
+#helpmenu:hover {background-color:#ff0;color:#231F20;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);}
+#helpmenu ul {position:absolute;top:30px;left:0;margin:0;padding:0;list-style:none;width:auto;min-width:auto;height:1px;overflow:hidden;visibility:hidden;-webkit-transition:all 0.1s ease-out;-moz-transition: all 0.1s ease-out;-o-transition: all 0.1s ease-out;transition: all  0.1s ease-out;}
+#helpmenu:hover ul {height:130px;visibility:visible;background-color:#ff0;color:#231F20;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);}
+#helpmenu ul li {clear:both;}
+#helpmenu ul li a {display:block;padding:8px 1.5em 8px 1.5em;text-decoration:none;margin:0;color:#231F20 !important;}
+#helpmenu ul li a:hover {text-decoration:underline;}
+#navmenumask {position:absolute;top:6px;left:0;width:100%;height:44px;z-index:1;color:#fafaf8;background-color:#fafaf8;}
+#navmenu {position:absolute;top:0;left:50%;margin-left:-390px;width:780px;height:72px;text-align:left;color:#231F20;text-align:left;font-size:11px;line-height:1.3em;z-index:500;}
+#navmenu .navitem {position:relative;float:left;margin:0;padding:2px 8px;width:140px;height:2px;cursor:pointer;z-index:100;color:#231F20;-webkit-transition:height 0.1s ease-out;-moz-transition: height 0.1s ease-out;-o-transition: height 0.1s ease-out;transition: height  0.1s ease-out;}
+#navmenu .navitem:hover {height:46px;background-image:url(../images/bot_left.png);background-position:left bottom;background-repeat:no-repeat;}
+#navmenu .currentnav {height:46px;background-image:url(../images/bot_left.png);background-position:left bottom;background-repeat:no-repeat;}
+#navmenu .currentnav a, #navmenu .currentnav:hover a {color:#fff !important;}
+#navmenu h2 {font-size:22px;line-height:30px;margin:0;padding:0;font-weight:bold;}
+#navmenu a {color:#a49c9c;}
+#navmenu a:hover, #navmenu .navitem:hover a {color:#fff !important;text-decoration:none;}
+#navmenu a:active, #navmenu a:focus {color:#fff;}
 #navmenu a:active {background-color:transparent;}
-#navmenu .currentnav, #navmenu .currentnav a {color:#000;}
-#pagetips {position:fixed;top:72px;z-index:1234;right:1.5em;;width:238px;background-color:#ff0;color:#231F20;font-size:11px;line-height:14px;padding:1.75em 1.3em 1.5em 2em;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;text-align:left;margin:0;}
-#sectionmenu a {text-transform:lowercase;margin-right:1.5em;}
-#tipspc {clear:both;position:relative;padding-top:8px;color:#666;width:722px;margin-bottom:16px;}
-#tipspc a {color:#231F20;}
-#tipscloselink {position:relative;left:-4px;font-weight:bold;padding:4px;}
+#navmenu .currentnav, #navmenu .currentnav a {color:#fff;}
+#subnavmenu {clear:both;font-size:11px;line-height:14px;padding:4px 0 4px 0;border-top:1px solid #eee;border-bottom:1px solid #eee;}
+#subnavmenu a {display:block;color:#babac4 !important;float:left;width:auto;padding:8px 12px 8px 0;}
+#subnavmenu a:hover {color:#231F20 !important;}
+#pagetips {background-color:#ff0;color:#231F20;padding:12px 16px 12px 16px;text-align:left;margin:0;}
+#pagetips a {color:#231F20;}
+#tipscloselink {font-size:11px;position:relative;left:-4px;font-weight:bold;padding:4px;margin-top:6px;}
 #tipscloselink:hover {background-color:#000;color:#fff !important;text-decoration:none;}
 
 /* PAGE ELEMENTS */
-#pagecontent {position:relative;clear:both;width:920px;padding:140px 2em 3em 2em;margin:0 auto;text-align:left;z-index:500;}
-#pagedisplay {width:680px;float:right;}
-#pagemenu {position:relative;top:-20px;width:200px;margin-right:24px;float:left;}
-#pagemenu * li {margin-bottom:0;line-height:1.5em;}
+#pagecontent {position:relative;clear:both;width:780px;padding:54px 20px 20px 20px;margin:0 auto;text-align:left;z-index:500;}
+#pagemenu {position:relative;padding:16px 0 16px 0;}
+#pagemenu * li {margin-bottom:0;font-size:13px;line-height:1.5em;float:left;margin-right:24px;}
 #pagemenu a:hover {text-decoration:none;}
 #pagemenu a:hover.pagemenutitle {text-decoration:underline;}
-#pagemenu a.pagemenutitle {color:#231F20;font-weight:bold;}
+#pagemenu a.pagemenutitle {color:#231F20;font-weight:bold;float:left;margin-right:24px;}
 .currentpagemenu {margin-left:16px;}
 ul.pagebasemenu {padding:0;margin-top:0;margin-bottom:1.5em;font-size:16px;font-weight:bold;line-height:1.5em;color:#999;}
 ul.pagebasemenu li {list-style-type:none;}
 ul.pagebasemenu ul {padding:0;margin-top:0;margin-bottom:0;font-size:0.8em;font-weight:normal;}
-.introductorybanner {position:relative;padding:33px 24px 40px 170px;height:auto;min-height:65px;background:#fff url(../images/top_right.png) right top no-repeat;margin-bottom:24px;box-shadow:-2px 2px 2px #dededc;font-size:17px;line-height:1.3em;color:#111;}
+.introductorybanner {position:relative;padding:33px 24px 40px 170px;height:auto;min-height:65px;background:#fff url(../images/top_right.png) right top no-repeat;margin-bottom:24px;box-shadow:-2px 2px 2px #dededc;font-size:16px;line-height:1.3em;color:#111;}
 .introductorybanner.flush {margin-bottom:0;}
 .introductorybanner div.closelink {position:absolute;right:5px;bottom:4px;text-align:right;font-size:12px;}
 .introductorybanner div.closelink a {color:#fff;}
-.mainpage.introductorybanner {padding:33px 24px 40px 265px;min-height:165px;}
+.mainpage.introductorybanner {padding:33px 24px 55px 205px;min-height:165px;}
 .mainpage.introductorybanner a {font-weight:bold;}
 .mainpage.introductorybanner div.closelink a {color:#999997;font-weight:normal;}
 .mainpage.introductorybanner .moreinfospc {margin:0;padding:0;text-align:right;font-size:14px;}
@@ -372,7 +355,7 @@ ul.pagebasemenu ul {padding:0;margin-top:0;margin-bottom:0;font-size:0.8em;font-
 .mainpage.introductorybanner .mainbannercontent {margin:0;padding:0;position:relative;z-index:100;}
 .mainpage.introductorybanner img.bannerbg {position:absolute;left:5px;bottom:0;z-index:10;width:352px;height:236px;}
 .introductorybanner div.titlespc {position:absolute;left:10px;top:4px;font-size:11px;line-height:1.3em;color:#fff;}
-.introductorybanner h2 {font-size:32px;line-height:30px;margin:0 0 1px 0;padding:0;font-family:OstrichSansRoundedMedium,"helvetica neue",helvetica,arial,sans-serif;font-weight:normal;}
+.introductorybanner h2 {font-size:24px;line-height:30px;margin:0 0 1px 0;padding:0;}
 div.gettingstarted {font-size:17px;padding-top:18px;color:#a49c9c;}
 div.gettingstarted h2 {font-size:26px;}
 div.gettingstarted a.featured {font-weight:bold;line-height:1.75em;}
