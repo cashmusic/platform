@@ -23,7 +23,7 @@ ul, ol {padding:0.5em 0 1em 1.5em;}
 li {line-height:1.35em;}
 ol li {margin-bottom:0.85em;}
 p {margin:0 0 1.5em 0;}
-h1 {clear:both;font-size:34px;line-height:50px;margin:32px 0 24px 0;padding:0;font-weight:bold;}
+h1 {clear:both;font-size:36px;line-height:42px;margin:32px 0 16px 0;padding:0;font-weight:bold;}
 h2, h3, h4 {font-size:17px;line-height:1.125em;margin:0;padding:0;padding-bottom:0.35em;}
 h5 {font-size:11px;text-transform:uppercase;font-weight:bold;margin:0;}
 big {font-size:1.5em;line-height:1.25em;}
@@ -265,7 +265,7 @@ div.callout a:hover {font-weight:bold;color:#231F20;}
 
 /* FORMS */
 form span {line-height:2.5em;}
-input,textarea,select {font:italic 14px/1.25em georgia, times, serif !important;padding:8px 2% 8px 2%;border:1px solid #dddddf;width:96%;}
+input,textarea,select {font:italic 14px/1.25em georgia, times, serif !important;border:1px solid #dddddf;width:100%;padding:8px;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;}
 input:active, input:focus, textarea:focus {outline:0;border:1px solid #888;}
 input.button, a.mockbutton {background-color:#777;padding:8px 18px 8px 18px !important;font:bold 14px/1.25em helvetica,arial,sans-serif !important;cursor:pointer;width:auto !important;border:1px solid transparent;color:#fff;}
 input.button:hover {background-color:#000 !important;color:#fff;}
@@ -275,12 +275,6 @@ select {height:34px;line-height:34px;width:100%;padding:8px;border:none;backgrou
 select option {padding:8px;}
 select:active, select:focus {outline:2px solid #ff0;}
 textarea.tall {height:200px;}
-#pagedisplay input,textarea {width:664px;padding:8px;}
-#pagedisplay div.col_oneoftwo input,#pagedisplay div.col_oneoftwo textarea {width:302px;padding:8px;}
-#pagedisplay div.col_oneofthree input,#pagedisplay div.col_oneofthree textarea {width:179px;padding:8px;}
-#pagedisplay div.col_twoofthree input,#pagedisplay div.col_twoofthree textarea {width:416px;padding:8px;}
-#pagedisplay div.col_oneoffour input,#pagedisplay div.col_oneoffour textarea {width:125px;padding:8px;}
-#pagedisplay div.col_threeoffour input,#pagedisplay div.col_threeoffour textarea {width:478px;padding:8px;}
 form.inline {display:inline;}
 form.inline input {width:2.25em !important;border:1px solid #fafaf8;}
 form.inline input:active, form.inline input:focus {outline:0;border:1px solid #888;}
@@ -298,21 +292,21 @@ td, th {padding:6px 5px 6px 5px;vertical-align:top;}
 /* MAIN NAVIGATION/INTERFACE ELEMENTS */
 #chromespc {position:fixed;top:0;left:0;min-width:960px;width:100%;z-index:1000;margin:0;padding:0;background-color:#000;height:6px;}
 #accountspc {position:absolute;top:0;left:0;min-width:960px;width:100%;height:6px;z-index:400;font-size:11px;line-height:14px;background-color:#000;color:#666;text-align:left;}
-#accountmenu {position:relative;width:auto;float:left;padding:8px 12px 8px 12px;color:#babac4;cursor:pointer;z-index:4321;}
+#accountmenu {position:relative;width:auto;height:14px;float:left;padding:8px 12px 8px 12px;color:#babac4;cursor:pointer;z-index:4321;}
 #accountmenu:hover {background-color:#f5f5f4;color:#231F20;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);}
 #accountmenu ul {position:absolute;top:30px;left:0;margin:0;padding:0;list-style:none;width:auto;height:1px;overflow:hidden;visibility:hidden;-webkit-transition:all 0.1s ease-out;-moz-transition: all 0.1s ease-out;-o-transition: all 0.1s ease-out;transition: all  0.1s ease-out;}
 #accountmenu:hover ul {height:130px;visibility:visible;background-color:#f5f5f4;color:#231F20;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);}
 #accountmenu ul li {display:block;}
-#accountmenu ul li a {color:#231F20 !important;display:block;padding:8px 1.5em 8px 1.5em;color:#999;text-decoration:none;margin:0;}
-#accountmenu ul li a:hover {text-decoration:underline;color:#231F20 !important;}
+#accountmenu ul li a {color:#231F20 !important;display:block;width:8em;padding:8px 1.5em 8px 1.5em;color:#999;text-decoration:none;margin:0;}
+#accountmenu ul li a:hover {text-decoration:underline;color:#fff !important;background-color:#231F20;}
 #helpmenu {cursor:pointer;position:relative;height:14px;float:left;width:auto;padding:8px 12px 8px 12px;font-size:11px;line-height:14px;color:#babac4;z-index:4321;}
 #helpmenu:hover {background-color:#ff0;color:#231F20;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);}
 #helpmenu ul {position:absolute;top:30px;left:0;margin:0;padding:0;list-style:none;width:auto;min-width:auto;height:1px;overflow:hidden;visibility:hidden;-webkit-transition:all 0.1s ease-out;-moz-transition: all 0.1s ease-out;-o-transition: all 0.1s ease-out;transition: all  0.1s ease-out;}
 #helpmenu:hover ul {height:130px;visibility:visible;background-color:#ff0;color:#231F20;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);}
 #helpmenu ul li {clear:both;}
-#helpmenu ul li a {display:block;padding:8px 1.5em 8px 1.5em;text-decoration:none;margin:0;color:#231F20 !important;}
-#helpmenu ul li a:hover {text-decoration:underline;}
-#navmenumask {position:absolute;top:6px;left:0;width:100%;height:44px;z-index:1;color:#fafaf8;background-color:#fafaf8;}
+#helpmenu ul li a {display:block;width:9em;padding:8px 1.5em 8px 1.5em;text-decoration:none;margin:0;color:#231F20 !important;}
+#helpmenu ul li a:hover {text-decoration:underline;color:#fff !important;background-color:#231F20;}
+#navmenumask {position:absolute;top:6px;left:0;width:100%;height:44px;z-index:1;color:#fafaf8;background-color:#fafaf8;opacity:0.9;}
 #navmenu {position:absolute;top:0;left:50%;margin-left:-390px;width:780px;height:72px;text-align:left;color:#231F20;text-align:left;font-size:11px;line-height:1.3em;z-index:500;}
 #navmenu .navitem {position:relative;float:left;margin:0;padding:2px 8px;width:140px;height:2px;cursor:pointer;z-index:100;color:#231F20;-webkit-transition:height 0.1s ease-out;-moz-transition: height 0.1s ease-out;-o-transition: height 0.1s ease-out;transition: height  0.1s ease-out;}
 #navmenu .navitem:hover {height:46px;background-image:url(../images/bot_left.png);background-position:left bottom;background-repeat:no-repeat;}
@@ -375,8 +369,8 @@ div.gettingstarted a.helplink {color:#231F20;background-color:#ff0;padding:2px 9
 html, body, #wrap {height:100%;}
 body > #wrap {height:auto;min-height:99%;}
 #mainspc {padding-bottom:40px;}
-#footer {position:relative;margin-top:-32px;height:36px;color:#babac4;text-align:left;font-size:11px;line-height:1em;clear:both;background-color:transparent;}
-#footer p {padding:12px 8px 0px 12px;}
+#footer {position:relative;margin:-32px auto 0 auto;height:36px;width:780px;color:#babac4;text-align:left;font-size:11px;line-height:1em;clear:both;background-color:transparent;}
+#footer p {padding:12px 0 0 0;}
 #footer a {color:#babac4;margin-left:24px;}
 #footer a:hover {color:#231F20;}
 #footer .donatelink {color:#231F20;}
