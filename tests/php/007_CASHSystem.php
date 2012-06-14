@@ -68,7 +68,7 @@ class CASHSystemTests extends UnitTestCase {
 			// Test URL set to remote, so skip the local test
 			echo "Testing getURLContents with Google because of remote test URL. Because, you know...\n";
 			$return = CASHSystem::getURLContents('https://www.google.com/');
-			$this->assertPattern('google',$return); // use google
+			$this->assertPattern('/google/',$return); // use google
 		} else {
 			$return = CASHSystem::getURLContents(CASH_API_URL);
 			$this->assertPattern('/"greeting":"hi."/',$return); // using local API URL as firewalls could mess with an external test
