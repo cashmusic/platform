@@ -22,6 +22,9 @@ class PaypalSeedTests extends UnitTestCase {
 		
 		// add a new connection 
 		$this->paypal_username = getTestEnv("PAYPAL_USERNAME");
+		if(!$this->paypal_username) {
+			echo "Paypal credentials not found, skipping tests\n";
+		}
 		$c = new CASHConnection($this->cash_user_id); // the '1' sets a user id=1
 		$this->paypal_connection_id = $c->setSettings('Paypal', 'com.paypal',
 			array(
@@ -37,9 +40,6 @@ class PaypalSeedTests extends UnitTestCase {
 		if($this->paypal_username) {
 			$pp = new PaypalSeed($this->cash_user_id, $this->paypal_connection_id);
 			$this->assertIsa($pp, 'PaypalSeed');
-		} else {
-			fwrite(STDERR,"Paypal credentials not found, skipping tests\n");
-			return;
 		}
 	}
 
@@ -56,9 +56,6 @@ class PaypalSeedTests extends UnitTestCase {
 			$this->assertTrue($redirect_url);
 			//$redirect = CASHSystem::redirectToUrl($redirect_url);
 			//echo $redirect;
-		} else {
-			fwrite(STDERR,"Paypal credentials not found, skipping tests\n");
-			return;
 		}
 	}
 }

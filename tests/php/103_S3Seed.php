@@ -24,6 +24,10 @@ class S3SeedTests extends UnitTestCase {
 		$this->s3_key = getTestEnv("S3_KEY");
 		$this->s3_bucket = getTestEnv("S3_BUCKET");
 		
+		if (!$this->s3_key) {
+			echo "S3 credentials not found, skipping tests\n";
+		}
+
 		// add a new connection 
 		$c = new CASHConnection($this->cash_user_id); 
 		$this->s3_connection_id = $c->setSettings('S3', 'com.amazon',
@@ -39,9 +43,6 @@ class S3SeedTests extends UnitTestCase {
 		if($this->s3_key) {
 			$s3 = new S3Seed($this->cash_user_id, $this->s3_connection_id);
 			$this->assertIsa($s3, 'S3Seed');
-		} else {
-			fwrite(STDERR,"S3 credentials not found, skipping tests\n");
-			return;
 		}
 	}
 
@@ -63,9 +64,6 @@ class S3SeedTests extends UnitTestCase {
 			
 			// remove the temp file
 			unlink(dirname(__FILE__) . '/test' . $this->timestamp);
-		} else {
-			fwrite(STDERR,"S3 credentials not found, skipping tests\n");
-			return;
 		}
 	}
 	
@@ -78,9 +76,6 @@ class S3SeedTests extends UnitTestCase {
 			// check for our uploaded keys
 			$this->assertTrue(array_key_exists('test' . $this->timestamp,$full_list));
 			$this->assertTrue(array_key_exists('test_private' . $this->timestamp,$full_list));
-		} else {
-			fwrite(STDERR,"S3 credentials not found, skipping tests\n");
-			return;
 		}
 	}
 
@@ -111,9 +106,6 @@ class S3SeedTests extends UnitTestCase {
 				$this->assertTrue(array_search('Content-Disposition: attachment', $http_response_header));
 				$this->assertFalse(array_search('Cache-Control: no-cache', $http_response_header));
 			}
-		} else {
-			fwrite(STDERR,"S3 credentials not found, skipping tests\n");
-			return;
 		}
 	}
 
@@ -194,9 +186,6 @@ class S3SeedTests extends UnitTestCase {
 			$full_list = $s3->listAllFiles();
 			$this->assertFalse(array_key_exists('test' . $this->timestamp,$full_list));
 			$this->assertFalse(array_key_exists('test_private' . $this->timestamp,$full_list));
-		} else {
-			fwrite(STDERR,"S3 credentials not found, skipping tests\n");
-			return;
 		}	
 	}
 }

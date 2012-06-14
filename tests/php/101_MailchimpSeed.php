@@ -27,6 +27,9 @@ class MailchimpSeedTests extends UnitTestCase {
 		// add a new connection 
 		$this->api_key = getTestEnv("MAILCHIMP_API_KEY");
 		$this->api_list_id = getTestEnv("MAILCHIMP_LIST_ID");
+		if (!$this->api_key || !$this->api_list_id) {
+			echo "Mailchimp api key not found, skipping mailchimp tests\n";
+		}
 		$c = new CASHConnection($this->cash_user_id); // the '1' sets a user id=1
 		$this->mailchimp_connection_id = $c->setSettings('MailChimp', 'com.mailchimp',
 			array( "key" => $this->api_key, "list" => $this->api_list_id ) );
@@ -94,10 +97,7 @@ class MailchimpSeedTests extends UnitTestCase {
 			$members3 = $mc->listMembers();
 			$this->assertTrue($members3);
 			$this->assertTrue($members3['total'] == $total1 );
-		} else {
-			fwrite(STDERR,"Mailchimp api key not found, skipping mailchimp tests\n");
-			return;
-		}
+		} 
 	}
 
 	function testMailchimpWebhooks(){
@@ -129,9 +129,6 @@ class MailchimpSeedTests extends UnitTestCase {
 			$webhooks3 = $mc->listWebhooks();
 			$this->assertEqual($webhooks1, $webhooks3, 'webhooks get deleted properly');
 
-		} else {
-			fwrite(STDERR,"Mailchimp api key not found, skipping mailchimp tests\n");
-			return;
 		}
 	}
 
@@ -210,9 +207,6 @@ class MailchimpSeedTests extends UnitTestCase {
 			);
 			// now make sure that the address has been removed
 			$this->assertEqual($list_request->response['payload']['active'],0);
-		} else {
-			fwrite(STDERR,"Mailchimp api key not found, skipping mailchimp tests\n");
-			return;
 		}
 	}
 
@@ -254,9 +248,6 @@ class MailchimpSeedTests extends UnitTestCase {
 			// post-add total members - post-remove total members should equal one if it's been
 			// removed from the subscribers list correctly on the mailchimp end
 			$this->assertEqual($member_count - count($members['data']),1);
-		} else {
-			fwrite(STDERR,"Mailchimp api key not found, skipping mailchimp tests\n");
-			return;
 		}
 	}
 }
