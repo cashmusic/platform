@@ -66,7 +66,7 @@ class CASHSystemTests extends UnitTestCase {
 	function test_getURLContents() {
 		if (getTestEnv('CASHMUSIC_TEST_URL') == 'http://dev.cashmusic.org:8080' && !strpos(CASH_API_URL,'localhost')) {
 			// Test URL set to remote, so skip the local test
-			echo "Testing getURLContents with Google because of remote test URL. Because, you know...\n";
+			echo "Testing getURLContents with cashmusic.org because of remote test URL.\n";
 			$return = CASHSystem::getURLContents('http://cashmusic.org/');
 			$this->assertPattern('/cash/',$return); // use google
 		} else {

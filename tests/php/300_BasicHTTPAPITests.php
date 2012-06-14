@@ -7,7 +7,7 @@ class BasicHTTPAPITests extends UnitTestCase {
 	public function __construct() {
 		$this->cash_test_url = getTestEnv('CASHMUSIC_TEST_URL');
 		if ($this->cash_test_url == 'http://dev.cashmusic.org:8080') {
-			echo 'Test URL is pointing to an external test server, skipping API tests.';
+			echo "Test URL is pointing to an external test server, skipping API tests.\n";
 			$this->cash_test_url = false;
 		}
     }

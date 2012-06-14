@@ -13,7 +13,7 @@ class AdminBasicIntegration extends UnitTestCase {
 		$this->cc = new cURL();
 		$this->cash_test_url = getTestEnv('CASHMUSIC_TEST_URL');
 		if ($this->cash_test_url == 'http://dev.cashmusic.org:8080') {
-			echo 'Test URL is pointing to an external test server, skipping integration tests.';
+			echo "Test URL is pointing to an external test server, skipping integration tests.\n";
 			$this->cash_test_url = false;
 		} else {
 			echo "Testing basic admin integration at:\n" . $this->cash_test_url . "\n";
