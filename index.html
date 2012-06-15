@@ -1,62 +1,311 @@
-<!DOCTYPE html> 
-<html> 
-<head> 
-<title>Docs / CASH Music</title> 
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Documentation / CASH Music</title>
 
-<link href="assets/css/docs.css" rel="stylesheet" type="text/css" /> 
+<link rel="icon" type="image/png" href="http://cashmusic.org/images/icons/cash.png" />
 
-<script type="text/javascript">
-/* Modernizr 2.0.6 (Custom Build) | MIT & BSD
- * Build: http://www.modernizr.com/download/#-fontface-cssclasses-teststyles
- */
-;window.Modernizr=function(a,b,c){function y(a,b){return!!~(""+a).indexOf(b)}function x(a,b){return typeof a===b}function w(a,b){return v(prefixes.join(a+";")+(b||""))}function v(a){k.cssText=a}var d="2.0.6",e={},f=!0,g=b.documentElement,h=b.head||b.getElementsByTagName("head")[0],i="modernizr",j=b.createElement(i),k=j.style,l,m=Object.prototype.toString,n={},o={},p={},q=[],r=function(a,c,d,e){var f,h,j,k=b.createElement("div");if(parseInt(d,10))while(d--)j=b.createElement("div"),j.id=e?e[d]:i+(d+1),k.appendChild(j);f=["&shy;","<style>",a,"</style>"].join(""),k.id=i,k.innerHTML+=f,g.appendChild(k),h=c(k,a),k.parentNode.removeChild(k);return!!h},s,t={}.hasOwnProperty,u;!x(t,c)&&!x(t.call,c)?u=function(a,b){return t.call(a,b)}:u=function(a,b){return b in a&&x(a.constructor.prototype[b],c)};var z=function(a,c){var d=a.join(""),f=c.length;r(d,function(a,c){var d=b.styleSheets[b.styleSheets.length-1],g=d.cssRules&&d.cssRules[0]?d.cssRules[0].cssText:d.cssText||"",h=a.childNodes,i={};while(f--)i[h[f].id]=h[f];e.fontface=/src/i.test(g)&&g.indexOf(c.split(" ")[0])===0},f,c)}(['@font-face {font-family:"font";src:url("https://")}'],["fontface"]);n.fontface=function(){return e.fontface};for(var A in n)u(n,A)&&(s=A.toLowerCase(),e[s]=n[A](),q.push((e[s]?"":"no-")+s));v(""),j=l=null,e._version=d,e.testStyles=r,g.className=g.className.replace(/\bno-js\b/,"")+(f?" js "+q.join(" "):"");return e}(this,this.document);
+<style>
+html {margin:0;padding:0;}
+body {color:#231F20;background-color:#fafaf8;text-align:left;font:14px/1.5em helveticaneue,"helvetica neue",helvetica,"segoe ui","segoe wp",arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:920px;text-rendering:optimizelegibility;}
+a {color:#aaa;text-decoration:none;}
+a:hover {text-decoration:underline;color:#000 !important;}
+div.callout, code {background-color:#ddd;background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAPhJREFUeNqk1M0KgkAQAGCFXqSzBwW9KOg5gugBArGD9PN6KhiIl0Vcg0UUfI0QggRJawyKIjNdB/ayO3wMuzszuUEwI6Ku65PjOCvmNiIAyS3LmoE3pYaqqspt254/EFoIkLPruosXQgO1IkMhuJOL53nLL2QI1InAYns+f4EQ0jVNI78S/kJwXARBoKuqSrryOqEGwRivFUU5/iu5CyrDMDQAwX1+eCsEW2UURYYsy7hvq7RBJSHElCQJDem5D6ipJI5jUxRFNLR536EyTdM9z/M+zRR4QlWSJBtBEHzacdJAV6hkB5V4Y+YSm2XZluO4AzMy7gIMAJSSyK1ong48AAAAAElFTkSuQmCC);background-position:left top;background-repeat:no-repeat;}
+div.callout {display:block;font-size:11px;padding:22px 18px 18px 18px;margin:0 auto 1.5em auto;background-color:#ededef;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;}
+div.callout.flush {background-image:none;}
+code {font-size:12px;display:block;padding:2em;margin:0 0 1.5em 0;margin:0 auto;}
+code a {color:#23c;}
+img {border:0;}
+li {line-height:1.35em;}
+p {margin:0 0 1.5em 0;}
+h1 {clear:both;font-size:36px;line-height:42px;margin:32px 0 16px 0;padding:0;font-weight:bold;}
+h2, h3 {font-size:18px;line-height:1.125em;margin:0;padding:0;padding-bottom:0.35em;}
+h4, h5 {font-size:14px;line-height:1.125em;margin:0;padding:0;padding-bottom:0.35em;}
+big {font-size:1.5em;line-height:1.25em;}
+small {font-size:0.85em;line-height:1.25em;}
+small a {color:#231F20 !important;font-weight:bold;}
+.action_comments {font:italic 12px/1.5em georgia, times, serif;color:#777;}
+.request_action {margin:0 0 2em 0;}
+.action_params {font-size:12px;padding-left:1em;border-left:5px #ddd solid;}
+#nav {margin:0;padding:0;font-size:12px;left:10px;position:fixed;top:10px;}
+#nav li {border-left:5px #fafaf8 solid;margin-bottom:2px;color:#aaa;}
+#nav li.toplevel {font-size:14px;font-weight:bold;margin-bottom:2px;}
+#nav ul  {padding:0 0 1em 1.25em;margin:0;list-style:none;}
+#nav a {background:#fafaf8;color:#999;display:block;padding:5px 10px;text-decoration:none;}
+#nav a:hover {background:#dedede;}
+#nav .current {border-left:5px #231F20 solid;}
+#nav .current a {color:#231F20;}
+#mainspc {margin:0 auto;padding-top:80px;width:660px;}
+#mainspc ul {margin:0 0 1.5em 0;}
+.section {padding:1em 0 4em 0;}
+</style>
+</head>
 
-var colors = ['cd074d','ca8c07','97b800','0080c9','8a00ca'];
-var pagecolor = colors[Math.floor(Math.random() * colors.length)];
-document.write('<style type="text/css">a {color:#' + pagecolor + ';}#topspc {background-color:#' + pagecolor + ';}</style>');
-</script>
+<body>
 
-<link rel="icon" type="image/png" href="https://cashmusic.org/assets/images/icons/cash.png" /> 
+<ul id="nav">
+	<li class="current toplevel"><a href="#introduction">Introduction</a></li>
+	<ul>
+		<li><a href="#setup">Setup</a></li>
+		<li><a href="#codestandards">Code standards</a></li>
+	</ul>
+	<li class="toplevel"><a href="#phpapi">PHP API</a></li>
+	<ul>
+		<li><a href="#requestresponse">Request/response format</a></li>
+		<li><a href="#systemrequests">System requests</a></li>
+		<li><a href="#assetrequests">Asset requests</a></li>
+		<li><a href="#peoplerequests">People requests</a></li>
+		<li><a href="#commercerequests">Commerce requests</a></li>
+		<li><a href="#calendarrequests">Calendar requests</a></li>
+		<li><a href="#elementrequests">Element requests</a></li>
+	</ul>
+	<li class="toplevel"><a href="#elements">Elements</a></li>
+	<li class="toplevel"><a href="#adminapp">Admin app</a></li>
+	<li><br /><br /><a href="http://cashmusic.org/" class="external">cashmusic.org</a></li>
+</ul>
 
-</head> 
+<div id="mainspc">
+	<h1>CASH Music documentation</h1>
 
-<body> 
-<div id="topspc">
-	<div id="navspc">
-		<a href="/">Home</a> <a href="">Docs</a>
+	<div class="section" id="introduction">
+		<p>The CASH Music platform gives all musicians access to tools that let them manage, 
+promote, and sell their music online — all owned and controlled themselves.</p>
+
+<p>The whole thing is designed to work as a freestanding API or integrated with
+publishing and CMS systems like Wordpress or Drupal. The standard repo contains the core 
+framework, installers, an admin webapp, APIs, demos, and a full suite of tests.  </p>
+
+<p><a href="http://github.com/cashmusic">github</a><br />
+<a href="http://twitter.com/cashmusic">twitter</a> / <a href="http://www.facebook.com/cashmusic.org">facebook</a><br />
+<a href="https://groups.google.com/d/forum/cash-build">development group</a> </p>
+
 	</div>
-</div>
-<div id="wrap"> 
-	<div id="mainspc">
-<div id="pagemenu"><h3>Getting Started</h3><ul class="nobullets"><li><a href="gettingstarted/overview.html" class="usecolor1">Overview</a></li><li><a href="gettingstarted/quickstart.html" class="usecolor1">Quick Start</a></li><li><a href="gettingstarted/styleguidecode.html" class="usecolor1">Style Guide (code)</a></li></ul><h3>Bootstrap Script</h3><ul class="nobullets"><li><a href="bootstrapscript/cashmusic.html" class="usecolor2">cashmusic.php</a></li></ul><h3>Core Classes</h3><ul class="nobullets"><li><a href="coreclasses/cashdata.html" class="usecolor3">CASHData</a></li><li><a href="coreclasses/cashdba.html" class="usecolor3">CASHDBA</a></li><li><a href="coreclasses/cashrequest.html" class="usecolor3">CASHRequest</a></li><li><a href="coreclasses/cashresponse.html" class="usecolor3">CASHResponse</a></li><li><a href="coreclasses/cashsettings.html" class="usecolor3">CASHSettings</a></li><li><a href="coreclasses/cashsystem.html" class="usecolor3">CASHSystem</a></li><li><a href="coreclasses/elementbase.html" class="usecolor3">ElementBase</a></li><li><a href="coreclasses/plantbase.html" class="usecolor3">PlantBase</a></li><li><a href="coreclasses/seedbase.html" class="usecolor3">SeedBase</a></li></ul><h3>Plant Classes</h3><ul class="nobullets"><li><a href="plantclasses/commerceplant.html" class="usecolor4">__CommercePlant</a></li><li><a href="plantclasses/assetplant.html" class="usecolor4">AssetPlant</a></li><li><a href="plantclasses/calendarplant.html" class="usecolor4">CalendarPlant</a></li><li><a href="plantclasses/echoplant.html" class="usecolor4">EchoPlant</a></li><li><a href="plantclasses/elementplant.html" class="usecolor4">ElementPlant</a></li><li><a href="plantclasses/peopleplant.html" class="usecolor4">PeoplePlant</a></li><li><a href="plantclasses/systemplant.html" class="usecolor4">SystemPlant</a></li></ul></div><h2 class="tight usecolor0">CASH Music</h2>
 
-<p><h1 class="maindocspage">Docs</h1></p>
+	<div class="section" id="setup">
+		<h2>Setup and requirements</h2>
 
-<p><br />
-Welcome. CASH is a nonprofit open source organization building digital tools for 
-artists and labels. This platform makes web easier for musicians. It's a 
-no-programming environment that allows complicated ideas to be built without 
-complicated code. </p>
+<p>One of our goals is for this to run in as many places as possible, so we've worked 
+hard to keep the requirements as minimal as possible:</p>
 
-<p><img src="http://blog.cashmusic.org/wp-content/uploads/2011/08/th4.jpg" width="100%" /></p>
+<ul>
+<li>PHP 5.2.7+</li>
+<li>PDO and MySQL OR SQLite</li>
+<li>mod_rewrite (for admin)</li>
+<li>fopen wrappers OR cURL   </li>
+</ul>
 
-<p>The platform is built on top of PHP/LAMP with a simple but extensible request/response 
-model with a full user-facing admin app. Complex workflows can be stored as "elements" 
-in the system, and accessed by end users in a central "app store" style interface.</p>
+<p><strong>Installation:</strong> Just fork/clone this repo, cd into the new /DIY folder, and run: </p>
 
-<p>For more information visit <a href="http://cashmusic.org/">cashmusic.org</a>.</p>
+<pre><code>make install
+</code></pre>
 
-<pre><code>This is the first set of auto-generated docs. 
-Expect changes and additional details.
+<p>choosing SQLite will get you up and running fastest. Next just point Apache or MAMP 
+at the /DIY directory and view http://localhost/ in a browser.</p>
+
+<p>There's a web installer for non-coders <a href="https://github.com/cashmusic/DIY/downloads">here</a>.
+The idea is that we make it easy to deploy on any shared server. </p>
+
+	</div>
+	
+	<div class="section" id="codestandards">
+		<h2>Code standards</h2>
+
+<p>When in doubt, code for legibility and easy adoption. Capitalization and CamelCase should be used 
+for class names, camelCase starting with lowercase for function names, and variable names in 
+snake_case (lowercase and underscores.) Indentation has been kept simple — a single hard tab 
+for each level, with curly brackets on the same line as the control statement.</p>
+
+<p>So a simplified file will look something like:</p>
+
+<pre><code>/**
+ * Description
+ *
+ * @package seed.org.cashmusic
+ * @author CASH Music
+ * @link http://cashmusic.org/
+ *
+ * Copyright (c) 2011, CASH Music
+ * Licensed under the Affero General Public License version 3.
+ * See http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ */class ClassName {
+    protected $variable;
+
+    /**
+     * Function Description
+     *
+     * @return value
+     */public function functionName($input_variable) {
+        $variable_name = 'text';
+        return $variable_name;
+    }
+} // END class 
+</code></pre>
+
+<p>Each class should have a file of it's own.</p>
+
+<p>No class is final without formatted comments.</p>
+
+	</div>
+
+	<div class="section" id="phpapi">
+		<h2>PHP API</h2>
+
+<p>All functionality of the core platform is accessed through a single and consistent PHP-based API. 
+No direct function calls should be made — instead data should be accessed and set through a secure 
+and standard request / response model consistent with any HTTP GET/POST requests. </p>
+
+	</div>
+
+	<div class="section" id="requestresponse">
+		<h2>Request / response format</h2>
+
+<p>For developers looking to build custom functionality we've built a request/response 
+process as the primary interface to the PHP framework. It mimics a REST-style API 
+and standardizes calls and responses across the methods...so the PHP interaction 
+will be nearly identical to future REST or verbose interactions. </p>
+
+<p>Every request is made with a specific type and action, plus any required or optional 
+parameters. It's response will contain an http-esque <strong>status code</strong>, a <strong>uid</strong> containing 
+type/action/code, a human-readable <strong>status message</strong>, a more detailed <strong>contextual message</strong>, 
+an echo of the <strong>request type</strong> and <strong>action</strong>, a <strong>payload</strong> with the full response data 
+or false if the request failed, the <strong>api version</strong>, and a <strong>timestamp</strong>.</p>
+
+<p>The PHP Request/Response looks like this: </p>
+
+<pre><code>&lt;?php 
+    $sample_request = new CASHRequest(
+        array(
+            'cash_request_type' =&gt; 'calendar', 
+            'cash_action' =&gt; 'getevent',
+            'id' =&gt; 43
+        )
+    );
+
+    $sample_request-&gt;resonse:
+    {
+        "status_code":404, // http-style status code
+        "status_uid":"calendar_getevent_404", // uid of the response (request + status)
+        "status_message":"Not Found", // http-style status message
+        "contextual_message":"Event not found", // more specific error message
+        "request_type":"calendar", // echo of the request type
+        "action":"getevent", // echo of the request action
+        "payload":false, // contents of the response, or false if error
+        "api_version":2, // version number
+        "timestamp":1335416260 // request timestamp
+    }
+?&gt;
 </code></pre>
 
 	</div>
+
+	<div class="section" id="systemrequests">
+		<h2>System requests</h2><p>All actions defined for 'system' type requests:<div class="request_action"><h4 class="action_name">system / addlogin</h4><p class="action_comments">
+Adds a new user to the system, setting login details<br /><br />@param {string} $address - the email address in question<br />@param {string} $password - the password<br />@return array|false
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />address (REQUIRED)<br />password (REQUIRED)<br />is_admin (default: 0)<br />display_name (default: 'Anonymous')<br />first_name (default: '')<br />last_name (default: '')<br />organization (default: '')<br />address_country (default: '')</div></div><div class="request_action"><h4 class="action_name">system / addlockcode</h4><p class="action_comments">
+Creates a new lock/unlock code for and asset<br /><br />@param {integer} $element_id - the element for which you're adding the lock code<br />@return string|false
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />scope_table_alias (REQUIRED)<br />scope_table_id (REQUIRED)<br />user_id (default: 0)</div></div><div class="request_action"><h4 class="action_name">system / deletesettings</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)<br />type (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">system / getapicredentials</h4><p class="action_comments">
+Gets API credentials for a user id<br /><br />@param {int} $user_id - the user<br />@return array|false
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">system / getlockcodes</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />scope_table_alias (REQUIRED)<br />scope_table_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">system / getsettings</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)<br />type (REQUIRED)<br />return_json (default: false)</div></div><div class="request_action"><h4 class="action_name">system / migratedb</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />todriver (REQUIRED)<br />tosettings (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">system / redeemlockcode</h4><div class="action_params"><b>Allowed methods:</b> direct, get, post<br /><br /><b>Parameters</b><br />code (REQUIRED)<br />scope_table_alias (default: false)<br />scope_table_id (default: false)<br />user_id (default: false)</div></div><div class="request_action"><h4 class="action_name">system / setapicredentials</h4><p class="action_comments">
+Sets or resets API credentials for a user<br /><br />@param {int} $user_id - the user<br />@return array|false
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">system / setlogincredentials</h4><p class="action_comments">
+Resets email/password credentials for a user<br /><br />@param {int} $user_id - the user<br />@return array|false
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)<br />address (REQUIRED)<br />password (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">system / setsettings</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)<br />type (REQUIRED)<br />value (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">system / validateapicredentials</h4><p class="action_comments">
+Verifies API credentials and returns authorization type (api_key || api_fullauth || none) and user_id<br /><br />@param {int} $user_id - the user<br />@return array|false
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />api_key (REQUIRED)<br />api_secret (default: false)</div></div><div class="request_action"><h4 class="action_name">system / validatelogin</h4><p class="action_comments">
+Generates a password hash and compares against the stored hash<br /><br />@param {string} $address - the email address in question<br />@param {string} $password - the password<br />@return array|false
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />address (REQUIRED)<br />password (REQUIRED)<br />require_admin (default: false)<br />verified_address (default: false)<br />browserid_assertion (default: false)<br />element_id (default: NULL)</div></div>
+	</div>
+
+	<div class="section" id="assetrequests">
+		<h2>Asset requests</h2><p>All actions defined for 'asset' type requests:<div class="request_action"><h4 class="action_name">asset / addasset</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />title (REQUIRED)<br />description (REQUIRED)<br />location (REQUIRED)<br />user_id (REQUIRED)<br />connection_id (default: 0)<br />hash (default: '')<br />size (default: 0)<br />public_url (default: '')<br />type (default: 'storage')<br />tags (default: false)<br />metadata (default: false)<br />parent_id (default: 0)<br />public_status (default: 1)</div></div><div class="request_action"><h4 class="action_name">asset / addlockcode</h4><p class="action_comments">
+Wrapper for system lock code call<br /><br />@param {integer} $element_id - the element for which you're adding the lock code<br />@return string|false
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />asset_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">asset / claim</h4><p class="action_comments">
+Reads asset details and redirects to the file directly. The success 
+Response is set here rather than in processRequest(), allowing it to 
+exist in the session <br /><br />@param {integer} $id - the asset you are trying to retrieve<br />@return string
+ </p><div class="action_params"><b>Allowed methods:</b> get, post, direct<br /><br /><b>Parameters</b><br />id (REQUIRED)<br />element_id (default: 0)</div></div><div class="request_action"><h4 class="action_name">asset / editasset</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />id (REQUIRED)<br />hash (default: false)<br />size (default: false)<br />location (default: false)<br />title (default: false)<br />description (default: false)<br />public_url (default: false)<br />connection_id (default: false)<br />type (default: false)<br />parent_id (default: false)<br />public_status (default: false)<br />user_id (default: false)<br />tags (default: false)<br />metadata (default: false)</div></div><div class="request_action"><h4 class="action_name">asset / findconnectiondeltas</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />connection_id (REQUIRED)<br />connection (default: false)</div></div><div class="request_action"><h4 class="action_name">asset / getanalytics</h4><p class="action_comments">
+Pulls analytics queries in a few different formats<br /><br />@return array
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />analtyics_type (REQUIRED)<br />user_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">asset / getasset</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">asset / getassetsforconnection</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />connection_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">asset / getassetsforparent</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />parent_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">asset / getassetsforuser</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">asset / redeemcode</h4><p class="action_comments">
+Wrapper for system lock code call<br /><br />@param {string} $code - the code<br />@return bool
+ </p><div class="action_params"><b>Allowed methods:</b> direct, get, post<br /><br /><b>Parameters</b><br />code (REQUIRED)<br />user_id (default: false)<br />element_id (default: false)</div></div><div class="request_action"><h4 class="action_name">asset / syncconnectionassets</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />connection_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">asset / unlock</h4><p class="action_comments">
+Adds an unlock state to platform session persistent store<br /><br />@return boolean
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />id (REQUIRED)</div></div>
+	</div>
+
+	<div class="section" id="peoplerequests">
+		<h2>People requests</h2><p>All actions defined for 'people' type requests:<div class="request_action"><h4 class="action_name">people / addaddresstolist</h4><p class="action_comments">
+Adds a user to a list. If no user exists for the email address passed, a
+new user will be created then added to the list.<br /><br />@param {string} $address - the email address in question<br />@param {int} $list_id - the id of the list<br />@param {bool} $verified - 0 for unverified, 1 to skip verification and mark ok<br />@param {string} $initial_comment - a comment passed with the list signup<br />@param {string} $additional_data - any extra data (JSON, etc) a dev might pass with signup for later use<br />@param {string} $name - if the user doesn't exist in the system this will be used as their display name<br />@return bool
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />address (REQUIRED)<br />list_id (REQUIRED)<br />do_not_verify (default: false)<br />initial_comment (default: '')<br />additional_data (default: '')<br />name (default: 'Anonymous')<br />force_verification_url (default: false)<br />request_from_service (default: false)<br />service_opt_in (default: true)</div></div><div class="request_action"><h4 class="action_name">people / addlist</h4><p class="action_comments">
+Adds a new list to the system<br /><br />@param {int} $list_id - the list<br />@param {int} $name - a name given to the list for easy recognition<br />@param {int} $description - a description, in case the name is terrible and offers no help<br />@param {int} $connection_id - a third party connection with which the list should sync<br />@return id|false
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />name (REQUIRED)<br />user_id (REQUIRED)<br />description (default: '')<br />connection_id (default: 0)</div></div><div class="request_action"><h4 class="action_name">people / checkverification</h4><p class="action_comments">
+Returns true/false as to whether a user is verified for a specific list<br /><br />@param {string} $address - the email address in question<br />@param {int} $list_id - the id of the list<br />@return bool
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />address (REQUIRED)<br />list_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">people / deletelist</h4><p class="action_comments">
+Removes an entire list and all member records. Use with caution.<br /><br />@param {int} $list_id - the list<br />@return bool
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />list_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">people / editlist</h4><p class="action_comments">
+Edits the details of a given list<br /><br />@param {int} $list_id - the list<br />@param {int} $name - a name given to the list for easy recognition<br />@param {int} $description - a description, in case the name is terrible and offers no help<br />@param {int} $connection_id - a third party connection with which the list should sync<br />@return id|false
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />list_id (REQUIRED)<br />name (default: false)<br />description (default: false)<br />connection_id (default: false)</div></div><div class="request_action"><h4 class="action_name">people / getaddresslistinfo</h4><p class="action_comments">
+Returns email address information for a specific list / address<br /><br />@param {string} $address - the email address in question<br />@return array|false
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />address (REQUIRED)<br />list_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">people / getanalytics</h4><p class="action_comments">
+Pulls analytics queries in a few different formats<br /><br />@return array
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />analtyics_type (REQUIRED)<br />user_id (default: 0)<br />list_id (default: false)</div></div><div class="request_action"><h4 class="action_name">people / getlistsforuser</h4><p class="action_comments">
+Returns all lists owned by a user<br /><br />@param {int} $user_id - the user<br />@return array|false
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">people / getlist</h4><p class="action_comments">
+Returns basic information about a list<br /><br />@param {int} $list_id - the id of the list<br />@return array|false
+ </p><div class="action_params"><b>Allowed methods:</b> direct, api_key<br /><br /><b>Parameters</b><br />list_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">people / getuser</h4><p class="action_comments">
+Gets details for an individual user<br /><br /> </p><div class="action_params"><b>Allowed methods:</b> direct, api_key<br /><br /><b>Parameters</b><br />user_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">people / getuseridforaddress</h4><p class="action_comments">
+Returns user id for a given email address<br /><br />@param {string} $address - the email address in question<br />@return id|false
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />address (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">people / processwebhook</h4><p class="action_comments">
+Used with the verbose API for remote webhook calls — incoming data into the system from 
+third parties, etc.<br /><br /> </p><div class="action_params"><b>Allowed methods:</b> direct, api_key<br /><br /><b>Parameters</b><br />origin (REQUIRED)<br />user_id (REQUIRED)<br />list_id (default: 0)<br />type (default: false)<br />data (default: false)</div></div><div class="request_action"><h4 class="action_name">people / removeaddress</h4><p class="action_comments">
+Sets a user inactive for a given list. If the user is not present on the 
+list it returns true.<br /><br />@param {string} $address - the email address in question<br />@param {int} $list_id - the id of the list<br />@return bool
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />address (REQUIRED)<br />list_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">people / signintolist</h4><div class="action_params"><b>Allowed methods:</b> post, direct, api_key<br /><br /><b>Parameters</b><br />address (REQUIRED)<br />password (REQUIRED)<br />list_id (REQUIRED)<br />browserid_assertion (default: false)<br />element_id (default: NULL)</div></div><div class="request_action"><h4 class="action_name">people / signup</h4><div class="action_params"><b>Allowed methods:</b> direct, post, get, api_key<br /><br /><b>Parameters</b><br />address (REQUIRED)<br />password (REQUIRED)<br />list_id (REQUIRED)<br />browserid_assertion (default: false)<br />element_id (default: NULL)</div></div><div class="request_action"><h4 class="action_name">people / verifyaddress</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />address (REQUIRED)<br />list_id (REQUIRED)<br />verification_code (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">people / viewlist</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />list_id (REQUIRED)<br />unlimited (default: false)</div></div>
+	</div>
+
+	<div class="section" id="commercerequests">
+		<h2>Commerce requests</h2><p>All actions defined for 'commerce' type requests:<div class="request_action"><h4 class="action_name">commerce / additem</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)<br />name (REQUIRED)<br />description (default: '')<br />sku (default: '')<br />price (default: 0)<br />available_units (default: -1)<br />digital_fulfillment (default: 0)<br />physical_fulfillment (default: 0)<br />physical_weight (default: 0)<br />physical_width (default: 0)<br />physical_height (default: 0)<br />physical_depth (default: 0)<br />variable_pricing (default: 0)<br />fulfillment_asset (default: 0)<br />descriptive_asset (default: 0)</div></div><div class="request_action"><h4 class="action_name">commerce / addorder</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)<br />order_contents (REQUIRED)<br />transaction_id (default: -1)<br />physical (default: 0)<br />digital (default: 0)<br />cash_session_id (default: '')<br />element_id (default: 0)<br />customer_user_id (default: 0)<br />fulfilled (default: 0)<br />canceled (default: 0)<br />notes (default: '')<br />country_code (default: '')</div></div><div class="request_action"><h4 class="action_name">commerce / addtransaction</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)<br />connection_id (REQUIRED)<br />connection_type (REQUIRED)<br />service_timestamp (default: '')<br />service_transaction_id (default: '')<br />data_sent (default: '')<br />data_returned (default: '')<br />successful (default: -1)<br />gross_price (default: 0)<br />service_fee (default: 0)<br />status (default: 'abandoned')</div></div><div class="request_action"><h4 class="action_name">commerce / deleteitem</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">commerce / edititem</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />id (REQUIRED)<br />name (default: false)<br />description (default: false)<br />sku (default: false)<br />price (default: false)<br />available_units (default: false)<br />digital_fulfillment (default: false)<br />physical_fulfillment (default: false)<br />physical_weight (default: false)<br />physical_width (default: false)<br />physical_height (default: false)<br />physical_depth (default: false)<br />variable_pricing (default: false)<br />fulfillment_asset (default: false)<br />descriptive_asset (default: false)</div></div><div class="request_action"><h4 class="action_name">commerce / editorder</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />id (REQUIRED)<br />fulfilled (default: false)<br />canceled (default: false)<br />notes (default: false)<br />country_code (default: false)<br />customer_user_id (default: false)<br />order_contents (default: false)<br />transaction_id (default: false)<br />physical (default: false)<br />digital (default: false)</div></div><div class="request_action"><h4 class="action_name">commerce / edittransaction</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />id (REQUIRED)<br />service_timestamp (default: false)<br />service_transaction_id (default: false)<br />data_sent (default: false)<br />data_returned (default: false)<br />successful (default: false)<br />gross_price (default: false)<br />service_fee (default: false)<br />status (default: false)</div></div><div class="request_action"><h4 class="action_name">commerce / getitem</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">commerce / getitemsforuser</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">commerce / getorder</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />id (REQUIRED)<br />deep (default: false)</div></div><div class="request_action"><h4 class="action_name">commerce / getordersforuser</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">commerce / gettransaction</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">commerce / finalizepayment</h4><div class="action_params"><b>Allowed methods:</b> get, post, direct<br /><br /><b>Parameters</b><br />order_id (REQUIRED)<br />creation_date (REQUIRED)<br />direct_post_details (default: false)</div></div><div class="request_action"><h4 class="action_name">commerce / initiatecheckout</h4><div class="action_params"><b>Allowed methods:</b> get, post, direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)<br />connection_id (REQUIRED)<br />order_contents (default: false)<br />item_id (default: false)<br />element_id (default: false)</div></div>
+	</div>
+
+	<div class="section" id="calendarrequests">
+		<h2>Calendar requests</h2><p>All actions defined for 'calendar' type requests:<div class="request_action"><h4 class="action_name">calendar / addevent</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />date (REQUIRED)<br />user_id (REQUIRED)<br />venue_id (REQUIRED)<br />purchase_url (default: '')<br />comment (default: '')<br />published (default: 0)<br />cancelled (default: 0)</div></div><div class="request_action"><h4 class="action_name">calendar / addvenue</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />name (REQUIRED)<br />city (REQUIRED)<br />address1 (default: '')<br />address2 (default: '')<br />region (default: '')<br />country (default: '')<br />postalcode (default: '')<br />url (default: '')<br />phone (default: '')</div></div><div class="request_action"><h4 class="action_name">calendar / deletevenue</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />venue_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">calendar / editevent</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />event_id (REQUIRED)<br />date (default: false)<br />venue_id (default: false)<br />purchase_url (default: false)<br />comment (default: false)<br />published (default: false)<br />cancelled (default: false)</div></div><div class="request_action"><h4 class="action_name">calendar / editvenue</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />venue_id (REQUIRED)<br />name (default: false)<br />address1 (default: false)<br />address2 (default: false)<br />city (default: false)<br />region (default: false)<br />country (default: false)<br />postalcode (default: false)<br />url (default: false)<br />phone (default: false)</div></div><div class="request_action"><h4 class="action_name">calendar / getallvenues</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b></div></div><div class="request_action"><h4 class="action_name">calendar / geteventsbetween</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)<br />offset (default: 0)<br />cutoff_date_low (default: 'now')<br />cancelled_status (default: 0)<br />published_status (default: 1)<br />cutoff_date_high (default: 2051244000)</div></div><div class="request_action"><h4 class="action_name">calendar / getevent</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />event_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">calendar / getevents</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)<br />visible_event_types (REQUIRED)<br />offset (default: 0)<br />published_status (default: 1)<br />cancelled_status (default: 0)</div></div><div class="request_action"><h4 class="action_name">calendar / getvenue</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />venue_id (REQUIRED)</div></div>
+	</div>
+
+	<div class="section" id="elementrequests">
+		<h2>Element requests</h2><p>All actions defined for 'element' type requests:<div class="request_action"><h4 class="action_name">element / addelement</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />name (REQUIRED)<br />type (REQUIRED)<br />options_data (REQUIRED)<br />user_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">element / addlockcode</h4><p class="action_comments">
+Wrapper for system lock code call<br /><br />@param {integer} $element_id - the element for which you're adding the lock code<br />@return string|false
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />element_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">element / deleteelement</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">element / editelement</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />id (REQUIRED)<br />name (REQUIRED)<br />options_data (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">element / getanalytics</h4><p class="action_comments">
+Pulls analytics queries in a few different formats<br /><br />@return array
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />analtyics_type (REQUIRED)<br />user_id (REQUIRED)<br />element_id (default: 0)</div></div><div class="request_action"><h4 class="action_name">element / getelement</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">element / getelementsforuser</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">element / getmarkup</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />id (REQUIRED)<br />status_uid (REQUIRED)<br />original_request (default: false)<br />original_response (default: false)<br />access_method (default: 'direct')</div></div><div class="request_action"><h4 class="action_name">element / getsupportedtypes</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b></div></div><div class="request_action"><h4 class="action_name">element / redeemcode</h4><p class="action_comments">
+Wrapper for system lock code call<br /><br />@param {string} $code - the code<br />@param {integer} $element_id - the element for which you're adding the lock code<br />@return bool
+ </p><div class="action_params"><b>Allowed methods:</b> direct, get, post<br /><br /><b>Parameters</b><br />code (REQUIRED)<br />element_id (REQUIRED)</div></div>
+	</div>
+
+	<div class="section" id="elements">
+		
+
+	</div>
+
+	<div class="section" id="adminapp">
+		
+
+	</div>
+
 </div>
 
-<div id="footer">
-	<p><b>&copy; 2011 CASH Music.</b> All our code is open-source. <a href="http://cashmusic.org/why/" style="margin-left:0;">Learn more</a>. <a href="http://help.cashmusic.org/">Get help</a> <a href="http://cashmusic.org/donate" class="donatelink"><b>Donate</b></a></p>
-</div>
-
+<script src="assets/scripts/jquery.js"></script>
+<script src="assets/scripts/jquery.scrollTo.js"></script>
+<script src="assets/scripts/jquery.nav.js"></script>
+<script>
+$(document).ready(function() {
+	$('#nav').onePageNav({
+	changeHash:true,
+	filter:':not(.external)',
+	scrollThreshold:0.25
+	});
+});
+</script>
 </body>
 </html>
