@@ -18,7 +18,3 @@ citest:
 	php tests/php/all.php
 
 fulltest: unit_test integration_test cleanup
-
-documentation:
-	php docs/generator/generatedocs.php
-

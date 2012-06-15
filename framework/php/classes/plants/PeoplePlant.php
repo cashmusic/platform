@@ -399,7 +399,10 @@ class PeoplePlant extends PlantBase {
 	 *
 	 */
 
-	protected function getUser($user_id) {
+	/**
+	 * Gets details for an individual user
+	 *
+	 */protected function getUser($user_id) {
 		$result = $this->db->getData(
 			'users',
 			'*',
@@ -771,7 +774,11 @@ class PeoplePlant extends PlantBase {
 	 *
 	 */
 
-	protected function processWebhook($origin,$user_id,$list_id=0,$type=false,$data=false) {
+	/**
+	 * Used with the verbose API for remote webhook calls — incoming data into the system from 
+	 * third parties, etc.
+	 *
+	 */protected function processWebhook($origin,$user_id,$list_id=0,$type=false,$data=false) {
 		switch ($origin) {
 			case 'com.mailchimp':
 				// make sure the API key matches the user_id of the list owner

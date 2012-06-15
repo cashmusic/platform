@@ -16,47 +16,25 @@
 class AssetPlant extends PlantBase {
 	public function __construct($request_type,$request) {
 		$this->request_type = 'asset';
+		$this->routing_table = array(
+			// alphabetical for ease of reading
+			// first value  = target method to call
+			// second value = allowed request methods (string or array of strings)
+			'addasset'                => array('addAsset','direct'),
+			'addlockcode'             => array('addLockCode','direct'),
+			'claim'                   => array('redirectToAsset',array('get','post','direct')),
+			'editasset'               => array('editAsset','direct'),
+			'findconnectiondeltas'    => array('findConnectionAssetDeltas','direct'),
+			'getanalytics'            => array('getAnalytics','direct'),
+			'getasset'                => array('getAssetInfo','direct'),
+			'getassetsforconnection'  => array('getAssetsForConnection','direct'),
+			'getassetsforparent'      => array('getAssetsForParent','direct'),
+			'getassetsforuser'        => array('getAssetsForUser','direct'),
+			'redeemcode'              => array('redeemLockCode',array('direct','get','post')),
+			'syncconnectionassets'    => array('syncConnectionAssets','direct'),
+			'unlock'                  => array('unlockAsset','direct')
+		);
 		$this->plantPrep($request_type,$request);
-	}
-	
-	public function processRequest() {
-		if ($this->action) {
-			$this->routing_table = array(
-				// alphabetical for ease of reading
-				// first value  = target method to call
-				// second value = allowed request methods (string or array of strings)
-				'addasset'                => array('addAsset','direct'),
-				'addlockcode'             => array('addLockCode','direct'),
-				'claim'                   => array('redirectToAsset',array('get','post','direct')),
-				'editasset'               => array('editAsset','direct'),
-				'findconnectiondeltas'    => array('findConnectionAssetDeltas','direct'),
-				'getanalytics'            => array('getAnalytics','direct'),
-				'getasset'                => array('getAssetInfo','direct'),
-				'getassetsforconnection'  => array('getAssetsForConnection','direct'),
-				'getassetsforparent'      => array('getAssetsForParent','direct'),
-				'getassetsforuser'        => array('getAssetsForUser','direct'),
-				'redeemcode'              => array('redeemLockCode',array('direct','get','post')),
-				'syncconnectionassets'    => array('syncConnectionAssets','direct'),
-				'unlock'                  => array('unlockAsset','direct')
-			);
-			// see if the action matches the routing table:
-			$basic_routing = $this->routeBasicRequest();
-			if ($basic_routing !== false) {
-				return $basic_routing;
-			} else {
-				return $this->response->pushResponse(
-					404,$this->request_type,$this->action,
-					$this->request,
-					'unknown action'
-				);
-			}
-		} else {
-			return $this->response->pushResponse(
-				400,$this->request_type,$this->action,
-				$this->request,
-				'no action specified'
-			);
-		}
 	}
 
 	protected function getAssetsForConnection($connection_id) {

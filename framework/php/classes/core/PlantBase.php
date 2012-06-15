@@ -152,6 +152,10 @@
 		}
 	}
 
+	public function getRoutingTable() {
+		return $this->routing_table;
+	}
+
 	public function routeBasicRequest() {
 		if (isset($this->routing_table[$this->action])) {
 			if (!$this->checkRequestMethodFor($this->routing_table[$this->action][1])) { 

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Documentation / CASH Music</title>
+
+<link rel="icon" type="image/png" href="http://cashmusic.org/images/icons/cash.png" />
+
+<style>
+html {margin:0;padding:0;}
+body {color:#231F20;background-color:#fafaf8;text-align:left;font:14px/1.5em helveticaneue,"helvetica neue",helvetica,"segoe ui","segoe wp",arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:920px;text-rendering:optimizelegibility;}
+a {color:#aaa;text-decoration:none;}
+a:hover {text-decoration:underline;color:#000 !important;}
+div.callout, code {background-color:#ddd;background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAPhJREFUeNqk1M0KgkAQAGCFXqSzBwW9KOg5gugBArGD9PN6KhiIl0Vcg0UUfI0QggRJawyKIjNdB/ayO3wMuzszuUEwI6Ku65PjOCvmNiIAyS3LmoE3pYaqqspt254/EFoIkLPruosXQgO1IkMhuJOL53nLL2QI1InAYns+f4EQ0jVNI78S/kJwXARBoKuqSrryOqEGwRivFUU5/iu5CyrDMDQAwX1+eCsEW2UURYYsy7hvq7RBJSHElCQJDem5D6ipJI5jUxRFNLR536EyTdM9z/M+zRR4QlWSJBtBEHzacdJAV6hkB5V4Y+YSm2XZluO4AzMy7gIMAJSSyK1ong48AAAAAElFTkSuQmCC);background-position:left top;background-repeat:no-repeat;}
+div.callout {display:block;font-size:11px;padding:22px 18px 18px 18px;margin:0 auto 1.5em auto;background-color:#ededef;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;}
+div.callout.flush {background-image:none;}
+code {font-size:12px;display:block;padding:2em;margin:0 0 1.5em 0;margin:0 auto;}
+code a {color:#23c;}
+img {border:0;}
+li {line-height:1.35em;}
+p {margin:0 0 1.5em 0;}
+h1 {clear:both;font-size:36px;line-height:42px;margin:32px 0 16px 0;padding:0;font-weight:bold;}
+h2, h3 {font-size:18px;line-height:1.125em;margin:0;padding:0;padding-bottom:0.35em;}
+h4, h5 {font-size:14px;line-height:1.125em;margin:0;padding:0;padding-bottom:0.35em;}
+big {font-size:1.5em;line-height:1.25em;}
+small {font-size:0.85em;line-height:1.25em;}
+small a {color:#231F20 !important;font-weight:bold;}
+.action_comments {font:italic 12px/1.5em georgia, times, serif;color:#777;}
+.request_action {margin:0 0 2em 0;}
+.action_params {font-size:12px;padding-left:1em;border-left:5px #ddd solid;}
+#nav {margin:0;padding:0;font-size:12px;left:10px;position:fixed;top:10px;}
+#nav li {border-left:5px #fafaf8 solid;margin-bottom:2px;color:#aaa;}
+#nav li.toplevel {font-size:14px;font-weight:bold;margin-bottom:2px;}
+#nav ul  {padding:0 0 1em 1.25em;margin:0;list-style:none;}
+#nav a {background:#fafaf8;color:#999;display:block;padding:5px 10px;text-decoration:none;}
+#nav a:hover {background:#dedede;}
+#nav .current {border-left:5px #231F20 solid;}
+#nav .current a {color:#231F20;}
+#mainspc {margin:0 auto;padding-top:80px;width:660px;}
+#mainspc ul {margin:0 0 1.5em 0;}
+.section {padding:1em 0 4em 0;}
+</style>
+</head>
+
+<body>
+
+<ul id="nav">
+	<li class="current toplevel"><a href="#introduction">Introduction</a></li>
+	<ul>
+		<li><a href="#setup">Setup</a></li>
+		<li><a href="#codestandards">Code standards</a></li>
+	</ul>
+	<li class="toplevel"><a href="#phpapi">PHP API</a></li>
+	<ul>
+		<li><a href="#requestresponse">Request/response format</a></li>
+		<li><a href="#systemrequests">System requests</a></li>
+		<li><a href="#assetrequests">Asset requests</a></li>
+		<li><a href="#peoplerequests">People requests</a></li>
+		<li><a href="#commercerequests">Commerce requests</a></li>
+		<li><a href="#calendarrequests">Calendar requests</a></li>
+		<li><a href="#elementrequests">Element requests</a></li>
+	</ul>
+	<li class="toplevel"><a href="#elements">Elements</a></li>
+	<li class="toplevel"><a href="#adminapp">Admin app</a></li>
+	<li><br /><br /><a href="http://cashmusic.org/" class="external">cashmusic.org</a></li>
+</ul>
+
+<div id="mainspc">
+	<h1>CASH Music documentation</h1>
+
+	<div class="section" id="introduction">
+		{{{introduction}}}
+	</div>
+
+	<div class="section" id="setup">
+		{{{setup}}}
+	</div>
+	
+	<div class="section" id="codestandards">
+		{{{codestandards}}}
+	</div>
+
+	<div class="section" id="phpapi">
+		{{{phpapi}}}
+	</div>
+
+	<div class="section" id="requestresponse">
+		{{{requestresponse}}}
+	</div>
+
+	<div class="section" id="systemrequests">
+		{{{systemrequests}}}
+	</div>
+
+	<div class="section" id="assetrequests">
+		{{{assetrequests}}}
+	</div>
+
+	<div class="section" id="peoplerequests">
+		{{{peoplerequests}}}
+	</div>
+
+	<div class="section" id="commercerequests">
+		{{{commercerequests}}}
+	</div>
+
+	<div class="section" id="calendarrequests">
+		{{{calendarrequests}}}
+	</div>
+
+	<div class="section" id="elementrequests">
+		{{{elementrequests}}}
+	</div>
+
+	<div class="section" id="elements">
+		{{{elements}}}
+	</div>
+
+	<div class="section" id="adminapp">
+		{{{adminapp}}}
+	</div>
+
+</div>
+
+<script src="assets/scripts/jquery.js"></script>
+<script src="assets/scripts/jquery.scrollTo.js"></script>
+<script src="assets/scripts/jquery.nav.js"></script>
+<script>
+$(document).ready(function() {
+	$('#nav').onePageNav({
+	changeHash:true,
+	filter:':not(.external)',
+	scrollThreshold:0.25
+	});
+});
+</script>
+</body>
+</html>
