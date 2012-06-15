@@ -318,7 +318,7 @@ td, th {padding:6px 5px 6px 5px;vertical-align:top;}
 #navmenu a:active, #navmenu a:focus {color:#fff;}
 #navmenu a:active {background-color:transparent;}
 #navmenu .currentnav, #navmenu .currentnav a {color:#fff;}
-#subnavmenu {clear:both;font-size:11px;line-height:14px;padding:4px 0 4px 0;border-top:1px solid #eee;border-bottom:1px solid #eee;}
+#subnavmenu {clear:both;font-size:11px;line-height:14px;padding:4px 0 4px 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;}
 #subnavmenu a {display:block;color:#babac4 !important;float:left;width:auto;padding:8px 12px 8px 0;}
 #subnavmenu a:hover {color:#231F20 !important;}
 #pagetips {background-color:#ff0;color:#231F20;padding:12px 16px 12px 16px;text-align:left;margin:0;}
