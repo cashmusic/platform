@@ -27,11 +27,11 @@
 session_start();
 $_SESSION['copying'] = false; // we'll use this in the AJAX copy loops later
 
-if (!isset($_SESSION['branch']) || isset($_GET['origin'])) {
+if (!isset($_SESSION['release_id']) || isset($_GET['origin'])) {
 	if(isset($_GET['origin'])) {
-		$_SESSION['branch'] = $_GET['origin'];
+		$_SESSION['release_id'] = $_GET['origin'];
 	} else {
-		$_SESSION['branch'] = 'latest_stable';
+		$_SESSION['release_id'] = 'stable';
 	}
 }
 
@@ -99,7 +99,7 @@ function determinedCopy($source,$dest,$retries=3) {
 						unlink($dest);
 					}
 					curl_close($ch);
-					sleep(4);
+					sleep(3);
 				}
 			}
 			$retries--;
@@ -281,6 +281,7 @@ if (!isset($_POST['installstage'])) {
 		}
 
 		window.addEvent('domready',function() {
+			document.id('progressspc').set('tween', {duration: 45});
 			prepPage();
 		});
 	</script>
@@ -354,7 +355,7 @@ if (!isset($_POST['installstage'])) {
 				// this nested structure is kinda nutty, but you know...also fine / finite
 	  			$total_files = scandir(dirname('.'));
 	  			$total_file_count = count($total_files);
-	  			if ($total_file_count > 3 && !file_exists('./manifest.diy.org.cashmusic')) {
+	  			if ($total_file_count > 3 && !file_exists('./release_profile.json')) {
 	  				// 1. test for EITHER empty directory or in-progress install
 					$all_tests_pass = false;
 					$test_error_number = 1;
@@ -367,7 +368,7 @@ if (!isset($_POST['installstage'])) {
 						$test_error_number = 2;
 						$test_error_message = "Can't create a directory. Kind of need to do that. Sorry.";
 		  			} else {
-		  				if (!determinedCopy('https://github.com/api/v2/json/blob/all/cashmusic/DIY/'.$_SESSION['branch'],'./test/manifest.diy.org.cashmusic')) {
+		  				if (!determinedCopy('http://cashmusic.s3.amazonaws.com/releases/'.$_SESSION['release_id'].'/release_profile.json','./test/release_profile.json')) {
 			  				$all_tests_pass = false;
 							$test_error_number = 3;
 							$test_error_message = "I'm trying to copy files down from github but it's not working. "
@@ -423,7 +424,7 @@ if (!isset($_POST['installstage'])) {
 					. '<div class="altcopystyle fadedtext" style="margin-bottom:6px;">Copying files:</div>';
 				// as long as determinedCopy isn't spinning we can copy files from the repo
 				if (!$_SESSION['copying']) {
-					if (!file_exists('./manifest.diy.org.cashmusic')) {
+					if (!file_exists('./release_profile.json')) {
 						// create the directory structure: remove any existing source files and re-download
 						// we'll make a proper update script later.
 						if (is_dir('./source')) {
@@ -440,43 +441,34 @@ if (!isset($_POST['installstage'])) {
 						}
 						if (mkdir('./source',0755,true)) {
 							// get repo from github, strip unnecessary files and write manifest:
-							if (determinedCopy('https://github.com/api/v2/json/blob/all/cashmusic/DIY/'.$_SESSION['branch'],'./manifest.diy.org.cashmusic')) {
-								$repo = json_decode(file_get_contents('./manifest.diy.org.cashmusic'));
-								$files = array_keys((array)$repo->blobs);
-								foreach ($files as $key => $file) {
-									if (preg_match("/^(tests|installers|interfaces\/php\/demos|docs|db|Makefile|.travis.yml|.gitignore|index.html)/", $file)) {
-										unset($files[$key]);
-									}
-								}
-								$files = json_encode(array_merge($files)); // resets keys
-								file_put_contents('./manifest.diy.org.cashmusic',$files);
-						
+							if (determinedCopy('http://cashmusic.s3.amazonaws.com/releases/'.$_SESSION['release_id'].'/release_profile.json','./release_profile.json')) {
 								echo $source_message;
 								echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
-								echo '<script type="text/javascript">showProgress(0);(function(){document.id("nextstepform").fireEvent("submit");}).delay(250);</script>';
+								echo '<script type="text/javascript">showProgress(0);(function(){document.id("nextstepform").fireEvent("submit");}).delay(50);</script>';
 							}
 						} else {
 							echo '<h1>Oh. Shit. Something\'s wrong.</h1>error creating source directory<br />';
 						}
 					} else {
 						// grab our manifest:
-						$files = json_decode(file_get_contents('./manifest.diy.org.cashmusic'));
+						$release_profile = json_decode(file_get_contents('./release_profile.json'),true);
+						$files = $release_profile['blobs'];
 						$filecount = count($files);
 						$currentfile = 1;
 
-						foreach ($files as $file) {
+						foreach ($files as $file => $hash) {
 							if (!file_exists('./source/'.$file)) {
 								$path = pathinfo($file);
 								if (!is_dir('./source/'.$path['dirname'])) mkdir('./source/'.$path['dirname'],0755,true);
-								if (determinedCopy('https://raw.github.com/cashmusic/DIY/'.$_SESSION['branch'].'/'.$file,'./source/'.$file)) {
+								if (determinedCopy('http://cashmusic.s3.amazonaws.com/releases/'.$_SESSION['release_id'].'/'.$file,'./source/'.$file)) {
 									echo $source_message;
 									if ($currentfile != $filecount) {
 										echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
-										echo '<script type="text/javascript">showProgress(' . ceil(100 * ($currentfile / $filecount)) . ');(function(){document.id("nextstepform").fireEvent("submit");}).delay(650);</script>';
+										echo '<script type="text/javascript">showProgress(' . ceil(100 * ($currentfile / $filecount)) . ');(function(){document.id("nextstepform").fireEvent("submit");}).delay(80);</script>';
 									} else {
 										// we're done; remove the manifest file
-										if (file_exists('./manifest.diy.org.cashmusic')) {
-											unlink('./manifest.diy.org.cashmusic');
+										if (file_exists('./release_profile.json')) {
+											unlink('./release_profile.json');
 										}
 										echo '<form action="" method="post" id="nextstepform"><input type="hidden" id="installstagefade" value="1" /><input type="hidden" name="installstage" id="installstageinput" value="3" /></form>';
 										echo '<script type="text/javascript">hideProgress();(function(){document.id("nextstepform").fireEvent("submit");}).delay(250);</script>';
