@@ -38,8 +38,3 @@ Like so:
 	}
 }
 ````
-
-The blobs array is taken from the github blobs array generated in their v2 api 
-(ex: https://github.com/api/v2/json/blob/all/cashmusic/DIY/latest_stable) We're 
-only storing the /interfaces and /framework blobs because they're all that's 
-relevant to the install/update process. 
