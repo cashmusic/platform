@@ -46,16 +46,7 @@ function determinedCopy($source,$dest,$retries=4) {
 	if (!$_SESSION['copying']) {
 		$_SESSION['copying'] = true;
 		while($retries > 0) {
-			if (ini_get('allow_url_fopen')) {
-				if (@copy($source,$dest)) {
-					chmod($dest,0755);
-					$_SESSION['copying'] = false;
-					return true;
-				} else {
-					sleep(1);
-				}
-			} else {
-				// fall back to cURL
+			if (function_exists('curl_init')) {
 				$ch = curl_init();
 				$timeout = 15;
 				$userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.5; rv:7.0) Gecko/20100101 Firefox/7.0';
@@ -84,7 +75,15 @@ function determinedCopy($source,$dest,$retries=4) {
 						unlink($dest);
 					}
 					curl_close($ch);
-					sleep(4);
+					sleep(3);
+				}
+			} elseif (ini_get('allow_url_fopen')) {
+				if (@copy($source,$dest)) {
+					chmod($dest,0755);
+					$_SESSION['copying'] = false;
+					return true;
+				} else {
+					sleep(1);
 				}
 			}
 			$retries--;

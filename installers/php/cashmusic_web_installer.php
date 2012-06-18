@@ -61,16 +61,7 @@ function determinedCopy($source,$dest,$retries=4) {
 	if (!$_SESSION['copying']) {
 		$_SESSION['copying'] = true;
 		while($retries > 0) {
-			if (ini_get('allow_url_fopen')) {
-				if (@copy($source,$dest)) {
-					chmod($dest,0755);
-					$_SESSION['copying'] = false;
-					return true;
-				} else {
-					sleep(1);
-				}
-			} else {
-				// fall back to cURL
+			if (function_exists('curl_init')) {
 				$ch = curl_init();
 				$timeout = 15;
 				$userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.5; rv:7.0) Gecko/20100101 Firefox/7.0';
@@ -100,6 +91,14 @@ function determinedCopy($source,$dest,$retries=4) {
 					}
 					curl_close($ch);
 					sleep(3);
+				}
+			} elseif (ini_get('allow_url_fopen')) {
+				if (@copy($source,$dest)) {
+					chmod($dest,0755);
+					$_SESSION['copying'] = false;
+					return true;
+				} else {
+					sleep(1);
 				}
 			}
 			$retries--;
@@ -453,7 +452,7 @@ if (!isset($_POST['installstage'])) {
 									echo $source_message;
 									if ($currentfile != $filecount) {
 										echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
-										echo '<script type="text/javascript">showProgress(' . ceil(100 * ($currentfile / $filecount)) . ');(function(){document.id("nextstepform").fireEvent("submit");}).delay(80);</script>';
+										echo '<script type="text/javascript">showProgress(' . ceil(100 * ($currentfile / $filecount)) . ');(function(){document.id("nextstepform").fireEvent("submit");}).delay(60);</script>';
 									} else {
 										// we're done; remove the manifest file
 										if (file_exists('./release_profile.json')) {
