@@ -28,7 +28,7 @@ small a {color:#231F20 !important;font-weight:bold;}
 .action_comments {font:italic 12px/1.5em georgia, times, serif;color:#777;}
 .request_action {margin:0 0 2em 0;}
 .action_params {font-size:12px;padding-left:1em;border-left:5px #ddd solid;}
-#nav {margin:0;padding:0;font-size:12px;left:10px;position:fixed;top:10px;}
+#nav {margin:0;padding:0;font-size:12px;left:10px;position:fixed;top:10px;list-style:none;}
 #nav li {border-left:5px #fafaf8 solid;margin-bottom:2px;color:#aaa;}
 #nav li.toplevel {font-size:14px;font-weight:bold;margin-bottom:2px;}
 #nav ul  {padding:0 0 1em 1.25em;margin:0;list-style:none;}
@@ -205,16 +205,43 @@ or false if the request failed, the <strong>api version</strong>, and a <strong>
 Adds a new user to the system, setting login details<br /><br />@param {string} $address - the email address in question<br />@param {string} $password - the password<br />@return array|false
  </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />address (REQUIRED)<br />password (REQUIRED)<br />is_admin (default: 0)<br />display_name (default: 'Anonymous')<br />first_name (default: '')<br />last_name (default: '')<br />organization (default: '')<br />address_country (default: '')</div></div><div class="request_action"><h4 class="action_name">system / addlockcode</h4><p class="action_comments">
 Creates a new lock/unlock code for and asset<br /><br />@param {integer} $element_id - the element for which you're adding the lock code<br />@return string|false
- </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />scope_table_alias (REQUIRED)<br />scope_table_id (REQUIRED)<br />user_id (default: 0)</div></div><div class="request_action"><h4 class="action_name">system / deletesettings</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)<br />type (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">system / getapicredentials</h4><p class="action_comments">
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />scope_table_alias (REQUIRED)<br />scope_table_id (REQUIRED)<br />user_id (default: 0)</div></div><div class="request_action"><h4 class="action_name">system / deletesettings</h4><p class="action_comments">
+Removes system settings of the given type for a user — be careful with wild cards. (Don't
+use them unless you want to delete all system settings for a user. So, you know, don't.)<br /><br />@return bool
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)<br />type (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">system / getapicredentials</h4><p class="action_comments">
 Gets API credentials for a user id<br /><br />@param {int} $user_id - the user<br />@return array|false
- </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">system / getlockcodes</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />scope_table_alias (REQUIRED)<br />scope_table_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">system / getsettings</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)<br />type (REQUIRED)<br />return_json (default: false)</div></div><div class="request_action"><h4 class="action_name">system / migratedb</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />todriver (REQUIRED)<br />tosettings (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">system / redeemlockcode</h4><div class="action_params"><b>Allowed methods:</b> direct, get, post<br /><br /><b>Parameters</b><br />code (REQUIRED)<br />scope_table_alias (default: false)<br />scope_table_id (default: false)<br />user_id (default: false)</div></div><div class="request_action"><h4 class="action_name">system / setapicredentials</h4><p class="action_comments">
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">system / getlockcodes</h4><p class="action_comments">
+Gets all lock codes for a given resource.<br /><br />@return array|false
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />scope_table_alias (REQUIRED)<br />scope_table_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">system / getsettings</h4><p class="action_comments">
+Gets settings of the given type for a user. Set return_json to true and the system will 
+return the stored JSON without decoding.<br /><br />@return string|array|false
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)<br />type (REQUIRED)<br />return_json (default: false)</div></div><div class="request_action"><h4 class="action_name">system / migratedb</h4><p class="action_comments">
+Wrapper for CASHData migrateDB call. Currently used for SQLite -> MySQL migrations but any 
+from/to should be possible. More tests need to be written for full support.<br /><br />@return bool
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />todriver (REQUIRED)<br />tosettings (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">system / redeemlockcode</h4><p class="action_comments">
+Attempts to redeem a given lock code, returning all details for the code on success or false 
+on failure. The code is tied to a scope_table_alias and scope_table_id pointing to a specific 
+asset, element, etc. <br /><br />Pass a specific scope_table_alias, scope_table_id, or user_id to limit results to only matching 
+returns. <br /><br />This will continue to return true for four hours after initial redemption — in the case of a 
+failed download this will give a user a second try without risking any long-term breach.<br /><br />@return array|false
+ </p><div class="action_params"><b>Allowed methods:</b> direct, get, post<br /><br /><b>Parameters</b><br />code (REQUIRED)<br />scope_table_alias (default: false)<br />scope_table_id (default: false)<br />user_id (default: false)</div></div><div class="request_action"><h4 class="action_name">system / setapicredentials</h4><p class="action_comments">
 Sets or resets API credentials for a user<br /><br />@param {int} $user_id - the user<br />@return array|false
  </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">system / setlogincredentials</h4><p class="action_comments">
 Resets email/password credentials for a user<br /><br />@param {int} $user_id - the user<br />@return array|false
- </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)<br />address (REQUIRED)<br />password (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">system / setsettings</h4><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)<br />type (REQUIRED)<br />value (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">system / validateapicredentials</h4><p class="action_comments">
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)<br />address (REQUIRED)<br />password (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">system / setsettings</h4><p class="action_comments">
+Sets data for the given type for a user. This is basically a single key/value, so if the type 
+already exists this call with overwrite the existing value.<br /><br />@return bool
+ </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />user_id (REQUIRED)<br />type (REQUIRED)<br />value (REQUIRED)</div></div><div class="request_action"><h4 class="action_name">system / validateapicredentials</h4><p class="action_comments">
 Verifies API credentials and returns authorization type (api_key || api_fullauth || none) and user_id<br /><br />@param {int} $user_id - the user<br />@return array|false
  </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />api_key (REQUIRED)<br />api_secret (default: false)</div></div><div class="request_action"><h4 class="action_name">system / validatelogin</h4><p class="action_comments">
-Generates a password hash and compares against the stored hash<br /><br />@param {string} $address - the email address in question<br />@param {string} $password - the password<br />@return array|false
+Logins are validated using the email address given with a salted sha256 hash of the given 
+password. Blowfish is unavailable to PHP 5.2 (reliably) so we're limited in hashing. The 
+system salt is stored in /framework/settings/cashmusic.ini.php outside the database for 
+additional security.<br /><br />In addition to the standard email/pass we also validate against Mozilla's Browser ID standard
+using the browserid_assetion which can be passed in. This works with the CASHSystem Browser ID 
+calls to determine a positive login status for the user, get the email address, and compare it 
+to the system to return the correct user and login status. <br /><br />Pass require_admin to only return true for admin-level users. Pass an element_id if you want 
+the login analytics to be tied to a specific element. <br /><br />@return array|false
  </p><div class="action_params"><b>Allowed methods:</b> direct<br /><br /><b>Parameters</b><br />address (REQUIRED)<br />password (REQUIRED)<br />require_admin (default: false)<br />verified_address (default: false)<br />browserid_assertion (default: false)<br />element_id (default: NULL)</div></div>
 	</div>
 
@@ -284,12 +311,72 @@ Wrapper for system lock code call<br /><br />@param {string} $code - the code<br
 	</div>
 
 	<div class="section" id="elements">
-		
+		<h2>Elements</h2>
+
+<p>Elements are like a plugin, or functional bundle, for the CASH platform. Each one is a standalone 
+package containing descriptive metadata, a controller class, view templates, and forms to plug into 
+the admin app. Specifically, each element consists of:  </p>
+
+<ul>
+<li>A main controller class file </li>
+<li>A support directory containing:
+
+<ul>
+<li>templates directory for mustache template views for every state (plus admin)</li>
+<li>admin.php as a controller for the amdin template</li>
+<li>image.jpg as a header/descriptive image</li>
+<li>metadata.json containing a version number, friendly name, description, etc</li>
+</ul></li>
+</ul>
+
+<p>Data for each instance of an element is stored as a JSON string in the database, so the data itself 
+can be pretty flexible for each element type. </p>
+
+<p>The public-facing code in the element is designed to respond to targeted POST and/or GET requests — 
+so a CASH Request is made and the element responds to the CASH Response if the correct <strong>element_id</strong> 
+was set along with the request. So an element is embedded with a single function call, and will 
+respond automatically when interacted with. The whole idea being that it's a simple to use structure 
+that can be powerful and flexible enough to innovate on top of the PHP API. </p>
+
+<p>As a starting point, look at the StaticContent element.</p>
 
 	</div>
 
 	<div class="section" id="adminapp">
-		
+		<h2>Admin app</h2>
+
+<p>The admin app for the platform (/interfaces/php/admin) is a fairly straight-forward MVC-style webapp 
+built with a front controller, individual controllers for each route, mustache views, and using the 
+framework for the model instead of a traditional database layer. Basically it's dog-fooding the PHP 
+API but building a much more complex app than a simple element. </p>
+
+<p>Like the framework, the admin app is built with minimal requirements, not using any more robust PHP 
+app frameworks. The reason for this decision was the distributed version of the platform — what we 
+lose in functionality we gain in portability, which is a major concern. </p>
+
+<p>In terms of structure, it's fairly simple: </p>
+
+<ul>
+<li>At the root there's an .htaccess redirect pointing all incoming traffic at controller.php, which 
+pulls in settings from constants.php </li>
+<li>A page is rendered based on pieces found in the /components directory</li>
+<li>Each page/route has a controller in /components/pages/controllers and the controller calls a 
+mustache template from /components/pages/templates</li>
+<li>We're in the process of moving localized text to the /components/text directory, and similarly 
+menus are pulled out by language in the /components/menu directory</li>
+<li>Two simple helper classes are found in the /classes directory</li>
+<li>The main page UI is a simple mustache-based template found in /ui/default — there's not currently 
+a setting in the admin to allow theming but it's essentially just a path change away   </li>
+</ul>
+
+<p>Currently the admin is more of a code-wrapper than an application with elegant UI/UX. Our prime 
+focus is improving that, making each section of the admin feel intuitive and easy as well as adding 
+more help infrastructure. </p>
+
+<p>It shouldn't be lost that the admin app is structured to mirror the Request/Response types — this is 
+very much on purpose with the goal of getting musicians and developers speaking the same language. </p>
+
+<p>Also, Jackson.</p>
 
 	</div>
 
