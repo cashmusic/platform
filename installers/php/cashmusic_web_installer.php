@@ -359,7 +359,7 @@ if (!isset($_POST['installstage'])) {
 		  				if (!determinedCopy('http://cashmusic.s3.amazonaws.com/releases/'.$_SESSION['release_id'].'/release_profile.json','./test/release_profile.json')) {
 			  				$all_tests_pass = false;
 							$test_error_number = 3;
-							$test_error_message = "I'm trying to copy files down from github but it's not working. "
+							$test_error_message = "I'm trying to copy files down but it's not working. "
 												. "This means I can't see the outside word.<br /><br />"
 												. 'cURL is' . (function_exists('curl_init') ? '' : ' not') . ' installed.<br />'
 												. 'fopen wrappers are' . (ini_get('allow_url_fopen') ? '' : ' not') . ' enabled.';
@@ -403,9 +403,8 @@ if (!isset($_POST['installstage'])) {
 				/**
 				 * INSTALL CURRENT SOURCE
 				 *
-				 * Don't even bother checking for git. Set up directories and hit the
-				 * github API, grab the files, looped AJAX delay so we don't make
-				 * anyone at github mad.
+				 * Don't even bother checking for git. Set up directories and hit s3 for files, 
+				 * looped AJAX delay keeps things running smooth...
 				*/
 				$source_message = '<h1>Installing.</h1><p>Copying files. '
 					. 'This should take a couple minutes.</p>'

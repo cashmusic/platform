@@ -46,15 +46,30 @@ class SystemPlant extends PlantBase {
 		$this->plantPrep($request_type,$request);
 	}
 	
+	/**
+	 * Wrapper for CASHData migrateDB call. Currently used for SQLite -> MySQL migrations but any 
+	 * from/to should be possible. More tests need to be written for full support.
+	 *
+	 * @return bool
+	 */
 	protected function doMigrateDB($todriver,$tosettings) {
 		return $this->db->migrateDB($todriver,$tosettings);
 	}
 	
 	/**
-	 * Generates a password hash and compares against the stored hash
+	 * Logins are validated using the email address given with a salted sha256 hash of the given 
+	 * password. Blowfish is unavailable to PHP 5.2 (reliably) so we're limited in hashing. The 
+	 * system salt is stored in /framework/settings/cashmusic.ini.php outside the database for 
+	 * additional security.
+	 * 
+	 * In addition to the standard email/pass we also validate against Mozilla's Browser ID standard
+	 * using the browserid_assetion which can be passed in. This works with the CASHSystem Browser ID 
+	 * calls to determine a positive login status for the user, get the email address, and compare it 
+	 * to the system to return the correct user and login status. 
 	 *
-	 * @param {string} $address -  the email address in question
-	 * @param {string} $password - the password
+	 * Pass require_admin to only return true for admin-level users. Pass an element_id if you want 
+	 * the login analytics to be tied to a specific element. 
+	 *
 	 * @return array|false
 	 */protected function validateLogin($address,$password,$require_admin=false,$verified_address=false,$browserid_assertion=false,$element_id=null) {
 		$login_method = 'internal';
@@ -280,6 +295,12 @@ class SystemPlant extends PlantBase {
 		}
 	}
 
+	/**
+	 * Removes system settings of the given type for a user — be careful with wild cards. (Don't
+	 * use them unless you want to delete all system settings for a user. So, you know, don't.)
+	 *
+	 * @return bool
+	 */
 	protected function deleteSettings($user_id,$type) {
 		$result = $this->db->deleteData(
 			'settings',
@@ -297,6 +318,12 @@ class SystemPlant extends PlantBase {
 		return $result;
 	}
 
+	/**
+	 * Gets settings of the given type for a user. Set return_json to true and the system will 
+	 * return the stored JSON without decoding.
+	 *
+	 * @return string|array|false
+	 */
 	protected function getSettings($user_id,$type,$return_json=false) {
 		$result = $this->db->getData(
 			'settings',
@@ -323,6 +350,12 @@ class SystemPlant extends PlantBase {
 		}
 	}
 
+	/**
+	 * Sets data for the given type for a user. This is basically a single key/value, so if the type 
+	 * already exists this call with overwrite the existing value.
+	 *
+	 * @return bool
+	 */
 	protected function setSettings($user_id,$type,$value) {
 		$go = true;
 		$condition = false;
@@ -436,6 +469,19 @@ class SystemPlant extends PlantBase {
 		}
 	}
 
+	/**
+	 * Attempts to redeem a given lock code, returning all details for the code on success or false 
+	 * on failure. The code is tied to a scope_table_alias and scope_table_id pointing to a specific 
+	 * asset, element, etc. 
+	 *
+	 * Pass a specific scope_table_alias, scope_table_id, or user_id to limit results to only matching 
+	 * returns. 
+	 * 
+	 * This will continue to return true for four hours after initial redemption — in the case of a 
+	 * failed download this will give a user a second try without risking any long-term breach.
+	 *
+	 * @return array|false
+	 */
 	protected function redeemLockCode($code,$scope_table_alias=false,$scope_table_id=false,$user_id=false) {
 		$code_details = $this->getLockCode($code);
 		if ($code_details) {
@@ -485,6 +531,12 @@ class SystemPlant extends PlantBase {
 		}
 	}
 
+	/**
+	 * Returns all data for a given code. Look for "scope_table_alias" and "scope_table_id" in the 
+	 * returned aray to find the asset / element / etc that was unlocked with the code.
+	 *
+	 * @return array|false
+	 */
 	protected function getLockCode($code) {
 		$result = $this->db->getData(
 			'lock_codes',
@@ -504,6 +556,11 @@ class SystemPlant extends PlantBase {
 		}
 	}
 
+	/**
+	 * Gets all lock codes for a given resource.
+	 *
+	 * @return array|false
+	 */
 	protected function getLockCodes($scope_table_alias,$scope_table_id) {
 		$result = $this->db->getData(
 			'lock_codes',
