@@ -23,9 +23,9 @@ if (isset($_POST['doeventadd'])) {
 	);
 
 	if ($add_response['payload']) {
-		header('Location: ' . ADMIN_WWW_BASE_PATH . '/calendar/events/edit/' . $add_response['payload']);
+		AdminHelper::formSuccess('Success. Event added.','/calendar/events/edit/' . $add_response['payload']);
 	} else {
-		$cash_admin->page_data['error_message'] = 'Error. Something just didn\'t work right.';
+		AdminHelper::formFailure('Error. Something just didn\'t work right.','/calendar/events/add/');
 	}
 }
 

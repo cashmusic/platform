@@ -3,7 +3,7 @@ $misc_message = false;
 if (isset($_POST['domisc'])) {
 	CASHSystem::setSystemSetting('timezone',$_POST['timezone']);
 	CASHSystem::setSystemSetting('systememail',$_POST['systememail']);
-	$cash_admin->page_data['page_message'] = 'Success. All changed.';
+	AdminHelper::formSuccess('Success. All changed.');
 }
 
 $migrate_message = false;
@@ -23,9 +23,9 @@ if (isset($_POST['domigrate'])) {
 		)
 	);
 	if ($migrate_request->response['payload']) {
-		$cash_admin->page_data['page_message'] = 'Success. So that happened.';
+		AdminHelper::formSuccess('Success. Database upgraded. Enjoy!');
 	} else {
-		$cash_admin->page_data['error_message'] = 'Error. There was a problem migrating your data.';
+		AdminHelper::formFailure('Error. There was a problem migrating your data.');
 	}
 }
 $platform_settings = CASHSystem::getSystemSettings();

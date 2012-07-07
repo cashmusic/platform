@@ -24,7 +24,7 @@ if ($request_parameters) {
 
 			if ($cash_admin->getCurrentElementState() == 'add' && !$cash_admin->getErrorState()) {
 				$current_element = $cash_admin->getCurrentElement();
-				header('Location: ' . ADMIN_WWW_BASE_PATH . '/elements/edit/' . $current_element['id']);
+				AdminHelper::controllerRedirect('/elements/edit/' . $current_element['id']);
 			}
 			$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render(file_get_contents(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_addtype . '/templates/admin.mustache'), $cash_admin->page_data);
 		} else {

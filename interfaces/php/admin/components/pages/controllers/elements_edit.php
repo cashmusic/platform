@@ -1,6 +1,6 @@
 <?php
 if (!$request_parameters) {
-	header('Location: ' . ADMIN_WWW_BASE_PATH . '/elements/view/');
+	AdminHelper::controllerRedirect('/elements/view/');
 }
  
 $current_element = $cash_admin->setCurrentElement($request_parameters[0]);
@@ -42,9 +42,9 @@ if ($current_element) {
 			$element_rendered_content = "Could not find the admin.php file for this .";
 		}
 	} else {
-		header('Location: ' . ADMIN_WWW_BASE_PATH . '/elements/view/');
+		AdminHelper::controllerRedirect('/elements/view/');
 	}
 } else {
-	header('Location: ' . ADMIN_WWW_BASE_PATH . '/elements/view/');
+	AdminHelper::controllerRedirect('/elements/view/');
 }
 ?>

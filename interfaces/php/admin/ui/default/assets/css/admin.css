@@ -307,7 +307,7 @@ td, th {padding:6px 5px 6px 5px;vertical-align:top;}
 #helpmenu ul li a {display:block;width:9em;padding:8px 1.5em 8px 2.625em;text-decoration:none;margin:0;color:#231F20 !important;}
 #helpmenu ul li a:hover {text-decoration:underline;color:#fff !important;background-color:#231F20;}
 #navmenumask {position:absolute;top:6px;left:0;width:100%;height:44px;z-index:1;color:#fafaf8;background-color:#fafaf8;opacity:0.9;}
-#navmenu {position:absolute;top:0;left:50%;margin-left:-390px;width:780px;height:72px;text-align:left;color:#231F20;text-align:left;font-size:11px;line-height:1.3em;z-index:500;}
+#navmenu {position:absolute;top:0;left:50%;margin-left:-390px;width:780px;height:52px;text-align:left;color:#231F20;text-align:left;font-size:11px;line-height:1.3em;z-index:500;}
 #navmenu .navitem {position:relative;float:left;margin:0;padding:2px 8px;width:140px;height:2px;cursor:pointer;z-index:100;color:#231F20;-webkit-transition:height 0.1s ease-out;-moz-transition: height 0.1s ease-out;-o-transition: height 0.1s ease-out;transition: height  0.1s ease-out;}
 #navmenu .navitem:hover {height:46px;background-image:url(../images/bot_left.png);background-position:left bottom;background-repeat:no-repeat;}
 #navmenu .currentnav {height:46px;background-image:url(../images/bot_left.png);background-position:left bottom;background-repeat:no-repeat;}
@@ -337,7 +337,7 @@ td, th {padding:6px 5px 6px 5px;vertical-align:top;}
 ul.pagebasemenu {padding:0;margin-top:0;margin-bottom:1.5em;font-size:16px;font-weight:bold;line-height:1.5em;color:#999;}
 ul.pagebasemenu li {list-style-type:none;}
 ul.pagebasemenu ul {padding:0;margin-top:0;margin-bottom:0;font-size:0.8em;font-weight:normal;}
-.introductorybanner {position:relative;padding:33px 24px 40px 170px;height:auto;min-height:65px;background:#fff url(../images/top_right.png) right top no-repeat;margin-bottom:24px;box-shadow:-2px 2px 2px #dededc;font-size:16px;line-height:1.3em;color:#111;}
+.introductorybanner {position:relative;padding:24px 24px 40px 170px;height:auto;min-height:65px;background:#fff url(../images/top_right.png) right top no-repeat;margin-bottom:24px;box-shadow:-2px 2px 2px #dededc;font-size:16px;line-height:1.3em;color:#111;}
 .introductorybanner.flush {margin-bottom:0;}
 .introductorybanner div.closelink {position:absolute;right:5px;bottom:4px;text-align:right;font-size:12px;}
 .introductorybanner div.closelink a {color:#fff;}
@@ -348,7 +348,7 @@ ul.pagebasemenu ul {padding:0;margin-top:0;margin-bottom:0;font-size:0.8em;font-
 .mainpage.introductorybanner .moreinfospc a {color:#000;background-color:#ff0;padding:0 0.5em 0 0.5em;}
 .mainpage.introductorybanner .mainbannercontent {margin:0;padding:0;position:relative;z-index:100;}
 .mainpage.introductorybanner img.bannerbg {position:absolute;left:5px;bottom:0;z-index:10;width:352px;height:236px;}
-.introductorybanner div.titlespc {position:absolute;left:10px;top:4px;font-size:11px;line-height:1.3em;color:#fff;}
+.introductorybanner div.titlespc {position:absolute;left:10px;top:24px;font-size:11px;line-height:1.3em;color:#fff;}
 .introductorybanner h2 {font-size:24px;line-height:30px;margin:0 0 1px 0;padding:0;}
 div.gettingstarted {font-size:17px;padding-top:18px;color:#a49c9c;}
 div.gettingstarted h2 {font-size:26px;}

@@ -4,7 +4,7 @@ if (isset($_POST['doupgrade'])) {
 	if ($upgrade_file_contents) {
 		$success = file_put_contents(ADMIN_BASE_PATH . '/../update.php', $upgrade_file_contents);
 		if ($success) {
-			header('Location: ' . ADMIN_WWW_BASE_PATH . '/../update.php');
+			AdminHelper::controllerRedirect('/../update.php');
 		} else {
 			$cash_admin->page_data['error_message'] = 'Trouble copying update tool. Please make sure you have write permissions and try again.';	
 		}

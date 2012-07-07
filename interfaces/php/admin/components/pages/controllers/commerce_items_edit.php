@@ -15,6 +15,11 @@ if (isset($_POST['doitemadd'])) {
 		),
 		'eventaddattempt'
 	);
+	if ($add_response['payload']) {
+		AdminHelper::formSuccess('Success. Item added.','/commerce/items/edit/' . $add_response['payload']);
+	} else {
+		AdminHelper::formFailure('Error. Something just didn\'t work right.','/commerce/items/');
+	}
 	$cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'commerce', 
@@ -28,7 +33,10 @@ if (isset($_POST['doitemadd'])) {
 	if (isset($_POST['doitemedit'])) {
 		// do the actual list add stuffs...
 		$item_id = $request_parameters[0];
-		$event_edit_request = $cash_admin->requestAndStore(
+		if (!isset($_POST['item_fulfillment_asset'])) {
+			$_POST['item_fulfillment_asset'] = 0;
+		}
+		$edit_response = $cash_admin->requestAndStore(
 			array(
 				'cash_request_type' => 'commerce', 
 				'cash_action' => 'edititem',
@@ -40,10 +48,10 @@ if (isset($_POST['doitemadd'])) {
 			),
 			'itemeditattempt'
 		);
-		if ($event_edit_request['status_uid'] == 'commerce_edititem_200') {
-			$cash_admin->page_data['page_message'] = 'Success. Edited.';
+		if ($edit_response['status_uid'] == 'commerce_edititem_200') {
+			AdminHelper::formSuccess('Success. Edited.');
 		} else {
-			$cash_admin->page_data['error_message'] = 'Error. There was a problem editing the item.';
+			AdminHelper::formFailure('Error. There was a problem editing.');
 		}
 	}
 	$cash_admin->requestAndStore(

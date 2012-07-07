@@ -11,7 +11,7 @@ $items_response = $cash_admin->requestAndStore(
 // banner stuff
 $settings = $cash_admin->getUserSettings();
 if ($settings['banners'][BASE_PAGENAME]) {
-	$cash_admin->page_data['banner_title_content'] = '<h2>Commerce</h2><b>sell</b> your music<br />review and <b>fulfill</b> orders';
+	$cash_admin->page_data['banner_title_content'] = '<b>sell</b> your music<br />review and <b>fulfill</b> orders';
 	$cash_admin->page_data['banner_main_content'] = 'Here’s where you’ll define products and special offers, check on orders, manage fulfillment, and tracks overall sales. Connect to your Paypal account and off you go.';
 }
 

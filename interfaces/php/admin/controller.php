@@ -19,9 +19,21 @@ function cash_admin_autoloadCore($classname) {
 }
 spl_autoload_register('cash_admin_autoloadCore');
 
+// make an object to use throughout the pages
+$cash_admin = new AdminCore($admin_primary_cash_request->sessionGet('cash_effective_user'));
+$cash_admin->page_data['www_path'] = ADMIN_WWW_BASE_PATH;
+
+// set AJAX or not:
+$cash_admin->page_data['data_only'] = false;
+if (isset($_REQUEST['data_only'])) {
+	$cash_admin->page_data['data_only'] = true;
+}
+
 // grab path from .htaccess redirect
 if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH))) {
 	$parsed_request = str_replace('/','_',trim($_REQUEST['p'],'/'));
+	define('REQUESTED_ROUTE', '/' . trim($_REQUEST['p'],'/') . '/');
+	$cash_admin->page_data['requested_route'] = REQUESTED_ROUTE;
 	if (file_exists($pages_path . 'controllers/' . $parsed_request . '.php')) {
 		define('BASE_PAGENAME', $parsed_request);
 		$include_filename = BASE_PAGENAME.'.php';
@@ -74,9 +86,9 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH))) {
 
 $run_login_scripts = false;
 
-// make an object to use throughout the pages
-$cash_admin = new AdminCore($admin_primary_cash_request->sessionGet('cash_effective_user'));
-$cash_admin->page_data['www_path'] = ADMIN_WWW_BASE_PATH;
+if (!isset($cash_admin->page_data['requested_route'])) {
+	$cash_admin->page_data['requested_route'] = '/';
+}
 
 // if a login needs doing, do it
 $cash_admin->page_data['login_message'] = 'Log In';
@@ -100,8 +112,13 @@ if (isset($_POST['login'])) {
 		
 		$run_login_scripts = true;
 		
+		$cash_admin->page_data['fullredraw'] = true;
 		if ($include_filename == 'logout.php') {
-			header('Location: ' . ADMIN_WWW_BASE_PATH);
+			AdminHelper::controllerRedirect(ADMIN_WWW_BASE_PATH);
+			exit;
+		}
+		if ($cash_admin->page_data['data_only']) {
+			AdminHelper::controllerRedirect($cash_admin->page_data['requested_route']);
 			exit;
 		}
 	} else {
@@ -177,11 +194,24 @@ if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
 	$cash_admin->page_data['content'] = ob_get_contents();
 	ob_end_clean();
 
-	// now let's get our {{mustache}} on
-	echo $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/template.mustache'), $cash_admin->page_data);
+	if ($cash_admin->page_data['data_only']) {
+		// data_only means we're working with AJAX requests, so dump valid JSON to the browser for the script to parse
+		$cash_admin->page_data['fullredraw'] = false;
+		echo json_encode($cash_admin->page_data);
+	} else {
+		// now let's get our {{mustache}} on
+		echo $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/template.mustache'), $cash_admin->page_data);
+	}
 } else {
 	$cash_admin->page_data['browser_id_js'] = CASHSystem::getBrowserIdJS();
-	// magnum p.i. = sweet {{mustache}} > don draper
-	echo $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/login.mustache'), $cash_admin->page_data);
+	if ($cash_admin->page_data['data_only']) {
+		// data_only means we're working with AJAX requests, so dump valid JSON to the browser for the script to parse
+		$cash_admin->page_data['fullredraw'] = true;
+		$cash_admin->page_data['fullcontent'] = $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/login.mustache'), $cash_admin->page_data);
+		echo json_encode($cash_admin->page_data);
+	} else {
+		// magnum p.i. = sweet {{mustache}} > don draper
+		echo $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/login.mustache'), $cash_admin->page_data);
+	}	
 }
 ?>

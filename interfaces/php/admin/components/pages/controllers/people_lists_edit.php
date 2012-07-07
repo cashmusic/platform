@@ -15,9 +15,9 @@ if (isset($_POST['dolistedit'])) {
 		'editresponse'
 	);
 	if ($edit_response['status_uid'] == 'people_editlist_200') {
-		$cash_admin->page_data['page_message'] = 'Success. Edited.';
+		AdminHelper::formSuccess('Success. Edited.');
 	} else {
-		$cash_admin->page_data['error_message'] = 'Error. There was a problem editing the event.';
+		AdminHelper::formFailure('Error. There was a problem editing.');
 	}
 }
 

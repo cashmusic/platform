@@ -14,11 +14,10 @@ if (isset($_POST['dolistadd'])) {
 		),
 		'listadd'
 	);
-
 	if ($add_response['payload']) {
-		header('Location: ' . ADMIN_WWW_BASE_PATH . '/people/lists/edit/' . $add_response['payload']);
+		AdminHelper::formSuccess('Success. List added.','/people/lists/edit/' . $add_response['payload']);
 	} else {
-		$cash_admin->page_data['error_message'] = 'Error. Something just didn\'t work right.';
+		AdminHelper::formFailure('Error. Something just didn\'t work right.','/people/lists/add/');
 	}
 }
 

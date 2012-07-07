@@ -195,10 +195,20 @@
 					'user_id' => AdminHelper::getPersistentData('cash_effective_user')
 				)
 			);
-			if ($element_add_request->response['status_uid'] != 'element_addelement_200') {
-				$cash_admin->setErrorState('element_add_failure');
+			if ($element_add_request->response['status_uid'] == 'element_addelement_200') {
+				// handle differently for AJAX and non-AJAX
+				if ($cash_admin->page_data['data_only']) {
+					AdminHelper::formSuccess('Success. New element added.','/elements/edit/' . $element_add_request->response['payload']);
+				} else {
+					$cash_admin->setCurrentElement($element_add_request->response['payload']);
+				}
 			} else {
-				$cash_admin->setCurrentElement($element_add_request->response['payload']);
+				// handle differently for AJAX and non-AJAX
+				if ($cash_admin->page_data['data_only']) {
+					AdminHelper::formFailure('Error. Something just didn\'t work right.','/elements/add/' . $post_data['element_type']);
+				} else {
+					$cash_admin->setErrorState('element_add_failure');
+				}
 			}
 		} elseif (isset($post_data['doelementedit'])) {
 			// Editing an existing element:
@@ -213,9 +223,23 @@
 				)
 			);
 			if ($element_edit_request->response['status_uid'] == 'element_editelement_200') {
-				$cash_admin->setCurrentElement($post_data['element_id']);
+				// handle differently for AJAX and non-AJAX
+				if ($cash_admin->page_data['data_only']) {
+					// AJAX
+					AdminHelper::formSuccess('Success. Edited.','/elements/edit/' . $post_data['element_id']);
+				} else {
+					// non-AJAX
+					$cash_admin->setCurrentElement($post_data['element_id']);
+				}
 			} else {
-				$cash_admin->setErrorState('element_edit_failure');
+				// handle differently for AJAX and non-AJAX
+				if ($cash_admin->page_data['data_only']) {
+					// AJAX
+					AdminHelper::formFailure('Error. Something just didn\'t work right.','/elements/edit/' . $post_data['element_id']);
+				} else {
+					// non-AJAX
+					$cash_admin->setErrorState('element_edit_failure');
+				}
 			}
 		}
 
@@ -304,6 +328,61 @@
 	 * FORM HELPER FUNCTIONS
 	 *
 	 *********************************************/
+
+	public static function controllerRedirect($location) {
+		if (isset($_REQUEST['data_only'])) {
+			echo json_encode(
+				array(
+					'doredirect'  => true,
+					'location'    => ADMIN_WWW_BASE_PATH . $location
+				)
+			);
+			exit();
+		} else {
+			header('Location: ' . ADMIN_WWW_BASE_PATH . $location);
+		}
+	}
+
+	public static function formSuccess($message=false,$location=false) {
+		if (!$location) {
+			$location = REQUESTED_ROUTE;
+		}
+		if (isset($_REQUEST['data_only'])) {
+			echo json_encode(
+				array(
+					'doredirect'  => true,
+					'location'    => ADMIN_WWW_BASE_PATH . $location,
+					'showmessage' => $message
+				)
+			);
+			exit();
+		} else {
+			if ($location == REQUESTED_ROUTE) { 
+				if ($message) {
+					global $cash_admin;
+					$cash_admin->page_data['page_message'] = $message;
+				}
+			} else {
+				header('Location: ' . ADMIN_WWW_BASE_PATH . $location);
+			}
+		}
+	}
+
+	public static function formFailure($error_message,$location='') {
+		if (isset($_REQUEST['data_only'])) {
+			echo json_encode(
+				array(
+					'doredirect'  => true,
+					'location'    => ADMIN_WWW_BASE_PATH . $location,
+					'showerror'   => $error_message
+				)
+			);
+			exit();
+		} else {
+			global $cash_admin;
+			$cash_admin->page_data['error_message'] = $error_message;
+		}
+	}
 
 	public static function drawCountryCodeUL($selected='USA') {
 		$all_codes = array(
