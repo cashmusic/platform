@@ -34,6 +34,8 @@ function redrawPage(data) {
 	jQuery('#pagedisplay').html(data.content);
 	jQuery('#pagetitle').html(data.ui_title);
 	jQuery('#pagemenu').html(data.section_menu);
+
+	window.scrollTo(0,0);
 }
 
 function refreshPageData(url,formdata,showerror,showmessage,skiphistory) {
