@@ -5,9 +5,9 @@ function collapseAllTabs(section) {
 	if (section != currentSection) {
 		currentSection = section;
 		jQuery('#navmenu div').each(function(index) {
-			this.removeClass('currentnav');
+			jQuery(this).removeClass('currentnav');
 			if (jQuery(this).attr('id') == section+'tab') {
-				this.addClass('currentnav');
+				jQuery(this).addClass('currentnav');
 			}
 		});
 	}
@@ -54,12 +54,11 @@ function refreshPageData(url,formdata,showerror,showmessage,skiphistory) {
 			}
 		} else {
 			if (!skiphistory) {
-				history.pushState(url, null, url);
+				history.pushState(null, null, url);
 			}
 			if (data.fullredraw) {
-				var doc=document.open("text/html");
-				doc.write(data.fullcontent);
-				doc.close();
+				var newbody = data.fullcontent.replace(/^[\s\S]*?<body[^>]*>([\s\S]*?)<\/body>[\s\S]*?$/i,"$1");
+				jQuery('body').html(newbody);
 			} else {
 				if (showerror) {
 					data.error_message = showerror;
@@ -95,53 +94,25 @@ function prepAJAX() {
 		var formdata = jQuery(this).serialize();
 		refreshPageData(url,formdata);
 	});
+
+	setContentBehaviors();
 }
 
-window.onpopstate = function(event){
+window.addEventListener("popstate", function(e) {
 	refreshPageData(location.pathname,null,null,null,true);
-}
+});
 
-$(document).ready(function() {
-
-	// set initial state
-
-	prepAJAX();
-	//alert('load');
-
-	/* begin mootools port */
-	
-	$('#pagetips').hide();
-	
-	$('#tipslink').on('click', function(e) {
-		e.preventDefault();
-		$('#pagetips').slideDown(200);
+function setContentBehaviors() {
+	jQuery('.needsconfirmation').on('click', function(e) {
+		//e.preventDefault();
+		//doModalConfirm( jQuery(this).attr('href'));
 	});
 	
-	$('#tipscloselink').on('click', function(e) {
+	jQuery('.showelementdetails').on('click', function(e) {
 		e.preventDefault();
-		$('#pagetips').slideUp(100);
-	});
-	
-	$('.navitem').on('click', function(e) {
-		e.preventDefault();
-		refreshPageData(jQuery(this).find('a').attr('href'));
-	});
-
-	$('.navitemlink').on('click', function(e) {
-		e.preventDefault();
-		this.blur();
-	});
-	
-	$('.needsconfirmation').on('click', function(e) {
-		e.preventDefault();
-		doModalConfirm( $(this).attr('href'));
-	});
-	
-	$('.showelementdetails').on('click', function(e) {
-		e.preventDefault();
-		$(this).html( function(e) {
-			var t = $(this).html(),
-			isShown = $(this).parents('.itemnav').prev('.elementdetails').hasClass('detailsshown');
+		jQuery(this).html( function(e) {
+			var t = jQuery(this).html(),
+			isShown = jQuery(this).parents('.itemnav').prev('.elementdetails').hasClass('detailsshown');
 
 			if ( isShown ) {
 				t = t.replace(/Less/g, 'More');
@@ -155,5 +126,56 @@ $(document).ready(function() {
 		}).parents('.itemnav').prev('.elementdetails').toggleClass('detailsshown');
 
 	});
-	/* end mootools port */
+
+	jQuery('a.injectbefore').on('click', function(e) {
+		// grabs rel, inserts rev data and iterates the name, changing the rel
+		// should probably move to a data- structure
+		e.preventDefault();
+		var iteration = jQuery(e.currentTarget).attr('rel');
+		if (iteration) {
+			jQuery.data(e.currentTarget,'nameiteration',iteration);
+		} else {
+			iteration = 1;
+		}
+		jQuery(e.currentTarget).attr('rel',iteration);
+		var toinsert = jQuery(e.currentTarget).attr('rev');
+		var names = toinsert.match(/name='([^']*)/g);
+		if (names) {
+			jQuery.each(names, function(index, name) {
+				alert(name+iteration);
+				toinsert = toinsert.replace(name, name+iteration)
+			});
+		}
+		jQuery(e.currentTarget).before('<div>' + toinsert + '</div>');
+		jQuery(e.currentTarget).attr('rel',iteration+1);
+	});
+}
+
+function setUIBehaviors() {
+	jQuery('#pagetips').hide();
+	
+	jQuery('#tipslink').on('click', function(e) {
+		e.preventDefault();
+		jQuery('#pagetips').slideDown(200);
+	});
+	
+	jQuery('#tipscloselink').on('click', function(e) {
+		e.preventDefault();
+		jQuery('#pagetips').slideUp(100);
+	});
+	
+	jQuery('.navitem').on('click', function(e) {
+		e.preventDefault();
+		refreshPageData(jQuery(this).find('a').attr('href'));
+	});
+
+	jQuery('.navitemlink').on('click', function(e) {
+		e.preventDefault();
+		this.blur();
+	});
+}
+
+jQuery(document).ready(function() {
+	prepAJAX();
+	setUIBehaviors();
 });

@@ -22,6 +22,7 @@ spl_autoload_register('cash_admin_autoloadCore');
 // make an object to use throughout the pages
 $cash_admin = new AdminCore($admin_primary_cash_request->sessionGet('cash_effective_user'));
 $cash_admin->page_data['www_path'] = ADMIN_WWW_BASE_PATH;
+$cash_admin->page_data['fullredraw'] = false;
 
 // set AJAX or not:
 $cash_admin->page_data['data_only'] = false;
@@ -113,14 +114,6 @@ if (isset($_POST['login'])) {
 		$run_login_scripts = true;
 		
 		$cash_admin->page_data['fullredraw'] = true;
-		if ($include_filename == 'logout.php') {
-			AdminHelper::controllerRedirect(ADMIN_WWW_BASE_PATH);
-			exit;
-		}
-		if ($cash_admin->page_data['data_only']) {
-			AdminHelper::controllerRedirect($cash_admin->page_data['requested_route']);
-			exit;
-		}
 	} else {
 		$admin_primary_cash_request->sessionClearAll();
 		$cash_admin->page_data['login_message'] = 'Try Again';
@@ -196,7 +189,9 @@ if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
 
 	if ($cash_admin->page_data['data_only']) {
 		// data_only means we're working with AJAX requests, so dump valid JSON to the browser for the script to parse
-		$cash_admin->page_data['fullredraw'] = false;
+		if ($cash_admin->page_data['fullredraw']) {
+			$cash_admin->page_data['fullcontent'] = $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/template.mustache'), $cash_admin->page_data);
+		}
 		echo json_encode($cash_admin->page_data);
 	} else {
 		// now let's get our {{mustache}} on
