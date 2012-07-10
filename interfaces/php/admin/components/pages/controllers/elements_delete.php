@@ -1,6 +1,6 @@
 <?php
 if (!$request_parameters) {
-	header('Location: ' . ADMIN_WWW_BASE_PATH . '/elements/view/');
+	AdminHelper::controllerRedirect('/elements/view/');
 }
 
 $page_request = new CASHRequest(
@@ -17,7 +17,7 @@ if ($page_request->response['status_uid'] == 'element_getelement_200') {
 	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
 	
 	if ($page_request->response['payload']['user_id'] == $effective_user) {
-		if (isset($_POST['dodelete']) || isset($_GET['modalconfirm'])) {
+		if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
 			$element_delete_request = new CASHRequest(
 				array(
 					'cash_request_type' => 'element', 
@@ -26,15 +26,19 @@ if ($page_request->response['status_uid'] == 'element_getelement_200') {
 				)
 			);
 			if ($element_delete_request->response['status_uid'] == 'element_deleteelement_200') {
-				header('Location: ' . ADMIN_WWW_BASE_PATH . '/elements/view/');
+				if (isset($_REQUEST['redirectto'])) {
+					AdminHelper::formSuccess('Success. Deleted.',$_REQUEST['redirectto']);
+				} else {
+					AdminHelper::formSuccess('Success. Deleted.','/elements/view/');
+				}
 			}
 		}
 		$cash_admin->page_data['title'] = 'Elements: Delete “' . $page_request->response['payload']['name'] . '”';
 	} else {
-		header('Location: ' . ADMIN_WWW_BASE_PATH . '/elements/view/');
+		AdminHelper::controllerRedirect('/elements/view/');
 	}
 } else {
-	header('Location: ' . ADMIN_WWW_BASE_PATH . '/elements/view/');
+	AdminHelper::controllerRedirect('/elements/view/');
 }
 
 $cash_admin->setPageContentTemplate('delete_confirm');

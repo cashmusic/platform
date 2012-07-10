@@ -104,8 +104,8 @@ window.addEventListener("popstate", function(e) {
 
 function setContentBehaviors() {
 	jQuery('.needsconfirmation').on('click', function(e) {
-		//e.preventDefault();
-		//doModalConfirm( jQuery(this).attr('href'));
+		e.preventDefault();
+		doModalConfirm( jQuery(this).attr('href'));
 	});
 	
 	jQuery('.showelementdetails').on('click', function(e) {
@@ -142,8 +142,7 @@ function setContentBehaviors() {
 		var names = toinsert.match(/name='([^']*)/g);
 		if (names) {
 			jQuery.each(names, function(index, name) {
-				alert(name+iteration);
-				toinsert = toinsert.replace(name, name+iteration)
+				toinsert = toinsert.replace(name, name+iteration);
 			});
 		}
 		jQuery(e.currentTarget).before('<div>' + toinsert + '</div>');
@@ -173,6 +172,33 @@ function setUIBehaviors() {
 		e.preventDefault();
 		this.blur();
 	});
+}
+
+function doModalConfirm(url) {
+
+	var markup = '<div class="modalbg"><div class="modaldialog">' +
+				 '<h2>Are You Sure?</h2><br /><div class="tar">' +
+				 '<input type="button" class="button modalcancel" value="Cancel" />' +
+				 '<input type="button" class="button modalyes" value="Yes do it" />' + 
+				 '</div></div></div>';
+	markup = jQuery(markup);
+	markup.hide();
+	jQuery('body').append(markup);
+
+	jQuery('.modalcancel').on('click', function(e) {
+		e.preventDefault();
+		jQuery('.modalbg').fadeOut('fast', function() {
+			jQuery('.modalbg').remove();
+		});
+	});
+
+	jQuery('.modalyes').on('click', function(e) {
+		e.preventDefault();
+		refreshPageData(url,'modalconfirm=1&redirectto='+location.pathname.replace(cashAdminPath, ''));
+		jQuery('.modalbg').remove();
+	});
+
+	jQuery('.modalbg').fadeIn('fast');
 }
 
 jQuery(document).ready(function() {

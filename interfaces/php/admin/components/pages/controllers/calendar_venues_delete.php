@@ -1,10 +1,10 @@
 <?php
 if (!$request_parameters) {
-	header('Location: ' . ADMIN_WWW_BASE_PATH . '/calendar/venues/');
+	AdminHelper::controllerRedirect('/calendar/venues/');
 }
 
 
-if (isset($_POST['dodelete']) || isset($_GET['modalconfirm'])) {
+if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
 	$venue_delete_request = new CASHRequest(
 		array(
 			'cash_request_type' => 'calendar', 
@@ -13,7 +13,11 @@ if (isset($_POST['dodelete']) || isset($_GET['modalconfirm'])) {
 		)
 	);
 	if ($venue_delete_request->response['status_uid'] == 'calendar_deletevenue_200') {
-		header('Location: ' . ADMIN_WWW_BASE_PATH . '/calendar/venues/');
+		if (isset($_REQUEST['redirectto'])) {
+			AdminHelper::formSuccess('Success. Deleted.',$_REQUEST['redirectto']);
+		} else {
+			AdminHelper::formSuccess('Success. Deleted.','/calendar/venues/');
+		}
 	}
 }
 

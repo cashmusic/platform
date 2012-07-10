@@ -1,6 +1,6 @@
 <?php
 if (!$request_parameters) {
-	header('Location: ' . ADMIN_WWW_BASE_PATH . '/people/lists/');
+	AdminHelper::controllerRedirect('/people/lists/');
 }
 
 $page_request = $cash_admin->requestAndStore(
@@ -20,7 +20,7 @@ if ($page_request['status_uid'] == 'people_getlist_200') {
 	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
 	
 	if ($page_request['payload']['user_id'] == $effective_user) {
-		if (isset($_POST['dodelete']) || isset($_GET['modalconfirm'])) {
+		if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
 			$list_delete_request = new CASHRequest(
 				array(
 					'cash_request_type' => 'people', 
@@ -29,15 +29,19 @@ if ($page_request['status_uid'] == 'people_getlist_200') {
 				)
 			);
 			if ($list_delete_request->response['status_uid'] == 'people_deletelist_200') {
-				header('Location: ' . ADMIN_WWW_BASE_PATH . '/people/lists/');
+				if (isset($_REQUEST['redirectto'])) {
+					AdminHelper::formSuccess('Success. Deleted.',$_REQUEST['redirectto']);
+				} else {
+					AdminHelper::formSuccess('Success. Deleted.','/people/lists/');
+				}
 			}
 		}
 		$cash_admin->page_data['title'] = 'People: Delete “' . $page_request->response['payload']['name'] . '”';
 	} else {
-		header('Location: ' . ADMIN_WWW_BASE_PATH . '/people/lists/');
+		AdminHelper::controllerRedirect('/people/lists/');
 	}
 } else {
-	header('Location: ' . ADMIN_WWW_BASE_PATH . '/people/lists/delete/' . $request_parameters[0]);
+	AdminHelper::controllerRedirect('/people/lists/delete/' . $request_parameters[0]);
 }
 
 $cash_admin->setPageContentTemplate('delete_confirm');
