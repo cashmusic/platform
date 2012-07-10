@@ -1,18 +1,22 @@
+/**
+ * JavaScript behaviors for the CASH admin
+ *
+ * @package diy.org.cashmusic
+ * @author CASH Music
+ * @link http://cashmusic.org/
+ *
+ * Copyright (c) 2012, CASH Music
+ * Licensed under the BSD license.
+ * See http://www.opensource.org/licenses/bsd-license.php/
+ *
+ **/
 ;
 
-// Page draw / AJAX stuff
-function collapseAllTabs(section) {
-	if (section != currentSection) {
-		currentSection = section;
-		jQuery('#navmenu div').each(function(index) {
-			jQuery(this).removeClass('currentnav');
-			if (jQuery(this).attr('id') == section+'tab') {
-				jQuery(this).addClass('currentnav');
-			}
-		});
-	}
-}
+/**
+ * AJAX specific functions
+ **/
 
+// handle per-element specific redraws for each request
 function redrawPage(data) {
 	// change the color
 	jQuery('#mainspc').removeClass();
@@ -38,6 +42,8 @@ function redrawPage(data) {
 	window.scrollTo(0,0);
 }
 
+// handles the data request for each page load, manipulates history, 
+// and decides redraw method (full redraw or redrawPage)
 function refreshPageData(url,formdata,showerror,showmessage,skiphistory) {
 	if (!formdata) {
 		formdata = '';
@@ -61,6 +67,8 @@ function refreshPageData(url,formdata,showerror,showmessage,skiphistory) {
 			if (data.fullredraw) {
 				var newbody = data.fullcontent.replace(/^[\s\S]*?<body[^>]*>([\s\S]*?)<\/body>[\s\S]*?$/i,"$1");
 				jQuery('body').html(newbody);
+				setUIBehaviors();
+				prepAJAX();
 			} else {
 				if (showerror) {
 					data.error_message = showerror;
@@ -76,6 +84,8 @@ function refreshPageData(url,formdata,showerror,showmessage,skiphistory) {
 	},'json');
 }
 
+// changes all link behavior to work via AJAX loads as well as form behaviors
+// runs every page load and sets up events for new page load
 function prepAJAX() {
 	// cashAdminPath is set in the main template to the www_base of the admin
 	jQuery(document).on('click', 'a[href^=' + cashAdminPath + ']', function(event) {
@@ -100,16 +110,39 @@ function prepAJAX() {
 	setContentBehaviors();
 }
 
+// make the back button work
+// also make the forward button work
 window.addEventListener("popstate", function(e) {
 	refreshPageData(location.pathname,null,null,null,true);
 });
 
+/**
+ * UI element behaviors
+ **/
+
+// collapse all main nav tabs, opening one if a section is specified
+function collapseAllTabs(section) {
+	// 
+	if (section != currentSection) {
+		currentSection = section;
+		jQuery('#navmenu div').each(function(index) {
+			jQuery(this).removeClass('currentnav');
+			if (jQuery(this).attr('id') == section+'tab') {
+				jQuery(this).addClass('currentnav');
+			}
+		});
+	}
+}
+
+// miscellaneous behaviors for various things — needs loading each page load
 function setContentBehaviors() {
+	// modal pop-ups
 	jQuery('.needsconfirmation').on('click', function(e) {
 		e.preventDefault();
 		doModalConfirm( jQuery(this).attr('href'));
 	});
 	
+	// show/hide element details
 	jQuery('.showelementdetails').on('click', function(e) {
 		e.preventDefault();
 		jQuery(this).html( function(e) {
@@ -129,9 +162,10 @@ function setContentBehaviors() {
 
 	});
 
+	// inserts html into the current document/form (dynamic inputs primarily)
+	// grabs rel, inserts rev data and iterates the name, changing the rel
+	// should probably move to a data- structure
 	jQuery('a.injectbefore').on('click', function(e) {
-		// grabs rel, inserts rev data and iterates the name, changing the rel
-		// should probably move to a data- structure
 		e.preventDefault();
 		var iteration = jQuery(e.currentTarget).attr('rel');
 		if (iteration) {
@@ -152,6 +186,8 @@ function setContentBehaviors() {
 	});
 }
 
+// the main UI behaviors — only needs to be run on the first page load,
+// not on each AJAX load-in
 function setUIBehaviors() {
 	jQuery('#pagetips').hide();
 	
@@ -176,8 +212,9 @@ function setUIBehaviors() {
 	});
 }
 
+// opens a modal confirmation box for delete links, etc
 function doModalConfirm(url) {
-
+	// markup for the confirmation link
 	var markup = '<div class="modalbg"><div class="modaldialog">' +
 				 '<h2>Are You Sure?</h2><br /><div class="tar">' +
 				 '<input type="button" class="button modalcancel" value="Cancel" />' +
@@ -187,19 +224,20 @@ function doModalConfirm(url) {
 	markup.hide();
 	jQuery('body').append(markup);
 
+	// button events
 	jQuery('.modalcancel').on('click', function(e) {
 		e.preventDefault();
 		jQuery('.modalbg').fadeOut('fast', function() {
 			jQuery('.modalbg').remove();
 		});
 	});
-
 	jQuery('.modalyes').on('click', function(e) {
 		e.preventDefault();
 		refreshPageData(url,'modalconfirm=1&redirectto='+location.pathname.replace(cashAdminPath, ''));
 		jQuery('.modalbg').remove();
 	});
 
+	// show the dialog with a fast fade-in
 	jQuery('.modalbg').fadeIn('fast');
 }
 
