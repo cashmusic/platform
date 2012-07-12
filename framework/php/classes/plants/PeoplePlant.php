@@ -36,7 +36,7 @@ class PeoplePlant extends PlantBase {
 			'processwebhook'      => array('processWebhook',array('direct','api_key')),
 			'removeaddress'       => array('removeAddress','direct'),
 			'signintolist'        => array('validateUserForList',array('post','direct','api_key')),
-			'signup'              => array('validateUserForList',array('direct','post','get','api_key')),
+			'signup'              => array('doSignup',array('direct','post','get','api_key')),
 			'verifyaddress'       => array('doAddressVerification','direct'),
 			'viewlist'            => array('viewList','direct')
 		);
@@ -50,6 +50,9 @@ class PeoplePlant extends PlantBase {
 	 *
 	 */
 
+	/**
+	 * Adds an email address to an existing list — optionally tie to a specific element for analytics
+	 */
 	protected function doSignup($list_id,$address,$user_id=false,$comment='',$name='Anonymous',$element_id=false) {
 		if ($user_id) {
 			$ownership = $this->verifyListOwner($user_id,$list_id);
