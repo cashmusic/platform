@@ -67,8 +67,6 @@ function refreshPageData(url,formdata,showerror,showmessage,skiphistory) {
 			if (data.fullredraw) {
 				var newbody = data.fullcontent.replace(/^[\s\S]*?<body[^>]*>([\s\S]*?)<\/body>[\s\S]*?$/i,"$1");
 				jQuery('body').html(newbody);
-				setUIBehaviors();
-				prepAJAX();
 			} else {
 				if (showerror) {
 					data.error_message = showerror;
@@ -77,8 +75,6 @@ function refreshPageData(url,formdata,showerror,showmessage,skiphistory) {
 					data.page_message = showmessage;
 				}
 				redrawPage(data);
-				jQuery(document).off("click", "a[href^=" + cashAdminPath + "]");
-				prepAJAX();
 			}
 		}
 	},'json');
@@ -97,7 +93,7 @@ function prepAJAX() {
 		}
 	});
 	
-	jQuery('form').bind('submit', function(event) {
+	jQuery('form').on('submit', function(event) {
 		event.preventDefault();
 		var url = jQuery(this).attr('action');
 		if (url == '') {
@@ -106,8 +102,6 @@ function prepAJAX() {
 		var formdata = jQuery(this).serialize();
 		refreshPageData(url,formdata);
 	});
-
-	setContentBehaviors();
 }
 
 // make the back button work
