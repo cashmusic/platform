@@ -73,7 +73,7 @@ class PeoplePlant extends PlantBase {
 			} else {
 				$do_not_verify = false;
 			}
-			$result = $this->addAddress($address,$list_id,$do_not_verify,$initial_comment,'',$name);
+			$result = $this->addAddress($address,$list_id,$do_not_verify,$comment,'',$name);
 			return $result;
 		} else {
 			return false;
