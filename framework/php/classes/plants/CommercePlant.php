@@ -417,9 +417,9 @@ class CommercePlant extends PlantBase {
 			if ($item_id) {
 				$item_details = $this->getItem($item_id);
 				$order_contents[] = $item_details;
-				if ($total_price && $total_price >= $item_details['price']) {
+				if ($total_price !== false && $total_price >= $item_details['price']) {
 					$price_addition = $total_price - $item_details['price'];
-				} elseif (!$total_price) {
+				} elseif ($total_price === false) {
 					$price_addition = 0;
 				} else {
 					return false;
@@ -467,6 +467,11 @@ class CommercePlant extends PlantBase {
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
 		$order_totals = $this->getOrderTotals($order_details['order_contents']);
 		$connection_type = $this->getConnectionType($transaction_details['connection_id']);
+		if (($order_totals['price'] + $price_addition) < 0.35) {
+			// basically a zero dollar transaction. hard-coding a 35¢ minimum for now
+			// we can add a system minimum later, or a per-connection minimum, etc...
+			return 'force_success';
+		}
 		switch ($connection_type) {
 			case 'com.paypal':
 				$pp = new PaypalSeed($order_details['user_id'],$transaction_details['connection_id']);
@@ -489,7 +494,7 @@ class CommercePlant extends PlantBase {
 			default:
 				return false;
 		}
-		return $final_redirect;
+		return false;
 	}
 	
 	protected function finalizeRedirectedPayment($order_id,$creation_date,$direct_post_details=false) {
@@ -544,14 +549,14 @@ class CommercePlant extends PlantBase {
 									);
 									$this->editTransaction(
 										$order_details['transaction_id'],
-										$service_timestamp=strtotime($final_details['TIMESTAMP']),
-										$service_transaction_id=$final_details['CORRELATIONID'],
-										$data_sent=json_encode($initial_details),
-										$data_returned=json_encode($final_details),
-										$successful=1,
-										$gross_price=$final_details['PAYMENTINFO_0_AMT'],
-										$service_fee=$final_details['PAYMENTINFO_0_FEEAMT'],
-										$status='complete'
+										strtotime($final_details['TIMESTAMP']),
+										$final_details['CORRELATIONID'],
+										json_encode($initial_details),
+										json_encode($final_details),
+										1,
+										$final_details['PAYMENTINFO_0_AMT'],
+										$final_details['PAYMENTINFO_0_FEEAMT'],
+										'complete'
 									);
 									$addcode_request = new CASHRequest(
 										array(
@@ -584,14 +589,14 @@ class CommercePlant extends PlantBase {
 										);
 										$this->editTransaction(
 											$order_details['transaction_id'],
-											$service_timestamp=strtotime($initial_details['TIMESTAMP']),
-											$service_transaction_id=$initial_details['CORRELATIONID'],
-											$data_sent=false,
-											$data_returned=json_encode($initial_details),
-											$successful=0,
-											$gross_price=false,
-											$service_fee=false,
-											$status='error processing payment'
+											strtotime($initial_details['TIMESTAMP']),
+											$initial_details['CORRELATIONID'],
+											false,
+											json_encode($initial_details),
+											0,
+											false,
+											false,
+											'error processing payment'
 										);
 										return false;
 									} else {
@@ -614,14 +619,14 @@ class CommercePlant extends PlantBase {
 								);
 								$this->editTransaction(
 									$order_details['transaction_id'],
-									$service_timestamp=strtotime($initial_details['TIMESTAMP']),
-									$service_transaction_id=$initial_details['CORRELATIONID'],
-									$data_sent=false,
-									$data_returned=json_encode($initial_details),
-									$successful=0,
-									$gross_price=false,
-									$service_fee=false,
-									$status='incorrect amount'
+									strtotime($initial_details['TIMESTAMP']),
+									$initial_details['CORRELATIONID'],
+									false,
+									json_encode($initial_details),
+									0,
+									false,
+									false,
+									'incorrect amount'
 								);
 								return false;
 							}
@@ -634,14 +639,14 @@ class CommercePlant extends PlantBase {
 							);
 							$this->editTransaction(
 								$order_details['transaction_id'],
-								$service_timestamp=strtotime($initial_details['TIMESTAMP']),
-								$service_transaction_id=$initial_details['CORRELATIONID'],
-								$data_sent=false,
-								$data_returned=json_encode($initial_details),
-								$successful=0,
-								$gross_price=false,
-								$service_fee=false,
-								$status='payment failed'
+								strtotime($initial_details['TIMESTAMP']),
+								$initial_details['CORRELATIONID'],
+								false,
+								json_encode($initial_details),
+								0,
+								false,
+								false,
+								'payment failed'
 							);
 							return false;
 						}
@@ -654,14 +659,14 @@ class CommercePlant extends PlantBase {
 						);
 						$this->editTransaction(
 							$order_details['transaction_id'],
-							$service_timestamp=time(),
-							$service_transaction_id=false,
-							$data_sent=false,
-							$data_returned=false,
-							$successful=0,
-							$gross_price=false,
-							$service_fee=false,
-							$status='canceled'
+							time(),
+							false,
+							false,
+							false,
+							0,
+							false,
+							false,
+							'canceled'
 						);
 						return false;
 					}

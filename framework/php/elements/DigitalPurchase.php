@@ -31,7 +31,11 @@ class DigitalPurchase extends ElementBase {
 		$this->element_data['item_description'] = $item['description'];
 		$this->element_data['item_asset'] = $item['fulfillment_asset'];
 
-		if ($this->status_uid == 'commerce_finalizepayment_200' || $this->status_uid == 'element_redeemcode_200') {
+		if (
+			$this->status_uid == 'commerce_finalizepayment_200' || 
+			$this->status_uid == 'element_redeemcode_200' ||
+			$this->status_uid == 'commerce_initiatecheckout_200' && $this->original_response['payload'] == 'force_success'
+			) {
 			if ($item['fulfillment_asset'] != 0) {
 				$this->element_data['fulfillment_assets'] = array();
 				// first we "unlock" the asset, telling the platform it's okay to generate a link for non-private assets
