@@ -26,7 +26,8 @@ class DigitalPurchase extends ElementBase {
 		);
 		$item = $item_request->response['payload'];
 		$this->element_data['item_name'] = $item['name'];
-		$this->element_data['item_price'] = $item['price'];
+		$this->element_data['item_price'] = number_format($item['price'], 2, '.', '');
+		$this->element_data['item_flexible_price'] = $item['flexible_price'];
 		$this->element_data['item_description'] = $item['description'];
 		$this->element_data['item_asset'] = $item['fulfillment_asset'];
 
@@ -69,6 +70,10 @@ class DigitalPurchase extends ElementBase {
 				}
 				$this->setTemplate('success');
 			}
+		} elseif ($this->status_uid == 'commerce_initiatecheckout_400') {
+			// could happen on a database glitch, but probably means the user set a pay-minimum price below the
+			// minimum price. what a heel.
+			$this->element_data['error_message'] = 'Make sure you enter a price of at least $' . $item['price'] . ' and try again.';
 		} elseif ($this->status_uid == 'commerce_finalizepayment_400' || $this->status_uid == 'element_redeemcode_400') {
 			// payerid is specific to paypal, so this is temporary to tell between canceled and errored:
 			if (isset($_GET['PayerID'])) {

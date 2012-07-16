@@ -2,6 +2,10 @@
 if (isset($_POST['doitemadd'])) {
 	// do the actual list add stuffs...
 	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
+	$flexible_price = 0;
+	if (isset($_POST['item_flexible_price'])) {
+		$flexible_price = 1;
+	}
 	$add_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'commerce', 
@@ -10,6 +14,7 @@ if (isset($_POST['doitemadd'])) {
 			'name' => $_POST['item_name'],
 			'description' => $_POST['item_description'],
 			'price' => $_POST['item_price'],
+			'flexible_price' => $flexible_price,
 			'digital_fulfillment' => 1,
 			'fulfillment_asset' => $_POST['item_fulfillment_asset']
 		),
@@ -36,6 +41,10 @@ if (isset($_POST['doitemadd'])) {
 		if (!isset($_POST['item_fulfillment_asset'])) {
 			$_POST['item_fulfillment_asset'] = 0;
 		}
+		$flexible_price = 0;
+		if (isset($_POST['item_flexible_price'])) {
+			$flexible_price = 1;
+		}
 		$edit_response = $cash_admin->requestAndStore(
 			array(
 				'cash_request_type' => 'commerce', 
@@ -43,6 +52,7 @@ if (isset($_POST['doitemadd'])) {
 				'name' => $_POST['item_name'],
 				'description' => $_POST['item_description'],
 				'price' => $_POST['item_price'],
+				'flexible_price' => $flexible_price,
 				'fulfillment_asset' => $_POST['item_fulfillment_asset'],
 				'id' => $item_id
 			),

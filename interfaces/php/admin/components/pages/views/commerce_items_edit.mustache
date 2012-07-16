@@ -15,10 +15,19 @@
 	<input type="text" id="item_price" name="item_price" value="{{price}}" />
 
 	<div class="row_seperator">.</div>
-	<label for="item_fulfillment_asset">Fulfillment asset</label><br />
-	<select id="item_fulfillment_asset" name="item_fulfillment_asset">
-		{{{asset_options}}}
-	</select>
+	<div class="col_oneoftwo">
+		<label for="item_fulfillment_asset">Fulfillment asset</label><br />
+		<select id="item_fulfillment_asset" name="item_fulfillment_asset">
+			{{{asset_options}}}
+		</select>
+	</div>
+
+	<div class="col_oneoftwo lastcol">
+		<label for="item_flexible_price">Flexible Price</label><br />
+		<input type="checkbox" name="item_flexible_price" id="item_flexible_price"{{#flexible_price}} checked="checked"{{/flexible_price}} class="checkorradio" /> Enable "pay-at-least" minimum pricing
+	</div>
+
+	<div class="row_seperator">.</div><br />
 
 	<div class="row_seperator">.</div><br />
 	<input class="button" type="submit" value="Edit The Item" />

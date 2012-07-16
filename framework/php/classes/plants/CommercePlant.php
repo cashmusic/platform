@@ -44,6 +44,7 @@ class CommercePlant extends PlantBase {
 		$description='',
 		$sku='',
 		$price=0,
+		$flexible_price=0,
 		$available_units=-1,
 		$digital_fulfillment=0,
 		$physical_fulfillment=0,
@@ -63,6 +64,7 @@ class CommercePlant extends PlantBase {
 				'description' => $description,
 				'sku' => $sku,
 				'price' => $price,
+				'flexible_price' => $flexible_price,
 				'available_units' => $available_units,
 				'digital_fulfillment' => $digital_fulfillment,
 				'physical_fulfillment' => $physical_fulfillment,
@@ -102,6 +104,7 @@ class CommercePlant extends PlantBase {
 		$description=false,
 		$sku=false,
 		$price=false,
+		$flexible_price=false,
 		$available_units=false,
 		$digital_fulfillment=false,
 		$physical_fulfillment=false,
@@ -119,6 +122,7 @@ class CommercePlant extends PlantBase {
 				'description' => $description,
 				'sku' => $sku,
 				'price' => $price,
+				'flexible_price' => $flexible_price,
 				'available_units' => $available_units,
 				'digital_fulfillment' => $digital_fulfillment,
 				'physical_fulfillment' => $physical_fulfillment,
@@ -403,7 +407,7 @@ class CommercePlant extends PlantBase {
 		return $result;
 	}
 	
-	protected function initiateCheckout($user_id,$connection_id,$order_contents=false,$item_id=false,$element_id=false) {
+	protected function initiateCheckout($user_id,$connection_id,$order_contents=false,$item_id=false,$element_id=false,$total_price=false) {
 		if (!$order_contents && !$item_id) {
 			return false;
 		} else {
@@ -411,7 +415,15 @@ class CommercePlant extends PlantBase {
 				$order_contents = array();
 			}
 			if ($item_id) {
-				$order_contents[] = $this->getItem($item_id);
+				$item_details = $this->getItem($item_id);
+				$order_contents[] = $item_details;
+				if ($total_price && $total_price >= $item_details['price']) {
+					$price_addition = $total_price - $item_details['price'];
+				} elseif (!$total_price) {
+					$price_addition = 0;
+				} else {
+					return false;
+				}
 			}
 			$transaction_id = $this->addTransaction(
 				$user_id,
@@ -428,7 +440,7 @@ class CommercePlant extends PlantBase {
 				$element_id
 			);
 			if ($order_id) {
-				$success = $this->initiatePaymentRedirect($order_id,$element_id);
+				$success = $this->initiatePaymentRedirect($order_id,$element_id,$price_addition);
 				return $success;
 			} else {
 				return false;
@@ -450,7 +462,7 @@ class CommercePlant extends PlantBase {
 		return $return_array;
 	}
 	
-	protected function initiatePaymentRedirect($order_id,$element_id=false) {
+	protected function initiatePaymentRedirect($order_id,$element_id=false,$price_addition=0) {
 		$order_details = $this->getOrder($order_id);
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
 		$order_totals = $this->getOrderTotals($order_details['order_contents']);
@@ -463,7 +475,7 @@ class CommercePlant extends PlantBase {
 					$return_url .= '&element_id=' . $element_id;
 				}
 				$redirect_url = $pp->setExpressCheckout(
-					$order_totals['price'],
+					$order_totals['price'] + $price_addition,
 					'order-' . $order_id,
 					$order_totals['description'],
 					$return_url,
