@@ -6,7 +6,7 @@
  * a file listing with MD5 hashes of each file included. Command line utility. And whatever.
  *
  * USAGE:
- * php installers/php/dev_installer.php 
+ * php installers/php/profile_release.php 
  * follow prompts. 
  * 
  *
@@ -35,7 +35,7 @@ function profile_directory($dir,$trim_from_output,&$add_to) {
 	if (is_dir($dir)) {
 		$objects = scandir($dir); 
 		foreach ($objects as $object) { 
-			if ($object != "." && $object != ".." && $object != ".DS_Store") { 
+			if ($object != "." && $object != ".." && $object != ".DS_Store" && substr($object,0,1) != '.') { 
 				if (filetype($dir."/".$object) == "dir") {
 					profile_directory($dir."/".$object,$trim_from_output,$add_to); 
 				} else {

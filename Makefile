@@ -10,6 +10,9 @@ cleanup:
 install:
 	php installers/php/dev_installer.php
 
+profile:
+	php installers/php/profile_release.php ./
+
 test:
 	-php tests/php/all.php
 	php tests/php/test-uninstaller.php
