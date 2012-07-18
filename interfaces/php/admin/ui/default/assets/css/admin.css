@@ -21,7 +21,9 @@ code a {color:#23c;}
 img {border:0;}
 ul, ol {padding:0.5em 0 1em 1.5em;}
 li {line-height:1.35em;}
-ol li {margin-bottom:0.85em;}
+ol {padding-left:1em;}
+ol li {margin-bottom:1em;list-style-type:decimal;font-size:10px;position:relative;top:-3px;}
+ol li a, ol li span {font-size:14px;position:relative;top:3px;}
 p {margin:0 0 1.5em 0;}
 h1 {clear:both;font-size:36px;line-height:42px;margin:32px 0 16px 0;padding:0;font-weight:bold;}
 h2, h3, h4 {font-size:17px;line-height:1.125em;margin:0;padding:0;padding-bottom:0.35em;}

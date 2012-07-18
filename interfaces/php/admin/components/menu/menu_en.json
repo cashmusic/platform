@@ -68,7 +68,7 @@
 		
 		
 	"help":
-		{"page_name":"Help", "menu_icon":""},
+		{"page_name":"Help / FAQ", "menu_icon":""},
 	"help/gettingstarted":
 		{"page_name":"Getting Started", "menu_icon":"play_alt"},
 		

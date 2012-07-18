@@ -22,8 +22,8 @@ if (AdminHelper::elementFormSubmitted($_POST)) {
 }
 
 // Page data needed for a blank 'add' form:
-$cash_admin->page_data['options_people_lists'] = AdminHelper::echoFormOptions('items',0,false,true);
-$cash_admin->page_data['options_assets'] = AdminHelper::echoFormOptions('items',0,false,true);
+$cash_admin->page_data['options_people_lists'] = AdminHelper::echoFormOptions('people_lists',0,false,true);
+$cash_admin->page_data['options_assets'] = AdminHelper::echoFormOptions('assets',0,false,true);
 $current_element = $cash_admin->getCurrentElement();
 if ($current_element) {
 	// Current element found, so fill in the 'edit' form, basics first:
