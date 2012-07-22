@@ -7,7 +7,7 @@
 
 	if ($request_parameters[0]) {
 		$query = $request_parameters[0];
-		if ($request_parameters[1]) {
+		if (isser($request_parameters[1])) {
 			$page_number = $request_parameters[1];
 		} else {
 			$page_number = 1;
