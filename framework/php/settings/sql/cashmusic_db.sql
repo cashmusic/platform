@@ -21,6 +21,7 @@ CREATE TABLE `assets` (
   `type` varchar(255) DEFAULT 'storage',
   `title` varchar(255),
   `description` text,
+  `metadata` text,
   `public_status` bool DEFAULT '0',
   `size` int(11) DEFAULT '0',
   `hash`  varchar(255),

@@ -392,6 +392,21 @@ class CASHDBA {
 				. "GROUP BY aa.asset_id "
 				. "ORDER BY count DESC";
 				break;
+			case 'AssetPlant_findAssets':
+				// rough "ranking" in the CASE section below. +2 for query in title, +1 in desc, +1 in metadata
+				// does not add per-appearance, just on true. slight preference for titles
+				// exact title matches get an additional +1, titles starting with the query an another +1
+				$query = "SELECT * FROM assets "
+				. "WHERE user_id = :user_id AND (title LIKE :query OR description LIKE :query OR metadata LIKE :query) "
+				. "ORDER BY ("
+  				. "(CASE WHEN title LIKE :query THEN 2 ELSE 0 END) + "
+  				. "(CASE WHEN title LIKE :exact_query THEN 1 ELSE 0 END) + "
+  				. "(CASE WHEN title LIKE :starts_with_query THEN 1 ELSE 0 END) + "
+  				. "(CASE WHEN description LIKE :query THEN 1 ELSE 0 END) + "
+  				. "(CASE WHEN metadata LIKE :query THEN 1 ELSE 0 END) "
+				. ") DESC, title ASC";
+				if ($limit) $query .= " LIMIT $limit";
+				break;
 			case 'CommercePlant_getOrder_deep':
 				$query = "SELECT o.id as id, o.user_id as user_id, o.creation_date as creation_date, o.modification_date as modification_date, o.order_contents as order_contents, o.customer_user_id as customer_user_id, o.fulfilled as fulfilled, o.canceled as canceled, o.physical as physical, o.digital as digital, o.country_code as country_code, "
 				. "t.connection_id as connection_id, t.connection_type as connection_type, t.service_transaction_id as service_transaction_id, t.data_sent as data_sent, t.data_returned as data_returned, t.gross_price as gross_price, t.service_fee as service_fee, t.status as status, t.successful as successful "

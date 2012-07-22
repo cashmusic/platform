@@ -20,6 +20,7 @@ CREATE TABLE assets (
   type text DEFAULT 'storage',
   title text,
   description text,
+  metadata text,
   public_status integer DEFAULT '0',
   size integer DEFAULT '0',
   hash text,

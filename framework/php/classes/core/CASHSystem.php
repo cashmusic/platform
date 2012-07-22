@@ -347,7 +347,11 @@
 	 * @return string
 	 */public static function formatTimeAgo($time) {
 		if (is_string($time)) {
-			$datestamp = strtotime($time);
+			if (is_numeric($time)) {
+				$datestamp = (int) $time;
+			} else {
+				$datestamp = strtotime($time);
+			}
 		} else {
 			$datestamp = $time;
 		}
@@ -362,8 +366,10 @@
 			$ago_str = '1 hour ago';
 		} else if ($seconds >= 7200 && $seconds < 86400) {
 			$ago_str = floor($seconds / 3600) .' hours ago';
-		} else {
+		} else if ($seconds >= 86400 && $seconds < 31536000) {
 			$ago_str = date('d M', $datestamp);
+		} else {
+			$ago_str = date('d M, y', $datestamp);
 		}
 		return $ago_str;
 	}

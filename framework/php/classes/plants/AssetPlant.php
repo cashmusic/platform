@@ -24,6 +24,7 @@ class AssetPlant extends PlantBase {
 			'addlockcode'             => array('addLockCode','direct'),
 			'claim'                   => array('redirectToAsset',array('get','post','direct')),
 			'editasset'               => array('editAsset','direct'),
+			'findassets'              => array('findAssets','direct'),
 			'findconnectiondeltas'    => array('findConnectionAssetDeltas','direct'),
 			'getanalytics'            => array('getAnalytics','direct'),
 			'getasset'                => array('getAssetInfo','direct'),
@@ -35,6 +36,36 @@ class AssetPlant extends PlantBase {
 			'unlock'                  => array('unlockAsset','direct')
 		);
 		$this->plantPrep($request_type,$request);
+	}
+
+	protected function findAssets($query,$user_id,$page=1,$max_returned=10) {
+		$limit = (($page - 1) * $max_returned) . ',' . $max_returned;	
+		$fuzzy_query = '%' . $query . '%';
+
+		$result = $this->db->getData(
+			'AssetPlant_findAssets',
+			false,
+			array(
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				),
+				"query" => array(
+					"condition" => "=",
+					"value" => $fuzzy_query
+				),
+				"exact_query" => array(
+					"condition" => "=",
+					"value" => $query
+				),
+				"starts_with_query" => array(
+					"condition" => "=",
+					"value" => $query.'%'
+				)
+			),
+			$limit
+		);
+		return $result;
 	}
 
 	protected function getAssetsForConnection($connection_id) {
@@ -53,16 +84,30 @@ class AssetPlant extends PlantBase {
 		return $result;
 	}
 
-	protected function getAssetsForUser($user_id) {
+	protected function getAssetsForUser($user_id,$type=false,$parent_id=false) {
+		$options_array = array(
+			"user_id" => array(
+				"condition" => "=",
+				"value" => $user_id
+			)
+		);
+		if ($type !== false) {
+			$options_array["type"] = array(
+				"condition" => "=",
+				"value" => $type
+			);
+		}
+		if ($parent_id !== false) {
+			$options_array["parent_id"] = array(
+				"condition" => "=",
+				"value" => $parent_id
+			);
+		}
+
 		$result = $this->db->getData(
 			'assets',
 			'*',
-			array(
-				"user_id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				)
-			)
+			$options_array
 		);
 		return $result;
 	}
