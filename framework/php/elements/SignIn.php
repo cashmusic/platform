@@ -20,6 +20,20 @@ class SignIn extends ElementBase {
 	protected function init() {
 		if ($this->status_uid == 'people_signintolist_200' && !$this->unlocked) {
 			$this->unlock(); // unlock the element
+		} elseif ($this->status_uid == 'people_signintolist_400' && !$this->unlocked) {
+			// sign-in failed, try element-specific password and check that the 
+			// address is for realy realz on the list
+			if (trim($this->original_request['password']) == trim($this->options['alternate_password'])) {
+				$status_request = new CASHRequest(array(
+					'cash_request_type' => 'people', 
+					'cash_action' => 'getaddresslistinfo',
+					'address' => $this->original_request['address'],
+					'list_id' => $this->options['email_list_id']
+				));
+				if ($status_request->response['payload']) {
+					$this->unlock();
+				}
+			}
 		}
 		if ($this->sessionGet('initialized_element_' . $this->element_id,'script')) {
 			// element is initialized, meaning this is the closing embed

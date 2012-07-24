@@ -23,6 +23,12 @@
 	<label for="display_message">Display Message</label><br />
 	<input type="text" id="display_message" name="display_message" value="{{#options_display_message}}{{options_display_message}}{{/options_display_message}}{{^options_display_message}}Enter your email address and password below.{{/options_display_message}}" />
 
+	<br />
+	<div class="row_seperator">.</div>
+	<label for="alternate_password">Universal Password</label><br />
+	<input type="text" id="alternate_password" name="alternate_password" value="{{#options_alternate_password}}{{options_alternate_password}}{{/options_alternate_password}}"{{^options_alternate_password}} placeholder="A password or phrase to unlock this for every person."{{/options_alternate_password}} /> 
+
+
 	<div class="row_seperator">.</div>
 	<div>
 		<br />
