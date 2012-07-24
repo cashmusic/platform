@@ -26,7 +26,7 @@ class SecureDownload extends ElementBase {
 			} elseif ($this->status_uid == 'people_signintolist_400') {
 				// sign-in failed, try element-specific password and check that the 
 				// address is for realy realz on the list
-				if (trim($this->original_request['password']) == trim($this->options['alternate_password'])) {
+				if (trim($this->original_request['password']) == trim($this->options['alternate_password']) && trim($this->options['alternate_password']) != '') {
 					$status_request = new CASHRequest(array(
 						'cash_request_type' => 'people', 
 						'cash_action' => 'getaddresslistinfo',
