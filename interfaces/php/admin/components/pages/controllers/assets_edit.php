@@ -133,7 +133,7 @@ if ($cash_admin->page_data['type'] == 'file') {
 	$cash_admin->page_data['parent_options'] .= AdminHelper::echoFormOptions('assets',$cash_admin->page_data['parent_id'],$cash_admin->getAllFavoriteAssets(),true);
 	// connection options markup:
 	$cash_admin->page_data['connection_options'] = '<option value="0" selected="selected">None (Normal http:// link)</option>';
-	$cash_admin->page_data['connection_options'] .= AdminHelper::echoConnectionsOptions('assets', $current_asset['connection_id'], true);
+	$cash_admin->page_data['connection_options'] .= AdminHelper::echoConnectionsOptions('assets', $cash_admin->page_data['connection_id'], true);
 
 	// set the view
 	$cash_admin->setPageContentTemplate('assets_details_file');
