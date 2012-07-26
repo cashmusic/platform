@@ -74,6 +74,7 @@ if (isset($_POST['doassetedit'])) {
 			'location' => $asset_location,
 			'connection_id' => $connection_id,
 			'parent_id' => $asset_parent,
+			'type' => $_POST['asset_type'],
 			'tags' => $metadata_and_tags['tags_details'],
 			'metadata' => $metadata_and_tags['metadata_details']
 		),

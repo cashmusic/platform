@@ -5,11 +5,7 @@
 {{/banner_main_content}}
 
 <div class="col_oneoftwo">
-	<h2>Most Accessed</h2>
-	{{#mostaccessed_assets}}<ol class="fadedtext">{{/mostaccessed_assets}}
-		{{#mostaccessed_assets}}
-			<li><a href="{{www_path}}/assets/edit/file/{{id}}">{{title}}</a> <span class="smalltext nobr">(accessed: {{count}})</span></li>
-		{{/mostaccessed_assets}}
-	{{#mostaccessed_assets}}</ol>{{/mostaccessed_assets}}
-	{{^mostaccessed_assets}}<p class="fadedtext">No assets have been accessed.</p>{{/mostaccessed_assets}}
+	<a href="{{www_path}}/assets/add/release">Add a new release</a><br /><br />
+	<a href="{{www_path}}/assets/add/playlist">Add a new playlist</a><br /><br />
+	<a href="{{www_path}}/assets/add/file">Add a new file</a><br /><br />
 </div>

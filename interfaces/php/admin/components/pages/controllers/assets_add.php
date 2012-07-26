@@ -24,6 +24,26 @@ if (isset($_POST['doassetadd'])) {
 
 $cash_admin->page_data['form_state_action'] = 'doassetadd';
 $cash_admin->page_data['asset_button_text'] = 'Add that asset';
-$cash_admin->page_data['type_options_markup'] = '<option value="file" selected="selected">File</option><option value="folder">Folder (depreciated. aka: going away before v4)</option><option value="playlist">Playlist</option><option value="release">Release</option>';
+// create type options with current selected:
+if (isset($request_parameters[0])) {
+	$add_type = $request_parameters[0];
+} else {
+	$add_type = 'file';
+}
+$type_options = array(
+	'file' => 'File',
+	'folder' => 'Folder (depreciated. aka: going away before v4)',
+	'playlist' => 'Playlist',
+	'release' => 'Release'
+);
+$cash_admin->page_data['type_options_markup'] = '';
+foreach ($type_options as $type => $value) {
+	if ($add_type == $type) {
+		$selected = ' selected="selected"';
+	} else {
+		$selected = '';
+	}
+	$cash_admin->page_data['type_options_markup'] .= '<option value="' . $type . '"' . $selected . '>' . $value . '</option>';
+}
 $cash_admin->setPageContentTemplate('assets_details');
 ?>

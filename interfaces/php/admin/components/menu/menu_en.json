@@ -5,10 +5,6 @@
 		
 	"assets":
 		{"page_name":"Assets", "menu_icon":""},
-	"assets/add":
-		{"page_name":"Add Assets", "menu_icon":"plus_alt"},
-	"assets/edit":
-		{"page_name":"Asset Details", "menu_icon":""},
 	"assets/find":
 		{"page_name":"Search", "menu_icon":"magnifying_glass"},
 		
