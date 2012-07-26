@@ -17,7 +17,7 @@ CREATE TABLE assets (
   location text,
   public_url text,
   connection_id integer DEFAULT NULL,
-  type text DEFAULT 'storage',
+  type text DEFAULT 'file',
   title text,
   description text,
   metadata text,

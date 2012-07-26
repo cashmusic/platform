@@ -29,11 +29,7 @@
 
 			if ($find_response['payload']) {
 				foreach ($find_response['payload'] as &$asset) {
-					if ($asset['type'] == 'storage') {
-						$asset['descriptor_string'] = 'file';
-					} else {
-						$asset['descriptor_string'] = $asset['type'];
-					}
+					$asset['descriptor_string'] = $asset['type'];
 					$asset['descriptor_string'] .= ' / created: ' . CASHSystem::formatTimeAgo($asset['creation_date']);
 					if ($asset['modification_date']) {
 						$asset['descriptor_string'] .= ' / last edited: ' . CASHSystem::formatTimeAgo($asset['modification_date']);

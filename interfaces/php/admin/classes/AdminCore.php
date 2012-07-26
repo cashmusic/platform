@@ -46,7 +46,11 @@
 	 * Performs basic tasks each time a user logs in
 	 *
 	 */public function runAtLogin() {
-		// sync all assets
+		// no longer syncing all S3 assets with local on every login.
+		// leaving this in place for future iterations where we might do 
+		// something more like syncing a specific folder as an advanced 
+		// thing, etc. 
+		/*
 		$c = new CASHConnection($this->effective_user_id);
 		$applicable_connections = $c->getConnectionsByScope('assets');
 		if (is_array($applicable_connections)) {
@@ -60,6 +64,7 @@
 				);
 			}
 		}
+		*/
 	}
 
 

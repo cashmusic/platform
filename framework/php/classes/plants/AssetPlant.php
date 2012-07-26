@@ -126,7 +126,7 @@ class AssetPlant extends PlantBase {
 		if ($result) {
 			$asset_info = $result[0];
 			$asset_info['tags'] = $this->getAllMetaData('assets',$id,'tag');
-			$asset_info['metadata'] = $this->getAllMetaData('assets',$id);
+			$asset_info['metadata'] = json_decode($asset_info['metadata']);
 			return $asset_info;
 		} else {
 			return false;
@@ -147,7 +147,7 @@ class AssetPlant extends PlantBase {
 		return $result;
 	}
 
-	protected function addAsset($title,$description,$location,$user_id,$connection_id=0,$hash='',$size=0,$public_url='',$type='storage',$tags=false,$metadata=false,$parent_id=0,$public_status=1) {
+	protected function addAsset($title,$description,$user_id,$location='',$connection_id=0,$hash='',$size=0,$public_url='',$type='file',$tags=false,$metadata=false,$parent_id=0,$public_status=1) {
 		$result = $this->db->setData(
 			'assets',
 			array(
@@ -161,12 +161,12 @@ class AssetPlant extends PlantBase {
 				'hash' => $hash,
 				'size' => $size,
 				'type' => $type,
-				'public_url' => $public_url=''
-				
+				'public_url' => $public_url='',
+				'metadata' => json_encode($metadata)
 			)
 		);
 		if ($result) {
-			$this->setAllMetaData('assets',$result,$user_id,$tags,$metadata);
+			$this->setAllMetaData('assets',$result,$user_id,$tags,false);
 		}
 		return $result;
 	}
@@ -183,7 +183,8 @@ class AssetPlant extends PlantBase {
 				'public_status' => $public_status,
 				'type' => $type,
 				'size' => $size,
-				'hash' => $hash
+				'hash' => $hash,
+				'metadata' => json_encode($metadata)
 			),
 			'CASHSystem::notExplicitFalse'
 		);
@@ -197,8 +198,8 @@ class AssetPlant extends PlantBase {
 				)
 			)
 		);
-		if ($result && ($tags || $metadata) && $user_id) {
-			$this->setAllMetaData('assets',$id,$user_id,$tags,$metadata,true);
+		if ($result && $tags && $user_id) {
+			$this->setAllMetaData('assets',$id,$user_id,$tags,false,true);
 		}
 		return $result;
 	}
@@ -492,8 +493,8 @@ class AssetPlant extends PlantBase {
 						$this->addAsset(
 							$location,
 							'',
-							$location,
 							$connection['user_id'],
+							$location,
 							$connection_id,
 							$all_remote_files[$location]['hash'],
 							$all_remote_files[$location]['size']

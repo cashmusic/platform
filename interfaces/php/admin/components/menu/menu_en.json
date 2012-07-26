@@ -7,13 +7,7 @@
 		{"page_name":"Assets", "menu_icon":""},
 	"assets/add":
 		{"page_name":"Add Assets", "menu_icon":"plus_alt"},
-	"assets/add/file":
-		{"page_name":"Add A Single Asset", "menu_icon":""},
-	"assets/add/playlist":
-		{"page_name":"Add Playlist", "menu_icon":""},
-	"assets/browse":
-		{"page_name":"Browse Assets", "menu_icon":"list"},
-	"assets/edit/file":
+	"assets/edit":
 		{"page_name":"Asset Details", "menu_icon":""},
 	"assets/find":
 		{"page_name":"Search", "menu_icon":"magnifying_glass"},

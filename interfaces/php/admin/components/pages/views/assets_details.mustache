@@ -1,0 +1,24 @@
+<form method="post" action="{{www_path}}/assets/add">
+	<input type="hidden" name="{{form_state_action}}" value="makeitso" />
+
+	<h3>Asset Details</h3>
+	<label for="asset_title">Title / Name</label><br />
+	<input type="text" id="asset_title" name="asset_title" value="{{title}}" placeholder="Give It A Name" />
+
+	<div class="row_seperator">.</div>
+	<label for="asset_description">Description</label><br />
+	<textarea rows="3" id="asset_description" name="asset_description">{{description}}</textarea>
+	
+	<div class="row_seperator">.</div>
+	<label for="asset_type">Type</label><br />
+	<select id="asset_type" name="asset_type">
+		{{{type_options_markup}}}
+	</select>
+
+	<div class="row_seperator">.</div>
+	<div>
+		<br />
+		<input class="button" type="submit" value="{{asset_button_text}}" />
+	</div>
+
+</form>

@@ -1,0 +1,72 @@
+<p class="smalltext fadedtext">
+	{{#screen_size}}size: {{screen_size}} &nbsp; stored on: {{connection_name}}<br />{{/screen_size}}
+	{{#location}}location: {{location}}<br />{{/location}}
+	{{#is_favorite}}
+		<span class="icon heart_fill"></span> this asset is a favorite<br />
+	{{/is_favorite}}
+</p><p>
+	<form method="post" action="" class="inline"><span class="icon {{#is_favorite}}x_alt{{/is_favorite}}{{^is_favorite}}heart_fill{{/is_favorite}} usecolor1"></span><input type="hidden" name="togglefavorite" value="1" /><input type="submit" class="inlinesubmit" value="{{#is_favorite}}un{{/is_favorite}}favorite this asset" /></form>
+	 &nbsp; &nbsp; <a href="#" class="actionlink"><span class="icon link"></span> generate private link</a>
+</p>
+<br />
+<div>
+	<h3>Download codes</h3>
+	{{#asset_codes_count}}
+		There are currently {{asset_codes_count}} codes for this asset. <form method="post" action="" class="inline"><input type="hidden" name="exportcodes" value="1" /><input type="submit" class="inlinesubmit" value="Export them!" /></form><br /><br />
+	{{/asset_codes_count}}
+	{{^asset_codes_count}}
+		<p>There are no download codes for this asset.</p>
+	{{/asset_codes_count}}
+	<form method="post" action="" class="inline"><span class="icon plus_alt usecolor1"></span><input type="submit" class="inlinesubmit" value="add" /> <input type="text" name="add_codes_qty" id="add_codes" value="500" /> <input type="submit" class="inlinesubmit" value="download codes" /></form>
+</div>
+<br /><br />
+
+<form method="post" action="">
+	<input type="hidden" name="doassetedit" value="makeitso" />
+	
+	<h3>Asset details</h3>
+	<label for="asset_title">Title / Name</label><br />
+	<input type="text" id="asset_title" name="asset_title" value="{{title}}" />
+
+	<div class="row_seperator">.</div>
+	<label for="asset_description">Description</label><br />
+	<textarea rows="3" id="asset_description" name="asset_description">{{description}}</textarea>
+
+	<div class="row_seperator">.</div>
+	<div class="col_oneoftwo">
+		<label for="connection_id">Which storage connection?</label><br />
+		<select id="connection_id" name="connection_id">
+			{{{connection_options}}}
+		</select>
+	</div>
+
+	<div class="col_oneoftwo lastcol">
+		<label for="asset_location">Location (URI)</label><br />
+		<input type="text" id="asset_location" name="asset_location" value="{{location}}" />
+	</div>
+
+	<div class="row_seperator">.</div>
+	<div>
+		<label for="parent_id">Place in asset (Parent: depreciated/gone by v4)</label><br />
+		<select id="parent_id" name="parent_id">
+			{{{parent_options}}}
+		</select>
+	</div>
+
+	<div class="row_seperator">.</div><br />
+
+	<div class="col_oneoftwo">
+		<div>
+			<label>Tags</label><br />
+			{{{tag_markup}}}
+			<a href="#" class="injectbefore" rev="<input type='text' name='tag' value='' placeholder='Tag' />" rel="{{tag_counter}}"><small>+ ADD TAG</small></a>
+		</div>
+	</div>
+	
+	<div class="row_seperator">.</div>
+	<div>
+		<br />
+		<input class="button" type="submit" value="Edit the asset" />
+	</div>
+
+</form>

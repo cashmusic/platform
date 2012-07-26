@@ -18,7 +18,7 @@ CREATE TABLE `assets` (
   `location` varchar(255),
   `public_url` varchar(255),
   `connection_id` int(11) DEFAULT NULL,
-  `type` varchar(255) DEFAULT 'storage',
+  `type` varchar(255) DEFAULT 'file',
   `title` varchar(255),
   `description` text,
   `metadata` text,

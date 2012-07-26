@@ -278,7 +278,7 @@ select option {padding:8px;}
 select:active, select:focus {outline:2px solid #ff0;}
 textarea.tall {height:200px;}
 form.inline {display:inline;}
-form.inline input {width:2.25em !important;border:1px solid #fafaf8;}
+form.inline input {width:3.25em !important;border:1px solid #fafaf8;}
 form.inline input:active, form.inline input:focus {outline:0;border:1px solid #888;}
 form.inline input.inlinesubmit {font:14px/1.5em helvetica,"helvetica neue","segoe ui","segoe wp",arial,sans-serif !important;background-color:transparent;cursor:pointer;font-weight:bold !important;width:auto !important;padding-left:0 !important;padding-right:0 !important;}
 
