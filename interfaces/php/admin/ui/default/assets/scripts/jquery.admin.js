@@ -184,6 +184,8 @@ function setContentBehaviors() {
 		jQuery(e.currentTarget).before('<div>' + toinsert + '</div>');
 		jQuery(e.currentTarget).attr('rel',iteration+1);
 	});
+
+	prepDrawers('<span class="icon arrow_up"></span> less','<span class="icon arrow_down"></span> more');
 }
 
 // the main UI behaviors — only needs to be run on the first page load,
@@ -239,6 +241,60 @@ function doModalConfirm(url) {
 
 	// show the dialog with a fast fade-in
 	jQuery('.modalbg').fadeIn('fast');
+}
+
+/**
+ * prepDrawers (function)
+ * 
+ * Simple function to roll-up and roll-down content inside a div with class "drawer" â€” will
+ * look for a "handle" inside the div â€” an element that triggers the effect on click and remains
+ * visible throughout. 
+ *
+ * Pass labelTextVisible/labelTextHidden to prepend the handle width "show"/"hide" type text
+ * Pass labelClassVisible/labelClassHidden to add classes for visible/hidden states
+ *
+ * Automatically closes all drawers and attaches event handlers
+ *
+ */
+function prepDrawers(labelTextVisible,labelTextHidden,labelClassVisible,labelClassHidden) {
+	
+	jQuery('.drawer').each(function() {
+		// minimize jQuery calls and simplify. set each element up fron in the function scope:
+		var drawer, drawerHandle, drawerContent, drawerHandleLabel;
+		drawer = jQuery(this);
+		drawerHandle = drawer.find('.drawerhandle');
+		drawerContent = drawer.find('.drawercontent');
+		// create the label span and add necessary classes
+		drawerHandleLabel = jQuery('<span class="drawerhandleaction">' + labelTextHidden + ' </span>');
+		if (labelClassVisible) {
+			drawerHandleLabel.addClass(labelClassHidden);
+		}
+		// first hide the content add a label to all the drawerhandles
+		drawerContent.hide();
+		drawerHandle.prepend(drawerHandleLabel);
+		// then set up click actions on each of them
+		jQuery(this).find('.drawerhandle').on('click',function () {
+			if (drawerContent.is(':hidden')) {
+				drawerContent.slideDown(200, function () {
+					drawerHandleLabel.html(labelTextVisible + ' ');
+					if (labelClassVisible) {
+						drawerHandleLabel.removeClass();
+						drawerHandleLabel.addClass(labelClassVisible);
+					}
+				});
+			} else {
+				drawerContent.slideUp(200, function () {
+	    			drawerContent.hide();
+	    			drawerHandleLabel.html(labelTextHidden + ' ');
+	    			if (labelClassHidden) {
+		    			drawerHandleLabel.removeClass();
+		    			drawerHandleLabel.addClass(labelClassHidden);
+		    		}
+	    		});
+			}
+		});
+	});
+
 }
 
 jQuery(document).ready(function() {
