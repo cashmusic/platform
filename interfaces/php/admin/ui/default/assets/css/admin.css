@@ -19,6 +19,7 @@ div.callout {display:block;font-size:11px;padding:22px 18px 18px 18px;margin:0 a
 div.callout.flush {background-image:none;}
 code {font-size:11px;}
 code a {color:#23c;}
+fieldset {border: 0; margin: 0; padding: 0;}
 img {border:0;}
 ul, ol {padding:0.5em 0 1em 1.5em;}
 li {line-height:1.35em;}
@@ -37,15 +38,16 @@ small a {color:#231F20 !important;font-weight:bold;}
 div.callout {font-size:12px;}
 ul.nobullets {padding:0;}
 ul.nobullets li {list-style-type:none;margin-bottom:12px;}
-ul.alternating {padding:0;}
-ul.alternating li {position:relative;list-style-type:none;padding:9px;background-color:#f5f5f4;margin-bottom:6px;}
-ul.alternating li:nth-child(odd) {background-color:#ececed;}
-ul.alternating li a {line-height:1.5em;}
+.alternating {padding:0;}
+.alternating li {position:relative;list-style-type:none;padding:9px;background-color:#f5f5f4;margin-bottom:6px;}
+.alternating li:nth-child(odd) {background-color:#ececed;}
+.alternating li a {line-height:1.5em;}
 ul.linkonly li {position:relative;padding:0 !important;}
 ul.linkonly li a {display:block;padding:9px;color:#231F20 !important;}
 ul.linkonly li:hover, ul.alternating li:hover {top:-1px;background-color:#fff;box-shadow:-2px 2px 2px #dededc;}
 ul.assetbrowse {padding:0;}
 ul.assetbrowse li {list-style-type:none;margin-top:10px;}
+ol li, ol.alternating li {list-style-type: decimal;}
 
 /* GENERAL PAGE LAYOUT */
 .clearfix {visibility:hidden;overflow:hidden;clear:both;height:1px;}
