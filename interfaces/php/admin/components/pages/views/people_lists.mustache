@@ -1,27 +1,4 @@
 <div class="col_oneoftwo">
-	<h2>Your Lists</h2>
-	{{#lists_all}}
-	<ul class="alternating">
-		{{#lists_all}}
-		<li>
-			<b>{{name}}</b>
-			{{#description}}<br /><span class="fadedtext">{{description}}</span>{{/description}}<br />
-			<div class="itemnav">
-				<a href="{{www_path}}/people/lists/view/{{id}}" class="mininav_flush"><span class="icon magnifying_glass"></span> View</a>
-				<a href="{{www_path}}/people/lists/edit/{{id}}" class="mininav_flush"><span class="icon pen"></span> Edit</a>
-				<a href="{{www_path}}/people/lists/export/{{id}}" class="mininav_flush"><span class="icon download"></span> Export</a>
-				<a href="{{www_path}}/people/lists/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>
-			</div>
-		</li>
-		{{/lists_all}}
-	</ul>
-	{{/lists_all}}
-
-	{{^lists_all}}
-	<p>No lists have been created.</p>
-	{{/lists_all}}
-</div>
-<div class="col_oneoftwo lastcol">
 	<h2>Add A New List</h2>
 	<form method="post" action="{{www_path}}/people/lists/add/" id="lists">
 		<input type="hidden" name="dolistadd" value="makeitso" />
@@ -46,4 +23,27 @@
 		</div>
 
 	</form>
+</div>
+<div class="col_oneoftwo lastcol">
+	<h2>Your Lists</h2>
+	{{#lists_all}}
+	<ul class="alternating">
+		{{#lists_all}}
+		<li>
+			<b>{{name}}</b>
+			{{#description}}<br /><span class="fadedtext">{{description}}</span>{{/description}}<br />
+			<div class="itemnav">
+				<a href="{{www_path}}/people/lists/view/{{id}}" class="mininav_flush"><span class="icon magnifying_glass"></span> View</a>
+				<a href="{{www_path}}/people/lists/edit/{{id}}" class="mininav_flush"><span class="icon pen"></span> Edit</a>
+				<a href="{{www_path}}/people/lists/export/{{id}}" class="mininav_flush"><span class="icon download"></span> Export</a>
+				<a href="{{www_path}}/people/lists/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>
+			</div>
+		</li>
+		{{/lists_all}}
+	</ul>
+	{{/lists_all}}
+
+	{{^lists_all}}
+	<p>No lists have been created.</p>
+	{{/lists_all}}
 </div>
