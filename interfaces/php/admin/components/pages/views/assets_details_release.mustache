@@ -1,5 +1,5 @@
 
-	<form method="post" action="">
+	<form method="post" action="" id="add-release-form">
 		<fieldset>
 			<input type="hidden" name="doareleaseadd" value="makeitso" />
 			<h3>Release Details</h3>
@@ -58,17 +58,16 @@
 						<label>Formats/UPCs</label>
 						<ul class="alternating">
 							<li>
-								<span class="icon cd">CD</span>
+								<span class="icon cd"></span>
 								<select name="format" class="col_oneoftwo">
 									<option>CD</option>
+									<option>Digital</option>
 									<option>LP</option>
 									<option>Cassette</option>
 								</select>
 								<input type="text" id="formatType-upc" name="formatType-upc" value="" placeholder="123456789" class="col_oneoftwo" />
-								<div class="itemnav">
-									<a href="#" class="mininav_flush"><span class="icon pen"></span> Edit</a>
-									<a href="#" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>
-								</div>
+								<a href="#" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> <span class="visuallyhidden">Delete</span></a>
+								<div class="clearfix">&nbsp;</div>
 							</li>
 						</ul>
 						<a href="#" class="add-private-file"><span class="icon plus_alt"></span>Add New Format</a>
