@@ -56,12 +56,27 @@ if (isset($_POST['doassetedit'])) {
 	$asset_parent = 0;
 	$connection_id = 0;
 	$asset_location = '';
+	$asset_description = false;
+	$metadata = false;
 	if (isset($_POST['parent_id'])) $asset_parent = $_POST['parent_id'];
 	if (isset($_POST['connection_id'])) $connection_id = $_POST['connection_id'];
 	if (isset($_POST['asset_location'])) $asset_location = $_POST['asset_location'];
+	if (isset($_POST['asset_description'])) $asset_location = $_POST['asset_description'];
 
 	$metadata_and_tags = AdminHelper::parseMetaData($_POST);
 	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
+
+	if ($_POST['asset_type'] == 'release') {
+		$metadata = array(
+			'artist_name' => $_POST['artist_name'],
+			'release_date' => $_POST['release_date'],
+			'matrix_number' => $_POST['matrix_number'],
+			'label_name' => $_POST['label_name'],
+			'genre' => $_POST['genre'],
+			'copyright' => $_POST['copyright'],
+			'publishing' => $_POST['publishing']
+		);
+	}
 
 	$edit_response = $cash_admin->requestAndStore(
 		array(
@@ -70,13 +85,13 @@ if (isset($_POST['doassetedit'])) {
 			'id' => $request_parameters[0],
 			'user_id' => $effective_user,
 			'title' => $_POST['asset_title'],
-			'description' => $_POST['asset_description'],
+			'description' => $asset_description,
 			'location' => $asset_location,
 			'connection_id' => $connection_id,
 			'parent_id' => $asset_parent,
 			'type' => $_POST['asset_type'],
 			'tags' => $metadata_and_tags['tags_details'],
-			'metadata' => $metadata_and_tags['metadata_details']
+			'metadata' => $metadata
 		),
 		'asseteditattempt'
 	);
@@ -105,6 +120,15 @@ $asset_response = $cash_admin->requestAndStore(
 	'getasset'
 );
 $cash_admin->page_data = array_merge($cash_admin->page_data,$asset_response['payload']);
+
+// Metadata shizz:
+if (isset($cash_admin->page_data['metadata'])) {
+	if (is_array($cash_admin->page_data['metadata'])) {
+		foreach ($cash_admin->page_data['metadata'] as $key => $value) {
+			$cash_admin->page_data['metadata_' . $key] = $value;
+		}
+	}
+}
 
 // Deal with tags:
 $tag_counter = 1;

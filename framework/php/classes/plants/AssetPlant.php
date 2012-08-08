@@ -126,7 +126,7 @@ class AssetPlant extends PlantBase {
 		if ($result) {
 			$asset_info = $result[0];
 			$asset_info['tags'] = $this->getAllMetaData('assets',$id,'tag');
-			$asset_info['metadata'] = json_decode($asset_info['metadata']);
+			$asset_info['metadata'] = json_decode($asset_info['metadata'],true);
 			return $asset_info;
 		} else {
 			return false;
