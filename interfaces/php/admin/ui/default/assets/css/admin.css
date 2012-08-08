@@ -80,6 +80,7 @@ li:hover .itemnav {margin:12px 0 8px 0;height:auto;}
 .smalltext {font-size:0.85em;}
 .tall {height:3em;}
 .tar {text-align:right;}
+.drawerhandle {font-size:12px;font-weight:bold;cursor:pointer;}
 
 /* FEATURED ELEMENT CARDS */
 .featuredelement {padding:0;background-color:#fff;margin-bottom:36px;box-shadow:-2px 2px 2px #dededc;}

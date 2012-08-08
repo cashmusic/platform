@@ -1,8 +1,7 @@
-<form method="post" action="{{www_path}}{{requested_route}}">
-	<input type="hidden" name="{{form_state_action}}" value="makeitso" />
-	<div class="col_oneoftwo">
-		<h3>List Details</h3>
-		
+<div class="col_oneoftwo">
+	<h3>List details</h3>
+	<form method="post" action="{{www_path}}{{requested_route}}">
+		<input type="hidden" name="{{form_state_action}}" value="makeitso" />
 		<label for="list_name">Name</label><br />
 		<input type="text" id="list_name" name="list_name" value="{{name}}" />
 
@@ -13,17 +12,35 @@
 			<option value="0"{{#no_selected_connection}} selected="selected"{{/no_selected_connection}}>None (local list only)</option>
 			{{{connection_options}}}
 		</select>
-	</div>
 
-	<div class="col_oneoftwo lastcol">
-		<h3>&nbsp;</h3>
+		<div class="row_seperator">.</div>
+
 		<label for="list_description">Description</label><br />
 		<textarea rows="3" id="list_description" name="list_description">{{description}}</textarea>
-	</div>
 
-	<div class="row_seperator">.</div><br />
-	<div>
+		<div class="row_seperator">.</div>
+
 		<input class="button" type="submit" value="{{list_button_text}}" />
-	</div>
+	</form>
+</div>
 
-</form>
+<div class="col_oneoftwo lastcol">
+	<h3>Batch add contacts</h3>
+	Need to add a lot of contacts to the list in a hurry? 
+	<div class="drawer">
+		<br />
+		<div class="drawercontent">
+			<form name="batchaddcontacts" method="post" action="{{www_path}}{{requested_route}}">
+				<input type="hidden" name="dobatchcontactsadd" value="makeitso" />
+				<label>Email Addresses</label>
+				<textarea id="element_content" name="element_content" class="tall"></textarea>
+				
+				<div class="row_seperator">.</div>
+
+				<input class="button" type="submit" value="Add Contacts" />
+			</form>
+			<br />
+		</div>
+		<a class="drawerhandle">batch add form</a>
+	</div>
+</div>

@@ -137,6 +137,9 @@ if ($cash_admin->page_data['type'] == 'file') {
 
 	// set the view
 	$cash_admin->setPageContentTemplate('assets_details_file');
+} else if ($cash_admin->page_data['type'] == 'release') {
+	// set the view
+	$cash_admin->setPageContentTemplate('assets_details_release');
 } else {
 	// default back to the most basic view:
 	$cash_admin->page_data['form_state_action'] = 'doassetedit';

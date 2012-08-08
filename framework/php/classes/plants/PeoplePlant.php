@@ -44,6 +44,95 @@ class PeoplePlant extends PlantBase {
 	}
 
 	/**
+	 * Adds a new contact to the system
+	 *
+	 * @return id|false
+	 */protected function addContact(
+			$email_address,
+			$first_name='',
+			$last_name='',
+			$organization='',
+			$address_line1='',
+			$address_line2='',
+			$address_city='',
+			$address_region='',
+			$address_postalcode='',
+			$address_country='',
+			$notes='',
+			$links=''
+		) 
+	 {
+		$result = $this->db->setData(
+			'contacts',
+			array(
+				'email_address' => $email_address,
+				'first_name' => $first_name,
+				'last_name' => $last_name,
+				'organization' => $organization,
+				'address_line1' => $address_line1,
+				'address_line2' => $address_line2,
+				'address_city' => $address_city,
+				'address_region' => $address_region,
+				'address_postalcode' => $address_postalcode,
+				'address_country' => $address_country,
+				'notes' => json_encode($notes),
+				'links' => json_encode($links)
+			)
+		);
+		return $result;
+	}
+
+	/**
+	 * Adds a new contact to the system
+	 *
+	 * @return id|false
+	 */protected function editContact(
+			$id,
+			$email_address=false,
+			$first_name=false,
+			$last_name=false,
+			$organization=false,
+			$address_line1=false,
+			$address_line2=false,
+			$address_city=false,
+			$address_region=false,
+			$address_postalcode=false,
+			$address_country=false,
+			$notes=false,
+			$links=false
+		)
+	 {
+		$final_edits = array_filter(
+			array(
+				'email_address' => $email_address,
+				'first_name' => $first_name,
+				'last_name' => $last_name,
+				'organization' => $organization,
+				'address_line1' => $address_line1,
+				'address_line2' => $address_line2,
+				'address_city' => $address_city,
+				'address_region' => $address_region,
+				'address_postalcode' => $address_postalcode,
+				'address_country' => $address_country,
+				'notes' => $notes,
+				'links' => $links
+			),
+			'CASHSystem::notExplicitFalse'
+		);
+		$result = $this->db->setData(
+			'contacts',
+			$final_edits,
+			array(
+				'id' => array(
+					'condition' => '=',
+					'value' => $id
+				)
+			)
+		);
+		return $result;
+	}
+
+	/**
 	 *
 	 * LISTS
 	 * Add, edit, and sync the actual lists themselves
@@ -448,7 +537,7 @@ class PeoplePlant extends PlantBase {
 							'cash_request_type' => 'system', 
 							'cash_action' => 'addlogin',
 							'address' => $address,
-							'password' => rand(23456,9876541),
+							'password' => md5(rand(23456,9876541)),
 							'display_name' => $name
 						)
 					);

@@ -204,7 +204,7 @@ function setContentBehaviors() {
 		jQuery(e.currentTarget).attr('rel',iteration+1);
 	});
 
-	prepDrawers('<span class="icon arrow_up"></span> less','<span class="icon arrow_down"></span> more');
+	prepDrawers('<span class="icon arrow_up"></span> Hide','<span class="icon arrow_down"></span> Show');
 }
 
 // the main UI behaviors — only needs to be run on the first page load,

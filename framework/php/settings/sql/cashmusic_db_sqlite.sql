@@ -259,6 +259,7 @@ CREATE TABLE people_contacts (
   address_postalcode text,
   address_country text,
   notes text,
+  links text,
   creation_date integer DEFAULT NULL,
   modification_date integer DEFAULT NULL
 );

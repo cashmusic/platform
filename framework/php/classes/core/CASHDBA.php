@@ -73,6 +73,7 @@ class CASHDBA {
 			'assets_analytics' => 'assets_analytics',
 			'commerce_assets' => 'commerce_assets',
 			'connections' => 'system_connections',
+			'contacts' => 'people_contacts',
 			'elements' => 'elements',
 			'elements_analytics' => 'elements_analytics',
 			'events' => 'calendar_events',
@@ -398,6 +399,8 @@ class CASHDBA {
 				// exact title matches get an additional +1, titles starting with the query an another +1
 				$query = "SELECT * FROM assets "
 				. "WHERE user_id = :user_id AND (title LIKE :query OR description LIKE :query OR metadata LIKE :query) "
+				. "AND type NOT LIKE 'system%' "
+				. "AND parent_id = 0 "
 				. "ORDER BY ("
   				. "(CASE WHEN title LIKE :query THEN 2 ELSE 0 END) + "
   				. "(CASE WHEN title LIKE :exact_query THEN 1 ELSE 0 END) + "

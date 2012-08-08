@@ -89,6 +89,8 @@
 		{"page_name":"List Details", "menu_icon":""},
 	"people/social":
 		{"page_name":"Social", "menu_icon":"chat"},
+	"people/press":
+		{"page_name":"Press", "menu_icon":"link"},
 		
 		
 	"settings":

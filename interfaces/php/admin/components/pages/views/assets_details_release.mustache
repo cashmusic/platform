@@ -1,0 +1,98 @@
+
+	<form method="post" action="">
+		<fieldset>
+			<input type="hidden" name="doareleaseadd" value="makeitso" />
+			<h3>Release Details</h3>
+			<div class="col_oneoftwo">
+	
+				<div class="release-cover">
+	
+				</div>
+				<div class="track-list">
+					<h5>Track List</h5>
+					<ol class="alternating">
+						<li>Track Title</li>
+						<li>Track Title</li>
+						<li>Track Title</li>
+						<li>Track Title</li>
+						<li>Track Title</li>
+					</ol>
+					<a href="#" class="add-track"><span class="icon plus_alt"></span>Add Track</a>
+				</div>
+	
+			</div>
+			<div class="col_oneoftwo lastcol">
+				<label>Release Title <input type="text" id="release_title" name="release_title" value="{{title}}" placeholder="Give It A Name" /></label>
+				<label>Artist Name <input type="text" id="artist_name" name="artist_name" value="" placeholder="The Who" /></label>
+				<label class="col_oneoftwo">Release Date <input type="date" id="release_date" name="release_date" value="" /></label>
+				<label class="col_oneoftwo lastcol">Matrix Num <input type="number" id="matrix_num" name="matrix_num" value="" /></label>
+	
+				<div class="fulfillment-files">
+					<label>Fulfillment Files</label>
+					<ul class="alternating">
+						<li>
+							<h5>Asset Title</h5>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+							<div class="itemnav">
+								<a href="#" class="mininav_flush"><span class="icon pen"></span> Edit</a>
+								<a href="#" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>
+							</div>
+						</li>
+					</ul>
+					<a href="#" class="add-fulfillment-file"><span class="icon plus_alt"></span>Add New File</a>
+				</div>
+			</div>
+		</fieldset>
+
+		<br />
+		<h3>Additional Fields</h3>
+		<div class="drawer">
+			<a class="drawerhandle">more options</a>
+			<div class="drawercontent">
+				<fieldset>
+					<label class="col_oneoftwo">Label Name <input type="text" id="label_name" name="label_name" value="" placeholder="Stax Records" /></label>
+					<label class="col_oneoftwo lastcol">Genre <input type="text" id="genre" name="genre" value="" placeholder="Dub-Step" /></label>
+					<label class="col_oneoftwo">Copyright <textarea id="copyright" name="copyright" value="" placeholder="CopyLeft"></textarea></label>
+					<label class="col_oneoftwo lastcol">Publishing <textarea id="publishing" name="publishing" value="" placeholder="Do Not Publish"></textarea></label>
+					<div class="formats col_oneoftwo">
+						<label>Formats/UPCs</label>
+						<ul class="alternating">
+							<li>
+								<span class="icon cd">CD</span>
+								<select name="format" class="col_oneoftwo">
+									<option>CD</option>
+									<option>LP</option>
+									<option>Cassette</option>
+								</select>
+								<input type="text" id="formatType-upc" name="formatType-upc" value="" placeholder="123456789" class="col_oneoftwo" />
+								<div class="itemnav">
+									<a href="#" class="mininav_flush"><span class="icon pen"></span> Edit</a>
+									<a href="#" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>
+								</div>
+							</li>
+						</ul>
+						<a href="#" class="add-private-file"><span class="icon plus_alt"></span>Add New Format</a>
+					
+					</div>
+					
+					<div class="private-files col_oneoftwo lastcol">
+						<label>Private Files</label>
+						<ul class="alternating">
+							<li>
+								<span class="icon document_alt_fill">File Type Icon</span>
+								<h5>Asset Title</h5>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+								<div class="itemnav">
+									<a href="#" class="mininav_flush"><span class="icon pen"></span> Edit</a>
+									<a href="#" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>
+								</div>
+							</li>
+						</ul>
+						<a href="#" class="add-private-file"><span class="icon plus_alt"></span>Add New File</a>
+					</div>
+					
+				</fieldset>
+			</div>
+		</div>
+
+	</form>
