@@ -1,0 +1,31 @@
+<div class="col_oneofthree">
+	<h3>Add new press link</h3>
+	<form action="">
+		<label for="press_url">URL</label><br />
+		<input type="text" id="press_url" name="press_url" /> 
+
+		<label for="publishing_date">Publishing date</label><br />
+		<input type="text" id="publishing_date" name="publishing_date" value="{{current_date}}" /> 
+
+		<!--
+		<div class="row_seperator">.</div>
+		<label>Tags</label><br />
+		{{{tag_markup}}}
+		<a href="#" class="injectbefore" rev="<input type='text' name='tag' value='' placeholder='Tag' />" rel="{{tag_counter}}"><small>+ ADD TAG</small></a>
+		-->
+
+		<div class="row_seperator">.</div><br />
+		<input class="button" type="submit" value="Add new link" />
+	
+	</form>
+</div>
+
+<div class="col_twoofthree lastcol">
+	{{#press_links}}
+		<p>
+		<a href="{{location}}"><b>{{title}}</b></a>
+		<small class="fadedtext"><br />{{publishing_date}}</small>
+		{{#description}}<br />{{description}}{{/description}}
+		</p>
+	{{/press_links}}
+</div>

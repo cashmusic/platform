@@ -28,6 +28,15 @@ if (isset($_POST['press_url'])) {
 				$url_description = $meta->getAttribute('content');
 			}
 
+			if (isset($_POST['publishing_date'])) {
+				$url_date = strtotime($_POST['publishing_date']);
+			} else {
+				$url_date = time();
+			}
+			$url_metadata = array(
+				'publishing_date' => $url_date
+			);
+
 			$add_response = $cash_admin->requestAndStore(
 				array(
 					'cash_request_type' => 'asset', 
@@ -36,6 +45,7 @@ if (isset($_POST['press_url'])) {
 					'description' => $url_description,
 					'user_id' => $effective_user,
 					'location' => $_POST['press_url'],
+					'metadata' => $url_metadata,
 					'type' => 'system_people_presslink'
 				)
 			);
@@ -66,10 +76,13 @@ $links_response = $cash_admin->requestAndStore(
 
 if (is_array($links_response['payload'])) {
 	$links_response['payload'] = array_reverse($links_response['payload']); // newest first
-	//$links_response['descriptor_string'] = 'added: ' . CASHSystem::formatTimeAgo($asset['creation_date']);
+	foreach ($links_response['payload'] as &$link) {
+		$link['descriptor_string'] = 'added: ' . CASHSystem::formatTimeAgo($link['creation_date']);
+		$link['publishing_date'] = CASHSystem::formatTimeAgo($link['metadata']['publishing_date']);
+	}
 	$cash_admin->page_data['press_links'] = new ArrayIterator($links_response['payload']);
 }
 
-
+$cash_admin->page_data['current_date'] = date('m/d/Y');
 $cash_admin->setPageContentTemplate('people_press');
 ?>

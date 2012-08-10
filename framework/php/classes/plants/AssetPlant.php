@@ -109,6 +109,15 @@ class AssetPlant extends PlantBase {
 			'*',
 			$options_array
 		);
+		if ($result) {
+			if (is_array($result)) {
+				foreach ($result as &$asset) {
+					$asset['tags'] = $this->getAllMetaData('assets',$asset['id'],'tag');
+					$asset['metadata'] = json_decode($asset['metadata'],true);
+				}
+			}
+		}
+
 		return $result;
 	}
 
