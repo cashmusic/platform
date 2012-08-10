@@ -172,7 +172,7 @@
 	 * Does a CASH Request and stores the response in $stored_responses
 	 *
 	 * @return array
-	 */public function requestAndStore($request_array,$store_name) {
+	 */public function requestAndStore($request_array,$store_name='') {
 		$cash_admin_request = new CASHRequest($request_array);
 		$this->stored_responses[$store_name] = $cash_admin_request->response;
 		unset($cash_admin_request);

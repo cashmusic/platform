@@ -31,7 +31,7 @@ if ($request_parameters[0]) {
 	);
 	$asset_codes = $getcodes_request->response['payload'];
 }
-if (isset($_POST['exportcodes']) && $request_parameters[0]) {
+if (isset($_REQUEST['exportcodes']) && $request_parameters[0]) {
 	header('Content-Disposition: attachment; filename="codes_' . $request_parameters[0] . '_export.csv"');
 	if ($asset_codes) {
 		echo '"code","creation date","claim date"' . "\n";

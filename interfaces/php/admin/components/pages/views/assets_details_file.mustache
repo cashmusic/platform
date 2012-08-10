@@ -12,7 +12,7 @@
 <div>
 	<h3>Download codes</h3>
 	{{#asset_codes_count}}
-		There are currently {{asset_codes_count}} codes for this asset. <form method="post" action="" class="inline"><input type="hidden" name="exportcodes" value="1" /><input type="submit" class="inlinesubmit" value="Export them!" /></form><br /><br />
+		There are currently {{asset_codes_count}} codes for this asset. <a href="?exportcodes=1">Export them!</a><br /><br />
 	{{/asset_codes_count}}
 	{{^asset_codes_count}}
 		<p>There are no download codes for this asset.</p>

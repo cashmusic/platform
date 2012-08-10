@@ -90,7 +90,7 @@
 	"people/social":
 		{"page_name":"Social", "menu_icon":"chat"},
 	"people/press":
-		{"page_name":"Press", "menu_icon":"link"},
+		{"page_name":"Press Coverage", "menu_icon":"link"},
 		
 		
 	"settings":
