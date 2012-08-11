@@ -28,7 +28,7 @@ if (isset($_POST['press_url'])) {
 				$url_description = $meta->getAttribute('content');
 			}
 
-			if (isset($_POST['publishing_date'])) {
+			if ($_POST['publishing_date']) {
 				$url_date = strtotime($_POST['publishing_date']);
 			} else {
 				$url_date = time();

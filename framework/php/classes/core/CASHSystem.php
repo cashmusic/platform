@@ -488,40 +488,70 @@
 	 * CASHSystem::sendEmail('test email','CASH Music <info@cashmusic.org>','dev@cashmusic.org','message, with link: http://cashmusic.org/','title');
 	 *
 	 */public static function sendEmail($subject,$fromaddress,$toaddress,$message_text,$message_title,$encoded_html=false) {
-		//create a boundary string. It must be unique 
-		//so we use the MD5 algorithm to generate a random hash
-		$random_hash = md5(date('r', time())); 
-		//define the headers we want passed. Note that they are separated with \r\n
-		$headers = "From: $fromaddress\r\nReply-To: $fromaddress";
-		//add boundary string and mime type specification
-		$headers .= "\r\nContent-Type: multipart/alternative; boundary=\"PHP-alt-".$random_hash."\""; 
-		//define the body of the message.
-		$message = "--PHP-alt-$random_hash\n";
-		$message .= "Content-Type: text/plain; charset=\"iso-8859-1\"\n";
-		$message .= "Content-Transfer-Encoding: 7bit\n\n";
-		$message .= "$message_title\n\n";
-		$message .= $message_text;
-		$message .= "\n--PHP-alt-$random_hash\n";
-		$message .= "Content-Type: text/html; charset=\"iso-8859-1\"\n";
-		$message .= "Content-Transfer-Encoding: 7bit\n\n";
-		if ($encoded_html) {
-			$message .= $encoded_html;
-		} else {
-			$message .= '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' . $message_title . '</title></head><body>';
-			$message .= "<style type=\"text/css\">\n";
-			if (file_exists(CASH_PLATFORM_ROOT.'/settings/defaults/system_email_styles.css')) {
-				$message .= file_get_contents(CASH_PLATFORM_ROOT.'/settings/defaults/system_email_styles.css');
+		// deal with SMTP settings later:
+		$smtp = false;
+
+		// include swift mailer
+		include_once dirname(CASH_PLATFORM_PATH) . '/lib/swift/swift_required.php';
+
+		// let's deal with complex versus simple email addresses. if we find '>' present we try
+		// parsing for name + address from a 'Address Name <address@name.com>' style email:
+		if (strpos($fromaddress, '>')) {
+			preg_match('/([^<]+)\s<(.*)>/', $fromaddress, $matches);
+			if (count($matches)) {
+				$from = array($matches[2] => $matches[1]);
+			} else {
+				$from = $fromaddress;
 			}
-			$message .= "</style>\n";
-			$message .= "<h1>$message_title</h1>\n";
-			$message .= "<p>";
-			$message .= str_replace("\n","<br />\n",preg_replace('/(http:\/\/(\S*))/', '<a href="\1">\1</a>', $message_text));
-			$message .= "</p></body></html>";
+		} else {
+			$from = $fromaddress;	
 		}
-		$message .= "\n--PHP-alt-$random_hash--\n";
-		//send the email
-		$mail_sent = @mail($toaddress,$subject,$message,$headers);
-		return $mail_sent;
+
+		if ($smtp) {
+			// use SMTP settings for goodtimes robust happy mailing
+			//$transport = Swift_SmtpTransport::newInstance('smtp.mandrillapp.com', 587);
+			//	$transport->setUsername('username');
+			//	$transport->setPassword('pass');
+		} else {
+			// aww shit. use mail() and hope it gets there
+			$transport = Swift_MailTransport::newInstance();
+		}
+		
+		// handle encoding of HTML if specific HTML isn't passed in:
+		if (!$encoded_html) {
+			$template = @file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/system_email_template.mustache');
+			$encoded_html = str_replace("\n","<br />\n",preg_replace('/(http:\/\/(\S*))/', '<a href="\1">\1</a>', $message_text));
+			if (!$template) {
+				$encoded_html .= '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' . $message_title . '</title></head><body>'
+						  . "<h1>$message_title</h1>\n" . "<p>" . $encoded_html . "</p>"
+						  . "</body></html>";
+			} else {
+				// open up some mustache in here:
+				include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache.php/Mustache.php');
+				$higgins = new Mustache;
+				$mustache_vars = array(
+					'encoded_html' => $encoded_html,
+					'message_title' => $message_title
+				);
+				$encoded_html = $higgins->render($template, $mustache_vars);
+			}
+		}
+
+		$swift = Swift_Mailer::newInstance($transport);
+
+		$message = new Swift_Message($subject);
+		$message->setFrom($from);
+		$message->setBody($encoded_html, 'text/html');
+		$message->setTo($toaddress);
+		$message->addPart($message_text, 'text/plain');
+		$headers = $message->getHeaders();
+		$headers->addTextHeader('X-MC-Track', 'opens, clicks'); // Mandrill-specific tracking...leave in by defauly, no harm if not Mandrill
+
+		if ($recipients = $swift->send($message, $failures)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 } // END class 
 ?>
