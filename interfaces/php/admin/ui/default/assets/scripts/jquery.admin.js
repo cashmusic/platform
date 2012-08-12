@@ -69,38 +69,42 @@ function refreshPageData(url,formdata,showerror,showmessage,skiphistory) {
 	} else {
 		formdata = formdata+'&';
 	}
-	// do a POST to get the page data, change pushstate, redraw page
-	jQuery.post(url, formdata+'data_only=1', function(data) {
-		if (data.doredirect) {
-			if (data.showerror) {
-				refreshPageData(data.location,false,data.showerror);
-			} else if (data.showmessage) {
-				refreshPageData(data.location,false,false,data.showmessage);
-			} else {
-				refreshPageData(data.location);
-			}
-		} else {
-			if (!skiphistory) {
-				history.pushState(null, null, url);
-			}
-			if (data.fullredraw) {
-				var newbody = data.fullcontent.replace(/^[\s\S]*?<body[^>]*>([\s\S]*?)<\/body>[\s\S]*?$/i,"$1");
-				jQuery('body').html(newbody);
-				setUIBehaviors();
-				prepAJAX();
-			} else {
-				if (showerror) {
-					data.error_message = showerror;
+	// fade out 
+	jQuery('#pagedisplay').fadeTo(100,0.2, function() {
+		// do a POST to get the page data, change pushstate, redraw page
+		jQuery.post(url, formdata+'data_only=1', function(data) {
+			if (data.doredirect) {
+				if (data.showerror) {
+					refreshPageData(data.location,false,data.showerror);
+				} else if (data.showmessage) {
+					refreshPageData(data.location,false,false,data.showmessage);
+				} else {
+					refreshPageData(data.location);
 				}
-				if (showmessage) {
-					data.page_message = showmessage;
+			} else {
+				if (!skiphistory) {
+					history.pushState(null, null, url);
 				}
-				redrawPage(data);
-				jQuery(document).off("click", "a[href^=" + cashAdminPath + "]");
-				prepAJAX();
+				if (data.fullredraw) {
+					var newbody = data.fullcontent.replace(/^[\s\S]*?<body[^>]*>([\s\S]*?)<\/body>[\s\S]*?$/i,"$1");
+					jQuery('body').html(newbody);
+					setUIBehaviors();
+					prepAJAX();
+				} else {
+					if (showerror) {
+						data.error_message = showerror;
+					}
+					if (showmessage) {
+						data.page_message = showmessage;
+					}
+					redrawPage(data);
+					jQuery(document).off("click", "a[href^=" + cashAdminPath + "]");
+					prepAJAX();
+				}
 			}
-		}
-	},'json');
+			jQuery('#pagedisplay').fadeTo(200,1);
+		},'json');
+	});
 }
 
 // changes all link behavior to work via AJAX loads as well as form behaviors
