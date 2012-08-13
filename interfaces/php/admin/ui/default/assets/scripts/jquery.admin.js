@@ -235,6 +235,14 @@ function setUIBehaviors() {
 		e.preventDefault();
 		this.blur();
 	});
+
+	// overlay cancel button event
+	jQuery(document).on('click', '.modalcancel', function(e) {
+		e.preventDefault();
+		jQuery('.modalbg').fadeOut('fast', function() {
+			jQuery('.modalbg').remove();
+		});
+	});
 }
 
 // opens a modal confirmation box for delete links, etc
@@ -250,12 +258,6 @@ function doModalConfirm(url) {
 	jQuery('body').append(markup);
 
 	// button events
-	jQuery('.modalcancel').on('click', function(e) {
-		e.preventDefault();
-		jQuery('.modalbg').fadeOut('fast', function() {
-			jQuery('.modalbg').remove();
-		});
-	});
 	jQuery('.modalyes').on('click', function(e) {
 		e.preventDefault();
 		refreshPageData(url,'modalconfirm=1&redirectto='+location.pathname.replace(cashAdminPath, ''));

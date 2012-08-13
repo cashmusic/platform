@@ -291,8 +291,7 @@ CREATE INDEX people_lists_members_list_id ON people_lists_members (list_id);
 
 CREATE TABLE people_resetpassword (
   id INTEGER PRIMARY KEY,
-  time_requested integer DEFAULT '0',
-  random_key text,
+  key text,
   user_id integer DEFAULT '0',
   creation_date integer DEFAULT NULL,
   modification_date integer DEFAULT NULL

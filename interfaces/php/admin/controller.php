@@ -31,7 +31,7 @@ if (isset($_REQUEST['data_only'])) {
 }
 
 // grab path from .htaccess redirect
-if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH))) {
+if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH)) && ($_REQUEST['p'] != '_')) {
 	$parsed_request = str_replace('/','_',trim($_REQUEST['p'],'/'));
 	define('REQUESTED_ROUTE', '/' . trim($_REQUEST['p'],'/') . '/');
 	$cash_admin->page_data['requested_route'] = REQUESTED_ROUTE;
@@ -92,7 +92,7 @@ if (!isset($cash_admin->page_data['requested_route'])) {
 }
 
 // if a login needs doing, do it
-$cash_admin->page_data['login_message'] = 'Log In';
+$cash_admin->page_data['login_message'] = 'Hello. Log In';
 if (isset($_POST['login'])) {
 	$browseridassertion = false;
 	if (isset($_POST['browseridassertion'])) {
@@ -198,7 +198,106 @@ if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
 		echo $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/template.mustache'), $cash_admin->page_data);
 	}
 } else {
+	/*********************************
+	 *
+	 * SHOW LOGIN PAGE
+	 *
+	 *********************************/
 	$cash_admin->page_data['browser_id_js'] = CASHSystem::getBrowserIdJS();
+
+	// before we get all awesome and whatnot, detect for password reset stuff. should only happen 
+	// with a full page reload, not a data-only one as above
+	if (isset($_POST['dopasswordresetlink'])) {
+		if (filter_var($_POST['address'], FILTER_VALIDATE_EMAIL)) {
+			$reset_key = $cash_admin->requestAndStore(
+				array(
+					'cash_request_type' => 'system', 
+					'cash_action' => 'setresetflag',
+					'address' => $_POST['address']
+				)
+			);
+			$reset_key = $reset_key['payload'];
+			if ($reset_key) {
+				$reset_message = 'A password reset was requested for this email address. If you didn\'t request the '
+							   . 'reset simply ignore this message and no change will be made. To reset your password '
+							   . 'follow this link: '
+							   . "\n\n"
+							   . CASHSystem::getCurrentURL()
+							   . '_?dopasswordreset=' . $reset_key . '&address=' . urlencode($_POST['address']) // <-- the underscore for urls ending with a / ...i dunno. probably fixable via htaccess
+							   . "\n\n"
+							   . 'Thank you.';
+				CASHSystem::sendEmail(
+					'A password reset has been requested',
+					CASHSystem::getDefaultEmail(),
+					$_POST['address'],
+					$reset_message,
+					'Reset your password?'
+				);
+				$cash_admin->page_data['reset_message'] = 'Thanks. Just sent an email with instructions. Check your SPAM filters if you do not see it soon.';
+			} else {
+				$cash_admin->page_data['reset_message'] = 'There was an error. Please check the address and try again.';
+			}
+		}
+	}
+
+	// this for returning password reset people:
+	if (isset($_GET['dopasswordreset'])) {
+		$valid_key = $cash_admin->requestAndStore(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'validateresetflag',
+				'address' => $_GET['address'],
+				'key' => $_GET['dopasswordreset']
+			)
+		);
+		if ($valid_key) {
+			$cash_admin->page_data['reset_key'] = $_GET['dopasswordreset'];
+			$cash_admin->page_data['reset_email'] = $_GET['address'];
+			$cash_admin->page_data['reset_action'] = CASHSystem::getCurrentURL();
+		}
+	}
+
+	// and this for the actual password reset after return folks submit:
+	if (isset($_POST['finalizepasswordreset'])) {
+		$valid_key = $cash_admin->requestAndStore(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'validateresetflag',
+				'address' => $_POST['address'],
+				'key' => $_POST['key']
+			)
+		);
+		if ($valid_key) {
+			$id_response = $cash_admin->requestAndStore(
+				array(
+					'cash_request_type' => 'people', 
+					'cash_action' => 'getuseridforaddress',
+					'address' => $_POST['address']
+				)
+			);
+			if ($id_response['payload']) {
+				$change_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'system', 
+						'cash_action' => 'setlogincredentials',
+						'user_id' => $id_response['payload'], 
+						'address' => $_POST['address'], 
+						'password' => $_POST['newpassword']
+					)
+				);
+				if ($change_request->response['payload'] !== false) {
+					$cash_admin->page_data['reset_message'] = 'Successfully changed the password. Go ahead and log in.';
+				} else {
+					$cash_admin->page_data['reset_message'] = 'There was an error setting your password. Please try again.';
+				}
+			} else {
+				$cash_admin->page_data['reset_message'] = 'There was an error setting the password. Please try again.';
+			}
+		}
+	}
+
+	// end login stuff
+
 	if ($cash_admin->page_data['data_only']) {
 		// data_only means we're working with AJAX requests, so dump valid JSON to the browser for the script to parse
 		$cash_admin->page_data['fullredraw'] = true;

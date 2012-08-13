@@ -42,7 +42,7 @@ class AdminBasicIntegration extends UnitTestCase {
 		if ($this->cash_test_url) {
 			// make sure we get the login page
 			$src = $this->cc->get($this->cash_test_url . '/interfaces/php/admin/');
-			$this->assertPattern('/<h1>Log In:<\/h1>/', $src);
+			$this->assertPattern('/<h1>Hello. Log In:<\/h1>/', $src);
 		
 			// look for an incorrect login
 			$src = $this->cc->post(

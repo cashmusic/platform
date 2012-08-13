@@ -79,13 +79,13 @@ li:hover .itemnav {margin:12px 0 8px 0;height:auto;}
 .mininav_spaced {font-weight:bold;margin:0 0 0 1.25em;color:#a49c9c !important;}
 .modalbg {position:fixed;top:0px;left:0px;width:100%;height:100%;background-color:rgba(250,250,248,0.9);z-index:5432;}
 .modaldialog {position:absolute;top:25%;left:50%;margin-left:-172px;padding:24px;width:320px;height:auto;background-color:#ddd;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;text-align:left;z-index:10;}
-.modaldialog input {background-color:#231F20;border:1px solid #231F20;color:#fff;width:auto;padding:6px 18px 6px 18px;font-weight:bold;cursor:pointer;margin-left:9px;
+.modaldialog input.button {background-color:#231F20;border:1px solid #231F20;color:#fff;width:auto;padding:6px 18px 6px 18px;font-weight:bold;cursor:pointer;margin-left:9px;
 	-webkit-transition: all 0.25s ease-in-out;
 	-moz-transition: all 0.25s ease-in-out;
 	-o-transition: all 0.25s ease-in-out;
 	transition: all 0.25s ease-in-out;
 }
-.modaldialog input:hover {background-color:#ff0;color:#231F20;border:1px solid #ff0;}
+.modaldialog input.button:hover {background-color:#ff0 !important;color:#231F20;border:1px solid #ff0;}
 .nobr  {white-space:nowrap;}
 .smalltext {font-size:0.85em;}
 .tall {height:3em;}

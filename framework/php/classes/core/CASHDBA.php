@@ -86,6 +86,7 @@ class CASHDBA {
 			'users' => 'people',
 			'people_analytics' => 'people_analytics',
 			'people_lists' => 'people_lists',
+			'people_resetpassword' => 'people_resetpassword',
 			'list_members' => 'people_lists_members',
 			'transactions' => 'commerce_transactions',
 			'venues' => 'calendar_venues'

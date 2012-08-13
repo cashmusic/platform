@@ -326,8 +326,7 @@ CREATE TABLE `people_lists_members` (
 DROP TABLE IF EXISTS `people_resetpassword`;
 CREATE TABLE `people_resetpassword` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `time_requested` int(11) NOT NULL DEFAULT '0',
-  `random_key` varchar(255) NOT NULL,
+  `key` varchar(255) NOT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0',
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT NULL,

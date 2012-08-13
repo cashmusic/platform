@@ -510,8 +510,8 @@
 		if ($smtp) {
 			// use SMTP settings for goodtimes robust happy mailing
 			//$transport = Swift_SmtpTransport::newInstance('smtp.mandrillapp.com', 587);
-			//	$transport->setUsername('username');
-			//	$transport->setPassword('pass');
+			//$transport->setUsername('user');
+			//$transport->setPassword('password');
 		} else {
 			// aww shit. use mail() and hope it gets there
 			$transport = Swift_MailTransport::newInstance();
@@ -545,7 +545,7 @@
 		$message->setTo($toaddress);
 		$message->addPart($message_text, 'text/plain');
 		$headers = $message->getHeaders();
-		$headers->addTextHeader('X-MC-Track', 'opens, clicks'); // Mandrill-specific tracking...leave in by defauly, no harm if not Mandrill
+		$headers->addTextHeader('X-MC-Track', 'opens'); // Mandrill-specific tracking...leave in by defauly, no harm if not Mandrill
 
 		if ($recipients = $swift->send($message, $failures)) {
 			return true;

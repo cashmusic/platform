@@ -36,9 +36,11 @@ class SystemPlant extends PlantBase {
 				'redeemlockcode'          => array('redeemLockCode',array('direct','get','post')),
 				'setapicredentials'       => array('setAPICredentials','direct'),
 				'setlogincredentials'     => array('setLoginCredentials','direct'),
+				'setresetflag'            => array('setResetFlag','direct'),
 				'setsettings'             => array('setSettings','direct'),
 				'validateapicredentials'  => array('validateAPICredentials','direct'),
-				'validatelogin'           => array('validateLogin','direct')
+				'validatelogin'           => array('validateLogin','direct'),
+				'validateresetflag'       => array('validateResetFlag',array('direct','get','post'))
 			);
 		// get global salt for hashing
 		$global_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
@@ -187,6 +189,97 @@ class SystemPlant extends PlantBase {
 			)
 		);
 		return $result;
+	}
+
+	/**
+	 * Sets or resets the password reset for a user
+	 *
+	 * @return key(md5 hash)|false
+	 */protected function setResetFlag($address) {
+		$user_id = $this->db->getData(
+			'users',
+			'id',
+			array(
+				"email_address" => array(
+					"condition" => "=",
+					"value" => $address
+				)
+			)
+		);
+		if ($user_id) {
+			$user_id = $user_id[0]['id'];
+			// first remove any password resets for the same user
+			$this->db->deleteData(
+				'people_resetpassword',
+				array(
+					'user_id' => array(
+						'condition' => '=',
+						'value' => $user_id
+					)
+				)
+			);
+			$key = md5($user_id . rand(976654,1234567267));
+			$result = $this->db->setData(
+				'people_resetpassword',
+				array(
+					'user_id' => $user_id,
+					'key' => $key
+				)
+			);
+			if ($result) {
+				return $key;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Verifies that the password reset is valid 
+	 *
+	 * @return bool
+	 */protected function validateResetFlag($address,$key) {
+		$user_id = $this->db->getData(
+			'users',
+			'id',
+			array(
+				"email_address" => array(
+					"condition" => "=",
+					"value" => $address
+				)
+			)
+		);
+		if ($user_id) {
+			$user_id = $user_id[0]['id'];
+			$result = $this->db->getData(
+				'people_resetpassword',
+				'creation_date',
+				array(
+					"user_id" => array(
+						"condition" => "=",
+						"value" => $user_id
+					),
+					"key" => array(
+						"condition" => "=",
+						"value" => $key
+					)
+				)
+			);
+			if ($result) {
+				if (($result[0]['creation_date'] + 86400) > time()) {
+					return true;
+				} else {
+					// request expired. boo.
+					return false;
+				}
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 
 	/**

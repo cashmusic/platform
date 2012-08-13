@@ -20,27 +20,22 @@
 	<style type="text/css">
 		a.reset {font-size:11px;text-transform:uppercase;color:#a49c9c;}
 		a.reset:hover {color:#ff0 !important;text-decoration:none;}
-		h1.tryagain {color:#ff0 !important;}
-		#mainspc {padding-top:150px;}
+		#mainspc {padding-top:0;}
 		#navmenu {top:0;height:6px;overflow:hidden;padding-top:0;padding-bottom:0;}
 		#navmenu .navitem:hover {background-image:none;cursor:auto;}
-		#pagedisplay {margin:0 auto;}
-		#loginspc {position:relative;top:86px;width:780px;height:220px;margin:0 auto;color:#000;}
-		#loginbox {position:relative;width:260px;height:220px;padding:35px 480px 105px 40px;background:#437bac url({{www_path}}/ui/default/assets/images/bg_login.jpg) left top no-repeat;text-align:left;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);}
-		#loginbox h1 {font-size:48px;color:#fff;margin:6px 0 26px 0;white-space:nowrap;}
-		#loginbox label {color:#69d;}
-		#loginbox input.button {margin:18px 0 0 0;background-color:#ff0;color:#000;border:1px solid #ff0;}
-		#loginbox input.button:hover {background-color:#000;color:#fff;border:1px solid #000;}
-		#loginbox input.button:active {background-color:#fff;color:#000;border:1px solid #fff;}
-		#alternateloginbox {position:relative;width:260px;height:auto;padding:16px 430px 105px 40px;text-align:right;}
-		.cash_browserid_button {width:80px;height:25px;}
+		#pagedisplay {position:relative;margin:150px auto 0 auto;background:#fff url({{www_path}}/ui/default/assets/images/top_right.png) right top no-repeat;padding:24px;box-shadow:-2px 2px 2px rgba(0,0,0,0.1);}
+		#jackson {position:absolute;top:-182px;right:110px;}
+		#alternatelogins {padding-left:32px;}
+		h1 {font-size:36px;margin:6px 0 26px 0;white-space:nowrap;}
+		.cash_browserid_button {width:120px;height:30px;margin-top:6px;}
+		.fakelabel, #forgotspace {font-size:11px;text-transform:uppercase;color:#a49c9c;}
+		#forgotspace {text-transform:lowercase;margin-top:6px;}
 	</style>
 
 <div id="wrap">
 	<div id="mainspc">
 
 		<div id="chromespc">
-			
 			<div id="accountspc"></div>
 			<div id="navmenu">
 				<div class="navitem bgcolor1"></div>
@@ -49,33 +44,46 @@
 				<div class="navitem bgcolor4"></div>
 				<div class="navitem bgcolor5"></div>
 			</div>
+		</div>
 
-			<div id="pagedisplay"></div>
-
-			<div id="loginspc">
-				<div id="loginbox">
-					<b>CASH Music</b>
+		<div id="pagecontent">
+			<div id="pagedisplay">
+				<img src="{{www_path}}/ui/default/assets/images/jacksonlogin.png" id="jackson" width="245" height="270" alt="I CAN EAT ALL THE CHERRIES!!!" />
+				{{#reset_message}}
+					<span class="highlightcopy">{{reset_message}}</span><div class="row_seperator">.</div>
+				{{/reset_message}}
+				<div class="col_oneoftwo">
 					<h1{{#login_error}} class="tryagain"{{/login_error}}>{{login_message}}:</h1>
 			
 					<form method="post" id="cash_signin_form" action=""> 
-						<label for="address">email</label><br /> 
-						<input type="text" name="address" value="" /><br />
-						<label for="address">password</label> {{#donotshowthisrightnow}}<a href="?showpasswordreset" class="reset">(Forget your password?)</a>{{/donotshowthisrightnow}}<br />
-						<input type="password" name="password" value="" /><br />
-						<input type="hidden" name="login" value="1" /> 
-						<div style="text-align:right;">
-						<input type="hidden" id="browseridassertion" name="browseridassertion" value="-1" />
-						<input type="submit" value="log in" class="button" /><br />
+						<div class="col_oneoftwo">
+							<label for="address">email</label><br /> 
+							<input type="text" name="address" value="" />
 						</div>
+						<div class="col_oneoftwo lastcol">
+							<label for="address">password</label> {{#donotshowthisrightnow}}<a href="?showpasswordreset" class="reset">(Forget your password?)</a>{{/donotshowthisrightnow}}<br />
+							<input type="password" name="password" value="" /><br />
+							<input type="hidden" name="login" value="1" /> 
+							<input type="hidden" id="browseridassertion" name="browseridassertion" value="-1" />
+							<div id="forgotspace">
+								<a href="#" id="forgotlink">Forgot your password?</a>
+							</div>
+						</div>
+						<div class="row_seperator">.</div>
+						<input type="submit" value="log in" class="button" />
 					</form>
 				</div>
-				<div id="alternateloginbox">
-					<a href="javascript:void(0)" id="browserid_login_link"><img src="{{www_path}}/ui/default/assets/images/browserid.png" alt="log in with browser id" class="cash_browserid_button" /></a>
+				<div class="col_oneoftwo lastcol">
+					<div id="alternatelogins">
+						<h1>&nbsp;</h1>
+						<span class="fakelabel">Or log in with:</span><br />
+						<a href="javascript:void(0)" id="browserid_login_link"><img src="{{www_path}}/ui/default/assets/images/browserid.png" alt="log in with browser id" class="cash_browserid_button" /></a>
+					</div>
 				</div>
+				<div class="row_seperator">.</div>
 			</div>
-			
 		</div>
-
+		
 	</div>
 
 </div>
@@ -84,7 +92,49 @@
 	<p><b>&copy; 2011 CASH Music.</b> All our code is open-source. <a href="{{www_path}}/licenses/" style="margin-left:0;">Learn more</a>. <a href="http://help.cashmusic.org/">Get help</a> <a href="http://cashmusic.org/donate" class="donatelink"><b>Donate</b></a></p>
 </div>
 
+{{#reset_key}}
+	<div class="modalbg"><div class="modaldialog">
+		<h2>Password reset</h2>Enter a new password for your account.<br /><br />
+		<div class="tar">
+			<form action="{{reset_action}}" method="post">
+			<input type="hidden" name="finalizepasswordreset" value="go" />
+			<input type="hidden" name="key" value="{{reset_key}}" />
+			<input type="hidden" name="address" value="{{reset_email}}" />
+			<input type="password" name="newpassword" value="" /><br /><br />
+			<input type="button" class="button modalcancel" value="Cancel" />
+			<input type="submit" class="button modalyes" value="Change password" />
+			</form>
+		</div>
+	</div></div>
+{{/reset_key}}
+
+
 {{{browser_id_js}}}
 
+<script type="text/javascript">
+	function doEmailSend() {
+		// markup for the confirmation link
+		var markup = '<div class="modalbg"><div class="modaldialog">' +
+					 '<h2>Password reset?</h2>Enter your email, we\'ll send a reset link.<br /><br /><div class="tar">' +
+					 '<form action="" method="post">' +
+					 '<input type="hidden" name="dopasswordresetlink" value="engage" />' +
+					 '<input type="text" name="address" value="" placeholder="your email address" /><br /><br />' +
+					 '<input type="button" class="button modalcancel" value="Cancel" />' +
+					 '<input type="submit" class="button modalyes" value="Send it" />' + 
+					 '</form>' +
+					 '</div></div></div>';
+		markup = jQuery(markup);
+		markup.hide();
+		jQuery('body').append(markup);
+
+		// show the dialog with a fast fade-in
+		jQuery('.modalbg').fadeIn('fast');
+	}
+
+	jQuery('#forgotlink').on('click', function(e) {
+		e.preventDefault();
+		doEmailSend();
+	});
+</script>
 </body>
 </html>
