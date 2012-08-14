@@ -304,16 +304,23 @@ class CommercePlant extends PlantBase {
 		return $result;
 	}
 
-	protected function getOrdersForUser($user_id) {
+	protected function getOrdersForUser($user_id,$include_abandoned=false) {
+		$conditions = array(
+			"user_id" => array(
+				"condition" => "=",
+				"value" => $user_id
+			)
+		);
+		if (!$include_abandoned) {
+			$conditions['modification_date'] = array(
+				"condition" => ">",
+				"value" => 0
+			);
+		}
 		$result = $this->db->getData(
 			'orders',
 			'*',
-			array(
-				"user_id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				)
-			),
+			$conditions,
 			false,
 			'id DESC'
 		);
