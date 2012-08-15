@@ -492,7 +492,7 @@
 		$smtp = false;
 
 		// include swift mailer
-		include_once dirname(CASH_PLATFORM_PATH) . '/lib/swift/swift_required.php';
+		include_once CASH_PLATFORM_ROOT . '/lib/swift/swift_required.php';
 
 		// let's deal with complex versus simple email addresses. if we find '>' present we try
 		// parsing for name + address from a 'Address Name <address@name.com>' style email:
