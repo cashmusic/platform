@@ -33,6 +33,7 @@ h5 {font-size:11px;text-transform:uppercase;font-weight:bold;margin:0;}
 big {font-size:1.5em;line-height:1.25em;}
 small {font-size:0.85em;line-height:1.25em;}
 small a {color:#231F20 !important;font-weight:bold;}
+.ui-widget {text-align:left;}
 
 /* ELEMENT TYPES */
 div.callout {font-size:12px;}
@@ -422,7 +423,7 @@ div.gettingstarted a.helplink {color:#231F20;background-color:#ff0;padding:2px 9
 #add-release-form .formats .needsconfirmation {
 	float: right;
 	opacity: 0;
-	
+
 	-webkit-transition: all 0.25s ease-in-out;
 	-moz-transition: all 0.25s ease-in-out;
 	-o-transition: all 0.25s ease-in-out;
@@ -436,7 +437,7 @@ div.gettingstarted a.helplink {color:#231F20;background-color:#ff0;padding:2px 9
 
 
 /* FOOTER (base code taken from cssstickyfooter.com) */
-* {margin-top:0;padding:0;} 
+* {margin-top:0;padding:0;}
 html, body, #wrap {height:100%;}
 body > #wrap {height:auto;min-height:99%;}
 #mainspc {padding-bottom:40px;}
