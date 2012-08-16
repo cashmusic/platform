@@ -3,17 +3,17 @@
 <head>
 	<title>CASH Music: Admin</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	
+
 	<link rel="icon" type="image/png" href="http://cashmusic.org/images/icons/cash.png" />
 	<link href="{{www_path}}/ui/default/assets/css/admin.css" rel="stylesheet" type="text/css" />
-	
+	<link href="{{www_path}}/ui/default/assets/css/diy-ui/jquery-ui-1.8.23.custom.css" rel="stylesheet" type="text/css" />
+
 	<script type="text/javascript">
 		var cashAdminPath = "{{www_path}}";
 		var currentSection = "{{section_name}}";
 	</script>
 
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-	<script src="{{www_path}}/ui/default/assets/scripts/jquery.admin.js" type="text/javascript"></script>
+	<script src="{{www_path}}/ui/default/assets/scripts/modernizr-2.6.1.custom.min.js" type="text/javascript"></script>
 </head>
 <body>
 
@@ -39,7 +39,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div id="pagecontent">
 			<div id="pagemenu">
 			{{#section_menu}}{{{section_menu}}}{{/section_menu}}
@@ -76,7 +76,7 @@
 					<a id="tipscloselink" href="#">close</a>
 				</div>
 			</div>
-			
+
 			<h1 id="pagetitle">{{ui_title}}</h1>
 			<div id="pagemessage">
 				{{#error_message}}<p><span class="highlightcopy errormessage">{{error_message}}</span></p>{{/error_message}}
@@ -87,14 +87,15 @@
 			</div>
 			<div class="clearfix">.</div>
 		</div>
-
 	</div>
-
 </div>
 
 <div id="footer">
 	<p><b>&copy; 2011 CASH Music.</b> All our code is open-source. <a href="{{www_path}}/licenses/" style="margin-left:0;">Learn more</a>. <a href="http://cashmusic.org/donate/" class="donatelink"><b>Donate</b></a></p>
 </div>
+<script src="{{www_path}}/ui/default/assets/scripts/jquery-1.8.0.min.js" type="text/javascript"></script>
+<script src="{{www_path}}/ui/default/assets/scripts/jquery-ui-1.8.23.custom.min.js" type="text/javascript"></script>
+<script src="{{www_path}}/ui/default/assets/scripts/jquery.admin.js" type="text/javascript"></script>
 
 </body>
 </html>

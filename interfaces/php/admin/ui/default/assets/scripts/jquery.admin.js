@@ -7,25 +7,25 @@
  *
  * Copyright (c) 2012, CASH Music
  * All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without modification, 
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- * 
- * Redistributions of source code must retain the above copyright notice, this list 
+ *
+ * Redistributions of source code must retain the above copyright notice, this list
  * of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright notice, this 
- * list of conditions and the following disclaimer in the documentation and/or other 
+ * Redistributions in binary form must reproduce the above copyright notice, this
+ * list of conditions and the following disclaimer in the documentation and/or other
  * materials provided with the distribution.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
- * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
- * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
- * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
- * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+ * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  **/
@@ -41,7 +41,7 @@ function redrawPage(data) {
 	jQuery('#mainspc').removeClass();
 	jQuery('#mainspc').addClass(data.specialcolor);
 
-	// tabs 
+	// tabs
 	collapseAllTabs(data.section_name);
 
 	// the rest
@@ -50,7 +50,7 @@ function redrawPage(data) {
 		jQuery('#pagemessage').html('<p><span class="highlightcopy errormessage">'+data.error_message+'</span></p>');
 	}
 	if (data.page_message) {
-		jQuery('#pagemessage').html('<p><span class="highlightcopy">'+data.page_message+'</span></p>');	
+		jQuery('#pagemessage').html('<p><span class="highlightcopy">'+data.page_message+'</span></p>');
 	}
 	jQuery('#pagetips').hide();
 	jQuery('#current_pagetip').html(data.ui_page_tip);
@@ -61,7 +61,7 @@ function redrawPage(data) {
 	window.scrollTo(0,0);
 }
 
-// handles the data request for each page load, manipulates history, 
+// handles the data request for each page load, manipulates history,
 // and decides redraw method (full redraw or redrawPage)
 function refreshPageData(url,formdata,showerror,showmessage,skiphistory) {
 	if (!formdata) {
@@ -119,7 +119,7 @@ function prepAJAX() {
 			event.currentTarget.blur();
 		}
 	});
-	
+
 	jQuery('form').bind('submit', function(event) {
 		event.preventDefault();
 		var url = jQuery(this).attr('action');
@@ -145,7 +145,7 @@ window.addEventListener("popstate", function(e) {
 
 // collapse all main nav tabs, opening one if a section is specified
 function collapseAllTabs(section) {
-	// 
+	//
 	if (section != currentSection) {
 		currentSection = section;
 		jQuery('#navmenu div').each(function(index) {
@@ -164,7 +164,7 @@ function setContentBehaviors() {
 		e.preventDefault();
 		doModalConfirm( jQuery(this).attr('href'));
 	});
-	
+
 	// show/hide element details
 	jQuery('.showelementdetails').on('click', function(e) {
 		e.preventDefault();
@@ -174,7 +174,7 @@ function setContentBehaviors() {
 
 			if ( isShown ) {
 				t = t.replace(/Less/g, 'More');
-				
+
 			} else {
 				t = t.replace(/More/g, 'Less');
 			}
@@ -208,6 +208,45 @@ function setContentBehaviors() {
 		jQuery(e.currentTarget).attr('rel',iteration+1);
 	});
 
+	// high-level datepicker
+	jQuery('input[type=date]').datepicker();
+
+	// high-level autocomplete
+	// would be nice to find a way to do this without a global
+	var acURL;
+	jQuery('.autocomplete').each( function() {
+		acURL = $(this).data('cash-endpoint-url');
+		//console.log(acURL);
+	}).autocomplete({
+		// probably should do some error handling here.
+		source: function( request, response ) {
+			console.log('request: ', request);
+			console.log('response: ', response);
+			console.log('url: ', acURL);
+
+			// it seems likely that I'll need to pass request.term somewhere in here.
+			$.ajax({
+				url: acURL,
+				dataType: "json",
+				error: function( data) {
+					console.log('url: ', acURL);
+					console.log('error: ', data);
+				},
+				success: function( data ) {
+					console.log('data: ', data);
+
+					response( $.map( data, function( item ) {
+						return {
+							label: item.displayString,
+							value: item.displayString
+						}
+					}));
+				}
+			});
+		},
+		minLength: 2
+	});
+
 	prepDrawers('<span class="icon arrow_up"></span> Hide','<span class="icon arrow_down"></span> Show');
 }
 
@@ -215,17 +254,17 @@ function setContentBehaviors() {
 // not on each AJAX load-in
 function setUIBehaviors() {
 	jQuery('#pagetips').hide();
-	
+
 	jQuery('#tipslink').on('click', function(e) {
 		e.preventDefault();
 		jQuery('#pagetips').slideDown(200);
 	});
-	
+
 	jQuery('#tipscloselink').on('click', function(e) {
 		e.preventDefault();
 		jQuery('#pagetips').slideUp(100);
 	});
-	
+
 	jQuery('.navitem').on('click', function(e) {
 		e.preventDefault();
 		refreshPageData(jQuery(this).find('a').attr('href'));
@@ -251,7 +290,7 @@ function doModalConfirm(url) {
 	var markup = '<div class="modalbg"><div class="modaldialog">' +
 				 '<h2>Are You Sure?</h2><br /><div class="tar">' +
 				 '<input type="button" class="button modalcancel" value="Cancel" />' +
-				 '<input type="button" class="button modalyes" value="Yes do it" />' + 
+				 '<input type="button" class="button modalyes" value="Yes do it" />' +
 				 '</div></div></div>';
 	markup = jQuery(markup);
 	markup.hide();
@@ -270,10 +309,10 @@ function doModalConfirm(url) {
 
 /**
  * prepDrawers (function)
- * 
+ *
  * Simple function to roll-up and roll-down content inside a div with class "drawer" â€” will
  * look for a "handle" inside the div â€” an element that triggers the effect on click and remains
- * visible throughout. 
+ * visible throughout.
  *
  * Pass labelTextVisible/labelTextHidden to prepend the handle width "show"/"hide" type text
  * Pass labelClassVisible/labelClassHidden to add classes for visible/hidden states
@@ -282,7 +321,7 @@ function doModalConfirm(url) {
  *
  */
 function prepDrawers(labelTextVisible,labelTextHidden,labelClassVisible,labelClassHidden) {
-	
+
 	jQuery('.drawer').each(function() {
 		// minimize jQuery calls and simplify. set each element up fron in the function scope:
 		var drawer, drawerHandle, drawerContent, drawerHandleLabel;
@@ -325,4 +364,6 @@ function prepDrawers(labelTextVisible,labelTextHidden,labelClassVisible,labelCla
 jQuery(document).ready(function() {
 	prepAJAX();
 	setUIBehaviors();
+
+
 });
