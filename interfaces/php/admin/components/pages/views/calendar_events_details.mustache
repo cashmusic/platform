@@ -13,15 +13,16 @@
 	<input type="hidden" name="{{form_state_action}}" value="makeitso" />
 
 	<label for="event_date">Date</label><br />
-	<input type="text" id="event_date" name="event_date" value="{{formatted_date}}"{{^formatted_date}} placeholder="MM/DD/YYYY"{{/formatted_date}} />
+	<input type="date" id="event_date" name="event_date" value="{{formatted_date}}"{{^formatted_date}} class="date" placeholder="MM/DD/YYYY"{{/formatted_date}} />
 
 	<div class="row_seperator">.</div>
 
 	<label for="event_venue">Venue</label><br />
-	<select id="event_venue" name="event_venue">
+	<!--<select id="event_venue" name="event_venue">
 		<option value="0" selected="selected">Unknown (Will be listed as 'TBA')</option>
 		{{{venue_options}}}
-	</select>
+	</select>-->
+	<input type="text" id="event_venue" name="event_venue" value="{{event_venue}}" placeholder="17 Nautical Miles, Portland OR" class="autocomplete" data-cash-endpoint-url="{{{www_path}}}/ajax/autocomplete/venues" />
 
 	<div class="row_seperator">.</div>
 	<label for="event_comment">Comments (Support, CD Release, etc)</label><br />
