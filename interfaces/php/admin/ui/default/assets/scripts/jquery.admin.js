@@ -69,7 +69,7 @@ function refreshPageData(url,formdata,showerror,showmessage,skiphistory) {
 	} else {
 		formdata = formdata+'&';
 	}
-	// fade out 
+	// fade out
 	jQuery('#pagedisplay').fadeTo(100,0.2, function() {
 		// do a POST to get the page data, change pushstate, redraw page
 		jQuery.post(url, formdata+'data_only=1', function(data) {
@@ -232,29 +232,36 @@ function setContentBehaviors() {
 	}).autocomplete({
 		// probably should do some error handling here.
 		source: function( request, response ) {
-			console.log('request: ', request);
-			console.log('response: ', response);
-			console.log('url: ', acURL);
+			//console.log('request: ', request);
+			//console.log('response: ', response);
+			//console.log('url: ', acURL);
 
 			// it seems likely that I'll need to pass request.term somewhere in here.
 			$.ajax({
 				url: acURL,
 				dataType: "json",
 				error: function( data) {
-					console.log('url: ', acURL);
-					console.log('error: ', data);
+					//console.log('url: ', acURL);
+					//console.log('error: ', data);
 				},
 				success: function( data ) {
-					console.log('data: ', data);
+					//console.log('data: ', data);
 
 					response( $.map( data, function( item ) {
 						return {
 							label: item.displayString,
-							value: item.displayString
+							value: item.displayString,
+							id: item.id
 						}
 					}));
 				}
-			});
+			})
+		},
+		select: function( event, ui) {
+			//console.log('changed, new item is: ', ui.item);
+
+			// this is pretty ugly
+			$('#event_venue').val( ui.item.id );
 		},
 		minLength: 2
 	});
