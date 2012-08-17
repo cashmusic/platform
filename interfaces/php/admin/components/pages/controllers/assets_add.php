@@ -9,6 +9,7 @@ if (isset($_POST['doassetadd'])) {
 			'cash_action' => 'addasset',
 			'title' => $_POST['asset_title'],
 			'description' => $_POST['asset_description'],
+			'parent_id' => $_POST['parent_id'],
 			'user_id' => $effective_user,
 			'type' => $_POST['asset_type']
 		),
@@ -27,8 +28,11 @@ $cash_admin->page_data['asset_button_text'] = 'Add that asset';
 // create type options with current selected:
 if (isset($request_parameters[0])) {
 	$add_type = $request_parameters[0];
+	$cash_admin->page_data['force_type'] = $add_type;
+	$cash_admin->page_data['ui_title'] = 'Assets: Add a ' . $add_type;
 } else {
 	$add_type = 'file';
+	$cash_admin->page_data['ui_title'] = 'Assets: Add an asset';
 }
 $type_options = array(
 	'file' => 'File',
@@ -45,5 +49,13 @@ foreach ($type_options as $type => $value) {
 	}
 	$cash_admin->page_data['type_options_markup'] .= '<option value="' . $type . '"' . $selected . '>' . $value . '</option>';
 }
+// check the third parameter is set it's the parent id (/assets/add/file/setparent/3)
+if (isset($request_parameters[2])) {
+	$cash_admin->page_data['parent_id'] = $request_parameters[2];
+} else {
+	$cash_admin->page_data['parent_id'] = 0;
+}
+
+$cash_admin->page_data['assets_add_action'] = true;
 $cash_admin->setPageContentTemplate('assets_details');
 ?>

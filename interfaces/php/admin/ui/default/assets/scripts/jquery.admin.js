@@ -112,7 +112,8 @@ function refreshPageData(url,formdata,showerror,showmessage,skiphistory) {
 function prepAJAX() {
 	// cashAdminPath is set in the main template to the www_base of the admin
 	jQuery(document).on('click', 'a[href^=' + cashAdminPath + ']', function(event) {
-		if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey && !jQuery(event.currentTarget).hasClass('navitemlink') && !jQuery(event.currentTarget).hasClass('needsconfirmation')) {
+		var el = jQuery(event.currentTarget);
+		if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey && !el.hasClass('navitemlink')  && !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation')) {
 			event.preventDefault();
 			var url = jQuery(event.currentTarget).attr('href');
 			refreshPageData(url);
@@ -121,13 +122,16 @@ function prepAJAX() {
 	});
 
 	jQuery('form').bind('submit', function(event) {
-		event.preventDefault();
-		var url = jQuery(this).attr('action');
-		if (url == '') {
-			url = location.pathname;
+		var el = jQuery(event.currentTarget);
+		if (!el.is('.modallightbox form')) {	
+			event.preventDefault();
+			var url = jQuery(this).attr('action');
+			if (url == '') {
+				url = location.pathname;
+			}
+			var formdata = jQuery(this).serialize();
+			refreshPageData(url,formdata);
 		}
-		var formdata = jQuery(this).serialize();
-		refreshPageData(url,formdata);
 	});
 
 	setContentBehaviors();
@@ -163,6 +167,14 @@ function setContentBehaviors() {
 	jQuery('.needsconfirmation').on('click', function(e) {
 		e.preventDefault();
 		doModalConfirm( jQuery(this).attr('href'));
+		this.blur();
+	});
+
+	// modal lightboxes
+	jQuery('.lightboxed').on('click', function(e) {
+		e.preventDefault();
+		doModalLightbox( jQuery(this).attr('href'));
+		this.blur();
 	});
 
 	// show/hide element details
@@ -266,12 +278,16 @@ function setUIBehaviors() {
 	});
 
 	jQuery('.navitem').on('click', function(e) {
-		e.preventDefault();
-		refreshPageData(jQuery(this).find('a').attr('href'));
+		if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {	
+			e.preventDefault();
+			refreshPageData(jQuery(this).find('a').attr('href'));
+		}
 	});
 
 	jQuery('.navitemlink').on('click', function(e) {
-		e.preventDefault();
+		if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+			e.preventDefault();
+		}
 		this.blur();
 	});
 
@@ -281,6 +297,14 @@ function setUIBehaviors() {
 		jQuery('.modalbg').fadeOut('fast', function() {
 			jQuery('.modalbg').remove();
 		});
+	});
+
+	jQuery(document).keyup(function(e) {
+		if(e.keyCode === 27) {
+			jQuery('.modalbg').fadeOut('fast', function() {
+				jQuery('.modalbg').remove();
+			});
+		}
 	});
 }
 
@@ -305,6 +329,23 @@ function doModalConfirm(url) {
 
 	// show the dialog with a fast fade-in
 	jQuery('.modalbg').fadeIn('fast');
+}
+
+// opens a modal input form from a specific route
+function doModalLightbox(route) {
+	jQuery.post(route,'data_only=1', function(data) {
+		// markup for the confirmation link
+		var markup = '<div class="modalbg"><div class="modallightbox ' + data.specialcolor + '">' +
+					 data.page_content_markup +
+					 '<div class="tar"><a href="#" class="modalcancel">cancel</a></div>' +
+					 '</div></div></div>';
+		markup = jQuery(markup);
+		markup.hide();
+		jQuery('body').append(markup);
+
+		// show the dialog with a fast fade-in
+		jQuery('.modalbg').fadeIn('fast');
+	},'json');
 }
 
 /**
