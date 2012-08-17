@@ -9,7 +9,7 @@ if (isset($_POST['doeventedit'])) {
 	if (isset($_POST['event_iscancelled'])) { $eventiscancelled = 1; }
 	$edit_response = $cash_admin->requestAndStore(
 		array(
-			'cash_request_type' => 'calendar', 
+			'cash_request_type' => 'calendar',
 			'cash_action' => 'editevent',
 			'date' => strtotime($_POST['event_date']),
 			'venue_id' => $_POST['event_venue'],
@@ -30,7 +30,7 @@ if (isset($_POST['doeventedit'])) {
 
 $event_response = $cash_admin->requestAndStore(
 	array(
-		'cash_request_type' => 'calendar', 
+		'cash_request_type' => 'calendar',
 		'cash_action' => 'getevent',
 		'event_id' => $request_parameters[0]
 	),
@@ -39,7 +39,7 @@ $event_response = $cash_admin->requestAndStore(
 
 $current_event = $event_response['payload'];
 
-if (is_array($current_event)) {	
+if (is_array($current_event)) {
 	$cash_admin->page_data = array_merge($cash_admin->page_data,$current_event);
 }
 
@@ -50,6 +50,7 @@ if ($cash_admin->page_data['published']) {
 }
 $cash_admin->page_data['form_state_action'] = 'doeventedit';
 $cash_admin->page_data['event_button_text'] = 'Edit the event';
+$cash_admin->page_data['venue_display_string'] = 'Venue Name goes here';
 
 $cash_admin->setPageContentTemplate('calendar_events_details');
 ?>
