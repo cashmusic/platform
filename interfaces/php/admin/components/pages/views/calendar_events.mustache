@@ -4,7 +4,7 @@
 		Quickly add a date to the system. Information about published/unpublished status and
 		cancellation can be found in the page tips.
 	</p>
-	
+
 	<p><span class="highlightcopy">
 		The date and venue selectors are far from ideal. We'll be enhancing these with fancy
 		interfaces soon.
@@ -18,15 +18,9 @@
 
 		<div class="row_seperator">.</div>
 
-		<label for="event_venue">Venue</label><br />
-		<!--
-		<select id="event_venue" name="event_venue">
-			<option value="0" selected="selected">Unknown (Will be listed as 'TBA')</option>
-			{{{options_venues}}}
-		</select>
-		-->
-		<input type="text" id="event_venue" name="event_venue" value="" placeholder="17 Nautical Miles, Portland OR" class="autocomplete" data-cash-endpoint-url="{{{www_path}}}/ajax/autocomplete/venues" />
-		
+		<input type="text" id="event_venue_name" name="event_venue_name" value="{{event_venue_name}}" placeholder="17 Nautical Miles, Portland OR" class="autocomplete" data-cash-endpoint-url="{{{www_path}}}/ajax/autocomplete/venues" />
+		<input type="hidden" id="event_venue" name="event_venue" value="{{event_venue}}" />
+
 		<div class="row_seperator">.</div>
 		<label for="event_comment">Comments (Support, CD Release, etc)</label><br />
 		<textarea rows="3" id="event_comment" name="event_comment"></textarea>
@@ -41,7 +35,7 @@
 
 		<div class="row_seperator">.</div><br />
 		<input class="button" type="submit" value="Add That Event" />
-	
+
 	</form>
 </div>
 <div class="col_oneoftwo lastcol">
@@ -52,7 +46,7 @@
 		<li>
 			<b>{{formatted_date}}: {{event_location}}</b> <span class="nobr">@ {{venue_name}}</span>
 			<div class="itemnav">
-				<a href="{{www_path}}/calendar/events/edit/{{event_id}}" class="mininav_flush"><span class="icon magnifying_glass"></span> Details</a> 
+				<a href="{{www_path}}/calendar/events/edit/{{event_id}}" class="mininav_flush"><span class="icon magnifying_glass"></span> Details</a>
 			</div>
 		</li>
 		{{/events_allfuture}}

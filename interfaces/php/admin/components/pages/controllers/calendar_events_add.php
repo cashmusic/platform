@@ -9,7 +9,7 @@ if (isset($_POST['doeventadd'])) {
 	if (isset($_POST['event_iscancelled'])) { $eventiscancelled = 1; }
 	$add_response = $cash_admin->requestAndStore(
 		array(
-			'cash_request_type' => 'calendar', 
+			'cash_request_type' => 'calendar',
 			'cash_action' => 'addevent',
 			'date' => strtotime($_POST['event_date']),
 			'venue_id' => $_POST['event_venue'],
