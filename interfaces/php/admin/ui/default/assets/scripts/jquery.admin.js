@@ -31,6 +31,9 @@
  **/
 ;
 
+setUIBehaviors();
+prepAJAX();
+
 /**
  * AJAX specific functions
  **/
@@ -174,6 +177,8 @@ function collapseAllTabs(section) {
 
 // miscellaneous behaviors for various things — needs loading each page load
 function setContentBehaviors() {
+	prepDrawers('<span class="icon arrow_up"></span> Hide','<span class="icon arrow_down"></span> Show');
+
 	// modal pop-ups
 	jQuery('.needsconfirmation').on('click', function(e) {
 		e.preventDefault();
@@ -280,8 +285,6 @@ function setContentBehaviors() {
 		},
 		minLength: 2
 	});
-
-	prepDrawers('<span class="icon arrow_up"></span> Hide','<span class="icon arrow_down"></span> Show');
 }
 
 // the main UI behaviors — only needs to be run on the first page load,
@@ -312,6 +315,13 @@ function setUIBehaviors() {
 		}
 		this.blur();
 	});
+
+	jQuery('#logout').on('click', function(e) {
+		e.preventDefault();
+		jQuery.post(cashAdminPath+'/logout','noredirect=1');
+		refreshPageData(cashAdminPath+'/');
+	});
+		
 
 	// overlay cancel button event
 	jQuery(document).on('click', '.modalcancel', function(e) {
@@ -429,10 +439,3 @@ function prepDrawers(labelTextVisible,labelTextHidden,labelClassVisible,labelCla
 	});
 
 }
-
-jQuery(document).ready(function() {
-	prepAJAX();
-	setUIBehaviors();
-
-
-});

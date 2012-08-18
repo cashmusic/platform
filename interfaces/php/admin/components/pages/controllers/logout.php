@@ -2,5 +2,7 @@
 $logout_request = new CASHRequest(null);
 $logout_request->sessionClearAll();
 
-AdminHelper::controllerRedirect('/');
+if (!isset($_REQUEST['noredirect'])) {
+	AdminHelper::controllerRedirect('/');
+}
 ?>
