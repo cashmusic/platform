@@ -17,12 +17,9 @@
 
 	<div class="row_seperator">.</div>
 
-	<label for="event_venue">Venue</label><br />
-	<!--<select id="event_venue" name="event_venue">
-		<option value="0" selected="selected">Unknown (Will be listed as 'TBA')</option>
-		{{{venue_options}}}
-	</select>-->
-	<input type="text" id="event_venue" name="event_venue" value="{{event_venue}}" placeholder="17 Nautical Miles, Portland OR" class="autocomplete" data-cash-endpoint-url="{{{www_path}}}/ajax/autocomplete/venues" />
+	<label for="event_venue_name">Venue</label><br />
+	<input type="text" id="event_venue_name" name="event_venue_name" value="{{event_venue_name}}" placeholder="17 Nautical Miles, Portland OR" class="autocomplete" data-cash-endpoint-url="{{{www_path}}}/ajax/autocomplete/venues" />
+	<input type="hidden" id="event_venue" name="event_venue" value="{{event_venue}}" />
 
 	<div class="row_seperator">.</div>
 	<label for="event_comment">Comments (Support, CD Release, etc)</label><br />
