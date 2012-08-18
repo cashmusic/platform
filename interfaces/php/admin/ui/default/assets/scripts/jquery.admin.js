@@ -33,7 +33,12 @@
 
 $(document).ready(function() {
 	setUIBehaviors();
-	prepAJAX();
+	setContentBehaviors();
+
+	// make back/forward buttons work
+	window.addEventListener("popstate", function(e) {
+		refreshPageData(location.pathname,null,null,null,true);
+	});
 });
 
 /**
@@ -98,8 +103,6 @@ function refreshPageData(url,formdata,showerror,showmessage,skiphistory) {
 				if (data.fullredraw) {
 					var newbody = data.fullcontent.replace(/^[\s\S]*?<body[^>]*>([\s\S]*?)<\/body>[\s\S]*?$/i,"$1");
 					jQuery('body').html(newbody);
-					setUIBehaviors();
-					prepAJAX();
 				} else {
 					if (showerror) {
 						data.error_message = showerror;
@@ -108,45 +111,13 @@ function refreshPageData(url,formdata,showerror,showmessage,skiphistory) {
 						data.page_message = showmessage;
 					}
 					redrawPage(data);
-					jQuery(document).off("click", "a[href^=" + cashAdminPath + "]");
-					prepAJAX();
 				}
+				setContentBehaviors();
 			}
 			jQuery('#pagedisplay').fadeTo(200,1);
 		},'json');
 	});
 }
-
-// changes all link behavior to work via AJAX loads as well as form behaviors
-// runs every page load and sets up events for new page load
-function prepAJAX() {
-	setFormBindings()
-	setContentBehaviors();
-}
-
-// set form bindings
-function setFormBindings() {
-	jQuery('form').unbind('submit');
-	jQuery('form').bind('submit', function(event) {
-		var el = jQuery(event.currentTarget);
-		event.preventDefault();
-		var url = jQuery(this).attr('action');
-		if (url == '') {
-			url = location.pathname;
-		}
-		var formdata = jQuery(this).serialize();
-		if (el.is('.returntocurrentroute form')) {	
-			formdata += '&forceroute=' + location.pathname.replace(cashAdminPath, '');
-		}
-		refreshPageData(url,formdata);
-	});
-}
-
-// make the back button work
-// also make the forward button work
-window.addEventListener("popstate", function(e) {
-	refreshPageData(location.pathname,null,null,null,true);
-});
 
 /**
  * UI element behaviors
@@ -175,46 +146,44 @@ function setContentBehaviors() {
 	jQuery('input[type=date]').datepicker();
 
 	// autocomplete
-	// would be nice to find a way to do this without a global
-	var acURL;
 	jQuery('.autocomplete').each( function() {
-		acURL = $(this).data('cash-endpoint-url');
-		//console.log(acURL);
-	}).autocomplete({
-		// probably should do some error handling here.
-		source: function( request, response ) {
-			//console.log('request: ', request);
-			//console.log('response: ', response);
-			//console.log('url: ', acURL);
+		var acURL = $(this).data('cash-endpoint-url');
+		$(this).autocomplete({
+			// probably should do some error handling here.
+			source: function( request, response ) {
+				//console.log('request: ', request);
+				//console.log('response: ', response);
+				//console.log('url: ', acURL);
 
-			// it seems likely that I'll need to pass request.term somewhere in here.
-			$.ajax({
-				url: acURL,
-				dataType: "json",
-				error: function( data) {
-					//console.log('url: ', acURL);
-					//console.log('error: ', data);
-				},
-				success: function( data ) {
-					//console.log('data: ', data);
+				// it seems likely that I'll need to pass request.term somewhere in here.
+				$.ajax({
+					url: acURL,
+					dataType: "json",
+					error: function( data) {
+						//console.log('url: ', acURL);
+						//console.log('error: ', data);
+					},
+					success: function( data ) {
+						//console.log('data: ', data);
 
-					response( $.map( data, function( item ) {
-						return {
-							label: item.displayString,
-							value: item.displayString,
-							id: item.id
-						}
-					}));
-				}
-			})
-		},
-		select: function( event, ui) {
-			//console.log('changed, new item is: ', ui.item);
+						response( $.map( data, function( item ) {
+							return {
+								label: item.displayString,
+								value: item.displayString,
+								id: item.id
+							}
+						}));
+					}
+				})
+			},
+			select: function( event, ui) {
+				//console.log('changed, new item is: ', ui.item);
 
-			// this is pretty ugly
-			$('#event_venue').val( ui.item.id );
-		},
-		minLength: 2
+				// this is pretty ugly
+				$('#event_venue').val( ui.item.id );
+			},
+			minLength: 2
+		});
 	});
 }
 
@@ -270,17 +239,6 @@ function setUIBehaviors() {
 		}
 	});
 
-	// cashAdminPath is set in the main template to the www_base of the admin
-	jQuery(document).on('click', 'a[href^=' + cashAdminPath + ']', function(event) {
-		var el = jQuery(event.currentTarget);
-		if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey && !el.hasClass('navitemlink')  && !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation')) {
-			event.preventDefault();
-			var url = jQuery(event.currentTarget).attr('href');
-			refreshPageData(url);
-			event.currentTarget.blur();
-		}
-	});
-
 	// modal pop-ups
 	jQuery(document).on('click', '.needsconfirmation', function(e) {
 		e.preventDefault();
@@ -305,16 +263,12 @@ function setUIBehaviors() {
 		jQuery(this).html( function(e) {
 			var t = jQuery(this).html(),
 			isShown = jQuery(this).parents('.itemnav').prev('.elementdetails').hasClass('detailsshown');
-
 			if ( isShown ) {
 				t = t.replace(/Less/g, 'More');
-
 			} else {
 				t = t.replace(/More/g, 'Less');
 			}
-
 			return t;
-
 		}).parents('.itemnav').prev('.elementdetails').toggleClass('detailsshown');
 	});
 
@@ -339,6 +293,33 @@ function setUIBehaviors() {
 		}
 		jQuery(e.currentTarget).before('<div>' + toinsert + '</div>');
 		jQuery(e.currentTarget).attr('rel',iteration+1);
+	});
+
+	// open local (admin) links via AJAX
+	// cashAdminPath is set in the main template to the www_base of the admin
+	jQuery(document).on('click', 'a[href^=' + cashAdminPath + ']', function(event) {
+		var el = jQuery(event.currentTarget);
+		if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey && !el.hasClass('navitemlink')  && !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')) {
+			event.preventDefault();
+			var url = jQuery(event.currentTarget).attr('href');
+			refreshPageData(url);
+			event.currentTarget.blur();
+		}
+	});
+
+	// submit forms via AJAX 
+	jQuery(document).on('submit', 'form', function(e) {
+		var el = jQuery(e.currentTarget);
+		e.preventDefault();
+		var url = jQuery(this).attr('action');
+		if (url == '') {
+			url = location.pathname;
+		}
+		var formdata = jQuery(this).serialize();
+		if (el.is('.returntocurrentroute form')) {	
+			formdata += '&forceroute=' + location.pathname.replace(cashAdminPath, '');
+		}
+		refreshPageData(url,formdata);
 	});
 }
 
@@ -381,7 +362,6 @@ function doModalLightbox(route,returntocurrentroute) {
 		markup = jQuery(markup);
 		markup.hide();
 		jQuery('body').append(markup);
-		setFormBindings();
 
 		// show the dialog with a fast fade-in
 		jQuery('.modalbg').fadeIn('fast');
