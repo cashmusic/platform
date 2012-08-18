@@ -31,8 +31,10 @@
  **/
 ;
 
-setUIBehaviors();
-prepAJAX();
+$(document).ready(function() {
+	setUIBehaviors();
+	prepAJAX();
+});
 
 /**
  * AJAX specific functions
@@ -118,17 +120,6 @@ function refreshPageData(url,formdata,showerror,showmessage,skiphistory) {
 // changes all link behavior to work via AJAX loads as well as form behaviors
 // runs every page load and sets up events for new page load
 function prepAJAX() {
-	// cashAdminPath is set in the main template to the www_base of the admin
-	jQuery(document).on('click', 'a[href^=' + cashAdminPath + ']', function(event) {
-		var el = jQuery(event.currentTarget);
-		if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey && !el.hasClass('navitemlink')  && !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation')) {
-			event.preventDefault();
-			var url = jQuery(event.currentTarget).attr('href');
-			refreshPageData(url);
-			event.currentTarget.blur();
-		}
-	});
-
 	setFormBindings()
 	setContentBehaviors();
 }
@@ -177,73 +168,13 @@ function collapseAllTabs(section) {
 
 // miscellaneous behaviors for various things — needs loading each page load
 function setContentBehaviors() {
+	// show/hide drawers
 	prepDrawers('<span class="icon arrow_up"></span> Hide','<span class="icon arrow_down"></span> Show');
-
-	// modal pop-ups
-	jQuery('.needsconfirmation').on('click', function(e) {
-		e.preventDefault();
-		doModalConfirm( jQuery(this).attr('href'));
-		this.blur();
-	});
-
-	// modal lightboxes
-	jQuery('.lightboxed').on('click', function(e) {
-		e.preventDefault();
-		if (jQuery(this).hasClass('returntocurrentroute')) {
-			doModalLightbox(jQuery(this).attr('href'),true);
-		} else {
-			doModalLightbox(jQuery(this).attr('href'));
-		}
-		this.blur();
-	});
-
-	// show/hide element details
-	jQuery('.showelementdetails').on('click', function(e) {
-		e.preventDefault();
-		jQuery(this).html( function(e) {
-			var t = jQuery(this).html(),
-			isShown = jQuery(this).parents('.itemnav').prev('.elementdetails').hasClass('detailsshown');
-
-			if ( isShown ) {
-				t = t.replace(/Less/g, 'More');
-
-			} else {
-				t = t.replace(/More/g, 'Less');
-			}
-
-			return t;
-
-		}).parents('.itemnav').prev('.elementdetails').toggleClass('detailsshown');
-
-	});
-
-	// inserts html into the current document/form (dynamic inputs primarily)
-	// grabs rel, inserts rev data and iterates the name, changing the rel
-	// should probably move to a data- structure
-	jQuery('a.injectbefore').on('click', function(e) {
-		e.preventDefault();
-		var iteration = jQuery(e.currentTarget).attr('rel');
-		if (iteration) {
-			jQuery.data(e.currentTarget,'nameiteration',iteration);
-		} else {
-			iteration = 1;
-		}
-		jQuery(e.currentTarget).attr('rel',iteration);
-		var toinsert = jQuery(e.currentTarget).attr('rev');
-		var names = toinsert.match(/name='([^']*)/g);
-		if (names) {
-			jQuery.each(names, function(index, name) {
-				toinsert = toinsert.replace(name, name+iteration);
-			});
-		}
-		jQuery(e.currentTarget).before('<div>' + toinsert + '</div>');
-		jQuery(e.currentTarget).attr('rel',iteration+1);
-	});
-
-	// high-level datepicker
+	
+	// datepicker
 	jQuery('input[type=date]').datepicker();
 
-	// high-level autocomplete
+	// autocomplete
 	// would be nice to find a way to do this without a global
 	var acURL;
 	jQuery('.autocomplete').each( function() {
@@ -288,35 +219,35 @@ function setContentBehaviors() {
 }
 
 // the main UI behaviors — only needs to be run on the first page load,
-// not on each AJAX load-in
+// not on each AJAX load-in, bind all events with on to document to preserve cross-load
 function setUIBehaviors() {
 	jQuery('#pagetips').hide();
 
-	jQuery('#tipslink').on('click', function(e) {
+	jQuery(document).on('click', '#tipslink', function(e) {
 		e.preventDefault();
 		jQuery('#pagetips').slideDown(200);
 	});
 
-	jQuery('#tipscloselink').on('click', function(e) {
+	jQuery(document).on('click', '#tipscloselink', function(e) {
 		e.preventDefault();
 		jQuery('#pagetips').slideUp(100);
 	});
 
-	jQuery('.navitem').on('click', function(e) {
+	jQuery(document).on('click', '.navitem', function(e) {
 		if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {	
 			e.preventDefault();
 			refreshPageData(jQuery(this).find('a').attr('href'));
 		}
 	});
 
-	jQuery('.navitemlink').on('click', function(e) {
+	jQuery(document).on('click', '.navitemlink', function(e) {
 		if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
 			e.preventDefault();
 		}
 		this.blur();
 	});
 
-	jQuery('#logout').on('click', function(e) {
+	jQuery(document).on('click', '#logout', function(e) {
 		e.preventDefault();
 		jQuery.post(cashAdminPath+'/logout','noredirect=1');
 		refreshPageData(cashAdminPath+'/');
@@ -337,6 +268,77 @@ function setUIBehaviors() {
 				jQuery('.modalbg').remove();
 			});
 		}
+	});
+
+	// cashAdminPath is set in the main template to the www_base of the admin
+	jQuery(document).on('click', 'a[href^=' + cashAdminPath + ']', function(event) {
+		var el = jQuery(event.currentTarget);
+		if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey && !el.hasClass('navitemlink')  && !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation')) {
+			event.preventDefault();
+			var url = jQuery(event.currentTarget).attr('href');
+			refreshPageData(url);
+			event.currentTarget.blur();
+		}
+	});
+
+	// modal pop-ups
+	jQuery(document).on('click', '.needsconfirmation', function(e) {
+		e.preventDefault();
+		doModalConfirm( jQuery(this).attr('href'));
+		this.blur();
+	});
+
+	// modal lightboxes
+	jQuery(document).on('click', '.lightboxed', function(e) {
+		e.preventDefault();
+		if (jQuery(this).hasClass('returntocurrentroute')) {
+			doModalLightbox(jQuery(this).attr('href'),true);
+		} else {
+			doModalLightbox(jQuery(this).attr('href'));
+		}
+		this.blur();
+	});
+
+	// show/hide element details
+	jQuery(document).on('click', '.showelementdetails', function(e) {
+		e.preventDefault();
+		jQuery(this).html( function(e) {
+			var t = jQuery(this).html(),
+			isShown = jQuery(this).parents('.itemnav').prev('.elementdetails').hasClass('detailsshown');
+
+			if ( isShown ) {
+				t = t.replace(/Less/g, 'More');
+
+			} else {
+				t = t.replace(/More/g, 'Less');
+			}
+
+			return t;
+
+		}).parents('.itemnav').prev('.elementdetails').toggleClass('detailsshown');
+	});
+
+	// inserts html into the current document/form (dynamic inputs primarily)
+	// grabs rel, inserts rev data and iterates the name, changing the rel
+	// should probably move to a data- structure
+	jQuery(document).on('click', 'a.injectbefore', function(e) {
+		e.preventDefault();
+		var iteration = jQuery(e.currentTarget).attr('rel');
+		if (iteration) {
+			jQuery.data(e.currentTarget,'nameiteration',iteration);
+		} else {
+			iteration = 1;
+		}
+		jQuery(e.currentTarget).attr('rel',iteration);
+		var toinsert = jQuery(e.currentTarget).attr('rev');
+		var names = toinsert.match(/name='([^']*)/g);
+		if (names) {
+			jQuery.each(names, function(index, name) {
+				toinsert = toinsert.replace(name, name+iteration);
+			});
+		}
+		jQuery(e.currentTarget).before('<div>' + toinsert + '</div>');
+		jQuery(e.currentTarget).attr('rel',iteration+1);
 	});
 }
 
