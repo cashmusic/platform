@@ -69,6 +69,11 @@ function refreshPageData(url,formdata,showerror,showmessage,skiphistory) {
 	} else {
 		formdata = formdata+'&';
 	}
+	// remove any dialogs 
+	jQuery('.modalbg').fadeOut('fast', function() {
+		jQuery('.modalbg').remove();
+	});
+
 	// fade out 
 	jQuery('#pagedisplay').fadeTo(100,0.2, function() {
 		// do a POST to get the page data, change pushstate, redraw page
@@ -121,20 +126,26 @@ function prepAJAX() {
 		}
 	});
 
+	setFormBindings()
+	setContentBehaviors();
+}
+
+// set form bindings
+function setFormBindings() {
+	jQuery('form').unbind('submit');
 	jQuery('form').bind('submit', function(event) {
 		var el = jQuery(event.currentTarget);
-		if (!el.is('.modallightbox form')) {	
-			event.preventDefault();
-			var url = jQuery(this).attr('action');
-			if (url == '') {
-				url = location.pathname;
-			}
-			var formdata = jQuery(this).serialize();
-			refreshPageData(url,formdata);
+		event.preventDefault();
+		var url = jQuery(this).attr('action');
+		if (url == '') {
+			url = location.pathname;
 		}
+		var formdata = jQuery(this).serialize();
+		if (el.is('.returntocurrentroute form')) {	
+			formdata += '&forceroute=' + location.pathname.replace(cashAdminPath, '');
+		}
+		refreshPageData(url,formdata);
 	});
-
-	setContentBehaviors();
 }
 
 // make the back button work
@@ -173,7 +184,11 @@ function setContentBehaviors() {
 	// modal lightboxes
 	jQuery('.lightboxed').on('click', function(e) {
 		e.preventDefault();
-		doModalLightbox( jQuery(this).attr('href'));
+		if (jQuery(this).hasClass('returntocurrentroute')) {
+			doModalLightbox(jQuery(this).attr('href'),true);
+		} else {
+			doModalLightbox(jQuery(this).attr('href'));
+		}
 		this.blur();
 	});
 
@@ -332,16 +347,22 @@ function doModalConfirm(url) {
 }
 
 // opens a modal input form from a specific route
-function doModalLightbox(route) {
+function doModalLightbox(route,returntocurrentroute) {
 	jQuery.post(route,'data_only=1', function(data) {
+		var addedClass = '';
+		if (returntocurrentroute) {
+			addedClass = 'returntocurrentroute '
+		}
 		// markup for the confirmation link
-		var markup = '<div class="modalbg"><div class="modallightbox ' + data.specialcolor + '">' +
+		var markup = '<div class="modalbg"><div class="modallightbox ' + addedClass +
+					 data.specialcolor + '">' +
 					 data.page_content_markup +
 					 '<div class="tar"><a href="#" class="modalcancel">cancel</a></div>' +
 					 '</div></div></div>';
 		markup = jQuery(markup);
 		markup.hide();
 		jQuery('body').append(markup);
+		setFormBindings();
 
 		// show the dialog with a fast fade-in
 		jQuery('.modalbg').fadeIn('fast');

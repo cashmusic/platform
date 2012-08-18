@@ -347,6 +347,11 @@
 		if (!$location) {
 			$location = REQUESTED_ROUTE;
 		}
+		if (isset($_REQUEST['forceroute'])) {
+			// we force a route using JS for certain lightboxed forms — really used 
+			// as an override that should take precenece over the standard $location
+			$location = $_REQUEST['forceroute'];
+		}
 		if (isset($_REQUEST['data_only'])) {
 			echo json_encode(
 				array(
