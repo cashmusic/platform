@@ -299,7 +299,10 @@ function setUIBehaviors() {
 	// cashAdminPath is set in the main template to the www_base of the admin
 	jQuery(document).on('click', 'a[href^=' + cashAdminPath + ']', function(event) {
 		var el = jQuery(event.currentTarget);
-		if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey && !el.hasClass('navitemlink')  && !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')) {
+		if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey && !el.hasClass('navitemlink')  
+			&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
+			&& !el.is('#logout')
+		) {
 			event.preventDefault();
 			var url = jQuery(event.currentTarget).attr('href');
 			refreshPageData(url);
