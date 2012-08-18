@@ -21,6 +21,26 @@
 	{{/force_type}}
 	<input type="hidden" name="parent_id" value="{{parent_id}}" />
 
+	{{#show_location}}
+		<div class="row_seperator">.</div>
+		<div class="col_oneoftwo">
+			<label for="connection_id">Which storage connection?</label><br />
+			<select id="connection_id" name="connection_id">
+				{{{connection_options}}}
+			</select>
+		</div>
+
+		<div class="col_oneoftwo lastcol">
+			<label for="asset_location">Location (URI)</label><br />
+			<input type="text" id="asset_location" name="asset_location" value="{{location}}" /><br />
+			[ or upload file ]
+		</div>
+	{{/show_location}}
+	{{^show_location}}
+		<input type="hidden" name="connection_id" value="" />
+		<input type="hidden" name="asset_location" value="" />
+	{{/show_location}}
+
 	<div class="row_seperator">.</div>
 	<div>
 		<br />

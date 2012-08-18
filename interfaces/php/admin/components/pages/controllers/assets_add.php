@@ -10,6 +10,8 @@ if (isset($_POST['doassetadd'])) {
 			'title' => $_POST['asset_title'],
 			'description' => $_POST['asset_description'],
 			'parent_id' => $_POST['parent_id'],
+			'connection_id' => $_POST['connection_id'],
+			'location' => $_POST['asset_location'],
 			'user_id' => $effective_user,
 			'type' => $_POST['asset_type']
 		),
@@ -30,6 +32,13 @@ if (isset($request_parameters[0])) {
 	$add_type = $request_parameters[0];
 	$cash_admin->page_data['force_type'] = $add_type;
 	$cash_admin->page_data['ui_title'] = 'Assets: Add a ' . $add_type;
+	if ($add_type == 'file') {
+		// connection options markup:
+		$cash_admin->page_data['connection_options'] = '<option value="0" selected="selected">None (Normal http:// link)</option>';
+		$cash_admin->page_data['connection_options'] .= AdminHelper::echoConnectionsOptions('assets', 0, true);
+
+		$cash_admin->page_data['show_location'] = true;
+	}
 } else {
 	$add_type = 'file';
 	$cash_admin->page_data['ui_title'] = 'Assets: Add an asset';
