@@ -32,6 +32,8 @@
 ;
 
 (function($) {
+
+	// initial load setup:
 	$(document).ready(function() {
 		setUIBehaviors();
 		setContentBehaviors();
@@ -43,10 +45,21 @@
 	});
 
 	/**
-	 * AJAX specific functions
+	 *
+	 *
+	 *
+	 * Page redraw and AJAX requests
+	 *
+	 *
+	 *
 	 **/
 
-	// handle per-element specific redraws for each request
+	/**
+	 * redrawPage (function)
+	 *
+	 * handle per-element specific redraws for each request
+	 *
+	 */
 	function redrawPage(data) {
 		// change the color
 		$('#mainspc').removeClass();
@@ -72,8 +85,13 @@
 		window.scrollTo(0,0);
 	}
 
-	// handles the data request for each page load, manipulates history,
-	// and decides redraw method (full redraw or redrawPage)
+	/**
+	 * refreshPageData (function)
+	 *
+	 * handles the data request for each page load, manipulates history,
+	 * and decides redraw method (full redraw or redrawPage)
+	 *
+	 */
 	function refreshPageData(url,formdata,showerror,showmessage,skiphistory) {
 		if (!formdata) {
 			formdata = '';
@@ -121,10 +139,21 @@
 	}
 
 	/**
+	 *
+	 *
+	 *
 	 * UI element behaviors
+	 *
+	 *
+	 *
 	 **/
 
-	// collapse all main nav tabs, opening one if a section is specified
+	/**
+	 * collapseAllTabs (function)
+	 *
+	 * collapse all main nav tabs, opening one if a section is specified
+	 *
+	 */
 	function collapseAllTabs(section) {
 		//
 		if (section != currentSection) {
@@ -138,7 +167,12 @@
 		}
 	}
 
-	// miscellaneous behaviors for various things — needs loading each page load
+	/**
+	 * setContentBehaviors (function)
+	 *
+	 * miscellaneous behaviors for various things — needs to run each AJAX page load
+	 *
+	 */
 	function setContentBehaviors() {
 		// show/hide drawers
 		prepDrawers('<span class="icon arrow_up"></span> Hide','<span class="icon arrow_down"></span> Show');
@@ -152,20 +186,11 @@
 			$(this).autocomplete({
 				// probably should do some error handling here.
 				source: function( request, response ) {
-					//console.log('request: ', request);
-					//console.log('response: ', response);
-					//console.log('url: ', acURL);
-
 					$.ajax({
 						url: acURL + '/' + request.term,
 						dataType: "json",
-						error: function( data) {
-							//console.log('url: ', acURL);
-							//console.log('error: ', data);
-						},
+						error: function( data) {},
 						success: function( data ) {
-							//console.log('data: ', data);
-
 							response( $.map( data, function( item ) {
 								return {
 									label: item.displayString,
@@ -176,10 +201,8 @@
 						}
 					})
 				},
-				select: function( event, ui) {
-					//console.log('changed, new item is: ', ui.item);
-
-					// this is pretty ugly
+				select: function( event, ui ) {
+					// TODO: this is pretty ugly
 					$('#event_venue').val( ui.item.id );
 				},
 				minLength: 2
@@ -187,8 +210,13 @@
 		});
 	}
 
-	// the main UI behaviors — only needs to be run on the first page load,
-	// not on each AJAX load-in, bind all events with on to document to preserve cross-load
+	/**
+	 * setUIBehaviors (function)
+	 *
+	 * The main UI behaviors — only needs to be run on the first page load, not on
+	 * each AJAX load-in, bind all events with on to document to preserve cross-load
+	 *
+	 */
 	function setUIBehaviors() {
 		$('#pagetips').hide();
 
@@ -297,16 +325,16 @@
 
 		// open local (admin) links via AJAX
 		// cashAdminPath is set in the main template to the www_base of the admin
-		$(document).on('click', 'a[href^=' + cashAdminPath + ']', function(event) {
-			var el = $(event.currentTarget);
-			if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey && !el.hasClass('navitemlink')  
+		$(document).on('click', 'a[href^=' + cashAdminPath + ']', function(e) {
+			var el = $(e.currentTarget);
+			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey && !el.hasClass('navitemlink')  
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
 				&& !el.is('#logout')
 			) {
-				event.preventDefault();
-				var url = $(event.currentTarget).attr('href');
+				e.preventDefault();
+				var url = $(e.currentTarget).attr('href');
 				refreshPageData(url);
-				event.currentTarget.blur();
+				e.currentTarget.blur();
 			}
 		});
 
@@ -326,7 +354,25 @@
 		});
 	}
 
-	// opens a modal confirmation box for delete links, etc
+	/**
+	 *
+	 *
+	 *
+	 * Dialogs, lightboxes, and other content display enhancements
+	 *
+	 *
+	 *
+	 **/
+
+	/**
+	 * doModalLightbox (function)
+	 *
+	 * opens a modal confirmation box for delete links, etc. essentially this is a
+	 * silly "are you sure you want to click this?" message, and it sends along a 
+	 * GET param saying that it's been clicked — so the receiving controller knows  
+	 * it's happened and can skip displaying any form confirmation, etc.
+	 *
+	 */
 	function doModalConfirm(url) {
 		// markup for the confirmation link
 		var markup = '<div class="modalbg"><div class="modaldialog">' +
@@ -349,7 +395,12 @@
 		$('.modalbg').fadeIn('fast');
 	}
 
-	// opens a modal input form from a specific route
+	/**
+	 * doModalLightbox (function)
+	 *
+	 * opens a modal input form from a specific route
+	 *
+	 */
 	function doModalLightbox(route,returntocurrentroute) {
 		jQuery.post(route,'data_only=1', function(data) {
 			var addedClass = '';
