@@ -14,12 +14,46 @@ if (isset($_POST['doassetadd'])) {
 			'location' => $_POST['asset_location'],
 			'user_id' => $effective_user,
 			'type' => $_POST['asset_type']
-		),
-		'addasset'
+		)
 	);
 
 	if ($add_response['payload']) {
-		AdminHelper::formSuccess('Success. Here\'s your new asset. Feel free to start adding details.','/assets/edit/' . $add_response['payload']);
+		// check for metadata settings
+		if (isset($_POST['metadata_command']) && isset($_POST['metadata_name'])) {
+			// try getting the parent asset
+			$asset_response = $cash_admin->requestAndStore(
+				array(
+					'cash_request_type' => 'asset', 
+					'cash_action' => 'getasset',
+					'id' => $_POST['parent_id']
+				)
+			);
+			// found it. now we can overwrite or extend the original metadata
+			if ($asset_response['payload']) {
+				// modify the existing chunk o metadata
+				$new_metadata = $asset_response['payload']['metadata'];
+				if ($_POST['metadata_command'] == 'setmetadata') {
+					$new_metadata[$_POST['metadata_name']] = $add_response['payload'];
+				} else if ($_POST['metadata_command'] == 'addtometadata') {
+					if (!isset($new_metadata[$_POST['metadata_name']])) {
+						$new_metadata[$_POST['metadata_name']] = array();
+					}
+					$new_metadata[$_POST['metadata_name']][] = $add_response['payload'];
+				}
+				// now make the actual edits
+				$effective_user = AdminHelper::getPersistentData('cash_effective_user');
+				$edit_response = $cash_admin->requestAndStore(
+					array(
+						'cash_request_type' => 'asset', 
+						'cash_action' => 'editasset',
+						'id' => $_POST['parent_id'],
+						'user_id' => $effective_user,
+						'metadata' => $new_metadata
+					)
+				);
+			}
+		}
+		AdminHelper::formSuccess('Success. Asset added. Feel free to start adding details.','/assets/edit/' . $add_response['payload']);
 	} else {
 		AdminHelper::formFailure('Error. Something just didn\'t work right.','/assets/add/');
 	}
@@ -45,7 +79,6 @@ if (isset($request_parameters[0])) {
 }
 $type_options = array(
 	'file' => 'File',
-	'folder' => 'Folder (depreciated. aka: going away before v4)',
 	'playlist' => 'Playlist',
 	'release' => 'Release'
 );
@@ -63,6 +96,16 @@ if (isset($request_parameters[2])) {
 	$cash_admin->page_data['parent_id'] = $request_parameters[2];
 } else {
 	$cash_admin->page_data['parent_id'] = 0;
+}
+
+// check for metadata settings
+if (isset($request_parameters[4])) {
+	$cash_admin->page_data['metadata_name'] = $request_parameters[4];
+	if ($request_parameters[3] == 'setmetadata') {
+		$cash_admin->page_data['metadata_command'] = 'setmetadata';
+	} else if ($request_parameters[3] == 'addtometadata') {
+		$cash_admin->page_data['metadata_command'] = 'addtometadata';
+	}
 }
 
 $cash_admin->page_data['assets_add_action'] = true;

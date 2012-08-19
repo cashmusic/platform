@@ -40,6 +40,10 @@
 		<input type="hidden" name="connection_id" value="" />
 		<input type="hidden" name="asset_location" value="" />
 	{{/show_location}}
+	{{#metadata_command}}
+		<input type="hidden" name="metadata_command" value="{{metadata_command}}" />
+		<input type="hidden" name="metadata_name" value="{{metadata_name}}" />
+	{{/metadata_command}}
 
 	<div class="row_seperator">.</div>
 	<div>
