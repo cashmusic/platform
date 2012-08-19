@@ -24,6 +24,7 @@ class CalendarPlant extends PlantBase {
 			'deletevenue'       => array('deleteVenue','direct'),
 			'editevent'         => array('editEvent','direct'),
 			'editvenue'         => array('editVenue','direct'),
+			'finevenues'        => array('findVenues','direct'),
 			'getallvenues'      => array('getAllVenues','direct'),
 			'geteventsbetween'  => array('getDatesBetween','direct'),
 			'getevent'          => array('getEvent','direct'),
@@ -31,6 +32,24 @@ class CalendarPlant extends PlantBase {
 			'getvenue'          => array('getVenue','direct')
 		);
 		$this->plantPrep($request_type,$request);
+	}
+
+	protected function findVenues($query,$page=1,$max_returned=12) {
+		$limit = (($page - 1) * $max_returned) . ',' . $max_returned;	
+		$fuzzy_query = '%' . $query . '%';
+
+		$result = $this->db->getData(
+			'CalendarPlant_findVenues',
+			false,
+			array(
+				"query" => array(
+					"condition" => "=",
+					"value" => $fuzzy_query
+				)
+			),
+			$limit
+		);
+		return $result;
 	}
 
 	protected function addVenue($name,$city,$address1='',$address2='',$region='',$country='',$postalcode='',$url='',$phone='') {
@@ -219,7 +238,11 @@ class CalendarPlant extends PlantBase {
 				)
 			)
 		);
-		return $result[0];
+		if ($result) {
+			return $result[0];
+		} else {
+			return false;
+		}
 	}
 
 	protected function getAllVenues() {

@@ -25,8 +25,7 @@ $allfuture_response = $cash_admin->requestAndStore(
 		'cash_action' => 'getevents',
 		'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
 		'visible_event_types' => 'upcoming'
-	),
-	'events_allfuture'
+	)
 );
 
 if (is_array($allfuture_response['payload'])) {

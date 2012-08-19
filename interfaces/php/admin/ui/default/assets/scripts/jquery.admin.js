@@ -155,9 +155,8 @@ function setContentBehaviors() {
 				//console.log('response: ', response);
 				//console.log('url: ', acURL);
 
-				// it seems likely that I'll need to pass request.term somewhere in here.
 				$.ajax({
-					url: acURL,
+					url: acURL + '/' + request.term,
 					dataType: "json",
 					error: function( data) {
 						//console.log('url: ', acURL);

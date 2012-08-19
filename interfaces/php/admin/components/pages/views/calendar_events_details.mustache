@@ -1,13 +1,9 @@
 <h2>Event details</h2>
 <p>
-	Quickly add a date to the system. Information about published/unpublished status and
+	Add a date to the system. Information about published/unpublished status and
 	cancellation can be found in the page tips.
 </p>
 
-<p><span class="highlightcopy">
-	The date and venue selectors are far from ideal. We'll be enhancing these with fancy
-	interfaces soon.
-</span></p>
 
 <form method="post" action="{{www_path}}{{requested_route}}">
 	<input type="hidden" name="{{form_state_action}}" value="makeitso" />
@@ -18,8 +14,9 @@
 	<div class="row_seperator">.</div>
 
 	<label for="event_venue_name">Venue</label><br />
-	<input type="text" id="event_venue_name" name="event_venue_name" value="{{event_venue_name}}" placeholder="17 Nautical Miles, Portland OR" class="autocomplete" data-cash-endpoint-url="{{{www_path}}}/ajax/autocomplete/venues" />
-	<input type="hidden" id="event_venue" name="event_venue" value="{{event_venue}}" />
+	<input type="text" id="event_venue_name" name="event_venue_name" value="{{venue_display_string}}" placeholder="Start typing to search venues" class="autocomplete" data-cash-endpoint-url="{{{www_path}}}/ajax/autocomplete/venues" />
+	<input type="hidden" id="event_venue" name="event_venue" value="{{venue_id}}" />
+	<br /><small class="fadedtext">Can't find the venue you're looking for? <a href="{{www_path}}/calendar/venues/add/" class="add-fulfillment-file lightboxed returntocurrentroute usecolor4">Add a new venue</a></small>
 
 	<div class="row_seperator">.</div>
 	<label for="event_comment">Comments (Support, CD Release, etc)</label><br />

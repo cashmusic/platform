@@ -41,16 +41,34 @@ $current_event = $event_response['payload'];
 
 if (is_array($current_event)) {
 	$cash_admin->page_data = array_merge($cash_admin->page_data,$current_event);
+
+	$venue_response = $cash_admin->requestAndStore(
+		array(
+			'cash_request_type' => 'calendar', 
+			'cash_action' => 'getvenue',
+			'venue_id' => $current_event['venue_id']
+		)
+	);
+	$venue_details = $venue_response['payload'];
+	if ($venue_details) {
+		$display_string = $venue_details['name'];
+		if (strtolower($venue_details['country']) == 'usa' || strtolower($venue_details['country']) == 'canada') {
+			$display_string .= ' / ' . $venue_details['city'] . ', ' . $venue_details['region'];
+		} else {
+			$display_string .= ' / ' . $venue_details['city'] . ', ' . $venue_details['country'];	
+		}
+		$cash_admin->page_data['venue_display_string'] = $display_string;
+	} else {
+		$cash_admin->page_data['venue_display_string'] = 'TBA';
+	}
 }
 
-$cash_admin->page_data['venue_options'] = AdminHelper::echoFormOptions('venues',$current_event['venue_id'],false,true);
 $cash_admin->page_data['formatted_date'] = date('m/j/Y h:iA T',$current_event['date']);
 if ($cash_admin->page_data['published']) {
 	$cash_admin->page_data['published'] = 1;
 }
 $cash_admin->page_data['form_state_action'] = 'doeventedit';
 $cash_admin->page_data['event_button_text'] = 'Edit the event';
-$cash_admin->page_data['venue_display_string'] = 'Venue Name goes here';
 
 $cash_admin->setPageContentTemplate('calendar_events_details');
 ?>
