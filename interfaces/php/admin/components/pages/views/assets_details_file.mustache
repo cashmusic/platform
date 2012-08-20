@@ -1,4 +1,5 @@
 <p class="smalltext fadedtext">
+	{{#parent_id}}<a href="{{www_path}}/assets/edit/{{parent_id}}"><b>return to parent asset</b></a><br />{{/parent_id}}
 	{{#screen_size}}size: {{screen_size}} &nbsp; stored on: {{connection_name}}<br />{{/screen_size}}
 	{{#location}}location: {{location}}<br />{{/location}}
 	{{#is_favorite}}
@@ -44,14 +45,6 @@
 	<div class="col_oneoftwo lastcol">
 		<label for="asset_location">Location (URI)</label><br />
 		<input type="text" id="asset_location" name="asset_location" value="{{location}}" />
-	</div>
-
-	<div class="row_seperator">.</div>
-	<div>
-		<label for="parent_id">Place in asset (Parent: depreciated/gone by v4)</label><br />
-		<select id="parent_id" name="parent_id">
-			{{{parent_options}}}
-		</select>
 	</div>
 
 	<div class="row_seperator">.</div><br />

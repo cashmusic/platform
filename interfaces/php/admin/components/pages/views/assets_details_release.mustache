@@ -36,21 +36,32 @@
 				<label>Release Title <input type="text" id="asset_title" name="asset_title" value="{{title}}" placeholder="Give It A Name" /></label>
 				<label>Artist Name <input type="text" id="artist_name" name="artist_name" value="{{metadata_artist_name}}" placeholder="The Who" /></label>
 				<label class="col_oneoftwo">Release Date <input type="date" id="release_date" name="release_date" value="{{metadata_release_date}}" /></label>
-				<label class="col_oneoftwo lastcol">Matrix Number <input type="number" id="matrix_number" name="matrix_number" value="{{metadata_matrix_number}}" /></label>
+				<label class="col_oneoftwo lastcol">Matrix/Catalog Number <input type="number" id="matrix_number" name="matrix_number" value="{{metadata_matrix_number}}" /></label>
 	
+				<div class="row_seperator">.</div>
 				<div class="fulfillment-files">
-					<label>Fulfillment Files</label>
-					<ul class="alternating">
+					<label>Fulfillment Files</label><br />
+					{{#fulfillment_files}}
+						<ul class="alternating">
+					{{/fulfillment_files}}
+					{{#fulfillment_files}}
 						<li>
-							<h5>Asset Title</h5>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-							<div class="itemnav">
-								<a href="#" class="mininav_flush"><span class="icon pen"></span> Edit</a>
+							<b>{{title}}</b><br />
+							{{description}}
+							<div class="smalltext">
+								<a href="{{www_path}}/assets/edit/{{id}}" class="mininav_flush"><span class="icon pen"></span> Edit</a>
 								<a href="#" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>
 							</div>
 						</li>
+					{{/fulfillment_files}}
+					{{#fulfillment_files}}
 					</ul>
-					<a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/fulfillment" class="add-fulfillment-file lightboxed returntocurrentroute"><span class="icon plus_alt"></span>Add New File</a>
+					{{/fulfillment_files}}
+					{{^fulfillment_files}}
+						No files have been added for fulfillment yet.<br />
+					{{/fulfillment_files}}
+					<a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/fulfillment" class="add-fulfillment-file lightboxed returntocurrentroute smalltext"><span class="icon plus_alt"></span> <b>Add New File</b></a>
+					<input type="hidden" id="metadata_fulfillment" name="metadata_fulfillment" value="{{metadata_fulfillment_json}}" />
 				</div>
 			</div>
 		</fieldset>
@@ -66,7 +77,7 @@
 					<label class="col_oneoftwo">Copyright <textarea id="copyright" name="copyright">{{metadata_copyright}}</textarea></label>
 					<label class="col_oneoftwo lastcol">Publishing <textarea id="publishing" name="publishing">{{metadata_publishing}}</textarea></label>
 					<div class="formats col_oneoftwo">
-						<label>Formats/UPCs</label>
+						<!--label>Formats/UPC Codes</label>
 						<ul class="alternating">
 							<li>
 								<select name="format" class="col_oneoftwo">
@@ -80,23 +91,34 @@
 								<div class="clearfix">&nbsp;</div>
 							</li>
 						</ul>
-						<a href="#" class="add-private-file"><span class="icon plus_alt"></span>Add New Format</a>
+						<a href="#" class="add-format"><span class="icon plus_alt smalltext"></span> Add New Format</a-->
 					
 					</div>
 					
 					<div class="private-files col_oneoftwo lastcol">
-						<label>Private Files</label>
-						<ul class="alternating">
+						<div class="row_seperator">.</div>
+						<label>Private Files</label><br />
+						{{#private_files}}
+							<ul class="alternating">
+						{{/private_files}}
+						{{#private_files}}
 							<li>
-								<h5>Asset Title</h5>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-								<div class="itemnav">
-									<a href="#" class="mininav_flush"><span class="icon pen"></span> Edit</a>
+								<b>{{title}}</b><br />
+								{{description}}
+								<div class="smalltext">
+									<a href="{{www_path}}/assets/edit/{{id}}" class="mininav_flush"><span class="icon pen"></span> Edit</a>
 									<a href="#" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>
 								</div>
 							</li>
+						{{/private_files}}
+						{{#private_files}}
 						</ul>
-						<a href="#" class="add-private-file"><span class="icon plus_alt"></span>Add New File</a>
+						{{/private_files}}
+						{{^private_files}}
+							No private storage files have been added.<br />
+						{{/private_files}}
+						<a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/private"  class="add-private-file lightboxed returntocurrentroute smalltext"><span class="icon plus_alt"></span> <b>Add New File</b></a>
+						<input type="hidden" id="metadata_private" name="metadata_private" value="{{metadata_private_json}}" />
 					</div>
 					
 				</fieldset>

@@ -121,32 +121,56 @@ class AssetPlant extends PlantBase {
 		return $result;
 	}
 
-	protected function getAssetInfo($id) {
-		$result = $this->db->getData(
-			'assets',
-			'*',
-			array(
+	/**
+	 * Gets all details for a specific asset id (or array of ids) — pass in a single
+	 * id and get the asset details associative array, pass in an array of asset ids 
+	 * and get an array of asset detail arrays. 
+	 *
+	 * @return void
+	 */protected function getAssetInfo($id) {
+		// first set conditions based on single id or array
+		if (!is_array($id)) {
+			// straightforward...i mean seriously
+			$conditions = array(
 				"id" => array(
 					"condition" => "=",
 					"value" => $id
 				)
-			)
+			);
+		} else {
+			// implode array and use IN operator
+			$conditions = array(
+				"id" => array(
+					"condition" => "IN",
+					"value" => $id
+				)
+			);
+		}
+		$result = $this->db->getData(
+			'assets',
+			'*',
+			$conditions
 		);
 		if ($result) {
-			$asset_info = $result[0];
-			$asset_info['tags'] = $this->getAllMetaData('assets',$id,'tag');
-			$asset_info['metadata'] = json_decode($asset_info['metadata'],true);
-			if (!is_array($asset_info['metadata'])) {
-				// force metadata output to associative array
-				$output_array = array();
-				if ($asset_info['metadata'] !== false) {
-					// there was a non-array stored as priamry metadata value. 
-					// push it to 'content' key and return associative array
-					$output_array['content'] = $asset_info['metadata'];
+			foreach ($result as &$asset_info) {
+				$asset_info['tags'] = $this->getAllMetaData('assets',$id,'tag');
+				$asset_info['metadata'] = json_decode($asset_info['metadata'],true);
+				if (!is_array($asset_info['metadata'])) {
+					// force metadata output to associative array
+					$output_array = array();
+					if ($asset_info['metadata'] !== false) {
+						// there was a non-array stored as priamry metadata value. 
+						// push it to 'content' key and return associative array
+						$output_array['content'] = $asset_info['metadata'];
+					}
+					$asset_info['metadata'] = $output_array;
 				}
-				$asset_info['metadata'] = $output_array;
 			}
-			return $asset_info;
+			if (!is_array($id)) {
+				return $result[0];
+			} else {
+				return $result;
+			}
 		} else {
 			return false;
 		}

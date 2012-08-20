@@ -61,7 +61,7 @@ if (isset($_POST['doassetedit'])) {
 	if (isset($_POST['parent_id'])) $asset_parent = $_POST['parent_id'];
 	if (isset($_POST['connection_id'])) $connection_id = $_POST['connection_id'];
 	if (isset($_POST['asset_location'])) $asset_location = $_POST['asset_location'];
-	if (isset($_POST['asset_description'])) $asset_location = $_POST['asset_description'];
+	if (isset($_POST['asset_description'])) $asset_description = $_POST['asset_description'];
 
 	$metadata_and_tags = AdminHelper::parseMetaData($_POST);
 	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
@@ -74,7 +74,9 @@ if (isset($_POST['doassetedit'])) {
 			'label_name' => $_POST['label_name'],
 			'genre' => $_POST['genre'],
 			'copyright' => $_POST['copyright'],
-			'publishing' => $_POST['publishing']
+			'publishing' => $_POST['publishing'],
+			'fulfillment' => json_decode($_POST['metadata_fulfillment']),
+			'private' => json_decode($_POST['metadata_private'])
 		);
 	}
 
@@ -92,8 +94,7 @@ if (isset($_POST['doassetedit'])) {
 			'type' => $_POST['asset_type'],
 			'tags' => $metadata_and_tags['tags_details'],
 			'metadata' => $metadata
-		),
-		'asseteditattempt'
+		)
 	);
 
 	if (!$edit_response['payload']) {
@@ -126,6 +127,9 @@ if (isset($cash_admin->page_data['metadata'])) {
 	if (is_array($cash_admin->page_data['metadata'])) {
 		foreach ($cash_admin->page_data['metadata'] as $key => $value) {
 			$cash_admin->page_data['metadata_' . $key] = $value;
+			if ($key == 'fulfillment' || $key == 'private') {
+				$cash_admin->page_data['metadata_' . $key . '_json'] = json_encode($value);
+			}
 		}
 	}
 }
@@ -162,6 +166,36 @@ if ($cash_admin->page_data['type'] == 'file') {
 	// set the view
 	$cash_admin->setPageContentTemplate('assets_details_file');
 } else if ($cash_admin->page_data['type'] == 'release') {
+	if (isset($cash_admin->page_data['metadata']['fulfillment'])) {
+		if (count($cash_admin->page_data['metadata']['fulfillment'])) {
+			$fulfillment_response = $cash_admin->requestAndStore(
+				array(
+					'cash_request_type' => 'asset', 
+					'cash_action' => 'getasset',
+					'id' => $cash_admin->page_data['metadata']['fulfillment']
+				)
+			);
+			if ($fulfillment_response['payload']) {
+				$cash_admin->page_data['fulfillment_files'] = new ArrayIterator($fulfillment_response['payload']);
+			}
+		}
+	}
+
+	if (isset($cash_admin->page_data['metadata']['private'])) {
+		if (count($cash_admin->page_data['metadata']['private'])) {
+			$private_response = $cash_admin->requestAndStore(
+				array(
+					'cash_request_type' => 'asset', 
+					'cash_action' => 'getasset',
+					'id' => $cash_admin->page_data['metadata']['private']
+				)
+			);
+			if ($private_response['payload']) {
+				$cash_admin->page_data['private_files'] = new ArrayIterator($private_response['payload']);
+			}
+		}
+	}
+
 	// set the view
 	$cash_admin->setPageContentTemplate('assets_details_release');
 } else {
