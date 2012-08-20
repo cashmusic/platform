@@ -237,12 +237,28 @@ class CASHDBA {
 		}
 	}
 	
-	public function parseConditions($conditions,$prepared=true) {
+	public function parseConditions(&$conditions,$prepared=true) {
 		$return_str = " WHERE ";
 		$separator = '';
 		foreach ($conditions as $value => $details) {
 			if ($prepared) {
-				$return_str .= $separator . $value . ' ' . $details['condition'] . ' ' . ':where' . $value;
+				if ($details['condition'] != 'IN') {
+					$return_str .= $separator . $value . ' ' . $details['condition'] . ' ' . ':where' . $value;
+				} else {
+					$return_str .= $separator . $value . ' ' . $details['condition'] . ' (';
+					$valuecount = 0;
+					foreach ($details['value'] as $current_value) {
+						if ($valuecount > 0) {
+							$return_str .= ",";
+						}
+						$conditions[$value . '_' . $valuecount] = array(
+							'value' => $current_value
+						);
+						$return_str .= ':where' . $value . '_' . $valuecount;
+						$valuecount++;
+					}
+					$return_str .= ')';
+				}
 			} else {
 				if (is_string($details['value'])) {
 					$query_value = "'" . str_replace("'","\'",$details['value']) . "'";
@@ -251,7 +267,16 @@ class CASHDBA {
 				}
 				$return_str .= $separator . $value . ' ' . $details['condition'] . ' ' . $query_value;
 			}
-			$separator = ' AND ';
+			// support multiple types of separators — only needed for more complex operations
+			// and this is pretty much either or (combining AND and OR conditions would be trickier)
+			if (isset($details['separator'])) {
+				$separator = ' ' . $details['separator'] . ' ';
+			} else {
+				$separator = ' AND ';
+			}
+			if ($details['condition'] == 'IN') {
+				unset($conditions[$value]);
+			}
 		}
 		return $return_str;
 	}
@@ -277,7 +302,13 @@ class CASHDBA {
 			if ($conditions) {
 				$values_array = array();
 				foreach ($conditions as $value => $details) {
-					$values_array[':where'.$value] = $details['value'];
+					// any arrays would be vestigal from passed-in "IN" conditions
+					// — we add to the conditions array in that case so the original
+					//   condition is unneeded and causes an array->string conversion
+					//   warning. so forget it. later dude.
+					if (!is_array($details['value'])) {
+						$values_array[':where'.$value] = $details['value'];
+					}
 				}
 				return $this->doQuery($query,$values_array);
 			} else {
