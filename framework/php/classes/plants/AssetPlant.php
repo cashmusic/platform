@@ -31,6 +31,7 @@ class AssetPlant extends PlantBase {
 			'getassetsforconnection'  => array('getAssetsForConnection','direct'),
 			'getassetsforparent'      => array('getAssetsForParent','direct'),
 			'getassetsforuser'        => array('getAssetsForUser','direct'),
+			'getfulfillmentassets'    => array('getFulfillmentAssets','direct'),
 			'redeemcode'              => array('redeemLockCode',array('direct','get','post')),
 			'syncconnectionassets'    => array('syncConnectionAssets','direct'),
 			'unlock'                  => array('unlockAsset','direct')
@@ -65,6 +66,45 @@ class AssetPlant extends PlantBase {
 			),
 			$limit
 		);
+		return $result;
+	}
+
+	protected function getFulfillmentAssets($asset_details) {
+		$result = false; // default return
+		if (!is_array($asset_details)) {
+			// if $asset details isn't an array, assume it's an id 
+			$asset_details = $this->getAssetInfo($asset_details);
+		}
+
+		// test that getInfo returned results
+		if ($asset_details) {
+			if ($asset_details['type'] == 'file') {
+				$result = array($asset_details);
+			} elseif ($asset_details['type'] == 'release') {
+				if (isset($asset_details['metadata']['fulfillment'])) {
+					// check isset first, in case the asset is newly set
+					if (count($asset_details['metadata']['fulfillment'])) {
+						$fulfillment_resquest = new CASHRequest(
+							array(
+								'cash_request_type' => 'asset', 
+								'cash_action' => 'getasset',
+								'id' => $asset_details['metadata']['fulfillment']
+							)
+						);
+						$result = $fulfillment_resquest->response['payload'];
+					}
+				}
+			}
+		}
+
+		if (is_array($result)) {
+			// if we've got a good result, unlock all the assets for download
+			// (user is either admin or allowed by element...)
+			foreach ($result as $asset) {
+				$this->unlockAsset($asset['id']);
+			}
+		}
+
 		return $result;
 	}
 
@@ -294,14 +334,6 @@ class AssetPlant extends PlantBase {
 		$current_unlocked_assets = $this->sessionGet('unlocked_assets');
 		$assets_to_unlock = array($id);
 		$asset = $this->getAssetInfo($id);
-		if ($asset['type'] == 'folder') {
-			$children = $this->getAssetsForParent($id);
-			if (is_array($children)) {
-				foreach ($children as $child) {
-					$assets_to_unlock[] = $child['id'];
-				}
-			}
-		}
 		$error_state = false;
 		foreach ($assets_to_unlock as $asset_id) {
 			if (is_array($current_unlocked_assets)) {

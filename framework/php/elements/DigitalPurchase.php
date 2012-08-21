@@ -37,40 +37,15 @@ class DigitalPurchase extends ElementBase {
 			$this->status_uid == 'commerce_initiatecheckout_200' && $this->original_response['payload'] == 'force_success'
 			) {
 			if ($item['fulfillment_asset'] != 0) {
-				$this->element_data['fulfillment_assets'] = array();
-				// first we "unlock" the asset, telling the platform it's okay to generate a link for non-private assets
-				$unlock_request = new CASHRequest(array(
-					'cash_request_type' => 'asset', 
-					'cash_action' => 'unlock',
-					'id' => $item['fulfillment_asset']
-				));
-				// next we make the link
-				$asset_request = new CASHRequest(array(
-					'cash_request_type' => 'asset', 
-					'cash_action' => 'getasset',
-					'id' => $item['fulfillment_asset']
-				));
-				if ($asset_request->response['payload']['type'] != 'folder') {
-					$this->element_data['fulfillment_assets'][] = array(
-						'id' => $asset_request->response['payload']['id'],
-						'title' => $asset_request->response['payload']['title'],
-						'description' => $asset_request->response['payload']['description']
-					);
-				} else {
-					$children_request = new CASHRequest(array(
+				$fulfillment_request = new CASHRequest(
+					array(
 						'cash_request_type' => 'asset', 
-						'cash_action' => 'getassetsforparent',
-						'parent_id' => $item['fulfillment_asset']
-					));
-					if (is_array($children_request->response['payload'])) {
-						foreach ($children_request->response['payload'] as $child) {
-							$this->element_data['fulfillment_assets'][] = array(
-								'id' => $child['id'],
-								'title' => $child['title'],
-								'description' => $child['description']
-							);
-						}
-					}
+						'cash_action' => 'getfulfillmentassets',
+						'asset_details' => $item['fulfillment_asset']
+					)
+				);
+				if ($fulfillment_request->response['payload']) {
+					$this->element_data['fulfillment_assets'] = new ArrayIterator($fulfillment_request->response['payload']);
 				}
 				$this->setTemplate('success');
 			}

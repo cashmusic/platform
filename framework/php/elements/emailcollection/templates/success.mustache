@@ -2,6 +2,9 @@
 		<p>
 		{{message_success}}
 		</p>
-		<a href="?cash_request_type=asset&cash_action=claim&id={{asset_id}}&element_id={{element_id}}" class="download">{{asset_title}}</a>
-		<div class="description">{{asset_description}}</div>
+		{{#fulfillment_assets}}
+		<a href="?cash_request_type=asset&cash_action=claim&id={{id}}&element_id={{element_id}}" class="download">{{title}}</a> 
+		<div class="description">{{description}}</div>
+		<br /><br />
+		{{/fulfillment_assets}}
 </div>

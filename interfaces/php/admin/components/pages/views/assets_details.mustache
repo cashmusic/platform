@@ -9,16 +9,9 @@
 	<label for="asset_description">Description</label><br />
 	<textarea rows="3" id="asset_description" name="asset_description">{{description}}</textarea>
 	
-	{{^force_type}}
-		<div class="row_seperator">.</div>
-		<label for="asset_type">Type</label><br />
-		<select id="asset_type" name="asset_type">
-			{{{type_options_markup}}}
-		</select>
-	{{/force_type}}
-	{{#force_type}}
-		<input type="hidden" name="asset_type" value="{{force_type}}" />
-	{{/force_type}}
+	{{#type}}
+		<input type="hidden" name="asset_type" value="{{type}}" />
+	{{/type}}
 	<input type="hidden" name="parent_id" value="{{parent_id}}" />
 
 	{{#show_location}}

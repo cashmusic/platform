@@ -166,19 +166,15 @@ if ($cash_admin->page_data['type'] == 'file') {
 	// set the view
 	$cash_admin->setPageContentTemplate('assets_details_file');
 } else if ($cash_admin->page_data['type'] == 'release') {
-	if (isset($cash_admin->page_data['metadata']['fulfillment'])) {
-		if (count($cash_admin->page_data['metadata']['fulfillment'])) {
-			$fulfillment_response = $cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'asset', 
-					'cash_action' => 'getasset',
-					'id' => $cash_admin->page_data['metadata']['fulfillment']
-				)
-			);
-			if ($fulfillment_response['payload']) {
-				$cash_admin->page_data['fulfillment_files'] = new ArrayIterator($fulfillment_response['payload']);
-			}
-		}
+	$fulfillment_response = $cash_admin->requestAndStore(
+		array(
+			'cash_request_type' => 'asset', 
+			'cash_action' => 'getfulfillmentassets',
+			'asset_details' => $asset_response['payload']
+		)
+	);
+	if ($fulfillment_response['payload']) {
+		$cash_admin->page_data['fulfillment_files'] = new ArrayIterator($fulfillment_response['payload']);
 	}
 
 	if (isset($cash_admin->page_data['metadata']['private'])) {
@@ -202,22 +198,7 @@ if ($cash_admin->page_data['type'] == 'file') {
 	// default back to the most basic view:
 	$cash_admin->page_data['form_state_action'] = 'doassetedit';
 	$cash_admin->page_data['asset_button_text'] = 'Edit the asset';
-	// create type options with current selected:
-	$type_options = array(
-		'file' => 'File',
-		'folder' => 'Folder (depreciated. aka: going away before v4)',
-		'playlist' => 'Playlist',
-		'release' => 'Release'
-	);
-	$cash_admin->page_data['type_options_markup'] = '';
-	foreach ($type_options as $type => $value) {
-		if ($cash_admin->page_data['type'] == $type) {
-			$selected = ' selected="selected"';
-		} else {
-			$selected = '';
-		}
-		$cash_admin->page_data['type_options_markup'] .= '<option value="' . $type . '"' . $selected . '>' . $value . '</option>';
-	}
+
 	$cash_admin->setPageContentTemplate('assets_details');
 }
 ?>

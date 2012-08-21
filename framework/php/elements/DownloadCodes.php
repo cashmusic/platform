@@ -21,19 +21,19 @@ class DownloadCodes extends ElementBase {
 		} elseif ($this->status_uid == 'asset_redeemcode_200') {
 			// first we "unlock" the asset, telling the platform it's okay to generate a link for non-private assets
 			$this->element_data['asset_id'] = $this->original_response['payload']['scope_table_id'];
-			$unlock_request = new CASHRequest(array(
-				'cash_request_type' => 'asset', 
-				'cash_action' => 'unlock',
-				'id' => $this->element_data['asset_id']
-			));
-			// next we make the link
-			$asset_request = new CASHRequest(array(
-				'cash_request_type' => 'asset', 
-				'cash_action' => 'getasset',
-				'id' => $this->element_data['asset_id']
-			));
-			$this->element_data['asset_title'] = $asset_request->response['payload']['title'];
-			$this->element_data['asset_description'] = $asset_request->response['payload']['description'];
+			if ($this->element_data['asset_id'] != 0) {
+				// get all fulfillment assets
+				$fulfillment_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'asset', 
+						'cash_action' => 'getfulfillmentassets',
+						'asset_details' => $this->element_data['asset_id']
+					)
+				);
+				if ($fulfillment_request->response['payload']) {
+					$this->element_data['fulfillment_assets'] = new ArrayIterator($fulfillment_request->response['payload']);
+				}
+			}
 			$this->setTemplate('success');
 		}
 		return $this->element_data;

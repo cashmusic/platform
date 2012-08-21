@@ -64,7 +64,7 @@ $cash_admin->page_data['asset_button_text'] = 'Add that asset';
 // create type options with current selected:
 if (isset($request_parameters[0])) {
 	$add_type = $request_parameters[0];
-	$cash_admin->page_data['force_type'] = $add_type;
+	$cash_admin->page_data['type'] = $add_type;
 	$cash_admin->page_data['ui_title'] = 'Assets: Add a ' . $add_type;
 	if ($add_type == 'file') {
 		// connection options markup:
