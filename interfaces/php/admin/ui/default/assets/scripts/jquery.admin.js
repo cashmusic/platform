@@ -416,6 +416,7 @@
 			markup = $(markup);
 			markup.hide();
 			$('body').append(markup);
+			prepDrawers('<span class="icon arrow_up"></span> Hide','<span class="icon arrow_down"></span> Show');
 
 			// show the dialog with a fast fade-in
 			$('.modalbg').fadeIn('fast');

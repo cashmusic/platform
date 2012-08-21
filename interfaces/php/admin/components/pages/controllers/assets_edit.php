@@ -15,7 +15,7 @@ if (isset($_POST['add_codes_qty']) && $request_parameters[0]) {
 				$total_added++;
 			}
 		}
-		$cash_admin->page_data['page_message'] = 'Added ' . $total_added . 'new download codes';
+		$cash_admin->page_data['page_message'] = 'Added ' . $total_added . ' new download codes';
 	}
 }
 
@@ -53,7 +53,7 @@ if (isset($_REQUEST['exportcodes']) && $request_parameters[0]) {
 
 // parsing posted data:
 if (isset($_POST['doassetedit'])) {
-	$asset_parent = 0;
+	$asset_parent = false;
 	$connection_id = 0;
 	$asset_location = '';
 	$asset_description = false;
