@@ -8,7 +8,7 @@
 	<div class="row_seperator">.</div>
 	<label for="asset_description">Description</label><br />
 	<textarea rows="3" id="asset_description" name="asset_description">{{description}}</textarea>
-	
+
 	{{#type}}
 		<input type="hidden" name="asset_type" value="{{type}}" />
 	{{/type}}
@@ -26,7 +26,7 @@
 		<div class="col_oneoftwo lastcol">
 			<label for="asset_location">Location (URI)</label><br />
 			<input type="text" id="asset_location" name="asset_location" value="{{location}}" /><br />
-			[ or upload file ]
+			<input type="file" id="fileupload" name="files[]" value="{{location}}" data-url="" multiple /><br />
 		</div>
 	{{/show_location}}
 	{{^show_location}}
