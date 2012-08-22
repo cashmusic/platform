@@ -98,12 +98,12 @@
 		} else {
 			formdata = formdata+'&';
 		}
-		// remove any dialogs 
+		// remove any dialogs
 		$('.modalbg').fadeOut('fast', function() {
 			$('.modalbg').remove();
 		});
 
-		// fade out 
+		// fade out
 		$('#pagedisplay').fadeTo(100,0.2, function() {
 			// do a POST to get the page data, change pushstate, redraw page
 			jQuery.post(url, formdata+'data_only=1', function(data) {
@@ -176,7 +176,7 @@
 	function setContentBehaviors() {
 		// show/hide drawers
 		prepDrawers('<span class="icon arrow_up"></span> Hide','<span class="icon arrow_down"></span> Show');
-		
+
 		// datepicker
 		$('input[type=date]').datepicker();
 
@@ -208,6 +208,60 @@
 				minLength: 2
 			});
 		});
+
+/*
+		$('#fileupload').fileupload({
+			forceIframeTransport: true,
+			autoUpload: true,
+			add: function(e, data) {
+				console.log('new item added: ', data);
+
+				$.ajax({
+					url: "/documents",
+					type: 'POST',
+					dataType: 'json',
+					data: {doc: {title: data.files[0].name}},
+					async: false,
+					success: function(result) {
+						// after we created our document in rails, it is going to send back JSON of they key,
+						// policy, and signature.  We will put these into our form before it gets submitted to amazon.
+						$('#file_upload')
+							.next('input[name=key]').val(result.key)
+						.end()
+							.next('input[name=AWSAccessKeyId]').val(result.access_key)
+						.end()
+							.next('input[name=]').val(result.acl)
+						.end()
+							.next('input[name=policy]').val(result.policy)
+						.end()
+							.next('input[name=signature]').val(result.signature);
+					}
+
+				});
+
+				data.submit();
+
+			},
+			progressall: function(e, data) {
+				var progress = parseInt(data.loaded / data.total * 100, 10);
+				console.log('making progress: ' + progress + '% done.');
+			},
+			send: function (e, data) {
+				console.log('sending, should show loader here');
+			},
+			fail: function (e, data) {
+				console.log('failure');
+				console.log(data);
+			},
+			done: function (e, data) {
+				$.each(data.result, function (index, file) {
+					console.log('new file uploaded: ', file.name);
+					console.log('file object: ', file);
+				});
+			}
+		});
+
+*/
 	}
 
 	/**
@@ -231,7 +285,7 @@
 		});
 
 		$(document).on('click', '.navitem', function(e) {
-			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {	
+			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
 				e.preventDefault();
 				refreshPageData($(this).find('a').attr('href'));
 			}
@@ -249,7 +303,7 @@
 			jQuery.post(cashAdminPath+'/logout','noredirect=1');
 			refreshPageData(cashAdminPath+'/');
 		});
-			
+
 
 		// overlay cancel button event
 		$(document).on('click', '.modalcancel', function(e) {
@@ -327,7 +381,7 @@
 		// cashAdminPath is set in the main template to the www_base of the admin
 		$(document).on('click', 'a[href^=' + cashAdminPath + ']', function(e) {
 			var el = $(e.currentTarget);
-			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey && !el.hasClass('navitemlink')  
+			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey && !el.hasClass('navitemlink')
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
 				&& !el.is('#logout')
 			) {
@@ -338,7 +392,7 @@
 			}
 		});
 
-		// submit forms via AJAX 
+		// submit forms via AJAX
 		$(document).on('submit', 'form', function(e) {
 			var el = $(e.currentTarget);
 			e.preventDefault();
@@ -347,11 +401,44 @@
 				url = location.pathname;
 			}
 			var formdata = $(this).serialize();
-			if (el.is('.returntocurrentroute form')) {	
+			if (el.is('.returntocurrentroute form')) {
 				formdata += '&forceroute=' + location.pathname.replace(cashAdminPath, '');
 			}
 			refreshPageData(url,formdata);
 		});
+
+
+
+		// file upload handlers
+		$(document).on('click', '.file-upload-trigger', function(e) {
+			e.preventDefault();
+
+			var trigger = $(this),
+			iframeSrc = $(this).data('upload-url'),
+			connectionID = $('#connection_id').val(),
+			initiateURL = $(this).data('upload-endpoint') + connectionID;
+
+			if ( connectionID == '0' ) {
+				alert('Sorry, can\'t upload without a connection. Have you tried a normal link?');
+				return false;
+			}
+
+			var uploadTo = $.ajax({
+				url: initiateURL,
+				dataType: 'json'
+			}).done(function(result) {
+					console.log("success");
+					console.log(result);
+
+					var iframe = $( document.createElement( 'iframe' ) )
+						.addClass('upload-corral')
+						.attr('src', result.upload_url)
+						.insertAfter(trigger);
+				})
+				.fail(function() { console.log("error"); })
+				.always(function(result) { console.log("complete. result: ", result); });
+		});
+
 	}
 
 	/**
@@ -368,8 +455,8 @@
 	 * doModalLightbox (function)
 	 *
 	 * opens a modal confirmation box for delete links, etc. essentially this is a
-	 * silly "are you sure you want to click this?" message, and it sends along a 
-	 * GET param saying that it's been clicked — so the receiving controller knows  
+	 * silly "are you sure you want to click this?" message, and it sends along a
+	 * GET param saying that it's been clicked — so the receiving controller knows
 	 * it's happened and can skip displaying any form confirmation, etc.
 	 *
 	 */
