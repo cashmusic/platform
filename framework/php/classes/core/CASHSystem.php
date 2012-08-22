@@ -553,5 +553,48 @@
 			return false;
 		}
 	}
+
+	public static function getMimeTypeFor($path) {
+		$types = array(
+			'json'   => 'application/json',
+			'pdf'    => 'application/pdf',
+			'woff'   => 'application/font-woff',
+			'zip'    => 'application/zip',
+			'gzip'   => 'application/x-gzip',
+			'mp4'    => 'audio/mp4',
+			'mp3'    => 'audio/mpeg',
+			'ogg'    => 'audio/ogg',
+			'flac'   => 'audio/ogg',
+			'vorbis' => 'audio/vorbis',
+			'wav'    => 'audio/vnd.wave',
+			'webm'   => 'audio/webm',
+			'gif'    => 'image/gif',
+			'jpg'    => 'image/jpeg',
+			'jpeg'   => 'image/jpeg',
+			'png'    => 'image/png',
+			'svg'    => 'image/svg+xml',
+			'tiff'   => 'image/tiff',
+			'css'    => 'text/css',
+			'csv'    => 'text/csv',
+			'htm'    => 'text/html',
+			'html'   => 'text/html',
+			'js'     => 'text/javascript',
+			'txt'    => 'text/plain',
+			'mpeg'   => 'video/mpeg',
+			'mpg'    => 'video/mpeg',
+			'mp4'    => 'video/mp4',
+			'mov'    => 'video/quicktime',
+			'wmv'    => 'video/x-ms-wmv',
+			'flv'    => 'video/x-flv'
+		);
+		$extension = pathinfo($path,PATHINFO_EXTENSION);
+		if ($extension) {
+			if (isset($types[$extension])) {
+				return $types[$extension];
+			}
+		} else { 
+			return 'application/octet-stream';
+		}
+	}
 } // END class 
 ?>

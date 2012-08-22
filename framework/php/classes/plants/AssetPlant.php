@@ -22,6 +22,7 @@ class AssetPlant extends PlantBase {
 			// second value = allowed request methods (string or array of strings)
 			'addasset'                => array('addAsset','direct'),
 			'addlockcode'             => array('addLockCode','direct'),
+			'addremoteuploadform'     => array('addRemoteUploadForm','direct'),
 			'claim'                   => array('redirectToAsset',array('get','post','direct')),
 			'editasset'               => array('editAsset','direct'),
 			'findassets'              => array('findAssets','direct'),
@@ -475,6 +476,43 @@ class AssetPlant extends PlantBase {
 				);
 			}
 		}
+	}
+
+	/**
+	 * Generates HTML upload form to be put on remote server for same-origin uploads
+	 *
+	 * @return string (HTML)
+	 */protected function addRemoteUploadForm($user_id,$connection_id) {
+		$connection = $this->getConnectionDetails($connection_id);
+		switch ($connection['type']) {
+			case 'com.amazon':
+				$path_prefix = 'cashmusic-' . $connection['id'] . $connection['creation_date'] . '/' . time();
+				$upload_token = $this->initiate_upload($user_id,$connection_id);
+				// webhooks
+				$api_credentials = CASHSystem::getAPICredentials();
+				$webhook_api_url = CASH_API_URL . 'verbose/assets/processwebhook/origin/com.amazon/upload_token/' . $upload_token . '/api_key/' . $api_credentials['api_key'];
+
+				$s3 = new S3Seed($user_id,$connection_id);
+				$html_form = $s3->getPOSTUploadHTML($path_prefix,$webhook_api_url);
+				$s3_key = 'cashmusic-' . $upload_token . '.html';
+				$upload_url = 'https://' . $s3->getBucketName() . '.s3.amazonaws.com/' . $s3_key;
+				if($s3->createFileFromString($html_form,$s3_key,false,'text/html')) {
+					$return_array = array (
+						'upload_token' => $upload_token,
+						'upload_url' => $upload_url
+					);
+					return $return_array;
+				} else {
+					return false;
+				}
+				break;
+		    default:
+				return false;
+		}
+	}
+
+	protected function initiate_upload($user_id,$connection_id) {
+		return md5(time());
 	}
 
 	protected function findConnectionAssetDeltas($connection_id,$connection=false) {
