@@ -25,8 +25,20 @@
 
 		<div class="col_oneoftwo lastcol">
 			<label for="asset_location">Location (URI)</label><br />
+			<a href="#" data-upload-endpoint="{{{www_path}}}//ajax/initiateupload/{{{id}}}" data-upload-url="http://cashmusicdemo.s3.amazonaws.com/_upload.html" class="file-upload-trigger">[or upload a file]</a>
+
+			<!--
+			<iframe src="http://cashmusicdemo.s3.amazonaws.com/_upload.html"></iframe>
+
 			<input type="text" id="asset_location" name="asset_location" value="{{location}}" /><br />
-			<input type="file" id="fileupload" name="files[]" value="{{location}}" data-url="" multiple /><br />
+			<input type="file" id="fileupload" name="files[]" value="" data-url="" />
+			<input type="hidden" name="key" value="" />
+			<input type="hidden" name="AWSAccessKeyId" value="" />
+			<input type="hidden" name="acl" value="private" />
+			<input type="hidden" name="success_action_status" value="200" />
+			<input type="hidden" name="policy" value="" />
+			<input type="hidden" name="signature" value="" />
+		-->
 		</div>
 	{{/show_location}}
 	{{^show_location}}
