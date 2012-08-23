@@ -109,11 +109,12 @@ class S3Seed extends SeedBase {
 		return $return_array;
 	}
 
-	public function getPOSTUploadHTML($key_preface='',$success_url=201,$for_flash=false) {
+	public function getPOSTUploadParams($key_preface='',$success_url=200,$for_flash=false) {
 		if (substr($key_preface, -1 && $key_preface) != '/') {
 			$key_preface .= '/';
 		}
 		$upload_url = 'https://' . $this->bucket . '.s3.amazonaws.com/';
+		$params = false;
 		if (!$for_flash) {
 			$params = $this->s3->getHttpUploadPostParams(
 				$this->bucket,
@@ -136,6 +137,11 @@ class S3Seed extends SeedBase {
 				true
 			);
 		}
+		return $params;
+	}
+
+	public function getPOSTUploadHTML($key_preface='',$success_url=200,$for_flash=false) {
+		$params = $this->getPOSTUploadParams($key_preface,$success_url,$for_flash);
 		
 		if (!$params) { 
 			return false;

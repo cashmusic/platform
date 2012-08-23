@@ -395,16 +395,18 @@
 		// submit forms via AJAX
 		$(document).on('submit', 'form', function(e) {
 			var el = $(e.currentTarget);
-			e.preventDefault();
-			var url = $(this).attr('action');
-			if (url == '') {
-				url = location.pathname;
+			if (el.attr('action').toLowerCase().indexOf('s3.amazonaws') == 0) {
+				e.preventDefault();
+				var url = el.attr('action');
+				if (url == '') {
+					url = location.pathname;
+				}
+				var formdata = $(this).serialize();
+				if (el.is('.returntocurrentroute form')) {
+					formdata += '&forceroute=' + location.pathname.replace(cashAdminPath, '');
+				}
+				refreshPageData(url,formdata);
 			}
-			var formdata = $(this).serialize();
-			if (el.is('.returntocurrentroute form')) {
-				formdata += '&forceroute=' + location.pathname.replace(cashAdminPath, '');
-			}
-			refreshPageData(url,formdata);
 		});
 
 
