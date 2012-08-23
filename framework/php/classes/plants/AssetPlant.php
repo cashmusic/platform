@@ -506,7 +506,8 @@ class AssetPlant extends PlantBase {
 					$return_array = array (
 						'upload_token' => $upload_token,
 						'upload_url' => $upload_url,
-						'flash_upload_url' => $flash_upload_url
+						'flash_upload_url' => $flash_upload_url,
+						'callback' => $webhook_api_url
 					);
 					return $return_array;
 				} else {
