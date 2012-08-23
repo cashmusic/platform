@@ -22,41 +22,27 @@
 		$('#loading').hide();
 
 		$('#file_upload').fileupload({
-		forceIframeTransport: true,    // VERY IMPORTANT.  you will get 405 Method Not Allowed if you don't add this.
-		autoUpload: true,/*
-		add: function (event, data) {
-		  $.ajax({
-			url: "/documents",
-			type: 'POST',
-			dataType: 'json',
-			data: {doc: {title: data.files[0].name}},
-			async: false
-		  });
-
-		  data.submit();
-		},*/
-		add: function (e, data) {
-			filename = data.files[0].name;
-			data.submit();
-		},
-		send: function(e, data) {
-		  // show a loading spinner because now the form will be submitted to amazon, 
-		  // and the file will be directly uploaded there, via an iframe in the background. 
-		  $('#loading').show();
-		},
-		fail: function(e, data) {
-		  console.log('fail');
-		  console.log(data);
-		},
-		done: function (event, data) {
-		  // here you can perform an ajax call to get your documents to display on the screen.
-		  //$('#your_documents').load("/documents?for_item=1234");
-		  
-		  // hide the loading spinner that we turned on earlier.
-		  $('#loading').hide();
-		  alert('done. ' + filekey.replace('${filename}','') + filename);
-		},
-	  });
+			forceIframeTransport: true,
+			autoUpload: true,
+			add: function (e, data) {
+				// remember the filename and submit
+				filename = data.files[0].name;
+				data.submit();
+			},
+			send: function(e, data) {
+				// spinner, etc
+				$('#loading').show();
+			},
+			fail: function(e, data) {
+				// we should do something useful here
+			},
+			done: function (event, data) {
+				// hide the spinner, add the final key to the location field of the 
+				// main form, call ajax/finalizeupload with the key
+				$('#loading').hide();
+				alert('done. ' + filekey.replace('${filename}','') + filename);
+			},
+		});
 	});
 </script>
 {{/AWSAccessKeyId}}
