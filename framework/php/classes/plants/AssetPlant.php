@@ -486,7 +486,7 @@ class AssetPlant extends PlantBase {
 		$connection = $this->getConnectionDetails($connection_id);
 		switch ($connection['type']) {
 			case 'com.amazon':
-				$path_prefix = 'cashmusic-' . $connection['id'] . $connection['creation_date'] . '/' . time();
+				$path_prefix = 'cashmusic-' . $connection['id'] . $connection['creation_date'] . '/' . time() . '/';
 				$upload_token = $this->initiate_upload($user_id,$connection_id);
 				// webhooks
 				$api_credentials = CASHSystem::getAPICredentials();
@@ -494,12 +494,18 @@ class AssetPlant extends PlantBase {
 
 				$s3 = new S3Seed($user_id,$connection_id);
 				$html_form = $s3->getPOSTUploadHTML($path_prefix,$webhook_api_url);
-				$s3_key = 'cashmusic-' . $upload_token . '.html';
+				$s3_key = $path_prefix . 'cashmusic-' . $upload_token . '.html';
 				$upload_url = 'https://' . $s3->getBucketName() . '.s3.amazonaws.com/' . $s3_key;
 				if($s3->createFileFromString($html_form,$s3_key,false,'text/html')) {
+					$flash_upload_url = false;
+					$s3_key = $path_prefix . 'cashmusic-' . $upload_token . '-flash.html';
+					if ($s3->createFileFromString($html_form,$s3_key,false,'text/html')) {
+						$flash_upload_url = 'https://' . $s3->getBucketName() . '.s3.amazonaws.com/' . $s3_key;
+					}
 					$return_array = array (
 						'upload_token' => $upload_token,
-						'upload_url' => $upload_url
+						'upload_url' => $upload_url,
+						'flash_upload_url' => $flash_upload_url
 					);
 					return $return_array;
 				} else {
@@ -512,7 +518,17 @@ class AssetPlant extends PlantBase {
 	}
 
 	protected function initiate_upload($user_id,$connection_id) {
-		return md5(time());
+		$upload_token = md5(time());
+
+		return $upload_token;
+	}
+
+	protected function finalize_upload($user_id,$upload_token) {
+
+	}
+
+	protected function processWebhook($origin,$user_id,$upload_token) {
+
 	}
 
 	protected function findConnectionAssetDeltas($connection_id,$connection=false) {
