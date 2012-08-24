@@ -25,6 +25,7 @@ class AssetPlant extends PlantBase {
 			'addremoteuploadform'     => array('addRemoteUploadForm','direct'),
 			'claim'                   => array('redirectToAsset',array('get','post','direct')),
 			'editasset'               => array('editAsset','direct'),
+			'finalizeupload'          => array('finalizeUpload','direct'),
 			'findassets'              => array('findAssets','direct'),
 			'findconnectiondeltas'    => array('findConnectionAssetDeltas','direct'),
 			'getanalytics'            => array('getAnalytics','direct'),
@@ -520,6 +521,19 @@ class AssetPlant extends PlantBase {
 				$path_prefix = 'cashmusic-' . $connection['id'] . $connection['creation_date'] . '/' . time();
 				$s3 = new S3Seed($user_id,$connection_id);
 				return (array) $s3->getPOSTUploadParams($path_prefix);
+				break;
+		    default:
+				return false;
+		}
+	}
+
+	protected function finalizeUpload($connection_id,$filename) {
+		$connection = $this->getConnectionDetails($connection_id);
+		switch ($connection['type']) {
+			case 'com.amazon':
+				$s3 = new S3Seed($connection['user_id'],$connection_id);
+				$content_type = CASHSystem::getMimeTypeFor($filename);
+				return $s3->changeFileMIME($filename,$content_type);
 				break;
 		    default:
 				return false;

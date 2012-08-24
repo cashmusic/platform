@@ -86,6 +86,19 @@ class S3Seed extends SeedBase {
 		}
 	}
 
+	public function changeFileMIME($filename,$content_type,$private=true) {
+		if ($private) {
+			$s3_acl = S3::ACL_PRIVATE;
+		} else {
+			$s3_acl = S3::ACL_PUBLIC_READ;
+		}
+		return $this->s3->copyObject(
+			$this->bucket, $filename, $this->bucket, $filename, $s3_acl,
+			array(), 
+			array("Content-Type" => $content_type)
+		);
+	}
+
 	public function deleteFile($remote_key) {
 		return $this->s3->deleteObject($this->bucket, $remote_key);
 	}

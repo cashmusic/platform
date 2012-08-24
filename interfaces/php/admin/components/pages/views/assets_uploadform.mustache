@@ -6,8 +6,7 @@
 	<input type="hidden" name="success_action_status" value="{{success_action_status}}" />
 	<input type="hidden" name="policy" value="{{policy}}" />
 	<input type="hidden" name="signature" value="{{signature}}" />
-	<input type="file" name="file" /><br />
-	<input type="submit" class="button" value="Upload" />
+	<input type="file" name="file" />
 </form>
 
 <div id="loading">uploading...</div>
@@ -17,8 +16,10 @@
 
 <script type="text/javascript">
 	$(function() {
-		var filename,filekey;
+		var filename,filekey,connectionId,finalizeUrl;
 		filekey = '{{key}}';
+		connectionId = '{{connection_id}}';
+		finalizeUrl = '{{www_path}}/ajax/finalizeupload';
 		$('#loading').hide();
 
 		$('#file_upload').fileupload({
@@ -40,8 +41,15 @@
 				// hide the spinner, add the final key to the location field of the 
 				// main form, call ajax/finalizeupload with the key
 				$('#loading').hide();
-				alert('done. ' + filekey.replace('${filename}','') + filename);
-			},
+				var finalkey = filekey.replace('${filename}','') + filename;
+				jQuery.post(finalizeUrl, 'connection_id='+connectionId+'&filename='+finalkey, function(data) {
+					if (data.success) {
+						alert('done: ' + finalkey);
+					} else {
+						alert('done, but could not set MIME type: ' + finalkey);
+					}
+				},'json');
+			}
 		});
 	});
 </script>
