@@ -532,6 +532,10 @@
 			var drawer, drawerHandle, drawerContent, drawerHandleLabel;
 			drawer = $(this);
 			if (drawer.find('.drawerhandleaction').length == 0) {
+				if (drawer.hasClass('noprefix')) {
+					labelTextHidden = '';
+					labelTextVisible = '';
+				}
 				drawerHandle = drawer.find('.drawerhandle');
 				drawerContent = drawer.find('.drawercontent');
 				// create the label span and add necessary classes

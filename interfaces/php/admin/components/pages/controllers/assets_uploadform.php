@@ -4,7 +4,6 @@ if (isset($request_parameters[0])) {
 		array(
 			'cash_request_type' => 'asset', 
 			'cash_action' => 'getuploadparameters',
-			'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
 			'connection_id' => $request_parameters[0]
 		)
 	);

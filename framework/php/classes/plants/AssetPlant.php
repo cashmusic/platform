@@ -35,6 +35,7 @@ class AssetPlant extends PlantBase {
 			'getassetsforuser'        => array('getAssetsForUser','direct'),
 			'getuploadparameters'     => array('getPOSTParameters','direct'),
 			'getfulfillmentassets'    => array('getFulfillmentAssets','direct'),
+			'makepublic'              => array('makePublic','direct'),
 			'redeemcode'              => array('redeemLockCode',array('direct','get','post')),
 			'syncconnectionassets'    => array('syncConnectionAssets','direct'),
 			'unlock'                  => array('unlockAsset','direct')
@@ -514,12 +515,12 @@ class AssetPlant extends PlantBase {
 		}
 	}
 
-	protected function getPOSTParameters($user_id,$connection_id) {
+	protected function getPOSTParameters($connection_id) {
 		$connection = $this->getConnectionDetails($connection_id);
 		switch ($connection['type']) {
 			case 'com.amazon':
 				$path_prefix = 'cashmusic-' . $connection['id'] . $connection['creation_date'] . '/' . time();
-				$s3 = new S3Seed($user_id,$connection_id);
+				$s3 = new S3Seed($connection['user_id'],$connection_id);
 				return (array) $s3->getPOSTUploadParams($path_prefix);
 				break;
 		    default:
@@ -534,6 +535,24 @@ class AssetPlant extends PlantBase {
 				$s3 = new S3Seed($connection['user_id'],$connection_id);
 				$content_type = CASHSystem::getMimeTypeFor($filename);
 				return $s3->changeFileMIME($filename,$content_type);
+				break;
+		    default:
+				return false;
+		}
+	}
+
+	protected function makePublic($id) {
+		$asset = $this->getAssetInfo($id);
+		$connection = $this->getConnectionDetails($asset['connection_id']);
+		switch ($connection['type']) {
+			case 'com.amazon':
+				$s3 = new S3Seed($connection['user_id'],$asset['connection_id']);
+				$content_type = CASHSystem::getMimeTypeFor($asset['location']);
+				if ($s3->changeFileMIME($asset['location'],$content_type,false)) {
+					return 'https://s3.amazonaws.com/' . $s3->getBucketName() . '/' . $asset['location'];
+				} else {
+					return false;
+				}
 				break;
 		    default:
 				return false;

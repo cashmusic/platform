@@ -14,6 +14,11 @@
 	{{/type}}
 	<input type="hidden" name="parent_id" value="{{parent_id}}" />
 
+	{{#metadata_command}}
+		<input type="hidden" name="metadata_command" value="{{metadata_command}}" />
+		<input type="hidden" name="metadata_name" value="{{metadata_name}}" />
+	{{/metadata_command}}
+
 	{{#show_location}}
 		<div class="row_seperator">.</div>
 		<div class="col_oneoftwo">
@@ -21,39 +26,42 @@
 			<select id="connection_id" name="connection_id">
 				{{{connection_options}}}
 			</select>
+			<div class="row_seperator">.</div>
+			<br /><br />
+			<input class="button" type="submit" value="{{asset_button_text}}" />
 		</div>
 
 		<div class="col_oneoftwo lastcol">
 			<label for="asset_location">Location (URI)</label><br />
-			<a href="#" data-upload-endpoint="{{{www_path}}}//ajax/initiateupload/{{{id}}}" data-upload-url="http://cashmusicdemo.s3.amazonaws.com/_upload.html" class="file-upload-trigger">[or upload a file]</a>
-
+			<input type="text" id="asset_location" name="asset_location" value="{{location}}" />
+			</form>
 			<!--
-			<iframe src="http://cashmusicdemo.s3.amazonaws.com/_upload.html"></iframe>
-
-			<input type="text" id="asset_location" name="asset_location" value="{{location}}" /><br />
-			<input type="file" id="fileupload" name="files[]" value="" data-url="" />
-			<input type="hidden" name="key" value="" />
-			<input type="hidden" name="AWSAccessKeyId" value="" />
-			<input type="hidden" name="acl" value="private" />
-			<input type="hidden" name="success_action_status" value="200" />
-			<input type="hidden" name="policy" value="" />
-			<input type="hidden" name="signature" value="" />
-		-->
+			  *
+			  *
+			  * We should only display the link below if the connection > 0. Check connection ID
+			  * on connection_id change, if it's > 0 we request a data_only view of /assets/uploadform
+			  * and insert it into the drawer contents
+			  * 
+			  *
+			  *
+			  -->
+			<div class="drawer noprefix">
+				<small class="fadedtext">Using a hosting connection? <a class="drawerhandle usecolor1">Upload a file</a></small>
+				<div class="drawercontent">
+					form shit here.
+				</div>
+			</div>
 		</div>
 	{{/show_location}}
 	{{^show_location}}
 		<input type="hidden" name="connection_id" value="" />
 		<input type="hidden" name="asset_location" value="" />
+		<div class="row_seperator">.</div>
+		<div class="col_oneoftwo">
+			<br />
+			<input class="button" type="submit" value="{{asset_button_text}}" />
+		</div>
+		</form>	
 	{{/show_location}}
-	{{#metadata_command}}
-		<input type="hidden" name="metadata_command" value="{{metadata_command}}" />
-		<input type="hidden" name="metadata_name" value="{{metadata_name}}" />
-	{{/metadata_command}}
-
 	<div class="row_seperator">.</div>
-	<div>
-		<br />
-		<input class="button" type="submit" value="{{asset_button_text}}" />
-	</div>
 
-</form>
