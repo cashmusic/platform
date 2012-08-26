@@ -14,7 +14,7 @@
 			<div>	
 				<div class="release-cover">
 					<div class="release-cover-options">
-						<a href="">Add/edit cover</a>
+						<a href="{{www_path}}/assets/add/file/setparent/{{id}}/setmetadata/cover" class="lightboxed returntocurrentroute smalltext"><span class="icon camera"></span> <b>Add/edit cover</b></a>
 					</div>
 				</div>
 			</div>
@@ -132,29 +132,28 @@
 	</div>
 </form>
 	<div class="col_oneoftwo lastcol">
-		<label>Download codes</label>
-		<div class="drawer">
-			<div class="drawercontent">
-				<p>
-				{{#asset_codes_count}}
-					There are {{asset_codes_count}} codes for this asset. <a href="{{www_path}}/assets/edit/{{id}}?exportcodes=1">Export them!</a>
-				{{/asset_codes_count}}
-				{{^asset_codes_count}}
-					There are no download codes for this asset.
-				{{/asset_codes_count}}
-				</p>
-				<form method="post" action="{{www_path}}/assets/edit/{{id}}">
+			<div class="drawer noprefix">
+		<small class="fadedtext"><span class="icon cloud_download"></span> Need download codes? <a class="drawerhandle usecolor1">Export or create codes</a></small>
+		<div class="drawercontent">
+			<p>
+			{{#asset_codes_count}}
+				There are {{asset_codes_count}} codes for this asset. <a href="{{www_path}}/assets/edit/{{id}}?exportcodes=1">Export them!</a>
+			{{/asset_codes_count}}
+			{{^asset_codes_count}}
+				There are no download codes for this asset.
+			{{/asset_codes_count}}
+			</p>
+			<form method="post" action="{{www_path}}/assets/edit/{{id}}">
 
-				<label for="add_codes_qty">Add (qty) more codes</label><br />
-				<div class="col_oneoftwo">
-					<input type="text" name="add_codes_qty" id="add_codes_qty" value="500" />
-				</div>
-				<div class="col_oneoftwo lastcol">
-					<input type="submit" class="button" value="add codes" />	
-				</div>
-				</form>
-				<div class="row_seperator">.</div>
+			<label for="add_codes_qty">Add (qty) more codes</label><br />
+			<div class="col_oneoftwo">
+				<input type="text" name="add_codes_qty" id="add_codes_qty" value="500" />
 			</div>
-			<a class="drawerhandle mininav_flush usecolor1">download code options</a>
+			<div class="col_oneoftwo lastcol">
+				<input type="submit" class="button" value="add codes" />	
+			</div>
+			</form>
+			<div class="row_seperator">.</div>
 		</div>
+	</div>
 	</div>

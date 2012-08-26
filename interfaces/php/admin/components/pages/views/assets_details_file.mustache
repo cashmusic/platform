@@ -5,8 +5,6 @@
 	<h3>Asset details</h3>
 	<p class="smalltext fadedtext">
 		{{#parent_id}}<a href="{{www_path}}/assets/edit/{{parent_id}}"><b>return to parent asset</b></a><br />{{/parent_id}}
-		{{#screen_size}}size: {{screen_size}} &nbsp; stored on: {{connection_name}}<br />{{/screen_size}}
-		{{#location}}location: {{location}}<br />{{/location}}
 	</p>
 
 	<label for="asset_title">Title / Name</label><br />
@@ -33,14 +31,14 @@
 		<input type="hidden" name="parent_id" value="{{parent_id}}" />
 	{{/parent_id}}
 
-	<div class="row_seperator">.</div><br />
+	
 
 	<div class="col_oneoftwo">
-		<div>
-			<label>Tags</label><br />
-			{{{tag_markup}}}
-			<a href="#" class="injectbefore" rev="<input type='text' name='tag' value='' placeholder='Tag' />" rel="{{tag_counter}}"><small><span class="icon plus_alt"></span> <b>Add tag</b></small></a>
-		</div>
+		<div class="row_seperator">.</div><br />
+			
+		<small class="fadedtext"><span class="icon tag_fill"></span> Get organized.</small> {{{tag_markup}}}<a href="#" class="injectbefore usecolor1" rev="<input type='text' name='tag' value='' placeholder='Tag' />" rel="{{tag_counter}}"><small><b>Tag this file</b></small></a>
+		<div class="row_seperator">.</div>
+		<small class="fadedtext"><span class="icon unlock_fill"></span> Don't need security?</small> <a href="#" class="usecolor1"><small><b>Make this file public</b></small></a>
 
 		<div class="row_seperator">.</div>
 		<br />
@@ -49,9 +47,15 @@
 </form>
 	
 <div class="col_oneoftwo lastcol">
-	<label>Download codes</label>
-
-	<div class="drawer">
+	<div class="drawer noprefix">
+		<small class="fadedtext"><span class="icon upload"></span> Using a hosting connection? <a class="drawerhandle usecolor1">Upload a file</a></small>
+		<div class="drawercontent">
+			form shit here.
+		</div>
+	</div>
+	<div class="row_seperator">.</div><br />
+	<div class="drawer noprefix">
+		<small class="fadedtext"><span class="icon cloud_download"></span> Need download codes? <a class="drawerhandle usecolor1">Export or create codes</a></small>
 		<div class="drawercontent">
 			<p>
 			{{#asset_codes_count}}
@@ -73,7 +77,6 @@
 			</form>
 			<div class="row_seperator">.</div>
 		</div>
-		<a class="drawerhandle mininav_flush usecolor1">download code options</a>
 	</div>
 </div>
 <div class="row_seperator">.</div>

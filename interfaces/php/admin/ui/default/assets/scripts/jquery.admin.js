@@ -359,6 +359,7 @@
 		// should probably move to a data- structure
 		$(document).on('click', 'a.injectbefore', function(e) {
 			e.preventDefault();
+			e.currentTarget.blur();
 			var iteration = $(e.currentTarget).attr('rel');
 			if (iteration) {
 				jQuery.data(e.currentTarget,'nameiteration',iteration);
@@ -388,7 +389,7 @@
 				e.preventDefault();
 				var url = $(e.currentTarget).attr('href');
 				refreshPageData(url);
-				e.currentTarget.blur();
+				el.blur();
 			}
 		});
 
@@ -500,7 +501,7 @@
 			var markup = '<div class="modalbg"><div class="modallightbox ' + addedClass +
 						 data.specialcolor + '">' +
 						 data.page_content_markup +
-						 '<div class="tar"><a href="#" class="modalcancel">cancel</a></div>' +
+						 '<div class="tar"><a href="#" class="modalcancel smalltext"><span class="icon denied"></span> cancel</a></div>' +
 						 '</div></div></div>';
 			markup = $(markup);
 			markup.hide();
@@ -548,6 +549,7 @@
 				drawerHandle.prepend(drawerHandleLabel);
 				// then set up click actions on each of them
 				$(this).find('.drawerhandle').on('click',function () {
+					$(this).blur();
 					if (drawerContent.is(':hidden')) {
 						drawerContent.slideDown(200, function () {
 							drawerHandleLabel.html(labelTextVisible + ' ');

@@ -1,7 +1,7 @@
 <?php
 // Deal with download code requests
-if (isset($_POST['add_codes_qty']) && $request_parameters[0]) {
-	if ($_POST['add_codes_qty'] > 0) {
+if (isset($_REQUEST['add_codes_qty']) && $request_parameters[0]) {
+	if ($_REQUEST['add_codes_qty'] > 0) {
 		$total_added = 0;
 		for ($i = 1; $i <= $_POST['add_codes_qty']; $i++) {
 			$addcode_request = new CASHRequest(
