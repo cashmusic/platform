@@ -304,6 +304,9 @@
 			refreshPageData(cashAdminPath+'/');
 		});
 
+		$(document).on('click', 'input.externalsubmit', function(e) {
+			$($(this).data('cash-target-form')).submit();
+		});
 
 		// overlay cancel button event
 		$(document).on('click', '.modalcancel', function(e) {

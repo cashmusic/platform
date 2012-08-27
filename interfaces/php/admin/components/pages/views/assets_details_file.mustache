@@ -1,4 +1,4 @@
-<form method="post" action="{{www_path}}/assets/edit/{{id}}">
+<form method="post" id="edit-file-form" action="{{www_path}}/assets/edit/{{id}}">
 	<input type="hidden" name="doassetedit" value="makeitso" />
 	<input type="hidden" name="asset_type" value="file" />
 	
@@ -41,41 +41,44 @@
 		<small class="fadedtext"><span class="icon unlock_fill"></span> Don't need security?</small> <a href="#" class="usecolor1"><small><b>Make this file public</b></small></a>
 
 		<div class="row_seperator">.</div>
+		<input class="button nojs" type="submit" value="Edit the asset" />
+		</form>
+
+		<div class="drawer noprefix">
+			<small class="fadedtext"><span class="icon cloud_download"></span> Need download codes? <a class="drawerhandle usecolor1">Export or create codes</a></small>
+			<div class="drawercontent">
+				<p>
+				{{#asset_codes_count}}
+					There are {{asset_codes_count}} codes for this asset. <a href="{{www_path}}/assets/edit/{{id}}?exportcodes=1">Export them!</a>
+				{{/asset_codes_count}}
+				{{^asset_codes_count}}
+					There are no download codes for this asset.
+				{{/asset_codes_count}}
+				</p>
+				<form method="post" action="{{www_path}}/assets/edit/{{id}}">
+
+				<label for="add_codes_qty">Add (qty) more codes</label><br />
+				<div class="col_oneoftwo">
+					<input type="text" name="add_codes_qty" id="add_codes_qty" value="500" />
+				</div>
+				<div class="col_oneoftwo lastcol">
+					<input type="submit" class="button" value="add codes" />	
+				</div>
+				</form>
+				<div class="row_seperator">.</div>
+			</div>
+		</div>
+
 		<br />
-		<input class="button" type="submit" value="Edit the asset" />
+		<input class="button onlyjs externalsubmit" type="button" data-cash-target-form="#edit-file-form" value="Edit the file" />
 	</div>
-</form>
+
 	
 <div class="col_oneoftwo lastcol">
 	<div class="drawer noprefix">
 		<small class="fadedtext"><span class="icon upload"></span> Using a hosting connection? <a class="drawerhandle usecolor1">Upload a file</a></small>
 		<div class="drawercontent">
 			form shit here.
-		</div>
-	</div>
-	<div class="row_seperator">.</div><br />
-	<div class="drawer noprefix">
-		<small class="fadedtext"><span class="icon cloud_download"></span> Need download codes? <a class="drawerhandle usecolor1">Export or create codes</a></small>
-		<div class="drawercontent">
-			<p>
-			{{#asset_codes_count}}
-				There are {{asset_codes_count}} codes for this asset. <a href="{{www_path}}/assets/edit/{{id}}?exportcodes=1">Export them!</a>
-			{{/asset_codes_count}}
-			{{^asset_codes_count}}
-				There are no download codes for this asset.
-			{{/asset_codes_count}}
-			</p>
-			<form method="post" action="{{www_path}}/assets/edit/{{id}}">
-
-			<label for="add_codes_qty">Add (qty) more codes</label><br />
-			<div class="col_oneoftwo">
-				<input type="text" name="add_codes_qty" id="add_codes_qty" value="500" />
-			</div>
-			<div class="col_oneoftwo lastcol">
-				<input type="submit" class="button" value="add codes" />	
-			</div>
-			</form>
-			<div class="row_seperator">.</div>
 		</div>
 	</div>
 </div>

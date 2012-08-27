@@ -33,6 +33,7 @@ class AssetPlant extends PlantBase {
 			'getassetsforconnection'  => array('getAssetsForConnection','direct'),
 			'getassetsforparent'      => array('getAssetsForParent','direct'),
 			'getassetsforuser'        => array('getAssetsForUser','direct'),
+			'getasseturl'             => array('getFinalAssetLocation','direct'),
 			'getuploadparameters'     => array('getPOSTParameters','direct'),
 			'getfulfillmentassets'    => array('getFulfillmentAssets','direct'),
 			'makepublic'              => array('makePublic','direct'),
@@ -434,13 +435,17 @@ class AssetPlant extends PlantBase {
 		}
 	}
 
-	protected function getFinalAssetLocation($connection_id,$user_id,$asset_location) {
+	protected function getFinalAssetLocation($connection_id,$user_id,$asset_location,$inline=false) {
 		$connection_type = $this->getConnectionType($connection_id);
 		$final_asset_location = false;
 		switch ($connection_type) {
 			case 'com.amazon':
 				$s3 = new S3Seed($user_id,$connection_id);
-				$final_asset_location = $s3->getExpiryURL($asset_location);
+				if ($inline) {
+					$final_asset_location = $s3->getExpiryURL($asset_location,1000,false,false);
+				} else {
+					$final_asset_location = $s3->getExpiryURL($asset_location,1000,true,true);
+				}
 				break;
 		    default:
 				if (parse_url($asset_location) || strpos($asset_location, '/') !== false) {

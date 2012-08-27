@@ -8,7 +8,7 @@
 	a {cursor:pointer;}
 
 	.featured-release {position:relative;width:100%;}
-	.cover {width:100%;background-color:#ececed;background-image:url(http://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Omega_Nebula.jpg/739px-Omega_Nebula.jpg);background-size:auto 100%;}
+	.cover {width:100%;background-color:#ececed;background-size:auto 100%;background-position:center center;}
 	.cover .release-details {visibility:hidden;color:#fff;font-weight:normal;}
 	.title {position:absolute;left:0;bottom:0;width:90%;height:19%;padding:5% !important;background-color:rgba(0,0,0,0.6);-webkit-transition:all 0.2s ease-out;-moz-transition: all 0.2s ease-out;-o-transition: all 0.2s ease-out;transition: all  0.2s ease-out;}
 	.cover:hover .title {height:90%;}
@@ -28,7 +28,7 @@
 {{#featured_releases}}
 	<div class="col_oneofthree{{#third_asset}} lastcol{{/third_asset}}">
 		<div class="featured-release">
-			<div class="cover">
+			<div class="cover" style="background-image:url({{cover_url}});">
 				<div class="title">
 					<a href="{{www_path}}/assets/edit/{{id}}">{{title}}<br /><span class="smalltext release-details">{{{descriptor_string}}}</span></a><br />
 				</div>
@@ -45,9 +45,9 @@
 		{{#remaining_releases}}
 		<div class="col_oneofthree{{#third_asset}} lastcol{{/third_asset}}">
 			<a href="{{www_path}}/assets/edit/{{id}}">
-			<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Solar_flare_%28TRACE%29.gif/239px-Solar_flare_%28TRACE%29.gif" class="smallcover" alt="" />
-			<span>{{title}}</span></a>
-			<span class="smalltext fadedtext">{{{descriptor_string}}}</span>
+			{{#cover_url}}<img src="{{cover_url}}" class="smallcover" alt="" />{{/cover_url}}
+			<span{{^cover_url}} style="padding-left:0;"{{/cover_url}}>{{title}}</span></a>
+			<span{{^cover_url}} style="padding-left:0;"{{/cover_url}} class="smalltext fadedtext">{{{descriptor_string}}}</span>
 		</div>
 		{{#third_asset}}
 			</div><div class="clearfix">.</div><br /><div class="details-three-columns">

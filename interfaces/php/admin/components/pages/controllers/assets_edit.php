@@ -76,7 +76,8 @@ if (isset($_POST['doassetedit'])) {
 			'copyright' => $_POST['copyright'],
 			'publishing' => $_POST['publishing'],
 			'fulfillment' => json_decode($_POST['metadata_fulfillment']),
-			'private' => json_decode($_POST['metadata_private'])
+			'private' => json_decode($_POST['metadata_private']),
+			'cover' => $_POST['metadata_cover']
 		);
 	}
 
@@ -188,6 +189,37 @@ if ($cash_admin->page_data['type'] == 'file') {
 			);
 			if ($private_response['payload']) {
 				$cash_admin->page_data['private_files'] = new ArrayIterator($private_response['payload']);
+			}
+		}
+	}
+
+	if (isset($cash_admin->page_data['metadata']['cover'])) {
+		if ($cash_admin->page_data['metadata']['cover']) { // effectively non-zero
+			$cover_response = $cash_admin->requestAndStore(
+				array(
+					'cash_request_type' => 'asset', 
+					'cash_action' => 'getasset',
+					'id' => $cash_admin->page_data['metadata']['cover']
+				)
+			);
+			if ($cover_response['payload']) {
+				$cover_asset = $cover_response['payload'];
+				if (strpos(CASHSystem::getMimeTypeFor($cover_asset['location']),'image') !== false) {
+					$cover_url_response = $cash_admin->requestAndStore(
+						array(
+							'cash_request_type' => 'asset', 
+							'cash_action' => 'getasseturl',
+							'connection_id' => $cover_asset['connection_id'],
+							'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
+							'asset_location' => $cover_asset['location'],
+							'inline' => true
+						)
+					);
+					if ($cover_url_response['payload']) {
+						$cash_admin->page_data['cover_url'] = $cover_url_response['payload'];
+						$cash_admin->page_data['cover_asset_id'] = $cash_admin->page_data['metadata']['cover'];
+					}
+				}
 			}
 		}
 	}

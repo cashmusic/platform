@@ -54,6 +54,41 @@ if (is_array($releases_response['payload'])) {
 		if ($asset['modification_date']) {
 			$asset['descriptor_string'] .= '<br />last edited: ' . CASHSystem::formatTimeAgo($asset['modification_date']);
 		}
+
+
+
+		if (isset($asset['metadata']['cover'])) {
+			if ($asset['metadata']['cover']) { // effectively non-zero
+				$cover_response = $cash_admin->requestAndStore(
+					array(
+						'cash_request_type' => 'asset', 
+						'cash_action' => 'getasset',
+						'id' => $asset['metadata']['cover']
+					)
+				);
+				if ($cover_response['payload']) {
+					$cover_asset = $cover_response['payload'];
+					if (strpos(CASHSystem::getMimeTypeFor($cover_asset['location']),'image') !== false) {
+						$cover_url_response = $cash_admin->requestAndStore(
+							array(
+								'cash_request_type' => 'asset', 
+								'cash_action' => 'getasseturl',
+								'connection_id' => $cover_asset['connection_id'],
+								'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
+								'asset_location' => $cover_asset['location'],
+								'inline' => true
+							)
+						);
+						if ($cover_url_response['payload']) {
+							$asset['cover_url'] = $cover_url_response['payload'];
+						}
+					}
+				}
+			}
+		}
+
+
+
 	}
 	$featured_releases = array_slice($releases_response['payload'],0,3);
 	$cash_admin->page_data['featured_releases'] = new ArrayIterator($featured_releases);
