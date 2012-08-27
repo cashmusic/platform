@@ -9,7 +9,15 @@
 	<input type="file" name="file" />
 </form>
 
-<div id="loading">uploading...</div>
+<div id="loading" style="position:relative;">
+	<div class="modalbg"></div>
+
+	<div style="position:fixed;z-index:9876;width:350px;top:300px;left:50%;margin-left:-125px;">
+		<div style="width:75px;height:75px;margin-right:12px;float:left;background-image:url({{www_path}}/ui/default/assets/images/dog_spinner.gif)"></div>
+		<h3>Uploading</h3>This may take a few minutes. Please do not close this window.
+	</div>
+	<div class="row_seperator">.</div>
+</div>
 
 <script src="{{www_path}}/ui/default/assets/scripts/jquery.iframe-transport.js"></script>
 <script src="{{www_path}}/ui/default/assets/scripts/jquery.fileupload.js"></script>
@@ -40,7 +48,6 @@
 			done: function (event, data) {
 				// hide the spinner, add the final key to the location field of the 
 				// main form, call ajax/finalizeupload with the key
-				$('#loading').hide();
 				var finalkey = filekey.replace('${filename}','') + filename;
 				/*
 				 *
@@ -63,6 +70,7 @@
 						alert('done, but could not set MIME type: ' + finalkey);
 					}
 				},'json');
+				$('#loading').hide();
 			}
 		});
 	});

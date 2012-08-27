@@ -504,7 +504,7 @@
 			var markup = '<div class="modalbg"><div class="modallightbox ' + addedClass +
 						 data.specialcolor + '">' +
 						 data.page_content_markup +
-						 '<div class="tar"><a href="#" class="modalcancel smalltext"><span class="icon denied"></span> cancel</a></div>' +
+						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><span class="icon denied"></span> cancel</a></div>' +
 						 '</div></div></div>';
 			markup = $(markup);
 			markup.hide();
