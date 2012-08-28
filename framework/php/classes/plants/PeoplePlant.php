@@ -23,6 +23,7 @@ class PeoplePlant extends PlantBase {
 			// first value  = target method to call
 			// second value = allowed request methods (string or array of strings)
 			'addaddresstolist'    => array('addAddress','direct'),
+			'addcontact'          => array('addContact','direct'),
 			'addlist'             => array('addList','direct'),
 			'checkverification'   => array('addressIsVerified','direct'),
 			'deletelist'          => array('deleteList','direct'),

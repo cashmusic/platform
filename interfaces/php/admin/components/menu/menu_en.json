@@ -17,8 +17,6 @@
 		{"page_name":"Add Event", "menu_icon":""},
 	"calendar/events/edit":
 		{"page_name":"Edit Event", "menu_icon":""},
-	"calendar/guestlists":
-		{"page_name":"Guestlists", "menu_icon":"list"},
 	"calendar/venues":
 		{"page_name":"Venues", "menu_icon":"map_pin_fill"},
 	"calendar/venues/add":

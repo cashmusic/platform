@@ -6,5 +6,9 @@
 	"terms" : {
 		"file":"terms",
 		"title":"A glossary of terms"
+	},
+	"mailchimp" : {
+		"file":"mailchimp",
+		"title":"Connections: connect a MailChimp list"
 	}
 }
