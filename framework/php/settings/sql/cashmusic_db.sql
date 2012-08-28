@@ -287,6 +287,7 @@ CREATE TABLE `people_contacts` (
   `address_region` varchar(255),
   `address_postalcode` varchar(255),
   `address_country` varchar(255),
+  `phone` varchar(255),
   `notes` text,
   `links` text,
   `creation_date` int(11) DEFAULT NULL,

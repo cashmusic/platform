@@ -258,6 +258,7 @@ CREATE TABLE people_contacts (
   address_region text,
   address_postalcode text,
   address_country text,
+  phone text,
   notes text,
   links text,
   creation_date integer DEFAULT NULL,
