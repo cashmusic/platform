@@ -486,6 +486,10 @@ class CASHDBA {
 				. "FROM people_lists_members "
 				. "WHERE list_id = :list_id";
 				break;
+			case 'PeoplePlant_getContactInitials':
+				$query = "SELECT DISTINCT UPPER(SUBSTR(last_name,1,1)) as 'initial' FROM people_contacts "
+				. "WHERE user_id = :user_id ORDER BY last_name";
+				break;
 			case 'PeoplePlant_getUsersForList':
 				$query = "SELECT u.id,u.email_address,u.display_name,"
 				. "l.initial_comment,l.additional_data,l.active,l.verified,l.creation_date "

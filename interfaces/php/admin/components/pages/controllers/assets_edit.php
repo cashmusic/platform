@@ -121,7 +121,9 @@ $asset_response = $cash_admin->requestAndStore(
 	),
 	'getasset'
 );
-$cash_admin->page_data = array_merge($cash_admin->page_data,$asset_response['payload']);
+if ($asset_response['payload']) {
+	$cash_admin->page_data = array_merge($cash_admin->page_data,$asset_response['payload']);
+}
 
 // Metadata shizz:
 if (isset($cash_admin->page_data['metadata'])) {

@@ -72,6 +72,7 @@ ol li, ol.alternating li {list-style-type: decimal;}
 .created_mod_top {padding:0 0 4px 0;text-align:left;white-space:nowrap;}
 .element_image {position:relative;height:78px;background-repeat:no-repeat;background-position:center top;margin-bottom:6px;}
 .fadedtext {color:#a49c9c !important;}
+.washedtext {color:#d1c7c7 !important;}
 .highlightcopy {padding:2px 6px 2px 6px;background-color:#ff0;font:italic 12px/1.75em georgia, times, serif;}
 .itemnav {margin:12px 0 8px 0;font-size:12px;}
 li .itemnav {margin:4px 0 0 0;height:1px;overflow:hidden;-webkit-transition:all 0.1s ease-out;-moz-transition: all 0.1s ease-out;-o-transition: all 0.1s ease-out;transition: all 0.1s ease-out;}

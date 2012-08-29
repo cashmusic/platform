@@ -45,8 +45,8 @@
 
 				<div class="row_seperator">.</div>
 
-				<label for="venue_country">Country</label><br />
-				<select id="venue_country" name="venue_country">
+				<label for="address_country">Country</label><br />
+				<select id="address_country" name="address_country">
 					{{{country_codes}}}
 				</select>
 
@@ -62,46 +62,14 @@
 </div>
 
 <div class="col_oneoftwo lastcol">
-	<h3>Search contacts</h3>
-	<form action="">	
-	<label for="query">Search for:</label><br />
-	<input type="text" id="query" name="query" placeholder="Enter search query" /> 
-
-	<div class="row_seperator">.</div>
-	<input class="button" type="submit" value="Search" />
-	
-	</form>
-
-	<br /><br />
-	<h3>Find by tag</h3>
-	...
-
-	<br /><br /><br />
-	<h3>Listed alphabetically (by last name)</h3>
-	<a href="bylastname/a">A</a>
-	<a href="bylastname/b">B</a>
-	<a href="bylastname/c">C</a>
-	<a href="bylastname/d">D</a>
-	<a href="bylastname/e">E</a>
-	<a href="bylastname/f">F</a>
-	<a href="bylastname/g">G</a>
-	<a href="bylastname/h">H</a>
-	<a href="bylastname/i">I</a>
-	<a href="bylastname/j">J</a>
-	<a href="bylastname/k">K</a>
-	<a href="bylastname/l">L</a>
-	<a href="bylastname/m">M</a>
-	<a href="bylastname/n">N</a>
-	<a href="bylastname/o">O</a>
-	<a href="bylastname/p">P</a>
-	<a href="bylastname/q">Q</a>
-	<a href="bylastname/r">R</a>
-	<a href="bylastname/s">S</a>
-	<a href="bylastname/t">T</a>
-	<a href="bylastname/u">U</a>
-	<a href="bylastname/v">V</a>
-	<a href="bylastname/w">W</a>
-	<a href="bylastname/x">X</a>
-	<a href="bylastname/y">Y</a>
-	<a href="bylastname/z">Z</a>
+	<h3>Contacts by last name</h3>
+	<div class="washedtext">
+		{{#alphabet}}
+			{{#contact}}<a href="{{www_path}}/people/contacts/bylastname/{{letter}}">{{/contact}}{{letter}}{{#contact}}</a>{{/contact}}
+		{{/alphabet}}
+	</div>
+	<div class="row_seperator">.</div><br />
+	{{#contact_list}}
+		<p><b>{{first_name}} {{last_name}}</b><br />{{email_address}}</p>
+	{{/contact_list}}
 </div>

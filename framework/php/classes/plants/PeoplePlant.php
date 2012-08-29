@@ -22,24 +22,26 @@ class PeoplePlant extends PlantBase {
 			// alphabetical for ease of reading
 			// first value  = target method to call
 			// second value = allowed request methods (string or array of strings)
-			'addaddresstolist'    => array('addAddress','direct'),
-			'addcontact'          => array('addContact','direct'),
-			'addlist'             => array('addList','direct'),
-			'checkverification'   => array('addressIsVerified','direct'),
-			'deletelist'          => array('deleteList','direct'),
-			'editlist'            => array('editList','direct'),
-			'getaddresslistinfo'  => array('getAddressListInfo','direct'),
-			'getanalytics'        => array('getAnalytics','direct'),
-			'getlistsforuser'     => array('getListsForUser','direct'),
-			'getlist'             => array('getList',array('direct','api_key')),
-			'getuser'             => array('getUser','direct'),
-			'getuseridforaddress' => array('getUserIDForAddress','direct'),
-			'processwebhook'      => array('processWebhook',array('direct','api_key')),
-			'removeaddress'       => array('removeAddress','direct'),
-			'signintolist'        => array('validateUserForList',array('post','direct','api_key')),
-			'signup'              => array('doSignup',array('direct','post','get','api_key')),
-			'verifyaddress'       => array('doAddressVerification','direct'),
-			'viewlist'            => array('viewList','direct')
+			'addaddresstolist'       => array('addAddress','direct'),
+			'addcontact'             => array('addContact','direct'),
+			'addlist'                => array('addList','direct'),
+			'checkverification'      => array('addressIsVerified','direct'),
+			'deletelist'             => array('deleteList','direct'),
+			'editlist'               => array('editList','direct'),
+			'getaddresslistinfo'     => array('getAddressListInfo','direct'),
+			'getanalytics'           => array('getAnalytics','direct'),
+			'getcontactsbyinitials'  => array('getContactsByInitials','direct'),
+			'getcontactinitials'     => array('getContactInitials','direct'),
+			'getlistsforuser'        => array('getListsForUser','direct'),
+			'getlist'                => array('getList',array('direct','api_key')),
+			'getuser'                => array('getUser','direct'),
+			'getuseridforaddress'    => array('getUserIDForAddress','direct'),
+			'processwebhook'         => array('processWebhook',array('direct','api_key')),
+			'removeaddress'          => array('removeAddress','direct'),
+			'signintolist'           => array('validateUserForList',array('post','direct','api_key')),
+			'signup'                 => array('doSignup',array('direct','post','get','api_key')),
+			'verifyaddress'          => array('doAddressVerification','direct'),
+			'viewlist'               => array('viewList','direct')
 		);
 		$this->plantPrep($request_type,$request);
 	}
@@ -50,6 +52,7 @@ class PeoplePlant extends PlantBase {
 	 * @return id|false
 	 */protected function addContact(
 			$email_address,
+			$user_id,
 			$first_name='',
 			$last_name='',
 			$organization='',
@@ -59,6 +62,7 @@ class PeoplePlant extends PlantBase {
 			$address_region='',
 			$address_postalcode='',
 			$address_country='',
+			$phone='',
 			$notes='',
 			$links=''
 		) 
@@ -67,6 +71,7 @@ class PeoplePlant extends PlantBase {
 			'contacts',
 			array(
 				'email_address' => $email_address,
+				'user_id' => $user_id,
 				'first_name' => $first_name,
 				'last_name' => $last_name,
 				'organization' => $organization,
@@ -76,6 +81,7 @@ class PeoplePlant extends PlantBase {
 				'address_region' => $address_region,
 				'address_postalcode' => $address_postalcode,
 				'address_country' => $address_country,
+				'phone' => $phone,
 				'notes' => json_encode($notes),
 				'links' => json_encode($links)
 			)
@@ -99,6 +105,7 @@ class PeoplePlant extends PlantBase {
 			$address_region=false,
 			$address_postalcode=false,
 			$address_country=false,
+			$phone=false,
 			$notes=false,
 			$links=false
 		)
@@ -115,6 +122,7 @@ class PeoplePlant extends PlantBase {
 				'address_region' => $address_region,
 				'address_postalcode' => $address_postalcode,
 				'address_country' => $address_country,
+				'phone' => $phone,
 				'notes' => $notes,
 				'links' => $links
 			),
@@ -127,6 +135,40 @@ class PeoplePlant extends PlantBase {
 				'id' => array(
 					'condition' => '=',
 					'value' => $id
+				)
+			)
+		);
+		return $result;
+	}
+
+	protected function getContactsByInitials($user_id,$initial) {
+		$result = $this->db->getData(
+			'contacts',
+			'*',
+			array(
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				),
+				"last_name" => array(
+					"condition" => "LIKE",
+					"value" => $initial . '%'
+				)
+			),
+			false,
+			'last_name ASC'
+		);
+		return $result;
+	}
+
+	protected function getContactInitials($user_id) {
+		$result = $this->db->getData(
+			'PeoplePlant_getContactInitials',
+			false,
+			array(
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
 				)
 			)
 		);
