@@ -413,16 +413,32 @@
 			}
 		});
 
+		// storage connection change handler
+		$(document).on('change', '#connection_id', function(e) {
+			if ( this.value > 0 ) {
+				//var connectionID = this.value;
+				var newUploadEndpoint = $('.file-upload-trigger').data('upload-endpoint') + this.value;
 
+				//initiateURL = $(this).data('upload-endpoint') + connectionID;
+
+				//console.log('connectionID: ', connectionID);
+				//console.log('old endpoint: ', $('.file-upload-trigger').data('upload-endpoint') );
+				//initiateURL = $(this).data('upload-endpoint') + connectionID;
+
+				$('.file-upload-trigger').data('upload-endpoint', newUploadEndpoint );
+
+			}
+		});
 
 		// file upload handlers
 		$(document).on('click', '.file-upload-trigger', function(e) {
 			e.preventDefault();
 
 			var trigger = $(this),
-			iframeSrc = $(this).data('upload-url'),
-			connectionID = $('#connection_id').val(),
-			initiateURL = $(this).data('upload-endpoint') + connectionID;
+			iframeSrc = $(this).data('upload-endpoint'),
+			connectionID = $('#connection_id').val();
+
+			//console.log('is this iframeSrc? ', iframeSrc);
 
 			if ( connectionID == '0' ) {
 				alert('Sorry, can\'t upload without a connection. Have you tried a normal link?');
@@ -430,16 +446,13 @@
 			}
 
 			var uploadTo = $.ajax({
-				url: initiateURL,
-				dataType: 'json'
+				url: iframeSrc,
+				dataType: 'json',
+				data: 'data_only=1'
 			}).done(function(result) {
-					console.log("success");
-					console.log(result);
-
-					var iframe = $( document.createElement( 'iframe' ) )
-						.addClass('upload-corral')
-						.attr('src', result.upload_url)
-						.insertAfter(trigger);
+					//console.log("success");
+					//console.log(result);
+					trigger.parents('.drawer').find('.drawercontent').html(result.page_content_markup);
 				})
 				.fail(function() { console.log("error"); })
 				.always(function(result) { console.log("complete. result: ", result); });
