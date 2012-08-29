@@ -46,18 +46,18 @@
 				// we should do something useful here
 			},
 			done: function (event, data) {
-				// hide the spinner, add the final key to the location field of the 
+				// hide the spinner, add the final key to the location field of the
 				// main form, call ajax/finalizeupload with the key
 				var finalkey = filekey.replace('${filename}','') + filename;
 				/*
 				 *
-				 * 
 				 *
-				 * here we set the location, then try MIME type in the background. MIME takes about 
-				 * an extra second or two to finalize, but basically it's all set as soon as we 
-				 * request the ajax/finalizeupload method. no point in waiting for confirmation 
+				 *
+				 * here we set the location, then try MIME type in the background. MIME takes about
+				 * an extra second or two to finalize, but basically it's all set as soon as we
+				 * request the ajax/finalizeupload method. no point in waiting for confirmation
 				 * since we won't do things differently on failure.
-				 * 
+				 *
 				 * location = finalkey
 				 *
 				 *
@@ -65,9 +65,10 @@
 				 */
 				jQuery.post(finalizeUrl, 'connection_id='+connectionId+'&filename='+finalkey, function(data) {
 					if (data.success) {
-						alert('done: ' + finalkey);
+						//alert('done: ' + finalkey);
+						$('#asset_location').val(finalkey);
 					} else {
-						alert('done, but could not set MIME type: ' + finalkey);
+						//alert('done, but could not set MIME type: ' + finalkey);
 					}
 				},'json');
 				$('#loading').hide();
