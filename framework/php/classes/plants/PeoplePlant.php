@@ -27,9 +27,11 @@ class PeoplePlant extends PlantBase {
 			'addlist'                => array('addList','direct'),
 			'checkverification'      => array('addressIsVerified','direct'),
 			'deletelist'             => array('deleteList','direct'),
+			'editcontact'            => array('editContact','direct'),
 			'editlist'               => array('editList','direct'),
 			'getaddresslistinfo'     => array('getAddressListInfo','direct'),
 			'getanalytics'           => array('getAnalytics','direct'),
+			'getcontact'             => array('getContact','direct'),
 			'getcontactsbyinitials'  => array('getContactsByInitials','direct'),
 			'getcontactinitials'     => array('getContactInitials','direct'),
 			'getlistsforuser'        => array('getListsForUser','direct'),
@@ -139,6 +141,34 @@ class PeoplePlant extends PlantBase {
 			)
 		);
 		return $result;
+	}
+
+	protected function getContact($id,$user_id=false) {
+		$result = $this->db->getData(
+			'contacts',
+			'*',
+			array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $id
+				)
+			),
+			false,
+			'last_name ASC'
+		);
+		if ($result) {
+			if (!$user_id) {
+				return $result[0];
+			} else {
+				if ($result[0]['user_id'] == $user_id) {
+					return $result[0];
+				} else {
+					return false;
+				}
+			}
+		} else {
+			return false;
+		}
 	}
 
 	protected function getContactsByInitials($user_id,$initial) {

@@ -24,7 +24,7 @@ if (isset($_POST['docontactadd'])) {
 	if ($add_response['payload']) {
 		AdminHelper::formSuccess('Success. Contact added.');
 	} else {
-		AdminHelper::formFailure('Error. Something just didn\'t work right.','/assets/add/');
+		AdminHelper::formFailure('Error. Something just didn\'t work right.');
 	}
 }
 
