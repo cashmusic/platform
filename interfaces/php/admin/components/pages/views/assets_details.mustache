@@ -35,33 +35,33 @@
 			<label for="asset_location">Location (URI)</label><br />
 			<input type="text" id="asset_location" name="asset_location" value="{{location}}" />
 			</form>
+
 			<!--
 			  *
 			  *
 			  * We should only display the link below if the connection > 0. Check connection ID
 			  * on connection_id change, if it's > 0 we request a data_only view of /assets/uploadform
 			  * and insert it into the drawer contents
-			  * 
+			  *
 			  *
 			  *
 			  -->
 			<div class="drawer noprefix">
-				<small class="fadedtext"><span class="icon upload"></span> Using a hosting connection? <a class="drawerhandle usecolor1">Upload a file</a></small>
+				<small class="fadedtext"><span class="icon upload"></span> Using a hosting connection? <a href="#" data-upload-endpoint="{{{www_path}}}/assets/uploadform/" class="drawerhandle usecolor1 file-upload-trigger">Upload a file</a></small>
 				<div class="drawercontent">
-					form shit here.
+
+
 				</div>
 			</div>
 		</div>
 	{{/show_location}}
 	{{^show_location}}
-		<input type="hidden" name="connection_id" value="" />
-		<input type="hidden" name="asset_location" value="" />
 		<div class="row_seperator">.</div>
 		<div class="col_oneoftwo">
 			<br />
 			<input class="button" type="submit" value="{{asset_button_text}}" />
 		</div>
-		</form>	
+		</form>
 	{{/show_location}}
 	<div class="row_seperator">.</div>
 
