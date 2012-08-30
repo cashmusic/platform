@@ -66,6 +66,7 @@
 				jQuery.post(finalizeUrl, 'connection_id='+connectionId+'&filename='+finalkey, function(data) {
 					if (data.success) {
 						//alert('done: ' + finalkey);
+						$('.upload-corral').fadeOut();
 						$('#asset_location').val(finalkey);
 					} else {
 						//alert('done, but could not set MIME type: ' + finalkey);
