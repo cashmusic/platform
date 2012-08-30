@@ -24,6 +24,7 @@ class AssetPlant extends PlantBase {
 			'addlockcode'             => array('addLockCode','direct'),
 			'addremoteuploadform'     => array('addRemoteUploadForm','direct'),
 			'claim'                   => array('redirectToAsset',array('get','post','direct')),
+			'deleteasset'             => array('deleteAsset','direct'),
 			'editasset'               => array('editAsset','direct'),
 			'finalizeupload'          => array('finalizeUpload','direct'),
 			'findassets'              => array('findAssets','direct'),
@@ -258,6 +259,66 @@ class AssetPlant extends PlantBase {
 		}
 		return $result;
 	}
+
+	protected function deleteAsset($id,$user_id=false) {
+		$asset_details = $this->getAssetInfo($id);
+		if ($asset_details) {
+			$user_id_match = true;
+			if ($user_id) {
+				if ($asset_details['parent_id'] != $user_id) {
+					$user_id_match = false;
+				}
+			}
+			if ($user_id_match) {
+				if ($asset_details['parent_id']) {
+					$parent_details = $this->getAssetInfo($asset_details['parent_id']);
+					if ($parent_details['type'] == 'release') {
+						if (isset($parent_details['metadata']['cover'])) {
+							if ($parent_details['metadata']['cover'] == $id) {
+								$parent_details['metadata']['cover'] = '';
+							}
+						}
+						if (isset($parent_details['metadata']['fulfillment'])) {
+							foreach ($parent_details['metadata']['fulfillment'] as $key => $value) {
+								if ($value == $id) {
+									unset($parent_details['metadata']['fulfillment'][$key]);
+								}
+							}
+						}
+						if (isset($parent_details['metadata']['private'])) {
+							foreach ($parent_details['metadata']['private'] as $key => $value) {
+								if ($value == $id) {
+									unset($parent_details['metadata']['private'][$key]);
+								}
+							}
+						}
+						$this->editAsset(
+							$asset_details['parent_id'],
+							false,false,false,false,false,false,false,false,false,false,false,false,
+							$parent_details['metadata']
+						);
+					}
+				}
+				$result = $this->db->deleteData(
+					'assets',
+					array(
+						'id' => array(
+							'condition' => '=',
+							'value' => $id
+						)
+					)
+				);
+				if ($result) {
+					$this->removeAllMetaData('assets',$id);
+				}
+				return $result;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
 	
 	protected function editAsset($id,$hash=false,$size=false,$location=false,$title=false,$description=false,$public_url=false,$connection_id=false,$type=false,$parent_id=false,$public_status=false,$user_id=false,$tags=false,$metadata=false) {
 		$final_edits = array_filter(
@@ -288,22 +349,6 @@ class AssetPlant extends PlantBase {
 		);
 		if ($result && $tags && $user_id) {
 			$this->setAllMetaData('assets',$id,$user_id,$tags,false,true);
-		}
-		return $result;
-	}
-
-	protected function deleteAsset($id) {
-		$result = $this->db->deleteData(
-			'assets',
-			array(
-				'id' => array(
-					'condition' => '=',
-					'value' => $id
-				)
-			)
-		);
-		if ($result) {
-			$this->removeAllMetaData('assets',$id);
 		}
 		return $result;
 	}
