@@ -1,7 +1,7 @@
 <form method="post" id="edit-file-form" action="{{www_path}}/assets/edit/{{id}}">
 	<input type="hidden" name="doassetedit" value="makeitso" />
 	<input type="hidden" name="asset_type" value="file" />
-	
+
 	<h3>Asset details</h3>
 	<p class="smalltext fadedtext">
 		{{#parent_id}}<a href="{{www_path}}/assets/edit/{{parent_id}}"><b>return to parent asset</b></a><br />{{/parent_id}}
@@ -31,11 +31,11 @@
 		<input type="hidden" name="parent_id" value="{{parent_id}}" />
 	{{/parent_id}}
 
-	
+
 
 	<div class="col_oneoftwo">
 		<div class="row_seperator">.</div><br />
-			
+
 		<small class="fadedtext"><span class="icon tag_fill"></span> Get organized.</small> {{{tag_markup}}}<a href="#" class="injectbefore usecolor1" rev="<input type='text' name='tag' value='' placeholder='Tag' />" rel="{{tag_counter}}"><small><b>Tag this file</b></small></a>
 		<div class="row_seperator">.</div>
 		<small class="fadedtext"><span class="icon unlock_fill"></span> Don't need security?</small> <a href="#" class="usecolor1"><small><b>Make this file public</b></small></a>
@@ -62,7 +62,7 @@
 					<input type="text" name="add_codes_qty" id="add_codes_qty" value="500" />
 				</div>
 				<div class="col_oneoftwo lastcol">
-					<input type="submit" class="button" value="add codes" />	
+					<input type="submit" class="button" value="add codes" />
 				</div>
 				</form>
 				<div class="row_seperator">.</div>
@@ -73,12 +73,13 @@
 		<input class="button onlyjs externalsubmit" type="button" data-cash-target-form="#edit-file-form" value="Edit the file" />
 	</div>
 
-	
+
 <div class="col_oneoftwo lastcol">
-	<div class="drawer noprefix">
-		<small class="fadedtext"><span class="icon upload"></span> Using a hosting connection? <a class="drawerhandle usecolor1">Upload a file</a></small>
+	<div class="drawer noprefix upload-corral">
+		<small class="fadedtext"><span class="icon upload"></span> Using a hosting connection? <a href="#" data-upload-endpoint="{{{www_path}}}/assets/uploadform/" class="drawerhandle usecolor1 file-upload-trigger">Upload a file</a></small>
 		<div class="drawercontent">
-			form shit here.
+
+
 		</div>
 	</div>
 </div>

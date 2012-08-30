@@ -6,7 +6,7 @@ if (isset($_REQUEST['add_codes_qty']) && $request_parameters[0]) {
 		for ($i = 1; $i <= $_POST['add_codes_qty']; $i++) {
 			$addcode_request = new CASHRequest(
 				array(
-					'cash_request_type' => 'asset', 
+					'cash_request_type' => 'asset',
 					'cash_action' => 'addlockcode',
 					'asset_id' => $request_parameters[0]
 				)
@@ -23,7 +23,7 @@ $asset_codes = false;
 if ($request_parameters[0]) {
 	$getcodes_request = new CASHRequest(
 		array(
-			'cash_request_type' => 'system', 
+			'cash_request_type' => 'system',
 			'cash_action' => 'getlockcodes',
 			'scope_table_alias' => 'assets',
 			'scope_table_id' => $request_parameters[0]
@@ -83,7 +83,7 @@ if (isset($_POST['doassetedit'])) {
 
 	$edit_response = $cash_admin->requestAndStore(
 		array(
-			'cash_request_type' => 'asset', 
+			'cash_request_type' => 'asset',
 			'cash_action' => 'editasset',
 			'id' => $request_parameters[0],
 			'user_id' => $effective_user,
@@ -115,7 +115,7 @@ if (isset($_REQUEST['togglefavorite']) && $request_parameters[0]) {
 // Get the current asset details:
 $asset_response = $cash_admin->requestAndStore(
 	array(
-		'cash_request_type' => 'asset', 
+		'cash_request_type' => 'asset',
 		'cash_action' => 'getasset',
 		'id' => $request_parameters[0]
 	),
@@ -171,7 +171,7 @@ if ($cash_admin->page_data['type'] == 'file') {
 } else if ($cash_admin->page_data['type'] == 'release') {
 	$fulfillment_response = $cash_admin->requestAndStore(
 		array(
-			'cash_request_type' => 'asset', 
+			'cash_request_type' => 'asset',
 			'cash_action' => 'getfulfillmentassets',
 			'asset_details' => $asset_response['payload']
 		)
@@ -184,7 +184,7 @@ if ($cash_admin->page_data['type'] == 'file') {
 		if (count($cash_admin->page_data['metadata']['private'])) {
 			$private_response = $cash_admin->requestAndStore(
 				array(
-					'cash_request_type' => 'asset', 
+					'cash_request_type' => 'asset',
 					'cash_action' => 'getasset',
 					'id' => $cash_admin->page_data['metadata']['private']
 				)
@@ -199,7 +199,7 @@ if ($cash_admin->page_data['type'] == 'file') {
 		if ($cash_admin->page_data['metadata']['cover']) { // effectively non-zero
 			$cover_response = $cash_admin->requestAndStore(
 				array(
-					'cash_request_type' => 'asset', 
+					'cash_request_type' => 'asset',
 					'cash_action' => 'getasset',
 					'id' => $cash_admin->page_data['metadata']['cover']
 				)
@@ -209,7 +209,7 @@ if ($cash_admin->page_data['type'] == 'file') {
 				if (strpos(CASHSystem::getMimeTypeFor($cover_asset['location']),'image') !== false) {
 					$cover_url_response = $cash_admin->requestAndStore(
 						array(
-							'cash_request_type' => 'asset', 
+							'cash_request_type' => 'asset',
 							'cash_action' => 'getasseturl',
 							'connection_id' => $cover_asset['connection_id'],
 							'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
