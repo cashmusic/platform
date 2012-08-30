@@ -1,7 +1,7 @@
 <?php
 /**
- * AssetPlant handles the abstraction for things like grabbing and adding 
- * metadata to assets, claiming private downloads, and adding new files to the 
+ * AssetPlant handles the abstraction for things like grabbing and adding
+ * metadata to assets, claiming private downloads, and adding new files to the
  * system. It is settings-aware and works across multiple storage systems.
  *
  * @package diy.org.cashmusic
@@ -46,7 +46,7 @@ class AssetPlant extends PlantBase {
 	}
 
 	protected function findAssets($query,$user_id,$page=1,$max_returned=10) {
-		$limit = (($page - 1) * $max_returned) . ',' . $max_returned;	
+		$limit = (($page - 1) * $max_returned) . ',' . $max_returned;
 		$fuzzy_query = '%' . $query . '%';
 
 		$result = $this->db->getData(
@@ -78,7 +78,7 @@ class AssetPlant extends PlantBase {
 	protected function getFulfillmentAssets($asset_details) {
 		$result = false; // default return
 		if (!is_array($asset_details)) {
-			// if $asset details isn't an array, assume it's an id 
+			// if $asset details isn't an array, assume it's an id
 			$asset_details = $this->getAssetInfo($asset_details);
 		}
 
@@ -90,14 +90,24 @@ class AssetPlant extends PlantBase {
 				if (isset($asset_details['metadata']['fulfillment'])) {
 					// check isset first, in case the asset is newly set
 					if (count($asset_details['metadata']['fulfillment'])) {
-						$fulfillment_resquest = new CASHRequest(
-							array(
-								'cash_request_type' => 'asset', 
-								'cash_action' => 'getasset',
-								'id' => $asset_details['metadata']['fulfillment']
-							)
-						);
-						$result = $fulfillment_resquest->response['payload'];
+						$final_assets = array();
+						foreach ($asset_details['metadata']['fulfillment'] as $fulfillment_id) {
+							$fulfillment_resquest = new CASHRequest(
+								array(
+									'cash_request_type' => 'asset',
+									'cash_action' => 'getasset',
+									'id' => $fulfillment_id
+								)
+							);
+							if ($fulfillment_resquest->response['payload']) {
+								$final_assets[] = $fulfillment_resquest->response['payload'];
+							}
+						}
+						if (count($final_assets)) {
+							return $final_assets;
+						} else {
+							return false;
+						}
 					}
 				}
 			}
@@ -169,8 +179,8 @@ class AssetPlant extends PlantBase {
 
 	/**
 	 * Gets all details for a specific asset id (or array of ids) — pass in a single
-	 * id and get the asset details associative array, pass in an array of asset ids 
-	 * and get an array of asset detail arrays. 
+	 * id and get the asset details associative array, pass in an array of asset ids
+	 * and get an array of asset detail arrays.
 	 *
 	 * @return void
 	 */protected function getAssetInfo($id) {
@@ -205,7 +215,7 @@ class AssetPlant extends PlantBase {
 					// force metadata output to associative array
 					$output_array = array();
 					if ($asset_info['metadata'] !== false) {
-						// there was a non-array stored as priamry metadata value. 
+						// there was a non-array stored as priamry metadata value.
 						// push it to 'content' key and return associative array
 						$output_array['content'] = $asset_info['metadata'];
 					}
@@ -221,7 +231,7 @@ class AssetPlant extends PlantBase {
 			return false;
 		}
 	}
-	
+
 	protected function getAssetsForParent($parent_id) {
 		$result = $this->db->getData(
 			'assets',
@@ -319,7 +329,7 @@ class AssetPlant extends PlantBase {
 			return false;
 		}
 	}
-	
+
 	protected function editAsset($id,$hash=false,$size=false,$location=false,$title=false,$description=false,$public_url=false,$connection_id=false,$type=false,$parent_id=false,$public_status=false,$user_id=false,$tags=false,$metadata=false) {
 		$final_edits = array_filter(
 			array(
@@ -375,7 +385,7 @@ class AssetPlant extends PlantBase {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Adds an unlock state to platform session persistent store
 	 *
@@ -502,9 +512,9 @@ class AssetPlant extends PlantBase {
 	}
 
 	/**
-	 * Reads asset details and redirects to the file directly. The success 
-	 * Response is set here rather than in processRequest(), allowing it to 
-	 * exist in the session 
+	 * Reads asset details and redirects to the file directly. The success
+	 * Response is set here rather than in processRequest(), allowing it to
+	 * exist in the session
 	 *
 	 * @param {integer} $id - the asset you are trying to retrieve
 	 * @return string
@@ -618,7 +628,7 @@ class AssetPlant extends PlantBase {
 			$all_local_assets = array();
 		}
 		$all_remote_files = false;
-		
+
 		// create reference arrays
 		$id_lookup = array();
 		$compare_local = array();
@@ -628,13 +638,13 @@ class AssetPlant extends PlantBase {
 			$id_lookup[$asset['location']] = $asset['id'];
 			$compare_local[$asset['location']] = $asset['hash'];
 		}
-		
+
 		// grab remotes, format $compare_remote[] as:
 		// $compare_remote['resource_location'] => file or generated hash
-		// 
+		//
 		// IMPORTANT:
 		// if $all_remote_files must be keyed by service URI and each entry
-		// must contain a value for 'size' and 'hash' -- each service Seed 
+		// must contain a value for 'size' and 'hash' -- each service Seed
 		// should comply to that formatting but if not, fix it there, not here
 		switch ($connection['type']) {
 			case 'com.amazon':
@@ -650,12 +660,12 @@ class AssetPlant extends PlantBase {
 					}
 				}
 		}
-		
+
 		if ($all_remote_files) {
 			//find deltas
 			$deltas = array_diff_assoc($compare_remote,$compare_local);
 			$deltas = array_merge($deltas,array_diff_assoc($compare_local,$compare_remote));
-			
+
 			foreach ($deltas as $location => &$change) {
 				if (array_key_exists($location,$compare_local) && array_key_exists($location,$compare_remote)) {
 					$change = 'update'; // keys in both location - means hash has changed. edit local.
@@ -667,7 +677,7 @@ class AssetPlant extends PlantBase {
 					}
 				}
 			}
-			
+
 			$return_array = array(
 				'local_id_reference' => $id_lookup,
 				'remote_details' => $all_remote_files,
@@ -682,7 +692,7 @@ class AssetPlant extends PlantBase {
 	protected function syncConnectionAssets($connection_id) {
 		$connection = $this->getConnectionDetails($connection_id);
 		$deltas = $this->findConnectionAssetDeltas($connection_id,$connection);
-		
+
 		if (!$deltas) {
 			return false;
 		} else {
@@ -729,9 +739,9 @@ class AssetPlant extends PlantBase {
 			$user_id = $asset_info['user_id'];
 			$add_request = new CASHRequest(
 				array(
-					'cash_request_type' => 'system', 
+					'cash_request_type' => 'system',
 					'cash_action' => 'addlockcode',
-					'scope_table_alias' => 'assets', 
+					'scope_table_alias' => 'assets',
 					'scope_table_id' => $asset_id,
 					'user_id' => $user_id
 				)
@@ -750,7 +760,7 @@ class AssetPlant extends PlantBase {
 			if (!$user_id && $element_id) {
 				$element_request = new CASHRequest(
 					array(
-						'cash_request_type' => 'element', 
+						'cash_request_type' => 'element',
 						'cash_action' => 'getelement',
 						'id' => $element_id
 					)
@@ -762,7 +772,7 @@ class AssetPlant extends PlantBase {
 			if ($user_id) {
 				$redeem_request = new CASHRequest(
 					array(
-						'cash_request_type' => 'system', 
+						'cash_request_type' => 'system',
 						'cash_action' => 'redeemlockcode',
 						'code' => $code,
 						'scope_table_alias' => 'assets',
@@ -774,6 +784,6 @@ class AssetPlant extends PlantBase {
 				return false;
 			}
 	}
-	
-} // END class 
+
+} // END class
 ?>

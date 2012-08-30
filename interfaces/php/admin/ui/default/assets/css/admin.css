@@ -439,8 +439,7 @@ div.gettingstarted a.helplink {color:#231F20;background-color:#ff0;padding:2px 9
 #add-release-form .formats li:focus .needsconfirmation { opacity: 1; }
 
 .upload-corral {
-	border: 0;
-	margin: 0 -8px;
+	display: none;
 }
 
 /* FOOTER (base code taken from cssstickyfooter.com) */

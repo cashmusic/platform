@@ -209,59 +209,16 @@
 			});
 		});
 
-/*
-		$('#fileupload').fileupload({
-			forceIframeTransport: true,
-			autoUpload: true,
-			add: function(e, data) {
-				console.log('new item added: ', data);
+		$('#connection_id').each( function() {
 
-				$.ajax({
-					url: "/documents",
-					type: 'POST',
-					dataType: 'json',
-					data: {doc: {title: data.files[0].name}},
-					async: false,
-					success: function(result) {
-						// after we created our document in rails, it is going to send back JSON of they key,
-						// policy, and signature.  We will put these into our form before it gets submitted to amazon.
-						$('#file_upload')
-							.next('input[name=key]').val(result.key)
-						.end()
-							.next('input[name=AWSAccessKeyId]').val(result.access_key)
-						.end()
-							.next('input[name=]').val(result.acl)
-						.end()
-							.next('input[name=policy]').val(result.policy)
-						.end()
-							.next('input[name=signature]').val(result.signature);
-					}
+			if ( this.value > 0 ) {
+				//var connectionID = this.value;
+				var newUploadEndpoint = $('.file-upload-trigger').data('upload-endpoint') + this.value;
 
-				});
-
-				data.submit();
-
-			},
-			progressall: function(e, data) {
-				var progress = parseInt(data.loaded / data.total * 100, 10);
-				console.log('making progress: ' + progress + '% done.');
-			},
-			send: function (e, data) {
-				console.log('sending, should show loader here');
-			},
-			fail: function (e, data) {
-				console.log('failure');
-				console.log(data);
-			},
-			done: function (e, data) {
-				$.each(data.result, function (index, file) {
-					console.log('new file uploaded: ', file.name);
-					console.log('file object: ', file);
-				});
+				$('.upload-corral').fadeIn().find('.file-upload-trigger').data('upload-endpoint', newUploadEndpoint );
 			}
 		});
 
-*/
 	}
 
 	/**
@@ -425,8 +382,9 @@
 				//console.log('old endpoint: ', $('.file-upload-trigger').data('upload-endpoint') );
 				//initiateURL = $(this).data('upload-endpoint') + connectionID;
 
-				$('.file-upload-trigger').data('upload-endpoint', newUploadEndpoint );
-
+				$('.upload-corral').fadeIn().find('.file-upload-trigger').data('upload-endpoint', newUploadEndpoint );
+			} else {
+				$('.upload-corral').fadeOut();
 			}
 		});
 
@@ -452,12 +410,11 @@
 			}).done(function(result) {
 					//console.log("success");
 					//console.log(result);
-					trigger.parents('.drawer').find('.drawercontent').html(result.page_content_markup);
-				})
-				.fail(function() { console.log("error"); })
-				.always(function(result) { console.log("complete. result: ", result); });
+					trigger.parents('.fadedtext').fadeOut( function() {
+						$(this).parents('.drawer').find('.drawercontent').html(result.page_content_markup);
+					});
+				});
 		});
-
 	}
 
 	/**
