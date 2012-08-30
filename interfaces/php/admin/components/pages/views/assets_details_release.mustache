@@ -7,13 +7,13 @@
 		<div class="col_oneoftwo">
 
 			<style type="text/css">
-				.release-cover {position:relative;width:100%;background-color:#ececed;background-image:url({{cover_url}});background-size:auto 100%;background-position:center center;}
+				.release-cover {position:relative;width:100%;background-color:#ececed;background-size:auto 100%;background-position:center center;}
 				.release-cover a {position:relative;display:block;width:90%;height:1%;padding:88% 5% 5% 5%;font-weight:bold;{{#cover_asset_id}}color:#fff !important;{{/cover_asset_id}}}
 				.release-cover a:hover {color:#000 !important;}
 			</style>
 			<!--.release-cover a {position:relative;display:block;width:100%;height:1px;overflow:hidden;padding:98% 0 0 0;} -->
 			<div>	
-				<div class="release-cover">
+				<div class="release-cover" style="background-image:url({{cover_url}});">
 					<div class="release-cover-options">
 						{{#cover_asset_id}}
 							<a href="{{www_path}}/assets/edit/{{cover_asset_id}}" class="smalltext"><span class="icon camera"></span> <b>Add/edit cover</b></a>
@@ -136,6 +136,10 @@
 		<br />
 		<input class="button nojs" type="submit" value="Edit the release" />
 		</form>
+
+		<small class="fadedtext"><span class="icon box"></span> Selling out?</small> <a href="{{www_path}}/commerce/items/add" class="lightboxed returntocurrentroute"><small><b>Define commerce settings</b></small></a>
+
+		<div class="row_seperator">.</div>
 		<div class="drawer noprefix">
 			<small class="fadedtext"><span class="icon cloud_download"></span> Need download codes? <a class="drawerhandle usecolor1">Export or create codes</a></small>
 			<div class="drawercontent">
@@ -161,7 +165,7 @@
 			</div>
 		</div>
 
-		<br />
+		<br /><br />
 		<input class="button onlyjs externalsubmit" type="button" data-cash-target-form="#add-release-form" value="Edit the release" />
 	</div>
 
