@@ -370,6 +370,34 @@
 			}
 		});
 
+		// publicize
+		$(document).on('click', 'a[data-publicize-endpoint]', function(e) {
+			e.preventDefault();
+
+			var publicize = $.ajax({
+				url: $(this).data('publicize-endpoint'),
+				dataType: 'json'
+			}).done(function(result) {
+					//console.log("success");
+					//console.log(result);
+				}).complete(function(result) {
+					//console.log("done");
+					//console.log(result);
+
+					var response = $.parseJSON(result.responseText);
+					//console.log(response);
+
+					if (response.success) {
+						//console.log('success verified');
+
+						$('#asset_location').val(response.location);
+						$('#connection_id').val('0');
+						$('.upload-corral').fadeOut();
+					}
+				});
+
+		});
+
 		// storage connection change handler
 		$(document).on('change', '#connection_id', function(e) {
 			if ( this.value > 0 ) {
