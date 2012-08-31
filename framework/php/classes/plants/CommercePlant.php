@@ -304,7 +304,12 @@ class CommercePlant extends PlantBase {
 		return $result;
 	}
 
-	protected function getOrdersForUser($user_id,$include_abandoned=false) {
+	protected function getOrdersForUser($user_id,$include_abandoned=false,$max_returned=false) {
+		if ($max_returned) {
+			$limit = '0, ' . $max_returned;
+		} else {
+			$limit = false;
+		}
 		$conditions = array(
 			"user_id" => array(
 				"condition" => "=",
@@ -321,7 +326,7 @@ class CommercePlant extends PlantBase {
 			'orders',
 			'*',
 			$conditions,
-			false,
+			$limit,
 			'id DESC'
 		);
 		return $result;

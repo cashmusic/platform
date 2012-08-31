@@ -9,7 +9,7 @@
 <body>
 
 	<div id="mainspc">
-		<?php CASHSystem::embedElement(5); // (Test download) ?>
+		<?php CASHSystem::embedElement(1); ?>
 	</div>
 
 <?php include('../../../../framework/php/settings/debug/cashmusic_debug.php'); // Debug ?>

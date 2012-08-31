@@ -83,5 +83,6 @@ if (is_array($item_response)) {
 	$cash_admin->page_data['asset_options'] = AdminHelper::echoFormOptions('assets',$item_response['fulfillment_asset'],$cash_admin->getAllFavoriteAssets(),true);
 }
 
-$cash_admin->setPageContentTemplate('commerce_items_edit');
+$cash_admin->page_data['form_state_action'] = 'doitemedit';
+$cash_admin->setPageContentTemplate('commerce_items_details');
 ?>

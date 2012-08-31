@@ -768,7 +768,8 @@
 			array(
 				'cash_request_type' => $plant_name, 
 				'cash_action' => $action_name,
-				'user_id' => AdminHelper::getPersistentData('cash_effective_user')
+				'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
+				'parent_id' => 0
 			)
 		);
 		$all_options = '';

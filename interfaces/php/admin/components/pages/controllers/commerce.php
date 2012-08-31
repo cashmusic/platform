@@ -4,8 +4,16 @@ $items_response = $cash_admin->requestAndStore(
 		'cash_request_type' => 'commerce', 
 		'cash_action' => 'getitemsforuser',
 		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-	),
-	'all_items'
+	)
+);
+
+$orders_response = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'commerce', 
+		'cash_action' => 'getordersforuser',
+		'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
+		'max_returned' => 6
+	)
 );
 
 // banner stuff
@@ -17,6 +25,10 @@ if ($settings['banners'][BASE_PAGENAME]) {
 
 if (is_array($items_response['payload'])) {
 	$cash_admin->page_data['items_all'] = new ArrayIterator($items_response['payload']);
+}
+
+if (is_array($orders_response['payload'])) {
+	$cash_admin->page_data['orders_all'] = new ArrayIterator($items_response['payload']);
 }
 
 $cash_admin->setPageContentTemplate('commerce');

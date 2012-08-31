@@ -1,10 +1,10 @@
 <h2>{{name}}</h2>
 
-<form method="post" action="{{www_path}}{{requested_route}}" name="edit_item">
-	<input type="hidden" name="doitemedit" value="makeitso" />
+<form method="post" action="{{www_path}}/commerce/items/edit/" name="edit_item">
+	<input type="hidden" name="{{form_state_action}}" value="makeitso" />
 
 	<label for="item_name">Name</label><br />
-	<input type="text" id="item_name" name="item_name" value="{{name}}" />
+	<input type="text" id="item_name" name="item_name" value="{{name}}" placeholder="A public name for the item" />
 
 	<div class="row_seperator">.</div>
 	<label for="item_description">Description</label><br />
