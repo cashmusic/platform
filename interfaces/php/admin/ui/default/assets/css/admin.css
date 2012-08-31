@@ -385,13 +385,13 @@ ul.pagebasemenu ul {padding:0;margin-top:0;margin-bottom:0;font-size:0.8em;font-
 .introductorybanner.flush {margin-bottom:0;}
 .introductorybanner div.closelink {position:absolute;right:5px;bottom:4px;text-align:right;font-size:12px;}
 .introductorybanner div.closelink a {color:#fff;}
-.mainpage.introductorybanner {padding:33px 24px 55px 205px;min-height:165px;}
+.mainpage.introductorybanner {padding:33px 24px 55px 180px;min-height:165px;}
 .mainpage.introductorybanner a {font-weight:bold;}
 .mainpage.introductorybanner div.closelink a {color:#999997;font-weight:normal;}
 .mainpage.introductorybanner .moreinfospc {margin:0;padding:0;text-align:right;font-size:14px;}
 .mainpage.introductorybanner .moreinfospc a {color:#000;background-color:#ff0;padding:0 0.5em 0 0.5em;}
 .mainpage.introductorybanner .mainbannercontent {margin:0;padding:0;position:relative;z-index:100;}
-.mainpage.introductorybanner img.bannerbg {position:absolute;left:5px;bottom:0;z-index:10;width:352px;height:236px;}
+.mainpage.introductorybanner img.bannerbg {position:absolute;left:5px;bottom:0;z-index:10;width:300px;height:201px;}
 .introductorybanner div.titlespc {position:absolute;left:10px;top:24px;font-size:11px;line-height:1.3em;color:#fff;}
 .introductorybanner h2 {font-size:24px;line-height:30px;margin:0 0 1px 0;padding:0;}
 div.gettingstarted {font-size:17px;padding-top:18px;color:#a49c9c;}

@@ -5,6 +5,39 @@
 {{/banner_main_content}}
 
 <div class="col_oneoftwo">
+	<h2>Add an event</h2>
+
+	<form method="post" action="{{www_path}}/calendar/events/add/" name="add_event">
+		<input type="hidden" name="doeventadd" value="makeitso" />
+
+		<label for="event_date">Date</label><br />
+		<input type="date" id="event_date" name="event_date" class="date" value="" placeholder="MM/DD/YYYY" />
+
+		<div class="row_seperator">.</div>
+
+		<input type="text" id="event_venue_name" name="event_venue_name" value="{{event_venue_name}}" placeholder="Start typing to search venues" class="autocomplete" data-cash-endpoint-url="{{{www_path}}}/ajax/autocomplete/venues" />
+		<input type="hidden" id="event_venue" name="event_venue" value="" />
+		<br /><small class="fadedtext">Can't find the venue you're looking for? <a href="{{www_path}}/calendar/venues/add/" class="add-fulfillment-file lightboxed returntocurrentroute usecolor4">Add a new venue</a></small>
+
+		<div class="row_seperator">.</div>
+		<label for="event_comment">Comments (Support, CD Release, etc)</label><br />
+		<textarea rows="3" id="event_comment" name="event_comment"></textarea>
+
+		<div class="row_seperator">.</div>
+		<label for="event_purchase_url">Ticket Purchase URL</label><br />
+		<input type="text" id="event_purchase_url" name="event_purchase_url" value="" placeholder="Ticket Link URL" />
+
+		<div class="row_seperator">.</div>
+		<input type='checkbox' class='checkorradio' name='event_ispublished' value='' checked='checked' /> Published?
+		&nbsp; <input type='checkbox' class='checkorradio' name='event_iscancelled' value='' /> Cancelled?
+
+		<div class="row_seperator">.</div><br />
+		<input class="button" type="submit" value="Add That Event" />
+
+	</form>
+</div>
+
+<div class="col_oneoftwo lastcol">
 	<h2>This week at a glance</h2>
 	{{#events_thisweek}}
 	<ul class="alternating">
@@ -22,9 +55,9 @@
 	{{^events_thisweek}}
 	<p>No upcoming events for the next week were found.</p>
 	{{/events_thisweek}}
-</div>
 
-<div class="col_oneoftwo lastcol">
+	<br /><br />
+
 	<h2>Unpublished events</h2>
 	{{#events_unpublished}}
 	<ul class="alternating">
