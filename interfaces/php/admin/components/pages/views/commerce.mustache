@@ -6,9 +6,25 @@
 
 <div class="col_oneoftwo">
 	<h2>Recent orders</h2>
-	<p>
-		Coming soon. See orders page for order details.
-	</p>
+	{{#orders_recent}}
+	<ul class="alternating">
+		{{#orders_recent}}
+		<li>
+			<b>{{number}}</b>
+			<span class="fadedtext"> // {{date}}<br />
+			{{gross}}: {{items}}
+			</span>
+			<div class="itemnav">
+				<a href="{{www_path}}/commerce/orders/view/{{id}}" class="mininav_flush"><span class="icon pen"></span> Details</a>
+			</div>
+		</li>
+		{{/orders_recent}}
+	</ul>
+	{{/orders_recent}}
+
+	{{^orders_recent}}
+	<p>No orders have been placed yet.</p>
+	{{/orders_recent}}
 </div>
 <div class="col_oneoftwo lastcol">
 	<h2>All items</h2>
