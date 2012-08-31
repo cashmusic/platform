@@ -281,6 +281,11 @@
 			}
 		});
 
+		// to-be-copied code
+		$(document).on('click', 'code input', function(e) {
+			$(this).select();
+		});
+
 		// modal pop-ups
 		$(document).on('click', '.needsconfirmation', function(e) {
 			e.preventDefault();
