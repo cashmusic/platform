@@ -356,7 +356,7 @@
 		// submit forms via AJAX
 		$(document).on('submit', 'form', function(e) {
 			var el = $(e.currentTarget);
-			if (el.attr('action').toLowerCase().indexOf('s3.amazonaws') == 0) {
+			if (el.attr('action').toLowerCase().indexOf('s3.amazonaws') < 1) {
 				e.preventDefault();
 				var url = el.attr('action');
 				if (url == '') {
@@ -378,18 +378,9 @@
 				url: $(this).data('publicize-endpoint'),
 				dataType: 'json'
 			}).done(function(result) {
-					//console.log("success");
-					//console.log(result);
 				}).complete(function(result) {
-					//console.log("done");
-					//console.log(result);
-
 					var response = $.parseJSON(result.responseText);
-					//console.log(response);
-
 					if (response.success) {
-						//console.log('success verified');
-
 						$('#asset_location').val(response.location);
 						$('#connection_id').val('0');
 						$('.upload-corral').fadeOut();
@@ -404,13 +395,18 @@
 				//var connectionID = this.value;
 				var newUploadEndpoint = $('.file-upload-trigger').data('upload-endpoint') + this.value;
 
-				//initiateURL = $(this).data('upload-endpoint') + connectionID;
-
-				//console.log('connectionID: ', connectionID);
-				//console.log('old endpoint: ', $('.file-upload-trigger').data('upload-endpoint') );
-				//initiateURL = $(this).data('upload-endpoint') + connectionID;
-
-				$('.upload-corral').fadeIn().find('.file-upload-trigger').data('upload-endpoint', newUploadEndpoint );
+				var trigger = $('.upload-corral').fadeIn().find('.file-upload-trigger')
+				trigger.data('upload-endpoint', newUploadEndpoint );
+				
+				var uploadTo = $.ajax({
+					url: newUploadEndpoint,
+					dataType: 'json',
+					data: 'data_only=1'
+				}).done(function(result) {
+					//trigger.parents('.fadedtext').fadeOut( function() {
+						trigger.parents('.drawer').find('.drawercontent').html(result.page_content_markup);
+					//});
+				});
 			} else {
 				$('.upload-corral').fadeOut();
 			}
@@ -429,19 +425,21 @@
 			if ( connectionID == '0' ) {
 				alert('Sorry, can\'t upload without a connection. Have you tried a normal link?');
 				return false;
+			} else {
+				trigger.parents('.fadedtext').fadeOut();
 			}
 
+			/*
 			var uploadTo = $.ajax({
 				url: iframeSrc,
 				dataType: 'json',
 				data: 'data_only=1'
 			}).done(function(result) {
-					//console.log("success");
-					//console.log(result);
-					trigger.parents('.fadedtext').fadeOut( function() {
-						$(this).parents('.drawer').find('.drawercontent').html(result.page_content_markup);
-					});
+				trigger.parents('.fadedtext').fadeOut( function() {
+					$(this).parents('.drawer').find('.drawercontent').html(result.page_content_markup);
 				});
+			});
+			*/
 		});
 	}
 

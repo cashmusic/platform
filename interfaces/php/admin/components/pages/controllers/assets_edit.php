@@ -100,6 +100,8 @@ if (isset($_POST['doassetedit'])) {
 
 	if (!$edit_response['payload']) {
 		$cash_admin->page_data['error_message'] = "Error editing asset. Please try again";
+	} else {
+		$cash_admin->page_data['page_message'] = 'Success. Edited.';
 	}
 }
 
