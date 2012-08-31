@@ -8,7 +8,7 @@ if (isset($list_details)) {
 		echo '<h2>Actions</h2>';
 		echo '<p>'
 		. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/edit/' . $list_members['details']['id'] . '" class="mininav_flush"><span class="icon pen"></span> Edit</a> '
-		. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/export/' . $list_members['details']['id'] . '" class="mininav_flush"><span class="icon download"></span> Export</a> '
+		. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/export/' . $list_members['details']['id'] . '" class="mininav_flush noajax"><span class="icon download"></span> Export</a> '
 		. '<a href="' . ADMIN_WWW_BASE_PATH . '/people/lists/delete/' . $list_members['details']['id'] . '" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>'
 		. '</p>';
 

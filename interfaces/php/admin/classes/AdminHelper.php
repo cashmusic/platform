@@ -163,6 +163,7 @@
 			}
 			closedir($elements_dir);
 			if (count($tmpArray)) {
+				ksort($tmpArray);
 				return $tmpArray;
 			} else {
 				return false;

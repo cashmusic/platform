@@ -344,7 +344,7 @@
 			var el = $(e.currentTarget);
 			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey && !el.hasClass('navitemlink')
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
-				&& !el.is('#logout')
+				 && !el.hasClass('noajax') && !el.is('#logout')
 			) {
 				e.preventDefault();
 				var url = $(e.currentTarget).attr('href');

@@ -28,8 +28,23 @@
 	{{/lists_all}}
 </div>
 <div class="col_oneoftwo lastcol">
-	<h2>Social</h2>
-	<p>
-		Twitter and Facebook integrations not set up.
-	</p>
+	<h2>Add new press coverage</h2>
+	<form method="post" action="{{www_path}}/people/press">
+		<label for="press_url">URL</label><br />
+		<input type="text" id="press_url" name="press_url" /> 
+
+		<label for="publishing_date">Publishing date</label><br />
+		<input type="text" id="publishing_date" name="publishing_date" value="{{current_date}}" /> 
+
+		<!--
+		<div class="row_seperator">.</div>
+		<label>Tags</label><br />
+		{{{tag_markup}}}
+		<a href="#" class="injectbefore" rev="<input type='text' name='tag' value='' placeholder='Tag' />" rel="{{tag_counter}}"><small>+ ADD TAG</small></a>
+		-->
+
+		<div class="row_seperator">.</div><br />
+		<input class="button" type="submit" value="Add new link" />
+	
+	</form>
 </div>
