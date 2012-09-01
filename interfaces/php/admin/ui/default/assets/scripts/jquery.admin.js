@@ -178,7 +178,7 @@
 		prepDrawers('<span class="icon arrow_up"></span> Hide','<span class="icon arrow_down"></span> Show');
 
 		// datepicker
-		$('input[type=date]').datepicker();
+		$('input[type=date],input.date').datepicker();
 
 		// autocomplete
 		$('.autocomplete').each( function() {
@@ -402,7 +402,7 @@
 
 				var trigger = $('.upload-corral').fadeIn().find('.file-upload-trigger')
 				trigger.data('upload-endpoint', newUploadEndpoint );
-				
+
 				var uploadTo = $.ajax({
 					url: newUploadEndpoint,
 					dataType: 'json',
