@@ -443,6 +443,10 @@ div.gettingstarted a.helplink {color:#231F20;background-color:#ff0;padding:2px 9
 	display: none;
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+	display: none;
+}
+
 /* FOOTER (base code taken from cssstickyfooter.com) */
 * {margin-top:0;padding:0;}
 html, body, #wrap {height:100%;}
