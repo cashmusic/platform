@@ -431,7 +431,7 @@
 				alert('Sorry, can\'t upload without a connection. Have you tried a normal link?');
 				return false;
 			} else {
-				trigger.parents('.fadedtext').fadeOut();
+				trigger.parents('.fadedtext').animate({ opacity: 0 });
 			}
 
 			/*

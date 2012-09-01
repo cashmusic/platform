@@ -54,7 +54,6 @@
 				$('.upload-corral').fadeOut();
 
 				jQuery.post(finalizeUrl, 'connection_id='+connectionId+'&filename='+finalkey, function(data) {
-					alert(data);
 					if (data.success) {
 						//alert('done: ' + finalkey);
 					} else {
