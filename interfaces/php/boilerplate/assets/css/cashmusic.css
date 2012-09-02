@@ -1,0 +1,44 @@
+/* BASIC PAGE RESETS */
+body {font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.5em;background:#eee;color:#444;}
+a {color:#222;font-weight:bold;text-decoration:none;}
+a:hover {color:#179de6;}
+
+/* LAYOUT/ID-SPECIFIC STYLES */
+#mainspc {width:220px;margin:0 auto;padding:160px 20px 30px 20px;background:url(../images/cover.jpg) 20px 200px no-repeat;}
+.clearall,.cashmusic_clearall {height:1px;overflow:hidden;visibility:hidden;clear:both;}
+
+/* CASH-SPECIFIC STYLES */
+.cash_notation {font-size:10px;color:#777;margin-top:8px;}
+.cash_error {font-weight:bold;color:#ff0;margin-bottom:15px;}
+.cash_input {width:197px;}
+
+.cash_digitalpurchase_itemname {display:block;font-size:2.5em;line-height:1.125em;font-weight:bold;}
+.cash_digitalpurchase_itemprice {display:block;font-size:1.5em;line-height:1.125em;}
+.cash_digitalpurchase_itemdescription {display:block;margin-bottom:1.5em;}
+
+.cashmusic_social {position:relative;margin:10px 15px 20px 15px;padding:15px;background-color:#fff;border-top-left-radius:5px 5px;border-top-right-radius:5px 5px;border-bottom-right-radius:5px 5px;border-bottom-left-radius:5px 5px;}
+.cashmusic_social a {color:#cdcdcd;font-weight:normal;}
+.cashmusic_twitter {font:14.5px/1.75em georgia,'times new roman',times,serif;}
+.cashmusic_twitter_avatar {float:left;margin:1px 8px 8px 0;}
+.cashmusic_twitter_namespc {color:#ccc;font:11px/1.5em helvetica,"helvetica neue",arial,sans-serif;}
+.cashmusic_twitter_namespc a {color:#007e3d;font:bold 15px/1.85em helvetica,"helvetica neue",arial,sans-serif;}
+.cashmusic_twitter a {color:#007e3d;}
+.cashmusic_social_date {margin-top:10px;color:#cdcdcd;font:11px/1.75em helvetica,"helvetica neue",arial,sans-serif;}
+.cashmusic_social_date a {color:#ccc;}
+
+.cashmusic_video_container {position:relative;padding-bottom:56.25%;padding-top:30px;height:0;overflow:hidden;}
+.cashmusic_video_container iframe, .cashmusic_video_container object, .cashmusic_video_container embed {position:absolute;top:0;left:0;width:100%;height:100%;}
+
+.cash_tourdates_event {margin-bottom:18px;}
+.cash_tourdates_date {font-weight:bold;}
+.cash_tourdates_comments {display:block;color:#999;}
+
+.cash_browserid_button {width:80px;height:28px;position:relative;top:10px;}
+
+/* FORMS */
+input {padding:6px 3px 6px 3px;border:1px solid #000;width:100%;}
+input:active, input:focus {outline:0;border:1px solid #09f;}
+input.button {background-color:#000;color:#eee;padding:6px 12px 6px 12px;font-weight:bold;cursor:pointer;width:auto;}
+input.button:hover {background-color:#ff0;border-color:#ff0;color:#111;}
+input.checkorradio {width:auto;}
+label {font-size:0.85em;text-transform:uppercase;color:#999;}
