@@ -527,7 +527,7 @@
 						  . "</body></html>";
 			} else {
 				// open up some mustache in here:
-				include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache.php/Mustache.php');
+				include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
 				$higgins = new Mustache;
 				$mustache_vars = array(
 					'encoded_html' => $encoded_html,

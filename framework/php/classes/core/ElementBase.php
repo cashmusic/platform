@@ -53,8 +53,8 @@ abstract class ElementBase extends CASHData {
 		if (is_array($this->options)) {
 			$this->element_data = array_merge($this->element_data,$this->options);
 		}
-		if (file_exists(CASH_PLATFORM_ROOT . '/lib/mustache.php/Mustache.php')) {
-			include_once(CASH_PLATFORM_ROOT . '/lib/mustache.php/Mustache.php');
+		if (file_exists(CASH_PLATFORM_ROOT . '/lib/mustache/Mustache.php')) {
+			include_once(CASH_PLATFORM_ROOT . '/lib/mustache/Mustache.php');
 			$this->mustache = new Mustache;
 		}
 		// check for an init() in the defined element. if it exists, call it

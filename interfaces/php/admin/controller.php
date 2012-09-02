@@ -136,7 +136,7 @@ if (isset($_GET['hidebanner'])) {
 }
 
 // include Mustache because you know it's time for that
-include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache.php/Mustache.php');
+include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
 $cash_admin->mustache_groomer = new Mustache;
 
 // finally, output the template and page-specific markup (checking for current login)

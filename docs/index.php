@@ -170,7 +170,7 @@ $docs_data['elements'] = Markdown(file_get_contents($current_directory . '/writi
 $docs_data['adminapp'] = Markdown(file_get_contents($current_directory . '/writing/adminapp.md'));
 
 // include Mustache because you know it's time for that
-include_once($current_directory . '/../framework/php/lib/mustache.php/Mustache.php');
+include_once($current_directory . '/../framework/php/lib/mustache/Mustache.php');
 $magnumpi = new Mustache;
 
 echo $magnumpi->render(file_get_contents($current_directory . '/templates/index.mustache'), $docs_data);

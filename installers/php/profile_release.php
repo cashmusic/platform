@@ -35,11 +35,27 @@ function profile_directory($dir,$trim_from_output,&$add_to) {
 	if (is_dir($dir)) {
 		$objects = scandir($dir); 
 		foreach ($objects as $object) { 
-			if ($object != "." && $object != ".." && $object != ".DS_Store" && substr($object,0,1) != '.') { 
+			if ($object != "." && $object != ".." && $object != ".DS_Store" && $object != ".git" && $object != "cashmusic.ini.php") { 
 				if (filetype($dir."/".$object) == "dir") {
 					profile_directory($dir."/".$object,$trim_from_output,$add_to); 
 				} else {
-					$add_to .= "\t\t\"".ltrim(str_replace($trim_from_output,'',$dir),'/')."/".$object.'":"'.md5_file($dir."/".$object)."\",\n";
+					$object_name = ltrim(str_replace($trim_from_output,'',$dir),'/')."/".$object;
+					if (
+						substr($object_name,0,4)  != 'docs' &&
+						substr($object_name,0,5)  != 'tests' &&
+						substr($object_name,0,10) != 'installers' &&
+						substr($object_name,0,1)  != '/' &&
+						substr($object_name,0,1)  != '.' &&
+						substr($object_name,0,10) != 'index.html' &&
+						substr($object_name,0,7)  != 'LICENSE' &&
+						substr($object_name,0,8)  != 'Makefile' &&
+						substr($object_name,0,9)  != 'README.md' &&
+						substr($object_name,0,20) != 'interfaces/php/demos' &&
+						substr($object_name,0,15) != 'framework/cache' &&
+						substr($object_name,0,12) != 'framework/db'
+					) {
+						$add_to .= "\t\t\"".$object_name.'":"'.md5_file($dir."/".$object)."\",\n";
+					}
 				} 
 			} 
 		}
@@ -47,10 +63,10 @@ function profile_directory($dir,$trim_from_output,&$add_to) {
 }
 
 if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
-	echo "Please run installer from the command line. usage:<br / >&gt; php installers/php/dev_installer.php";
+	echo "Please run installer from the command line. usage:<br / >&gt; php profile_release.php <FILE OUTPUT DIRECTORY>";
 } else {
 	if (count($argv) < 2) {
-		echo "\nWrong. Usage: php manifest_builder.php <RELEASE FILES DIRECTORY>\n";
+		echo "\nWrong. Usage: php profile_release.php <FILE OUTPUT DIRECTORY>\n";
 	} else {
 		echo "\n\n                       /)-_-(/\n"
 			. "                        (o o)\n"
