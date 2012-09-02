@@ -581,7 +581,14 @@ class AssetPlant extends PlantBase {
 			case 'com.amazon':
 				$path_prefix = 'cashmusic-' . $connection['id'] . $connection['creation_date'] . '/' . time();
 				$s3 = new S3Seed($connection['user_id'],$connection_id);
-				return (array) $s3->getPOSTUploadParams($path_prefix);
+				$return_value = $s3->getPOSTUploadParams($path_prefix);
+				if ($return_value) {
+					$return_value = (array) $return_value;
+					$return_value['bucketname'] = $s3->getBucketName();
+					return $return_value;
+				} else {
+					return false;
+				}
 				break;
 		    default:
 				return false;

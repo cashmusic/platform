@@ -1,5 +1,5 @@
 {{#AWSAccessKeyId}}
-<form id="file_upload" method="post" class="nodefaultajax" action="https://cashmusicdemo.s3.amazonaws.com/" enctype="multipart/form-data">
+<form id="file_upload" method="post" class="nodefaultajax" action="https://{{bucketname}}.s3.amazonaws.com/" enctype="multipart/form-data">
 	<input type="hidden" name="key" value="{{key}}" />
 	<input type="hidden" name="AWSAccessKeyId" value="{{AWSAccessKeyId}}" />
 	<input type="hidden" name="acl" value="{{acl}}" />
