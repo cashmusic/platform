@@ -201,6 +201,7 @@ if ($cash_admin->page_data['type'] == 'file') {
 		}
 	}
 
+	$cash_admin->page_data['cover_url'] = ADMIN_WWW_BASE_PATH . '/assets/images/release.jpg';
 	if (isset($cash_admin->page_data['metadata']['cover'])) {
 		if ($cash_admin->page_data['metadata']['cover']) { // effectively non-zero
 			$cover_response = $cash_admin->requestAndStore(

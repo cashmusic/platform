@@ -56,7 +56,7 @@ if (is_array($releases_response['payload'])) {
 		}
 
 
-
+		$asset['cover_url'] = ADMIN_WWW_BASE_PATH . '/assets/images/release.jpg';
 		if (isset($asset['metadata']['cover'])) {
 			if ($asset['metadata']['cover']) { // effectively non-zero
 				$cover_response = $cash_admin->requestAndStore(
