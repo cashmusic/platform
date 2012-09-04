@@ -7,8 +7,36 @@
 		"file":"terms",
 		"title":"A glossary of terms"
 	},
+	"s3" : {
+		"file":"s3",
+		"title":"Connections: Amazon S3 secure file hosting"
+	},
 	"mailchimp" : {
 		"file":"mailchimp",
 		"title":"Connections: connect a MailChimp list"
+	},
+	"paypal" : {
+		"file":"paypal",
+		"title":"Connections: Paypal"
+	},
+	"downloadcodes" : {
+		"file":"downloadcodes",
+		"title":"Elements: set up download codes"
+	},
+	"paiddownload" : {
+		"file":"paiddownload",
+		"title":"Elements: sell a release as a paid download"
+	},
+	"emailcollection" : {
+		"file":"emailcollection",
+		"title":"Elements: collect email addresses for a download (or not)"
+	},
+	"addanelement" : {
+		"file":"addanelement",
+		"title":"Misc: add an element to a PHP page"
+	},
+	"migratedb" : {
+		"file":"migratedb",
+		"title":"Misc: migrating to a MySQL database"
 	}
 }
