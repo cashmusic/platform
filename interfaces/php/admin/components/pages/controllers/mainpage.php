@@ -29,6 +29,12 @@ if (is_array($elements_response['payload'])) {
 		}
 	}
 	$cash_admin->page_data['elements_for_user'] = new ArrayIterator($elements_response['payload']);
+	$dashboard_news_response = CASHSystem::getURLContents('http://cashmusic.s3.amazonaws.com/permalink/admin/dashboard.html');
+	if ($dashboard_news_response) {
+		$cash_admin->page_data['dashboard_news'] = $dashboard_news_response;
+	} else {
+		$cash_admin->page_data['dashboard_news'] = '<p class="altcopystyle fadedtext">Couldn\'t get news from the CASH servers. Sorry</p>';
+	}
 } else {
 	// no elements found, meaning it's a newer install
 
