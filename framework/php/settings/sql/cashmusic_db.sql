@@ -238,7 +238,7 @@ DROP TABLE IF EXISTS `people`;
 CREATE TABLE `people` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email_address` varchar(255) NOT NULL DEFAULT '',
-  `password` char(64) NOT NULL DEFAULT '',
+  `password` varchar(255) NOT NULL DEFAULT '',
   `username` varchar(32) NOT NULL DEFAULT '',
   `display_name` varchar(255),
   `first_name` varchar(255),

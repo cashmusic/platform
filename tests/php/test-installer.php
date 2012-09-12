@@ -182,7 +182,23 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		$user_email    = 'root@localhost';
 		$system_salt   = md5($user_email . time());
 		$user_password = 'hack_my_gibson';
-		$password_hash = hash_hmac('sha256', $user_password, $system_salt);
+
+		if (!defined('CRYPT_BLOWFISH')) define('CRYPT_BLOWFISH', 0);
+		if (!defined('CRYPT_SHA512')) define('CRYPT_SHA512', 0);
+		if (!defined('CRYPT_SHA256')) define('CRYPT_SHA256', 0);
+
+		if (CRYPT_BLOWFISH + CRYPT_SHA512 + CRYPT_SHA256) {
+			if (CRYPT_BLOWFISH == 1) {
+				$password_hash = crypt(md5($user_password . $system_salt), '$2a$13$' . md5(time() . $system_salt) . '$');
+			} else if (CRYPT_SHA512 == 1) {
+				$password_hash = crypt(md5($user_password . $system_salt), '$6$rounds=6666$' . md5(time() . $system_salt) . '$');
+			} else if (CRYPT_SHA256 == 1) {
+				$password_hash = crypt(md5($user_password . $system_salt), '$5$rounds=6666$' . md5(time() . $system_salt) . '$');
+			}
+		} else {
+			$key = time();
+			$password_hash = $key . '$' . hash_hmac('sha256', md5($password . $system_salt), $key);
+		}
 	
 		$data = array(
 			'email_address' => $user_email,

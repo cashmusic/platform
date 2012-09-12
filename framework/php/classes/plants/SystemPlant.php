@@ -57,6 +57,35 @@ class SystemPlant extends PlantBase {
 	protected function doMigrateDB($todriver,$tosettings) {
 		return $this->db->migrateDB($todriver,$tosettings);
 	}
+
+	protected function getCryptConstants() {
+		if (!defined('CRYPT_BLOWFISH')) define('CRYPT_BLOWFISH', 0);
+		if (!defined('CRYPT_SHA512')) define('CRYPT_SHA512', 0);
+		if (!defined('CRYPT_SHA256')) define('CRYPT_SHA256', 0);
+
+		return CRYPT_BLOWFISH + CRYPT_SHA512 + CRYPT_SHA256;
+	}
+
+	protected function generatePasswordHash($password) {
+		$password_hash = false;
+
+		$ciphers = $this->getCryptConstants();
+
+		if ($ciphers) {
+			if (CRYPT_BLOWFISH == 1) {
+				$password_hash = crypt(md5($password . $this->salt), '$2a$13$' . md5(time() . $this->salt) . '$');
+			} else if (CRYPT_SHA512 == 1) {
+				$password_hash = crypt(md5($password . $this->salt), '$6$rounds=6666$' . md5(time() . $this->salt) . '$');
+			} else if (CRYPT_SHA256 == 1) {
+				$password_hash = crypt(md5($password . $this->salt), '$5$rounds=6666$' . md5(time() . $this->salt) . '$');
+			}
+		} else {
+			$key = time();
+			$password_hash = $key . '$' . hash_hmac('sha256', md5($password . $this->salt), $key);
+		}
+
+		return $password_hash;
+	}
 	
 	/**
 	 * Logins are validated using the email address given with a salted sha256 hash of the given 
@@ -85,7 +114,7 @@ class SystemPlant extends PlantBase {
 		if (!$password && !$browserid_assertion) {
 			return false; // seriously no password? lame.
 		}
-		$password_hash = hash_hmac('sha256', $password, $this->salt);
+
 		if ($browserid_assertion && !$verified_address) {
 			$address = CASHSystem::getBrowserIdStatus($browserid_assertion);
 			if (!$address) {
@@ -108,7 +137,19 @@ class SystemPlant extends PlantBase {
 				)
 			)
 		);
-		if ($result && ($password_hash == $result[0]['password'] || $verified_address)) {
+		
+		if ($result) {
+			$ciphers = $this->getCryptConstants();
+			if ($ciphers) {
+				$password_hash = crypt(md5($password . $this->salt), $result[0]['password']);
+			} else {
+				$parts = explode('$', $result[0]['password']);
+				$key = $parts[0];
+				$password_hash = $key . '$' . hash_hmac('sha256', md5($password . $this->salt), $key);
+			}
+		}
+
+		if ($result && ($result[0]['password'] == $password_hash || $verified_address)) {
 			if (($require_admin && $result[0]['is_admin']) || !$require_admin) {
 				$this->recordLoginAnalytics($result[0]['id'],$element_id,$login_method);
 				return $result[0]['id'];
@@ -147,7 +188,8 @@ class SystemPlant extends PlantBase {
 	 * @param {string} $password - the password
 	 * @return array|false
 	 */protected function addLogin($address,$password,$is_admin=0,$display_name='Anonymous',$first_name='',$last_name='',$organization='',$address_country='') {
-		$password_hash = hash_hmac('sha256', $password, $this->salt);
+		$password_hash = $this->generatePasswordHash($password);
+
 		$result = $this->db->setData(
 			'users',
 			array(
@@ -173,7 +215,8 @@ class SystemPlant extends PlantBase {
 	 * @param {int} $user_id -  the user
 	 * @return array|false
 	 */protected function setLoginCredentials($user_id,$address,$password) {
-		$password_hash = hash_hmac('sha256', $password, $this->salt);
+		$password_hash = $this->generatePasswordHash($password);
+
 		$credentials = array(
 			'email_address' => $address,
 			'password' => $password_hash

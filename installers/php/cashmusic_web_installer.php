@@ -604,7 +604,23 @@ if (!isset($_POST['installstage'])) {
 				break;
 			}
 
-			$password_hash = hash_hmac('sha256', $user_settings['adminpassword'], $user_settings['systemsalt']);
+			if (!defined('CRYPT_BLOWFISH')) define('CRYPT_BLOWFISH', 0);
+			if (!defined('CRYPT_SHA512')) define('CRYPT_SHA512', 0);
+			if (!defined('CRYPT_SHA256')) define('CRYPT_SHA256', 0);
+
+			if (CRYPT_BLOWFISH + CRYPT_SHA512 + CRYPT_SHA256) {
+				if (CRYPT_BLOWFISH == 1) {
+					$password_hash = crypt(md5($user_settings['adminpassword'] . $user_settings['systemsalt']), '$2a$13$' . md5(time() . $user_settings['systemsalt']) . '$');
+				} else if (CRYPT_SHA512 == 1) {
+					$password_hash = crypt(md5($user_settings['adminpassword'] . $user_settings['systemsalt']), '$6$rounds=6666$' . md5(time() . $user_settings['systemsalt']) . '$');
+				} else if (CRYPT_SHA256 == 1) {
+					$password_hash = crypt(md5($user_settings['adminpassword'] . $user_settings['systemsalt']), '$5$rounds=6666$' . md5(time() . $user_settings['systemsalt']) . '$');
+				}
+			} else {
+				$key = time();
+				$password_hash = $key . '$' . hash_hmac('sha256', md5($password . $user_settings['systemsalt']), $key);
+			}
+
 			$data = array(
 				'email_address' => $user_settings['adminemailaccount'],
 				'password'      => $password_hash,

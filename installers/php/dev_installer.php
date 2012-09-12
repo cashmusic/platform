@@ -154,6 +154,7 @@ echo "\n                       :+#\n"
 		$user_email     = readStdin("\nLogin email address: ");
 		$user_password  = readStdin("Login password: ");
 		$default_salt   = readStdin("\nUse defaut system salt? (y/n): ", false, 'y');
+		$force_hmac     = readStdin("\nForce HMAC hash? (test 5.2 without crypt) (y/n): ", false, 'n');
 		
 		if (strtolower(substr($default_salt,0,1)) == 'y') {
 			$system_salt = 'I was born of sun beams; Warming up our limbs';
@@ -161,7 +162,22 @@ echo "\n                       :+#\n"
 			$system_salt = md5($user_email . time());
 		}
 
-		$password_hash = hash_hmac('sha256', $user_password, $system_salt);
+		if (!defined('CRYPT_BLOWFISH')) define('CRYPT_BLOWFISH', 0);
+		if (!defined('CRYPT_SHA512')) define('CRYPT_SHA512', 0);
+		if (!defined('CRYPT_SHA256')) define('CRYPT_SHA256', 0);
+
+		if (CRYPT_BLOWFISH + CRYPT_SHA512 + CRYPT_SHA256 && strtolower(substr($force_hmac,0,1)) != 'y') {
+			if (CRYPT_BLOWFISH == 1) {
+				$password_hash = crypt(md5($user_password . $system_salt), '$2a$13$' . md5(time() . $system_salt) . '$');
+			} else if (CRYPT_SHA512 == 1) {
+				$password_hash = crypt(md5($user_password . $system_salt), '$6$rounds=6666$' . md5(time() . $system_salt) . '$');
+			} else if (CRYPT_SHA256 == 1) {
+				$password_hash = crypt(md5($user_password . $system_salt), '$5$rounds=6666$' . md5(time() . $system_salt) . '$');
+			}
+		} else {
+			$key = time();
+			$password_hash = $key . '$' . hash_hmac('sha256', md5($user_password . $system_salt), $key);
+		}
 	
 		$data = array(
 			'email_address' => $user_email,
