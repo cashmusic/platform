@@ -197,7 +197,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 			}
 		} else {
 			$key = time();
-			$password_hash = $key . '$' . hash_hmac('sha256', md5($password . $system_salt), $key);
+			$password_hash = $key . '$' . hash_hmac('sha256', md5($user_password . $system_salt), $key);
 		}
 	
 		$data = array(

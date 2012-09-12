@@ -618,7 +618,7 @@ if (!isset($_POST['installstage'])) {
 				}
 			} else {
 				$key = time();
-				$password_hash = $key . '$' . hash_hmac('sha256', md5($password . $user_settings['systemsalt']), $key);
+				$password_hash = $key . '$' . hash_hmac('sha256', md5($user_settings['adminpassword'] . $user_settings['systemsalt']), $key);
 			}
 
 			$data = array(
