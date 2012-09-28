@@ -39,17 +39,17 @@ class CASHRequestTests extends UnitTestCase {
 		$value = $cr->sessionGet("foobar");
 		$this->assertFalse($value);
 
-		$cr->sessionSet("foobar", "baz");
-		$value = $cr->sessionGet("foobar");
+		$cr->sessionSet("foobar", "baz", "script");
+		$value = $cr->sessionGet("foobar", "script");
 		$this->assertEqual($value, "baz");
 
-		$cr->sessionClear("foobar");
-		$value = $cr->sessionGet("foobar");
+		$cr->sessionClear("foobar", "script");
+		$value = $cr->sessionGet("foobar", "script");
 		$this->assertFalse($value);
 
-		$cr->sessionSet("foobar", "baz");
+		$cr->sessionSet("foobar", "baz", "script");
 		$cr->sessionClearAll();
-		$value = $cr->sessionGet("foobar");
+		$value = $cr->sessionGet("foobar", "script");
 		$this->assertFalse($value);
 	}
 

@@ -218,28 +218,34 @@
 	 * @return boolean
 	 */public function sessionSet($key,$value,$scope='persistent') {
 		if ($scope == 'persistent') {
-			$session_data = $this->getAllSessionData();
-			if (!$session_data['persistent']) {
-				$this->resetSession();
-				$session_data['persistent'] = array();
-			}
 			$session_id = $this->getSessionID();
-			$session_data['persistent'][(string)$key] = $value;
-			$expiration = time() + 60 * 60 * 3; // 3 hours
-			$this->db->setData(
-				'sessions',
-				array(
-					'expiration_date' => $expiration,
-					'data' => json_encode($session_data['persistent'])
-				),
-				array(
-					'session_id' => array(
-						'condition' => '=',
-						'value' => $session_id
+			if ($session_id) {
+				$session_data = $this->getAllSessionData();
+				if (!$session_data['persistent']) {
+					$this->resetSession();
+					$session_data['persistent'] = array();
+				}
+				$session_id = $this->getSessionID();
+				$session_data['persistent'][(string)$key] = $value;
+				$expiration = time() + 60 * 60 * 3; // 3 hours
+				if (!$this->db) $this->connectDB();
+				$this->db->setData(
+					'sessions',
+					array(
+						'expiration_date' => $expiration,
+						'data' => json_encode($session_data['persistent'])
+					),
+					array(
+						'session_id' => array(
+							'condition' => '=',
+							'value' => $session_id
+						)
 					)
-				)
-			);
-			return true;
+				);
+				return true;
+			} else {
+				return false;
+			}
 		} else {
 			// set scope to 'script' -- or you know, whatever
 			if (!isset($GLOBALS['cashmusic_script_store'])) {
