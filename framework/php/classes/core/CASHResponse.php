@@ -72,7 +72,7 @@
 			'action' => $action,
 			'payload' => $response_details
 		);
-		$this->sessionSetLastResponse($this->response,$reset_session_id);
+		$this->sessionSetLastResponse($this->response);
 		return $this->response;
 	}
 } // END class 

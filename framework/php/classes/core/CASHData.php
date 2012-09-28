@@ -15,6 +15,8 @@
  */abstract class CASHData {
 	protected $db = false,
 			  $cash_session_timeout = 1800,
+			  $cash_session_data = null,
+			  $cash_session_id = null,
 			  $cache_enabled = false,
 			  $cache_dir = null;
 
@@ -45,142 +47,229 @@
 	/**
 	 * 
 	 * SESSION HANDLERS
-	 * Currently using standard $_SESSION calls, but may be wise to overwrite
-	 * in favor of custom calls so we're not relying on over overwriting
-	 * other sessions?
+	 * CASH session management. Uses a manual implementaion of cookie (session id only) and
+	 * database store for persistence. Allows for multiple web servers running against a
+	 * single database back-end. Also means we don't accidentally trample another app's 
+	 * session data.
 	 *
 	 */
 
 	/**
-	 * Empties (or creates empty) entries to the standard $_SESSION array
+	 * Empties (or creates empty) entries to the standard CASH session.
+	 * Only resets persistent data if a current session_id is found
 	 *
 	 * @return boolean
 	 */protected function resetSession() {
-		$_SESSION['cash_last_response'] = false;
-		$_SESSION['cash_last_request_time'] = 9999999999;
-		$_SESSION['cash_persistent_store'] = array();
-		$GLOBALS['cash_script_store'] = array();
-		return true;
+		if (isset($GLOBALS['cashmusic_script_store']['session_id'])) {
+			$cash_session_id = $GLOBALS['cashmusic_script_store']['session_id'];
+			if (!$this->db) $this->connectDB();
+			$this->db->setData(
+				'sessions',
+				array(
+					'data' => json_encode(array()),
+					'expiration_date' => time() + 60 * 60 * 3
+				),
+				array(
+					'session_id' => array(
+						'condition' => '=',
+						'value' => $cash_session_id
+					)
+				)
+			);
+			$GLOBALS['cashmusic_script_store'] = array();
+			$GLOBALS['cashmusic_script_store']['session_id'] = $cash_session_id;
+		} else {
+			$GLOBALS['cashmusic_script_store'] = array();
+		}
 	}
 	
 	/**
-	 * Sets the time against which the session is measured. This function also
-	 * sets the cash_session_id internally as a mechanism for tracking analytics
-	 * against a consistent id, regardless of PHP session id.
+	 * Sets the initial CASH session_id and cookie on the user's machine
 	 *
 	 * @return boolean
-	 */protected function startSession() {
-		// begin PHP session
-		if(!defined('STDIN')) { // no session for CLI, suckers
-			@session_cache_limiter('nocache');
-			$session_length = 3600;
-			@ini_set("session.gc_maxlifetime", $session_length); 
-			@session_start();
+	 */public function startSession() {
+		$expiration = time() + 60 * 60 * 3; // 3 hours
+		$current_ip = CASHSystem::getRemoteIP();
+		if (isset($_COOKIE['cashmusic_session'])) {
+			// if there is an existing cookie that's not expired, use it as the
+			$cash_session_id = $_COOKIE['cashmusic_session'];
+			$previous_session = array(
+				'session_id' => array(
+					'condition' => '=',
+					'value' => $cash_session_id
+				)
+			);
+		} else {
+			// create a new session
+			$cash_session_id = md5($current_ip['ip'] . rand(10000,99999)) . time(); // IP + random, hashed, plus timestamo
+			$previous_session = false;
 		}
-		
-		$this->cash_session_timeout = ini_get("session.gc_maxlifetime");
-		if (!isset($_SESSION['cash_session_id'])) {
-			$modifier_array = array('deedee','johnny','joey','tommy','marky');
-			$_SESSION['cash_session_id'] = $modifier_array[array_rand($modifier_array)] . '_' . rand(1000,9999) . substr((string)time(),4);
+		$session_data = array(
+			'session_id' => $cash_session_id,
+			'expiration_date' => $expiration,
+			'client_ip' => $current_ip['ip'],
+			'client_proxy' => $current_ip['proxy']
+		);
+		if (!isset($_COOKIE['cashmusic_session'])) {
+			// no existing session, set up empty data 
+			$session_data['data'] = json_encode(array());
 		}
-		if (isset($_SESSION['cash_last_request_time'])) {
-			if ($_SESSION['cash_last_request_time'] + $this->cash_session_timeout < time()) {
-				$this->resetSession();
-			}
+		// set the client-side cookie
+		if (!headers_sent()) {
+			setcookie ('cashmusic_session', $cash_session_id, $expiration, '/', '', false, true);
+		} else {
+			// TODO: here we do our iFrame trick
 		}
-		$_SESSION['cash_last_request_time'] = time();
-		if (!isset($GLOBALS['cash_script_store'])) {
-			$GLOBALS['cash_script_store'] = array();
+		if (!$this->db) $this->connectDB();
+		$this->db->setData(
+			'sessions',
+			$session_data,
+			$previous_session
+		);
+		if (!isset($GLOBALS['cashmusic_script_store'])) {
+			$GLOBALS['cashmusic_script_store'] = array();
 		}
+		$GLOBALS['cashmusic_script_store']['session_id'] = $cash_session_id;
 		return true;
-	}
-	
-	/**
-	 * Returns the internal cash_session_id (Not the PHP session id)
-	 *
-	 * @return boolean
-	 */protected function getCASHSessionID() {
-		return $_SESSION['cash_session_id'];
 	}
 
 	/**
-	 * Replaces $_SESSION['cash_last_response'] with a new response
+	 * Returns an array of all current 'persistent' and 'script' scoped data
+	 *
+	 * @return array
+	 */public function getAllSessionData() {
+		$return_array = array(
+			'persistent' => false,
+			'script' => false
+		);
+		// first add script-scope stuff if set:
+		if (isset($GLOBALS['cashmusic_script_store'])) {
+			$return_array['script'] = $GLOBALS['cashmusic_script_store'];
+		}
+		$session_id = $this->getSessionID();
+		if ($session_id) {
+			if (!$this->db) $this->connectDB();
+			$result = $this->db->getData(
+				'sessions',
+				'data',
+				array(
+					"session_id" => array(
+						"condition" => "=",
+						"value" => $session_id
+					)
+				)
+			);
+			if ($result) {
+				$return_array['persistent'] = json_decode($result[0]['data'],true);
+			}
+		}
+		return $return_array;
+	}
+	
+	/**
+	 * Returns the CASH session_id 
+	 *
+	 * @return boolean
+	 */protected function getSessionID() {
+		if (isset($GLOBALS['cashmusic_script_store']['session_id']) || isset($_COOKIE['cashmusic_session'])) {
+			if (!isset($GLOBALS['cashmusic_script_store']['session_id'])) {
+				$GLOBALS['cashmusic_script_store']['session_id'] = $_COOKIE['cashmusic_session'];
+			}
+			return $GLOBALS['cashmusic_script_store']['session_id'];
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Replaces script-scoped 'cash_last_response' with a new response
 	 *
 	 * @param {array} $response - the new CASHResponse
 	 * @param {boolean} $reset_session_id [default: false] - if true a new 
 	 *        session id is generated as a security measure 
 	 * @return boolean
-	 */protected function sessionSetLastResponse($response,$reset_session_id=false) {
-		if (!isset($_SESSION['cash_last_response'])) {
-			$this->resetSession();
-		}
-		if ($reset_session_id) {
-			@session_regenerate_id(true);
-		}
-		$_SESSION['cash_last_response'] = $response;
+	 */protected function sessionSetLastResponse($response) {
+		$this->sessionSet('cash_last_response',$response,'script');
 		return true;
 	}
 
 	/**
-	 * Returns the current value of $_SESSION['cash_last_response']
+	 * Returns the current value of script-scoped 'cash_last_response'
 	 *
 	 * @return array|false
 	 */public function sessionGetLastResponse() {
-		if (!isset($_SESSION['cash_last_response'])) {
-			$this->resetSession();
-		}
-		return $_SESSION['cash_last_response'];
+		return $this->sessionGet('cash_last_response','script');
 	}
 
 	/**
-	 * Sets $_SESSION['cash_last_response'] to false
+	 * Sets script-scoped 'cash_last_response' to false
 	 *
 	 * @return array|false
 	 */public function sessionClearLastResponse() {
-		$_SESSION['cash_last_response'] = false;
+		$this->sessionSet('cash_last_response',false,'script');
 		return true;
 	}
 
 	/**
-	 * Adds new data to the $_SESSION['cash_persistent_store'] array and resets
-	 * the session id as a security precaution. 
+	 * Adds new data to the CASH session — 'persistent' (db) or 'script' ($GLOBALS) scope
 	 *
 	 * @param {string} $key - the key to associate with the new data
 	 * @param {*} $value - the data to store
 	 * @return boolean
 	 */public function sessionSet($key,$value,$scope='persistent') {
 		if ($scope == 'persistent') {
-			if (!isset($_SESSION['cash_persistent_store'])) {
+			$session_data = $this->getAllSessionData();
+			if (!$session_data['persistent']) {
 				$this->resetSession();
+				$session_data['persistent'] = array();
 			}
-			$_SESSION['cash_persistent_store'][(string)$key] = $value;
+			$session_id = $this->getSessionID();
+			$session_data['persistent'][(string)$key] = $value;
+			$expiration = time() + 60 * 60 * 3; // 3 hours
+			$this->db->setData(
+				'sessions',
+				array(
+					'expiration_date' => $expiration,
+					'data' => json_encode($session_data['persistent'])
+				),
+				array(
+					'session_id' => array(
+						'condition' => '=',
+						'value' => $session_id
+					)
+				)
+			);
 			return true;
 		} else {
 			// set scope to 'script' -- or you know, whatever
-			$GLOBALS['cash_script_store'][(string)$key] = $value;
+			if (!isset($GLOBALS['cashmusic_script_store'])) {
+				$GLOBALS['cashmusic_script_store'] = array();
+			}
+			$GLOBALS['cashmusic_script_store'][(string)$key] = $value;
 			return true;
 		}
 	}
 
 	/**
-	 * Returns data from the $_SESSION['cash_persistent_store'] array
+	 * Returns data from the CASH session at either 'persistent' (db) or 'script' ($GLOBALS) scope
 	 *
 	 * @param {string} $key - the key associated with the requested data
 	 * @return *|false
 	 */public function sessionGet($key,$scope='persistent') {
 		if ($scope == 'persistent') {
-			if (!isset($_SESSION['cash_persistent_store'])) {
+			$session_data = $this->getAllSessionData();
+			if (!$session_data['persistent']) {
 				$this->resetSession();
 				return false;
 			} 
-			if (isset($_SESSION['cash_persistent_store'][(string)$key])) {
-				return $_SESSION['cash_persistent_store'][(string)$key];
+			if (isset($session_data['persistent'][(string)$key])) {
+				return $session_data['persistent'][(string)$key];
 			} else {
 				return false;
 			}
 		} else {
-			if (isset($GLOBALS['cash_script_store'][(string)$key])) {
-				return $GLOBALS['cash_script_store'][(string)$key];
+			if (isset($GLOBALS['cashmusic_script_store'][(string)$key])) {
+				return $GLOBALS['cashmusic_script_store'][(string)$key];
 			} else {
 				return false;
 			}
@@ -194,25 +283,46 @@
 	 * @return void
 	 */public function sessionClear($key,$scope='persistent') {
 		if ($scope == 'persistent') {
-			if (!isset($_SESSION['cash_persistent_store'])) {
+			$session_data = $this->getAllSessionData();
+			if (!$session_data['persistent']) {
 				$this->resetSession();
-			} else if (isset($_SESSION['cash_persistent_store'][(string)$key])) {
-				unset($_SESSION['cash_persistent_store'][(string)$key]);
+			} else if (isset($session_data['persistent'][(string)$key])) {
+				unset($session_data['persistent'][(string)$key]);
+				$session_id = $this->getSessionID();
+				$expiration = time() + 60 * 60 * 3; // 3 hours
+				$this->db->setData(
+					'sessions',
+					array(
+						'expiration_date' => $expiration,
+						'data' => json_encode($session_data['persistent'])
+					),
+					array(
+						'session_id' => array(
+							'condition' => '=',
+							'value' => $session_id
+						)
+					)
+				);
 			}
 		} else {
-			if (isset($GLOBALS['cash_script_store'][(string)$key])) {
-				unset($GLOBALS['cash_script_store'][(string)$key]);
+			if (isset($GLOBALS['cashmusic_script_store'][(string)$key])) {
+				unset($GLOBALS['cashmusic_script_store'][(string)$key]);
 			}
 		}
 	}
 
 	/**
-	 * Removes all data from $_SESSION['cash_persistent_store'], unsetting it
+	 * Reset the session in the database, expire the cookie
 	 *
 	 * @return void
 	 */public function sessionClearAll() {
-		unset($_SESSION['cash_persistent_store']);
-		$GLOBALS['cash_script_store'] = array();
+		$this->resetSession();
+		// set the client-side cookie
+		if (!headers_sent()) {
+			setcookie ('cashmusic_session', false, 1, '/', '', false, true);
+		} else {
+			// TODO: here we do our iFrame trick
+		}
 	}
 	
 	/**

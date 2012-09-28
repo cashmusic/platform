@@ -361,6 +361,19 @@ CREATE TABLE system_metadata (
 );
 CREATE INDEX system_metadata_scope_table ON system_metadata (scope_table_alias, scope_table_id);
 
+CREATE TABLE system_sessions (
+  id INTEGER PRIMARY KEY,
+  session_id text,
+  data text,
+  client_ip text,
+  client_proxy text,
+  expiration_date integer,
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT NULL
+);
+CREATE INDEX system_sessions_session_id ON system_sessions (session_id);
+CREATE INDEX system_sessions_expiration_date ON system_sessions (expiration_date);
+
 CREATE TABLE system_settings (
   id INTEGER PRIMARY KEY,
   type text,

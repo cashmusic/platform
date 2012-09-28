@@ -407,6 +407,21 @@ CREATE TABLE `system_metadata` (
   KEY `system_metadata_scope_table` (`scope_table_alias`,`scope_table_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `system_sessions`;
+CREATE TABLE `system_sessions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `session_id` varchar(255) NOT NULL,
+  `data` text NOT NULL,
+  `client_ip` varchar(39),
+  `client_proxy` varchar(39),
+  `expiration_date` int(11),
+  `creation_date` int(11) DEFAULT NULL,
+  `modification_date` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `system_sessions_session_id` (`session_id`),
+  KEY `system_sessions_expiration_date` (`expiration_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `system_settings`;
 CREATE TABLE `system_settings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

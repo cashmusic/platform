@@ -144,7 +144,7 @@ class ElementPlant extends PlantBase {
 					),
 					"cash_session_id" => array(
 						"condition" => "=",
-						"value" => $this->getCASHSessionID()
+						"value" => $this->getSessionID()
 					),
 					"client_ip" => array(
 						"condition" => "=",
@@ -169,7 +169,7 @@ class ElementPlant extends PlantBase {
 					'access_time' => time(),
 					'client_ip' => $ip_and_proxy['ip'],
 					'client_proxy' => $ip_and_proxy['proxy'],
-					'cash_session_id' => $this->getCASHSessionID()
+					'cash_session_id' => $this->getSessionID()
 				)
 			);
 			return $result;

@@ -17,7 +17,6 @@
 	 * Handle annoying environment issues like magic quotes, constants and 
 	 * auto-loaders before firing up the CASH platform and whatnot
 	 *
-	 * @return array
 	 */public static function startUp() {
 		// remove magic quotes, never call them "magic" in front of your friends
 		if (get_magic_quotes_gpc()) {
@@ -57,6 +56,16 @@
 	}
 
 	/**
+	 * Starts a persistent CASH session in the database, with corresponding cookie
+	 *
+	 * @return none
+	 */public static function startSession() {
+		$cash_page_request = new CASHRequest();
+		$cash_page_request->startSession();
+		unset($cash_page_request);
+	}
+
+	/**
 	 * The main public method to embed elements. Notice that it echoes rather
 	 * than returns, because it's meant to be used simply by calling and spitting
 	 * out the needed code...
@@ -65,6 +74,7 @@
 	 */public static function embedElement($element_id) {
 		// fire up the platform sans-direct-request to catch any GET/POST info sent
 		// in to the page
+		CASHSystem::startSession();
 		$cash_page_request = new CASHRequest(null);
 		$initial_page_request = $cash_page_request->sessionGet('initial_page_request','script');
 		if ($initial_page_request && isset($initial_page_request['request']['element_id'])) {

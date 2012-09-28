@@ -30,7 +30,6 @@
 	 * @param {boolean} $direct_request [default: false] - can only be set when
 	 *        called directly, so set to true to indicate direct request method
 	 */public function __construct($direct_request=false,$method='direct',$authorized_user=false) {
-		$this->startSession();
 		if ($direct_request) {
 			// skip detect on direct requests
 			$this->request = $direct_request;

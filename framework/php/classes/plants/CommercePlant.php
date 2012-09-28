@@ -448,7 +448,7 @@ class CommercePlant extends PlantBase {
 				$transaction_id,
 				0,
 				1,
-				$this->getCASHSessionID(),
+				$this->getSessionID(),
 				$element_id
 			);
 			if ($order_id) {
