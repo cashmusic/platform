@@ -59,7 +59,7 @@
 	 * Starts a persistent CASH session in the database, with corresponding cookie
 	 *
 	 * @return none
-	 */public static function startSession() {
+	 */public static function startSession($forced_id=false) {
 		$cash_page_request = new CASHRequest();
 		$cash_page_request->startSession();
 		unset($cash_page_request);
