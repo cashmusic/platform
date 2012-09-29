@@ -30,7 +30,8 @@ class AdminBasicIntegration extends UnitTestCase {
 						'cash_action' => 'addlogin',
 						'address' => $this->cash_user_login,
 						'password' => $this->cash_user_password,
-						'is_admin' => 1
+						'is_admin' => true,
+						'force52compatibility' => true
 					)
 				);
 				$this->cash_user_id = $user_add_request->response['payload'];
@@ -48,9 +49,10 @@ class AdminBasicIntegration extends UnitTestCase {
 			$src = $this->cc->post(
 				$this->cash_test_url . '/interfaces/php/admin/',
 				http_build_query(array(
-					'address'=>'false@example.com',
-					'password'=>'incorrect',
-					'login'=>'1'
+					'address'            => 'false@example.com',
+					'password'           => 'incorrect',
+					'browseridassertion' => -1,
+					'login'              => '1'
 				))
 			);
 			$this->assertPattern('/<h1 class="tryagain">Try Again:<\/h1>/', $src);
@@ -59,24 +61,17 @@ class AdminBasicIntegration extends UnitTestCase {
 			$src = $this->cc->post(
 				$this->cash_test_url . '/interfaces/php/admin/',
 				http_build_query(array(
-					'address'=>$this->cash_user_login,
-					'password'=>$this->cash_user_password,
-					'login'=>'1'
+					'address'            => $this->cash_user_login,
+					'password'           => $this->cash_user_password,
+					'browseridassertion' => -1,
+					'login'              => '1'
 				))
 			);
-	//
-	//
-	//
-	//
-	//$this->assertPattern('/<h1>CASH Music: Main Page<\/h1>/', $src);
-		
+			$this->assertPattern('/<h1 id="pagetitle">CASH Music: Main Page<\/h1>/', $src);
+
 			// make sure the cookie is persistent
 			$src = $this->cc->get($this->cash_test_url . '/interfaces/php/admin/');
-	//
-	//
-	//
-	//
-	//$this->assertPattern('/<h1>CASH Music: Main Page<\/h1>/', $src);
+			$this->assertPattern('/<h1 id="pagetitle">CASH Music: Main Page<\/h1>/', $src);
 		}
     }
 

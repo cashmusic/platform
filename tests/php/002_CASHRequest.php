@@ -36,20 +36,43 @@ class CASHRequestTests extends UnitTestCase {
 		$value2 = $cr->sessionGetLastResponse();
 		$this->assertNotEqual($value1, $value2);
 
-		$value = $cr->sessionGet("foobar");
+		// test script-scope sesstion values:
+		$value = $cr->sessionGet('foobar', 'script');
 		$this->assertFalse($value);
 
-		$cr->sessionSet("foobar", "baz", "script");
-		$value = $cr->sessionGet("foobar", "script");
-		$this->assertEqual($value, "baz");
+		$cr->sessionSet('foobar', 'baz', 'script');
+		$value = $cr->sessionGet('foobar', 'script');
+		$this->assertEqual($value, 'baz');
 
-		$cr->sessionClear("foobar", "script");
-		$value = $cr->sessionGet("foobar", "script");
+		$cr->sessionClear('foobar', 'script');
+		$value = $cr->sessionGet('foobar', 'script');
 		$this->assertFalse($value);
 
-		$cr->sessionSet("foobar", "baz", "script");
+		$cr->sessionSet('foobar', 'baz', 'script');
 		$cr->sessionClearAll();
-		$value = $cr->sessionGet("foobar", "script");
+		$value = $cr->sessionGet('foobar', 'script');
+		$this->assertFalse($value);
+
+		// test persistent-scope sesstion values:
+		$value = $cr->sessionGet('foobar');
+		$this->assertFalse($value);
+
+		$cr->sessionSet('foobar', 'baz');
+		$value = $cr->sessionGet('foobar');
+		$this->assertFalse($value); // fail without startSession()
+
+		CASHSystem::startSession();
+		$cr->sessionSet('foobar', 'baz');
+		$value = $cr->sessionGet('foobar');
+		$this->assertEqual($value, 'baz');
+
+		$cr->sessionClear('foobar');
+		$value = $cr->sessionGet('foobar');
+		$this->assertFalse($value);
+
+		$cr->sessionSet('foobar', 'baz');
+		$cr->sessionClearAll();
+		$value = $cr->sessionGet('foobar');
 		$this->assertFalse($value);
 	}
 

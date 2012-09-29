@@ -66,12 +66,12 @@ class SystemPlant extends PlantBase {
 		return CRYPT_BLOWFISH + CRYPT_SHA512 + CRYPT_SHA256;
 	}
 
-	protected function generatePasswordHash($password) {
+	protected function generatePasswordHash($password,$force52compatibility=false) {
 		$password_hash = false;
 
 		$ciphers = $this->getCryptConstants();
 
-		if ($ciphers) {
+		if ($ciphers && !$force52compatibility) {
 			if (CRYPT_BLOWFISH == 1) {
 				$password_hash = crypt(md5($password . $this->salt), '$2a$13$' . md5(time() . $this->salt) . '$');
 			} else if (CRYPT_SHA512 == 1) {
@@ -140,10 +140,10 @@ class SystemPlant extends PlantBase {
 		
 		if ($result) {
 			$ciphers = $this->getCryptConstants();
-			if ($ciphers) {
+			$parts = explode('$', $result[0]['password']);
+			if ($ciphers || count($parts) > 2) {
 				$password_hash = crypt(md5($password . $this->salt), $result[0]['password']);
 			} else {
-				$parts = explode('$', $result[0]['password']);
 				$key = $parts[0];
 				$password_hash = $key . '$' . hash_hmac('sha256', md5($password . $this->salt), $key);
 			}
@@ -187,8 +187,8 @@ class SystemPlant extends PlantBase {
 	 * @param {string} $address -  the email address in question
 	 * @param {string} $password - the password
 	 * @return array|false
-	 */protected function addLogin($address,$password,$is_admin=0,$display_name='Anonymous',$first_name='',$last_name='',$organization='',$address_country='') {
-		$password_hash = $this->generatePasswordHash($password);
+	 */protected function addLogin($address,$password,$is_admin=0,$display_name='Anonymous',$first_name='',$last_name='',$organization='',$address_country='',$force52compatibility=false) {
+		$password_hash = $this->generatePasswordHash($password,$force52compatibility);
 
 		$result = $this->db->setData(
 			'users',
