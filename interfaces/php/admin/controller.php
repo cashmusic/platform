@@ -142,6 +142,7 @@ $cash_admin->mustache_groomer = new Mustache;
 
 // finally, output the template and page-specific markup (checking for current login)
 if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
+	CASHSystem::startSession();
 	// start buffering output
 	ob_start();
 	// set basic data for the template

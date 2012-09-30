@@ -60,8 +60,8 @@
 	 *
 	 * @return boolean
 	 */protected function resetSession() {
-		if (isset($GLOBALS['cashmusic_script_store']['session_id'])) {
-			$cash_session_id = $GLOBALS['cashmusic_script_store']['session_id'];
+		if ($this->sessionGet('session_id','script')) {
+			$session_id = $this->sessionGet('session_id','script');
 			if (!$this->db) $this->connectDB();
 			$this->db->setData(
 				'sessions',
@@ -72,12 +72,12 @@
 				array(
 					'session_id' => array(
 						'condition' => '=',
-						'value' => $cash_session_id
+						'value' => $session_id
 					)
 				)
 			);
 			$GLOBALS['cashmusic_script_store'] = array();
-			$GLOBALS['cashmusic_script_store']['session_id'] = $cash_session_id;
+			$this->sessionSet('session_id',$session_id,'script');
 		} else {
 			$GLOBALS['cashmusic_script_store'] = array();
 		}
@@ -87,50 +87,86 @@
 	 * Sets the initial CASH session_id and cookie on the user's machine
 	 *
 	 * @return boolean
-	 */public function startSession() {
-		$expiration = time() + 60 * 60 * 3; // 3 hours
-		$current_ip = CASHSystem::getRemoteIP();
-		if (isset($_COOKIE['cashmusic_session'])) {
-			// if there is an existing cookie that's not expired, use it as the
-			$cash_session_id = $_COOKIE['cashmusic_session'];
-			$previous_session = array(
-				'session_id' => array(
-					'condition' => '=',
-					'value' => $cash_session_id
-				)
+	 */public function startSession($reset_session_id=false,$force_session_id=false) {
+		// if 'session_id' is already set in script store then we've already started 
+		// the session in this script, do not hammer the database needlessly
+		if (!$this->sessionGet('session_id','script')) {
+			if ($force_session_id) {
+				$this->sessionSet('session_id',$force_session_id,'script');
+			}
+			// first make sure we have a valid session
+			$current_session = $this->getAllSessionData();
+			if ($current_session['persistent']) {
+				// found session data, check expiration
+				if ($current_session['persistent']['expiration_date'] > time()) {
+					$this->sessionClearAll();
+					$current_session['persistent'] = false;
+					$reset_session_id = false;
+					$force_session_id = false;
+				}
+			}
+			$expiration = time() + 60 * 60 * 3; // 3 hours
+			$current_ip = CASHSystem::getRemoteIP();
+			$session_id = $this->getSessionID();
+			if ($force_session_id) {
+				// if we're forcing an id, we must also reset(array)
+				$session_id = $force_session_id;
+				$reset_session_id = true;
+			}
+			if ($session_id) {
+				// if there is an existing cookie that's not expired, use it as the
+				$previous_session = array(
+					'session_id' => array(
+						'condition' => '=',
+						'value' => $session_id
+					)
+				);
+			} else {
+				// create a new session
+				$session_id = md5($current_ip['ip'] . rand(10000,99999)) . time(); // IP + random, hashed, plus timestamo
+				$previous_session = false;
+			}
+			$session_data = array(
+				'session_id' => $session_id,
+				'expiration_date' => $expiration,
+				'client_ip' => $current_ip['ip'],
+				'client_proxy' => $current_ip['proxy']
 			);
-		} else {
-			// create a new session
-			$cash_session_id = md5($current_ip['ip'] . rand(10000,99999)) . time(); // IP + random, hashed, plus timestamo
-			$previous_session = false;
+			if ($reset_session_id) {
+				// forced session reset
+				$session_id = md5($current_ip['ip'] . rand(10000,99999)) . time();
+				$session_data['session_id'] = $session_id;
+			}
+			if (!$current_session['persistent']) {
+				// no existing session, set up empty data 
+				$session_data['data'] = json_encode(array());
+			}
+			// set the client-side cookie
+			if (!headers_sent()) {
+				// no headers yet, we can just send the cookie through
+				setcookie ('cashmusic_session', $session_id, $expiration, '/', '', false, true);
+			} else {
+				// tell 
+				$this->sessionSet('render_session_pixel',true,'script');
+				$this->sessionSet('session_pixel_markup','<img src="' . CASH_PUBLIC_URL . 'sessionpixel.php?session_id=' . $session_id . '" alt="" />','script');
+			}
+			// set the database session data
+			if (!$this->db) $this->connectDB();
+			$this->db->setData(
+				'sessions',
+				$session_data,
+				$previous_session
+			);
+			$this->sessionSet('session_id',$session_id,'script');
 		}
-		$session_data = array(
-			'session_id' => $cash_session_id,
-			'expiration_date' => $expiration,
-			'client_ip' => $current_ip['ip'],
-			'client_proxy' => $current_ip['proxy']
-		);
-		if (!isset($_COOKIE['cashmusic_session'])) {
-			// no existing session, set up empty data 
-			$session_data['data'] = json_encode(array());
-		}
-		// set the client-side cookie
-		if (!headers_sent()) {
-			setcookie ('cashmusic_session', $cash_session_id, $expiration, '/', '', false, true);
-		} else {
-			// TODO: here we do our iFrame trick
-		}
-		if (!$this->db) $this->connectDB();
-		$this->db->setData(
-			'sessions',
-			$session_data,
-			$previous_session
-		);
-		if (!isset($GLOBALS['cashmusic_script_store'])) {
-			$GLOBALS['cashmusic_script_store'] = array();
-		}
-		$GLOBALS['cashmusic_script_store']['session_id'] = $cash_session_id;
 		return true;
+	}
+
+	public function embedSessionPixel() {
+		if ($this->sessionGet('render_session_pixel','script')) {
+			echo $this->sessionGet('session_pixel_markup','script');
+			$this->sessionClear('render_session_pixel','script');
+		}
 	}
 
 	/**
@@ -171,11 +207,11 @@
 	 *
 	 * @return boolean
 	 */protected function getSessionID() {
-		if (isset($GLOBALS['cashmusic_script_store']['session_id']) || isset($_COOKIE['cashmusic_session'])) {
-			if (!isset($GLOBALS['cashmusic_script_store']['session_id'])) {
-				$GLOBALS['cashmusic_script_store']['session_id'] = $_COOKIE['cashmusic_session'];
+		if ($this->sessionGet('session_id','script') || isset($_COOKIE['cashmusic_session'])) {
+			if (!$this->sessionGet('session_id','script')) {
+				$this->sessionSet('session_id',$_COOKIE['cashmusic_session'],'script');
 			}
-			return $GLOBALS['cashmusic_script_store']['session_id'];
+			return $this->sessionGet('session_id','script');
 		} else {
 			return false;
 		}
@@ -325,9 +361,9 @@
 		$this->resetSession();
 		// set the client-side cookie
 		if (!headers_sent()) {
+			// if headers have already been sent the cookie will be cleared on 
+			// next sessionStart()
 			setcookie ('cashmusic_session', false, 1, '/', '', false, true);
-		} else {
-			// TODO: here we do our iFrame trick
 		}
 	}
 	

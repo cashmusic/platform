@@ -1,4 +1,3 @@
-<?php include('../../../../framework/php/cashmusic.php'); // Initialize CASH Music ?>
 <!DOCTYPE html>
 <head> 
 <title>Sandbox / CASH Music</title>
@@ -9,7 +8,7 @@
 <body>
 
 	<div id="mainspc">
-		<?php CASHSystem::embedElement(1); ?>
+		<?php include('../../../../framework/php/cashmusic.php');CASHSystem::embedElement(1); ?>
 	</div>
 
 <?php include('../../../../framework/php/settings/debug/cashmusic_debug.php'); // Debug ?>

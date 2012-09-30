@@ -18,50 +18,54 @@
 	 * auto-loaders before firing up the CASH platform and whatnot
 	 *
 	 */public static function startUp() {
-		// remove magic quotes, never call them "magic" in front of your friends
-		if (get_magic_quotes_gpc()) {
-		    function stripslashes_from_gpc(&$value) {$value = stripslashes($value);}
-		    $gpc = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
-		    array_walk_recursive($gpc, 'stripslashes_from_gpc');
-			unset($gpc);
+		// only want to do this once, so we check for 'initial_page_request_time'
+		if (!isset($GLOBALS['cashmusic_script_store']['initial_page_request_time'])) {
+			// remove magic quotes, never call them "magic" in front of your friends
+			if (get_magic_quotes_gpc()) {
+			    function stripslashes_from_gpc(&$value) {$value = stripslashes($value);}
+			    $gpc = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
+			    array_walk_recursive($gpc, 'stripslashes_from_gpc');
+				unset($gpc);
+			}
+			
+			// define constants (use sparingly!)
+			$root = realpath(dirname(__FILE__) . '/../..');
+			define('CASH_PLATFORM_ROOT', $root);
+			$cash_settings = CASHSystem::getSystemSettings();
+			define('CASH_API_URL', $cash_settings['apilocation']);
+			define('CASH_PUBLIC_URL',str_replace('api','public',$cash_settings['apilocation']));
+			// set up auto-load
+			spl_autoload_register('CASHSystem::autoloadClasses');
+			
+			// set timezone
+			date_default_timezone_set($cash_settings['timezone']);
+			
+			// fire off new CASHRequest to cover any immediate-need things like GET
+			// asset requests, etc...
+			$cash_page_request = new CASHRequest();
+			if (!empty($cash_page_request->response)) {
+				$cash_page_request->sessionSet(
+					'initial_page_request',
+					array(
+						'request' => $cash_page_request->request,
+						'response' => $cash_page_request->response,
+						'status_uid' => $cash_page_request->response['status_uid']
+					),
+					'script'
+				);
+			}
+			$cash_page_request->sessionSet('initial_page_request_time',time(),'script');
+			unset($cash_page_request);
 		}
-		
-		// define constants (use sparingly!)
-		$root = realpath(dirname(__FILE__) . '/../..');
-		define('CASH_PLATFORM_ROOT', $root);
-		$cash_settings = CASHSystem::getSystemSettings();
-		define('CASH_API_URL', $cash_settings['apilocation']);
-		define('CASH_PUBLIC_URL',str_replace('api','public',$cash_settings['apilocation']));
-		// set up auto-load
-		spl_autoload_register('CASHSystem::autoloadClasses');
-		
-		// set timezone
-		date_default_timezone_set($cash_settings['timezone']);
-		
-		// fire off new CASHRequest to cover any immediate-need things like GET
-		// asset requests, etc...
-		$cash_page_request = new CASHRequest();
-		if (!empty($cash_page_request->response)) {
-			$cash_page_request->sessionSet(
-				'initial_page_request',
-				array(
-					'request' => $cash_page_request->request,
-					'response' => $cash_page_request->response,
-					'status_uid' => $cash_page_request->response['status_uid']
-				),
-				'script'
-			);
-		}
-		unset($cash_page_request);
 	}
 
 	/**
 	 * Starts a persistent CASH session in the database, with corresponding cookie
 	 *
 	 * @return none
-	 */public static function startSession($forced_id=false) {
+	 */public static function startSession($reset_session_id=false,$force_session_id=false) {
 		$cash_page_request = new CASHRequest();
-		$cash_page_request->startSession();
+		$cash_page_request->startSession($reset_session_id,$force_session_id);
 		unset($cash_page_request);
 	}
 
@@ -114,6 +118,7 @@
 				ob_flush();
 			}
 		}
+		$cash_body_request->embedSessionPixel();
 		unset($cash_page_request);
 		unset($cash_body_request);
 	}

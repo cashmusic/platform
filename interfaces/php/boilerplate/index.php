@@ -1,4 +1,3 @@
-<?php // REPLACE WITH INIT CODE FROM ADMIN > SYSTEM SETTINGS // Initialize CASH Music ?>
 <!DOCTYPE html>
 <head> 
 <title>Boilerplate / CASH Music</title>
