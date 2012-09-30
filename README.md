@@ -7,7 +7,7 @@ The whole thing is designed to work as a freestanding API or integrated with
 publishing and CMS systems like Wordpress or Drupal. This repo contains the core 
 framework, installers, an admin webapp, APIs, demos, and a full suite of tests.
 
-[![Build Status](https://secure.travis-ci.org/cashmusic/DIY.png)](http://travis-ci.org/cashmusic/DIY)
+[![Build Status](https://secure.travis-ci.org/cashmusic/platform.png)](http://travis-ci.org/cashmusic/platform)
 
 ## Requirements
 
