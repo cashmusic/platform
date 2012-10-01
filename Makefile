@@ -1,3 +1,6 @@
+citest:
+	php tests/php/all.php
+
 cleanup:
 	php tests/php/test-uninstaller.php
 
