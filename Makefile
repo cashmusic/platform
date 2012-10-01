@@ -1,9 +1,3 @@
-unit_test:
-	php tests/php/all.php
-
-integration_test:
-	prove -lrv tests/integration
-
 cleanup:
 	php tests/php/test-uninstaller.php
 
@@ -22,8 +16,3 @@ release:
 test:
 	-php tests/php/all.php
 	php tests/php/test-uninstaller.php
-
-citest:
-	php tests/php/all.php
-
-fulltest: unit_test integration_test cleanup

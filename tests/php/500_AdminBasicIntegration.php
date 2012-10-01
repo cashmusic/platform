@@ -81,6 +81,10 @@ class AdminBasicIntegration extends UnitTestCase {
 	    	$all_routes = json_decode(file_get_contents(dirname(__FILE__) . '/../../interfaces/php/admin/components/menu/menu_en.json'),true);
 	    	foreach ($all_routes as $route => $details) {
 	    		$src = $this->cc->get($this->cash_test_url . '/' . $route);
+	    		$this->assertPattern('/<html/', $src);
+	    		$this->assertPattern('/<body/', $src);
+	    		$this->assertPattern('/<\/body/', $src);
+	    		$this->assertPattern('/<\/html/', $src);
 				$this->assertNoPattern('/<h1>Page Not Found<\/h1>/', $src);
 	    	}
     	}

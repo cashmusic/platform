@@ -81,5 +81,29 @@ class CASHSystemTests extends UnitTestCase {
 		$this->assertEqual(CASHSystem::getDefaultEmail(),$parsed_default_email);
 	}
 
+	function test_embedElement() {
+		$element_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'element', 
+				'cash_action' => 'addelement',
+				'name' => 'test',
+				'type' => 'staticcontent',
+				'options_data' => array(
+					'storedcotent' => 'basic text'
+				),
+				'user_id' => 1
+			)
+		);
+		// should have failed with just a title:
+		$element_id = $element_request->response['payload'];
+		$this->assertTrue(is_numeric($element_id));
+		if ($element_id) {
+			ob_start();
+			CASHSystem::embedElement($element_id);
+			$output = ob_get_clean();
+			$this->assertPattern('/basic text/',$output);
+		}
+	}
+
 }
 ?>
