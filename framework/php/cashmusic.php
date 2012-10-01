@@ -18,6 +18,6 @@
  *
  **/
 
-require('classes/core/CASHSystem.php');
+require_once('classes/core/CASHSystem.php');
 CASHSystem::startUp();
 ?>
