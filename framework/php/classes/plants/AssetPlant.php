@@ -529,7 +529,7 @@ class AssetPlant extends PlantBase {
 			if ($final_asset_location !== false) {
 				$this->pushSuccess(array('asset' => $id),'redirect executed successfully');
 				$this->recordAnalytics($id,$element_id);
-				header("Location: " . $final_asset_location);
+				CASHSystem::redirectToUrl($final_asset_location);
 				die();
 			} else {
 				return $this->response->pushResponse(

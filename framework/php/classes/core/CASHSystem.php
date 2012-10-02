@@ -230,7 +230,9 @@
 			header("Location: $url");
 			exit;
 		} else {
-			return '<script type="text/javascript">window.location = "' . $url . '";</script>';
+			$output_script = '<script type="text/javascript">window.location = "' . $url . '";</script>';
+			echo $output_script;
+			return $output_script;
 		}
 	}
 	
