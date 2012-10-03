@@ -191,7 +191,7 @@ if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
 	// include controller for current page
 	include($pages_path . 'controllers/' . $include_filename);
 
-	// the right way:
+	// render the content
 	$cash_admin->page_data['content'] = $cash_admin->mustache_groomer->render($cash_admin->page_content_template, $cash_admin->page_data);
 
 	if ($cash_admin->page_data['data_only']) {
@@ -201,7 +201,7 @@ if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
 		}
 		echo json_encode($cash_admin->page_data);
 	} else {
-		// now let's get our {{mustache}} on
+		// now let's get our {{mustache}} on and render the ui + content
 		echo $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/template.mustache'), $cash_admin->page_data);
 	}
 } else {
