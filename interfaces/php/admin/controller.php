@@ -1,4 +1,17 @@
 <?php
+/**
+ * The CASH admin controller — primary routing for the admin webapp
+ *
+ * @package diy.org.cashmusic
+ * @author CASH Music
+ * @link http://cashmusic.org/
+ *
+ * Copyright (c) 2011, CASH Music
+ * Licensed under the Affero General Public License version 3.
+ * See http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ */
+
 if(strrpos($_SERVER['REQUEST_URI'],'controller.php') !== false) {
 	header('Location: ./');
 	exit;
@@ -9,6 +22,7 @@ require_once(CASH_PLATFORM_PATH);
 $pages_path = ADMIN_BASE_PATH . '/components/pages/';
 $admin_primary_cash_request = new CASHRequest();
 $request_parameters = null;
+$run_login_scripts = false;
 
 // admin-specific autoloader
 function cash_admin_autoloadCore($classname) {
@@ -39,9 +53,11 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH)) && ($_REQUES
 		define('BASE_PAGENAME', $parsed_request);
 		$include_filename = BASE_PAGENAME.'.php';
 	} else {
-		// cascade through a "failure" to see if it is a true bad request, or a page requested
-		// with parameters requested — always show the last good true filename and push the
-		// remaining request portions into te request_parameters array
+		/**
+		 * cascade through a "failure" to see if it is a true bad request, or a page requested
+		 * with parameters requested — always show the last good true filename and push the
+		 * remaining request portions into te request_parameters array
+		 */
 		if (strpos($parsed_request,'_') !== false) {
 			$fails_at_level = 0;
 			$last_good_level = 0;
@@ -61,7 +77,6 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH)) && ($_REQUES
 					if (!$fails_at_level || $fails_at_level < $last_good_level) {
 						$fails_at_level = $i;
 					}
-					//break;
 				}
 				$last_request = $test_request;
 			}
@@ -85,8 +100,7 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH)) && ($_REQUES
 	$include_filename = 'mainpage.php';
 }
 
-$run_login_scripts = false;
-
+// be sure that $cash_admin->page_data['requested_route'] has been set
 if (!isset($cash_admin->page_data['requested_route'])) {
 	$cash_admin->page_data['requested_route'] = '/';
 }

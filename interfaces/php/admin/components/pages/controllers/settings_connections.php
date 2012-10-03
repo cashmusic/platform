@@ -26,18 +26,19 @@ foreach ($settings_types_data as $key => $data) {
 }
 $cash_admin->page_data['all_services'] = new ArrayIterator($all_services);
 
+$settings_action = false;
 if ($request_parameters) {
 	$settings_action = $request_parameters[0];
 }
 
 $cash_admin->page_data['action_message'] = false;
-if (isset($settings_action)) {
+if ($settings_action) {
 	switch ($settings_action) {
 		case 'add':
 			$settings_type = $request_parameters[1];
 			if (!isset($_POST['dosettingsadd'])) {
 				if (array_key_exists($settings_type, $settings_types_data)) {
-					$cash_admin->page_data['state_markup'] = '<h3>Connect to ' . $settings_types_data[$settings_type]->name . '</h3><p>' . $settings_types_data[$settings_type]->description . '</p>';
+					$cash_admin->page_data['state_markup'] = '<h3>Connect to ' . $settings_types_data[$settings_type]['name'] . '</h3><p>' . $settings_types_data[$settings_type]['description'] . '</p>';
 
 					$cash_admin->page_data['state_markup'] .= '<form method="post" action="">'
 						. '<input type="hidden" name="dosettingsadd" value="makeitso" />'
