@@ -1,0 +1,22 @@
+<div class="col_oneoftwo">
+	<h3>Add a new service connection:</h3>
+	<p>
+		Easily connect to any of these services:
+	</p>
+	{{#all_services}}
+		<div class="col_oneoftwo {{#alternating_type}}lastcol{{/alternating_type}}">
+		<a href="{{www_path}}/settings/connections/add/{{key}}">
+		{{#service_has_image}}
+			<img src="{{www_path}}/assets/images/settings/{{key}}.png" width="100%" alt="{{name}}" /><br />
+		{{/service_has_image}}
+		<small>{{name}}</small></a><br />
+		</div>
+		{{#alternating_type}}<div class="row_seperator">.</div>{{/alternating_type}}
+	{{/all_services}}
+
+</div>
+<div class="col_oneoftwo lastcol">
+	{{#action_message}}<p><span class="highlightcopy">{{{action_message}}}</span><p>{{/action_message}}
+	
+	{{{state_markup}}}
+</div>

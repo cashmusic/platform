@@ -143,8 +143,7 @@ $cash_admin->mustache_groomer = new Mustache;
 // finally, output the template and page-specific markup (checking for current login)
 if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
 	CASHSystem::startSession();
-	// start buffering output
-	ob_start();
+
 	// set basic data for the template
 	$cash_admin->page_data['user_email'] = $admin_primary_cash_request->sessionGet('cash_effective_user_email');
 	$cash_admin->page_data['ui_title'] = AdminHelper::getPageTitle();
@@ -177,18 +176,9 @@ if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
 	$cash_admin->page_data['ui_current_calendar'] = ($exploded_base[0] == 'calendar') ? true: false;
 	// include controller for current page
 	include($pages_path . 'controllers/' . $include_filename);
-	if (file_exists($pages_path . 'views/' . $include_filename)) {
-		// phasing this out:
-		include($pages_path . 'views/' . $include_filename);
-	} else {
-		// the right way:
-		$cash_admin->page_data['page_content_markup'] = $cash_admin->mustache_groomer->render($cash_admin->page_content_template, $cash_admin->page_data);
-		// temporary fix. we'll ditch the buffering when all pages have been converted:
-		echo $cash_admin->page_data['page_content_markup'];
-	}
-	// push buffer contents to "content" and stop buffering
-	$cash_admin->page_data['content'] = ob_get_contents();
-	ob_end_clean();
+
+	// the right way:
+	$cash_admin->page_data['content'] = $cash_admin->mustache_groomer->render($cash_admin->page_content_template, $cash_admin->page_data);
 
 	if ($cash_admin->page_data['data_only']) {
 		// data_only means we're working with AJAX requests, so dump valid JSON to the browser for the script to parse

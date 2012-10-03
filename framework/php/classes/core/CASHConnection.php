@@ -40,9 +40,9 @@
 			while (false !== ($file = readdir($settings_dir))) {
 				if (substr($file,0,1) != "." && !is_dir($file)) {
 					$tmp_key = strtolower(substr_replace($file, '', -5));
-					$tmp_value = json_decode(file_get_contents(CASH_PLATFORM_ROOT.'/settings/connections/'.$file));
+					$tmp_value = json_decode(file_get_contents(CASH_PLATFORM_ROOT.'/settings/connections/'.$file),true);
 					if ($filter_by_scope) {
-						if (!in_array($filter_by_scope, $tmp_value->scope)) {
+						if (!in_array($filter_by_scope, $tmp_value['scope'])) {
 							$tmp_value = false;
 						}
 					}
@@ -115,7 +115,7 @@
 				)
 			);
 			if ($result) {
-				$this->settings = json_decode(CASHSystem::simpleXOR(base64_decode($result[0]['data'])));
+				$this->settings = json_decode(CASHSystem::simpleXOR(base64_decode($result[0]['data'])),true);
 				return $this->settings;
 			} else {
 				return false;
@@ -166,7 +166,7 @@
 		
 		if (count($filtered_connections)) {
 			foreach ($filtered_connections as &$connection) {
-				$connection['data'] = json_decode(CASHSystem::simpleXOR(base64_decode($connection['data'])));
+				$connection['data'] = json_decode(CASHSystem::simpleXOR(base64_decode($connection['data'])),true);
 			}
 			return $filtered_connections;
 		} else {
@@ -180,8 +180,8 @@
 	 * @param {string} settings name
 	 * @return settings obj
 	 */public function getSetting($setting_name) {
-		if (isset($this->settings->$setting_name)) {
-			return $this->settings->$setting_name;
+		if (isset($this->settings[(string)$setting_name])) {
+			return $this->settings[(string)$setting_name];
 		} else {
 			return false;
 		}
