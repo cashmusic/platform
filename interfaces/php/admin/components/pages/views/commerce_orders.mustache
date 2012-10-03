@@ -1,0 +1,39 @@
+{{#all_order_details}}
+	<h3>All completed orders</h3>
+	<table style="width:100%;">
+		<colgroup style="width:10%;" />
+		<colgroup style="width:13%;" />
+		<colgroup style="width:32%;" />
+		<colgroup />
+		<colgroup style="width:8%;" />
+		<colgroup style="width:8%;" />
+		<thead>
+			<tr>
+				<th scope="col">Order #</th>
+				<th scope="col">Date</th>
+				<th scope="col">Customer</th>
+				<th scope="col">Items</th>
+				<th scope="col" style="text-align:right;">Gross</th>
+				<th scope="col" style="text-align:right;">Net</th>
+			</tr>
+		</thead>
+		<tbody>
+	
+	    {{#all_order_details}}
+		<tr>
+			<td>{{id}}</td>
+			<td>{{{date}}}</td>
+			<td>{{{customer}}}</td>
+			<td>{{items}}</td>
+			<td style="text-align:right;">{{gross}}</td>
+			<td style="text-align:right;">{{net}}</td>
+		</tr>
+		{{/all_order_details}}
+
+		</tbody>
+	</table>
+	<br />
+{{/all_order_details}}
+{{^all_order_details}}
+	<h3>Sorry, no completed orders</h3>There are no completed orders right now.
+{{/all_order_details}}

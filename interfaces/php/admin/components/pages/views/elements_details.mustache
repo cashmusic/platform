@@ -1,0 +1,58 @@
+<div class="callout">
+	<h3 class="fadedtext">Embed it</h3>
+	<p class="fadedtext">To embed your element copy and paste one of these codes:</p>
+	<b class="fadedtext">PHP: </b><code><input type="text" value="&lt;?php include_once('{{platform_path}}');CASHSystem::embedElement({{id}}); // ({{name}}) ?&gt;" /></code><br />
+	<b class="fadedtext">WordPress: </b><code><input type="text" value="[cashmusic element=&quot;{{id}}&quot; name=&quot;{{name}}&quot;]" /></code>
+</div>
+
+<div class="row_seperator">.</div>
+
+<h2>Statistics</h2> Total unique views: {{total_views}}<br />
+
+{{#location_analytics}}
+	<br /><h2>Views by location</h2>
+	<table style="width:100%;">
+		<colgroup style="width:85%;" /><colgroup />	
+		<thead>
+			<tr>
+				<th scope="col">Element location</th>
+				<th scope="col">Views</th>
+			</tr>
+		</thead>
+		<tbody>
+		{{#location_analytics}}
+		<tr>
+			<td>{{access_location}}</td>
+			<td>{{total}}</td>
+		</tr>
+		{{/location_analytics}}
+		</tbody>
+	</table>
+	<br />
+{{/location_analytics}}
+
+{{#method_analytics}}
+	<br /><h2>Views by request method</h2>
+	<table style="width:100%;">
+		<colgroup style="width:85%;" /><colgroup />	
+		<thead>
+			<tr>
+				<th scope="col">Request method</th>
+				<th scope="col">Views</th>
+			</tr>
+		</thead>
+		<tbody>
+		{{#method_analytics}}
+		<tr>
+			<td>{{access_method}}</td>
+			<td>{{total}}</td>
+		</tr>
+		{{/method_analytics}}
+		</tbody>
+	</table>
+{{/method_analytics}}
+
+<div class="row_seperator">.</div>
+<br />
+
+{{{element_rendered_content}}}

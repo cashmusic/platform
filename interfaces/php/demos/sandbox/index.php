@@ -8,7 +8,7 @@
 <body>
 
 	<div id="mainspc">
-		<?php include('../../../../framework/php/cashmusic.php');CASHSystem::embedElement(1); ?>
+		<?php include_once('/Users/jessevondoom/Dropbox/Code/cashmusic-github/platform/framework/php/cashmusic.php');CASHSystem::embedElement(3); // (A record sale) ?>
 	</div>
 
 <?php include('../../../../framework/php/settings/debug/cashmusic_debug.php'); // Debug ?>

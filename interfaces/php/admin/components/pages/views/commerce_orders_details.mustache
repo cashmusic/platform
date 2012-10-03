@@ -1,0 +1,70 @@
+<h3>Order details</h3>
+<div class="col_oneoftwo">
+	<b>Order number: </b>{{padded_id}} <br />
+	<b>Placed on: </b>{{order_date}}<br />
+	<b>Fulfilled: </b>{{order_fulfilled}}<br />
+	<b>Payment status: </b>{{status}}<br /><br />
+	<b>Order total: </b>${{formatted_gross_price}} <br />
+	<b>Total minus fees: </b> ${{formatted_net_price}}
+</div>
+<div class="col_oneoftwo lastcol">
+	<b>Customer:</b><br />
+		{{customer_display_name}}<br /> 
+		<a href="mailto:{{customer_email_address}}">{{customer_email_address}}</a>
+	<br /><br /><b>Country: </b> {{customer_address_country}}
+</div>
+
+
+<div class="row_seperator tall">.</div><br />
+
+{{#order_contents}}
+	<h3>Items included</h3>
+	<table style="width:100%;">
+		<colgroup style="width:8%;" />
+		<colgroup style="width:25%;" />
+		<colgroup />
+		<colgroup style="width:8%;" />
+		<thead>
+			<tr>
+				<th scope="col">Qty</th>
+				<th scope="col">Name</th>
+				<th scope="col">Description</th>
+				<th scope="col" style="text-align:right;">Price</th>
+			</tr>
+		</thead>
+		<tbody>
+	{{#order_contents}}
+		<tr>
+			<td>1</td>
+			<td><a href="{{www_path}}/commerce/items/edit/{{id}}">{{name}}</a></td>
+			<td>{{description}}</td>
+			<td style="text-align:right;">${{price}}</td>
+		</tr>
+	{{/order_contents}}
+		</tbody>
+	</table>
+	<br />
+{{/order_contents}}
+
+<div class="row_seperator">.</div><br />
+<h3>Transaction details</h3>
+<b>Connection used: </b> {{order_connection_details}} <br />
+<b>Transaction ID: </b> {{service_transaction_id}}<br />
+<b>Service fees: </b> ${{service_fee}}<br />
+<br />
+<div class="col_oneoftwo">
+	<b>Data sent to service</b>
+	<ul class="smalltext">
+	{{#formatted_data_sent}}
+		<li><b>{{key}}:</b> {{value}}</li>
+	{{/formatted_data_sent}}
+	</ul>
+</div>
+<div class="col_oneoftwo lastcol">
+	<b>Data returned by service</b>
+	<ul class="smalltext">
+	{{#formatted_data_returned}}
+		<li><b>{{key}}:</b> {{value}}</li>
+	{{/formatted_data_returned}}
+	</ul>
+</div>

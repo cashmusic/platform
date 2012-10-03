@@ -1,0 +1,52 @@
+{{#ui_title}}
+	<p>{{list_description}}</p>
+	
+	<h2>Actions</h2>
+	<p>
+	<a href="{{www_path}}/people/lists/edit/{{list_id}}" class="mininav_flush"><span class="icon pen"></span> Edit</a>
+	<a href="{{www_path}}/people/lists/export/{{list_id}}" class="mininav_flush noajax"><span class="icon download"></span> Export</a>
+	<a href="{{www_path}}/people/lists/delete/{{list_id}}" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>
+	</p>
+
+	<h2>Statistics</h2>
+	<div class="col_oneoftwo">
+	Total active members: {{analytics_active}}<br />
+	Inactive members: {{analytics_inactive}}<br />
+	</div><div class="col_oneoftwo lastcol">
+	New members, past 7 days: {{analytics_last_week}}<br />
+	</div><div class="row_seperator">.</div>
+
+	{{#list_members}}
+		<br /><h2>List Members</h2>
+		
+		<table style="width:100%;">
+			<colgroup style="width:32%;" />
+			<colgroup style="width:23%;" />
+			<colgroup style="width:12%;" />
+			<colgroup />	
+
+			<thead>
+				<tr>
+					<th scope="col">Email</th>
+					<th scope="col">Name</th>
+					<th scope="col">Joined</th>
+					<th scope="col">Comment</th>
+				</tr>
+			</thead>
+
+			<tbody>
+			{{#list_members}}
+			<tr>
+				<td><a href="mailto:{{email_address}}">{{email_address}}</a></td>
+				<td>{{display_name}}</td>
+				<td>{{formatted_date}}</td>
+				<td>{{initial_comment}}</td>
+			</tr>
+			{{/list_members}}
+			</tbody>
+		</table>
+	{{/list_members}}
+{{/ui_title}}
+{{^ui_title}}
+	<h2>Sorry</h2>Error getting list.
+{{/ui_title}}

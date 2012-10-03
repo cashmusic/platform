@@ -40,9 +40,10 @@ if (is_array($raw_orders->response['payload'])) {
 			}
 		}
 	}
-	if (count($all_order_details) == 0) {
-		$all_order_details = false;
+	if (count($all_order_details) > 0) {
+		$cash_admin->page_data['all_order_details'] = new ArrayIterator($all_order_details);
 	}
 }
 
+$cash_admin->setPageContentTemplate('commerce_orders');
 ?>
