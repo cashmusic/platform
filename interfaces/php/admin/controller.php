@@ -16,13 +16,11 @@ if(strrpos($_SERVER['REQUEST_URI'],'controller.php') !== false) {
 	header('Location: ./');
 	exit;
 }
-require_once('./constants.php');
 
+// includes
+require_once('./constants.php');
 require_once(CASH_PLATFORM_PATH);
-$pages_path = ADMIN_BASE_PATH . '/components/pages/';
-$admin_primary_cash_request = new CASHRequest();
-$request_parameters = null;
-$run_login_scripts = false;
+include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
 
 // admin-specific autoloader
 function cash_admin_autoloadCore($classname) {
@@ -33,8 +31,15 @@ function cash_admin_autoloadCore($classname) {
 }
 spl_autoload_register('cash_admin_autoloadCore');
 
+// basic script vars
+$pages_path = ADMIN_BASE_PATH . '/components/pages/';
+$admin_primary_cash_request = new CASHRequest();
+$request_parameters = null;
+$run_login_scripts = false;
+
 // make an object to use throughout the pages
 $cash_admin = new AdminCore($admin_primary_cash_request->sessionGet('cash_effective_user'));
+$cash_admin->mustache_groomer = new Mustache;
 $cash_admin->page_data['www_path'] = ADMIN_WWW_BASE_PATH;
 $cash_admin->page_data['fullredraw'] = false;
 
@@ -44,7 +49,11 @@ if (isset($_REQUEST['data_only'])) {
 	$cash_admin->page_data['data_only'] = true;
 }
 
-// grab path from .htaccess redirect
+/**
+ * ROUTING
+ * grab path from .htaccess redirect, determine the appropriate route, parse out 
+ * additional parameters
+ */
 if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH)) && ($_REQUEST['p'] != '_')) {
 	$parsed_request = str_replace('/','_',trim($_REQUEST['p'],'/'));
 	define('REQUESTED_ROUTE', '/' . trim($_REQUEST['p'],'/') . '/');
@@ -105,7 +114,10 @@ if (!isset($cash_admin->page_data['requested_route'])) {
 	$cash_admin->page_data['requested_route'] = '/';
 }
 
-// if a login needs doing, do it
+/**
+ * USER LOGIN
+ * look specifically for a 'login' POST parameter and handle the actual login
+ */
 $cash_admin->page_data['login_message'] = 'Hello. Log In';
 if (isset($_POST['login'])) {
 	$browseridassertion = false;
@@ -141,22 +153,28 @@ if ($run_login_scripts) {
 	$cash_admin->runAtLogin();
 }
 
-// handle the banner hiding
-if (isset($_GET['hidebanner'])) {
-	$current_settings = $cash_admin->getUserSettings();
-	if (isset($current_settings['banners'][BASE_PAGENAME])) {
-		$current_settings['banners'][BASE_PAGENAME] = false;
-		$cash_admin->setUserSettings($current_settings);
-	}
-}
-
-// include Mustache because you know it's time for that
-include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
-$cash_admin->mustache_groomer = new Mustache;
-
-// finally, output the template and page-specific markup (checking for current login)
+/**
+ * RENDER PAGE
+ * check for a logged-in user. if found render the final page as routed. if not,
+ * render the login page instead.
+ */
 if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
+	/*********************************
+	 *
+	 * LOGGED-IN SHOW THE PAGE
+	 *
+	 *********************************/
+	$template_name = 'template';
 	CASHSystem::startSession();
+
+	// handle the banner hiding
+	if (isset($_GET['hidebanner'])) {
+		$current_settings = $cash_admin->getUserSettings();
+		if (isset($current_settings['banners'][BASE_PAGENAME])) {
+			$current_settings['banners'][BASE_PAGENAME] = false;
+			$cash_admin->setUserSettings($current_settings);
+		}
+	}
 
 	// set basic data for the template
 	$cash_admin->page_data['user_email'] = $admin_primary_cash_request->sessionGet('cash_effective_user_email');
@@ -193,17 +211,6 @@ if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
 
 	// render the content
 	$cash_admin->page_data['content'] = $cash_admin->mustache_groomer->render($cash_admin->page_content_template, $cash_admin->page_data);
-
-	if ($cash_admin->page_data['data_only']) {
-		// data_only means we're working with AJAX requests, so dump valid JSON to the browser for the script to parse
-		if ($cash_admin->page_data['fullredraw']) {
-			$cash_admin->page_data['fullcontent'] = $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/template.mustache'), $cash_admin->page_data);
-		}
-		echo json_encode($cash_admin->page_data);
-	} else {
-		// now let's get our {{mustache}} on and render the ui + content
-		echo $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/template.mustache'), $cash_admin->page_data);
-	}
 } else {
 	/*********************************
 	 *
@@ -211,7 +218,7 @@ if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
 	 *
 	 *********************************/
 	$cash_admin->page_data['browser_id_js'] = CASHSystem::getBrowserIdJS();
-
+	$template_name = 'login';
 	// before we get all awesome and whatnot, detect for password reset stuff. should only happen 
 	// with a full page reload, not a data-only one as above
 	if (isset($_POST['dopasswordresetlink'])) {
@@ -301,18 +308,17 @@ if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
 				$cash_admin->page_data['reset_message'] = 'There was an error setting the password. Please try again.';
 			}
 		}
-	}
-
-	// end login stuff
-
-	if ($cash_admin->page_data['data_only']) {
-		// data_only means we're working with AJAX requests, so dump valid JSON to the browser for the script to parse
-		$cash_admin->page_data['fullredraw'] = true;
-		$cash_admin->page_data['fullcontent'] = $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/login.mustache'), $cash_admin->page_data);
-		echo json_encode($cash_admin->page_data);
-	} else {
-		// magnum p.i. = sweet {{mustache}} > don draper
-		echo $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/login.mustache'), $cash_admin->page_data);
 	}	
+}
+
+// final output
+if ($cash_admin->page_data['data_only']) {
+	// data_only means we're working with AJAX requests, so dump valid JSON to the browser for the script to parse
+	$cash_admin->page_data['fullredraw'] = true;
+	$cash_admin->page_data['fullcontent'] = $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/' . $template_name . '.mustache'), $cash_admin->page_data);
+	echo json_encode($cash_admin->page_data);
+} else {
+	// magnum p.i. = sweet {{mustache}} > don draper
+	echo $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/' . $template_name . '.mustache'), $cash_admin->page_data);
 }
 ?>
