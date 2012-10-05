@@ -238,7 +238,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 		if ($db_engine == 'sqlite') {
 			if (
 				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','driver = "mysql','driver = "sqlite') &&
-				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','debug = 0','debug = 1') &&
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','debug = no','debug = yes') &&
 				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','database = "cashmusic','database = "cashmusic_test.sqlite') &&
 				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','apilocation = "http://localhost:8888/interfaces/php/api/','apilocation = "'.$test_url.'/interfaces/php/api/') &&
 				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)

@@ -7,73 +7,36 @@ class CASHRequestTests extends UnitTestCase {
 	function testCASHRequest(){
 		echo "Testing CASHRequest Class\n";
 		
-		$cr = new CASHRequest();
-		$this->assertIsa($cr, 'CASHRequest', 'can create a cash request with no params');
+		$request = new CASHRequest();
+		$this->assertIsa($request, 'CASHRequest', 'can create a cash request with no params');
 
-		$cr = new CASHRequest(array());
-		$this->assertIsa($cr, 'CASHRequest', 'can create a cash request with empty params');
+		$request = new CASHRequest(array());
+		$this->assertIsa($request, 'CASHRequest', 'can create a cash request with empty params');
 
-		// TODO: We should be operating on asset id's that actually exist in our test db
-		$cr = new CASHRequest(array(
-			'cash_request_type' => 'asset',
-			'cash_action'       => 'unlock',
-			'asset_id'          => 42,
+		$this->assertIsa($request, 'CASHRequest');
+		$request = new CASHRequest(array(
+			'cash_request_type' => 'system',
+			'cash_action'       => 'totallyfake',
+			'id'                => 42,
 		));
-		$this->assertIsa($cr, 'CASHRequest');
-		$cr = new CASHRequest(array(
-			'cash_request_type' => 'asset',
-			'cash_action'       => 'lock',
-			'asset_id'          => 42,
-		));
-		$this->assertIsa($cr, 'CASHRequest');
-		$value1 = $cr->sessionGetLastResponse();
+		$this->assertIsa($request, 'CASHRequest');
+		$this->assertTrue(isset($request->response['payload']));
+		$this->assertEqual($request->response['status_code'], '404');
+		$this->assertEqual($request->response['status_uid'], 'system_totallyfake_404');
+		$this->assertEqual($request->response['status_message'], 'Not Found');
+		$this->assertEqual($request->response['contextual_message'], 'unknown action');
+		$this->assertEqual($request->response['request_type'], 'system');
+		$this->assertEqual($request->response['action'], 'totallyfake');
+
+		$value1 = $request->sessionGetLastResponse();
 		// TODO: deeper testing of response
 		$this->assertTrue($value1);
 
-		$value = $cr->sessionClearLastResponse();
+		$value = $request->sessionClearLastResponse();
 		$this->assertTrue($value);
 
-		$value2 = $cr->sessionGetLastResponse();
+		$value2 = $request->sessionGetLastResponse();
 		$this->assertNotEqual($value1, $value2);
-
-		// test script-scope sesstion values:
-		$value = $cr->sessionGet('foobar', 'script');
-		$this->assertFalse($value);
-
-		$cr->sessionSet('foobar', 'baz', 'script');
-		$value = $cr->sessionGet('foobar', 'script');
-		$this->assertEqual($value, 'baz');
-
-		$cr->sessionClear('foobar', 'script');
-		$value = $cr->sessionGet('foobar', 'script');
-		$this->assertFalse($value);
-
-		$cr->sessionSet('foobar', 'baz', 'script');
-		$cr->sessionClearAll();
-		$value = $cr->sessionGet('foobar', 'script');
-		$this->assertFalse($value);
-
-		// test persistent-scope sesstion values:
-		$value = $cr->sessionGet('foobar');
-		$this->assertFalse($value);
-
-		$cr->sessionSet('foobar', 'baz');
-		$value = $cr->sessionGet('foobar');
-		$this->assertFalse($value); // fail without startSession()
-
-		CASHSystem::startSession();
-		$cr->sessionSet('foobar', 'baz');
-		$value = $cr->sessionGet('foobar');
-		$this->assertEqual($value, 'baz');
-
-		$cr->sessionClear('foobar');
-		$value = $cr->sessionGet('foobar');
-		$this->assertFalse($value);
-
-		$cr->sessionSet('foobar', 'baz');
-		$cr->sessionClearAll();
-		$value = $cr->sessionGet('foobar');
-		$this->assertFalse($value);
 	}
 
 }
