@@ -518,6 +518,7 @@
 	 * CASHSystem::sendEmail('test email','CASH Music <info@cashmusic.org>','dev@cashmusic.org','message, with link: http://cashmusic.org/','title');
 	 *
 	 */public static function sendEmail($subject,$user_id,$toaddress,$message_text,$message_title,$encoded_html=false) {
+		// TODO: look up user settings for email if user_id is set
 		$email_settings = CASHSystem::getDefaultEmail(true);
 		$fromaddress = $email_settings['systememail'];
 
