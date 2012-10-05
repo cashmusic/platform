@@ -251,7 +251,7 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','username = "root','username = "' . $db_username) &&
 				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','password = "root','password = "' . $db_password) &&
 				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','database = "cashmusic','database = "' . $db_name) &&
-				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','debug = 0','debug = 1') &&
+				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','debug = no','debug = yes') &&
 				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','apilocation = "http://localhost:8888/interfaces/php/api/','apilocation = "'.$test_url.'/interfaces/php/api/') &&
 				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
 			) {
