@@ -14,7 +14,7 @@
  *
  */abstract class CASHData {
 	protected $db = false,
-			  $cash_session_timeout = 1800,
+			  $cash_session_timeout = 10800,
 			  $cash_session_data = null,
 			  $cash_session_id = null,
 			  $cache_enabled = false,
@@ -67,7 +67,7 @@
 				'sessions',
 				array(
 					'data' => json_encode(array()),
-					'expiration_date' => time() + 60 * 60 * 3
+					'expiration_date' => time() + $this->cash_session_timeout
 				),
 				array(
 					'session_id' => array(
@@ -105,7 +105,7 @@
 					$force_session_id = false;
 				}
 			}
-			$expiration = time() + 60 * 60 * 3; // 3 hours
+			$expiration = time() + $this->cash_session_timeout; 
 			$current_ip = CASHSystem::getRemoteIP();
 			$session_id = $this->getSessionID();
 			if ($force_session_id) {
@@ -263,7 +263,7 @@
 				}
 				$session_id = $this->getSessionID();
 				$session_data['persistent'][(string)$key] = $value;
-				$expiration = time() + 60 * 60 * 3; // 3 hours
+				$expiration = time() + $this->cash_session_timeout;
 				if (!$this->db) $this->connectDB();
 				$this->db->setData(
 					'sessions',
@@ -331,7 +331,7 @@
 			} else if (isset($session_data['persistent'][(string)$key])) {
 				unset($session_data['persistent'][(string)$key]);
 				$session_id = $this->getSessionID();
-				$expiration = time() + 60 * 60 * 3; // 3 hours
+				$expiration = time() + $this->cash_session_timeout;
 				$this->db->setData(
 					'sessions',
 					array(

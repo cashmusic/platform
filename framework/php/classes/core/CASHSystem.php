@@ -416,9 +416,22 @@
 	 * USAGE:
 	 * ASHSystem::getDefaultEmail();
 	 *
-	 */public static function getDefaultEmail() {
+	 */public static function getDefaultEmail($all_settings=false) {
 		$cash_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
-		return $cash_settings['systememail'];
+		if (!$all_settings) {
+			return $cash_settings['systememail'];
+		} else {
+			$return_array = array(
+				'systememail' => $cash_settings['systememail'],
+				'smtp' => $cash_settings['smtp'],
+				'smtpserver' => $cash_settings['smtpserver'],
+				'smtpport' => $cash_settings['smtpport'],
+				'smtpusername' => $cash_settings['smtpusername'],
+				'smtppassword' => $cash_settings['smtppassword'],
+			);
+			return $return_array;
+		}
+		
 	}
 
 	public static function notExplicitFalse($test) {
@@ -504,9 +517,12 @@
 	 * USAGE:
 	 * CASHSystem::sendEmail('test email','CASH Music <info@cashmusic.org>','dev@cashmusic.org','message, with link: http://cashmusic.org/','title');
 	 *
-	 */public static function sendEmail($subject,$fromaddress,$toaddress,$message_text,$message_title,$encoded_html=false) {
+	 */public static function sendEmail($subject,$user_id,$toaddress,$message_text,$message_title,$encoded_html=false) {
+		$email_settings = CASHSystem::getDefaultEmail(true);
+		$fromaddress = $email_settings['systememail'];
+
 		// deal with SMTP settings later:
-		$smtp = false;
+		$smtp = $email_settings['smtp'];
 
 		// include swift mailer
 		include_once CASH_PLATFORM_ROOT . '/lib/swift/swift_required.php';
@@ -526,9 +542,11 @@
 
 		if ($smtp) {
 			// use SMTP settings for goodtimes robust happy mailing
-			//$transport = Swift_SmtpTransport::newInstance('smtp.mandrillapp.com', 587);
-			//$transport->setUsername('user');
-			//$transport->setPassword('password');
+			$transport = Swift_SmtpTransport::newInstance($email_settings['smtpserver'], $email_settings['smtpport']);
+			if ($email_settings['smtpusername']) {
+				$transport->setUsername($email_settings['smtpusername']);
+				$transport->setPassword($email_settings['smtppassword']);
+			}
 		} else {
 			// aww shit. use mail() and hope it gets there
 			$transport = Swift_MailTransport::newInstance();

@@ -8,21 +8,29 @@
 ; See http://www.gnu.org/licenses/agpl-3.0.html
 
 [database_connection]
-driver = "mysql"
+driver = "mysql" ;* sqlite or mysql
 hostname = "127.0.0.1:8889"
 username = "root"
 password = "root"
 database = "cashmusic"
 
 [security]
-salt = "I was born of sun beams; Warming up our limbs"
+salt = "I was born of sun beams; Warming up our limbs" ;* DO NOT CHANGE, SRSLY
 
 [core]
-debug = 0
+debug = no
 
 [api]
 apilocation = "http://localhost:8888/interfaces/php/api/"
 
 [system]
+instancetype = "single" ;* single or multi
+timezone = "US/Pacific" ;* PHP timezone format
+
+[email]
 systememail = "CASH Music <info@cashmusic.org>"
-timezone = "US/Pacific"
+smtp = no
+smtpserver = ""
+smtpport = 587
+smtpusername = ""
+smtppassword = ""

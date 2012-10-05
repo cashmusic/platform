@@ -656,7 +656,7 @@ class PeoplePlant extends PlantBase {
 							$verification_url .= '?cash_request_type=people&cash_action=verifyaddress&address=' . urlencode($address) . '&list_id=' . $list_id . '&verification_code=' . $verification_code;
 							CASHSystem::sendEmail(
 								'Complete sign-up for: ' . $list_details['name'],
-								CASHSystem::getDefaultEmail(),
+								$list_details['user_id'],
 								$address,
 								'You requested to join the ' . $list_details['name'] . ' email list. If this message has been sent in error ignore it.'
 									. 'To complete your sign-up simply visit: ' . "\n\n" . $verification_url,
