@@ -20,9 +20,9 @@
 */
 function readStdin($prompt, $valid_inputs = false, $default = '') {
 	// Courtesy of http://us3.php.net/manual/en/features.commandline.io-streams.php#101307
-	while(!isset($input) || (is_array($valid_inputs) && !in_array(strtolower($input), $valid_inputs))) {
+	while(!isset($input) || (is_array($valid_inputs) && !in_array($input, $valid_inputs))) {
 		echo $prompt;
-		$input = strtolower(trim(fgets(STDIN)));
+		$input = trim(fgets(STDIN));
 		if(empty($input) && !empty($default)) {
 			$input = $default;
 		}
