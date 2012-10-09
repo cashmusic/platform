@@ -119,9 +119,12 @@ class ElementPlant extends PlantBase {
 	 * Records the basic access data to the elements analytics table
 	 *
 	 * @return boolean
-	 */protected function recordAnalytics($id,$access_method,$access_action='getmarkup',$access_data='') {
+	 */protected function recordAnalytics($id,$access_method,$access_action='getmarkup',$location=false,$access_data='') {
 		$ip_and_proxy = CASHSystem::getRemoteIP();
 		$already_recorded = false;
+		if (!$location) {
+			$location = CASHSystem::getCurrentURL();
+		}
 		// first check and see if we've recorded this session and circumstance yet
 		// only do this for empty lock_method_table queries so we don't repeat
 		// unnecessary rows and overwhelm the table
@@ -140,7 +143,7 @@ class ElementPlant extends PlantBase {
 					),
 					"access_location" => array(
 						"condition" => "=",
-						"value" => CASHSystem::getCurrentURL()
+						"value" => $location
 					),
 					"cash_session_id" => array(
 						"condition" => "=",
@@ -163,7 +166,7 @@ class ElementPlant extends PlantBase {
 				array(
 					'element_id' => $id,
 					'access_method' => $access_method,
-					'access_location' => CASHSystem::getCurrentURL(),
+					'access_location' => $location,
 					'access_action' => $access_action,
 					'access_data' => $access_data,
 					'access_time' => time(),
@@ -241,7 +244,7 @@ class ElementPlant extends PlantBase {
 		}
 	}
 
-	protected function getElementMarkup($id,$status_uid,$original_request=false,$original_response=false,$access_method='direct') {
+	protected function getElementMarkup($id,$status_uid,$original_request=false,$original_response=false,$access_method='direct',$location=false) {
 		$element = $this->getElement($id);
 		$element_type = $element['type'];
 		$element_options = $element['options'];
@@ -251,7 +254,7 @@ class ElementPlant extends PlantBase {
 				include_once($for_include);
 				$element_object_type = substr_replace($this->elements_array[$element_type], '', -4);
 				$element_object = new $element_object_type($id,$element,$status_uid,$original_request,$original_response);
-				$this->recordAnalytics($id,$access_method);
+				$this->recordAnalytics($id,$access_method,'getmarkup',$location);
 				return $element_object->getMarkup();
 			}
 		} else {

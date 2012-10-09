@@ -75,7 +75,7 @@
 	 * out the needed code...
 	 *
 	 * @return none
-	 */public static function embedElement($element_id) {
+	 */public static function embedElement($element_id,$access_method='direct',$location=false) {
 		// fire up the platform sans-direct-request to catch any GET/POST info sent
 		// in to the page
 		CASHSystem::startSession();
@@ -104,7 +104,9 @@
 				'id' => $element_id, 
 				'status_uid' => $status_uid,
 				'original_request' => $original_request,
-				'original_response' => $original_response
+				'original_response' => $original_response,
+				'access_method' => $access_method,
+				'location' => $location
 			)
 		);
 		if ($cash_body_request->response['status_uid'] == 'element_getmarkup_400') {
@@ -555,7 +557,7 @@
 		
 		// handle encoding of HTML if specific HTML isn't passed in:
 		if (!$encoded_html) {
-			$template = @file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/system_email_template.mustache');
+			$template = @file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/system_email.mustache');
 			$encoded_html = str_replace("\n","<br />\n",preg_replace('/(http:\/\/(\S*))/', '<a href="\1">\1</a>', $message_text));
 			if (!$template) {
 				$encoded_html .= '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' . $message_title . '</title></head><body>'

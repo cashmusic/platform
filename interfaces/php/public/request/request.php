@@ -17,12 +17,25 @@ if (!isset($_REQUEST['nooutput'])) {
 		$initial_page_request = $cash_page_request->sessionGet('initial_page_request','script');
 
 		if ($requests[0] == 'embed' && isset($requests[1])) {
+			$embed_location = false;
+			if (isset($requests[3])) {
+				$embed_location = $requests[3];
+				$embed_location = str_replace('!slash!', '/', $embed_location);
+			}
+			$template = @file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/embed.mustache');
+			$embed_data = array();
 			$element_markup = false;
 			ob_start();
-			CASHSystem::embedElement(1);
-			$element_markup = ob_get_contents();
+			CASHSystem::embedElement($requests[1],'embed',$embed_location);
+			$embed_data['element_markup'] = ob_get_contents();
 			ob_end_clean();
-			echo $element_markup;
+
+			// open up some mustache in here:
+			include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
+			$freddiemercury = new Mustache;
+			$template = str_replace('</body>', '<script type="text/javascript">window.parent.postMessage(document.body.scrollHeight.toString(), "*");</script></body>', $template);
+			$encoded_html = $freddiemercury->render($template, $embed_data);
+			echo $encoded_html;
 		} else {
 			if ($initial_page_request) {
 				if (isset($_REQUEST['outputresponse'])) {

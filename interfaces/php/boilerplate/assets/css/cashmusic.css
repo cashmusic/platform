@@ -4,7 +4,7 @@ a {color:#222;font-weight:bold;text-decoration:none;}
 a:hover {color:#179de6;}
 
 /* LAYOUT/ID-SPECIFIC STYLES */
-#mainspc {width:220px;margin:0 auto;padding:160px 20px 30px 20px;background:url(../images/cover.jpg) 20px 200px no-repeat;}
+#mainspc {width:220px;margin:0 auto;padding:160px 20px 30px 20px;}
 .clearall,.cashmusic_clearall {height:1px;overflow:hidden;visibility:hidden;clear:both;}
 
 /* CASH-SPECIFIC STYLES */

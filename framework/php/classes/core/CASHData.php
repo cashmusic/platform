@@ -96,7 +96,7 @@
 			}
 			// first make sure we have a valid session
 			$current_session = $this->getAllSessionData();
-			if ($current_session['persistent']) {
+			if ($current_session['persistent'] && isset($current_session['persistent']['expiration_date'])) {
 				// found session data, check expiration
 				if ($current_session['persistent']['expiration_date'] > time()) {
 					$this->sessionClearAll();
