@@ -5,7 +5,23 @@
 		cashmusic = window.cashmusic;
 	} else {
 		cashmusic = {
-			embed:function(publicURL, elementId, lightboxed, lightboxTxt) {
+			getXHR: function() {
+				try	{
+					return new XMLHttpRequest();
+				} catch(e) {
+					try {
+						return new ActiveXObject('Msxml2.XMLHTTP');
+					} catch(er) {
+						try {
+							return new ActiveXObject('Microsoft.XMLHTTP');
+						} catch(err) {
+							return false;
+						}
+					}
+				}
+			},
+
+			embed: function(publicURL, elementId, lightboxed, lightboxTxt) {
 				var randomId = 'cashmusic_embed' + Math.floor((Math.random()*1000000)+1);
 				var embedURL = publicURL + '/request/embed/' + elementId + '/location/' + encodeURIComponent(window.location.href.replace(/\//g,'!slash!'));
 				if (lightboxed) {
@@ -55,21 +71,63 @@
 					document.write('<iframe id="' + randomId + '" src="' + embedURL + '" scrolling="auto" width="100%" height="1" frameborder="0"></iframe>');
 					var iframeEmbed = document.getElementById(randomId);
 					
-					    var onmessage = function(e) {
-					    	if (embedURL.indexOf(e.origin) !== -1) {
-					    		iframeEmbed.height = e.data + 'px';
-					    		if (typeof window.addEventListener != 'undefined') {
-									window.removeEventListener('message', onmessage, false);
-								} else if (typeof window.attachEvent != 'undefined') {
-									window.detachEvent('onmessage', onmessage);
-								}
-					    	}
+					var onmessage = function(e) {
+						if (embedURL.indexOf(e.origin) !== -1) {
+							iframeEmbed.height = e.data + 'px';
+							if (window.addEventListener) {
+								window.removeEventListener('message', onmessage, false);
+							} else if (window.attachEvent) {
+								window.detachEvent('onmessage', onmessage);
+							}
 						}
-						if (typeof window.addEventListener != 'undefined') {
-							window.addEventListener('message', onmessage, false);
-						} else if (typeof window.attachEvent != 'undefined') {
-							window.attachEvent('onmessage', onmessage);
+					};
+					if (window.addEventListener) {
+						window.addEventListener('message', onmessage, false);
+					} else if (window.attachEvent) {
+						window.attachEvent('onmessage', onmessage);
+					}
+				}
+			},
+
+			encodeForm: function(form) {
+				if (typeof form !== 'object') {
+					return false;
+				}
+				var querystring = '';
+				form = form.elements || form; //double check for elements node-list
+				for (var i=0;i<form.length;i++) {
+					if (form[i].type === 'checkbox' || form[i].type === 'radio') {
+						if (form[i].checked) {
+							querystring += (querystring.length ? '&' : '') + form[i].name + '=' + form[i].value;
 						}
+						continue;
+					}
+					querystring += (querystring.length ? '&' : '') + form[i].name +'='+ form[i].value; 
+				}
+				return encodeURI(querystring);
+			},
+
+			sendXHR: function(url,postString,successCallback) {
+				var method = 'POST';
+				if (!postString) {
+					method = 'GET';
+					postString = null;
+				}
+				var ajax = this.getXHR();
+				if (ajax) {
+					ajax.open(method,url,true);
+					ajax.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+					if (method == 'POST') {
+						ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');		
+					}
+					if (typeof successCallback == 'function') {
+						ajax.onreadystatechange = function() {
+							if (ajax.readyState === 4 && ajax.status === 200) {
+								successCallback(ajax.responseText);
+							}
+						};
+					}
+					ajax.send(postString);
 				}
 			}
 		};

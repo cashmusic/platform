@@ -33,7 +33,7 @@ class CommercePlant extends PlantBase {
 			'getordersforuser' => array('getOrdersForUser','direct'),
 			'gettransaction'   => array('getTransaction','direct'),
 			'finalizepayment'  => array('finalizeRedirectedPayment',array('get','post','direct')),
-			'initiatecheckout' => array('initiateCheckout',array('get','post','direct'))
+			'initiatecheckout' => array('initiateCheckout',array('get','post','direct','api_public'))
 		);
 		$this->plantPrep($request_type,$request);
 	}
@@ -419,7 +419,7 @@ class CommercePlant extends PlantBase {
 		return $result;
 	}
 	
-	protected function initiateCheckout($user_id,$connection_id,$order_contents=false,$item_id=false,$element_id=false,$total_price=false) {
+	protected function initiateCheckout($user_id,$connection_id,$order_contents=false,$item_id=false,$element_id=false,$total_price=false,$return_url_only=false) {
 		if (!$order_contents && !$item_id) {
 			return false;
 		} else {
@@ -452,7 +452,7 @@ class CommercePlant extends PlantBase {
 				$element_id
 			);
 			if ($order_id) {
-				$success = $this->initiatePaymentRedirect($order_id,$element_id,$price_addition);
+				$success = $this->initiatePaymentRedirect($order_id,$element_id,$price_addition,$return_url_only);
 				return $success;
 			} else {
 				return false;
@@ -474,7 +474,7 @@ class CommercePlant extends PlantBase {
 		return $return_array;
 	}
 	
-	protected function initiatePaymentRedirect($order_id,$element_id=false,$price_addition=0) {
+	protected function initiatePaymentRedirect($order_id,$element_id=false,$price_addition=0,$return_url_only=false) {
 		$order_details = $this->getOrder($order_id);
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
 		$order_totals = $this->getOrderTotals($order_details['order_contents']);
@@ -498,10 +498,14 @@ class CommercePlant extends PlantBase {
 					$return_url,
 					$return_url
 				);
-				$redirect = CASHSystem::redirectToUrl($redirect_url);
-				// the return will only happen if headers have already been sent
-				// if they haven't redirectToUrl() will handle it and call exit
-				return $redirect;
+				if (!$return_url_only) {
+					$redirect = CASHSystem::redirectToUrl($redirect_url);
+					// the return will only happen if headers have already been sent
+					// if they haven't redirectToUrl() will handle it and call exit
+					return $redirect;
+				} else {
+					return $redirect_url;
+				}
 				break;
 			default:
 				return false;
@@ -577,17 +581,22 @@ class CommercePlant extends PlantBase {
 											'element_id' => $order_details['element_id']
 										)
 									);
+									// TODO: add code to order metadata
 									// bit of a hack, hard-wiring the email bits:
-									CASHSystem::sendEmail(
-										'Your download is ready',
-										CASHSystem::getDefaultEmail(),
-										$order_details['user_id'],
-										'Your download of "' . $initial_details['L_PAYMENTREQUEST_0_NAME0'] . '" is ready and can be found at: '
-										. CASHSystem::getCurrentURL() . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
-										. '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($initial_details['EMAIL']),
-										'Thank you'
-									);
-									
+									try {
+										CASHSystem::sendEmail(
+											'Your download is ready',
+											CASHSystem::getDefaultEmail(),
+											$order_details['user_id'],
+											'Your download of "' . $initial_details['L_PAYMENTREQUEST_0_NAME0'] . '" is ready and can be found at: '
+											. CASHSystem::getCurrentURL() . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
+											. '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($initial_details['EMAIL']),
+											'Thank you'
+										);
+									} catch (Exception $e) {
+										// TODO: handle the case where an email can't be sent. maybe display the download
+										//       code on-screen? that plus storing it with the order is probably enough
+									}
 									return true;
 								} else {
 									// make sure this isn't an accidentally refreshed page

@@ -9,6 +9,11 @@ if (!isset($_REQUEST['nooutput'])) {
 		}
 	}
 
+	// for element redirects (payment, oauth, etc) ...yuck
+	if (isset($_GET['cash_action']) && isset($_GET['element_id'])) {
+		$requests = array('embed',$_GET['element_id']);
+	}
+
 	if ($requests) {
 		require_once('./constants.php');
 		require_once(CASH_PLATFORM_PATH);
@@ -33,13 +38,17 @@ if (!isset($_REQUEST['nooutput'])) {
 			// open up some mustache in here:
 			include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
 			$freddiemercury = new Mustache;
-			$template = str_replace('</body>', '<script type="text/javascript">window.parent.postMessage(document.body.scrollHeight.toString(), "*");</script></body>', $template);
+			header('P3P: CP="ALL CUR OUR"'); // IE P3P privacy policy fix
+			$template = str_replace('</head>', '<script type="text/javascript" src="' . CASH_PUBLIC_URL . '/cashmusic.js"></script></head>', $template);
+			$template = str_replace('</body>', '<script type="text/javascript">if(self!=top){window.parent.postMessage(document.body.scrollHeight.toString(), "*");var f = document.getElementsByTagName("form");for (var i = 0; i < f.length; i++) {var ee = document.createElement("input");ee.setAttribute("type", "hidden");ee.setAttribute("name", "embedded_element");ee.setAttribute("value", "1");f[i].appendChild(ee);}}</script></body>', $template);
 			$encoded_html = $freddiemercury->render($template, $embed_data);
 			echo $encoded_html;
 		} else {
+			header('Content-Type: text/html; charset=utf-8');
 			if ($initial_page_request) {
-				if (isset($_REQUEST['outputresponse'])) {
-					$output = $initial_page_request['response'];
+				if (in_array('outputresponse', $requests)) {
+					error_log($initial_page_request['response']['payload']);
+					$output = $initial_page_request['response']['payload'];
 				} else {
 					$output = array(
 						'response' => $initial_page_request['response']
@@ -50,8 +59,8 @@ if (!isset($_REQUEST['nooutput'])) {
 					'response' => false
 				);
 			}
-			if (isset($_REQUEST['outputresponse'])) {
-				echo $output;
+			if (in_array('outputresponse', $requests)) {
+				echo (string)$output;
 			} else {
 				echo json_encode($output);
 			}

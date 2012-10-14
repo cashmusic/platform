@@ -56,7 +56,8 @@ class DigitalPurchase extends ElementBase {
 		} elseif ($this->status_uid == 'commerce_finalizepayment_400' || $this->status_uid == 'element_redeemcode_400') {
 			// payerid is specific to paypal, so this is temporary to tell between canceled and errored:
 			if (isset($_GET['PayerID'])) {
-				$this->element_data['error_message'] = $this->options['message_error'];
+				//$this->element_data['error_message'] = $this->options['message_error'];
+				$this->element_data['error_message'] = print_r($this->original_response,true);
 			}
 		}
 		return $this->element_data;	

@@ -110,12 +110,15 @@
 			)
 		);
 		if ($cash_body_request->response['status_uid'] == 'element_getmarkup_400') {
+			// there was no element found. so you know...punt
 			echo '<div class="cash_system_error">Element #' . $element_id . ' could not be found.</div>';
 		}
 		if (is_string($cash_body_request->response['payload'])) {
+			// element found and happy. spit it out.
 			echo '<div class="cash_element cash_element_' . $element_id . '">' . $cash_body_request->response['payload'] . '</div>';
 		}
 		if ($cash_body_request->sessionGet('initialized_element_' . $element_id,'script')) {
+			// second half of a wrapper element — fringe case
 			if (ob_get_level()) {
 				ob_flush();
 			}
