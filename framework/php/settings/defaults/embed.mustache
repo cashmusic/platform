@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head> 
-<title>Embed / CASH Music</title>
+<title>CASH Music</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="icon" type="image/png" href="http://cashmusic.org/images/icons/cash.png" />
 <style type="text/css">
@@ -16,7 +16,7 @@
 
 	/* CASH-SPECIFIC STYLES */
 	.cash_notation {font-size:10px;color:#777;margin-top:8px;}
-	.cash_error {font-weight:bold;color:#ff0;margin-bottom:15px;}
+	.cash_error {font-weight:bold;background-color:#ff0;margin-bottom:15px;}
 
 	.cash_digitalpurchase_itemname {display:block;font-size:2.5em;line-height:1.125em;font-weight:bold;}
 	.cash_digitalpurchase_itemprice {display:block;font-size:1.5em;line-height:1.125em;}
@@ -48,6 +48,10 @@
 	input.button:hover {background-color:#ff0;border-color:#ff0;color:#111;}
 	input.checkorradio {width:auto;}
 	label {font-size:0.85em;text-transform:uppercase;color:#999;}
+
+	@media all and (min-width: 800px) {
+		#mainspc {padding:40px 0 0 0;}
+	}
 </style>
 </head> 
 <body>

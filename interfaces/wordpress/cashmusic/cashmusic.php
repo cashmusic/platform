@@ -36,14 +36,19 @@ POSSIBILITY OF SUCH DAMAGE.
 class CASHMusicPlatformWPPlugin {
 
 	function __construct() {
+		require_once(ABSPATH . '/wp-admin/includes/plugin.php');
+		require_once(ABSPATH . WPINC . '/pluggable.php');
+
 		// handle settings/options
 		register_setting( 'cashmusic_platform_options', 'cashmusic_platform' );
 		$this->options = get_option('cashmusic_platform');
 		$this->plugin_path = dirname(__FILE__);
 		
-		// require CASH init script
+		// include CASH init script
 		if (!empty($this->options['location'])) {
-			require_once($this->options['location']);
+			if (file_exists($this->options['location'])) {
+				include_once($this->options['location']);
+			} 
 		}
 
 		// menu stuff
@@ -62,17 +67,25 @@ class CASHMusicPlatformWPPlugin {
 	// render the menu page
 	function render_options_page() {
 		echo '<div class="wrap">' .
-			 '<h2>CASH Music platform details</h2>' .
-			 '<form method="post" action="options.php">';
+			 '<h2>CASH Music platform details</h2>';
+
+		if (!file_exists($this->options['location'])) {
+			echo '<div class="error"><p><strong>The cashmusic.php location seems to be wrong. Please check your CASH admin in "System settings" for the correct location.</strong><p/></div>';
+		}
+
+		echo '<form method="post" action="options.php">';
 			 		settings_fields('cashmusic_platform_options');
 				
-		echo '		<label for="cashmusic_platform[location]">Full cashmusic.php location</label>' .
-			 '		<input type="text" name="cashmusic_platform[location]" value="' . $this->options['location'] . '" /><br /><br />';
+		echo '  <table class="form-table"><tbody><tr>' .
+			 '	   <th><label for="cashmusic_platform[location]">Full cashmusic.php location</label></th>' .
+			 '			<td> <input name="cashmusic_platform[location]" value="' . $this->options['location'] . '" class="regular-text code" type="text"></td>';
 
-		echo '		<label for="cashmusic_platform[address]">Full cashmusic.php location</label>' .
-			 '		<input type="text" name="cashmusic_platform[address]" value="' . $this->options['address'] . '" /><br /><br />';
+		echo '	</tr><tr>' .
+			 '	   <th><label for="cashmusic_platform[address]">CASH Music admin email address</label></th>' .
+			 '	   <td><input name="cashmusic_platform[address]" value="' . $this->options['address'] . '" class="regular-text code" type="text"></td>' .
+			 '		</tr></tbody></table>';
 
-		echo '	<p class="submit"><input type="submit" class="button-primary" value="' . _e('Save changes') . '" /></p>' .
+		echo '	<p><br /><input type="submit" class="button-primary" value="Save changes" /></p>' .
 			 '	</form>' .
 			 '</div>';
 	}
@@ -89,7 +102,7 @@ class CASHMusicPlatformWPPlugin {
 		if ($element) {
 			CASHSystem::embedElement($element);
 		} else {
-			echo '<!-- CASH Music error: no such element found -->'
+			echo '<!-- CASH Music error: no such element found -->';
 		}
 	}
 }

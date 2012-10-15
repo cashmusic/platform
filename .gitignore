@@ -5,6 +5,7 @@ framework/php/cache/*
 framework/php/settings/cashmusic.ini.php
 framework/db/*
 framework/php/db/*
+testinstall/*
 
 __test_environment.json
 
