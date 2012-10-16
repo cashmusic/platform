@@ -47,7 +47,6 @@ if (!isset($_REQUEST['nooutput'])) {
 			header('Content-Type: text/html; charset=utf-8');
 			if ($initial_page_request) {
 				if (in_array('outputresponse', $requests)) {
-					error_log($initial_page_request['response']['payload']);
 					$output = $initial_page_request['response']['payload'];
 				} else {
 					$output = array(
