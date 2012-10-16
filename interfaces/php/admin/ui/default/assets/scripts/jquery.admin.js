@@ -409,7 +409,7 @@
 					data: 'data_only=1'
 				}).done(function(result) {
 					//trigger.parents('.fadedtext').fadeOut( function() {
-						trigger.parents('.drawer').find('.drawercontent').html(result.page_content_markup);
+						trigger.parents('.drawer').find('.drawercontent').html(result.content);
 					//});
 				});
 			} else {
@@ -504,9 +504,11 @@
 			// markup for the confirmation link
 			var markup = '<div class="modalbg"><div class="modallightbox ' + addedClass +
 						 data.specialcolor + '">' +
-						 data.page_content_markup +
+						 data.content + //jQuery.param(data) +
 						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><span class="icon denied"></span> cancel</a></div>' +
 						 '</div></div></div>';
+
+			console.log('markup: ', markup);
 			markup = $(markup);
 			markup.hide();
 			$('body').append(markup);
