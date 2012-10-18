@@ -1,6 +1,6 @@
 <div class="col_oneoftwo">
 	<h3>List details</h3>
-	<form method="post" action="{{www_path}}{{requested_route}}">
+	<form accept-charset="UTF-8" method="post" action="{{www_path}}{{requested_route}}">
 		<input type="hidden" name="{{form_state_action}}" value="makeitso" />
 		<label for="list_name">Name</label><br />
 		<input type="text" id="list_name" name="list_name" value="{{name}}" />
@@ -30,7 +30,7 @@
 	<div class="drawer">
 		<br />
 		<div class="drawercontent">
-			<form name="batchaddcontacts" method="post" action="{{www_path}}{{requested_route}}">
+			<form accept-charset="UTF-8" name="batchaddcontacts" method="post" action="{{www_path}}{{requested_route}}">
 				<input type="hidden" name="dobatchcontactsadd" value="makeitso" />
 				<label>Email Addresses</label>
 				<textarea id="element_content" name="element_content" class="tall"></textarea>

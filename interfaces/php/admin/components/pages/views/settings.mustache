@@ -16,7 +16,7 @@ Advanced settings have been hidden and should not be changed unless you like bro
 	{{#migrate_from_sqlite}}
 	<br /><br /><b>Migrate to MySQL</b>
 	<p class="altcopystyle fadedtext">Migrating means things will be a lot more robust, and probably quicker too.</p>
-	<form method="post" action="">
+	<form accept-charset="UTF-8" method="post" action="">
 		<input type="hidden" name="domigrate" value="makeitso" />
 		<input type="hidden" name="driver" value="mysql" />
 		<label for="hostname">Server hostname</label><br />
@@ -35,7 +35,7 @@ Advanced settings have been hidden and should not be changed unless you like bro
 </div>
 <div class="col_oneoftwo lastcol">
 	<h3>Miscellaneous</h3>
-	<form method="post" action="">
+	<form accept-charset="UTF-8" method="post" action="">
 		<input type="hidden" name="domisc" value="makeitso" />
 		<label for="systememail">Default system email address</label><br />
 		<input type="text" id="systememail" name="systememail" value="{{{system_email}}}" />
