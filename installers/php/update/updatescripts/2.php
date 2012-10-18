@@ -1,6 +1,6 @@
 <?php
 /**
- * Upgrade script: v1 to v2
+ * Upgrade script: v2 to v3
  *
  * @package diy.org.cashmusic
  * @author CASH Music
