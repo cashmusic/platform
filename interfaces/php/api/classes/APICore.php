@@ -166,18 +166,18 @@
 			);
 			if ($api_request->response) {
 				// echo the response from 
-				header($this->http_codes[$api_request->response['status_code']], true, $api_request->response['status_code']);
+				header("{$_SERVER['SERVER_PROTOCOL']} {$api_request->response['status_code']} {$this->http_codes[$api_request->response['status_code']]}",true);
 				$api_request->response['api_version'] = $this->version;
 				$api_request->response['timestamp'] = time();
 				echo json_encode($api_request->response);
 				exit;
 			} else {
-				header(400, true, 400);
+				header("{$_SERVER['SERVER_PROTOCOL']} 400 {$this->http_codes[400]}",true);
 				echo json_encode(array('status_code'=>400,'status_message'=>$this->http_codes[400],'contextual_message'=>'You did that wrong.','api_version'=>$this->version,'timestamp'=>time()));
 				exit;
 			}
 		} else {
-			header($this->http_codes[302], true, 302);
+			header("{$_SERVER['SERVER_PROTOCOL']} 302 {$this->http_codes[302]}",true);
 			echo json_encode(array('greeting'=>'hi.','api_version'=>$this->version,'timestamp'=>time()));
 			exit;
 		}
