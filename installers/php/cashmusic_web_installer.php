@@ -544,9 +544,10 @@ if (!isset($_POST['installstage'])) {
 			if (
 				!findReplaceInFile('./source/interfaces/php/admin/.htaccess','RewriteBase /interfaces/php/admin','RewriteBase ' . $admin_dir) || 
 				!findReplaceInFile('./source/interfaces/php/api/.htaccess','RewriteBase /interfaces/php/api','RewriteBase ' . $api_dir) || 
-				!findReplaceInFile('./source/interfaces/php/public/request/.htaccess','RewriteBase /interfaces/php/public/request','RewriteBase ' . $api_dir) || 
+				!findReplaceInFile('./source/interfaces/php/public/request/.htaccess','RewriteBase /interfaces/php/public/request','RewriteBase ' . $public_dir . '/request') || 
 				
 				!findReplaceInFile('./source/interfaces/php/public/request/constants.php','$cashmusic_root = dirname(__FILE__) . "/../../../../framework/php/cashmusic.php','$cashmusic_root = "' . $user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
+				!findReplaceInFile('./source/interfaces/php/api/controller.php',"define('CASH_PLATFORM_ROOT', dirname(__FILE__).'/../../../framework/php","define('CASH_PLATFORM_ROOT', '" . $user_settings['frameworklocation'] . '/framework') || 
 				
 				!findReplaceInFile('./source/interfaces/php/admin/constants.php','$cashmusic_root = realpath($root . "/../../../framework/php/cashmusic.php','$cashmusic_root = realpath("' . $user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
 				!findReplaceInFile('./source/interfaces/php/admin/constants.php','define(\'ADMIN_WWW_BASE_PATH\', \'/interfaces/php/admin','define(\'ADMIN_WWW_BASE_PATH\', \'' . $admin_dir) || 
