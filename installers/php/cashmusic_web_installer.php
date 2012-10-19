@@ -514,6 +514,7 @@ if (!isset($_POST['installstage'])) {
 			
 			$admin_dir = rtrim(dirname($_SERVER['REQUEST_URI']),'/') . '/admin';
 			$api_dir = rtrim(dirname($_SERVER['REQUEST_URI']),'/') . '/api';
+			$public_dir = rtrim(dirname($_SERVER['REQUEST_URI']),'/') . '/public';
 
 			$user_settings = array(
 				'frameworklocation' => (string)$_POST['frameworklocation'],
@@ -543,10 +544,11 @@ if (!isset($_POST['installstage'])) {
 			if (
 				!findReplaceInFile('./source/interfaces/php/admin/.htaccess','RewriteBase /interfaces/php/admin','RewriteBase ' . $admin_dir) || 
 				!findReplaceInFile('./source/interfaces/php/api/.htaccess','RewriteBase /interfaces/php/api','RewriteBase ' . $api_dir) || 
+				!findReplaceInFile('./source/interfaces/php/public/request/.htaccess','RewriteBase /interfaces/php/public/request','RewriteBase ' . $api_dir) || 
 				
-				!findReplaceInFile('./source/interfaces/php/public/constants.php','$cashmusic_root = $root . "/../../../framework/php/cashmusic.php','$cashmusic_root = "' . $user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
+				!findReplaceInFile('./source/interfaces/php/public/request/constants.php','$cashmusic_root = dirname(__FILE__) . "/../../../../framework/php/cashmusic.php','$cashmusic_root = "' . $user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
 				
-				!findReplaceInFile('./source/interfaces/php/admin/constants.php','$cashmusic_root = $root . "/../../../framework/php/cashmusic.php','$cashmusic_root = "' . $user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
+				!findReplaceInFile('./source/interfaces/php/admin/constants.php','$cashmusic_root = realpath($root . "/../../../framework/php/cashmusic.php','$cashmusic_root = realpath("' . $user_settings['frameworklocation'] . '/framework/cashmusic.php') || 
 				!findReplaceInFile('./source/interfaces/php/admin/constants.php','define(\'ADMIN_WWW_BASE_PATH\', \'/interfaces/php/admin','define(\'ADMIN_WWW_BASE_PATH\', \'' . $admin_dir) || 
 				
 				!findReplaceInFile('./source/framework/php/settings/cashmusic_template.ini.php','driver = "mysql','driver = "sqlite') || 

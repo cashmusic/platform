@@ -44,6 +44,7 @@ function profile_directory($dir,$trim_from_output,&$add_to) {
 						substr($object_name,0,4)  != 'docs' &&
 						substr($object_name,0,5)  != 'tests' &&
 						substr($object_name,0,10) != 'installers' &&
+						substr($object_name,0,11) != 'testinstall' &&
 						substr($object_name,0,1)  != '/' &&
 						substr($object_name,0,1)  != '.' &&
 						substr($object_name,0,10) != 'index.html' &&

@@ -26,8 +26,8 @@ if ($current_element) {
 			foreach ($location_analytics['payload'] as $entry) {
 				$cash_admin->page_data['total_views'] += $entry['total'];
 			}
+			$cash_admin->page_data['location_analytics'] = new ArrayIterator($location_analytics['payload']);
 		}
-		$cash_admin->page_data['location_analytics'] = new ArrayIterator($location_analytics['payload']);
 		
 		$method_analytics = $cash_admin->requestAndStore(
 			array(
@@ -38,17 +38,19 @@ if ($current_element) {
 				'user_id' => AdminHelper::getPersistentData('cash_effective_user')
 			)
 		);
-		foreach ($method_analytics['payload'] as &$entry) {
-			$methods_string = array ('direct','api_public','api_key','api_fullauth');
-			$methods_translation = array('direct (embedded on this site)','api_public (shared to another site)','api_key (shared to another site)','api_fullauth (another site with your API credentials)');
-	    	$entry['access_method'] = str_replace($methods_string,$methods_translation,$entry['access_method']);
+		if (is_array($method_analytics['payload'])) {
+			foreach ($method_analytics['payload'] as &$entry) {
+				$methods_string = array ('direct','api_public','api_key','api_fullauth');
+				$methods_translation = array('direct (embedded on this site)','api_public (shared to another site)','api_key (shared to another site)','api_fullauth (another site with your API credentials)');
+				$entry['access_method'] = str_replace($methods_string,$methods_translation,$entry['access_method']);
+			}
+			$cash_admin->page_data['method_analytics'] = new ArrayIterator($method_analytics['payload']);
 		}
-		$cash_admin->page_data['method_analytics'] = new ArrayIterator($method_analytics['payload']);
 
 		if (@file_exists(CASH_PLATFORM_ROOT.'/elements' . '/' . $current_element['type'] . '/admin.php')) {
 			include(CASH_PLATFORM_ROOT.'/elements' . '/' . $current_element['type'] . '/admin.php');
 			$cash_admin->page_data['ui_title'] = 'Elements: “' . $current_element['name'] . '”';
-			$cash_admin->page_data['public_url'] = CASH_PUBLIC_URL;
+			$cash_admin->page_data['public_url'] = str_replace('//', '/', CASH_PUBLIC_URL . '/');
 			$cash_admin->page_data['element_button_text'] = 'Edit the element';
 			$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render(file_get_contents(CASH_PLATFORM_ROOT.'/elements' . '/' . $current_element['type'] . '/templates/admin.mustache'), $cash_admin->page_data);
 		} else {
