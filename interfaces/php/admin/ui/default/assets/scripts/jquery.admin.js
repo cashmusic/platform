@@ -345,7 +345,7 @@
 
 		// open local (admin) links via AJAX
 		// cashAdminPath is set in the main template to the www_base of the admin
-		$(document).on('click', 'a[href^=' + cashAdminPath + ']', function(e) {
+		$(document).on('click', 'a[href^="' + cashAdminPath + '"]', function(e) {
 			var el = $(e.currentTarget);
 			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey && !el.hasClass('navitemlink')
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
@@ -433,18 +433,6 @@
 			} else {
 				trigger.parents('.fadedtext').animate({ opacity: 0 });
 			}
-
-			/*
-			var uploadTo = $.ajax({
-				url: iframeSrc,
-				dataType: 'json',
-				data: 'data_only=1'
-			}).done(function(result) {
-				trigger.parents('.fadedtext').fadeOut( function() {
-					$(this).parents('.drawer').find('.drawercontent').html(result.page_content_markup);
-				});
-			});
-			*/
 		});
 	}
 
@@ -508,7 +496,6 @@
 						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><span class="icon denied"></span> cancel</a></div>' +
 						 '</div></div></div>';
 
-			console.log('markup: ', markup);
 			markup = $(markup);
 			markup.hide();
 			$('body').append(markup);
@@ -566,13 +553,13 @@
 						});
 					} else {
 						drawerContent.slideUp(200, function () {
-			    			drawerContent.hide();
-			    			drawerHandleLabel.html(labelTextHidden + ' ');
-			    			if (labelClassHidden) {
-				    			drawerHandleLabel.removeClass();
-				    			drawerHandleLabel.addClass(labelClassHidden);
-				    		}
-			    		});
+							drawerContent.hide();
+							drawerHandleLabel.html(labelTextHidden + ' ');
+							if (labelClassHidden) {
+								drawerHandleLabel.removeClass();
+								drawerHandleLabel.addClass(labelClassHidden);
+							}
+						});
 					}
 				});
 			}
