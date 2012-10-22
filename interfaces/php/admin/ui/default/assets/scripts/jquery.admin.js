@@ -35,12 +35,17 @@
 
 	// initial load setup:
 	$(document).ready(function() {
+		var currentPath = location.pathname;
+
 		setUIBehaviors();
 		setContentBehaviors();
 
 		// make back/forward buttons work
 		window.addEventListener("popstate", function(e) {
-			refreshPageData(location.pathname,null,null,null,true);
+			if (location.pathname != currentPath) {
+				refreshPageData(location.pathname,null,null,null,true);
+				currentPath = location.pathname;
+			}
 		});
 	});
 

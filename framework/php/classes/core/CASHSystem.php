@@ -32,6 +32,9 @@
 			$root = realpath(dirname(__FILE__) . '/../..');
 			define('CASH_PLATFORM_ROOT', $root);
 			$cash_settings = CASHSystem::getSystemSettings();
+			if (substr($cash_settings['apilocation'], -1) != '/') {
+				$cash_settings['apilocation'] .= '/';
+			}
 			define('CASH_API_URL', $cash_settings['apilocation']);
 			define('CASH_PUBLIC_URL',str_replace('api','public',$cash_settings['apilocation']));
 			// set up auto-load
