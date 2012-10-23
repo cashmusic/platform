@@ -83,6 +83,7 @@ function determinedCopy($source,$dest,$retries=4) {
 				if (curl_exec($ch)) {
 					fclose($destfile); 
 					curl_close($ch);
+					$_SESSION['copying'] = false;
 					return true;
 				} else {
 					fclose($destfile); 

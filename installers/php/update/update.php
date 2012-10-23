@@ -68,6 +68,7 @@ function determinedCopy($source,$dest,$retries=4) {
 				if (curl_exec($ch)) {
 					fclose($destfile); 
 					curl_close($ch);
+					$_SESSION['copying'] = false;
 					return true;
 				} else {
 					fclose($destfile); 
@@ -324,12 +325,16 @@ if (!isset($_POST['installstage'])) {
 					}
 					if (mkdir('./update',0755,true)) {
 						// get repo from github, strip unnecessary files and write manifest:
-						if (determinedCopy('http://cashmusic.s3.amazonaws.com/releases/'.$_SESSION['release_id'].'/release_profile.json','./release_profile.json') && determinedCopy('http://cashmusic.s3.amazonaws.com/releases/'.$_SESSION['release_id'].'/updates.json','./updates.json')) {
-							echo $source_message;
-							echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
-							echo '<script type="text/javascript">showProgress(0);(function(){document.id("nextstepform").fireEvent("submit");}).delay(50);</script>';
+						if (determinedCopy('http://cashmusic.s3.amazonaws.com/releases/'.$_SESSION['release_id'].'/updates.json','./updates.json')) {
+							if (determinedCopy('http://cashmusic.s3.amazonaws.com/releases/'.$_SESSION['release_id'].'/release_profile.json','./release_profile.json')) {
+								echo $source_message;
+								echo '<form action="" method="post" id="nextstepform"><input type="hidden" name="installstage" id="installstageinput" value="2" /></form>';
+								echo '<script type="text/javascript">showProgress(0);(function(){document.id("nextstepform").fireEvent("submit");}).delay(50);</script>';
+							} else {
+								echo '<h1>Error copying</h1>Could not copy the release profile successfully.<br />';	
+							}
 						} else {
-							echo '<h1>Error copying</h1>Could not copy the release profile successfully.<br />';
+							echo '<h1>Error copying</h1>Could not copy the update manifesto successfully.<br />';
 						}
 					} else {
 						echo '<h1>Oh. Shit. Something\'s wrong.</h1>error creating source directory<br />';
@@ -421,6 +426,7 @@ if (!isset($_POST['installstage'])) {
 						!rename('./update/interfaces/php/admin/components', './admin/components') || 
 						!rename('./update/interfaces/php/admin/ui', './admin/ui') || 
 						!rename('./update/interfaces/php/api/classes', './api/classes') || 
+						!rename('./update/interfaces/php/api/controller.php', './api/controller.php') || 
 						!rename('./update/interfaces/php/public', './public')
 					) {
 						echo '<h1>Oh. Shit. Something\'s wrong.</h1> <p>We couldn\'t move files into place. Please make sure you have write access in '
@@ -443,6 +449,7 @@ if (!isset($_POST['installstage'])) {
 			// remove the installer and the remaining source directory
 			if (is_dir('./update')) rrmdir('./update');
 			if (is_file('./update.php')) unlink('./update.php');
+			if (is_file('./updates.json')) unlink('./updates.json');
 			
 			break;
 		default:
