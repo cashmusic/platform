@@ -195,6 +195,11 @@ class CASHDBA {
 						$tabledata = $this->doQuery('SELECT * FROM ' . $tablename);
 						// now jam that junk into an insert on the new db
 						if (is_array($tabledata)) {
+							// identifier quote
+							$quote = '"';
+							if ($todriver == 'mysql') {
+								$quote = '`';
+							}
 							// we found data, so loop through each one with an insert
 							foreach ($tabledata as $data) {
 								$query = "INSERT INTO $tablename (";
@@ -202,7 +207,7 @@ class CASHDBA {
 								$query_columns = '';
 								$query_values = '';
 								foreach ($data as $fieldname => $value) {
-									$query_columns .= $separator.$fieldname;
+									$query_columns .= $separator.$quote.$fieldname.$quote;
 									$query_values .= $separator.':'.$fieldname;
 									$separator = ',';
 								}
@@ -241,12 +246,17 @@ class CASHDBA {
 	public function parseConditions(&$conditions,$prepared=true) {
 		$return_str = " WHERE ";
 		$separator = '';
+		// identifier quote
+		$q = '"';
+		if ($this->driver == 'mysql') {
+			$q = '`';
+		}
 		foreach ($conditions as $value => $details) {
 			if ($prepared) {
 				if ($details['condition'] != 'IN') {
-					$return_str .= $separator . $value . ' ' . $details['condition'] . ' ' . ':where' . $value;
+					$return_str .= $separator . $q . $value . $q . ' ' . $details['condition'] . ' ' . ':where' . $value;
 				} else {
-					$return_str .= $separator . $value . ' ' . $details['condition'] . ' (';
+					$return_str .= $separator . $q . $value . $q . ' ' . $details['condition'] . ' (';
 					$valuecount = 0;
 					foreach ($details['value'] as $current_value) {
 						if ($valuecount > 0) {
@@ -266,7 +276,7 @@ class CASHDBA {
 				} else {
 					$query_value = $details['value'];
 				}
-				$return_str .= $separator . $value . ' ' . $details['condition'] . ' ' . $query_value;
+				$return_str .= $separator . $q . $value . $q . ' ' . $details['condition'] . ' ' . $query_value;
 			}
 			// support multiple types of separators — only needed for more complex operations
 			// and this is pretty much either or (combining AND and OR conditions would be trickier)
@@ -292,7 +302,15 @@ class CASHDBA {
 			return $this->getSpecialData($data_name,$conditions,$limit,$orderby);
 		}
 		if ($data) {
-			$query = "SELECT $data FROM $table_name";
+			// identifier quote
+			$q = '"';
+			if ($this->driver == 'mysql') {
+				$q = '`';
+			}
+			if (strpos($data,',') !== false) {
+				$data = $q . str_replace(',', "$q,$q", $data) . $q;
+			}
+			$query = "SELECT $data FROM $q$table_name$q";
 			if ($conditions) {
 				$query .= $this->parseConditions($conditions);
 			}
@@ -327,13 +345,18 @@ class CASHDBA {
 		$query = false;
 		$table_name = $this->lookupTableName($data_name);
 		if (is_array($data) && $table_name) {
+			// identifier quote
+			$q = '"';
+			if ($this->driver == 'mysql') {
+				$q = '`';
+			}
 			if ($conditions) {
 				// if $condition is set then we're doing an UPDATE
 				$data['modification_date'] = time();
-				$query = "UPDATE $table_name SET ";
+				$query = "UPDATE $q$table_name$q SET ";
 				$separator = '';
 				foreach ($data as $fieldname => $value) {
-					$query .= $separator."$fieldname=:$fieldname";
+					$query .= $separator."$q$fieldname$q=:$fieldname";
 					$separator = ',';
 				}
 				$query .= $this->parseConditions($conditions);
@@ -346,10 +369,10 @@ class CASHDBA {
 			} else {
 				// no condition? we're doing an INSERT
 				$data['creation_date'] = time();
-				$query = "INSERT INTO $table_name (";
+				$query = "INSERT INTO $q$table_name$q (";
 				$separator = '';
 				foreach ($data as $fieldname => $value) {
-					$query .= $separator.$fieldname;
+					$query .= $separator.$q.$fieldname.$q;
 					$separator = ',';
 				}
 				$query .= ") VALUES (";
