@@ -1,7 +1,7 @@
 /**
  * JavaScript behaviors for the CASH admin
  *
- * @package diy.org.cashmusic
+ * @package platform.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *

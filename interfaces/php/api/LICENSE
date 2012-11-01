@@ -1,5 +1,5 @@
-THE CASH MUSIC PLATFORM
-@package platform.org.cashmusic
+THE CASH MUSIC API
+@package api.org.cashmusic
 
 All work is licensed under the GNU Affero General Public License 
 unless expressly stated elsewhere in a specific file.

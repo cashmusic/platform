@@ -4,11 +4,11 @@
  * metadata to assets, claiming private downloads, and adding new files to the
  * system. It is settings-aware and works across multiple storage systems.
  *
- * @package diy.org.cashmusic
+ * @package platform.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2011, CASH Music
+ * Copyright (c) 2012, CASH Music
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *

@@ -3,7 +3,7 @@
  * CommercePlant manages products/offers/orders, records transactions, and
  * deals with payment processors
  *
- * @package diy.org.cashmusic
+ * @package platform.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *

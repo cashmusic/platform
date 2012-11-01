@@ -4,7 +4,7 @@
  *
  * Run from the command line: php profile_api.php
  *
- * @package diy.org.cashmusic
+ * @package platform.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *

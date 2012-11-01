@@ -5,11 +5,11 @@
  * 
  * Most functions that are simple/static framework wrappers or data formatting should go here
  *
- * @package diy.org.cashmusic
+ * @package admin.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2011, CASH Music
+ * Copyright (c) 2012, CASH Music
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *

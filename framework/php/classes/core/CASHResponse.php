@@ -4,11 +4,11 @@
  * CASHResponse takes output from all Plants and gives consistent output including 
  * REST-style status codes, contextual messages, and a data payload.
  *
- * @package diy.org.cashmusic
+ * @package platform.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2011, CASH Music
+ * Copyright (c) 2012, CASH Music
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *

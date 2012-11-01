@@ -2,7 +2,7 @@
 /**
  * Upgrade script: v4 to v5
  *
- * @package diy.org.cashmusic
+ * @package platform.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *
@@ -16,7 +16,6 @@
 $upgrade_failure = false;
 
 if ($current_version == 4) {
-	include_once(dirname(__FILE__) . '/../../../../../admin/constants.php');
 
 	/***************************
 	 *

@@ -1,7 +1,7 @@
 /**
  * The core script for public-facing CASH Music elements and embeds
  *
- * @package diy.org.cashmusic
+ * @package platform.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *

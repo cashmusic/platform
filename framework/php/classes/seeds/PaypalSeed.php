@@ -2,7 +2,7 @@
 /**
  * The PaypalSeed class speaks to the Paypal NVP API.
  *
- * @package diy.org.cashmusic
+ * @package platform.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *
