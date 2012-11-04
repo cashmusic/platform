@@ -458,7 +458,7 @@
 				'assertion' => $assertion,
 				'audience' => CASHSystem::getCurrentURL(true)
 			);
-			$status = json_decode(CASHSystem::getURLContents('https://browserid.org/verify',$post_data,true),true);
+			$status = json_decode(CASHSystem::getURLContents('https://verifier.login.persona.org/verify',$post_data,true),true);
 			if ($return_details || !$status) {
 				return $status;
 			} else {
@@ -472,7 +472,7 @@
 	}
 
 	public static function getBrowserIdJS($element_id=false) {
-		$js_string = '<script src="https://browserid.org/include.js" type="text/javascript">'
+		$js_string = '<script src="https://login.persona.org/include.js" type="text/javascript">'
 				   . '</script><script type="text/javascript">'
 				   . "(function(){function ha() {navigator.id.get(function(a){if(a){var i = document.getElementById('browseridassertion');if(i){i.value = a;var f=document.getElementById('cash_signin_form');if(f){f.submit();}}}});}var el=document.getElementById('browserid_login_link');if(el.attachEvent){el.attachEvent('onclick',ha);}else{el.addEventListener('click',ha,false);}}());"
 				   . '</script>';
@@ -487,10 +487,10 @@
 		/*
 		ORIGINAL un-minified JavaScript:
 		
-		<script src="https://browserid.org/include.js" type="text/javascript"></script>
+		<script src="https://login.persona.org/include.js" type="text/javascript"></script>
 		<script type="text/javascript">
 		(function() {
-			// deal with the return from browserid.org
+			// deal with the return from login.persona.org
 			function handleAssertion() {
 				navigator.id.get(function(assertion) {
 					if (assertion) {
