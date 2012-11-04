@@ -300,10 +300,6 @@
 	 */public function sessionGet($key,$scope='persistent') {
 		if ($scope == 'persistent') {
 			$session_data = $this->getAllSessionData();
-			if (!$session_data['persistent']) {
-				$this->resetSession();
-				return false;
-			} 
 			if (isset($session_data['persistent'][(string)$key])) {
 				return $session_data['persistent'][(string)$key];
 			} else {

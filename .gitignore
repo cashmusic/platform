@@ -6,6 +6,7 @@ framework/php/settings/cashmusic.ini.php
 framework/db/*
 framework/php/db/*
 testinstall/*
+sandbox/*
 
 __test_environment.json
 
