@@ -259,7 +259,12 @@
 	}
 
 	public static function getSystemSettings($setting_name='all') {
-		$cash_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
+		$cash_settings = json_decode(getenv('cashmusic_platform_settings'),true);
+		if (!$cash_settings) {
+			$cash_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
+			$json_settings = json_encode($cash_settings);
+			putenv("cashmusic_platform_settings=$json_settings");
+		}
 		if ($setting_name == 'all') {
 			return $cash_settings;
 		} else {
@@ -273,24 +278,26 @@
 
 	public static function setSystemSetting($setting_name=false,$value='') {
 		if ($setting_name) {		
-			$cash_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
-			if (array_key_exists($setting_name, $cash_settings)) {
-				$success = CASHSystem::findReplaceInFile(
-					CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php',
-					$setting_name . ' = "' . $cash_settings[$setting_name],
-					$setting_name . ' = "' . $value
-				);
-			} else {
-				return false;
+			$cash_settings = CASHSystem::getSystemSettings();
+			if ($cash_settings['instancetype'] != 'multi') {
+				if (array_key_exists($setting_name, $cash_settings)) {
+					$success = CASHSystem::findReplaceInFile(
+						CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php',
+						$setting_name . ' = "' . $cash_settings[$setting_name],
+						$setting_name . ' = "' . $value
+					);
+					if ($success) {
+						$cash_settings[$setting_name] = $value;
+						$json_settings = json_encode($cash_settings);
+						putenv("cashmusic_platform_settings=$json_settings");
+						return true;
+					}
+				}
 			}
+			return false;
 		} else {
 			return false;
 		}
-	}
-
-	public static function getSystemSalt() {
-		$cash_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
-		return $cash_settings['salt'];
 	}
 
 	/**
@@ -298,7 +305,7 @@
 	 *
 	 */public static function simpleXOR($input, $key = false) {
 		if (!$key) {
-			$key = CASHSystem::getSystemSalt();
+			$key = CASHSystem::getSystemSettings('salt');
 		}
 		// append key on itself until it is longer than the input
 		while (strlen($key) < strlen($input)) { $key .= $key; }
@@ -425,7 +432,7 @@
 	 * ASHSystem::getDefaultEmail();
 	 *
 	 */public static function getDefaultEmail($all_settings=false) {
-		$cash_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
+		$cash_settings = CASHSystem::getSystemSettings();
 		if (!$all_settings) {
 			return $cash_settings['systememail'];
 		} else {

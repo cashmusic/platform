@@ -3,6 +3,7 @@
 	"description":"Paypal issues an API username (generally your email), an API password, and an API signature. Check 'sandbox' to run in testing mode.",
 	"type":"com.paypal",
 	"scope":["commerce"],
+	"compatibility":["single"],
 	"dataTypes": 
 		{
 			"username":"string",

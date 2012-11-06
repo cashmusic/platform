@@ -33,7 +33,7 @@
 	 *
 	 * @return void
 	 */protected function connectDB() {
-		$cash_db_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
+		$cash_db_settings = CASHSystem::getSystemSettings();
 		require_once(CASH_PLATFORM_ROOT.'/classes/core/CASHDBA.php');
 		$this->db = new CASHDBA(
 			$cash_db_settings['hostname'],

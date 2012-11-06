@@ -43,8 +43,7 @@ class SystemPlant extends PlantBase {
 				'validateresetflag'       => array('validateResetFlag',array('direct','get','post'))
 			);
 		// get global salt for hashing
-		$global_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
-		$this->salt = $global_settings['salt'];
+		$this->salt = CASHSystem::getSystemSettings('salt');
 		$this->plantPrep($request_type,$request);
 	}
 	
@@ -730,9 +729,8 @@ class SystemPlant extends PlantBase {
 	}
 	
 	protected function generateCode($all_chars,$code_break,$last_code=false) {
-		$seed = CASHSystem::getSystemSalt();
-		$this->consistentShuffle($all_chars,$seed);
-		$this->consistentShuffle($code_break,$seed);
+		$this->consistentShuffle($all_chars,$this->salt);
+		$this->consistentShuffle($code_break,$this->salt);
 		if (!$last_code) {
 			$last_code = '';
 			for ($i = 1; $i <= 10; $i++) {

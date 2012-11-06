@@ -30,8 +30,7 @@ class AdminBasicIntegration extends UnitTestCase {
 						'cash_action' => 'addlogin',
 						'address' => $this->cash_user_login,
 						'password' => $this->cash_user_password,
-						'is_admin' => true,
-						'force52compatibility' => true
+						'is_admin' => true
 					)
 				);
 				$this->cash_user_id = $user_add_request->response['payload'];
