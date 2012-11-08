@@ -18,6 +18,13 @@
  *
  **/
 
+if (isset($_SERVER['REQUEST_URI'])) {
+	if(strrpos($_SERVER['REQUEST_URI'],'cashmusic.php') !== false) {
+		header('Location: /');
+		exit;
+	}
+}
+
 require_once('classes/core/CASHSystem.php');
 CASHSystem::startUp();
 ?>

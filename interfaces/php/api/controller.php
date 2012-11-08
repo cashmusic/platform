@@ -11,7 +11,17 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  */
-define('CASH_PLATFORM_ROOT', dirname(__FILE__).'/../../../framework/php');
+$cashmusic_root = realpath(dirname(__FILE__).'/../../../framework/php');
+
+$cash_settings = json_decode(getenv('cashmusic_platform_settings'),true);
+// env settings allow use on multi-server, multi-user instances
+if ($cash_settings) {
+	// thanks to json_decode this will be null if the 
+	if (isset($cash_settings['platforminitlocation'])) {
+		$cashmusic_root = $cash_settings['platforminitlocation'];
+	}	
+}
+define('CASH_PLATFORM_ROOT', $cashmusic_root);
 
 // set up autoload for core classes
 function cash_autoloadCore($classname) {
