@@ -2,7 +2,7 @@
 /**
  * CASH Music Dev Installer
  *
- * Takes the CASH DIY repo and sets it up  as a working platform instance that
+ * Takes the CASH platform repo and sets it up  as a working platform instance that
  * can be directly coded against. Command-line script.
  *
  * USAGE:
