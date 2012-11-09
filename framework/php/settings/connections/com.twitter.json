@@ -2,11 +2,16 @@
 	"name":"Twitter",
 	"description":"The Twitter connection is for an app that you've created on Twitter.",
 	"type":"com.twitter",
+	"seed":"TwitterSeed",
 	"scope":[""],
-	"compatibility":["single"],
-	"dataTypes": 
-		{
+	"compatibility":[],
+	"interface": {
+		"single":"generate"
+	},
+	"dataTypes": {
+		"single": {
 			"key":"string",
 			"secret":"string"
 		}
+	}
 }

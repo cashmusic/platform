@@ -2,12 +2,21 @@
 	"name":"Amazon S3",
 	"description":"Each Amazon S3 connection require a key, secret, and bucket. The key and secret can be reused in another connection if you'd like to connect to another bucket.",
 	"type":"com.amazon",
+	"seed":"S3Seed",
 	"scope":["assets"],
-	"compatibility":["single"],
-	"dataTypes": 
-		{
+	"compatibility":["single","multi"],
+	"interface":{
+		"single":"generate",
+		"multi":"docallback"
+	},
+	"dataTypes": {
+		"single": {
 			"key":"string",
 			"secret":"string",
 			"bucket":"string"
+		},
+		"multi": {
+			"bucket":"string"	
 		}
+	}
 }

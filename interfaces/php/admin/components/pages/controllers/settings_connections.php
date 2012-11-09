@@ -16,13 +16,15 @@ foreach ($settings_types_data as $key => $data) {
 	} else {
 		$service_has_image = false;
 	}
-	$all_services[] = array(
-		'key' => $key,
-		'name' => $data['name'],
-		'alternating_type' => $alternating_type,
-		'service_has_image' => $service_has_image
-	);
-	$typecount++;
+	if (in_array($cash_admin->platform_type, $data['compatibility'])) {
+		$all_services[] = array(
+			'key' => $key,
+			'name' => $data['name'],
+			'alternating_type' => $alternating_type,
+			'service_has_image' => $service_has_image
+		);
+		$typecount++;
+	}
 }
 $cash_admin->page_data['all_services'] = new ArrayIterator($all_services);
 
@@ -47,7 +49,7 @@ if ($settings_action) {
 						. '<input type="text" id="settings_name" name="settings_name" placeholder="Give It A Name" />'
 						. '<div class="row_seperator tall">.</div>';
 						
-						foreach ($settings_types_data[$settings_type]['dataTypes'] as $key => $data) {
+						foreach ($settings_types_data[$settings_type]['dataTypes'][$cash_admin->platform_type] as $key => $data) {
 							$cash_admin->page_data['state_markup'] .= '<label for="' . $key . '">' . $key . '</label><br />'
 								. '<input type="text" id="' . $key . '" name="' . $key . '" placeholder="' . ucfirst($key) . '" />'
 								. '<div class="row_seperator">.</div>';
@@ -61,7 +63,7 @@ if ($settings_action) {
 				}
 			} else {
 				$settings_data_array = array();
-				foreach ($settings_types_data[$settings_type]['dataTypes'] as $key => $data) {
+				foreach ($settings_types_data[$settings_type]['dataTypes'][$cash_admin->platform_type] as $key => $data) {
 					$settings_data_array[$key] = $_POST[$key];
 				}
 				$result = $page_data_object->setSettings(
@@ -92,7 +94,7 @@ if ($settings_action) {
 					 .		'<input type="text" id="settings_name" name="settings_name" value="' . $settings_name . '" />'
 					 .	'<div class="row_seperator tall">.</div>';
 
-						foreach ($settings_types_data[$settings_type]['dataTypes'] as $key => $data) {
+						foreach ($settings_types_data[$settings_type]['dataTypes'][$cash_admin->platform_type] as $key => $data) {
 							$cash_admin->page_data['state_markup'] .=  '<label for="' . $key . '">' . $key . '</label><br />'
 								. '<input type="text" id="' . $key . '" name="' . $key . '" value="' . $settings_details[$key] . '" />'
 								. '<div class="row_seperator">.</div>';
@@ -105,7 +107,7 @@ if ($settings_action) {
 				}
 			} else {
 				$settings_data_array = array();
-				foreach ($settings_types_data[$settings_type]['dataTypes'] as $key => $data) {
+				foreach ($settings_types_data[$settings_type]['dataTypes'][$cash_admin->platform_type] as $key => $data) {
 					$settings_data_array[$key] = $_POST[$key];
 				}
 				$result = $page_data_object->setSettings(

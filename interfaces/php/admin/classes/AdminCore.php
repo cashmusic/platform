@@ -19,6 +19,7 @@
 	public $page_data;
 	public $page_content_template = '';
 	public $mustache_groomer;
+	public $platform_type;
 	
 	// default admin settings:
 	protected $default_user_settings = array(
@@ -34,6 +35,8 @@
 	);
 	
 	public function __construct($effective_user_id=false) {
+		$this->platform_type = CASHSystem::getSystemSettings('instancetype');
+		if (!$this->platform_type) $this->platform_type = 'single';
 		$this->stored_responses = array();
 		$this->stored_data = array();
 		$this->page_data = array();
