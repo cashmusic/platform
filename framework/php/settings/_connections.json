@@ -1,0 +1,6 @@
+{
+	"com.amazon": {
+			"key":"keyvalue",
+			"secret":"secretvalue",
+		}
+}
