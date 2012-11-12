@@ -240,5 +240,96 @@ class SystemPlantTests extends UnitTestCase {
 		);
 		$this->assertFalse($settings_request->response['payload']);
 	}
+
+	function testTemplates() {
+		// first test creating a new template
+		$template_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'settemplate',
+				'type' => 'page',
+				'template' => '<html>Look mom, I\'m a template!</html>',
+				'user_id' => 1
+			)
+		);
+		$this->assertTrue($template_request->response['payload']);
+		$template_id = $template_request->response['payload'];
+		// now test getting that setting
+		$template_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'gettemplate',
+				'template_id' => $template_id
+			)
+		);
+		$this->assertTrue($template_request->response['payload']);
+		// make sure template values were set correctly
+		if ($template_request->response['payload']) {
+			$this->assertEqual($template_request->response['payload'],'<html>Look mom, I\'m a template!</html>');
+		}
+		// try a delete with a bad user id...should fail
+		$template_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'deletetemplate',
+				'template_id' => $template_id,
+				'user_id' => 9876543
+			)
+		);
+		$this->assertFalse($template_request->response['payload']);
+		// now try it with the right user id...should succeed (no user id forces delete)
+		$template_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'deletetemplate',
+				'template_id' => $template_id,
+				'user_id' => 1
+			)
+		);
+		$this->assertTrue($template_request->response['payload']);
+		// now add a new template to work with
+		$template_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'settemplate',
+				'type' => 'page',
+				'template' => '<html>Look mom, I\'m a template!</html>',
+				'user_id' => 1
+			)
+		);
+		$template_id = $template_request->response['payload'];
+		// overwrite template
+		$template_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'settemplate',
+				'type' => 'page',
+				'template' => '<html>Look mom, even spéciäl characters!¡</html>',
+				'template_id' => $template_id,
+				'user_id' => 1
+			)
+		);
+		$this->assertTrue($template_request->response['payload']);
+		$template_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'gettemplate',
+				'template_id' => $template_id
+			)
+		);
+		// make sure template values were set correctly
+		if ($template_request->response['payload']) {
+			$this->assertEqual($template_request->response['payload'],'<html>Look mom, even spéciäl characters!¡</html>');
+		}
+		// so far so good. force delete it by omitting user id
+		$template_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'deletetemplate',
+				'template_id' => $template_id
+			)
+		);
+		$this->assertTrue($template_request->response['payload']);
+	}
 }
 ?>

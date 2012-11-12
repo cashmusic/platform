@@ -84,6 +84,7 @@ class CASHDBA {
 			'orders' => 'commerce_orders',
 			'sessions' => 'system_sessions',
 			'settings' => 'system_settings',
+			'templates' => 'system_templates',
 			'users' => 'people',
 			'people_analytics' => 'people_analytics',
 			'people_lists' => 'people_lists',

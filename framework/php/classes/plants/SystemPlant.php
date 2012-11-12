@@ -29,15 +29,18 @@ class SystemPlant extends PlantBase {
 				'addlogin'                => array('addLogin','direct'),
 				'addlockcode'             => array('addLockCode','direct'),
 				'deletesettings'          => array('deleteSettings','direct'),
+				'deletetemplate'          => array('deleteTemplate','direct'),
 				'getapicredentials'       => array('getAPICredentials','direct'),
 				'getlockcodes'            => array('getLockCodes','direct'),
 				'getsettings'             => array('getSettings','direct'),
+				'gettemplate'             => array('getTemplate','direct'),
 				'migratedb'               => array('doMigrateDB','direct'),
 				'redeemlockcode'          => array('redeemLockCode',array('direct','get','post')),
 				'setapicredentials'       => array('setAPICredentials','direct'),
 				'setlogincredentials'     => array('setLoginCredentials','direct'),
 				'setresetflag'            => array('setResetFlag','direct'),
 				'setsettings'             => array('setSettings','direct'),
+				'settemplate'             => array('setTemplate','direct'),
 				'validateapicredentials'  => array('validateAPICredentials','direct'),
 				'validatelogin'           => array('validateLogin','direct'),
 				'validateresetflag'       => array('validateResetFlag',array('direct','get','post'))
@@ -547,15 +550,101 @@ class SystemPlant extends PlantBase {
 	
 	
 	
-	
-	
-	
-	/*
+
+	/**
+	 * Removes a user page/embed template
 	 *
-	 * Here lie a bunch of lock code functions that need to reference elements
-	 * instead of assets. duh.
-	 *
+	 * @return bool
 	 */
+	protected function deleteTemplate($template_id,$user_id=false) {
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $template_id
+			)
+		);
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
+		$result = $this->db->deleteData(
+			'templates',
+			$condition
+		);
+		return $result;
+	}
+
+	/**
+	 * Gets a user page/embed template for display.
+	 *
+	 * @return string|false
+	 */
+	protected function getTemplate($template_id,$user_id=false) {
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $template_id
+			)
+		);
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
+		$result = $this->db->getData(
+			'templates',
+			'template',
+			$condition
+		);
+		if ($result) {
+			return $result[0]['template'];
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Adds/edits a user page/embed template
+	 *
+	 * @return bool
+	 */
+	protected function setTemplate($user_id,$type=false,$template=false,$template_id=false) {
+		$final_edits = array_filter(
+			array(
+				'user_id' => $user_id,
+				'type' => $template,
+				'template' => $template
+			),
+			'CASHSystem::notExplicitFalse'
+		);
+		$condition = false;
+		if ($template_id) {
+			$condition = array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $template_id
+				),
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				)
+			);
+		} 
+		// insert/update
+		$result = $this->db->setData(
+			'templates',
+			$final_edits,
+			$condition
+		);
+		return $result;
+	}
+
+	
+	
+	
 	
 	/**
 	 * Retrieves the last known UID or if none are found creates and returns a 
