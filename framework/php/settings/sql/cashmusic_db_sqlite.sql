@@ -383,4 +383,13 @@ CREATE TABLE system_settings (
   modification_date integer DEFAULT NULL
 );
 
+CREATE TABLE system_templates (
+  id INTEGER PRIMARY KEY,
+  type text,
+  user_id integer,
+  template text,
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT NULL
+);
+
 COMMIT;
