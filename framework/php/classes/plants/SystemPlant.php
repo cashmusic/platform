@@ -32,6 +32,7 @@ class SystemPlant extends PlantBase {
 				'deletetemplate'          => array('deleteTemplate','direct'),
 				'getapicredentials'       => array('getAPICredentials','direct'),
 				'getlockcodes'            => array('getLockCodes','direct'),
+				'getnewesttemplate'       => array('getNewestTemplate','direct'),
 				'getsettings'             => array('getSettings','direct'),
 				'gettemplate'             => array('getTemplate','direct'),
 				'migratedb'               => array('doMigrateDB','direct'),
@@ -607,15 +608,45 @@ class SystemPlant extends PlantBase {
 	}
 
 	/**
+	 * Gets the latest page/embed template for a given user.
+	 *
+	 * @return string|false
+	 */
+	protected function getNewestTemplate($user_id,$type='page') {
+		$condition = array(
+			"user_id" => array(
+				"condition" => "=",
+				"value" => $user_id
+			),
+			"type" => array(
+				"condition" => "=",
+				"value" => $type
+			)
+		);
+		$result = $this->db->getData(
+			'templates',
+			'template',
+			$condition,
+			false,
+			'creation_date DESC'
+		);
+		if ($result) {
+			return $result[0]['template'];
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * Adds/edits a user page/embed template
 	 *
 	 * @return bool
 	 */
-	protected function setTemplate($user_id,$type=false,$template=false,$template_id=false) {
+	protected function setTemplate($user_id,$type='page',$template=false,$template_id=false) {
 		$final_edits = array_filter(
 			array(
 				'user_id' => $user_id,
-				'type' => $template,
+				'type' => $type,
 				'template' => $template
 			),
 			'CASHSystem::notExplicitFalse'

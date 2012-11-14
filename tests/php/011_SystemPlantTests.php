@@ -254,12 +254,25 @@ class SystemPlantTests extends UnitTestCase {
 		);
 		$this->assertTrue($template_request->response['payload']);
 		$template_id = $template_request->response['payload'];
-		// now test getting that setting
+		// now test getting that template
 		$template_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'system', 
 				'cash_action' => 'gettemplate',
 				'template_id' => $template_id
+			)
+		);
+		$this->assertTrue($template_request->response['payload']);
+		// make sure template values were set correctly
+		if ($template_request->response['payload']) {
+			$this->assertEqual($template_request->response['payload'],'<html>Look mom, I\'m a template!</html>');
+		}
+		// now try getting the newest template
+		$template_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'getnewesttemplate',
+				'user_id' => 1
 			)
 		);
 		$this->assertTrue($template_request->response['payload']);
