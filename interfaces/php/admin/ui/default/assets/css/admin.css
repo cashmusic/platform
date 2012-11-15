@@ -83,7 +83,7 @@ li:hover .itemnav {margin:12px 0 8px 0;height:auto;}
 .mininav_spaced {font-weight:bold;margin:0 0 0 1.25em;color:#a49c9c !important;}
 .modalbg {position:fixed;top:0px;left:0px;width:100%;height:100%;background-color:rgba(250,250,248,0.9);z-index:5432;}
 .modaldialog {position:absolute;top:25%;left:50%;margin-left:-172px;padding:24px;width:320px;height:auto;background-color:#ddd;background-image:url(../images/top_right.png);background-position:right top;background-repeat:no-repeat;text-align:left;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);z-index:10;}
-.modallightbox {position:absolute;top:15%;left:50%;margin-left:-344px;padding:24px;width:640px;height:auto;max-height:66%;background-color:#fff;background-image:url(../images/top_right.png);background-position:right top;background-repeat:no-repeat;text-align:left;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);z-index:10;}
+.modallightbox {position:absolute;top:15%;left:50%;margin-left:-344px;padding:24px;width:640px;height:auto;background-color:#fff;background-image:url(../images/top_right.png);background-position:right top;background-repeat:no-repeat;text-align:left;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);z-index:54321;}
 .modallightbox  input.button, .modaldialog input.button {background-color:#231F20;color:#fff;width:auto;padding:6px 18px 6px 18px;font-weight:bold;cursor:pointer;margin-left:9px;
 	-webkit-transition: all 0.25s ease-in-out;
 	-moz-transition: all 0.25s ease-in-out;

@@ -273,6 +273,9 @@
 		// overlay cancel button event
 		$(document).on('click', '.modalcancel', function(e) {
 			e.preventDefault();
+			$('.modallightbox').fadeOut('fast', function() {
+					$('.modallightbox').remove();
+				});
 			$('.modalbg').fadeOut('fast', function() {
 				$('.modalbg').remove();
 			});
@@ -280,6 +283,9 @@
 
 		$(document).keyup(function(e) {
 			if(e.keyCode === 27) {
+				$('.modallightbox').fadeOut('fast', function() {
+					$('.modallightbox').remove();
+				});
 				$('.modalbg').fadeOut('fast', function() {
 					$('.modalbg').remove();
 				});
@@ -452,7 +458,7 @@
 	 **/
 
 	/**
-	 * doModalLightbox (function)
+	 * doModalConfirm (function)
 	 *
 	 * opens a modal confirmation box for delete links, etc. essentially this is a
 	 * silly "are you sure you want to click this?" message, and it sends along a
@@ -495,11 +501,12 @@
 				addedClass = 'returntocurrentroute '
 			}
 			// markup for the confirmation link
-			var markup = '<div class="modalbg"><div class="modallightbox ' + addedClass +
-						 data.specialcolor + '">' +
+			var modalTop = $("html").scrollTop() + 120;
+			var markup = '<div class="modalbg">&nbsp;</div><div class="modallightbox ' + addedClass +
+						 data.specialcolor + '" style="top:' + modalTop + 'px;">' +
 						 data.content + //jQuery.param(data) +
 						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><span class="icon denied"></span> cancel</a></div>' +
-						 '</div></div></div>';
+						 '</div></div>';
 
 			markup = $(markup);
 			markup.hide();
@@ -508,6 +515,7 @@
 
 			// show the dialog with a fast fade-in
 			$('.modalbg').fadeIn('fast');
+			$('.modallightbox').fadeIn('fast');
 		},'json');
 	}
 
