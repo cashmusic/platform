@@ -8,7 +8,7 @@ $cash_settings = json_decode(getenv('cashmusic_platform_settings'),true);
 if ($cash_settings) {
 	// thanks to json_decode this will be null if the 
 	if (isset($cash_settings['platforminitlocation'])) {
-		$cashmusic_root = $cash_settings['platforminitlocation'];
+		$cashmusic_root = $_SERVER['DOCUMENT_ROOT'] . $cash_settings['platforminitlocation'];
 	}	
 }
 

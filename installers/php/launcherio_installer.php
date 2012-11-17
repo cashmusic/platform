@@ -23,10 +23,6 @@
 // to ensure the script isn't run after setup is complete. the admin *should* delete
 // this file, but you know shit gets cray...
 if (!json_decode(getenv('cashmusic_platform_settings'),true)) {
-	if (@new PDO()) {
-		die();
-	}
-
 	$success = false;
 	$installer_root = dirname(__FILE__);
 
@@ -40,22 +36,24 @@ if (!json_decode(getenv('cashmusic_platform_settings'),true)) {
 	$db_username = $mysql_config["user"];
 	$db_password = $mysql_config["password"];
 
-	$user_email = $_POST["user_email"];
+	$user_email = $_REQUEST["user_email"];
 	$user_password = $db_password;
-	$host = $_POST["host"];
-	$name = $_POST["name"];
+	$host = $_REQUEST["host"];
+	$name = $_REQUEST["name"];
 
 	// set up database, add user / password
 	try {
 		$pdo = new PDO ("mysql:host=$db_address;port=$db_port;dbname=$db_name",$db_username,$db_password);
 	} catch (PDOException $e) {
+		echo 'Nope. PDO asploded.';
 		die();
 		break;
 	}
 
-	if ($pdo->query(file_get_contents(dirname(__FILE__) . '/../../framework/php/settings/sql/cashmusic_db.sql'))) {
+	if ($pdo->query(file_get_contents(dirname(__FILE__) . '/framework/settings/sql/cashmusic_db.sql'))) {
 		$success = true;
 	} else {
+		echo 'Error setting up the database.';
 		die();
 		break;
 	}
@@ -94,6 +92,7 @@ if (!json_decode(getenv('cashmusic_platform_settings'),true)) {
 			$q = $pdo->prepare($query);
 			$success = $q->execute($data);
 		} catch(PDOException $e) {  
+			echo 'Could not add user.';
 			die();
 			break;
 		}
@@ -109,7 +108,7 @@ if (!json_decode(getenv('cashmusic_platform_settings'),true)) {
 				"database" => $db_name,
 				"salt" => $system_salt,
 				"debug" => "",
-				"apilocation" => $host . "/interfaces/php/api/",
+				"apilocation" => $host . "/api/",
 				"instancetype" => "single",
 				"timezone" => "US/Pacific",
 				"systememail" => $user_email,
@@ -118,9 +117,11 @@ if (!json_decode(getenv('cashmusic_platform_settings'),true)) {
 				"smtpport" => "",
 				"smtpusername" => "",
 				"smtppassword" => "",
-				"platforminitlocation" => $installer_root . '/framework/cashmusic.php'
+				"platforminitlocation" => '/framework/cashmusic.php'
 			)
 		);
+		// Need an extra escape on double-quotes for AF env variables
+		$cashmusic_env_var = str_replace('"','\"',$cashmusic_env_var);
 		
 		// TODO: research cloud foundry API...can we set a permanent environment variable for the service?
 		//       (guessing it's a "no" but still worth checking.)
@@ -128,6 +129,7 @@ if (!json_decode(getenv('cashmusic_platform_settings'),true)) {
 		// TODO: can we set the cashmusic_platform_settings variable in the manifest? even if it's a blank
 		//       string it'd be one less point of failure by having the var name correct
 
+		echo "Success. Add an environment varable named 'cashmusic_platform_settings' containing:\n\n$cashmusic_env_var";
 		mail($user_email,"CASH Music setup","\nINSTALLER SUCCESS!\n\nTo complete installation you'll need to set an environment variable called 'cashmusic_platform_settings' on the target server. Log in to your service provider to do so. Set the variable to:\n\n$cashmusic_env_var\n\n\nTo log in after adding the environment variable, visit $host/admin/ and use this email address and your service account password.\n\n");
 	}
 }
