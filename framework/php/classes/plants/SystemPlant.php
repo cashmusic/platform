@@ -582,7 +582,7 @@ class SystemPlant extends PlantBase {
 	 *
 	 * @return string|false
 	 */
-	protected function getTemplate($template_id,$user_id=false) {
+	protected function getTemplate($template_id,$user_id=false,$all_details=false) {
 		$condition = array(
 			"id" => array(
 				"condition" => "=",
@@ -597,11 +597,15 @@ class SystemPlant extends PlantBase {
 		}
 		$result = $this->db->getData(
 			'templates',
-			'template',
+			'*',
 			$condition
 		);
 		if ($result) {
-			return $result[0]['template'];
+			if (!$all_details) {
+				return $result[0]['template'];
+			} else {
+				return $result[0];
+			}
 		} else {
 			return false;
 		}
@@ -627,7 +631,7 @@ class SystemPlant extends PlantBase {
 			'templates',
 			'template',
 			$condition,
-			false,
+			1,
 			'creation_date DESC'
 		);
 		if ($result) {
@@ -642,11 +646,12 @@ class SystemPlant extends PlantBase {
 	 *
 	 * @return bool
 	 */
-	protected function setTemplate($user_id,$type='page',$template=false,$template_id=false) {
+	protected function setTemplate($user_id,$type=false,$name=false,$template=false,$template_id=false) {
 		$final_edits = array_filter(
 			array(
 				'user_id' => $user_id,
 				'type' => $type,
+				'name' => $name,
 				'template' => $template
 			),
 			'CASHSystem::notExplicitFalse'
@@ -663,7 +668,13 @@ class SystemPlant extends PlantBase {
 					"value" => $user_id
 				)
 			);
-		} 
+		} else {
+			// if no template id we're doing an add, so make sure the type has been set
+			// correctly by checking for false and adding a default
+			if (!$type) {
+				$final_edits['type'] = 'page';
+			}
+		}
 		// insert/update
 		$result = $this->db->setData(
 			'templates',
