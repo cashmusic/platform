@@ -1,0 +1,15 @@
+<h2>Template</h2>
+<form accept-charset="UTF-8" method="post" action="{{www_path}}{{requested_route}}" name="system_template">
+	<input type="hidden" name="dotemplateset" value="makeitso" />
+	{{#id}}<input type="hidden" name="template_id" value="{{id}}" />{{/id}}
+
+	<label for="template_name">Name</label><br />
+	<input type="text" id="template_name" name="template_name" value="{{name}}" />
+
+	<label>Template</label>
+	<textarea id="template" name="template" class="tall">{{{template}}}</textarea>
+
+	<div class="row_seperator">.</div><br />
+	<input class="button" type="submit" value="{{button_text}}" />
+
+</form>
