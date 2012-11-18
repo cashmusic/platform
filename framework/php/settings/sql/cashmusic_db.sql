@@ -1,8 +1,8 @@
 -- 
 -- CASH Music platform
 -- flavor: MySQL
--- schema version: 4
--- modified: August 12, 2012
+-- schema version: 6
+-- modified: November 17, 2012
 
 SET FOREIGN_KEY_CHECKS = 0;
 
