@@ -437,9 +437,9 @@ DROP TABLE IF EXISTS `system_templates`;
 CREATE TABLE `system_templates` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(255) DEFAULT 'page',
-  `name` varchar(255) DEFAULT '',
+  `name` varchar(255) NOT NULL DEFAULT '',
   `user_id` int(11) NOT NULL,
-  `template` text DEFAULT '',
+  `template` text NOT NULL DEFAULT '',
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
