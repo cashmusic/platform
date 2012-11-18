@@ -436,10 +436,10 @@ CREATE TABLE `system_settings` (
 DROP TABLE IF EXISTS `system_templates`;
 CREATE TABLE `system_templates` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` varchar(255) DEFAULT 'page',
-  `name` varchar(255) NOT NULL DEFAULT '',
+  `type` varchar(255),
+  `name` varchar(255),
   `user_id` int(11) NOT NULL,
-  `template` text NOT NULL DEFAULT '',
+  `template` text,
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
