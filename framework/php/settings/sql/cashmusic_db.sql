@@ -422,17 +422,6 @@ CREATE TABLE `system_sessions` (
   KEY `system_sessions_expiration_date` (`expiration_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `system_settings`;
-CREATE TABLE `system_settings` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` varchar(255) NOT NULL,
-  `value` text NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `creation_date` int(11) DEFAULT NULL,
-  `modification_date` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 DROP TABLE IF EXISTS `system_templates`;
 CREATE TABLE `system_templates` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -440,6 +429,17 @@ CREATE TABLE `system_templates` (
   `name` varchar(255) NOT NULL DEFAULT '',
   `user_id` int(11) NOT NULL,
   `template` text NOT NULL DEFAULT '',
+  `creation_date` int(11) DEFAULT NULL,
+  `modification_date` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `system_settings`;
+CREATE TABLE `system_settings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) NOT NULL,
+  `value` text NOT NULL,
+  `user_id` int(11) NOT NULL,
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
