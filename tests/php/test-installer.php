@@ -131,7 +131,11 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 			break;
 		}
 
-		if ($pdo->query(file_get_contents(dirname(__FILE__) . '/../../framework/php/settings/sql/cashmusic_db.sql'))) {
+		$pdo_result = $pdo->query(file_get_contents(dirname(__FILE__) . '/../../framework/php/settings/sql/cashmusic_db.sql'));
+		if ($pdo_result) {
+			$pdo_errors = $pdo_result->errorInfo();
+			$pdo_result->closeCursor();
+			echo "DB CREATION ERROR/WARNING INFO:\n" . print_r($pdo_errors,true);
 			$success = true;
 		} else {
 			echo "\nOh. Shit. Something's wrong. Couldn't create database tables.\n\n";
