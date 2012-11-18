@@ -10,6 +10,6 @@ env:
     - CI_USER=vagrant CASHMUSIC_TEST_URL='http://dev.cashmusic.org:8080' CASH_CI_LOGIN='root@localhost' CASH_CI_PASSWORD='hack_my_gibson' CASHMUSIC_DB_TYPE='mysql' CASHMUSIC_DB_SERVER='127.0.0.1' CASHMUSIC_DB_NAME='testmusic' CASHMUSIC_DB_USERNAME='root' CASHMUSIC_DB_PASSWORD=''
 
 before_script:
-    - if [[ "$CASHMUSIC_DB_TYPE" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS testmusic;" -uroot; fi
+    - if [[ "$CASHMUSIC_DB_TYPE" == "mysql" ]]; then mysql -uroot --show-warnings -v -e "create database IF NOT EXISTS testmusic;"; fi
 
 script: "make citest"
