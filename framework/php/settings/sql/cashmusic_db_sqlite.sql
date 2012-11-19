@@ -385,7 +385,7 @@ CREATE TABLE system_settings (
 
 CREATE TABLE system_templates (
   id INTEGER PRIMARY KEY,
-  type text DEFAULT 'page',
+  type text,
   name text,
   user_id integer,
   template text,

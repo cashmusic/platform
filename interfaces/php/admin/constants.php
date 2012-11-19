@@ -14,6 +14,6 @@ if ($cash_settings) {
 }
 
 define('ADMIN_BASE_PATH', $root);
-define('ADMIN_WWW_BASE_PATH', '/admin');
+define('ADMIN_WWW_BASE_PATH', '/interfaces/php/admin');
 define('CASH_PLATFORM_PATH', $cashmusic_root);
 ?>

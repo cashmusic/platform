@@ -38,6 +38,8 @@ if ($request_parameters[0]) {
 	if (is_array($template_response['payload'])) {
 		$cash_admin->page_data = array_merge($template_response['payload'],$cash_admin->page_data);
 	}
+} else {
+	$cash_admin->page_data['template'] = file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/page.mustache');
 }
 
 $cash_admin->page_data['button_text'] = 'Save this template';
