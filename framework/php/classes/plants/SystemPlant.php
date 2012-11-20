@@ -616,7 +616,7 @@ class SystemPlant extends PlantBase {
 	 *
 	 * @return string|false
 	 */
-	protected function getNewestTemplate($user_id,$type='page') {
+	protected function getNewestTemplate($user_id,$type='page',$all_details=false) {
 		$condition = array(
 			"user_id" => array(
 				"condition" => "=",
@@ -629,13 +629,17 @@ class SystemPlant extends PlantBase {
 		);
 		$result = $this->db->getData(
 			'templates',
-			'template',
+			'*',
 			$condition,
 			1,
 			'creation_date DESC'
 		);
 		if ($result) {
-			return $result[0]['template'];
+			if (!$all_details) {
+				return $result[0]['template'];
+			} else {
+				return $result[0];
+			}
 		} else {
 			return false;
 		}

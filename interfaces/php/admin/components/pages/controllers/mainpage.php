@@ -28,6 +28,20 @@ if (is_array($elements_response['payload'])) {
 			$element['type_name'] = $elements_data[$element['type']]['name'];
 		}
 	}
+	// this essentially locks us to the newest template, meaning everyone gets just
+	// one page template at first. if it's there, it's live
+	$template_response = $cash_admin->requestAndStore(
+		array(
+			'cash_request_type' => 'system', 
+			'cash_action' => 'getnewesttemplate',
+			'all_details' => true,
+			'user_id' => AdminHelper::getPersistentData('cash_effective_user')
+		)
+	);
+	if ($template_response['payload']) {
+		$cash_admin->page_data['page_template'] = $template_response['payload']['id'];
+	}
+
 	$cash_admin->page_data['elements_for_user'] = new ArrayIterator($elements_response['payload']);
 	$dashboard_news_response = CASHSystem::getURLContents('http://cashmusic.s3.amazonaws.com/permalink/admin/dashboard.html');
 	if ($dashboard_news_response) {

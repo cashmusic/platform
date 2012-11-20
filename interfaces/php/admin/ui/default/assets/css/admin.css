@@ -17,6 +17,9 @@ a:hover {text-decoration:underline;color:#000 !important;}
 blockquote {margin:0 0 1.5em 24px;padding:0 0 0 8px;border-left:6px #ececed solid;font-size:0.85em;}
 div.callout {display:block;font-size:11px;padding:22px 18px 18px 18px;margin:0 auto 1.5em auto;background-color:#ededef;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;}
 div.callout.flush {background-image:none;}
+div.callout.bright {background-color:#ff0;}
+div.callout.bright a {color:#000;}
+div.callout.bright a:hover {color:#f00 !important;}
 code {font-size:11px;}
 code a {color:#23c;}
 code input {width:670px !important;border:0 !important;font-size:11px !important;background-color:#ededef !important;font-family:'courier', monospace !important;margin-top:-2px;font-style:normal !important;position:relative;top:-1px;}
@@ -96,6 +99,8 @@ li:hover .itemnav {margin:12px 0 8px 0;height:auto;}
 .tall {height:3em;}
 .tar {text-align:right;}
 .drawerhandle {font-size:12px;font-weight:bold;cursor:pointer;}
+::-moz-selection {background:#ff0;color:#000;}
+::selection {background:#ff0;color:#000;}
 
 /* FEATURED ELEMENT CARDS */
 .featuredelement {padding:0;background-color:#fff;margin-bottom:36px;box-shadow:-2px 2px 2px #dededc;}

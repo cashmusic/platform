@@ -51,8 +51,18 @@
 	</div>
 
 	<div class="col_twoofthree lastcol">
+		<div class="callout{{^page_template}} bright{{/page_template}}">
+			{{#page_template}}
+				<h4><a href="{{www_path}}/system/template/{{page_template}}" class="lightboxed returntocurrentroute"><span class="icon pen"></span> Edit your public page</a></h4>
+			{{/page_template}}
+			{{^page_template}}
+				<h4>Publish a page</h4>
+				<p>You can use this admin to publish a page with any of your elements. Bring your own markup and just drop in the CASH element embed code(s) you want.</p>
+				<a href="{{www_path}}/system/template" class="lightboxed returntocurrentroute"><span class="icon plus_alt"></span> Add a page template.</a>
+			{{/page_template}}
+		</div>
+
 		<h5>Your elements</h5>
-		<a href="{{www_path}}/system/template" class="lightboxed returntocurrentroute">add a template</a>
 		<ul class="alternating">
 			{{#elements_for_user}}
 			<li>
