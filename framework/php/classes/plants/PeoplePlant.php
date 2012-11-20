@@ -38,6 +38,7 @@ class PeoplePlant extends PlantBase {
 			'getlist'                => array('getList',array('direct','api_key')),
 			'getuser'                => array('getUser','direct'),
 			'getuseridforaddress'    => array('getUserIDForAddress','direct'),
+			'getuseridforusername'   => array('getUserIDForUsername','direct'),
 			'processwebhook'         => array('processWebhook',array('direct','api_key')),
 			'removeaddress'          => array('removeAddress','direct'),
 			'signintolist'           => array('validateUserForList',array('post','direct','api_key')),
@@ -877,6 +878,29 @@ class PeoplePlant extends PlantBase {
 				"email_address" => array(
 					"condition" => "=",
 					"value" => $address
+				)
+			)
+		);
+		if ($result) {
+			return $result[0]['id'];
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Returns user id for a given username
+	 *
+	 * @param {string} $address -  the email address in question
+	 * @return id|false
+	 */protected function getUserIDForUsername($username) {
+		$result = $this->db->getData(
+			'users',
+			'id',
+			array(
+				"username" => array(
+					"condition" => "=",
+					"value" => strtolower($username)
 				)
 			)
 		);

@@ -191,7 +191,7 @@ class SystemPlant extends PlantBase {
 	 * @param {string} $address -  the email address in question
 	 * @param {string} $password - the password
 	 * @return array|false
-	 */protected function addLogin($address,$password,$is_admin=0,$display_name='Anonymous',$first_name='',$last_name='',$organization='',$address_country='',$force52compatibility=false) {
+	 */protected function addLogin($address,$password,$is_admin=0,$username='',$display_name='Anonymous',$first_name='',$last_name='',$organization='',$address_country='',$force52compatibility=false) {
 		$password_hash = $this->generatePasswordHash($password,$force52compatibility);
 
 		$result = $this->db->setData(
@@ -199,6 +199,7 @@ class SystemPlant extends PlantBase {
 			array(
 				'email_address' => $address,
 				'password' => $password_hash,
+				'username' => strtolower($username),
 				'display_name' => $display_name,
 				'first_name' => $first_name,
 				'last_name' => $last_name,

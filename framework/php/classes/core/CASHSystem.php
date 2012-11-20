@@ -658,7 +658,7 @@
 	}
 
 	public static function renderMustache($template,$vars_array) {
-		include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
+		include_once(CASH_PLATFORM_ROOT . '/lib/mustache/Mustache.php');
 		$axelrod = new Mustache;
 		return $axelrod->render($template,$vars_array);
 	}
