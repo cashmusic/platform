@@ -1,6 +1,9 @@
 /**
  * The core script for public-facing CASH Music elements and embeds
  *
+ * COMPRESSION SETTINGS
+ *
+ *
  * @package platform.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
@@ -74,65 +77,56 @@
 			embed: function(publicURL, elementId, lightboxed, lightboxTxt) {
 				var randomId = 'cashmusic_embed' + Math.floor((Math.random()*1000000)+1);
 				var embedURL = publicURL + '/request/embed/' + elementId + '/location/' + encodeURIComponent(window.location.href.replace(/\//g,'!slash!'));
+				var allScripts = document.querySelectorAll('script[src="' + publicURL + 'cashmusic.js' + '"]');
+				var currentScript = allScripts[allScripts.length - 1];
+				var embedTarget = document.createElement('div');
+				embedTarget.className = 'cashmusic_embed';
 				if (lightboxed) {
 					if (!lightboxTxt) {lightboxTxt = 'open element';}
 					var overlayId = 'cashmusic_embed' + Math.floor((Math.random()*1000000)+1);
-					document.write('<a id="' + randomId + '" href="' + embedURL + '" target="_blank">' + lightboxTxt + '</a><div id="' + overlayId + '" style="position:fixed;overflow:auto;top:0;left:0;width:100%;height:100%;background-color:rgba(80,80,80,0.85);opacity:0;display:none;z-index:654321;"><div style="position:absolute;top:80px;left:50%;margin-left:-260px;z-index:10;background-color:#fff;padding:10px;"><iframe src="' + embedURL + '" scrolling="auto" width="500" height="400" frameborder="0"></iframe></div></div>');
-					var fadeEffect=(function(){
-						/*
-						 * fadeEffect object to provide tweened fades for lightboxed embeds
-						 */
-						return{
-							init:function(id, flag, target) {
-								this.elem = document.getElementById(id);
-								clearInterval(this.elem.si);
-								this.target = target ? target : flag ? 100 : 0;
-								this.flag = flag || -1;
-								this.alpha = this.elem.style.opacity ? parseFloat(this.elem.style.opacity) * 100 : 0;
-								if (this.alpha == 0 && target > 0) {
-									this.elem.style.display = 'block';
-								}
-								this.si = setInterval(function(){fadeEffect.tween();}, 20);
-							},
-							tween:function(){
-								if(this.alpha == this.target) {
-									clearInterval(this.elem.si);
-								}else{
-									var value = Math.round(this.alpha + ((this.target - this.alpha) * 0.05)) + (this.flag);
-									this.elem.style.opacity = value / 100;
-									this.elem.style.filter = 'alpha(opacity=' + value + ')';
-									if (value == 0) {
-										this.elem.style.display = 'none';
-									}
-									this.alpha = value;
-								}
-							}
-						};
-					}());
-
+					embedTarget.innerHTML = '<a id="' + randomId + '" href="' + embedURL + '" target="_blank">' + lightboxTxt + '</a><div id="' + overlayId + '" class="cashmusic_embed_overlay" style="position:fixed;overflow:auto;top:0;left:0;width:100%;height:100%;background-color:rgba(80,80,80,0.85);opacity:0;display:none;z-index:654321;"><div style="position:absolute;top:80px;left:50%;margin-left:-260px;z-index:10;background-color:#fff;padding:10px;"><iframe src="' + embedURL + '" scrolling="auto" width="500" height="400" frameborder="0"></iframe></div></div>';
+					currentScript.parentNode.insertBefore(embedTarget,currentScript);
 					document.getElementById(randomId).addEventListener('click', function(e) {
-						fadeEffect.init(overlayId, 1, 100);
+						window.cashmusic.fadeEffect.init(overlayId, 1, 100);
 						e.preventDefault();
 					}, false);
 
 					window.addEventListener("keyup", function(e) { 
 						if (e.keyCode == 27) {
-							fadeEffect.init(overlayId, 0);
+							// get all overlay divs and hide them
+							var matches = document.querySelectorAll('div.cashmusic_embed_overlay');
+							for (var i = 0; i < matches.length; ++i) {
+								// have to use for not foreach (matches is a nodeList not an array)
+								var d = matches[i];
+								d.style.opacity = 0;
+								d.style.filter = 'alpha(opacity=0)';
+								d.style.display = 'none';
+							}
 						} 
 					}, false);
 				} else {
 					var embedMarkup = '<iframe id="' + randomId + '" src="' + embedURL + '" scrolling="auto" width="100%" height="1" frameborder="0"></iframe>' +
 									  '<!--[if lte IE 7]><script type="text/javascript">var iframeEmbed=document.getElementById("' + randomId + '");iframeEmbed.height = "400px";</script><![endif]-->';
-					document.write(embedMarkup);
+					embedTarget.innerHTML = embedMarkup;
+					currentScript.parentNode.insertBefore(embedTarget,currentScript);
 					var iframeEmbed = document.getElementById(randomId);
 					
 					var onmessage = function(e) {
-						if (embedURL.indexOf(e.origin) !== -1) {
-							iframeEmbed.height = e.data + 'px';
-							if (window.addEventListener) {
-								window.removeEventListener('message', onmessage, false);
-							} else if (window.attachEvent) {
-								window.detachEvent('onmessage', onmessage);
+						// look for cashmusic_embed...if not then we don't care
+						if (e.data.substring(0,15) == 'cashmusic_embed') {
+							var a = e.data.split('_');
+							// double-check that we're going with the correct element embed a[2] is the id
+							if (a[2] == elementId) {
+								if (embedURL.indexOf(e.origin) !== -1) {
+									// a[3] is the height
+									iframeEmbed.height = a[3] + 'px';
+									// now remove the listeners so we don't fire again
+									if (window.addEventListener) {
+										window.removeEventListener('message', onmessage, false);
+									} else if (window.attachEvent) {
+										window.detachEvent('onmessage', onmessage);
+									}
+								}
 							}
 						}
 					};
@@ -165,6 +159,40 @@
 					querystring += (querystring.length ? '&' : '') + form[i].name +'='+ form[i].value; 
 				}
 				return encodeURI(querystring);
+			},
+
+			/*
+			 * window.cashmusic.fadeEffect (object)
+			 * Object to provide tweened fades for DOM elements.
+			 *
+			 * window.cashmusic.fadeEffect.init(id, flag, target)
+			 * window.cashmusic.fadeEffect.tween()
+			 */
+			fadeEffect: {
+				init: function(id,flag,target) {
+					this.elem = document.getElementById(id);
+					clearInterval(this.elem.si);
+					this.target = target ? target : flag ? 100 : 0;
+					this.flag = flag || -1;
+					this.alpha = this.elem.style.opacity ? parseFloat(this.elem.style.opacity) * 100 : 0;
+					if (this.alpha == 0 && target > 0) {
+						this.elem.style.display = 'block';
+					}
+					this.si = setInterval(function(){window.cashmusic.fadeEffect.tween();}, 20);
+				},
+				tween: function() {
+					if(this.alpha == this.target) {
+						clearInterval(this.elem.si);
+					}else{
+						var value = Math.round(this.alpha + ((this.target - this.alpha) * 0.05)) + (this.flag);
+						this.elem.style.opacity = value / 100;
+						this.elem.style.filter = 'alpha(opacity=' + value + ')';
+						if (value == 0) {
+							this.elem.style.display = 'none';
+						}
+						this.alpha = value;
+					}
+				}
 			},
 
 			/*
