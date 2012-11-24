@@ -2,7 +2,7 @@
  * The core script for public-facing CASH Music elements and embeds
  *
  * COMPRESSION SETTINGS
- *
+ * YUI compressor with "preserve unnecessary semi-colons" then append a semi-colon to the front to be careful
  *
  * @package platform.org.cashmusic
  * @author CASH Music
@@ -74,66 +74,78 @@
 			 * The iFrame is embedded at 1px high and sends a postMessage back 
 			 * to this parent window with its proper height. 
 			 */
-			embed: function(publicURL, elementId, lightboxed, lightboxTxt) {
+			embed: function(publicURL, elementId, targetNode, lightboxed, lightboxTxt) {
 				var randomId = 'cashmusic_embed' + Math.floor((Math.random()*1000000)+1);
 				var embedURL = publicURL + '/request/embed/' + elementId + '/location/' + encodeURIComponent(window.location.href.replace(/\//g,'!slash!'));
-				var allScripts = document.querySelectorAll('script[src="' + publicURL + 'cashmusic.js' + '"]');
-				var currentScript = allScripts[allScripts.length - 1];
-				var embedTarget = document.createElement('div');
-				embedTarget.className = 'cashmusic_embed';
-				if (lightboxed) {
-					if (!lightboxTxt) {lightboxTxt = 'open element';}
-					var overlayId = 'cashmusic_embed' + Math.floor((Math.random()*1000000)+1);
-					embedTarget.innerHTML = '<a id="' + randomId + '" href="' + embedURL + '" target="_blank">' + lightboxTxt + '</a><div id="' + overlayId + '" class="cashmusic_embed_overlay" style="position:fixed;overflow:auto;top:0;left:0;width:100%;height:100%;background-color:rgba(80,80,80,0.85);opacity:0;display:none;z-index:654321;"><div style="position:absolute;top:80px;left:50%;margin-left:-260px;z-index:10;background-color:#fff;padding:10px;"><iframe src="' + embedURL + '" scrolling="auto" width="500" height="400" frameborder="0"></iframe></div></div>';
-					currentScript.parentNode.insertBefore(embedTarget,currentScript);
-					document.getElementById(randomId).addEventListener('click', function(e) {
-						window.cashmusic.fadeEffect.init(overlayId, 1, 100);
-						e.preventDefault();
-					}, false);
-
-					window.addEventListener("keyup", function(e) { 
-						if (e.keyCode == 27) {
-							// get all overlay divs and hide them
-							var matches = document.querySelectorAll('div.cashmusic_embed_overlay');
-							for (var i = 0; i < matches.length; ++i) {
-								// have to use for not foreach (matches is a nodeList not an array)
-								var d = matches[i];
-								d.style.opacity = 0;
-								d.style.filter = 'alpha(opacity=0)';
-								d.style.display = 'none';
-							}
-						} 
-					}, false);
+				if (targetNode) {
+					// for AJAX, specify target node: '#id', '#id .class', etc. NEEDS to be specific
+					var currentNode = document.querySelector(targetNode);
 				} else {
-					var embedMarkup = '<iframe id="' + randomId + '" src="' + embedURL + '" scrolling="auto" width="100%" height="1" frameborder="0"></iframe>' +
-									  '<!--[if lte IE 7]><script type="text/javascript">var iframeEmbed=document.getElementById("' + randomId + '");iframeEmbed.height = "400px";</script><![endif]-->';
-					embedTarget.innerHTML = embedMarkup;
-					currentScript.parentNode.insertBefore(embedTarget,currentScript);
-					var iframeEmbed = document.getElementById(randomId);
-					
-					var onmessage = function(e) {
-						// look for cashmusic_embed...if not then we don't care
-						if (e.data.substring(0,15) == 'cashmusic_embed') {
-							var a = e.data.split('_');
-							// double-check that we're going with the correct element embed a[2] is the id
-							if (a[2] == elementId) {
-								if (embedURL.indexOf(e.origin) !== -1) {
-									// a[3] is the height
-									iframeEmbed.height = a[3] + 'px';
-									// now remove the listeners so we don't fire again
-									if (window.addEventListener) {
-										window.removeEventListener('message', onmessage, false);
-									} else if (window.attachEvent) {
-										window.detachEvent('onmessage', onmessage);
+					// if used non-AJAX we just grab the current place in the doc
+					var allScripts = document.querySelectorAll('script[src="' + publicURL + 'cashmusic.js' + '"]');
+					var currentNode = allScripts[allScripts.length - 1];
+				}
+				// be nice neighbors. if we can't find currentNode, don't do the rest or pitch errors. silently fail.
+				if (currentNode) {
+					// create a div to contain the link/iframe
+					var embedNode = document.createElement('div');
+					embedNode.className = 'cashmusic_embed';
+					if (lightboxed) {
+						// open in a lightbox with a link in the target div
+						if (!lightboxTxt) {lightboxTxt = 'open element';}
+						var overlayId = 'cashmusic_embed' + Math.floor((Math.random()*1000000)+1);
+						embedNode.innerHTML = '<a id="' + randomId + '" href="' + embedURL + '" target="_blank">' + lightboxTxt + '</a><div id="' + overlayId + '" class="cashmusic_embed_overlay" style="position:fixed;overflow:auto;top:0;left:0;width:100%;height:100%;background-color:rgba(80,80,80,0.85);opacity:0;display:none;z-index:654321;"><div style="position:absolute;top:80px;left:50%;margin-left:-260px;z-index:10;background-color:#fff;padding:10px;"><iframe src="' + embedURL + '" scrolling="auto" width="500" height="400" frameborder="0"></iframe></div></div>';
+						currentNode.parentNode.insertBefore(embedNode,currentNode);
+						document.getElementById(randomId).addEventListener('click', function(e) {
+							window.cashmusic.fadeEffect.init(overlayId, 1, 100);
+							e.preventDefault();
+						}, false);
+
+						window.addEventListener("keyup", function(e) { 
+							if (e.keyCode == 27) {
+								// get all overlay divs and hide them
+								var matches = document.querySelectorAll('div.cashmusic_embed_overlay');
+								for (var i = 0; i < matches.length; ++i) {
+									// have to use for not foreach (matches is a nodeList not an array)
+									var d = matches[i];
+									d.style.opacity = 0;
+									d.style.filter = 'alpha(opacity=0)';
+									d.style.display = 'none';
+								}
+							} 
+						}, false);
+					} else {
+						var embedMarkup = '<iframe id="' + randomId + '" src="' + embedURL + '" scrolling="auto" width="100%" height="1" frameborder="0"></iframe>' +
+										  '<!--[if lte IE 7]><script type="text/javascript">var iframeEmbed=document.getElementById("' + randomId + '");iframeEmbed.height = "400px";</script><![endif]-->';
+						embedNode.innerHTML = embedMarkup;
+						currentNode.parentNode.insertBefore(embedNode,currentNode);
+						var iframeEmbed = document.getElementById(randomId);
+						
+						// using messages passed between the request and this script to resize the iframe
+						var onmessage = function(e) {
+							// look for cashmusic_embed...if not then we don't care
+							if (e.data.substring(0,15) == 'cashmusic_embed') {
+								var a = e.data.split('_');
+								// double-check that we're going with the correct element embed a[2] is the id
+								if (a[2] == elementId) {
+									if (embedURL.indexOf(e.origin) !== -1) {
+										// a[3] is the height
+										iframeEmbed.height = a[3] + 'px';
+										// now remove the listeners so we don't fire again
+										if (window.addEventListener) {
+											window.removeEventListener('message', onmessage, false);
+										} else if (window.attachEvent) {
+											window.detachEvent('onmessage', onmessage);
+										}
 									}
 								}
 							}
+						};
+						if (window.addEventListener) {
+							window.addEventListener('message', onmessage, false);
+						} else if (window.attachEvent) {
+							window.attachEvent('onmessage', onmessage);
 						}
-					};
-					if (window.addEventListener) {
-						window.addEventListener('message', onmessage, false);
-					} else if (window.attachEvent) {
-						window.attachEvent('onmessage', onmessage);
 					}
 				}
 			},
