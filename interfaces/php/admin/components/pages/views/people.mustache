@@ -1,7 +1,7 @@
 {{#banner_main_content}}
 	<div class="introductorybanner"><div class="titlespc">{{{banner_title_content}}}</div>
 	{{{banner_main_content}}}
-	<div class="closelink"><a href="?hidebanner=true">close <span class="icon x_alt"></span></a></div></div>
+	<div class="closelink"><a href="?hidebanner=true">close <span class="icon cancel-circle"></span></a></div></div>
 {{/banner_main_content}}
 
 <div class="col_oneoftwo">
@@ -13,10 +13,10 @@
 			<b>{{name}}</b>
 			{{#description}}<br /><span class="fadedtext">{{description}}</span>{{/description}}<br />
 			<div class="itemnav">
-				<a href="{{www_path}}/people/lists/view/{{id}}" class="mininav_flush"><span class="icon magnifying_glass"></span> View</a>
-				<a href="{{www_path}}/people/lists/edit/{{id}}" class="mininav_flush"><span class="icon pen"></span> Edit</a>
-				<a href="{{www_path}}/people/lists/export/{{id}}" class="mininav_flush noajax"><span class="icon download"></span> Export</a>
-				<a href="{{www_path}}/people/lists/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>
+				<a href="{{www_path}}/people/lists/view/{{id}}" class="mininav_flush"><span class="icon search"></span> View</a>
+				<a href="{{www_path}}/people/lists/edit/{{id}}" class="mininav_flush"><span class="icon pencil"></span> Edit</a>
+				<a href="{{www_path}}/people/lists/export/{{id}}" class="mininav_flush noajax"><span class="icon browser-download-2"></span> Export</a>
+				<a href="{{www_path}}/people/lists/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
 			</div>
 		</li>
 		{{/lists_all}}

@@ -1,7 +1,7 @@
 {{#banner_main_content}}
 	<div class="mainpage introductorybanner "><img src="{{www_path}}/ui/default/assets/images/bg_mainpagebanner.jpg" class="bannerbg" alt="jackson" /><div class="mainbannercontent">
 	{{{banner_main_content}}}
-	<div class="closelink"><a href="?hidebanner=true">close <span class="icon x_alt"></span></a></div></div>
+	<div class="closelink"><a href="?hidebanner=true">close <span class="icon cancel-circle"></span></a></div></div>
 {{/banner_main_content}}
 
 {{^elements_for_user}}
@@ -18,8 +18,8 @@
 			Before you go too far you should change default settings like the system email and the time-zone. Add any 
 			third-party connections you want to start using.
 		</p>
-		<a href="{{www_path}}/settings/" class="featured"><span class="icon cog"></span> Set email and time-zone</a><br />
-		<a href="{{www_path}}/settings/connections/" class="featured"><span class="icon share"></span> Connect services</a>
+		<a href="{{www_path}}/settings/" class="featured"><span class="icon settings-2"></span> Set email and time-zone</a><br />
+		<a href="{{www_path}}/settings/connections/" class="featured"><span class="icon wiggle"></span> Connect services</a>
 	</div>
 
 	<div class="col_oneofthree{{#step2_complete}} complete{{/step2_complete}}">
@@ -27,8 +27,8 @@
 		<p>
 			The platform works with your content and your world — so start by adding an MP3 or setting up an email list. 
 		</p>
-		<a href="{{www_path}}/assets/" class="usecolor1 featured"><span class="icon document_alt_fill"></span> Add a new asset</a><br />
-		<a href="{{www_path}}/people/" class="usecolor2 featured"><span class="icon list"></span> Create an email list</a>
+		<a href="{{www_path}}/assets/" class="usecolor1 featured"><span class="icon menu"></span> Add a new asset</a><br />
+		<a href="{{www_path}}/people/" class="usecolor2 featured"><span class="icon address-book"></span> Create an email list</a>
 	</div>
 
 	<div class="col_oneofthree lastcol">
@@ -37,7 +37,7 @@
 			You're ready to create your first element. Try something simple like an email capture element. Point
 			to an existing list, maybe offer a download, and then embed with the code you're given.
 		</p>
-		<a href="{{www_path}}/elements/add/" class="usecolor5 featured"><span class="icon plus_alt"></span> Add your first element</a>
+		<a href="{{www_path}}/elements/add/" class="usecolor5 featured"><span class="icon circle-add"></span> Add your first element</a>
 	</div>
 
 	<div class="row_seperator">.</div><br /><br />
@@ -53,12 +53,12 @@
 	<div class="col_twoofthree lastcol">
 		<div class="callout{{^page_template}} bright{{/page_template}}">
 			{{#page_template}}
-				<h4><a href="{{www_path}}/system/template/{{page_template}}" class="lightboxed returntocurrentroute"><span class="icon pen"></span> Edit your public page</a></h4>
+				<h4><a href="{{www_path}}/system/template/{{page_template}}" class="lightboxed returntocurrentroute"><span class="icon pencil"></span> Edit your public page</a></h4>
 			{{/page_template}}
 			{{^page_template}}
 				<h4>Publish a page</h4>
 				<p>You can use this admin to publish a page with any of your elements. Bring your own markup and just drop in the CASH element embed code(s) you want.</p>
-				<a href="{{www_path}}/system/template" class="lightboxed returntocurrentroute"><span class="icon plus_alt"></span> Add a page template.</a>
+				<a href="{{www_path}}/system/template" class="lightboxed returntocurrentroute"><span class="icon layout-content-left-2"></span> Add a page template.</a>
 			{{/page_template}}
 		</div>
 
@@ -68,8 +68,8 @@
 			<li>
 				<h4>{{name}} <small class="fadedtext nobr" style="font-weight:normal;"> // {{type_name}}</small></h4>
 				<div class="itemnav">
-					<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><span class="icon magnifying_glass"></span> Details</a> 
-					<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>
+					<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><span class="icon search"></span> Details</a> 
+					<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
 				</div>
 			</li>
 			{{/elements_for_user}}

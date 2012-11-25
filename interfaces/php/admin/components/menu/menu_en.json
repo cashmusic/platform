@@ -6,19 +6,19 @@
 	"assets":
 		{"page_name":"Assets", "menu_icon":""},
 	"assets/find":
-		{"page_name":"Search", "menu_icon":"magnifying_glass"},
+		{"page_name":"Search", "menu_icon":"search"},
 		
 		
 	"calendar":
 		{"page_name":"Calendar", "menu_icon":""},
 	"calendar/events":
-		{"page_name":"Events", "menu_icon":"calendar_alt_fill"},
+		{"page_name":"Events", "menu_icon":"calendar"},
 	"calendar/events/add":
 		{"page_name":"Add Event", "menu_icon":""},
 	"calendar/events/edit":
 		{"page_name":"Edit Event", "menu_icon":""},
 	"calendar/venues":
-		{"page_name":"Venues", "menu_icon":"map_pin_fill"},
+		{"page_name":"Venues", "menu_icon":"pin"},
 	"calendar/venues/add":
 		{"page_name":"Add Venue", "menu_icon":""},
 	"calendar/venues/delete":
@@ -30,13 +30,13 @@
 	"commerce":
 		{"page_name":"Commerce", "menu_icon":""},
 	"commerce/items":
-		{"page_name":"Items", "menu_icon":"box"},
+		{"page_name":"Items", "menu_icon":"wallet"},
 	"commerce/items/delete":
 		{"page_name":"Delete Item", "menu_icon":""},
 	"commerce/items/edit":
 		{"page_name":"Edit Item", "menu_icon":""},
 	"commerce/orders":
-		{"page_name":"Orders", "menu_icon":"book"},
+		{"page_name":"Orders", "menu_icon":"credit-card"},
 	"commerce/orders/view":
 		{"page_name":"Order Details", "menu_icon":""},
 		
@@ -44,7 +44,7 @@
 	"elements":
 		{"page_name":"Elements", "menu_icon":""},
 	"elements/add":
-		{"page_name":"Add Elements", "menu_icon":"plus_alt"},
+		{"page_name":"Add Elements", "menu_icon":"circle-add"},
 	"elements/delete":
 		{"page_name":"Delete Element", "menu_icon":"", "hide":true},
 	"elements/edit":
@@ -58,7 +58,7 @@
 	"help":
 		{"page_name":"Help / FAQ", "menu_icon":""},
 	"help/gettingstarted":
-		{"page_name":"Getting Started", "menu_icon":"play_alt"},
+		{"page_name":"Getting Started", "menu_icon":"map-2"},
 		
 		
 	"licenses":
@@ -72,9 +72,9 @@
 	"people":
 		{"page_name":"People", "menu_icon":""},
 	"people/contacts":
-		{"page_name":"Contacts", "menu_icon":"user"},
+		{"page_name":"Contacts", "menu_icon":"user-card"},
 	"people/lists":
-		{"page_name":"Lists", "menu_icon":"list"},
+		{"page_name":"Lists", "menu_icon":"address-book"},
 	"people/lists/add":
 		{"page_name":"Add List", "menu_icon":""},
 	"people/lists/delete":
@@ -86,13 +86,13 @@
 	"people/lists/view":
 		{"page_name":"List Details", "menu_icon":""},
 	"people/press":
-		{"page_name":"Press Coverage", "menu_icon":"link"},
+		{"page_name":"Press Coverage", "menu_icon":"newspaper"},
 		
 		
 	"settings":
 		{"page_name":"Settings", "menu_icon":""},
 	"settings/connections":
-		{"page_name":"Connections", "menu_icon":"share"},
+		{"page_name":"Connections", "menu_icon":"wiggle"},
 	"settings/update":
-		{"page_name":"System Update", "menu_icon":"arrow_up_alt1"}
+		{"page_name":"System Update", "menu_icon":"arrow-up"}
 }

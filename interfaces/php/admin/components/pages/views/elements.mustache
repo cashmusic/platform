@@ -1,7 +1,7 @@
 {{#banner_main_content}}
 	<div class="introductorybanner"><div class="titlespc">{{{banner_title_content}}}</div>
 	{{{banner_main_content}}}
-	<div class="closelink"><a href="?hidebanner=true">close <span class="icon x_alt"></span></a></div></div>
+	<div class="closelink"><a href="?hidebanner=true">close <span class="icon cancel-circle"></span></a></div></div>
 {{/banner_main_content}}
 
 {{#elements_for_user}}
@@ -10,8 +10,8 @@
 	<li>
 		<h4>{{name}} <small class="fadedtext nobr" style="font-weight:normal;"> // {{type_name}}</small></h4>
 		<div class="itemnav">
-			<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><span class="icon magnifying_glass"></span> Details</a> 
-			<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon x_alt"></span> Delete</a>
+			<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><span class="icon search"></span> Details</a> 
+			<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
 		</div>
 	</li>
 	{{/elements_for_user}}

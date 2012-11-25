@@ -180,7 +180,7 @@
 	 */
 	function setContentBehaviors() {
 		// show/hide drawers
-		prepDrawers('<span class="icon arrow_up"></span> Hide','<span class="icon arrow_down"></span> Show');
+		prepDrawers('<span class="icon arrow-up"></span> Hide','<span class="icon arrow-down"></span> Show');
 
 		// datepicker
 		$('input[type=date],input.date').datepicker();
@@ -505,13 +505,13 @@
 			var markup = '<div class="modalbg">&nbsp;</div><div class="modallightbox ' + addedClass +
 						 data.specialcolor + '" style="top:' + modalTop + 'px;">' +
 						 data.content + //jQuery.param(data) +
-						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><span class="icon denied"></span> cancel</a></div>' +
+						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><span class="icon nope"></span> cancel</a></div>' +
 						 '</div></div>';
 
 			markup = $(markup);
 			markup.hide();
 			$('body').append(markup);
-			prepDrawers('<span class="icon arrow_up"></span> Hide','<span class="icon arrow_down"></span> Show');
+			prepDrawers('<span class="icon arrow-up"></span> Hide','<span class="icon arrow-down"></span> Show');
 
 			// show the dialog with a fast fade-in
 			$('.modalbg').fadeIn('fast');

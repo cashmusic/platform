@@ -1,7 +1,7 @@
 {{#banner_main_content}}
 	<div class="introductorybanner"><div class="titlespc">{{{banner_title_content}}}</div>
 	{{{banner_main_content}}}
-	<div class="closelink"><a href="?hidebanner=true">close <span class="icon x_alt"></span></a></div></div>
+	<div class="closelink"><a href="?hidebanner=true">close <span class="icon cancel-circle"></span></a></div></div>
 {{/banner_main_content}}
 
 <style type="text/css">
@@ -60,7 +60,7 @@
 		{{#more_releases}}
 		<a class="drawerhandle mininav_flush usecolor1">releases</a>
 		{{/more_releases}}
-		<a href="{{www_path}}/assets/add/release" class="mininav_flush usecolor1 lightboxed"><span class="icon plus_alt"></span> Add a new release</a>
+		<a href="{{www_path}}/assets/add/release" class="mininav_flush usecolor1 lightboxed"><span class="icon circle-add"></span> Add a new release</a>
 	</div>
 </div>
 
@@ -111,7 +111,7 @@
 		{{#more_playlists}}
 		<a class="drawerhandle mininav_flush usecolor1">playlists</a>
 		{{/more_playlists}}
-		<a href="{{www_path}}/assets/add/playlist" class="mininav_flush usecolor1 lightboxed"><span class="icon plus_alt"></span> Add a new playlist</a>
+		<a href="{{www_path}}/assets/add/playlist" class="mininav_flush usecolor1 lightboxed"><span class="icon circle-add"></span> Add a new playlist</a>
 	</div>
 </div>
 -->
@@ -126,21 +126,21 @@
 </div>
 <div class="col_twoofthree lastcol display-files">
 	{{#featured_files}}
-		<a href="{{www_path}}/assets/edit/{{id}}"><span class="icon document_alt_fill"></span> {{title}}</a>
+		<a href="{{www_path}}/assets/edit/{{id}}"><span class="icon menu"></span> {{title}}</a>
 		<span class="smalltext fadedtext">({{descriptor_string}})</span><br />
 	{{/featured_files}}
 	<div class="drawer">
 		{{#more_files}}
 		<div class="drawercontent">
 			{{#remaining_files}}
-				<a href="{{www_path}}/assets/edit/{{id}}"><span class="icon document_alt_fill"></span> {{title}}</a>
+				<a href="{{www_path}}/assets/edit/{{id}}"><span class="icon menu"></span> {{title}}</a>
 				<span class="smalltext fadedtext">({{descriptor_string}})</span><br />
 			{{/remaining_files}}
 		</div>
 		{{/more_files}}
 		<div class="itemnav">
 			{{#more_files}}<a class="drawerhandle mininav_flush usecolor1">files</a>{{/more_files}}
-			<a href="{{www_path}}/assets/add/file" class="mininav_flush usecolor1 lightboxed"><span class="icon plus_alt"></span> Add a new file</a>
+			<a href="{{www_path}}/assets/add/file" class="mininav_flush usecolor1 lightboxed"><span class="icon circle-add"></span> Add a new file</a>
 		</div>
 	</div>
 	
