@@ -540,13 +540,16 @@
 			drawer = $(this);
 			if (drawer.find('.drawerhandleaction').length == 0) {
 				if (drawer.hasClass('noprefix')) {
-					labelTextHidden = '';
-					labelTextVisible = '';
+					$.data(drawer,'labelTextHidden','');
+					$.data(drawer,'labelTextVisible','');
+				} else {
+					$.data(drawer,'labelTextHidden',labelTextHidden);
+					$.data(drawer,'labelTextVisible',labelTextVisible);
 				}
 				drawerHandle = drawer.find('.drawerhandle');
 				drawerContent = drawer.find('.drawercontent');
 				// create the label span and add necessary classes
-				drawerHandleLabel = $('<span class="drawerhandleaction">' + labelTextHidden + ' </span>');
+				drawerHandleLabel = $('<span class="drawerhandleaction">' + $.data(drawer,'labelTextHidden') + ' </span>');
 				if (labelClassVisible) {
 					drawerHandleLabel.addClass(labelClassHidden);
 				}
@@ -558,7 +561,7 @@
 					$(this).blur();
 					if (drawerContent.is(':hidden')) {
 						drawerContent.slideDown(200, function () {
-							drawerHandleLabel.html(labelTextVisible + ' ');
+							drawerHandleLabel.html($.data(drawer,'labelTextVisible') + ' ');
 							if (labelClassVisible) {
 								drawerHandleLabel.removeClass();
 								drawerHandleLabel.addClass(labelClassVisible);
@@ -567,7 +570,7 @@
 					} else {
 						drawerContent.slideUp(200, function () {
 							drawerContent.hide();
-							drawerHandleLabel.html(labelTextHidden + ' ');
+							drawerHandleLabel.html($.data(drawer,'labelTextHidden') + ' ');
 							if (labelClassHidden) {
 								drawerHandleLabel.removeClass();
 								drawerHandleLabel.addClass(labelClassHidden);
