@@ -16,7 +16,7 @@
 			$matchingvenues_response = $cash_admin->requestAndStore(
 				array(
 					'cash_request_type' => 'calendar', 
-					'cash_action' => 'finevenues',
+					'cash_action' => 'findvenues',
 					'query' => $request_parameters[1]
 				)
 			);

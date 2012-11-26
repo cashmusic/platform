@@ -31,7 +31,7 @@ if ($request_parameters) {
 				'cash_action' => 'getanalytics',
 				'analtyics_type' => 'listmembership',
 				'list_id' => $request_list_id,
-				'user_id' => AdminHelper::getPersistentData('cash_effective_user')
+				'user_id' => $cash_admin->effective_user_id
 			)
 		);
 		$cash_admin->page_data['analytics_active'] = $list_analytics['payload']['active'];

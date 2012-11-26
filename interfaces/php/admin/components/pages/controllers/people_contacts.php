@@ -1,6 +1,6 @@
 <?php
 $cash_admin->page_data['country_codes'] = AdminHelper::drawCountryCodeUL();
-$effective_user = AdminHelper::getPersistentData('cash_effective_user');
+$effective_user = $cash_admin->effective_user_id;
 
 if (isset($_POST['docontactadd'])) {
 	$add_response = $cash_admin->requestAndStore(

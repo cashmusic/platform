@@ -833,20 +833,27 @@ class SystemPlant extends PlantBase {
 	 *
 	 * @return array|false
 	 */
-	protected function getLockCodes($scope_table_alias,$scope_table_id) {
+	protected function getLockCodes($scope_table_alias,$scope_table_id,$user_id=false) {
+		$condition = array(
+			"scope_table_alias" => array(
+				"condition" => "=",
+				"value" => $scope_table_alias
+			),
+			"scope_table_id" => array(
+				"condition" => "=",
+				"value" => $scope_table_id
+			)
+		);
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
 		$result = $this->db->getData(
 			'lock_codes',
 			'*',
-			array(
-				"scope_table_alias" => array(
-					"condition" => "=",
-					"value" => $scope_table_alias
-				),
-				"scope_table_id" => array(
-					"condition" => "=",
-					"value" => $scope_table_id
-				)
-			)
+			$condition
 		);
 		return $result;
 	}

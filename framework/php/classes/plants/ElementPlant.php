@@ -276,33 +276,47 @@ class ElementPlant extends PlantBase {
 		return $result;
 	}
 	
-	protected function editElement($id,$name,$options_data) {
+	protected function editElement($id,$name,$options_data,$user_id=false) {
 		$options_data = json_encode($options_data);
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $id
+			)
+		);
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
 		$result = $this->db->setData(
 			'elements',
 			array(
 				'name' => $name,
 				'options' => $options_data,
 			),
-			array(
-				'id' => array(
-					'condition' => '=',
-					'value' => $id
-				)
-			)
+			$condition
 		);
 		return $result;
 	}
 
-	protected function deleteElement($id) {
+	protected function deleteElement($id,$user_id=false) {
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $id
+			)
+		);
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
 		$result = $this->db->deleteData(
 			'elements',
-			array(
-				'id' => array(
-					'condition' => '=',
-					'value' => $id
-				)
-			)
+			$condition
 		);
 		return $result;
 	}

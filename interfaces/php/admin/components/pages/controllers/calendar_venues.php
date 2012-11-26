@@ -17,10 +17,9 @@ $venues_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'calendar', 
 		'cash_action' => 'getallvenues',
-		'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
+		'user_id' => $cash_admin->effective_user_id,
 		'visible_event_types' => 'upcoming'
-	),
-	'getallvenues'
+	)
 );
 
 if (is_array($venues_response['payload'])) {

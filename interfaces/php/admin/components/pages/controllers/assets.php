@@ -6,7 +6,7 @@ if ($settings['banners'][BASE_PAGENAME]) {
 	$cash_admin->page_data['banner_main_content'] = 'Enter details about all the files that matter to you, either on a connected S3 account or simple URLs. These assets will be used in the elements you define.';
 }
 
-$user_id = AdminHelper::getPersistentData('cash_effective_user');
+$user_id = $cash_admin->effective_user_id;
 // get all assets for page
 $releases_response = $cash_admin->requestAndStore(
 	array(
@@ -15,8 +15,7 @@ $releases_response = $cash_admin->requestAndStore(
 		'type' => 'release',
 		'parent_id' => 0,
 		'user_id' => $user_id
-	),
-	'all_releases'
+	)
 );
 $playlists_response = $cash_admin->requestAndStore(
 	array(
@@ -25,8 +24,7 @@ $playlists_response = $cash_admin->requestAndStore(
 		'type' => 'playlist',
 		'parent_id' => 0,
 		'user_id' => $user_id
-	),
-	'all_releases'
+	)
 );
 $files_response = $cash_admin->requestAndStore(
 	array(
@@ -35,8 +33,7 @@ $files_response = $cash_admin->requestAndStore(
 		'type' => 'file',
 		'parent_id' => 0,
 		'user_id' => $user_id
-	),
-	'all_releases'
+	)
 );
 
 if (is_array($releases_response['payload'])) {

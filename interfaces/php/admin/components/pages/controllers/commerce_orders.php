@@ -1,19 +1,19 @@
 <?php
 $all_order_details = false;
-$raw_orders = new CASHRequest(
+$orders_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'commerce', 
 		'cash_action' => 'getordersforuser',
-		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
+		'user_id' => $cash_admin->effective_user_id
 	)
 );
 
-if (is_array($raw_orders->response['payload'])) {
+if (is_array($orders_response['payload'])) {
 	$all_order_details = array();
-	foreach ($raw_orders->response['payload'] as $order) {
+	foreach ($orders_response['payload'] as $order) {
 		if ($order['canceled'] == 0) {
 			
-			$order_details_request = new CASHRequest(
+			$order_details_response = $cash_admin->requestAndStore(
 				array(
 					'cash_request_type' => 'commerce', 
 					'cash_action' => 'getorder',
@@ -22,7 +22,7 @@ if (is_array($raw_orders->response['payload'])) {
 				)
 			);
 			
-			$order_details = $order_details_request->response['payload'];
+			$order_details = $order_details_response['payload'];
 			if ($order_details['successful']) {
 				$order_date = $order_details['creation_date'];
 				if ($order_details['creation_date']) {

@@ -3,7 +3,7 @@ $items_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'commerce', 
 		'cash_action' => 'getitemsforuser',
-		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
+		'user_id' => $cash_admin->effective_user_id,
 	)
 );
 
@@ -11,7 +11,7 @@ $orders_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'commerce', 
 		'cash_action' => 'getordersforuser',
-		'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
+		'user_id' => $cash_admin->effective_user_id,
 		'max_returned' => 6
 	)
 );
@@ -32,7 +32,7 @@ if (is_array($orders_response['payload'])) {
 	foreach ($orders_response['payload'] as $order) {
 		if ($order['canceled'] == 0) {
 			
-			$order_details_request = new CASHRequest(
+			$order_details_response = $cash_admin->requestAndStore(
 				array(
 					'cash_request_type' => 'commerce', 
 					'cash_action' => 'getorder',
@@ -41,7 +41,7 @@ if (is_array($orders_response['payload'])) {
 				)
 			);
 			
-			$order_details = $order_details_request->response['payload'];
+			$order_details = $order_details_response['payload'];
 			if ($order_details['successful']) {
 				$order_date = $order_details['creation_date'];
 				if ($order_details['creation_date']) {

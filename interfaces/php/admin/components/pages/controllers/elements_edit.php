@@ -9,7 +9,7 @@ if ($current_element) {
 	$cash_admin->page_data['form_state_action'] = 'doelementedit';	
 	$cash_admin->page_data = array_merge($cash_admin->page_data,$current_element);
 	$elements_data = AdminHelper::getElementsData();
-	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
+	$effective_user = $cash_admin->effective_user_id;
 	
 	if ($current_element['user_id'] == $effective_user) {
 		$location_analytics = $cash_admin->requestAndStore(
@@ -18,7 +18,7 @@ if ($current_element) {
 				'cash_action' => 'getanalytics',
 				'analtyics_type' => 'elementbylocation',
 				'element_id' => $request_parameters[0],
-				'user_id' => AdminHelper::getPersistentData('cash_effective_user')
+				'user_id' => $cash_admin->effective_user_id
 			)
 		);
 		$cash_admin->page_data['total_views'] = 0;
@@ -35,7 +35,7 @@ if ($current_element) {
 				'cash_action' => 'getanalytics',
 				'analtyics_type' => 'elementbymethod',
 				'element_id' => $request_parameters[0],
-				'user_id' => AdminHelper::getPersistentData('cash_effective_user')
+				'user_id' => $cash_admin->effective_user_id
 			)
 		);
 		if (is_array($method_analytics['payload'])) {

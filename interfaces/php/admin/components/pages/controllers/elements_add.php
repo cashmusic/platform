@@ -1,11 +1,11 @@
 <?php
-$page_request = new CASHRequest(
+$types_response = $cash_admin->requestAndStore(	
 	array(
 		'cash_request_type' => 'element', 
 		'cash_action' => 'getsupportedtypes'
 	)
 );
-$supported_elements = $page_request->response['payload'];
+$supported_elements = $types_response['payload'];
 $elements_data = AdminHelper::getElementsData();
 
 if ($request_parameters) {

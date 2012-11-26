@@ -15,8 +15,7 @@ if (isset($_POST['dovenueedit'])) {
 			'postalcode' => $_POST['venue_postalcode'],
 			'url' => $_POST['venue_url'],
 			'phone' => $_POST['venue_phone']
-		),
-		'venueeditattempt'
+		)
 	);
 	if ($edit_response['status_uid'] == 'calendar_editvenue_200') {
 		AdminHelper::formSuccess('Success. Edited.');
@@ -30,8 +29,7 @@ $current_venue_response = $cash_admin->requestAndStore(
 		'cash_request_type' => 'calendar', 
 		'cash_action' => 'getvenue',
 		'venue_id' => $request_parameters[0]
-	),
-	'getvenue'
+	)
 );
 
 $current_venue = $current_venue_response['payload'];

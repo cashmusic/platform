@@ -110,7 +110,8 @@ class PeoplePlant extends PlantBase {
 			$address_country=false,
 			$phone=false,
 			$notes=false,
-			$links=false
+			$links=false,
+			$user_id=false
 		)
 	 {
 		$final_edits = array_filter(
@@ -131,15 +132,22 @@ class PeoplePlant extends PlantBase {
 			),
 			'CASHSystem::notExplicitFalse'
 		);
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $id
+			)
+		);
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
 		$result = $this->db->setData(
 			'contacts',
 			$final_edits,
-			array(
-				'id' => array(
-					'condition' => '=',
-					'value' => $id
-				)
-			)
+			$condition
 		);
 		return $result;
 	}
@@ -243,7 +251,7 @@ class PeoplePlant extends PlantBase {
 		}
 	}
 
-	protected function viewList($list_id,$unlimited=false) {
+	protected function viewList($list_id,$unlimited=false,$user_id=false) {
 		if ($unlimited) {
 			$result = $this->getUsersForList($list_id,false);
 		} else {
@@ -251,6 +259,11 @@ class PeoplePlant extends PlantBase {
 		}
 		if ($result) {
 			$list_details = $this->getList($list_id);
+			if ($user_id) {
+				if ($list_details['user_id'] != $user_id) {
+					return false;
+				}
+			}
 			$payload_data = array(
 				'details' => $list_details,
 				'members' => $result
@@ -294,8 +307,19 @@ class PeoplePlant extends PlantBase {
 	 * @param {int} $description -  a description, in case the name is terrible and offers no help
 	 * @param {int} $connection_id -  a third party connection with which the list should sync
 	 * @return id|false
-	 */protected function editList($list_id,$name=false,$description=false,$connection_id=false) {
-		$this->manageWebhooks($list_id,'remove');
+	 */protected function editList($list_id,$name=false,$description=false,$connection_id=false,$user_id=false) {
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $list_id
+			)
+		);
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
 		$final_edits = array_filter(
 			array(
 				'name' => $name,
@@ -307,14 +331,11 @@ class PeoplePlant extends PlantBase {
 		$result = $this->db->setData(
 			'people_lists',
 			$final_edits,
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $list_id
-				)
-			)
+			$condition
 		);
-		if ($result) {
+		if ($result && $connection_id) {
+			// remove then add id connection_id has changed
+			$this->manageWebhooks($list_id,'remove');
 			$this->manageWebhooks($list_id,'add');
 		}
 		return $result;
@@ -325,18 +346,25 @@ class PeoplePlant extends PlantBase {
 	 *
 	 * @param {int} $list_id - the list
 	 * @return bool
-	 */protected function deleteList($list_id) {
-		$this->manageWebhooks($list_id,'remove');
-		$result = $this->db->deleteData(
-			'people_lists',
-			array(
-				'id' => array(
-					'condition' => '=',
-					'value' => $list_id
-				)
+	 */protected function deleteList($list_id,$user_id=false) {
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $list_id
 			)
 		);
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
+		$result = $this->db->deleteData(
+			'people_lists',
+			$condition
+		);
 		if ($result) {
+			$this->manageWebhooks($list_id,'remove');
 			// check and make sure that the list has addresses associated
 			if ($this->getUsersForList($list_id)) {
 				// it does? delete them
@@ -516,16 +544,23 @@ class PeoplePlant extends PlantBase {
 	 *
 	 * @param {int} $list_id -     the id of the list
 	 * @return array|false
-	 */protected function getList($list_id) {
+	 */protected function getList($list_id,$user_id=false) {
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $list_id
+			)
+		);
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
 		$result = $this->db->getData(
 			'people_lists',
 			'*',
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $list_id
-				)
-			)
+			$condition
 		);
 		if ($result) {
 			return $result[0];

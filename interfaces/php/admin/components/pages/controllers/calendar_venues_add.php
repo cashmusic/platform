@@ -25,8 +25,7 @@ if (isset($_POST['dovenueadd'])) {
 			'postalcode' => $addvenue_postalcode,
 			'url' => $addvenue_url,
 			'phone' => $addvenue_phone
-		),
-		'venueaddattempt'
+		)
 	);
 	if ($add_response['payload']) {
 		AdminHelper::formSuccess('Success. Venue added.','/calendar/venues/edit/' . $add_response['payload']);

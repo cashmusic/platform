@@ -4,14 +4,14 @@ if (isset($_REQUEST['add_codes_qty']) && $request_parameters[0]) {
 	if ($_REQUEST['add_codes_qty'] > 0) {
 		$total_added = 0;
 		for ($i = 1; $i <= $_POST['add_codes_qty']; $i++) {
-			$addcode_request = new CASHRequest(
+			$addcode_response = $cash_admin->requestAndStore(
 				array(
 					'cash_request_type' => 'asset',
 					'cash_action' => 'addlockcode',
 					'asset_id' => $request_parameters[0]
 				)
 			);
-			if ($addcode_request->response['payload']) {
+			if ($addcode_response['payload']) {
 				$total_added++;
 			}
 		}
@@ -21,7 +21,7 @@ if (isset($_REQUEST['add_codes_qty']) && $request_parameters[0]) {
 
 $asset_codes = false;
 if ($request_parameters[0]) {
-	$getcodes_request = new CASHRequest(
+	$getcodes_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'system',
 			'cash_action' => 'getlockcodes',
@@ -29,7 +29,7 @@ if ($request_parameters[0]) {
 			'scope_table_id' => $request_parameters[0]
 		)
 	);
-	$asset_codes = $getcodes_request->response['payload'];
+	$asset_codes = $getcodes_response['payload'];
 }
 if (isset($_REQUEST['exportcodes']) && $request_parameters[0]) {
 	header('Content-Disposition: attachment; filename="codes_' . $request_parameters[0] . '_export.csv"');
@@ -64,7 +64,7 @@ if (isset($_POST['doassetedit'])) {
 	if (isset($_POST['asset_description'])) $asset_description = $_POST['asset_description'];
 
 	$metadata_and_tags = AdminHelper::parseMetaData($_POST);
-	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
+	$effective_user = $cash_admin->effective_user_id;
 
 	if ($_POST['asset_type'] == 'release') {
 		$metadata = array(
@@ -105,23 +105,13 @@ if (isset($_POST['doassetedit'])) {
 	}
 }
 
-// if favorite status is being toggled:
-if (isset($_REQUEST['togglefavorite']) && $request_parameters[0]) {
-	if ($cash_admin->isAssetAFavorite($request_parameters[0])) {
-		$cash_admin->unFavoriteAsset($request_parameters[0]);
-	} else {
-		$cash_admin->favoriteAsset($request_parameters[0]);
-	}
-}
-
 // Get the current asset details:
 $asset_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'asset',
 		'cash_action' => 'getasset',
 		'id' => $request_parameters[0]
-	),
-	'getasset'
+	)
 );
 if ($asset_response['payload']) {
 	$cash_admin->page_data = array_merge($cash_admin->page_data,$asset_response['payload']);

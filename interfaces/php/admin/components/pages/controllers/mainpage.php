@@ -17,9 +17,8 @@ $elements_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'element', 
 		'cash_action' => 'getelementsforuser',
-		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-	),
-	'getelementsforuser'
+		'user_id' => $cash_admin->effective_user_id
+	)
 );
 if (is_array($elements_response['payload'])) {
 	$elements_data = AdminHelper::getElementsData();
@@ -35,7 +34,7 @@ if (is_array($elements_response['payload'])) {
 			'cash_request_type' => 'system', 
 			'cash_action' => 'getnewesttemplate',
 			'all_details' => true,
-			'user_id' => AdminHelper::getPersistentData('cash_effective_user')
+			'user_id' => $cash_admin->effective_user_id
 		)
 	);
 	if ($template_response['payload']) {
@@ -63,9 +62,8 @@ if (is_array($elements_response['payload'])) {
 			'cash_request_type' => 'asset', 
 			'cash_action' => 'getanalytics',
 			'analtyics_type' => 'recentlyadded',
-			'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-		),
-		'asset_recently'
+			'user_id' => $cash_admin->effective_user_id
+		)
 	);
 	if (is_array($asset_response['payload'])) {
 		$cash_admin->page_data['step2_complete'] = 'complete';
@@ -74,9 +72,8 @@ if (is_array($elements_response['payload'])) {
 			array(
 				'cash_request_type' => 'people', 
 				'cash_action' => 'getlistsforuser',
-				'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-			),
-			'getlistsforuser'
+				'user_id' => $cash_admin->effective_user_id
+			)
 		);
 		if (is_array($asset_response['payload'])) {
 			$cash_admin->page_data['step2_complete'] = 'complete';

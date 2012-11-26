@@ -24,7 +24,7 @@ if (isset($_POST['doemailchange']) || isset($_POST['dopasswordchange'])) {
 			array(
 				'cash_request_type' => 'system', 
 				'cash_action' => 'setlogincredentials',
-				'user_id' => AdminHelper::getPersistentData('cash_effective_user'), 
+				'user_id' => $cash_admin->effective_user_id, 
 				'address' => $email_address, 
 				'password' => $password
 			)
@@ -40,14 +40,13 @@ if (isset($_POST['doemailchange']) || isset($_POST['dopasswordchange'])) {
 	}
 }
 
-$effective_user = AdminHelper::getPersistentData('cash_effective_user');
+$effective_user = $cash_admin->effective_user_id;
 $user_request = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'people', 
 		'cash_action' => 'getuser',
 		'user_id' => $effective_user
-	),
-	'userdetails'
+	)
 );
 
 if (is_array($user_request['payload'])) {

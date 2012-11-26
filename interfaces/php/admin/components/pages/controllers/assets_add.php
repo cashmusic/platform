@@ -2,7 +2,7 @@
 // parsing posted data:
 if (isset($_POST['doassetadd'])) {
 	
-	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
+	$effective_user = $cash_admin->effective_user_id;
 	$add_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'asset', 
@@ -41,7 +41,7 @@ if (isset($_POST['doassetadd'])) {
 					$new_metadata[$_POST['metadata_name']][] = $add_response['payload'];
 				}
 				// now make the actual edits
-				$effective_user = AdminHelper::getPersistentData('cash_effective_user');
+				$effective_user = $cash_admin->effective_user_id;
 				$edit_response = $cash_admin->requestAndStore(
 					array(
 						'cash_request_type' => 'asset', 

@@ -3,9 +3,8 @@ $items_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'commerce', 
 		'cash_action' => 'getitemsforuser',
-		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-	),
-	'all_items'
+		'user_id' => $cash_admin->effective_user_id
+	)
 );
 
 $cash_admin->page_data['assets_options'] = AdminHelper::echoFormOptions('assets',false,$cash_admin->getAllFavoriteAssets(),true);

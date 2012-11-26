@@ -2,7 +2,7 @@
 // parsing posted data:
 if (isset($_POST['doeventadd'])) {
 	// do the actual list add stuffs...
-	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
+	$effective_user = $cash_admin->effective_user_id;
 	$eventispublished = 0;
 	$eventiscancelled = 0;
 	if (isset($_POST['event_ispublished'])) { $eventispublished = 1; }
@@ -18,8 +18,7 @@ if (isset($_POST['doeventadd'])) {
 			'published' => $eventispublished,
 			'cancelled' => $eventiscancelled,
 			'user_id' => $effective_user,
-		),
-		'eventaddattempt'
+		)
 	);
 
 	if ($add_response['payload']) {

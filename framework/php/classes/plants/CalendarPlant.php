@@ -24,7 +24,7 @@ class CalendarPlant extends PlantBase {
 			'deletevenue'       => array('deleteVenue','direct'),
 			'editevent'         => array('editEvent','direct'),
 			'editvenue'         => array('editVenue','direct'),
-			'finevenues'        => array('findVenues','direct'),
+			'findvenues'        => array('findVenues','direct'),
 			'getallvenues'      => array('getAllVenues','direct'),
 			'geteventsbetween'  => array('getDatesBetween','direct'),
 			'getevent'          => array('getEvent','direct'),
@@ -127,7 +127,19 @@ class CalendarPlant extends PlantBase {
 		return $result;
 	}
 
-	protected function editEvent($event_id,$date=false,$venue_id=false,$purchase_url=false,$comment=false,$published=false,$cancelled=false) {
+	protected function editEvent($event_id,$date=false,$venue_id=false,$purchase_url=false,$comment=false,$published=false,$cancelled=false,$user_id=false) {
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $event_id
+			)
+		);
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
 		$final_edits = array_filter(
 			array(
 				'date' => $date,
@@ -142,12 +154,7 @@ class CalendarPlant extends PlantBase {
 		$result = $this->db->setData(
 			'events',
 			$final_edits,
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $event_id
-				)
-			)
+			$condition
 		);
 		return $result;
 	}

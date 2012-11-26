@@ -183,7 +183,7 @@ class AssetPlant extends PlantBase {
 	 * and get an array of asset detail arrays.
 	 *
 	 * @return void
-	 */protected function getAssetInfo($id) {
+	 */protected function getAssetInfo($id,$user_id=false) {
 		// first set conditions based on single id or array
 		if (!is_array($id)) {
 			// straightforward...i mean seriously
@@ -200,6 +200,12 @@ class AssetPlant extends PlantBase {
 					"condition" => "IN",
 					"value" => $id
 				)
+			);
+		}
+		if ($user_id) {
+			$conditions['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
 			);
 		}
 		$result = $this->db->getData(
@@ -347,15 +353,22 @@ class AssetPlant extends PlantBase {
 			),
 			'CASHSystem::notExplicitFalse'
 		);
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $id
+			)
+		);
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
 		$result = $this->db->setData(
 			'assets',
 			$final_edits,
-			array(
-				'id' => array(
-					'condition' => '=',
-					'value' => $id
-				)
-			)
+			$condition
 		);
 		if ($result && $tags && $user_id) {
 			$this->setAllMetaData('assets',$id,$user_id,$tags,false,true);
@@ -608,8 +621,13 @@ class AssetPlant extends PlantBase {
 		}
 	}
 
-	protected function makePublic($id) {
+	protected function makePublic($id,$user_id=false) {
 		$asset = $this->getAssetInfo($id);
+		if ($user_id) {
+			if ($asset['user_id'] != $user_id) {
+				return false;
+			}
+		}
 		$connection = $this->getConnectionDetails($asset['connection_id']);
 		switch ($connection['type']) {
 			case 'com.amazon':

@@ -1,8 +1,8 @@
 <?php
-$effective_user = AdminHelper::getPersistentData('cash_effective_user');
+$effective_user = $cash_admin->effective_user_id;
 
 if ($request_parameters) {
-	$order_details_request = new CASHRequest(
+	$order_details_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'commerce', 
 			'cash_action' => 'getorder',
@@ -10,7 +10,7 @@ if ($request_parameters) {
 			'deep' => true
 		)
 	);
-	$order_details = $order_details_request->response['payload'];
+	$order_details = $order_details_response['payload'];
 	if ($order_details['user_id'] == $effective_user) {
 		$order_details['padded_id'] = str_pad($order_details['id'],6,0,STR_PAD_LEFT);
 		$order_details['order_date'] = date("M j, Y, g:i A", $order_details['modification_date']);

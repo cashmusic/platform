@@ -1,7 +1,7 @@
 <?php
 if (isset($_POST['dotemplateset'])) {
 	// form was submitted. set the template
-	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
+	$effective_user = $cash_admin->effective_user_id;
 	if (!isset($_POST['template_id'])) {
 		$template_id = false;
 	} else {
@@ -25,7 +25,7 @@ if (isset($_POST['dotemplateset'])) {
 }
 
 if ($request_parameters[0]) {
-	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
+	$effective_user = $cash_admin->effective_user_id;
 	$template_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'system', 

@@ -18,8 +18,7 @@ if (isset($_POST['doeventedit'])) {
 			'published' => $eventispublished,
 			'cancelled' => $eventiscancelled,
 			'event_id' => $event_id,
-		),
-		'eventeditattempt'
+		)
 	);
 	if ($edit_response['status_uid'] == 'calendar_editevent_200') {
 		AdminHelper::formSuccess('Success. Edited.');
@@ -33,8 +32,7 @@ $event_response = $cash_admin->requestAndStore(
 		'cash_request_type' => 'calendar',
 		'cash_action' => 'getevent',
 		'event_id' => $request_parameters[0]
-	),
-	'getevent'
+	)
 );
 
 $current_event = $event_response['payload'];

@@ -15,7 +15,7 @@
 		$query_length = strlen(trim($query));
 		// only accept queries of 2+ characters
 		if ($query_length > 1) {
-			$effective_user = AdminHelper::getPersistentData('cash_effective_user');
+			$effective_user = $cash_admin->effective_user_id;
 			$find_response = $cash_admin->requestAndStore(
 				array(
 					'cash_request_type' => 'asset', 
@@ -23,8 +23,7 @@
 					'query' => $query,
 					'user_id' => $effective_user,
 					'page' => $page_number
-				),
-				'findassets'
+				)
 			);
 
 			if ($find_response['payload']) {

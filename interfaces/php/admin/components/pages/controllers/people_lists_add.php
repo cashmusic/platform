@@ -2,7 +2,7 @@
 // parsing posted data:
 if (isset($_POST['dolistadd'])) {
 	// do the actual list add stuffs...
-	$effective_user = AdminHelper::getPersistentData('cash_effective_user');
+	$effective_user = $cash_admin->effective_user_id;
 	$add_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'people', 
@@ -11,8 +11,7 @@ if (isset($_POST['dolistadd'])) {
 			'description' => $_POST['list_description'],
 			'connection_id' => $_POST['connection_id'],
 			'user_id' => $effective_user,
-		),
-		'listadd'
+		)
 	);
 	if ($add_response['payload']) {
 		AdminHelper::formSuccess('Success. List added.','/people/lists/edit/' . $add_response['payload']);

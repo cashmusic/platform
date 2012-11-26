@@ -1,5 +1,5 @@
 <?php
-$effective_user = AdminHelper::getPersistentData('cash_effective_user');
+$effective_user = $cash_admin->effective_user_id;
 
 if (isset($_POST['press_url'])) {
 	// if at first it isn't valid, try adding 'http://'
@@ -22,6 +22,7 @@ if (isset($_POST['press_url'])) {
 			$url_title = $nodes->item(0)->nodeValue . ' (' . str_replace('www.','',parse_url($_POST['press_url'],PHP_URL_HOST)) . ')';
 			$metas = $doc->getElementsByTagName('meta');
 
+			$url_description = $_POST['press_url'];
 			for ($i = 0; $i < $metas->length; $i++) {
 				$meta = $metas->item($i);
 				if($meta->getAttribute('name') == 'description')

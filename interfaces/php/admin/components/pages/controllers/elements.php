@@ -1,13 +1,10 @@
 <?php
-$effective_user = AdminHelper::getPersistentData('cash_effective_user');
-
 $elements_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'element', 
 		'cash_action' => 'getelementsforuser',
-		'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-	),
-	'getelementsforuser'
+		'user_id' => $cash_admin->effective_user_id
+	)
 );
 
 $elements_data = AdminHelper::getElementsData();

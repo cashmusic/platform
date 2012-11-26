@@ -1,5 +1,5 @@
 <?php
-$effective_user = AdminHelper::getPersistentData('cash_effective_user');
+$effective_user = $cash_admin->effective_user_id;
 
 if (isset($_POST['docontactedit'])) {
 	$edit_response = $cash_admin->requestAndStore(

@@ -80,16 +80,23 @@ class CommercePlant extends PlantBase {
 		return $result;
 	}
 	
-	protected function getItem($id) {
+	protected function getItem($id,$user_id=false) {
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $id
+			)
+		);
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
 		$result = $this->db->getData(
 			'items',
 			'*',
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $id
-				)
-			)
+			$condition
 		);
 		if ($result) {
 			return $result[0];
@@ -114,7 +121,8 @@ class CommercePlant extends PlantBase {
 		$physical_depth=false,
 		$variable_pricing=false,
 		$fulfillment_asset=false,
-		$descriptive_asset=false
+		$descriptive_asset=false,
+		$user_id=false
 	   ) {
 		$final_edits = array_filter(
 			array(
@@ -136,28 +144,42 @@ class CommercePlant extends PlantBase {
 			),
 			'CASHSystem::notExplicitFalse'
 		);
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $id
+			)
+		);
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
 		$result = $this->db->setData(
 			'items',
 			$final_edits,
-			array(
-				'id' => array(
-					'condition' => '=',
-					'value' => $id
-				)
-			)
+			$condition
 		);
 		return $result;
 	}
 	
-	protected function deleteItem($id) {
+	protected function deleteItem($id,$user_id=false) {
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $id
+			)
+		);
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
 		$result = $this->db->deleteData(
 			'items',
-			array(
-				'id' => array(
-					'condition' => '=',
-					'value' => $id
-				)
-			)
+			$condition
 		);
 		return $result;
 	}
@@ -220,7 +242,7 @@ class CommercePlant extends PlantBase {
 		}
 	}
 	
-	protected function getOrder($id,$deep=false) {
+	protected function getOrder($id,$deep=false,$user_id=false) {
 		if ($deep) {
 			$result = $this->db->getData(
 				'CommercePlant_getOrder_deep',
@@ -233,6 +255,11 @@ class CommercePlant extends PlantBase {
 				)
 			);
 			if ($result) {
+				if ($user_id) {
+					if ($result[0]['user_id'] != $user_id) {
+						return false;
+					}
+				}
 				$result[0]['order_totals'] = $this->getOrderTotals($result[0]['order_contents']);
 				$user_request = new CASHRequest(
 					array(
@@ -244,15 +271,22 @@ class CommercePlant extends PlantBase {
 				$result[0]['customer_details'] = $user_request->response['payload'];
 			}
 		} else {
+			$condition = array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $id
+				)
+			);
+			if ($user_id) {
+				$condition['user_id'] = array(
+					"condition" => "=",
+					"value" => $user_id
+				);
+			}
 			$result = $this->db->getData(
 				'orders',
 				'*',
-				array(
-					"id" => array(
-						"condition" => "=",
-						"value" => $id
-					)
-				)
+				$condition
 			);
 		}
 		if ($result) {
@@ -272,7 +306,8 @@ class CommercePlant extends PlantBase {
 		$order_contents=false,
 		$transaction_id=false,
 		$physical=false,
-		$digital=false
+		$digital=false,
+		$user_id=false
 	) {
 		if ($order_contents) {
 			$order_contents = json_encode($order_contents);
@@ -291,15 +326,22 @@ class CommercePlant extends PlantBase {
 			),
 			'CASHSystem::notExplicitFalse'
 		);
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $id
+			)
+		);
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
 		$result = $this->db->setData(
 			'orders',
 			$final_edits,
-			array(
-				'id' => array(
-					'condition' => '=',
-					'value' => $id
-				)
-			)
+			$condition
 		);
 		return $result;
 	}
@@ -364,16 +406,23 @@ class CommercePlant extends PlantBase {
 		return $result;
 	}
 	
-	protected function getTransaction($id) {
+	protected function getTransaction($id,$user_id=false) {
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $id
+			)
+		);
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
 		$result = $this->db->getData(
 			'transactions',
 			'*',
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $id
-				)
-			)
+			$condition
 		);
 		if ($result) {
 			return $result[0];
