@@ -50,6 +50,46 @@ if (isset($_REQUEST['data_only'])) {
 }
 
 /**
+ * USER LOGIN
+ * look specifically for a 'login' POST parameter and handle the actual login
+ */
+$cash_admin->page_data['login_message'] = 'Hello. Log In';
+if (isset($_POST['login'])) {
+	$browseridassertion = false;
+	if (isset($_POST['browseridassertion'])) {
+		if ($_POST['browseridassertion'] != -1) {
+			$browseridassertion = $_POST['browseridassertion'];
+		}
+	}
+	$login_details = AdminHelper::doLogin($_POST['address'],$_POST['password'],true,$browseridassertion);
+	if ($login_details !== false) {
+		CASHSystem::startSession();
+		$admin_primary_cash_request->sessionSet('cash_actual_user',$login_details);
+		$admin_primary_cash_request->sessionSet('cash_effective_user',$login_details);
+		$cash_admin->effective_user_id = $login_details;
+		if ($browseridassertion) {
+			$address = CASHSystem::getBrowserIdStatus($browseridassertion);
+		} else {
+			$address = $_POST['address'];
+		}
+		$admin_primary_cash_request->sessionSet('cash_effective_user_email',$address);
+		
+		$run_login_scripts = true;
+		
+		$cash_admin->page_data['fullredraw'] = true;
+	} else {
+		$admin_primary_cash_request->sessionClearAll();
+		$cash_admin->page_data['login_message'] = 'Try Again';
+		$cash_admin->page_data['login_error'] = true;
+	}
+}
+
+if ($run_login_scripts) {
+	// handle initial login chores
+	$cash_admin->runAtLogin();
+}
+
+/**
  * ROUTING
  * grab path from .htaccess redirect, determine the appropriate route, parse out 
  * additional parameters
@@ -112,45 +152,6 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH)) && ($_REQUES
 // be sure that $cash_admin->page_data['requested_route'] has been set
 if (!isset($cash_admin->page_data['requested_route'])) {
 	$cash_admin->page_data['requested_route'] = '/';
-}
-
-/**
- * USER LOGIN
- * look specifically for a 'login' POST parameter and handle the actual login
- */
-$cash_admin->page_data['login_message'] = 'Hello. Log In';
-if (isset($_POST['login'])) {
-	$browseridassertion = false;
-	if (isset($_POST['browseridassertion'])) {
-		if ($_POST['browseridassertion'] != -1) {
-			$browseridassertion = $_POST['browseridassertion'];
-		}
-	}
-	$login_details = AdminHelper::doLogin($_POST['address'],$_POST['password'],true,$browseridassertion);
-	if ($login_details !== false) {
-		CASHSystem::startSession();
-		$admin_primary_cash_request->sessionSet('cash_actual_user',$login_details);
-		$admin_primary_cash_request->sessionSet('cash_effective_user',$login_details);
-		if ($browseridassertion) {
-			$address = CASHSystem::getBrowserIdStatus($browseridassertion);
-		} else {
-			$address = $_POST['address'];
-		}
-		$admin_primary_cash_request->sessionSet('cash_effective_user_email',$address);
-		
-		$run_login_scripts = true;
-		
-		$cash_admin->page_data['fullredraw'] = true;
-	} else {
-		$admin_primary_cash_request->sessionClearAll();
-		$cash_admin->page_data['login_message'] = 'Try Again';
-		$cash_admin->page_data['login_error'] = true;
-	}
-}
-
-if ($run_login_scripts) {
-	// handle initial login chores
-	$cash_admin->runAtLogin();
 }
 
 /**
