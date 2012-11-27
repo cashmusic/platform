@@ -90,7 +90,7 @@
 	 */public function startSession($reset_session_id=false,$force_session_id=false) {
 		// if 'session_id' is already set in script store then we've already started 
 		// the session in this script, do not hammer the database needlessly
-		if (!$this->sessionGet('session_id','script')) {
+		if (!$this->sessionGet('start_time','script') || $reset_session_id || $force_session_id) {
 			if ($force_session_id) {
 				$this->sessionSet('session_id',$force_session_id,'script');
 			}
@@ -158,6 +158,11 @@
 				$previous_session
 			);
 			$this->sessionSet('session_id',$session_id,'script');
+			$this->sessionSet('start_time',time(),'script');
+		}
+		// garbage collection daemon. 2% chance of running.
+		if (rand(1,100) <= 2) {
+			$gc = new CASHDaemon();
 		}
 		return true;
 	}

@@ -11,48 +11,40 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  */class CASHDaemon extends CASHData {
-	public $lottery_val,
-		   $user_id = false,
-		   $go = false;
+	private $user_id = false;		   
 
-	public function __construct($user_id=false,$chance=3) {
-		$this->lottery_val = rand(1,100);
+	public function __construct($user_id=false) {
 		$this->user_id = $user_id;
-		if ($this->lottery_val <= $chance) {
-			$this->go = true;
-		}
+		$this->connectDB();
 	}
 
-	private function clearOldSessions() {
-		
+	private function clearExpiredSessions() {
+		$this->db->deleteData(
+			'sessions',
+			array(
+				'expiration_date' => array(
+					'condition' => '<',
+					'value' => time()
+				)
+			)
+		);
 	}
 
 	private function clearOldTokens() {
-		
-	}
-
-	private function pollUserAccounts() {
-		
-	}
-
-	private function setAnalytics() {
-		
-	}
-
-	public function getAnalytics() {
-		$return_array = array('last_run' => rand(1,110283348));
-		return $return_array;
+		$this->db->deleteData(
+			'people_resetpassword',
+			array(
+				'creation_date' => array(
+					'condition' => '<',
+					'value' => time() - 86400
+				)
+			)
+		);
 	}
 
 	public function __destruct() {
-		if ($this->go) {
-			$this->clearOldSessions();
-			$this->clearOldTokens();
-			if ($this->user_id) {
-				$this->pollUserAccounts();
-			}
-			$this->setAnalytics();
-		}
+		$this->clearExpiredSessions();
+		$this->clearOldTokens();
 	}
 } // END class 
 ?>
