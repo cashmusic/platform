@@ -58,5 +58,9 @@ if (is_array($user_request['payload'])) {
 	}
 }
 
+if ($cash_admin->platform_type == 'single') {
+	$cash_admin->page_data['platform_type_single'] = true;
+}
+
 $cash_admin->setPageContentTemplate('account');
 ?>

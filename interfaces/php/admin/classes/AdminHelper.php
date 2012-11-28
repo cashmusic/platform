@@ -37,6 +37,11 @@
 
 	public static function buildSectionNav() {
 		$pages_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/menu/menu_en.json'),true);
+		// remove non-multi links
+		$platform_type = CASHSystem::getSystemSettings('instancetype');
+		if ($platform_type == 'multi') {
+			unset($pages_array['settings/update']);
+		}
 		$endpoint = str_replace('_','/',BASE_PAGENAME);
 		$endpoint_parts = explode('/',$endpoint);
 		$section_pages = array();

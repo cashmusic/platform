@@ -4,7 +4,7 @@
 	"type":"com.paypal",
 	"seed":"PaypalSeed",
 	"scope":["commerce"],
-	"compatibility":["single","multi"],
+	"compatibility":["single"],
 	"interface":{
 		"single":"generate",
 		"multi":"docallback"

@@ -32,5 +32,13 @@ abstract class SeedBase extends CASHData {
 			}
 		}
 	}
+
+	public static function getRedirectMarkup() {
+		return 'This seed does not have a redirect authorization flow.';
+	}
+
+	public static function handleRedirectReturn($data=false) {
+		return 'This seed does not have a redirect authorization flow.';
+	}
 } // END class 
 ?>

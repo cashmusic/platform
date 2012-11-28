@@ -33,17 +33,19 @@
 </div>
 
 <div class="row_seperator tall">.</div><br />
-<div>
-	<h3>API Key / Secret</h3>
-	<p>
-		API details for developer access:
-	</p>
-	<div class="callout">
-		<code>
-		<b>API endpoint:</b> {{api_url}}<br /><br />
-		<b>Key:</b> {{api_key}} &nbsp; &nbsp; 
-		<b>Secret:</b> 
-		{{#api_secret}}{{api_secret}}{{/api_secret}}{{^api_secret}}<a href="?reveal=true">Click to reveal API Secret</a>{{/api_secret}}
-		</code>
+{{#platform_type_single}}
+	<div>
+		<h3>API Key / Secret</h3>
+		<p>
+			API details for developer access:
+		</p>
+		<div class="callout">
+			<code>
+			<b>API endpoint:</b> {{api_url}}<br /><br />
+			<b>Key:</b> {{api_key}} &nbsp; &nbsp; 
+			<b>Secret:</b> 
+			{{#api_secret}}{{api_secret}}{{/api_secret}}{{^api_secret}}<a href="?reveal=true">Click to reveal API Secret</a>{{/api_secret}}
+			</code>
+		</div>
 	</div>
-</div>
+{{/platform_type_single}}

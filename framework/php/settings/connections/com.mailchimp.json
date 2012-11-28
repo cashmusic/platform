@@ -4,7 +4,7 @@
 	"type":"com.mailchimp",
 	"seed":"MailchimpSeed",
 	"scope":["users","lists","list_members"],
-	"compatibility":["single","multi"],
+	"compatibility":["single"],
 	"interface":{
 		"single":"generate",
 		"multi":"docallback"
