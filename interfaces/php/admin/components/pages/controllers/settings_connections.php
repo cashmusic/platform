@@ -102,13 +102,17 @@ if ($settings_action) {
 							$finalize = true;
 						}
 					}
+					$seed_name = $settings_types_data[$settings_type]['seed'];
 					if (!$finalize) {
 						$return_url = rtrim(CASHSystem::getCurrentURL(),'/') . '/finalize';
-						$cash_admin->page_data['state_markup'] = $settings_types_data[$settings_type]['seed']::getRedirectMarkup($return_url);
+						// Here's a really fucked up way of calling $seed_name::getRedirectMarkup($return_url) [5.2+ compatibility]
+						$cash_admin->page_data['state_markup'] = call_user_func($seed_name . '::getRedirectMarkup', array($return_url));
 					} else {
+						// Here's a really fucked up way of calling $seed_name::handleRedirectReturn($_GET) [5.2+ compatibility]
 						$connections_base_uri = rtrim(str_replace($request_parameters,'',CASHSystem::getCurrentURL()),'/');
 						$_GET['connections_base_uri'] = $connections_base_uri;
-						$cash_admin->page_data['state_markup'] = $settings_types_data[$settings_type]['seed']::handleRedirectReturn($_GET);
+						$cash_admin->page_data['state_markup'] = call_user_func($seed_name . '::handleRedirectReturn', array($_GET));
+						//$cash_admin->page_data['state_markup'] = $seed_name::handleRedirectReturn($_GET);
 					}
 				}
 			}
