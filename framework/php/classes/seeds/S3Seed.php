@@ -34,7 +34,7 @@ class S3Seed extends SeedBase {
 		}
 	}
 
-	public static function getRedirectMarkup() {
+	public static function getRedirectMarkup($data=false) {
 		return '<b>popup stuff</b>';
 	}
 

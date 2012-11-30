@@ -80,7 +80,7 @@ if ($settings_action) {
 				}
 			} else {
 				// oauthy
-				if (!isset($_POST['dosettingsadd'])) {
+				if (isset($_POST['dosettingsadd'])) {
 					// grab the stuff we need from $_POST then strip it out, pass the rest as data to store with the connection
 					$settings_name = $_POST['settings_name'];
 					$settings_type = $_POST['settings_type'];
@@ -91,9 +91,9 @@ if ($settings_action) {
 						$_POST
 					);
 					if ($result) {
-						$cash_admin->page_data['action_message'] = '<b>Success.</b> Everything was added successfully. You\'ll see the new connection below.';
+						AdminHelper::formSuccess('Success. Connection added. You\'ll see it below.','/settings/connections/');
 					} else {
-						$cash_admin->page_data['action_message'] = '<b>Error.</b> Something went wrong. Please make sure there\'s not already an identical connection. That kind of makes sense, but it\'s also required.';
+						AdminHelper::formFailure('Error. Something just didn\'t work right.','/settings/connections/');
 					}
 				} else {
 					$finalize = false;
@@ -103,9 +103,12 @@ if ($settings_action) {
 						}
 					}
 					if (!$finalize) {
-						$cash_admin->page_data['state_markup'] = $settings_types_data[$settings_type]['seed']::getRedirectMarkup();
+						$return_url = rtrim(CASHSystem::getCurrentURL(),'/') . '/finalize';
+						$cash_admin->page_data['state_markup'] = $settings_types_data[$settings_type]['seed']::getRedirectMarkup($return_url);
 					} else {
-
+						$connections_base_uri = rtrim(str_replace($request_parameters,'',CASHSystem::getCurrentURL()),'/');
+						$_GET['connections_base_uri'] = $connections_base_uri;
+						$cash_admin->page_data['state_markup'] = $settings_types_data[$settings_type]['seed']::handleRedirectReturn($_GET);
 					}
 				}
 			}

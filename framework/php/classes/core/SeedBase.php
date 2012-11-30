@@ -33,7 +33,7 @@ abstract class SeedBase extends CASHData {
 		}
 	}
 
-	public static function getRedirectMarkup() {
+	public static function getRedirectMarkup($data=false) {
 		return 'This seed does not have a redirect authorization flow.';
 	}
 

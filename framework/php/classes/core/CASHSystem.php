@@ -273,6 +273,18 @@
 			// put all the settings into the current environment
 			$json_settings = json_encode($cash_settings);
 			putenv("cashmusic_platform_settings=$json_settings");
+		} else {
+			// so we found the environment variable — if we're on file-based settings the 'system_connections'
+			// would be set. if we're purely environment variables they wouldn't be present, so we add them
+			if (!isset($cash_settings['system_connections'])) {
+				if (file_exists(CASH_PLATFORM_ROOT.'/settings/connections.json')) {
+					$cash_settings['system_connections'] = json_decode(file_get_contents(CASH_PLATFORM_ROOT.'/settings/connections.json'),true);
+				}
+				$system_connections = json_decode(getenv('cashmusic_connection_settings'),true);
+				if ($system_connections) {
+					$cash_settings['system_connections'] = json_decode(getenv('cashmusic_connection_settings'),true);
+				}
+			}
 		}
 		if ($setting_name == 'all') {
 			return $cash_settings;

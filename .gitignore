@@ -3,6 +3,7 @@
 framework/cache/*
 framework/php/cache/*
 framework/php/settings/cashmusic.ini.php
+framework/php/settings/connections.json
 framework/db/*
 framework/php/db/*
 testinstall/*
