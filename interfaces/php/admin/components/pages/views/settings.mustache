@@ -36,20 +36,22 @@ Advanced settings have been hidden and should not be changed unless you like bro
 	{{/platform_type_single}}
 </div>
 <div class="col_oneoftwo lastcol">
-	<h3>Miscellaneous</h3>
-	<form accept-charset="UTF-8" method="post" action="">
-		<input type="hidden" name="domisc" value="makeitso" />
-		<label for="systememail">Default system email address</label><br />
-		<input type="text" id="systememail" name="systememail" value="{{{system_email}}}" />
-		<span class="altcopystyle fadedtext">(name@domain.com or "<span class="nobr">Name &lt;name@domain.com&gt;</span>")</span>
-		<div class="row_seperator">.</div>
-		<label for="timezone">System time zone</label><br />
-		<select id="timezone" name="timezone">
-			{{{timezone_options}}}
-		</select>
-		<div class="row_seperator">.</div><br />
-		<input class="button" type="submit" value="Change settings" />
-	</form>	
+	{{#platform_type_single}}
+		<h3>Miscellaneous</h3>
+		<form accept-charset="UTF-8" method="post" action="">
+			<input type="hidden" name="domisc" value="makeitso" />
+			<label for="systememail">Default system email address</label><br />
+			<input type="text" id="systememail" name="systememail" value="{{{system_email}}}" />
+			<span class="altcopystyle fadedtext">(name@domain.com or "<span class="nobr">Name &lt;name@domain.com&gt;</span>")</span>
+			<div class="row_seperator">.</div>
+			<label for="timezone">System time zone</label><br />
+			<select id="timezone" name="timezone">
+				{{{timezone_options}}}
+			</select>
+			<div class="row_seperator">.</div><br />
+			<input class="button" type="submit" value="Change settings" />
+		</form>	
+	{{/platform_type_single}}
 </div>
 <div class="row_seperator tall">.</div>
 {{#platform_type_single}}

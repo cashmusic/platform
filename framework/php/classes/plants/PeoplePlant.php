@@ -43,7 +43,7 @@ class PeoplePlant extends PlantBase {
 			'removeaddress'          => array('removeAddress','direct'),
 			'signintolist'           => array('validateUserForList',array('post','direct','api_key')),
 			'signup'                 => array('doSignup',array('direct','post','get','api_key')),
-			'verifyaddress'          => array('doAddressVerification','direct'),
+			'verifyaddress'          => array('doAddressVerification',array('direct','post','get')),
 			'viewlist'               => array('viewList','direct')
 		);
 		$this->plantPrep($request_type,$request);
@@ -244,7 +244,7 @@ class PeoplePlant extends PlantBase {
 			} else {
 				$do_not_verify = false;
 			}
-			$result = $this->addAddress($address,$list_id,$do_not_verify,$comment,'',$name);
+			$result = $this->addAddress($address,$list_id,$do_not_verify,$comment,'',$name,false,false,true,'&element_id='.$element_id);
 			return $result;
 		} else {
 			return false;
@@ -632,7 +632,7 @@ class PeoplePlant extends PlantBase {
 	 * @param {string} $additional_data -   any extra data (JSON, etc) a dev might pass with signup for later use
 	 * @param {string} $name -              if the user doesn't exist in the system this will be used as their display name
 	 * @return bool
-	 */protected function addAddress($address,$list_id,$do_not_verify=false,$initial_comment='',$additional_data='',$name='Anonymous',$force_verification_url=false,$request_from_service=false,$service_opt_in=true) {
+	 */protected function addAddress($address,$list_id,$do_not_verify=false,$initial_comment='',$additional_data='',$name='Anonymous',$force_verification_url=false,$request_from_service=false,$service_opt_in=true,$extra_querystring='') {
 		if (filter_var($address, FILTER_VALIDATE_EMAIL)) {
 			// first check to see if the email is already on the list
 			$user_id = $this->getUserIDForAddress($address);
@@ -689,7 +689,7 @@ class PeoplePlant extends PlantBase {
 							if (!$verification_url) {
 								$verification_url = CASHSystem::getCurrentURL();
 							}
-							$verification_url .= '?cash_request_type=people&cash_action=verifyaddress&address=' . urlencode($address) . '&list_id=' . $list_id . '&verification_code=' . $verification_code;
+							$verification_url .= '?cash_request_type=people&cash_action=verifyaddress&address=' . urlencode($address) . '&list_id=' . $list_id . '&verification_code=' . $verification_code . $extra_querystring;
 							CASHSystem::sendEmail(
 								'Complete sign-up for: ' . $list_details['name'],
 								$list_details['user_id'],

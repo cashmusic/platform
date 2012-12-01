@@ -591,7 +591,8 @@
 		
 		// handle encoding of HTML if specific HTML isn't passed in:
 		if (!$encoded_html) {
-			$template = @file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/system_email.mustache');
+			$template = @file_get_contents(CASH_PLATFORM_ROOT . '/settings/defaults/system_email.mustache');
+			error_log($template);
 			$encoded_html = str_replace("\n","<br />\n",preg_replace('/(http:\/\/(\S*))/', '<a href="\1">\1</a>', $message_text));
 			if (!$template) {
 				$encoded_html .= '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' . $message_title . '</title></head><body>'
@@ -599,7 +600,7 @@
 						  . "</body></html>";
 			} else {
 				// open up some mustache in here:
-				include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
+				include_once(CASH_PLATFORM_ROOT . '/lib/mustache/Mustache.php');
 				$higgins = new Mustache;
 				$mustache_vars = array(
 					'encoded_html' => $encoded_html,

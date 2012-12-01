@@ -3,10 +3,12 @@
 	<div class="drawer">
 		<p class="fadedtext">Grab a code to embed your element in CASH page/embed templates or with HTML5, PHP, or WordPress. <a class="drawerhandle">codes</a></p>
 		<div class="drawercontent">
-			<b class="fadedtext">CASH: </b><code><input type="text" value="&#123;&#123;&#123;element_{{id}}&#125;&#125;&#125;" /></code><br />
+			<b class="fadedtext">Local: </b><code><input type="text" value="&#123;&#123;&#123;element_{{id}}&#125;&#125;&#125;" /></code><br />
 			<b class="fadedtext">HTML5: </b><code><input type="text" value="&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt;window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;" /></code><br />
-			<b class="fadedtext">PHP: </b><code><input type="text" value="&lt;?php include_once('{{platform_path}}');CASHSystem::embedElement({{id}}); // ({{name}}) ?&gt;" /></code><br />
-			<b class="fadedtext">WordPress: </b><code><input type="text" value="[cashmusic element=&quot;{{id}}&quot; name=&quot;{{name}}&quot;]" /></code>
+			{{#platform_type_single}}
+				<b class="fadedtext">PHP: </b><code><input type="text" value="&lt;?php include_once('{{platform_path}}');CASHSystem::embedElement({{id}}); // ({{name}}) ?&gt;" /></code><br />
+				<b class="fadedtext">WordPress: </b><code><input type="text" value="[cashmusic element=&quot;{{id}}&quot; name=&quot;{{name}}&quot;]" /></code>
+			{{/platform_type_single}}
 		</div>
 	</div>
 </div>
