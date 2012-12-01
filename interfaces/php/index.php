@@ -46,7 +46,6 @@ if (isset($_GET['username'])) {
 			'username' => $_GET['username']
 		)
 	);
-	error_log(print_r($user_request->response['payload'],true));
 	if ($user_request->response['payload']) {
 		$user_id = $user_request->response['payload'];
 	} else {
