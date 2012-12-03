@@ -40,7 +40,7 @@
 		// remove non-multi links
 		$platform_type = CASHSystem::getSystemSettings('instancetype');
 		if ($platform_type == 'multi') {
-			unset($pages_array['settings/update']);
+			unset($pages_array['settings/update'],$pages_array['people/contacts']);
 		}
 		$endpoint = str_replace('_','/',BASE_PAGENAME);
 		$endpoint_parts = explode('/',$endpoint);
