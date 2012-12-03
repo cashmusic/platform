@@ -1,36 +1,62 @@
-<div class="col_oneoftwo">
-	<h3>Your email address</h3>
-	<p>Change the email address associated with this account. (Note: enter a new address and your current password. The new email address must not be associated with another user already.)
-	<form accept-charset="UTF-8" method="post" action="">
-		<input type="hidden" name="doemailchange" value="makeitso" />
+<form accept-charset="UTF-8" method="post" action="{{www_path}}/account/">
+	<input type="hidden" name="doaccountchange" value="makeitso" />
+	<div class="col_oneofthree">
 		<input type="hidden" name="email_address" value="{{email_address}}" />
-		<label for="new_email_address">Email</label><br />
+		<label for="new_email_address">Email address</label><br />
 		<input type="text" id="new_email_address" name="new_email_address" placeholder="{{email_address}}" />
-		<div class="row_seperator">.</div>
-		<label for="password">Password</label><br />
-		<input type="password" id="password" name="password" />
-		<div class="row_seperator">.</div>
-		<input class="button" type="submit" value="Change email address" />
-	</form>
-</div>
-<div class="col_oneoftwo lastcol">
-	<h3>Your password</h3>
+	</div>
+	<div class="col_oneofthree">
+		<label for="new_username">Username</label><br />
+		<input type="text" id="new_username" name="new_username" placeholder="{{username}}" />
+	</div>
+	<div class="col_oneofthree lastcol">
+		<label for="new_password">New password (Blank = no change)</label><br />
+		<input type="password" id="new_password" name="new_password" autocomplete="off" />
+		<input type="checkbox" id="toggle_password" /><label for="toggle_password">Reveal text</label><br />
+	</div>
+
+<div class="col_oneofthree">
+	<div class="row_seperator tall">.</div>
 	<p>
-		To change your password you'll need to verify your current password and specify a new one.
-		(You can set the password in plain text, but it will be encrypted and stored.)
+		Please enter your current password to make changes:
 	</p>
-	<form accept-charset="UTF-8" method="post" action="">
-		<input type="hidden" name="dopasswordchange" value="makeitso" />
-		<input type="hidden" name="email_address" value="{{email_address}}" />
-		<label for="password">Current password</label><br />
-		<input type="password" id="password" name="password" />
-		<div class="row_seperator">.</div>
-		<label for="new_password">New password (Plain text for your review)</label><br />
-		<input type="text" id="new_password" name="new_password" autocomplete="off" />
-		<div class="row_seperator">.</div>
-		<input class="button" type="submit" value="Change password" />
-	</form>
+	<label for="password">Password</label><br />
+	<input type="password" id="password" name="password" autocomplete="off" />
+	<div class="row_seperator">.</div>
+	<input class="button" type="submit" value="Make changes" />
 </div>
+</form>
+
+<script type="text/javascript">
+	// http://www.electrictoolbox.com/toggle-password-field-text-password/
+	(function() {
+		try {
+			var p = document.getElementById('new_password');
+			p.type = 'text';
+			p.type = 'password';
+
+			var toggle = document.getElementById('toggle_password');
+			toggle.addEventListener('click', toggleClicked, false);
+			toggle.style.display = 'inline';
+			
+		}
+		catch(err) {}
+	})();
+
+	function toggleClicked() {
+		var p = document.getElementById('new_password');
+		var value = p.value;
+
+		if(p.type == 'password') {
+			p.type = 'text';
+		}
+		else {
+			p.type = 'password';
+		}
+		
+		p.value = value;
+	} 
+</script>
 
 <div class="row_seperator tall">.</div><br />
 {{#platform_type_single}}
