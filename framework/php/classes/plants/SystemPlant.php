@@ -105,8 +105,10 @@ class SystemPlant extends PlantBase {
 	 * the login analytics to be tied to a specific element. 
 	 *
 	 * @return array|false
-	 */protected function validateLogin($address,$password,$require_admin=false,$verified_address=false,$browserid_assertion=false,$element_id=null) {
-		$this->sessionClearAll();
+	 */protected function validateLogin($address,$password,$require_admin=false,$verified_address=false,$browserid_assertion=false,$element_id=null,$keep_session=false) {
+		if (!$keep_session) {
+			$this->sessionClearAll();
+		}
 		$login_method = 'internal';
 		if ($verified_address && !$address) {
 			// claiming verified without an address? false!
@@ -227,23 +229,35 @@ class SystemPlant extends PlantBase {
 	 *
 	 * @param {int} $user_id -  the user
 	 * @return array|false
-	 */protected function setLoginCredentials($user_id,$address,$password) {
-		$password_hash = $this->generatePasswordHash($password);
+	 */protected function setLoginCredentials($user_id,$address=false,$password=false,$username=false) {
+		if ($password) {
+			$password_hash = $this->generatePasswordHash($password);	
+		}
 
-		$credentials = array(
-			'email_address' => $address,
-			'password' => $password_hash
-		);
-		$result = $this->db->setData(
-			'users',
-			$credentials,
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $user_id
+		$credentials = array();
+		if ($address) {
+			$credentials['email_address'] = $address;
+		}
+		if ($password) {
+			$credentials['password'] = $password_hash;
+		}
+		if ($username) {
+			$credentials['username'] = $username;
+		}
+		if (count($credentials)) {
+			$result = $this->db->setData(
+				'users',
+				$credentials,
+				array(
+					"id" => array(
+						"condition" => "=",
+						"value" => $user_id
+					)
 				)
-			)
-		);
+			);
+		} else {
+			$result = false;
+		}
 		return $result;
 	}
 
