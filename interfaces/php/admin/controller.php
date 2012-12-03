@@ -315,7 +315,10 @@ if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
 // final output
 if ($cash_admin->page_data['data_only']) {
 	// data_only means we're working with AJAX requests, so dump valid JSON to the browser for the script to parse
-	$cash_admin->page_data['fullredraw'] = true;
+	if (!AdminHelper::getPersistentData('cash_effective_user')) {
+		// set to a full redraw if we don't have session data (aka: we just logged out)
+		$cash_admin->page_data['fullredraw'] = true;
+	}
 	$cash_admin->page_data['fullcontent'] = $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/' . $template_name . '.mustache'), $cash_admin->page_data);
 	echo json_encode($cash_admin->page_data);
 } else {

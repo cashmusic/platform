@@ -112,6 +112,9 @@
 		$('#pagedisplay').fadeTo(100,0.2, function() {
 			// do a POST to get the page data, change pushstate, redraw page
 			jQuery.post(url, formdata+'data_only=1', function(data) {
+				if (!("doredirect" in data)){
+					data.doredirect = false;
+				}
 				if (data.doredirect) {
 					if (data.showerror) {
 						refreshPageData(data.location,false,data.showerror);
@@ -121,6 +124,9 @@
 						refreshPageData(data.location);
 					}
 				} else {
+					if (!("fullredraw" in data)){
+						data.fullredraw = false;
+					}
 					if (!skiphistory) {
 						history.pushState(null, null, url);
 					}
