@@ -192,7 +192,15 @@ class SystemPlant extends PlantBase {
 	 * @param {string} $password - the password
 	 * @return array|false
 	 */protected function addLogin($address,$password,$is_admin=0,$username='',$display_name='Anonymous',$first_name='',$last_name='',$organization='',$address_country='',$force52compatibility=false) {
-		$password_hash = $this->generatePasswordHash($password,$force52compatibility);
+		if ($is_admin) {
+			$password_hash = $this->generatePasswordHash($password,$force52compatibility);
+		} else {
+			// blank string for password hash if not an admin — will disallow logins withou
+			// a reset, but that's a good thing. and for sign-in style elements we'll simly 
+			// provide a password reset (a la the admin), which is good UX anyway. this will
+			// greatly speed things up...
+			$password_hash = '';
+		}
 
 		$result = $this->db->setData(
 			'users',
