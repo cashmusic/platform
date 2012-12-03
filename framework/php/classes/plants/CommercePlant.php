@@ -635,8 +635,8 @@ class CommercePlant extends PlantBase {
 									try {
 										CASHSystem::sendEmail(
 											'Your download is ready',
-											CASHSystem::getDefaultEmail(),
 											$order_details['user_id'],
+											$order_details['customer_user_id'],
 											'Your download of "' . $initial_details['L_PAYMENTREQUEST_0_NAME0'] . '" is ready and can be found at: '
 											. CASHSystem::getCurrentURL() . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
 											. '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($initial_details['EMAIL']),

@@ -556,7 +556,24 @@
 	 */public static function sendEmail($subject,$user_id,$toaddress,$message_text,$message_title,$encoded_html=false) {
 		// TODO: look up user settings for email if user_id is set
 		$email_settings = CASHSystem::getDefaultEmail(true);
-		$fromaddress = $email_settings['systememail'];
+		if (CASHSystem::getSystemSettings('instancetype') == 'multi' && $user_id) {
+			$user_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'people', 
+					'cash_action' => 'getuser',
+					'user_id' => $user_id
+				)
+			);
+			$user_details = $user_request->response['payload'];
+			if ($user_details['username']) {
+				$fromaddress = $user_details['username'] . ' <' . $user_details['email_address'] . '>';
+				error_log($fromaddress);
+			} else {
+				$fromaddress = $user_details['email_address'];
+			}
+		} else {
+			$fromaddress = $email_settings['systememail'];
+		}
 
 		// deal with SMTP settings later:
 		$smtp = $email_settings['smtp'];

@@ -243,7 +243,7 @@ if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
 							   . 'Thank you.';
 				CASHSystem::sendEmail(
 					'A password reset has been requested',
-					CASHSystem::getDefaultEmail(),
+					false,
 					$_POST['address'],
 					$reset_message,
 					'Reset your password?'
