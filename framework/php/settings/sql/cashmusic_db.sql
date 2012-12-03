@@ -40,7 +40,7 @@ CREATE TABLE `assets_analytics` (
   `access_time` int(11) NOT NULL,
   `client_ip` varchar(39) NOT NULL,
   `client_proxy` varchar(39) NOT NULL,
-  `cash_session_id` varchar(24) NOT NULL,
+  `cash_session_id` varchar(255) NOT NULL,
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
