@@ -4,46 +4,48 @@
 	<div class="closelink"><a href="{{www_path}}/_?hidebanner=true">close <span class="icon cancel-circle"></span></a></div></div>
 {{/banner_main_content}}
 
-{{^elements_for_user}}
-<div class="gettingstarted">
-	<h2>You're done installing, now let's get started</h2>
-	So the database is set up and if you're seeing this all the configuration is right. There are just 
-	a few easy steps before you publishing your first working CASH Music element.
+{{#platform_type_single}}
+	{{^elements_for_user}}
+	<div class="gettingstarted">
+		<h2>You're done installing, now let's get started</h2>
+		So the database is set up and if you're seeing this all the configuration is right. There are just 
+		a few easy steps before you publishing your first working CASH Music element.
 
-	<div class="row_seperator">.</div><br />
+		<div class="row_seperator">.</div><br />
 
-	<div class="col_oneofthree{{#step1_complete}} complete{{/step1_complete}}">
-		<h3>Step 1: System stettings</h3>
-		<p>
-			Before you go too far you should change default settings like the system email and the time-zone. Add any 
-			third-party connections you want to start using.
-		</p>
-		<a href="{{www_path}}/settings/" class="featured"><span class="icon settings-2"></span> Email and time-zone</a><br />
-		<a href="{{www_path}}/settings/connections/" class="featured"><span class="icon wiggle"></span> Connect services</a>
+		<div class="col_oneofthree{{#step1_complete}} complete{{/step1_complete}}">
+			<h3>Step 1: System stettings</h3>
+			<p>
+				Before you go too far you should change default settings like the system email and the time-zone. Add any 
+				third-party connections you want to start using.
+			</p>
+			<a href="{{www_path}}/settings/" class="featured"><span class="icon settings-2"></span> Email and time-zone</a><br />
+			<a href="{{www_path}}/settings/connections/" class="featured"><span class="icon wiggle"></span> Connect services</a>
+		</div>
+
+		<div class="col_oneofthree{{#step2_complete}} complete{{/step2_complete}}">
+			<h3>Step 2: Add your stuff</h3>
+			<p>
+				The platform works with your content and your world — so start by adding an MP3 or setting up an email list. 
+			</p>
+			<a href="{{www_path}}/assets/" class="usecolor1 featured"><span class="icon menu"></span> Add a new asset</a><br />
+			<a href="{{www_path}}/people/" class="usecolor2 featured"><span class="icon address-book"></span> Create an email list</a>
+		</div>
+
+		<div class="col_oneofthree lastcol">
+			<h3>Step 3: Publish!</h3>
+			<p>
+				You're ready to create your first element. Try something simple like an email capture element. Point
+				to an existing list, maybe offer a download, and then embed with the code you're given.
+			</p>
+			<a href="{{www_path}}/elements/add/" class="usecolor5 featured"><span class="icon circle-add"></span> Add your first element</a>
+		</div>
+
+		<div class="row_seperator">.</div><br /><br />
+		<span class="helpspc"><b>Need more help?</b> Check out the <a href="{{www_path}}/help/gettingstarted/" class="helplink">Getting Started</a> page.</span>
 	</div>
-
-	<div class="col_oneofthree{{#step2_complete}} complete{{/step2_complete}}">
-		<h3>Step 2: Add your stuff</h3>
-		<p>
-			The platform works with your content and your world — so start by adding an MP3 or setting up an email list. 
-		</p>
-		<a href="{{www_path}}/assets/" class="usecolor1 featured"><span class="icon menu"></span> Add a new asset</a><br />
-		<a href="{{www_path}}/people/" class="usecolor2 featured"><span class="icon address-book"></span> Create an email list</a>
-	</div>
-
-	<div class="col_oneofthree lastcol">
-		<h3>Step 3: Publish!</h3>
-		<p>
-			You're ready to create your first element. Try something simple like an email capture element. Point
-			to an existing list, maybe offer a download, and then embed with the code you're given.
-		</p>
-		<a href="{{www_path}}/elements/add/" class="usecolor5 featured"><span class="icon circle-add"></span> Add your first element</a>
-	</div>
-
-	<div class="row_seperator">.</div><br /><br />
-	<span class="helpspc"><b>Need more help?</b> Check out the <a href="{{www_path}}/help/gettingstarted/" class="helplink">Getting Started</a> page.</span>
-</div>
-{{/elements_for_user}}
+	{{/elements_for_user}}
+{{/platform_type_single}}
 
 {{#elements_for_user}}
 	<div class="col_oneofthree">

@@ -93,5 +93,9 @@ if (is_array($user_response['payload'])) {
 	}
 $cash_admin->page_data['user_page_uri'] = rtrim(str_replace('admin', $current_username, CASHSystem::getCurrentURL()),'/');
 
+if ($cash_admin->platform_type == 'single') {
+	$cash_admin->page_data['platform_type_single'] = true;
+}
+
 $cash_admin->setPageContentTemplate('mainpage');
 ?>

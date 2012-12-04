@@ -567,7 +567,6 @@
 			$user_details = $user_request->response['payload'];
 			if ($user_details['username']) {
 				$fromaddress = $user_details['username'] . ' <' . $user_details['email_address'] . '>';
-				error_log($fromaddress);
 			} else {
 				$fromaddress = $user_details['email_address'];
 			}
