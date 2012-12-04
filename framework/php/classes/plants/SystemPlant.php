@@ -236,13 +236,34 @@ class SystemPlant extends PlantBase {
 
 		$credentials = array();
 		if ($address) {
-			$credentials['email_address'] = $address;
+			$id_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'people', 
+					'cash_action' => 'getuseridforaddress',
+					'address' => $address
+				)
+			);
+			if (!$id_request->response['payload']) {
+				// only go if not found. if it's found and different, then we can't have that email.
+				// if it's found but the same, then why bother changing?
+				$credentials['email_address'] = $address;
+			}
 		}
 		if ($password) {
 			$credentials['password'] = $password_hash;
 		}
 		if ($username) {
-			$credentials['username'] = $username;
+			$id_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'people', 
+					'cash_action' => 'getuseridforusername',
+					'username' => $username
+				)
+			);
+			if (!$id_request->response['payload']) {
+				// only go if not found. same reasons as above. seriously. you know what i'm saying.
+				$credentials['username'] = $username;
+			}
 		}
 		if (count($credentials)) {
 			$result = $this->db->setData(

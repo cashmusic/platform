@@ -41,7 +41,7 @@ if (isset($_POST['doaccountchange'])) {
 			}
 			AdminHelper::formSuccess('Success. All changed.');
 		} else {
-			AdminHelper::formFailure('Error. We had a problem resetting your login. Please try again.');
+			AdminHelper::formFailure('Error. We had a problem resetting your login. Please try again. Email addresses and usernames have to be unique in the system.');
 		}
 	}
 }
