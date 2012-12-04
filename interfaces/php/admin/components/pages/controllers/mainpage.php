@@ -81,5 +81,17 @@ if (is_array($elements_response['payload'])) {
 	}
 }
 
+$user_response = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'people', 
+		'cash_action' => 'getuser',
+		'user_id' => $cash_admin->effective_user_id
+	)
+);
+if (is_array($user_response['payload'])) {
+		$current_username = $user_response['payload']['username'];
+	}
+$cash_admin->page_data['user_page_uri'] = rtrim(str_replace('admin', $current_username, CASHSystem::getCurrentURL()),'/');
+
 $cash_admin->setPageContentTemplate('mainpage');
 ?>
