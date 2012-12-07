@@ -16,7 +16,9 @@
 			"bucket":"string"
 		},
 		"multi": {
-			"bucket":"string"	
+			"key":"string",
+			"secret":"string",
+			"email":"string"
 		}
 	}
 }

@@ -21,7 +21,16 @@ class S3Seed extends SeedBase {
 		$this->connectDB();
 		if ($this->getCASHConnection()) {
 			require_once(CASH_PLATFORM_ROOT.'/lib/S3.php');
-			$this->s3 = new S3($this->settings->getSetting('key'), $this->settings->getSetting('secret'));
+			$s3_key = $this->settings->getSetting('key');
+			$s3_secret = $this->settings->getSetting('secret');
+			if (!$s3_key || !$s3_secret) {
+				$connections = CASHSystem::getSystemSettings('system_connections');
+				if (isset($connections['com.amazon'])) {
+					$s3_key = $connections['com.amazon']['key'];
+					$s3_secret = $connections['com.amazon']['secret'];
+				}
+			}
+			$this->s3 = new S3($s3_key,$s3_secret);
 			$this->bucket = $this->settings->getSetting('bucket');
 		} else {
 			/* 
@@ -35,15 +44,82 @@ class S3Seed extends SeedBase {
 	}
 
 	public static function getRedirectMarkup($data=false) {
-		return '<b>popup stuff</b>';
+		$return_markup = '<h3>Connect to Amazon S3</h3>'
+					   . '<p>You\'ll need your S3 key, secret, and a bucket name to proceed. For security reasons '
+					   . 'we don\'t store your key and secret — you\'re granting permission to our own account to access the '
+					   . 'bucket, which you can revoke any time.</p>'
+					   . '<form accept-charset="UTF-8" method="post" action="' . $data . '">'
+					   . '<label for="key">Key</label><br /><input type="text" name="key" value="" /><br />'
+					   . '<label for="secret">Secret</label><br /><input type="text" name="secret" value="" />'
+					   . '<div class="row_seperator">.</div><br />'
+					   . '<label for="bucket">Bucket name</label><br /><input type="text" name="bucket" value="" />'
+					   . '<div class="row_seperator">.</div><br />'
+					   . '<div><input class="button" type="submit" value="Add The Connection" /></div>'
+					   . '</form>';
+		return $return_markup;
 	}
 
 	public static function handleRedirectReturn($data=false) {
+		$connections = CASHSystem::getSystemSettings('system_connections');
+		if (isset($connections['com.amazon'])) {
+			$s3_default_email = $connections['com.amazon']['email'];
+		} else {
+			$s3_default_email = false;
+		}
+		$success = S3Seed::connectAndAuthorize($data['key'],$data['secret'],$data['bucket'],$s3_default_email);
+		if ($success) {
+			// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth 
+			// calls would only happen in the admin. If this changes we can fuck around with it later.
+			$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+			$result = $new_connection->setSettings(
+				$data['bucket'] . ' (Amazon S3)',
+				'com.amazon',
+				array(
+					'bucket' => $data['bucket']
+				)
+			);
+			if ($result) {
+				AdminHelper::formSuccess('Success. Connection added. You\'ll see it below.','/settings/connections/');
+			} else {
+				AdminHelper::formFailure('Error. Something just didn\'t work right.','/settings/connections/');
+			}
+		} else {
+			$return_markup = '<h3>Error</h3>'
+						   . '<p>We couldn\'t connect with your S3 account. Please check the key, secret, and bucket and try again.</p>';
+		}
+		return $return_markup;
+	}
 
+	public static function connectAndAuthorize($key,$secret,$bucket,$email,$auth_type='FULL_CONTROL') {
+		require_once(CASH_PLATFORM_ROOT.'/lib/S3.php');
+		$s3_instance = new S3($key,$secret);
+		$acp = $s3_instance->getAccessControlPolicy($bucket);
+		if (is_array($acp)) {
+			$acp['acl'][] = array('email' => $email,'permission'=>$auth_type);
+			return $s3_instance->setAccessControlPolicy($bucket,'',$acp);
+		} else {
+			return false;
+		}
 	}
 
 	public function getBucketName() {
 		return $this->bucket;
+	}
+
+	// pass-through to S3 class
+	public function getAccessControlPolicy($bucket,$uri='') {
+		return $this->s3->getAccessControlPolicy($bucket,$uri);
+	}
+
+	// pass-through to S3 class
+	public function setAccessControlPolicy($bucket,$uri='',$acp=array()) {
+		return $this->s3->setAccessControlPolicy($bucket,$uri,$acp);
+	}
+
+	public function authorizeEmailForBucket($bucket,$address,$auth_type='FULL_CONTROL') {
+		$acp = $this->s3->getAccessControlPolicy($bucket);
+		$acp['acl'][] = array('email' => $address,'permission'=>$auth_type);
+		return $this->s3->setAccessControlPolicy($bucket,'',$acp);
 	}
 	
 	public function getExpiryURL($path,$timeout=1000,$attachment=true,$private=true,$mime_type=true) {

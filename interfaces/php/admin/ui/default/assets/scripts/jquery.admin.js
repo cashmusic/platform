@@ -104,6 +104,9 @@
 			formdata = formdata+'&';
 		}
 		// remove any dialogs
+		$('.modallightbox').fadeOut('fast', function() {
+			$('.modallightbox').remove();
+		});
 		$('.modalbg').fadeOut('fast', function() {
 			$('.modalbg').remove();
 		});
