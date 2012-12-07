@@ -501,7 +501,20 @@ abstract class OAuth2Client {
     
     if ($this->debug) print('path = '.$path);
     if ($this->debug) print('curl_opts = '.print_r($opts,true));
-    curl_setopt_array($ch, $opts);
+    
+    // 
+    // 
+    // 
+    // 
+    // CASH MUSIC FORK
+    // curl_setopt_array($ch, $opts);
+    // changing to curl_setopt -> curl_setopt_array was causing a "no url set!"
+    // error with curl. this foreach fixed the problem and seems to be more robust
+    // works in all situations, even in environments curl_setopt_array previously worked.
+    foreach ($opts as $key => $value) {
+      curl_setopt($ch, $key, $value);
+    }
+
     $result = curl_exec($ch);
     if ($this->debug) print("RESULT =\n".$result);
     if (curl_errno($ch) == 60) { // CURLE_SSL_CACERT

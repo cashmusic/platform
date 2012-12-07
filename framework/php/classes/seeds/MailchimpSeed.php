@@ -78,7 +78,7 @@ class MailchimpSeed extends SeedBase {
 				'redirect_uri'  => $connections['com.mailchimp']['redirect_uri'],
 				'client_id'     => $connections['com.mailchimp']['client_id'],
 				'client_secret' => $connections['com.mailchimp']['client_secret'],
-				'code'          => $_GET['code']
+				'code'          => $data['code']
 			);
 			$client = new MC_OAuth2Client($oauth_options);
 			$session = $client->getSession();

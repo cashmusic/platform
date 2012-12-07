@@ -282,7 +282,7 @@
 				}
 				$system_connections = json_decode(getenv('cashmusic_connection_settings'),true);
 				if ($system_connections) {
-					$cash_settings['system_connections'] = json_decode(getenv('cashmusic_connection_settings'),true);
+					$cash_settings['system_connections'] = $system_connections;
 				}
 			}
 		}
@@ -382,8 +382,18 @@
 			if ($domain_only) {
 				return strtok($_SERVER['HTTP_HOST'],':');
 			} else {
-				$root = 'http'.((empty($_SERVER['HTTPS'])&&$_SERVER['SERVER_PORT']!=443)?'':'s') 
-						.'://'.$_SERVER['HTTP_HOST'];
+				$protocol = 'http';
+				if (isset($_SERVER['HTTPS'])) {
+					if ($_SERVER['HTTPS']!=="off" || !$_SERVER['HTTPS']) {
+						$protocol = 'https';
+					}
+				}
+				if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
+					if ($_SERVER['HTTP_X_FORWARDED_PROTO']=="https") {
+						$protocol = 'https';
+					}
+				}
+				$root = $protocol.'://'.$_SERVER['HTTP_HOST'];
 				$page = strtok($_SERVER['REQUEST_URI'],'?');
 				return $root.$page;
 			}
