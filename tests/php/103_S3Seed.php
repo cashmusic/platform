@@ -190,53 +190,55 @@ class S3SeedTests extends UnitTestCase {
 	}
 
 	function testAuth() {
-		$s3 = new S3Seed($this->cash_user_id, $this->s3_connection_id);
+		if($this->s3_key) {
+			$s3 = new S3Seed($this->cash_user_id, $this->s3_connection_id);
 
-		$starting_acp = ($s3->getAccessControlPolicy($this->s3_bucket));
-		$this->assertTrue(is_array($starting_acp));
+			$starting_acp = ($s3->getAccessControlPolicy($this->s3_bucket));
+			$this->assertTrue(is_array($starting_acp));
 
-		$second_email = getTestEnv("S3_2_EMAIL");
-		$second_key = getTestEnv("S3_2_KEY");
-		$second_secret = getTestEnv("S3_2_SECRET");
-		if ($second_email && $second_key && $second_secret) {
-			$auth_success = $s3->authorizeEmailForBucket($this->s3_bucket,$second_email);
-			$this->assertTrue($auth_success);
+			$second_email = getTestEnv("S3_2_EMAIL");
+			$second_key = getTestEnv("S3_2_KEY");
+			$second_secret = getTestEnv("S3_2_SECRET");
+			if ($second_email && $second_key && $second_secret) {
+				$auth_success = $s3->authorizeEmailForBucket($this->s3_bucket,$second_email);
+				$this->assertTrue($auth_success);
 
-			$changed_acp = ($s3->getAccessControlPolicy($this->s3_bucket));
-
-			$this->assertNotEqual($starting_acp,$changed_acp);
-
-			// add a new connection for the second user 
-			$c = new CASHConnection($this->cash_user_id); 
-			$new_connection_id = $c->setSettings('S32', 'com.amazon',
-				array(
-					"key" => $second_key, 
-					"secret" => $second_secret, 
-					"bucket" => $this->s3_bucket
-				) 
-			);
-			if ($new_connection_id) {
-				$s32 = new S3Seed($this->cash_user_id, $new_connection_id);
-
-				// now test that we do in fact have upload permission
-				// go through the range of tests — upload, delete, verify
-				$test_filename = dirname(__FILE__) . '/test' . $this->timestamp;
-				$tmp_file = file_put_contents($test_filename,$this->timestamp);
-				$result = $s32->uploadFile($test_filename,false,false);
-				$this->assertTrue($result);
-				$result = $s32->deleteFile('test' . $this->timestamp);
-				$this->assertTrue($result);
-				$full_list = $s32->listAllFiles();
-				$this->assertFalse(array_key_exists('test' . $this->timestamp,$full_list));
-				unlink(dirname(__FILE__) . '/test' . $this->timestamp);
-				unset($s32);
-
-				$acp_success = $s3->setAccessControlPolicy($this->s3_bucket,'',$starting_acp);
-				$this->assertTrue($acp_success);
 				$changed_acp = ($s3->getAccessControlPolicy($this->s3_bucket));
-				$this->assertEqual($starting_acp,$changed_acp);
-			} else {
-				echo 'problem adding second S3Seed';
+
+				$this->assertNotEqual($starting_acp,$changed_acp);
+
+				// add a new connection for the second user 
+				$c = new CASHConnection($this->cash_user_id); 
+				$new_connection_id = $c->setSettings('S32', 'com.amazon',
+					array(
+						"key" => $second_key, 
+						"secret" => $second_secret, 
+						"bucket" => $this->s3_bucket
+					) 
+				);
+				if ($new_connection_id) {
+					$s32 = new S3Seed($this->cash_user_id, $new_connection_id);
+
+					// now test that we do in fact have upload permission
+					// go through the range of tests — upload, delete, verify
+					$test_filename = dirname(__FILE__) . '/test' . $this->timestamp;
+					$tmp_file = file_put_contents($test_filename,$this->timestamp);
+					$result = $s32->uploadFile($test_filename,false,false);
+					$this->assertTrue($result);
+					$result = $s32->deleteFile('test' . $this->timestamp);
+					$this->assertTrue($result);
+					$full_list = $s32->listAllFiles();
+					$this->assertFalse(array_key_exists('test' . $this->timestamp,$full_list));
+					unlink(dirname(__FILE__) . '/test' . $this->timestamp);
+					unset($s32);
+
+					$acp_success = $s3->setAccessControlPolicy($this->s3_bucket,'',$starting_acp);
+					$this->assertTrue($acp_success);
+					$changed_acp = ($s3->getAccessControlPolicy($this->s3_bucket));
+					$this->assertEqual($starting_acp,$changed_acp);
+				} else {
+					echo 'problem adding second S3Seed';
+				}
 			}
 		}
 	}
