@@ -21,12 +21,12 @@ class S3Seed extends SeedBase {
 		$this->connectDB();
 		if ($this->getCASHConnection()) {
 			require_once(CASH_PLATFORM_ROOT.'/lib/S3.php');
-			$s3_key = $this->settings->getSetting('key');
+			$s3_key    = $this->settings->getSetting('key');
 			$s3_secret = $this->settings->getSetting('secret');
 			if (!$s3_key || !$s3_secret) {
 				$connections = CASHSystem::getSystemSettings('system_connections');
 				if (isset($connections['com.amazon'])) {
-					$s3_key = $connections['com.amazon']['key'];
+					$s3_key    = $connections['com.amazon']['key'];
 					$s3_secret = $connections['com.amazon']['secret'];
 				}
 			}

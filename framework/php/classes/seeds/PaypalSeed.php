@@ -17,27 +17,70 @@
  **/
 class PaypalSeed extends SeedBase {
 	protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token;
+	protected $merchant_email = false;
 
 	public function __construct($user_id, $connection_id, $token=false) {
 		$this->settings_type = 'com.mailchimp';
 		$this->user_id = $user_id;
 		$this->connection_id = $connection_id;
 		if ($this->getCASHConnection()) {
-			$this->api_version = '63.0';
+			$this->api_version   = '94.0';
 			$this->api_username  = $this->settings->getSetting('username');
 			$this->api_password  = $this->settings->getSetting('password');
 			$this->api_signature = $this->settings->getSetting('signature');
-			
+			$sandboxed           = $this->settings->getSetting('sandboxed');
+
+			if (!$this->api_username || !$this->api_password || !$this->api_signature) {
+				$connections = CASHSystem::getSystemSettings('system_connections');
+				if (isset($connections['com.paypal'])) {
+					$this->merchant_email = $this->settings->getSetting('merchant_email'); // present in multi
+					$this->api_username   = $connections['com.paypal']['username'];
+					$this->api_password   = $connections['com.paypal']['password'];
+					$this->api_signature  = $connections['com.paypal']['signature'];
+					$sandboxed            = $connections['com.paypal']['sandboxed'];
+				}
+			}
+
 			$this->token = $token;
 			
 			$this->api_endpoint = "https://api-3t.paypal.com/nvp";
 			$this->paypal_base_url = "https://www.paypal.com/webscr&cmd=";
-			if ($this->settings->getSetting('sandboxed')) {
+			if ($sandboxed) {
 				$this->api_endpoint = "https://api-3t.sandbox.paypal.com/nvp";
 				$this->paypal_base_url = "https://www.sandbox.paypal.com/webscr&cmd=";
 			}
 		} else {
 			$this->error_message = 'could not get connection settings';
+		}
+	}
+
+	public static function getRedirectMarkup($data=false) {
+		$connections = CASHSystem::getSystemSettings('system_connections');
+		
+		if (isset($connections['com.paypal'])) {
+			$return_markup = '<h3>Connect to Paypal</h3>'
+						   . '<p>You\'ll need a verified Business or Premier Paypal account to connect properly. '
+						   . 'Those are free upgrades, so just double-check your address and enter it below. You '
+						   . 'can learn more about what they entail <a href="https://cms.paypal.com/cgi-bin/?cmd=_render-content&content_ID=developer/EC_setup_permissions">here</a>.</p>'
+						   . '<form accept-charset="UTF-8" method="post" id="paypal_connection_form" action="">'
+						   . '<input type="hidden" name="dosettingsadd" value="makeitso" />'
+						   . '<input type="hidden" name="permission_type" value="accelerated" />'
+						   . '<input id="connection_name_input" type="hidden" name="settings_name" value="(Paypal)" />'
+						   . '<input type="hidden" name="settings_type" value="com.paypal" />'
+						   . '<label for="merchant_email">Your Paypal email address:</label><br />'
+						   . '<input type="text" name="merchant_email" id="merchant_email" value="" />'
+						   . '<div class="row_seperator">.</div><br />'
+						   . '<div><input class="button" type="submit" value="Add The Connection" /></div>'
+						   . '</form>'
+						   . '<script type="text/javascript">'
+						   . '$("#paypal_connection_form").submit(function() {'
+						   . '	var newvalue = $("#merchant_email").val() + " (Paypal)";'
+						   . '	$("#connection_name_input").val(newvalue);'
+						   . '});'
+						   . '</script>';
+			return $return_markup;
+		} else {
+			return 'Please add default paypal api credentials.';
 		}
 	}
 
@@ -58,6 +101,9 @@ class PaypalSeed extends SeedBase {
 			'USER'      => $this->api_username,
 			'SIGNATURE' => $this->api_signature
 		);
+		if ($this->merchant_email) {
+			$request_parameters['SUBJECT'] = $this->merchant_email;
+		}
 		$request_parameters = array_merge($request_parameters,$nvp_parameters);
 
 		// Get response from the server.

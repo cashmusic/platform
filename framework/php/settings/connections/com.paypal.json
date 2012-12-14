@@ -4,7 +4,7 @@
 	"type":"com.paypal",
 	"seed":"PaypalSeed",
 	"scope":["commerce"],
-	"compatibility":["single"],
+	"compatibility":["single","multi"],
 	"interface":{
 		"single":"generate",
 		"multi":"docallback"
@@ -16,6 +16,11 @@
 			"signature":"string",
 			"sandboxed":"bool"	
 		},
-		"multi": {}
+		"multi": {
+			"username":"string",
+			"password":"string",
+			"signature":"string",
+			"sandboxed":"bool"	
+		}
 	}
 }
