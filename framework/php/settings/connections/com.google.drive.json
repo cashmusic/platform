@@ -1,0 +1,18 @@
+{
+	"name":"Google Drive",
+	"description":"Connect your google drive to store files on Google.",
+	"type":"com.google.drive",
+	"seed":"GoogleDriveSeed",
+	"scope":["assets"],
+	"compatibility":["multi"],
+	"interface":{
+		"multi":"docallback"
+	},
+	"dataTypes": {
+		"multi": {
+			"redirect_uri":"string",
+			"client_id":"string",
+			"client_secret":"string"
+		}
+	}
+}
