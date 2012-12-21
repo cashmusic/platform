@@ -700,5 +700,15 @@
 		$axelrod = new Mustache;
 		return $axelrod->render($template,$vars_array);
 	}
+
+	public static function getConnectionTypeSettings($type_string) {
+		$definition_location = CASH_PLATFORM_ROOT . '/settings/connections/' . $type_string . '.json';
+		if (file_exists($definition_location)) {
+			$settings_array = json_decode(file_get_contents($definition_location),true);
+			return $settings_array;
+		} else {
+			return false;
+		}
+	}
 } // END class 
 ?>

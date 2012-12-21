@@ -14,6 +14,7 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  */class CASHConnection extends CASHData {
+	public $user_id,$connection_id,$connection_name,$creation_date;
 	
 	public function __construct($user_id=false,$connection_id=false) {
 		$this->user_id = $user_id;
@@ -102,7 +103,7 @@
 		if ($connection_id) {
 			$result = $this->db->getData(
 				'connections',
-				'data',
+				'name,data,creation_date',
 				array(
 					"id" => array(
 						"condition" => "=",
@@ -116,6 +117,8 @@
 			);
 			if ($result) {
 				$this->settings = json_decode(CASHSystem::simpleXOR(base64_decode($result[0]['data'])),true);
+				$this->connection_name = $result[0]['name'];
+				$this->creation_date = $result[0]['creation_date'];;
 				return $this->settings;
 			} else {
 				return false;
