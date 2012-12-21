@@ -43,6 +43,16 @@ class S3Seed extends SeedBase {
 		}
 	}
 
+	/*
+	ASSET-SCOPE SEED REQUIRED FUNCTIONS
+	(if they aren't relevant simply return true)
+
+	finalizeUpload($filename)
+	getExpiryURL($filename)
+	getUploadParameters()
+	makePublic($filename)
+	*/
+
 	public static function getRedirectMarkup($data=false) {
 		$return_markup = '<h3>Connect to Amazon S3</h3>'
 					   . '<p>You\'ll need your S3 key, secret, and a bucket name to proceed. For security reasons '
@@ -123,6 +133,9 @@ class S3Seed extends SeedBase {
 	}
 	
 	public function getExpiryURL($path,$timeout=1000,$attachment=true,$private=true,$mime_type=true) {
+		// TODO:
+		// move all options after location to a parameters array, so we can have a unified
+		// footprint across seeds.
 		$headers = false;
 		if ($attachment || $private) {
 			$headers = array();
@@ -139,10 +152,6 @@ class S3Seed extends SeedBase {
 			}
 		}
 		return $this->s3->getAuthenticatedURL($this->bucket, $path, $timeout, false, false, $headers);
-		/*
-		 * In case of error we should be redirecting to a special-case error message page
-		 * as mentioned above. 
-		*/
 	}
 	
 	public function uploadFile($local_file,$remote_key=false,$private=true,$content_type='application/octet-stream') {
@@ -179,8 +188,22 @@ class S3Seed extends SeedBase {
 		return $this->s3->copyObject(
 			$this->bucket, $filename, $this->bucket, $filename, $s3_acl,
 			array(), 
-			array("Content-Type" => $content_type)
+			array("Content-Type" => $content_type, "Content-Disposition" => 'attachment')
 		);
+	}
+
+	public function finalizeUpload($filename) {
+		$content_type = CASHSystem::getMimeTypeFor($filename);
+		return $this->changeFileMIME($filename,$content_type);
+	}
+
+	public function makePublic($filename) {
+		$content_type = CASHSystem::getMimeTypeFor($filename);
+		if ($this->changeFileMIME($filename,$content_type,false)) {
+			return 'https://s3.amazonaws.com/' . $this->getBucketName() . '/' . $filename;
+		} else {
+			return false;
+		}
 	}
 
 	public function deleteFile($remote_key) {
@@ -206,8 +229,11 @@ class S3Seed extends SeedBase {
 		return $return_array;
 	}
 
-	public function getPOSTUploadParams($key_preface='',$success_url=200,$for_flash=false) {
-		if (substr($key_preface, -1 && $key_preface) != '/') {
+	public function getUploadParameters($key_preface=false,$success_url=200,$for_flash=false) {
+		if (!$key_preface) {
+			$key_preface = 'cashmusic-' . $this->connection_id . $this->settings->creation_date . '/' . time() . '/';
+		}
+		if (substr($key_preface, -1) != '/') {
 			$key_preface .= '/';
 		}
 		$upload_url = 'https://' . $this->bucket . '.s3.amazonaws.com/';
@@ -234,7 +260,10 @@ class S3Seed extends SeedBase {
 				true
 			);
 		}
-		return $params;
+		$return_array = (array) $params;
+		$return_array['bucketname'] = $this->bucket;
+		$return_array['connection_type'] = $this->settings_type;
+		return $return_array;
 	}
 
 	public function getPOSTUploadHTML($key_preface='',$success_url=200,$for_flash=false) {
