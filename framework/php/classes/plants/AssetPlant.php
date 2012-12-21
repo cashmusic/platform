@@ -22,24 +22,21 @@ class AssetPlant extends PlantBase {
 			// second value = allowed request methods (string or array of strings)
 			'addasset'                => array('addAsset','direct'),
 			'addlockcode'             => array('addLockCode','direct'),
-			'addremoteuploadform'     => array('addRemoteUploadForm','direct'),
 			'claim'                   => array('redirectToAsset',array('get','post','direct')),
 			'deleteasset'             => array('deleteAsset','direct'),
 			'editasset'               => array('editAsset','direct'),
 			'finalizeupload'          => array('finalizeUpload','direct'),
 			'findassets'              => array('findAssets','direct'),
-			'findconnectiondeltas'    => array('findConnectionAssetDeltas','direct'),
 			'getanalytics'            => array('getAnalytics','direct'),
 			'getasset'                => array('getAssetInfo','direct'),
 			'getassetsforconnection'  => array('getAssetsForConnection','direct'),
 			'getassetsforparent'      => array('getAssetsForParent','direct'),
 			'getassetsforuser'        => array('getAssetsForUser','direct'),
 			'getasseturl'             => array('getFinalAssetLocation','direct'),
-			'getuploadparameters'     => array('getPOSTParameters','direct'),
+			'getuploadparameters'     => array('getUploadParameters','direct'),
 			'getfulfillmentassets'    => array('getFulfillmentAssets','direct'),
 			'makepublic'              => array('makePublic','direct'),
 			'redeemcode'              => array('redeemLockCode',array('direct','get','post')),
-			'syncconnectionassets'    => array('syncConnectionAssets','direct'),
 			'unlock'                  => array('unlockAsset','direct')
 		);
 		$this->plantPrep($request_type,$request);
@@ -503,25 +500,16 @@ class AssetPlant extends PlantBase {
 		}
 	}
 
-	protected function getFinalAssetLocation($connection_id,$user_id,$asset_location,$inline=false) {
-		$connection_type = $this->getConnectionType($connection_id);
-		$final_asset_location = false;
-		switch ($connection_type) {
-			case 'com.amazon':
-				$s3 = new S3Seed($user_id,$connection_id);
-				if ($inline) {
-					$final_asset_location = $s3->getExpiryURL($asset_location,1000,false,false);
-				} else {
-					$final_asset_location = $s3->getExpiryURL($asset_location,1000,true,true);
-				}
-				break;
-		    default:
-				if (parse_url($asset_location) || strpos($asset_location, '/') !== false) {
-					$final_asset_location = $asset_location;
-					break;
-				}
+	protected function getFinalAssetLocation($connection_id,$user_id,$asset_location,$params=false) {
+		$connection = $this->getConnectionDetails($connection_id);
+		$connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
+		if (is_array($connection_type)) {
+			$seed_type = $connection_type['seed'];
+			$seed = new $seed_type($user_id,$connection_id);
+			return $seed->getExpiryURL($asset_location);
+		} else {
+			return false;
 		}
-		return $final_asset_location;
 	}
 
 	/**
@@ -554,70 +542,27 @@ class AssetPlant extends PlantBase {
 		}
 	}
 
-	/**
-	 * Generates HTML upload form to be put on remote server for same-origin uploads
-	 *
-	 * @return string (HTML)
-	 */protected function addRemoteUploadForm($user_id,$connection_id) {
+	protected function getUploadParameters($connection_id,$user_id) {
 		$connection = $this->getConnectionDetails($connection_id);
-		switch ($connection['type']) {
-			case 'com.amazon':
-				$path_prefix = 'cashmusic-' . $connection['id'] . $connection['creation_date'] . '/' . time();
-				$upload_token = $this->initiate_upload($user_id,$connection_id);
-				// webhooks
-				$api_credentials = CASHSystem::getAPICredentials();
-				$webhook_api_url = CASH_API_URL . 'verbose/assets/processwebhook/origin/com.amazon/upload_token/' . $upload_token . '/api_key/' . $api_credentials['api_key'];
-
-				$s3 = new S3Seed($user_id,$connection_id);
-				$html_form = $s3->getPOSTUploadHTML($path_prefix,$webhook_api_url);
-				$s3_key = $path_prefix . '/cashmusic-' . $upload_token . '.html';
-				$upload_url = 'https://' . $s3->getBucketName() . '.s3.amazonaws.com/' . $s3_key;
-				if($s3->createFileFromString($html_form,$s3_key,false,'text/html')) {
-					$return_array = array (
-						'upload_token' => $upload_token,
-						'upload_url' => $upload_url,
-						'callback' => $webhook_api_url
-					);
-					return $return_array;
-				} else {
-					return false;
-				}
-				break;
-		    default:
-				return false;
-		}
-	}
-
-	protected function getPOSTParameters($connection_id) {
-		$connection = $this->getConnectionDetails($connection_id);
-		switch ($connection['type']) {
-			case 'com.amazon':
-				$path_prefix = 'cashmusic-' . $connection['id'] . $connection['creation_date'] . '/' . time();
-				$s3 = new S3Seed($connection['user_id'],$connection_id);
-				$return_value = $s3->getPOSTUploadParams($path_prefix);
-				if ($return_value) {
-					$return_value = (array) $return_value;
-					$return_value['bucketname'] = $s3->getBucketName();
-					return $return_value;
-				} else {
-					return false;
-				}
-				break;
-		    default:
-				return false;
+		$connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
+		if (is_array($connection_type)) {
+			$seed_type = $connection_type['seed'];
+			$seed = new $seed_type($user_id,$connection_id);
+			return $seed->getUploadParameters();
+		} else {
+			return false;
 		}
 	}
 
 	protected function finalizeUpload($connection_id,$filename) {
 		$connection = $this->getConnectionDetails($connection_id);
-		switch ($connection['type']) {
-			case 'com.amazon':
-				$s3 = new S3Seed($connection['user_id'],$connection_id);
-				$content_type = CASHSystem::getMimeTypeFor($filename);
-				return $s3->changeFileMIME($filename,$content_type);
-				break;
-		    default:
-				return false;
+		$connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
+		if (is_array($connection_type)) {
+			$seed_type = $connection_type['seed'];
+			$seed = new $seed_type($connection['user_id'],$connection_id);
+			return $seed->finalizeUpload($filename);
+		} else {
+			return false;
 		}
 	}
 
@@ -629,127 +574,13 @@ class AssetPlant extends PlantBase {
 			}
 		}
 		$connection = $this->getConnectionDetails($asset['connection_id']);
-		switch ($connection['type']) {
-			case 'com.amazon':
-				$s3 = new S3Seed($connection['user_id'],$asset['connection_id']);
-				$content_type = CASHSystem::getMimeTypeFor($asset['location']);
-				if ($s3->changeFileMIME($asset['location'],$content_type,false)) {
-					return 'https://s3.amazonaws.com/' . $s3->getBucketName() . '/' . $asset['location'];
-				} else {
-					return false;
-				}
-				break;
-		    default:
-				return false;
-		}
-	}
-
-	protected function findConnectionAssetDeltas($connection_id,$connection=false) {
-		if (!$connection) {
-			$connection = $this->getConnectionDetails($connection_id);
-		}
-		$all_local_assets = $this->getAssetsForConnection($connection_id);
-		if (!$all_local_assets) {
-			$all_local_assets = array();
-		}
-		$all_remote_files = false;
-
-		// create reference arrays
-		$id_lookup = array();
-		$compare_local = array();
-		$compare_remote = array();
-		// populate local reference arrays
-		foreach ($all_local_assets as $asset) {
-			$id_lookup[$asset['location']] = $asset['id'];
-			$compare_local[$asset['location']] = $asset['hash'];
-		}
-
-		// grab remotes, format $compare_remote[] as:
-		// $compare_remote['resource_location'] => file or generated hash
-		//
-		// IMPORTANT:
-		// if $all_remote_files must be keyed by service URI and each entry
-		// must contain a value for 'size' and 'hash' -- each service Seed
-		// should comply to that formatting but if not, fix it there, not here
-		switch ($connection['type']) {
-			case 'com.amazon':
-				$s3 = new S3Seed($connection['user_id'],$connection_id);
-				$all_remote_files = $s3->listAllFiles();
-				if (!is_array($all_remote_files)) {
-					// could not get remote list. boo. abort.
-					return false;
-				} else {
-					// populate remote reference array
-					foreach ($all_remote_files as $file) {
-						$compare_remote[$file['name']] = $file['hash'];
-					}
-				}
-		}
-
-		if ($all_remote_files) {
-			//find deltas
-			$deltas = array_diff_assoc($compare_remote,$compare_local);
-			$deltas = array_merge($deltas,array_diff_assoc($compare_local,$compare_remote));
-
-			foreach ($deltas as $location => &$change) {
-				if (array_key_exists($location,$compare_local) && array_key_exists($location,$compare_remote)) {
-					$change = 'update'; // keys in both location - means hash has changed. edit local.
-				} else {
-					if (array_key_exists($location,$compare_remote)) {
-						$change = 'add'; // remote key only - means new file. add local.
-					} else {
-						$change = 'delete'; // local key only - means file is gone. remove local.
-					}
-				}
-			}
-
-			$return_array = array(
-				'local_id_reference' => $id_lookup,
-				'remote_details' => $all_remote_files,
-				'deltas' => $deltas
-			);
-			return $return_array;
+		$connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
+		if (is_array($connection_type)) {
+			$seed_type = $connection_type['seed'];
+			$seed = new $seed_type($asset['user_id'],$asset['connection_id']);
+			return $seed->makePublic($asset['location']);
 		} else {
 			return false;
-		}
-	}
-
-	protected function syncConnectionAssets($connection_id) {
-		$connection = $this->getConnectionDetails($connection_id);
-		$deltas = $this->findConnectionAssetDeltas($connection_id,$connection);
-
-		if (!$deltas) {
-			return false;
-		} else {
-			if (count($deltas['deltas'])) {
-				$all_remote_files = $deltas['remote_details'];
-				$id_lookup = $deltas['local_id_reference'];
-				foreach ($deltas['deltas'] as $location => $change) {
-					if ($change == 'update') {
-						$this->editAsset(
-							$id_lookup[$location],
-							$all_remote_files[$location]['hash'],
-							$all_remote_files[$location]['size']
-						);
-					} elseif ($change == 'add') {
-						$this->addAsset(
-							$location,
-							'',
-							$connection['user_id'],
-							$location,
-							$connection_id,
-							$all_remote_files[$location]['hash'],
-							$all_remote_files[$location]['size']
-						);
-					} elseif ($change == 'delete') {
-						$this->deleteAsset($id_lookup[$location]);
-					}
-				}
-				return true;
-			} else {
-				// no changes needed. return true
-				return true;
-			}
 		}
 	}
 
