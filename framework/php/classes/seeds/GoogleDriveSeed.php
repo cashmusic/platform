@@ -12,7 +12,7 @@
  *
  **/
 class GoogleDriveSeed extends SeedBase {
-	private $client, $access_token, $client_id, $client_secret, $redirect_uri, $error_message=false;
+	private $client, $drive_service, $access_token, $client_id, $client_secret, $redirect_uri, $error_message=false;
 	private $scopes = array(
 		'https://www.googleapis.com/auth/drive.file',
 		'https://www.googleapis.com/auth/drive.readonly',
@@ -25,12 +25,49 @@ class GoogleDriveSeed extends SeedBase {
 		$this->user_id = $user_id;
 		$this->connection_id = $connection_id;
 		if ($this->getCASHConnection()) {
-			require_once(CASH_PLATFORM_ROOT.'/lib/google/Google_Client.php');
-			
-			// check the access_expires time against right now. if the access_token is 
-			// expired call $client->refreshToken(refresh_token) and get a new access_token
-			// and reset the connection with new access_token, access_expires, and refresh_token
+			$connections = CASHSystem::getSystemSettings('system_connections');
 
+			if (isset($connections['com.google.drive'])) {
+				$this->client_id     = $connections['com.google.drive']['client_id'];
+				$this->client_secret = $connections['com.google.drive']['client_secret'];
+				$this->redirect_uri  = $connections['com.google.drive']['redirect_uri'];
+				$this->access_token  = $this->settings->getSetting('access_token');
+
+				require_once(CASH_PLATFORM_ROOT.'/lib/google/Google_Client.php');
+				require_once(CASH_PLATFORM_ROOT.'/lib/google/contrib/Google_DriveService.php');
+				$this->client = new Google_Client();
+				$this->client->setUseObjects(false);
+				$this->client->setClientId($this->client_id);
+				$this->client->setClientSecret($this->client_secret);
+				$this->client->setRedirectUri($this->redirect_uri);
+				$this->client->setScopes($this->scopes);
+				$this->client->setAccessType('offline');
+
+				// check the access_expires time against right now. if the access_token is 
+				// expired call $client->refreshToken(refresh_token) and get a new access_token
+				// and reset the connection with new access_token, access_expires, and refresh_token
+				if (time() > $this->settings->getSetting('access_expires')) {
+					$refresh_token = $this->settings->getSetting('refresh_token');
+					$this->client->refreshToken($refresh_token);
+					$credentials = $this->client->getAccessToken();
+					if ($credentials) {
+						$this->access_token = $credentials;
+						$credentials_array = json_decode($credentials, true);
+						$this->settings->updateSettings(
+							array(
+								'user_id'        => $this->user_id,
+								'email_address'  => $this->settings->getSetting('email_address'),
+								'access_token'   => $credentials,
+								'access_expires' => $credentials_array['created'] + $credentials_array['expires_in'],
+								'refresh_token'  => $refresh_token
+							)
+						);
+					}
+				}
+
+				$this->client->setAccessToken($this->access_token);
+				$this->drive_service = new Google_DriveService($this->client);
+			}
 		} else {
 			$this->error_message = 'could not get connection';
 		}
@@ -92,7 +129,7 @@ class GoogleDriveSeed extends SeedBase {
 							'user_id'        => $user_id,
 							'email_address'  => $email_address,
 							'access_token'   => $credentials,
-							'access_expires' => $credentials_array['created'] + $credentials_array['created'] - 180,
+							'access_expires' => $credentials_array['created'] + $credentials_array['expires_in'],
 							'refresh_token'  => $credentials_array['refresh_token']
 						)
 					);
@@ -170,7 +207,7 @@ class GoogleDriveSeed extends SeedBase {
 		require_once(CASH_PLATFORM_ROOT.'/lib/google/Google_Client.php');
 		require_once(CASH_PLATFORM_ROOT.'/lib/google/contrib/Google_Oauth2Service.php');
 		$client = new Google_Client();
-		$client->setUseObjects(true);
+		$client->setUseObjects(false);
 		$client->setClientId($client_id);
   		$client->setClientSecret($client_secret);
 		$client->setAccessToken($credentials);

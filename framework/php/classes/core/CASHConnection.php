@@ -227,6 +227,28 @@
 	/**
 	 * 
 	 *
+	 * @param {array} settings_data: settings data as associative array
+	 * @return boolean
+	 */public function updateSettings($settings_data) {
+		$settings_data = json_encode($settings_data);
+		$result = $this->db->setData(
+			'connections',
+			array(
+				'data' => base64_encode(CASHSystem::simpleXOR($settings_data))
+			),
+			array(
+				'id' => array(
+					'condition' => '=',
+					'value' => $this->connection_id
+				)
+			)
+		);
+		return $result;
+	}
+
+	/**
+	 * 
+	 *
 	 * @param {int} connection_id
 	 * @return boolean
 	 */public function deleteSettings($connection_id) {
