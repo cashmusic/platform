@@ -1,0 +1,47 @@
+{{#google_drive_key}}
+	<script type="text/javascript">
+	$('.upload-corral').hide();
+
+	// Create and render a Picker object for searching images.
+	function createPicker() {
+		var view = new google.picker.View(google.picker.ViewId.DOCS);
+		//view.setMimeTypes("image/png,image/jpeg,image/jpg");    
+		var picker = new google.picker.PickerBuilder()
+			.enableFeature(google.picker.Feature.MINE_ONLY)
+			.disableFeature(google.picker.Feature.NAV_HIDDEN)
+			.disableFeature(google.picker.Feature.MULTISELECT_ENABLED)
+			.setAppId('{{google_drive_app_id}}')
+			.setAuthUser('{{connection_auth_user}}')
+			//.setOAuthToken('{{connection_auth_token}}') //Optional: The auth token used in the current Drive API session.
+			// TODO:
+			// the setOAuthToken call works to log the user in correctly, but causes a problem where
+			// uploads fail. removing it allows uploads to complete successfully, but if the user 
+			// doesn't have a proper login cookie they are prompted for login credentials...
+			// 
+			// ideally we want the best of both worlds
+			.addView(new google.picker.DocsUploadView())
+			.addView(view)
+			.setCallback(pickerCallback)
+			.build();
+		picker.setVisible(true);
+		
+		// move the dialog to the right place
+		$('.picker-dialog').css('overflow','hidden'); // firefox shows a scrollbar. dunno? this fixes
+		$('.picker-dialog').css('z-index',98765);
+		$('.picker-dialog').blur();
+	}
+
+	function pickerCallback(data) {
+		if (data.action == google.picker.Action.PICKED) {
+			var fileId = data.docs[0].id;
+			$('#asset_location').val(fileId);
+		}
+	}
+
+	google.load('picker','1',{'callback': createPicker});
+	</script>
+</script>
+{{/google_drive_key}}
+{{^google_drive_key}}
+	You need to choose a connection.
+{{/google_drive_key}}

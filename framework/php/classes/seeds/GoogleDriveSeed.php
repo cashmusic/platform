@@ -12,13 +12,21 @@
  *
  **/
 class GoogleDriveSeed extends SeedBase {
-	private $client, $drive_service, $access_token, $client_id, $client_secret, $redirect_uri, $error_message=false;
-	private $scopes = array(
-		'https://www.googleapis.com/auth/drive.file',
-		'https://www.googleapis.com/auth/drive.readonly',
-		'https://www.googleapis.com/auth/userinfo.email',
-		'https://www.googleapis.com/auth/userinfo.profile'
-	);
+	private $client, 
+			$drive_service, 
+			$access_token, 
+			$client_id, 
+			$client_secret, 
+			$redirect_uri, 
+			$app_id,
+			$api_key,
+			$user_email,
+			$error_message=false,
+			$scopes = array(
+				'https://www.googleapis.com/auth/drive',
+				'https://www.googleapis.com/auth/userinfo.email',
+				'https://www.googleapis.com/auth/userinfo.profile'
+			);
 
 	public function __construct($user_id, $connection_id) {
 		$this->settings_type = 'com.google.drive';
@@ -31,7 +39,10 @@ class GoogleDriveSeed extends SeedBase {
 				$this->client_id     = $connections['com.google.drive']['client_id'];
 				$this->client_secret = $connections['com.google.drive']['client_secret'];
 				$this->redirect_uri  = $connections['com.google.drive']['redirect_uri'];
+				$this->app_id        = $connections['com.google.drive']['app_id'];
+				$this->api_key       = $connections['com.google.drive']['api_key'];
 				$this->access_token  = $this->settings->getSetting('access_token');
+				$this->email_address = $this->settings->getSetting('email_address');
 
 				require_once(CASH_PLATFORM_ROOT.'/lib/google/Google_Client.php');
 				require_once(CASH_PLATFORM_ROOT.'/lib/google/contrib/Google_DriveService.php');
@@ -73,6 +84,16 @@ class GoogleDriveSeed extends SeedBase {
 		}
 	}
 
+	/*
+	ASSET-SCOPE SEED REQUIRED FUNCTIONS
+	(if they aren't relevant simply return true)
+
+	finalizeUpload($filename)
+	makePublic($filename)
+	getExpiryURL($filename)
+	getUploadParameters()
+	*/
+
 	public static function getRedirectMarkup($data=false) {
 		$connections = CASHSystem::getSystemSettings('system_connections');
 		
@@ -81,8 +102,7 @@ class GoogleDriveSeed extends SeedBase {
 				$connections['com.google.drive']['client_id'],
 				$connections['com.google.drive']['redirect_uri'],
 				array(
-					'https://www.googleapis.com/auth/drive.file',
-					'https://www.googleapis.com/auth/drive.readonly',
+					'https://www.googleapis.com/auth/drive',
 					'https://www.googleapis.com/auth/userinfo.email',
 					'https://www.googleapis.com/auth/userinfo.profile'
 				));
@@ -225,5 +245,29 @@ class GoogleDriveSeed extends SeedBase {
 			return false;
 		}
 	}
+
+	public function getUploadParameters() {
+		$current_auth = json_decode($this->access_token,true);
+		$return_array = array(
+			'connection_type'       => $this->settings_type,
+			'google_drive_app_id'   => $this->app_id, 
+			'google_drive_key'      => $this->api_key,
+			'connection_auth_token' => $current_auth['access_token'],
+			'connection_auth_user'  => $this->email_address
+		);
+		return $return_array;
+	}
+
+	public function getExpiryURL($filename) {
+
+	}
+
+	public function makePublic($filename) {
+
+	}
+
+	// required for Asset seeds
+	public function finalizeUpload($filename) {return true;}
+	
 } // END class
 ?>

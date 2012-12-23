@@ -510,7 +510,7 @@
 				addedClass = 'returntocurrentroute '
 			}
 			// markup for the confirmation link
-			var modalTop = $("html").scrollTop() + 120;
+			var modalTop = $(document).scrollTop() + 120;
 			var markup = '<div class="modalbg">&nbsp;</div><div class="modallightbox ' + addedClass +
 						 data.specialcolor + '" style="top:' + modalTop + 'px;">' +
 						 data.content + //jQuery.param(data) +
