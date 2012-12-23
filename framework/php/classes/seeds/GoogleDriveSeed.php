@@ -259,11 +259,27 @@ class GoogleDriveSeed extends SeedBase {
 	}
 
 	public function getExpiryURL($filename) {
+		$file = $this->drive_service->files->get($filename);
 
+		// funny and not-so-documented google drive trick. you don't have to use an authorization
+		// header for downloadUrl access if you have a valid oauth token. you can append an 
+		// access_token parameter to the url and get access — and with tokens expiring AT MOST
+		// one hour from now it makes the download URL nice and expiry. neat.
+		$full_token = json_decode($this->access_token,true);
+		$authorized_url = $file['downloadUrl'] . '&access_token=' . $full_token['access_token'];
+		return $authorized_url;
 	}
 
 	public function makePublic($filename) {
+		$permission = new Google_Permission();
+		$permission->setValue('');
+		$permission->setType('anyone');
+		$permission->setRole('reader');
 
+		$this->drive_service->permissions->insert($filename,$permission);
+
+		$file = $this->drive_service->files->get($filename);
+		return $file['webContentLink'];
 	}
 
 	// required for Asset seeds
