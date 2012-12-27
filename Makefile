@@ -8,13 +8,16 @@ install:
 	php installers/php/dev_installer.php
 
 profile:
-	php installers/php/profile_release.php ./
+	php tools/php/profile_release.php ./
+
+push:
+	php tools/php/push_changes.php
 
 release:
-	php installers/php/profile_release.php ./
+	php tools/php/profile_release.php ./
 	mkdir ./release
 	mv ./release_profile.json ./release/release_profile.json
-	php installers/php/copy_release.php ./ ./release
+	php tools/php/copy_release.php ./ ./release
 
 test:
 	-php tests/php/all.php

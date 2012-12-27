@@ -35,7 +35,7 @@ function profile_directory($dir,$trim_from_output,&$add_to) {
 	if (is_dir($dir)) {
 		$objects = scandir($dir); 
 		foreach ($objects as $object) { 
-			if ($object != "." && $object != ".." && $object != ".DS_Store" && $object != ".git" && $object != "cashmusic.ini.php") { 
+			if ($object != "." && $object != ".." && $object != ".DS_Store" && $object != ".git" && $object != "cashmusic.ini.php" && $object != "connections.json") { 
 				if (filetype($dir."/".$object) == "dir") {
 					profile_directory($dir."/".$object,$trim_from_output,$add_to); 
 				} else {
@@ -43,6 +43,7 @@ function profile_directory($dir,$trim_from_output,&$add_to) {
 					if (
 						substr($object_name,0,4)  != 'docs' &&
 						substr($object_name,0,5)  != 'tests' &&
+						substr($object_name,0,5)  != 'tools' &&
 						substr($object_name,0,10) != 'installers' &&
 						substr($object_name,0,11) != 'testinstall' &&
 						substr($object_name,0,1)  != '/' &&
