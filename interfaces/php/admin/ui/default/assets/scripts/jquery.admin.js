@@ -90,31 +90,23 @@
 		window.scrollTo(0,0);
 	}
 
-	/**
-	 * refreshPageData (function)
+	/*
+	 * doPersistentPost(url,formdata,showerror,showmessage,skiphistory) 
 	 *
-	 * handles the data request for each page load, manipulates history,
-	 * and decides redraw method (full redraw or redrawPage)
+	 * When we made the move to hosted there were a lot of issues with null returns
+	 * — was never able to duplicate it locally, so it probably has something to do 
+	 * with the server config, latency, or load balancing.
 	 *
+	 * This function pulls out a lot of what was in refreshPageData and allows us to
+	 * check for null success returns and try again. Loop potential like you read
+	 * about...
 	 */
-	function refreshPageData(url,formdata,showerror,showmessage,skiphistory) {
-		if (!formdata) {
-			formdata = '';
-		} else {
-			formdata = formdata+'&';
-		}
-		// remove any dialogs
-		$('.modallightbox').fadeOut('fast', function() {
-			$('.modallightbox').remove();
-		});
-		$('.modalbg').fadeOut('fast', function() {
-			$('.modalbg').remove();
-		});
-
-		// fade out
-		$('#pagedisplay').fadeTo(100,0.2, function() {
-			// do a POST to get the page data, change pushstate, redraw page
-			jQuery.post(url, formdata+'data_only=1', function(data) {
+	function doPersistentPost(url,formdata,showerror,showmessage,skiphistory) {
+		// do a POST to get the page data, change pushstate, redraw page
+		jQuery.post(url, formdata+'data_only=1', function(data) {
+			if (!data) {
+				doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
+			} else {
 				if (!("doredirect" in data)){
 					data.doredirect = false;
 				}
@@ -148,7 +140,34 @@
 					setContentBehaviors();
 				}
 				$('#pagedisplay').fadeTo(200,1);
-			},'json');
+			}
+		},'json');
+	}
+
+	/**
+	 * refreshPageData (function)
+	 *
+	 * handles the data request for each page load, manipulates history,
+	 * and decides redraw method (full redraw or redrawPage)
+	 *
+	 */
+	function refreshPageData(url,formdata,showerror,showmessage,skiphistory) {
+		if (!formdata) {
+			formdata = '';
+		} else {
+			formdata = formdata+'&';
+		}
+		// remove any dialogs
+		$('.modallightbox').fadeOut('fast', function() {
+			$('.modallightbox').remove();
+		});
+		$('.modalbg').fadeOut('fast', function() {
+			$('.modalbg').remove();
+		});
+
+		// fade out
+		$('#pagedisplay').fadeTo(100,0.2, function() {
+			doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
 		});
 	}
 
