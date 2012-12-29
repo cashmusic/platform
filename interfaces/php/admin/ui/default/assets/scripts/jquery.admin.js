@@ -321,7 +321,7 @@
 		});
 
 		// to-be-copied code
-		$(document).on('click', 'code input', function(e) {
+		$(document).on('click', 'code input, code textarea', function(e) {
 			$(this).select();
 		});
 
