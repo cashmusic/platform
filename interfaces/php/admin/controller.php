@@ -320,6 +320,9 @@ if ($cash_admin->page_data['data_only']) {
 		$cash_admin->page_data['fullredraw'] = true;
 	}
 	$cash_admin->page_data['fullcontent'] = $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/default/' . $template_name . '.mustache'), $cash_admin->page_data);
+	if (!headers_sent()) {
+		header('Content-Type: application/json');
+	}
 	echo json_encode($cash_admin->page_data);
 } else {
 	// magnum p.i. = sweet {{mustache}} > don draper
