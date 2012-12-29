@@ -564,7 +564,20 @@
 	 * CASHSystem::sendEmail('test email','CASH Music <info@cashmusic.org>','dev@cashmusic.org','message, with link: http://cashmusic.org/','title');
 	 *
 	 */public static function sendEmail($subject,$user_id,$toaddress,$message_text,$message_title,$encoded_html=false) {
-		// TODO: look up user settings for email if user_id is set
+		// pulling out just the TO email from a 'Address Name <address@name.com>' style address:
+		if (strpos($toaddress, '>')) {
+			preg_match('/([^<]+)\s<(.*)>/', $toaddress, $matches);
+			if (count($matches)) {
+				$toaddress = $matches[2];
+			}
+		}
+		// if the email is bullshit don't try to send to it:
+		if (!filter_var($toaddress, FILTER_VALIDATE_EMAIL)) {
+			return false;
+		}
+
+		// TODO: look up user settings for email if user_id is set — allow for multiple SMTP settings 
+		// on a per-user basis in the multi-user system
 		$email_settings = CASHSystem::getDefaultEmail(true);
 		if (CASHSystem::getSystemSettings('instancetype') == 'multi' && $user_id) {
 			$user_request = new CASHRequest(
