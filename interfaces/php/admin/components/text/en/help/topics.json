@@ -1,42 +1,52 @@
 {
 	"gettingstarted" : {
 		"file":"gettingstarted",
+		"compatibility":["single","multi"],
 		"title":"Getting started"
 	},
 	"terms" : {
 		"file":"terms",
+		"compatibility":["single","multi"],
 		"title":"A glossary of terms"
 	},
 	"s3" : {
 		"file":"s3",
+		"compatibility":["single","multi"],
 		"title":"Connections: Amazon S3 secure file hosting"
 	},
 	"mailchimp" : {
 		"file":"mailchimp",
+		"compatibility":["single"],
 		"title":"Connections: connect a MailChimp list"
 	},
 	"paypal" : {
 		"file":"paypal",
+		"compatibility":["single"],
 		"title":"Connections: Paypal"
 	},
 	"downloadcodes" : {
 		"file":"downloadcodes",
+		"compatibility":["single","multi"],
 		"title":"Elements: set up download codes"
 	},
 	"paiddownload" : {
 		"file":"paiddownload",
+		"compatibility":["single","multi"],
 		"title":"Elements: sell a release as a paid download"
 	},
 	"emailcollection" : {
 		"file":"emailcollection",
+		"compatibility":["single","multi"],
 		"title":"Elements: collect email addresses for a download (or not)"
 	},
 	"addanelement" : {
 		"file":"addanelement",
+		"compatibility":["single","multi"],
 		"title":"Misc: add an element to a PHP page"
 	},
 	"migratedb" : {
 		"file":"migratedb",
+		"compatibility":["single","multi"],
 		"title":"Misc: migrating to a MySQL database"
 	}
 }
