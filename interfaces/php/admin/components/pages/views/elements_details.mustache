@@ -4,11 +4,11 @@
 		<p class="fadedtext">Grab a code to embed your element in CASH page/embed templates or with HTML5, PHP, or WordPress. <a class="drawerhandle">codes</a></p>
 		<div class="drawercontent">
 			{{#platform_type_single}}
-				<b class="fadedtext codelabel">PHP: </b><code><input type="text" value="&lt;?php include_once('{{platform_path}}');CASHSystem::embedElement({{id}}); // ({{name}}) ?&gt;" /></code><br />
-				<b class="fadedtext codelabel">WordPress: </b><code><input type="text" value="[cashmusic element=&quot;{{id}}&quot; name=&quot;{{name}}&quot;]" /></code>
+				<b class="fadedtext codelabel">PHP: </b><code><div class="codearea" contenteditable="true">&lt;?php include_once('{{platform_path}}');CASHSystem::embedElement({{id}}); // ({{name}}) ?&gt;</div></code><br />
+				<b class="fadedtext codelabel">WordPress: </b><code><div class="codearea" contenteditable="true">[cashmusic element=&quot;{{id}}&quot; name=&quot;{{name}}&quot;]</div></code>
 			{{/platform_type_single}}
-			<b class="fadedtext codelabel">Local: </b><code><input type="text" value="&#123;&#123;&#123;element_{{id}}&#125;&#125;&#125;" /></code><br />
-			<b class="fadedtext codelabel">HTML5: </b><code><textarea>&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt;window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;</textarea></code><br />
+			<b class="fadedtext codelabel">Local: </b><code><div class="codearea" contenteditable="true">&#123;&#123;&#123;element_{{id}}&#125;&#125;&#125;</div></code><br />
+			<b class="fadedtext codelabel">HTML5: </b><code><div class="codearea" contenteditable="true">&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;</div></code><br />
 		</div>
 	</div>
 </div>

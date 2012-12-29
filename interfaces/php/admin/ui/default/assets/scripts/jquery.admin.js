@@ -321,8 +321,22 @@
 		});
 
 		// to-be-copied code
-		$(document).on('click', 'code input, code textarea', function(e) {
-			$(this).select();
+		// $(document).on('click', 'code input, code textarea', function(e) {
+		// 	$(this).select();
+		// });
+		$(document).on('click', '.codearea', function(e) {
+			element = this;
+			if (document.body.createTextRange) {
+				var range = document.body.createTextRange();
+				range.moveToElementText(element);
+				range.select();
+		   } else if (window.getSelection) {
+				var selection = window.getSelection();        
+				var range = document.createRange();
+				range.selectNodeContents(element);
+				selection.removeAllRanges();
+				selection.addRange(range);
+		   }
 		});
 
 		// modal pop-ups

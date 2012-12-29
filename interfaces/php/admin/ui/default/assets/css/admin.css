@@ -23,10 +23,11 @@ div.callout.bright a {color:#000;}
 div.callout.bright a:hover {color:#f00 !important;}
 code {font-size:11px;}
 code a {color:#23c;}
-code input, code textarea {width:670px !important;border:0 !important;font-size:11px !important;background-color:#ededef !important;font-family:'courier', monospace !important;margin-top:-2px;font-style:normal !important;position:relative;top:-1px;}
-code textarea {height:60px;resize: none;}
-.codelabel {vertical-align:top;}
-fieldset {border: 0; margin: 0; padding: 0;}
+code input, code textarea, .codearea {width:660px !important;border:0 !important;font-size:11px !important;background-color:#ededef !important;font-family:'courier', monospace !important;margin-top:-2px;font-style:normal !important;position:relative;top:-1px;}
+.codearea {height:auto;display:inline-block;line-height:1.35em;padding:0.5em;resize:none;outline:0px solid transparent;margin-bottom:0.75em;}
+.codearea:focus {outline:0px solid transparent;}
+.codelabel {width:70px;display:inline-block;vertical-align:top;}
+fieldset {border:0;margin:0;padding:0;}
 img {border:0;}
 ul, ol {padding:0.5em 0 1em 1.5em;}
 li {line-height:1.35em;}
