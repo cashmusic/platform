@@ -194,6 +194,45 @@ class SystemPlant extends PlantBase {
 	 * @param {string} $password - the password
 	 * @return array|false
 	 */protected function addLogin($address,$password,$is_admin=0,$username='',$display_name='Anonymous',$first_name='',$last_name='',$organization='',$address_country='',$force52compatibility=false) {
+		$id_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'getuseridforaddress',
+				'with_security_credentials' => true,
+				'address' => $address
+			)
+		);
+		if ($id_request->response['payload']) {
+			// if we're adding an admin login and the user isn't currently an admin, edit:
+			if ($is_admin && !$id_request->response['payload']['is_admin']) {
+				// add admin status:
+				$result = $this->db->setData(
+					'users',
+					array(
+						'is_admin' => $is_admin
+					),
+					array(
+						"id" => array(
+							"condition" => "=",
+							"value" => $id_request->response['payload']['id']
+						)
+					)
+				);
+				// return false on error
+				if (!$result) {
+					return false;
+				}
+				if (!trim($id_request->response['payload']['api_key'])) {
+					// if the API key is empty then set credentials:
+					$this->setAPICredentials($id_request->response['payload']['id']);
+				}
+				return $id_request->response['payload']['id'];
+			} else {
+				// return the id as success
+				return $id_request->response['payload']['id'];
+			}
+		}
+
 		if ($is_admin) {
 			$password_hash = $this->generatePasswordHash($password,$force52compatibility);
 		} else {

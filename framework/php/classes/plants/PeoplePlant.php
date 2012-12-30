@@ -905,10 +905,10 @@ class PeoplePlant extends PlantBase {
 	 *
 	 * @param {string} $address -  the email address in question
 	 * @return id|false
-	 */protected function getUserIDForAddress($address) {
+	 */protected function getUserIDForAddress($address,$with_security_credentials=false) {
 		$result = $this->db->getData(
 			'users',
-			'id',
+			'id,is_admin,api_key,api_secret',
 			array(
 				"email_address" => array(
 					"condition" => "=",
@@ -917,7 +917,11 @@ class PeoplePlant extends PlantBase {
 			)
 		);
 		if ($result) {
-			return $result[0]['id'];
+			if ($with_security_credentials) {
+				return $result[0];
+			} else {
+				return $result[0]['id'];
+			}
 		} else {
 			return false;
 		}
