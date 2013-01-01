@@ -77,7 +77,10 @@ if (isset($_POST['doassetedit'])) {
 			'publishing' => $_POST['publishing'],
 			'fulfillment' => json_decode($_POST['metadata_fulfillment']),
 			'private' => json_decode($_POST['metadata_private']),
-			'cover' => $_POST['metadata_cover']
+			'cover' => $_POST['metadata_cover'],
+			'publicist_name' => $_POST['publicist_name'],
+			'publicist_email' => $_POST['publicist_email'],
+			'onesheet' => $_POST['onesheet']
 		);
 	}
 

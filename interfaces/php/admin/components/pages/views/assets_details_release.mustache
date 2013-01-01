@@ -75,11 +75,11 @@
 	<br />
 	<h3>Additional Fields</h3>
 	<div class="drawer">
-		<a class="drawerhandle">extra options</a>
+		<a class="drawerhandle">standard metadata</a>
 		<div class="drawercontent">
 			<fieldset>
-				<label class="col_oneoftwo">Label Name <input type="text" id="label_name" name="label_name" value="{{metadata_label_name}}" placeholder="Stax Records" /></label>
-				<label class="col_oneoftwo lastcol">Genre <input type="text" id="genre" name="genre" value="{{metadata_genre}}" placeholder="Dub-Step" /></label>
+				<label class="col_oneoftwo">Label Name <input type="text" id="label_name" name="label_name" value="{{metadata_label_name}}" placeholder="" /></label>
+				<label class="col_oneoftwo lastcol">Genre <input type="text" id="genre" name="genre" value="{{metadata_genre}}" placeholder="" /></label>
 				<label class="col_oneoftwo">Copyright <textarea id="copyright" name="copyright">{{metadata_copyright}}</textarea></label>
 				<label class="col_oneoftwo lastcol">Publishing <textarea id="publishing" name="publishing">{{metadata_publishing}}</textarea></label>
 				<div class="formats col_oneoftwo">
@@ -100,9 +100,28 @@
 					<a href="#" class="add-format"><span class="icon circle-add smalltext"></span> Add New Format</a-->
 
 				</div>
+			</fieldset>
+			<div class="row_seperator">.</div>
+		</div>
+	</div>
 
-				<div class="private-files col_oneoftwo lastcol">
-					<div class="row_seperator">.</div>
+	<div class="drawer">
+		<a class="drawerhandle">press/PR information</a>
+		<div class="drawercontent">
+			<fieldset>
+				<label class="col_oneoftwo">Publicist's Name <input type="text" id="publicist_name" name="publicist_name" value="{{metadata_publicist_name}}" placeholder="" /></label>
+				<label class="col_oneoftwo lastcol">Publicist's Email<input type="text" id="publicist_email" name="publicist_email" value="{{metadata_publicist_email}}" placeholder="" /></label>
+				<label>Bio / Onesheet<textarea id="onesheet" name="onesheet" class="tall">{{metadata_onesheet}}</textarea></label>
+			</fieldset>
+			<div class="row_seperator">.</div>
+		</div>
+	</div>
+
+	<div class="drawer">
+		<a class="drawerhandle">miscellaneous</a>
+		<div class="drawercontent">
+			<fieldset>
+				<div class="private-files col_oneoftwo">
 					<label>Private Files</label><br />
 					{{#private_files}}
 						<ul class="alternating">
@@ -128,6 +147,7 @@
 				</div>
 
 			</fieldset>
+			<div class="row_seperator">.</div>
 		</div>
 	</div>
 
