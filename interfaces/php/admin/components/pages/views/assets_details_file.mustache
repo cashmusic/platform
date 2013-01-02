@@ -25,6 +25,10 @@
 	<div class="col_oneoftwo lastcol">
 		<label for="asset_location">Location (URI)</label><br />
 		<input type="text" id="asset_location" name="asset_location" value="{{location}}" />
+		<div class="drawer noprefix upload-corral">
+			<small class="fadedtext"><span class="icon browser-upload "></span> Using a hosting connection? <a href="#" data-upload-endpoint="{{{www_path}}}/assets/uploadform/" class="drawerhandle usecolor1 file-upload-trigger">Upload a file</a></small>
+			<div class="drawercontent"></div>
+		</div>
 	</div>
 
 	{{#parent_id}}
@@ -32,58 +36,56 @@
 	{{/parent_id}}
 
 
-
-	<div class="col_oneoftwo">
+	<div>
 		<div class="row_seperator">.</div><br />
+		<div class="col_oneoftwo">
+			<small class="fadedtext"><span class="icon wallet"></span> Selling out?</small> <a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="lightboxed returntocurrentroute"><small><b>Define commerce settings</b></small></a>
 
-		<small class="fadedtext"><span class="icon tag"></span> Get organized.</small> {{{tag_markup}}}<a href="#" class="injectbefore usecolor1" rev="<input type='text' name='tag' value='' placeholder='Tag' />" rel="{{tag_counter}}"><small><b>Tag this file</b></small></a>
-		
-		<div class="row_seperator">.</div>
-		<small class="fadedtext"><span class="icon wallet"></span> Selling out?</small> <a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="lightboxed returntocurrentroute"><small><b>Define commerce settings</b></small></a>
+			<br />
+			<small class="fadedtext"><span class="icon cancel-circle"></span> Need it gone?</small> <a href="{{www_path}}/assets/delete/{{id}}" class="usecolor1 needsconfirmation"><small><b>Delete this file</b></small></a>
 
-		{{#show_make_public}}
+			<br />
+			<small class="fadedtext"><span class="icon tag"></span> Get organized.</small> {{{tag_markup}}}<a href="#" class="injectbefore usecolor1" rev="<input type='text' name='tag' value='' placeholder='Tag' />" rel="{{tag_counter}}"><small><b>Tag this file</b></small></a>
+
 			<div class="row_seperator">.</div>
-			<small class="fadedtext"><span class="icon unlocked"></span> Don't need security?</small> <a href="#" data-publicize-endpoint="{{{www_path}}}/ajax/publicizeasset/{{id}}" class="usecolor1"><small><b>Make this file public</b></small></a>
-		{{/show_make_public}}
+			<input class="button nojs" type="submit" value="Save changes" />
+			</form>
 
-		<div class="row_seperator">.</div>
-		<input class="button nojs" type="submit" value="Edit the asset" />
-		</form>
-
-		<div class="drawer noprefix">
-			<small class="fadedtext"><span class="icon browser-download-2"></span> Need download codes? <a class="drawerhandle usecolor1">Export or create codes</a></small>
-			<div class="drawercontent">
-				<p>
-				{{#asset_codes_count}}
-					There are {{asset_codes_count}} codes for this asset. <a href="{{www_path}}/assets/edit/{{id}}?exportcodes=1">Export them!</a>
-				{{/asset_codes_count}}
-				{{^asset_codes_count}}
-					There are no download codes for this asset.
-				{{/asset_codes_count}}
-				</p>
-				<form accept-charset="UTF-8" method="post" action="{{www_path}}/assets/edit/{{id}}">
-
-				<label for="add_codes_qty">Add (qty) more codes</label><br />
-				<div class="col_oneoftwo">
-					<input type="text" name="add_codes_qty" id="add_codes_qty" value="500" />
-				</div>
-				<div class="col_oneoftwo lastcol">
-					<input type="submit" class="button" value="add codes" />
-				</div>
-				</form>
-				<div class="row_seperator">.</div>
-			</div>
 		</div>
 
-		<br />
-		<input class="button onlyjs externalsubmit" type="submit" data-cash-target-form="#edit-file-form" value="Edit the file" />
+		<div class="col_oneoftwo lastcol">
+			<div class="drawer noprefix">
+				<small class="fadedtext"><span class="icon browser-download-2"></span> Need download codes?</small> <a class="drawerhandle usecolor1">Export or create codes</a>
+				<div class="drawercontent">
+					<p>
+					{{#asset_codes_count}}
+						<br /><small>There are {{asset_codes_count}} codes for this asset. <a class="usecolor1 noajax" href="{{www_path}}/assets/edit/{{id}}?exportcodes=1"><b>Export them!</b></a></small>
+					{{/asset_codes_count}}
+					{{^asset_codes_count}}
+						<br /><small>There are no download codes for this asset.</small>
+					{{/asset_codes_count}}
+					</p>
+					<form accept-charset="UTF-8" method="post" action="{{www_path}}/assets/edit/{{id}}">
+
+					<label for="add_codes_qty">Add (qty) more codes</label><br />
+					<div class="col_oneoftwo">
+						<input type="text" name="add_codes_qty" id="add_codes_qty" value="500" />
+					</div>
+					<div class="col_oneoftwo lastcol">
+						<input type="submit" class="button" value="add codes" />
+					</div>
+					</form>
+					<div class="row_seperator">.</div>
+				</div>
+			</div>
+
+			{{#show_make_public}}
+				<small class="fadedtext"><span class="icon unlocked"></span> Don't need security?</small> <a href="#" data-publicize-endpoint="{{{www_path}}}/ajax/publicizeasset/{{id}}" class="usecolor1"><small><b>Make this file public</b></small></a>
+			{{/show_make_public}}
+		</div>
+		
+		<div class="row_seperator tall">.</div>
+		<input class="button onlyjs externalsubmit" type="submit" data-cash-target-form="#edit-file-form" value="Save changes" />
 	</div>
 
-
-<div class="col_oneoftwo lastcol">
-	<div class="drawer noprefix upload-corral">
-		<small class="fadedtext"><span class="icon browser-upload "></span> Using a hosting connection? <a href="#" data-upload-endpoint="{{{www_path}}}/assets/uploadform/" class="drawerhandle usecolor1 file-upload-trigger">Upload a file</a></small>
-		<div class="drawercontent"></div>
-	</div>
-</div>
 <div class="row_seperator">.</div>

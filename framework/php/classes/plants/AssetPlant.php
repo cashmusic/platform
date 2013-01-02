@@ -278,7 +278,7 @@ class AssetPlant extends PlantBase {
 		if ($asset_details) {
 			$user_id_match = true;
 			if ($user_id) {
-				if ($asset_details['parent_id'] != $user_id) {
+				if ($asset_details['user_id'] != $user_id) {
 					$user_id_match = false;
 				}
 			}
