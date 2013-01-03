@@ -89,6 +89,9 @@
 				</div>
 				<div class="row_seperator">.</div>
 			</div>
+
+			{{{legal_markup}}}
+
 		</div>
 
 	</div>
@@ -96,7 +99,7 @@
 </div>
 
 <div id="footer">
-	<p><b>&copy; 2011 CASH Music.</b> All our code is open-source. <a href="{{www_path}}/licenses/" style="margin-left:0;">Learn more</a>. <a href="http://help.cashmusic.org/">Get help</a> <a href="http://cashmusic.org/donate" class="donatelink"><b>Donate</b></a></p>
+	<p><b>&copy; 2011 CASH Music.</b> All our code is open-source. <a href="{{www_path}}/licenses/" style="margin-left:0;">Learn more</a>. {{#showterms}}<a href="{{www_path}}/_?showlegal=1">Terms of service</a> {{/showterms}}{{#showprivacy}}<a href="{{www_path}}/_?showlegal=1">Privacy policy</a> {{/showprivacy}}<a href="http://cashmusic.org/#more" class="donatelink"><b>Donate</b></a></p>
 </div>
 
 {{#reset_key}}

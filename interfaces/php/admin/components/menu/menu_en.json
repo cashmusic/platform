@@ -87,6 +87,10 @@
 		{"page_name":"List Details", "menu_icon":""},
 	"people/press":
 		{"page_name":"Press Coverage", "menu_icon":"newspaper"},
+
+
+	"privacy":
+		{"page_name":"Privacy policy", "menu_icon":""},
 		
 		
 	"settings":
@@ -94,5 +98,9 @@
 	"settings/connections":
 		{"page_name":"Connections", "menu_icon":"wiggle"},
 	"settings/update":
-		{"page_name":"System Update", "menu_icon":"arrow-up"}
+		{"page_name":"System Update", "menu_icon":"arrow-up"},
+
+
+	"terms":
+		{"page_name":"Terms of service", "menu_icon":""}
 }

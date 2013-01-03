@@ -6,6 +6,8 @@ framework/php/settings/cashmusic.ini.php
 framework/php/settings/connections.json
 framework/db/*
 framework/php/db/*
+interfaces/php/admin/terms.md
+interfaces/php/admin/privacy.md
 testinstall/*
 sandbox/*
 

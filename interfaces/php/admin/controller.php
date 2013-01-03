@@ -154,6 +154,12 @@ if (!isset($cash_admin->page_data['requested_route'])) {
 	$cash_admin->page_data['requested_route'] = '/';
 }
 
+// check for TOS and privacy stuff
+$cash_admin->page_data['showterms'] = false;
+$cash_admin->page_data['showprivacy'] = false;
+if (file_exists(ADMIN_BASE_PATH . '/terms.md')) {$cash_admin->page_data['showterms'] = true;}
+if (file_exists(ADMIN_BASE_PATH . '/privacy.md')) {$cash_admin->page_data['showprivacy'] = true;}
+
 /**
  * RENDER PAGE
  * check for a logged-in user. if found render the final page as routed. if not,
@@ -252,6 +258,21 @@ if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
 			} else {
 				$cash_admin->page_data['reset_message'] = 'There was an error. Please check the address and try again.';
 			}
+		}
+	}
+
+	if (isset($_GET['showlegal'])) {
+		$cash_admin->page_data['legal_markup'] = '';
+		if (file_exists(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php')) {
+			include_once(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php');
+		}
+		if (isset($cash_admin->page_data['showterms'])) {
+			$cash_admin->page_data['legal_markup'] .= '<br /><br /><br /><h3>Terms of service</h3>';
+			$cash_admin->page_data['legal_markup'] .= Markdown(file_get_contents(ADMIN_BASE_PATH . '/terms.md'));
+		}
+		if (isset($cash_admin->page_data['showprivacy'])) {
+			$cash_admin->page_data['legal_markup'] .= '<br /><br /><br /><h3>Privacy policy</h3>';
+			$cash_admin->page_data['legal_markup'] .= Markdown(file_get_contents(ADMIN_BASE_PATH . '/privacy.md'));
 		}
 	}
 
