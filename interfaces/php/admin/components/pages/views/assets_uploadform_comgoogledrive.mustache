@@ -4,8 +4,10 @@
 
 	// Create and render a Picker object for searching images.
 	function createPicker() {
-		var view = new google.picker.View(google.picker.ViewId.DOCS);
-		var uploadview = new google.picker.DocsUploadView();   
+		var view = new google.picker.DocsView()
+			.setParent('root')
+			.setIncludeFolders(true);
+		var uploadview = new google.picker.DocsUploadView();  
 		var picker = new google.picker.PickerBuilder()
 			.enableFeature(google.picker.Feature.MINE_ONLY)
 			.disableFeature(google.picker.Feature.NAV_HIDDEN)
