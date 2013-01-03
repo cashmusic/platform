@@ -5,7 +5,7 @@
 	// Create and render a Picker object for searching images.
 	function createPicker() {
 		var view = new google.picker.View(google.picker.ViewId.DOCS);
-		//view.setMimeTypes("image/png,image/jpeg,image/jpg");    
+		var uploadview = new google.picker.DocsUploadView();   
 		var picker = new google.picker.PickerBuilder()
 			.enableFeature(google.picker.Feature.MINE_ONLY)
 			.disableFeature(google.picker.Feature.NAV_HIDDEN)
@@ -19,7 +19,7 @@
 			// doesn't have a proper login cookie they are prompted for login credentials...
 			// 
 			// ideally we want the best of both worlds
-			.addView(new google.picker.DocsUploadView())
+			.addView(uploadview)
 			.addView(view)
 			.setCallback(pickerCallback)
 			.build();
