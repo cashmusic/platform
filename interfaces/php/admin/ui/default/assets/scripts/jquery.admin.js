@@ -35,17 +35,12 @@
 
 	// initial load setup:
 	$(document).ready(function() {
-		var currentPath = location.pathname;
-
 		setUIBehaviors();
 		setContentBehaviors();
 
 		// make back/forward buttons work
 		window.addEventListener("popstate", function(e) {
-			if (location.pathname != currentPath) {
-				refreshPageData(location.pathname,null,null,null,true);
-				currentPath = location.pathname;
-			}
+			refreshPageData(location.pathname,null,null,null,true);
 		});
 	});
 
@@ -122,9 +117,6 @@
 					if (!("fullredraw" in data)){
 						data.fullredraw = false;
 					}
-					if (!skiphistory) {
-						history.pushState(null, null, url);
-					}
 					if (data.fullredraw) {
 						var newbody = data.fullcontent.replace(/^[\s\S]*?<body[^>]*>([\s\S]*?)<\/body>[\s\S]*?$/i,"$1");
 						$('body').html(newbody);
@@ -136,6 +128,9 @@
 							data.page_message = showmessage;
 						}
 						redrawPage(data);
+					}
+					if (!skiphistory) {
+						history.pushState(null, null, url);
 					}
 					setContentBehaviors();
 				}
@@ -477,8 +472,6 @@
 			var trigger = $(this),
 			iframeSrc = $(this).data('upload-endpoint'),
 			connectionID = $('#connection_id').val();
-
-			//console.log('is this iframeSrc? ', iframeSrc);
 
 			if ( connectionID == '0' ) {
 				alert('Sorry, can\'t upload without a connection. Have you tried a normal link?');
