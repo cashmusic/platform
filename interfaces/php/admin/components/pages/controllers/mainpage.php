@@ -12,7 +12,7 @@ if ($settings['banners'][BASE_PAGENAME]) {
 		. '<div class="moreinfospc">&nbsp;</div></div>';
 }
 
-
+// check to see if the user has elements defined
 $elements_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'element', 
@@ -21,12 +21,6 @@ $elements_response = $cash_admin->requestAndStore(
 	)
 );
 if (is_array($elements_response['payload'])) {
-	$elements_data = AdminHelper::getElementsData();
-	foreach ($elements_response['payload'] as &$element) {
-		if (array_key_exists($element['type'],$elements_data)) {
-			$element['type_name'] = $elements_data[$element['type']]['name'];
-		}
-	}
 	// this essentially locks us to the newest template, meaning everyone gets just
 	// one page template at first. if it's there, it's live
 	$template_response = $cash_admin->requestAndStore(
@@ -41,12 +35,12 @@ if (is_array($elements_response['payload'])) {
 		$cash_admin->page_data['page_template'] = $template_response['payload']['id'];
 	}
 
-	$cash_admin->page_data['elements_for_user'] = new ArrayIterator($elements_response['payload']);
-	$dashboard_news_response = CASHSystem::getURLContents('http://cashmusic.s3.amazonaws.com/permalink/admin/dashboard.html');
+	$cash_admin->page_data['elements_for_user'] = true;
+	$dashboard_news_response = CASHSystem::getURLContents('http://cashmusic.s3.amazonaws.com/permalink/admin/mainpage.html');
 	if ($dashboard_news_response) {
-		$cash_admin->page_data['dashboard_news'] = $dashboard_news_response;
+		$cash_admin->page_data['dashboard_news'] = '<h3>News</h3>' . $dashboard_news_response;
 	} else {
-		$cash_admin->page_data['dashboard_news'] = '<p class="altcopystyle fadedtext">Couldn\'t get news from the CASH servers. Sorry</p>';
+		$cash_admin->page_data['dashboard_news'] = '<h3 class="fadedtext">Sorry</h3><p class="fadedtext">Couldn\'t get news from the CASH servers.</p>';
 	}
 } else {
 	// no elements found, meaning it's a newer install

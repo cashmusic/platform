@@ -16,11 +16,16 @@ body {color:#231F20;background-color:#fafaf8;text-align:center;font:14px/1.5em h
 a {color:#999;text-decoration:none;}
 a:hover {text-decoration:underline;color:#000 !important;}
 blockquote {margin:0 0 1.5em 24px;padding:0 0 0 8px;border-left:6px #ececed solid;font-size:0.85em;}
-div.callout {display:block;font-size:11px;padding:22px 18px 18px 18px;margin:0 auto 1.5em auto;background-color:#ededef;background-image:url(../images/top_left.png);background-position:left top;background-repeat:no-repeat;}
-div.callout.flush {background-image:none;}
+div.callout {position:relative;display:block;font-size:11px;padding:22px 18px 22px 18px;margin:0 auto 1.5em auto;background-color:#ededef;background-image:url(../images/top_right.png);background-position:right top;background-repeat:no-repeat;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);z-index:100;}
+div.callout p {margin-bottom:0;}
+div.callout.flush {background-image:none;margin-bottom:0;}
+div.callout.top {background-image:url(../images/top_right.png) !important;}
 div.callout.bright {background-color:#ff0;}
 div.callout.bright a {color:#000;}
 div.callout.bright a:hover {color:#f00 !important;}
+div.callout.newsfeed {background-color:#fff;}
+div.callout.newsheader {background-color:#231F20;color:#fff;}
+div.callout.newsheader a:hover {color:#ff0 !important;}
 code {font-size:11px;}
 code a {color:#23c;}
 code input, code textarea, .codearea {width:660px !important;border:0 !important;font-size:11px !important;background-color:#ededef !important;font-family:'courier', monospace !important;margin-top:-2px;font-style:normal !important;position:relative;top:-1px;}
@@ -466,6 +471,7 @@ select {height:34px;line-height:34px;width:100%;padding:8px;border:none;backgrou
 select option {padding:8px;}
 select:active, select:focus {outline:2px solid #ff0;}
 textarea.tall {height:200px;}
+textarea.taller {height:400px;padding-right:0;padding-bottom:0;font-family:"courier new",courier,monospace !important;font-style:normal !important;font-size:0.9em !important;}
 form.inline {display:inline;}
 form.inline input {width:3.25em !important;border:1px solid #fafaf8;}
 form.inline input:active, form.inline input:focus {outline:0;border:1px solid #888;}
@@ -535,7 +541,7 @@ td, th {padding:6px 5px 6px 5px;vertical-align:top;}
 ul.pagebasemenu {padding:0;margin-top:0;margin-bottom:1.5em;font-size:16px;font-weight:bold;line-height:1.5em;color:#999;}
 ul.pagebasemenu li {list-style-type:none;}
 ul.pagebasemenu ul {padding:0;margin-top:0;margin-bottom:0;font-size:0.8em;font-weight:normal;}
-.introductorybanner {position:relative;padding:24px 24px 40px 170px;height:auto;min-height:65px;background:#fff url(../images/top_right.png) right top no-repeat;margin-bottom:24px;box-shadow:-2px 2px 2px #dededc;font-size:16px;line-height:1.3em;color:#111;}
+.introductorybanner {position:relative;padding:24px 24px 40px 170px;height:auto;min-height:65px;background:#fff url(../images/top_right.png) right top no-repeat;margin-bottom:24px;box-shadow:-2px 2px 2px #dededc;font-size:16px;line-height:1.3em;color:#111;z-index:10;}
 .introductorybanner.flush {margin-bottom:0;}
 .introductorybanner div.closelink {position:absolute;right:5px;bottom:4px;text-align:right;font-size:12px;}
 .introductorybanner div.closelink a {color:#fff;}
@@ -564,8 +570,8 @@ div.gettingstarted a.helplink {color:#231F20;background-color:#ff0;padding:2px 9
 /* TOOLTIPS */
 .tooltip {display:inline;position:relative;}
 .tooltip:hover:after, .tooltip:hover:before {visibility:visible;opacity:1;-webkit-transition:all 0.2s ease-in;-moz-transition:all 0.2s ease-in;-o-transition:all 0.2s ease-in;transition:all 0.2s ease-in;transition-delay:0.5s;-webkit-transition-delay:0.5s;}
-.tooltip:after {color:#000;text-decoration:none;background:#ff0;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);bottom:2em;content:attr(title);font-size:11px;display:block;opacity:0;visibility:hidden;left:-1em;padding:8px 12px 8px 12px;position:absolute;width:15em;z-index:98;}
-.tooltip:before {border:solid;border-color:transparent;color:#ff0;text-shadow:-2px 2px 2px rgba(0,0,0,0.15);border-width:.6em .6em 0 .6em;font-size:11px;line-height:0.75em;height:0.75em;overflow:hidden;bottom:1.25em;content:"▼";display:block;opacity:0;visibility:hidden;left:2em;position:absolute;z-index:99;}
+.tooltip:after {color:#000;text-decoration:none;background:#ff0;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);bottom:2em;content:attr(title);font-size:11px;line-height:18px;display:block;opacity:0;visibility:hidden;left:-1em;padding:8px 12px 8px 12px;position:absolute;width:20em;z-index:98;text-decoration:none !important;}
+.tooltip:before {border:solid;border-color:transparent;color:#ff0;text-shadow:-2px 2px 2px rgba(0,0,0,0.15);border-width:.6em .6em 0 .6em;font-size:11px;line-height:0.75em;height:0.75em;overflow:hidden;bottom:1.35em;content:"▼";display:block;opacity:0;visibility:hidden;left:2em;position:absolute;z-index:99;}
 
 /* nate's asset stuff */
 #add-release-form .formats .icon {

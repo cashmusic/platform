@@ -480,6 +480,25 @@
 				trigger.parents('.fadedtext').animate({ opacity: 0 });
 			}
 		});
+
+		$(document).on('keydown', 'textarea.taller', function(e) {
+			// repurposed from here: http://jsfiddle.net/sdDVf/8/
+
+			if(e.keyCode === 9) { 
+				var start = this.selectionStart;
+					end = this.selectionEnd;
+				var target = $(this);
+
+				// set textarea value to: text before caret + tab + text after caret
+				target.val(target.val().substring(0, start)
+							+ "\t"
+							+ target.val().substring(end));
+
+				// put caret at right position again
+				this.selectionStart = this.selectionEnd = start + 1;
+				return false;
+			}
+		});
 	}
 
 	/**

@@ -1,0 +1,53 @@
+<a href="{{www_path}}/elements/templates/add/"><span class="icon layout-content-left-2"></span> <b>Add a new template</b></a>
+
+<div class="row_seperator">&nbsp;</div><br />
+
+<div class="col_oneoftwo">
+	<h3>Page templates</h3>
+	<p>
+		Page templates are used to publish a page directly from your CASH account. You'll see more 
+		options on your account's main page.
+	</p>
+	{{#page_templates}}
+		<ul class="alternating">
+			{{#page_templates}}
+			<li>
+				<h4>{{name}} <small class="fadedtext nobr" style="font-weight:normal;"> // {{type}}</small></h4>
+				<div class="itemnav">
+					<a href="{{www_path}}/elements/templates/edit/{{id}}" class="mininav_flush"><span class="icon search"></span> Details</a> 
+					<a href="{{www_path}}/elements/templates/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
+				</div>
+			</li>
+			{{/page_templates}}
+		</ul>
+	{{/page_templates}}
+
+	{{^page_templates}}
+		<p>No page templates found.</p>
+	{{/page_templates}}
+</div>
+<div class="col_oneoftwo lastcol">
+	<h3>Embed templates</h3>
+	<p>
+		Embed templates are used to style HTML5 embeds for your elements. You'll be able to choose
+		a template on the element details page.
+	</p>
+		
+	{{#embed_templates}}
+		<ul class="alternating">
+		{{#embed_templates}}
+		<li>
+			<h4>{{name}} <small class="fadedtext nobr" style="font-weight:normal;"> // {{type}}</small></h4>
+			<div class="itemnav">
+				<a href="{{www_path}}/elements/templates/edit/{{id}}" class="mininav_flush"><span class="icon search"></span> Details</a> 
+				<a href="{{www_path}}/elements/templates/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
+			</div>
+		</li>
+		{{/embed_templates}}
+		</ul>
+	{{/embed_templates}}
+
+	{{^embed_templates}}
+		<p>No embed templates found.</p>
+	{{/embed_templates}}
+</div>

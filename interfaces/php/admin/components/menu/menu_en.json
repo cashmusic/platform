@@ -49,6 +49,14 @@
 		{"page_name":"Delete Element", "menu_icon":"", "hide":true},
 	"elements/edit":
 		{"page_name":"Edit Element", "menu_icon":"", "hide":true},
+	"elements/templates":
+		{"page_name":"Page/embed templates", "menu_icon":"layout-content-left-2"},
+	"elements/templates/add":
+		{"page_name":"Add a template", "menu_icon":"", "hide":true},
+	"elements/templates/edit":
+		{"page_name":"Edit template", "menu_icon":"", "hide":true},
+	"elements/templates/delete":
+		{"page_name":"Delete template", "menu_icon":"", "hide":true},
 		
 		
 	"error":

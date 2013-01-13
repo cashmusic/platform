@@ -1,0 +1,58 @@
+<p>
+Templates look like HTML because, essentially, they are. Embed templates support only a single element
+— the element will appear wherever you put &#123;&#123;&#123;element_markup&#125;&#125;&#125; in your 
+template. Page templates can have as many elements as you like. Just paste in embed codes from the 
+element you want. You'll find them on that element's page.
+</p>
+
+<h3>Template details</h3>
+
+<form accept-charset="UTF-8" method="post" action="{{www_path}}/elements/templates" name="elements_template">
+	<input type="hidden" name="dotemplateset" value="makeitso" />
+	{{#id}}<input type="hidden" name="template_id" value="{{id}}" />{{/id}}
+
+	<label for="template_name">Name</label><br />
+	<input type="text" id="template_name" name="template_name" placeholder="Give it a name" value="{{name}}" />
+	<div class="row_seperator">&nbsp;</div><br />
+
+	<div class="col_oneoftwo">
+		<label for="template_type">Type</label><br />
+		<input type="radio" id="typepage" name="template_type" value="page" {{^is_embed}}checked="checked"{{/is_embed}} /> <label for="typepage">Page template</label> &nbsp; &nbsp; 
+		<input type="radio" id="typeembed" name="template_type" value="embed" {{#is_embed}}checked="checked"{{/is_embed}} /> <label for="typeembed">Embed template</label>
+	</div>
+
+	{{#adding}}
+	<div class="col_oneoftwo lastcol">
+		<label>Default templates</label><br />
+		<span class="tooltip" title="This will erase any changes you've made and give you the default markup for a page template"><a href="#" id="usedefaultpage" class="smalltext" style="margin-right:3em;">Use default <b>page</b> markup</a></span>
+		<span class="tooltip" title="This will erase any changes you've made and give you the default markup for an embed template"><a href="#" id="usedefaultembed" class="smalltext" style="margin-right:3em;">Use default <b>embed</b> markup</a></span>
+	</div>
+	{{/adding}}
+
+	<div class="row_seperator">&nbsp;</div><br />
+
+	<label>Template</label>
+	<textarea id="template" name="template" class="taller" wrap="off"  spellcheck="false">{{template}}</textarea>
+
+	<div class="row_seperator">.</div><br />
+	<input class="button" type="submit" value="{{button_text}}" />
+
+</form>
+
+{{#adding}}
+	<textarea id="page_default_template" style="display:none;">{{page_default_template}}</textarea>
+	<textarea id="embed_default_template" style="display:none;">{{embed_default_template}}</textarea>
+{{/adding}}
+
+<script type="text/javascript">
+	$('#usedefaultpage').click(function(e) {
+		e.preventDefault();
+		$('#template').val($('#page_default_template').val());
+		$('#template').focus();
+	});
+	$('#usedefaultembed').click(function(e) {
+		e.preventDefault();
+		$('#template').val($('#embed_default_template').val());
+		$('#template').focus();
+	});
+</script>

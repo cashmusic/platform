@@ -35,6 +35,7 @@ class SystemPlant extends PlantBase {
 				'getnewesttemplate'       => array('getNewestTemplate','direct'),
 				'getsettings'             => array('getSettings','direct'),
 				'gettemplate'             => array('getTemplate','direct'),
+				'gettemplatesforuser'     => array('getTemplatesForUser','direct'),
 				'migratedb'               => array('doMigrateDB','direct'),
 				'redeemlockcode'          => array('redeemLockCode',array('direct','get','post')),
 				'setapicredentials'       => array('setAPICredentials','direct'),
@@ -692,6 +693,32 @@ class SystemPlant extends PlantBase {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Gets all user page/embed template for display.
+	 *
+	 * @return string|false
+	 */
+	protected function getTemplatesForUser($user_id,$type=false) {
+		$condition = array(
+			"user_id" => array(
+				"condition" => "=",
+				"value" => $user_id
+			)
+		);
+		if ($type) {
+			$condition['type'] = array(
+				"condition" => "=",
+				"value" => $type
+			);
+		}
+		$result = $this->db->getData(
+			'templates',
+			'*',
+			$condition
+		);
+		return $result;
 	}
 
 	/**
