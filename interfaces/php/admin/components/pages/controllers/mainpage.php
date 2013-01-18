@@ -12,6 +12,53 @@ if ($settings['banners'][BASE_PAGENAME]) {
 		. '<div class="moreinfospc">&nbsp;</div></div>';
 }
 
+// handle template change
+if (isset($_POST['change_template_id'])) {
+	$settings_request = new CASHRequest(
+		array(
+			'cash_request_type' => 'system', 
+			'cash_action' => 'setsettings',
+			'type' => 'public_profile_template',
+			'value' => $_POST['change_template_id'],
+			'user_id' => $cash_admin->effective_user_id
+		)
+	);
+}
+
+// look for a defined template
+$settings_request = new CASHRequest(
+	array(
+		'cash_request_type' => 'system', 
+		'cash_action' => 'getsettings',
+		'type' => 'public_profile_template',
+		'user_id' => $cash_admin->effective_user_id
+	)
+);
+if ($settings_request->response['payload']) {
+	$cash_admin->page_data['current_page_template'] = $settings_request->response['payload'];
+} else {
+	$cash_admin->page_data['current_page_template'] = false;
+}
+
+// deal with templates and public page
+$page_templates = AdminHelper::echoTemplateOptions('page',$cash_admin->page_data['current_page_template']);
+if ($page_templates) {
+	$cash_admin->page_data['template_options'] = '<option value="0" selected="selected">No page published</option>';
+	$cash_admin->page_data['template_options'] .= $page_templates;
+	$cash_admin->page_data['defined_page_templates'] = true;
+} else {
+	$cash_admin->page_data['defined_page_templates'] = false;
+	$cash_admin->page_data['published_page'] = false;
+}
+
+// get news for the news feed
+$dashboard_news_response = CASHSystem::getURLContents('http://cashmusic.s3.amazonaws.com/permalink/admin/mainpage.html');
+if ($dashboard_news_response) {
+	$cash_admin->page_data['dashboard_news'] = '<h3>News</h3>' . $dashboard_news_response;
+} else {
+	$cash_admin->page_data['dashboard_news'] = '<h3 class="fadedtext">Sorry</h3><p class="fadedtext">Couldn\'t get news from the CASH servers.</p>';
+}
+
 // check to see if the user has elements defined
 $elements_response = $cash_admin->requestAndStore(
 	array(
@@ -36,12 +83,6 @@ if (is_array($elements_response['payload'])) {
 	}
 
 	$cash_admin->page_data['elements_for_user'] = true;
-	$dashboard_news_response = CASHSystem::getURLContents('http://cashmusic.s3.amazonaws.com/permalink/admin/mainpage.html');
-	if ($dashboard_news_response) {
-		$cash_admin->page_data['dashboard_news'] = '<h3>News</h3>' . $dashboard_news_response;
-	} else {
-		$cash_admin->page_data['dashboard_news'] = '<h3 class="fadedtext">Sorry</h3><p class="fadedtext">Couldn\'t get news from the CASH servers.</p>';
-	}
 } else {
 	// no elements found, meaning it's a newer install
 
@@ -85,7 +126,8 @@ $user_response = $cash_admin->requestAndStore(
 if (is_array($user_response['payload'])) {
 		$current_username = $user_response['payload']['username'];
 	}
-$cash_admin->page_data['user_page_uri'] = rtrim(str_replace('admin', $current_username, CASHSystem::getCurrentURL()),'/');
+$cash_admin->page_data['user_page_uri'] = str_replace('https','http',rtrim(str_replace('admin', $current_username, CASHSystem::getCurrentURL()),'/'));
+$cash_admin->page_data['user_page_display_uri'] = str_replace('http://','',$cash_admin->page_data['user_page_uri']);
 
 if ($cash_admin->platform_type == 'single') {
 	$cash_admin->page_data['platform_type_single'] = true;

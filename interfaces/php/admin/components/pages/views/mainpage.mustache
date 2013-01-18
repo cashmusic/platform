@@ -52,24 +52,56 @@
 	{{/elements_for_user}}
 {{/platform_type_single}}
 
-{{^page_template}}
+{{^current_page_template}}
 	<div class="callout bright flush">
 		<h3>Publish a page</h3>
 		<p>You can publish a page with any of your elements. Bring your own markup and just drop in any CASH element embed code(s) you want. Look below for details.</p>
+		{{^defined_page_templates}}
+			<br />
+			<a href="{{www_path}}/elements/templates/add/"><span class="icon layout-content-left-2"></span> <b>Add a page template to start</b></a>
+		{{/defined_page_templates}}
 	</div>
-{{/page_template}}
+{{/current_page_template}}
 
-{{#elements_for_user}}
+{{#defined_page_templates}}
 	<br />
 	<h2>Your public page</h2>
+	<div class="row_seperator">&nbsp;</div>
 	<div>
-		{{#page_template}}
-			<h4><a href="{{www_path}}/system/template/{{page_template}}" class="lightboxed returntocurrentroute"><span class="icon pencil"></span> Edit your public page</a></h4>
-			<div class="row_seperator">.</div>
-			<a href="{{user_page_uri}}" target="_blank"><span class="icon browser-new-window"></span> Live at {{user_page_uri}}</a>
-		{{/page_template}}
-		{{^page_template}}
-			<a href="{{www_path}}/system/template" class="lightboxed returntocurrentroute"><span class="icon layout-content-left-2"></span> Add a page template.</a>
-		{{/page_template}}
+		<div class="col_oneoftwo">
+
+		{{#current_page_template}}
+			<label>View it live:</label><br />
+			<h3><a href="{{user_page_uri}}" target="_blank">{{user_page_display_uri}}</a></h3>
+		</div>
+		<div class="col_oneoftwo lastcol">
+			<label>Make changes:</label><br />
+			<span class="smalltext"><a href="{{www_path}}/account/"><span class="icon polaroid"></span> <b>Change your username/url</b></a></span><br />
+			<span class="smalltext"><a href="{{www_path}}/elements/templates/add/"><span class="icon layout-content-left-2"></span> <b>Add a new page template</b></a></span><br />
+			<span class="smalltext"><a href="{{www_path}}/elements/templates/edit/{{current_page_template}}"><span class="icon pencil"></span> <b>Edit the current page template</b></a></span><br />
+
+			<div class="drawer noprefix">
+				<a class="drawerhandle"><span class="icon browser-windows"></span> <b>Publish a different template</b></a>
+				<div class="drawercontent">
+					<br />
+		{{/current_page_template}}
+
+					<form method="post" action="">
+						<label for="template_id">Select a page template to publish:</label><br />
+						<select id="change_template_id" name="change_template_id">
+							{{{template_options}}}
+						</select>
+						<div class="row_seperator">&nbsp;</div>
+						<input type="submit" value="publish" />
+					</form>
+
+		{{#current_page_template}}
+				</div>
+			</div>
+		{{/current_page_template}}
+
+		</div>
 	</div>
-{{/elements_for_user}}
+
+	<div class="row_seperator">&nbsp;</div>
+{{/defined_page_templates}}

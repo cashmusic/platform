@@ -261,6 +261,44 @@
 		}
 	}
 
+	/**
+	 * Finds settings matching a specified scope and echoes them out formatted
+	 * for a dropdown box in a form
+	 *
+	 */public static function echoTemplateOptions($type='page',$selected=false,$return=true) {
+		global $cash_admin;
+		// get all the templates 
+		$template_response = $cash_admin->requestAndStore(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'gettemplatesforuser',
+				'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
+				'type' => 'page'
+			)
+		);
+		
+		if (is_array($template_response['payload'])) {
+			$templates_array = $template_response['payload'];
+
+			// echo out the proper dropdown bits
+			if ($templates_array) {
+				$all_templates = '';
+				foreach ($templates_array as $template) {
+					$echo_selected = '';
+					if ($template['id'] == $selected) { $echo_selected = ' selected="selected"'; }
+					$all_templates .= '<option value="' . $template['id'] . '"' . $echo_selected . '>' . $template['name'] . '</option>';
+				}
+				if ($return) {
+					return $all_templates;
+				} else {
+					echo $all_templates;
+				}
+			}
+		} else {
+			return false;
+		}
+	}
+
 	/**********************************************
 	 *
 	 * SIMPLE DATA FORMATTING

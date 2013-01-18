@@ -53,16 +53,34 @@ if (isset($_GET['username'])) {
 	}
 }
 
-// if we don't find any user id assume we show a default page
+// if we find a user check for a template and render one if found.
 if ($user_id) {
-	$template_request = new CASHRequest(
+	$settings_request = new CASHRequest(
 		array(
 			'cash_request_type' => 'system', 
-			'cash_action' => 'getnewesttemplate',
+			'cash_action' => 'getsettings',
+			'type' => 'public_profile_template',
 			'user_id' => $user_id
 		)
 	);
-	$template = $template_request->response['payload'];
+	if ($settings_request->response['payload']) {
+		$template_id = $settings_request->response['payload'];
+	} else {
+		$template_id = false;
+	}
+
+	$template = false;
+	if ($template_id) {
+		$template_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'gettemplate',
+				'template_id' => $template_id,
+				'user_id' => $user_id
+			)
+		);
+		$template = $template_request->response['payload'];
+	}
 
 	// with a real user but no template we redirect to the admin
 	if ($template) {
@@ -81,15 +99,17 @@ if ($user_id) {
 		}
 		// render out the page itself
 		echo CASHSystem::renderMustache($template,$page_vars);
+		exit();
 	} else {
 		// redirect to the admin
 		header('Location: ./admin/');
 	}
-} else {
-	/********************************
-	 *
-	 *  ADD PUBLIC PAGE HERE
-	 *
-	 ********************************/
-}
+} 
+
+
+/********************************
+ *
+ *  ADD PUBLIC PAGE HERE
+ *
+ ********************************/
 ?>
