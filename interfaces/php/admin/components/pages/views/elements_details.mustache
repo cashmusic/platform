@@ -9,8 +9,27 @@
 				<b class="fadedtext codelabel">WordPress: </b><code><div class="codearea" contenteditable="true">[cashmusic element=&quot;{{id}}&quot; name=&quot;{{name}}&quot;]</div></code>
 			{{/platform_type_single}}
 			<b class="fadedtext codelabel">Local: </b><code><div class="codearea" contenteditable="true">&#123;&#123;&#123;element_{{id}}&#125;&#125;&#125;</div></code><br />
-			<b class="fadedtext codelabel">HTML5: </b><code><div class="codearea" contenteditable="true">&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;</div></code><br />
+			<b class="fadedtext codelabel">HTML5: </b><code><div class="codearea" contenteditable="true">&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;</div></code>
 		</div>
+	</div>
+</div>
+
+
+
+<div class="drawer noprefix element_embedtemplate">
+	<p class="fadedtext smalltext"><b>HTML5 embed template:</b> {{embed_template_name}} / 
+		{{#defined_embed_templates}}<a class="drawerhandle"><span class="icon browser-windows"></span> <b>Pick another template</b></a></p>{{/defined_embed_templates}}
+		{{^defined_embed_templates}}<a href="{{www_path}}/elements/templates/add/"><span class="icon layout-content-left-2"></span> <b>Add a new embed template</b></a></p>{{/defined_embed_templates}}
+	<div class="drawercontent col_oneoftwo">
+		<form method="post" action="">
+			<label for="template_id">Choose an embed template:</label><br />
+			<select id="change_template_id" name="change_template_id">
+				{{{template_options}}}
+			</select>
+			<div class="row_seperator">&nbsp;</div>
+			<input type="submit" value="use this template" />
+		</form>
+		<br />
 	</div>
 </div>
 

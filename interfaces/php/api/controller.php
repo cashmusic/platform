@@ -39,7 +39,12 @@ if (strrpos($_SERVER['REQUEST_URI'],'controller.php') !== false) {
 } else {
 	// instantiate the API, pass the request from .htaccess to it
 	require_once('./classes/APICore.php');
-	new APICore($_REQUEST['p']);
+	if (!isset($_REQUEST['p'])) {
+		$final_request = '/';
+	} else {
+		$final_request = $_REQUEST['p'];
+	}
+	new APICore($final_request);
 	exit;
 }
 ?>

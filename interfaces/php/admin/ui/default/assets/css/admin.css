@@ -28,7 +28,8 @@ div.callout.newsheader {background-color:#231F20;color:#fff;}
 div.callout.newsheader a:hover {color:#ff0 !important;}
 code {font-size:11px;}
 code a {color:#23c;}
-code input, code textarea, .codearea {width:660px !important;border:0 !important;font-size:11px !important;background-color:#ededef !important;font-family:'courier', monospace !important;margin-top:-2px;font-style:normal !important;position:relative;top:-1px;}
+code input, code textarea, .codearea {width:660px !important;border:0 !important;font-size:11px !important;background-color:#ededef !important;font-family:'courier', monospace !important;margin:-2px 0 0 0;font-style:normal !important;position:relative;top:-1px;}
+.codearea_notes {width:660px !important;border:0 !important;font-size:12px !important;margin:-2px 0 0 75px;font-style:normal !important;}
 .codearea {height:auto;display:inline-block;line-height:1.35em;padding:0.5em;resize:none;outline:0px solid transparent;margin-bottom:0.75em;}
 .codearea:focus {outline:0px solid transparent;}
 .codelabel {width:70px;display:inline-block;vertical-align:top;}
@@ -84,8 +85,9 @@ ol li, ol.alternating li {list-style-type:decimal;}
 .created_mod {padding:8px 0 0 0;text-align:right;white-space:nowrap;}
 .created_mod_top {padding:0 0 4px 0;text-align:left;white-space:nowrap;}
 .element_image {position:relative;height:78px;background-repeat:no-repeat;background-position:center top;margin-bottom:6px;}
-.fadedtext {color:#a49c9c !important;}
+.fadedtext, .fadedtext a {color:#a49c9c !important;}
 .washedtext {color:#d1c7c7 !important;}
+div.callout .fadedtext {color:#827C7C !important;}
 .highlightcopy {padding:2px 6px 2px 6px;background-color:#ff0;font:italic 12px/1.75em georgia, times, serif;}
 .itemnav {margin:12px 0 8px 0;font-size:12px;}
 li .itemnav {margin:4px 0 0 0;height:1px;overflow:hidden;-webkit-transition:all 0.1s ease-out;-moz-transition:all 0.1s ease-out;-o-transition:all 0.1s ease-out;transition:all 0.1s ease-out;}
@@ -108,6 +110,7 @@ li:hover .itemnav {margin:12px 0 8px 0;height:auto;}
 .tall {height:3em;}
 .tar {text-align:right;}
 .drawerhandle {font-size:12px;font-weight:bold;cursor:pointer;}
+.element_embedtemplate {margin-left:18px;}
 ::-moz-selection {background:#ff0;color:#000;}
 ::selection {background:#ff0;color:#000;}
 

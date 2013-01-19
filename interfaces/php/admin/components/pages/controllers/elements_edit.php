@@ -1,6 +1,6 @@
 <?php
 if (!$request_parameters) {
-	AdminHelper::controllerRedirect('/elements/view/');
+	AdminHelper::controllerRedirect('/elements/');
 }
  
 $current_element = $cash_admin->setCurrentElement($request_parameters[0]);
@@ -12,6 +12,49 @@ if ($current_element) {
 	$effective_user = $cash_admin->effective_user_id;
 	
 	if ($current_element['user_id'] == $effective_user) {
+		// handle template change
+		if (isset($_POST['change_template_id'])) {
+			$new_template_id = $cash_admin->requestAndStore(
+				array(
+					'cash_request_type' => 'element', 
+					'cash_action' => 'setelementtemplate',
+					'element_id' => $request_parameters[0],
+					'template_id' => $_POST['change_template_id']
+				)
+			);
+			if ($new_template_id) {
+				$cash_admin->page_data['template_id'] = $_POST['change_template_id'];
+			}
+		}
+
+		// deal with templates 
+		$embed_templates = AdminHelper::echoTemplateOptions('embed',$cash_admin->page_data['template_id']);
+		if ($embed_templates) {
+			$cash_admin->page_data['template_options'] = '<option value="0" selected="selected">Use default template</option>';
+			$cash_admin->page_data['template_options'] .= $embed_templates;
+			$cash_admin->page_data['defined_embed_templates'] = true;
+			if (!$cash_admin->page_data['template_id']) {
+				$cash_admin->page_data['embed_template_name'] = 'default';
+			} else {
+				$template_response = $cash_admin->requestAndStore(
+					array(
+						'cash_request_type' => 'system', 
+						'cash_action' => 'gettemplate',
+						'template_id' => $cash_admin->page_data['template_id'],
+						'all_details' => 1,
+						'user_id' => $current_element['user_id']
+					)
+				);
+				if (is_array($template_response['payload'])) {
+					$cash_admin->page_data['embed_template_name'] = '“' . $template_response['payload']['name'] . '”';
+				} else {
+					$cash_admin->page_data['embed_template_name'] = 'error. please choose new template.';
+				}
+			}
+		} else {
+			$cash_admin->page_data['defined_embed_templates'] = false;
+		}
+
 		$location_analytics = $cash_admin->requestAndStore(
 			array(
 				'cash_request_type' => 'element', 
@@ -57,10 +100,10 @@ if ($current_element) {
 			$cash_admin->page_data['element_rendered_content'] = "Could not find the admin.php file for this .";
 		}
 	} else {
-		AdminHelper::controllerRedirect('/elements/view/');
+		AdminHelper::controllerRedirect('/elements/');
 	}
 } else {
-	AdminHelper::controllerRedirect('/elements/view/');
+	AdminHelper::controllerRedirect('/elements/');
 }
 
 if ($cash_admin->platform_type == 'single') {

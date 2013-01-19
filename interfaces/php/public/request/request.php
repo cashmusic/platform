@@ -27,7 +27,19 @@ if (!isset($_REQUEST['nooutput'])) {
 				$embed_location = $requests[3];
 				$embed_location = str_replace('!slash!', '/', $embed_location);
 			}
-			$template = @file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/embed.mustache');
+			//$template = @file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/embed.mustache');
+			
+			$template_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'element', 
+					'cash_action' => 'getelementtemplate',
+					'element_id' => $requests[1],
+					'return_template' => 1
+				)
+			);
+			$template = $template_request->response['payload'];
+			error_log($template);
+
 			$embed_data = array();
 			$element_markup = false;
 			ob_start();

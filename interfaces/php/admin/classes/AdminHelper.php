@@ -273,7 +273,7 @@
 				'cash_request_type' => 'system', 
 				'cash_action' => 'gettemplatesforuser',
 				'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
-				'type' => 'page'
+				'type' => $type
 			)
 		);
 		

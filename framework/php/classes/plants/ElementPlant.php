@@ -29,12 +29,14 @@ class ElementPlant extends PlantBase {
 			'getanalytics'         => array('getAnalytics','direct'),
 			'getelement'           => array('getElement','direct'),
 			'getelementsforuser'   => array('getElementsForUser','direct'),
+			'getelementtemplate'   => array('getElementTemplate','direct'),
 			//'getmarkup'            => array('getElementMarkup',array('direct','get','post','api_public','api_key','api_fullauth')),
 			// closing up the above -> security risk allowing people to simply request markup and pass a status UID via 
 			// API or GET. we'll need to require signed status codes and reopen...
 			'getmarkup'            => array('getElementMarkup','direct'),
 			'getsupportedtypes'    => array('getSupportedTypes','direct'),
-			'redeemcode'           => array('redeemLockCode',array('direct','get','post'))
+			'redeemcode'           => array('redeemLockCode',array('direct','get','post')),
+			'setelementtemplate'   => array('setElementTemplate','direct')
 		);
 		$this->buildElementsArray();
 		$this->plantPrep($request_type,$request);
@@ -75,7 +77,7 @@ class ElementPlant extends PlantBase {
 	protected function getElement($id) {
 		$result = $this->db->getData(
 			'elements',
-			'id,name,type,user_id,options',
+			'id,name,type,user_id,template_id,options',
 			array(
 				"id" => array(
 					"condition" => "=",
@@ -89,12 +91,66 @@ class ElementPlant extends PlantBase {
 				'name' => $result[0]['name'],
 				'type' => $result[0]['type'],
 				'user_id' => $result[0]['user_id'],
+				'template_id' => $result[0]['template_id'],
 				'options' => json_decode($result[0]['options'],true)
 			);
 			return $the_element;
 		} else {
 			return false;
 		}
+	}
+
+	protected function getElementTemplate($element_id,$return_template=false) {
+		$element = $this->getElement($element_id);
+		if ($element) {
+			if (!$return_template) {
+				return $element['template_id'];
+			} else {
+				if ($element['template_id']) {
+					$template_request = new CASHRequest(
+						array(
+							'cash_request_type' => 'system', 
+							'cash_action' => 'gettemplate',
+							'template_id' => $element['template_id'],
+							'all_details' => 1
+						)
+					);
+					if ($template_request->response['payload']) {
+						$template = $template_request->response['payload']['template'];
+					} else {
+						$template = @file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/embed.mustache');	
+					}
+				} else {
+					$template = @file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/embed.mustache');
+				}
+				return $template;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	protected function setElementTemplate($element_id,$template_id,$user_id=false) {
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $element_id
+			)
+		);
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
+		$result = $this->db->setData(
+			'elements',
+			array(
+				'template_id' => $template_id
+			),
+			$condition
+		);
+		return $result;
 	}
 	
 	protected function getElementsForUser($user_id) {
