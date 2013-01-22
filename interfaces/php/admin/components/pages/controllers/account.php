@@ -26,11 +26,18 @@ if (isset($_POST['doaccountchange'])) {
 		}
 		if (isset($_POST['new_username'])) { 
 			if ($_POST['new_username']) {
-				$changes['username'] = $_POST['new_username'];
+				// strip all non-alpha/numeric and push it all to lowercase for the sake of uniqueness
+				$changes['username'] = strtolower(preg_replace("/[^a-z0-9]+/i", '',$_POST['new_username']));
 			}
 		}
 		if (isset($_POST['new_password'])) { 
 			if ($_POST['new_password']) {
+				if (!defined('MINIMUM_PASSWORD_LENGTH')) {
+					define('MINIMUM_PASSWORD_LENGTH',10);
+				}
+				if (strlen($_POST['new_password']) < MINIMUM_PASSWORD_LENGTH) {
+					AdminHelper::formFailure('Error. Your password should be at least ' . MINIMUM_PASSWORD_LENGTH . ' characters long. Please try again.');
+				}
 				$changes['password'] = $_POST['new_password'];
 			}
 		}
@@ -41,7 +48,7 @@ if (isset($_POST['doaccountchange'])) {
 			}
 			AdminHelper::formSuccess('Success. All changed.');
 		} else {
-			AdminHelper::formFailure('Error. We had a problem resetting your login. Please try again. Email addresses and usernames have to be unique in the system.');
+			AdminHelper::formFailure('Error. We had a problem resetting your login. Please try again. Email addresses and usernames have to be unique.');
 		}
 	}
 }

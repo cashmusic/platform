@@ -38,7 +38,6 @@ if (!isset($_REQUEST['nooutput'])) {
 				)
 			);
 			$template = $template_request->response['payload'];
-			error_log($template);
 
 			$embed_data = array();
 			$element_markup = false;

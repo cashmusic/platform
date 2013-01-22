@@ -278,6 +278,12 @@ if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
 
 	// this for returning password reset people:
 	if (isset($_GET['dopasswordreset'])) {
+		if (!defined('MINIMUM_PASSWORD_LENGTH')) {
+			$cash_admin->page_data['minimum_password_length'] = 10;
+		} else {
+			$cash_admin->page_data['minimum_password_length'] = MINIMUM_PASSWORD_LENGTH;
+		}
+
 		$valid_key = $cash_admin->requestAndStore(
 			array(
 				'cash_request_type' => 'system', 
@@ -318,7 +324,7 @@ if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
 						'cash_action' => 'setlogincredentials',
 						'user_id' => $id_response['payload'], 
 						'address' => $_POST['address'], 
-						'password' => $_POST['newpassword']
+						'password' => $_POST['new_password']
 					)
 				);
 				if ($change_request->response['payload'] !== false) {
