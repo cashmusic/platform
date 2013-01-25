@@ -252,6 +252,7 @@ CREATE TABLE `people` (
   `address_postalcode` varchar(255),
   `address_country` varchar(255),
   `is_admin` bool NOT NULL DEFAULT '0',
+  `data` text,
   `api_key` char(64) DEFAULT '',
   `api_secret` char(64) DEFAULT '',
   `creation_date` int(11) DEFAULT NULL,

@@ -87,6 +87,33 @@ class SystemPlantTests extends UnitTestCase {
 		// should fail
 		$this->assertFalse($login_request->response['payload']);
 	}
+
+	function testAddNewLoginData() {
+		// admin user:
+		$login_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'addlogin',
+				'address' => 'anotherperson@test.com', 
+				'password' => 'testpassword',
+				'is_admin' => 0,
+				'data' => array('when'=>'now')
+			)
+		);
+		$this->assertTrue($login_request->response['payload']);
+		$user_id = $login_request->response['payload'];
+
+		$user_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'getuser',
+				'user_id' => $user_id
+			)
+		);
+		if ($user_request->response['payload']) {
+			$this->assertEqual($user_request->response['payload']['data'],'{"when":"now"}');
+		}
+	}
 	
 	function testResetLoginInfo() {
 		$login_request = new CASHRequest(

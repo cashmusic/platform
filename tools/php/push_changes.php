@@ -45,19 +45,21 @@ function profile_directory($dir,$trim_from_output,&$add_to) {
 				$object != "cashmusic.ini.php" &&
 				$object != "cashmusic_template.ini.php" &&
 				$object != "connections.json" &&
-				$object != "_connections.json"
+				$object != "_connections.json" &&
+				$object != "constants.php"
 			) { 
 				if (filetype($dir."/".$object) == "dir") {
 					profile_directory($dir."/".$object,$trim_from_output,$add_to); 
 				} else {
-					$object_name = ltrim(str_replace($trim_from_output,'',$dir),'/')."/".$object;
+					$object_name = ltrim(str_replace($trim_from_output,'',$dir."/".$object),'/');
 					if (
 						substr($object_name,0,1)  != '/' &&
 						substr($object_name,0,1)  != '.' &&
 						substr($object_name,0,7)  != 'LICENSE' &&
 						substr($object_name,0,8)  != 'Makefile' &&
 						substr($object_name,0,9)  != 'README.md' &&
-						!strpos($object_name,'/constants.php')
+						substr($object_name,0,10) != 'privacy.md' &&
+						substr($object_name,0,8)  != 'terms.md' 
 					) {
 						$add_to[$object_name] = md5_file($dir."/".$object);
 					}
