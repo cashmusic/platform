@@ -176,47 +176,34 @@ class ElementPlant extends PlantBase {
 	 *
 	 * @return boolean
 	 */protected function recordAnalytics($id,$access_method,$access_action='getmarkup',$location=false,$access_data='') {
-		$ip_and_proxy = CASHSystem::getRemoteIP();
-		$already_recorded = false;
+		// check settings first as they're already loaded in the environment
+		$record_type = CASHSystem::getSystemSettings('analytics');
+		if ($record_type == 'off') {
+			return true;
+		}
+
 		if (!$location) {
 			$location = CASHSystem::getCurrentURL();
 		}
-		// first check and see if we've recorded this session and circumstance yet
-		// only do this for empty lock_method_table queries so we don't repeat
-		// unnecessary rows and overwhelm the table
-		if ($access_action == 'getmarkup') {
-			$already_recorded = $this->db->getData(
-				'elements_analytics',
-				'id',
-				array(
-					"element_id" => array(
-						"condition" => "=",
-						"value" => $id
-					),
-					"access_method" => array(
-						"condition" => "=",
-						"value" => $access_method
-					),
-					"access_location" => array(
-						"condition" => "=",
-						"value" => $location
-					),
-					"cash_session_id" => array(
-						"condition" => "=",
-						"value" => $this->getSessionID()
-					),
-					"client_ip" => array(
-						"condition" => "=",
-						"value" => $ip_and_proxy['ip']
-					),
-					"client_proxy" => array(
-						"condition" => "=",
-						"value" => $ip_and_proxy['proxy']
-					)
-				)
-			);
+
+		// only count one asset + situation per session
+		$recorded_elements = $this->sessionGet('recorded_elements');
+		if (is_array($recorded_elements)) {
+			if (in_array($id . $access_method . $location, $recorded_elements)) {
+				// already recorded for this session. just return true.
+				return true;
+			} else {
+				// didn't find a record of this asset. record it and move forward
+				$recorded_elements[] = $id . $access_method . $location;
+				$this->sessionSet('recorded_elements',$recorded_elements);	
+			}
+		} else {
+			$this->sessionSet('recorded_elements',array($id . $access_method . $location));
 		}
-		if (!$already_recorded) {
+
+		// first the big record if needed
+		if ($record_type == 'full' || !$record_type) {
+			$ip_and_proxy = CASHSystem::getRemoteIP();
 			$result = $this->db->setData(
 				'elements_analytics',
 				array(
@@ -231,10 +218,57 @@ class ElementPlant extends PlantBase {
 					'cash_session_id' => $this->getSessionID()
 				)
 			);
-			return $result;
-		} else {
-			return true;
 		}
+		// basic logging happens for full or basic
+		if ($record_type == 'full' || $record_type == 'basic') {
+			$condition = array(
+				"element_id" => array(
+					"condition" => "=",
+					"value" => $id
+				)
+			);
+			$current_result = $this->db->getData(
+				'elements_analytics_basic',
+				'*',
+				$condition
+			);
+			if (is_array($current_result)) {
+				$new_total = $current_result[0]['total'] +1;
+				$data      = json_decode($current_result[0]['data'],true);
+				if (isset($data['locations'][$location])) {
+					$data['locations'][$location] = $data['locations'][$location] + 1;
+				} else {
+					$data['locations'][$location] = 1;
+				}
+				if (isset($data['methods'][$access_method])) {
+					$data['methods'][$access_method] = $data['methods'][$access_method] + 1;
+				} else {
+					$data['methods'][$access_method] = 1;
+				}
+			} else {
+				$new_total = 1;
+				$data      = array(
+					'locations' => array(
+						$location => 1
+					),
+					'methods'   => array(
+						$access_method => 1
+					)
+				);
+				$condition = false;
+			}
+			$result = $this->db->setData(
+				'elements_analytics_basic',
+				array(
+					'element_id' => $id,
+					'data' => json_encode($data),
+					'total' => $new_total
+				),
+				$condition
+			);
+		}
+		
+		return $result;
 	}
 
 	/**
@@ -256,10 +290,10 @@ class ElementPlant extends PlantBase {
 				);
 				return $result;
 				break;
-			case 'elementbylocation':
+			case 'elementbasics':
 				$result = $this->db->getData(
-					'ElementPlant_getAnalytics_elementbylocation',
-					false,
+					'elements_analytics_basic',
+					'*',
 					array(
 						"element_id" => array(
 							"condition" => "=",
@@ -267,20 +301,13 @@ class ElementPlant extends PlantBase {
 						)
 					)
 				);
-				return $result;
-				break;
-			case 'elementbymethod':
-				$result = $this->db->getData(
-					'ElementPlant_getAnalytics_elementbymethod',
-					false,
-					array(
-						"element_id" => array(
-							"condition" => "=",
-							"value" => $element_id
-						)
-					)
-				);
-				return $result;
+				if ($result) {
+					$data = json_decode($result[0]['data'],true);
+					$data['total'] = $result[0]['total'];
+					return $data;
+				} else {
+					return false;
+				}
 				break;
 			case 'recentlyadded':
 				$result = $this->db->getData(

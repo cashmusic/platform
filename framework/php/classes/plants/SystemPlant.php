@@ -173,19 +173,57 @@ class SystemPlant extends PlantBase {
 	 *
 	 * @return boolean
 	 */protected function recordLoginAnalytics($user_id,$element_id=null,$login_method='internal') {
-		$ip_and_proxy = CASHSystem::getRemoteIP();
-		$result = $this->db->setData(
-			'people_analytics',
-			array(
-				'user_id' => $user_id,
-				'element_id' => $element_id,
-				'access_time' => time(),
-				'client_ip' => $ip_and_proxy['ip'],
-				'client_proxy' => $ip_and_proxy['proxy'],
-				'login_method' => $login_method
-			)
-		);
-		return $result;
+		// check settings first as they're already loaded in the environment
+		$record_type = CASHSystem::getSystemSettings('analytics');
+		if ($record_type == 'off') {
+			return true;
+		}
+
+		// first the big record if needed
+		if ($record_type == 'full' || !$record_type) {
+			$ip_and_proxy = CASHSystem::getRemoteIP();
+			$result = $this->db->setData(
+				'people_analytics',
+				array(
+					'user_id' => $user_id,
+					'element_id' => $element_id,
+					'access_time' => time(),
+					'client_ip' => $ip_and_proxy['ip'],
+					'client_proxy' => $ip_and_proxy['proxy'],
+					'login_method' => $login_method
+				)
+			);
+		}
+		// basic logging happens for full or basic
+		if ($record_type == 'full' || $record_type == 'basic') {
+			$condition = array(
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				)
+			);
+			$current_result = $this->db->getData(
+				'people_analytics_basic',
+				'*',
+				$condition
+			);
+			if (is_array($current_result)) {
+				$new_total = $current_result[0]['total'] +1;
+			} else {
+				$new_total = 1;
+				$condition = false;
+			}
+			$result = $this->db->setData(
+				'people_analytics_basic',
+				array(
+					'user_id' => $user_id,
+					'total' => $new_total
+				),
+				$condition
+			);
+		}
+		
+		return $result;		
 	}
 
 	/**

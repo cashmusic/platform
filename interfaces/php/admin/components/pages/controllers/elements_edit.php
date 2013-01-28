@@ -55,39 +55,40 @@ if ($current_element) {
 			$cash_admin->page_data['defined_embed_templates'] = false;
 		}
 
-		$location_analytics = $cash_admin->requestAndStore(
+		$analytics = $cash_admin->requestAndStore(
 			array(
 				'cash_request_type' => 'element', 
 				'cash_action' => 'getanalytics',
-				'analtyics_type' => 'elementbylocation',
+				'analtyics_type' => 'elementbasics',
 				'element_id' => $request_parameters[0],
 				'user_id' => $cash_admin->effective_user_id
 			)
 		);
 		$cash_admin->page_data['total_views'] = 0;
-		if (is_array($location_analytics['payload'])) {
-			foreach ($location_analytics['payload'] as $entry) {
-				$cash_admin->page_data['total_views'] += $entry['total'];
-			}
-			$cash_admin->page_data['location_analytics'] = new ArrayIterator($location_analytics['payload']);
-		}
-		
-		$method_analytics = $cash_admin->requestAndStore(
-			array(
-				'cash_request_type' => 'element', 
-				'cash_action' => 'getanalytics',
-				'analtyics_type' => 'elementbymethod',
-				'element_id' => $request_parameters[0],
-				'user_id' => $cash_admin->effective_user_id
-			)
-		);
-		if (is_array($method_analytics['payload'])) {
-			foreach ($method_analytics['payload'] as &$entry) {
+		if (is_array($analytics['payload'])) {
+			$cash_admin->page_data['total_views'] = $analytics['payload']['total'];
+
+			$methods_array   = array();
+			$locations_array = array();
+
+			foreach ($analytics['payload']['methods'] as $method => $total) {
 				$methods_string = array ('direct','api_public','api_key','api_fullauth');
 				$methods_translation = array('direct (embedded on this site)','api_public (shared to another site)','api_key (shared to another site)','api_fullauth (another site with your API credentials)');
-				$entry['access_method'] = str_replace($methods_string,$methods_translation,$entry['access_method']);
+				$methods_array[] = array(
+					'access_method' => str_replace($methods_string,$methods_translation,$method),
+					'total' => $total
+				);
 			}
-			$cash_admin->page_data['method_analytics'] = new ArrayIterator($method_analytics['payload']);
+			foreach ($analytics['payload']['locations'] as $location => $total) {
+				$locations_array[] = array(
+					'access_location' => $location,
+					'total' => $total
+				);
+				error_log($location);
+			}
+
+			$cash_admin->page_data['location_analytics'] = new ArrayIterator($locations_array);
+			$cash_admin->page_data['method_analytics'] = new ArrayIterator($methods_array);
 		}
 
 		if (@file_exists(CASH_PLATFORM_ROOT.'/elements' . '/' . $current_element['type'] . '/admin.php')) {

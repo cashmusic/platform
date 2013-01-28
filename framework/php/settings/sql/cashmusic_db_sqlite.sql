@@ -1,8 +1,8 @@
 -- 
 -- CASH Music platform
 -- flavor: SQLite
--- schema version: 6
--- modified: November 17, 2012
+-- schema version: 7
+-- modified: January 26, 2013
 
 BEGIN TRANSACTION;
 
@@ -42,6 +42,14 @@ CREATE TABLE assets_analytics (
   modification_date integer DEFAULT '0'
 );
 CREATE INDEX assets_analytics_asset_id ON assets_analytics (id);
+
+CREATE TABLE assets_analytics_basic (
+  id INTEGER PRIMARY KEY,
+  asset_id integer DEFAULT '0',
+  total integer,
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT '0'
+);
 
 
 -- 
@@ -206,6 +214,15 @@ CREATE TABLE elements_analytics (
 );
 CREATE INDEX elements_analytics_element_id ON elements_analytics (element_id);
 
+CREATE TABLE elements_analytics_basic (
+  id INTEGER PRIMARY KEY,
+  element_id integer DEFAULT '0',
+  data text,
+  total integer,
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT '0'
+);
+
 
 -- 
 -- 
@@ -243,6 +260,14 @@ CREATE TABLE people_analytics (
   client_ip text,
   client_proxy text,
   login_method text DEFAULT NULL,
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT '0'
+);
+
+CREATE TABLE people_analytics_basic (
+  id INTEGER PRIMARY KEY,
+  user_id integer DEFAULT '0',
+  total integer,
   creation_date integer DEFAULT NULL,
   modification_date integer DEFAULT '0'
 );

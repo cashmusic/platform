@@ -26,6 +26,7 @@ apilocation = "http://localhost:8888/interfaces/php/api/"
 [system]
 instancetype = "single" ;* single or multi
 timezone = "US/Pacific" ;* PHP timezone format
+analytics = "full"      ;* full or basic or off
 
 [email]
 systememail = "CASH Music <info@cashmusic.org>"

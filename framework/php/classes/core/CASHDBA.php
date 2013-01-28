@@ -71,11 +71,13 @@ class CASHDBA {
 			'analytics' => 'system_analytics',
 			'assets' => 'assets',
 			'assets_analytics' => 'assets_analytics',
+			'assets_analytics_basic' => 'assets_analytics_basic',
 			'commerce_assets' => 'commerce_assets',
 			'connections' => 'system_connections',
 			'contacts' => 'people_contacts',
 			'elements' => 'elements',
 			'elements_analytics' => 'elements_analytics',
+			'elements_analytics_basic' => 'elements_analytics_basic',
 			'events' => 'calendar_events',
 			'items' => 'commerce_items',
 			'lock_codes' => 'system_lock_codes',
@@ -87,6 +89,7 @@ class CASHDBA {
 			'templates' => 'system_templates',
 			'users' => 'people',
 			'people_analytics' => 'people_analytics',
+			'people_analytics_basic' => 'people_analytics_basic',
 			'people_lists' => 'people_lists',
 			'people_resetpassword' => 'people_resetpassword',
 			'list_members' => 'people_lists_members',
@@ -491,20 +494,6 @@ class CASHDBA {
 				. "WHERE e.user_id = :user_id AND ea.access_time > " . (time() - 1209600) . " " // active == used in the last 2 weeks
 				. "GROUP BY ea.element_id "
 				. "ORDER BY count DESC";
-				break;
-			case 'ElementPlant_getAnalytics_elementbylocation':
-				$query = "SELECT access_location, COUNT(cash_session_id) as 'total' "
-				. "FROM elements_analytics "
-				. "WHERE element_id = :element_id "
-				. "GROUP BY access_location "
-				. "ORDER BY total DESC";
-				break;
-			case 'ElementPlant_getAnalytics_elementbymethod':
-				$query = "SELECT access_method, COUNT(cash_session_id) as 'total' "
-				. "FROM elements_analytics "
-				. "WHERE element_id = :element_id "
-				. "GROUP BY access_method "
-				. "ORDER BY total DESC";
 				break;
 			case 'PeoplePlant_getAnalytics_listmembership':
 				$query = "SELECT COUNT(*) AS total, COUNT(CASE WHEN active = 1 THEN 1 END) AS active, COUNT(CASE WHEN active = 0 THEN 1 END) AS inactive, COUNT(CASE WHEN creation_date > " . (time() - 604800) . " THEN 1 END) AS last_week "

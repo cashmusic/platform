@@ -1,8 +1,8 @@
 -- 
 -- CASH Music platform
 -- flavor: MySQL
--- schema version: 6
--- modified: November 17, 2012
+-- schema version: 7
+-- modified: January 26, 2013
 
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -45,6 +45,16 @@ CREATE TABLE `assets_analytics` (
   `modification_date` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `assets_analytics_asset_id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `assets_analytics_basic`;
+CREATE TABLE `assets_analytics_basic` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `asset_id` int(11) NOT NULL DEFAULT '0',
+  `total` int(11) NOT NULL,
+  `creation_date` int(11) DEFAULT NULL,
+  `modification_date` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -230,6 +240,17 @@ CREATE TABLE `elements_analytics` (
   KEY `elements_analytics_element_id` (`element_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `elements_analytics_basic`;
+CREATE TABLE `elements_analytics_basic` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `element_id` int(11) NOT NULL,
+  `data` text NOT NULL,
+  `total` int(11) NOT NULL,
+  `creation_date` int(11) DEFAULT NULL,
+  `modification_date` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 -- 
 -- 
@@ -270,6 +291,16 @@ CREATE TABLE `people_analytics` (
   `client_ip` varchar(39) NOT NULL,
   `client_proxy` varchar(39) NOT NULL,
   `login_method` varchar(15) DEFAULT NULL,
+  `creation_date` int(11) DEFAULT NULL,
+  `modification_date` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `people_analytics_basic`;
+CREATE TABLE `people_analytics_basic` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `total` int(11) DEFAULT '0',
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)

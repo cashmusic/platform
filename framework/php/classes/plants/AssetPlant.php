@@ -448,18 +448,71 @@ class AssetPlant extends PlantBase {
 	 *
 	 * @return boolean
 	 */protected function recordAnalytics($id,$element_id=0) {
-		$ip_and_proxy = CASHSystem::getRemoteIP();
-		$result = $this->db->setData(
-			'assets_analytics',
-			array(
-				'asset_id' => $id,
-				'element_id' => $element_id,
-				'access_time' => time(),
-				'client_ip' => $ip_and_proxy['ip'],
-				'client_proxy' => $ip_and_proxy['proxy'],
-				'cash_session_id' => $this->getSessionID()
-			)
-		);
+		// check settings first as they're already loaded in the environment
+		$record_type = CASHSystem::getSystemSettings('analytics');
+		if ($record_type == 'off') {
+			return true;
+		}
+
+		// only count one asset per session
+		$recorded_assets = $this->sessionGet('recorded_assets');
+		if (is_array($recorded_assets)) {
+			if (in_array($id, $recorded_assets)) {
+				// already recorded for this session. just return true.
+				return true;
+			} else {
+				// didn't find a record of this asset. record it and move forward
+				$recorded_assets[] = $id;
+				$this->sessionSet('recorded_assets',$recorded_assets);	
+			}
+		} else {
+			$this->sessionSet('recorded_assets',array($id));
+		}
+
+		// first the big record if needed
+		if ($record_type == 'full' || !$record_type) {
+			$ip_and_proxy = CASHSystem::getRemoteIP();
+			$result = $this->db->setData(
+				'assets_analytics',
+				array(
+					'asset_id' => $id,
+					'element_id' => $element_id,
+					'access_time' => time(),
+					'client_ip' => $ip_and_proxy['ip'],
+					'client_proxy' => $ip_and_proxy['proxy'],
+					'cash_session_id' => $this->getSessionID()
+				)
+			);
+		}
+		// basic logging happens for full or basic
+		if ($record_type == 'full' || $record_type == 'basic') {
+			$condition = array(
+				"asset_id" => array(
+					"condition" => "=",
+					"value" => $id
+				)
+			);
+			$current_result = $this->db->getData(
+				'assets_analytics_basic',
+				'*',
+				$condition
+			);
+			if (is_array($current_result)) {
+				$new_total = $current_result[0]['total'] +1;
+			} else {
+				$new_total = 1;
+				$condition = false;
+			}
+			$result = $this->db->setData(
+				'assets_analytics_basic',
+				array(
+					'asset_id' => $id,
+					'total' => $new_total
+				),
+				$condition
+			);
+		}
+		
 		return $result;
 	}
 

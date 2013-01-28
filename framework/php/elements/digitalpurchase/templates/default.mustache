@@ -10,7 +10,7 @@
 <input type="hidden" name="connection_id" value="{{connection_id}}" />
 <input type="hidden" name="user_id" value="{{user_id}}" />
 {{#item_flexible_price}}
-	<input type="text" name="total_price" value="{{item_price}}" />
+	<input type="text" name="total_price" class="cashmusic_narrow" value="{{item_price}}" />
 {{/item_flexible_price}}
 <input type="submit" value="{{^item_flexible_price}}${{item_price}} - {{/item_flexible_price}}Buy it now" class="button" /><br />
 </form>
