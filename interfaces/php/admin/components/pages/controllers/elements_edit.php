@@ -84,7 +84,6 @@ if ($current_element) {
 					'access_location' => $location,
 					'total' => $total
 				);
-				error_log($location);
 			}
 
 			$cash_admin->page_data['location_analytics'] = new ArrayIterator($locations_array);
