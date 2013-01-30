@@ -11,6 +11,10 @@
  * Licensed under the GNU Lesser General Public License version 3.
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
+ *
+ *
+ * This file is generously sponsored by Christine Hughes, with an all-consuming passion in lockstep
+ *
  **/
 class CalendarPlant extends PlantBase {
 	public function __construct($request_type,$request) {

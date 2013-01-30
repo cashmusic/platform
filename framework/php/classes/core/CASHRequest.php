@@ -13,6 +13,9 @@
  * Licensed under the GNU Lesser General Public License version 3.
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
+ *
+ * This file is generously sponsored by Paul Lightfoot
+ *
  */class CASHRequest extends CASHData {
 	public static $version = 5;
 	

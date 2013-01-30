@@ -12,6 +12,11 @@
  * Licensed under the GNU Lesser General Public License version 3.
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
+ *
+ * This file is generously sponsored by John Luini and chime.com
+ * jon luini and chime.com support cashmusic's efforts towards furthering 
+ * easy-to-use open source tools for musicians!
+ *
  */abstract class CASHData {
 	protected $db = false,
 			  $cash_session_timeout = 10800,

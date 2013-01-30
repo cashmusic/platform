@@ -12,6 +12,9 @@
  * Licensed under the GNU Lesser General Public License version 3.
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
+ *
+ * This file is generously sponsored by Howard Lull Music www.turningeyes.com Keep the music coming!
+ *
  **/
 class SystemPlant extends PlantBase {
 	// hard-coded to avoid 0/o, l/1 type confusions on download cards

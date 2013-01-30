@@ -14,6 +14,9 @@
  * Licensed under the GNU Lesser General Public License version 3.
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
+ *
+ * This file is generously sponsored by Justin Miranda
+ *
  **/
 class PaypalSeed extends SeedBase {
 	protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token;

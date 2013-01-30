@@ -12,6 +12,8 @@
  * Licensed under the GNU Lesser General Public License version 3.
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
+ *
+ * This file is generously sponsored by Rob Morrissey (@robmorrissey)
  **/
 class AssetPlant extends PlantBase {
 	public function __construct($request_type,$request) {

@@ -11,6 +11,9 @@
  * Licensed under the GNU Lesser General Public License version 3.
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
+ *
+ * This file is generously sponsored by John 'Warthog9' Hawley
+ *
  **/
 class ElementPlant extends PlantBase {
 	protected $elements_array=array();

@@ -6,9 +6,14 @@
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2012, CASH Music
+ * Copyright (c) 2013, CASH Music
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
+ *
+ *
+ * This file is generously sponsored by This file sponsored by Balthrop, Alabama 
+ * Balthrop, Alabama (http://www.ballthropalabama.com) and End Up Records (http://endup.org). 
+ * Go CASH Music!
  *
  **/
 class EmailCollection extends ElementBase {

@@ -10,6 +10,10 @@
  * Licensed under the GNU Lesser General Public License version 3.
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
+ *
+ * This file is generously sponsored by Leigh Marble
+ * Leigh Marble, independent musician, Portland, OR -- www.leighmarble.com --
+ *
  */class CASHDaemon extends CASHData {
 	private $user_id = false;		   
 

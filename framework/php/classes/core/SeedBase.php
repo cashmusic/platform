@@ -14,6 +14,8 @@
  * This file is generously sponsored by Hypebot and Music Think Tank
  * Read Hypebot.com and MusicThinkTank.com
  *
+ * Thank you, Bruce!
+ *
  **/
 abstract class SeedBase extends CASHData {
 	protected $settings,$connection_id=false,$user_id=null;

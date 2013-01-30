@@ -10,6 +10,9 @@
  * Licensed under the GNU Lesser General Public License version 3.
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
+ *
+ * This file is generously sponsored by 'Sweetest tongue has sharpest tooth'
+ *
  **/
 class TwitterSeed extends SeedBase {
 	protected $twitter;
