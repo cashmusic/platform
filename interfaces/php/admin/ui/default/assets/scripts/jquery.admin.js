@@ -38,9 +38,15 @@
 		setUIBehaviors();
 		setContentBehaviors();
 
+		window.firstadminload = 'yes';
+
 		// make back/forward buttons work
 		window.addEventListener("popstate", function(e) {
-			refreshPageData(location.pathname,null,null,null,true);
+			if (window.firstadminload == false) {
+				refreshPageData(location.pathname,null,null,null,true);
+			} else {
+				window.firstadminload = false;
+			}
 		});
 	});
 
@@ -152,6 +158,7 @@
 		} else {
 			formdata = formdata+'&';
 		}
+
 		// remove any dialogs
 		$('.modallightbox').fadeOut('fast', function() {
 			$('.modallightbox').remove();
