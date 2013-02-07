@@ -15,27 +15,20 @@
 			<option value="0">none</option>
 			{{{options_people_lists}}}
 		</select>
-		<br /><br />
-		<input type='checkbox' class='checkorradio' name='skip_login' value=''{{#options_skip_login}} checked="checked"{{/options_skip_login}} /> <label for="skip_login">Do not require login (straight download)</label>
 
 	</div>
 	<div class="col_oneoftwo lastcol">
 
-		<label for="asset_id">The Downloadable Asset</label><br />
-		<select id="asset_id" name="asset_id">
-			<option value="0">none</option>
-			{{{options_assets}}}
-		</select>
+		<label for="alternate_password">Password</label><br />
+		<input type="text" id="alternate_password" name="alternate_password" value="{{#options_alternate_password}}{{options_alternate_password}}{{/options_alternate_password}}"{{^options_alternate_password}} placeholder="A password or phrase to unlock the content"{{/options_alternate_password}} /> 
+			
 	</div>
 
 	<div class="row_seperator">.</div>
-	<br />
-	<label for="alternate_password">Universal Password</label><br />
-	<input type="text" id="alternate_password" name="alternate_password" value="{{#options_alternate_password}}{{options_alternate_password}}{{/options_alternate_password}}"{{^options_alternate_password}} placeholder="A password or phrase to unlock the download"{{/options_alternate_password}} /> 
-
+	
 	<div class="row_seperator">.</div>
-	<label for="message_success">Success Message</label><br />
-	<input type="text" id="message_success" name="message_success" value="{{#options_message_success}}{{options_message_success}}{{/options_message_success}}{{^options_message_success}}Click here for your download: {{/options_message_success}}" /> 
+	<label for="secure_content">Content</label><br />
+	<textarea id="secure_content" name="secure_content" class="taller" wrap="off"  spellcheck="false">{{options_secure_content}}</textarea>
 
 	<div class="row_seperator">.</div>
 	<div>

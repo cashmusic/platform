@@ -563,7 +563,11 @@ class AssetPlant extends PlantBase {
 			$seed = new $seed_type($user_id,$connection_id);
 			return $seed->getExpiryURL($asset_location);
 		} else {
-			return false;
+			if ($asset_location) {
+				return $asset_location;
+			} else {
+				return false;
+			}
 		}
 	}
 

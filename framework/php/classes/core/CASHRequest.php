@@ -40,7 +40,11 @@
 			$this->user = $authorized_user;
 		} else {
 			if ($direct_request !== null) {
-				$this->detectRequest();
+				// use an environment variable so we only run the detected request once
+				if (!getenv('cashmusic_detected_request')) {
+					$this->detectRequest();
+					putenv('cashmusic_detected_request=1');
+				}
 			}
 		}
 		if ($this->request) {

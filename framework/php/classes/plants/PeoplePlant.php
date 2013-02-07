@@ -41,7 +41,7 @@ class PeoplePlant extends PlantBase {
 			'getuseridforusername'   => array('getUserIDForUsername','direct'),
 			'processwebhook'         => array('processWebhook',array('direct','api_key')),
 			'removeaddress'          => array('removeAddress','direct'),
-			'signintolist'           => array('validateUserForList',array('post','direct','api_key')),
+			'signintolist'           => array('validateUserForList',array('post','get','direct','api_key')),
 			'signup'                 => array('doSignup',array('direct','post','get','api_key')),
 			'verifyaddress'          => array('doAddressVerification',array('direct','post','get')),
 			'viewlist'               => array('viewList','direct')
@@ -989,6 +989,8 @@ class PeoplePlant extends PlantBase {
 			);
 			if ($login_request->response['payload'] !== false) {
 				return true;
+			} else {
+				return false;
 			}
 		}
 		// we never validated, so automatically return false

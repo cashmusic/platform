@@ -1,0 +1,11 @@
+{
+	"name":"Members area",
+	"description":"Allow a list to log in and get exclusive content.",
+	"longdescription":"This lets you enter specific markup/content that can be served securely to a list with a universal password.",
+	"instructions":"instructions",
+	"pagetip":"Choose a list to verify against, enter markup, and optionally add a universal password for this element.",
+	"lastupdated":"Feb 6, 2013",
+	"version":1,
+	"author":"CASH Music",
+	"url":"http://cashmusic.org/"
+}
