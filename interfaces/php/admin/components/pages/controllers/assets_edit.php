@@ -183,8 +183,9 @@ if ($cash_admin->page_data['type'] == 'file') {
 			$private_response = $cash_admin->requestAndStore(
 				array(
 					'cash_request_type' => 'asset',
-					'cash_action' => 'getasset',
-					'id' => $cash_admin->page_data['metadata']['private']
+					'cash_action' => 'getfulfillmentassets',
+					'asset_details' => $asset_response['payload'],
+					'type' => 'private'
 				)
 			);
 			if ($private_response['payload']) {

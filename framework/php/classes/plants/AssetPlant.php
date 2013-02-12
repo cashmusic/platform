@@ -35,8 +35,8 @@ class AssetPlant extends PlantBase {
 			'getassetsforparent'      => array('getAssetsForParent','direct'),
 			'getassetsforuser'        => array('getAssetsForUser','direct'),
 			'getasseturl'             => array('getFinalAssetLocation','direct'),
+			'getfulfillmentassets'    => array('getStoredAssets','direct'),
 			'getuploadparameters'     => array('getUploadParameters','direct'),
-			'getfulfillmentassets'    => array('getFulfillmentAssets','direct'),
 			'makepublic'              => array('makePublic','direct'),
 			'redeemcode'              => array('redeemLockCode',array('direct','get','post')),
 			'unlock'                  => array('unlockAsset','direct')
@@ -74,7 +74,7 @@ class AssetPlant extends PlantBase {
 		return $result;
 	}
 
-	protected function getFulfillmentAssets($asset_details) {
+	protected function getStoredAssets($asset_details,$type='fulfillment') {
 		$result = false; // default return
 		if (!is_array($asset_details)) {
 			// if $asset details isn't an array, assume it's an id
@@ -86,11 +86,11 @@ class AssetPlant extends PlantBase {
 			if ($asset_details['type'] == 'file') {
 				$result = array($asset_details);
 			} elseif ($asset_details['type'] == 'release') {
-				if (isset($asset_details['metadata']['fulfillment'])) {
+				if (isset($asset_details['metadata'][$type])) {
 					// check isset first, in case the asset is newly set
-					if (count($asset_details['metadata']['fulfillment'])) {
+					if (count($asset_details['metadata'][$type])) {
 						$final_assets = array();
-						foreach ($asset_details['metadata']['fulfillment'] as $fulfillment_id) {
+						foreach ($asset_details['metadata'][$type] as $fulfillment_id) {
 							$fulfillment_resquest = new CASHRequest(
 								array(
 									'cash_request_type' => 'asset',
