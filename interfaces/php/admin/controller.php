@@ -53,6 +53,19 @@ if (isset($_REQUEST['data_only'])) {
 	$cash_admin->page_data['data_only'] = true;
 }
 
+// basic rendering options based on optional constants from constants.php
+if (defined('JQUERY_URL')) {
+	$cash_admin->page_data['jquery_url'] = JQUERY_URL;
+} else {
+	$cash_admin->page_data['jquery_url'] = ADMIN_WWW_BASE_PATH . '/ui/default/assets/scripts/jquery-1.8.2.min.js';
+}
+
+if (defined('IMAGE_CDN')) {
+	$cash_admin->page_data['img_base_url'] = IMAGE_CDN;
+} else {
+	$cash_admin->page_data['img_base_url'] = ADMIN_WWW_BASE_PATH;
+}
+
 /**
  * USER LOGIN
  * look specifically for a 'login' POST parameter and handle the actual login

@@ -25,4 +25,6 @@ define('CASH_PLATFORM_PATH', $cashmusic_root);
 // define('MINIMUM_PASSWORD_LENGTH',10); // doesn't allow passwprds shorter than this value
 // define('COMPUTED_DOMAIN_IN_USER_URL',''); // for find/replace in user url — this is what's auto-detected
 // define('PREFERRED_DOMAIN_IN_USER_URL',''); // for find/replace in user url — this is what is used instead
+// define('JQUERY_URL','//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js'); // CDN for jQuery
+// define('IMAGE_CDN',''); // base CDN for some static assets (img tags, mostly)
 ?>
