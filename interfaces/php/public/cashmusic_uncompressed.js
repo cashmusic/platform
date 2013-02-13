@@ -131,12 +131,6 @@
 									if (embedURL.indexOf(e.origin) !== -1) {
 										// a[3] is the height
 										iframeEmbed.height = a[3] + 'px';
-										// now remove the listeners so we don't fire again
-										if (window.addEventListener) {
-											window.removeEventListener('message', onmessage, false);
-										} else if (window.attachEvent) {
-											window.detachEvent('onmessage', onmessage);
-										}
 									}
 								}
 							}
