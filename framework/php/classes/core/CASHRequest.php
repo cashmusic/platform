@@ -21,6 +21,7 @@
 	
 	protected $request_method,
 			  $plant_array=array(),
+			  $total_requests = 0,
 			  $plant,
 			  $user;
 	public $request = false,
@@ -33,6 +34,18 @@
 	 * @param {boolean} $direct_request [default: false] - can only be set when
 	 *        called directly, so set to true to indicate direct request method
 	 */public function __construct($direct_request=false,$method='direct',$authorized_user=false) {
+
+		/*
+		 * stack strace debug for hunting down inefficiencies...
+		 *
+		 $backtrace = debug_backtrace();
+		 $debug_message = "CASHRequest initialized\n";
+		 foreach ($backtrace as $trace) {
+	 		$debug_message .= $trace['file'] . ' / line ' . $trace['line'] . ': ' . $trace['function'] . "\n";
+		 }
+		 error_log($debug_message);
+		*/
+
 		if ($direct_request) {
 			// skip detect on direct requests
 			$this->request = $direct_request;
@@ -48,26 +61,37 @@
 			}
 		}
 		if ($this->request) {
-			// found something, let's make sure it's legit and do work
-			if (is_array($this->request)) {
-				$requested_plant = strtolower(trim($this->request['cash_request_type']));
-				unset($this->request['cash_request_type']);
-				if ($requested_plant != '' && count($this->request) > 0) {
-					$this->buildPlantArray();
-					if (isset($this->plant_array[$requested_plant])) {
-						$file_path = CASH_PLATFORM_ROOT.'/classes/plants/'.$this->plant_array[$requested_plant];
-						$class_name = substr_replace($this->plant_array[$requested_plant], '', -4);
-						require_once($file_path);
-						$this->plant = new $class_name($this->request_method,$this->request);
-						$this->response = $this->plant->processRequest();
-					}
-				}
-			}
+			$this->processRequest($this->request,$this->request_method);
 		}
 	}
 
 	public function getVersion() {
 		return self::$version;
+	}
+
+	public function processRequest($request,$method='direct') {
+		// found something, let's make sure it's legit and do work
+		if (is_array($request)) {
+			$this->request = $request;
+			$this->request_method = $method;
+			$requested_plant = strtolower(trim($this->request['cash_request_type']));
+			unset($this->request['cash_request_type']);
+			if ($requested_plant != '' && count($this->request) > 0) {
+				$this->buildPlantArray();
+				if (isset($this->plant_array[$requested_plant])) {
+					$file_path = CASH_PLATFORM_ROOT.'/classes/plants/'.$this->plant_array[$requested_plant];
+					$class_name = substr_replace($this->plant_array[$requested_plant], '', -4);
+					require_once($file_path);
+					$this->plant = new $class_name($this->request_method,$this->request);
+					$this->response = $this->plant->processRequest();
+				}
+			}
+		}
+	}
+
+	public function setAuthorizedUser($user) {
+		$this->user = $user;
+		return $this->user;
 	}
 	
 	/**

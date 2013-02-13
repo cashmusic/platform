@@ -31,6 +31,6 @@ if (isset($_SERVER['REQUEST_URI'])) {
 	}
 }
 
-require_once('classes/core/CASHSystem.php');
+require_once(dirname(__FILE__) . '/classes/core/CASHSystem.php');
 CASHSystem::startUp();
 ?>

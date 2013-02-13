@@ -16,7 +16,8 @@
  */abstract class AdminHelper  {
 
 	public static function doLogin($email_address,$password,$require_admin=true,$browserid_assertion=false) {
-		$login_request = new CASHRequest(
+		global $admin_primary_cash_request;
+		$admin_primary_cash_request->processRequest(
 			array(
 				'cash_request_type' => 'system', 
 				'cash_action' => 'validatelogin',
@@ -26,7 +27,7 @@
 				'browserid_assertion' => $browserid_assertion
 			)
 		);
-		return $login_request->response['payload'];
+		return $admin_primary_cash_request->response['payload'];
 	}
 
 	/**********************************************
@@ -188,10 +189,11 @@
 	}
 
 	public static function handleElementFormPOST($post_data,&$cash_admin,$options_array) {
+		global $admin_primary_cash_request;
 		if (isset($post_data['doelementadd'])) {
 			// Adding a new element:
 			$cash_admin->setCurrentElementState('add');
-			$element_add_request = new CASHRequest(
+			$admin_primary_cash_request->processRequest(
 				array(
 					'cash_request_type' => 'element', 
 					'cash_action' => 'addelement',
@@ -201,12 +203,12 @@
 					'user_id' => AdminHelper::getPersistentData('cash_effective_user')
 				)
 			);
-			if ($element_add_request->response['status_uid'] == 'element_addelement_200') {
+			if ($admin_primary_cash_request->response['status_uid'] == 'element_addelement_200') {
 				// handle differently for AJAX and non-AJAX
 				if ($cash_admin->page_data['data_only']) {
-					AdminHelper::formSuccess('Success. New element added.','/elements/edit/' . $element_add_request->response['payload']);
+					AdminHelper::formSuccess('Success. New element added.','/elements/edit/' . $admin_primary_cash_request->response['payload']);
 				} else {
-					$cash_admin->setCurrentElement($element_add_request->response['payload']);
+					$cash_admin->setCurrentElement($admin_primary_cash_request->response['payload']);
 				}
 			} else {
 				// handle differently for AJAX and non-AJAX
@@ -219,7 +221,7 @@
 		} elseif (isset($post_data['doelementedit'])) {
 			// Editing an existing element:
 			$cash_admin->setCurrentElementState('edit');
-			$element_edit_request = new CASHRequest(
+			$admin_primary_cash_request->processRequest(
 				array(
 					'cash_request_type' => 'element', 
 					'cash_action' => 'editelement',
@@ -228,7 +230,7 @@
 					'options_data' => $options_array
 				)
 			);
-			if ($element_edit_request->response['status_uid'] == 'element_editelement_200') {
+			if ($admin_primary_cash_request->response['status_uid'] == 'element_editelement_200') {
 				// handle differently for AJAX and non-AJAX
 				if ($cash_admin->page_data['data_only']) {
 					// AJAX
@@ -361,9 +363,8 @@
 	 * Performs a sessionGet() CASH Request for the specified variable
 	 *
 	 */public static function getPersistentData($var) {
-		$helper_cash_request = new CASHRequest(null);
-		$result = $helper_cash_request->sessionGet($var);
-		unset($helper_cash_request);
+		global $admin_primary_cash_request;
+		$result = $admin_primary_cash_request->sessionGet($var);
 		return $result;
 	}
 
@@ -816,7 +817,8 @@
 				$display_information = 'name';
 				break;
 		}
-		$echoformoptions_cash_request = new CASHRequest(
+		global $admin_primary_cash_request;
+		$admin_primary_cash_request->processRequest(
 			array(
 				'cash_request_type' => $plant_name, 
 				'cash_action' => $action_name,
@@ -825,8 +827,8 @@
 			)
 		);
 		$all_options = '';
-		if (is_array($echoformoptions_cash_request->response['payload']) && ($echoformoptions_cash_request->response['status_code'] == 200)) {
-			foreach ($echoformoptions_cash_request->response['payload'] as $item) {
+		if (is_array($admin_primary_cash_request->response['payload']) && ($admin_primary_cash_request->response['status_code'] == 200)) {
+			foreach ($admin_primary_cash_request->response['payload'] as $item) {
 				$doloop = true;
 				if ($range) {
 					if (!in_array($item['id'],$range)) {
@@ -847,7 +849,6 @@
 		} else {
 			echo $all_options;
 		}
-		unset($echoformoptions_cash_request);
 	}
 	
 } // END class 

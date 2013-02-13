@@ -14,6 +14,7 @@
  */class AdminCore  {
 	protected $stored_responses;
 	protected $stored_data;
+	protected $primary_request;
 	public $effective_user_id;
 	public $error_state = false;
 	public $page_data;
@@ -34,7 +35,7 @@
 		'favorite_assets' => array()
 	);
 	
-	public function __construct($effective_user_id=false) {
+	public function __construct($effective_user_id=false,$primary_request=false) {
 		$this->platform_type = CASHSystem::getSystemSettings('instancetype');
 		if (!$this->platform_type) $this->platform_type = 'single';
 		$this->stored_responses = array();
@@ -42,6 +43,9 @@
 		$this->page_data = array();
 		if ($effective_user_id) {
 			$this->effective_user_id = $effective_user_id;
+		}
+		if ($primary_request) {
+			$this->primary_request = $primary_request;
 		}
 	}
 	
@@ -81,7 +85,7 @@
 	 *
 	 * @return array
 	 */public function getUserSettings() {
-		$settings_request = new CASHRequest(
+		$this->primary_request->processRequest(
 			array(
 				'cash_request_type' => 'system', 
 				'cash_action' => 'getsettings',
@@ -89,8 +93,8 @@
 				'user_id' => $this->effective_user_id
 			)
 		);
-		if ($settings_request->response['payload']) {
-			return $settings_request->response['payload'];
+		if ($this->primary_request->response['payload']) {
+			return $this->primary_request->response['payload'];
 		} else {
 			$this->setUserSettings($this->default_user_settings);
 			return $this->default_user_settings;
@@ -102,7 +106,7 @@
 	 *
 	 * @return object / bool
 	 */public function setUserSettings($settings_array) {
-		$settings_request = new CASHRequest(
+		$this->primary_request->processRequest(
 			array(
 				'cash_request_type' => 'system', 
 				'cash_action' => 'setsettings',
@@ -111,7 +115,7 @@
 				'user_id' => $this->effective_user_id
 			)
 		);
-		return $settings_request;
+		return $this->primary_request->response['payload'];
 	}
 
 	/**********************************************
@@ -179,13 +183,12 @@
 		if (!isset($request_array['user_id'])) {
 			$request_array['user_id'] = $this->effective_user_id;
 		}
-		$cash_admin_request = new CASHRequest($request_array);
+		$this->primary_request->processRequest($request_array);
 		if ($store_name) {
-			$this->stored_responses[$store_name] = $cash_admin_request->response;
-			unset($cash_admin_request);
+			$this->stored_responses[$store_name] = $this->primary_request->response;
 			return $this->stored_responses[$store_name];
 		} else {
-			return $cash_admin_request->response;
+			return $this->primary_request->response;
 		}
 	}
 
@@ -235,15 +238,15 @@
 		if ($full_data) {
 			$this->storeData($element,'current_working_element');
 		} else {
-			$element_request = new CASHRequest(
+			$this->primary_request->processRequest(
 				array(
 					'cash_request_type' => 'element', 
 					'cash_action' => 'getelement',
 					'id' => $element
 				)
 			);
-			$this->storeData($element_request->response['payload'],'current_working_element');
-			return $element_request->response['payload'];
+			$this->storeData($this->primary_request->response['payload'],'current_working_element');
+			return $this->primary_request->response['payload'];
 		}
 	}
 

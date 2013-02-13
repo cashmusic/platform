@@ -19,7 +19,12 @@ if(strrpos($_SERVER['REQUEST_URI'],'controller.php') !== false) {
 
 // includes
 require_once('./constants.php');
-require_once(CASH_PLATFORM_PATH);
+/*
+ * instead of the previous require_once(CASH_PLATFORM_PATH) call, we manually
+ * load CASHSystem and set admin_primary_cash_request to the first CASHRequest set
+ */
+include_once(dirname(CASH_PLATFORM_PATH) . '/classes/core/CASHSystem.php');
+$admin_primary_cash_request = CASHSystem::startUp(true);
 include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
 
 // admin-specific autoloader
@@ -33,12 +38,11 @@ spl_autoload_register('cash_admin_autoloadCore');
 
 // basic script vars
 $pages_path = ADMIN_BASE_PATH . '/components/pages/';
-$admin_primary_cash_request = new CASHRequest();
 $request_parameters = null;
 $run_login_scripts = false;
 
 // make an object to use throughout the pages
-$cash_admin = new AdminCore($admin_primary_cash_request->sessionGet('cash_effective_user'));
+$cash_admin = new AdminCore($admin_primary_cash_request->sessionGet('cash_effective_user'),$admin_primary_cash_request);
 $cash_admin->mustache_groomer = new Mustache;
 $cash_admin->page_data['www_path'] = ADMIN_WWW_BASE_PATH;
 $cash_admin->page_data['fullredraw'] = false;
@@ -63,7 +67,7 @@ if (isset($_POST['login'])) {
 	}
 	$login_details = AdminHelper::doLogin($_POST['address'],$_POST['password'],true,$browseridassertion);
 	if ($login_details !== false) {
-		CASHSystem::startSession();
+		$admin_primary_cash_request->startSession();
 		$admin_primary_cash_request->sessionSet('cash_actual_user',$login_details);
 		$admin_primary_cash_request->sessionSet('cash_effective_user',$login_details);
 		$cash_admin->effective_user_id = $login_details;
@@ -172,7 +176,7 @@ if ($admin_primary_cash_request->sessionGet('cash_actual_user')) {
 	 *
 	 *********************************/
 	$template_name = 'template';
-	CASHSystem::startSession();
+	$admin_primary_cash_request->startSession();
 
 	// handle the banner hiding
 	if (isset($_GET['hidebanner'])) {

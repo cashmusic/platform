@@ -17,7 +17,7 @@
 	 * Handle annoying environment issues like magic quotes, constants and 
 	 * auto-loaders before firing up the CASH platform and whatnot
 	 *
-	 */public static function startUp() {
+	 */public static function startUp($return_request=false) {
 		// only want to do this once, so we check for 'initial_page_request_time'
 		if (!isset($GLOBALS['cashmusic_script_store']['initial_page_request_time'])) {
 			// remove magic quotes, never call them "magic" in front of your friends
@@ -58,7 +58,11 @@
 				);
 			}
 			$cash_page_request->sessionSet('initial_page_request_time',time(),'script');
-			unset($cash_page_request);
+			if ($return_request) {
+				return $cash_page_request;
+			} else {
+				unset($cash_page_request);
+			}
 		}
 	}
 
