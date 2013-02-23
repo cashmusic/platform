@@ -1,11 +1,21 @@
 <!DOCTYPE html>
-<html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-	<title>CASH Music: Admin</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="icon" type="image/png" href="http://cashmusic.org/images/icons/cash.png" />
+
+	<!-- Set the viewport width to device width for mobile -->
+	<meta name="viewport" content="width=device-width" />
+
+	<title>CASH Music / Admin</title>
 
 	<link rel="icon" type="image/png" href="http://cashmusic.org/images/icons/cash.png" />
-	<link href="{{www_path}}/ui/default/assets/css/admin.css" rel="stylesheet" type="text/css" />
+	<link href="{{www_path}}/ui/default/assets/css/app.css" rel="stylesheet" type="text/css" />
+	<link href="{{www_path}}/ui/default/assets/css/offcanvas.css" rel="stylesheet" type="text/css" />
+	<link href="{{www_path}}/ui/default/assets/css/responsive-tables.css" rel="stylesheet" type="text/css" />
 	<link href="{{www_path}}/ui/default/assets/css/diy-ui/jquery-ui-1.8.23.custom.css" rel="stylesheet" type="text/css" />
 
 	<script type="text/javascript">
@@ -15,14 +25,11 @@
 	</script>
 
 	<script src="//www.google.com/jsapi"></script>
-	<script src="{{www_path}}/ui/default/assets/scripts/modernizr-2.6.1.custom.min.js" type="text/javascript"></script>
+	<script src="{{www_path}}/ui/default/assets/scripts/modernizr.foundation.js" type="text/javascript"></script>
 	<script src="{{jquery_url}}" type="text/javascript"></script>
 	<script src="{{www_path}}/ui/default/assets/scripts/jquery-ui-1.9.0.custom.min.js" type="text/javascript"></script>
-	<script src="{{www_path}}/ui/default/assets/scripts/jquery.iframe-transport.js" type="text/javascript"></script>
-	<script src="{{www_path}}/ui/default/assets/scripts/jquery.fileupload.js" type="text/javascript"></script>
-	<script src="{{www_path}}/ui/default/assets/scripts/jquery.admin.js" type="text/javascript"></script>
 </head>
-<body>
+<body id="page" class="off-canvas hide-extras">
 
 	<style type="text/css">
 		a.reset {font-size:11px;text-transform:uppercase;color:#a49c9c;}
@@ -31,63 +38,54 @@
 		#navmenu {top:0;height:6px;overflow:hidden;padding-top:0;padding-bottom:0;}
 		#navmenu .navitem:hover {background-image:none;cursor:auto;}
 		#pagedisplay {position:relative;margin:150px auto 0 auto;background:#fff url({{www_path}}/ui/default/assets/images/top_right.png) right top no-repeat;padding:24px;box-shadow:-2px 2px 2px rgba(0,0,0,0.1);}
-		#jackson {position:absolute;top:-182px;right:110px;}
-		#alternatelogins {padding-left:32px;}
-		h1 {font-size:36px;margin:6px 0 26px 0;white-space:nowrap;}
+		#jackson {position:absolute;top:-182px;right:120px;z-index:500;}
+		h1 {position:relative;font-size:72px;margin:6px 0 26px 0;white-space:nowrap;z-index:100;}
 		.cash_browserid_button {width:120px;height:30px;margin-top:6px;}
-		.fakelabel, #forgotspace {font-size:11px;text-transform:uppercase;color:#a49c9c;}
-		#forgotspace {text-transform:lowercase;margin-top:6px;}
+		#forgotlink {font-size:11px;color:#a49c9c;}
+		@media only screen and (max-width: 767px) {
+			#jackson {right:auto;left:5px;}
+		}
 	</style>
 
 <div id="wrap">
 	<div id="mainspc">
 
 		<div id="chromespc">
-			<div id="accountspc"></div>
-			<div id="navmenu">
-				<div class="navitem bgcolor1"></div>
-				<div class="navitem bgcolor2"></div>
-				<div class="navitem bgcolor3"></div>
-				<div class="navitem bgcolor4"></div>
-				<div class="navitem bgcolor5"></div>
-			</div>
 		</div>
 
-		<div id="pagecontent">
+		<div id="pagecontent" class="row">
 			<div id="pagedisplay">
 				<img src="{{img_base_url}}/ui/default/assets/images/jacksonlogin.png" id="jackson" width="245" height="270" alt="I CAN EAT ALL THE CHERRIES!!!" />
 				{{#reset_message}}
-					<span class="highlightcopy">{{reset_message}}</span><div class="row_seperator">.</div>
+					<span class="highlightcopy">{{reset_message}}</span>
 				{{/reset_message}}
-				<div class="col_oneoftwo">
-					<h1{{#login_error}} class="tryagain"{{/login_error}}>{{login_message}}:</h1>
-
-					<form method="post" id="cash_signin_form" action="">
-						<div class="col_oneoftwo">
-							<label for="address">email</label><br />
-							<input type="text" name="address" value="" />
-						</div>
-						<div class="col_oneoftwo lastcol">
-							<label for="address">password</label> {{#donotshowthisrightnow}}<a href="?showpasswordreset" class="reset">(Forget your password?)</a>{{/donotshowthisrightnow}}<br />
-							<input type="password" name="password" value="" /><br />
-							<input type="hidden" name="login" value="1" />
-							<input type="hidden" id="browseridassertion" name="browseridassertion" value="-1" />
-							<div id="forgotspace">
-								<a href="#" id="forgotlink">Forgot your password?</a>
+				<h1{{#login_error}} class="tryagain"{{/login_error}}>{{login_message}}</h1>
+				<div class="row">
+					<div class="six columns">
+						<form method="post" id="cash_signin_form" action="">
+							<div class="row">
+								<div class="six columns">
+									<label for="address">email</label>
+									<input type="text" name="address" value="" />
+								</div>
+								<div class="six columns">
+									<label for="address">password</label> {{#donotshowthisrightnow}}<a href="?showpasswordreset" class="reset">(Forget your password?)</a>{{/donotshowthisrightnow}}
+									<input type="password" name="password" value="" />
+									<a href="#" id="forgotlink">forgot your password?</a>
+									<input type="hidden" name="login" value="1" />
+									<input type="hidden" id="browseridassertion" name="browseridassertion" value="-1" />
+								</div>
 							</div>
-						</div>
-						<div class="row_seperator">.</div>
-						<div class="usecolor4"><input type="submit" value="log in" class="button" /></div>
-					</form>
-				</div>
-				<div class="col_oneoftwo lastcol">
-					<div id="alternatelogins">
-						<h1>&nbsp;</h1>
-						<span class="fakelabel">Or log in with:</span><br />
+							
+							<div class="usecolor4"><input type="submit" value="log in" class="button" /></div>
+						</form>
+					</div>
+					<div class="one column"></div>
+					<div class="five columns">
+						<label>Or log in with:</label>
 						<a href="javascript:void(0)" id="browserid_login_link"><img src="{{img_base_url}}/ui/default/assets/images/browserid.png" alt="log in with browser id" class="cash_browserid_button" /></a>
 					</div>
 				</div>
-				<div class="row_seperator">.</div>
 			</div>
 
 			{{{legal_markup}}}
@@ -99,7 +97,11 @@
 </div>
 
 <div id="footer">
-	<p><b>&copy; 2011 CASH Music.</b> All our code is open-source. <a href="{{www_path}}/licenses/" style="margin-left:0;">Learn more</a>. {{#showterms}}<a href="{{www_path}}/_?showlegal=1">Terms of service</a> {{/showterms}}{{#showprivacy}}<a href="{{www_path}}/_?showlegal=1">Privacy policy</a> {{/showprivacy}}<a href="http://cashmusic.org/#more" class="donatelink"><b>Donate</b></a></p>
+	<div class="row">
+		<div class="twelve columns">
+			<p><b>&copy; 2013 CASH Music.</b> All our code is open-source. <a href="{{www_path}}/licenses/" style="margin-left:0;">Learn more</a>. {{#showterms}}<a href="{{www_path}}/terms/">Terms of service</a> {{/showterms}}{{#showprivacy}}<a href="{{www_path}}/privacy/">Privacy policy</a> {{/showprivacy}}<a href="http://cashmusic.org/#more" class="donatelink"><b>Donate</b></a></p>
+		</div>
+	</div>
 </div>
 
 {{#reset_key}}

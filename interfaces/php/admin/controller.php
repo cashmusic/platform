@@ -70,7 +70,7 @@ if (defined('IMAGE_CDN')) {
  * USER LOGIN
  * look specifically for a 'login' POST parameter and handle the actual login
  */
-$cash_admin->page_data['login_message'] = 'Hello. Log In';
+$cash_admin->page_data['login_message'] = 'Hello.';
 if (isset($_POST['login'])) {
 	$browseridassertion = false;
 	if (isset($_POST['browseridassertion'])) {
