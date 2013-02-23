@@ -15,7 +15,7 @@ if (!isset($_REQUEST['nooutput'])) {
 	}
 
 	if ($requests) {
-		require_once('./constants.php');
+		require_once(dirname(__FILE__) . '/constants.php');
 		require_once(CASH_PLATFORM_PATH);
 
 		$cash_page_request = new CASHRequest(null);
