@@ -2,40 +2,34 @@
 	<input type="hidden" name="{{form_state_action}}" value="makeitso">
 	{{#element_id}}<input type="hidden" name="element_id" value="{{element_id}}" />{{/element_id}}
 	{{#element_type}}<input type="hidden" name="element_type" value="{{element_type}}" />{{/element_type}}
-	<h3>Element Details</h3>
 
-	<label for="element_name">Name</label><br />
+	<label for="element_name">Name</label>
 	<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="Give It A Name"{{/element_name}} /> 
 
-	<div class="row_seperator">.</div>
-	<div class="col_oneoftwo">
-		<label for="item_id">Item For Sale</label><br />
-		<select id="item_id" name="item_id">
-			<option value="0">none</option>
-			{{{options_items_dropdown}}}
-		</select>
+	<div class="row">
+		<div class="six columns">
+			<label for="item_id">Item For Sale</label>
+			<select id="item_id" name="item_id">
+				<option value="0">none</option>
+				{{{options_items_dropdown}}}
+			</select>
+		</div>
+		<div class="six columns">
+			<label for="connection_id">Commerce connection to Use</label>
+			<select id="connection_id" name="connection_id">
+				<option value="0" selected="selected">None (Please add a commerce service)</option>
+				{{{options_connections_dropdown}}}
+			</select>
+		</div>
 	</div>
-	<div class="col_oneoftwo lastcol">
 
-		<label for="connection_id">Commerce connection to Use</label><br />
-		<select id="connection_id" name="connection_id">
-			<option value="0" selected="selected">None (Please add a commerce service)</option>
-			{{{options_connections_dropdown}}}
-		</select>
-	</div>
-
-	<div class="row_seperator">.</div>
 	<br />
-	<label for="message_error">Error Message</label><br />
+	<label for="message_error">Error Message</label>
 	<input type="text" id="message_error" name="message_error" value="{{#options_message_error}}{{options_message_error}}{{/options_message_error}}{{^options_message_error}}There was an error processing your payment. Please reload and try again.{{/options_message_error}}" />
 
-	<div class="row_seperator">.</div>
-	<label for="message_success">Success Message</label><br />
+	<label for="message_success">Success Message</label>
 	<input type="text" id="message_success" name="message_success" value="{{#options_message_success}}{{options_message_success}}{{/options_message_success}}{{^options_message_success}}Thank you! Here's your download. Mobile users check your inbox and spam folders for a download link.{{/options_message_success}}" />
 
-	<div class="row_seperator">.</div>
-	<div>
-		<br />
-		<input class="button" type="submit" value="{{element_button_text}}" />
-	</div>
+	<br />
+	<input class="button" type="submit" value="{{element_button_text}}" />
 </form>

@@ -1,46 +1,42 @@
-<div class="col_oneoftwo">
-	<h3>List details</h3>
-	<form accept-charset="UTF-8" method="post" action="{{www_path}}{{requested_route}}">
-		<input type="hidden" name="{{form_state_action}}" value="makeitso" />
-		<label for="list_name">Name</label><br />
-		<input type="text" id="list_name" name="list_name" value="{{name}}" />
+<div class="row">
+	<div class="six columns">
+		<h4>List details</h4>
+		<form accept-charset="UTF-8" method="post" action="{{www_path}}{{requested_route}}">
+			<input type="hidden" name="{{form_state_action}}" value="makeitso" />
+			<label for="list_name">Name</label>
+			<input type="text" id="list_name" name="list_name" value="{{name}}" />
 
-		<div class="row_seperator">.</div>
+			<label for="connection_id">Connect To</label>
+			<select id="connection_id" name="connection_id">
+				<option value="0"{{#no_selected_connection}} selected="selected"{{/no_selected_connection}}>None (local list only)</option>
+				{{{connection_options}}}
+			</select>
 
-		<label for="connection_id">Connect To</label><br />
-		<select id="connection_id" name="connection_id">
-			<option value="0"{{#no_selected_connection}} selected="selected"{{/no_selected_connection}}>None (local list only)</option>
-			{{{connection_options}}}
-		</select>
+			<br /><br />
 
-		<div class="row_seperator">.</div>
+			<label for="list_description">Description</label>
+			<textarea rows="3" id="list_description" name="list_description">{{description}}</textarea>
 
-		<label for="list_description">Description</label><br />
-		<textarea rows="3" id="list_description" name="list_description">{{description}}</textarea>
 
-		<div class="row_seperator">.</div>
+			<input type="submit" value="{{list_button_text}}" />
+		</form>
+	</div>
 
-		<input class="button" type="submit" value="{{list_button_text}}" />
-	</form>
-</div>
-
-<div class="col_oneoftwo lastcol">
-	<h3>Batch add contacts</h3>
-	Need to add a lot of contacts to the list in a hurry? 
-	<div class="drawer">
-		<br />
-		<div class="drawercontent">
-			<form accept-charset="UTF-8" name="batchaddcontacts" method="post" action="{{www_path}}{{requested_route}}">
-				<input type="hidden" name="dobatchcontactsadd" value="makeitso" />
-				<label>Email Addresses</label>
-				<textarea id="element_content" name="element_content" class="tall"></textarea>
-				
-				<div class="row_seperator">.</div>
-
-				<input class="button" type="submit" value="Add Contacts" />
-			</form>
+	<div class="six columns">
+		<h4>Batch add contacts</h4>
+		Need to add a lot of contacts to the list in a hurry? 
+		<div class="drawer">
 			<br />
+			<div class="drawercontent">
+				<form accept-charset="UTF-8" name="batchaddcontacts" method="post" action="{{www_path}}{{requested_route}}">
+					<input type="hidden" name="dobatchcontactsadd" value="makeitso" />
+					<label>Email Addresses</label>
+					<textarea id="element_content" name="element_content" class="tall"></textarea>
+
+					<input type="submit" value="Add Contacts" />
+				</form>
+			</div>
+			<a class="drawerhandle">batch add form</a>
 		</div>
-		<a class="drawerhandle">batch add form</a>
 	</div>
 </div>

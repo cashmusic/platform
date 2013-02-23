@@ -1,58 +1,57 @@
-<div class="col_oneoftwo">
-	<h2>Quick add a venue</h2>
-	<p>
-		Quickly add a venue with just the basics.
-	</p>
+<div class="row">
+	<div class="six columns">
+		<h4>Quick add a venue</h4>
+		<p>
+			Quickly add a venue with just the basics.
+		</p>
 
-	<form accept-charset="UTF-8" method="post" action="{{www_path}}/calendar/venues/add/" name="quick_add_venue">
-		<input type="hidden" name="dovenueadd" value="makeitso" />
+		<form accept-charset="UTF-8" method="post" action="{{www_path}}/calendar/venues/add/" name="quick_add_venue">
+			<input type="hidden" name="dovenueadd" value="makeitso" />
 
-		<label for="venue_name">Name</label><br />
-		<input type="text" id="venue_name" name="venue_name" value="" placeholder="Venue Name" />
+			<label for="venue_name">Name</label>
+			<input type="text" id="venue_name" name="venue_name" value="" placeholder="Venue Name" />
+			
+			<label for="venue_city">City</label>
+			<input type="text" id="venue_city" name="venue_city" value="" placeholder="City" />
+			
+			<label for="venue_region">State / Province / Region</label>
+			<input type="text" id="venue_region" name="venue_region" value="" placeholder="Region" />
+
+
+			<label for="venue_country">Country</label>
+			<select id="venue_country" name="venue_country">
+				{{{country_codes}}}
+			</select>
+
+			<br /><br />
+			<input type="submit" value="Add That Venue" />
 		
-		<div class="row_seperator">.</div>
-		<label for="venue_city">City</label><br />
-		<input type="text" id="venue_city" name="venue_city" value="" placeholder="City" />
+		</form>
+	</div>
+	<div class="six columns">
+		<h4>Add a venue</h4>
+		<p>
+			<a href="{{www_path}}/calendar/venues/add/">Add a venue with all details.</a>
+		</p>
 		
-		<div class="row_seperator">.</div>
-		<label for="venue_region">State / Province / Region</label><br />
-		<input type="text" id="venue_region" name="venue_region" value="" placeholder="Region" />
-
-		<div class="row_seperator">.</div>
-
-		<label for="venue_country">Country</label><br />
-		<select id="venue_country" name="venue_country">
-			{{{country_codes}}}
-		</select>
-
-		<div class="row_seperator">.</div><br />
-		<input class="button" type="submit" value="Add That Venue" />
-	
-	</form>
-</div>
-<div class="col_oneoftwo lastcol">
-	<h2>Add a venue</h2>
-	<p>
-		<a href="{{www_path}}/calendar/venues/add/">Add a venue with all details.</a>
-	</p>
-	
-	<div class="row_seperator">.</div>
-	<h2>All venues</h2>
-	{{#all_venues}}
-	<ul class="alternating">
+		<br />
+		<h4>All venues</h4>
 		{{#all_venues}}
-		<li>
-			<b>{{name}}</b> // <span class="nobr">{{formatted_location}}</span>
-			<div class="itemnav">
-				<a href="{{www_path}}/calendar/venues/edit/{{id}}" class="mininav_flush"><span class="icon search"></span> Details</a> 
-				<a href="{{www_path}}/calendar/venues/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
-			</div>
-		</li>
+		<ul class="alternating">
+			{{#all_venues}}
+			<li>
+				<b>{{name}}</b> // <span class="nobr">{{formatted_location}}</span>
+				<div class="itemnav">
+					<a href="{{www_path}}/calendar/venues/edit/{{id}}" class="mininav_flush"><span class="icon search"></span> Details</a> 
+					<a href="{{www_path}}/calendar/venues/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
+				</div>
+			</li>
+			{{/all_venues}}
+		</ul>
 		{{/all_venues}}
-	</ul>
-	{{/all_venues}}
 
-	{{^all_venues}}
-	<p>No venues were found.</p>
-	{{/all_venues}}
+		{{^all_venues}}
+		<p>No venues were found.</p>
+		{{/all_venues}}
+	</div>
 </div>

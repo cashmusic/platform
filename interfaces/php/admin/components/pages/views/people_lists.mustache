@@ -1,49 +1,50 @@
-<div class="col_oneoftwo">
-	<h2>Add A New List</h2>
-	<form accept-charset="UTF-8" method="post" action="{{www_path}}/people/lists/add/" id="lists">
-		<input type="hidden" name="dolistadd" value="makeitso" />
+<div class="row">
+	<div class="six columns">
+		<h4>Add A New List</h4>
+		<form accept-charset="UTF-8" method="post" action="{{www_path}}/people/lists/add/" id="lists">
+			<input type="hidden" name="dolistadd" value="makeitso" />
 
-		<label for="list_name">Name</label><br />
-		<input type="text" id="list_name" name="list_name" value="" placeholder="Give It A Name" />
+			<label for="list_name">Name</label>
+			<input type="text" id="list_name" name="list_name" value="" placeholder="Give It A Name" />
 
-		<div class="row_seperator">.</div>
-		<label for="list_description">Description</label><br />
-		<textarea rows="3" id="list_description" name="list_description"></textarea>
+			<label for="connection_id">Connect To</label>
+			<select id="connection_id" name="connection_id">
+				<option value="0" selected="selected">None (local list only)</option>
+				{{{list_connection_options}}}
+			</select>
 
-		<div class="row_seperator">.</div>
-		<label for="connection_id">Connect To</label><br />
-		<select id="connection_id" name="connection_id">
-			<option value="0" selected="selected">None (local list only)</option>
-			{{{list_connection_options}}}
-		</select>
+			<br /><br />
 
-		<div class="row_seperator">.</div><br />
-		<div>
-			<input class="button" type="submit" value="Add The New List" />
-		</div>
-
-	</form>
-</div>
-<div class="col_oneoftwo lastcol">
-	<h2>Your Lists</h2>
-	{{#lists_all}}
-	<ul class="alternating">
-		{{#lists_all}}
-		<li>
-			<b>{{name}}</b>
-			{{#description}}<br /><span class="fadedtext">{{description}}</span>{{/description}}<br />
-			<div class="itemnav">
-				<a href="{{www_path}}/people/lists/view/{{id}}" class="mininav_flush"><span class="icon search"></span> View</a>
-				<a href="{{www_path}}/people/lists/edit/{{id}}" class="mininav_flush"><span class="icon pencil"></span> Edit</a>
-				<a href="{{www_path}}/people/lists/export/{{id}}" class="mininav_flush noajax"><span class="icon browser-download-2"></span> Export</a>
-				<a href="{{www_path}}/people/lists/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
+			<label for="list_description">Description</label>
+			<textarea rows="3" id="list_description" name="list_description"></textarea>
+			
+			<div>
+				<input type="submit" value="Add The New List" />
 			</div>
-		</li>
-		{{/lists_all}}
-	</ul>
-	{{/lists_all}}
 
-	{{^lists_all}}
-	<p>No lists have been created.</p>
-	{{/lists_all}}
+		</form>
+	</div>
+	<div class="six columns">
+		<h4>Your Lists</h4>
+		{{#lists_all}}
+		<ul class="alternating">
+			{{#lists_all}}
+			<li>
+				<b>{{name}}</b>
+				{{#description}}<br /><span class="fadedtext">{{description}}</span>{{/description}}<br />
+				<div class="itemnav">
+					<a href="{{www_path}}/people/lists/view/{{id}}" class="mininav_flush"><span class="icon search"></span> View</a>
+					<a href="{{www_path}}/people/lists/edit/{{id}}" class="mininav_flush"><span class="icon pencil"></span> Edit</a>
+					<a href="{{www_path}}/people/lists/export/{{id}}" class="mininav_flush noajax"><span class="icon browser-download-2"></span> Export</a>
+					<a href="{{www_path}}/people/lists/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
+				</div>
+			</li>
+			{{/lists_all}}
+		</ul>
+		{{/lists_all}}
+
+		{{^lists_all}}
+		<p>No lists have been created.</p>
+		{{/lists_all}}
+	</div>
 </div>

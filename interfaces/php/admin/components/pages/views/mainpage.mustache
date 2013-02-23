@@ -12,14 +12,14 @@
 {{#platform_type_single}}
 	{{^elements_for_user}}
 	<div class="gettingstarted">
-		<h2>You're done installing, now let's get started</h2>
+		<h4>You're done installing, now let's get started</h4>
 		So the database is set up and if you're seeing this all the configuration is right. There are just 
 		a few easy steps before you publishing your first working CASH Music element.
 
-		<div class="row_seperator">.</div><br />
+		<br /><br />
 
 		<div class="col_oneofthree{{#step1_complete}} complete{{/step1_complete}}">
-			<h3>Step 1: System stettings</h3>
+			<h4>Step 1: System stettings</h4>
 			<p>
 				Before you go too far you should change default settings like the system email and the time-zone. Add any 
 				third-party connections you want to start using.
@@ -29,7 +29,7 @@
 		</div>
 
 		<div class="col_oneofthree{{#step2_complete}} complete{{/step2_complete}}">
-			<h3>Step 2: Add your stuff</h3>
+			<h4>Step 2: Add your stuff</h4>
 			<p>
 				The platform works with your content and your world — so start by adding an MP3 or setting up an email list. 
 			</p>
@@ -38,7 +38,7 @@
 		</div>
 
 		<div class="col_oneofthree lastcol">
-			<h3>Step 3: Publish!</h3>
+			<h4>Step 3: Publish!</h4>
 			<p>
 				You're ready to create your first element. Try something simple like an email capture element. Point
 				to an existing list, maybe offer a download, and then embed with the code you're given.
@@ -46,7 +46,7 @@
 			<a href="{{www_path}}/elements/add/" class="usecolor5 featured"><span class="icon circle-add"></span> Add your first element</a>
 		</div>
 
-		<div class="row_seperator">.</div><br /><br />
+		<br /><br /><br />
 		<span class="helpspc"><b>Need more help?</b> Check out the <a href="{{www_path}}/help/gettingstarted/" class="helplink">Getting Started</a> page.</span>
 	</div>
 	{{/elements_for_user}}
@@ -54,7 +54,7 @@
 
 {{^current_page_template}}
 	<div class="callout bright flush">
-		<h3>Publish a page</h3>
+		<h4>Publish a page</h4>
 		<p>You can publish a page with any of your elements. Bring your own markup and just drop in any CASH element embed code(s) you want. Look below for details.</p>
 		{{^defined_page_templates}}
 			<br />
@@ -65,43 +65,45 @@
 
 {{#defined_page_templates}}
 	<br />
-	<h2>Your public page</h2>
-	<div class="row_seperator">&nbsp;</div>
+	<h4>Your public page</h4>
+	
 	<div>
-		<div class="col_oneoftwo">
+		<div class="row">
+			<div class="six columns">
 
-		{{#current_page_template}}
-			<label>View it live:</label><br />
-			<h3><a href="{{user_page_uri}}" target="_blank">{{user_page_display_uri}}</a></h3>
-		</div>
-		<div class="col_oneoftwo lastcol">
-			<label>Make changes:</label><br />
-			<span class="smalltext"><a href="{{www_path}}/account/"><span class="icon polaroid"></span> <b>Change your username/url</b></a></span><br />
-			<span class="smalltext"><a href="{{www_path}}/elements/templates/add/"><span class="icon layout-content-left-2"></span> <b>Add a new page template</b></a></span><br />
-			<span class="smalltext"><a href="{{www_path}}/elements/templates/edit/{{current_page_template}}"><span class="icon pencil"></span> <b>Edit the current page template</b></a></span><br />
-
-			<div class="drawer noprefix">
-				<a class="drawerhandle"><span class="icon browser-windows"></span> <b>Publish a different template</b></a>
-				<div class="drawercontent">
-					<br />
-		{{/current_page_template}}
-
-					<form method="post" action="">
-						<label for="template_id">Select a page template to publish:</label><br />
-						<select id="change_template_id" name="change_template_id">
-							{{{template_options}}}
-						</select>
-						<div class="row_seperator">&nbsp;</div>
-						<input type="submit" value="publish" />
-					</form>
-
-		{{#current_page_template}}
-				</div>
+			{{#current_page_template}}
+				<label>View it live:</label>
+				<h5><a href="{{user_page_uri}}" target="_blank">{{user_page_display_uri}}</a></h5>
 			</div>
-		{{/current_page_template}}
+			<div class="six columns spacedtext">
+				<label>Make changes:</label>
+				<span class="smalltext"><a href="{{www_path}}/account/"><span class="icon polaroid"></span> <b>Change your username/url</b></a></span><br />
+				<span class="smalltext"><a href="{{www_path}}/elements/templates/add/"><span class="icon layout-content-left-2"></span> <b>Add a new page template</b></a></span><br />
+				<span class="smalltext"><a href="{{www_path}}/elements/templates/edit/{{current_page_template}}"><span class="icon pencil"></span> <b>Edit the current page template</b></a></span><br />
 
+				<div class="drawer noprefix">
+					<a class="drawerhandle"><span class="icon browser-windows"></span> <b>Publish a different template</b></a>
+					<div class="drawercontent">
+						<br />
+			{{/current_page_template}}
+
+						<form method="post" action="">
+							<label for="template_id">Select a page template to publish:</label>
+							<select id="change_template_id" name="change_template_id">
+								{{{template_options}}}
+							</select>
+							<br />
+							<input type="submit" value="publish" />
+						</form>
+
+			{{#current_page_template}}
+					</div>
+				</div>
+			{{/current_page_template}}
+
+			</div>
 		</div>
 	</div>
 
-	<div class="row_seperator">&nbsp;</div>
+	
 {{/defined_page_templates}}

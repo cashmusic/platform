@@ -4,46 +4,48 @@
 	<div class="closelink"><a href="?hidebanner=true">close <span class="icon cancel-circle"></span></a></div></div>
 {{/banner_main_content}}
 
-<div class="col_oneoftwo">
-	<h2>Recent orders</h2>
-	{{#orders_recent}}
-	<ul class="alternating">
+<div class="row">
+	<div class="six columns">
+		<h4>Recent orders</h4>
 		{{#orders_recent}}
-		<li>
-			<b>{{number}}</b>
-			<span class="fadedtext"> // {{date}}<br />
-			{{gross}}: {{items}}
-			</span>
-			<div class="itemnav">
-				<a href="{{www_path}}/commerce/orders/view/{{id}}" class="mininav_flush"><span class="icon pencil"></span> Details</a>
-			</div>
-		</li>
+		<ul class="alternating">
+			{{#orders_recent}}
+			<li>
+				<b>{{number}}</b>
+				<span class="fadedtext"> // {{date}}<br />
+				{{gross}}: {{items}}
+				</span>
+				<div class="itemnav">
+					<a href="{{www_path}}/commerce/orders/view/{{id}}" class="mininav_flush"><span class="icon pencil"></span> Details</a>
+				</div>
+			</li>
+			{{/orders_recent}}
+		</ul>
 		{{/orders_recent}}
-	</ul>
-	{{/orders_recent}}
 
-	{{^orders_recent}}
-	<p>No orders have been placed yet.</p>
-	{{/orders_recent}}
-</div>
-<div class="col_oneoftwo lastcol">
-	<h2>All items</h2>
-	{{#items_all}}
-	<ul class="alternating">
+		{{^orders_recent}}
+		<p>No orders have been placed yet.</p>
+		{{/orders_recent}}
+	</div>
+	<div class="six columns">
+		<h4>All items</h4>
 		{{#items_all}}
-		<li>
-			<b>{{name}}</b>
-			{{#description}}<span class="fadedtext"> // {{description}}</span>{{/description}}<br />
-			<div class="itemnav">
-				<a href="{{www_path}}/commerce/items/edit/{{id}}" class="mininav_flush"><span class="icon pencil"></span> Edit</a>
-				<a href="{{www_path}}/commerce/items/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
-			</div>
-		</li>
+		<ul class="alternating">
+			{{#items_all}}
+			<li>
+				<b>{{name}}</b>
+				{{#description}}<span class="fadedtext"> // {{description}}</span>{{/description}}<br />
+				<div class="itemnav">
+					<a href="{{www_path}}/commerce/items/edit/{{id}}" class="mininav_flush"><span class="icon pencil"></span> Edit</a>
+					<a href="{{www_path}}/commerce/items/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
+				</div>
+			</li>
+			{{/items_all}}
+		</ul>
 		{{/items_all}}
-	</ul>
-	{{/items_all}}
 
-	{{^items_all}}
-	<p>No items have been defined.</p>
-	{{/items_all}}
+		{{^items_all}}
+		<p>No items have been defined.</p>
+		{{/items_all}}
+	</div>
 </div>

@@ -1,12 +1,12 @@
 <form accept-charset="UTF-8" method="post" action="{{#assets_add_action}}{{www_path}}/assets/add/{{/assets_add_action}}">
 	<input type="hidden" name="{{form_state_action}}" value="makeitso" />
 
-	<h3>Asset Details</h3>
-	<label for="asset_title">Title / Name</label><br />
+	<h4>Asset Details</h4>
+	<label for="asset_title">Title / Name</label>
 	<input type="text" id="asset_title" name="asset_title" value="{{title}}" placeholder="Give It A Name" />
 
-	<div class="row_seperator">.</div>
-	<label for="asset_description">Description</label><br />
+	<br />
+	<label for="asset_description">Description</label>
 	<textarea rows="3" id="asset_description" name="asset_description">{{description}}</textarea>
 
 	{{#type}}
@@ -20,50 +20,50 @@
 	{{/metadata_command}}
 
 	{{#show_location}}
-		<div class="row_seperator">.</div>
-		<div class="col_oneoftwo">
-			<label for="connection_id">Which storage connection?</label><br />
-			<select id="connection_id" name="connection_id">
-				{{{connection_options}}}
-			</select>
-			<div class="row_seperator">.</div>
-			<br /><br />
-			<input class="button" type="submit" value="{{asset_button_text}}" />
-		</div>
+		<br />
+		<div class="row">
+			<div class="six columns">
+				<label for="connection_id">Which storage connection?</label>
+				<select id="connection_id" name="connection_id">
+					{{{connection_options}}}
+				</select>
+			</div>
 
-		<div class="col_oneoftwo lastcol">
-			<label for="asset_location">Location (URI)</label><br />
-			<input type="text" id="asset_location" name="asset_location" value="{{location}}" />
-			</form>
+			<div class="six columns">
+				<label for="asset_location">Location (URI)</label>
+				<input type="text" id="asset_location" name="asset_location" value="{{location}}" />
 
-			<!--
-			  *
-			  *
-			  * We should only display the link below if the connection > 0. Check connection ID
-			  * on connection_id change, if it's > 0 we request a data_only view of /assets/uploadform
-			  * and insert it into the drawer contents
-			  *
-			  *
-			  *
-			  -->
-			<div class="drawer noprefix upload-corral">
-				<small class="fadedtext"><span class="icon browser-upload "></span> Using a hosting connection? <a href="#" data-upload-endpoint="{{{www_path}}}/assets/uploadform/" class="drawerhandle usecolor1 file-upload-trigger">Upload a file</a></small>
-				<div class="drawercontent">
-
-
+				<!--
+				  *
+				  * We should only display the link below if the connection > 0. Check connection ID
+				  * on connection_id change, if it's > 0 we request a data_only view of /assets/uploadform
+				  * and insert it into the drawer contents
+				  *
+				  -->
+				<div class="drawer noprefix upload-corral">
+					<small class="fadedtext"><span class="icon browser-upload "></span> Using a hosting connection? <a href="#" data-upload-endpoint="{{{www_path}}}/assets/uploadform/" class="drawerhandle usecolor1 file-upload-trigger">Upload a file</a></small>
+					<div class="drawercontent"></div>
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="six columns">
+				<input type="submit" value="{{asset_button_text}}" />
+				</form>
+			</div>
+			<div class="six columns"></div>
+		</div>
 	{{/show_location}}
 	{{^show_location}}
-		<div class="row_seperator">.</div>
-		<div class="col_oneoftwo">
-			<input type="hidden" name="connection_id" value="" />
-			<input type="hidden" name="asset_location" value="" />
-			<br />
-			<input class="button" type="submit" value="{{asset_button_text}}" />
+		<div class="row">
+			<div class="twelve columns">
+				<input type="hidden" name="connection_id" value="" />
+				<input type="hidden" name="asset_location" value="" />
+				<br />
+				<input type="submit" value="{{asset_button_text}}" />
+			</div>
 		</div>
 		</form>
 	{{/show_location}}
-	<div class="row_seperator">.</div>
+	<br />
 

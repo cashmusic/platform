@@ -1,25 +1,26 @@
-<h3>Order details</h3>
-<div class="col_oneoftwo">
-	<b>Order number: </b>{{padded_id}} <br />
-	<b>Placed on: </b>{{order_date}}<br />
-	<b>Fulfilled: </b>{{order_fulfilled}}<br />
-	<b>Payment status: </b>{{status}}<br /><br />
-	<b>Order total: </b>${{formatted_gross_price}} <br />
-	<b>Total minus fees: </b> ${{formatted_net_price}}
-</div>
-<div class="col_oneoftwo lastcol">
-	<b>Customer:</b><br />
-		{{customer_display_name}}<br /> 
-		<a href="mailto:{{customer_email_address}}">{{customer_email_address}}</a>
-	<br /><br /><b>Country: </b> {{customer_address_country}}
+<h4>Order details</h4>
+<div class="row">
+	<div class="six columns">
+		<b>Order number: </b>{{padded_id}} <br />
+		<b>Placed on: </b>{{order_date}}<br />
+		<b>Fulfilled: </b>{{order_fulfilled}}<br />
+		<b>Payment status: </b>{{status}}<br /><br />
+		<b>Order total: </b>${{formatted_gross_price}} <br />
+		<b>Total minus fees: </b> ${{formatted_net_price}}
+	</div>
+	<div class="six columns">
+		<b>Customer:</b><br />
+			{{customer_display_name}}<br /> 
+			<a href="mailto:{{customer_email_address}}">{{customer_email_address}}</a>
+		<br /><br /><b>Country: </b> {{customer_address_country}}
+	</div>
 </div>
 
-
-<div class="row_seperator tall">.</div><br />
+<br /><br />
 
 {{#order_contents}}
-	<h3>Items included</h3>
-	<table style="width:100%;">
+	<h4>Items included</h4>
+	<table style="width:100%;" class="responsive">
 		<colgroup style="width:8%;" />
 		<colgroup style="width:25%;" />
 		<colgroup />
@@ -46,25 +47,29 @@
 	<br />
 {{/order_contents}}
 
-<div class="row_seperator">.</div><br />
-<h3>Transaction details</h3>
+<br /><br />
+<h4>Transaction details</h4>
 <b>Connection used: </b> {{order_connection_details}} <br />
 <b>Transaction ID: </b> {{service_transaction_id}}<br />
 <b>Service fees: </b> ${{service_fee}}<br />
 <br />
-<div class="col_oneoftwo">
-	<b>Data sent to service</b>
-	<ul class="smalltext">
-	{{#formatted_data_sent}}
-		<li><b>{{key}}:</b> {{value}}</li>
-	{{/formatted_data_sent}}
-	</ul>
-</div>
-<div class="col_oneoftwo lastcol">
-	<b>Data returned by service</b>
-	<ul class="smalltext">
-	{{#formatted_data_returned}}
-		<li><b>{{key}}:</b> {{value}}</li>
-	{{/formatted_data_returned}}
-	</ul>
+<div class="row">
+	<div class="six columns">
+		<h5>Data sent to service</h5>
+		
+		<ul class="smalltext">
+		{{#formatted_data_sent}}
+			<li><b>{{key}}:</b> {{value}}</li>
+		{{/formatted_data_sent}}
+		</ul>
+	</div>
+	<div class="six columns">
+		<h5>Data returned by service</h5>
+
+		<ul class="smalltext">
+		{{#formatted_data_returned}}
+			<li><b>{{key}}:</b> {{value}}</li>
+		{{/formatted_data_returned}}
+		</ul>
+	</div>
 </div>

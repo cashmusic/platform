@@ -1,4 +1,4 @@
-<h2>Event details</h2>
+<h4>Event details</h4>
 <p>
 	Add a date to the system. Information about published/unpublished status and
 	cancellation can be found in the page tips.
@@ -8,29 +8,30 @@
 <form accept-charset="UTF-8" method="post" action="{{www_path}}{{requested_route}}">
 	<input type="hidden" name="{{form_state_action}}" value="makeitso" />
 
-	<label for="event_date">Date</label><br />
-	<input type="text" id="event_date" name="event_date" value="{{formatted_date}}"{{^formatted_date}} class="date" placeholder="MM/DD/YYYY"{{/formatted_date}} />
-
-	<div class="row_seperator">.</div>
-
-	<label for="event_venue_name">Venue</label><br />
-	<input type="text" id="event_venue_name" name="event_venue_name" value="{{venue_display_string}}" placeholder="Start typing to search venues" class="autocomplete" data-cash-endpoint-url="{{{www_path}}}/ajax/autocomplete/venues" />
-	<input type="hidden" id="event_venue" name="event_venue" value="{{venue_id}}" />
-	<br /><small class="fadedtext">Can't find the venue you're looking for? <a href="{{www_path}}/calendar/venues/add/" class="add-fulfillment-file lightboxed returntocurrentroute usecolor4">Add a new venue</a></small>
-
-	<div class="row_seperator">.</div>
-	<label for="event_comment">Comments (Support, CD Release, etc)</label><br />
+	<div class="row">
+		<div class="six columns">
+			<label for="event_date">Date</label>
+			<input type="text" id="event_date" name="event_date" value="{{formatted_date}}"{{^formatted_date}} class="date" placeholder="MM/DD/YYYY"{{/formatted_date}} />
+		</div>
+		<div class="six columns">
+			<label for="event_venue_name">Venue</label>
+			<input type="text" id="event_venue_name" name="event_venue_name" value="{{venue_display_string}}" placeholder="Start typing to search venues" class="autocomplete" data-cash-endpoint-url="{{{www_path}}}/ajax/autocomplete/venues" />
+			<input type="hidden" id="event_venue" name="event_venue" value="{{venue_id}}" />
+			<small class="fadedtext">Can't find the venue you're looking for? <a href="{{www_path}}/calendar/venues/add/" class="add-fulfillment-file lightboxed returntocurrentroute usecolor4">Add a new venue</a></small>
+		</div>
+	</div>
+	<br /><br />
+	<label for="event_comment">Comments (Support, CD Release, etc)</label>
 	<textarea rows="3" id="event_comment" name="event_comment">{{comments}}</textarea>
 
-	<div class="row_seperator">.</div>
-	<label for="event_purchase_url">Ticket Purchase URL</label><br />
+	<label for="event_purchase_url">Ticket Purchase URL</label>
 	<input type="text" id="event_purchase_url" name="event_purchase_url" value="{{purchase_url}}"{{^purchase_url}} placeholder="Ticket Link URL"{{/purchase_url}} />
 
-	<div class="row_seperator">.</div>
+	<br />
 	<input type='checkbox' class='checkorradio' name='event_ispublished' value=''{{#published}} checked="checked"{{/published}} /> Published?
 	&nbsp; <input type='checkbox' class='checkorradio' name='event_iscancelled' value=''{{#cancelled}} checked="checked"{{/cancelled}} /> Cancelled?
 
-	<div class="row_seperator">.</div><br />
-	<input class="button" type="submit" value="{{event_button_text}}" />
+	<br /><br />
+	<input type="submit" value="{{event_button_text}}" />
 
 </form>

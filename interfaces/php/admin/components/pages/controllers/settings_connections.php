@@ -41,7 +41,7 @@ if ($settings_action) {
 			if ($cash_admin->platform_type == 'single') {
 				if (!isset($_POST['dosettingsadd'])) {
 					if (array_key_exists($settings_type, $settings_types_data)) {
-						$cash_admin->page_data['state_markup'] = '<h3>Connect to ' . $settings_types_data[$settings_type]['name'] . '</h3><p>' . $settings_types_data[$settings_type]['description'] . '</p>';
+						$cash_admin->page_data['state_markup'] = '<h4>Connect to ' . $settings_types_data[$settings_type]['name'] . '</h4><p>' . $settings_types_data[$settings_type]['description'] . '</p>';
 
 						$cash_admin->page_data['state_markup'] .= '<form method="post" action="">'
 							. '<input type="hidden" name="dosettingsadd" value="makeitso" />'
@@ -60,7 +60,7 @@ if ($settings_action) {
 								. '<div><input class="button" type="submit" value="Add The Connection" /></div>'
 								. '</form>';
 					} else {
-						$cash_admin->page_data['state_markup'] = '<h3>Error</h3><p>The requested setting type could not be found.</p>';
+						$cash_admin->page_data['state_markup'] = '<h4>Error</h4><p>The requested setting type could not be found.</p>';
 					}
 				} else {
 					$settings_data_array = array();
@@ -124,7 +124,7 @@ if ($settings_action) {
 			$settings_details = $page_data_object->getConnectionSettings($connection_id);
 			if (!isset($_POST['dosettingsedit'])) {
 				if ($settings_details) {
-					$cash_admin->page_data['state_markup'] = '<h3>Edit ' . $settings_name . '</h3>'
+					$cash_admin->page_data['state_markup'] = '<h4>Edit ' . $settings_name . '</h4>'
 					 . '<form method="post" action="">'
 					 .		'<input type="hidden" name="dosettingsedit" value="makeitso" />'
 					 .		'<input type="hidden" name="connection_id" value="' . $connection_id . '" />'
@@ -174,19 +174,19 @@ if ($settings_action) {
 	}	
 }
 if (!$settings_action || isset($_POST['dosettingsadd']) || isset($_POST['dosettingsedit']) || $settings_action == 'delete' ) {
-	$cash_admin->page_data['state_markup'] = '<h3>Current connections:</h3>'
+	$cash_admin->page_data['state_markup'] = '<h4>Current connections:</h4>'
 		. '<p>Here are the settings that have already been added:</p>';
 	$settings_for_user = $page_data_object->getAllConnectionsforUser();
 	if (is_array($settings_for_user)) {
 		foreach ($settings_for_user as $key => $data) {
 			$cash_admin->page_data['state_markup'] .= '<div class="callout">'
-				. '<h4>' . $data['name'] . '</h4>';
+				. '<h6>' . $data['name'] . '</h6>';
 
 			if (array_key_exists($data['type'],$settings_types_data)) {
 				$cash_admin->page_data['state_markup'] .= '<b>' . $settings_types_data[$data['type']]['name'] . '</b> ';
 			} 
 
-			$cash_admin->page_data['state_markup'] .= '&nbsp; <span class="smalltext fadedtext nobr">Created: ' . date('M jS, Y',$data['creation_date']);
+			$cash_admin->page_data['state_markup'] .= '&nbsp; <span class="fadedtext nobr">Created: ' . date('M jS, Y',$data['creation_date']);
 			if ($data['modification_date']) { 
 				$cash_admin->page_data['state_markup'] .=  ' (Modified: ' . date('F jS, Y',$data['modification_date']) . ')'; 
 			}

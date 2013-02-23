@@ -1,11 +1,21 @@
 <!DOCTYPE html>
-<html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-	<title>CASH Music: Admin</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="icon" type="image/png" href="http://cashmusic.org/images/icons/cash.png" />
+
+	<!-- Set the viewport width to device width for mobile -->
+	<meta name="viewport" content="width=device-width" />
+
+	<title>CASH Music / Admin</title>
 
 	<link rel="icon" type="image/png" href="http://cashmusic.org/images/icons/cash.png" />
-	<link href="{{www_path}}/ui/default/assets/css/admin.css" rel="stylesheet" type="text/css" />
+	<link href="{{www_path}}/ui/default/assets/css/app.css" rel="stylesheet" type="text/css" />
+	<link href="{{www_path}}/ui/default/assets/css/offcanvas.css" rel="stylesheet" type="text/css" />
+	<link href="{{www_path}}/ui/default/assets/css/responsive-tables.css" rel="stylesheet" type="text/css" />
 	<link href="{{www_path}}/ui/default/assets/css/diy-ui/jquery-ui-1.8.23.custom.css" rel="stylesheet" type="text/css" />
 
 	<script type="text/javascript">
@@ -15,18 +25,14 @@
 	</script>
 
 	<script src="//www.google.com/jsapi"></script>
-	<script src="{{www_path}}/ui/default/assets/scripts/modernizr-2.6.1.custom.min.js" type="text/javascript"></script>
+	<script src="{{www_path}}/ui/default/assets/scripts/modernizr.foundation.js" type="text/javascript"></script>
 	<script src="{{jquery_url}}" type="text/javascript"></script>
 	<script src="{{www_path}}/ui/default/assets/scripts/jquery-ui-1.9.0.custom.min.js" type="text/javascript"></script>
-	<script src="{{www_path}}/ui/default/assets/scripts/jquery.iframe-transport.js" type="text/javascript"></script>
-	<script src="{{www_path}}/ui/default/assets/scripts/jquery.fileupload.js" type="text/javascript"></script>
-	<script src="{{www_path}}/ui/default/assets/scripts/jquery.admin.js" type="text/javascript"></script>
 </head>
-<body>
 
-<div id="wrap">
-	<div id="mainspc" class="{{specialcolor}}">
-		<div id="chromespc">
+	<body id="page" class="off-canvas hide-extras">
+	<div id="wrap">	
+		<div id="chromespc" class="twelve columns phone-two hide-for-small">
 			<div id="navmenumask">.</div>
 			<div id="navmenu">
 				<div id="assetstab" class="navitem bgcolor1{{#ui_current_assets}} currentnav{{/ui_current_assets}}">
@@ -47,59 +53,97 @@
 			</div>
 		</div>
 
-		<div id="pagecontent">
-			<div id="pagemenu">
-			{{#section_menu}}{{{section_menu}}}{{/section_menu}}
-			{{^section_menu}}&nbsp;{{/section_menu}}
-			</div>
+		<div id="mainspc" class="container {{specialcolor}}">
+			<div id="smallchrome">&nbsp;</div>
 
-			<div id="subnavmenu">
-				<a href="{{www_path}}/"><span class="icon polaroid"></span> Main page</a>
-				<div id="helpmenu">
-					<span class="icon support"></span> Help
-					<ul>
-						<li><a href="#tips" id="tipslink">Tips for <b>this</b> page</a></li>
-						<li><a href="{{www_path}}/help/gettingstarted/">Getting started</a></li>
-						<li><a href="{{www_path}}/help/">FAQ</a></li>
-						<li><a href="http://help.cashmusic.org/">help.cashmusic.org</a></li>
-					</ul>
-				</div>
-				<div id="accountmenu">
-					<span class="icon settings-2"></span> {{user_email}}
-					<ul>
-						<li><a href="{{www_path}}/account/">Your account</a></li>
-						<li><a href="{{www_path}}/settings/">System settings</a></li>
-						<li><a href="http://cashmusic.org/#more">Donate</a></li>
-						<li><a href="{{www_path}}/logout/" id="logout">Log out</a></li>
-					</ul>
-				</div>
-				<div class="clearfix">.</div>
-			</div>
+			<div class="row">
+				<section role="main">
+					<div class="row">
+						<div class="twelve columns phone-two">
+							<p class="show-for-small">
+								<a class="sidebar-button" id="sidebarButton" href="#sidebar"><span class="icon arrow-left menu-inactive"></span><span class="icon arrow-right menu-active"></span></a>
+							</p>
 
-			<div id="tipspc">
-				<div id="pagetips">
-					<span id="current_pagetip">{{{ui_page_tip}}}</span>
-					<br />
-					<a id="tipscloselink" href="#">close</a>
-				</div>
-			</div>
+							<div id="pagemenu">{{#section_menu}}{{{section_menu}}}{{/section_menu}}</div>
 
-			<h1 id="pagetitle">{{ui_title}}</h1>
-			<div id="pagemessage">
-				{{#error_message}}<p><span class="highlightcopy errormessage">{{error_message}}</span></p>{{/error_message}}
-				{{#page_message}}<p><span class="highlightcopy">{{page_message}}</span></p>{{/page_message}}
+							<div id="subnavmenu" class="hide-for-small">
+								<a href="{{www_path}}/"><span class="icon polaroid"></span> Main page</a>
+								<div id="helpmenu">
+									<span class="icon support"></span> Help
+									<ul>
+										<li><a href="#tips" id="tipslink">Tips for <b>this</b> page</a></li>
+										<li><a href="{{www_path}}/help/gettingstarted/">Getting started</a></li>
+										<li><a href="{{www_path}}/help/">FAQ</a></li>
+										<li><a href="http://help.cashmusic.org/">help.cashmusic.org</a></li>
+									</ul>
+								</div>
+								<div id="accountmenu">
+									<span class="icon settings-2"></span> {{user_email}}
+									<ul>
+										<li><a href="{{www_path}}/account/">Your account</a></li>
+										<li><a href="{{www_path}}/settings/">System settings</a></li>
+										<li><a href="http://cashmusic.org/#more">Donate</a></li>
+										<li><a href="{{www_path}}/logout/" id="logout">Log out</a></li>
+									</ul>
+								</div>
+								<div class="clearfix">.</div>
+							</div>
+
+							<div id="tipspc" class="hide-for-small">
+								<div id="pagetips">
+									<span id="current_pagetip">{{{ui_page_tip}}}</span>
+									<br />
+									<a id="tipscloselink" href="#">close</a>
+								</div>
+							</div>
+						</div>
+
+						<div class="twelve columns">
+							<h2 id="pagetitle">{{ui_title}}</h2>
+							<div id="pagemessage">
+								{{#error_message}}<p><span class="highlightcopy errormessage">{{error_message}}</span></p>{{/error_message}}
+								{{#page_message}}<p><span class="highlightcopy">{{page_message}}</span></p>{{/page_message}}
+							</div>
+							<div id="pagedisplay">
+								{{{content}}}
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section id="sidebar" role="complementary">
+					<nav id="sideMenu" role="navigation">
+						<a href="{{www_path}}/assets/" class="button bgcolor1">Assets</a>
+						<a href="{{www_path}}/people/" class="button bgcolor2">People</a>
+						<a href="{{www_path}}/commerce/" class="button bgcolor3">Commerce</a>
+						<a href="{{www_path}}/calendar/" class="button bgcolor4">Calendar</a>
+						<a href="{{www_path}}/elements/" class="button bgcolor5">Elements</a>
+					</nav>
+
+					<br /><br />
+					<div id="secondaryNav">
+						<a href="{{www_path}}/help/" class="button helpbutton">Help</a>
+						<br />
+						<a href="{{www_path}}/" class="button">Main page</a>
+						<a href="{{www_path}}/logout/" class="button">Log out</a>
+					</div>
+				</section>
 			</div>
-			<div id="pagedisplay">
-				{{{content}}}
-			</div>
-			<div class="clearfix">.</div>
 		</div>
 	</div>
-</div>
 
-<div id="footer">
-	<p><b>&copy; 2011 CASH Music.</b> All our code is open-source. <a href="{{www_path}}/licenses/" style="margin-left:0;">Learn more</a>. {{#showterms}}<a href="{{www_path}}/terms/">Terms of service</a> {{/showterms}}{{#showprivacy}}<a href="{{www_path}}/privacy/">Privacy policy</a> {{/showprivacy}}<a href="http://cashmusic.org/#more" class="donatelink"><b>Donate</b></a></p>
-</div>
+	<div id="footer">
+		<div class="row">
+			<div class="twelve columns">
+				<p><b>&copy; 2011 CASH Music.</b> All our code is open-source. <a href="{{www_path}}/licenses/" style="margin-left:0;">Learn more</a>. {{#showterms}}<a href="{{www_path}}/terms/">Terms of service</a> {{/showterms}}{{#showprivacy}}<a href="{{www_path}}/privacy/">Privacy policy</a> {{/showprivacy}}<a href="http://cashmusic.org/#more" class="donatelink"><b>Donate</b></a></p>
+			</div>
+		</div>
+	</div>
 
+	<!-- Included JS Files -->
+	<script src="{{www_path}}/ui/default/assets/scripts/jquery.offcanvas.js" type="text/javascript"></script>
+	<script src="{{www_path}}/ui/default/assets/scripts/responsive-tables.js" type="text/javascript"></script>
+	<script src="{{www_path}}/ui/default/assets/scripts/jquery.iframe-transport.js" type="text/javascript"></script>
+	<script src="{{www_path}}/ui/default/assets/scripts/jquery.fileupload.js" type="text/javascript"></script>
+	<script src="{{www_path}}/ui/default/assets/scripts/jquery.admin.js" type="text/javascript"></script>
 </body>
-</html>

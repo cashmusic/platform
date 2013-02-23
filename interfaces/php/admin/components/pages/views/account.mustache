@@ -1,31 +1,54 @@
 <form accept-charset="UTF-8" method="post" action="{{www_path}}/account/">
 	<input type="hidden" name="doaccountchange" value="makeitso" />
-	<div class="col_oneofthree">
-		<input type="hidden" name="email_address" value="{{email_address}}" />
-		<label for="new_email_address">Email address</label><br />
-		<input type="text" id="new_email_address" name="new_email_address" placeholder="{{email_address}}" />
-	</div>
-	<div class="col_oneofthree">
-		<label for="new_username">Username (alphanumeric only)</label><br />
-		<input type="text" id="new_username" name="new_username" placeholder="{{username}}" />
-	</div>
-	<div class="col_oneofthree lastcol">
-		<label for="new_password">New password (Blank = no change)</label><br />
-		<input type="password" id="new_password" name="new_password" autocomplete="off" />
-		<label for="toggle_password"><input type="checkbox" id="toggle_password" />Reveal text</label><br />
+	<div class="row">
+		<div class="four columns">
+			<input type="hidden" name="email_address" value="{{email_address}}" />
+			<label for="new_email_address">Email address</label>
+			<input type="text" id="new_email_address" name="new_email_address" placeholder="{{email_address}}" />
+		</div>
+		<div class="four columns">
+			<label for="new_username">Username (alphanumeric only)</label>
+			<input type="text" id="new_username" name="new_username" placeholder="{{username}}" />
+		</div>
+		<div class="four columns">
+			<label for="new_password">New password (Blank = no change)</label>
+			<input type="password" id="new_password" name="new_password" autocomplete="off" />
+			<label for="toggle_password"><input type="checkbox" id="toggle_password" />Reveal text</label>
+		</div>
 	</div>
 
-<div class="col_oneofthree">
-	<div class="row_seperator tall">.</div>
-	<p>
-		Please enter your current password to make changes:
-	</p>
-	<label for="password">Password</label><br />
-	<input type="password" id="password" name="password" autocomplete="off" />
-	<div class="row_seperator">.</div>
-	<input class="button" type="submit" value="Make changes" />
+<div class="row">
+	<div class="four columns">
+		<br /><br />
+		<p>
+			Please enter your current password to make changes:
+		</p>
+		<label for="password">Password</label>
+		<input type="password" id="password" name="password" autocomplete="off" />
+		<br />
+		<input type="submit" value="Make changes" />
+	</div>
 </div>
 </form>
+
+<br /><br /><br />
+{{#platform_type_single}}
+	<div>
+		<h4>API Key / Secret</h4>
+		<p>
+			API details for developer access:
+		</p>
+		<div class="callout">
+			<code>
+			<b>API endpoint:</b> {{api_url}}<br /><br />
+			<b>Key:</b> {{api_key}} &nbsp; &nbsp; 
+			<b>Secret:</b> 
+			{{#api_secret}}{{api_secret}}{{/api_secret}}{{^api_secret}}<a href="?reveal=true">Click to reveal API Secret</a>{{/api_secret}}
+			</code>
+		</div>
+	</div>
+{{/platform_type_single}}
+
 
 <script type="text/javascript">
 	// http://www.electrictoolbox.com/toggle-password-field-text-password/
@@ -57,21 +80,3 @@
 		p.value = value;
 	} 
 </script>
-
-<div class="row_seperator tall">.</div><br />
-{{#platform_type_single}}
-	<div>
-		<h3>API Key / Secret</h3>
-		<p>
-			API details for developer access:
-		</p>
-		<div class="callout">
-			<code>
-			<b>API endpoint:</b> {{api_url}}<br /><br />
-			<b>Key:</b> {{api_key}} &nbsp; &nbsp; 
-			<b>Secret:</b> 
-			{{#api_secret}}{{api_secret}}{{/api_secret}}{{^api_secret}}<a href="?reveal=true">Click to reveal API Secret</a>{{/api_secret}}
-			</code>
-		</div>
-	</div>
-{{/platform_type_single}}

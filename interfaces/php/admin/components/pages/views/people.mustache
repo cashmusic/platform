@@ -4,47 +4,49 @@
 	<div class="closelink"><a href="?hidebanner=true">close <span class="icon cancel-circle"></span></a></div></div>
 {{/banner_main_content}}
 
-<div class="col_oneoftwo">
-	<h2>Lists</h2>
-	{{#lists_all}}
-	<ul class="alternating">
+<div class="row">
+	<div class="six columns">
+		<h4>Lists</h4>
 		{{#lists_all}}
-		<li>
-			<b>{{name}}</b>
-			{{#description}}<br /><span class="fadedtext">{{description}}</span>{{/description}}<br />
-			<div class="itemnav">
-				<a href="{{www_path}}/people/lists/view/{{id}}" class="mininav_flush"><span class="icon search"></span> View</a>
-				<a href="{{www_path}}/people/lists/edit/{{id}}" class="mininav_flush"><span class="icon pencil"></span> Edit</a>
-				<a href="{{www_path}}/people/lists/export/{{id}}" class="mininav_flush noajax"><span class="icon browser-download-2"></span> Export</a>
-				<a href="{{www_path}}/people/lists/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
-			</div>
-		</li>
+		<ul class="alternating">
+			{{#lists_all}}
+			<li>
+				<b>{{name}}</b>
+				{{#description}}<br /><span class="fadedtext">{{description}}</span>{{/description}}<br />
+				<div class="itemnav">
+					<a href="{{www_path}}/people/lists/view/{{id}}" class="mininav_flush"><span class="icon search"></span> View</a>
+					<a href="{{www_path}}/people/lists/edit/{{id}}" class="mininav_flush"><span class="icon pencil"></span> Edit</a>
+					<a href="{{www_path}}/people/lists/export/{{id}}" class="mininav_flush noajax"><span class="icon browser-download-2"></span> Export</a>
+					<a href="{{www_path}}/people/lists/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
+				</div>
+			</li>
+			{{/lists_all}}
+		</ul>
 		{{/lists_all}}
-	</ul>
-	{{/lists_all}}
 
-	{{^lists_all}}
-	<p>No lists have been created.</p>
-	{{/lists_all}}
-</div>
-<div class="col_oneoftwo lastcol">
-	<h2>Add new press coverage</h2>
-	<form accept-charset="UTF-8" method="post" action="{{www_path}}/people/press">
-		<label for="press_url">URL</label><br />
-		<input type="text" id="press_url" name="press_url" /> 
+		{{^lists_all}}
+		<p>No lists have been created.</p>
+		{{/lists_all}}
+	</div>
+	<div class="six columns">
+		<h4>Add new press coverage</h4>
+		<form accept-charset="UTF-8" method="post" action="{{www_path}}/people/press">
+			<label for="press_url">URL</label>
+			<input type="text" id="press_url" name="press_url" /> 
 
-		<label for="publishing_date">Publishing date</label><br />
-		<input type="text" id="publishing_date" name="publishing_date" value="{{current_date}}" /> 
+			<label for="publishing_date">Publishing date</label>
+			<input type="text" id="publishing_date" name="publishing_date" value="{{current_date}}" /> 
 
-		<!--
-		<div class="row_seperator">.</div>
-		<label>Tags</label><br />
-		{{{tag_markup}}}
-		<a href="#" class="injectbefore" rev="<input type='text' name='tag' value='' placeholder='Tag' />" rel="{{tag_counter}}"><small>+ ADD TAG</small></a>
-		-->
+			<!--
+			<br />
+			<label>Tags</label>
+			{{{tag_markup}}}
+			<a href="#" class="injectbefore" rev="<input type='text' name='tag' value='' placeholder='Tag' />" rel="{{tag_counter}}"><small>+ ADD TAG</small></a>
+			-->
 
-		<div class="row_seperator">.</div><br />
-		<input class="button" type="submit" value="Add new link" />
-	
-	</form>
+			<br /><br />
+			<input type="submit" value="Add new link" />
+		
+		</form>
+	</div>
 </div>

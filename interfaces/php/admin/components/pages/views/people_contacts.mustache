@@ -1,74 +1,74 @@
 <div class="col_oneoftwo">
-	<h3>Add new contact</h3>
+	<h4>Add new contact</h4>
 	<form accept-charset="UTF-8" method="post" action="{{www_path}}/people/contacts/">	
 		<input type="hidden" name="docontactadd" value="makeitso" />
 		<div class="col_oneoftwo">
-			<label for="first_name">First name</label><br />
+			<label for="first_name">First name</label>
 			<input type="text" id="first_name" name="first_name" placeholder="First" /> 
 		</div>
 		<div class="col_oneoftwo lastcol">
-			<label for="last_name">Last Name</label><br />
+			<label for="last_name">Last Name</label>
 			<input type="text" id="last_name" name="last_name" placeholder="Last" /> 
 		</div>
 
-		<div class="row_seperator">.</div>
-		<label for="email_address">Email address</label><br />
+		<br />
+		<label for="email_address">Email address</label>
 		<input type="text" id="email_address" name="email_address" /> 
 
 		<div class="drawer">
-			<div class="row_seperator">.</div>
+			<br />
 			<div class="drawercontent">
-				<label for="organization">Organization(s)</label><br />
+				<label for="organization">Organization(s)</label>
 				<input type="text" id="organization" name="organization" /> 
 
-				<div class="row_seperator">.</div>
-				<label for="phone">Phone</label><br />
+				<br />
+				<label for="phone">Phone</label>
 				<input type="text" id="phone" name="phone" /> 
 
-				<div class="row_seperator">.</div>
-				<label for="address1">Mailing address</label><br />
+				<br />
+				<label for="address1">Mailing address</label>
 				<input type="text" id="address1" name="address1" /> 
 
-				<div class="row_seperator">.</div>
+				<br />
 				<div class="col_oneofthree">
-					<label for="address_city">City</label><br />
+					<label for="address_city">City</label>
 					<input type="text" id="address_city" name="address_city" /> 
 				</div>
 				<div class="col_oneofthree">
-					<label for="address_region">State / province</label><br />
+					<label for="address_region">State / province</label>
 					<input type="text" id="address_region" name="address_region" /> 
 				</div>
 				<div class="col_oneofthree lastcol">
-					<label for="address_postalcode">Postal code</label><br />
+					<label for="address_postalcode">Postal code</label>
 					<input type="text" id="address_postalcode" name="address_postalcode" /> 
 				</div>
 
-				<div class="row_seperator">.</div>
+				<br />
 
-				<label for="address_country">Country</label><br />
+				<label for="address_country">Country</label>
 				<select id="address_country" name="address_country">
 					{{{country_codes}}}
 				</select>
 
-				<div class="row_seperator">.</div>
+				<br />
 			</div>
 			<a class="drawerhandle">additional options</a>
 		</div>
 
-		<div class="row_seperator">.</div><br />
-		<input class="button" type="submit" value="Add new contact" />
+		<br /><br />
+		<input type="submit" value="Add new contact" />
 		
 	</form>
 </div>
 
 <div class="col_oneoftwo lastcol">
-	<h3>Contacts by last name</h3>
+	<h4>Contacts by last name</h4>
 	<div class="washedtext">
 		{{#alphabet}}
 			{{#contact}}<a href="{{www_path}}/people/contacts/bylastname/{{letter}}">{{/contact}}{{letter}}{{#contact}}</a>{{/contact}}
 		{{/alphabet}}
 	</div>
-	<div class="row_seperator">.</div><br />
+	<br /><br />
 	{{#contact_list}}
 		<p><a href="{{www_path}}/people/contacts/edit/{{id}}"><b>{{first_name}} {{last_name}}</b></a><br />{{email_address}}</p>
 	{{/contact_list}}

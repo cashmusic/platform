@@ -1,35 +1,33 @@
-<h2>{{name}}</h2>
+<h4>{{name}}</h4>
 
 <form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/items/edit/{{id}}" name="edit_item">
 	<input type="hidden" name="{{form_state_action}}" value="makeitso" />
 
-	<label for="item_name">Name</label><br />
+	<label for="item_name">Name</label>
 	<input type="text" id="item_name" name="item_name" value="{{name}}" placeholder="A public name for the item" />
 
-	<div class="row_seperator">.</div>
-	<label for="item_description">Description</label><br />
+	<label for="item_description">Description</label>
 	<textarea rows="3" id="item_description" name="item_description">{{description}}</textarea>
 
-	<div class="row_seperator">.</div>
-	<label for="item_price">Price ($ USD)</label><br />
-	<input type="text" id="item_price" name="item_price" value="{{price}}" />
-
-	<div class="row_seperator">.</div>
-	<div class="col_oneoftwo">
-		<label for="item_fulfillment_asset">Fulfillment asset</label><br />
-		<select id="item_fulfillment_asset" name="item_fulfillment_asset">
-			{{{asset_options}}}
-		</select>
+	<div class="row">
+		<div class="six columns">
+			<label for="item_price">Price ($ USD)</label>
+			<input type="text" id="item_price" name="item_price" value="{{price}}" />
+		</div>
+		<div class="six columns">
+			<label for="item_fulfillment_asset">Fulfillment asset</label>
+			<select id="item_fulfillment_asset" name="item_fulfillment_asset">
+				{{{asset_options}}}
+			</select>
+		</div>
 	</div>
 
-	<div class="col_oneoftwo lastcol">
-		<label for="item_flexible_price">Flexible Price</label><br />
+	<br />
+	<label for="item_flexible_price">
 		<input type="checkbox" name="item_flexible_price" id="item_flexible_price"{{#flexible_price}} checked="checked"{{/flexible_price}} class="checkorradio" /> Enable "pay-at-least" minimum pricing
-	</div>
+	</label>
 
-	<div class="row_seperator">.</div><br />
-
-	<div class="row_seperator">.</div><br />
-	<input class="button" type="submit" value="Edit The Item" />
+	<br /><br />
+	<input type="submit" value="Edit The Item" />
 
 </form>

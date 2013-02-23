@@ -2,15 +2,13 @@
 	<input type="hidden" name="{{form_state_action}}" value="makeitso">
 	{{#element_id}}<input type="hidden" name="element_id" value="{{element_id}}" />{{/element_id}}
 	{{#element_type}}<input type="hidden" name="element_type" value="{{element_type}}" />{{/element_type}}
-	<h3>Element Details</h3>
-	
-	<label for="element_name">Name</label><br />
+
+	<label for="element_name">Name</label>
 	<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="Give It A Name"{{/element_name}} /> 
 
-	<div class="row_seperator">.</div><br />
-	<label for="message_success">Success Message</label><br />
+	<label for="message_success">Success Message</label>
 	<input type="text" id="message_success" name="message_success" value="{{#options_message_success}}{{options_message_success}}{{/options_message_success}}{{^options_message_success}}Thank you! Here's your download.{{/options_message_success}}" />
 
-	<div class="row_seperator">.</div><br />
+	<br />
 	<input class="button" type="submit" value="{{element_button_text}}" />
 </form>

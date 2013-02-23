@@ -89,6 +89,7 @@
 		$('#pagemenu').html(data.section_menu);
 
 		window.scrollTo(0,0);
+		$(document).trigger('redraw');
 	}
 
 	/*
@@ -350,13 +351,15 @@
 
 		// modal lightboxes
 		$(document).on('click', '.lightboxed', function(e) {
-			e.preventDefault();
-			if ($(this).hasClass('returntocurrentroute')) {
-				doModalLightbox($(this).attr('href'),true);
-			} else {
-				doModalLightbox($(this).attr('href'));
+			if ($(window).width() > 768) {
+				e.preventDefault();
+				if ($(this).hasClass('returntocurrentroute')) {
+					doModalLightbox($(this).attr('href'),true);
+				} else {
+					doModalLightbox($(this).attr('href'));
+				}
+				this.blur();
 			}
-			this.blur();
 		});
 
 		// show/hide element details

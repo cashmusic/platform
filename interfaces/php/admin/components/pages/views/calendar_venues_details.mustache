@@ -1,51 +1,57 @@
-<h2>Venue Details</h2>
+<h4>Venue Details</h4>
 <form accept-charset="UTF-8" method="post" action="{{www_path}}{{requested_route}}" name="venue_add">
 	<input type="hidden" name="{{form_state_action}}" value="makeitso" />
 
-	<label for="venue_name">Name</label><br />
+	<label for="venue_name">Name</label>
 	<input type="text" id="venue_name" name="venue_name" value="{{name}}" />
 
-	<div class="row_seperator">.</div>
-	<div class="col_oneoftwo">
-		<label for="venue_url">Website</label><br />
-		<input type="text" id="venue_url" name="venue_url" value="{{url}}" />
-	</div>
-	<div class="col_oneoftwo lastcol">
-		<label for="venue_phone">Phone</label><br />
-		<input type="text" id="venue_phone" name="venue_phone" value="{{phone}}" />
+	<div class="row">
+		<div class="six columns">
+			<label for="venue_url">Website</label>
+			<input type="text" id="venue_url" name="venue_url" value="{{url}}" />
+		</div>
+		<div class="six columns">
+			<label for="venue_phone">Phone</label>
+			<input type="text" id="venue_phone" name="venue_phone" value="{{phone}}" />
+		</div>
 	</div>
 
-	<div class="row_seperator">.</div>
-	<label for="venue_address1">Address 1</label><br />
-	<input type="text" id="venue_address1" name="venue_address1" value="{{address1}}" />
+	<div class="row">
+		<div class="six columns">
+			<label for="venue_address1">Address 1</label>
+			<input type="text" id="venue_address1" name="venue_address1" value="{{address1}}" />
+		</div>
+		<div class="six columns">
+			<label for="venue_address2">Address 2</label>
+			<input type="text" id="venue_address2" name="venue_address2" value="{{address2}}" />
+		</div>
+	</div>
 	
-	<div class="row_seperator">.</div>
-	<label for="venue_address2">Address 2</label><br />
-	<input type="text" id="venue_address2" name="venue_address2" value="{{address2}}" />
-	
-	<div class="row_seperator">.</div>
-	<div class="col_oneoftwo">
-		<label for="venue_city">City</label><br />
-		<input type="text" id="venue_city" name="venue_city" value="{{city}}" />
-	</div>
-	<div class="col_oneoftwo lastcol">
-		<label for="venue_region">State / Provence / Region</label><br />
-		<input type="text" id="venue_region" name="venue_region" value="{{region}}" />
+	<div class="row">
+		<div class="six columns">
+			<label for="venue_city">City</label>
+			<input type="text" id="venue_city" name="venue_city" value="{{city}}" />
+		</div>
+		<div class="six columns">
+			<label for="venue_region">State / Provence / Region</label>
+			<input type="text" id="venue_region" name="venue_region" value="{{region}}" />
+		</div>
 	</div>
 
-	<div class="row_seperator">.</div>
-	<div class="col_oneoftwo">
-		<label for="venue_postalcode">Postal Code</label><br />
-		<input type="text" id="venue_postalcode" name="venue_postalcode" value="{{postalcode}}" />
-	</div>
-	<div class="col_oneoftwo lastcol">
-		<label for="venue_country">Country</label><br />
-		<select id="venue_country" name="venue_country">
-			{{{country_options}}}
-		</select>
+	<div class="row">
+		<div class="six columns">
+			<label for="venue_postalcode">Postal Code</label>
+			<input type="text" id="venue_postalcode" name="venue_postalcode" value="{{postalcode}}" />
+		</div>
+		<div class="six columns">
+			<label for="venue_country">Country</label>
+			<select id="venue_country" name="venue_country">
+				{{{country_options}}}
+			</select>
+		</div>
 	</div>
 
-	<div class="row_seperator">.</div><br />
-	<input class="button" type="submit" value="{{venue_button_text}}" />
+	<br />
+	<input type="submit" value="{{venue_button_text}}" />
 
 </form>

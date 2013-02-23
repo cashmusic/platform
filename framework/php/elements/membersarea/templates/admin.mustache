@@ -2,38 +2,28 @@
 	<input type="hidden" name="{{form_state_action}}" value="makeitso">
 	{{#element_id}}<input type="hidden" name="element_id" value="{{element_id}}" />{{/element_id}}
 	{{#element_type}}<input type="hidden" name="element_type" value="{{element_type}}" />{{/element_type}}
-	<h3>Element Details</h3>
 
-	<label for="element_name">Name</label><br />
+	<label for="element_name">Name</label>
 	<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="Give It A Name"{{/element_name}} /> 
 
-	<div class="row_seperator">.</div>
-	<div class="col_oneoftwo">
-
-		<label for="asset_id">Target Mailing List</label><br />
-		<select id="email_list_id" name="email_list_id">
-			<option value="0">none</option>
-			{{{options_people_lists}}}
-		</select>
-
-	</div>
-	<div class="col_oneoftwo lastcol">
-
-		<label for="alternate_password">Password</label><br />
-		<input type="text" id="alternate_password" name="alternate_password" value="{{#options_alternate_password}}{{options_alternate_password}}{{/options_alternate_password}}"{{^options_alternate_password}} placeholder="A password or phrase to unlock the content"{{/options_alternate_password}} /> 
-			
+	<div class="row">
+		<div class="six columns">
+			<label for="asset_id">Target Mailing List</label>
+			<select id="email_list_id" name="email_list_id">
+				<option value="0">none</option>
+				{{{options_people_lists}}}
+			</select>
+		</div>
+		<div class="six columns">
+			<label for="alternate_password">Password</label>
+			<input type="text" id="alternate_password" name="alternate_password" value="{{#options_alternate_password}}{{options_alternate_password}}{{/options_alternate_password}}"{{^options_alternate_password}} placeholder="A password or phrase to unlock the content"{{/options_alternate_password}} /> 
+		</div>
 	</div>
 
-	<div class="row_seperator">.</div>
-	
-	<div class="row_seperator">.</div>
-	<label for="secure_content">Content</label><br />
+	<br />
+	<label for="secure_content">Content</label>
 	<textarea id="secure_content" name="secure_content" class="taller" wrap="off"  spellcheck="false">{{options_secure_content}}</textarea>
 
-	<div class="row_seperator">.</div>
-	<div>
-		<br />
-		<input class="button" type="submit" value="{{element_button_text}}" />
-	</div>
-
+	<br />
+	<input class="button" type="submit" value="{{element_button_text}}" />
 </form>

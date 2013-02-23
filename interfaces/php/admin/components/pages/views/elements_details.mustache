@@ -1,7 +1,7 @@
 <div class="callout">
-	<h3 class="fadedtext">Embed it</h3>
+	<h4 class="fadedtext">Embed it</h4>
 	<div class="drawer">
-		<p class="fadedtext">Grab a code to embed your element in CASH page/embed templates or with HTML5, PHP, or WordPress. <a class="drawerhandle">codes</a></p>
+		<p class="fadedtext">Grab a code to embed your element in CASH page/embed templates or with HTML5, PHP, or WordPress. <br /><a class="drawerhandle">codes</a></p>
 		<div class="drawercontent">
 			<br />
 			{{#platform_type_single}}
@@ -22,27 +22,32 @@
 		{{^defined_embed_templates}}<a href="{{www_path}}/elements/templates/add/"><span class="icon layout-content-left-2"></span> <b>Add a new embed template</b></a></p>{{/defined_embed_templates}}
 	<div class="drawercontent col_oneoftwo">
 		<form method="post" action="">
-			<label for="template_id">Choose an embed template:</label><br />
-			<select id="change_template_id" name="change_template_id">
-				{{{template_options}}}
-			</select>
-			<div class="row_seperator">&nbsp;</div>
-			<input type="submit" value="use this template" />
+			<label for="template_id">Choose an embed template:</label>
+			<div class="row">
+				<div class="six columns">
+					<select id="change_template_id" name="change_template_id">
+						{{{template_options}}}
+					</select>
+				</div>
+				<div class="six columns">
+					<input type="submit" value="use this template" />
+				</div>
+			</div>
 		</form>
 		<br />
 	</div>
 </div>
 
-<div class="row_seperator">.</div>
+<br />
 
-<h2>Statistics</h2> Total unique views: {{total_views}}<br />
+<h4>Statistics</h4> Total unique views: {{total_views}}<br />
 
 {{#location_analytics}}
 	<div class="drawer">
 		<div class="drawercontent">
 			{{#location_analytics}}
-				<br /><h2>Views by location</h2>
-				<table style="width:100%;">
+				<h5>Views by location</h5>
+				<table style="width:100%;" class="responsive">
 					<colgroup style="width:85%;" /><colgroup />	
 					<thead>
 						<tr>
@@ -59,12 +64,11 @@
 					{{/location_analytics}}
 					</tbody>
 				</table>
-				<br />
 			{{/location_analytics}}
 
 			{{#method_analytics}}
-				<br /><h2>Views by request method</h2>
-				<table style="width:100%;">
+				<h5>Views by request method</h5>
+				<table style="width:100%;" class="responsive">
 					<colgroup style="width:85%;" /><colgroup />	
 					<thead>
 						<tr>
@@ -88,7 +92,7 @@
 	</div>
 {{/location_analytics}}
 
-<div class="row_seperator">.</div>
 <br />
+<h4>Element Details</h4>
 
 {{{element_rendered_content}}}

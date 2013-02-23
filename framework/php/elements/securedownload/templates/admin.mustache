@@ -4,43 +4,35 @@
 	{{#element_type}}<input type="hidden" name="element_type" value="{{element_type}}" />{{/element_type}}
 	<h3>Element Details</h3>
 
-	<label for="element_name">Name</label><br />
+	<label for="element_name">Name</label>
 	<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="Give It A Name"{{/element_name}} /> 
 
-	<div class="row_seperator">.</div>
-	<div class="col_oneoftwo">
-
-		<label for="asset_id">Target Mailing List</label><br />
-		<select id="email_list_id" name="email_list_id">
-			<option value="0">none</option>
-			{{{options_people_lists}}}
-		</select>
-		<br /><br />
-		<input type='checkbox' class='checkorradio' name='skip_login' value=''{{#options_skip_login}} checked="checked"{{/options_skip_login}} /> <label for="skip_login">Do not require login (straight download)</label>
-
-	</div>
-	<div class="col_oneoftwo lastcol">
-
-		<label for="asset_id">The Downloadable Asset</label><br />
-		<select id="asset_id" name="asset_id">
-			<option value="0">none</option>
-			{{{options_assets}}}
-		</select>
+	<div class="row">
+		<div class="six columns">
+			<label for="asset_id">Target Mailing List</label>
+			<select id="email_list_id" name="email_list_id">
+				<option value="0">none</option>
+				{{{options_people_lists}}}
+			</select>
+			<br /><br />
+			<label for="skip_login"><input type='checkbox' class='checkorradio' name='skip_login' value=''{{#options_skip_login}} checked="checked"{{/options_skip_login}} /> Do not require login (straight download)</label>
+		</div>
+		<div class="six columns">
+			<label for="asset_id">The Downloadable Asset</label>
+			<select id="asset_id" name="asset_id">
+				<option value="0">none</option>
+				{{{options_assets}}}
+			</select>
+		</div>
 	</div>
 
-	<div class="row_seperator">.</div>
 	<br />
-	<label for="alternate_password">Universal Password</label><br />
+	<label for="alternate_password">Universal Password</label>
 	<input type="text" id="alternate_password" name="alternate_password" value="{{#options_alternate_password}}{{options_alternate_password}}{{/options_alternate_password}}"{{^options_alternate_password}} placeholder="A password or phrase to unlock the download"{{/options_alternate_password}} /> 
 
-	<div class="row_seperator">.</div>
-	<label for="message_success">Success Message</label><br />
+	<label for="message_success">Success Message</label>
 	<input type="text" id="message_success" name="message_success" value="{{#options_message_success}}{{options_message_success}}{{/options_message_success}}{{^options_message_success}}Click here for your download: {{/options_message_success}}" /> 
 
-	<div class="row_seperator">.</div>
-	<div>
-		<br />
-		<input class="button" type="submit" value="{{element_button_text}}" />
-	</div>
-
+	<br />
+	<input class="button" type="submit" value="{{element_button_text}}" />
 </form>

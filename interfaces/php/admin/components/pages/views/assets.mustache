@@ -6,27 +6,26 @@
 
 <style type="text/css">
 	a {cursor:pointer;}
-
 	.featured-release {position:relative;width:100%;}
 	.cover {width:100%;background-color:#ececed;background-size:auto 100%;background-position:center center;}
 	.cover .release-details {visibility:hidden;color:#fff;font-weight:normal;}
-	.title {position:absolute;left:0;bottom:0;width:90%;height:19%;padding:5% !important;background-color:rgba(0,0,0,0.6);-webkit-transition:all 0.2s ease-out;-moz-transition: all 0.2s ease-out;-o-transition: all 0.2s ease-out;transition: all  0.2s ease-out;}
-	.cover:hover .title {height:90%;}
+	.title {position:absolute;left:0;bottom:0;width:100%;height:19%;padding:5% !important;background-color:rgba(0,0,0,0.6);-webkit-transition:all 0.2s ease-out;-moz-transition: all 0.2s ease-out;-o-transition: all 0.2s ease-out;transition: all  0.2s ease-out;}
+	.cover:hover .title {height:100%;}
 	.cover:hover .release-details {visibility:visible;}
 	.title a {font-weight:bold;color:#fff !important;display:block;width:100%;height:100%;}
 	.title a:hover {color:#ff0 !important;}
-
-	.details-three-columns {line-height:1.25em;}
-	div.details-three-columns div.col_oneofthree span {display:block;margin:0;padding-left:56px;width:auto;}
 	.smallcover {width:48px;height:48px;float:left;margin-right:8px;margin-top:3px;margin-bottom:8px;}
-
 	.display-files {line-height:2em;}
+	@media only screen and (max-width: 767px) {
+		.featured-release {margin-bottom:16px;}
+		.file-description {display:block;}
+	}
 </style>
 
-<h2>Releases</h2>
-<div class="assets-releases-row">
+<h4>Releases</h4>
+<div class="row">
 {{#featured_releases}}
-	<div class="col_oneofthree{{#third_asset}} lastcol{{/third_asset}}">
+	<div class="four columns">
 		<div class="featured-release">
 			<div class="cover" style="background-image:url({{cover_url}});">
 				<div class="title">
@@ -36,23 +35,30 @@
 		</div>
 	</div>
 {{/featured_releases}}
+{{#two_features}}
+	<div class="four columns"></div>
+{{/two_features}}
 </div>
 <div class="clearfix">.</div>
 <div class="drawer">
 	{{#remaining_releases}}
-	<div class="drawercontent details-three-columns">
+	<div class="drawercontent details-three-columns row">
 		<br />
 		{{#remaining_releases}}
-		<div class="col_oneofthree{{#third_asset}} lastcol{{/third_asset}}">
+		<div class="four columns">
 			<a href="{{www_path}}/assets/edit/{{id}}">
 			{{#cover_url}}<img src="{{cover_url}}" class="smallcover" alt="" />{{/cover_url}}
 			<span{{^cover_url}} style="padding-left:0;"{{/cover_url}}>{{title}}</span></a>
 			<span{{^cover_url}} style="padding-left:0;"{{/cover_url}} class="smalltext fadedtext">{{{descriptor_string}}}</span>
 		</div>
-		{{#third_asset}}
-			</div><div class="clearfix">.</div><br /><div class="details-three-columns">
-		{{/third_asset}}
 		{{/remaining_releases}}
+		{{#one_remaining}}
+			<div class="four columns"></div>
+			<div class="four columns"></div>
+		{{/one_remaining}}
+		{{#two_remaining}}
+			<div class="four columns"></div>
+		{{/two_remaining}}
 	</div>
 	{{/remaining_releases}}
 	<div class="clearfix">.</div>
@@ -66,84 +72,42 @@
 
 <br />
 <div class="clearfix">.</div><br />
-<h2>Playlists</h2>
+<h4>Playlists</h4>
 <span class="fadedtext">
 	We're still working on playlists, but they're coming soon — 
 	<br />full upload/edit interface and streaming capabilities.<br /><br />
 </span>
 
-<!--
-{{#featured_playlists}}
-<div class="details-three-columns">
-	{{#featured_playlists}}
-	<div class="col_oneofthree{{#third_asset}} lastcol{{/third_asset}}">
-		<a href="{{www_path}}/assets/edit/{{id}}">
-		<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Solar_flare_%28TRACE%29.gif/239px-Solar_flare_%28TRACE%29.gif" class="smallcover" alt="" />
-		<span>{{title}}</span></a>
-		<span class="smalltext fadedtext">{{{descriptor_string}}}</span>
-	</div>
-	{{#third_asset}}
-		</div><div class="clearfix">.{{^last_feature}}</div><br /><div class="details-three-columns">{{/last_feature}}
-	{{/third_asset}}
-	{{/featured_playlists}}
-</div>
-{{/featured_playlists}}
-
-<div class="drawer">
-	{{#remaining_playlists}}
-	<div class="drawercontent details-three-columns">
-		<br />
-		{{#remaining_playlists}}
-		<div class="col_oneofthree{{#third_asset}} lastcol{{/third_asset}}">
-			<a href="{{www_path}}/assets/edit/{{id}}">
-			<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Solar_flare_%28TRACE%29.gif/239px-Solar_flare_%28TRACE%29.gif" class="smallcover" alt="" />
-			<span>{{title}}</span></a>
-			<span class="smalltext fadedtext">{{{descriptor_string}}}</span>
-		</div>
-		{{#third_asset}}
-			</div><div class="clearfix">.</div><br /><div class="details-three-columns">
-		{{/third_asset}}
-		{{/remaining_playlists}}
-	</div>
-	{{/remaining_playlists}}
-	<div class="clearfix">.</div>
-	<div class="itemnav">
-		{{#more_playlists}}
-		<a class="drawerhandle mininav_flush usecolor1">playlists</a>
-		{{/more_playlists}}
-		<a href="{{www_path}}/assets/add/playlist" class="mininav_flush usecolor1 lightboxed"><span class="icon circle-add"></span> Add a new playlist</a>
-	</div>
-</div>
--->
-
 <br />
 <div class="clearfix">.</div><br />
-<h2>Files</h2>
-<div class="col_oneofthree">
-	<p>
-	Files are listed to the right. Coming soon: use tags to narrow this list.
-	</p>
-</div>
-<div class="col_twoofthree lastcol display-files">
-	{{#featured_files}}
-		<a href="{{www_path}}/assets/edit/{{id}}"><span class="icon menu"></span> {{title}}</a>
-		<span class="smalltext fadedtext">({{descriptor_string}})</span><br />
-	{{/featured_files}}
-	<div class="drawer">
-		{{#more_files}}
-		<div class="drawercontent">
-			{{#remaining_files}}
-				<a href="{{www_path}}/assets/edit/{{id}}"><span class="icon menu"></span> {{title}}</a>
-				<span class="smalltext fadedtext">({{descriptor_string}})</span><br />
-			{{/remaining_files}}
-		</div>
-		{{/more_files}}
-		<div class="itemnav">
-			{{#more_files}}<a class="drawerhandle mininav_flush usecolor1">files</a>{{/more_files}}
-			<a href="{{www_path}}/assets/add/file" class="mininav_flush usecolor1 lightboxed"><span class="icon circle-add"></span> Add a new file</a>
+<h4>Files</h4>
+
+<div class="row">
+	<div class="four columns">
+		<p>
+		Files are listed to the right. Coming soon: use tags to narrow this list.
+		</p>
+	</div>
+	<div class="eight columns display-files">
+		{{#featured_files}}
+			<a href="{{www_path}}/assets/edit/{{id}}"><span class="icon menu"></span> {{title}}</a>
+			<span class="smalltext fadedtext file-description">({{descriptor_string}})</span><br />
+		{{/featured_files}}
+		<div class="drawer">
+			{{#more_files}}
+			<div class="drawercontent">
+				{{#remaining_files}}
+					<a href="{{www_path}}/assets/edit/{{id}}"><span class="icon menu"></span> {{title}}</a>
+					<span class="smalltext fadedtext file-description">({{descriptor_string}})</span><br />
+				{{/remaining_files}}
+			</div>
+			{{/more_files}}
+			<div class="itemnav">
+				{{#more_files}}<a class="drawerhandle mininav_flush usecolor1">files</a>{{/more_files}}
+				<a href="{{www_path}}/assets/add/file" class="mininav_flush usecolor1 lightboxed"><span class="icon circle-add"></span> Add a new file</a>
+			</div>
 		</div>
 	</div>
-	
 </div>
 <div class="clearfix">.</div>
 

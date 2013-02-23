@@ -1,52 +1,51 @@
-<div class="col_oneoftwo">
-	<h2>Add an item</h2>
-	<p>
-		Quickly add a digital item to the system.
-	</p>
+<div class="row">
+	<div class="six columns">
+		<h4>Add an item</h4>
+		<p>
+			Quickly add a digital item to the system.
+		</p>
 
-	<form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/items/edit/" name="add_item">
-		<input type="hidden" name="doitemadd" value="makeitso" />
+		<form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/items/edit/" name="add_item">
+			<input type="hidden" name="doitemadd" value="makeitso" />
 
-		<label for="item_name">Name</label><br />
-		<input type="text" id="item_name" name="item_name" value="" placeholder="A public name for the item" />
+			<label for="item_name">Name</label>
+			<input type="text" id="item_name" name="item_name" value="" placeholder="A public name for the item" />
 
-		<div class="row_seperator">.</div>
-		<label for="item_description">Description</label><br />
-		<textarea rows="3" id="item_description" name="item_description"></textarea>
+			<label for="item_description">Description</label>
+			<textarea rows="3" id="item_description" name="item_description"></textarea>
 
-		<div class="row_seperator">.</div>
-		<label for="item_price">Price ($ USD)</label><br />
-		<input type="text" id="item_price" name="item_price" value="" placeholder="0.00" />
+			<label for="item_price">Price ($ USD)</label>
+			<input type="text" id="item_price" name="item_price" value="" placeholder="0.00" />
 
-		<div class="row_seperator">.</div>
-		<label for="item_fulfillment_asset">Fulfillment asset</label><br />
-		<select id="item_fulfillment_asset" name="item_fulfillment_asset">
-			{{{assets_options}}}
-		</select>
+			<label for="item_fulfillment_asset">Fulfillment asset</label>
+			<select id="item_fulfillment_asset" name="item_fulfillment_asset">
+				{{{assets_options}}}
+			</select>
 
-		<div class="row_seperator">.</div><br />
-		<input class="button" type="submit" value="Add The Item" />
-	
-	</form>
-</div>
-<div class="col_oneoftwo lastcol">
-	<h2>All items</h2>
-	{{#items_all}}
-	<ul class="alternating">
+			<br /><br />
+			<input type="submit" value="Add The Item" />
+		
+		</form>
+	</div>
+	<div class="six columns">
+		<h4>All items</h4>
 		{{#items_all}}
-		<li>
-			<b>{{name}}</b>
-			{{#description}}<span class="fadedtext"> // {{description}}</span>{{/description}}<br />
-			<div class="itemnav">
-				<a href="{{www_path}}/commerce/items/edit/{{id}}" class="mininav_flush"><span class="icon pencil"></span> Edit</a>
-				<a href="{{www_path}}/commerce/items/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
-			</div>
-		</li>
+		<ul class="alternating">
+			{{#items_all}}
+			<li>
+				<b>{{name}}</b>
+				{{#description}}<span class="fadedtext"> // {{description}}</span>{{/description}}<br />
+				<div class="itemnav">
+					<a href="{{www_path}}/commerce/items/edit/{{id}}" class="mininav_flush"><span class="icon pencil"></span> Edit</a>
+					<a href="{{www_path}}/commerce/items/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
+				</div>
+			</li>
+			{{/items_all}}
+		</ul>
 		{{/items_all}}
-	</ul>
-	{{/items_all}}
 
-	{{^items_all}}
-	<p>No items have been defined.</p>
-	{{/items_all}}
+		{{^items_all}}
+		<p>No items have been defined.</p>
+		{{/items_all}}
+	</div>
 </div>

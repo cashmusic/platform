@@ -5,37 +5,45 @@ template. Page templates can have as many elements as you like. Just paste in em
 element you want. You'll find them on that element's page.
 </p>
 
-<h3>Template details</h3>
+<h4>Template details</h4>
 
 <form accept-charset="UTF-8" method="post" action="{{www_path}}/elements/templates" name="elements_template">
 	<input type="hidden" name="dotemplateset" value="makeitso" />
 	{{#id}}<input type="hidden" name="template_id" value="{{id}}" />{{/id}}
 
-	<label for="template_name">Name</label><br />
+	<label for="template_name">Name</label>
 	<input type="text" id="template_name" name="template_name" placeholder="Give it a name" value="{{name}}" />
-	<div class="row_seperator">&nbsp;</div><br />
+	
+	<div class="row">
+		<div class="six columns">
+			<label for="template_type">Type</label>
+			<div class="row">
+				<div class="four columns">
+					<label for="typepage"><input type="radio" id="typepage" name="template_type" value="page" {{^is_embed}}checked="checked"{{/is_embed}} /> Page template</label>
+				</div>
+				<div class="eight columns">
+					<label for="typeembed"><input type="radio" id="typeembed" name="template_type" value="embed" {{#is_embed}}checked="checked"{{/is_embed}} /> Embed template</label>
+				</div>
+			</div>
+			<br />
+		</div>
 
-	<div class="col_oneoftwo">
-		<label for="template_type">Type</label><br />
-		<input type="radio" id="typepage" name="template_type" value="page" {{^is_embed}}checked="checked"{{/is_embed}} /> <label for="typepage">Page template</label> &nbsp; &nbsp; 
-		<input type="radio" id="typeembed" name="template_type" value="embed" {{#is_embed}}checked="checked"{{/is_embed}} /> <label for="typeembed">Embed template</label>
+		{{#adding}}
+		<div class="six columns">
+			<label>Default templates</label>
+			<span class="tooltip" data-tooltip="This will erase any changes you've made and give you the default markup for a page template"><a href="#" id="usedefaultpage" class="smalltext" style="margin-right:3em;">Use default <b>page</b> markup</a></span>
+			<span class="tooltip" data-tooltip="This will erase any changes you've made and give you the default markup for an embed template"><a href="#" id="usedefaultembed" class="smalltext" style="margin-right:3em;">Use default <b>embed</b> markup</a></span>
+		</div>
+		{{/adding}}
 	</div>
 
-	{{#adding}}
-	<div class="col_oneoftwo lastcol">
-		<label>Default templates</label><br />
-		<span class="tooltip" title="This will erase any changes you've made and give you the default markup for a page template"><a href="#" id="usedefaultpage" class="smalltext" style="margin-right:3em;">Use default <b>page</b> markup</a></span>
-		<span class="tooltip" title="This will erase any changes you've made and give you the default markup for an embed template"><a href="#" id="usedefaultembed" class="smalltext" style="margin-right:3em;">Use default <b>embed</b> markup</a></span>
-	</div>
-	{{/adding}}
-
-	<div class="row_seperator">&nbsp;</div><br />
+	<br />
 
 	<label>Template</label>
 	<textarea id="template" name="template" class="taller" wrap="off"  spellcheck="false">{{template}}</textarea>
 
-	<div class="row_seperator">.</div><br />
-	<input class="button" type="submit" value="{{button_text}}" />
+	<br />
+	<input type="submit" value="{{button_text}}" />
 
 </form>
 

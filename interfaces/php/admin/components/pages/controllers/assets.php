@@ -38,14 +38,20 @@ $files_response = $cash_admin->requestAndStore(
 
 if (is_array($releases_response['payload'])) {
 	$releases_response['payload'] = array_reverse($releases_response['payload']); // newest first
+	if (count($releases_response['payload']) == 2) {
+		$cash_admin->page_data['two_features'] = true;	
+	}
 	$asset_count = 0;
 	foreach ($releases_response['payload'] as &$asset) {
 		$asset_count++;
-		if ($asset_count % 3 == 0) {
-			$asset['third_asset'] = true;
-		}
-		if ($asset_count == 3) {
-			$asset['last_feature'] = true;	
+		if ($asset_count == 1) {
+			$cash_admin->page_data['one_remaining'] = true;
+		} elseif ($asset_count == 2) {
+			$cash_admin->page_data['two_remaining'] = true;
+		} elseif ($asset_count == 3) {
+			$cash_admin->page_data['one_remaining'] = false;
+			$cash_admin->page_data['two_remaining'] = false;
+			$asset_count = 0;
 		}
 		$asset['descriptor_string'] = 'created: ' . CASHSystem::formatTimeAgo($asset['creation_date']);
 		if ($asset['modification_date']) {

@@ -16,7 +16,7 @@ body {color:#231F20;background-color:#fafaf8;text-align:center;font:14px/1.5em h
 a {color:#999;text-decoration:none;}
 a:hover {text-decoration:underline;color:#000 !important;}
 blockquote {margin:0 0 1.5em 24px;padding:0 0 0 8px;border-left:6px #ececed solid;font-size:0.85em;}
-div.callout {position:relative;display:block;font-size:11px;padding:22px 18px 22px 18px;margin:0 auto 1.5em auto;background-color:#ededef;background-image:url(../images/top_right.png);background-position:right top;background-repeat:no-repeat;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);z-index:100;}
+div.callout {position:relative;display:block;font-size:12px;padding:22px 18px 22px 18px;margin:0 auto 1.5em auto;background-color:#ededef;background-image:url(../images/top_right.png);background-position:right top;background-repeat:no-repeat;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);z-index:100;}
 div.callout p {margin-bottom:0;}
 div.callout.flush {background-image:none;margin-bottom:0;}
 div.callout.top {background-image:url(../images/top_right.png) !important;}
@@ -488,8 +488,6 @@ tr {background-color:#f5f5f4;
 	-moz-transition:all 0.25s ease-in-out;
 	-o-transition:all 0.25s ease-in-out;
 	transition:all 0.25s ease-in-out;
-
-
 }
 tr:nth-child(odd) {background-color:#ececed;}
 tr:hover {background-color:#fff;box-shadow:-2px 2px 2px #dededc;}
@@ -573,7 +571,7 @@ div.gettingstarted a.helplink {color:#231F20;background-color:#ff0;padding:2px 9
 /* TOOLTIPS */
 .tooltip {display:inline;position:relative;}
 .tooltip:hover:after, .tooltip:hover:before {visibility:visible;opacity:1;-webkit-transition:all 0.2s ease-in;-moz-transition:all 0.2s ease-in;-o-transition:all 0.2s ease-in;transition:all 0.2s ease-in;transition-delay:0.5s;-webkit-transition-delay:0.5s;}
-.tooltip:after {color:#000;text-decoration:none;background:#ff0;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);bottom:2em;content:attr(title);font-size:11px;line-height:18px;display:block;opacity:0;visibility:hidden;left:-1em;padding:8px 12px 8px 12px;position:absolute;width:20em;z-index:98;text-decoration:none !important;}
+.tooltip:after {color:#000;text-decoration:none;background:#ff0;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);bottom:2em;content:attr(data-tooltip);font-size:11px;line-height:18px;display:block;opacity:0;visibility:hidden;left:-1em;padding:8px 12px 8px 12px;position:absolute;width:20em;z-index:98;text-decoration:none !important;}
 .tooltip:before {border:solid;border-color:transparent;color:#ff0;text-shadow:-2px 2px 2px rgba(0,0,0,0.15);border-width:.6em .6em 0 .6em;font-size:11px;line-height:0.75em;height:0.75em;overflow:hidden;bottom:1.35em;content:"▼";display:block;opacity:0;visibility:hidden;left:2em;position:absolute;z-index:99;}
 
 /* nate's asset stuff */

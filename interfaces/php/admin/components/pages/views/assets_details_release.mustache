@@ -3,130 +3,60 @@
 	<fieldset>
 		<input type="hidden" name="doassetedit" value="makeitso" />
 		<input type="hidden" name="asset_type" value="release" />
-		<h3>Release Details</h3>
-		<div class="col_oneoftwo">
+		<h4>Release Details</h4>
+		<div class="row">
+			<div class="five columns">
 
-			<style type="text/css">
-				.release-cover {position:relative;width:100%;background-color:#ececed;background-size:auto 100%;background-position:center center;}
-				.release-cover a {position:relative;display:block;width:90%;height:1%;padding:88% 5% 5% 5%;font-weight:bold;{{#cover_asset_id}}color:#fff !important;{{/cover_asset_id}}}
-				.release-cover a:hover {color:#000 !important;}
-			</style>
-			<!--.release-cover a {position:relative;display:block;width:100%;height:1px;overflow:hidden;padding:98% 0 0 0;} -->
-			<div>
-				<div class="release-cover" style="background-image:url({{cover_url}});">
-					<div class="release-cover-options">
-						{{#cover_asset_id}}
-							<a href="{{www_path}}/assets/edit/{{cover_asset_id}}" class="smalltext"><span class="icon camera-3"></span> <b>Add/edit cover</b></a>
-						{{/cover_asset_id}}
-						{{^cover_asset_id}}
-							<a href="{{www_path}}/assets/add/file/setparent/{{id}}/setmetadata/cover" class="lightboxed returntocurrentroute smalltext"><span class="icon camera-3"></span> <b>Add/edit cover</b></a>
-						{{/cover_asset_id}}
+				<style type="text/css">
+					.release-cover {position:relative;width:100%;background-color:#ececed;background-size:auto 100%;background-position:center center;}
+					.release-cover a {position:relative;display:block;width:90%;height:1%;padding:88% 5% 5% 5%;font-weight:bold;{{#cover_asset_id}}color:#fff !important;{{/cover_asset_id}}}
+					.release-cover a:hover {color:#000 !important;}
+				</style>
+				<!--.release-cover a {position:relative;display:block;width:100%;height:1px;overflow:hidden;padding:98% 0 0 0;} -->
+				<div>
+					<div class="release-cover" style="background-image:url({{cover_url}});">
+						<div class="release-cover-options">
+							{{#cover_asset_id}}
+								<a href="{{www_path}}/assets/edit/{{cover_asset_id}}" class="smalltext"><span class="icon camera-3"></span> <b>Add/edit cover</b></a>
+							{{/cover_asset_id}}
+							{{^cover_asset_id}}
+								<a href="{{www_path}}/assets/add/file/setparent/{{id}}/setmetadata/cover" class="lightboxed returntocurrentroute smalltext"><span class="icon camera-3"></span> <b>Add/edit cover</b></a>
+							{{/cover_asset_id}}
+						</div>
 					</div>
 				</div>
+				<input type="hidden" id="metadata_cover" name="metadata_cover" value="{{cover_asset_id}}" />
+				<!--div class="track-list">
+					<h5>Track List</h5>
+					<ol class="alternating">
+						<li>Track Title</li>
+						<li>Track Title</li>
+						<li>Track Title</li>
+						<li>Track Title</li>
+						<li>Track Title</li>
+					</ol>
+					<a href="#" class="add-track"><span class="icon circle-add"></span>Add Track</a>
+				</div-->
+
 			</div>
-			<input type="hidden" id="metadata_cover" name="metadata_cover" value="{{cover_asset_id}}" />
-			<!--div class="track-list">
-				<h5>Track List</h5>
-				<ol class="alternating">
-					<li>Track Title</li>
-					<li>Track Title</li>
-					<li>Track Title</li>
-					<li>Track Title</li>
-					<li>Track Title</li>
-				</ol>
-				<a href="#" class="add-track"><span class="icon circle-add"></span>Add Track</a>
-			</div-->
-
-		</div>
-		<div class="col_oneoftwo lastcol">
-			<label>Release Title <input type="text" id="asset_title" name="asset_title" value="{{title}}" placeholder="Give It A Name" /></label>
-			<label>Artist Name <input type="text" id="artist_name" name="artist_name" value="{{metadata_artist_name}}" placeholder="The Who" /></label>
-			<label class="col_oneoftwo">Release Date <input type="text" id="release_date" name="release_date" class="date" value="{{metadata_release_date}}" /></label>
-			<label class="col_oneoftwo lastcol">Matrix/Catalog Number <input type="text" id="matrix_number" name="matrix_number" value="{{metadata_matrix_number}}" /></label>
-
-			<div class="row_seperator">.</div>
-			<div class="fulfillment-files">
-				<label>Fulfillment Files</label><br />
-				{{#fulfillment_files}}
-					<ul class="alternating">
-				{{/fulfillment_files}}
-				{{#fulfillment_files}}
-					<li>
-						<b>{{title}}</b><br />
-						{{description}}
-						<div class="smalltext">
-							<a href="{{www_path}}/assets/edit/{{id}}" class="mininav_flush"><span class="icon pencil"></span> Edit</a>
-							<a href="{{www_path}}/assets/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
-						</div>
-					</li>
-				{{/fulfillment_files}}
-				{{#fulfillment_files}}
-				</ul>
-				{{/fulfillment_files}}
-				{{^fulfillment_files}}
-					No files have been added for fulfillment yet.<br />
-				{{/fulfillment_files}}
-				<a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/fulfillment" class="add-fulfillment-file lightboxed returntocurrentroute smalltext"><span class="icon circle-add"></span> <b>Add New File</b></a>
-				<input type="hidden" id="metadata_fulfillment" name="metadata_fulfillment" value="{{metadata_fulfillment_json}}" />
-			</div>
-		</div>
-	</fieldset>
-
-	<br />
-	<h3>Additional Fields</h3>
-	<div class="drawer">
-		<a class="drawerhandle">standard metadata</a>
-		<div class="drawercontent">
-			<fieldset>
-				<label class="col_oneoftwo">Label Name <input type="text" id="label_name" name="label_name" value="{{metadata_label_name}}" placeholder="" /></label>
-				<label class="col_oneoftwo lastcol">Genre <input type="text" id="genre" name="genre" value="{{metadata_genre}}" placeholder="" /></label>
-				<label class="col_oneoftwo">Copyright <textarea id="copyright" name="copyright">{{metadata_copyright}}</textarea></label>
-				<label class="col_oneoftwo lastcol">Publishing <textarea id="publishing" name="publishing">{{metadata_publishing}}</textarea></label>
-				<div class="formats col_oneoftwo">
-					<!--label>Formats/UPC Codes</label>
-					<ul class="alternating">
-						<li>
-							<select name="format" class="col_oneoftwo">
-								<option>CD</option>
-								<option>Digital</option>
-								<option>LP</option>
-								<option>Cassette</option>
-							</select>
-							<input type="text" id="formatType-upc" name="formatType-upc" value="" placeholder="123456789" class="col_oneoftwo" />
-							<a href="#" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> <span class="visuallyhidden">Delete</span></a>
-							<div class="clearfix">&nbsp;</div>
-						</li>
-					</ul>
-					<a href="#" class="add-format"><span class="icon circle-add smalltext"></span> Add New Format</a-->
-
+			<div class="seven columns">
+				<label>Release Title <input type="text" id="asset_title" name="asset_title" value="{{title}}" placeholder="Give It A Name" /></label>
+				<label>Artist Name <input type="text" id="artist_name" name="artist_name" value="{{metadata_artist_name}}" placeholder="The Who" /></label>
+				<div class="row">
+					<div class="six columns">
+						<label class="col_oneoftwo">Release Date <input type="text" id="release_date" name="release_date" class="date" value="{{metadata_release_date}}" /></label>
+					</div>
+					<div class="six columns">
+						<label class="col_oneoftwo lastcol">Matrix/Catalog Number <input type="text" id="matrix_number" name="matrix_number" value="{{metadata_matrix_number}}" /></label>
+					</div>
 				</div>
-			</fieldset>
-			<div class="row_seperator">.</div>
-		</div>
-	</div>
-
-	<div class="drawer">
-		<a class="drawerhandle">press/PR information</a>
-		<div class="drawercontent">
-			<fieldset>
-				<label class="col_oneoftwo">Publicist's Name <input type="text" id="publicist_name" name="publicist_name" value="{{metadata_publicist_name}}" placeholder="" /></label>
-				<label class="col_oneoftwo lastcol">Publicist's Email<input type="text" id="publicist_email" name="publicist_email" value="{{metadata_publicist_email}}" placeholder="" /></label>
-				<label>Bio / Onesheet<textarea id="onesheet" name="onesheet" class="tall">{{metadata_onesheet}}</textarea></label>
-			</fieldset>
-			<div class="row_seperator">.</div>
-		</div>
-	</div>
-
-	<div class="drawer">
-		<a class="drawerhandle">miscellaneous</a>
-		<div class="drawercontent">
-			<fieldset>
-				<div class="private-files col_oneoftwo">
-					<label>Private Files</label><br />
-					{{#private_files}}
+				<br />
+				<div class="fulfillment-files">
+					<label>Fulfillment Files</label>
+					{{#fulfillment_files}}
 						<ul class="alternating">
-					{{/private_files}}
-					{{#private_files}}
+					{{/fulfillment_files}}
+					{{#fulfillment_files}}
 						<li>
 							<b>{{title}}</b><br />
 							{{description}}
@@ -135,37 +65,132 @@
 								<a href="{{www_path}}/assets/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
 							</div>
 						</li>
-					{{/private_files}}
-					{{#private_files}}
+					{{/fulfillment_files}}
+					{{#fulfillment_files}}
 					</ul>
-					{{/private_files}}
-					{{^private_files}}
-						No private storage files have been added.<br />
-					{{/private_files}}
-					<a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/private"  class="add-private-file lightboxed returntocurrentroute smalltext"><span class="icon circle-add"></span> <b>Add New File</b></a>
-					<input type="hidden" id="metadata_private" name="metadata_private" value="{{metadata_private_json}}" />
+					{{/fulfillment_files}}
+					{{^fulfillment_files}}
+						No files have been added for fulfillment yet.<br />
+					{{/fulfillment_files}}
+					<a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/fulfillment" class="add-fulfillment-file lightboxed returntocurrentroute smalltext"><span class="icon circle-add"></span> <b>Add New File</b></a>
+					<input type="hidden" id="metadata_fulfillment" name="metadata_fulfillment" value="{{metadata_fulfillment_json}}" />
 				</div>
+			</div>
+		</div>
+	</fieldset>
 
-			</fieldset>
-			<div class="row_seperator">.</div>
+	<br />
+	<h4>Additional Fields</h4>
+	<div class="spacedtext">	
+		<div class="drawer">
+			<a class="drawerhandle">standard metadata</a>
+			<div class="drawercontent">
+				<br />
+				<fieldset>
+					<div class="row">
+						<div class="six columns">
+							<label>Label Name <input type="text" id="label_name" name="label_name" value="{{metadata_label_name}}" placeholder="" /></label>
+							<label>Copyright <textarea id="copyright" name="copyright">{{metadata_copyright}}</textarea></label>
+						</div>
+						<div class="six columns">
+							<label>Genre <input type="text" id="genre" name="genre" value="{{metadata_genre}}" placeholder="" /></label>
+							<label>Publishing <textarea id="publishing" name="publishing">{{metadata_publishing}}</textarea></label>
+						</div>
+					</div>
+					<!--div>
+						<label>Formats/UPC Codes</label>
+						<ul class="alternating">
+							<li>
+								<select name="format" class="col_oneoftwo">
+									<option>CD</option>
+									<option>Digital</option>
+									<option>LP</option>
+									<option>Cassette</option>
+								</select>
+								<input type="text" id="formatType-upc" name="formatType-upc" value="" placeholder="123456789" class="col_oneoftwo" />
+								<a href="#" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> <span class="visuallyhidden">Delete</span></a>
+								<div class="clearfix">&nbsp;</div>
+							</li>
+						</ul>
+						<a href="#" class="add-format"><span class="icon circle-add smalltext"></span> Add New Format</a>
+
+					</div-->
+				</fieldset>
+				<br />
+			</div>
+		</div>
+
+		<div class="drawer">
+			<a class="drawerhandle">press/PR information</a>
+			<div class="drawercontent">
+				<fieldset>
+					<br />
+					<div class="row">
+						<div class="six columns">
+							<label class="col_oneoftwo">Publicist's Name <input type="text" id="publicist_name" name="publicist_name" value="{{metadata_publicist_name}}" placeholder="" /></label>
+						</div>
+						<div class="six columns">
+							<label class="col_oneoftwo lastcol">Publicist's Email<input type="text" id="publicist_email" name="publicist_email" value="{{metadata_publicist_email}}" placeholder="" /></label>
+						</div>
+					</div>
+					<label>Bio / Onesheet<textarea id="onesheet" name="onesheet" class="tall">{{metadata_onesheet}}</textarea></label>
+				</fieldset>
+				<br />
+			</div>
+		</div>
+
+		<div class="drawer">
+			<a class="drawerhandle">miscellaneous</a>
+			<div class="drawercontent">
+				<br />
+				<fieldset>
+					<div class="row">
+					<div class="private-files six columns">
+						<label>Private Files</label>
+						{{#private_files}}
+							<ul class="alternating">
+						{{/private_files}}
+						{{#private_files}}
+							<li>
+								<b>{{title}}</b><br />
+								{{description}}
+								<div class="smalltext">
+									<a href="{{www_path}}/assets/edit/{{id}}" class="mininav_flush"><span class="icon pencil"></span> Edit</a>
+									<a href="{{www_path}}/assets/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
+								</div>
+							</li>
+						{{/private_files}}
+						{{#private_files}}
+						</ul>
+						{{/private_files}}
+						{{^private_files}}
+							No private storage files have been added.<br />
+						{{/private_files}}
+						<a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/private"  class="add-private-file lightboxed returntocurrentroute smalltext"><span class="icon circle-add"></span> <b>Add New File</b></a>
+						<input type="hidden" id="metadata_private" name="metadata_private" value="{{metadata_private_json}}" />
+					</div>
+
+				</fieldset>
+				<br />
+			</div>
 		</div>
 	</div>
 
 <div>
-		<div class="row_seperator">.</div><br />
-		<div class="col_oneoftwo">
+		<br /><br />
+		<div class="spacedtext">
 			<small class="fadedtext"><span class="icon wallet"></span> Selling out?</small> <a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="lightboxed returntocurrentroute"><small><b>Define commerce settings</b></small></a>
 
 			<br />
 			<small class="fadedtext"><span class="icon cancel-circle"></span> Need it gone?</small> <a href="{{www_path}}/assets/delete/{{id}}" class="usecolor1 needsconfirmation"><small><b>Delete this release</b></small></a>
 
-			<div class="row_seperator">.</div>
-			<input class="button nojs" type="submit" value="Save changes" />
+			<br />
+			<input class="nojs" type="submit" value="Save changes" />
 			</form>
 
 		</div>
 
-		<div class="col_oneoftwo lastcol">
+		<div class="spacedtext">
 			<div class="drawer noprefix">
 				<small class="fadedtext"><span class="icon browser-download-2"></span> Need download codes?</small> <a class="drawerhandle usecolor1">Export or create codes</a>
 				<div class="drawercontent">
@@ -178,22 +203,24 @@
 					{{/asset_codes_count}}
 					</p>
 					<form accept-charset="UTF-8" method="post" action="{{www_path}}/assets/edit/{{id}}">
-
-					<label for="add_codes_qty">Add (qty) more codes</label><br />
-					<div class="col_oneoftwo">
-						<input type="text" name="add_codes_qty" id="add_codes_qty" value="500" />
-					</div>
-					<div class="col_oneoftwo lastcol">
-						<input type="submit" class="button" value="add codes" />
+					<label for="add_codes_qty">Add (qty) more codes</label>
+					<div class="row">
+						<div class="three columns">
+							<input type="text" name="add_codes_qty" id="add_codes_qty" value="500" />
+						</div>
+						<div class="three columns">
+							<input type="submit" value="add codes" />
+						</div>
+						<div class="six columns"></div>
 					</div>
 					</form>
-					<div class="row_seperator">.</div>
+					<br />
 				</div>
 			</div>
 		</div>
 		
-		<div class="row_seperator tall">.</div>
-		<input class="button onlyjs externalsubmit" type="submit" data-cash-target-form="#edit-file-form" value="Save changes" />
+		<br /><br />
+		<input class="onlyjs externalsubmit" type="submit" data-cash-target-form="#edit-file-form" value="Save changes" />
 	</div>
 
-<div class="row_seperator">.</div>
+<br />

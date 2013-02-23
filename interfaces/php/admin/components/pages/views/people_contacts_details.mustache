@@ -3,52 +3,52 @@
 	<input type="hidden" name="docontactedit" value="makeitso" />
 	<input type="hidden" name="id" value="{{id}}" />
 	<div class="col_oneoftwo">
-		<label for="first_name">First name</label><br />
+		<label for="first_name">First name</label>
 		<input type="text" id="first_name" name="first_name" value="{{first_name}}" /> 
 	</div>
 	<div class="col_oneoftwo lastcol">
-		<label for="last_name">Last Name</label><br />
+		<label for="last_name">Last Name</label>
 		<input type="text" id="last_name" name="last_name" value="{{last_name}}" /> 
 	</div>
 
-	<div class="row_seperator">.</div>
-	<label for="email_address">Email address</label><br />
+	<br />
+	<label for="email_address">Email address</label>
 	<input type="text" id="email_address" name="email_address" value="{{email_address}}" /> 
 
-		<div class="row_seperator">.</div>
-		<label for="organization">Organization(s)</label><br />
+		<br />
+		<label for="organization">Organization(s)</label>
 		<input type="text" id="organization" name="organization" value="{{organization}}" /> 
 
-		<div class="row_seperator">.</div>
-		<label for="phone">Phone</label><br />
+		<br />
+		<label for="phone">Phone</label>
 		<input type="text" id="phone" name="phone" value="{{phone}}" /> 
 
-		<div class="row_seperator">.</div>
-		<label for="address1">Mailing address</label><br />
+		<br />
+		<label for="address1">Mailing address</label>
 		<input type="text" id="address1" name="address1" value="{{address_line1}}" /> 
 
-		<div class="row_seperator">.</div>
+		<br />
 		<div class="col_oneofthree">
-			<label for="address_city">City</label><br />
+			<label for="address_city">City</label>
 			<input type="text" id="address_city" name="address_city" value="{{address_city}}" /> 
 		</div>
 		<div class="col_oneofthree">
-			<label for="address_region">State / province</label><br />
+			<label for="address_region">State / province</label>
 			<input type="text" id="address_region" name="address_region" value="{{address_region}}" /> 
 		</div>
 		<div class="col_oneofthree lastcol">
-			<label for="address_postalcode">Postal code</label><br />
+			<label for="address_postalcode">Postal code</label>
 			<input type="text" id="address_postalcode" name="address_postalcode" value="{{address_postalcode}}" /> 
 		</div>
 
-		<div class="row_seperator">.</div>
+		<br />
 
-		<label for="address_country">Country</label><br />
+		<label for="address_country">Country</label>
 		<select id="address_country" name="address_country">
 			{{{country_codes}}}
 		</select>
 
-	<div class="row_seperator">.</div><br />
-	<input class="button" type="submit" value="Add new contact" />
+	<br /><br />
+	<input type="submit" value="Add new contact" />
 	
 </form>
