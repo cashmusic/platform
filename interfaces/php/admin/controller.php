@@ -96,7 +96,7 @@ if (isset($_POST['login'])) {
 		$cash_admin->page_data['fullredraw'] = true;
 	} else {
 		$admin_primary_cash_request->sessionClearAll();
-		$cash_admin->page_data['login_message'] = 'Try Again';
+		$cash_admin->page_data['login_message'] = 'Try Again.';
 		$cash_admin->page_data['login_error'] = true;
 	}
 }

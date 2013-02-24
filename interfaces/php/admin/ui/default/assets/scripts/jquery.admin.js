@@ -533,10 +533,12 @@
 	function doModalConfirm(url) {
 		// markup for the confirmation link
 		var markup = '<div class="modalbg"><div class="modaldialog">' +
-					 '<h2>Are You Sure?</h2><br /><div class="tar">' +
+					 '<div class="row"><div class="four columns"></div><div class="four columns">' +
+					 '<h4>Are You Sure?</h4>' +
 					 '<input type="button" class="button modalcancel" value="Cancel" />' +
 					 '<input type="button" class="button modalyes" value="Yes do it" />' +
-					 '</div></div></div>';
+					 '</div><div class="four columns"></div></div>' +
+					 '</div></div>';
 		markup = $(markup);
 		markup.hide();
 		$('body').append(markup);

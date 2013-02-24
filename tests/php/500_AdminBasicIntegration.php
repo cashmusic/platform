@@ -42,7 +42,7 @@ class AdminBasicIntegration extends UnitTestCase {
 		if ($this->cash_test_url) {
 			// make sure we get the login page
 			$src = $this->cc->get($this->cash_test_url . '/interfaces/php/admin/');
-			$this->assertPattern('/<h1>Hello. Log In:<\/h1>/', $src);
+			$this->assertPattern('/<h1>Hello.<\/h1>/', $src);
 		
 			// look for an incorrect login
 			$src = $this->cc->post(
@@ -54,7 +54,7 @@ class AdminBasicIntegration extends UnitTestCase {
 					'login'              => '1'
 				))
 			);
-			$this->assertPattern('/<h1 class="tryagain">Try Again:<\/h1>/', $src);
+			$this->assertPattern('/<h1 class="tryagain">Try Again.<\/h1>/', $src);
 		
 			// now try a good login
 			$src = $this->cc->post(
@@ -66,11 +66,11 @@ class AdminBasicIntegration extends UnitTestCase {
 					'login'              => '1'
 				))
 			);
-			$this->assertPattern('/<h1 id="pagetitle">CASH Music: Main Page<\/h1>/', $src);
+			$this->assertPattern('/<h2 id="pagetitle">CASH Music: Main Page<\/h2>/', $src);
 
 			// make sure the cookie is persistent
 			$src = $this->cc->get($this->cash_test_url . '/interfaces/php/admin/');
-			$this->assertPattern('/<h1 id="pagetitle">CASH Music: Main Page<\/h1>/', $src);
+			$this->assertPattern('/<h2 id="pagetitle">CASH Music: Main Page<\/h2>/', $src);
 		}
     }
 

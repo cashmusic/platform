@@ -37,11 +37,13 @@
 		#mainspc {padding-top:0;}
 		#navmenu {top:0;height:6px;overflow:hidden;padding-top:0;padding-bottom:0;}
 		#navmenu .navitem:hover {background-image:none;cursor:auto;}
-		#pagedisplay {position:relative;margin:150px auto 0 auto;background:#fff url({{www_path}}/ui/default/assets/images/top_right.png) right top no-repeat;padding:24px;box-shadow:-2px 2px 2px rgba(0,0,0,0.1);}
+		#pagedisplay {position:relative;margin:150px auto 0 auto;background:#fff url({{www_path}}/ui/default/assets/images/top_right.png) right top no-repeat;padding:24px;box-shadow:-2px 2px 2px rgba(0,0,0,0.1);z-index:100;}
 		#jackson {position:absolute;top:-182px;right:120px;z-index:500;}
 		h1 {position:relative;font-size:72px;margin:6px 0 26px 0;white-space:nowrap;z-index:100;}
 		.cash_browserid_button {width:120px;height:30px;margin-top:6px;}
 		#forgotlink {font-size:11px;color:#a49c9c;}
+		#chromespc {z-index:500;}
+		#pagecontent {z-index:100;}
 		@media only screen and (max-width: 767px) {
 			#jackson {right:auto;left:5px;}
 		}
@@ -50,8 +52,7 @@
 <div id="wrap">
 	<div id="mainspc">
 
-		<div id="chromespc">
-		</div>
+		<div id="chromespc"></div>
 
 		<div id="pagecontent" class="row">
 			<div id="pagedisplay">
@@ -99,25 +100,27 @@
 <div id="footer">
 	<div class="row">
 		<div class="twelve columns">
-			<p><b>&copy; 2013 CASH Music.</b> All our code is open-source. <a href="{{www_path}}/licenses/" style="margin-left:0;">Learn more</a>. {{#showterms}}<a href="{{www_path}}/terms/">Terms of service</a> {{/showterms}}{{#showprivacy}}<a href="{{www_path}}/privacy/">Privacy policy</a> {{/showprivacy}}<a href="http://cashmusic.org/#more" class="donatelink"><b>Donate</b></a></p>
+			<p><b>&copy; 2013 CASH Music.</b> All our code is open-source. <a href="{{www_path}}/licenses/" style="margin-left:0;">Learn more</a>. {{#showterms}}<a href="{{www_path}}/_?showlegal=1">Terms of service</a> {{/showterms}}{{#showprivacy}}<a href="{{www_path}}/_?showlegal=1">Privacy policy</a> {{/showprivacy}}<a href="http://cashmusic.org/#more" class="donatelink"><b>Donate</b></a></p>
 		</div>
 	</div>
 </div>
 
 {{#reset_key}}
 	<div class="modalbg surviveload"><div class="modaldialog">
-		<h2>Password reset</h2>Enter a new password for your account. At least {{minimum_password_length}} characters.<br /><br />
-		<div class="tar">
-			<form action="{{reset_action}}" id="password_reset_form" method="post">
-			<input type="hidden" name="finalizepasswordreset" value="go" />
-			<input type="hidden" name="key" value="{{reset_key}}" />
-			<input type="hidden" name="address" value="{{reset_email}}" />
-			<input type="password" id="new_password" name="new_password" autocomplete="off" />
-			<label for="toggle_password" style="color:#222;"><input type="checkbox" id="toggle_password" />Reveal text</label>
-			<br /><br />
-			<input type="button" class="button modalcancel" value="Cancel" />
-			<input type="button" id="do_submit" class="button modalyes" value="Change password" />
-			</form>
+		<div class="row">
+			<div class="three columns"></div><div class="six columns">
+				<h4>Password reset</h4>Enter a new password. At least {{minimum_password_length}} characters.<br />
+				<form action="{{reset_action}}" id="password_reset_form" method="post">
+				<input type="hidden" name="finalizepasswordreset" value="go" />
+				<input type="hidden" name="key" value="{{reset_key}}" />
+				<input type="hidden" name="address" value="{{reset_email}}" />
+				<input type="password" id="new_password" name="new_password" autocomplete="off" />
+				<label for="toggle_password" style="color:#222;"><input type="checkbox" id="toggle_password" />Reveal text</label>
+				<br />
+				<input type="button" class="button modalcancel" value="Cancel" />
+				<input type="button" id="do_submit" class="button modalyes" value="Change password" />
+				</form>
+			</div><div class="three columns"></div>	
 		</div>
 		<script type="text/javascript">
 			// http://www.electrictoolbox.com/toggle-password-field-text-password/
@@ -167,14 +170,16 @@
 	function doEmailSend() {
 		// markup for the confirmation link
 		var markup = '<div class="modalbg"><div class="modaldialog">' +
-					 '<h2>Password reset?</h2>Enter your email, we\'ll send a reset link.<br /><br /><div class="tar">' +
+					 '<div class="four columns"></div><div class="four columns">' +
+					 '<h4>Password reset?</h4>Enter your email, we\'ll send a reset link.<br /><br />' +
 					 '<form action="" method="post">' +
 					 '<input type="hidden" name="dopasswordresetlink" value="engage" />' +
-					 '<input type="text" name="address" value="" placeholder="your email address" /><br /><br />' +
+					 '<input type="text" name="address" value="" placeholder="your email address" />' +
 					 '<input type="button" class="button modalcancel" value="Cancel" />' +
 					 '<input type="submit" class="button modalyes" value="Send it" />' +
 					 '</form>' +
-					 '</div></div></div>';
+					 '</div><div class="four columns"></div>' +
+					 '</div></div>';
 		markup = jQuery(markup);
 		markup.hide();
 		jQuery('body').append(markup);
@@ -186,6 +191,17 @@
 	jQuery('#forgotlink').on('click', function(e) {
 		e.preventDefault();
 		doEmailSend();
+	});
+
+	// overlay cancel button event
+	$(document).on('click', '.modalcancel', function(e) {
+		e.preventDefault();
+		$('.modallightbox').fadeOut('fast', function() {
+				$('.modallightbox').remove();
+			});
+		$('.modalbg').fadeOut('fast', function() {
+			$('.modalbg').remove();
+		});
 	});
 </script>
 </body>
