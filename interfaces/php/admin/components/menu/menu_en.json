@@ -1,6 +1,6 @@
 {
 	"account":
-		{"page_name":"Your Account", "menu_icon":""},
+		{"page_name":"Your account", "menu_icon":""},
 		
 		
 	"assets":
@@ -14,17 +14,17 @@
 	"calendar/events":
 		{"page_name":"Events", "menu_icon":"calendar"},
 	"calendar/events/add":
-		{"page_name":"Add Event", "menu_icon":""},
+		{"page_name":"Add event", "menu_icon":""},
 	"calendar/events/edit":
-		{"page_name":"Edit Event", "menu_icon":""},
+		{"page_name":"Edit event", "menu_icon":""},
 	"calendar/venues":
 		{"page_name":"Venues", "menu_icon":"pin"},
 	"calendar/venues/add":
-		{"page_name":"Add Venue", "menu_icon":""},
+		{"page_name":"Add venue", "menu_icon":""},
 	"calendar/venues/delete":
-		{"page_name":"Delete Venue", "menu_icon":""},
+		{"page_name":"Delete venue", "menu_icon":""},
 	"calendar/venues/edit":
-		{"page_name":"Edit Venue", "menu_icon":""},
+		{"page_name":"Edit venue", "menu_icon":""},
 		
 		
 	"commerce":
@@ -32,23 +32,23 @@
 	"commerce/items":
 		{"page_name":"Items", "menu_icon":"wallet"},
 	"commerce/items/delete":
-		{"page_name":"Delete Item", "menu_icon":""},
+		{"page_name":"Delete item", "menu_icon":""},
 	"commerce/items/edit":
-		{"page_name":"Edit Item", "menu_icon":""},
+		{"page_name":"Edit item", "menu_icon":""},
 	"commerce/orders":
 		{"page_name":"Orders", "menu_icon":"credit-card"},
 	"commerce/orders/view":
-		{"page_name":"Order Details", "menu_icon":""},
+		{"page_name":"Order details", "menu_icon":""},
 		
 		
 	"elements":
 		{"page_name":"Elements", "menu_icon":""},
 	"elements/add":
-		{"page_name":"Add Elements", "menu_icon":"circle-add"},
+		{"page_name":"Add elements", "menu_icon":"circle-add"},
 	"elements/delete":
-		{"page_name":"Delete Element", "menu_icon":"", "hide":true},
+		{"page_name":"Delete element", "menu_icon":"", "hide":true},
 	"elements/edit":
-		{"page_name":"Edit Element", "menu_icon":"", "hide":true},
+		{"page_name":"Edit element", "menu_icon":"", "hide":true},
 	"elements/templates":
 		{"page_name":"Page/embed templates", "menu_icon":"layout-content-left-2"},
 	"elements/templates/add":
@@ -60,13 +60,13 @@
 		
 		
 	"error":
-		{"page_name":"Page Not Found", "menu_icon":""},
+		{"page_name":"Page not found", "menu_icon":""},
 		
 		
 	"help":
 		{"page_name":"Help / FAQ", "menu_icon":""},
 	"help/gettingstarted":
-		{"page_name":"Getting Started", "menu_icon":"map-2"},
+		{"page_name":"Getting started", "menu_icon":"map-2"},
 		
 		
 	"licenses":
@@ -74,7 +74,7 @@
 		
 		
 	"mainpage":
-		{"page_name":"Main Page", "menu_icon":""},
+		{"page_name":"Main page", "menu_icon":""},
 		
 		
 	"people":
@@ -84,17 +84,17 @@
 	"people/lists":
 		{"page_name":"Lists", "menu_icon":"address-book"},
 	"people/lists/add":
-		{"page_name":"Add List", "menu_icon":""},
+		{"page_name":"Add list", "menu_icon":""},
 	"people/lists/delete":
-		{"page_name":"Delete List", "menu_icon":""},
+		{"page_name":"Delete list", "menu_icon":""},
 	"people/lists/edit":
-		{"page_name":"Edit List", "menu_icon":""},
+		{"page_name":"Edit list", "menu_icon":""},
 	"people/lists/export":
-		{"page_name":"Export List", "menu_icon":""},
+		{"page_name":"Export list", "menu_icon":""},
 	"people/lists/view":
-		{"page_name":"List Details", "menu_icon":""},
+		{"page_name":"List details", "menu_icon":""},
 	"people/press":
-		{"page_name":"Press Coverage", "menu_icon":"newspaper"},
+		{"page_name":"Press coverage", "menu_icon":"newspaper"},
 
 
 	"privacy":
@@ -106,7 +106,7 @@
 	"settings/connections":
 		{"page_name":"Connections", "menu_icon":"wiggle"},
 	"settings/update":
-		{"page_name":"System Update", "menu_icon":"arrow-up"},
+		{"page_name":"System update", "menu_icon":"arrow-up"},
 
 
 	"terms":
