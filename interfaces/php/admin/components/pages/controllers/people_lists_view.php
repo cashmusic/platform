@@ -20,10 +20,15 @@ if ($request_parameters) {
 				'list_id' => $request_list_id
 			)
 		);
-		foreach ($list_members['payload']['members'] as &$entry) {
+		if (is_array($list_members['payload']['members'])) {
+			foreach ($list_members['payload']['members'] as &$entry) {
 			$entry['formatted_date'] = date('M j, Y',$entry['creation_date']);
 		}
 		$cash_admin->page_data['list_members'] = new ArrayIterator($list_members['payload']['members']);
+	} else {
+		$cash_admin->page_data['list_members'] = false;
+	}
+		
 		
 		$list_analytics = $cash_admin->requestAndStore(
 			array(
