@@ -25,7 +25,7 @@ if(strrpos($_SERVER['REQUEST_URI'],'controller.php') !== false) {
  * INCLUDES AND STARTUP
  *
  ***************************************************************************************************/
-require_once('./constants.php');
+require_once(dirname(__FILE__) . '/constants.php');
 
 // instead of the previous require_once(CASH_PLATFORM_PATH) call, we manually
 // load CASHSystem and set admin_primary_cash_request to the first CASHRequest set
@@ -113,6 +113,69 @@ if (!$logged_in) {
 
 /***************************************************************************************************
  *
+ * ROUTING
+ * 
+ * grab path from .htaccess redirect, determine the appropriate route, parse out 
+ * additional parameters for the page to use
+ *
+ ***************************************************************************************************/
+if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH)) && ($_REQUEST['p'] != '_')) {
+	$parsed_request = str_replace('/','_',trim($_REQUEST['p'],'/'));
+	define('REQUESTED_ROUTE', '/' . trim($_REQUEST['p'],'/') . '/');
+	$cash_admin->page_data['requested_route'] = REQUESTED_ROUTE;
+	if (file_exists($pages_path . 'controllers/' . $parsed_request . '.php')) {
+		define('BASE_PAGENAME', $parsed_request);
+		$include_filename = BASE_PAGENAME.'.php';
+	} else {
+		// cascade through a "failure" — always show the last good true filename and push the
+		// remaining request portions into te request_parameters array
+		if (strpos($parsed_request,'_') !== false) {
+			$fails_at_level = 0;
+			$last_good_level = 0;
+			$successful_request = '';
+			$last_request = '';
+			$exploded_request = explode('_',$parsed_request);
+			for($i = 0, $a = sizeof($exploded_request); $i < $a; ++$i) {
+				if ($i > 0) {
+					$test_request = $last_request . '_' . $exploded_request[$i];
+				} else {
+					$test_request = $last_request . $exploded_request[$i];
+				}
+				if (file_exists($pages_path . 'controllers/' . $test_request . '.php')) {
+					$successful_request = $test_request;
+					$last_good_level = $i;
+				} else {
+					if (!$fails_at_level || $fails_at_level < $last_good_level) {
+						$fails_at_level = $i;
+					}
+				}
+				$last_request = $test_request;
+			}
+			if ($fails_at_level == 0) {
+				define('BASE_PAGENAME', '');
+				$include_filename = 'error.php';
+			} else {
+				// define page as successful request
+				define('BASE_PAGENAME', $successful_request);
+				$include_filename = BASE_PAGENAME.'.php';
+			}
+		} else {
+			define('BASE_PAGENAME', '');
+			$include_filename = 'error.php';
+		}
+		// turn the rest of the request into the parameters array 
+		// (available to page controllers)
+		$request_parameters = array_slice($exploded_request, 0 - (sizeof($exploded_request) - ($fails_at_level)));
+	}
+} else {
+	define('BASE_PAGENAME','mainpage');
+	$include_filename = 'mainpage.php';
+}
+
+
+
+/***************************************************************************************************
+ *
  * RENDER PAGE
  * 
  * check for a logged-in user. if found we need to handle page routing and set up the final page
@@ -132,70 +195,16 @@ if ($logged_in) {
 			$use_simple_mode = true;
 		}
 	}
+	// we need a session
+	$admin_primary_cash_request->startSession();
 	if ($use_simple_mode) {
 		// SIMPLE MODE: specifics contained in the /ui/theme/logic/simplemode.php file
 		include(ADMIN_BASE_PATH . '/ui/' . $admin_theme . '/logic/simplemode.php');
 		$template_name = 'simple';
 	} else {
-		// ROUTING: grab path from .htaccess redirect, determine the appropriate route, parse out 
-		// additional parameters for the page to use
-		if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH)) && ($_REQUEST['p'] != '_')) {
-			$parsed_request = str_replace('/','_',trim($_REQUEST['p'],'/'));
-			define('REQUESTED_ROUTE', '/' . trim($_REQUEST['p'],'/') . '/');
-			$cash_admin->page_data['requested_route'] = REQUESTED_ROUTE;
-			if (file_exists($pages_path . 'controllers/' . $parsed_request . '.php')) {
-				define('BASE_PAGENAME', $parsed_request);
-				$include_filename = BASE_PAGENAME.'.php';
-			} else {
-				// cascade through a "failure" — always show the last good true filename and push the
-				// remaining request portions into te request_parameters array
-				if (strpos($parsed_request,'_') !== false) {
-					$fails_at_level = 0;
-					$last_good_level = 0;
-					$successful_request = '';
-					$last_request = '';
-					$exploded_request = explode('_',$parsed_request);
-					for($i = 0, $a = sizeof($exploded_request); $i < $a; ++$i) {
-						if ($i > 0) {
-							$test_request = $last_request . '_' . $exploded_request[$i];
-						} else {
-							$test_request = $last_request . $exploded_request[$i];
-						}
-						if (file_exists($pages_path . 'controllers/' . $test_request . '.php')) {
-							$successful_request = $test_request;
-							$last_good_level = $i;
-						} else {
-							if (!$fails_at_level || $fails_at_level < $last_good_level) {
-								$fails_at_level = $i;
-							}
-						}
-						$last_request = $test_request;
-					}
-					if ($fails_at_level == 0) {
-						define('BASE_PAGENAME', '');
-						$include_filename = 'error.php';
-					} else {
-						// define page as successful request
-						define('BASE_PAGENAME', $successful_request);
-						$include_filename = BASE_PAGENAME.'.php';
-						// turn the rest of the request into the parameters array 
-						// (available to page controllers)
-						$request_parameters = array_slice($exploded_request, 0 - (sizeof($exploded_request) - ($fails_at_level)));
-					}
-				} else {
-					define('BASE_PAGENAME', '');
-					$include_filename = 'error.php';
-				}
-			}
-		} else {
-			define('BASE_PAGENAME','mainpage');
-			$include_filename = 'mainpage.php';
-		}
-
 		// CONTENT / TEMPLATE: use the standard template for logged-in users, start a session, and
 		// populate the page_data array for use in the page view and main template
 		$template_name = 'template';
-		$admin_primary_cash_request->startSession();
 
 		// handle the banner hiding
 		if (isset($_GET['hidebanner'])) {

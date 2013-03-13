@@ -1,0 +1,25 @@
+<div class="twelve columns">
+	<h4 class="fadedtext">CASH Music</h4>
+	<h1>Create a list.</h1>
+
+	<div>
+		<div class="callout">
+				<h3>Step 2 of 3: the mailing list</h3>
+				<p>
+					This part is easy. If you'd like to connect to an existing MailChimp list so additions
+					here are added there too, go for it. If not you can skip this step and we'll use a 
+					local list you can export at any time.
+				</p>
+
+				<div class="hidefromsimplemode">
+					{{{state_markup}}}
+				</div>
+
+				{{^oauth_return}}
+				<ul class="nobullets">
+					<li><br /><br /><a href="{{www_path}}/walkthrough/es/4" class="smallertext">Don't connect to MailChimp, use a local list and go to step 3: design.</a></li>
+				</ul>
+				{{/oauth_return}}
+		</div>
+	</div>
+</div>

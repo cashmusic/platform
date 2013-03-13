@@ -33,8 +33,15 @@
 
 	<style type="text/css">
 		h1 {position:relative;font-size:72px;margin:6px 0 52px 0;z-index:100;}
-		#mainspc {padding-top:100px;}
-		#pagedisplay {background-color:#fff;}
+		h4 {margin-bottom:0;}
+		#mainspc {padding-top:60px;}
+		.callout {font-size:14px !important;background-color:#fff !important;}
+		#mainspc a {color:#2E9A00;}
+		p {margin-bottom:36px !important;}
+		li {padding:8px 8px 0 0;display:inline;}
+		#mainspc a.button, input[type=submit] {background-color:#2E9A00;color:#fff;}
+		.smallertext {font-size:12px;}
+		.hidefromsimplemode p, .hidefromsimplemode h3 {display:none;}
 		@media only screen and (max-width: 767px) {
 			
 		}
@@ -44,19 +51,14 @@
 		<div id="chromespc"></div>
 
 		<div id="mainspc" class="container">
-
 			<div class="row">
 				<section role="main">
-					<div class="row">
+					<div class="row" id="contentspc">
 
-						<div class="twelve columns">
-							<h1>Hi. Let's get started.</h1>
+						{{#error_message}}<p><span class="highlightcopy errormessage">{{error_message}}</span></p>{{/error_message}}
 
-							<div id="pagedisplay" class="callout">
-								<h3>Simple mode.</h3>
-								Here we'll start guiding folks through...
-							</div>
-						</div>
+						{{{content}}}
+
 					</div>
 				</section>
 			</div>

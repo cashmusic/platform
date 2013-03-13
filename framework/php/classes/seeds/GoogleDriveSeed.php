@@ -112,7 +112,7 @@ class GoogleDriveSeed extends SeedBase {
 				));
 			$return_markup = '<h3>Connect to Google Drive</h3>'
 						   . '<p>This will redirect you to a secure login at Google and bring you right back.</p>'
-						   . '<a href="' . $login_url . '" class="mockbutton">Connect your Google Drive</a>';
+						   . '<a href="' . $login_url . '" class="button">Connect your Google Drive</a>';
 			return $return_markup;
 		} else {
 			return 'Please add default google drive app credentials.';
@@ -157,10 +157,14 @@ class GoogleDriveSeed extends SeedBase {
 							'refresh_token'  => $credentials_array['refresh_token']
 						)
 					);
-					if ($result) {
-						AdminHelper::formSuccess('Success. Connection added. You\'ll see it below.','/settings/connections/');
+					if (isset($data['return_result_directly'])) {
+						return $result;
 					} else {
-						AdminHelper::formFailure('Error. Something just didn\'t work right.','/settings/connections/');
+						if ($result) {
+							AdminHelper::formSuccess('Success. Connection added. You\'ll see it below.','/settings/connections/');
+						} else {
+							AdminHelper::formFailure('Error. Something just didn\'t work right.','/settings/connections/');
+						}
 					}
 				} else {
 					return 'Could not find a refresh token from google';

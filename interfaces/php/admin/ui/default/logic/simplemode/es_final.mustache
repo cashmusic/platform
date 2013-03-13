@@ -1,0 +1,32 @@
+<div class="twelve columns">
+	<h4 class="fadedtext" style="margin-bottom:12px;">CASH Music</h4>
+	<a href="#"><b>Visit your page at cashmusic.org/jessevondoom</b></a>
+	<br /><br />
+	<a href="#"><b>Embed this somewhere else</b></a>
+	<br /><br /><br /><br />
+
+	{{#first_success}}
+		<h1>Success.</h1> 
+		<p>
+		Your page is published and live. <a href="#"><b>Visit it now.</b></a> Come back here to 
+		view or export your new mailing list. You'll see this simplified dashboard as long as you'd 
+		like, and you can switch to advanced mode any time.
+		</p>
+	{{/first_success}}
+
+	{{^first_success}}
+		<br /><br />
+		<div style="text-align:center;">
+			<div style="display:inline-block;text-align:left;position:relative;width:auto;min-width:200px;margin:0 auto;">
+				<label style="margin-left:4px;">Total signups</label>
+				<div style="font-size:140px;font-weight:bold;line-height:0.8em;text-align:right;">1976</div>
+				<br /><br />
+				<div style="text-align:right;padding:0 6px 0 0;">
+					<a href="#"><b>Export your mailing list</b></a>
+					<br /><br />
+					<a href="#"><b>Switch to advanced mode</b></a>
+				</div>
+			</div>
+		</div>
+	{{/first_success}}
+</div>

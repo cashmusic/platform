@@ -552,11 +552,11 @@ body.active #sidebarButton span.menu-active {display:inline;}
 
 /* COLORS */
 .bgcolor0 {background-color:#999;}
-.bgcolor1, div.usecolor1 input[type="submit"], div.usecolor1 a.mockbutton, div.usecolor1 div.introductorybanner {background-color:#df0854 !important;}
-.bgcolor2, div.usecolor2 input[type="submit"], div.usecolor2 a.mockbutton, div.usecolor2 div.introductorybanner {background-color:#df9b08 !important;}
-.bgcolor3, div.usecolor3 input[type="submit"], div.usecolor3 a.mockbutton, div.usecolor3 div.introductorybanner {background-color:#aacd07 !important;}
-.bgcolor4, div.usecolor4 input[type="submit"], div.usecolor4 a.mockbutton, div.usecolor4 div.introductorybanner {background-color:#0891df !important;}
-.bgcolor5, div.usecolor5 input[type="submit"], div.usecolor5 a.mockbutton, div.usecolor5 div.introductorybanner {background-color:#9b08df !important;}
+.bgcolor1, div.usecolor1 input[type="submit"], div.usecolor1 a.button, div.usecolor1 div.introductorybanner {background-color:#df0854 !important;}
+.bgcolor2, div.usecolor2 input[type="submit"], div.usecolor2 a.button, div.usecolor2 div.introductorybanner {background-color:#df9b08 !important;}
+.bgcolor3, div.usecolor3 input[type="submit"], div.usecolor3 a.button, div.usecolor3 div.introductorybanner {background-color:#aacd07 !important;}
+.bgcolor4, div.usecolor4 input[type="submit"], div.usecolor4 a.button, div.usecolor4 div.introductorybanner {background-color:#0891df !important;}
+.bgcolor5, div.usecolor5 input[type="submit"], div.usecolor5 a.button, div.usecolor5 div.introductorybanner {background-color:#9b08df !important;}
 div.usecolor1 input[type="submit"]:hover, div.usecolor2 input[type="submit"]:hover, div.usecolor3 input[type="submit"]:hover, div.usecolor4 input[type="submit"]:hover, div.usecolor5 input[type="submit"]:hover {background-color:#000 !important;}
 div.usecolor1 a, h2.usecolor1, span.usecolor1, div.usecolor1 form.inline input.inlinesubmit {color:#cd074d;}
 div.usecolor2 a, h2.usecolor2, span.usecolor2, div.usecolor2 form.inline input.inlinesubmit {color:#ca8c07;}
@@ -569,8 +569,8 @@ a.usecolor2 {color:#ca8c07 !important;}
 a.usecolor3 {color:#97b800 !important;}
 a.usecolor4 {color:#0080c9 !important;}
 a.usecolor5 {color:#8a00ca !important;}
-a.mockbutton {color:#fff !important;font-size:14px;-webkit-transition:all 0.25s ease-in-out;-moz-transition:all 0.25s ease-in-out;-o-transition:all 0.25s ease-in-out;transition:all 0.25s ease-in-out;}
-a.mockbutton:hover {background-color:#000 !important;text-decoration:none !important;}
+a.button {color:#fff !important;font-size:14px;-webkit-transition:all 0.25s ease-in-out;-moz-transition:all 0.25s ease-in-out;-o-transition:all 0.25s ease-in-out;transition:all 0.25s ease-in-out;}
+a.button:hover {background-color:#000 !important;text-decoration:none !important;}
 div.callout a {font-weight:bold;color:#999;-webkit-transition:all 0.25s ease-in-out;-moz-transition:all 0.25s ease-in-out;-o-transition:all 0.25s ease-in-out;transition:all 0.25s ease-in-out;}
 div.callout a:hover {font-weight:bold;color:#231F20;}
 * a.needsconfirmation:hover {color:#f00 !important;}
@@ -580,7 +580,7 @@ div.callout a:hover {font-weight:bold;color:#231F20;}
 input,textarea,select {font:italic 14px/1.25em georgia, times, serif !important;border:1px solid #dddddf;width:100%;padding:8px;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;background-color:#f5f5f0;}
 input:active, input:focus, textarea:focus {outline:0;border:1px solid #888;background-color:#fff;}
 input[type="submit"], input[type="button"], a.button {background-color:#777;padding:8px 18px 8px 18px;font:bold 14px/1.25em helvetica,"Segoe UI",arial,sans-serif !important;cursor:pointer;width:auto;height:32px;border:1px solid transparent;color:#fff;-webkit-transition:all 0.25s ease-in-out;-moz-transition:all 0.25s ease-in-out;-o-transition:all 0.25s ease-in-out;transition:all 0.25s ease-in-out;}
-input[type="submit"]:hover, input[type="button"]:hover, a.mockbutton:hover {background-color:#000 !important;color:#fff;}
+input[type="submit"]:hover, input[type="button"]:hover, a.button:hover {background-color:#000 !important;color:#fff;}
 input[type="checkbox"],input[type="radio"] {width:auto !important;margin-top:8px;}
 input, textarea {margin-top:8px !important;}
 select {margin-top:5px !important;}
