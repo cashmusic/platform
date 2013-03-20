@@ -534,6 +534,8 @@ li:hover .itemnav {margin:12px 0 8px 0;height:auto;}
 .element_embedtemplate {margin-left:18px;}
 ::-moz-selection {background:#ff0;color:#000;}
 ::selection {background:#ff0;color:#000;}
+.modaldialog ::-moz-selection {background:#000;color:#fff;}
+.modaldialog ::selection {background:#000;color:#fff;}
 #sidebarButton {font-size:32px;position:relative;left:-2px;color:#231F20 !important;}
 body #sidebarButton span.menu-inactive {display:inline;}
 body #sidebarButton span.menu-active {display:none;}
