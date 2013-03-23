@@ -1,0 +1,65 @@
+<div class="twelve columns">
+	<h4 class="fadedtext" style="margin-bottom:12px;">CASH Music</h4>
+	<a href="{{user_page_uri}}"><b>Visit your page at {{user_page_display_uri}}</b></a>
+	<br /><br />
+	<a href="#" class="showembed"><b>Embed this somewhere else</b></a>
+
+	{{#first_success}}
+		<h1>Success.</h1> 
+		<p>
+		Your page is published and live. <a href="{{user_page_uri}}"><b>Visit it now.</b></a> Come back here to 
+		view or export your new mailing list. You'll see this simplified dashboard as long as you'd 
+		like, and you can switch to advanced mode any time.
+		</p>
+	{{/first_success}}
+
+	{{^first_success}}
+		<br /><br />
+		<div style="text-align:center;">
+			<div style="display:inline-block;{{^force_center}}text-align:left;{{/force_center}}position:relative;width:auto;min-width:200px;margin:80px auto 80px auto;">
+				<label style="margin-left:4px;">Orders to date</label>
+				<div style="{{^force_center}}text-align:left;{{/force_center}}">
+					<span style="font-size:50px;font-weight:bold;line-height:1em;display:block;margin-bottom:0;" class="fadedtext">{{analytics_transactions}} orders /</span>
+					<span style="font-size:140px;font-weight:bold;line-height:0.8em;"><span style="font-size:70px;line-height:70px;font-weight:bold;vertical-align:top;">$</span>{{analytics_gross}}</span>
+				</div>
+			</div>
+		</div>
+		<div style="text-align:right;padding:0 6px 0 0;">
+			<a href="{{www_path}}/walkthrough/advanced"><b>Switch to advanced mode</b></a>
+		</div>
+	{{/first_success}}
+</div>
+
+<script type="text/javascript">
+	$(document).on('click', '.codearea', function(e) {
+		element = this;
+		if (document.body.createTextRange) {
+			var range = document.body.createTextRange();
+			range.moveToElementText(element);
+			range.select();
+	   } else if (window.getSelection) {
+			var selection = window.getSelection();        
+			var range = document.createRange();
+			range.selectNodeContents(element);
+			selection.removeAllRanges();
+			selection.addRange(range);
+	   }
+	});
+
+	// hide embed
+	$(document).on('click', '.modalclose', function(e) {
+		e.preventDefault();
+		$('.modaldialog').fadeOut('fast', function() {
+			$('.modaldialog').remove();
+		});
+	});
+
+	// show embed
+	$(document).on('click', '.showembed', function(e) {
+		e.preventDefault();
+		var embedcode = '&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed(\'{{public_url}}\',\'{{id}}\');&lt;/script&gt;';
+		var embedmarkup = '<div class="modaldialog" style="display:none;"><div class="row"><div class="twelve columns"><br />To embed your email signup on your site, Tumblr, or elsewhere just copy and paste this code. <span class="smalltext"><a href="#" class="modalclose"><b>(close)</b></a></span><code><div class="codearea" style="margin-top:16px;background-color:transparent !important;width:100% !important;" contenteditable="true" spellcheck="false">' + embedcode + '</div></code></div></div></div>';
+		$('#mainspc').append(embedmarkup);
+		$('.modaldialog').fadeIn('fast');
+	});
+</script>

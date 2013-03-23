@@ -1,0 +1,92 @@
+<div class="twelve columns">
+	<h4 class="fadedtext">CASH Music</h4>
+	<h1>Tell us more.</h1>
+
+	<div>
+		<div class="callout">
+				<h3>Step 1 of 3: the download</h3>
+				<p>
+					Great. Now tell us a little more about the file you're selling. The title and 
+					description will be shown to anyone who makes a purchase.
+				</p>
+
+				<form accept-charset="UTF-8" action="{{www_path}}/walkthrough/ds/3" method="post">
+
+					<label for="asset_title">Title / Name</label>
+					<input type="text" id="asset_title" name="asset_title" value="" placeholder="Your download title" />
+
+					<br />
+					<label for="asset_description">Description</label>
+					<textarea rows="3" id="asset_description" name="asset_description"></textarea>
+
+					<br />
+					<div class="row">
+						<div class="two columns">
+							<label for="item_price">Price ($ USD)</label>
+							<input type="text" id="item_price" name="item_price" placeholder="0.00" value="" />
+						</div>
+						<div class="ten columns">
+							<br />
+							<label for="item_flexible_price">
+								<input type="checkbox" name="item_flexible_price" id="item_flexible_price" class="checkorradio" /> Enable "pay-at-least" minimum pricing
+							</label>
+						</div>
+					</div>
+
+					<input type="hidden" name="parent_id" value="0" />
+					<input type="hidden" name="connection_id" value="{{connection_id}}" />
+					<input type="hidden" name="asset_location" id="asset_location" value="" />
+
+					<br />
+
+					<input type ="submit" value="Save and go to step 2: paypal address" />
+
+				</form>
+		</div>
+	</div>
+</div>
+
+
+{{#google_drive_key}}
+	<script type="text/javascript">
+	// Create and render a Picker object for searching images.
+	function createPicker() {
+		var view = new google.picker.DocsView()
+			.setParent('root')
+			.setIncludeFolders(true);
+		var uploadview = new google.picker.DocsUploadView();  
+		var picker = new google.picker.PickerBuilder()
+			.enableFeature(google.picker.Feature.MINE_ONLY)
+			.disableFeature(google.picker.Feature.NAV_HIDDEN)
+			.disableFeature(google.picker.Feature.MULTISELECT_ENABLED)
+			.setAppId('{{google_drive_app_id}}')
+			.setAuthUser('{{connection_auth_user}}')
+			//.setOAuthToken('{{connection_auth_token}}') //Optional: The auth token used in the current Drive API session.
+			// TODO:
+			// the setOAuthToken call works to log the user in correctly, but causes a problem where
+			// uploads fail. removing it allows uploads to complete successfully, but if the user 
+			// doesn't have a proper login cookie they are prompted for login credentials...
+			// 
+			// ideally we want the best of both worlds
+			.addView(uploadview)
+			.addView(view)
+			.setCallback(pickerCallback)
+			.build();
+		picker.setVisible(true);
+		
+		// move the dialog to the right place
+		$('.picker-dialog').css('overflow','hidden'); // firefox shows a scrollbar. dunno? this fixes
+		$('.picker-dialog').css('z-index',98765);
+		$('.picker-dialog').blur();
+	}
+
+	function pickerCallback(data) {
+		if (data.action == google.picker.Action.PICKED) {
+			var fileId = data.docs[0].id;
+			$('#asset_location').val(fileId);
+		}
+	}
+
+	google.load('picker','1',{'callback': createPicker});
+	</script>
+{{/google_drive_key}}

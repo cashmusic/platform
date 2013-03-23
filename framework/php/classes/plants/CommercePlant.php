@@ -30,6 +30,7 @@ class CommercePlant extends PlantBase {
 			'edititem'         => array('editItem','direct'),
 			'editorder'        => array('editOrder','direct'),
 			'edittransaction'  => array('editTransaction','direct'),
+			'getanalytics'     => array('getAnalytics','direct'),
 			'getitem'          => array('getItem','direct'),
 			'getitemsforuser'  => array('getItemsForUser','direct'),
 			'getorder'         => array('getOrder','direct'),
@@ -748,6 +749,45 @@ class CommercePlant extends PlantBase {
 			default:
 				return false;
 		}
+	}
+
+	/**
+	 * Pulls analytics queries in a few different formats
+	 *
+	 * @return array
+	 */protected function getAnalytics($analtyics_type,$user_id,$date_low=false,$date_high=false) {
+		//
+		// left a commented-out switch so we can easily add more cases...
+		//
+		//switch (strtolower($analtyics_type)) {
+		//	case 'transactions':
+				if (!$date_low) $date_low = 201243600;
+				if (!$date_high) $date_high = time();
+				$result = $this->db->getData(
+					'CommercePlant_getAnalytics_transactions',
+					false,
+					array(
+						"user_id" => array(
+							"condition" => "=",
+							"value" => $user_id
+						),
+						"date_low" => array(
+							"condition" => "=",
+							"value" => $date_low
+						),
+						"date_high" => array(
+							"condition" => "=",
+							"value" => $date_high
+						)
+					)
+				);
+				if ($result) {
+					return $result[0];
+				} else {
+					return $result;
+				}
+		//		break;
+		//}
 	}
 	
 } // END class 

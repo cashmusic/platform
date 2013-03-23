@@ -286,8 +286,13 @@ class GoogleDriveSeed extends SeedBase {
 
 		$this->drive_service->permissions->insert($filename,$permission);
 
-		$file = $this->drive_service->files->get($filename);
-		return $file['webContentLink'];
+		// the "official" webContentLink requires some form of auth, even for public. dumb
+		//
+		// $file = $this->drive_service->files->get($filename);
+		// return $file['webContentLink'];
+
+		$public_link = 'https://drive.google.com/uc?export=download&id=' . $filename;
+		return $public_link;
 	}
 
 	// required for Asset seeds

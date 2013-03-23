@@ -491,6 +491,11 @@ class CASHDBA {
 				. "FROM commerce_orders o JOIN commerce_transactions t ON o.transaction_id = t.id "
 				. "WHERE o.id = :id ";
 				break;
+			case 'CommercePlant_getAnalytics_transactions':
+				$query = "SELECT SUM(gross_price) AS total_gross, COUNT(id) AS total_transactions  "
+				. "FROM commerce_transactions "
+				. "WHERE user_id = :user_id AND successful = 1 AND creation_date > :date_low  AND creation_date < :date_high";
+				break;
 			case 'ElementPlant_getAnalytics_mostactive':
 				$query = "SELECT ea.element_id as 'id', COUNT(ea.id) as 'count', e.name as 'name' "
 				. "FROM elements_analytics ea JOIN elements e ON ea.element_id = e.id "

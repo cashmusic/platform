@@ -1,0 +1,109 @@
+<div class="twelve columns">
+	<h4 class="fadedtext">CASH Music</h4>
+	<h1>Make it look good.</h1>
+
+	<div>
+		<div class="callout">
+				<h3>Step 3 of 3: make it yours</h3>
+				<p>
+					Pick your colors, change the font, pick a background, and
+					make it look the way you want. It's your page.
+				</p>
+
+				<form accept-charset="UTF-8" action="{{www_path}}/walkthrough/ds/final" method="post">
+
+					<div class="row">
+						<div class="six columns">
+							<label for="background_color">Page background color</label>
+							<input type="text" name="background_color" value="#f5f5f0" />
+						</div>
+						<div class="six columns">
+							<label for="text_color">Text color</label>
+							<input type="text" name="text_color" value="#231F20" />
+						</div>
+					</div>
+
+					<br />
+
+					<label for="design_font">Font</label>
+					<select name="design_font">
+						<optgroup style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif !important;">
+							<option value="'Helvetica Neue', Helvetica, Arial, sans-serif" selected="selected">Helvetica/Arial</option>
+						</optgroup>
+						<optgroup style="font-family:Futura, 'Trebuchet MS', Arial, sans-serif !important;">
+							<option value="Futura, 'Trebuchet MS', Arial, sans-serif">Futura</option>
+						</optgroup>
+						<optgroup style="font-family:Impact, Haettenschweiler, 'Franklin Gothic Bold', Charcoal, 'Helvetica Inserat', 'Bitstream Vera Sans Bold', 'Arial Black', sans serif !important;font-style:normal !important;">
+							<option value="Impact, Haettenschweiler, 'Franklin Gothic Bold', Charcoal, 'Helvetica Inserat', 'Bitstream Vera Sans Bold', 'Arial Black', sans serif">Impact</option>
+						</optgroup>
+						<optgroup style="font-family:Georgia, Times, 'Times New Roman', serif !important;font-style:normal !important;">
+							<option value="Georgia, Times, 'Times New Roman', serif">Georgia</option>
+						</optgroup>
+						<optgroup style="font-family:TimesNewRoman, 'Times New Roman', Times, Baskerville, Georgia, serif !important;font-style:normal !important;">
+							<option value="TimesNewRoman, 'Times New Roman', Times, Baskerville, Georgia, serif">Times New Roman</option>
+						</optgroup>
+						<optgroup style="font-family:'Lucida Console', 'Lucida Sans Typewriter', Monaco, 'Bitstream Vera Sans Mono', monospace !important;font-style:normal !important;">
+							<option value="'Lucida Console', 'Lucida Sans Typewriter', Monaco, 'Bitstream Vera Sans Mono', monospace">Lucida Console</option>
+						</optgroup>
+						<optgroup style="font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace !important;font-style:normal !important;">
+							<option value="'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace">Courier New</option>
+						</optgroup>
+					</select>
+
+					{{#google_drive_key}}
+						<br /><br />
+						<label style="margin-top:16px;">Background image</label>
+						<a href="javascript:google.load('picker','1',{'callback': createPicker});">Upload a background image</a>
+						<input type ="hidden" id="asset_location" name="asset_location" value="" />
+					{{/google_drive_key}}
+
+					<br /><br />
+
+					<input type ="submit" value="Save and publish" />
+				</form>
+		</div>
+	</div>
+</div>
+
+
+{{#google_drive_key}}
+	<script type="text/javascript">
+	// Create and render a Picker object for searching images.
+	function createPicker() {
+		var view = new google.picker.DocsView()
+			.setParent('root')
+			.setIncludeFolders(true);
+		var uploadview = new google.picker.DocsUploadView();  
+		var picker = new google.picker.PickerBuilder()
+			.enableFeature(google.picker.Feature.MINE_ONLY)
+			.disableFeature(google.picker.Feature.NAV_HIDDEN)
+			.disableFeature(google.picker.Feature.MULTISELECT_ENABLED)
+			.setAppId('{{google_drive_app_id}}')
+			.setAuthUser('{{connection_auth_user}}')
+			//.setOAuthToken('{{connection_auth_token}}') //Optional: The auth token used in the current Drive API session.
+			// TODO:
+			// the setOAuthToken call works to log the user in correctly, but causes a problem where
+			// uploads fail. removing it allows uploads to complete successfully, but if the user 
+			// doesn't have a proper login cookie they are prompted for login credentials...
+			// 
+			// ideally we want the best of both worlds
+			.addView(uploadview)
+			.addView(view)
+			.setCallback(pickerCallback)
+			.build();
+		picker.setVisible(true);
+		
+		// move the dialog to the right place
+		$('.picker-dialog').css('overflow','hidden'); // firefox shows a scrollbar. dunno? this fixes
+		$('.picker-dialog').css('z-index',98765);
+		$('.picker-dialog').blur();
+	}
+
+	function pickerCallback(data) {
+		if (data.action == google.picker.Action.PICKED) {
+			var fileId = data.docs[0].id;
+			$('#asset_location').val(fileId);
+		}
+	}
+	</script>
+{{/google_drive_key}}
