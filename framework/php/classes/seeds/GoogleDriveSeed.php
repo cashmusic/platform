@@ -157,6 +157,17 @@ class GoogleDriveSeed extends SeedBase {
 							'refresh_token'  => $credentials_array['refresh_token']
 						)
 					);
+					if (!$result) {
+						$settings_for_user = $new_connection->getAllConnectionsforUser();
+						if (is_array($settings_for_user)) {
+							foreach ($settings_for_user as $key => $connection_data) {
+								if ($connection_data['name'] == $email_address . ' (Google Drive)') {
+									$result = $connection_data['id'];
+									break;
+								}
+							}
+						}
+					}
 					if (isset($data['return_result_directly'])) {
 						return $result;
 					} else {

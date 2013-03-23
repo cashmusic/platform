@@ -34,6 +34,20 @@ function getUploadParameters($id) {
 	}
 }
 
+function getConnectionId($connection_name) {
+	global $cash_admin;
+	$page_data_object = new CASHConnection($cash_admin->effective_user_id);
+	$settings_for_user = $page_data_object->getAllConnectionsforUser();
+	if (is_array($settings_for_user)) {
+		foreach ($settings_for_user as $key => $data) {
+			if ($data['name'] == $connection_name) {
+				return $data['id'];
+			}
+		}
+	}
+	return false;
+}
+
 
 /***************************************************************************************************
  *
@@ -115,6 +129,7 @@ if ($current_state == 'advanced') {
 		$_REQUEST['connections_base_uri'] = $connections_base_uri;
 		$_REQUEST['return_result_directly'] = true;
 		$connection_id = call_user_func($seed_name . '::handleRedirectReturn', $_REQUEST);
+
 		if ($connection_id) {
 			$current_settings['simple_mode_data']['googledrive_connection_id'] = $connection_id;
 			if ($current_state == 'es_1') {
@@ -132,10 +147,6 @@ if ($current_state == 'advanced') {
 				$cash_admin->page_data = array_merge($cash_admin->page_data,$parameters);
 			}
 		} else {
-			// TODO: 
-			// if the same account has already been connected we'll get an error, but we have a 
-			// valid connection. so here we should get all user connections and poll for google
-			// drive and try that. 
 			$cash_admin->page_data['error_message'] = "Something went wrong. Please try again.";
 		}
 	}
@@ -236,6 +247,9 @@ if ($current_state == 'advanced') {
 			$settings_type,
 			$_POST
 		);
+		if (!$result) {
+			$result = getConnectionId($settings_name);
+		}
 		if ($result) {
 			if ($current_state == 'es_3') {
 				$current_settings['simple_mode_data']['mailchimp_connection_id'] = $result;
