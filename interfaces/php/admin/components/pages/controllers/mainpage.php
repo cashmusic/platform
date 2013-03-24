@@ -124,8 +124,8 @@ $user_response = $cash_admin->requestAndStore(
 	)
 );
 if (is_array($user_response['payload'])) {
-		$current_username = $user_response['payload']['username'];
-	}
+	$current_username = $user_response['payload']['username'];
+}
 $cash_admin->page_data['user_page_uri'] = str_replace('https','http',rtrim(str_replace('admin', $current_username, CASHSystem::getCurrentURL()),'/'));
 if (defined('COMPUTED_DOMAIN_IN_USER_URL') && defined('PREFERRED_DOMAIN_IN_USER_URL')) {
 	$cash_admin->page_data['user_page_uri'] = str_replace(COMPUTED_DOMAIN_IN_USER_URL, PREFERRED_DOMAIN_IN_USER_URL, $cash_admin->page_data['user_page_uri']);

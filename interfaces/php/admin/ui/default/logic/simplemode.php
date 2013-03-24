@@ -34,6 +34,20 @@ function getUploadParameters($id) {
 	}
 }
 
+function getConnectionId($connection_name) {
+	global $cash_admin;
+	$page_data_object = new CASHConnection($cash_admin->effective_user_id);
+	$settings_for_user = $page_data_object->getAllConnectionsforUser();
+	if (is_array($settings_for_user)) {
+		foreach ($settings_for_user as $key => $data) {
+			if ($data['name'] == $connection_name) {
+				return $data['id'];
+			}
+		}
+	}
+	return false;
+}
+
 
 /***************************************************************************************************
  *
@@ -66,12 +80,17 @@ if (!isset($current_settings['simple_mode_data'])) {
 		// $current_state == 'add_com.google.drive_finalize' means we've got
 		// a return from google drive — don't set a new state, but do set the
 		// oauth return as true
-		if ($current_state == 'add_com.google.drive_finalize' || $current_state == 'add_com.mailchimp_finalize') {
+		if ($current_state == 'add_com.google.drive_finalize' || 
+			$current_state == 'add_com.mailchimp_finalize' ||
+			$current_state == 'add_com.paypal_finalize'
+		) {
 			$handle_oauth_return = true;
 			$current_state = $current_settings['simple_mode_data']['current_state'];
 		} else {
-			$current_settings['simple_mode_data']['current_state'] = $current_state;
-			$cash_admin->setUserSettings($current_settings);
+			if ($current_state !== 'es_export') {
+				$current_settings['simple_mode_data']['current_state'] = $current_state;
+				$cash_admin->setUserSettings($current_settings);
+			}
 		}
 	}
 }
@@ -84,12 +103,18 @@ if (!isset($current_settings['simple_mode_data'])) {
  *
  ***************************************************************************************************/
 if ($current_state == 'advanced') {
+	/***********************************************************************************************
+	 * 'advanced'
+	 ***********************************************************************************************/
 	$current_settings['use_simple_mode'] = false;
 	unset($current_settings['simple_mode_data']);
 	$cash_admin->setUserSettings($current_settings);
 	header('Location: ' . ADMIN_WWW_BASE_PATH);
 	exit(); // i know this never fires. i just...just...have to.
-} else if ($current_state == 'es_1') { // first page
+} else if ($current_state == 'es_1' || $current_state == 'ds_1') { // first page
+	/***********************************************************************************************
+	 * 'es_1'
+	 ***********************************************************************************************/
 	$page_data_object = new CASHConnection($cash_admin->effective_user_id);
 	$settings_types_data = $page_data_object->getConnectionTypes();
 
@@ -104,31 +129,40 @@ if ($current_state == 'advanced') {
 		$_REQUEST['connections_base_uri'] = $connections_base_uri;
 		$_REQUEST['return_result_directly'] = true;
 		$connection_id = call_user_func($seed_name . '::handleRedirectReturn', $_REQUEST);
+
 		if ($connection_id) {
 			$current_settings['simple_mode_data']['googledrive_connection_id'] = $connection_id;
-			$current_settings['simple_mode_data']['current_state'] = 'es_2';
-			$cash_admin->setUserSettings($current_settings);
-			$current_state = 'es_2';
+			if ($current_state == 'es_1') {
+				$current_settings['simple_mode_data']['current_state'] = 'es_2';
+				$cash_admin->setUserSettings($current_settings);
+				$current_state = 'es_2';
+			} else {
+				$current_settings['simple_mode_data']['current_state'] = 'ds_2';
+				$cash_admin->setUserSettings($current_settings);
+				$current_state = 'ds_2';
+			}
 
 			$parameters = getUploadParameters($current_settings['simple_mode_data']['googledrive_connection_id']);
 			if (is_array($parameters)) {
 				$cash_admin->page_data = array_merge($cash_admin->page_data,$parameters);
 			}
 		} else {
-			// TODO: 
-			// if the same account has already been connected we'll get an error, but we have a 
-			// valid connection. so here we should get all user connections and poll for google
-			// drive and try that. 
 			$cash_admin->page_data['error_message'] = "Something went wrong. Please try again.";
 		}
 	}
-} else if ($current_state == 'es_2') { // post-google drive connection — asset title/description
+} else if ($current_state == 'es_2' || $current_state == 'ds_2') { // post-google drive connection — asset title/description
+	/***********************************************************************************************
+	 * 'es_2'
+	 ***********************************************************************************************/
 	$cash_admin->page_data['connection_id'] = $current_settings['simple_mode_data']['googledrive_connection_id'];
 	$parameters = getUploadParameters($current_settings['simple_mode_data']['googledrive_connection_id']);
 	if (is_array($parameters)) {
 		$cash_admin->page_data = array_merge($cash_admin->page_data,$parameters);
 	}
-} else if ($current_state == 'es_3') { // mailing list: connect or not
+} else if ($current_state == 'es_3' || $current_state == 'ds_3') { 
+	/***********************************************************************************************
+	 * 'es_3' // mailing list: connect or not       'ds_3' // paypal email address + connect
+	 ***********************************************************************************************/
 	if (!isset($current_settings['simple_mode_data']['asset_id'])) {
 		if (isset($_POST['asset_location'])) {
 			$add_response = $cash_admin->requestAndStore(
@@ -152,6 +186,32 @@ if ($current_state == 'advanced') {
 		} else {
 			$current_settings['simple_mode_data']['asset_id'] = 0;
 		}
+
+		if ($current_state == 'ds_3') {
+			$flexible_price = 0;
+			if (isset($_POST['item_flexible_price'])) {
+				$flexible_price = 1;
+			}
+			$add_response = $cash_admin->requestAndStore(
+				array(
+					'cash_request_type' => 'commerce', 
+					'cash_action' => 'additem',
+					'user_id' => $cash_admin->effective_user_id,
+					'name' => $_POST['asset_title'],
+					'description' => $_POST['asset_description'],
+					'price' => $_POST['item_price'],
+					'flexible_price' => $flexible_price,
+					'digital_fulfillment' => 1,
+					'fulfillment_asset' => $current_settings['simple_mode_data']['asset_id']
+				)
+			);
+			if ($add_response['payload']) {
+				$current_settings['simple_mode_data']['item_id'] = $add_response['payload'];
+			} else {
+				$current_settings['simple_mode_data']['item_id'] = 0;
+			}
+		}
+
 		$cash_admin->setUserSettings($current_settings);
 	}
 
@@ -160,7 +220,11 @@ if ($current_state == 'advanced') {
 		// no form submitted — so we want to handle the things before saving...
 		$settings_types_data = $page_data_object->getConnectionTypes();
 
-		$seed_name = $settings_types_data['com.mailchimp']['seed'];
+		if ($current_state == 'es_3') {
+			$seed_name = $settings_types_data['com.mailchimp']['seed'];
+		} else {
+			$seed_name = $settings_types_data['com.paypal']['seed'];
+		}
 		if (!$handle_oauth_return) {
 			$return_url = rtrim(CASHSystem::getCurrentURL(),'/') . '/finalize';
 			// Here's a really fucked up way of calling $seed_name::getRedirectMarkup($return_url) [5.2+ compatibility]
@@ -183,14 +247,53 @@ if ($current_state == 'advanced') {
 			$settings_type,
 			$_POST
 		);
+		if (!$result) {
+			$result = getConnectionId($settings_name);
+		}
 		if ($result) {
-			$current_settings['simple_mode_data']['mailchimp_connection_id'] = $result;
-			$current_settings['simple_mode_data']['current_state'] = 'es_4';
+			if ($current_state == 'es_3') {
+				$current_settings['simple_mode_data']['mailchimp_connection_id'] = $result;
+				$current_settings['simple_mode_data']['current_state'] = 'es_4';
+				$cash_admin->setUserSettings($current_settings);
+				$current_state = 'es_4';
+			} else {
+				$current_settings['simple_mode_data']['paypal_connection_id'] = $result;
+				$current_settings['simple_mode_data']['current_state'] = 'ds_4';
+				$cash_admin->setUserSettings($current_settings);
+				$current_state = 'ds_4';
+			}
+		}
+	}
+} else if ($current_state == 'ds_5') {
+	/***********************************************************************************************
+	 * 'ds_5'
+	 ***********************************************************************************************/
+	if (isset($_POST['message_success'])) {
+		$add_response = $cash_admin->requestAndStore(
+			array(
+				'cash_request_type' => 'element', 
+				'cash_action' => 'addelement',
+				'name' => $_POST['element_name'],
+				'type' => $_POST['element_type'],
+				'options_data' => array(
+					'message_error' => $_POST['message_error'],
+					'message_success' => $_POST['message_success'],
+					'item_id' => $current_settings['simple_mode_data']['item_id'],
+					'connection_id' => $_POST['connection_id']
+				),
+				'user_id' => $cash_admin->effective_user_id
+			)
+		);
+		$element_id = $add_response['payload'];
+		if ($element_id) {
+			$current_settings['simple_mode_data']['main_element_id'] = $element_id;
 			$cash_admin->setUserSettings($current_settings);
-			$current_state = 'es_4';
 		}
 	}
 } else if ($current_state == 'es_5') {
+	/***********************************************************************************************
+	 * 'es_5'
+	 ***********************************************************************************************/
 	if (isset($_POST['message_success'])) {
 		if (isset($current_settings['simple_mode_data']['mailchimp_connection_id'])) {
 			$connection_id = $current_settings['simple_mode_data']['mailchimp_connection_id'];
@@ -229,11 +332,15 @@ if ($current_state == 'advanced') {
 		);
 		$element_id = $add_response['payload'];
 		if ($element_id) {
-			$current_settings['simple_mode_data']['es_element_id'] = $element_id;	
+			$current_settings['simple_mode_data']['main_element_id'] = $element_id;
+			$current_settings['simple_mode_data']['es_list_id'] = $list_id;
 			$cash_admin->setUserSettings($current_settings);
 		}
 	}
-} else if ($current_state == 'es_6') {
+} else if ($current_state == 'es_6' || $current_state == 'ds_6') {
+	/***********************************************************************************************
+	 * 'es_6'
+	 ***********************************************************************************************/
 	if (isset($_POST['element_type'])) {
 		$add_response = $cash_admin->requestAndStore(
 			array(
@@ -261,7 +368,10 @@ if ($current_state == 'advanced') {
 			$cash_admin->page_data = array_merge($cash_admin->page_data,$parameters);
 		}
 	}
-} else if ($current_state == 'es_final') {
+} else if ($current_state == 'es_final' || $current_state == 'ds_final') {
+	/***********************************************************************************************
+	 * 'es_final' (email signup dashboard)
+	 ***********************************************************************************************/
 	if (isset($_POST['design_font'])) {
 		// if asset_location then create asset, make it public, use the URL
 		$bg_image = '';
@@ -312,10 +422,19 @@ if ($current_state == 'advanced') {
 			file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/page.mustache')
 		);
 
+		// okay i'm a picky jerk, but seriously futura cannot be fake boldened
+		if ($_POST['design_font'] == "Futura, 'Trebuchet MS', Arial, sans-serif") {
+			$template =  str_replace(
+				'font-weight:bold', 
+				'font-weight:normal', 
+				$template
+			);
+		}
+
 		// now lay in the new elements
 		$template =  str_replace(
 			'{{{element_markup}}}', 
-			'{{{element_' . $current_settings['simple_mode_data']['staticcontent_element_id'] . '}}}<br /><br />{{{element_' . $current_settings['simple_mode_data']['es_element_id'] . '}}}', 
+			'{{{element_' . $current_settings['simple_mode_data']['staticcontent_element_id'] . '}}}<br /><br />{{{element_' . $current_settings['simple_mode_data']['main_element_id'] . '}}}', 
 			$template
 		);
 
@@ -324,7 +443,7 @@ if ($current_state == 'advanced') {
 			array(
 				'cash_request_type' => 'system', 
 				'cash_action' => 'settemplate',
-				'name' => 'Email signup template (from initial walkthrough)',
+				'name' => 'Generated template (from initial walkthrough)',
 				'template' => $template,
 				'template_id' => false,
 				'user_id' => $cash_admin->effective_user_id
@@ -344,7 +463,98 @@ if ($current_state == 'advanced') {
 		}
 
 		$cash_admin->page_data['first_success'] = true;
+	} else {		
+		if ($current_state == 'es_final') {
+			// we need to get a count for the list
+			$list_analytics = $cash_admin->requestAndStore(
+				array(
+					'cash_request_type' => 'people', 
+					'cash_action' => 'getanalytics',
+					'analtyics_type' => 'listmembership',
+					'list_id' => $current_settings['simple_mode_data']['es_list_id'],
+					'user_id' => $cash_admin->effective_user_id
+				)
+			);
+			$cash_admin->page_data['analytics_active'] = $list_analytics['payload']['active'];
+			if ($list_analytics['payload']['active'] < 10) {
+				// this is kind of dumb, but small numbers look shitty. so we'll fix that.
+				$cash_admin->page_data['force_center'] = true;
+			}
+		} else {
+			// get sales info
+			$transaction_analytics = $cash_admin->requestAndStore(
+				array(
+					'cash_request_type' => 'commerce', 
+					'cash_action' => 'getanalytics',
+					'analtyics_type' => 'transactions',
+					'user_id' => $cash_admin->effective_user_id
+				)
+			);
+			$cash_admin->page_data['analytics_transactions'] = $transaction_analytics['payload']['total_transactions'];
+			$cash_admin->page_data['analytics_gross'] = $transaction_analytics['payload']['total_gross'];
+		}
 	}
+
+	// these bits no matter what:
+	// get a username / url for the user
+	$user_response = $cash_admin->requestAndStore(
+		array(
+			'cash_request_type' => 'people', 
+			'cash_action' => 'getuser',
+			'user_id' => $cash_admin->effective_user_id
+		)
+	);
+	if (is_array($user_response['payload'])) {
+		$current_username = $user_response['payload']['username'];
+	}
+	$cash_admin->page_data['user_page_uri'] = str_replace('https','http',rtrim(str_replace('admin', $current_username, CASHSystem::getCurrentURL()),'/'));
+	if (is_array($request_parameters)) {
+		$param_string = implode('/', $request_parameters);
+	} else {
+		$param_string = '';
+	}
+	$cash_admin->page_data['user_page_uri'] = str_replace('/walkthrough/' . $param_string, '', $cash_admin->page_data['user_page_uri']);
+	if (defined('COMPUTED_DOMAIN_IN_USER_URL') && defined('PREFERRED_DOMAIN_IN_USER_URL')) {
+		$cash_admin->page_data['user_page_uri'] = str_replace(COMPUTED_DOMAIN_IN_USER_URL, PREFERRED_DOMAIN_IN_USER_URL, $cash_admin->page_data['user_page_uri']);
+	}
+	$cash_admin->page_data['user_page_display_uri'] = str_replace('http://','',$cash_admin->page_data['user_page_uri']);
+
+	// for the embeds
+	$cash_admin->page_data['public_url'] = CASH_PUBLIC_URL;
+	$cash_admin->page_data['id'] = $current_settings['simple_mode_data']['main_element_id'];
+
+} else if ($current_state == 'es_export') { // handles export for an email signup list
+	/***********************************************************************************************
+	 * 'es_export' (exporting mailing list)
+	 ***********************************************************************************************/
+	$list_details = $cash_admin->requestAndStore(
+		array(
+			'cash_request_type' => 'people', 
+			'cash_action' => 'viewlist',
+			'list_id' => $current_settings['simple_mode_data']['es_list_id'],
+			'user_id' => $cash_admin->effective_user_id,
+			'unlimited' => true
+		)
+	);
+	if (is_array($list_details)) {
+		header('Content-Disposition: attachment; filename="list_' . $current_settings['simple_mode_data']['es_list_id'] . '_export.csv"');
+		if ($list_details['status_uid'] == 'people_viewlist_200') {
+			echo '"email address","display name","initial comment","additional data","verified","active","join date"' . "\n";
+			foreach ($list_details['payload']['members'] as $entry) {
+			    echo '"' . str_replace ('"','""',$entry['email_address']) . '"';
+				echo ',"' . str_replace ('"','""',$entry['display_name']) . '"';
+				echo ',"' . str_replace ('"','""',$entry['initial_comment']) . '"';
+				echo ',"' . str_replace ('"','""',$entry['additional_data']) . '"';
+				echo ',"' . str_replace ('"','""',$entry['verified']) . '"';
+				echo ',"' . str_replace ('"','""',$entry['active']) . '"';
+				echo ',"' . date('M j, Y h:iA T',$entry['creation_date']) . '"';
+				echo "\n";
+			}
+		} else {
+			echo "Error getting list.";
+		}
+	}
+	exit;
 }
 
 
