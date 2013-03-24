@@ -69,7 +69,7 @@ The PHP Request/Response looks like this:
 		)
 	);
 
-	$sample_request->resonse:
+	$sample_request->response:
 	{
 		"status_code":404, // http-style status code
 		"status_uid":"calendar_getevent_404", // uid of the response (request + status)

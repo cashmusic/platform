@@ -1,0 +1,30 @@
+<div class="twelve columns">
+	<h4 class="fadedtext">CASH Music</h4>
+	<h1>Almost done.</h1>
+
+	<div>
+		<div class="callout">
+				<h3>Step 3 of 3: make it yours</h3>
+				<p>
+					Now it's time to customize. First, let's set success and
+					error messages. These are what people who sign up will see.
+				</p>
+
+				<form accept-charset="UTF-8" action="{{www_path}}/walkthrough/ds/5" method="post">
+					<input type="hidden" name="doelementadd" value="makeitso">
+					<input type="hidden" name="element_type" value="digitalpurchase" />
+					<input type="hidden" name="element_name" value="Digital purchase created automatically" />
+					
+					<label for="message_error">Error Message</label>
+					<input type="text" id="message_error" name="message_error" value="{{#options_message_error}}{{options_message_error}}{{/options_message_error}}{{^options_message_error}}There was an error processing your payment. Please reload and try again.{{/options_message_error}}" />
+
+					<label for="message_success">Success Message</label>
+					<input type="text" id="message_success" name="message_success" value="{{#options_message_success}}{{options_message_success}}{{/options_message_success}}{{^options_message_success}}Thank you! Here's your download. Mobile users check your inbox and spam folders for a download link.{{/options_message_success}}" />
+
+					<br />
+
+					<input type ="submit" value="Add a welcome message" />
+				</form>
+		</div>
+	</div>
+</div>
