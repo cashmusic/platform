@@ -185,9 +185,18 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH)) && ($_REQUES
 if ($logged_in) {
 	// get user-specific settings
 	$current_settings = $cash_admin->getUserSettings();
+
+	if (isset($_GET['resetsimplemode'])) {
+		if ($_GET['resetsimplemode'] == 'yesplease') {
+			$current_settings['use_simple_mode'] = true;
+			$cash_admin->setUserSettings($current_settings);
+			header('Location: ' . ADMIN_WWW_BASE_PATH);
+		}
+	}
+
 	// check for simple mode
 	$use_simple_mode = false;
-	if (isset($current_settings['use_simple_mode'])) {
+	if (isset($current_settings['use_simple_mode']) && $cash_admin->platform_type == 'multi') {
 		if ($current_settings['use_simple_mode'] && 
 			file_exists(ADMIN_BASE_PATH . '/ui/' . $admin_theme . '/logic/simplemode.php') &&
 			file_exists(ADMIN_BASE_PATH . '/ui/' . $admin_theme . '/simple.mustache')
