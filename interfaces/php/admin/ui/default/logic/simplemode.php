@@ -72,7 +72,7 @@ $current_state = strtolower($current_state);
 // remember where we are
 if (!isset($current_settings['simple_mode_data'])) {
 	$current_settings['simple_mode_data'] = array(
-		'current_state' => $current_state
+		'current_state' => 'begin'
 	);
 	$cash_admin->setUserSettings($current_settings);
 } else {
