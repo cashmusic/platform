@@ -17,7 +17,7 @@ First and foremost, look at the main menu and you'll see five main categories:
    idea, elements are bundles for functionality you can publish to your site with a single line of 
    code.
 
-While you explore the pltform remember that you can always use the Help menu in the upper bar to see 
+While you explore the platform remember that you can always use the Help menu in the upper bar to see 
 tips for the page you're on or to come back to this FAQ section. 
 
 And hover over your email in the upper bar at any time to access system settings, edit your account,
