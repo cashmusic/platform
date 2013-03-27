@@ -188,9 +188,9 @@ if ($current_state == 'advanced') {
 		}
 
 		if ($current_state == 'ds_3') {
-			$flexible_price = 0;
-			if (isset($_POST['item_flexible_price'])) {
-				$flexible_price = 1;
+			$flexible_price = 1;
+			if (!isset($_POST['item_flexible_price'])) {
+				$flexible_price = 0;
 			}
 			$add_response = $cash_admin->requestAndStore(
 				array(
@@ -279,7 +279,7 @@ if ($current_state == 'advanced') {
 					'message_error' => $_POST['message_error'],
 					'message_success' => $_POST['message_success'],
 					'item_id' => $current_settings['simple_mode_data']['item_id'],
-					'connection_id' => $_POST['connection_id']
+					'connection_id' => $current_settings['simple_mode_data']['paypal_connection_id']
 				),
 				'user_id' => $cash_admin->effective_user_id
 			)
@@ -491,7 +491,7 @@ if ($current_state == 'advanced') {
 				)
 			);
 			$cash_admin->page_data['analytics_transactions'] = $transaction_analytics['payload']['total_transactions'];
-			$cash_admin->page_data['analytics_gross'] = $transaction_analytics['payload']['total_gross'];
+			$cash_admin->page_data['analytics_gross'] = number_format($transaction_analytics['payload']['total_gross'],2);
 		}
 	}
 
