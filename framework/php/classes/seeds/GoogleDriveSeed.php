@@ -110,7 +110,7 @@ class GoogleDriveSeed extends SeedBase {
 					'https://www.googleapis.com/auth/userinfo.email',
 					'https://www.googleapis.com/auth/userinfo.profile'
 				));
-			$return_markup = '<h3>Connect to Google Drive</h3>'
+			$return_markup = '<h4>Connect to Google Drive</h4>'
 						   . '<p>This will redirect you to a secure login at Google and bring you right back.</p>'
 						   . '<a href="' . $login_url . '" class="button">Connect your Google Drive</a>';
 			return $return_markup;

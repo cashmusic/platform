@@ -26,7 +26,7 @@ class Mandrill {
         $this->apikey = $apikey;
 
         $this->ch = curl_init();
-        curl_setopt($this->ch, CURLOPT_USERAGENT, 'Mandrill-PHP/1.0.18');
+        curl_setopt($this->ch, CURLOPT_USERAGENT, 'like Mandrill-PHP/1.0.18');
         curl_setopt($this->ch, CURLOPT_POST, true);
         curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($this->ch, CURLOPT_HEADER, false);
@@ -102,6 +102,16 @@ class Mandrill {
 
     public function log($msg) {
         if($this->debug) error_log($msg);
+    }
+
+    /***************************************************************************
+     *
+     * API ENDPOINT MAPPINGS
+     *
+     ***************************************************************************/
+
+    public function getUserInfo() {
+        return $this->call('users/info', array());
     }
 }
 

@@ -15,7 +15,7 @@
 		},
 		"multi": {
 			"redirect_uri":"string",
-			"key":"string"
+			"app_authentication_id":"string"
 		}
 	}
 }
