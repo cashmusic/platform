@@ -36,19 +36,19 @@
 			<div id="navmenumask">.</div>
 			<div id="navmenu">
 				<div id="assetstab" class="navitem bgcolor1{{#ui_current_assets}} currentnav{{/ui_current_assets}}">
-					<h2><a href="{{www_path}}/assets/" class="navitemlink">Assets</a></h2>
+					<h2><a href="{{www_path}}/assets/" class="navitemlink">{{link_menu_assets}}</a></h2>
 				</div>
 				<div id="peopletab" class="navitem bgcolor2{{#ui_current_people}} currentnav{{/ui_current_people}}">
-					<h2><a href="{{www_path}}/people/" class="navitemlink">People</a></h2>
+					<h2><a href="{{www_path}}/people/" class="navitemlink">{{link_menu_people}}</a></h2>
 				</div>
 				<div id="commercetab" class="navitem bgcolor3{{#ui_current_commerce}} currentnav{{/ui_current_commerce}}">
-					<h2><a href="{{www_path}}/commerce/" class="navitemlink">Commerce</a></h2>
+					<h2><a href="{{www_path}}/commerce/" class="navitemlink">{{link_menu_commerce}}</a></h2>
 				</div>
 				<div id="calendartab" class="navitem bgcolor4{{#ui_current_calendar}} currentnav{{/ui_current_calendar}}">
-					<h2><a href="{{www_path}}/calendar/" class="navitemlink">Calendar</a></h2>
+					<h2><a href="{{www_path}}/calendar/" class="navitemlink">{{link_menu_calendar}}</a></h2>
 				</div>
 				<div id="elementstab" class="navitem bgcolor5{{#ui_current_elements}} currentnav{{/ui_current_elements}}">
-					<h2><a href="{{www_path}}/elements/" class="navitemlink">Elements</a></h2>
+					<h2><a href="{{www_path}}/elements/" class="navitemlink">{{link_menu_elements}}</a></h2>
 				</div>
 			</div>
 		</div>
@@ -67,23 +67,23 @@
 							<div id="pagemenu">{{#section_menu}}{{{section_menu}}}{{/section_menu}}</div>
 
 							<div id="subnavmenu" class="hide-for-small">
-								<a href="{{www_path}}/"><span class="icon polaroid"></span> Main page</a>
+								<a href="{{www_path}}/"><span class="icon polaroid"></span> {{link_main_page}}</a>
 								<div id="helpmenu">
-									<span class="icon support"></span> Help
+									<span class="icon support"></span> {{link_menu_help}}
 									<ul>
-										<li><a href="#tips" id="tipslink">Tips for <b>this</b> page</a></li>
-										<li><a href="{{www_path}}/help/gettingstarted/">Getting started</a></li>
-										<li><a href="{{www_path}}/help/">FAQ</a></li>
+										<li><a href="#tips" id="tipslink">{{{misc_tips}}}</a></li>
+										<li><a href="{{www_path}}/help/gettingstarted/">{{link_menu_help_gettingstarted}}</a></li>
+										<li><a href="{{www_path}}/help/">{{link_help_alt}}</a></li>
 										<li><a href="http://help.cashmusic.org/">help.cashmusic.org</a></li>
 									</ul>
 								</div>
 								<div id="accountmenu">
 									<span class="icon settings-2"></span> {{user_email}}
 									<ul>
-										<li><a href="{{www_path}}/account/">Your account</a></li>
-										<li><a href="{{www_path}}/settings/">System settings</a></li>
-										<li><a href="http://cashmusic.org/#more">Donate</a></li>
-										<li><a href="{{www_path}}/logout/" id="logout">Log out</a></li>
+										<li><a href="{{www_path}}/account/">{{link_youraccount}}</a></li>
+										<li><a href="{{www_path}}/settings/">{{link_settings}}</a></li>
+										<li><a href="http://cashmusic.org/#more">{{action_donate}}</a></li>
+										<li><a href="{{www_path}}/logout/" id="logout">{{action_logout}}</a></li>
 									</ul>
 								</div>
 								<div class="clearfix">.</div>
@@ -93,7 +93,7 @@
 								<div id="pagetips">
 									<span id="current_pagetip">{{{ui_page_tip}}}</span>
 									<br />
-									<a id="tipscloselink" href="#">close</a>
+									<a id="tipscloselink" href="#">{{action_close}}</a>
 								</div>
 							</div>
 						</div>
@@ -113,21 +113,21 @@
 
 				<section id="sidebar" role="complementary">
 					<nav id="sideMenu" role="navigation">
-						<a href="{{www_path}}/assets/" class="button bgcolor1">Assets</a>
-						<a href="{{www_path}}/people/" class="button bgcolor2">People</a>
-						<a href="{{www_path}}/commerce/" class="button bgcolor3">Commerce</a>
-						<a href="{{www_path}}/calendar/" class="button bgcolor4">Calendar</a>
-						<a href="{{www_path}}/elements/" class="button bgcolor5">Elements</a>
+						<a href="{{www_path}}/assets/" class="button bgcolor1">{{link_menu_assets}}</a>
+						<a href="{{www_path}}/people/" class="button bgcolor2">{{link_menu_people}}</a>
+						<a href="{{www_path}}/commerce/" class="button bgcolor3">{{link_menu_commerce}}</a>
+						<a href="{{www_path}}/calendar/" class="button bgcolor4">{{link_menu_calendar}}</a>
+						<a href="{{www_path}}/elements/" class="button bgcolor5">{{link_menu_elements}}</a>
 					</nav>
 
 					<br />
 					<div id="sideSubMenu" class="tar">
-						<a href="{{www_path}}/"><b>Main page</b> <span class="icon polaroid"></span></a>
-						<a href="{{www_path}}/account/">Your account <span class="icon account"></span></a>
-						<a href="{{www_path}}/settings/">System settings <span class="icon settings-2"></span></a>
-						<a href="{{www_path}}/help/">Help <span class="icon support"></span></a>
+						<a href="{{www_path}}/"><b>{{link_main_page}}</b> <span class="icon polaroid"></span></a>
+						<a href="{{www_path}}/account/">{{link_youraccount}} <span class="icon account"></span></a>
+						<a href="{{www_path}}/settings/">{{link_settings}} <span class="icon settings-2"></span></a>
+						<a href="{{www_path}}/help/">{{link_menu_help}} <span class="icon support"></span></a>
 						<br />
-						<a href="{{www_path}}/logout/">Log out <span class="icon cancel-circle"></span></a>
+						<a href="{{www_path}}/logout/">{{action_logout}} <span class="icon cancel-circle"></span></a>
 					</div>
 				</section>
 			</div>
@@ -137,7 +137,7 @@
 	<div id="footer">
 		<div class="row">
 			<div class="twelve columns">
-				<p><b>&copy; 2013 CASH Music.</b> All our code is open-source. <a href="{{www_path}}/licenses/" style="margin-left:0;">Learn more</a>. {{#showterms}}<a href="{{www_path}}/terms/">Terms of service</a> {{/showterms}}{{#showprivacy}}<a href="{{www_path}}/privacy/">Privacy policy</a> {{/showprivacy}}<a href="http://cashmusic.org/#more" class="donatelink"><b>Donate</b></a></p>
+				<p>{{{misc_footer_markup}}} <a href="{{www_path}}/licenses/" style="margin-left:0;">{{link_footer_learnmore}}</a>. {{#showterms}}<a href="{{www_path}}/terms/">{{link_footer_terms}}</a> {{/showterms}}{{#showprivacy}}<a href="{{www_path}}/privacy/">{{link_footer_privacy}}</a> {{/showprivacy}}<a href="http://cashmusic.org/#more" class="donatelink"><b>{{action_donate}}</b></a></p>
 			</div>
 		</div>
 	</div>

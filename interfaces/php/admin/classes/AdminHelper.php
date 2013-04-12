@@ -36,13 +36,21 @@
 	 *
 	 *********************************************/
 
-	public static function buildSectionNav() {
-		$pages_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/menu/menu_en.json'),true);
+	public static function getPageMenuDetails() {
+		$pages_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/interface/en/menu.json'),true);
 		// remove non-multi links
 		$platform_type = CASHSystem::getSystemSettings('instancetype');
 		if ($platform_type == 'multi') {
 			unset($pages_array['settings/update'],$pages_array['people/contacts']);
 		}
+		// make an array for return
+		$return_array = array(
+			'page_title' => 'CASH Music',
+			'section_menu' => '',
+			'link_text' => null
+		);
+
+		// generate submenu markup
 		$endpoint = str_replace('_','/',BASE_PAGENAME);
 		$endpoint_parts = explode('/',$endpoint);
 		$section_pages = array();
@@ -66,36 +74,48 @@
 				}
 			}
 			$menustr .= '</ul>';
-			return $menustr;
-		} else {
-			return false;
-		}
-	}
+			$return_array['section_menu'] = $menustr;
+		} 
 
-	public static function getPageTitle() {
-		$pages_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/menu/menu_en.json'),true);
-		$endpoint = str_replace('_','/',BASE_PAGENAME);
+		// find the right page title
 		if (isset($pages_array[$endpoint])) {
-			$endpoint_parts = explode('/',$endpoint);
 			$current_title = '';
 			if (count($endpoint_parts) > 1) {
 				$current_title .= $pages_array[$endpoint_parts[0]]['page_name'] . ': ';
 			}
 			$current_title .= $pages_array[$endpoint]['page_name'];
-			return $current_title;
+			$return_array['page_title'] = $current_title;
 		}
-		return 'CASH Music';
+
+		// set link text for the main template
+		$return_array['link_text'] = array(
+			'link_main_page' => $pages_array['mainpage']['page_name'],
+			'link_menu_assets' => $pages_array['assets']['page_name'],
+			'link_menu_people' => $pages_array['people']['page_name'],
+			'link_menu_commerce' => $pages_array['commerce']['page_name'],
+			'link_menu_calendar' => $pages_array['calendar']['page_name'],
+			'link_menu_elements' => $pages_array['elements']['page_name'],
+			'link_menu_help' => $pages_array['help']['page_name'],
+			'link_menu_help_gettingstarted' => $pages_array['help/gettingstarted']['page_name'],
+			'link_youraccount' => $pages_array['account']['page_name'],
+			'link_settings' => $pages_array['settings']['page_name']
+		);
+
+		return $return_array;
 	}
 
-	public static function getPageTipsString() {
-		$tips_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/text/en/pagetips.json'),true);
-		$endpoint = str_replace('_','/',BASE_PAGENAME);
-		if (isset($tips_array[$endpoint])) {
-			if ($tips_array[$endpoint]) {
-				return $tips_array[$endpoint];
-			}
+	public static function getUiText() {
+		$text_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/interface/en/interaction.json'),true);
+		return $text_array;
+	}
+
+	public static function getPageComponents() {
+		if (file_exists(dirname(__FILE__).'/../components/text/en/pages/' . BASE_PAGENAME . '.json')) {
+			$components_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/text/en/pages/' . BASE_PAGENAME . '.json'),true);
+		} else {
+			$components_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/text/en/pages/default.json'),true);
 		}
-		return $tips_array['default'];
+		return $components_array;
 	}
 
 	/**********************************************

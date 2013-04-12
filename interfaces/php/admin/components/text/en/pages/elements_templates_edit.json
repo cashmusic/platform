@@ -1,0 +1,15 @@
+{
+	"pagetip":"There are no tips currently written for this page.",
+	"labels":{
+		"name":"Name",
+		"type":"Type",
+		"page":"Page template",
+		"embed":"Embed template",
+		"default":"Default templates",
+		"template":"Template"
+	},
+	"tooltips":{},
+	"copy":{
+		"top":"Templates look like HTML because, essentially, they are. Embed templates support only a single element — the element will appear wherever you put {{{element_markup}}} in your template. Page templates can have as many elements as you like. Just paste in embed codes from the element you want. You'll find them on that element's page."
+	}
+}

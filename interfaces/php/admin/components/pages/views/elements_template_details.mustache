@@ -1,8 +1,5 @@
 <p>
-Templates look like HTML because, essentially, they are. Embed templates support only a single element
-— the element will appear wherever you put &#123;&#123;&#123;element_markup&#125;&#125;&#125; in your 
-template. Page templates can have as many elements as you like. Just paste in embed codes from the 
-element you want. You'll find them on that element's page.
+{{{copy_top}}}
 </p>
 
 <h4>Template details</h4>
@@ -11,18 +8,18 @@ element you want. You'll find them on that element's page.
 	<input type="hidden" name="dotemplateset" value="makeitso" />
 	{{#id}}<input type="hidden" name="template_id" value="{{id}}" />{{/id}}
 
-	<label for="template_name">Name</label>
+	<label for="template_name">{{label_name}}</label>
 	<input type="text" id="template_name" name="template_name" placeholder="Give it a name" value="{{name}}" />
 	
 	<div class="row">
 		<div class="six columns">
-			<label for="template_type">Type</label>
+			<label for="template_type">{{label_type}}</label>
 			<div class="row">
 				<div class="four columns">
-					<label for="typepage"><input type="radio" id="typepage" name="template_type" value="page" {{^is_embed}}checked="checked"{{/is_embed}} /> Page template</label>
+					<label for="typepage"><input type="radio" id="typepage" name="template_type" value="page" {{^is_embed}}checked="checked"{{/is_embed}} /> {{label_page}}</label>
 				</div>
 				<div class="eight columns">
-					<label for="typeembed"><input type="radio" id="typeembed" name="template_type" value="embed" {{#is_embed}}checked="checked"{{/is_embed}} /> Embed template</label>
+					<label for="typeembed"><input type="radio" id="typeembed" name="template_type" value="embed" {{#is_embed}}checked="checked"{{/is_embed}} /> {{label_embed}}</label>
 				</div>
 			</div>
 			<br />
@@ -30,16 +27,16 @@ element you want. You'll find them on that element's page.
 
 		{{#adding}}
 		<div class="six columns">
-			<label>Default templates</label>
-			<span class="tooltip" data-tooltip="This will erase any changes you've made and give you the default markup for a page template"><a href="#" id="usedefaultpage" class="smalltext" style="margin-right:3em;">Use default <b>page</b> markup</a></span>
-			<span class="tooltip" data-tooltip="This will erase any changes you've made and give you the default markup for an embed template"><a href="#" id="usedefaultembed" class="smalltext" style="margin-right:3em;">Use default <b>embed</b> markup</a></span>
+			<label>{{label_default}}</label>
+			<span class="tooltip" data-tooltip="{{tooltip_page}}"><a href="#" id="usedefaultpage" class="smalltext" style="margin-right:3em;">{{{copy_usepage}}}</a></span>
+			<span class="tooltip" data-tooltip="{{tooltip_embed}}"><a href="#" id="usedefaultembed" class="smalltext" style="margin-right:3em;">{{{copy_useembed}}}</a></span>
 		</div>
 		{{/adding}}
 	</div>
 
 	<br />
 
-	<label>Template</label>
+	<label>{{label_template}}</label>
 	<textarea id="template" name="template" class="taller" wrap="off"  spellcheck="false">{{template}}</textarea>
 
 	<br />

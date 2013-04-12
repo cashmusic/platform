@@ -64,7 +64,7 @@
 		
 		
 	"help":
-		{"page_name":"Help / FAQ", "menu_icon":""},
+		{"page_name":"Help", "menu_icon":""},
 	"help/gettingstarted":
 		{"page_name":"Getting started", "menu_icon":"map-2"},
 		
@@ -102,7 +102,7 @@
 		
 		
 	"settings":
-		{"page_name":"Settings", "menu_icon":""},
+		{"page_name":"System settings", "menu_icon":""},
 	"settings/connections":
 		{"page_name":"Connections", "menu_icon":"wiggle"},
 	"settings/update":

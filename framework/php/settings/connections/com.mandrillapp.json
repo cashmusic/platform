@@ -1,0 +1,21 @@
+{
+	"name":"Mandrill",
+	"description":"Enter a Mandrill key for mass email.",
+	"type":"com.mandrillapp",
+	"seed":"MandrillSeed",
+	"scope":["users","mass_email"],
+	"compatibility":["single","multi"],
+	"interface":{
+		"single":"generate",
+		"multi":"docallback"
+	},
+	"dataTypes": {
+		"single": {
+			"key":"string"
+		},
+		"multi": {
+			"redirect_uri":"string",
+			"app_authentication_id":"string"
+		}
+	}
+}
