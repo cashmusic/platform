@@ -109,15 +109,13 @@
 		return $text_array;
 	}
 
-	public static function getPageTipsString() {
-		$tips_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/text/en/pagetips.json'),true);
-		$endpoint = str_replace('_','/',BASE_PAGENAME);
-		if (isset($tips_array[$endpoint])) {
-			if ($tips_array[$endpoint]) {
-				return $tips_array[$endpoint];
-			}
+	public static function getPageComponents() {
+		if (file_exists(dirname(__FILE__).'/../components/text/en/pages/' . BASE_PAGENAME . '.json')) {
+			$components_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/text/en/pages/' . BASE_PAGENAME . '.json'),true);
+		} else {
+			$components_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/text/en/pages/default.json'),true);
 		}
-		return $tips_array['default'];
+		return $components_array;
 	}
 
 	/**********************************************

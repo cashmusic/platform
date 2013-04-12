@@ -234,7 +234,23 @@ if ($logged_in) {
 		$ui_interaction_text = AdminHelper::getUiText();
 		$cash_admin->page_data = array_merge($cash_admin->page_data,$ui_interaction_text);
 		// page specifics
-		$cash_admin->page_data['ui_page_tip'] = AdminHelper::getPageTipsString();
+		$page_components = AdminHelper::getPageComponents();
+		$cash_admin->page_data['ui_page_tip'] = $page_components['pagetip'];
+		if (is_array($page_components['labels'])) {
+			foreach ($page_components['labels'] as $key => $val) {
+				$cash_admin->page_data['label_' . $key] = $val;
+			}
+		}
+		if (is_array($page_components['tooltips'])) {
+			foreach ($page_components['tooltips'] as $key => $val) {
+				$cash_admin->page_data['tooltip_' . $key] = $val;
+			}
+		}
+		if (is_array($page_components['copy'])) {
+			foreach ($page_components['copy'] as $key => $val) {
+				$cash_admin->page_data['copy_' . $key] = $val;
+			}
+		}
 		// set empty uid/code, then set if found
 		$last_reponse = $admin_primary_cash_request->sessionGetLastResponse();
 		$cash_admin->page_data['status_code'] = (is_array($last_reponse)) ? $last_reponse['status_code']: '';
