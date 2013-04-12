@@ -225,9 +225,32 @@ if ($logged_in) {
 
 		// set basic data for the template
 		$cash_admin->page_data['user_email'] = $admin_primary_cash_request->sessionGet('cash_effective_user_email');
-		$cash_admin->page_data['ui_title'] = AdminHelper::getPageTitle();
-		$cash_admin->page_data['ui_page_tip'] = AdminHelper::getPageTipsString();
-		$cash_admin->page_data['section_menu'] = AdminHelper::buildSectionNav();
+		$page_menu_details = AdminHelper::getPageMenuDetails();
+		$cash_admin->page_data['section_menu'] = $page_menu_details['section_menu'];
+		$cash_admin->page_data['ui_title'] = $page_menu_details['page_title'];
+		// merge in display links for main template
+		$cash_admin->page_data = array_merge($cash_admin->page_data,$page_menu_details['link_text']);
+		// global interaction text
+		$ui_interaction_text = AdminHelper::getUiText();
+		$cash_admin->page_data = array_merge($cash_admin->page_data,$ui_interaction_text);
+		// page specifics
+		$page_components = AdminHelper::getPageComponents();
+		$cash_admin->page_data['ui_page_tip'] = $page_components['pagetip'];
+		if (is_array($page_components['labels'])) {
+			foreach ($page_components['labels'] as $key => $val) {
+				$cash_admin->page_data['label_' . $key] = $val;
+			}
+		}
+		if (is_array($page_components['tooltips'])) {
+			foreach ($page_components['tooltips'] as $key => $val) {
+				$cash_admin->page_data['tooltip_' . $key] = $val;
+			}
+		}
+		if (is_array($page_components['copy'])) {
+			foreach ($page_components['copy'] as $key => $val) {
+				$cash_admin->page_data['copy_' . $key] = $val;
+			}
+		}
 		// set empty uid/code, then set if found
 		$last_reponse = $admin_primary_cash_request->sessionGetLastResponse();
 		$cash_admin->page_data['status_code'] = (is_array($last_reponse)) ? $last_reponse['status_code']: '';

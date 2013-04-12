@@ -1,7 +1,6 @@
 <?php
 if (isset($_POST['doitemadd'])) {
 	// do the actual list add stuffs...
-	$effective_user = $cash_admin->effective_user_id;
 	$flexible_price = 0;
 	if (isset($_POST['item_flexible_price'])) {
 		$flexible_price = 1;
@@ -10,7 +9,7 @@ if (isset($_POST['doitemadd'])) {
 		array(
 			'cash_request_type' => 'commerce', 
 			'cash_action' => 'additem',
-			'user_id' => $effective_user,
+			'user_id' => $cash_admin->effective_user_id,
 			'name' => $_POST['item_name'],
 			'description' => $_POST['item_description'],
 			'price' => $_POST['item_price'],

@@ -57,7 +57,7 @@ class S3Seed extends SeedBase {
 	*/
 
 	public static function getRedirectMarkup($data=false) {
-		$return_markup = '<h3>Connect to Amazon S3</h3>'
+		$return_markup = '<h4>Connect to Amazon S3</h4>'
 					   . '<p>You\'ll need your S3 key, secret, and a bucket name to proceed. For security reasons '
 					   . 'we don\'t store your key and secret — you\'re granting permission to our own account to access the '
 					   . 'bucket, which you can revoke any time.</p>'
@@ -97,7 +97,7 @@ class S3Seed extends SeedBase {
 				AdminHelper::formFailure('Error. Something just didn\'t work right.','/settings/connections/');
 			}
 		} else {
-			$return_markup = '<h3>Error</h3>'
+			$return_markup = '<h4>Error</h4>'
 						   . '<p>We couldn\'t connect with your S3 account. Please check the key, secret, and bucket and try again.</p>';
 		}
 		return $return_markup;

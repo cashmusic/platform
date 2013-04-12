@@ -59,7 +59,7 @@ class MailchimpSeed extends SeedBase {
 			);
 			$login_url = $auth->getLoginUri();
 
-			$return_markup = '<h3>Connect to MailChimp</h3>'
+			$return_markup = '<h4>Connect to MailChimp</h4>'
 						   . '<p>This will redirect you to a secure login on mailchimp.com and bring you right back.</p>'
 						   . '<a href="' . $login_url . '" class="button">Connect your MailChimp account</a>';
 			return $return_markup;
@@ -97,7 +97,7 @@ class MailchimpSeed extends SeedBase {
 				$api->useSecure(true);
 				$lists = $api->lists('', 0, 50);
 
-				$return_markup = '<h3>Connect to MailChimp</h3>'
+				$return_markup = '<h4>Connect to MailChimp</h4>'
 							   . '<p>Now just choose a list and save the connection.</p>'
 							   . '<form accept-charset="UTF-8" method="post" action="">'
 							   . '<input type="hidden" name="dosettingsadd" value="makeitso" />'
