@@ -3,32 +3,32 @@
 	{{#element_id}}<input type="hidden" name="element_id" value="{{element_id}}" />{{/element_id}}
 	{{#element_type}}<input type="hidden" name="element_type" value="{{element_type}}" />{{/element_type}}
 
-	<label for="element_name">Name</label>
-	<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="Give It A Name"{{/element_name}} /> 
+	<label for="element_name">{{element_label_name}}</label>
+	<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="{{element_copy_nameit}}"{{/element_name}} /> 
 
 	<div class="row">
 		<div class="six columns">
-			<label for="item_id">Item For Sale</label>
+			<label for="item_id">{{element_label_item}}</label>
 			<select id="item_id" name="item_id">
-				<option value="0">none</option>
+				<option value="0">{{element_copy_noitem}}</option>
 				{{{options_items_dropdown}}}
 			</select>
 		</div>
 		<div class="six columns">
-			<label for="connection_id">Commerce connection to Use</label>
+			<label for="connection_id">{{element_label_connection}}</label>
 			<select id="connection_id" name="connection_id">
-				<option value="0" selected="selected">None (Please add a commerce service)</option>
+				<option value="0" selected="selected">{{element_copy_noconnection}}</option>
 				{{{options_connections_dropdown}}}
 			</select>
 		</div>
 	</div>
 
 	<br />
-	<label for="message_error">Error Message</label>
-	<input type="text" id="message_error" name="message_error" value="{{#options_message_error}}{{options_message_error}}{{/options_message_error}}{{^options_message_error}}There was an error processing your payment. Please reload and try again.{{/options_message_error}}" />
+	<label for="message_error">{{element_label_error}}</label>
+	<input type="text" id="message_error" name="message_error" value="{{#options_message_error}}{{options_message_error}}{{/options_message_error}}{{^options_message_error}}{{element_copy_error}}{{/options_message_error}}" />
 
-	<label for="message_success">Success Message</label>
-	<input type="text" id="message_success" name="message_success" value="{{#options_message_success}}{{options_message_success}}{{/options_message_success}}{{^options_message_success}}Thank you! Here's your download. Mobile users check your inbox and spam folders for a download link.{{/options_message_success}}" />
+	<label for="message_success">{{element_label_success}}</label>
+	<input type="text" id="message_success" name="message_success" value="{{#options_message_success}}{{options_message_success}}{{/options_message_success}}{{^options_message_success}}{{element_copy_success}}{{/options_message_success}}" />
 
 	<br />
 	<input class="button" type="submit" value="{{element_button_text}}" />

@@ -1,0 +1,31 @@
+{
+	"name":"Email Collection",
+	"description":"Collect an email address, optionally give a download in exchange.",
+	"longdescription":"This can be used as an email-for-download promotion or as a customizable email collection widget.",
+
+	"instructions":"instructions",
+	"pagetip":"Leave the asset set to 'none' for a straight email capture, or choose a target asset to try email-for-download.",
+
+	"lastupdated":"Apr 28, 2012",
+	"version":2,
+	"author":"CASH Music",
+	"url":"http://cashmusic.org/",
+
+
+
+	"label_name":"Name",
+	"label_list":"Target Mailing List",
+	"label_asset":"The Downloadable Asset",
+	"label_success":"Success Message",
+	"label_invalid":"Invalid Email Error Message",
+	"label_privacy":"Privacy Message",
+
+	"copy_nameit":"Give It A Name",
+	"copy_skipverify":"Skip email verification (recommended)",
+	"copy_success":"Thanks! You're all signed up. Here's your download.",
+	"copy_invalid":"Sorry, that email address wasn't valid. Please try again.",
+	"copy_privacy":"We won't share, sell, or be jerks with your email address.",
+
+	"copy_mustverify":"You must verify your email address to continue. An email has been sent. Click the link provided and you will be brought back here.<br /><br />(If you do not see the message, check your SPAM folder.)",
+	"copy_signup":"sign me up"
+}
