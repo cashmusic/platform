@@ -1,6 +1,6 @@
 {{#error_message}}<div class="cash_error cash_{{element_type}}_error">{{error_message}}</div>{{/error_message}}
 <span class="cash_digitalpurchase_itemname">{{item_name}}</span>
-<span class="cash_digitalpurchase_itemprice">{{#item_flexible_price}}Pay at least {{/item_flexible_price}}${{item_price}}</span>
+<span class="cash_digitalpurchase_itemprice">${{item_price}}{{#item_flexible_price}} {{metadata_copy_flexibleprice_suffix}}{{/item_flexible_price}}</span>
 <span class="cash_digitalpurchase_itemdescription">{{item_description}}</span>
 <form id="cash_{{element_type}}_form_{{element_id}}" class="cash_form {{element_type}}" method="post" action="">
 <input type="hidden" name="cash_request_type" value="commerce" />
@@ -12,7 +12,7 @@
 {{#item_flexible_price}}
 	<input type="text" name="total_price" class="cashmusic_narrow" value="{{item_price}}" />
 {{/item_flexible_price}}
-<input type="submit" value="{{^item_flexible_price}}${{item_price}} - {{/item_flexible_price}}Buy it now" class="button" /><br />
+<input type="submit" value="{{^item_flexible_price}}${{item_price}} - {{/item_flexible_price}}{{metadata_copy_buy}}" class="button" /><br />
 </form>
 
 <script type="text/javascript">
