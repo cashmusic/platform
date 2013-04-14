@@ -53,7 +53,7 @@ class ElementPlant extends PlantBase {
 	 */protected function buildElementsArray() {
 		$all_element_files = scandir(CASH_PLATFORM_ROOT.'/elements/',0);
 		foreach ($all_element_files as $file) {
-			if (substr($file,0,1) != "." && !is_dir($file)) {
+			if (substr($file,0,1) != "." && substr($file,-4) == '.php') {
 				$tmpKey = strtolower(substr_replace($file, '', -4));
 				$this->elements_array["$tmpKey"] = $file;
 			}

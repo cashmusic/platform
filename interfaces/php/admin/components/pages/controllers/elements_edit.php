@@ -91,6 +91,7 @@ if ($current_element) {
 		}
 
 		if (@file_exists(CASH_PLATFORM_ROOT.'/elements' . '/' . $current_element['type'] . '/admin.php')) {
+			CASHSystem::getElementMetaData($current_element['type'],true);
 			include(CASH_PLATFORM_ROOT.'/elements' . '/' . $current_element['type'] . '/admin.php');
 			$cash_admin->page_data['ui_title'] = 'Elements: “' . $current_element['name'] . '”';
 			$cash_admin->page_data['public_url'] = CASH_PUBLIC_URL;

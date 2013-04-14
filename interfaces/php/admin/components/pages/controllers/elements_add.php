@@ -19,6 +19,7 @@ if ($request_parameters) {
 
 	if (array_search($element_addtype, $supported_elements) !== false) {
 		if (@file_exists(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_addtype . '/admin.php')) {
+			CASHSystem::getElementMetaData($element_addtype,true);
 			include(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_addtype . '/admin.php');
 			$cash_admin->page_data['element_button_text'] = 'Add the element';
 

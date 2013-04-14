@@ -3,25 +3,25 @@
 	{{#element_id}}<input type="hidden" name="element_id" value="{{element_id}}" />{{/element_id}}
 	{{#element_type}}<input type="hidden" name="element_type" value="{{element_type}}" />{{/element_type}}
 
-	<label for="element_name">Name</label>
-	<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="Give It A Name"{{/element_name}} /> 
+	<label for="element_name">{{element_label_name}}</label>
+	<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="{{element_copy_nameit}}"{{/element_name}} /> 
 
 	<br />
 	<div class="row">
 		<div class="six columns">
 
-			<label for="email_list_id">Target Mailing List</label>
+			<label for="email_list_id">{{element_label_list}}</label>
 			<select id="email_list_id" name="email_list_id">
 				<option value="0">none</option>
 				{{{options_people_lists}}}
 			</select>
 			<br /><br />
-			<label for="do_not_verify"><input type='checkbox' class='checkorradio' name='do_not_verify' value=''{{#options_do_not_verify}} checked="checked"{{/options_do_not_verify}} /> Skip email verification (recommended)</label>
+			<label for="do_not_verify"><input type='checkbox' class='checkorradio' name='do_not_verify' value=''{{#options_do_not_verify}} checked="checked"{{/options_do_not_verify}} /> {{element_copy_skipverify}}</label>
 
 		</div>
 		<div class="six columns">
 
-			<label for="asset_id">The Downloadable Asset</label>
+			<label for="asset_id">{{element_label_asset}}</label>
 			<select id="asset_id" name="asset_id">
 				<option value="0">none</option>
 				{{{options_assets}}}
@@ -30,14 +30,14 @@
 	</div>
 
 	<br /><br />
-	<label for="message_success">Success Message</label>
-	<input type="text" id="message_success" name="message_success" value="{{#options_message_success}}{{options_message_success}}{{/options_message_success}}{{^options_message_success}}Thanks! You're all signed up. Here's your download.{{/options_message_success}}" />
+	<label for="message_success">{{element_label_success}}</label>
+	<input type="text" id="message_success" name="message_success" value="{{#options_message_success}}{{options_message_success}}{{/options_message_success}}{{^options_message_success}}{{element_copy_success}}{{/options_message_success}}" />
 	
-	<label for="message_invalid_email">Invalid Email Error Message</label>
-	<input type="text" id="message_invalid_email" name="message_invalid_email" value="{{#options_message_invalid_email}}{{options_message_invalid_email}}{{/options_message_invalid_email}}{{^options_message_invalid_email}}Sorry, that email address wasn't valid. Please try again.{{/options_message_invalid_email}}" />
+	<label for="message_invalid_email">{{element_label_invalid}}</label>
+	<input type="text" id="message_invalid_email" name="message_invalid_email" value="{{#options_message_invalid_email}}{{options_message_invalid_email}}{{/options_message_invalid_email}}{{^options_message_invalid_email}}{{element_copy_invalid}}{{/options_message_invalid_email}}" />
 
-	<label for="message_privacy">Privacy Message</label>
-	<input type="text" id="message_privacy" name="message_privacy" value="{{#options_message_privacy}}{{options_message_privacy}}{{/options_message_privacy}}{{^options_message_privacy}}We won't share, sell, or be jerks with your email address.{{/options_message_privacy}}" />
+	<label for="message_privacy">{{element_label_privacy}}</label>
+	<input type="text" id="message_privacy" name="message_privacy" value="{{#options_message_privacy}}{{options_message_privacy}}{{/options_message_privacy}}{{^options_message_privacy}}{{element_copy_privacy}}{{/options_message_privacy}}" />
 
 	<br />
 	<input class="button" type="submit" value="{{element_button_text}}" />

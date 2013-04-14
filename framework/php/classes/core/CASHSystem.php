@@ -727,5 +727,28 @@
 			return false;
 		}
 	}
+
+	public static function getElementMetaData($element_type,$push_to_admin=false) {
+		if (file_exists(CASH_PLATFORM_ROOT . '/elements/' . $element_type . '/metadata/en.json')) {
+			$metadata = json_decode(file_get_contents(CASH_PLATFORM_ROOT . '/elements/' . $element_type . '/metadata/en.json'),true);
+			if ($push_to_admin) {
+				global $cash_admin;
+				if (isset($cash_admin)) {
+					foreach ($metadata as $key => $val) {
+						if ($key == 'name') {
+							// change this to "classname" so we don't interfere with the element_name
+							// of stored elements
+							$cash_admin->page_data['element_classname'] = $val;
+						} else {
+							$cash_admin->page_data['element_' . $key] = $val;
+						}
+					}
+				} 
+			}
+			return $metadata;
+		} else {
+			return false;
+		}
+	}
 } // END class 
 ?>

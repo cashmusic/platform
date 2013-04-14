@@ -1,0 +1,30 @@
+{
+	"name":"Digital Purchase",
+	"description":"A simple pay-for-media element using your Paypal account.",
+	"longdescription":"Connect your Paypal account and users will get a single-click purchase flow for any asset defined in the system.",
+	
+	"instructions":"",
+	"pagetip":"All messages can be customized in the form.",
+	
+	"lastupdated":"Apr 10, 2012",
+	"version":1.0,
+	"author":"CASH Music",
+	"url":"http://cashmusic.org/",
+
+
+
+	"label_name":"Name",
+	"label_item":"Item for sale",
+	"label_connection":"Commerce connection to Use",
+	"label_error":"Error message",
+	"label_success":"Success message",
+
+	"copy_nameit":"Give It A Name",
+	"copy_noitem":"None",
+	"copy_noconnection":"None (please add a commerce connection)",
+
+	"copy_error":"There was an error processing your payment. Please reload and try again.",
+	"copy_success":"Thank you! Here's your download. Mobile users check your inbox and spam folders for a download link.",
+	"copy_flexibleprice_suffix":"or more",
+	"copy_buy":"Buy it now"
+}
