@@ -317,6 +317,36 @@ CREATE TABLE people_lists_members (
 CREATE INDEX people_lists_members_user_id ON people_lists_members (user_id);
 CREATE INDEX people_lists_members_list_id ON people_lists_members (list_id);
 
+CREATE TABLE `people_mailings` (
+  id INTEGER PRIMARY KEY,
+  user_id integer,
+  connection_id integer,
+  list_id integer,
+  template_id integer,
+  subject text,
+  html_content text,
+  text_content text,
+  send_date integer,
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT '0'
+);
+
+CREATE TABLE `people_mailings_analytics` (
+  id INTEGER PRIMARY KEY,
+  mailing_id integer,
+  sends integer,
+  opens_total integer,
+  opens_unique integer,
+  opens_mobile integer,
+  opens_country text,
+  opens_ids text,
+  clicks integer,
+  clicks_urls text,
+  failures integer,
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT '0'
+);
+
 CREATE TABLE people_resetpassword (
   id INTEGER PRIMARY KEY,
   key text,

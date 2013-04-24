@@ -1,8 +1,8 @@
 -- 
 -- CASH Music platform
 -- flavor: MySQL
--- schema version: 7
--- modified: January 26, 2013
+-- schema version: 8
+-- modified: April 22, 2013
 
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -357,6 +357,40 @@ CREATE TABLE `people_lists_members` (
   KEY `people_lists_members_list_id` (`list_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `people_mailings`;
+CREATE TABLE `people_mailings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `connection_id` int(11) NOT NULL DEFAULT '0',
+  `list_id` int(11) NOT NULL DEFAULT '0',
+  `template_id` int(11) DEFAULT '0',
+  `subject` varchar(255),
+  `html_content` mediumtext,
+  `text_content` mediumtext,
+  `send_date` int(11) DEFAULT NULL,
+  `creation_date` int(11) DEFAULT NULL,
+  `modification_date` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `people_mailings_analytics`;
+CREATE TABLE `people_mailings_analytics` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mailing_id` int(11) NOT NULL DEFAULT '0',
+  `sends` int(11) DEFAULT '0',
+  `opens_total` int(11) DEFAULT '0',
+  `opens_unique` int(11) DEFAULT '0',
+  `opens_mobile` int(11) DEFAULT '0',
+  `opens_country` mediumtext,
+  `opens_ids` mediumtext,
+  `clicks` int(11) DEFAULT '0',
+  `clicks_urls` text,
+  `failures` int(11) DEFAULT '0',
+  `creation_date` int(11) DEFAULT NULL,
+  `modification_date` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `people_resetpassword`;
 CREATE TABLE `people_resetpassword` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -472,7 +506,7 @@ CREATE TABLE `system_templates` (
   `type` varchar(255),
   `name` varchar(255),
   `user_id` int(11) NOT NULL,
-  `template` text,
+  `template` mediumtext,
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
