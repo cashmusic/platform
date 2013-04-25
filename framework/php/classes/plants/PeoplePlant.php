@@ -1123,7 +1123,7 @@ class PeoplePlant extends PlantBase {
 
 				if (is_array($list_details)) {
 					$recipients = array();
-					foreach ($list_details as $subscriber) {
+					foreach ($list_details['members'] as $subscriber) {
 						if ($subscriber['active']) {
 							if ($subscriber['display_name'] == 'Anonymous' || $subscriber['display_name'] == '') {
 								$subscriber['display_name'] = $subscriber['email_address'];
