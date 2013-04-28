@@ -187,7 +187,7 @@ class Google_CurlIO implements Google_IO {
    */
   public function getCachedRequest(Google_HttpRequest $request) {
     if (false == Google_CacheParser::isRequestCacheable($request)) {
-      false;
+      return false;
     }
 
     return Google_Client::$cache->get($request->getCacheKey());
