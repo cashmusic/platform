@@ -270,7 +270,8 @@ class S3Seed extends SeedBase {
 	}
 
 	public function getPOSTUploadHTML($key_preface='',$success_url=200,$for_flash=false) {
-		$params = $this->getPOSTUploadParams($key_preface,$success_url,$for_flash);
+		$params = $this->getUploadParameters($key_preface,$success_url,$for_flash);
+		$upload_url = 'https://' . $this->bucket . '.s3.amazonaws.com/';
 		
 		if (!$params) { 
 			return false;
