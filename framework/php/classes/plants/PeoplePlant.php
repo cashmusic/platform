@@ -1158,7 +1158,8 @@ class PeoplePlant extends PlantBase {
 						$mailing['html_content'],
 						$user_details['email_address'],
 						$user_details['username'],
-						$recipients
+						$recipients,
+						array('mailing_id'=>$mailing_id)
 					);
 
 					$this->editMailing($mailing_id,time());
@@ -1298,7 +1299,7 @@ class PeoplePlant extends PlantBase {
 	 * Used with the verbose API for remote webhook calls — incoming data into the system from 
 	 * third parties, etc.
 	 *
-	 */protected function processWebhook($origin,$user_id,$list_id=0,$type=false,$data=false) {
+	 */protected function processWebhook($origin,$user_id,$list_id=0,$type=false,$data=false,$mandrill_events=false) {
 		switch ($origin) {
 			case 'com.mailchimp':
 				// make sure the API key matches the user_id of the list owner
@@ -1336,7 +1337,56 @@ class PeoplePlant extends PlantBase {
 				}
 				break;
 			case 'com.mandrillapp':
-
+				if (!$mandrill_events) {
+					return false;
+				}
+				$mandrill_events = json_decode($maindrill_events,true);
+				$mailing_id = $mandrill_events['msg']['metadata']['mailing_id'];
+				$mailing = $this->getMailing($mailing_id);
+				if ($mailing['user_id'] != $user_id) {
+					return false; // incorrect owner
+				}
+				// possible events: 'hard_bounce','soft_bounce','open','click','spam','unsub','reject'
+				if ($mandrill_events['event'] == 'hard_bounce' || 
+					$mandrill_events['event'] == 'soft_bounce' ||
+					$mandrill_events['event'] == 'spam' ||
+					$mandrill_events['event'] == 'unsub' ||
+					$mandrill_events['event'] == 'reject'
+				) {
+					if ($mandrill_events['event'] != 'soft_bounce') {
+						// soft bounce could be a temporary error, so don't remove the person from the list
+						// but otherwise adios:
+						$this->removeAddress($mandrill_events['msg']['email'],$mailing['list_id']);
+					}
+					// mark as failed
+					$this->addToMailingAnalytics($mailing_id,0,0,0,false,false,false,1);
+				} else if ($mandrill_events['event'] == 'open') {
+					$mobile = 0;
+					$country_info = false;
+					if ($mandrill_events['msg']['user_agent_parsed']) {
+						if ($mandrill_events['msg']['user_agent_parsed']['mobile']) {
+							$mobile = 1;
+						}
+					}
+					if ($mandrill_events['msg']['location']) {
+						$country_info = array(
+							$mandrill_events['msg']['location']['country_short'] => array(
+								'regions' => array(
+									$mandrill_events['msg']['location']['region'] => 1
+								),
+								'cities' => array(
+									$mandrill_events['msg']['location']['city'] => 1
+								),
+								'postal' => array(
+									$mandrill_events['msg']['location']['postal_code'] => 1
+								)
+							)
+						);
+					}
+					$this->addToMailingAnalytics($mailing_id,0,1,$mobile,$country_info,$msg_user_id);
+				} else if ($mandrill_events['event'] == 'click') {
+					$this->addToMailingAnalytics($mailing_id,0,0,0,false,false,$mandrill_events['url']);
+				}
 				break;
 			default:
 				return false;
