@@ -84,6 +84,8 @@ class CASHDBA {
 			'events' => 'calendar_events',
 			'items' => 'commerce_items',
 			'lock_codes' => 'system_lock_codes',
+			'mailings' => 'people_mailings',
+			'mailings_analytics' => 'people_mailings_analytics',
 			'metadata' => 'system_metadata',
 			'offers' => 'commerce_offers',
 			'orders' => 'commerce_orders',

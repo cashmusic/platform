@@ -1,0 +1,35 @@
+<p>
+	Send a test message to a specific list.
+</p>
+
+<form method="post" action="">
+	<input type="hidden" name="doemailsend" value="makeitso">
+	
+	<div class="row">
+		<div class="six columns">
+
+			<label for="email_list_id">List</label>
+			<select id="email_list_id" name="email_list_id">
+				<option value="0">None</option>
+				{{{options_people_lists}}}
+			</select>
+
+		</div>
+		<div class="six columns">
+
+			<label for="connection_id">Connect To</label>
+			<select id="connection_id" name="connection_id">
+				<option value="0" selected="selected">None</option>
+				{{{connection_options}}}
+			</select>
+
+		</div>
+	</div>
+
+	<br />
+	<label for="html_content">Description</label>
+	<textarea rows="3" id="html_content" name="html_content"></textarea>
+
+	<br />
+	<input class="button" type="submit" value="send test email" />
+</form>

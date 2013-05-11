@@ -93,6 +93,8 @@
 		{"page_name":"Export list", "menu_icon":""},
 	"people/lists/view":
 		{"page_name":"List details", "menu_icon":""},
+	"people/mailings":
+		{"page_name":"Mail campaigns", "menu_icon":"newspaper"},
 	"people/press":
 		{"page_name":"Press coverage", "menu_icon":"newspaper"},
 

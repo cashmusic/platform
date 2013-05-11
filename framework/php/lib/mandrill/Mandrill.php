@@ -76,7 +76,7 @@ class Mandrill {
         if($result === null) throw new Mandrill_Error('We were unable to decode the JSON response from the Mandrill API: ' . $response_body);
         
         if(floor($info['http_code'] / 100) >= 4) {
-            throw $this->castError($result);
+            //throw $this->castError($result);
         }
 
         return $result;
@@ -94,10 +94,10 @@ class Mandrill {
     }
 
     public function castError($result) {
-        if($result['status'] !== 'error' || !$result['name']) throw new Mandrill_Error('We received an unexpected error: ' . json_encode($result));
+        //if($result['status'] !== 'error' || !$result['name']) throw new Mandrill_Error('We received an unexpected error: ' . json_encode($result));
 
-        $class = (isset(self::$error_map[$result['name']])) ? self::$error_map[$result['name']] : 'Mandrill_Error';
-        return new $class($result['message'], $result['code']);
+        //$class = (isset(self::$error_map[$result['name']])) ? self::$error_map[$result['name']] : 'Mandrill_Error';
+        //return new $class($result['message'], $result['code']);
     }
 
     public function log($msg) {

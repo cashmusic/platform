@@ -165,8 +165,13 @@
 				$request_method
 			);
 			if ($api_request->response) {
-				// echo the response from 
-				header("{$_SERVER['SERVER_PROTOCOL']} {$api_request->response['status_code']} {$this->http_codes[$api_request->response['status_code']]}",true);
+				// echo the response from
+				if ($api_request->response['status_code'] == 400 && $api_request->response['action'] == 'processwebhook') {
+					// some webhooks check for 200 on the base URL. we need to return 200 on processwebhook bad requests. dumb.
+					header("{$_SERVER['SERVER_PROTOCOL']} 200 {$this->http_codes[200]}",true);
+				} else {
+					header("{$_SERVER['SERVER_PROTOCOL']} {$api_request->response['status_code']} {$this->http_codes[$api_request->response['status_code']]}",true);
+				}
 				$api_request->response['api_version'] = $this->version;
 				$api_request->response['timestamp'] = time();
 				echo json_encode($api_request->response);
