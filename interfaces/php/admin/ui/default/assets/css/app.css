@@ -616,6 +616,7 @@ form.inline input.inlinesubmit {font:14px/1.5em helvetica,"helvetica neue","Sego
 .icon.circle-add:before { content:"\e129"; }
 .icon.credit-card:before { content:"\e0e3"; }
 .icon.layout-content-left-2:before { content:"\e105"; }
+.icon.stamp:before { content:"\e0c0";}
 .icon.map-2:before { content:"\e077"; }
 .icon.menu:before { content:"\e09f"; }
 .icon.minus-circle:before { content:"\e12a"; }

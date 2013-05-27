@@ -94,7 +94,7 @@
 	"people/lists/view":
 		{"page_name":"List details", "menu_icon":""},
 	"people/mailings":
-		{"page_name":"Mail campaigns", "menu_icon":"newspaper"},
+		{"page_name":"Mail campaigns", "menu_icon":"stamp"},
 	"people/press":
 		{"page_name":"Press coverage", "menu_icon":"newspaper"},
 
