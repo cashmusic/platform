@@ -1,0 +1,69 @@
+<p>
+	Send a test message to a specific list.
+</p>
+
+{{#connection_options}}
+	<form method="post" action="">
+		<input type="hidden" name="doemailsend" value="makeitso">
+		
+		<div class="row">
+			<div class="twelve columns">
+				<label for="mail_subject">Mail subject</label>
+				<input type="text" id="mail_subject" name="mail_subject" />
+			</div>
+		</div>
+		<br />
+
+		<div class="row">
+			<div class="six columns">
+				<label for="mail_from">From name (sent from {{user_email}})</label>
+				<input type="text" id="mail_from" name="mail_from" />
+			</div>
+			<div class="six columns">
+
+				<label for="template_id">Use template</label>
+				<select id="template_id" name="template_id">
+					<option value="default" selected="selected">Default (plain)</option>
+					<option value="none">No template (include all markup)</option>
+				</select>
+			</div>
+		</div>
+		<br />
+
+		<div class="row">
+			<div class="six columns">
+
+				<label for="email_list_id">Send to list</label>
+				<select id="email_list_id" name="email_list_id">
+					<option value="0">None</option>
+					{{{options_people_lists}}}
+				</select>
+
+			</div>
+			<div class="six columns">
+
+				<label for="connection_id">Use mass mailing connection</label>
+				<select id="connection_id" name="connection_id">
+					<option value="0" selected="selected">None</option>
+					{{{connection_options}}}
+				</select>
+
+			</div>
+		</div>
+
+		<br /><br />
+		<div class="row">
+			<div class="twelve columns">
+				<label for="html_content">Message <span class="tooltip" data-tooltip="The message will be formatted as HTML using Markdown, and added to a template. You can use HTML and Markdown to control content.">(markdown/html allowed)</span></label>
+				<textarea rows="3" id="html_content" name="html_content" class="tall"></textarea>
+
+				<br />
+				<input class="button" type="submit" value="send test email" />
+			</div>
+		</div>
+	</form>
+{{/connection_options}}
+
+{{^connection_options}}
+	<p>You'll need to add a <a href="{{www_path}}/settings/connections/">mass mailing connection</a> to use this page.</p>
+{{/connection_options}}

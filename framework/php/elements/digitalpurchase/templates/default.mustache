@@ -22,7 +22,7 @@
 				var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
 
 				var handleSubmit = function(e) {
-					submitUrl = '{{www_url}}request/outputresponse';
+					submitUrl = '{{www_url}}request/payload';
 					var ruo = document.createElement("input");
 					ruo.setAttribute("type", "hidden");
 					ruo.setAttribute("name", "return_url_only");
