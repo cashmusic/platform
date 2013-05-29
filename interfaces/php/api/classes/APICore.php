@@ -14,50 +14,6 @@
 	public $version;
 	private $cash_framework_core;
 	private $passed_url;
-	public $http_codes = array(
-		100 => 'Continue',
-		101 => 'Switching Protocols',
-		200 => 'OK',
-		201 => 'Created',
-		202 => 'Accepted',
-		203 => 'Non-Authoritative Information',
-		204 => 'No Content',
-		205 => 'Reset Content',
-		206 => 'Partial Content',
-		300 => 'Multiple Choices',
-		301 => 'Moved Permanently',
-		302 => 'Found',
-		303 => 'See Other',
-		304 => 'Not Modified',
-		305 => 'Use Proxy',
-		307 => 'Temporary Redirect',
-		400 => 'Bad Request',
-		401 => 'Unauthorized',
-		402 => 'Payment Required',
-		403 => 'Forbidden',
-		404 => 'Not Found',
-		405 => 'Method Not Allowed',
-		406 => 'Not Acceptable',
-		407 => 'Proxy Authentication Required',
-		408 => 'Request Time-out',
-		409 => 'Conflict',
-		410 => 'Gone',
-		411 => 'Length Required',
-		412 => 'Precondition Failed',
-		413 => 'Request Entity Too Large',
-		414 => 'Request-URI Too Large',
-		415 => 'Unsupported Media Type',
-		416 => 'Requested Range Not Satisfiable',
-		417 => 'Expectation Failed',
-		418 => 'I\m A Little Teapot',
-		500 => 'Internal Server Error',
-		501 => 'Not Implemented',
-		502 => 'Bad Gateway',
-		503 => 'Service Unavailable',
-		504 => 'Gateway Time-out',
-		505 => 'HTTP Version Not Supported',
-		666 => 'Evil'
-	);
 	
 	public function __construct($incoming_url) {
 		// future: deal with headers/methods before url stuff
@@ -165,19 +121,24 @@
 				$request_method
 			);
 			if ($api_request->response) {
-				// echo the response from 
-				header("{$_SERVER['SERVER_PROTOCOL']} {$api_request->response['status_code']} {$this->http_codes[$api_request->response['status_code']]}",true);
+				// echo the response from
+				if ($api_request->response['status_code'] == 400 && $api_request->response['action'] == 'processwebhook') {
+					// some webhooks check for 200 on the base URL. we need to return 200 on processwebhook bad requests. dumb.
+					header("{$_SERVER['SERVER_PROTOCOL']} 200 OK",true);
+				} else {
+					header("{$_SERVER['SERVER_PROTOCOL']} {$api_request->response['status_code']} {$api_request->response['status_message']}",true);
+				}
 				$api_request->response['api_version'] = $this->version;
 				$api_request->response['timestamp'] = time();
 				echo json_encode($api_request->response);
 				exit;
 			} else {
-				header("{$_SERVER['SERVER_PROTOCOL']} 400 {$this->http_codes[400]}",true);
-				echo json_encode(array('status_code'=>400,'status_message'=>$this->http_codes[400],'contextual_message'=>'You did that wrong.','api_version'=>$this->version,'timestamp'=>time()));
+				header("{$_SERVER['SERVER_PROTOCOL']} 400 Bad Request",true);
+				echo json_encode(array('status_code'=>400,'status_message'=>'Bad Request','contextual_message'=>'You did that wrong.','api_version'=>$this->version,'timestamp'=>time()));
 				exit;
 			}
 		} else {
-			header("{$_SERVER['SERVER_PROTOCOL']} 302 {$this->http_codes[302]}",true);
+			header("{$_SERVER['SERVER_PROTOCOL']} 302 Found",true);
 			echo json_encode(array('greeting'=>'hi.','api_version'=>$this->version,'timestamp'=>time()));
 			exit;
 		}

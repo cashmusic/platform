@@ -9,17 +9,18 @@ if (!isset($_REQUEST['nooutput'])) {
 		}
 	}
 
-	// for element redirects (payment, oauth, etc) ...yuck
-	if (isset($_GET['cash_action']) && isset($_GET['element_id'])) {
-		$requests = array('embed',$_GET['element_id']);
-	}
-
 	if ($requests) {
 		require_once(dirname(__FILE__) . '/constants.php');
 		require_once(CASH_PLATFORM_PATH);
 
 		$cash_page_request = new CASHRequest(null);
 		$initial_page_request = $cash_page_request->sessionGet('initial_page_request','script');
+
+		if ($requests[0] != 'payload' || $requests[0] != 'json') {
+			// open up some mustache in here:
+			include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
+			$freddiemercury = new Mustache;
+		}
 
 		if ($requests[0] == 'embed' && isset($requests[1])) {
 			$embed_location = false;
@@ -46,9 +47,7 @@ if (!isset($_REQUEST['nooutput'])) {
 			$embed_data['element_markup'] = ob_get_contents();
 			ob_end_clean();
 
-			// open up some mustache in here:
-			include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
-			$freddiemercury = new Mustache;
+			header('Content-Type: text/html; charset=utf-8');
 			header('P3P: CP="ALL CUR OUR"'); // IE P3P privacy policy fix
 			$template = str_replace('</head>', '<script type="text/javascript" src="' . CASH_PUBLIC_URL . '/cashmusic.js"></script></head>', $template);
 			// used this trick to grab cross-broser document height -> http://james.padolsey.com/javascript/get-document-height-cross-browser/
@@ -56,9 +55,8 @@ if (!isset($_REQUEST['nooutput'])) {
 			$encoded_html = $freddiemercury->render($template, $embed_data);
 			echo $encoded_html;
 		} else {
-			header('Content-Type: text/html; charset=utf-8');
 			if ($initial_page_request) {
-				if (in_array('outputresponse', $requests)) {
+				if (in_array('payload', $requests)) {
 					$output = $initial_page_request['response']['payload'];
 				} else {
 					$output = array(
@@ -70,10 +68,25 @@ if (!isset($_REQUEST['nooutput'])) {
 					'response' => false
 				);
 			}
-			if (in_array('outputresponse', $requests)) {
+			if (in_array('payload', $requests)) {
+				header('Content-Type: text/plain; charset=utf-8');
 				echo (string)$output;
-			} else {
+			} else if (in_array('json', $requests)) {
+				header('Content-Type: application/json; charset=utf-8');
 				echo json_encode($output);
+			} else {
+				header('Content-Type: text/html; charset=utf-8');
+				$template = file_get_contents(dirname(__FILE__) . '/templates/system.mustache');
+				if (isset($output['response'])) {
+					$embed_data = $output['response'];
+				} else {
+					$embed_data = array(
+						'action' => 'Request not found',
+						'contextual_message' => 'There was an error processing your request.'
+					);
+				}
+				$encoded_html = $freddiemercury->render($template, $embed_data);
+				echo $encoded_html;
 			}
 		}
 	}
