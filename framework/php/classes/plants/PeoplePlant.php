@@ -1015,7 +1015,7 @@ class PeoplePlant extends PlantBase {
 	 *
 	 * @return bool
 	 */
-	protected function addMailing($user_id,$list_id,$connection_id,$subject,$template_id=0,$html_content='',$text_content='') {
+	protected function addMailing($user_id,$list_id,$connection_id,$subject,$template_id=0,$html_content='',$text_content='',$from_name='') {
 		// insert
 		$result = $this->db->setData(
 			'mailings',
@@ -1025,6 +1025,7 @@ class PeoplePlant extends PlantBase {
 				'connection_id' => $connection_id,
 				'template_id' => $template_id,
 				'subject' => $subject,
+				'from_name' => $from_name,
 				'html_content' => $html_content,
 				'text_content' => $text_content,
 				'send_date' => 0
@@ -1051,7 +1052,7 @@ class PeoplePlant extends PlantBase {
 		return $result;
 	}
 
-	protected function editMailing($mailing_id,$send_date=false,$subject=false,$html_content=false,$text_content=false,$user_id=false) {
+	protected function editMailing($mailing_id,$send_date=false,$subject=false,$html_content=false,$text_content=false,$user_id=false,$from_name=false) {
 		$condition = array(
 			"id" => array(
 				"condition" => "=",
@@ -1067,6 +1068,7 @@ class PeoplePlant extends PlantBase {
 		$final_edits = array_filter(
 			array(
 				'subject' => $subject,
+				'from_name' => $from_name,
 				'html_content' => $html_content,
 				'text_content' => $text_content,
 				'send_date' => $send_date
@@ -1147,23 +1149,33 @@ class PeoplePlant extends PlantBase {
 					);
 					$user_details = $user_request->response['payload'];
 
-					if (!$user_details['username']) {
-					$user_details['username'] = $user_details['email_address'];
+					if (!$mailing['from_name']) {
+						$mailing['from_name'] = $user_details['email_address'];
 					}
 
 					$mandrill = new MandrillSeed($user_id,$mailing['connection_id']);
-					$mandrill->send(
+					$result = $mandrill->send(
 						$mailing['subject'],
 						$mailing['text_content'],
 						$mailing['html_content'],
 						$user_details['email_address'],
-						$user_details['username'],
+						$mailing['from_name'],
 						$recipients,
-						array('mailing_id'=>$mailing_id)
+						array('mailing_id'=>$mailing_id,'list_id'=>$mailing['list_id'])
 					);
+
+					// error_log(print_r($result,true));
 
 					$this->editMailing($mailing_id,time());
 					$this->addToMailingAnalytics($mailing_id,count($recipients));
+
+					if (is_array($result)) {
+						if (isset($result['status'])) {
+							if ($result['status'] == 'error') {
+								return false;
+							}
+						}
+					}
 
 					return true;
 				}

@@ -116,9 +116,24 @@ class MandrillSeed extends SeedBase {
 	}
 	//https://mandrillapp.com/api/docs/messages.html#method=send
 	public function send($subject,$message_txt,$message_html,$from_address,$from_name,$recipients,$metadata=null,$merge_vars=null,$tags=null) {
+		$unsubscribe_link = '';
+		if ($metadata) {
+			if (isset($metadata['list_id'])) {
+				$unsubscribe_link = '<a href="' . 
+					CASH_PUBLIC_URL . 
+					'request/html?cash_request_type=people&cash_action=removeaddress&list_id=' . 
+					$metadata['list_id'] . 
+					'&address={{email_address}}' .
+					'">Unsubscribe</a>';
+			}
+		}
+
+		$message_html = str_replace('{{{unsubscribe_link}}}','*|UNSUBSCRIBELINK|*',$message_html);
+
 		$recipient_metadata = null;
+		$recipient_merge_vars = array();
 		if (is_array($recipients)) {
-			foreach ($recipients as $recipient) {
+			foreach ($recipients as &$recipient) {
 				if (isset($recipient['metadata'])) {
 					if (is_array($recipient['metadata'])) {
 						if (!$recipient_metadata) {
@@ -128,8 +143,18 @@ class MandrillSeed extends SeedBase {
 							"rcpt" => $recipient['email'],
 							"values" => $recipient['metadata']
 						);
+						unset($recipient['metadata']);
 					}
 				}
+				$recipient_merge_vars[] = array(
+					"rcpt" => $recipient['email'],
+					"vars" => array(
+						array(
+							"name" => "unsubscribelink",
+							"content" => str_replace('{{email_address}}',urlencode($recipient['email']),$unsubscribe_link)
+						)
+					)
+				);
 			}
 		}
 		$message = array(
@@ -151,8 +176,8 @@ class MandrillSeed extends SeedBase {
 			"tracking_domain" => null,
 			"signing_domain" => null,
 			"merge" => null,
-			"global_merge_vars" => null,
-			"merge_vars" => $merge_vars,
+			"global_merge_vars" => $merge_vars,
+			"merge_vars" => $recipient_merge_vars,
 			"tags" => $tags,
 			"google_analytics_domains" => null,
 			"google_analytics_campaign" => null,
@@ -161,6 +186,7 @@ class MandrillSeed extends SeedBase {
 			"attachments" => null,
 			"images" => null
 		);
+		
         return $this->api->call('messages/send', array("message" => $message, "async" => true));
 	}
 

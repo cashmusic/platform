@@ -1,8 +1,8 @@
 -- 
 -- CASH Music platform
 -- flavor: SQLite
--- schema version: 7
--- modified: January 26, 2013
+-- schema version: 8
+-- modified: May 28, 2013
 
 BEGIN TRANSACTION;
 
@@ -324,6 +324,7 @@ CREATE TABLE `people_mailings` (
   list_id integer,
   template_id integer,
   subject text,
+  from_name text,
   html_content text,
   text_content text,
   send_date integer,

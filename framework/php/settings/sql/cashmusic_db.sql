@@ -2,7 +2,7 @@
 -- CASH Music platform
 -- flavor: MySQL
 -- schema version: 8
--- modified: April 22, 2013
+-- modified: May 28, 2013
 
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -365,6 +365,7 @@ CREATE TABLE `people_mailings` (
   `list_id` int(11) NOT NULL DEFAULT '0',
   `template_id` int(11) DEFAULT '0',
   `subject` varchar(255),
+  `from_name` varchar(255),
   `html_content` mediumtext,
   `text_content` mediumtext,
   `send_date` int(11) DEFAULT NULL,
