@@ -51,5 +51,34 @@ if ($cash_admin->platform_type == 'single') {
 }
 $cash_admin->page_data['platform_path'] = CASH_PLATFORM_PATH;
 
+// handle all of the currency options, first the change
+if (isset($_POST['currency_id'])) {
+	$settings_request = new CASHRequest(
+		array(
+			'cash_request_type' => 'system', 
+			'cash_action' => 'setsettings',
+			'type' => 'use_currency',
+			'value' => $_POST['currency_id'],
+			'user_id' => $cash_admin->effective_user_id
+		)
+	);
+}
+// now get the current setting
+$settings_response = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'system', 
+		'cash_action' => 'getsettings',
+		'type' => 'use_currency',
+		'user_id' => $cash_admin->effective_user_id
+	)
+);
+if ($settings_response['payload']) {
+	$current_currency = $settings_response['payload'];
+} else {
+	$current_currency = 'USD';
+}
+$cash_admin->page_data['currency_options'] = AdminHelper::echoCurrencyOptions($current_currency);
+
+
 $cash_admin->setPageContentTemplate('settings');
 ?>

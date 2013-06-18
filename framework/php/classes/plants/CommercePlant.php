@@ -214,7 +214,8 @@ class CommercePlant extends PlantBase {
 		$fulfilled=0,
 		$canceled=0,
 		$notes='',
-		$country_code=''
+		$country_code='',
+		$currency='USD'
 	) {
 		if (is_array($order_contents)) {
 			/*
@@ -236,6 +237,7 @@ class CommercePlant extends PlantBase {
 					'digital' => $digital,
 					'notes' => $notes,
 					'country_code' => $country_code,
+					'currency' => $currency,
 					'element_id' => $element_id,
 					'cash_session_id' => $cash_session_id
 				)
@@ -389,7 +391,8 @@ class CommercePlant extends PlantBase {
 		$successful=-1,
 		$gross_price=0,
 		$service_fee=0,
-		$status='abandoned'
+		$status='abandoned',
+		$currency='USD'
 	) {
 		$result = $this->db->setData(
 			'transactions',
@@ -404,6 +407,7 @@ class CommercePlant extends PlantBase {
 				'successful' => $successful,
 				'gross_price' => $gross_price,
 				'service_fee' => $service_fee,
+				'currency' => $currency,
 				'status' => $status
 			)
 		);
@@ -490,10 +494,22 @@ class CommercePlant extends PlantBase {
 					return false;
 				}
 			}
+
+			$currency = $this->getCurrencyForUser($user_id);
+
 			$transaction_id = $this->addTransaction(
 				$user_id,
 				$connection_id,
-				$this->getConnectionType($connection_id)
+				$this->getConnectionType($connection_id),
+				'',
+				'',
+				'',
+				'',
+				-1,
+				0,
+				0,
+				'abandoned',
+				$currency
 			);
 			$order_id = $this->addOrder(
 				$user_id,
@@ -502,7 +518,13 @@ class CommercePlant extends PlantBase {
 				0,
 				1,
 				$this->getSessionID(),
-				$element_id
+				$element_id,
+				0,
+				0,
+				0,
+				'',
+				'',
+				$currency
 			);
 			if ($order_id) {
 				$success = $this->initiatePaymentRedirect($order_id,$element_id,$price_addition,$return_url_only);
@@ -526,12 +548,32 @@ class CommercePlant extends PlantBase {
 		$return_array['description'] = rtrim($return_array['description']);
 		return $return_array;
 	}
+
+	protected function getCurrencyForUser($user_id) {
+		$currency_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'getsettings',
+				'type' => 'use_currency',
+				'user_id' => $user_id
+			)
+		);
+		if ($currency_request->response['payload']) {
+			$currency = $currency_request->response['payload'];
+		} else {
+			$currency = 'USD';
+		}
+		return $currency;
+	}
 	
 	protected function initiatePaymentRedirect($order_id,$element_id=false,$price_addition=0,$return_url_only=false) {
 		$order_details = $this->getOrder($order_id);
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
 		$order_totals = $this->getOrderTotals($order_details['order_contents']);
 		$connection_type = $this->getConnectionType($transaction_details['connection_id']);
+
+		$currency = $this->getCurrencyForUser($order_details['user_id']);
+
 		if (($order_totals['price'] + $price_addition) < 0.35) {
 			// basically a zero dollar transaction. hard-coding a 35¢ minimum for now
 			// we can add a system minimum later, or a per-connection minimum, etc...
@@ -549,7 +591,10 @@ class CommercePlant extends PlantBase {
 					'order-' . $order_id,
 					$order_totals['description'],
 					$return_url,
-					$return_url
+					$return_url,
+					true,
+					false,
+					$currency 
 				);
 				if (!$return_url_only) {
 					$redirect = CASHSystem::redirectToUrl($redirect_url);

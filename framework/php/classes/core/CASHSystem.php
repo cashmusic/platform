@@ -750,5 +750,33 @@
 			return false;
 		}
 	}
+
+	public static function getCurrencySymbol($iso_string) {
+		$iso_string = strtoupper($iso_string);
+		$currencies = array(
+			'USD' => '$',
+			'EUR' => '€',
+			'JPY' => '¥',
+			'GBP' => '£',
+			'AUD' => '$',
+			'CHF' => '(Fr) ',
+			'CAD' => '$',
+			'HKD' => '$',
+			'SEK' => '(kr) ',
+			'NZD' => '$',
+			'SGD' => '$',
+			'NOK' => '(kr) ',
+			'MXN' => '$'
+		);
+		if ($iso_string == 'ALL') {
+			return $currencies;
+		} else {
+			if (isset($currencies[$iso_string])) {
+				return $currencies[$iso_string];
+			} else {
+				return false;
+			}
+		}
+	}
 } // END class 
 ?>
