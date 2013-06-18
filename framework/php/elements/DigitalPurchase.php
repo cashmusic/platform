@@ -34,6 +34,20 @@ class DigitalPurchase extends ElementBase {
 		$this->element_data['item_description'] = $item['description'];
 		$this->element_data['item_asset'] = $item['fulfillment_asset'];
 
+		$currency_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'getsettings',
+				'type' => 'use_currency',
+				'user_id' => $this->element_data['user_id']
+			)
+		);
+		if ($currency_request->response['payload']) {
+			$this->element_data['currency'] = CASHSystem::getCurrencySymbol($currency_request->response['payload']);
+		} else {
+			$this->element_data['currency'] = CASHSystem::getCurrencySymbol('USD');
+		}
+
 		if (
 			$this->status_uid == 'commerce_finalizepayment_200' || 
 			$this->status_uid == 'element_redeemcode_200' ||
@@ -55,7 +69,7 @@ class DigitalPurchase extends ElementBase {
 		} elseif ($this->status_uid == 'commerce_initiatecheckout_400') {
 			// could happen on a database glitch, but probably means the user set a pay-minimum price below the
 			// minimum price. what a heel.
-			$this->element_data['error_message'] = 'Make sure you enter a price of at least $' . $item['price'] . ' and try again.';
+			$this->element_data['error_message'] = 'Make sure you enter a price of at least ' . $this->element_data['currency'] . $item['price'] . ' and try again.';
 		} elseif ($this->status_uid == 'commerce_finalizepayment_400' || $this->status_uid == 'element_redeemcode_400') {
 			// payerid is specific to paypal, so this is temporary to tell between canceled and errored:
 			if (isset($_GET['PayerID'])) {

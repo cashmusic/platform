@@ -63,6 +63,23 @@ Advanced settings have been hidden and should not be changed unless you like bro
 		<a href="./_?resetsimplemode=yesplease">Reset to simple mode</a>
 		<br /><br />
 		{{/platform_type_single}}
+		<br />
+		<h4>Commerce currency</h4>
+		<p>
+
+		</p>
+		<form accept-charset="UTF-8" method="post" action="{{www_path}}/settings/">	
+			<label for="currency_id">Currency</label>
+			<div class="row">
+				<div class="six columns">
+					<select id="currency_id" name="currency_id">
+						{{{currency_options}}}
+					</select>
+				</div><div class="six columns">
+				<input type="submit" value="Use this currency" />
+				</div>
+			</div>
+		</form>
 	</div>
 </div>
 <br /><br />

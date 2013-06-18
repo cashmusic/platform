@@ -868,6 +868,26 @@
 			echo $all_options;
 		}
 	}
+
+	/**
+	 * MONIES
+	 *
+	 * @return array
+	 */public static function echoCurrencyOptions($selected='USD') {
+		error_log($selected);
+		$currencies = CASHSystem::getCurrencySymbol('all');
+		$all_options = '';
+		$has_selected = false;
+		foreach ($currencies as $currency => $symbol) {
+			$all_options .= '<option value="' . $currency . '"';
+			if (!$has_selected && $currency == $selected) {
+				$all_options .= ' selected="selected"';
+				$has_selected = true;
+			}
+			$all_options .= '>' . $currency . ' / ' . $symbol . '</option>';
+		}
+		return $all_options;
+	}
 	
 } // END class 
 ?>
