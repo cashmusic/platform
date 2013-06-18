@@ -158,6 +158,7 @@ CREATE TABLE commerce_orders (
   digital integer DEFAULT '0',
   notes text,
   country_code text,
+  currency text DEFAULT 'USD',
   element_id integer,
   cash_session_id text,
   creation_date integer DEFAULT NULL,
@@ -176,6 +177,7 @@ CREATE TABLE commerce_transactions (
   successful integer DEFAULT '0',
   gross_price numeric,
   service_fee numeric,
+  currency text DEFAULT 'USD',
   status text DEFAULT 'abandoned',
   creation_date integer DEFAULT '0',
   modification_date integer DEFAULT '0'
