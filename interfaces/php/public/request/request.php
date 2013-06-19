@@ -9,6 +9,33 @@ if (!isset($_REQUEST['nooutput'])) {
 		}
 	}
 
+	/*
+		Dear Jesse in the future,
+
+		Don't fucking remove this. You think you want to. You feel you should. 
+		But remember that time you removed this and broke commerce for half a day?
+		Yeah? You do? WELL THAT WAS BECAUSE YOU REMOVED THIS LITTLE BLOCK, JERK.
+
+		Could you implement it better? Sure. Totally. 
+
+		Should you? Definitely. Wrap the direct JSON/payload stuff into the API
+		proper. That's better than this half-assery. 
+
+		But should you delete this block?
+
+		OF FUCKING COURSE YOU SHOULD NOT DELETE THIS BLOCK!
+
+		Love,
+
+		Jesse in the past
+		AKA "Smart Jesse"
+
+		PS: you're dumb.
+	*/
+	if (isset($_GET['cash_action']) && isset($_GET['element_id'])) {
+		$requests = array('embed',$_GET['element_id']);
+	}
+
 	if ($requests) {
 		require_once(dirname(__FILE__) . '/constants.php');
 		require_once(CASH_PLATFORM_PATH);
