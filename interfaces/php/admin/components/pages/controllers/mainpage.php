@@ -59,6 +59,8 @@ $elements_response = $cash_admin->requestAndStore(
 		'user_id' => $cash_admin->effective_user_id
 	)
 );
+$elements_data = AdminHelper::getElementsData();
+
 if (is_array($elements_response['payload'])) {
 	// this essentially locks us to the newest template, meaning everyone gets just
 	// one page template at first. if it's there, it's live
@@ -74,7 +76,13 @@ if (is_array($elements_response['payload'])) {
 		$cash_admin->page_data['page_template'] = $template_response['payload']['id'];
 	}
 
-	$cash_admin->page_data['elements_for_user'] = true;
+	foreach ($elements_response['payload'] as &$element) {
+		if (array_key_exists($element['type'],$elements_data)) {
+			$element['type_name'] = $elements_data[$element['type']]['name'];
+		}
+	}
+	$cash_admin->page_data['elements_found'] = true;
+	$cash_admin->page_data['elements_for_user'] = new ArrayIterator($elements_response['payload']);
 } else {
 	// no elements found, meaning it's a newer install
 

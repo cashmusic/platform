@@ -45,7 +45,6 @@
 						<li><a href="{{www_path}}/people/" id="peoplenav" {{#ui_current_people}}class="current"{{/ui_current_people}}><i class="icon icon-group"></i>{{link_menu_people}}</a></li>
 						<li><a href="{{www_path}}/commerce/" id="commercenav" {{#ui_current_commerce}}class="current"{{/ui_current_commerce}}><i class="icon icon-credit-card"></i>{{link_menu_commerce}}</a></li>
 						<li><a href="{{www_path}}/calendar/" id="calendarnav" {{#ui_current_calendar}}class="current"{{/ui_current_calendar}}><i class="icon icon-calendar"></i>{{link_menu_calendar}}</a></li>
-						<li><a href="{{www_path}}/elements/" id="elementsnav" {{#ui_current_elements}}class="current"{{/ui_current_elements}}><i class="icon icon-puzzle-piece"></i>{{link_menu_elements}}</a></li>
 					</ul>
 				</div>
 
@@ -90,7 +89,7 @@
 					</div>
 					<div class="row">
 						<div class="twelve columns">
-							<h2 id="pagetitle"><img src="{{www_path}}/ui/default/assets/images/badge.png" alt="" />{{ui_title}}</h2>
+							<h2 id="pagetitle"><img src="{{www_path}}/ui/default/assets/images/badge.png" alt="" /><span>{{ui_title}}</span></h2>
 							<div id="pagemenu">{{#section_menu}}{{{section_menu}}}{{/section_menu}}</div>
 							<div id="pagemessage">
 								{{#error_message}}<p><span class="highlightcopy errormessage">{{error_message}}</span></p>{{/error_message}}

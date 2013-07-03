@@ -85,7 +85,7 @@
 		$('#pagetips').hide();
 		$('#current_pagetip').html(data.ui_page_tip);
 		$('#pagedisplay').html(data.content);
-		$('#pagetitle').html(data.ui_title);
+		$('#pagetitle span').html(data.ui_title);
 		$('#pagemenu').html(data.section_menu);
 
 		window.scrollTo(0,0);

@@ -49,9 +49,10 @@ tr {background-color:#fff;}
 td, th {padding:8px 5px 10px 5px;vertical-align:top;font-size:12px;line-height:1.25em;}
 * #pagecontent td a, div.usecolor1 * td a, div.usecolor2 * td a, div.usecolor3 * td a, div.usecolor4 * td a, div.usecolor5 * td a {color:#999 !important;}
 /* FORMS */
-select,input[type="text"],input[type="password"],input[type="date"],input[type="datetime"],input[type="email"],input[type="number"],input[type="search"],input[type="tel"],input[type="time"],input[type="url"],textarea {font:italic 13px/20px "Noto Serif",helveticaneue,"helvetica neue",helvetica,"segoe ui","segoe wp",arial,sans-serif;border:1px solid #dddddf;width:100%;padding:8px;height:38px !important;background-color:#f3f3f3;border-radius:0 !important;box-shadow:none !important;}
+select,input[type="text"],input[type="password"],input[type="date"],input[type="datetime"],input[type="email"],input[type="number"],input[type="search"],input[type="tel"],input[type="time"],input[type="url"],textarea,a.button {font:italic 13px/20px "Noto Serif",helveticaneue,"helvetica neue",helvetica,"segoe ui","segoe wp",arial,sans-serif;border:1px solid #dddddf;width:100%;padding:8px;height:38px !important;background-color:#f3f3f3;border-radius:0 !important;box-shadow:none !important;}
 input:active, input:focus, textarea:focus {outline:0;border:1px solid #888;background-color:#fff;}
-input[type="submit"], input[type="button"], a.button {background-color:#777;padding:0 18px 4px 18px;font:bold 15px/15px "Roboto Condensed",Helvetica,Arial,sans-serif !important;cursor:pointer;width:auto;height:38px;border:0;color:#fff;-webkit-transition:all 0.25s ease-in-out;-moz-transition:all 0.25s ease-in-out;-o-transition:all 0.25s ease-in-out;transition:all 0.25s ease-in-out;}
+input[type="submit"], input[type="button"], a.button {background-color:#df0854;padding:0 18px 4px 18px;font:bold 15px/15px "Roboto Condensed",Helvetica,Arial,sans-serif !important;cursor:pointer;width:auto;height:38px;border:0;color:#fff;-webkit-transition:all 0.25s ease-in-out;-moz-transition:all 0.25s ease-in-out;-o-transition:all 0.25s ease-in-out;transition:all 0.25s ease-in-out;}
+a.button {padding:7px 18px 9px 18px;}
 input[type="submit"]:hover, input[type="button"]:hover, a.button:hover {background-color:#000 !important;color:#fff;}
 input[type="checkbox"],input[type="radio"] {width:auto !important;height:auto !important;margin-top:8px;}
 input, textarea, select {margin-top:8px !important;}
@@ -204,6 +205,7 @@ li:hover .itemnav {margin:12px 0 8px 0;height:auto;}
 .modaldialog ::-moz-selection {background:#000;color:#fff;}
 .modaldialog ::selection {background:#000;color:#fff;}
 .spacedtext {line-height:1.75em;}
+.tight {margin-bottom:0 !important;}
 
 
 /*************************************************** 
@@ -236,8 +238,8 @@ a.button:hover {background-color:#000 !important;text-decoration:none !important
 div.callout a {font-weight:bold;color:#999;-webkit-transition:all 0.25s ease-in-out;-moz-transition:all 0.25s ease-in-out;-o-transition:all 0.25s ease-in-out;transition:all 0.25s ease-in-out;}
 div.callout a:hover {font-weight:bold;color:#231F20;}
 * a.actionlink {font-weight:bold;margin-right:2em;}
-#pagedisplay a:hover,div.usecolor1 a:hover,div.usecolor2 a:hover,div.usecolor3 a:hover,div.usecolor4 a:hover,div.usecolor5 a:hover,a.usecolor0:hover,a.usecolor0:hover,a.usecolor1:hover,a.usecolor2:hover,a.usecolor3:hover,a.usecolor4:hover,a.usecolor5:hover {color:#000;}
-a.mininav_flush:hover, a.mininav_spaced:hover {color:#000 !important;}
+#pagedisplay a:hover,div.usecolor1 a:hover,div.usecolor2 a:hover,div.usecolor3 a:hover,div.usecolor4 a:hover,div.usecolor5 a:hover {color:#000;}
+a.mininav_flush:hover, a.mininav_spaced:hover,a.usecolor0:hover,a.usecolor0:hover,a.usecolor1:hover,a.usecolor2:hover,a.usecolor3:hover,a.usecolor4:hover,a.usecolor5:hover {color:#000 !important;}
 * a.needsconfirmation:hover {color:#f00 !important;}
 /* FOOTER (base code taken from cssstickyfooter.com) */
 * {margin-top:0;padding:0;}
