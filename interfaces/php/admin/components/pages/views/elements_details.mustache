@@ -1,7 +1,7 @@
 <div class="callout">
 	<h4 class="fadedtext">Embed it</h4>
 	<div class="drawer">
-		<p class="fadedtext">Grab a code to embed your element in CASH page/embed templates or with HTML5, PHP, or WordPress. <br /><a class="drawerhandle">codes</a></p>
+		<span class="descriptive fadedtext">Grab a code to embed your element in CASH page/embed templates or with HTML5, PHP, or WordPress.</span> <a class="drawerhandle spaced">codes</a>
 		<div class="drawercontent">
 			<br />
 			{{#platform_type_single}}
@@ -17,10 +17,11 @@
 
 
 <div class="drawer noprefix element_embedtemplate">
-	<p class="fadedtext smalltext"><b>HTML5 embed template:</b> {{embed_template_name}} / 
-		{{#defined_embed_templates}}<a class="drawerhandle"><span class="icon browser-windows"></span> <b>Pick another template</b></a></p>{{/defined_embed_templates}}
-		{{^defined_embed_templates}}<a href="{{www_path}}/elements/templates/add/"><span class="icon layout-content-left-2"></span> <b>Add a new embed template</b></a></p>{{/defined_embed_templates}}
+	<div class="fadedtext"><b>HTML5 embed template:</b> {{embed_template_name}} <span class="spaced">/</span> <span class="spaced">
+		{{#defined_embed_templates}}<a class="drawerhandle fullsize"><i class="icon icon-columns"></i><b>Pick another template</b></a></span></div>{{/defined_embed_templates}}
+		{{^defined_embed_templates}}<a href="{{www_path}}/elements/templates/add/"><i class="icon icon-list-alt"></i><b>Add a new embed template</b></a></span></div>{{/defined_embed_templates}}
 	<div class="drawercontent col_oneoftwo">
+		<br />
 		<form method="post" action="">
 			<label for="template_id">Choose an embed template:</label>
 			<div class="row">
@@ -38,13 +39,14 @@
 	</div>
 </div>
 
-<br />
+<br /><br />
 
-<h4>Statistics</h4> Total unique views: {{total_views}}<br />
+<h4>Statistics</h4> <span class="descriptive">Total unique views: {{total_views}}</span><br />
 
 {{#location_analytics}}
 	<div class="drawer">
 		<div class="drawercontent">
+			<br />
 			{{#location_analytics}}
 				<h5>Views by location</h5>
 				<table style="width:100%;" class="responsive">
@@ -67,6 +69,7 @@
 			{{/location_analytics}}
 
 			{{#method_analytics}}
+				<br />
 				<h5>Views by request method</h5>
 				<table style="width:100%;" class="responsive">
 					<colgroup style="width:85%;" /><colgroup />	
@@ -92,7 +95,7 @@
 	</div>
 {{/location_analytics}}
 
-<br />
+<br /><br />
 <h4>Element Details</h4>
 
 {{{element_rendered_content}}}

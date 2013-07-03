@@ -1,8 +1,6 @@
-{{#banner_main_content}}
-	<div class="introductorybanner"><div class="titlespc">{{{banner_title_content}}}</div>
-	{{{banner_main_content}}}
-	<div class="closelink"><a href="?hidebanner=true">close <span class="icon cancel-circle"></span></a></div></div>
-{{/banner_main_content}}
+<p class="big">
+	Enter details about all the files that matter to you, either on a connected S3 account or simple URLs. These assets will be used in the elements you define.
+</p>
 
 <style type="text/css">
 	a {cursor:pointer;}
@@ -66,17 +64,17 @@
 		{{#more_releases}}
 		<a class="drawerhandle mininav_flush usecolor1">releases</a>
 		{{/more_releases}}
-		<a href="{{www_path}}/assets/add/release" class="mininav_flush usecolor1 lightboxed"><span class="icon circle-add"></span> Add a new release</a>
+		<a href="{{www_path}}/assets/add/release" class="mininav_flush usecolor1 lightboxed"><i class="icon icon-plus-sign"></i> Add a new release</a>
 	</div>
 </div>
 
 <br />
 <div class="clearfix">.</div><br />
 <h4>Playlists</h4>
-<span class="fadedtext">
+<p class="fadedtext">
 	We're still working on playlists, but they're coming soon — 
 	<br />full upload/edit interface and streaming capabilities.<br /><br />
-</span>
+</p>
 
 <br />
 <div class="clearfix">.</div><br />
@@ -90,21 +88,21 @@
 	</div>
 	<div class="eight columns display-files">
 		{{#featured_files}}
-			<a href="{{www_path}}/assets/edit/{{id}}"><span class="icon menu"></span> {{title}}</a>
-			<span class="smalltext fadedtext file-description">({{descriptor_string}})</span><br />
+			<a href="{{www_path}}/assets/edit/{{id}}"><i class="icon icon-file"></i>{{title}}</a>
+			<span class="descriptive fadedtext file-description">({{descriptor_string}})</span><br />
 		{{/featured_files}}
 		<div class="drawer">
 			{{#more_files}}
 			<div class="drawercontent">
 				{{#remaining_files}}
-					<a href="{{www_path}}/assets/edit/{{id}}"><span class="icon menu"></span> {{title}}</a>
-					<span class="smalltext fadedtext file-description">({{descriptor_string}})</span><br />
+					<a href="{{www_path}}/assets/edit/{{id}}"><i class="icon icon-file"></i>{{title}}</a>
+					<span class="descriptive fadedtext file-description">({{descriptor_string}})</span><br />
 				{{/remaining_files}}
 			</div>
 			{{/more_files}}
 			<div class="itemnav">
 				{{#more_files}}<a class="drawerhandle mininav_flush usecolor1">files</a>{{/more_files}}
-				<a href="{{www_path}}/assets/add/file" class="mininav_flush usecolor1 lightboxed"><span class="icon circle-add"></span> Add a new file</a>
+				<a href="{{www_path}}/assets/add/file" class="mininav_flush usecolor1 lightboxed"><i class="icon icon-plus-sign"></i> Add a new file</a>
 			</div>
 		</div>
 	</div>

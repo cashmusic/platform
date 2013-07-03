@@ -1,8 +1,6 @@
-{{#banner_main_content}}
-	<div class="introductorybanner"><div class="titlespc">{{{banner_title_content}}}</div>
-	{{{banner_main_content}}}
-	<div class="closelink"><a href="?hidebanner=true">close <span class="icon cancel-circle"></span></a></div></div>
-{{/banner_main_content}}
+<p class="big">
+	Here’s where you’ll define products and special offers, check on orders, manage fulfillment, and tracks overall sales. Connect to your Paypal account and off you go.
+</p>
 
 <div class="row">
 	<div class="six columns">
@@ -12,11 +10,11 @@
 			{{#orders_recent}}
 			<li>
 				<b>{{number}}</b>
-				<span class="fadedtext"> // {{date}}<br />
+				<span class="descriptive spaced fadedtext">{{date}}<br />
 				{{gross}}: {{items}}
 				</span>
 				<div class="itemnav">
-					<a href="{{www_path}}/commerce/orders/view/{{id}}" class="mininav_flush"><span class="icon pencil"></span> Details</a>
+					<a href="{{www_path}}/commerce/orders/view/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>Details</a>
 				</div>
 			</li>
 			{{/orders_recent}}
@@ -34,10 +32,10 @@
 			{{#items_all}}
 			<li>
 				<b>{{name}}</b>
-				{{#description}}<span class="fadedtext"> // {{description}}</span>{{/description}}<br />
+				{{#description}}<span class="descriptive spaced fadedtext">{{description}}</span>{{/description}}<br />
 				<div class="itemnav">
-					<a href="{{www_path}}/commerce/items/edit/{{id}}" class="mininav_flush"><span class="icon pencil"></span> Edit</a>
-					<a href="{{www_path}}/commerce/items/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
+					<a href="{{www_path}}/commerce/items/edit/{{id}}" class="mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
+					<a href="{{www_path}}/commerce/items/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
 				</div>
 			</li>
 			{{/items_all}}

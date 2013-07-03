@@ -38,13 +38,6 @@ $unpublished_response = $cash_admin->requestAndStore(
 	)
 );
 
-// banner stuff
-$settings = $cash_admin->getUserSettings();
-if ($settings['banners'][BASE_PAGENAME]) {
-	$cash_admin->page_data['banner_title_content'] = 'enter your <b>shows</b><br />manage <b>guestlists</b><br />check <b>venue</b> details';
-	$cash_admin->page_data['banner_main_content'] = 'Enter all your shows, manage your calendar and your guest lists, and use all of it to feed elements like show listings, tour archives, and even guest list slot giveaways.';
-}
-
 // this week
 if (is_array($thisweek_response['payload'])) {
 	formatEventOutput($thisweek_response);

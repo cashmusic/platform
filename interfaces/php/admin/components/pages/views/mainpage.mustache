@@ -1,16 +1,9 @@
-{{#banner_main_content}}
-	<div class="mainpage introductorybanner flush"><img src="{{img_base_url}}/ui/default/assets/images/bg_mainpagebanner.jpg" class="bannerbg" alt="jackson" /><div class="mainbannercontent">
-	{{{banner_main_content}}}
-	<div class="closelink"><a href="{{www_path}}/_?hidebanner=true">close <span class="icon cancel-circle"></span></a></div></div>
-	<div class="callout flush newsheader">{{{dashboard_news}}}</div>
-{{/banner_main_content}}
+<div class="callout flush">{{{dashboard_news}}}</div>
 
-{{^banner_main_content}}
-	<div class="callout flush top newsheader">{{{dashboard_news}}}</div>
-{{/banner_main_content}}
+<br />
 
 {{#platform_type_single}}
-	{{^elements_for_user}}
+	{{^elements_found}}
 	<div class="gettingstarted">
 		<h4>You're done installing, now let's get started</h4>
 		So the database is set up and if you're seeing this all the configuration is right. There are just 
@@ -24,8 +17,8 @@
 				Before you go too far you should change default settings like the system email and the time-zone. Add any 
 				third-party connections you want to start using.
 			</p>
-			<a href="{{www_path}}/settings/" class="featured"><span class="icon settings-2"></span> Email and time-zone</a><br />
-			<a href="{{www_path}}/settings/connections/" class="featured"><span class="icon wiggle"></span> Connect services</a>
+			<a href="{{www_path}}/settings/" class="featured"><i class="icon icon-cog"></i>Email and time-zone</a><br />
+			<a href="{{www_path}}/settings/connections/" class="featured"><i class="icon icon-cogs"></i>Connect services</a>
 		</div>
 
 		<div class="col_oneofthree{{#step2_complete}} complete{{/step2_complete}}">
@@ -33,8 +26,8 @@
 			<p>
 				The platform works with your content and your world — so start by adding an MP3 or setting up an email list. 
 			</p>
-			<a href="{{www_path}}/assets/" class="usecolor1 featured"><span class="icon menu"></span> Add a new asset</a><br />
-			<a href="{{www_path}}/people/" class="usecolor2 featured"><span class="icon address-book"></span> Create an email list</a>
+			<a href="{{www_path}}/assets/" class="usecolor1 featured"><i class="icon icon-file"></i>Add a new asset</a><br />
+			<a href="{{www_path}}/people/" class="usecolor2 featured"><i class="icon icon-list-ul"></i>Create an email list</a>
 		</div>
 
 		<div class="col_oneofthree lastcol">
@@ -43,13 +36,13 @@
 				You're ready to create your first element. Try something simple like an email capture element. Point
 				to an existing list, maybe offer a download, and then embed with the code you're given.
 			</p>
-			<a href="{{www_path}}/elements/add/" class="usecolor5 featured"><span class="icon circle-add"></span> Add your first element</a>
+			<a href="{{www_path}}/elements/add/" class="usecolor5 featured"><i class="icon icon-plus-sign"></i> Add your first element</a>
 		</div>
 
 		<br /><br /><br />
 		<span class="helpspc"><b>Need more help?</b> Check out the <a href="{{www_path}}/help/gettingstarted/" class="helplink">Getting Started</a> page.</span>
 	</div>
-	{{/elements_for_user}}
+	{{/elements_found}}
 {{/platform_type_single}}
 
 {{^current_page_template}}
@@ -58,35 +51,68 @@
 		<p>You can publish a page with any of your elements. Bring your own markup and just drop in any CASH element embed code(s) you want. Look below for details.</p>
 		{{^defined_page_templates}}
 			<br />
-			<a href="{{www_path}}/elements/templates/add/"><span class="icon layout-content-left-2"></span> <b>Add a page template to start</b></a>
+			<a href="{{www_path}}/elements/templates/add/"><i class="icon icon-list-alt"></i><b>Add a page template to start</b></a>
 		{{/defined_page_templates}}
 	</div>
 {{/current_page_template}}
 
+<br />
+<h4>Elements</h4>
+<div class="row">
+	<div class="eight columns">
+		{{#elements_for_user}}
+		<ul class="alternating">
+			{{#elements_for_user}}
+			<li>
+				<b>{{name}}</b> <span class="descriptive spaced fadedtext">{{type_name}}</span>
+				<div class="itemnav">
+					<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>Details</a> 
+					<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
+				</div>
+			</li>
+			{{/elements_for_user}}
+		</ul>
+		{{/elements_for_user}}
+
+		{{^elements_for_user}}
+		<p>No elements have been added yet.</p>
+		{{/elements_for_user}}
+	</div>
+	<div class="four columns">
+		<p>
+			You can add as many elements as you like. They’re the building blocks of the CASH platform. <a href="{{www_path}}/help/gettingstarted/">Learn more.</a>
+		</p><p>
+			Start here.
+		</p>
+		<a href="{{www_path}}/elements/add/" class="button"><i class="icon icon-plus-sign"></i>Add a new element</a>
+	</div>
+</div>
+
 {{#defined_page_templates}}
 	<br />
-	<h4>Your public page</h4>
+	<h4>Publish / embed</h4>
 	
-	<div>
 		<div class="row">
-			<div class="six columns">
-
-			{{#current_page_template}}
-				<label>View it live:</label>
-				<h5><a href="{{user_page_uri}}" target="_blank">{{user_page_display_uri}}</a></h5>
+		{{#current_page_template}}{{/current_page_template}}
+			<div class="twelve columns">
+				<p class="big tight">
+					Your public page is live at <a href="{{user_page_uri}}" target="_blank"><i>{{user_page_display_uri}}</i></a>
+				</p>
+				<a href="{{www_path}}/account/" class="usecolor0"><i class="icon icon-user"></i><b>Change your username/url</b></a>
+				<br /><br /><br />
 			</div>
+		</div>
+		<div class="row">
 			<div class="six columns spacedtext">
-				<label>Make changes:</label>
-				<span class="smalltext"><a href="{{www_path}}/account/"><span class="icon polaroid"></span> <b>Change your username/url</b></a></span><br />
-				<span class="smalltext"><a href="{{www_path}}/elements/templates/add/"><span class="icon layout-content-left-2"></span> <b>Add a new page template</b></a></span><br />
-				<span class="smalltext"><a href="{{www_path}}/elements/templates/edit/{{current_page_template}}"><span class="icon pencil"></span> <b>Edit the current page template</b></a></span><br />
+				<label>Your public page</label>
+				
+				<a href="{{www_path}}/elements/templates/add/"><i class="icon icon-list-alt"></i><b>Add a new page</b></a><br />
+				<a href="{{www_path}}/elements/templates/edit/{{current_page_template}}"><i class="icon icon-pencil"></i><b>Edit the current page</b></a><br />
 
 				<div class="drawer noprefix">
-					<a class="drawerhandle"><span class="icon browser-windows"></span> <b>Publish a different template</b></a>
+					<a class="drawerhandle fullsize"><i class="icon icon-columns"></i><b>Publish a different page</b></a>
 					<div class="drawercontent">
 						<br />
-			{{/current_page_template}}
-
 						<form method="post" action="">
 							<label for="template_id">Select a page template to publish:</label>
 							<select id="change_template_id" name="change_template_id">
@@ -95,12 +121,14 @@
 							<br />
 							<input type="submit" value="publish" />
 						</form>
-
-			{{#current_page_template}}
 					</div>
 				</div>
-			{{/current_page_template}}
-
+			</div>
+			<div class="six columns spacedtext">
+				<label>Element embed codes / templates</label>
+				
+				<a href="{{www_path}}/elements/templates/add/"><i class="icon icon-list-alt"></i><b>Add a new embed template</b></a><br />
+				
 			</div>
 		</div>
 	</div>

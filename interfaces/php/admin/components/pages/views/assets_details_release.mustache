@@ -17,10 +17,10 @@
 					<div class="release-cover" style="background-image:url({{cover_url}});">
 						<div class="release-cover-options">
 							{{#cover_asset_id}}
-								<a href="{{www_path}}/assets/edit/{{cover_asset_id}}" class="smalltext"><span class="icon camera-3"></span> <b>Add/edit cover</b></a>
+								<a href="{{www_path}}/assets/edit/{{cover_asset_id}}" class="smalltext"><i class="icon icon-camera-retro"></i><b>Add/edit cover</b></a>
 							{{/cover_asset_id}}
 							{{^cover_asset_id}}
-								<a href="{{www_path}}/assets/add/file/setparent/{{id}}/setmetadata/cover" class="lightboxed returntocurrentroute smalltext"><span class="icon camera-3"></span> <b>Add/edit cover</b></a>
+								<a href="{{www_path}}/assets/add/file/setparent/{{id}}/setmetadata/cover" class="lightboxed returntocurrentroute smalltext"><i class="icon icon-camera-retro"></i><b>Add/edit cover</b></a>
 							{{/cover_asset_id}}
 						</div>
 					</div>
@@ -35,7 +35,7 @@
 						<li>Track Title</li>
 						<li>Track Title</li>
 					</ol>
-					<a href="#" class="add-track"><span class="icon circle-add"></span>Add Track</a>
+					<a href="#" class="add-track"><i class="icon icon-plus-sign"></i>Add Track</a>
 				</div-->
 
 			</div>
@@ -61,8 +61,8 @@
 							<b>{{title}}</b><br />
 							{{description}}
 							<div class="smalltext">
-								<a href="{{www_path}}/assets/edit/{{id}}" class="mininav_flush"><span class="icon pencil"></span> Edit</a>
-								<a href="{{www_path}}/assets/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
+								<a href="{{www_path}}/assets/edit/{{id}}" class="mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
+								<a href="{{www_path}}/assets/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
 							</div>
 						</li>
 					{{/fulfillment_files}}
@@ -72,7 +72,7 @@
 					{{^fulfillment_files}}
 						No files have been added for fulfillment yet.<br />
 					{{/fulfillment_files}}
-					<a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/fulfillment" class="add-fulfillment-file lightboxed returntocurrentroute smalltext"><span class="icon circle-add"></span> <b>Add New File</b></a>
+					<a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/fulfillment" class="add-fulfillment-file lightboxed returntocurrentroute smalltext"><i class="icon icon-plus-sign"></i> <b>Add New File</b></a>
 					<input type="hidden" id="metadata_fulfillment" name="metadata_fulfillment" value="{{metadata_fulfillment_json}}" />
 				</div>
 			</div>
@@ -108,11 +108,11 @@
 									<option>Cassette</option>
 								</select>
 								<input type="text" id="formatType-upc" name="formatType-upc" value="" placeholder="123456789" class="col_oneoftwo" />
-								<a href="#" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> <span class="visuallyhidden">Delete</span></a>
+								<a href="#" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> <span class="visuallyhidden">Delete</span></a>
 								<div class="clearfix">&nbsp;</div>
 							</li>
 						</ul>
-						<a href="#" class="add-format"><span class="icon circle-add smalltext"></span> Add New Format</a>
+						<a href="#" class="add-format"><i class="icon icon-plus-sign smalltext"></i>Add New Format</a>
 
 					</div-->
 				</fieldset>
@@ -155,8 +155,8 @@
 								<b>{{title}}</b><br />
 								{{description}}
 								<div class="smalltext">
-									<a href="{{www_path}}/assets/edit/{{id}}" class="mininav_flush"><span class="icon pencil"></span> Edit</a>
-									<a href="{{www_path}}/assets/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
+									<a href="{{www_path}}/assets/edit/{{id}}" class="mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
+									<a href="{{www_path}}/assets/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
 								</div>
 							</li>
 						{{/private_files}}
@@ -166,7 +166,7 @@
 						{{^private_files}}
 							No private storage files have been added.<br />
 						{{/private_files}}
-						<a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/private"  class="add-private-file lightboxed returntocurrentroute smalltext"><span class="icon circle-add"></span> <b>Add New File</b></a>
+						<a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/private"  class="add-private-file lightboxed returntocurrentroute smalltext"><i class="icon icon-plus-sign"></i> <b>Add New File</b></a>
 						<input type="hidden" id="metadata_private" name="metadata_private" value="{{metadata_private_json}}" />
 					</div>
 
@@ -179,10 +179,10 @@
 <div>
 		<br /><br />
 		<div class="spacedtext">
-			<small class="fadedtext"><span class="icon wallet"></span> Selling out?</small> <a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="lightboxed returntocurrentroute"><small><b>Define commerce settings</b></small></a>
+			<small class="fadedtext"><i class="icon icon-credit-card"></i>Selling out?</small> <a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="lightboxed returntocurrentroute"><small><b>Define commerce settings</b></small></a>
 
 			<br />
-			<small class="fadedtext"><span class="icon cancel-circle"></span> Need it gone?</small> <a href="{{www_path}}/assets/delete/{{id}}" class="usecolor1 needsconfirmation"><small><b>Delete this release</b></small></a>
+			<small class="fadedtext"><i class="icon icon-ban-circle"></i> Need it gone?</small> <a href="{{www_path}}/assets/delete/{{id}}" class="usecolor1 needsconfirmation"><small><b>Delete this release</b></small></a>
 
 			<br />
 			<input class="nojs" type="submit" value="Save changes" />
@@ -192,7 +192,7 @@
 
 		<div class="spacedtext">
 			<div class="drawer noprefix">
-				<small class="fadedtext"><span class="icon browser-download-2"></span> Need download codes?</small> <a class="drawerhandle usecolor1">Export or create codes</a>
+				<small class="fadedtext"><i class="icon icon-download-alt"></i>Need download codes?</small> <a class="drawerhandle usecolor1">Export or create codes</a>
 				<div class="drawercontent">
 					<p>
 					{{#asset_codes_count}}
