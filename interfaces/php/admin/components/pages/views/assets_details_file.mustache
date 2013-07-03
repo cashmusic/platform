@@ -27,7 +27,7 @@
 			<label for="asset_location">Location (URI)</label>
 			<input type="text" id="asset_location" name="asset_location" value="{{location}}" />
 			<div class="drawer noprefix upload-corral">
-				<small class="fadedtext"><span class="icon browser-upload "></span> Using a hosting connection? <a href="#" data-upload-endpoint="{{{www_path}}}/assets/uploadform/" class="drawerhandle usecolor1 file-upload-trigger">Upload a file</a></small>
+				<small class="fadedtext"><i class="icon icon-cloud-upload"></i>Using a hosting connection? <a href="#" data-upload-endpoint="{{{www_path}}}/assets/uploadform/" class="drawerhandle usecolor1 file-upload-trigger">Upload a file</a></small>
 				<div class="drawercontent"></div>
 			</div>
 		</div>
@@ -42,11 +42,11 @@
 		<br /><br />
 		<div class="row">
 			<div class="six columns spacedtext">
-				<small class="fadedtext"><span class="icon wallet"></span> Selling out?</small> <a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="lightboxed returntocurrentroute"><small><b>Define commerce settings</b></small></a>
+				<small class="fadedtext"><i class="icon icon-credit-card"></i>Selling out?</small> <a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="lightboxed returntocurrentroute"><small><b>Define commerce settings</b></small></a>
 				<br />
-				<small class="fadedtext"><span class="icon cancel-circle"></span> Need it gone?</small> <a href="{{www_path}}/assets/delete/{{id}}" class="usecolor1 needsconfirmation"><small><b>Delete this file</b></small></a>
+				<small class="fadedtext"><i class="icon icon-ban-circle"></i> Need it gone?</small> <a href="{{www_path}}/assets/delete/{{id}}" class="usecolor1 needsconfirmation"><small><b>Delete this file</b></small></a>
 				<br />
-				<small class="fadedtext"><span class="icon tag"></span> Get organized.</small> {{{tag_markup}}}<a href="#" class="injectbefore usecolor1" rev="<input type='text' name='tag' value='' placeholder='Tag' />" rel="{{tag_counter}}"><small><b>Tag this file</b></small></a>
+				<small class="fadedtext"><i class="icon icon-tags"></i> Get organized.</small> {{{tag_markup}}}<a href="#" class="injectbefore usecolor1" rev="<input type='text' name='tag' value='' placeholder='Tag' />" rel="{{tag_counter}}"><small><b>Tag this file</b></small></a>
 				<br />
 				<input class="nojs" type="submit" value="Save changes" />
 				</form>
@@ -55,7 +55,7 @@
 
 			<div class="six columns spacedtext">
 				<div class="drawer noprefix">
-					<small class="fadedtext"><span class="icon browser-download-2"></span> Need download codes?</small> <a class="drawerhandle usecolor1">Export or create codes</a>
+					<small class="fadedtext"><i class="icon icon-download-alt"></i>Need download codes?</small> <a class="drawerhandle usecolor1">Export or create codes</a>
 					<div class="drawercontent">
 						<p>
 						{{#asset_codes_count}}
@@ -82,7 +82,7 @@
 				</div>
 
 				{{#show_make_public}}
-					<small class="fadedtext"><span class="icon unlocked"></span> Don't need security?</small> <a href="#" data-publicize-endpoint="{{{www_path}}}/ajax/publicizeasset/{{id}}" class="usecolor1"><small><b>Make this file public</b></small></a>
+					<small class="fadedtext"><i class="icon icon-unlock"></i> Don't need security?</small> <a href="#" data-publicize-endpoint="{{{www_path}}}/ajax/publicizeasset/{{id}}" class="usecolor1"><small><b>Make this file public</b></small></a>
 				{{/show_make_public}}
 			</div>
 		</div>

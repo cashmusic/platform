@@ -61,15 +61,15 @@
 		}
 		if (count($section_pages) > 1) {
 			$section_base = $pages_array[$endpoint_parts[0]];
-			$menustr = '<a href="'. ADMIN_WWW_BASE_PATH . '/' . $endpoint_parts[0] . '/" class="pagemenutitle">' . $section_base['page_name'] . '</a>';
-			$menustr .= '<ul class="pagebasemenu">';
+			$menustr = '<ul class="pagebasemenu">';
+			$menustr .= '<li><a href="'. ADMIN_WWW_BASE_PATH . '/' . $endpoint_parts[0] . '/" class="pagemenutitle"><i class="icon icon-anchor"></i>' . $section_base['page_name'] . '</a></li>';
 			foreach ($section_pages as $page_endpoint => $page) {
 				$menulevel = substr_count($page_endpoint, '/');
 				if ($menulevel == 1 && !isset($page['hide'])) { // only show top-level menu items
 					if (str_replace('/','_',$page_endpoint) == BASE_PAGENAME) {
-						$menustr .= "<li><a href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\" style=\"color:#c4c0be;\"><span class=\"icon {$page['menu_icon']}\"></span> {$page['page_name']}</a></li>";
+						$menustr .= "<li><a href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\" style=\"color:#c4c0be;\"><i class=\"icon {$page['menu_icon']}\"></i> {$page['page_name']}</a></li>";
 					} else {
-						$menustr .= "<li><a href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><span class=\"icon {$page['menu_icon']}\"></span> {$page['page_name']}</a></li>";
+						$menustr .= "<li><a href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><i class=\"icon {$page['menu_icon']}\"></i> {$page['page_name']}</a></li>";
 					}
 				}
 			}

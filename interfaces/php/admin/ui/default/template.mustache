@@ -13,6 +13,9 @@
 	<title>CASH Music / Admin</title>
 
 	<link rel="icon" type="image/png" href="http://cashmusic.org/images/icons/cash.png" />
+	<link href="//fonts.googleapis.com/css?family=Amatic+SC:400,700|Roboto+Condensed:400,700italic,400italic,700,300,300italic|Noto+Serif:400,700italic,400italic,700" rel="stylesheet" type="text/css" />
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+	<link href="{{www_path}}/ui/default/assets/css/foundation.min.css" rel="stylesheet" type="text/css" />
 	<link href="{{www_path}}/ui/default/assets/css/app.css" rel="stylesheet" type="text/css" />
 	<link href="{{www_path}}/ui/default/assets/css/offcanvas.css" rel="stylesheet" type="text/css" />
 	<link href="{{www_path}}/ui/default/assets/css/responsive-tables.css" rel="stylesheet" type="text/css" />
@@ -33,61 +36,48 @@
 	<body id="page" class="off-canvas hide-extras">
 	<div id="wrap">	
 		<div id="chromespc" class="twelve columns phone-two hide-for-small">
-			<div id="navmenumask">.</div>
-			<div id="navmenu">
-				<div id="assetstab" class="navitem bgcolor1{{#ui_current_assets}} currentnav{{/ui_current_assets}}">
-					<h2><a href="{{www_path}}/assets/" class="navitemlink">{{link_menu_assets}}</a></h2>
+			<div id="navmenumask"></div>
+			<div id="chrome">
+				<div id="navmenu">
+					<ul>
+						<li><a href="{{www_path}}/" id="mainnav" {{#ui_current_main}}class="current"{{/ui_current_main}}><i class="icon icon-home"></i>{{link_main_page}}</a></li>
+						<li><a href="{{www_path}}/assets/" id="assetsnav" {{#ui_current_assets}}class="current"{{/ui_current_assets}}><i class="icon icon-paste"></i>{{link_menu_assets}}</a></li>
+						<li><a href="{{www_path}}/people/" id="peoplenav" {{#ui_current_people}}class="current"{{/ui_current_people}}><i class="icon icon-group"></i>{{link_menu_people}}</a></li>
+						<li><a href="{{www_path}}/commerce/" id="commercenav" {{#ui_current_commerce}}class="current"{{/ui_current_commerce}}><i class="icon icon-credit-card"></i>{{link_menu_commerce}}</a></li>
+						<li><a href="{{www_path}}/calendar/" id="calendarnav" {{#ui_current_calendar}}class="current"{{/ui_current_calendar}}><i class="icon icon-calendar"></i>{{link_menu_calendar}}</a></li>
+						<li><a href="{{www_path}}/elements/" id="elementsnav" {{#ui_current_elements}}class="current"{{/ui_current_elements}}><i class="icon icon-puzzle-piece"></i>{{link_menu_elements}}</a></li>
+					</ul>
 				</div>
-				<div id="peopletab" class="navitem bgcolor2{{#ui_current_people}} currentnav{{/ui_current_people}}">
-					<h2><a href="{{www_path}}/people/" class="navitemlink">{{link_menu_people}}</a></h2>
+
+				<div id="helpmenu">
+					<i class="icon icon-question-sign"></i>{{link_menu_help}}
+					<ul>
+						<li><a href="#tips" id="tipslink">{{{misc_tips}}}</a></li>
+						<li><a href="{{www_path}}/help/gettingstarted/">{{link_menu_help_gettingstarted}}</a></li>
+						<li><a href="{{www_path}}/help/">{{link_help_alt}}</a></li>
+						<li><a href="http://help.cashmusic.org/">help.cashmusic.org</a></li>
+					</ul>
 				</div>
-				<div id="commercetab" class="navitem bgcolor3{{#ui_current_commerce}} currentnav{{/ui_current_commerce}}">
-					<h2><a href="{{www_path}}/commerce/" class="navitemlink">{{link_menu_commerce}}</a></h2>
-				</div>
-				<div id="calendartab" class="navitem bgcolor4{{#ui_current_calendar}} currentnav{{/ui_current_calendar}}">
-					<h2><a href="{{www_path}}/calendar/" class="navitemlink">{{link_menu_calendar}}</a></h2>
-				</div>
-				<div id="elementstab" class="navitem bgcolor5{{#ui_current_elements}} currentnav{{/ui_current_elements}}">
-					<h2><a href="{{www_path}}/elements/" class="navitemlink">{{link_menu_elements}}</a></h2>
+				<div id="accountmenu">
+					<i class="icon icon-cog"></i>{{user_email}}
+					<ul>
+						<li><a href="{{www_path}}/account/">{{link_youraccount}}</a></li>
+						<li><a href="{{www_path}}/settings/">{{link_settings}}</a></li>
+						<li><a href="http://cashmusic.org/#more">{{action_donate}}</a></li>
+						<li><a href="{{www_path}}/logout/" id="logout">{{action_logout}}</a></li>
+					</ul>
 				</div>
 			</div>
 		</div>
 
 		<div id="mainspc" class="container {{specialcolor}}">
-			<div id="smallchrome">&nbsp;</div>
-
 			<div class="row">
 				<section role="main">
 					<div class="row">
 						<div class="twelve columns phone-two">
 							<p class="show-for-small">
-								<a class="sidebar-button" id="sidebarButton" href="#sidebar"><span class="icon arrow-left menu-inactive"></span><span class="icon arrow-right menu-active"></span></a>
+								<a class="sidebar-button" id="sidebarButton" href="#sidebar"><span class="menu-inactive"><i class="icon icon-circle-arrow-left"></i></span><span class="menu-active"><i class="icon icon-circle-arrow-right"></span></i></a>
 							</p>
-
-							<div id="pagemenu">{{#section_menu}}{{{section_menu}}}{{/section_menu}}</div>
-
-							<div id="subnavmenu" class="hide-for-small">
-								<a href="{{www_path}}/"><span class="icon polaroid"></span> {{link_main_page}}</a>
-								<div id="helpmenu">
-									<span class="icon support"></span> {{link_menu_help}}
-									<ul>
-										<li><a href="#tips" id="tipslink">{{{misc_tips}}}</a></li>
-										<li><a href="{{www_path}}/help/gettingstarted/">{{link_menu_help_gettingstarted}}</a></li>
-										<li><a href="{{www_path}}/help/">{{link_help_alt}}</a></li>
-										<li><a href="http://help.cashmusic.org/">help.cashmusic.org</a></li>
-									</ul>
-								</div>
-								<div id="accountmenu">
-									<span class="icon settings-2"></span> {{user_email}}
-									<ul>
-										<li><a href="{{www_path}}/account/">{{link_youraccount}}</a></li>
-										<li><a href="{{www_path}}/settings/">{{link_settings}}</a></li>
-										<li><a href="http://cashmusic.org/#more">{{action_donate}}</a></li>
-										<li><a href="{{www_path}}/logout/" id="logout">{{action_logout}}</a></li>
-									</ul>
-								</div>
-								<div class="clearfix">.</div>
-							</div>
 
 							<div id="tipspc" class="hide-for-small">
 								<div id="pagetips">
@@ -100,6 +90,7 @@
 
 						<div class="twelve columns">
 							<h2 id="pagetitle">{{ui_title}}</h2>
+							<div id="pagemenu">{{#section_menu}}{{{section_menu}}}{{/section_menu}}</div>
 							<div id="pagemessage">
 								{{#error_message}}<p><span class="highlightcopy errormessage">{{error_message}}</span></p>{{/error_message}}
 								{{#page_message}}<p><span class="highlightcopy">{{page_message}}</span></p>{{/page_message}}
@@ -113,21 +104,21 @@
 
 				<section id="sidebar" role="complementary">
 					<nav id="sideMenu" role="navigation">
-						<a href="{{www_path}}/assets/" class="button bgcolor1">{{link_menu_assets}}</a>
-						<a href="{{www_path}}/people/" class="button bgcolor2">{{link_menu_people}}</a>
-						<a href="{{www_path}}/commerce/" class="button bgcolor3">{{link_menu_commerce}}</a>
-						<a href="{{www_path}}/calendar/" class="button bgcolor4">{{link_menu_calendar}}</a>
-						<a href="{{www_path}}/elements/" class="button bgcolor5">{{link_menu_elements}}</a>
+						<a href="{{www_path}}/" class="button"><i class="icon icon-home"></i>{{link_main_page}}</a>
+						<a href="{{www_path}}/assets/" class="button"><i class="icon icon-paste"></i>{{link_menu_assets}}</a>
+						<a href="{{www_path}}/people/" class="button"><i class="icon icon-group"></i>{{link_menu_people}}</a>
+						<a href="{{www_path}}/commerce/" class="button"><i class="icon icon-credit-card"></i>{{link_menu_commerce}}</a>
+						<a href="{{www_path}}/calendar/" class="button"><i class="icon icon-calendar"></i>{{link_menu_calendar}}</a>
+						<a href="{{www_path}}/elements/" class="button"><i class="icon icon-puzzle-piece"></i>{{link_menu_elements}}</a>
 					</nav>
 
 					<br />
 					<div id="sideSubMenu" class="tar">
-						<a href="{{www_path}}/"><b>{{link_main_page}}</b> <span class="icon polaroid"></span></a>
-						<a href="{{www_path}}/account/">{{link_youraccount}} <span class="icon account"></span></a>
-						<a href="{{www_path}}/settings/">{{link_settings}} <span class="icon settings-2"></span></a>
-						<a href="{{www_path}}/help/">{{link_menu_help}} <span class="icon support"></span></a>
+						<a href="{{www_path}}/account/">{{link_youraccount}} <i class="icon icon-user"></i></a>
+						<a href="{{www_path}}/settings/">{{link_settings}} <i class="icon icon-cog"></i></a>
+						<a href="{{www_path}}/help/">{{link_menu_help}} <i class="icon icon-question-sign"></i></a>
 						<br />
-						<a href="{{www_path}}/logout/">{{action_logout}} <span class="icon cancel-circle"></span></a>
+						<a href="{{www_path}}/logout/">{{action_logout}} <i class="icon icon-ban-circle"></i></a>
 					</div>
 				</section>
 			</div>

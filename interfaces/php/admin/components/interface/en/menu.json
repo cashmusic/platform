@@ -6,19 +6,19 @@
 	"assets":
 		{"page_name":"Assets", "menu_icon":""},
 	"assets/find":
-		{"page_name":"Search", "menu_icon":"search"},
+		{"page_name":"Search", "menu_icon":"icon-search"},
 		
 		
 	"calendar":
 		{"page_name":"Calendar", "menu_icon":""},
 	"calendar/events":
-		{"page_name":"Events", "menu_icon":"calendar"},
+		{"page_name":"Events", "menu_icon":"icon-calendar"},
 	"calendar/events/add":
 		{"page_name":"Add event", "menu_icon":""},
 	"calendar/events/edit":
 		{"page_name":"Edit event", "menu_icon":""},
 	"calendar/venues":
-		{"page_name":"Venues", "menu_icon":"pin"},
+		{"page_name":"Venues", "menu_icon":"icon-map-marker"},
 	"calendar/venues/add":
 		{"page_name":"Add venue", "menu_icon":""},
 	"calendar/venues/delete":
@@ -30,13 +30,13 @@
 	"commerce":
 		{"page_name":"Commerce", "menu_icon":""},
 	"commerce/items":
-		{"page_name":"Items", "menu_icon":"wallet"},
+		{"page_name":"Items", "menu_icon":"icon-barcode"},
 	"commerce/items/delete":
 		{"page_name":"Delete item", "menu_icon":""},
 	"commerce/items/edit":
 		{"page_name":"Edit item", "menu_icon":""},
 	"commerce/orders":
-		{"page_name":"Orders", "menu_icon":"credit-card"},
+		{"page_name":"Orders", "menu_icon":"icon-shopping-cart"},
 	"commerce/orders/view":
 		{"page_name":"Order details", "menu_icon":""},
 		
@@ -44,13 +44,13 @@
 	"elements":
 		{"page_name":"Elements", "menu_icon":""},
 	"elements/add":
-		{"page_name":"Add elements", "menu_icon":"circle-add"},
+		{"page_name":"Add elements", "menu_icon":"icon-plus-sign"},
 	"elements/delete":
 		{"page_name":"Delete element", "menu_icon":"", "hide":true},
 	"elements/edit":
 		{"page_name":"Edit element", "menu_icon":"", "hide":true},
 	"elements/templates":
-		{"page_name":"Page/embed templates", "menu_icon":"layout-content-left-2"},
+		{"page_name":"Page/embed templates", "menu_icon":"icon-list-alt"},
 	"elements/templates/add":
 		{"page_name":"Add a template", "menu_icon":"", "hide":true},
 	"elements/templates/edit":
@@ -66,7 +66,7 @@
 	"help":
 		{"page_name":"Help", "menu_icon":""},
 	"help/gettingstarted":
-		{"page_name":"Getting started", "menu_icon":"map-2"},
+		{"page_name":"Getting started", "menu_icon":"icon-rocket"},
 		
 		
 	"licenses":
@@ -80,9 +80,9 @@
 	"people":
 		{"page_name":"People", "menu_icon":""},
 	"people/contacts":
-		{"page_name":"Contacts", "menu_icon":"user-card"},
+		{"page_name":"Contacts", "menu_icon":""},
 	"people/lists":
-		{"page_name":"Lists", "menu_icon":"address-book"},
+		{"page_name":"Lists", "menu_icon":"icon-list-ul"},
 	"people/lists/add":
 		{"page_name":"Add list", "menu_icon":""},
 	"people/lists/delete":
@@ -94,9 +94,9 @@
 	"people/lists/view":
 		{"page_name":"List details", "menu_icon":""},
 	"people/mailings":
-		{"page_name":"Mail campaigns", "menu_icon":"stamp"},
+		{"page_name":"Mail campaigns", "menu_icon":"icon-envelope-alt"},
 	"people/press":
-		{"page_name":"Press coverage", "menu_icon":"newspaper"},
+		{"page_name":"Press coverage", "menu_icon":"icon-paper-clip"},
 
 
 	"privacy":
@@ -106,9 +106,9 @@
 	"settings":
 		{"page_name":"System settings", "menu_icon":""},
 	"settings/connections":
-		{"page_name":"Connections", "menu_icon":"wiggle"},
+		{"page_name":"Connections", "menu_icon":"icon-cogs"},
 	"settings/update":
-		{"page_name":"System update", "menu_icon":"arrow-up"},
+		{"page_name":"System update", "menu_icon":"icon-chevron-up"},
 
 
 	"terms":
