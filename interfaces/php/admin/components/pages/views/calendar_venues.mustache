@@ -40,10 +40,10 @@
 		<ul class="alternating">
 			{{#all_venues}}
 			<li>
-				<b>{{name}}</b> // <span class="nobr">{{formatted_location}}</span>
+				<b>{{name}}</b> <span class="descriptive spaced fadedtext">{{formatted_location}}</span>
 				<div class="itemnav">
-					<a href="{{www_path}}/calendar/venues/edit/{{id}}" class="mininav_flush"><span class="icon search"></span> Details</a> 
-					<a href="{{www_path}}/calendar/venues/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
+					<a href="{{www_path}}/calendar/venues/edit/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>Details</a> 
+					<a href="{{www_path}}/calendar/venues/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
 				</div>
 			</li>
 			{{/all_venues}}

@@ -85,7 +85,7 @@
 		$('#pagetips').hide();
 		$('#current_pagetip').html(data.ui_page_tip);
 		$('#pagedisplay').html(data.content);
-		$('#pagetitle').html(data.ui_title);
+		$('#pagetitle span').html(data.ui_title);
 		$('#pagemenu').html(data.section_menu);
 
 		window.scrollTo(0,0);
@@ -194,10 +194,10 @@
 		//
 		if (section != currentSection) {
 			currentSection = section;
-			$('#navmenu div').each(function(index) {
-				$(this).removeClass('currentnav');
-				if ($(this).attr('id') == section+'tab') {
-					$(this).addClass('currentnav');
+			$('#navmenu a').each(function(index) {
+				$(this).removeClass('current');
+				if ($(this).attr('id') == section+'nav') {
+					$(this).addClass('current');
 				}
 			});
 		}
@@ -211,7 +211,7 @@
 	 */
 	function setContentBehaviors() {
 		// show/hide drawers
-		prepDrawers('<span class="icon arrow-up"></span> Hide','<span class="icon arrow-down"></span> Show');
+		prepDrawers('<i class="icon icon-chevron-sign-up"></i>Hide','<i class="icon icon-chevron-sign-down"></i>Show');
 
 		// datepicker
 		$('input[type=date],input.date').datepicker();
@@ -571,13 +571,13 @@
 			var markup = '<div class="modalbg">&nbsp;</div><div class="modallightbox ' + addedClass +
 						 data.specialcolor + '" style="top:' + modalTop + 'px;">' +
 						 data.content + //jQuery.param(data) +
-						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><span class="icon nope"></span> cancel</a></div>' +
+						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><i class="icon icon-ban-circle"></i>cancel</a></div>' +
 						 '</div></div>';
 
 			markup = $(markup);
 			markup.hide();
 			$('body').append(markup);
-			prepDrawers('<span class="icon arrow-up"></span> Hide','<span class="icon arrow-down"></span> Show');
+			prepDrawers('<i class="icon icon-chevron-sign-up"></i>Hide','<i class="icon icon-chevron-sign-down"></i>Show');
 
 			// show the dialog with a fast fade-in
 			$('.modalbg').fadeIn('fast');

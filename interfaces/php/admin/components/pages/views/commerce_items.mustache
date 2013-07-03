@@ -34,10 +34,10 @@
 			{{#items_all}}
 			<li>
 				<b>{{name}}</b>
-				{{#description}}<span class="fadedtext"> // {{description}}</span>{{/description}}<br />
+				{{#description}}<span class="descriptive spaced fadedtext">{{description}}</span>{{/description}}<br />
 				<div class="itemnav">
-					<a href="{{www_path}}/commerce/items/edit/{{id}}" class="mininav_flush"><span class="icon pencil"></span> Edit</a>
-					<a href="{{www_path}}/commerce/items/delete/{{id}}" class="mininav_flush needsconfirmation"><span class="icon cancel-circle"></span> Delete</a>
+					<a href="{{www_path}}/commerce/items/edit/{{id}}" class="mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
+					<a href="{{www_path}}/commerce/items/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
 				</div>
 			</li>
 			{{/items_all}}

@@ -215,14 +215,6 @@ if ($logged_in) {
 		// populate the page_data array for use in the page view and main template
 		$template_name = 'template';
 
-		// handle the banner hiding
-		if (isset($_GET['hidebanner'])) {
-			if (isset($current_settings['banners'][BASE_PAGENAME])) {
-				$current_settings['banners'][BASE_PAGENAME] = false;
-				$cash_admin->setUserSettings($current_settings);
-			}
-		}
-
 		// set basic data for the template
 		$cash_admin->page_data['user_email'] = $admin_primary_cash_request->sessionGet('cash_effective_user_email');
 		$page_menu_details = AdminHelper::getPageMenuDetails();
@@ -276,6 +268,16 @@ if ($logged_in) {
 		$cash_admin->page_data['ui_current_people'] = ($exploded_base[0] == 'people') ? true: false;
 		$cash_admin->page_data['ui_current_commerce'] = ($exploded_base[0] == 'commerce') ? true: false;
 		$cash_admin->page_data['ui_current_calendar'] = ($exploded_base[0] == 'calendar') ? true: false;
+		if (
+			!$cash_admin->page_data['ui_current_elements'] &&
+			!$cash_admin->page_data['ui_current_assets'] &&
+			!$cash_admin->page_data['ui_current_people'] &&
+			!$cash_admin->page_data['ui_current_commerce'] &&
+			!$cash_admin->page_data['ui_current_calendar']
+		) {
+			$cash_admin->page_data['ui_current_main'] = true;
+			$cash_admin->page_data['section_name'] = 'main';
+		}
 		// include controller for current page
 		include($pages_path . 'controllers/' . $include_filename);
 
