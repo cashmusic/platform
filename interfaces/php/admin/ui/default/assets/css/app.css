@@ -49,19 +49,19 @@ tr {background-color:#fff;}
 td, th {padding:8px 5px 10px 5px;vertical-align:top;font-size:12px;line-height:1.25em;}
 * #pagecontent td a, div.usecolor1 * td a, div.usecolor2 * td a, div.usecolor3 * td a, div.usecolor4 * td a, div.usecolor5 * td a {color:#999 !important;}
 /* FORMS */
-select,input[type="text"],input[type="password"],input[type="date"],input[type="datetime"],input[type="email"],input[type="number"],input[type="search"],input[type="tel"],input[type="time"],input[type="url"],textarea,a.button {font:italic 13px/20px "Noto Serif",helveticaneue,"helvetica neue",helvetica,"segoe ui","segoe wp",arial,sans-serif;border:1px solid #dddddf;width:100%;padding:8px;height:38px !important;background-color:#f3f3f3;border-radius:0 !important;box-shadow:none !important;}
+button,select,input[type="text"],input[type="password"],input[type="date"],input[type="datetime"],input[type="email"],input[type="number"],input[type="search"],input[type="tel"],input[type="time"],input[type="url"],textarea,a.button {font:italic 13px/20px "Noto Serif",helveticaneue,"helvetica neue",helvetica,"segoe ui","segoe wp",arial,sans-serif;border:1px solid #dddddf;width:100%;padding:8px;height:38px !important;background-color:#f3f3f3;border-radius:0 !important;box-shadow:none !important;}
 input:active, input:focus, textarea:focus {outline:0;border:1px solid #888;background-color:#fff;}
-input[type="submit"], input[type="button"], a.button {background-color:#df0854;padding:0 18px 4px 18px;font:bold 15px/15px "Roboto Condensed",Helvetica,Arial,sans-serif !important;cursor:pointer;width:auto;height:38px;border:0;color:#fff;-webkit-transition:all 0.25s ease-in-out;-moz-transition:all 0.25s ease-in-out;-o-transition:all 0.25s ease-in-out;transition:all 0.25s ease-in-out;}
-a.button {padding:7px 18px 9px 18px;}
+input[type="submit"], input[type="button"], a.button, button {background-color:#df0854;padding:0 18px 4px 18px;font:bold 15px/15px "Roboto Condensed",Helvetica,Arial,sans-serif !important;cursor:pointer;width:auto;height:38px;border:0;color:#fff;-webkit-transition:all 0.25s ease-in-out;-moz-transition:all 0.25s ease-in-out;-o-transition:all 0.25s ease-in-out;transition:all 0.25s ease-in-out;}
+a.button, button {padding:7px 18px 9px 18px;}
 input[type="submit"]:hover, input[type="button"]:hover, a.button:hover {background-color:#000 !important;color:#fff;}
 input[type="checkbox"],input[type="radio"] {width:auto !important;height:auto !important;margin-top:8px;}
 input, textarea, select {margin-top:8px !important;}
 label {font-family:"Roboto Condensed",Helvetica,Arial,sans-serif;font-size:12px;line-height:1em;text-transform:uppercase;color:#888;font-weight:normal;}
-select {height:34px;line-height:34px;width:100%;border:none;background-color:#f3f3f3;border-radius:0;border:1px solid #dddddf;}
+select {line-height:38px;width:100%;border:none;background-color:#f3f3f3;border-radius:0;border:1px solid #dddddf;}
 select option {padding:8px;}
 select:active, select:focus {background-color:#fff;border:1px solid #888;}
-textarea.tall {height:200px;}
-textarea.taller {height:400px;padding-right:0;padding-bottom:0;font-family:"courier new",courier,monospace !important;font-style:normal !important;font-size:0.9em !important;}
+textarea.tall {height:200px !important;}
+textarea.taller {height:400px !important;padding-right:0;padding-bottom:0;font-family:"courier new",courier,monospace !important;font-style:normal !important;font-size:0.9em !important;}
 form.inline {display:inline;}
 form.inline input {width:3.25em !important;border:1px solid #fafaf8;}
 form.inline input:active, form.inline input:focus {outline:0;border:1px solid #888;}
@@ -216,12 +216,12 @@ li:hover .itemnav {margin:12px 0 8px 0;height:auto;}
 
 /* COLORS */
 .bgcolor0 {background-color:#999;}
-.bgcolor1, div.usecolor1 input[type="submit"], div.usecolor1 a.button {background-color:#df0854 !important;}
-.bgcolor2, div.usecolor2 input[type="submit"], div.usecolor2 a.button {background-color:#df9b08 !important;}
-.bgcolor3, div.usecolor3 input[type="submit"], div.usecolor3 a.button {background-color:#aacd07 !important;}
-.bgcolor4, div.usecolor4 input[type="submit"], div.usecolor4 a.button {background-color:#0891df !important;}
-.bgcolor5, div.usecolor5 input[type="submit"], div.usecolor5 a.button {background-color:#9b08df !important;}
-div.usecolor1 input[type="submit"]:hover, div.usecolor2 input[type="submit"]:hover, div.usecolor3 input[type="submit"]:hover, div.usecolor4 input[type="submit"]:hover, div.usecolor5 input[type="submit"]:hover {background-color:#000 !important;}
+.bgcolor1, div.usecolor1 input[type="submit"], div.usecolor1 button, div.usecolor1 a.button {background-color:#df0854 !important;}
+.bgcolor2, div.usecolor2 input[type="submit"], div.usecolor2 button, div.usecolor2 a.button {background-color:#df9b08 !important;}
+.bgcolor3, div.usecolor3 input[type="submit"], div.usecolor3 button, div.usecolor3 a.button {background-color:#aacd07 !important;}
+.bgcolor4, div.usecolor4 input[type="submit"], div.usecolor4 button, div.usecolor4 a.button {background-color:#0891df !important;}
+.bgcolor5, div.usecolor5 input[type="submit"], div.usecolor5 button, div.usecolor5 a.button {background-color:#9b08df !important;}
+div.usecolor1 input[type="submit"]:hover, div.usecolor2 input[type="submit"]:hover, div.usecolor3 input[type="submit"]:hover, div.usecolor4 input[type="submit"]:hover, div.usecolor5 input[type="submit"]:hover, div.usecolor1 button:hover, div.usecolor2 button:hover, div.usecolor3 button:hover, div.usecolor4 button:hover, div.usecolor5 button:hover {background-color:#000 !important;}
 div.usecolor1 a, h2.usecolor1, span.usecolor1, div.usecolor1 form.inline input.inlinesubmit {color:#cd074d;}
 div.usecolor2 a, h2.usecolor2, span.usecolor2, div.usecolor2 form.inline input.inlinesubmit {color:#ca8c07;}
 div.usecolor3 a, h2.usecolor3, span.usecolor3, div.usecolor3 form.inline input.inlinesubmit {color:#97b800;}
