@@ -46,10 +46,10 @@
 		#forgotlink {font-size:11px;color:#a49c9c;}
 		#chromespc {z-index:500;}
 		#pagecontent {z-index:100;}
-		#loginbuttonspc {text-align:right;margin-top:0;margin-bottom:48px;}
+		#loginbuttonspc {text-align:right;margin-top:0;margin-bottom:54px;}
 		#jackson {height:205px;background:url({{img_base_url}}/ui/default/assets/images/jacksonlogin.png) no-repeat;}
 		@media only screen and (max-width: 767px) {
-			
+			#jackson {height:80px;background-size:contain;}
 		}
 	</style>
 
@@ -78,11 +78,11 @@
 						<form method="post" id="cash_signin_form" action="">
 							<div class="row">
 								<div class="six columns">
-									<label for="address">email</label>
+									<label for="address">Email address</label>
 									<input type="text" name="address" value="" />
 								</div>
 								<div class="six columns">
-									<label for="password">password</label>
+									<label for="password">Password</label>
 									<input type="password" name="password" value="" />
 									<input type="hidden" name="login" value="1" />
 									<input type="hidden" id="browseridassertion" name="browseridassertion" value="-1" />
