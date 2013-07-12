@@ -17,7 +17,7 @@ a:visited {color:#df0854;}
 blockquote {margin:0 0 1.5em 24px;padding:0 0 0 8px;border-left:6px #ececed solid;font-size:0.85em;}
 code {font-size:11px;}
 code a {color:#23c;}
-code input, code textarea, .codearea {width:660px !important;border:0 !important;font-size:11px !important;background-color:#eaeae6 !important;font-family:'courier', monospace !important;margin:-2px 0 0 0;font-style:normal !important;font-weight:normal !important;position:relative;top:-1px;}
+code input, code textarea, .codearea {width:660px !important;border:0 !important;font-size:11px !important;background-color:#fff !important;font-family:'courier', monospace !important;margin:-2px 0 0 0;font-style:normal !important;font-weight:normal !important;position:relative;top:-1px;}
 .codearea_notes {width:660px !important;border:0 !important;font-size:12px !important;margin:-2px 0 0 75px;font-style:normal !important;}
 .codearea {height:auto;display:inline-block;line-height:1.35em;padding:0.5em;resize:none;outline:0px solid transparent;margin-bottom:0.75em;}
 .codearea:focus {outline:0px solid transparent;}
@@ -53,9 +53,9 @@ button,select,input[type="text"],input[type="password"],input[type="date"],input
 input:active, input:focus, textarea:focus {outline:0;border:1px solid #888;background-color:#fff;}
 input[type="submit"], input[type="button"], a.button, button {background-color:#df0854;padding:0 18px 4px 18px;font:bold 15px/15px "Roboto Condensed",Helvetica,Arial,sans-serif !important;cursor:pointer;width:auto;height:38px;border:0;color:#fff;-webkit-transition:all 0.25s ease-in-out;-moz-transition:all 0.25s ease-in-out;-o-transition:all 0.25s ease-in-out;transition:all 0.25s ease-in-out;}
 a.button, button {padding:7px 18px 9px 18px;}
-input[type="submit"]:hover, input[type="button"]:hover, a.button:hover {background-color:#000 !important;color:#fff;}
+input[type="submit"]:hover, input[type="button"]:hover, a.button:hover, button:hover {background-color:#000 !important;color:#fff;}
 input[type="checkbox"],input[type="radio"] {width:auto !important;height:auto !important;margin-top:8px;}
-input, textarea, select {margin-top:8px !important;}
+input, textarea, select, button {margin-top:8px !important;}
 label {font-family:"Roboto Condensed",Helvetica,Arial,sans-serif;font-size:12px;line-height:1em;text-transform:uppercase;color:#888;font-weight:normal;}
 select {line-height:38px;width:100%;border:none;background-color:#f3f3f3;border-radius:0;border:1px solid #dddddf;}
 select option {padding:8px;}
@@ -171,7 +171,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {display:none;}
  *
  **************************************************/
 
-.clearfix {visibility:hidden;overflow:hidden;clear:both;height:1px;}
 .icon {margin-right:6px;}
 .spaced {margin-left:0.75em;}
 .altcopystyle {font:italic 12px/1.5em georgia, times, serif;color:#4d4d4f;}
@@ -197,14 +196,14 @@ li:hover .itemnav {margin:12px 0 8px 0;height:auto;}
 .smalltext {font-size:0.85em;}
 .tall {height:3em;}
 .tar {text-align:right;}
-.drawerhandle {font-size:12px;font-weight:bold;cursor:pointer;}
+.drawerhandle {font-weight:bold;cursor:pointer;}
 .drawerhandle.fullsize {font-size:15px;line-height:15px;}
 .element_embedtemplate {margin-left:18px;}
 ::-moz-selection {background:#ff0;color:#000;}
 ::selection {background:#ff0;color:#000;}
 .modaldialog ::-moz-selection {background:#000;color:#fff;}
 .modaldialog ::selection {background:#000;color:#fff;}
-.spacedtext {line-height:1.75em;}
+.spacedtext {line-height:2em;}
 .tight {margin-bottom:0 !important;}
 
 

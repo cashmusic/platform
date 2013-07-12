@@ -7,29 +7,24 @@
 	<label for="element_name">Name</label><br />
 	<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="Give It A Name"{{/element_name}} /> 
 
-	<div class="row_seperator">.</div>
 		<label for="email_list_id">Target Mailing List</label><br />
 		<select id="email_list_id" name="email_list_id">
 			<option value="0">none</option>
 			{{{options_people_lists}}}
 		</select>
 
-	<div class="row_seperator">.</div>
 	<br />
 	<label for="display_title">Display Title (blank for none)</label><br />
 	<input type="text" id="display_title" name="display_title" value="{{#options_display_title}}{{options_display_title}}{{/options_display_title}}{{^options_display_title}}Please sign in.{{/options_display_title}}" />
 
-	<div class="row_seperator">.</div>
 	<label for="display_message">Display Message</label><br />
 	<input type="text" id="display_message" name="display_message" value="{{#options_display_message}}{{options_display_message}}{{/options_display_message}}{{^options_display_message}}Enter your email address and password below.{{/options_display_message}}" />
 
 	<br />
-	<div class="row_seperator">.</div>
 	<label for="alternate_password">Universal Password</label><br />
 	<input type="text" id="alternate_password" name="alternate_password" value="{{#options_alternate_password}}{{options_alternate_password}}{{/options_alternate_password}}"{{^options_alternate_password}} placeholder="A password or phrase to unlock this for every person."{{/options_alternate_password}} /> 
 
 
-	<div class="row_seperator">.</div>
 	<div>
 		<br />
 		<input class="button" type="submit" value="{{element_button_text}}" />
