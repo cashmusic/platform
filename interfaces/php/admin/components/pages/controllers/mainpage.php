@@ -150,5 +150,8 @@ if ($cash_admin->platform_type == 'single') {
 	$cash_admin->page_data['platform_type_single'] = true;
 }
 
+// menu hack (we want to display in-page menus outside the normal structure on the main page)
+$cash_admin->page_data['section_menu'] = '<ul class="pagebasemenu"><li><a href="#activity"><i class="icon icon-bolt"></i> News / activity</a></li><li><a href="#elements"><i class="icon icon-puzzle-piece"></i> Elements</a></li><li><a href="#publish"><i class="icon icon-list-alt"></i> Publish / embed</a></li></ul>';
+
 $cash_admin->setPageContentTemplate('mainpage');
 ?>

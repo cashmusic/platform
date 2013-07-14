@@ -106,7 +106,8 @@ div.row {overflow:visible;}
 #pagemenu ul {padding-left:0;}
 #pagemenu * li {display:inline;margin-right:1.5em;}
 /* PAGE TIPS */
-#pagetips {background-color:#ff0;color:#231F20;padding:12px 16px 24px 16px;text-align:left;margin:0;}
+#pagetips {background-color:#ff0;color:#231F20;padding:12px 16px 24px 16px;text-align:left;margin:0 0 18px 0;}
+#pagetips p {margin-bottom:0 !important;}
 #pagetips a {color:#231F20;}
 #tipscloselink {font-size:11px;position:relative;top:12px;left:-4px;font-weight:bold;padding:4px;}
 #tipscloselink:hover {background-color:#000;color:#fff !important;text-decoration:none;}
@@ -141,7 +142,7 @@ div.gettingstarted a.helplink {color:#231F20;background-color:#ff0;padding:2px 9
 div.callout {position:relative;display:block;font-size:12px;line-height:1.5em;padding:22px 18px 22px 18px;margin:0 auto 6px auto;background-color:#fff;z-index:100;}
 div.callout p {margin-bottom:0;}
 div.callout.flush {background-image:none;margin-bottom:0;}
-div.callout.newsfeed {background-color:#fff;padding:22px 18px 22px 88px;}
+div.callout.newsfeed {background-color:#fff;color:#3c3333;padding:22px 18px 22px 88px;}
 div.callout.newsfeed div.newsimage {position:absolute;top:0;left:0;width:64px;border-right:#ccc solid 6px;height:100%;background-position:center center;background-size:cover;background-color:#fff;}
 div.callout h1, div.callout h2, div.callout h3, div.callout h4 {margin-top:0;} 
 /* FEATURED ELEMENT CARDS */

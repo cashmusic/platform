@@ -38,12 +38,17 @@
 		setUIBehaviors();
 		setContentBehaviors();
 
-		window.firstadminload = 'yes';
+		window.firstadminload = true;
+		window.currentpath = location.pathname;
 
 		// make back/forward buttons work
 		window.addEventListener("popstate", function(e) {
-			if (window.firstadminload == false) {
-				refreshPageData(location.pathname,null,null,null,true);
+			if (!window.firstadminload) {
+				// checking pathname allows for #hash anchors to work and whatnot
+				if (window.currentpath != location.pathname) {
+					refreshPageData(location.pathname,null,null,null,true);
+					window.currentpath = location.pathname;
+				}
 			} else {
 				window.firstadminload = false;
 			}
@@ -70,6 +75,7 @@
 		// change the color
 		$('#mainspc').removeClass();
 		$('#mainspc').addClass(data.specialcolor);
+		$('#pagebadge').attr('src', cashAdminPath + '/ui/default/assets/images/badge' + data.specialcolor + '.png');
 
 		// tabs
 		collapseAllTabs(data.section_name);
@@ -407,10 +413,10 @@
 			var el = $(e.currentTarget);
 			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey && !el.hasClass('navitemlink')
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
-				 && !el.hasClass('noajax') && !el.is('#logout')
+				&& !el.hasClass('noajax') && !el.is('#logout')
 			) {
 				e.preventDefault();
-				var url = $(e.currentTarget).attr('href');
+				var url = el.attr('href');
 				refreshPageData(url);
 				el.blur();
 			}
