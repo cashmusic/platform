@@ -562,6 +562,7 @@
 		$('.modalbg').fadeIn('fast');
 	}
 
+	// refactor doModalConfirm into this shit:
 	function doMessage(msg,label,modal) {
 		// markup for the confirmation link
 		var markup = '<div class="modalbg"><div class="modaldialog">' +
@@ -578,7 +579,7 @@
 		$('body').append(markup);
 
 		if (!modal) {
-			window.setTimeout(function() {$('.modalbg').remove();}, 2200);
+			window.setTimeout(function() {$('.modalbg').remove();}, 2000);
 		} else {
 			// button events
 			$('.modalyes').on('click', function(e) {
