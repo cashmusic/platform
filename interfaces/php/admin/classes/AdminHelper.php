@@ -874,7 +874,6 @@
 	 *
 	 * @return array
 	 */public static function echoCurrencyOptions($selected='USD') {
-		error_log($selected);
 		$currencies = CASHSystem::getCurrencySymbol('all');
 		$all_options = '';
 		$has_selected = false;

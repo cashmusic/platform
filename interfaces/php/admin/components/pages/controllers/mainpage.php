@@ -44,11 +44,25 @@ if ($page_templates) {
 }
 
 // get news for the news feed
-$dashboard_news_response = CASHSystem::getURLContents('http://cashmusic.s3.amazonaws.com/permalink/admin/mainpage.html');
-if ($dashboard_news_response) {
-	$cash_admin->page_data['dashboard_news'] = '<h3>News</h3>' . $dashboard_news_response;
-} else {
-	$cash_admin->page_data['dashboard_news'] = '<h3 class="fadedtext">Sorry</h3><p class="fadedtext">Couldn\'t get news from the CASH servers.</p>';
+$tumblr_seed = new TumblrSeed();
+$tumblr_request = $tumblr_seed->getTumblrFeed('blog.cashmusic.org',0,'platformnews');
+//error_log(print_r($tumblr_request,true));
+
+$cash_admin->page_data['dashboard_news_img'] = null;
+$cash_admin->page_data['dashboard_news'] = "<p>News could not be read. So let's say no news is good news.</p>";
+$doc = new DOMDocument();
+@$doc->loadHTML($tumblr_request[0]->{'regular-body'});
+$imgs = $doc->getElementsByTagName('img');
+if (!empty($imgs)) {
+	$cash_admin->page_data['dashboard_news_img'] = $imgs->item(0)->getAttribute('src');
+}
+$ps = $doc->getElementsByTagName('p');
+foreach ($ps as $p) {
+	if ($p->nodeValue) {
+		$cash_admin->page_data['dashboard_news'] = '<p><b><i>' . $tumblr_request[0]->{$tumblr_request[0]->type . '-title'} . ':</i></b> ' . 
+			$p->nodeValue . ' <a href="' . $tumblr_request[0]->{'url-with-slug'} . '" class="usecolor1" target="_blank">' . 'Read more.</a></p>';
+		break;
+	}
 }
 
 // check to see if the user has elements defined
@@ -135,6 +149,9 @@ $cash_admin->page_data['user_page_display_uri'] = str_replace('http://','',$cash
 if ($cash_admin->platform_type == 'single') {
 	$cash_admin->page_data['platform_type_single'] = true;
 }
+
+// menu hack (we want to display in-page menus outside the normal structure on the main page)
+$cash_admin->page_data['section_menu'] = '<ul class="pagebasemenu"><li><a href="#activity"><i class="icon icon-bolt"></i> News / activity</a></li><li><a href="#elements"><i class="icon icon-puzzle-piece"></i> Elements</a></li><li><a href="#publish"><i class="icon icon-list-alt"></i> Publish / embed</a></li></ul>';
 
 $cash_admin->setPageContentTemplate('mainpage');
 ?>

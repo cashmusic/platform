@@ -38,12 +38,17 @@
 		setUIBehaviors();
 		setContentBehaviors();
 
-		window.firstadminload = 'yes';
+		window.firstadminload = true;
+		window.currentpath = location.pathname;
 
 		// make back/forward buttons work
 		window.addEventListener("popstate", function(e) {
-			if (window.firstadminload == false) {
-				refreshPageData(location.pathname,null,null,null,true);
+			if (!window.firstadminload) {
+				// checking pathname allows for #hash anchors to work and whatnot
+				if (window.currentpath != location.pathname) {
+					refreshPageData(location.pathname,null,null,null,true);
+					window.currentpath = location.pathname;
+				}
 			} else {
 				window.firstadminload = false;
 			}
@@ -68,6 +73,7 @@
 	 */
 	function redrawPage(data) {
 		// change the color
+		$('#pagebadge').attr('src', cashAdminPath + '/ui/default/assets/images/badge' + data.specialcolor + '.png');
 		$('#mainspc').removeClass();
 		$('#mainspc').addClass(data.specialcolor);
 
@@ -77,10 +83,12 @@
 		// the rest
 		$('#pagemessage').html('');
 		if (data.error_message) {
-			$('#pagemessage').html('<p><span class="highlightcopy errormessage">'+data.error_message+'</span></p>');
+			//$('#pagemessage').html('<p><span class="highlightcopy errormessage">'+data.error_message+'</span></p>');
+			doMessage(data.error_message,'Error',true);
 		}
 		if (data.page_message) {
-			$('#pagemessage').html('<p><span class="highlightcopy">'+data.page_message+'</span></p>');
+			//$('#pagemessage').html('<p><span class="highlightcopy">'+data.page_message+'</span></p>');
+			doMessage(data.page_message,'');
 		}
 		$('#pagetips').hide();
 		$('#current_pagetip').html(data.ui_page_tip);
@@ -407,10 +415,10 @@
 			var el = $(e.currentTarget);
 			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey && !el.hasClass('navitemlink')
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
-				 && !el.hasClass('noajax') && !el.is('#logout')
+				&& !el.hasClass('noajax') && !el.is('#logout')
 			) {
 				e.preventDefault();
-				var url = $(e.currentTarget).attr('href');
+				var url = el.attr('href');
 				refreshPageData(url);
 				el.blur();
 			}
@@ -549,6 +557,36 @@
 			refreshPageData(url,'modalconfirm=1&redirectto='+location.pathname.replace(cashAdminPath, ''));
 			$('.modalbg').remove();
 		});
+
+		// show the dialog with a fast fade-in
+		$('.modalbg').fadeIn('fast');
+	}
+
+	// refactor doModalConfirm into this shit:
+	function doMessage(msg,label,modal) {
+		// markup for the confirmation link
+		var markup = '<div class="modalbg"><div class="modaldialog">' +
+					 '<div class="row"><div class="two columns"></div><div class="eight columns">' +
+					 '<h4>' + label + '</h4>' +
+					 '<p><span class="big">' + msg + '</span></p>';
+					 if (modal) {
+					 	markup += '<input type="button" class="button modalyes" value="OK" />';
+					 }
+					 markup += '</div><div class="two columns"></div></div>' +
+					 '</div></div>';
+		markup = $(markup);
+		markup.hide();
+		$('body').append(markup);
+
+		if (!modal) {
+			window.setTimeout(function() {$('.modalbg').remove();}, 2000);
+		} else {
+			// button events
+			$('.modalyes').on('click', function(e) {
+				e.preventDefault();
+				$('.modalbg').remove();
+			});
+		}
 
 		// show the dialog with a fast fade-in
 		$('.modalbg').fadeIn('fast');

@@ -40,55 +40,74 @@
 		#mainspc {padding-top:0;}
 		#navmenu {top:0;height:6px;overflow:hidden;padding-top:0;padding-bottom:0;}
 		#navmenu .navitem:hover {background-image:none;cursor:auto;}
-		#pagedisplay {position:relative;margin:150px auto 0 auto;background:#fff;padding:24px;box-shadow:-2px 2px 2px rgba(0,0,0,0.1);z-index:100;}
-		#jackson {position:absolute;top:-182px;right:120px;z-index:500;}
-		h1 {position:relative;font-size:72px;margin:6px 0 26px 0;white-space:nowrap;z-index:100;}
+		#pagedisplay {position:relative;margin:80px auto 0 auto;padding:24px;z-index:100;}
+		h1 {position:relative;font-size:86px;line-height:86px;margin:6px 0 26px 0;white-space:nowrap;z-index:100;}
 		.cash_browserid_button {width:120px;height:30px;margin-top:6px;}
 		#forgotlink {font-size:11px;color:#a49c9c;}
 		#chromespc {z-index:500;}
 		#pagecontent {z-index:100;}
+		#loginbuttonspc {text-align:right;margin-top:0;margin-bottom:54px;}
+		#jackson {height:205px;background:url({{img_base_url}}/ui/default/assets/images/jacksonlogin.png) no-repeat;}
 		@media only screen and (max-width: 767px) {
-			#jackson {right:auto;left:5px;}
+			#jackson {height:80px;background-size:contain;}
 		}
 	</style>
 
 <div id="wrap">
 	<div id="mainspc">
 
-		<div id="chromespc"></div>
+		<div id="chromespc">
+			<div id="chrome">
+				<div id="navmenu">
+					<ul>
+						<li><a href="http://cashmusic.org/" target="_blank" id="mainnav" class="current"><i class="icon icon-certificate"></i>CASH Music</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
 
 		<div id="pagecontent" class="row">
 			<div id="pagedisplay">
-				<img src="{{img_base_url}}/ui/default/assets/images/jacksonlogin.png" id="jackson" width="245" height="270" alt="I CAN EAT ALL THE CHERRIES!!!" />
-				{{#reset_message}}
-					<span class="highlightcopy">{{reset_message}}</span>
-				{{/reset_message}}
-				<h1{{#login_error}} class="tryagain"{{/login_error}}>{{login_message}}</h1>
 				<div class="row">
+					<div class="three columns" id="jackson"></div>
 					<div class="six columns">
+						{{#reset_message}}
+							<span class="highlightcopy">{{reset_message}}</span>
+						{{/reset_message}}
+						<h1{{#login_error}} class="tryagain"{{/login_error}}>{{login_message}}</h1>
 						<form method="post" id="cash_signin_form" action="">
 							<div class="row">
 								<div class="six columns">
-									<label for="address">email</label>
+									<label for="address">Email address</label>
 									<input type="text" name="address" value="" />
 								</div>
 								<div class="six columns">
-									<label for="address">password</label> {{#donotshowthisrightnow}}<a href="?showpasswordreset" class="reset">(Forget your password?)</a>{{/donotshowthisrightnow}}
+									<label for="password">Password</label>
 									<input type="password" name="password" value="" />
-									<a href="#" id="forgotlink">forgot your password?</a>
 									<input type="hidden" name="login" value="1" />
 									<input type="hidden" id="browseridassertion" name="browseridassertion" value="-1" />
 								</div>
 							</div>
 							
-							<div class="usecolor4"><input type="submit" value="log in" class="button" /></div>
+							<div class="usecolor4" id="loginbuttonspc">
+								<a href="#" id="forgotlink">forgot your password?</a><br />
+								<button type="submit"><i class='icon icon-signin'></i>log in</button>
+							</div>
 						</form>
 					</div>
-					<div class="one column"></div>
-					<div class="five columns">
-						<label>Or log in with:</label>
+					<div class="three columns"></div>
+				</div>
+
+				<div class="row">
+					<div class="three columns"></div>
+					<div class="six columns">
+						<label>Or log in with another service</label>
+						<p>
+							You can use a third party service to log in. You'll still have an account, but one less password to manage. 
+						</p>
 						<a href="javascript:void(0)" id="browserid_login_link"><img src="{{img_base_url}}/ui/default/assets/images/browserid.png" alt="log in with browser id" class="cash_browserid_button" /></a>
 					</div>
+					<div class="three columns"></div>
 				</div>
 			</div>
 
