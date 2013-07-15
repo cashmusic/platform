@@ -73,9 +73,9 @@
 	 */
 	function redrawPage(data) {
 		// change the color
+		$('#pagebadge').attr('src', cashAdminPath + '/ui/default/assets/images/badge' + data.specialcolor + '.png');
 		$('#mainspc').removeClass();
 		$('#mainspc').addClass(data.specialcolor);
-		$('#pagebadge').attr('src', cashAdminPath + '/ui/default/assets/images/badge' + data.specialcolor + '.png');
 
 		// tabs
 		collapseAllTabs(data.section_name);
@@ -83,10 +83,12 @@
 		// the rest
 		$('#pagemessage').html('');
 		if (data.error_message) {
-			$('#pagemessage').html('<p><span class="highlightcopy errormessage">'+data.error_message+'</span></p>');
+			//$('#pagemessage').html('<p><span class="highlightcopy errormessage">'+data.error_message+'</span></p>');
+			doMessage(data.error_message,'Error',true);
 		}
 		if (data.page_message) {
-			$('#pagemessage').html('<p><span class="highlightcopy">'+data.page_message+'</span></p>');
+			//$('#pagemessage').html('<p><span class="highlightcopy">'+data.page_message+'</span></p>');
+			doMessage(data.page_message,'');
 		}
 		$('#pagetips').hide();
 		$('#current_pagetip').html(data.ui_page_tip);
@@ -555,6 +557,35 @@
 			refreshPageData(url,'modalconfirm=1&redirectto='+location.pathname.replace(cashAdminPath, ''));
 			$('.modalbg').remove();
 		});
+
+		// show the dialog with a fast fade-in
+		$('.modalbg').fadeIn('fast');
+	}
+
+	function doMessage(msg,label,modal) {
+		// markup for the confirmation link
+		var markup = '<div class="modalbg"><div class="modaldialog">' +
+					 '<div class="row"><div class="two columns"></div><div class="eight columns">' +
+					 '<h4>' + label + '</h4>' +
+					 '<p><span class="big">' + msg + '</span></p>';
+					 if (modal) {
+					 	markup += '<input type="button" class="button modalyes" value="OK" />';
+					 }
+					 markup += '</div><div class="two columns"></div></div>' +
+					 '</div></div>';
+		markup = $(markup);
+		markup.hide();
+		$('body').append(markup);
+
+		if (!modal) {
+			window.setTimeout(function() {$('.modalbg').remove();}, 2200);
+		} else {
+			// button events
+			$('.modalyes').on('click', function(e) {
+				e.preventDefault();
+				$('.modalbg').remove();
+			});
+		}
 
 		// show the dialog with a fast fade-in
 		$('.modalbg').fadeIn('fast');
