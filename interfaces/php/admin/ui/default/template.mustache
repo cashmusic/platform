@@ -23,6 +23,7 @@
 
 	<script type="text/javascript">
 		var cashAdminPath = "{{www_path}}";
+		var cashImagePath = "{{img_base_url}}";
 		var currentSection = "{{section_name}}";
 		document.write('<style type="text/css">#pagetips {display:none;}.nojs {display:none;}.onlyjs {display:inline;}</style>');
 	</script>
@@ -100,7 +101,7 @@
 					</div>
 					<div class="row">
 						<div class="twelve columns phone-two">
-							<h2 id="pagetitle"><img src="{{www_path}}/ui/default/assets/images/badge{{specialcolor}}.png" id="pagebadge" alt="" /><span>{{ui_title}}</span></h2>
+							<h2 id="pagetitle"><img src="{{img_base_url}}/ui/default/assets/images/badge{{specialcolor}}.png" id="pagebadge" alt="" /><span>{{ui_title}}</span></h2>
 							<div id="pagemenu">{{#section_menu}}{{{section_menu}}}{{/section_menu}}</div>
 							<div id="tipspc" class="hide-for-small">
 								<div id="pagetips">
