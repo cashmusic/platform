@@ -99,8 +99,8 @@ div.row {overflow:visible;}
 #accountmenu ul li, #helpmenu ul li {display:block;clear:both;}
 #accountmenu ul li a, #helpmenu ul li a {color:#fff;display:block;width:14em;padding:8px 1.5em 9px 2.625em;text-decoration:none;margin:0;}
 #helpmenu ul li a {color:#000;}
-#accountmenu ul li a:hover {text-decoration:underline;color:#000;background-color:#ff0;}
-#helpmenu ul li a:hover {text-decoration:underline;color:#fff;background-color:#000;}
+#accountmenu ul li a:hover {color:#000;background-color:#ff0;}
+#helpmenu ul li a:hover {color:#fff;background-color:#000;}
 /* IN-PAGE MENU */
 #pagemenu {margin-bottom:50px;font-weight:bold;}
 #pagemenu ul {padding-left:0;}
