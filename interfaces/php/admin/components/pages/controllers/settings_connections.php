@@ -48,15 +48,15 @@ if ($settings_action) {
 							. '<input type="hidden" name="settings_type" value="' . $settings_type . '" />'
 							. '<label for="settings_name">Name</label><br />'
 							. '<input type="text" id="settings_name" name="settings_name" placeholder="Give It A Name" />'
-							. '<div class="row_seperator tall">.</div>';
+							. '<div class="row_seperator tall"></div>';
 							
 							foreach ($settings_types_data[$settings_type]['dataTypes'][$cash_admin->platform_type] as $key => $data) {
 								$cash_admin->page_data['state_markup'] .= '<label for="' . $key . '">' . $key . '</label><br />'
 									. '<input type="text" id="' . $key . '" name="' . $key . '" placeholder="' . ucfirst($key) . '" />'
-									. '<div class="row_seperator">.</div>';
+									. '<div class="row_seperator"></div>';
 							}
 
-							$cash_admin->page_data['state_markup'] .= '<div class="row_seperator">.</div><br />'
+							$cash_admin->page_data['state_markup'] .= '<div class="row_seperator"></div><br />'
 								. '<div><input class="button" type="submit" value="Add The Connection" /></div>'
 								. '</form>';
 					} else {
@@ -131,14 +131,14 @@ if ($settings_action) {
 					 .		'<input type="hidden" name="settings_type" value="' . $settings_type . '" />'
 					 .		'<label for="settings_name">Name</label><br />'
 					 .		'<input type="text" id="settings_name" name="settings_name" value="' . $settings_name . '" />'
-					 .	'<div class="row_seperator tall">.</div>';
+					 .	'<div class="row_seperator tall"></div>';
 
 						foreach ($settings_types_data[$settings_type]['dataTypes'][$cash_admin->platform_type] as $key => $data) {
 							$cash_admin->page_data['state_markup'] .=  '<label for="' . $key . '">' . $key . '</label><br />'
 								. '<input type="text" id="' . $key . '" name="' . $key . '" value="' . $settings_details[$key] . '" />'
-								. '<div class="row_seperator">.</div>';
+								. '<div class="row_seperator"></div>';
 						}
-						$cash_admin->page_data['state_markup'] .= '<div class="row_seperator">.</div><br />'
+						$cash_admin->page_data['state_markup'] .= '<div class="row_seperator"></div><br />'
 							. '<div><input class="button" type="submit" value="Edit The Connection" /></div>'
 							. '</form>';
 				} else {

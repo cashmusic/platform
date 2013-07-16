@@ -13,6 +13,9 @@
 	<title>CASH Music / Admin</title>
 
 	<link rel="icon" type="image/png" href="http://cashmusic.org/images/icons/cash.png" />
+	<link href="//fonts.googleapis.com/css?family=Amatic+SC:400,700|Roboto+Condensed:400,700italic,400italic,700,300,300italic|Noto+Serif:400,700italic,400italic,700" rel="stylesheet" type="text/css" />
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+	<link href="{{www_path}}/ui/default/assets/css/foundation.min.css" rel="stylesheet" type="text/css" />
 	<link href="{{www_path}}/ui/default/assets/css/app.css" rel="stylesheet" type="text/css" />
 	<link href="{{www_path}}/ui/default/assets/css/offcanvas.css" rel="stylesheet" type="text/css" />
 	<link href="{{www_path}}/ui/default/assets/css/responsive-tables.css" rel="stylesheet" type="text/css" />
@@ -32,9 +35,8 @@
 <body id="page" class="off-canvas hide-extras">
 
 	<style type="text/css">
-		h1 {position:relative;font-size:72px;margin:6px 0 52px 0;z-index:100;}
-		h4 {margin-bottom:0;}
-		#mainspc {padding-top:60px;}
+		#pagetitle {margin-bottom:60px;}
+	
 		.callout {font-size:14px !important;background-color:#fff !important;}
 		#mainspc a {color:#2E9A00;}
 		p {margin-bottom:36px !important;}
@@ -48,7 +50,15 @@
 	</style>
 
 	<div id="wrap">	
-		<div id="chromespc"></div>
+		<div id="chromespc">
+			<div id="chrome">
+				<div id="navmenu">
+					<ul>
+						<li><a href="http://cashmusic.org/" target="_blank" id="mainnav" class="current"><i class="icon icon-certificate"></i>CASH Music</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
 
 		<div id="mainspc" class="container">
 			<div class="row">

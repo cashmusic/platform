@@ -68,7 +68,7 @@ if (is_array($current_list)) {
 }
 $cash_admin->page_data['connection_options'] = AdminHelper::echoConnectionsOptions('lists',$current_list['connection_id'],true);
 $cash_admin->page_data['form_state_action'] = 'dolistedit';
-$cash_admin->page_data['list_button_text'] = 'Edit the list';
+$cash_admin->page_data['list_button_text'] = 'Save changes';
 
 $cash_admin->setPageContentTemplate('people_lists_details');
 ?>

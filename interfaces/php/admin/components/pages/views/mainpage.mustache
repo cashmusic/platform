@@ -1,4 +1,5 @@
-<div class="callout flush">{{{dashboard_news}}}</div>
+<a name="activity"></a>
+<div class="callout newsfeed">{{{dashboard_news}}}<div class="newsimage" style="background-image:url({{dashboard_news_img}})"></div></div>
 
 <br />
 
@@ -56,6 +57,7 @@
 	</div>
 {{/current_page_template}}
 
+<a name="elements"></a>
 <br />
 <h4>Elements</h4>
 <div class="row">
@@ -88,50 +90,47 @@
 	</div>
 </div>
 
-{{#defined_page_templates}}
-	<br />
-	<h4>Publish / embed</h4>
-	
-		<div class="row">
-		{{#current_page_template}}{{/current_page_template}}
-			<div class="twelve columns">
-				<p class="big tight">
-					Your public page is live at <a href="{{user_page_uri}}" target="_blank"><i>{{user_page_display_uri}}</i></a>
-				</p>
-				<a href="{{www_path}}/account/" class="usecolor0"><i class="icon icon-user"></i><b>Change your username/url</b></a>
-				<br /><br /><br />
-			</div>
-		</div>
-		<div class="row">
-			<div class="six columns spacedtext">
-				<label>Your public page</label>
-				
-				<a href="{{www_path}}/elements/templates/add/"><i class="icon icon-list-alt"></i><b>Add a new page</b></a><br />
-				<a href="{{www_path}}/elements/templates/edit/{{current_page_template}}"><i class="icon icon-pencil"></i><b>Edit the current page</b></a><br />
-
-				<div class="drawer noprefix">
-					<a class="drawerhandle fullsize"><i class="icon icon-columns"></i><b>Publish a different page</b></a>
-					<div class="drawercontent">
-						<br />
-						<form method="post" action="">
-							<label for="template_id">Select a page template to publish:</label>
-							<select id="change_template_id" name="change_template_id">
-								{{{template_options}}}
-							</select>
-							<br />
-							<input type="submit" value="publish" />
-						</form>
-					</div>
-				</div>
-			</div>
-			<div class="six columns spacedtext">
-				<label>Element embed codes / templates</label>
-				
-				<a href="{{www_path}}/elements/templates/add/"><i class="icon icon-list-alt"></i><b>Add a new embed template</b></a><br />
-				
-			</div>
+<a name="publish"></a>
+<br />
+<h4>Publish / embed</h4>
+	{{#current_page_template}}
+	<div class="row">
+		<div class="twelve columns">
+			<p class="big tight">
+				Your public page is live at <a href="{{user_page_uri}}" target="_blank"><i>{{user_page_display_uri}}</i></a>
+			</p>
+			<a href="{{www_path}}/account/" class="usecolor0"><i class="icon icon-user"></i><b>Change your username/url</b></a>
+			<br /><br /><br />
 		</div>
 	</div>
+	{{/current_page_template}}
+	<div class="row">
+		<div class="six columns spacedtext">
+			<label>Your public page</label>
+			
+			<a href="{{www_path}}/elements/templates/add/"><i class="icon icon-list-alt"></i><b>Add a new page</b></a><br />
+			<a href="{{www_path}}/elements/templates/edit/{{current_page_template}}"><i class="icon icon-pencil"></i><b>Edit the current page</b></a><br />
 
-	
-{{/defined_page_templates}}
+			<div class="drawer noprefix">
+				<a class="drawerhandle fullsize"><i class="icon icon-columns"></i><b>Publish a different page</b></a>
+				<div class="drawercontent">
+					<br />
+					<form method="post" action="">
+						<label for="template_id">Select a page template to publish:</label>
+						<select id="change_template_id" name="change_template_id">
+							{{{template_options}}}
+						</select>
+						<br />
+						<button type="submit"><i class="icon icon-desktop"></i>Publish</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="six columns spacedtext">
+			<label>Element embed codes / templates</label>
+			
+			<a href="{{www_path}}/elements/templates/add/"><i class="icon icon-list-alt"></i><b>Add a new embed template</b></a><br />
+			
+		</div>
+	</div>
+</div>

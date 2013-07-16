@@ -97,20 +97,20 @@
 							<p class="show-for-small">
 								<a class="sidebar-button" id="sidebarButton" href="#sidebar"><span class="menu-inactive"><i class="icon icon-circle-arrow-left"></i></span><span class="menu-active"><i class="icon icon-circle-arrow-right"></i></span></a>
 							</p>
-
-							<div id="tipspc" class="hide-for-small">
-								<div id="pagetips">
-									<span id="current_pagetip">{{{ui_page_tip}}}</span>
-									<br />
-									<a id="tipscloselink" href="#">{{action_close}}</a>
-								</div>
-							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="twelve columns phone-two">
-							<h2 id="pagetitle"><img src="{{www_path}}/ui/default/assets/images/badge.png" alt="" /><span>{{ui_title}}</span></h2>
+							<h2 id="pagetitle"><img src="{{www_path}}/ui/default/assets/images/badge{{specialcolor}}.png" id="pagebadge" alt="" /><span>{{ui_title}}</span></h2>
 							<div id="pagemenu">{{#section_menu}}{{{section_menu}}}{{/section_menu}}</div>
+							<div id="tipspc" class="hide-for-small">
+								<div id="pagetips">
+									<p>
+										<span id="current_pagetip">{{{ui_page_tip}}}</span>
+									</p>
+									<a id="tipscloselink" href="#">{{action_close}}</a>
+								</div>
+							</div>
 							<div id="pagemessage">
 								{{#error_message}}<p><span class="highlightcopy errormessage">{{error_message}}</span></p>{{/error_message}}
 								{{#page_message}}<p><span class="highlightcopy">{{page_message}}</span></p>{{/page_message}}
