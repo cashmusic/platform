@@ -41,6 +41,7 @@
 		"503":"Service Unavailable",
 		"504":"Gateway Time-out",
 		"505":"HTTP Version Not Supported",
+		"665":"No Stairway",
 		"666":"Evil"
 	},
 	"contexts":{
