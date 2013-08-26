@@ -1,5 +1,6 @@
 {
-	"type":"emailcollection",
+	"type":"element",
+	"subtype":"emailcollection",
 	"lastupdated":"Aug 20, 2013",
 	"version":3,
 	"author":"CASH Music",
