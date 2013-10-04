@@ -66,7 +66,6 @@ class MailchimpSeedTests extends UnitTestCase {
 		if ($this->api_key && $this->api_list_id) {
 			$mc = new MailchimpSeed($this->cash_user_id, $this->mailchimp_connection_id); // the '1' sets a user id=1
 			$this->assertIsa($mc, 'MailchimpSeed');
-			$this->assertTrue($mc->url);
 			$this->assertTrue($mc->lists());
 			$webhooks = $mc->listWebhooks();
 			$this->assertTrue(isset($webhooks));
@@ -77,7 +76,7 @@ class MailchimpSeedTests extends UnitTestCase {
 			$this->assertTrue($members['data'][0]['email'] == 'duke@leto.net');
 			$test_email = "dev+$time@cashmusic.org";
 
-			$rc = $mc->listSubscribe($test_email, null, null, false);
+			$rc = $mc->listSubscribe($test_email, array('double_optin' => false));
 			$this->assertTrue($rc);
 			if (!$rc) {
 				fwrite(STDERR,"Failed to add $test_email to list " . $this->api_list_id);
