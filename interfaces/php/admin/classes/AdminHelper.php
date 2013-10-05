@@ -198,7 +198,7 @@
 		}
 	}
 
-	public function elementFormSubmitted($post_data) {
+	public static function elementFormSubmitted($post_data) {
 		if (isset($post_data['doelementadd']) || isset($post_data['doelementedit'])) {
 			return true;
 		} else {

@@ -73,7 +73,7 @@
 	 */
 	function redrawPage(data) {
 		// change the color
-		$('#pagebadge').attr('src', cashAdminPath + '/ui/default/assets/images/badge' + data.specialcolor + '.png');
+		$('#pagebadge').attr('src', cashImagePath + '/ui/default/assets/images/badge' + data.specialcolor + '.png');
 		$('#mainspc').removeClass();
 		$('#mainspc').addClass(data.specialcolor);
 

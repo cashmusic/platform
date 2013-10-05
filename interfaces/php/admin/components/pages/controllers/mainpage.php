@@ -53,7 +53,7 @@ $cash_admin->page_data['dashboard_news'] = "<p>News could not be read. So let's 
 $doc = new DOMDocument();
 @$doc->loadHTML($tumblr_request[0]->{'regular-body'});
 $imgs = $doc->getElementsByTagName('img');
-if (!empty($imgs)) {
+if ($imgs->length) {
 	$cash_admin->page_data['dashboard_news_img'] = $imgs->item(0)->getAttribute('src');
 }
 $ps = $doc->getElementsByTagName('p');

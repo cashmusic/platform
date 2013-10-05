@@ -1,0 +1,129 @@
+{
+	"type":"element",
+	"subtype":"emailcollection",
+	"lastupdated":"Aug 20, 2013",
+	"version":3,
+	"author":"CASH Music",
+	"url":"http://cashmusic.org/",
+	"license":"AGPL",
+	"details":{
+		"en":{
+			"name":"Email Collection",
+			"description":"Collect an email address, optionally give a download in exchange.",
+			"longdescription":"This can be used as an email-for-download promotion or as a customizable email collection widget."
+		}
+	},
+	"copy":{
+		"en":{
+			"instructions":"instructions",
+			"pagetip":"Leave the asset set to 'none' for a straight email capture, or choose a target asset to try email-for-download."
+		}
+	},
+	"data_definition":{
+		"main":{
+			"group_label":{
+				"en":"Main settings"
+			},
+			"data":{
+				"email_list_id":{
+					"type":"cashmusic_list",
+					"label":{
+						"en":"Target mailing list"
+					},
+					"display_group":"list_and_asset"
+				},
+				"asset_id":{
+					"type":"cashmusic_asset",
+					"label":{
+						"en":"The downloadable asset"
+					},
+					"display_group":"list_and_asset"
+				},
+				"do_not_verify":{
+					"type":"checkbox",
+					"label":{
+						"en":"Skip email verification (recommended)"
+					},
+					"options":{
+						"checked":"checked"
+					}
+				}
+			}
+		},
+		"messages":{
+			"group_label":{
+				"en":"Success/error messages"
+			},
+			"data":{
+				"message_success":{
+					"type":"text_s",
+					"label":{
+						"en":"Success message"
+					},
+					"options":{
+						"default_value":{
+							"en":"Thanks! You're all signed up."
+						}
+					}
+				},
+				"message_invalid_email":{
+					"type":"text_s",
+					"label":{
+						"en":"Invalid email message"
+					},
+					"options":{
+						"default_value":{
+							"en":"Sorry, that email address wasn't valid. Please try again."
+						}
+					}
+				},
+				"message_privacy":{
+					"type":"text_s",
+					"label":{
+						"en":"Privacy message"
+					},
+					"options":{
+						"default_value":{
+							"en":"We won't share, sell, or be jerks with your email address."
+						}
+					}
+				},
+				"message_verification":{
+					"type":"text_s",
+					"label":{
+						"en":"Address verification message (only if verifying)"
+					},
+					"options":{
+						"default_value":{
+							"en":"You must verify your email address to continue. An email has been sent. Click the link provided to conrirm membership. (If you don't see the message, check your SPAM folder.)"
+						}
+					}
+				}
+			}
+		},
+		"interface":{
+			"group_label":{
+				"en":"Customize signup form"
+			},
+			"data":{
+				"button_text":{
+					"type":"text_s",
+					"label":{
+						"en":"Text for submit button"
+					},
+					"options":{
+						"default_value":{
+							"en":"sign me up"
+						}
+					}
+				},
+				"placeholder_text":{
+					"type":"text_s",
+					"label":{
+						"en":"Placeholder text inside email input field?"
+					}
+				}
+			}
+		}
+	}
+}
