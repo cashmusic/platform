@@ -22,6 +22,9 @@ class MailChimp
 	 */
 	function __construct($api_key)
 	{
+		if (!$api_key) {
+			$api_key = 'no-key'; // in case we fire up the object without a valid key...graceful failures
+		}
 		$this->api_key = $api_key;
 		list(, $datacentre) = explode('-', $this->api_key);
 		$this->api_endpoint = str_replace('<dc>', $datacentre, $this->api_endpoint);
