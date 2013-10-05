@@ -683,7 +683,7 @@ class PeoplePlant extends PlantBase {
 										$mc = $api_connection['api'];
 										// mailchimp found. subscribe user and request opt-in
 										// error_log(json_encode($mc));
-										$rc = $mc->listSubscribe($address, null, null, $service_opt_in);
+										$rc = $mc->listSubscribe($address, array('double_optin' => $service_opt_in));
 										// error_log(json_encode($rc));
 										break;
 								}
@@ -857,7 +857,7 @@ class PeoplePlant extends PlantBase {
 								case 'com.mailchimp':
 									$mc = $api_connection['api'];
 									// TODO: this is currently hardcoded to require a double opt-in
-									$rc = $mc->listSubscribe($address, $merge_vars=null, $email_type=null, $double_optin=false);
+									$rc = $mc->listSubscribe($address, array('double_optin' => false));
 									break;
 							}
 							if (!$rc) {
