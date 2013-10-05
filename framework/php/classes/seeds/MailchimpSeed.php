@@ -79,16 +79,15 @@ class MailchimpSeed extends SeedBase {
 			$client = new MC_OAuth2Client($oauth_options);
 			$session = $client->getSession();
 			if ($session) {
-				require_once(CASH_PLATFORM_ROOT.'/lib/mailchimp/MCAPI.class.php');
+				require_once(CASH_PLATFORM_ROOT.'/lib/mailchimp/MailChimp.class.php');
 				$cn = new MC_OAuth2Client($oauth_options);
         		$cn->setSession($session,false);
         		$odata = $cn->api('metadata', 'GET');
         		$access_token = $session['access_token'];
         		$api_key = $session['access_token'] . '-' . $odata['dc'];
 
-        		$api = new MCAPI($api_key);
-				$api->useSecure(true);
-				$lists = $api->lists('', 0, 50);
+        		$api = new MailChimp($api_key);
+        		$lists = $api->call('lists/list');
 
 				$return_markup = '<h4>Connect to MailChimp</h4>'
 							   . '<p>Now just choose a list and save the connection.</p>'
