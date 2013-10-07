@@ -243,7 +243,7 @@ abstract class OAuth2Client {
    * Default options for cURL.
    */
   public static $CURL_OPTS = array(
-    CURLOPT_FOLLOWLOCATION => TRUE,
+    // CURLOPT_FOLLOWLOCATION => TRUE,  //--> TODO / REMOVE / SO DUMB --Appfog giving a safe_mode error on this one so disabling for all. Doesn't affect any current services, may be smart...
     CURLOPT_CONNECTTIMEOUT => 10,
     CURLOPT_RETURNTRANSFER => TRUE,
     CURLOPT_HEADER         => TRUE,

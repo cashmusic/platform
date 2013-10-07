@@ -52,9 +52,9 @@ class CASHDBA {
 				$this->db = new PDO("sqlite:" . CASH_PLATFORM_ROOT . "/../db/{$this->dbname}");
 			} else {
 				if (substr($this->hostname,0,2) == ':/') {
-					$this->db = new PDO("{$this->driver}:unix_socket={$this->hostname};dbname={$this->dbname}", $this->username, $this->password, array(PDO::ATTR_PERSISTENT => true));
+					$this->db = new PDO("{$this->driver}:unix_socket={$this->hostname};dbname={$this->dbname}", $this->username, $this->password, array(PDO::ATTR_PERSISTENT => false));
 				} else {
-					$this->db = new PDO("{$this->driver}:host={$this->hostname};port={$this->port};dbname={$this->dbname}", $this->username, $this->password, array(PDO::ATTR_PERSISTENT => true));
+					$this->db = new PDO("{$this->driver}:host={$this->hostname};port={$this->port};dbname={$this->dbname}", $this->username, $this->password, array(PDO::ATTR_PERSISTENT => false));
 				}
 			}
 			$this->db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
