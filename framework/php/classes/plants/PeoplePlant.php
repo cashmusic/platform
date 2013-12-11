@@ -230,7 +230,7 @@ class PeoplePlant extends PlantBase {
 	/**
 	 * Adds an email address to an existing list — optionally tie to a specific element for analytics
 	 */
-	protected function doSignup($list_id,$address,$user_id=false,$comment='',$name='Anonymous',$element_id=false) {
+	protected function doSignup($list_id,$address,$user_id=false,$comment='',$name='Anonymous',$element_id=false,$first_name='',$last_name='',$additional_data='') {
 		if ($user_id) {
 			$ownership = $this->verifyListOwner($user_id,$list_id);
 			if (!$ownership) {
@@ -250,7 +250,7 @@ class PeoplePlant extends PlantBase {
 			} else {
 				$do_not_verify = false;
 			}
-			$result = $this->addAddress($address,$list_id,$do_not_verify,$comment,'',$name,false,false,true,'&element_id='.$element_id);
+			$result = $this->addAddress($address,$list_id,$do_not_verify,$comment,'',$name,false,false,true,'&element_id='.$element_id,$first_name,$last_name,$additional_data);
 			return $result;
 		} else {
 			return false;
@@ -638,7 +638,7 @@ class PeoplePlant extends PlantBase {
 	 * @param {string} $additional_data -   any extra data (JSON, etc) a dev might pass with signup for later use
 	 * @param {string} $name -              if the user doesn't exist in the system this will be used as their display name
 	 * @return bool
-	 */protected function addAddress($address,$list_id,$do_not_verify=false,$initial_comment='',$additional_data='',$name='Anonymous',$force_verification_url=false,$request_from_service=false,$service_opt_in=true,$extra_querystring='') {
+	 */protected function addAddress($address,$list_id,$do_not_verify=false,$initial_comment='',$additional_data='',$name='Anonymous',$force_verification_url=false,$request_from_service=false,$service_opt_in=true,$extra_querystring='',$first_name='',$last_name='',$additional_data='') {
 		if (filter_var($address, FILTER_VALIDATE_EMAIL)) {
 			// first check to see if the email is already on the list
 			$user_id = $this->getUserIDForAddress($address);
@@ -647,13 +647,19 @@ class PeoplePlant extends PlantBase {
 				$name = strip_tags($name);
 				$user_id = $this->getUserIDForAddress($address);
 				if (!$user_id) {
+					if ($name='Anonymous' && (!empty($first_name) || !empty($last_name))) {
+						$name = trim($first_name . ' ' . $last_name);
+					}
+
 					$addlogin_request = new CASHRequest(
 						array(
 							'cash_request_type' => 'system', 
 							'cash_action' => 'addlogin',
 							'address' => $address,
 							'password' => md5(rand(23456,9876541)),
-							'display_name' => $name
+							'display_name' => $name,
+							'first_name' => $first_name,
+							'last_name' => $last_name
 						)
 					);
 					if ($addlogin_request->response['status_code'] == 200) {
@@ -669,6 +675,7 @@ class PeoplePlant extends PlantBase {
 							'user_id' => $user_id,
 							'list_id' => $list_id,
 							'initial_comment' => $initial_comment,
+							'additional_data' => $additional_data,
 							'verified' => 0,
 							'active' => 1
 						)
