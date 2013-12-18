@@ -6,7 +6,7 @@
 
 /* BASE STYLES AND RESETS */
 html {margin:0;padding:0;height:100%;}
-body {color:#2c2222;background-color:#e4e4e4;font:15px/20px "Roboto Condensed",Helvetica,Arial,sans-serif;text-align:left;margin:0;padding:0;min-height:300px;text-rendering:optimizelegibility;height:100%;min-height:500px;}
+body {color:#2c2222;background-color:#e4e4e4;font:15px/20px "Roboto Condensed",Helvetica,Arial,sans-serif;text-align:left;margin:0;padding:0;min-height:300px;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;height:100%;min-height:500px;}
 h1,h2 {color:#000;font-weight:400;font-size:52px;line-height:52px;font-family:"AmaticSC-Regular","Amatic SC Regular","AmaticSC","Amatic SC",Helvetica,Arial,sans-serif;margin:6px 0 18px 0;}
 h3,h4 {color:#000;font:700 19px/19px "Roboto Condensed",Helvetica,Arial,sans-serif;margin:6px 0 18px 0;}
 h5 {color:#000;font:700 15px/15px "Roboto Condensed",Helvetica,Arial,sans-serif;margin:0 0 3px 0;} 
