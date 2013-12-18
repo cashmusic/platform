@@ -11,6 +11,8 @@ interfaces/php/admin/privacy.md
 testinstall/*
 sandbox/*
 
+.vagrant/*
+
 __test_environment.json
 
 .DS_Store

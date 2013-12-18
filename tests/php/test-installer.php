@@ -227,12 +227,7 @@ echo "\n\n                                  /)-_-(/\n"
 			echo "\nOh. Shit. Something's wrong. We had trouble editing a few files. Please try again.\n\n";
 			break;
 		} else {
-			try {
-				$pdo->exec(file_get_contents(dirname(__FILE__) . '/../../framework/php/settings/sql/cashmusic_demo_data.sql'));
-				echo "\n" . strtoupper($db_engine) . " TEST DB DEPLOYED! Fear of testing is the mind-killer.\n";
-			} catch (PDOException $e) { 
-				echo "\nSOME SUCCESS, SOME FAILURE:\nEverything is set up properly, but there was an error writing demo data.\n$e\n";
-			}
+			echo "\n" . strtoupper($db_engine) . " TEST DB DEPLOYED! Fear of testing is the mind-killer.\n";
 		}
 	}
 }
