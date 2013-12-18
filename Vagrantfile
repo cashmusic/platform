@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
     #!/bin/bash
     sudo apt-get update
     sudo apt-get upgrade
-    sudo apt-get -y install curl apache2 php5 libapache2-mod-php5 php5-mcrypt php5-mysql php5-sqlite php5-curl php5-suhosin
+    sudo apt-get -y install make curl apache2 php5 libapache2-mod-php5 php5-mcrypt php5-mysql php5-sqlite php5-curl php5-suhosin
     #
     # SET SYSTEM ENVIRONMENT VARIABLES IF NEEDED (REQUIRES BASH)
     # sudo cp -f /vagrant/.vagrant_settings/environment /etc/environment
