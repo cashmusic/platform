@@ -85,12 +85,13 @@ if (!file_exists('/vagrant/framework/db/cashmusic_vagrant.sqlite')) {
 		$data = array(
 			'email_address' => $user_email,
 			'password'      => $password_hash,
+			'username'		=> 'dev',
 			'is_admin'      => true,
 			'api_key'       => '0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a',
 			'api_secret'    => '1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b',
 			'creation_date' => time()
 		);
-		$query = "INSERT INTO people (email_address,password,is_admin,api_key,api_secret,creation_date) VALUES (:email_address,:password,:is_admin,:api_key,:api_secret,:creation_date)";
+		$query = "INSERT INTO people (email_address,password,username,is_admin,api_key,api_secret,creation_date) VALUES (:email_address,:password,:username,:is_admin,:api_key,:api_secret,:creation_date)";
 		
 		try {  
 			$q = $pdo->prepare($query);

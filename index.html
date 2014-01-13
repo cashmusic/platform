@@ -1,130 +1,127 @@
-<!DOCTYPE html> 
-<html> 
+<!DOCTYPE html>
+<html lang="en">
 <head> 
-<title>CASH Music</title> 
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
- 
-<style type="text/css"> 
-/* TAG RESETS */
-html {margin:0;padding:0;}
-body {color:#231f20;background-color:#fff;text-align:left;font:75%/1.5em "helvetica neue",helvetica,arial,sans-serif;margin:0;padding:0;min-height:300px;min-width:750px;}
-a {color:#97b800;text-decoration:none;}
-a:hover {text-decoration:underline;}
-code {display:block;padding:2em;margin:0 0 1.5em 0;background-color:#ddd;background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAPhJREFUeNqk1M0KgkAQAGCFXqSzBwW9KOg5gugBArGD9PN6KhiIl0Vcg0UUfI0QggRJawyKIjNdB/ayO3wMuzszuUEwI6Ku65PjOCvmNiIAyS3LmoE3pYaqqspt254/EFoIkLPruosXQgO1IkMhuJOL53nLL2QI1InAYns+f4EQ0jVNI78S/kJwXARBoKuqSrryOqEGwRivFUU5/iu5CyrDMDQAwX1+eCsEW2UURYYsy7hvq7RBJSHElCQJDem5D6ipJI5jUxRFNLR536EyTdM9z/M+zRR4QlWSJBtBEHzacdJAV6hkB5V4Y+YSm2XZluO4AzMy7gIMAJSSyK1ong48AAAAAElFTkSuQmCC);background-position:left top;background-repeat:no-repeat;margin:0 auto;}
-img {border:0;}
-ul {padding:0.5em 0 0.5em 1.5em;}
-p {margin:0 0 1.5em 0;}
-h1 {font-size:3.75em;line-height:1.25em;margin:0;padding:0;}
-h2 {font-size:1.5em;line-height:1em;margin:2em 0 0 0;padding:0 0 0.25em 0;}
-h3 {font:italic normal 12px/1em georgia,"times new roman",times,serif italic;font-weight:normal;margin:36px 0 3px 0;color:#a7a9ac;}
-small {font-size:0.85em;line-height:1.25em;}
-small a {color:#000 !important;font-weight:bold;}
-table {font-size:0.85em;}
- 
-/* GENERAL STYLES */
-span.param, span.return {font-weight:bold;}
-span.classdescription {font-size:1.5em;}
-span.classdescription br {display:none}
-ul.nobullets {padding-left:0;}
-ul.nobullets li {list-style-type:none;}
-div.commentblock {border-left:8px solid #eee;padding-left:12px;}
-#topspc {position:absolute;top:0;left:0;width:100%;height:6px;z-index:1234;background-color:#97b800;}
-#navspc {position:absolute;top:9px;left:50%;margin-left:-250px;width:auto;background-color:transparent;}
-#navspc a {font-size:18px;line-height:1em;margin:0 30px 0 0;padding:0;font-weight:bold;}
-#mainspc a {font-weight:bold;}
+<title>CASH Music / Platform</title>
+<meta name="description" content="CASH Music is a nonprofit that empowers musicians through free/open technology and learning." />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width" />
 
-/* FORMS */
-input {padding:6px 2% 6px 2%;border:1px solid #ccc;width:96%;}
-input:active, input:focus {outline:0;border:1px solid #888;}
-input.button, a.mockbutton {background-color:#ccc;padding:6px 18px 6px 18px;font-weight:bold;cursor:pointer;width:auto;}
-input.button:hover {background-color:#aaa;}
-input.checkorradio {width:auto;}
-select {padding:6px 3px 6px 3px;border:1px solid #ccc;width:100%;}
-select:active, select:focus {outline:2px solid #ff0;}
-label {font-size:0.85em;text-transform:uppercase;color:#999;}
- 
-/* COLORS */
-.usecolor1 {color:#cd074d;}
-.usecolor2 {color:#ca8c07;}
-.usecolor3 {color:#97b800;}
-.usecolor4 {color:#0080c9;}
-.usecolor5 {color:#8a00ca;}
-.usecolor0 {color:#999;}
- 
-/* FOOTER (base code taken from cssstickyfooter.com) */
-* {margin-top:0;padding:0;} 
-html, body, #wrap {height:100%;}
-body > #wrap {height:auto;min-height:100%;}
-#mainspc {padding-bottom:90px;padding-top:120px;width:500px;margin:0 auto;}
-#footer {position:relative;margin-top:-36px;height:36px;color:#bbb;text-align:left;font-size:0.9em;line-height:1em;clear:both;background-color:transparent;}
-#footer p {padding:12px 8px 0px 8px;}
-#footer a {color:#aaa;margin-left:24px;}
-#footer a:hover {color:#000;}
-#footer .donatelink {color:#999;}
- 
-/* ACCESSIBILITY STUFFS */
-* a:active, * a:focus, #footer a.donatelink:active, #footer a.donatelink:focus, input.checkorradio:focus, input.checkorradio:active
-{outline:2px solid #ff0;background-color:#ff0;color:#000;}
-</style> 
+<link rel="icon" type="image/png" href="http://2ea7029ee5fd6986c0a6-6d885a724441c07ff9b675222419a9d2.r58.cf2.rackcdn.com/ui/01/images/badge.png" />
+<link rel="stylesheet" type="text/css" href="/docs/assets/css/foundation.min.css" />
+<link rel="stylesheet" type="text/css" href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700|Roboto+Condensed:400,700italic,400italic,700,300,300italic|Noto+Serif:400,700italic,400italic,700' />
+<link rel="stylesheet" type="text/css"  href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" />
+<link rel="stylesheet" type="text/css" href="/docs/assets/css/app.css" />
 
-<script type="text/javascript">
-/* Modernizr 2.0.6 (Custom Build) | MIT & BSD
- * Build: http://www.modernizr.com/download/#-fontface-cssclasses-teststyles
- */
-;window.Modernizr=function(a,b,c){function y(a,b){return!!~(""+a).indexOf(b)}function x(a,b){return typeof a===b}function w(a,b){return v(prefixes.join(a+";")+(b||""))}function v(a){k.cssText=a}var d="2.0.6",e={},f=!0,g=b.documentElement,h=b.head||b.getElementsByTagName("head")[0],i="modernizr",j=b.createElement(i),k=j.style,l,m=Object.prototype.toString,n={},o={},p={},q=[],r=function(a,c,d,e){var f,h,j,k=b.createElement("div");if(parseInt(d,10))while(d--)j=b.createElement("div"),j.id=e?e[d]:i+(d+1),k.appendChild(j);f=["&shy;","<style>",a,"</style>"].join(""),k.id=i,k.innerHTML+=f,g.appendChild(k),h=c(k,a),k.parentNode.removeChild(k);return!!h},s,t={}.hasOwnProperty,u;!x(t,c)&&!x(t.call,c)?u=function(a,b){return t.call(a,b)}:u=function(a,b){return b in a&&x(a.constructor.prototype[b],c)};var z=function(a,c){var d=a.join(""),f=c.length;r(d,function(a,c){var d=b.styleSheets[b.styleSheets.length-1],g=d.cssRules&&d.cssRules[0]?d.cssRules[0].cssText:d.cssText||"",h=a.childNodes,i={};while(f--)i[h[f].id]=h[f];e.fontface=/src/i.test(g)&&g.indexOf(c.split(" ")[0])===0},f,c)}(['@font-face {font-family:"font";src:url("https://")}'],["fontface"]);n.fontface=function(){return e.fontface};for(var A in n)u(n,A)&&(s=A.toLowerCase(),e[s]=n[A](),q.push((e[s]?"":"no-")+s));v(""),j=l=null,e._version=d,e.testStyles=r,g.className=g.className.replace(/\bno-js\b/,"")+(f?" js "+q.join(" "):"");return e}(this,this.document);
+<style type="text/css">
+	a.biglink {color:#df0854;font-family:"Roboto Condensed",Helvetica,Arial,sans-serif;font-size:24px;line-height:36px;font-weight:bold;margin-right:32px;white-space:nowrap;}
+	a.biglink:hover {color:#000;}
+	a.biglink .icon {font-size:22px;}
+	#mainspc {min-height:0;}
+	#topheader {display:block;width:100%;position:absolute;left:15px;top:-230px;color:#ff0;text-align:center;}
+	#topspc {height:410px;}
+	@media all and (max-width: 720px) {
+		#topheader {left:12px;top:-230px;}
+		#topspc {height:300px;}
+	}
+</style>
 
-var colors = ['cd074d','ca8c07','97b800','0080c9','8a00ca'];
-var pagecolor = colors[Math.floor(Math.random() * colors.length)];
-document.write('<style type="text/css">a {color:#' + pagecolor + ';}#topspc {background-color:#' + pagecolor + ';}</style>');
-</script>
+<script type="text/javascript" src="http://js.cashmusic.org/cashmusic.js" data-options="lightboxvideo"></script>
 
-<link rel="icon" type="image/png" href="https://cashmusic.org/assets/images/icons/cash.png" /> 
- 
 </head> 
+<body>
 
-<body> 
-<div id="topspc">
-	<div id="navspc">
-		<a href="/interfaces/php/admin/">Admin</a> <a href="/interfaces/php/demos/">Demos</a> <a href="/docs/">Docs</a> <a href="http://github.com/cashmusic/DIY">Github Repo</a>
+	<div id="topspc">
+
 	</div>
-</div>
+	<div id="mainspc" class="row">
+		<h3 id="topheader" data-0="top:-230px;" data-410="top:-70px;" data-smooth-scrolling="off">Hello. This is CASH Music.</h3>
+		<img id="topbadges" src="/docs/assets/images/badges.png" width="312" height="50" alt="home" />
 
-<div id="wrap"> 
-	<div id="mainspc"> 
-		<h1>CASH Music</h1>
-		<h2 class="usecolor0 tight">Distributed DIY Platform</h2>
+		<div class="twelve columns">
+			<h1>CASH Music is a nonprofit empowering musicians towards a sustainable future. This platform is the heart of that effort — tools that let musicians control their careers.</h1>	
 
-		<br />
-		<b>Installation: </b> Run the dev installer found at installers/php/dev_installer.php — this is a command-line 
-		script, so run it like so:
+			<br />
+			<!--a href="https://vimeo.com/77475251"-->
+			<a href="http://www.youtube.com/watch?v=nbkKBKayubY"><img src="http://2ea7029ee5fd6986c0a6-6d885a724441c07ff9b675222419a9d2.r58.cf2.rackcdn.com/ui/01/images/introduction.jpg" width="100%" alt="CASH Music platform introduction" /></a>
+		</div>
+	</div>
+
+	<div class="row tight">
+		<div class="four columns">
+			<h5>Use it</h5>
+			<p class="alt">
+				<a href="/interfaces/php/admin/">Login now</a><br />
+				email: dev@cashmusic.org<br />
+				password: dev
+			</p>
+		</div>
+		<div class="four columns">	
+			<h5>Tools</h5>
+			<p class="alt">
+				<a href="/tools/testsuite/">Run test suite</a><br />
+				<a href="/tools/sampledata/">Add sample/test data</a><br />
+				<a href="/tools/reinstall/">Reinstall / clear all data</a><br />
+				<a href="/tools/logviewer/">Apache log viewer</a><br />
+			</p>
+
+			<h5>Docs</h5>
+			<p class="alt">
+				<a href="/docs/">Developer docs</a><br />
+				<a href="/interfaces/php/admin/help/">In-platform FAQ</a>
+			</p>
+		</div>
+		<div class="four columns">	
+			<h5>More</h5>
+			<p class="alt">
+				<a href="https://github.com/cashmusic/platform">Platform github repo</a><br />
+				<a href="http://cashmusic.github.io/cashmusic.js/">cashmusic.js</a><br />
+				<a href="#more">Contact information</a><br />
+			</p>
+		</div>
+	</div>
+
+
+	<div class="callout" id="mission" style="background-color:#df9b08;">
+		<div class="row">
+			<div class="twelve columns calloutcontent">
+				<h2>The <b>Licenses</b>.</h2>
+				<p>
+					The CASH platform is made of independent but cooperative programs including the core library, developer tools, elements, an admin interface, an api, etc. The core is licensed under the LGPL License, allowing it to be used by a wide range of project types. All other work is licensed under the AGPL unless stated otherwise. <a href="LICENSE">More.</a>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div id="more">
+		<div class="row">
+			<div class="eight columns">
+				<p>
+					Community is vital. We can't do this alone. Please get in touch, join the mailing list, or support our project by making a pull request. Together we can ensure a healthy future for musicians everywhere.
+				</p><p class="alt">
+					<b>Join the mailing list:</b>
+				</p>
+				<script type="text/javascript"> window.cashmusic.embed('http://x.cashmusic.org/public/','1518');</script>
+			</div>
+			<div class="four columns">	
+				<p class="alt">
+					<a href="mailto:dev@cashmusic.org">dev@cashmusic.org</a><br />
+					<a href="http://twitter.com/cashmusic">@cashmusic</a><br />
+					<a href="https://plus.google.com/107291520879981153926" rel="publisher">google+</a><br />
+					<a href="https://github.com/cashmusic/">github.com/cashmusic</a><br />
+				</p>
+			</div>
+		</div>
+
 		<br /><br />
-		<code>
-			php ./installers/php/dev_installer.php
-		</code>
-		<br />
-		Follow the prompts. If you have any questions, see the README in /installers/php.
-		
-		<br /><br />
-		<h3>Admin Interface</h3>
-		<p>
-			<a href="/interfaces/php/admin/">Log in</a> using the email and password from the dev installer.
-		</p>
-		<h3>Demos</h3>
-		<p>
-			We're working to include demo data as a standard part of the dev install. For 
-			now you'll need to hack on <a href="/interfaces/php/demos/">these demos</a> a bit to get them working — start by creating 
-			elements in the Admin Interface.
-		</p>
-		<h3>Docs</h3>
-		<p>
-			The latest platform <a href="/docs/">documentation</a>.
-		</p>
-	</div> 
-</div> 
- 
-<div id="footer"> 
-	<p><b>&copy; 2011 CASH Music.</b> All our code is open-source. <a href="http://cashmusic.org/why/" style="margin-left:0;">Learn more</a>. <a href="http://help.cashmusic.org/">Get help</a> <a href="http://cashmusic.org/donate" class="donatelink"><b>Donate</b></a></p> 
-</div>
- 
+	</div>
+
+	<div id="bottomspc"></div>
+
+	<script type="text/javascript" src="/docs/assets/scripts/skrollr.min.js"></script>
+	<script type="text/javascript">
+		if (document.documentElement.clientWidth > 480 && navigator.userAgent.match(/iPad/i) == null) {
+			var s = skrollr.init();
+		}
+	</script>
 </body> 
 </html>

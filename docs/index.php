@@ -122,7 +122,7 @@ foreach ($all_plants as $type => $plant) {
 		}
 	}
 
-	$final_output = '<h2>' . ucfirst($type) . ' requests</h2><p>All actions defined for \'' . $type . '\' type requests:';
+	$final_output = '<h1>' . ucfirst($type) . ' requests</h1><p>All actions defined for \'' . $type . '\' type requests:';
 	foreach ($actions as $action => $details) {
 		$final_output .= '<div class="request_action">';
 		$final_output .= '<h4 class="action_name">' . $type . ' / ' . $action . '</h4>';

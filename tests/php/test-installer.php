@@ -199,7 +199,7 @@ echo "\n\n                                  /)-_-(/\n"
 		// move source files into place
 		$file_write_success = false;
 		$test_url = getTestEnv("CASHMUSIC_TEST_URL");
-		if (!$test_url) { $test_url = "http://dev.cashmusic.org:8080"; }
+		if (!$test_url) { $test_url = "http://dev.cashmusic.org"; }
 		if ($db_engine == 'sqlite') {
 			if (
 				findReplaceInFile($installer_root.'/../../framework/php/settings/cashmusic.ini.php','driver = "mysql','driver = "sqlite') &&

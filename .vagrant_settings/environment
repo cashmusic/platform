@@ -1,2 +1,0 @@
-PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"
-cashmusic_platform_settings='{"driver":"sqlite","hostname":"","username":"","password":"","database":"cashmusic_vagrant.sqlite","salt":"","debug":"","apilocation":"http://localhost:8888/api/","instancetype":"multi","timezone":"US/Pacific","analytics":"basic","systememail":"CASH Music <dev@cashmusic.org>","smtp":0,"platforminitlocation":"/vagrant/framework/cashmusic.php"}'
