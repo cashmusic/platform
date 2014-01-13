@@ -6,13 +6,16 @@ class AdminBasicIntegration extends UnitTestCase {
 	public $cc;
 	private $cash_test_url=false;
 	private $cash_user_id=1;
-	private $cash_user_login='email@example.com';
-	private $cash_user_password='hack_my_gibson';
+	private $cash_user_login='dev@cashmusic.org';
+	private $cash_user_password='dev';
 	
 	public function __construct() {
 		$this->cc = new cURL();
 		$this->cash_test_url = getTestEnv('CASHMUSIC_TEST_URL');
-		if ($this->cash_test_url == 'http://dev.cashmusic.org:8080') {
+		if (empty($this->cash_test_url)) {
+			$this->cash_test_url = 'http://localhost';
+		}
+		if ($this->cash_test_url == 'http://dev.cashmusic.org') {
 			echo "Test URL is pointing to an external test server, skipping integration tests.\n";
 			$this->cash_test_url = false;
 		} else {

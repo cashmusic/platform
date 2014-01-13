@@ -1,4 +1,4 @@
-##Code standards
+# Code standards
 When in doubt, code for legibility and easy adoption. Capitalization and CamelCase should be used 
 for class names, camelCase starting with lowercase for function names, and variable names in 
 snake_case (lowercase and underscores.) Indentation has been kept simple — a single hard tab 

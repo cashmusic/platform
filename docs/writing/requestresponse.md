@@ -1,4 +1,4 @@
-## Request / response format
+# Request / response format
 For developers looking to build custom functionality we've built a request/response 
 process as the primary interface to the PHP framework. It mimics a REST-style API 
 and standardizes calls and responses across the methods...so the PHP interaction 

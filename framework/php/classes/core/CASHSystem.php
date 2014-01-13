@@ -304,7 +304,7 @@
 	public static function setSystemSetting($setting_name=false,$value='') {
 		if ($setting_name) {		
 			$cash_settings = CASHSystem::getSystemSettings();
-			if ($cash_settings['instancetype'] != 'multi') {
+			// if ($cash_settings['instancetype'] != 'multi') { --- DISABLED SINGLE-USER ONLY BECAUSE WHY?
 				if (array_key_exists($setting_name, $cash_settings)) {
 					$success = CASHSystem::findReplaceInFile(
 						CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php',
@@ -318,7 +318,7 @@
 						return true;
 					}
 				}
-			}
+			//}
 			return false;
 		} else {
 			return false;

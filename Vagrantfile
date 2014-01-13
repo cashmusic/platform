@@ -21,13 +21,16 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-shell
     #!/bin/bash
     sudo apt-get update
-    sudo apt-get upgrade
     #
     # ENABLE MOD REWRITE
     sudo a2enmod rewrite 
     #
     # RESTART APACHE
     sudo /etc/init.d/apache2 restart
+    #
+    # PERMISSIONS AND JUNK
+    sudo chmod 0755 /var/log/apache2/error.log
+    sudo chmod 0755 /var/log/apache2
     #
     # CASH MUSIC CHECK/INSTALL
     php /vagrant/.vagrant_settings/vagrant_cashmusic_installer.php
