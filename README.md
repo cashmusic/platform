@@ -24,7 +24,7 @@ Vagrant will fire up a VM, set up Apache, install the platform, and start servin
 special dev website with tools, docs, and a live instance of the platform — all mapped 
 right to localhost:8888.
 
-[Dev site included in repo](https://b6febe3773eb5c5bc449-6d885a724441c07ff9b675222419a9d2.ssl.cf2.rackcdn.com/special/docs/dev_screenshot.jpg)
+![Dev site included in repo](https://b6febe3773eb5c5bc449-6d885a724441c07ff9b675222419a9d2.ssl.cf2.rackcdn.com/special/docs/dev_screenshot.jpg)
 
 
 ## Requirements
