@@ -8,6 +8,7 @@
 	"action_logout":"Log out",
 	"action_close":"close",
 
+	"misc_account":"Account / settings",
 	"misc_tips":"Tips for <b>this</b> page",
 	"misc_footer_markup":"<b>&copy; 2013 CASH Music.</b> All our code is open-source. "
 }

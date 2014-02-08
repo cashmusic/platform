@@ -73,7 +73,6 @@
 	 */
 	function redrawPage(data) {
 		// change the color
-		$('#pagebadge').attr('src', cashImagePath + '/ui/default/assets/images/badge' + data.specialcolor + '.png');
 		$('#mainspc').removeClass();
 		$('#mainspc').addClass(data.specialcolor);
 
@@ -94,7 +93,6 @@
 		$('#current_pagetip').html(data.ui_page_tip);
 		$('#pagedisplay').html(data.content);
 		$('#pagetitle span').html(data.ui_title);
-		$('#pagemenu').html(data.section_menu);
 
 		window.scrollTo(0,0);
 		$(document).trigger('redraw');
@@ -202,10 +200,15 @@
 		//
 		if (section != currentSection) {
 			currentSection = section;
-			$('#navmenu a').each(function(index) {
+			$('#navmenu li').each(function(index) {
 				$(this).removeClass('current');
 				if ($(this).attr('id') == section+'nav') {
 					$(this).addClass('current');
+				}
+			});
+			$('#navmenu a').each(function(index) {
+				if ($(this).attr('id') == section+'nav') {
+					$(this).parent().addClass('current');
 				}
 			});
 		}

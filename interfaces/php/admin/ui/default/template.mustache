@@ -12,7 +12,7 @@
 	<title>CASH Music / Admin</title>
 
 	<link rel="icon" type="image/png" href="https://b6febe3773eb5c5bc449-6d885a724441c07ff9b675222419a9d2.ssl.cf2.rackcdn.com/ui/01/images/badge.png" />
-	<link href="//fonts.googleapis.com/css?family=Amatic+SC:400,700|Roboto+Condensed:400,700italic,400italic,700,300,300italic|Noto+Serif:400,700italic,400italic,700" rel="stylesheet" type="text/css" />
+	<link href="//fonts.googleapis.com/css?family=Roboto:100|Roboto+Condensed:400,700italic,400italic,700,300,300italic|Noto+Serif:400,700italic,400italic,700" rel="stylesheet" type="text/css" />
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 	<link href="{{www_path}}/ui/default/assets/css/foundation.min.css" rel="stylesheet" type="text/css" />
 	<link href="{{www_path}}/ui/default/assets/css/app.css" rel="stylesheet" type="text/css" />
@@ -36,34 +36,71 @@
 	<body id="page" class="off-canvas hide-extras">
 	<div id="wrap">	
 		<div id="chromespc" class="twelve columns phone-two hide-for-small">
-			<div id="navmenumask"></div>
 			<div id="chrome">
 				<div id="navmenu">
 					<ul>
-						<li><a href="{{www_path}}/" id="mainnav" {{#ui_current_main}}class="current"{{/ui_current_main}}><i class="icon icon-home"></i>{{link_main_page}}</a></li>
-						<li><a href="{{www_path}}/assets/" id="assetsnav" {{#ui_current_assets}}class="current"{{/ui_current_assets}}><i class="icon icon-paste"></i>{{link_menu_assets}}</a></li>
-						<li><a href="{{www_path}}/people/" id="peoplenav" {{#ui_current_people}}class="current"{{/ui_current_people}}><i class="icon icon-group"></i>{{link_menu_people}}</a></li>
-						<li><a href="{{www_path}}/commerce/" id="commercenav" {{#ui_current_commerce}}class="current"{{/ui_current_commerce}}><i class="icon icon-credit-card"></i>{{link_menu_commerce}}</a></li>
-						<li><a href="{{www_path}}/calendar/" id="calendarnav" {{#ui_current_calendar}}class="current"{{/ui_current_calendar}}><i class="icon icon-calendar"></i>{{link_menu_calendar}}</a></li>
+						<li{{#ui_current_main}} class="current"{{/ui_current_main}}>
+							<a href="{{www_path}}/" id="mainnav">
+								<i class="icon icon-certificate"></i>{{link_main_page}}
+								<div class="highlightimg" style="background-image:url({{img_base_url}}/ui/default/assets/images/badgeusecolor1.png);"></div>
+							</a>
+						</li>
+						<li{{#ui_current_assets}} class="current"{{/ui_current_assets}}>
+							<a href="{{www_path}}/assets/" id="assetsnav">
+								<i class="icon icon-paste"></i>{{link_menu_assets}}
+								<div class="highlightimg" style="background-image:url({{img_base_url}}/ui/default/assets/images/badgeusecolor2.png);"></div>
+							</a>
+							<div class="subnavmenu usecolor2">
+								{{{assets_section_menu}}}
+							</div>
+						</li>
+						<li{{#ui_current_people}} class="current"{{/ui_current_people}}>
+							<a href="{{www_path}}/people/" id="peoplenav">
+								<i class="icon icon-group"></i>{{link_menu_people}}
+								<div class="highlightimg" style="background-image:url({{img_base_url}}/ui/default/assets/images/badgeusecolor3.png);"></div>
+							</a>
+							<div class="subnavmenu usecolor3">
+								{{{people_section_menu}}}
+							</div>
+						</li>
+						<li{{#ui_current_commerce}} class="current"{{/ui_current_commerce}}>
+							<a href="{{www_path}}/commerce/" id="commercenav">
+								<i class="icon icon-credit-card"></i>{{link_menu_commerce}}
+								<div class="highlightimg" style="background-image:url({{img_base_url}}/ui/default/assets/images/badgeusecolor4.png);"></div>
+							</a>
+							<div class="subnavmenu usecolor4">
+								{{{commerce_section_menu}}}
+							</div>
+						</li>
+						<li{{#ui_current_calendar}} class="current"{{/ui_current_calendar}}>
+							<a href="{{www_path}}/calendar/" id="calendarnav">
+								<i class="icon icon-calendar"></i>{{link_menu_calendar}}
+								<div class="highlightimg" style="background-image:url({{img_base_url}}/ui/default/assets/images/badgeusecolor5.png);"></div>
+							</a>
+							<div class="subnavmenu usecolor5">
+								{{{calendar_section_menu}}}
+							</div>
+						</li>
 					</ul>
 				</div>
 
-				<div id="helpmenu">
-					<i class="icon icon-question-sign"></i>{{link_menu_help}}
-					<ul>
-						<li><a href="#tips" id="tipslink"><i class="icon icon-compass"></i>{{{misc_tips}}}</a></li>
-						<li><a href="{{www_path}}/help/gettingstarted/"><i class="icon icon-rocket"></i>{{link_menu_help_gettingstarted}}</a></li>
-						<li><a href="{{www_path}}/help/"><i class="icon icon-book"></i>{{link_help_alt}}</a></li>
-						<li><a href="http://help.cashmusic.org/" target="_blank"><i class="icon icon-external-link"></i>help.cashmusic.org</a></li>
-					</ul>
-				</div>
 				<div id="accountmenu">
-					<i class="icon icon-cog"></i>{{user_email}}
+					<span><i class="icon icon-cog"></i>{{misc_account}}</span>
 					<ul>
 						<li><a href="{{www_path}}/account/"><i class="icon icon-user"></i>{{link_youraccount}}</a></li>
 						<li><a href="{{www_path}}/settings/"><i class="icon icon-cog"></i>{{link_settings}}</a></li>
 						<li><a href="http://cashmusic.org/#more"><i class="icon icon-heart"></i>{{action_donate}}</a></li>
 						<li><a href="{{www_path}}/logout/" id="logout"><i class="icon icon-signout"></i>{{action_logout}}</a></li>
+					</ul>
+				</div>
+
+				<div id="helpmenu">
+					<span><i class="icon icon-question-sign"></i>{{link_menu_help}}</span>
+					<ul>
+						<li><a href="#tips" id="tipslink"><i class="icon icon-compass"></i>{{{misc_tips}}}</a></li>
+						<li><a href="{{www_path}}/help/gettingstarted/"><i class="icon icon-rocket"></i>{{link_menu_help_gettingstarted}}</a></li>
+						<li><a href="{{www_path}}/help/"><i class="icon icon-book"></i>{{link_help_alt}}</a></li>
+						<li><a href="http://help.cashmusic.org/" target="_blank"><i class="icon icon-external-link"></i>help.cashmusic.org</a></li>
 					</ul>
 				</div>
 			</div>
@@ -100,8 +137,7 @@
 					</div>
 					<div class="row">
 						<div class="twelve columns phone-two">
-							<h2 id="pagetitle"><img src="{{img_base_url}}/ui/default/assets/images/badge{{specialcolor}}.png" id="pagebadge" alt="" /><span>{{ui_title}}</span></h2>
-							<div id="pagemenu">{{#section_menu}}{{{section_menu}}}{{/section_menu}}</div>
+							<h2 id="pagetitle"><span>{{ui_title}}</span></h2>
 							<div id="tipspc" class="hide-for-small">
 								<div id="pagetips">
 									<p>

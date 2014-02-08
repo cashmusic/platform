@@ -7,7 +7,7 @@
 /* BASE STYLES AND RESETS */
 html {margin:0;padding:0;height:100%;}
 body {color:#2c2222;background-color:#e4e4e4;font:15px/20px "Roboto Condensed",Helvetica,Arial,sans-serif;text-align:left;margin:0;padding:0;min-height:300px;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;height:100%;min-height:500px;}
-h1,h2 {color:#000;font-weight:400;font-size:52px;line-height:52px;font-family:"AmaticSC-Regular","Amatic SC Regular","AmaticSC","Amatic SC",Helvetica,Arial,sans-serif;margin:6px 0 18px 0;}
+h1,h2 {color:#000;font:100 48px/40px "Roboto",Helvetica,Arial,sans-serif;margin:6px 0 18px 0;}
 h3,h4 {color:#000;font:700 19px/19px "Roboto Condensed",Helvetica,Arial,sans-serif;margin:6px 0 18px 0;}
 h5 {color:#000;font:700 15px/15px "Roboto Condensed",Helvetica,Arial,sans-serif;margin:0 0 3px 0;} 
 img {border:0;}
@@ -75,29 +75,36 @@ form.inline input.inlinesubmit {font:14px/1.5em helvetica,"helvetica neue","Sego
  ***************************************************/
 
 /* MAIN SPACES */
-#chromespc {position:fixed;top:0;left:0;width:100%;z-index:1000;margin:0;padding:0;background-color:#000;height:6px;font-size:15px;font-family:'Roboto Condensed';line-height:15px;font-weight:700;z-index:500;}
-#chrome {padding-top:6px;padding-right:1em;}
-#mainspc {padding-top:80px;z-index:400;}
+#chromespc {position:fixed;top:0;left:0;width:100%;height:6px;background-color:#000;z-index:1000;margin:0;padding:0;font-size:15px;font-family:'Roboto Condensed';line-height:15px;font-weight:700;z-index:500;}
+#chrome {position:relative;top:6px;left:24px;width:180px;background-color:rgba(255,255,255,0.4);box-shadow:-2px 2px 2px rgba(0,0,0,0.1);}
+#mainspc {position:relative;left:225px;margin:0;padding-top:28px;z-index:400;width:45%;}
 #pagetitle {position:relative;}
-#pagetitle img {position:absolute;left:-66px;top:-2px;width:56px;height:56px;}
+#pagetitle img {position:absolute;left:-66px;top:-17px;width:56px;height:56px;}
 div.row {overflow:visible;}
 /* MAIN MENU */
+.highlightimg {position:absolute;top:0;left:-24px;height:100%;width:24px;box-shadow:-2px 2px 2px rgba(0,0,0,0.1);background-position:center center;display:none;}
+#navmenu ul li.current a div.highlightimg, #navmenu ul li a:hover div.highlightimg {display:block;}
 #navmenu {position:relative;z-index:100;}
-#navmenu, #navmenu ul {display:inline;margin-left:0.5em;}
+#navmenu, #navmenu ul {display:block;padding:0;}
 #navmenu ul li {display:inline;}
-#navmenu ul li a {display:inline;padding:8px 12px 8px 12px;color:#000;margin-right:0.75em;}
-#navmenu ul li a.current {background-color:#000;color:#e4e4e4;}
+#navmenu ul li a {position:relative;display:block;padding:6px 12px 8px 12px;color:#000;font-size:18px;font-weight:300;}
+#navmenu ul li.current a {background-color:#000;color:#e4e4e4;}
 #navmenu ul li a:hover {background-color:#000;color:#ff0;}
-#navmenumask {position:absolute;margin-top:6px;left:0;width:100%;height:29px;z-index:1;color:#f5f5f0;background-color:#e4e4e4;}
-/* ACCOUNT AND HELP MENUS */
-#accountmenu,#helpmenu {position:relative;top:-6px;width:auto;height:35px;float:right;padding:8px 12px 8px 12px;cursor:pointer;margin:0 1em 0 1em;z-index:100;}
-#accountmenu:hover, #helpmenu:hover {background-color:#000;color:#e4e4e4;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);}
+#navmenu ul li .subnavmenu {max-height:1px;visibility:hidden;overflow:hidden;-webkit-transition:all 0.5s ease-out;-moz-transition:all 0.5s ease-out;-o-transition:all 0.5s ease-out;transition:all 0.5s ease-out;}
+#navmenu ul li.current .subnavmenu {max-height:500px;visibility:visible;}
+#navmenu ul li .subnavmenu ul {margin-top:4px;margin-bottom:8px;}
+#navmenu ul li .subnavmenu a {font-size:14px;font-weight:bold;padding:4px 0 2px 12px;background-color:transparent !important;}
+/* ACCOUNT/HELP MENUS */
+#accountmenu,#helpmenu {position:relative;height:auto;overflow:hidden;cursor:pointer;z-index:100;font-weight:400;color:#999;}
+#accountmenu span, #helpmenu span {display:block;padding:8px 12px 8px 12px;margin-bottom:4px;}
+#accountmenu:hover, #helpmenu:hover {background-color:#000;color:#e4e4e4;}
 #helpmenu:hover {background-color:#ff0;color:#000;}
-#accountmenu ul, #helpmenu ul {position:absolute;top:35px;right:0;margin:0;padding:0;list-style:none;width:auto;height:1px;visibility:hidden;}
-#accountmenu:hover ul, #helpmenu:hover ul {height:auto;visibility:visible;background-color:#000;color:#fff;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);}
-#helpmenu:hover ul {background-color:#ff0;color:#000;}
+#accountmenu ul, #helpmenu ul {position:relative;margin:0;padding:0;list-style:none;max-height:1px;visibility:hidden;-webkit-transition:all 0s ease-out;-moz-transition:all 0s ease-out;-o-transition:all 0s ease-out;transition:all 0s ease-out;}
+#accountmenu:hover ul, #helpmenu:hover ul {max-height:500px;visibility:visible;-webkit-transition:all 0.6s ease-out;-moz-transition:all 0.6s ease-out;-o-transition:all 0.6s ease-out;transition:all 0.6s ease-out;}
+#accountmenu ul {background-color:#000;color:#fff;}
+#helpmenu ul {background-color:#ff0;color:#000;}
 #accountmenu ul li, #helpmenu ul li {display:block;clear:both;}
-#accountmenu ul li a, #helpmenu ul li a {color:#fff;display:block;width:14em;padding:8px 1.5em 9px 2.625em;text-decoration:none;margin:0;}
+#accountmenu ul li a, #helpmenu ul li a {color:#fff;display:block;padding:8px 1.5em 9px 1.85em;text-decoration:none;margin:0;}
 #helpmenu ul li a {color:#000;}
 #accountmenu ul li a:hover {color:#000;background-color:#ff0;}
 #helpmenu ul li a:hover {color:#fff;background-color:#000;}
@@ -224,11 +231,12 @@ li:hover .itemnav {margin:12px 0 8px 0;height:auto;}
 .bgcolor4, div.usecolor4 input[type="submit"], div.usecolor4 button, div.usecolor4 a.button {background-color:#0891df !important;}
 .bgcolor5, div.usecolor5 input[type="submit"], div.usecolor5 button, div.usecolor5 a.button {background-color:#9b08df !important;}
 div.usecolor1 input[type="submit"]:hover, div.usecolor2 input[type="submit"]:hover, div.usecolor3 input[type="submit"]:hover, div.usecolor4 input[type="submit"]:hover, div.usecolor5 input[type="submit"]:hover, div.usecolor1 button:hover, div.usecolor2 button:hover, div.usecolor3 button:hover, div.usecolor4 button:hover, div.usecolor5 button:hover {background-color:#000 !important;}
-div.usecolor1 a, h2.usecolor1, span.usecolor1, div.usecolor1 form.inline input.inlinesubmit {color:#cd074d;}
-div.usecolor2 a, h2.usecolor2, span.usecolor2, div.usecolor2 form.inline input.inlinesubmit {color:#ca8c07;}
-div.usecolor3 a, h2.usecolor3, span.usecolor3, div.usecolor3 form.inline input.inlinesubmit {color:#97b800;}
-div.usecolor4 a, h2.usecolor4, span.usecolor4, div.usecolor4 form.inline input.inlinesubmit {color:#0080c9;}
-div.usecolor5 a, h2.usecolor5, span.usecolor5, div.usecolor5 form.inline input.inlinesubmit {color:#8a00ca;}
+div.usecolor1 a, h2.usecolor1, span.usecolor1, div.usecolor1 form.inline input.inlinesubmit {color:#cd074d !important;}
+div.usecolor2 a, h2.usecolor2, span.usecolor2, div.usecolor2 form.inline input.inlinesubmit {color:#ca8c07 !important;}
+div.usecolor3 a, h2.usecolor3, span.usecolor3, div.usecolor3 form.inline input.inlinesubmit {color:#97b800 !important;}
+div.usecolor4 a, h2.usecolor4, span.usecolor4, div.usecolor4 form.inline input.inlinesubmit {color:#0080c9 !important;}
+div.usecolor5 a, h2.usecolor5, span.usecolor5, div.usecolor5 form.inline input.inlinesubmit {color:#8a00ca !important;}
+div.usecolor1 a:hover, div.usecolor2 a:hover, div.usecolor3 a:hover, div.usecolor4 a:hover, div.usecolor5 a:hover {color:#000 !important;}
 a.usecolor0 {color:#999 !important;}
 a.usecolor1 {color:#cd074d !important;}
 a.usecolor2 {color:#ca8c07 !important;}
