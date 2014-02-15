@@ -22,9 +22,9 @@
 		if (!isset($GLOBALS['cashmusic_script_store']['initial_page_request_time'])) {
 			// remove magic quotes, never call them "magic" in front of your friends
 			if (get_magic_quotes_gpc()) {
-			    function stripslashes_from_gpc(&$value) {$value = stripslashes($value);}
-			    $gpc = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
-			    array_walk_recursive($gpc, 'stripslashes_from_gpc');
+				function stripslashes_from_gpc(&$value) {$value = stripslashes($value);}
+				$gpc = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
+				array_walk_recursive($gpc, 'stripslashes_from_gpc');
 				unset($gpc);
 			}
 			
@@ -156,6 +156,10 @@
 			// try with fopen wrappers
 			$options = array(
 				'http' => array(
+					'protocol_version'=>'1.1',
+					'header'=>array(
+						'Connection: close'
+					),
 					'user_agent' => $user_agent
 				));
 			if ($do_post) {
@@ -183,6 +187,7 @@
 			@curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 			@curl_setopt($ch, CURLOPT_AUTOREFERER, true);
 			@curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+			@curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
 			if ($ignore_errors) {
 				@curl_setopt($ch, CURLOPT_FAILONERROR, false);
 			} else {
