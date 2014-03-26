@@ -147,6 +147,7 @@
 					}
 					setContentBehaviors();
 				}
+				$('#ajaxloading').hide();
 				$('#pagedisplay').fadeTo(200,1);
 			}
 		},'json');
@@ -175,6 +176,7 @@
 		});
 
 		// fade out
+		$('#ajaxloading').show();
 		$('#pagedisplay').fadeTo(100,0.2, function() {
 			doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
 		});

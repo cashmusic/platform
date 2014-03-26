@@ -7,7 +7,7 @@
 /* BASE STYLES AND RESETS */
 html {margin:0;padding:0;height:100%;}
 body {color:#2c2222;background-color:#e4e4e4;font:15px/20px "Roboto Condensed",Helvetica,Arial,sans-serif;text-align:left;margin:0;padding:0;min-height:300px;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;height:100%;min-height:500px;}
-h1,h2 {color:#000;font:100 48px/40px "Roboto",Helvetica,Arial,sans-serif;margin:6px 0 18px 0;}
+h1,h2 {color:#bbb;font:100 48px/40px "Roboto Condensed",Helvetica,Arial,sans-serif;margin:6px 0 18px 0;}
 h3,h4 {color:#000;font:700 19px/19px "Roboto Condensed",Helvetica,Arial,sans-serif;margin:6px 0 18px 0;}
 h5 {color:#000;font:700 15px/15px "Roboto Condensed",Helvetica,Arial,sans-serif;margin:0 0 3px 0;} 
 img {border:0;}
@@ -215,6 +215,12 @@ li:hover .itemnav {margin:12px 0 8px 0;height:auto;}
 .modaldialog ::selection {background:#000;color:#fff;}
 .spacedtext {line-height:2em;}
 .tight {margin-bottom:0 !important;}
+
+#ajaxloading {position:absolute;top:140px;left:50%;margin-left:-44px;z-index:1000;display:none;}
+.rotate {-webkit-animation:spin .8s infinite linear;animation:spin .8s infinite linear;}
+@-webkit-keyframes spin {100%{-webkit-transform:rotate(360deg);}}
+@-moz-keyframes spin {100%{-moz-transform:rotate(360deg);}}
+@keyframes spin {100%{-moz-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg);}}
 
 
 /*************************************************** 
