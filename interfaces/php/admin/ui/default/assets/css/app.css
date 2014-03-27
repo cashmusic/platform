@@ -281,17 +281,11 @@ body #sidebarButton span.menu-inactive {display:inline;}
 body #sidebarButton span.menu-active {display:none;}
 body.active #sidebarButton span.menu-inactive {display:none;}
 body.active #sidebarButton span.menu-active {display:inline;}
-/* SKINNY UP THE TOP NAV */
-@media only screen and (max-width:920px) {
-	#accountmenu,#helpmenu {width:200px;float:none;top:0;margin-top:12px;margin-left:2.5em;clear:both;z-index:10;}
-	#helpmenu {z-index:20;margin-top:18px;}
-	#navmenu {clear:both;float:none;}
-	#mainspc {padding-top:145px;}
-}
+
 /* MOBILE */
 @media only screen and (max-width:767px) {
 	#pagetitle img {position:relative;left:0;top:0;width:56px;height:56px;display:block;margin-bottom:6px;}
-	#mainspc {padding-top:6px;}
+	#mainspc {padding-top:6px;left:0;width:100%;}
 	#sidebar {margin-top:12px;}
 	#sideMenu .button {font-size:22px !important;background-color:#000 !important;font-weight:normal !important;color:#fff;text-align:center;margin-bottom:6px;}
 	#sideSubMenu a {display:block;margin:12px 6px 18px 0;color:#a49c9c;}
