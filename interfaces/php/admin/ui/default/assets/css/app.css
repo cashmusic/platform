@@ -7,8 +7,8 @@
 /* BASE STYLES AND RESETS */
 html {margin:0;padding:0;height:100%;}
 body {color:#2c2222;background-color:#e4e4e4;font:15px/20px "Roboto Condensed",Helvetica,Arial,sans-serif;text-align:left;margin:0;padding:0;min-height:300px;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;height:100%;min-height:500px;}
-h1,h2 {color:#bbb;font:300 48px/40px "Roboto Condensed",Helvetica,Arial,sans-serif;margin:6px 0 18px 0;}
-h3,h4 {color:#000;font:700 19px/19px "Roboto Condensed",Helvetica,Arial,sans-serif;margin:6px 0 18px 0;}
+h1,h2 {color:#000;font:300 30px/40px "Roboto Condensed",Helvetica,Arial,sans-serif;margin:6px 0 18px 0;}
+h3,h4 {color:#999;font:700 19px/19px "Roboto Condensed",Helvetica,Arial,sans-serif;margin:6px 0 18px 0;}
 h5 {color:#000;font:700 15px/15px "Roboto Condensed",Helvetica,Arial,sans-serif;margin:0 0 3px 0;} 
 img {border:0;}
 a {color:#df0854;font-weight:bold;}
@@ -295,7 +295,6 @@ body.active #sidebarButton span.menu-active {display:inline;}
 
 /* MOBILE */
 @media only screen and (max-width:767px) {
-	h1,h2 {color:#000;font-size:30px;}
 	#pagetitle img {position:relative;left:0;top:0;width:56px;height:56px;display:block;margin-bottom:6px;}
 	#mainspc {padding-top:6px;left:0;width:100%;}
 	#sidebar {margin-top:12px;}
