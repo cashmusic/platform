@@ -218,7 +218,10 @@ if ($logged_in) {
 		// set basic data for the template
 		$cash_admin->page_data['user_email'] = $admin_primary_cash_request->sessionGet('cash_effective_user_email');
 		$page_menu_details = AdminHelper::getPageMenuDetails();
-		$cash_admin->page_data['section_menu'] = $page_menu_details['section_menu'];
+		$cash_admin->page_data['assets_section_menu'] = $page_menu_details['assets_section_menu'];
+		$cash_admin->page_data['people_section_menu'] = $page_menu_details['people_section_menu'];
+		$cash_admin->page_data['commerce_section_menu'] = $page_menu_details['commerce_section_menu'];
+		$cash_admin->page_data['calendar_section_menu'] = $page_menu_details['calendar_section_menu'];
 		$cash_admin->page_data['ui_title'] = $page_menu_details['page_title'];
 		// merge in display links for main template
 		$cash_admin->page_data = array_merge($cash_admin->page_data,$page_menu_details['link_text']);
