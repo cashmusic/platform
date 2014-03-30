@@ -315,7 +315,7 @@ body.active #sidebarButton span.menu-active {display:inline;}
 	#pagemenu ul li {display:block;clear:both;margin-top:10px;}
 	#pagemenu:empty {display:none;}
 	input[type="submit"], input[type="button"], a.button {width:100%;padding:12px;height:auto;text-align:center;}
-	#footer {overflow:visible;left:0;}
+	#footer {overflow:visible;left:0;width:100%;}
 	#footer a {display:block;margin-left:0;margin-top:8px;}
 	#footer a.donatelink {margin-top:24px;}
 	.columns {margin-top:12px;}
