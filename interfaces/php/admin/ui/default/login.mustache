@@ -36,18 +36,19 @@
 	<style type="text/css">
 		a.reset {font-size:11px;text-transform:uppercase;color:#a49c9c;}
 		a.reset:hover {color:#ff0 !important;text-decoration:none;}
-		#mainspc {padding-top:0;}
-		#navmenu {top:0;height:6px;overflow:hidden;padding-top:0;padding-bottom:0;}
-		#navmenu .navitem:hover {background-image:none;cursor:auto;}
+		#mainspc {}
+		#mainspc {position:relative;left:0;padding-top:0;margin:0 auto;}
+		#navmenu {display:none;}
 		#pagedisplay {position:relative;margin:80px auto 0 auto;padding:24px;z-index:100;}
-		h1 {position:relative;font-size:86px;line-height:86px;margin:6px 0 26px 0;white-space:nowrap;z-index:100;}
 		.cash_browserid_button {width:120px;height:30px;margin-top:6px;}
 		#forgotlink {font-size:11px;color:#a49c9c;}
 		#chromespc {z-index:500;}
 		#pagecontent {z-index:100;}
 		#loginbuttonspc {text-align:right;margin-top:0;margin-bottom:54px;}
-		#jackson {height:205px;background:url({{img_base_url}}/ui/default/assets/images/jacksonlogin.png) no-repeat;}
+		#jackson {height:205px;background:url({{img_base_url}}/ui/default/assets/images/jacksonlogin.png) no-repeat;background-size:contain;}
+		#footer {left:0;}
 		@media only screen and (max-width: 767px) {
+			#pagedisplay {margin-top:0;}
 			#jackson {height:80px;background-size:contain;}
 		}
 	</style>
@@ -94,7 +95,7 @@
 							</div>
 						</form>
 					</div>
-					<div class="three columns"></div>
+					<div class="three columns">&nbsp;</div>
 				</div>
 
 				<div class="row">
@@ -121,7 +122,7 @@
 <div id="footer">
 	<div class="row">
 		<div class="twelve columns">
-			<p><b>&copy; 2013 CASH Music.</b> All our code is open-source. <a href="{{www_path}}/licenses/" style="margin-left:0;">Learn more</a>. {{#showterms}}<a href="{{www_path}}/_?showlegal=1">Terms of service</a> {{/showterms}}{{#showprivacy}}<a href="{{www_path}}/_?showlegal=1">Privacy policy</a> {{/showprivacy}}<a href="http://cashmusic.org/#more" class="donatelink"><b>Donate</b></a></p>
+			<p><b>&copy; 2014 CASH Music.</b> All our code is open-source. <a href="{{www_path}}/licenses/" style="margin-left:0;">Learn more</a>. {{#showterms}}<a href="{{www_path}}/_?showlegal=1">Terms of service</a> {{/showterms}}{{#showprivacy}}<a href="{{www_path}}/_?showlegal=1">Privacy policy</a> {{/showprivacy}}<a href="http://cashmusic.org/#more" class="donatelink"><b>Donate</b></a></p>
 		</div>
 	</div>
 </div>

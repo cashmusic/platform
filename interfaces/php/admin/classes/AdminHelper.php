@@ -51,33 +51,30 @@
 		);
 
 		// generate submenu markup
-		$endpoint = str_replace('_','/',BASE_PAGENAME);
-		$endpoint_parts = explode('/',$endpoint);
-		$section_pages = array();
+		$current_endpoint = '';
+		$previous_endpoint = '';
+		$menustr = '';
+
 		foreach ($pages_array as $page_endpoint => $page) {
-			if (strrpos($page_endpoint,$endpoint_parts[0]) !== false) {
-				$section_pages[$page_endpoint] = $page;
+			$exploded = explode('/',$page_endpoint);
+			$current_endpoint = $exploded[0];
+			if ($current_endpoint !== $previous_endpoint) {
+				if ($previous_endpoint !== '') {
+					$menustr .= '</ul>';
+					$return_array[$previous_endpoint . '_section_menu'] = $menustr;
+				}
+				$menustr = '<ul>';
+				$previous_endpoint = $current_endpoint;
+			}
+
+			$menulevel = substr_count($page_endpoint, '/');
+			if ($menulevel == 1 && !isset($page['hide'])) { // only show top-level menu items
+				$menustr .= "<li><a href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><i class=\"icon {$page['menu_icon']}\"></i> {$page['page_name']}</a></li>";
 			}
 		}
-		if (count($section_pages) > 1) {
-			$section_base = $pages_array[$endpoint_parts[0]];
-			$menustr = '<ul class="pagebasemenu">';
-			$menustr .= '<li><a href="'. ADMIN_WWW_BASE_PATH . '/' . $endpoint_parts[0] . '/" class="pagemenutitle"><i class="icon icon-anchor"></i>' . $section_base['page_name'] . '</a></li>';
-			foreach ($section_pages as $page_endpoint => $page) {
-				$menulevel = substr_count($page_endpoint, '/');
-				if ($menulevel == 1 && !isset($page['hide'])) { // only show top-level menu items
-					if (str_replace('/','_',$page_endpoint) == BASE_PAGENAME) {
-						$menustr .= "<li><a href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\" style=\"color:#c4c0be;\"><i class=\"icon {$page['menu_icon']}\"></i> {$page['page_name']}</a></li>";
-					} else {
-						$menustr .= "<li><a href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><i class=\"icon {$page['menu_icon']}\"></i> {$page['page_name']}</a></li>";
-					}
-				}
-			}
-			$menustr .= '</ul>';
-			$return_array['section_menu'] = $menustr;
-		} 
 
 		// find the right page title
+		$endpoint = str_replace('_','/',BASE_PAGENAME);
 		if (isset($pages_array[$endpoint])) {
 			$current_title = '';
 			if (count($endpoint_parts) > 1) {

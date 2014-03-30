@@ -7,8 +7,8 @@
 /* BASE STYLES AND RESETS */
 html {margin:0;padding:0;height:100%;}
 body {color:#2c2222;background-color:#e4e4e4;font:15px/20px "Roboto Condensed",Helvetica,Arial,sans-serif;text-align:left;margin:0;padding:0;min-height:300px;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;height:100%;min-height:500px;}
-h1,h2 {color:#000;font-weight:400;font-size:52px;line-height:52px;font-family:"AmaticSC-Regular","Amatic SC Regular","AmaticSC","Amatic SC",Helvetica,Arial,sans-serif;margin:6px 0 18px 0;}
-h3,h4 {color:#000;font:700 19px/19px "Roboto Condensed",Helvetica,Arial,sans-serif;margin:6px 0 18px 0;}
+h1,h2 {color:#000;font:300 30px/40px "Roboto Condensed",Helvetica,Arial,sans-serif;margin:6px 0 18px 0;}
+h3,h4 {color:#999;font:700 19px/19px "Roboto Condensed",Helvetica,Arial,sans-serif;margin:6px 0 18px 0;}
 h5 {color:#000;font:700 15px/15px "Roboto Condensed",Helvetica,Arial,sans-serif;margin:0 0 3px 0;} 
 img {border:0;}
 a {color:#df0854;font-weight:bold;}
@@ -75,29 +75,36 @@ form.inline input.inlinesubmit {font:14px/1.5em helvetica,"helvetica neue","Sego
  ***************************************************/
 
 /* MAIN SPACES */
-#chromespc {position:fixed;top:0;left:0;width:100%;z-index:1000;margin:0;padding:0;background-color:#000;height:6px;font-size:15px;font-family:'Roboto Condensed';line-height:15px;font-weight:700;z-index:500;}
-#chrome {padding-top:6px;padding-right:1em;}
-#mainspc {padding-top:80px;z-index:400;}
+#chromespc {position:fixed;top:0;left:0;width:100%;height:6px;background-color:#000;z-index:1000;margin:0;padding:0;font-size:15px;font-family:'Roboto Condensed';line-height:15px;font-weight:700;z-index:500;}
+#chrome {position:relative;top:6px;left:24px;width:180px;background-color:rgba(255,255,255,0.4);box-shadow:-2px 2px 2px rgba(0,0,0,0.1);}
+#mainspc {position:relative;left:225px;margin:0;padding-top:28px;z-index:400;width:770px;}
 #pagetitle {position:relative;}
-#pagetitle img {position:absolute;left:-66px;top:-2px;width:56px;height:56px;}
+#pagetitle img {position:absolute;left:-66px;top:-17px;width:56px;height:56px;}
 div.row {overflow:visible;}
 /* MAIN MENU */
-#navmenu {position:relative;z-index:100;}
-#navmenu, #navmenu ul {display:inline;margin-left:0.5em;}
-#navmenu ul li {display:inline;}
-#navmenu ul li a {display:inline;padding:8px 12px 8px 12px;color:#000;margin-right:0.75em;}
-#navmenu ul li a.current {background-color:#000;color:#e4e4e4;}
-#navmenu ul li a:hover {background-color:#000;color:#ff0;}
-#navmenumask {position:absolute;margin-top:6px;left:0;width:100%;height:29px;z-index:1;color:#f5f5f0;background-color:#e4e4e4;}
-/* ACCOUNT AND HELP MENUS */
-#accountmenu,#helpmenu {position:relative;top:-6px;width:auto;height:35px;float:right;padding:8px 12px 8px 12px;cursor:pointer;margin:0 1em 0 1em;z-index:100;}
-#accountmenu:hover, #helpmenu:hover {background-color:#000;color:#e4e4e4;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);}
+.highlightimg {position:absolute;top:0;left:-24px;height:100%;width:24px;box-shadow:-2px 2px 2px rgba(0,0,0,0.1);background-position:center center;display:none;}
+div.mainnavmenu ul li.current a div.highlightimg, #navmenu ul li a:hover div.highlightimg {display:block;}
+div.mainnavmenu {position:relative;z-index:100;}
+div.mainnavmenu, div.mainnavmenu ul {display:block;padding:0;}
+div.mainnavmenu ul li {display:inline;}
+div.mainnavmenu ul li a {position:relative;display:block;padding:6px 12px 8px 12px;color:#000;font-size:18px;font-weight:300;}
+div.mainnavmenu ul li.current a {background-color:#000;color:#e4e4e4;}
+div.mainnavmenu ul li a:hover {background-color:#000;color:#ff0;}
+div.mainnavmenu ul li .subnavmenu {max-height:1px;visibility:hidden;overflow:hidden;-webkit-transition:all 0.5s ease-out;-moz-transition:all 0.5s ease-out;-o-transition:all 0.5s ease-out;transition:all 0.5s ease-out;}
+div.mainnavmenu ul li.current .subnavmenu {max-height:500px;visibility:visible;}
+div.mainnavmenu ul li .subnavmenu ul {margin-top:4px;margin-bottom:8px;}
+div.mainnavmenu ul li .subnavmenu a {font-size:14px;font-weight:bold;padding:4px 0 2px 12px;background-color:transparent !important;}
+/* ACCOUNT/HELP MENUS */
+#accountmenu,#helpmenu {position:relative;height:auto;overflow:hidden;cursor:pointer;z-index:100;font-weight:400;color:#999;}
+#accountmenu span, #helpmenu span {display:block;padding:8px 12px 8px 12px;margin-bottom:4px;}
+#accountmenu:hover, #helpmenu:hover {background-color:#000;color:#e4e4e4;}
 #helpmenu:hover {background-color:#ff0;color:#000;}
-#accountmenu ul, #helpmenu ul {position:absolute;top:35px;right:0;margin:0;padding:0;list-style:none;width:auto;height:1px;visibility:hidden;}
-#accountmenu:hover ul, #helpmenu:hover ul {height:auto;visibility:visible;background-color:#000;color:#fff;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);}
-#helpmenu:hover ul {background-color:#ff0;color:#000;}
+#accountmenu ul, #helpmenu ul {position:relative;margin:0;padding:0;list-style:none;max-height:1px;visibility:hidden;-webkit-transition:all 0s ease-out;-moz-transition:all 0s ease-out;-o-transition:all 0s ease-out;transition:all 0s ease-out;}
+#accountmenu:hover ul, #helpmenu:hover ul {max-height:500px;visibility:visible;-webkit-transition:all 0.6s ease-out;-moz-transition:all 0.6s ease-out;-o-transition:all 0.6s ease-out;transition:all 0.6s ease-out;}
+#accountmenu ul {background-color:#000;color:#fff;}
+#helpmenu ul {background-color:#ff0;color:#000;}
 #accountmenu ul li, #helpmenu ul li {display:block;clear:both;}
-#accountmenu ul li a, #helpmenu ul li a {color:#fff;display:block;width:14em;padding:8px 1.5em 9px 2.625em;text-decoration:none;margin:0;}
+#accountmenu ul li a, #helpmenu ul li a {color:#fff;display:block;padding:8px 1.5em 9px 1.85em;text-decoration:none;margin:0;}
 #helpmenu ul li a {color:#000;}
 #accountmenu ul li a:hover {color:#000;background-color:#ff0;}
 #helpmenu ul li a:hover {color:#fff;background-color:#000;}
@@ -106,8 +113,8 @@ div.row {overflow:visible;}
 #pagemenu ul {padding-left:0;}
 #pagemenu * li {display:inline;margin-right:1.5em;}
 /* PAGE TIPS */
-#pagetips {background-color:#ff0;color:#231F20;padding:12px 16px 24px 16px;text-align:left;margin:0 0 18px 0;}
-#pagetips p {margin-bottom:0 !important;}
+#pagetips {background-color:#ff0;color:#231F20;padding:12px 16px 24px 16px;text-align:left;margin:0;}
+#pagetips p {margin-bottom:0 !important;font-size:12px;line-height:1.5em;}
 #pagetips a {color:#231F20;}
 #tipscloselink {font-size:11px;position:relative;top:12px;left:-4px;font-weight:bold;padding:4px;}
 #tipscloselink:hover {background-color:#000;color:#fff !important;text-decoration:none;}
@@ -209,6 +216,12 @@ li:hover .itemnav {margin:12px 0 8px 0;height:auto;}
 .spacedtext {line-height:2em;}
 .tight {margin-bottom:0 !important;}
 
+#ajaxloading {position:absolute;top:140px;left:50%;margin-left:-44px;z-index:1000;display:none;}
+.rotate {-webkit-animation:spin .8s infinite linear;animation:spin .8s infinite linear;}
+@-webkit-keyframes spin {100%{-webkit-transform:rotate(360deg);}}
+@-moz-keyframes spin {100%{-moz-transform:rotate(360deg);}}
+@keyframes spin {100%{-moz-transform:rotate(360deg);-o-transform:rotate(360deg);transform:rotate(360deg);}}
+
 
 /*************************************************** 
  *
@@ -224,18 +237,19 @@ li:hover .itemnav {margin:12px 0 8px 0;height:auto;}
 .bgcolor4, div.usecolor4 input[type="submit"], div.usecolor4 button, div.usecolor4 a.button {background-color:#0891df !important;}
 .bgcolor5, div.usecolor5 input[type="submit"], div.usecolor5 button, div.usecolor5 a.button {background-color:#9b08df !important;}
 div.usecolor1 input[type="submit"]:hover, div.usecolor2 input[type="submit"]:hover, div.usecolor3 input[type="submit"]:hover, div.usecolor4 input[type="submit"]:hover, div.usecolor5 input[type="submit"]:hover, div.usecolor1 button:hover, div.usecolor2 button:hover, div.usecolor3 button:hover, div.usecolor4 button:hover, div.usecolor5 button:hover {background-color:#000 !important;}
-div.usecolor1 a, h2.usecolor1, span.usecolor1, div.usecolor1 form.inline input.inlinesubmit {color:#cd074d;}
-div.usecolor2 a, h2.usecolor2, span.usecolor2, div.usecolor2 form.inline input.inlinesubmit {color:#ca8c07;}
-div.usecolor3 a, h2.usecolor3, span.usecolor3, div.usecolor3 form.inline input.inlinesubmit {color:#97b800;}
-div.usecolor4 a, h2.usecolor4, span.usecolor4, div.usecolor4 form.inline input.inlinesubmit {color:#0080c9;}
-div.usecolor5 a, h2.usecolor5, span.usecolor5, div.usecolor5 form.inline input.inlinesubmit {color:#8a00ca;}
+div.usecolor1 a, h2.usecolor1, span.usecolor1, div.usecolor1 form.inline input.inlinesubmit {color:#cd074d !important;}
+div.usecolor2 a, h2.usecolor2, span.usecolor2, div.usecolor2 form.inline input.inlinesubmit {color:#ca8c07 !important;}
+div.usecolor3 a, h2.usecolor3, span.usecolor3, div.usecolor3 form.inline input.inlinesubmit {color:#97b800 !important;}
+div.usecolor4 a, h2.usecolor4, span.usecolor4, div.usecolor4 form.inline input.inlinesubmit {color:#0080c9 !important;}
+div.usecolor5 a, h2.usecolor5, span.usecolor5, div.usecolor5 form.inline input.inlinesubmit {color:#8a00ca !important;}
+div.usecolor1 a:hover, div.usecolor2 a:hover, div.usecolor3 a:hover, div.usecolor4 a:hover, div.usecolor5 a:hover {color:#000 !important;}
 a.usecolor0 {color:#999 !important;}
 a.usecolor1 {color:#cd074d !important;}
 a.usecolor2 {color:#ca8c07 !important;}
 a.usecolor3 {color:#97b800 !important;}
 a.usecolor4 {color:#0080c9 !important;}
 a.usecolor5 {color:#8a00ca !important;}
-a.button {color:#fff !important;font-size:14px;-webkit-transition:all 0.25s ease-in-out;-moz-transition:all 0.25s ease-in-out;-o-transition:all 0.25s ease-in-out;transition:all 0.25s ease-in-out;}
+a.button {color:#fff !important;font-size:14px;white-space:nowrap;-webkit-transition:all 0.25s ease-in-out;-moz-transition:all 0.25s ease-in-out;-o-transition:all 0.25s ease-in-out;transition:all 0.25s ease-in-out;}
 a.button:hover {background-color:#000 !important;text-decoration:none !important;}
 div.callout a {font-weight:bold;color:#999;-webkit-transition:all 0.25s ease-in-out;-moz-transition:all 0.25s ease-in-out;-o-transition:all 0.25s ease-in-out;transition:all 0.25s ease-in-out;}
 div.callout a:hover {font-weight:bold;color:#231F20;}
@@ -248,7 +262,7 @@ a.mininav_flush:hover, a.mininav_spaced:hover,a.usecolor0:hover,a.usecolor0:hove
 html, body, #wrap {height:100%;}
 body > #wrap {height:auto;min-height:99%;}
 #mainspc {padding-bottom:40px;}
-#footer {position:relative;margin:-36px auto 0 auto;height:36px;line-height:1em;clear:both;background-color:transparent;overflow:hidden;}
+#footer {position:relative;left:225px;width:700px;margin:-36px 0 0 0;height:36px;line-height:1em;clear:both;background-color:transparent;overflow:hidden;}
 #footer p {padding:12px 0 0 0;color:#999;font:12px/20px "Roboto Condensed",Helvetica,Arial,sans-serif;}
 #footer a {color:#999;margin-left:24px;}
 #footer a:hover {color:#000;}
@@ -257,7 +271,7 @@ body > #wrap {height:auto;min-height:99%;}
 
 /*************************************************** 
  *
- *  Mobile web styles
+ *  Responsive web styles
  *
  ***************************************************/
 
@@ -267,28 +281,41 @@ body #sidebarButton span.menu-inactive {display:inline;}
 body #sidebarButton span.menu-active {display:none;}
 body.active #sidebarButton span.menu-inactive {display:none;}
 body.active #sidebarButton span.menu-active {display:inline;}
-/* SKINNY UP THE TOP NAV */
-@media only screen and (max-width:920px) {
-	#accountmenu,#helpmenu {width:200px;float:none;top:0;margin-top:12px;margin-left:2.5em;clear:both;z-index:10;}
-	#helpmenu {z-index:20;margin-top:18px;}
-	#navmenu {clear:both;float:none;}
-	#mainspc {padding-top:145px;}
+
+/* FOR JERKS WITH STUPID SHORT BROWSER WINDOWS */
+@media only screen and (max-height:500px) {
+	#chromespc {position:absolute;}
 }
+
+/* MEDIUM SIZES */
+@media only screen and (max-width:1100px) {
+	#mainspc {width:70%;}
+	.row {min-width:0px;width:auto;}
+}
+
 /* MOBILE */
 @media only screen and (max-width:767px) {
 	#pagetitle img {position:relative;left:0;top:0;width:56px;height:56px;display:block;margin-bottom:6px;}
-	#mainspc {padding-top:6px;}
+	#mainspc {padding-top:6px;left:0;width:100%;}
 	#sidebar {margin-top:12px;}
-	#sideMenu .button {font-size:22px !important;background-color:#000 !important;font-weight:normal !important;color:#fff;text-align:center;margin-bottom:6px;}
-	#sideSubMenu a {display:block;margin:12px 6px 18px 0;color:#a49c9c;}
+	#sideMenu a {;background-color:#000 !important;color:#fff !important;font-weight:normal !important;color:#fff;text-align:center;margin-bottom:6px;}
+	#sideMenu div.subnavmenu a {background-color:transparent !important;text-align:left !important;}
+	#sideSubMenu a {display:block;margin:12px 6px 18px 0;color:#a49c9c !important;}
+	#sideMenu li.current a.mainnav {background-color:#cd074d !important;}
+	#sideMenu li.current a.assetsnav {background-color:#ca8c07 !important;}
+	#sideMenu li.current a.peoplenav {background-color:#97b800 !important;}
+	#sideMenu li.current a.commercenav {background-color:#0080c9 !important;}
+	#sideMenu li.current a.calendarnav {background-color:#8a00ca !important;}
+	#sideMenu div.subnavmenu a {color:#000 !important;font-weight:bold !important;margin-top:8px !important;margin-bottom:12px !important;}
+	#sideMenu div.subnavmenu ul {margin-bottom:18px !important;}
 	#smallchrome {position:fixed;top:0;left:0;width:100%;height:6px;background-color:#000;overflow:hidden;z-index:1000;}
 	#smallchrome div {background-color:#000 !important;}
 	#pagemenu {position:relative;margin-top:-12px;}
 	#pagemenu ul {clear:both;padding-top:6px;}
 	#pagemenu ul li {display:block;clear:both;margin-top:10px;}
 	#pagemenu:empty {display:none;}
-	input[type="submit"], input[type="button"], a.button {width:100%;padding:12px;height:auto;}
-	#footer {overflow:visible;}
+	input[type="submit"], input[type="button"], a.button {width:100%;padding:12px;height:auto;text-align:center;}
+	#footer {overflow:visible;left:0;}
 	#footer a {display:block;margin-left:0;margin-top:8px;}
 	#footer a.donatelink {margin-top:24px;}
 	.columns {margin-top:12px;}

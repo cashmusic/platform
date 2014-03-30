@@ -73,7 +73,6 @@
 	 */
 	function redrawPage(data) {
 		// change the color
-		$('#pagebadge').attr('src', cashImagePath + '/ui/default/assets/images/badge' + data.specialcolor + '.png');
 		$('#mainspc').removeClass();
 		$('#mainspc').addClass(data.specialcolor);
 
@@ -94,7 +93,6 @@
 		$('#current_pagetip').html(data.ui_page_tip);
 		$('#pagedisplay').html(data.content);
 		$('#pagetitle span').html(data.ui_title);
-		$('#pagemenu').html(data.section_menu);
 
 		window.scrollTo(0,0);
 		$(document).trigger('redraw');
@@ -149,6 +147,7 @@
 					}
 					setContentBehaviors();
 				}
+				$('#ajaxloading').hide();
 				$('#pagedisplay').fadeTo(200,1);
 			}
 		},'json');
@@ -177,6 +176,7 @@
 		});
 
 		// fade out
+		$('#ajaxloading').show();
 		$('#pagedisplay').fadeTo(100,0.2, function() {
 			doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
 		});
@@ -202,10 +202,17 @@
 		//
 		if (section != currentSection) {
 			currentSection = section;
-			$('#navmenu a').each(function(index) {
+			
+			$('div.mainnavmenu li').each(function(index) {
 				$(this).removeClass('current');
-				if ($(this).attr('id') == section+'nav') {
+				if ($(this).hasClass(section+'nav')) {
 					$(this).addClass('current');
+				}
+			});
+
+			$('div.mainnavmenu a').each(function(index) {
+				if ($(this).hasClass(section+'nav')) {
+					$(this).parent().addClass('current');
 				}
 			});
 		}
