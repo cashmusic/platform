@@ -262,7 +262,7 @@ a.mininav_flush:hover, a.mininav_spaced:hover,a.usecolor0:hover,a.usecolor0:hove
 html, body, #wrap {height:100%;}
 body > #wrap {height:auto;min-height:99%;}
 #mainspc {padding-bottom:40px;}
-#footer {position:relative;margin:-36px auto 0 auto;height:36px;line-height:1em;clear:both;background-color:transparent;overflow:hidden;}
+#footer {position:relative;left:225px;width:700px;margin:-36px 0 0 0;height:36px;line-height:1em;clear:both;background-color:transparent;overflow:hidden;}
 #footer p {padding:12px 0 0 0;color:#999;font:12px/20px "Roboto Condensed",Helvetica,Arial,sans-serif;}
 #footer a {color:#999;margin-left:24px;}
 #footer a:hover {color:#000;}
@@ -315,7 +315,7 @@ body.active #sidebarButton span.menu-active {display:inline;}
 	#pagemenu ul li {display:block;clear:both;margin-top:10px;}
 	#pagemenu:empty {display:none;}
 	input[type="submit"], input[type="button"], a.button {width:100%;padding:12px;height:auto;text-align:center;}
-	#footer {overflow:visible;}
+	#footer {overflow:visible;left:0;}
 	#footer a {display:block;margin-left:0;margin-top:8px;}
 	#footer a.donatelink {margin-top:24px;}
 	.columns {margin-top:12px;}
