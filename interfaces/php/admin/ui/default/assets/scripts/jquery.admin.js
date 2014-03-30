@@ -202,14 +202,16 @@
 		//
 		if (section != currentSection) {
 			currentSection = section;
-			$('#navmenu li').each(function(index) {
+			
+			$('div.mainnavmenu li').each(function(index) {
 				$(this).removeClass('current');
-				if ($(this).attr('id') == section+'nav') {
+				if ($(this).hasClass(section+'nav')) {
 					$(this).addClass('current');
 				}
 			});
-			$('#navmenu a').each(function(index) {
-				if ($(this).attr('id') == section+'nav') {
+
+			$('div.mainnavmenu a').each(function(index) {
+				if ($(this).hasClass(section+'nav')) {
 					$(this).parent().addClass('current');
 				}
 			});

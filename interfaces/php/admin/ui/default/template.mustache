@@ -36,18 +36,28 @@
 	<body id="page" class="off-canvas hide-extras">
 
 	<div id="wrap">	
+
 		<div id="chromespc" class="twelve columns phone-two hide-for-small">
+
 			<div id="chrome">
-				<div id="navmenu">
+				<div id="tipspc" class="hide-for-small">
+					<div id="pagetips">
+						<p>
+							<span id="current_pagetip">{{{ui_page_tip}}}</span>
+						</p>
+						<a id="tipscloselink" href="#">{{action_close}}</a>
+					</div>
+				</div>
+				<div id="navmenu" class="mainnavmenu">
 					<ul>
 						<li{{#ui_current_main}} class="current"{{/ui_current_main}}>
-							<a href="{{www_path}}/" id="mainnav">
+							<a href="{{www_path}}/" class="mainnav">
 								<i class="icon icon-certificate"></i>{{link_main_page}}
 								<div class="highlightimg" style="background-image:url({{img_base_url}}/ui/default/assets/images/badgeusecolor1.png);"></div>
 							</a>
 						</li>
 						<li{{#ui_current_assets}} class="current"{{/ui_current_assets}}>
-							<a href="{{www_path}}/assets/" id="assetsnav">
+							<a href="{{www_path}}/assets/" class="assetsnav">
 								<i class="icon icon-paste"></i>{{link_menu_assets}}
 								<div class="highlightimg" style="background-image:url({{img_base_url}}/ui/default/assets/images/badgeusecolor2.png);"></div>
 							</a>
@@ -56,7 +66,7 @@
 							</div>
 						</li>
 						<li{{#ui_current_people}} class="current"{{/ui_current_people}}>
-							<a href="{{www_path}}/people/" id="peoplenav">
+							<a href="{{www_path}}/people/" class="peoplenav">
 								<i class="icon icon-group"></i>{{link_menu_people}}
 								<div class="highlightimg" style="background-image:url({{img_base_url}}/ui/default/assets/images/badgeusecolor3.png);"></div>
 							</a>
@@ -65,7 +75,7 @@
 							</div>
 						</li>
 						<li{{#ui_current_commerce}} class="current"{{/ui_current_commerce}}>
-							<a href="{{www_path}}/commerce/" id="commercenav">
+							<a href="{{www_path}}/commerce/" class="commercenav">
 								<i class="icon icon-credit-card"></i>{{link_menu_commerce}}
 								<div class="highlightimg" style="background-image:url({{img_base_url}}/ui/default/assets/images/badgeusecolor4.png);"></div>
 							</a>
@@ -74,7 +84,7 @@
 							</div>
 						</li>
 						<li{{#ui_current_calendar}} class="current"{{/ui_current_calendar}}>
-							<a href="{{www_path}}/calendar/" id="calendarnav">
+							<a href="{{www_path}}/calendar/" class="calendarnav">
 								<i class="icon icon-calendar"></i>{{link_menu_calendar}}
 								<div class="highlightimg" style="background-image:url({{img_base_url}}/ui/default/assets/images/badgeusecolor5.png);"></div>
 							</a>
@@ -111,15 +121,49 @@
 
 			<div class="row">
 				<section id="sidebar" role="complementary">
-					<nav id="sideMenu" role="navigation">
-						<a href="{{www_path}}/" class="button"><i class="icon icon-home"></i>{{link_main_page}}</a>
-						<a href="{{www_path}}/assets/" class="button"><i class="icon icon-paste"></i>{{link_menu_assets}}</a>
-						<a href="{{www_path}}/people/" class="button"><i class="icon icon-group"></i>{{link_menu_people}}</a>
-						<a href="{{www_path}}/commerce/" class="button"><i class="icon icon-credit-card"></i>{{link_menu_commerce}}</a>
-						<a href="{{www_path}}/calendar/" class="button"><i class="icon icon-calendar"></i>{{link_menu_calendar}}</a>
-					</nav>
+					<div id="sideMenu" role="navigation" class="mainnavmenu">
+						<ul>
+							<li{{#ui_current_main}} class="current"{{/ui_current_main}}>
+								<a href="{{www_path}}/" class="mainnav">
+									<i class="icon icon-certificate"></i>{{link_main_page}}
+								</a>
+							</li>
+							<li{{#ui_current_assets}} class="current"{{/ui_current_assets}}>
+								<a href="{{www_path}}/assets/" class="assetsnav">
+									<i class="icon icon-paste"></i>{{link_menu_assets}}
+								</a>
+								<div class="subnavmenu usecolor2">
+									{{{assets_section_menu}}}
+								</div>
+							</li>
+							<li{{#ui_current_people}} class="current"{{/ui_current_people}}>
+								<a href="{{www_path}}/people/" class="peoplenav">
+									<i class="icon icon-group"></i>{{link_menu_people}}
+								</a>
+								<div class="subnavmenu usecolor3">
+									{{{people_section_menu}}}
+								</div>
+							</li>
+							<li{{#ui_current_commerce}} class="current"{{/ui_current_commerce}}>
+								<a href="{{www_path}}/commerce/" class="commercenav">
+									<i class="icon icon-credit-card"></i>{{link_menu_commerce}}
+								</a>
+								<div class="subnavmenu usecolor4">
+									{{{commerce_section_menu}}}
+								</div>
+							</li>
+							<li{{#ui_current_calendar}} class="current"{{/ui_current_calendar}}>
+								<a href="{{www_path}}/calendar/" class="calendarnav">
+									<i class="icon icon-calendar"></i>{{link_menu_calendar}}
+								</a>
+								<div class="subnavmenu usecolor5">
+									{{{calendar_section_menu}}}
+								</div>
+							</li>
+						</ul>
+					</div>
 
-					<br />
+					
 					<div id="sideSubMenu" class="tar">
 						<a href="{{www_path}}/account/">{{link_youraccount}} <i class="icon icon-user"></i></a>
 						<a href="{{www_path}}/settings/">{{link_settings}} <i class="icon icon-cog"></i></a>
@@ -136,21 +180,14 @@
 					<div class="row">
 						<div class="twelve columns phone-two">
 							<p class="show-for-small">
-								<a class="sidebar-button" id="sidebarButton" href="#sidebar"><span class="menu-inactive"><i class="icon icon-circle-arrow-left"></i></span><span class="menu-active"><i class="icon icon-circle-arrow-right"></i></span></a>
+								<a class="sidebar-button" id="sidebarButton" href="#sidebar"><span class="menu-inactive"><i class="icon icon-align-justify"></i></span><span class="menu-active"><i class="icon icon-chevron-right"></i></span></a>
 							</p>
 						</div>
 					</div>
 					<div class="row">
 						<div class="twelve columns phone-two">
 							<h2 id="pagetitle"><span>{{ui_title}}</span></h2>
-							<div id="tipspc" class="hide-for-small">
-								<div id="pagetips">
-									<p>
-										<span id="current_pagetip">{{{ui_page_tip}}}</span>
-									</p>
-									<a id="tipscloselink" href="#">{{action_close}}</a>
-								</div>
-							</div>
+							
 							<div id="pagemessage">
 								{{#error_message}}<p><span class="highlightcopy errormessage">{{error_message}}</span></p>{{/error_message}}
 								{{#page_message}}<p><span class="highlightcopy">{{page_message}}</span></p>{{/page_message}}
