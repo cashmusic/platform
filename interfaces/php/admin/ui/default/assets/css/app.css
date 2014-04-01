@@ -290,6 +290,7 @@ body.active #sidebarButton span.menu-active {display:inline;}
 /* MEDIUM SIZES */
 @media only screen and (max-width:1100px) {
 	#mainspc {width:70%;}
+	#footer {width:70%;}
 	.row {min-width:0px;width:auto;}
 }
 
