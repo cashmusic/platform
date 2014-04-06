@@ -5,7 +5,7 @@
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2012, CASH Music
+ * Copyright (c) 2014, CASH Music
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -32,34 +32,44 @@
 ;
 
 (function($) {
-
-	// initial load setup:
+	/**
+	 *
+	 *
+	 *
+	 * INITIAL LOAD: SET IT ALL IN MOTION
+	 *
+	 *
+	 *
+	 **/
 	$(document).ready(function() {
 		setUIBehaviors();
 		setContentBehaviors();
 
+		// we set the firstadminload to true because the initial page load
+		// doesn't need to be AJAXed in. Wouldn't seem to matter, but it causes
+		// an ugly/noticalbe double-load otherwise.
 		window.firstadminload = true;
-		window.currentpath = location.pathname;
 
 		// make back/forward buttons work
 		window.addEventListener("popstate", function(e) {
 			if (!window.firstadminload) {
 				// checking pathname allows for #hash anchors to work and whatnot
-				if (window.currentpath != location.pathname) {
-					refreshPageData(location.pathname,null,null,null,true);
-					window.currentpath = location.pathname;
-				}
+				refreshPageData(location.pathname,null,null,null,true);
 			} else {
 				window.firstadminload = false;
 			}
 		});
 	});
 
+
+
+
+
 	/**
 	 *
 	 *
 	 *
-	 * Page redraw and AJAX requests
+	 * PAGE REDRAW AND AJAX REQUESTS
 	 *
 	 *
 	 *
@@ -76,17 +86,15 @@
 		$('#mainspc').removeClass();
 		$('#mainspc').addClass(data.specialcolor);
 
-		// tabs
-		collapseAllTabs(data.section_name);
+		// nav
+		redrawMainNav(data.section_name);
 
 		// the rest
 		$('#pagemessage').html('');
 		if (data.error_message) {
-			//$('#pagemessage').html('<p><span class="highlightcopy errormessage">'+data.error_message+'</span></p>');
 			doMessage(data.error_message,'Error',true);
 		}
 		if (data.page_message) {
-			//$('#pagemessage').html('<p><span class="highlightcopy">'+data.page_message+'</span></p>');
 			doMessage(data.page_message,'');
 		}
 		$('#pagetips').hide();
@@ -115,9 +123,7 @@
 			if (!data) {
 				doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
 			} else {
-				if (!("doredirect" in data)){
-					data.doredirect = false;
-				}
+				if (!("doredirect" in data)){ data.doredirect = false; }
 				if (data.doredirect) {
 					if (data.showerror) {
 						refreshPageData(data.location,false,data.showerror);
@@ -127,24 +133,16 @@
 						refreshPageData(data.location);
 					}
 				} else {
-					if (!("fullredraw" in data)){
-						data.fullredraw = false;
-					}
+					if (!("fullredraw" in data)){ data.fullredraw = false; }
 					if (data.fullredraw) {
 						var newbody = data.fullcontent.replace(/^[\s\S]*?<body[^>]*>([\s\S]*?)<\/body>[\s\S]*?$/i,"$1");
 						$('body').html(newbody);
 					} else {
-						if (showerror) {
-							data.error_message = showerror;
-						}
-						if (showmessage) {
-							data.page_message = showmessage;
-						}
+						if (showerror) { data.error_message = showerror; }
+						if (showmessage) { data.page_message = showmessage; }
 						redrawPage(data);
 					}
-					if (!skiphistory) {
-						history.pushState(null, null, url);
-					}
+					if (!skiphistory) { history.pushState(null, null, url); }
 					setContentBehaviors();
 				}
 				$('#ajaxloading').hide();
@@ -182,44 +180,22 @@
 		});
 	}
 
+
+
+
+
 	/**
 	 *
 	 *
 	 *
-	 * UI element behaviors
+	 * MAIN UI ELEMENT BEHAVIORS
 	 *
 	 *
 	 *
 	 **/
 
 	/**
-	 * collapseAllTabs (function)
-	 *
-	 * collapse all main nav tabs, opening one if a section is specified
-	 *
-	 */
-	function collapseAllTabs(section) {
-		if (section != currentSection) {
-			currentSection = section;
-			
-			$('div.mainnavmenu li').each(function(index) {
-				$(this).removeClass('current');
-				if ($(this).hasClass(section+'nav')) {
-					$(this).addClass('current');
-				}
-			});
-			
-			$('div.mainnavmenu a').each(function(index) {
-				if ($(this).hasClass(section+'nav')) {
-					$(this).parent().addClass('current');
-				}
-			});
-		}
-	}
-
-	/**
 	 * setContentBehaviors (function)
-	 *
 	 * miscellaneous behaviors for various things — needs to run each AJAX page load
 	 *
 	 */
@@ -230,45 +206,8 @@
 		// datepicker
 		$('input[type=date],input.date').datepicker();
 
-		// autocomplete
-		$('.autocomplete').each( function() {
-			var acURL = $(this).data('cash-endpoint-url');
-			$(this).autocomplete({
-				// probably should do some error handling here.
-				source: function( request, response ) {
-					$.ajax({
-						url: acURL + '/' + request.term,
-						dataType: "json",
-						error: function( data) {},
-						success: function( data ) {
-							response( $.map( data, function( item ) {
-								return {
-									label: item.displayString,
-									value: item.displayString,
-									id: item.id
-								}
-							}));
-						}
-					})
-				},
-				select: function( event, ui ) {
-					// TODO: this is pretty ugly
-					$('#event_venue').val( ui.item.id );
-				},
-				minLength: 2
-			});
-		});
-
-		$('#connection_id').each( function() {
-
-			if ( this.value > 0 ) {
-				//var connectionID = this.value;
-				var newUploadEndpoint = $('.file-upload-trigger').data('upload-endpoint') + this.value;
-
-				$('.upload-corral').fadeIn().find('.file-upload-trigger').data('upload-endpoint', newUploadEndpoint );
-			}
-		});
-
+		venueAutocompleteBehavior();
+		handleUploadForms();
 	}
 
 	/**
@@ -279,54 +218,37 @@
 	 *
 	 */
 	function setUIBehaviors() {
-		$('#pagetips').hide();
+		// vital/complex behavior
+		ajaxPageBehaviors();
+		assetFormBehaviors();
+		modalBehaviors();
+		textareaTabBehavior();
+		listenForModals();
+		listenForInjectLinks();
 
+		// page tip show/hide
 		$(document).on('click', '#tipslink', function(e) {
 			e.preventDefault();
 			$('#pagetips').slideDown(200);
 		});
-
 		$(document).on('click', '#tipscloselink', function(e) {
 			e.preventDefault();
 			$('#pagetips').slideUp(100);
 		});
 
+		// handle logout
 		$(document).on('click', '#logout', function(e) {
 			e.preventDefault();
 			jQuery.post(cashAdminPath+'/logout','noredirect=1');
 			refreshPageData(cashAdminPath+'/');
 		});
 
+		// when we need a submit button outside it's target form (see file assets, etc)
 		$(document).on('click', 'input.externalsubmit', function(e) {
 			$($(this).data('cash-target-form')).submit();
 		});
 
-		// overlay cancel button event
-		$(document).on('click', '.modalcancel', function(e) {
-			e.preventDefault();
-			$('.modallightbox').fadeOut('fast', function() {
-					$('.modallightbox').remove();
-				});
-			$('.modalbg').fadeOut('fast', function() {
-				$('.modalbg').remove();
-			});
-		});
-
-		$(document).keyup(function(e) {
-			if(e.keyCode === 27) {
-				$('.modallightbox').fadeOut('fast', function() {
-					$('.modallightbox').remove();
-				});
-				$('.modalbg').fadeOut('fast', function() {
-					$('.modalbg').remove();
-				});
-			}
-		});
-
-		// to-be-copied code
-		// $(document).on('click', 'code input, code textarea', function(e) {
-		// 	$(this).select();
-		// });
+		// element embed highlight-and-copy code
 		$(document).on('click', '.codearea', function(e) {
 			element = this;
 			if (document.body.createTextRange) {
@@ -341,67 +263,30 @@
 				selection.addRange(range);
 		   }
 		});
+	}
 
-		// modal pop-ups
-		$(document).on('click', '.needsconfirmation', function(e) {
-			e.preventDefault();
-			doModalConfirm( $(this).attr('href'));
-			this.blur();
-		});
 
-		// modal lightboxes
-		$(document).on('click', '.lightboxed', function(e) {
-			if ($(window).width() > 768) {
-				e.preventDefault();
-				if ($(this).hasClass('returntocurrentroute')) {
-					doModalLightbox($(this).attr('href'),true);
-				} else {
-					doModalLightbox($(this).attr('href'));
-				}
-				this.blur();
-			}
-		});
 
-		// show/hide element details
-		$(document).on('click', '.showelementdetails', function(e) {
-			e.preventDefault();
-			$(this).html( function(e) {
-				var t = $(this).html(),
-				isShown = $(this).parents('.itemnav').prev('.elementdetails').hasClass('detailsshown');
-				if ( isShown ) {
-					t = t.replace(/Less/g, 'More');
-				} else {
-					t = t.replace(/More/g, 'Less');
-				}
-				return t;
-			}).parents('.itemnav').prev('.elementdetails').toggleClass('detailsshown');
-		});
 
-		// inserts html into the current document/form (dynamic inputs primarily)
-		// grabs rel, inserts rev data and iterates the name, changing the rel
-		// should probably move to a data- structure
-		$(document).on('click', 'a.injectbefore', function(e) {
-			e.preventDefault();
-			e.currentTarget.blur();
-			var iteration = $(e.currentTarget).attr('rel');
-			if (iteration) {
-				jQuery.data(e.currentTarget,'nameiteration',iteration);
-			} else {
-				iteration = 1;
-			}
-			$(e.currentTarget).attr('rel',iteration);
-			var toinsert = $(e.currentTarget).attr('rev');
-			var names = toinsert.match(/name='([^']*)/g);
-			if (names) {
-				jQuery.each(names, function(index, name) {
-					toinsert = toinsert.replace(name, name+iteration);
-				});
-			}
-			$(e.currentTarget).before('<div>' + toinsert + '</div>');
-			$(e.currentTarget).attr('rel',iteration+1);
-		});
 
-		// open local (admin) links via AJAX
+
+
+
+
+
+
+	/**
+	 *
+	 *
+	 *
+	 * DO LINKS AND FORMS VIA AJAX
+	 *
+	 *
+	 *
+	 **/
+
+	 function ajaxPageBehaviors() {
+	 	// open local (admin) links via AJAX
 		// cashAdminPath is set in the main template to the www_base of the admin
 		$(document).on('click', 'a[href^="' + cashAdminPath + '"]', function(e) {
 			var el = $(e.currentTarget);
@@ -432,8 +317,72 @@
 				refreshPageData(url,formdata);
 			}
 		});
+	 }
 
-		// publicize
+
+
+
+
+	/**
+	 *
+	 *
+	 *
+	 * MAIN NAVIGATION 
+	 *
+	 *
+	 *
+	 **/
+
+	 /**
+	 * redrawMainNav (function)
+	 * collapse all main nav tabs, opening one if a section is specified
+	 *
+	 */
+	function redrawMainNav(section) {
+		if (section != currentSection) {
+			currentSection = section;
+			
+			$('div.mainnavmenu li').each(function(index) {
+				$(this).removeClass('current');
+				if ($(this).hasClass(section+'nav')) {
+					$(this).addClass('current');
+				}
+			});
+			
+			$('div.mainnavmenu a').each(function(index) {
+				if ($(this).hasClass(section+'nav')) {
+					$(this).parent().addClass('current');
+				}
+			});
+		}
+	}
+
+
+
+
+
+	/**
+	 *
+	 *
+	 *
+	 * ASSET FILE HANDLING UI CODE 
+	 *
+	 *
+	 *
+	 **/
+
+	 // handle the upload forms
+	function handleUploadForms() {
+		$('#connection_id').each( function() {
+			if ( this.value > 0 ) {
+				var newUploadEndpoint = $('.file-upload-trigger').data('upload-endpoint') + this.value;
+				$('.upload-corral').fadeIn().find('.file-upload-trigger').data('upload-endpoint', newUploadEndpoint );
+			}
+		});
+	}
+
+	 function assetFormBehaviors() {
+	 	// make an asset public
 		$(document).on('click', 'a[data-publicize-endpoint]', function(e) {
 			e.preventDefault();
 
@@ -490,39 +439,116 @@
 				trigger.parents('.fadedtext').animate({ opacity: 0 });
 			}
 		});
+	 }
 
-		$(document).on('keydown', 'textarea.taller', function(e) {
-			// repurposed from here: http://jsfiddle.net/sdDVf/8/
 
-			if(e.keyCode === 9) { 
-				var start = this.selectionStart;
-					end = this.selectionEnd;
-				var target = $(this);
 
-				// set textarea value to: text before caret + tab + text after caret
-				target.val(target.val().substring(0, start)
-							+ "\t"
-							+ target.val().substring(end));
 
-				// put caret at right position again
-				this.selectionStart = this.selectionEnd = start + 1;
-				return false;
-			}
-		});
-	}
-
-	/**
+	 /**
 	 *
 	 *
 	 *
-	 * Dialogs, lightboxes, and other content display enhancements
+	 * EVENT UI CODE 
 	 *
 	 *
 	 *
 	 **/
 
+	 // venue autocomplete
+	function venueAutocompleteBehavior() {
+		$('.autocomplete').each( function() {
+			var acURL = $(this).data('cash-endpoint-url');
+			$(this).autocomplete({
+				// probably should do some error handling here.
+				source: function( request, response ) {
+					$.ajax({
+						url: acURL + '/' + request.term,
+						dataType: "json",
+						error: function( data) {},
+						success: function( data ) {
+							response( $.map( data, function( item ) {
+								return {
+									label: item.displayString,
+									value: item.displayString,
+									id: item.id
+								}
+							}));
+						}
+					})
+				},
+				select: function( event, ui ) {
+					// TODO: this is pretty ugly
+					$('#event_venue').val( ui.item.id );
+				},
+				minLength: 2
+			});
+		});
+	}
+
+
+
+
+
 	/**
-	 * doModalConfirm (function)
+	 *
+	 *
+	 *
+	 * DIALOGS, LIGHTBOXES, UI DISPLAY ENHANCEMENTS
+	 *
+	 *
+	 *
+	 **/
+
+	 function modalBehaviors() {
+		// overlay cancel button event
+		$(document).on('click', '.modalcancel', function(e) {
+			e.preventDefault();
+			$('.modallightbox').fadeOut('fast', function() {
+					$('.modallightbox').remove();
+				});
+			$('.modalbg').fadeOut('fast', function() {
+				$('.modalbg').remove();
+			});
+		});
+
+		// fade/close on escape key
+		$(document).keyup(function(e) {
+			if(e.keyCode === 27) {
+				$('.modallightbox').fadeOut('fast', function() {
+					$('.modallightbox').remove();
+				});
+				$('.modalbg').fadeOut('fast', function() {
+					$('.modalbg').remove();
+				});
+			}
+		});
+	}
+
+	 function listenForModals() {
+			// modal pop-ups
+			$(document).on('click', '.needsconfirmation', function(e) {
+				e.preventDefault();
+				doMessage('','Are you sure?',true,$(this).attr('href'));
+				this.blur();
+			});
+
+			// modal lightboxes
+			$(document).on('click', '.lightboxed', function(e) {
+				if ($(window).width() > 768) {
+					e.preventDefault();
+					if ($(this).hasClass('returntocurrentroute')) {
+						doModalLightbox($(this).attr('href'),true);
+					} else {
+						doModalLightbox($(this).attr('href'));
+					}
+					this.blur();
+				}
+			});
+		}
+
+	/**
+	 * doMessage (function)
+	 * displays a message to the user (modal/non-modal) or:
 	 *
 	 * opens a modal confirmation box for delete links, etc. essentially this is a
 	 * silly "are you sure you want to click this?" message, and it sends along a
@@ -530,38 +556,20 @@
 	 * it's happened and can skip displaying any form confirmation, etc.
 	 *
 	 */
-	function doModalConfirm(url) {
-		// markup for the confirmation link
-		var markup = '<div class="modalbg"><div class="modaldialog">' +
-					 '<div class="row"><div class="four columns"></div><div class="four columns">' +
-					 '<h4>Are You Sure?</h4>' +
-					 '<input type="button" class="button modalcancel" value="Cancel" />' +
-					 '<input type="button" class="button modalyes" value="Yes do it" />' +
-					 '</div><div class="four columns"></div></div>' +
-					 '</div></div>';
-		markup = $(markup);
-		markup.hide();
-		$('body').append(markup);
 
-		// button events
-		$('.modalyes').on('click', function(e) {
-			e.preventDefault();
-			refreshPageData(url,'modalconfirm=1&redirectto='+location.pathname.replace(cashAdminPath, ''));
-			$('.modalbg').remove();
-		});
-
-		// show the dialog with a fast fade-in
-		$('.modalbg').fadeIn('fast');
-	}
-
-	// refactor doModalConfirm into this shit:
-	function doMessage(msg,label,modal) {
+	function doMessage(msg,label,modal,redirectUrl) {
 		// markup for the confirmation link
 		var markup = '<div class="modalbg"><div class="modaldialog">' +
 					 '<div class="row"><div class="two columns"></div><div class="eight columns">' +
-					 '<h4>' + label + '</h4>' +
-					 '<p><span class="big">' + msg + '</span></p>';
-					 if (modal) {
+					 '<h4>' + label + '</h4>';
+					 if (msg) {
+					 	markup += '<p><span class="big">' + msg + '</span></p>';
+					 }
+					 if (modal && redirectUrl) {
+					 	markup += '<input type="button" class="button modalcancel" value="Cancel" />' +
+					 			  '<input type="button" class="button modalyes" value="Yes do it" />';
+					 }
+					 if (modal && !redirectUrl) {
 					 	markup += '<input type="button" class="button modalyes" value="OK" />';
 					 }
 					 markup += '</div><div class="two columns"></div></div>' +
@@ -576,6 +584,7 @@
 			// button events
 			$('.modalyes').on('click', function(e) {
 				e.preventDefault();
+				refreshPageData(redirectUrl,'modalconfirm=1&redirectto='+location.pathname.replace(cashAdminPath, ''));
 				$('.modalbg').remove();
 			});
 		}
@@ -586,7 +595,6 @@
 
 	/**
 	 * doModalLightbox (function)
-	 *
 	 * opens a modal input form from a specific route
 	 *
 	 */
@@ -617,7 +625,6 @@
 
 	/**
 	 * prepDrawers (function)
-	 *
 	 * Simple function to roll-up and roll-down content inside a div with class "drawer" â€” will
 	 * look for a "handle" inside the div â€” an element that triggers the effect on click and remains
 	 * visible throughout.
@@ -676,6 +683,52 @@
 				});
 			}
 		});
+	}
 
+	function listenForInjectLinks() {
+		// inserts html into the current document/form (dynamic inputs primarily)
+		// grabs rel, inserts rev data and iterates the name, changing the rel
+		// should probably move to a data- structure
+		$(document).on('click', 'a.injectbefore', function(e) {
+			e.preventDefault();
+			e.currentTarget.blur();
+			var iteration = $(e.currentTarget).attr('rel');
+			if (iteration) {
+				jQuery.data(e.currentTarget,'nameiteration',iteration);
+			} else {
+				iteration = 1;
+			}
+			$(e.currentTarget).attr('rel',iteration);
+			var toinsert = $(e.currentTarget).attr('rev');
+			var names = toinsert.match(/name='([^']*)/g);
+			if (names) {
+				jQuery.each(names, function(index, name) {
+					toinsert = toinsert.replace(name, name+iteration);
+				});
+			}
+			$(e.currentTarget).before('<div>' + toinsert + '</div>');
+			$(e.currentTarget).attr('rel',iteration+1);
+		});
+	}
+
+	function textareaTabBehavior() {
+		$(document).on('keydown', 'textarea.taller', function(e) {
+			// repurposed from here: http://jsfiddle.net/sdDVf/8/
+
+			if(e.keyCode === 9) { 
+				var start = this.selectionStart;
+					end = this.selectionEnd;
+				var target = $(this);
+
+				// set textarea value to: text before caret + tab + text after caret
+				target.val(target.val().substring(0, start)
+							+ "\t"
+							+ target.val().substring(end));
+
+				// put caret at right position again
+				this.selectionStart = this.selectionEnd = start + 1;
+				return false;
+			}
+		});
 	}
 })(jQuery);
