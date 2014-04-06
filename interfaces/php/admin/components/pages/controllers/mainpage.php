@@ -1,6 +1,4 @@
 <?php
-$cash_admin->page_data['ui_title'] = 'CASH Music: Main Page';
-
 // banner stuff
 $settings = $cash_admin->getUserSettings();
 

@@ -13,7 +13,7 @@ installers, an admin webapp, APIs, demos, and a full suite of tests.
 ## Get up and running
 
 All you need to get started is [VirtualBox](https://www.virtualbox.org/wiki/Downloads), 
-[Vagrant](http://www.vagrantup.com/downloads.html), and this repo. Just fork, install
+[Vagrant 1.4+](http://www.vagrantup.com/downloads.html), and this repo. Just fork, install
 VirtualBox and Vagrant, then open a terminal window and in the repo directory type:
 
 ```

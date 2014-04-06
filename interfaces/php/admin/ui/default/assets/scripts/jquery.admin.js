@@ -199,7 +199,6 @@
 	 *
 	 */
 	function collapseAllTabs(section) {
-		//
 		if (section != currentSection) {
 			currentSection = section;
 			
@@ -209,7 +208,7 @@
 					$(this).addClass('current');
 				}
 			});
-
+			
 			$('div.mainnavmenu a').each(function(index) {
 				if ($(this).hasClass(section+'nav')) {
 					$(this).parent().addClass('current');
@@ -290,20 +289,6 @@
 		$(document).on('click', '#tipscloselink', function(e) {
 			e.preventDefault();
 			$('#pagetips').slideUp(100);
-		});
-
-		$(document).on('click', '.navitem', function(e) {
-			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
-				e.preventDefault();
-				refreshPageData($(this).find('a').attr('href'));
-			}
-		});
-
-		$(document).on('click', '.navitemlink', function(e) {
-			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
-				e.preventDefault();
-			}
-			this.blur();
 		});
 
 		$(document).on('click', '#logout', function(e) {
@@ -420,7 +405,7 @@
 		// cashAdminPath is set in the main template to the www_base of the admin
 		$(document).on('click', 'a[href^="' + cashAdminPath + '"]', function(e) {
 			var el = $(e.currentTarget);
-			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey && !el.hasClass('navitemlink')
+			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey)
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
 				&& !el.hasClass('noajax') && !el.is('#logout')
 			) {
