@@ -405,7 +405,7 @@
 		// cashAdminPath is set in the main template to the www_base of the admin
 		$(document).on('click', 'a[href^="' + cashAdminPath + '"]', function(e) {
 			var el = $(e.currentTarget);
-			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey)
+			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
 				&& !el.hasClass('noajax') && !el.is('#logout')
 			) {
