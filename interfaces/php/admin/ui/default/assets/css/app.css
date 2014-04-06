@@ -57,9 +57,9 @@ input[type="submit"]:hover, input[type="button"]:hover, a.button:hover, button:h
 input[type="checkbox"],input[type="radio"] {width:auto !important;height:auto !important;margin-top:8px;}
 input, textarea, select, button {margin-top:8px !important;}
 label {font-family:"Roboto Condensed",Helvetica,Arial,sans-serif;font-size:12px;line-height:1em;text-transform:uppercase;color:#888;font-weight:normal;}
-select {line-height:38px;width:100%;border:none;background-color:#f3f3f3;border-radius:0;border:1px solid #dddddf;}
+select {-webkit-appearance:none;line-height:16px;width:100%;border:none;background-color:#f3f3f3;border-radius:0;border:1px solid #dddddf;background-image:url(../images/selectarrow.png);background-position:top right;background-repeat:no-repeat;}
 select option {padding:8px;}
-select:active, select:focus {background-color:#fff;border:1px solid #888;}
+select:active, select:focus {background-color:#fff;border:1px solid #888;outline:none;}
 textarea.tall {height:200px !important;}
 textarea.taller {height:400px !important;padding-right:0;padding-bottom:0;font-family:"courier new",courier,monospace !important;font-style:normal !important;font-size:0.9em !important;}
 form.inline {display:inline;}
@@ -113,7 +113,7 @@ div.mainnavmenu ul li .subnavmenu a {font-size:14px;font-weight:bold;padding:4px
 #pagemenu ul {padding-left:0;}
 #pagemenu * li {display:inline;margin-right:1.5em;}
 /* PAGE TIPS */
-#pagetips {background-color:#ff0;color:#231F20;padding:12px 16px 24px 16px;text-align:left;margin:0;}
+#pagetips {background-color:#ff0;color:#231F20;padding:12px 16px 24px 16px;text-align:left;margin:0;display:none;}
 #pagetips p {margin-bottom:0 !important;font-size:12px;line-height:1.5em;}
 #pagetips a {color:#231F20;}
 #tipscloselink {font-size:11px;position:relative;top:12px;left:-4px;font-weight:bold;padding:4px;}
@@ -159,7 +159,6 @@ div.callout h1, div.callout h2, div.callout h3, div.callout h4 {margin-top:0;}
 .featuredelement .padding {padding:8px;}
 .featuredelement .itemnav {padding:0 10px 0 0;text-align:right;}
 .featuredelement .itemnav a {font-weight:bold;}
-.featuredelement .elementdetails {max-height:1px;overflow:hidden;visibility:hidden;-webkit-transition:all 0.3s ease-out;-moz-transition:all 0.3s ease-out;-o-transition:all 0.3s ease-out;transition:all  0.3s ease-out;}
 .featuredelement .detailsshown {max-height:400px;visibility:visible;}
 /* ASSET UPLOAD FORMS/MISC */
 #add-release-form .formats .icon {margin-right:7px;float:left;vertical-align:middle;}
@@ -199,7 +198,7 @@ li .itemnav {margin:12px 0 8px 0;height:auto;overflow:hidden;-webkit-transition:
 .modalbg {position:fixed;top:0px;left:0px;width:100%;height:100%;background-color:rgba(228,228,228,0.9);z-index:5432;}
 .modaldialog {position:absolute;top:25%;left:0;width:100%;height:auto;background-color:#ff0;text-align:left;z-index:10;padding:8px 0 24px 0;}
 .modaldialog input.button:hover {background-color:#777 !important;}
-.modaldialog h4 {margin:1em 0 6px 0;}
+.modaldialog h4 {margin:1em 0 6px 0;color:#000;}
 .modallightbox {position:absolute;top:15%;left:50%;margin-left:-344px;padding:24px;width:640px;height:auto;background-color:#fff;background-position:right top;background-repeat:no-repeat;text-align:left;box-shadow:-2px 2px 2px rgba(0,0,0,0.15);z-index:54321;}
 .modallightbox  input.button, .modaldialog input.button {background-color:#000;color:#fff;cursor:pointer;margin-right:9px;-webkit-transition:all 0.25s ease-in-out;-moz-transition:all 0.25s ease-in-out;-o-transition:all 0.25s ease-in-out;transition:all 0.25s ease-in-out;}
 .modallightbox .row {width:622px;min-width:592px;max-width:622px;margin: 0 -15px;}
