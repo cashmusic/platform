@@ -206,6 +206,7 @@
 		// datepicker
 		$('input[type=date],input.date').datepicker();
 
+		formValidateBehavior();
 		venueAutocompleteBehavior();
 		handleUploadForms();
 	}
@@ -301,23 +302,58 @@
 			}
 		});
 
-		// submit forms via AJAX
+		// stop in-app forms from submitting — we handle them in formValidateBehavior()
 		$(document).on('submit', 'form', function(e) {
 			var el = $(e.currentTarget);
 			if (el.attr('action').toLowerCase().indexOf('s3.amazonaws') < 1) {
 				e.preventDefault();
-				var url = el.attr('action');
-				if (url == '') {
-					url = location.pathname;
-				}
-				var formdata = $(this).serialize();
-				if (el.is('.returntocurrentroute form')) {
-					formdata += '&forceroute=' + location.pathname.replace(cashAdminPath, '');
-				}
-				refreshPageData(url,formdata);
 			}
 		});
 	 }
+
+	 // submit a form via AJAX
+	 function ajaxFormSubmit(form) {
+		form = $(form);
+		var url = form.attr('action');
+		if (url == '') {
+			url = location.pathname;
+		}
+		var formdata = $(form).serialize();
+		if (form.is('.returntocurrentroute form')) {
+			formdata += '&forceroute=' + location.pathname.replace(cashAdminPath, '');
+		}
+		refreshPageData(url,formdata);
+	}
+
+	 // validate forms and get them ready to submit (via AJAX)
+	 // for more, see: http://jqueryvalidation.org/documentation/
+	function formValidateBehavior() {
+		$("form").each(function () {
+			var el = $(this);
+			el.validate({
+				errorClass: "invalid",
+				errorElement: "span",
+				//errorLabelContainer:"#pagemessage",
+				highlight: function(element, errorClass) {
+					$(element).addClass(errorClass);
+					$(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
+				},
+				unhighlight: function(element, errorClass) {
+					$(element).removeClass(errorClass);
+					$(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
+				},
+				submitHandler: function(f) {
+					//e.preventDefault();
+					f = $(f);
+					if (f.attr('action').toLowerCase().indexOf('s3.amazonaws') < 1) {
+						ajaxFormSubmit(f);
+					} else {
+						f.submit();
+					}
+				}
+			});
+		});
+	}
 
 
 
@@ -619,7 +655,10 @@
 
 			// show the dialog with a fast fade-in
 			$('.modalbg').fadeIn('fast');
-			$('.modallightbox').fadeIn('fast');
+			$('.modallightbox').fadeIn('fast', function() {
+				// the lightboxes have forms, so tell them to validate and post by ajax...
+				formValidateBehavior();
+			});
 		},'json');
 	}
 

@@ -62,9 +62,9 @@ class S3Seed extends SeedBase {
 					   . 'we don\'t store your key and secret — you\'re granting permission to our own account to access the '
 					   . 'bucket, which you can revoke any time.</p>'
 					   . '<form accept-charset="UTF-8" method="post" action="' . $data . '">'
-					   . '<label for="key">Key</label><br /><input type="text" name="key" value="" /><br />'
-					   . '<label for="secret">Secret</label><br /><input type="text" name="secret" value="" /><br />'
-					   . '<label for="bucket">Bucket name</label><br /><input type="text" name="bucket" value="" /><br />'
+					   . '<label for="key">Key</label><input type="text" name="key" value="" /><br />'
+					   . '<label for="secret">Secret</label><input type="text" name="secret" value="" /><br />'
+					   . '<label for="bucket">Bucket name</label><input type="text" name="bucket" value="" /><br />'
 					   . '<div><input class="button" type="submit" value="Add The Connection" /></div>'
 					   . '</form>';
 		return $return_markup;

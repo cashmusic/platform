@@ -4,7 +4,7 @@
 	<input type="hidden" name="{{form_state_action}}" value="makeitso" />
 
 	<label for="item_name">Name</label>
-	<input type="text" id="item_name" name="item_name" value="{{name}}" placeholder="A public name for the item" />
+	<input type="text" id="item_name" name="item_name" value="{{name}}" placeholder="A public name for the item" class="required" />
 
 	<label for="item_description">Description</label>
 	<textarea rows="3" id="item_description" name="item_description">{{description}}</textarea>
@@ -12,7 +12,7 @@
 	<div class="row">
 		<div class="six columns">
 			<label for="item_price">Price ($ USD)</label>
-			<input type="text" id="item_price" name="item_price" value="{{price}}" />
+			<input type="text" id="item_price" name="item_price" value="{{price}}" class="required number" />
 		</div>
 		<div class="six columns">
 			<label for="item_fulfillment_asset">Fulfillment asset</label>
