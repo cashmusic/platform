@@ -66,7 +66,8 @@ form.inline {display:inline;}
 form.inline input {width:3.25em !important;border:1px solid #fafaf8;}
 form.inline input:active, form.inline input:focus {outline:0;border:1px solid #888;}
 form.inline input.inlinesubmit {font:14px/1.5em helvetica,"helvetica neue","Segoe UI",arial,sans-serif !important;background-color:transparent;cursor:pointer;font-weight:bold !important;width:auto !important;padding-left:0 !important;padding-right:0 !important;}
-
+select.invalid, input[type="text"].invalid, input[type="password"].invalid, input[type="date"].invalid, input[type="datetime"].invalid, input[type="email"].invalid, input[type="number"].invalid, input[type="search"].invalid, input[type="tel"].invalid, input[type="time"].invalid, input[type="url"].invalid, textarea.invalid {border:1px solid #ff0;}
+label.invalid {color:#000;}
 
 /*************************************************** 
  *
@@ -187,7 +188,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {display:none;}
 .element_image {position:relative;height:78px;background-repeat:no-repeat;background-position:center top;margin-bottom:6px;}
 .fadedtext, .fadedtext a {color:#a49c9c !important;}
 .washedtext {color:#d1c7c7 !important;}
-.highlightcopy {padding:2px 6px 2px 6px;background-color:#ff0;}
+.highlightcopy, span.invalid {padding:2px 6px 2px 6px;background-color:#ff0;}
+span.invalid {position:relative;top:-10px;}
 .itemnav {margin:12px 0 8px 0;font-size:13px;}
 li .itemnav {margin:12px 0 8px 0;height:auto;overflow:hidden;-webkit-transition:all 0.1s ease-out;-moz-transition:all 0.1s ease-out;-o-transition:all 0.1s ease-out;transition:all 0.1s ease-out;}
 .no-touch li .itemnav {margin:4px 0 0 0;height:1px;}

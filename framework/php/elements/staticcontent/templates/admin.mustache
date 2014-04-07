@@ -4,7 +4,7 @@
 	{{#element_type}}<input type="hidden" name="element_type" value="{{element_type}}" />{{/element_type}}
 	
 	<label for="element_name">Name</label>
-	<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="Give It A Name"{{/element_name}} /> 
+	<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="Give It A Name"{{/element_name}} class="required" /> 
 
 	<label>Content</label>
 	<textarea id="element_content" name="element_content" class="tall">{{#options_storedcotent}}{{{options_storedcotent}}}{{/options_storedcotent}}</textarea>
