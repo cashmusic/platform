@@ -166,6 +166,75 @@ class CommercePlantTests extends UnitTestCase {
 			$this->assertEqual($order_request->response['payload']['transaction_id'],764);
 		}
 	}
+
+	function testGetOrdersForUser() {
+		// add a second order so we know we're pulling multiples correctly
+		$contents_array = array('test','another array');
+		$order_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'commerce', 
+				'cash_action' => 'addorder',
+				'user_id' => 1,
+				'customer_user_id' => 1001,
+				'transaction_id' => -1,
+				'order_contents' => $contents_array,
+				'fulfilled' => 0,
+				'notes' => 'optional note'
+			)
+		);
+		$this->testing_order = $order_request->response['payload'];
+
+		// first make simple request
+		$order_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'commerce', 
+				'cash_action' => 'getordersforuser',
+				'user_id' => 1
+			)
+		);
+		// this should return 1 because the second order is considered abandonned — it's 
+		// never been edited which means it's never had a transaction associated with it
+		$this->assertTrue(is_array($order_request->response['payload']));
+		$this->assertEqual(count($order_request->response['payload']),1);
+
+		// now we add the transaction, edit our second order
+		$order_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'commerce', 
+				'cash_action' => 'editorder',
+				'id' => $this->testing_order,
+				'fulfilled' => 1,
+				'transaction_id' => 777
+			)
+		);
+
+		// first make simple request
+		$order_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'commerce', 
+				'cash_action' => 'getordersforuser',
+				'user_id' => 1
+			)
+		);
+
+		// with the second full order now we're looking for 2
+		$this->assertEqual(count($order_request->response['payload']),2);
+
+		// now we'll try it, limited to orders placed after 10 seconds from now. sounds
+		// dumb, but it should limit us back down to 0
+		// first make simple request
+		$order_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'commerce', 
+				'cash_action' => 'getordersforuser',
+				'user_id' => 1,
+				'since_date' => time() + 10
+			)
+		);
+
+		// with the second full order now we're looking for 2
+		$this->assertEqual(count($order_request->response['payload']),0);
+	}
 	
 	function testAddTransaction() {
 		$transaction_request = new CASHRequest(

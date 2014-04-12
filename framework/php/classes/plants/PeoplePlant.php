@@ -621,7 +621,9 @@ class PeoplePlant extends PlantBase {
 			)
 		);
 		if ($result) {
-			return $result[0];
+			$return = $result[0];
+			$return['data'] = json_decode($return['data'],true);
+			return $return;
 		} else {
 			return false;
 		}

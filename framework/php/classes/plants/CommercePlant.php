@@ -352,7 +352,7 @@ class CommercePlant extends PlantBase {
 		return $result;
 	}
 
-	protected function getOrdersForUser($user_id,$include_abandoned=false,$max_returned=false) {
+	protected function getOrdersForUser($user_id,$include_abandoned=false,$max_returned=false,$since_date=0) {
 		if ($max_returned) {
 			$limit = '0, ' . $max_returned;
 		} else {
@@ -362,6 +362,10 @@ class CommercePlant extends PlantBase {
 			"user_id" => array(
 				"condition" => "=",
 				"value" => $user_id
+			),
+			"creation_date" => array(
+				"condition" => ">",
+				"value" => $since_date
 			)
 		);
 		if (!$include_abandoned) {
