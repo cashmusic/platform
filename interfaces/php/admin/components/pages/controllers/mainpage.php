@@ -42,26 +42,54 @@ if ($page_templates) {
 }
 
 // get news for the news feed
-$tumblr_seed = new TumblrSeed();
-$tumblr_request = $tumblr_seed->getTumblrFeed('blog.cashmusic.org',0,'platformnews');
-//error_log(print_r($tumblr_request,true));
 
-$cash_admin->page_data['dashboard_news_img'] = null;
-$cash_admin->page_data['dashboard_news'] = "<p>News could not be read. So let's say no news is good news.</p>";
-$doc = new DOMDocument();
-@$doc->loadHTML($tumblr_request[0]->{'regular-body'});
-$imgs = $doc->getElementsByTagName('img');
-if ($imgs->length) {
-	$cash_admin->page_data['dashboard_news_img'] = $imgs->item(0)->getAttribute('src');
-}
-$ps = $doc->getElementsByTagName('p');
-foreach ($ps as $p) {
-	if ($p->nodeValue) {
-		$cash_admin->page_data['dashboard_news'] = '<p><b><i>' . $tumblr_request[0]->{$tumblr_request[0]->type . '-title'} . ':</i></b> ' . 
-			$p->nodeValue . ' <a href="' . $tumblr_request[0]->{'url-with-slug'} . '" class="usecolor1" target="_blank">' . 'Read more.</a></p>';
-		break;
+$session_news = $admin_primary_cash_request->sessionGet('cash_news');
+if ($session_news) {
+	$cash_admin->page_data['dashboard_news'] = $session_news['content'];
+	$cash_admin->page_data['dashboard_news_img'] = $session_news['img'];
+} else {
+	$tumblr_seed = new TumblrSeed();
+	$tumblr_request = $tumblr_seed->getTumblrFeed('blog.cashmusic.org',0,'platformnews');
+	//error_log(print_r($tumblr_request,true));
+
+	$cash_admin->page_data['dashboard_news_img'] = null;
+	$cash_admin->page_data['dashboard_news'] = "<p>News could not be read. So let's say no news is good news.</p>";
+	$doc = new DOMDocument();
+	@$doc->loadHTML($tumblr_request[0]->{'regular-body'});
+	$imgs = $doc->getElementsByTagName('img');
+	if ($imgs->length) {
+		$cash_admin->page_data['dashboard_news_img'] = $imgs->item(0)->getAttribute('src');
 	}
+	$ps = $doc->getElementsByTagName('p');
+	foreach ($ps as $p) {
+		if ($p->nodeValue) {
+			$cash_admin->page_data['dashboard_news'] = '<p class="cashnews"><b><i>' . $tumblr_request[0]->{$tumblr_request[0]->type . '-title'} . ':</i></b> ' . 
+				$p->nodeValue . ' <a href="' . $tumblr_request[0]->{'url-with-slug'} . '" class="usecolor1" target="_blank">' . 'Read more.</a></p>';
+			break;
+		}
+	}
+
+	$session_news = array(
+		'date'    => $tumblr_request[0]->{'unix-timestamp'},
+		'content' => $cash_admin->page_data['dashboard_news'],
+		'img'     => $cash_admin->page_data['dashboard_news_img']
+	);
+
+	$admin_primary_cash_request->sessionSet('cash_news',$session_news);
 }
+
+/*
+	// give it a future since_date and check to make sure lists and orders are false
+	$activity_request = new CASHRequest(
+		array(
+			'cash_request_type' => 'people', 
+			'cash_action' => 'getrecentactivity',
+			'user_id' => $this->testing_user,
+			'since_date' => time() + 10
+		)
+	);
+	$this->assertTrue($activity_request->response['payload']);
+*/
 
 // check to see if the user has elements defined
 $elements_response = $cash_admin->requestAndStore(
