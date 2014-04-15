@@ -522,6 +522,13 @@ class CASHDBA {
 				if ($orderby) $query .= " ORDER BY $orderby";
 				if ($limit) $query .= " LIMIT $limit";
 				break;
+			case 'PeoplePlant_getRecentActivity':
+				$query = "SELECT DISTINCT m.list_id AS 'list_id', l.name as 'name', COUNT(m.list_id) AS 'total' "
+				. "FROM people_lists_members m "
+				. "INNER JOIN people_lists l ON m.list_id = l.id "
+				. "WHERE l.user_id = :user_id AND m.active = 1 AND m.creation_date > :since_date "
+				. "GROUP BY m.list_id ";
+				break;
 			case 'PeoplePlant_getVerifiedUsersForList':
 				$query = "SELECT u.id,u.email_address,u.display_name,"
 				. "l.initial_comment,l.additional_data,l.creation_date "

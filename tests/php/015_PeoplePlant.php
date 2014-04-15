@@ -3,13 +3,80 @@ require_once(dirname(__FILE__) . '/base.php');
 require_once('framework/php/classes/plants/PeoplePlant.php');
 
 class PeoplePlantTests extends UnitTestCase {	
-	var $testing_list, $testing_mailing;
+	var $testing_list, $testing_mailing, $testing_user;
 	
 	function testPeoplePlant(){
 		echo "Testing PeoplePlant\n";
 		
 		$p = new PeoplePlant('People', array());
 		$this->assertIsa($p, 'PeoplePlant');
+	}
+
+	function testUserGetAndStoreData() {
+		// set up a test user:
+		$login_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'addlogin',
+				'address' => 'data@test.com', 
+				'password' => 'data',
+				'is_admin' => 1,
+				'data' => array('initial'=>'value')
+			)
+		);
+		$user_id = $login_request->response['payload'];
+		$this->testing_user = $user_id;
+
+		// add some data to the user
+		$data_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'storeuserdata',
+				'user_id' => $user_id,
+				'key' => 'new',
+				'value' => 'stuff'
+			)
+		);
+		$this->assertTrue($data_request->response['payload']);
+
+		// get the user / test the returns
+		$data_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'getuser',
+				'user_id' => $user_id
+			)
+		);
+		$this->assertTrue($data_request->response['payload']);
+		$this->assertEqual($data_request->response['payload']['email_address'],'data@test.com');
+		$this->assertEqual($data_request->response['payload']['is_admin'],1);
+		$this->assertTrue(is_array($data_request->response['payload']['data']));
+		$this->assertEqual($data_request->response['payload']['data']['initial'],'value');
+		$this->assertEqual($data_request->response['payload']['data']['new'],'stuff');
+
+		// now change up the data
+		$data_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'storeuserdata',
+				'user_id' => $user_id,
+				'key' => 'new',
+				'value' => 'more stuff'
+			)
+		);
+		$this->assertTrue($data_request->response['payload']);
+
+		// now test that the new value is set and the old value remains correct
+		$data_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'getuser',
+				'user_id' => $user_id
+			)
+		);
+		$this->assertTrue($data_request->response['payload']);
+		$this->assertEqual($data_request->response['payload']['data']['initial'],'value');
+		$this->assertEqual($data_request->response['payload']['data']['new'],'more stuff');
 	}
 	
 	function testAddList() {
@@ -76,28 +143,6 @@ class PeoplePlantTests extends UnitTestCase {
 		}
 	}
 
-	function testDeleteList() {
-		// delete it
-		$list_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'people', 
-				'cash_action' => 'deletelist',
-				'list_id' => $this->testing_list
-			)
-		);
-		$this->assertTrue($list_request->response['payload']);
-		
-		// test that it's really gone
-		$list_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'people', 
-				'cash_action' => 'getlist',
-				'list_id' => $this->testing_list
-			)
-		);
-		$this->assertFalse($list_request->response['payload']);
-	}
-
 	function testSignupRemove() {
 		$test_address = 'whatever@cashmusic.org';
 		$add_request = new CASHRequest(
@@ -131,6 +176,28 @@ class PeoplePlantTests extends UnitTestCase {
 			)
 		);
 		$this->assertTrue($remove_request->response['payload']);
+	}
+
+	function testDeleteList() {
+		// delete it
+		$list_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'deletelist',
+				'list_id' => $this->testing_list
+			)
+		);
+		$this->assertTrue($list_request->response['payload']);
+		
+		// test that it's really gone
+		$list_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'getlist',
+				'list_id' => $this->testing_list
+			)
+		);
+		$this->assertFalse($list_request->response['payload']);
 	}
 
 	function testAddMailing() {
@@ -508,6 +575,118 @@ class PeoplePlantTests extends UnitTestCase {
 		$this->assertEqual($country_data['US']['regions']['new york'],1); 
 		$this->assertEqual($country_data['US']['cities']['new york'],1);
 		$this->assertEqual($country_data['US']['postal']['10027'],1);
+	}
+
+	function testGetRecentActivity() {
+		// $this->testing_user is established in testUserGetAndStoreData()
+		// using that guy instead of 1 so we don't corrupt commerce tests
+
+		// first we add a couple lists to test returns
+		$list_add_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'addlist',
+				'name' => 'Test List',
+				'description' => 'Test Description',
+				'user_id' => $this->testing_user
+			)
+		);
+		$list_id1 = $list_add_request->response['payload'];
+		$list_add_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'addlist',
+				'name' => 'Test List 2',
+				'description' => 'Test Description',
+				'user_id' => $this->testing_user
+			)
+		);
+		$list_id2 = $list_add_request->response['payload'];
+
+		// now some signups
+		$add_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'addaddresstolist',
+				'address' => 'one@test.com',
+				'list_id' => $list_id1,
+				'do_not_verify' => true,
+			)
+		);
+		$add_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'addaddresstolist',
+				'address' => 'two@test.com',
+				'list_id' => $list_id2,
+				'do_not_verify' => true,
+			)
+		);
+		$add_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'addaddresstolist',
+				'address' => 'three@test.com',
+				'list_id' => $list_id2,
+				'do_not_verify' => true,
+			)
+		);
+
+		// let's order something, dad's buying!
+		$order_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'commerce', 
+				'cash_action' => 'addorder',
+				'user_id' => $this->testing_user,
+				'customer_user_id' => 1000,
+				'transaction_id' => -1,
+				'order_contents' => array('test','array'),
+				'fulfilled' => 0,
+				'notes' => 'and an optional note'
+			)
+		);
+		$order_id = $order_request->response['payload'];
+		$order_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'commerce', 
+				'cash_action' => 'editorder',
+				'id' => $order_id,
+				'fulfilled' => 0,
+				'transaction_id' => 764
+			)
+		);
+
+		// the bullshit data is in place. let's make sure we find it correctly!
+		$activity_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'getrecentactivity',
+				'user_id' => $this->testing_user
+			)
+		);
+		$this->assertTrue($activity_request->response['payload']);
+		$this->assertTrue(is_array($activity_request->response['payload']));
+		$this->assertTrue(is_array($activity_request->response['payload']['lists']));
+		$this->assertTrue(is_array($activity_request->response['payload']['orders']));
+		$this->assertEqual(count($activity_request->response['payload']['lists']),2);
+		$this->assertEqual(count($activity_request->response['payload']['orders']),1);
+		$this->assertEqual($activity_request->response['payload']['lists'][0]['list_id'],$list_id1);
+		$this->assertEqual($activity_request->response['payload']['lists'][0]['name'],'Test List');
+		$this->assertEqual($activity_request->response['payload']['lists'][0]['total'],1);
+		$this->assertEqual($activity_request->response['payload']['orders'][0]['notes'],'and an optional note');
+
+		// give it a future since_date and check to make sure lists and orders are false
+		$activity_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'getrecentactivity',
+				'user_id' => $this->testing_user,
+				'since_date' => time() + 10
+			)
+		);
+		$this->assertTrue($activity_request->response['payload']);
+		$this->assertFalse($activity_request->response['payload']['lists']);
+		$this->assertFalse($activity_request->response['payload']['orders']);
 	}
 }
 

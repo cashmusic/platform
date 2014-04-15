@@ -152,6 +152,7 @@ div.callout p {margin-bottom:0;}
 div.callout.flush {background-image:none;margin-bottom:0;}
 div.callout.newsfeed {background-color:#fff;color:#3c3333;padding:22px 18px 22px 88px;}
 div.callout.newsfeed div.newsimage {position:absolute;top:0;left:0;width:64px;border-right:#ccc solid 6px;height:100%;background-position:center center;background-size:cover;background-color:#fff;}
+div.callout.newsfeed p {font-size:16px;line-height:1.5em;}
 div.callout h1, div.callout h2, div.callout h3, div.callout h4 {margin-top:0;} 
 /* FEATURED ELEMENT CARDS */
 .featuredelement {padding:0;background-color:#fff;margin-bottom:36px;box-shadow:-2px 2px 2px #dededc;}

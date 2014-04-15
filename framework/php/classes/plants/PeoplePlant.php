@@ -40,6 +40,7 @@ class PeoplePlant extends PlantBase {
 			'getlist'                => array('getList',array('direct','api_key')),
 			'getmailing'             => array('getMailing','direct'),
 			'getmailinganalytics'    => array('getMailingAnalytics','direct'),
+			'getrecentactivity'      => array('getRecentActivity','direct'),
 			'getuser'                => array('getUser','direct'),
 			'getuseridforaddress'    => array('getUserIDForAddress','direct'),
 			'getuseridforusername'   => array('getUserIDForUsername','direct'),
@@ -49,10 +50,81 @@ class PeoplePlant extends PlantBase {
 			'sendmailing'            => array('sendMailing','direct'),
 			'signintolist'           => array('validateUserForList',array('post','get','direct','api_key')),
 			'signup'                 => array('doSignup',array('direct','post','get','api_key')),
+			'storeuserdata'          => array('storeUserData','direct'),
 			'verifyaddress'          => array('doAddressVerification',array('direct','post','get')),
 			'viewlist'               => array('viewList','direct')
 		);
 		$this->plantPrep($request_type,$request);
+	}
+
+	/**
+	 * Store keyed data in a user's data field
+	 *
+	 * @return bool
+	 */protected function storeUserData($user_id,$key,$value) {
+		$user = $this->getUser($user_id);
+		if (!is_array($user)) { return false; }
+		$userdata = $user['data'];
+		if (!is_array($userdata)) {
+			$userdata = array();
+		}
+		$userdata[$key] = $value;
+		$userdataJSON = json_encode($userdata);
+		$result = $this->db->setData(
+			'users',
+			array(
+				'data' => $userdataJSON
+			),
+			array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				)
+			)
+		);
+		return $result;
+	}
+
+	/**
+	 * Get recent activity for a given user. (list joins and orders) —
+	 * if since_date isn't set it will default to two weeks from now.
+	 *
+	 * @return bool
+	 */protected function getRecentActivity($user_id,$since_date=0) {
+		if ($since_date == 0) {
+			$since_date = time() - 60480;
+		}
+		// create an array to return
+		$return_array = array();
+		// get orders for the timeframe
+		$order_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'commerce', 
+				'cash_action' => 'getordersforuser',
+				'user_id' => $user_id,
+				'since_date' => $since_date
+			)
+		);
+		$return_array['orders'] = $order_request->response['payload'];
+
+		// get list activity (new joins)
+		$result = $this->db->getData(
+			'PeoplePlant_getRecentActivity',
+			false,
+			array(
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				),
+				"since_date" => array(
+					"condition" => ">",
+					"value" => $since_date
+				)
+			)
+		);
+		$return_array['lists'] = $result;
+
+		return $return_array;
 	}
 
 	/**

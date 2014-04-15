@@ -211,19 +211,33 @@ class SystemPlant extends PlantBase {
 				$condition
 			);
 			if (is_array($current_result)) {
+				$last_login = $current_result[0]['modification_date'];
 				$new_total = $current_result[0]['total'] +1;
 			} else {
+				$last_login = time();
 				$new_total = 1;
 				$condition = false;
 			}
-			$result = $this->db->setData(
-				'people_analytics_basic',
-				array(
-					'user_id' => $user_id,
-					'total' => $new_total
-				),
-				$condition
-			);
+			// store the "last_login" time (as long as it's internal (web login) and > 1 hour has passed)
+			if ($login_method == 'internal' && $last_login < (time() - 3600)) {
+				new CASHRequest(
+					array(
+						'cash_request_type' => 'people', 
+						'cash_action' => 'storeuserdata',
+						'user_id' => $user_id,
+						'key' => 'last_login',
+						'value' => $last_login
+					)
+				);
+				$result = $this->db->setData(
+					'people_analytics_basic',
+					array(
+						'user_id' => $user_id,
+						'total' => $new_total
+					),
+					$condition
+				);
+			}
 		}
 		
 		return $result;		
