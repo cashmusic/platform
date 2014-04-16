@@ -75,6 +75,7 @@
 
 		// find the right page title
 		$endpoint = str_replace('_','/',BASE_PAGENAME);
+		$endpoint_parts = explode('/',$endpoint);
 		if (isset($pages_array[$endpoint])) {
 			$current_title = '';
 			if (count($endpoint_parts) > 1) {
