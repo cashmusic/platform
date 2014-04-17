@@ -147,12 +147,18 @@ div.gettingstarted div.complete h3:after {content:'';}
 div.gettingstarted span.helpspc {font-size:12px;color:#231F20;}
 div.gettingstarted a.helplink {color:#231F20;background-color:#ff0;padding:2px 9px 2px 9px;}
 /* MAIN PAGE ACTIVITY FEED AND NEWS */
-div.callout {position:relative;display:block;font-size:12px;line-height:1.5em;padding:22px 18px 22px 18px;margin:0 auto 6px auto;background-color:#fff;z-index:100;}
+div.callout {position:relative;display:block;padding:22px 18px 22px 18px;margin:0 auto 6px auto;background-color:#fff;z-index:100;}
 div.callout p {margin-bottom:0;}
 div.callout.flush {background-image:none;margin-bottom:0;}
 div.callout.newsfeed {background-color:#fff;color:#3c3333;padding:22px 18px 22px 88px;}
 div.callout.newsfeed div.newsimage {position:absolute;top:0;left:0;width:64px;border-right:#ccc solid 6px;height:100%;background-position:center center;background-size:cover;background-color:#fff;}
-div.callout.newsfeed p.cashnews {font:16px/1.5em "Noto Serif",georgia, times, serif;}
+div.callout.newsfeed.cashnews p {font:16px/1.5em "Noto Serif",georgia, times, serif;}
+div.callout.newsfeed.cashnews div.newsimage {border-right:none;}
+div.callout.newsfeed.people div.newsimage {border-right:#97b800 solid 6px;}
+div.callout.newsfeed.people strong {color:#97b800;font-weight:bold;margin-right:4px;}
+div.callout.newsfeed.commerce div.newsimage {border-right:#0080c9 solid 6px;}
+div.callout.newsfeed.commerce strong {color:#0080c9;font-weight:bold;margin-right:4px;}
+div.callout.newsfeed span.action a {margin-left:16px;white-space:nowrap;}
 div.callout h1, div.callout h2, div.callout h3, div.callout h4 {margin-top:0;} 
 /* FEATURED ELEMENT CARDS */
 .featuredelement {padding:0;background-color:#fff;margin-bottom:36px;box-shadow:-2px 2px 2px #dededc;}
