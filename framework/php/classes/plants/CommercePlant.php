@@ -484,6 +484,7 @@ class CommercePlant extends PlantBase {
 		if (!$order_contents && !$item_id) {
 			return false;
 		} else {
+			$is_physical = 0;
 			if (!$order_contents) {
 				$order_contents = array();
 			}
@@ -496,6 +497,9 @@ class CommercePlant extends PlantBase {
 					$price_addition = 0;
 				} else {
 					return false;
+				}
+				if ($item_details['physical_fulfillment']) {
+					$is_physical = 1;
 				}
 			}
 
@@ -519,7 +523,7 @@ class CommercePlant extends PlantBase {
 				$user_id,
 				$order_contents,
 				$transaction_id,
-				0,
+				$is_physical,
 				1,
 				$this->getSessionID(),
 				$element_id,
@@ -590,14 +594,20 @@ class CommercePlant extends PlantBase {
 				if ($element_id) {
 					$return_url .= '&element_id=' . $element_id;
 				}
+				$require_shipping = false;
+				$allow_note = false;
+				if ($order_details['physical']) {
+					$require_shipping = true;
+					$allow_note = true;
+				}
 				$redirect_url = $pp->setExpressCheckout(
 					$order_totals['price'] + $price_addition,
 					'order-' . $order_id,
 					$order_totals['description'],
 					$return_url,
 					$return_url,
-					true,
-					false,
+					$require_shipping,
+					$allow_note,
 					$currency 
 				);
 				if (!$return_url_only) {
