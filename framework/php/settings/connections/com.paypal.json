@@ -11,9 +11,9 @@
 	},
 	"dataTypes": {
 		"single": {
-			"username":"string",
-			"password":"string",
-			"signature":"string",
+			"api username":"string",
+			"api password":"string",
+			"api signature":"string",
 			"sandboxed":"bool"	
 		},
 		"multi": {

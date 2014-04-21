@@ -10,6 +10,7 @@ body {color:#2c2222;background-color:#e4e4e4;font:15px/20px "Roboto Condensed",H
 h1,h2 {color:#000;font:300 30px/40px "Roboto Condensed",Helvetica,Arial,sans-serif;margin:6px 0 18px 0;}
 h3,h4 {color:#999;font:700 19px/19px "Roboto Condensed",Helvetica,Arial,sans-serif;margin:6px 0 18px 0;}
 h5 {color:#000;font:700 15px/15px "Roboto Condensed",Helvetica,Arial,sans-serif;margin:0 0 3px 0;} 
+h6 {color:#999;font:700 15px/15px "Roboto Condensed",Helvetica,Arial,sans-serif;margin:0 0 9px 0;} 
 img {border:0;}
 a {color:#df0854;font-weight:bold;}
 a:hover {color:#000;}
