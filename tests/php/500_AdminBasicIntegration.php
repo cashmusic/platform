@@ -69,11 +69,11 @@ class AdminBasicIntegration extends UnitTestCase {
 					'login'              => '1'
 				))
 			);
-			$this->assertPattern('/<span>CASH Music<\/span><\/h2>/', $src);
+			$this->assertPattern('/<h2 id="pagetitle"><span>CASH Music<\/span>/', $src);
 
 			// make sure the cookie is persistent
 			$src = $this->cc->get($this->cash_test_url . '/interfaces/php/admin/');
-			$this->assertPattern('/<span>CASH Music<\/span><\/h2>/', $src);
+			$this->assertPattern('/<h2 id="pagetitle"><span>CASH Music<\/span>/', $src);
 		}
     }
 

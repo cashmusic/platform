@@ -101,6 +101,7 @@
 		$('#current_pagetip').html(data.ui_page_tip);
 		$('#pagedisplay').html(data.content);
 		$('#pagetitle span').html(data.ui_title);
+		$('#pagetitle em').html(data.ui_tagline);
 
 		window.scrollTo(0,0);
 		$(document).trigger('redraw');

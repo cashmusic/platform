@@ -46,6 +46,7 @@
 		// make an array for return
 		$return_array = array(
 			'page_title' => 'CASH Music',
+			'tagline' => null,
 			'section_menu' => '',
 			'link_text' => null
 		);
@@ -83,6 +84,9 @@
 			}
 			$current_title .= $pages_array[$endpoint]['page_name'];
 			$return_array['page_title'] = $current_title;
+			if (isset($pages_array[$endpoint]['tagline'])) {
+				$return_array['tagline'] = $pages_array[$endpoint]['tagline'];
+			}
 		}
 
 		// set link text for the main template
@@ -382,6 +386,62 @@
 		global $admin_primary_cash_request;
 		$result = $admin_primary_cash_request->sessionGet($var);
 		return $result;
+	}
+
+	public static function getActivity() {
+		global $admin_primary_cash_request, $cash_admin;
+		$session_news = $admin_primary_cash_request->sessionGet('admin_newsfeed');
+		if (!$session_news) {
+			$tumblr_seed = new TumblrSeed();
+			$tumblr_request = $tumblr_seed->getTumblrFeed('blog.cashmusic.org',0,'platformnews');
+			//error_log(print_r($tumblr_request,true));
+
+			$dashboard_news_img = null;
+			$dashboard_news = "<p>News could not be read. So let's say no news is good news.</p>";
+			$doc = new DOMDocument();
+			@$doc->loadHTML($tumblr_request[0]->{'regular-body'});
+			$imgs = $doc->getElementsByTagName('img');
+			if ($imgs->length) {
+				$dashboard_news_img = $imgs->item(0)->getAttribute('src');
+			}
+			$ps = $doc->getElementsByTagName('p');
+			foreach ($ps as $p) {
+				if ($p->nodeValue) {
+					$dashboard_news = '<p><b><i>' . $tumblr_request[0]->{$tumblr_request[0]->type . '-title'} . ':</i></b> ' . 
+						$p->nodeValue . ' <a href="' . $tumblr_request[0]->{'url-with-slug'} . '" class="usecolor1" target="_blank">' . 'Read more.</a></p>';
+					break;
+				}
+			}
+
+			// store all that tumblr junk in our array and move on
+			$session_news = array(
+				'cash_news_date'    => $tumblr_request[0]->{'unix-timestamp'},
+				'cash_news_content' => $dashboard_news,
+				'cash_news_img'     => $dashboard_news_img
+			);
+
+			if (array_key_exists('last_login', $current_userdata)) {
+				$last_login = $current_userdata['last_login'];
+			} else {
+				$last_login = 0;
+			}
+
+			// get recent activity
+			$activity_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'people', 
+					'cash_action' => 'getrecentactivity',
+					'user_id' => $cash_admin->effective_user_id,
+					'since_date' => $last_login
+				)
+			);
+			$activity = $activity_request->response['payload'];
+			$session_news['activity'] = $activity;
+
+			// store it in the session for later
+			$admin_primary_cash_request->sessionSet('admin_newsfeed',$session_news);
+		}
+		return $session_news;
 	}
 
 	/**********************************************

@@ -60,6 +60,9 @@ class CommercePlant extends PlantBase {
 		$fulfillment_asset=0,
 		$descriptive_asset=0
 	   ) {
+	   	if (!$fulfillment_asset) {
+	   		$digital_fulfillment = false;
+	   	}
 		$result = $this->db->setData(
 			'items',
 			array(
@@ -128,6 +131,9 @@ class CommercePlant extends PlantBase {
 		$descriptive_asset=false,
 		$user_id=false
 	   ) {
+	   	if ($fulfillment_asset === 0) {
+	   		$digital_fulfillment = 0;
+	   	}
 		$final_edits = array_filter(
 			array(
 				'name' => $name,
@@ -485,6 +491,7 @@ class CommercePlant extends PlantBase {
 			return false;
 		} else {
 			$is_physical = 0;
+			$is_digital = 1;
 			if (!$order_contents) {
 				$order_contents = array();
 			}
@@ -500,6 +507,9 @@ class CommercePlant extends PlantBase {
 				}
 				if ($item_details['physical_fulfillment']) {
 					$is_physical = 1;
+				}
+				if ($item_details['digital_fulfillment']) {
+					$is_digital = 1;
 				}
 			}
 
@@ -524,7 +534,7 @@ class CommercePlant extends PlantBase {
 				$order_contents,
 				$transaction_id,
 				$is_physical,
-				1,
+				$is_digital,
 				$this->getSessionID(),
 				$element_id,
 				0,
@@ -696,15 +706,25 @@ class CommercePlant extends PlantBase {
 									// TODO: add code to order metadata
 									// bit of a hack, hard-wiring the email bits:
 									try {
-										CASHSystem::sendEmail(
-											'Your download is ready',
-											$order_details['user_id'],
-											$initial_details['EMAIL'],
-											'Your download of "' . $initial_details['PAYMENTREQUEST_0_DESC'] . '" is ready and can be found at: '
-											. CASHSystem::getCurrentURL() . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
-											. '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($initial_details['EMAIL']),
-											'Thank you'
-										);
+										if ($order_details['digital']) {
+											CASHSystem::sendEmail(
+												'Thank you for your order',
+												$order_details['user_id'],
+												$initial_details['EMAIL'],
+												'Your download of "' . $initial_details['PAYMENTREQUEST_0_DESC'] . '" is ready and can be found at: '
+												. CASHSystem::getCurrentURL() . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
+												. '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($initial_details['EMAIL']),
+												'Thank you.'
+											);
+										} else {
+											CASHSystem::sendEmail(
+												'Thank you for your order',
+												$order_details['user_id'],
+												$initial_details['EMAIL'],
+												'Your order for "' . $initial_details['PAYMENTREQUEST_0_DESC'] . '" is complete. Thank you.',
+												'Thank you.'
+											);
+										}
 									} catch (Exception $e) {
 										// TODO: handle the case where an email can't be sent. maybe display the download
 										//       code on-screen? that plus storing it with the order is probably enough

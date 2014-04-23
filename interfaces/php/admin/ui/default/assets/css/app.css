@@ -81,7 +81,7 @@ label.invalid {color:#000;}
 #chrome {position:relative;top:6px;left:24px;width:180px;background-color:rgba(255,255,255,0.4);box-shadow:-2px 2px 2px rgba(0,0,0,0.1);}
 #mainspc {position:relative;left:225px;margin:0;padding-top:28px;z-index:400;width:770px;}
 #pagetitle {position:relative;}
-#pagetitle img {position:absolute;left:-66px;top:-17px;width:56px;height:56px;}
+#pagetitle em {font-size:16px;font-family:"Noto Serif",georgia,times,serif;font-style:normal;color:#888;margin-left:24px;}
 div.row {overflow:visible;}
 /* MAIN MENU */
 .highlightimg {position:absolute;top:0;left:-24px;height:100%;width:24px;box-shadow:-2px 2px 2px rgba(0,0,0,0.1);background-position:center center;display:none;}
@@ -159,7 +159,7 @@ div.callout.newsfeed.people div.newsimage {border-right:#97b800 solid 6px;}
 div.callout.newsfeed.people strong {color:#97b800;font-weight:bold;margin-right:4px;}
 div.callout.newsfeed.commerce div.newsimage {border-right:#0080c9 solid 6px;}
 div.callout.newsfeed.commerce strong {color:#0080c9;font-weight:bold;margin-right:4px;}
-div.callout.newsfeed span.action a {margin-left:16px;white-space:nowrap;}
+span.action a {margin-left:16px;white-space:nowrap;}
 div.callout h1, div.callout h2, div.callout h3, div.callout h4 {margin-top:0;} 
 /* FEATURED ELEMENT CARDS */
 .featuredelement {padding:0;background-color:#fff;margin-bottom:36px;box-shadow:-2px 2px 2px #dededc;}
@@ -180,7 +180,12 @@ div.callout h1, div.callout h2, div.callout h3, div.callout h4 {margin-top:0;}
 #add-release-form .formats li:focus .needsconfirmation { opacity:1; }
 .upload-corral {display:none;}
 input[type="date"]::-webkit-calendar-picker-indicator {display:none;}
-
+/* SECTION DASHBOARD */
+div.sectiondash {margin-bottom:24px;clear:both;}
+div.sectiondash div.primarystat {width:auto;font:300 120px/130px "Roboto Condensed",Helvetica,Arial,sans-serif;display:inline-block;vertical-align:top;}
+div.sectiondash label {display:inline-block;font-weight:700;cursor:text;margin-left:4px;}
+div.sectiondash div.details {display:inline-block;width:auto;vertical-align:top;padding:83px 0 0 24px;}
+div.sectiondash div.details li {list-style-type:none;margin-bottom:8px;}
 
 /*************************************************** 
  *
@@ -247,11 +252,11 @@ li .itemnav {margin:12px 0 8px 0;height:auto;overflow:hidden;-webkit-transition:
 .bgcolor4, div.usecolor4 input[type="submit"], div.usecolor4 button, div.usecolor4 a.button {background-color:#0891df !important;}
 .bgcolor5, div.usecolor5 input[type="submit"], div.usecolor5 button, div.usecolor5 a.button {background-color:#9b08df !important;}
 div.usecolor1 input[type="submit"]:hover, div.usecolor2 input[type="submit"]:hover, div.usecolor3 input[type="submit"]:hover, div.usecolor4 input[type="submit"]:hover, div.usecolor5 input[type="submit"]:hover, div.usecolor1 button:hover, div.usecolor2 button:hover, div.usecolor3 button:hover, div.usecolor4 button:hover, div.usecolor5 button:hover {background-color:#000 !important;}
-div.usecolor1 a, h2.usecolor1, span.usecolor1, div.usecolor1 form.inline input.inlinesubmit {color:#cd074d !important;}
-div.usecolor2 a, h2.usecolor2, span.usecolor2, div.usecolor2 form.inline input.inlinesubmit {color:#ca8c07 !important;}
-div.usecolor3 a, h2.usecolor3, span.usecolor3, div.usecolor3 form.inline input.inlinesubmit {color:#97b800 !important;}
-div.usecolor4 a, h2.usecolor4, span.usecolor4, div.usecolor4 form.inline input.inlinesubmit {color:#0080c9 !important;}
-div.usecolor5 a, h2.usecolor5, span.usecolor5, div.usecolor5 form.inline input.inlinesubmit {color:#8a00ca !important;}
+div.usecolor1 a, h2.usecolor1, span.usecolor1, div.usecolor1 form.inline input.inlinesubmit, div.usecolor1 .primarystat, div.usecolor1 .primarystat label {color:#cd074d !important;}
+div.usecolor2 a, h2.usecolor2, span.usecolor2, div.usecolor2 form.inline input.inlinesubmit, div.usecolor2 .primarystat, div.usecolor2 .primarystat label {color:#ca8c07 !important;}
+div.usecolor3 a, h2.usecolor3, span.usecolor3, div.usecolor3 form.inline input.inlinesubmit, div.usecolor3 .primarystat, div.usecolor3 .primarystat label {color:#97b800 !important;}
+div.usecolor4 a, h2.usecolor4, span.usecolor4, div.usecolor4 form.inline input.inlinesubmit, div.usecolor4 .primarystat, div.usecolor4 .primarystat label {color:#0080c9 !important;}
+div.usecolor5 a, h2.usecolor5, span.usecolor5, div.usecolor5 form.inline input.inlinesubmit, div.usecolor5 .primarystat, div.usecolor5 .primarystat label {color:#8a00ca !important;}
 div.usecolor1 a:hover, div.usecolor2 a:hover, div.usecolor3 a:hover, div.usecolor4 a:hover, div.usecolor5 a:hover {color:#000 !important;}
 a.usecolor0 {color:#999 !important;}
 a.usecolor1 {color:#cd074d !important;}
@@ -325,6 +330,7 @@ body.active #sidebarButton span.menu-active {display:inline;}
 	#pagemenu ul {clear:both;padding-top:6px;}
 	#pagemenu ul li {display:block;clear:both;margin-top:10px;}
 	#pagemenu:empty {display:none;}
+	div.sectiondash div.details {padding:12px 0 0 0;display:block;}
 	input[type="submit"], input[type="button"], a.button {width:100%;padding:12px;height:auto;text-align:center;}
 	#footer {overflow:visible;left:0;width:100%;}
 	#footer a {display:block;margin-left:0;margin-top:8px;}
