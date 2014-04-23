@@ -4,13 +4,13 @@
 		
 		
 	"assets":
-		{"page_name":"Assets", "menu_icon":""},
+		{"page_name":"Assets", "menu_icon":"", "tagline":"your releases, playlists, and files"},
 	"assets/find":
 		{"page_name":"Search", "menu_icon":"icon-search"},
 		
 		
 	"calendar":
-		{"page_name":"Calendar", "menu_icon":""},
+		{"page_name":"Calendar", "menu_icon":"", "tagline":"shows and venues"},
 	"calendar/events":
 		{"page_name":"Events", "menu_icon":"icon-calendar"},
 	"calendar/events/add":
@@ -28,7 +28,7 @@
 		
 		
 	"commerce":
-		{"page_name":"Commerce", "menu_icon":""},
+		{"page_name":"Commerce", "menu_icon":"", "tagline":"orders and items for sale"},
 	"commerce/items":
 		{"page_name":"Items", "menu_icon":"icon-barcode"},
 	"commerce/items/delete":
@@ -78,7 +78,7 @@
 		
 		
 	"people":
-		{"page_name":"People", "menu_icon":""},
+		{"page_name":"People", "menu_icon":"", "tagline":"lists and contacts"},
 	"people/contacts":
 		{"page_name":"Contacts", "menu_icon":""},
 	"people/lists":

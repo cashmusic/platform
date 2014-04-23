@@ -52,7 +52,7 @@ class CommercePlantTests extends UnitTestCase {
 		$this->assertEqual($item_request->response['payload']['sku'],'sku #abc123');
 		$this->assertEqual($item_request->response['payload']['price'],5.97);
 		$this->assertEqual($item_request->response['payload']['available_units'],43);
-		$this->assertEqual($item_request->response['payload']['digital_fulfillment'],1);
+		$this->assertEqual($item_request->response['payload']['digital_fulfillment'],0); // with no fulfillment asset specified this is pushed to 0
 		$this->assertEqual($item_request->response['payload']['physical_fulfillment'],0);
 		$this->assertEqual($item_request->response['payload']['physical_weight'],1);
 		$this->assertEqual($item_request->response['payload']['physical_width'],2);
