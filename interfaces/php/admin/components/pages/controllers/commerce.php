@@ -84,7 +84,7 @@ if ($session_news) {
 		$cash_admin->page_data['total_orders'] = false;
 	}
 
-	$cash_admin->page_data['total_spend'] = $total_spend;
+	$cash_admin->page_data['total_spend'] = CASHSystem::getCurrencySymbol($orders_currency) . $total_spend;
 }
 
 $cash_admin->setPageContentTemplate('commerce');
