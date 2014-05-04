@@ -40,5 +40,18 @@
 	<input type="text" id="message_privacy" name="message_privacy" value="{{#options_message_privacy}}{{options_message_privacy}}{{/options_message_privacy}}{{^options_message_privacy}}{{element_copy_privacy}}{{/options_message_privacy}}" />
 
 	<br />
+	<div class="row">
+		<div class="six columns">
+
+			<label for="button_text">Text for submit button</label>
+			<input type="text" id="button_text" name="button_text" value="{{#options_button_text}}{{options_button_text}}{{/options_button_text}}{{^options_button_text}}sign me up{{/options_button_text}}" />
+
+		</div>
+		<div class="six columns">
+			&nbsp;
+		</div>
+	</div>
+
+	<br />
 	<input class="button" type="submit" value="{{element_button_text}}" />
 </form>

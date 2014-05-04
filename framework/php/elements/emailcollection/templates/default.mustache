@@ -11,7 +11,7 @@
 		<div class="cash_additional_data" style="display:none;"><input type="text" name="additional_data" value="" /></div>
 		<div class="cash_comment" style="display:none;"><input type="text" name="comment" value="" /></div>
 	</div>
-	<input type="submit" value="{{metadata_copy_signup}}" class="button" /><br />
+	<input type="submit" value="{{#button_text}}{{button_text}}{{/button_text}}{{^button_text}}{{metadata_copy_signup}}{{/button_text}}" class="button" /><br />
 </form>
 <div class="cash_notation">
 	{{message_privacy}}

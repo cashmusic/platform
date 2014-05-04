@@ -134,6 +134,9 @@ class CommercePlant extends PlantBase {
 	   	if ($fulfillment_asset === 0) {
 	   		$digital_fulfillment = 0;
 	   	}
+	   	if ($fulfillment_asset > 0) {
+	   		$digital_fulfillment = 1;
+	   	}
 		$final_edits = array_filter(
 			array(
 				'name' => $name,
@@ -491,7 +494,7 @@ class CommercePlant extends PlantBase {
 			return false;
 		} else {
 			$is_physical = 0;
-			$is_digital = 1;
+			$is_digital = 0;
 			if (!$order_contents) {
 				$order_contents = array();
 			}
@@ -721,7 +724,7 @@ class CommercePlant extends PlantBase {
 												'Thank you for your order',
 												$order_details['user_id'],
 												$initial_details['EMAIL'],
-												'Your order for "' . $initial_details['PAYMENTREQUEST_0_DESC'] . '" is complete. Thank you.',
+												'Your order is complete.' . "\n\n" . $initial_details['PAYMENTREQUEST_0_DESC'] . "\n\n" . ' Thank you.',
 												'Thank you.'
 											);
 										}
