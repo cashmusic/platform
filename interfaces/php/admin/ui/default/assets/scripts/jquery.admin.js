@@ -306,6 +306,14 @@
 			this.blur();
 		});
 
+		// show/hide mainmenu
+			$( "#menutoggle" ).click(function() {
+				console.log('#menutoggle was clicked for real')
+			$( this ).toggleClass( "display" );
+			$( "#navmenu" ).toggleClass( "display" );
+		});
+
+
 		$(document).on('click', '#logout', function(e) {
 			e.preventDefault();
 			jQuery.post(cashAdminPath+'/logout','noredirect=1');
@@ -337,6 +345,10 @@
 				});
 			}
 		});
+
+	
+
+
 
 		// to-be-copied code
 		// $(document).on('click', 'code input, code textarea', function(e) {

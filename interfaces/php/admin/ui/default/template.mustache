@@ -9,10 +9,10 @@
 	<!-- Set the viewport width to device width for mobile -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-	<title>CASH Music / Admin</title>
+	<title>CASH Music | Admin</title>
 
-	<link rel="icon" type="image/png" href="https://b6febe3773eb5c5bc449-6d885a724441c07ff9b675222419a9d2.ssl.cf2.rackcdn.com/ui/01/images/badge.png" />
-	<link href="//fonts.googleapis.com/css?family=Roboto+Condensed:400,700italic,400italic,700,300,300italic|Noto+Serif:400,700italic,400italic,700" rel="stylesheet" type="text/css" />
+	<link rel="icon" type="image/gif" href="{{img_base_url}}/ui/default/assets/images/favicon.gif" />
+	<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 	<link href="{{www_path}}/ui/default/assets/css/foundation.min.css" rel="stylesheet" type="text/css" />
 	<link href="{{www_path}}/ui/default/assets/css/app.css" rel="stylesheet" type="text/css" />
@@ -48,6 +48,7 @@
 						<a id="tipscloselink" href="#">{{action_close}}</a>
 					</div>
 				</div>
+				<div id="menutoggle">Main Menu</div> 
 				<div id="navmenu" class="mainnavmenu">
 					<ul>
 						<li{{#ui_current_main}} class="current"{{/ui_current_main}}>
@@ -93,10 +94,11 @@
 							</div>
 						</li>
 					</ul>
+					<div id="donate"><a href="http://cashmusic.org/donate/" target="_blank"><p>We can't exist without your support. <br />Please Donate! &#9825;</p></a></div>
 				</div>
 
 				<div id="accountmenu">
-					<span><i class="icon icon-cog"></i>{{misc_account}}</span>
+					<span><i class="icon icon-cog"></i><span>{{misc_account}}</span></span>
 					<ul>
 						<li><a href="{{www_path}}/account/"><i class="icon icon-user"></i>{{link_youraccount}}</a></li>
 						<li><a href="{{www_path}}/settings/"><i class="icon icon-cog"></i>{{link_settings}}</a></li>
@@ -175,7 +177,8 @@
 
 				<section role="main">
 
-					<img id="ajaxloading" src="{{img_base_url}}/ui/default/assets/images/loading.png" alt="loading..." class="rotate" />
+					<h1 id="logo"><a href="{{www_path}}/"><img src="{{img_base_url}}/ui/default/assets/images/logo.png" alt="CASH Music"/></a><span>Cash Music Platform v.789</span></h1>
+					<img id="ajaxloading" src="{{img_base_url}}/ui/default/assets/images/load.png" alt="loading..." class="rotate" />
 
 					<div class="row">
 						<div class="twelve columns phone-two">
@@ -205,7 +208,7 @@
 	<div id="footer">
 		<div class="row">
 			<div class="twelve columns">
-				<p>{{{misc_footer_markup}}} <a href="{{www_path}}/licenses/" style="margin-left:0;">{{link_footer_learnmore}}</a>. {{#showterms}}<a href="{{www_path}}/terms/">{{link_footer_terms}}</a> {{/showterms}}{{#showprivacy}}<a href="{{www_path}}/privacy/">{{link_footer_privacy}}</a> {{/showprivacy}}<a href="http://cashmusic.org/#more" class="donatelink"><b>{{action_donate}}</b></a></p>
+				<p>{{{misc_footer_markup}}} <a href="{{www_path}}/licenses/" style="margin-left:0;">{{link_footer_learnmore}}</a>. {{#showterms}}<a href="{{www_path}}/terms/">{{link_footer_terms}}</a> {{/showterms}}{{#showprivacy}}<a href="{{www_path}}/privacy/">{{link_footer_privacy}}</a> {{/showprivacy}}<a href="http://cashmusic.org/donate/" class="donatelink"><b>{{action_donate}}</b></a></p>
 			</div>
 		</div>
 	</div>
