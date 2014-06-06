@@ -308,7 +308,7 @@
 
 		// show/hide mainmenu
 			$( "#menutoggle" ).click(function() {
-				console.log('#menutoggle was clicked for real')
+				console.log('#menutoggle was clicked for real');
 			$( this ).toggleClass( "display" );
 			$( "#navmenu" ).toggleClass( "display" );
 		});
@@ -617,6 +617,8 @@
 	 * opens a modal input form from a specific route
 	 *
 	 */
+
+	
 	function doModalLightbox(route,returntocurrentroute) {
 		jQuery.post(route,'data_only=1', function(data) {
 			var addedClass = '';
@@ -624,9 +626,11 @@
 				addedClass = 'returntocurrentroute '
 			}
 			// markup for the confirmation link
-			var modalTop = $(document).scrollTop() + 120;
+			//var modalTop = $(document).scrollTop() + 120;
+			//var modalTop = $(document).scrollTop();
 			var markup = '<div class="modalbg">&nbsp;</div><div class="modallightbox ' + addedClass +
-						 data.specialcolor + '" style="top:' + modalTop + 'px;">' +
+						 //data.specialcolor + '" style="top:' + modalTop + 'px;">' +
+						 data.specialcolor + '">' +
 						 data.content + //jQuery.param(data) +
 						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><i class="icon icon-ban-circle"></i>cancel</a></div>' +
 						 '</div></div>';

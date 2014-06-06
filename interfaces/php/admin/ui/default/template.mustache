@@ -20,6 +20,13 @@
 	<link href="{{www_path}}/ui/default/assets/css/responsive-tables.css" rel="stylesheet" type="text/css" />
 	<link href="{{www_path}}/ui/default/assets/css/diy-ui/jquery-ui-1.8.23.custom.css" rel="stylesheet" type="text/css" />
 
+	<!--iOS-->
+
+	<link rel="apple-touch-icon" href="{{img_base_url}}/ui/default/assets/images/logo.png" />
+	<meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no;">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
 	<script type="text/javascript">
 		var cashAdminPath = "{{www_path}}";
 		var cashImagePath = "{{img_base_url}}";
@@ -37,7 +44,7 @@
 
 	<div id="wrap">	
 
-		<div id="chromespc" class="twelve columns phone-two hide-for-small">
+		<div id="chromespc" class="twelve columns">
 
 			<div id="chrome">
 				<div id="tipspc" class="hide-for-small">
@@ -122,59 +129,6 @@
 		<div id="mainspc" class="container {{specialcolor}}">
 
 			<div class="row">
-				<section id="sidebar" role="complementary">
-					<div id="sideMenu" role="navigation" class="mainnavmenu">
-						<ul>
-							<li{{#ui_current_main}} class="current"{{/ui_current_main}}>
-								<a href="{{www_path}}/" class="mainnav">
-									<i class="icon icon-certificate"></i>{{link_main_page}}
-								</a>
-							</li>
-							<li{{#ui_current_assets}} class="current"{{/ui_current_assets}}>
-								<a href="{{www_path}}/assets/" class="assetsnav">
-									<i class="icon icon-paste"></i>{{link_menu_assets}}
-								</a>
-								<div class="subnavmenu usecolor2">
-									{{{assets_section_menu}}}
-								</div>
-							</li>
-							<li{{#ui_current_people}} class="current"{{/ui_current_people}}>
-								<a href="{{www_path}}/people/" class="peoplenav">
-									<i class="icon icon-group"></i>{{link_menu_people}}
-								</a>
-								<div class="subnavmenu usecolor3">
-									{{{people_section_menu}}}
-								</div>
-							</li>
-							<li{{#ui_current_commerce}} class="current"{{/ui_current_commerce}}>
-								<a href="{{www_path}}/commerce/" class="commercenav">
-									<i class="icon icon-credit-card"></i>{{link_menu_commerce}}
-								</a>
-								<div class="subnavmenu usecolor4">
-									{{{commerce_section_menu}}}
-								</div>
-							</li>
-							<li{{#ui_current_calendar}} class="current"{{/ui_current_calendar}}>
-								<a href="{{www_path}}/calendar/" class="calendarnav">
-									<i class="icon icon-calendar"></i>{{link_menu_calendar}}
-								</a>
-								<div class="subnavmenu usecolor5">
-									{{{calendar_section_menu}}}
-								</div>
-							</li>
-						</ul>
-					</div>
-
-					
-					<div id="sideSubMenu" class="tar">
-						<a href="{{www_path}}/account/">{{link_youraccount}} <i class="icon icon-user"></i></a>
-						<a href="{{www_path}}/settings/">{{link_settings}} <i class="icon icon-cog"></i></a>
-						<a href="{{www_path}}/help/">{{link_menu_help}} <i class="icon icon-question-sign"></i></a>
-						<br />
-						<a href="{{www_path}}/logout/">{{action_logout}} <i class="icon icon-signout"></i></a>
-					</div>
-				</section>
-
 				<section role="main">
 
 					<h1 id="logo"><a href="{{www_path}}/"><img src="{{img_base_url}}/ui/default/assets/images/logo.png" alt="CASH Music"/></a><span>Cash Music Platform v.789</span></h1>
