@@ -447,8 +447,6 @@ color:#f5f5f5!important;
 }
 
 .login button{
-		border:solid 2px #f5f5f5;
-		color:#f5f5f5;
 		margin:0;
 		float:right;
 }
@@ -609,6 +607,7 @@ color:#f5f5f5!important;
 #navmenu .current .subnavmenu ul li a{
 	background:#121212;
 	color:#f5f5f5;
+	padding:5% 14%;
 }
 
 /* Main navigation Color Usage */
