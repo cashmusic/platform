@@ -1,57 +1,238 @@
-/* BASIC PAGE RESETS */
-html, body {margin:0;padding:0;width:100%;height:96%;}
-body {font:19px/26px "Noto Serif",helveticaneue,"helvetica neue",helvetica,"segoe ui","segoe wp",arial,sans-serif;background:#e4e4e4;color:#2c2222;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
-a {color:#2c2222;text-decoration:none;}
-a:hover {color:#179de6;}
-h1 {font-family:"Noto Serif",Georgia,serif;font-size:28px;line-height:36px;margin:0;font-weight:400;}
-h2 {font-family:"Roboto Condensed",Helvetica,Arial,sans-serif;color:#fff;font-size:72px;font-weight:300;}
-h3 {font-family:"Amatic SC";font-size:64px;line-height:52px;margin:0 0 12px -4px;font-weight:400;}
-h4 {font-family:"Roboto Condensed",Helvetica,Arial,sans-serif;font-size:18px;line-height:1em;font-weight:bold;}
-h5 {font-family:"Roboto Condensed",Helvetica,Arial,sans-serif;font-size:14px;line-height:1em;text-transform:uppercase;color:#888;font-weight:normal;}
-h1 span {color:#bbb;}
-img {border:0;}
+/*************************************************** 
+ *
+ *  CASH Music Front-End Styles
+ *
+ ***************************************************/
 
-/* LAYOUT/ID-SPECIFIC STYLES */
-p {font-size:19px;}
-p a {text-decoration:underline;}
-p.alt {font-family:"Roboto Condensed",Helvetica,Arial,sans-serif;font-size:15px;line-height:1.4em;color:#333;}
-p.alt a {font-weight:bold;text-decoration:none;color:#df0854;}
-p.alt a:hover {color:#2c2222;}
-p.tight {margin-bottom:0;}
-.callout {width:100%;color:#fff;}
-.calloutcontent {padding:100px 0 100px 0;text-align:center;}
-.calloutcontent a {color:#fff;font-style:italic;}
-.clearall,.cashmusic_clearall {height:1px;overflow:hidden;visibility:hidden;clear:both;}
-.icon {margin-right:8px;font-size:16px;}
-.row {margin-top:50px;}
-.row.tight {margin-top:12px;}
-#homeseal {position:absolute;top:-19px;left:-12px;z-index:1000;}
-#topbadges {position:absolute;top:-19px;left:50%;margin-left:-156px;z-index:1000;}
-#mainspc {margin-top:0;position:relative;padding-top:90px;min-height:600px;}
-#more {background:transparent url(http://2ea7029ee5fd6986c0a6-6d885a724441c07ff9b675222419a9d2.r58.cf2.rackcdn.com/ui/01/images/bg_dogsled.jpg) center top no-repeat;}
-#nav {position:absolute;top:6px;left:90px;z-index:1000;font-family:"Roboto Condensed",Helvetica,Arial,sans-serif;font-size:18px;font-weight:bold;color:#000;z-index:500;}
-#nav a {color:#000;margin-right:32px;}
-#nav a:hover {color:#df0854;}
-#topspc {height:24px;width:100%;background:#222 url(/docs/assets/images/bg_top.jpg) center top fixed;}
-#bottomspc {height:120px;width:100%;background:#222 url(/docs/assets/images/bg_top.jpg) center bottom fixed;}
+/* BASE STYLES AND RESETS */
 
-/* FORMS */
-button,select,input[type="text"],input[type="password"],input[type="date"],input[type="datetime"],input[type="email"],input[type="number"],input[type="search"],input[type="tel"],input[type="time"],input[type="url"],textarea,a.button {font:italic 13px/20px "Noto Serif",helveticaneue,"helvetica neue",helvetica,"segoe ui","segoe wp",arial,sans-serif;border:1px solid #dddddf;width:100%;padding:8px;height:38px !important;background-color:#f3f3f3;border-radius:0 !important;box-shadow:none !important;}
-input:active, input:focus, textarea:focus {outline:0;border:1px solid #888;background-color:#fff;}
-input[type="submit"], input[type="button"], a.button, button {background-color:#df0854;padding:0 18px 4px 18px;font:bold 15px/15px "Roboto Condensed",Helvetica,Arial,sans-serif !important;cursor:pointer;width:auto;height:38px;border:0;color:#fff;-webkit-transition:all 0.25s ease-in-out;-moz-transition:all 0.25s ease-in-out;-o-transition:all 0.25s ease-in-out;transition:all 0.25s ease-in-out;}
-a.button, button {padding:7px 18px 9px 18px;}
-input[type="submit"]:hover, input[type="button"]:hover, a.button:hover, button:hover {background-color:#000 !important;color:#fff;}
-input[type="checkbox"],input[type="radio"] {width:auto !important;height:auto !important;margin-top:8px;}
-input, textarea, select, button {margin-top:8px !important;}
-label {font-family:"Roboto Condensed",Helvetica,Arial,sans-serif;font-size:12px;line-height:1em;text-transform:uppercase;color:#888;font-weight:normal;}
-select {line-height:38px;width:100%;border:none;background-color:#f3f3f3;border-radius:0;border:1px solid #dddddf;}
-select option {padding:8px;}
-select:active, select:focus {background-color:#fff;border:1px solid #888;}
+html{
+	min-height:100%;
+	padding:0;
+	background-attachment: fixed;
+	overflow-x:hidden;
+	position: relative;
+	z-index:-2;
+}
 
-@media all and (max-width: 720px) {
-	h3 {font-size:48px;line-height:42px;}
-	#mainspc {position:relative;width:100%;margin:0;left:0;top:0;padding:260px 8px 8px 8px;min-height:0;}
-	#nav {background-color:#000;color:#fff;top:0;left:0;width:100%;padding-top:12px;padding-left:90px;}
-	#nav a {color:#fff;width:140px;display:block;margin-bottom:16px;}
-	#nav a:hover {color:#df0854;}
+body {
+	margin:0 0 0 0;
+	padding:0 0 1% 0;
+	height:100%;
+	background: #e3e3e3; /* Old browsers */
+	background:rgba(230,230,230,0.97) url(../images/paint_low.png) 0% 0%;
+	background-attachment: fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	overflow-x:hidden;
+	color:#222;
+	font:400 30px/40px 'Montserrat',Helvetica,Arial,sans-serif;
+}
+
+#chrome{
+	height:100%;
+	width:100%;
+}
+
+/*Scrollbars*/
+
+::-webkit-scrollbar{width: 12px;  /* for vertical scrollbars */height: 12px; /* for horizontal scrollbars */}
+::-webkit-scrollbar-track{background: rgba(34, 34, 34, 0.97);}
+::-webkit-scrollbar-thumb{background: rgba(238, 238, 238, 0.97);}
+
+.row{
+	/*overflow:auto;*/
+	width:100%;
+	min-width:100%;
+}
+
+#pagetitle{
+	font-size:38px;
+	line-height: 40px;
+	margin:0 auto 20px auto;
+	width:90%;
+	font-weight:700;
+	text-transform: uppercase;
+	word-wrap:break-word;
+}
+
+#pagedisplay{
+	width:90%;
+	margin:0 auto;
+}
+
+br{	
+	display:none;
+	background:#222;
+	height:1;
+	padding:0;
+	margin:-50px;
+}
+
+a{
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition:0.3s ease-in-out;
+	text-decoration: underline;
+	color:#00cf7f;
+	padding:5px;
+}
+
+a:hover{
+	text-decoration: none;
+	color:#222;
+}
+
+/* Form General */
+
+input{
+	padding:3%;
+}
+
+input::-webkit-calendar-picker-indicator{
+    display: none;
+}
+
+select{
+	background:#00cf7f;
+	border:none;
+	padding:0% 2%;
+	color:#f5f5f5;
+	text-indent: 0;
+	margin:0;
+	height:30px;
+	line-height: 3px;
+	border:none;
+	font:400 14px/20px 'Montserrat',Helvetica,Arial,sans-serif;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+input.checkorradio{
+	border:solid 1px #00cf7f;
+	color:#00cf7f;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	padding:10px;
+	margin:5px 5px 0 0;
+	clear:both;
+	-webkit-appearance: none;
+}
+
+input.checkorradio:checked{
+	background-color:#00cf7f;
+	background-image:url(../images/cross.png);
+	background-position: 50% 50%;
+	background-repeat: no-repeat; 
+}
+
+.login #cash_signin_form{
+	background:#ededed url(../images/dirt.png);
+	padding:10%;
+	position:relative;
+	overflow:auto;
+	left:0;
+	width:100%;
+	margin:30px 0;
+	color:#f5f5f5;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow:inset 0 0 3px 0 rgba(0,0,0,0.3);
+	box-shadow:inset 0 0 3px 0 rgba(0,0,0,0.3);
+}
+
+#query{
+	padding:3.5%;
+	margin:2% 0 0 0;
+}
+
+/* Buttons General */
+
+button, .button, #modallightbox .modalcancel{
+	border:solid 1px #00cf7f;
+	background:none;
+	padding:10px 50px;
+	margin:5% 0;
+	text-align: center;
+	/*float:left;*/
+	width:100%;
+	font:400 14px/20px 'Montserrat',Helvetica,Arial,sans-serif;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition:0.3s ease-in-out;
+	text-decoration: none;
+	color:#00cf7f;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+button:hover, .button:hover{
+	background:#00cf7f;
+	color:#f5f5f5;
+	cursor: pointer;
+}
+
+button .icon, .button .icon{
+	display:none;
+}
+
+/* Icons General */
+
+#pagedisplay .icon{
+	margin:0 5px 0 0;
+	-webkit-border-radius: 1000px;
+	-moz-border-radius: 1000px;
+	border-radius: 1000px;
+	background:#222;
+	color:#f5f5f5;
+	opacity:1;
+	padding:10px;
+	text-decoration: none;
+}
+
+/* Headers */
+
+h1,h2,h3,h4,h5{
+	color:#222;
+	font:400 30px/40px 'Montserrat',Helvetica,Arial,sans-serif;
+}
+
+h4{
+	margin:30px 0 10px 0;
+}
+
+/* Text Types */
+
+small{
+	font-size: 12px;
+}
+
+.smalltext{
+	margin:0 0 0 20px;
+	color:#888;
+	word-wrap:break-word;
+}
+
+.smalltext li{
+	font-size: 12px;
+}
+
+.big {
+	font-size:20px;
+	line-height:25px;
+	margin:0 0 30px 0;
+}
+
+.fadedtext{
+	opacity:0.8;
+}
+
+#pagedisplay .spacedtext a{
+	display:block;
 }
