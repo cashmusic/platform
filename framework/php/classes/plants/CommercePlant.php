@@ -679,10 +679,40 @@ class CommercePlant extends PlantBase {
 										$user_id = $user_request->response['payload'];
 									}
 									
-									// record the details to the order/transaction where appropriate
+									// deal with physical quantities
+									if ($order_details['physical'] == 1) {
+										$order_items = json_decode($order_details['order_contents']);
+										if (is_array($order_items)) {
+											foreach ($order_items as $i) {
+												if ($i['available_units'] > 0 && $i['physical_fulfillment'] == 1) {
+													$item = $this->getItem($i['id']);
+													$available_units =
+													$this->editItem(
+														$i['id'],
+														false,
+														false,
+														false,
+														false,
+														false,
+														$item['available_units'] - 1
+													);
+												}
+											}
+										}
+									}
+
+									// record all the details
+									if ($order_details['digital'] == 1 && $order_details['physical'] == 0) {
+										// if the order is 100% digital just mark it as fulfilled
+										$is_fulfilled = 1;
+									} else {
+										// there's something physical. sorry dude. gotta deal with it still.
+										$is_fulfilled = 0;
+									}
+
 									$this->editOrder(
 										$order_id,
-										1,
+										$is_fulfilled,
 										0,
 										false,
 										$initial_details['COUNTRYCODE'],
@@ -699,17 +729,19 @@ class CommercePlant extends PlantBase {
 										$final_details['PAYMENTINFO_0_FEEAMT'],
 										'complete'
 									);
-									$addcode_request = new CASHRequest(
-										array(
-											'cash_request_type' => 'element', 
-											'cash_action' => 'addlockcode',
-											'element_id' => $order_details['element_id']
-										)
-									);
+									
 									// TODO: add code to order metadata
 									// bit of a hack, hard-wiring the email bits:
 									try {
 										if ($order_details['digital']) {
+											$addcode_request = new CASHRequest(
+												array(
+													'cash_request_type' => 'element', 
+													'cash_action' => 'addlockcode',
+													'element_id' => $order_details['element_id']
+												)
+											);
+
 											CASHSystem::sendEmail(
 												'Thank you for your order',
 												$order_details['user_id'],

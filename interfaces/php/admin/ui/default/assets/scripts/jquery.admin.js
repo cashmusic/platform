@@ -5,7 +5,7 @@
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2014, CASH Music
+ * Copyright (c) 2012, CASH Music
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -32,44 +32,34 @@
 ;
 
 (function($) {
-	/**
-	 *
-	 *
-	 *
-	 * INITIAL LOAD: SET IT ALL IN MOTION
-	 *
-	 *
-	 *
-	 **/
+
+	// initial load setup:
 	$(document).ready(function() {
 		setUIBehaviors();
 		setContentBehaviors();
 
-		// we set the firstadminload to true because the initial page load
-		// doesn't need to be AJAXed in. Wouldn't seem to matter, but it causes
-		// an ugly/noticalbe double-load otherwise.
 		window.firstadminload = true;
+		window.currentpath = location.pathname;
 
 		// make back/forward buttons work
 		window.addEventListener("popstate", function(e) {
 			if (!window.firstadminload) {
 				// checking pathname allows for #hash anchors to work and whatnot
-				refreshPageData(location.pathname,null,null,null,true);
+				if (window.currentpath != location.pathname) {
+					refreshPageData(location.pathname,null,null,null,true);
+					window.currentpath = location.pathname;
+				}
 			} else {
 				window.firstadminload = false;
 			}
 		});
 	});
 
-
-
-
-
 	/**
 	 *
 	 *
 	 *
-	 * PAGE REDRAW AND AJAX REQUESTS
+	 * Page redraw and AJAX requests
 	 *
 	 *
 	 *
@@ -86,22 +76,23 @@
 		$('#mainspc').removeClass();
 		$('#mainspc').addClass(data.specialcolor);
 
-		// nav
-		redrawMainNav(data.section_name);
+		// tabs
+		collapseAllTabs(data.section_name);
 
 		// the rest
 		$('#pagemessage').html('');
 		if (data.error_message) {
+			//$('#pagemessage').html('<p><span class="highlightcopy errormessage">'+data.error_message+'</span></p>');
 			doMessage(data.error_message,'Error',true);
 		}
 		if (data.page_message) {
+			//$('#pagemessage').html('<p><span class="highlightcopy">'+data.page_message+'</span></p>');
 			doMessage(data.page_message,'');
 		}
 		$('#pagetips').hide();
 		$('#current_pagetip').html(data.ui_page_tip);
 		$('#pagedisplay').html(data.content);
 		$('#pagetitle span').html(data.ui_title);
-		$('#pagetitle em').html(data.ui_tagline);
 
 		window.scrollTo(0,0);
 		$(document).trigger('redraw');
@@ -124,7 +115,9 @@
 			if (!data) {
 				doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
 			} else {
-				if (!("doredirect" in data)){ data.doredirect = false; }
+				if (!("doredirect" in data)){
+					data.doredirect = false;
+				}
 				if (data.doredirect) {
 					if (data.showerror) {
 						refreshPageData(data.location,false,data.showerror);
@@ -134,19 +127,28 @@
 						refreshPageData(data.location);
 					}
 				} else {
-					if (!("fullredraw" in data)){ data.fullredraw = false; }
+					if (!("fullredraw" in data)){
+						data.fullredraw = false;
+					}
 					if (data.fullredraw) {
 						var newbody = data.fullcontent.replace(/^[\s\S]*?<body[^>]*>([\s\S]*?)<\/body>[\s\S]*?$/i,"$1");
 						$('body').html(newbody);
 					} else {
-						if (showerror) { data.error_message = showerror; }
-						if (showmessage) { data.page_message = showmessage; }
+						if (showerror) {
+							data.error_message = showerror;
+						}
+						if (showmessage) {
+							data.page_message = showmessage;
+						}
 						redrawPage(data);
 					}
-					if (!skiphistory) { history.pushState(null, null, url); }
+					if (!skiphistory) {
+						history.pushState(null, null, url);
+					}
 					setContentBehaviors();
 				}
-				$('#ajaxloading').hide();
+				//$('#ajaxloading').hide();
+				$('#ajaxloading, #logo').removeClass('loading');
 				$('#pagedisplay').fadeTo(200,1);
 			}
 		},'json');
@@ -175,28 +177,52 @@
 		});
 
 		// fade out
-		$('#ajaxloading').show();
+		//$('#ajaxloading').show();
+		$('#ajaxloading, #logo').addClass('loading');
 		$('#pagedisplay').fadeTo(100,0.2, function() {
 			doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
 		});
 	}
 
-
-
-
-
 	/**
 	 *
 	 *
 	 *
-	 * MAIN UI ELEMENT BEHAVIORS
+	 * UI element behaviors
 	 *
 	 *
 	 *
 	 **/
 
 	/**
+	 * collapseAllTabs (function)
+	 *
+	 * collapse all main nav tabs, opening one if a section is specified
+	 *
+	 */
+	function collapseAllTabs(section) {
+		//
+		if (section != currentSection) {
+			currentSection = section;
+			
+			$('div.mainnavmenu li').each(function(index) {
+				$(this).removeClass('current');
+				if ($(this).hasClass(section+'nav')) {
+					$(this).addClass('current');
+				}
+			});
+
+			$('div.mainnavmenu a').each(function(index) {
+				if ($(this).hasClass(section+'nav')) {
+					$(this).parent().addClass('current');
+				}
+			});
+		}
+	}
+
+	/**
 	 * setContentBehaviors (function)
+	 *
 	 * miscellaneous behaviors for various things — needs to run each AJAX page load
 	 *
 	 */
@@ -207,9 +233,45 @@
 		// datepicker
 		$('input[type=date],input.date').datepicker();
 
-		formValidateBehavior();
-		venueAutocompleteBehavior();
-		handleUploadForms();
+		// autocomplete
+		$('.autocomplete').each( function() {
+			var acURL = $(this).data('cash-endpoint-url');
+			$(this).autocomplete({
+				// probably should do some error handling here.
+				source: function( request, response ) {
+					$.ajax({
+						url: acURL + '/' + request.term,
+						dataType: "json",
+						error: function( data) {},
+						success: function( data ) {
+							response( $.map( data, function( item ) {
+								return {
+									label: item.displayString,
+									value: item.displayString,
+									id: item.id
+								}
+							}));
+						}
+					})
+				},
+				select: function( event, ui ) {
+					// TODO: this is pretty ugly
+					$('#event_venue').val( ui.item.id );
+				},
+				minLength: 2
+			});
+		});
+
+		$('#connection_id').each( function() {
+
+			if ( this.value > 0 ) {
+				//var connectionID = this.value;
+				var newUploadEndpoint = $('.file-upload-trigger').data('upload-endpoint') + this.value;
+
+				$('.upload-corral').fadeIn().find('.file-upload-trigger').data('upload-endpoint', newUploadEndpoint );
+			}
+		});
+
 	}
 
 	/**
@@ -220,37 +282,80 @@
 	 *
 	 */
 	function setUIBehaviors() {
-		// vital/complex behavior
-		ajaxPageBehaviors();
-		assetFormBehaviors();
-		modalBehaviors();
-		textareaTabBehavior();
-		listenForModals();
-		listenForInjectLinks();
+		$('#pagetips').hide();
 
-		// page tip show/hide
 		$(document).on('click', '#tipslink', function(e) {
 			e.preventDefault();
 			$('#pagetips').slideDown(200);
 		});
+
 		$(document).on('click', '#tipscloselink', function(e) {
 			e.preventDefault();
 			$('#pagetips').slideUp(100);
 		});
 
-		// handle logout
+		$(document).on('click', '.navitem', function(e) {
+			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+				e.preventDefault();
+				refreshPageData($(this).find('a').attr('href'));
+			}
+		});
+
+		$(document).on('click', '.navitemlink', function(e) {
+			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+				e.preventDefault();
+			}
+			this.blur();
+		});
+
+		// show/hide mainmenu
+			$( "#menutoggle" ).click(function() {
+				console.log('#menutoggle was clicked for real');
+			$( this ).toggleClass( "display" );
+			$( "#navmenu" ).toggleClass( "display" );
+		});
+
+
 		$(document).on('click', '#logout', function(e) {
 			e.preventDefault();
 			jQuery.post(cashAdminPath+'/logout','noredirect=1');
 			refreshPageData(cashAdminPath+'/');
 		});
 
-		// when we need a submit button outside it's target form (see file assets, etc)
 		$(document).on('click', 'input.externalsubmit', function(e) {
 			$($(this).data('cash-target-form')).submit();
 		});
 
-		// element embed highlight-and-copy code
+		// overlay cancel button event
+		$(document).on('click', '.modalcancel', function(e) {
+			e.preventDefault();
+			$('.modallightbox').fadeOut('fast', function() {
+					$('.modallightbox').remove();
+				});
+			$('.modalbg').fadeOut('fast', function() {
+				$('.modalbg').remove();
+			});
+		});
+
+		$(document).keyup(function(e) {
+			if(e.keyCode === 27) {
+				$('.modallightbox').fadeOut('fast', function() {
+					$('.modallightbox').remove();
+				});
+				$('.modalbg').fadeOut('fast', function() {
+					$('.modalbg').remove();
+				});
+			}
+		});
+
+	
+
+
+
+		// to-be-copied code
+		// $(document).on('click', 'code input, code textarea', function(e) {
+		// 	$(this).select();
+		// });
 		$(document).on('click', '.codearea', function(e) {
 			element = this;
 			if (document.body.createTextRange) {
@@ -265,34 +370,71 @@
 				selection.addRange(range);
 		   }
 		});
-	}
 
+		// modal pop-ups
+		$(document).on('click', '.needsconfirmation', function(e) {
+			e.preventDefault();
+			doModalConfirm( $(this).attr('href'));
+			this.blur();
+		});
 
+		// modal lightboxes
+		$(document).on('click', '.lightboxed', function(e) {
+			if ($(window).width() > 768) {
+				e.preventDefault();
+				if ($(this).hasClass('returntocurrentroute')) {
+					doModalLightbox($(this).attr('href'),true);
+				} else {
+					doModalLightbox($(this).attr('href'));
+				}
+				this.blur();
+			}
+		});
 
+		// show/hide element details
+		$(document).on('click', '.showelementdetails', function(e) {
+			e.preventDefault();
+			$(this).html( function(e) {
+				var t = $(this).html(),
+				isShown = $(this).parents('.itemnav').prev('.elementdetails').hasClass('detailsshown');
+				if ( isShown ) {
+					t = t.replace(/Less/g, 'More');
+				} else {
+					t = t.replace(/More/g, 'Less');
+				}
+				return t;
+			}).parents('.itemnav').prev('.elementdetails').toggleClass('detailsshown');
+		});
 
+		// inserts html into the current document/form (dynamic inputs primarily)
+		// grabs rel, inserts rev data and iterates the name, changing the rel
+		// should probably move to a data- structure
+		$(document).on('click', 'a.injectbefore', function(e) {
+			e.preventDefault();
+			e.currentTarget.blur();
+			var iteration = $(e.currentTarget).attr('rel');
+			if (iteration) {
+				jQuery.data(e.currentTarget,'nameiteration',iteration);
+			} else {
+				iteration = 1;
+			}
+			$(e.currentTarget).attr('rel',iteration);
+			var toinsert = $(e.currentTarget).attr('rev');
+			var names = toinsert.match(/name='([^']*)/g);
+			if (names) {
+				jQuery.each(names, function(index, name) {
+					toinsert = toinsert.replace(name, name+iteration);
+				});
+			}
+			$(e.currentTarget).before('<div>' + toinsert + '</div>');
+			$(e.currentTarget).attr('rel',iteration+1);
+		});
 
-
-
-
-
-
-
-	/**
-	 *
-	 *
-	 *
-	 * DO LINKS AND FORMS VIA AJAX
-	 *
-	 *
-	 *
-	 **/
-
-	 function ajaxPageBehaviors() {
-	 	// open local (admin) links via AJAX
+		// open local (admin) links via AJAX
 		// cashAdminPath is set in the main template to the www_base of the admin
 		$(document).on('click', 'a[href^="' + cashAdminPath + '"]', function(e) {
 			var el = $(e.currentTarget);
-			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
+			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey && !el.hasClass('navitemlink')
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
 				&& !el.hasClass('noajax') && !el.is('#logout')
 			) {
@@ -303,123 +445,24 @@
 			}
 		});
 
-		// stop in-app forms from submitting — we handle them in formValidateBehavior()
+		// submit forms via AJAX
 		$(document).on('submit', 'form', function(e) {
 			var el = $(e.currentTarget);
 			if (el.attr('action').toLowerCase().indexOf('s3.amazonaws') < 1) {
 				e.preventDefault();
+				var url = el.attr('action');
+				if (url == '') {
+					url = location.pathname;
+				}
+				var formdata = $(this).serialize();
+				if (el.is('.returntocurrentroute form')) {
+					formdata += '&forceroute=' + location.pathname.replace(cashAdminPath, '');
+				}
+				refreshPageData(url,formdata);
 			}
 		});
-	 }
 
-	 // submit a form via AJAX
-	 function ajaxFormSubmit(form) {
-		form = $(form);
-		var url = form.attr('action');
-		if (url == '') {
-			url = location.pathname;
-		}
-		var formdata = $(form).serialize();
-		if (form.is('.returntocurrentroute form')) {
-			formdata += '&forceroute=' + location.pathname.replace(cashAdminPath, '');
-		}
-		refreshPageData(url,formdata);
-	}
-
-	 // validate forms and get them ready to submit (via AJAX)
-	 // for more, see: http://jqueryvalidation.org/documentation/
-	function formValidateBehavior() {
-		$("form").each(function () {
-			var el = $(this);
-			el.validate({
-				errorClass: "invalid",
-				errorElement: "span",
-				//errorLabelContainer:"#pagemessage",
-				highlight: function(element, errorClass) {
-					$(element).addClass(errorClass);
-					$(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
-				},
-				unhighlight: function(element, errorClass) {
-					$(element).removeClass(errorClass);
-					$(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
-				},
-				submitHandler: function(f) {
-					//e.preventDefault();
-					f = $(f);
-					if (f.attr('action').toLowerCase().indexOf('s3.amazonaws') < 1) {
-						ajaxFormSubmit(f);
-					} else {
-						f.submit();
-					}
-				}
-			});
-		});
-	}
-
-
-
-
-
-	/**
-	 *
-	 *
-	 *
-	 * MAIN NAVIGATION 
-	 *
-	 *
-	 *
-	 **/
-
-	 /**
-	 * redrawMainNav (function)
-	 * collapse all main nav tabs, opening one if a section is specified
-	 *
-	 */
-	function redrawMainNav(section) {
-		if (section != currentSection) {
-			currentSection = section;
-			
-			$('div.mainnavmenu li').each(function(index) {
-				$(this).removeClass('current');
-				if ($(this).hasClass(section+'nav')) {
-					$(this).addClass('current');
-				}
-			});
-			
-			$('div.mainnavmenu a').each(function(index) {
-				if ($(this).hasClass(section+'nav')) {
-					$(this).parent().addClass('current');
-				}
-			});
-		}
-	}
-
-
-
-
-
-	/**
-	 *
-	 *
-	 *
-	 * ASSET FILE HANDLING UI CODE 
-	 *
-	 *
-	 *
-	 **/
-
-	 // handle the upload forms
-	function handleUploadForms() {
-		$('#connection_id').each( function() {
-			if ( this.value > 0 ) {
-				var newUploadEndpoint = $('.file-upload-trigger').data('upload-endpoint') + this.value;
-				$('.upload-corral').fadeIn().find('.file-upload-trigger').data('upload-endpoint', newUploadEndpoint );
-			}
-		});
-	}
-
-	 function assetFormBehaviors() {
-	 	// make an asset public
+		// publicize
 		$(document).on('click', 'a[data-publicize-endpoint]', function(e) {
 			e.preventDefault();
 
@@ -476,116 +519,39 @@
 				trigger.parents('.fadedtext').animate({ opacity: 0 });
 			}
 		});
-	 }
 
+		$(document).on('keydown', 'textarea.taller', function(e) {
+			// repurposed from here: http://jsfiddle.net/sdDVf/8/
 
+			if(e.keyCode === 9) { 
+				var start = this.selectionStart;
+					end = this.selectionEnd;
+				var target = $(this);
 
+				// set textarea value to: text before caret + tab + text after caret
+				target.val(target.val().substring(0, start)
+							+ "\t"
+							+ target.val().substring(end));
 
-	 /**
-	 *
-	 *
-	 *
-	 * EVENT UI CODE 
-	 *
-	 *
-	 *
-	 **/
-
-	 // venue autocomplete
-	function venueAutocompleteBehavior() {
-		$('.autocomplete').each( function() {
-			var acURL = $(this).data('cash-endpoint-url');
-			$(this).autocomplete({
-				// probably should do some error handling here.
-				source: function( request, response ) {
-					$.ajax({
-						url: acURL + '/' + request.term,
-						dataType: "json",
-						error: function( data) {},
-						success: function( data ) {
-							response( $.map( data, function( item ) {
-								return {
-									label: item.displayString,
-									value: item.displayString,
-									id: item.id
-								}
-							}));
-						}
-					})
-				},
-				select: function( event, ui ) {
-					// TODO: this is pretty ugly
-					$('#event_venue').val( ui.item.id );
-				},
-				minLength: 2
-			});
-		});
-	}
-
-
-
-
-
-	/**
-	 *
-	 *
-	 *
-	 * DIALOGS, LIGHTBOXES, UI DISPLAY ENHANCEMENTS
-	 *
-	 *
-	 *
-	 **/
-
-	 function modalBehaviors() {
-		// overlay cancel button event
-		$(document).on('click', '.modalcancel', function(e) {
-			e.preventDefault();
-			$('.modallightbox').fadeOut('fast', function() {
-					$('.modallightbox').remove();
-				});
-			$('.modalbg').fadeOut('fast', function() {
-				$('.modalbg').remove();
-			});
-		});
-
-		// fade/close on escape key
-		$(document).keyup(function(e) {
-			if(e.keyCode === 27) {
-				$('.modallightbox').fadeOut('fast', function() {
-					$('.modallightbox').remove();
-				});
-				$('.modalbg').fadeOut('fast', function() {
-					$('.modalbg').remove();
-				});
+				// put caret at right position again
+				this.selectionStart = this.selectionEnd = start + 1;
+				return false;
 			}
 		});
 	}
 
-	 function listenForModals() {
-			// modal pop-ups
-			$(document).on('click', '.needsconfirmation', function(e) {
-				e.preventDefault();
-				doMessage('','Are you sure?',true,$(this).attr('href'));
-				this.blur();
-			});
-
-			// modal lightboxes
-			$(document).on('click', '.lightboxed', function(e) {
-				if ($(window).width() > 768) {
-					e.preventDefault();
-					if ($(this).hasClass('returntocurrentroute')) {
-						doModalLightbox($(this).attr('href'),true);
-					} else {
-						doModalLightbox($(this).attr('href'));
-					}
-					this.blur();
-				}
-			});
-		}
+	/**
+	 *
+	 *
+	 *
+	 * Dialogs, lightboxes, and other content display enhancements
+	 *
+	 *
+	 *
+	 **/
 
 	/**
-	 * doMessage (function)
-	 * displays a message to the user (modal/non-modal) or:
+	 * doModalConfirm (function)
 	 *
 	 * opens a modal confirmation box for delete links, etc. essentially this is a
 	 * silly "are you sure you want to click this?" message, and it sends along a
@@ -593,20 +559,38 @@
 	 * it's happened and can skip displaying any form confirmation, etc.
 	 *
 	 */
+	function doModalConfirm(url) {
+		// markup for the confirmation link
+		var markup = '<div class="modalbg"><div class="modaldialog">' +
+					 '<div class="row"><div class="four columns"></div><div class="four columns">' +
+					 '<h4>Are You Sure?</h4>' +
+					 '<input type="button" class="button modalcancel" value="Cancel" />' +
+					 '<input type="button" class="button modalyes" value="Yes do it" />' +
+					 '</div><div class="four columns"></div></div>' +
+					 '</div></div>';
+		markup = $(markup);
+		markup.hide();
+		$('body').append(markup);
 
-	function doMessage(msg,label,modal,redirectUrl) {
+		// button events
+		$('.modalyes').on('click', function(e) {
+			e.preventDefault();
+			refreshPageData(url,'modalconfirm=1&redirectto='+location.pathname.replace(cashAdminPath, ''));
+			$('.modalbg').remove();
+		});
+
+		// show the dialog with a fast fade-in
+		$('.modalbg').fadeIn('fast');
+	}
+
+	// refactor doModalConfirm into this shit:
+	function doMessage(msg,label,modal) {
 		// markup for the confirmation link
 		var markup = '<div class="modalbg"><div class="modaldialog">' +
 					 '<div class="row"><div class="two columns"></div><div class="eight columns">' +
-					 '<h4>' + label + '</h4>';
-					 if (msg) {
-					 	markup += '<p><span class="big">' + msg + '</span></p>';
-					 }
-					 if (modal && redirectUrl) {
-					 	markup += '<input type="button" class="button modalcancel" value="Cancel" />' +
-					 			  '<input type="button" class="button modalyes" value="Yes do it" />';
-					 }
-					 if (modal && !redirectUrl) {
+					 '<h4>' + label + '</h4>' +
+					 '<p><span class="big">' + msg + '</span></p>';
+					 if (modal) {
 					 	markup += '<input type="button" class="button modalyes" value="OK" />';
 					 }
 					 markup += '</div><div class="two columns"></div></div>' +
@@ -621,7 +605,6 @@
 			// button events
 			$('.modalyes').on('click', function(e) {
 				e.preventDefault();
-				refreshPageData(redirectUrl,'modalconfirm=1&redirectto='+location.pathname.replace(cashAdminPath, ''));
 				$('.modalbg').remove();
 			});
 		}
@@ -632,9 +615,12 @@
 
 	/**
 	 * doModalLightbox (function)
+	 *
 	 * opens a modal input form from a specific route
 	 *
 	 */
+
+	
 	function doModalLightbox(route,returntocurrentroute) {
 		jQuery.post(route,'data_only=1', function(data) {
 			var addedClass = '';
@@ -642,9 +628,11 @@
 				addedClass = 'returntocurrentroute '
 			}
 			// markup for the confirmation link
-			var modalTop = $(document).scrollTop() + 120;
+			//var modalTop = $(document).scrollTop() + 120;
+			//var modalTop = $(document).scrollTop();
 			var markup = '<div class="modalbg">&nbsp;</div><div class="modallightbox ' + addedClass +
-						 data.specialcolor + '" style="top:' + modalTop + 'px;">' +
+						 //data.specialcolor + '" style="top:' + modalTop + 'px;">' +
+						 data.specialcolor + '">' +
 						 data.content + //jQuery.param(data) +
 						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><i class="icon icon-ban-circle"></i>cancel</a></div>' +
 						 '</div></div>';
@@ -656,15 +644,13 @@
 
 			// show the dialog with a fast fade-in
 			$('.modalbg').fadeIn('fast');
-			$('.modallightbox').fadeIn('fast', function() {
-				// the lightboxes have forms, so tell them to validate and post by ajax...
-				formValidateBehavior();
-			});
+			$('.modallightbox').fadeIn('fast');
 		},'json');
 	}
 
 	/**
 	 * prepDrawers (function)
+	 *
 	 * Simple function to roll-up and roll-down content inside a div with class "drawer" â€” will
 	 * look for a "handle" inside the div â€” an element that triggers the effect on click and remains
 	 * visible throughout.
@@ -723,52 +709,6 @@
 				});
 			}
 		});
-	}
 
-	function listenForInjectLinks() {
-		// inserts html into the current document/form (dynamic inputs primarily)
-		// grabs rel, inserts rev data and iterates the name, changing the rel
-		// should probably move to a data- structure
-		$(document).on('click', 'a.injectbefore', function(e) {
-			e.preventDefault();
-			e.currentTarget.blur();
-			var iteration = $(e.currentTarget).attr('rel');
-			if (iteration) {
-				jQuery.data(e.currentTarget,'nameiteration',iteration);
-			} else {
-				iteration = 1;
-			}
-			$(e.currentTarget).attr('rel',iteration);
-			var toinsert = $(e.currentTarget).attr('rev');
-			var names = toinsert.match(/name='([^']*)/g);
-			if (names) {
-				jQuery.each(names, function(index, name) {
-					toinsert = toinsert.replace(name, name+iteration);
-				});
-			}
-			$(e.currentTarget).before('<div>' + toinsert + '</div>');
-			$(e.currentTarget).attr('rel',iteration+1);
-		});
-	}
-
-	function textareaTabBehavior() {
-		$(document).on('keydown', 'textarea.taller', function(e) {
-			// repurposed from here: http://jsfiddle.net/sdDVf/8/
-
-			if(e.keyCode === 9) { 
-				var start = this.selectionStart;
-					end = this.selectionEnd;
-				var target = $(this);
-
-				// set textarea value to: text before caret + tab + text after caret
-				target.val(target.val().substring(0, start)
-							+ "\t"
-							+ target.val().substring(end));
-
-				// put caret at right position again
-				this.selectionStart = this.selectionEnd = start + 1;
-				return false;
-			}
-		});
 	}
 })(jQuery);

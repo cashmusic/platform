@@ -98,6 +98,20 @@ if (!isset($current_settings['simple_mode_data'])) {
 
 /***************************************************************************************************
  *
+ * FIX SIMPLE MODE FUCK-UPS
+ * This is dumb. Sometimes the state in simple mode is being saved as "_" — only seeing it in the
+ * appfog instance. Might be something to do with passing from one server to the next? Might just
+ * be a mistake that comes out at scale. I dunno. But here's an ugly fix that avoids a blank page
+ * by pushing people to advanced mode.
+ *
+ ***************************************************************************************************/
+if ($current_state == '_') {
+	$current_state = 'advanced';
+}
+
+
+/***************************************************************************************************
+ *
  * ACTUALLY DO SOMETHING WITH THE CURRENT STATE
  * (and yeah i know this should be a switch, but elsifs are just more legible)
  *

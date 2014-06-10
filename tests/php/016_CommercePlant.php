@@ -64,7 +64,8 @@ class CommercePlantTests extends UnitTestCase {
 				'cash_request_type' => 'commerce', 
 				'cash_action' => 'edititem',
 				'id' => $this->testing_item,
-				'name' => 'this is a different name'
+				'name' => 'this is a different name',
+				'available_units' => 42
 			)
 		);
 		$this->assertTrue($item_request->response['payload']);
@@ -76,6 +77,7 @@ class CommercePlantTests extends UnitTestCase {
 			)
 		);
 		$this->assertEqual($item_request->response['payload']['name'],'this is a different name');
+		$this->assertEqual($item_request->response['payload']['available_units'],42);
 	}
 	
 	function testDeleteItem() {
