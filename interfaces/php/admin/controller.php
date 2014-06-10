@@ -47,6 +47,7 @@ $cash_admin = new AdminCore($admin_primary_cash_request->sessionGet('cash_effect
 $cash_admin->mustache_groomer = new Mustache;
 $cash_admin->page_data['www_path'] = ADMIN_WWW_BASE_PATH;
 $cash_admin->page_data['fullredraw'] = false;
+$cash_admin->page_data['platform_version'] = CASHRequest::$version;
 
 // basic script vars
 $pages_path = ADMIN_BASE_PATH . '/components/pages/';
