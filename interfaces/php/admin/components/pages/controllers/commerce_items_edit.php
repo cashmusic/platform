@@ -5,6 +5,10 @@ if (isset($_POST['doitemadd'])) {
 	if (isset($_POST['item_flexible_price'])) {
 		$flexible_price = 1;
 	}
+	$physical = 0;
+	if (isset($_POST['item_physical'])) {
+		$physical = 1;
+	}
 	$add_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'commerce', 
@@ -15,7 +19,8 @@ if (isset($_POST['doitemadd'])) {
 			'price' => $_POST['item_price'],
 			'flexible_price' => $flexible_price,
 			'digital_fulfillment' => 1,
-			'fulfillment_asset' => $_POST['item_fulfillment_asset']
+			'fulfillment_asset' => $_POST['item_fulfillment_asset'],
+			'physical_fulfillment' => $physical
 		)
 	);
 	if ($add_response['payload']) {
@@ -42,6 +47,10 @@ if (isset($_POST['doitemadd'])) {
 		if (isset($_POST['item_flexible_price'])) {
 			$flexible_price = 1;
 		}
+		$physical = 0;
+		if (isset($_POST['item_physical'])) {
+			$physical = 1;
+		}
 		$edit_response = $cash_admin->requestAndStore(
 			array(
 				'cash_request_type' => 'commerce', 
@@ -51,6 +60,7 @@ if (isset($_POST['doitemadd'])) {
 				'price' => $_POST['item_price'],
 				'flexible_price' => $flexible_price,
 				'fulfillment_asset' => $_POST['item_fulfillment_asset'],
+				'physical_fulfillment' => $physical,
 				'id' => $item_id
 			)
 		);

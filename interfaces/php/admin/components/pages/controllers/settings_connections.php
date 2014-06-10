@@ -46,14 +46,12 @@ if ($settings_action) {
 						$cash_admin->page_data['state_markup'] .= '<form method="post" action="">'
 							. '<input type="hidden" name="dosettingsadd" value="makeitso" />'
 							. '<input type="hidden" name="settings_type" value="' . $settings_type . '" />'
-							. '<label for="settings_name">Name</label><br />'
-							. '<input type="text" id="settings_name" name="settings_name" placeholder="Give It A Name" />'
-							. '<div class="row_seperator tall"></div>';
+							. '<label for="settings_name">Connection name</label>'
+							. '<input type="text" id="settings_name" name="settings_name" placeholder="Give It A Name" /><br />';
 							
 							foreach ($settings_types_data[$settings_type]['dataTypes'][$cash_admin->platform_type] as $key => $data) {
-								$cash_admin->page_data['state_markup'] .= '<label for="' . $key . '">' . $key . '</label><br />'
-									. '<input type="text" id="' . $key . '" name="' . $key . '" placeholder="' . ucfirst($key) . '" />'
-									. '<div class="row_seperator"></div>';
+								$cash_admin->page_data['state_markup'] .= '<label for="' . $key . '">' . $key . '</label>'
+									. '<input type="text" id="' . $key . '" name="' . $key . '" placeholder="' . ucfirst($key) . '" />';
 							}
 
 							$cash_admin->page_data['state_markup'] .= '<div class="row_seperator"></div><br />'
@@ -124,19 +122,17 @@ if ($settings_action) {
 			$settings_details = $page_data_object->getConnectionSettings($connection_id);
 			if (!isset($_POST['dosettingsedit'])) {
 				if ($settings_details) {
-					$cash_admin->page_data['state_markup'] = '<h4>Edit ' . $settings_name . '</h4>'
+					$cash_admin->page_data['state_markup'] = '<h4>Edit ' . $settings_name . '</h4><p>' . $settings_types_data[$settings_type]['description'] . '</p>'
 					 . '<form method="post" action="">'
 					 .		'<input type="hidden" name="dosettingsedit" value="makeitso" />'
 					 .		'<input type="hidden" name="connection_id" value="' . $connection_id . '" />'
 					 .		'<input type="hidden" name="settings_type" value="' . $settings_type . '" />'
-					 .		'<label for="settings_name">Name</label><br />'
-					 .		'<input type="text" id="settings_name" name="settings_name" value="' . $settings_name . '" />'
-					 .	'<div class="row_seperator tall"></div>';
+					 .		'<label for="settings_name">Connection name</label>'
+					 .		'<input type="text" id="settings_name" name="settings_name" value="' . $settings_name . '" /><br />';
 
 						foreach ($settings_types_data[$settings_type]['dataTypes'][$cash_admin->platform_type] as $key => $data) {
-							$cash_admin->page_data['state_markup'] .=  '<label for="' . $key . '">' . $key . '</label><br />'
-								. '<input type="text" id="' . $key . '" name="' . $key . '" value="' . $settings_details[$key] . '" />'
-								. '<div class="row_seperator"></div>';
+							$cash_admin->page_data['state_markup'] .=  '<label for="' . $key . '">' . $key . '</label>'
+								. '<input type="text" id="' . $key . '" name="' . $key . '" value="' . $settings_details[$key] . '" />';
 						}
 						$cash_admin->page_data['state_markup'] .= '<div class="row_seperator"></div><br />'
 							. '<div><input class="button" type="submit" value="Edit The Connection" /></div>'

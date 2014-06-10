@@ -1,5 +1,11 @@
 <a name="activity"></a>
-<div class="callout newsfeed">{{{dashboard_news}}}<div class="newsimage" style="background-image:url({{dashboard_news_img}})"></div></div>
+<div class="callout newsfeed cashnews">{{{dashboard_news}}}<div class="newsimage" style="background-image:url({{dashboard_news_img}})"></div></div>
+{{#dashboard_lists}}
+	<div class="callout newsfeed people"><strong><i class="icon icon-list-ul"></i>{{name}}:</strong> There {{#singular}}is{{/singular}}{{^singular}}are{{/singular}} <b>{{total}}</b> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}} on this list. <span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><i class="icon icon-search"></i>View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><i class="icon icon-download-alt"></i>Export</a></span><div class="newsimage" style=""></div></div>
+{{/dashboard_lists}}
+{{#dashboard_orders}}
+	<div class="callout newsfeed commerce"><strong><i class="icon icon-shopping-cart"></i>New order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}!</strong> There {{#dashboard_orders_singular}}is{{/dashboard_orders_singular}}{{^dashboard_orders_singular}}are{{/dashboard_orders_singular}} <b>{{dashboard_orders}}</b> new order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}. <span class="action"><a href="{{www_path}}/commerce/orders/"><i class="icon icon-shopping-cart"></i>All new orders</a></span><div class="newsimage" style=""></div></div>
+{{/dashboard_orders}}
 
 <br />
 

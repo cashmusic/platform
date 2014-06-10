@@ -64,8 +64,8 @@ class DigitalPurchase extends ElementBase {
 				if ($fulfillment_request->response['payload']) {
 					$this->element_data['fulfillment_assets'] = new ArrayIterator($fulfillment_request->response['payload']);
 				}
-				$this->setTemplate('success');
 			}
+			$this->setTemplate('success');
 		} elseif ($this->status_uid == 'commerce_initiatecheckout_400') {
 			// could happen on a database glitch, but probably means the user set a pay-minimum price below the
 			// minimum price. what a heel.

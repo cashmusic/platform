@@ -168,7 +168,7 @@ class PaypalSeed extends SeedBase {
 			'SOLUTIONTYPE' => 'Sole',
 			'LANDINGPAGE' => 'Billing'
 		);
-		if ($request_shipping_info) {
+		if (!$request_shipping_info) {
 			$nvp_parameters['NOSHIPPING'] = 1;
 		}
 		if ($allow_note) {

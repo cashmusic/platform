@@ -1,6 +1,17 @@
-<p class="big">
-	Manage contacts on an individual basis or define lists to use for private login lists, mailing lists, etc.
-</p>
+{{#dashboard_list_total_new}}
+	<div class="sectiondash">
+		<div class="primarystat">
+			{{dashboard_list_total_new}}<label>New<br />Subscriber{{^people_singular}}s{{/people_singular}}<br /><br /></label>
+		</div>
+		<div class="details">
+			<ul>
+			{{#dashboard_lists}}
+				<li><strong><i class="icon icon-list-ul"></i>{{name}}:</strong> <b>{{total}}</b> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}}. <span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><i class="icon icon-search"></i>View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><i class="icon icon-download-alt"></i>Export</a></span></li>
+			{{/dashboard_lists}}
+			</ul>
+		</div>
+	</div>
+{{/dashboard_list_total_new}}
 
 <div class="row">
 	<div class="six columns">

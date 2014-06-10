@@ -60,6 +60,9 @@ class CommercePlant extends PlantBase {
 		$fulfillment_asset=0,
 		$descriptive_asset=0
 	   ) {
+	   	if (!$fulfillment_asset) {
+	   		$digital_fulfillment = false;
+	   	}
 		$result = $this->db->setData(
 			'items',
 			array(
@@ -128,6 +131,12 @@ class CommercePlant extends PlantBase {
 		$descriptive_asset=false,
 		$user_id=false
 	   ) {
+	   	if ($fulfillment_asset === 0) {
+	   		$digital_fulfillment = 0;
+	   	}
+	   	if ($fulfillment_asset > 0) {
+	   		$digital_fulfillment = 1;
+	   	}
 		$final_edits = array_filter(
 			array(
 				'name' => $name,
@@ -352,7 +361,7 @@ class CommercePlant extends PlantBase {
 		return $result;
 	}
 
-	protected function getOrdersForUser($user_id,$include_abandoned=false,$max_returned=false) {
+	protected function getOrdersForUser($user_id,$include_abandoned=false,$max_returned=false,$since_date=0) {
 		if ($max_returned) {
 			$limit = '0, ' . $max_returned;
 		} else {
@@ -362,6 +371,10 @@ class CommercePlant extends PlantBase {
 			"user_id" => array(
 				"condition" => "=",
 				"value" => $user_id
+			),
+			"creation_date" => array(
+				"condition" => ">",
+				"value" => $since_date
 			)
 		);
 		if (!$include_abandoned) {
@@ -480,6 +493,8 @@ class CommercePlant extends PlantBase {
 		if (!$order_contents && !$item_id) {
 			return false;
 		} else {
+			$is_physical = 0;
+			$is_digital = 0;
 			if (!$order_contents) {
 				$order_contents = array();
 			}
@@ -492,6 +507,12 @@ class CommercePlant extends PlantBase {
 					$price_addition = 0;
 				} else {
 					return false;
+				}
+				if ($item_details['physical_fulfillment']) {
+					$is_physical = 1;
+				}
+				if ($item_details['digital_fulfillment']) {
+					$is_digital = 1;
 				}
 			}
 
@@ -515,8 +536,8 @@ class CommercePlant extends PlantBase {
 				$user_id,
 				$order_contents,
 				$transaction_id,
-				0,
-				1,
+				$is_physical,
+				$is_digital,
 				$this->getSessionID(),
 				$element_id,
 				0,
@@ -586,14 +607,20 @@ class CommercePlant extends PlantBase {
 				if ($element_id) {
 					$return_url .= '&element_id=' . $element_id;
 				}
+				$require_shipping = false;
+				$allow_note = false;
+				if ($order_details['physical']) {
+					$require_shipping = true;
+					$allow_note = true;
+				}
 				$redirect_url = $pp->setExpressCheckout(
 					$order_totals['price'] + $price_addition,
 					'order-' . $order_id,
 					$order_totals['description'],
 					$return_url,
 					$return_url,
-					true,
-					false,
+					$require_shipping,
+					$allow_note,
 					$currency 
 				);
 				if (!$return_url_only) {
@@ -652,10 +679,40 @@ class CommercePlant extends PlantBase {
 										$user_id = $user_request->response['payload'];
 									}
 									
-									// record the details to the order/transaction where appropriate
+									// deal with physical quantities
+									if ($order_details['physical'] == 1) {
+										$order_items = json_decode($order_details['order_contents']);
+										if (is_array($order_items)) {
+											foreach ($order_items as $i) {
+												if ($i['available_units'] > 0 && $i['physical_fulfillment'] == 1) {
+													$item = $this->getItem($i['id']);
+													$available_units =
+													$this->editItem(
+														$i['id'],
+														false,
+														false,
+														false,
+														false,
+														false,
+														$item['available_units'] - 1
+													);
+												}
+											}
+										}
+									}
+
+									// record all the details
+									if ($order_details['digital'] == 1 && $order_details['physical'] == 0) {
+										// if the order is 100% digital just mark it as fulfilled
+										$is_fulfilled = 1;
+									} else {
+										// there's something physical. sorry dude. gotta deal with it still.
+										$is_fulfilled = 0;
+									}
+
 									$this->editOrder(
 										$order_id,
-										1,
+										$is_fulfilled,
 										0,
 										false,
 										$initial_details['COUNTRYCODE'],
@@ -672,25 +729,37 @@ class CommercePlant extends PlantBase {
 										$final_details['PAYMENTINFO_0_FEEAMT'],
 										'complete'
 									);
-									$addcode_request = new CASHRequest(
-										array(
-											'cash_request_type' => 'element', 
-											'cash_action' => 'addlockcode',
-											'element_id' => $order_details['element_id']
-										)
-									);
+									
 									// TODO: add code to order metadata
 									// bit of a hack, hard-wiring the email bits:
 									try {
-										CASHSystem::sendEmail(
-											'Your download is ready',
-											$order_details['user_id'],
-											$initial_details['EMAIL'],
-											'Your download of "' . $initial_details['PAYMENTREQUEST_0_DESC'] . '" is ready and can be found at: '
-											. CASHSystem::getCurrentURL() . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
-											. '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($initial_details['EMAIL']),
-											'Thank you'
-										);
+										if ($order_details['digital']) {
+											$addcode_request = new CASHRequest(
+												array(
+													'cash_request_type' => 'element', 
+													'cash_action' => 'addlockcode',
+													'element_id' => $order_details['element_id']
+												)
+											);
+
+											CASHSystem::sendEmail(
+												'Thank you for your order',
+												$order_details['user_id'],
+												$initial_details['EMAIL'],
+												'Your download of "' . $initial_details['PAYMENTREQUEST_0_DESC'] . '" is ready and can be found at: '
+												. CASHSystem::getCurrentURL() . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
+												. '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($initial_details['EMAIL']),
+												'Thank you.'
+											);
+										} else {
+											CASHSystem::sendEmail(
+												'Thank you for your order',
+												$order_details['user_id'],
+												$initial_details['EMAIL'],
+												'Your order is complete.' . "\n\n" . $initial_details['PAYMENTREQUEST_0_DESC'] . "\n\n" . ' Thank you.',
+												'Thank you.'
+											);
+										}
 									} catch (Exception $e) {
 										// TODO: handle the case where an email can't be sent. maybe display the download
 										//       code on-screen? that plus storing it with the order is probably enough

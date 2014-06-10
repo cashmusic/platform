@@ -56,5 +56,36 @@ if (is_array($orders_response['payload'])) {
 	}
 }
 
+$session_news = AdminHelper::getActivity();
+if ($session_news) {
+	// now set up page variables
+	$total_spend = 0;
+	$orders_currency = 'USD';
+	if (is_array($session_news['activity']['orders'])) {
+		foreach ($session_news['activity']['orders'] as $order) {
+			$order_contents = json_decode($order['order_contents']);
+			if (is_array($order_contents )) {
+				foreach ($order_contents as $item) {
+					$total_spend = $total_spend + $item->price;
+				}
+			}
+			$orders_currency = $order['currency'];
+		}
+		$total_spend = round($total_spend); 
+	}
+	$cash_admin->page_data['dashboard_lists'] = $session_news['activity']['lists'];	
+
+	if ($session_news['activity']['orders']) {
+		$cash_admin->page_data['total_orders'] = count($session_news['activity']['orders']);
+		if ($cash_admin->page_data['total_orders'] == 1) {
+			$cash_admin->page_data['orders_singular'] = true;
+		}
+	} else {
+		$cash_admin->page_data['total_orders'] = false;
+	}
+
+	$cash_admin->page_data['total_spend'] = CASHSystem::getCurrencySymbol($orders_currency) . $total_spend;
+}
+
 $cash_admin->setPageContentTemplate('commerce');
 ?>

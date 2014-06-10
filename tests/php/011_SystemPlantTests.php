@@ -111,7 +111,8 @@ class SystemPlantTests extends UnitTestCase {
 			)
 		);
 		if ($user_request->response['payload']) {
-			$this->assertEqual($user_request->response['payload']['data'],'{"when":"now"}');
+			$this->assertTrue(is_array($user_request->response['payload']['data']));
+			$this->assertEqual($user_request->response['payload']['data']['when'],'now');
 		}
 	}
 	

@@ -1,6 +1,11 @@
 #
 # Basic CASH Music box
 #
+# 
+# Environment settings in the cashmusic-dev-precise64.box:
+# cashmusic_platform_settings='{"driver":"sqlite","hostname":"","username":"","password":"","database":"cashmusic_vagrant.sqlite","salt":"this is a very bad salt to choose","debug":"","apilocation":"http://localhost:8888/interfaces/php/api/","instancetype":"multi","timezone":"US/Pacific","analytics":"basic","systememail":"CASH Music <dev@cashmusic.org>","smtp":0,"platforminitlocation":"/framework/php/cashmusic.php"}'
+# 
+#
 $box = 'cashmusic-dev-precise64'
 $box_url = 'http://240db4afd17eae5f6498-0ff51d194a25bb350f7d8ba3de2dd7c4.r40.cf2.rackcdn.com/cashmusic-dev-precise64.box'
 $ram = '256'

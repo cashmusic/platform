@@ -1,6 +1,4 @@
 <?php
-$cash_admin->page_data['ui_title'] = 'CASH Music: Main Page';
-
 // banner stuff
 $settings = $cash_admin->getUserSettings();
 
@@ -43,27 +41,45 @@ if ($page_templates) {
 	$cash_admin->page_data['published_page'] = false;
 }
 
-// get news for the news feed
-$tumblr_seed = new TumblrSeed();
-$tumblr_request = $tumblr_seed->getTumblrFeed('blog.cashmusic.org',0,'platformnews');
-//error_log(print_r($tumblr_request,true));
-
-$cash_admin->page_data['dashboard_news_img'] = null;
-$cash_admin->page_data['dashboard_news'] = "<p>News could not be read. So let's say no news is good news.</p>";
-$doc = new DOMDocument();
-@$doc->loadHTML($tumblr_request[0]->{'regular-body'});
-$imgs = $doc->getElementsByTagName('img');
-if ($imgs->length) {
-	$cash_admin->page_data['dashboard_news_img'] = $imgs->item(0)->getAttribute('src');
+// get username and any user data
+$user_response = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'people', 
+		'cash_action' => 'getuser',
+		'user_id' => $cash_admin->effective_user_id
+	)
+);
+if (is_array($user_response['payload'])) {
+	$current_username = $user_response['payload']['username'];
+	$current_userdata = $user_response['payload']['data'];
 }
-$ps = $doc->getElementsByTagName('p');
-foreach ($ps as $p) {
-	if ($p->nodeValue) {
-		$cash_admin->page_data['dashboard_news'] = '<p><b><i>' . $tumblr_request[0]->{$tumblr_request[0]->type . '-title'} . ':</i></b> ' . 
-			$p->nodeValue . ' <a href="' . $tumblr_request[0]->{'url-with-slug'} . '" class="usecolor1" target="_blank">' . 'Read more.</a></p>';
-		break;
+
+// get news for the news feed
+$session_news = AdminHelper::getActivity();
+
+// now set up page variables
+$cash_admin->page_data['dashboard_news'] = $session_news['cash_news_content'];
+$cash_admin->page_data['dashboard_news_img'] = $session_news['cash_news_img'];
+if (is_array($session_news['activity']['lists'])) {
+	foreach ($session_news['activity']['lists'] as &$list_stats) {
+		if ($list_stats['total'] == 1) {
+			$list_stats['singular'] = true;
+		} else {
+			$list_stats['singular'] = false;
+		}
 	}
 }
+$cash_admin->page_data['dashboard_lists'] = $session_news['activity']['lists'];
+if ($session_news['activity']['orders']) {
+	$cash_admin->page_data['dashboard_orders'] = count($session_news['activity']['orders']);
+	if ($cash_admin->page_data['dashboard_orders'] == 1) {
+		$cash_admin->page_data['dashboard_orders_singular'] = true;
+	}
+} else {
+	$cash_admin->page_data['dashboard_orders'] = false;
+}
+
+
 
 // check to see if the user has elements defined
 $elements_response = $cash_admin->requestAndStore(
@@ -130,16 +146,6 @@ if (is_array($elements_response['payload'])) {
 	}
 }
 
-$user_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'people', 
-		'cash_action' => 'getuser',
-		'user_id' => $cash_admin->effective_user_id
-	)
-);
-if (is_array($user_response['payload'])) {
-	$current_username = $user_response['payload']['username'];
-}
 $cash_admin->page_data['user_page_uri'] = str_replace('https','http',rtrim(str_replace('admin', $current_username, CASHSystem::getCurrentURL()),'/'));
 if (defined('COMPUTED_DOMAIN_IN_USER_URL') && defined('PREFERRED_DOMAIN_IN_USER_URL')) {
 	$cash_admin->page_data['user_page_uri'] = str_replace(COMPUTED_DOMAIN_IN_USER_URL, PREFERRED_DOMAIN_IN_USER_URL, $cash_admin->page_data['user_page_uri']);
