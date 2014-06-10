@@ -147,7 +147,8 @@
 					}
 					setContentBehaviors();
 				}
-				$('#ajaxloading').hide();
+				//$('#ajaxloading').hide();
+				$('#ajaxloading, #logo').removeClass('loading');
 				$('#pagedisplay').fadeTo(200,1);
 			}
 		},'json');
@@ -176,7 +177,8 @@
 		});
 
 		// fade out
-		$('#ajaxloading').show();
+		//$('#ajaxloading').show();
+		$('#ajaxloading, #logo').addClass('loading');
 		$('#pagedisplay').fadeTo(100,0.2, function() {
 			doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
 		});

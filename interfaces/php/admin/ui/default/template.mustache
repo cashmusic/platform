@@ -16,14 +16,14 @@
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 	<link href="{{www_path}}/ui/default/assets/css/foundation.min.css" rel="stylesheet" type="text/css" />
 	<link href="{{www_path}}/ui/default/assets/css/app.css" rel="stylesheet" type="text/css" />
-	<link href="{{www_path}}/ui/default/assets/css/offcanvas.css" rel="stylesheet" type="text/css" />
-	<link href="{{www_path}}/ui/default/assets/css/responsive-tables.css" rel="stylesheet" type="text/css" />
+	<!--<link href="{{www_path}}/ui/default/assets/css/offcanvas.css" rel="stylesheet" type="text/css" />-->
+	<!--<link href="{{www_path}}/ui/default/assets/css/responsive-tables.css" rel="stylesheet" type="text/css" />-->
 	<link href="{{www_path}}/ui/default/assets/css/diy-ui/jquery-ui-1.8.23.custom.css" rel="stylesheet" type="text/css" />
 
 	<!--iOS-->
 
-	<link rel="apple-touch-icon" href="{{img_base_url}}/ui/default/assets/images/logo.png" />
-	<meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no;">
+	<link rel="apple-touch-icon" href="{{img_base_url}}/ui/default/assets/images/invert_logo.png" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
@@ -105,7 +105,7 @@
 				</div>
 
 				<div id="accountmenu">
-					<span><i class="icon icon-cog"></i><span>{{misc_account}}</span></span>
+					<span><i class="icon icon-cog"></i><span class="head">{{misc_account}}</span></span>
 					<ul>
 						<li><a href="{{www_path}}/account/"><i class="icon icon-user"></i>{{link_youraccount}}</a></li>
 						<li><a href="{{www_path}}/settings/"><i class="icon icon-cog"></i>{{link_settings}}</a></li>
@@ -115,7 +115,7 @@
 				</div>
 
 				<div id="helpmenu">
-					<span><i class="icon icon-question-sign"></i>{{link_menu_help}}</span>
+					<span><i class="icon icon-question-sign"></i><span class="head">{{link_menu_help}}</span></span>
 					<ul>
 						<li><a href="#tips" id="tipslink"><i class="icon icon-compass"></i>{{{misc_tips}}}</a></li>
 						<li><a href="{{www_path}}/help/gettingstarted/"><i class="icon icon-rocket"></i>{{link_menu_help_gettingstarted}}</a></li>
@@ -131,9 +131,9 @@
 			<div class="row">
 				<section role="main">
 
-					<h1 id="logo"><a href="{{www_path}}/"><img src="{{img_base_url}}/ui/default/assets/images/logo.png" alt="CASH Music"/></a><span>Cash Music Platform v.789</span></h1>
+					<h1 id="logo"><a href="{{www_path}}/"><img src="{{img_base_url}}/ui/default/assets/images/logo.png" alt="CASH Music"/></a><span>Cash Music Platform v.789</span>
 					<img id="ajaxloading" src="{{img_base_url}}/ui/default/assets/images/load.png" alt="loading..." class="rotate" />
-
+					</h1><!--logo-->
 					<div class="row">
 						<div class="twelve columns phone-two">
 							<p class="show-for-small">
