@@ -11,6 +11,8 @@ html{
 	padding:0;
 	background-attachment: fixed;
 	overflow-x:hidden;
+	position: relative;
+	z-index:-2;
 }
 
 body {
@@ -269,7 +271,7 @@ small{
 	-moz-transition: 1s  ease-in-out;
 	trasition:1s ease-in-out;
     opacity:0;
-    z-index:1;
+    z-index:-1;
 }
 
 #ajaxloading.loading{
@@ -286,11 +288,11 @@ small{
 	-webkit-transition: 1s  ease-in-out;
 	-moz-transition: 1s  ease-in-out;
 	trasition:1s ease-in-out;
+	z-index:40;
 }
 
 #logo a{
 	position:relative;
-	z-index:20;
 }
 
 #logo.loading a img{
@@ -301,10 +303,10 @@ small{
 	background:none;
 }
 
-#logo img:hover, #logo img:active{
-	-webkit-animation: turn ease-in-out  0.5s;
-    -moz-animation: turn ease-in-out   0.5s;
-    animation: turn ease-in-out  0.5s;
+#logo a img:hover, #logo a img:active{
+	-webkit-animation: turn ease-in-out  0.4s;
+    -moz-animation: turn ease-in-out   0.4s;
+    animation: turn ease-in-out  0.4s;
 }
 
 #logo span{
