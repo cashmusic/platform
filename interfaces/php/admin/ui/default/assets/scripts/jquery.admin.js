@@ -146,7 +146,8 @@
 					if (!skiphistory) { history.pushState(null, null, url); }
 					setContentBehaviors();
 				}
-				$('#ajaxloading').hide();
+				//$('#ajaxloading').hide();
+				$('#ajaxloading, #logo').removeClass('loading');
 				$('#pagedisplay').fadeTo(200,1);
 			}
 		},'json');
@@ -175,7 +176,8 @@
 		});
 
 		// fade out
-		$('#ajaxloading').show();
+		//$('#ajaxloading').show();
+		$('#ajaxloading, #logo').addClass('loading');
 		$('#pagedisplay').fadeTo(100,0.2, function() {
 			doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
 		});
@@ -238,7 +240,32 @@
 			$('#pagetips').slideUp(100);
 		});
 
+<<<<<<< HEAD
 		// handle logout
+=======
+		$(document).on('click', '.navitem', function(e) {
+			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+				e.preventDefault();
+				refreshPageData($(this).find('a').attr('href'));
+			}
+		});
+
+		$(document).on('click', '.navitemlink', function(e) {
+			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+				e.preventDefault();
+			}
+			this.blur();
+		});
+
+		// show/hide mainmenu
+			$( "#menutoggle" ).click(function() {
+				console.log('#menutoggle was clicked for real');
+			$( this ).toggleClass( "display" );
+			$( "#navmenu" ).toggleClass( "display" );
+		});
+
+
+>>>>>>> 131b7668e964b32430968c5809df13a267877ac2
 		$(document).on('click', '#logout', function(e) {
 			e.preventDefault();
 			jQuery.post(cashAdminPath+'/logout','noredirect=1');
@@ -250,7 +277,40 @@
 			$($(this).data('cash-target-form')).submit();
 		});
 
+<<<<<<< HEAD
 		// element embed highlight-and-copy code
+=======
+		// overlay cancel button event
+		$(document).on('click', '.modalcancel', function(e) {
+			e.preventDefault();
+			$('.modallightbox').fadeOut('fast', function() {
+					$('.modallightbox').remove();
+				});
+			$('.modalbg').fadeOut('fast', function() {
+				$('.modalbg').remove();
+			});
+		});
+
+		$(document).keyup(function(e) {
+			if(e.keyCode === 27) {
+				$('.modallightbox').fadeOut('fast', function() {
+					$('.modallightbox').remove();
+				});
+				$('.modalbg').fadeOut('fast', function() {
+					$('.modalbg').remove();
+				});
+			}
+		});
+
+	
+
+
+
+		// to-be-copied code
+		// $(document).on('click', 'code input, code textarea', function(e) {
+		// 	$(this).select();
+		// });
+>>>>>>> 131b7668e964b32430968c5809df13a267877ac2
 		$(document).on('click', '.codearea', function(e) {
 			element = this;
 			if (document.body.createTextRange) {
@@ -635,6 +695,8 @@
 	 * opens a modal input form from a specific route
 	 *
 	 */
+
+	
 	function doModalLightbox(route,returntocurrentroute) {
 		jQuery.post(route,'data_only=1', function(data) {
 			var addedClass = '';
@@ -642,9 +704,11 @@
 				addedClass = 'returntocurrentroute '
 			}
 			// markup for the confirmation link
-			var modalTop = $(document).scrollTop() + 120;
+			//var modalTop = $(document).scrollTop() + 120;
+			//var modalTop = $(document).scrollTop();
 			var markup = '<div class="modalbg">&nbsp;</div><div class="modallightbox ' + addedClass +
-						 data.specialcolor + '" style="top:' + modalTop + 'px;">' +
+						 //data.specialcolor + '" style="top:' + modalTop + 'px;">' +
+						 data.specialcolor + '">' +
 						 data.content + //jQuery.param(data) +
 						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><i class="icon icon-ban-circle"></i>cancel</a></div>' +
 						 '</div></div>';

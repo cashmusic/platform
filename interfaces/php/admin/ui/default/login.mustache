@@ -11,14 +11,22 @@
 
 	<title>CASH Music / Admin</title>
 
-	<link rel="icon" type="image/png" href="https://b6febe3773eb5c5bc449-6d885a724441c07ff9b675222419a9d2.ssl.cf2.rackcdn.com/ui/01/images/badge.png" />
-	<link href="//fonts.googleapis.com/css?family=Amatic+SC:400,700|Roboto+Condensed:400,700italic,400italic,700,300,300italic|Noto+Serif:400,700italic,400italic,700" rel="stylesheet" type="text/css" />
+	<link rel="icon" type="image/gif" href="{{img_base_url}}/ui/default/assets/images/favicon.gif" />
+		<link rel="icon" href="{{img_base_url}}/ui/default/assets/images/favicon.ico" type="image/x-icon" />
+	<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 	<link href="{{www_path}}/ui/default/assets/css/foundation.min.css" rel="stylesheet" type="text/css" />
 	<link href="{{www_path}}/ui/default/assets/css/app.css" rel="stylesheet" type="text/css" />
 	<link href="{{www_path}}/ui/default/assets/css/offcanvas.css" rel="stylesheet" type="text/css" />
 	<link href="{{www_path}}/ui/default/assets/css/responsive-tables.css" rel="stylesheet" type="text/css" />
 	<link href="{{www_path}}/ui/default/assets/css/diy-ui/jquery-ui-1.8.23.custom.css" rel="stylesheet" type="text/css" />
+
+	<!--iOS-->
+
+	<link rel="apple-touch-icon" href="{{img_base_url}}/ui/default/assets/images/invert_logo.png" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
 	<script type="text/javascript">
 		var cashAdminPath = "{{www_path}}";
@@ -34,48 +42,27 @@
 </head>
 <body id="page" class="off-canvas hide-extras">
 
-	<style type="text/css">
-		a.reset {font-size:11px;text-transform:uppercase;color:#a49c9c;}
-		a.reset:hover {color:#ff0 !important;text-decoration:none;}
-		#mainspc {}
-		#mainspc {position:relative;left:0;padding-top:0;margin:0 auto;}
-		#navmenu {display:none;}
-		#pagedisplay {position:relative;margin:80px auto 0 auto;padding:24px;z-index:100;}
-		.cash_browserid_button {width:120px;height:30px;margin-top:6px;}
-		#forgotlink {font-size:11px;color:#a49c9c;}
-		#chromespc {z-index:500;}
-		#pagecontent {z-index:100;}
-		#loginbuttonspc {text-align:right;margin-top:0;margin-bottom:54px;}
-		#jackson {height:205px;background:url({{img_base_url}}/ui/default/assets/images/jacksonlogin.png) no-repeat;background-size:contain;}
-		#footer {left:0;}
-		@media only screen and (max-width: 767px) {
-			#pagedisplay {margin-top:0;}
-			#jackson {height:80px;background-size:contain;}
-		}
-	</style>
-
 <div id="wrap">
-	<div id="mainspc">
-
+	<div id="mainspc" class="login">
+						<h1 id="logo"><img src="{{img_base_url}}/ui/default/assets/images/logo.png" alt="CASH Music"/></h1>
 		<div id="chromespc">
 			<div id="chrome">
-				<div id="navmenu">
+				<!--<div id="navmenu">
 					<ul>
 						<li><a href="http://cashmusic.org/" target="_blank" id="mainnav" class="current"><i class="icon icon-certificate"></i>CASH Music</a></li>
 					</ul>
-				</div>
+				</div>-->
 			</div>
 		</div>
 
 		<div id="pagecontent" class="row">
 			<div id="pagedisplay">
 				<div class="row">
-					<div class="three columns" id="jackson"></div>
 					<div class="six columns">
 						{{#reset_message}}
 							<span class="highlightcopy">{{reset_message}}</span>
 						{{/reset_message}}
-						<h1{{#login_error}} class="tryagain"{{/login_error}}>{{login_message}}</h1>
+						<h3 id="message" {{#login_error}} class="error"{{/login_error}}>{{login_message}}</h3>
 						<form method="post" id="cash_signin_form" action="">
 							<div class="row">
 								<div class="six columns">
@@ -90,13 +77,13 @@
 								</div>
 							</div>
 							
-							<div class="usecolor4" id="loginbuttonspc">
+							<div id="loginbuttonspc">
 								<a href="#" id="forgotlink">forgot your password?</a><br />
 								<button type="submit"><i class='icon icon-signin'></i>log in</button>
 							</div>
 						</form>
 					</div>
-					<div class="three columns">&nbsp;</div>
+				
 				</div>
 
 				<div class="row">
@@ -120,7 +107,7 @@
 
 </div>
 
-<div id="footer">
+<div id="footer" class="login">
 	<div class="row">
 		<div class="twelve columns">
 			<p><b>&copy; 2014 CASH Music.</b> All our code is open-source. <a href="{{www_path}}/licenses/" style="margin-left:0;">Learn more</a>. {{#showterms}}<a href="{{www_path}}/_?showlegal=1">Terms of service</a> {{/showterms}}{{#showprivacy}}<a href="{{www_path}}/_?showlegal=1">Privacy policy</a> {{/showprivacy}}<a href="http://cashmusic.org/#more" class="donatelink"><b>Donate</b></a></p>
