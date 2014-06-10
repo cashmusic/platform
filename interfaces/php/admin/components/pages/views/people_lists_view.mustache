@@ -1,27 +1,25 @@
 {{#ui_title}}
-	<p>{{list_description}}</p>
-	
-	<h4>Actions</h4>
-	<a href="{{www_path}}/people/lists/edit/{{list_id}}" class="mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
-	<a href="{{www_path}}/people/lists/export/{{list_id}}" class="mininav_flush noajax"><i class="icon icon-download-alt"></i>Export</a>
-	<a href="{{www_path}}/people/lists/delete/{{list_id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
-	<br /><br />
+	<p class="big">{{list_description}}</p>
 
+	<div id="stats">
 	<h4>Statistics</h4>
-	<div class="col_oneoftwo">
-	Total active members: {{analytics_active}}<br />
-	Inactive members: {{analytics_inactive}}<br />
-	</div><div class="col_oneoftwo lastcol">
-	New members, past 7 days: {{analytics_last_week}}<br />
-	</div><br />
-
+	<p class="total">Total active members: <span>{{analytics_active}}</span></p>
+	<p class="inactive">Inactive members: <span>{{analytics_inactive}}</span></p>
+	<p class="newm">New members, past 7 days: <span>{{analytics_last_week}}</span></p>
+	</div><!--stats-->
+	
 	{{#list_members}}
-		<br /><h4>List Members</h4>
-		
+		<h4 class="tabletitle">List Members</h4>
+		<div id="actions">
+			<a href="{{www_path}}/people/lists/edit/{{list_id}}" class="mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
+			<a href="{{www_path}}/people/lists/export/{{list_id}}" class="mininav_flush noajax"><i class="icon icon-download-alt"></i>Export</a>
+			<a href="{{www_path}}/people/lists/delete/{{list_id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
+		</div><!--actions-->
+
 		<table style="width:100%;">
 			<colgroup style="width:32%;" />
 			<colgroup style="width:23%;" />
-			<colgroup style="width:12%;" />
+			<colgroup style="width:20%;" />
 			<colgroup />	
 
 			<thead>
