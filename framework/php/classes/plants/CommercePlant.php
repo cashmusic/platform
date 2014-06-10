@@ -682,8 +682,21 @@ class CommercePlant extends PlantBase {
 									// deal with physical quantities
 									if ($order_details['physical'] == 1) {
 										$order_items = json_decode($order_details['order_contents']);
-										if ($order_items) {
-											
+										if (is_array($order_items)) {
+											foreach ($order_items as $i) {
+												if ($i['available_units'] > 0 && $i['physical_fulfillment'] == 1) {
+													$item = $this->getItem($i['id']);
+													$this->editItem(
+														$i['id'],
+														false,
+														false,
+														false,
+														false,
+														false
+														$item['available_units'] - 1
+													);
+												}
+											}
 										}
 									}
 
