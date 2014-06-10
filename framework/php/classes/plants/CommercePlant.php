@@ -686,13 +686,14 @@ class CommercePlant extends PlantBase {
 											foreach ($order_items as $i) {
 												if ($i['available_units'] > 0 && $i['physical_fulfillment'] == 1) {
 													$item = $this->getItem($i['id']);
+													$available_units =
 													$this->editItem(
 														$i['id'],
 														false,
 														false,
 														false,
 														false,
-														false
+														false,
 														$item['available_units'] - 1
 													);
 												}
