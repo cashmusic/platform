@@ -20,7 +20,6 @@ body {
 	height:100%;
 	background: #e3e3e3; /* Old browsers */
 	background:rgba(230,230,230,0.97) url(../images/paint_low.png) 0% 0%;
-	background-attachment: fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;

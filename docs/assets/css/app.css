@@ -23,7 +23,6 @@ body {
 	height:100%;
 	background: #e3e3e3; /* Old browsers */
 	background:rgba(230,230,230,0.97) url(../images/paint_low.png) 0% 0%;
-	background-attachment: fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -88,10 +87,10 @@ a:hover{
 }
 
 #nav{
-	position:fixed;
+	/*position:fixed;
 	top:0;
 	left:0;
-	background:#222;
+	background:#222;*/
 	width:100%;
 	padding:0 10%;
 	z-index:100;
@@ -268,20 +267,29 @@ background:#222 url(../images/dirt.png) 0% 0%;
 }
 
 #logo{
-	width:80px;
-	padding:2% 0 0.5% 0;
-	margin:0;
+	position:relative;
+	padding:0;
+	margin:6% 5% 20% 5%;
+	float:left;
+	-webkit-transition: 1s  ease-in-out;
+	-moz-transition: 1s  ease-in-out;
+	trasition:1s ease-in-out;
+	z-index:40;
+}
+
+
+#logo img{
+	max-width:100px;
+	height:auto;
+
 	float:left;
 }
+
 #logo a{
 	padding:0;
 	margin:0;
 }
 
-#logo img {
-	width:100%;
-	height:auto;
-}
 
 iframe{
 	width:100%;
