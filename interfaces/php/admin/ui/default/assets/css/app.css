@@ -9,7 +9,6 @@
 html{
 	min-height:100%;
 	padding:0;
-	background-attachment: fixed;
 	overflow-x:hidden;
 	position: relative;
 	z-index:-2;
@@ -51,11 +50,24 @@ body {
 #pagetitle{
 	font-size:38px;
 	line-height: 40px;
-	margin:0 auto 20px auto;
+	margin:0 auto 0px auto;
 	width:90%;
 	font-weight:700;
 	text-transform: uppercase;
 	word-wrap:break-word;
+}
+#pagetitle span{
+	margin:0;
+	padding:0;
+}
+
+#pagetitle em{
+	font-size: 30px;
+	line-height: 20px!important;
+	font-weight:400;
+	text-transform:lowercase; 
+	margin:0 0 0 2%;
+	display:none;
 }
 
 #pagedisplay{
@@ -1199,6 +1211,7 @@ margin:0; padding:0;}
 html{
 	padding:1%;
 	background:#e3e3e3 url(../images/bg.jpg);
+	background-attachment: fixed;
 }  
 
 section[role=main]{

@@ -8,7 +8,9 @@
 
 html{
 	min-height:100%;
-	padding:0;
+	padding:1%;
+	background:#e3e3e3 url(../images/bg.jpg);
+	background-attachment: fixed;
 	background-attachment: fixed;
 	overflow-x:hidden;
 	position: relative;
@@ -17,7 +19,7 @@ html{
 
 body {
 	margin:0 0 0 0;
-	padding:0 0 1% 0;
+	padding:10%;
 	height:100%;
 	background: #e3e3e3; /* Old browsers */
 	background:rgba(230,230,230,0.97) url(../images/paint_low.png) 0% 0%;
@@ -85,6 +87,22 @@ a:hover{
 	color:#222;
 }
 
+#nav{
+	position:fixed;
+	top:0;
+	left:0;
+	background:#222;
+	width:100%;
+	padding:0 10%;
+	z-index:100;
+}
+
+#nav ul{
+	float:right;
+	background:#f5f5f5;
+	overflow:auto;
+}
+
 /* Form General */
 
 input{
@@ -128,27 +146,6 @@ input.checkorradio:checked{
 	background-image:url(../images/cross.png);
 	background-position: 50% 50%;
 	background-repeat: no-repeat; 
-}
-
-.login #cash_signin_form{
-	background:#ededed url(../images/dirt.png);
-	padding:10%;
-	position:relative;
-	overflow:auto;
-	left:0;
-	width:100%;
-	margin:30px 0;
-	color:#f5f5f5;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	-webkit-box-shadow:inset 0 0 3px 0 rgba(0,0,0,0.3);
-	box-shadow:inset 0 0 3px 0 rgba(0,0,0,0.3);
-}
-
-#query{
-	padding:3.5%;
-	margin:2% 0 0 0;
 }
 
 /* Buttons General */
@@ -207,6 +204,19 @@ h4{
 	margin:30px 0 10px 0;
 }
 
+h1{
+	font-size: 80px;
+	font-weight: 700;
+	line-height: 90px;
+	margin:0 0 5% 0;
+	padding:0;
+	text-align: center;
+}
+
+h2{	
+	margin:0 0 5% 0 ;
+}
+
 /* Text Types */
 
 small{
@@ -235,4 +245,44 @@ small{
 
 #pagedisplay .spacedtext a{
 	display:block;
+}
+
+/* Layout */
+#mainspc{
+padding:5% 0;
+}
+
+
+.calloutcontent{
+background:#222 url(../images/dirt.png) 0% 0%;
+	padding:3%;
+	color:#f5f5f5;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	margin:5% 0;
+}
+
+.calloutcontent h2{
+	color:#f5f5f5;
+}
+
+#logo{
+	width:80px;
+	padding:2% 0 0.5% 0;
+	margin:0;
+	float:left;
+}
+#logo a{
+	padding:0;
+	margin:0;
+}
+
+#logo img {
+	width:100%;
+	height:auto;
+}
+
+iframe{
+	width:100%;
 }

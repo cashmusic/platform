@@ -6,38 +6,57 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width" />
 
-<link rel="icon" type="image/png" href="http://2ea7029ee5fd6986c0a6-6d885a724441c07ff9b675222419a9d2.r58.cf2.rackcdn.com/ui/01/images/badge.png" />
+<link rel="icon" href="/docs/assets/images/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="/docs/assets/css/foundation.min.css" />
-<link rel="stylesheet" type="text/css" href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700|Roboto+Condensed:400,700italic,400italic,700,300,300italic|Noto+Serif:400,700italic,400italic,700' />
+<link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" type="text/css"  href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" />
 <link rel="stylesheet" type="text/css" href="/docs/assets/css/app.css" />
-
-<style type="text/css">
-	a.biglink {color:#df0854;font-family:"Roboto Condensed",Helvetica,Arial,sans-serif;font-size:24px;line-height:36px;font-weight:bold;margin-right:32px;white-space:nowrap;}
-	a.biglink:hover {color:#000;}
-	a.biglink .icon {font-size:22px;}
-	#mainspc {min-height:0;}
-	#topheader {display:block;width:100%;position:absolute;left:15px;top:-230px;color:#ff0;text-align:center;}
-	#topspc {height:410px;}
-	@media all and (max-width: 720px) {
-		#topheader {left:12px;top:-230px;}
-		#topspc {height:300px;}
-	}
-</style>
 
 <script type="text/javascript" src="http://js.cashmusic.org/cashmusic.js" data-options="lightboxvideo"></script>
 
 </head> 
 <body>
 
-	<div id="mainspc" class="row">
-		<h3>Hey, Nice to see you! Welcome to the CASH Music Platform.</h3>
+<div id="nav">
+<h1 id="logo"><a href="/"><img src="/interfaces/php/admin/ui/default/assets/images/invert_logo.png" alt="CASH Music"></a></h1>
+
+			<a href="/"><i class="icon icon-certificate"></i>Home</a>
+			<a href="/interfaces/php/admin/"><i class="icon icon-pencil"></i>Login</a>
+			<a href="/docs/"><i class="icon icon-book"></i>Docs</a>
+			<a href="/tools/"><i class="icon icon-cog"></i>Tools</a>
+		</div>
+
+<div id="mainspc" class="row">
+
+<div class="cashmusic tween setstyles" style="left:0;background-color:#f00;"
+  data-tween='{
+    "play":[
+      {"name":"left","startAt":0,"endAt":25,"startVal":-20,"endVal":600,"units":"px","onSound":"path/top/song1.mp3"},
+      {"name":"top","startAt":"0:25","endAt":"1:04","startVal":600,"endVal":-20,"units":"px","onSound":"path/top/song1.mp3"}
+    ]
+  }'
+  data-styles='{
+    "play":[
+      {"name":"backgroundColor","val":"#0f0","onPlayer":"playerid"}
+    ],
+    "pause":[
+      {"name":"backgroundColor","val":"#f00","onPlayer":"playerid"}
+    ],
+    "0:25":[
+      {"name":"backgroundColor","val":"#00f","onPlayer":"playerid"}
+    ]
+  }'
+></div>
+
+		<h1>Hey, Nice to see you! Welcome to the CASH Music Platform.</h1>
+		<h2><a href="">Login</a>,check out the <a href="">tools</a> or read the <a href="">documentation</a> to get started.</h2>
 		<div class="twelve columns">
-			<h1>CASH Music is a nonprofit empowering musicians towards a sustainable future. This platform is the heart of that effort — tools that let musicians control their careers.</h1>	
+			<h2>CASH Music is a nonprofit empowering musicians towards a sustainable future. This platform is the heart of that effort — tools that let musicians control their careers.</h2>	
 
 			<br />
 			<!--a href="https://vimeo.com/77475251"-->
-			<a href="http://www.youtube.com/watch?v=nbkKBKayubY"><img src="http://2ea7029ee5fd6986c0a6-6d885a724441c07ff9b675222419a9d2.r58.cf2.rackcdn.com/ui/01/images/introduction.jpg" width="100%" alt="CASH Music platform introduction" /></a>
+			<iframe width="560" height="500" src="//www.youtube.com/embed/nbkKBKayubY" frameborder="0" allowfullscreen></iframe>
+
 		</div>
 	</div>
 
@@ -51,7 +70,7 @@
 			</p>
 		</div>
 		<div class="four columns">	
-			<h5>Tools</h5>
+			<h5><a href="/tools/">Tools</a></h5>
 			<p class="alt">
 				<a href="/tools/testsuite/">Run test suite</a><br />
 				<a href="/tools/sampledata/">Add sample/test data</a><br />
@@ -76,7 +95,7 @@
 	</div>
 
 
-	<div class="callout" id="mission" style="background-color:#df9b08;">
+	<div class="callout" id="mission">
 		<div class="row">
 			<div class="twelve columns calloutcontent">
 				<h2>The <b>Licenses</b>.</h2>
