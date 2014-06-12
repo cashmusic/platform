@@ -7,17 +7,18 @@
 /* BASE STYLES AND RESETS */
 
 html{
+	min-height:100%;
 	padding:1%;
 	background:#e3e3e3 url(../images/bg.jpg);
 	background-attachment: fixed;
 	background-attachment: fixed;
-	overflow-x:hidden;
 	position: relative;
 	z-index:-2;
 }
 
 body {
 	margin:0% 0 0 0;
+	height:100%;
 	padding:0 5% 0 5%;
 	background: #e3e3e3; /* Old browsers */
 	background:rgba(230,230,230,0.97) url(../images/paint_low.png) 0% 0%;
@@ -200,8 +201,7 @@ code {
 	font-size:12px;
 	display:block;
 	padding:2em;
-	margin:0 0 1.5em 0;
-	margin:0 auto;
+	margin:3% auto;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -258,12 +258,12 @@ input.checkorradio:checked{
 button, .button, #modallightbox .modalcancel{
 	border:solid 1px #00cf7f;
 	background:none;
-	padding:10px 50px;
-	margin:5% 0;
+	padding:5%;
+	margin:5% auto;
+	width:100%;
 	text-align: center;
 	/*float:left;*/
-	width:100%;
-	font:400 14px/20px 'Montserrat',Helvetica,Arial,sans-serif;
+	font:400 30px/20px 'Montserrat',Helvetica,Arial,sans-serif;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition:0.3s ease-in-out;
@@ -313,7 +313,7 @@ h1{
 	font-size: 120px;
 	font-weight: 700;
 	line-height: 100px;
-	margin:12% 0 5% 0;
+	margin:6% 0 7% 0;
 	padding:0;
 	text-align: center;
 }
@@ -361,7 +361,7 @@ small{
 /* Layout */
 
 #mainspc{
-padding:0;
+padding:10% 0 5% 0;
 margin:0;
 }
 
@@ -509,7 +509,8 @@ background:#222 url(../images/dirt.png) 0% 0%;
 
 iframe{
 	width:100%;
-	padding:0 0 2% 0;
+	padding:0 0 0 0;
+	overflow:hidden;
 }
 
 #logo a, .pull a, .calloutcontent a, .section p a{
@@ -519,3 +520,24 @@ iframe{
 	float:none;
 	margin:0;
 }
+
+/* Log Viewer */
+
+.log h1{
+	text-align: center;
+	word-wrap:break-word;
+}
+
+#logviewer{
+	margin:10% 0;
+	overflow-x:scroll;
+	width:100%;
+	background:#f5f5f5;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+/* Reinstall */
+
+
