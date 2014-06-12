@@ -6,72 +6,68 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width" />
 
-<link rel="icon" type="image/png" href="http://2ea7029ee5fd6986c0a6-6d885a724441c07ff9b675222419a9d2.r58.cf2.rackcdn.com/ui/01/images/badge.png" />
+<link rel="icon" href="/docs/assets/images/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="/docs/assets/css/foundation.min.css" />
-<link rel="stylesheet" type="text/css" href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700|Roboto+Condensed:400,700italic,400italic,700,300,300italic|Noto+Serif:400,700italic,400italic,700' />
+<link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" type="text/css"  href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" />
 <link rel="stylesheet" type="text/css" href="/docs/assets/css/app.css" />
-
-<style type="text/css">
-	a.biglink {color:#df0854;font-family:"Roboto Condensed",Helvetica,Arial,sans-serif;font-size:24px;line-height:36px;font-weight:bold;margin-right:32px;white-space:nowrap;}
-	a.biglink:hover {color:#000;}
-	a.biglink .icon {font-size:22px;}
-	#mainspc {min-height:0;}
-	#topheader {display:block;width:100%;position:absolute;left:15px;top:-230px;color:#ff0;text-align:center;}
-	#topspc {height:410px;}
-	@media all and (max-width: 720px) {
-		#topheader {left:12px;top:-230px;}
-		#topspc {height:300px;}
-	}
-</style>
 
 <script type="text/javascript" src="http://js.cashmusic.org/cashmusic.js" data-options="lightboxvideo"></script>
 
 </head> 
 <body>
 
-	<div id="topspc">
+<div id="nav">
+	<h1 id="logo"><a href="/"><img src="/docs/assets/images/invert_logo.png" alt="CASH Music"></a></h1>
 
-	</div>
-	<div id="mainspc" class="row">
-		<h3 id="topheader" data-0="top:-230px;" data-410="top:-70px;" data-smooth-scrolling="off">Hello. This is CASH Music.</h3>
-		<img id="topbadges" src="/docs/assets/images/badges.png" width="312" height="50" alt="home" />
+		<ul>
+			<li><a href="/"><i class="icon icon-certificate"></i>Home</a></li>
+			<li><a href="/interfaces/php/admin/"><i class="icon icon-pencil"></i>Login</a></li>
+			<li><a href="/docs/"><i class="icon icon-book"></i>Docs</a></li>
+			<li><a href="/tools/"><i class="icon icon-cog"></i>Tools</a></li>
+		</ul>
+</div>
 
+<div id="mainspc" class="row">
 		<div class="twelve columns">
-			<h1>CASH Music is a nonprofit empowering musicians towards a sustainable future. This platform is the heart of that effort — tools that let musicians control their careers.</h1>	
-
+		<h1>Hey, Nice to see you! Welcome to the CASH Music Platform.</h1>
+		<h2 class="pull"><a href="/interfaces/php/admin/">Login</a>,check out the <a href="/tools">tools</a> or read the <a href="/docs">documentation</a> to get started.</h2>
+			<h2 class="message">CASH Music is a nonprofit empowering musicians towards a sustainable future. This platform is the heart of that effort — tools that let musicians control their careers.</h2>	
+			
 			<br />
 			<!--a href="https://vimeo.com/77475251"-->
-			<a href="http://www.youtube.com/watch?v=nbkKBKayubY"><img src="http://2ea7029ee5fd6986c0a6-6d885a724441c07ff9b675222419a9d2.r58.cf2.rackcdn.com/ui/01/images/introduction.jpg" width="100%" alt="CASH Music platform introduction" /></a>
+			<iframe width="560" height="500" src="//www.youtube.com/embed/nbkKBKayubY?&fmt=37&modestbranding=1&showinfo=0&autohide=1&color=white" frameborder="0" allowfullscreen></iframe>
+
 		</div>
 	</div>
 
-	<div class="row tight">
-		<div class="four columns">
-			<h5>Use it</h5>
+	<div class="row tools">
+		<div class="three columns">
+			<h5><a href="/interfaces/php/admin/"><i class="icon icon-pencil"></i>Use it</a></h5>
 			<p class="alt">
-				<a href="/interfaces/php/admin/">Login now</a><br />
-				email: dev@cashmusic.org<br />
-				password: dev
+				<a href="/interfaces/php/admin/">Login now</a>
 			</p>
+			<p class="det">email: dev@cashmusic.org
+				password: dev</p>
 		</div>
-		<div class="four columns">	
-			<h5>Tools</h5>
+		<div class="three columns">	
+			<h5><a href="/tools/"><i class="icon icon-cog"></i>Tools</a></h5>
 			<p class="alt">
 				<a href="/tools/testsuite/">Run test suite</a><br />
 				<a href="/tools/sampledata/">Add sample/test data</a><br />
 				<a href="/tools/reinstall/">Reinstall / clear all data</a><br />
 				<a href="/tools/logviewer/">Apache log viewer</a><br />
 			</p>
-
-			<h5>Docs</h5>
+			</div>
+	<div class="three columns">	
+			<h5><a href="/docs/"><i class="icon icon-book"></i>Docs</a></h5>
 			<p class="alt">
 				<a href="/docs/">Developer docs</a><br />
 				<a href="/interfaces/php/admin/help/">In-platform FAQ</a>
 			</p>
 		</div>
-		<div class="four columns">	
-			<h5>More</h5>
+		<div class="three columns">	
+			<h5>More<span>&#9825;</span></h5>
 			<p class="alt">
 				<a href="https://github.com/cashmusic/platform">Platform github repo</a><br />
 				<a href="http://cashmusic.github.io/cashmusic.js/">cashmusic.js</a><br />
@@ -81,7 +77,7 @@
 	</div>
 
 
-	<div class="callout" id="mission" style="background-color:#df9b08;">
+	<div class="callout" id="mission">
 		<div class="row">
 			<div class="twelve columns calloutcontent">
 				<h2>The <b>Licenses</b>.</h2>
@@ -95,11 +91,11 @@
 	<div id="more">
 		<div class="row">
 			<div class="eight columns">
+			<h2>Community</h2>
 				<p>
 					Community is vital. We can't do this alone. Please get in touch, join the mailing list, or support our project by making a pull request. Together we can ensure a healthy future for musicians everywhere.
-				</p><p class="alt">
-					<b>Join the mailing list:</b>
 				</p>
+				<h3>Join the mailing list:</h3>
 				<script type="text/javascript"> window.cashmusic.embed('http://x.cashmusic.org/public/','1518');</script>
 			</div>
 			<div class="four columns">	
@@ -109,7 +105,8 @@
 					<a href="https://plus.google.com/107291520879981153926" rel="publisher">google+</a><br />
 					<a href="https://github.com/cashmusic/">github.com/cashmusic</a><br />
 				</p>
-			</div>
+			
+				</div>
 		</div>
 
 		<br /><br />
