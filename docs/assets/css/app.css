@@ -17,8 +17,8 @@ html{
 }
 
 body {
-	margin:40% 0 0 0;
-	padding:0 15% 5% 15%;
+	margin:0% 0 0 0;
+	padding:0 5% 0 5%;
 	background: #e3e3e3; /* Old browsers */
 	background:rgba(230,230,230,0.97) url(../images/paint_low.png) 0% 0%;
 	-webkit-background-size: cover;
@@ -73,41 +73,140 @@ a{
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition:0.3s ease-in-out;
-	text-decoration: underline;
-	color:#00cf7f;
-	padding:5px;
+	padding:2%;
+	margin:0 1% 1% 0;
+	display:inline-block;
+	float:left;
+	background:#00cf7f;
+	color:#222;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	text-decoration: none;
 }
+
 
 a:hover{
 	text-decoration: none;
-	color:#222;
+	color:#00cf7f;
+	background:#222;
 }
+
+/* Navigation */
 
 #nav{
 	position:fixed;
 	top:0;
-	left:0%;
+	left:0;
 	width:100%;
-	padding:5% 10%;
+	background:#222;
+	padding:1% 7%;
 	z-index:100;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition:0.3s ease-in-out;
+}
+
+#nav:hover{
+	background:#00cf7f;
 }
 
 #nav ul{
-	float:right;
 	list-style-type: none;
 	padding:0;
 	margin:0;
+	overflow:auto;
+	float:right;
+	width:30%;
 }
 
 #nav li{
 	float:left;
+	padding:2%;
+	width:24%;
+	margin:5% 1% 3% 0;
+	display:block;
+	background:#222;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
 
 #nav a{
-	padding:0 5% 0 0;
-	margin:0;
+	width:100%;
+	background:none;
+	color:#00cf7f;
 }
 
+#nav a:hover {
+	color:#f5f5f5;
+}
+
+#nav a .icon{
+	float:right;
+	margin:0;
+	padding:3px;
+}
+
+
+#nav:hover #logo{
+	-webkit-filter: invert(100%);
+	-moz-filter: invert(100%);
+	filter: invert(100%);
+}
+
+/* Subnavigation */
+
+#docsnav{
+	position:fixed;
+	left:7%;
+	top:15%;	
+	margin:0;
+	list-style-type: none;
+	padding:0;
+	width:20%;
+}
+
+#docsnav .toplevel a{
+	clear:left;
+	background:#222;
+	color:#00cf7f;
+}
+
+#docsnav ul{
+	list-style-type: none;
+	margin:3%;
+}
+
+#docsnav ul li a{
+	background:#00cf7f;
+	color:#222;
+	border-left:5px solid #222;
+	clear:left;
+}
+
+
+#docsnav .toplevel a:hover, #docsnav ul li a:hover, .current a{
+	background:#f5f5f5!important;
+	color:#222;
+	border-left:5px solid #00cf7f;
+}
+
+#docsnav .toplevel a:hover{
+	border:none;
+}
+
+code {
+	font-size:12px;
+	display:block;
+	padding:2em;
+	margin:0 0 1.5em 0;
+	margin:0 auto;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	background:#f5f5f5;
+}
 
 /* Form General */
 
@@ -211,16 +310,22 @@ h4{
 }
 
 h1{
-	font-size: 80px;
+	font-size: 120px;
 	font-weight: 700;
-	line-height: 90px;
-	margin:0 0 5% 0;
+	line-height: 100px;
+	margin:12% 0 5% 0;
 	padding:0;
 	text-align: center;
 }
 
-h2{	
-	margin:0 0 5% 0 ;
+#mainspc.docs h1{
+	font-size:80px;
+	line-height: 70px;
+	text-align: left;
+}	
+
+.message{	
+	margin:5% 0 5% 0 ;
 }
 
 /* Text Types */
@@ -254,8 +359,18 @@ small{
 }
 
 /* Layout */
+
 #mainspc{
-	padding:5% 0;
+padding:0;
+margin:0;
+}
+
+#mainspc.docs{
+	padding:5% 0 0 0;
+}
+
+.section{
+	padding:3% 0 0 0;
 }
 
 #banner{
@@ -289,23 +404,97 @@ background:#222 url(../images/dirt.png) 0% 0%;
 	color:#f5f5f5;
 }
 
-#logo{
-	position:absolute;
-	left:5%;
+
+.tight .three{
+	background:#00cf7f;
+	padding:3%;
+	color:#f5f5f5;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	margin:3% 1%;
+	width:23%;
+	-webkit-box-shadow:inset 0 0 10px 0 rgba(0,0,0,0.1);
+	box-shadow:inset 0 0 10px 0 rgba(0,0,0,0.1);
+}
+
+.tight .three a{
+	padding:2%;
+	margin:0 1% 1% 0;
+	display:inline-block;
+	float:left;
+	background:#222;
+	color:#00cf7f;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	text-decoration: none;
+}
+
+.tight .three h5{
+	margin:0 0 8% 0;
 	padding:0;
+}
+
+.tight .three a:hover{
+	background:#00bd74;
+	color:#f5f5f5;
+}
+
+.tight .three h5 a{
+	background:none;
+	color:#222;
+	width:100%;
+	margin:0 0 8% 0;
+	padding:0;
+}
+
+.tight .three h5 .icon{
+	padding:0 5% 0 0;
+}
+
+.tight .three h5 a:hover{
+	background:none;
+}
+
+
+.det{
+	margin-top:25%;
+	clear:both;
+}
+
+.pull{
+	background:#00cf7f;
+	padding:3%;
+	font-size: 29px;
+	text-align: center;
+	color:#f5f5f5;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	margin:2% 0 2% 0 ;
+}
+
+.pull a{
+	color:#222;
+	padding:0;
+}
+
+
+#logo{
+	padding:2px 0 0 0;
 	margin:0;
 	float:left;
+	width:20px;
 	-webkit-transition: 1s  ease-in-out;
 	-moz-transition: 1s  ease-in-out;
 	trasition:1s ease-in-out;
 	z-index:40;
 }
 
-
 #logo img{
-	max-width:100px;
+	max-width:70px;
 	height:auto;
-
 	float:left;
 }
 
@@ -317,4 +506,13 @@ background:#222 url(../images/dirt.png) 0% 0%;
 
 iframe{
 	width:100%;
+	padding:0 0 2% 0;
+}
+
+#logo a, .pull a, .calloutcontent a, .section p a{
+	display:inline;
+	background:none;
+	padding:0;
+	float:none;
+	margin:0;
 }
