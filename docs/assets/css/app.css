@@ -13,7 +13,7 @@ html{
 	background-attachment: fixed;
 	background-attachment: fixed;
 	position: relative;
-	z-index:-2;
+	/*z-index:-2;*/
 }
 
 body {
