@@ -1,0 +1,86 @@
+{{#error_message}}<div class="cash_error cash_{{element_type}}_error">{{error_message}}</div>{{/error_message}}
+<span class="cash_digitalpurchase_itemname">{{item_name}}</span>
+<span class="cash_digitalpurchase_itemprice">{{currency}}{{item_price}}{{#item_flexible_price}} {{metadata_copy_flexibleprice_suffix}}{{/item_flexible_price}}</span>
+<span class="cash_digitalpurchase_itemdescription">{{item_description}}</span>
+<form id="cash_{{element_type}}_form_{{element_id}}" class="cash_form {{element_type}}" method="post" action="">
+<input type="hidden" name="cash_request_type" value="commerce" />
+<input type="hidden" name="cash_action" value="initiatecheckout" />
+<input type="hidden" name="element_id" value="{{element_id}}" />
+<input type="hidden" name="item_id" value="{{item_id}}" />
+<input type="hidden" name="connection_id" value="{{connection_id}}" />
+<input type="hidden" name="user_id" value="{{user_id}}" />
+{{#item_flexible_price}}
+	<input type="text" name="total_price" class="cashmusic_narrow" value="{{item_price}}" />
+{{/item_flexible_price}}
+<input type="submit" value="{{^item_flexible_price}}${{item_price}} - {{/item_flexible_price}}{{metadata_copy_buy}}" class="button" /><br />
+</form>
+
+<script type="text/javascript">
+	(function() {
+		if (window.cashmusic) {
+			if (window.cashmusic.getXHR() && self!=top) {
+				var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
+
+				var handleSubmit = function(e) {
+					submitUrl = '{{www_url}}request/payload';
+					var ruo = document.createElement("input");
+					ruo.setAttribute("type", "hidden");
+					ruo.setAttribute("name", "return_url_only");
+					ruo.setAttribute("value", "1");
+					elementForm.appendChild(ruo);
+
+					var win = window.open(
+						'data:text/html;charset=utf-8,%3C!doctype%20html%3E%3Chtml%3E%3Chead%3E%3Cmeta%20charset%3Dutf-8%3E' +
+						'%3Ctitle%3ELoading...%3C%2Ftitle%3E%3C%2Fhead%3E%3Cbody%20style%3D%22background-color%3A%23fafaf8' +
+						'%3Bcolor%3A%23231F20%3Bfont-family%3AHelvetica%2CArial%3Bfont-size%3A14px%3B%22%3E%3Cdiv%20style%3D%22' +
+						'width%3A300px%3Bmargin%3A100px%20auto%200%20auto%3B%22%3E%3Cimg%20src%3D%22data%3Aimage%2Fgif%3Bbase64' +
+						'%2CR0lGODlhLAEEALMKAI1ZhAiR35sI31mNh4JzUo1jWWNZjd%2BbCKrNB98IVP%2F%2F%2FwAAAAAAAAAAAAAAAAAAACH%2FC05FV' +
+						'FNDQVBFMi4wAwEAAAAh%2FwtYTVAgRGF0YVhNUDw%2FeHBhY2tldCBiZWdpbj0i77u%2FIiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY' +
+						'3prYzlkIj8%2BIDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jM' +
+						'DExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3Lnc' +
+						'zLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJod' +
+						'HRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1' +
+						'sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQ' +
+						'WRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoxNDEwMEFFRjBEREYxMUUyOEF' +
+						'BN0VCQTk4RTk2RTBEMyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoxNDEwMEFGMDBEREYxMUUyOEFBN0VCQTk4RTk2RTBEMyI%2' +
+						'BIDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjE0MTAwQUVEMERERjExRTI4QUE3RUJBOThFOTZFM' +
+						'EQzIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjE0MTAwQUVFMERERjExRTI4QUE3RUJBOThFOTZFMEQzIi8%2BIDwvcmRmOkRlc' +
+						'2NyaXB0aW9uPiA8L3JkZjpSREY%2BIDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8%2BAf%2F%2B%2Ffz7%2Bvn49%2Fb19' +
+						'PPy8fDv7u3s6%2Brp6Ofm5eTj4uHg397d3Nva2djX1tXU09LR0M%2FOzczLysnIx8bFxMPCwcC%2Fvr28u7q5uLe2tbSzsrGwr66tr' +
+						'KuqqainpqWko6KhoJ%2BenZybmpmYl5aVlJOSkZCPjo2Mi4qJiIeGhYSDgoGAf359fHt6eXh3dnV0c3JxcG9ubWxramloZ2ZlZGNiY' +
+						'WBfXl1cW1pZWFdWVVRTUlFQT05NTEtKSUhHRkVEQ0JBQD8%2BPTw7Ojk4NzY1NDMyMTAvLi0sKyopKCcmJSQjIiEgHx4dHBsaGRgXF' +
+						'hUUExIREA8ODQwLCgkIBwYFBAMCAQAAIfkEBQoACgAsAAAAACwBBAAABGQQyEmrvTjrWrr%2FYCiOZAkSaKqubOu%2B8DrMdG3feK7' +
+						'vtuH%2FwKBwSCwag5ukcqkxOZ%2FQUmxKrcJ42Kx2d%2Bx6v0ameJyMms9Oq3o93brfWLB83iXb7xO0fu9h%2B%2F8pcIKDNHSGhz8' +
+						'RACH5BAUKAAoALAAAAAA8AAQAAAQQMMlJq7046827%2F2AojmSZRQAh%2BQQFCgAKACw8AAAAPAAEAAAEEPDISau9OOvNu%2F9gKI5' +
+						'kmUUAIfkEBQoACgAseAAAADwABAAABBAQyUmrvTjrzbv%2FYCiOZJlFACH5BAUKAAoALLQAAAA8AAQAAAQQMMhJq7046827%2F2Aoj' +
+						'mSZRQAh%2BQQFCgAKACzwAAAAPAAEAAAEEFDISau9OOvNu%2F9gKI5kmUUAIfkEBQoACgAsAAAAADwABAAABBAQyEmrvTjrzbv%2FY' +
+						'CiOZJlFACH5BAUKAAoALDwAAAA8AAQAAAQQsMhJq7046827%2F2AojmSZRQAh%2BQQFCgAKACx4AAAAPAAEAAAEEJDISau9OOvNu%2' +
+						'F9gKI5kmUUAIfkEBQoACgAstAAAADwABAAABBBwyEmrvTjrzbv%2FYCiOZJlFADs%3D%22%20alt%3D%22%22%20%2F%3E%3Cbr%20' +
+						'%2F%3E%3Cb%3ELoading...%3C%2Fb%3E%3C%2Fdiv%3E%3C%2Fbody%3E%3C%2Fhtml%3E'
+					);
+					window.cashmusic.sendXHR(
+						submitUrl,
+						window.cashmusic.encodeForm(elementForm),
+						function(thereply) {
+							if (thereply.substring(0,4) == 'http') {
+								win.location.href = thereply;
+							}
+						}
+					);
+
+					if (e && e.preventDefault) {
+						e.preventDefault();
+					} else if (window.event && window.event.returnValue) {
+						window.eventReturnValue = false;
+					}
+				};
+
+				if (window.addEventListener) {
+					elementForm.addEventListener('submit', handleSubmit, false);
+				} else if (window.attachEvent) {
+					elementForm.attachEvent('onsubmit', handleSubmit);
+				}
+			}
+		}
+	})();
+</script>
