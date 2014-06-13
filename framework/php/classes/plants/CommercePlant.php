@@ -681,7 +681,7 @@ class CommercePlant extends PlantBase {
 									
 									// deal with physical quantities
 									if ($order_details['physical'] == 1) {
-										$order_items = json_decode($order_details['order_contents']);
+										$order_items = json_decode($order_details['order_contents'],true);
 										if (is_array($order_items)) {
 											foreach ($order_items as $i) {
 												if ($i['available_units'] > 0 && $i['physical_fulfillment'] == 1) {
