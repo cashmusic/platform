@@ -104,15 +104,20 @@ input::-webkit-calendar-picker-indicator{
     display: none;
 }
 
+.six input{
+	width:99%;
+}
+
+
 select{
 	background:#00cf7f;
 	border:none;
-	padding:0% 2%;
+	padding:0 2%;
 	color:#f5f5f5;
 	text-indent: 0;
 	margin:0;
+	display:block;
 	height:30px;
-	line-height: 3px;
 	border:none;
 	font:400 14px/20px 'Montserrat',Helvetica,Arial,sans-serif;
 	-webkit-border-radius: 3px;
@@ -132,6 +137,7 @@ input.checkorradio{
 	border-radius: 3px;
 	padding:10px;
 	margin:5px 5px 0 0;
+	width:auto;
 	clear:both;
 	-webkit-appearance: none;
 }
@@ -271,10 +277,10 @@ small{
 
 #ajaxloading{
 	position:absolute;
-	top:5px;
-	left:5px;
-	width:108px;
-	height:108px;
+	top:7px;
+	left:7px;
+	width:107px;
+	height:107px;
 	margin:0;
 	padding:0;
 	-webkit-animation: turn linear infinite 1s;
@@ -287,7 +293,32 @@ small{
     z-index:-1;
 }
 
-#ajaxloading.loading{
+#ld{
+	position:fixed;
+	top:0%;
+	width:73.5%;
+	height:100%;
+	left:0%;
+	z-index:5000;
+	opacity:0;
+}
+
+#ld img{
+	position:absolute;
+	top:50%;
+	left:50%;
+	height:70px;
+	width:70px;
+	margin:-45px 0 0 -45px;
+	-webkit-animation: turn linear infinite 1s;
+    -moz-animation: turn linear infinite 1s;
+    animation: turn linear infinite 1s;
+    -webkit-transition: 1s  ease-in-out;
+	-moz-transition: 1s  ease-in-out;
+	trasition:1s ease-in-out;
+}
+
+#ajaxloading.loading, #ld.loading{
 	opacity:0.7;
 }
 
@@ -794,6 +825,7 @@ color:#f5f5f5!important;
 	border-radius: 3px;
 	margin:0 0 5px 0;
 	border:solid 1px #ccc;
+	overflow:auto;
 }
 
 .callout h4, fieldset h4, #stats h4{
@@ -817,20 +849,16 @@ color:#f5f5f5!important;
 .drawerhandle{
 	background:#222;
 	width:100%;
-	margin:0;
-}
-.drawercontent{
-	background:#222;
-	padding:3%;
-	margin:0;
-}
-
-.drawercontent form{
-	margin:0;
+	margin:0 0 1% 0;
+	padding:2%;
+	text-decoration: none;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
 
-.drawercontent form label{
-	color:#f5f5f5;
+.drawerhandle.fullsize{
+	padding:4%;
 }
 
 .drawerhandle:hover{
@@ -838,17 +866,31 @@ color:#f5f5f5!important;
 	background:#00cf7f;
 }
 
-.drawerhandle{
-	padding:4%;
-	text-decoration: none;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-}
-
 .drawerhandle .icon{
 	color:#f5f5f5!important;
-	padding:0 20% 0 0;
+	padding:0 20px 0 0;
+}
+
+.drawercontent{
+	background:#fff;
+	padding:5%;
+	margin:0;
+}
+
+.drawercontent form{
+	margin:0;
+}
+
+
+/* Call out Drawers */
+
+.callout .drawerhandle{
+	padding:1% 2%;
+	display:block;
+}
+
+.callout .drawercontent{
+	background:#fff;
 }
 
 /* Tabled Content */
@@ -1528,7 +1570,7 @@ button, .button, #modallightbox .modalcancel{
 }
 
 #stats span{
-	font-size:100px;
+	font-size:60px;
 	bottom:8%;
 	width:88%;
 }
