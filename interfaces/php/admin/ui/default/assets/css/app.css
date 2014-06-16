@@ -104,7 +104,7 @@ input::-webkit-calendar-picker-indicator{
     display: none;
 }
 
-.six input{
+.six input, .six select{
 	width:99%;
 }
 
@@ -170,6 +170,25 @@ input.checkorradio:checked{
 	margin:2% 0 0 0;
 }
 
+/* Invalid Input */
+
+select.invalid, input[type="text"].invalid, input[type="password"].invalid, input[type="date"].invalid, input[type="datetime"].invalid, input[type="email"].invalid, input[type="number"].invalid, input[type="search"].invalid, input[type="tel"].invalid, input[type="time"].invalid, input[type="url"].invalid, textarea.invalid {border:1px solid #ff0;}
+label.invalid {color:#000;}
+
+.highlightcopy, span.invalid {
+	padding:2px 6px 2px 6px;
+	background-color:#ff0;
+}
+
+span.invalid {
+	position:relative;top:-10px;
+}
+
+/* Required */
+.required{
+	border-left: 5px solid #ff0;
+}
+
 /* Buttons General */
 
 button, .button, #modallightbox .modalcancel{
@@ -199,6 +218,21 @@ button:hover, .button:hover{
 
 button .icon, .button .icon{
 	display:none;
+}
+
+/* Uploader */
+.upload-corral .icon{
+	padding:0 10px 0 0;
+}
+
+.upload-corral a{
+	color:#222;
+	margin:0 0 0 10px;
+}
+
+.upload-corral a:hover{
+	background:#333!important;
+	color:#f5f5f5!important;
 }
 
 /* Icons General */
@@ -879,7 +913,7 @@ color:#f5f5f5!important;
 
 .drawercontent{
 	padding:5%;
-	margin:0;
+	margin:0 0 5% 0;
 }
 
 .drawercontent form{
