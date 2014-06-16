@@ -23,7 +23,11 @@ if (AdminHelper::elementFormSubmitted($_POST)) {
 			'message_error' => $_POST['message_error'],
 			'message_success' => $_POST['message_success'],
 			'item_id' => $_POST['item_id'],
-			'connection_id' => $_POST['connection_id']
+			'connection_id' => $_POST['connection_id'],
+			'region1_name' => $_POST['region1_name'],
+			'region2_name' => $_POST['region2_name'],
+			'region1_cost' => $_POST['region1_cost'],
+			'region2_cost' => $_POST['region2_cost']
 		)
 	);
 }
@@ -38,6 +42,12 @@ if ($current_element) {
 	// Now any element-specific options:
 	$cash_admin->page_data['options_message_success'] = $current_element['options']['message_success'];
 	$cash_admin->page_data['options_message_error'] = $current_element['options']['message_error'];
+
+	$cash_admin->page_data['options_region1_name'] = $current_element['options']['region1_name'];
+	$cash_admin->page_data['options_region2_name'] = $current_element['options']['region2_name'];
+	$cash_admin->page_data['options_region1_cost'] = $current_element['options']['region1_cost'];
+	$cash_admin->page_data['options_region2_cost'] = $current_element['options']['region2_cost'];
+
 	$cash_admin->page_data['options_items_dropdown'] = AdminHelper::echoFormOptions('items',$current_element['options']['item_id'],false,true);
 	$cash_admin->page_data['options_connections_dropdown'] = AdminHelper::echoConnectionsOptions('commerce',$current_element['options']['connection_id'],true);
 }

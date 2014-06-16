@@ -23,6 +23,33 @@
 		</div>
 	</div>
 
+	<div class="row">
+		<div class="six columns">
+			<div class="row">
+				<div class="six columns">
+					<label for="region1_name">{{element_label_region1}}</label>
+					<input type="text" id="region1_name" name="region1_name" value="{{#options_region1_name}}{{options_region1_name}}{{/options_region1_name}}{{^options_region1_name}}{{element_copy_region1_name}}{{/options_region1_name}}" />
+				</div>
+				<div class="six columns">
+					<label for="region1_cost">{{element_label_region_cost}}</label>
+					<input type="text" id="region1_cost" name="region1_cost" value="{{#options_region1_cost}}{{options_region1_cost}}{{/options_region1_cost}}{{^options_region1_cost}}{{element_copy_default_cost}}{{/options_region1_cost}}"  class="number" />
+				</div>
+			</div>
+		</div>
+		<div class="six columns">
+			<div class="row">
+				<div class="six columns">
+					<label for="region2_name">{{element_label_region2}}</label>
+					<input type="text" id="region2_name" name="region2_name" value="{{#options_region2_name}}{{options_region2_name}}{{/options_region2_name}}{{^options_region2_name}}{{element_copy_region2_name}}{{/options_region2_name}}" />
+				</div>
+				<div class="six columns">
+					<label for="region2_cost">{{element_label_region_cost}}</label>
+					<input type="text" id="region2_cost" name="region2_cost" value="{{#options_region2_cost}}{{options_region2_cost}}{{/options_region2_cost}}{{^options_region2_cost}}{{element_copy_default_cost}}{{/options_region2_cost}}"  class="number" />
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<br />
 	<label for="message_error">{{element_label_error}}</label>
 	<input type="text" id="message_error" name="message_error" value="{{#options_message_error}}{{options_message_error}}{{/options_message_error}}{{^options_message_error}}{{element_copy_error}}{{/options_message_error}}" />

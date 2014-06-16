@@ -11,7 +11,7 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  **/
-class DigitalPurchase extends ElementBase {
+class PhysicalPreorder extends ElementBase {
 	public $type = 'physicalpreorder';
 	public $name = 'Physical Preorder';
 
@@ -30,6 +30,11 @@ class DigitalPurchase extends ElementBase {
 		$this->element_data['item_flexible_price'] = $item['flexible_price'];
 		$this->element_data['item_description'] = $item['description'];
 		$this->element_data['item_asset'] = $item['fulfillment_asset'];
+		if ($item['available_units'] > 0) {
+			$this->element_data['is_available'] = true;
+		} else {
+			$this->element_data['is_available'] = false;
+		}
 
 		$currency_request = new CASHRequest(
 			array(
@@ -73,6 +78,13 @@ class DigitalPurchase extends ElementBase {
 				//$this->element_data['error_message'] = $this->options['message_error'];
 				$this->element_data['error_message'] = print_r($this->original_response,true);
 			}
+		} elseif (isset($_POST['physicalpreorder1'])) {
+			$total_price = $item['price'];
+			if (isset($_POST['total_price'])) {
+				$total_price = $_POST['total_price'];
+			}
+			$this->element_data['total_price'] = $total_price;
+			$this->setTemplate('shipping');
 		}
 		return $this->element_data;	
 	}
