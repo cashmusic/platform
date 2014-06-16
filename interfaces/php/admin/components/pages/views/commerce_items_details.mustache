@@ -11,8 +11,16 @@
 
 	<div class="row">
 		<div class="six columns">
-			<label for="item_price">Price ($ USD)</label>
-			<input type="text" id="item_price" name="item_price" value="{{price}}" class="required number" />
+			<div class="row">
+				<div class="six columns">
+					<label for="item_price">Price ($ USD)</label>
+					<input type="text" id="item_price" name="item_price" value="{{price}}" class="required number" />
+				</div>
+				<div class="six columns">
+					<label for="item_quantity">Quantity (-1: unlimited)</label>
+					<input type="text" id="item_quantity" name="item_quantity" value="{{available_units}}" class="number" />
+				</div>
+			</div>
 		</div>
 		<div class="six columns">
 			<label for="item_fulfillment_asset">Fulfillment asset</label>
