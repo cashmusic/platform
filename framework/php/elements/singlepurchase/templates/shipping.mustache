@@ -1,11 +1,11 @@
 {{#error_message}}<div class="cash_error cash_{{element_type}}_error">{{error_message}}</div>{{/error_message}}
 
 <style type="text/css">
-.cashmusic-pp-actions {
+.cashmusic-sp-actions {
 	position:relative;
 	z-index:100;
 }
-#cashmusic-pp-overlay {
+#cashmusic-sp-overlay {
 	display:none;
 	position:absolute;
 	top:0;
@@ -14,7 +14,7 @@
 	height:100%;
 	z-index:500;
 }
-.cashmusic-pp-loading {
+.cashmusic-sp-loading {
 	position:absolute;
 	top:50%;
 	left:50%;
@@ -67,7 +67,7 @@
 }
 </style>
 
-<span class="cash_physicalpreorder_shippingmessage">Please choose a shipping option:</span>
+<span class="cash_singlepurchase_shippingmessage">Please choose a shipping option:</span>
 
 <form id="cash_{{element_type}}_form_{{element_id}}" class="cash_form {{element_type}}" method="post" action="">
 <input type="hidden" name="cash_request_type" value="commerce" />
@@ -78,13 +78,13 @@
 <input type="hidden" name="user_id" value="{{user_id}}" />
 <input type="hidden" name="total_price" value="{{total_price}}" />
 
-	<div class="cashmusic-pp-actions">
-		<div class="cashmusic-pp-actions" id="actionspc">
+	<div class="cashmusic-sp-actions">
+		<div class="cashmusic-sp-actions" id="actionspc">
 			<input type="button" id="shipping1" data-shiping="{{region1_cost}}" value="{{region1_name}} - {{currency}}{{region1_cost}}" class="button" />
 			<input type="button" id="shipping2" data-shiping="{{region2_cost}}" value="{{region2_name}} - {{currency}}{{region2_cost}}" class="button" />
 		</div>
-		<div id="cashmusic-pp-overlay">
-			<div class="cashmusic-pp-loading"></div>
+		<div id="cashmusic-sp-overlay">
+			<div class="cashmusic-sp-loading"></div>
 		</div>
 	</div>
 </form>
@@ -104,7 +104,7 @@
 					}
 
 					document.getElementById('actionspc').style.opacity='0.4';
-					document.getElementById('cashmusic-pp-overlay').style.display='block';
+					document.getElementById('cashmusic-sp-overlay').style.display='block';
 
 					submitUrl = '{{www_url}}request/payload';
 					var ruo = document.createElement("input");
