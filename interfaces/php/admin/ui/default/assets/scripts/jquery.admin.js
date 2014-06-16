@@ -148,7 +148,7 @@
 					setContentBehaviors();
 				}
 				//$('#ajaxloading').hide();
-				$('#ajaxloading, #logo').removeClass('loading');
+				$('#ajaxloading, #logo, #ld').removeClass('loading');
 				$('#pagedisplay').fadeTo(200,1);
 			}
 		},'json');
@@ -178,7 +178,7 @@
 
 		// fade out
 		//$('#ajaxloading').show();
-		$('#ajaxloading, #logo').addClass('loading');
+		$('#ajaxloading, #logo, #ld').addClass('loading');
 		$('#pagedisplay').fadeTo(100,0.2, function() {
 			doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
 		});
