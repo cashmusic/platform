@@ -1,5 +1,5 @@
 {
-	"name":"Physical Preorder",
+	"name":"Single Purchase",
 	"description":"A simple single-item Physical order using your Paypal account.",
 	"longdescription":"Connect your Paypal account and users will get a single-click purchase flow for any commerce item in the system.",
 	

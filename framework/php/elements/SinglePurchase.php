@@ -1,6 +1,6 @@
 <?php
 /**
- * Physical Preorder element
+ * Single Purchase element
  *
  * @package digitalpurchase.org.cashmusic
  * @author CASH Music
@@ -11,9 +11,9 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  **/
-class PhysicalPreorder extends ElementBase {
-	public $type = 'physicalpreorder';
-	public $name = 'Physical Preorder';
+class SinglePurchase extends ElementBase {
+	public $type = 'singlepurchase';
+	public $name = 'Single Purchase';
 
 	public function getData() {
 		// define $markup to store all screen output
@@ -78,7 +78,7 @@ class PhysicalPreorder extends ElementBase {
 				//$this->element_data['error_message'] = $this->options['message_error'];
 				$this->element_data['error_message'] = print_r($this->original_response,true);
 			}
-		} elseif (isset($_POST['physicalpreorder1'])) {
+		} elseif (isset($_POST['singlepurchase1'])) {
 			$total_price = $item['price'];
 			if (isset($_POST['total_price'])) {
 				$total_price = $_POST['total_price'];
