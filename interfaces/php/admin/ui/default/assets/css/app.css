@@ -847,7 +847,8 @@ color:#f5f5f5!important;
 }
 
 .drawerhandle{
-	background:#222;
+	border:solid 1px #ccc;
+	background:#efefef;
 	width:100%;
 	margin:0 0 1% 0;
 	padding:2%;
@@ -864,15 +865,19 @@ color:#f5f5f5!important;
 .drawerhandle:hover{
 	cursor:pointer;
 	background:#00cf7f;
+	border:solid 1px #ccc!important;
 }
 
+.usecolor2 .drawerhandle:hover {background:#fa3838;}
+.usecolor3 .drawerhandle:hover {background:#ff7c12;}
+.usecolor4 .drawerhandle:hover {background:#6a38fa;}
+.usecolor5 .drawerhandle:hover {background:#fa3866;}
+
 .drawerhandle .icon{
-	color:#f5f5f5!important;
 	padding:0 20px 0 0;
 }
 
 .drawercontent{
-	background:#fff;
 	padding:5%;
 	margin:0;
 }
