@@ -28,6 +28,7 @@ if (AdminHelper::elementFormSubmitted($_POST)) {
 			'message_privacy' => $_POST['message_privacy'],
 			'message_success' => $_POST['message_success'],
 			'button_text' => $_POST['button_text'],
+			'placeholder_text' => $_POST['placeholder_text'],
 			'email_list_id' => $_POST['email_list_id'],
 			'asset_id' => $_POST['asset_id'],
 			'comment_or_radio' => 0,
@@ -49,6 +50,9 @@ if ($current_element) {
 	$cash_admin->page_data['options_message_privacy'] = $current_element['options']['message_privacy'];
 	if (isset($current_element['options']['button_text'])) {
 		$cash_admin->page_data['options_button_text'] = $current_element['options']['button_text'];
+	}
+	if (isset($current_element['options']['placeholder_text'])) {
+		$cash_admin->page_data['options_placeholder_text'] = $current_element['options']['placeholder_text'];
 	}
 	$cash_admin->page_data['options_do_not_verify'] = $current_element['options']['do_not_verify'];
 	$cash_admin->page_data['options_people_lists'] = AdminHelper::echoFormOptions('people_lists',$current_element['options']['email_list_id'],false,true);
