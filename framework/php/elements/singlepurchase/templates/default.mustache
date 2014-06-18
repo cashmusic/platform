@@ -10,7 +10,7 @@
 	{{#item_flexible_price}}
 		<input type="text" name="total_price" class="cashmusic_narrow" value="{{item_price}}" />
 	{{/item_flexible_price}}
-	<input type="submit" value="{{^item_flexible_price}}${{item_price}} - {{/item_flexible_price}}{{metadata_copy_buy}}" class="button" /><br />
+	<input type="submit" value="{{^item_flexible_price}}{{currency}}{{item_price}} - {{/item_flexible_price}}{{metadata_copy_buy}}" class="button" /><br />
 	</form>
 {{/is_available}}
 
