@@ -335,6 +335,7 @@ small{
 	left:0%;
 	z-index:5000;
 	opacity:0;
+	visibility:hidden;
 }
 
 #ld img{
@@ -354,6 +355,7 @@ small{
 
 #ajaxloading.loading, #ld.loading{
 	opacity:0.7;
+	visibility:visible;
 }
 
 /* Layout */

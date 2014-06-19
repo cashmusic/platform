@@ -21,12 +21,13 @@
 	<h1 id="logo"><a href="/"><img src="/docs/assets/images/invert_logo.png" alt="CASH Music"></a></h1>
 
 		<ul>
-			<li><a href="/"><i class="icon icon-certificate"></i>Home</a></li>
-			<li><a href="/interfaces/php/admin/"><i class="icon icon-pencil"></i>Login</a></li>
-			<li><a href="/docs/"><i class="icon icon-book"></i>Docs</a></li>
-			<li><a href="/tools/"><i class="icon icon-cog"></i>Tools</a></li>
+			<li><a href="/tools/"><i class="icon icon-cog"></i><span>Tools</span></a></li>
+			<li><a href="/docs/"><i class="icon icon-book"></i><span>Docs</span></a></li>
+			<li><a href="/interfaces/php/admin/"><i class="icon icon-pencil"></i><span>Login</span></a></li>
+			<li><a href="/"><i class="icon icon-certificate"></i><span>Home</span></a></li>
 		</ul>
 </div>
+
 	<div id="mainspc" class="log">
 
 		<div class="row">
