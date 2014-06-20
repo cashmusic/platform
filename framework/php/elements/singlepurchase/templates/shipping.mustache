@@ -1,0 +1,155 @@
+{{#error_message}}<div class="cash_error cash_{{element_type}}_error">{{error_message}}</div>{{/error_message}}
+
+<style type="text/css">
+.cashmusic-sp-actions {
+	position:relative;
+	z-index:100;
+}
+#cashmusic-sp-overlay {
+	display:none;
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	z-index:500;
+}
+.cashmusic-sp-loading {
+	position:absolute;
+	top:50%;
+	left:50%;
+	margin-top:-12px;
+	margin-left:-12px;
+	background-color:transparent;
+	border-bottom: 3px solid #ccc;
+	border-left: 3px solid #ccc;
+	border-right: 3px solid #666;
+	border-top: 3px solid #666;
+	border-radius: 100%;
+	height: 24px;
+	width: 24px;
+	-webkit-animation: spin .9s infinite linear;
+	-moz-animation: spin .9s infinite linear;
+	-ms-animation: spin .9s infinite linear;
+	-o-animation: spin .9s infinite linear;
+	animation: spin .9s infinite linear;
+}
+@keyframes "spin" {
+	from {
+		-webkit-transform: rotate(0deg);
+		-moz-transform: rotate(0deg);
+		-o-transform: rotate(0deg);
+		-ms-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	to {
+		-webkit-transform: rotate(359deg);
+		-moz-transform: rotate(359deg);
+		-o-transform: rotate(359deg);
+		-ms-transform: rotate(359deg);
+		transform: rotate(359deg);}
+}
+@-moz-keyframes spin {
+	from {-moz-transform: rotate(0deg);transform: rotate(0deg);}
+	to {-moz-transform: rotate(359deg);transform: rotate(359deg);}
+}
+@-webkit-keyframes "spin" {
+	from {-webkit-transform: rotate(0deg);transform: rotate(0deg);}
+	to {-webkit-transform: rotate(359deg);transform: rotate(359deg);}
+}
+@-ms-keyframes "spin" {
+	from {-ms-transform: rotate(0deg);transform: rotate(0deg);}
+	to {-ms-transform: rotate(359deg);transform: rotate(359deg);}
+}
+@-o-keyframes "spin" {
+	from {-o-transform: rotate(0deg);transform: rotate(0deg);}
+	to {-o-transform: rotate(359deg);transform: rotate(359deg);}
+}
+</style>
+
+<span class="cash_singlepurchase_shippingmessage">Please choose a shipping option:</span>
+
+<form id="cash_{{element_type}}_form_{{element_id}}" class="cash_form {{element_type}}" method="post" action="">
+<input type="hidden" name="cash_request_type" value="commerce" />
+<input type="hidden" name="cash_action" value="initiatecheckout" />
+<input type="hidden" name="element_id" value="{{element_id}}" />
+<input type="hidden" name="item_id" value="{{item_id}}" />
+<input type="hidden" name="connection_id" value="{{connection_id}}" />
+<input type="hidden" name="user_id" value="{{user_id}}" />
+<input type="hidden" name="total_price" value="{{total_price}}" />
+
+	<div class="cashmusic-sp-actions">
+		<div class="cashmusic-sp-actions" id="actionspc">
+			<input type="button" id="shipping1" data-shiping="{{region1_cost}}" value="{{region1_name}} - {{currency}}{{region1_cost}}" class="button" />
+			<input type="button" id="shipping2" data-shiping="{{region2_cost}}" value="{{region2_name}} - {{currency}}{{region2_cost}}" class="button" />
+		</div>
+		<div id="cashmusic-sp-overlay">
+			<div class="cashmusic-sp-loading"></div>
+		</div>
+	</div>
+</form>
+
+<script type="text/javascript">
+	(function() {
+		var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
+		var original_price = elementForm.elements['total_price'].value;
+
+		if (window.cashmusic) {
+			if (window.cashmusic.getXHR() && self!=top) {
+				var handleSubmit = function(e) {
+					if (e && e.preventDefault) {
+						e.preventDefault();
+					} else if (window.event && window.event.returnValue) {
+						window.eventReturnValue = false;
+					}
+
+					document.getElementById('actionspc').style.opacity='0.4';
+					document.getElementById('cashmusic-sp-overlay').style.display='block';
+
+					submitUrl = '{{www_url}}request/payload';
+					var ruo = document.createElement("input");
+					ruo.setAttribute("type", "hidden");
+					ruo.setAttribute("name", "return_url_only");
+					ruo.setAttribute("value", "1");
+					elementForm.appendChild(ruo);
+	
+					window.cashmusic.sendXHR(
+						submitUrl,
+						window.cashmusic.encodeForm(elementForm),
+						function(thereply) {
+							if (thereply.substring(0,4) == 'http') {
+								top.location.href = thereply;
+							}
+						}
+					);
+				};
+
+				if (window.addEventListener) {
+					elementForm.addEventListener('submit', handleSubmit, false);
+				} else if (window.attachEvent) {
+					elementForm.attachEvent('onsubmit', handleSubmit);
+				}
+			}
+		}
+
+		var computeTotal = function(e) {
+			var target = e.target ? e.target : e.srcElement;
+			elementForm.elements['total_price'].value = 
+				parseFloat(original_price) + parseFloat(e.target.getAttribute('data-shiping')
+			);
+			if (self!=top) {
+				handleSubmit(false);
+			} else {
+				elementForm.submit();
+			}
+		}
+
+		if (window.addEventListener) {
+			document.getElementById('shipping1').addEventListener('click', computeTotal, false);
+			document.getElementById('shipping2').addEventListener('click', computeTotal, false);
+		} else if (window.attachEvent) {
+			document.getElementById('shipping1').attachEvent('onclick', computeTotal);
+			document.getElementById('shipping2').attachEvent('onclick', computeTotal);
+		}
+	})();
+</script>

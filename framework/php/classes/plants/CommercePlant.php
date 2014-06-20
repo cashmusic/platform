@@ -361,35 +361,135 @@ class CommercePlant extends PlantBase {
 		return $result;
 	}
 
-	protected function getOrdersForUser($user_id,$include_abandoned=false,$max_returned=false,$since_date=0) {
+	protected function parseTransactionData($connection_type,$data_sent=false,$data_returned=false) {
+		if ($connection_type == 'com.paypal') {
+			$data_sent = json_decode($data_sent,true);
+			if ($data_sent) {
+				$return_array = array(
+					'transaction_description' => $data_sent['PAYMENTREQUEST_0_DESC'],
+					'customer_email' => $data_sent['EMAIL'],
+					'customer_first_name' => $data_sent['FIRSTNAME'],
+					'customer_last_name' => $data_sent['LASTNAME']
+				);
+				
+				// this is ugly, but the if statements normalize Paypal's love of omitting empty data
+
+				if (isset($data_sent['PAYMENTREQUEST_0_SHIPTONAME'])) {
+					$return_array['customer_shipping_name'] = $data_sent['PAYMENTREQUEST_0_SHIPTONAME'];
+				} else {
+					$return_array['customer_shipping_name'] = '';
+				}
+				if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOSTREET'])) {
+					$return_array['customer_address1'] = $data_sent['PAYMENTREQUEST_0_SHIPTOSTREET'];
+				} else {
+					$return_array['customer_address1'] = '';
+				}
+				if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOSTREET2'])) {
+					$return_array['customer_address2'] = $data_sent['PAYMENTREQUEST_0_SHIPTOSTREET2'];
+				} else {
+					$return_array['customer_address2'] = '';
+				}
+				if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOCITY'])) {
+					$return_array['customer_city'] = $data_sent['PAYMENTREQUEST_0_SHIPTOCITY'];
+				} else {
+					$return_array['customer_city'] = '';
+				}
+				if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOSTATE'])) {
+					$return_array['customer_region'] = $data_sent['PAYMENTREQUEST_0_SHIPTOSTATE'];
+				} else {
+					$return_array['customer_region'] = '';
+				}
+				if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOZIP'])) {
+					$return_array['customer_postalcode'] = $data_sent['PAYMENTREQUEST_0_SHIPTOZIP'];
+				} else {
+					$return_array['customer_postalcode'] = '';
+				}
+				if (isset($data_sent['SHIPTOCOUNTRYNAME'])) {
+					$return_array['customer_country'] = $data_sent['SHIPTOCOUNTRYNAME'];
+				} else {
+					$return_array['customer_country'] = '';
+				}
+				if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE'])) {
+					$return_array['customer_countrycode'] = $data_sent['PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE'];
+				} else {
+					$return_array['customer_countrycode'] = '';
+				}
+				if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOPHONENUM'])) {
+					$return_array['customer_phone'] = $data_sent['PAYMENTREQUEST_0_SHIPTOPHONENUM'];
+				} else {
+					$return_array['customer_phone'] = '';
+				}
+				return $return_array;
+			} else {
+				return false;
+			}
+		}
+		return false;
+	}
+
+	protected function getOrdersForUser($user_id,$include_abandoned=false,$max_returned=false,$since_date=0,$unfulfilled_only=0,$deep=false) {
 		if ($max_returned) {
 			$limit = '0, ' . $max_returned;
 		} else {
 			$limit = false;
 		}
-		$conditions = array(
-			"user_id" => array(
-				"condition" => "=",
-				"value" => $user_id
-			),
-			"creation_date" => array(
-				"condition" => ">",
-				"value" => $since_date
-			)
-		);
-		if (!$include_abandoned) {
-			$conditions['modification_date'] = array(
-				"condition" => ">",
-				"value" => 0
+		if ($deep) {
+			$result = $this->db->getData(
+				'CommercePlant_getOrders_deep',
+				false,
+				array(
+					"user_id" => array(
+						"condition" => "=",
+						"value" => $user_id
+					),
+					"unfulfilled_only" => array(
+						"condition" => "=",
+						"value" => $unfulfilled_only
+					)
+				)
+			);
+			if ($result) {
+				// loop through and parse all transactions
+				if (is_array($result)) {
+					foreach ($result as &$order) {
+						$transaction_data = $this->parseTransactionData($order['connection_type'],$order['data_sent']);
+						if (is_array($transaction_data)) {
+							$order = array_merge($order,$transaction_data);
+						}
+					}
+				}
+			}
+		} else {
+			$conditions = array(
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				),
+				"creation_date" => array(
+					"condition" => ">",
+					"value" => $since_date
+				)
+			);
+			if ($unfulfilled_only) {
+				$conditions['fulfilled'] = array(
+					"condition" => "=",
+					"value" => 0
+				);
+			}
+			if (!$include_abandoned) {
+				$conditions['modification_date'] = array(
+					"condition" => ">",
+					"value" => 0
+				);
+			}
+			$result = $this->db->getData(
+				'orders',
+				'*',
+				$conditions,
+				$limit,
+				'id DESC'
 			);
 		}
-		$result = $this->db->getData(
-			'orders',
-			'*',
-			$conditions,
-			$limit,
-			'id DESC'
-		);
 		return $result;
 	}
 
@@ -681,7 +781,7 @@ class CommercePlant extends PlantBase {
 									
 									// deal with physical quantities
 									if ($order_details['physical'] == 1) {
-										$order_items = json_decode($order_details['order_contents']);
+										$order_items = json_decode($order_details['order_contents'],true);
 										if (is_array($order_items)) {
 											foreach ($order_items as $i) {
 												if ($i['available_units'] > 0 && $i['physical_fulfillment'] == 1) {
