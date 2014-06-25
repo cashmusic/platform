@@ -14,11 +14,14 @@ html,body{
 	width:100%;
 }
 
+body{
+	height:100%;
+}
+
 .cashmusic_embed, iframe{
 	overflow:hidden;
 	padding:0;
 	margin:0;
-	background:#000;
 	width:100%;
 }
 
@@ -202,25 +205,27 @@ input[type=submit]:hover, .button:hover{
 }
 
 #card .back {
-	background:#e6e6e6;
-	color:#222;
-  	background:rgba(230,230,230,0.97);
+	background:#000;
+  	background:rgba(0,0,0,0.97);
   	-webkit-transform: rotateY( 180deg );
   	transform: rotateY( 180deg );
-  	background-image: url('/interfaces/php/admin/ui/default/assets/images/paint_low.png');
+  	text-align: center;
+  	/*background-image: url('/interfaces/php/admin/ui/default/assets/images/dirt.png');*/
   	background-position: center;
 }
 
 #card .back h2{
-	padding:0 5%;
+	padding:0;
 	font-size: 2.5em;
+	font-weight: normal;
 	margin-bottom:1em;
 }
 
-#card .back p{
-	padding:5%;
-	font-size: 20px;
+#card .back p, #card .back ul{
+	padding:0;
+	font-size: 14px;
 }
+
 
 #card.flipped {
   	-webkit-transform: rotateY( 180deg );
@@ -267,7 +272,7 @@ input[type=submit]:hover, .button:hover{
 
 .membersarea input[type=submit], .button{
 	margin:0 auto;
-	width:50%;
+	width:100%;
 }
 
 /* Secure Download */
@@ -277,9 +282,12 @@ input[type=submit]:hover, .button:hover{
 	width:90%;
 }
 
-.securedownload input[type=submit], .button{
-	width:auto;
+.securedownload input[type=submit], .securedownload .button{
+	width:50%;
 	float:right;
+	position:absolute;
+	bottom:8%;
+	right:2%;
 }
 
 .securedownload #browserid_login_link_6{
@@ -354,7 +362,7 @@ input[type=submit]:hover, .button:hover{
 @media screen and (min-width: 535px){ /* -- Vertical Tablet -- */
 	#mainspc{
 		padding:3%;
-		width:90%;
+		width:100%;
 	}
 	
 	/* Digital Purchase */
@@ -362,7 +370,7 @@ input[type=submit]:hover, .button:hover{
 		width:40%;
 	}
 
-	.digitalpurchase  input[type=submit], .digitalpurchase  .button{
+	.digitalpurchase  input[type=submit], .digitalpurchase .button{
 		padding:7%;
 	}
 
@@ -383,9 +391,10 @@ input[type=submit]:hover, .button:hover{
 		width:75%;
 		padding:2%;
 	}
+
 	input[type=submit], .button{
 		width:auto;
-		padding:2.2% 3%;
+		padding:2% 3%;
 		margin:0;
 	}
 
@@ -404,6 +413,15 @@ input[type=submit]:hover, .button:hover{
 		width:30%;
 		height:280px;
 		margin:0 2% 0 0;
+	}
+
+	/* Email Collection */
+	.emailcollection input{
+		width:77.5%;
+	}
+
+	.emailcollection  input[type=submit], .emailcollection  .button{
+		width:auto;
 	}
 
 	/* Members Area */

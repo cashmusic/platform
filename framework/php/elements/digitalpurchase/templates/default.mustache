@@ -52,7 +52,7 @@ $( document ).ready(function() {
 
 <script type="text/javascript">
 	(function() {
-
+		if (window.cashmusic) {
 			if (window.cashmusic.getXHR() && self!=top) {
 				var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
 
