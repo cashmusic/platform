@@ -1,111 +1,61 @@
-/* Inherited */
+/*************************************************** 
+ *
+ *  CASH Music - Embedded Elements Styles
+ *
+ ***************************************************/
 
-
-/*
-
-	html, body {margin:0;padding:0;}
-	body {font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.5em;background:transparent;color:#231F20;}
-	a {color:#222;font-weight:bold;text-decoration:none;}
-	a:hover {color:#179de6;}
-
-
-	#mainspc {margin:0 auto;padding:0;max-width:800px;}
-	.clearall,.cashmusic_clearall {height:1px;overflow:hidden;visibility:hidden;clear:both;}
-
-
-	.cash_notation {font-size:10px;color:#777;margin-top:8px;}
-	.cash_error {font-weight:bold;background-color:#ff0;margin-bottom:15px;}
-	.cash_digitalpurchase_itemname {display:block;font-size:2.5em;line-height:1.125em;font-weight:bold;}
-	.cash_digitalpurchase_itemprice {display:block;font-size:1.5em;line-height:1.125em;}
-	.cash_digitalpurchase_itemdescription {display:block;margin-bottom:1.5em;}
-	.cashmusic_social {position:relative;margin:10px 15px 20px 15px;padding:15px;background-color:#fff;border-top-left-radius:5px 5px;border-top-right-radius:5px 5px;border-bottom-right-radius:5px 5px;border-bottom-left-radius:5px 5px;}
-	.cashmusic_social a {color:#cdcdcd;font-weight:normal;}
-	.cashmusic_twitter {font:14.5px/1.75em georgia,'times new roman',times,serif;}
-	.cashmusic_twitter_avatar {float:left;margin:1px 8px 8px 0;}
-	.cashmusic_twitter_namespc {color:#ccc;font:11px/1.5em helvetica,"helvetica neue",arial,sans-serif;}
-	.cashmusic_twitter_namespc a {color:#007e3d;font:bold 15px/1.85em helvetica,"helvetica neue",arial,sans-serif;}
-	.cashmusic_twitter a {color:#007e3d;}
-	.cashmusic_social_date {margin-top:10px;color:#cdcdcd;font:11px/1.75em helvetica,"helvetica neue",arial,sans-serif;}
-	.cashmusic_social_date a {color:#ccc;}
-	.cashmusic_video_container {position:relative;padding-bottom:56.25%;padding-top:30px;height:0;overflow:hidden;}
-	.cashmusic_video_container iframe, .cashmusic_video_container object, .cashmusic_video_container embed {position:absolute;top:0;left:0;width:100%;height:100%;}
-	.cash_tourdates_event {margin-bottom:18px;}
-	.cash_tourdates_date {font-weight:bold;}
-	.cash_tourdates_comments {display:block;color:#999;}
-	.cash_browserid_button {width:80px;height:28px;position:relative;top:10px;}
-	.cashmusic_narrow {width:auto !important;}
-
-	input,textarea,select {font:italic 14px/1.25em georgia, times, serif !important;border:1px solid #dddddf;width:100%;padding:8px;margin-bottom:6px;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;vertical-align:top;}
-	input:active, input:focus, textarea:focus {outline:0;border:1px solid #888;}
-	input[type="submit"] {background-color:#231F20;padding:8px 18px 8px 18px !important;font:bold 14px/1.25em helvetica,"segoe ui","segoe wp",arial,sans-serif !important;cursor:pointer;width:auto !important;border:1px solid transparent;color:#fff;-webkit-transition: all 0.25s ease-in-out;-moz-transition: all 0.25s ease-in-out;-o-transition: all 0.25s ease-in-out;transition: all 0.25s ease-in-out;}
-	input[type="submit"]:hover {background-color:#ff0;border-color:#ff0;color:#111;}
-	input[type="checkbox"],input[type="radio"]  {width:auto;}
-	label {font-size:0.85em;text-transform:uppercase;color:#999;}
-
-	@media all and (min-width: 481px) {
-		#mainspc {padding:40px 0 0 0;}
-}
-
-*/
+/* General */
 
 html,body{
 	overflow:hidden;
 	font: 400 18px/20px 'Montserrat',Helvetica,Arial,sans-serif;
+	margin:0;
+	padding:0;
+	width:100%;
+}
+
+.cashmusic_embed, iframe{
+	overflow:hidden;
+	padding:0;
+	margin:0;
+	background:#000;
+	width:100%;
+}
+
+.cashmusic{
+	margin:0 auto 5px auto;
 }
 
 #mainspc{
-	padding:1%;
+	padding:5%;
+	margin:0;
 	overflow:auto;
-	background:rgba(0,0,0,0.8);
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
+	width:90%;
+	height:100%;
+	background:rgba(0,0,0,0.9);
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 	color:#fff;
 }
 
-input{
-	width:75%;
-	float:left;
-	padding:2%;	
+a{
+
+	background:#00cf7f;
+	color:#222;
+	border-radius: 3px;
+	padding:1% 2%;
+	text-decoration: none;
+}
+
+ul{
+	list-style-type: none;
 	margin:0;
-	border:none;
-	background:#222;
-	color:#fff;
-	font: 400 18px/20px 'Montserrat',Helvetica,Arial,sans-serif;
+	padding:0;
 }
 
-input[type=submit]{
-	width:20%;
-	text-align: center;
-	float:right;
-	padding:2.2%;
-	margin:0;
-	display:block;
-	border:none;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-}
-
-
-.cash_notation{
-	font-size: 16px;
-	padding:1% 0;
-	text-align: left;
-}
-
-
-/* Digital Purchase */
-
-.cash_digitalpurchase_itemname{
-	font:400 30px/40px 'Montserrat',Helvetica,Arial,sans-serif;
-	width:100%;
-	display:block;
-	margin:0 0 30px 0;
-}
-
-.cash_digitalpurchase_itemdescription{
-	font-size: 16px;
+h1{
+	line-height: 35px;
 }
 
 label{
@@ -113,3 +63,372 @@ label{
 	text-indent: -5000em;
 }
 
+input{
+	width:90%;
+	padding:5%;
+	float:left;	
+	margin:0;
+	border:none;
+	background:#222;
+	background:rgba(34,34,34,0.9);
+	color:#fff;
+	font: 400 18px/20px 'Montserrat',Helvetica,Arial,sans-serif;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition:0.3s ease-in-out;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+::-webkit-input-placeholder{color:#eee;}
+placeholder{color:#eee;}
+::-webkit-input-placeholder:focus{color:#111;}
+placeholder:focus{color:#eee;}
+
+input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, textarea:focus{
+	background:#00cf7f;
+	color:#000;
+	outline: none;
+}
+
+input[type=submit], .button{
+	padding:5%;
+	width:100%;
+	text-align: center;
+	float:right;
+	margin:2% 0;
+	background:#00cf7f;
+	color:#222;
+	display:block;
+	border:none;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	text-transform: capitalize;
+}
+
+input[type=submit]:hover, .button:hover{
+	background:#000;
+	color:#fff;
+	cursor: pointer;
+	outline: none;
+}
+
+.cashmusic_clearall{
+	display:none;
+}
+
+/* Errors */
+
+.cash_error{
+	text-align: center;
+	padding:1% 0;
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	background:#ff3232;
+	color:#f5f5f5;
+	font-weight: 400;
+}
+
+/* Notations */
+
+.cash_notation{
+	font-size: 16px;
+	padding:5% 0 0 0;
+	display:block;
+	color:#333;
+	text-align: left;
+}
+
+.cash_divider_text{
+	color:#333;
+}
+
+/* Release Flip */
+.packshot { 
+ 	width: 280px;
+ 	width:100%;
+  	height:280px;
+  	display:block;
+  	position: relative;
+  	perspective: 1100px;
+  	-webkit-perspective: 1100px;
+  	margin:0 0 5% 0;
+  	float:left;
+  	background:rgba(34,34,34,0.5);
+}
+
+.packshot:hover{
+	cursor:pointer;
+} 
+
+#card {
+  	width: 100%;
+  	height: 100%;
+  	position: absolute;
+  	-webkit-transition: -webkit-transform 1s;
+	transition: transform 1s;
+  	-webkit-transform-style: preserve-3d;
+  	transform-style: preserve-3d;
+}
+
+#card .front, #card .back {
+	margin:0;
+  	display: block;
+  	position: absolute;
+  	width: 100%;
+  	height: 100%;
+  	backface-visibility: hidden;
+  	-webkit-backface-visibility: hidden; 
+}
+
+#card .front a{
+	display:block;
+	overflow:auto;
+	background:none;
+}
+
+#card .front{
+	overflow:hidden;
+	background-image: url('/interfaces/php/admin/assets/images/packshot.jpg');
+	background-position: center;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+#card .back {
+	background:#e6e6e6;
+	color:#222;
+  	background:rgba(230,230,230,0.97);
+  	-webkit-transform: rotateY( 180deg );
+  	transform: rotateY( 180deg );
+  	background-image: url('/interfaces/php/admin/ui/default/assets/images/paint_low.png');
+  	background-position: center;
+}
+
+#card .back h2{
+	padding:0 5%;
+	font-size: 2.5em;
+	margin-bottom:1em;
+}
+
+#card .back p{
+	padding:5%;
+	font-size: 20px;
+}
+
+#card.flipped {
+  	-webkit-transform: rotateY( 180deg );
+  	transform: rotateY( 180deg );
+}
+
+
+/* Social Feeds */
+
+.socialfeeds{
+	text-align: center;
+	margin:0;
+	padding:0;
+	width:100%;
+	height:100%;
+}
+
+.socialfeeds iframe{
+	width:90%;
+	height:450px;
+	margin:0 auto;
+	padding:5%;
+}
+
+.socialfeeds img{
+	width:90%;
+	margin:0 auto;
+	padding:5%;
+}
+
+
+/* Email Collection */
+
+.emailcollection .description{
+
+}
+
+/* Members Area */
+
+.membersarea input{
+	margin:0 0 1% 0;
+	width:90%;
+}
+
+.membersarea input[type=submit], .button{
+	margin:0 auto;
+	width:50%;
+}
+
+/* Secure Download */
+
+.securedownload input{
+	margin:0 0 1% 0;
+	width:90%;
+}
+
+.securedownload input[type=submit], .button{
+	width:auto;
+	float:right;
+}
+
+.securedownload #browserid_login_link_6{
+	background:none;
+	-webkit-filter: invert(100%);
+	filter: invert(100%);
+	float:left;
+	opacity:0.5;
+	padding:5% 0 0 3%;
+}
+
+
+.securedownload .cash_divider_text{
+	clear:left;
+	padding:6% 0 0 2%;
+	float:left;
+}
+
+/* Digital Purchase */
+
+.digitalpurchase{
+		height:100%;
+}
+
+.digitalpurchase .info{
+	height:100%;
+	width:100%;
+	overflow:auto;
+	float:left;
+	position:relative;
+}
+
+.digitalpurchase img{
+	width:100%;
+	height:100%;
+	float:left;
+	padding:0;
+}
+
+.digitalpurchase .cash_digitalpurchase_itemname{
+	font:400 40px/40px 'Montserrat',Helvetica,Arial,sans-serif;
+	width:100%;
+	display:block;
+	margin:0 0 30px 0;
+}
+
+.digitalpurchase .cash_digitalpurchase_itemprice{
+	font-size: 35px;
+	color:#333;
+	margin:0 0 8% 0;
+	display:block;
+}
+
+.digitalpurchase .cash_digitalpurchase_itemdescription{
+	font-size: 14px;
+	font-weight: 400;
+	margin:0 0 5% 0;
+	display:block;
+}
+
+.digitalpurchase .cashmusic_narrow{
+	width:40%;
+}
+
+
+.digitalpurchase input[type=submit], .digitalpurchase .button{
+	float:left;
+}
+
+/* Media Queries */
+
+@media screen and (min-width: 535px){ /* -- Vertical Tablet -- */
+	#mainspc{
+		padding:3%;
+		width:90%;
+	}
+	
+	/* Digital Purchase */
+	.digitalpurchase .info{
+		width:40%;
+	}
+
+	.digitalpurchase  input[type=submit], .digitalpurchase  .button{
+		padding:7%;
+	}
+
+	.packshot{
+		width:55%;
+		height:320px;
+		margin:0 5% 0 0;
+	}
+}
+
+@media screen and (min-width: 900px){ /* -- Horizontal Tablet -- */
+	#mainspc{
+		padding:2%;
+		width:96%;
+	}
+
+	input{
+		width:75%;
+		padding:2%;
+	}
+	input[type=submit], .button{
+		width:auto;
+		padding:2.2% 3%;
+		margin:0;
+	}
+
+	/* Digital Purchase */
+	.digitalpurchase .info{
+		width:68%;
+	}
+
+	.digitalpurchase  input[type=submit], .digitalpurchase  .button{
+		width:100%;
+		padding:5%;
+	}
+
+	/* Release Flip */
+	.packshot{
+		width:30%;
+		height:280px;
+		margin:0 2% 0 0;
+	}
+
+	/* Members Area */
+	.membersarea input{
+		margin:0 0 1% 0;
+		width:96%;
+	}
+
+	/* Secure Download Area */
+	.securedownload input{
+	margin:0 0 1% 0;
+	width:96%;
+
+}
+
+@media screen and (min-width: 900px) {  /* -- Wide -- */
+	/* Digital Purchase */
+	.digitalpurchase .info{
+		width:50%;
+	}
+
+	/* Release Flip */
+	.packshot{
+		width:48%;
+		height:320px;
+		margin:0 2% 0 0;
+	}
+}	
