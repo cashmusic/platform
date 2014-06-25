@@ -1,0 +1,2 @@
+#cashmusic_embed_overlay {position:fixed;overflow:hidden;top:0;left:0;width:100%;height:100%;background-color:rgba(20,20,20,0.85);z-index:654321;}
+#cashmusic_overlay_content {position:absolute;top:15%;left:20%;width:60%;z-index:10;}
