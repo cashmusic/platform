@@ -35,11 +35,17 @@ body{
 	overflow:auto;
 	width:90%;
 	height:100%;
+	background:#000;
 	background:rgba(0,0,0,0.9);
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	color:#fff;
+}
+
+.light #mainspc{
+	background:rgba(255,255,255,0.9);
+	color:#222;
 }
 
 a{
@@ -100,7 +106,7 @@ input[type=submit], .button{
 	width:100%;
 	text-align: center;
 	float:right;
-	margin:2% 0;
+	margin:2% 0 0 0;
 	background:#00cf7f;
 	color:#222;
 	display:block;
@@ -128,7 +134,7 @@ input[type=submit]:hover, .button:hover{
 	text-align: center;
 	padding:1% 0;
 	position:absolute;
-	top:0;
+	bottom:0;
 	left:0;
 	width:100%;
 	background:#ff3232;
@@ -141,6 +147,7 @@ input[type=submit]:hover, .button:hover{
 .cash_notation{
 	font-size: 16px;
 	padding:5% 0 0 0;
+	clear:both;
 	display:block;
 	color:#333;
 	text-align: left;
@@ -285,9 +292,7 @@ input[type=submit]:hover, .button:hover{
 .securedownload input[type=submit], .securedownload .button{
 	width:50%;
 	float:right;
-	position:absolute;
-	bottom:8%;
-	right:2%;
+	margin:0;
 }
 
 .securedownload #browserid_login_link_6{
@@ -305,6 +310,8 @@ input[type=submit]:hover, .button:hover{
 	padding:6% 0 0 2%;
 	float:left;
 }
+
+/* Tour Dates */
 
 /* Digital Purchase */
 
@@ -362,9 +369,9 @@ input[type=submit]:hover, .button:hover{
 @media screen and (min-width: 535px){ /* -- Vertical Tablet -- */
 	#mainspc{
 		padding:3%;
-		width:100%;
+		width:94%;
 	}
-	
+
 	/* Digital Purchase */
 	.digitalpurchase .info{
 		width:40%;
@@ -398,14 +405,8 @@ input[type=submit]:hover, .button:hover{
 		margin:0;
 	}
 
-	/* Digital Purchase */
-	.digitalpurchase .info{
-		width:68%;
-	}
-
-	.digitalpurchase  input[type=submit], .digitalpurchase  .button{
-		width:100%;
-		padding:5%;
+	.cash_notation{
+		padding:100px 0 0 0;
 	}
 
 	/* Release Flip */
@@ -430,10 +431,21 @@ input[type=submit]:hover, .button:hover{
 		width:96%;
 	}
 
+	/* Digital Purchase */
+	.digitalpurchase .info{
+		width:68%;
+	}
+
+	.digitalpurchase  input[type=submit], .digitalpurchase  .button{
+		width:100%;
+		padding:5%;
+	}
+
 	/* Secure Download Area */
 	.securedownload input{
-	margin:0 0 1% 0;
-	width:96%;
+		margin:0 0 1% 0;
+		width:96%;
+	}
 
 }
 
@@ -448,5 +460,9 @@ input[type=submit]:hover, .button:hover{
 		width:48%;
 		height:320px;
 		margin:0 2% 0 0;
+	}
+
+	.cash_notation{
+		padding:1% 0 0 0;
 	}
 }	
