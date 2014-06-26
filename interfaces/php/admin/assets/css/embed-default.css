@@ -30,26 +30,29 @@ body{
 }
 
 #mainspc{
-	padding:5%;
 	margin:0;
+	padding:5%;
 	overflow:auto;
 	width:90%;
 	height:100%;
-	background:#000;
-	background:rgba(0,0,0,0.9);
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	color:#fff;
 }
 
-.light #mainspc{
-	background:rgba(255,255,255,0.9);
+#dark #mainspc{
+	background:#000;
+	background:rgba(0,0,0,0.9);
+	color:#f5f5f5;
+}
+
+#light #mainspc{
+	background:#eee;
+	background:rgba(235,235,235,0.92) url(/interfaces/php/admin/ui/default/assets/images/paint_low.png) 0% 0%;
 	color:#222;
 }
 
 a{
-
 	background:#00cf7f;
 	color:#222;
 	border-radius: 3px;
@@ -90,10 +93,32 @@ input{
 	border-radius: 3px;
 }
 
+#dark input{
+	background:#222;
+	background:rgba(34,34,34,0.9);
+	color:#f5f5f5;
+}
+
+#light input{
+	background:#f5f5f5;
+	background:rgba(245,245,245,0.9);
+	color:#222;
+}
+
 ::-webkit-input-placeholder{color:#eee;}
 placeholder{color:#eee;}
 ::-webkit-input-placeholder:focus{color:#111;}
-placeholder:focus{color:#eee;}
+placeholder:focus{color:#111;}
+
+#dark ::-webkit-input-placeholder{color:#eee;}
+#dark placeholder{color:#eee;}
+#dark ::-webkit-input-placeholder:focus{color:#111;}
+#dark placeholder:focus{color:#111;}
+
+#light ::-webkit-input-placeholder{color:#222;}
+#light placeholder{color:#222;}
+#light ::-webkit-input-placeholder:focus{color:#eee;}
+#light placeholder:focus{color:#eee;}
 
 input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, textarea:focus{
 	background:#00cf7f;
@@ -101,7 +126,18 @@ input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, tex
 	outline: none;
 }
 
-input[type=submit], .button{
+#dark input[type=text]:focus, #dark  input[type=email]:focus,  #dark input[type=password]:focus, #dark textarea:focus{
+	background:#f5f5f5;
+	color:#000;
+}
+
+#light input[type=text]:focus, #light  input[type=email]:focus,  #light input[type=password]:focus, #light textarea:focus{
+	background:#222;
+	color:#f5f5f5;
+}
+
+
+input[type=submit], .button, #dark input[type=submit], #dark .button{
 	padding:5%;
 	width:100%;
 	text-align: center;
@@ -124,6 +160,16 @@ input[type=submit]:hover, .button:hover{
 	outline: none;
 }
 
+#light input[type=submit], #light .button{
+	background:#00cf7f;
+	color:#222;
+}
+
+ #light input[type=submit]:hover, #light .button:hover{
+ 	background:#000;
+	color:#fff;
+}
+
 .cashmusic_clearall{
 	display:none;
 }
@@ -132,14 +178,33 @@ input[type=submit]:hover, .button:hover{
 
 .cash_error{
 	text-align: center;
-	padding:1% 0;
-	position:absolute;
-	bottom:0;
-	left:0;
-	width:100%;
+	padding:1%;
+	margin:0 0 1% 0;
+	width:98%;
+	height:100%;
 	background:#ff3232;
 	color:#f5f5f5;
+	font-size: 16px;
 	font-weight: 400;
+	-webkit-animation: ooops 1.5s; /* Chrome, Safari, Opera */
+    animation: ooops 1.5s;
+    -webkit-animation-iteration-count: 1; /* Safari and Chrome */
+    animation-iteration-count: 1;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes ooops {
+    0%   {opacity:0;}
+    100% {opacity:1;}
+}
+
+/* Standard syntax */
+@keyframes ooops {
+    0%   {opacity:0;}
+    100% {opacity:1;}
 }
 
 /* Notations */
@@ -157,6 +222,12 @@ input[type=submit]:hover, .button:hover{
 	color:#333;
 }
 
+/* Succss */
+
+.cash_success{
+	font-size: 53m;
+}
+
 /* Release Flip */
 .packshot { 
  	width: 280px;
@@ -169,6 +240,10 @@ input[type=submit]:hover, .button:hover{
   	margin:0 0 5% 0;
   	float:left;
   	background:rgba(34,34,34,0.5);
+}
+
+#light .packshot { 
+	background:rgba(255,255,255,0.3);
 }
 
 .packshot:hover{
@@ -201,7 +276,7 @@ input[type=submit]:hover, .button:hover{
 	background:none;
 }
 
-#card .front{
+#card .front, .front{
 	overflow:hidden;
 	background-image: url('/interfaces/php/admin/assets/images/packshot.jpg');
 	background-position: center;
@@ -219,6 +294,11 @@ input[type=submit]:hover, .button:hover{
   	text-align: center;
   	/*background-image: url('/interfaces/php/admin/ui/default/assets/images/dirt.png');*/
   	background-position: center;
+}
+
+#light #card .back{
+	background:#eee;
+  	background:rgba(238,238,238,0.8);
 }
 
 #card .back h2{
@@ -313,6 +393,71 @@ input[type=submit]:hover, .button:hover{
 
 /* Tour Dates */
 
+.tourdates .cash_event{
+	width:90%;
+	display:block;
+	float:left;
+	padding:5%;
+	display:block;
+	overflow:auto;
+	margin:0 0 2px 0;
+}
+
+.tourdates .cash_event:nth-child(odd){
+	background:#111;
+	background:rgba(25,25,25,0.9);
+}
+
+.tourdates .cash_event:nth-child(even){
+	background:#121212;
+	background:rgba(18,18,18,0.9);
+}
+
+#light .tourdates .cash_event:nth-child(odd){
+	background:#f5f5f5;
+	background:rgba(245,245,245,0.9);
+	color:#222;
+}
+
+#light .tourdates .cash_event:nth-child(even){
+	background:#f5f5f5;
+	background:rgba(245,245,245,0.9);
+	color:#222;
+}
+
+
+.tourdates .cash_location{
+	float:left;
+	padding:2% 0 2% 3%;
+}
+
+.tourdates .cash_venue{
+	float:left;
+	padding:2% 3% 2% 0;
+}
+
+.tourdates .cash_date{
+	float:left;
+	padding:2% 0 2% 0;
+}
+
+.tourdates .cash_comments{
+	width:100%;
+	float:left;
+	display:block;
+	color:#333;
+	font-size: 16px;
+	padding:5% 0;
+}
+
+.tourdates .cash_purchase_url{
+	float:right;
+	width:91%;
+	padding:5%;
+	text-align: center;
+}
+
+
 /* Digital Purchase */
 
 .digitalpurchase{
@@ -353,6 +498,7 @@ input[type=submit]:hover, .button:hover{
 	font-weight: 400;
 	margin:0 0 5% 0;
 	display:block;
+	text-align: justify;
 }
 
 .digitalpurchase .cashmusic_narrow{
@@ -364,12 +510,88 @@ input[type=submit]:hover, .button:hover{
 	float:left;
 }
 
+
+
+/* Single Purchase */
+
+.singlepurchase{
+	height:100%;
+}
+
+.singlepurchase .front{
+	height:100%;
+	width:100%;
+	display:block;
+}
+
+.singlepurchase .info{
+	height:100%;
+	width:100%;
+	overflow:hidden;
+	float:left;
+	position:relative;
+}
+
+.singlepurchase img{
+	width:100%;
+	height:100%;
+	float:left;
+	padding:0;
+}
+
+.singlepurchase .cash_singlepurchase_itemname{
+	font:400 40px/40px 'Montserrat',Helvetica,Arial,sans-serif;
+	width:100%;
+	display:block;
+	margin:0 0 30px 0;
+}
+
+.singlepurchase .cash_singlepurchase_itemprice{
+	font-size: 35px;
+	color:#333;
+	margin:0 0 8% 0;
+	display:block;
+}
+
+.singlepurchase .cash_singlepurchase_itemdescription{
+	font-size: 14px;
+	font-weight: 400;
+	margin:0 0 5% 0;
+	display:block;
+	text-align: justify;
+}
+
+.singlepurchase .cashmusic_narrow{
+	width:40%;
+}
+
+
+.singlepurchase input[type=submit], .singlepurchase .button{
+	float:left;
+}
+
+.singlepurchase .cash_singlepurchase_unavailable{
+	padding:0;
+}
+
 /* Media Queries */
 
-@media screen and (min-width: 535px){ /* -- Vertical Tablet -- */
+@media screen and (min-width: 535px){ /* -- Mid / Vertical Tablet -- */
 	#mainspc{
 		padding:3%;
 		width:94%;
+	}
+
+	input{
+		width:67%;
+		padding:3%;
+	}
+
+	input[type=submit], .button{
+		width:24%;
+		padding:3%;
+		margin:0;
+		word-wrap:break-word;
 	}
 
 	/* Digital Purchase */
@@ -379,6 +601,47 @@ input[type=submit]:hover, .button:hover{
 
 	.digitalpurchase  input[type=submit], .digitalpurchase .button{
 		padding:7%;
+		width:100%;
+	}
+
+	/* Tour Dates */
+
+	.tourdates .cash_event{
+		width:94%;
+		padding:3%;
+	}
+
+	.tourdates .cash_location{
+		clear:left;
+		padding:0;
+	}
+
+	.tourdates .cash_venue{
+		padding:0;
+	}
+
+	.tourdates .cash_purchase_url{
+		width:20%;
+		padding:3%;
+	}
+
+	.tourdates .cash_date{
+		padding:0;
+	}
+
+	.tourdates .cash_comments{
+		width:40%;
+		padding:3% 0 0 0;
+		clear:left;
+	}
+
+	/* Single Purchase */
+	.singlepurchase .info{
+		width:40%;
+	}
+
+	.singlepurchase  input[type=submit], .singlepurchase .button{
+		padding:7%;
 	}
 
 	.packshot{
@@ -386,9 +649,12 @@ input[type=submit]:hover, .button:hover{
 		height:320px;
 		margin:0 5% 0 0;
 	}
+
+
 }
 
-@media screen and (min-width: 900px){ /* -- Horizontal Tablet -- */
+
+@media screen and (min-width: 900px){ /* -- Wide / Horizontal Tablet -- */
 	#mainspc{
 		padding:2%;
 		width:96%;
@@ -418,11 +684,11 @@ input[type=submit]:hover, .button:hover{
 
 	/* Email Collection */
 	.emailcollection input{
-		width:77.5%;
+		width:76%;
 	}
 
 	.emailcollection  input[type=submit], .emailcollection  .button{
-		width:auto;
+		width:18%;
 	}
 
 	/* Members Area */
@@ -441,19 +707,47 @@ input[type=submit]:hover, .button:hover{
 		padding:5%;
 	}
 
+	/* Single Purchase */
+	.singleurchase .info{
+		width:68%;
+	}
+
+	.singlepurchase  input[type=submit], .singlepurchase  .button{
+		width:100%;
+		padding:5%;
+	}
+
 	/* Secure Download Area */
 	.securedownload input{
 		margin:0 0 1% 0;
 		width:96%;
 	}
 
-}
+	/* Tour Dates */
+	.tourdates .cash_purchase_url{
+		width:auto;
+		padding:2% 5%;
+	}
 
-@media screen and (min-width: 900px) {  /* -- Wide -- */
+	.tourdates .cash_event{
+		padding:0 0 0 2%;
+		width:98%;
+	}
+	.tourdates .cash_comments{
+		width:47%;
+		padding:2% 0;
+	}
+
 	/* Digital Purchase */
 	.digitalpurchase .info{
 		width:50%;
 	}
+
+	/* Single Purchase */
+	.singlepurchase .info{
+		width:50%;
+	}
+
 
 	/* Release Flip */
 	.packshot{

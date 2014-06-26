@@ -369,7 +369,7 @@ small{
 	-webkit-transition: 1s  ease-in-out;
 	-moz-transition: 1s  ease-in-out;
 	trasition:1s ease-in-out;
-	z-index:40;
+	z-index:3;
 }
 
 #logo a{
