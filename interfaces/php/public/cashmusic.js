@@ -209,6 +209,7 @@
 				var embedURL = endPoint.replace(/\/$/, '') + '/request/embed/' + elementId + '/location/' + encodeURIComponent(window.location.href.replace(/\//g,'!slash!'));
 				var iframe = document.createElement('iframe');
 					iframe.src = embedURL;
+					iframe.className = 'cashmusic embed';
 					iframe.style.width = '100%';
 					iframe.style.height = '0'; // if not explicitly set the scrollheight of the document will be wrong
 					iframe.style.border = '0';
@@ -226,10 +227,9 @@
 				// be nice neighbors. if we can't find currentNode, don't do the rest or pitch errors. silently fail.
 				if (currentNode) {
 					if (lightboxed) {
-						// create a div to contain the link/iframe
+						// create a div to contain the overlay link
 						var embedNode = document.createElement('span');
-						embedNode.className = 'cashmusic embed';
-						embedNode.style.position = 'relative';
+						embedNode.className = 'cashmusic embed link';
 						cm.contentLoaded(function() {
 							// open in a lightbox with a link in the target div
 							if (!lightboxTxt) {lightboxTxt = 'open element';}
@@ -261,12 +261,8 @@
 							});
 						});
 					} else {
-						// create a div to contain the link/iframe
-						var embedNode = document.createElement('div');
-						embedNode.className = 'cashmusic embed';
-						embedNode.style.position = 'relative';
-						embedNode.appendChild(iframe);
-						currentNode.parentNode.insertBefore(embedNode,currentNode);
+						// put the iframe in place
+						currentNode.parentNode.insertBefore(iframe,currentNode);
 					}
 
 					var origin = embedURL.split('/').slice(0,3).join('/');					

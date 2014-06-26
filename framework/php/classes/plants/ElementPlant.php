@@ -342,7 +342,9 @@ class ElementPlant extends PlantBase {
 				$element_object_type = substr_replace($this->elements_array[$element_type], '', -4);
 				$element_object = new $element_object_type($id,$element,$status_uid,$original_request,$original_response);
 				$this->recordAnalytics($id,$access_method,'getmarkup',$location);
-				return $element_object->getMarkup();
+				$markup = $element_object->getMarkup();
+				$markup = '<div class="cashmusic element ' . $element_type . ' id-' . $id . '">' . $markup . '</div>';
+				return $markup;
 			}
 		} else {
 			return false;
