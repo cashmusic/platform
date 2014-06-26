@@ -77,8 +77,6 @@ if (!isset($_REQUEST['nooutput'])) {
 			header('Content-Type: text/html; charset=utf-8');
 			header('P3P: CP="ALL CUR OUR"'); // IE P3P privacy policy fix
 			$template = str_replace('</head>', '<script type="text/javascript" src="' . CASH_PUBLIC_URL . '/cashmusic.js"></script></head>', $template);
-			// used this trick to grab cross-broser document height -> http://james.padolsey.com/javascript/get-document-height-cross-browser/
-			$template = str_replace('</body>', '<script type="text/javascript">(function() {if(self!=top){var d=document;var db=d.body;var de=d.documentElement;var h=0;var s=function() {var hh=Math.max(Math.max(db.scrollHeight,de.scrollHeight),Math.max(db.offsetHeight,de.offsetHeight),Math.max(db.clientHeight,de.clientHeight));if (h!=hh) {window.parent.postMessage("cashmusic_embed_' . $requests[1] . '_" + hh,"*");h=hh;}};s();window.setInterval(s,300);var f=d.getElementsByTagName("form");for (var i=0; i<f.length; i++) {var ee=d.createElement("input");ee.setAttribute("type","hidden");ee.setAttribute("name","embedded_element");ee.setAttribute("value","1");f[i].appendChild(ee);}}}());</script></body>', $template);
 			$encoded_html = $freddiemercury->render($template, $embed_data);
 			echo $encoded_html;
 		} else {
