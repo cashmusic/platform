@@ -554,6 +554,7 @@
 			$('.modalbg').fadeOut('fast', function() {
 				$('.modalbg').remove();
 			});
+			$(document).unbind('scroll',handleModalScroll);
 		});
 
 		// fade/close on escape key
@@ -638,6 +639,17 @@
 		$('.modalbg').fadeIn('fast');
 	}
 
+	var currentScroll = 0;
+	function handleModalScroll () {
+		if ($(document).scrollTop() < currentScroll) {
+			currentScroll = $(document).scrollTop();
+			if (currentScroll < 0) {
+				currentScroll = 0;
+			}
+			$('.modallightbox').css('top',currentScroll+'px');
+		}
+	}
+
 	/**
 	 * doModalLightbox (function)
 	 * opens a modal input form from a specific route
@@ -660,6 +672,12 @@
 			markup.hide();
 			$('body').append(markup);
 			prepDrawers('<i class="icon icon-chevron-sign-up"></i>Hide','<i class="icon icon-chevron-sign-down"></i>Show');
+
+			// fix form position based on current scrolltop:
+			currentScroll = $(document).scrollTop();
+			$('.modallightbox').css('top',currentScroll+'px');
+
+			$(document).bind('scroll',handleModalScroll);
 
 			// show the dialog with a fast fade-in
 			$('.modalbg').fadeIn('fast');
