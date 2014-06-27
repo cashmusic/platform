@@ -18,11 +18,13 @@ RewriteRule ^admin$ admin/ [R]
 # no GET querystring
 RewriteCond %{REQUEST_FILENAME} !-s
 RewriteCond %{REQUEST_FILENAME} !-l
+RewriteCond %{REQUEST_URI} !.*\.(css|jpg|jpeg|gif|png|zip|js)
 RewriteCond %{QUERY_STRING} !(.+)
 RewriteRule (.*) controller.php?p=$1 [L]
 
 # found a GET querystring, rewrite and forward
 RewriteCond %{REQUEST_FILENAME} !-s
 RewriteCond %{REQUEST_FILENAME} !-l
+RewriteCond %{REQUEST_URI} !.*\.(css|jpg|jpeg|gif|png|zip|js)
 RewriteCond %{QUERY_STRING} (.+)
 RewriteRule ([^\?]+) controller.php?p=$1&%1 [L]
