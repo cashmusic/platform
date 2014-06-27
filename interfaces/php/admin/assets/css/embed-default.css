@@ -20,14 +20,15 @@ body{
 }
 
 .cashmusic_embed, iframe{
-	overflow:hidden;
 	padding:0;
 	margin:0;
 	width:100%;
 }
 
 .cashmusic{
-	margin:0 auto 5px auto;
+	margin:0 auto;
+	padding:0;
+	/*margin:0 auto 5px auto;*/
 }
 
 #mainspc{
@@ -363,6 +364,17 @@ input[type=submit]:hover, .button:hover{
 	padding:5%;
 }
 
+.socialfeeds a{
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition:0.3s ease-in-out;
+}
+
+.socialfeeds a:hover{
+	background:#000;
+	color:#f5f5f5;
+}
+
 /* Members Area */
 
 .membersarea input{
@@ -417,6 +429,9 @@ input[type=submit]:hover, .button:hover{
 	overflow:auto;
 	margin:0 0 2px 0;
 	color: #f5f5f5;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
 
 .tourdates .cash_event:nth-child(odd){
@@ -623,7 +638,8 @@ input[type=submit]:hover, .button:hover{
 		width:24%;
 		padding:3%;
 		margin:0;
-		word-wrap:break-word;
+		/*word-wrap:break-word;*/
+		text-align: center;
 	}
 
 	/* Digital Purchase */
