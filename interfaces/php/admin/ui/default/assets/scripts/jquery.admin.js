@@ -651,8 +651,7 @@
 			}
 			// markup for the confirmation link
 			//var modalTop = $(document).scrollTop() + 120;
-			var markup = '<div class="modalbg">&nbsp;</div><div class="modallightbox ' + addedClass +
-						 //data.specialcolor + '" style="top:' + modalTop + 'px;">' +
+			var markup = '<div class="modalbg">&nbsp;</div><div class="modallightbox ' + addedClass + '">' +
 						 data.content + //jQuery.param(data) +
 						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><i class="icon icon-ban-circle"></i>cancel</a></div>' +
 						 '</div></div>';
