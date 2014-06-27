@@ -12,6 +12,7 @@ html,body{
 	margin:0;
 	padding:0;
 	width:100%;
+	color:#222;
 }
 
 body{
@@ -47,8 +48,16 @@ body{
 }
 
 #light #mainspc{
-	background:#eee;
-	background:rgba(235,235,235,0.92) url(/interfaces/php/admin/ui/default/assets/images/paint_low.png) 0% 0%;
+	background:#e0e0e0;
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZTBlMGUwIiBzdG9wLW9wYWNpdHk9IjAuOTUiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2VlZWVlZSIgc3RvcC1vcGFjaXR5PSIwLjk1Ii8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+	background: -moz-linear-gradient(-45deg,  rgba(224,224,224,0.95) 0%, rgba(238,238,238,0.95) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(224,224,224,0.95)), color-stop(100%,rgba(238,238,238,0.95))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(-45deg,  rgba(224,224,224,0.95) 0%,rgba(238,238,238,0.95) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(-45deg,  rgba(224,224,224,0.95) 0%,rgba(238,238,238,0.95) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(-45deg,  rgba(224,224,224,0.95) 0%,rgba(238,238,238,0.95) 100%); /* IE10+ */
+	background: linear-gradient(135deg,  rgba(224,224,224,0.95) 0%,rgba(238,238,238,0.95) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2e0e0e0', endColorstr='#f2eeeeee',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
 	color:#222;
 }
 
@@ -137,7 +146,7 @@ input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, tex
 }
 
 
-input[type=submit], .button, #dark input[type=submit], #dark .button{
+input[type=submit], .button,  #dark input[type=submit], #dark .button{
 	padding:5%;
 	width:100%;
 	text-align: center;
@@ -224,8 +233,28 @@ input[type=submit]:hover, .button:hover{
 
 /* Succss */
 
-.cash_success{
-	font-size: 53m;
+.cash_success h1{
+	margin:0 0 10px 0;
+	padding:0;
+	font-size: 28px;
+	float:left;
+}
+
+.cash_success .download{
+	float:right;
+	padding:2%;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition:0.3s ease-in-out;
+}
+
+.cash_success .download:hover{
+	background:#000;
+	color:#fff;
+}
+
+.cash_success .description{
+	clear:left;
 }
 
 /* Release Flip */
@@ -240,6 +269,9 @@ input[type=submit]:hover, .button:hover{
   	margin:0 0 5% 0;
   	float:left;
   	background:rgba(34,34,34,0.5);
+  	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
 
 #light .packshot { 
@@ -288,12 +320,16 @@ input[type=submit]:hover, .button:hover{
 
 #card .back {
 	background:#000;
-  	background:rgba(0,0,0,0.97);
+  	background:rgba(0,0,0,0.85);
   	-webkit-transform: rotateY( 180deg );
   	transform: rotateY( 180deg );
   	text-align: center;
   	/*background-image: url('/interfaces/php/admin/ui/default/assets/images/dirt.png');*/
   	background-position: center;
+  	color:#eee;
+  	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
 
 #light #card .back{
@@ -343,13 +379,6 @@ input[type=submit]:hover, .button:hover{
 	padding:5%;
 }
 
-
-/* Email Collection */
-
-.emailcollection .description{
-
-}
-
 /* Members Area */
 
 .membersarea input{
@@ -384,6 +413,10 @@ input[type=submit]:hover, .button:hover{
 	padding:5% 0 0 3%;
 }
 
+#light #browserid_login_link_6{
+	-webkit-filter: invert(0%);
+	filter: invert(0%);
+}
 
 .securedownload .cash_divider_text{
 	clear:left;
@@ -401,6 +434,7 @@ input[type=submit]:hover, .button:hover{
 	display:block;
 	overflow:auto;
 	margin:0 0 2px 0;
+	color: #f5f5f5;
 }
 
 .tourdates .cash_event:nth-child(odd){
@@ -413,18 +447,17 @@ input[type=submit]:hover, .button:hover{
 	background:rgba(18,18,18,0.9);
 }
 
-#light .tourdates .cash_event:nth-child(odd){
-	background:#f5f5f5;
-	background:rgba(245,245,245,0.9);
+#light .cash_event:nth-child(odd){
+	background:#eee;
+	background:rgba(238,238,238,0.9);
 	color:#222;
 }
 
-#light .tourdates .cash_event:nth-child(even){
-	background:#f5f5f5;
-	background:rgba(245,245,245,0.9);
+#light  .cash_event:nth-child(even){
+	background:#e1e1e1;
+	background:rgba(225,225,225,0.9);
 	color:#222;
 }
-
 
 .tourdates .cash_location{
 	float:left;
@@ -445,9 +478,17 @@ input[type=submit]:hover, .button:hover{
 	width:100%;
 	float:left;
 	display:block;
-	color:#333;
+	color:#555;
 	font-size: 16px;
 	padding:5% 0;
+}
+
+#dark .cash_comments{
+	color:#444;
+}
+
+#light .cash_comments{
+	color:#cacaca;
 }
 
 .tourdates .cash_purchase_url{
@@ -455,6 +496,16 @@ input[type=submit]:hover, .button:hover{
 	width:91%;
 	padding:5%;
 	text-align: center;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition:0.3s ease-in-out;
+}
+
+.tourdates .cash_purchase_url:hover{
+	background:#000;
+	color:#fff;
+	cursor: pointer;
+	outline: none;
 }
 
 
@@ -509,7 +560,6 @@ input[type=submit]:hover, .button:hover{
 .digitalpurchase input[type=submit], .digitalpurchase .button{
 	float:left;
 }
-
 
 
 /* Single Purchase */
@@ -650,6 +700,26 @@ input[type=submit]:hover, .button:hover{
 		margin:0 5% 0 0;
 	}
 
+	/* Secure Download */
+
+	.securedownload input[type=email], .securedownload input[type=password]{
+		width:94%;
+	}
+
+
+	.securedownload .cash_divider_text{
+		padding:3% 0 0 3%;
+	}
+
+	.securedownload	#browserid_login_link_6{
+		padding:3% 0 0 3%;
+	}
+
+	/* Members Area */
+
+	.membersarea input[type=email], .membersarea input[type=password]{
+		width:94%;
+	}
 
 }
 
@@ -692,7 +762,7 @@ input[type=submit]:hover, .button:hover{
 	}
 
 	/* Members Area */
-	.membersarea input{
+	.membersarea input[type=email], .membersarea input[type=password]{
 		margin:0 0 1% 0;
 		width:96%;
 	}
@@ -718,9 +788,17 @@ input[type=submit]:hover, .button:hover{
 	}
 
 	/* Secure Download Area */
-	.securedownload input{
+	.securedownload input[type=email], .securedownload input[type=password]{
 		margin:0 0 1% 0;
 		width:96%;
+	}
+
+	.securedownload .cash_divider_text{
+		padding:2% 0 0 3%;
+	}
+
+	.securedownload	#browserid_login_link_6{
+		padding:2% 0 0 3%;
 	}
 
 	/* Tour Dates */
@@ -730,11 +808,25 @@ input[type=submit]:hover, .button:hover{
 	}
 
 	.tourdates .cash_event{
-		padding:0 0 0 2%;
-		width:98%;
+		padding:2%;
+		width:96%;
 	}
 	.tourdates .cash_comments{
-		width:47%;
+		width:40%;
+		clear:none;
+		padding:2% 0 2% 3%;
+	}
+
+	.tourdates .cash_date{
+		padding:2% 0 0 0;
+	}
+
+	.tourdates .cash_location{
+		clear:none;
+		padding:2% 0 2% 3%;
+	}
+
+	.tourdates .cash_venue{
 		padding:2% 0;
 	}
 
@@ -747,7 +839,6 @@ input[type=submit]:hover, .button:hover{
 	.singlepurchase .info{
 		width:50%;
 	}
-
 
 	/* Release Flip */
 	.packshot{
