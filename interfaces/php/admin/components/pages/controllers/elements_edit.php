@@ -30,7 +30,6 @@ if ($current_element) {
 		// deal with templates 
 		$embed_templates = AdminHelper::echoTemplateOptions('embed',$cash_admin->page_data['template_id']);
 		if ($embed_templates) {
-			$cash_admin->page_data['template_options'] = '<option value="0" selected="selected">Use Default template</option><option value="-1" selected="selected">Use Light template</option><option value="-2" selected="selected">Use Dark template</option>';
 			$cash_admin->page_data['template_options'] .= $embed_templates;
 			$cash_admin->page_data['defined_embed_templates'] = true;
 			if (!$cash_admin->page_data['template_id']) {
