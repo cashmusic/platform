@@ -126,7 +126,6 @@ class ElementPlant extends PlantBase {
 				} else {
 					$template = @file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/embed.mustache');
 				}
-				$template = str_replace('<body', '<body class="cashmusic element ' . $element['type'] . '"', $template);
 				return $template;
 			}
 		} else {
