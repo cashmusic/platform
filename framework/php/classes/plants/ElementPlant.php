@@ -126,6 +126,12 @@ class ElementPlant extends PlantBase {
 				} else {
 					$template = @file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/embed.mustache');
 				}
+				// zero or less means use our standard template, less than zero selects options
+				if ($element['template_id'] == '-1') {
+					$template = str_replace('<body', '<body class="light"', $template);
+				} else if ($element['template_id'] == '-2') {
+					$template = str_replace('<body', '<body class="dark"', $template);
+				}
 				return $template;
 			}
 		} else {

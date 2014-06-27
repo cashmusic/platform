@@ -304,6 +304,23 @@
 
 			// echo out the proper dropdown bits
 			if ($templates_array) {
+
+				$templates_array_addition = array(
+					array(
+						'id' => 0,
+						'name' => 'Use default theme'
+					),
+					array(
+						'id' => -1,
+						'name' => 'Use light theme'
+					),
+					array(
+						'id' => -2,
+						'name' => 'Use dark theme'
+					)
+				);
+				$templates_array = array_merge($templates_array_addition,$templates_array);
+
 				$all_templates = '';
 				foreach ($templates_array as $template) {
 					$echo_selected = '';
