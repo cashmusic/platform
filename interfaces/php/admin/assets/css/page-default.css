@@ -1,0 +1,148 @@
+/*************************************************** 
+ *
+ *  CASH Music - Default Page Styles
+ *
+ ***************************************************/
+
+/* General */
+
+html,body{
+	font: 400 18px/20px 'Montserrat',Helvetica,Arial,sans-serif;
+	margin:0;
+	padding:0;
+	width:100%;
+	overflow:auto;
+}
+
+body{
+	background: #111111; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMTAwJSIgeDI9IjEwMCUiIHkyPSIwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMTExMTExIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzIyMjIyMiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+	background: -moz-linear-gradient(45deg,  #111111 0%, #222222 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,#111111), color-stop(100%,#222222)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(45deg,  #111111 0%,#222222 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(45deg,  #111111 0%,#222222 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(45deg,  #111111 0%,#222222 100%); /* IE10+ */
+	background: linear-gradient(45deg,  #111111 0%,#222222 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#111111', endColorstr='#222222',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
+	padding:8% 0;
+	margin:0 auto;
+	width:80%;
+	color:#fff;
+	text-align: center;
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-attachment: fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+
+}
+
+h1,h2,h3,h4,h5{
+	font-weight: 400;
+	word-wrap:break-word;
+	margin:3% 0;
+	padding:0;
+	text-shadow: 0 0 10px rgba(0,0,0,0.7);
+	line-height: 1em;
+}
+
+a{
+	margin:3% 0;
+	display:inline-block;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition:0.3s ease-in-out;
+}
+
+p{
+	width:80%;
+	/*text-align: justify;*/
+	margin:0 auto;
+}
+
+/* Ebmed Specific */
+
+/*Scrollbars*/
+
+::-webkit-scrollbar{width: 12px;  /* for vertical scrollbars */height: 12px; /* for horizontal scrollbars */}
+::-webkit-scrollbar-track{background: rgba(34, 34, 34, 0.97);}
+::-webkit-scrollbar-thumb{background: rgba(238, 238, 238, 0.97);}
+
+iframe[src*="www.youtube.com"] {
+	height:450px;
+}
+
+/* Page Titles */
+
+h1.pagetitle{
+	font-size: 70px;
+	line-height: 60px;
+	padding:0 0 5% 0;
+}
+
+h2.subtitle{
+	padding:0 0 5% 0;
+}
+
+/* Footer */
+
+.madebycash{
+	background:url(' https://d8f1e955fba059a78229-a500f5daa3d6b74402dd5bcc8bee4819.ssl.cf2.rackcdn.com/ui/default/assets/images/invert_logo.png') 3% 50% no-repeat;
+	background-color:rgba(0,0,0,0);
+	background-size:50px 50px;
+	position:fixed;
+	bottom:0;
+	left:0;
+	height:50px;
+	width:96%;
+	padding:2%;
+	display:block;
+	font-weight: 400;
+	font-size:11px;
+	position:fixed;
+	bottom:0;
+}
+
+.madebycash a{
+	margin:0;
+	background:none;
+	color:#f5f5f5;
+	float:right;
+
+}
+
+.madebycash a:hover{
+	color:#00cf7f;
+}
+
+.madebycash:hover{
+	background-color:rgba(0,0,0,0.3);
+}
+
+/* Media Queries */
+
+@media screen and (min-width: 535px){ /* -- Mid / Vertical Tablet -- */
+
+	h1.pagetitle{
+		font-size: 100px;
+		line-height: 90px;
+	}
+
+}
+
+@media screen and (min-width: 900px){ /* -- Wide / Horizontal Tablet -- */
+
+	h1.pagetitle{
+		font-size: 120px;
+		line-height: 100px;
+	}
+
+	iframe[src*="www.youtube.com"] {
+	height:500px;
+}
+
+}
+

@@ -151,6 +151,7 @@ input.checkorradio:checked{
 
 .login #cash_signin_form{
 	background:#ededed url(../images/dirt.png);
+	background-position: center;
 	padding:10%;
 	position:relative;
 	overflow:auto;
@@ -370,7 +371,7 @@ small{
 	-webkit-transition: 1s  ease-in-out;
 	-moz-transition: 1s  ease-in-out;
 	trasition:1s ease-in-out;
-	z-index:40;
+	z-index:3;
 }
 
 #logo a{
@@ -857,6 +858,7 @@ color:#f5f5f5!important;
 
 .callout, fieldset, #stats{
 	background:#efefef url(../images/dirt.png) 50% 50%;
+	background-position: center;
 	padding:3%;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -873,6 +875,7 @@ color:#f5f5f5!important;
 .callout.newsfeed{
 	color:#f5f5f5;
 	background:#222 url(../images/dirt.png);
+	background-position: center;
 	border:none;
 }
 
@@ -963,6 +966,7 @@ table{
 
 table tr th{
 	background:#222 url(../images/dirt.png);
+	background-position: center;
 	color:#f5f5f5;
 	text-align:center!important;
 }
@@ -1332,6 +1336,7 @@ margin:0; padding:0;}
 	width:100%;
 	font-size:150px;
 	background:#efefef url(../images/dirt.png);
+	background-position: center;
 	border:solid 1px #ccc;
 }
 
