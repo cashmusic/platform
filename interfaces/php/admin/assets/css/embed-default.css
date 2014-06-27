@@ -92,7 +92,7 @@ input{
 	border:none;
 	background:#222;
 	background:rgba(34,34,34,0.9);
-	color:#fff;
+	color:#f5f5f5;
 	font: 400 18px/20px 'Montserrat',Helvetica,Arial,sans-serif;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
@@ -100,12 +100,6 @@ input{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-}
-
-#dark input{
-	background:#222;
-	background:rgba(34,34,34,0.9);
-	color:#f5f5f5;
 }
 
 #light input{
@@ -119,11 +113,6 @@ placeholder{color:#eee;}
 ::-webkit-input-placeholder:focus{color:#111;}
 placeholder:focus{color:#111;}
 
-#dark ::-webkit-input-placeholder{color:#eee;}
-#dark placeholder{color:#eee;}
-#dark ::-webkit-input-placeholder:focus{color:#111;}
-#dark placeholder:focus{color:#111;}
-
 #light ::-webkit-input-placeholder{color:#222;}
 #light placeholder{color:#222;}
 #light ::-webkit-input-placeholder:focus{color:#eee;}
@@ -135,18 +124,13 @@ input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, tex
 	outline: none;
 }
 
-#dark input[type=text]:focus, #dark  input[type=email]:focus,  #dark input[type=password]:focus, #dark textarea:focus{
-	background:#f5f5f5;
-	color:#000;
-}
-
 #light input[type=text]:focus, #light  input[type=email]:focus,  #light input[type=password]:focus, #light textarea:focus{
 	background:#222;
 	color:#f5f5f5;
 }
 
 
-input[type=submit], .button,  #dark input[type=submit], #dark .button{
+input[type=submit], .button{
 	padding:5%;
 	width:100%;
 	text-align: center;
@@ -406,16 +390,14 @@ input[type=submit]:hover, .button:hover{
 
 .securedownload #browserid_login_link_6{
 	background:none;
-	-webkit-filter: invert(100%);
-	filter: invert(100%);
 	float:left;
-	opacity:0.5;
 	padding:5% 0 0 3%;
 }
 
-#light #browserid_login_link_6{
-	-webkit-filter: invert(0%);
-	filter: invert(0%);
+#dark #browserid_login_link_6{
+	-webkit-filter: invert(100%);
+	filter: invert(100%);
+	opacity:0.5;
 }
 
 .securedownload .cash_divider_text{
@@ -705,7 +687,6 @@ input[type=submit]:hover, .button:hover{
 	.securedownload input[type=email], .securedownload input[type=password]{
 		width:94%;
 	}
-
 
 	.securedownload .cash_divider_text{
 		padding:3% 0 0 3%;
