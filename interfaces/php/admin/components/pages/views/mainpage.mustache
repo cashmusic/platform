@@ -72,11 +72,7 @@
 		<ul class="alternating">
 			{{#elements_for_user}}
 			<li>
-				<b>{{name}}</b> <span class="descriptive spaced fadedtext">{{type_name}}</span>
-				<div class="itemnav">
-					<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>Details</a> 
-					<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
-				</div>
+				<a href="{{www_path}}/elements/edit/{{id}}"><b>{{name}}</b></a> <span class="descriptive spaced fadedtext">{{type_name}}</span><a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation delete"><i class="icon icon-ban-circle"></i> Delete</a>
 			</li>
 			{{/elements_for_user}}
 		</ul>

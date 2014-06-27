@@ -1007,6 +1007,34 @@ ul.alternating li{
 	border-radius: 3px;
 }
 
+ul.alternating li:nth-child(odd){
+	background:#f5f5f5;
+}
+
+ul.alternating li a{
+	text-decoration: none;
+}
+
+ul.alternating li a:hover{
+	color:#f5f5f5;
+}
+
+ul.alternating li .delete{
+	float:right;
+	margin:-1.5% 0 0 0;
+	opacity:0;
+}
+
+ul.alternating li:hover {
+	background:#222;
+	color:#f5f5f5;
+}
+
+ul.alternating li:hover .delete{
+	opacity:1;
+	background:none;
+} 
+
 /* Page Tips */
 #pagetips{
 	padding:5%;
