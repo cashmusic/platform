@@ -213,6 +213,7 @@
 		venueAutocompleteBehavior();
 		handleUploadForms();
 		elementMenuStates();
+		releaseFlip();
 	}
 
 	/**
@@ -286,6 +287,17 @@
 		});
 	};
 
+
+	function releaseFlip() {
+
+		$('.featured-release').hover(function (){
+			$('#card', this).addClass('flipped');
+		});
+
+		$('.featured-release').mouseleave(function (){
+			$('#card', this).removeClass('flipped');
+		});
+	};		
 
 	/**
 	 *

@@ -173,14 +173,21 @@ input.checkorradio:checked{
 
 /* Invalid Input */
 
-select.invalid, input[type="text"].invalid, input[type="password"].invalid, input[type="date"].invalid, input[type="datetime"].invalid, input[type="email"].invalid, input[type="number"].invalid, input[type="search"].invalid, input[type="tel"].invalid, input[type="time"].invalid, input[type="url"].invalid, textarea.invalid {border:1px solid #ff0;}
+select.invalid, input[type="text"].invalid, input[type="password"].invalid, input[type="date"].invalid, input[type="datetime"].invalid, input[type="email"].invalid, input[type="number"].invalid, input[type="search"].invalid, input[type="tel"].invalid, input[type="time"].invalid, input[type="url"].invalid, textarea.invalid {border:1px solid #ff3232;}
 label.invalid {color:#000;}
 div.modallightbox label.invalid {color:#fff;}
 
 .highlightcopy, span.invalid {
 	padding:2px 6px 2px 6px;
-	background-color:#ff0;
-	color:#222;
+	background-color:#ff3232;
+	color:#f5f5f5;
+	padding:2%;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition:0.3s ease-in-out;
 }
 
 span.invalid {
@@ -1012,6 +1019,7 @@ ul.alternating li{
 }
 
 ul.alternating li a{
+	border:solid 1px #ddd;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -1019,11 +1027,26 @@ ul.alternating li a{
 	margin:0;
 	background:#f9f9f9;
 	display:block;
+	overflow: auto;
+	float:left;
+	width:100%;
+}
+
+
+
+ul.alternating li .primary strong{
+	float:left;
+	padding:0 5% 0 0;
 }
 
 ul.alternating li a span{
-	padding:0 0 0 3%;
+	padding:0;
 	color:#222;
+	text-align: justify;
+	display:inline-block;
+	width:55%;
+	margin:0 5% 0 0;
+	float:left;
 }
 
 ul.alternating li a{
@@ -1035,7 +1058,7 @@ ul.alternating li a:hover{
 }
 
 
-ul.alternating li a:hover, ul.alternating li:nth-child(odd) a:hover {
+ul.alternating li a:hover, ul.alternating li:nth-child(odd) a:hover{
 	background:#00cf7f;
 	color:#f5f5f5;
 }
@@ -1050,6 +1073,7 @@ ul.alternating li a:hover, ul.alternating li:nth-child(odd) a:hover {
 /* Element Action Submenu */
 
 ul.alternating li .toggle{
+	border:solid 1px #ddd;
 	text-indent: -5000em;
 	background:#e2e2e2 url(../images/menu_icon.png) no-repeat 50% 50%;
 	background-size: 40%;
@@ -1073,6 +1097,7 @@ ul.alternating li .toggle{
 ul.alternating li .toggle:hover{
 	background:#222 url(../images/menu_icon.png) no-repeat 50% 50%;
 	background-size: 40%;
+	border:solid 1px #222;
 }
 
 ul.alternating li .actions{
@@ -1099,10 +1124,19 @@ ul.alternating li .actions{
 
 ul.alternating li .actions a{
 	display:inline-block;
+	background:#333!important;
+	border:solid 1px #111!important;
+	margin:-22px 0 0 0!important;
+	position:absolute;
+	top:50%;
+	width:auto;
+}
+
+ul.alternating li .actions a .icon{
+	color:#ccc!important;
 }
 
 ul.alternating li .more.display .actions{
-	top:0;
 	right:0;
 }
 
@@ -1110,14 +1144,15 @@ ul.alternating li .more.display .actions{
 ul.alternating li .more.display .toggle{
 	background:#00cf7f url(../images/menu_icon.png) no-repeat 50% 50%;
 	background-size: 40%;
+	border:solid 1px #00cf7f;
 }
 
 /* Alternate colours */
 
-.usecolor2 ul.alternating li .more.display .toggle {background:#fa3838 url(../images/menu_icon.png) no-repeat 50% 50%; 	background-size: 40%;}
-.usecolor3 ul.alternating li .more.display .toggle {background:#ff7c12 url(../images/menu_icon.png) no-repeat 50% 50%;	background-size: 40%;}
-.usecolor4 ul.alternating li .more.display .toggle {background:#6a38fa url(../images/menu_icon.png) no-repeat 50% 50%;	background-size: 40%;}
-.usecolor5 ul.alternating li .more.display .toggle {background:#fa3866 url(../images/menu_icon.png) no-repeat 50% 50%;	background-size: 40%;}
+.usecolor2 ul.alternating li .more.display .toggle {background:#fa3838 url(../images/menu_icon.png) no-repeat 50% 50%; 	background-size: 40%; border:solid 1px #fa3838;}
+.usecolor3 ul.alternating li .more.display .toggle {background:#ff7c12 url(../images/menu_icon.png) no-repeat 50% 50%;	background-size: 40%; border:solid 1px #ff7c12;}
+.usecolor4 ul.alternating li .more.display .toggle {background:#6a38fa url(../images/menu_icon.png) no-repeat 50% 50%;	background-size: 40%; border:solid 1px #6a38fa;}
+.usecolor5 ul.alternating li .more.display .toggle {background:#fa3866 url(../images/menu_icon.png) no-repeat 50% 50%;	background-size: 40%; border:solid 1px #fa3866;}
 
 
 ul.alternating li .more:hover {
@@ -1416,6 +1451,99 @@ margin:0; padding:0;}
 .featuredelement:hover .showelementdetails .icon{
 	color:#222!important;
 }
+
+/* Featured Release */
+
+/*  Flip */
+.featured-release{ 
+ 	width: 280px;
+ 	width:100%;
+  	height:280px;
+  	display:block;
+  	position: relative;
+  	perspective: 1100px;
+  	-webkit-perspective: 1100px;
+  	margin:0 0 5% 0;
+  	float:left;
+  	background:rgba(34,34,34,0.5);
+  	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+
+.featured-release:hover{
+	cursor:pointer;
+} 
+
+#card {
+  	width: 100%;
+  	height: 100%;
+  	position: absolute;
+  	-webkit-transition: -webkit-transform 1s;
+	transition: transform 1s;
+  	-webkit-transform-style: preserve-3d;
+  	transform-style: preserve-3d;
+}
+
+#card .front, #card .back {
+	margin:0;
+  	display: block;
+  	position: absolute;
+  	width: 100%;
+  	height: 100%;
+  	backface-visibility: hidden;
+  	-webkit-backface-visibility: hidden; 
+}
+
+#card .front a{
+	display:block;
+	overflow:auto;
+	background:none;
+}
+
+#card .front{
+	overflow:hidden;
+	background-position: center;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+#card .back {
+	background:#000;
+  	background:rgba(0,0,0,0.85);
+  	-webkit-transform: rotateY( 180deg );
+  	transform: rotateY( 180deg );
+  	text-align: center;
+  	/*background-image: url('/interfaces/php/admin/ui/default/assets/images/dirt.png');*/
+  	background-position: center;
+  	color:#eee;
+  	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+
+#card .back h2{
+	padding:0;
+	font-size: 2.5em;
+	font-weight: normal;
+	margin-bottom:1em;
+}
+
+#card .back p, #card .back ul{
+	padding:0;
+	font-size: 14px;
+}
+
+
+#card.flipped {
+  	-webkit-transform: rotateY( 180deg );
+  	transform: rotateY( 180deg );
+}
+
 
 /* Statistics */
 
