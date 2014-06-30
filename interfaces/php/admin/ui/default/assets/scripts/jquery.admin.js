@@ -212,6 +212,7 @@
 		formValidateBehavior();
 		venueAutocompleteBehavior();
 		handleUploadForms();
+		elementMenuStates();
 	}
 
 	/**
@@ -245,7 +246,6 @@
 			$( this ).toggleClass( "display" );
 			$( "#navmenu" ).toggleClass( "display" );
 		});
-
 		// handle logout
 		$(document).on('click', '#logout', function(e) {
 			e.preventDefault();
@@ -277,10 +277,14 @@
 
 
 
+	/* Show/Hide Element Menus */
 
-
-
-
+	function setContentBehaviors() {
+		// show/hide element menus
+		$( ".toggle" ).click(function() {
+			$ (this).parent().toggleClass( "display" );
+		});
+	}
 
 
 
