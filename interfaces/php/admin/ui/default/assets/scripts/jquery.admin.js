@@ -279,14 +279,12 @@
 
 	/* Show/Hide Element Menus */
 
-	function setContentBehaviors() {
+	function elementMenuStates() {
 		// show/hide element menus
 		$( ".toggle" ).click(function() {
 			$ (this).parent().toggleClass( "display" );
 		});
-	}
-
-
+	};
 
 
 	/**
@@ -362,6 +360,7 @@
 						ajaxFormSubmit(f);
 					} else {
 						f.submit();
+						console.log('submit!');
 					}
 				}
 			});

@@ -998,9 +998,6 @@ ul.alternating{
 }
 
 ul.alternating li{
-	/*padding:5%;
-	margin:0 0 1% 0;
-	background:#f9f9f9;*/
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -1041,6 +1038,12 @@ ul.alternating li a:hover, ul.alternating li:nth-child(odd) a:hover {
 	color:#f5f5f5;
 }
 
+/* Alternate colours */
+
+.usecolor2 ul.alternating li a:hover, .usecolor2 ul.alternating li:nth-child(odd) a:hover {background:#fa3838; 	color:#f5f5f5;}
+.usecolor3 ul.alternating li a:hover, .usecolor3 ul.alternating li:nth-child(odd) a:hover {background:#ff7c12; 	color:#f5f5f5;}
+.usecolor4 ul.alternating li a:hover, .usecolor4 ul.alternating li:nth-child(odd) a:hover {background:#6a38fa; 	color:#f5f5f5;}
+.usecolor5 ul.alternating li a:hover, .usecolor5 ul.alternating li:nth-child(odd) a:hover {background:#fa3866; 	color:#f5f5f5;}
 
 /* Element Action Submenu */
 
@@ -1106,6 +1109,13 @@ ul.alternating li .more.display .toggle{
 	background:#00cf7f url(../images/menu_icon.png) no-repeat 50% 50%;
 	background-size: 40%;
 }
+
+/* Alternate colours */
+
+.usecolor2 ul.alternating li .more.display .toggle {background:#fa3838 url(../images/menu_icon.png) no-repeat 50% 50%; 	background-size: 40%;}
+.usecolor3 ul.alternating li .more.display .toggle {background:#ff7c12 url(../images/menu_icon.png) no-repeat 50% 50%;	background-size: 40%;}
+.usecolor4 ul.alternating li .more.display .toggle {background:#6a38fa url(../images/menu_icon.png) no-repeat 50% 50%;	background-size: 40%;}
+.usecolor5 ul.alternating li .more.display .toggle {background:#fa3866 url(../images/menu_icon.png) no-repeat 50% 50%;	background-size: 40%;}
 
 
 ul.alternating li .more:hover {
@@ -1226,17 +1236,17 @@ margin:0; padding:0;}
 }
 
 .modaldialog h4{
-	margin:0;
+	margin:1em 0 6px 0;
 	padding;:0;
+	color:#f5f5f5;
+}
+
+.modallightbox h4{
+	color:#f5f5f5;
 }
 
 .modaldialog input.button:hover {
 	background-color:#777 !important;
-}
-
-.modaldialog h4 {
-	color:#f5f5f5;
-	margin:1em 0 6px 0;
 }
 
 .modallightbox {
