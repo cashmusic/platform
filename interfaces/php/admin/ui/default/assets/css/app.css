@@ -32,11 +32,10 @@ body {
 
 /*Scrollbars*/
 
-/*
+
 ::-webkit-scrollbar{width: 12px; height: 12px;}
 ::-webkit-scrollbar-track{background: rgba(34, 34, 34, 0.97);}
 ::-webkit-scrollbar-thumb{background: rgba(238, 238, 238, 0.97);}
-*/
 
 .row{
 	/*overflow:auto;*/
@@ -447,7 +446,7 @@ section[role=main]{
 }
 
 #donate:hover{
-	background:#333;
+	background:#111;
 }
 
 #donate a{
@@ -1042,7 +1041,6 @@ ul.alternating li .primary strong{
 ul.alternating li a span{
 	padding:0;
 	color:#222;
-	text-align: justify;
 	display:inline-block;
 	width:55%;
 	margin:0 5% 0 0;
@@ -1126,14 +1124,17 @@ ul.alternating li .actions a{
 	display:inline-block;
 	background:#333!important;
 	border:solid 1px #111!important;
-	margin:-22px 0 0 0!important;
-	position:absolute;
+	margin:-19px 5px 0 0!important;
+	position:relative;
 	top:50%;
 	width:auto;
 }
 
 ul.alternating li .actions a .icon{
-	color:#ccc!important;
+	color:#fff!important;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition:0.3s ease-in-out;
 }
 
 ul.alternating li .more.display .actions{
@@ -1155,20 +1156,19 @@ ul.alternating li .more.display .toggle{
 .usecolor5 ul.alternating li .more.display .toggle {background:#fa3866 url(../images/menu_icon.png) no-repeat 50% 50%;	background-size: 40%; border:solid 1px #fa3866;}
 
 
-ul.alternating li .more:hover {
-	cursor:pointer;
-}
+ul.alternating li .more:hover {cursor:pointer;}
 
+ul.alternating li:nth-child(odd) a{background:#eee;}
 
-ul.alternating li:nth-child(odd) a{
-	background:#eee;
-}
+ul.alternating li .actions a:hover{background:#00cf7f !important; border-color: #00cf7f !important;}
+ul.alternating li .actions a:hover .icon{color:#222!important;}
 
+/* Alternate colours */
+.usecolor2 ul.alternating li .actions a:hover{background:#fa3838 !important; border-color: #fa3838 !important;}
+.usecolor3 ul.alternating li .actions a:hover{background:#ff7c12 !important; border-color: #ff7c12 !important;}
+.usecolor4 ul.alternating li .actions a:hover{background:#6a38fa !important; border-color: #6a38fa !important;}
+.usecolor5 ul.alternating li .actions a:hover{background:#fa3866 !important; border-color: #fa3866 !important;}
 
-ul.alternating li .actions a:hover{
-	background:#00cf7f !important;
-	border-color: #00cf7f !important;
-}
 
 
 /* Page Tips */
