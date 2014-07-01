@@ -295,7 +295,7 @@ input[type=submit]:hover, .button:hover{
 
 #card .front, .front{
 	overflow:hidden;
-	background-image: url('/interfaces/php/admin/assets/images/packshot.jpg');
+	background-image: url('/interfaces/php/admin/assets/images/release.jpg');
 	background-position: center;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;

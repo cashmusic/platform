@@ -30,14 +30,16 @@
 		<ul class="alternating">
 			{{#lists_all}}
 			<li>
-				<b>{{name}}</b>
-				{{#description}}<span class="descriptive spaced fadedtext">{{description}}</span>{{/description}}<br />
-				<div class="itemnav">
-					<a href="{{www_path}}/people/lists/view/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>View</a>
+				<a class="primary" href="{{www_path}}/people/lists/view/{{id}}">
+				<strong>{{name}}</strong>{{#description}}<span class="descriptive spaced fadedtext">{{description}}</span>{{/description}}</a>
+				<div class="more"><div class="toggle"></div><!--toggle-->
+					<div class="actions">
+						<a href="{{www_path}}/people/lists/view/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>View</a>
 					<a href="{{www_path}}/people/lists/edit/{{id}}" class="mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
 					<a href="{{www_path}}/people/lists/export/{{id}}" class="mininav_flush noajax"><i class="icon icon-download-alt"></i>Export</a>
 					<a href="{{www_path}}/people/lists/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
-				</div>
+					</div><!--actions-->
+				</div><!--more-->
 			</li>
 			{{/lists_all}}
 		</ul>
