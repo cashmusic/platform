@@ -32,10 +32,11 @@ body {
 
 /*Scrollbars*/
 
-
+/*
 ::-webkit-scrollbar{width: 12px; height: 12px;}
 ::-webkit-scrollbar-track{background: rgba(34, 34, 34, 0.97);}
 ::-webkit-scrollbar-thumb{background: rgba(238, 238, 238, 0.97);}
+*/
 
 .row{
 	/*overflow:auto;*/
