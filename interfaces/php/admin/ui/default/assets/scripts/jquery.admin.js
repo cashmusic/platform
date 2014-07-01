@@ -212,6 +212,8 @@
 		formValidateBehavior();
 		venueAutocompleteBehavior();
 		handleUploadForms();
+		elementMenuStates();
+		releaseFlip();
 	}
 
 	/**
@@ -245,7 +247,6 @@
 			$( this ).toggleClass( "display" );
 			$( "#navmenu" ).toggleClass( "display" );
 		});
-
 		// handle logout
 		$(document).on('click', '#logout', function(e) {
 			e.preventDefault();
@@ -277,13 +278,26 @@
 
 
 
+	/* Show/Hide Element Menus */
+
+	function elementMenuStates() {
+		// show/hide element menus
+		$( ".toggle" ).click(function() {
+			$ (this).parent().toggleClass( "display" );
+		});
+	};
 
 
+	function releaseFlip() {
 
+		$('.featured-release').hover(function (){
+			$('#card', this).addClass('flipped');
+		});
 
-
-
-
+		$('.featured-release').mouseleave(function (){
+			$('#card', this).removeClass('flipped');
+		});
+	};		
 
 	/**
 	 *
@@ -358,6 +372,7 @@
 						ajaxFormSubmit(f);
 					} else {
 						f.submit();
+						console.log('submit!');
 					}
 				}
 			});

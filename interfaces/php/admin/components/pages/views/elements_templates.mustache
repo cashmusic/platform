@@ -12,11 +12,14 @@
 			<ul class="alternating">
 				{{#page_templates}}
 				<li>
-					<b>{{name}}</b> <span class="fadedtext nobr" style="font-weight:normal;"> // {{type}}</span>
-					<div class="itemnav">
-						<a href="{{www_path}}/elements/templates/edit/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>Details</a> 
-						<a href="{{www_path}}/elements/templates/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
-					</div>
+					<a class="primary" href="{{www_path}}/elements/templates/edit/{{id}}">
+						<strong>{{name}}</strong><span class="fadedtext nobr" style="font-weight:normal;"> // {{type}}</span></a>
+					<div class="more"><div class="toggle"></div><!--toggle-->
+						<div class="actions">
+							<a href="{{www_path}}/elements/templates/edit/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>Details</a> 
+							<a href="{{www_path}}/elements/templates/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
+						</div><!--actions-->
+					</div><!--more-->
 				</li>
 				{{/page_templates}}
 			</ul>
@@ -37,12 +40,15 @@
 			<ul class="alternating">
 			{{#embed_templates}}
 			<li>
-				<b>{{name}}</b> <span class="fadedtext nobr" style="font-weight:normal;"> // {{type}}</span>
-				<div class="itemnav">
-					<a href="{{www_path}}/elements/templates/edit/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>Details</a> 
-					<a href="{{www_path}}/elements/templates/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
-				</div>
-			</li>
+					<a class="primary" href="{{www_path}}/elements/templates/edit/{{id}}">
+						<strong>{{name}}</strong><span class="fadedtext nobr" style="font-weight:normal;"> // {{type}}</span></a>
+					<div class="more"><div class="toggle"></div><!--toggle-->
+						<div class="actions">
+							<a href="{{www_path}}/elements/templates/edit/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>Details</a> 
+							<a href="{{www_path}}/elements/templates/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
+						</div><!--actions-->
+					</div><!--more-->
+				</li>
 			{{/embed_templates}}
 			</ul>
 		{{/embed_templates}}

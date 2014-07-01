@@ -40,12 +40,16 @@
 		<ul class="alternating">
 			{{#all_venues}}
 			<li>
-				<b>{{name}}</b> <span class="descriptive spaced fadedtext">{{formatted_location}}</span>
-				<div class="itemnav">
-					<a href="{{www_path}}/calendar/venues/edit/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>Details</a> 
-					<a href="{{www_path}}/calendar/venues/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
-				</div>
+				<a class="primary" href="{{www_path}}/calendar/venues/edit/{{id}}">
+				<strong>{{name}}</strong><span class="descriptive spaced fadedtext">{{formatted_location}}</span></a>
+				<div class="more"><div class="toggle"></div><!--toggle-->
+					<div class="actions">
+						<a href="{{www_path}}/calendar/venues/edit/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>Details</a> 
+						<a href="{{www_path}}/calendar/venues/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
+					</div><!--actions-->
+				</div><!--more-->
 			</li>
+
 			{{/all_venues}}
 		</ul>
 		{{/all_venues}}

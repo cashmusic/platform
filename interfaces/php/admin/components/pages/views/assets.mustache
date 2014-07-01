@@ -19,6 +19,7 @@
 <h4>Releases</h4>
 <div class="row">
 {{#featured_releases}}
+<!--
 	<div class="four columns">
 		<div class="featured-release">
 			<div class="cover" style="background-image:url({{cover_url}});">
@@ -27,7 +28,21 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>-->
+
+	<div class="four columns">
+		<div class="featured-release">
+		<div id="card">
+			<div class="front" style="background-image:url({{cover_url}});"></div><!--front-->
+				<div class="back">
+					<a href="{{www_path}}/assets/edit/{{id}}">{{title}}<br /><span class="smalltext release-details">{{{descriptor_string}}}</span></a>
+				</div><!--back-->
+			</div><!--card-->
+		</div><!--featured-release-->
+	</div><!-- four columns-->
+
+
+
 {{/featured_releases}}
 {{#two_features}}
 	<div class="four columns"></div>
