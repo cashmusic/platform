@@ -382,7 +382,7 @@ input[type=submit]:hover, .button:hover{
 	width:90%;
 }
 
-.membersarea input[type=submit], .button{
+.membersarea input[type=submit], .membersarea .button{
 	margin:0 auto;
 	width:100%;
 }
@@ -621,6 +621,16 @@ input[type=submit]:hover, .button:hover{
 	padding:0;
 }
 
+/*.singlepurchase .cashmusic-sp-actions{
+	margin:5% 0 0 0;
+}
+
+.singlepurchase .cashmusic-sp-actions .button{
+	display:block;
+	margin:0 0 3% 0;
+	width:100%;
+}*/
+
 /* Media Queries */
 
 @media screen and (min-width: 535px){ /* -- Mid / Vertical Tablet -- */
@@ -690,6 +700,23 @@ input[type=submit]:hover, .button:hover{
 
 	.singlepurchase  input[type=submit], .singlepurchase .button{
 		padding:7%;
+		width:100%;
+	}
+
+	.singlepurchase .cashmusic-sp-actions{
+	margin:5% 0 0 0;
+	}
+
+	.singlepurchase .cashmusic-sp-actions .button{
+	float:left;
+	width:48%;
+	display:block;
+	padding:2%;
+	margin:0 0 3% 0;
+	}
+
+	.singlepurchase .cashmusic-sp-actions .button:nth-of-type(2){
+		float:right;
 	}
 
 	.packshot{
