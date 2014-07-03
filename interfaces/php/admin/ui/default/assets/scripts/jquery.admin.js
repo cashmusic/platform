@@ -213,7 +213,6 @@
 		venueAutocompleteBehavior();
 		handleUploadForms();
 		elementMenuStates();
-		releaseFlip();
 	}
 
 	/**
@@ -231,6 +230,8 @@
 		textareaTabBehavior();
 		listenForModals();
 		listenForInjectLinks();
+		releaseFlip();
+		touchToggles();
 
 		// page tip show/hide
 		$(document).on('click', '#tipslink', function(e) {
@@ -287,6 +288,22 @@
 		});
 	};
 
+	/* Show/Hide Platform Search */
+
+	function touchToggles() {
+		// show/hide element menus
+		$( "#search .toggle, #searchpanel .toggle, #searchpanel .paneltitle" ).click(function() {
+			$ (this).parents("body").toggleClass("panel").toggleClass("search");
+		});
+		$( "#settings .toggle, #settingspanel .toggle, #settingspanel .paneltitle").click(function() {
+			$ (this).parents("body").toggleClass("panel").toggleClass("settings" );
+		});
+		$( "#help .toggle, #helppanel .toggle, #helppanel .paneltitle" ).click(function() {
+			$ (this).parents("body").toggleClass("panel").toggleClass("help");
+		});
+	};
+
+	/*  Featured Asset Flip */
 
 	function releaseFlip() {
 

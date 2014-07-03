@@ -5,9 +5,6 @@
 		
 	"assets":
 		{"page_name":"Assets", "menu_icon":"", "tagline":"your releases, playlists, and files"},
-	"assets/find":
-		{"page_name":"Search", "menu_icon":"icon-search"},
-		
 		
 	"calendar":
 		{"page_name":"Calendar", "menu_icon":"", "tagline":"shows and venues"},
@@ -74,7 +71,7 @@
 		
 		
 	"mainpage":
-		{"page_name":"Home", "menu_icon":""},
+		{"page_name":"Campaigns", "menu_icon":""},
 		
 		
 	"people":
