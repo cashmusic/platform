@@ -431,15 +431,20 @@ section[role=main]{
 /* Menu Touch Points */
 
 .touchpoints{
+	background:#111;
 	position:absolute;
-	top:11%;
-	left:10%;
+	top:10%;
+	left:8%;
 	z-index:5;
-	width:90%;
+	width:84%;
 	opacity:1;
+	padding:2%;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition:0.3s ease-in-out;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
 
 .touchpoints .toggle{
@@ -450,11 +455,13 @@ section[role=main]{
 
 .panel .touchpoints{
 	opacity:0;
+	visibility: hidden;
 }
 
 
 .touchpoints .toggle h2{
 	color:#f5f5f5;
+	font-size: 20px;
 }
 
 .touchpoints .toggle:hover{
@@ -473,13 +480,14 @@ section[role=main]{
 /* Alternate Content Panels */
 
 #searchpanel,#settingspanel,#helppanel{
-	position:fixed;
+	position:absolute;
 	top:0;
 	left:-100%;
 	width:28%;
 	height:100%;
 	padding:5% 3%;
-	background:#000;
+	background:#e3e3e3;
+	/*background: url('../images/panelbg.jpg');*/
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition: 0.3s ease-in-out;
@@ -489,7 +497,6 @@ section[role=main]{
 }
 
 #searchpanel h1.paneltitle ,#settingspanel h1.paneltitle ,#helppanel h1.paneltitle {
-	color:#f5f5f5!important;
 }
 
 #searchpanel h1.paneltitle i,#settingspanel h1.paneltitle i,#helppanel h1.paneltitle i{
@@ -499,6 +506,29 @@ section[role=main]{
 #searchpanel h1.paneltitle:hover ,#settingspanel h1.paneltitle:hover ,#helppanel h1.paneltitle:hover {
 	color:#111;
 	cursor: pointer;
+}
+
+.tertiarynav{
+	list-style-type:none;
+	margin:0;
+	padding:0;
+	overflow:auto;
+}
+
+.tertiarynav li a{
+	float:left;
+	background:#00cf7f;
+	color:#e3e3e3;
+	padding:2%;
+	margin:0 5px 5px 0;
+	text-decoration: none;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.tertiarynav li a i{
+	margin:0 5px 0 0;
 }
 
 .search #searchpanel, .help #helppanel, .settings #settingspanel{
@@ -768,7 +798,7 @@ color:#f5f5f5!important;
 	text-align:right;
 	list-style-type: none;
 	margin:0;
-	padding:25% 0;
+	padding:35% 0;
 	height:100%;
 }
 

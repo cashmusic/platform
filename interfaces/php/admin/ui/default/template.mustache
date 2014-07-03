@@ -109,14 +109,13 @@
 					</div><!--donate-->
 				
 					<div class="touchpoints">
+						<div id="flipback"></div><!--search-->
 						<div id="search">
 							<div class="toggle"><h2 class="icon icon-search"></h2></div>
 						</div><!--search-->
-
 						<div id="settings">
 							<div class="toggle"><h2 class="icon icon-cog"></h2></div>
 						</div><!--settings-->
-
 						<div id="help">
 							<div class="toggle"><h2 class="icon icon-question-sign"></h2></div>
 						</div><!--help-->
@@ -159,16 +158,83 @@
 					</div><!--searchpanel-->
 						<div id="settingspanel">
 						<h1 class="paneltitle"><i class="icon icon-cog"></i>Settings<h1>
-							<ul>
+							<ul class="tertiarynav">
 								<li><a href="{{www_path}}/account/"><i class="icon icon-user"></i>{{link_youraccount}}</a></li>
 								<li><a href="{{www_path}}/settings/"><i class="icon icon-cog"></i>{{link_settings}}</a></li>
 								<li><a href="http://cashmusic.org/#more"><i class="icon icon-heart"></i>{{action_donate}}</a></li>
 								<li><a href="{{www_path}}/logout/" id="logout"><i class="icon icon-signout"></i>{{action_logout}}</a></li>
 							</ul>
+
+							<form accept-charset="UTF-8" method="post" action="{{www_path}}/account/">
+								<input type="hidden" name="doaccountchange" value="makeitso" />
+									<div class="row">
+										<input type="hidden" name="email_address" value="{{email_address}}" />
+										<label for="new_email_address">Email address</label>
+										<input type="text" id="new_email_address" name="new_email_address" placeholder="{{email_address}}" />
+										<label for="new_username">Username (alphanumeric only)</label>
+										<input type="text" id="new_username" name="new_username" placeholder="{{username}}" />
+										<label for="new_password">New password (Blank = no change)</label>
+										<input type="password" id="new_password" name="new_password" autocomplete="off" />
+										<label for="toggle_password"><input type="checkbox" id="toggle_password" />Reveal text</label>
+									</div>
+
+									<div class="row">
+										<p>Please enter your current password to make changes:</p>
+										<label for="password">Password</label>
+										<input type="password" id="password" name="password" autocomplete="off" />
+										<!--input type="submit" value="Save changes" /-->
+										<button type="submit"><i class="icon icon-save"></i>Save changes</button>
+									</div>
+							</form>
+
+							{{#platform_type_single}}
+							<div>
+								<h4>API Key / Secret</h4>
+									<p>API details for developer access:</p>
+								<div class="callout">
+									<code>
+										<b>API endpoint:</b> {{api_url}}<br /><br />
+										<b>Key:</b> {{api_key}} &nbsp; &nbsp; 
+										<b>Secret:</b> 
+										{{#api_secret}}{{api_secret}}{{/api_secret}}{{^api_secret}}<a href="?reveal=true">Click to reveal API Secret</a>{{/api_secret}}
+									</code>
+								</div>
+							</div>
+							{{/platform_type_single}}
+
+
+							<script type="text/javascript">
+							// http://www.electrictoolbox.com/toggle-password-field-text-password/
+								(function() {
+									try {
+										var p = document.getElementById('new_password');
+										p.type = 'text';
+										p.type = 'password';
+
+										var toggle = document.getElementById('toggle_password');
+										toggle.addEventListener('click', toggleClicked, false);
+										toggle.style.display = 'inline';
+										}
+									catch(err) {}
+								})();
+
+								function toggleClicked() {
+									var p = document.getElementById('new_password');
+									var value = p.value;
+
+									if(p.type == 'password') {
+										p.type = 'text';
+									}
+									else {
+										p.type = 'password';
+									}
+									p.value = value;
+								} 
+							</script>
 					</div><!--settingspanel-->
 					<div id="helppanel">
 						<h1 class="paneltitle"><i class="icon icon-question-sign"></i>Help</h1>
-							<ul>
+							<ul class="tertiarynav">
 								<li><a href="#tips" id="tipslink"><i class="icon icon-compass"></i>{{{misc_tips}}}</a></li>
 								<li><a href="{{www_path}}/help/gettingstarted/"><i class="icon icon-rocket"></i>{{link_menu_help_gettingstarted}}</a></li>
 								<li><a href="{{www_path}}/help/"><i class="icon icon-book"></i>{{link_help_alt}}</a></li>
