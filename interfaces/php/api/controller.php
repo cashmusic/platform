@@ -6,12 +6,12 @@
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2012, CASH Music
+ * Copyright (c) 2014, CASH Music
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  */
-$cashmusic_root = realpath(dirname(__FILE__).'/../../../framework/php');
+require_once(dirname(__FILE__) . '/constants.php');
 
 $cash_settings = json_decode(getenv('cashmusic_platform_settings'),true);
 // env settings allow use on multi-server, multi-user instances
@@ -21,7 +21,6 @@ if ($cash_settings) {
 		$cashmusic_root = str_replace('/cashmusic.php', '', $_SERVER['DOCUMENT_ROOT'] . $cash_settings['platforminitlocation']);
 	}	
 }
-define('CASH_PLATFORM_ROOT', $cashmusic_root);
 
 // set up autoload for core classes
 function cash_autoloadCore($classname) {

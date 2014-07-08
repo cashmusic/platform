@@ -95,7 +95,7 @@
 		var original_price = elementForm.elements['total_price'].value;
 
 		if (window.cashmusic) {
-			if (window.cashmusic.getXHR() && self!=top) {
+			if (window.cashmusic.ajax && self!=top) {
 				var handleSubmit = function(e) {
 					if (e && e.preventDefault) {
 						e.preventDefault();
@@ -113,9 +113,9 @@
 					ruo.setAttribute("value", "1");
 					elementForm.appendChild(ruo);
 	
-					window.cashmusic.sendXHR(
+					window.cashmusic.ajax.send(
 						submitUrl,
-						window.cashmusic.encodeForm(elementForm),
+						window.cashmusic.ajax.encodeForm(elementForm),
 						function(thereply) {
 							if (thereply.substring(0,4) == 'http') {
 								top.location.href = thereply;
