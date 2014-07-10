@@ -202,11 +202,7 @@ if ($logged_in) {
 	$cash_admin->page_data['commerce_section_menu'] = $page_menu_details['commerce_section_menu'];
 	$cash_admin->page_data['calendar_section_menu'] = $page_menu_details['calendar_section_menu'];
 	$cash_admin->page_data['ui_title'] = $page_menu_details['page_title'];
-	if (isset($page_menu_details['tagline'])) {
-		$cash_admin->page_data['ui_tagline'] = $page_menu_details['tagline'];
-	} else {
-		$cash_admin->page_data['ui_tagline'] = '';
-	}
+
 	// merge in display links for main template
 	$cash_admin->page_data = array_merge($cash_admin->page_data,$page_menu_details['link_text']);
 	// global interaction text
