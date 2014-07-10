@@ -187,112 +187,89 @@ if ($logged_in) {
 	// get user-specific settings
 	$current_settings = $cash_admin->getUserSettings();
 
-	if (isset($_GET['resetsimplemode'])) {
-		if ($_GET['resetsimplemode'] == 'yesplease') {
-			$current_settings['use_simple_mode'] = true;
-			$cash_admin->setUserSettings($current_settings);
-			header('Location: ' . ADMIN_WWW_BASE_PATH);
-		}
-	}
-
-	// check for simple mode
-	$use_simple_mode = false;
-	if (isset($current_settings['use_simple_mode']) && $cash_admin->platform_type == 'multi') {
-		if ($current_settings['use_simple_mode'] && 
-			file_exists(ADMIN_BASE_PATH . '/ui/' . $admin_theme . '/logic/simplemode.php') &&
-			file_exists(ADMIN_BASE_PATH . '/ui/' . $admin_theme . '/simple.mustache')
-			) {
-			$use_simple_mode = true;
-		}
-	}
 	// we need a session
 	$admin_primary_cash_request->startSession();
-	if ($use_simple_mode) {
-		// SIMPLE MODE: specifics contained in the /ui/theme/logic/simplemode.php file
-		include(ADMIN_BASE_PATH . '/ui/' . $admin_theme . '/logic/simplemode.php');
-		$template_name = 'simple';
+
+	// CONTENT / TEMPLATE: use the standard template for logged-in users, start a session, and
+	// populate the page_data array for use in the page view and main template
+	$template_name = 'template';
+
+	// set basic data for the template
+	$cash_admin->page_data['user_email'] = $admin_primary_cash_request->sessionGet('cash_effective_user_email');
+	$page_menu_details = AdminHelper::getPageMenuDetails();
+	$cash_admin->page_data['assets_section_menu'] = $page_menu_details['assets_section_menu'];
+	$cash_admin->page_data['people_section_menu'] = $page_menu_details['people_section_menu'];
+	$cash_admin->page_data['commerce_section_menu'] = $page_menu_details['commerce_section_menu'];
+	$cash_admin->page_data['calendar_section_menu'] = $page_menu_details['calendar_section_menu'];
+	$cash_admin->page_data['ui_title'] = $page_menu_details['page_title'];
+	if (isset($page_menu_details['tagline'])) {
+		$cash_admin->page_data['ui_tagline'] = $page_menu_details['tagline'];
 	} else {
-		// CONTENT / TEMPLATE: use the standard template for logged-in users, start a session, and
-		// populate the page_data array for use in the page view and main template
-		$template_name = 'template';
-
-		// set basic data for the template
-		$cash_admin->page_data['user_email'] = $admin_primary_cash_request->sessionGet('cash_effective_user_email');
-		$page_menu_details = AdminHelper::getPageMenuDetails();
-		$cash_admin->page_data['assets_section_menu'] = $page_menu_details['assets_section_menu'];
-		$cash_admin->page_data['people_section_menu'] = $page_menu_details['people_section_menu'];
-		$cash_admin->page_data['commerce_section_menu'] = $page_menu_details['commerce_section_menu'];
-		$cash_admin->page_data['calendar_section_menu'] = $page_menu_details['calendar_section_menu'];
-		$cash_admin->page_data['ui_title'] = $page_menu_details['page_title'];
-		if (isset($page_menu_details['tagline'])) {
-			$cash_admin->page_data['ui_tagline'] = $page_menu_details['tagline'];
-		} else {
-			$cash_admin->page_data['ui_tagline'] = '';
-		}
-		// merge in display links for main template
-		$cash_admin->page_data = array_merge($cash_admin->page_data,$page_menu_details['link_text']);
-		// global interaction text
-		$ui_interaction_text = AdminHelper::getUiText();
-		$cash_admin->page_data = array_merge($cash_admin->page_data,$ui_interaction_text);
-		// page specifics
-		$page_components = AdminHelper::getPageComponents();
-		$cash_admin->page_data['ui_page_tip'] = $page_components['pagetip'];
-		if (is_array($page_components['labels'])) {
-			foreach ($page_components['labels'] as $key => $val) {
-				$cash_admin->page_data['label_' . $key] = $val;
-			}
-		}
-		if (is_array($page_components['tooltips'])) {
-			foreach ($page_components['tooltips'] as $key => $val) {
-				$cash_admin->page_data['tooltip_' . $key] = $val;
-			}
-		}
-		if (is_array($page_components['copy'])) {
-			foreach ($page_components['copy'] as $key => $val) {
-				$cash_admin->page_data['copy_' . $key] = $val;
-			}
-		}
-		// set empty uid/code, then set if found
-		$last_reponse = $admin_primary_cash_request->sessionGetLastResponse();
-		$cash_admin->page_data['status_code'] = (is_array($last_reponse)) ? $last_reponse['status_code']: '';
-		$cash_admin->page_data['status_uid'] = (is_array($last_reponse)) ? $last_reponse['status_uid']: '';
-		// figure out the section color and current section name:
-		$cash_admin->page_data['specialcolor'] = '';
-		$exploded_base = explode('_',BASE_PAGENAME);
-		$cash_admin->page_data['section_name'] = $exploded_base[0];
-		if ($exploded_base[0] == 'assets') {
-			$cash_admin->page_data['specialcolor'] = 'usecolor2';
-		} elseif ($exploded_base[0] == 'people') {
-			$cash_admin->page_data['specialcolor'] = 'usecolor3';
-		} elseif ($exploded_base[0] == 'commerce') {
-			$cash_admin->page_data['specialcolor'] = 'usecolor4';
-		} elseif ($exploded_base[0] == 'calendar') {
-			$cash_admin->page_data['specialcolor'] = 'usecolor5';
-		} elseif ($exploded_base[0] == 'elements') {
-			$cash_admin->page_data['specialcolor'] = 'usecolor1';
-		}
-		// set true/false for each section being current
-		$cash_admin->page_data['ui_current_elements'] = ($exploded_base[0] == 'elements') ? true: false;
-		$cash_admin->page_data['ui_current_assets'] = ($exploded_base[0] == 'assets') ? true: false;
-		$cash_admin->page_data['ui_current_people'] = ($exploded_base[0] == 'people') ? true: false;
-		$cash_admin->page_data['ui_current_commerce'] = ($exploded_base[0] == 'commerce') ? true: false;
-		$cash_admin->page_data['ui_current_calendar'] = ($exploded_base[0] == 'calendar') ? true: false;
-		if (
-			!$cash_admin->page_data['ui_current_elements'] &&
-			!$cash_admin->page_data['ui_current_assets'] &&
-			!$cash_admin->page_data['ui_current_people'] &&
-			!$cash_admin->page_data['ui_current_commerce'] &&
-			!$cash_admin->page_data['ui_current_calendar']
-		) {
-			$cash_admin->page_data['ui_current_main'] = true;
-			$cash_admin->page_data['section_name'] = 'main';
-		}
-		// include controller for current page
-		include($pages_path . 'controllers/' . $include_filename);
-
-		// render the content to be passed to final output
-		$cash_admin->page_data['content'] = $cash_admin->mustache_groomer->render($cash_admin->page_content_template, $cash_admin->page_data);
+		$cash_admin->page_data['ui_tagline'] = '';
 	}
+	// merge in display links for main template
+	$cash_admin->page_data = array_merge($cash_admin->page_data,$page_menu_details['link_text']);
+	// global interaction text
+	$ui_interaction_text = AdminHelper::getUiText();
+	$cash_admin->page_data = array_merge($cash_admin->page_data,$ui_interaction_text);
+	// page specifics
+	$page_components = AdminHelper::getPageComponents();
+	$cash_admin->page_data['ui_page_tip'] = $page_components['pagetip'];
+	if (is_array($page_components['labels'])) {
+		foreach ($page_components['labels'] as $key => $val) {
+			$cash_admin->page_data['label_' . $key] = $val;
+		}
+	}
+	if (is_array($page_components['tooltips'])) {
+		foreach ($page_components['tooltips'] as $key => $val) {
+			$cash_admin->page_data['tooltip_' . $key] = $val;
+		}
+	}
+	if (is_array($page_components['copy'])) {
+		foreach ($page_components['copy'] as $key => $val) {
+			$cash_admin->page_data['copy_' . $key] = $val;
+		}
+	}
+	// set empty uid/code, then set if found
+	$last_reponse = $admin_primary_cash_request->sessionGetLastResponse();
+	$cash_admin->page_data['status_code'] = (is_array($last_reponse)) ? $last_reponse['status_code']: '';
+	$cash_admin->page_data['status_uid'] = (is_array($last_reponse)) ? $last_reponse['status_uid']: '';
+	// figure out the section color and current section name:
+	$cash_admin->page_data['specialcolor'] = '';
+	$exploded_base = explode('_',BASE_PAGENAME);
+	$cash_admin->page_data['section_name'] = $exploded_base[0];
+	if ($exploded_base[0] == 'assets') {
+		$cash_admin->page_data['specialcolor'] = 'usecolor2';
+	} elseif ($exploded_base[0] == 'people') {
+		$cash_admin->page_data['specialcolor'] = 'usecolor3';
+	} elseif ($exploded_base[0] == 'commerce') {
+		$cash_admin->page_data['specialcolor'] = 'usecolor4';
+	} elseif ($exploded_base[0] == 'calendar') {
+		$cash_admin->page_data['specialcolor'] = 'usecolor5';
+	} elseif ($exploded_base[0] == 'elements') {
+		$cash_admin->page_data['specialcolor'] = 'usecolor1';
+	}
+	// set true/false for each section being current
+	$cash_admin->page_data['ui_current_elements'] = ($exploded_base[0] == 'elements') ? true: false;
+	$cash_admin->page_data['ui_current_assets'] = ($exploded_base[0] == 'assets') ? true: false;
+	$cash_admin->page_data['ui_current_people'] = ($exploded_base[0] == 'people') ? true: false;
+	$cash_admin->page_data['ui_current_commerce'] = ($exploded_base[0] == 'commerce') ? true: false;
+	$cash_admin->page_data['ui_current_calendar'] = ($exploded_base[0] == 'calendar') ? true: false;
+	if (
+		!$cash_admin->page_data['ui_current_elements'] &&
+		!$cash_admin->page_data['ui_current_assets'] &&
+		!$cash_admin->page_data['ui_current_people'] &&
+		!$cash_admin->page_data['ui_current_commerce'] &&
+		!$cash_admin->page_data['ui_current_calendar']
+	) {
+		$cash_admin->page_data['ui_current_main'] = true;
+		$cash_admin->page_data['section_name'] = 'main';
+	}
+	// include controller for current page
+	include($pages_path . 'controllers/' . $include_filename);
+
+	// render the content to be passed to final output
+	$cash_admin->page_data['content'] = $cash_admin->mustache_groomer->render($cash_admin->page_content_template, $cash_admin->page_data);
 } else {
 	// SHOW LOGIN PAGE: we're not logged in, so make that happen and handle login page specific logic
 	$cash_admin->page_data['browser_id_js'] = CASHSystem::getBrowserIdJS();
