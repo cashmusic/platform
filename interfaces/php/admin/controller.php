@@ -272,7 +272,6 @@ if ($logged_in) {
 	$cash_admin->page_data['content'] = $cash_admin->mustache_groomer->render($cash_admin->page_content_template, $cash_admin->page_data);
 } else {
 	// SHOW LOGIN PAGE: we're not logged in, so make that happen and handle login page specific logic
-	$cash_admin->page_data['browser_id_js'] = CASHSystem::getBrowserIdJS();
 	$template_name = 'login';
 	// before we get all awesome and whatnot, detect for password reset stuff. should only happen 
 	// with a full page reload, not a data-only one as above

@@ -518,53 +518,6 @@
 		}
 	}
 
-	public static function getBrowserIdJS($element_id=false) {
-		$js_string = '<script src="https://login.persona.org/include.js" type="text/javascript">'
-				   . '</script><script type="text/javascript">'
-				   . "(function(){function ha() {navigator.id.get(function(a){if(a){var i = document.getElementById('browseridassertion');if(i){i.value = a;var f=document.getElementById('cash_signin_form');if(f){f.submit();}}}});}var el=document.getElementById('browserid_login_link');if(el.attachEvent){el.attachEvent('onclick',ha);}else{el.addEventListener('click',ha,false);}}());"
-				   . '</script>';
-		if ($element_id) {
-			 $js_string = str_replace(
-				array('browseridassertion','browserid_login_link','cash_signin_form'),
-				array('browseridassertion_'.$element_id,'browserid_login_link_'.$element_id,'cash_signin_form_'.$element_id),
-				$js_string
-			);
-		}
-		return $js_string;
-		/*
-		ORIGINAL un-minified JavaScript:
-		
-		<script src="https://login.persona.org/include.js" type="text/javascript"></script>
-		<script type="text/javascript">
-		(function() {
-			// deal with the return from login.persona.org
-			function handleAssertion() {
-				navigator.id.get(function(assertion) {
-					if (assertion) {
-						var assertioninput = document.getElementById('browseridassertion_106');
-						if (assertioninput) {
-							assertioninput.value = assertion;
-							var loginform = document.getElementById('cash_signin_form_106');
-							if (loginform) {
-								loginform.submit();
-							}
-						}
-					}
-				});
-			}
-
-			// attach elements
-			var el = document.getElementById('browserid_login_link');
-			if (el.attachEvent) { // handle IE freakshowfirst — fucking seriously? it's 2012 dudes, get with it
-				el.attachEvent('onclick',handleAssertion);
-			} else {
-				el.addEventListener('click',handleAssertion,false);
-			}
-		}());
-		</script>
-		*/
-	}
-
 	/*
 	 * Sends a plain text and HTML email for system things like email verification,
 	 * password resets, etc.
