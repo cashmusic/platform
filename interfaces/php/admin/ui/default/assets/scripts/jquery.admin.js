@@ -276,19 +276,30 @@
 
 		$(document).on('click', '.multipart-next', function (e) {
 			e.preventDefault();
-			$(mpForm.form.children('.part-'+mpForm.section)[0]).hide();
-			mpForm.section = mpForm.section+1;
-			if (mpForm.section > mpForm.total) {
-				$($(mpForm.form).children('.section.basic-information')[0]).fadeIn();
-				$(mpForm.steps).text(
-					'Finalize: ' + $($(mpForm.form).children('.section.basic-information')[0]).data('section-name')
-				);
-				$(mpForm.submit).show();
-			} else {
-				$($(mpForm.form).children('.part-'+mpForm.section)[0]).fadeIn();
-				$(mpForm.steps).text(
-					'Step ' + mpForm.section + ' of ' + mpForm.total + ': ' + $($(mpForm.form).children('.part-'+mpForm.section)[0]).data('section-name')
-				);
+
+			var forcestop = false;
+			$($(mpForm.form).children('.part-'+mpForm.section)[0]).find('input,select,textarea').each(function() { // replace this with a hunt for specific children?
+				if (!validator.element($(this))) {
+					forcestop = true;
+					return false;
+				}
+			});
+
+			if (!forcestop) {
+				$(mpForm.form.children('.part-'+mpForm.section)[0]).hide();
+				mpForm.section = mpForm.section+1;
+				if (mpForm.section > mpForm.total) {
+					$($(mpForm.form).children('.section.basic-information')[0]).fadeIn();
+					$(mpForm.steps).text(
+						'Finalize: ' + $($(mpForm.form).children('.section.basic-information')[0]).data('section-name')
+					);
+					$(mpForm.submit).show();
+				} else {
+					$($(mpForm.form).children('.part-'+mpForm.section)[0]).fadeIn();
+					$(mpForm.steps).text(
+						'Step ' + mpForm.section + ' of ' + mpForm.total + ': ' + $($(mpForm.form).children('.part-'+mpForm.section)[0]).data('section-name')
+					);
+				}
 			}
 		});
 
@@ -377,10 +388,11 @@
 
 	 // validate forms and get them ready to submit (via AJAX)
 	 // for more, see: http://jqueryvalidation.org/documentation/
+	var validator;
 	function formValidateBehavior() {
 		$("form").each(function () {
 			var el = $(this);
-			el.validate({
+			validator = el.validate({
 				errorClass: "invalid",
 				errorElement: "span",
 				//errorLabelContainer:"#pagemessage",
@@ -760,6 +772,9 @@
 	}
 
 	function addMultipartButtons(section) {
+		var containerDiv = $('<div class="row"></div>');
+		var buttonDiv = $('<div class="twelve columns"></div>');
+		$(containerDiv).append(buttonDiv);
 		if (section <= mpForm.total) {
 			if (section == mpForm.total) {
 				// this structure means we ALWAYS need a .section.basic-information div
@@ -771,13 +786,10 @@
 			}
 			if (section > 1) {
 				var prevTitle = $($(mpForm.form).children('.part-'+(section-1))[0]).data('section-name');
-				$($(mpForm.form).children('.part-'+section)[0]).append(
-					$('<button class="button multipart-prev">Previous: '+prevTitle+'</button> ')
-				);
+				$(buttonDiv).append($('<button class="button multipart-prev">Previous: '+prevTitle+'</button> '));
 			}
-			$($(mpForm.form).children('.part-'+section)[0]).append(
-				$('<button class="button multipart-next">'+descriptor+nextTitle+'</button>')
-			);
+			$(buttonDiv).append('<button class="button multipart-next">'+descriptor+nextTitle+'</button>');
+			$($(mpForm.form).children('.part-'+section)[0]).append(containerDiv);
 		}
 	}
 
