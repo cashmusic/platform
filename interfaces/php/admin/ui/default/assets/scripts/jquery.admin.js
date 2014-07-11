@@ -694,7 +694,7 @@
 
 	var currentScroll = 0;
 	function handleModalScroll () {
-		if ($(document).scrollTop() !== currentScroll) {
+		if ($(document).scrollTop() < currentScroll) {
 			currentScroll = $(document).scrollTop();
 			if (currentScroll < 0) {
 				currentScroll = 0;
