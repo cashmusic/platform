@@ -378,7 +378,7 @@
 		});
 
 		// on mouse leave return to orginal state
-		$('#search').click(function (){
+		$('#search').mouseleave(function (){
 			$(this).removeClass('flipped');
 		});
 
