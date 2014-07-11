@@ -273,6 +273,34 @@
 				selection.addRange(range);
 		   }
 		});
+
+		$(document).on('click', '.multipart-next', function (e) {
+			e.preventDefault();
+			$(mpForm.form.children('.part-'+mpForm.section)[0]).hide();
+			mpForm.section = mpForm.section+1;
+			if (mpForm.section > mpForm.total) {
+				$($(mpForm.form).children('.section.basic-information')[0]).fadeIn();
+				$(mpForm.steps).text(
+					'Finalize: ' + $($(mpForm.form).children('.section.basic-information')[0]).data('section-name')
+				);
+				$(mpForm.submit).show();
+			} else {
+				$($(mpForm.form).children('.part-'+mpForm.section)[0]).fadeIn();
+				$(mpForm.steps).text(
+					'Step ' + mpForm.section + ' of ' + mpForm.total + ': ' + $($(mpForm.form).children('.part-'+mpForm.section)[0]).data('section-name')
+				);
+			}
+		});
+
+		$(document).on('click', '.multipart-prev', function (e) {
+			e.preventDefault();
+			$(mpForm.form.children('.part-'+mpForm.section)[0]).hide();
+			mpForm.section = mpForm.section-1;
+			$($(mpForm.form).children('.part-'+mpForm.section)[0]).fadeIn();
+			$(mpForm.steps).text(
+				'Step ' + mpForm.section + ' of ' + mpForm.total + ': ' + $($(mpForm.form).children('.part-'+mpForm.section)[0]).data('section-name')
+			);
+		});
 	}
 
 
@@ -371,7 +399,6 @@
 						ajaxFormSubmit(f);
 					} else {
 						f.submit();
-						console.log('submit!');
 					}
 				}
 			});
@@ -655,7 +682,7 @@
 
 	var currentScroll = 0;
 	function handleModalScroll () {
-		if ($(document).scrollTop() < currentScroll) {
+		if ($(document).scrollTop() !== currentScroll) {
 			currentScroll = $(document).scrollTop();
 			if (currentScroll < 0) {
 				currentScroll = 0;
@@ -693,6 +720,8 @@
 
 			$(document).bind('scroll',handleModalScroll);
 
+			handleMultipartForms();
+
 			// show the dialog with a fast fade-in
 			$('.modalbg').fadeIn('fast');
 			$('.modallightbox').fadeIn('fast', function() {
@@ -700,6 +729,56 @@
 				formValidateBehavior();
 			});
 		},'json');
+	}
+
+	var mpForm = {
+		"form":null,
+		"section":1,
+		"total":0,
+		"submit":null,
+		"steps":null
+	};
+	function handleMultipartForms() {
+		// in lightboxes: 
+		mpForm.section = 1;
+		$('.modallightbox form.multipart').each(function() {
+			mpForm.form = $(this);
+			mpForm.submit = $(this).children('input[type=submit]')[0];//.value;
+			mpForm.total = $(this).data('parts');
+			$(mpForm.submit).hide();
+			$('.modallightbox form.multipart div.section').each(function() { // replace this with a hunt for specific children?
+				if (!$(this).hasClass('part-'+mpForm.section)) {
+					$(this).hide();
+				}
+			});
+			mpForm.steps = $('<h5 class="steps">Step 1 of ' + mpForm.total + ': ' + $($(mpForm.form).children('.part-'+mpForm.section)[0]).data('section-name') + '</h5>');
+			mpForm.steps.insertBefore($(this));
+			for (var i = 1; i <= mpForm.total; i++) {
+				addMultipartButtons(i);
+			};
+		});
+	}
+
+	function addMultipartButtons(section) {
+		if (section <= mpForm.total) {
+			if (section == mpForm.total) {
+				// this structure means we ALWAYS need a .section.basic-information div
+				var descriptor = 'Finish: ';
+				var nextTitle = $($(mpForm.form).children('.section.basic-information')[0]).data('section-name');
+			} else {
+				var descriptor = 'Next: ';
+				var nextTitle = $($(mpForm.form).children('.part-'+(section+1))[0]).data('section-name');
+			}
+			if (section > 1) {
+				var prevTitle = $($(mpForm.form).children('.part-'+(section-1))[0]).data('section-name');
+				$($(mpForm.form).children('.part-'+section)[0]).append(
+					$('<button class="button multipart-prev">Previous: '+prevTitle+'</button> ')
+				);
+			}
+			$($(mpForm.form).children('.part-'+section)[0]).append(
+				$('<button class="button multipart-next">'+descriptor+nextTitle+'</button>')
+			);
+		}
 	}
 
 	/**
