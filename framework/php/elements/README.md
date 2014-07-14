@@ -59,6 +59,9 @@ properties themselves. Everything above is shown.
 			"group_label":{
 				"en":"Main settings"
 			},
+			"description":{
+				"en":"Instructions or clarifications that should appear with this group."
+			},
 			"data":{
 				"email_list_id":{
 					"label":{
@@ -109,6 +112,9 @@ properties themselves. Everything above is shown.
 		"second group":{
 			"group_label":{
 				"en":"A second group of options"
+			},
+			"description":{
+				"en":"Instructions or clarifications that should appear with this group."
 			},
 			"data":{
 				"short_text":{

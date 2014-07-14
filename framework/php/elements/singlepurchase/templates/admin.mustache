@@ -1,15 +1,20 @@
-<h4>Add a Single Purchase element</h4>
 <form method="post" action="{{www_path}}/elements/add/singlepurchase" class="multipart" data-parts="3">
 	<input type="hidden" name="{{form_state_action}}" value="makeitso">
 	{{#element_id}}<input type="hidden" name="element_id" value="{{element_id}}" />{{/element_id}}
 	{{#element_type}}<input type="hidden" name="element_type" value="{{element_type}}" />{{/element_type}}
 
 	<div class="section basic-information" data-section-name="Element name">
+		<p class="section-description">
+			Give the element a name for your own reference.
+		</p>
 		<label for="element_name">{{element_label_name}}</label>
 		<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="{{element_copy_nameit}}"{{/element_name}} class="required" /> 
 	</div>
 
 	<div class="row section part-1" data-section-name="Item and connection">
+		<p class="section-description">
+			Choose the item you're selling and the payment gateway you'd like to use.
+		</p>
 		<div class="six columns">
 			<label for="item_id">{{element_label_item}}</label>
 			<select id="item_id" name="item_id">
@@ -27,6 +32,9 @@
 	</div>
 
 	<div class="row section part-2" data-section-name="Regions">
+		<p class="section-description">
+			Define shipping regions and associated costs.
+		</p>
 		<div class="six columns">
 			<div class="row">
 				<div class="six columns">
@@ -54,6 +62,9 @@
 	</div>
 
 	<div class="section part-3 row" data-section-name="Messages">
+		<p class="section-description">
+			Customize the text shown to a user in different messages.
+		</p>
 		<div class="twelve columns">
 			<label for="message_error">{{element_label_error}}</label>
 			<input type="text" id="message_error" name="message_error" value="{{#options_message_error}}{{options_message_error}}{{/options_message_error}}{{^options_message_error}}{{element_copy_error}}{{/options_message_error}}" />

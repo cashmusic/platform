@@ -601,26 +601,25 @@
 		// overlay cancel button event
 		$(document).on('click', '.modalcancel', function(e) {
 			e.preventDefault();
-			$('.modallightbox').fadeOut('fast', function() {
-					$('.modallightbox').remove();
-				});
-			$('.modalbg').fadeOut('fast', function() {
-				$('.modalbg').remove();
-			});
-			$(document).unbind('scroll',handleModalScroll);
+			removeModal();
 		});
 
 		// fade/close on escape key
 		$(document).keyup(function(e) {
 			if(e.keyCode === 27) {
-				$('.modallightbox').fadeOut('fast', function() {
-					$('.modallightbox').remove();
-				});
-				$('.modalbg').fadeOut('fast', function() {
-					$('.modalbg').remove();
-				});
+				removeModal();
 			}
 		});
+	}
+
+	function removeModal() {
+		$('.modallightbox').fadeOut('fast', function() {
+			$('.modallightbox').remove();
+		});
+		$('.modalbg').fadeOut('fast', function() {
+			$('.modalbg').remove();
+		});
+		$(document).unbind('scroll',handleModalScroll);
 	}
 
 	 function listenForModals() {
@@ -710,6 +709,7 @@
 	 */
 	function doModalLightbox(route,returntocurrentroute) {
 		jQuery.post(route,'data_only=1', function(data) {
+			removeModal();
 			var addedClass = '';
 			if (returntocurrentroute) {
 				addedClass = 'returntocurrentroute '
@@ -717,7 +717,10 @@
 			// markup for the confirmation link
 			//var modalTop = $(document).scrollTop() + 120;
 			var markup = '<div class="modalbg">&nbsp;</div><div class="modallightbox ' + addedClass + '">' +
+						 //'<div class="row"><div class="twelve columns">' +
+						 '<h4>' + data.ui_title + '</h4>' +
 						 data.content + //jQuery.param(data) +
+						 //'</div></div>' +
 						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><i class="icon icon-ban-circle"></i>cancel</a></div>' +
 						 '</div></div>';
 
@@ -778,17 +781,17 @@
 		if (section <= mpForm.total) {
 			if (section == mpForm.total) {
 				// this structure means we ALWAYS need a .section.basic-information div
-				var descriptor = 'Finish: ';
-				var nextTitle = $($(mpForm.form).children('.section.basic-information')[0]).data('section-name');
+				var descriptor = 'Finish';
+				//var nextTitle = $($(mpForm.form).children('.section.basic-information')[0]).data('section-name');
 			} else {
-				var descriptor = 'Next: ';
-				var nextTitle = $($(mpForm.form).children('.part-'+(section+1))[0]).data('section-name');
+				var descriptor = 'Next';
+				//var nextTitle = $($(mpForm.form).children('.part-'+(section+1))[0]).data('section-name');
 			}
 			if (section > 1) {
-				var prevTitle = $($(mpForm.form).children('.part-'+(section-1))[0]).data('section-name');
-				$(buttonDiv).append($('<button class="button multipart-prev">Previous: '+prevTitle+'</button> '));
+				//var prevTitle = $($(mpForm.form).children('.part-'+(section-1))[0]).data('section-name');
+				$(buttonDiv).append($('<button class="button multipart-prev">Previous</button> '));
 			}
-			$(buttonDiv).append('<button class="button multipart-next">'+descriptor+nextTitle+'</button>');
+			$(buttonDiv).append('<button class="button multipart-next">'+descriptor+'</button>');
 			$($(mpForm.form).children('.part-'+section)[0]).append(containerDiv);
 		}
 	}
