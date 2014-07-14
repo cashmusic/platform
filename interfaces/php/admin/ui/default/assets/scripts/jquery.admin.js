@@ -59,8 +59,32 @@
 				window.firstadminload = false;
 			}
 		});
-	});
 
+		// grab the initial top offset of the navigation 
+		var sticky_navigation_offset_top = $('#logo').offset().top;
+	
+		// our function that decides weather the navigation bar should have "fixed" css position or not.
+		var sticky_navigation = function(){
+			var scroll_top = $(window).scrollTop(); // our current vertical position from the top
+		
+			// if we've scrolled more than the navigation, change its position to fixed to stick to top, otherwise change it back to relative
+			if (scroll_top > sticky_navigation_offset_top) { 
+				$('#logo, #pagetitle').addClass('stick');
+			} else {
+				$('#logo').removeClass('stick');
+			}   
+		};
+	
+			// run our function on load
+			sticky_navigation();
+	
+			// and run it again every time you scroll
+			$(window).scroll(function() {
+			 sticky_navigation();
+			});
+	
+
+	}); // $document
 
 
 
@@ -97,7 +121,7 @@
 		if (data.page_message) {
 			doMessage(data.page_message,'');
 		}
-		$('#pagetips').hide();
+		//$('#pagetips').hide();
 		$('#current_pagetip').html(data.ui_page_tip);
 		$('#pagedisplay').html(data.content);
 		$('#pagetitle span').html(data.ui_title);
@@ -184,7 +208,11 @@
 	}
 
 
-
+	function refreshPanelData(url){
+		$.post(url, 'data_only=1', function(data) {
+  			$('.panelcontent').html(data.content);
+  		});	
+	};
 
 
 	/**
@@ -231,6 +259,8 @@
 		textareaTabBehavior();
 		listenForModals();
 		listenForInjectLinks();
+		touchToggles();
+		autoPanel();
 
 		// page tip show/hide
 		$(document).on('click', '#tipslink', function(e) {
@@ -247,6 +277,20 @@
 			$( this ).toggleClass( "display" );
 			$( "#navmenu" ).toggleClass( "display" );
 		});
+
+		// show/hide search
+		$( "#searchbtn" ).click(function() {
+			$( this ).toggleClass( "display" );
+			$( "#search" ).toggleClass( "display" );
+		});
+
+		// hide mainmenu & tertiary panel
+		$( "#flipback" ).click(function() {
+			$ (this).parent().removeClass( "display" );
+			$ (this).parents("body").removeClass("panel").removeClass("learn").removeClass("settings").removeClass("help");
+			$('.panelcontent').removeClass('display');
+		});
+
 		// handle logout
 		$(document).on('click', '#logout', function(e) {
 			e.preventDefault();
@@ -274,6 +318,7 @@
 				selection.addRange(range);
 		   }
 		});
+
 	}
 
 
@@ -287,16 +332,62 @@
 		});
 	};
 
+	/* Show/Hide Tertiary Panel */
+
+	function touchToggles() {
+		// show/hide element menus
+		$( "#learn.toggle, #learnpanel .toggle, #learnpanel .paneltitle" ).click(function() {
+			$ (this).parents("body").toggleClass("panel").toggleClass("learn");
+		});
+		$( "#settings.toggle, #settingspanel .toggle, #settingspanel .paneltitle").click(function() {
+			$ (this).parents("body").toggleClass("panel").toggleClass("settings" );
+		});
+		$( "#help.toggle, #helppanel .toggle, #helppanel .paneltitle" ).click(function() {
+			$ (this).parents("body").toggleClass("panel").toggleClass("help");
+		});
+	};
+
+	/* Show/Hide contents in tertiary panel */
+
+	function autoPanel() {
+		$( "#settings.toggle" ).click(function() {
+			$('#settingspanel .tertiarynav li a').removeClass('current');
+			$('#settingspanel .tertiarynav li a:first').addClass('current');
+			var url = $('#settingspanel .tertiarynav li a.current').attr('href');
+				refreshPanelData(url);
+				$('.panelcontent').addClass('display');
+		});
+		$( "#help.toggle" ).click(function() {
+			$('#helppanel .tertiarynav li a').removeClass('current');
+			$('#helppanel .tertiarynav li a:first').addClass('current');
+			var url = $('#helppanel .tertiarynav li a.current').attr('href');
+				refreshPanelData(url);
+				$('.panelcontent').addClass('display');
+		});
+	};
+
+	/*  Featured Asset Flip */
 
 	function releaseFlip() {
-
+		// on mouse hover flip the image
 		$('.featured-release').hover(function (){
 			$('#card', this).addClass('flipped');
 		});
 
+		$('#search').hover(function (){
+			$(this).addClass('flipped');
+		});
+
+		// on mouse leave return to orginal state
 		$('.featured-release').mouseleave(function (){
 			$('#card', this).removeClass('flipped');
 		});
+
+		// on mouse leave return to orginal state
+		$('#search').mouseleave(function (){
+			$(this).removeClass('flipped');
+		});
+
 	};		
 
 	/**
@@ -316,14 +407,28 @@
 			var el = $(e.currentTarget);
 			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
-				&& !el.hasClass('noajax') && !el.is('#logout')
+				&& !el.hasClass('noajax') && !el.is('#logout') && !el.parents('div').hasClass('inner') 
 			) {
 				e.preventDefault();
 				var url = el.attr('href');
 				refreshPageData(url);
 				el.blur();
+
+			// if inside the tertiary panel or a panel touchpoint
+			} else if (el.parents('div').hasClass('inner')){
+				e.preventDefault();
+				$('.panelcontent').removeClass('display');
+				var url = el.attr('href');
+  				refreshPanelData(url);
+  				$('.panelcontent').addClass('display');
+  				$('.inner a').removeClass('current');
+  				el.addClass('current');
+				el.blur();
 			}
 		});
+
+
+
 
 		// stop in-app forms from submitting — we handle them in formValidateBehavior()
 		$(document).on('submit', 'form', function(e) {

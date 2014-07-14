@@ -9,6 +9,6 @@
 	"action_close":"close",
 
 	"misc_account":"Settings",
-	"misc_tips":"Tips for <b>this</b> page",
-	"misc_footer_markup":"<b>&copy; 2014 CASH Music.</b> All our code is open-source. "
+	"misc_tips":"Tips for <strong>this</strong> page",
+	"misc_footer_markup":"<strong>&copy; 2014 CASH Music.</strong> All our code is open-source. "
 }
