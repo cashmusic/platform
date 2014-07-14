@@ -43,26 +43,37 @@
 		<div id="chromespc" class="twelve columns">
 
 			<div id="chrome">
-				<div id="tipspc" class="hide-for-small">
-					<div id="pagetips">
-						<p>
-							<span id="current_pagetip">{{{ui_page_tip}}}</span>
-						</p>
-						<a id="tipscloselink" href="#">{{action_close}}</a>
-					</div>
-				</div>
-				<div id="menutoggle">Main Menu</div> 
+				<div id="menutoggle">Main Menu</div><!--mentoggle-->
+
 				<div id="navmenu" class="mainnavmenu">
+				<div id="header"><h1 id="logo"><a href="{{www_path}}/"><img src="{{img_base_url}}/ui/default/assets/images/invert_logo.png" alt="CASH Music"/></a><img id="ajaxloading" src="{{img_base_url}}/ui/default/assets/images/load.png" alt="loading..." class="rotate" /></h1><!--logo-->
+					<div class="touchpoints">
+						<div id="searchbtn" class="toggle"><a title="Search" class="icon-search"></a></div>
+						<div id="learn" class="toggle"><a title="Learn" class="icon icon-bulb"></a></div><!--learn-->
+						<div id="settings" class="toggle"><a title="Account/Settings" class="icon icon-cog"></a></div><!--settings-->
+						<div id="help" class="toggle"><a title="Help" class="icon icon-question-sign"></a></div><!--help-->
+						<div id="logoutbtn" class="toggle needsconfirmation"><a title="Logout" href="{{www_path}}/logout/" id="logout" class="icon icon-signout"></a></div><!--logout-->
+					</div><!--touchpoints-->
+					<div id="flipback"></div><!--flipback-->	
+					<form id="search" accept-charset="UTF-8" method="post" action="">	
+								<label for="query">Search for:</label>
+									<i class="icon icon-search"></i><input type="text" id="query" name="query" placeholder="" /> 
+							</form><!--search-->
+				</div><!--header-->		
 					<ul>
+				
 						<li{{#ui_current_main}} class="current"{{/ui_current_main}}>
 							<a href="{{www_path}}/" class="mainnav">
-								<i class="icon icon-certificate"></i>{{link_main_page}}
+								<i class="icon icon-certificate"></i><span>{{link_main_page}}</span>
 								<div class="highlightimg"></div>
 							</a>
+							<div class="subnavmenu">
+								{{{main_section_menu}}}
+							</div>
 						</li>
 						<li{{#ui_current_assets}} class="current"{{/ui_current_assets}}>
 							<a href="{{www_path}}/assets/" class="assetsnav">
-								<i class="icon icon-paste"></i>{{link_menu_assets}}
+								<i class="icon icon-paste"></i><span>{{link_menu_assets}}</span>
 								<div class="highlightimg"></div>
 							</a>
 							<div class="subnavmenu usecolor2">
@@ -71,7 +82,7 @@
 						</li>
 						<li{{#ui_current_people}} class="current"{{/ui_current_people}}>
 							<a href="{{www_path}}/people/" class="peoplenav">
-								<i class="icon icon-group"></i>{{link_menu_people}}
+								<i class="icon icon-group"></i><span>{{link_menu_people}}</span>
 								<div class="highlightimg"></div>
 							</a>
 							<div class="subnavmenu usecolor3">
@@ -80,7 +91,7 @@
 						</li>
 						<li{{#ui_current_commerce}} class="current"{{/ui_current_commerce}}>
 							<a href="{{www_path}}/commerce/" class="commercenav">
-								<i class="icon icon-credit-card"></i>{{link_menu_commerce}}
+								<i class="icon icon-credit-card"></i><span>{{link_menu_commerce}}</span>
 								<div class="highlightimg"></div>
 							</a>
 							<div class="subnavmenu usecolor4">
@@ -89,45 +100,23 @@
 						</li>
 						<li{{#ui_current_calendar}} class="current"{{/ui_current_calendar}}>
 							<a href="{{www_path}}/calendar/" class="calendarnav">
-								<i class="icon icon-calendar"></i>{{link_menu_calendar}}
+								<i class="icon icon-calendar"></i><span>{{link_menu_calendar}}</span>
 								<div class="highlightimg"></div>
 							</a>
 							<div class="subnavmenu usecolor5">
 								{{{calendar_section_menu}}}
 							</div>
 						</li>
+						<li><p class="version"><span>CASH Music Platform <strong>v.{{platform_version}}</strong></span></p></li>
 					</ul>
 					<div id="donate"><a href="http://cashmusic.org/donate/" target="_blank"><p>We can't exist without your support. <br />Please Donate!</p><p class="heart">&#9825;</p></a></div>
-				</div>
-
-				<div id="accountmenu">
-					<span><i class="icon icon-cog"></i><span class="head">{{misc_account}}</span></span>
-					<ul>
-						<li><a href="{{www_path}}/account/"><i class="icon icon-user"></i>{{link_youraccount}}</a></li>
-						<li><a href="{{www_path}}/settings/"><i class="icon icon-cog"></i>{{link_settings}}</a></li>
-						<li><a href="http://cashmusic.org/#more"><i class="icon icon-heart"></i>{{action_donate}}</a></li>
-						<li><a href="{{www_path}}/logout/" id="logout"><i class="icon icon-signout"></i>{{action_logout}}</a></li>
-					</ul>
-				</div>
-
-				<div id="helpmenu">
-					<span><i class="icon icon-question-sign"></i><span class="head">{{link_menu_help}}</span></span>
-					<ul>
-						<li><a href="#tips" id="tipslink"><i class="icon icon-compass"></i>{{{misc_tips}}}</a></li>
-						<li><a href="{{www_path}}/help/gettingstarted/"><i class="icon icon-rocket"></i>{{link_menu_help_gettingstarted}}</a></li>
-						<li><a href="{{www_path}}/help/"><i class="icon icon-book"></i>{{link_help_alt}}</a></li>
-						<li><a href="http://help.cashmusic.org/" target="_blank"><i class="icon icon-external-link"></i>help.cashmusic.org</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
+				</div><!--navmenu-->
+			</div><!--chrome-->
+		</div><!--chromespc-->
 
 		<div id="mainspc" class="container {{specialcolor}}">
 			<div class="row">
 				<section role="main">
-					<h1 id="logo"><a href="{{www_path}}/"><img src="{{img_base_url}}/ui/default/assets/images/logo.png" alt="CASH Music"/></a><span>CASH Music Platform <strong>v.{{platform_version}}</strong></span>
-					<img id="ajaxloading" src="{{img_base_url}}/ui/default/assets/images/load.png" alt="loading..." class="rotate" />
-					</h1><!--logo-->
 					<div class="row">
 						<div class="twelve columns phone-two">
 							<p class="show-for-small">
@@ -142,13 +131,45 @@
 							<div id="pagemessage">
 								{{#error_message}}<p><span class="highlightcopy errormessage">{{error_message}}</span></p>{{/error_message}}
 								{{#page_message}}<p><span class="highlightcopy">{{page_message}}</span></p>{{/page_message}}
-							</div>
+							</div><!--pagemessage-->
 							<div id="pagedisplay">
-								<div id="ld" ><img src="{{img_base_url}}/ui/default/assets/images/load.png" alt="loading..." /></div><!--ld-->
 								{{{content}}}
-							</div>
-						</div>
-					</div>
+							</div><!--pagedisplay-->
+						</div><!--twelve columns phone-two-->
+					</div><!--row-->
+
+					<div id="learnpanel">
+						<div class="inner">
+						<h1 class="paneltitle"><i class="icon icon-bulb"></i>Learn</h1>
+							<ul class="tertiarynav">
+								<li><a href="#tips" id="tipslink"><i class="icon icon-compass"></i>{{{misc_tips}}}</a></li>
+							</ul>
+							<h5 id="current_pagetip">{{{ui_page_tip}}}</h5>
+							<div class="panelcontent"></div><!--panelcontent-->
+						</div><!--inner-->
+					</div><!--learnpanel-->
+					<div id="settingspanel">
+						<div class="inner">
+						<h1 class="paneltitle"><i class="icon icon-cog"></i>Settings</h1>
+							<ul class="tertiarynav">
+								<li><a href="{{www_path}}/account/"><i class="icon icon-user"></i>{{link_youraccount}}</a></li>
+								<li><a href="{{www_path}}/settings/" ><i class="icon icon-cog"></i>{{link_settings}}</a></li>
+								<li><a href="http://cashmusic.org/#more"><i class="icon icon-heart"></i>{{action_donate}}</a></li>
+							</ul>
+							<div class="panelcontent"></div><!--panelcontent-->
+						</div><!--inner-->	
+					</div><!--settingspanel-->
+					<div id="helppanel">
+					<div class="inner">
+						<h1 class="paneltitle"><i class="icon icon-question-sign"></i>Help</h1>
+							<ul class="tertiarynav">
+								<li><a href="{{www_path}}/help/gettingstarted/"><i class="icon icon-rocket"></i>{{link_menu_help_gettingstarted}}</a></li>
+								<li><a href="{{www_path}}/help/"><i class="icon icon-book"></i>{{link_help_alt}}</a></li>
+								<li><a href="http://help.cashmusic.org/" target="_blank"><i class="icon icon-external-link"></i>help.cashmusic.org</a></li>
+							</ul>
+							<div class="panelcontent"></div><!--panelcontent-->
+						</div><!--inner-->
+					</div><!--helppanel-->
 				</section>
 			</div>
 		</div>
