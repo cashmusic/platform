@@ -22,6 +22,9 @@ body {
 	padding:0 5% 0 5%;
 	background: #e3e3e3; /* Old browsers */
 	background:rgba(230,230,230,0.97) url(../images/paint_low.png) 0% 0%;
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-attachment: fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -36,10 +39,11 @@ body {
 }
 
 /*Scrollbars*/
-
-::-webkit-scrollbar{width: 12px;  /* for vertical scrollbars */height: 12px; /* for horizontal scrollbars */}
+/*
+::-webkit-scrollbar{width: 12px;height: 12px;}
 ::-webkit-scrollbar-track{background: rgba(34, 34, 34, 0.97);}
 ::-webkit-scrollbar-thumb{background: rgba(238, 238, 238, 0.97);}
+*/
 
 .row{
 	/*overflow:auto;*/
