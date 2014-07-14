@@ -55,7 +55,7 @@ body {
 #pagetitle{
 	font-size:38px;
 	line-height: 40px;
-	margin:0 auto 7% auto;
+	margin:5% auto 7% auto;
 	width:90%;
 	font-weight:700;
 	/*text-transform: uppercase;*/
@@ -413,13 +413,13 @@ small{
 
 #header #logo{
 	display:block;
-	float:right;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition: 0.3s ease-in-out;
 	position:relative;
 	width:23%;
-	opacity:0;
+	float:left;
+	padding:0 0 0 5%;
 }
 
 #header #logo a{
@@ -537,9 +537,9 @@ section[role=main]{
 /* Menu Touch Points */
 
 .touchpoints{
-	/*background:#222 url(../images/dirt.png) 50% 50%;*/
 	opacity:1;
 	width:70%;
+	width:220px;
 	float:left;
 	visibility: visible;
 	z-index:3;
@@ -552,7 +552,7 @@ section[role=main]{
 	-webkit-transition:0.5s  ease-in-out;
 	-moz-transition: 0.5s  ease-in-out;
 	trasition: 0.5s ease-in-out;
-	/*border:solid 1px #000;*/
+	display:none;
 }
 
 .touchpoints .toggle{
@@ -706,29 +706,9 @@ section[role=main]{
 	opacity:1;
 }
 
-/*.inner .panelcontent a{
-	background:#00cf7f;
-	color:#f5f5f5;
-	padding:0 1%;
-	text-decoration: none;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-}
-
-.inner .panelcontent a:hover{
-	background:#222;
-}*/
-
 .inner .panelcontent ul{
 	margin:0 0 20px 20px;
 }
-
-
-/*#mainspc.usecolor2 .inner .panelcontent a{background:#fa3838; color:#f5f5f5;}
-#mainspc.usecolor3 .inner .panelcontent a{background:#ff7c12; color:#f5f5f5;}
-#mainspc.usecolor4 .inner .panelcontent a{background:#6a38fa; color:#f5f5f5;}
-#mainspc.usecolor5 .inner .panelcontent a{background:#fa3866; color:#f5f5f5;}*/
 
 .inner .panelcontent a .icon{
 	margin:0 5px 0 0;
@@ -788,7 +768,6 @@ section[role=main]{
 }
 
 /* Donation Notice */
-
 
 #donate{
 	position:absolute;
@@ -973,8 +952,8 @@ color:#f5f5f5!important;
 	-moz-border-radius: 500px;
 	border-radius: 500px;
 	position:fixed;
-	top:3%;
-	right:12%;
+	top:5.5%;
+	right:7%;
 	z-index:100;
 	padding:20px;
 	width:50px;
@@ -2172,6 +2151,8 @@ section[role=main]{
 
 #header #logo{
 	opacity:1;
+	float:right;
+	padding:0;
 }
 
 #header span{
@@ -2240,6 +2221,10 @@ button, .button, #modallightbox .modalcancel{
 
 #navmenu ul li a{
 	padding:15px 12% 15px 12%;
+}
+
+.touchpoints{
+	display:block;
 }
 
 /* Account Menu */
