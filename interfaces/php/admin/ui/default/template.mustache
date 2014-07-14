@@ -46,14 +46,22 @@
 				<div id="menutoggle">Main Menu</div><!--mentoggle-->
 
 				<div id="navmenu" class="mainnavmenu">
-				<div id="flipback"></div><!--flipback-->
+				<div id="header"><h1 id="logo"><a href="{{www_path}}/"><img src="{{img_base_url}}/ui/default/assets/images/invert_logo.png" alt="CASH Music"/></a><img id="ajaxloading" src="{{img_base_url}}/ui/default/assets/images/load.png" alt="loading..." class="rotate" /></h1><!--logo-->
 					<div class="touchpoints">
-						<div id="logout" class="toggle needsconfirmation"><a title="Logout" href="{{www_path}}/logout/" id="logout" class="icon icon-signout">{{action_logout}}</a></div><!--logout-->
-						<div id="help" class="toggle"><a title="Help" class="icon icon-question-sign"></a></div><!--help-->
-						<div id="settings" class="toggle"><a title="Account/Settings" class="icon icon-cog"></a></div><!--settings-->
+						<div id="searchbtn" class="toggle"><a title="Search" class="icon-search"></a></div>
 						<div id="learn" class="toggle"><a title="Learn" class="icon icon-bulb"></a></div><!--learn-->
+						<div id="settings" class="toggle"><a title="Account/Settings" class="icon icon-cog"></a></div><!--settings-->
+						<div id="help" class="toggle"><a title="Help" class="icon icon-question-sign"></a></div><!--help-->
+						<div id="logoutbtn" class="toggle needsconfirmation"><a title="Logout" href="{{www_path}}/logout/" id="logout" class="icon icon-signout"></a></div><!--logout-->
 					</div><!--touchpoints-->
+					<div id="flipback"></div><!--flipback-->	
+					<form id="search" accept-charset="UTF-8" method="post" action="">	
+								<label for="query">Search for:</label>
+									<i class="icon icon-search"></i><input type="text" id="query" name="query" placeholder="" /> 
+							</form><!--search-->
+				</div><!--header-->		
 					<ul>
+				
 						<li{{#ui_current_main}} class="current"{{/ui_current_main}}>
 							<a href="{{www_path}}/" class="mainnav">
 								<i class="icon icon-certificate"></i><span>{{link_main_page}}</span>
@@ -99,13 +107,9 @@
 								{{{calendar_section_menu}}}
 							</div>
 						</li>
+						<li><p class="version"><span>CASH Music Platform <strong>v.{{platform_version}}</strong></span></p></li>
 					</ul>
-					<div id="donate">
-						<a href="http://cashmusic.org/donate/" target="_blank">
-							<p>We can't exist without your support.<br />Please Donate!</p>
-							<p class="heart">&#9825;</p>
-						</a>
-					</div><!--donate-->
+					<div id="donate"><a href="http://cashmusic.org/donate/" target="_blank"><p>We can't exist without your support. <br />Please Donate!</p><p class="heart">&#9825;</p></a></div>
 				</div><!--navmenu-->
 			</div><!--chrome-->
 		</div><!--chromespc-->
@@ -113,13 +117,6 @@
 		<div id="mainspc" class="container {{specialcolor}}">
 			<div class="row">
 				<section role="main">
-					<header id="logo"><h1><a href="{{www_path}}/"><img src="{{img_base_url}}/ui/default/assets/images/logo.png" alt="CASH Music"/></a><span>CASH Music Platform <strong>v.{{platform_version}}</strong></span></h1>
-					<img id="ajaxloading" src="{{img_base_url}}/ui/default/assets/images/load.png" alt="loading..." class="rotate" />
-						<form id="search" accept-charset="UTF-8" method="post" action="">	
-								<label for="query">Search for:</label>
-									<i class="icon icon-search"></i><input type="text" id="query" name="query" placeholder="" /> 
-							</form>
-					</header><!--logo-->
 					<div class="row">
 						<div class="twelve columns phone-two">
 							<p class="show-for-small">
@@ -136,7 +133,6 @@
 								{{#page_message}}<p><span class="highlightcopy">{{page_message}}</span></p>{{/page_message}}
 							</div><!--pagemessage-->
 							<div id="pagedisplay">
-								<div id="ld" ><img src="{{img_base_url}}/ui/default/assets/images/load.png" alt="loading..." /></div><!--ld-->
 								{{{content}}}
 							</div><!--pagedisplay-->
 						</div><!--twelve columns phone-two-->

@@ -278,6 +278,12 @@
 			$( "#navmenu" ).toggleClass( "display" );
 		});
 
+		// show/hide search
+		$( "#searchbtn" ).click(function() {
+			$( this ).toggleClass( "display" );
+			$( "#search" ).toggleClass( "display" );
+		});
+
 		// hide mainmenu & tertiary panel
 		$( "#flipback" ).click(function() {
 			$ (this).parent().removeClass( "display" );
