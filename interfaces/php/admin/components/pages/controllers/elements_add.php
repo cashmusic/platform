@@ -13,7 +13,7 @@ if ($request_parameters) {
 	$cash_admin->page_data['form_state_action'] = 'doelementadd';
 	$cash_admin->page_data['element_type'] = $element_addtype;
 	if (isset($elements_data[$element_addtype])) {
-		$cash_admin->page_data['ui_title'] = 'Elements: Add ' . $elements_data[$element_addtype]['name'] . ' Element';
+		$cash_admin->page_data['ui_title'] = 'Add ' . $elements_data[$element_addtype]['name'] . ' Element';
 		$cash_admin->page_data['ui_page_tip'] = $elements_data[$element_addtype]['pagetip'];
 	}
 

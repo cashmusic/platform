@@ -24,6 +24,9 @@
 			"group_label":{
 				"en":"Main settings"
 			},
+			"description":{
+				"en":"Instructions or clarifications that should appear with this group."
+			},
 			"data":{
 				"email_list_id":{
 					"label":{
@@ -54,6 +57,9 @@
 		"messages":{
 			"group_label":{
 				"en":"Success/error messages"
+			},
+			"description":{
+				"en":"Instructions or clarifications that should appear with this group."
 			},
 			"data":{
 				"message_success":{
@@ -101,6 +107,9 @@
 		"interface":{
 			"group_label":{
 				"en":"Customize signup form"
+			},
+			"description":{
+				"en":"Instructions or clarifications that should appear with this group."
 			},
 			"data":{
 				"button_text":{
