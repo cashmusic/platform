@@ -1671,46 +1671,58 @@ margin:0; padding:0;}
 	padding:10%;
 }
 
-.panel .modaldialog, .panel .modalbg{
+.panel .modaldialog, .panel .modalbg, .panel .modallightbox{
 	left:28%;
 }
 
-.modaldialog h4{
-	margin:1em 0 6px 0;
-	padding;:0;
-	color:#f5f5f5;
+.modaldialog h4 {
+    margin:1em 0 6px 0;
+    padding:0;
+    color:#f5f5f5;
 }
 
-.modallightbox h4{
-	color:#f5f5f5;
+.modallightbox h4,.modallightbox h5 {
+    color:#f5f5f5;
+}
+
+.modallightbox h5 {
+    text-transform:uppercase;
+    font-size: 12px;
+    line-height: 16px;
+    margin:0 0 6px 0;
 }
 
 .modaldialog input.button:hover {
-	background-color:#777 !important;
+    background-color:#777 !important;
 }
 
 .modallightbox {
-	position:absolute;
-	top:0;
-	left:0;
-	margin:0;
-	width:74%;
-	color:#f5f5f5;
-	padding:10%;
-	/*background-color:rgba(34,34,34,0.9);*/
-	text-align:left;
-	z-index:3;
+    position:absolute;
+    top:0;
+    left:0;
+    margin:0;
+    width:74%;
+    color:#f5f5f5;
+    padding:10%;
+    /*background-color:rgba(34,34,34,0.9);*/
+    text-align:left;
+    z-index:3;
+}
+
+.panel .modallightbox{
+	width:65%;
+	padding:10% 5% 10% 5%;
 }
 
 .modallightbox .columns {
-	padding:2% 0;
+        /*padding:2% 0;*/
 }
 
 .modallightbox button{
-	position:relative;
-	bottom:0;
-	left:0;
-	margin:3% 0 0 0;
+    position:relative;
+    bottom:0;
+    left:0;
+    margin:3% 6px 0 0;
 }
 
 .modallightbox .modalcancel .icon{

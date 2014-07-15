@@ -24,15 +24,6 @@
 	
 	// default admin settings:
 	protected $default_user_settings = array(
-		'use_simple_mode' => true,
-		'banners' => array(
-			'mainpage' => true,
-			'elements' => true,
-			'assets' => true,
-			'people' => true,
-			'commerce' => true,
-			'calendar' => true
-		),
 		'favorite_assets' => array()
 	);
 	
