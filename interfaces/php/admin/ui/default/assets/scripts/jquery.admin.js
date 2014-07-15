@@ -825,7 +825,7 @@
 						 '<h4>' + data.ui_title + '</h4>' +
 						 data.content + //jQuery.param(data) +
 						 //'</div></div>' +
-						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><i class="icon icon-ban-circle"></i>cancel</a></div>' +
+						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><i class="icon icon-ban-circle"></i><span>cancel</span></a></div>' +
 						 '</div></div>';
 
 			markup = $(markup);

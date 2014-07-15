@@ -510,12 +510,17 @@ small{
 }
 
 #search.flipped input, #search.flipped i{
-	color:#f5f5f5;
+	color:#222;
 }
 
 #search.flipped, #search:active, #search:focus, #search:visited{
-	background:#000;
+	background:#f5f5f5;
 }
+
+#search.flipped input, #search:active input, #search:focus input, #search:visited input{
+	color:#222;
+}
+
 
 .panel #search{
 	opacity:0;
@@ -1283,6 +1288,10 @@ color:#f5f5f5!important;
 	border:none;
 }
 
+.callout.newsfeed a:hover{
+	color:#4d4d4d;
+}
+
 .drawer{
 	width:100%;
 }
@@ -1655,6 +1664,9 @@ margin:0; padding:0;}
 	height:100%;
 	background-color:rgba(34,34,34,0.98);
 	z-index:2;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition:0.3s ease-in-out;
 }
 
 .modaldialog {
@@ -1669,6 +1681,9 @@ margin:0; padding:0;}
 	text-align:center;
 	z-index:10;
 	padding:10%;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition:0.3s ease-in-out;
 }
 
 .panel .modaldialog, .panel .modalbg, .panel .modallightbox{
@@ -1707,6 +1722,9 @@ margin:0; padding:0;}
     /*background-color:rgba(34,34,34,0.9);*/
     text-align:left;
     z-index:3;
+    -webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition:0.3s ease-in-out;
 }
 
 .panel .modallightbox{
@@ -1727,27 +1745,112 @@ margin:0; padding:0;}
 
 .modallightbox .modalcancel .icon{
 	padding:0 1% 0 0;
+	display:none;
 }
 
 .modallightbox .modalcancel{
-	background:#333;
-	display:block;
+	/*display:block;*/
+	position:fixed;
+	top:6%;
+	right:30%;
+	text-align: center;
+	display: inline;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	color:#f5f5f5;
-	width:100%;
+	color:#222;
 	margin:0;
-	padding:1% 3%;
-	text-decoration: none;
+	padding:0;
+	width:40px;
+	height:40px;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition:0.3s ease-in-out;
+	-webkit-border-radius: 50px;
+	-moz-border-radius: 50px;
+	text-indent: -5000em !important;
+	border-radius: 50px;
+	background:#111 url(../images/cross.png) 50% 50% no-repeat;
+}
+
+.modallightbox .modalcancel span{
+	text-indent: -5000em !important;
+}
+
+.panel .modallightbox .modalcancel{
+	right:9%;
+}
+
+.modallightbox .modalcancel:hover{
+	background:#222 url(../images/cross.png) 50% 50% no-repeat;
+}
+
+.modallightbox .six, .modallightbox .twelve{
+	padding:0;
+	margin:0;
+}
+/*
+.modallightbox input, .modallightbox textarea{
+	background:#222;
+	border:none;
+	color:#ddd;
+}
+
+.modallightbox input:focus, .modallightbox input:active, .modallightbox textarea:focus, .modallightbox textarea:active{
+	background:#333;
+	color:#f5f5f5;
+}*/
+
+.modallightbox .steps{
+/*	position:fixed;
+	top:7%;
+	right:30%;*/
+	padding:1% 0 0 0;
+	color:#4d4d4d;
+}
+
+.modallightbox .button{
+	margin:5% 0 0 0;
+}
+
+.modallightbox .section-description{
+	margin:1% 0 2% 0;
+	padding:2% 2% 2% 8%;
+	border: 1px dotted #4d4d4d;
+	background: url(../images/lght_off.png) no-repeat 2% 40%;
+	background-size: 4%;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition:0.3s ease-in-out;
 }
 
-.modallightbox .modalcancel:hover{
-	background:#f5f5f5;
-	color:#222;
+.modallightbox .section-description:hover{
+	background:#00cf7f url(../images/lght_on.png) no-repeat 2% 50%;
+	background-size: 4%;
+	border: 1px solid #00cf7f;
+	cursor: pointer;
+}
+
+.modallightbox .multipart-prev{
+	margin-right:1%;
+	float:left;
+	border-color:#4d4d4d;
+	color:#4d4d4d;
+}
+
+.modallightbox .multipart-prev:hover{
+	border: 1px solid #00cf7f;
+	color:#f5f5f5;
+}
+
+
+.modallightbox .row .row{
+	margin:0;
+	width:100%;
+	display:block;
 }
 
 /* PEOPLE LIST VIEW */
