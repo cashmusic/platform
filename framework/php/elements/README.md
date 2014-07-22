@@ -30,6 +30,7 @@ And every option can also contain:
   - default
   - displaysize
   - helptext
+  - placeholder
 
 
 ## JSON Example
@@ -86,7 +87,7 @@ properties themselves. Everything above is shown.
 					"values":{
 						"1":"Display text for first value",
 						"two":"Display text for second value",
-						"The third value":"The third value",
+						"The third value":"The third value"
 					},
 					"required":true,
 					"displaysize":"small"
@@ -123,6 +124,9 @@ properties themselves. Everything above is shown.
 					},
 					"helptext":{
 						"en":"Helptext will be displayed during initial setup and always available on the edit page."
+					},
+					"placeholder":{
+						"en":"A placeholder for empty values."
 					},
 					"type":"text",
 					"default":{

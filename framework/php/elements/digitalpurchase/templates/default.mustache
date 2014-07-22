@@ -1,37 +1,4 @@
 {{#error_message}}<div class="cash_error cash_{{element_type}}_error">{{error_message}}</div>{{/error_message}}
-<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script type="text/javascript">
-$( document ).ready(function() {
-
-		$('.packshot').hover(function (){
-			$('#card', this).addClass('flipped');
-			console.log('hover');
-		});
-
-		$('.packshot').mouseleave(function (){
-			$('#card').removeClass('flipped');
-		});
-});		
-</script>
-
-<div class="packshot">
-<div id="card">
-<div class="front"></div><!--front-->
-<div class="back">
-<h2>Twigs LP1</h2>
-<ul>
-	<li>1) Track 1</li>
-	<li>2) Track 2</li>
-	<li>3) Track 3</li>
-	<li>4) Track 4</li>
-	<li>5) Track 5</li>
-	<li>6) Track 6</li>
-</ul>
-<p>Released 6/24/2014</p>
-</div><!--back-->
-</div><!--card-->
-</div><!--packshot-->
-<div class="info">
 <span class="cash_digitalpurchase_itemname">{{item_name}}</span>
 <span class="cash_digitalpurchase_itemprice">{{currency}}{{item_price}}{{#item_flexible_price}} {{metadata_copy_flexibleprice_suffix}}{{/item_flexible_price}}</span>
 <span class="cash_digitalpurchase_itemdescription">{{item_description}}</span>
@@ -45,10 +12,8 @@ $( document ).ready(function() {
 {{#item_flexible_price}}
 	<input type="text" name="total_price" class="cashmusic_narrow" value="{{item_price}}" />
 {{/item_flexible_price}}
-<!--<input type="submit" value="{{^item_flexible_price}}${{item_price}} - {{/item_flexible_price}}{{metadata_copy_buy}}" class="button" />-->
-<input type="submit" value="{{metadata_copy_buy}}" class="button" />
+<input type="submit" value="{{^item_flexible_price}}${{item_price}} - {{/item_flexible_price}}{{metadata_copy_buy}}" class="button" /><br />
 </form>
-</div><!--info-->
 
 <script type="text/javascript">
 	(function() {

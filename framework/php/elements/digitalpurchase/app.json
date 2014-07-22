@@ -1,0 +1,81 @@
+{
+	"type":"element",
+	"subtype":"digitalpurchase",
+	"lastupdated":"Apr 10, 2012",
+	"version":1,
+	"author":"CASH Music",
+	"url":"http://cashmusic.org/",
+	"license":"AGPL",
+	"details":{
+		"en":{
+			"name":"Digital Purchase",
+			"description":"A simple pay-for-media element using your Paypal account.",
+			"longdescription":"Connect your Paypal account and users will get a single-click purchase flow for any asset defined in the system."
+		}
+	},
+	"copy":{
+		"en":{
+			"instructions":"This element type has been depreciated. It will continue to work, but sonsider migrating to the Single Purchase element.",
+			"pagetip":"All messages can be customized in the form."
+		}
+	},
+	"options":{
+		"main":{
+			"group_label":{
+				"en":"Main settings"
+			},
+			"description":{
+				"en":"Instructions or clarifications that should appear with this group."
+			},
+			"data":{
+				"item_id":{
+					"label":{
+						"en":"Item for sale"
+					},
+					"type":"select",
+					"values":"commerce/items",
+					"required":true,
+					"displaysize":"small"
+				},
+				"connection_id":{
+					"label":{
+						"en":"Commerce connection to use"
+					},
+					"type":"select",
+					"values":"connections/commerce",
+					"displaysize":"small"
+				}
+			}
+		},
+		"messages":{
+			"group_label":{
+				"en":"Success/error messages"
+			},
+			"description":{
+				"en":"Instructions or clarifications that should appear with this group."
+			},
+			"data":{
+				"message_success":{
+					"label":{
+						"en":"Success message"
+					},
+					"type":"text",
+					"default":{
+						"en":"Thank you! Here's your download. Mobile users check your inbox and spam folders for a download link."
+					},
+					"displaysize":"medium"
+				},
+				"message_error":{
+					"label":{
+						"en":"Invalid email message"
+					},
+					"type":"text",
+					"default":{
+						"en":"There was an error processing your payment. Please reload and try again."
+					},
+					"displaysize":"medium"
+				}
+			}
+		}
+	}
+}

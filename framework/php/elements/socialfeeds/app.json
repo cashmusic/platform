@@ -1,0 +1,35 @@
+{
+	"type":"element",
+	"subtype":"socialfeeds",
+	"lastupdated":"May 9, 2012",
+	"version":1,
+	"author":"CASH Music",
+	"url":"http://cashmusic.org/",
+	"license":"AGPL",
+	"details":{
+		"en":{
+			"name":"Social Feeds",
+			"description":"Set up a single feed from your Twitter or Tumblr feeds. Filter, sort, and combine.",
+			"longdescription":"Combine any number of feeds, filtering twitter by search term or exclude @-replies, and filtering Tumblr by post type."
+		}
+	},
+	"copy":{
+		"en":{
+			"instructions":"This is basically broken.",
+			"pagetip":"Actually it's totally broken."
+		}
+	},
+	"options":{
+		"main":{
+			"group_label":{
+				"en":"Main settings"
+			},
+			"description":{
+				"en":"Instructions or clarifications that should appear with this group."
+			},
+			"data":{
+				
+			}
+		}
+	}
+}

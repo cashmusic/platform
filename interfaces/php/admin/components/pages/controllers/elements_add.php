@@ -6,30 +6,49 @@ $types_response = $cash_admin->requestAndStore(
 	)
 );
 $supported_elements = $types_response['payload'];
-$elements_data = AdminHelper::getElementsData();
 
 if ($request_parameters) {
 	$element_addtype = $request_parameters[0];
 	$cash_admin->page_data['form_state_action'] = 'doelementadd';
 	$cash_admin->page_data['element_type'] = $element_addtype;
-	if (isset($elements_data[$element_addtype])) {
-		$cash_admin->page_data['ui_title'] = 'Add ' . $elements_data[$element_addtype]['name'] . ' Element';
-		$cash_admin->page_data['ui_page_tip'] = $elements_data[$element_addtype]['pagetip'];
-	}
 
 	if (array_search($element_addtype, $supported_elements) !== false) {
-		if (@file_exists(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_addtype . '/admin.php')) {
-			CASHSystem::getElementMetaData($element_addtype,true);
-			include(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_addtype . '/admin.php');
-			$cash_admin->page_data['element_button_text'] = 'Add the element';
+		// Detects if element add has happened and deals with POST data if it has
+		AdminHelper::handleElementFormPOST($_POST,$cash_admin);
 
-			if ($cash_admin->getCurrentElementState() == 'add' && !$cash_admin->getErrorState()) {
-				$current_element = $cash_admin->getCurrentElement();
-				AdminHelper::controllerRedirect('/elements/edit/' . $current_element['id']);
+		// Detects state of element add and routes to /elements/edit if successful
+		if ($cash_admin->getCurrentElementState() == 'add' && !$cash_admin->getErrorState()) {
+			$current_element = $cash_admin->getCurrentElement();
+			AdminHelper::controllerRedirect('/elements/edit/' . $current_element['id']);
+		}
+		$app_json = AdminHelper::getElementAppJSON($element_addtype);
+		if ($app_json) {
+
+			// set page title/tip
+			$cash_admin->page_data['ui_title'] = 'Add ' . $app_json['details']['en']['name'] . ' Element';
+			$cash_admin->page_data['ui_page_tip'] = $app_json['copy']['en']['pagetip'];
+
+			foreach ($app_json['options'] as $section_name => $details) {
+				foreach ($details['data'] as $data => $values) {
+					if (isset($values['default']) && $values['type'] !== 'select') {
+						if ($values['type'] == 'boolean') {
+							if ($values['default']) {
+								$default_val = true;
+							}
+						} else if ($values['type'] == 'number') {
+							$default_val = $values['default'];
+						} else {
+							$default_val = $values['default']['en'];
+						}
+					}
+					if ($values['type'] == 'select') {
+						$default_val = AdminHelper::echoFormOptions(str_replace('/','_',$values['values']),0,false,true);
+					}
+					$cash_admin->page_data['options_' . $data] = $default_val;
+				}
 			}
-			$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render(file_get_contents(CASH_PLATFORM_ROOT.'/elements' . '/' . $element_addtype . '/templates/admin.mustache'), $cash_admin->page_data);
-		} else {
-			$$cash_admin->page_data['element_rendered_content'] = "Could not find the admin.php file for this. Seriously, that element is broken like crazy.";
+			$cash_admin->page_data['element_button_text'] = 'Add the element';
+			$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render(AdminHelper::getElementTemplate($element_addtype), $cash_admin->page_data);
 		}
 	} else {
 		$cash_admin->page_data['element_rendered_content'] = "You're trying to add an unsupported element. That's lame.";
@@ -42,28 +61,28 @@ if ($request_parameters) {
 	$column3 = array();
 
 	$colcount = 1;
-	foreach ($elements_data as $element => $data) {
-		if (array_search($element, $supported_elements) !== false) {
-			$formatted_element = array(
-				'element_type' => $element,
-				'element_type_name' => $data['name'],
-				'element_type_description' => $data['description'],
-				'element_type_longdescription' => $data['longdescription'],
-				'element_type_author' => $data['author'],
-				'element_type_authorurl' => $data['url'],
-				'element_type_updated' => $data['lastupdated'],
-				'element_type_version' => $data['version']
-			);
-			if ($colcount == 3) {
-				$column3[] = $formatted_element;
-				$colcount = 1;
-			} elseif ($colcount == 2) {
-				$column2[] = $formatted_element;
-				$colcount++;
-			} else {
-				$column1[] = $formatted_element;
-				$colcount++;
-			}
+	foreach ($supported_elements as $element) {
+		$app_json = AdminHelper::getElementAppJSON($element);
+		$formatted_element = array(
+			'element_type' => $element,
+			'element_type_name' => $app_json['details']['en']['name'],
+			'element_type_description' => $app_json['details']['en']['description'],
+			'element_type_longdescription' => $app_json['details']['en']['longdescription'],
+			'element_type_author' => $app_json['author'],
+			'element_type_authorurl' => $app_json['url'],
+			'element_type_updated' => $app_json['lastupdated'],
+			'element_type_version' => $app_json['version']
+		);
+
+		if ($colcount == 3) {
+			$column3[] = $formatted_element;
+			$colcount = 1;
+		} elseif ($colcount == 2) {
+			$column2[] = $formatted_element;
+			$colcount++;
+		} else {
+			$column1[] = $formatted_element;
+			$colcount++;
 		}
 	}
 
