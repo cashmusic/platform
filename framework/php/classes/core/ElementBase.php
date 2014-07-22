@@ -50,12 +50,14 @@ abstract class ElementBase extends CASHData {
 			'www_url' => CASH_PUBLIC_URL,
 			'api_url' => CASH_API_URL
 		);
+		/*
 		$this->metadata = CASHSystem::getElementMetaData($this->type);
 		if (is_array($this->metadata)) {
 			foreach ($this->metadata as $key => $val) {
 				$this->element_data['metadata_' . $key] = $val;
 			}
 		}
+		*/
 		if (is_array($this->options)) {
 			$this->element_data = array_merge($this->element_data,$this->options);
 		}
