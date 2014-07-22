@@ -177,7 +177,12 @@ class ElementPlant extends PlantBase {
 	}
 
 	protected function getSupportedTypes() {
-		return array_keys($this->elements_array);
+		$return_array = array_keys($this->elements_array);
+		$filter_array = json_decode(file_get_contents(CASH_PLATFORM_ROOT.'/elements/'.'unsupported.json'));
+		if (is_array($filter_array)) {
+			$return_array = array_diff($return_array,$filter_array);
+		}
+		return $return_array;
 	}
 
 	/**

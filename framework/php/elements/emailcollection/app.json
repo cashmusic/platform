@@ -33,7 +33,8 @@
 						"en":"Target mailing list"
 					},
 					"type":"select",
-					"values":"lists",
+					"values":"people/lists",
+					"required":true,
 					"displaysize":"small"
 				},
 				"asset_id":{
@@ -48,9 +49,9 @@
 					"label":{
 						"en":"Skip email verification (recommended)"
 					},
-					"type":"checkbox",
-					"checked":"checked",
-					"displaysize":"small"
+					"type":"boolean",
+					"default":true,
+					"displaysize":"large"
 				}
 			}
 		},

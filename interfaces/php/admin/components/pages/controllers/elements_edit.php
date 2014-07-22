@@ -8,7 +8,6 @@ $current_element = $cash_admin->setCurrentElement($request_parameters[0]);
 if ($current_element) {
 	$cash_admin->page_data['form_state_action'] = 'doelementedit';	
 	$cash_admin->page_data = array_merge($cash_admin->page_data,$current_element);
-	$elements_data = AdminHelper::getElementsData();
 	$effective_user = $cash_admin->effective_user_id;
 	
 	if ($current_element['user_id'] == $effective_user) {
@@ -30,7 +29,7 @@ if ($current_element) {
 		// deal with templates 
 		$embed_templates = AdminHelper::echoTemplateOptions('embed',$cash_admin->page_data['template_id']);
 		if ($embed_templates) {
-			$cash_admin->page_data['template_options'] .= $embed_templates;
+			$cash_admin->page_data['template_options'] = $embed_templates;
 			$cash_admin->page_data['defined_embed_templates'] = true;
 			if (!$cash_admin->page_data['template_id']) {
 				$cash_admin->page_data['embed_template_name'] = 'default';
@@ -89,15 +88,48 @@ if ($current_element) {
 			$cash_admin->page_data['method_analytics'] = new ArrayIterator($methods_array);
 		}
 
-		if (@file_exists(CASH_PLATFORM_ROOT.'/elements' . '/' . $current_element['type'] . '/admin.php')) {
-			CASHSystem::getElementMetaData($current_element['type'],true);
-			include(CASH_PLATFORM_ROOT.'/elements' . '/' . $current_element['type'] . '/admin.php');
+		// Detects if element add has happened and deals with POST data if it has
+		AdminHelper::handleElementFormPOST($_POST,$cash_admin);
+
+		// Set basic id/name stuff for the element
+		AdminHelper::setBasicElementFormData($cash_admin);
+
+		$app_json = AdminHelper::getElementAppJSON($current_element['type']);
+		if ($app_json) {
+			foreach ($app_json['options'] as $section_name => $details) {
+				foreach ($details['data'] as $data => $values) {
+					// 95% of the time all options will be set, but we check in case NEW options
+					// have been added to the app.json definition since this element was first added
+					if (isset($current_element['options'][$data])) {
+						if ($values['type'] == 'select') {
+							$default_val = AdminHelper::echoFormOptions(str_replace('/','_',$values['values']),$current_element['options'][$data],false,true);
+						} else {
+							$default_val = $current_element['options'][$data];
+						}
+					} else {
+						// option not defined, so instead spit out defaults
+						if (isset($values['default']) && $values['type'] !== 'select') {
+							if ($values['type'] == 'boolean') {
+								if ($values['default']) {
+									$default_val = true;
+								}
+							} else if ($values['type'] == 'number') {
+								$default_val = $values['default'];
+							} else {
+								$default_val = $values['default']['en'];
+							}
+						}
+						if ($values['type'] == 'select') {
+							$default_val = AdminHelper::echoFormOptions(str_replace('/','_',$values['values']),0,false,true);
+						}
+					}
+					$cash_admin->page_data['options_' . $data] = $default_val;
+				}
+			}
 			$cash_admin->page_data['ui_title'] = 'Elements: “' . $current_element['name'] . '”';
 			$cash_admin->page_data['public_url'] = CASH_PUBLIC_URL;
 			$cash_admin->page_data['element_button_text'] = 'Edit the element';
-			$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render(file_get_contents(CASH_PLATFORM_ROOT.'/elements' . '/' . $current_element['type'] . '/templates/admin.mustache'), $cash_admin->page_data);
-		} else {
-			$cash_admin->page_data['element_rendered_content'] = "Could not find the admin.php file for this .";
+			$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render(AdminHelper::getElementTemplate($current_element['type']), $cash_admin->page_data);
 		}
 	} else {
 		AdminHelper::controllerRedirect('/elements/');
