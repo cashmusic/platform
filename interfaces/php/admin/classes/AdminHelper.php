@@ -70,7 +70,7 @@
 
 			$menulevel = substr_count($page_endpoint, '/');
 			if ($menulevel == 1 && !isset($page['hide'])) { // only show top-level menu items
-				$menustr .= "<li><a href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><i class=\"icon {$page['menu_icon']}\"></i> <span>{$page['page_name']}</span></a></li>";
+				$menustr .= "<li><a href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><i class=\"icon {$page['menu_icon']}\"></i> {$page['page_name']}</a></li>";
 			}
 		}
 
@@ -134,10 +134,11 @@
 		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
 		$applicable_settings_array = $page_data_object->getConnectionsByScope($scope);
 
+		$all_connections = '<option value="0">None</option>';
+
 		// echo out the proper dropdown bits
 		if ($applicable_settings_array) {
 			$settings_count = 1;
-			$all_connections = '';
 			foreach ($applicable_settings_array as $setting) {
 				$echo_selected = '';
 				if ($setting['id'] == $selected) { $echo_selected = ' selected="selected"'; }
@@ -169,35 +170,186 @@
 	 * ELEMENT DETAILS
 	 *
 	 *********************************************/
-
-	/**
-	 * Returns metadata for all elements in a keyed array
-	 *
-	 * @return array | false
-	 */public static function getElementsData() {
-		$elements_dirname = CASH_PLATFORM_ROOT.'/elements';
-		if ($elements_dir = opendir($elements_dirname)) {
-			$tmpArray = array();
-			while (false !== ($dir = readdir($elements_dir))) {
-				if (substr($dir,0,1) != "." && is_dir($elements_dirname . '/' . $dir)) {
-					$tmpKey = strtolower($dir);
-					$tmpValue = CASHSystem::getElementMetaData($dir);
-					if ($tmpValue) {
-						$tmpArray["$tmpKey"] = $tmpValue;
-					}
-				}
-			}
-			closedir($elements_dir);
-			if (count($tmpArray)) {
-				ksort($tmpArray);
-				return $tmpArray;
-			} else {
-				return false;
-			}
+	public static function getElementAppJSON($element_type) {
+		$element_dirname = CASH_PLATFORM_ROOT.'/elements/' . $element_type;
+		if (file_exists($element_dirname . '/app.json')) {
+			$app_json = json_decode(file_get_contents($element_dirname . '/app.json'),true);
+			return $app_json;
 		} else {
-			echo 'not dir';
 			return false;
 		}
+	}
+
+	public static function getElementTemplate($element_type) {
+		$app_json = AdminHelper::getElementAppJSON($element_type);
+		if ($app_json) {
+			// count sections
+			$sections_required = array();
+			$sections_optional = array();
+			foreach ($app_json['options'] as $section_name => $details) {
+				foreach ($details['data'] as $data => $values) {
+					if (isset($values['required'])) {
+						if ($values['required']) {
+							$sections_required[$section_name] = $details;
+							break;
+						}
+					}
+				}
+				if (!isset($sections_required[$section_name])) {
+					$sections_optional[$section_name] = $details;
+				}
+			}
+			$all_sections = array_merge($sections_required,$sections_optional);
+			$total_sections = count($sections_required);
+
+			$template =	'<form method="post" action="{{www_path}}/elements/{{#element_id}}edit/{{element_id}}{{/element_id}}{{^element_id}}add/' . $element_type . '{{/element_id}}" class="multipart" data-parts="' . $total_sections . '">' .
+						'<input type="hidden" name="{{form_state_action}}" value="makeitso">' .
+						'{{#element_id}}<input type="hidden" name="element_id" value="{{element_id}}" />{{/element_id}}' .
+						'<input type="hidden" name="element_type" value="' . $element_type . '" />' .
+						'<div class="section basic-information row" data-section-name="Element name">' .
+						'<p class="section-description">Give the element a name for your own reference.</p>' .
+						'<label for="element_name">Element name</label>' .
+						'<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="Name your element"{{/element_name}} class="required" />' .
+						'</div>';
+
+			$current_section = 1;
+			foreach ($all_sections as $section_name => $details) {
+				$template .= '<div class="row section part-' . $current_section . '" data-section-name="' . $details['group_label']['en'] . '">' .
+						     '<h5 class="section-header">' . $details['group_label']['en'] . '</h5>' .
+						     '<p class="section-description">' . $details['description']['en'] . '</p>' .
+						     '<div class="row">';
+				$current_data = 0;
+				$current_count = 0;
+				$total_count = count($details);
+				$data_keys = array_keys($details['data']);
+				foreach ($details['data'] as $data => $values) {
+					$current_count++;
+					$nextnotsmall = true;
+					if (isset($data_keys[$current_data + 1])) {
+						if ($details['data'][$data_keys[$current_data + 1]]['displaysize'] !== 'small') {
+							$nextnotsmall = true;
+						} else {
+							$nextnotsmall = false;
+						}
+					}
+					if ($current_count == 4 || 
+						$current_data == ($total_count - 1) || 
+						$values['displaysize'] !== 'small' ||
+						$nextnotsmall
+					) {
+						$column_width = 12 / $current_count;
+						switch ($column_width) {
+							case 3:
+								$column_width_text = "three";
+								break;
+							case 4:
+								$column_width_text = "four";
+								break;
+							case 6:
+								$column_width_text = "six";
+								break;
+							case 12:
+								$column_width_text = "twelve";
+								break;
+						}
+
+						// single small element — make sure it's not full width
+						if ($values['displaysize'] == 'small' && $current_count == 1) {
+							$column_width_text = "four";
+						}
+
+						for ($i=1; $i < $current_count+1; $i++) { 
+							$template .= '<div class="' . $column_width_text . ' columns">' .
+										 // contents
+										 AdminHelper::drawInput(
+										 	$data_keys[$current_data - ($current_count - $i)],
+										 	$details['data'][$data_keys[$current_data - ($current_count - $i)]]
+										 ) .
+										 '</div>';
+						}
+
+						// single small element — make sure it's not full width
+						if ($values['displaysize'] == 'small' && $current_count == 1) {
+							$template .= '<div class="four columns"></div><div class="four columns"></div>';
+						}
+
+						if ($current_data !== ($total_count - 1)) {
+							$template .= '</div><div class="row">';
+						}
+						$current_count = 0;
+					}
+					$current_data++;
+				}
+				$template .= '</div></div>';
+				$current_section++;
+			}
+
+			$template .= '<br /><input class="button" type="submit" value="{{element_button_text}}" /></form>';
+			return $template;
+		} else {
+			return false;
+		}
+	}
+
+	public static function drawInput($input_name,$input_data) {
+		// label (for everything except checkboxes)
+		if ($input_data['type'] !== 'boolean') {
+			$return_str = '<label for="' . $input_name . '">' . $input_data['label']['en'] . '</label>';
+		}
+
+		/*
+		 start outputting markup depending on type
+		*/
+		if ($input_data['type'] == 'text' || $input_data['type'] == 'number') {
+			if ($input_data['type'] == 'text' && $input_data['displaysize'] == 'large') {
+				$return_str .= '<textarea id="' . $input_name . '" name="' . $input_name . '" class="';
+			} else {
+				$return_str .= '<input type="text" id="' . $input_name . '" name="' . $input_name . '" value="{{#options_' . $input_name . 
+				'}}{{options_' . $input_name . '}}{{/options_' . $input_name . '}}{{^options_' . $input_name . '}}{{element_copy_' . $input_name . '}}{{/options_' . $input_name . '}}" class="';
+			}
+		}
+		if ($input_data['type'] == 'select') {
+			$return_str .= '<select id="' . $input_name . '" name="' . $input_name . '">';
+		}
+		if ($input_data['type'] == 'boolean') {
+			$return_str = '<label class="checkbox" for="' . $input_name . '"><input type="checkbox" id="' . $input_name . '" name="' . $input_name . '"';
+		}
+
+		/*
+		 declare any classes that need declaring (form validation or special functionality)
+		*/
+		if (isset($input_data['required'])) {
+			if ($input_data['required']) {
+				$return_str .= ' required';
+			}
+		}
+		if ($input_data['type'] == 'number') {
+			$return_str .= ' number';
+		}
+
+		/*
+		 close out markup
+		*/
+		if ($input_data['type'] == 'text' || $input_data['type'] == 'number') {
+			if ($input_data['type'] == 'text' && $input_data['displaysize'] == 'large') {
+				$return_str .= '">{{#options_' . $input_name . 
+				'}}{{options_' . $input_name . '}}{{/options_' . $input_name . '}}{{^options_' . $input_name . '}}{{element_copy_' . $input_name . '}}{{/options_' . $input_name . '}}</textarea>';
+			} else {
+				if (isset($input_data['placeholder'])) {
+					$return_str .= ' placeholder="' . $input_data['placeholder']['en'] . '"';
+				}
+				$return_str .= '" />';
+			}
+		}
+		if ($input_data['type'] == 'select') {
+			$return_str .= '{{{options_' . $input_name . '}}}</select>';
+		}
+		if ($input_data['type'] == 'boolean') {
+			$return_str .= '{{#options_' . $input_name . '}} checked="checked"{{/options_' . $input_name . '}} /> ' .
+						   $input_data['label']['en'] . '</label>';
+		}
+
+		return $return_str;
 	}
 
 	public static function elementFormSubmitted($post_data) {
@@ -208,70 +360,93 @@
 		}
 	}
 
-	public static function handleElementFormPOST($post_data,&$cash_admin,$options_array) {
+	public static function handleElementFormPOST($post_data,&$cash_admin) {
 		global $admin_primary_cash_request;
-		if (isset($post_data['doelementadd'])) {
-			// Adding a new element:
-			$cash_admin->setCurrentElementState('add');
-			$admin_primary_cash_request->processRequest(
-				array(
-					'cash_request_type' => 'element', 
-					'cash_action' => 'addelement',
-					'name' => $post_data['element_name'],
-					'type' => $post_data['element_type'],
-					'options_data' => $options_array,
-					'user_id' => AdminHelper::getPersistentData('cash_effective_user')
-				)
-			);
-			if ($admin_primary_cash_request->response['status_uid'] == 'element_addelement_200') {
-				// handle differently for AJAX and non-AJAX
-				if ($cash_admin->page_data['data_only']) {
-					AdminHelper::formSuccess('Success. New element added.','/elements/edit/' . $admin_primary_cash_request->response['payload']);
-				} else {
-					$cash_admin->setCurrentElement($admin_primary_cash_request->response['payload']);
-				}
-			} else {
-				// handle differently for AJAX and non-AJAX
-				if ($cash_admin->page_data['data_only']) {
-					AdminHelper::formFailure('Error. Something just didn\'t work right.','/elements/add/' . $post_data['element_type']);
-				} else {
-					$cash_admin->setErrorState('element_add_failure');
-				}
-			}
-		} elseif (isset($post_data['doelementedit'])) {
-			// Editing an existing element:
-			$cash_admin->setCurrentElementState('edit');
-			$admin_primary_cash_request->processRequest(
-				array(
-					'cash_request_type' => 'element', 
-					'cash_action' => 'editelement',
-					'id' => $post_data['element_id'],
-					'name' => $post_data['element_name'],
-					'options_data' => $options_array
-				)
-			);
-			if ($admin_primary_cash_request->response['status_uid'] == 'element_editelement_200') {
-				// handle differently for AJAX and non-AJAX
-				if ($cash_admin->page_data['data_only']) {
-					// AJAX
-					AdminHelper::formSuccess('Success. Edited.','/elements/edit/' . $post_data['element_id']);
-				} else {
-					// non-AJAX
-					$cash_admin->setCurrentElement($post_data['element_id']);
-				}
-			} else {
-				// handle differently for AJAX and non-AJAX
-				if ($cash_admin->page_data['data_only']) {
-					// AJAX
-					AdminHelper::formFailure('Error. Something just didn\'t work right.','/elements/edit/' . $post_data['element_id']);
-				} else {
-					// non-AJAX
-					$cash_admin->setErrorState('element_edit_failure');
-				}
-			}
-		}
+		if (AdminHelper::elementFormSubmitted($post_data)) {
 
-		AdminHelper::setBasicElementFormData($cash_admin);
+			// first create the options array
+			$options_array = array();
+			// now populate it from the POST data, fixing booleans
+			$app_json = AdminHelper::getElementAppJSON($post_data['element_type']);
+			if ($app_json) {
+				foreach ($app_json['options'] as $section_name => $details) {
+					foreach ($details['data'] as $data => $values) {
+						if ($values['type'] == 'boolean') {
+							if (isset($post_data[$data])) {
+								$options_array[$data] = 1;
+							} else {
+								$options_array[$data] = 0;
+							}
+						} else {
+							$options_array[$data] = $post_data[$data];
+						}
+					}
+				}
+			}
+
+			if (isset($post_data['doelementadd'])) {
+				// Adding a new element:
+				$cash_admin->setCurrentElementState('add');
+				$admin_primary_cash_request->processRequest(
+					array(
+						'cash_request_type' => 'element', 
+						'cash_action' => 'addelement',
+						'name' => $post_data['element_name'],
+						'type' => $post_data['element_type'],
+						'options_data' => $options_array,
+						'user_id' => AdminHelper::getPersistentData('cash_effective_user')
+					)
+				);
+				if ($admin_primary_cash_request->response['status_uid'] == 'element_addelement_200') {
+					// handle differently for AJAX and non-AJAX
+					if ($cash_admin->page_data['data_only']) {
+						AdminHelper::formSuccess('Success. New element added.','/elements/edit/' . $admin_primary_cash_request->response['payload']);
+					} else {
+						$cash_admin->setCurrentElement($admin_primary_cash_request->response['payload']);
+					}
+				} else {
+					// handle differently for AJAX and non-AJAX
+					if ($cash_admin->page_data['data_only']) {
+						AdminHelper::formFailure('Error. Something just didn\'t work right.','/elements/add/' . $post_data['element_type']);
+					} else {
+						$cash_admin->setErrorState('element_add_failure');
+					}
+				}
+			} elseif (isset($post_data['doelementedit'])) {
+				// Editing an existing element:
+				$cash_admin->setCurrentElementState('edit');
+				$admin_primary_cash_request->processRequest(
+					array(
+						'cash_request_type' => 'element', 
+						'cash_action' => 'editelement',
+						'id' => $post_data['element_id'],
+						'name' => $post_data['element_name'],
+						'options_data' => $options_array
+					)
+				);
+				if ($admin_primary_cash_request->response['status_uid'] == 'element_editelement_200') {
+					// handle differently for AJAX and non-AJAX
+					if ($cash_admin->page_data['data_only']) {
+						// AJAX
+						AdminHelper::formSuccess('Success. Edited.','/elements/edit/' . $post_data['element_id']);
+					} else {
+						// non-AJAX
+						$cash_admin->setCurrentElement($post_data['element_id']);
+					}
+				} else {
+					// handle differently for AJAX and non-AJAX
+					if ($cash_admin->page_data['data_only']) {
+						// AJAX
+						AdminHelper::formFailure('Error. Something just didn\'t work right.','/elements/edit/' . $post_data['element_id']);
+					} else {
+						// non-AJAX
+						$cash_admin->setErrorState('element_edit_failure');
+					}
+				}
+			}
+
+			AdminHelper::setBasicElementFormData($cash_admin);
+		}
 	}
 
 	public static function setBasicElementFormData(&$cash_admin) {
@@ -883,45 +1058,72 @@
 	 *
 	 * @return array
 	 */public static function echoFormOptions($base_type,$selected=0,$range=false,$return=false) {
-		switch ($base_type) {
-			case 'assets':
-				$plant_name = 'asset';
-				$action_name = 'getassetsforuser';
-				$display_information = 'title';
-				if ($range) {
-					if (!in_array($selected,$range)) {
-						$range[] = $selected;
-					}
-				}
-				break;
-			case 'people_lists':
-				$plant_name = 'people';
-				$action_name = 'getlistsforuser';
-				$display_information = 'name';
-				break;
-			case 'venues':
-				$plant_name = 'calendar';
-				$action_name = 'getallvenues';
-				$display_information = 'name';
-				break;	
-			case 'items':
-				$plant_name = 'commerce';
-				$action_name = 'getitemsforuser';
-				$display_information = 'name';
-				break;
-		}
 		global $admin_primary_cash_request;
-		$admin_primary_cash_request->processRequest(
-			array(
-				'cash_request_type' => $plant_name, 
-				'cash_action' => $action_name,
-				'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
-				'parent_id' => 0
-			)
-		);
-		$all_options = '';
-		if (is_array($admin_primary_cash_request->response['payload']) && ($admin_primary_cash_request->response['status_code'] == 200)) {
-			foreach ($admin_primary_cash_request->response['payload'] as $item) {
+		$available_options = false;
+
+		if (is_array($base_type)) {
+			$available_options = array();
+			foreach ($base_type as $key => $value) {
+				$available_options[] = array(
+					'id' => $key,
+					'display' => $value
+				);
+			}
+			$display_information = 'display';
+			$all_options = '';
+		} else {
+
+			if (substr($base_type,0,7) == 'connect') {
+				$scope = explode('_',$base_type);
+				return AdminHelper::echoConnectionsOptions($scope[1],$selected,true);
+			}
+
+			$all_options = '<option value="0">None</option>';
+			switch ($base_type) {
+				case 'assets':
+					$plant_name = 'asset';
+					$action_name = 'getassetsforuser';
+					$display_information = 'title';
+					if ($range) {
+						if (!in_array($selected,$range)) {
+							$range[] = $selected;
+						}
+					}
+					break;
+				case 'people_lists':
+					$plant_name = 'people';
+					$action_name = 'getlistsforuser';
+					$display_information = 'name';
+					break;
+				case 'venues':
+				case 'calendar_venues':
+					$plant_name = 'calendar';
+					$action_name = 'getallvenues';
+					$display_information = 'name';
+					break;	
+				case 'items':
+				case 'commerce_items':
+					$plant_name = 'commerce';
+					$action_name = 'getitemsforuser';
+					$display_information = 'name';
+					break;
+			}
+			global $admin_primary_cash_request;
+			$admin_primary_cash_request->processRequest(
+				array(
+					'cash_request_type' => $plant_name, 
+					'cash_action' => $action_name,
+					'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
+					'parent_id' => 0
+				)
+			);
+			if (is_array($admin_primary_cash_request->response['payload']) && ($admin_primary_cash_request->response['status_code'] == 200)) {
+				$available_options = $admin_primary_cash_request->response['payload'];
+			}
+		}
+
+		if (is_array($available_options)) {
+			foreach ($available_options as $item) {
 				$doloop = true;
 				if ($range) {
 					if (!in_array($item['id'],$range)) {
@@ -930,13 +1132,16 @@
 				}
 				if ($doloop) {
 					$selected_string = '';
-					if ($item['id'] == $selected) { 
+					if ($item['id'] === $selected) { 
 						$selected_string = ' selected="selected"';
 					}
 					$all_options .= '<option value="' . $item['id'] . '"' . $selected_string . '>' . $item[$display_information] . '</option>';
 				}
 			}
+		} else {
+			$all_options = false;
 		}
+
 		if ($return) {
 			return $all_options;
 		} else {

@@ -1,0 +1,63 @@
+{
+	"type":"element",
+	"subtype":"membersarea",
+	"lastupdated":"Feb 6, 2013",
+	"version":1,
+	"author":"CASH Music",
+	"url":"http://cashmusic.org/",
+	"license":"AGPL",
+	"details":{
+		"en":{
+			"name":"Members Area",
+			"description":"Allow a list to log in and get exclusive content.",
+			"longdescription":"This lets you enter specific markup/content that can be served securely to a list with a universal password."
+		}
+	},
+	"copy":{
+		"en":{
+			"instructions":"Choose a list to verify against, enter markup, and optionally add a universal password for this element.",
+			"pagetip":"Choose a list to verify against, enter markup, and optionally add a universal password for this element."
+		}
+	},
+	"options":{
+		"main":{
+			"group_label":{
+				"en":"Main settings"
+			},
+			"description":{
+				"en":"Instructions or clarifications that should appear with this group."
+			},
+			"data":{
+				"alternate_password":{
+					"label":{
+						"en":"Password"
+					},
+					"placeholder":{
+						"en":"A password or phrase to unlock the content"
+					},
+					"type":"text",
+					"displaysize":"small"
+				},
+				"email_list_id":{
+					"label":{
+						"en":"Target mailing list"
+					},
+					"type":"select",
+					"values":"people/lists",
+					"required":true,
+					"displaysize":"small"
+				},
+				"secure_content":{
+					"label":{
+						"en":"Content"
+					},
+					"type":"text",
+					"default":{
+						"en":""
+					},
+					"displaysize":"large"
+				}
+			}
+		}
+	}
+}

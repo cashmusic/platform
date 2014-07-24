@@ -1,0 +1,90 @@
+{
+	"type":"element",
+	"subtype":"securedownload",
+	"lastupdated":"Feb 6, 2013",
+	"version":1,
+	"author":"CASH Music",
+	"url":"http://cashmusic.org/",
+	"license":"AGPL",
+	"details":{
+		"en":{
+			"name":"Secure Download",
+			"description":"Allow a list to log in and download a secure asset.",
+			"longdescription":"This lets you give a download only to a certain list of people on a log-in basis."
+		}
+	},
+	"copy":{
+		"en":{
+			"instructions":"Choose a list to verify against, an asset for the download, and optionally add a universal password for this element.",
+			"pagetip":"Choose a list to verify against, an asset for the download, and optionally add a universal password for this element."
+		}
+	},
+	"options":{
+		"main":{
+			"group_label":{
+				"en":"Main settings"
+			},
+			"description":{
+				"en":"Instructions or clarifications that should appear with this group."
+			},
+			"data":{
+				"email_list_id":{
+					"label":{
+						"en":"Target mailing list"
+					},
+					"type":"select",
+					"values":"people/lists",
+					"required":true,
+					"displaysize":"small"
+				},
+				"asset_id":{
+					"label":{
+						"en":"The downloadable asset"
+					},
+					"type":"select",
+					"values":"assets",
+					"required":true,
+					"displaysize":"small"
+				}
+			}
+		},
+		"main":{
+			"group_label":{
+				"en":"Additional settings"
+			},
+			"description":{
+				"en":"Instructions or clarifications that should appear with this group."
+			},
+			"data":{
+				"message_success":{
+					"label":{
+						"en":"Success message"
+					},
+					"type":"text",
+					"default":{
+						"en":""
+					},
+					"displaysize":"medium"
+				},
+				"alternate_password":{
+					"label":{
+						"en":"Password"
+					},
+					"placeholder":{
+						"en":"A password or phrase to unlock the content"
+					},
+					"type":"text",
+					"displaysize":"small"
+				},
+				"skip_login":{
+					"label":{
+						"en":"Do not require login"
+					},
+					"type":"boolean",
+					"default":true,
+					"displaysize":"small"
+				}
+			}
+		}
+	}
+}

@@ -1794,6 +1794,14 @@ margin:0; padding:0;}
     margin:0 0 6px 0;
 }
 
+.modallightbox h5.section-header {
+    display:none;
+}
+
+label.checkbox {
+	margin-top: 2.5em;
+}
+
 .modaldialog input.button:hover {
     background-color:#777 !important;
 }
