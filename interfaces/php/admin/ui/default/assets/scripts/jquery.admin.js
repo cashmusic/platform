@@ -702,10 +702,16 @@
 	 **/
 
 	 function modalBehaviors() {
+
 		// overlay cancel button event
 		$(document).on('click', '.modalcancel', function(e) {
 			e.preventDefault();
 			removeModal();
+		});
+
+		// learn tips inline click
+		$(document).on('click', '.section-description', function(e) {
+			$ (this).parents("body").addClass("panel").addClass("learn");
 		});
 
 		// fade/close on escape key
@@ -885,7 +891,7 @@
 		if (section <= mpForm.total) {
 			if (section == mpForm.total) {
 				// this structure means we ALWAYS need a .section.basic-information div
-				var descriptor = 'Finish';
+				var descriptor = 'Next';
 				//var nextTitle = $($(mpForm.form).children('.section.basic-information')[0]).data('section-name');
 			} else {
 				var descriptor = 'Next';

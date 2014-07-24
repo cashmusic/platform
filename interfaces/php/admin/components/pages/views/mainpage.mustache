@@ -1,4 +1,13 @@
+<div id="hero">
+<h5>Okay, i got it man!</h5>
+	<video loop="loop" autoplay="true" fullscreen="false">
+  	<source src="{{www_path}}/ui/default/assets/video/intro.mp4" type="video/mp4">
+	Your browser does not support the video tag.
+	</video>
+</div>
+
 <a name="activity"></a>
+<!--<h2>Activity While you were gone</h2>-->
 <div class="callout newsfeed cashnews">{{{dashboard_news}}}<div class="newsimage" style="background-image:url({{dashboard_news_img}})"></div></div>
 {{#dashboard_lists}}
 	<div class="callout newsfeed people"><strong><i class="icon icon-list-ul"></i>{{name}}:</strong> There {{#singular}}is{{/singular}}{{^singular}}are{{/singular}} <b>{{total}}</b> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}} on this list. <span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><i class="icon icon-search"></i>View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><i class="icon icon-download-alt"></i>Export</a></span><div class="newsimage" style=""></div></div>
@@ -6,8 +15,14 @@
 {{#dashboard_orders}}
 	<div class="callout newsfeed commerce"><strong><i class="icon icon-shopping-cart"></i>New order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}!</strong> There {{#dashboard_orders_singular}}is{{/dashboard_orders_singular}}{{^dashboard_orders_singular}}are{{/dashboard_orders_singular}} <b>{{dashboard_orders}}</b> new order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}. <span class="action"><a href="{{www_path}}/commerce/orders/"><i class="icon icon-shopping-cart"></i>All new orders</a></span><div class="newsimage" style=""></div></div>
 {{/dashboard_orders}}
-
-<br />
+<div class="row">
+	<!-- <div id="campaigns">
+		<div class="campaign current"><img src="http://cdn2.pitchfork.com/news/51324/178da47c.jpg" alt="run the jewels"/><div class="info"><p>Last updated:<time datetime="2014-07-21">Wednesday</time></p><h2>Run The Jewels</h2><p>Campaign description</p></div></div>
+		<div class="campaign"><p>Last updated:<time datetime="2014-07-21">Monday</time></p><h2>Joy Formidable</h2><p>Campaign description</p></div>
+		<div class="campaign"><p>Last updated:<time datetime="2014-07-21">Monday</time></p><h2>Joy Formidable</h2><p>Campaign description</p></div>
+		<div class="campaign"><p>Last updated:<time datetime="2014-07-21">Monday</time></p><h2>Joy Formidable</h2><p>Campaign description</p></div>
+		<div class="campaign"><p>Last updated:<time datetime="2014-07-21">Monday</time></p><h2>Joy Formidable</h2><p>Campaign description</p></div> -->
+</div><!--row-->
 
 {{#platform_type_single}}
 	{{^elements_found}}
@@ -53,18 +68,18 @@
 {{/platform_type_single}}
 
 {{^current_page_template}}
-	<div class="callout bright flush">
+	<!--<div class="callout bright flush">
 		<h4>Publish a page</h4>
 		<p>You can publish a page with any of your elements. Bring your own markup and just drop in any CASH element embed code(s) you want. Look below for details.</p>
 		{{^defined_page_templates}}
 			<br />
 			<a href="{{www_path}}/elements/templates/add/"><i class="icon icon-list-alt"></i><b>Add a page template to start</b></a>
 		{{/defined_page_templates}}
-	</div>
+	</div>-->
 {{/current_page_template}}
 
 <a name="elements"></a>
-<br />
+<hr />
 <h4>Elements</h4>
 <div class="row">
 	<div class="eight columns">
