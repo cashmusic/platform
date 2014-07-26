@@ -58,7 +58,6 @@ abstract class ElementBase extends CASHData {
 				}
 			}
 		}
-		error_log(print_r($this->element_data),true);
 		if (is_array($this->options)) {
 			$this->element_data = array_merge($this->element_data,$this->options);
 		}
