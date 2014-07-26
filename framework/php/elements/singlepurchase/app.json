@@ -16,7 +16,9 @@
 	"copy":{
 		"en":{
 			"instructions":"For physical goods, define regions and shipping costs.",
-			"pagetip":"All messages can be customized in the form."
+			"pagetip":"All messages can be customized in the form.",
+			"buy":"Buy Now",
+			"flexibleprice_suffix":"or more"
 		}
 	},
 	"options":{
