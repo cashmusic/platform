@@ -84,6 +84,10 @@ class SinglePurchase extends ElementBase {
 				$total_price = $_POST['total_price'];
 			}
 			$this->element_data['total_price'] = $total_price;
+			if ($this->element_data['region1_cost'] + $this->element_data['region2_cost'] == 0.00) {
+				$this->element_data['no_shipping'] = true;
+			}
+
 			$this->setTemplate('shipping');
 		}
 		return $this->element_data;	

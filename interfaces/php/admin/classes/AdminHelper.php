@@ -233,22 +233,22 @@
 						}
 					}
 					if ($current_count == 4 || 
-						$current_data == ($total_count - 1) || 
+						$current_data == ($total_count) || 
 						$values['displaysize'] !== 'small' ||
 						$nextnotsmall
 					) {
-						$column_width = 12 / $current_count;
-						switch ($column_width) {
-							case 3:
+						error_log($current_count);
+						switch ($current_count) {
+							case 4:
 								$column_width_text = "three";
 								break;
-							case 4:
+							case 3:
 								$column_width_text = "four";
 								break;
-							case 6:
+							case 2:
 								$column_width_text = "six";
 								break;
-							case 12:
+							case 1:
 								$column_width_text = "twelve";
 								break;
 						}
