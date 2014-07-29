@@ -253,6 +253,19 @@ CREATE TABLE `elements_analytics_basic` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `elements_campaigns`;
+CREATE TABLE `elements_campaigns` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `title` varchar(255),
+  `description` text,
+  `elements` text,
+  `metadata` text,
+  `creation_date` int(11) DEFAULT NULL,
+  `modification_date` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 -- 
 -- 

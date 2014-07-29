@@ -25,21 +25,29 @@ class ElementPlant extends PlantBase {
 			// alphabetical for ease of reading
 			// first value  = target method to call
 			// second value = allowed request methods (string or array of strings)
-			'addelement'           => array('addElement','direct'),
-			'addlockcode'          => array('addLockCode','direct'),
-			'deleteelement'        => array('deleteElement','direct'),
-			'editelement'          => array('editElement','direct'),
-			'getanalytics'         => array('getAnalytics','direct'),
-			'getelement'           => array('getElement','direct'),
-			'getelementsforuser'   => array('getElementsForUser','direct'),
-			'getelementtemplate'   => array('getElementTemplate','direct'),
+			'addelementtocampaign'      => array('addElementToCampaign','direct'),
+			'addcampaign'               => array('addCampaign','direct'),
+			'addelement'                => array('addElement','direct'),
+			'addlockcode'               => array('addLockCode','direct'),
+			'deletecampaign'            => array('deleteCampaign','direct'),
+			'deleteelement'             => array('deleteElement','direct'),
+			'editelement'               => array('editElement','direct'),
+			'editcampaign'              => array('editCampaign','direct'),
+			'getanalytics'              => array('getAnalytics','direct'),
+			'getcampaign'               => array('getCampaign','direct'),
+			'getelement'                => array('getElement','direct'),
+			'getcampaignsforuser'       => array('getCampaignsForUser','direct'),
+			'getelementsforcampaign'    => array('getElementsForCampaign','direct'),
+			'getelementsforuser'        => array('getElementsForUser','direct'),
+			'getelementtemplate'        => array('getElementTemplate','direct'),
 			//'getmarkup'            => array('getElementMarkup',array('direct','get','post','api_public','api_key','api_fullauth')),
 			// closing up the above -> security risk allowing people to simply request markup and pass a status UID via 
 			// API or GET. we'll need to require signed status codes and reopen...
-			'getmarkup'            => array('getElementMarkup','direct'),
-			'getsupportedtypes'    => array('getSupportedTypes','direct'),
-			'redeemcode'           => array('redeemLockCode',array('direct','get','post')),
-			'setelementtemplate'   => array('setElementTemplate','direct')
+			'getmarkup'                 => array('getElementMarkup','direct'),
+			'getsupportedtypes'         => array('getSupportedTypes','direct'),
+			'redeemcode'                => array('redeemLockCode',array('direct','get','post')),
+			'removeelementfromcampaign' => array('removeElementFromCampaign','direct'),
+			'setelementtemplate'        => array('setElementTemplate','direct')
 		);
 		$this->buildElementsArray();
 		$this->plantPrep($request_type,$request);
@@ -77,16 +85,23 @@ class ElementPlant extends PlantBase {
 		}
 	}
 
-	protected function getElement($id) {
+	protected function getElement($id,$user_id=false) {
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $id
+			)
+		);
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
 		$result = $this->db->getData(
 			'elements',
 			'id,name,type,user_id,template_id,options',
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $id
-				)
-			)
+			$condition
 		);
 		if ($result) {
 			$the_element = array(
@@ -454,6 +469,166 @@ class ElementPlant extends PlantBase {
 			)
 		);
 		return $redeem_request->response['payload'];
+	}
+
+	/*
+	 *
+	 *
+	 * CAMPAIGNS
+	 * 
+	 *
+	 */
+
+	protected function addCampaign($title,$description,$user_id,$elements='[]',$metadata='{}') {
+		$final_options = array(
+			'title' => $title,
+			'description' => $description,
+			'elements' => $elements,
+			'metadata' => $metadata,
+			'user_id' => $user_id
+		);
+		if (is_array($metadata)) {
+			$final_options['metadata'] = json_encode($metadata);
+		}
+		if (is_array($elements)) {
+			// array_values ensures a non-associative array. which we want.
+			$final_options['elements'] = json_encode(array_values($elements));
+		}
+		$result = $this->db->setData(
+			'elements_campaigns',
+			$final_options
+		);
+		return $result;
+	}
+	
+	protected function editCampaign($id,$user_id=false,$title=false,$description=false,$elements=false,$metadata=false) {
+		$final_edits = array_filter(
+			array(
+				'title' => $title,
+				'description' => $description
+			),
+			'CASHSystem::notExplicitFalse'
+		);
+		if (is_array($metadata)) {
+			$final_edits['metadata'] = json_encode($metadata);
+		}
+		if (is_array($elements)) {
+			// array_values ensures a non-associative array. which we want.
+			$final_edits['elements'] = json_encode(array_values($elements));
+		}
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $id
+			)
+		);
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
+		$result = $this->db->setData(
+			'elements_campaigns',
+			$final_edits,
+			$condition
+		);
+		return $result;
+	}
+
+	protected function deleteCampaign($id,$user_id=false) {
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $id
+			)
+		);
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
+		$result = $this->db->deleteData(
+			'elements_campaigns',
+			$condition
+		);
+		return $result;
+	}
+
+	protected function getCampaign($id,$user_id=false) {
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $id
+			)
+		);
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
+		$result = $this->db->getData(
+			'elements_campaigns',
+			'*',
+			$condition
+		);
+		if ($result) {
+			$result[0]['metadata'] = json_decode($result[0]['metadata'],true);
+			$result[0]['elements'] = json_decode($result[0]['elements'],true);
+			return $result[0];
+		} else {
+			return false;
+		}
+	}
+
+	protected function getCampaignsForUser($user_id) {
+		$result = $this->db->getData(
+			'elements_campaigns',
+			'*',
+			array(
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				)
+			)
+		);
+		return $result;
+	}
+
+	protected function getElementsForCampaign($id) {
+		$campaign = $this->getCampaign($id);
+		$result = $this->db->getData(
+			'elements',
+			'*',
+			array(
+				"id" => array(
+					"condition" => "IN",
+					"value" => $campaign['elements']
+				)
+			)
+		);
+		foreach ($result as $key => &$val) {
+			$val['options'] = json_decode($val['options'],true);
+		}
+		return $result;
+	}
+
+	protected function addElementToCampaign($element_id,$campaign_id) {
+		$campaign = $this->getCampaign($campaign_id);
+		if(($key = array_search($element_id, $campaign['elements'])) === false) {
+			$campaign['elements'][] = $element_id;
+		}
+		return $this->editCampaign($campaign_id,false,false,false,$campaign['elements']);
+	}
+
+	protected function removeElementFromCampaign($element_id,$campaign_id) {
+		$campaign = $this->getCampaign($campaign_id);
+		if(($key = array_search($element_id, $campaign['elements'])) !== false) {
+			unset($campaign['elements'][$key]);
+		}
+		return $this->editCampaign($campaign_id,false,false,false,$campaign['elements']);
 	}
 
 } // END class 

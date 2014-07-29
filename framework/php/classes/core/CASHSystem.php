@@ -497,27 +497,6 @@
 		}
 	}
 
-	public static function getBrowserIdStatus($assertion,$return_details=false) {
-		if (!$assertion) {
-			return false;
-		} else {
-			$post_data = array(
-				'assertion' => $assertion,
-				'audience' => CASHSystem::getCurrentURL(true)
-			);
-			$status = json_decode(CASHSystem::getURLContents('https://verifier.login.persona.org/verify',$post_data,true),true);
-			if ($return_details || !$status) {
-				return $status;
-			} else {
-				if ($status['status'] == 'okay') {
-					return $status['email'];
-				} else {
-					return false;
-				}
-			}
-		}
-	}
-
 	/*
 	 * Sends a plain text and HTML email for system things like email verification,
 	 * password resets, etc.
