@@ -1756,6 +1756,10 @@ margin:0; padding:0;}
 	trasition:0.3s ease-in-out;
 }
 
+.store .modalbg {
+	z-index:20;
+}
+
 .modaldialog {
 	color:#f5f5f5;
 	width:73%;
@@ -1771,6 +1775,10 @@ margin:0; padding:0;}
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition:0.3s ease-in-out;
+}
+
+.store .modaldialog {
+	z-index:25;
 }
 
 .panel .modaldialog, .panel .modalbg, .panel .modallightbox{
@@ -1820,6 +1828,16 @@ label.checkbox {
     -webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition:0.3s ease-in-out;
+}
+
+/* Store Lightbox */
+.store .modallightbox{
+	width:100%;
+	z-index:30;
+	height:100%;
+	position:fixed;
+	padding:0 3%;
+	overflow:hidden;
 }
 
 .panel .modallightbox{
@@ -1949,6 +1967,48 @@ label.checkbox {
 	margin:0;
 	width:100%;
 	display:block;
+}
+
+/* Store Functionality */
+
+.store .modallightbox h4{
+	width:48%;
+	font-size:50px;
+	line-height: 55px;
+}
+
+.modallightbox .storedisplay{
+
+}
+
+/* List of elements types in store */
+.modallightbox .storedisplay .list{
+list-style-type:none;
+margin:0;
+padding:0;
+width:100%;
+}
+
+.modallightbox .storedisplay .list li{
+	display:block;
+}
+
+.modallightbox .storedisplay .list li a{
+	display:block;
+	width:100%;
+	padding:5%;
+	background:#222;
+}
+
+
+/* Examples of  types in store */
+.modallightbox .storedisplay .gallery{
+width:50%;
+height:100%;
+position:absolute;
+top:0;
+right:0;
+background:rgba(17,17,17,0.8);
 }
 
 /* PEOPLE LIST VIEW */

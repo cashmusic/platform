@@ -461,6 +461,13 @@
   				$('.inner a').removeClass('current');
   				el.addClass('current');
 				el.blur();
+			// if lanuching the store lightbox
+			} else if (el.hasClass('store')){
+				e.preventDefault();
+				$('body').addClass('store');
+				var url = el.attr('href');
+  				refreshPanelData(url);
+  				el.blur();
 			}
 		});
 
@@ -706,6 +713,8 @@
 		// overlay cancel button event
 		$(document).on('click', '.modalcancel', function(e) {
 			e.preventDefault();
+		//remove the store identifier on close
+			$("body").removeClass("store");
 			removeModal();
 		});
 
