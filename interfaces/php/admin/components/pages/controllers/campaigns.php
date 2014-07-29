@@ -9,7 +9,11 @@ $campaigns_response = $cash_admin->requestAndStore(
 
 if (is_array($campaigns_response['payload'])) {
 	foreach ($campaigns_response['payload'] as &$campaign) {
-		$campaign['formatted_date'] = CASHSystem::formatTimeAgo($campaign['modification_date']);
+		if ($campaign['modification_date'] == 0) {
+			$campaign['formatted_date'] = CASHSystem::formatTimeAgo($campaign['creation_date']);	
+		} else {
+			$campaign['formatted_date'] = CASHSystem::formatTimeAgo($campaign['modification_date']);
+		}
 	}
 	$cash_admin->page_data['campaigns_for_user'] = new ArrayIterator($campaigns_response['payload']);
 } 

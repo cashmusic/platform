@@ -13,4 +13,27 @@
 			<button type="submit"><i class="icon icon-save"></i>{{button_text}}</button>
 		</form>
 	</div>
+
+	<div class="twelve columns">
+		<h4>Campaign elements</h4>
+		{{#elements_for_campaign}}
+		<ul class="alternating">
+			{{#elements_for_campaign}}
+			<li>
+			<a class="primary" href="{{www_path}}/elements/edit/{{id}}">
+				<strong>{{name}}</strong><span class="descriptive spaced fadedtext">{{type}} / {{formatted_date}}</span></a>
+				<div class="more"><div class="toggle"></div><!--toggle-->
+				<div class="actions">
+				<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
+				<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation delete"><i class="icon icon-ban-circle"></i> Delete</a></div><!--actions-->
+				</div><!--more-->
+			</li>
+			{{/elements_for_campaign}}
+		</ul>
+		{{/elements_for_campaign}}
+
+		{{^elements_for_campaign}}
+		<p>No elements have been added yet.</p>
+		{{/elements_for_campaign}}
+	</div>
 </div>
