@@ -1,0 +1,21 @@
+<p class="big">
+	Group elements or create pages around a common goal.
+</p>
+
+{{#campaigns_for_user}}
+<ul class="alternating">
+	{{#campaigns_for_user}}
+	<li>
+		<b>{{title}}</b> <span class="descriptive spaced fadedtext">{{description}} / {{formatted_date}}</span>
+		<div class="itemnav">
+			<a href="{{www_path}}/campaigns/edit/{{id}}" class="mininav_flush"><i class="icon icon-pencil"></i>Edit</a> 
+			<a href="{{www_path}}/campaigns/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
+		</div>
+	</li>
+	{{/campaigns_for_user}}
+</ul>
+{{/campaigns_for_user}}
+
+{{^campaigns_for_user}}
+<p>No campaigns have been added yet. <a href="{{www_path}}/campaigns/add/">Add one.</a></p>
+{{/campaigns_for_user}}

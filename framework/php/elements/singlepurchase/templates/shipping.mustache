@@ -67,8 +67,6 @@
 }
 </style>
 
-<span class="cash_singlepurchase_shippingmessage">Please choose a shipping option:</span>
-
 <form id="cash_{{element_type}}_form_{{element_id}}" class="cash_form {{element_type}}" method="post" action="">
 <input type="hidden" name="cash_request_type" value="commerce" />
 <input type="hidden" name="cash_action" value="initiatecheckout" />
@@ -80,8 +78,14 @@
 
 	<div class="cashmusic-sp-actions">
 		<div class="cashmusic-sp-actions" id="actionspc">
-			<input type="button" id="shipping1" data-shiping="{{region1_cost}}" value="{{region1_name}} - {{currency}}{{region1_cost}}" class="button" />
-			<input type="button" id="shipping2" data-shiping="{{region2_cost}}" value="{{region2_name}} - {{currency}}{{region2_cost}}" class="button" />
+			{{^no_shipping}}
+				<span class="cash_singlepurchase_shippingmessage">Please choose a shipping option:</span>
+				<input type="button" id="shipping1" data-shiping="{{region1_cost}}" value="{{region1_name}} - {{currency}}{{region1_cost}}" class="button" />
+				<input type="button" id="shipping2" data-shiping="{{region2_cost}}" value="{{region2_name}} - {{currency}}{{region2_cost}}" class="button" />
+			{{/no_shipping}}
+			{{#no_shipping}}
+				Redirecting...
+			{{/no_shipping}}
 		</div>
 		<div id="cashmusic-sp-overlay">
 			<div class="cashmusic-sp-loading"></div>
@@ -132,24 +136,34 @@
 			}
 		}
 
-		var computeTotal = function(e) {
-			var target = e.target ? e.target : e.srcElement;
-			elementForm.elements['total_price'].value = 
-				parseFloat(original_price) + parseFloat(e.target.getAttribute('data-shiping')
-			);
+		{{^no_shipping}}
+			var computeTotal = function(e) {
+				var target = e.target ? e.target : e.srcElement;
+				elementForm.elements['total_price'].value = 
+					parseFloat(original_price) + parseFloat(e.target.getAttribute('data-shiping')
+				);
+				if (self!=top) {
+					handleSubmit(false);
+				} else {
+					console.log(elementForm);
+					elementForm.submit();
+				}
+			}
+
+			if (window.addEventListener) {
+				document.getElementById('shipping1').addEventListener('click', computeTotal, false);
+				document.getElementById('shipping2').addEventListener('click', computeTotal, false);
+			} else if (window.attachEvent) {
+				document.getElementById('shipping1').attachEvent('onclick', computeTotal);
+				document.getElementById('shipping2').attachEvent('onclick', computeTotal);
+			}
+		{{/no_shipping}}
+		{{#no_shipping}}
 			if (self!=top) {
 				handleSubmit(false);
 			} else {
 				elementForm.submit();
 			}
-		}
-
-		if (window.addEventListener) {
-			document.getElementById('shipping1').addEventListener('click', computeTotal, false);
-			document.getElementById('shipping2').addEventListener('click', computeTotal, false);
-		} else if (window.attachEvent) {
-			document.getElementById('shipping1').attachEvent('onclick', computeTotal);
-			document.getElementById('shipping2').attachEvent('onclick', computeTotal);
-		}
+		{{/no_shipping}}
 	})();
 </script>

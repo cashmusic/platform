@@ -23,7 +23,17 @@
 	"calendar/venues/edit":
 		{"page_name":"Edit venue", "menu_icon":""},
 		
-		
+	
+	"campaigns":
+		{"page_name":"Campaigns", "menu_icon":""},
+	"campaigns/add":
+		{"page_name":"Add campaigns", "menu_icon":"icon-plus-sign"},
+	"campaigns/delete":
+		{"page_name":"Delete campaign", "menu_icon":"", "hide":true},
+	"campaigns/edit":
+		{"page_name":"Edit campaign", "menu_icon":"", "hide":true},
+
+
 	"commerce":
 		{"page_name":"Commerce", "menu_icon":"", "tagline":"orders and items for sale"},
 	"commerce/items":
