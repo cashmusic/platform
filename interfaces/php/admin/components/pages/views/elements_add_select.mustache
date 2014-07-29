@@ -1,21 +1,24 @@
-<div class="storedisplay row">
-	<div class="two columns">
+ <div class="storedisplay row">
+	<div class="six columns">
 		<ul class="list">
-			<li><a href="/">Download Codes <i class="icon icon-x-circle">Add</i></a></li>
-			<li><a href="/">Email Collection <i class="icon icon-x-circle">Add</i></a></li>
-			<li><a href="/">Secure Download <i class="icon icon-x-circle">Add</i></a></li>
-			<li><a href="/">Single Purchase <i class="icon icon-x-circle">Add</i></a></li>
-			<li><a href="/">Social Feeds <i class="icon icon-x-circle">Add</i></a></li>
-			<li><a href="/">Plain Text <i class="icon icon-x-circle">Add</i></a></li>
-			<li><a href="/">Tour Dates <i class="icon icon-x-circle">Add</i></a></li>
+		{{#elements_output}}
+			<li><a class="type">{{element_type_name}}<span>Author:{{element_type_author}}</span><i class="icon icon-plus-sign"></i></a></li>
+		{{/elements_output}}
 		</ul>
 	</div>
-	<div class="gallery two columns">
-	<h2>Welcome to the Elements Store</h2>
-		<h2>Email Collection</h2>
-		<div class="slider">
-		<img src="{{www_path}}/ui/default/assets/images/gallery_test.jpg" alt="test"/>
-		</div><!--slider-->
-
-	</div>
-</div>
+</div><!--storedisplay-->
+<div class="gallery">
+	{{#elements_output}}
+		<div id="{{element_type}}" class="example">
+			<h2>{{element_type_name}}<span>V.{{element_type_version}}</span></h2>
+			<div class="slider">
+				<img src="{{www_path}}/assets/images/elementheader.php?element={{element_type}}" width="100%" alt="{{element_type_name}}" />
+			</div><!--slider-->
+			<h3>{{element_type_description}}</h3>
+			<p><span class="altcopystyle">{{element_type_longdescription}}</span></p>
+			<hr />
+			<a class="button" href="{{www_path}}/elements/add/{{element_type}}">Add element <i class="icon icon-plus-sign"></i></a>
+			<p class="updated">Last updated: {{element_type_updated}}</p>
+		</div>
+	{{/elements_output}}
+</div><!--gallery-->

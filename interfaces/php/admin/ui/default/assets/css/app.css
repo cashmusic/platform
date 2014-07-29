@@ -465,6 +465,7 @@ small{
 /* Intro */
 
 #hero{
+	display:none;
 	position:fixed;
 	top:0;
 	left:0;
@@ -602,7 +603,7 @@ section[role=main]{
 	margin:0;
 	width:100%;
 	height:100%;
-	padding:0;
+	padding:0% 0 0 1%;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -630,7 +631,6 @@ section[role=main]{
 .touchpoints{
 	opacity:1;
 	width:70%;
-	width:220px;
 	float:left;
 	visibility: visible;
 	z-index:3;
@@ -1867,9 +1867,6 @@ label.checkbox {
 	right:30%;
 	text-align: center;
 	display: inline;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
 	color:#222;
 	margin:0;
 	padding:0;
@@ -1887,6 +1884,12 @@ label.checkbox {
 
 .panel .modallightbox .modalcancel{
 	top:4%;
+}
+
+.store .modallightbox .modalcancel{
+	right:3%;
+	-webkit-filter: invert(100%);
+	filter: invert(100%);
 }
 
 .modallightbox .modalcancel span{
@@ -1971,44 +1974,147 @@ label.checkbox {
 
 /* Store Functionality */
 
-.store .modallightbox h4{
-	width:48%;
-	font-size:50px;
-	line-height: 55px;
+.store .modallightbox{
+	top:0!important;
 }
 
-.modallightbox .storedisplay{
+.store .modallightbox .row{
+}
+
+.store .modallightbox h4{
+	width:48%;
+	font-size:48px;
+	margin:3% 0;
+	padding:0;
+	line-height: 50px;
+}
+
+.modallightbox .storedisplay {
 
 }
 
 /* List of elements types in store */
 .modallightbox .storedisplay .list{
 list-style-type:none;
-margin:0;
+margin:5% 0;
 padding:0;
 width:100%;
 }
 
 .modallightbox .storedisplay .list li{
 	display:block;
+	width:94%;
+	background:#111;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	border:solid 1px #212121;
+	margin:0 0 2px 0;
 }
 
-.modallightbox .storedisplay .list li a{
+.modallightbox .storedisplay .list li:hover{
+	cursor:pointer;
+}
+
+.modallightbox .storedisplay .list li span{
+	margin:0 0 0 10px;
+	opacity:0.5;
+	color:#444;
+	font-size: 12px;
+}
+
+.modallightbox .storedisplay .list li a.type{
 	display:block;
 	width:100%;
-	padding:5%;
-	background:#222;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	padding:3% 4%;
+	text-decoration: none;
+}
+.modallightbox .storedisplay .list li:nth-child(odd){
+	background:#171717;
+}
+
+.modallightbox .storedisplay .list li a.type:hover{
+	background:#00cf7f;
+}
+
+.modallightbox .storedisplay .list li a.type i{
+	float:right;
+	padding:0;
+	margin:0;
+	font-size: 20px;
 }
 
 
 /* Examples of  types in store */
-.modallightbox .storedisplay .gallery{
-width:50%;
-height:100%;
-position:absolute;
-top:0;
+.modallightbox .gallery{
+	width:50%;
+	height:100%;
+	position:fixed;
+	top:0;
+	right:-100%;
+	overflow-y:auto;
+	padding:3%;
+	background:rgba(17,17,17,0.8);
+	-webkit-transition: 3s  ease-in-out;
+	-moz-transition: 3s  ease-in-out;
+	trasition:3s ease-in-out;
+}
+
+.store .modallightbox .gallery{
 right:0;
-background:rgba(17,17,17,0.8);
+}
+
+.modallightbox .gallery .example{
+	margin:0 0 30% 0;
+}
+
+.modallightbox .gallery .updated{
+	float:right;
+	color:#333;
+	margin:20px 0 0 0;
+}
+
+
+.modallightbox .gallery .button{
+	margin:10px 0;
+}
+
+.modallightbox .gallery hr{
+	border:none;
+	height:1px;
+	background:#111;
+}
+
+.modallightbox .gallery .example .slider{
+	margin:8% 0;
+	border-top:20px solid #d8d8d8;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-topright: 3px;
+	border-top-left-radius: 3px;
+	background:#111;
+	height:300px;
+	overflow:hidden;
+	border-top-right-radius: 3px;
+}
+
+.modallightbox .gallery .example .slider img{
+
+}
+
+
+.modallightbox .gallery h2, .modallightbox .gallery h3{
+	color:#f5f5f5;
+}
+
+.modallightbox .gallery h2 span{
+	color:#333;
+	font-size: 12px;
+	margin:0 0 0 1%;
 }
 
 /* PEOPLE LIST VIEW */
@@ -2427,7 +2533,13 @@ background:rgba(17,17,17,0.8);
 	/*background:#ddd;*/
 	border-top:1px solid #ccc;
 	background: #e3e3e3 url(../images/paint_low.png) 0% 0%;
-	/*background:url(../images/donate.png) top right no-repeat;*/
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-attachment: fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 }
 
 .panel #footer{
@@ -2458,8 +2570,12 @@ html{
 	background-attachment: fixed;
 }  
 
-section[role=main]{
-	padding:3%;
+#hero {
+	display:block;
+}
+
+.row{	
+	margin:-15px 0 0 0;
 }
 
 #menutoggle{
@@ -2510,7 +2626,8 @@ button, .button, #modallightbox .modalcancel{
 	line-height: 55px;
 	padding:3% 0 1% 3%;
 	margin:0;
-	width:100%;
+	/*width:100%;*/
+	width:94.5%;
 	float:left;
 }
 
@@ -2518,7 +2635,6 @@ button, .button, #modallightbox .modalcancel{
 	width:94.5%;
 	margin:0;
 }
-
 
 .big {
 	font-size:30px;
@@ -2551,9 +2667,6 @@ button, .button, #modallightbox .modalcancel{
 	padding:15px 12% 15px 12%;
 }
 
-.touchpoints{
-	display:block;
-}
 
 /* Account Menu */
 
@@ -2693,11 +2806,15 @@ td{display:table-cell; vertical-align: inherit;}
     WIDE
    ==================== */
 
+.touchpoints{
+	display:block;
+}
+
 #page{
 }
 
 section[role=main]{
-	padding:0;
+	padding:2% 0 0 0;
 
 }  
 

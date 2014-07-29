@@ -241,6 +241,7 @@
 		handleUploadForms();
 		elementMenuStates();
 		releaseFlip();
+		galleryPanel();
 	}
 
 	/**
@@ -289,6 +290,15 @@
 			$ (this).parents("body").removeClass("panel").removeClass("learn").removeClass("settings").removeClass("help");
 			$('.panelcontent').removeClass('display');
 		});
+
+		// store navigation
+		$(".type").click(function(){
+			alert("you just rolled over an store element");
+    	$(".gallery").animate({
+      	  scrollTop: $( $.attr(this, 'href') ).offset().top
+    	}, 50);
+    	return false;
+			});
 
 		// handle logout
 		$(document).on('click', '#logout', function(e) {
@@ -403,6 +413,7 @@
 		});
 	};
 
+
 	/*  Featured Asset Flip */
 
 	function releaseFlip() {
@@ -444,7 +455,7 @@
 			var el = $(e.currentTarget);
 			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
-				&& !el.hasClass('noajax') && !el.is('#logout') && !el.parents('div').hasClass('inner') 
+				&& !el.hasClass('noajax') && !el.is('#logout') && !el.parents('div').hasClass('inner') &&!el.hasClass('type')
 			) {
 				e.preventDefault();
 				var url = el.attr('href');
