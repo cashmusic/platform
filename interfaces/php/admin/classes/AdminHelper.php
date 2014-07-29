@@ -611,10 +611,12 @@
 				'cash_news_img'     => $dashboard_news_img
 			);
 
-			if (array_key_exists('last_login', $current_userdata)) {
-				$last_login = $current_userdata['last_login'];
-			} else {
-				$last_login = 0;
+			if (isset($current_userdata)) {
+				if (array_key_exists('last_login', $current_userdata)) {
+					$last_login = $current_userdata['last_login'];
+				} else {
+					$last_login = 0;
+				}
 			}
 
 			// get recent activity
