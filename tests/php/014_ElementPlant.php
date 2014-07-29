@@ -64,7 +64,7 @@ class ElementPlantTests extends UnitTestCase {
 				'cash_request_type' => 'element', 
 				'cash_action' => 'editelement',
 				'name' => 'New name',
-				'id' => $this->testingElement['id']
+				'id' => $this->testingElement
 			)
 		);
 		// should fail because we're requiring options_data to be included
@@ -79,7 +79,7 @@ class ElementPlantTests extends UnitTestCase {
 					'testoption1' => 'here is another thing to test',
 					'testoption2' => 47
 				),
-				'id' => $this->testingElement['id']
+				'id' => $this->testingElement
 			)
 		);
 		$this->assertTrue($element_request->response['payload']);
@@ -88,7 +88,7 @@ class ElementPlantTests extends UnitTestCase {
 			array(
 				'cash_request_type' => 'element', 
 				'cash_action' => 'getelement',
-				'id' => $this->testingElement['id']
+				'id' => $this->testingElement
 			)
 		);
 		$this->assertTrue($element_request->response['payload']);
@@ -102,7 +102,7 @@ class ElementPlantTests extends UnitTestCase {
 			array(
 				'cash_request_type' => 'element', 
 				'cash_action' => 'deleteelement',
-				'id' => $this->testingElement['id']
+				'id' => $this->testingElement
 			)
 		);
 		$this->assertTrue($element_request->response['payload']);
@@ -111,7 +111,7 @@ class ElementPlantTests extends UnitTestCase {
 			array(
 				'cash_request_type' => 'element', 
 				'cash_action' => 'getelement',
-				'id' => $this->testingElement['id']
+				'id' => $this->testingElement
 			)
 		);
 		// should fail because the element no longer exists
