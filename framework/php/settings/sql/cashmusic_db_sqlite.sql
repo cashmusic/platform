@@ -225,6 +225,17 @@ CREATE TABLE elements_analytics_basic (
   modification_date integer DEFAULT '0'
 );
 
+CREATE TABLE elements_campaigns (
+  id INTEGER PRIMARY KEY,
+  user_id integer DEFAULT NULL,
+  title text,
+  description text,
+  metadata text,
+  elements text,
+  creation_date integer DEFAULT NULL,
+  modification_date integer DEFAULT '0'
+);
+
 
 -- 
 -- 

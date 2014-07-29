@@ -14,7 +14,7 @@
  *
  **/
 abstract class ElementBase extends CASHData {
-	protected $element_id, $status_uid, $template, $element_data, $original_request, $original_response, $options, $element, $metadata, $unlocked=false, $mustache=false;
+	protected $element_id, $status_uid, $template, $element_data, $original_request, $original_response, $options, $element, $appdata, $unlocked=false, $mustache=false;
 	public $type = 'unknown';
 	public $name = 'Unknown Element';
 
@@ -50,14 +50,14 @@ abstract class ElementBase extends CASHData {
 			'www_url' => CASH_PUBLIC_URL,
 			'api_url' => CASH_API_URL
 		);
-		/*
-		$this->metadata = CASHSystem::getElementMetaData($this->type);
-		if (is_array($this->metadata)) {
-			foreach ($this->metadata as $key => $val) {
-				$this->element_data['metadata_' . $key] = $val;
+		$this->appdata = $this->getAppData();
+		if (is_array($this->appdata)) {
+			if (is_array($this->appdata['copy']['en'])) {
+				foreach ($this->appdata['copy']['en'] as $key => $val) {
+					$this->element_data['copy_' . $key] = $val;
+				}
 			}
 		}
-		*/
 		if (is_array($this->options)) {
 			$this->element_data = array_merge($this->element_data,$this->options);
 		}
@@ -125,6 +125,15 @@ abstract class ElementBase extends CASHData {
 	public function getTemplate() {
 		if (file_exists(CASH_PLATFORM_ROOT . '/elements/' . $this->type . '/templates/' . $this->template  . '.mustache')) {
 			return file_get_contents(CASH_PLATFORM_ROOT . '/elements/' . $this->type . '/templates/' . $this->template . '.mustache');
+		} else {
+			return false;
+		}
+	}
+
+	public function getAppData() {
+		if (file_exists(CASH_PLATFORM_ROOT . '/elements/' . $this->type . '/app.json')) {
+			$app_json = json_decode(file_get_contents(CASH_PLATFORM_ROOT . '/elements/' . $this->type . '/app.json'),true);
+			return $app_json;
 		} else {
 			return false;
 		}

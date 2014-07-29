@@ -4,7 +4,7 @@
 </div><!--packshot-->
 <div class="info">
 <span class="cash_singlepurchase_itemname">{{item_name}}</span>
-<span class="cash_singlepurchase_itemprice">{{currency}}{{item_price}}{{#item_flexible_price}} {{metadata_copy_flexibleprice_suffix}}{{/item_flexible_price}}</span>
+<span class="cash_singlepurchase_itemprice">{{currency}}{{item_price}}{{#item_flexible_price}} {{copy_flexibleprice_suffix}}{{/item_flexible_price}}</span>
 <span class="cash_singlepurchase_itemdescription">{{item_description}}</span>
 
 {{#is_available}}
@@ -14,7 +14,7 @@
 	{{#item_flexible_price}}
 		<input type="text" name="total_price" class="cashmusic_narrow" value="{{item_price}}" />
 	{{/item_flexible_price}}
-	<input type="submit" value="{{^item_flexible_price}}{{currency}}{{item_price}} - {{/item_flexible_price}}{{metadata_copy_buy}}" class="button" /><br />
+	<input type="submit" value="{{^item_flexible_price}}{{currency}}{{item_price}} - {{/item_flexible_price}}{{copy_buy}}" class="button" /><br />
 	</form>
 {{/is_available}}
 
