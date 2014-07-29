@@ -237,7 +237,6 @@
 						$values['displaysize'] !== 'small' ||
 						$nextnotsmall
 					) {
-						error_log($current_count);
 						switch ($current_count) {
 							case 4:
 								$column_width_text = "three";
