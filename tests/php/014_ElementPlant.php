@@ -46,7 +46,7 @@ class ElementPlantTests extends UnitTestCase {
 			array(
 				'cash_request_type' => 'element', 
 				'cash_action' => 'getelement',
-				'id' => $this->testingElement['id']
+				'id' => $this->testingElement
 			)
 		);
 		$this->assertTrue($element_request->response['payload']);
