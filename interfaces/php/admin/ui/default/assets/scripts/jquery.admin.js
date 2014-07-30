@@ -408,10 +408,12 @@
 	/* Show/Hide Element Gallery */
 
 	function moveToExample() {
-		alert('movetoexample triggered');
 		$( ".elementdisplay" ).mouseEnter(function() {
-			console.log('hello?');
-		});
+    		$('html, body').animate({
+        			scrollTop: $( $(this).attr('href') ).offset().top
+    			}, 500);
+    		return false;
+	});
 
 	};		
 
