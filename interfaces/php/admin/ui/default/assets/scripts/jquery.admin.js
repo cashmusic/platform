@@ -410,18 +410,14 @@
 	function moveToExample() {
 		$(document).on('mouseenter', '.elementdisplay', function(e) {
 			e.preventDefault();	
-			$('.gallery').scrollTop(0);
-			  $('.gallery').animate({
-       			 scrollTop: $( $.attr(this, 'name') ).offset().top - 130}, 1000);
-   			 return false;
-   			 console.log('rollover');
+ 			var panel_name = $(this).attr('name');
+			  $('.gallery').animate({ scrollLeft:1000}, "slow");
 		});
-/*
+
 		$(document).on('mouseleave', '.elementdisplay', function(e) {
 			e.preventDefault();	
-			   $('.gallery').scrollTop(0) -50;
-   			 console.log('rollout');
-		}); */
+  			$('.gallery').animate({ scrollLeft: 0}, "fast");
+  			});
 	};		
 
 	/*  Featured Asset Flip */
@@ -733,7 +729,6 @@
 			e.preventDefault();
 		//remove the store identifier on close
 			removeModal();
-			$("body").removeClass("store");
 		});
 
 		// learn tips inline click
@@ -755,6 +750,7 @@
 		});
 		$('.modalbg').fadeOut('fast', function() {
 			$('.modalbg').remove();
+					$("body").removeClass("store");
 		});
 		$(document).unbind('scroll',handleModalScroll);
 	}
