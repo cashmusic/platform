@@ -170,7 +170,7 @@
 					setContentBehaviors();
 				}
 				//$('#ajaxloading').hide();
-				$('#ajaxloading, #logo, #ld').removeClass('loading');
+				$('#ajaxloading, #logo, #hero').removeClass('loading');
 				$('#pagedisplay').fadeTo(200,1);
 			}
 		},'json');
@@ -200,7 +200,7 @@
 
 		// fade out
 		//$('#ajaxloading').show();
-		$('#ajaxloading, #logo, #ld').addClass('loading');
+		$('#ajaxloading, #logo, #hero').addClass('loading');
 		$('#pagedisplay').fadeTo(100,0.2, function() {
 			doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
 		});
@@ -241,7 +241,6 @@
 		handleUploadForms();
 		elementMenuStates();
 		releaseFlip();
-		galleryPanel();
 	}
 
 	/**
@@ -261,6 +260,7 @@
 		listenForInjectLinks();
 		touchToggles();
 		autoPanel();
+		moveToExample();
 
 		// page tip show/hide
 		$(document).on('click', '#tipslink', function(e) {
@@ -290,15 +290,6 @@
 			$ (this).parents("body").removeClass("panel").removeClass("learn").removeClass("settings").removeClass("help");
 			$('.panelcontent').removeClass('display');
 		});
-
-		// store navigation
-		$(".type").click(function(){
-			alert("you just rolled over an store element");
-    	$(".gallery").animate({
-      	  scrollTop: $( $.attr(this, 'href') ).offset().top
-    	}, 50);
-    	return false;
-			});
 
 		// handle logout
 		$(document).on('click', '#logout', function(e) {
@@ -414,6 +405,16 @@
 	};
 
 
+	/* Show/Hide Element Gallery */
+
+	function moveToExample() {
+		alert('movetoexample triggered');
+		$( ".elementdisplay" ).mouseEnter(function() {
+			console.log('hello?');
+		});
+
+	};		
+
 	/*  Featured Asset Flip */
 
 	function releaseFlip() {
@@ -455,7 +456,7 @@
 			var el = $(e.currentTarget);
 			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
-				&& !el.hasClass('noajax') && !el.is('#logout') && !el.parents('div').hasClass('inner') &&!el.hasClass('type')
+				&& !el.hasClass('noajax') && !el.is('#logout') && !el.parents('div').hasClass('inner') && !el.is('.elementdisplay')
 			) {
 				e.preventDefault();
 				var url = el.attr('href');
@@ -472,13 +473,10 @@
   				$('.inner a').removeClass('current');
   				el.addClass('current');
 				el.blur();
-			// if lanuching the store lightbox
+			// if launching the store lightbox
 			} else if (el.hasClass('store')){
 				e.preventDefault();
 				$('body').addClass('store');
-				var url = el.attr('href');
-  				refreshPanelData(url);
-  				el.blur();
 			}
 		});
 

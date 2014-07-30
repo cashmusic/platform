@@ -465,7 +465,6 @@ small{
 /* Intro */
 
 #hero{
-	display:none;
 	position:fixed;
 	top:0;
 	left:0;
@@ -473,6 +472,14 @@ small{
 	padding:1%;
 	background:rgba(230,230,230,0.97) url(../images/paint_low.png) 0% 0%;
 	z-index:-1;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition: 0.3s ease-in-out;
+	opacity:1;
+}
+
+#hero.loading{
+	opacity:0;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition: 0.3s ease-in-out;
@@ -2023,7 +2030,7 @@ width:100%;
 	font-size: 12px;
 }
 
-.modallightbox .storedisplay .list li a.type{
+.modallightbox .storedisplay .list li a.elementdisplay{
 	display:block;
 	width:100%;
 	-webkit-border-radius: 3px;
@@ -2036,11 +2043,11 @@ width:100%;
 	background:#171717;
 }
 
-.modallightbox .storedisplay .list li a.type:hover{
+.modallightbox .storedisplay .list li a.elementdisplay:hover{
 	background:#00cf7f;
 }
 
-.modallightbox .storedisplay .list li a.type i{
+.modallightbox .storedisplay .list li a.elementdisplay i{
 	float:right;
 	padding:0;
 	margin:0;
@@ -2571,7 +2578,7 @@ html{
 }  
 
 #hero {
-	display:block;
+	opacity:1;
 }
 
 .row{	
