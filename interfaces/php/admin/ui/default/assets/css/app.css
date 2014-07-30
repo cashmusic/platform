@@ -348,10 +348,10 @@ small{
 /* Loading */
 
 #ajaxloading{
+	width:89%!important;
 	position:absolute;
 	top:5px;
 	right:0;
-	width:89%!important;
 	margin:3px 3px 0 0;
 	padding:0;
 	-webkit-animation: turn linear infinite 1s;
@@ -426,7 +426,7 @@ small{
 	-moz-transition: 0.3s  ease-in-out;
 	trasition: 0.3s ease-in-out;
 	position:relative;
-	width:23%;
+	width:100%;
 	float:left;
 	padding:0 0 0 5%;
 }
@@ -439,10 +439,10 @@ small{
 
 
 #header #logo img{
-	/*max-width:78px;*/
-	width:100%;
+	width:40%;
+	display:block;
+	margin:5% auto 0% auto;
 	height:auto;
-	margin:20% 3%;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition: 0.3s ease-in-out;
@@ -475,7 +475,7 @@ small{
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition: 0.3s ease-in-out;
-	opacity:1;
+	opacity:0;
 }
 
 #hero.loading{
@@ -637,7 +637,7 @@ section[role=main]{
 
 .touchpoints{
 	opacity:1;
-	width:70%;
+	width:76%;
 	float:left;
 	visibility: visible;
 	z-index:3;
@@ -1894,9 +1894,7 @@ label.checkbox {
 }
 
 .store .modallightbox .modalcancel{
-	right:3%;
-	-webkit-filter: invert(100%);
-	filter: invert(100%);
+	right:8%;
 }
 
 .modallightbox .modalcancel span{
@@ -1983,21 +1981,15 @@ label.checkbox {
 
 .store .modallightbox{
 	top:0!important;
-}
-
-.store .modallightbox .row{
+	padding:8%;
 }
 
 .store .modallightbox h4{
-	width:48%;
+	width:90%;
 	font-size:48px;
 	margin:3% 0;
 	padding:0;
 	line-height: 50px;
-}
-
-.modallightbox .storedisplay {
-
 }
 
 /* List of elements types in store */
@@ -2010,7 +2002,7 @@ width:100%;
 
 .modallightbox .storedisplay .list li{
 	display:block;
-	width:94%;
+	width:100%;
 	background:#111;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -2065,13 +2057,9 @@ width:100%;
 	overflow-y:auto;
 	padding:3%;
 	background:rgba(17,17,17,0.8);
-	-webkit-transition: 3s  ease-in-out;
-	-moz-transition: 3s  ease-in-out;
-	trasition:3s ease-in-out;
-}
-
-.store .modallightbox .gallery{
-right:0;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition:0.3s ease-in-out;
 }
 
 .modallightbox .gallery .example{
@@ -2631,7 +2619,7 @@ button, .button, #modallightbox .modalcancel{
 #pagetitle{
 	font-size:50px;
 	line-height: 55px;
-	padding:3% 0 1% 3%;
+	padding:5% 0 1% 3%;
 	margin:0;
 	/*width:100%;*/
 	width:94.5%;
@@ -2796,6 +2784,16 @@ button, .button, #modallightbox .modalcancel{
 	display:none;
 }
 
+/* Store  */
+
+.store .modallightbox .modalcancel{
+	right:3%;
+}
+
+.store .modallightbox{
+	padding:0 3%;
+}
+
 /*  Re-format table for wider display */
 
 table { display:table;}
@@ -2813,17 +2811,26 @@ td{display:table-cell; vertical-align: inherit;}
     WIDE
    ==================== */
 
+#header #logo{
+	width:23%;
+}
+
+#header #logo img{
+	width:100%;
+	margin:20% 3%;
+}
+
 .touchpoints{
 	display:block;
 }
 
-#page{
-}
-
 section[role=main]{
 	padding:2% 0 0 0;
+}
 
-}  
+#pagetitle{
+	padding:3% 0 1% 3%;
+}
 
 #accountmenu .head, #helpmenu .head{
 	opacity:1;
@@ -2849,6 +2856,21 @@ section[role=main]{
 	float:right;
 	padding:0;
 }
+
+/* Store Gallery */
+
+.store .modallightbox h4{
+	width:48%;
+}
+
+.modallightbox .gallery{
+	right:0%;
+}
+
+.modallightbox .storedisplay .list li{
+	width:94%;
+}
+
 
 }  /* Wide END */ 
 

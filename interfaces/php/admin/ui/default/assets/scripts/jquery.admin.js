@@ -408,11 +408,20 @@
 	/* Show/Hide Element Gallery */
 
 	function moveToExample() {
-		alert('movetoexample triggered');
-		$( ".elementdisplay" ).mouseEnter(function() {
-			console.log('hello?');
+		$(document).on('mouseenter', '.elementdisplay', function(e) {
+			e.preventDefault();	
+			$('.gallery').scrollTop(0);
+			  $('.gallery').animate({
+       			 scrollTop: $( $.attr(this, 'name') ).offset().top - 130}, 1000);
+   			 return false;
+   			 console.log('rollover');
 		});
-
+/*
+		$(document).on('mouseleave', '.elementdisplay', function(e) {
+			e.preventDefault();	
+			   $('.gallery').scrollTop(0) -50;
+   			 console.log('rollout');
+		}); */
 	};		
 
 	/*  Featured Asset Flip */
@@ -456,7 +465,7 @@
 			var el = $(e.currentTarget);
 			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
-				&& !el.hasClass('noajax') && !el.is('#logout') && !el.parents('div').hasClass('inner') && !el.is('.elementdisplay')
+				&& !el.hasClass('noajax') && !el.is('#logout') && !el.parents('div').hasClass('inner')
 			) {
 				e.preventDefault();
 				var url = el.attr('href');
@@ -723,8 +732,8 @@
 		$(document).on('click', '.modalcancel', function(e) {
 			e.preventDefault();
 		//remove the store identifier on close
-			$("body").removeClass("store");
 			removeModal();
+			$("body").removeClass("store");
 		});
 
 		// learn tips inline click
