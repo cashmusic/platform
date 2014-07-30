@@ -408,13 +408,14 @@
 	/* Show/Hide Element Gallery */
 
 	function moveToExample() {
-		$( ".elementdisplay" ).mouseEnter(function() {
-    		$('html, body').animate({
-        			scrollTop: $( $(this).attr('href') ).offset().top
-    			}, 500);
-    		return false;
-	});
-
+		$(document).on('hover', '.elementdisplay', function(e) {
+			e.preventDefault();	
+			  $('.gallery').animate({
+       			 scrollTop: $( $.attr(this, 'name') ).offset().top +200
+    		}, 500);
+   			 return false;
+   			 console.log('rollover');
+		});
 	};		
 
 	/*  Featured Asset Flip */
@@ -458,7 +459,7 @@
 			var el = $(e.currentTarget);
 			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
-				&& !el.hasClass('noajax') && !el.is('#logout') && !el.parents('div').hasClass('inner') && !el.is('.elementdisplay')
+				&& !el.hasClass('noajax') && !el.is('#logout') && !el.parents('div').hasClass('inner')
 			) {
 				e.preventDefault();
 				var url = el.attr('href');
