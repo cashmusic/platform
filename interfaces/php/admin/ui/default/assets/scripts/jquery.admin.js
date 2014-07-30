@@ -49,6 +49,7 @@
 		// doesn't need to be AJAXed in. Wouldn't seem to matter, but it causes
 		// an ugly/noticalbe double-load otherwise.
 		window.firstadminload = true;
+		window.globaltimeout = false;
 
 		// make back/forward buttons work
 		window.addEventListener("popstate", function(e) {
@@ -408,16 +409,29 @@
 	/* Show/Hide Element Gallery */
 
 	function moveToExample() {
+		var scrollStore = function(todiv) {
+
+		}
+
 		$(document).on('mouseenter', '.elementdisplay', function(e) {
 			e.preventDefault();	
- 			var panel_name = $(this).attr('name');
-			  $('.gallery').animate({ scrollLeft:1000}, "slow");
+			var panel_name = $(this).attr('name');
+			// the timeout slows it down just enough we don't get accidental changes on a 
+			// quick pass through a menu element to the right panel
+			window.globaltimeout = window.setTimeout(function(){
+				// Math.floor to avoid weird pixel fractions. the -34 accounts for padding
+				$('.gallery').stop().animate({ scrollLeft:Math.floor($(panel_name).position().left) - 34}, "slow");
+			}, 150);
+
 		});
 
 		$(document).on('mouseleave', '.elementdisplay', function(e) {
 			e.preventDefault();	
-  			$('.gallery').animate({ scrollLeft: 0}, "fast");
-  			});
+  			//$('.gallery').animate({ scrollLeft: 0}, "fast");
+  			if (window.globaltimeout) {
+  				window.clearTimeout(window.globaltimeout);
+  			}
+  		});
 	};		
 
 	/*  Featured Asset Flip */
