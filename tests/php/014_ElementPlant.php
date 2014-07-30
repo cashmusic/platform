@@ -301,6 +301,38 @@ class ElementPlantTests extends UnitTestCase {
 			'testoption1' => 'here is a thing to test',
 			'testoption2' => 47
 		));
+
+		$campaign_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'element', 
+				'cash_action' => 'getcampaignforelement',
+				'id' => $this->testingElement
+			)
+		);
+		// true for first element
+		$this->assertTrue($campaign_request->response['payload']);
+		$this->assertEqual($campaign_request->response['payload']['id'],$this->testingCampaign);
+
+		$campaign_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'element', 
+				'cash_action' => 'getcampaignforelement',
+				'id' => $this->testingElement2
+			)
+		);
+		// true for last element
+		$this->assertTrue($campaign_request->response['payload']);
+		$this->assertEqual($campaign_request->response['payload']['id'],$this->testingCampaign);
+
+		$campaign_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'element', 
+				'cash_action' => 'getcampaignforelement',
+				'id' => 9876529
+			)
+		);
+		// fail that shit with a bad request
+		$this->assertFalse($campaign_request->response['payload']);
 	}
 
 }

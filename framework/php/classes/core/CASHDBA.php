@@ -521,6 +521,11 @@ class CASHDBA {
 				. "GROUP BY ea.element_id "
 				. "ORDER BY count DESC";
 				break;
+			case 'ElementPlant_getCampaignForElement':
+				$query = "SELECT * FROM elements_campaigns "
+				. "WHERE elements LIKE :elements1 OR elements LIKE :elements2 OR elements LIKE :elements3 "
+				. "OR elements LIKE :elements4 OR elements LIKE :elements5 OR elements LIKE :elements6";
+				break;
 			case 'PeoplePlant_getAnalytics_listmembership':
 				$query = "SELECT COUNT(*) AS total, COUNT(CASE WHEN active = 1 THEN 1 END) AS active, COUNT(CASE WHEN active = 0 THEN 1 END) AS inactive, COUNT(CASE WHEN creation_date > " . (time() - 604800) . " THEN 1 END) AS last_week "
 				. "FROM people_lists_members "

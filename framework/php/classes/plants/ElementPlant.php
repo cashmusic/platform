@@ -37,6 +37,7 @@ class ElementPlant extends PlantBase {
 			'getcampaign'               => array('getCampaign','direct'),
 			'getelement'                => array('getElement','direct'),
 			'getcampaignsforuser'       => array('getCampaignsForUser','direct'),
+			'getcampaignforelement'     => array('getCampaignForElement','direct'),
 			'getelementsforcampaign'    => array('getElementsForCampaign','direct'),
 			'getelementsforuser'        => array('getElementsForUser','direct'),
 			'getelementtemplate'        => array('getElementTemplate','direct'),
@@ -613,6 +614,50 @@ class ElementPlant extends PlantBase {
 			$val['options'] = json_decode($val['options'],true);
 		}
 		return $result;
+	}
+
+	protected function getCampaignForElement($id) {
+		$result = $this->db->getData(
+			'ElementPlant_getCampaignForElement',
+			false,
+			array(
+				"elements1" => array(
+					"condition" => "LIKE",
+					"value" => '["'.$id.'",%'
+				),
+				"elements2" => array(
+					"condition" => "LIKE",
+					"value" => ',"'.$id.'",%'
+				),
+				"elements3" => array(
+					"condition" => "LIKE",
+					"value" => '%,"'.$id.'"]'
+				),
+				"elements4" => array(
+					"condition" => "LIKE",
+					"value" => '['.$id.',%'
+				),
+				"elements5" => array(
+					"condition" => "LIKE",
+					"value" => ','.$id.',%'
+				),
+				"elements6" => array(
+					"condition" => "LIKE",
+					"value" => '%,'.$id.']'
+				)
+			)
+		);
+		// 6 conditions is overkill, but wanted to make sure this would work if PHP treats the 
+		// json_encode variables as strings OR ints (have only seen string handling)
+		// 
+		// i swear i'll never take regex for granted
+		// PS: pattern matching across sqlite and mysql is hard. like stupid hard. 
+		// like no thank you. No REGEXP, no GLOB, and CONCAT versus || issues.
+		if ($result) {
+			return $result[0];
+		} else {
+			return false;
+		}
 	}
 
 	protected function addElementToCampaign($element_id,$campaign_id) {
