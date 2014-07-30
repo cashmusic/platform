@@ -56,9 +56,7 @@ if ($request_parameters) {
 
 	$cash_admin->setPageContentTemplate('elements_add_selected');
 } else {
-	$column1 = array();
-	$column2 = array();
-	$column3 = array();
+	$elementcollection = array();
 
 	$colcount = 1;
 	foreach ($supported_elements as $element) {
@@ -74,21 +72,11 @@ if ($request_parameters) {
 			'element_type_version' => $app_json['version']
 		);
 
-		if ($colcount == 3) {
-			$column3[] = $formatted_element;
-			$colcount = 1;
-		} elseif ($colcount == 2) {
-			$column2[] = $formatted_element;
-			$colcount++;
-		} else {
-			$column1[] = $formatted_element;
-			$colcount++;
-		}
+		$elementcollection[] = $formatted_element;
+	
 	}
 
-	$cash_admin->page_data['elements_col1'] = new ArrayIterator($column1);
-	$cash_admin->page_data['elements_col2'] = new ArrayIterator($column2);
-	$cash_admin->page_data['elements_col3'] = new ArrayIterator($column3);
+	$cash_admin->page_data['elements_output'] = new ArrayIterator($elementcollection);
 
 	$cash_admin->setPageContentTemplate('elements_add_select');
 }

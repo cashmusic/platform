@@ -170,7 +170,7 @@
 					setContentBehaviors();
 				}
 				//$('#ajaxloading').hide();
-				$('#ajaxloading, #logo, #ld').removeClass('loading');
+				$('#ajaxloading, #logo, #hero').removeClass('loading');
 				$('#pagedisplay').fadeTo(200,1);
 			}
 		},'json');
@@ -200,7 +200,7 @@
 
 		// fade out
 		//$('#ajaxloading').show();
-		$('#ajaxloading, #logo, #ld').addClass('loading');
+		$('#ajaxloading, #logo, #hero').addClass('loading');
 		$('#pagedisplay').fadeTo(100,0.2, function() {
 			doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
 		});
@@ -260,6 +260,7 @@
 		listenForInjectLinks();
 		touchToggles();
 		autoPanel();
+		moveToExample();
 
 		// page tip show/hide
 		$(document).on('click', '#tipslink', function(e) {
@@ -403,6 +404,17 @@
 		});
 	};
 
+
+	/* Show/Hide Element Gallery */
+
+	function moveToExample() {
+		alert('movetoexample triggered');
+		$( ".elementdisplay" ).mouseEnter(function() {
+			console.log('hello?');
+		});
+
+	};		
+
 	/*  Featured Asset Flip */
 
 	function releaseFlip() {
@@ -444,7 +456,7 @@
 			var el = $(e.currentTarget);
 			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
-				&& !el.hasClass('noajax') && !el.is('#logout') && !el.parents('div').hasClass('inner') 
+				&& !el.hasClass('noajax') && !el.is('#logout') && !el.parents('div').hasClass('inner') && !el.is('.elementdisplay')
 			) {
 				e.preventDefault();
 				var url = el.attr('href');
@@ -461,6 +473,10 @@
   				$('.inner a').removeClass('current');
   				el.addClass('current');
 				el.blur();
+			// if launching the store lightbox
+			} else if (el.hasClass('store')){
+				e.preventDefault();
+				$('body').addClass('store');
 			}
 		});
 
@@ -702,10 +718,18 @@
 	 **/
 
 	 function modalBehaviors() {
+
 		// overlay cancel button event
 		$(document).on('click', '.modalcancel', function(e) {
 			e.preventDefault();
+		//remove the store identifier on close
+			$("body").removeClass("store");
 			removeModal();
+		});
+
+		// learn tips inline click
+		$(document).on('click', '.section-description', function(e) {
+			$ (this).parents("body").addClass("panel").addClass("learn");
 		});
 
 		// fade/close on escape key
@@ -825,7 +849,7 @@
 						 '<h4>' + data.ui_title + '</h4>' +
 						 data.content + //jQuery.param(data) +
 						 //'</div></div>' +
-						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><i class="icon icon-ban-circle"></i>cancel</a></div>' +
+						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><i class="icon icon-ban-circle"></i><span>cancel</span></a></div>' +
 						 '</div></div>';
 
 			markup = $(markup);
@@ -885,7 +909,7 @@
 		if (section <= mpForm.total) {
 			if (section == mpForm.total) {
 				// this structure means we ALWAYS need a .section.basic-information div
-				var descriptor = 'Finish';
+				var descriptor = 'Next';
 				//var nextTitle = $($(mpForm.form).children('.section.basic-information')[0]).data('section-name');
 			} else {
 				var descriptor = 'Next';
