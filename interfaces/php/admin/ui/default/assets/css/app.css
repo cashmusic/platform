@@ -1895,6 +1895,7 @@ label.checkbox {
 
 .store .modallightbox .modalcancel{
 	right:8%;
+	background-color:#333;
 }
 
 .modallightbox .modalcancel span{
@@ -2073,10 +2074,19 @@ width:100%;
 }
 
 .modallightbox .gallery .example{
-	margin:0 2% 0 0;
+	margin:0 1% 0 0;
 	float:left;
-	width:11%;
+	width:8.8%;
+	/*width:10%;*/
+	opacity:0.5;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition:0.3s ease-in-out;
 }
+
+.modallightbox .gallery .example.current{
+	opacity:1;
+} 
 
 .modallightbox .gallery .updated{
 	float:left;
@@ -2105,16 +2115,13 @@ width:100%;
 	border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
 	background:#111;
-	height:250px;
+	height:200px;
 	overflow:hidden;
 	-moz-box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
    	-webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
   	box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
 }
 
-.modallightbox .gallery .example .slider img{
-
-}
 
 .modallightbox .gallery h2{
 	margin-bottom:20%;
@@ -2805,7 +2812,7 @@ button, .button, #modallightbox .modalcancel{
 /* Store  */
 
 .store .modallightbox .modalcancel{
-	right:3%;
+	right:2.5%;
 }
 
 .store .modallightbox{
