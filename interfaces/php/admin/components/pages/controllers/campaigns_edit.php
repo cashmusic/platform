@@ -35,5 +35,28 @@ if (is_array($current_campaign)) {
 $cash_admin->page_data['form_state_action'] = 'docampaignedit';
 $cash_admin->page_data['button_text'] = 'Save changes';
 
+
+
+$elements_response = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'element', 
+		'cash_action' => 'getelementsforcampaign',
+		'id' => $request_parameters[0]
+	)
+);
+
+if (is_array($elements_response['payload'])) {
+	foreach ($elements_response['payload'] as &$element) {
+		if ($element['modification_date'] == 0) {
+			$element['formatted_date'] = CASHSystem::formatTimeAgo($element['creation_date']);	
+		} else {
+			$element['formatted_date'] = CASHSystem::formatTimeAgo($element['modification_date']);
+		}
+	}
+	$cash_admin->page_data['elements_for_campaign'] = new ArrayIterator($elements_response['payload']);
+} 
+
+
+
 $cash_admin->setPageContentTemplate('campaign_details');
 ?>

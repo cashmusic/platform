@@ -131,6 +131,18 @@ if ($current_element) {
 			$cash_admin->page_data['element_button_text'] = 'Edit the element';
 			$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render(AdminHelper::getElementTemplate($current_element['type']), $cash_admin->page_data);
 		}
+
+		$campaign_response = $cash_admin->requestAndStore(
+			array(
+				'cash_request_type' => 'element', 
+				'cash_action' => 'getcampaignforelement',
+				'id' => $current_element['id']
+			)
+		);
+		if ($campaign_response['payload']) {
+			$cash_admin->page_data['campaign_id'] = $campaign_response['payload']['id'];
+			$cash_admin->page_data['campaign_title'] = $campaign_response['payload']['title'];
+		}
 	} else {
 		AdminHelper::controllerRedirect('/elements/');
 	}
