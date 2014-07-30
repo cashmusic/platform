@@ -412,7 +412,7 @@
 			e.preventDefault();	
 			$('.gallery').scrollTop(0);
 			  $('.gallery').animate({
-       			 scrollTop: $( $.attr(this, 'name') ).offset().top - 50}, 1000);
+       			 scrollTop: $( $.attr(this, 'name') ).offset().top - 130}, 1000);
    			 return false;
    			 console.log('rollover');
 		});
@@ -732,8 +732,8 @@
 		$(document).on('click', '.modalcancel', function(e) {
 			e.preventDefault();
 		//remove the store identifier on close
-			$("body").removeClass("store");
 			removeModal();
+			$("body").removeClass("store");
 		});
 
 		// learn tips inline click
