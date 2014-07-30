@@ -410,17 +410,18 @@
 	function moveToExample() {
 		$(document).on('mouseenter', '.elementdisplay', function(e) {
 			e.preventDefault();	
+			$('.gallery').scrollTop(0);
 			  $('.gallery').animate({
-       			 scrollTop: $( $.attr(this, 'name') ).offset().top}, 1000);
+       			 scrollTop: $( $.attr(this, 'name') ).offset().top - 50}, 1000);
    			 return false;
    			 console.log('rollover');
 		});
-
+/*
 		$(document).on('mouseleave', '.elementdisplay', function(e) {
 			e.preventDefault();	
-			   $('.gallery').offset().top;
+			   $('.gallery').scrollTop(0) -50;
    			 console.log('rollout');
-		});
+		}); */
 	};		
 
 	/*  Featured Asset Flip */
