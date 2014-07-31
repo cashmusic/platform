@@ -579,13 +579,12 @@
 		return $result;
 	}
 
-	public static function getActivity() {
+	public static function getActivity($current_userdata) {
 		global $admin_primary_cash_request, $cash_admin;
 		$session_news = $admin_primary_cash_request->sessionGet('admin_newsfeed');
 		if (!$session_news) {
 			$tumblr_seed = new TumblrSeed();
 			$tumblr_request = $tumblr_seed->getTumblrFeed('blog.cashmusic.org',0,'platformnews');
-			//error_log(print_r($tumblr_request,true));
 
 			$dashboard_news_img = null;
 			$dashboard_news = "<p>News could not be read. So let's say no news is good news.</p>";
@@ -604,19 +603,26 @@
 				}
 			}
 
-			// store all that tumblr junk in our array and move on
-			$session_news = array(
-				'cash_news_date'    => $tumblr_request[0]->{'unix-timestamp'},
-				'cash_news_content' => $dashboard_news,
-				'cash_news_img'     => $dashboard_news_img
-			);
 
-			if (isset($current_userdata)) {
-				if (array_key_exists('last_login', $current_userdata)) {
-					$last_login = $current_userdata['last_login'];
-				} else {
-					$last_login = 0;
-				}
+			if ($tumblr_request[0]->{'unix-timestamp'} > (time() - 604800)) {
+				// store all that tumblr junk in our array and move on
+				$session_news = array(
+					'cash_news_date'    => $tumblr_request[0]->{'unix-timestamp'},
+					'cash_news_content' => $dashboard_news,
+					'cash_news_img'     => $dashboard_news_img
+				);
+			} else {
+				$session_news = array(
+					'cash_news_date'    => false,
+					'cash_news_content' => false,
+					'cash_news_img'     => false
+				);
+			}
+
+			if (array_key_exists('last_login', $current_userdata)) {
+				$last_login = $current_userdata['last_login'];
+			} else {
+				$last_login = 0;
 			}
 
 			// get recent activity

@@ -1,6 +1,8 @@
 <?php
+/*
 // banner stuff
 $settings = $cash_admin->getUserSettings();
+*/
 
 // handle template change
 if (isset($_POST['change_template_id'])) {
@@ -15,6 +17,7 @@ if (isset($_POST['change_template_id'])) {
 	);
 }
 
+/*
 // look for a defined template
 $settings_response = $cash_admin->requestAndStore(
 	array(
@@ -40,6 +43,7 @@ if ($page_templates) {
 	$cash_admin->page_data['defined_page_templates'] = false;
 	$cash_admin->page_data['published_page'] = false;
 }
+*/
 
 // get username and any user data
 $user_response = $cash_admin->requestAndStore(
@@ -55,7 +59,7 @@ if (is_array($user_response['payload'])) {
 }
 
 // get news for the news feed
-$session_news = AdminHelper::getActivity();
+$session_news = AdminHelper::getActivity($current_userdata);
 
 // now set up page variables
 $cash_admin->page_data['dashboard_news'] = $session_news['cash_news_content'];
@@ -80,7 +84,7 @@ if ($session_news['activity']['orders']) {
 }
 
 
-
+/*
 // check to see if the user has elements defined
 $elements_response = $cash_admin->requestAndStore(
 	array(
@@ -144,18 +148,38 @@ if (is_array($elements_response['payload'])) {
 	}
 }
 
+if ($cash_admin->platform_type == 'single') {
+	$cash_admin->page_data['platform_type_single'] = true;
+}
+*/
+
 $cash_admin->page_data['user_page_uri'] = str_replace('https','http',rtrim(str_replace('admin', $current_username, CASHSystem::getCurrentURL()),'/'));
 if (defined('COMPUTED_DOMAIN_IN_USER_URL') && defined('PREFERRED_DOMAIN_IN_USER_URL')) {
 	$cash_admin->page_data['user_page_uri'] = str_replace(COMPUTED_DOMAIN_IN_USER_URL, PREFERRED_DOMAIN_IN_USER_URL, $cash_admin->page_data['user_page_uri']);
 }
 $cash_admin->page_data['user_page_display_uri'] = str_replace('http://','',$cash_admin->page_data['user_page_uri']);
 
-if ($cash_admin->platform_type == 'single') {
-	$cash_admin->page_data['platform_type_single'] = true;
-}
 
-// menu hack (we want to display in-page menus outside the normal structure on the main page)
-$cash_admin->page_data['section_menu'] = '<ul class="pagebasemenu"><li><a href="#activity"><i class="icon icon-bolt"></i> News / activity</a></li><li><a href="#elements"><i class="icon icon-puzzle-piece"></i> Elements</a></li><li><a href="#publish"><i class="icon icon-list-alt"></i> Publish / embed</a></li></ul>';
+$campaigns_response = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'element', 
+		'cash_action' => 'getcampaignsforuser',
+		'user_id' => $cash_admin->effective_user_id
+	)
+);
+
+if (is_array($campaigns_response['payload'])) {
+	foreach ($campaigns_response['payload'] as &$campaign) {
+		if ($campaign['modification_date'] == 0) {
+			$campaign['formatted_date'] = CASHSystem::formatTimeAgo($campaign['creation_date']);	
+		} else {
+			$campaign['formatted_date'] = CASHSystem::formatTimeAgo($campaign['modification_date']);
+		}
+	}
+	$cash_admin->page_data['campaigns_for_user'] = new ArrayIterator($campaigns_response['payload']);
+} 
+
+
 
 $cash_admin->setPageContentTemplate('mainpage');
 ?>
