@@ -468,14 +468,15 @@ small{
 	position:fixed;
 	top:0;
 	left:0;
-	width:73.5%;
-	padding:1%;
+	width:7%;
+	padding:0%;
 	background:rgba(230,230,230,0.97) url(../images/paint_low.png) 0% 0%;
 	z-index:-1;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition: 0.3s ease-in-out;
 	opacity:0;
+	height:50%;
 }
 
 #hero.loading{
@@ -610,15 +611,15 @@ section[role=main]{
 	margin:0;
 	width:100%;
 	height:100%;
-	padding:0% 0 0 1%;
+	padding:50% 0 0 1%;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 }
 
-/*section[role=main].first{
+section[role=main].first{
 	margin:50% 0 0 0;
-}*/
+}
 
 #pagedisplay{
 	background: #e3e3e3 url(../images/paint_low.png) 0% 0%;
@@ -1792,6 +1793,10 @@ margin:0; padding:0;}
 	left:28%;
 }
 
+.panel.store .modaldialog, .panel.store .modalbg, .panel.store .modallightbox{
+	left:0%;
+}
+
 .modaldialog h4 {
     margin:1em 0 6px 0;
     padding:0;
@@ -1972,6 +1977,7 @@ label.checkbox {
 }
 
 
+
 .modallightbox .row .row{
 	margin:0;
 	width:100%;
@@ -2078,7 +2084,7 @@ width:100%;
 	float:left;
 	width:8.8%;
 	/*width:10%;*/
-	opacity:0.5;
+	opacity:0.7;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition:0.3s ease-in-out;
@@ -2647,12 +2653,12 @@ button, .button, #modallightbox .modalcancel{
 	padding:5% 0 1% 3%;
 	margin:0;
 	/*width:100%;*/
-	width:94.5%;
+	width:95%;
 	float:left;
 }
 
 #pagedisplay{
-	width:94.5%;
+	width:95%;
 	margin:0;
 }
 
@@ -2850,11 +2856,11 @@ td{display:table-cell; vertical-align: inherit;}
 }
 
 section[role=main]{
-	padding:2% 0 0 0;
+	padding:0;
 }
 
 #pagetitle{
-	padding:3% 0 1% 3%;
+	padding:6% 0 1% 3%;
 }
 
 #accountmenu .head, #helpmenu .head{

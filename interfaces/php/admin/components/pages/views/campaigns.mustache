@@ -1,3 +1,11 @@
+<div id="hero">
+		<h5>Okay, i got it man!</h5>
+		<video loop="loop" autoplay="true" fullscreen="false">
+  			<source src="{{www_path}}/ui/default/assets/video/intro.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+			</video>
+</div><!--hero-->
+
 <p class="big">
 	Group elements or create pages around a common goal.
 </p>
@@ -16,6 +24,7 @@
 		</li>
 		{{/campaigns_for_user}}
 	</ul>
+	<a href="{{www_path}}/elements/add/" class="store lightboxed button"><i class="icon icon-plus-sign"></i>Add a new element</a>
 {{/campaigns_for_user}}
 
 {{^campaigns_for_user}}
