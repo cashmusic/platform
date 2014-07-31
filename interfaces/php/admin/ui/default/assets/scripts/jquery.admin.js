@@ -45,21 +45,13 @@
 		setUIBehaviors();
 		setContentBehaviors();
 
-		// we set the firstadminload to true because the initial page load
-		// doesn't need to be AJAXed in. Wouldn't seem to matter, but it causes
-		// an ugly/noticalbe double-load otherwise.
-		window.firstadminload = true;
 		window.globaltimeout = false;
 
-		// make back/forward buttons work
-		window.addEventListener("popstate", function(e) {
-			if (!window.firstadminload) {
-				// checking pathname allows for #hash anchors to work and whatnot
+		window.addEventListener('popstate', function(e) {
+			if (e.state) {
 				refreshPageData(location.pathname,null,null,null,true);
-			} else {
-				window.firstadminload = false;
 			}
-		});
+		}, false);
 
 		// grab the initial top offset of the navigation 
 		var sticky_navigation_offset_top = $('#logo').offset().top;
@@ -167,7 +159,7 @@
 						if (showmessage) { data.page_message = showmessage; }
 						redrawPage(data);
 					}
-					if (!skiphistory) { history.pushState(null, null, url); }
+					if (!skiphistory) {history.pushState(1, null, url);}
 					setContentBehaviors();
 				}
 				//$('#ajaxloading').hide();
