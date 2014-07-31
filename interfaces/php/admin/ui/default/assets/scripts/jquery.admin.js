@@ -416,14 +416,14 @@
 		$(document).on('mouseenter', '.elementdisplay', function(e) {
 			e.preventDefault();	
 			var panel_name = $(this).attr('name');
-			$('.example').removeClass('current');
-			$('.gallery '+panel_name).addClass('current'); 
 			// the timeout slows it down just enough we don't get accidental changes on a 
 			// quick pass through a menu element to the right panel
 			window.globaltimeout = window.setTimeout(function(){
 				// Math.floor to avoid weird pixel fractions. the -34 accounts for padding
 				$('.gallery').stop().animate({ scrollLeft:Math.floor($(panel_name).position().left) - 34}, "slow");
 			}, 150);
+			$('.example').removeClass('current');
+			$('.gallery '+panel_name).addClass('current'); 
 
 		});
 
