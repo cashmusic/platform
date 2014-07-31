@@ -88,11 +88,12 @@
 	<ul class="alternating">
 		{{#campaigns_for_user}}
 		<li>
-		<a class="primary" href="{{www_path}}/campaigns/edit/{{id}}">
+		<a class="primary" href="{{www_path}}/campaigns/view/{{id}}">
 			<strong>{{title}}</strong><span class="descriptive spaced fadedtext">{{description}} / {{formatted_date}}</span></a>
 			<div class="more"><div class="toggle"></div><!--toggle-->
 			<div class="actions">
-			<a href="{{www_path}}/campaigns/edit/{{id}}" class="mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
+			<a href="{{www_path}}/campaigns/view/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>View</a>
+			<a href="{{www_path}}/campaigns/edit/{{id}}" class="lightboxed mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
 			<a href="{{www_path}}/campaigns/delete/{{id}}" class="mininav_flush needsconfirmation delete"><i class="icon icon-ban-circle"></i> Delete</a></div><!--actions-->
 			</div><!--more-->
 		</li>

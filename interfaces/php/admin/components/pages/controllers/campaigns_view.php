@@ -25,7 +25,7 @@ $current_response = $cash_admin->requestAndStore(
 		'id' => $request_parameters[0]
 	)
 );
-$cash_admin->page_data['ui_title'] = 'Campaigns: Edit "' . $current_response['payload']['title'] . '"';
+$cash_admin->page_data['ui_title'] = 'Campaigns: View "' . $current_response['payload']['title'] . '"';
 
 $current_campaign = $current_response['payload'];
 
@@ -58,5 +58,5 @@ if (is_array($elements_response['payload'])) {
 
 
 
-$cash_admin->setPageContentTemplate('campaign_edit');
+$cash_admin->setPageContentTemplate('campaign_view');
 ?>
