@@ -47,6 +47,7 @@
 
 		window.globaltimeout = false;
 
+		history.pushState(1, null, location.pathname);
 		window.addEventListener('popstate', function(e) {
 			if (e.state) {
 				refreshPageData(location.pathname,null,null,null,true);
