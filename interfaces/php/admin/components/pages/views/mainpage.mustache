@@ -2,12 +2,9 @@
 
 <div id="hero">
 <h5>Okay, i got it man!</h5>
-	<video loop="loop" autoplay="true" fullscreen="false">
-  	<source src="{{www_path}}/ui/default/assets/video/intro.mp4" type="video/mp4">
-	Your browser does not support the video tag.
-	</video>
-</div>
-
+<h1>Welcome to the new look CASH Music Homepage - Some info about what campaigns are</h1>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tristique a enim et dictum. Vivamus pretium mi ut porta bibendum. Nam mattis ac nisl ac cursus.</p>
+</div><!--hero-->
 
 <!--<h2>Activity While you were gone</h2>-->
 {{#dashboard_news}}
@@ -88,20 +85,22 @@
 	<ul class="alternating">
 		{{#campaigns_for_user}}
 		<li>
-		<a class="primary" href="{{www_path}}/campaigns/edit/{{id}}">
+		<a class="primary" href="{{www_path}}/campaigns/view/{{id}}">
 			<strong>{{title}}</strong><span class="descriptive spaced fadedtext">{{description}} / {{formatted_date}}</span></a>
 			<div class="more"><div class="toggle"></div><!--toggle-->
 			<div class="actions">
-			<a href="{{www_path}}/campaigns/edit/{{id}}" class="mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
+			<a href="{{www_path}}/campaigns/view/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>View</a>
+			<a href="{{www_path}}/campaigns/edit/{{id}}" class="lightboxed mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
 			<a href="{{www_path}}/campaigns/delete/{{id}}" class="mininav_flush needsconfirmation delete"><i class="icon icon-ban-circle"></i> Delete</a></div><!--actions-->
 			</div><!--more-->
 		</li>
 		{{/campaigns_for_user}}
 	</ul>
+<div class="twelve columns phone-two"><a class="button lightboxed" href="{{www_path}}/campaigns/add/">Add a Campaign</a></div>
 {{/campaigns_for_user}}
 
 {{^campaigns_for_user}}
-	<p>No campaigns have been added yet. <a href="{{www_path}}/campaigns/add/">Add one.</a></p>
+	<p>No campaigns have been added yet. <a class="lightboxed" href="{{www_path}}/campaigns/add/">Add one.</a></p>
 {{/campaigns_for_user}}
 
 

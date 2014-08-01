@@ -32,6 +32,8 @@
 		{"page_name":"Delete campaign", "menu_icon":"", "hide":true},
 	"campaigns/edit":
 		{"page_name":"Edit campaign", "menu_icon":"", "hide":true},
+	"campaigns/view":
+		{"page_name":"View campaign", "menu_icon":"", "hide":true},
 
 
 	"commerce":
