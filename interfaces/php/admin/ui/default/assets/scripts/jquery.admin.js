@@ -64,7 +64,7 @@
 		// grab the initial top offset of the navigation 
 		var sticky_navigation_offset_top = $('#logo').offset().top;
 	
-		// our function that decides weather the navigation bar should have "fixed" css position or not.
+		// our function that decides if the navigation bar should have "fixed" css position or not.
 		var sticky_navigation = function(){
 			var scroll_top = $(window).scrollTop(); // our current vertical position from the top
 		
@@ -242,6 +242,7 @@
 		handleUploadForms();
 		elementMenuStates();
 		releaseFlip();
+		iNeedaHero();
 	}
 
 	/**
@@ -458,7 +459,21 @@
 			$(this).removeClass('flipped');
 		});
 
-	};		
+	};	
+
+	function iNeedaHero() {
+	if (document.getElementById("hero")) {
+  		console.log("my hero");
+  		$('section').addClass('hero');
+		} else {
+  		console.log("you ain't no hero");
+  		$('section').removeClass('hero');
+		}
+	$( "#hero h5" ).click(function() {
+			$('section').toggleClass('hero');
+		});
+
+	};
 
 	/**
 	 *
