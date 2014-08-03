@@ -10,13 +10,8 @@
 		"en":{
 			"name":"Members Area",
 			"description":"Allow a list to log in and get exclusive content.",
-			"longdescription":"This lets you enter specific markup/content that can be served securely to a list with a universal password."
-		}
-	},
-	"copy":{
-		"en":{
-			"instructions":"Choose a list to verify against, enter markup, and optionally add a universal password for this element.",
-			"pagetip":"Choose a list to verify against, enter markup, and optionally add a universal password for this element."
+			"longdescription":"This lets you enter specific markup/content that can be served securely to a list with a universal password.",
+			"instructions":"Choose a list to verify against, enter markup, and optionally add a universal password for this element."
 		}
 	},
 	"options":{

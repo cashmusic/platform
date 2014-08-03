@@ -156,6 +156,8 @@ textarea{
 }
 
 input.checkorradio{
+	position:relative;
+	top:6px;
 	border:solid 1px #00cf7f;
 	color:#00cf7f;
 	-webkit-border-radius: 3px;
@@ -1954,6 +1956,11 @@ label.checkbox {
 }
 
 .modallightbox .section-description{
+	margin:2% 0 4% 0;
+}
+
+/*
+.modallightbox .section-description{
 	margin:1% 0 2% 0;
 	padding:2% 2% 2% 8%;
 	border: 1px dotted #4d4d4d;
@@ -1973,6 +1980,7 @@ label.checkbox {
 	border: 1px solid #00cf7f;
 	cursor: pointer;
 }
+*/
 
 .modallightbox .multipart-prev{
 	margin-right:1%;
@@ -2063,6 +2071,9 @@ width:100%;
 	font-size: 20px;
 }
 
+.store .modallightbox .elementform {
+	width:62%%;
+}
 
 /* Examples of  types in store */
 .modallightbox .gallery{
@@ -2081,6 +2092,26 @@ width:100%;
 	-moz-box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
    	-webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
   	box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+}
+
+.elementinstructions {
+	display:none;
+}
+
+.modallightbox .gallery.elementinstructions {
+	display:block;
+	padding:3%;
+	width:35%;
+}
+
+.modallightbox .gallery.elementinstructions h5 {
+	margin-top:25px;
+}
+
+.modallightbox .gallery.elementinstructions .big {
+	font-size:20px;
+	line-height:25px;
+	opacity:0.5;
 }
 
 .modallightbox .gallery .movement{
@@ -2151,6 +2182,16 @@ width:100%;
 	color:#333;
 	font-size: 12px;
 	margin:0 0 0 1%;
+}
+
+@media screen and (max-height: 575px){
+	.modallightbox .gallery .longdescription {
+		display:none;
+	}
+
+	.modallightbox .gallery .example .slider {
+		height:160px;
+	}
 }
 
 /* PEOPLE LIST VIEW */

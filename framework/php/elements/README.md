@@ -52,7 +52,6 @@ properties themselves. Everything above is shown.
 			"description":"Short description of the element.",
 			"longdescription":"Longer, more detailed description of the element.",
 			"instructions":"Instructions that explain how to set up element.",
-			"helptext":"Quick help shown alongside element setup."
 		}
 	},
 	"options":{
