@@ -52,9 +52,11 @@ abstract class ElementBase extends CASHData {
 		);
 		$this->appdata = $this->getAppData();
 		if (is_array($this->appdata)) {
-			if (is_array($this->appdata['copy']['en'])) {
-				foreach ($this->appdata['copy']['en'] as $key => $val) {
-					$this->element_data['copy_' . $key] = $val;
+			if (isset($this->appdata['copy'])) {
+				if (is_array($this->appdata['copy']['en'])) {
+					foreach ($this->appdata['copy']['en'] as $key => $val) {
+						$this->element_data['copy_' . $key] = $val;
+					}
 				}
 			}
 		}
