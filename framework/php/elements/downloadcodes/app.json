@@ -10,13 +10,8 @@
 		"en":{
 			"name":"Download Codes",
 			"description":"Code redemption for assets.",
-			"longdescription":"Generate download codes for any of your assets and a single element handles redemption."
-		}
-	},
-	"copy":{
-		"en":{
-			"instructions":"Generate codes for any asset on its page. This element makes a redemption form.",
-			"pagetip":"Codes are generated in the 'Assets' section — this simple element serves as a redemption form for all of your assets."
+			"longdescription":"Generate download codes for any of your assets and a single element handles redemption.",
+			"instructions":"Generate codes for any asset on its page. This element makes a redemption form."
 		}
 	},
 	"options":{

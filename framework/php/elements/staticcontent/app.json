@@ -10,13 +10,8 @@
 		"en":{
 			"name":"Plain Text",
 			"description":"Display static content like text, html, or markdown.",
-			"longdescription":"The future of copy-and-paste! Actually just copy-and-paste, regular. Boring, but useful."
-		}
-	},
-	"copy":{
-		"en":{
-			"instructions":"Choose a list to verify against, an asset for the download, and optionally add a universal password for this element.",
-			"pagetip":"Choose a list to verify against, an asset for the download, and optionally add a universal password for this element."
+			"longdescription":"The future of copy-and-paste! Actually just copy-and-paste, regular. Boring, but useful.",
+			"instructions":"Type. Save. That's it."
 		}
 	},
 	"options":{

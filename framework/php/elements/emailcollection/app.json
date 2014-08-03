@@ -10,13 +10,8 @@
 		"en":{
 			"name":"Email Collection",
 			"description":"Collect an email address, give a download (or not.)",
-			"longdescription":"This can be used as an email-for-download promotion or as a customizable email collection widget."
-		}
-	},
-	"copy":{
-		"en":{
-			"instructions":"instructions",
-			"pagetip":"Leave the asset set to 'none' for a straight email capture, or choose a target asset to try email-for-download."
+			"longdescription":"This can be used as an email-for-download promotion or as a customizable email collection widget.",
+			"instructions":"Leave the asset set to 'none' for a straight email capture, or choose a target asset to try email-for-download."
 		}
 	},
 	"options":{

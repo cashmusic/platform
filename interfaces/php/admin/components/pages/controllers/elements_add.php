@@ -26,7 +26,7 @@ if ($request_parameters) {
 
 			// set page title/tip
 			$cash_admin->page_data['ui_title'] = 'Add ' . $app_json['details']['en']['name'] . ' Element';
-			$cash_admin->page_data['ui_page_tip'] = $app_json['copy']['en']['instructions'];
+			$cash_admin->page_data['ui_page_tip'] = $app_json['details']['en']['instructions'];
 
 			foreach ($app_json['options'] as $section_name => $details) {
 				foreach ($details['data'] as $data => $values) {

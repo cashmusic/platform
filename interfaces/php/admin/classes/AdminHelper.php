@@ -203,7 +203,7 @@
 			$total_sections = count($sections_required);
 
 			$template =	'<div class="gallery elementinstructions"><h5>Learn more:</h5>' .
-						'<p class="big">{{details_longdescription}}</p><p>{{{copy_instructions}}}</p></div>' . 
+						'<p class="big">{{details_longdescription}}</p><p>{{{details_instructions}}}</p></div>' . 
 						'<div class="elementform"><form method="post" action="{{www_path}}/elements/{{#element_id}}edit/{{element_id}}{{/element_id}}{{^element_id}}add/' . $element_type . '{{/element_id}}" class="multipart" data-parts="' . $total_sections . '">' .
 						'<input type="hidden" name="{{form_state_action}}" value="makeitso">' .
 						'{{#element_id}}<input type="hidden" name="element_id" value="{{element_id}}" />{{/element_id}}' .
