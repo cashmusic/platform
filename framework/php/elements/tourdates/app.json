@@ -9,7 +9,7 @@
 	"details":{
 		"en":{
 			"name":"Tour Dates",
-			"description":"Display all of the dates from your calendar, filter by upcoming or previous, etc.",
+			"description":"List the dates from your calendar.",
 			"longdescription":"The filters let you set up tourdate archives as well as upcoming shows. The element will automatically update itself as dates expire or move to an archive."
 		}
 	},

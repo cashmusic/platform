@@ -36,6 +36,7 @@
 					"default":{
 						"en":""
 					},
+					"required":true,
 					"displaysize":"large"
 				}
 			}

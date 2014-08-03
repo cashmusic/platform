@@ -26,7 +26,7 @@ if ($request_parameters) {
 
 			// set page title/tip
 			$cash_admin->page_data['ui_title'] = 'Add ' . $app_json['details']['en']['name'] . ' Element';
-			$cash_admin->page_data['ui_page_tip'] = $app_json['copy']['en']['pagetip'];
+			$cash_admin->page_data['ui_page_tip'] = $app_json['copy']['en']['instructions'];
 
 			foreach ($app_json['options'] as $section_name => $details) {
 				foreach ($details['data'] as $data => $values) {
@@ -47,6 +47,18 @@ if ($request_parameters) {
 					$cash_admin->page_data['options_' . $data] = $default_val;
 				}
 			}
+
+			if (is_array($app_json['copy']['en'])) {
+				foreach ($app_json['copy']['en'] as $key => $val) {
+					$cash_admin->page_data['copy_' . $key] = $val;
+				}
+			}
+			if (is_array($app_json['details']['en'])) {
+				foreach ($app_json['details']['en'] as $key => $val) {
+					$cash_admin->page_data['details_' . $key] = $val;
+				}
+			}
+
 			$cash_admin->page_data['element_button_text'] = 'Add the element';
 			$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render(AdminHelper::getElementTemplate($element_addtype), $cash_admin->page_data);
 		}
@@ -78,6 +90,7 @@ if ($request_parameters) {
 
 	$cash_admin->page_data['elements_output'] = new ArrayIterator($elementcollection);
 
+	$cash_admin->page_data['ui_title'] = 'Add an element';
 	$cash_admin->setPageContentTemplate('elements_add_select');
 }
 ?>

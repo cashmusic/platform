@@ -9,7 +9,7 @@
 	"details":{
 		"en":{
 			"name":"Download Codes",
-			"description":"Code Redemption for any / all assets.",
+			"description":"Code redemption for assets.",
 			"longdescription":"Generate download codes for any of your assets and a single element handles redemption."
 		}
 	},
@@ -36,6 +36,7 @@
 					"default":{
 						"en":""
 					},
+					"required":true,
 					"displaysize":"medium"
 				}
 			}

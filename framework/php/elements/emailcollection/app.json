@@ -9,7 +9,7 @@
 	"details":{
 		"en":{
 			"name":"Email Collection",
-			"description":"Collect an email address, optionally give a download in exchange.",
+			"description":"Collect an email address, give a download (or not.)",
 			"longdescription":"This can be used as an email-for-download promotion or as a customizable email collection widget."
 		}
 	},

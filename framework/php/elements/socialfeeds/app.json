@@ -9,7 +9,7 @@
 	"details":{
 		"en":{
 			"name":"Social Feeds",
-			"description":"Set up a single feed from your Twitter or Tumblr feeds. Filter, sort, and combine.",
+			"description":"A single feed from your Twitter or Tumblr feeds.",
 			"longdescription":"Combine any number of feeds, filtering twitter by search term or exclude @-replies, and filtering Tumblr by post type."
 		}
 	},

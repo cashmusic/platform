@@ -352,6 +352,23 @@
 				'Step ' + mpForm.section + ' of ' + mpForm.total + ': ' + $($(mpForm.form).children('.part-'+mpForm.section)[0]).data('section-name')
 			);
 		});
+
+		$(document).on('click', '.store a[href^="' + cashAdminPath + '/elements/add"]', function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+			jQuery.post(this.href,'data_only=1', function(data) {
+				$('div.modallightbox').html(
+					'<h4>' + data.ui_title + '</h4>' +
+					 data.content + //jQuery.param(data) +
+					 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><i class="icon icon-ban-circle"></i><span>cancel</span></a></div>'
+				);
+				$('.store .modallightbox h4').css('width','62%');
+
+				$(document).bind('scroll',handleModalScroll);
+				handleMultipartForms();
+				formValidateBehavior();
+			},'json')
+		});
 	}
 
 
@@ -486,6 +503,7 @@
 			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
 				&& !el.hasClass('noajax') && !el.is('#logout') && !el.parents('div').hasClass('inner')
+				&& (!$('body').hasClass('store') && el.href.indexOf('elements/add'))
 			) {
 				e.preventDefault();
 				var url = el.attr('href');
@@ -755,10 +773,12 @@
 			removeModal();
 		});
 
+		/*
 		// learn tips inline click
 		$(document).on('click', '.section-description', function(e) {
 			$ (this).parents("body").addClass("panel").addClass("learn");
 		});
+		*/
 
 		// fade/close on escape key
 		$(document).keyup(function(e) {
