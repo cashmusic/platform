@@ -428,6 +428,8 @@
 	function glitch(){
 				preload();
 
+				window.globaltimeout = window.setTimeout(function(){
+
 				var clr = new Array("RED", "GREEN", "BLUE");
 				//var swc = clr[Math.round(Math.random()*3) + 1].toString();
 				var imno = Math.floor(Math.random() * 6) + 1
@@ -454,9 +456,10 @@
 					BitmapDataChannel.RED, 
 					BitmapDataChannel.RED);
 
-
 				//Reveal the header
 				$('section').addClass('hero');
+			
+			}, 250);
 	};	
 
 
@@ -537,9 +540,7 @@
 	function iNeedaHero() {
 	if (document.getElementById("hero")) {
   		console.log("my hero");
-  		window.globaltimeout = window.setTimeout(function(){
-					glitch();
-			}, 150);
+		glitch();	
 		} else {
   		console.log("you ain't no hero");
   		$('section').removeClass('hero');
