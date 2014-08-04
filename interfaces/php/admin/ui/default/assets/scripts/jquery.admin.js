@@ -373,6 +373,7 @@
 
 
 
+
 	/* Show/Hide Element Menus */
 
 	function elementMenuStates() {
@@ -396,6 +397,73 @@
 			$ (this).parents("body").toggleClass("panel").toggleClass("help");
 		});
 	};
+
+	/* Glitch Hero Background */
+
+
+	function preload(arrayOfImages) {
+    	$(arrayOfImages).each(function(){
+        	$('<img/>')[0].src = this;
+        	// Alternatively you could use:
+        	// (new Image()).src = this;
+   		});
+	}
+
+	// Usage:
+
+	preload([
+   		cashAdminPath+"/assets/images/glitch/background/glitch1.jpg",
+    	cashAdminPath+"/assets/images/glitch/background/glitch2.jpg",
+    	cashAdminPath+"/assets/images/glitch/background/glitch3.jpg",
+    	cashAdminPath+"/assets/images/glitch/background/glitch4.jpg",
+    	cashAdminPath+"/assets/images/glitch/background/glitch5.jpg",
+    	cashAdminPath+"/assets/images/glitch/background/glitch6.jpg",
+    	cashAdminPath+"/assets/images/glitch/artist/artist1.jpg",
+    	cashAdminPath+"/assets/images/glitch/artist/artist2.jpg",
+    	cashAdminPath+"/assets/images/glitch/artist/artist3.jpg",
+    	cashAdminPath+"/assets/images/glitch/artist/artist4.jpg",
+    	cashAdminPath+"/assets/images/glitch/artist/artist5.jpg"
+	]);
+
+	function glitch(){
+				preload();
+
+				window.globaltimeout = window.setTimeout(function(){
+
+				var clr = new Array("RED", "GREEN", "BLUE");
+				//var swc = clr[Math.round(Math.random()*3) + 1].toString();
+				var imno = Math.floor(Math.random() * 6) + 1
+					var atno = Math.floor(Math.random() * 5) + 1
+
+				console.log(imno);
+				console.log(atno);
+
+
+				cnvs = document.getElementById("canvas").bitmapData;
+
+				bg = new Image();
+				bg.src = cashAdminPath+"/assets/images/glitch/background/glitch"+imno+".jpg";
+				cnvs.draw(bg);
+			
+				olay = new Image();
+				olay.src = cashAdminPath+"/assets/images/glitch/artist/artist"+atno+".jpg";
+				olayData = new BitmapData(Math.floor(Math.random() * 200) + 1, 600);
+				olayData.draw(olay);
+
+				cnvs.copyChannel(olayData,
+					new Rectangle(300, 0, 2000, 700), 
+					new Point(0, 0), 
+					BitmapDataChannel.RED, 
+					BitmapDataChannel.RED);
+
+				//cnvs.fillStyle = cnvs.createPattern(bg, "repeat");
+
+				//Reveal the header
+				$('section').addClass('hero');
+			
+			}, 200);
+	};	
+
 
 	/* Show/Hide contents in tertiary panel */
 
@@ -474,7 +542,7 @@
 	function iNeedaHero() {
 	if (document.getElementById("hero")) {
   		console.log("my hero");
-  		$('section').addClass('hero');
+		glitch();	
 		} else {
   		console.log("you ain't no hero");
   		$('section').removeClass('hero');

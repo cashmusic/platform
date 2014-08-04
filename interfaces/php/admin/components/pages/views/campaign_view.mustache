@@ -1,17 +1,18 @@
 <div id="hero">
-<h2><strong>{{title}}</strong></h2>
-<h3>{{description}} / {{formatted_date}}</h3>
-			<div class="more"><div class="toggle"></div><!--toggle-->
-			<div class="actions">
-			<a href="{{www_path}}/campaigns/edit/{{id}}" class="lightboxed mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
-			<a href="{{www_path}}/campaigns/delete/{{id}}" class="mininav_flush needsconfirmation delete"><i class="icon icon-ban-circle"></i> Delete</a></div><!--actions-->
-			</div><!--more-->
-<div class="stat"><h3>90K <span>New Signups</span></h3></div>
-
+<canvas id="canvas" width="2000" height="1000"></canvas>
+<h1><strong>{{title}}</strong></h1>
+<h2>{{description}} / {{formatted_date}}</h2>
+<div class="stat" style="width:90%;"><h3>90K <span>New Signups</span></h3></div>
+<div class="stat" style="width:60%;"><h3>90K <span>New Signups</span></h3></div>
 </div><!--hero-->
 
 <div class="row">
 	<div class="twelve columns">
+	<div class="more"><div class="toggle"></div><!--toggle-->
+			<div class="actions">
+			<a href="{{www_path}}/campaigns/edit/{{id}}" class="lightboxed mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
+			<a href="{{www_path}}/campaigns/delete/{{id}}" class="mininav_flush needsconfirmation delete"><i class="icon icon-ban-circle"></i> Delete</a></div><!--actions-->
+			</div><!--more-->
 		<h4>Campaign elements</h4>
 		{{#elements_for_campaign}}
 		<ul class="alternating">

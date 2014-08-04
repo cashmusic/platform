@@ -1,9 +1,14 @@
 <a name="activity"></a>
 
 <div id="hero">
+<canvas id="canvas" width="2000" height="1000"></canvas>
 <h5>Okay, i got it man!</h5>
-<h1>Welcome to the new look CASH Music Homepage - Some info about what campaigns are</h1>
+<h1>Welcome to the new CASH Music Homepage</h1>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tristique a enim et dictum. Vivamus pretium mi ut porta bibendum. Nam mattis ac nisl ac cursus.</p>
+<!--<h2>Activity While you were gone</h2>-->
+{{#dashboard_news}}
+	<div class="callout newsfeed cashnews">{{{dashboard_news}}}<div class="newsimage" style="background-image:url({{dashboard_news_img}})"></div></div>
+{{/dashboard_news}}
 </div><!--hero-->
 
 <!--<h2>Activity While you were gone</h2>-->

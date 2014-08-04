@@ -30,7 +30,12 @@ $cash_admin->page_data['ui_title'] = 'Campaigns: View "' . $current_response['pa
 $current_campaign = $current_response['payload'];
 
 if (is_array($current_campaign)) {
-	$cash_admin->page_data = array_merge($cash_admin->page_data,$current_campaign);
+    if ($current_campaign['modification_date'] == 0) {
+        $current_campaign['formatted_date'] = CASHSystem::formatTimeAgo($current_campaign['creation_date']);    
+    } else {
+        $current_campaign['formatted_date'] = CASHSystem::formatTimeAgo($current_campaign['modification_date']);
+    }
+    $cash_admin->page_data = array_merge($cash_admin->page_data,$current_campaign);
 }
 $cash_admin->page_data['form_state_action'] = 'docampaignedit';
 $cash_admin->page_data['button_text'] = 'Save changes';
