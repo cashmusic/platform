@@ -451,15 +451,17 @@
 				olayData.draw(olay);
 
 				cnvs.copyChannel(olayData,
-					new Rectangle(300, 0, 1015, 500), 
+					new Rectangle(300, 0, 2000, 700), 
 					new Point(0, 0), 
 					BitmapDataChannel.RED, 
 					BitmapDataChannel.RED);
 
+				//cnvs.fillStyle = cnvs.createPattern(bg, "repeat");
+
 				//Reveal the header
 				$('section').addClass('hero');
 			
-			}, 250);
+			}, 200);
 	};	
 
 
