@@ -575,7 +575,14 @@ small{
 	left:0;  
 	z-index:-2; 
 	-webkit-animation: adjustHue 20s alternate infinite;
-	opacity:0.9; 
+	opacity:0; 
+	-webkit-transition: 2s  ease-in-out;
+	-moz-transition: 2s  ease-in-out;
+	trasition: 2s ease-in-out;
+}
+
+#hero canvas.display {
+	opacity:0.9;
 }
 
 @-webkit-keyframes adjustHue {
@@ -683,7 +690,7 @@ section[role=main]{
 }
 
 section[role=main].hero{
-	margin:390px 0 0 0;
+	margin:0 0 0 0;
 }
 
 #pagedisplay{
@@ -2702,6 +2709,10 @@ html{
 
 #hero {
 	opacity:1;
+}
+
+section[role=main].hero{
+	margin:400px 0 0 0;
 }
 
 .row{	

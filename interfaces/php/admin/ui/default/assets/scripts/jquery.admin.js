@@ -426,10 +426,15 @@
 	]);
 
 	function glitch(){
+				// preload hero images
 				preload();
 
-				window.globaltimeout = window.setTimeout(function(){
 
+				//Reveal the header
+				$('section').addClass('hero');
+				
+			window.globaltimeout = window.setTimeout(function(){
+				
 				var clr = new Array("RED", "GREEN", "BLUE");
 				//var swc = clr[Math.round(Math.random()*3) + 1].toString();
 				var imno = Math.floor(Math.random() * 6) + 1
@@ -437,7 +442,6 @@
 
 				console.log(imno);
 				console.log(atno);
-
 
 				cnvs = document.getElementById("canvas").bitmapData;
 
@@ -458,9 +462,8 @@
 
 				//cnvs.fillStyle = cnvs.createPattern(bg, "repeat");
 
-				//Reveal the header
-				$('section').addClass('hero');
-			
+		
+				$('canvas').addClass('display');
 			}, 200);
 	};	
 
