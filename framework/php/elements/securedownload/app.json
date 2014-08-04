@@ -10,13 +10,8 @@
 		"en":{
 			"name":"Secure Download",
 			"description":"Allow a list to log in and download a secure asset.",
-			"longdescription":"This lets you give a download only to a certain list of people on a log-in basis."
-		}
-	},
-	"copy":{
-		"en":{
-			"instructions":"Choose a list to verify against, an asset for the download, and optionally add a universal password for this element.",
-			"pagetip":"Choose a list to verify against, an asset for the download, and optionally add a universal password for this element."
+			"longdescription":"This lets you give a download only to a certain list of people on a log-in basis.",
+			"instructions":"Choose a list to verify against, an asset for the download, and optionally add a universal password for this element."
 		}
 	},
 	"options":{
@@ -48,7 +43,7 @@
 				}
 			}
 		},
-		"main":{
+		"additional":{
 			"group_label":{
 				"en":"Additional settings"
 			},

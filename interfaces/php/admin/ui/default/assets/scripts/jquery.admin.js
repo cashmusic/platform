@@ -45,21 +45,14 @@
 		setUIBehaviors();
 		setContentBehaviors();
 
-		// we set the firstadminload to true because the initial page load
-		// doesn't need to be AJAXed in. Wouldn't seem to matter, but it causes
-		// an ugly/noticalbe double-load otherwise.
-		window.firstadminload = true;
 		window.globaltimeout = false;
 
-		// make back/forward buttons work
-		window.addEventListener("popstate", function(e) {
-			if (!window.firstadminload) {
-				// checking pathname allows for #hash anchors to work and whatnot
+		history.pushState(1, null, location.pathname);
+		window.addEventListener('popstate', function(e) {
+			if (e.state) {
 				refreshPageData(location.pathname,null,null,null,true);
-			} else {
-				window.firstadminload = false;
 			}
-		});
+		}, false);
 
 		// grab the initial top offset of the navigation 
 		var sticky_navigation_offset_top = $('#logo').offset().top;
@@ -167,7 +160,7 @@
 						if (showmessage) { data.page_message = showmessage; }
 						redrawPage(data);
 					}
-					if (!skiphistory) { history.pushState(null, null, url); }
+					if (!skiphistory) {history.pushState(1, null, url);}
 					setContentBehaviors();
 				}
 				//$('#ajaxloading').hide();
@@ -359,6 +352,23 @@
 				'Step ' + mpForm.section + ' of ' + mpForm.total + ': ' + $($(mpForm.form).children('.part-'+mpForm.section)[0]).data('section-name')
 			);
 		});
+
+		$(document).on('click', '.store a[href^="' + cashAdminPath + '/elements/add"]', function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+			jQuery.post(this.href,'data_only=1', function(data) {
+				$('div.modallightbox').html(
+					'<h4>' + data.ui_title + '</h4>' +
+					 data.content + //jQuery.param(data) +
+					 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><i class="icon icon-ban-circle"></i><span>cancel</span></a></div>'
+				);
+				$('.store .modallightbox h4').css('width','62%');
+
+				$(document).bind('scroll',handleModalScroll);
+				handleMultipartForms();
+				formValidateBehavior();
+			},'json')
+		});
 	}
 
 
@@ -493,6 +503,7 @@
 			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
 				&& !el.hasClass('noajax') && !el.is('#logout') && !el.parents('div').hasClass('inner')
+				&& (!$('body').hasClass('store') && el.href.indexOf('elements/add'))
 			) {
 				e.preventDefault();
 				var url = el.attr('href');
@@ -762,10 +773,12 @@
 			removeModal();
 		});
 
+		/*
 		// learn tips inline click
 		$(document).on('click', '.section-description', function(e) {
 			$ (this).parents("body").addClass("panel").addClass("learn");
 		});
+		*/
 
 		// fade/close on escape key
 		$(document).keyup(function(e) {

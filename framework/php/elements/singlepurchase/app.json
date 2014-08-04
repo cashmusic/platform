@@ -9,14 +9,13 @@
 	"details":{
 		"en":{
 			"name":"Single Purchase",
-			"description":"A simple single-item Physical order using your Paypal account.",
-			"longdescription":"Connect your Paypal account and users will get a single-click purchase flow for any commerce item in the system."
+			"description":"A purchase flow for any single item, digital or physical.",
+			"longdescription":"Connect your Paypal account and users will get a single-click purchase flow for any commerce item in the system.",
+			"instructions":"For physical goods, define regions and shipping costs."
 		}
 	},
 	"copy":{
 		"en":{
-			"instructions":"For physical goods, define regions and shipping costs.",
-			"pagetip":"All messages can be customized in the form.",
 			"buy":"Buy Now",
 			"flexibleprice_suffix":"or more"
 		}

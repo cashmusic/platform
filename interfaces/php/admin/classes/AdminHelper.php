@@ -202,7 +202,9 @@
 			$all_sections = array_merge($sections_required,$sections_optional);
 			$total_sections = count($sections_required);
 
-			$template =	'<form method="post" action="{{www_path}}/elements/{{#element_id}}edit/{{element_id}}{{/element_id}}{{^element_id}}add/' . $element_type . '{{/element_id}}" class="multipart" data-parts="' . $total_sections . '">' .
+			$template =	'<div class="gallery elementinstructions"><h5>Learn more:</h5>' .
+						'<p class="big">{{details_longdescription}}</p><p>{{{details_instructions}}}</p></div>' . 
+						'<div class="elementform"><form method="post" action="{{www_path}}/elements/{{#element_id}}edit/{{element_id}}{{/element_id}}{{^element_id}}add/' . $element_type . '{{/element_id}}" class="multipart" data-parts="' . $total_sections . '">' .
 						'<input type="hidden" name="{{form_state_action}}" value="makeitso">' .
 						'{{#element_id}}<input type="hidden" name="element_id" value="{{element_id}}" />{{/element_id}}' .
 						'<input type="hidden" name="element_type" value="' . $element_type . '" />' .
@@ -283,7 +285,7 @@
 				$current_section++;
 			}
 
-			$template .= '<br /><input class="button" type="submit" value="{{element_button_text}}" /></form>';
+			$template .= '<br /><input class="button" type="submit" value="{{element_button_text}}" /></form></div>';
 			return $template;
 		} else {
 			return false;
@@ -311,7 +313,7 @@
 			$return_str .= '<select id="' . $input_name . '" name="' . $input_name . '">';
 		}
 		if ($input_data['type'] == 'boolean') {
-			$return_str = '<label class="checkbox" for="' . $input_name . '"><input type="checkbox" id="' . $input_name . '" name="' . $input_name . '"';
+			$return_str = '<label class="checkbox" for="' . $input_name . '"><input type="checkbox" class="checkorradio" id="' . $input_name . '" name="' . $input_name . '"';
 		}
 
 		/*
