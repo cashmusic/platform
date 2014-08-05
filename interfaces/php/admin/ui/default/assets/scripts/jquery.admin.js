@@ -290,7 +290,7 @@
 		$(document).on('click', '#logout', function(e) {
 			e.preventDefault();
 			jQuery.post(cashAdminPath+'/logout','noredirect=1');
-			refreshPageData(cashAdminPath+'/');
+			//refreshPageData(cashAdminPath+'/');
 		});
 
 		// when we need a submit button outside it's target form (see file assets, etc)

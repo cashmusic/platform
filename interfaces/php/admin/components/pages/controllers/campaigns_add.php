@@ -13,7 +13,7 @@ if (isset($_POST['docampaignadd'])) {
 		)
 	);
 	if ($add_response['payload']) {
-		AdminHelper::formSuccess('Success. Campaign added.','/campaigns/edit/' . $add_response['payload']);
+		AdminHelper::formSuccess('Success. Campaign added.','/');
 	} else {
 		AdminHelper::formFailure('Error. Something just didn\'t work right.','/campaigns/add/');
 	}
