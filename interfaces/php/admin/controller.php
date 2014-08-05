@@ -77,6 +77,9 @@ $cash_admin->page_data['showprivacy'] = file_exists(ADMIN_BASE_PATH . '/privacy.
  ***************************************************************************************************/
 $logged_in = $admin_primary_cash_request->sessionGet('cash_actual_user');
 if (!$logged_in) {
+	// delete/clear sessions
+	$admin_primary_cash_request->sessionClearAll();
+
 	$cash_admin->page_data['login_message'] = 'Hello.';
 	if (isset($_POST['login'])) {
 		$browseridassertion = false;
