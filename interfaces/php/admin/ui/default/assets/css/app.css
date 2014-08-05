@@ -234,7 +234,7 @@ button, .button, #modallightbox .modalcancel{
 	background:none;
 	padding:10px 50px;
 	word-wrap:break-word;
-	margin:5% 1% 5% 0;
+	margin:3% 1% 3% 0;
 	text-align: center;
 	float:left;
 	width:100%;
@@ -248,6 +248,11 @@ button, .button, #modallightbox .modalcancel{
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 }
+
+.usecolor2 button, .usecolor2 .button, .usecolor2 #modallightbox .modalcancel{ border:solid 1px #fa3838; color:#fa3838;}
+.usecolor3 button, .usecolor3 .button, .usecolor3 #modallightbox .modalcancel{ border:solid 1px #ff7c12; color:#ff7c12;}
+.usecolor4 button, .usecolor4 .button, .usecolor4 #modallightbox .modalcancel{ border:solid 1px #6a38fa; color:#6a38fa;}
+.usecolor5 button, .usecolor5 .button, .usecolor5 #modallightbox .modalcancel{ border:solid 1px #fa3866; color:#fa3866;}
 
 button:hover, .button:hover{
 	background:#00cf7f;
@@ -298,7 +303,7 @@ h1,h2,h3,h4,h5{
 
 h2{ font-size:28px; line-height:32px;}
 h3{ font-size:20px; line-height:28px;}
-h4{ font-size:30px; line-height:36px; margin:30px 0 10px 0; }
+h4{ font-size:30px; line-height:36px; margin:0 0 30px 0; }
 h5{ font-size:18px; line-height:26px;}
 /* Text Types */
 
@@ -485,13 +490,12 @@ small{
 }
 
 #hero h1{
-	color:#f5f5f5;
 	width:70%;
-	font-weight: 700;
+	color:#f5f5f5;
+	font: 700 50px/40px 'Montserrat',Helvetica,Arial,sans-serif;
 	line-height: 47px;
-	font-size: 50px;
 	margin:0 0 20px 0;
-	text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.9);
+	text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.9);
 }
 #hero h2{
 	color:#f5f5f5;
@@ -507,8 +511,19 @@ small{
 	border-radius: 3px;
 }
 
+#hero .more{
+	position:absolute;
+	top:6%;
+	right:5%;
+	padding:1% 2%;
+	background:rgba(15,15,15,0.9);
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
 #hero .stat{
-	background:rgba(0,0,0,0.8);
+	background:rgba(15,15,15,0.9);
 	padding:1% 3%;
 	color:#f5f5f5;
 	-webkit-border-radius: 3px;
@@ -542,7 +557,7 @@ small{
 
 #hero h5{
 	position:absolute;
-	top:8%;
+	top:5%;
 	right:5%;
 	z-index:300;
 	color:#f5f5f5;
@@ -565,7 +580,7 @@ small{
 .panel #hero{
 	left:28%;
 	width:66%;
-	padding:0;
+	padding:3%;
 	margin:0;
 }
 
@@ -690,7 +705,7 @@ section[role=main]{
 }
 
 section[role=main].hero{
-	margin:0 0 0 0;
+	margin:0;
 }
 
 #pagedisplay{
@@ -702,7 +717,7 @@ section[role=main].hero{
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
-	padding:3%;
+	padding:3% 3.8%;
 	position:relative;
 }
 
@@ -1415,7 +1430,25 @@ color:#f5f5f5!important;
 }
 
 #pagedisplay .alternating .mininav_flush{
-	padding:1.5% 2.5%;
+	padding:0.8% 2%;
+}
+
+/* Hero Mini Nav */
+#hero .mininav_flush{
+	background:#111;
+	border:solid 1px #222;
+ } 
+
+#hero .mininav_flush .icon{
+	color:#f5f5f5;
+}
+
+#hero .mininav_flush:hover{
+	background:#00cf7f;
+}
+
+#hero .mininav_flush:hover .icon{
+	color:#222;
 }
 
 /* Panelling */
@@ -1461,23 +1494,37 @@ color:#f5f5f5!important;
 
 .drawer{
 	width:100%;
+	margin:0 0 0 0;
 }
 
 .drawer.noprefix{
 	padding:5% 0;
 }
 
-.drawerhandle{
+.drawerhandle, .display-files a{
 	border:solid 1px #ccc;
 	background:#efefef;
-	width:100%;
 	margin:0 0 1% 0;
 	padding:2%;
 	text-decoration: none;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+		display:inline;
 }
+
+.display-files a{
+	padding:1%;
+	display:block;
+}
+
+.display-files .icon{
+	background:none;
+}
+
+ .display-files .drawer{
+ 	background:none;
+ }
 
 .drawerhandle.fullsize{
 	/*padding:4%;*/
@@ -1499,8 +1546,8 @@ color:#f5f5f5!important;
 }
 
 .drawercontent{
-	padding:5%;
-	margin:3% 0;
+	padding:3%;
+	margin:1% 0!important;
 }
 
 .drawercontent form{
@@ -1521,7 +1568,7 @@ color:#f5f5f5!important;
 
 /* Tabled Content */
 
-table, thead, tbody, th, td, tr { 
+table, tbody, th, td, tr { 
 		display: block; 
 }
 
@@ -1597,7 +1644,7 @@ ul.alternating li a{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	padding:5%;
+	padding:3%;
 	margin:0;
 	background:#f9f9f9;
 	display:block;
@@ -1676,7 +1723,7 @@ ul.alternating li .toggle:hover{
 ul.alternating li .actions{
 	text-indent: 0em;
 	margin:0;
-	padding:3%;
+	padding:0 3%;
 	right:-100%;
 	background:#222;
 	background:rgba(34,34,34,0.98);
@@ -2680,7 +2727,7 @@ width:100%;
 }
 
 .panel #footer{
-	margin:5% 0 1% 28.3%;
+	margin:0 0 0 28%;
 	width:70%;
 }
 
@@ -2712,7 +2759,7 @@ html{
 }
 
 section[role=main].hero{
-	margin:400px 0 0 0;
+	margin:380px 0 0 0;
 }
 
 .row{	
@@ -2772,8 +2819,14 @@ button, .button, #modallightbox .modalcancel{
 	float:left;
 }
 
+#pagetitle.hero{
+	height:0;
+	opacity:0;
+	visibility: none;
+}
+
 #pagedisplay{
-	width:95%;
+	width:94.8%;
 	margin:0;
 }
 
@@ -2975,7 +3028,7 @@ section[role=main]{
 }
 
 #pagetitle{
-	padding:6% 0 1% 3%;
+	padding:6% 0 0 3.8%;
 }
 
 #accountmenu .head, #helpmenu .head{
