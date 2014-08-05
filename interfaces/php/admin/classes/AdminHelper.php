@@ -208,6 +208,7 @@
 						'<input type="hidden" name="{{form_state_action}}" value="makeitso">' .
 						'{{#element_id}}<input type="hidden" name="element_id" value="{{element_id}}" />{{/element_id}}' .
 						'<input type="hidden" name="element_type" value="' . $element_type . '" />' .
+						'<input type="hidden" name="in_campaign" id="in_campaign" value="" />' .
 						'<div class="section basic-information row" data-section-name="Element name">' .
 						'<p class="section-description">Give the element a name for your own reference.</p>' .
 						'<label for="element_name">Element name</label>' .
@@ -399,12 +400,30 @@
 					)
 				);
 				if ($admin_primary_cash_request->response['status_uid'] == 'element_addelement_200') {
-					// handle differently for AJAX and non-AJAX
-					if ($cash_admin->page_data['data_only']) {
-						AdminHelper::formSuccess('Success. New element added.','/elements/edit/' . $admin_primary_cash_request->response['payload']);
+
+					if ($post_data['in_campaign']) {
+						$cash_admin->requestAndStore(	
+							array(
+								'cash_request_type' => 'element', 
+								'cash_action' => 'addelementtocampaign',
+								'campaign_id' => $post_data['in_campaign'],
+								'element_id' => $admin_primary_cash_request->response['payload']
+							)
+						);
+						// handle differently for AJAX and non-AJAX
+						if ($cash_admin->page_data['data_only']) {
+							AdminHelper::formSuccess('Success. New element added.','/campaigns/view/' . $post_data['in_campaign']);
+						} else {
+							$cash_admin->setCurrentElement($admin_primary_cash_request->response['payload']);
+						}
 					} else {
-						$cash_admin->setCurrentElement($admin_primary_cash_request->response['payload']);
-					}
+						// handle differently for AJAX and non-AJAX
+						if ($cash_admin->page_data['data_only']) {
+							AdminHelper::formSuccess('Success. New element added.','/elements/edit/' . $admin_primary_cash_request->response['payload']);
+						} else {
+							$cash_admin->setCurrentElement($admin_primary_cash_request->response['payload']);
+						}
+					}					
 				} else {
 					// handle differently for AJAX and non-AJAX
 					if ($cash_admin->page_data['data_only']) {

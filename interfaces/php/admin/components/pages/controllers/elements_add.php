@@ -48,9 +48,11 @@ if ($request_parameters) {
 				}
 			}
 
-			if (is_array($app_json['copy']['en'])) {
-				foreach ($app_json['copy']['en'] as $key => $val) {
-					$cash_admin->page_data['copy_' . $key] = $val;
+			if (isset($app_json['copy'])) {
+				if (is_array($app_json['copy']['en'])) {
+					foreach ($app_json['copy']['en'] as $key => $val) {
+						$cash_admin->page_data['copy_' . $key] = $val;
+					}
 				}
 			}
 			if (is_array($app_json['details']['en'])) {
