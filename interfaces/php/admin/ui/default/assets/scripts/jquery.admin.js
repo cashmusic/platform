@@ -426,18 +426,22 @@
 	]);
 
 	function glitch(){
+				// preload hero images
 				preload();
 
-				window.globaltimeout = window.setTimeout(function(){
 
+				//Reveal the header
+				$('section').addClass('hero');
+				
+			window.globaltimeout = window.setTimeout(function(){
+				
 				var clr = new Array("RED", "GREEN", "BLUE");
-				//var swc = clr[Math.round(Math.random()*3) + 1].toString();
+				var swc = clr[Math.round(Math.random()*3) + 1].toString();
 				var imno = Math.floor(Math.random() * 6) + 1
 					var atno = Math.floor(Math.random() * 5) + 1
 
 				console.log(imno);
 				console.log(atno);
-
 
 				cnvs = document.getElementById("canvas").bitmapData;
 
@@ -453,15 +457,15 @@
 				cnvs.copyChannel(olayData,
 					new Rectangle(300, 0, 2000, 700), 
 					new Point(0, 0), 
-					BitmapDataChannel.RED, 
-					BitmapDataChannel.RED);
+					BitmapDataChannel[swc], 
+					//BitmapDataChannel.RED);
+					BitmapDataChannel[swc]);
 
 				//cnvs.fillStyle = cnvs.createPattern(bg, "repeat");
 
-				//Reveal the header
-				$('section').addClass('hero');
-			
-			}, 200);
+		
+				$('canvas').addClass('display');
+			}, 300);
 	};	
 
 
