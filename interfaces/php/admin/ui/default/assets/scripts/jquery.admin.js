@@ -547,6 +547,7 @@
 	if (document.getElementById("hero")) {
   		console.log("my hero");
 		glitch();	
+		$('#pagetitle').addClass('hero');
 		} else {
   		console.log("you ain't no hero");
   		$('section').removeClass('hero');
