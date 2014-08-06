@@ -13,7 +13,7 @@
 		<div class="four columns">
 			<label for="new_password">New password (Blank = no change)</label>
 			<input type="password" id="new_password" name="new_password" autocomplete="off" />
-			<label for="toggle_password"><input type="checkbox" id="toggle_password" />Reveal text</label>
+			<label for="toggle_password"><input type="checkbox" id="toggle_password" class="checkorradio" />Reveal text</label>
 		</div>
 	</div>
 
@@ -32,7 +32,16 @@
 </div>
 </form>
 
+<br/><hr />
+<h4><br/>Delete account</h4>
+
+<p>
+	Deleting your account is <b>permanent</b>. There is no undo. It's also kind of sad. Be very sure you want to do it.
+</p>
+<a href="{{www_path}}/account/delete/" class="button noajax needsconfirmation">Delete account</a>
+
 <br /><br /><br />
+
 {{#platform_type_single}}
 	<div>
 		<h4>API Key / Secret</h4>

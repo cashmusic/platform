@@ -177,6 +177,8 @@ class SystemPlant extends PlantBase {
 	 *
 	 * @return boolean
 	 */protected function recordLoginAnalytics($user_id,$element_id=null,$login_method='internal') {
+		$result = false;
+
 		// check settings first as they're already loaded in the environment
 		$record_type = CASHSystem::getSystemSettings('analytics');
 		if ($record_type == 'off') {

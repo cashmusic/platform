@@ -255,7 +255,7 @@ if ($logged_in) {
 	$cash_admin->page_data['ui_current_commerce'] = ($exploded_base[0] == 'commerce') ? true: false;
 	$cash_admin->page_data['ui_current_calendar'] = ($exploded_base[0] == 'calendar') ? true: false;
 	if (
-		!$cash_admin->page_data['ui_current_elements'] &&
+		//!$cash_admin->page_data['ui_current_elements'] &&
 		!$cash_admin->page_data['ui_current_assets'] &&
 		!$cash_admin->page_data['ui_current_people'] &&
 		!$cash_admin->page_data['ui_current_commerce'] &&
