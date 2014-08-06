@@ -1,21 +1,3 @@
-<style type="text/css">
-	a {cursor:pointer;}
-	.featured-release {position:relative;width:100%;}
-	.cover {width:100%;background-color:#ececed;background-size:auto 100%;background-position:center center;margin-bottom:8px;}
-	.cover .release-details {visibility:hidden;color:#fff;font-weight:normal;}
-	.title {position:absolute;left:0;bottom:0;width:100%;height:19%;padding:5% !important;background-color:rgba(0,0,0,0.6);-webkit-transition:all 0.2s ease-out;-moz-transition: all 0.2s ease-out;-o-transition: all 0.2s ease-out;transition: all  0.2s ease-out;}
-	.cover:hover .title {height:100%;}
-	.cover:hover .release-details {visibility:visible;}
-	div.usecolor2 .title a {font-weight:bold;color:#fff !important;display:block;width:100%;height:100%;}
-	div.usecolor2 .title a:hover {color:#ff0 !important;}
-	.smallcover {width:48px;height:48px;float:left;margin-right:8px;margin-top:3px;margin-bottom:8px;}
-	.display-files {line-height:2em;}
-	@media only screen and (max-width: 767px) {
-		.featured-release {margin-bottom:16px;}
-		.file-description {display:block;}
-	}
-</style>
-
 <h4>Releases</h4>
 <div class="row">
 {{#featured_releases}}
@@ -24,7 +6,9 @@
 		<div id="card">
 			<div class="front" style="background-image:url({{cover_url}});"></div><!--front-->
 				<a href="{{www_path}}/assets/edit/{{id}}" class="back">
-					<strong>{{title}}</strong><span class="smalltext release-details">{{{descriptor_string}}}</span>
+					<h2>{{title}}</h2>
+					<h3>Artist Name</h3>
+					<span class="smalltext release-details">{{{descriptor_string}}}</span>
 				</a><!--back-->
 			</div><!--card-->
 		</div><!--featured-release-->
@@ -35,16 +19,27 @@
 {{/two_features}}
 </div>
 
-<div class="drawer">
+<div id="releases" class="drawer">
 	{{#remaining_releases}}
 	<div class="drawercontent details-three-columns row">
 		<br />
 		{{#remaining_releases}}
-		<div class="four columns">
-			<a href="{{www_path}}/assets/edit/{{id}}">
+		<div class="three columns">
+			<!--<a href="{{www_path}}/assets/edit/{{id}}">
 			{{#cover_url}}<img src="{{cover_url}}" class="smallcover" alt="" />{{/cover_url}}
 			<span{{^cover_url}} style="padding-left:0;"{{/cover_url}}>{{title}}</span></a>
-			<span{{^cover_url}} style="padding-left:0;"{{/cover_url}} class="smalltext fadedtext">{{{descriptor_string}}}</span>
+			<span{{^cover_url}} style="padding-left:0;"{{/cover_url}} class="smalltext fadedtext">{{{descriptor_string}}}</span> -->
+
+			<div class="featured-release">
+		<div id="card">
+			<div class="front" style="background-image:url({{cover_url}});"></div><!--front-->
+				<a href="{{www_path}}/assets/edit/{{id}}" class="back">
+					<h2>{{title}}</h2>
+					<h3>Artist Name</h3>
+					<span class="smalltext release-details">{{{descriptor_string}}}</span>
+				</a><!--back-->
+			</div><!--card-->
+		</div><!--featured-release-->
 		</div>
 		{{/remaining_releases}}
 		{{#one_remaining}}
@@ -57,12 +52,13 @@
 	</div>
 	{{/remaining_releases}}
 
-	<div class="itemnav">
+
 		{{#more_releases}}
-		<a class="drawerhandle mininav_flush usecolor2">releases</a>
+		<div class="itemnav">
+			<a class="drawerhandle mininav_flush usecolor2">releases</a>
+		</div>
 		{{/more_releases}}
-		<a href="{{www_path}}/assets/add/release" class="mininav_flush usecolor2 lightboxed"><i class="icon icon-plus-sign"></i> Add a new release</a>
-	</div>
+		<a href="{{www_path}}/assets/add/release" class="button lightboxed"><i class="icon icon-plus-sign"></i> Add a new release</a>
 </div>
 
 <br />
@@ -85,8 +81,7 @@
 	</div>
 	<div class="eight columns display-files">
 		{{#featured_files}}
-			<a href="{{www_path}}/assets/edit/{{id}}"><i class="icon icon-file"></i>{{title}}</a>
-			<span class="descriptive fadedtext file-description">({{descriptor_string}})</span><br />
+			<a href="{{www_path}}/assets/edit/{{id}}"><i class="icon icon-file"></i>{{title}} <span class="descriptive fadedtext file-description">({{descriptor_string}})</span></a>
 		{{/featured_files}}
 		<div class="drawer">
 			{{#more_files}}

@@ -101,7 +101,7 @@
 	 */
 	function redrawPage(data) {
 		// change the color
-		$('#mainspc').removeClass();
+		$('#mainspc, #pagetitle').removeClass();
 		$('#mainspc').addClass(data.specialcolor);
 
 		// nav
@@ -553,7 +553,7 @@
   		$('section').removeClass('hero');
 		}
 	$( "#hero h5" ).click(function() {
-			$('section').toggleClass('hero');
+			$('section, #pagetitle').toggleClass('hero');
 		});
 
 	};
@@ -576,7 +576,7 @@
 			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
 				&& !el.hasClass('noajax') && !el.is('#logout') && !el.parents('div').hasClass('inner')
-				&& (!$('body').hasClass('store') && el.href.indexOf('elements/add'))
+				&& (!$('body').hasClass('store') && el.attr('href').indexOf('elements/add'))
 			) {
 				e.preventDefault();
 				var url = el.attr('href');
