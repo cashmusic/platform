@@ -1,18 +1,20 @@
+{{#campaign_id}}
+	<a class="back" href="{{www_path}}/campaigns/view/{{campaign_id}}">Back to campaign “{{campaign_title}}”</a>
+{{/campaign_id}}
 <div class="page-description">Something Interesting an informative to educate someone about this section!</div>
-
-	<h4 class="fadedtext">Embed it</h4>
-	<div class="drawer">
-		<span class="descriptive fadedtext">Codes to embed your element directly, with HTML5, PHP, or WordPress.</span> <a class="drawerhandle spaced usecolor1">codes</a>
-		<div class="drawercontent">
+	<h4>Embed it</h4>
+	<!--<div class="drawer">-->
+		<span class="descriptive fadedtext">Codes to embed your element directly, with HTML5, PHP, or WordPress.</span> <!--<a class="drawerhandle spaced usecolor1">codes</a>-->
+		<!--<div class="drawercontent">-->
 			<br />
 			{{#platform_type_single}}
 				<b class="fadedtext codelabel">PHP: </b><code><div class="codearea" contenteditable="true">&lt;?php include_once('{{platform_path}}');CASHSystem::embedElement({{id}}); // ({{name}}) ?&gt;</div></code><br />
 				<b class="fadedtext codelabel">WordPress: </b><code><div class="codearea" contenteditable="true">[cashmusic element=&quot;{{id}}&quot; name=&quot;{{name}}&quot;]</div></code>
 			{{/platform_type_single}}
-			<b class="fadedtext codelabel">Local: </b><code><div class="codearea" contenteditable="true">&#123;&#123;&#123;element_{{id}}&#125;&#125;&#125;</div></code><br />
-			<b class="fadedtext codelabel">HTML5: </b><code><div class="codearea" contenteditable="true">&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;</div></code>
-		</div>
-	</div>
+			<p class="codelabel"><strong>Local:</strong> <span class="fadedtext">(Embed on your CASH page)</span></p><code><div class="codearea" contenteditable="true">&#123;&#123;&#123;element_{{id}}&#125;&#125;&#125;</div></code><br />
+			<p class="codelabel"><strong>HTML5:</strong> <span class="fadedtext">(Embed on any HTML page)</span></p><code><div class="codearea" contenteditable="true">&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;</div></code>
+		<!--</div>
+	</div>-->
 
 
 
@@ -40,15 +42,9 @@
 	</div>
 </div>
 
-<br /><br />
-{{#campaign_id}}
-	<a href="{{www_path}}/campaigns/edit/{{campaign_id}}">Back to campaign “{{campaign_title}}”</a>
-	<br /><br />
-{{/campaign_id}}
-
 <h4>Statistics</h4> <div class="stat" style="width:90%;">Total unique views: {{total_views}}</div>
  <div class="stat" style="width:80%;">Total unique views: {{total_views}}</div>
- 
+
 {{#location_analytics}}
 	<div class="drawer">
 		<div class="drawercontent">
@@ -101,7 +97,6 @@
 	</div>
 {{/location_analytics}}
 
-<br /><br />
 <h4>Element Details</h4>
 <div class="callout">
 	{{{element_rendered_content}}}
