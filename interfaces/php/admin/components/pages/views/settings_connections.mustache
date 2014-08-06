@@ -5,15 +5,15 @@
 			Easily connect to any of these services:
 		</p>
 		<div class="row">
-		{{#all_services}}
 			<div class="six columns">
-			<a href="{{www_path}}/settings/connections/add/{{key}}">
-			{{#service_has_image}}
-				<img src="{{www_path}}/assets/images/settings/{{key}}.png" width="100%" alt="{{name}}" style="margin-top:32px;" /><br />
-			{{/service_has_image}}
-			<small>{{name}}</small></a><br />
-			</div>
+		{{#all_services}}
+				<a class="connection" href="{{www_path}}/settings/connections/add/{{key}}">
+				{{#service_has_image}}
+					<img src="{{www_path}}/assets/images/settings/{{key}}.png" width="100%" alt="{{name}}" /><br />
+				{{/service_has_image}}
+				<small>{{name}}</small></a>
 		{{/all_services}}
+			</div>
 		</div>
 	</div>
 	<div class="six columns">
