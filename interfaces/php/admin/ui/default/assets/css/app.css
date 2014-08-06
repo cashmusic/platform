@@ -52,6 +52,12 @@ body {
 	min-width:100%;
 }
 
+label{
+	margin:20px 0 8px 0;
+	padding:0;
+	line-height: 16px;
+}
+
 #pagetitle{
 	font-size:38px;
 	line-height: 40px;
@@ -60,7 +66,6 @@ body {
 	font-weight:700;
 	/*text-transform: uppercase;*/
 	word-wrap:break-word;
-	background: #e3e3e3 url(../images/paint_low.png) 0% 0%;
 	background-repeat: no-repeat;
 	background-position: center top;
 	background-attachment: fixed;
@@ -93,7 +98,7 @@ body {
 
 #pagedisplay{
 	width:90%;
-	margin:0 auto;
+	margin:0;
 	clear:both;
 }
 
@@ -223,8 +228,13 @@ span.invalid {
 
 /* Required */
 .required{
-	border-left: 5px solid #ff0;
+	border-left: 5px solid #00cf7f;
 }
+
+.usecolor2 .required{ border-color:#fa3838; }
+.usecolor3 .required{ border-color:#ff7c12; }
+.usecolor4 .required{ border-color:#6a38fa; }
+.usecolor5 .required{ border-color:#fa3866; }
 
 /* Buttons General */
 
@@ -355,11 +365,11 @@ small{
 /* Loading */
 
 #ajaxloading{
-	width:89%!important;
+	width:100%!important;
 	position:absolute;
-	top:5px;
+	top:0;
 	right:0;
-	margin:3px 3px 0 0;
+	margin:0 3px 0 0;
 	padding:0;
 	-webkit-animation: turn linear infinite 1s;
     -moz-animation: turn linear infinite 1s;
@@ -447,9 +457,10 @@ small{
 
 
 #header #logo img{
-	width:40%;
+	width:28%;
 	display:block;
-	margin:5% auto 0% auto;
+	margin:0;
+	padding:3%;
 	height:auto;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
@@ -477,7 +488,8 @@ small{
 	top:0;
 	left:0;
 	width:74%;
-	height:420px;
+	/*height:420px;*/
+	height:65%;
 	padding:3%;
 	background:rgba(230,230,230,0.97) url(../images/hero_bg.jpg);
 	z-index:-1;
@@ -491,12 +503,12 @@ small{
 }
 
 #hero h1{
-	width:70%;
+	width:100%;
 	color:#f5f5f5;
 	font-weight: normal;
-	font: 700 50px/40px 'Montserrat',Helvetica,Arial,sans-serif;
+	font: 400 50px/40px 'Montserrat',Helvetica,Arial,sans-serif;
 	line-height: 48px;
-	margin:0 0 20px 0;
+	margin:0 0 0 0;
 	text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
 	float:left;
 	clear:left;
@@ -507,12 +519,13 @@ small{
 }
 
 #hero h6{ 
-	float:right;
 	color:#f6f6f6;
+	text-align:left;
+	float:left;
 }
 
 #hero p{
-	width:70%;
+	width:100%;
 	/*text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.9);
 	background:rgba(34,34,34,0.9);
 	padding:3%;*/
@@ -520,17 +533,19 @@ small{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	clear:both;
 }
 
 #hero .actions{
-	position:absolute;
-	top:6%;
-	right:5%;
-	padding:1% 2%;
-	background:rgba(15,15,15,0.9);
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
+	padding: 1%;
+	/*background:rgba(15,15,15,0.9);*/
+	float:right;
+}
+
+#hero .actions a{
+	display:block;
+	float:left;
+	margin:0 3px 0 0;
 }
 
 #hero .stat{
@@ -571,7 +586,8 @@ small{
 	float:right;
 	z-index:300;
 	color:#f5f5f5;
-	padding:1%;
+	padding:1.5%;
+	margin:0 1% 0 0;
 	background:#222;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -716,6 +732,7 @@ section[role=main]{
 
 section[role=main].hero{
 	margin:0;
+	padding:3% 0 0 0;
 }
 
 #pagedisplay{
@@ -727,7 +744,7 @@ section[role=main].hero{
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
-	padding:3% 3.8%;
+	padding:3%;
 	margin:0;
 	position:relative;
 }
@@ -919,7 +936,7 @@ section[role=main].hero{
 	position:absolute;
 	top:0;
 	left:0;
-	padding:15% 10%;
+	padding:12% 10%;
 	overflow:hidden;
 	overflow-y:auto;
 }
@@ -1149,7 +1166,7 @@ color:#f5f5f5!important;
 	position:relative;
 	width:120px;
 	text-align: center;
-	margin:1% auto 1% auto;
+	margin:5% auto 1% auto;
 	padding:0;
 	background:none;
 	float:none!important;
@@ -1170,11 +1187,13 @@ color:#f5f5f5!important;
 	text-align: center;
 	margin:0 auto 1% auto;
 	position:relative;
+	background:none;
 }
 
 .login #pagedisplay{
 	width:90%;
 	margin:0 auto;
+	background:none;
 }
 
 /* Navigation */
@@ -2182,6 +2201,31 @@ label.checkbox {
 }
 */
 
+.page-description{
+	margin:1% 0 2% 0;
+	padding:2% 2% 2% 8%;
+	border: 1px dotted #4d4d4d;
+	background: url(../images/lght_off.png) no-repeat 2% 40%;
+	background-size: 4%;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition:0.3s ease-in-out;
+}
+
+.page-description:hover{
+	background:#00cf7f url(../images/lght_on.png) no-repeat 2% 50%;
+	background-size: 4%;
+	cursor: pointer;
+}
+
+.usecolor2 .page-description:hover{background-color:#fa3838;}
+.usecolor3 .page-description:hover{background-color:#ff7c12;}
+.usecolor4 .page-description:hover{background-color:#6a38fa;}
+.usecolor5 .page-description:hover{background-color:#fa3866;}
+
 .modallightbox .multipart-prev{
 	margin-right:1%;
 	float:left;
@@ -2835,7 +2879,6 @@ width:100%;
 	margin:0 auto 1% auto;
 	/*background:#ddd;*/
 	border-top:1px solid #ccc;
-	background: #e3e3e3 url(../images/paint_low.png) 0% 0%;
 	background-repeat: no-repeat;
 	background-position: center top;
 	background-attachment: fixed;
@@ -2844,6 +2887,7 @@ width:100%;
 	-o-background-size: cover;
 	background-size: cover;
 }
+
 
 .panel #footer{
 	margin:0 0 0 28%;
@@ -2873,12 +2917,17 @@ html{
 	background-attachment: fixed;
 }  
 
+#header #logo img{
+	width:40%;
+	margin:5% auto 0% auto;
+}
+
 #hero {
 	opacity:1;
 }
 
 section[role=main].hero{
-	margin:370px 0 0 0;
+	margin:400px 0 0 0;
 }
 
 .row{	
@@ -2931,7 +2980,7 @@ button, .button, #modallightbox .modalcancel{
 #pagetitle{
 	font-size:50px;
 	line-height: 55px;
-	padding:5% 0 1% 3%;
+	padding:5% 0 0 4%;
 	margin:0;
 	/*width:100%;*/
 	width:95%;
@@ -2942,6 +2991,7 @@ button, .button, #modallightbox .modalcancel{
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition:0.3s ease-in-out;
+	/*background: #e3e3e3 url(../images/paint_low.png) 0% 0%;*/
 }
 
 #pagetitle.hero{
@@ -2953,7 +3003,8 @@ button, .button, #modallightbox .modalcancel{
 
 #pagedisplay{
 	width: 96%;
-	margin: 0 0 0 -1%
+	margin: 0 0 0 -1%;
+	padding:3% 5% 5% 5%;
 }
 
 .big {
@@ -2968,6 +3019,7 @@ button, .button, #modallightbox .modalcancel{
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition:0.3s ease-in-out;
+	background: #e3e3e3 url(../images/paint_low.png) 0% 0%;
 }
 
 /* Navigation */
@@ -3142,7 +3194,11 @@ td{display:table-cell; vertical-align: inherit;}
 
 #header #logo img{
 	width:100%;
-	margin:20% 3%;
+	margin:20% 0;
+}
+
+#hero h1, #hero p{
+	width:70%;
 }
 
 .touchpoints{
@@ -3151,6 +3207,10 @@ td{display:table-cell; vertical-align: inherit;}
 
 section[role=main]{
 	padding:0;
+}
+
+#pagedisplay{
+	width: 97%;
 }
 
 #pagetitle{
