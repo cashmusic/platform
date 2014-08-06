@@ -31,6 +31,7 @@ class SystemPlant extends PlantBase {
 				// second value = allowed request methods (string or array of strings)
 				'addlogin'                => array('addLogin','direct'),
 				'addlockcode'             => array('addLockCode','direct'),
+				'deletelogin'             => array('deleteLogin','direct'),
 				'deletesettings'          => array('deleteSettings','direct'),
 				'deletetemplate'          => array('deleteTemplate','direct'),
 				'getapicredentials'       => array('getAPICredentials','direct'),
@@ -318,6 +319,89 @@ class SystemPlant extends PlantBase {
 			$this->setAPICredentials($result);
 		}
 		return $result;
+	}
+
+	/**
+	 * Removes user to the system
+	 *
+	 * @param {string} $address -  the email address in question
+	 * @return bool
+	 */protected function deleteLogin($address) {
+		// doing this via address not only follows conventions established in handling people,
+		// but guarantees we're getting the right user id. no passing in the wrong id and watching
+		// the script choke...
+		$user_id = $this->db->getData(
+			'users',
+			'id',
+			array(
+				"email_address" => array(
+					"condition" => "=",
+					"value" => $address
+				)
+			)
+		);
+		if ($user_id) {
+			$user_id = $user_id[0]['id'];
+			$condition = array(
+				'user_id' => array(
+					'condition' => '=',
+					'value' => $user_id
+				)
+			);
+			// mass delete all the mass deletable stuff
+			$tables = array(
+				'assets','events','items','offers','elements','elements_campaigns','contacts',
+				'mailings','connections','lock_codes','metadata','settings','templates'
+			);
+			foreach ($tables as $table) {
+				$result = $this->db->deleteData(
+					$table,
+					$condition
+				);
+			}
+
+			// get all lists via PeoplePlant and delete them properly. this means we'll
+			// also remove any list members and webhooks associated with them
+			$lists_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'people', 
+					'cash_action' => 'getlistsforuser',
+					'user_id' => $user_id
+				)
+			);
+			if ($lists_request->response['payload']) {
+				foreach ($lists_request->response['payload'] as $list) {
+					$list_delete_request = new CASHRequest(
+						array(
+							'cash_request_type' => 'people', 
+							'cash_action' => 'deletelist',
+							'list_id' => $list['id']
+						)
+					);
+				}
+			}
+
+			// wipe yourself off, man. you dead. http://www.youtube.com/watch?v=XpF2EH3_T1w
+			$result = $this->db->setData(
+				'users',
+				array(
+					'is_admin' => 0,
+					'username' => '',
+					'api_key' => '',
+					'api_secret' => ''
+				),
+				array(
+					"id" => array(
+						"condition" => "=",
+						"value" => $user_id
+					)
+				)
+			);
+
+			return $result;
+
+			// ;(
+		}
 	}
 
 	/**

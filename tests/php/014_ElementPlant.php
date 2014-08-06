@@ -38,7 +38,7 @@ class ElementPlantTests extends UnitTestCase {
 				'user_id' => 1
 			)
 		);
-		// should have failed with just a title:
+		// should have passed:
 		$this->assertTrue($element_request->response['payload']);
 		$this->testingElement = $element_request->response['payload'];
 
