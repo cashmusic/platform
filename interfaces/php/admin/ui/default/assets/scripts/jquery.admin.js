@@ -465,7 +465,7 @@
 
 		
 				$('canvas').addClass('display');
-			}, 300);
+			}, 500);
 	};	
 
 
@@ -846,12 +846,13 @@
 			removeModal();
 		});
 
-		/*
+		
 		// learn tips inline click
-		$(document).on('click', '.section-description', function(e) {
+		$(document).on('click', '.page-description', function(e) {
+			$ (this).parents("body").removeClass("panel").removeClass("settings").removeClass("help");
 			$ (this).parents("body").addClass("panel").addClass("learn");
 		});
-		*/
+		
 
 		// fade/close on escape key
 		$(document).keyup(function(e) {
