@@ -52,6 +52,12 @@ body {
 	min-width:100%;
 }
 
+label{
+	margin:20px 0 8px 0;
+	padding:0;
+	line-height: 16px;
+}
+
 #pagetitle{
 	font-size:38px;
 	line-height: 40px;
