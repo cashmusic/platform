@@ -4,7 +4,6 @@ require_once(dirname(__FILE__) . '/base.php');
 require_once('framework/php/classes/plants/SystemPlant.php');
 
 class SystemPlantTests extends UnitTestCase {
-
 	function testSystemPlant() {
 		echo "Testing SystemPlant\n";
 		
@@ -371,6 +370,115 @@ class SystemPlantTests extends UnitTestCase {
 			)
 		);
 		$this->assertTrue($template_request->response['payload']);
+	}
+
+	function testAccountDeletion() {
+		$login_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'addlogin',
+				'address' => 'testingdeletion@test.com', 
+				'password' => 'testpassword',
+				'username' => 'testingdeletion',
+				'is_admin' => 1
+			)
+		);
+		$this->assertTrue($login_request->response['payload']);
+		$user_id = $login_request->response['payload'];
+
+		$user_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'getuser',
+				'user_id' => $user_id
+			)
+		);
+		$this->assertEqual($user_request->response['payload']['username'],'testingdeletion');
+		$this->assertNotEqual($user_request->response['payload']['api_key'],'');
+		$this->assertNotEqual($user_request->response['payload']['api_secret'],'');
+
+		$asset_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'asset', 
+				'cash_action' => 'addasset',
+				'title' => 'test title',
+				'description' => '',
+				'location' => 'http://test.com/file',
+				'user_id' => $user_id
+			)
+		);
+		$this->assertTrue($asset_request->response['payload']);
+
+		$element_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'element', 
+				'cash_action' => 'addelement',
+				'name' => 'Test name',
+				'type' => 'stupidfakeelement',
+				'options_data' => array(),
+				'user_id' => $user_id
+			)
+		);
+		$this->assertTrue($element_request->response['payload']);
+
+		$list_add_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'addlist',
+				'name' => 'Test List',
+				'description' => 'Test Description',
+				'user_id' => $user_id
+			)
+		);
+		$this->assertTrue($list_add_request->response['payload']);
+
+		$delete_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'deletelogin',
+				'address' => 'testingdeletion@test.com'
+			)
+		);
+		$this->assertTrue($delete_request->response['payload']);
+
+		$user_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'getuser',
+				'user_id' => $user_id
+			)
+		);
+		$this->assertEqual($user_request->response['payload']['is_admin'],0);
+		$this->assertEqual($user_request->response['payload']['username'],'');
+		$this->assertEqual($user_request->response['payload']['api_key'],'');
+		$this->assertEqual($user_request->response['payload']['api_secret'],'');
+
+		$asset_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'asset', 
+				'cash_action' => 'getassetsforuser',
+				'user_id' => $user_id
+			)
+		);
+		$this->assertFalse($asset_request->response['payload']);	
+
+		$asset_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'getlistsforuser',
+				'user_id' => $user_id
+			)
+		);
+		$this->assertFalse($asset_request->response['payload']);	
+		
+		$asset_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'element', 
+				'cash_action' => 'getelementsforuser',
+				'user_id' => $user_id
+			)
+		);
+		$this->assertFalse($asset_request->response['payload']);
 	}
 }
 ?>

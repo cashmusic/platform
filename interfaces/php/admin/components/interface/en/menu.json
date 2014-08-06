@@ -1,6 +1,8 @@
 {
 	"account":
 		{"page_name":"Your account", "menu_icon":""},
+	"account/delete":
+		{"page_name":"Delete account", "menu_icon":""},
 		
 		
 	"assets":
