@@ -1541,7 +1541,7 @@ color:#f5f5f5!important;
 
 /* Back to Campaign link */
 
-.back{
+.returnlink{
 	position:fixed;
 	top:6%;
 	right:29.5%;
@@ -1555,7 +1555,7 @@ color:#f5f5f5!important;
 	border:solid 1px #00ac6a;
 }
 
-.back:hover{
+.returnlink:hover{
 	color:#00cf7f;
 	background:#222;
 }
