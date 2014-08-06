@@ -1,3 +1,4 @@
+<div class="page-description">Something Interesting an informative to educate someone about this section!</div>
 <div class="row">
 	<div class="six columns">
 		<h4>Add an event</h4>
@@ -36,10 +37,13 @@
 		<ul class="alternating">
 			{{#events_thisweek}}
 			<li>
-				<b>{{formatted_date}}: {{event_location}}</b> <span class="descriptive spaced fadedtext">@ {{venue_name}}</span>
-				<div class="itemnav">
-					<a href="{{www_path}}/calendar/events/edit/{{event_id}}" class="mininav_flush"><i class="icon icon-search"></i>Details</a> 
-				</div>
+				<a class="primary" href="{{www_path}}/calendar/events/edit/{{event_id}}">
+				<strong>{{formatted_date}}: {{event_location}}</strong><span class="descriptive spaced fadedtext">@ {{venue_name}}</span></a>
+				<div class="more"><div class="toggle"></div><!--toggle-->
+					<div class="actions">
+						<a href="{{www_path}}/calendar/events/edit/{{event_id}}" class="mininav_flush"><i class="icon icon-search"></i>Details</a>
+					</div><!--actions-->
+				</div><!--more-->
 			</li>
 			{{/events_thisweek}}
 		</ul>
@@ -49,18 +53,20 @@
 		<p>No upcoming events for the next week were found.</p>
 		{{/events_thisweek}}
 
-		<br /><br />
-
 		<h4>Unpublished events</h4>
 		{{#events_unpublished}}
 		<ul class="alternating">
 			{{#events_unpublished}}
 			<li>
-				<b>{{formatted_date}}: {{event_location}}</b> <span class="descriptive spaced fadedtext">@ {{venue_name}}</span>
-				<div class="itemnav">
-					<a href="{{www_path}}/calendar/events/edit/{{event_id}}" class="mininav_flush"><i class="icon icon-search"></i>Details</a> 
-				</div>
+				<a class="primary" href="{{www_path}}/calendar/events/edit/{{event_id}}">
+				<strong>{{formatted_date}}: {{event_location}}</strong><span class="descriptive spaced fadedtext">@ {{venue_name}}</span></a>
+				<div class="more"><div class="toggle"></div><!--toggle-->
+					<div class="actions">
+						<a href="{{www_path}}/calendar/events/edit/{{event_id}}" class="mininav_flush"><i class="icon icon-search"></i>Details</a>
+					</div><!--actions-->
+				</div><!--more-->
 			</li>
+
 			{{/events_unpublished}}
 		</ul>
 		{{/events_unpublished}}
