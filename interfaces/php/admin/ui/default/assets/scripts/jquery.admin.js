@@ -845,14 +845,21 @@
 		//remove the store identifier on close
 			removeModal();
 		});
-
-		
-		// learn tips inline click
+	
+		// Learn tips opened by inline click
 		$(document).on('click', '.page-description', function(e) {
-			$ (this).parents("body").removeClass("panel").removeClass("settings").removeClass("help");
-			$ (this).parents("body").addClass("panel").addClass("learn");
+
+			if($(this).parents("body").hasClass("settings") || $(this).parents("body").hasClass("help")){
+				$(this).parents("body").removeClass("settings").removeClass("help");
+				$(this).parents("body").addClass("learn");
+				$(this).addClass("display");
+			} else if($(this).parents("body").hasClass("learn")){
+				$(this).parents("body").removeClass("panel").removeClass("learn").removeClass("settings").removeClass("help");
+			} else {
+				$(this).parents("body").addClass("learn").addClass("panel");
+				$(this).addClass("display");
+			}
 		});
-		
 
 		// fade/close on escape key
 		$(document).keyup(function(e) {
