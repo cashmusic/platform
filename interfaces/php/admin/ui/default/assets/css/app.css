@@ -309,11 +309,12 @@ h1,h2,h3,h4,h5{
 	clear:both;
 	color:#222;
 	font:400 30px/40px 'Montserrat',Helvetica,Arial,sans-serif;
+	display:block;
 }
 
 h2{ font-size:28px; line-height:32px;}
 h3{ font-size:20px; line-height:28px;}
-h4{ font-size:30px; line-height:36px; margin:15px 0 15px 0; }
+h4{ font-size:30px; line-height:36px; margin:30px 0 15px 0; }
 h5{ font-size:18px; line-height:26px;}
 /* Text Types */
 
@@ -547,6 +548,13 @@ small{
 	display:block;
 	float:left;
 	margin:0 3px 0 0;
+}
+
+/* Element Statistics */
+
+.statoverview{
+	margin:5% 0;
+	overflow: auto;
 }
 
 .stat{
@@ -1490,6 +1498,7 @@ color:#f5f5f5!important;
 	background:none;
 	color:#222;
 	padding:0;
+	margin:0 0 50px 0;
 }
 
 .itemnav a{
@@ -1542,9 +1551,10 @@ color:#f5f5f5!important;
 /* Back to Campaign link */
 
 .returnlink{
-	position:fixed;
-	top:6%;
-	right:29.5%;
+	position:absolute;
+	top:-2%;
+	right:5%;
+	margin:0;
 	text-decoration: none;
 	color:#222;
 	background:#00cf7f;
@@ -1558,6 +1568,7 @@ color:#f5f5f5!important;
 .returnlink:hover{
 	color:#00cf7f;
 	background:#222;
+	border:solid 1px #222;
 }
 
 /* Panelling */
@@ -1603,9 +1614,10 @@ color:#f5f5f5!important;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	margin:0 0 5px 0;
+	margin:3% 0;
 	border:solid 1px #ccc;
 	overflow:auto;
+	clear:both;
 }
 
 .callout h4, fieldset h4, #stats h4{
@@ -1654,18 +1666,19 @@ color:#f5f5f5!important;
 	display:inline;
 }
 
-.display-files a{
+.display-files .files{
 	padding:0 0 0 4%;
 	line-height: 16px;
 	margin:0 0 2% 0;
 	display:block;
+	text-align:right;
 }
 
-.display-files a .icon{
+.display-files .files .icon{
 	color:#666!important;
 }
 
-.display-files a span{
+.display-files .files span{
 	color:#333;
 }
 
@@ -1674,7 +1687,6 @@ color:#f5f5f5!important;
 }
 
  .display-files .drawer{
- 	background:none;
  }
 
 .drawerhandle.fullsize{
@@ -1759,6 +1771,7 @@ table td{
 	padding:2%;
 	margin:0;
 	text-align:center!important;
+	word-wrap:break-word;
 }
 
 table td a{
@@ -2706,6 +2719,7 @@ width:100%;
 
 #releases.drawer .featured-release{
 	height:200px;
+	margin:3% 0 5% 3%;
 }
 
 #releases.drawer .featured-release .release-details{
@@ -2831,6 +2845,8 @@ width:100%;
 #card.flipped {
   	-webkit-transform: rotateY( 180deg );
   	transform: rotateY( 180deg );
+  	backface-visibility: visible;
+  	-webkit-backface-visibility: visible; 
 }
 
 
