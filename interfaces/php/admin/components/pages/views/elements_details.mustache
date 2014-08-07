@@ -1,5 +1,5 @@
 {{#campaign_id}}
-	<a class="back" href="{{www_path}}/campaigns/view/{{campaign_id}}">Back to campaign “{{campaign_title}}”</a>
+	<a class="returnlink" href="{{www_path}}/campaigns/view/{{campaign_id}}">Back to campaign “{{campaign_title}}”</a>
 {{/campaign_id}}
 <div class="page-description">Something Interesting an informative to educate someone about this section!</div>
 	<h4>Embed it</h4>
@@ -42,11 +42,10 @@
 	</div>
 </div>
 
-<h4>Statistics</h4> <div class="stat" style="width:90%;">Total unique views: {{total_views}}</div>
- <div class="stat" style="width:80%;">Total unique views: {{total_views}}</div>
+<h4>Statistics</h4> <div class="stat">Total unique views: {{total_views}}</div>
 
 {{#location_analytics}}
-	<div class="drawer">
+	<div class="drawer statoverview">
 		<div class="drawercontent">
 			<br />
 			{{#location_analytics}}
@@ -93,7 +92,7 @@
 			{{/method_analytics}}
 			<br />
 		</div>
-		<a class="drawerhandle mininav_flush usecolor1">detailed statistics</a>
+		<a class="drawerhandle button usecolor1">detailed statistics</a>
 	</div>
 {{/location_analytics}}
 

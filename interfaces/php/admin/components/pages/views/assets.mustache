@@ -63,16 +63,6 @@
 		<a href="{{www_path}}/assets/add/release" class="button lightboxed"><i class="icon icon-plus-sign"></i> Add a new release</a>
 </div>
 
-<br />
-<br />
-<h4>Playlists</h4>
-<p class="fadedtext">
-	We're still working on playlists, but they're coming soon — 
-	<br />full upload/edit interface and streaming capabilities.<br /><br />
-</p>
-
-<br />
-<br />
 <h4>Files</h4>
 
 <div class="row">
@@ -83,22 +73,22 @@
 	</div>
 	<div class="eight columns display-files">
 		{{#featured_files}}
-			<a href="{{www_path}}/assets/edit/{{id}}"><i class="icon icon-file"></i>{{title}} <span class="descriptive fadedtext file-description">({{descriptor_string}})</span></a>
+			<a class="files" href="{{www_path}}/assets/edit/{{id}}"><i class="icon icon-file"></i>{{title}} <span class="descriptive fadedtext file-description">({{descriptor_string}})</span></a>
 		{{/featured_files}}
 		<div class="drawer">
 			{{#more_files}}
 			<div class="drawercontent">
 				{{#remaining_files}}
-					<a href="{{www_path}}/assets/edit/{{id}}"><i class="icon icon-file"></i>{{title}}</a>
+					<a class="files" href="{{www_path}}/assets/edit/{{id}}"><i class="icon icon-file"></i>{{title}}</a>
 					<span class="descriptive fadedtext file-description">({{descriptor_string}})</span><br />
 				{{/remaining_files}}
 			</div>
 			{{/more_files}}
-			<div class="itemnav">
+			<!--<div class="itemnav">-->
 				{{#more_files}}<a class="drawerhandle mininav_flush usecolor2">files</a>{{/more_files}}
-				<a href="{{www_path}}/assets/add/file" class="mininav_flush usecolor2 lightboxed"><i class="icon icon-plus-sign"></i> Add a new file</a>
-			</div>
+			<!--</div>-->
 		</div>
+<a href="{{www_path}}/assets/add/file" class="button lightboxed"><i class="icon icon-plus-sign"></i> Add a new file</a>
 	</div>
 </div>
 
