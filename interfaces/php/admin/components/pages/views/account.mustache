@@ -1,4 +1,8 @@
 <form accept-charset="UTF-8" method="post" action="{{www_path}}/account/">
+	<!-- extra fields to stop password managers from overriding username/password fields -->
+	<input style="display:none">
+	<input type="password" style="display:none">
+	<!-- YOLO -->
 	<input type="hidden" name="doaccountchange" value="makeitso" />
 	<div class="row">
 		<div class="four columns">
