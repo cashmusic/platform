@@ -841,12 +841,12 @@ section[role=main].hero{
 }
 
 .touchpoints #learn a{
-	background:#111 url(../images/lght_off.png) no-repeat 50% 30%;
+	background:#111 url(../images/lght_w_off.png) no-repeat 50% 30%;
 	background-size: 60%;
 }
 
 .touchpoints #learn a:hover{
-	background:#222 url(../images/lght_on.png) no-repeat 50% 30%;
+	background:#222 url(../images/lght_w_on.png) no-repeat 50% 30%;
 	opacity:0.9;
 	/*border:solid 1px #222;*/
 	background-size: 60%;
@@ -935,9 +935,9 @@ section[role=main].hero{
 	min-height:100%;
 	padding:0;
 	background:#e3e3e3 url('../images/panelbg.jpg');
-	-webkit-transition: 0.2s  ease-in-out;
-	-moz-transition: 0.2s  ease-in-out;
-	trasition: 0.2s ease-in-out;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition: 0.3s ease-in-out;
 	z-index: 0;
 	-webkit-box-shadow:inset 0 0 10px -5px rgba(0,0,0,0.3);
 	box-shadow:inset 0 0 10px -5px rgba(0,0,0,0.3);
@@ -1657,7 +1657,7 @@ color:#f5f5f5!important;
 .drawerhandle, .display-files a{
 	/*border:solid 1px #ccc;
 	background:#efefef;*/
-	margin:0 0 0 0;
+	margin:3% 0 3% 4%;
 	/*padding:2%;*/
 	text-decoration: none;
 	-webkit-border-radius: 3px;
@@ -1671,7 +1671,7 @@ color:#f5f5f5!important;
 	line-height: 16px;
 	margin:0 0 2% 0;
 	display:block;
-	text-align:right;
+	text-align:left;
 }
 
 .display-files .files .icon{
@@ -2311,12 +2311,13 @@ label.checkbox {
 	background:#00cf7f url(../images/lght_on.png) no-repeat 2% 50%;
 	background-size: 4%;
 	cursor: pointer;
+	border: 1px solid #00cf7f;
 }
 
-.usecolor2 .page-description:hover{background-color:#fa3838;}
-.usecolor3 .page-description:hover{background-color:#ff7c12;}
-.usecolor4 .page-description:hover{background-color:#6a38fa;}
-.usecolor5 .page-description:hover{background-color:#fa3866;}
+.usecolor2 .page-description:hover{background-color:#fa3838; border: 1px solid #fa3838;}
+.usecolor3 .page-description:hover{background-color:#ff7c12; border: 1px solid #ff7c12;}
+.usecolor4 .page-description:hover{background-color:#6a38fa; border: 1px solid #6a38fa;}
+.usecolor5 .page-description:hover{background-color:#fa3866; border: 1px solid #fa3866;}
 
 .modallightbox .multipart-prev{
 	margin-right:1%;
