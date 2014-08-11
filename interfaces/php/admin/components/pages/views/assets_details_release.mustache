@@ -17,7 +17,7 @@
 					<div class="release-cover" style="background-image:url({{cover_url}});">
 						<div class="release-cover-options">
 							{{#cover_asset_id}}
-								<a href="{{www_path}}/assets/edit/{{cover_asset_id}}" class="smalltext"><i class="icon icon-camera-retro"></i><b>Add/edit cover</b></a>
+								<a href="{{www_path}}/assets/edit/{{cover_asset_id}}" class="smalltext"><span class="editcover"><i class="icon icon-camera-retro"></i><b>Add/edit cover</b></span></a>
 							{{/cover_asset_id}}
 							{{^cover_asset_id}}
 								<a href="{{www_path}}/assets/add/file/setparent/{{id}}/setmetadata/cover" class="lightboxed returntocurrentroute smalltext"><i class="icon icon-camera-retro"></i><b>Add/edit cover</b></a>
@@ -87,7 +87,7 @@
 	<h4>Additional Fields</h4>
 	<div class="spacedtext">	
 		<div class="drawer">
-			<a class="drawerhandle">standard metadata</a>
+			<a class="meta drawerhandle">standard metadata</a>
 			<div class="drawercontent">
 				<br />
 				<fieldset>
@@ -124,7 +124,7 @@
 		</div>
 
 		<div class="drawer">
-			<a class="drawerhandle">press/PR information</a>
+			<a class="meta drawerhandle">press/PR information</a>
 			<div class="drawercontent">
 				<fieldset>
 					<br />
@@ -180,21 +180,7 @@
 	</div>
 
 <div>
-		<br /><br />
-		<div class="spacedtext">
-			<span  class="fadedtext"><i class="icon icon-credit-card"></i>Selling out?</span > <a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="lightboxed returntocurrentroute"><span ><b>Define commerce settings</b></span ></a>
-
-			<br />
-			<span  class="fadedtext"><i class="icon icon-ban-circle"></i> Need it gone?</span > <a href="{{www_path}}/assets/delete/{{id}}" class="usecolor2 needsconfirmation"><span ><b>Delete this release</b></span ></a>
-
-			<br />
-			<button class="nojs" type="submit"><i class="icon icon-save"></i>Save changes</button>
-			</form>
-
-		</div>
-
-		<div class="spacedtext">
-			<div class="drawer noprefix">
+		<div class="drawer noprefix">
 				<span  class="fadedtext"><i class="icon icon-download-alt"></i>Need download codes?</span > <a class="drawerhandle usecolor2">Export or create codes</a>
 				<div class="drawercontent">
 					<p>
@@ -220,9 +206,18 @@
 					<br />
 				</div>
 			</div>
-		</div>
+
+
+			<p><span  class="fadedtext"><i class="icon icon-credit-card"></i>Selling out?</span > <a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="lightboxed returntocurrentroute"><span ><b>Define commerce settings</b></span ></a></p>
+
+			<p><span  class="fadedtext"><i class="icon icon-ban-circle"></i> Need it gone?</span > <a href="{{www_path}}/assets/delete/{{id}}" class="usecolor2 needsconfirmation"><span ><b>Delete this release</b></span ></a></p>
+
+			<button class="nojs" type="submit"><i class="icon icon-save"></i>Save changes</button>
+			</form>
+
+
+	
 		
-		<br /><br />
 		<button class="onlyjs externalsubmit" data-cash-target-form="#edit-file-form" type="submit"><i class="icon icon-save"></i>Save changes</button>
 	</div>
 
