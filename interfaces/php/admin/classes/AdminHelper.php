@@ -483,39 +483,30 @@
 	 * Finds settings matching a specified scope and echoes them out formatted
 	 * for a dropdown box in a form
 	 *
-	 */public static function echoTemplateOptions($type='page',$selected=false,$return=true) {
+	 */public static function echoTemplateOptions($type='page',$selected=null,$return=true) {
 		global $cash_admin;
-		// get all the templates 
-		$template_response = $cash_admin->requestAndStore(
-			array(
-				'cash_request_type' => 'system', 
-				'cash_action' => 'gettemplatesforuser',
-				'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
-				'type' => $type
-			)
-		);
-		
-		if (is_array($template_response['payload'])) {
-			$templates_array = $template_response['payload'];
 
-			// echo out the proper dropdown bits
-			if ($templates_array) {
-
-				$templates_array_addition = array(
+				$templates_array = array(
 					array(
-						'id' => 0,
-						'name' => 'Use default theme'
+						'id' => -2,
+						'name' => 'Use dark theme'
 					),
 					array(
 						'id' => -1,
 						'name' => 'Use light theme'
 					),
 					array(
-						'id' => -2,
-						'name' => 'Use dark theme'
+						'id' => 0,
+						'name' => 'Custom'
 					)
 				);
-				$templates_array = array_merge($templates_array_addition,$templates_array);
+				if ($selected === null) {
+					$selected = -2;
+				} else {
+					if ($selected > 0) {
+						$templates_array[2]['id'] = $selected;
+					}
+				}
 
 				$all_templates = '';
 				foreach ($templates_array as $template) {
@@ -528,10 +519,7 @@
 				} else {
 					echo $all_templates;
 				}
-			}
-		} else {
-			return false;
-		}
+		
 	}
 
 	/**********************************************

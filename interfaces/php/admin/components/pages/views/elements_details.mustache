@@ -4,43 +4,33 @@
 <div class="page-description">Something Interesting an informative to educate someone about this section!</div>
 	<h4>Embed it</h4>
 	<!--<div class="drawer">-->
-		<span class="descriptive fadedtext">Codes to embed your element directly, with HTML5, PHP, or WordPress.</span> <!--<a class="drawerhandle spaced usecolor1">codes</a>-->
 		<!--<div class="drawercontent">-->
 			<br />
 			{{#platform_type_single}}
 				<b class="fadedtext codelabel">PHP: </b><code><div class="codearea" contenteditable="true">&lt;?php include_once('{{platform_path}}');CASHSystem::embedElement({{id}}); // ({{name}}) ?&gt;</div></code><br />
 				<b class="fadedtext codelabel">WordPress: </b><code><div class="codearea" contenteditable="true">[cashmusic element=&quot;{{id}}&quot; name=&quot;{{name}}&quot;]</div></code>
 			{{/platform_type_single}}
-			<p class="codelabel"><strong>Local:</strong> <span class="fadedtext">(Embed on your CASH page)</span></p><code><div class="codearea" contenteditable="true">&#123;&#123;&#123;element_{{id}}&#125;&#125;&#125;</div></code><br />
-			<p class="codelabel"><strong>HTML5:</strong> <span class="fadedtext">(Embed on any HTML page)</span></p><code><div class="codearea" contenteditable="true">&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;</div></code>
+			<p class="codelabel"><strong>HTML5 embed code:</strong> <span class="fadedtext">(Embed anywhere)</span></p><code><div class="codearea" contenteditable="true">&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;</div></code>
 		<!--</div>
 	</div>-->
 
 
-
-
-<div class="drawer noprefix element_embedtemplate">
-	<div class="fadedtext"><b>HTML5 embed template:</b> {{embed_template_name}} <span class="spaced">/</span> <span class="spaced">
-		{{#defined_embed_templates}}<a class="drawerhandle fullsize"><i class="icon icon-columns"></i><b>Pick another template</b></a></span></div>{{/defined_embed_templates}}
-		{{^defined_embed_templates}}<a href="{{www_path}}/elements/templates/add/"><i class="icon icon-list-alt"></i><b>Add a new embed template</b></a></span></div>{{/defined_embed_templates}}
-	<div class="drawercontent col_oneoftwo">
-		<br />
-		<form method="post" action="">
-			<label for="template_id">Choose an embed template:</label>
-			<div class="row">
-				<div class="six columns">
-					<select id="change_template_id" name="change_template_id">
-						{{{template_options}}}
-					</select>
-				</div>
-				<div class="six columns">
-					<button type="submit"><i class="icon icon-tablet"></i>Use this template</button>
-				</div>
+	<form method="post" action="">
+		<input type="hidden" name="current_template_id" value="{{template_id}}" />
+		<label for="template_id">Choose an embed style:</label>
+		<div class="row">
+			<div class="six columns">
+				<select id="change_template_id" name="change_template_id">
+					{{{template_options}}}
+				</select>
+				<button type="submit">Change style</button>
+				{{#custom_template}}
+					<a href="{{www_path}}/elements/templates/edit/{{template_id}}/embed/parent/{{id}}" class="button lightboxed">Edit custom embed</a>
+				{{/custom_template}}
 			</div>
-		</form>
-		<br />
-	</div>
-</div>
+			<div class="six columns"></div>
+		</div>
+	</form>
 
 <h4>Statistics</h4> <div class="stat">Total unique views: {{total_views}}</div>
 
@@ -96,7 +86,13 @@
 	</div>
 {{/location_analytics}}
 
-<h4>Element Details</h4>
-<div class="callout">
-	{{{element_rendered_content}}}
+<h4>Element Settings</h4>
+<p>Edit any of the settings for this element.</p>
+<div class="drawer statoverview">
+	<div class="drawercontent">
+		{{{element_rendered_content}}}
+	</div>
+	<a class="drawerhandle button usecolor1">element settings</a>
+</div>
+
 </div><!--callout-->

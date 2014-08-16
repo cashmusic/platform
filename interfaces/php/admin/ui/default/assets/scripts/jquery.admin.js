@@ -623,7 +623,7 @@
 			url = location.pathname;
 		}
 		var formdata = $(form).serialize();
-		if (form.is('.returntocurrentroute form')) {
+		if (form.hasClass('returntocurrentroute')) {
 			formdata += '&forceroute=' + location.pathname.replace(cashAdminPath, '');
 		}
 		refreshPageData(url,formdata);

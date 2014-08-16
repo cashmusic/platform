@@ -13,44 +13,37 @@ if ($current_element) {
 	if ($current_element['user_id'] == $effective_user) {
 		// handle template change
 		if (isset($_POST['change_template_id'])) {
-			$new_template_id = $cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'element', 
-					'cash_action' => 'setelementtemplate',
-					'element_id' => $request_parameters[0],
-					'template_id' => $_POST['change_template_id']
-				)
-			);
-			if ($new_template_id) {
-				$cash_admin->page_data['template_id'] = $_POST['change_template_id'];
+			if ($_POST['change_template_id'] != $_POST['current_template_id']) {
+				$new_template_id = $cash_admin->requestAndStore(
+					array(
+						'cash_request_type' => 'element', 
+						'cash_action' => 'setelementtemplate',
+						'element_id' => $request_parameters[0],
+						'template_id' => $_POST['change_template_id']
+					)
+				);
+				if ($new_template_id) {
+					if ($_POST['current_template_id'] > 0) {
+						// delete old custom templates
+						$cash_admin->requestAndStore(
+							array(
+								'cash_request_type' => 'system', 
+								'cash_action' => 'deletetemplate',
+								'template_id' => $_POST['current_template_id']
+							)
+						);
+					}
+					$cash_admin->page_data['template_id'] = $_POST['change_template_id'];
+				}
 			}
 		}
 
 		// deal with templates 
 		$embed_templates = AdminHelper::echoTemplateOptions('embed',$cash_admin->page_data['template_id']);
-		if ($embed_templates) {
-			$cash_admin->page_data['template_options'] = $embed_templates;
-			$cash_admin->page_data['defined_embed_templates'] = true;
-			if (!$cash_admin->page_data['template_id']) {
-				$cash_admin->page_data['embed_template_name'] = 'default';
-			} else {
-				$template_response = $cash_admin->requestAndStore(
-					array(
-						'cash_request_type' => 'system', 
-						'cash_action' => 'gettemplate',
-						'template_id' => $cash_admin->page_data['template_id'],
-						'all_details' => 1,
-						'user_id' => $current_element['user_id']
-					)
-				);
-				if (is_array($template_response['payload'])) {
-					$cash_admin->page_data['embed_template_name'] = '“' . $template_response['payload']['name'] . '”';
-				} else {
-					$cash_admin->page_data['embed_template_name'] = 'error. please choose new template.';
-				}
-			}
-		} else {
-			$cash_admin->page_data['defined_embed_templates'] = false;
+		$cash_admin->page_data['template_options'] = $embed_templates;
+		
+		if ($cash_admin->page_data['template_id'] >= 0) {
+			$cash_admin->page_data['custom_template'] = true;
 		}
 
 		$analytics = $cash_admin->requestAndStore(

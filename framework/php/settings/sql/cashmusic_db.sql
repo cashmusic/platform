@@ -214,7 +214,7 @@ DROP TABLE IF EXISTS `elements`;
 CREATE TABLE `elements` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
-  `template_id` int(11) DEFAULT '0',
+  `template_id` int(11) DEFAULT '-2',
   `name` varchar(255),
   `type` varchar(255) NOT NULL,
   `options` text,
