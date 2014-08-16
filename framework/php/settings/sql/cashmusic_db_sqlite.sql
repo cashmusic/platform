@@ -191,7 +191,7 @@ CREATE TABLE commerce_transactions (
 CREATE TABLE elements (
   id INTEGER PRIMARY KEY,
   user_id integer DEFAULT NULL,
-  template_id integer DEFAULT '0',
+  template_id integer DEFAULT '-2',
   name text,
   type text,
   options text,

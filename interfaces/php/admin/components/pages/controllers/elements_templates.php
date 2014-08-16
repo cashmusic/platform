@@ -12,8 +12,6 @@ if (isset($_POST['dotemplateset'])) {
 		array(
 			'cash_request_type' => 'system', 
 			'cash_action' => 'settemplate',
-			'name' => $_POST['template_name'],
-			'type' => $_POST['template_type'],
 			'template' => $_POST['template'],
 			'template_id' => $template_id,
 			'user_id' => $effective_user
