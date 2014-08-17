@@ -5,6 +5,7 @@ require_once('framework/php/classes/plants/ElementPlant.php');
 class ElementPlantTests extends UnitTestCase {	
 	var $testingElement;
 	var $testingElement2;
+	var $testingElement3;
 	var $testingCampaign;
 
 	function testElementPlant(){
@@ -255,7 +256,6 @@ class ElementPlantTests extends UnitTestCase {
 		));
 
 		// add that shit back
-		// now remove one of those elements
 		$campaign_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'element', 
@@ -283,6 +283,30 @@ class ElementPlantTests extends UnitTestCase {
 	}
 
 	function testCampaignElements() {
+		$element_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'element', 
+				'cash_action' => 'addelement',
+				'name' => 'Whatever3',
+				'type' => 'anotherfakeelement',
+				'options_data' => array(
+					'testoption1' => 666
+				),
+				'user_id' => 1
+			)
+		);
+		$this->testingElement3 = $element_request->response['payload'];
+
+		$campaign_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'element', 
+				'cash_action' => 'addelementtocampaign',
+				'campaign_id' => $this->testingCampaign,
+				'element_id' => $this->testingElement3
+			)
+		);
+		$this->assertTrue($campaign_request->response['payload']);
+
 		$campaign_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'element', 
@@ -318,6 +342,17 @@ class ElementPlantTests extends UnitTestCase {
 				'cash_request_type' => 'element', 
 				'cash_action' => 'getcampaignforelement',
 				'id' => $this->testingElement2
+			)
+		);
+		// true for middle element
+		$this->assertTrue($campaign_request->response['payload']);
+		$this->assertEqual($campaign_request->response['payload']['id'],$this->testingCampaign);
+
+		$campaign_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'element', 
+				'cash_action' => 'getcampaignforelement',
+				'id' => $this->testingElement3
 			)
 		);
 		// true for last element

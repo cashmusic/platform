@@ -627,7 +627,7 @@ class ElementPlant extends PlantBase {
 				),
 				"elements2" => array(
 					"condition" => "LIKE",
-					"value" => ',"'.$id.'",%'
+					"value" => '%,"'.$id.'",%'
 				),
 				"elements3" => array(
 					"condition" => "LIKE",
@@ -639,7 +639,7 @@ class ElementPlant extends PlantBase {
 				),
 				"elements5" => array(
 					"condition" => "LIKE",
-					"value" => ','.$id.',%'
+					"value" => '%,'.$id.',%'
 				),
 				"elements6" => array(
 					"condition" => "LIKE",
