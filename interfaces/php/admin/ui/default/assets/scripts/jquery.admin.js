@@ -369,10 +369,28 @@
 				formValidateBehavior();
 			},'json')
 		});
+
+		/*
+		 * images for glitched heros
+		 *
+    	$([
+			cashAdminPath+"/assets/images/glitch/background/glitch1.jpg",
+			cashAdminPath+"/assets/images/glitch/background/glitch2.jpg",
+			cashAdminPath+"/assets/images/glitch/background/glitch3.jpg",
+			cashAdminPath+"/assets/images/glitch/background/glitch4.jpg",
+			cashAdminPath+"/assets/images/glitch/background/glitch5.jpg",
+			cashAdminPath+"/assets/images/glitch/background/glitch6.jpg",
+			cashAdminPath+"/assets/images/glitch/artist/artist1.jpg",
+			cashAdminPath+"/assets/images/glitch/artist/artist2.jpg",
+			cashAdminPath+"/assets/images/glitch/artist/artist3.jpg",
+			cashAdminPath+"/assets/images/glitch/artist/artist4.jpg",
+			cashAdminPath+"/assets/images/glitch/artist/artist5.jpg"
+    	]).each(function(){
+        	//$('<img/>')[0].src = this;
+        	// Alternatively you could use:
+        	(new Image()).src = this;
+   		});*/
 	}
-
-
-
 
 	/* Show/Hide Element Menus */
 
@@ -398,74 +416,59 @@
 		});
 	};
 
-	/* Glitch Hero Background */
-
-
-	function preload(arrayOfImages) {
-    	$(arrayOfImages).each(function(){
-        	$('<img/>')[0].src = this;
-        	// Alternatively you could use:
-        	// (new Image()).src = this;
-   		});
-	}
-
-	// Usage:
-
-	preload([
-   		cashAdminPath+"/assets/images/glitch/background/glitch1.jpg",
-    	cashAdminPath+"/assets/images/glitch/background/glitch2.jpg",
-    	cashAdminPath+"/assets/images/glitch/background/glitch3.jpg",
-    	cashAdminPath+"/assets/images/glitch/background/glitch4.jpg",
-    	cashAdminPath+"/assets/images/glitch/background/glitch5.jpg",
-    	cashAdminPath+"/assets/images/glitch/background/glitch6.jpg",
-    	cashAdminPath+"/assets/images/glitch/artist/artist1.jpg",
-    	cashAdminPath+"/assets/images/glitch/artist/artist2.jpg",
-    	cashAdminPath+"/assets/images/glitch/artist/artist3.jpg",
-    	cashAdminPath+"/assets/images/glitch/artist/artist4.jpg",
-    	cashAdminPath+"/assets/images/glitch/artist/artist5.jpg"
-	]);
+	/* Glitch Hero Background */	
 
 	function glitch(){
-				// preload hero images
-				preload();
+		// moved preload to initial UI load
+		//
+		//
+		//
+		//
+		//
+		// TODO:
+		// the preload isn't actually speeding up load times. i've disabled it for now
+		// and will reintroduce a more comprehensive version. for now i've moved to using
+		// onload events below to guarantee all hero elements have loaded before revealing
+		// them. the setTimeout remains (but has been lowered) to give the transition 
+		// effect time to render (transion plus canvas at the same time caused the browser
+		// a little more pain than it could handle smoothly.)
 
-
-				//Reveal the header
-				$('section').addClass('hero');
-				
-			window.globaltimeout = window.setTimeout(function(){
-				
-				var clr = new Array("RED", "GREEN", "BLUE");
-				var swc = clr[Math.round(Math.random()*3) + 1].toString();
-				var imno = Math.floor(Math.random() * 6) + 1
-					var atno = Math.floor(Math.random() * 5) + 1
-
-				console.log(imno);
-				console.log(atno);
-
-				cnvs = document.getElementById("canvas").bitmapData;
-
-				bg = new Image();
-				bg.src = cashAdminPath+"/assets/images/glitch/background/glitch"+imno+".jpg";
-				cnvs.draw(bg);
+		//Reveal the header
+		$('section').addClass('hero');
 			
+		window.globaltimeout = window.setTimeout(function(){
+			
+			var clr = new Array("RED", "GREEN", "BLUE");
+			var swc = clr[Math.floor(Math.random() * 2)].toString(); // 0-2
+			var imno = Math.floor(Math.random() * 5) + 1 // 1-6
+			var atno = Math.floor(Math.random() * 4) + 1 // 1-5
+
+			// console.log('color shift: ' + swc + ', glitch: ' + imno + ', artist: ' + atno);
+
+			cnvs = document.getElementById('canvas').bitmapData;
+
+			bg = new Image();
+			bg.src = cashAdminPath+"/assets/images/glitch/background/glitch"+imno+".jpg";
+			bg.onload = function(){
+				cnvs.draw(bg);
+
 				olay = new Image();
 				olay.src = cashAdminPath+"/assets/images/glitch/artist/artist"+atno+".jpg";
-				olayData = new BitmapData(Math.floor(Math.random() * 200) + 1, 600);
-				olayData.draw(olay);
+				olay.onload = function(){
+					olayData = new BitmapData(Math.floor(Math.random() * 200) + 1, 600);
+					olayData.draw(olay);
 
-				cnvs.copyChannel(olayData,
-					new Rectangle(300, 0, 2000, 700), 
-					new Point(0, 0), 
-					BitmapDataChannel[swc], 
-					//BitmapDataChannel.RED);
-					BitmapDataChannel[swc]);
+					cnvs.copyChannel(olayData,
+						new Rectangle(300, 0, 2000, 700), 
+						new Point(0, 0), 
+						BitmapDataChannel[swc], 
+						BitmapDataChannel[swc]
+					);
 
-				//cnvs.fillStyle = cnvs.createPattern(bg, "repeat");
-
-		
-				$('canvas').addClass('display');
-			}, 500);
+					$('canvas').addClass('display');
+				};
+			};
+		}, 100);
 	};	
 
 
@@ -544,15 +547,15 @@
 	};	
 
 	function iNeedaHero() {
-	if (document.getElementById("hero")) {
-  		console.log("my hero");
-		glitch();	
-		$('#pagetitle').addClass('hero');
+		if (document.getElementById("hero")) {
+			//console.log("my hero");
+			glitch();	
+			$('#pagetitle').addClass('hero');
 		} else {
-  		console.log("you ain't no hero");
-  		$('section').removeClass('hero');
+				//console.log("you ain't no hero");
+				$('section').removeClass('hero');
 		}
-	$( "#hero h5" ).click(function() {
+		$( "#hero h5" ).click(function() {
 			$('section, #pagetitle').toggleClass('hero');
 		});
 
