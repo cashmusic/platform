@@ -1,7 +1,7 @@
 <?php
 // include the necessary bits, define the page directory
 // Define constants too
-$cashmusic_path = __DIR__ . "/../../../framework/php/cashmusic.php";
+$cashmusic_root = __DIR__ . "/../../../framework/php/cashmusic.php";
 
 $cash_settings = json_decode(getenv('cashmusic_platform_settings'),true);
 // env settings allow use on multi-server, multi-user instances
@@ -12,6 +12,6 @@ if ($cash_settings) {
 	}	
 }
 
-define('CASH_PLATFORM_PATH', $cashmusic_path);
-define('CASH_PLATFORM_ROOT', str_replace('/cashmusic.php', '', $cashmusic_path));
+define('CASH_PLATFORM_PATH', $cashmusic_root);
+define('CASH_PLATFORM_ROOT', str_replace('/cashmusic.php', '', $cashmusic_root));
 ?>
