@@ -87,8 +87,7 @@
 	Your campaigns
 </h4>
 
-
-
+<div>
 {{#campaigns_for_user}}
 	<ul class="alternating">
 		{{#campaigns_for_user}}
@@ -110,7 +109,7 @@
 {{^campaigns_for_user}}
 	<p>No campaigns have been added yet. <a class="lightboxed" href="{{www_path}}/campaigns/add/">Add one.</a></p>
 {{/campaigns_for_user}}
-
+</div>
 
 
 <!--a name="publish"></a>
@@ -156,10 +155,10 @@
 			
 		</div>
 	</div>
-
-<p class="big tight">
+-->
+<br />
+<p>
 	Your public page is live at <a href="{{user_page_uri}}" target="_blank"><i>{{user_page_display_uri}}</i></a>
 </p>
-<a href="{{www_path}}/account/" class="usecolor0"><i class="icon icon-user"></i><b>Change your username/url</b></a>-->
 
 </div>
