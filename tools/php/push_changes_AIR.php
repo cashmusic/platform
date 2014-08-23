@@ -20,7 +20,7 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
 */
 $web_root = '/var/www/cash_platform';
-$framework_root = '/var/www/framework/php';
+$framework_root = '/var/www/framework';
 
 function readStdin($prompt, $valid_inputs = false, $default = '') {
 	// Courtesy of http://us3.php.net/manual/en/features.commandline.io-streams.php#101307
@@ -86,10 +86,10 @@ if(!defined('STDIN')) {
 	$from_base_dir = rtrim(__DIR__,DIRECTORY_SEPARATOR);
 
 	$to_scan = array(
-		'/framework/php'         => $framework_root,
-		'/interfaces/php/admin'  => $web_root . '/admin',
-		'/interfaces/php/api'    => $web_root . '/api',
-		'/interfaces/php/public' => $web_root . '/public'
+		'/framework'         => $framework_root,
+		'/interfaces/admin'  => $web_root . '/admin',
+		'/interfaces/api'    => $web_root . '/api',
+		'/interfaces/public' => $web_root . '/public'
 	);
 
 	$total_affected = 0; 

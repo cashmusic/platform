@@ -1,6 +1,6 @@
 <?php
 require_once(dirname(__FILE__) . '/base.php');
-require_once('framework/php/classes/plants/PeoplePlant.php');
+require_once('framework/classes/plants/PeoplePlant.php');
 
 class PeoplePlantTests extends UnitTestCase {	
 	var $testing_list, $testing_mailing, $testing_user;

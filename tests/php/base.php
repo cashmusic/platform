@@ -26,5 +26,5 @@ require_once(dirname(__FILE__) . '/../lib/simpletest/unit_tester.php');
 require_once(dirname(__FILE__) . '/../lib/simpletest/reporter.php');
 
 // this loads CASH Music DIY
-require_once(dirname(__FILE__) . '/../../framework/php/cashmusic.php');
+require_once(dirname(__FILE__) . '/../../framework/cashmusic.php');
 ?>

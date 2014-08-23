@@ -30,6 +30,9 @@ Vagrant.configure("2") do |config|
     # ENABLE MOD REWRITE
     sudo a2enmod rewrite 
     #
+    # CHANGE APACHE ENVIRONMENT VARIABLES
+    sudo cp -f /vagrant/.vagrant_settings/envvars /etc/apache2/envvars
+    #
     # RESTART APACHE
     sudo /etc/init.d/apache2 restart
     #

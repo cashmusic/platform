@@ -52,7 +52,7 @@ if (!file_exists('/vagrant/framework/db/cashmusic_vagrant.sqlite')) {
 	// 
 	// i don't fucking know.
 	try {
-		$pdo->exec(file_get_contents('/vagrant/framework/php/settings/sql/cashmusic_db_sqlite.sql'));
+		$pdo->exec(file_get_contents('/vagrant/framework/settings/sql/cashmusic_db_sqlite.sql'));
 		$success = true;
 	} catch (PDOException $e) {
 		echo "\nOh. Shit. Something's wrong: Couldn't write to the database. $e\n\n";
