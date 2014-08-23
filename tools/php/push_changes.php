@@ -86,10 +86,10 @@ if(!defined('STDIN')) {
 	$to_base_dir   = rtrim($to_base_dir,DIRECTORY_SEPARATOR);
 
 	$to_scan = array(
-		'/framework/php'         => '/framework',
-		'/interfaces/php/admin'  => '/admin',
-		'/interfaces/php/api'    => '/api',
-		'/interfaces/php/public' => '/public'
+		'/framework'         => '/framework',
+		'/interfaces/admin'  => '/admin',
+		'/interfaces/api'    => '/api',
+		'/interfaces/public' => '/public'
 	);
 
 	$total_affected = 0; 

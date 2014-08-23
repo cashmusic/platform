@@ -13,9 +13,9 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  */
-if ($handle = opendir(dirname(__FILE__) . '/../../../framework/php/classes/plants')) {
+if ($handle = opendir(dirname(__FILE__) . '/../../../framework/classes/plants')) {
 	// found the plants, initiate CASH bootstrap
-	include(dirname(__FILE__) . '/../../../framework/php/cashmusic.php');
+	include(dirname(__FILE__) . '/../../../framework/cashmusic.php');
 	// go through plant directory, excluding any files with an '__' filename
 	$api_profile = array(
 		'version' => CASHRequest::$version,
@@ -26,7 +26,7 @@ if ($handle = opendir(dirname(__FILE__) . '/../../../framework/php/classes/plant
 		if ($entry != "." && $entry != "..") {
 			if (substr($entry,0,2) !== '__') {
 				// include the plant class and fire it up
-				include(dirname(__FILE__) . '/../../../framework/php/classes/plants/' . $entry);
+				include(dirname(__FILE__) . '/../../../framework/classes/plants/' . $entry);
 				$classname = str_replace('.php','',$entry);
 				$obj = new $classname('direct',false);
 				// run the profiler

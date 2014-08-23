@@ -1,5 +1,5 @@
 # Admin app
-The admin app for the platform (/interfaces/php/admin) is a fairly straight-forward MVC-style webapp 
+The admin app for the platform (/interfaces/admin) is a fairly straight-forward MVC-style webapp 
 built with a front controller, individual controllers for each route, mustache views, and using the 
 framework for the model instead of a traditional database layer. Basically it's dog-fooding the PHP 
 API but building a much more complex app than a simple element. 

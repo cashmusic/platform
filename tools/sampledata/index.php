@@ -23,7 +23,7 @@
 		<ul>
 			<li><a href="/tools/"><i class="icon icon-cog"></i><span>Tools</span></a></li>
 			<li><a href="/docs/"><i class="icon icon-book"></i><span>Docs</span></a></li>
-			<li><a href="/interfaces/php/admin/"><i class="icon icon-pencil"></i><span>Login</span></a></li>
+			<li><a href="/interfaces/admin/"><i class="icon icon-pencil"></i><span>Login</span></a></li>
 			<li><a href="/"><i class="icon icon-certificate"></i><span>Home</span></a></li>
 		</ul>
 </div>
@@ -41,7 +41,7 @@
 		<?php
 			if (isset($_POST['noreallygo'])) {
 
-				include_once('/vagrant/framework/php/cashmusic.php');
+				include_once('/vagrant/framework/cashmusic.php');
 
 				// add a list
 				$cr = new CASHRequest(
