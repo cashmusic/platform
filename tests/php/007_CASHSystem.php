@@ -70,6 +70,7 @@ class CASHSystemTests extends UnitTestCase {
 			$return = CASHSystem::getURLContents('http://cashmusic.org/');
 			$this->assertPattern('/cash/',$return); // use google
 		} else {
+			echo 'Testing getURLContents against API URL: ' . CASH_API_URL . "\n";
 			$return = CASHSystem::getURLContents(CASH_API_URL);
 			$this->assertPattern('/"greeting":"hi."/',$return); // using local API URL as firewalls could mess with an external test
 		}
