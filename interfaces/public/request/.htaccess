@@ -1,30 +1,28 @@
 # ----------------------------------------------------------------------
-# CASH Music admin-specific rewrites
+# CASH Music public request specific rewrites
 #
 # The RewriteBase will need to be set as a part of the installer, but
 # the rest is pretty much stock
 # ----------------------------------------------------------------------
 
 RewriteEngine On 
-RewriteBase /interfaces/php/admin
+RewriteBase /interfaces/public/request
 Options +FollowSymlinks 
 Options -Indexes 
 
 # add a slash to root requests
-RewriteRule ^admin$ admin/ [R]
+RewriteRule ^public/request$ public/request/ [R]
 
 # create controller redirects
 
 # no GET querystring
 RewriteCond %{REQUEST_FILENAME} !-s
 RewriteCond %{REQUEST_FILENAME} !-l
-RewriteCond %{REQUEST_URI} !.*\.(css|jpg|jpeg|gif|png|zip|js)
 RewriteCond %{QUERY_STRING} !(.+)
-RewriteRule (.*) controller.php?p=$1 [L]
+RewriteRule (.*) request.php?p=$1 [L]
 
 # found a GET querystring, rewrite and forward
 RewriteCond %{REQUEST_FILENAME} !-s
 RewriteCond %{REQUEST_FILENAME} !-l
-RewriteCond %{REQUEST_URI} !.*\.(css|jpg|jpeg|gif|png|zip|js)
 RewriteCond %{QUERY_STRING} (.+)
-RewriteRule ([^\?]+) controller.php?p=$1&%1 [L]
+RewriteRule ([^\?]+) request.php?p=$1&%1 [L]

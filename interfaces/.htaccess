@@ -1,5 +1,5 @@
 RewriteEngine On 
-RewriteBase /interfaces/php
+RewriteBase /interfaces
 Options +FollowSymlinks 
 Options -Indexes 
 

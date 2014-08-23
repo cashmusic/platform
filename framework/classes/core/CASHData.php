@@ -624,7 +624,7 @@
 	 * @return void
 	 */protected function primeCache($cache_dir=false) {
 		if (!$cache_dir) {
-			$cache_dir = CASH_PLATFORM_ROOT.'/../cache';
+			$cache_dir = CASH_PLATFORM_ROOT.'/cache';
 		}
 		if (file_exists($cache_dir)) {
 			$this->cache_dir = $cache_dir;

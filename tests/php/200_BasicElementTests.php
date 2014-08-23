@@ -1,8 +1,8 @@
 <?php
 
 require_once(dirname(__FILE__) . '/base.php');
-require_once('framework/php/elements/TourDates.php');
-require_once('framework/php/elements/SocialFeeds.php');
+require_once('framework/elements/TourDates.php');
+require_once('framework/elements/SocialFeeds.php');
 
 class ElementTests extends UnitTestCase {
 	function testTourDates(){

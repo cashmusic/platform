@@ -44,12 +44,12 @@ class AdminBasicIntegration extends UnitTestCase {
 	public function testLogin() {
 		if ($this->cash_test_url) {
 			// make sure we get the login page
-			$src = $this->cc->get($this->cash_test_url . '/interfaces/php/admin/');
+			$src = $this->cc->get($this->cash_test_url . '/interfaces/admin/');
 			$this->assertPattern('/<input type="email" name="address" value="" \/>/', $src);
 		
 			// look for an incorrect login
 			$src = $this->cc->post(
-				$this->cash_test_url . '/interfaces/php/admin/',
+				$this->cash_test_url . '/interfaces/admin/',
 				http_build_query(array(
 					'address'            => 'false@example.com',
 					'password'           => 'incorrect',
@@ -61,7 +61,7 @@ class AdminBasicIntegration extends UnitTestCase {
 		
 			// now try a good login
 			$src = $this->cc->post(
-				$this->cash_test_url . '/interfaces/php/admin/',
+				$this->cash_test_url . '/interfaces/admin/',
 				http_build_query(array(
 					'address'            => $this->cash_user_login,
 					'password'           => $this->cash_user_password,
@@ -72,7 +72,7 @@ class AdminBasicIntegration extends UnitTestCase {
 			$this->assertPattern('/<div id="logoutbtn" class="toggle needsconfirmation">/', $src);
 
 			// make sure the cookie is persistent
-			$src = $this->cc->get($this->cash_test_url . '/interfaces/php/admin/');
+			$src = $this->cc->get($this->cash_test_url . '/interfaces/admin/');
 			$this->assertPattern('/<div id="logoutbtn" class="toggle needsconfirmation">/', $src);
 		}
     }
@@ -80,7 +80,7 @@ class AdminBasicIntegration extends UnitTestCase {
     public function testAllRoutes() {
     	if ($this->cash_test_url) {
 	    	// run through all known routes and make sure we're getting pages, not error messages
-	    	$all_routes = json_decode(file_get_contents(dirname(__FILE__) . '/../../interfaces/php/admin/components/interface/en/menu.json'),true);
+	    	$all_routes = json_decode(file_get_contents(dirname(__FILE__) . '/../../interfaces/admin/components/interface/en/menu.json'),true);
 	    	foreach ($all_routes as $route => $details) {
 	    		$src = $this->cc->get($this->cash_test_url . '/' . $route);
 	    		$this->assertPattern('/<html/', $src);

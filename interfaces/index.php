@@ -19,7 +19,7 @@
 // include the necessary bits, define the page directory
 // Define constants too
 $root = dirname(__FILE__);
-$cashmusic_root = realpath($root . "/../../framework/php/cashmusic.php");
+$cashmusic_root = realpath($root . "/../framework/cashmusic.php");
 
 $cash_settings = json_decode(getenv('cashmusic_platform_settings'),true);
 if ($cash_settings) {

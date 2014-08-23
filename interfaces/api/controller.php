@@ -11,7 +11,7 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  */
-require_once(dirname(__FILE__) . '/constants.php');
+require_once(__DIR__ . '/constants.php');
 
 $cash_settings = json_decode(getenv('cashmusic_platform_settings'),true);
 // env settings allow use on multi-server, multi-user instances
