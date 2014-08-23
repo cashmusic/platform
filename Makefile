@@ -5,7 +5,7 @@ cleanup:
 	php tests/php/test-uninstaller.php
 
 install:
-	php installers/php/dev_installer.php
+	php tools/install/dev_installer.php
 
 profile:
 	php tools/php/profile_release.php ./
