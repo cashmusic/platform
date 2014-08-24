@@ -38,7 +38,7 @@
 
 </head>
 
-	<body id="page" class="off-canvas hide-extras">
+	<body id="page" class="off-canvas hide-extras{{loginstatus}}">
 	<div id="wrap">	
 
 		<div id="chromespc" class="twelve columns">
@@ -195,5 +195,66 @@
 	<script src="{{www_path}}/ui/default/assets/scripts/jquery.iframe-transport.js" type="text/javascript"></script>
 	<script src="{{www_path}}/ui/default/assets/scripts/jquery.fileupload.js" type="text/javascript"></script>
 	<script src="{{www_path}}/ui/default/assets/scripts/jquery.admin.js" type="text/javascript"></script>
+
+
+	{{#reset_key}}
+	<!-- Password reset popups, etc -->
+	<div class="modalbg surviveload"><div class="modaldialog">
+		<div class="row">
+			<div class="three columns"></div><div class="six columns">
+				<h4>Password reset</h4>Enter a new password. At least {{minimum_password_length}} characters.<br />
+				<form action="{{reset_action}}" id="password_reset_form" method="post">
+				<input type="hidden" name="finalizepasswordreset" value="go" />
+				<input type="hidden" name="key" value="{{reset_key}}" />
+				<input type="hidden" name="address" value="{{reset_email}}" />
+				<input type="password" id="new_password" name="new_password" autocomplete="off" />
+				<label for="toggle_password" style="color:#222;"><input type="checkbox" id="toggle_password" />Reveal text</label>
+				<br />
+				<input type="button" class="button modalcancel" value="Cancel" />
+				<input type="button" id="do_submit" class="button modalyes" value="Change password" />
+				</form>
+			</div><div class="three columns"></div>	
+		</div>
+		<script type="text/javascript">
+			// http://www.electrictoolbox.com/toggle-password-field-text-password/
+			(function() {
+				try {
+					var p = document.getElementById('new_password');
+					p.type = 'text';
+					p.type = 'password';
+
+					var toggle = document.getElementById('toggle_password');
+					toggle.addEventListener('click', toggleClicked, false);
+					toggle.style.display = 'inline';
+					
+				}
+				catch(err) {}
+			})();
+
+			function toggleClicked() {
+				var p = document.getElementById('new_password');
+				var value = p.value;
+
+				if(p.type == 'password') {
+					p.type = 'text';
+				}
+				else {
+					p.type = 'password';
+				}
+				
+				p.value = value;
+			}
+
+			$('#do_submit').click(function() {
+				var n = $('#new_password').val();
+				if (n.length < {{minimum_password_length}}) {
+					alert('Your password must be at least {{minimum_password_length}} characters.');
+				} else {
+					$('#password_reset_form').submit();
+				}
+			});
+		</script>
+	</div></div>
+{{/reset_key}}
 </body>
 </html>

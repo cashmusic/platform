@@ -56,7 +56,18 @@ if (is_array($orders_response['payload'])) {
 	}
 }
 
-$session_news = AdminHelper::getActivity();
+$user_response = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'people', 
+		'cash_action' => 'getuser',
+		'user_id' => $cash_admin->effective_user_id
+	)
+);
+if (is_array($user_response['payload'])) {
+	$current_userdata = $user_response['payload']['data'];
+}
+
+$session_news = AdminHelper::getActivity($current_userdata);
 if ($session_news) {
 	// now set up page variables
 	$total_spend = 0;
