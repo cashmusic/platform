@@ -35,6 +35,20 @@ body {
 	width:100%;
 }
 
+body.login #chrome {
+	display:none;
+	width:0;
+}
+
+body.login #mainspc, body.login #footer, body.login h2#pagetitle  {
+	width:100%;
+}
+
+body.login #footer, body.login h2#pagetitle {
+	text-align: center;
+	padding-left:0;
+}
+
 /*Scrollbars*/
 
 /*::-webkit-scrollbar{width: 12px; height: 12px;}

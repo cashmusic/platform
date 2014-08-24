@@ -80,27 +80,19 @@ if (!$logged_in) {
 	// delete/clear sessions
 	$admin_primary_cash_request->sessionClearAll();
 
-	$cash_admin->page_data['login_message'] = 'Hello.';
+	$cash_admin->page_data['loginstatus'] = ' login';
+	$cash_admin->page_data['login_message'] = 'OK';
 	if (isset($_POST['login'])) {
-		$browseridassertion = false;
-		if (isset($_POST['browseridassertion'])) {
-			if ($_POST['browseridassertion'] != -1) {
-				$browseridassertion = $_POST['browseridassertion'];
-			}
-		}
-		$login_details = AdminHelper::doLogin($_POST['address'],$_POST['password'],true,$browseridassertion);
+		$login_details = AdminHelper::doLogin($_POST['address'],$_POST['password'],true,false);
 		if ($login_details !== false) {
 			$admin_primary_cash_request->startSession();
 			$admin_primary_cash_request->sessionSet('cash_actual_user',$login_details);
 			$admin_primary_cash_request->sessionSet('cash_effective_user',$login_details);
 			$cash_admin->effective_user_id = $login_details;
-			if ($browseridassertion) {
-				$address = CASHSystem::getBrowserIdStatus($browseridassertion);
-			} else {
-				$address = $_POST['address'];
-			}
+			$address = $_POST['address'];
 			$admin_primary_cash_request->sessionSet('cash_effective_user_email',$address);
 			$cash_admin->page_data['fullredraw'] = true;
+			$cash_admin->page_data['initiallogin'] = true;
 			$logged_in = $login_details;
 
 			// handle initial login chores
@@ -123,10 +115,10 @@ if (!$logged_in) {
  * additional parameters for the page to use
  *
  ***************************************************************************************************/
-if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH)) && ($_REQUEST['p'] != '_')) {
+define('REQUESTED_ROUTE', '/' . trim($_REQUEST['p'],'/') . '/');
+$cash_admin->page_data['requested_route'] = REQUESTED_ROUTE;
+if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH)) && ($_REQUEST['p'] != '_') && $logged_in) {
 	$parsed_request = str_replace('/','_',trim($_REQUEST['p'],'/'));
-	define('REQUESTED_ROUTE', '/' . trim($_REQUEST['p'],'/') . '/');
-	$cash_admin->page_data['requested_route'] = REQUESTED_ROUTE;
 	if (file_exists($pages_path . 'controllers/' . $parsed_request . '.php')) {
 		define('BASE_PAGENAME', $parsed_request);
 		$include_filename = BASE_PAGENAME.'.php';
@@ -172,10 +164,15 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH)) && ($_REQUES
 		$request_parameters = array_slice($exploded_request, 0 - (sizeof($exploded_request) - ($fails_at_level)));
 	}
 } else {
-	define('BASE_PAGENAME','mainpage');
-	$include_filename = 'mainpage.php';
+	if ($logged_in) {
+		define('BASE_PAGENAME','mainpage');
+		$include_filename = 'mainpage.php';
+	} else {
+		define('BASE_PAGENAME','login');
+		$include_filename = 'login.php';
+	}
 }
-
+$cash_admin->page_data['template_name'] = BASE_PAGENAME;
 
 
 /***************************************************************************************************
@@ -192,195 +189,81 @@ if ($logged_in) {
 
 	// we need a session
 	$admin_primary_cash_request->startSession();
-
-	// CONTENT / TEMPLATE: use the standard template for logged-in users, start a session, and
-	// populate the page_data array for use in the page view and main template
-	$template_name = 'template';
-
-	// set basic data for the template
 	$cash_admin->page_data['user_email'] = $admin_primary_cash_request->sessionGet('cash_effective_user_email');
-	$page_menu_details = AdminHelper::getPageMenuDetails();
-	$cash_admin->page_data['assets_section_menu'] = $page_menu_details['assets_section_menu'];
-	$cash_admin->page_data['people_section_menu'] = $page_menu_details['people_section_menu'];
-	$cash_admin->page_data['commerce_section_menu'] = $page_menu_details['commerce_section_menu'];
-	$cash_admin->page_data['calendar_section_menu'] = $page_menu_details['calendar_section_menu'];
-	$cash_admin->page_data['ui_title'] = $page_menu_details['page_title'];
-
-	// merge in display links for main template
-	$cash_admin->page_data = array_merge($cash_admin->page_data,$page_menu_details['link_text']);
-	// global interaction text
-	$ui_interaction_text = AdminHelper::getUiText();
-	$cash_admin->page_data = array_merge($cash_admin->page_data,$ui_interaction_text);
-	// page specifics
-	$page_components = AdminHelper::getPageComponents();
-	$cash_admin->page_data['ui_page_tip'] = $page_components['pagetip'];
-	if (is_array($page_components['labels'])) {
-		foreach ($page_components['labels'] as $key => $val) {
-			$cash_admin->page_data['label_' . $key] = $val;
-		}
-	}
-	if (is_array($page_components['tooltips'])) {
-		foreach ($page_components['tooltips'] as $key => $val) {
-			$cash_admin->page_data['tooltip_' . $key] = $val;
-		}
-	}
-	if (is_array($page_components['copy'])) {
-		foreach ($page_components['copy'] as $key => $val) {
-			$cash_admin->page_data['copy_' . $key] = $val;
-		}
-	}
-	// set empty uid/code, then set if found
-	$last_reponse = $admin_primary_cash_request->sessionGetLastResponse();
-	$cash_admin->page_data['status_code'] = (is_array($last_reponse)) ? $last_reponse['status_code']: '';
-	$cash_admin->page_data['status_uid'] = (is_array($last_reponse)) ? $last_reponse['status_uid']: '';
-	// figure out the section color and current section name:
-	$cash_admin->page_data['specialcolor'] = '';
-	$exploded_base = explode('_',BASE_PAGENAME);
-	$cash_admin->page_data['section_name'] = $exploded_base[0];
-	if ($exploded_base[0] == 'assets') {
-		$cash_admin->page_data['specialcolor'] = 'usecolor2';
-	} elseif ($exploded_base[0] == 'people') {
-		$cash_admin->page_data['specialcolor'] = 'usecolor3';
-	} elseif ($exploded_base[0] == 'commerce') {
-		$cash_admin->page_data['specialcolor'] = 'usecolor4';
-	} elseif ($exploded_base[0] == 'calendar') {
-		$cash_admin->page_data['specialcolor'] = 'usecolor5';
-	} elseif ($exploded_base[0] == 'elements') {
-		$cash_admin->page_data['specialcolor'] = 'usecolor1';
-	}
-	// set true/false for each section being current
-	//$cash_admin->page_data['ui_current_elements'] = ($exploded_base[0] == 'elements') ? true: false;
-	$cash_admin->page_data['ui_current_assets'] = ($exploded_base[0] == 'assets') ? true: false;
-	$cash_admin->page_data['ui_current_people'] = ($exploded_base[0] == 'people') ? true: false;
-	$cash_admin->page_data['ui_current_commerce'] = ($exploded_base[0] == 'commerce') ? true: false;
-	$cash_admin->page_data['ui_current_calendar'] = ($exploded_base[0] == 'calendar') ? true: false;
-	if (
-		//!$cash_admin->page_data['ui_current_elements'] &&
-		!$cash_admin->page_data['ui_current_assets'] &&
-		!$cash_admin->page_data['ui_current_people'] &&
-		!$cash_admin->page_data['ui_current_commerce'] &&
-		!$cash_admin->page_data['ui_current_calendar']
-	) {
-		$cash_admin->page_data['ui_current_main'] = true;
-		$cash_admin->page_data['section_name'] = 'main';
-	}
-	// include controller for current page
-	include($pages_path . 'controllers/' . $include_filename);
-
-	// render the content to be passed to final output
-	$cash_admin->page_data['content'] = $cash_admin->mustache_groomer->render($cash_admin->page_content_template, $cash_admin->page_data);
-} else {
-	// SHOW LOGIN PAGE: we're not logged in, so make that happen and handle login page specific logic
-	$template_name = 'login';
-	// before we get all awesome and whatnot, detect for password reset stuff. should only happen 
-	// with a full page reload, not a data-only one as above
-	if (isset($_POST['dopasswordresetlink'])) {
-		if (filter_var($_POST['address'], FILTER_VALIDATE_EMAIL)) {
-			$reset_key = $cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'system', 
-					'cash_action' => 'setresetflag',
-					'address' => $_POST['address']
-				)
-			);
-			$reset_key = $reset_key['payload'];
-			if ($reset_key) {
-				$reset_message = 'A password reset was requested for this email address. If you didn\'t request the '
-							   . 'reset simply ignore this message and no change will be made. To reset your password '
-							   . 'follow this link: '
-							   . "\n\n"
-							   . CASHSystem::getCurrentURL()
-							   . '_?dopasswordreset=' . $reset_key . '&address=' . urlencode($_POST['address']) // <-- the underscore for urls ending with a / ...i dunno. probably fixable via htaccess
-							   . "\n\n"
-							   . 'Thank you.';
-				CASHSystem::sendEmail(
-					'A password reset has been requested',
-					false,
-					$_POST['address'],
-					$reset_message,
-					'Reset your password?'
-				);
-				$cash_admin->page_data['reset_message'] = 'Thanks. Just sent an email with instructions. Check your SPAM filters if you do not see it soon.';
-			} else {
-				$cash_admin->page_data['reset_message'] = 'There was an error. Please check the address and try again.';
-			}
-		}
-	}
-
-	if (isset($_GET['showlegal'])) {
-		$cash_admin->page_data['legal_markup'] = '';
-		if (file_exists(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php')) {
-			include_once(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php');
-		}
-		if (isset($cash_admin->page_data['showterms'])) {
-			$cash_admin->page_data['legal_markup'] .= '<br /><br /><br /><h4>Terms of service</h4>';
-			$cash_admin->page_data['legal_markup'] .= Markdown(file_get_contents(ADMIN_BASE_PATH . '/terms.md'));
-		}
-		if (isset($cash_admin->page_data['showprivacy'])) {
-			$cash_admin->page_data['legal_markup'] .= '<br /><br /><br /><h4>Privacy policy</h4>';
-			$cash_admin->page_data['legal_markup'] .= Markdown(file_get_contents(ADMIN_BASE_PATH . '/privacy.md'));
-		}
-	}
-
-	// this for returning password reset people:
-	if (isset($_GET['dopasswordreset'])) {
-		// minimum password length
-		$cash_admin->page_data['minimum_password_length'] = (defined('MINIMUM_PASSWORD_LENGTH')) ? MINIMUM_PASSWORD_LENGTH : 10;
-
-		$valid_key = $cash_admin->requestAndStore(
-			array(
-				'cash_request_type' => 'system', 
-				'cash_action' => 'validateresetflag',
-				'address' => $_GET['address'],
-				'key' => $_GET['dopasswordreset']
-			)
-		);
-		if ($valid_key) {
-			$cash_admin->page_data['reset_key'] = $_GET['dopasswordreset'];
-			$cash_admin->page_data['reset_email'] = $_GET['address'];
-			$cash_admin->page_data['reset_action'] = CASHSystem::getCurrentURL();
-		}
-	}
-
-	// and this for the actual password reset after return folks submit the reset form:
-	if (isset($_POST['finalizepasswordreset'])) {
-		$valid_key = $cash_admin->requestAndStore(
-			array(
-				'cash_request_type' => 'system', 
-				'cash_action' => 'validateresetflag',
-				'address' => $_POST['address'],
-				'key' => $_POST['key']
-			)
-		);
-		if ($valid_key) {
-			$id_response = $cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'people', 
-					'cash_action' => 'getuseridforaddress',
-					'address' => $_POST['address']
-				)
-			);
-			if ($id_response['payload']) {
-				$change_response = $cash_admin->requestAndStore(
-					array(
-						'cash_request_type' => 'system', 
-						'cash_action' => 'setlogincredentials',
-						'user_id' => $id_response['payload'], 
-						'address' => $_POST['address'], 
-						'password' => $_POST['new_password']
-					)
-				);
-				if ($change_response['payload'] !== false) {
-					$cash_admin->page_data['reset_message'] = 'Successfully changed the password. Go ahead and log in.';
-				} else {
-					$cash_admin->page_data['reset_message'] = 'There was an error setting your password. Please try again.';
-				}
-			} else {
-				$cash_admin->page_data['reset_message'] = 'There was an error setting the password. Please try again.';
-			}
-		}
-	}	
 }
+
+// set basic data for the template
+$page_menu_details = AdminHelper::getPageMenuDetails();
+$cash_admin->page_data['assets_section_menu'] = $page_menu_details['assets_section_menu'];
+$cash_admin->page_data['people_section_menu'] = $page_menu_details['people_section_menu'];
+$cash_admin->page_data['commerce_section_menu'] = $page_menu_details['commerce_section_menu'];
+$cash_admin->page_data['calendar_section_menu'] = $page_menu_details['calendar_section_menu'];
+$cash_admin->page_data['ui_title'] = $page_menu_details['page_title'];
+
+// merge in display links for main template
+$cash_admin->page_data = array_merge($cash_admin->page_data,$page_menu_details['link_text']);
+// global interaction text
+$ui_interaction_text = AdminHelper::getUiText();
+$cash_admin->page_data = array_merge($cash_admin->page_data,$ui_interaction_text);
+// page specifics
+$page_components = AdminHelper::getPageComponents();
+$cash_admin->page_data['ui_page_tip'] = $page_components['pagetip'];
+if (is_array($page_components['labels'])) {
+	foreach ($page_components['labels'] as $key => $val) {
+		$cash_admin->page_data['label_' . $key] = $val;
+	}
+}
+if (is_array($page_components['tooltips'])) {
+	foreach ($page_components['tooltips'] as $key => $val) {
+		$cash_admin->page_data['tooltip_' . $key] = $val;
+	}
+}
+if (is_array($page_components['copy'])) {
+	foreach ($page_components['copy'] as $key => $val) {
+		$cash_admin->page_data['copy_' . $key] = $val;
+	}
+}
+// set empty uid/code, then set if found
+$last_reponse = $admin_primary_cash_request->sessionGetLastResponse();
+$cash_admin->page_data['status_code'] = (is_array($last_reponse)) ? $last_reponse['status_code']: '';
+$cash_admin->page_data['status_uid'] = (is_array($last_reponse)) ? $last_reponse['status_uid']: '';
+// figure out the section color and current section name:
+$cash_admin->page_data['specialcolor'] = '';
+$exploded_base = explode('_',BASE_PAGENAME);
+$cash_admin->page_data['section_name'] = $exploded_base[0];
+if ($exploded_base[0] == 'assets') {
+	$cash_admin->page_data['specialcolor'] = 'usecolor2';
+} elseif ($exploded_base[0] == 'people') {
+	$cash_admin->page_data['specialcolor'] = 'usecolor3';
+} elseif ($exploded_base[0] == 'commerce') {
+	$cash_admin->page_data['specialcolor'] = 'usecolor4';
+} elseif ($exploded_base[0] == 'calendar') {
+	$cash_admin->page_data['specialcolor'] = 'usecolor5';
+} elseif ($exploded_base[0] == 'elements') {
+	$cash_admin->page_data['specialcolor'] = 'usecolor1';
+}
+// set true/false for each section being current
+//$cash_admin->page_data['ui_current_elements'] = ($exploded_base[0] == 'elements') ? true: false;
+$cash_admin->page_data['ui_current_assets'] = ($exploded_base[0] == 'assets') ? true: false;
+$cash_admin->page_data['ui_current_people'] = ($exploded_base[0] == 'people') ? true: false;
+$cash_admin->page_data['ui_current_commerce'] = ($exploded_base[0] == 'commerce') ? true: false;
+$cash_admin->page_data['ui_current_calendar'] = ($exploded_base[0] == 'calendar') ? true: false;
+if (
+	!$cash_admin->page_data['ui_current_assets'] &&
+	!$cash_admin->page_data['ui_current_people'] &&
+	!$cash_admin->page_data['ui_current_commerce'] &&
+	!$cash_admin->page_data['ui_current_calendar']
+) {
+	$cash_admin->page_data['ui_current_main'] = true;
+	$cash_admin->page_data['section_name'] = 'main';
+}
+// include controller for current page
+include($pages_path . 'controllers/' . $include_filename);
+
+// render the content to be passed to final output
+// $cash_admin->page_content_template is set in the included controller
+$cash_admin->page_data['content'] = $cash_admin->mustache_groomer->render($cash_admin->page_content_template, $cash_admin->page_data);
+
 
 
 
@@ -398,13 +281,13 @@ if ($cash_admin->page_data['data_only']) {
 		// set to a full redraw if we don't have session data (aka: we just logged out)
 		$cash_admin->page_data['fullredraw'] = true;
 	}
-	$cash_admin->page_data['fullcontent'] = $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/' . $admin_theme . '/' . $template_name . '.mustache'), $cash_admin->page_data);
+	$cash_admin->page_data['fullcontent'] = $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/' . $admin_theme . '/template.mustache'), $cash_admin->page_data);
 	if (!headers_sent()) {
 		header('Content-Type: application/json');
 	}
 	echo json_encode($cash_admin->page_data);
 } else {
 	// magnum p.i. = sweet {{mustache}} > don draper
-	echo $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/' . $admin_theme . '/' . $template_name . '.mustache'), $cash_admin->page_data);
+	echo $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/' . $admin_theme . '/template.mustache'), $cash_admin->page_data);
 }
 ?>
