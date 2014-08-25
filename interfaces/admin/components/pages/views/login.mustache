@@ -53,10 +53,10 @@
 	});
 
 	$('#cash_signin_form').on('submit', function(e) {
-		console.log('login attempt');
+		$('#loadingmask').css('width','101%');
 	});
 
 	if ($('#message.error').css('display') == 'block') {
-		console.log('login error');
+		$('#loadingmask').css('width','1%');
 	}
 </script>
