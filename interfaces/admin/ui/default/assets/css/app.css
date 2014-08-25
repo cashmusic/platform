@@ -35,9 +35,8 @@ body {
 	width:100%;
 }
 
-body.login #chrome {
+body.login #navmenu {
 	display:none;
-	width:0;
 }
 
 body.login #mainspc, body.login #footer, body.login h2#pagetitle  {
@@ -761,9 +760,9 @@ section[role=main]{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	-webkit-transition: 0.3s  ease-in-out;
+	/*-webkit-transition: 0.3s ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
-	trasition: 0.3s ease-in-out;
+	trasition: 0.3s ease-in-out;*/
 }
 
 section[role=main].hero{

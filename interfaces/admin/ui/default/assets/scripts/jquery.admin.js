@@ -476,29 +476,32 @@
 
 			// console.log('color shift: ' + swc + ', glitch: ' + imno + ', artist: ' + atno);
 
-			cnvs = document.getElementById('canvas').bitmapData;
+			cnvs = document.getElementById('canvas');
 
-			bg = new Image();
-			bg.src = cashAdminPath+"/assets/images/glitch/background/glitch"+imno+".jpg";
-			bg.onload = function(){
-				cnvs.draw(bg);
+			if (cnvs) {
+				cnvs = cnvs.bitmapData;
+				bg = new Image();
+				bg.src = cashAdminPath+"/assets/images/glitch/background/glitch"+imno+".jpg";
+				bg.onload = function(){
+					cnvs.draw(bg);
 
-				olay = new Image();
-				olay.src = cashAdminPath+"/assets/images/glitch/artist/artist"+atno+".jpg";
-				olay.onload = function(){
-					olayData = new BitmapData(Math.floor(Math.random() * 200) + 1, 600);
-					olayData.draw(olay);
+					olay = new Image();
+					olay.src = cashAdminPath+"/assets/images/glitch/artist/artist"+atno+".jpg";
+					olay.onload = function(){
+						olayData = new BitmapData(Math.floor(Math.random() * 200) + 1, 600);
+						olayData.draw(olay);
 
-					cnvs.copyChannel(olayData,
-						new Rectangle(300, 0, 2000, 700), 
-						new Point(0, 0), 
-						BitmapDataChannel[swc], 
-						BitmapDataChannel[swc]
-					);
+						cnvs.copyChannel(olayData,
+							new Rectangle(300, 0, 2000, 700), 
+							new Point(0, 0), 
+							BitmapDataChannel[swc], 
+							BitmapDataChannel[swc]
+						);
 
-					$('canvas').addClass('display');
+						$('canvas').addClass('display');
+					};
 				};
-			};
+			}
 		}, 100);
 	};	
 
