@@ -1,7 +1,7 @@
 <?php
 // include the necessary bits, define the page directory
 // Define constants too
-$root = dirname(__FILE__);
+$root = __DIR__;
 $cashmusic_root = realpath($root . "/../../framework/cashmusic.php");
 
 $cash_settings = json_decode(getenv('cashmusic_platform_settings'),true);
@@ -14,7 +14,7 @@ if ($cash_settings) {
 }
 
 define('ADMIN_BASE_PATH', $root);
-define('ADMIN_WWW_BASE_PATH', '/interfaces/admin');
+define('ADMIN_WWW_BASE_PATH', '/admin');
 define('CASH_PLATFORM_PATH', $cashmusic_root);
 /*********************************************************
  *

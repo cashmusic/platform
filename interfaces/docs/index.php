@@ -53,33 +53,33 @@ function parseComments($filename) {
 // create an array to house all data for output to mustache, other initial variables
 $docs_data = array();
 $current_directory = dirname(__FILE__);
-include_once($current_directory . '/../framework/cashmusic.php');
+include_once($current_directory . '/../../framework/cashmusic.php');
 
 // ALL THE PLANTS!!!
 $all_plants = array(
 	'system' => array(
 		'classname' => 'SystemPlant',
-		'filename' => $current_directory . '/../framework/classes/plants/SystemPlant.php'
+		'filename' => $current_directory . '/../../framework/classes/plants/SystemPlant.php'
 	),
 	'asset' =>  array(
 		'classname' => 'AssetPlant',
-		'filename' => $current_directory . '/../framework/classes/plants/AssetPlant.php'
+		'filename' => $current_directory . '/../../framework/classes/plants/AssetPlant.php'
 	),
 	'people' =>  array(
 		'classname' => 'PeoplePlant',
-		'filename' => $current_directory . '/../framework/classes/plants/PeoplePlant.php'
+		'filename' => $current_directory . '/../../framework/classes/plants/PeoplePlant.php'
 	),
 	'commerce' =>  array(
 		'classname' => 'CommercePlant',
-		'filename' => $current_directory . '/../framework/classes/plants/CommercePlant.php'
+		'filename' => $current_directory . '/../../framework/classes/plants/CommercePlant.php'
 	),
 	'calendar' =>  array(
 		'classname' => 'CalendarPlant',
-		'filename' => $current_directory . '/../framework/classes/plants/CalendarPlant.php'
+		'filename' => $current_directory . '/../../framework/classes/plants/CalendarPlant.php'
 	),
 	'element' =>  array(
 		'classname' => 'ElementPlant',
-		'filename' => $current_directory . '/../framework/classes/plants/ElementPlant.php'
+		'filename' => $current_directory . '/../../framework/classes/plants/ElementPlant.php'
 	)
 );
 
@@ -158,7 +158,7 @@ foreach ($all_plants as $type => $plant) {
 }
 
 // warm up the markdownificator
-include_once($current_directory . '/../framework/lib/markdown/markdown.php');
+include_once($current_directory . '/../../framework/lib/markdown/markdown.php');
 
 // mark that shit down!
 $docs_data['introduction'] = Markdown(file_get_contents($current_directory . '/writing/introduction.md'));
@@ -170,7 +170,7 @@ $docs_data['elements'] = Markdown(file_get_contents($current_directory . '/writi
 $docs_data['adminapp'] = Markdown(file_get_contents($current_directory . '/writing/adminapp.md'));
 
 // include Mustache because you know it's time for that
-include_once($current_directory . '/../framework/lib/mustache/Mustache.php');
+include_once($current_directory . '/../../framework/lib/mustache/Mustache.php');
 $magnumpi = new Mustache;
 
 echo $magnumpi->render(file_get_contents($current_directory . '/templates/index.mustache'), $docs_data);

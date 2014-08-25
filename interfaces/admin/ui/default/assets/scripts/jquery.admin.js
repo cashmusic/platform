@@ -398,29 +398,6 @@
         	// Alternatively you could use:
         	(new Image()).src = this;
    		});*/
-
-		// forgot password on login page
-		$('#forgotlink').on('click', function(e) {
-			e.preventDefault();
-			// markup for the confirmation link
-			var markup = '<div class="modalbg"><div class="modaldialog">' +
-						 '<div class="four columns"></div><div class="four columns">' +
-						 '<h4>Password reset?</h4>Enter your email, we\'ll send a reset link.<br /><br />' +
-						 '<form action="" method="post">' +
-						 '<input type="hidden" name="dopasswordresetlink" value="engage" />' +
-						 '<input type="text" name="address" value="" placeholder="your email address" />' +
-						 '<input type="button" class="button modalcancel" value="Cancel" />' +
-						 '<input type="submit" class="button modalyes" value="Send it" />' +
-						 '</form>' +
-						 '</div><div class="four columns"></div>' +
-						 '</div></div>';
-			markup = $(markup);
-			markup.hide();
-			$('body').append(markup);
-
-			// show the dialog with a fast fade-in
-			$('.modalbg').fadeIn('fast');
-		});
 	}
 
 	/* Show/Hide Element Menus */
@@ -476,29 +453,32 @@
 
 			// console.log('color shift: ' + swc + ', glitch: ' + imno + ', artist: ' + atno);
 
-			cnvs = document.getElementById('canvas').bitmapData;
+			cnvs = document.getElementById('canvas');
 
-			bg = new Image();
-			bg.src = cashAdminPath+"/assets/images/glitch/background/glitch"+imno+".jpg";
-			bg.onload = function(){
-				cnvs.draw(bg);
+			if (cnvs) {
+				cnvs = cnvs.bitmapData;
+				bg = new Image();
+				bg.src = cashAdminPath+"/assets/images/glitch/background/glitch"+imno+".jpg";
+				bg.onload = function(){
+					cnvs.draw(bg);
 
-				olay = new Image();
-				olay.src = cashAdminPath+"/assets/images/glitch/artist/artist"+atno+".jpg";
-				olay.onload = function(){
-					olayData = new BitmapData(Math.floor(Math.random() * 200) + 1, 600);
-					olayData.draw(olay);
+					olay = new Image();
+					olay.src = cashAdminPath+"/assets/images/glitch/artist/artist"+atno+".jpg";
+					olay.onload = function(){
+						olayData = new BitmapData(Math.floor(Math.random() * 200) + 1, 600);
+						olayData.draw(olay);
 
-					cnvs.copyChannel(olayData,
-						new Rectangle(300, 0, 2000, 700), 
-						new Point(0, 0), 
-						BitmapDataChannel[swc], 
-						BitmapDataChannel[swc]
-					);
+						cnvs.copyChannel(olayData,
+							new Rectangle(300, 0, 2000, 700), 
+							new Point(0, 0), 
+							BitmapDataChannel[swc], 
+							BitmapDataChannel[swc]
+						);
 
-					$('canvas').addClass('display');
+						$('canvas').addClass('display');
+					};
 				};
-			};
+			}
 		}, 100);
 	};	
 

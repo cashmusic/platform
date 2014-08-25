@@ -6,7 +6,7 @@
 # ----------------------------------------------------------------------
 
 RewriteEngine On 
-RewriteBase /interfaces/public/request
+RewriteBase /public/request
 Options +FollowSymlinks 
 Options -Indexes 
 

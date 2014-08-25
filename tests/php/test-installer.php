@@ -205,7 +205,7 @@ echo "\n\n                                  /)-_-(/\n"
 				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','driver = "mysql','driver = "sqlite') &&
 				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','debug = no','debug = yes') &&
 				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','database = "cashmusic','database = "cashmusic_test.sqlite') &&
-				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','apilocation = "http://localhost:8888/interfaces/api/','apilocation = "'.$test_url.'/interfaces/api/') &&
+				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','apilocation = "http://localhost/api/','apilocation = "'.$test_url.'/api/') &&
 				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
 			) {
 				$file_write_success = true;
@@ -217,7 +217,7 @@ echo "\n\n                                  /)-_-(/\n"
 				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','password = "root','password = "' . $db_password) &&
 				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','database = "cashmusic','database = "' . $db_name) &&
 				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','debug = no','debug = yes') &&
-				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','apilocation = "http://localhost:8888/interfaces/php/api/','apilocation = "'.$test_url.'/interfaces/api/') &&
+				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','apilocation = "http://localhost/api/','apilocation = "'.$test_url.'/api/') &&
 				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
 			) {
 				$file_write_success = true;

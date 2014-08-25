@@ -6,7 +6,7 @@
 # ----------------------------------------------------------------------
 
 RewriteEngine On 
-RewriteBase /interfaces/admin
+RewriteBase /admin
 Options +FollowSymlinks 
 Options -Indexes 
 
