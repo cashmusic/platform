@@ -21,7 +21,7 @@ salt = "I was born of sun beams; Warming up our limbs" ;* DO NOT CHANGE, SRSLY
 debug = no
 
 [api]
-apilocation = "http://localhost/interfaces/api/"
+apilocation = "http://localhost/api/"
 
 [system]
 instancetype = "single" ;* single or multi

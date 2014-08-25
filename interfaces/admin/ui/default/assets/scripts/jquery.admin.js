@@ -398,29 +398,6 @@
         	// Alternatively you could use:
         	(new Image()).src = this;
    		});*/
-
-		// forgot password on login page
-		$('#forgotlink').on('click', function(e) {
-			e.preventDefault();
-			// markup for the confirmation link
-			var markup = '<div class="modalbg"><div class="modaldialog">' +
-						 '<div class="four columns"></div><div class="four columns">' +
-						 '<h4>Password reset?</h4>Enter your email, we\'ll send a reset link.<br /><br />' +
-						 '<form action="" method="post">' +
-						 '<input type="hidden" name="dopasswordresetlink" value="engage" />' +
-						 '<input type="text" name="address" value="" placeholder="your email address" />' +
-						 '<input type="button" class="button modalcancel" value="Cancel" />' +
-						 '<input type="submit" class="button modalyes" value="Send it" />' +
-						 '</form>' +
-						 '</div><div class="four columns"></div>' +
-						 '</div></div>';
-			markup = $(markup);
-			markup.hide();
-			$('body').append(markup);
-
-			// show the dialog with a fast fade-in
-			$('.modalbg').fadeIn('fast');
-		});
 	}
 
 	/* Show/Hide Element Menus */

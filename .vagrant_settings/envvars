@@ -37,4 +37,4 @@ export LANG
 #APACHE_ULIMIT_MAX_FILES='ulimit -n 65536'
 
 # CASH Music stuff
-export cashmusic_platform_settings='{"driver":"sqlite","hostname":"","username":"","password":"","database":"cashmusic_vagrant.sqlite","salt":"this is a very bad salt to choose","debug":"","apilocation":"http://localhost:8888/interfaces/api/","instancetype":"multi","timezone":"US/Pacific","analytics":"basic","systememail":"CASH Music <dev@cashmusic.org>","smtp":0,"platforminitlocation":"/framework/cashmusic.php"}'
+export cashmusic_platform_settings='{"driver":"sqlite","hostname":"","username":"","password":"","database":"cashmusic_vagrant.sqlite","salt":"this is a very bad salt to choose","debug":"","apilocation":"http://localhost:8888/api/","instancetype":"multi","timezone":"US/Pacific","analytics":"basic","systememail":"CASH Music <dev@cashmusic.org>","smtp":0,"platforminitlocation":"/../framework/cashmusic.php"}'

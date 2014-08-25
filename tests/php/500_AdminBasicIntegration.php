@@ -44,12 +44,12 @@ class AdminBasicIntegration extends UnitTestCase {
 	public function testLogin() {
 		if ($this->cash_test_url) {
 			// make sure we get the login page
-			$src = $this->cc->get($this->cash_test_url . '/interfaces/admin/');
+			$src = $this->cc->get($this->cash_test_url . '/admin/');
 			$this->assertPattern('/<input type="email" name="address" value="" \/>/', $src);
 		
 			// look for an incorrect login
 			$src = $this->cc->post(
-				$this->cash_test_url . '/interfaces/admin/',
+				$this->cash_test_url . '/admin/',
 				http_build_query(array(
 					'address'            => 'false@example.com',
 					'password'           => 'incorrect',
@@ -61,7 +61,7 @@ class AdminBasicIntegration extends UnitTestCase {
 		
 			// now try a good login
 			$src = $this->cc->post(
-				$this->cash_test_url . '/interfaces/admin/',
+				$this->cash_test_url . '/admin/',
 				http_build_query(array(
 					'address'            => $this->cash_user_login,
 					'password'           => $this->cash_user_password,
@@ -72,7 +72,7 @@ class AdminBasicIntegration extends UnitTestCase {
 			$this->assertPattern('/<div id="logoutbtn" class="toggle needsconfirmation">/', $src);
 
 			// make sure the cookie is persistent
-			$src = $this->cc->get($this->cash_test_url . '/interfaces/admin/');
+			$src = $this->cc->get($this->cash_test_url . '/admin/');
 			$this->assertPattern('/<div id="logoutbtn" class="toggle needsconfirmation">/', $src);
 		}
     }

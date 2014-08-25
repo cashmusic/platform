@@ -46,7 +46,6 @@ spl_autoload_register('cash_admin_autoloadCore');
 $cash_admin = new AdminCore($admin_primary_cash_request->sessionGet('cash_effective_user'),$admin_primary_cash_request);
 $cash_admin->mustache_groomer = new Mustache;
 $cash_admin->page_data['www_path'] = ADMIN_WWW_BASE_PATH;
-$cash_admin->page_data['fullredraw'] = false;
 $cash_admin->page_data['platform_version'] = CASHRequest::$version;
 
 // basic script vars
@@ -91,7 +90,6 @@ if (!$logged_in) {
 			$cash_admin->effective_user_id = $login_details;
 			$address = $_POST['address'];
 			$admin_primary_cash_request->sessionSet('cash_effective_user_email',$address);
-			$cash_admin->page_data['fullredraw'] = true;
 			$cash_admin->page_data['initiallogin'] = true;
 			$logged_in = $login_details;
 
@@ -277,10 +275,6 @@ $cash_admin->page_data['content'] = $cash_admin->mustache_groomer->render($cash_
 if ($cash_admin->page_data['data_only']) {
 	// data_only means we're working with AJAX requests, 
 	// so dump valid JSON to the browser for the script to parse
-	if (!AdminHelper::getPersistentData('cash_effective_user')) {
-		// set to a full redraw if we don't have session data (aka: we just logged out)
-		$cash_admin->page_data['fullredraw'] = true;
-	}
 	$cash_admin->page_data['fullcontent'] = $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/' . $admin_theme . '/template.mustache'), $cash_admin->page_data);
 	if (!headers_sent()) {
 		header('Content-Type: application/json');
