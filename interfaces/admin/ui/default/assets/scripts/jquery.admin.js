@@ -144,6 +144,7 @@
 				if (!("initiallogin" in data)){ data.fullredraw = false; }
 				if (data.initiallogin) {
 					$('body').removeClass('login');
+					$('#loadingmask').css('width','1%');
 				}
 				if (data.template_name.toLowerCase().indexOf('login') >= 0) {
 					$('body').addClass('login');
