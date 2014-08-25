@@ -536,6 +536,7 @@
 	/*  Featured Asset Flip */
 
 	function releaseFlip() {
+		
 		// on mouse hover flip the image
 		$('.featured-release').hover(function (){
 			$('#card', this).addClass('flipped');
@@ -554,6 +555,8 @@
 		$('#search').mouseleave(function (){
 			$(this).removeClass('flipped');
 		});
+
+
 
 	};	
 
