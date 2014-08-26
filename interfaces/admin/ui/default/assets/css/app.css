@@ -48,16 +48,24 @@ body.login #footer, body.login h2#pagetitle {
 	padding-left:0;
 }
 
+@-webkit-keyframes pulse {
+	0% {background-color:rgba(51,51,51,0.95); }
+	50% {background-color:rgba(51,51,51,1); }
+	100% {background-color:rgba(51,51,51,0.95); }
+}
+
 #loadingmask {
 	position:fixed;
 	top:0;
 	right:-1%;
 	width:1%;
 	height:100%;
-	background:#222 url(../images/invert_logo.svg) center center no-repeat fixed;
+	background:rgba(51,51,51,0.95) url(../images/invert_logo.svg) center center no-repeat fixed;
 	background-size:74px 74px;
-	opacity:0.96;
 	z-index:23456;
+	-webkit-animation: pulse 2s infinite ease-in-out;
+	-moz-animation: pulse 2s infinite ease-in-out;
+	animation: pulse 2s infinite ease-in-out;
 	-webkit-transition: 0.5s  ease-in-out;
 	-moz-transition: 0.5s  ease-in-out;
 	trasition:0.5s ease-in-out;
