@@ -1,0 +1,25 @@
+{{#campaigns_for_user}}
+<form method="post" action="/admin/elements/add/emailcollection" class="multipart" data-parts="1" novalidate="novalidate">
+	<div class="row section part-1" data-section-name="Select a campaign to publish">
+		<h5 class="section-header">Select a campaign to publish</h5>
+		<p class="section-description">
+			First, choose the campaign you'd like to publish. If you haven't set up your campaign for publishing we'll
+			help you through it. If you have, well you can always edit it from the campaign page.
+		</p>
+		<select>
+			<option value="0">None</option>
+			{{#campaigns_for_user}}
+				<option value="{{id}}">{{title}}</option>
+			{{/campaigns_for_user}}
+		</select>
+	</div>
+	<div class="section basic-information row" data-section-name="Final settings" style="display: block;">
+		<p class="section-description">You can edit campaign publishing settings on the campaign page at any time.</p>
+	</div>
+	<input class="button" type="submit" value="Publish it">
+</form>
+{{/campaigns_for_user}}
+
+{{^campaigns_for_user}}
+	<p>No campaigns have been added yet. <a class="lightboxed" href="{{www_path}}/campaigns/add/">Add one.</a></p>
+{{/campaigns_for_user}}
