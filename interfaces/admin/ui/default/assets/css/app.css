@@ -35,8 +35,15 @@ body {
 	width:100%;
 }
 
-body.login #navmenu {
+body.login #navmenu, body.login #pagetitle {
 	display:none;
+}
+
+body.login img {
+	display:block;
+	margin: 3% auto 3% auto;
+	width:100px;
+	height:100px;
 }
 
 body.login #mainspc, body.login #footer, body.login h2#pagetitle  {
@@ -49,9 +56,9 @@ body.login #footer, body.login h2#pagetitle {
 }
 
 @-webkit-keyframes pulse {
-	0% {background-color:rgba(51,51,51,0.95); }
-	50% {background-color:rgba(51,51,51,1); }
-	100% {background-color:rgba(51,51,51,0.95); }
+	0% {opacity:1; }
+	50% {opacity:0.2; }
+	100% {opacity:1; }
 }
 
 #loadingmask {
@@ -60,15 +67,26 @@ body.login #footer, body.login h2#pagetitle {
 	right:-1%;
 	width:1%;
 	height:100%;
-	background:rgba(51,51,51,0.95) url(../images/invert_logo.svg) center center no-repeat fixed;
-	background-size:74px 74px;
+	background:rgba(51,51,51,0.95);
 	z-index:23456;
-	-webkit-animation: pulse 2s infinite ease-in-out;
-	-moz-animation: pulse 2s infinite ease-in-out;
-	animation: pulse 2s infinite ease-in-out;
 	-webkit-transition: 0.5s  ease-in-out;
 	-moz-transition: 0.5s  ease-in-out;
 	trasition:0.5s ease-in-out;
+}
+
+#loadingmask:after {
+    content : "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: transparent url(../images/invert_logo.svg) center center no-repeat fixed; 
+    background-size:74px 74px;
+    width: 100%;
+    height: 100%;
+    -webkit-animation: pulse 1.25s infinite ease-in-out;
+	-moz-animation: pulse 1.25s infinite ease-in-out;
+	animation: pulse 1.25s infinite ease-in-out;
 }
 
 /*Scrollbars*/

@@ -36,6 +36,8 @@
 		{"page_name":"Edit campaign", "menu_icon":"", "hide":true},
 	"campaigns/view":
 		{"page_name":"View campaign", "menu_icon":"", "hide":true},
+	"campaigns/publish":
+		{"page_name":"Publish campaign", "menu_icon":"", "hide":true},
 
 
 	"commerce":
@@ -84,7 +86,7 @@
 		{"page_name":"Open source licenses", "menu_icon":""},		
 		
 	"mainpage":
-		{"page_name":"Campaigns", "menu_icon":""},
+		{"page_name":"Main page", "menu_icon":""},
 		
 		
 	"people":
