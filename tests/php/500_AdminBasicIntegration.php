@@ -77,6 +77,7 @@ class AdminBasicIntegration extends UnitTestCase {
 		}
     }
 
+    /*
     public function testAllRoutes() {
     	if ($this->cash_test_url) {
 	    	// run through all known routes and make sure we're getting pages, not error messages
@@ -91,5 +92,6 @@ class AdminBasicIntegration extends UnitTestCase {
 	    	}
     	}
     }
+    */
 }
 ?>
