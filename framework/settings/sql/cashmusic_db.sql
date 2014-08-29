@@ -257,6 +257,7 @@ DROP TABLE IF EXISTS `elements_campaigns`;
 CREATE TABLE `elements_campaigns` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
+  `template_id` int(11) DEFAULT '0',
   `title` varchar(255),
   `description` text,
   `elements` text,

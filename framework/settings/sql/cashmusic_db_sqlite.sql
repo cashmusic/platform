@@ -228,6 +228,7 @@ CREATE TABLE elements_analytics_basic (
 CREATE TABLE elements_campaigns (
   id INTEGER PRIMARY KEY,
   user_id integer DEFAULT NULL,
+  template_id integer DEFAULT '0',
   title text,
   description text,
   metadata text,

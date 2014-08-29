@@ -1,5 +1,5 @@
 RewriteEngine On 
-RewriteBase /interfaces
+RewriteBase /
 Options +FollowSymlinks 
 Options -Indexes 
 
