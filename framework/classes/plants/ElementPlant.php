@@ -502,11 +502,12 @@ class ElementPlant extends PlantBase {
 		return $result;
 	}
 	
-	protected function editCampaign($id,$user_id=false,$title=false,$description=false,$elements=false,$metadata=false) {
+	protected function editCampaign($id,$user_id=false,$title=false,$description=false,$elements=false,$metadata=false,$template_id=false) {
 		$final_edits = array_filter(
 			array(
 				'title' => $title,
-				'description' => $description
+				'description' => $description,
+				'template_id' => $template_id
 			),
 			'CASHSystem::notExplicitFalse'
 		);
