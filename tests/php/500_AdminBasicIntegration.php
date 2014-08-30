@@ -53,7 +53,6 @@ class AdminBasicIntegration extends UnitTestCase {
 				http_build_query(array(
 					'address'            => 'false@example.com',
 					'password'           => 'incorrect',
-					'browseridassertion' => -1,
 					'login'              => '1'
 				))
 			);
@@ -65,7 +64,6 @@ class AdminBasicIntegration extends UnitTestCase {
 				http_build_query(array(
 					'address'            => $this->cash_user_login,
 					'password'           => $this->cash_user_password,
-					'browseridassertion' => -1,
 					'login'              => '1'
 				))
 			);

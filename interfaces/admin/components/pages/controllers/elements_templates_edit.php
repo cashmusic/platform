@@ -7,6 +7,9 @@ if (isset($request_parameters[0])) {
 		//
 		// weird setup, but we want the edit page to work seamlessly even when there is no element...
 		$template_default = file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/' . $request_parameters[1] . '.mustache');
+		if ($request_parameters[1] == 'page') {
+			$template_default = str_replace('{{{element_n}}}','<!--{{{element_n}}}-->',$template_default);
+		}
 		$template_response = $cash_admin->requestAndStore(
 			array(
 				'cash_request_type' => 'system', 
@@ -24,6 +27,15 @@ if (isset($request_parameters[0])) {
 					'cash_request_type' => 'element', 
 					'cash_action' => 'setelementtemplate',
 					'element_id' => $request_parameters[3],
+					'template_id' => $template_response['payload']
+				)
+			);
+		} else if ($request_parameters[1] == 'page') {
+			$edit_response = $cash_admin->requestAndStore(
+				array(
+					'cash_request_type' => 'element', 
+					'cash_action' => 'editcampaign',
+					'id' => $request_parameters[3],
 					'template_id' => $template_response['payload']
 				)
 			);
