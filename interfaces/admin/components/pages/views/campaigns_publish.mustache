@@ -27,7 +27,13 @@
 
 {{#campaign_elements}}
 	<div id="elementformspc-{{campaign}}" style="display:none;">
-		<p><label for="element_id">Choose an element to get started</label></p>
+		<p><label for="element_id">First choose the page style</label></p>
+		<select name="pagetheme" id="element_id">
+			<option value="dark" selected="selected">Use dark theme</option>
+			<option value="light">Use light theme</option>
+		</select>
+
+		<p><label for="element_id">Now a featured element to start with</label></p>
 		<select name="element_id" id="element_id">
 			<option value="0">None</option>
 			{{#options}}

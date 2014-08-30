@@ -1,6 +1,6 @@
 <?php
 if (!$request_parameters) {
-	AdminHelper::controllerRedirect('/elements/');
+	AdminHelper::controllerRedirect('/');
 }
  
 $current_element = $cash_admin->setCurrentElement($request_parameters[0]);

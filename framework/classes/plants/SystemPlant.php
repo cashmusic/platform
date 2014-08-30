@@ -743,7 +743,7 @@ class SystemPlant extends PlantBase {
 		);
 		if ($exists) {
 			// the key/user exists, so first compare value
-			if ($exists[0]['value'] == $value) {
+			if ($exists[0]['value'] === $value) {
 				// equal to what's there already? do nothing, return true
 				$go = false;
 			} else {
