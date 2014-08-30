@@ -213,6 +213,10 @@ textarea{
 	height:100px;
 }
 
+textarea.taller{
+	height:320px;
+}
+
 input.checkorradio{
 	position:relative;
 	top:6px;

@@ -17,7 +17,22 @@ if (isset($_POST['dopublish'])) {
 			$replacement = '';
 			if (isset($_POST['element_id'])) {
 				if ($_POST['element_id'] != 0) {
-					$replacement = '{{{element_' . $_POST['element_id'] . '}}}';
+					$element_response = $cash_admin->requestAndStore(
+						array(
+							'cash_request_type' => 'element', 
+							'cash_action' => 'getelement',
+							'id' => $_POST['element_id']
+						)
+					);
+
+					$replacement = '<!-- ' . $element_response['payload']['name'] . " -->\n\t\t{{{element_" . $_POST['element_id'] . '}}}';
+				}
+			}
+			if (isset($_POST['pagetheme'])) {
+				if ($_POST['pagetheme'] == 'light') {
+					$template_default = str_replace('<body', '<body class="light"', $template_default);
+				} else if ($_POST['pagetheme'] == 'dark') {
+					$template_default = str_replace('<body', '<body class="dark"', $template_default);
 				}
 			}
 			$template_default = str_replace('{{{element_n}}}',$replacement, $template_default);
@@ -57,7 +72,11 @@ if (isset($_POST['dopublish'])) {
 	);
 
 	if ($settings_response['payload']) {
-		AdminHelper::formSuccess('Success. Campaign published.','/');
+		if ($new_template == 0) {
+			AdminHelper::formSuccess('Success. You have unpublished all campaigns.','/');
+		} else {
+			AdminHelper::formSuccess('Success. Campaign published.','/');
+		}
 	} else {
 		AdminHelper::formFailure('Error. Something just didn\'t work right.','/');
 	}
