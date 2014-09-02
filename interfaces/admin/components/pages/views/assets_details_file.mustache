@@ -2,10 +2,11 @@
 	<input type="hidden" name="doassetedit" value="makeitso" />
 	<input type="hidden" name="asset_type" value="file" />
 
-	<h4>Asset details</h4>
+	{{#parent_id}}
 	<p class="smalltext fadedtext">
-		{{#parent_id}}<a href="{{www_path}}/assets/edit/{{parent_id}}"><b>return to parent asset</b></a><br />{{/parent_id}}
+		<a href="{{www_path}}/assets/edit/{{parent_id}}"><b>return to parent asset</b></a><br />
 	</p>
+	{{/parent_id}}
 
 	<label for="asset_title">Title / Name</label>
 	<input type="text" id="asset_title" name="asset_title" value="{{title}}" class="required" />

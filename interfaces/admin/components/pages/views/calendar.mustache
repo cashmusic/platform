@@ -7,7 +7,7 @@
 			<input type="hidden" name="doeventadd" value="makeitso" />
 
 			<label for="event_date">Date</label>
-			<input type="date" id="event_date" name="event_date" class="date" value="" placeholder="MM/DD/YYYY" />
+			<input type="date" id="event_date" name="event_date" class="date" placeholder="mm/dd/yyyy" value="" />
 
 			<label for="event_venue_name">Venue</label>
 			<input type="text" id="event_venue_name" name="event_venue_name" value="{{event_venue_name}}" placeholder="Start typing to search venues" class="autocomplete" data-cash-endpoint-url="{{{www_path}}}/ajax/autocomplete/venues" />
@@ -21,9 +21,10 @@
 			<label for="event_purchase_url">Ticket Purchase URL</label>
 			<input type="text" id="event_purchase_url" name="event_purchase_url" value="" placeholder="Ticket Link URL" />
 
-			<br />
+			<div>
 			<input type='checkbox' class='checkorradio' name='event_ispublished' value='' checked='checked' /> Published?
 			&nbsp; <input type='checkbox' class='checkorradio' name='event_iscancelled' value='' /> Cancelled?
+			</div>
 
 			<br /><br />
 			<button type="submit"><i class="icon icon-plus-sign"></i>Add That Event</button>
