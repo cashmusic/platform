@@ -141,14 +141,15 @@
 			if (!data) {
 				doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
 			} else {
-				if (!("initiallogin" in data)){ data.fullredraw = false; }
 				if (data.initiallogin) {
 					$('body').removeClass('login');
 					$('#loadingmask').css('width','1%');
 				}
-				if (data.template_name.toLowerCase().indexOf('login') >= 0) {
-					$('body').addClass('login');
-					history.pushState(1, null, cashAdminPath + '/');
+				if (data.template_name)	{
+					if (data.template_name.toLowerCase().indexOf('login') >= 0) {
+						$('body').addClass('login');
+						history.pushState(1, null, cashAdminPath + '/');
+					}
 				}
 				if (!("doredirect" in data)){ data.doredirect = false; }
 				if (data.doredirect) {
@@ -160,15 +161,9 @@
 						refreshPageData(data.location);
 					}
 				} else {
-					if (!("fullredraw" in data)){ data.fullredraw = false; }
-					if (data.fullredraw) {
-						var newbody = data.fullcontent.replace(/^[\s\S]*?<body[^>]*>([\s\S]*?)<\/body>[\s\S]*?$/i,"$1");
-						$('body').html(newbody);
-					} else {
-						if (showerror) { data.error_message = showerror; }
-						if (showmessage) { data.page_message = showmessage; }
-						redrawPage(data);
-					}
+					if (showerror) { data.error_message = showerror; }
+					if (showmessage) { data.page_message = showmessage; }
+					redrawPage(data);
 					if (!skiphistory) {history.pushState(1, null, url);}
 					setContentBehaviors();
 				}

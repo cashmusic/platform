@@ -10,7 +10,7 @@
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2012, CASH Music
+ * Copyright (c) 2014, CASH Music
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
@@ -18,16 +18,13 @@
 
 // include the necessary bits, define the page directory
 // Define constants too
-$root = dirname(__FILE__);
-$cashmusic_root = realpath($root . "/../framework/cashmusic.php");
+require_once(__DIR__ . '/admin/constants.php');
 
-$cash_settings = json_decode(getenv('cashmusic_platform_settings'),true);
-if ($cash_settings) {
-	if (isset($cash_settings['platforminitlocation'])) {
-		// this one isn't set for single-instance installs, generally. so we use the physical path above
-		$cashmusic_root = $_SERVER['DOCUMENT_ROOT'] . $cash_settings['platforminitlocation'];
-	}	
-}
+$page_vars = array(); // setting up the array for page variables
+$page_vars['www_path'] = ADMIN_WWW_BASE_PATH;
+$page_vars['jquery_url'] = (defined('JQUERY_URL')) ? JQUERY_URL : ADMIN_WWW_BASE_PATH . '/ui/default/assets/scripts/jquery-1.8.2.min.js';
+$page_vars['img_base_url'] = (defined('JQUERY_URL')) ? IMAGE_CDN : ADMIN_WWW_BASE_PATH;
+
 // launch CASH Music
 require_once($cashmusic_root);
 
@@ -85,7 +82,6 @@ if ($user_id) {
 	// with a real user but no template we redirect to the admin
 	if ($template) {
 		$element_embeds = false; // i know we don't technically need this, but the immaculate variable in preg_match_all freaks me out
-		$page_vars = array(); // setting up the array for page variables
 		$found_elements = preg_match_all('/{{{element_(.*?)}}}/',$template,$element_embeds, PREG_PATTERN_ORDER);
 		if ($found_elements) {
 

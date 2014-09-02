@@ -25,7 +25,7 @@ if(strrpos($_SERVER['REQUEST_URI'],'controller.php') !== false) {
  * INCLUDES AND STARTUP
  *
  ***************************************************************************************************/
-require_once(dirname(__FILE__) . '/constants.php');
+require_once(__DIR__ . '/constants.php');
 
 // instead of the previous require_once(CASH_PLATFORM_PATH) call, we manually
 // load CASHSystem and set admin_primary_cash_request to the first CASHRequest set

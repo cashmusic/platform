@@ -1,12 +1,17 @@
+{{^campaigns_for_user}}
+	<p>No campaigns have been added yet. <a class="lightboxed" href="{{www_path}}/campaigns/add/">Add one.</a></p>
+{{/campaigns_for_user}}
+
 {{#campaigns_for_user}}
-<form method="post" action="/admin/elements/add/emailcollection" class="multipart" data-parts="1" novalidate="novalidate">
+<form method="post" action="/admin/campaigns/publish" class="multipart" data-parts="1" novalidate="novalidate">
+	<input type="hidden" name="dopublish" value="doit" />
 	<div class="row section part-1" data-section-name="Select a campaign to publish">
 		<h5 class="section-header">Select a campaign to publish</h5>
 		<p class="section-description">
 			First, choose the campaign you'd like to publish. If you haven't set up your campaign for publishing we'll
 			help you through it. If you have, well you can always edit it from the campaign page.
 		</p>
-		<select>
+		<select name="campaign_id" id="campaign_id">
 			<option value="0">None</option>
 			{{#campaigns_for_user}}
 				<option value="{{id}}">{{title}}</option>
@@ -15,11 +20,40 @@
 	</div>
 	<div class="section basic-information row" data-section-name="Final settings" style="display: block;">
 		<p class="section-description">You can edit campaign publishing settings on the campaign page at any time.</p>
+		<div id="elementformspc"></div>
 	</div>
-	<input class="button" type="submit" value="Publish it">
+	<input class="button" id="publish_submit" type="submit" value="Unpublish all campaigns" />
 </form>
+
+{{#campaign_elements}}
+	<div id="elementformspc-{{campaign}}" style="display:none;">
+		<p><label for="element_id">First choose the page style</label></p>
+		<select name="pagetheme" id="element_id">
+			<option value="dark" selected="selected">Use dark theme</option>
+			<option value="light">Use light theme</option>
+		</select>
+
+		<p><label for="element_id">Now a featured element to start with</label></p>
+		<select name="element_id" id="element_id">
+			<option value="0">None</option>
+			{{#options}}
+				<option value="{{id}}">{{name}}</option>
+			{{/options}}
+		</select>
+	</div>
+{{/campaign_elements}}
+
+<script type="text/javascript">
+	$('#campaign_id').change(function(){
+		if ($('#elementformspc-'+$('#campaign_id').val())) {
+			$('#elementformspc').html($('#elementformspc-'+$('#campaign_id').val()).html());
+			$('#publish_submit').val('Publish it');
+		}
+		if ($('#campaign_id').val() == 0) {
+			$('#elementformspc').html(' ');
+			$('#publish_submit').val('Unpublish all campaigns');
+		}
+	});
+</script>
 {{/campaigns_for_user}}
 
-{{^campaigns_for_user}}
-	<p>No campaigns have been added yet. <a class="lightboxed" href="{{www_path}}/campaigns/add/">Add one.</a></p>
-{{/campaigns_for_user}}
