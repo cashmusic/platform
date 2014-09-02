@@ -631,6 +631,7 @@ small{
 	overflow: auto;
 }
 
+/*
 .stat{
 	background:#00cf7f;
 	border:solid 1px #00ac6a;
@@ -645,6 +646,12 @@ small{
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition: 0.3s ease-in-out;
+}*/
+
+.stat{
+	font-size: 20px;
+	border:solid 1px #00ac6a;
+	padding:2% 3%;
 }
 
 
@@ -1625,24 +1632,36 @@ color:#f5f5f5!important;
 /* Back to Campaign link */
 
 .returnlink{
-	position:absolute;
-	top:-2%;
-	right:5%;
+	position:fixed;
+	top:7%;
+	right:30%;
 	margin:0;
+	height:40px;
+	width:40px;
 	text-decoration: none;
-	color:#222;
-	background:#00cf7f;
-	padding:0.5% 1%;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	border:solid 1px #00ac6a;
+	color:#f5f5f5;
+	background:#222;
+	/*background:#00cf7f;*/
+	-webkit-border-radius: 500px;
+	-moz-border-radius: 500px;
+	border-radius: 500px;
+	/*text-indent: -5000em;*/
+	text-align: right;
+	padding:0 1%;
+}
+
+.returnlink i{
+	color:#f5f5f5!important;
+
 }
 
 .returnlink:hover{
-	color:#00cf7f;
-	background:#222;
-	border:solid 1px #222;
+	color:#222;
+	background:#00cf7f;
+}
+
+.returnlink:hover i{
+	color:#222!important;
 }
 
 /* Panelling */
@@ -1656,10 +1675,10 @@ color:#f5f5f5!important;
 
 .codearea{
 	width:100%;
-	padding:3%;
+	padding:5%;
 	margin:0 0 2% 0;
 	background:#222;
-	font-size: 13px;
+	font-size: 16px;
 	color:#b5b5b5;
 	line-height: 18px;
 	-webkit-border-radius: 3px;
@@ -3223,7 +3242,7 @@ button, .button, #modallightbox .modalcancel{
 }
 
 #pagedisplay{
-	width: 96%;
+	width: 97%;
 	margin: 0;
 	padding:3% 5% 5% 5%;
 }
