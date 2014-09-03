@@ -1011,7 +1011,7 @@ section[role=main].hero{
 #learnpanel,#settingspanel,#helppanel{
 	position:fixed;
 	bottom:0;
-	left:-100%;
+	left:0;
 	width:28%;
 	min-height:100%;
 	padding:0;
@@ -1029,6 +1029,7 @@ section[role=main].hero{
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
+	opacity:0;
 }
 
 /* Panel Content Styles */
@@ -1119,7 +1120,7 @@ section[role=main].hero{
 
 /* Show Tertiary Panel */
 .learn #learnpanel, .help #helppanel, .settings #settingspanel{
-	left:0;
+	opacity:1;
 }
 
 /* Donation Notice */
