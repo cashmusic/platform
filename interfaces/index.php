@@ -16,31 +16,35 @@
  *
  **/
 
-// include the necessary bits, define the page directory
-// Define constants too
-require_once(__DIR__ . '/admin/constants.php');
+/* SINGLE USER SUPPORT? UNCOMMENT
+ * $user_id = 1; // we can assume 1 for single-user instances
+ */
 
-$page_vars = array(); // setting up the array for page variables
-$page_vars['www_path'] = ADMIN_WWW_BASE_PATH;
-$page_vars['jquery_url'] = (defined('JQUERY_URL')) ? JQUERY_URL : ADMIN_WWW_BASE_PATH . '/ui/default/assets/scripts/jquery-1.8.2.min.js';
-$page_vars['img_base_url'] = (defined('JQUERY_URL')) ? IMAGE_CDN : ADMIN_WWW_BASE_PATH;
-
-// launch CASH Music
-require_once($cashmusic_root);
-
-// set user_id to false, check for single instance type
 $user_id = false;
-if (CASHSystem::getSystemSettings('instancetype') == 'single') {
-	$user_id = 1; // we can assume 1 for single-user instances
-}
-
 // if we've got a username we need to find the id — over-write no matter what. no fallback to user id 1
 if (isset($_GET['username'])) {
+    // include the necessary bits, define the page directory
+    // Define constants too
+    require_once(__DIR__ . '/admin/constants.php');
+
+    $page_vars = array(); // setting up the array for page variables
+    $page_vars['www_path'] = ADMIN_WWW_BASE_PATH;
+    $page_vars['jquery_url'] = (defined('JQUERY_URL')) ? JQUERY_URL : ADMIN_WWW_BASE_PATH . '/ui/default/assets/scripts/jquery-1.8.2.min.js';
+    $page_vars['img_base_url'] = (defined('JQUERY_URL')) ? IMAGE_CDN : ADMIN_WWW_BASE_PATH;
+
+    // launch CASH Music
+    require_once($cashmusic_root);
+
+    $username = trim($_GET['username'],'/');
+    if (stripos($username,'/')) {
+        $username = explode('/', $username);
+        $username = $username[0];
+    }
 	$user_request = new CASHRequest(
 		array(
 			'cash_request_type' => 'people', 
 			'cash_action' => 'getuseridforusername',
-			'username' => $_GET['username']
+			'username' => $username
 		)
 	);
 	if ($user_request->response['payload']) {

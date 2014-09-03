@@ -9,16 +9,6 @@
 	<input type="file" name="file" />
 </form>
 
-<div id="loading" style="position:relative;">
-	<div class="modalbg"></div>
-
-	<div style="position:fixed;z-index:9876;width:350px;top:300px;left:50%;margin-left:-125px;">
-		<div class="rotate" style="width:88px;height:88px;margin-right:12px;float:left;background-image:url({{www_path}}/ui/default/assets/images/loading.png)"></div>
-		<h4 style="color:#000;">Uploading</h4>This may take a few minutes. Please do not close this window.
-	</div>
-	<br />
-</div>
-
 <script src="{{www_path}}/ui/default/assets/scripts/jquery.iframe-transport.js"></script>
 <script src="{{www_path}}/ui/default/assets/scripts/jquery.fileupload.js"></script>
 
@@ -40,10 +30,11 @@
 			},
 			send: function(e, data) {
 				// spinner, etc
-				$('#loading').show();
+				$('#loadingmask').css('width','101%');
 			},
 			fail: function(e, data) {
 				// we should do something useful here
+				$('#loadingmask').css('width','1%');
 			},
 			done: function (event, data) {
 				// hide the spinner, add the final key to the location field of the
@@ -60,7 +51,7 @@
 						//alert('done, but could not set MIME type: ' + finalkey);
 					}
 				},'json');
-				$('#loading').hide();
+				$('#loadingmask').css('width','1%');
 			}
 		});
 	});

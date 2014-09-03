@@ -265,13 +265,6 @@
 			$('.panelcontent').removeClass('display');
 		});
 
-		// handle logout
-		$(document).on('click', '#logout', function(e) {
-			e.preventDefault();
-			jQuery.post(cashAdminPath+'/logout','noredirect=1');
-			//refreshPageData(cashAdminPath+'/');
-		});
-
 		// when we need a submit button outside it's target form (see file assets, etc)
 		$(document).on('click', 'input.externalsubmit', function(e) {
 			$($(this).data('cash-target-form')).submit();
@@ -551,7 +544,7 @@
 			var el = $(e.currentTarget);
 			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
-				&& !el.hasClass('noajax') && !el.is('#logout') && !el.parents('div').hasClass('inner')
+				&& !el.hasClass('noajax') && !el.parents('div').hasClass('inner')
 				&& (!$('body').hasClass('store') && el.attr('href').indexOf('elements/add'))
 			) {
 				e.preventDefault();

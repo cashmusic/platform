@@ -28,7 +28,7 @@
 			<label for="asset_location">Location (URI)</label>
 			<input type="text" id="asset_location" name="asset_location" value="{{location}}" />
 			<div class="drawer noprefix upload-corral">
-				<span  class="fadedtext"><i class="icon icon-cloud-upload"></i>Using a hosting connection? <a href="#" data-upload-endpoint="{{{www_path}}}/assets/uploadform/" class="drawerhandle usecolor2 file-upload-trigger">Upload a file</a></span >
+				<small class="fadedtext"><i class="icon icon-cloud-upload"></i>Using a hosting connection? <a href="#" data-upload-endpoint="{{{www_path}}}/assets/uploadform/" class="drawerhandle usecolor2 file-upload-trigger">Upload a file</a></small>
 				<div class="drawercontent"></div>
 			</div>
 		</div>
@@ -40,15 +40,20 @@
 
 
 	<div>
-		<br /><br />
+		<h4>Additional actions</h4>
 		<div class="row">
 			<div class="six columns spacedtext">
+				<p>
 				<span  class="fadedtext"><i class="icon icon-credit-card"></i>Selling out?</span > <a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="lightboxed returntocurrentroute"><span ><b>Define commerce settings</b></span ></a>
-				<br />
+				</p><p>
 				<span  class="fadedtext"><i class="icon icon-ban-circle"></i> Need it gone?</span > <a href="{{www_path}}/assets/delete/{{id}}" class="usecolor2 needsconfirmation"><span ><b>Delete this file</b></span ></a>
-				<br />
-				<span  class="fadedtext"><i class="icon icon-tags"></i> Get organized.</span > {{{tag_markup}}}<a href="#" class="injectbefore usecolor2" rev="<input type='text' name='tag' value='' placeholder='Tag' />" rel="{{tag_counter}}"><span ><b>Tag this file</b></span ></a>
-				<br />
+				</p>
+				{{#show_make_public}}
+					<p>
+					<span  class="fadedtext"><i class="icon icon-unlock"></i> Don't need security?</span > <a href="#" data-publicize-endpoint="{{{www_path}}}/ajax/publicizeasset/{{id}}" class="usecolor2"><span ><b>Make this file public</b></span ></a>
+					</p>
+				{{/show_make_public}}
+
 				<button class="nojs" type="submit"><i class="icon icon-save"></i>Save changes</button>
 				</form>
 
@@ -82,10 +87,6 @@
 						<br />
 					</div>
 				</div>
-
-				{{#show_make_public}}
-					<span  class="fadedtext"><i class="icon icon-unlock"></i> Don't need security?</span > <a href="#" data-publicize-endpoint="{{{www_path}}}/ajax/publicizeasset/{{id}}" class="usecolor2"><span ><b>Make this file public</b></span ></a>
-				{{/show_make_public}}
 			</div>
 		</div>
 		

@@ -15,12 +15,6 @@
 			.setAppId('{{google_drive_app_id}}')
 			.setAuthUser('{{connection_auth_user}}')
 			.setOAuthToken('{{connection_auth_token}}') //Optional: The auth token used in the current Drive API session.
-			// TODO:
-			// the setOAuthToken call works to log the user in correctly, but causes a problem where
-			// uploads fail. removing it allows uploads to complete successfully, but if the user 
-			// doesn't have a proper login cookie they are prompted for login credentials...
-			// 
-			// ideally we want the best of both worlds
 			.addView(uploadview)
 			.addView(view)
 			.setCallback(pickerCallback)

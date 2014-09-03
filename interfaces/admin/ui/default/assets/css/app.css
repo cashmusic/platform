@@ -257,7 +257,7 @@ input.checkorradio:checked{
 	padding:10%;
 	position:relative;
 	overflow:auto;
-	left:0;
+	left:50%;
 	width:100%;
 	margin:30px 0;
 	color:#f5f5f5;
@@ -1294,7 +1294,7 @@ color:#f5f5f5!important;
 }
 
 .login #pagedisplay{
-	width:90%;
+	width:100%;
 	margin:0 auto;
 	background:none;
 }
@@ -3387,10 +3387,6 @@ button, .button, #modallightbox .modalcancel{
 	display:block;
 }
 
-.login #cash_signin_form{
-	left:50%;
-}
-
 #stats p{
 	width:32.3%;
 	min-height:200px;
@@ -3407,6 +3403,9 @@ button, .button, #modallightbox .modalcancel{
 #ui-datepicker-div{
 	display:none;
 }
+
+/* Assets */
+.upload-corral {display:none;}
 
 /* Store  */
 

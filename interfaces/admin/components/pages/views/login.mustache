@@ -35,16 +35,16 @@
 	$('#forgotlink').on('click', function(e) {
 		e.preventDefault();
 		// markup for the confirmation link
-		var markup = '<div class="modalbg"><div class="modaldialog">' +
-					 '<div class="four columns"></div><div class="four columns">' +
+		var markup = '<div class="modalbg"><div class="modaldialog" style="width:100%;top:0;">' +
+					 '<div class="three columns"></div><div class="six columns" style="text-align:left;">' +
 					 '<h4>Password reset?</h4>Enter your email, we\'ll send a reset link.<br /><br />' +
 					 '<form action="" method="post">' +
 					 '<input type="hidden" name="dopasswordresetlink" value="engage" />' +
-					 '<input type="text" name="address" value="" placeholder="your email address" />' +
-					 '<input type="button" class="button modalcancel" value="Cancel" />' +
-					 '<input type="submit" class="button modalyes" value="Send it" />' +
-					 '</form>' +
-					 '</div><div class="four columns"></div>' +
+					 '<input type="text" name="address" value="" placeholder="your email address" /><div class="row" style="margin-top:18px;">' +
+					 '<div class="six columns"><input type="button" class="button modalcancel" value="Cancel" /></div>' +
+					 '<div class="six columns"><input type="submit" class="button modalyes" value="Send it" /></div>' +
+					 '</div></form>' +
+					 '</div><div class="three columns"></div>' +
 					 '</div></div>';
 		markup = $(markup);
 		markup.hide();
