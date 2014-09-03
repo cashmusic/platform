@@ -1011,7 +1011,7 @@ section[role=main].hero{
 #learnpanel,#settingspanel,#helppanel{
 	position:fixed;
 	bottom:0;
-	left:-100%;
+	left:0;
 	width:28%;
 	min-height:100%;
 	padding:0;
