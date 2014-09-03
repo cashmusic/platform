@@ -50,9 +50,9 @@ if (isset($_GET['showlegal'])) {
 }
 
 // this for returning password reset people:
+$cash_admin->page_data['minimum_password_length'] = (defined('MINIMUM_PASSWORD_LENGTH')) ? MINIMUM_PASSWORD_LENGTH : 10;
 if (isset($_GET['dopasswordreset'])) {
 	// minimum password length
-	$cash_admin->page_data['minimum_password_length'] = (defined('MINIMUM_PASSWORD_LENGTH')) ? MINIMUM_PASSWORD_LENGTH : 10;
 
 	$valid_key = $cash_admin->requestAndStore(
 		array(

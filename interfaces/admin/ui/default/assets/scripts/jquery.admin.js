@@ -53,31 +53,6 @@
 				refreshPageData(location.pathname,null,null,null,true);
 			}
 		}, false);
-
-		// grab the initial top offset of the navigation 
-		var sticky_navigation_offset_top = $('#logo').offset().top;
-	
-		// our function that decides if the navigation bar should have "fixed" css position or not.
-		var sticky_navigation = function(){
-			var scroll_top = $(window).scrollTop(); // our current vertical position from the top
-		
-			// if we've scrolled more than the navigation, change its position to fixed to stick to top, otherwise change it back to relative
-			if (scroll_top > sticky_navigation_offset_top) { 
-				$('#logo, #pagetitle').addClass('stick');
-			} else {
-				$('#logo').removeClass('stick');
-			}   
-		};
-	
-			// run our function on load
-			sticky_navigation();
-	
-			// and run it again every time you scroll
-			$(window).scroll(function() {
-			 sticky_navigation();
-			});
-	
-
 	}); // $document
 
 
@@ -288,13 +263,6 @@
 			$ (this).parent().removeClass( "display" );
 			$ (this).parents("body").removeClass("panel").removeClass("learn").removeClass("settings").removeClass("help");
 			$('.panelcontent').removeClass('display');
-		});
-
-		// handle logout
-		$(document).on('click', '#logout', function(e) {
-			e.preventDefault();
-			jQuery.post(cashAdminPath+'/logout','noredirect=1');
-			//refreshPageData(cashAdminPath+'/');
 		});
 
 		// when we need a submit button outside it's target form (see file assets, etc)
@@ -538,22 +506,10 @@
 			$('#card', this).addClass('flipped');
 		});
 
-		$('#search').hover(function (){
-			$(this).addClass('flipped');
-		});
-
 		// on mouse leave return to orginal state
 		$('.featured-release').mouseleave(function (){
 			$('#card', this).removeClass('flipped');
 		});
-
-		// on mouse leave return to orginal state
-		$('#search').mouseleave(function (){
-			$(this).removeClass('flipped');
-		});
-
-
-
 	};	
 
 	function iNeedaHero() {
@@ -588,7 +544,7 @@
 			var el = $(e.currentTarget);
 			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
-				&& !el.hasClass('noajax') && !el.is('#logout') && !el.parents('div').hasClass('inner')
+				&& !el.hasClass('noajax') && !el.parents('div').hasClass('inner')
 				&& (!$('body').hasClass('store') && el.attr('href').indexOf('elements/add'))
 			) {
 				e.preventDefault();

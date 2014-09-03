@@ -12,9 +12,9 @@
 	<link rel="icon" href="{{img_base_url}}/ui/default/assets/images/favicon.ico" type="image/x-icon" />
 	<link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+	<link href="{{www_path}}/ui/default/assets/css/diy-ui/jquery-ui-1.8.23.custom.css" rel="stylesheet" type="text/css" />
 	<link href="{{www_path}}/ui/default/assets/css/foundation.min.css" rel="stylesheet" type="text/css" />
 	<link href="{{www_path}}/ui/default/assets/css/app.css" rel="stylesheet" type="text/css" />
-	<link href="{{www_path}}/ui/default/assets/css/diy-ui/jquery-ui-1.8.23.custom.css" rel="stylesheet" type="text/css" />
 
 	<!--iOS-->
 
@@ -53,7 +53,7 @@
 						<div id="learn" class="toggle"><a title="Learn" class="icon icon-bulb"></a></div><!--learn-->
 						<div id="settings" class="toggle"><a title="Account/Settings" class="icon icon-cog"></a></div><!--settings-->
 						<div id="help" class="toggle"><a title="Help" class="icon icon-question-sign"></a></div><!--help-->
-						<div id="logoutbtn" class="toggle needsconfirmation"><a title="Logout" href="{{www_path}}/logout/" id="logout" class="icon icon-signout"></a></div><!--logout-->
+						<div id="logoutbtn" class="toggle"><a title="Logout" href="{{www_path}}/logout/" class="icon icon-signout needsconfirmation"></a></div><!--logout-->
 					</div><!--touchpoints-->
 					<div id="flipback"></div><!--flipback-->	
 					<form id="search" accept-charset="UTF-8" method="post" action="">	
@@ -196,28 +196,29 @@
 	<script src="{{www_path}}/ui/default/assets/scripts/rectangle.js" type="text/javascript" ></script>
 	<script src="{{www_path}}/ui/default/assets/scripts/matrix.js" type="text/javascript" ></script>
 	<script src="{{www_path}}/ui/default/assets/scripts/bitmapdata.js" type="text/javascript" ></script>
-	<script src="{{www_path}}/ui/default/assets/scripts/jquery.offcanvas.js" type="text/javascript"></script>
-	<script src="{{www_path}}/ui/default/assets/scripts/responsive-tables.js" type="text/javascript"></script>
 	<script src="{{www_path}}/ui/default/assets/scripts/jquery.iframe-transport.js" type="text/javascript"></script>
 	<script src="{{www_path}}/ui/default/assets/scripts/jquery.fileupload.js" type="text/javascript"></script>
 	<script src="{{www_path}}/ui/default/assets/scripts/jquery.admin.js" type="text/javascript"></script>
 
 
-	{{#reset_key}}
+{{#reset_key}}	
 	<!-- Password reset popups, etc -->
-	<div class="modalbg surviveload"><div class="modaldialog">
+	<div class="modalbg"><div class="modaldialog" style="width:100%;top:0;">
 		<div class="row">
-			<div class="three columns"></div><div class="six columns">
+			<div class="three columns"></div><div class="six columns" style="text-align:left;">
 				<h4>Password reset</h4>Enter a new password. At least {{minimum_password_length}} characters.<br />
 				<form action="{{reset_action}}" id="password_reset_form" method="post">
 				<input type="hidden" name="finalizepasswordreset" value="go" />
 				<input type="hidden" name="key" value="{{reset_key}}" />
 				<input type="hidden" name="address" value="{{reset_email}}" />
 				<input type="password" id="new_password" name="new_password" autocomplete="off" />
-				<label for="toggle_password" style="color:#222;"><input type="checkbox" id="toggle_password" />Reveal text</label>
-				<br />
-				<input type="button" class="button modalcancel" value="Cancel" />
-				<input type="button" id="do_submit" class="button modalyes" value="Change password" />
+				<label for="toggle_password" style="color:#ddd;width:auto;"><input type="checkbox" id="toggle_password" style="display:inline;width:auto;" /> Reveal text</label>
+				
+				<div class="row" style="margin-top:18px;">
+					<div class="six columns"><input type="button" class="button modalcancel" value="Cancel" /></div>
+					<div class="six columns"><input type="button" id="do_submit" class="button modalyes" value="Change password" /></div>
+				</div>
+
 				</form>
 			</div><div class="three columns"></div>	
 		</div>
@@ -262,5 +263,6 @@
 		</script>
 	</div></div>
 {{/reset_key}}
+
 </body>
 </html>
