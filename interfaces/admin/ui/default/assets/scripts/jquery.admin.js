@@ -143,7 +143,7 @@
 					setContentBehaviors();
 				}
 				//$('#ajaxloading').hide();
-				$('#ajaxloading, #logo, #hero').removeClass('loading');
+				$('#ajaxloading, #logo, #hero, #learnpanel, #settingspanel, #helppanel').removeClass('loading');
 				$('#pagedisplay').fadeTo(200,1);
 			}
 		},'json');
@@ -173,7 +173,7 @@
 
 		// fade out
 		//$('#ajaxloading').show();
-		$('#ajaxloading, #logo, #hero').addClass('loading');
+		$('#ajaxloading, #logo, #hero, #learnpanel, #settingspanel, #helppanel').addClass('loading');
 		$('#pagedisplay').fadeTo(100,0.2, function() {
 			doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
 		});
