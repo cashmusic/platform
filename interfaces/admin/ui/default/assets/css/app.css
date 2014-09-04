@@ -2229,6 +2229,11 @@ margin:0; padding:0;}
 	trasition:0.3s ease-in-out;
 }
 
+.login .modaldialog {
+	left:13%;
+	top:10%;
+}
+
 .store .modaldialog {
 	z-index:25;
 }

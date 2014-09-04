@@ -3,12 +3,7 @@ if (trim($_REQUEST['p'],'/') == 'signup') {
 	$cash_admin->page_data['ui_title'] = 'Sign up now';
 	$cash_admin->setPageContentTemplate('signup');
 } else if (trim($_REQUEST['p'],'/') == 'resetpassword') {
-	$cash_admin->page_data['ui_title'] = 'Reset password';
-	$cash_admin->setPageContentTemplate('resetpassword');
-} else {
-	// before we get all awesome and whatnot, detect for password reset stuff. should only happen 
-	// with a full page reload, not a data-only one as above
-	if (isset($_POST['dopasswordresetlink'])) {
+	if (isset($_POST['dopasswordreset'])) {
 		if (filter_var($_POST['address'], FILTER_VALIDATE_EMAIL)) {
 			$reset_key = $cash_admin->requestAndStore(
 				array(
@@ -24,7 +19,7 @@ if (trim($_REQUEST['p'],'/') == 'signup') {
 							   . 'follow this link: '
 							   . "\n\n"
 							   . CASHSystem::getCurrentURL()
-							   . '_?dopasswordreset=' . $reset_key . '&address=' . urlencode($_POST['address']) // <-- the underscore for urls ending with a / ...i dunno. probably fixable via htaccess
+							   . '?dopasswordreset=' . $reset_key . '&address=' . urlencode($_POST['address']) // <-- the underscore for urls ending with a / ...i dunno. probably fixable via htaccess
 							   . "\n\n"
 							   . 'Thank you.';
 				CASHSystem::sendEmail(
@@ -34,13 +29,18 @@ if (trim($_REQUEST['p'],'/') == 'signup') {
 					$reset_message,
 					'Reset your password?'
 				);
-				$cash_admin->page_data['reset_message'] = 'Thanks. Just sent an email with instructions. Check your SPAM filters if you do not see it soon.';
+				AdminHelper::formSuccess('Thanks. Check your inbox for instructions.','/');
 			} else {
-				$cash_admin->page_data['reset_message'] = 'There was an error. Please check the address and try again.';
+				AdminHelper::formFailure('Please check the address and try again.','/');
 			}
+		} else {
+			AdminHelper::formFailure('Please check the address and try again.','/');
 		}
 	}
 
+	$cash_admin->page_data['ui_title'] = 'Reset password';
+	$cash_admin->setPageContentTemplate('resetpassword');
+} else {
 	// this for returning password reset people:
 	$cash_admin->page_data['minimum_password_length'] = (defined('MINIMUM_PASSWORD_LENGTH')) ? MINIMUM_PASSWORD_LENGTH : 10;
 	if (isset($_GET['dopasswordreset'])) {
