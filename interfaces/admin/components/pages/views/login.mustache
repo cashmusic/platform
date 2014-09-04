@@ -20,40 +20,16 @@
 			</div>
 			
 			<div id="loginbuttonspc">
-				<a href="#" id="forgotlink">forgot your password?</a><br />
+				<a href="{{www_path}}/resetpassword/" class="lightboxed">forgot your password?</a><br />
 				<button type="submit"><i class='icon icon-signin'></i>log in</button>
 			</div>
+
+			<a href="{{www_path}}/signup/" class="lightboxed">sign up</a>
 		</form>
 	</div>	
 </div>
 
-<br />
-{{{legal_markup}}}
-
 <script type="text/javascript">
-	// forgot password on login page
-	$('#forgotlink').on('click', function(e) {
-		e.preventDefault();
-		// markup for the confirmation link
-		var markup = '<div class="modalbg"><div class="modaldialog" style="width:100%;top:0;">' +
-					 '<div class="three columns"></div><div class="six columns" style="text-align:left;">' +
-					 '<h4>Password reset?</h4>Enter your email, we\'ll send a reset link.<br /><br />' +
-					 '<form action="" method="post">' +
-					 '<input type="hidden" name="dopasswordresetlink" value="engage" />' +
-					 '<input type="text" name="address" value="" placeholder="your email address" /><div class="row" style="margin-top:18px;">' +
-					 '<div class="six columns"><input type="button" class="button modalcancel" value="Cancel" /></div>' +
-					 '<div class="six columns"><input type="submit" class="button modalyes" value="Send it" /></div>' +
-					 '</div></form>' +
-					 '</div><div class="three columns"></div>' +
-					 '</div></div>';
-		markup = $(markup);
-		markup.hide();
-		$('body').append(markup);
-
-		// show the dialog with a fast fade-in
-		$('.modalbg').fadeIn('fast');
-	});
-
 	$('#cash_signin_form').on('submit', function(e) {
 		$('#loadingmask').css('width','101%');
 	});

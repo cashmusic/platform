@@ -1,0 +1,17 @@
+<div class="row">
+	<div class="twelve columns">
+		<p>It's free and always will be. All you need to do to get started is provide a valid email address, choose a username, and set your password.</p>
+		<form action="{{www_path}}/signup/" method="post">
+		<input type="hidden" name="dosignup" value="engage" />
+		<div class="row">
+			<div class="four columns"><label for="address">Email address</label><input type="text" name="address" value="" placeholder="your email address" /></div>
+			<div class="four columns"><label for="address">Desired username</label><input type="text" name="username" value="" placeholder="username" /></div>
+			<div class="four columns"><label for="address">Password</label><input type="password" name="password" value="" placeholder="at least {{minimum_password_length}} characters" style="margin-bottom:0;" /><small><a href="#" id="revealpassword" style="position:relative;top:-7px;color:#666;">reveal text</a></small></div>
+		</div>
+		<div>
+			<input type="checkbox" class="checkorradio" /> I have read and agree to the <a href="{{www_path}}/terms/" class="noajax" target="_blank">terms of service</a> and <a href="{{www_path}}/privacy/" class="noajax" target="_blank">privacy policy</a>
+		</div>
+		<input type="submit" class="button" value="Sign up" />
+		</form>
+	</div>
+</div>
