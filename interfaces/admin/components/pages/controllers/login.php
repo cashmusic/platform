@@ -1,5 +1,7 @@
 <?php
-if (trim($_REQUEST['p'],'/') == 'signup') {
+// allow signups?
+$signups = (defined('ALLOW_SIGNUPS')) ? ALLOW_SIGNUPS : true;
+if (trim($_REQUEST['p'],'/') == 'signup' && $signups) {
 	$cash_admin->page_data['ui_title'] = 'Sign up now';
 	$cash_admin->setPageContentTemplate('signup');
 } else if (trim($_REQUEST['p'],'/') == 'resetpassword') {
@@ -90,12 +92,12 @@ if (trim($_REQUEST['p'],'/') == 'signup') {
 					)
 				);
 				if ($change_response['payload'] !== false) {
-					$cash_admin->page_data['reset_message'] = 'Successfully changed the password. Go ahead and log in.';
+					AdminHelper::formSuccess('Successfully changed the password. Go ahead and log in.','/');
 				} else {
-					$cash_admin->page_data['reset_message'] = 'There was an error setting your password. Please try again.';
+					AdminHelper::formFailure('There was an error setting your password. Please try again.','/');
 				}
 			} else {
-				$cash_admin->page_data['reset_message'] = 'There was an error setting the password. Please try again.';
+				AdminHelper::formFailure('There was an error setting the password. Please try again.','/');
 			}
 		}
 	}
