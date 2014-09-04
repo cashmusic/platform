@@ -166,8 +166,16 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH)) && ($_REQUES
 		define('BASE_PAGENAME','mainpage');
 		$include_filename = 'mainpage.php';
 	} else {
-		define('BASE_PAGENAME','login');
-		$include_filename = 'login.php';
+		if (REQUESTED_ROUTE == '/terms/') {
+			define('BASE_PAGENAME','terms');
+			$include_filename = 'terms.php';	
+		} else if (REQUESTED_ROUTE == '/privacy/') {
+			define('BASE_PAGENAME','privacy');
+			$include_filename = 'privacy.php';
+		} else {
+			define('BASE_PAGENAME','login');
+			$include_filename = 'login.php';
+		}
 	}
 }
 $cash_admin->page_data['template_name'] = BASE_PAGENAME;
