@@ -184,6 +184,7 @@ $( document ).ready(function() {
 
                 <video autoplay loop>
                 <source src="/admin/ui/default/assets/video/phone.mp4" type="video/mp4">
+                <source src="/admin/ui/default/assets/video/phone.ogg" type="video/ogg">
                 Sorry Your browser does not support the video tag.
            		</video> 
                 </div>
