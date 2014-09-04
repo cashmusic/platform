@@ -1,33 +1,48 @@
-<img src="/admin/ui/default/assets/images/logo.svg" alt="CASH Music">
+<div id="hero">
+	<!--img src="/admin/ui/default/assets/images/logo.svg" alt="CASH Music"-->
 
-<div class="row">
-	<div class="six columns">
-		{{#reset_message}}
-			<span class="highlightcopy">{{reset_message}}</span>
-		{{/reset_message}}
-		<h3 id="message" {{#login_error}} class="error"{{/login_error}}>{{login_message}}</h3>
-		<form method="post" id="cash_signin_form" action="">
-			<div class="row">
-				<div class="six columns">
-					<label for="address">Email address</label>
-					<input type="email" name="address" value="" />
-				</div>
-				<div class="six columns">
-					<label for="password">Password</label>
-					<input type="password" name="password" value="" />
-					<input type="hidden" name="login" value="1" />
-				</div>
-			</div>
-			
-			<div id="loginbuttonspc">
-				<a href="{{www_path}}/resetpassword/" class="lightboxed">forgot your password?</a><br />
-				<button type="submit"><i class='icon icon-signin'></i>log in</button>
-			</div>
+	<h3 id="message" {{#login_error}} class="error"{{/login_error}}>{{login_message}}</h3>
+	<form method="post" id="cash_signin_form" action="">
+	<div class="row">
+		<div class="two columns"></div>
+		<div class="three columns">
+			<label for="address">Email address</label>
+			<input type="email" name="address" value="" />
+		</div>
+		<div class="three columns">
+			<label for="password">Password</label>
+			<input type="password" name="password" value="" />
+			<input type="hidden" name="login" value="1" />
+		</div>
+		<div class="two columns">
+			<input type="submit" class="button" value="Log in" />
+		</div>
+		<div class="two columns"></div>
+	</div>
 
-			<a href="{{www_path}}/signup/" class="lightboxed">sign up</a>
-		</form>
-	</div>	
+	<div class="row">
+		<div class="two columns"></div>
+		<div class="eight columns">
+			<a href="{{www_path}}/resetpassword/" id="forgotlink" class="lightboxed">Forgot your password?</a>
+		</div>
+		<div class="two columns"></div>
+	</div>
+	</form>
+
 </div>
+
+{{#allow_signups}}
+<div class="row">
+	<div class="two columns"></div>
+	<div class="eight columns">
+		<h5>No account? <a href="{{www_path}}/signup/" class="lightboxed">Sign up.</a></h5>
+		<p>
+			An account is free, now and forever. Sign up to get started.
+		</p>
+	</div>
+	<div class="two columns"></div>
+</div>
+{{/allow_signups}}
 
 <script type="text/javascript">
 	$('#cash_signin_form').on('submit', function(e) {

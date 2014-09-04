@@ -58,7 +58,7 @@ $cash_admin->page_data['data_only'] = isset($_REQUEST['data_only']);
 
 // basic rendering options based on optional constants from constants.php
 $cash_admin->page_data['jquery_url'] = (defined('JQUERY_URL')) ? JQUERY_URL : ADMIN_WWW_BASE_PATH . '/ui/default/assets/scripts/jquery-1.8.2.min.js';
-$cash_admin->page_data['img_base_url'] = (defined('JQUERY_URL')) ? IMAGE_CDN : ADMIN_WWW_BASE_PATH;
+$cash_admin->page_data['img_base_url'] = (defined('IMAGE_CDN')) ? IMAGE_CDN : ADMIN_WWW_BASE_PATH;
 
 // check for TOS and privacy stuff
 $cash_admin->page_data['showterms'] = file_exists(ADMIN_BASE_PATH . '/terms.md');
@@ -76,6 +76,9 @@ $cash_admin->page_data['showprivacy'] = file_exists(ADMIN_BASE_PATH . '/privacy.
  ***************************************************************************************************/
 $logged_in = $admin_primary_cash_request->sessionGet('cash_actual_user');
 if (!$logged_in) {
+	// check for signup 
+	$cash_admin->page_data['allow_signups'] = (defined('ALLOW_SIGNUPS')) ? ALLOW_SIGNUPS : true;
+
 	// delete/clear sessions
 	$admin_primary_cash_request->sessionClearAll();
 
