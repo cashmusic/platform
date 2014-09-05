@@ -1044,7 +1044,7 @@ section[role=main].hero{
 
 /* Alternate Content Panels */
 
-#learnpanel,#settingspanel,#helppanel{
+#learnpanel,#settingspanel,#helppanel,#panelmask{
 	position:fixed;
 	bottom:0;
 	left:0;
@@ -1053,9 +1053,11 @@ section[role=main].hero{
 	padding:0;
 	background:#e3e3e3 url('../images/panelbg.jpg');
 	z-index:1;
+	/*
 	-webkit-transition: 0.3s;
 	-moz-transition: 0.3s;
 	trasition:0.3s;
+	*/
 	-webkit-box-shadow:inset 0 0 10px -5px rgba(0,0,0,0.3);
 	box-shadow:inset 0 0 10px -5px rgba(0,0,0,0.3);
 	background-repeat: no-repeat;
@@ -1065,7 +1067,29 @@ section[role=main].hero{
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
-	visibility: hidden;
+	/*visibility: hidden;*/
+}
+
+/*
+#learnpanel,#settingspanel,#helppanel {
+	-webkit-transition: 0.3s;
+	-moz-transition: 0.3s;
+	trasition: 0.3s;
+}
+*/
+
+#tertiary {
+	display:none;
+}
+
+#panelmask{
+	width:29%;
+	left:-29%;
+	/*display:none;*/
+	overflow:hidden;
+	-webkit-transition: left 0.3s;
+	-moz-transition: left 0.3s;
+	trasition: left 0.3s;
 }
 
 #learnpanel.loading,#settingspanel.loading,#helppanel.loading{
@@ -3484,6 +3508,20 @@ button, .button, #modallightbox .modalcancel{
 	-webkit-transition: 0.3s;
 	-moz-transition: 0.3s;
 	trasition:0.3s;
+}
+
+.learn #helppanel, .learn #settingspanel, .help #learnpanel, .help #settingspanel, .settings #learnpanel, .settings #helppanel{
+	opacity:0;
+	visibility: hidden;
+}
+
+.learn #panelmask, .help #panelmask, .settings #panelmask{
+	/*display:block;*/
+	left:-1%;
+}
+
+.learn #tertiary, .help #tertiary, .settings #tertiary{
+	display:block;
 }
 
 /* Page Description Iconography */
