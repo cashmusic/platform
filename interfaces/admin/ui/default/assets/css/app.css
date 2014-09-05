@@ -716,11 +716,11 @@ small{
 	trasition: 0.3s ease-in-out;
 }
 
-
+/*
 #hero:hover video{
 	left:100%;
 	cursor:pointer;
-}
+}*/
 
 #hero h5{
 	float:right;

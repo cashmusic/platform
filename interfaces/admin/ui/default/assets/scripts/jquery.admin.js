@@ -261,7 +261,15 @@
 		// hide mainmenu & tertiary panel
 		$( "#flipback" ).click(function() {
 			$ (this).parent().removeClass( "display" );
-			$ (this).parents("body").removeClass("panel").removeClass("learn").removeClass("settings").removeClass("help");
+			
+			if ( $("body").hasClass("panel") ){
+					$("body").removeClass("panel");
+					//timer to remove content of panel after close
+					window.globaltimeout = window.setTimeout(function(){
+						$("body").removeClass("learn").removeClass("settings").removeClass("help");
+				}, 250);
+			};
+
 			$('.panelcontent').removeClass('display');
 		});
 
@@ -378,13 +386,48 @@
 	function touchToggles() {
 		// show/hide element menus
 		$( "#learn.toggle, #learnpanel .toggle, #learnpanel .paneltitle" ).click(function() {
-			$ (this).parents("body").toggleClass("panel").toggleClass("learn");
+			//check if learn panel is open & close it
+			if ( $("body").hasClass("panel", "learn") ){
+					$("body").removeClass("panel");
+					//timer to remove content of panel after close
+					window.globaltimeout = window.setTimeout(function(){
+						$("body").removeClass("learn");
+				}, 250);
+			}
+			//open panel
+			else {
+				$ (this).parents("body").addClass("panel").addClass("learn");
+			};
 		});
+
 		$( "#settings.toggle, #settingspanel .toggle, #settingspanel .paneltitle").click(function() {
-			$ (this).parents("body").toggleClass("panel").toggleClass("settings" );
+			//check if learn panel is open & close it
+			if ( $("body").hasClass("panel", "settings") ){
+					$("body").removeClass("panel");
+					//timer to remove content of panel after close
+					window.globaltimeout = window.setTimeout(function(){
+						$("body").removeClass("settings");
+				}, 250);
+			}
+			//open panel
+			else {
+				$ (this).parents("body").addClass("panel").addClass("settings");
+			};
 		});
+
 		$( "#help.toggle, #helppanel .toggle, #helppanel .paneltitle" ).click(function() {
-			$ (this).parents("body").toggleClass("panel").toggleClass("help");
+			//check if learn panel is open & close it
+			if ( $("body").hasClass("panel", "help") ){
+					$("body").removeClass("panel");
+					//timer to remove content of panel after close
+					window.globaltimeout = window.setTimeout(function(){
+						$("body").removeClass("help");
+				}, 250);
+			}
+			//open panel
+			else {
+				$ (this).parents("body").addClass("panel").addClass("help");
+			};
 		});
 	};
 
@@ -818,12 +861,15 @@
 		// Learn tips opened by inline click
 		$(document).on('click', '.page-description', function(e) {
 
-			if($(this).parents("body").hasClass("settings") || $(this).parents("body").hasClass("help")){
-				$(this).parents("body").removeClass("settings").removeClass("help");
-				$(this).parents("body").addClass("learn");
+			if($("body").hasClass("settings") || $("body").hasClass("help")){
+				$("body").removeClass("settings").removeClass("help");
+				$("body").addClass("learn");
 				$(this).addClass("display");
-			} else if($(this).parents("body").hasClass("learn")){
-				$(this).parents("body").removeClass("panel").removeClass("learn").removeClass("settings").removeClass("help");
+			} else if($("body").hasClass("learn")){
+				$("body").removeClass("panel");
+					window.globaltimeout = window.setTimeout(function(){
+						$("body").removeClass("learn").removeClass("settings").removeClass("help");
+				}, 250);
 			} else {
 				$(this).parents("body").addClass("learn").addClass("panel");
 				$(this).addClass("display");
