@@ -184,7 +184,7 @@ $( document ).ready(function() {
 
                 <video autoplay loop>
                 <source src="/admin/ui/default/assets/video/phone.mp4" type="video/mp4">
-                <source src="/admin/ui/default/assets/video/phone.ogg" type="video/ogg">
+                <source src="/admin/ui/default/assets/video/phone.webm" type="video/webm">
                 Sorry Your browser does not support the video tag.
            		</video> 
                 </div>
@@ -205,6 +205,7 @@ $( document ).ready(function() {
            		<h1>Made For Musicians.</h1>
            		<video autoplay loop>
                 <source src="/admin/ui/default/assets/video/phone.mp4" type="video/mp4">
+                <source src="/admin/ui/default/assets/video/phone.webm" type="video/webm">
                 Sorry Your browser does not support the video tag.
             </video> 
                 <h2>The CASH Music platform is a set of digital tools designed to solve real problems for working musicians, based on years of direct collaboration with artists.</h2>
