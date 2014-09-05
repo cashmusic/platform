@@ -1427,7 +1427,7 @@ color:#f5f5f5!important;
 	padding:0;
 	background:#222;
 	opacity:1;
-	z-index:6;
+	z-index:8;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition: 0.3s ease-in-out;
@@ -2319,7 +2319,7 @@ label.checkbox {
     padding:10%;
     /*background-color:rgba(34,34,34,0.9);*/
     text-align:left;
-    z-index:5;
+    z-index:7;
     -webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition:0.3s ease-in-out;
