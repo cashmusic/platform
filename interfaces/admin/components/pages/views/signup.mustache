@@ -1,15 +1,23 @@
+<style type="text/css">
+	.terms span {
+		position:relative;
+		top:0;
+		padding:2px 5px 2px 5px;
+	}
+</style>
+
 <div class="row">
 	<div class="twelve columns">
 		<p>It's free and always will be. All you need to do to get started is provide a valid email address, choose a username, and set your password.</p>
 		<form action="{{www_path}}/signup/" id="signupform" method="post">
 		<input type="hidden" name="dosignup" value="engage" />
 		<div class="row">
-			<div class="four columns"><label for="address">Email address</label><input type="email" name="address" value="" placeholder="your email address" required /></div>
-			<div class="four columns"><label for="address">Desired username</label><input type="text" name="username" value="" placeholder="username" required /></div>
-			<div class="four columns"><label for="address">Password</label><input type="password" name="password" id="password" value="" placeholder="at least {{minimum_password_length}} characters" style="margin-bottom:0;" minlength="{{minimum_password_length}}" required /><small><a href="#" id="revealpassword" style="position:relative;top:-7px;color:#666;">reveal text</a></small></div>
+			<div class="four columns"><label for="address">Email address</label><input type="email" name="address" value="" placeholder="your email address" title="Valid address required" required /></div>
+			<div class="four columns"><label for="address">Desired username</label><input type="text" name="username" value="" placeholder="username" title="Required" required /></div>
+			<div class="four columns"><label for="address">Password</label><input type="password" name="password" id="password" value="" title="At least {{minimum_password_length}} characters" placeholder="at least {{minimum_password_length}} characters" minlength="{{minimum_password_length}}" required /><small><a href="#" id="revealpassword" style="position:relative;top:-12px;color:#666;">reveal text</a></small></div>
 		</div>
-		<div>
-			<input type="checkbox" class="checkorradio" name="termsread" required /> I have read and agree to the <a href="{{www_path}}/terms/" class="noajax" target="_blank">terms of service</a> and <a href="{{www_path}}/privacy/" class="noajax" target="_blank">privacy policy</a>
+		<div class="terms">
+			<input type="checkbox" class="checkorradio" name="termsread" title="Required" required /> I have read and agree to the <a href="{{www_path}}/terms/" class="noajax" target="_blank">terms of service</a> and <a href="{{www_path}}/privacy/" class="noajax" target="_blank">privacy policy</a>
 		</div>
 		<input type="submit" class="button" value="Sign up" />
 		</form>
