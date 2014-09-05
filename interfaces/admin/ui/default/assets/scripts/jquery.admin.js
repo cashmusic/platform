@@ -264,13 +264,13 @@
 			
 			if ( $("body").hasClass("panel") ){
 					$("body").removeClass("panel");
+
 					//timer to remove content of panel after close
 					window.globaltimeout = window.setTimeout(function(){
 						$("body").removeClass("learn").removeClass("settings").removeClass("help");
-				}, 250);
+				}, 150);
 			};
-
-			$('.panelcontent').removeClass('display');
+				$('.panelcontent').removeClass('display');
 		});
 
 		// when we need a submit button outside it's target form (see file assets, etc)
@@ -392,7 +392,7 @@
 					//timer to remove content of panel after close
 					window.globaltimeout = window.setTimeout(function(){
 						$("body").removeClass("learn");
-				}, 250);
+				}, 150);
 			}
 			//open panel
 			else {
@@ -407,7 +407,7 @@
 					//timer to remove content of panel after close
 					window.globaltimeout = window.setTimeout(function(){
 						$("body").removeClass("settings");
-				}, 250);
+				}, 150);
 			}
 			//open panel
 			else {
@@ -422,7 +422,7 @@
 					//timer to remove content of panel after close
 					window.globaltimeout = window.setTimeout(function(){
 						$("body").removeClass("help");
-				}, 250);
+				}, 150);
 			}
 			//open panel
 			else {
@@ -862,6 +862,7 @@
 		$(document).on('click', '.page-description', function(e) {
 
 			if($("body").hasClass("settings") || $("body").hasClass("help")){
+				console.log('settings/help open so swap');
 				$("body").removeClass("settings").removeClass("help");
 				$("body").addClass("learn");
 				$(this).addClass("display");
