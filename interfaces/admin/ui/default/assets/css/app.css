@@ -859,7 +859,7 @@ small{
 
 section[role=main]{
 	position:relative;
-	z-index:3;
+	z-index:5;
 	margin:0;
 	width:98%;
 	height:100%;
@@ -1044,7 +1044,8 @@ section[role=main].hero{
 
 /* Alternate Content Panels */
 
-#learnpanel,#settingspanel,#helppanel,#panelmask{
+/*#learnpanel,#settingspanel,#helppanel,#panelmask{*/
+#learnpanel,#settingspanel,#helppanel{
 	position:fixed;
 	bottom:0;
 	left:0;
@@ -1052,12 +1053,15 @@ section[role=main].hero{
 	min-height:100%;
 	padding:0;
 	background:#e3e3e3 url('../images/panelbg.jpg');
-	z-index:1;
-	/*
+	z-index:-2;
+	
 	-webkit-transition: 0.3s;
 	-moz-transition: 0.3s;
 	trasition:0.3s;
-	*/
+
+	-webkit-transition-delay: 2s; /* Safari */
+    transition-delay: 2s;
+	
 	-webkit-box-shadow:inset 0 0 10px -5px rgba(0,0,0,0.3);
 	box-shadow:inset 0 0 10px -5px rgba(0,0,0,0.3);
 	background-repeat: no-repeat;
@@ -1067,7 +1071,8 @@ section[role=main].hero{
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
-	/*visibility: hidden;*/
+	visibility: hidden;
+	opacity:1;
 }
 
 /*
@@ -1079,18 +1084,19 @@ section[role=main].hero{
 */
 
 #tertiary {
-	display:none;
+	/*display:none;*/
+	position:relative;
+	z-index:-3;
 }
 
-#panelmask{
+/*#panelmask{
 	width:29%;
 	left:-29%;
-	/*display:none;*/
 	overflow:hidden;
 	-webkit-transition: left 0.3s;
 	-moz-transition: left 0.3s;
 	trasition: left 0.3s;
-}
+}*/
 
 #learnpanel.loading,#settingspanel.loading,#helppanel.loading{
 	opacity:0;
@@ -1117,10 +1123,10 @@ section[role=main].hero{
 }
 
 .inner .panelcontent{
-	opacity:0;
-	-webkit-transition: 0.8s  ease-in-out;
-	-moz-transition: 0.8s  ease-in-out;
-	trasition: 0.8s ease-in-out;
+	/*opacity:0;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition: 0.3s ease-in-out;*/
 }
 
 .inner .panelcontent.display{
@@ -3168,7 +3174,7 @@ width:100%;
 #footer{
 	position:relative;
 	bottom:0;
-	z-index:3;
+	z-index:5;
 	text-align: center;
 	width:75%;
 	padding:10% 3% 1% 3%;
@@ -3508,21 +3514,23 @@ button, .button, #modallightbox .modalcancel{
 	-webkit-transition: 0.3s;
 	-moz-transition: 0.3s;
 	trasition:0.3s;
+	
+	-webkit-transition-delay: 0s; /* Safari */
+    transition-delay: 0s;
 }
-
+/*
 .learn #helppanel, .learn #settingspanel, .help #learnpanel, .help #settingspanel, .settings #learnpanel, .settings #helppanel{
 	opacity:0;
 	visibility: hidden;
 }
 
 .learn #panelmask, .help #panelmask, .settings #panelmask{
-	/*display:block;*/
 	left:-1%;
 }
 
 .learn #tertiary, .help #tertiary, .settings #tertiary{
 	display:block;
-}
+}*/
 
 /* Page Description Iconography */
 
