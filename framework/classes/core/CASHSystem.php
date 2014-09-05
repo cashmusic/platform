@@ -538,12 +538,6 @@
 			$fromaddress = $email_settings['systememail'];
 		}
 
-		// deal with SMTP settings later:
-		$smtp = $email_settings['smtp'];
-
-		// include swift mailer
-		include_once CASH_PLATFORM_ROOT . '/lib/swift/swift_required.php';
-
 		// let's deal with complex versus simple email addresses. if we find '>' present we try
 		// parsing for name + address from a 'Address Name <address@name.com>' style email:
 		if (strpos($fromaddress, '>')) {
@@ -557,18 +551,6 @@
 			$from = $fromaddress;	
 		}
 
-		if ($smtp) {
-			// use SMTP settings for goodtimes robust happy mailing
-			$transport = Swift_SmtpTransport::newInstance($email_settings['smtpserver'], $email_settings['smtpport']);
-			if ($email_settings['smtpusername']) {
-				$transport->setUsername($email_settings['smtpusername']);
-				$transport->setPassword($email_settings['smtppassword']);
-			}
-		} else {
-			// aww shit. use mail() and hope it gets there
-			$transport = Swift_MailTransport::newInstance();
-		}
-		
 		// handle encoding of HTML if specific HTML isn't passed in:
 		if (!$encoded_html) {
 			$template = @file_get_contents(CASH_PLATFORM_ROOT . '/settings/defaults/system_email.mustache');
@@ -587,6 +569,24 @@
 				);
 				$encoded_html = $higgins->render($template, $mustache_vars);
 			}
+		}
+
+		// deal with SMTP settings later:
+		$smtp = $email_settings['smtp'];
+
+		// include swift mailer
+		include_once CASH_PLATFORM_ROOT . '/lib/swift/swift_required.php';
+
+		if ($smtp) {
+			// use SMTP settings for goodtimes robust happy mailing
+			$transport = Swift_SmtpTransport::newInstance($email_settings['smtpserver'], $email_settings['smtpport']);
+			if ($email_settings['smtpusername']) {
+				$transport->setUsername($email_settings['smtpusername']);
+				$transport->setPassword($email_settings['smtppassword']);
+			}
+		} else {
+			// aww shit. use mail() and hope it gets there
+			$transport = Swift_MailTransport::newInstance();
 		}
 
 		$swift = Swift_Mailer::newInstance($transport);
