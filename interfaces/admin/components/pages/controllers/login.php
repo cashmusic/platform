@@ -1,6 +1,9 @@
 <?php
 // allow signups?
 $signups = (defined('ALLOW_SIGNUPS')) ? ALLOW_SIGNUPS : true;
+// minimum password length
+$cash_admin->page_data['minimum_password_length'] = (defined('MINIMUM_PASSWORD_LENGTH')) ? MINIMUM_PASSWORD_LENGTH : 10;
+
 if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 	if (isset($_POST['dosignup'])) {
 		if (!empty($_POST['address']) && isset($_POST['termsread'])) {	
@@ -113,7 +116,6 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 	$cash_admin->setPageContentTemplate('resetpassword');
 } else {
 	// this for returning password reset people:
-	$cash_admin->page_data['minimum_password_length'] = (defined('MINIMUM_PASSWORD_LENGTH')) ? MINIMUM_PASSWORD_LENGTH : 10;
 	if (substr(trim($_REQUEST['p'],'/'),0,11) == 'setpassword') {
 		$valid_key = $cash_admin->requestAndStore(
 			array(
