@@ -11,10 +11,13 @@ if ($cash_settings) {
 	if (isset($cash_settings['platforminitlocation'])) {
 		$cashmusic_root = $_SERVER['DOCUMENT_ROOT'] . $cash_settings['platforminitlocation'];
 	}	
+} else {
+	$cash_settings = parse_ini_file(realpath($root . '/../../framework/settings/cashmusic.ini.php'));
 }
 
 define('ADMIN_BASE_PATH', $root);
 define('ADMIN_WWW_BASE_PATH', '/admin');
+define('ADMIN_WWW_URL', trim(str_replace('/api','/admin',$cash_settings['apilocation']),'/'));
 define('CASH_PLATFORM_PATH', $cashmusic_root);
 /*********************************************************
  *

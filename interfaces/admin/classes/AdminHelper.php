@@ -15,7 +15,7 @@
  *
  */abstract class AdminHelper  {
 
-	public static function doLogin($email_address,$password,$require_admin=true,$browserid_assertion=false) {
+	public static function doLogin($email_address,$password,$require_admin=true) {
 		global $admin_primary_cash_request;
 		$admin_primary_cash_request->processRequest(
 			array(
@@ -23,8 +23,7 @@
 				'cash_action' => 'validatelogin',
 				'address' => $email_address, 
 				'password' => $password,
-				'require_admin' => $require_admin,
-				'browserid_assertion' => $browserid_assertion
+				'require_admin' => $require_admin
 			)
 		);
 		return $admin_primary_cash_request->response['payload'];

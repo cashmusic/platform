@@ -1,17 +1,58 @@
 <div class="row">
 	<div class="twelve columns">
 		<p>It's free and always will be. All you need to do to get started is provide a valid email address, choose a username, and set your password.</p>
-		<form action="{{www_path}}/signup/" method="post">
+		<form action="{{www_path}}/signup/" id="signupform" method="post">
 		<input type="hidden" name="dosignup" value="engage" />
 		<div class="row">
-			<div class="four columns"><label for="address">Email address</label><input type="text" name="address" value="" placeholder="your email address" /></div>
-			<div class="four columns"><label for="address">Desired username</label><input type="text" name="username" value="" placeholder="username" /></div>
-			<div class="four columns"><label for="address">Password</label><input type="password" name="password" value="" placeholder="at least {{minimum_password_length}} characters" style="margin-bottom:0;" /><small><a href="#" id="revealpassword" style="position:relative;top:-7px;color:#666;">reveal text</a></small></div>
+			<div class="four columns"><label for="address">Email address</label><input type="email" name="address" value="" placeholder="your email address" required /></div>
+			<div class="four columns"><label for="address">Desired username</label><input type="text" name="username" value="" placeholder="username" required /></div>
+			<div class="four columns"><label for="address">Password</label><input type="password" name="password" id="password" value="" placeholder="at least {{minimum_password_length}} characters" style="margin-bottom:0;" minlength="{{minimum_password_length}}" required /><small><a href="#" id="revealpassword" style="position:relative;top:-7px;color:#666;">reveal text</a></small></div>
 		</div>
 		<div>
-			<input type="checkbox" class="checkorradio" /> I have read and agree to the <a href="{{www_path}}/terms/" class="noajax" target="_blank">terms of service</a> and <a href="{{www_path}}/privacy/" class="noajax" target="_blank">privacy policy</a>
+			<input type="checkbox" class="checkorradio" name="termsread" required /> I have read and agree to the <a href="{{www_path}}/terms/" class="noajax" target="_blank">terms of service</a> and <a href="{{www_path}}/privacy/" class="noajax" target="_blank">privacy policy</a>
 		</div>
 		<input type="submit" class="button" value="Sign up" />
 		</form>
 	</div>
 </div>
+
+<script type="text/javascript">
+	// http://www.electrictoolbox.com/toggle-password-field-text-password/
+	(function() {
+		try {
+			var p = document.getElementById('password');
+			p.type = 'password';
+
+			var toggle = document.getElementById('revealpassword');
+			toggle.addEventListener('click', toggleClicked, false);
+			toggle.style.display = 'inline';
+			
+		}
+		catch(err) {}
+	})();
+
+	function toggleClicked(e) {
+		e.preventDefault();
+		var p = document.getElementById('password');
+		var value = p.value;
+
+		if(p.type == 'password') {
+			p.type = 'text';
+		}
+		else {
+			p.type = 'password';
+		}
+		
+		p.value = value;
+	}
+	/*
+	$('#do_submit').click(function() {
+		var n = $('#password').val();
+		if (n.length < {{minimum_password_length}}) {
+			alert('Your password must be at least {{minimum_password_length}} characters.');
+		} else {
+			$('#signupform').submit();
+		}
+	});
+*/
+</script>

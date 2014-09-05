@@ -204,7 +204,7 @@
 
 {{#reset_key}}	
 	<!-- Password reset popups, etc -->
-	<div class="modalbg"><div class="modaldialog" style="width:100%;top:0;">
+	<div class="modalbg"><div class="modallightbox">
 		<div class="row">
 			<div class="three columns"></div><div class="six columns" style="text-align:left;">
 				<h4>Password reset</h4>Enter a new password. At least {{minimum_password_length}} characters.<br />
@@ -213,16 +213,14 @@
 				<input type="hidden" name="key" value="{{reset_key}}" />
 				<input type="hidden" name="address" value="{{reset_email}}" />
 				<input type="password" id="new_password" name="new_password" autocomplete="off" />
-				<label for="toggle_password" style="color:#ddd;width:auto;"><input type="checkbox" id="toggle_password" style="display:inline;width:auto;" /> Reveal text</label>
-				
-				<div class="row" style="margin-top:18px;">
-					<div class="six columns"><input type="button" class="button modalcancel" value="Cancel" /></div>
-					<div class="six columns"><input type="button" id="do_submit" class="button modalyes" value="Change password" /></div>
-				</div>
+				<small><a href="#" id="revealpassword" style="position:relative;top:-7px;color:#666;">reveal text</a></small>
 
+				<input type="button" id="do_submit" class="button" value="Change password" />
 				</form>
 			</div><div class="three columns"></div>	
 		</div>
+		<a href="#" class="modalcancel smalltext"><span>cancel</span></a>
+		
 		<script type="text/javascript">
 			// http://www.electrictoolbox.com/toggle-password-field-text-password/
 			(function() {
@@ -231,7 +229,7 @@
 					p.type = 'text';
 					p.type = 'password';
 
-					var toggle = document.getElementById('toggle_password');
+					var toggle = document.getElementById('revealpassword');
 					toggle.addEventListener('click', toggleClicked, false);
 					toggle.style.display = 'inline';
 					
@@ -239,7 +237,8 @@
 				catch(err) {}
 			})();
 
-			function toggleClicked() {
+			function toggleClicked(e) {
+				e.preventDefault();
 				var p = document.getElementById('new_password');
 				var value = p.value;
 
