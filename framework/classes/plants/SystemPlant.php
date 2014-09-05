@@ -292,7 +292,7 @@ class SystemPlant extends PlantBase {
 			}
 		}
 
-		if ($is_admin) {
+		if ($password !== '') {
 			$password_hash = $this->generatePasswordHash($password,$force52compatibility);
 		} else {
 			// blank string for password hash if not an admin — will disallow logins withou

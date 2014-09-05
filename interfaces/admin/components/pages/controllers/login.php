@@ -43,6 +43,8 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 						'address' => $_POST['address']
 					)
 				);
+				$reset_key = $reset_key['payload'];
+
 				if ($add_request->response['payload']) {
 					CASHSystem::sendEmail(
 						'Your CASH Music account is ready',
@@ -51,7 +53,7 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 						'Your CASH Music account has been created. '
 							. 'To get started you just need to activate it by visiting: ' 
 							. "\n\n"
-							. ADMIN_WWW_URL . '/signup?key=' . $reset_key . '&address=' . urlencode($_POST['address'])
+							. ADMIN_WWW_URL . '/verify?key=' . $reset_key . '&address=' . urlencode($_POST['address'])
 							. "\n\n"
 							. '',
 						'Welcome to CASH Music'
@@ -63,51 +65,6 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 			}
 		} else {
 			AdminHelper::formFailure('Make sure you have agreed to the terms of service.','/');
-		}
-	}
-
-	if (isset($_POST['key'])) {
-		$valid_key = $cash_admin->requestAndStore(
-			array(
-				'cash_request_type' => 'system', 
-				'cash_action' => 'validateresetflag',
-				'address' => $_GET['address'],
-				'key' => $_GET['key']
-			)
-		);
-		if ($valid_key) {
-			$id_response = $cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'people', 
-					'cash_action' => 'getuseridforaddress',
-					'address' => $_POST['address']
-				)
-			);
-			if ($id_response['payload']) {
-				$change_response = $cash_admin->requestAndStore(
-					array(
-						'cash_request_type' => 'system', 
-						'cash_action' => 'setlogincredentials',
-						'user_id' => $id_response['payload'], 
-						'is_admin' => 1
-					)
-				);
-				if ($change_response['payload'] !== false) {
-					// mark user as logged in
-					$admin_primary_cash_request->startSession();
-					$admin_primary_cash_request->sessionSet('cash_actual_user',$id_response['payload']);
-					$admin_primary_cash_request->sessionSet('cash_effective_user',$id_response['payload']);
-					$admin_primary_cash_request->sessionSet('cash_effective_user_email',$address);
-
-					// handle initial login chores
-					$cash_admin->runAtLogin();
-					AdminHelper::formSuccess('Welcome!','/');
-				} else {
-					AdminHelper::formFailure('Please try again.','/');
-				}
-			} else {
-				AdminHelper::formFailure('Please try again.','/');
-			}
 		}
 	}
 
@@ -170,6 +127,53 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 			$cash_admin->page_data['reset_key'] = $_GET['key'];
 			$cash_admin->page_data['reset_email'] = $_GET['address'];
 			$cash_admin->page_data['reset_action'] = ADMIN_WWW_URL . '/';
+		}
+	}
+
+	if (substr(trim($_REQUEST['p'],'/'),0,6) == 'verify') {
+		if (isset($_GET['key'])) {
+			$valid_key = $cash_admin->requestAndStore(
+				array(
+					'cash_request_type' => 'system', 
+					'cash_action' => 'validateresetflag',
+					'address' => $_GET['address'],
+					'key' => $_GET['key']
+				)
+			);
+			if ($valid_key) {
+				$id_response = $cash_admin->requestAndStore(
+					array(
+						'cash_request_type' => 'people', 
+						'cash_action' => 'getuseridforaddress',
+						'address' => $_GET['address']
+					)
+				);
+				if ($id_response['payload']) {
+					$change_response = $cash_admin->requestAndStore(
+						array(
+							'cash_request_type' => 'system', 
+							'cash_action' => 'setlogincredentials',
+							'user_id' => $id_response['payload'], 
+							'is_admin' => 1
+						)
+					);
+					if ($change_response['payload'] !== false) {
+						// mark user as logged in
+						$admin_primary_cash_request->startSession();
+						$admin_primary_cash_request->sessionSet('cash_actual_user',$id_response['payload']);
+						$admin_primary_cash_request->sessionSet('cash_effective_user',$id_response['payload']);
+						$admin_primary_cash_request->sessionSet('cash_effective_user_email',$address);
+
+						// handle initial login chores
+						$cash_admin->runAtLogin();
+						AdminHelper::formSuccess('Welcome!','/');
+					} else {
+						AdminHelper::formFailure('Please try again.','/');
+					}
+				} else {
+					AdminHelper::formFailure('Please try again.','/');
+				}
+			}
 		}
 	}
 
