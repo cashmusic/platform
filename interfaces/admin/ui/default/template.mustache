@@ -56,10 +56,10 @@
 						<div id="logoutbtn" class="toggle"><a title="Logout" href="{{www_path}}/logout/" class="icon icon-signout needsconfirmation"></a></div><!--logout-->
 					</div><!--touchpoints-->
 					<div id="flipback"></div><!--flipback-->	
-					<form id="search" accept-charset="UTF-8" method="post" action="">	
+						<form id="search" accept-charset="UTF-8" method="post" action="">	
 								<label for="query">Search for:</label>
 									<i class="icon icon-search"></i><input type="text" id="query" name="query" placeholder="" /> 
-							</form><!--search-->
+						</form><!--search-->
 				</div><!--header-->		
 					<ul>
 						<li{{#ui_current_main}} class="current"{{/ui_current_main}}>
@@ -186,11 +186,12 @@
 	<div id="loadingmask">
 		<video autoplay loop >
 			<source src="{{img_base_url}}/ui/default/assets/video/load.mp4" type="video/mp4">
+			<source src="{{img_base_url}}/ui/default/assets/video/load.ogg" type="video/ogg">
 		</video>
 	</div><!--loadingmask-->
 
 	<!-- Included JS Files -->
-		<!--Glitch-->
+	<!--Glitch-->
 
 	<script src="{{www_path}}/ui/default/assets/scripts/point.js" type="text/javascript" ></script>
 	<script src="{{www_path}}/ui/default/assets/scripts/rectangle.js" type="text/javascript" ></script>
