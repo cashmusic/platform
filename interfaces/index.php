@@ -30,7 +30,7 @@ if (isset($_GET['username'])) {
     $page_vars = array(); // setting up the array for page variables
     $page_vars['www_path'] = ADMIN_WWW_BASE_PATH;
     $page_vars['jquery_url'] = (defined('JQUERY_URL')) ? JQUERY_URL : ADMIN_WWW_BASE_PATH . '/ui/default/assets/scripts/jquery-1.8.2.min.js';
-    $page_vars['img_base_url'] = (defined('JQUERY_URL')) ? IMAGE_CDN : ADMIN_WWW_BASE_PATH;
+    $page_vars['img_base_url'] = (defined('JQUERY_URL')) ? CDN_URL : ADMIN_WWW_BASE_PATH;
 
     // launch CASH Music
     require_once($cashmusic_root);
