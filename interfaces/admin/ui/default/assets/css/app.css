@@ -585,13 +585,11 @@ small{
 	text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
 	float:left;
 	clear:left;
-	opacity:0;
 }
 
 #hero h2{
 	color:#f5f5f5;
 	float:left;
-	opacity:0;
 }
 
 #hero h6{ 
@@ -620,9 +618,10 @@ small{
 	trasition: 0.3s ease-in-out;
 }
 
+/*
 #hero:hover h1, #hero:hover h2, #hero:hover h6, #hero:hover p{
 	opacity:1;
-}
+}*/
 
 #hero .actions{
 	padding: 1%;
@@ -634,6 +633,61 @@ small{
 	display:block;
 	float:left;
 	margin:0 3px 0 0;
+}
+
+#hero iframe{
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:-1;
+	width:100%;
+	height:450px;
+}
+
+#hero .welcome{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:450px;
+	background:#222;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition: 0.3s ease-in-out;
+	background:rgba(34,34,34,1) url(../images/welcome.jpg) 0 100%;
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+#hero .welcome:hover{
+	opacity:0.9;
+	cursor: pointer;
+}
+
+
+#hero .welcome h1{
+	padding:3% 4% 0 4%;
+	width:100%;
+	margin:0;
+	font-size: 40px;
+	font-weight: 700;
+	background:rgba(34,34,34,0.2);
+} 
+
+ #hero .welcome h2{
+ 	padding:0 4% 0 4%;
+ 	margin:0;
+ 	color:#00cf7f;
+ }
+
+#hero .welcome img{
+	position:absolute;
+	bottom:0;
+	left:0;
+}
+
+#hero .welcome.video{
+	top:-110%;
 }
 
 /* Login hero */
@@ -710,6 +764,7 @@ small{
 	opacity:0.98;
 	padding:0;
 	margin:0;
+	height:500px;
 	z-index: -2;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
@@ -1120,14 +1175,21 @@ section[role=main].hero{
 }
 
 .inner .panelcontent{
-	/*opacity:0;
-	-webkit-transition: 0.3s  ease-in-out;
-	-moz-transition: 0.3s  ease-in-out;
-	trasition: 0.3s ease-in-out;*/
+	opacity:0;
+	-webkit-transition-delay: 2s; /* Safari */
+    transition-delay: 2s;
+    -webkit-transition: 0.3s;
+	-moz-transition: 0.3s;
+	trasition:0.3s;
 }
 
 .inner .panelcontent.display{
 	opacity:1;
+	-webkit-transition-delay: 0s; /* Safari */
+    transition-delay: 0s;
+    -webkit-transition: 0.3s;
+	-moz-transition: 0.3s;
+	trasition:0.3s;
 }
 
 .inner .panelcontent ul{
