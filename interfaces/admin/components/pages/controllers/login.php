@@ -56,7 +56,7 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 						'Your CASH Music account has been created. '
 							. 'To get started you just need to activate it by visiting: ' 
 							. "\n\n"
-							. ADMIN_WWW_URL . '/verify?key=' . $reset_key . '&address=' . urlencode($_POST['address'])
+							. CASH_ADMIN_URL . '/verify?key=' . $reset_key . '&address=' . urlencode($_POST['address'])
 							. "\n\n"
 							. '',
 						'Welcome to CASH Music'
@@ -89,7 +89,7 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 							   . 'reset simply ignore this message and no change will be made. To reset your password '
 							   . 'follow this link: '
 							   . "\n\n"
-							   . ADMIN_WWW_URL . '/setpassword?key=' . $reset_key . '&address=' . urlencode($_POST['address']) // <-- the underscore for urls ending with a / ...i dunno. probably fixable via htaccess
+							   . CASH_ADMIN_URL . '/setpassword?key=' . $reset_key . '&address=' . urlencode($_POST['address']) // <-- the underscore for urls ending with a / ...i dunno. probably fixable via htaccess
 							   . "\n\n"
 							   . 'Thank you.';
 				CASHSystem::sendEmail(
@@ -128,7 +128,7 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 		if ($valid_key) {
 			$cash_admin->page_data['reset_key'] = $_GET['key'];
 			$cash_admin->page_data['reset_email'] = $_GET['address'];
-			$cash_admin->page_data['reset_action'] = ADMIN_WWW_URL . '/';
+			$cash_admin->page_data['reset_action'] = CASH_ADMIN_URL . '/';
 		}
 	}
 
