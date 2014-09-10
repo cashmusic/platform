@@ -35,9 +35,9 @@
 			if (substr($cash_settings['apilocation'], -1) != '/') {
 				$cash_settings['apilocation'] .= '/';
 			}
-			define('CASH_API_URL', $cash_settings['apilocation']);
-			define('ADMIN_WWW_URL', trim(str_replace('/api','/admin',$cash_settings['apilocation']),'/'));
-			define('CASH_PUBLIC_URL',str_replace('api','public',$cash_settings['apilocation']));
+			define('CASH_API_URL', trim($cash_settings['apilocation'],'/'));
+			define('CASH_ADMIN_URL', str_replace('/api','/admin',CASH_API_URL));
+			define('CASH_PUBLIC_URL',str_replace('admin','public',CASH_ADMIN_URL));
 			// set up auto-load
 			spl_autoload_register('CASHSystem::autoloadClasses');
 			
