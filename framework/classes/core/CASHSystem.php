@@ -566,7 +566,8 @@
 				$higgins = new Mustache;
 				$mustache_vars = array(
 					'encoded_html' => $encoded_html,
-					'message_title' => $message_title
+					'message_title' => $message_title,
+					'cdn_url' => (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL
 				);
 				$encoded_html = $higgins->render($template, $mustache_vars);
 			}
