@@ -1,10 +1,12 @@
 <div id="hero">
 <canvas id="canvas" width="1500" height="600"></canvas>
 <h1>{{title}}</h1>
+{{^isarchive}}
 <div class="actions">
 			<a href="{{www_path}}/campaigns/edit/{{id}}" class="lightboxed mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
 			<a href="{{www_path}}/campaigns/delete/{{id}}" class="mininav_flush needsconfirmation delete"><i class="icon icon-ban-circle"></i>Delete</a>
 	</div><!--actions-->
+{{/isarchive}}	
 <h2>{{description}} / {{formatted_date}}</h2> 
 	
 {{^isarchive}}
