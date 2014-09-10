@@ -257,10 +257,12 @@ input.checkorradio:checked{
 
 .login #cash_signin_form {
 	padding-top:175px;
-	background:transparent url(../images/invert_logo.svg) center top no-repeat;
+	background:transparent url(../images/invert_logo.svg) center 30px no-repeat;
+	background-size:100px;
 }
 
 .login #cash_signin_form input.button {
+	width:100%;
 	margin-top:44px;
 }
 
