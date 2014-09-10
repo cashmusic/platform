@@ -156,7 +156,19 @@ if ($cash_admin->platform_type == 'single') {
 $cash_admin->page_data['user_page_uri'] = str_replace('https','http',rtrim(str_replace('admin', $current_username, CASHSystem::getCurrentURL()),'/'));
 $cash_admin->page_data['user_page_display_uri'] = str_replace('http://','',$cash_admin->page_data['user_page_uri']);
 
+// all user elements defined
+$elements_response = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'element', 
+		'cash_action' => 'getelementsforuser',
+		'user_id' => $cash_admin->effective_user_id
+	)
+);
+if (!is_array($elements_response['payload'])) {
+	$elements_response['payload'] = array();
+}
 
+// all campaigns
 $campaigns_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'element', 
@@ -164,6 +176,21 @@ $campaigns_response = $cash_admin->requestAndStore(
 		'user_id' => $cash_admin->effective_user_id
 	)
 );
+
+$campaign_elements = array();
+if (is_array($campaigns_response['payload'])) {
+	foreach ($campaigns_response['payload'] as $campaign) {
+		$campaign['elements'] = json_decode($campaign['elements'],true);
+		if (is_array($campaign['elements'])) {
+			$campaign_elements = array_merge($campaign['elements'],$campaign_elements);
+		}
+	}
+}
+
+$extra_elements = count($elements_response['payload']) - count($campaign_elements);
+if ($extra_elements !== 0) {
+	$cash_admin->page_data['show_archive'] = true;
+}
 
 if (is_array($campaigns_response['payload'])) {
 	foreach ($campaigns_response['payload'] as &$campaign) {

@@ -7,8 +7,10 @@
 	</div><!--actions-->
 <h2>{{description}} / {{formatted_date}}</h2> 
 	
-<div class="stat" style="width:90%;"><h3>90K <span>New Signups</span></h3></div>
-<div class="stat" style="width:60%;"><h3>90K <span>New Signups</span></h3></div>
+{{^isarchive}}
+	<div class="stat" style="width:90%;"><h3>90K <span>New Signups</span></h3></div>
+	<div class="stat" style="width:60%;"><h3>90K <span>New Signups</span></h3></div>
+{{/isarchive}}
 </div><!--hero-->
 
 <div class="row">
@@ -30,11 +32,13 @@
 		</ul>
 		{{/elements_for_campaign}}
 
-		{{^elements_for_campaign}}
-		<p>No elements have been added yet.</p>
-		{{/elements_for_campaign}}
-		<a href="{{www_path}}/elements/add/" class="button lightboxed store">Add an element</a>
-		<h4>Publish settings</h4>
-		<a href="/admin/elements/templates/edit/{{template_id}}/page/parent/{{id}}" class="button lightboxed">Edit campaign page</a>
+		{{^isarchive}}
+			{{^elements_for_campaign}}
+			<p>No elements have been added yet.</p>
+			{{/elements_for_campaign}}
+			<a href="{{www_path}}/elements/add/" class="button lightboxed store">Add an element</a>
+			<h4>Publish settings</h4>
+			<a href="/admin/elements/templates/edit/{{template_id}}/page/parent/{{id}}" class="button lightboxed">Edit campaign page</a>
+		{{/isarchive}}
 	</div>
 </div>

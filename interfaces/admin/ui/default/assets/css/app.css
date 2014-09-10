@@ -313,11 +313,12 @@ span.invalid {
 /* Buttons General */
 
 button, .button, #modallightbox .modalcancel{
+	display:inline-block;
 	border:solid 1px #00cf7f;
 	background:none;
 	padding:10px 50px;
 	word-wrap:break-word;
-	margin:3% 1% 3% 0;
+	margin:2% 1% 2% 0;
 	text-align: center;
 	/*float:left;*/
 	width:100%;
