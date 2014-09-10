@@ -814,6 +814,7 @@
 	function venueAutocompleteBehavior() {
 		$('.autocomplete').each( function() {
 			var acURL = $(this).data('cash-endpoint-url');
+			console.log('autocomplete');
 			$(this).autocomplete({
 				// probably should do some error handling here.
 				source: function( request, response ) {
@@ -822,13 +823,17 @@
 						dataType: "json",
 						error: function( data) {},
 						success: function( data ) {
-							response( $.map( data, function( item ) {
-								return {
-									label: item.displayString,
-									value: item.displayString,
-									id: item.id
-								}
-							}));
+							console.log('success');
+							response(
+								$.map( data, function( item ) {
+									console.log('map');
+									return {
+										label: item.displayString,
+										value: item.displayString,
+										id: item.id
+									}
+								})
+							);
 						}
 					})
 				},
