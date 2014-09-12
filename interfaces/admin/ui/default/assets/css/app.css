@@ -85,6 +85,13 @@ body.login #footer, body.login h2#pagetitle {
 	opacity:0.9;
 }
 
+a.revealpassword {
+	font-size:0.85em;
+	color:#666;
+	position:relative !important;
+	top:-16px !important;
+}
+
 /*
 #loadingmask:after {
     content : "";

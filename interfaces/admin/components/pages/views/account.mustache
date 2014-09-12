@@ -4,26 +4,26 @@
 	<input type="password" style="display:none">
 	<!-- YOLO -->
 	<input type="hidden" name="doaccountchange" value="makeitso" />
-	<div class="row">
-		<div class="four columns">
+
 			<input type="hidden" name="email_address" value="{{email_address}}" />
 			<label for="new_email_address">Email address</label>
-			<input type="text" id="new_email_address" name="new_email_address" placeholder="{{email_address}}" />
-		</div>
-		<div class="four columns">
-			<label for="new_username">Username (alphanumeric only)</label>
-			<input type="text" id="new_username" name="new_username" placeholder="{{username}}" />
-		</div>
-		<div class="four columns">
-			<label for="new_password">New password (Blank = no change)</label>
-			<input type="password" id="new_password" name="new_password" autocomplete="off" />
-			<label for="toggle_password"><input type="checkbox" id="toggle_password" class="checkorradio" />Reveal text</label>
-		</div>
-	</div>
+			<input type="text" id="new_email_address" name="new_email_address" placeholder="{{email_address}}" value="{{email_address}}" />
 
-<div class="row">
-	<div class="four columns">
-		<br /><br />
+			<label for="new_username">Username (alphanumeric only)</label>
+			<input type="text" id="new_username" name="new_username" placeholder="{{username}}" value="{{username}}" />
+
+			<label for="new_username">Display name</label>
+			<input type="text" id="new_displayname" name="new_displayname" placeholder="{{displayname}}" value="{{displayname}}" />
+
+			<label for="new_url">URL</label>
+			<input type="text" id="new_url" name="new_url" placeholder="{{url}}" value="{{url}}" />
+
+			<label for="new_password">New password (Blank = no change)</label>
+			<input type="password" id="new_password" class="needsreveal" name="new_password" autocomplete="off" />
+			<a href="#" class="revealpassword" style="position:relative;top:-7px;color:#666;">reveal text</a>
+
+
+
 		<p>
 			Please enter your current password to make changes:
 		</p>
@@ -32,19 +32,17 @@
 		<br />
 		<!--input type="submit" value="Save changes" /-->
 		<button type="submit"><i class="icon icon-save"></i>Save changes</button>
-	</div>
-</div>
 </form>
 
-<br/><hr />
-<h4><br/>Delete account</h4>
+<p>&nbsp;</p>
+
+<hr />
+<h4>Delete account</h4>
 
 <p>
 	Deleting your account is <b>permanent</b>. There is no undo. It's also kind of sad. Be very sure you want to do it.
 </p>
 <a href="{{www_path}}/account/delete/" class="button noajax needsconfirmation">Delete account</a>
-
-<br /><br /><br />
 
 {{#platform_type_single}}
 	<div>
@@ -62,35 +60,3 @@
 		</div>
 	</div>
 {{/platform_type_single}}
-
-
-<script type="text/javascript">
-	// http://www.electrictoolbox.com/toggle-password-field-text-password/
-	(function() {
-		try {
-			var p = document.getElementById('new_password');
-			p.type = 'text';
-			p.type = 'password';
-
-			var toggle = document.getElementById('toggle_password');
-			toggle.addEventListener('click', toggleClicked, false);
-			toggle.style.display = 'inline';
-			
-		}
-		catch(err) {}
-	})();
-
-	function toggleClicked() {
-		var p = document.getElementById('new_password');
-		var value = p.value;
-
-		if(p.type == 'password') {
-			p.type = 'text';
-		}
-		else {
-			p.type = 'password';
-		}
-		
-		p.value = value;
-	} 
-</script>

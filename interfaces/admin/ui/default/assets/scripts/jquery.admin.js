@@ -182,7 +182,7 @@
 
 	function refreshPanelData(url){
 		$.post(url, 'data_only=1', function(data) {
-  			$('.panelcontent').html(data.content);
+  			$('.panelcontent').html($(data.content));
   		});	
 	};
 
@@ -376,6 +376,23 @@
         	// Alternatively you could use:
         	(new Image()).src = this;
    		});*/
+
+		$(document).on('click', '.revealpassword' ,function(e){
+			e.preventDefault();
+			var p = $(e.target).prev('input[type="password"]').attr('value');
+
+			$(e.target).parent().children('.needsreveal').each(function() {
+				var value = $(this).prop('value');
+				
+				if($(this).prop('type') == 'password') {
+					$(this).attr('type','text');
+				} else {
+					$(this).attr('type','password');
+				}
+				
+				$(this).attr('value',value);
+			});
+		});
 	}
 
 	/* Show/Hide Element Menus */
