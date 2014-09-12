@@ -288,6 +288,7 @@ CREATE TABLE `people` (
   `address_region` varchar(255),
   `address_postalcode` varchar(255),
   `address_country` varchar(255),
+  `url` varchar(255),
   `is_admin` bool NOT NULL DEFAULT '0',
   `data` text,
   `api_key` char(64) DEFAULT '',

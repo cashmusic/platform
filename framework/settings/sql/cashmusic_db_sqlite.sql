@@ -257,6 +257,7 @@ CREATE TABLE people (
   address_region text,
   address_postalcode text,
   address_country text,
+  url text,
   is_admin integer DEFAULT '0',
   data text,
   api_key text DEFAULT '',
