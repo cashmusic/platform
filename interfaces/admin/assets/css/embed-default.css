@@ -218,29 +218,42 @@ input[type=submit]:hover, .button:hover{
 
 /* Succss */
 
+.cash_success {
+	text-align: center;
+}
+
+.cash_success p {
+	margin:0 auto 1.5em auto;
+}
+
 .cash_success h1{
 	margin:0 0 10px 0;
 	padding:0;
 	font-size: 28px;
-	float:left;
+	font-weight: bold;
+	/*float:left;*/
 }
 
 .cash_success .download{
-	float:right;
+	/*float:right;*/
 	padding:2%;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition:0.3s ease-in-out;
 }
 
+.cash_success .download::before { content: "Download: "; }
+
 .cash_success .download:hover{
 	background:#000;
 	color:#fff;
 }
 
+/*
 .cash_success .description{
 	clear:left;
 }
+*/
 
 /* Release Flip */
 .packshot { 

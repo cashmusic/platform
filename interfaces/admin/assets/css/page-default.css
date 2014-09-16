@@ -104,6 +104,7 @@ h2.subtitle{
 	font-size:11px;
 	position:fixed;
 	bottom:0;
+	opacity:0.35;
 }
 
 .madebycash a{
@@ -120,6 +121,7 @@ h2.subtitle{
 
 .madebycash:hover{
 	background-color:rgba(0,0,0,0.3);
+	opacity:1;
 }
 
 /* Media Queries */
