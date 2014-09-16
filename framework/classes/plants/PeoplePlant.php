@@ -781,7 +781,7 @@ class PeoplePlant extends PlantBase {
 								'Complete sign-up for: ' . $list_details['name'],
 								$list_details['user_id'],
 								$address,
-								'You requested to join the ' . $list_details['name'] . ' email list. If this message has been sent in error ignore it.'
+								'You requested to join the ' . $list_details['name'] . ' list. If this message has been sent in error ignore it.'
 									. 'To complete your sign-up simply visit: ' . "\n\n" . $verification_url,
 								'Please confirm your membership'
 							);
