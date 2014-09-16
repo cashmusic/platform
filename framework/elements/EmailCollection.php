@@ -35,14 +35,15 @@ class EmailCollection extends ElementBase {
 					$verification_request = new CASHRequest(array(
 						'cash_request_type' => 'people', 
 						'cash_action' => 'checkverification',
-						'address' => $this->original_response['payload']['address'],
+						'address' => $this->original_request['address'],
 						'list_id' => $this->options['email_list_id']
 					));
+
 					if (!$verification_request->response['payload']) {
 						// not verified, so do not show the final message, and instead give a "you must verify" jam
 						$show_final_message = false;
 						$this->setTemplate('mustverify');
-					}
+					} 
 				} 
 				if ($show_final_message) {
 					if ($this->options['asset_id'] != 0) {

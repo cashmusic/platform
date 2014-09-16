@@ -14,6 +14,11 @@
 			"instructions":"Leave the asset set to 'none' for a straight email capture, or choose a target asset to try email-for-download."
 		}
 	},
+	"copy":{
+		"en":{
+			"verify":"Check your inbox for a verification email with download link."
+		}
+	},
 	"options":{
 		"main":{
 			"group_label":{

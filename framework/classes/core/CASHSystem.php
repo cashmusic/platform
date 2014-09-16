@@ -530,8 +530,15 @@
 				)
 			);
 			$user_details = $user_request->response['payload'];
-			if ($user_details['username']) {
-				$fromaddress = $user_details['username'] . ' <' . $user_details['email_address'] . '>';
+			$setname = false;
+			if (trim($user_details['display_name'] . '') !== '' && $user_details['display_name'] !== 'Anonymous') {
+				$setname = $user_details['display_name'];
+			}
+			if (!$setname && $user_details['username']) {
+				$setname = $user_details['username'];	
+			}
+			if ($setname) {
+				$fromaddress = $setname . ' <' . $user_details['email_address'] . '>';
 			} else {
 				$fromaddress = $user_details['email_address'];
 			}
