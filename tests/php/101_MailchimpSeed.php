@@ -109,7 +109,8 @@ class MailchimpSeedTests extends UnitTestCase {
 			$mc = new MailchimpSeed($this->cash_user_id, $this->mailchimp_connection_id);
 
 			$webhooks1 = $mc->listWebhooks();
-			$this->assertTrue(count($webhooks1) == 0, 'zero webhooks initially');
+			$initial_webhooks = count($webhooks1);
+			//$this->assertTrue(count($webhooks1) == 0, 'zero webhooks initially');
 
 			$rc        = $mc->listWebhookAdd($webhook_test_url);
 			$this->assertTrue($rc);
@@ -117,10 +118,10 @@ class MailchimpSeedTests extends UnitTestCase {
 			$webhooks2 = $mc->listWebhooks();
 			$this->assertIsa($webhooks2, 'Array');
 			$this->assertTrue($webhooks2);
-			$this->assertTrue(count($webhooks2) == 1, 'added a single webhook');
-			$this->assertTrue($webhooks2[0]);
-			$this->assertTrue($webhooks2[0]['url']);
-			$this->assertEqual($webhook_test_url, $webhooks2[0]['url'], 'url matches our sent url');
+			$this->assertTrue(count($webhooks2) == $initial_webhooks + 1, 'incorrect webhook count');
+			$this->assertTrue($webhooks2[$initial_webhooks]); // using $initial_webhooks as index — zero if none, course corrects to our "new" webhook
+			$this->assertTrue($webhooks2[$initial_webhooks]['url']);
+			$this->assertEqual($webhook_test_url, $webhooks2[$initial_webhooks]['url'], 'urls do not match');
 
 			$rc        = $mc->listWebhookDel($webhook_test_url);
 			$this->assertTrue($rc);
@@ -145,10 +146,10 @@ class MailchimpSeedTests extends UnitTestCase {
 			$api_credentials = $data_request->response['payload'];
 			// valid API url, but likely localhost
 			
-			$webhook_api_url = CASH_API_URL . 'verbose/people/processwebhook/origin/com.mailchimp/list_id/' . $this->test_list_id . '/api_key/' . $api_credentials['api_key'];
+			$webhook_api_url = CASH_API_URL . '/verbose/people/processwebhook/origin/com.mailchimp/list_id/' . $this->test_list_id . '/api_key/' . $api_credentials['api_key'];
 			
 			// make sure we're rejecting bad keys
-			$bad_webhook_api_url  = CASH_API_URL . 'verbose/people/processwebhook/origin/com.mailchimp/list_id/' . $this->test_list_id . '/api_key/incorrect';
+			$bad_webhook_api_url  = CASH_API_URL . '/verbose/people/processwebhook/origin/com.mailchimp/list_id/' . $this->test_list_id . '/api_key/incorrect';
 			$response = json_decode(CASHSystem::getURLContents($bad_webhook_api_url,array('sample'=>'data'),true));
 			// TODO: this is currently returning 400, we need to get that to 403, but we'll test for not-200 
 			//       which at least proves we're not accepting bad keys

@@ -1,5 +1,10 @@
 {
 	"pagetip":"Here's an overview of your account. Look for these help tips on every page.",
+	"learn":"",
+	"related":{
+		"cashmusic.org":"http://cashmusic.org/",
+		"CASH help/support site":"http://help.cashmusic.org/"
+	},
 	"labels":{},
 	"tooltips":{},
 	"copy":{}
