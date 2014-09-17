@@ -715,11 +715,24 @@ class PeoplePlant extends PlantBase {
 	 */protected function addAddress($address,$list_id,$do_not_verify=false,$initial_comment='',$additional_data='',$name='Anonymous',$force_verification_url=false,$request_from_service=false,$service_opt_in=true,$extra_querystring='',$first_name='',$last_name='',$additional_data='') {
 		if (filter_var($address, FILTER_VALIDATE_EMAIL)) {
 			// first check to see if the email is already on the list
+			$take_action = false;
 			$user_id = $this->getUserIDForAddress($address);
-			if (!$this->getAddressListInfo($address,$list_id)) {
+			if ($user_id) {
+				$user_info = $this->getAddressListInfo($address,$list_id);
+				if (!$user_info) {
+					$take_action = 'addandemail';
+				} else {
+					if (!$user_info['verified']) {
+						$take_action = 'onlyemail';
+					}
+				}
+			} else {
+				$take_action = 'addandemail';
+			}
+			if ($take_action) {
 				$initial_comment = strip_tags($initial_comment);
 				$name = strip_tags($name);
-				$user_id = $this->getUserIDForAddress($address);
+				//$user_id = $this->getUserIDForAddress($address);
 				if (!$user_id) {
 					if ($name='Anonymous' && (!empty($first_name) || !empty($last_name))) {
 						$name = trim($first_name . ' ' . $last_name);
@@ -743,17 +756,21 @@ class PeoplePlant extends PlantBase {
 					}
 				}
 				if ($user_id) {
-					$result = $this->db->setData(
-						'list_members',
-						array(
-							'user_id' => $user_id,
-							'list_id' => $list_id,
-							'initial_comment' => $initial_comment,
-							'additional_data' => $additional_data,
-							'verified' => 0,
-							'active' => 1
-						)
-					);
+					if ($take_action != 'onlyemail') {
+						$result = $this->db->setData(
+							'list_members',
+							array(
+								'user_id' => $user_id,
+								'list_id' => $list_id,
+								'initial_comment' => $initial_comment,
+								'additional_data' => $additional_data,
+								'verified' => 0,
+								'active' => 1
+							)
+						);
+					} else {
+						$result = true;
+					}
 					if ($result && !$request_from_service) {
 						if ($do_not_verify) {
 							$api_connection = $this->getConnectionAPI($list_id);
@@ -782,7 +799,7 @@ class PeoplePlant extends PlantBase {
 								$list_details['user_id'],
 								$address,
 								'You requested to join the ' . $list_details['name'] . ' list. If this message has been sent in error ignore it.'
-									. 'To complete your sign-up simply visit: ' . "\n\n" . $verification_url,
+                                   . 'To complete your sign-up visit: ' . "\n\n" . $verification_url . "\n\nNote to iOS users: you can only download on your computers, then sync to your device. Downloads will not work if on your iPhone or iPad.",
 								'Please confirm your membership'
 							);
 						}

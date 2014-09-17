@@ -1,5 +1,7 @@
 {
 	"pagetip":"Here you'll find detailed information about the transaction, fees charged by your payment processing service, items included, and all data captured in the process.",
+	"learn":"",
+	"related":{},
 	"labels":{},
 	"tooltips":{},
 	"copy":{}

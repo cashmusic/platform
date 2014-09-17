@@ -1,5 +1,7 @@
 {
 	"pagetip":"Flesh out details about your release. You can always change any details or fulfillment files associated with a release. All linked commerce items and elements will automatically reflect the change. ",
+	"learn":"",
+	"related":{},
 	"labels":{},
 	"tooltips":{},
 	"copy":{}

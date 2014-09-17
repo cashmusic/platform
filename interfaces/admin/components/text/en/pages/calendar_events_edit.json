@@ -1,5 +1,7 @@
 {
 	"pagetip":"You can have as many unpublished dates in the system as you like, publishing them when it's time to announce a tour.<br /><br />The cancellation field exists so you can publicly mark an already publicized show as cancelled, updating the comments with relevant information about refunds, etc.",
+	"learn":"",
+	"related":{},
 	"labels":{},
 	"tooltips":{},
 	"copy":{}
