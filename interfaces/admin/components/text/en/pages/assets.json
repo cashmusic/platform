@@ -1,6 +1,6 @@
 {
-	"pagetip":"Here you’ll see your assets, playlists, and any files you’ve added. To create a new asset, just click the ‘add a new ...’ link, give it a name and description, and you’ll be able to start editing and adding files immediately.",
-	"learn":"",
+	"pagetip":"Add/edit your releases and the files that you’ll need for your campaigns here.",
+	"learn":"<p>This section is where you’ll organize and define your releases as well as add all the digital files that you’ll be using in your elements.</p>",
 	"related":{},
 	"labels":{},
 	"tooltips":{},
