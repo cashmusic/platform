@@ -116,15 +116,22 @@
 			if (!data) {
 				doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
 			} else {
+				/*
 				if (data.initiallogin) {
 					console.log('login');
 					$('body').removeClass('login');
 					$('#loadingmask').css('width','1%');
 				}
+				*/
 				if (data.template_name)	{
 					if (data.template_name.toLowerCase().indexOf('login') >= 0) {
 						$('body').addClass('login');
 						history.pushState(1, null, cashAdminPath + '/');
+					} else {
+						$('body').removeClass('login');
+						if ($('#loadingmask').css('width') !== '1%') {
+							$('#loadingmask').css('width','1%');
+						}
 					}
 				}
 				if (!("doredirect" in data)){ data.doredirect = false; }
