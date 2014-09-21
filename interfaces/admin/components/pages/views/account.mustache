@@ -1,4 +1,4 @@
-<form accept-charset="UTF-8" method="post" action="{{www_path}}/account/">
+<form accept-charset="UTF-8" method="post" class="returntocurrentroute" action="{{www_path}}/account/">
 	<!-- extra fields to stop password managers from overriding username/password fields -->
 	<input style="display:none">
 	<input type="password" style="display:none">
@@ -13,10 +13,10 @@
 			<input type="text" id="new_username" name="new_username" placeholder="{{username}}" value="{{username}}" />
 
 			<label for="new_username">Display name</label>
-			<input type="text" id="new_displayname" name="new_displayname" placeholder="{{displayname}}" value="{{displayname}}" />
+			<input type="text" id="new_displayname" name="new_displayname" placeholder="{{display_name}}" value="{{display_name}}" />
 
 			<label for="new_url">URL</label>
-			<input type="text" id="new_url" name="new_url" placeholder="{{url}}" value="{{url}}" />
+			<input type="text" id="new_url" name="new_url" value="{{url}}" placeholder="http://..." />
 
 			<label for="new_password">New password (Blank = no change)</label>
 			<input type="password" id="new_password" class="needsreveal" name="new_password" autocomplete="off" />
@@ -31,7 +31,7 @@
 		<input type="password" id="password" name="password" autocomplete="off" />
 		<br />
 		<!--input type="submit" value="Save changes" /-->
-		<button type="submit"><i class="icon icon-save"></i>Save changes</button>
+		<button type="submit">Save changes</button>
 </form>
 
 <p>&nbsp;</p>

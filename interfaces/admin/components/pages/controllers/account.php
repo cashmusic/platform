@@ -30,6 +30,16 @@ if (isset($_POST['doaccountchange'])) {
 				$changes['username'] = strtolower(preg_replace("/[^a-z0-9]+/i", '',$_POST['new_username']));
 			}
 		}
+		if (isset($_POST['new_displayname'])) { 
+			if ($_POST['new_displayname']) {
+				$changes['display_name'] = $_POST['new_displayname'];
+			}
+		}
+		if (isset($_POST['new_url'])) { 
+			if ($_POST['new_url']) {
+				$changes['url'] = $_POST['new_url'];
+			}
+		}
 		if (isset($_POST['new_password'])) { 
 			if ($_POST['new_password']) {
 				if (!defined('MINIMUM_PASSWORD_LENGTH')) {
@@ -65,6 +75,8 @@ $user_request = $cash_admin->requestAndStore(
 if (is_array($user_request['payload'])) {
 	$cash_admin->page_data['email_address'] = $user_request['payload']['email_address'];
 	$cash_admin->page_data['username'] = $user_request['payload']['username'];
+	$cash_admin->page_data['display_name'] = $user_request['payload']['display_name'];
+	$cash_admin->page_data['url'] = $user_request['payload']['url'];
 	$cash_admin->page_data['api_key'] = $user_request['payload']['api_key'];
 	$cash_admin->page_data['api_url'] = CASH_API_URL;
 	if (isset($_REQUEST['reveal'])) {
