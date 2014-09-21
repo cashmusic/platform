@@ -117,6 +117,7 @@
 				doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
 			} else {
 				if (data.initiallogin) {
+					console.log('login');
 					$('body').removeClass('login');
 					$('#loadingmask').css('width','1%');
 				}
@@ -832,7 +833,6 @@
 	function venueAutocompleteBehavior() {
 		$('.autocomplete').each( function() {
 			var acURL = $(this).data('cash-endpoint-url');
-			console.log('autocomplete');
 			$(this).autocomplete({
 				// probably should do some error handling here.
 				source: function( request, response ) {
@@ -841,10 +841,8 @@
 						dataType: "json",
 						error: function( data) {},
 						success: function( data ) {
-							console.log('success');
 							response(
 								$.map( data, function( item ) {
-									console.log('map');
 									return {
 										label: item.displayString,
 										value: item.displayString,
@@ -891,7 +889,6 @@
 		$(document).on('click', '.page-description', function(e) {
 
 			if($("body").hasClass("settings") || $("body").hasClass("help")){
-				console.log('settings/help open so swap');
 				$("body").removeClass("settings").removeClass("help");
 				$("body").addClass("learn");
 				$(this).addClass("display");
