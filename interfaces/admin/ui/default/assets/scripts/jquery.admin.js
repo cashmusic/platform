@@ -116,7 +116,6 @@
 			if (!data) {
 				doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
 			} else {
-				console.log(data);
 				/*
 				if (data.initiallogin) {
 					console.log('login');
