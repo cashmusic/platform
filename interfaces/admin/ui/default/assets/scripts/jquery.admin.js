@@ -183,6 +183,7 @@
 	function refreshPanelData(url){
 		$.post(url, 'data_only=1', function(data) {
   			$('.panelcontent').html($(data.content));
+  			formValidateBehavior();
   		});	
 	};
 

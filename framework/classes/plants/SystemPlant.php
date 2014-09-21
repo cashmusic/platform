@@ -411,7 +411,7 @@ class SystemPlant extends PlantBase {
 	 *
 	 * @param {int} $user_id -  the user
 	 * @return array|false
-	 */protected function setLoginCredentials($user_id,$address=false,$password=false,$username=false,$is_admin=false) {
+	 */protected function setLoginCredentials($user_id,$address=false,$password=false,$username=false,$is_admin=false,$display_name=false,$url=false) {
 		if ($password) {
 			$password_hash = $this->generatePasswordHash($password);	
 		}
@@ -436,6 +436,12 @@ class SystemPlant extends PlantBase {
 		}
 		if ($is_admin) {
 			$credentials['is_admin'] = $is_admin;
+		}
+		if ($display_name) {
+			$credentials['display_name'] = $display_name;
+		}
+		if ($url) {
+			$credentials['url'] = $url;
 		}
 		if ($username) {
 			$id_request = new CASHRequest(

@@ -59,17 +59,12 @@ Advanced settings have been hidden and should not be changed unless you like bro
 		<p>
 
 		</p>
-		<form accept-charset="UTF-8" method="post" action="{{www_path}}/settings/">	
+		<form accept-charset="UTF-8" method="post" class="returntocurrentroute" action="{{www_path}}/settings/">	
 			<label for="currency_id">Currency</label>
-			<div class="row">
-				<div class="six columns">
-					<select id="currency_id" name="currency_id">
-						{{{currency_options}}}
-					</select>
-				</div><div class="six columns">
-				<button type="submit"><i class="icon icon-money"></i>Use this currency</button>
-				</div>
-			</div>
+			<select id="currency_id" name="currency_id">
+				{{{currency_options}}}
+			</select>
+			<button type="submit">Use this currency</button>
 		</form>
 	</div>
 </div>
