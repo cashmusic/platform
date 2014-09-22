@@ -217,6 +217,7 @@ $cash_admin->page_data = array_merge($cash_admin->page_data,$ui_interaction_text
 // page specifics
 $page_components = AdminHelper::getPageComponents();
 $cash_admin->page_data['ui_page_tip'] = $page_components['pagetip'];
+$cash_admin->page_data['ui_learn_text'] = $page_components['learn'];
 if (is_array($page_components['labels'])) {
 	foreach ($page_components['labels'] as $key => $val) {
 		$cash_admin->page_data['label_' . $key] = $val;

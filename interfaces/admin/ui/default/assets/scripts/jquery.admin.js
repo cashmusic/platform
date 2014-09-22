@@ -91,8 +91,14 @@
 			doMessage(data.page_message,'');
 		}
 		//$('#pagetips').hide();
-		$('#current_pagetip').html(data.ui_page_tip);
-		$('#pagedisplay').html(data.content);
+		if (data.ui_page_tip != '') {
+			$('#learn_tip').html(data.ui_page_tip);
+			$('#learn_tip').css('display','block');
+		} else {
+			$('#learn_tip').css('display','none');
+		}
+		$('#learn_text').html(data.ui_learn_text);
+		$('#page_content').html(data.content);
 		$('#pagetitle span').html(data.ui_title);
 
 		window.scrollTo(0,0);
@@ -112,41 +118,51 @@
 	 */
 	function doPersistentPost(url,formdata,showerror,showmessage,skiphistory) {
 		// do a POST to get the page data, change pushstate, redraw page
-		jQuery.post(url, formdata+'data_only=1', function(data) {
-			if (!data) {
-				doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
-			} else {
-				if (data.initiallogin) {
-					$('body').removeClass('login');
-					$('#loadingmask').css('width','1%');
-				}
-				if (data.template_name)	{
-					if (data.template_name.toLowerCase().indexOf('login') >= 0) {
-						$('body').addClass('login');
-						history.pushState(1, null, cashAdminPath + '/');
-					}
-				}
-				if (!("doredirect" in data)){ data.doredirect = false; }
-				if (data.doredirect) {
-					if (data.showerror) {
-						refreshPageData(data.location,false,data.showerror);
-					} else if (data.showmessage) {
-						refreshPageData(data.location,false,false,data.showmessage);
-					} else {
-						refreshPageData(data.location);
-					}
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: formdata+'data_only=1',
+			success: function(data) {
+				if (!data) {
+					doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
 				} else {
-					if (showerror) { data.error_message = showerror; }
-					if (showmessage) { data.page_message = showmessage; }
-					redrawPage(data);
-					if (!skiphistory) {history.pushState(1, null, url);}
-					setContentBehaviors();
+					if (data.initiallogin) {
+						console.log('login');
+						$('body').removeClass('login');
+						$('#loadingmask').css('width','1%');
+					}
+					if (data.template_name)	{
+						if (data.template_name.toLowerCase().indexOf('login') >= 0) {
+							$('body').addClass('login');
+							history.pushState(1, null, cashAdminPath + '/');
+						} 
+					}
+					if (!("doredirect" in data)){ data.doredirect = false; }
+					if (data.doredirect) {
+						if (data.showerror) {
+							refreshPageData(data.location,false,data.showerror);
+						} else if (data.showmessage) {
+							refreshPageData(data.location,false,false,data.showmessage);
+						} else {
+							refreshPageData(data.location);
+						}
+					} else {
+						if (showerror) { data.error_message = showerror; }
+						if (showmessage) { data.page_message = showmessage; }
+						redrawPage(data);
+						if (!skiphistory) {history.pushState(1, null, url);}
+						setContentBehaviors();
+					}
+					//$('#ajaxloading').hide();
+					$('#ajaxloading, #logo, #hero, #learnpanel, #settingspanel, #helppanel').removeClass('loading');
+					$('#pagedisplay').fadeTo(200,1);
 				}
-				//$('#ajaxloading').hide();
-				$('#ajaxloading, #logo, #hero, #learnpanel, #settingspanel, #helppanel').removeClass('loading');
-				$('#pagedisplay').fadeTo(200,1);
-			}
-		},'json');
+			},
+			error: function(obj,status,errorThrown) {
+				console.log(status + ': ' + errorThrown);
+			},
+			dataType: 'json'
+		});
 	}
 
 	/**
@@ -183,6 +199,7 @@
 	function refreshPanelData(url){
 		$.post(url, 'data_only=1', function(data) {
   			$('.panelcontent').html($(data.content));
+  			formValidateBehavior();
   		});	
 	};
 
@@ -831,7 +848,6 @@
 	function venueAutocompleteBehavior() {
 		$('.autocomplete').each( function() {
 			var acURL = $(this).data('cash-endpoint-url');
-			console.log('autocomplete');
 			$(this).autocomplete({
 				// probably should do some error handling here.
 				source: function( request, response ) {
@@ -840,10 +856,8 @@
 						dataType: "json",
 						error: function( data) {},
 						success: function( data ) {
-							console.log('success');
 							response(
 								$.map( data, function( item ) {
-									console.log('map');
 									return {
 										label: item.displayString,
 										value: item.displayString,
@@ -890,7 +904,6 @@
 		$(document).on('click', '.page-description', function(e) {
 
 			if($("body").hasClass("settings") || $("body").hasClass("help")){
-				console.log('settings/help open so swap');
 				$("body").removeClass("settings").removeClass("help");
 				$("body").addClass("learn");
 				$(this).addClass("display");
