@@ -704,6 +704,10 @@ small{
 
 .login #hero {
 	width:100%;
+	opacity:1;
+	height:auto;
+	min-height:420px;
+	position:fixed;
 }
 
 /* Element Statistics */
@@ -1446,6 +1450,25 @@ color:#f5f5f5!important;
 
 .login section[role=main]{
 	margin:400px 0 0 0;
+}
+
+/* mobile login */
+@media only screen and (max-width: 535px) {
+	.login section[role=main]{
+		margin:580px 0 0 0;
+	}
+
+	.login .signup, .login #footer {
+		position:relative;
+		background: #e3e3e3 url(../images/paint_low.png) 0% 0%;
+		background-repeat: no-repeat;
+		background-position: center top;
+		background-attachment: fixed;
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		background-size: cover;
+	}
 }
 
 .login #signup {
