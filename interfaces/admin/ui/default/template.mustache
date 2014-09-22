@@ -131,7 +131,8 @@
 								{{#page_message}}<p><span class="highlightcopy">{{page_message}}</span></p>{{/page_message}}
 							</div><!--pagemessage-->
 							<div id="pagedisplay">
-								{{{content}}}
+								<div id="learn_tip" {{#ui_page_tip}}style="display:block;"{{/ui_page_tip}} class="page-description">{{ui_page_tip}}</div>
+								<div id="page_content">{{{content}}}</div>
 							</div><!--pagedisplay-->
 						</div><!--twelve columns phone-two-->
 					</div><!--row-->
@@ -142,10 +143,10 @@
 							<div id="learnpanel">
 								<div class="inner">
 								<h1 class="paneltitle light">Learn</h1>
-									<ul class="tertiarynav">
+									<!--ul class="tertiarynav">
 										<li><a href="#tips" id="tipslink"><i class="icon icon-compass"></i>{{{misc_tips}}}</a></li>
-									</ul>
-									<h5 id="current_pagetip">{{{ui_page_tip}}}</h5>
+									</ul-->
+									<div id="learn_text">{{{ui_learn_text}}}</div>
 									<div class="panelcontent"></div><!--panelcontent-->
 								</div><!--inner-->
 							</div><!--learnpanel-->

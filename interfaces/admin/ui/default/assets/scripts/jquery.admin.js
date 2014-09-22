@@ -91,8 +91,14 @@
 			doMessage(data.page_message,'');
 		}
 		//$('#pagetips').hide();
-		$('#current_pagetip').html(data.ui_page_tip);
-		$('#pagedisplay').html(data.content);
+		if (data.ui_page_tip != '') {
+			$('#learn_tip').html(data.ui_page_tip);
+			$('#learn_tip').css('display','block');
+		} else {
+			$('#learn_tip').css('display','none');
+		}
+		$('#learn_text').html(data.ui_learn_text);
+		$('#page_content').html(data.content);
 		$('#pagetitle span').html(data.ui_title);
 
 		window.scrollTo(0,0);

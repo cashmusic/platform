@@ -1137,6 +1137,8 @@ section[role=main].hero{
 	opacity:1;
 }
 
+#learn_tip {display:none;}
+
 /*
 #learnpanel,#settingspanel,#helppanel {
 	-webkit-transition: 0.3s;
@@ -1144,6 +1146,8 @@ section[role=main].hero{
 	trasition: 0.3s;
 }
 */
+
+#learnpanel p { font-size:18px; line-height:26px;}
 
 #tertiary {
 	/*display:none;*/
