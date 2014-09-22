@@ -287,9 +287,9 @@ if ($cash_admin->page_data['data_only']) {
 	// data_only means we're working with AJAX requests, 
 	// so dump valid JSON to the browser for the script to parse
 	$cash_admin->page_data['fullcontent'] = $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/' . $admin_theme . '/template.mustache'), $cash_admin->page_data);
-	if (!headers_sent()) {
+	//if (!headers_sent()) {
 		header('Content-Type: application/json');
-	}
+	//}
 	echo json_encode($cash_admin->page_data);
 } else {
 	// magnum p.i. = sweet {{mustache}} > don draper
