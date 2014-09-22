@@ -91,8 +91,14 @@
 			doMessage(data.page_message,'');
 		}
 		//$('#pagetips').hide();
-		$('#current_pagetip').html(data.ui_page_tip);
-		$('#pagedisplay').html(data.content);
+		if (data.ui_page_tip != '') {
+			$('#learn_tip').html(data.ui_page_tip);
+			$('#learn_tip').css('display','block');
+		} else {
+			$('#learn_tip').css('display','none');
+		}
+		$('#learn_text').html(data.ui_learn_text);
+		$('#page_content').html(data.content);
 		$('#pagetitle span').html(data.ui_title);
 
 		window.scrollTo(0,0);
@@ -120,23 +126,16 @@
 				if (!data) {
 					doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
 				} else {
-					/*
 					if (data.initiallogin) {
 						console.log('login');
 						$('body').removeClass('login');
 						$('#loadingmask').css('width','1%');
 					}
-					*/
 					if (data.template_name)	{
 						if (data.template_name.toLowerCase().indexOf('login') >= 0) {
 							$('body').addClass('login');
 							history.pushState(1, null, cashAdminPath + '/');
-						} else {
-							$('body').removeClass('login');
-							if ($('#loadingmask').css('width') !== '1%') {
-								$('#loadingmask').css('width','1%');
-							}
-						}
+						} 
 					}
 					if (!("doredirect" in data)){ data.doredirect = false; }
 					if (data.doredirect) {
@@ -164,45 +163,6 @@
 			},
 			dataType: 'json'
 		});
-/*
-		jQuery.post(url, formdata+'data_only=1', function(data) {
-			if (!data) {
-				doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
-			} else {
-				
-				if (data.template_name)	{
-					if (data.template_name.toLowerCase().indexOf('login') >= 0) {
-						$('body').addClass('login');
-						history.pushState(1, null, cashAdminPath + '/');
-					} else {
-						$('body').removeClass('login');
-						if ($('#loadingmask').css('width') !== '1%') {
-							$('#loadingmask').css('width','1%');
-						}
-					}
-				}
-				if (!("doredirect" in data)){ data.doredirect = false; }
-				if (data.doredirect) {
-					if (data.showerror) {
-						refreshPageData(data.location,false,data.showerror);
-					} else if (data.showmessage) {
-						refreshPageData(data.location,false,false,data.showmessage);
-					} else {
-						refreshPageData(data.location);
-					}
-				} else {
-					if (showerror) { data.error_message = showerror; }
-					if (showmessage) { data.page_message = showmessage; }
-					redrawPage(data);
-					if (!skiphistory) {history.pushState(1, null, url);}
-					setContentBehaviors();
-				}
-				//$('#ajaxloading').hide();
-				$('#ajaxloading, #logo, #hero, #learnpanel, #settingspanel, #helppanel').removeClass('loading');
-				$('#pagedisplay').fadeTo(200,1);
-			}
-		},'json');
-*/
 	}
 
 	/**

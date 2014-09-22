@@ -217,6 +217,7 @@ $cash_admin->page_data = array_merge($cash_admin->page_data,$ui_interaction_text
 // page specifics
 $page_components = AdminHelper::getPageComponents();
 $cash_admin->page_data['ui_page_tip'] = $page_components['pagetip'];
+$cash_admin->page_data['ui_learn_text'] = $page_components['learn'];
 if (is_array($page_components['labels'])) {
 	foreach ($page_components['labels'] as $key => $val) {
 		$cash_admin->page_data['label_' . $key] = $val;
@@ -287,9 +288,9 @@ if ($cash_admin->page_data['data_only']) {
 	// data_only means we're working with AJAX requests, 
 	// so dump valid JSON to the browser for the script to parse
 	$cash_admin->page_data['fullcontent'] = $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/' . $admin_theme . '/template.mustache'), $cash_admin->page_data);
-	//if (!headers_sent()) {
+	if (!headers_sent()) {
 		header('Content-Type: application/json');
-	//}
+	}
 	echo json_encode($cash_admin->page_data);
 } else {
 	// magnum p.i. = sweet {{mustache}} > don draper
