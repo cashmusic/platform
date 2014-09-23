@@ -592,6 +592,7 @@
 		global $admin_primary_cash_request, $cash_admin;
 		$session_news = $admin_primary_cash_request->sessionGet('admin_newsfeed');
 		if (!$session_news) {
+			/*
 			$tumblr_seed = new TumblrSeed();
 			$tumblr_request = $tumblr_seed->getTumblrFeed('blog.cashmusic.org',0,'platformnews');
 
@@ -627,6 +628,7 @@
 					'cash_news_img'     => false
 				);
 			}
+			*/
 
 			if (array_key_exists('last_login', $current_userdata)) {
 				$last_login = $current_userdata['last_login'];
