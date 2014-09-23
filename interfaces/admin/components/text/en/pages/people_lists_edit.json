@@ -1,6 +1,6 @@
 {
-	"pagetip":"To batch add email addresses, simply add email addresses—do not include names. Separate each address by a comma or by hitting return after each one.",
-	"learn":"",
+	"pagetip":"Edit your list here. You can also batch add contacts to a list here.",
+	"learn":"<p>To batch add email addresses, simply add email addresses—do not include names. Separate each address by a comma or by hitting return after each one.</p>",
 	"related":{},
 	"labels":{},
 	"tooltips":{},
