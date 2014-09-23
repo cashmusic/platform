@@ -3,16 +3,33 @@ RewriteBase /
 Options +FollowSymlinks 
 Options -Indexes 
 
-# no GET querystring
-RewriteCond %{REQUEST_FILENAME} !-s
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-l
-RewriteCond %{QUERY_STRING} !(.+)
-RewriteRule (.*) index.php?username=$1 [L]
+# COMPRESSION
+AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/x-javascript
 
-# found a GET querystring, rewrite and forward
-RewriteCond %{REQUEST_FILENAME} !-s
-RewriteCond %{REQUEST_FILENAME} !-d
+# NO COMPRESSION FOR YE OLDE IE (BUGGY)
+BrowserMatch \bMSIE\s(7|8) !no-gzip !gzip-only-text/html
+
+# NONE OF THAT WWW STUFF
+RewriteCond %{HTTP_HOST} ^www.cashmusic.org$ [NC]
+RewriteRule ^(.*)$ http://cashmusic.org/$1 [R=301,L]
+
+# REDIRECT CASH SPECIFIC STUFF
+RewriteRule ^about/?$ http://about.cashmusic.org/ [R,L] 
+RewriteRule ^donate/?$ http://donate.cashmusic.org/ [R,L] 
+RewriteRule ^events/?$ http://events.cashmusic.org/ [R,L] 
+RewriteRule ^learn/?$ http://learn.cashmusic.org/ [R,L] 
+
+# USER PAGE REWRITES
+# skip any real files/folders
+# RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-l
-RewriteCond %{QUERY_STRING} (.+)
-RewriteRule ([^\?]+) index.php?username=$1&%1 [L]
+# grab subdomain
+RewriteCond %{HTTP_HOST} (.*)\.cashmusic\.org
+# explicitly skip real paths
+RewriteCond %{REQUEST_URI} !^/admin
+RewriteCond %{REQUEST_URI} !^/api
+RewriteCond %{REQUEST_URI} !^/docs
+RewriteCond %{REQUEST_URI} !^/public
+# rewrite that junk
+RewriteRule (.*) index.php?subdomain=%1&path=$1 [L,QSA] 

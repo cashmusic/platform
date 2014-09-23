@@ -22,37 +22,55 @@
 
 $user_id = false;
 // if we've got a username we need to find the id — over-write no matter what. no fallback to user id 1
-if (isset($_GET['username'])) {
-    // include the necessary bits, define the page directory
-    // Define constants too
-    require_once(__DIR__ . '/admin/constants.php');
+if (isset($_GET['subdomain']) || isset($_GET['path'])) {
 
-    $page_vars = array(); // setting up the array for page variables
-    $page_vars['www_path'] = ADMIN_WWW_BASE_PATH;
-    $page_vars['jquery_url'] = (defined('JQUERY_URL')) ? JQUERY_URL : ADMIN_WWW_BASE_PATH . '/ui/default/assets/scripts/jquery-1.8.2.min.js';
-    $page_vars['cdn_url'] = (defined('CDN_URL')) ? CDN_URL : ADMIN_WWW_BASE_PATH;
+    //error_log($_GET['subdomain'] . "\n" . $_GET['path'] . "\n" . print_r($_GET,true));
 
-    // launch CASH Music
-    require_once($cashmusic_root);
-
-    $username = trim($_GET['username'],'/');
-    if (stripos($username,'/')) {
-        $username = explode('/', $username);
+    if ($_GET['subdomain'] !== 'x' && 
+        $_GET['subdomain'] !== 'localhost' &&
+        $_GET['subdomain'] !== 'testing' &&
+        $_GET['subdomain'] !== 'staging' &&
+        $_GET['subdomain'] !== 'air'
+    ) {
+        $username = explode('.', $_GET['subdomain']);
+        $username = $username[0];
+    } else {
+        $username = explode('/', trim($_GET['path'],'/'));
         $username = $username[0];
     }
-	$user_request = new CASHRequest(
-		array(
-			'cash_request_type' => 'people', 
-			'cash_action' => 'getuseridforusername',
-			'username' => $username
-		)
-	);
-	if ($user_request->response['payload']) {
-		$user_id = $user_request->response['payload'];
-	} else {
-		$user_id = false;
-	}
+
+    if ($username) {
+        // include the necessary bits, define the page directory
+        // Define constants too
+        require_once(__DIR__ . '/admin/constants.php');
+        $page_vars = array(); // setting up the array for page variables
+        $page_vars['www_path'] = ADMIN_WWW_BASE_PATH;
+        $page_vars['jquery_url'] = (defined('JQUERY_URL')) ? JQUERY_URL : ADMIN_WWW_BASE_PATH . '/ui/default/assets/scripts/jquery-1.8.2.min.js';
+        $page_vars['cdn_url'] = (defined('CDN_URL')) ? CDN_URL : ADMIN_WWW_BASE_PATH;
+
+        // launch CASH Music
+        require_once($cashmusic_root);
+
+        if (stripos($username,'/')) {
+            $username = explode('/', $username);
+            $username = $username[0];
+        }
+    	$user_request = new CASHRequest(
+    		array(
+    			'cash_request_type' => 'people', 
+    			'cash_action' => 'getuseridforusername',
+    			'username' => $username
+    		)
+    	);
+    	if ($user_request->response['payload']) {
+    		$user_id = $user_request->response['payload'];
+    	} else {
+    		$user_id = false;
+    	}
+    }
 }
+
+ // error_log($user_id);
 
 // if we find a user check for a template and render one if found.
 if ($user_id) {

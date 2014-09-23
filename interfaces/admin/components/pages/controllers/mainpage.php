@@ -58,12 +58,15 @@ if (is_array($user_response['payload'])) {
 	$current_userdata = $user_response['payload']['data'];
 }
 
+
 // get news for the news feed
 $session_news = AdminHelper::getActivity($current_userdata);
 
+/*
 // now set up page variables
 $cash_admin->page_data['dashboard_news'] = $session_news['cash_news_content'];
 $cash_admin->page_data['dashboard_news_img'] = $session_news['cash_news_img'];
+*/
 if (is_array($session_news['activity']['lists'])) {
 	foreach ($session_news['activity']['lists'] as &$list_stats) {
 		if ($list_stats['total'] == 1) {
@@ -73,6 +76,7 @@ if (is_array($session_news['activity']['lists'])) {
 		}
 	}
 }
+
 $cash_admin->page_data['dashboard_lists'] = $session_news['activity']['lists'];
 if ($session_news['activity']['orders']) {
 	$cash_admin->page_data['dashboard_orders'] = count($session_news['activity']['orders']);
@@ -153,7 +157,12 @@ if ($cash_admin->platform_type == 'single') {
 }
 */
 
-$cash_admin->page_data['user_page_uri'] = str_replace('https','http',rtrim(str_replace('admin', $current_username, CASHSystem::getCurrentURL()),'/'));
+if (SUBDOMAIN_USERNAMES) {
+	$cash_admin->page_data['user_page_uri'] = str_replace('https','http',rtrim(str_replace('admin', '', CASH_ADMIN_URL),'/'));
+	$cash_admin->page_data['user_page_uri'] = str_replace('://','://' . $current_username . '.',$cash_admin->page_data['user_page_uri']);
+} else {
+	$cash_admin->page_data['user_page_uri'] = str_replace('https','http',rtrim(str_replace('admin', $current_username, CASH_ADMIN_URL),'/'));
+}
 $cash_admin->page_data['user_page_display_uri'] = str_replace('http://','',$cash_admin->page_data['user_page_uri']);
 
 // all user elements defined
