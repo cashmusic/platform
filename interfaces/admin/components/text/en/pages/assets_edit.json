@@ -1,6 +1,6 @@
 {
-	"pagetip":"Flesh out details about your asset. You can always change any details — all linked commerce items and elements will automatically reflect the change. ",
-	"learn":"",
+	"pagetip":"Enter all relevant release details here & your connect digital files to a release.",
+	"learn":"<p>If you’d like to sell this release you must also go to commerce and enter it as an item before you add the sales element.</p><p>Once you’ve added your release info you can then generate and export download codes. You don’t have to have a fulfillment file up yet to generate them but make sure you’ve uploaded it before you start sending those codes out!</p><p>You can always change any details - all linked commerce items and elements will automatically reflect the changes.</p>",
 	"related":{},
 	"labels":{},
 	"tooltips":{},
