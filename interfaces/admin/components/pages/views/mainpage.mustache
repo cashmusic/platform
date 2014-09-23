@@ -15,9 +15,6 @@
 </div><!--hero-->
 
 <!--<h2>Activity While you were gone</h2>-->
-{{#dashboard_news}}
-	<div class="callout newsfeed cashnews">{{{dashboard_news}}}<div class="newsimage" style="background-image:url({{dashboard_news_img}})"></div></div>
-{{/dashboard_news}}
 {{#dashboard_lists}}
 	<div class="callout newsfeed people"><strong><i class="icon icon-list-ul"></i>{{name}}:</strong> There {{#singular}}is{{/singular}}{{^singular}}are{{/singular}} <b>{{total}}</b> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}} on this list. <span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><i class="icon icon-search"></i>View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><i class="icon icon-download-alt"></i>Export</a></span><div class="newsimage" style=""></div></div>
 {{/dashboard_lists}}
