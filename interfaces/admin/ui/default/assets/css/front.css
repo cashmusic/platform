@@ -6,7 +6,7 @@ input,
 select,
 textarea {
     color: #f5f5f5;
-        font:400 30px/40px 'Montserrat',Helvetica,Arial,sans-serif;
+    font:400 30px/40px 'Montserrat',Helvetica,Arial,sans-serif;
 }
 
 html {
@@ -58,13 +58,11 @@ fieldset {
 }
 
 
-/* ===== Initializr Styles ==================================================
-   Author: Jonathan Verrecchia - verekia.com/initializr/responsive-template
-   ========================================================================== */
 
 body {
 	height:100%;
-    background: url(../images/hero_bg.jpg);
+    background:#222 url(../images/hero_bg.jpg);
+    background-attachment: fixed;
     margin:0;
     padding:0;
 }
@@ -81,6 +79,8 @@ a:hover{
 .main {
     padding:0;
     margin:0;
+        -webkit-transition: 0.3s  ease-in-out;
+    transition: 0.3s  ease-in-out;
 }
 
 .main img, .main video{
@@ -136,12 +136,25 @@ a:hover{
     -webkit-filter: saturate(0%);*/
 }
 
-.shuttleworth{
-    margin:0 0 -10% 0;
+.shuttleworth, .mozilla, .rackspace{
+    margin:1% 1% -10% 1%;
 }
 
 .shuttleworth img{
    -webkit-filter: brightness(1000%);
+}
+
+.mozilla img, .shuttleworth img, .rackspace img{
+    width:20%;
+}
+
+.cashmusic.embed{
+    margin:3% auto 3% auto;
+    width:80%;
+}
+
+.cash_success{
+    color:#f5f5f5!important;
 }
 
 /* ===================
@@ -160,8 +173,8 @@ a:hover{
     opacity:1;
      -webkit-transition: 0.3s  ease-in-out;
      transition: 0.3s  ease-in-out;
-     position:relative;
-     z-index:3;
+    /* position:relative;
+     z-index:3;*/
 }
 
 .logo img{
@@ -184,20 +197,25 @@ a:hover{
     margin:0;
     display:block;
     overflow:auto;
-    position:fixed;
+    /*position:fixed;
     top:0;
-    left:0;
-   z-index: -1;
+    left:0;*/
+    z-index: -1;
+    -webkit-transition: 0.3s  ease-in-out;
+    transition: 0.3s  ease-in-out;
+}
+
+.display .header-container {
+    height:0;
 }
 
  h2{
-    margin:0 0 50px 0;
+    margin:0 auto 50px auto;
     font-size: 40px;
     font-weight: normal;
     line-height: 45px;
     width:80%;
     text-align: center;
-    margin:0 auto;
 } 
 
 
@@ -235,6 +253,11 @@ a:hover{
 .panel:nth-child(even){
     background:#232123;
     color:#f6f6f6;
+}
+
+/* Safari Only .MP4 Color Match */
+_::-webkit-full-page-media, _:future, :root .panel:nth-child(even){
+    background:#262626;
 }
 
 .panel.made{
@@ -279,13 +302,13 @@ margin:-5% auto 0 auto;
     background:url('../images/free.jpg');
     background-width: 100%;
     background-repeat: no-repeat;
-    background-position: left top;
-   /* background-attachment: fixed;*/
+    background-position: center;
+    background-attachment: fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    -webkit-filter: saturate(0%);
+    /*-webkit-filter: saturate(0%);*/
     color:#f5f5f5;
     text-shadow: 0px 0px 10px rgba(0,0,0,0.8);
 }
@@ -395,10 +418,9 @@ nav ul li{
 
 nav a { 
     margin:0;
-	text-transform: uppercase;
     text-align: center;
     text-decoration: none;
-    /*font-weight: bold;*/
+    font-weight: 100;
     color:#f5f5f5;
     border:solid 1px #222;
     padding:8px;
@@ -438,7 +460,7 @@ h1{
 }
 
 .main article{
-    padding:2% 5%;
+    padding:0 5% 2% 5%;
 }
 
 .main aside {
@@ -481,13 +503,6 @@ h1{
 .ie7 .title {
     padding-top: 20px;
 }
-
-/* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
-
-
-
 
 
 /* ==========================================================================

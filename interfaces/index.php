@@ -143,11 +143,9 @@ if ($user_id) {
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="css/normalize.min.css">
         <link rel="stylesheet" href="/admin/ui/default/assets/css/front.css">
         <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 
 <script>
 
@@ -177,11 +175,13 @@ $( document ).ready(function() {
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script><div class="fb-like" data-href="https://www.facebook.com/cashmusic.org" data-width="75" data-layout="button" data-action="like" data-show-faces="true" data-share="false"></div></div><!--social-->
     <nav>
                     <ul>
-                    	<li><a href="http://blog.cashmusic.org/">Blog</a></li>
-                        <li><a href="#tools">Tools</a></li>
-                        <li><a href="http://cashmusic.org/#learning">Learning</a></li>
-                        <li><a href="http://cashmusic.org/events/">Events</a></li>
-                        <li><a href="http://cashmusic.org/donate/">Donate</a></li>
+                        <li><a href="http://www.cashmusic.org">Home</a></li>
+                    	<li><a href="http://about.cashmusic.org">About</a></li>
+                        <li><a href="https://medium.com/cash-music" target="_blank">Blog</a></li>
+                        <!--<li><a href="http://tools.cashmusic.org">Tools</a></li>
+                        <li><a href="http://learn.cashmusic.org">Learning</a></li>
+                        <li><a href="http://events.cashmusic.org">Events</a></li>-->
+                        <li><a href="http://donate.cashmusic.org">Donate</a></li>
                         <li><a href="https://github.com/cashmusic/platform" target="_blank">Fork Us On Git Hub</a></li>
           	
                     </ul>
@@ -201,7 +201,6 @@ $( document ).ready(function() {
                <!-- <iframe width="1280" height="720" src="//www.youtube.com/embed/YLS_WWYUQBg?&amp;vq=hd720&amp;modestbranding=1&amp;showinfo=0&amp;autoplay=1&amp;autohide=1&amp;color=white" autoplay="1" frameborder="0" allowfullscreen></iframe> -->
 
                 <video autoplay loop>
-                <source src="/admin/ui/default/assets/video/phone.mp4" type="video/mp4">
                 <source src="/admin/ui/default/assets/video/phone.webm" type="video/webm">
                 Sorry Your browser does not support the video tag.
            		</video> 
@@ -247,8 +246,14 @@ $( document ).ready(function() {
             <div class="inner">
                 <h1>About Us</h1>
                 <h2>CASH Music is a <a href="http://en.wikipedia.org/wiki/Non-profit" target="_blank">nonprofit organization</a> focused on educating and empowering artists and their fans to foster a viable and sustainable future for music. We believe the best way to ensure a sustainable future for music is to invest in its creators.</h2>
+            
+               
+                <script type="text/javascript" src="http://air.cashmusic.org/public/cashmusic.js"></script><script type="text/javascript"> window.cashmusic.embed('http://air.cashmusic.org/public/','12');</script>
+
                 <p>Made Possible with the support of :-</p>
+                <a class="mozilla" href="https://www.mozilla.org/" target="_blank"><img src="/admin/ui/default/assets/images/mozilla.png" alt="Mozilla"/></a>
                 <a class="shuttleworth" href="http://www.shuttleworthfoundation.org/" target="_blank"><img src="/admin/ui/default/assets/images/shuttleworth.png" alt="Shuttleworth Foundation"/></a>
+                <a class="rackspace" href="http://www.rackspace.com/" target="_blank"><img src="/admin/ui/default/assets/images/rackspace.png" alt="Rackspace"/></a>
                 </div><!--inner-->
             </div><!--panel-->	
         </div> <!-- #main -->
@@ -257,7 +262,6 @@ $( document ).ready(function() {
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
 
-        <script src="js/main.js"></script>
 <!--Analytics-->
        <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
