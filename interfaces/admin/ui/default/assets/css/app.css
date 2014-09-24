@@ -1155,7 +1155,7 @@ section[role=main].hero{
 
 #tertiary {
 	/*display:none;*/
-	position:relative;
+	position:fixed;
 	z-index:-3;
 }
 
@@ -2582,6 +2582,7 @@ label.checkbox {
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition:0.3s ease-in-out;
+	line-height: 20px;
 }
 
 .page-description:hover{
