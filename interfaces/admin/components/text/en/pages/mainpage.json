@@ -1,6 +1,6 @@
 {
 	"pagetip":"If you have questions while you're using the platform there are page tips, help and learn buttons throughout to guide you.",
-	"learn":"",
+	"learn":"<p>This is where you’ll add or edit your campaigns. Campaigns are designed to help you organize your digital workflow and keep track of how things are going. Feel free to add as many different campaigns as you like - they can be organized by release, band, month, whatever works for you.</p><p>Click on add a campaign to get started.</p> ",
 	"related":{
 		"cashmusic.org":"http://cashmusic.org/",
 		"CASH help/support site":"http://help.cashmusic.org/"
