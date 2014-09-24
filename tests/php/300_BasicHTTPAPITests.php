@@ -14,7 +14,7 @@ class BasicHTTPAPITests extends UnitTestCase {
 
 	function testValidDestination() {
 		if ($this->cash_test_url) {
-			echo "Testing Basic (verbose) API\n";
+			echo "Testing Basic (verbose) API using URL: " . CASH_API_URL . "\n";
 			
 			$return = json_decode(CASHSystem::getURLContents(CASH_API_URL));
 			
@@ -26,8 +26,8 @@ class BasicHTTPAPITests extends UnitTestCase {
 
 	function testReturnStatuses() {
 		if ($this->cash_test_url) {
-			$forbidden_return = json_decode(CASHSystem::getURLContents(CASH_API_URL . 'verbose/element/getelement/321',false,true));
-			$badrequest_return = json_decode(CASHSystem::getURLContents(CASH_API_URL . 'verbose/element/fakebadstatus/321/status_uid/whatever',false,true));
+			$forbidden_return = json_decode(CASHSystem::getURLContents(CASH_API_URL . '/verbose/element/getelement/321',false,true));
+			$badrequest_return = json_decode(CASHSystem::getURLContents(CASH_API_URL . '/verbose/element/fakebadstatus/321/status_uid/whatever',false,true));
 			//$ok_return = json_decode(CASHSystem::getURLContents(CASH_API_URL . 'verbose/element/getmarkup/100/status_uid/whatever'));
 			
 			// test valid JSON:
@@ -43,7 +43,7 @@ class BasicHTTPAPITests extends UnitTestCase {
 
 	function testValidReturn() {
 		if ($this->cash_test_url) {
-			$return = json_decode(CASHSystem::getURLContents(CASH_API_URL . 'verbose/element/getmarkup/100/status_uid/whatever',false,true));
+			$return = json_decode(CASHSystem::getURLContents(CASH_API_URL . '/verbose/element/getmarkup/100/status_uid/whatever',false,true));
 			// test valid JSON:
 			$this->assertNotNull($return);
 			

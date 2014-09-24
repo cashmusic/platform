@@ -498,7 +498,7 @@ class PeoplePlant extends PlantBase {
 					$mc = $api_connection['api'];
 					// webhooks
 					$api_credentials = CASHSystem::getAPICredentials();
-					$webhook_api_url = CASH_API_URL . 'verbose/people/processwebhook/origin/com.mailchimp/list_id/' . $list_id . '/api_key/' . $api_credentials['api_key'];
+					$webhook_api_url = CASH_API_URL . '/verbose/people/processwebhook/origin/com.mailchimp/list_id/' . $list_id . '/api_key/' . $api_credentials['api_key'];
 					if ($action == 'remove') {
 						return $mc->listWebhookDel($webhook_api_url);
 					} else {
