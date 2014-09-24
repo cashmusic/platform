@@ -19,9 +19,11 @@
 		// future: deal with headers/methods before url stuff
 		// present: url stuff
 		if (!class_exists('CASHRequest')) {
+			header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found",true);
 			exit('{"api_error":"API could not connect to the core framework. (class CASHRequest not defined.)"}');
 		}
-		$this->version = CASHRequest::$version;
+		$this->version = floatval('1.' . CASHRequest::$version);
+		error_log(print_r($this->parseURL($incoming_url),true));
 		$this->respond($this->parseURL($incoming_url));
 	}
 	
@@ -37,7 +39,8 @@
 				'plant' => false,
 				'action' => false,
 				'id' => false,
-				'verbose' => false
+				'verbose' => false,
+				'parsed' => $exploded_request
 			);
 			if ($exploded_request[0] == 'verbose') {
 				$request_parameters['verbose'] = true;
@@ -71,11 +74,8 @@
 						}
 					}
 				}
-			} else {
-				// proper REST stuff goes here. for now return false
-				$request_array = false;
-			}
-			return $request_array;
+			} 
+			return $request_parameters;
 		} else {
 			return false;
 		}
@@ -91,51 +91,110 @@
 		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 
 		// check the parsed_url to see if things are good
-		if ($parsed_url) {
-			// make a request based on the parsed url data
-			$request_method = 'api_public';
-			// fold in any POST/GET
-			if(!empty($_POST)) {
-				$parsed_url = array_merge($_POST,$parsed_url);
-			}
-			if(!empty($_GET)) {
-				$parsed_url = array_merge($_GET,$parsed_url);
-			}
-			if (isset($parsed_url['api_key'])) {
-				$api_key = $parsed_url['api_key'];
-				unset($parsed_url['api_key']);
-				$auth_request = new CASHRequest(
-					array(
-						'cash_request_type' => 'system', 
-						'cash_action' => 'validateapicredentials',
-						'api_key' => $api_key
-					)
+		if (count($parsed_url['parsed'])) {
+			if ($parsed_url['verbose']) {
+				// make a request based on the parsed url data
+				$request_method = 'api_public';
+				// fold in any POST/GET
+				if(!empty($_POST)) {
+					$parsed_url = array_merge($_POST,$parsed_url);
+				}
+				if(!empty($_GET)) {
+					$parsed_url = array_merge($_GET,$parsed_url);
+				}
+				if (isset($parsed_url['api_key'])) {
+					$api_key = $parsed_url['api_key'];
+					unset($parsed_url['api_key']);
+					$auth_request = new CASHRequest(
+						array(
+							'cash_request_type' => 'system', 
+							'cash_action' => 'validateapicredentials',
+							'api_key' => $api_key
+						)
+					);
+					if ($auth_request->response['status_code'] == '200') {
+						$request_method = $auth_request->response['payload']['auth_type'];
+						$parsed_url['user_id'] = $auth_request->response['payload']['user_id'];
+					}
+				}
+				$api_request = new CASHRequest(
+					$parsed_url,
+					$request_method
 				);
-				if ($auth_request->response['status_code'] == '200') {
-					$request_method = $auth_request->response['payload']['auth_type'];
-					$parsed_url['user_id'] = $auth_request->response['payload']['user_id'];
-				}
-			}
-			$api_request = new CASHRequest(
-				$parsed_url,
-				$request_method
-			);
-			if ($api_request->response) {
-				// echo the response from
-				if ($api_request->response['status_code'] == 400 && $api_request->response['action'] == 'processwebhook') {
-					// some webhooks check for 200 on the base URL. we need to return 200 on processwebhook bad requests. dumb.
-					header("{$_SERVER['SERVER_PROTOCOL']} 200 OK",true);
+				if ($api_request->response) {
+					// echo the response from
+					if ($api_request->response['status_code'] == 400 && $api_request->response['action'] == 'processwebhook') {
+						// some webhooks check for 200 on the base URL. we need to return 200 on processwebhook bad requests. dumb.
+						header("{$_SERVER['SERVER_PROTOCOL']} 200 OK",true);
+					} else {
+						header("{$_SERVER['SERVER_PROTOCOL']} {$api_request->response['status_code']} {$api_request->response['status_message']}",true);
+					}
+					$api_request->response['api_version'] = $this->version;
+					$api_request->response['timestamp'] = time();
+					echo json_encode($api_request->response);
+					exit;
 				} else {
-					header("{$_SERVER['SERVER_PROTOCOL']} {$api_request->response['status_code']} {$api_request->response['status_message']}",true);
+					header("{$_SERVER['SERVER_PROTOCOL']} 400 Bad Request",true);
+					echo json_encode(array('huh'=>$parsed_url['parsed'][1],'status_code'=>404,'status_message'=>'Not Found','contextual_message'=>'You did that wrong.','api_version'=>$this->version,'timestamp'=>time()));
+					exit;
 				}
-				$api_request->response['api_version'] = $this->version;
-				$api_request->response['timestamp'] = time();
-				echo json_encode($api_request->response);
-				exit;
 			} else {
-				header("{$_SERVER['SERVER_PROTOCOL']} 400 Bad Request",true);
-				echo json_encode(array('status_code'=>400,'status_message'=>'Bad Request','contextual_message'=>'You did that wrong.','api_version'=>$this->version,'timestamp'=>time()));
-				exit;
+				if (count($parsed_url['parsed']) > 1 && $parsed_url['parsed'][0] == 'asset') {
+					$valid_request = false;
+					$asset_identifiers = explode('.', $parsed_url['parsed'][1]);
+					$asset_id = $asset_identifiers[0];
+					$asset_format = $asset_identifiers[1];
+					$asset_request = new CASHRequest(
+						array(
+							'cash_request_type' => 'asset', 
+							'cash_action' => 'getasset',
+							'id' => $asset_id
+						)
+					);
+					if ($asset_request->response['payload']['connection_id'] == 0 && $asset_request->response['payload']['location']) {
+						$asset_stored_format = explode('.', $asset_request->response['payload']['location']);
+						$asset_stored_format = $asset_stored_format[count($asset_stored_format) - 1];
+						if (strtolower($asset_format) == 'json') {
+							$user_request = new CASHRequest(
+								array(
+									'cash_request_type' => 'people', 
+									'cash_action' => 'getuser',
+									'user_id' => $asset_request->response['payload']['user_id']
+								)
+							);
+							$api_response = array(
+								'asset' => array(
+									'id' => $asset_request->response['payload']['id'],
+									'location' => $asset_request->response['payload']['location'],
+									'title' => $asset_request->response['payload']['title'],
+									'description' => $asset_request->response['payload']['description'],
+									'metadata' => json_decode($asset_request->response['payload']['metadata'],true),
+								),
+								'user' => array(
+									'id' => $asset_request->response['payload']['user_id'],
+									'username' => $user_request->response['payload']['username'],
+									'display_name' => $user_request->response['payload']['display_name'],
+									'url' => $user_request->response['payload']['url']
+								)
+							);
+						} else if (strtolower($asset_format) == strtolower($asset_stored_format)) {
+							header('Location: ' . $asset_request->response['payload']['location']);
+							exit;
+						} else {
+							$api_response = array('status_code'=>415,'status_message'=>'Unsupported Media Type','contextual_message'=>'You requested a format that is not compatible with this asset.');
+						}
+					} else {
+						$api_response = array('status_code'=>403,'status_message'=>'Forbidden','contextual_message'=>'The asset you requested is either private or does not exist.');
+					}
+
+					$api_response['api_version'] = $this->version;
+					$api_response['timestamp'] = time();
+					echo json_encode($api_response);
+				} else {
+					header("{$_SERVER['SERVER_PROTOCOL']} 400 Bad Request",true);
+					echo json_encode(array('status_code'=>400,'status_message'=>'Bad Request','contextual_message'=>'You did that wrong.','api_version'=>$this->version,'timestamp'=>time()));
+					exit;
+				}
 			}
 		} else {
 			header("{$_SERVER['SERVER_PROTOCOL']} 302 Found",true);
