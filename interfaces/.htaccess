@@ -17,7 +17,8 @@ RewriteRule ^(.*)$ http://cashmusic.org/$1 [R=301,L]
 RewriteRule ^about/?$ http://about.cashmusic.org/ [R,L] 
 RewriteRule ^donate/?$ http://donate.cashmusic.org/ [R,L] 
 RewriteRule ^events/?$ http://events.cashmusic.org/ [R,L] 
-RewriteRule ^learn/?$ http://learn.cashmusic.org/ [R,L] 
+RewriteRule ^learn/?$ http://learn.cashmusic.org/ [R,L]
+RewriteRule ^beginpayment.php$ http://legacy.cashmusic.org/beginpayment.php [R,L,QSA] 
 
 # USER PAGE REWRITES
 # skip any real files/folders
