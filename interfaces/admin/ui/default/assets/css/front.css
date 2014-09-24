@@ -205,9 +205,9 @@ a:hover{
     transition: 0.3s  ease-in-out;
 }
 
-.display .header-container {
+/*.display .header-container {
     height:0;
-}
+}*/
 
  h2{
     margin:0 auto 50px auto;
@@ -289,6 +289,14 @@ margin:-5% auto 0 auto;
 
 .panel.first, .panel.about,  .panel.better,  .panel.free{
     text-align: center;
+}
+
+.panel.first{
+    padding:0 8% 5% 8%;
+}
+
+.panel.first .inner{
+    padding:0;
 }
 
 .panel.first img{
