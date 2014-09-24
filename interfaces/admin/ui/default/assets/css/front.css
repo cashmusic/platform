@@ -136,16 +136,26 @@ a:hover{
     -webkit-filter: saturate(0%);*/
 }
 
-.shuttleworth, .mozilla, .rackspace{
+.mozilla, .rackspace, .mailchimp{
     margin:1% 1% -10% 1%;
 }
 
-.shuttleworth img{
-   -webkit-filter: brightness(1000%);
+.shuttleworth{
+    display: block;
+    width:100%;
+     margin:0 0 3% 0;
 }
 
-.mozilla img, .shuttleworth img, .rackspace img{
+.shuttleworth img{
+    width:30%; 
+}
+
+.rackspace img, .mailchimp img{
     width:20%;
+}
+
+.mozilla img{
+    width:15%;
 }
 
 .cashmusic.embed{
@@ -162,7 +172,7 @@ a:hover{
    =================== */
 
 .logo{
-    margin:30px auto;
+    margin:80px auto 0 auto;
     padding:1% 0;
     text-align: center;
     display:block;
@@ -180,7 +190,7 @@ a:hover{
 .logo img{
     height:auto;
     width:5%;
-    min-width:80px;
+    min-width:100px;
      position:relative;
      z-index:4;
 }
@@ -211,9 +221,9 @@ a:hover{
 
  h2{
     margin:0 auto 50px auto;
-    font-size: 40px;
+    font-size: 20px;
+    line-height: 25px;
     font-weight: normal;
-    line-height: 45px;
     width:80%;
     text-align: center;
 } 
@@ -372,29 +382,41 @@ margin:-5% auto 0 auto;
     width:100%;
 }
 
-.toggle{
+.menutoggle{
     text-indent: -5000em;
-    background: url(../images/toggle.png) no-repeat 50% 50%;
+    background:#f5f5f5 url(../images/menu_normal.png) no-repeat 50% 50%;
     border:none;
-    padding:3% 4%;
+    background-size: 50%;
+    padding:20px;
     display:block;
     position:fixed;
     z-index:10;
-    background-size: 20%;
-     -webkit-transition: 0.3s  ease-in-out;
-     transition: 0.3s  ease-in-out;
+    height:30px;
+    width:30px;
+    -webkit-transition: 0.3s  ease-in-out;
+    transition: 0.3s  ease-in-out;
 }
 
-.toggle:hover{
+.menutoggle:hover{
     cursor: pointer;
 }
 
-.display .toggle{
+/*.display .toggle{
     background: url(../images/invert_logo.svg) no-repeat 50% 50%;
     background-size: 45%;
+}*/
+
+.show.menutoggle{
+  background:#ddd url(../images/menu_close.gif) no-repeat 50% 50%;
+  background-size: 50%;
 }
 
+.hide.menutoggle{
+  background:#f5f5f5 url(../images/menu_open.gif) no-repeat 50% 50%;
+  background-size: 50%;
+}
 
+/*
 nav{
     position:fixed;
     top:-100%;
@@ -442,8 +464,73 @@ nav a {
 
 nav a:hover{
    color:#00cf7f;
-  /* border-color: #00cf7f;*/
        -webkit-transition: 0.3s  ease-in-out;
+}
+*/
+nav{
+    position:fixed;
+    /*top:-42px;*/
+    top:-100%;
+    left:0;
+    margin:0 auto;
+    display:block;
+    padding:10px 2%;
+    display:block;
+    background:#222;
+    background:#222 url(../images/logo.svg) no-repeat 50% 100%;
+    text-align: left;
+    color:#f6f6f6;
+    width:96%;
+    z-index:4;
+    -webkit-transition: 0.3s  ease-in-out;
+    -moz-transition: 0.3s  ease-in-out;
+    trasition:0.3s ease-in-out;
+}
+
+.show nav{
+    top:0px;
+}
+
+nav ul {
+    list-style-type: none;
+    padding:0;
+    margin:0 0 20px 20px;
+    margin:0 auto;
+    float:left;
+    width:70%;
+    width:100%;
+}
+
+nav ul li{
+    /*float:left;*/
+    padding:0 1px 0 0;
+    margin:0;
+    width:100%;
+    text-align: center;
+}
+
+nav a { 
+    margin:1px;
+    display:block;
+    /*text-transform: uppercase;*/
+    text-align: center;
+    text-decoration: none;
+    /*font-weight: bold;*/
+    color:#f6f6f6;
+    padding:20px;
+    font-weight: normal;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background:#111;
+    -webkit-transition: 0.3s  ease-in-out;
+    -moz-transition: 0.3s  ease-in-out;
+    trasition:0.3s ease-in-out;
+}
+
+nav a:hover{
+   color:#00cf7f;
+  /* border-color: #00cf7f;*/
 }
 
 
@@ -454,17 +541,14 @@ nav a:hover{
 }
 
 h1{
-    font-size: 70px;
-    line-height: 75px;
+    font-size: 40px;
+    line-height: 45px;
     position:relative;
     z-index:3;
 }
 
 .panel.first h1{
       margin: 7% 0 7% 0;
-}
-
-.main article h1 {
 }
 
 .main article{
@@ -484,14 +568,15 @@ h1{
 }
 
 .social{
-    position:fixed;
-    right:3%;
-    top:3%;
+    position:absolute;
+    right:30px;
+    top:15px;
     z-index:11;
     background:#111;
     margin:0;
     -webkit-border-radius: 3px 3px 3px 3px;
     border-radius: 3px 3px 3px 3px;
+    display:none;
 }
 
 .social .twitter-follow-button{
@@ -523,18 +608,10 @@ h1{
     INTERMEDIATE: Menu
    ==================== */
 
-
 /* ========================
     INTERMEDIATE: IE Fixes
    ======================== */
 
-    nav ul li {
-        display: inline;
-    }
-
-    .oldie nav a {
-        margin: 0 0.7%;
-    }
 }
 
 @media only screen and (min-width: 768px) {
@@ -552,6 +629,21 @@ h1{
     WIDE: Menu
    ============ */
 
+   nav ul{
+    margin:5px 0 5px 60px;
+    }
+
+    nav a { 
+        padding:8px;
+        display:inline-block;
+    }
+
+    nav ul li{
+        float:left;
+        width:auto;
+    }
+
+
 
 /* ============
     WIDE: Main
@@ -562,6 +654,20 @@ h1{
 
     .main aside {
          width: 90%;
+    }
+
+    .social{
+        display:block;
+    }
+
+    h1{
+        font-size: 70px;
+        line-height: 75px;
+    }
+
+    h2{
+        font-size: 40px;
+        line-height: 45px;
     }
 }
 

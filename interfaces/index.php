@@ -149,9 +149,29 @@ if ($user_id) {
 
 <script>
 
-$( document ).ready(function() {
+/*$( document ).ready(function() {
    $( ".toggle" ).click(function() {
         $('body').toggleClass('display');
+    });
+});*/
+
+$( document ).ready(function() {
+    $( ".menutoggle" ).click(function() {
+
+        if ( !$(".menutoggle").hasClass("show")){
+        $(".menutoggle").addClass("show");
+        $(".menutoggle").removeClass("hide");
+        console.log('no show');
+        
+        } else {
+
+            if ( $(".menutoggle").hasClass("show")){
+                $(".menutoggle").removeClass("show");
+                $(".menutoggle").addClass("hide");
+                console.log('fo show'); 
+            }
+        }
+            $("body").toggleClass("show");
     });
 });
 
@@ -170,10 +190,10 @@ $( document ).ready(function() {
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-<div class="toggle">Menu</div>
-<div class="social"><a href="https://twitter.com/cashmusic" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @cashmusic</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script><div class="fb-like" data-href="https://www.facebook.com/cashmusic.org" data-width="75" data-layout="button" data-action="like" data-show-faces="true" data-share="false"></div></div><!--social-->
+<div class="menutoggle">Menu</div>
     <nav>
+    <div class="social"><a href="https://twitter.com/cashmusic" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @cashmusic</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script><div class="fb-like" data-href="https://www.facebook.com/cashmusic.org" data-width="75" data-layout="button" data-action="like" data-show-faces="true" data-share="false"></div></div><!--social-->
                     <ul>
                         <li><a href="http://www.cashmusic.org">Home</a></li>
                     	<li><a href="http://about.cashmusic.org">About</a></li>
@@ -245,14 +265,15 @@ $( document ).ready(function() {
         <div class="panel about">
             <div class="inner">
                 <h1>About Us</h1>
-                <h2>CASH Music is a <a href="http://en.wikipedia.org/wiki/Non-profit" target="_blank">nonprofit organization</a> focused on educating and empowering artists and their fans to foster a viable and sustainable future for music. We believe the best way to ensure a sustainable future for music is to invest in its creators.</h2>
+                <h2>CASH Music is a <a href="https://medium.com/cash-music/the-organization-is-our-protest-song-1c9b01ea3ceb" target="_blank">nonprofit organization</a> focused on educating and empowering artists and their fans to foster a viable and sustainable future for music. We believe the best way to ensure a sustainable future for music is to invest in its creators.</h2>
             
                
                 <script type="text/javascript" src="http://air.cashmusic.org/public/cashmusic.js"></script><script type="text/javascript"> window.cashmusic.embed('http://air.cashmusic.org/public/','12');</script>
 
-                <p>Made Possible with the support of :-</p>
-                <a class="mozilla" href="https://www.mozilla.org/" target="_blank"><img src="/admin/ui/default/assets/images/mozilla.png" alt="Mozilla"/></a>
+                <p>Made possible with the support of:</p>
                 <a class="shuttleworth" href="http://www.shuttleworthfoundation.org/" target="_blank"><img src="/admin/ui/default/assets/images/shuttleworth.png" alt="Shuttleworth Foundation"/></a>
+                <a class="mozilla" href="https://www.mozilla.org/" target="_blank"><img src="/admin/ui/default/assets/images/mozilla.png" alt="Mozilla"/></a>
+                <a class="mailchimp" href="http://www.mailchimp.com/" target="_blank"><img src="/admin/ui/default/assets/images/mailchimp.png" alt="Mailchimp"/></a>
                 <a class="rackspace" href="http://www.rackspace.com/" target="_blank"><img src="/admin/ui/default/assets/images/rackspace.png" alt="Rackspace"/></a>
                 </div><!--inner-->
             </div><!--panel-->	
