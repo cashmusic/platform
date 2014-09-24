@@ -39,6 +39,7 @@
 				'plant' => false,
 				'action' => false,
 				'id' => false,
+				'request' => false,
 				'verbose' => false,
 				'parsed' => $exploded_request
 			);
@@ -74,6 +75,7 @@
 						}
 					}
 				}
+				$request_parameters['request'] = $request_array;
 			} 
 			return $request_parameters;
 		} else {
@@ -97,14 +99,14 @@
 				$request_method = 'api_public';
 				// fold in any POST/GET
 				if(!empty($_POST)) {
-					$parsed_url = array_merge($_POST,$parsed_url);
+					$parsed_url['request'] = array_merge($_POST,$parsed_url['request']);
 				}
 				if(!empty($_GET)) {
-					$parsed_url = array_merge($_GET,$parsed_url);
+					$parsed_url['request'] = array_merge($_GET,$parsed_url['request']);
 				}
-				if (isset($parsed_url['api_key'])) {
-					$api_key = $parsed_url['api_key'];
-					unset($parsed_url['api_key']);
+				if (isset($parsed_url['request']['api_key'])) {
+					$api_key = $parsed_url['request']['api_key'];
+					unset($parsed_url['request']['api_key']);
 					$auth_request = new CASHRequest(
 						array(
 							'cash_request_type' => 'system', 
@@ -114,13 +116,14 @@
 					);
 					if ($auth_request->response['status_code'] == '200') {
 						$request_method = $auth_request->response['payload']['auth_type'];
-						$parsed_url['user_id'] = $auth_request->response['payload']['user_id'];
+						$parsed_url['request']['user_id'] = $auth_request->response['payload']['user_id'];
 					}
 				}
 				$api_request = new CASHRequest(
-					$parsed_url,
+					$parsed_url['request'],
 					$request_method
 				);
+				error_log(print_r($api_request,true));
 				if ($api_request->response) {
 					// echo the response from
 					if ($api_request->response['status_code'] == 400 && $api_request->response['action'] == 'processwebhook') {
@@ -135,7 +138,7 @@
 					exit;
 				} else {
 					header("{$_SERVER['SERVER_PROTOCOL']} 400 Bad Request",true);
-					echo json_encode(array('huh'=>$parsed_url['parsed'][1],'status_code'=>404,'status_message'=>'Not Found','contextual_message'=>'You did that wrong.','api_version'=>$this->version,'timestamp'=>time()));
+					echo json_encode(array('status_code'=>404,'status_message'=>'Not Found','contextual_message'=>'You did that wrong.','api_version'=>$this->version,'timestamp'=>time()));
 					exit;
 				}
 			} else {

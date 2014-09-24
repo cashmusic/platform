@@ -65,7 +65,7 @@ class BasicHTTPAPITests extends UnitTestCase {
 			$this->assertTrue(is_string($return->contextual_message));
 			$this->assertTrue(is_string($return->request_type));
 			$this->assertTrue(is_string($return->action));
-			$this->assertTrue(is_int($return->api_version));
+			$this->assertTrue(is_float($return->api_version));
 			$this->assertTrue(is_int($return->timestamp));
 		}
 	}
