@@ -1,6 +1,7 @@
 {
-	"pagetip":"You can have as many unpublished dates in the system as you like, publishing them when it's time to announce a tour.<br /><br />The cancellation field exists so you can publicly mark an already publicized show as cancelled, updating the comments with relevant information about refunds, etc.",
-	"learn":"",
+	"pagetip":"Here you can add all your events - shows, in-stores, radio interviews & performances.",
+	"learn":"<p>You will need to enter in a venue first if it’s not already in our database. The good news is any time you add a venue it gets added to the big list. Which means the more people use the platform the better and more complete that database will get.</p> <p> Keep in mind that you must set up an element if you wish to publish tour dates on your page. Selecting published here makes them available to be used in a campaign element. Dates are not live until you start a campaign, select a tour date element, and then either publish your page or embed the element widget on another site.</p><p>If you already have a tour dates element up when you add more events here you will automatically publish them on your page unless you uncheck the published box. If you’re waiting to announce a show or tour make sure you uncheck published so you don’t spill the beans.</p><p>Cancelled show? Make sure and go into that event’s details and select cancelled. You can make notes in the comments section letting fans know about refunds or rescheduling.</p> 
+",
 	"related":{},
 	"labels":{},
 	"tooltips":{},
