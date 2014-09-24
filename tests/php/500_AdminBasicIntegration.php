@@ -67,11 +67,11 @@ class AdminBasicIntegration extends UnitTestCase {
 					'login'              => '1'
 				))
 			);
-			$this->assertPattern('/<div id="logoutbtn" class="toggle needsconfirmation">/', $src);
+			$this->assertPattern('/<div id="logoutbtn" class="toggle">/', $src);
 
 			// make sure the cookie is persistent
 			$src = $this->cc->get($this->cash_test_url . '/admin/');
-			$this->assertPattern('/<div id="logoutbtn" class="toggle needsconfirmation">/', $src);
+			$this->assertPattern('/<div id="logoutbtn" class="toggle">/', $src);
 		}
     }
 
