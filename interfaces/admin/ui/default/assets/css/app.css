@@ -207,6 +207,7 @@ a:hover{
 
 input{
 	padding:3%;
+	-webkit-apperance:none;
 }
 
 input::-webkit-calendar-picker-indicator{
@@ -232,10 +233,12 @@ select{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	-webkit-apperance:none;
 }
 
 textarea{
 	height:100px;
+	-webkit-apperance:none;
 }
 
 textarea.taller{
@@ -346,6 +349,7 @@ button, .button, #modallightbox .modalcancel{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	-webkit-apperance:none;
 }
 
 .usecolor2 button, .usecolor2 .button, .usecolor2 #modallightbox .modalcancel{ border:solid 1px #fa3838; color:#fa3838;}
@@ -1447,6 +1451,18 @@ color:#f5f5f5!important;
 	float:right;
 }
 
+
+.login .signup{
+	background: #e3e3e3 url(../images/paint_low.png) 0% 0%;
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-attachment: fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
 .login .row .six {
 	margin:0;
 	padding:0;
@@ -1456,14 +1472,16 @@ color:#f5f5f5!important;
 	width:100%;
 	text-align: center;
 	margin:0 auto 1% auto;
+	padding:0;
 	position:relative;
 	background:none;
 }
 
 .login #pagedisplay{
-	width:100%;
+	width:102%;
 	margin:0 auto;
-	background:none;
+	padding:5%;
+	/*background:none;*/
 }
 
 .login section[role=main]{
@@ -2096,7 +2114,7 @@ ul.alternating li a{
 	padding:5%;
 	margin:0;
 	background:#f9f9f9;
-	display:block;
+	display:inline-block;
 	overflow: auto;
 	float:left;
 	width:100%;
@@ -2198,7 +2216,7 @@ ul.alternating li .actions{
 	display:block;
 	top:0;
 	position:absolute;
-	float:left;
+	/*float:left;*/
 	width:100%;
 	height:100%;
 	-webkit-transition: 0.3s  ease-in-out;
@@ -2207,6 +2225,7 @@ ul.alternating li .actions{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	overflow:auto;
 }
 
 
@@ -2907,6 +2926,10 @@ width:100%;
 	color:#f5f5f5;
 }
 
+.campaignelements{
+	position:relative;
+}
+
 /* Featured Elements */
 
 .featuredelement{
@@ -3308,12 +3331,16 @@ width:100%;
 	z-index:5;
 	text-align: center;
 	width:75%;
-	padding:10% 3% 10% 3%;
+	min-height:auto;
+	padding:5% 3% 10% 3%;
 	margin:0 auto 1% auto;
 	/*background:#ddd;*/
 	border-top:1px solid #ccc;
 }
 
+.login #footer{
+	min-height:auto;
+}
 
 .panel #footer{
 	margin:0 0 0 28%;
@@ -3452,6 +3479,7 @@ button, .button, #modallightbox .modalcancel{
 #footer{
 	text-align: left;
 	margin:0;
+	min-height:60%;
 	padding:10% 3% 1% 3%;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
@@ -3464,6 +3492,10 @@ button, .button, #modallightbox .modalcancel{
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
+}
+
+.login #footer{
+	min-height:auto;
 }
 
 /* Navigation */
@@ -3754,7 +3786,7 @@ section[role=main]{
 }
 
 #footer{
-	padding:10% 2% 1% 2%;
+	padding:5% 2% 1% 2%;
 }
 
 /* Stats */
@@ -3805,6 +3837,33 @@ ul.alternating li a{
 
 
 } /*  Condensed Height END */
+
+/* ===============
+   Tablet Fixes
+   =============== */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px)  {
+  
+video{
+    display:none;
+}
+
+ul.alternating li .actions{
+	height:80px;
+}
+
+}/*  Tablet Fixes END */
+
+/* ===============
+   Further Mobile Fixes
+   =============== */
+@media only screen and (min-device-width : 320px) and (max-device-width : 568px) { 
+
+video, #menutoggle{
+    display:none;
+}
+
+
+}/*  Further Mobile Fixes END */
 
 /* ==========================================================================
    Print styles
