@@ -207,7 +207,7 @@ $( document ).ready(function() {
                     </ul>
                 </nav>
         <div class="header-container">
-               <h1 class="logo"><img src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v2/ui/default/assets/images/invert_logo.svg" alt="CASH Music" /></h1>
+               <h1 class="logo"><img src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/images/invert_logo.svg" alt="CASH Music" /></h1>
         </div>
 
         <div class="main-container">
@@ -221,7 +221,7 @@ $( document ).ready(function() {
                <!-- <iframe width="1280" height="720" src="//www.youtube.com/embed/YLS_WWYUQBg?&amp;vq=hd720&amp;modestbranding=1&amp;showinfo=0&amp;autoplay=1&amp;autohide=1&amp;color=white" autoplay="1" frameborder="0" allowfullscreen></iframe> -->
 
                 <video autoplay loop>
-                <source src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v2/ui/default/assets/video/phone.webm" type="video/webm">
+                <source src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/video/phone.webm" type="video/webm">
                 Sorry Your browser does not support the video tag.
            		</video> 
                 </div>
@@ -241,8 +241,8 @@ $( document ).ready(function() {
             <!--<img src="/admin/ui/default/assets/images/phone.png" alt="phone"/>-->
            		<h1>Made For Musicians.</h1>
            		<video class="phonevid" autoplay loop>
-                <source src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v2/ui/default/assets/video/phone.mp4" type="video/mp4">
-                <source src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v2/ui/default/assets/video/phone.webm" type="video/webm">
+                <source src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/video/phone.mp4" type="video/mp4">
+                <source src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/video/phone.webm" type="video/webm">
                 Sorry Your browser does not support the video tag.
                 </video> 
                 <h2>The CASH Music platform is a set of digital tools designed to solve real problems for working musicians, based on years of direct collaboration with artists.</h2>
