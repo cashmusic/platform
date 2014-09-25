@@ -1,6 +1,6 @@
 {
-	"pagetip":"Here you'll find detailed information about the transaction, fees charged by your payment processing service, items included, and all data captured in the process.",
-	"learn":"",
+	"pagetip":"",
+	"learn":"<p>This is where you’ll find basic information on your completed orders. Click on details for more info on an individual order.</p><p> There is also where you export your orders. Recent orders refers to all orders that have come in since your last export.</p>",
 	"related":{},
 	"labels":{},
 	"tooltips":{},
