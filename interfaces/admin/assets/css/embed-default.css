@@ -13,6 +13,9 @@ html,body{
 	padding:0;
 	width:100%;
 	color:#222;
+	-webkit-transition: opacity 0.3s  ease-in-out;
+	-moz-transition: opacity 0.3s  ease-in-out;
+	trasition: opacity 0.3s ease-in-out;
 }
 
 body{
@@ -95,9 +98,9 @@ input{
 	background:rgba(34,34,34,0.9);
 	color:#f5f5f5;
 	font: 400 18px/20px 'Montserrat',Helvetica,Arial,sans-serif;
-	-webkit-transition: 0.3s  ease-in-out;
-	-moz-transition: 0.3s  ease-in-out;
-	trasition:0.3s ease-in-out;
+	-webkit-transition: background 0.3s  ease-in-out;
+	-moz-transition: background 0.3s  ease-in-out;
+	trasition: background 0.3s ease-in-out;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -238,6 +241,7 @@ input[type=submit]:hover, .button:hover{
 .cash_success .download{
 	/*float:right;*/
 	padding:2%;
+	margin:1%;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition:0.3s ease-in-out;
