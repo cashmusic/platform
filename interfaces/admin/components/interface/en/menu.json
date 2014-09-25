@@ -106,7 +106,7 @@
 	"people/lists/view":
 		{"page_name":"List details", "menu_icon":""},
 	"people/mailings":
-		{"page_name":"Mail campaigns", "menu_icon":"icon-envelope-alt"},
+		{"page_name":"Mail campaigns", "menu_icon":"", "hide":true},
 	"people/press":
 		{"page_name":"Press coverage", "menu_icon":"icon-paper-clip"},
 
