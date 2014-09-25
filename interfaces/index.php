@@ -24,13 +24,15 @@ $user_id = false;
 // if we've got a username we need to find the id — over-write no matter what. no fallback to user id 1
 if (isset($_GET['subdomain']) || isset($_GET['path'])) {
 
+    require_once(__DIR__ . '/admin/constants.php');
     //error_log($_GET['subdomain'] . "\n" . $_GET['path'] . "\n" . print_r($_GET,true));
 
     if ($_GET['subdomain'] !== 'x' && 
         $_GET['subdomain'] !== 'localhost' &&
         $_GET['subdomain'] !== 'testing' &&
         $_GET['subdomain'] !== 'staging' &&
-        $_GET['subdomain'] !== 'air'
+        $_GET['subdomain'] !== 'air' && 
+        SUBDOMAIN_USERNAMES
     ) {
         $username = explode('.', $_GET['subdomain']);
         $username = $username[0];
@@ -42,7 +44,6 @@ if (isset($_GET['subdomain']) || isset($_GET['path'])) {
     if ($username) {
         // include the necessary bits, define the page directory
         // Define constants too
-        require_once(__DIR__ . '/admin/constants.php');
         $page_vars = array(); // setting up the array for page variables
         $page_vars['www_path'] = ADMIN_WWW_BASE_PATH;
         $page_vars['jquery_url'] = (defined('JQUERY_URL')) ? JQUERY_URL : ADMIN_WWW_BASE_PATH . '/ui/default/assets/scripts/jquery-1.8.2.min.js';
