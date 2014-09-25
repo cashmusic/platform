@@ -1156,7 +1156,7 @@ section[role=main].hero{
 #tertiary {
 	/*display:none;*/
 	position:fixed;
-	z-index:-3;
+	/*z-index:-3;*/
 }
 
 /*#panelmask{
