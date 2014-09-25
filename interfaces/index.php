@@ -228,7 +228,7 @@ $( document ).ready(function() {
 
             	<h2>Manage your mailing list, sell your music, organize your digital world. The CASH Music platform is free to use, now and forever.</h2> 
             	 <div class="action">
-                <a class="singup btn" href="signup">Sign up</a><!--signup--> <a class="login btn" href="admin">Login</a><!--login--></div><!--action-->
+                <a class="singup btn" href="admin/dosignup/">Sign up</a><!--signup--> <a class="login btn" href="admin/">Login</a><!--login--></div><!--action-->
  				 </div><!--inner-->
         </div><!--panel-->	
 
