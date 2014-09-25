@@ -275,11 +275,13 @@
 			$( "#search" ).toggleClass( "display" );
 		});
 
+		
 		// show/hide hero video
-		$( ".welcome" ).click(function() {
+		// Hide for Verision 7 Update
+		/*$( ".welcome" ).click(function() {
 			$( this ).toggleClass( "video" );
 			$( "#hero" ).toggleClass( "video" );
-		});
+		});*/
 
 		// hide mainmenu & tertiary panel
 		$( "#flipback" ).click(function() {
