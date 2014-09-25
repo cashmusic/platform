@@ -669,10 +669,11 @@ small{
 	background-size: 100%;
 }
 
-#hero .welcome:hover{
+/* Hide for Verision 7 Update */
+/*#hero .welcome:hover{
 	opacity:0.9;
 	cursor: pointer;
-}
+}*/
 
 
 #hero .welcome h1{
@@ -682,12 +683,16 @@ small{
 	font-size: 40px;
 	font-weight: 700;
 	background:rgba(34,34,34,0.2);
+	/* Hide for Verision 7 Update */
+	visibility: hidden;
 } 
 
  #hero .welcome h2{
  	padding:0 4% 0 4%;
  	margin:0;
  	color:#00cf7f;
+ 	/* Hide for Verision 7 Update */
+	visibility: hidden;
  }
 
 #hero .welcome img{
@@ -924,6 +929,8 @@ small{
 	width:100%;
 	padding:5%;
 	height:100%;
+	position:relative;
+	z-index:5;
 }
 
 section[role=main]{
@@ -1156,7 +1163,7 @@ section[role=main].hero{
 #tertiary {
 	/*display:none;*/
 	position:fixed;
-	/*z-index:-3;*/
+	z-index:-2;
 }
 
 /*#panelmask{
@@ -1193,7 +1200,7 @@ section[role=main].hero{
 }
 
 .inner .panelcontent{
-	opacity:0;
+	/*opacity:0;*/
 	-webkit-transition-delay: 2s; /* Safari */
     transition-delay: 2s;
     -webkit-transition: 0.3s;
