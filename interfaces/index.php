@@ -192,18 +192,17 @@ $( document ).ready(function() {
         <![endif]-->
 <div class="menutoggle">Menu</div>
     <nav>
-    <div class="social"><a href="https://twitter.com/cashmusic" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @cashmusic</a>
+    <div class="social"><iframe class="git" src="http://ghbtns.com/github-btn.html?user=cashmusic&repo=platform&type=fork"
+  allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe><a href="https://twitter.com/cashmusic" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @cashmusic</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script><div class="fb-like" data-href="https://www.facebook.com/cashmusic.org" data-width="75" data-layout="button" data-action="like" data-show-faces="true" data-share="false"></div></div><!--social-->
                     <ul>
-                        <li><a href="http://www.cashmusic.org">Home</a></li>
+                        <!--<li><a href="http://www.cashmusic.org">Home</a></li>-->
                     	<li><a href="http://about.cashmusic.org">About</a></li>
                         <li><a href="https://medium.com/cash-music" target="_blank">Blog</a></li>
                         <!--<li><a href="http://tools.cashmusic.org">Tools</a></li>
                         <li><a href="http://learn.cashmusic.org">Learning</a></li>
                         <li><a href="http://events.cashmusic.org">Events</a></li>-->
-                        <li><a href="http://donate.cashmusic.org">Donate</a></li>
-                        <li><a href="https://github.com/cashmusic/platform" target="_blank">Fork Us On Git Hub</a></li>
-          	
+                        <li><a href="http://donate.cashmusic.org">Donate</a></li>          	
                     </ul>
                 </nav>
         <div class="header-container">

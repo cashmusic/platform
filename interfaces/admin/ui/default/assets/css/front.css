@@ -384,9 +384,9 @@ margin:-5% auto 0 auto;
 
 .menutoggle{
     text-indent: -5000em;
-    background:#f5f5f5 url(../images/menu_normal.png) no-repeat 50% 50%;
+    background: url(../images/menu_normal.png) no-repeat 50% 50%;
     border:none;
-    background-size: 50%;
+    background-size: 60%;
     padding:20px;
     display:block;
     position:fixed;
@@ -395,6 +395,8 @@ margin:-5% auto 0 auto;
     width:30px;
     -webkit-transition: 0.3s  ease-in-out;
     transition: 0.3s  ease-in-out;
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
 }
 
 .menutoggle:hover{
@@ -408,12 +410,16 @@ margin:-5% auto 0 auto;
 
 .show.menutoggle{
   background:#ddd url(../images/menu_close.gif) no-repeat 50% 50%;
-  background-size: 50%;
+  background-size: 60%;
+  -webkit-filter: invert(0%);
+  filter: invert(0%);
 }
 
 .hide.menutoggle{
-  background:#f5f5f5 url(../images/menu_open.gif) no-repeat 50% 50%;
-  background-size: 50%;
+  background: url(../images/menu_open.gif) no-repeat 50% 50%;
+  background-size: 60%;
+  -webkit-filter: invert(100%);
+  filter: invert(100%);
 }
 
 /*
@@ -587,6 +593,10 @@ h1{
 .social .fb-like{
     padding:8px 10px 10px 0;
     float:left;
+}
+
+.social .git{
+    margin-top:10px;
 }
 
 /* ===============
