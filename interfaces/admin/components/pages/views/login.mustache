@@ -35,7 +35,7 @@
 <div class="row signup">
 	<div class="two columns"></div>
 	<div class="eight columns">
-		<h5>No account? <a href="{{www_path}}/signup/" class="lightboxed">Sign up.</a></h5>
+		<h5>No account? <a href="{{www_path}}/signup/" id="signupbtn" class="lightboxed">Sign up.</a></h5>
 		<p>
 			An account is free, now and forever. Sign up to get started.
 		</p>
@@ -53,3 +53,9 @@
 		$('#loadingmask').css('width','1%');
 	}
 </script>
+
+{{#open_signup_panel}}
+	<script type="text/javascript">
+		$(this).data('timeout', setTimeout($.proxy(function(){ $('#signupbtn').trigger('click'); }, this), 750));
+	</script>
+{{/open_signup_panel}}	
