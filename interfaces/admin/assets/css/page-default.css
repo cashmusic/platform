@@ -134,7 +134,7 @@ h2.subtitle{
 /* Footer */
 
 .madebycash{
-	background:url('https://d8f1e955fba059a78229-a500f5daa3d6b74402dd5bcc8bee4819.ssl.cf2.rackcdn.com/ui/default/assets/images/invert_logo.png') 3% 50% no-repeat;
+	background:url(../../ui/default/assets/images/invert_logo.svg) 3% 50% no-repeat;
 	background-color:rgba(0,0,0,0.1);
 	background-size:50px 50px;
 	position:fixed;
