@@ -1,17 +1,8 @@
-<a name="activity"></a>
-
 <div id="hero">
-<!--canvas id="canvas" width="1500" height="420"></canvas-->
-<!--h5>Okay, i got it man!</h5-->
-<div class="welcome">
-<h1>Welcome to the CASH Music Platform v.5</h1>
-<h2>Watch the video to get started</h2>
-</div><!--welcome-->
-<!--iframe src="//www.youtube.com/embed/8IgQ2SP-vBY" frameborder="0" allowfullscreen></iframe-->
-<!-- {{#dashboard_news}}
-<h2>While you were gone</h2>
-	<div class="callout newsfeed cashnews">{{{dashboard_news}}}<div class="newsimage" style="background-image:url({{dashboard_news_img}})"></div></div>
-{{/dashboard_news}} -->
+	<div class="welcome">
+	<h1>Welcome to the CASH Music Platform v.5</h1>
+	<h2>Watch the video to get started</h2>
+	</div><!--welcome-->
 </div><!--hero-->
 
 <!--<h2>Activity While you were gone</h2>-->
@@ -23,61 +14,39 @@
 {{/dashboard_orders}}
 
 
-<!--
-{{#platform_type_single}}
-	{{^elements_found}}
-	<div class="gettingstarted">
-		<h4>You're done installing, now let's get started</h4>
-		So the database is set up and if you're seeing this all the configuration is right. There are just 
-		a few easy steps before you publishing your first working CASH Music element.
-
-		<br /><br />
-
-		<div class="col_oneofthree{{#step1_complete}} complete{{/step1_complete}}">
-			<h4>Step 1: System stettings</h4>
-			<p>
-				Before you go too far you should change default settings like the system email and the time-zone. Add any 
-				third-party connections you want to start using.
-			</p>
-			<a href="{{www_path}}/settings/" class="featured"><i class="icon icon-cog"></i>Email and time-zone</a><br />
-			<a href="{{www_path}}/settings/connections/" class="featured"><i class="icon icon-cogs"></i>Connect services</a>
-		</div>
-
-		<div class="col_oneofthree{{#step2_complete}} complete{{/step2_complete}}">
-			<h4>Step 2: Add your stuff</h4>
-			<p>
-				The platform works with your content and your world — so start by adding an MP3 or setting up an email list. 
-			</p>
-			<a href="{{www_path}}/assets/" class="usecolor1 featured"><i class="icon icon-file"></i>Add a new asset</a><br />
-			<a href="{{www_path}}/people/" class="usecolor2 featured"><i class="icon icon-list-ul"></i>Create an email list</a>
-		</div>
-
-		<div class="col_oneofthree lastcol">
-			<h4>Step 3: Publish!</h4>
-			<p>
-				You're ready to create your first element. Try something simple like an email capture element. Point
-				to an existing list, maybe offer a download, and then embed with the code you're given.
-			</p>
-			<a href="{{www_path}}/elements/add/" class="usecolor5 featured store"><i class="icon icon-plus-sign"></i> Add your first element</a>
-		</div>
-
-		<br /><br /><br />
-		<span class="helpspc"><b>Need more help?</b> Check out the <a href="{{www_path}}/help/gettingstarted/" class="helplink">Getting Started</a> page.</span>
+{{#nocampaigns_noelements}}
+	<div class="callout">
+		<h5>Hello, it looks like you’re new here. Thanks for signing up and kicking our tires.</h5>
+		<p>
+		You can edit your account settings, including important stuff like your password &amp; homepage info, at any time by clicking on the gear icon in the upper right hand menu. 
+		</p><p>
+		The platform works with your own storage, payment, and mailing list accounts. To add connections to your services, open the settings menu, click "System settings," and choose the type of account you'd like to connect. 
+		</p><p>
+		Next it’s time to add a campaign. Campaigns are there to help you organize your digital workflow. You can add or edit elements here as well as keep track of how they are doing. A campaign can be easily published as one single page on our hosted site. 
+		</p>
 	</div>
-	{{/elements_found}}
-{{/platform_type_single}}
+{{/nocampaigns_noelements}}
 
-{{^current_page_template}}
-	<div class="callout bright flush">
-		<h4>Publish a page</h4>
-		<p>You can publish a page with any of your elements. Bring your own markup and just drop in any CASH element embed code(s) you want. Look below for details.</p>
-		{{^defined_page_templates}}
-			<br />
-			<a href="{{www_path}}/elements/templates/add/"><i class="icon icon-list-alt"></i><b>Add a page template to start</b></a>
-		{{/defined_page_templates}}
+{{#campaigns_noelements}}
+	<div class="callout">
+		<p>
+		Now that you've set up a campaign, it's time to add some elements. Elements are the tools you’ll be using in your campaign, like email collection and digital sales. Every individual element can be embedded on any site by simple copy/paste or you can add several elements to a campaign and publish it as a single page. 
+		</p><p>
+		Don't worry; nobody else will see anything until you publish it, and you can always edit any element even after you've published a campaign
+		</p>
 	</div>
-{{/current_page_template}}
--->
+{{/campaigns_noelements}}
+
+{{#nocampaigns_elements}}
+	<div class="callout">
+		<h5>Hey! We know you. Thanks for being there early and for sticking with us. </h5>
+		<p>
+		You’ve probably noticed things look a little different in here but it’s easy to get it all ship shape. First, check out your account settings and make sure your connections are in order by clicking on the gear icon in the upper right hand menu. 
+		</p><p>
+		You’ll find all of your old elements in a campaign of their own called Archive. Campaigns are here to help you organize your elements, keep track of how they’re doing, and easily publish them on one page if you like (you can still embed as many elements as you like on external sites). 
+		</p>
+	</div>
+{{/nocampaigns_elements}}
 
 
 <h4>
@@ -113,55 +82,13 @@
 </div>
 
 
-<!--a name="publish"></a>
-<br />
-<h4>Publish / embed</h4>
-	{{#current_page_template}}
-	<div class="row">
-		<div class="twelve columns">
-			<p class="big tight">
-				Your public page is live at <a href="{{user_page_uri}}" target="_blank"><i>{{user_page_display_uri}}</i></a>
-			</p>
-			<a href="{{www_path}}/account/" class="usecolor0"><i class="icon icon-user"></i><b>Change your username/url</b></a>
-			<br /><br /><br />
-		</div>
-	</div>
-	{{/current_page_template}}
-	<div class="row">
-		<div class="six columns spacedtext">
-			<label>Your public page</label>
-			
-			<a href="{{www_path}}/elements/templates/add/"><i class="icon icon-list-alt"></i><b>Add a new page</b></a><br />
-			<a href="{{www_path}}/elements/templates/edit/{{current_page_template}}"><i class="icon icon-pencil"></i><b>Edit the current page</b></a><br />
-
-			<div class="drawer noprefix">
-				<a class="drawerhandle fullsize"><i class="icon icon-columns"></i><b>Publish a different page</b></a>
-				<div class="drawercontent">
-					<br />
-					<form method="post" action="">
-						<label for="template_id">Select a page template to publish:</label>
-						<select id="change_template_id" name="change_template_id">
-							{{{template_options}}}
-						</select>
-						<br />
-						<button type="submit"><i class="icon icon-desktop"></i>Publish</button>
-					</form>
-				</div>
-			</div>
-		</div>
-		<div class="six columns spacedtext">
-			<label>Element embed codes / templates</label>
-			
-			<a href="{{www_path}}/elements/templates/add/"><i class="icon icon-list-alt"></i><b>Add a new embed template</b></a><br />
-			
-		</div>
-	</div>
--->
-<br />
-<h4>Publish</h4>
-<p>
-	Your public page is live at <a href="{{user_page_uri}}" target="_blank"><i>{{user_page_display_uri}}</i></a>
-</p>
-<a href="{{www_path}}/campaigns/publish" class="button lightboxed">Publish a campaign</a>
+{{#has_campaigns}}
+	<br />
+	<h4>Publish</h4>
+	<p>
+		Your public page is live at <a href="{{user_page_uri}}" target="_blank"><i>{{user_page_display_uri}}</i></a>
+	</p>
+	<a href="{{www_path}}/campaigns/publish" class="button lightboxed">Publish a campaign</a>
+{{/has_campaigns}}
 
 </div>
