@@ -63,6 +63,21 @@ if ($campaign_id == '0') {
 		$cash_admin->page_data['elements_for_campaign'] = new ArrayIterator($elements_for_campaign);
 	}
 
+	// get the current template:
+	$settings_request = new CASHRequest(
+		array(
+			'cash_request_type' => 'system', 
+			'cash_action' => 'getsettings',
+			'type' => 'public_profile_template',
+			'user_id' => $cash_admin->effective_user_id
+		)
+	);
+	if ($settings_request->response['payload']) {
+		$cash_admin->page_data['template_id'] = $settings_request->response['payload'];
+	} else {
+		$cash_admin->page_data['template_id'] = false;
+	}
+
 } else {
 	// parsing posted data:
 	if (isset($_POST['docampaignedit'])) {

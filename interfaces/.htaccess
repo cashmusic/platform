@@ -26,7 +26,7 @@ RewriteRule ^beginpayment.php$ http://legacy.cashmusic.org/beginpayment.php [R,L
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-l
 # grab subdomain
-RewriteCond %{HTTP_HOST} (.*)\.cashmusic\.org
+RewriteCond %{HTTP_HOST} (.*)
 # explicitly skip real paths
 RewriteCond %{REQUEST_URI} !^/admin
 RewriteCond %{REQUEST_URI} !^/api

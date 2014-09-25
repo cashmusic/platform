@@ -45,8 +45,11 @@
 			<a href="/admin/elements/templates/edit/{{template_id}}/page/parent/{{id}}" class="button lightboxed">Edit campaign page</a>
 		{{/isarchive}}
 		{{#isarchive}}
-			<h4>Publish settings</h4>
-			<a href="/admin/elements/templates/edit/{{template_id}}/page/parent/{{id}}" class="button lightboxed">Edit campaign page</a>
+			{{#template_id}}
+				<h4>Edit the current page</h4>
+				<p>Normally pages are associated with campaigns, but if a published campaign is removed we don't kill the live page. So just in case, here's a way to edit an orphaned page that's still live.</p>
+				<a href="/admin/elements/templates/edit/{{template_id}}" class="button lightboxed">Edit the current live page</a>
+			{{/template_id}}
 		{{/isarchive}}
 	</div>
 </div>
