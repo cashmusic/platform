@@ -177,6 +177,9 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH)) && ($_REQUES
 			define('BASE_PAGENAME','privacy');
 			$include_filename = 'privacy.php';
 		} else {
+			if (REQUESTED_ROUTE == '/dosignup/') {
+				$cash_admin->page_data['open_signup_panel'] = true;
+			}
 			define('BASE_PAGENAME','login');
 			$include_filename = 'login.php';
 		}

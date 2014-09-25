@@ -23,7 +23,6 @@
 			exit('{"api_error":"API could not connect to the core framework. (class CASHRequest not defined.)"}');
 		}
 		$this->version = floatval('1.' . CASHRequest::$version);
-		error_log(print_r($this->parseURL($incoming_url),true));
 		$this->respond($this->parseURL($incoming_url));
 	}
 	
@@ -123,7 +122,6 @@
 					$parsed_url['request'],
 					$request_method
 				);
-				error_log(print_r($api_request,true));
 				if ($api_request->response) {
 					// echo the response from
 					if ($api_request->response['status_code'] == 400 && $api_request->response['action'] == 'processwebhook') {
