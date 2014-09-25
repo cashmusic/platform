@@ -929,6 +929,8 @@ small{
 	width:100%;
 	padding:5%;
 	height:100%;
+	position:relative;
+	z-index:5;
 }
 
 section[role=main]{
@@ -1161,7 +1163,7 @@ section[role=main].hero{
 #tertiary {
 	/*display:none;*/
 	position:fixed;
-	z-index:1;
+	z-index:-2;
 }
 
 /*#panelmask{
