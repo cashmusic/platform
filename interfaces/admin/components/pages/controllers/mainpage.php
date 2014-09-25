@@ -17,34 +17,6 @@ if (isset($_POST['change_template_id'])) {
 	);
 }
 
-/*
-// look for a defined template
-$settings_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'system', 
-		'cash_action' => 'getsettings',
-		'type' => 'public_profile_template',
-		'user_id' => $cash_admin->effective_user_id
-	)
-);
-if ($settings_response['payload']) {
-	$cash_admin->page_data['current_page_template'] = $settings_response['payload'];
-} else {
-	$cash_admin->page_data['current_page_template'] = false;
-}
-
-// deal with templates and public page
-$page_templates = AdminHelper::echoTemplateOptions('page',$cash_admin->page_data['current_page_template']);
-if ($page_templates) {
-	$cash_admin->page_data['template_options'] = '<option value="0" selected="selected">No page published</option>';
-	$cash_admin->page_data['template_options'] .= $page_templates;
-	$cash_admin->page_data['defined_page_templates'] = true;
-} else {
-	$cash_admin->page_data['defined_page_templates'] = false;
-	$cash_admin->page_data['published_page'] = false;
-}
-*/
-
 // get username and any user data
 $user_response = $cash_admin->requestAndStore(
 	array(
@@ -196,7 +168,22 @@ if (is_array($campaigns_response['payload'])) {
 	}
 }
 
-$extra_elements = count($elements_response['payload']) - count($campaign_elements);
+$total_campaigns = count($campaigns_response['payload']);
+$total_elements = count($elements_response['payload']);
+
+if (!$total_elements && !$total_campaigns) {
+	$cash_admin->page_data['nocampaigns_noelements'] = true;
+} else if (!$total_elements && $total_campaigns) {
+	$cash_admin->page_data['campaigns_noelements'] = true;
+} else if ($total_elements && !$total_campaigns) {
+	$cash_admin->page_data['nocampaigns_elements'] = true;
+}
+
+if ($total_campaigns) {
+	$cash_admin->page_data['has_campaigns'] = true;
+}
+
+$extra_elements = $total_elements - count($campaign_elements);
 if ($extra_elements !== 0) {
 	$cash_admin->page_data['show_archive'] = true;
 }
