@@ -145,6 +145,7 @@ input[type=submit], .button{
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	text-transform: capitalize;
+	-webkit-appearance:none;
 }
 
 input[type=submit]:hover, .button:hover{
