@@ -7,6 +7,7 @@ select,
 textarea {
     color: #f5f5f5;
     font:400 30px/40px 'Montserrat',Helvetica,Arial,sans-serif;
+    -webkit-apperance:none;
 }
 
 html {
@@ -299,6 +300,10 @@ margin:-5% auto 0 auto;
 
 .panel.first, .panel.about,  .panel.better,  .panel.free{
     text-align: center;
+}
+
+.panel.free img, .panel.better img{
+    display:none;
 }
 
 .panel.first{
@@ -596,7 +601,8 @@ h1{
 }
 
 .social .git{
-    margin-top:10px;
+    /*margin-top:10px;*/
+    text-indent: 0em;
 }
 
 /* ===============
@@ -692,6 +698,8 @@ h1{
         margin:0 auto;
         padding:5%;
     }
+
+}
 
 /* ==========================================================================
    Helper classes
@@ -821,3 +829,59 @@ h1{
         page-break-after: avoid;
     }
 }
+
+/* ===============
+   Tablet Fixes
+   =============== */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px)  {
+  
+video{
+    display:none;
+}
+
+.panel.free, .panel.better{
+    background:none!important;
+    position:relative;
+    overflow:hidden;
+}
+
+.panel.free img, .panel.better img{
+    position: absolute; 
+    z-index:-1;
+    top: 0; 
+    left: 0; 
+    /* Preserve aspet ratio */
+    width:100%;
+    height:auto;
+    display:block;
+}
+
+}/*  Tablet Fixes END */
+
+/* ===============
+   Further Mobile Fixes
+   =============== */
+@media only screen and (min-device-width : 320px) and (max-device-width : 568px) { 
+
+video{
+    display:none;
+}
+
+.panel.free, .panel.better{
+    background:none!important;
+    position:relative;
+    overflow:hidden;
+}
+
+.panel.free img, .panel.better img{
+    position: absolute; 
+    z-index:-1;
+    top: 0; 
+    left: 0; 
+    /* Preserve aspet ratio */
+    width:auto;
+    height:100%;
+    display:block;
+}
+
+}/*  Further Mobile Fixes END */
