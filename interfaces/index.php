@@ -145,7 +145,7 @@ if ($user_id) {
 
         <link rel="stylesheet" href="/admin/ui/default/assets/css/front.css">
         <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
 <script>
 
@@ -161,14 +161,12 @@ $( document ).ready(function() {
         if ( !$(".menutoggle").hasClass("show")){
         $(".menutoggle").addClass("show");
         $(".menutoggle").removeClass("hide");
-        console.log('no show');
         
         } else {
 
             if ( $(".menutoggle").hasClass("show")){
                 $(".menutoggle").removeClass("show");
                 $(".menutoggle").addClass("hide");
-                console.log('fo show'); 
             }
         }
             $("body").toggleClass("show");
@@ -192,7 +190,7 @@ $( document ).ready(function() {
         <![endif]-->
 <div class="menutoggle">Menu</div>
     <nav>
-    <div class="social"><iframe class="git" src="http://ghbtns.com/github-btn.html?user=cashmusic&repo=platform&type=fork"
+    <div class="social"><iframe class="git" src="https://ghbtns.com/github-btn.html?user=cashmusic&repo=platform&type=fork"
   allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe><a href="https://twitter.com/cashmusic" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @cashmusic</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script><div class="fb-like" data-href="https://www.facebook.com/cashmusic.org" data-width="75" data-layout="button" data-action="like" data-show-faces="true" data-share="false"></div></div><!--social-->
                     <ul>
@@ -267,7 +265,7 @@ $( document ).ready(function() {
                 <h2>CASH Music is a <a href="https://medium.com/cash-music/the-organization-is-our-protest-song-1c9b01ea3ceb" target="_blank">nonprofit organization</a> focused on educating and empowering artists and their fans to foster a viable and sustainable future for music. We believe the best way to ensure a sustainable future for music is to invest in its creators.</h2>
             
                
-                <script type="text/javascript" src="http://air.cashmusic.org/public/cashmusic.js"></script><script type="text/javascript"> window.cashmusic.embed('http://air.cashmusic.org/public/','12');</script>
+                <script type="text/javascript" src="https://air.cashmusic.org/public/cashmusic.js"></script><script type="text/javascript"> window.cashmusic.embed('https://air.cashmusic.org/public/','12');</script>
 
                 <p>Made possible with the support of:</p>
                 <a class="shuttleworth" href="http://www.shuttleworthfoundation.org/" target="_blank"><img src="/admin/ui/default/assets/images/shuttleworth.png" alt="Shuttleworth Foundation"/></a>
@@ -278,9 +276,6 @@ $( document ).ready(function() {
             </div><!--panel-->	
         </div> <!-- #main -->
         </div> <!-- #main-container -->
-
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
 
 <!--Analytics-->
        <script>
