@@ -588,7 +588,7 @@
 		return $result;
 	}
 
-	public static function getActivity($current_userdata) {
+	public static function getActivity($current_userdata=false) {
 		global $admin_primary_cash_request, $cash_admin;
 		$session_news = $admin_primary_cash_request->sessionGet('admin_newsfeed');
 		if (!$session_news) {
@@ -630,10 +630,11 @@
 			}
 			*/
 
-			if (array_key_exists('last_login', $current_userdata)) {
-				$last_login = $current_userdata['last_login'];
-			} else {
-				$last_login = 0;
+			$last_login = 0;
+			if (is_array($current_userdata)) {
+				if (array_key_exists('last_login', $current_userdata)) {
+					$last_login = $current_userdata['last_login'];
+				} 
 			}
 
 			// get recent activity
