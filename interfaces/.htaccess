@@ -28,6 +28,7 @@ RewriteCond %{REQUEST_FILENAME} !-l
 # grab subdomain
 RewriteCond %{HTTP_HOST} (.*)
 # explicitly skip real paths
+RewriteCond %{REQUEST_URI} !^/server-status
 RewriteCond %{REQUEST_URI} !^/admin
 RewriteCond %{REQUEST_URI} !^/api
 RewriteCond %{REQUEST_URI} !^/docs
