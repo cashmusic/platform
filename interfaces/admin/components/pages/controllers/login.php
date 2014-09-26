@@ -204,7 +204,8 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 						'cash_action' => 'setlogincredentials',
 						'user_id' => $id_response['payload'], 
 						'address' => $_POST['address'], 
-						'password' => $_POST['new_password']
+						'password' => $_POST['new_password'],
+						'is_admin' => 1
 					)
 				);
 				if ($change_response['payload'] !== false) {
