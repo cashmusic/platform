@@ -41,7 +41,7 @@ if ($settings_action) {
 			if ($cash_admin->platform_type == 'single') {
 				if (!isset($_POST['dosettingsadd'])) {
 					if (array_key_exists($settings_type, $settings_types_data)) {
-						$cash_admin->page_data['state_markup'] = '<h4>Connect to ' . $settings_types_data[$settings_type]['name'] . '</h4><p>' . $settings_types_data[$settings_type]['description'] . '</p>';
+						$cash_admin->page_data['state_markup'] = '<h4>' . $settings_types_data[$settings_type]['name'] . '</h4><p>' . $settings_types_data[$settings_type]['description'] . '</p>';
 
 						$cash_admin->page_data['state_markup'] .= '<form method="post" action="">'
 							. '<input type="hidden" name="dosettingsadd" value="makeitso" />'
@@ -71,13 +71,14 @@ if ($settings_action) {
 						$settings_data_array
 					);
 					if ($result) {
-						$cash_admin->page_data['action_message'] = '<b>Success.</b> Everything was added successfully. You\'ll see the new connection below.';
+						$cash_admin->page_data['action_message'] = '<b>Success.</b> Everything was added successfully. You\'ll see it in your list of connections.';
 					} else {
 						$cash_admin->page_data['action_message'] = '<b>Error.</b> Something went wrong. Please make sure you\'re using a unique name for this connection. Not only is that just smart, it\'s required.';
 					}
 				}
 			} else {
-				// oauthy
+				// oauthy ...oauthish?
+				$cash_admin->page_data['service_selected'] = true;
 				if (isset($_POST['dosettingsadd'])) {
 					// grab the stuff we need from $_POST then strip it out, pass the rest as data to store with the connection
 					$settings_name = $_POST['settings_name'];
@@ -89,7 +90,7 @@ if ($settings_action) {
 						$_POST
 					);
 					if ($result) {
-						AdminHelper::formSuccess('Success. Connection added. You\'ll see it below.','/settings/connections/');
+						AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
 					} else {
 						AdminHelper::formFailure('Error. Something just didn\'t work right.','/settings/connections/');
 					}

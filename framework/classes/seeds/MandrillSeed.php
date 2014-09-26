@@ -46,7 +46,7 @@ class MandrillSeed extends SeedBase {
 					   . '&redirect_url=' 
 					   . urlencode($connections['com.mandrillapp']['redirect_uri']);
 
-			$return_markup = '<h4>Connect to Mandrill</h4>'
+			$return_markup = '<h4>Mandrill</h4>'
 						   . '<p>This will redirect you to a secure login on mandrillapp.com and bring you right back.</p>'
 						   . '<a href="' . $login_url . '" class="button">Connect your Mandrill account</a>';
 			return $return_markup;
@@ -88,7 +88,7 @@ class MandrillSeed extends SeedBase {
 				return $result;
 			} else {
 				if ($result) {
-					AdminHelper::formSuccess('Success. Connection added. You\'ll see it below.','/settings/connections/');
+					AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
 				} else {
 					AdminHelper::formFailure('Error. Something just didn\'t work right.','/settings/connections/');
 				}

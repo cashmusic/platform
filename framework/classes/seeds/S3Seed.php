@@ -57,7 +57,7 @@ class S3Seed extends SeedBase {
 	*/
 
 	public static function getRedirectMarkup($data=false) {
-		$return_markup = '<h4>Connect to Amazon S3</h4>'
+		$return_markup = '<h4>Amazon S3</h4>'
 					   . '<p>You\'ll need your S3 key, secret, and a bucket name to proceed. For security reasons '
 					   . 'we don\'t store your key and secret — you\'re granting permission to our own account to access the '
 					   . 'bucket, which you can revoke any time.</p>'
@@ -90,7 +90,7 @@ class S3Seed extends SeedBase {
 				)
 			);
 			if ($result) {
-				AdminHelper::formSuccess('Success. Connection added. You\'ll see it below.','/settings/connections/');
+				AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
 			} else {
 				AdminHelper::formFailure('Error. Something just didn\'t work right.','/settings/connections/');
 			}

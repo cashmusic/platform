@@ -52,7 +52,7 @@ class MailchimpSeed extends SeedBase {
 			);
 			$login_url = $auth->getLoginUri();
 
-			$return_markup = '<h4>Connect to MailChimp</h4>'
+			$return_markup = '<h4>MailChimp</h4>'
 						   . '<p>This will redirect you to a secure login on mailchimp.com and bring you right back.</p>'
 						   . '<a href="' . $login_url . '" class="button">Connect your MailChimp account</a>';
 			return $return_markup;

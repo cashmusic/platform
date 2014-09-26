@@ -1,4 +1,5 @@
 <div class="row">
+	{{^service_selected}}
 	<div class="six columns">
 		<h4>Add a new service connection:</h4>
 		<p>
@@ -6,19 +7,20 @@
 		</p>
 		<div class="row">
 			<div class="six columns">
-		{{#all_services}}
-				<a class="connection" href="{{www_path}}/settings/connections/add/{{key}}">
-				{{#service_has_image}}
-					<img src="{{www_path}}/assets/images/settings/{{key}}.png" width="100%" alt="{{name}}" /><br />
-				{{/service_has_image}}
-				<small>{{name}}</small></a>
-		{{/all_services}}
+			{{#all_services}}
+					<a class="connection" href="{{www_path}}/settings/connections/add/{{key}}">
+					{{#service_has_image}}
+						<img src="{{www_path}}/assets/images/settings/{{key}}.png" width="100%" alt="{{name}}" /><br />
+					{{/service_has_image}}
+					<small>{{name}}</small></a>
+			{{/all_services}}
 			</div>
 		</div>
 	</div>
-	<div class="six columns">
-		{{#action_message}}<p><span class="highlightcopy">{{{action_message}}}</span></p>{{/action_message}}
-		
+	{{/service_selected}}
+	<div class="{{^service_selected}}six{{/service_selected}}{{#service_selected}}twelve{{/service_selected}} columns">
 		{{{state_markup}}}
+
+		{{#action_message}}<p><span class="highlightcopy">{{{action_message}}}</span></p>{{/action_message}}
 	</div>
 </div>
