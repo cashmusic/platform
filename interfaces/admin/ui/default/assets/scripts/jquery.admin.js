@@ -55,7 +55,23 @@
 		}, false);
 	}); // $document
 
+	//Readjust for orientation
+	function readDeviceOrientation() {
+                 		
+    if (Math.abs(window.orientation) === 90) {
+        	// Landscape
+        	console.log('Landscape');
+        	$('html').removeClass('portrait');
+        	$('html').addClass('landscape');
+    	} else {
+    		// Portrait
+    		console.log('Portrait');
+    		$('html').removeClass('landscape');
+    		$('html').addClass('portrait');
+    	}
+	}
 
+	window.onorientationchange = readDeviceOrientation;
 
 
 	/**
