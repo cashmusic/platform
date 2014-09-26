@@ -93,7 +93,7 @@ if ($settings_action) {
 					} else {
 						AdminHelper::formFailure('Error. Something just didn\'t work right.','/settings/connections/');
 					}
-				} else {
+				} else {	
 					$finalize = false;
 					if (isset($request_parameters[2])) {
 						if ($request_parameters[2] == 'finalize') {
@@ -109,7 +109,7 @@ if ($settings_action) {
 						$connections_base_uri = rtrim(str_replace($request_parameters,'',CASHSystem::getCurrentURL()),'/');
 						$_REQUEST['connections_base_uri'] = $connections_base_uri;
 						// PHP <= 5.2 >>>> $cash_admin->page_data['state_markup'] = call_user_func($seed_name . '::handleRedirectReturn', $_REQUEST);
-						$cash_admin->page_data['state_markup'] = $seed_name::handleRedirectReturn($_GET);
+						$cash_admin->page_data['state_markup'] = $seed_name::handleRedirectReturn($_REQUEST);
 					}
 				}
 			}
