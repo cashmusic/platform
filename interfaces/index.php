@@ -27,11 +27,12 @@ if (isset($_GET['subdomain']) || isset($_GET['path'])) {
     require_once(__DIR__ . '/admin/constants.php');
     //error_log($_GET['subdomain'] . "\n" . $_GET['path'] . "\n" . print_r($_GET,true));
 
-    if ($_GET['subdomain'] !== 'x' && 
-        $_GET['subdomain'] !== 'localhost' &&
-        $_GET['subdomain'] !== 'testing' &&
-        $_GET['subdomain'] !== 'staging' &&
-        $_GET['subdomain'] !== 'air'
+    if ($_GET['subdomain'] !== 'x.cashmusic.org' && 
+        $_GET['subdomain'] !== 'localhost.cashmusic.org' &&
+        $_GET['subdomain'] !== 'testing.cashmusic.org' &&
+        $_GET['subdomain'] !== 'staging.cashmusic.org' &&
+        $_GET['subdomain'] !== 'air.cashmusic.org' && 
+        SUBDOMAIN_USERNAMES
     ) {
         $username = explode('.', $_GET['subdomain']);
         $username = $username[0];
