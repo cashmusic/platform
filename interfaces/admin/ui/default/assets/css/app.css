@@ -3861,7 +3861,7 @@ html.portrait{
    =============== */
 @media only screen and (min-device-width : 320px) and (max-device-width : 568px) { 
 
-video, #menutoggle{
+video, .login #menutoggle{
     display:none;
 }
 
