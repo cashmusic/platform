@@ -31,8 +31,7 @@ if (isset($_GET['subdomain']) || isset($_GET['path'])) {
         $_GET['subdomain'] !== 'localhost' &&
         $_GET['subdomain'] !== 'testing' &&
         $_GET['subdomain'] !== 'staging' &&
-        $_GET['subdomain'] !== 'air' && 
-        SUBDOMAIN_USERNAMES
+        $_GET['subdomain'] !== 'air'
     ) {
         $username = explode('.', $_GET['subdomain']);
         $username = $username[0];
