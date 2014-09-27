@@ -16,6 +16,7 @@
 	},
 	"copy":{
 		"en":{
+			"signup":"sign me up",
 			"verify":"Check your inbox for a verification email with download link."
 		}
 	},
