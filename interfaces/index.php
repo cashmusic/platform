@@ -27,7 +27,8 @@ if (isset($_GET['subdomain']) || isset($_GET['path'])) {
     require_once(__DIR__ . '/admin/constants.php');
     //error_log($_GET['subdomain'] . "\n" . $_GET['path'] . "\n" . print_r($_GET,true));
 
-    if ($_GET['subdomain'] !== 'x.cashmusic.org' && 
+    if ($_GET['subdomain'] !== 'cashmusic.org' && 
+        $_GET['subdomain'] !== 'x.cashmusic.org' && 
         $_GET['subdomain'] !== 'localhost.cashmusic.org' &&
         $_GET['subdomain'] !== 'testing.cashmusic.org' &&
         $_GET['subdomain'] !== 'staging.cashmusic.org' &&
