@@ -11,7 +11,7 @@ BrowserMatch \bMSIE\s(7|8) !no-gzip !gzip-only-text/html
 
 # NONE OF THAT WWW STUFF
 RewriteCond %{HTTP_HOST} ^www.cashmusic.org$ [NC]
-RewriteRule ^(.*)$ http://cashmusic.org/$1 [R=301,L]
+RewriteRule ^(.*)$ https://cashmusic.org/$1 [R=301,L]
 
 # REDIRECT CASH SPECIFIC STUFF
 RewriteRule ^about/?$ http://about.cashmusic.org/ [R,L] 
