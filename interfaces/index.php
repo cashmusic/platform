@@ -251,14 +251,14 @@ $( document ).ready(function() {
             </div><!--inner-->
         </div><!--panel-->	
    		<div class="panel free">
-        <img src="/admin/ui/default/assets/images/free.jpg" alt="Free"/>
+        <img src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/images/free.jpg" alt="Free"/>
    		<div class="inner">
                	<h1>Free Forever.</h1>
                 <h2>Our goal is to help build a sustainable future for music. Musicians are our partners, not our customers, and our platform will always be free to use.</h2>
             </div><!--inner-->
 		</div><!--panel-->	
    		<div class="panel better">
-        <img src="/admin/ui/default/assets/images/blank.jpg" alt="Getting Better"/>
+        <img src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/images/blank.jpg" alt="Getting Better"/>
      		<div class="inner">
                 <h1>Getting Better All the Time.</h1>
                 <h2>CASH Music is an open source project, with a community of brilliant developers working every day to make it better.</h2>
@@ -274,10 +274,10 @@ $( document ).ready(function() {
                 <script type="text/javascript" src="https://air.cashmusic.org/public/cashmusic.js"></script><script type="text/javascript"> window.cashmusic.embed('https://air.cashmusic.org/public/','12');</script>
 
                 <p>Made possible with the support of:</p>
-                <a class="shuttleworth" href="http://www.shuttleworthfoundation.org/" target="_blank"><img src="/admin/ui/default/assets/images/shuttleworth.png" alt="Shuttleworth Foundation"/></a>
-                <a class="mozilla" href="https://www.mozilla.org/" target="_blank"><img src="/admin/ui/default/assets/images/mozilla.png" alt="Mozilla"/></a>
-                <a class="mailchimp" href="http://www.mailchimp.com/" target="_blank"><img src="/admin/ui/default/assets/images/mailchimp.png" alt="Mailchimp"/></a>
-                <a class="rackspace" href="http://www.rackspace.com/" target="_blank"><img src="/admin/ui/default/assets/images/rackspace.png" alt="Rackspace"/></a>
+                <a class="shuttleworth" href="http://www.shuttleworthfoundation.org/" target="_blank"><img src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/images/shuttleworth.png" alt="Shuttleworth Foundation"/></a>
+                <a class="mozilla" href="https://www.mozilla.org/" target="_blank"><img src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/images/mozilla.png" alt="Mozilla"/></a>
+                <a class="mailchimp" href="http://www.mailchimp.com/" target="_blank"><img src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/images/mailchimp.png" alt="Mailchimp"/></a>
+                <a class="rackspace" href="http://www.rackspace.com/" target="_blank"><img src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/images/rackspace.png" alt="Rackspace"/></a>
                 </div><!--inner-->
             </div><!--panel-->	
         </div> <!-- #main -->
