@@ -110,7 +110,12 @@
 					document.getElementById('actionspc').style.opacity='0.4';
 					document.getElementById('cashmusic-sp-overlay').style.display='block';
 
-					submitUrl = '{{www_url}}request/payload';
+					var submitUrl = window.location.protocol + '//' + window.location.host;
+					if (window.location.port) {
+						submitUrl += ':' + window.location.port;
+					}
+					submitUrl += '/public/request/payload';
+
 					var ruo = document.createElement("input");
 					ruo.setAttribute("type", "hidden");
 					ruo.setAttribute("name", "return_url_only");
