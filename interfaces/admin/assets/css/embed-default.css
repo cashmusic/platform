@@ -628,6 +628,7 @@ input[type=submit]:hover, .button:hover{
 
 .singlepurchase .cashmusic_narrow{
 	width:40%;
+	margin-right: 2%;
 }
 
 
@@ -717,8 +718,8 @@ input[type=submit]:hover, .button:hover{
 	}
 
 	.singlepurchase  input[type=submit], .singlepurchase .button{
-		padding:7%;
-		width:100%;
+		padding:2%;
+		width:40%;
 	}
 
 	.singlepurchase .cashmusic-sp-actions{
