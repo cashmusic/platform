@@ -114,6 +114,16 @@
 				"en":"Instructions or clarifications that should appear with this group."
 			},
 			"data":{
+				"placeholder_text":{
+					"label":{
+						"en":"Email form placeholder text"
+					},
+					"type":"text",
+					"default":{
+						"en":""
+					},
+					"displaysize":"small"
+				},
 				"button_text":{
 					"label":{
 						"en":"Text for submit button"
