@@ -248,6 +248,7 @@
 		elementMenuStates();
 		releaseFlip();
 		iNeedaHero();
+		firstUseHL();
 	}
 
 	/**
@@ -621,6 +622,7 @@
 		});
 	};	
 
+	/*  Show/Hide Hero Area */
 	function iNeedaHero() {
 		if (document.getElementById("hero")) {
 			//console.log("my hero");
@@ -633,8 +635,23 @@
 		$( "#hero h5" ).click(function() {
 			$('section, #pagetitle').toggleClass('hero');
 		});
-
 	};
+
+	/*  First Use Highlight States */
+	function firstUseHL() {
+		
+		// on mouse hover flip the image
+		$('.firstuse .hlt').mouseenter(function (){
+			$('body').addClass('hl');
+			console.log('highlight');
+		});
+
+		// on mouse leave return to orginal state
+		$('.firstuse .hlt').mouseleave(function (){
+			$('body').removeClass('hl');
+			console.log('remove highlight');
+		});
+	};	
 
 	/**
 	 *
