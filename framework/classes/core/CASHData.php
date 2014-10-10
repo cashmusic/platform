@@ -694,7 +694,7 @@
 	 * Tests whether a given set of data has expired based on the passed duration.
 	 *
 	 * @return int (remaining time in seconds) or false
-	 */private function getCacheExpirationFor($datafile, $cache_duration=900) {
+	 */private function getCacheExpirationFor($datafile, $cache_duration=600) {
 		$expiration = @filemtime($datafile) + $cache_duration;
 		if ($expiration) {
 			$remaining = $expiration - time();
