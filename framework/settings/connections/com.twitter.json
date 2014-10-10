@@ -1,17 +1,18 @@
 {
 	"name":"Twitter",
-	"description":"The Twitter connection is for an app that you've created on Twitter.",
+	"description":"Log in to twitter to unlock social functionality.",
 	"type":"com.twitter",
 	"seed":"TwitterSeed",
-	"scope":[""],
-	"compatibility":[],
-	"interface": {
-		"single":"generate"
+	"scope":[],
+	"compatibility":["multi"],
+	"interface":{
+		"multi":"docallback"
 	},
 	"dataTypes": {
-		"single": {
-			"key":"string",
-			"secret":"string"
+		"multi": {
+			"redirect_uri":"string",
+			"client_id":"string",
+			"client_secret":"string"
 		}
 	}
 }

@@ -22,7 +22,7 @@ class SocialFeeds extends ElementBase {
 	protected $tumblr_seed = false;
 
 	public function getData() {
-		$this->twitter_seed = new TwitterSeed();
+		$this->twitter_seed = new TwitterSeed($this->element_data['user_id']);
 		$this->tumblr_seed = new TumblrSeed();
 		$raw_feeds = array();
 		$twitter_feeds = array();
