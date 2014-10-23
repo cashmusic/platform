@@ -51,11 +51,11 @@ class TumblrSeed extends SeedBase {
 				$final_post_types = $default_post_types;
 			}
 			$tumblr_domain = str_replace(array('http://','/'),'',$tumblr_domain);
-			$tumblr_url = 'http://' . $tumblr_domain . '/api/read/json?start=' . $start_at . 'num=30';
+			$tumblr_url = 'http://' . $tumblr_domain . '/api/read/json?start=' . $start_at . '&num=30';
 			if ($tagged) {
 				$tumblr_url .= '&tagged=' . urlencode($tagged);
 			}
-			$feed_data = $this->getCachedURL('com.tumblr', 'domain_' . $tumblr_domain . $start_at, $tumblr_url, 'raw', false);
+			$feed_data = $this->getCachedURL('com.tumblr', 'domain_' . str_replace('.','',$tumblr_domain) . $start_at, $tumblr_url, 'raw', false);
 
 			if ($feed_data) {
 				// tumblr's funny, JSONP only, so we cache its return and strip of some extra
