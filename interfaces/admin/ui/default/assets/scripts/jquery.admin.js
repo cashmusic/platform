@@ -248,6 +248,7 @@
 		elementMenuStates();
 		releaseFlip();
 		iNeedaHero();
+		firstUseHL();
 	}
 
 	/**
@@ -442,7 +443,7 @@
 	/* Show/Hide Tertiary Panel */
 
 	function touchToggles() {
-		// show/hide element menus
+		
 		$( "#learn.toggle, #learnpanel .toggle, #learnpanel .paneltitle" ).click(function() {
 			//check if learn panel is open & close it
 			if ( $("body").hasClass("panel", "learn") ){
@@ -458,7 +459,7 @@
 			};
 		});
 
-		$( "#settings.toggle, #settingspanel .toggle, #settingspanel .paneltitle").click(function() {
+		$( "#settings.toggle, #settingspanel .toggle, #settingspanel .paneltitle, .firstuse .settings.toggle").click(function() {
 			//check if learn panel is open & close it
 			if ( $("body").hasClass("panel", "settings") ){
 					$("body").removeClass("panel");
@@ -551,17 +552,25 @@
 	/* Show/Hide contents in tertiary panel */
 
 	function autoPanel() {
-		$( "#settings.toggle" ).click(function() {
+		$( "#settings.toggle, .firstuse .settings.toggle" ).click(function() {
 			$('#settingspanel .tertiarynav li a').removeClass('current');
 			$('#settingspanel .tertiarynav li a:first').addClass('current');
 			var url = $('#settingspanel .tertiarynav li a.current').attr('href');
 				refreshPanelData(url);
 				$('.panelcontent').addClass('display');
+				console.log('firstuse click?');
 		});
-		$( "#help.toggle" ).click(function() {
+		$( "#help.toggle, .firstuse .help.toggle" ).click(function() {
 			$('#helppanel .tertiarynav li a').removeClass('current');
 			$('#helppanel .tertiarynav li a:first').addClass('current');
 			var url = $('#helppanel .tertiarynav li a.current').attr('href');
+				refreshPanelData(url);
+				$('.panelcontent').addClass('display');
+		});
+		$( "#learn.toggle, .firstuse .learn.toggle" ).click(function() {
+			$('#learnpanel .tertiarynav li a').removeClass('current');
+			$('#learnpanel .tertiarynav li a:first').addClass('current');
+			var url = $('#learnpanel .tertiarynav li a.current').attr('href');
 				refreshPanelData(url);
 				$('.panelcontent').addClass('display');
 		});
@@ -613,6 +622,7 @@
 		});
 	};	
 
+	/*  Show/Hide Hero Area */
 	function iNeedaHero() {
 		if (document.getElementById("hero")) {
 			//console.log("my hero");
@@ -625,8 +635,23 @@
 		$( "#hero h5" ).click(function() {
 			$('section, #pagetitle').toggleClass('hero');
 		});
-
 	};
+
+	/*  First Use Highlight States */
+	function firstUseHL() {
+		
+		// on mouse hover flip the image
+		$('.firstuse .hlt').mouseenter(function (){
+			$('body').addClass('hl');
+			console.log('highlight');
+		});
+
+		// on mouse leave return to orginal state
+		$('.firstuse .hlt').mouseleave(function (){
+			$('body').removeClass('hl');
+			console.log('remove highlight');
+		});
+	};	
 
 	/**
 	 *
