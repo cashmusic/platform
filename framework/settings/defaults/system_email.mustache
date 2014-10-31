@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
  
-<meta name="viewport" content="width=device-width"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <title>CASH Music</title>
-<link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 
 <style>
 *{margin:0;padding:0;}
@@ -15,11 +15,11 @@
 img{max-width:100%;margin:5px 0;}
 .collapse{margin:0;padding:0;}
 
-body{background:#e3e3e3; -webkit-font-smoothing:antialiased;-webkit-text-size-adjust:none;width:100%!important;height:100%;}
+body{background:#e3e3e3; color:#222222; -webkit-font-smoothing:antialiased;-webkit-text-size-adjust:none;width:100%!important;height:100%;}
 
 a{ display:inline-block; word-break: break-all; color:#222222; background-color:#00cf7f; border-radius: 3px; padding:10px; text-decoration: none; -webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
-	trasition:0.3s ease-in-out;}
+	transition:0.3s ease-in-out;}
 
 a:hover{
 	 color:#00cf7f; background-color:#222222; 
@@ -59,7 +59,7 @@ table.footer-wrap{width:100%;clear:both!important;}
 
 .footer-wrap .container td.content p{font-size:10px;font-weight:bold;}
 
-h1,h2,h3,h4,h5,h6{font-family:"Montserrat","HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;line-height:1.1;margin-bottom:15px;color:#000;}
+h1,h2,h3,h4,h5,h6{font-family:"Montserrat","HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;line-height:1.1;margin-bottom:15px;color:#000;word-break:break-all;}
 
 h1 small,h2 small,h3 small,h4 small,h5 small,h6 small{font-size:60%;color:#6f6f6f;line-height:0;text-transform:none;}
 
@@ -89,21 +89,19 @@ ul.sidebar li a.last{border-bottom-width:0px;}
 
 ul.sidebar li a h1,ul.sidebar li a h2,ul.sidebar li a h3,ul.sidebar li a h4,ul.sidebar li a h5,ul.sidebar li a h6,ul.sidebar li a p{margin-bottom:0!important;}
 
-.container{display:block!important;max-width:600px!important;margin:0 auto!important;clear:both!important;}
+/*.container{display:block!important;max-width:600px!important;margin:0 auto!important;clear:both!important;}*/
 
-.content{padding:15px;max-width:600px;margin:0 auto;display:block;}
+/*.content{padding:15px;max-width:600px;margin:0 auto;display:block;}*/
 
 .content table{width:100%;}
 
-.column{width:300px;float:left;}
+.column{width:50%;display:inline-block;}
 
 .column tr td{padding:15px;}
 
 .column-wrap{padding:0!important;margin:0 auto;max-width:600px!important;}
 
 .column table{width:100%;}
-
-.social .column{width:280px;min-width:279px;float:left;}
 
 .clear{display:block;clear:both;}
 
@@ -140,63 +138,60 @@ table.body-wrap .content img{
 <body bgcolor="#e3e3e3">
  
 <table class="head-wrap" bgcolor="#222222">
-<tr>
-<td></td>
-<td class="header container">
-<div class="content">
-<table>
-<tr>
-<td><img src="https://5ac61e7c565c49aab182-1a20c53f2eb5bc3379ac8dc929bcb803.ssl.cf2.rackcdn.com/tmp_system/logo.png"/></td>
-</tr>
-</table>
-</div>
-</td>
-<td></td>
-</tr>
+	<tr>
+		<td></td>
+		<td class="header container">
+			<div class="content">
+				<table>
+					<tr>
+						<td><img src="https://5ac61e7c565c49aab182-1a20c53f2eb5bc3379ac8dc929bcb803.ssl.cf2.rackcdn.com/tmp_system/logo.png"/></td>
+					</tr>
+				</table>
+			</div>
+		</td>
+		<td></td>
+	</tr>
 </table> 
  
 <table class="body-wrap">
-<tr>
-<td></td>
-<td class="container" bgcolor="#FFFFFF">
-<div class="content">
-<table>
-<tr>
-<td>
-<h1>{{message_title}}</h1>
-{{{encoded_html}}}
-
-</td>
-</tr>
-</table> 
-</td>
-</tr>
+	<tr>
+		<td></td>
+		<td class="container" bgcolor="#FFFFFF" style="color:#222222">
+			<div class="content">
+				<table>
+					<tr>
+						<td>
+							<h1>{{message_title}}</h1>
+								{{{encoded_html}}}
+						</td>
+					</tr>
+				</table> 
+			</div><!--content-->
+		</td>
+	</tr>
 </table>
-</div> 
-</td>
+
+<!--</td>
 <td></td>
 </tr>
-</table> 
+</table> -->
  
 <table class="footer-wrap">
-<tr>
-<td></td>
-<td class="container">
- 
-<div class="content">
-<table>
-<tr>
-<td align="center">
-<p>
-<a href="http://cashmusic.org/" target="_blank">Made with &#9825; by CASH Music. Open-source &amp; Free forever. </a>
-</p>
-</td>
-</tr>
-</table>
-</div> 
-</td>
-<td></td>
-</tr>
+	<tr>
+		<td></td>
+		<td class="container">
+ 			<div class="content">
+				<table>
+					<tr>
+						<td align="center">
+							<p><a href="http://cashmusic.org/" target="_blank">Made with &#9825; by CASH Music. Open-source &amp; Free forever. </a></p>
+						</td>
+					</tr>
+				</table>
+			</div><!--content-->
+		</td>
+		<td></td>
+	</tr>
 </table> 
 </body>
 </html>
