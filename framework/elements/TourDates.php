@@ -31,8 +31,8 @@ class TourDates extends ElementBase {
 		if ($tourdates_request->response['status_uid'] == "calendar_getevents_200") {
 			// spit out the dates
 			$max_dates = 60;
-			if (isset($this->options->max_display_dates)) {
-				$max_dates = $this->options->max_display_dates;
+			if (isset($this->options['max_display_dates'])) {
+				$max_dates = $this->options['max_display_dates'];
 			}
 			$all_events = $tourdates_request->response['payload'];
 			if ($this->options['visible_event_types'] == 'archive' && is_array($all_events)) {

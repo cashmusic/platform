@@ -23,7 +23,7 @@
 				"en":"Instructions or clarifications that should appear with this group."
 			},
 			"data":{
-				"secure_content":{
+				"max_display_dates":{
 					"label":{
 						"en":"Max display dates"
 					},
@@ -31,7 +31,7 @@
 					"default":"25",
 					"displaysize":"small"
 				},
-				"email_list_id":{
+				"visible_event_types":{
 					"label":{
 						"en":"Target mailing list"
 					},
