@@ -1,0 +1,80 @@
+/*************************************************** 
+ *
+ *  CASH Music - Embedded Elements Styles - Minimal
+ *	Created by @leckieeeeeeeeee
+ *
+ ***************************************************/
+
+/* Main Space */
+#mainspc{
+	margin:0;
+	padding:0;
+	overflow:auto;
+	width:100%;
+	height:100%;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+}
+
+/* Text Fields */
+input{
+	background:none;
+	border-bottom:solid #333 2px;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	padding:10px 0px;
+	color:#fff;
+	width:100%;
+}
+
+::-webkit-input-placeholder{color:#222;}
+placeholder{color:#222;}
+
+/* Buttons */
+
+input[type=submit], .button{
+	background:none;
+	padding:10px 0;
+	-webkit-border-radius: 0px;
+	border:solid #333 2px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+}
+
+input[type=submit]:hover, .button:hover{
+	background:#333;
+}
+
+/* Form Field Focus */
+
+input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, textarea:focus{
+	background:none;
+	color:#fff;
+}
+
+input:focus::-webkit-input-placeholder{color:#eee;}
+input:focus placeholder{color:#eee;}
+
+/* Error */
+
+.cash_error{
+	padding:10px 0;
+	border-radius: 0px;
+}
+
+/* Success */
+.cash_success, .cash_success h1{
+	font-size: 18px;
+	font-weight: 100;
+}
+
+
+
+/* -- Mid / Vertical Tablet -- */
+@media screen and (min-width: 535px){
+	input{
+		width:69%;
+	}
+}

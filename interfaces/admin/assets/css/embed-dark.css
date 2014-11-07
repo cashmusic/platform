@@ -1,0 +1,16 @@
+/*************************************************** 
+ *
+ *  CASH Music - Embedded Elements Styles - Dark Default
+ *	Created by @leckieeeeeeeeee
+ *
+ ***************************************************/
+
+#mainspc{
+	background:#000;
+	background:rgba(0,0,0,0.9);
+	color:#f5f5f5;
+}
+
+.cash_comments{
+	color:#444;
+}
