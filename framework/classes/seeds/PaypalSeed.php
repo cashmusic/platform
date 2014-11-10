@@ -60,12 +60,16 @@ class PaypalSeed extends SeedBase {
 	public static function getRedirectMarkup($data=false) {
 		$connections = CASHSystem::getSystemSettings('system_connections');
 		
+		// I don't like using ADMIN_WWW_BASE_PATH below, but as this call is always called inside the 
+		// admin I'm just going to do it. Without the full path in the form this gets all fucky 
+		// and that's no bueno.
+
 		if (isset($connections['com.paypal'])) {
 			$return_markup = '<h4>Paypal</h4>'
 						   . '<p>You\'ll need a verified Business or Premier Paypal account to connect properly. '
 						   . 'Those are free upgrades, so just double-check your address and enter it below. You '
 						   . 'can learn more about what they entail <a href="https://cms.paypal.com/cgi-bin/?cmd=_render-content&content_ID=developer/EC_setup_permissions">here</a>.</p>'
-						   . '<form accept-charset="UTF-8" method="post" id="paypal_connection_form" action="">'
+						   . '<form accept-charset="UTF-8" method="post" id="paypal_connection_form" action="' . ADMIN_WWW_BASE_PATH . '/settings/connections/add/com.paypal">'
 						   . '<input type="hidden" name="dosettingsadd" value="makeitso" />'
 						   . '<input type="hidden" name="permission_type" value="accelerated" />'
 						   . '<input id="connection_name_input" type="hidden" name="settings_name" value="(Paypal)" />'
