@@ -3,10 +3,10 @@
 		<div class="cash_timeandplace">
 			<span class="cash_date">{{formatted_date}}</span> 
 			{{#location}}<span class="cash_location">{{location}}</span> {{/location}}
-			@ <span class="cash_venue">{{venue_name}}</span> 
+			@ <span class="cash_venue">{{venue_name}}</span>
 		</div>
-		{{#comments}}<span class="cash_comments">{{comments}}</span>{{/comments}} 
-		{{#purchase_url}}<a class="cash_purchase_url" href="{{purchase_url}}" class="external">Tickets</a>{{/purchase_url}} 
-		{{#venue_address1}}<span class="cash_map_url"><a href="http://maps.google.com/maps?f=q&hl=en&geocode=&q={{venue_address1}}{{#venue_city}}+{{venue_city}}{{/venue_city}}{{#venue_region}}+{{venue_region}}{{/venue_region}}{{#venue_country}}+{{venue_country}}{{/venue_country}}+({{venue_name}})" class="external">Map</a></span>{{/venue_address1}} 
+		{{#comments}}<span class="cash_comments">{{comments}}</span>{{/comments}
+		{{#purchase_url}}<a class="cash_purchase_url" href="{{purchase_url}}" target="_blank" class="external">Tickets</a>{{/purchase_url}}
+		{{#venue_address1}}<span class="cash_map_url"><a href="http://maps.google.com/maps?f=q&hl=en&geocode=&q={{venue_address1}}{{#venue_city}}+{{venue_city}}{{/venue_city}}{{#venue_region}}+{{venue_region}}{{/venue_region}}{{#venue_country}}+{{venue_country}}{{/venue_country}}+({{venue_name}})" class="external">Map</a></span>{{/venue_address1}}
 	</div>
 {{/all_events}}
