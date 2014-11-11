@@ -144,8 +144,10 @@ class ElementPlant extends PlantBase {
 				}
 				// zero or less means use our standard template, less than zero selects options
 				if ($element['template_id'] == '-1') {
+					$template = str_replace(array('!--light','light--'), '', $template);
 					$template = str_replace('<body', '<body class="light"', $template);
 				} else if ($element['template_id'] == '-2') {
+					$template = str_replace(array('!--dark','dark--'), '', $template);
 					$template = str_replace('<body', '<body class="dark"', $template);
 				}
 				return $template;
