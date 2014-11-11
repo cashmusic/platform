@@ -1,7 +1,7 @@
 /*************************************************** 
  *
  *  CASH Music - Embedded Elements Styles
- *	Created by @leckieeeeeeeeee
+ *	Created by CASH Music
  *
  ***************************************************/
 
@@ -155,7 +155,7 @@ input[type=submit]:hover, .button:hover{
 	padding:10px 0;
 }
 
-/* Single purchase specific */
+/* Single Purchase */
 
 .singlepurchase .cash_singlepurchase_itemname, .singlepurchase .cash_singlepurchase_itemprice, .singlepurchase .cash_singlepurchase_itemdescription{
 	display:block;
@@ -194,9 +194,9 @@ input[type=submit]:hover, .button:hover{
 /* Tour Dates */
 
 .tourdates .cash_event{
-	width:90%;
+	width:96%;
 	display:block;
-	padding:10px 5%;
+	padding:10px 2%;
 	display:block;
 	overflow:auto;
 	margin:0 0 2px 0;
@@ -216,13 +216,18 @@ input[type=submit]:hover, .button:hover{
 	background:rgba(18,18,18,0.9);
 }
 
+.cash_timeandplace{
+	margin:0 2% 0 0;
+	display:inline-block;
+	width:86%;
+}
 
 .tourdates .cash_location{
-	padding:10px 0 10px 3%;
+	padding:10px 0 10px 2%;
 }
 
 .tourdates .cash_venue{
-	padding:10px 3% 10px 0;
+	padding:10px 2% 10px 0;
 }
 
 .tourdates .cash_date{
@@ -230,20 +235,25 @@ input[type=submit]:hover, .button:hover{
 }
 
 .tourdates .cash_comments{
-	width:100%;
-	display:block;
+	display:inline-block;
 	color:#555;
 	font-size: 16px;
-	padding:10px 0;
+	padding:5px 0;
+	margin:0 2% 0 0;
+	width:86%;
 }
 
 .tourdates .cash_purchase_url{
-	width:91%;
+	display:inline-block;
 	padding:10px 5%;
 	text-align: center;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition:0.3s ease-in-out;
+	margin:5px 0 0 0;
+	padding:10px 5%;
+	width:90%;
+	display:block;
 }
 
 .tourdates .cash_purchase_url:hover{
@@ -271,8 +281,14 @@ input[type=submit]:hover, .button:hover{
 		width:99.5%;
 	}
 
-	.singlepurchase .cash_singlepurchase_itemname, .singlepurchase .cash_singlepurchase_itemprice, .singlepurchase .cash_singlepurchase_itemdescription, .singlepurchase input[type=submit], .button{
+	.singlepurchase .cash_singlepurchase_itemname, .singlepurchase .cash_singlepurchase_itemprice, .singlepurchase .cash_singlepurchase_itemdescription, .singlepurchase input[type=submit]{
 		width:50%;
+	}
+
+	.tourdates .cash_purchase_url{
+		width:auto;
+		padding:10px 2%;
+		display: inline-block;
 	}
 
 }

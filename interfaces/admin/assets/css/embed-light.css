@@ -1,7 +1,7 @@
 /*************************************************** 
  *
  *  CASH Music - Embedded Elements Styles - Light Default
- *	Created by @leckieeeeeeeeee
+ *	Created by CASH Music
  *
  ***************************************************/
 
@@ -17,6 +17,8 @@
 	background: linear-gradient(135deg,  rgba(224,224,224,0.95) 0%,rgba(238,238,238,0.95) 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2e0e0e0', endColorstr='#f2eeeeee',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
 	color:#222;
+	padding:2%;
+	width:96%;
 }
 
 input{
@@ -30,8 +32,8 @@ placeholder{color:#222;}
 
 
 input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, textarea:focus{
-	background:#222;
-	color:#f5f5f5;
+	background:#ccc;
+	color:#222;
 }
 
 input:focus::-webkit-input-placeholder{color:#111;}
@@ -48,16 +50,22 @@ input[type=submit]:hover, .button:hover{
 	color:#fff;
 }
 
+/* Single Purchase */
+.singlepurchase .cash_singlepurchase_itemname, .singlepurchase .cash_singlepurchase_itemprice, .singlepurchase .cash_singlepurchase_itemdescription{
+	background:#f5f5f5;
+	background:rgba(245,245,245,0.9);
+		color:#222;
+}
 
 /* Tour Dates */
 
-.cash_event:nth-child(odd){
+.tourdates .cash_event:nth-child(odd){
 	background:#eee;
 	background:rgba(238,238,238,0.9);
 	color:#222;
 }
 
-.cash_event:nth-child(even){
+.tourdates .cash_event:nth-child(even){
 	background:#e1e1e1;
 	background:rgba(225,225,225,0.9);
 	color:#222;
@@ -65,4 +73,20 @@ input[type=submit]:hover, .button:hover{
 
 .cash_comments{
 	color:#cacaca;
+}
+
+
+
+/* -- Mid Size + Above / Vertical Tablet -- */
+@media screen and (min-width: 535px){
+	
+	#mainspc{
+		padding:1%;
+		width:98%;
+	}
+
+	/* Single Purchase Element Behaviour */
+	.singlepurchase .cash_singlepurchase_itemname, .singlepurchase .cash_singlepurchase_itemprice, .singlepurchase .cash_singlepurchase_itemdescription, .singlepurchase input[type=submit]{
+		width:100%;
+	}
 }

@@ -1,12 +1,13 @@
 /*************************************************** 
  *
  *  CASH Music - Embedded Elements Styles - Minimal
- *	Created by @leckieeeeeeeeee
+ *	Created by CASH Music
  *
  ***************************************************/
 
 /* Main Space */
 #mainspc{
+	background:none;
 	margin:0;
 	padding:0;
 	overflow:auto;
@@ -20,7 +21,7 @@
 /* Text Fields */
 input{
 	background:none;
-	border-bottom:solid #333 2px;
+	border-bottom:solid #333 1px;
 	-webkit-border-radius: 0px;
 	-moz-border-radius: 0px;
 	border-radius: 0px;
@@ -35,27 +36,27 @@ placeholder{color:#222;}
 /* Buttons */
 
 input[type=submit], .button{
-	background:none;
+	background:#333;
+	color:#fff;
 	padding:10px 0;
 	-webkit-border-radius: 0px;
-	border:solid #333 2px;
 	-moz-border-radius: 0px;
 	border-radius: 0px;
 }
 
 input[type=submit]:hover, .button:hover{
-	background:#333;
+	background:#111;
 }
 
 /* Form Field Focus */
 
 input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, textarea:focus{
 	background:none;
-	color:#fff;
+	color:#111;
 }
 
-input:focus::-webkit-input-placeholder{color:#eee;}
-input:focus placeholder{color:#eee;}
+input:focus::-webkit-input-placeholder{color:#111;}
+input:focus placeholder{color:#111;}
 
 /* Error */
 
@@ -71,10 +72,42 @@ input:focus placeholder{color:#eee;}
 }
 
 
+/* Single purchase specific */
+
+.singlepurchase .cash_singlepurchase_itemname, .singlepurchase .cash_singlepurchase_itemprice, .singlepurchase .cash_singlepurchase_itemdescription{
+	background:none;
+	color:#333;
+	border:solid 1px #333;
+	border-radius: 0px;
+	width:99%;
+}
+
+/* Tour Dates */
+
+.tourdates .cash_event{
+	color:#333;
+	border:solid 1px #333;
+	width:95.5%;
+	border-radius: 0px;
+}
+
+.tourdates .cash_event:nth-child(odd), .tourdates .cash_event:nth-child(even){
+	background:none;
+}
+
+.tourdates .cash_purchase_url{
+	border-radius: 0px;
+	background:#333;
+	color:#fff;
+}
 
 /* -- Mid / Vertical Tablet -- */
 @media screen and (min-width: 535px){
 	input{
 		width:69%;
+	}
+
+	.singlepurchase .cash_singlepurchase_itemname, .singlepurchase .cash_singlepurchase_itemprice, .singlepurchase .cash_singlepurchase_itemdescription, .singlepurchase input[type=submit], .button{
+		width:48%;
 	}
 }
