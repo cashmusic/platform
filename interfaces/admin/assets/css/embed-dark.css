@@ -1,0 +1,33 @@
+/*************************************************** 
+ *
+ *  CASH Music - Embedded Elements Styles - Dark Default
+ *	Created by CASH Music
+ *
+ ***************************************************/
+
+/* General */
+
+#mainspc{
+	background:#000;
+	background:rgba(0,0,0,0.9);
+	color:#f5f5f5;
+	padding:2%;
+	width:96%;
+}
+
+.cash_comments{
+	color:#444;
+}
+
+/* -- Mid Size + Above / Vertical Tablet -- */
+@media screen and (min-width: 535px){
+	#mainspc{
+		padding:1%;
+		width:98%;
+	}
+
+	/* Single Purchase Element Behaviour */
+	.singlepurchase .cash_singlepurchase_itemname, .singlepurchase .cash_singlepurchase_itemprice, .singlepurchase .cash_singlepurchase_itemdescription, .singlepurchase input[type=submit]{
+		width:100%;
+	}
+}
