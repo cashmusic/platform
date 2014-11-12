@@ -11,23 +11,32 @@
 	background:#000;
 	background:rgba(0,0,0,0.9);
 	color:#f5f5f5;
-	padding:2%;
-	width:96%;
+	padding:4%;
+	width:92%;
 }
 
 .cash_comments{
 	color:#444;
 }
 
+/* Single Purchase */
+.singlepurchase .cashmusic_narrow{
+	margin:0;
+	width:74%;
+}
+
 /* -- Mid Size + Above / Vertical Tablet -- */
 @media screen and (min-width: 535px){
 	#mainspc{
-		padding:1%;
-		width:98%;
+		padding:2%;
+		width:96%;
 	}
 
-	/* Single Purchase Element Behaviour */
-	.singlepurchase .cash_singlepurchase_itemname, .singlepurchase .cash_singlepurchase_itemprice, .singlepurchase .cash_singlepurchase_itemdescription, .singlepurchase input[type=submit]{
-		width:100%;
+
+	/* Single Purchase */
+	.singlepurchase .cashmusic_narrow{
+		margin:0;
+		width:50%;
 	}
+
 }
