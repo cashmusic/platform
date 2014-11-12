@@ -16,7 +16,6 @@ if (isset($_POST['doemailsend'])) {
 		$html_content = Markdown($_POST['html_content']);
 	}
 
-/*
 	// make sure we include an unsubscribe link
 	if (!stripos($html_content,'{{{unsubscribe_link}}}')) {
 		if (stripos($html_content,'</body>')) {
@@ -25,7 +24,6 @@ if (isset($_POST['doemailsend'])) {
 			$html_content = $html_content . '<br /><br />{{{unsubscribe_link}}}';
 		}
 	}
-*/
 
 	$mailing_response = $cash_admin->requestAndStore(
 		array(
