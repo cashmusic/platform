@@ -17,8 +17,8 @@
 	background: linear-gradient(135deg,  rgba(224,224,224,0.95) 0%,rgba(238,238,238,0.95) 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2e0e0e0', endColorstr='#f2eeeeee',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
 	color:#222;
-	padding:2%;
-	width:96%;
+	padding:4%;
+	width:92%;
 }
 
 input{
@@ -52,9 +52,18 @@ input[type=submit]:hover, .button:hover{
 
 /* Single Purchase */
 .singlepurchase .cash_singlepurchase_itemname, .singlepurchase .cash_singlepurchase_itemprice, .singlepurchase .cash_singlepurchase_itemdescription{
+	color:#222;
+}
+
+.singlepurchase .cash_singlepurchase_currency{
 	background:#f5f5f5;
 	background:rgba(245,245,245,0.9);
-		color:#222;
+	color:#222;
+}
+
+.singlepurchase .cashmusic_narrow{
+	margin:0;
+	width:74%;
 }
 
 /* Tour Dates */
@@ -75,18 +84,17 @@ input[type=submit]:hover, .button:hover{
 	color:#cacaca;
 }
 
-
-
 /* -- Mid Size + Above / Vertical Tablet -- */
 @media screen and (min-width: 535px){
 	
 	#mainspc{
-		padding:1%;
-		width:98%;
+		padding:2%;
+		width:96%;
 	}
 
-	/* Single Purchase Element Behaviour */
-	.singlepurchase .cash_singlepurchase_itemname, .singlepurchase .cash_singlepurchase_itemprice, .singlepurchase .cash_singlepurchase_itemdescription, .singlepurchase input[type=submit]{
-		width:100%;
+	/* Single Purchase */
+	.singlepurchase .cashmusic_narrow{
+		margin:0;
+		width:50%;
 	}
 }

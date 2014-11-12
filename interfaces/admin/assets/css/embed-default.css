@@ -157,31 +157,47 @@ input[type=submit]:hover, .button:hover{
 /* Single Purchase */
 
 .singlepurchase .cash_singlepurchase_itemname, .singlepurchase .cash_singlepurchase_itemprice, .singlepurchase .cash_singlepurchase_itemdescription{
-	display:block;
-	padding:20px 0;
-	background:rgba(34,34,34,0.9);
-	width:100%;
+	/*display:block;*/
+	display:inline-block;
+	padding:0;
+	/*background:rgba(34,34,34,0.9);*/
 	-webkit-border-radius: 3px;
     -moz-border-radius: 3px;
 	border-radius: 3px;
-	color:#fff;
-	margin:0 auto 1px auto;
-	text-align: center;
+	margin:0 0 2px 0;
+}
+
+.singlepurchase .cash_singlepurchase_itemname{
+	margin:0 0 10px 0;
 }
 
 .singlepurchase .cash_singlepurchase_itemprice{
-	font-size: 32px;
-	line-height: 32px;
+	color:#333;
+	margin:0 0 10px 0;
 }
 
 .singlepurchase .cash_singlepurchase_itemdescription{
  	font-size: 12px;
+ 	display:block;
+ 	margin: 0 0 10px 0;
 }
 
-.singlepurchase input[type=submit], .button{
-	display:block;
- 	margin:3px auto 0px auto;
+.singlepurchase .cash_singlepurchase_currency{
+	background:#222;
+	background:rgba(34,34,34,0.9);
+	color:#f5f5f5;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	padding:20px 5%;
+	margin:0;
 }
+
+.singlepurchase .cashmusic_narrow{
+	margin:0;
+	width:74.8%;
+}
+
 
 /* Static Content */
 
@@ -280,14 +296,18 @@ input[type=submit]:hover, .button:hover{
 		width:99.5%;
 	}
 
-	.singlepurchase .cash_singlepurchase_itemname, .singlepurchase .cash_singlepurchase_itemprice, .singlepurchase .cash_singlepurchase_itemdescription, .singlepurchase input[type=submit]{
-		width:50%;
-	}
-
+	/* Tour Dates */
 	.tourdates .cash_purchase_url{
 		width:auto;
 		padding:10px 2%;
 		display: inline-block;
 	}
+
+	/* Single Purchase */
+	.singlepurchase .cashmusic_narrow{
+		margin:0;
+		width:50%;
+	}
+
 
 }
