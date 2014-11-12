@@ -186,13 +186,13 @@ input[type=submit]:hover, .button:hover{
 	position:relative;
 }
 
-.singlepurchase .total_price{
+.cash_singlepurchase_flexible_price .total_price{
  	box-sizing:border-box;
  	width:100%;
  	padding-left:3.5em;
 }
 
-.singlepurchase .cash_singlepurchase_currency{
+.cash_singlepurchase_flexible_price .cash_singlepurchase_currency{
 	position:absolute;
 	background:transparent;
 	color:#f5f5f5;
@@ -307,7 +307,7 @@ input[type=submit]:hover, .button:hover{
 	}
 
 	/* Single Purchase */
-	.singlepurchase .total_price{
+	.cash_singlepurchase_flexible_price .total_price{
 	 	width:69%;
 	}
 
