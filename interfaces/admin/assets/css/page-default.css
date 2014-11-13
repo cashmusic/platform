@@ -7,11 +7,16 @@
 /* General */
 
 html,body{
+	box-sizing: border-box;
 	font: 400 18px/20px 'Montserrat',Helvetica,Arial,sans-serif;
 	margin:0;
 	padding:0;
 	width:100%;
 	overflow:auto;
+}
+
+*, *:before, *:after {
+	box-sizing: inherit;
 }
 
 body{
@@ -39,6 +44,14 @@ body{
 	background-size: cover;
 }
 
+.cashmusic.element {
+	margin-bottom:20px;
+	text-align: left;
+}
+
+.singlepurchase .cash_singlepurchase_itemprice, .cash_notation {
+	color:#777;
+}
 
 body.dark{
 	background: #333333; /* Old browsers */
@@ -62,17 +75,17 @@ body.dark{
 }
 
 body.light{
-background: #f5f5f5; /* Old browsers */
-/* IE9 SVG, needs conditional override of 'filter' to 'none' */
-background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZjVmNWY1IiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2JiYmJiYiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
-background: -moz-linear-gradient(-45deg,  #f5f5f5 0%, #bbbbbb 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#f5f5f5), color-stop(100%,#bbbbbb)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(-45deg,  #f5f5f5 0%,#bbbbbb 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(-45deg,  #f5f5f5 0%,#bbbbbb 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(-45deg,  #f5f5f5 0%,#bbbbbb 100%); /* IE10+ */
-background: linear-gradient(135deg,  #f5f5f5 0%,#bbbbbb 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f5f5', endColorstr='#bbbbbb',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
-background-repeat: no-repeat;
+	background: #f5f5f5; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZjVmNWY1IiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2JiYmJiYiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+	background: -moz-linear-gradient(-45deg,  #f5f5f5 0%, #bbbbbb 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#f5f5f5), color-stop(100%,#bbbbbb)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(-45deg,  #f5f5f5 0%,#bbbbbb 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(-45deg,  #f5f5f5 0%,#bbbbbb 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(-45deg,  #f5f5f5 0%,#bbbbbb 100%); /* IE10+ */
+	background: linear-gradient(135deg,  #f5f5f5 0%,#bbbbbb 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f5f5', endColorstr='#bbbbbb',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
+	background-repeat: no-repeat;
 	background-position: center top;
 	background-attachment: fixed;
 	-webkit-background-size: cover;
@@ -82,14 +95,67 @@ background-repeat: no-repeat;
 	color:#222;
 }
 
+body.light input{
+	background:#f5f5f5;
+	background:rgba(245,245,245,0.9);
+	color:#222;
+}
 
+body.light ::-webkit-input-placeholder{color:#222;}
+body.light placeholder{color:#222;}
+
+
+body.light input[type=text]:focus, body.light input[type=email]:focus, body.light input[type=password]:focus, body.light textarea:focus{
+	background:#ccc;
+	color:#222;
+}
+
+body.light input:focus::-webkit-input-placeholder{color:#111;}
+body.light input:focus placeholder{color:#111;}
+
+
+body.light input[type=submit], body.light .button{
+	background:#00cf7f;
+	color:#222;
+}
+
+body.light input[type=submit]:hover, body.light .button:hover{
+ 	background:#000;
+	color:#fff;
+}
+
+/* Single Purchase */
+body.light .singlepurchase .cash_singlepurchase_itemname, body.light .singlepurchase .cash_singlepurchase_itemprice, body.light .singlepurchase .cash_singlepurchase_itemdescription{
+	color:#222;
+}
+
+body.light .singlepurchase .cash_singlepurchase_currency{
+	color:rgba(51,51,51,0.6);
+}
+
+/* Tour Dates */
+
+body.light .tourdates .cash_event:nth-child(odd){
+	background:#eee;
+	background:rgba(238,238,238,0.9);
+	color:#222;
+}
+
+body.light .tourdates .cash_event:nth-child(even){
+	background:#e1e1e1;
+	background:rgba(225,225,225,0.9);
+	color:#222;
+}
+
+body.light .cash_comments{
+	color:#cacaca;
+}
 
 h1,h2,h3,h4,h5{
 	font-weight: 400;
 	word-wrap:break-word;
 	margin:3% 0;
 	padding:0;
-	text-shadow: 0 0 10px rgba(0,0,0,0.7);
 	line-height: 1em;
 }
 
@@ -108,12 +174,6 @@ p{
 }
 
 /* Ebmed Specific */
-
-/*Scrollbars*/
-
-::-webkit-scrollbar{width: 12px;  /* for vertical scrollbars */height: 12px; /* for horizontal scrollbars */}
-::-webkit-scrollbar-track{background: rgba(34, 34, 34, 0.97);}
-::-webkit-scrollbar-thumb{background: rgba(238, 238, 238, 0.97);}
 
 iframe[src*="www.youtube.com"] {
 	height:450px;
@@ -140,8 +200,8 @@ h2.subtitle{
 	position:fixed;
 	bottom:0;
 	left:0;
-	height:50px;
-	width:96%;
+	height:116px;
+	width:100%;
 	padding:2%;
 	display:block;
 	font-weight:100!important;

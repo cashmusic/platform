@@ -7,6 +7,7 @@
 
 /* General */
 html,body{
+	box-sizing: border-box;
 	overflow:hidden;
 	font: 400 18px/20px 'Montserrat',Helvetica,Arial,sans-serif;
 	margin:0;
@@ -16,6 +17,10 @@ html,body{
 	-webkit-transition: opacity 0.3s  ease-in-out;
 	-moz-transition: opacity 0.3s  ease-in-out;
 	trasition: opacity 0.3s ease-in-out;
+}
+
+*, *:before, *:after {
+	box-sizing: inherit;
 }
 
 .cashmusic .cashmusic.embed, iframe{
@@ -65,7 +70,7 @@ br{
 /* Input Fields */
 
 input{
-	width:90%;
+	width:100%;
 	padding:20px 5%;
 	margin:0;
 	border:none;
@@ -130,7 +135,7 @@ input[type=submit]:hover, .button:hover{
 
 .cash_error{
 	text-align: center;
-	padding:20px 0;
+	padding:20px 5% 20px 5%;
 	margin:0 0 4px 0;
 	width:100%;
 	height:100%;
@@ -187,7 +192,6 @@ input[type=submit]:hover, .button:hover{
 }
 
 .cash_singlepurchase_flexible_price .total_price{
- 	box-sizing:border-box;
  	width:100%;
  	padding-left:3.5em;
 }
@@ -212,7 +216,7 @@ input[type=submit]:hover, .button:hover{
 /* Tour Dates */
 
 .tourdates .cash_event{
-	width:96%;
+	width:100%;
 	display:block;
 	padding:10px 2%;
 	display:block;
@@ -237,7 +241,7 @@ input[type=submit]:hover, .button:hover{
 .cash_timeandplace{
 	margin:0 2% 0 0;
 	display:inline-block;
-	width:86%;
+	width:88%;
 }
 
 .tourdates .cash_location{
@@ -270,7 +274,7 @@ input[type=submit]:hover, .button:hover{
 	trasition:0.3s ease-in-out;
 	margin:5px 0 0 0;
 	padding:10px 5%;
-	width:90%;
+	width:100%;
 	display:block;
 }
 
@@ -282,11 +286,11 @@ input[type=submit]:hover, .button:hover{
 }
 
 /* -- Mid Size + Above / Vertical Tablet -- */
-@media screen and (min-width: 535px){
+@media screen and (min-width: 535px) {
 	
 	input{
 		padding:20px 3%;
-		width:63%;
+		width:69%;
 		margin:0;
 	}
 
