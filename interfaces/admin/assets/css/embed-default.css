@@ -1,11 +1,11 @@
 /*************************************************** 
  *
  *  CASH Music - Embedded Elements Styles
- *	Created by CASH Music
  *
  ***************************************************/
 
 /* General */
+
 html,body{
 	overflow:hidden;
 	font: 400 18px/20px 'Montserrat',Helvetica,Arial,sans-serif;
@@ -18,28 +18,58 @@ html,body{
 	trasition: opacity 0.3s ease-in-out;
 }
 
-.cashmusic .cashmusic.embed, iframe{
+body{
+	height:100%;
+}
+
+.cashmusic_embed, iframe{
 	padding:0;
 	margin:0;
+	width:100%;
+}
+
+.cashmusic{
+	margin:0 auto;
+	padding:0;
+	/*margin:0 auto 5px auto;*/
 }
 
 #mainspc{
 	margin:0;
-	padding:0;
-	width:100%;
+	padding:5%;
+	overflow:auto;
+	width:90%;
 	height:100%;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 }
 
-/* Zero Out */
+.dark #mainspc{
+	background:#000;
+	background:rgba(0,0,0,0.9);
+	color:#f5f5f5;
+}
+
+.light #mainspc{
+	background:#e0e0e0;
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZTBlMGUwIiBzdG9wLW9wYWNpdHk9IjAuOTUiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2VlZWVlZSIgc3RvcC1vcGFjaXR5PSIwLjk1Ii8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+	background: -moz-linear-gradient(-45deg,  rgba(224,224,224,0.95) 0%, rgba(238,238,238,0.95) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(224,224,224,0.95)), color-stop(100%,rgba(238,238,238,0.95))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(-45deg,  rgba(224,224,224,0.95) 0%,rgba(238,238,238,0.95) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(-45deg,  rgba(224,224,224,0.95) 0%,rgba(238,238,238,0.95) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(-45deg,  rgba(224,224,224,0.95) 0%,rgba(238,238,238,0.95) 100%); /* IE10+ */
+	background: linear-gradient(135deg,  rgba(224,224,224,0.95) 0%,rgba(238,238,238,0.95) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2e0e0e0', endColorstr='#f2eeeeee',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
+	color:#222;
+}
 
 a{
 	background:#00cf7f;
 	color:#222;
 	border-radius: 3px;
-	padding:20px;
+	padding:1% 2%;
 	text-decoration: none;
 }
 
@@ -58,19 +88,12 @@ label{
 	text-indent: -5000em;
 }
 
-br{
-	display:none;
-}
-
-/* Input Fields */
-
 input{
 	width:90%;
-	padding:20px 5%;
+	padding:5%;
+	float:left;	
 	margin:0;
 	border:none;
-	font-weight: 100;
-	display:inline-block;
 	background:#222;
 	background:rgba(34,34,34,0.9);
 	color:#f5f5f5;
@@ -81,15 +104,23 @@ input{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	outline:none;
 }
 
-/* Placeholder Text */
+.light input{
+	background:#f5f5f5;
+	background:rgba(245,245,245,0.9);
+	color:#222;
+}
 
 ::-webkit-input-placeholder{color:#eee;}
 placeholder{color:#eee;}
+::-webkit-input-placeholder:focus{color:#111;}
+placeholder:focus{color:#111;}
 
-/* Form Field Focus */
+.light ::-webkit-input-placeholder{color:#222;}
+.light placeholder{color:#222;}
+.light ::-webkit-input-placeholder:focus{color:#eee;}
+.light placeholder:focus{color:#eee;}
 
 input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, textarea:focus{
 	background:#00cf7f;
@@ -97,20 +128,21 @@ input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, tex
 	outline: none;
 }
 
-input:focus::-webkit-input-placeholder{color:#111;}
-input:focus placeholder{color:#111;}
+.light input[type=text]:focus, .light  input[type=email]:focus,  .light input[type=password]:focus, .light textarea:focus{
+	background:#222;
+	color:#f5f5f5;
+}
 
-
-/* Button */
 
 input[type=submit], .button{
-	padding:21px 0;
+	padding:5%;
 	width:100%;
 	text-align: center;
-	margin:4px auto 0 auto;
+	float:right;
+	margin:2% 0 0 0;
 	background:#00cf7f;
 	color:#222;
-	display:inline-block;
+	display:block;
 	border:none;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -126,17 +158,31 @@ input[type=submit]:hover, .button:hover{
 	outline: none;
 }
 
+.light input[type=submit], .light .button{
+	background:#00cf7f;
+	color:#222;
+}
+
+ .light input[type=submit]:hover, .light .button:hover{
+ 	background:#000;
+	color:#fff;
+}
+
+.cashmusic_clearall{
+	display:none;
+}
+
 /* Errors */
 
 .cash_error{
 	text-align: center;
-	padding:20px 0;
-	margin:0 0 4px 0;
-	width:100%;
+	padding:1%;
+	margin:0 0 1% 0;
+	width:98%;
 	height:100%;
 	background:#ff3232;
 	color:#f5f5f5;
-	font-size: 12px;
+	font-size: 16px;
 	font-weight: 400;
 	-webkit-animation: ooops 1.5s; /* Chrome, Safari, Opera */
     animation: ooops 1.5s;
@@ -147,74 +193,256 @@ input[type=submit]:hover, .button:hover{
 	border-radius: 3px;
 }
 
-/* Notation */
+/* Chrome, Safari, Opera */
+@-webkit-keyframes ooops {
+    0%   {opacity:0;}
+    100% {opacity:1;}
+}
+
+/* Standard syntax */
+@keyframes ooops {
+    0%   {opacity:0;}
+    100% {opacity:1;}
+}
+
+/* Notations */
 
 .cash_notation{
-	font-size: 12px;
-	padding:10px 0;
-}
-
-/* Single Purchase */
-
-.singlepurchase .cash_singlepurchase_itemname, .singlepurchase .cash_singlepurchase_itemprice, .singlepurchase .cash_singlepurchase_itemdescription{
-	/*display:block;*/
-	display:inline-block;
-	padding:0;
-	/*background:rgba(34,34,34,0.9);*/
-	-webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-	border-radius: 3px;
-	margin:0 0 2px 0;
-}
-
-.singlepurchase .cash_singlepurchase_itemname{
-	margin:0 0 10px 0;
-}
-
-.singlepurchase .cash_singlepurchase_itemprice{
+	font-size: 16px;
+	padding:5% 0 0 0;
+	clear:both;
+	display:block;
 	color:#333;
+	text-align: left;
+}
+
+.cash_divider_text{
+	color:#333;
+}
+
+/* Succss */
+
+.cash_success {
+	text-align: center;
+}
+
+.cash_success p {
+	margin:0 auto 1.5em auto;
+}
+
+.cash_success h1{
 	margin:0 0 10px 0;
+	padding:0;
+	font-size: 28px;
+	font-weight: bold;
+	/*float:left;*/
 }
 
-.singlepurchase .cash_singlepurchase_itemdescription{
- 	font-size: 12px;
- 	display:block;
- 	margin: 0 0 10px 0;
+.cash_success .download{
+	/*float:right;*/
+	padding:2%;
+	margin:1%;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition:0.3s ease-in-out;
 }
 
-.cash_singlepurchase_flexible_price {
-	position:relative;
+.cash_success .download::before { content: "Download: "; }
+
+.cash_success .download:hover{
+	background:#000;
+	color:#fff;
 }
 
-.cash_singlepurchase_flexible_price .total_price{
- 	box-sizing:border-box;
+/*
+.cash_success .description{
+	clear:left;
+}
+*/
+
+/* Release Flip 
+.packshot { 
+ 	width: 280px;
  	width:100%;
- 	padding-left:3.5em;
+  	height:280px;
+  	display:block;
+  	position: relative;
+  	perspective: 1100px;
+  	-webkit-perspective: 1100px;
+  	margin:0 0 5% 0;
+  	float:left;
+  	background:rgba(34,34,34,0.5);
+  	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
 
-.cash_singlepurchase_flexible_price .cash_singlepurchase_currency{
-	position:absolute;
-	background:transparent;
+.light .packshot { 
+	background:rgba(255,255,255,0.3);
+}
+
+.packshot:hover{
+	cursor:pointer;
+} 
+
+#card {
+  	width: 100%;
+  	height: 100%;
+  	position: absolute;
+  	-webkit-transition: -webkit-transform 1s;
+	transition: transform 1s;
+  	-webkit-transform-style: preserve-3d;
+  	transform-style: preserve-3d;
+}
+
+#card .front, #card .back {
+	margin:0;
+  	display: block;
+  	position: absolute;
+  	width: 100%;
+  	height: 100%;
+  	backface-visibility: hidden;
+  	-webkit-backface-visibility: hidden; 
+}
+
+#card .front a{
+	display:block;
+	overflow:auto;
+	background:none;
+}
+
+#card .front, .front{
+	overflow:hidden;
+	background-image: url('/interfaces/php/admin/assets/images/release.jpg');
+	background-position: center;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+#card .back {
+	background:#000;
+  	background:rgba(0,0,0,0.85);
+  	-webkit-transform: rotateY( 180deg );
+  	transform: rotateY( 180deg );
+  	text-align: center;
+  	background-image: url('/interfaces/php/admin/ui/default/assets/images/dirt.png');
+  	background-position: center;
+  	color:#eee;
+  	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.light #card .back{
+	background:#eee;
+  	background:rgba(238,238,238,0.8);
+}
+
+#card .back h2{
+	padding:0;
+	font-size: 2.5em;
+	font-weight: normal;
+	margin-bottom:1em;
+}
+
+#card .back p, #card .back ul{
+	padding:0;
+	font-size: 14px;
+}
+
+
+#card.flipped {
+  	-webkit-transform: rotateY( 180deg );
+  	transform: rotateY( 180deg );
+}
+*/
+
+/* Social Feeds */
+
+.socialfeeds{
+	text-align: center;
+	margin:0;
+	padding:0;
+	width:100%;
+	height:100%;
+}
+
+.socialfeeds iframe{
+	width:90%;
+	height:450px;
+	margin:0 auto;
+	padding:5%;
+}
+
+.socialfeeds img{
+	width:90%;
+	margin:0 auto;
+	padding:5%;
+}
+
+.socialfeeds a{
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition:0.3s ease-in-out;
+}
+
+.socialfeeds a:hover{
+	background:#000;
 	color:#f5f5f5;
-	opacity:0.6;
-	padding:20px 0 0 1.5em;
+}
+
+/* Members Area */
+
+.membersarea input{
+	margin:0 0 1% 0;
+	width:90%;
+}
+
+.membersarea input[type=submit], .membersarea .button{
+	margin:0 auto;
+	width:100%;
+}
+
+/* Secure Download */
+
+.securedownload input{
+	margin:0 0 1% 0;
+	width:90%;
+}
+
+.securedownload input[type=submit], .securedownload .button{
+	width:50%;
+	float:right;
 	margin:0;
 }
 
+.securedownload #browserid_login_link_6{
+	background:none;
+	float:left;
+	padding:5% 0 0 3%;
+}
 
-/* Static Content */
+.dark #browserid_login_link_6{
+	-webkit-filter: invert(100%);
+	filter: invert(100%);
+	opacity:0.5;
+}
 
-.staticcontent{
-	text-align: justify;
-	font-size:14px;
+.securedownload .cash_divider_text{
+	clear:left;
+	padding:6% 0 0 2%;
+	float:left;
 }
 
 /* Tour Dates */
 
 .tourdates .cash_event{
-	width:96%;
+	width:90%;
 	display:block;
-	padding:10px 2%;
+	float:left;
+	padding:5%;
 	display:block;
 	overflow:auto;
 	margin:0 0 2px 0;
@@ -234,44 +462,58 @@ input[type=submit]:hover, .button:hover{
 	background:rgba(18,18,18,0.9);
 }
 
-.cash_timeandplace{
-	margin:0 2% 0 0;
-	display:inline-block;
-	width:86%;
+.light .cash_event:nth-child(odd){
+	background:#eee;
+	background:rgba(238,238,238,0.9);
+	color:#222;
+}
+
+.light  .cash_event:nth-child(even){
+	background:#e1e1e1;
+	background:rgba(225,225,225,0.9);
+	color:#222;
 }
 
 .tourdates .cash_location{
-	padding:10px 0 10px 2%;
+	float:left;
+	padding:2% 0 2% 3%;
 }
 
 .tourdates .cash_venue{
-	padding:10px 2% 10px 0;
+	float:left;
+	padding:2% 3% 2% 0;
 }
 
 .tourdates .cash_date{
-	padding:10px 0;
+	float:left;
+	padding:2% 0 2% 0;
 }
 
 .tourdates .cash_comments{
-	display:inline-block;
+	width:100%;
+	float:left;
+	display:block;
 	color:#555;
 	font-size: 16px;
-	padding:5px 0;
-	margin:0 2% 0 0;
-	width:86%;
+	padding:5% 0;
+}
+
+.dark .cash_comments{
+	color:#444;
+}
+
+.light .cash_comments{
+	color:#cacaca;
 }
 
 .tourdates .cash_purchase_url{
-	display:inline-block;
-	padding:10px 5%;
+	float:right;
+	width:91%;
+	padding:5%;
 	text-align: center;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition:0.3s ease-in-out;
-	margin:5px 0 0 0;
-	padding:10px 5%;
-	width:90%;
-	display:block;
 }
 
 .tourdates .cash_purchase_url:hover{
@@ -281,34 +523,375 @@ input[type=submit]:hover, .button:hover{
 	outline: none;
 }
 
-/* -- Mid Size + Above / Vertical Tablet -- */
-@media screen and (min-width: 535px){
-	
+
+/* Digital Purchase */
+
+.digitalpurchase{
+		height:100%;
+}
+
+.digitalpurchase .info{
+	height:100%;
+	width:100%;
+	overflow:auto;
+	float:left;
+	position:relative;
+}
+
+.digitalpurchase img{
+	width:100%;
+	height:100%;
+	float:left;
+	padding:0;
+}
+
+.digitalpurchase .cash_digitalpurchase_itemname{
+	font:400 40px/40px 'Montserrat',Helvetica,Arial,sans-serif;
+	width:100%;
+	display:block;
+	margin:0 0 30px 0;
+}
+
+.digitalpurchase .cash_digitalpurchase_itemprice{
+	font-size: 35px;
+	color:#333;
+	margin:0 0 8% 0;
+	display:block;
+}
+
+.digitalpurchase .cash_digitalpurchase_itemdescription{
+	font-size: 14px;
+	font-weight: 400;
+	margin:0 0 5% 0;
+	display:block;
+	text-align: justify;
+}
+
+.digitalpurchase .cashmusic_narrow{
+	width:40%;
+}
+
+
+.digitalpurchase input[type=submit], .digitalpurchase .button{
+	float:left;
+}
+
+
+/* Single Purchase */
+
+.singlepurchase{
+	height:100%;
+}
+
+.singlepurchase .front{
+	height:100%;
+	width:100%;
+	display:block;
+}
+
+.singlepurchase .info{
+	height:100%;
+	width:100%;
+	overflow:hidden;
+	float:left;
+	position:relative;
+}
+
+.singlepurchase img{
+	width:100%;
+	height:100%;
+	/*float:left;*/
+	padding:0;
+}
+
+.singlepurchase .cash_singlepurchase_itemname{
+	font:400 40px/40px 'Montserrat',Helvetica,Arial,sans-serif;
+	width:100%;
+	display:block;
+	margin:0 0 30px 0;
+}
+
+.singlepurchase .cash_singlepurchase_itemprice{
+	font-size: 35px;
+	color:#333;
+	margin:0 0 8% 0;
+	display:block;
+}
+
+.singlepurchase .cash_singlepurchase_itemdescription{
+	font-size: 14px;
+	font-weight: 400;
+	margin:0 0 5% 0;
+	display:block;
+	text-align: justify;
+}
+
+.singlepurchase .cashmusic_narrow{
+	width:40%;
+	margin-right: 2%;
+}
+
+
+.singlepurchase input[type=submit], .singlepurchase .button{
+	float:left;
+}
+
+.singlepurchase .cash_singlepurchase_unavailable{
+	padding:0;
+}
+
+/*.singlepurchase .cashmusic-sp-actions{
+	margin:5% 0 0 0;
+}
+
+.singlepurchase .cashmusic-sp-actions .button{
+	display:block;
+	margin:0 0 3% 0;
+	width:100%;
+}*/
+
+/* Media Queries */
+
+@media screen and (min-width: 535px){ /* -- Mid / Vertical Tablet -- */
+	#mainspc{
+		padding:3%;
+		width:94%;
+	}
+
 	input{
-		padding:20px 3%;
-		width:63%;
-		margin:0;
+		width:67%;
+		padding:3%;
 	}
 
 	input[type=submit], .button{
-		width:30%;
+		width:24%;
+		padding:3%;
+		margin:0;
+		/*word-wrap:break-word;*/
+		text-align: center;
+	}
+
+	/* Digital Purchase */
+	.digitalpurchase .info{
+		width:40%;
+	}
+
+	.digitalpurchase  input[type=submit], .digitalpurchase .button{
+		padding:7%;
+		width:100%;
+	}
+
+	/* Tour Dates */
+
+	.tourdates .cash_event{
+		width:94%;
+		padding:3%;
+	}
+
+	.tourdates .cash_location{
+		clear:left;
+		padding:0;
+	}
+
+	.tourdates .cash_venue{
+		padding:0;
+	}
+
+	.tourdates .cash_purchase_url{
+		width:20%;
+		padding:3%;
+	}
+
+	.tourdates .cash_date{
+		padding:0;
+	}
+
+	.tourdates .cash_comments{
+		width:40%;
+		padding:3% 0 0 0;
+		clear:left;
+	}
+
+	/* Single Purchase */
+	.singlepurchase .info{
+		/* width:40%; */
+	}
+
+	.singlepurchase  input[type=submit], .singlepurchase .button{
+		padding:2%;
+		width:40%;
+	}
+
+	.singlepurchase .cashmusic-sp-actions{
+	margin:5% 0 0 0;
+	}
+
+	.singlepurchase .cashmusic-sp-actions .button{
+	float:left;
+	width:48%;
+	display:block;
+	padding:2%;
+	margin:0 0 3% 0;
+	}
+
+	.singlepurchase .cashmusic-sp-actions .button:nth-of-type(2){
+		float:right;
+	}
+
+	.packshot{
+		display:none;
+		/* width:55%; 
+		height:320px;
+		margin:0 5% 0 0; */
+	}
+
+	/* Secure Download */
+
+	.securedownload input[type=email], .securedownload input[type=password]{
+		width:94%;
+	}
+
+	.securedownload .cash_divider_text{
+		padding:3% 0 0 3%;
+	}
+
+	.securedownload	#browserid_login_link_6{
+		padding:3% 0 0 3%;
+	}
+
+	/* Members Area */
+
+	.membersarea input[type=email], .membersarea input[type=password]{
+		width:94%;
+	}
+
+}
+
+
+@media screen and (min-width: 900px){ /* -- Wide / Horizontal Tablet -- */
+	#mainspc{
+		padding:2%;
+		width:96%;
+	}
+
+	input{
+		width:75%;
+		padding:2%;
+	}
+
+	input[type=submit], .button{
+		width:auto;
+		padding:2% 3%;
 		margin:0;
 	}
 
-	.cash_error{
-		width:99.5%;
+	.cash_notation{
+		padding:100px 0 0 0;
+	}
+
+	/* Release Flip */
+	.packshot{
+		width:30%;
+		height:280px;
+		margin:0 2% 0 0;
+	}
+
+	/* Email Collection */
+	.emailcollection input{
+		width:76%;
+	}
+
+	.emailcollection  input[type=submit], .emailcollection  .button{
+		width:18%;
+	}
+
+	/* Members Area */
+	.membersarea input[type=email], .membersarea input[type=password]{
+		margin:0 0 1% 0;
+		width:96%;
+	}
+
+	/* Digital Purchase */
+	.digitalpurchase .info{
+		width:68%;
+	}
+
+	.digitalpurchase  input[type=submit], .digitalpurchase  .button{
+		width:100%;
+		padding:5%;
+	}
+
+	/* Single Purchase */
+	.singleurchase .info{
+		/* width:68%; */
+	}
+
+	.singlepurchase  input[type=submit], .singlepurchase  .button{
+		width:100%;
+		padding:5%;
+	}
+
+	/* Secure Download Area */
+	.securedownload input[type=email], .securedownload input[type=password]{
+		margin:0 0 1% 0;
+		width:96%;
+	}
+
+	.securedownload .cash_divider_text{
+		padding:2% 0 0 3%;
+	}
+
+	.securedownload	#browserid_login_link_6{
+		padding:2% 0 0 3%;
 	}
 
 	/* Tour Dates */
 	.tourdates .cash_purchase_url{
 		width:auto;
-		padding:10px 2%;
-		display: inline-block;
+		padding:2% 5%;
+	}
+
+	.tourdates .cash_event{
+		padding:2%;
+		width:96%;
+	}
+	.tourdates .cash_comments{
+		width:40%;
+		clear:none;
+		padding:2% 0 2% 3%;
+	}
+
+	.tourdates .cash_date{
+		padding:2% 0 0 0;
+	}
+
+	.tourdates .cash_location{
+		clear:none;
+		padding:2% 0 2% 3%;
+	}
+
+	.tourdates .cash_venue{
+		padding:2% 0;
+	}
+
+	/* Digital Purchase */
+	.digitalpurchase .info{
+		width:50%;
 	}
 
 	/* Single Purchase */
-	.cash_singlepurchase_flexible_price .total_price{
-	 	width:69%;
+	.singlepurchase .info{
+		/* width:50%; */
 	}
 
-}
+	/* Release Flip */
+	.packshot{
+		width:48%;
+		height:320px;
+		margin:0 2% 0 0;
+	}
+
+	.cash_notation{
+		padding:1% 0 0 0;
+	}
+}	
