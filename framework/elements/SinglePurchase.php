@@ -30,7 +30,7 @@ class SinglePurchase extends ElementBase {
 		$this->element_data['item_flexible_price'] = $item['flexible_price'];
 		$this->element_data['item_description'] = $item['description'];
 		$this->element_data['item_asset'] = $item['fulfillment_asset'];
-		if ($item['available_units'] != 0) {
+		if ($item['available_units'] !== 0) {
 			$this->element_data['is_available'] = true;
 		} else {
 			$this->element_data['is_available'] = false;
