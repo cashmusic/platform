@@ -87,8 +87,11 @@ class SinglePurchase extends ElementBase {
 			if ($this->element_data['region1_cost'] + $this->element_data['region2_cost'] == 0.00) {
 				$this->element_data['no_shipping'] = true;
 			}
-
-			$this->setTemplate('shipping');
+			if ($total_price >= $item['price']) {
+				$this->setTemplate('shipping');
+			} else {
+				$this->element_data['error_message'] = 'Make sure you enter a price of at least ' . $this->element_data['currency'] . $item['price'] . ' and try again.';
+			}
 		}
 		return $this->element_data;	
 	}
