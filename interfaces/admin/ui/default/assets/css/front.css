@@ -337,7 +337,7 @@ margin:-5% auto 0 auto;
 }
 
 .panel.better{
-    background:url(../images/blank.jpg);
+    background:url(../images/blank.jpg)!important;
     background-width: 100%;
     background-repeat: no-repeat;
     background-position: left top;
