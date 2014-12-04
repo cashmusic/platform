@@ -267,7 +267,7 @@ a:hover{
 }
 
 /* Safari Only .MP4 Color Match */
-_::-webkit-full-page-media, _:future, :root .panel:nth-child(even){
+_::-webkit-full-page-media, _:future, :root .panel.made{
     background:#262626;
 }
 
@@ -337,7 +337,7 @@ margin:-5% auto 0 auto;
 }
 
 .panel.better{
-    background:url(../images/blank.jpg)!important;
+    background:url('../images/blank.jpg');
     background-width: 100%;
     background-repeat: no-repeat;
     background-position: left top;
