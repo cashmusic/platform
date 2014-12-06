@@ -225,7 +225,7 @@ if ($user_id) {
 			</div><!--inner-->
 		</div><!--panel-->	
 		<div class="panel better">
-		<img src="https://www-cashmusic.netdna-ssl.com/admin/ui/default/assets/images/blank.jpg" alt="Getting Better"/>
+		<img src="https://www-cashmusic.netdna-ssl.com/admin/ui/default/assets/images/blank.gif" alt="Getting Better"/>
 			<div class="inner">
 				<h1>Getting Better All the Time.</h1>
 				<h2>CASH Music is an open source project, with a community of brilliant developers working every day to make it better.</h2>
