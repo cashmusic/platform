@@ -47,7 +47,7 @@ if (isset($_GET['subdomain']) || isset($_GET['path'])) {
 		// Define constants too
 		$page_vars = array(); // setting up the array for page variables
 		$page_vars['www_path'] = ADMIN_WWW_BASE_PATH;
-		$page_vars['jquery_url'] = (defined('JQUERY_URL')) ? JQUERY_URL : ADMIN_WWW_BASE_PATH . '/admin/ui/default/assets/scripts/jquery-1.8.2.min.js';
+		$page_vars['jquery_url'] = (defined('JQUERY_URL')) ? JQUERY_URL : ADMIN_WWW_BASE_PATH . '/ui/default/assets/scripts/jquery-1.8.2.min.js';
 		$page_vars['cdn_url'] = (defined('CDN_URL')) ? CDN_URL : ADMIN_WWW_BASE_PATH;
 
 		// launch CASH Music
