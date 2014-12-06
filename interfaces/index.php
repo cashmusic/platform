@@ -145,7 +145,7 @@ if ($user_id) {
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<link rel="stylesheet" href="//www.cashmusic.netdna-cdn.com/admin/ui/default/assets/css/front.css">
+		<link rel="stylesheet" href="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v7/ui/default/assets/css/front.css">
 		<link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 	</head>
 	<body>
@@ -178,7 +178,7 @@ if ($user_id) {
 				</ul>
 			</nav>
 		<div class="header-container">
-			   <h1 class="logo"><img src="//www.cashmusic.netdna-cdn.com/admin/ui/default/assets/images/invert_logo.svg" alt="CASH Music" /></h1>
+			   <h1 class="logo"><img src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/images/invert_logo.svg" alt="CASH Music" /></h1>
 		</div>
 
 		<div class="main-container">
@@ -192,7 +192,7 @@ if ($user_id) {
 			   <!-- <iframe width="1280" height="720" src="//www.youtube.com/embed/YLS_WWYUQBg?&amp;vq=hd720&amp;modestbranding=1&amp;showinfo=0&amp;autoplay=1&amp;autohide=1&amp;color=white" autoplay="1" frameborder="0" allowfullscreen></iframe> -->
 
 				<video autoplay loop>
-				<source src="//www.cashmusic.netdna-cdn.com/admin/ui/default/assets/video/phone.webm" type="video/webm">
+				<source src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/video/phone.webm" type="video/webm">
 				Sorry Your browser does not support the video tag.
 				</video> 
 				</div>
@@ -206,11 +206,11 @@ if ($user_id) {
 
 		<div class="panel made">
 			<div class="inner">
-			<!--<img src="/admin/admin/ui/default/assets/images/phone.png" alt="phone"/>-->
+			<!--<img src="/admin/ui/default/assets/images/phone.png" alt="phone"/>-->
 				<h1>Made For Musicians.</h1>
 				<video class="phonevid" autoplay loop>
-				<source src="//www.cashmusic.netdna-cdn.com/admin/ui/default/assets/video/phone.mp4" type="video/mp4">
-				<source src="//www.cashmusic.netdna-cdn.com/admin/ui/default/assets/video/phone.webm" type="video/webm">
+				<source src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/video/phone.mp4" type="video/mp4">
+				<source src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/video/phone.webm" type="video/webm">
 				Sorry Your browser does not support the video tag.
 				</video> 
 				<h2>The CASH Music platform is a set of digital tools designed to solve real problems for working musicians, based on years of direct collaboration with artists.</h2>
@@ -218,14 +218,14 @@ if ($user_id) {
 			</div><!--inner-->
 		</div><!--panel-->	
 		<div class="panel free">
-		<img src="//www.cashmusic.netdna-cdn.com/admin/ui/default/assets/images/free.jpg" alt="Free"/>
+		<img src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/images/free.jpg" alt="Free"/>
 		<div class="inner">
 				<h1>Free Forever.</h1>
 				<h2>Our goal is to help build a sustainable future for music. Musicians are our partners, not our customers, and our platform will always be free to use.</h2>
 			</div><!--inner-->
 		</div><!--panel-->	
 		<div class="panel better">
-		<img src="//www.cashmusic.netdna-cdn.com/admin/ui/default/assets/images/blank.jpg" alt="Getting Better"/>
+		<img src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/images/blank.jpg" alt="Getting Better"/>
 			<div class="inner">
 				<h1>Getting Better All the Time.</h1>
 				<h2>CASH Music is an open source project, with a community of brilliant developers working every day to make it better.</h2>
@@ -241,11 +241,11 @@ if ($user_id) {
 				<script type="text/javascript" src="https://air.cashmusic.org/public/cashmusic.js"></script><script type="text/javascript"> window.cashmusic.embed('https://air.cashmusic.org/public/','12');</script>
 
 				<p>Made possible with the support of:</p>
-				<a class="shuttleworth" href="http://www.shuttleworthfoundation.org/" target="_blank"><img src="//www.cashmusic.netdna-cdn.com/admin/ui/default/assets/images/shuttleworth.png" alt="Shuttleworth Foundation"/></a>
-				<a class="mozilla" href="https://www.mozilla.org/" target="_blank"><img src="//www.cashmusic.netdna-cdn.com/admin/ui/default/assets/images/mozilla.png" alt="Mozilla"/></a>
-				<a class="mailchimp" href="http://www.mailchimp.com/" target="_blank"><img src="//www.cashmusic.netdna-cdn.com/admin/ui/default/assets/images/mailchimp.png" alt="Mailchimp"/></a>
-				<a class="rackspace" href="http://www.rackspace.com/" target="_blank"><img src="//www.cashmusic.netdna-cdn.com/admin/ui/default/assets/images/rackspace.png" alt="Rackspace"/></a>
-				<a class="maxcdn" href="http://www.maxcdn.com/" target="_blank"><img src="//www.cashmusic.netdna-cdn.com/admin/ui/default/assets/images/maxcdn.png" alt="Max CDN"/></a>
+				<a class="shuttleworth" href="http://www.shuttleworthfoundation.org/" target="_blank"><img src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/images/shuttleworth.png" alt="Shuttleworth Foundation"/></a>
+				<a class="mozilla" href="https://www.mozilla.org/" target="_blank"><img src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/images/mozilla.png" alt="Mozilla"/></a>
+				<a class="mailchimp" href="http://www.mailchimp.com/" target="_blank"><img src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/images/mailchimp.png" alt="Mailchimp"/></a>
+				<a class="rackspace" href="http://www.rackspace.com/" target="_blank"><img src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/images/rackspace.png" alt="Rackspace"/></a>
+				<a class="maxcdn" href="http://www.maxcdn.com/" target="_blank"><img src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v6/ui/default/assets/images/maxcdn.png" alt="Max CDN"/></a>
 				</div><!--inner-->
 			</div><!--panel-->	
 		</div> <!-- #main -->
