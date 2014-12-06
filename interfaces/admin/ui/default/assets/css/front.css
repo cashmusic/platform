@@ -137,7 +137,7 @@ a:hover{
     -webkit-filter: saturate(0%);*/
 }
 
-.mozilla, .rackspace, .mailchimp{
+.mozilla, .rackspace, .mailchimp, .maxcdn{
     margin:1% 1% -10% 1%;
 }
 
@@ -155,8 +155,8 @@ a:hover{
     width:20%;
 }
 
-.mozilla img{
-    width:15%;
+.mozilla img, .maxcdn img{
+    width:13%;
 }
 
 .cashmusic.embed{

@@ -245,6 +245,7 @@ if ($user_id) {
 				<a class="mozilla" href="https://www.mozilla.org/" target="_blank"><img src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/images/mozilla.png" alt="Mozilla"/></a>
 				<a class="mailchimp" href="http://www.mailchimp.com/" target="_blank"><img src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/images/mailchimp.png" alt="Mailchimp"/></a>
 				<a class="rackspace" href="http://www.rackspace.com/" target="_blank"><img src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3/ui/default/assets/images/rackspace.png" alt="Rackspace"/></a>
+				<a class="maxcdn" href="http://www.maxcdn.com/" target="_blank"><img src="https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v6/ui/default/assets/images/maxcdn.png" alt="Max CDN"/></a>
 				</div><!--inner-->
 			</div><!--panel-->	
 		</div> <!-- #main -->
