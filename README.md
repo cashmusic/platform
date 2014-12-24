@@ -30,11 +30,11 @@ right to localhost:8888.
 ## Requirements
 
 One of our goals is for this to run in as many places as possible, so we've worked 
-hard to keep the requirements as minimal as possible:
+hard to keep the requirements minimal:
 
- * PHP 5.2.7+
- * PDO and MySQL OR SQLite
- * mod_rewrite (for admin)
+ * PHP 5.4+
+ * PDO (a default) and MySQL OR SQLite 
+ * mod_rewrite (for admin app)
  * fopen wrappers OR cURL 
 
 ## More
@@ -43,8 +43,11 @@ For more about installation, working with the platform, check out [the wiki](htt
 
 ## Submitting a pull request
 
-We try to keep the 'master' branch release-ready at all times, but it is the first 
-place new changes are merged into. We ask all contributors to [TEST](https://github.com/cashmusic/platform/blob/master/tests/README.md) your code before submitting a pull request.
+We the 'master' branch release-ready at all times, so we ask all contributors to [TEST](https://github.com/cashmusic/platform/blob/master/tests/README.md) your code before submitting a pull request. Please 
+create a descriptively named branch off your repo and give as many details in your pull request as possible.
+
+We view pull requests as conversations. Submit a pull request early if you're working on something and
+have questions. We'll work with you to get it where it needs to be for a merge.
 
 ## Copyright & License
 
