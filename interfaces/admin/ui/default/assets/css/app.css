@@ -127,12 +127,6 @@ a.revealpassword {
 .inner::-webkit-scrollbar-track{background: rgba(238, 238, 238, 0.97);}
 .inner::-webkit-scrollbar-thumb{background: rgba(222, 222, 222, 0.97);-webkit-border-radius: 20px;}
 
-.row{
-	/*overflow:auto;*/
-	width:100%;
-	min-width:100%;
-}
-
 .nojs{
 	display:none;
 	visibility:hidden;
@@ -195,6 +189,14 @@ br{
 	display:none;
 }
 
+hr{
+	border:none;
+	height:1px;
+	background:#9a9a9a;
+	width:100%;
+	display:block;
+}
+
 a{
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
@@ -209,6 +211,11 @@ a:hover{
 	color:#222;
 }
 
+ul{
+	margin:0;
+	padding:0;
+}
+
 /*p{
 	display: inline-block;
 	font-size: 14px;
@@ -220,8 +227,8 @@ a:hover{
 /* Icons General */
 
 .icon{
-	height:16px;
-	width:16px;
+	height:15px;
+	width:15px;
 	text-indent: right;
 	padding:0;
 	margin:0 auto;
@@ -240,7 +247,6 @@ a:hover{
 .icon-barcode{background-image:url(../images/icons/barcode.svg);}
 .icon-book{background-image:url(../images/icons/book.svg);}
 .icon-bulb{background-image:url(../images/icons/bulb_o.svg);}
-.icon-bulb{background-image:url(../images/icons/bulb.svg);}
 .icon-calendar{background-image:url(../images/icons/calendar.svg);}
 .icon-certificate{background-image:url(../images/icons/certificate.svg);}
 .icon-cog{background-image:url(../images/icons/cog.svg);}
@@ -259,7 +265,19 @@ a:hover{
 .icon-user{background-image:url(../images/icons/user.svg);}
 .icon-question-sign{background-image:url(../images/icons/question.svg);}
 
-/* Icons in the navigation panel */
+/* Touchpoints icons */
+
+.mainnavmenu .touchpoints .icon{
+	height:22px; 
+	width:22px; 
+	line-height: 22px; 
+	background-size: 22px 22px; 
+	padding:20px 20px; 
+}
+
+.mainnavmenu .touchpoints #learn a:hover .icon.icon-bulb{background-image:url(../images/icons/bulb.svg);}
+
+/* Mainnav Icons  */
 
 .mainnavmenu .icon{
 	height:20px;
@@ -267,15 +285,31 @@ a:hover{
 	padding:10px 0; 
 	float:right;
 	-webkit-filter: invert(100%); 
+	filter: invert(100%);
 }
 
 #navmenu ul li a:hover .icon{
 	-webkit-filter: invert(10%);
+	filter: invert(10%); 
 }
 
-/* Touchpoints icons */
+/* Subnav Icons  */
+.subnavmenu ul li a .icon{
+	opacity:0.2;
+}
 
-.mainnavmenu .touchpoints .icon{height:30px; width:30px; background-size: 100%; padding:0; }
+.subnavmenu ul li a:hover .icon{
+	opacity:1;
+	-webkit-filter: invert(100%); 
+	filter: invert(100%); 
+}
+
+/* Tertiary Icons  */
+
+.tertiarynav .icon{
+	-webkit-filter: invert(100%); 
+	filter: invert(100%); 
+}
 
 /* Form General */
 
@@ -1322,8 +1356,11 @@ section[role=main].hero{
 	font-weight: 700;
 }
 
-.inner h1.paneltitle i {
-	margin:0 5% 0 0;
+.inner h1.paneltitle .icon{
+	margin:0 1% 0 0;
+	padding:5px;
+	height:25px;
+	width:30px;
 }
 
 .inner  h1.paneltitle:hover {
@@ -1668,7 +1705,7 @@ color:#f5f5f5!important;
 	text-align: left;
 	clear:left;
 	color:#ddd;
-	overflow: auto;
+	float:left;
 }
 
 
@@ -1696,14 +1733,14 @@ color:#f5f5f5!important;
 	color:#222;
 }
 
-#navmenu .subnavmenu ul{
-	opacity:0;
-	position:relative;
-	right:-100px;
+
+#navmenu .subnavmenu ul li{
+	position:absolute;
 	list-style-type: none;
 	margin:0;
+	top:-200%;
 	padding:0;
-	display:none;
+	opacity:0;
 }
 
 .subnavmenu ul li{
@@ -1711,18 +1748,13 @@ color:#f5f5f5!important;
 	padding:0;
 }
 
-#navmenu .current .subnavmenu ul{
+#navmenu .current .subnavmenu ul li{
 	opacity:1;
-	height:100%;
 	position:relative;
-	right:0;
 	display:block;
-	top:0px;
-	animation-delay:2s;
-	-webkit-animation-delay:2s; /* Safari and Chrome */
-	-webkit-transition: 0.3s  ease-in-out;
-	-moz-transition: 0.3s  ease-in-out;
-	trasition:0.3s ease-in-out;
+	-webkit-transition: 1s  ease-out;
+	-moz-transition: 1s  ease-out;
+	trasition: 1s ease-out;
 }
 
 /* Sub Nav Color Usage */
@@ -2659,7 +2691,7 @@ label.checkbox {
 	margin:1% 0 2% 0;
 	padding:2% 2% 2% 8%;
 	border: 1px dotted #4d4d4d;
-	background: url(../images/lght_off.png) no-repeat 2% 40%;
+	background: url(../images/icons/bulb_o.svg) no-repeat 2% 40%;
 	background-size: 4%;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -2670,7 +2702,7 @@ label.checkbox {
 }
 
 .modallightbox .section-description:hover{
-	background:#00cf7f url(../images/lght_on.png) no-repeat 2% 50%;
+	background:#00cf7f url(../images/icons/bulb.svg) no-repeat 2% 50%;
 	background-size: 4%;
 	border: 1px solid #00cf7f;
 	cursor: pointer;
@@ -2708,7 +2740,7 @@ label.checkbox {
 }
 
 .light{
-	background:url(../images/lght_off.png) no-repeat 0 39%;
+	background:url(../images/icons/bulb_o.svg) no-repeat 0 39%;
 	background-size: 9%;
 	padding:0 0 0 10%;
  }
@@ -3482,7 +3514,7 @@ section[role=main].hero{
 
 #mainspc{
 	padding:0;
-	width:73%;
+	width:74%;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition:0.3s ease-in-out;
@@ -3560,7 +3592,7 @@ button, .button, #modallightbox .modalcancel{
 #navmenu, #navmenu.display{
 	right:0;
 	/*right:-26%;*/
-	width:27%;
+	width:26%;
 	opacity:1;
 	position:fixed;
 	height:100%;
@@ -3576,11 +3608,14 @@ button, .button, #modallightbox .modalcancel{
 /* Compressed Main Nav State */
 
 .panel #navmenu{
-	right:-20%;
+	right:-19.5%;
 }
 
 .panel #navmenu ul li span{
 	opacity:0;
+	display:none;
+	width:0;
+	height:0;
 } 
 
 .panel #navmenu ul li i{
@@ -3758,14 +3793,14 @@ button, .button, #modallightbox .modalcancel{
 /* Page Description Iconography */
 
 .page-description{
-	background-image: url(../images/lght_off.png);
+	background-image: url(../images/icons/bulb_o.svg);
 	background-repeat: no-repeat;
 	background-position: 2% 40%;
 	background-size: 4%;
 }
 
 .page-description:hover{
-	background-image: url(../images/lght_on.png);
+	background-image: url(../images/icons/bulb.svg);
 	background-repeat: no-repeat;
 	background-position: 2% 40%;
 	background-size: 4%;
