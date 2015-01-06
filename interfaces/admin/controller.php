@@ -59,6 +59,9 @@ $cash_admin->page_data['data_only'] = isset($_REQUEST['data_only']);
 // basic rendering options based on optional constants from constants.php
 $cash_admin->page_data['jquery_url'] = (defined('JQUERY_URL')) ? JQUERY_URL : ADMIN_WWW_BASE_PATH . '/ui/default/assets/scripts/jquery.min.js';
 $cash_admin->page_data['jqueryui_url'] = (defined('JQUERYUI_URL')) ? JQUERYUI_URL : ADMIN_WWW_BASE_PATH . '/ui/default/assets/scripts/jquery-ui.min.js';
+$cash_admin->page_data['pure_base'] = (defined('PURE_BASE')) ? PURE_BASE : ADMIN_WWW_BASE_PATH . '/ui/default/assets/css/pure/base-min.css';
+$cash_admin->page_data['pure_grid'] = (defined('PURE_GRID')) ? PURE_GRID : ADMIN_WWW_BASE_PATH . '/ui/default/assets/css/pure/grids-responsive-min.css';
+$cash_admin->page_data['pure_grid_ie'] = (defined('PURE_GRID_IE')) ? PURE_GRID_IE : ADMIN_WWW_BASE_PATH . '/ui/default/assets/css/pure/grids-responsive-old-ie-min.css';
 $cash_admin->page_data['img_base_url'] = (defined('CDN_URL')) ? CDN_URL : ADMIN_WWW_BASE_PATH;
 
 // check for TOS and privacy stuff

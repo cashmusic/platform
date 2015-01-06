@@ -11,9 +11,14 @@
 
 	<link rel="icon" href="{{img_base_url}}/ui/default/assets/images/favicon.ico" type="image/x-icon" />
 	<link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 	<link href="{{www_path}}/ui/default/assets/css/jquery-ui.css" rel="stylesheet" type="text/css" />
-	<link href="{{www_path}}/ui/default/assets/css/foundation.min.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="{{pure_base}}">
+	<!--[if lte IE 8]>
+    <link rel="stylesheet" href="{{pure_grid_ie}}">
+	<![endif]-->
+	<!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="{{pure_grid}}">
+	<!--<![endif]-->
 	<link href="{{www_path}}/ui/default/assets/css/app.css" rel="stylesheet" type="text/css" />
 
 	<!--iOS-->
@@ -36,23 +41,18 @@
 	<script src="{{www_path}}/ui/default/assets/scripts/jquery.validate.min.js" type="text/javascript"></script>
 
 </head>
-
-	<body id="page" class="off-canvas hide-extras{{loginstatus}}">
+	<body id="page" class="hide-extras{{loginstatus}}">
 	<div class="hlter"></div><!--hlter-->
-	<div id="wrap">	
-		<div id="chromespc" class="twelve columns">
-
-			<div id="chrome">
-				<div id="menutoggle">Main Menu</div><!--mentoggle-->
+		<div id="wrap">	
 
 				<div id="navmenu" class="mainnavmenu">
 				<div id="header"><h1 id="logo"><a href="{{www_path}}/"><img src="{{img_base_url}}/ui/default/assets/images/invert_logo.svg" alt="CASH Music"/></a><img id="ajaxloading" src="{{img_base_url}}/ui/default/assets/images/load.png" alt="loading..." class="rotate" /></h1><!--logo-->
 					<div class="touchpoints">
-						<div id="searchbtn" class="toggle"><a title="Search" class="icon-search"></a></div>
-						<div id="learn" class="toggle"><a title="Learn" class="icon icon-bulb"></a></div><!--learn-->
-						<div id="settings" class="toggle"><a title="Account/Settings" class="icon icon-cog"></a></div><!--settings-->
-						<div id="help" class="toggle"><a title="Help" class="icon icon-question-sign"></a></div><!--help-->
-						<div id="logoutbtn" class="toggle"><a title="Logout" href="{{www_path}}/logout/" class="icon icon-signout needsconfirmation"></a></div><!--logout-->
+						<div id="searchbtn" class="toggle"><a title="Search"><i class="icon icon-search"></i></a></div>
+						<div id="learn" class="toggle"><a title="Learn"><i class="icon icon-bulb"></i></a></div><!--learn-->
+						<div id="settings" class="toggle"><a title="Account/Settings"><i class="icon icon-cog"></i></a></div><!--settings-->
+						<div id="help" class="toggle"><a title="Help"><i class="icon icon-question-sign"></i></a></div><!--help-->
+						<div id="logoutbtn" class="toggle"><a title="Logout" href="{{www_path}}/logout/" class="needsconfirmation"><i class="icon icon-signout"></i></a></div><!--logout-->
 					</div><!--touchpoints-->
 					<div id="flipback"></div><!--flipback-->	
 						<form id="search" accept-charset="UTF-8" method="post" action="">	
@@ -63,8 +63,7 @@
 					<ul>
 						<li{{#ui_current_main}} class="current"{{/ui_current_main}}>
 							<a href="{{www_path}}/" class="mainnav">
-								<i class="icon icon-certificate"></i><span>{{link_main_page}}</span>
-								<div class="highlightimg"></div>
+								<span>{{link_main_page}}</span><i class="icon icon-certificate"></i>
 							</a>
 							<div class="subnavmenu">
 								{{{main_section_menu}}}
@@ -72,8 +71,7 @@
 						</li>
 						<li{{#ui_current_assets}} class="current"{{/ui_current_assets}}>
 							<a href="{{www_path}}/assets/" class="assetsnav">
-								<i class="icon icon-paste"></i><span>{{link_menu_assets}}</span>
-								<div class="highlightimg"></div>
+								<span>{{link_menu_assets}}</span><i class="icon icon-paste"></i>
 							</a>
 							<div class="subnavmenu usecolor2">
 								{{{assets_section_menu}}}
@@ -81,8 +79,7 @@
 						</li>
 						<li{{#ui_current_people}} class="current"{{/ui_current_people}}>
 							<a href="{{www_path}}/people/" class="peoplenav">
-								<i class="icon icon-group"></i><span>{{link_menu_people}}</span>
-								<div class="highlightimg"></div>
+								<span>{{link_menu_people}}</span><i class="icon icon-group"></i>
 							</a>
 							<div class="subnavmenu usecolor3">
 								{{{people_section_menu}}}
@@ -90,8 +87,7 @@
 						</li>
 						<li{{#ui_current_commerce}} class="current"{{/ui_current_commerce}}>
 							<a href="{{www_path}}/commerce/" class="commercenav">
-								<i class="icon icon-credit-card"></i><span>{{link_menu_commerce}}</span>
-								<div class="highlightimg"></div>
+								<span>{{link_menu_commerce}}</span><i class="icon icon-credit-card"></i>
 							</a>
 							<div class="subnavmenu usecolor4">
 								{{{commerce_section_menu}}}
@@ -99,55 +95,35 @@
 						</li>
 						<li{{#ui_current_calendar}} class="current"{{/ui_current_calendar}}>
 							<a href="{{www_path}}/calendar/" class="calendarnav">
-								<i class="icon icon-calendar"></i><span>{{link_menu_calendar}}</span>
-								<div class="highlightimg"></div>
+								<span>{{link_menu_calendar}}</span><i class="icon icon-calendar"></i>
 							</a>
 							<div class="subnavmenu usecolor5">
 								{{{calendar_section_menu}}}
 							</div>
 						</li>
-						<li><p class="version"><span>CASH Music Platform <strong>v.{{platform_version}}</strong></span></p></li>
+						<li><p class="version">CASH Music Platform <strong>v.{{platform_version}}</strong></p></li>
 					</ul>
-					<div id="donate"><a href="http://donate.cashmusic.org/" target="_blank"><p>We can't exist without your support. <br />Please Donate!</p><p class="heart">&#9825;</p></a></div>
+					<div id="donate"><a href="http://donate.cashmusic.org/" target="_blank"><p>We can't exist without your support. <br />Please Donate!</p><p class="heart">&#9825;</p></a></div><!--donate-->
 				</div><!--navmenu-->
-			</div><!--chrome-->
-		</div><!--chromespc-->
-		<div id="mainspc" class="container {{specialcolor}}">
-			<div class="row">
-				<section role="main">
-					<div class="row">
-						<div class="twelve columns phone-two">
-							<p class="show-for-small">
-								<a class="sidebar-button" id="sidebarButton" href="#sidebar"><span class="menu-inactive"><i class="icon icon-align-justify"></i></span><span class="menu-active"><i class="icon icon-chevron-right"></i></span></a>
-							</p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="twelve columns phone-two">
-							<h2 id="pagetitle"><span>{{ui_title}}</span><em>{{#ui_tagline}}{{ui_tagline}}{{/ui_tagline}}</em></h2>
-							
-							<div id="pagemessage">
-								{{#error_message}}<p><span class="highlightcopy errormessage">{{error_message}}</span></p>{{/error_message}}
-								{{#page_message}}<p><span class="highlightcopy">{{page_message}}</span></p>{{/page_message}}
-							</div><!--pagemessage-->
-							<div id="pagedisplay">
-								<div id="learn_tip" {{#ui_page_tip}}style="display:block;"{{/ui_page_tip}} class="page-description">{{ui_page_tip}}</div>
-								<div id="page_content">{{{content}}}</div>
-							</div><!--pagedisplay-->
-						</div><!--twelve columns phone-two-->
-					</div><!--row-->
+			
+			<div id="mainspc" class="pure-g {{specialcolor}}">
+						<!-- h2 id="pagetitle"><span>{{ui_title}}</span><em>{{#ui_tagline}}{{ui_tagline}}{{/ui_tagline}}</em></h2 -->
 
-					
-					<!--<div id="panelmask">-->
+						<div id="pagemessage">
+							{{#error_message}}<p><span class="highlightcopy errormessage">{{error_message}}</span></p>{{/error_message}} {{#page_message}}<p><span class="highlightcopy">{{page_message}}</span></p>{{/page_message}}</div><!--pagemessage-->
+						<div id="pagedisplay">
+							<div id="learn_tip"{{#ui_page_tip}}style="display:block;"{{/ui_page_tip}} class="page-description">{{ui_page_tip}}</div><!--learntip-->
+							<div id="page_content">{{{content}}}</div><!--page_content-->
+						<div id="footer">
+							<p>{{{misc_footer_markup}}} <a href="{{www_path}}/licenses/" style="margin-left:0;">{{link_footer_learnmore}}</a>. {{#showterms}}<a href="{{www_path}}/terms/">{{link_footer_terms}}</a> {{/showterms}}{{#showprivacy}}<a href="{{www_path}}/privacy/">{{link_footer_privacy}}</a> {{/showprivacy}}<a href="http://cashmusic.org/donate/" class="donatelink"><b>{{action_donate}}</b></a></p>
+						</div><!--footer-->
+						</div><!--pagedisplay-->
+
 						<div id="tertiary">
 							<div id="learnpanel">
 								<div class="inner">
-								<h1 class="paneltitle light">Learn</h1>
-									<!--ul class="tertiarynav">
-										<li><a href="#tips" id="tipslink"><i class="icon icon-compass"></i>{{{misc_tips}}}</a></li>
-									</ul-->
+									<h1 class="paneltitle light">Learn</h1>
 									<div id="learn_text">{{{ui_learn_text}}}</div>
-									<!--<div class="panelcontent"></div>-->
 								</div><!--inner-->
 							</div><!--learnpanel-->
 							<div id="settingspanel">
@@ -158,13 +134,13 @@
 										<li><a href="{{www_path}}/settings/" ><i class="icon icon-cog"></i>{{link_settings}}</a></li>
 										<li><a href="{{www_path}}/settings/connections/" ><i class="icon icon-cog"></i>{{link_settings_connections}}</a></li>
 										<li><a href="http://donate.cashmusic.org/" class="noajax" target="_blank"><i class="icon icon-heart"></i>{{action_donate}}</a></li>
-									</ul>
+									</ul><!--tertiarynav-->
 									<div class="panelcontent"></div><!--panelcontent-->
 								</div><!--inner-->	
 							</div><!--settingspanel-->
 							<div id="helppanel">
-							<div class="inner">
-								<h1 class="paneltitle"><i class="icon icon-question-sign"></i>Help</h1>
+								<div class="inner">
+								<h1 class="paneltitle"><i class="icon icon-question"></i>Help</h1>
 									<ul class="tertiarynav">
 										<li><a href="{{www_path}}/help/gettingstarted/"><i class="icon icon-rocket"></i>{{link_menu_help_gettingstarted}}</a></li>
 										<li><a href="{{www_path}}/help/"><i class="icon icon-book"></i>{{link_help_alt}}</a></li>
@@ -174,21 +150,11 @@
 								</div><!--inner-->
 							</div><!--helppanel-->
 						</div><!--tertiary-->
-					<!--</div><!--panelmask-->
-					
+			</div><!--mainspc-->
+		</div><!--wrap-->
 
-				</section>
-			</div>
-		</div>
-	</div>
+	
 
-	<div id="footer">
-		<div class="row">
-			<div class="twelve columns">
-				<p>{{{misc_footer_markup}}} <a href="{{www_path}}/licenses/" style="margin-left:0;">{{link_footer_learnmore}}</a>. {{#showterms}}<a href="{{www_path}}/terms/">{{link_footer_terms}}</a> {{/showterms}}{{#showprivacy}}<a href="{{www_path}}/privacy/">{{link_footer_privacy}}</a> {{/showprivacy}}<a href="http://cashmusic.org/donate/" class="donatelink"><b>{{action_donate}}</b></a></p>
-			</div>
-		</div>
-	</div>
 
 	<div id="loadingmask">
 		<video autoplay loop >
@@ -209,22 +175,18 @@
 
 {{#reset_key}}	
 	<!-- Password reset popups, etc -->
-	<div class="modalbg"><div class="modallightbox">
-		<div class="row">
-			<div class="three columns"></div><div class="six columns" style="text-align:left;">
+	<div class="modalbg">
+		<div class="modallightbox">
 				<h4>Password reset</h4>Enter a new password. At least {{minimum_password_length}} characters.<br />
 				<form action="{{reset_action}}" id="password_reset_form" method="post">
-				<input type="hidden" name="finalizepasswordreset" value="go" />
-				<input type="hidden" name="key" value="{{reset_key}}" />
-				<input type="hidden" name="address" value="{{reset_email}}" />
-				<input type="password" id="new_password" name="new_password" autocomplete="off" />
-				<small><a href="#" id="revealpassword" style="position:relative;top:-7px;color:#666;">reveal text</a></small>
-
-				<input type="button" id="do_submit" class="button" value="Change password" />
+					<input type="hidden" name="finalizepasswordreset" value="go" />
+					<input type="hidden" name="key" value="{{reset_key}}" />
+					<input type="hidden" name="address" value="{{reset_email}}" />
+					<input type="password" id="new_password" name="new_password" autocomplete="off" />
+					<small><a href="#" id="revealpassword" style="position:relative;top:-7px;color:#666;">reveal text</a></small>
+					<input type="button" id="do_submit" class="button" value="Change password" />
 				</form>
-			</div><div class="three columns"></div>	
-		</div>
-		<a href="#" class="modalcancel smalltext"><span>cancel</span></a>
+				<a href="#" class="modalcancel smalltext"><span>cancel</span></a>
 		
 		<script type="text/javascript">
 			// http://www.electrictoolbox.com/toggle-password-field-text-password/
@@ -266,8 +228,10 @@
 				}
 			});
 		</script>
-	</div></div>
+
+		</div><!--modallightbox-->
+	</div><!--modalbg-->
 {{/reset_key}}
 
-</body>
+</body><!--page-->
 </html>
