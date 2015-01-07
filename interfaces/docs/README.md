@@ -44,17 +44,17 @@ new and custom elements, etc.
 NEW STRUCTURE:
 
 I.		Introduction
-II.		Setup
-III.	Code Standards
-IV.		PHP Core
+			a. Setup
+			b. Code Standards
+II.		PHP Core
 			a. Request/response format
 			b. Authorization model
 			c. Requests
-V. 		API
+III. 	API
 			a. Verbose API
 			b. RESTful API
-VI.		Elements
+IV.		Elements
 			a. Structure and coding
 			b. Embedding
-VII.	Connections
-VIII.	Admin
+V.		Connections
+VI.		Admin

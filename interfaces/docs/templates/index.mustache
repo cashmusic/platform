@@ -18,93 +18,21 @@
 	</div>
 
 	<ul id="docsnav">
-		<li class="current toplevel"><a href="#introduction">Introduction</a></li>
-		<ul>
-			<li><a href="#setup">Setup</a></li>
-			<li><a href="#codestandards">Code standards</a></li>
-		</ul>
-		<li class="toplevel"><a href="#phpapi">PHP API</a></li>
-		<ul>
-			<li><a href="#requestresponse">Request/response format</a></li>
-			<li><a href="#systemrequests">System requests</a></li>
-			<li><a href="#assetrequests">Asset requests</a></li>
-			<li><a href="#peoplerequests">People requests</a></li>
-			<li><a href="#commercerequests">Commerce requests</a></li>
-			<li><a href="#calendarrequests">Calendar requests</a></li>
-			<li><a href="#elementrequests">Element requests</a></li>
-		</ul>
-		<li class="toplevel"><a href="#elements">Elements</a></li>
-		<li class="toplevel"><a href="#adminapp">Admin app</a></li>
+		{{{nav_menu}}}
 	</ul>
 
 	<div id="mainspc" class="row docs">
 		<div class="row">
-			<div class="three columns">
-				&nbsp;
-			</div>
-			<div class="nine columns">
+			<div class="two columns"></div>
+			<div class="eight columns">
 
-				<div class="section" id="introduction">
-					<h1>Platform documentation</h1>
-					{{{introduction}}}
-				</div>
-
-				<div class="section" id="setup">
-					{{{setup}}}
-				</div>
-				
-				<div class="section" id="codestandards">
-					{{{codestandards}}}
-				</div>
-
-				<div class="section" id="phpapi">
-					{{{phpapi}}}
-				</div>
-
-				<div class="section" id="requestresponse">
-					{{{requestresponse}}}
-				</div>
-
-				<div class="section" id="systemrequests">
-					{{{systemrequests}}}
-				</div>
-
-				<div class="section" id="assetrequests">
-					{{{assetrequests}}}
-				</div>
-
-				<div class="section" id="peoplerequests">
-					{{{peoplerequests}}}
-				</div>
-
-				<div class="section" id="commercerequests">
-					{{{commercerequests}}}
-				</div>
-
-				<div class="section" id="calendarrequests">
-					{{{calendarrequests}}}
-				</div>
-
-				<div class="section" id="elementrequests">
-					{{{elementrequests}}}
-				</div>
-
-				<div class="section" id="elements">
-					{{{elements}}}
-				</div>
-
-				<div class="section" id="adminapp">
-					{{{adminapp}}}
-				</div>
-
+				{{{page_content}}}
 
 			</div>
+			<div class="two columns"></div>
 		</div>
-
-		<br /><br /><br />
 	</div>
 
-	<div id="bottomspc"></div>
 	<script src="assets/scripts/jquery.js"></script>
 	<script src="assets/scripts/jquery.scrollTo.js"></script>
 	<script src="assets/scripts/jquery.nav.js"></script>
@@ -112,10 +40,11 @@
 	$(document).ready(function() {
 		$('#docsnav').onePageNav({
 			changeHash:true,
-			filter:':not(.external)',
+			filter:':not(.sub)',
 			scrollThreshold:0.25
 		});
 	});
 	</script>
+	
 </body> 
 </html>

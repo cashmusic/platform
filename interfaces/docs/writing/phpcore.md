@@ -1,4 +1,7 @@
-# Request / response format
+All functionality of the core platform is accessed through a single and consistent PHP-based API. 
+No direct function calls should be made — instead data should be accessed and set through a secure 
+and standard request / response model consistent with any HTTP GET/POST requests. 
+
 For developers looking to build custom functionality we've built a request/response 
 process as the primary interface to the PHP framework. It mimics a REST-style API 
 and standardizes calls and responses across the methods...so the PHP interaction 
@@ -12,25 +15,4 @@ or false if the request failed, the **api version**, and a **timestamp**.
 
 The PHP Request/Response looks like this: 
 
-	<?php 
-		$sample_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'calendar', 
-				'cash_action' => 'getevent',
-				'id' => 43
-			)
-		);
-
-		$sample_request->resonse:
-		{
-			"status_code":404, // http-style status code
-			"status_uid":"calendar_getevent_404", // uid of the response (request + status)
-			"status_message":"Not Found", // http-style status message
-			"contextual_message":"Event not found", // more specific error message
-			"request_type":"calendar", // echo of the request type
-			"action":"getevent", // echo of the request action
-			"payload":false, // contents of the response, or false if error
-			"api_version":2, // version number
-			"timestamp":1335416260 // request timestamp
-		}
-	?>
+<script src="https://gist.github.com/jessevondoom/1b8cb605f999bd8ecadd.js"></script>

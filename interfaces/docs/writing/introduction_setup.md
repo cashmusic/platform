@@ -1,5 +1,3 @@
-# Setup and requirements
-
 One of our goals is for this to run in as many places as possible, so we've worked 
 hard to keep the requirements as minimal as possible:
 

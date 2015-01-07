@@ -1,4 +1,3 @@
-# Elements
 Elements are like a plugin, or functional bundle, for the CASH platform. Each one is a standalone 
 package containing descriptive metadata, a controller class, view templates, and forms to plug into 
 the admin app. Specifically, each element consists of:  

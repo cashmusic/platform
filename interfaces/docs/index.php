@@ -55,6 +55,10 @@ $docs_data = array();
 $current_directory = dirname(__FILE__);
 include_once($current_directory . '/../../framework/cashmusic.php');
 
+$docs_data['page_content'] = '';
+$all_requests = '';
+$all_requests_menu = '<li>Request types:</li>';
+
 // ALL THE PLANTS!!!
 $all_plants = array(
 	'system' => array(
@@ -122,13 +126,11 @@ foreach ($all_plants as $type => $plant) {
 		}
 	}
 
-	$final_output = '<h1>' . ucfirst($type) . ' requests</h1><p>All actions defined for \'' . $type . '\' type requests:';
+	$final_output = '<h3>PHP Core: ' . ucfirst($type) . ' requests</h3><p>All actions defined for \'' . $type . '\' type requests:';
 	foreach ($actions as $action => $details) {
 		$final_output .= '<div class="request_action">';
 		$final_output .= '<h4 class="action_name">' . $type . ' / ' . $action . '</h4>';
-		if ($details['comment']) {
-			$final_output .= '<p class="action_comments">' . $details['comment'] . '</p>';
-		}
+		
 		$final_output .= '<div class="action_params">';
 		$final_output .= '<b>Allowed methods:</b> ';
 		if (is_array($details['allowed_methods'])) {
@@ -136,38 +138,68 @@ foreach ($all_plants as $type => $plant) {
 		} else {
 			$final_output .= $details['allowed_methods'];
 		}
-		$final_output .= '<br /><br />';
-		$final_output .= '<b>Parameters</b>';
+		$final_output .= '<div class="params">';
+		$final_output .= '<b>Parameters:</b><ul>';
 		if (is_array($details['parameters'])) {
-			foreach ($details['parameters'] as $name => $details) {
-				$final_output .= '<br />' . $name . ' (';
-				if ($details['optional']) {
-					$final_output .= 'default: ' . var_export($details['default'],true) . ')';
+			foreach ($details['parameters'] as $name => $paramdetails) {
+				$final_output .= '<li>' . $name . ' <i>(';
+				if ($paramdetails['optional']) {
+					$final_output .= 'default: ' . var_export($paramdetails['default'],true) . ')</i></li>';
 				} else {
-					$final_output .= 'REQUIRED)';
+					$final_output .= 'REQUIRED)</i></li>';
 				}
 			}
 		} else {
-			$final_output .= '<br />none.';	
+			$final_output .= '<li>none.</li>';	
 		}
-		$final_output .= '</div>';
+		$final_output .= '</ul></div></div>';
+		if ($details['comment']) {
+			$final_output .= '<p class="action_comments">' . $details['comment'] . '</p>';
+		}
 		$final_output .= '</div>';
 	}
 
-	$docs_data[$type . 'requests'] = $final_output;
+	$all_requests .= '<div class="section" id="requests_' . $type . '">' . $final_output . '</div>';
+	$all_requests_menu .= '<li><a class="sub" href="#requests_' . $type . '">' . ucwords($type) . '</a></li>';
+
+	//$docs_data[$type . 'requests'] = $final_output;
 }
 
 // warm up the markdownificator
 include_once($current_directory . '/../../framework/lib/markdown/markdown.php');
 
-// mark that shit down!
-$docs_data['introduction'] = Markdown(file_get_contents($current_directory . '/writing/introduction.md'));
-$docs_data['setup'] = Markdown(file_get_contents($current_directory . '/writing/setup.md'));
-$docs_data['codestandards'] = Markdown(file_get_contents($current_directory . '/writing/codestandards.md'));
-$docs_data['phpapi'] = Markdown(file_get_contents($current_directory . '/writing/phpapi.md'));
-$docs_data['requestresponse'] = Markdown(file_get_contents($current_directory . '/writing/requestresponse.md'));
-$docs_data['elements'] = Markdown(file_get_contents($current_directory . '/writing/elements.md'));
-$docs_data['adminapp'] = Markdown(file_get_contents($current_directory . '/writing/adminapp.md'));
+$defined_index = json_decode(file_get_contents($current_directory . '/index.json'),true);
+
+$docs_data['nav_menu'] = '';
+
+foreach ($defined_index as $key => $value) {
+	$mainsectioncode = strtolower(str_replace(' ','', $key));
+	$docs_data['page_content'] .= '<div class="section main" id="' . $mainsectioncode . '"><h2>' . $key . '</h2>';
+	$docs_data['page_content'] .= Markdown(file_get_contents($current_directory . '/writing/' . $mainsectioncode . '.md'));
+	$docs_data['page_content'] .= '</div>';
+	$docs_data['nav_menu'] .= '<li class="toplevel"><a href="#' . $mainsectioncode . '">' . $key . '</a>';
+	if (count($value['subnav'])) {
+		$docs_data['nav_menu'] .= '<ul class="sectionnav">';
+		foreach ($value['subnav'] as $sub_value) {
+			$subsectioncode = strtolower(str_replace(array(' ','/'),'', $sub_value));
+			if ($mainsectioncode == 'phpcore' && $subsectioncode == 'requests') {
+				$docs_data['page_content'] .= Markdown(file_get_contents($current_directory . '/writing/' . $mainsectioncode . '_' . $subsectioncode . '.md'));
+				$docs_data['nav_menu'] .= $all_requests_menu;
+			} else {
+				$docs_data['page_content'] .= '<div class="section" id="' . $mainsectioncode . '_' . $subsectioncode . '"><h3>' . $key . ': ' . $sub_value . '</h3>';
+				$docs_data['page_content'] .= Markdown(file_get_contents($current_directory . '/writing/' . $mainsectioncode . '_' . $subsectioncode . '.md'));
+				$docs_data['page_content'] .= '</div>';
+				$docs_data['nav_menu'] .= '<li><a class="sub" href="#' . $mainsectioncode . '_' . $subsectioncode . '">' . $sub_value . '</a></li>';
+			}
+		}
+		$docs_data['nav_menu'] .= '</ul>';
+	} else {
+		$docs_data['nav_menu'] .= '<div class="sectionnav"></div>';	
+	}
+	$docs_data['nav_menu'] .= '</li>';
+}
+
+$docs_data['page_content'] = str_replace('[PLACEHOLDER - REQUEST CONTENT IS GENERATED AUTOMATICALLY - DO NOT EDIT]', $all_requests, $docs_data['page_content']);
 
 // include Mustache because you know it's time for that
 include_once($current_directory . '/../../framework/lib/mustache/Mustache.php');
