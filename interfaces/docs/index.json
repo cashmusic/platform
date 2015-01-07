@@ -1,0 +1,37 @@
+{
+	"Introduction": {
+		"subnav": [
+			"Setup",
+			"Code Standards"
+		],
+		"related": {}
+	},
+	"PHP Core": {
+		"subnav": [
+			"Requests"
+		],
+		"related": {}
+	},
+	"API": {
+		"subnav": [
+			"Verbose API",
+			"RESTful API"
+		],
+		"related": {}
+	},
+	"Connections": {
+		"subnav": [],
+		"related": {}
+	},
+	"Elements": {
+		"subnav": [
+			"Structure",
+			"Embedding"
+		],
+		"related": {}
+	},
+	"Admin app": {
+		"subnav": [],
+		"related": {}
+	}
+}
