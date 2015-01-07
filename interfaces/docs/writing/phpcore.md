@@ -1,11 +1,9 @@
-All functionality of the core platform is accessed through a single and consistent PHP-based API. 
-No direct function calls should be made — instead data should be accessed and set through a secure 
-and standard request / response model consistent with any HTTP GET/POST requests. 
+All functionality of the platform is accessed through a consistent request/response model at the
+heart of the PHP Core. No direct function calls should be made — instead data should be accessed 
+and set through a secure and standard request/response model.
 
-For developers looking to build custom functionality we've built a request/response 
-process as the primary interface to the PHP framework. It mimics a REST-style API 
-and standardizes calls and responses across the methods...so the PHP interaction 
-will be nearly identical to future REST or verbose interactions. 
+The request/response model lets us build consistency from PHP to API and into elements and 
+connections. It mimics a REST-style API and standardizes calls and responses across the methods.
 
 Every request is made with a specific type and action, plus any required or optional 
 parameters. It's response will contain an http-esque **status code**, a **uid** containing 
@@ -13,6 +11,20 @@ type/action/code, a human-readable **status message**, a more detailed **context
 an echo of the **request type** and **action**, a **payload** with the full response data 
 or false if the request failed, the **api version**, and a **timestamp**.
 
-The PHP Request/Response looks like this: 
+Initiating a PHP Request looks like this: 
 
 <script src="https://gist.github.com/jessevondoom/1b8cb605f999bd8ecadd.js"></script>
+
+An example of a failed response object:
+
+<script src="https://gist.github.com/jessevondoom/b8f3c7ba595c7ff3f861.js"></script>
+
+Or on success:
+
+<script src="https://gist.github.com/jessevondoom/280ded1684f165e94c85.js"></script>
+
+The payload is returned as an associative array. Most basic data requests will include 
+creation and modification dates which are standard and automated in the system. Requests to
+create new resources will return an id number on success. 
+
+See below for a complete list of requests exposed by the core.
