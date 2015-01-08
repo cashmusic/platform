@@ -27,4 +27,11 @@ The payload is returned as an associative array. Most basic data requests will i
 creation and modification dates which are standard and automated in the system. Requests to
 create new resources will return an id number on success. 
 
-See below for a complete list of requests exposed by the core.
+All core files are located in the repo at **/framework/classes/core** with requests divided
+by type and organized into individual plant classes at **/framework/classes/plants**. Most 
+new functionality is defined at the plant level, with the core classes used to route requests, 
+to plants, abstract database connections, etc.
+
+Each plant includes a routing table for requests that points to internal functions and defines
+the authentication context under which they're allowed. See below for a complete list of 
+requests exposed by the core.
