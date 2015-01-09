@@ -13,4 +13,4 @@ The format is simple: /verbose/**plant**/**request**/**{parameter name}**/**{par
 
 <script src="https://gist.github.com/jessevondoom/a3d384453bf053a2ca8e.js"></script>
 
-Authorization methods coming soon.
+More about authorization methods coming soon.
