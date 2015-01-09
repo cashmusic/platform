@@ -20,7 +20,7 @@ body {
 	padding:0;
 	background: #e3e3e3; 
 	color:#222;
-	font:400 30px/40px 'Montserrat',Helvetica,Arial,sans-serif;
+	font:300 30px/40px 'Source Sans Pro',Helvetica,Arial,sans-serif;
 }
 
 /*Scrollbars*/
@@ -123,6 +123,7 @@ a:hover{
 	background:rgba(34,34,34,0.90);
 	height:38px;
 	width:100%;
+	font:400 14px/22px 'Montserrat',Helvetica,Arial,sans-serif;
 	text-align:center;
 }
 
@@ -278,10 +279,15 @@ iframe{
 .gist .gist-data {border-bottom:none !important;}
 
 p, .section ul, .section li {
-	font:400 18px/28px 'Montserrat',Helvetica,Arial,sans-serif;
+	font:300 24px/32px 'Source Sans Pro',Helvetica,Arial,sans-serif;
 }
 
-.section ul {
+p a, .section ul a, .section li a {
+	font:400 24px/32px 'Source Sans Pro',Helvetica,Arial,sans-serif;
+	text-decoration: underline;
+}
+
+.section ul, .section ol {
 	padding-left: 2.5em;
 }
 
@@ -298,8 +304,7 @@ p, .section ul, .section li {
 }
 
 .action_params, .action_params li, .action_params ul {
-	font-size: 14px;
-	line-height: 24px;
+	font:400 14px/24px 'Source Sans Pro',Helvetica,Arial,sans-serif;
 }
 
 .action_params i {
