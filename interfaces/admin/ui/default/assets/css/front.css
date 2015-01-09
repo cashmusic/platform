@@ -61,11 +61,11 @@ fieldset {
 
 
 body {
-	height:100%;
+    height:100%;
     background:#222 url(../images/hero_bg.jpg);
     background-attachment: fixed;
     margin:0;
-    padding:100px 0 0 0;
+    padding:0;
 }
 
 a{
@@ -114,41 +114,6 @@ a:hover{
     -webkit-filter: saturate(100%);
     -webkit-transition: 0.3s  ease-in-out;
 
-}
-
-/* highlight something */
-
-/* Chrome, Safari, Opera */
-@-webkit-keyframes hlcolor {
-    0%   {background: #ff3a3a;}
-    25%  {background: #595cee;}
-    50%  {background: #ff7830;}
-    100% {background: #00cf7f;}
-}
-
-/* Standard syntax */
-@keyframes hlcolor {
-    0%   {background: #ff3a3a;}
-    25%  {background: #595cee;}
-    50%  {background: #ff7830;}
-    100% {background: #00cf7f;}
-}
-
-#highlight a{
-	position:fixed;
-	z-index:1000;
-	top:0;
-	left:0;
-	height:60px;
-	width:90%;
-	display:block;
-	background:#ff3a3a;
-	padding:20px 5%;
-	opacity:0.9;
-	text-decoration: none;
-	text-align: center;
-	-webkit-animation: hlcolor 15s ease infinite alternate; /* Chrome, Safari, Opera */
-    animation: hlcolor 15s ease infinite alternate;
 }
 
 #vidbg{
@@ -323,7 +288,7 @@ margin:-5% auto 0 auto;
 }
 
 .panel.made img{
-	float:right;
+    float:right;
     padding:5% 5% 0 0;
 }
 
@@ -534,7 +499,7 @@ nav{
 }
 
 .show nav{
-    top:100px;
+    top:0px;
 }
 
 nav ul {
