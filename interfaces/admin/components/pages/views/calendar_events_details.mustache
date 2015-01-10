@@ -4,35 +4,31 @@
 	cancellation can be found in the page tips.
 </p>
 
-
 <form accept-charset="UTF-8" method="post" action="{{www_path}}{{requested_route}}">
 	<input type="hidden" name="{{form_state_action}}" value="makeitso" />
 
-	<div class="row">
-		<div class="six columns">
+		<div class="pure-u-1 pure-u-md-1-2">
 			<label for="event_date">Date</label>
 			<input type="text" id="event_date" name="event_date" value="{{formatted_date}}"{{^formatted_date}} class="date" placeholder="MM/DD/YYYY"{{/formatted_date}} />
-		</div>
-		<div class="six columns">
+		</div><!--pure-->
+		<div class="pure-u-1 pure-u-md-1-2">
 			<label for="event_venue_name">Venue</label>
 			<input type="text" id="event_venue_name" name="event_venue_name" value="{{venue_display_string}}" placeholder="Start typing to search venues" class="autocomplete" data-cash-endpoint-url="{{{www_path}}}/ajax/autocomplete/venues" />
 			<input type="hidden" id="event_venue" name="event_venue" value="{{venue_id}}" />
 			<small class="fadedtext">Can't find the venue you're looking for? <a href="{{www_path}}/calendar/venues/add/" class="add-fulfillment-file lightboxed returntocurrentroute usecolor5">Add a new venue</a></small>
-		</div>
-	</div>
-	<br /><br />
+		</div><!--pure-->
+
 	<label for="event_comment">Comments (Support, CD Release, etc)</label>
 	<textarea rows="3" id="event_comment" name="event_comment">{{comments}}</textarea>
 
 	<label for="event_purchase_url">Ticket Purchase URL</label>
 	<input type="text" id="event_purchase_url" name="event_purchase_url" value="{{purchase_url}}"{{^purchase_url}} placeholder="Ticket Link URL"{{/purchase_url}} />
 
-	<br />
-	<input type='checkbox' class='checkorradio' name='event_ispublished' value=''{{#published}} checked="checked"{{/published}} /> Published?
-	&nbsp; <input type='checkbox' class='checkorradio' name='event_iscancelled' value=''{{#cancelled}} checked="checked"{{/cancelled}} /> Cancelled?
+	
+	<div class="pure-u-1">
+		<input type='checkbox' class='checkorradio' id="event_ispublished" name='event_ispublished' value=''{{#published}} checked="checked"{{/published}} /> <label for="event_ispublished">Published?</label> <input type='checkbox' class='checkorradio' id="event_iscancelled" name='event_iscancelled' value=''{{#cancelled}} checked="checked"{{/cancelled}} /> <label for="event_iscancelled">Cancelled?</label> 
+	</div><!--pure-->
 
-	<br /><br />
-
-	<button type="submit"><i class="icon icon-save"></i>{{event_button_text}}</button>
+	<button type="submit">{{event_button_text}}</button>
 
 </form>

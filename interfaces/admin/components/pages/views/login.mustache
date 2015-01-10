@@ -1,48 +1,31 @@
-<div id="hero">
-	<!--img src="/admin/ui/default/assets/images/logo.svg" alt="CASH Music"-->
-
-	<h3 id="message" {{#login_error}} class="error"{{/login_error}}>{{login_message}}</h3>
+<h3 id="message" {{#login_error}} class="error"{{/login_error}}>{{login_message}}</h3>
 	<form method="post" id="cash_signin_form" action="{{www_path}}/">
-	<div class="row">
-		<div class="two columns"></div>
-		<div class="three columns">
+
+		<div class="pure-u-1 pure-u-md-2-5">
 			<label for="address">Email address</label>
 			<input type="email" name="address" value="" />
-		</div>
-		<div class="three columns">
+		</div><!--pure-->
+		<div class="pure-u-1 pure-u-md-2-5">
 			<label for="password">Password</label>
 			<input type="password" name="password" value="" />
 			<input type="hidden" name="login" value="1" />
-		</div>
-		<div class="two columns">
+		</div><!--pure-->
+		<div class="pure-u-1 pure-u-md-1-5">
 			<input type="submit" class="button" value="Log in" />
-		</div>
-		<div class="two columns"></div>
-	</div>
+		</div><!--pure-->
 
-	<div class="row">
-		<div class="two columns"></div>
-		<div class="eight columns">
+		<div class="pure-u-1">
 			<a href="{{www_path}}/resetpassword/" id="forgotlink" class="lightboxed">Forgot your password?</a>
-		</div>
-		<div class="two columns"></div>
-	</div>
+		</div><!--pure-->
 	</form>
 
-</div>
-
 {{#allow_signups}}
-<div class="row signup">
-	<div class="two columns"></div>
-	<div class="six columns">
+<div class="signup">
+	<div class="pure-u-1">
 		<h5>No account? <a href="{{www_path}}/signup/" id="signupbtn" class="lightboxed">Sign up.</a></h5>
-		<p>
-			An account is free, now and forever. Sign up to get started.
-		</p>
-	</div>
-	<div class="two columns"></div>
-</div>
-
+		<p>An account is free, now and forever. Sign up to get started.</p>
+	</div><!--pure-->
+</div><!--signup-->
 {{/allow_signups}}
 
 <script type="text/javascript">

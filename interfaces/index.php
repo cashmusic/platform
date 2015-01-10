@@ -166,7 +166,7 @@ if ($user_id) {
 		<!--[if lt IE 7]>
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
-<div id="highlight"><a href="http://donate.cashmusic.org">As a nonprofit we rely on the support of our community.  MailChimp are currently matching all donations (up to $10K). <br /> Give now and your support is worth double to us.</a></div><!--hightlight-->
+<!-- div id="highlight"></div -->
 <div class="menutoggle">Menu</div>
 	<nav>
 	<div class="social"><!--<iframe class="git" src="https://ghbtns.com/github-btn.html?user=cashmusic&repo=platform&type=fork"

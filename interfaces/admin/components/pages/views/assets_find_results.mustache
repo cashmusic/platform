@@ -1,29 +1,25 @@
-<p><a href="{{www_path}}/assets/find" class="fadedtext smalltext"><i class="icon icon-search"></i>Back to search page</a></p>
+<p><a href="{{www_path}}/assets/find" class="fadedtext smalltext"><svg class="icon" viewBox="0 0 260 260"><use xlink:href="#icon-search"></use></svg>Back to search page</a></p>
 
 {{#prev_page}}
-	<a href="{{www_path}}/assets/find/{{current_query}}/{{prev_page}}" class="fadedtext smalltext"><i class="icon icon-chevron-sign-left"></i>Previous results</a> &nbsp; &nbsp; &nbsp; 
+	<a href="{{www_path}}/assets/find/{{current_query}}/{{prev_page}}" class="fadedtext smalltext">Previous results</a>
 {{/prev_page}}
 
 {{#next_page}}
-	<a href="{{www_path}}/assets/find/{{current_query}}/{{next_page}}" class="fadedtext smalltext">Next results <i class="icon icon-chevron-sign-right"></i></a> &nbsp; &nbsp; &nbsp; 
+	<a href="{{www_path}}/assets/find/{{current_query}}/{{next_page}}" class="fadedtext smalltext">Next results</a>
 {{/next_page}}
-
-<br /><br />
 
 {{#found_assets}}
 	<p>
-		<a href="{{www_path}}/assets/edit/{{id}}">{{{title}}}</a><br />
-		<span class="fadedtext smalltext">{{descriptor_string}}</span><br />
+		<a href="{{www_path}}/assets/edit/{{id}}">{{{title}}}</a>
+		<span class="fadedtext smalltext">{{descriptor_string}}</span>
 		{{{description}}}
 	</p>
 {{/found_assets}}
 
-<br />
-
 {{#prev_page}}
-	<a href="{{www_path}}/assets/find/{{current_query}}/{{prev_page}}"><i class="icon icon-chevron-sign-left"></i>Previous results</a> &nbsp; &nbsp; &nbsp; 
+	<a href="{{www_path}}/assets/find/{{current_query}}/{{prev_page}}">Previous results</a> 
 {{/prev_page}}
 
 {{#next_page}}
-	<a href="{{www_path}}/assets/find/{{current_query}}/{{next_page}}">Next results <i class="icon icon-chevron-sign-right"></i></a> &nbsp; &nbsp; &nbsp; 
+	<a href="{{www_path}}/assets/find/{{current_query}}/{{next_page}}">Next results</a> 
 {{/next_page}}

@@ -1,10 +1,6 @@
-
-<div class="row">
-	<div class="six columns">
+	<div class="pure-u-1 pure-u-md-1-2">
 		<h4>Add an item</h4>
-		<p>
-			Quickly add a digital item to the system.
-		</p>
+		<p>Quickly add a digital item to the system.</p>
 
 		<form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/items/edit/" name="add_item">
 			<input type="hidden" name="doitemadd" value="makeitso" />
@@ -24,12 +20,11 @@
 				{{{assets_options}}}
 			</select>
 
-			<br /><br />
-			<button type="submit"><i class="icon icon-plus-sign"></i>Add the item</button>
-		
+			<button type="submit">Add the item</button>
 		</form>
-	</div>
-	<div class="six columns">
+	</div><!--pure-->
+	
+	<div class="pure-u-1 pure-u-md-1-2">
 		<h4>All items</h4>
 		{{#items_all}}
 		<ul class="alternating">
@@ -39,8 +34,8 @@
 				<strong>{{name}}</strong>{{#description}}<span class="descriptive spaced fadedtext">{{description}}</span>{{/description}}</a>
 				<div class="more"><div class="toggle"></div><!--toggle-->
 					<div class="actions">
-						<a href="{{www_path}}/commerce/items/edit/{{id}}" class="mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
-						<a href="{{www_path}}/commerce/items/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
+						<a href="{{www_path}}/commerce/items/edit/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
+						<a href="{{www_path}}/commerce/items/delete/{{id}}" class="mininav_flush needsconfirmation"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Delete</a>
 					</div><!--actions-->
 				</div><!--more-->
 			</li>
@@ -51,5 +46,4 @@
 		{{^items_all}}
 		<p>No items have been defined.</p>
 		{{/items_all}}
-	</div>
-</div>
+	</div><!--pure-->

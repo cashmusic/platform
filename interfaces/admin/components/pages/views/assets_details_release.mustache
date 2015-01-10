@@ -1,30 +1,24 @@
-
 <form accept-charset="UTF-8" method="post" action="" id="add-release-form">
-	<fieldset>
+	<fieldset class="pure-u-1">
 		<input type="hidden" name="doassetedit" value="makeitso" />
 		<input type="hidden" name="asset_type" value="release" />
 		<h4>Release Details</h4>
-		<div class="row">
-			<div class="five columns">
+			<div class="pure-u-1 pure-u-md-1-3">
+				<!--<style type="text/css">
+					.release-cover a {{{#cover_asset_id}}color:#fff;{{/cover_asset_id}}}
+				</style>-->
 
-				<style type="text/css">
-					.release-cover {position:relative;width:100%;background-color:#ececed;background-size:auto 100%;background-position:center center;}
-					.release-cover a {position:relative;display:block;width:90%;height:1%;padding:88% 5% 5% 5%;font-weight:bold;{{#cover_asset_id}}color:#fff !important;{{/cover_asset_id}}}
-					.release-cover a:hover {color:#000 !important;}
-				</style>
-				<!--.release-cover a {position:relative;display:block;width:100%;height:1px;overflow:hidden;padding:98% 0 0 0;} -->
-				<div>
-					<div class="release-cover" style="background-image:url({{cover_url}});">
-						<div class="release-cover-options">
-							{{#cover_asset_id}}
-								<a href="{{www_path}}/assets/edit/{{cover_asset_id}}" class="smalltext"><span class="editcover"><i class="icon icon-camera-retro"></i><b>Add/edit cover</b></span></a>
-							{{/cover_asset_id}}
-							{{^cover_asset_id}}
-								<a href="{{www_path}}/assets/add/file/setparent/{{id}}/setmetadata/cover" class="lightboxed returntocurrentroute smalltext"><i class="icon icon-camera-retro"></i><b>Add/edit cover</b></a>
-							{{/cover_asset_id}}
-						</div>
-					</div>
-				</div>
+				<div class="release-cover " style="background-image:url({{cover_url}});">
+					<div class="release-cover-options">
+						{{#cover_asset_id}}
+							<a href="{{www_path}}/assets/edit/{{cover_asset_id}}" class="smalltext"><span class="editcover"><svg class="icon" viewBox="0 0 248 215"><use xlink:href="#icon-camera"></use></svg><strong>Add/edit cover</strong></span></a>
+						{{/cover_asset_id}}
+						{{^cover_asset_id}}
+							<a href="{{www_path}}/assets/add/file/setparent/{{id}}/setmetadata/cover" class="lightboxed returntocurrentroute smalltext"><span class="editcover"><svg class="icon" viewBox="0 0 248 215"><use xlink:href="#icon-camera"></use></svg><strong>Add/edit cover</strong></span></a>
+						{{/cover_asset_id}}
+					</div><!--release-cover-options-->
+				</div><!--release-cover-->
+
 				<input type="hidden" id="metadata_cover" name="metadata_cover" value="{{cover_asset_id}}" />
 				<!--div class="track-list">
 					<h5>Track List</h5>
@@ -37,70 +31,60 @@
 					</ol>
 					<a href="#" class="add-track"><i class="icon icon-plus-sign"></i>Add Track</a>
 				</div-->
+			</div><!--pure-->
 
-			</div>
-			<div class="seven columns">
-				<label>Release Title <input type="text" id="asset_title" name="asset_title" value="{{title}}" placeholder="Give It A Name" class="required" /></label>
-				<label>Artist Name <input type="text" id="artist_name" name="artist_name" value="{{metadata_artist_name}}" placeholder="The Who" /></label>
-				<div class="row">
-					<div class="six columns">
+			<div class="release-general-info pure-u-1 pure-u-md-2-3">
+					<label >Release Title <input type="text" id="asset_title" name="asset_title" value="{{title}}" placeholder="Give It A Name" class="required" /></label>
+					<label>Artist Name <input  class="pure-u-1"type="text" id="artist_name" name="artist_name" value="{{metadata_artist_name}}" placeholder="The Who" /></label>
+					<div class="pure-u-1 pure-u-md-1-2">
 						<label class="col_oneoftwo">Release Date <input type="text" id="release_date" name="release_date" class="date" placeholder="mm/dd/yyyy" value="{{metadata_release_date}}" /></label>
-					</div>
-					<div class="six columns">
+					</div><!--pure-->
+					<div class="pure-u-1 pure-u-md-1-2">
 						<label class="col_oneoftwo lastcol">Matrix/Catalog Number <input type="text" id="matrix_number" name="matrix_number" value="{{metadata_matrix_number}}" /></label>
-					</div>
-				</div>
-				<br />
-				<div class="fulfillment-files">
-					<label>Fulfillment Files</label>
-					{{#fulfillment_files}}
+					</div><!--pure-->
+					<div class="fulfillment-files">
+						<label>Fulfillment Files</label>
+						{{#fulfillment_files}}
 						<ul class="alternating">
-					{{/fulfillment_files}}
-					{{#fulfillment_files}}
+						{{/fulfillment_files}}
+						{{#fulfillment_files}}
 						<li>
-						<a class="primary" href="{{www_path}}/assets/edit/{{id}}">
-				<strong>{{title}}</strong>{{#description}}<span class="descriptive spaced fadedtext">{{description}}</span>{{/description}}</a>
-					<div class="more"><div class="toggle"></div><!--toggle-->
-						<div class="actions">
-							<a href="{{www_path}}/assets/edit/{{id}}" class="mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
-							<a href="{{www_path}}/assets/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
-						</div><!--actions-->
-					</div><!--more-->
-				</li>
-
-
-					{{/fulfillment_files}}
-					{{#fulfillment_files}}
-					</ul>
-					{{/fulfillment_files}}
-					{{^fulfillment_files}}
-						No files have been added for fulfillment yet.<br />
-					{{/fulfillment_files}}
-					<a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/fulfillment" class="add-fulfillment-file lightboxed returntocurrentroute smalltext"><i class="icon icon-plus-sign"></i> <b>Add New File</b></a>
-					<input type="hidden" id="metadata_fulfillment" name="metadata_fulfillment" value="{{metadata_fulfillment_json}}" />
-				</div>
-			</div>
-		</div>
+							<a class="primary" href="{{www_path}}/assets/edit/{{id}}"><strong>{{title}}</strong>{{#description}}<span class="descriptive spaced fadedtext">{{description}}</span>{{/description}}</a>
+							<div class="more">
+								<div class="toggle"></div><!--toggle-->
+								<div class="actions">
+									<a href="{{www_path}}/assets/edit/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
+									<a href="{{www_path}}/assets/delete/{{id}}" class="mininav_flush needsconfirmation"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Delete</a>
+								</div><!--actions-->
+							</div><!--more-->
+						</li>
+						{{/fulfillment_files}}
+						{{#fulfillment_files}}
+						</ul>
+						{{/fulfillment_files}}
+						{{^fulfillment_files}}
+							<p>No files have been added for fulfillment yet.</p>
+						{{/fulfillment_files}}
+						<a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/fulfillment" class="add-fulfillment-file lightboxed returntocurrentroute smalltext"><svg class="icon" viewBox="0 0 240 240"><use xlink:href="#icon-plus"></use></svg><strong>Add New File</strong></a>
+						<input type="hidden" id="metadata_fulfillment" name="metadata_fulfillment" value="{{metadata_fulfillment_json}}" />
+					</div><!--fullfillment-files-->
+			</div><!--release-general-info-->
 	</fieldset>
 
-	<br />
 	<h4>Additional Fields</h4>
-	<div class="spacedtext">	
+	<div class="pure-u-1">	
 		<div class="drawer">
 			<a class="meta drawerhandle">standard metadata</a>
 			<div class="drawercontent">
-				<br />
 				<fieldset>
-					<div class="row">
-						<div class="six columns">
+						<div class="pure-u-1 pure-u-md-1-2">
 							<label>Label Name <input type="text" id="label_name" name="label_name" value="{{metadata_label_name}}" placeholder="" /></label>
 							<label>Copyright <textarea id="copyright" name="copyright">{{metadata_copyright}}</textarea></label>
-						</div>
-						<div class="six columns">
+						</div><!--pure-->
+						<div class="pure-u-1 pure-u-md-1-2">
 							<label>Genre <input type="text" id="genre" name="genre" value="{{metadata_genre}}" placeholder="" /></label>
 							<label>Publishing <textarea id="publishing" name="publishing">{{metadata_publishing}}</textarea></label>
-						</div>
-					</div>
+						</div><!--pure-->
 					<!--div>
 						<label>Formats/UPC Codes</label>
 						<ul class="alternating">
@@ -116,46 +100,38 @@
 							</li>
 						</ul>
 						<a href="#" class="add-format"><i class="icon icon-plus-sign smalltext"></i>Add New Format</a>
-
 					</div-->
 				</fieldset>
-				<br />
-			</div>
-		</div>
+			</div><!--drawercontent-->
+		</div><!--drawer-->
 
 		<div class="drawer">
 			<a class="meta drawerhandle">press/PR information</a>
 			<div class="drawercontent">
 				<fieldset>
-					<br />
-					<div class="row">
-						<div class="six columns">
-							<label class="col_oneoftwo">Publicist's Name <input type="text" id="publicist_name" name="publicist_name" value="{{metadata_publicist_name}}" placeholder="" /></label>
-						</div>
-						<div class="six columns">
-							<label class="col_oneoftwo lastcol">Publicist's Email<input type="text" id="publicist_email" name="publicist_email" value="{{metadata_publicist_email}}" placeholder="" /></label>
-						</div>
-					</div>
+					<div class="pure-u-1 pure-u-md-1-2">
+						<label class="col_oneoftwo">Publicist's Name <input type="text" id="publicist_name" name="publicist_name" value="{{metadata_publicist_name}}" placeholder="" /></label>
+					</div><!--pure-->
+					<div class="pure-u-1 pure-u-md-1-2">
+						<label class="col_oneoftwo lastcol">Publicist's Email<input type="text" id="publicist_email" name="publicist_email" value="{{metadata_publicist_email}}" placeholder="" /></label>
+					</div><!--pure-->
 					<label>Bio / Onesheet<textarea id="onesheet" name="onesheet" class="tall">{{metadata_onesheet}}</textarea></label>
 				</fieldset>
-				<br />
-			</div>
-		</div>
+			</div><!--drawercontent-->
+		</div><!--drawer-->
 
 		<!-- div class="drawer">
 			<a class="drawerhandle">miscellaneous</a>
 			<div class="drawercontent">
-				<br />
 				<fieldset>
-					<div class="row">
-					<div class="private-files six columns">
+					<div class="private-files pure-u-1 pure-u-md-1-2">
 						<label>Private Files</label>
 						{{#private_files}}
 							<ul class="alternating">
 						{{/private_files}}
 						{{#private_files}}
 							<li>
-								<b>{{title}}</b><br />
+								<strong>{{title}}</strong>
 								{{description}}
 								<div class="smalltext">
 									<a href="{{www_path}}/assets/edit/{{id}}" class="mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
@@ -167,58 +143,47 @@
 						</ul>
 						{{/private_files}}
 						{{^private_files}}
-							No private storage files have been added.<br />
+							<p>No private storage files have been added.</p>
 						{{/private_files}}
-						<a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/private"  class="add-private-file lightboxed returntocurrentroute smalltext"><i class="icon icon-plus-sign"></i> <b>Add New File</b></a>
+						<a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/private"  class="add-private-file lightboxed returntocurrentroute smalltext"><i class="icon icon-plus-sign"></i> <strong>Add New File</strong></a>
 						<input type="hidden" id="metadata_private" name="metadata_private" value="{{metadata_private_json}}" />
-					</div>
-
 				</fieldset>
-				<br />
 			</div>
 		</div -->
-	</div>
+	</div><!--pure-->
 
-<div>
-		<div class="drawer noprefix">
-				<span  class="fadedtext"><i class="icon icon-download-alt"></i>Need download codes?</span > <a class="drawerhandle usecolor2">Export or create codes</a>
-				<div class="drawercontent">
-					<p>
-					{{#asset_codes_count}}
-						<br /><span >There are {{asset_codes_count}} codes for this asset. <a class="usecolor2 noajax" href="{{www_path}}/assets/edit/{{id}}?exportcodes=1"><b>Export them!</b></a></span >
-					{{/asset_codes_count}}
-					{{^asset_codes_count}}
-						<br /><span >There are no download codes for this asset.</span >
-					{{/asset_codes_count}}
-					</p>
-					<form accept-charset="UTF-8" method="post" action="{{www_path}}/assets/edit/{{id}}">
+	<div class="pure-u-1 pure-u-md-1-2">
+	<div class="drawer noprefix">
+			<span class="fadedtext"><svg class="icon" viewBox="0 0 260 240"><use xlink:href="#icon-dwnld"></use></svg> Need download codes?</span><a class="drawerhandle usecolor2">Export or create codes</a>
+			<div class="drawercontent">
+				<p>
+				{{#asset_codes_count}}
+					<span>There are {{asset_codes_count}} codes for this asset. <a class="usecolor2 noajax" href="{{www_path}}/assets/edit/{{id}}?exportcodes=1"><b>Export them!</b></a></span>
+				{{/asset_codes_count}}
+				{{^asset_codes_count}}
+					<span>There are no download codes for this asset.</span>
+				{{/asset_codes_count}}
+				</p>
+				<form id="export-dwnld-codes" accept-charset="UTF-8" method="post" action="{{www_path}}/assets/edit/{{id}}">
 					<label for="add_codes_qty">Add (qty) more codes</label>
-					<div class="row">
-						<div class="three columns">
-							<input type="text" name="add_codes_qty" id="add_codes_qty" value="500" />
-						</div>
-						<div class="three columns">
-							<button type="submit"><i class="icon icon-list"></i>add codes</button>
-						</div>
-						<div class="six columns"></div>
-					</div>
-					</form>
-					<br />
-				</div>
-			</div>
+					<div class="pure-u-1 pure-u-md-1-4">
+						<input type="text" name="add_codes_qty" id="add_codes_qty" value="500" />
+					</div><!--pure-->
+					<div class="pure-u-1 pure-u-md-1-4">
+						<button type="submit"><svg class="icon" viewBox="0 0 280 220"><use xlink:href="#icon-list"></use></svg> add codes</button>
+					</div><!--pure-->
+				</form><!--export-dwnld-codes-->
+			</div><!--drawercontent-->
+	</div><!--drawer-->
+	</div><!--pure-->
+	<div class="pure-u-1 pure-u-md-1-2">
+		<p><span class="fadedtext"><svg class="icon" viewBox="0 0 262 211"><use xlink:href="#icon-card"></use></svg>Selling out?</span> <a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="lightboxed returntocurrentroute"><span><strong>Define commerce settings</strong></span></a></p>
 
+		<p><span class="fadedtext"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg>Need it gone?</span> <a href="{{www_path}}/assets/delete/{{id}}" class="usecolor2 needsconfirmation"><span><strong>Delete this release</strong></span></a></p>
+	</div><!--pure-->
 
-			<p><span  class="fadedtext"><i class="icon icon-credit-card"></i>Selling out?</span > <a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="lightboxed returntocurrentroute"><span ><b>Define commerce settings</b></span ></a></p>
+	<button class="nojs" type="submit">Save changes</button>
+</form><!--add-release-form-->
 
-			<p><span  class="fadedtext"><i class="icon icon-ban-circle"></i> Need it gone?</span > <a href="{{www_path}}/assets/delete/{{id}}" class="usecolor2 needsconfirmation"><span ><b>Delete this release</b></span ></a></p>
+<button class="onlyjs externalsubmit" data-cash-target-form="#edit-file-form" type="submit">Save changes</button>
 
-			<button class="nojs" type="submit"><i class="icon icon-save"></i>Save changes</button>
-			</form>
-
-
-	
-		
-		<button class="onlyjs externalsubmit" data-cash-target-form="#edit-file-form" type="submit"><i class="icon icon-save"></i>Save changes</button>
-	</div>
-
-<br />

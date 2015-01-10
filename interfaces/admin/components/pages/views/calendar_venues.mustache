@@ -1,10 +1,6 @@
-
-<div class="row">
-	<div class="six columns">
+	<div class="pure-u-1 pure-u-md-1-2">
 		<h4>Quick add a venue</h4>
-		<p>
-			Quickly add a venue with just the basics.
-		</p>
+		<p>Quickly add a venue with just the basics.</p>
 
 		<form accept-charset="UTF-8" method="post" action="{{www_path}}/calendar/venues/add/" name="quick_add_venue">
 			<input type="hidden" name="dovenueadd" value="makeitso" />
@@ -18,24 +14,18 @@
 			<label for="venue_region">State / Province / Region</label>
 			<input type="text" id="venue_region" name="venue_region" value="" placeholder="Region" />
 
-
 			<label for="venue_country">Country</label>
 			<select id="venue_country" name="venue_country">
 				{{{country_codes}}}
 			</select>
 
-			<br /><br />
-			<button type="submit"><i class="icon icon-plus-sign"></i>Add the venue</button>
+			<button type="submit">Add the venue</button>
 		
 		</form>
-	</div>
-	<div class="six columns">
+	</div><!--pure-->
+	<div class="pure-u-1 pure-u-md-1-2">
 		<h4>Add a venue</h4>
-		<p>
-			<a href="{{www_path}}/calendar/venues/add/">Add a venue with all details.</a>
-		</p>
-		
-		<br />
+		<p><a href="{{www_path}}/calendar/venues/add/">Add a venue with all details.</a></p>
 		<h4>All venues</h4>
 		{{#all_venues}}
 		<ul class="alternating">
@@ -45,12 +35,11 @@
 				<strong>{{name}}</strong><span class="descriptive spaced fadedtext">{{formatted_location}}</span></a>
 				<div class="more"><div class="toggle"></div><!--toggle-->
 					<div class="actions">
-						<a href="{{www_path}}/calendar/venues/edit/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>Details</a> 
-						<a href="{{www_path}}/calendar/venues/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
+						<a href="{{www_path}}/calendar/venues/edit/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 260 260"><use xlink:href="#icon-search"></use></svg>Details</a> 
+						<a href="{{www_path}}/calendar/venues/delete/{{id}}" class="mininav_flush needsconfirmation"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Delete</a>
 					</div><!--actions-->
 				</div><!--more-->
 			</li>
-
 			{{/all_venues}}
 		</ul>
 		{{/all_venues}}
@@ -58,5 +47,4 @@
 		{{^all_venues}}
 		<p>No venues were found.</p>
 		{{/all_venues}}
-	</div>
-</div>
+	</div><!--pure-->

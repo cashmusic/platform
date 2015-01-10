@@ -1,4 +1,3 @@
-
 {{#total_orders}}
 	<div class="sectiondash">
 		<div class="primarystat">
@@ -16,8 +15,7 @@
 	{{#orders_recent}}{{/orders_recent}}
 {{/orders_recent}}
 
-<div class="row">
-	<div class="six columns">
+	<div class="pure-u-1 pure-u-md-1-2">
 		<h4>Recent orders</h4>
 		{{#orders_recent}}
 		<ul class="alternating">
@@ -28,7 +26,7 @@
 
 				<div class="more"><div class="toggle"></div><!--toggle-->
 					<div class="actions">
-				<a href="{{www_path}}/commerce/orders/view/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>Details</a>
+				<a href="{{www_path}}/commerce/orders/view/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 260 260"><use xlink:href="#icon-search"></use></svg>Details</a>
 					</div><!--actions-->
 				</div><!--more-->
 			</li>
@@ -39,8 +37,8 @@
 		{{^orders_recent}}
 		<p>No orders have been placed yet.</p>
 		{{/orders_recent}}
-	</div>
-	<div class="six columns">
+	</div><!--pure-->
+	<div class="pure-u-1 pure-u-md-1-2">
 		<h4>All items</h4>
 		{{#items_all}}
 		<ul class="alternating">
@@ -50,8 +48,8 @@
 				<strong>{{name}}</strong>{{#description}}<span class="descriptive spaced fadedtext">{{description}}</span>{{/description}}</a>
 				<div class="more"><div class="toggle"></div><!--toggle-->
 					<div class="actions">
-						<a href="{{www_path}}/commerce/items/edit/{{id}}" class="mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
-						<a href="{{www_path}}/commerce/items/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
+						<a href="{{www_path}}/commerce/items/edit/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
+						<a href="{{www_path}}/commerce/items/delete/{{id}}" class="mininav_flush needsconfirmation"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Delete</a>
 					</div><!--actions-->
 				</div><!--more-->
 			</li>
@@ -62,6 +60,5 @@
 		{{^items_all}}
 		<p>No items have been defined.</p>
 		{{/items_all}}
-		<a href="{{www_path}}/commerce/items/" class="button"><i class="icon icon-plus-sign"></i>Add an item</a>
-	</div>
-</div>
+		<a href="{{www_path}}/commerce/items/" class="button">Add an item</a>
+	</div><!--pure-->

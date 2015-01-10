@@ -1,57 +1,41 @@
 <h4>Venue Details</h4>
 <form accept-charset="UTF-8" method="post" action="{{www_path}}{{requested_route}}" name="venue_add">
 	<input type="hidden" name="{{form_state_action}}" value="makeitso" />
-
 	<label for="venue_name">Name</label>
 	<input type="text" id="venue_name" name="venue_name" value="{{name}}" class="required" />
-
-	<div class="row">
-		<div class="six columns">
+		<div class="pure-u-1 pure-u-md-1-2">
 			<label for="venue_url">Website</label>
 			<input type="text" id="venue_url" name="venue_url" value="{{url}}" />
-		</div>
-		<div class="six columns">
+		</div><!--pure-->
+		<div class="pure-u-1 pure-u-md-1-2">
 			<label for="venue_phone">Phone</label>
 			<input type="text" id="venue_phone" name="venue_phone" value="{{phone}}" />
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="six columns">
+		</div><!--pure-->
+		<div class="pure-u-1 pure-u-md-1-2">
 			<label for="venue_address1">Address 1</label>
 			<input type="text" id="venue_address1" name="venue_address1" value="{{address1}}" />
-		</div>
-		<div class="six columns">
+		</div><!--pure-->
+		<div class="pure-u-1 pure-u-md-1-2">
 			<label for="venue_address2">Address 2</label>
 			<input type="text" id="venue_address2" name="venue_address2" value="{{address2}}" />
-		</div>
-	</div>
-	
-	<div class="row">
-		<div class="six columns">
+		</div><!--pure-->
+		<div class="pure-u-1 pure-u-md-1-2">
 			<label for="venue_city">City</label>
 			<input type="text" id="venue_city" name="venue_city" value="{{city}}" class="required" />
-		</div>
-		<div class="six columns">
+		</div><!--pure-->
+		<div class="pure-u-1 pure-u-md-1-2">
 			<label for="venue_region">State / Provence / Region</label>
 			<input type="text" id="venue_region" name="venue_region" value="{{region}}" />
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="six columns">
+		</div><!--pure-->
+		<div class="pure-u-1 pure-u-md-1-2">
 			<label for="venue_postalcode">Postal Code</label>
 			<input type="text" id="venue_postalcode" name="venue_postalcode" value="{{postalcode}}" />
-		</div>
-		<div class="six columns">
+		</div><!--pure-->
+		<div class="pure-u-1 pure-u-md-1-2">
 			<label for="venue_country">Country</label>
 			<select id="venue_country" name="venue_country">
 				{{{country_options}}}
 			</select>
-		</div>
-	</div>
-
-	<br />
-	<button type="submit"><i class="icon icon-save"></i>{{venue_button_text}}</button>
-
+		</div><!--pure-->
+	<button type="submit">{{venue_button_text}}</button>
 </form>

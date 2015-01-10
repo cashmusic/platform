@@ -1,6 +1,4 @@
-
-<div class="row">
-	<div class="six columns">
+	<div class="pure-u-1 pure-u-md-1-2">
 		<h4>Add an event</h4>
 		<p>
 			Quickly add a date to the system. Information about published/unpublished status and
@@ -18,23 +16,21 @@
 			<input type="hidden" id="event_venue" name="event_venue" value="" />
 			<small class="fadedtext">Can't find the venue you're looking for? <a href="{{www_path}}/calendar/venues/add/" class="add-fulfillment-file lightboxed returntocurrentroute usecolor5">Add a new venue</a></small>
 
-			<br /><br /><br />
 			<label for="event_comment">Comments (Support, CD Release, etc)</label>
 			<textarea rows="3" id="event_comment" name="event_comment"></textarea>
 
 			<label for="event_purchase_url">Ticket Purchase URL</label>
 			<input type="text" id="event_purchase_url" name="event_purchase_url" value="" placeholder="Ticket Link URL" />
 
-			<br />
-			<input type='checkbox' class='checkorradio' name='event_ispublished' value='' checked='checked' /> Published?
-			&nbsp; <input type='checkbox' class='checkorradio' name='event_iscancelled' value='' /> Cancelled?
+			<div class="pure-u-1">
+			<input type='checkbox' class='checkorradio' id="event_ispublished" name='event_ispublished' value='' checked='checked' /> <label for="event_ispublished">Published?</label> <input type='checkbox' class='checkorradio' id="event_iscancelled" name='event_iscancelled' value='' /> <label for="event_iscancelled">Cancelled?</label> 
+			</div><!--pure-->
 
-			<br /><br />
-			<button type="submit"><i class="icon icon-plus-sign"></i>Add That Event</button>
+			<button type="submit">Add That Event</button>
 
 		</form>
-	</div>
-	<div class="six columns">
+	</div><!--pure-->
+	<div class="pure-u-1 pure-u-md-1-2">
 		<h4>All upcoming events</h4>
 		{{#events_allfuture}}
 		<ul class="alternating">
@@ -44,7 +40,7 @@
 				<strong>{{formatted_date}}: {{event_location}}</strong><span class="descriptive spaced fadedtext">@ {{venue_name}}</span></a>
 				<div class="more"><div class="toggle"></div><!--toggle-->
 					<div class="actions">
-						<a href="{{www_path}}/calendar/events/edit/{{event_id}}" class="mininav_flush"><i class="icon icon-search"></i>Details</a>
+						<a href="{{www_path}}/calendar/events/edit/{{event_id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 260 260"><use xlink:href="#icon-search"></use></svg>Details</a>
 					</div><!--actions-->
 				</div><!--more-->
 			</li>
@@ -56,5 +52,4 @@
 		{{^events_allfuture}}
 		<p>No upcoming events were found.</p>
 		{{/events_allfuture}}
-	</div>
-</div>
+	</div><!--pure-->

@@ -279,8 +279,7 @@ include($pages_path . 'controllers/' . $include_filename);
 
 // render the content to be passed to final output
 // $cash_admin->page_content_template is set in the included controller
-$cash_admin->page_data['content'] = $cash_admin->mustache_groomer->render($cash_admin->page_content_template, $cash_admin->page_data);
-
+$cash_admin->page_data['content'] = preg_replace('~>\s+<~', '><', $cash_admin->mustache_groomer->render($cash_admin->page_content_template, $cash_admin->page_data));
 
 
 
@@ -291,16 +290,17 @@ $cash_admin->page_data['content'] = $cash_admin->mustache_groomer->render($cash_
  * put it all together and spit it all out
  *
  ***************************************************************************************************/
+$rendered_content = preg_replace('~>\s+<~', '><', $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/' . $admin_theme . '/template.mustache'), $cash_admin->page_data));
 if ($cash_admin->page_data['data_only']) {
-	// data_only means we're working with AJAX requests, 
-	// so dump valid JSON to the browser for the script to parse
-	$cash_admin->page_data['fullcontent'] = $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/' . $admin_theme . '/template.mustache'), $cash_admin->page_data);
-	if (!headers_sent()) {
-		header('Content-Type: application/json');
-	}
-	echo json_encode($cash_admin->page_data);
+    // data_only means we're working with AJAX requests, 
+    // so dump valid JSON to the browser for the script to parse
+    $cash_admin->page_data['fullcontent'] = $rendered_content;
+    if (!headers_sent()) {
+        header('Content-Type: application/json');
+    }
+    echo json_encode($cash_admin->page_data);
 } else {
-	// magnum p.i. = sweet {{mustache}} > don draper
-	echo $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/' . $admin_theme . '/template.mustache'), $cash_admin->page_data);
+    // magnum p.i. = sweet {{mustache}} > don draper
+    echo $rendered_content;
 }
 ?>
