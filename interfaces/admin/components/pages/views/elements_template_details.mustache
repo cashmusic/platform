@@ -16,35 +16,29 @@
 	<label for="template_name">{{label_name}}</label>
 	<input type="text" id="template_name" name="template_name" placeholder="Give it a name" value="{{name}}" />
 	
-	<div class="row">
-		<div class="six columns">
+		<div class="pure-u-1 pure-u-md-1-2">
 			<label for="template_type">{{label_type}}</label>
-			<div class="row">
-				<div class="four columns">
+				<div class="pure-u-1 pure-u-md-1-4">
 					<label for="typepage"><input type="radio" id="typepage" name="template_type" value="page" {{^is_embed}}checked="checked"{{/is_embed}} /> {{label_page}}</label>
 				</div>
-				<div class="eight columns">
+				<div class="pure-u-1 pure-u-md-3-4">
 					<label for="typeembed"><input type="radio" id="typeembed" name="template_type" value="embed" {{#is_embed}}checked="checked"{{/is_embed}} /> {{label_embed}}</label>
 				</div>
-			</div>
-			<br />
 		</div>
 
 		{{#adding}}
-		<div class="six columns">
+		<div class="pure-u-1 pure-u-md-1-2">
 			<label>{{label_default}}</label>
 			<span class="tooltip" data-tooltip="{{tooltip_page}}"><a href="#" id="usedefaultpage" class="smalltext" style="margin-right:3em;">{{{copy_usepage}}}</a></span>
 			<span class="tooltip" data-tooltip="{{tooltip_embed}}"><a href="#" id="usedefaultembed" class="smalltext" style="margin-right:3em;">{{{copy_useembed}}}</a></span>
 		</div>
 		{{/adding}}
-	</div>
 
-	<br /-->
+	-->
 
 	<label>{{label_template}}</label>
 	<textarea id="template" name="template" class="taller" wrap="off"  spellcheck="false">{{template}}</textarea>
 
-	<br />
-	<button type="submit"><i class="icon icon-save"></i>{{button_text}}</button>
+	<button type="submit">{{button_text}}</button>
 
 </form>

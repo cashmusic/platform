@@ -59,6 +59,9 @@ $cash_admin->page_data['data_only'] = isset($_REQUEST['data_only']);
 // basic rendering options based on optional constants from constants.php
 $cash_admin->page_data['jquery_url'] = (defined('JQUERY_URL')) ? JQUERY_URL : ADMIN_WWW_BASE_PATH . '/ui/default/assets/scripts/jquery.min.js';
 $cash_admin->page_data['jqueryui_url'] = (defined('JQUERYUI_URL')) ? JQUERYUI_URL : ADMIN_WWW_BASE_PATH . '/ui/default/assets/scripts/jquery-ui.min.js';
+$cash_admin->page_data['pure_base'] = (defined('PURE_BASE')) ? PURE_BASE : ADMIN_WWW_BASE_PATH . '/ui/default/assets/css/pure/base-min.css';
+$cash_admin->page_data['pure_grid'] = (defined('PURE_GRID')) ? PURE_GRID : ADMIN_WWW_BASE_PATH . '/ui/default/assets/css/pure/grids-responsive-min.css';
+$cash_admin->page_data['pure_grid_ie'] = (defined('PURE_GRID_IE')) ? PURE_GRID_IE : ADMIN_WWW_BASE_PATH . '/ui/default/assets/css/pure/grids-responsive-old-ie-min.css';
 $cash_admin->page_data['img_base_url'] = (defined('CDN_URL')) ? CDN_URL : ADMIN_WWW_BASE_PATH;
 
 // check for TOS and privacy stuff
@@ -276,8 +279,7 @@ include($pages_path . 'controllers/' . $include_filename);
 
 // render the content to be passed to final output
 // $cash_admin->page_content_template is set in the included controller
-$cash_admin->page_data['content'] = $cash_admin->mustache_groomer->render($cash_admin->page_content_template, $cash_admin->page_data);
-
+$cash_admin->page_data['content'] = preg_replace('~>\s+<~', '><', $cash_admin->mustache_groomer->render($cash_admin->page_content_template, $cash_admin->page_data));
 
 
 
@@ -288,16 +290,17 @@ $cash_admin->page_data['content'] = $cash_admin->mustache_groomer->render($cash_
  * put it all together and spit it all out
  *
  ***************************************************************************************************/
+$rendered_content = preg_replace('~>\s+<~', '><', $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/' . $admin_theme . '/template.mustache'), $cash_admin->page_data));
 if ($cash_admin->page_data['data_only']) {
-	// data_only means we're working with AJAX requests, 
-	// so dump valid JSON to the browser for the script to parse
-	$cash_admin->page_data['fullcontent'] = $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/' . $admin_theme . '/template.mustache'), $cash_admin->page_data);
-	if (!headers_sent()) {
-		header('Content-Type: application/json');
-	}
-	echo json_encode($cash_admin->page_data);
+    // data_only means we're working with AJAX requests, 
+    // so dump valid JSON to the browser for the script to parse
+    $cash_admin->page_data['fullcontent'] = $rendered_content;
+    if (!headers_sent()) {
+        header('Content-Type: application/json');
+    }
+    echo json_encode($cash_admin->page_data);
 } else {
-	// magnum p.i. = sweet {{mustache}} > don draper
-	echo $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/' . $admin_theme . '/template.mustache'), $cash_admin->page_data);
+    // magnum p.i. = sweet {{mustache}} > don draper
+    echo $rendered_content;
 }
 ?>

@@ -1,13 +1,9 @@
 <h4>Platform settings</h4>
-<p>
-Change primary system settings without editing the cashmusic.ini.php file. 
-Advanced settings have been hidden and should not be changed unless you like broken things.	
-</p><br />
-<div class="row">
-	<div class="six columns">
+<p>Change primary system settings without editing the cashmusic.ini.php file. 
+Advanced settings have been hidden and should not be changed unless you like broken things.</p>
+	<div class="pure-u-1 pure-u-md-1-2">
 		<h4>Connections</h4>
-		<a class="lrglink" href="{{www_path}}/settings/connections/"><i class="icon icon-cogs"></i>Manage third-party service connections</a>
-		<br /><br />
+		<a class="lrglink" href="{{www_path}}/settings/connections/"><svg class="icon" viewBox="0 0 240 240"><use xlink:href="#icon-cog"></use></svg>Manage third-party service connections</a>
 		{{#platform_type_single}}
 			<h4>Database</h4>
 			<label>Current database format</label>
@@ -16,7 +12,7 @@ Advanced settings have been hidden and should not be changed unless you like bro
 			&nbsp; <span class="altcopystyle fadedtext">(SQLite export coming soon)</span>
 			{{/migrate_from_mysql}}
 			{{#migrate_from_sqlite}}
-			<br /><br /><b>Migrate to MySQL</b>
+			<strong>Migrate to MySQL</strong>
 			<p class="altcopystyle fadedtext">Migrating means things will be a lot more robust, and probably quicker too.</p>
 			<form accept-charset="UTF-8" method="post" action="">
 				<input type="hidden" name="domigrate" value="makeitso" />
@@ -30,54 +26,41 @@ Advanced settings have been hidden and should not be changed unless you like bro
 				<input type="text" id="adminuser" name="adminuser" />
 				<label for="adminpassword">Admin Password</label>
 				<input type="password" id="adminpassword" name="adminpassword" />
-				<br /><br />
 				<input type="submit" value="Migrate" />
 			</form>
 			{{/migrate_from_sqlite}}
 		{{/platform_type_single}}
-	</div>
-	<div class="six columns">
+	</div><!--pure-->
+	<div class="pure-u-1 pure-u-md-1-2">
 		{{#platform_type_single}}
-			<h4>Miscellaneous</h4>
+		<h4>Miscellaneous</h4>
 			<form accept-charset="UTF-8" method="post" action="">
 				<input type="hidden" name="domisc" value="makeitso" />
 				<label for="systememail">Default system email address</label>
 				<input type="text" id="systememail" name="systememail" value="{{{system_email}}}" />
 				<span class="altcopystyle fadedtext">(name@domain.com or "<span class="nobr">Name &lt;name@domain.com&gt;</span>")</span>
-				<br /><br />
 				<label for="timezone">System time zone</label>
 				<select id="timezone" name="timezone">
 					{{{timezone_options}}}
 				</select>
-				<br /><br />
 				<input type="submit" value="Change settings" />
 			</form>	
 		{{/platform_type_single}}
-		
-		<br />
-		<h4>Commerce currency</h4>
-		<p>
 
-		</p>
-		<form accept-charset="UTF-8" method="post" class="returntocurrentroute" action="{{www_path}}/settings/">	
-			<label for="currency_id">Currency</label>
-			<select id="currency_id" name="currency_id">
-				{{{currency_options}}}
-			</select>
-			<button type="submit">Use this currency</button>
-		</form>
-	</div>
-</div>
-<br /><br />
+		<h4>Commerce currency</h4>
+			<form accept-charset="UTF-8" method="post" class="returntocurrentroute" action="{{www_path}}/settings/">	
+				<label for="currency_id">Currency</label>
+				<select id="currency_id" name="currency_id">{{{currency_options}}}</select>
+				<button type="submit">Use this currency</button>
+			</form>
+	</div><!--pure-->
+
 {{#platform_type_single}}
-	<br /><br />
 	<h4>Platform install location</h4>
-	<p>
-	Here's the full path to the cashmusic.php script needed to initialize the CASH platform:
-	</p>
+	<p>Here's the full path to the cashmusic.php script needed to initialize the CASH platform:</p>
 	<div class="callout">	
 		<code>
 			<input type="text" value="{{platform_path}}" />
 		</code>
-	</div>
+	</div><!--callout-->
 {{/platform_type_single}}

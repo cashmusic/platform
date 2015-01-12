@@ -1,6 +1,6 @@
 <p>
-	<b>Current platform version:</b> {{platform_version}}<br />
-	<b>Upgrade available:</b> 
+	<strong>Current platform version:</strong> {{platform_version}}<br />
+	<strong>Upgrade available:</strong> 
 		{{^upgrade_available}}No{{/upgrade_available}}
 		{{#upgrade_available}}Yes{{/upgrade_available}}
 </p>
@@ -8,6 +8,6 @@
 {{#upgrade_available}}
 	<form accept-charset="UTF-8" method="post" action="" name="add_event">
 		<input type="hidden" name="doupgrade" value="makeitso" />
-		<button type="submit"><i class="icon icon-rocket"></i>Launch the system update tool</button>
+		<button type="submit"><svg class="icon" viewBox="0 0 255 255"><use xlink:href="#icon-rocket"></use></svg>Launch the system update tool</button>
 	</form>
 {{/upgrade_available}}

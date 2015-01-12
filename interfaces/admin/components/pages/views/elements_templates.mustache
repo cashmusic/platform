@@ -1,9 +1,6 @@
-<a href="{{www_path}}/elements/templates/add/"><i class="icon icon-list-alt"></i><b>Add a new template</b></a>
-
-<br /><br />
-<div class="row">
-	<div class="six columns">
-		<h4>Page templates</h4>
+<a href="{{www_path}}/elements/templates/add/"><strong>Add a new template</strong></a>
+<div class="pure-u-1 pure-u-md-1-2">
+	<h4>Page templates</h4>
 		<p>
 			Page templates are used to publish a page directly from your CASH account. You'll see more 
 			options on your account's main page.
@@ -16,8 +13,8 @@
 						<strong>{{name}}</strong><span class="fadedtext nobr" style="font-weight:normal;"> // {{type}}</span></a>
 					<div class="more"><div class="toggle"></div><!--toggle-->
 						<div class="actions">
-							<a href="{{www_path}}/elements/templates/edit/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>Details</a> 
-							<a href="{{www_path}}/elements/templates/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
+							<a href="{{www_path}}/elements/templates/edit/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 260 260"><use xlink:href="#icon-search"></use></svg>Details</a> 
+							<a href="{{www_path}}/elements/templates/delete/{{id}}" class="mininav_flush needsconfirmation"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Delete</a>
 						</div><!--actions-->
 					</div><!--more-->
 				</li>
@@ -28,9 +25,9 @@
 		{{^page_templates}}
 			<p>No page templates found.</p>
 		{{/page_templates}}
-	</div>
-	<div class="six columns">
-		<h4>Embed templates</h4>
+</div><!--pure-->
+<div class="pure-u-1 pure-u-md-1-2">
+	<h4>Embed templates</h4>
 		<p>
 			Embed templates are used to style HTML5 embeds for your elements. You'll be able to choose
 			a template on the element details page.
@@ -39,13 +36,13 @@
 		{{#embed_templates}}
 			<ul class="alternating">
 			{{#embed_templates}}
-			<li>
+				<li>
 					<a class="primary" href="{{www_path}}/elements/templates/edit/{{id}}">
-						<strong>{{name}}</strong><span class="fadedtext nobr" style="font-weight:normal;"> // {{type}}</span></a>
-					<div class="more"><div class="toggle"></div><!--toggle-->
+						<strong>{{name}}</strong><span class="fadedtext nobr" style="font-weight:normal;"> // {{type} </span></a>
+						<div class="more"><div class="toggle"></div><!--toggle-->
 						<div class="actions">
-							<a href="{{www_path}}/elements/templates/edit/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>Details</a> 
-							<a href="{{www_path}}/elements/templates/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
+							<a href="{{www_path}}/elements/templates/edit/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 260 260"><use xlink:href="#icon-search"></use></svg>Details</a> 
+							<a href="{{www_path}}/elements/templates/delete/{{id}}" class="mininav_flush needsconfirmation"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Delete</a>
 						</div><!--actions-->
 					</div><!--more-->
 				</li>
@@ -56,5 +53,4 @@
 		{{^embed_templates}}
 			<p>No embed templates found.</p>
 		{{/embed_templates}}
-	</div>
-</div>
+</div><!--pure-->

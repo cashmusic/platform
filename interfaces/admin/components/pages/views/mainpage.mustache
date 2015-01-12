@@ -1,16 +1,8 @@
-<div id="hero">
-	<div class="welcome">
-	<h1>Welcome to the CASH Music Platform v.5</h1>
-	<h2>Watch the video to get started</h2>
-	</div><!--welcome-->
-</div><!--hero-->
-
-<!--<h2>Activity While you were gone</h2>-->
 {{#dashboard_lists}}
-	<div class="callout newsfeed people"><strong><i class="icon icon-list-ul"></i>{{name}}:</strong> There {{#singular}}is{{/singular}}{{^singular}}are{{/singular}} <b>{{total}}</b> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}} on this list. <span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><i class="icon icon-search"></i>View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><i class="icon icon-download-alt"></i>Export</a></span><div class="newsimage" style=""></div></div>
+	<div class="callout newsfeed people"><strong><svg class="icon" viewBox="0 0 280 220"><use xlink:href="#icon-list"></use></svg>{{name}}:</strong> There {{#singular}}is{{/singular}}{{^singular}}are{{/singular}} <strong>{{total}}</strong> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}} on this list. <span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><svg class="icon" viewBox="0 0 260 260"><use xlink:href="#icon-search"></use></svg>View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><svg class="icon" viewBox="0 0 260 240"><use xlink:href="#icon-dwnld"></use></svg>Export</a></span><div class="newsimage" style=""></div><!--newsimage--></div><!--newsfeed people-->
 {{/dashboard_lists}}
 {{#dashboard_orders}}
-	<div class="callout newsfeed commerce"><strong><i class="icon icon-shopping-cart"></i>New order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}!</strong> There {{#dashboard_orders_singular}}is{{/dashboard_orders_singular}}{{^dashboard_orders_singular}}are{{/dashboard_orders_singular}} <b>{{dashboard_orders}}</b> new order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}. <span class="action"><a href="{{www_path}}/commerce/orders/"><i class="icon icon-shopping-cart"></i>All new orders</a></span><div class="newsimage" style=""></div></div>
+	<div class="callout newsfeed commerce"><strong><svg class="icon" viewBox="0 0 260 220"><use xlink:href="#icon-cart"></use></svg>New order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}!</strong> There {{#dashboard_orders_singular}}is{{/dashboard_orders_singular}}{{^dashboard_orders_singular}}are{{/dashboard_orders_singular}} <strong>{{dashboard_orders}}</strong> new order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}. <span class="action"><a href="{{www_path}}/commerce/orders/"><svg class="icon" viewBox="0 0 260 220"><use xlink:href="#icon-cart"></use></svg>All new orders</a></span><div class="newsimage" style=""></div><!--newsimage--></div><!--newsfeed commerce-->
 {{/dashboard_orders}}
 
 
@@ -24,7 +16,7 @@
 		</p><p>
 		Next it’s time to <a class="lightboxed" href="{{www_path}}/campaigns/add/">add a campaign</a>. Campaigns are there to help you organize your digital workflow. You can add or edit elements here as well as keep track of how they are doing. A campaign can be easily published as one single page on our hosted site. 
 		</p>
-	</div>
+	</div><!--firstuse-->
 {{/nocampaigns_noelements}}
 
 {{#campaigns_noelements}}
@@ -34,7 +26,7 @@
 		</p><p>
 		Don't worry; nobody else will see anything until you publish it, and you can always edit any element even after you've published a campaign
 		</p>
-	</div>
+	</div><!--callout-->
 {{/campaigns_noelements}}
 
 {{#nocampaigns_elements}}
@@ -45,13 +37,10 @@
 		</p><p>
 		You’ll find all of your old elements in a campaign of their own called Archive. Campaigns are here to help you organize your elements, keep track of how they’re doing, and easily publish them on one page if you like (you can still embed as many elements as you like on external sites). 
 		</p>
-	</div>
+	</div><!--callout-->
 {{/nocampaigns_elements}}
 
-
-<h4>
-	Your campaigns
-</h4>
+<h4>Your campaigns</h4>
 
 <div class="campaignelements">
 {{#campaigns_for_user}}
@@ -62,13 +51,13 @@
 			<strong>{{title}}</strong><span class="descriptive spaced fadedtext">{{description}} / {{formatted_date}}</span></a>
 			<div class="more"><div class="toggle"></div><!--toggle-->
 			<div class="actions">
-			<a href="{{www_path}}/campaigns/view/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>View</a>
-			<a href="{{www_path}}/campaigns/edit/{{id}}" class="lightboxed mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
-			<a href="{{www_path}}/campaigns/delete/{{id}}" class="mininav_flush needsconfirmation delete"><i class="icon icon-ban-circle"></i> Delete</a></div><!--actions-->
+			<a href="{{www_path}}/campaigns/view/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 260 260"><use xlink:href="#icon-search"></use></svg>View</a>
+			<a href="{{www_path}}/campaigns/edit/{{id}}" class="lightboxed mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
+			<a href="{{www_path}}/campaigns/delete/{{id}}" class="mininav_flush needsconfirmation delete"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Delete</a></div><!--actions-->
 			</div><!--more-->
 		</li>
 		{{/campaigns_for_user}}
-	</ul>
+	</ul><!--alternating-->
 <a class="button lightboxed" href="{{www_path}}/campaigns/add/">Add a Campaign</a>
 {{/campaigns_for_user}}
 
@@ -83,12 +72,9 @@
 
 
 {{#has_campaigns}}
-	<br />
+<div class="pure-u-1 pure-u-md-1-2">
 	<h4>Publish</h4>
-	<p>
-		Your public page is live at <a href="{{user_page_uri}}" target="_blank"><i>{{user_page_display_uri}}</i></a>
-	</p>
+	<p>Your public page is live at <a href="{{user_page_uri}}" target="_blank"><i>{{user_page_display_uri}}</i></a></p>
 	<a href="{{www_path}}/campaigns/publish" class="button lightboxed">Publish a campaign</a>
-{{/has_campaigns}}
-
 </div>
+{{/has_campaigns}}

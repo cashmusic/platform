@@ -1,13 +1,11 @@
- <div class="storedisplay row">
-	<div class="six columns">
+ <div class="storedisplay pure-u-md-1-2">
 		<ul class="list">
 		{{#elements_output}}
-			<li><a class="elementdisplay" name="#{{element_type}}" href="{{www_path}}/elements/add/{{element_type}}">{{element_type_name}}<span>Author:{{element_type_author}}</span><i class="icon icon-plus-sign"></i></a></li>
+			<li><a class="elementdisplay" name="#{{element_type}}" href="{{www_path}}/elements/add/{{element_type}}">{{element_type_name}}<span>Author:{{element_type_author}}</span><svg class="icon" viewBox="0 0 240 240"><use xlink:href="#icon-plus"></use></svg></a></li>
 		{{/elements_output}}
 		</ul>
-	</div>
 </div><!--storedisplay-->
-<div class="gallery">
+<div class="gallery  pure-u-md-1-2">
 	<div class="movement">
 	{{#elements_output}}
 		<div id="{{element_type}}" class="example current">
@@ -18,7 +16,7 @@
 			<h3>{{element_type_description}}</h3>
 			<p class="longdescription"><span class="altcopystyle">{{element_type_longdescription}}</span></p>
 			<hr />
-			<a class="button" href="{{www_path}}/elements/add/{{element_type}}">Add element <i class="icon icon-plus-sign"></i></a>
+			<a class="button" href="{{www_path}}/elements/add/{{element_type}}">Add element</a>
 			<p class="updated">Last updated: {{element_type_updated}}</p>
 		</div>
 	{{/elements_output}}

@@ -1,22 +1,10 @@
-<div id="hero">
-<canvas id="canvas" width="1500" height="600"></canvas>
-<h1>{{title}}</h1>
-{{^isarchive}}
 <div class="actions">
-			<a href="{{www_path}}/campaigns/edit/{{id}}" class="lightboxed mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
-			<a href="{{www_path}}/campaigns/delete/{{id}}" class="mininav_flush needsconfirmation delete"><i class="icon icon-ban-circle"></i>Delete</a>
-	</div><!--actions-->
-{{/isarchive}}	
-<h2>{{description}} / {{formatted_date}}</h2> 
-	
-{{^isarchive}}
-	<!--div class="stat" style="width:90%;"><h3>90K <span>New Signups</span></h3></div>
-	<div class="stat" style="width:60%;"><h3>90K <span>New Signups</span></h3></div-->
-{{/isarchive}}
-</div><!--hero-->
+		<a href="{{www_path}}/campaigns/edit/{{id}}" class="lightboxed mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
+		<a href="{{www_path}}/campaigns/delete/{{id}}" class="mininav_flush needsconfirmation delete">
+		<svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg>Delete</a>
+</div><!--actions-->
 
-<div class="row">
-	<div class="twelve columns">
+<div class="pure-u-1">
 		<h4>Campaign elements</h4>
 		{{#elements_for_campaign}}
 		<ul class="alternating">
@@ -26,8 +14,8 @@
 				<strong>{{name}}</strong><span class="descriptive spaced fadedtext">{{type}} / {{formatted_date}}</span></a>
 				<div class="more"><div class="toggle"></div><!--toggle-->
 				<div class="actions">
-				<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
-				<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation delete"><i class="icon icon-ban-circle"></i> Delete</a></div><!--actions-->
+				<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
+				<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation delete"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Delete</a></div><!--actions-->
 				</div><!--more-->
 			</li>
 			{{/elements_for_campaign}}
@@ -35,10 +23,15 @@
 		{{/elements_for_campaign}}
 
 		{{^isarchive}}
+			<div class="pure-u-1 pure-u-md-1-2">
 			{{^elements_for_campaign}}
 			<p>No elements have been added yet.</p>
 			{{/elements_for_campaign}}
+			</div><!--pure-->
+			<div class="pure-u-1">
 			<a href="{{www_path}}/elements/add/" class="button lightboxed store">Add an element</a>
+			</div><!--pure-->
+
 		{{/isarchive}}
 		{{^isarchive}}
 			<h4>Publish settings</h4>
@@ -51,5 +44,4 @@
 				<a href="/admin/elements/templates/edit/{{template_id}}" class="button lightboxed">Edit the current live page</a>
 			{{/template_id}}
 		{{/isarchive}}
-	</div>
-</div>
+</div><!--pure-->

@@ -169,11 +169,12 @@ a:hover{
 }
 
 /* ===================
-    ALL: Orange Theme
+    ALL: CASH Theme
    =================== */
 
 .logo{
-    margin:80px auto 0 auto;
+    /*margin:80px auto 0 auto;*/
+    margin:0px auto 0 auto;
     padding:1% 0;
     text-align: center;
     display:block;
@@ -395,6 +396,7 @@ margin:-5% auto 0 auto;
     padding:20px;
     display:block;
     position:fixed;
+    top:0;
     z-index:10;
     height:30px;
     width:30px;

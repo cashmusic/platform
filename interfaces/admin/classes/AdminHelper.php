@@ -69,7 +69,7 @@
 
 			$menulevel = substr_count($page_endpoint, '/');
 			if ($menulevel == 1 && !isset($page['hide'])) { // only show top-level menu items
-				$menustr .= "<li><a href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><i class=\"icon {$page['menu_icon']}\"></i> {$page['page_name']}</a></li>";
+				$menustr .= "<li><a href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><span>{$page['page_name']}</span><svg class=\"icon\" viewBox=\"{$page['menu_icon']['viewBox']}\"><use xlink:href=\"{$page['menu_icon']['xlink']}\"></use></svg></a></li>";
 			}
 		}
 
@@ -217,7 +217,7 @@
 
 			$current_section = 1;
 			foreach ($all_sections as $section_name => $details) {
-				$template .= '<div class="row section part-' . $current_section . '" data-section-name="' . $details['group_label']['en'] . '">' .
+				$template .= '<div class=" section part-' . $current_section . '" data-section-name="' . $details['group_label']['en'] . '">' .
 						     '<h5 class="section-header">' . $details['group_label']['en'] . '</h5>' .
 						     '<p class="section-description">' . $details['description']['en'] . '</p>' .
 						     '<div class="row">';
@@ -242,26 +242,26 @@
 					) {
 						switch ($current_count) {
 							case 4:
-								$column_width_text = "three";
+								$column_width_text = "pure-u-1 pure-u-md-1-2";
 								break;
 							case 3:
-								$column_width_text = "four";
+								$column_width_text = "pure-u-1 pure-u-md-1-3";
 								break;
 							case 2:
-								$column_width_text = "six";
+								$column_width_text = "pure-u-1 pure-u-md-1-2";
 								break;
 							case 1:
-								$column_width_text = "twelve";
+								$column_width_text = "pure-u-1";
 								break;
 						}
 
 						// single small element — make sure it's not full width
 						if ($values['displaysize'] == 'small' && $current_count == 1) {
-							$column_width_text = "four";
+							$column_width_text = "pure-u-1 pure-u-md-1-3";
 						}
 
 						for ($i=1; $i < $current_count+1; $i++) { 
-							$template .= '<div class="' . $column_width_text . ' columns">' .
+							$template .= '<div class="' . $column_width_text . '">' .
 										 // contents
 										 AdminHelper::drawInput(
 										 	$data_keys[$current_data - ($current_count - $i)],
@@ -272,7 +272,7 @@
 
 						// single small element — make sure it's not full width
 						if ($values['displaysize'] == 'small' && $current_count == 1) {
-							$template .= '<div class="four columns"></div><div class="four columns"></div>';
+							$template .= '<div class="pure-u-1 pure-u-md-1-3"></div><div class="pure-u-1 pure-u-md-1-3"></div>';
 						}
 
 						if ($current_data !== ($total_count - 1)) {

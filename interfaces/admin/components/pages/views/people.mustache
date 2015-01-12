@@ -1,23 +1,19 @@
-
-
 {{#dashboard_list_total_new}}
-	<div class="sectiondash">
+	<div class="sectiondash pure-u-1">
 		<div class="primarystat">
 			{{dashboard_list_total_new}}<label>New Subscriber{{^people_singular}}s{{/people_singular}}<br /><br /></label>
 		</div>
 		<div class="details">
 			<ul>
 			{{#dashboard_lists}}
-				<li><strong><i class="icon icon-list-ul"></i>{{name}}:</strong> <b>{{total}}</b> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}}.</li> 
-				<li class="actions"><span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><i class="icon icon-search"></i>View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><i class="icon icon-download-alt"></i>Export</a></span></li>
+				<li><strong><svg class="icon" viewBox="0 0 280 220"><use xlink:href="#icon-list"></use></svg>{{name}}:</strong> <strong>{{total}}</strong> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}}.</li> 
+				<li class="actions"><span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><svg class="icon" viewBox="0 0 260 260"><use xlink:href="#icon-search"></use></svg>View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><svg class="icon" viewBox="0 0 260 240"><use xlink:href="#icon-dwnld"></use></svg>Export</a></span></li>
 			{{/dashboard_lists}}
 			</ul>
 		</div>
-	</div>
+	</div><!--sectiondash-->
 {{/dashboard_list_total_new}}
-
-<div class="row">
-	<div class="six columns">
+	<div class="pure-u-1 pure-u-md-1-2">
 		<h4>Lists</h4>
 		{{#lists_all}}
 		<ul class="alternating">
@@ -27,9 +23,9 @@
 				<strong>{{name}}</strong>{{#description}}<span class="descriptive spaced fadedtext">{{description}}</span>{{/description}}</a>
 				<div class="more"><div class="toggle"></div><!--toggle-->
 					<div class="actions">
-						<a href="{{www_path}}/people/lists/view/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>View</a>
-						<a href="{{www_path}}/people/lists/edit/{{id}}" class="mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
-						<a href="{{www_path}}/people/lists/export/{{id}}" class="mininav_flush noajax"><i class="icon icon-download-alt"></i>Export</a>
+						<a href="{{www_path}}/people/lists/view/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 260 260"><use xlink:href="#icon-search"></use></svg>View</a>
+						<a href="{{www_path}}/people/lists/edit/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
+						<a href="{{www_path}}/people/lists/export/{{id}}" class="mininav_flush noajax"><svg class="icon" viewBox="0 0 260 240"><use xlink:href="#icon-dwnld"></use></svg>Export</a>
 					</div><!--actions-->
 				</div><!--more-->
 			</li>
@@ -41,8 +37,8 @@
 		{{^lists_all}}
 		<p>No lists have been created.</p>
 		{{/lists_all}}
-	</div>
-	<div class="six columns">
+	</div><!--pure-->
+	<div class="pure-u-1 pure-u-md-1-2">
 		<h4>Add new press coverage</h4>
 		<form accept-charset="UTF-8" method="post" action="{{www_path}}/people/press">
 			<label for="press_url">URL</label>
@@ -59,8 +55,7 @@
 			-->
 
 			<br />
-			<button type="submit"><i class="icon icon-plus-sign"></i>Add new link</button>
+			<button type="submit">Add new link</button>
 		
 		</form>
-	</div>
-</div>
+	</div><!--pure-->

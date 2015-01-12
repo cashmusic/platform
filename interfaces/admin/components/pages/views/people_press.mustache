@@ -1,6 +1,4 @@
-
-<div class="row">
-	<div class="six columns">
+	<div class="pure-u-1 pure-u-md-1-2">
 		<h4>Add new press coverage</h4>
 		<form accept-charset="UTF-8" method="post" action="{{www_path}}/people/press">
 			<label for="press_url">URL</label>
@@ -10,26 +8,22 @@
 			<input type="text" id="publishing_date" name="publishing_date" value="{{current_date}}" /> 
 
 			<!--
-			<br />
 			<label>Tags</label>
 			{{{tag_markup}}}
 			<a href="#" class="injectbefore" rev="<input type='text' name='tag' value='' placeholder='Tag' />" rel="{{tag_counter}}"><small>+ ADD TAG</small></a>
 			-->
 
-			<br />
-			<button type="submit"><i class="icon icon-plus-sign"></i>Add new link</button>
-		
+			<button type="submit">Add new link</button>
 		</form>
-	</div>
+	</div><!--pure-->
 
-	<div class="six columns">
+	<div class="pure-u-1 pure-u-md-1-2">
 		<h4>Press links</h4>
 		{{#press_links}}
 			<p>
-			<a href="{{location}}"><b>{{title}}</b></a><br />
+			<a href="{{location}}"><strong>{{title}}</strong></a><br />
 			<span class="fadedtext">{{publishing_date}} &nbsp;</span>
 			{{#description}}{{description}}{{/description}}
 			</p>
 		{{/press_links}}
-	</div>
-</div>
+	</div><!--pure-->

@@ -6,10 +6,10 @@
 <ul class="alternating">
 	{{#elements_for_user}}
 	<li>
-		<b>{{name}}</b> <span class="descriptive spaced fadedtext">{{type_name}}</span>
+		<strong>{{name}}</strong> <span class="descriptive spaced fadedtext">{{type_name}}</span>
 		<div class="itemnav">
-			<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>Details</a> 
-			<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
+			<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 260 260"><use xlink:href="#icon-search"></use></svg> Details</a> 
+			<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Delete</a>
 		</div>
 	</li>
 	{{/elements_for_user}}

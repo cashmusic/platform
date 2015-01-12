@@ -1,6 +1,4 @@
-
-<div class="row">
-	<div class="six columns">
+	<div class="pure-u-1 pure-u-md-1-2">
 		<h4>Add A New List</h4>
 		<form accept-charset="UTF-8" method="post" action="{{www_path}}/people/lists/add/" id="lists">
 			<input type="hidden" name="dolistadd" value="makeitso" />
@@ -14,18 +12,13 @@
 				{{{list_connection_options}}}
 			</select>
 
-			<br /><br />
-
 			<label for="list_description">Description</label>
 			<textarea rows="3" id="list_description" name="list_description"></textarea>
 			
-			<div>
-				<button type="submit"><i class="icon icon-plus-sign"></i>Add new list</button>
-			</div>
-
+			<button type="submit">Add new list</button>
 		</form>
-	</div>
-	<div class="six columns">
+	</div><!--pure-->
+	<div class="pure-u-1 pure-u-md-1-2">
 		<h4>Your Lists</h4>
 		{{#lists_all}}
 		<ul class="alternating">
@@ -35,10 +28,10 @@
 				<strong>{{name}}</strong>{{#description}}<span class="descriptive spaced fadedtext">{{description}}</span>{{/description}}</a>
 				<div class="more"><div class="toggle"></div><!--toggle-->
 					<div class="actions">
-						<a href="{{www_path}}/people/lists/view/{{id}}" class="mininav_flush"><i class="icon icon-search"></i>View</a>
-					<a href="{{www_path}}/people/lists/edit/{{id}}" class="mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
-					<a href="{{www_path}}/people/lists/export/{{id}}" class="mininav_flush noajax"><i class="icon icon-download-alt"></i>Export</a>
-					<a href="{{www_path}}/people/lists/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
+						<a href="{{www_path}}/people/lists/view/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 260 260"><use xlink:href="#icon-search"></use></svg>View</a>
+					<a href="{{www_path}}/people/lists/edit/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
+					<a href="{{www_path}}/people/lists/export/{{id}}" class="mininav_flush noajax"><svg class="icon" viewBox="0 0 260 240"><use xlink:href="#icon-dwnld"></use></svg>Export</a>
+					<a href="{{www_path}}/people/lists/delete/{{id}}" class="mininav_flush needsconfirmation"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Delete</a>
 					</div><!--actions-->
 				</div><!--more-->
 			</li>
@@ -49,5 +42,4 @@
 		{{^lists_all}}
 		<p>No lists have been created.</p>
 		{{/lists_all}}
-	</div>
-</div>
+	</div><!--pure-->
