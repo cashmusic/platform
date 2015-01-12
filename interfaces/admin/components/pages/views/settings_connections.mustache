@@ -1,17 +1,17 @@
 {{^service_selected}}
-	<div class="pure-u-1 pure-u-md-1-2">
+	<div class="pure-u-1">
 		<h4>Add a new service connection:</h4>
 		<p>Easily connect to any of these services:</p>
-			<div class="pure-u-1 pure-u-md-1-2">
+		</div><!--pure-->
+		<div class="pure-u-1">
 				{{#all_services}}
-					<a class="connection" href="{{www_path}}/settings/connections/add/{{key}}">
+					<div class="pure-u-1 pure-u-md-1-3"><a class="connection" href="{{www_path}}/settings/connections/add/{{key}}">
 					{{#service_has_image}}
-						<img src="{{www_path}}/assets/images/settings/{{key}}.png" width="100%" alt="{{name}}" /><br />
+						<img src="{{www_path}}/assets/images/settings/{{key}}.png" width="100%" alt="{{name}}" />
 					{{/service_has_image}}
-					<small>{{name}}</small></a>
+					<small>{{name}}</small></a></div><!--pure-->
 				{{/all_services}}
-			</div><!--pure-->
-	</div><!--pure-->
+		</div><!--pure-->
 {{/service_selected}}
 	
 	<div class="pure-u-1 {{^service_selected}} pure-md-1-2 {{/service_selected}}{{#service_selected}}{{/service_selected}}">
