@@ -166,7 +166,7 @@ if ($user_id) {
 		<!--[if lt IE 7]>
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
-<!-- div id="highlight"></div -->
+
 <div class="menutoggle">Menu</div>
 	<nav>
 	<div class="social"><!--<iframe class="git" src="https://ghbtns.com/github-btn.html?user=cashmusic&repo=platform&type=fork"

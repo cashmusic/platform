@@ -39,3 +39,22 @@ These structures mirror one another on purpose, allowing artists and end users t
 speak the same language as developers. At the same time, there is amble flexibility
 in the framework to allow for deep customization, easy third-party API definition, 
 new and custom elements, etc. 
+
+
+NEW STRUCTURE:
+
+I.		Introduction
+			a. Setup
+			b. Code Standards
+II.		PHP Core
+			a. Request/response format
+			b. Authorization model
+			c. Requests
+III. 	API
+			a. Verbose API
+			b. RESTful API
+IV.		Elements
+			a. Structure and coding
+			b. Embedding
+V.		Connections
+VI.		Admin
