@@ -213,6 +213,16 @@ input[type=submit]:hover, .button:hover{
 	font-size:14px;
 }
 
+/* Download Codes */
+
+.downloadcodes .download, .downloadcodes .description{
+	display: inline-block;
+}
+
+.downloadcodes .description{
+	margin:0 10px 0 10px;
+}
+
 /* Tour Dates */
 
 .tourdates .cash_event{
