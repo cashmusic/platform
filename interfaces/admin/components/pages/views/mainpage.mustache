@@ -31,7 +31,7 @@
 
 {{#nocampaigns_elements}}
 	<div class="callout">
-		<h5>Hey! We know you. Thanks for being there early and for sticking with us. </h5>
+		<h5>Hey! We know you. Thanks for being there early and for sticking with us.</h5>
 		<p>
 		You’ve probably noticed things look a little different in here but it’s easy to get it all ship shape. First, check out your <a class="settings toggle">account settings</a> and make sure your connections are in order by clicking on the gear icon in the upper right hand menu. 
 		</p><p>
@@ -44,7 +44,7 @@
 
 <div id="campaigns">
 {{#campaigns_for_user}}
-<div class="pure-u-1 pure-u-md-1-2">
+<div class="pure-u-1">
 	<div class="selecta">
 	<label for="current-campaign">Featured Campaign:</label>
 	<select id="current-campaign">
@@ -56,53 +56,57 @@
 </div><!--pure-->	
 <div class="pure-u-1  pure-u-md-2-3">
 	<div class="campaign">
-		<canvas id="canvas" height="400" width="100%"></canvas>
-		<a class="primary" href="{{www_path}}/campaigns/view/{{id}}">
-		<h2>{{title}}</h2><h3>{{description}}</h3></a>
-		<div class="more"><div class="toggle"></div><!--toggle-->
+		<canvas id="cnvs" width="2000" height="398">
+			<canvas id="hero"></canvas>
+		</canvas>
+		<div class="inner">
+		<h2>{{title}}</h2>
+		<h3>{{description}}</h3>
 			<div class="actions">
 				<!--<a href="{{www_path}}/campaigns/view/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 260 260"><use xlink:href="#icon-search"></use></svg>View</a>-->
-				<a href="{{www_path}}/campaigns/edit/{{id}}" class="lightboxed mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
-				<a href="{{www_path}}/campaigns/delete/{{id}}" class="mininav_flush needsconfirmation delete"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Delete</a>
+				<a href="{{www_path}}/campaigns/edit/{{id}}" class="lightboxed">Edit</a>
+				<a href="{{www_path}}/campaigns/delete/{{id}}" class="needsconfirmation delete">Delete</a>
 			</div><!--actions-->
-		</div><!--more-->
-		<footer><p>Created &#124; {{formatted_date}}</p><p>Updated &#124; N<sup>o</sup> days ago</p></footer>
+			<div class="stats">
+				<h4>Total Campaign Views</h4>
+				<h5 class="totalviews">0</h5>
+				<h5 class="percentage"><svg class="icon" viewBox="0 0 189 246"><use xlink:href="#icon-lg-arw"></use></svg>0&#37;</h5>
+			</div><!--stats-->
+		</div><!--inner-->
+		<footer><p>Created <span>&#124;</span> {{formatted_date}}</p><p>Updated <span>&#124;</span> {{formatted_date}}</p></footer>
 	</div><!--campaign-->
 </div><!--pure-->
-<div class="pure-u-1 pure-u-md-1-3">
-	<div class="associated">
+	<div class="associated pure-u-1 pure-u-md-1-3">
 		<h4><span>4</span>Associated Elements</h4>
-		<a class="lightboxed store" href="{{www_path}}/elements/add/">+ Add</a>
+		<a class="add lightboxed store" href="{{www_path}}/elements/add/">+ Add</a>
 
-		{{#elements_for_campaign}}
-		<ul class="alternating">
+		<div class="inner">
 			{{#elements_for_campaign}}
-			<li>
-			<a class="primary" href="{{www_path}}/elements/edit/{{id}}">
+			<ul class="alternating">
+				{{#elements_for_campaign}}
+				<li>
+				<a class="primary" href="{{www_path}}/elements/edit/{{id}}">
 				<strong>{{name}}</strong><span class="descriptive spaced fadedtext">{{type}} / {{formatted_date}}</span></a>
-				<div class="more"><div class="toggle"></div><!--toggle-->
-				<div class="actions">
-				<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
-				<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation delete"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Delete</a></div><!--actions-->
-				</div><!--more-->
-			</li>
+					<div class="more"><div class="toggle"></div><!--toggle-->
+						<div class="actions">
+							<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
+							<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation delete"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Delete</a>
+						</div><!--actions-->
+					</div><!--more-->
+				</li>
+				{{/elements_for_campaign}}
+			</ul>
 			{{/elements_for_campaign}}
-		</ul>
-		{{/elements_for_campaign}}
-
-		{{^isarchive}}
-			<div class="pure-u-1 pure-u-md-1-2">
-			{{^elements_for_campaign}}
-			<p>No elements have been added yet.</p>
-			{{/elements_for_campaign}}
-			</div><!--pure-->
-			<div class="pure-u-1">
-			<a href="{{www_path}}/elements/add/" class="button lightboxed store">Add an element</a>
-			</div><!--pure-->
-		{{/isarchive}}
-
+			{{^isarchive}}
+				{{^elements_for_campaign}}
+				<div class="noelement">
+				<svg class="icon" viewBox="0 0 296 296"><use xlink:href="#icon-plus"></use></svg>
+					<p><span>+Add</span> an element to get started</p>
+				</div><!--noelement-->
+				{{/elements_for_campaign}}
+			{{/isarchive}}
+		</div><!--inner-->		
 	</div><!--associated-->
-</div><!--pure-->	
 <a class="button lightboxed" href="{{www_path}}/campaigns/add/">Add a Campaign</a>
 {{/campaigns_for_user}}
 
@@ -115,22 +119,29 @@
 {{/show_archive}}
 </div><!--campaigns-->
 
-
 {{#has_campaigns}}
 <div class="prefpanel pure-u-1">
-	<h4>Publish Settings</h4>
+	<h4><svg class="icon" viewBox="0 0 78 78"><use xlink:href="#icon-wrench"></use></svg><span>Publish Settings</span></h4>
 	<div class="pure-u-1 pure-u-md-1-2">
 		<div class="inner">
 			<h5>Edit Your Page</h5>
-			<p>Your page is live at: <a href="{{user_page_uri}}" target="_blank"><i>{{user_page_display_uri}}</i></a>  <a href="/admin/elements/templates/edit/{{template_id}}/page/parent/{{id}}" class="ql lightboxed"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit campaign page</a> </p>
-			<a href="{{www_path}}/campaigns/publish" class="button lightboxed">Publish a campaign</a>
+			<p>Your page is live at: <a href="{{user_page_uri}}" target="_blank"><i>{{user_page_display_uri}}</i></a>  <a href="/admin/elements/templates/edit/{{template_id}}/page/parent/{{id}}" title="Edit campaign page" class="ql lightboxed"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg></a> </p>
+			<!--<a href="{{www_path}}/campaigns/publish" class="button lightboxed">Publish a campaign</a>-->
+				<div class="selecta">
+					<label for="current-campaign">Published:</label>
+					<select id="current-campaign">
+						{{#campaigns_for_user}}		
+  						<option href="{{www_path}}/campaigns/view/{{id}}" value="{{title}}">{{title}}</option>
+						{{/campaigns_for_user}}
+					</select>
+				</div><!--selecta-->
 		</div><!--inner-->
 	</div><!--pure-->
 	<div class="pure-u-1 pure-u-md-1-2">
 		<div class="inner">
 			<h5>Embed an element</h5>
-			<p>If you don’t want to publish a page you can embed any element from your campaign anywhere on the web. Simply click the <a href="">quick embed icon</a> on the element above.</p>
+			<p>If you don’t want to publish a page you can embed any element from your campaign anywhere on the web. Simply click the <a href="/">quick embed icon</a> on the element above.</p>
 		</div><!--inner-->
 	</div><!--pure-->
-</div>
+</div><!--prefpanel-->
 {{/has_campaigns}}

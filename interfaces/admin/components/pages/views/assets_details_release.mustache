@@ -11,10 +11,10 @@
 				<div class="release-cover " style="background-image:url({{cover_url}});">
 					<div class="release-cover-options">
 						{{#cover_asset_id}}
-							<a href="{{www_path}}/assets/edit/{{cover_asset_id}}" class="smalltext"><span class="editcover"><svg class="icon" viewBox="0 0 248 215"><use xlink:href="#icon-camera"></use></svg><strong>Add/edit cover</strong></span></a>
+							<a href="{{www_path}}/assets/edit/{{cover_asset_id}}" class="smalltext"><span class="editcover"><div class="icon icon-camera"></div><!--icon--><strong>Add/edit cover</strong></span></a>
 						{{/cover_asset_id}}
 						{{^cover_asset_id}}
-							<a href="{{www_path}}/assets/add/file/setparent/{{id}}/setmetadata/cover" class="lightboxed returntocurrentroute smalltext"><span class="editcover"><svg class="icon" viewBox="0 0 248 215"><use xlink:href="#icon-camera"></use></svg><strong>Add/edit cover</strong></span></a>
+							<a href="{{www_path}}/assets/add/file/setparent/{{id}}/setmetadata/cover" class="lightboxed returntocurrentroute smalltext"><span class="editcover"><div class="icon icon-camera"></div><!--icon--><strong>Add/edit cover</strong></span></a>
 						{{/cover_asset_id}}
 					</div><!--release-cover-options-->
 				</div><!--release-cover-->
@@ -53,8 +53,10 @@
 							<div class="more">
 								<div class="toggle"></div><!--toggle-->
 								<div class="actions">
-									<a href="{{www_path}}/assets/edit/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
-									<a href="{{www_path}}/assets/delete/{{id}}" class="mininav_flush needsconfirmation"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Delete</a>
+									<div class="action-inner">
+										<a href="{{www_path}}/assets/edit/{{id}}" class="mininav_flush"><div class="icon icon-pencil"></div><!--icon-->Edit</a>
+										<a href="{{www_path}}/assets/delete/{{id}}" class="mininav_flush needsconfirmation"><div class="icon icon-ban"></div><!--icon-->Delete</a>
+									</div><!--action-inner-->
 								</div><!--actions-->
 							</div><!--more-->
 						</li>
@@ -63,10 +65,11 @@
 						</ul>
 						{{/fulfillment_files}}
 						{{^fulfillment_files}}
-							<p>No files have been added for fulfillment yet.</p>
+						<div class="pure-u-1 pure-u-md-1-2"><p>No files have been added for fulfillment yet.</p></div><!--pure-->
 						{{/fulfillment_files}}
-						<a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/fulfillment" class="add-fulfillment-file lightboxed returntocurrentroute smalltext"><svg class="icon" viewBox="0 0 240 240"><use xlink:href="#icon-plus"></use></svg><strong>Add New File</strong></a>
+						<div class="pure-u-1 {{^fulfillment_files}}pure-u-md-1-2{{/fulfillment_files}}"><a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/fulfillment" class="add-fulfillment-file lightboxed returntocurrentroute button {{^fulfillment_files}}right{{/fulfillment_files}}">Attach A File</a>
 						<input type="hidden" id="metadata_fulfillment" name="metadata_fulfillment" value="{{metadata_fulfillment_json}}" />
+						</div><!--pure-->
 					</div><!--fullfillment-files-->
 			</div><!--release-general-info-->
 	</fieldset>
@@ -74,7 +77,9 @@
 	<h4>Additional Fields</h4>
 	<div class="pure-u-1">	
 		<div class="drawer">
+		<div class="itemnav">
 			<a class="meta drawerhandle">standard metadata</a>
+			</div><!--itemnav-->
 			<div class="drawercontent">
 				<fieldset>
 						<div class="pure-u-1 pure-u-md-1-2">
@@ -96,17 +101,19 @@
 									<option>Cassette</option>
 								</select>
 								<input type="text" id="formatType-upc" name="formatType-upc" value="" placeholder="123456789" class="col_oneoftwo" />
-								<a href="#" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> <span class="visuallyhidden">Delete</span></a>
+								<a href="#" class="mininav_flush needsconfirmation"><div class="icon icon-ban"></div> <span class="visuallyhidden">Delete</span></a>
 							</li>
 						</ul>
-						<a href="#" class="add-format"><i class="icon icon-plus-sign smalltext"></i>Add New Format</a>
+						<a href="#" class="add-format"><div class="icon icon-plus"></div>Add New Format</a>
 					</div-->
 				</fieldset>
 			</div><!--drawercontent-->
 		</div><!--drawer-->
 
 		<div class="drawer">
+		<div class="itemnav">
 			<a class="meta drawerhandle">press/PR information</a>
+			</div><!--itemnav-->
 			<div class="drawercontent">
 				<fieldset>
 					<div class="pure-u-1 pure-u-md-1-2">
@@ -134,8 +141,8 @@
 								<strong>{{title}}</strong>
 								{{description}}
 								<div class="smalltext">
-									<a href="{{www_path}}/assets/edit/{{id}}" class="mininav_flush"><i class="icon icon-pencil"></i>Edit</a>
-									<a href="{{www_path}}/assets/delete/{{id}}" class="mininav_flush needsconfirmation"><i class="icon icon-ban-circle"></i> Delete</a>
+									<a href="{{www_path}}/assets/edit/{{id}}" class="mininav_flush"><div class="icon icon-pencil"></div>Edit</a>
+									<a href="{{www_path}}/assets/delete/{{id}}" class="mininav_flush needsconfirmation"><div class="icon icon-ban"></div>Delete</a>
 								</div>
 							</li>
 						{{/private_files}}
@@ -145,17 +152,25 @@
 						{{^private_files}}
 							<p>No private storage files have been added.</p>
 						{{/private_files}}
-						<a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/private"  class="add-private-file lightboxed returntocurrentroute smalltext"><i class="icon icon-plus-sign"></i> <strong>Add New File</strong></a>
+						<a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/private"  class="add-private-file lightboxed returntocurrentroute smalltext"><div class="icon icon-plus"></div><strong>Add New File</strong></a>
 						<input type="hidden" id="metadata_private" name="metadata_private" value="{{metadata_private_json}}" />
 				</fieldset>
 			</div>
 		</div -->
 	</div><!--pure-->
 
+<div class="pure-u-1">
+<button class="nojs" type="submit">Save changes</button>
+<button class="onlyjs externalsubmit" data-cash-target-form="#edit-file-form" type="submit">Save changes</button>
+<a href="{{www_path}}/assets/delete/{{id}}" class="button usecolor2 needsconfirmation">Delete this release</a>
+</div><!--pure-->
+</form><!--add-release-form-->
+
+<div class="prefpanel pure-u-1">
+	<h4 class="title"><div class="icon icon-wrench"></div><!--icon--><span>Asset Settings</span></h4>
 	<div class="pure-u-1 pure-u-md-1-2">
-	<div class="drawer noprefix">
-			<span class="fadedtext"><svg class="icon" viewBox="0 0 260 240"><use xlink:href="#icon-dwnld"></use></svg> Need download codes?</span><a class="drawerhandle usecolor2">Export or create codes</a>
-			<div class="drawercontent">
+		<div class="pref-inner">
+				<h5><div class="icon icon-dwnld"></div><!--icon--> Export or create download codes</h5>
 				<p>
 				{{#asset_codes_count}}
 					<span>There are {{asset_codes_count}} codes for this asset. <a class="usecolor2 noajax" href="{{www_path}}/assets/edit/{{id}}?exportcodes=1"><b>Export them!</b></a></span>
@@ -165,24 +180,20 @@
 				{{/asset_codes_count}}
 				</p>
 				<form id="export-dwnld-codes" accept-charset="UTF-8" method="post" action="{{www_path}}/assets/edit/{{id}}">
-					<label for="add_codes_qty">Add (qty) more codes</label>
-					<div class="pure-u-1 pure-u-md-1-4">
+					<label for="add_codes_qty">Add (qty) more codes:</label>
+					<div class="pure-u-1 pure-u-md-1-2">
 						<input type="text" name="add_codes_qty" id="add_codes_qty" value="500" />
 					</div><!--pure-->
-					<div class="pure-u-1 pure-u-md-1-4">
-						<button type="submit"><svg class="icon" viewBox="0 0 280 220"><use xlink:href="#icon-list"></use></svg> add codes</button>
+					<div class="pure-u-1 pure-u-md-1-2">
+						<button type="submit"><div class="icon icon-list"></div><!--icon--> add codes</button>
+						</form>
 					</div><!--pure-->
-			</div><!--drawercontent-->
-	</div><!--drawer-->
+		</div><!--pref-inner-->
 	</div><!--pure-->
 	<div class="pure-u-1 pure-u-md-1-2">
-		<p><span class="fadedtext"><svg class="icon" viewBox="0 0 262 211"><use xlink:href="#icon-card"></use></svg>Selling out?</span> <a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="lightboxed returntocurrentroute"><span><strong>Define commerce settings</strong></span></a></p>
-
-		<p><span class="fadedtext"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg>Need it gone?</span> <a href="{{www_path}}/assets/delete/{{id}}" class="usecolor2 needsconfirmation"><span><strong>Delete this release</strong></span></a></p>
+		<div class="pref-inner">
+			<h5><div class="icon icon-card"></div><!--icon--> Selling out?</h5>
+			<a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="lightboxed returntocurrentroute"><span><strong>Define commerce settings</strong></span></a>
+		</div><!--pref-inner-->
 	</div><!--pure-->
-
-	<button class="nojs" type="submit">Save changes</button>
-
-<button class="onlyjs externalsubmit" data-cash-target-form="#edit-file-form" type="submit">Save changes</button>
-
-</form><!--add-release-form-->
+</div><!--prefpanel-->

@@ -237,7 +237,7 @@
 	 */
 	function setContentBehaviors() {
 		// show/hide drawers
-		prepDrawers('<i class="icon icon-chevron-sign-up"></i>Hide','<i class="icon icon-chevron-sign-down"></i>Show');
+		prepDrawers('<svg class="icon" viewBox="0 0 252 162"><use xlink:href="#icon-arrw-up"></use></svg>Hide','<svg class="icon" viewBox="0 0 252 162"><use xlink:href="#icon-arrw-dwn"></use></svg>Show');
 
 		// datepicker
 		$('input[type=date],input.date').datepicker();
@@ -508,7 +508,7 @@
 		// a little more pain than it could handle smoothly.)
 
 		//Reveal the header
-		$('section').addClass('hero');
+		$('#cnvs').addClass('hero');
 			
 		window.globaltimeout = window.setTimeout(function(){
 			
@@ -519,7 +519,7 @@
 
 			// console.log('color shift: ' + swc + ', glitch: ' + imno + ', artist: ' + atno);
 
-			cnvs = document.getElementById('canvas');
+			cnvs = document.getElementById('cnvs');
 
 			if (cnvs) {
 				cnvs = cnvs.bitmapData;
@@ -535,13 +535,13 @@
 						olayData.draw(olay);
 
 						cnvs.copyChannel(olayData,
-							new Rectangle(300, 0, 2000, 700), 
+							new Rectangle(0, 0, 2000, 398), 
 							new Point(0, 0), 
 							BitmapDataChannel[swc], 
 							BitmapDataChannel[swc]
 						);
 
-						$('canvas').addClass('display');
+						$('#cnvs').addClass('display');
 					};
 				};
 			}
