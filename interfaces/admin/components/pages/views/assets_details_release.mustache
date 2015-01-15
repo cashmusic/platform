@@ -65,7 +65,7 @@
 						{{^fulfillment_files}}
 							<p>No files have been added for fulfillment yet.</p>
 						{{/fulfillment_files}}
-						<a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/fulfillment" class="add-fulfillment-file lightboxed returntocurrentroute smalltext"><svg class="icon" viewBox="0 0 240 240"><use xlink:href="#icon-plus"></use></svg><strong>Add New File</strong></a>
+						<a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/fulfillment" class="add-fulfillment-file lightboxed returntocurrentroute smalltext"><svg class="icon" viewBox="0 0 240 240"><use xlink:href="#icon-plus-circle"></use></svg><strong>Add New File</strong></a>
 						<input type="hidden" id="metadata_fulfillment" name="metadata_fulfillment" value="{{metadata_fulfillment_json}}" />
 					</div><!--fullfillment-files-->
 			</div><!--release-general-info-->
@@ -156,9 +156,19 @@
 		</div -->
 	</div><!--pure-->
 
+<div class="pure-u-1">
+<button class="nojs" type="submit">Save changes</button>
+<button class="onlyjs externalsubmit" data-cash-target-form="#edit-file-form" type="submit">Save changes</button>
+<a href="{{www_path}}/assets/delete/{{id}}" class="button usecolor2 needsconfirmation">Delete this release</a>
+</div><!--pure-->
+
+<div class="prefpanel pure-u-1">
+	<h4><svg class="icon" viewBox="0 0 78 78"><use xlink:href="#icon-wrench"></use></svg><span>Asset Settings</span></h4>
 	<div class="pure-u-1 pure-u-md-1-2">
-	<div class="drawer noprefix">
-			<span class="fadedtext"><svg class="icon" viewBox="0 0 260 240"><use xlink:href="#icon-dwnld"></use></svg> Need download codes?</span><a class="drawerhandle usecolor2">Export or create codes</a>
+		<div class="inner">
+				<h5><svg class="icon" viewBox="0 0 260 240"><use xlink:href="#icon-dwnld"></use></svg> Need download codes?</h5>
+			<div class="drawer noprefix">
+			<a class="drawerhandle usecolor2">Export or create codes</a>
 			<div class="drawercontent">
 				<p>
 				{{#asset_codes_count}}
@@ -178,15 +188,14 @@
 					</div><!--pure-->
 			</div><!--drawercontent-->
 	</div><!--drawer-->
+		</div><!--inner-->
 	</div><!--pure-->
 	<div class="pure-u-1 pure-u-md-1-2">
-		<p><span class="fadedtext"><svg class="icon" viewBox="0 0 262 211"><use xlink:href="#icon-card"></use></svg>Selling out?</span> <a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="lightboxed returntocurrentroute"><span><strong>Define commerce settings</strong></span></a></p>
-
-		<p><span class="fadedtext"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg>Need it gone?</span> <a href="{{www_path}}/assets/delete/{{id}}" class="usecolor2 needsconfirmation"><span><strong>Delete this release</strong></span></a></p>
+		<div class="inner">
+			<h5><svg class="icon" viewBox="0 0 262 211"><use xlink:href="#icon-card"></use></svg> Selling out?</h5>
+			<a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="lightboxed returntocurrentroute"><span><strong>Define commerce settings</strong></span></a>
+		</div><!--inner-->
 	</div><!--pure-->
+</div><!--prefpanel-->
 
-	<button class="nojs" type="submit">Save changes</button>
-<div class="pure-u-1">
-<button class="onlyjs externalsubmit" data-cash-target-form="#edit-file-form" type="submit">Save changes</button>
-</div><!--pure-->
 </form><!--add-release-form-->
