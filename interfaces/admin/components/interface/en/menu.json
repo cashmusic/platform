@@ -2,7 +2,7 @@
 	"account":
 		{"page_name":"Your account", "menu_icon":""},
 	"account/delete":
-		{"page_name":"Delete account", "menu_icon":""},
+		{"page_name":"Delete account", "menu_icon":"", "hide":true},
 		
 		
 	"assets":
