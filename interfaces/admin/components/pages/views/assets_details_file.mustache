@@ -3,7 +3,9 @@
 	<input type="hidden" name="asset_type" value="file" />
 
 	{{#parent_id}}
-	<p class="smalltext fadedtext"><a href="{{www_path}}/assets/edit/{{parent_id}}"><strong>return to parent asset</strong></a></p>
+	<ul class="pagesubnav">
+	<li><a href="{{www_path}}/assets/edit/{{parent_id}}">Return to parent asset</a></li>
+	</ul><!--pagesubnav-->
 	{{/parent_id}}
 
 	<label for="asset_title">Title / Name</label>
@@ -32,10 +34,7 @@
 		<input type="hidden" name="parent_id" value="{{parent_id}}" />
 	{{/parent_id}}
 	
-			<div class="pure-u-1 pure-u-md-1-2 spacedtext">
-	
-				<a class="button" href="{{www_path}}/assets/delete/{{id}}" class="usecolor2 needsconfirmation">Delete this file</a>
-				
+			<div class="pure-u-1 pure-u-md-1-2 spacedtext">			
 				{{#show_make_public}}
 					<p>
 					<span class="fadedtext"><svg class="icon" viewBox="0 0 180 240"><use xlink:href="#icon-unlock"></use></svg> Don't need security?</span > <a href="#" data-publicize-endpoint="{{{www_path}}}/ajax/publicizeasset/{{id}}" class="usecolor2"><span><strong>Make this file public</strong></span></a>
@@ -44,7 +43,7 @@
 
 				<button class="nojs" type="submit">Save changes</button>
 		<button class="onlyjs externalsubmit" data-cash-target-form="#edit-file-form" type="submit">Save changes</button>
-
+<a href="{{www_path}}/assets/delete/{{id}}" class="button usecolor2 needsconfirmation">Delete this file</a>
 </form>
 			</div><!--pure-->
 
