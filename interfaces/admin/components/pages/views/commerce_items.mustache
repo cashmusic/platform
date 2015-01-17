@@ -1,0 +1,40 @@
+	<div class="pure-u-1 pure-u-md-2-3">
+		<h4>Items</h4>
+		{{#items_all}}
+		<ul class="commerce alternating">
+			{{#items_all}}
+			<li>
+				<div class="item">
+					<a title="linked to asset: //NAME OF FILE//" href="/" class="assetlink">
+						<svg class="icon" viewBox="0 0 288 288"><use xlink:href="#icon-record"></use></svg>
+					</a>
+					<a class="info" href="{{www_path}}/commerce/items/edit/{{id}}">
+					<strong>{{name}}</strong>
+					<!-- If Linked to asset -->
+					<svg class="icon" viewBox="0 0 210 200"><use xlink:href="#icon-link"></use></svg>
+					{{#description}}<span class="descriptive spaced fadedtext">{{description}}</span>{{/description}}</a>
+				</div><!--item-->
+				<div class="more"><div class="toggle"></div><!--toggle-->
+					<div class="actions">
+						<a href="{{www_path}}/commerce/items/edit/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
+						<a href="{{www_path}}/commerce/items/delete/{{id}}" class="mininav_flush needsconfirmation"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Delete</a>
+					</div><!--actions-->
+				</div><!--more-->
+			</li>
+			{{/items_all}}
+		</ul>
+		{{/items_all}}
+
+		{{^items_all}}
+		<p>No items have been defined.</p>
+		{{/items_all}}
+	</div><!--pure-->
+
+	<div class="pure-u-1 pure-u-md-1-3">
+	<p>Commerce item types are for digital representations of anything you want
+to sell.</p>
+	<p>They can be connected with releases or files as fullfilmet assets for download and must be connected to a to be sold through a purchase element.</p>
+
+	<a href="{{www_path}}/commerce/items/add" class="button lightboxed">Add an item</a>
+
+	</div><!--pure-->
