@@ -5,55 +5,22 @@
 	<div class="callout newsfeed commerce"><strong><svg class="icon" viewBox="0 0 260 220"><use xlink:href="#icon-cart"></use></svg>New order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}!</strong> There {{#dashboard_orders_singular}}is{{/dashboard_orders_singular}}{{^dashboard_orders_singular}}are{{/dashboard_orders_singular}} <strong>{{dashboard_orders}}</strong> new order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}. <span class="action"><a href="{{www_path}}/commerce/orders/"><svg class="icon" viewBox="0 0 260 220"><use xlink:href="#icon-cart"></use></svg>All new orders</a></span><div class="newsimage" style=""></div><!--newsimage--></div><!--newsfeed commerce-->
 {{/dashboard_orders}}
 
-
-{{#nocampaigns_noelements}}
-	<div class="firstuse callout">
-		<h5>Hello, it looks like you’re new here. Thanks for signing up and kicking our tires.</h5>
-		<p>
-		You can edit your <a class="settings toggle">account settings</a>, including important stuff like your password &amp; homepage info, at any time by clicking on the <!--<a class="settings hlt">gear icon</a>--> gear icon in the upper right hand menu. 
-		</p><p>
-		The platform works with your own storage, payment, and mailing list accounts. To add connections to your services, open the <a class="settings toggle">settings menu</a>, click "Connections," and choose the type of account you'd like to connect. 
-		</p><p>
-		Next it’s time to <a class="lightboxed" href="{{www_path}}/campaigns/add/">add a campaign</a>. Campaigns are there to help you organize your digital workflow. You can add or edit elements here as well as keep track of how they are doing. A campaign can be easily published as one single page on our hosted site. 
-		</p>
-	</div><!--firstuse-->
-{{/nocampaigns_noelements}}
-
-{{#campaigns_noelements}}
-	<div class="callout">
-		<p>
-		Now that you've set up a campaign, it's time to <a class="lightboxed store" href="{{www_path}}/elements/add/">add some elements</a>. Elements are the tools you’ll be using in your campaign, like email collection and digital sales. Every individual element can be embedded on any site by simple copy/paste or you can add several elements to a campaign and publish it as a single page. 
-		</p><p>
-		Don't worry; nobody else will see anything until you publish it, and you can always edit any element even after you've published a campaign
-		</p>
-	</div><!--callout-->
-{{/campaigns_noelements}}
-
-{{#nocampaigns_elements}}
-	<div class="callout">
-		<h5>Hey! We know you. Thanks for being there early and for sticking with us.</h5>
-		<p>
-		You’ve probably noticed things look a little different in here but it’s easy to get it all ship shape. First, check out your <a class="settings toggle">account settings</a> and make sure your connections are in order by clicking on the gear icon in the upper right hand menu. 
-		</p><p>
-		You’ll find all of your old elements in a campaign of their own called Archive. Campaigns are here to help you organize your elements, keep track of how they’re doing, and easily publish them on one page if you like (you can still embed as many elements as you like on external sites). 
-		</p>
-	</div><!--callout-->
-{{/nocampaigns_elements}}
-
 <!--/* Campaigns */-->
 
 <div id="campaigns">
 {{#campaigns_for_user}}
 <div class="pure-u-1">
 	<div class="selecta">
-	<label for="current-campaign">Featured Campaign:</label>
+	<label for="current-campaign">Selected Campaign:</label>
 	<select id="current-campaign">
 	{{#campaigns_for_user}}		
-  	<option href="{{www_path}}/campaigns/view/{{id}}" value="{{title}}">{{title}}</option>
+  	<option href="{{id}}" value="{{title}}">{{title}}</option>
 	{{/campaigns_for_user}}
 	</select>
 	</div><!--selecta-->
 </div><!--pure-->	
+
+{{#selected_campaign}}
 <div class="pure-u-1  pure-u-md-2-3">
 	<div class="campaign">
 		<canvas id="cnvs" width="2000" height="398">
@@ -73,42 +40,45 @@
 				<h5 class="percentage"><svg class="icon" viewBox="0 0 189 246"><use xlink:href="#icon-lg-arw"></use></svg>0&#37;</h5>
 			</div><!--stats-->
 		</div><!--inner-->
-		<footer><p>Created <span>&#124;</span> {{formatted_date}}</p><p>Updated <span>&#124;</span> {{formatted_date}}</p></footer>
+		<footer><!--p>Created <span>&#124;</span> {{formatted_date}}</p--><p>Updated <span>&#124;</span> {{formatted_date}}</p></footer>
 	</div><!--campaign-->
 </div><!--pure-->
-	<div class="associated pure-u-1 pure-u-md-1-3">
-		<h4><span>4</span>Associated Elements</h4>
-		<a class="add lightboxed store" href="{{www_path}}/elements/add/">+ Add</a>
+<div class="associated pure-u-1 pure-u-md-1-3">
+	<h4><span>{{element_count}}</span>Associated Elements</h4>
+	<a class="add lightboxed store" href="{{www_path}}/elements/add/">+ Add</a>
 
-		<div class="inner">
+	<div class="inner">
+		{{#elements_for_campaign}}
+		<ul class="alternating">
 			{{#elements_for_campaign}}
-			<ul class="alternating">
-				{{#elements_for_campaign}}
-				<li>
-				<a class="primary" href="{{www_path}}/elements/edit/{{id}}">
-				<strong>{{name}}</strong><span class="descriptive spaced fadedtext">{{type}} / {{formatted_date}}</span></a>
-					<div class="more"><div class="toggle"></div><!--toggle-->
-						<div class="actions">
-							<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
-							<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation delete"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Delete</a>
-						</div><!--actions-->
-					</div><!--more-->
-				</li>
-				{{/elements_for_campaign}}
-			</ul>
+			<li>
+			<a class="primary" href="{{www_path}}/elements/edit/{{id}}">
+			<strong>{{name}}</strong><span class="descriptive spaced fadedtext">{{type}} / {{formatted_date}}</span></a>
+				<div class="more"><div class="toggle"></div><!--toggle-->
+					<div class="actions">
+						<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
+						<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation delete"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Delete</a>
+					</div><!--actions-->
+				</div><!--more-->
+			</li>
 			{{/elements_for_campaign}}
-			{{^isarchive}}
-				{{^elements_for_campaign}}
-				<div class="noelement">
-				<svg class="icon" viewBox="0 0 296 296"><use xlink:href="#icon-plus"></use></svg>
-					<p><span>+Add</span> an element to get started</p>
-				</div><!--noelement-->
-				{{/elements_for_campaign}}
-			{{/isarchive}}
-		</div><!--inner-->		
-	</div><!--associated-->
+		</ul>
+		{{/elements_for_campaign}}
+		{{^isarchive}}
+			{{^elements_for_campaign}}
+			<div class="noelement">
+			<svg class="icon" viewBox="0 0 296 296"><use xlink:href="#icon-plus"></use></svg>
+				<p><span>+Add</span> an element to get started</p>
+			</div><!--noelement-->
+			{{/elements_for_campaign}}
+		{{/isarchive}}
+	</div><!--inner-->		
+</div><!--associated-->
+{{/selected_campaign}}
+
 <a class="button lightboxed" href="{{www_path}}/campaigns/add/">Add a Campaign</a>
 {{/campaigns_for_user}}
+
 
 {{^campaigns_for_user}}
 	<p>No campaigns have been added yet. <a class="lightboxed button" href="{{www_path}}/campaigns/add/">Add one.</a></p>
