@@ -12,6 +12,8 @@ if (isset($_POST['change_template_id'])) {
 	);
 }
 
+
+
 // get username and any user data
 $user_response = $cash_admin->requestAndStore(
 	array(
@@ -24,6 +26,7 @@ if (is_array($user_response['payload'])) {
 	$current_username = $user_response['payload']['username'];
 	$current_userdata = $user_response['payload']['data'];
 }
+
 
 
 // get news for the news feed
@@ -50,74 +53,6 @@ if ($session_news['activity']['orders']) {
 }
 
 
-/*
-// check to see if the user has elements defined
-$elements_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'element', 
-		'cash_action' => 'getelementsforuser',
-		'user_id' => $cash_admin->effective_user_id
-	)
-);
-
-if (is_array($elements_response['payload'])) {
-	// this essentially locks us to the newest template, meaning everyone gets just
-	// one page template at first. if it's there, it's live
-	$template_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'system', 
-			'cash_action' => 'getnewesttemplate',
-			'all_details' => true,
-			'user_id' => $cash_admin->effective_user_id
-		)
-	);
-	if ($template_response['payload']) {
-		$cash_admin->page_data['page_template'] = $template_response['payload']['id'];
-	}
-
-	foreach ($elements_response['payload'] as &$element) {
-		$element['type_name'] = $element['type'];
-	}
-
-	$cash_admin->page_data['elements_found'] = true;
-	$cash_admin->page_data['elements_for_user'] = new ArrayIterator($elements_response['payload']);
-} else {
-	// no elements found, meaning it's a newer install
-
-	// first check if they've changed the default email as a sign of step 1:
-	if (CASHSystem::getDefaultEmail() != 'CASH Music <info@cashmusic.org>') {
-		$cash_admin->page_data['step1_complete'] = 'complete';
-	}
-
-	// now check for assets and/or lists as a sign of step 2:
-	$asset_response = $cash_admin->requestAndStore(
-		array(
-			'cash_request_type' => 'asset', 
-			'cash_action' => 'getanalytics',
-			'analtyics_type' => 'recentlyadded',
-			'user_id' => $cash_admin->effective_user_id
-		)
-	);
-	if (is_array($asset_response['payload'])) {
-		$cash_admin->page_data['step2_complete'] = 'complete';
-	} else {
-		$list_response = $cash_admin->requestAndStore(
-			array(
-				'cash_request_type' => 'people', 
-				'cash_action' => 'getlistsforuser',
-				'user_id' => $cash_admin->effective_user_id
-			)
-		);
-		if (is_array($asset_response['payload'])) {
-			$cash_admin->page_data['step2_complete'] = 'complete';
-		}
-	}
-}
-
-if ($cash_admin->platform_type == 'single') {
-	$cash_admin->page_data['platform_type_single'] = true;
-}
-*/
 
 // get page url
 if (SUBDOMAIN_USERNAMES) {
@@ -140,7 +75,9 @@ if (!is_array($elements_response['payload'])) {
 	$elements_response['payload'] = array();
 }
 
-// get all campaigns and set as a variable
+
+
+// get all campaigns 
 $campaigns_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'element', 
@@ -157,6 +94,7 @@ if ($total_campaigns) {
 	// 
 	// TODO: proper selection of elements instead of just the first one because whatever
 	$current_campaign = $campaigns_response['payload'][0]['id'];
+	$admin_primary_cash_request->sessionSet('current_campaign',$current_campaign);
 
 	$campaign_elements = array();
 	if (is_array($campaigns_response['payload'])) {
@@ -217,11 +155,17 @@ if ($total_campaigns) {
 	$cash_admin->page_data['campaigns_for_user'] = new ArrayIterator($campaigns_response['payload']);
 }
 
+
+
+// handle users migrated from beta
 $extra_elements = $total_elements - count($campaign_elements);
 if ($extra_elements !== 0) {
 	$cash_admin->page_data['show_archive'] = true;
 }
 
+
+
+// figure out and select 	the correct view
 if ($total_campaigns) {
 	$cash_admin->setPageContentTemplate('mainpage');
 	$cash_admin->page_data['has_campaigns'] = true;

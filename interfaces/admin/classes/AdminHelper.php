@@ -401,18 +401,25 @@
 				);
 				if ($admin_primary_cash_request->response['status_uid'] == 'element_addelement_200') {
 
+					$current_campaign = false;
 					if ($post_data['in_campaign']) {
+						$current_campaign = $post_data['in_campaign'];
+					} else {
+						$current_campaign = AdminHelper::getPersistentData('current_campaign');
+					}
+
+					if ($current_campaign) {
 						$cash_admin->requestAndStore(	
 							array(
 								'cash_request_type' => 'element', 
 								'cash_action' => 'addelementtocampaign',
-								'campaign_id' => $post_data['in_campaign'],
+								'campaign_id' => $current_campaign,
 								'element_id' => $admin_primary_cash_request->response['payload']
 							)
 						);
 						// handle differently for AJAX and non-AJAX
 						if ($cash_admin->page_data['data_only']) {
-							AdminHelper::formSuccess('Success. New element added.','/campaigns/view/' . $post_data['in_campaign']);
+							AdminHelper::formSuccess('Success. New element added.','/');
 						} else {
 							$cash_admin->setCurrentElement($admin_primary_cash_request->response['payload']);
 						}

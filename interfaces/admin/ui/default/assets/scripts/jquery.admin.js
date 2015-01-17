@@ -1129,12 +1129,6 @@
 			for (var i = 1; i <= mpForm.total; i++) {
 				addMultipartButtons(i);
 			};
-			if (window.location.pathname.indexOf('campaigns/view')) {
-				var parts = window.location.pathname.split('/');
-				if ($('#in_campaign')) {
-					$('#in_campaign').val(parts[parts.length - 1]);
-				}
-			}
 		});
 	}
 
