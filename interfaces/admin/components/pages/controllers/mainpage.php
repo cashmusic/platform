@@ -208,7 +208,7 @@ if ($total_campaigns) {
 						'id' => $campaign['id']
 					)
 				);
-				$campaign['total_views'] = $analytics_response['payload']['total_views'];
+				$campaign['formatted_views'] = CASHSystem::formatCount($analytics_response['payload']['total_views']);
 			}
 		}
 	}
