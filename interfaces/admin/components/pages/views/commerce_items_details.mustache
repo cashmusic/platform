@@ -9,22 +9,22 @@
 	<textarea rows="3" id="item_description" name="item_description">{{description}}</textarea>
 
 
-		<div class="pure-u-1 pure-u-md-1-2">
-				<div class="pure-u-1 pure-u-md-1-2">
+		<div class="pure-u-1">
+				<div class="pure-u-1 pure-u-md-1-3">
 					<label for="item_price">Price ($ USD)</label>
 					<input type="text" id="item_price" name="item_price" value="{{price}}" class="required number" />
 				</div><!--pure-->
-				<div class="pure-u-1 pure-u-md-1-2">
+				<div class="pure-u-1 pure-u-md-1-3">
 					<label for="item_quantity">Quantity (-1: unlimited)</label>
 					<input type="text" id="item_quantity" name="item_quantity" value="{{available_units}}" class="number" />
 				</div><!--pure-->
-		</div><!--pure-->
-		<div class="pure-u-1 pure-u-md-1-2">
+				<div class="pure-u-1 pure-u-md-1-3">
 			<label for="item_fulfillment_asset">Fulfillment asset</label>
 			<select id="item_fulfillment_asset" name="item_fulfillment_asset">
 				<option value="0">None (No digital fulfillment)</option>
 				{{{asset_options}}}
 			</select>
+		</div><!--pure-->
 		</div><!--pure-->
 	<label for="item_flexible_price">
 		<input type="checkbox" name="item_flexible_price" id="item_flexible_price"{{#flexible_price}} checked="checked"{{/flexible_price}} class="checkorradio" /> Enable "pay-at-least" minimum pricing

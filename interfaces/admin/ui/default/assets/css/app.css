@@ -559,7 +559,7 @@ h1,h2,h3,h4,h5{
 
 h2{ font-size:28px; line-height:32px;}
 h3{ font-size:20px; line-height:28px;}
-h4{ font-size:30px; line-height:36px; margin:30px 0 15px 0; }
+h4{ font-size:30px; line-height:36px; margin:0 0 15px 0; }
 h5{ font-size:18px; line-height:26px;}
 /* Text Types */
 
@@ -2600,13 +2600,8 @@ ul.alternating li .actions a{
 	background:none;
 	border:none;
 }
-
-.commerce .item a{
+.commerce .item a:hover, .commerce .item .info:hover{
 	background:none;	
-}
-
-.commerce .item .info a:hover{
-	background:none;
 }
 
 .commerce .item .info .icon{
@@ -2629,7 +2624,7 @@ ul.alternating li .actions a{
 	margin:0;
 	width:17.5%;
 	overflow:visible;
-	display:inline-block;
+	display:block;
 	position: relative;
 	top:0;
 	left:0;
@@ -2658,9 +2653,9 @@ ul.alternating li .actions a{
 }
 
 .commerce .item .assetlink .icon{
-	height:94px;
-	width:94px;
-	padding:20px;
+	height:100px;
+	width:100px;
+	padding:30px;
 	fill:rgba(34,34,34,0.5);
 }
 
