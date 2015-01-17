@@ -197,7 +197,18 @@ if ($total_campaigns) {
 			}
 
 			if ($campaign['id'] == $current_campaign) {
+				// set the campaign as the selected campaign
 				$cash_admin->page_data['selected_campaign']	= $campaign;
+
+				// get campaign analytics
+				$analytics_response = $cash_admin->requestAndStore(
+					array(
+						'cash_request_type' => 'element', 
+						'cash_action' => 'getanalyticsforcampaign',
+						'id' => $campaign['id']
+					)
+				);
+				$campaign['total_views'] = $analytics_response['payload']['total_views'];
 			}
 		}
 	}
