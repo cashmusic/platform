@@ -48,8 +48,10 @@
 		{"page_name":"Delete item", "menu_icon":""},
 	"commerce/items/edit":
 		{"page_name":"Edit item", "menu_icon":""},
-	"commerce/orders":
-		{"page_name":"Orders", "menu_icon":{"xlink":"#icon-cart", "viewBox":"0 0 260 220"} },
+	"commerce/items/add":
+		{"page_name":"Add item", "menu_icon":""},
+	"commerce/export":
+		{"page_name":"Export", "menu_icon":{"xlink":"#icon-dwnld", "viewBox":"0 0 260 240"} },
 	"commerce/orders/view":
 		{"page_name":"Order details", "menu_icon":""},
 		
