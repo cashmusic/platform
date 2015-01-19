@@ -113,6 +113,7 @@ if ($total_campaigns) {
 					);
 
 					if (is_array($elements_response['payload'])) {
+						$elements_response['payload'] = array_reverse($elements_response['payload']);
 						foreach ($elements_response['payload'] as &$element) {
 							if ($element['modification_date'] == 0) {
 								$element['formatted_date'] = CASHSystem::formatTimeAgo($element['creation_date']);	
