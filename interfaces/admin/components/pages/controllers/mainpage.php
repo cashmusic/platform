@@ -63,6 +63,10 @@ if (SUBDOMAIN_USERNAMES) {
 }
 $cash_admin->page_data['user_page_display_uri'] = str_replace('http://','',$cash_admin->page_data['user_page_uri']);
 
+
+//get public URL
+$cash_admin->page_data['public_url'] = CASH_PUBLIC_URL;
+
 // all user elements defined
 $elements_response = $cash_admin->requestAndStore(
 	array(
