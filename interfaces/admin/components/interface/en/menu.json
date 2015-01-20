@@ -95,8 +95,6 @@
 		{"page_name":"People", "menu_icon":"", "tagline":"lists and contacts"},
 	"people/contacts":
 		{"page_name":"Contacts", "menu_icon":""},
-	"people/lists":
-		{"page_name":"Lists", "menu_icon":{"xlink":"#icon-list", "viewBox":"0 0 280 220"} },
 	"people/lists/add":
 		{"page_name":"Add list", "menu_icon":""},
 	"people/lists/delete":
