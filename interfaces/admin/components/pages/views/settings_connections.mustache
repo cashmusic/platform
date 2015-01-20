@@ -5,11 +5,13 @@
 		</div><!--pure-->
 		<div class="pure-u-1">
 				{{#all_services}}
-					<div class="pure-u-1 pure-u-md-1-3"><a class="connection" href="{{www_path}}/settings/connections/add/{{key}}">
-					{{#service_has_image}}
-						<img src="{{www_path}}/assets/images/settings/{{key}}.png" width="100%" alt="{{name}}" />
-					{{/service_has_image}}
-					<small>{{name}}</small></a></div><!--pure-->
+					<div class="pure-u-1">
+						<a class="connection" href="{{www_path}}/settings/connections/add/{{key}}">
+							{{#service_has_image}}
+								<img src="{{www_path}}/assets/images/settings/{{key}}.png" width="100%" alt="{{name}}" />
+							{{/service_has_image}}<small>{{name}}</small>
+						</a>
+					</div><!--pure-->
 				{{/all_services}}
 		</div><!--pure-->
 {{/service_selected}}

@@ -13,8 +13,8 @@
 		</div>
 	</div><!--sectiondash-->
 {{/dashboard_list_total_new}}
-	<div class="pure-u-1 pure-u-md-1-2">
-		<h4>Lists</h4>
+	<h4>Lists</h4>	
+	<div class="pure-u-1 pure-u-md-2-3">
 		{{#lists_all}}
 		<ul class="alternating">
 			{{#lists_all}}
@@ -26,36 +26,23 @@
 						<a href="{{www_path}}/people/lists/view/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 260 260"><use xlink:href="#icon-search"></use></svg>View</a>
 						<a href="{{www_path}}/people/lists/edit/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
 						<a href="{{www_path}}/people/lists/export/{{id}}" class="mininav_flush noajax"><svg class="icon" viewBox="0 0 260 240"><use xlink:href="#icon-dwnld"></use></svg>Export</a>
+						<a href="{{www_path}}/people/lists/delete/{{id}}" class="mininav_flush needsconfirmation"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Delete</a>
 					</div><!--actions-->
 				</div><!--more-->
 			</li>
-
 			{{/lists_all}}
 		</ul>
 		{{/lists_all}}
-
 		{{^lists_all}}
 		<p>No lists have been created.</p>
 		{{/lists_all}}
 	</div><!--pure-->
-	<div class="pure-u-1 pure-u-md-1-2">
-		<h4>Add new press coverage</h4>
-		<form accept-charset="UTF-8" method="post" action="{{www_path}}/people/press">
-			<label for="press_url">URL</label>
-			<input type="text" id="press_url" name="press_url" /> 
-
-			<label for="publishing_date">Publishing date</label>
-			<input type="text" id="publishing_date" name="publishing_date" value="{{current_date}}" /> 
-
-			<!--
-			<br />
-			<label>Tags</label>
-			{{{tag_markup}}}
-			<a href="#" class="injectbefore" rev="<input type='text' name='tag' value='' placeholder='Tag' />" rel="{{tag_counter}}"><small>+ ADD TAG</small></a>
-			-->
-
-			<br />
-			<button type="submit">Add new link</button>
-		
-		</form>
+	<div class="pure-u-1 pure-u-md-1-3">
+		<aside>
+			<div class="inner">
+				<img src="{{www_path}}/assets/images/settings/com.mandrillapp.png" alt="Mandrill" />
+				<p>Add your Mandrill account to begin sedning email from your lists.</p><p><a class="fadedtext" href="https://mandrill.com">https://mandrill.com</a></p>
+				<a class="button">Add Connection</a><!--button-->
+			</div><!--inner-->
+		</aside><!-- Mandrill -->
 	</div><!--pure-->
