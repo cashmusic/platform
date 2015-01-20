@@ -14,7 +14,7 @@ if (isset($_POST['dolistadd'])) {
 		)
 	);
 	if ($add_response['payload']) {
-		AdminHelper::formSuccess('Success. List added.','/people/lists/edit/' . $add_response['payload']);
+		AdminHelper::formSuccess('Success. List added.','/people/' . $add_response['payload']);
 	} else {
 		AdminHelper::formFailure('Error. Something just didn\'t work right.','/people/lists/add/');
 	}
@@ -24,5 +24,5 @@ $cash_admin->page_data['connection_options'] = AdminHelper::echoConnectionsOptio
 $cash_admin->page_data['form_state_action'] = 'dolistadd';
 $cash_admin->page_data['list_button_text'] = 'Add the list';
 
-$cash_admin->setPageContentTemplate('people_lists_details');
+$cash_admin->setPageContentTemplate('people_lists_add');
 ?>

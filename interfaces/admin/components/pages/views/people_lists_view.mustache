@@ -1,13 +1,14 @@
 {{#ui_title}}
-	<p class="big">{{list_description}}</p>
-
 	<div id="stats">
 	<h4>Statistics</h4>
 	<p class="total">Total active members: <span>{{analytics_active}}</span></p>
 	<p class="inactive">Inactive members: <span>{{analytics_inactive}}</span></p>
 	<p class="newm">New members, past 7 days: <span>{{analytics_last_week}}</span></p>
 	</div><!--stats-->
+
+	<h2>{{list_description}}</h2>
 	
+	<!-- Show members on list -->
 	{{#list_members}}
 		<h4 class="tabletitle">List Members</h4>
 		<div id="actions">
@@ -43,6 +44,12 @@
 			</tbody>
 		</table>
 	{{/list_members}}
+
+	<!-- No members on list -->
+	{{^list_members}}
+		<p>Sorry, no members have joined this list yet.</p>
+	{{/list_members}}
+
 {{/ui_title}}
 {{^ui_title}}
 	<h4>Sorry</h4>Error getting list.
