@@ -15,8 +15,8 @@
 	{{#orders_recent}}{{/orders_recent}}
 {{/orders_recent}}
 
-	<div class="pure-u-1 pure-u-md-1-2">
-		<h4>Recent orders</h4>
+	<div class="pure-u-1">
+		<h4>Orders</h4>
 		{{#orders_recent}}
 		<ul class="alternating">
 			{{#orders_recent}}
@@ -37,28 +37,4 @@
 		{{^orders_recent}}
 		<p>No orders have been placed yet.</p>
 		{{/orders_recent}}
-	</div><!--pure-->
-	<div class="pure-u-1 pure-u-md-1-2">
-		<h4>All items</h4>
-		{{#items_all}}
-		<ul class="alternating">
-			{{#items_all}}
-			<li>
-				<a class="primary" href="{{www_path}}/commerce/items/edit/{{id}}">
-				<strong>{{name}}</strong>{{#description}}<span class="descriptive spaced fadedtext">{{description}}</span>{{/description}}</a>
-				<div class="more"><div class="toggle"></div><!--toggle-->
-					<div class="actions">
-						<a href="{{www_path}}/commerce/items/edit/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
-						<a href="{{www_path}}/commerce/items/delete/{{id}}" class="mininav_flush needsconfirmation"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Delete</a>
-					</div><!--actions-->
-				</div><!--more-->
-			</li>
-			{{/items_all}}
-		</ul>
-		{{/items_all}}
-
-		{{^items_all}}
-		<p>No items have been defined.</p>
-		{{/items_all}}
-		<a href="{{www_path}}/commerce/items/" class="button">Add an item</a>
 	</div><!--pure-->
