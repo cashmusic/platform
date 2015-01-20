@@ -14,6 +14,23 @@
 	</div><!--sectiondash-->
 {{/dashboard_list_total_new}}
 	<h4>Lists</h4>	
+
+		<div id="snapshot">
+			<div class="pure-u-1 pure-u-md-1-2">
+				<div class="inner">
+					<h4>Total Subscriber{{^people_singular}}s{{/people_singular}}</h4>
+					<h5 class="totalviews">2,534</h5>
+				</div><!--inner-->
+			</div><!--pure-->
+			<div class="pure-u-1 pure-u-md-1-2">
+				<div class="inner">
+				<h4>Total New Subscriber{{^people_singular}}s{{/people_singular}}</h4>
+				<h5 class="totalviews">{{dashboard_list_total_new}} 10k</h5>
+				<h5 class="percentage"><svg class="icon" viewBox="0 0 189 246"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-lg-arw"></use></svg>0%</h5>
+				</div><!--inner-->
+			</div><!--pure-->
+		</div><!--snapshot-->
+
 	<div class="pure-u-1 pure-u-md-2-3">
 		{{#lists_all}}
 		<ul class="alternating">
@@ -36,6 +53,11 @@
 		{{^lists_all}}
 		<p>No lists have been created.</p>
 		{{/lists_all}}
+
+		<footer>
+		<a class="button lightboxed" href="{{www_path}}/people/lists/add/">Add a new list</a>
+		<div class="pagination"><a class="prev" href="/">Previous</a><span>/</span><a class="next active" href="/">Next</a></div><!--pagination-->
+		</footer>
 	</div><!--pure-->
 	<div class="pure-u-1 pure-u-md-1-3">
 		<aside>
