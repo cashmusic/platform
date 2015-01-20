@@ -241,7 +241,7 @@ html, button, input, select, textarea,
 /* Pure Grid Gutters */
 
 /* 2 Col Layout */
-.pure-u-md-1-2:nth-of-type(odd){ padding:0 10px 0 0; }
+.pure-u-md-1-2:nth-of-type(odd),{ padding:0 10px 0 0; }
 .pure-u-md-1-2:nth-of-type(even) { padding:0 0 0 10px; }
 
 .pure-u-md-2-3:nth-of-type(odd){ padding:0 20px 0 0; }
@@ -598,6 +598,10 @@ small{
 	width:100%!important;
 }
 
+.right{
+	float:right;
+}
+
 /* Animation */
 
 /* Turn Animation */
@@ -678,7 +682,7 @@ small{
 	padding:0;
 	margin:0;
 	z-index:2;
-	background:rgba(17,17,17,0.97) url(../images/header_bg.png);
+	background:rgba(17,17,17,0.97) url(../images/header_bg.jpg);
 }
 
 .panel #header{
@@ -2483,10 +2487,10 @@ ul.alternating li a:hover, ul.alternating li:nth-child(odd) a:hover{
 
 /* Alternate colours */  /* Need to change for new list styles */
 
-.usecolor2 ul.alternating li a:hover, .usecolor2 ul.alternating li:nth-child(odd) a:hover {background:#fa3838; 	color:#f5f5f5;}
+/*.usecolor2 ul.alternating li a:hover, .usecolor2 ul.alternating li:nth-child(odd) a:hover {background:#fa3838; 	color:#f5f5f5;}
 .usecolor3 ul.alternating li a:hover, .usecolor3 ul.alternating li:nth-child(odd) a:hover {background:#ff7c12; 	color:#f5f5f5;}
-/*.usecolor4 ul.alternating li a:hover, .usecolor4 ul.alternating li:nth-child(odd) a:hover {background:#6a38fa; 	color:#f5f5f5;}*/
-.usecolor5 ul.alternating li a:hover, .usecolor5 ul.alternating li:nth-child(odd) a:hover {background:#fa3866; 	color:#f5f5f5;}
+.usecolor4 ul.alternating li a:hover, .usecolor4 ul.alternating li:nth-child(odd) a:hover {background:#6a38fa; 	color:#f5f5f5;}
+.usecolor5 ul.alternating li a:hover, .usecolor5 ul.alternating li:nth-child(odd) a:hover {background:#fa3866; 	color:#f5f5f5;}*/
 
 /* Element Action Submenu */
 
@@ -2707,15 +2711,40 @@ ul.alternating li .more.display .actions{
 
 
 ul.alternating li .more.display .toggle{
-	background:#00cf7f url(../images/menu_icon.png) no-repeat 50% 50%;
+	background:#00cf7f url(../images/menu_icon_w.png) no-repeat 50% 50%;
 	background-size: 40%;
 	/*border:solid 1px #00cf7f;*/
+}
+
+/* Analytics Snapshots */
+
+#snapshot{
+	margin:0 0 20px 0;
+	padding:0;
+}
+
+#snapshot .inner{
+	margin:0;
+	padding:30px;
+	min-height:150px;
+	background:#dbdbdb;
+	border: solid 1px #cbcbcb;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+#snapshot .inner h4 {
+	font-size: 18px;
+	line-height: 20px;
+	margin:0 0 30px 0;
 }
 
 /* Pagination Links */
 
 .pagination{
-	margin:50px 0 20px 0;
+	float: right;
+	margin:0px 0 0px 0;
 }
 
 .pagination span{
@@ -2735,6 +2764,9 @@ ul.alternating li .more.display .toggle{
 .pagination a.active:hover{
 	text-decoration: underline;
 }
+
+
+
 
 /* Alternate colours */
 
@@ -3304,6 +3336,17 @@ width:100%;
 }
 
 
+/* Inline Statistics */
+
+.totalviews{ font-size: 72px; margin:0; display: inline-block;}
+.percentage{ font-size: 38px; margin:0 0 0 5px; display: inline-block; }
+.percentage .icon{ fill:#00cf7f; width:26px; height:26px; vertical-align:baseline; margin:0 5px 0 0; }
+
+.usecolor2 .percentage .icon { fill:#fa3838;}
+.usecolor3 .percentage .icon { fill:#ff7c12;}
+.usecolor4 .percentage .icon { fill:#6a38fa;}
+.usecolor5 .percentage .icon { fill:#fa3866;}
+
 /* Campaign Elements */
 
 #campaigns{
@@ -3413,21 +3456,10 @@ width:100%;
 
 .campaign .stats .totalviews{
 	color:#ededed;
-	font-size: 72px;
 }
 
 .campaign .stats .percentage{
 	color:#b8b8b8;
-	font-size: 38px;
-	margin:0 0 0 5px;
-}
-
-.campaign .stats .percentage .icon{
-	margin:0 5px 0 0;
-	fill:#00cf7f;
-	width:26px;
-	height:26px;
-	vertical-align:baseline;
 }
 
 .campaign footer{
@@ -3438,6 +3470,7 @@ width:100%;
 	background:rgba(17,17,17,0.8);
 	color:#7d7d7d;
 	padding:20px;
+	margin:0!important;
 	width:100%;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -4109,11 +4142,13 @@ width:100%;
 /* Side Panel */
 
 aside{
+	margin:0 0 0 10px;
 	border:solid 1px #cbcbcb;
 	padding:20px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	background: url(../images/aside_bg.jpg);
 }
 
 aside .inner{
@@ -4129,6 +4164,7 @@ aside .inner{
 aside .inner img{
 	margin:0 0 30px 0;
 }
+
 
 aside .inner img, aside .inner .button{
 	width:100%;
@@ -4254,8 +4290,16 @@ button, .button, #modallightbox .modalcancel{
 	/*width:74%;*/
 }
 
-.panel #pagedisplay{
-	/*width:100%;*/
+#pagedisplay footer{
+	margin:50px 0 20px 0;
+}
+
+#pagedisplay footer .button, #pagedisplay footer button {
+	margin:0;
+}
+
+#pagedisplay footer .pagination{
+	margin:10px 0;
 }
 
 .big {

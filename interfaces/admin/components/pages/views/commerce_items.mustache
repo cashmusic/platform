@@ -1,18 +1,4 @@
 	<h4>Items</h4>
-	<div class="pure-u-1">
-		<div class="snapshot">
-			<div class="pure-u-1 pure-u-md-1-2">
-				<div class="inner">
-					<h4></h4>
-					<h5></h5>
-				</div><!--inner-->
-			</div><!--pure-->
-			<div class="pure-u-1 pure-u-md-1-2">
-				<div class="inner">
-				</div><!--inner-->
-			</div><!--pure-->
-		</div><!--snapshot-->
-	</div><!--pure-->
 	<div class="pure-u-1 pure-u-md-2-3">
 		{{#items_all}}
 		<ul class="commerce alternating">
@@ -43,8 +29,10 @@
 		<p>No items have been defined.</p>
 		{{/items_all}}
 
-		<div class="pagination"><a class="prev" href="/">Previous</a><span>/</span><a class="next active" href="/">Next</a></div><!--pagination-->
-
+			<footer>
+				<a href="{{www_path}}/commerce/items/add" class="button lightboxed">Add an item</a>
+				<div class="pagination"><a class="prev" href="/">Previous</a><span>/</span><a class="next active" href="/">Next</a></div><!--pagination-->
+			</footer>
 	</div><!--pure-->
 
 	<div class="pure-u-1 pure-u-md-1-3">
