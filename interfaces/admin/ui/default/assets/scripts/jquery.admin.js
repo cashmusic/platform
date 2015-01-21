@@ -329,6 +329,10 @@
 			$($(this).data('cash-target-form')).submit();
 		});
 
+		$(document).on('change','#current-campaign',function(event) {
+     		$(this).closest('form').submit();
+     	});
+
 		// element embed highlight-and-copy code
 		$(document).on('click', '.codearea', function(e) {
 			element = this;
