@@ -1,7 +1,8 @@
+<h4>Mailing Lists</h4>
 {{#dashboard_list_total_new}}
 	<div class="sectiondash pure-u-1">
 		<div class="primarystat">
-			{{dashboard_list_total_new}}<label>New Subscriber{{^people_singular}}s{{/people_singular}}<br /><br /></label>
+			{{dashboard_list_total_new}}<label>New Subscriber{{^people_singular}}s{{/people_singular}}</label>
 		</div>
 		<div class="details">
 			<ul>
@@ -13,8 +14,7 @@
 		</div>
 	</div><!--sectiondash-->
 {{/dashboard_list_total_new}}
-	<h4>Lists</h4>	
-
+	
 		<div id="snapshot">
 			<div class="pure-u-1 pure-u-md-1-2">
 				<div class="inner">
@@ -33,11 +33,14 @@
 
 	<div class="pure-u-1 pure-u-md-2-3">
 		{{#lists_all}}
-		<ul class="alternating">
+		<ul class="people alternating">
 			{{#lists_all}}
 			<li>
-				<a class="primary" href="{{www_path}}/people/lists/view/{{id}}">
+			<div class="item">
+				<div class="stats">	<svg class="icon increase" viewBox="0 0 189 246"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-lg-arw"></use></svg><span>8888</span></div><!--stats-->
+				<a class="info" href="{{www_path}}/people/lists/view/{{id}}">
 				<strong>{{name}}</strong>{{#description}}<span class="descriptive spaced fadedtext">{{description}}</span>{{/description}}</a>
+			</div><!--item-->
 				<div class="more"><div class="toggle"></div><!--toggle-->
 					<div class="actions">
 						<a href="{{www_path}}/people/lists/view/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 260 260"><use xlink:href="#icon-search"></use></svg>View</a>
@@ -64,7 +67,7 @@
 			<div class="inner">
 				<img src="{{www_path}}/assets/images/settings/com.mandrillapp.png" alt="Mandrill" />
 				<p>Add your Mandrill account to begin sedning email from your lists.</p><p><a class="fadedtext" href="https://mandrill.com">https://mandrill.com</a></p>
-				<a class="button">Add Connection</a><!--button-->
+				<a href="{{www_path}}/settings/connections/add/com.mandrillapp" class="button lightboxed">Add Connection</a><!--button-->
 			</div><!--inner-->
 		</aside><!-- Mandrill -->
 	</div><!--pure-->

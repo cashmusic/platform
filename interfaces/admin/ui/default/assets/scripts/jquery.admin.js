@@ -92,8 +92,8 @@
 	 */
 	function redrawPage(data) {
 		// change the color
-		$('#mainspc, #pagetitle').removeClass();
-		$('#mainspc').addClass(data.specialcolor);
+		$('#mainspc, #pagetitle, #page').removeClass();
+		$('#mainspc, #page').addClass(data.specialcolor);
 
 		// nav
 		redrawMainNav(data.section_name);
