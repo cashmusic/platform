@@ -2,7 +2,7 @@
 	<form accept-charset="UTF-8" method="post" action="{{www_path}}{{requested_route}}">
 		<input type="hidden" name="{{form_state_action}}" value="makeitso" />
 		<label for="campaign_title">Name</label>
-		<input type="text" id="campaign_title" name="campaign_title" value="{{title}}" />
+		<input class="required" type="text" id="campaign_title" name="campaign_title" value="{{title}}" />
 
 		<label for="list_description">Description</label>
 		<textarea rows="3" id="campaign_description" name="campaign_description">{{description}}</textarea>
