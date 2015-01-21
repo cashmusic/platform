@@ -157,9 +157,6 @@ if ($total_campaigns) {
 			}
 
 			if ($campaign['id'] == $current_campaign) {
-				// set the campaign as the selected campaign
-				$cash_admin->page_data['selected_campaign']	= $campaign;
-
 				// get campaign analytics
 				$analytics_response = $cash_admin->requestAndStore(
 					array(
@@ -168,7 +165,10 @@ if ($total_campaigns) {
 						'id' => $campaign['id']
 					)
 				);
-				$campaign['formatted_views'] = CASHSystem::formatCount($analytics_response['payload']['total_views']);
+				$campaign['formatted_views'] = CASHSystem::formatCount(0 + $analytics_response['payload']['total_views']);
+
+				// set the campaign as the selected campaign
+				$cash_admin->page_data['selected_campaign']	= $campaign;
 			}
 		}
 	}
