@@ -8,15 +8,14 @@
 <!--/* Campaigns */-->
 
 <div id="campaigns">
-{{#campaigns_for_user}}
 <div class="pure-u-1">
 	<div class="selecta">
-	<label for="current-campaign">Selected Campaign:</label>
-	<select id="current-campaign">
-	{{#campaigns_for_user}}		
-  	<option href="{{id}}" value="{{title}}">{{title}}</option>
-	{{/campaigns_for_user}}
-	</select>
+		<form accept-charset="UTF-8" method="post" action="{{www_path}}/">
+			<label for="current-campaign">Selected Campaign:</label>
+			<select name="current-campaign" id="current-campaign">
+			{{{campaigns_as_options}}}
+			</select>
+		</form>
 	</div><!--selecta-->
 </div><!--pure-->	
 
@@ -79,12 +78,6 @@
 {{/selected_campaign}}
 
 <a class="button lightboxed" href="{{www_path}}/campaigns/add/">Add a Campaign</a>
-{{/campaigns_for_user}}
-
-
-{{^campaigns_for_user}}
-	<p>No campaigns have been added yet. <a class="lightboxed button" href="{{www_path}}/campaigns/add/">Add one.</a></p>
-{{/campaigns_for_user}}
 
 {{#show_archive}}
 	<p>There are archived elements. <a href="{{www_path}}/campaigns/view/0">View archive.</a></p>

@@ -12,6 +12,13 @@ if (isset($_POST['change_template_id'])) {
 	);
 }
 
+// handle campaign selection
+$current_campaign = $admin_primary_cash_request->sessionGet('current_campaign');
+if (isset($_POST['current-campaign'])) {
+	$current_campaign = $_POST['current-campaign'];
+	$admin_primary_cash_request->sessionSet('current_campaign',$current_campaign);
+}
+
 
 
 // get username and any user data
@@ -97,11 +104,14 @@ if ($total_campaigns) {
 	// 
 	// 
 	// TODO: proper selection of elements instead of just the first one because whatever
-	$current_campaign = $campaigns_response['payload'][0]['id'];
-	$admin_primary_cash_request->sessionSet('current_campaign',$current_campaign);
+	if (!$current_campaign) {
+		$current_campaign = $campaigns_response['payload'][count($campaigns_response['payload']) - 1]['id'];
+		$admin_primary_cash_request->sessionSet('current_campaign',$current_campaign);
+	}
 
 	$campaign_elements = array();
 	if (is_array($campaigns_response['payload'])) {
+		$cash_admin->page_data['campaigns_as_options'] = '';
 		foreach ($campaigns_response['payload'] as &$campaign) {
 			// pull out element details
 			$campaign['elements'] = json_decode($campaign['elements'],true);
@@ -131,6 +141,13 @@ if ($total_campaigns) {
 			}
 			// set element count
 			$campaign['element_count'] = count($campaign['elements']);
+
+			// add campaign to dropdown options
+			$cash_admin->page_data['campaigns_as_options'] .= '<option value="' . $campaign['id'] .'"';
+			if ($campaign['id'] == $current_campaign) {
+				$cash_admin->page_data['campaigns_as_options'] .= ' selected="selected"';
+			}
+			$cash_admin->page_data['campaigns_as_options'] .= '>' . $campaign['title'] . '</option>';
 
 			// normalize modification/creation dates
 			if ($campaign['modification_date'] == 0) {
