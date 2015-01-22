@@ -297,9 +297,11 @@
 
 		var client = new ZeroClipboard($(".copy"));
 		client.on( "ready", function( readyEvent ) {
+			//alert ("ready!");
   			client.on( "aftercopy", function( event ) {
-    			alert("Copied text to clipboard: " + event.data["text/plain"] );
+    			alert("Embed Code Copied To Clipboard: " + event.data["text/plain"] )
   			} );
+
 		} );
 		
 		// show/hide hero video

@@ -1,4 +1,8 @@
 <?php
+
+//Asset connections?
+$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('assets'); 
+
 // Deal with download code requests
 if (isset($_REQUEST['add_codes_qty']) && $request_parameters[0]) {
 	if ($_REQUEST['add_codes_qty'] > 0) {

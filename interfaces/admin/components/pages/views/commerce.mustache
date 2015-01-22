@@ -1,3 +1,8 @@
+{{^connection}}
+	<p>There aren't any relevant connections</p>
+{{/connection}}
+
+{{#connection}}
 {{#total_orders}}
 	<div class="sectiondash">
 		<div class="primarystat">
@@ -38,3 +43,4 @@
 		<p>No orders have been placed yet.</p>
 		{{/orders_recent}}
 	</div><!--pure-->
+{{/connection}}

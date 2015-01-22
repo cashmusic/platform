@@ -1,5 +1,18 @@
 <?php
+
+//Asset connections?
+$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('assets'); 
+
 $user_id = $cash_admin->effective_user_id;
+
+// Is there any services connected?
+$connector = AdminHelper::getConnectionsByScope($scope);
+if ($connector == "") {
+	$cash_admin->page_data['connection'] = false;
+}else{
+	$cash_admin->page_data['connection'] = true;
+}
+
 // get all assets for page
 $releases_response = $cash_admin->requestAndStore(
 	array(
