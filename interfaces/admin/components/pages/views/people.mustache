@@ -8,13 +8,12 @@
 			<div class="inner">
 				<h3><img src="{{www_path}}/assets/images/settings/com.mailchimp.png" alt="Mailchimp"/></h3>
 				<p>This is very reliable connection type at scale. Be aware price per mail-out increaes at volume.</p>
-				<a class="button fullwidth lightboxed" href="/">Add Connection</a>
+				<a class="button fullwidth lightboxed" href="{{www_path}}/settings/connections/add/com.mailchimp">Add Connection</a>
 			</div><!--inner-->
 		</div><!--pure-->
 		<div class="pure-u-1 pure-u-md-1-2">
 			<div class="inner">
-				<h3 class="fadedtext"><svg class="icon" viewBox="0 0 150 150"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-logo"></use></svg></h3>
-				<h2>Keep it in the family</h2>
+				<h3 class="title">Keep it in the family</h3>
 				<p>I don’t want to add any 3rd-party connections at the moment. I’ll just create a new list on the CASH system.</p>
 				<a class="button fullwidth lightboxed" href="{{www_path}}/people/lists/add/">Create List</a>
 			</div><!--inner-->
@@ -64,13 +63,16 @@
 			{{/lists_all}}
 		</ul>
 		{{/lists_all}}
+
 		{{^lists_all}}
-		<p>No lists have been created.</p>
+		<div class="empty">
+			<p>No lists have been created. Add one to get started.</p>
+		</div><!--empty-->
 		{{/lists_all}}
 
 		<footer>
 		<a class="button lightboxed" href="{{www_path}}/people/lists/add/">Add a new list</a>
-		<div class="pagination"><a class="prev" href="/">Previous</a><span>/</span><a class="next active" href="/">Next</a></div><!--pagination-->
+		{{#lists_all}}<div class="pagination"><a class="prev" href="/">Previous</a><span>/</span><a class="next active" href="/">Next</a></div><!--pagination-->{{/lists_all}}
 		</footer>
 	</div><!--pure-->
 

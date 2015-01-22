@@ -26,13 +26,17 @@
 		{{/items_all}}
 
 		{{^items_all}}
-		<p>No items have been defined.</p>
+		<div class="empty">
+			<p>No items have been created. Add one to get started.</p>
+		</div><!--empty-->
 		{{/items_all}}
 
+		{{#items_all}}	
 			<footer>
 				<a href="{{www_path}}/commerce/items/add" class="button lightboxed">Add an item</a>
 				<div class="pagination"><a class="prev" href="/">Previous</a><span>/</span><a class="next active" href="/">Next</a></div><!--pagination-->
 			</footer>
+		{{/items_all}}
 	</div><!--pure-->
 
 	<div class="pure-u-1 pure-u-md-1-3">

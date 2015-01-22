@@ -613,6 +613,24 @@ small{
 	display:block;
 }
 
+.empty{
+	background: #dbdbdb;
+	height:100%;
+	padding:100px 30px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.empty p{
+	text-align: center;
+	display: block;
+	margin:0;
+	font-size: 18px;
+	color:#666;
+	padding:0;
+}
+
 /* Animation */
 
 /* Turn Animation */
@@ -1289,7 +1307,7 @@ section[role=main].hero{
 
 .connection {
 	width:100%;
-	margin:0 0 3% 0;
+	margin:0 0 20px 0;
 	float:left;
 	background:rgba(245,245,245,0.7);
 	-webkit-transition: 0.3s  ease-in-out;
@@ -1298,6 +1316,11 @@ section[role=main].hero{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+}
+
+#pagedisplay .connection {
+	width:30%;
+	margin:0 1.5% 20px 1.5%;
 }
 
 .connection img{
@@ -2234,15 +2257,28 @@ color:#f5f5f5!important;
 
 .callout .inner{
 	background:#f5f5f5;
-	min-height:300px;
+	height:300px;
 	padding:30px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	position: relative;
+}
+
+.callout .inner .button{
+	position: absolute;
+	bottom:0px;
+	left:0;
+	margin:0 10% 8% 10%;
+	width:80%!important;
 }
 
 .callout .inner h3{
 	margin:0;
+}
+
+.callout .inner .title{
+	margin:20px 0 50px 0;
 }
 
 .callout .inner {
