@@ -1,4 +1,8 @@
 <?php
+
+//people connections?
+$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('users');
+
 $list_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'people', 

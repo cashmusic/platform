@@ -1,3 +1,34 @@
+{{^connection}}
+	<h2>CASH Assets are places to keep releases & files you’ll need for your Campaigns. Before you can begin adding Assets you will need to connect to one of the 3rd-party storage platforms below.</h2>
+
+	<div class="callout pure-u-1">
+		<div class="pure-u-1 pure-u-md-1-3">
+			<div class="inner">
+				<h3>Dropbox</h3>
+				<a class="button lightboxed" href="/">Add Connection</a>
+				<p>Be mindful of using this connection type where you anticipate large amounts of concurrent traffic.</p>
+			</div><!--inner-->
+		</div><!--pure-->
+		<div class="pure-u-1 pure-u-md-1-3">
+			<div class="inner">
+				<h3>Amazon</h3>
+				<a class="button lightboxed" href="/">Add Connection</a>
+				<p>This is the most reliable connection type at scale. </p>
+			</div><!--inner-->
+		</div><!--pure-->
+		<div class="pure-u-1 pure-u-md-1-3">
+			<div class="inner">
+				<h3>Google</h3>
+				<a class="button lightboxed" href="/">Add Connection</a>
+				<p>Best for testing and smaller scale campaigns. This service isn't designed for heavy load.</p>
+			</div><!--inner-->
+		</div><!--pure-->
+	</div><!--pure-->
+
+	<p>I host files on my own server. <a href="/">Let me manage assets now</a></p>
+{{/connection}}
+
+{{#connection}}
 {{#featured_releases}}
 	<div class="pure-u-1 pure-u-md-1-3">
 		<div class="featured-release">
@@ -108,3 +139,5 @@ your site.</p>
 <script type="text/javascript">
 	jQuery('div.cover').height(jQuery('div.cover').width());
 </script>
+
+{{/connection}}

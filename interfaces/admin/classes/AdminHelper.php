@@ -125,15 +125,15 @@
 	 * CONNECTION DETAILS
 	 *
 	 *********************************************/
+	
 	/**
 	 * Finds settings matching a specified scope and echoes them out formatted
 	 * for a dropdown box in a form
 	 *
 	 */public static function echoConnectionsOptions($scope,$selected=false,$return=false) {
-		// get system settings:
-		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
-		$applicable_settings_array = $page_data_object->getConnectionsByScope($scope);
 
+		AdminHelper::getConnectionsByScope($scope);
+		
 		$all_connections = '<option value="0">None</option>';
 
 		// echo out the proper dropdown bits
@@ -150,6 +150,16 @@
 				echo $all_connections;
 			}
 		}
+	}
+
+	//get connections scope
+	public static function getConnectionsByScope($scope){
+		
+		// get system settings:
+		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+		$applicable_settings_array = $page_data_object->getConnectionsByScope($scope);
+
+		return $applicable_settings_array;
 	}
 
 	/**

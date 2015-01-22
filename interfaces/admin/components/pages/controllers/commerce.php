@@ -1,4 +1,8 @@
 <?php
+
+//Commerce connections?
+$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('commerce');
+
 $items_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'commerce', 
