@@ -1,8 +1,5 @@
 <?php
 
-//Commerce connections?
-$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('commerce');
-
 $items_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'commerce', 
@@ -19,6 +16,10 @@ $orders_response = $cash_admin->requestAndStore(
 		'max_returned' => 6
 	)
 );
+
+//Commerce connection or Items present?
+$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('commerce') || $items_response['payload']; 
+
 
 if (is_array($items_response['payload'])) {
 	$cash_admin->page_data['items_all'] = new ArrayIterator($items_response['payload']);

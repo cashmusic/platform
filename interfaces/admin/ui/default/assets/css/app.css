@@ -594,8 +594,10 @@ small{
 	margin:0 0 30px 0;
 }
 
+/* Helpers */
+
 .fadedtext{
-	opacity:0.8;
+	opacity:0.5;
 }
 
 .fullwidth{
@@ -604,6 +606,11 @@ small{
 
 .right{
 	float:right;
+}
+
+.center{
+	text-align:center;
+	display:block;
 }
 
 /* Animation */
@@ -901,7 +908,7 @@ small{
 	visibility: hidden;
 } 
 
- #hero .welcome h2{
+#hero .welcome h2{
  	padding:0 40px 0 40px;
  	margin:0;
  	color:#00cf7f;
@@ -928,7 +935,6 @@ small{
 	min-height:420px;
 	position:fixed;
 }
-
 
 /* First Use */
 
@@ -1004,7 +1010,6 @@ small{
 	border:solid 1px #00ac6a;
 	padding:20px 30px;
 }
-
 
 .stat h3{
 	color:#f5f5f5;
@@ -2211,14 +2216,65 @@ color:#f5f5f5!important;
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
-	padding:3%;
+	padding:20px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	margin:3% 0;
+	margin:20px 0;
 	border:solid 1px #ccc;
 	overflow:auto;
 	clear:both;
+}
+
+
+/* First Use Highlight Areas */
+.callout.texture{
+	background: url(../images/texture.jpg);
+}
+
+.callout .inner{
+	background:#f5f5f5;
+	min-height:300px;
+	padding:30px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.callout .inner h3{
+	margin:0;
+}
+
+.callout .inner {
+	color:#888888;
+	text-align:center;
+}
+
+
+.callout .inner img{
+	height:auto;
+	width:80%;
+	margin:0 0 30px 0;
+}
+
+.callout .pure-u-md-1-2 .inner img{
+	width:40%;
+}	
+
+.callout .inner .icon{
+	height:60px;
+	width:60px;
+}
+
+.comingsoon{
+	filter: grayscale(100%);
+	-webkit-filter: grayscale(100%);
+	-moz-filter: grayscale(100%);
+	opacity:0.6;
+}
+
+.comingsoon .button, .comingsoon button{
+	pointer-events: none;
 }
 
 .drawer fieldset{
@@ -4233,7 +4289,7 @@ aside{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	background: url(../images/aside_bg.jpg);
+	background: url(../images/texture.jpg);
 }
 
 aside .inner{
