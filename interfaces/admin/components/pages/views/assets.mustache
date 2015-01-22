@@ -1,31 +1,32 @@
 {{^connection}}
-	<h2>CASH Assets are places to keep releases & files you’ll need for your Campaigns. Before you can begin adding Assets you will need to connect to one of the 3rd-party storage platforms below.</h2>
+	<h2>CASH Assets are places to keep releases &amp; files you’ll need for your Campaigns. Before you can begin adding Assets you will need to connect to one of the 3rd-party storage platforms below.</h2>
 
-	<div class="callout pure-u-1">
+	<div class="callout texture pure-u-1">
 		<div class="pure-u-1 pure-u-md-1-3">
 			<div class="inner">
-				<h3>Dropbox</h3>
-				<a class="button lightboxed" href="/">Add Connection</a>
+				<h3><img src="{{www_path}}/assets/images/settings/com.dropbox.png" alt="Dropbox"/></h3>
 				<p>Be mindful of using this connection type where you anticipate large amounts of concurrent traffic.</p>
+				<a class="button fullwidth lightboxed" href="/">Add Connection</a>
 			</div><!--inner-->
 		</div><!--pure-->
 		<div class="pure-u-1 pure-u-md-1-3">
 			<div class="inner">
-				<h3>Amazon</h3>
-				<a class="button lightboxed" href="/">Add Connection</a>
+				<h3><img src="{{www_path}}/assets/images/settings/com.amazon.png" alt="Amazon"/></h3>
 				<p>This is the most reliable connection type at scale. </p>
+				<a class="button fullwidth lightboxed" href="/">Add Connection</a>
 			</div><!--inner-->
 		</div><!--pure-->
 		<div class="pure-u-1 pure-u-md-1-3">
 			<div class="inner">
-				<h3>Google</h3>
-				<a class="button lightboxed" href="/">Add Connection</a>
+				<h3><img src="{{www_path}}/assets/images/settings/com.google.drive.png" alt="Google"/></h3>
 				<p>Best for testing and smaller scale campaigns. This service isn't designed for heavy load.</p>
+				<a class="button fullwidth lightboxed" href="/">Add Connection</a>
 			</div><!--inner-->
 		</div><!--pure-->
 	</div><!--pure-->
 
-	<p>I host files on my own server. <a href="/">Let me manage assets now</a></p>
+	<p class="center">I host files on my own server. <a href="{{www_path}}/assets/add/file" class="lightboxed"> Add a file</a> or
+	<a href="{{www_path}}/assets/add/release" class="lightboxed">Add a new release</a>.</p>
 {{/connection}}
 
 {{#connection}}

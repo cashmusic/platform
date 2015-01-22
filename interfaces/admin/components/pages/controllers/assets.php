@@ -1,17 +1,6 @@
 <?php
 
-//Asset connections?
-$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('assets'); 
-
 $user_id = $cash_admin->effective_user_id;
-
-// Is there any services connected?
-$connector = AdminHelper::getConnectionsByScope($scope);
-if ($connector == "") {
-	$cash_admin->page_data['connection'] = false;
-}else{
-	$cash_admin->page_data['connection'] = true;
-}
 
 // get all assets for page
 $releases_response = $cash_admin->requestAndStore(
@@ -41,6 +30,10 @@ $files_response = $cash_admin->requestAndStore(
 		'user_id' => $user_id
 	)
 );
+
+//Commerce connection, release or files present?
+$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('assets') || $releases_response['payload'] || $files_response['payload']; 
+
 
 if (is_array($releases_response['payload'])) {
 	$releases_response['payload'] = array_reverse($releases_response['payload']); // newest first

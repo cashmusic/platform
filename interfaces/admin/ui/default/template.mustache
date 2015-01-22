@@ -86,27 +86,33 @@
 								<span>{{link_menu_assets}}</span>
 								<svg class="icon" viewBox="0 0 263 263"><use xlink:href="#icon-paste"></use></svg>
 							</a>
+							{{#connection}}
 							<div class="subnavmenu usecolor2">
 								{{{assets_section_menu}}}
 							</div>
+							{{/connection}}
 						</li>
 						<li{{#ui_current_people}} class="current"{{/ui_current_people}}>
 							<a href="{{www_path}}/people/" class="peoplenav">
 								<span>{{link_menu_people}}</span>
 								<svg class="icon" viewBox="0 0 260 243"><use xlink:href="#icon-group"></use></svg>
 							</a>
+							{{#connection}}
 							<div class="subnavmenu usecolor3">
 								{{{people_section_menu}}}
 							</div>
+							{{/connection}}
 						</li>
 						<li{{#ui_current_commerce}} class="current"{{/ui_current_commerce}}>
 							<a href="{{www_path}}/commerce/" class="commercenav">
 								<span>{{link_menu_commerce}}</span>
 								<svg class="icon" viewBox="0 0 262 211"><use xlink:href="#icon-card"></use></svg>
 							</a>
+							{{#connection}}
 							<div class="subnavmenu usecolor4">
 								{{{commerce_section_menu}}}
 							</div>
+							{{/connection}}
 						</li>
 						<li{{#ui_current_calendar}} class="current"{{/ui_current_calendar}}>
 							<a href="{{www_path}}/calendar/" class="calendarnav">

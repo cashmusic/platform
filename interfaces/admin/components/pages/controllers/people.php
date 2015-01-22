@@ -1,8 +1,5 @@
 <?php
 
-//people connections?
-$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('users');
-
 $list_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'people', 
@@ -10,6 +7,9 @@ $list_response = $cash_admin->requestAndStore(
 		'user_id' => $cash_admin->effective_user_id
 	)
 );
+
+//people connection or list present?
+$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('users') || $list_response['payload'];
 
 // lists
 if (is_array($list_response['payload'])) {
