@@ -52,6 +52,14 @@
 		</div><!--featured-release-->
 	</div><!--pure-->
 {{/featured_releases}}
+
+{{^featured_releases}}
+	<div class="empty">
+			<p>No releases have been created yet. Add one to get started.</p>
+	</div><!--empty-->
+{{/featured_releases}}
+
+
 {{#two_features}}
 	<div class="pure-u-1 pure-u-md-1-2"></div><!--pure-->
 {{/two_features}}
@@ -122,6 +130,13 @@ your site.</p>
 			<a class="files" href="{{www_path}}/assets/edit/{{id}}"><svg class="icon" viewBox="0 0 240 280"><use xlink:href="#icon-file"></use></svg>{{title}} <span class="descriptive fadedtext file-description">({{descriptor_string}})</span><!-- If commerce item associated -->
 					<span class="monetised"><svg class="icon" viewBox="0 0 251 251"><use xlink:href="#icon-dollar"></use></svg></span></a>
 		{{/featured_files}}
+
+		{{^featured_files}}
+		<div class="empty">
+			<p>No files have been added yet. Add one to get started.</p>
+		</div><!--empty-->
+		{{/featured_files}}
+
 		<div class="drawer">
 			{{#more_files}}
 			<div class="drawercontent">

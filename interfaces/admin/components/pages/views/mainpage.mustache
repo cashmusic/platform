@@ -43,7 +43,7 @@
 	</div><!--campaign-->
 </div><!--pure-->
 <div class="associated pure-u-1 pure-u-md-1-3">
-	<h4><span>{{element_count}}</span>Associated Elements</h4>
+	<h4><span 	{{^elements_for_campaign}}class="zero"{{/elements_for_campaign}}>{{element_count}}</span>Associated Elements</h4>
 	<a class="add lightboxed store" href="{{www_path}}/elements/add/">+ Add</a>
 
 	<div class="inner">
@@ -69,7 +69,7 @@
 			{{^elements_for_campaign}}
 			<div class="noelement">
 			<svg class="icon" viewBox="0 0 296 296"><use xlink:href="#icon-plus"></use></svg>
-				<p><span>+Add</span> an element to get started</p>
+				<p><span>Add</span> an element to get started</p>
 			</div><!--noelement-->
 			{{/elements_for_campaign}}
 		{{/isarchive}}
