@@ -1,6 +1,5 @@
 {{^connection}}
-	<h2>CASH Commerce Items are used to represent anything you would like to sell through the platform.  (Albums, Singles, Merchandise) etc.  Before you can begin selling items you will need to connect to one of the payment platforms from below.</h2>
-
+	<h2>{{{copy_firstuse}}}</h2>
 	<div class="callout texture pure-u-1">
 		<div class="pure-u-1 pure-u-md-1-2">
 			<div class="inner comingsoon">
@@ -15,24 +14,40 @@
 				<h3><img src="{{www_path}}/assets/images/settings/com.paypal.png" alt="Paypal"/></h3>
 				<p>This is the most reliable connection type at scale.</p>
 				<p><a href="http://paypal.com" target="_blank">http://paypal.com</a></p>
-				<a class="button fullwidth lightboxed" href="/">Add Connection</a>
+				<a class="button fullwidth lightboxed" href="{{www_path}}/settings/connections/add/com.paypal">Add Connection</a>
 			</div><!--inner-->
 		</div><!--pure-->
 	</div><!--pure-->
 {{/connection}}
 
 {{#connection}}
-{{#total_orders}}
-	<div class="sectiondash">
-		<div class="primarystat">
-			<span>{{total_orders}}<label>New Order{{^orders_singular}}s{{/orders_singular}}</label></span>
-			/
-			<span>{{total_spend}}<label>Total</label></span>
-		</div>
-	</div>
+<h4>Orders</h4>
+<!-- /*Reversed Condition*/ -->
+<ul class="inline_subnav">
+	<li><a class="current" href="/">All time</a></li>
+		<li><a href="/">This week</a></li>
+			<li><a href="/">Unfulfilled</a></li>
+</ul>
+{{^total_orders}}
+		<div id="snapshot">
+			<div class="pure-u-1 pure-u-md-1-2">
+				<div class="inner">
+					<h4>New Order{{^orders_singular}}s{{/orders_singular}} - (<a href="/">No Unfulfilled</a>)</h4>
+					<h5 class="totalviews">{{total_orders}}73,769</h5>
+				</div><!--inner-->
+			</div><!--pure-->
+			<div class="pure-u-1 pure-u-md-1-2">
+				<div class="inner">
+				<h4>Total Amount</h4>
+				<h5 class="totalviews">{{dashboard_list_total_new}}</h5>
+				<h5 class="percentage"><svg class="icon" viewBox="0 0 189 246"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-lg-arw"></use></svg>0%</h5>
+				</div><!--inner-->
+			</div><!--pure-->
+		</div><!--snapshot-->
 {{/total_orders}}
 
-{{#orders_recent}}
+<!-- /*Reversed Condition*/ -->
+{{^orders_recent}}
 	<h4>Export orders</h4>
 	<a href="{{www_path}}/commerce/orders/export/unfulfilled" class="button noajax">Export recent orders</a>
 	<a href="{{www_path}}/commerce/orders/export/" class="button noajax">Export all orders</a>
@@ -40,13 +55,17 @@
 {{/orders_recent}}
 
 	<div class="pure-u-1">
-		<h4>Orders</h4>
-		{{#orders_recent}}
-		<ul class="alternating">
-			{{#orders_recent}}
+		<!-- /*Reversed Condition*/ -->
+		{{^orders_recent}}
+		<ul class="commerce alternating">
+			<!-- /*Reversed Condition*/ -->
+			{{^orders_recent}}
 			<li>
-				<a class="primary" href="{{www_path}}/commerce/orders/view/{{id}}">
-				<strong>{{number}}</strong><span class="descriptive spaced fadedtext">{{date}} - {{gross}}: {{items}}</span></a>
+				<div class="item">
+					<div class="date"><span class="month">Feb</span><span class="day">01</span>{{date}}</div><!--stats-->
+					<a class="info" href="{{www_path}}/commerce/orders/view/{{id}}">
+					<strong>Order: {{number}}</strong><span class="descriptive spaced fadedtext">{{gross}}: {{items}}</span></a> <span>8888</span>
+				</div><!--item-->
 
 				<div class="more"><div class="toggle"></div><!--toggle-->
 					<div class="actions">
@@ -56,6 +75,10 @@
 			</li>
 			{{/orders_recent}}
 		</ul>
+
+
+
+
 		{{/orders_recent}}
 
 		{{^orders_recent}}
