@@ -1536,15 +1536,38 @@ section[role=main].hero{
 	margin:0 5px 0 0;
 }
 
-#mainspc.usecolor2 .tertiarynav li a{background:#fa3838; color:#f5f5f5;}
-#mainspc.usecolor3 .tertiarynav li a{background:#ff7c12; color:#f5f5f5;}
-#mainspc.usecolor4 .tertiarynav li a{background:#6a38fa; color:#f5f5f5;}
-#mainspc.usecolor5 .tertiarynav li a{background:#fa3866; color:#f5f5f5;}
-
 .learn #learnpanel.loading, .help #helppanel.loading, .settings #settingspanel.loading{
 	opacity:0;
 	visibility: hidden;
 }
+
+/* Page View Sub Navigation */
+
+.inline_subnav{
+	list-style-type: none;
+	margin:0;
+	padding:0;
+}
+
+.inline_subnav li{
+	display: inline-block;
+	margin:0 5px 0 0;
+}
+
+.inline_subnav li a{
+	text-decoration: none;
+	background:#dbdbdb;
+	color:#979797!important;
+	padding:10px;
+}
+
+/* Navigation Colours */
+
+#mainspc.usecolor2 .tertiarynav li a, #mainspc.usecolor2 .inline_subnav li a.current, #mainspc.usecolor2 .inline_subnav li a:hover {background:#fa3838; color:#f5f5f5!important;}
+#mainspc.usecolor3 .tertiarynav li a, #mainspc.usecolor3 .inline_subnav li a.current, #mainspc.usecolor3 .inline_subnav li a:hover {background:#ff7c12; color:#f5f5f5!important;}
+#mainspc.usecolor4 .tertiarynav li a, #mainspc.usecolor4 .inline_subnav li a.current, #mainspc.usecolor4 .inline_subnav li a:hover {background:#6a38fa; color:#f5f5f5!important;}
+#mainspc.usecolor5 .tertiarynav li a, #mainspc.usecolor5 .inline_subnav li a.current, #mainspc.usecolor5 .inline_subnav li a:hover {background:#fa3866; color:#f5f5f5!important;}
+
 
 /* Donation Notice */
 

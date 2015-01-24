@@ -4,5 +4,5 @@
 	"related":{},
 	"labels":{},
 	"tooltips":{},
-	"copy":{}
+	"copy":{"firstuse":"CASH Commerce Items are used to represent anything you would like to sell through the platform. (Albums, Singles, Merchandise) etc. Before you can begin selling items you will need to connect to one of the payment platforms from below."}
 }
