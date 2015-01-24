@@ -2871,6 +2871,57 @@ ul.people.alternating li a span{
 	fill:rgba(51,51,51,0.5);
 }
 
+/* date */
+
+.date{
+	width:70px;
+	margin:15px;
+	float:left;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	transition:0.3s ease-in-out;
+
+}
+.date .month{
+	width:100%;
+	display: block;
+	text-align: center;
+	color:#f5f5f5;
+	background:rgba(34,34,34,0.5);
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-topright: 3px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+}
+
+.date .day{
+	color:#464646;
+	font-size: 30px;
+	display: block;
+	padding:10px 0;
+	border:solid 1px #cbcbcb;
+	background:#eee;
+	text-align: center;
+	-webkit-border-bottom-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	-moz-border-radius-bottomright: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+
+.usecolor2 .date .month {background:#fa3838;}
+.usecolor3 .date .month {background:#ff7c12;}
+.usecolor4 .date .month {background:#6a38fa;}
+.usecolor5 .date .month {background:#fa3866;}
+
+
+.item:hover  .date .month{
+	background:rgba(34,34,34,0.5);
+}
+
 /* Half Page Layout */
 
 .pure-u-md-1-2 ul.alternating li .actions{
