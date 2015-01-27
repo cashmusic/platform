@@ -952,7 +952,7 @@
 	 function modalBehaviors() {
 
 		// overlay cancel button event
-		$(document).on('click', '.modalcancel', function(e) {
+		$(document).on('click', '.modalcancel, .modalskip', function(e) {
 			e.preventDefault();
 		//remove the store identifier on close
 			removeModal();
