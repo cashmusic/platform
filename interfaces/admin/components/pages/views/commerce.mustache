@@ -21,14 +21,20 @@
 {{/connection}}
 
 {{#connection}}
+<div class="pure-u-1 pure-u-md-1-2">
 <h4>Orders</h4>
-<!-- /*Reversed Condition*/ -->
+</div><!--pure-->
+{{#orders_recent}}
+<div class="pure-u-1 pure-u-md-1-2">
 <ul class="inline_subnav">
 	<li><a class="current" href="/">All time</a></li>
 		<li><a href="/">This week</a></li>
 			<li><a href="/">Unfulfilled</a></li>
 </ul>
-{{^total_orders}}
+{{/orders_recent}}
+
+</div><!--pure-->
+{{#total_orders}}
 		<div id="snapshot">
 			<div class="pure-u-1 pure-u-md-1-2">
 				<div class="inner">
@@ -38,33 +44,23 @@
 			</div><!--pure-->
 			<div class="pure-u-1 pure-u-md-1-2">
 				<div class="inner">
-				<h4>Total Amount</h4>
-				<h5 class="totalviews">{{dashboard_list_total_new}}</h5>
-				<h5 class="percentage"><svg class="icon" viewBox="0 0 189 246"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-lg-arw"></use></svg>0%</h5>
+					<h4>Total Amount</h4>
+					<h5 class="totalviews">{{dashboard_list_total_new}}</h5>
+					<h5 class="percentage"><svg class="icon" viewBox="0 0 189 246"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-lg-arw"></use></svg>0%</h5>
 				</div><!--inner-->
 			</div><!--pure-->
 		</div><!--snapshot-->
 {{/total_orders}}
 
-<!-- /*Reversed Condition*/ -->
-{{^orders_recent}}
-	<h4>Export orders</h4>
-	<a href="{{www_path}}/commerce/orders/export/unfulfilled" class="button noajax">Export recent orders</a>
-	<a href="{{www_path}}/commerce/orders/export/" class="button noajax">Export all orders</a>
-	{{#orders_recent}}{{/orders_recent}}
-{{/orders_recent}}
-
 	<div class="pure-u-1">
-		<!-- /*Reversed Condition*/ -->
-		{{^orders_recent}}
+		{{#orders_recent}}
 		<ul class="commerce alternating">
-			<!-- /*Reversed Condition*/ -->
-			{{^orders_recent}}
+			{{#orders_recent}}
 			<li>
 				<div class="item">
 					<div class="date"><span class="month">Feb</span><span class="day">01</span>{{date}}</div><!--stats-->
 					<a class="info" href="{{www_path}}/commerce/orders/view/{{id}}">
-					<strong>Order: {{number}}</strong><span class="descriptive spaced fadedtext">{{gross}}: {{items}}</span></a> <span>8888</span>
+					<strong>Order: {{number}}</strong><span class="descriptive spaced fadedtext">{{gross}}: {{items}}</span></a><span class="amount">8888</span>
 				</div><!--item-->
 
 				<div class="more"><div class="toggle"></div><!--toggle-->
@@ -76,8 +72,9 @@
 			{{/orders_recent}}
 		</ul>
 
-
-
+		<footer>
+		{{#orders_recent}}<div class="left pagination"><a class="prev" href="/">Previous</a><span>/</span><a class="next active" href="/">Next</a></div><!--pagination-->{{/orders_recent}}
+		</footer>
 
 		{{/orders_recent}}
 
@@ -86,5 +83,7 @@
 			<p>Sorry, No orders have been placed yet.</p>
 		</div><!--empty-->
 		{{/orders_recent}}
+
+
 	</div><!--pure-->
 {{/connection}}

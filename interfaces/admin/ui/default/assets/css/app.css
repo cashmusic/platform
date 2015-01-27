@@ -1545,8 +1545,10 @@ section[role=main].hero{
 
 .inline_subnav{
 	list-style-type: none;
-	margin:0;
+	margin:10px 0;
 	padding:0;
+	display: inline-block;
+	float: right;
 }
 
 .inline_subnav li{
@@ -1558,7 +1560,10 @@ section[role=main].hero{
 	text-decoration: none;
 	background:#dbdbdb;
 	color:#979797!important;
-	padding:10px;
+	padding:10px 20px;
+	-webkit-border-radius: 50px;
+	-moz-border-radius: 50px;
+	border-radius: 50px;
 }
 
 /* Navigation Colours */
@@ -2279,6 +2284,7 @@ color:#f5f5f5!important;
 
 /* First Use Highlight Areas */
 .callout.texture{
+	margin:50px 0;
 	background: url(../images/texture.jpg);
 }
 
@@ -2327,6 +2333,38 @@ color:#f5f5f5!important;
 .callout .inner .icon{
 	height:60px;
 	width:60px;
+}
+
+/* Additional Alternate Highlight Areas */
+
+.alt.callout{
+	border:none;
+	background: url(../images/alt_texture.jpg);
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+.alt.callout .inner{
+	padding:30px;
+	color:#f5f5f5;
+	text-align:left;
+	background:rgba(34,34,34,0.8);
+	position: relative;
+	height:100%;
+}
+
+.alt.callout .inner .button{
+	width:auto!important;
+	position: static;
+	margin:0 10% 8% 10%;
+	width:80%!important;
+}
+
+.alt.callout .inner h2{
+	color:#f5f5f5;
+	margin:0;
 }
 
 .comingsoon{
@@ -2871,22 +2909,34 @@ ul.people.alternating li a span{
 	fill:rgba(51,51,51,0.5);
 }
 
+.commerce .item .info{
+	width:65%;
+}
+
+.commerce .item .amount{
+	font-size:48px;
+	margin:30px 40px 30px 0;
+	float:left;
+	color:#adadad;
+}
+
 /* date */
 
-.date{
+.item .date{
 	width:70px;
-	margin:15px;
+	margin:20px;
 	float:left;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	transition:0.3s ease-in-out;
 
 }
-.date .month{
+.item .date .month{
 	width:100%;
 	display: block;
 	text-align: center;
 	color:#f5f5f5;
+	padding:2px 0;
 	background:rgba(34,34,34,0.5);
 	-webkit-border-top-left-radius: 3px;
 	-webkit-border-top-right-radius: 3px;
@@ -2896,11 +2946,11 @@ ul.people.alternating li a span{
 	border-top-right-radius: 3px;
 }
 
-.date .day{
+.item .date .day{
 	color:#464646;
 	font-size: 30px;
 	display: block;
-	padding:10px 0;
+	padding:7px 0;
 	border:solid 1px #cbcbcb;
 	background:#eee;
 	text-align: center;
@@ -2912,13 +2962,13 @@ ul.people.alternating li a span{
 	border-bottom-left-radius: 3px;
 }
 
-.usecolor2 .date .month {background:#fa3838;}
-.usecolor3 .date .month {background:#ff7c12;}
-.usecolor4 .date .month {background:#6a38fa;}
-.usecolor5 .date .month {background:#fa3866;}
+.usecolor2 .item .date .month {background:#fa3838;}
+.usecolor3 .item .date .month {background:#ff7c12;}
+.usecolor4 .item .date .month {background:#6a38fa;}
+.usecolor5 .item .date .month {background:#fa3866;}
 
 
-.item:hover  .date .month{
+.item:hover .date .month{
 	background:rgba(34,34,34,0.5);
 }
 
@@ -2979,6 +3029,10 @@ ul.alternating li .more.display .toggle{
 .pagination{
 	float: right;
 	margin:0px 0 0px 0;
+}
+
+.left.pagination{
+	float:left;
 }
 
 .pagination span{
@@ -3164,8 +3218,13 @@ margin:0; padding:0;}
     color:#f5f5f5;
 }
 
-.modallightbox h4,.modallightbox h5 {
+.modallightbox h1, .modallightbox h2, .modallightbox h3, .modallightbox h4,.modallightbox h5 {
     color:#f5f5f5;
+}
+
+.modallightbox h1{
+	font-size: 48px;
+	line-height: 50px;
 }
 
 .modallightbox h5 {

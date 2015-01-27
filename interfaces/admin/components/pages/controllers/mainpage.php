@@ -195,7 +195,7 @@ if ($total_campaigns) {
 		$cash_admin->page_data['campaigns_noelements'] = true;
 	}
 } else {
-	$cash_admin->setPageContentTemplate('mainpage_firstuse');
+	$cash_admin->setPageContentTemplate('mainpage');
 	if ($total_elements) {
 		$cash_admin->page_data['migrated'] = true;
 	}
