@@ -188,14 +188,13 @@ if ($extra_elements !== 0) {
 
 
 // figure out and select 	the correct view
+$cash_admin->setPageContentTemplate('mainpage');
 if ($total_campaigns) {
-	$cash_admin->setPageContentTemplate('mainpage');
 	$cash_admin->page_data['has_campaigns'] = true;
 	if (!$total_elements) {
 		$cash_admin->page_data['campaigns_noelements'] = true;
 	}
 } else {
-	$cash_admin->setPageContentTemplate('mainpage');
 	if ($total_elements) {
 		$cash_admin->page_data['migrated'] = true;
 	}
