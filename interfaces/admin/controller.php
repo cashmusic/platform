@@ -189,6 +189,7 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH)) && ($_REQUES
 	}
 }
 $cash_admin->page_data['template_name'] = BASE_PAGENAME;
+error_log(print_r($cash_admin->page_data,true));
 
 
 /***************************************************************************************************
