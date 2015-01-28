@@ -44,7 +44,7 @@
 	</div><!--campaign-->
 </div><!--pure-->
 <div class="associated pure-u-1 pure-u-md-1-3">
-	<h4><span 	{{^elements_for_campaign}}class="zero"{{/elements_for_campaign}}>{{element_count}}</span>Associated Elements</h4>
+	<h4><span{{^elements_for_campaign}}class="zero"{{/elements_for_campaign}}>{{element_count}}</span>Associated Elements</h4>
 	<a class="add lightboxed store" href="{{www_path}}/elements/add/">+ Add</a>
 
 	<div class="inner">
@@ -105,7 +105,7 @@
 	<div class="pure-u-1 pure-u-md-1-2">
 		<div class="inner">
 			<h5>Edit Your Page</h5>
-			<p>Your page is live at: <a href="{{user_page_uri}}" target="_blank"><i>{{user_page_display_uri}}</i></a>  <a href="/admin/elements/templates/edit/{{template_id}}/page/parent/{{id}}" title="Edit campaign page" class="ql lightboxed"><div class="icon icon-pencil"></div><!--icon--></a> </p>
+			<p>Your page is live at: <a href="{{user_page_uri}}" target="_blank"><i>{{user_page_display_uri}}</i></a> <a href="/admin/elements/templates/edit/{{template_id}}/page/parent/{{id}}" title="Edit campaign page" class="ql icon icon-pencil lightboxed"></a> </p>
 			<!--<a href="{{www_path}}/campaigns/publish" class="button lightboxed">Publish a campaign</a>-->
 				<div class="selecta">
 					<label for="current-campaign">Published:</label>
@@ -117,12 +117,25 @@
 				</div><!--selecta-->
 		</div><!--inner-->
 	</div><!--pure-->
+
+	{{#elements_for_campaign}}
 	<div class="pure-u-1 pure-u-md-1-2">
 		<div class="inner">
 			<h5>Embed an element</h5>
-			<p>If you don’t want to publish a page you can embed any element from your campaign anywhere on the web. Simply click the <a href="/">quick embed icon</a> on the element above.</p>
+			<p>If you don’t want to publish a page you can embed any element from your campaign anywhere on the web. Simply click the quick embed icon<i class="icon icon-share"></i><!--icon--> on the element above.</p>
 		</div><!--inner-->
 	</div><!--pure-->
+	{{/elements_for_campaign}}
+
+	{{^elements_for_campaign}}
+	<div class="pure-u-1 pure-u-md-1-2">
+		<div class="inner">
+			<h5>Embed an element</h5>
+			<p>No Elements have been created. Click the <strong>+Add</strong> button in the campaign window above to create and embed elements on the platform.</p>
+		</div><!--inner-->
+	</div><!--pure-->
+	{{/elements_for_campaign}}
+
 </div><!--prefpanel-->
 {{/has_campaigns}}
 

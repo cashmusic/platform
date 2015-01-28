@@ -248,7 +248,8 @@
 		elementMenuStates();
 		releaseFlip();
 		iNeedaHero();
-		firstUseHL();
+		firstUtpHL();
+		ZclipBoard();
 	}
 
 	/**
@@ -292,23 +293,6 @@
 			$( "#search" ).toggleClass( "display" );
 		});
 
-		// first use highlight
-		$( ".settings.hlt" ).hover(function() {
-			$( "#settings" ).toggleClass( "highlight" );
-		});
-
-		// ZeroClipboard
-		ZeroClipboard.config( { swfPath: cashAdminPath+"/ui/default/assets/flash/ZeroClipboard.swf" } );
-
-		var client = new ZeroClipboard($(".copy"));
-		client.on( "ready", function( readyEvent ) {
-			//alert ("ready!");
-  			client.on( "aftercopy", function( event ) {
-    			alert("Embed Code Copied To Clipboard: " + event.data["text/plain"] )
-  			} );
-
-		} );
-		
 		// show/hide hero video
 		// Hide for Verision 7 Update
 		/*$( ".welcome" ).click(function() {
@@ -402,7 +386,7 @@
 				$('div.modallightbox').html(
 					'<h4>' + data.ui_title + '</h4>' +
 					 data.content + //jQuery.param(data) +
-					 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><i class="icon icon-ban-circle"></i><span>cancel</span></a></div>'
+					 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a></div>'
 				);
 				$('.store .modallightbox h4').css('width','62%');
 
@@ -657,20 +641,25 @@
 		});
 	};
 
-	/*  First Use Highlight States */
-	function firstUseHL() {
-		
-		// on mouse hover flip the image
-		$('.firstuse .hlt').mouseenter(function (){
-			$('body').addClass('hl');
-			console.log('highlight');
+	/* First use touchpoint highlight */
+	function firstUtpHL() {
+		$( ".settings.hlt" ).hover(function() {
+			$( "#settings" ).toggleClass( "highlight" );
 		});
+	};
 
-		// on mouse leave return to orginal state
-		$('.firstuse .hlt').mouseleave(function (){
-			$('body').removeClass('hl');
-			console.log('remove highlight');
-		});
+	// ZeroClipboard
+	function ZclipBoard() {
+		ZeroClipboard.config( { swfPath: cashAdminPath+"/ui/default/assets/flash/ZeroClipboard.swf" } );
+
+		var client = new ZeroClipboard($(".copy"));
+		client.on( "ready", function( readyEvent ) {
+			//alert ("ready!");
+  			client.on( "aftercopy", function( event ) {
+    			alert("Element Embed Code Copied To Clipboard! " ) //+ event.data["text/plain"] )
+  			} );
+
+		} );
 	};	
 
 	/**
@@ -1099,7 +1088,7 @@
 						 '<h4>' + data.ui_title + '</h4>' +
 						 data.content + //jQuery.param(data) +
 						 //'</div></div>' +
-						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><i class="icon icon-ban-circle"></i><span>cancel</span></a></div>' +
+						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a></div>' +
 						 '</div></div>';
 
 			markup = $(markup);
