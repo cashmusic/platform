@@ -35,7 +35,7 @@
 				<div class="inner">
 				<h4>Total New Subscriber{{^people_singular}}s{{/people_singular}}</h4>
 				<h5 class="totalviews">{{dashboard_list_total_new}}</h5>
-				<h5 class="percentage"><svg class="icon" viewBox="0 0 189 246"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-lg-arw"></use></svg>0%</h5>
+				<h5 class="percentage"><div class="icon icon-lg-arw"></div><!--icon-->0%</h5>
 				</div><!--inner-->
 			</div><!--pure-->
 		</div><!--snapshot-->
@@ -47,16 +47,16 @@
 			{{#lists_all}}
 			<li>
 			<div class="item">
-				<div class="stats">	<svg class="icon increase" viewBox="0 0 189 246"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-lg-arw"></use></svg><span>8888</span></div><!--stats-->
+				<div class="stats">	<div class="icon icon-lg-arw"></div><!--icon--><span>8888</span></div><!--stats-->
 				<a class="info" href="{{www_path}}/people/lists/view/{{id}}">
 				<strong>{{name}}</strong>{{#description}}<span class="descriptive spaced fadedtext">{{description}}</span>{{/description}}</a>
 			</div><!--item-->
 				<div class="more"><div class="toggle"></div><!--toggle-->
 					<div class="actions">
-						<a href="{{www_path}}/people/lists/view/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 260 260"><use xlink:href="#icon-search"></use></svg>View</a>
-						<a href="{{www_path}}/people/lists/edit/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
-						<a href="{{www_path}}/people/lists/export/{{id}}" class="mininav_flush noajax"><svg class="icon" viewBox="0 0 260 240"><use xlink:href="#icon-dwnld"></use></svg>Export</a>
-						<a href="{{www_path}}/people/lists/delete/{{id}}" class="mininav_flush needsconfirmation"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Delete</a>
+						<a href="{{www_path}}/people/lists/view/{{id}}" class="mininav_flush"><div class="icon icon-search"></div><!--icon-->View</a>
+						<a href="{{www_path}}/people/lists/edit/{{id}}" class="mininav_flush"><div class="icon icon-pencil"></div><!--icon-->Edit</a>
+						<a href="{{www_path}}/people/lists/export/{{id}}" class="mininav_flush noajax"><div class="icon icon-dwnld"></div><!--icon-->Export</a>
+						<a href="{{www_path}}/people/lists/delete/{{id}}" class="mininav_flush needsconfirmation"><div class="icon icon-ban"></div><!--icon--> Delete</a>
 					</div><!--actions-->
 				</div><!--more-->
 			</li>

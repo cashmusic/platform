@@ -292,6 +292,11 @@
 			$( "#search" ).toggleClass( "display" );
 		});
 
+		// first use highlight
+		$( ".settings.hlt" ).hover(function() {
+			$( "#settings" ).toggleClass( "highlight" );
+		});
+
 		// ZeroClipboard
 		ZeroClipboard.config( { swfPath: cashAdminPath+"/ui/default/assets/flash/ZeroClipboard.swf" } );
 

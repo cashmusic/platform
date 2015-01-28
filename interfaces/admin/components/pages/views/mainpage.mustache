@@ -1,28 +1,13 @@
-{{^has_campaigns}}
-<div class="modalbg">&nbsp;</div>
-<div class="modallightbox" style="top: 0px;">
-	<div class="pure-u-1">
-<h1>Hello, it looks like you’re new here. Thanks for signing up and kicking our tires.</h1>
-<p>
-You can edit your <a class="settings toggle">account settings</a>, including important stuff like your password &amp; homepage info, at any time by clicking on the <!--<a class="settings hlt">gear icon</a>--> gear icon in the upper right hand menu. 
-</p><p>
-The platform works with your own storage, payment, and mailing list accounts. To add connections to your services, open the <a class="settings toggle">settings menu</a>, click "Connections," and choose the type of account you'd like to connect. 
-</p>
-
-<a class="button fullwidth modalskip">Okay, Got it!</a>
-</div><!--pure--></div><!--modallightbox-->
-{{/has_campaigns}}
-
 {{#dashboard_lists}}
-	<div class="callout newsfeed people"><strong><svg class="icon" viewBox="0 0 280 220"><use xlink:href="#icon-list"></use></svg>{{name}}:</strong> There {{#singular}}is{{/singular}}{{^singular}}are{{/singular}} <strong>{{total}}</strong> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}} on this list. <span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><svg class="icon" viewBox="0 0 260 260"><use xlink:href="#icon-search"></use></svg>View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><svg class="icon" viewBox="0 0 260 240"><use xlink:href="#icon-dwnld"></use></svg>Export</a></span><div class="newsimage" style=""></div><!--newsimage--></div><!--newsfeed people-->
+	<div class="callout newsfeed people"><strong><div class="icon icon-list"></div><!--icon-->{{name}}:</strong> There {{#singular}}is{{/singular}}{{^singular}}are{{/singular}} <strong>{{total}}</strong> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}} on this list. <span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><div class="icon icon-search"></div><!--icon-->View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><div class="icon icon-dwnld"></div><!--icon-->Export</a></span><div class="newsimage" style=""></div><!--newsimage--></div><!--newsfeed people-->
 {{/dashboard_lists}}
 {{#dashboard_orders}}
-	<div class="callout newsfeed commerce"><strong><svg class="icon" viewBox="0 0 260 220"><use xlink:href="#icon-cart"></use></svg>New order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}!</strong> There {{#dashboard_orders_singular}}is{{/dashboard_orders_singular}}{{^dashboard_orders_singular}}are{{/dashboard_orders_singular}} <strong>{{dashboard_orders}}</strong> new order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}. <span class="action"><a href="{{www_path}}/commerce/orders/"><svg class="icon" viewBox="0 0 260 220"><use xlink:href="#icon-cart"></use></svg>All new orders</a></span><div class="newsimage" style=""></div><!--newsimage--></div><!--newsfeed commerce-->
+	<div class="callout newsfeed commerce"><strong><div class="icon icon-cart"></div><!--icon-->New order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}!</strong> There {{#dashboard_orders_singular}}is{{/dashboard_orders_singular}}{{^dashboard_orders_singular}}are{{/dashboard_orders_singular}} <strong>{{dashboard_orders}}</strong> new order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}. <span class="action"><a href="{{www_path}}/commerce/orders/"><div class="icon icon-cart"></div><!--icon-->All new orders</a></span><div class="newsimage" style=""></div><!--newsimage--></div><!--newsfeed commerce-->
 {{/dashboard_orders}}
 
 <!--/* Campaigns */-->
-{{#has_campaigns}}
 <div id="campaigns">
+{{#has_campaigns}}
 <div class="pure-u-1">
 	<div class="selecta">
 		<form accept-charset="UTF-8" method="post" action="{{www_path}}/">
@@ -45,14 +30,14 @@ The platform works with your own storage, payment, and mailing list accounts. To
 		<h2>{{title}}</h2>
 		<h3>{{description}}</h3>
 			<div class="actions">
-				<!--<a href="{{www_path}}/campaigns/view/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 260 260"><use xlink:href="#icon-search"></use></svg>View</a>-->
+				<!--<a href="{{www_path}}/campaigns/view/{{id}}" class="mininav_flush"><div class="icon icon-search"></div>View</a>-->
 				<a href="{{www_path}}/campaigns/edit/{{id}}" class="lightboxed">Edit</a>
 				<a href="{{www_path}}/campaigns/delete/{{id}}" class="needsconfirmation delete">Delete</a>
 			</div><!--actions-->
 			<div class="stats">
 				<h4>Total Campaign Views</h4>
 				<h5 class="totalviews">{{formatted_views}}</h5>
-				<h5 class="percentage"><svg class="icon" viewBox="0 0 189 246"><use xlink:href="#icon-lg-arw"></use></svg>0&#37;</h5>
+				<h5 class="percentage"><div class="icon icon-lg-arw"></div><!--icon-->0&#37;</h5>
 			</div><!--stats-->
 		</div><!--inner-->
 		<footer><!--p>Created <span>&#124;</span> {{formatted_date}}</p--><p>Updated <span>&#124;</span> {{formatted_date}}</p></footer>
@@ -70,11 +55,11 @@ The platform works with your own storage, payment, and mailing list accounts. To
 			<a class="primary" href="{{www_path}}/elements/edit/{{id}}">
 			{{name}}
 			<span class="descriptive spaced fadedtext">{{type}}</span></a>
-			<a class="ql copy" title="Copy quick embed code" data-clipboard-text="&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;" ><svg class="icon" viewBox="0 0 275 146"><use xlink:href="#icon-share"></use></svg></a>
+			<a class="ql copy" title="Copy quick embed code" data-clipboard-text="&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;" ><div class="icon icon-share"></div><!--icon--></a>
 				<div class="more"><div class="toggle"></div><!--toggle-->
 					<div class="actions">
-						<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
-						<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation delete"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Delete</a>
+						<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><div class="icon icon-pencil"></div><!--icon-->Edit</a>
+						<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation delete"><div class="icon icon-ban"></div><!--icon--> Delete</a>
 					</div><!--actions-->
 				</div><!--more-->
 			</li>
@@ -84,7 +69,7 @@ The platform works with your own storage, payment, and mailing list accounts. To
 		{{^isarchive}}
 			{{^elements_for_campaign}}
 			<div class="noelement">
-			<svg class="icon" viewBox="0 0 296 296"><use xlink:href="#icon-plus"></use></svg>
+			<div class="icon icon-plus"></div><!--icon-->
 				<p><span>Add</span> an element to get started</p>
 			</div><!--noelement-->
 			{{/elements_for_campaign}}
@@ -116,11 +101,11 @@ The platform works with your own storage, payment, and mailing list accounts. To
 
 {{#has_campaigns}}
 <div class="prefpanel pure-u-1">
-	<h4><svg class="icon" viewBox="0 0 78 78"><use xlink:href="#icon-wrench"></use></svg><span>Publish Settings</span></h4>
+	<h4><div class="icon icon-wrench"></div><!--icon--><span>Publish Settings</span></h4>
 	<div class="pure-u-1 pure-u-md-1-2">
 		<div class="inner">
 			<h5>Edit Your Page</h5>
-			<p>Your page is live at: <a href="{{user_page_uri}}" target="_blank"><i>{{user_page_display_uri}}</i></a>  <a href="/admin/elements/templates/edit/{{template_id}}/page/parent/{{id}}" title="Edit campaign page" class="ql lightboxed"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg></a> </p>
+			<p>Your page is live at: <a href="{{user_page_uri}}" target="_blank"><i>{{user_page_display_uri}}</i></a>  <a href="/admin/elements/templates/edit/{{template_id}}/page/parent/{{id}}" title="Edit campaign page" class="ql lightboxed"><div class="icon icon-pencil"></div><!--icon--></a> </p>
 			<!--<a href="{{www_path}}/campaigns/publish" class="button lightboxed">Publish a campaign</a>-->
 				<div class="selecta">
 					<label for="current-campaign">Published:</label>
@@ -139,4 +124,41 @@ The platform works with your own storage, payment, and mailing list accounts. To
 		</div><!--inner-->
 	</div><!--pure-->
 </div><!--prefpanel-->
+{{/has_campaigns}}
+
+{{^has_campaigns}}
+<div class="prefpanel pure-u-1">
+	<h4><div class="icon icon-wrench"></div><!--icon--><span>Publish Settings</span></h4>
+	<div class="pure-u-1 pure-u-md-1-2">
+		<div class="inner">
+			<h5>Edit Your Page</h5>
+			<p>Your page is not live yet.</p>
+			<!--<a href="{{www_path}}/campaigns/publish" class="button lightboxed">Publish a campaign</a>-->
+				<div class="selecta comingsoon">
+					<label for="current-campaign">Published:</label>
+					<select id="current-campaign">
+  						<option value="{{title}}">No Campaign</option>
+					</select>
+				</div><!--selecta-->
+		</div><!--inner-->
+	</div><!--pure-->
+	<div class="pure-u-1 pure-u-md-1-2">
+		<div class="inner">
+			<h5>Embed an element</h5>
+			<p>No Elements have been created. You must <a class="lightboxed" href="{{www_path}}/campaigns/add/">add a campaign</a> before you can create and embed elements on the platform.</p>
+		</div><!--inner-->
+	</div><!--pure-->
+</div><!--prefpanel-->
+{{/has_campaigns}}
+
+{{^has_campaigns}}
+<div class="modalbg">&nbsp;</div>
+<div class="modallightbox">
+<h1>Hello, it looks like you’re new here. Thanks for signing up and kicking our tires.</h1>
+<div class="pure-u-1">
+<p>You can edit your account settings, including important stuff like your password &amp; homepage info, at any time by clicking on the <a class="settings hlt">gear icon</a> in the upper right hand menu. </p>
+<p>The platform works with your own storage, payment, and mailing list accounts. To add connections to your services, open the <a class="settings hlt">settings menu</a>, click "Connections," and choose the type of account you'd like to connect. </p>
+<a class="button fullwidth modalskip">Okay, Got it!</a>
+</div><!--pure-->
+</div><!--modallightbox-->
 {{/has_campaigns}}

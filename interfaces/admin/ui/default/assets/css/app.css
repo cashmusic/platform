@@ -270,19 +270,17 @@ html, button, input, select, textarea,
 	width:15px;
 	padding:0;
 	margin:0 5px 0 0;
-	fill: #222;
+	color: #222;
 	opacity:1;
 	text-decoration: none;
 	display:inline-block;
- 	text-indent: -9999px;
- 	vertical-align: baseline;
  	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	transition:0.3s ease-in-out;
 }
 
 #navmenu .icon{
-	fill: #f5f5f5;
+	color: #f5f5f5;
 }
 
 /* Touchpoints icons */
@@ -298,7 +296,7 @@ html, button, input, select, textarea,
 /* Mainnav Icons  */
 
 #navmenu ul li a:hover .icon{
-	fill:#222;
+	color:#222;
 }
 
 /* Subnav Icons  */
@@ -428,15 +426,17 @@ label{
 
 .selecta select{
 	width:auto;
+	max-width:250px;
 	float:left;
 	height:40px;
-	padding:0 20px;
+	padding:0 30px 0 20px;
 	margin:0 0 0 -20px;
 	-webkit-border-radius: 100px;
 	-moz-border-radius: 100px;
 	border-radius: 100px;
 	-webkit-appearance: none;
-	background:#00cf7f url(../images/select_bg.png) 95% 50% no-repeat;
+	-moz-appearance:none;
+	background:#00cf7f url(../images/select_bg.png) 93% 50% no-repeat;
 } 
 
 
@@ -657,21 +657,41 @@ small{
 /* Loader Animation */
 
 @-webkit-keyframes loader {
- 0%{ -webkit-transform: rotate(0deg); fill:#f5f5f5;}
+ 0%{ -webkit-transform: rotate(0deg) fill:#f5f5f5;}
  50%{ fill:#000;} 
- 100% { -webkit-transform: rotate(360deg); fill:#f5f5f5;}
+ 100% { -webkit-transform: rotate(360deg) fill:#f5f5f5;}
 }
 
 @keyframes loader{
- 0%{ transform: rotate(0deg); fill:#f5f5f5;}
+ 0%{ transform: rotate(0deg) fill:#f5f5f5;}
  50%{ fill:#000;} 
- 100% { transform: rotate(360deg); fill:#f5f5f5;}
+ 100% { transform: rotate(360deg) fill:#f5f5f5;}
 }
 
 @-moz-keyframes loader{
- 0%{ -moz-transform: rotate(0deg); fill:#f5f5f5;}
+ 0%{ -moz-transform: rotate(0deg) fill:#f5f5f5;}
  50%{ fill:#000;} 
- 100% { -moz-transform: rotate(360deg); fill:#f5f5f5;}
+ 100% { -moz-transform: rotate(360deg) fill:#f5f5f5;}
+}
+
+/* Bounce Animation */
+
+@-webkit-keyframes bounce {
+ 0%{ -webkit-transform:  rotate(360deg) scale(1);}
+ 50% { -webkit-transform: rotate(0deg) scale(1.5);}
+ 100%{ -webkit-transform:  rotate(360deg) scale(1);}
+}
+
+@keyframes bounce{
+ 0%{ transform: rotate(360deg) scale(1);}
+ 50% { transform: rotate(0deg) scale(1.5);}
+ 100%{ transform: rotate(360deg) scale(1);}
+}
+
+@-moz-keyframes bounce{
+ 0%{ -moz-transform: rotate(360deg) scale(1);}
+ 50% { -moz-transform: rotate(0deg) scale(1.5);}
+ 100%{ -moz-transform: rotate(360deg) scale(1);}
 }
 
 /* Loading */
@@ -765,17 +785,17 @@ small{
 	opacity:1;
 }
 
-#header #logo a .renderlogo{
+#header #logo a .icon-logo{
 	padding:0;
 	margin:0 5px 0 0;
-	fill: #fff;
+	color: #fff;
 	opacity:1;
 	width:100%;
 	text-decoration: none;
 	display:inline-block;
 }
 
-#header #logo.loading a .renderlogo{
+#header #logo.loading a .icon-logo{
     -webkit-animation: loader linear infinite 0.6s;
     -moz-animation: loader linear infinite 0.6s;
     animation: loader linear infinite 0.6s;
@@ -1249,7 +1269,7 @@ section[role=main].hero{
 	float:left;
 	visibility: visible;
 	z-index:3;
-	overflow: hidden;
+	/*overflow: hidden;*/
 	padding:0;
 	margin:30px 0;
 	-webkit-border-radius: 3px;
@@ -1276,6 +1296,7 @@ section[role=main].hero{
 	color:#f5f5f5;
 	font-size: 19px;
 	background:#101010;
+	text-decoration: none;
 	height:36px;
 	width:36px;
 	/*border:solid 1px #000;*/
@@ -1301,10 +1322,18 @@ section[role=main].hero{
 
 /* Getting Fancy With It */
 
-.touchpoints #settings a:hover{
+.touchpoints #settings a:hover, #settings.highlight a{
 	-webkit-animation: turn linear infinite 2s;
     -moz-animation: turn linear infinite 2s;
     animation: turn linear infinite 2s;
+}
+
+#settings.highlight a{
+	background:#00cf7f;
+	z-index: 5;
+	-webkit-animation: bounce linear  1s;
+    -moz-animation: bounce linear  1s;
+    animation: bounce linear  1s;
 }
 
 /* Connections */
@@ -1992,10 +2021,10 @@ color:#f5f5f5!important;
 
 /* Sub Nav Color Usage */
 
-#navmenu .current .subnavmenu.usecolor2 ul li a .icon{fill:#fa3838;}
-#navmenu .current .subnavmenu.usecolor3 ul li a .icon{fill:#ff7c12;}
-#navmenu .current .subnavmenu.usecolor4 ul li a .icon{fill:#6a38fa;}
-#navmenu .current .subnavmenu.usecolor5 ul li a .icon{fill:#fa3866;}
+#navmenu .current .subnavmenu.usecolor2 ul li a .icon{color:#fa3838;}
+#navmenu .current .subnavmenu.usecolor3 ul li a .icon{color:#ff7c12;}
+#navmenu .current .subnavmenu.usecolor4 ul li a .icon{color:#6a38fa;}
+#navmenu .current .subnavmenu.usecolor5 ul li a .icon{color:#fa3866;}
 
 #navmenu .current a{
 	background:#eee;
@@ -2137,11 +2166,11 @@ color:#f5f5f5!important;
 	height: 12px;
 	width: 12px;
 	margin:0 5px 0 0;
-	fill:#666;
+	color:#666;
 }
 
 #pagedisplay .mininav_flush:hover .icon{
-	fill:#222;
+	color:#222;
 }
 
 #pagedisplay .alternating .mininav_flush{
@@ -2340,10 +2369,6 @@ color:#f5f5f5!important;
 .alt.callout{
 	border:none;
 	background: url(../images/alt_texture.jpg);
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
 }
 
 .alt.callout .inner{
@@ -2356,10 +2381,9 @@ color:#f5f5f5!important;
 }
 
 .alt.callout .inner .button{
-	width:auto!important;
 	position: static;
-	margin:0 10% 8% 10%;
-	width:80%!important;
+	margin:30px 0 0 0;
+	width:auto!important;
 }
 
 .alt.callout .inner h2{
@@ -2374,7 +2398,7 @@ color:#f5f5f5!important;
 	opacity:0.6;
 }
 
-.comingsoon .button, .comingsoon button{
+.comingsoon .button, .comingsoon button,  .comingsoon select{
 	pointer-events: none;
 }
 
@@ -2505,7 +2529,7 @@ color:#f5f5f5!important;
 }
 
 .display-files .files .icon{
-	fill:#666;
+	color:#666;
 	margin:0 5px 0 0;
 	float: right;
 }
@@ -2523,6 +2547,12 @@ color:#f5f5f5!important;
 	margin:0 0 10px 0;
 }
 
+/* First Use Highlight */
+
+.settings.hlt:hover{
+	cursor: pointer;
+	background:#00cf7f;
+}
 
 /* Tabled Content */
 
@@ -2612,10 +2642,10 @@ ul.alternating li a{
 	width:100%;
 }
 
-.usecolor2 ul.alternating li .icon {fill:#fa3838;}
-.usecolor3 ul.alternating li .icon {fill:#ff7c12;}
-.usecolor4 ul.alternating li .icon {fill:#6a38fa;}
-.usecolor5 ul.alternating li .icon {fill:#fa3866;}
+.usecolor2 ul.alternating li .icon {color:#fa3838;}
+.usecolor3 ul.alternating li .icon {color:#ff7c12;}
+.usecolor4 ul.alternating li .icon {color:#6a38fa;}
+.usecolor5 ul.alternating li .icon {color:#fa3866;}
 
 .usecolor2 ul.alternating li .icon {
 	
@@ -2783,7 +2813,7 @@ ul.alternating li .actions a{
 }
 
 .alternating .item .info .icon{
-	fill:#999;
+	color:#999;
 	position:absolute;
 	top:50%;
 	right:80px;
@@ -2791,11 +2821,11 @@ ul.alternating li .actions a{
 }
 
 .alternating .item:hover .info .icon{
-	fill:#f5f5f5;
+	color:#f5f5f5;
 }
 
 .alternating .item:hover .info.icon{
-	fill:#f5f5f5;
+	color:#f5f5f5;
 }
 
 .alternating .item .info .descriptive{
@@ -2902,11 +2932,11 @@ ul.people.alternating li a span{
 	display: block;
 	overflow: hidden;
 	margin:5px auto 0 auto;
-	fill:rgba(34,34,34,0.5);
+	color:rgba(34,34,34,0.5);
 }
 
 .commerce .item .assetlink:hover .icon, .commerce .item:hover .assetlink .icon{
-	fill:rgba(51,51,51,0.5);
+	color:rgba(51,51,51,0.5);
 }
 
 .commerce .item .info{
@@ -3484,7 +3514,7 @@ width:100%;
 }
 
 .modallightbox .storedisplay .list li a.elementdisplay:hover .icon{
-	fill:#222;
+	color:#222;
 }
 
 .modallightbox .storedisplay .list li a.elementdisplay .icon{
@@ -3646,12 +3676,12 @@ width:100%;
 
 .totalviews{ font-size: 72px; margin:0; display: inline-block;}
 .percentage{ font-size: 38px; margin:0 0 0 5px; display: inline-block; }
-.percentage .icon{ fill:#00cf7f; width:26px; height:26px; vertical-align:baseline; margin:0 5px 0 0; }
+.percentage .icon{ color:#00cf7f; width:26px; height:26px; vertical-align:baseline; margin:0 5px 0 0; }
 
-.usecolor2 .percentage .icon { fill:#fa3838;}
-.usecolor3 .percentage .icon { fill:#ff7c12;}
-.usecolor4 .percentage .icon { fill:#6a38fa;}
-.usecolor5 .percentage .icon { fill:#fa3866;}
+.usecolor2 .percentage .icon { color:#fa3838;}
+.usecolor3 .percentage .icon { color:#ff7c12;}
+.usecolor4 .percentage .icon { color:#6a38fa;}
+.usecolor5 .percentage .icon { color:#fa3866;}
 
 /* Campaign Elements */
 
@@ -3871,7 +3901,7 @@ width:100%;
 #campaigns .associated .inner .noelement .icon{
 	height:85px;
 	width:85px;
-	fill:#dbdbdb;
+	color:#dbdbdb;
 	display: block;
 	width:100%;
 	margin:85px 0;
@@ -4130,7 +4160,7 @@ width:100%;
 #card .front header .icon{
 	display: inline-block;
 	text-align: right;
-	fill:#f5f5f5;
+	color:#f5f5f5;
 	height:30px;
 	width:30px;
 	padding:4px;
@@ -4272,11 +4302,11 @@ width:100%;
 }
 
 .editcover .icon{
-	fill:#f5f5f5;
+	color:#f5f5f5;
 }
 
 .release-cover:hover .release-cover-options a .editcover .icon{
-	fill:#222;
+	color:#222;
 }
 
 
@@ -4417,11 +4447,11 @@ width:100%;
 }
 
 .ql .icon{
-	fill:#696969;
+	color:#696969;
 }
 
 .ql:hover .icon{
-	fill:#f5f5f5;
+	color:#f5f5f5;
 }
 
 /* footer */
