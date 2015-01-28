@@ -37,9 +37,9 @@
 				<header>
 					<h2>{{title}}</h2>
 					<!-- If commerce item associated -->
-					<span class="monetised"><svg class="icon" viewBox="0 0 251 251"><use xlink:href="#icon-dollar"></use></svg></span>
+					<span class="monetised"><div class="icon icon-dollar"></div><!--icon--></span>
 					<!-- If files associated -->
-					<span class="attachement"><svg class="icon" viewBox="0 0 219 239"><use xlink:href="#icon-paperclip"></use></svg></span>
+					<span class="attachement"><div class="icon icon-paperclip"></div><!--icon--></span>
 				</header>
 			</div><!--front-->
 				<a href="{{www_path}}/assets/edit/{{id}}" class="back">
@@ -126,8 +126,8 @@ your site.</p>
 
 <div class="display-files pure-u-1 pure-u-md-1-2">
 		{{#featured_files}}
-			<a class="files" href="{{www_path}}/assets/edit/{{id}}"><svg class="icon" viewBox="0 0 240 280"><use xlink:href="#icon-file"></use></svg>{{title}} <span class="descriptive fadedtext file-description">({{descriptor_string}})</span><!-- If commerce item associated -->
-					<span class="monetised"><svg class="icon" viewBox="0 0 251 251"><use xlink:href="#icon-dollar"></use></svg></span></a>
+			<a class="files" href="{{www_path}}/assets/edit/{{id}}"><div class="icon icon-file"></div><!--icon-->{{title}} <span class="descriptive fadedtext file-description">({{descriptor_string}})</span><!-- If commerce item associated -->
+					<span class="monetised"><div class="icon icon-dollar"></div><!--icon--></span></a>
 		{{/featured_files}}
 
 		{{^featured_files}}
@@ -140,9 +140,9 @@ your site.</p>
 			{{#more_files}}
 			<div class="drawercontent">
 				{{#remaining_files}}
-					<a class="files" href="{{www_path}}/assets/edit/{{id}}"><svg class="icon" viewBox="0 0 240 280"><use xlink:href="#icon-file"></use></svg>{{title}}</a>
+					<a class="files" href="{{www_path}}/assets/edit/{{id}}"><div class="icon icon-file"></div><!--icon-->{{title}}</a>
 					<span class="descriptive fadedtext file-description">({{descriptor_string}})</span><!-- If commerce item associated -->
-					<svg class="icon" viewBox="0 0 251 251"><use xlink:href="#icon-dollar"></use></svg>
+					<div class="icon icon-dollar"></div><!--icon-->
 				{{/remaining_files}}
 			</div><!--drawercontent-->
 			{{/more_files}}
