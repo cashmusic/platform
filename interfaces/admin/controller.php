@@ -189,7 +189,6 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH)) && ($_REQUES
 	}
 }
 $cash_admin->page_data['template_name'] = BASE_PAGENAME;
-error_log(print_r($cash_admin->page_data,true));
 
 
 /***************************************************************************************************
@@ -281,7 +280,6 @@ include($pages_path . 'controllers/' . $include_filename);
 // render the content to be passed to final output
 // $cash_admin->page_content_template is set in the included controller
 $cash_admin->page_data['content'] = preg_replace('~>\s+<~', '><', $cash_admin->mustache_groomer->render($cash_admin->page_content_template, $cash_admin->page_data));
-
 
 
 /***************************************************************************************************
