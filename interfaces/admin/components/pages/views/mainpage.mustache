@@ -1,3 +1,16 @@
+{{^has_campaigns}}
+<div class="modalbg">&nbsp;</div>
+<div class="modallightbox">
+<h1>Hello, it looks like you’re new here. Thanks for signing up and kicking our tires.</h1>
+<div class="pure-u-1">
+<p>You can edit your account settings, including important stuff like your password &amp; homepage info, at any time by clicking on the <a class="settings hlt">gear icon</a> in the upper right hand menu. </p>
+<p>The platform works with your own storage, payment, and mailing list accounts. To add connections to your services, open the <a class="settings hlt">settings menu</a>, click "Connections," and choose the type of account you'd like to connect. </p>
+<a class="button fullwidth modalskip">Okay, Got it!</a>
+</div><!--pure-->
+</div><!--modallightbox-->
+{{/has_campaigns}}
+
+
 {{#dashboard_lists}}
 	<div class="callout newsfeed people"><strong><div class="icon icon-list"></div><!--icon-->{{name}}:</strong> There {{#singular}}is{{/singular}}{{^singular}}are{{/singular}} <strong>{{total}}</strong> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}} on this list. <span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><div class="icon icon-search"></div><!--icon-->View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><div class="icon icon-dwnld"></div><!--icon-->Export</a></span><div class="newsimage" style=""></div><!--newsimage--></div><!--newsfeed people-->
 {{/dashboard_lists}}
@@ -26,7 +39,7 @@
 		<canvas id="cnvs" width="2000" height="398">
 			<canvas id="hero"></canvas>
 		</canvas>
-		<div class="inner">
+		<div class="campaign-inner">
 		<h2>{{title}}</h2>
 		<h3>{{description}}</h3>
 			<div class="actions">
@@ -39,7 +52,7 @@
 				<h5 class="totalviews">{{formatted_views}}</h5>
 				<h5 class="percentage"><div class="icon icon-lg-arw"></div><!--icon-->0&#37;</h5>
 			</div><!--stats-->
-		</div><!--inner-->
+		</div><!--campaign-inner-->
 		<footer><!--p>Created <span>&#124;</span> {{formatted_date}}</p--><p>Updated <span>&#124;</span> {{formatted_date}}</p></footer>
 	</div><!--campaign-->
 </div><!--pure-->
@@ -47,7 +60,7 @@
 	<h4><span{{^elements_for_campaign}}class="zero"{{/elements_for_campaign}}>{{element_count}}</span>Associated Elements</h4>
 	<a class="add lightboxed store" href="{{www_path}}/elements/add/">+ Add</a>
 
-	<div class="inner">
+	<div class="elements">
 		{{#elements_for_campaign}}
 		<ul class="alternating">
 			{{#elements_for_campaign}}
@@ -74,17 +87,17 @@
 			</div><!--noelement-->
 			{{/elements_for_campaign}}
 		{{/isarchive}}
-	</div><!--inner-->		
+	</div><!--elements-->		
 </div><!--associated-->
 {{/selected_campaign}}
 
 {{^has_campaigns}}
 <div class="pure-u-1">
 	<div class="alt callout">
-		<div class="inner">
+		<div class="callout-inner">
 			<h2>Hey! Now it’s time to add a campaign. Campaigns are there to help you organize your digital workflow. You can add or edit elements here as well as keep track of how they are doing.</h2>
 			<a class="button lightboxed" href="{{www_path}}/campaigns/add/">Add a Campaign</a>
-		</div><!--inner-->
+		</div><!--callout-inner-->
 	</div><!--callout-->
 </div><!--pure-->
 {{/has_campaigns}}
@@ -103,7 +116,7 @@
 <div class="prefpanel pure-u-1">
 	<h4><div class="icon icon-wrench"></div><!--icon--><span>Publish Settings</span></h4>
 	<div class="pure-u-1 pure-u-md-1-2">
-		<div class="inner">
+		<div class="pref-inner">
 			<h5>Edit Your Page</h5>
 			<p>Your page is live at: <a href="{{user_page_uri}}" target="_blank"><i>{{user_page_display_uri}}</i></a> <a href="/admin/elements/templates/edit/{{template_id}}/page/parent/{{id}}" title="Edit campaign page" class="ql icon icon-pencil lightboxed"></a> </p>
 			<!--<a href="{{www_path}}/campaigns/publish" class="button lightboxed">Publish a campaign</a>-->
@@ -115,12 +128,12 @@
 						{{/campaigns_for_user}}
 					</select>
 				</div><!--selecta-->
-		</div><!--inner-->
+		</div><!--pref-inner-->
 	</div><!--pure-->
 
 	{{#elements_for_campaign}}
 	<div class="pure-u-1 pure-u-md-1-2">
-		<div class="inner">
+		<div class="pref-inner">
 			<h5>Embed an element</h5>
 			<p>If you don’t want to publish a page you can embed any element from your campaign anywhere on the web. Simply click the quick embed icon<i class="icon icon-share"></i><!--icon--> on the element above.</p>
 		</div><!--inner-->
@@ -129,7 +142,7 @@
 
 	{{^elements_for_campaign}}
 	<div class="pure-u-1 pure-u-md-1-2">
-		<div class="inner">
+		<div class="pref-inner">
 			<h5>Embed an element</h5>
 			<p>No Elements have been created. Click the <strong>+Add</strong> button in the campaign window above to create and embed elements on the platform.</p>
 		</div><!--inner-->
@@ -143,7 +156,7 @@
 <div class="prefpanel pure-u-1">
 	<h4><div class="icon icon-wrench"></div><!--icon--><span>Publish Settings</span></h4>
 	<div class="pure-u-1 pure-u-md-1-2">
-		<div class="inner">
+		<div class="pref-inner">
 			<h5>Edit Your Page</h5>
 			<p>Your page is not live yet.</p>
 			<!--<a href="{{www_path}}/campaigns/publish" class="button lightboxed">Publish a campaign</a>-->
@@ -156,22 +169,10 @@
 		</div><!--inner-->
 	</div><!--pure-->
 	<div class="pure-u-1 pure-u-md-1-2">
-		<div class="inner">
+		<div class="pref-inner">
 			<h5>Embed an element</h5>
 			<p>No Elements have been created. You must <a class="lightboxed" href="{{www_path}}/campaigns/add/">add a campaign</a> before you can create and embed elements on the platform.</p>
 		</div><!--inner-->
 	</div><!--pure-->
 </div><!--prefpanel-->
-{{/has_campaigns}}
-
-{{^has_campaigns}}
-<div class="modalbg">&nbsp;</div>
-<div class="modallightbox">
-<h1>Hello, it looks like you’re new here. Thanks for signing up and kicking our tires.</h1>
-<div class="pure-u-1">
-<p>You can edit your account settings, including important stuff like your password &amp; homepage info, at any time by clicking on the <a class="settings hlt">gear icon</a> in the upper right hand menu. </p>
-<p>The platform works with your own storage, payment, and mailing list accounts. To add connections to your services, open the <a class="settings hlt">settings menu</a>, click "Connections," and choose the type of account you'd like to connect. </p>
-<a class="button fullwidth modalskip">Okay, Got it!</a>
-</div><!--pure-->
-</div><!--modallightbox-->
 {{/has_campaigns}}

@@ -1,27 +1,15 @@
 {{^connection}}
-	<h2>{{{copy_firstuse}}}</h2>
+	<h2 class="firstuse-title">{{{copy_firstuse}}}</h2>
 	<div class="callout texture pure-u-1">
+		{{#all_services}}
 		<div class="pure-u-1 pure-u-md-1-3">
-			<div class="inner comingsoon">
-				<h3><img src="{{www_path}}/assets/images/settings/com.dropbox.png" alt="Dropbox"/></h3>
-				<p>Be mindful of using this connection type where you anticipate large amounts of concurrent traffic.</p>
-				<a class="button fullwidth lightboxed" href="{{www_path}}/settings/connections/add/com.dropbox">Add Connection</a>
-			</div><!--inner-->
+			<div class="callout-inner">
+				{{#service_has_image}}<h3><a href="{{link}}" target="_blank"><img src="{{www_path}}/assets/images/settings/{{key}}.png" alt="{{name}}"/></a></h3>{{/service_has_image}}
+				<p>{{description}}</p>
+				<a class="button fullwidth lightboxed" href="{{www_path}}/settings/connections/add/{{key}}">Add Connection</a>
+			</div><!--callout-inner-->
 		</div><!--pure-->
-		<div class="pure-u-1 pure-u-md-1-3">
-			<div class="inner">
-				<h3><img src="{{www_path}}/assets/images/settings/com.amazon.png" alt="Amazon"/></h3>
-				<p>This is the most reliable connection type at scale. </p>
-				<a class="button fullwidth lightboxed" href="{{www_path}}/settings/connections/add/com.amazon">Add Connection</a>
-			</div><!--inner-->
-		</div><!--pure-->
-		<div class="pure-u-1 pure-u-md-1-3">
-			<div class="inner">
-				<h3><img src="{{www_path}}/assets/images/settings/com.google.drive.png" alt="Google"/></h3>
-				<p>Best for testing and smaller scale campaigns. This service isn't designed for heavy load.</p>
-				<a class="button fullwidth lightboxed" href="{{www_path}}/settings/connections/add/com.google.drive">Add Connection</a>
-			</div><!--inner-->
-		</div><!--pure-->
+		{{/all_services}}
 	</div><!--pure-->
 
 	<p class="center">I host files on my own server. <a href="{{www_path}}/assets/add/file" class="lightboxed"> Add a file</a> or
