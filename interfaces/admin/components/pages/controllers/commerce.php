@@ -21,6 +21,39 @@ $orders_response = $cash_admin->requestAndStore(
 $cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('commerce') || $items_response['payload']; 
 
 
+// Return Connection
+$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+$settings_types_data = $page_data_object->getConnectionTypes('commerce');
+
+$all_services = array();
+$typecount = 1;
+foreach ($settings_types_data as $key => $data) {
+	if ($typecount % 2 == 0) {
+		$alternating_type = true;
+	} else {
+		$alternating_type = false;
+	}
+	if (file_exists(ADMIN_BASE_PATH.'/assets/images/settings/' . $key . '.png')) {
+		$service_has_image = true;
+	} else {
+		$service_has_image = false;
+	}
+	if (in_array($cash_admin->platform_type, $data['compatibility'])) {
+		$all_services[] = array(
+			'key' => $key,
+			'name' => $data['name'],
+			'description' => $data['description'],
+			'link' => $data['link'],
+			'alternating_type' => $alternating_type,
+			'service_has_image' => $service_has_image
+		);
+		$typecount++;
+	}
+}
+$cash_admin->page_data['all_services'] = new ArrayIterator($all_services);
+
+
+//items
 if (is_array($items_response['payload'])) {
 	$cash_admin->page_data['items_all'] = new ArrayIterator($items_response['payload']);
 }

@@ -598,6 +598,14 @@ small{
 
 /* Helpers */
 
+.firstuse-title .disclaimer{
+	display:block;
+	font-size: 16px;
+	opacity:0.5;
+	line-height: 18px;
+	margin:30px 0 0 0;
+}
+
 .fadedtext{
 	opacity:0.5;
 }
@@ -1772,7 +1780,7 @@ color:#f5f5f5!important;
 	margin: 5px 0 20px 0;
 }
 
-.prefpanel .inner{
+.prefpanel .pref-inner{
 	padding:20px;
 	background:#e2e2e2;
 	height:100%;
@@ -2322,7 +2330,7 @@ color:#f5f5f5!important;
 	background: url(../images/texture.jpg);
 }
 
-.callout .inner{
+.callout .callout-inner{
 	background:#f5f5f5;
 	height:300px;
 	padding:30px;
@@ -2332,7 +2340,7 @@ color:#f5f5f5!important;
 	position: relative;
 }
 
-.callout .inner .button{
+.callout .callout-inner .button{
 	position: absolute;
 	bottom:0px;
 	left:0;
@@ -2340,31 +2348,31 @@ color:#f5f5f5!important;
 	width:80%!important;
 }
 
-.callout .inner h3{
+.callout .callout-inner h3{
 	margin:0;
 }
 
-.callout .inner .title{
+.callout .callout-inner .title{
 	margin:20px 0 50px 0;
 }
 
-.callout .inner {
+.callout .callout-inner {
 	color:#888888;
 	text-align:center;
 }
 
 
-.callout .inner img{
+.callout .callout-inner img{
 	height:auto;
 	width:80%;
 	margin:0 0 30px 0;
 }
 
-.callout .pure-u-md-1-2 .inner img{
+.callout .pure-u-md-1-2 .callout-inner img{
 	width:40%;
 }	
 
-.callout .inner .icon{
+.callout .callout-inner .icon{
 	height:60px;
 	width:60px;
 }
@@ -2376,7 +2384,7 @@ color:#f5f5f5!important;
 	background: url(../images/alt_texture.jpg);
 }
 
-.alt.callout .inner{
+.alt.callout .callout-inner{
 	padding:30px;
 	color:#f5f5f5;
 	text-align:left;
@@ -2385,13 +2393,13 @@ color:#f5f5f5!important;
 	height:100%;
 }
 
-.alt.callout .inner .button{
+.alt.callout .callout-inner .button{
 	position: static;
 	margin:30px 0 0 0;
 	width:auto!important;
 }
 
-.alt.callout .inner h2{
+.alt.callout .callout-inner h2{
 	color:#f5f5f5;
 	margin:0;
 }
@@ -3043,7 +3051,7 @@ ul.alternating li .more.display .toggle{
 	padding:0;
 }
 
-#snapshot .inner{
+#snapshot .snapshot-inner{
 	margin:0;
 	padding:30px;
 	min-height:150px;
@@ -3054,7 +3062,7 @@ ul.alternating li .more.display .toggle{
 	border-radius: 3px;
 }
 
-#snapshot .inner h4 {
+#snapshot .snapshot-inner h4 {
 	font-size: 18px;
 	line-height: 20px;
 	margin:0 0 30px 0;
@@ -3734,26 +3742,26 @@ width:100%;
 	transition: 2s ease-in-out;
 }
 
-.campaign .inner, .campaign footer {
+.campaign .campaign-inner, .campaign footer {
 	position: relative;
 	z-index: 2;
 }
 
-.campaign .inner{
+.campaign .campaign-inner{
 	padding:20px;
 	height:100%;
 }
 
-.campaign .inner .primary{
+.campaign .campaign-inner .primary{
 	text-decoration: none;
 }
 
-.campaign .inner h2, .campaign .inner h3{
+.campaign .campaign-inner h2, .campaign .campaign-inner h3{
 	margin:0;
 	font-size: 20px;
 }
 
-.campaign .inner h2{
+.campaign .campaign-inner h2{
 	width:70%;
 	color:#f5f5f5;
 	font-weight: 700;
@@ -3762,7 +3770,7 @@ width:100%;
 	margin:5px 0 10px 0;
 }
 
-.campaign .inner h3{
+.campaign .campaign-inner h3{
 	width:70%;
 	color:#b8b8b8;
 	font-size: 16px;
@@ -3890,7 +3898,7 @@ width:100%;
 	background:#222;
 }
 
-#campaigns .associated .inner{
+#campaigns .associated .elements{
 	padding:0px;
 	margin:20px auto 0 auto;
 	height:300px;
@@ -3902,14 +3910,14 @@ width:100%;
 	color:#868686;
 }
 
-#campaigns .associated .inner .noelement{
+#campaigns .associated .elements .noelement{
 	background: rgba(34,34,34,0.1);
 	height:100%;
 	padding:5%;
 	position: relative;
 }
 
-#campaigns .associated .inner .noelement .icon{
+#campaigns .associated .elements .noelement .icon{
 	width:100%;
 	font-size: 85px;
 	text-align: center;
@@ -3918,7 +3926,7 @@ width:100%;
 	margin:85px auto;
 }
 
-#campaigns .associated .inner .noelement p{
+#campaigns .associated .elements .noelement p{
 	background:#dbdbdb;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -3930,7 +3938,7 @@ width:100%;
 	display: block;
 }
 
-#campaigns .associated .inner .noelement p span{
+#campaigns .associated .elements .noelement p span{
 	-webkit-border-radius: 50px;
 	-moz-border-radius: 50px;
 	border-radius: 50px;
@@ -4512,7 +4520,7 @@ aside{
 	background: url(../images/texture.jpg);
 }
 
-aside .inner{
+aside .aside-inner{
 	padding:20px;
 	background:#f5f5f5;
 	-webkit-border-radius: 3px;
@@ -4522,12 +4530,12 @@ aside .inner{
 	text-align: center;
 }
 
-aside .inner img{
+aside .aside-inner img{
 	margin:0 0 30px 0;
 }
 
 
-aside .inner img, aside .inner .button{
+aside .aside-inner img, aside .aside-inner .button{
 	width:100%;
 }
 

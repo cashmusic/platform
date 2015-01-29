@@ -1,6 +1,8 @@
 {
 	"name":"Twitter",
-	"description":"Log in to twitter to unlock social functionality.",
+	"instructions":"Log in to twitter to unlock social functionality.",
+	"description":"It's twitter. you've heard of it!",
+	"link":"http://www.twitter.com/",
 	"type":"com.twitter",
 	"seed":"TwitterSeed",
 	"scope":[],

@@ -1,6 +1,8 @@
 {
 	"name":"Mandrill",
-	"description":"Enter a Mandrill key for mass email.",
+	"instructions":"Enter a Mandrill key for mass email.",
+	"description":"Add your Mandrill account to begin sending email from your lists.",
+	"link":"http://www.mandrill.com/",
 	"type":"com.mandrillapp",
 	"seed":"MandrillSeed",
 	"scope":["users","mass_email"],

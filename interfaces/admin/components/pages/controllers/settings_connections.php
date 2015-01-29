@@ -41,7 +41,7 @@ if ($settings_action) {
 			if ($cash_admin->platform_type == 'single') {
 				if (!isset($_POST['dosettingsadd'])) {
 					if (array_key_exists($settings_type, $settings_types_data)) {
-						$cash_admin->page_data['state_markup'] = '<h4>' . $settings_types_data[$settings_type]['name'] . '</h4><p>' . $settings_types_data[$settings_type]['description'] . '</p>';
+						$cash_admin->page_data['state_markup'] = '<h4>' . $settings_types_data[$settings_type]['name'] . '</h4><p>' . $settings_types_data[$settings_type]['instructions'] . '</p>';
 
 						$cash_admin->page_data['state_markup'] .= '<form method="post" action="">'
 							. '<input type="hidden" name="dosettingsadd" value="makeitso" />'
