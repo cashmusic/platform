@@ -2287,14 +2287,15 @@ color:#f5f5f5!important;
 	width:100%;
 	padding:5%;
 	margin:0 0 2% 0;
-	background:#222;
+	background:#eee;
 	font-size: 16px;
 	color:#b5b5b5;
 	line-height: 18px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	background:#222 url(../images/dirt.png);
+	/*background:#eee url(../images/dirt.png);*/
+	background:#eee;
 	background-repeat: no-repeat;
 	background-position: center top;
 	background-attachment: fixed;
