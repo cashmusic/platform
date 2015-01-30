@@ -1,7 +1,6 @@
 {{^connection}}
 	<h2 class="firstuse-title">{{{copy_firstuse}}}</h2>
 	<div class="callout texture pure-u-1">
-
 		{{#all_services}}
 		<div class="pure-u-1 pure-u-md-1-2">
 			<div class="callout-inner">
@@ -26,23 +25,23 @@
 		<li><a href="/">This week</a></li>
 			<li><a href="/">Unfulfilled</a></li>
 </ul>
+</div><!--pure-->
 {{/orders_recent}}
 
-</div><!--pure-->
 {{#total_orders}}
 		<div id="snapshot">
 			<div class="pure-u-1 pure-u-md-1-2">
-				<div class="inner">
+				<div class="snapshot-inner">
 					<h4>New Order{{^orders_singular}}s{{/orders_singular}} - (<a href="/">No Unfulfilled</a>)</h4>
 					<h5 class="totalviews">{{total_orders}}73,769</h5>
-				</div><!--inner-->
+				</div><!--snapshot-inner-->
 			</div><!--pure-->
 			<div class="pure-u-1 pure-u-md-1-2">
-				<div class="inner">
+				<div class="snapshot-inner">
 					<h4>Total Amount</h4>
 					<h5 class="totalviews">{{dashboard_list_total_new}}</h5>
 					<h5 class="percentage"><div class="icon icon-lg-arw"></div><!--icon--></svg>0%</h5>
-				</div><!--inner-->
+				</div><!--snapshot-inner-->
 			</div><!--pure-->
 		</div><!--snapshot-->
 {{/total_orders}}

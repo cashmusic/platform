@@ -1,14 +1,46 @@
-{{#campaign_id}}
-	<a class="returnlink" href="{{www_path}}/campaigns/view/{{campaign_id}}">Back to Campaign</a>
+<div class="pure-u-1 pure-u-md-1-2">
+<h4>Embed Element</h4>
+</div><!--pure-->
+
+{{^campaign_id}}
+<div class="pure-u-1 pure-u-md-1-2">
+	<ul class="inline_subnav">
+		<li><a class="current" href="{{www_path}}/{{campaign_id}}">Back to Campaign</a></li>
+	</ul>
+</div><!--pure-->
 {{/campaign_id}}
 
-	<h4>Embed it</h4>
+<div id="snapshot">
+	<div class="pure-u-1 pure-u-md-1-2">
+		<div class="snapshot-inner">
+					<h4>New Order{{^orders_singular}}s{{/orders_singular}} - (<a href="/">No Unfulfilled</a>)</h4>
+					<h5 class="totalviews">{{total_orders}}73,769</h5>
+				</div><!--snapshot-inner-->
+			</div><!--pure-->
+			<div class="pure-u-1 pure-u-md-1-2">
+				<div class="snapshot-inner">
+					<h4>Total Amount</h4>
+					<h5 class="totalviews">{{dashboard_list_total_new}}</h5>
+					<h5 class="percentage"><div class="icon icon-lg-arw"></div><!--icon--></svg>0%</h5>
+				</div><!--snapshot-inner-->
+	</div><!--pure-->
+</div><!--snapshot-->
+
 
 			{{#platform_type_single}}
-				<strong class="fadedtext codelabel">PHP: </strong><code><div class="codearea" contenteditable="true">&lt;?php include_once('{{platform_path}}');CASHSystem::embedElement({{id}}); // ({{name}}) ?&gt;</div></code>
-				<strong class="fadedtext codelabel">WordPress: </strong><code><div class="codearea" contenteditable="true">[cashmusic element=&quot;{{id}}&quot; name=&quot;{{name}}&quot;]</div></code>
+			<div class="pure-u-1">
+				<div class="embedding">
+					<strong class="fadedtext codelabel">PHP: </strong><code><div class="codearea" contenteditable="true">&lt;?php include_once('{{platform_path}}');CASHSystem::embedElement({{id}}); // ({{name}}) ?&gt;</div></code>
+					<strong class="fadedtext codelabel">WordPress: </strong><code><div class="codearea" contenteditable="true">[cashmusic element=&quot;{{id}}&quot; name=&quot;{{name}}&quot;]</div></code>
+				</div><!--embedding-->
+			</div><!--pure-->
 			{{/platform_type_single}}
-			<p class="codelabel"><strong>HTML5 embed code:</strong> <span class="fadedtext">(Embed anywhere)</span></p><code><div class="codearea" contenteditable="true">&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;</div></code>
+			
+			<div class="pure-u-1">
+				<div class="embedding">
+					<p class="codelabel"><strong>HTML5 embed code:</strong> <span class="fadedtext">(Embed anywhere)</span></p><code><div class="codearea" contenteditable="true">&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;</div></code>
+				</div><!--embedding-->
+			</div><!--pure-->
 
 	<form method="post" action="">
 		<input type="hidden" name="current_template_id" value="{{template_id}}" />
@@ -26,8 +58,8 @@
 			</div><!--pure-->
 	</form>
 
-<h4>Statistics</h4>
-<div class="stat">Total unique views: {{total_views}}</div>
+<!--<h4>Statistics</h4>-->
+<!--<div class="stat">Total unique views: {{total_views}}</div>-->
 
 {{#location_analytics}}
 	<div class="drawer statoverview">
