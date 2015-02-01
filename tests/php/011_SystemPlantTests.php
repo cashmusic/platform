@@ -125,7 +125,7 @@ class SystemPlantTests extends UnitTestCase {
 				'password' => 'changedpassword'
 			)
 		);
-		// should fail
+		// did it work?
 		$this->assertTrue($login_request->response['payload']);
 		
 		$login_request = new CASHRequest(
@@ -137,6 +137,93 @@ class SystemPlantTests extends UnitTestCase {
 			)
 		);
 		$this->assertTrue($login_request->response['payload']);
+
+		// test some username bullshit
+		$login_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'setlogincredentials',
+				'user_id' => '2',
+				'username' => 'somethingunique'
+			)
+		);
+		$this->assertTrue($login_request->response['payload']);
+
+		$login_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'addlogin',
+				'address' => 'testanotheradminwhocares@test.com', 
+				'password' => 'testpassword',
+				'username' => 'whocares',
+				'is_admin' => 1
+			)
+		);
+		$this->assertTrue($login_request->response['payload']);
+		$new_user_id = $login_request->response['payload'];
+
+		$login_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'setlogincredentials',
+				'user_id' => '2',
+				'username' => 'whocares'
+			)
+		);
+		$user_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'getuser',
+				'user_id' => '2'
+			)
+		);
+		if ($user_request->response['payload']) {
+			// this should have failed so make sure the username is unchanged
+			$this->assertEqual($user_request->response['payload']['username'],'somethingunique');
+		}
+
+		// now remove the new user
+		$delete_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'deletelogin',
+				'address' => 'testanotheradminwhocares@test.com'
+			)
+		);
+
+		// and try renaming again
+		$login_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system', 
+				'cash_action' => 'setlogincredentials',
+				'user_id' => '2',
+				'username' => 'whocares'
+			)
+		);
+		$user_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'getuser',
+				'user_id' => '2'
+			)
+		);
+		if ($user_request->response['payload']) {
+			// with the deleted account it should work now
+			$this->assertEqual($user_request->response['payload']['username'],'whocares');
+		}
+
+		// now just make sure the new one is unset
+		$user_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'getuser',
+				'user_id' => $new_user_id
+			)
+		);
+		if ($user_request->response['payload']) {
+			// with the deleted account it should work now
+			$this->assertEqual($user_request->response['payload']['username'],'');
+		}
 	}
 
 	function testAPICredentials() {

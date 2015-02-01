@@ -454,6 +454,43 @@ class SystemPlant extends PlantBase {
 			if (!$id_request->response['payload']) {
 				// only go if not found. same reasons as above. seriously. you know what i'm saying.
 				$credentials['username'] = $username;
+			} else {
+				// check for the username — if it doesn't exist we're good. if it DOES exist then we
+				// have a little work. check for admin status, erase the old name if not an admin then
+				// mark the change as okay and move on.
+				$user = $this->db->getData(
+					'users',
+					'*',
+					array(
+						"id" => array(
+							"condition" => "=",
+							"value" => $id_request->response['payload']
+						)
+					)
+				);
+				if ($user) {
+					// we've found someone with this username already
+					if (!$user[0]['is_admin']) {
+						// okay so the jerk with this username isn't an admin (the account is deleted)
+						// so let's try to unset the username
+						$result = $this->db->setData(
+							'users',
+							array(
+								'username' => ''
+							),
+							array(
+								"id" => array(
+									"condition" => "=",
+									"value" => $id_request->response['payload']
+								)
+							)
+						);
+						if ($result) {
+							// it worked. so now we add the username to changes for the current user
+							$credentials['username'] = $username;
+						}
+					}
+				}
 			}
 		}
 		if (count($credentials)) {
