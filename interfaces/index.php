@@ -185,7 +185,7 @@ if ($user_id) {
 				</ul>
 			</nav>
 		<div class="header-container">
-			   <h1 class="logo"><img src="https://www-cashmusic.netdna-ssl.com/admin/ui/default/assets/images/invert_logo.svg" alt="CASH Music" /></h1>
+			   <h1 class="logo"><img src="https://www-cashmusic.netdna-ssl.com/admin/ui/default/assets/images/logo.svg" alt="CASH Music" /></h1>
 		</div>
 
 		<div class="main-container">
