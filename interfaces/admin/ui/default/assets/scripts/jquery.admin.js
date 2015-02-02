@@ -237,7 +237,7 @@
 	 */
 	function setContentBehaviors() {
 		// show/hide drawers
-		prepDrawers('<svg class="icon" viewBox="0 0 252 162"><use xlink:href="#icon-arrw-up"></use></svg>Hide','<svg class="icon" viewBox="0 0 252 162"><use xlink:href="#icon-arrw-dwn"></use></svg>Show');
+		prepDrawers('<div class="icon icon-arw-up"></div><!--icon-->Hide','<div class="icon icon-arw-dwn"></div><!--icon-->Show');
 
 		// datepicker
 		$('input[type=date],input.date').datepicker();
@@ -250,6 +250,7 @@
 		iNeedaHero();
 		firstUtpHL();
 		ZclipBoard();
+		PrefPanel();
 	}
 
 	/**
@@ -661,6 +662,13 @@
 
 		} );
 	};	
+
+	//Preference Panel
+	function PrefPanel() {
+		$(".prefpanel").click(function(){
+			$(".prefpanel").toggleClass("display");
+		});
+	};
 
 	/**
 	 *
