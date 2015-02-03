@@ -288,9 +288,7 @@ html, button, input, select, textarea,
 
 .mainnavmenu .touchpoints .icon{
 line-height:42px;
-font-size: 18px;
-width:36px;
-height:36px;
+font-size: 16px;
 }
 
 .mainnavmenu .touchpoints #learn a:hover .icon.icon-bulb{background-image:url(../images/icons/bulb.svg);}
@@ -528,6 +526,12 @@ button, .button, #modallightbox .modalcancel{
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	-webkit-apperance:none;
+}
+
+.modalcancel:hover{
+	-webkit-animation: loader ease-in-out 0.6s;
+    -moz-animation: loader ease-in-out  0.6s;
+    animation: loader ease-in-out  0.6s;
 }
 
 .usecolor2 button, .usecolor2 .button, .usecolor2 #modallightbox .modalcancel{ border:solid 1px #fa3838; color:#fa3838;}
@@ -1754,6 +1758,9 @@ color:#f5f5f5!important;
 	border-radius: 3px;
 	padding:20px;
 	margin:50px 0 0 0;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	transition:0.3s ease-in-out;
 }
 
 .prefpanel:hover{
@@ -1777,10 +1784,11 @@ color:#f5f5f5!important;
 	margin:0;
 }
 
-.prefpanel h4, .prefpanel h5{
+.prefpanel h4{
 	font-size: 14px;
-	margin:0 0 40px 0;
 	line-height: 14px;
+	margin:0;
+	padding:0;
 	color:#696969;
 }
 
@@ -1790,14 +1798,32 @@ color:#f5f5f5!important;
 	margin:0 10px 0 0;
 }
 
-.prefpanel h5{
+.prefpanel.display h5{
+	font-size: 14px;
+	line-height: 14px;
 	font-weight: 700;
 	margin: 5px 0 20px 0;
+	color:#696969;
 }
 
-.prefpanel.display .pref-inner{
+.prefpanel .pref-inner{
+	margin:0;
+	padding:0;
 	height:0;
 	opacity:0;
+	overflow: hidden;
+}
+
+.prefpanel .pure-u-md-1-2{
+	display:none;
+	height:0%;
+	opacity: 0;
+}
+
+.prefpanel.display .pure-u-md-1-2{
+	display: inline-block;
+	height:100%;
+	opacity: 1;
 }
 
 .prefpanel.display .pref-inner{
@@ -1808,6 +1834,9 @@ color:#f5f5f5!important;
 	opacity:1;
 }
 
+.prefpanel.display h4{
+	margin:0 0 40px 0;
+}
 
 /* Login Page */
 
