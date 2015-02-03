@@ -1587,7 +1587,7 @@ section[role=main].hero{
 
 .inline_subnav{
 	list-style-type: none;
-	margin:10px 0;
+	margin:10px 0 50px 0;
 	padding:0;
 	display: inline-block;
 	float: right;
@@ -1600,6 +1600,7 @@ section[role=main].hero{
 
 .inline_subnav li a{
 	text-decoration: none;
+	font-size: 14px;
 	background:#dbdbdb;
 	color:#979797!important;
 	padding:10px 20px;
@@ -1610,10 +1611,16 @@ section[role=main].hero{
 
 /* Navigation Colours */
 
+#mainspc.usecolor1 .tertiarynav li a, #mainspc.usecolor1 .inline_subnav li a.current, #mainspc.usecolor1 .inline_subnav li a:hover {background:#00cf7f; color:#f5f5f5!important;}
 #mainspc.usecolor2 .tertiarynav li a, #mainspc.usecolor2 .inline_subnav li a.current, #mainspc.usecolor2 .inline_subnav li a:hover {background:#fa3838; color:#f5f5f5!important;}
 #mainspc.usecolor3 .tertiarynav li a, #mainspc.usecolor3 .inline_subnav li a.current, #mainspc.usecolor3 .inline_subnav li a:hover {background:#ff7c12; color:#f5f5f5!important;}
 #mainspc.usecolor4 .tertiarynav li a, #mainspc.usecolor4 .inline_subnav li a.current, #mainspc.usecolor4 .inline_subnav li a:hover {background:#6a38fa; color:#f5f5f5!important;}
 #mainspc.usecolor5 .tertiarynav li a, #mainspc.usecolor5 .inline_subnav li a.current, #mainspc.usecolor5 .inline_subnav li a:hover {background:#fa3866; color:#f5f5f5!important;}
+
+
+.inline_subnav li a.current:hover{
+	background:#111!important;
+}
 
 
 /* Donation Notice */
@@ -2337,6 +2344,19 @@ color:#f5f5f5!important;
 	margin:0 0 30px 0;
 }
 
+.embedpanel .ql{
+	color:#696969;
+	margin:0;
+	display: inline;
+	line-height: 24px;
+	background: #e2e2e2;
+	border: solid 1px #d2d2d2;
+	width:30px;
+	height:30px;
+	text-align:center;
+	float: right;
+}
+
 .codelabel{
 	padding:0;
 	margin:1% 0;
@@ -2347,7 +2367,7 @@ color:#f5f5f5!important;
 .codearea{
 	width:100%;
 	padding:5%;
-	margin:0 0 2% 0;
+	margin:20px 0 5px 0;
 	background:#eee;
 	font-size: 16px;
 	color:#222;
