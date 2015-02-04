@@ -512,7 +512,7 @@ button, .button, #modallightbox .modalcancel{
 	background:none;
 	padding:10px 50px;
 	word-wrap:break-word;
-	margin:0 5px 0 0;
+	margin:0 10px 0 0;
 	text-align: center;
 	/*float:left;*/
 	width:100%;
@@ -529,7 +529,7 @@ button, .button, #modallightbox .modalcancel{
 }
 
 button.right, .button.right{
-	margin:0 0 0 5px;
+	margin:0 0 0 10px;
 }
 
 .modalcancel:hover{
@@ -3832,6 +3832,7 @@ width:100%;
 	border-radius: 3px;
 	position:relative;
 	overflow: hidden;
+	margin:0 0 20px 0;
 }
 
 .campaign img{
