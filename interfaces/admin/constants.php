@@ -25,7 +25,7 @@ define('CASH_PLATFORM_PATH', $cashmusic_root);
  *
  *********************************************************/
 define('ALLOW_SIGNUPS',true); // should people be able to sign up from the admin page?
-define('CDN_URL','https://91ee07a61ca29df61569-b2dba7dce06e8a9c0977ad3a8844e9c8.ssl.cf2.rackcdn.com/v3'); // base CDN for some static assets (img tags, mostly)
+define('CDN_URL','https://cashmusic.org/admin'); // base CDN for some static assets (img tags, mostly)
 define('JQUERY_URL','//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'); // CDN for jQuery
 define('JQUERYUI_URL','//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js'); // CDN for jQuery UI
 define('MINIMUM_PASSWORD_LENGTH',10); // doesn't allow passwords shorter than this value
