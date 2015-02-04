@@ -81,6 +81,22 @@ $cash_admin->page_data['all_mass_services'] = new ArrayIterator($all_mass_servic
 
 // lists
 if (is_array($list_response['payload'])) {
+
+	foreach ($list_response['payload'] as &$list) {
+		$list_analytics = $cash_admin->requestAndStore(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'getanalytics',
+				'analtyics_type' => 'listmembership',
+				'list_id' => $list['id'],
+				'user_id' => $cash_admin->effective_user_id
+			)
+		);
+		$list['analytics_active'] = CASHSystem::formatCount($list_analytics['payload']['active']);
+		$list['analytics_inactive'] = CASHSystem::formatCount($list_analytics['payload']['inactive']);
+		$list['analytics_last_week'] = CASHSystem::formatCount($list_analytics['payload']['last_week']);
+	}
+
 	$cash_admin->page_data['lists_all'] = new ArrayIterator($list_response['payload']);
 }
 
