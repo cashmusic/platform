@@ -665,7 +665,7 @@
 
 	//Preference Panel
 	function PrefPanel() {
-		$(".prefpanel").click(function(){
+		$(".prefpanel .title").click(function(){
 			$(".prefpanel").toggleClass("display");
 		});
 	};
