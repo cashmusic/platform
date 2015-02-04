@@ -12,6 +12,18 @@ if (isset($_POST['change_template_id'])) {
 	);
 }
 
+// get the current template:
+	$settings_request = new CASHRequest(
+		array(
+			'cash_request_type' => 'system', 
+			'cash_action' => 'getsettings',
+			'type' => 'public_profile_template',
+			'user_id' => $cash_admin->effective_user_id
+		)
+	);
+
+$cash_admin->page_data['template_id'] = $settings_request->response['payload'];
+
 // handle campaign selection
 $current_campaign = $admin_primary_cash_request->sessionGet('current_campaign');
 if (isset($_POST['current-campaign'])) {
