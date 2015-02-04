@@ -512,7 +512,7 @@ button, .button, #modallightbox .modalcancel{
 	background:none;
 	padding:10px 50px;
 	word-wrap:break-word;
-	margin:2% 1% 2% 0;
+	margin:0 5px 0 0;
 	text-align: center;
 	/*float:left;*/
 	width:100%;
@@ -526,6 +526,10 @@ button, .button, #modallightbox .modalcancel{
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	-webkit-apperance:none;
+}
+
+button.right, .button.right{
+	margin:0 0 0 5px;
 }
 
 .modalcancel:hover{
