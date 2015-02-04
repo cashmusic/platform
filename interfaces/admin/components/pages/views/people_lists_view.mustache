@@ -1,4 +1,7 @@
+<div class="pure-u-1">
+<h2>Mailing List - <strong>"{{list_description}}"</strong></h2>
 {{#ui_title}}
+
 	<div id="stats">
 	<h4>Statistics</h4>
 	<p class="total">Total active members: <span>{{analytics_active}}</span></p>
@@ -6,7 +9,7 @@
 	<p class="newm">New members, past 7 days: <span>{{analytics_last_week}}</span></p>
 	</div><!--stats-->
 
-	<h2>{{list_description}}</h2>
+
 	
 	<!-- Show members on list -->
 	{{#list_members}}
@@ -54,3 +57,4 @@
 {{^ui_title}}
 	<h4>Sorry</h4>Error getting list.
 {{/ui_title}}
+</div><!--pure-->
