@@ -24,4 +24,4 @@ And hover over your email in the upper bar at any time to access system settings
 or log out. 
 
 For more, follow us on Twitter as [@cashmusic](http://twitter.com/cashmusic) or follow our 
-[blog](http://blog.cashmusic.org/) on Tumblr.
+[blog](https://medium.com/cash-music/) on Medium.
