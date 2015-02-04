@@ -49,13 +49,10 @@
 
 	
 <div class="prefpanel pure-u-1">
-	<h4><div class="icon icon-wrench"></div><!--icon--><span>Asset Settings</span></h4>
+	<h4 class="title"><div class="icon icon-wrench"></div><!--icon--><span>Asset Settings</span></h4>
 		<div class="pure-u-1 pure-u-md-1-2">
 			<div class="pref-inner">
-				<h5><div class="icon icon-dwnld"></div><!--icon-->Need download codes?</h5>
-				<div class="drawer noprefix">
-					<a class="drawerhandle usecolor2">Export or create codes</a>
-					<div class="drawercontent">
+				<h5><div class="icon icon-dwnld"></div><!--icon--> Export or create download codes</h5>
 						<p>
 						{{#asset_codes_count}}
 							<span>There are {{asset_codes_count}} codes for this asset. <a class="usecolor2 noajax" href="{{www_path}}/assets/edit/{{id}}?exportcodes=1"><strong>Export them!</strong></a></span >
@@ -74,13 +71,11 @@
 								<button type="submit">Add codes</button>
 							</div><!--pure-->
 						</form>
-					</div><!--drawercontent-->
-				</div><!--drawer-->
 			</div><!--pref-inner-->
 		</div><!--pure-->
 		<div class="pure-u-1 pure-u-md-1-2">
 			<div class="pref-inner">
-				<h5><div class="icon icon-card"></div><!--icon-->Selling out?</h5>
+				<h5><div class="icon icon-card"></div><!--icon--> Selling out?</h5>
 				<a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="lightboxed returntocurrentroute"><span>Define commerce settings</span></a>
 			</div><!--pref-inner-->
 		</div><!--pure-->
