@@ -1770,7 +1770,7 @@ color:#f5f5f5!important;
 	transition:0.3s ease-in-out;
 }
 
-.prefpanel:hover{
+.prefpanel h4:hover{
 	cursor: pointer;
 }
 

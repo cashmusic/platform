@@ -164,13 +164,10 @@
 </form><!--add-release-form-->
 
 <div class="prefpanel pure-u-1">
-	<h4><div class="icon icon-wrench"></div><!--icon--><span>Asset Settings</span></h4>
+	<h4 class="title"><div class="icon icon-wrench"></div><!--icon--><span>Asset Settings</span></h4>
 	<div class="pure-u-1 pure-u-md-1-2">
 		<div class="pref-inner">
-				<h5><div class="icon icon-dwnld"></div><!--icon--> Need download codes?</h5>
-			<div class="drawer noprefix">
-			<a class="drawerhandle usecolor2">Export or create codes</a>
-			<div class="drawercontent">
+				<h5><div class="icon icon-dwnld"></div><!--icon--> Export or create download codes</h5>
 				<p>
 				{{#asset_codes_count}}
 					<span>There are {{asset_codes_count}} codes for this asset. <a class="usecolor2 noajax" href="{{www_path}}/assets/edit/{{id}}?exportcodes=1"><b>Export them!</b></a></span>
@@ -180,16 +177,14 @@
 				{{/asset_codes_count}}
 				</p>
 				<form id="export-dwnld-codes" accept-charset="UTF-8" method="post" action="{{www_path}}/assets/edit/{{id}}">
-					<label for="add_codes_qty">Add (qty) more codes</label>
-					<div class="pure-u-1 pure-u-md-1-4">
+					<label for="add_codes_qty">Add (qty) more codes:</label>
+					<div class="pure-u-1 pure-u-md-1-2">
 						<input type="text" name="add_codes_qty" id="add_codes_qty" value="500" />
 					</div><!--pure-->
-					<div class="pure-u-1 pure-u-md-1-4">
+					<div class="pure-u-1 pure-u-md-1-2">
 						<button type="submit"><div class="icon icon-list"></div><!--icon--> add codes</button>
 						</form>
 					</div><!--pure-->
-			</div><!--drawercontent-->
-	</div><!--drawer-->
 		</div><!--pref-inner-->
 	</div><!--pure-->
 	<div class="pure-u-1 pure-u-md-1-2">
