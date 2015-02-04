@@ -8,12 +8,12 @@ $list_response = $cash_admin->requestAndStore(
 	)
 );
 
-//people connection or list present?
-$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('users') || $list_response['payload'];
+//people list connection or list present?
+$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('lists') || $list_response['payload'];
 
-// Return Connection
+// Return List Connections
 $page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
-$settings_types_data = $page_data_object->getConnectionTypes('users');
+$settings_types_data = $page_data_object->getConnectionTypes('lists');
 
 $all_services = array();
 $typecount = 1;
@@ -40,7 +40,43 @@ foreach ($settings_types_data as $key => $data) {
 		$typecount++;
 	}
 }
+
 $cash_admin->page_data['all_services'] = new ArrayIterator($all_services);
+
+//people mass email connection present?
+$cash_admin->page_data['mass_connection'] = AdminHelper::getConnectionsByScope('mass_email');
+
+// Return Mass Email Connections
+$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+$settings_mass_types_data = $page_data_object->getConnectionTypes('mass_email');
+
+$all_mass_services = array();
+$typecount = 1;
+foreach ($settings_mass_types_data as $key => $data) {
+	if ($typecount % 2 == 0) {
+		$alternating_type = true;
+	} else {
+		$alternating_type = false;
+	}
+	if (file_exists(ADMIN_BASE_PATH.'/assets/images/settings/' . $key . '.png')) {
+		$service_has_image = true;
+	} else {
+		$service_has_image = false;
+	}
+	if (in_array($cash_admin->platform_type, $data['compatibility'])) {
+		$all_mass_services[] = array(
+			'key' => $key,
+			'name' => $data['name'],
+			'description' => $data['description'],
+			'link' => $data['link'],
+			'alternating_type' => $alternating_type,
+			'service_has_image' => $service_has_image
+		);
+		$typecount++;
+	}
+}
+
+$cash_admin->page_data['all_mass_services'] = new ArrayIterator($all_mass_services);
 
 
 // lists
