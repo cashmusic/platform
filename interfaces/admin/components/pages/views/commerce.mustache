@@ -18,7 +18,7 @@
 <div class="pure-u-1 pure-u-md-1-2">
 <h4>Orders</h4>
 </div><!--pure-->
-{{#orders_recent}}
+{{#show_filters}}
 <div class="pure-u-1 pure-u-md-1-2">
 <ul class="inline_subnav">
 	<li><a class="current" href="/">All time</a></li>
@@ -26,7 +26,7 @@
 			<li><a href="/">Unfulfilled</a></li>
 </ul>
 </div><!--pure-->
-{{/orders_recent}}
+{{/show_filters}}
 
 {{#total_orders}}
 		<div id="snapshot">
@@ -52,9 +52,9 @@
 			{{#orders_recent}}
 			<li>
 				<div class="item">
-					<div class="date"><span class="month">Feb</span><span class="day">01</span>{{date}}</div><!--stats-->
+					<div class="date"><span class="month">{{mmm}}</span><span class="day">{{dd}}</span></div><!--stats-->
 					<a class="info" href="{{www_path}}/commerce/orders/view/{{id}}">
-					<strong>Order: {{number}}</strong><span class="descriptive spaced fadedtext">{{gross}}: {{items}}</span></a><span class="amount">8888</span>
+					<strong>Order: {{number}}</strong><span class="descriptive spaced fadedtext">{{items}}</span></a><span class="amount">{{gross}}</span>
 				</div><!--item-->
 
 				<div class="more"><div class="toggle"></div><!--toggle-->
@@ -67,7 +67,7 @@
 		</ul>
 
 		<footer>
-		{{#orders_recent}}<div class="left pagination"><a class="prev" href="/">Previous</a><span>/</span><a class="next active" href="/">Next</a></div><!--pagination-->{{/orders_recent}}
+		{{#show_pagination}}<div class="left pagination"><a class="prev" href="/">Previous</a><span>/</span><a class="next active" href="/">Next</a></div><!--pagination-->{{/show_pagination}}
 		</footer>
 
 		{{/orders_recent}}

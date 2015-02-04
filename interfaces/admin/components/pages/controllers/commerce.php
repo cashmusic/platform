@@ -83,14 +83,20 @@ if (is_array($orders_response['payload'])) {
 					'id' => $order_details['id'],
 					'number' => '#' . str_pad($order_details['id'],6,0,STR_PAD_LEFT),
 					'date' => CASHSystem::formatTimeAgo((int)$order_date),
+					'mmm' => date('M',(int)$order_date),
+					'dd' => date('d',(int)$order_date),
 					'items' => str_replace('\n','<br />',$order_details['order_totals']['description']),
-					'gross' => '$' . sprintf("%01.2f",$order_details['gross_price']),
+					'gross' => CASHSystem::getCurrencySymbol($order['currency']) . sprintf("%01.2f",$order_details['gross_price']),
 				);
 			}
 		}
 	}
 	if (count($all_order_details) > 0) {
 		$cash_admin->page_data['orders_recent'] = new ArrayIterator($all_order_details);
+		$cash_admin->page_data['show_filters'] = true;
+		if (count($all_order_details) > 10) {
+			$cash_admin->page_data['show_pagination'] = true;
+		}
 	}
 }
 
