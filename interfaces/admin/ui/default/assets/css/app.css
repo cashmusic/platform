@@ -98,6 +98,7 @@ body.login #footer, body.login h2#pagetitle {
 	background:#222;
 	background-size: cover;
 	opacity:0.9;
+	display:none;
 }
 
 a.revealpassword {
@@ -184,6 +185,7 @@ a.revealpassword {
 #pagedisplay{
 	/*width:100%;*/
 	height:100%;
+	overflow:auto;
 	background: #e3e3e3;
 	margin:1%;
 	padding:10px;
@@ -252,12 +254,6 @@ html, button, input, select, textarea,
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-}
-
-/* Login */
-
-.pure-u-md-2-5{
-	padding:0 10px 0 0;
 }
 
 /* Icons General */
@@ -447,7 +443,7 @@ form small{
 
 .login #cash_signin_form input.button {
 	width:100%;
-	margin-top:30px;
+	margin-top:35px;
 }
 
 .login #cash_signin_form input[type="email"], .login #cash_signin_form input[type="password"] {
@@ -529,6 +525,13 @@ button.right, .button.right{
 	-webkit-animation: loader ease-in-out 0.6s;
     -moz-animation: loader ease-in-out  0.6s;
     animation: loader ease-in-out  0.6s;
+}
+
+.button.modalcancel:hover{
+	-webkit-animation:none;
+	-moz-animation:none;
+	animation:none;
+
 }
 
 .usecolor2 button, .usecolor2 .button, .usecolor2 #modallightbox .modalcancel{ border:solid 1px #fa3838; color:#fa3838;}
@@ -1961,23 +1964,18 @@ color:#f5f5f5!important;
 
 /* Login Page */
 
-.login{
-	background-image: url('../images/hero_bg.jpg');
-	background-size: 100%;
-	padding:0;
-	margin:0;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
+.login #mainspc{
+	background: url('../images/hero_bg.jpg');
 	height:100%;
 	width:100%;
+	padding:0;
+	margin:0;
 }
 
 .login #mainspc .grid{
 	width:100%;
-	padding:30px 20%; 
-	background:rgba(17,17,17,0.98);
+	padding:30px 2%; 
+	background:rgba(17,17,17,0.78);
 
 }
 
@@ -2035,7 +2033,7 @@ color:#f5f5f5!important;
 .login #pagedisplay{
 	width:100%;
 	margin:0 auto;
-	padding:30px;
+	padding:0 30px;
 	background:none;
 }
 
@@ -2043,8 +2041,7 @@ color:#f5f5f5!important;
 	margin:580px 0 0 0;
 }
 
-.login .signup, .login #footer {
-	position:relative;
+.login #footer {
 	background: #121212;
 	background-repeat: no-repeat;
 	background-position: center top;
@@ -2095,6 +2092,11 @@ color:#f5f5f5!important;
 	-moz-filter: invert(100%); 
 	filter: invert(100%)
 }
+
+.login #menutoggle{
+	display: none;
+}
+
 
 /* Secondary Sidebar */
 
@@ -4757,7 +4759,9 @@ width:100%;
 }
 
 .login #footer{
+	position: initial;
 	min-height:auto;
+	width:100%;
 }
 
 
@@ -4808,15 +4812,25 @@ aside .aside-inner img, aside .aside-inner .button{
    Media Queries
    ========================================================================== */
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 769px) {
 /* ====================
-   INTERMEDIATE - (Tablet & Above)
+   INTERMEDIATE - (Horiztonal Tablet & Above)
    ==================== */
 html{
-	/*padding:1%;
-	background:#e3e3e3 url(../images/bg.jpg);*/
 	background-attachment: fixed;
 }  
+
+/* Login */
+
+.login #mainspc .grid{
+	padding:30px 10%; 
+}
+
+/* Video Loader */
+
+#loadingmask video{
+	display:block;
+}
 
 /* Pure Grid Gutters */
 
@@ -4835,6 +4849,11 @@ html{
 .pure-u-md-1-4:nth-of-type(1),.pure-u-md-1-4:nth-of-type(5),.pure-u-md-1-4:nth-of-type(9),.pure-u-md-1-4:nth-of-type(13),.pure-u-md-1-4:nth-of-type(17){ padding:0 5px 0 0; }
 .pure-u-md-1-4:nth-of-type(2),.pure-u-md-1-4:nth-of-type(3),.pure-u-md-1-4:nth-of-type(6), .pure-u-md-1-4:nth-of-type(7), .pure-u-md-1-4:nth-of-type(10), .pure-u-md-1-4:nth-of-type(11), .pure-u-md-1-4:nth-of-type(14), .pure-u-md-1-4:nth-of-type(15), .pure-u-md-1-4:nth-of-type(18), .pure-u-md-1-4:nth-of-type(19){ padding:0 5px 0 5px; }
 .pure-u-md-1-4:nth-of-type(4),.pure-u-md-1-4:nth-of-type(8),.pure-u-md-1-4:nth-of-type(12), .pure-u-md-1-4:nth-of-type(16), .pure-u-md-1-4:nth-of-type(20){ padding:0 0 0 5px; }
+
+/* Login */
+.pure-u-md-2-5{ padding:0 10px 0 0; }
+
+/* Pages */
 
 #pagedisplay{
 	padding:30px;
@@ -5240,6 +5259,11 @@ th{display:table-cell;}
 tr {display:table-row;}
 td{display:table-cell; vertical-align: inherit;}
 
+.login #footer{
+	position: fixed;
+	width:100%;
+}
+
 } /* Internediate END */
 
 /* ===============
@@ -5251,6 +5275,49 @@ td{display:table-cell; vertical-align: inherit;}
 
 #pagedisplay .ql.copy{
 	display: none;
+}
+
+.portrait .pure-u-md-3-4{
+	width:100%;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	transition:0.3s ease-in-out;	
+}
+
+.landscape .pure-u-md-3-4{
+	width:75%;	
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	transition:0.3s ease-in-out;
+}
+
+
+
+/* Login */
+.pure-u-md-2-5{ padding:0 10px 0 0; }
+
+
+/* Pure Grid Gutters */
+
+/* 2 Col Layout */
+.pure-u-md-1-2:nth-of-type(odd) { padding:0 10px 0 0; }
+.pure-u-md-1-2:nth-of-type(even) { padding:0 0 0 10px; }
+
+.pure-u-md-2-3:nth-of-type(odd) { padding:0 20px 0 0; }
+
+/* 3 Col Layout */
+.pure-u-md-1-3:nth-of-type(1), .pure-u-md-1-3:nth-of-type(4), .pure-u-md-1-3:nth-of-type(7), .pure-u-md-1-3:nth-of-type(10), .pure-u-md-1-3:nth-of-type(13), .pure-u-md-1-3:nth-of-type(16), .pure-u-md-1-3:nth-of-type(19){ padding:0 10px 0 0; }
+.pure-u-md-1-3:nth-of-type(2), .pure-u-md-1-3:nth-of-type(5), .pure-u-md-1-3:nth-of-type(8), .pure-u-md-1-3:nth-of-type(11), .pure-u-md-1-3:nth-of-type(14), .pure-u-md-1-3:nth-of-type(17), .pure-u-md-1-3:nth-of-type(20)){ padding:0 5px 0 5px; }
+.pure-u-md-1-3:nth-of-type(3), .pure-u-md-1-3:nth-of-type(6), .pure-u-md-1-3:nth-of-type(9), .pure-u-md-1-3:nth-of-type(12), .pure-u-md-1-3:nth-of-type(15), .pure-u-md-1-3:nth-of-type(18), .pure-u-md-1-3:nth-of-type(21){ padding:0 0 0 10px; }
+
+/* 4 Col Layout */
+.pure-u-md-1-4:nth-of-type(1),.pure-u-md-1-4:nth-of-type(5),.pure-u-md-1-4:nth-of-type(9),.pure-u-md-1-4:nth-of-type(13),.pure-u-md-1-4:nth-of-type(17){ padding:0 5px 0 0; }
+.pure-u-md-1-4:nth-of-type(2),.pure-u-md-1-4:nth-of-type(3),.pure-u-md-1-4:nth-of-type(6), .pure-u-md-1-4:nth-of-type(7), .pure-u-md-1-4:nth-of-type(10), .pure-u-md-1-4:nth-of-type(11), .pure-u-md-1-4:nth-of-type(14), .pure-u-md-1-4:nth-of-type(15), .pure-u-md-1-4:nth-of-type(18), .pure-u-md-1-4:nth-of-type(19){ padding:0 5px 0 5px; }
+.pure-u-md-1-4:nth-of-type(4),.pure-u-md-1-4:nth-of-type(8),.pure-u-md-1-4:nth-of-type(12), .pure-u-md-1-4:nth-of-type(16), .pure-u-md-1-4:nth-of-type(20){ padding:0 0 0 5px; }
+
+.login #footer{
+	position: fixed;
+	width:100%;
 }
 
 }/*  Tablet Fixes END */

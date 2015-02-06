@@ -63,11 +63,15 @@
         	console.log('Landscape');
         	$('html').removeClass('portrait');
         	$('html').addClass('landscape');
+        	// No menu panel obstruction
+        	$('#navmenu, #menutoggle').removeClass('display');
     	} else {
     		// Portrait
     		console.log('Portrait');
     		$('html').removeClass('landscape');
     		$('html').addClass('portrait');
+    		// No menu panel obstruction
+    		$('#navmenu, #menutoggle').removeClass('display');
     	}
 	}
 
@@ -271,6 +275,7 @@
 		touchToggles();
 		autoPanel();
 		moveToExample();
+		readDeviceOrientation();
 
 		// page tip show/hide
 		$(document).on('click', '#tipslink', function(e) {
