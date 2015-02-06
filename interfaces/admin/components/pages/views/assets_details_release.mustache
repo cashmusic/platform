@@ -63,10 +63,11 @@
 						</ul>
 						{{/fulfillment_files}}
 						{{^fulfillment_files}}
-							<p>No files have been added for fulfillment yet.</p>
+						<div class="pure-u-1 pure-u-md-1-2"><p>No files have been added for fulfillment yet.</p></div><!--pure-->
 						{{/fulfillment_files}}
-						<a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/fulfillment" class="add-fulfillment-file lightboxed returntocurrentroute smalltext"><div class="icon icon-ban"></div><!--icon--><strong>Add New File</strong></a>
+						<div class="pure-u-1 {{^fulfillment_files}}pure-u-md-1-2{{/fulfillment_files}}"><a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/fulfillment" class="add-fulfillment-file lightboxed returntocurrentroute button {{^fulfillment_files}}right{{/fulfillment_files}}">Attach A File</a>
 						<input type="hidden" id="metadata_fulfillment" name="metadata_fulfillment" value="{{metadata_fulfillment_json}}" />
+						</div><!--pure-->
 					</div><!--fullfillment-files-->
 			</div><!--release-general-info-->
 	</fieldset>

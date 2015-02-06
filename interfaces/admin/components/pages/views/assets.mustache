@@ -17,6 +17,7 @@
 {{/connection}}
 
 {{#connection}}
+<div class="releases">
 {{#featured_releases}}
 	<div class="pure-u-1 pure-u-md-1-3">
 		<div class="featured-release">
@@ -40,6 +41,7 @@
 		</div><!--featured-release-->
 	</div><!--pure-->
 {{/featured_releases}}
+</div><!--releases-->
 
 {{^featured_releases}}
 	<div class="empty">
@@ -52,7 +54,7 @@
 	<div class="pure-u-1 pure-u-md-1-2"></div><!--pure-->
 {{/two_features}}
 
-<div id="releases" class="drawer">
+<div class="additional_releases drawer">
 	{{#remaining_releases}}
 	<div class="drawercontent pure-u-1">
 		{{#remaining_releases}}
@@ -106,9 +108,8 @@ to be sold through a <a class="store lightboxed" href="{{www_path}}/elements/add
 <div class="filesection pure-u-1">
 <h4>Files</h4>
 <div class="pure-u-1 pure-u-md-1-2">
-		<p>File asset types are for any file type that <strong>does not</strong><br /> require release meta data.</p>
-		<p>Files can be sold by connecting to a <a href="{{www_path}}/commerce/items/">commerce item</a><br />and embedding a <a class="store lightboxed" href="{{www_path}}/elements/add/">purchase element</a> on 
-your site.</p> 
+		<p>File asset types are for any file type that <strong>does not</strong> require release meta data.</p>
+		<p>Files can be sold by connecting to a <a href="{{www_path}}/commerce/items/">commerce item</a> and embedding a <a class="store lightboxed" href="{{www_path}}/elements/add/">purchase element</a> on your site.</p> 
 
 		<a href="{{www_path}}/assets/add/file" class="button lightboxed"> Add a new file</a>
 </div><!--pure-->

@@ -5,9 +5,9 @@
 			{{#items_all}}
 			<li>
 				<div class="item">
-					<a title="linked to asset: //NAME OF FILE//" href="/" class="assetlink">
+					<div class="assetlink">
 						<div class="icon icon-record"></div><!--icon-->
-					</a>
+					</div>
 					<a class="info" href="{{www_path}}/commerce/items/edit/{{id}}">
 					<strong>{{name}}</strong>
 					<!-- If Linked to asset -->
@@ -31,12 +31,12 @@
 		</div><!--empty-->
 		{{/items_all}}
 
-		{{#items_all}}	
+		{{#show_pagination}}	
 			<footer>
 				
 				<div class="left pagination"><a class="prev" href="/">Previous</a><span>/</span><a class="next active" href="/">Next</a></div><!--pagination-->
 			</footer>
-		{{/items_all}}
+		{{/show_pagination}}
 	</div><!--pure-->
 
 	<div class="pure-u-1 pure-u-md-1-3">
