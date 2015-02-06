@@ -43,27 +43,30 @@
 	<body id="page" class="hide-extras{{loginstatus}} {{specialcolor}}">
 
 	<div class="hlter"></div><!--hlter-->
-		<div id="wrap" class="pure-g">	
+		<div id="wrap" class="pure-g">
+			<div id="menutoggle"></div>
 				<div id="navmenu" class="mainnavmenu pure-u-1 pure-u-md-1-4">
 				<div id="header"><h1 id="logo"><a href="{{www_path}}/">
 				<img src="{{www_path}}/ui/default/assets/images/logo.svg" alt="Cash Music" />
 				</a></h1><!--logo-->
-					<div class="touchpoints">
-						<div id="searchbtn" class="toggle"><a title="Search">
-						<div class="icon icon-search"></div><!--icon-->
-						</a></div>
-						<div id="learn" class="toggle"><a title="Learn">
-						<div class="icon icon-bulb-o"></div><!--icon-->
-						</a></div><!--learn-->
-						<div id="settings" class="toggle"><a title="Account/Settings">
-						<div class="icon icon-cog"></div><!--icon-->
-						</a></div><!--settings-->
-						<div id="help" class="toggle"><a title="Help">
-						<div class="icon icon-question"></div><!--icon-->
-						</a></div><!--help-->
-						<div id="logoutbtn" class="toggle"><a title="Logout" href="{{www_path}}/logout/" class="needsconfirmation">
-						<div class="icon icon-signout"></div><!--icon-->
-						</a></div><!--logout-->
+					<div id="touchpoints">
+						<ul>
+							<li id="searchbtn" class="toggle">
+								<a title="Search"><div class="icon icon-search"></div><!--icon--></a>
+							</li><!--searchbtn-->
+							<li id="learn" class="toggle">
+								<a title="Learn"><div class="icon icon-bulb-o"></div><!--icon--></a>
+							</li><!--learn-->
+							<li id="settings" class="toggle">
+								<a title="Account/Settings"><div class="icon icon-cog"></div><!--icon--></a>
+							</li><!--settings-->
+							<li id="help" class="toggle">
+								<a title="Help"><div class="icon icon-question"></div><!--icon--></a>
+							</li><!--help-->
+							<li id="logoutbtn" class="toggle">
+								<a title="Logout" href="{{www_path}}/logout/" class="needsconfirmation"><div class="icon icon-signout"></div><!--icon--></a>
+							</li><!--logout-->
+						</ul>
 					</div><!--touchpoints-->
 					<div id="flipback"></div><!--flipback-->	
 						<form id="search" accept-charset="UTF-8" method="post" action="">	
