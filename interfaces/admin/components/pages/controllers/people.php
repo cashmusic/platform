@@ -95,6 +95,15 @@ if (is_array($list_response['payload'])) {
 		$list['analytics_active'] = CASHSystem::formatCount($list_analytics['payload']['active']);
 		$list['analytics_inactive'] = CASHSystem::formatCount($list_analytics['payload']['inactive']);
 		$list['analytics_last_week'] = CASHSystem::formatCount($list_analytics['payload']['last_week']);
+	
+		// now make some data points for the page
+		if ($list['analytics_last_week'] > 0) {
+			$list['analytics_icon'] = 'up';
+		} elseif ($list['analytics_last_week'] < 0) {
+			$list['analytics_icon'] = 'down';
+		} else {
+			$list['analytics_icon'] = 'same';
+		}
 	}
 
 	$cash_admin->page_data['lists_all'] = new ArrayIterator($list_response['payload']);
