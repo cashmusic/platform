@@ -34,8 +34,8 @@
 {{/has_campaigns}}
 
 {{#selected_campaign}}
-<div class="pure-u-1  pure-u-md-2-3">
-	<div class="campaign">
+<div class="campaign pure-u-1  pure-u-md-2-3">
+
 		<canvas id="cnvs" width="2000" height="398">
 			<canvas id="hero"></canvas>
 		</canvas>
@@ -54,8 +54,7 @@
 			</div><!--stats-->
 		</div><!--campaign-inner-->
 		<footer><!--p>Created <span>&#124;</span> {{formatted_date}}</p--><p>Updated <span>&#124;</span> {{formatted_date}}</p></footer>
-	</div><!--campaign-->
-</div><!--pure-->
+</div><!--campaign pure-->
 <div class="associated pure-u-1 pure-u-md-1-3">
 	<h4><span {{^elements_for_campaign}}class="zero"{{/elements_for_campaign}}>{{element_count}}</span>Associated Elements</h4>
 	<a class="add lightboxed store" href="{{www_path}}/elements/add/">+ Add</a>
