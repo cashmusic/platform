@@ -2997,14 +2997,18 @@ ul.alternating li .actions{
 	overflow: hidden;
 }
 
+ul.alternating li .actions .action-inner{
+	position: absolute;
+	top:50%;
+	margin:-19px 5px 22px 0!important;
+}
+
 
 ul.alternating li .actions a{
 	display:inline-block;
 	background:#333!important;
 	border:solid 1px #111!important;
-	margin:-19px 5px 22px 0!important;
 	position:relative;
-	top:50%;
 	width:auto;
 }
 
