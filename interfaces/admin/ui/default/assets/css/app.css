@@ -2888,10 +2888,9 @@ ul.alternating li .primary strong{
 
 ul.alternating li a span{
 	padding:0;
-	color:#222;
 	display:inline-block;
 	width:70%;
-	margin:0 0 0 0;
+	margin:0 0 5px 0;
 }
 
 .pure-u-md-1-2 ul.alternating li .primary strong{
