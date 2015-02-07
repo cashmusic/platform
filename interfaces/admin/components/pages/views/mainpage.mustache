@@ -43,9 +43,11 @@
 		<h2>{{title}}</h2>
 		<h3>{{description}}</h3>
 			<div class="actions">
-				<!--<a href="{{www_path}}/campaigns/view/{{id}}" class="mininav_flush"><div class="icon icon-search"></div>View</a>-->
-				<a href="{{www_path}}/campaigns/edit/{{id}}" class="lightboxed">Edit</a>
-				<a href="{{www_path}}/campaigns/delete/{{id}}" class="needsconfirmation delete">Delete</a>
+				<div class="action-inner">
+					<!--<a href="{{www_path}}/campaigns/view/{{id}}" class="mininav_flush"><div class="icon icon-search"></div>View</a>-->
+					<a href="{{www_path}}/campaigns/edit/{{id}}" class="lightboxed">Edit</a>
+					<a href="{{www_path}}/campaigns/delete/{{id}}" class="needsconfirmation delete">Delete</a>
+				</div><!--action-inner-->
 			</div><!--actions-->
 			<div class="stats">
 				<h4>Total Campaign Views</h4>
@@ -70,8 +72,10 @@
 			<a class="ql copy" title="Copy quick embed code" data-clipboard-text="&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;" ><div class="icon icon-share"></div><!--icon--></a>
 				<div class="more"><div class="toggle"></div><!--toggle-->
 					<div class="actions">
-						<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><div class="icon icon-pencil"></div><!--icon-->Edit</a>
-						<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation delete"><div class="icon icon-ban"></div><!--icon--> Delete</a>
+						<div class="action-inner">
+							<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><div class="icon icon-pencil"></div><!--icon-->Edit</a>
+							<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation delete"><div class="icon icon-ban"></div><!--icon--> Delete</a>
+						</div><!--action--inner-->
 					</div><!--actions-->
 				</div><!--more-->
 			</li>
