@@ -12,6 +12,7 @@ $releases_response = $cash_admin->requestAndStore(
 		'user_id' => $user_id
 	)
 );
+/*
 $playlists_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'asset', 
@@ -21,6 +22,7 @@ $playlists_response = $cash_admin->requestAndStore(
 		'user_id' => $user_id
 	)
 );
+*/
 $files_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'asset', 
@@ -28,6 +30,15 @@ $files_response = $cash_admin->requestAndStore(
 		'type' => 'file',
 		'parent_id' => 0,
 		'user_id' => $user_id
+	)
+);
+
+// we need to get all items for the user to determine if an asset is monetized
+$items_response = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'commerce', 
+		'cash_action' => 'getitemsforuser',
+		'user_id' => $cash_admin->effective_user_id
 	)
 );
 
@@ -130,6 +141,15 @@ if (is_array($releases_response['payload'])) {
 			}
 		}
 
+		if (is_array($items_response['payload'])) {
+			foreach ($items_response['payload'] as $item) {
+				if ($item['fulfillment_asset'] == $asset['id']) {
+					$asset['monetized'] = true;
+					break;
+				}
+			}
+		}
+
 	}
 	$featured_releases = array_slice($releases_response['payload'],0,3);
 	$cash_admin->page_data['featured_releases'] = new ArrayIterator($featured_releases);
@@ -139,6 +159,7 @@ if (is_array($releases_response['payload'])) {
 		$cash_admin->page_data['remaining_releases'] = new ArrayIterator($remaining_releases);
 	}
 }
+/*
 if (is_array($playlists_response['payload'])) {
 	$playlists_response['payload'] = array_reverse($playlists_response['payload']); // newest first
 	$asset_count = 0;
@@ -163,14 +184,26 @@ if (is_array($playlists_response['payload'])) {
 		$cash_admin->page_data['remaining_playlists'] = new ArrayIterator($remaining_playlists);
 	}
 }
+*/
 if (is_array($files_response['payload'])) {
 	$files_response['payload'] = array_reverse($files_response['payload']); // newest first
 	foreach ($files_response['payload'] as &$asset) {
-		$asset['descriptor_string'] = 'created: ' . CASHSystem::formatTimeAgo($asset['creation_date']);
 		if ($asset['modification_date']) {
-			$asset['descriptor_string'] .= ' / last edited: ' . CASHSystem::formatTimeAgo($asset['modification_date']);
+			$asset['descriptor_string'] = 'updated: ' . CASHSystem::formatTimeAgo($asset['modification_date']);
+		} else {
+			$asset['descriptor_string'] = 'updated: ' . CASHSystem::formatTimeAgo($asset['creation_date']);	
+		}
+
+		if (is_array($items_response['payload'])) {
+			foreach ($items_response['payload'] as $item) {
+				if ($item['fulfillment_asset'] == $asset['id']) {
+					$asset['monetized'] = true;
+					break;
+				}
+			}
 		}
 	}
+
 	$featured_files = array_slice($files_response['payload'],0,10);
 	if (count($files_response['payload']) > 10) {
 		$remaining_files = array_slice($files_response['payload'],10);
