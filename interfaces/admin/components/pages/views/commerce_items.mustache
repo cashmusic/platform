@@ -10,8 +10,10 @@
 					</div>
 					<a class="info" href="{{www_path}}/commerce/items/edit/{{id}}">
 					<strong>{{name}}</strong>
-					<!-- If Linked to asset -->
-					<div class="icon icon-link"></div><!--icon-->
+					{{#fulfillment_asset}}
+						<!-- If Linked to asset -->
+						<div class="icon icon-link"></div><!--icon-->
+					{{/fulfillment_asset}}
 					{{#description}}<span class="descriptive spaced fadedtext">{{description}}</span>{{/description}}</a>
 				</div><!--item-->
 				<div class="more"><div class="toggle"></div><!--toggle-->
