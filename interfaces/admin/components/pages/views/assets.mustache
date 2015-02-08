@@ -25,8 +25,10 @@
 			<div class="front" style="background-image:url({{cover_url}});">
 				<header>
 					<h2>{{title}}
-					<!-- If commerce item associated -->
-					<div class="monetised icon icon-dollar"></div><!--icon-->
+					{{#monetized}}
+						<!-- If commerce item associated -->
+						<div class="monetised icon icon-dollar"></div><!--icon-->
+					{{/monetized}}
 					{{#has_fulfillment}}
 						<!-- If files associated -->
 						<div class="attachement icon icon-paperclip"></div><!--icon-->
@@ -118,8 +120,8 @@ to be sold through a <a class="store lightboxed" href="{{www_path}}/elements/add
 
 <div class="display-files pure-u-1 pure-u-md-1-2">
 		{{#featured_files}}
-			<a class="files" href="{{www_path}}/assets/edit/{{id}}"><div class="icon icon-file"></div><!--icon-->{{title}} <span class="descriptive fadedtext file-description">({{descriptor_string}})</span><!-- If commerce item associated -->
-					<span class="monetised"><div class="icon icon-dollar"></div><!--icon--></span></a>
+			<a class="files" href="{{www_path}}/assets/edit/{{id}}"><div class="icon icon-file"></div><!--icon-->{{title}} <span class="descriptive fadedtext file-description">({{descriptor_string}})</span>{{#monetized}}<!-- If commerce item associated -->
+					<span class="monetised"><div class="icon icon-dollar"></div><!--icon--></span>{{/monetized}}</a>
 		{{/featured_files}}
 
 		{{^featured_files}}
@@ -133,8 +135,8 @@ to be sold through a <a class="store lightboxed" href="{{www_path}}/elements/add
 			<div class="drawercontent">
 				{{#remaining_files}}
 					<a class="files" href="{{www_path}}/assets/edit/{{id}}"><div class="icon icon-file"></div><!--icon-->{{title}}</a>
-					<span class="descriptive fadedtext file-description">({{descriptor_string}})</span><!-- If commerce item associated -->
-					<div class="icon icon-dollar"></div><!--icon-->
+					<span class="descriptive fadedtext file-description">({{descriptor_string}})</span>{{#monetized}}<!-- If commerce item associated -->
+					<div class="icon icon-dollar"></div><!--icon-->{{/monetized}}
 				{{/remaining_files}}
 			</div><!--drawercontent-->
 			{{/more_files}}
