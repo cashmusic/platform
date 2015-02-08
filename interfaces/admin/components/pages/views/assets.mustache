@@ -27,8 +27,10 @@
 					<h2>{{title}}
 					<!-- If commerce item associated -->
 					<div class="monetised icon icon-dollar"></div><!--icon-->
-					<!-- If files associated -->
-					<div class="attachement icon icon-paperclip"></div><!--icon-->
+					{{#has_fulfillment}}
+						<!-- If files associated -->
+						<div class="attachement icon icon-paperclip"></div><!--icon-->
+					{{/has_fulfillment}}
 					</h2>
 				</header>
 			</div><!--front-->

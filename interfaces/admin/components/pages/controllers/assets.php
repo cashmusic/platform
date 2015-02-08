@@ -85,11 +85,11 @@ if (is_array($releases_response['payload'])) {
 			$cash_admin->page_data['two_remaining'] = false;
 			$asset_count = 0;
 		}
-		$asset['descriptor_string'] = 'created: ' . CASHSystem::formatTimeAgo($asset['creation_date']);
 		if ($asset['modification_date']) {
-			$asset['descriptor_string'] .= '<br />last edited: ' . CASHSystem::formatTimeAgo($asset['modification_date']);
+			$asset['descriptor_string'] = 'updated: ' . CASHSystem::formatTimeAgo($asset['modification_date']);
+		} else {
+			$asset['descriptor_string'] = 'updated: ' . CASHSystem::formatTimeAgo($asset['creation_date']);	
 		}
-
 
 		$asset['cover_url'] = ADMIN_WWW_BASE_PATH . '/assets/images/release.jpg';
 		if (isset($asset['metadata']['cover'])) {
@@ -122,7 +122,13 @@ if (is_array($releases_response['payload'])) {
 			}
 		}
 
-
+		if (isset($asset['metadata']['fulfillment'])) {
+			if (is_array($asset['metadata']['fulfillment'])) {
+				if (count($asset['metadata']['fulfillment'])) {
+					$asset['has_fulfillment'] = true;
+				}
+			}
+		}
 
 	}
 	$featured_releases = array_slice($releases_response['payload'],0,3);
