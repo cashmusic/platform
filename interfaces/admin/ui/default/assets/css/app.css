@@ -189,12 +189,15 @@ a.revealpassword {
 	background: #e3e3e3;
 	margin:1%;
 	padding:10px;
+	position: relative;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	transition:0.3s ease-in-out;
 }
 
 #mainspc .grid{
 	height:100%;
 }
-
 
 hr{
 	border:none;
@@ -2074,14 +2077,14 @@ color:#f5f5f5!important;
 	-moz-border-radius: 500px;
 	border-radius: 500px;
 	position:fixed;
-	top:5%;
-	right:5%;
+	top:10px;
+	right:10px;
 	z-index:100;
 	padding:20px;
 	width:30px;
 	height:30px;
 	margin:0;
-	display:block;
+	display:none;
 	-webkit-filter: invert(0%); 
 	-moz-filter: invert(0%); 
 	filter: invert(0%);
@@ -2143,7 +2146,19 @@ color:#f5f5f5!important;
 	width:100%;
 }
 
+/* Mobile Gestures */
+.swipeleft #navmenu{
+	right:0%;
+	width:50%;
+}
 
+.swipeleft #pagedisplay{
+	right:50%;
+}
+
+.swiperight #pagedisplay{
+	left:50%;
+}
 
 #page{
 	-webkit-transition: 0.3s  ease-in-out;
@@ -5317,6 +5332,16 @@ td{display:table-cell; vertical-align: inherit;}
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	transition:0.3s ease-in-out;
+}
+
+/* Mobile Gestures */
+.landscape .swipeleft #navmenu{
+	right:0%;
+	width:25%;
+}
+
+.landscape .swipeleft #pagedisplay{
+	right:0%;
 }
 
 /* Login */

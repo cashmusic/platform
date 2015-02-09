@@ -44,6 +44,10 @@
 	$(document).ready(function() {
 		setUIBehaviors();
 		setContentBehaviors();
+		
+		// Mobile Swipe // Bind the Swipe Handler callback function to the swipe event on page
+  		$( "#page" ).on( "swipeleft", swipeleftHandler );
+  		$( "#page" ).on( "swiperight", swiperightHandler );
 
 		window.globaltimeout = false;
 
@@ -77,6 +81,38 @@
 
 	window.onorientationchange = readDeviceOrientation;
 
+
+	//Mobile Swipe Functions
+  	function swipeleftHandler( event ){
+
+   	 	if ($('body').hasClass('swiperight')){
+			$('body').removeClass('swiperight');
+		}
+
+   	 	else if ($('body').hasClass("swipeleft")){
+   	 		console.log('swipeleft  - nah you already good');
+   	 		//do nothing
+   	 	}
+   	 	else {
+   	 		$('body').removeClass("swiperight");
+   	 		$('body').addClass("swipeleft");
+   	 	}
+  	};
+  	function swiperightHandler( event ){
+
+   	 	if ($('body').hasClass('swipeleft')){
+			$('body').removeClass('swipeleft');
+		}
+
+   	 	else if ($('body').hasClass("swiperight")){
+   	 		console.log('swiperight  - nah you already good');
+   	 		//do nothing
+   	 	}
+   	 	else {
+   	 		$('body').removeClass("swipeleft");
+   	 		$('body').addClass("swiperight");
+   	 	}
+  	};
 
 	/**
 	 *
