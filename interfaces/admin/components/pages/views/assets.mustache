@@ -24,6 +24,7 @@
 		<div id="card">
 			<div class="front" style="background-image:url({{cover_url}});">
 				<header>
+					{{#artist_name}}<h3>{{artist_name}}</h3>{{/artist_name}}
 					<h2>{{title}}
 					{{#monetized}}
 						<!-- If commerce item associated -->
@@ -34,7 +35,6 @@
 						<div class="attachement icon icon-paperclip"></div><!--icon-->
 					{{/has_fulfillment}}
 					</h2>
-					{{#artist_name}}<h3>{{artist_name}}</h3>{{/artist_name}}
 				</header>
 			</div><!--front-->
 				<a href="{{www_path}}/assets/edit/{{id}}" class="back">

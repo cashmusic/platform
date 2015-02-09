@@ -4433,7 +4433,6 @@ width:100%;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	padding:10px;
 	margin:10px;
 	overflow: auto;
 }
@@ -4441,7 +4440,7 @@ width:100%;
 
 #card .front header h2{
 	margin:0;
-	padding:10px;
+	padding:20px;
 	width:100%;
 	display: block;
 	font-size: 16px;
@@ -4450,6 +4449,17 @@ width:100%;
 	text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
 }
 
+#card .front header h3{
+	margin:0;
+	padding:20px;
+	width:100%;
+	display: block;
+	font-size: 16px;
+	line-height: 16px;
+	background:rgba(34,34,34,0.9);
+	color:#f5f5f5;
+	text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+}
 
 #card .front header .icon{
 	display: inline-block;
