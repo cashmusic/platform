@@ -133,6 +133,10 @@ if (is_array($releases_response['payload'])) {
 			}
 		}
 
+		if (isset($asset['metadata']['artist_name'])) {
+			$asset['artist_name'] = $asset['metadata']['artist_name'];
+		}
+
 		if (isset($asset['metadata']['fulfillment'])) {
 			if (is_array($asset['metadata']['fulfillment'])) {
 				if (count($asset['metadata']['fulfillment'])) {
