@@ -4451,12 +4451,12 @@ width:100%;
 
 #card .front header h3{
 	margin:0;
-	padding:20px;
+	padding:10px 20px;
 	width:100%;
 	display: block;
 	font-size: 16px;
 	line-height: 16px;
-	background:rgba(34,34,34,0.9);
+	background:rgba(0,0,0,0.8);
 	color:#f5f5f5;
 	text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
 }
