@@ -3273,15 +3273,6 @@ ul.people.alternating li a span{
 	background:rgba(34,34,34,0.5);
 }
 
-/* Half Page Layout */
-
-.pure-u-md-1-2 ul.alternating li .actions{
-	padding:0 4.5%;
-}
-
-.pure-u-md-1-2 ul.alternating li .actions a{
-	margin:-20px 5px 15px 0!important;
-}
 
 ul.alternating li .actions a .icon{
 	-webkit-transition: 0.3s  ease-in-out;
@@ -3292,7 +3283,6 @@ ul.alternating li .actions a .icon{
 ul.alternating li .more.display .actions{
 	right:0;
 }
-
 
 ul.alternating li .more.display .toggle{
 	background:#00cf7f url(../images/menu_icon_w.png) no-repeat 50% 50%;
