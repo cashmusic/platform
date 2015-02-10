@@ -148,6 +148,10 @@ if ($total_campaigns) {
 							}
 						}
 						$cash_admin->page_data['elements_for_campaign'] = new ArrayIterator($elements_response['payload']);
+						
+						if ($cash_admin->page_data['elements_for_campaign']){
+							$cash_admin->page_data['has_elements'] = true;
+						};
 					} 
 				}
 			}
