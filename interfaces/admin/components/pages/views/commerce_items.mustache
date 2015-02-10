@@ -6,7 +6,7 @@
 			<li>
 				<div class="item">
 					{{#fulfillment_asset}}
-					<div class="assetlink">
+					<div class="assetlink{{#physical_fulfillment}} physical{{/physical_fulfillment}}">
 						<div class="icon icon-record"></div><!--icon-->
 					</div>
 					{{/fulfillment_asset}}
@@ -22,7 +22,7 @@
 						<div class="icon icon-link"></div><!--icon-->
 					{{/fulfillment_asset}}
 					{{^fulfillment_asset}}
-						<!-- If Linked to asset -->
+						<!-- If Not linked to asset -->
 						<div class="icon icon-unlink"></div><!--icon-->
 					{{/fulfillment_asset}}
 
