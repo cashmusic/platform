@@ -98,9 +98,9 @@ if (is_array($list_response['payload'])) {
 	
 		// now make some data points for the page
 		if ($list['analytics_last_week'] > 0) {
-			$list['analytics_icon'] = 'up';
+			$list['analytics_icon'] = 'lg-arw';
 		} elseif ($list['analytics_last_week'] < 0) {
-			$list['analytics_icon'] = 'down';
+			$list['analytics_icon'] = 'lg-arw down';
 		} else {
 			$list['analytics_icon'] = 'same';
 		}
