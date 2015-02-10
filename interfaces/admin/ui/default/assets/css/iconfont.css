@@ -155,9 +155,12 @@
 .icon-circle-plus:before {
   content: "N";
 }
-.icon-warning:before {
+.icon-warn:before {
   content: "a";
 }
 .icon-question:before {
   content: "O";
+}
+.icon-same:before {
+  content: "P";
 }
