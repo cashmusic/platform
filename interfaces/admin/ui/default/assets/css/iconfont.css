@@ -161,6 +161,6 @@
 .icon-question:before {
   content: "O";
 }
-.icon-same:before {
-  content: "P";
+.icon-nothing:before {
+  content: "Q";
 }
