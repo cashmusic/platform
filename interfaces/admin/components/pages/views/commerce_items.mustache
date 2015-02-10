@@ -5,11 +5,10 @@
 			{{#items_all}}
 			<li>
 				<div class="item">
-					{{#fulfillment_asset}}
+					
 					<div class="assetlink{{#physical_fulfillment}} physical{{/physical_fulfillment}}">
-						<div class="icon icon-record"></div><!--icon-->
+						<div class="icon {{#fulfillment_asset}}icon-{{#release_asset}}record{{/release_asset}}{{^release_asset}}file{{/release_asset}}{{/fulfillment_asset}}{{^fulfillment_asset}}icon-warning{{/fulfillment_asset}}"></div><!--icon-->
 					</div>
-					{{/fulfillment_asset}}
 					{{^fulfillment_asset}}
 					<div class="assetlink unlink">
 						<div class="icon icon-warning"></div><!--icon-->
