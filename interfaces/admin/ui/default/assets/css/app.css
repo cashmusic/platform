@@ -3150,6 +3150,10 @@ ul.people.alternating li a span{
 	border-bottom-left-radius: 3px;
 }
 
+.commerce .item .assetlink.unlink{
+	background:#afafaf;
+}
+
 .commerce .item .assetlink:hover, .commerce .item:hover .assetlink{
 	background:#222;
 }
@@ -3170,6 +3174,11 @@ ul.people.alternating li a span{
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	transition:0.3s ease-in-out;
+}
+
+.commerce .item .assetlink.unlink:after {
+	border-color: rgba(175, 175, 175, 0);
+	border-left-color: #afafaf;
 }
 
 .commerce .item .assetlink:hover:after, .commerce .item:hover .assetlink:after{

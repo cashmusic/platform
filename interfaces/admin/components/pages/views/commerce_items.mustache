@@ -5,15 +5,27 @@
 			{{#items_all}}
 			<li>
 				<div class="item">
+					{{#fulfillment_asset}}
 					<div class="assetlink">
 						<div class="icon icon-record"></div><!--icon-->
 					</div>
+					{{/fulfillment_asset}}
+					{{^fulfillment_asset}}
+					<div class="assetlink unlink">
+						<div class="icon icon-warning"></div><!--icon-->
+					</div>
+					{{/fulfillment_asset}}
 					<a class="info" href="{{www_path}}/commerce/items/edit/{{id}}">
 					<strong>{{name}}</strong>
 					{{#fulfillment_asset}}
 						<!-- If Linked to asset -->
 						<div class="icon icon-link"></div><!--icon-->
 					{{/fulfillment_asset}}
+					{{^fulfillment_asset}}
+						<!-- If Linked to asset -->
+						<div class="icon icon-unlink"></div><!--icon-->
+					{{/fulfillment_asset}}
+
 					{{#description}}<span class="descriptive spaced fadedtext">{{description}}</span>{{/description}}</a>
 				</div><!--item-->
 				<div class="more"><div class="toggle"></div><!--toggle-->
