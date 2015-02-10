@@ -38,9 +38,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-question:before {
-  content: "a";
-}
 .icon-arw-dwn:before {
   content: "b";
 }
@@ -146,15 +143,21 @@
 .icon-logo:before {
   content: "K";
 }
-.icon-bulb-o:before {
-  content: "L";
-}
 .icon-bulb:before {
   content: "M";
 }
 .icon-dollar:before {
   content: "J";
 }
+.icon-bulb-o:before {
+  content: "L";
+}
 .icon-circle-plus:before {
   content: "N";
+}
+.icon-warning:before {
+  content: "a";
+}
+.icon-question:before {
+  content: "O";
 }
