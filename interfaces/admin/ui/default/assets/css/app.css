@@ -2681,10 +2681,6 @@ color:#f5f5f5!important;
 	margin:0 0 10px 0;
 }
 
-.additional_releases .drawercontent{
-	padding:20px;
-}
-
 .drawer.noprefix{
 	padding:20px 0;
 }
@@ -3592,9 +3588,9 @@ label.checkbox {
 	width:100%;
 	z-index:30;
 	height:100%;
-	position:fixed;
+	position:absolute;
 	padding:0 3%;
-	overflow:hidden;
+	/*overflow:hidden;*/
 }
 
 .panel .modallightbox{
@@ -3690,6 +3686,24 @@ label.checkbox {
 	margin:2% 0 4% 0;
 }
 
+.modallightbox .multipart-prev{
+	margin-right:1%;
+	float:left;
+	border-color:#4d4d4d;
+	color:#4d4d4d;
+}
+
+.modallightbox .multipart-prev:hover{
+	border: 1px solid #00cf7f;
+	color:#f5f5f5;
+}
+
+.modallightbox .row .row{
+	margin:0;
+	width:100%;
+	display:block;
+}
+
 /* Callout Specific Tips / Directions */
 
 .callout .section-description{
@@ -3725,25 +3739,6 @@ label.checkbox {
 .usecolor4 .page-description:hover{background-color:#6a38fa; border: 1px solid #6a38fa;}
 .usecolor5 .page-description:hover{background-color:#fa3866; border: 1px solid #fa3866;}
 
-.modallightbox .multipart-prev{
-	margin-right:1%;
-	float:left;
-	border-color:#4d4d4d;
-	color:#4d4d4d;
-}
-
-.modallightbox .multipart-prev:hover{
-	border: 1px solid #00cf7f;
-	color:#f5f5f5;
-}
-
-
-
-.modallightbox .row .row{
-	margin:0;
-	width:100%;
-	display:block;
-}
 
 /* Store Functionality */
 
@@ -3822,7 +3817,7 @@ width:100%;
 }
 
 .store .modallightbox .elementform {
-	width:62%%;
+	width:62%;
 }
 
 /* Examples of  types in store */
@@ -4385,23 +4380,31 @@ width:100%;
 	border-radius: 3px;
 }
 
+/* Additional Releases */
+
 .additional_releases.drawer .featured-release{
-	height:200px;
+	height:150px;
+	margin:0 0 10px 0;
 }
 
-.additional_releases.drawer .featured-release .release-details{
+.additional_releases.drawer #card .back .release-details{
 	/*display:none;*/
-	font-size: 12px;
+	font-size: 8px;
 }
-.additional_releases.drawer .featured-release h2{ 
-	font-size: 18px;
+.additional_releases.drawer  #card .back h2{ 
+	font-size: 14px;
 	margin:0;
-	padding:20px;
+	padding:5px 0;
 	line-height: 20px;
 }
-.additional_releases.drawer .featured-release h3{
-	font-size: 14px;
+.additional_releases.drawer #card .back h3{
+	font-size: 12px;
+	padding:0;
 } 
+
+.additional_releases .drawercontent{
+	padding:20px 20px 10px 20px;
+}
 
 .featured-release:hover{
 	cursor:pointer;
@@ -4992,6 +4995,25 @@ section[role=main].hero, .login section[role=main]{
 	line-height: 35px;
 	color:#f5f5f5;
 }
+
+.additional_releases.drawer .featured-release{
+	height:200px;
+}
+
+.additional_releases.drawer #card .back .release-details{
+	/*display:none;*/
+	font-size: 14px;
+}
+.additional_releases.drawer  #card .back h2{ 
+	font-size: 20px;
+	margin:0;
+	padding:5px 0;
+	line-height: 20px;
+}
+.additional_releases.drawer #card .back h3{
+	font-size: 18px;
+	padding:0;
+} 
 
 /* Zero Clipboard Quick Copy */
 
