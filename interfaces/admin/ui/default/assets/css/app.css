@@ -272,6 +272,7 @@ html, button, input, select, textarea,
 	opacity:1;
 	text-decoration: none;
 	display:inline-block;
+	vertical-align:middle;
  	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	transition:0.3s ease-in-out;
@@ -3112,6 +3113,11 @@ ul.people.alternating li a span{
 	font-size: 32px;
 	width:32px;
 	height:32px;
+}
+
+.people .item .stats .icon.icon-nothing{
+	font-size: 24px;
+	color:#adadad;
 }
 
 .people .item:hover .stats{
