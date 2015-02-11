@@ -3498,10 +3498,6 @@ margin:0; padding:0;}
 	transition:0.3s ease-in-out;
 }
 
-.store .modalbg {
-	z-index:20;
-}
-
 .modaldialog {
 	color:#f5f5f5;
 	width:73%;
@@ -3528,7 +3524,7 @@ margin:0; padding:0;}
 	top:10%;
 }
 
-.store .modaldialog {
+.store .modaldialog, .page-editor .modalbg {
 	z-index:25;
 }
 
@@ -3536,7 +3532,7 @@ margin:0; padding:0;}
 	left:28%;
 }
 
-.panel.store .modaldialog, .panel.store .modalbg, .panel.store .modallightbox{
+.panel.store .modaldialog, .panel.store .modalbg, .panel.store .modallightbox, .panel.page-editor .modaldialog, .panel.page-editor .modalbg, .panel.page-editor .modallightbox{
 	left:0%;
 }
 
@@ -3597,7 +3593,7 @@ label.checkbox {
 
 /* Store Lightbox */
 
-.store .modallightbox, .panel.store .modallightbox{
+.store .modallightbox, .panel.store .modallightbox, .page-editor .modallightbox{
 	width:100%;
 	z-index:30;
 	height:100%;
@@ -3665,7 +3661,7 @@ label.checkbox {
 	top:4%;
 }
 
-.store .modallightbox .modalcancel{
+.store .modallightbox .modalcancel, .page-editor .modallightbox .modalcancel{
 	right:8%;
 	background-color:#333;
 }
@@ -3758,7 +3754,7 @@ label.checkbox {
 
 /* Store Functionality */
 
-.store .modallightbox{
+.store .modallightbox, .page-editor .modallightbox{
 	top:0!important;
 	padding:8%;
 }
