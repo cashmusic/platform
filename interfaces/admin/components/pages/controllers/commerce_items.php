@@ -32,7 +32,7 @@ if (is_array($items_response['payload'])) {
 		}
 	}
 
-	$cash_admin->page_data['items_all'] = new ArrayIterator($items_response['payload']);
+	$cash_admin->page_data['items_all'] = new ArrayIterator(array_reverse($items_response['payload']));
 }
 
 $cash_admin->setPageContentTemplate('commerce_items');
