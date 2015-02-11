@@ -3599,7 +3599,7 @@ label.checkbox {
 
 /* Store Lightbox */
 
-.store .modallightbox, .panel.store .modallightbox, .page-editor .modallightbox{
+.store .modallightbox, .panel.store .modallightbox{
 	width:100%;
 	z-index:30;
 	height:100%;
@@ -3611,6 +3611,43 @@ label.checkbox {
 .panel .modallightbox{
 	width:65%;
 	padding:10% 5% 10% 5%;
+}
+
+/* Page Editor Lightbox */
+
+.page-editor .modallightbox{
+	padding:50px;
+	width:100%;
+	z-index:30;
+	height:100%;
+	position:absolute;
+}
+
+.page-editor{
+	overflow: hidden;
+}
+
+.page-editor .modallightbox .editor{
+	background:rgba(34,34,34,1);
+	padding:30px;
+	margin:0 8% 0 0;
+}
+
+.page-editor .modallightbox  .editor textarea{
+	background:#242424;
+	color:#f5f5f5;
+	word-wrap:break-word;
+	text-wrap:unrestricted;
+	padding:20px;
+}
+
+.page-editor .modallightbox .element-list{
+	background:#030303;
+	padding:30px;
+	height:100%;
+	position:absolute;
+	top:0;
+	right:0;
 }
 
 /* Lightbox Form Content */
@@ -3760,7 +3797,7 @@ label.checkbox {
 
 /* Store Functionality */
 
-.store .modallightbox, .page-editor .modallightbox{
+.store .modallightbox{
 	top:0!important;
 	padding:8%;
 }
