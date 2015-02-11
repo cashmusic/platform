@@ -69,7 +69,7 @@
 
 			$menulevel = substr_count($page_endpoint, '/');
 			if ($menulevel == 1 && !isset($page['hide'])) { // only show top-level menu items
-				$menustr .= "<li><a href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><span>{$page['page_name']}</span><div class=\"icon icon-{$page['menu_icon']}\"></div><!--icon--></a></li>";
+				$menustr .= "<li><a class=\"{$page['add_class']}\" href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><span>{$page['page_name']}</span><div class=\"icon icon-{$page['menu_icon']}\"></div><!--icon--></a></li>";
 			}
 		}
 
