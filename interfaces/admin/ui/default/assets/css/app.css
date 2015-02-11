@@ -3213,6 +3213,12 @@ ul.people.alternating li a span{
 	color:rgba(34,34,34,0.5);
 }
 
+.commerce .item .assetlink .icon.icon-file{
+	font-size: 30px;
+	margin:-18px 0 0 -20px;
+}
+
+
 .commerce .item .assetlink:hover .icon, .commerce .item:hover .assetlink .icon{
 	color:rgba(51,51,51,0.5);
 }
