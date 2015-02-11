@@ -657,6 +657,12 @@ small{
 	padding:0;
 }
 
+.modallightbox .empty{
+	background:none;
+}
+
+
+
 /* Animation */
 
 /* Turn Animation */
