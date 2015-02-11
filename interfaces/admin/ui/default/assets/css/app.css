@@ -136,6 +136,10 @@ a.revealpassword {
 .inner::-webkit-scrollbar-track{background: rgba(238, 238, 238, 0.97);}
 .inner::-webkit-scrollbar-thumb{background: rgba(222, 222, 222, 0.97);-webkit-border-radius: 20px;}
 
+#template::-webkit-scrollbar{width: 12px; height: 12px;}
+#template::-webkit-scrollbar-track{background: rgba(30, 30, 30, 0.97);}
+#template::-webkit-scrollbar-thumb{background: rgba(34, 34, 34, 0.97);-webkit-border-radius: 20px;}
+
 .nojs{
 	display:none;
 	visibility:hidden;
@@ -491,6 +495,17 @@ span.invalid{
 /* Required */
 .required{
 	border-left: 5px solid #00cf7f;
+}
+
+/* Textarea High */
+
+#highlightcode mark{
+	background:#00cf7f!important;
+	color:#222!important;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	z-index: 30;
 }
 
 .usecolor2 .required{ border-color:#fa3838; }
@@ -3616,7 +3631,7 @@ label.checkbox {
 /* Page Editor Lightbox */
 
 .page-editor .modallightbox{
-	padding:50px;
+	padding:30px;
 	width:100%;
 	z-index:30;
 	height:100%;
@@ -3628,26 +3643,45 @@ label.checkbox {
 }
 
 .page-editor .modallightbox .editor{
-	background:rgba(34,34,34,1);
-	padding:30px;
-	margin:0 8% 0 0;
+	width:58%;
 }
 
-.page-editor .modallightbox  .editor textarea{
+.page-editor .modallightbox .editor .editor-inner{
+	margin:0 auto;
+	padding:30px;
+	background:rgba(34,34,34,1);
+	border:#1e1e1e solid 1px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.page-editor .modallightbox .editor .editor-inner textarea{
 	background:#242424;
 	color:#f5f5f5;
+	border:#1e1e1e solid 1px;
 	word-wrap:break-word;
 	text-wrap:unrestricted;
-	padding:20px;
+	padding:30px;
+	height:400px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
 
 .page-editor .modallightbox .element-list{
 	background:#030303;
 	padding:30px;
 	height:100%;
-	position:absolute;
+	width:40%;
+	position:fixed;
 	top:0;
 	right:0;
+}
+
+.page-editor .modallightbox .modalcancel{
+	right:30px;
+	top:30px;
 }
 
 /* Lightbox Form Content */
@@ -3704,7 +3738,7 @@ label.checkbox {
 	top:4%;
 }
 
-.store .modallightbox .modalcancel, .page-editor .modallightbox .modalcancel{
+.store .modallightbox .modalcancel{
 	right:8%;
 	background-color:#333;
 }
