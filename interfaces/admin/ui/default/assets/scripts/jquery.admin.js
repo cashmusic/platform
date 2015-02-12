@@ -57,7 +57,11 @@
 				refreshPageData(location.pathname,null,null,null,true);
 			}
 		}, false);
+
 	}); // $document
+
+
+
 
 	//Readjust for orientation
 	function readDeviceOrientation() {
