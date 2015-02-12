@@ -459,7 +459,7 @@ form small{
 }
 
 .login #forgotlink {
-	color:#444;
+	color:#f5f5f5;
 }
 
 #query{
@@ -2058,7 +2058,7 @@ color:#f5f5f5!important;
 .login .signup{
 	background:none;
 	margin:50px 0 0 0;
-	color:#444;
+	color:#f5f5f5;
 	text-align: center;
 }
 
