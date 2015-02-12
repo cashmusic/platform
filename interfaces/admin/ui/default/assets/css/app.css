@@ -65,6 +65,10 @@ body.login #footer, body.login h2#pagetitle {
 	border-color:#111;
 }
 
+body.store,  body.page-editor{
+	overflow: hidden;
+}
+
 @-webkit-keyframes pulse {
 	0% {opacity:1; }
 	50% {opacity:0.2; }
@@ -785,15 +789,14 @@ small{
 #header #logo{
 	display:block;
 	position:relative;
-	float:left;
 	width:80px;
 	display:block;
 	-webkit-transition: opacity 0.3s  ease-in-out;
 	-moz-transition: opacity 0.3s  ease-in-out;
 	transition: opacity 0.3s ease-in-out;
-	margin: 5% 0 5% 5%;
+	margin: 0 auto;
 	padding:0;
-	height:auto;
+	height:80px;
 }
 
 #header #logo img{
@@ -825,7 +828,7 @@ small{
 }
 
 #header #logo a img{
-	padding:0;
+	padding:5px;
 	margin:0 5px 0 0;
 	color: #fff;
 	opacity:1;
@@ -859,6 +862,10 @@ small{
 	left:0px;
 	opacity:0;
 	z-index: 5;
+}
+
+.panel .version{
+	opacity:0;
 }
 
 /* Intro */
@@ -1936,7 +1943,8 @@ color:#f5f5f5!important;
 	display: inline;
 	line-height:18px;
 	background: #dbdbdb;
-	padding:5px;
+	padding:7px 8px 5px 8px;
+	border: 1px solid #cbcbcb;
 }
 
 .prefpanel .selecta{
@@ -2187,11 +2195,11 @@ color:#f5f5f5!important;
 /* Mobile Gestures */
 .swipeleft #navmenu{
 	right:0%;
-	width:50%;
+	width:60%;
 }
 
 .swipeleft #pagedisplay{
-	right:50%;
+	right:62%;
 }
 
 .swiperight #pagedisplay{
@@ -2431,6 +2439,7 @@ color:#f5f5f5!important;
 
 #pagedisplay .alternating .mininav_flush{
 	padding:8px 15px;
+	overflow: hidden;
 }
 
 
@@ -3528,7 +3537,7 @@ margin:0; padding:0;}
 	width:100%;
 	height:100%;
 	background-color:rgba(34,34,34,0.98);
-	z-index:6;
+	z-index:5;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	transition:0.3s ease-in-out;
@@ -3678,10 +3687,22 @@ label.checkbox {
 	word-wrap:break-word;
 	text-wrap:unrestricted;
 	padding:30px;
-	height:400px;
+	height:350px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+}
+
+.page-editor .modallightbox .editor .editor-inner label{
+	margin:0 0 30px 0;
+	float: left;
+}
+
+.page-editor .modallightbox .editor .editor-inner .ql{
+	float:right;
+	background:#242424;
+	padding:6px 0 0 6px;
+	border:#1e1e1e solid 1px;
 }
 
 .page-editor .modallightbox .element-list{
@@ -3842,8 +3863,8 @@ label.checkbox {
 
 .store .modallightbox h4{
 	width:90%;
-	font-size:48px;
-	margin:3% 0;
+	font-size:28px;
+	margin:50px 0 22px 0;
 	padding:0;
 	line-height: 50px;
 }
@@ -3923,7 +3944,7 @@ width:100%;
 	padding:0;
 	overflow:hidden;
 	/*overflow-x:scroll;*/
-	background:rgba(17,17,17,0.8);
+	background:rgba(17,17,17,1);
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	transition:0.3s ease-in-out;
@@ -4867,8 +4888,8 @@ width:100%;
 	border-radius: 3px;
 	margin:0;
 	font-size: 12px;
-	height:28px;
-	width:35px;
+	width:30px;
+	height:30px;
 	overflow: hidden;
 }
 
@@ -4932,6 +4953,10 @@ aside .aside-inner{
 	border-radius: 3px;
 	color:#888;
 	text-align: center;
+}
+
+aside .aside-inner p, aside .aside-inner a{
+	word-wrap:break-word;
 }
 
 aside .aside-inner img{
@@ -5335,7 +5360,7 @@ button, .button, #modallightbox .modalcancel{
 #touchpoints{
 	display:inline-block;
 	width:100%;
-	margin:10px auto 0 auto;
+	margin:40px auto 0 auto;
 }
 
 #touchpoints ul{
@@ -5463,7 +5488,7 @@ td{display:table-cell; vertical-align: inherit;}
   
 /* Zero Clipboard Quick Copy */
 
-#pagedisplay .ql.copy{
+#pagedisplay .ql.copy, .modallightbox .ql.copy{
 	display: none;
 }
 
@@ -5559,7 +5584,7 @@ td{display:table-cell; vertical-align: inherit;}
    ==================== */
 
 #header{
-	padding:15px 20px;
+	padding:15px 10px;
 }
 
 #header #logo{

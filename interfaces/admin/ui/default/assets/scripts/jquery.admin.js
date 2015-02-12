@@ -1042,7 +1042,7 @@
 		});
 		$('.modalbg').fadeOut('fast', function() {
 			$('.modalbg').remove();
-					$("body").removeClass("store, page-editor");
+					$("body").removeClass("store page-editor");
 
 		});
 		$(document).unbind('scroll',handleModalScroll);
