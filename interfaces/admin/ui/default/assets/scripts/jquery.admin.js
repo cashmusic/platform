@@ -733,7 +733,7 @@
 			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
 				&& !el.hasClass('noajax') && !el.parents('div').hasClass('inner')
-				&& (!$('body').hasClass('store') && el.attr('href').indexOf('elements/add') && (!$('body').hasClass('page-editor')))
+				&& (!$('body').hasClass('store') && el.attr('href').indexOf('elements/add') && !$('body').hasClass('page-editor'))
 			) {
 				e.preventDefault();
 				var url = el.attr('href');
