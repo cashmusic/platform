@@ -46,6 +46,7 @@ a{
 	border-radius: 3px;
 	padding:20px;
 	text-decoration: none;
+	display: inline-block;
 }
 
 ul{
