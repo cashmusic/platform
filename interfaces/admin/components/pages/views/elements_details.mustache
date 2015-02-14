@@ -1,29 +1,32 @@
-<div class="pure-u-1 pure-u-md-1-2">
+<div class="pure-u-1 pure-u-md-2-3">
 <h4>{{ui_title}}</h4>
 </div><!--pure-->
 
-<div class="pure-u-1 pure-u-md-1-2">
+<div class="pure-u-1 pure-u-md-1-3">
 	<ul class="inline_subnav">
 		<li><a class="current" href="{{www_path}}/">Back to Campaign</a></li>
 	</ul>
 </div><!--pure-->
-
+{{#location_analytics}}
 <div id="snapshot">
-	<div class="pure-u-1 pure-u-md-1-2">
+	<div class="pure-u-1 pure-u-md-1-3">
 		<div class="snapshot-inner">
 					<h4>Total Unique Views</h4>
-					<h5 class="totalviews">{{total_orders}}73,769</h5>
+					<h5 class="totalviews">{{total_views}}</h5>
 				</div><!--snapshot-inner-->
 			</div><!--pure-->
-			<div class="pure-u-1 pure-u-md-1-2">
+			<div class="pure-u-1 pure-u-md-2-3">
 				<div class="snapshot-inner">
 					<h4>Top Locations</h4>
 					<ul>
-						<li><span><strong>49</strong></span> <a href="/">http://www.website.com</a></li>
+					{{#location_analytics}}
+						<li><a href="{{access_location}}" target="_blank"><span><strong>{{total}}</strong></span><span class="location">{{access_location}}</span></a></li>
+					{{/location_analytics}}
 					</ul>
 				</div><!--snapshot-inner-->
 	</div><!--pure-->
 </div><!--snapshot-->
+{{/location_analytics}}
 
 
 			{{#platform_type_single}}
@@ -109,8 +112,10 @@
 				</table>
 			{{/method_analytics}}
 		</div><!--drawercontent-->
-		<a class="drawerhandle button usecolor1">detailed statistics</a>
-	</div><!--stateoverview-->
+		<div class="itemnav">
+		<a class="drawerhandle usecolor1">detailed statistics</a>
+		</div><!--itemnav-->
+	</div><!--drawer stateoverview-->
 {{/location_analytics}}
 
 <div class="prefpanel pure-u-1">
