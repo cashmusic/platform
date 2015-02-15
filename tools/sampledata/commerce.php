@@ -10,6 +10,13 @@
  *
  ***************************************************************************/
 
+	// fist we need to sort out vagrant versus straight cashmusic.ini.php
+	if (defined('STDIN')) {
+		if ($argv[1] == 'vagrant') {
+			$json_settings = '{"driver":"sqlite","hostname":"","username":"","password":"","database":"cashmusic_vagrant.sqlite","salt":"this is a very bad salt to choose","debug":"","apilocation":"http://localhost:8888/api/","instancetype":"multi","timezone":"US/Pacific","analytics":"basic","systememail":"CASH Music <dev@cashmusic.org>","smtp":0,"platforminitlocation":"/../framework/cashmusic.php"}';
+			putenv("cashmusic_platform_settings=$json_settings");
+		}
+	}
 
 	// http://www.ivankristianto.com/php-snippet-code-to-generate-random-float-number/
 	/**
