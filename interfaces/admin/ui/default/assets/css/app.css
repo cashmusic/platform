@@ -3329,14 +3329,14 @@ ul.people.alternating li a span{
 
 .commerce.order .item .info{
 	width:55%;
-	margin:10px 0 10px 15%;
+	margin:0 0 0 15%;
 	border-left:solid 1px #dbdbdb;
 	border-radius: 0;
 }
 
 .commerce .item .amount{
 	font-size:48px;
-	margin:30px 40px 30px 0;
+	margin:25px 40px 0 0;
 	float:left;
 	color:#adadad;
 }
