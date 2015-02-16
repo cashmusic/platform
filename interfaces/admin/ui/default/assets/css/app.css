@@ -87,8 +87,8 @@ body.store,  body.page-editor{
 	right:-1%;
 	width:1%;
 	height:100%;
-	/*background:rgba(51,51,51,0.95) url(../images/logo_load.gif) center center no-repeat fixed;*/
-	background:#222;
+	background-color:#222;
+	background:rgba(33,33,33,1) url(../images/load.gif) center center no-repeat fixed;
 	z-index:23456;
 	-webkit-transition: 0.5s  ease-in-out;
 	-moz-transition: 0.5s  ease-in-out;
@@ -5017,7 +5017,7 @@ html{
 /* Video Loader */
 
 #loadingmask video{
-	display:block;
+	/*display:block;*/
 }
 
 /* Pure Grid Gutters */
@@ -5670,8 +5670,8 @@ section[role=main]{
 
 #touchpoints{
 	display:inline-block;
-	margin:33px 0 0 0;
-	width:74%;
+	margin:33px 0 0 10px;
+	width:70%;
 }
 
 #touchpoints ul{
