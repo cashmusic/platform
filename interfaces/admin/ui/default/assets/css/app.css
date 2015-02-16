@@ -3284,6 +3284,13 @@ ul.people.alternating li a span{
 	margin:0 0 0 18%;
 }
 
+.commerce.order .item .info{
+	width:55%;
+	margin:10px 0 10px 15%;
+	border-left:solid 1px #dbdbdb;
+	border-radius: 0;
+}
+
 .commerce .item .amount{
 	font-size:48px;
 	margin:30px 40px 30px 0;
@@ -3291,12 +3298,19 @@ ul.people.alternating li a span{
 	color:#adadad;
 }
 
+.commerce .item:hover .amount{
+	color:#f5f5f5;
+}
+
 /* date */
 
 .item .date{
+	position:absolute;
+	top:50%;
+	left:15px;
 	width:70px;
-	margin:20px;
-	float:left;
+	height:75px;
+	margin:-37.5px 0 0 20px;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	transition:0.3s ease-in-out;
