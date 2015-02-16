@@ -3933,7 +3933,7 @@ label.checkbox {
 /* Inline Learning Panel Tips */
 
 .page-description{
-	margin:0 0 40px 0;
+	margin:0 0 30px 0;
 	padding:20px;
 	border: 1px dotted #4d4d4d;
 	-webkit-border-radius: 3px;
@@ -5551,7 +5551,7 @@ button, .button, #modallightbox .modalcancel{
 /* Page Description */
 
 .page-description{
-	padding:20px 20px 20px 80px;
+	padding:20px 20px 20px 70px;
 	display: block;
 }
 
@@ -5572,15 +5572,15 @@ button, .button, #modallightbox .modalcancel{
 .page-description{
 	background-image: url(../images/bulb_o.svg);
 	background-repeat: no-repeat;
-	background-size: 2.5%;
+	background-size: 1.8%;
 	background-position: 2.5% 50%;
 }
 
 .page-description:hover{
 	background-image: url(../images/bulb.svg);
 	background-repeat: no-repeat;
-	background-size: 4.2%;
-	background-position: 1.7% 41%;
+	background-size: 3%;
+	background-position: 1.9% 41%;
 }
 
 /*  Re-format table for wider display */
