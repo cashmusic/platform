@@ -3202,6 +3202,7 @@ ul.people.alternating li a span{
 	overflow:visible;
 	display:inline-block;
 	position: absolute;
+	left:0;
 	border-radius:0;
 	-webkit-border-top-left-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
