@@ -1,6 +1,6 @@
 <?php
 require_once(dirname(__FILE__) . '/base.php');
-require_once('framework/classes/plants/CommercePlant.php');
+require_once(CASH_PLATFORM_ROOT.'/classes/plants/CommercePlant.php');
 
 class CommercePlantTests extends UnitTestCase {	
 	var $testing_item,$testing_order,$testing_transaction;

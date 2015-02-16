@@ -23,12 +23,12 @@ if(!defined('STDIN')) { // force CLI, the browser is *so* 2007...
 	$installer_root = dirname(__FILE__);
 	$repairs = 0;
 	
-	if (file_exists($installer_root . '/../../framework/db/cashmusic_test.sqlite.pretest.bak')) {
-		rename($installer_root . '/../../framework/db/cashmusic_test.sqlite.pretest.bak',$installer_root . '/../../framework/db/cashmusic_test.sqlite');
+	if (file_exists($installer_root . '/../../../framework/db/cashmusic_test.sqlite.pretest.bak')) {
+		rename($installer_root . '/../../../framework/db/cashmusic_test.sqlite.pretest.bak',$installer_root . '/../../../framework/db/cashmusic_test.sqlite');
 		$repairs++;
 	}
-	if (file_exists($installer_root . '/../../framework/settings/cashmusic.ini.pretest.bak')) {
-		rename($installer_root . '/../../framework/settings/cashmusic.ini.pretest.bak',$installer_root . '/../../framework/settings/cashmusic.ini.php');
+	if (file_exists($installer_root . '/../../../framework/settings/cashmusic.ini.pretest.bak')) {
+		rename($installer_root . '/../../../framework/settings/cashmusic.ini.pretest.bak',$installer_root . '/../../../framework/settings/cashmusic.ini.php');
 		$repairs++;
 	}
 	if (file_exists($installer_root . '/../../tests/php/cookies.txt')) {

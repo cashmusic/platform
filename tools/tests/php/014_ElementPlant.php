@@ -1,6 +1,6 @@
 <?php
 require_once(dirname(__FILE__) . '/base.php');
-require_once('framework/classes/plants/ElementPlant.php');
+require_once(CASH_PLATFORM_ROOT.'/classes/plants/ElementPlant.php');
 
 class ElementPlantTests extends UnitTestCase {	
 	var $testingElement;

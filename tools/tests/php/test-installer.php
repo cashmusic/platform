@@ -92,7 +92,7 @@ echo "\n\n                                  /)-_-(/\n"
 			break;
 		}
 
-		$pdo_result = $pdo->query(file_get_contents(dirname(__FILE__) . '/../../framework/settings/sql/cashmusic_db.sql'));
+		$pdo_result = $pdo->query(file_get_contents(dirname(__FILE__) . '/../../../framework/settings/sql/cashmusic_db.sql'));
 		if ($pdo_result) {
 			$pdo_errors = $pdo_result->errorInfo();
 			$pdo_result->closeCursor();
@@ -105,20 +105,20 @@ echo "\n\n                                  /)-_-(/\n"
 		}
 	} else if ($db_engine == 'sqlite') {
 		// if the file exists already, rename it as a backup
-		if (file_exists($installer_root . '/../../framework/db/cashmusic_test.sqlite')) {
-			rename($installer_root . '/../../framework/db/cashmusic_test.sqlite',$installer_root . '/../../framework/db/cashmusic_test.sqlite.pretest.bak');
+		if (file_exists($installer_root . '/../../../framework/db/cashmusic_test.sqlite')) {
+			rename($installer_root . '/../../../framework/db/cashmusic_test.sqlite',$installer_root . '/../../../framework/db/cashmusic_test.sqlite.pretest.bak');
 		} else {
 			// if the directory was never created then create it now
-			if (!file_exists($installer_root . '/../../framework/db')) {
-				mkdir($installer_root . '/../../framework/db');
+			if (!file_exists($installer_root . '/../../../framework/db')) {
+				mkdir($installer_root . '/../../../framework/db');
 			}
 		}
 		
 		// connect to the new db...will create if not found
 		try {
-			$pdo = new PDO ('sqlite:' . $installer_root . '/../../framework/db/cashmusic_test.sqlite');
+			$pdo = new PDO ('sqlite:' . $installer_root . '/../../../framework/db/cashmusic_test.sqlite');
 			$pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-			chmod($installer_root . '/../../framework/db/cashmusic_test.sqlite',0755);
+			chmod($installer_root . '/../../../framework/db/cashmusic_test.sqlite',0755);
 		} catch (PDOException $e) {
 			echo "\nOh. Shit. Something's wrong: Couldn't connect to the database. $e\n\n";
 			exit(1);
@@ -134,7 +134,7 @@ echo "\n\n                                  /)-_-(/\n"
 		// 
 		// i don't fucking know.
 		try {
-			$pdo->exec(file_get_contents($installer_root . '/../../framework/settings/sql/cashmusic_db_sqlite.sql'));
+			$pdo->exec(file_get_contents($installer_root . '/../../../framework/settings/sql/cashmusic_db_sqlite.sql'));
 			$success = true;
 		} catch (PDOException $e) {
 			echo "\nOh. Shit. Something's wrong: Couldn't write to the database. $e\n\n";
@@ -185,11 +185,11 @@ echo "\n\n                                  /)-_-(/\n"
 		}
 
 		// modify settings files
-		if (file_exists($installer_root . '/../../framework/settings/cashmusic.ini.php')) {
-			rename($installer_root . '/../../framework/settings/cashmusic.ini.php',$installer_root . '/../../framework/settings/cashmusic.ini.pretest.bak');
+		if (file_exists($installer_root . '/../../../framework/settings/cashmusic.ini.php')) {
+			rename($installer_root . '/../../../framework/settings/cashmusic.ini.php',$installer_root . '/../../../framework/settings/cashmusic.ini.pretest.bak');
 		}
 		if (
-			!copy($installer_root.'/../../framework/settings/cashmusic_template.ini.php',$installer_root.'/../../framework/settings/cashmusic.ini.php')
+			!copy($installer_root.'/../../../framework/settings/cashmusic_template.ini.php',$installer_root.'/../../../framework/settings/cashmusic.ini.php')
 		) {
 			echo '\nOh. Shit. Something\'s wrong. Couldn\'t write the config file.\n\n'
 			. 'the directory you specified for the framework.</p>';
@@ -202,23 +202,23 @@ echo "\n\n                                  /)-_-(/\n"
 		if (!$test_url) { $test_url = "http://dev.cashmusic.org"; }
 		if ($db_engine == 'sqlite') {
 			if (
-				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','driver = "mysql','driver = "sqlite') &&
-				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','debug = no','debug = yes') &&
-				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','database = "cashmusic','database = "cashmusic_test.sqlite') &&
-				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','apilocation = "http://localhost/api/','apilocation = "'.$test_url.'/api/') &&
-				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
+				findReplaceInFile($installer_root.'/../../../framework/settings/cashmusic.ini.php','driver = "mysql','driver = "sqlite') &&
+				findReplaceInFile($installer_root.'/../../../framework/settings/cashmusic.ini.php','debug = no','debug = yes') &&
+				findReplaceInFile($installer_root.'/../../../framework/settings/cashmusic.ini.php','database = "cashmusic','database = "cashmusic_test.sqlite') &&
+				findReplaceInFile($installer_root.'/../../../framework/settings/cashmusic.ini.php','apilocation = "http://localhost/api/','apilocation = "'.$test_url.'/api/') &&
+				findReplaceInFile($installer_root.'/../../../framework/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
 			) {
 				$file_write_success = true;
 			} 
 		} else {
 			if (
-				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','hostname = "127.0.0.1:8889','hostname = "' . $db_server) &&
-				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','username = "root','username = "' . $db_username) &&
-				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','password = "root','password = "' . $db_password) &&
-				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','database = "cashmusic','database = "' . $db_name) &&
-				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','debug = no','debug = yes') &&
-				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','apilocation = "http://localhost/api/','apilocation = "'.$test_url.'/api/') &&
-				findReplaceInFile($installer_root.'/../../framework/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
+				findReplaceInFile($installer_root.'/../../../framework/settings/cashmusic.ini.php','hostname = "127.0.0.1:8889','hostname = "' . $db_server) &&
+				findReplaceInFile($installer_root.'/../../../framework/settings/cashmusic.ini.php','username = "root','username = "' . $db_username) &&
+				findReplaceInFile($installer_root.'/../../../framework/settings/cashmusic.ini.php','password = "root','password = "' . $db_password) &&
+				findReplaceInFile($installer_root.'/../../../framework/settings/cashmusic.ini.php','database = "cashmusic','database = "' . $db_name) &&
+				findReplaceInFile($installer_root.'/../../../framework/settings/cashmusic.ini.php','debug = no','debug = yes') &&
+				findReplaceInFile($installer_root.'/../../../framework/settings/cashmusic.ini.php','apilocation = "http://localhost/api/','apilocation = "'.$test_url.'/api/') &&
+				findReplaceInFile($installer_root.'/../../../framework/settings/cashmusic.ini.php','salt = "I was born of sun beams; Warming up our limbs','salt = "' . $system_salt)
 			) {
 				$file_write_success = true;
 			}

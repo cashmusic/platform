@@ -10,19 +10,13 @@ class SyntaxTests extends UnitTestCase {
     }
 
     public function testFrameworkSyntax() {
-        $test_files = glob("{framework/php/cashmusic.php,framework/php/*/*.php,framework/php/classes/*/*.php}", GLOB_BRACE);
-        foreach ($test_files as $file){
-            $this->checkSyntax($file);
-        }
-    }
-    public function testInstallerSyntax() {
-        $test_files = glob("installers/php/*.php");
+        $test_files = glob("{framework/cashmusic.php,framework/php/*/*.php,framework/php/classes/*/*.php}", GLOB_BRACE);
         foreach ($test_files as $file){
             $this->checkSyntax($file);
         }
     }
     public function testInterfaceSyntax() {
-        $test_files = glob("{interfaces/php/*/*.php,interfaces/php/*/*/*.php,interfaces/php/*/*/*/*.php,interfaces/php/*/*/*/*/*.php}", GLOB_BRACE);
+        $test_files = glob("{interfaces/*/*.php,interfaces/*/*/*.php,interfaces/*/*/*/*.php,interfaces/*/*/*/*/*.php}", GLOB_BRACE);
         foreach ($test_files as $file){
             $this->checkSyntax($file);
         }

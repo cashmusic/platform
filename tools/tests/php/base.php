@@ -25,6 +25,6 @@ system("php " . dirname(__FILE__) . "/test-installer.php");
 require_once(dirname(__FILE__) . '/../lib/simpletest/unit_tester.php');
 require_once(dirname(__FILE__) . '/../lib/simpletest/reporter.php');
 
-// this loads CASH Music DIY
-require_once(dirname(__FILE__) . '/../../framework/cashmusic.php');
+// this loads the platform
+require_once(dirname(__FILE__) . '/../../../framework/cashmusic.php');
 ?>

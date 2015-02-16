@@ -22,8 +22,9 @@ class BasicTests extends UnitTestCase {
 
     function assertFileExists($filename, $message = '%s') {
         $this->assertTrue(
-                file_exists($filename),
-                sprintf($message, 'File [$filename] existence check'));
+			file_exists($filename),
+			sprintf($message, 'File [$filename] existence check')
+		);
     }
 }
 ?>

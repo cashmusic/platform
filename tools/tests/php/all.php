@@ -4,7 +4,7 @@ require_once(dirname(__FILE__) . '/base.php');
 $test = new TestSuite('All tests');
 // All tests should be of the form NNN_description.php
 // Notably, this excludes all.php and base.php, which are special
-$test_files = glob("tests/php/*_*.php");
+$test_files = glob(dirname(__FILE__) . "/*_*.php");
 foreach ($test_files as $file) {
     $test->addFile($file);
 }
