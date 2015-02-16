@@ -148,6 +148,10 @@ a.revealpassword {
 .elements::-webkit-scrollbar-track{background: rgba(238, 238, 238, 0.97);}
 .elements::-webkit-scrollbar-thumb{background: rgba(222, 222, 222, 0.97);-webkit-border-radius: 20px;}
 
+#snapshot .snapshot-inner ul::-webkit-scrollbar{width: 12px; height: 12px;}
+#snapshot .snapshot-inner ul::-webkit-scrollbar-track{background: rgba(238, 238, 238, 0.97);}
+#snapshot .snapshot-inner ul::-webkit-scrollbar-thumb{background: rgba(222, 222, 222, 0.97);-webkit-border-radius: 20px;}
+
 #template::-webkit-scrollbar{width: 12px; height: 12px;}
 #template::-webkit-scrollbar-track{background: rgba(30, 30, 30, 0.97);}
 #template::-webkit-scrollbar-thumb{background: rgba(34, 34, 34, 0.97);-webkit-border-radius: 20px;}
@@ -2584,7 +2588,7 @@ color:#f5f5f5!important;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	/*background:#eee url(../images/dirt.png);*/
+	/*background:#eee;*/
 	background:#eee;
 	background-repeat: no-repeat;
 	background-position: center top;
@@ -2596,7 +2600,7 @@ color:#f5f5f5!important;
 }
 
 .callout, fieldset, #stats{
-	background:#efefef url(../images/dirt.png);
+	background:#efefef;
 	background-repeat: no-repeat;
 	background-position: center top;
 	background-attachment: fixed;
@@ -2720,7 +2724,7 @@ color:#f5f5f5!important;
 
 .callout.newsfeed{
 	color:#f5f5f5;
-	background:#222 url(../images/dirt.png);
+	background:#222;
 	background-repeat: no-repeat;
 	background-position: center top;
 	background-attachment: fixed;
@@ -2729,10 +2733,50 @@ color:#f5f5f5!important;
 	-o-background-size: cover;
 	background-size: cover;
 	border:none;
+	padding:20px;
+	margin:0 0 5px 0;
 }
 
-.callout.newsfeed a:hover{
+.callout.newsfeed .details{
+	float:left;
+	display:block;
+	width:70%;
+	overflow: hidden;
+	padding:10px 0;
+	color:#f5f5f5;
+}
+
+.callout.newsfeed .icon{
+	color:#f5f5f5;
+	margin:0 10px 0 0;
+}
+
+.callout.newsfeed .action a:hover{
 	color:#4d4d4d;
+}
+
+.callout.newsfeed .action a{
+	color:#f5f5f5;
+	padding:10px 20px;
+	-webkit-border-radius: 50px;
+	-moz-border-radius: 50px;
+	border-radius: 50px;
+	display: inline-block;
+	float: right;
+	text-decoration: none;
+}
+
+.callout.newsfeed .usecolor2{ color:#fa3838;}
+.callout.newsfeed .usecolor3{ color:#ff7c12;}
+.callout.newsfeed .usecolor4{ color:#6a38fa;}
+.callout.newsfeed .usecolor5{ color:#fa3866;}
+
+.callout.newsfeed.commerce{
+	color:#6a38fa;
+}
+
+.callout.newsfeed.commerce a{
+	background:#6a38fa;
 }
 
 .drawer{
@@ -2881,7 +2925,7 @@ table{
 }
 
 table tr th{
-	background:#222 url(../images/dirt.png);
+	background:#222;
 	background-position: center;
 	color:#f5f5f5;
 	text-align:center!important;
@@ -3384,7 +3428,7 @@ ul.alternating li .more.display .toggle{
 #snapshot .snapshot-inner{
 	margin:0;
 	padding:30px;
-	height:200px;
+	height:150px;
 	background:#dbdbdb;
 	border: solid 1px #cbcbcb;
 	-webkit-border-radius: 3px;
@@ -3400,8 +3444,10 @@ ul.alternating li .more.display .toggle{
 
 #snapshot .snapshot-inner ul{
 	list-style-type: none;
-	height:95px;
+	height:65px;
+	margin:-20px 0 0 0;
 	overflow: auto;
+	font-size: 12px;
 }
 
 #snapshot .snapshot-inner ul li a{
@@ -3428,6 +3474,10 @@ ul.alternating li .more.display .toggle{
 	width:80%;
 	color:#868686;
 	text-decoration: none;
+}
+
+#snapshot .snapshot-inner .percentage, #snapshot .snapshot-inner .percentage .icon{
+	margin:0;
 }
 
 #snapshot .snapshot-inner ul li a:hover{
@@ -3656,8 +3706,6 @@ label.checkbox {
 	margin-top: 2.5em;
 }
 
-.modaldialog input.button:hover {
-}
 
 .modallightbox {
     position:absolute;
@@ -3846,7 +3894,7 @@ label.checkbox {
 }
 
 .modallightbox .button{
-	margin:5% 0 0 0;
+	margin:5% 5px 0 0;
 }
 
 .modallightbox .section-description{
@@ -4859,7 +4907,7 @@ width:100%;
 	width:100%;
 	font-size:120px;
 	line-height: 100px;
-	background:#efefef url(../images/dirt.png);
+	background:#efefef;
 	background-position: center;
 	border:solid 1px #ccc;
 }
@@ -5204,7 +5252,7 @@ section[role=main].hero, .login section[role=main]{
 /* Special Selection Dropdown */
 
 .selecta{
-	margin:0 0 30px 0;
+	margin:20px 0 20px 0;
 }
 
 .selecta label{
