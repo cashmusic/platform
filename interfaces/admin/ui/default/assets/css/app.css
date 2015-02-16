@@ -4631,12 +4631,10 @@ width:100%;
 
 
 #card .back {
-	background-color:#000;
-  	background-color:rgba(15,15,15,0.85);
   	-webkit-transform: rotateY( 180deg );
   	transform: rotateY( 180deg );
   	text-align: center;
-  	background-image: url(../images/release_back.jpg);
+  	background:#222 url(../images/release_back.jpg);
   	background-size: 95%;
   	background-repeat: no-repeat;
   	background-position: center;
@@ -4655,10 +4653,6 @@ width:100%;
 .usecolor4 #card .back h3{ color:#6a38fa; }
 .usecolor5 #card .back h3{ color:#fa3866; }
 
-#card .back:hover {
-	background-color:#222;
-}
-
 #card .back h2{
 	padding:10px;
 	font-size: 24px;
@@ -4668,6 +4662,11 @@ width:100%;
 
 #card .back h3{
 	color:#f5f5f5;	
+	position:absolute;
+	bottom:30px;
+	left:0;
+	width:100%;
+	text-align: center;
 }
 
 #card .back p, #card .back ul{
@@ -4684,12 +4683,17 @@ width:100%;
 }
 
 #card .back span{
+	position:absolute;
+	bottom:10px;
+	left:0;
 	display:block;
-	padding:5%;
-	margin:0 auto;
+	padding:20px;
+	margin:0;
+	width:100%;
 	color:#000;
 	line-height: 18px;
 	font-size: 14px;
+	text-align: center;
 	text-transform: capitalize;
 }
 
@@ -5144,6 +5148,7 @@ section[role=main].hero, .login section[role=main]{
 
 #card .back h2{
 	padding:20px;
+	margin:0;
 	font-size: 30px;
 	line-height: 35px;
 	color:#f5f5f5;
