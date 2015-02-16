@@ -2599,7 +2599,7 @@ color:#f5f5f5!important;
 	background-size: cover;
 }
 
-.callout, fieldset, #stats{
+.callout, fieldset, #stats, .order-detail{
 	background:#efefef;
 	background-repeat: no-repeat;
 	background-position: center top;
@@ -3344,6 +3344,27 @@ ul.people.alternating li a span{
 .commerce .item:hover .amount{
 	color:#f5f5f5;
 }
+
+
+/* Order Detail Page */
+
+.order-detail h4{
+	background:rgba(225,225,225,0.4);
+	margin:0 0 30px 0;
+	padding:20px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.order-detail table{
+	margin:0 0 30px 0;
+}
+
+.order-detail p{
+	padding-left: 20px;
+}
+
 
 /* date */
 
