@@ -1,33 +1,71 @@
-{{#campaign_id}}
-	<a class="returnlink" href="{{www_path}}/campaigns/view/{{campaign_id}}">Back to Campaign</a>
-{{/campaign_id}}
+<div class="pure-u-1 pure-u-md-2-3">
+<h4>{{ui_title}}</h4>
+</div><!--pure-->
 
-	<h4>Embed it</h4>
+<div class="pure-u-1 pure-u-md-1-3">
+	<ul class="inline_subnav">
+		<li><a class="current" href="{{www_path}}/">Back to Campaign</a></li>
+	</ul>
+</div><!--pure-->
+{{#location_analytics}}
+<div id="snapshot">
+	<div class="pure-u-1 pure-u-md-1-3">
+		<div class="snapshot-inner">
+					<h4>Total Unique Views</h4>
+					<h5 class="totalviews">{{total_views}}</h5>
+				</div><!--snapshot-inner-->
+			</div><!--pure-->
+			<div class="pure-u-1 pure-u-md-2-3">
+				<div class="snapshot-inner">
+					<h4>Top Locations</h4>
+					<ul>
+					{{#location_analytics}}
+						<li><a href="{{access_location}}" target="_blank"><span><strong>{{total}}</strong></span><span class="location">{{access_location}}</span></a></li>
+					{{/location_analytics}}
+					</ul>
+				</div><!--snapshot-inner-->
+	</div><!--pure-->
+</div><!--snapshot-->
+{{/location_analytics}}
+
 
 			{{#platform_type_single}}
-				<strong class="fadedtext codelabel">PHP: </strong><code><div class="codearea" contenteditable="true">&lt;?php include_once('{{platform_path}}');CASHSystem::embedElement({{id}}); // ({{name}}) ?&gt;</div></code>
-				<strong class="fadedtext codelabel">WordPress: </strong><code><div class="codearea" contenteditable="true">[cashmusic element=&quot;{{id}}&quot; name=&quot;{{name}}&quot;]</div></code>
+			<div class="pure-u-1">
+				<div class="embedpanel">
+					<strong class="fadedtext codelabel">PHP: </strong><code><div class="codearea" contenteditable="true">&lt;?php include_once('{{platform_path}}');CASHSystem::embedElement({{id}}); // ({{name}}) ?&gt;</div></code>
+					<strong class="fadedtext codelabel">WordPress: </strong><code><div class="codearea" contenteditable="true">[cashmusic element=&quot;{{id}}&quot; name=&quot;{{name}}&quot;]</div></code>
+				</div><!--embedding-->
+			</div><!--pure-->
 			{{/platform_type_single}}
-			<p class="codelabel"><strong>HTML5 embed code:</strong> <span class="fadedtext">(Embed anywhere)</span></p><code><div class="codearea" contenteditable="true">&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;</div></code>
+			
+			<div class="pure-u-1">
+				<div class="embedpanel">
+					<p class="codelabel"><strong>HTML5 embed code: </strong> <span class="fadedtext">(Embed anywhere)</span></p>
 
-	<form method="post" action="">
-		<input type="hidden" name="current_template_id" value="{{template_id}}" />
-			<div class="pure-u-1 pure-u-md-1-2">
-					<label for="template_id">Choose an embed style:</label>
-				<select id="change_template_id" name="change_template_id">
-					{{{template_options}}}
-				</select>
+					<a class="ql copy" title="Copy quick embed code" data-clipboard-text="&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;" ><div class="icon icon-share"></div><!--icon--></a>
+					
+					<code><div class="codearea" contenteditable="true">&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;</div></code>
+				</div><!--embedding-->
 			</div><!--pure-->
-			<div class="pure-u-1 pure-u-md-1-2">
-				<button type="submit">Change style</button>
-				{{#custom_template}}
-					<a href="{{www_path}}/elements/templates/edit/{{template_id}}/embed/parent/{{id}}" class="button lightboxed">Edit custom embed</a>
-				{{/custom_template}}
-			</div><!--pure-->
-	</form>
 
-<h4>Statistics</h4>
-<div class="stat">Total unique views: {{total_views}}</div>
+	<div class="selecta">	
+		<form method="post" action="">
+			<input type="hidden" name="current_template_id" value="{{template_id}}" />
+				<div class="pure-u-1 pure-u-md-1-2">
+					<label for="template_id">Embed style:</label>
+					<select id="change_template_id" name="change_template_id">{{{template_options}}}</select>
+				</div><!--pure-->
+				<div class="pure-u-1 pure-u-md-1-2">
+					<button class="right" type="submit">Change style</button>
+					{{#custom_template}}
+						<a href="{{www_path}}/elements/templates/edit/{{template_id}}/embed/parent/{{id}}" class="button lightboxed right">Edit custom embed</a>
+					{{/custom_template}}
+				</div><!--pure-->
+		</form>
+	</div><!--selecta-->
+
+<!--<h4>Statistics</h4>-->
+<!--<div class="stat">Total unique views: {{total_views}}</div>-->
 
 {{#location_analytics}}
 	<div class="drawer statoverview">
@@ -74,17 +112,20 @@
 				</table>
 			{{/method_analytics}}
 		</div><!--drawercontent-->
-		<a class="drawerhandle button usecolor1">detailed statistics</a>
-	</div><!--stateoverview-->
+		<div class="itemnav">
+		<a class="drawerhandle usecolor1">detailed statistics</a>
+		</div><!--itemnav-->
+	</div><!--drawer stateoverview-->
 {{/location_analytics}}
 
-<h4>Element Settings</h4>
+<div class="prefpanel pure-u-1">
+	<h4 class="title"><div class="icon icon-wrench"></div><!--icon--><span>Element Settings</span></h4>
+		<div class="pure-u-1">
+		<div class="pref-inner">
 <p>Edit any of the settings for this element.</p>
-<div class="drawer statoverview">
-	<div class="drawercontent">
-		{{{element_rendered_content}}}
-	</div>
-	<a class="drawerhandle button usecolor1">element settings</a>
-</div>
 
-</div><!--callout-->
+{{{element_rendered_content}}}
+	
+	</div><!--pref-inner-->
+	</div><!--pure-->
+</div><!--prefpanel-->

@@ -4,5 +4,6 @@
 	"related":{},
 	"labels":{},
 	"tooltips":{},
-	"copy":{}
+	"copy":{"firstuse":"CASH Lists are used to create &amp; manage your mailing lists (people would like to contact about things that are happening). You can create and collection email lists without the need of any 3rd-party connection. You can also connect to one of the 3rd-party mailing platforms below to enhance list functionality. <span class='disclaimer'>Any CASH list is always owned by you. We will never use or sell any of the information you have collected in the platform. Pinky swear.</span>"}
+
 }

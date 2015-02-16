@@ -25,10 +25,10 @@
 			Please enter your current password to make changes:
 		</p>
 		<label for="password">Password</label>
-		<input type="password" id="password" name="password" autocomplete="off" />
+		<input class="required" type="password" id="password" name="password" autocomplete="off" />
 		<br />
 		<!--input type="submit" value="Save changes" /-->
-		<button type="submit">Save changes</button>
+		<button class="fullwidth" type="submit">Save changes</button>
 </form>
 
 <h4>Delete account</h4>
@@ -36,7 +36,7 @@
 <p>
 	Deleting your account is <b>permanent</b>. There is no undo. It's also kind of sad. Be very sure you want to do it.
 </p>
-<a href="{{www_path}}/account/delete/" class="button noajax needsconfirmation">Delete account</a>
+<a href="{{www_path}}/account/delete/" class="button fullwidth noajax needsconfirmation">Delete account</a>
 
 {{#platform_type_single}}
 	<div>

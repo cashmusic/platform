@@ -2,7 +2,7 @@
 	"account":
 		{"page_name":"Your account", "menu_icon":""},
 	"account/delete":
-		{"page_name":"Delete account", "menu_icon":""},
+		{"page_name":"Delete account", "menu_icon":"", "hide":true},
 		
 		
 	"assets":
@@ -11,13 +11,13 @@
 	"calendar":
 		{"page_name":"Calendar", "menu_icon":"", "tagline":"shows and venues"},
 	"calendar/events":
-		{"page_name":"Events", "menu_icon":{"xlink":"#icon-calendar", "viewBox":"0 0 260 280"} },
+		{"page_name":"Events", "menu_icon":"calendar"},
 	"calendar/events/add":
 		{"page_name":"Add event", "menu_icon":""},
 	"calendar/events/edit":
 		{"page_name":"Edit event", "menu_icon":""},
 	"calendar/venues":
-    	{"page_name":"Venues", "menu_icon":{"xlink":"#icon-map", "viewBox":"0 0 161 240"} },
+    	{"page_name":"Venues", "menu_icon":"map" },
 	"calendar/venues/add":
 		{"page_name":"Add venue", "menu_icon":""},
 	"calendar/venues/delete":
@@ -29,7 +29,7 @@
 	"campaigns":
 		{"page_name":"Campaigns", "menu_icon":""},
 	"campaigns/add":
-		{"page_name":"Add campaigns", "menu_icon":{"xlink":"#icon-plus", "viewBox":"0 0 240 240"} },
+		{"page_name":"Add campaigns", "menu_icon":"plus"},
 	"campaigns/delete":
 		{"page_name":"Delete campaign", "menu_icon":"", "hide":true},
 	"campaigns/edit":
@@ -43,13 +43,15 @@
 	"commerce":
 		{"page_name":"Commerce", "menu_icon":"", "tagline":"orders and items for sale"},
 	"commerce/items":
-		{"page_name":"Items", "menu_icon":{"xlink":"#icon-barcode", "viewBox":"0 0 280 220"} },
+		{"page_name":"Items", "menu_icon":"barcode"},
 	"commerce/items/delete":
 		{"page_name":"Delete item", "menu_icon":""},
 	"commerce/items/edit":
 		{"page_name":"Edit item", "menu_icon":""},
-	"commerce/orders":
-		{"page_name":"Orders", "menu_icon":{"xlink":"#icon-cart", "viewBox":"0 0 260 220"} },
+	"commerce/items/add":
+		{"page_name":"Add item", "menu_icon":""},
+	"commerce/export":
+		{"page_name":"Export", "menu_icon":"dwnld","add_class":"lightboxed"},
 	"commerce/orders/view":
 		{"page_name":"Order details", "menu_icon":""},
 		
@@ -57,13 +59,13 @@
 	"elements":
 		{"page_name":"Elements", "menu_icon":""},
 	"elements/add":
-		{"page_name":"Add elements", "menu_icon":{"xlink":"#icon-plus", "viewBox":"0 0 240 240"} },
+		{"page_name":"Add elements", "menu_icon":"plus" },
 	"elements/delete":
 		{"page_name":"Delete element", "menu_icon":"", "hide":true},
 	"elements/edit":
 		{"page_name":"Edit element", "menu_icon":"", "hide":true},
 	"elements/templates":
-		{"page_name":"Page/embed templates", "menu_icon":{"xlink":"#icon-list", "viewBox":"0 0 280 220"} },
+		{"page_name":"Page/embed templates", "menu_icon":"list" },
 	"elements/templates/add":
 		{"page_name":"Add a template", "menu_icon":"", "hide":true},
 	"elements/templates/edit":
@@ -79,7 +81,7 @@
 	"help":
 		{"page_name":"Help", "menu_icon":""},
 	"help/gettingstarted":
-		{"page_name":"Getting started", "menu_icon":{"xlink":"#icon-rocket", "viewBox":"0 0 255 255"} },
+		{"page_name":"Getting started", "menu_icon":"rocket" },
 		
 		
 	"licenses":
@@ -93,8 +95,6 @@
 		{"page_name":"People", "menu_icon":"", "tagline":"lists and contacts"},
 	"people/contacts":
 		{"page_name":"Contacts", "menu_icon":""},
-	"people/lists":
-		{"page_name":"Lists", "menu_icon":{"xlink":"#icon-list", "viewBox":"0 0 280 220"} },
 	"people/lists/add":
 		{"page_name":"Add list", "menu_icon":""},
 	"people/lists/delete":
@@ -108,7 +108,7 @@
 	"people/mailings":
 		{"page_name":"Mail campaigns", "menu_icon":"", "hide":true},
 	"people/press":
-		{"page_name":"Press coverage", "menu_icon":{"xlink":"#icon-paperclip", "viewBox":"0 0 219 239"} },
+		{"page_name":"Press coverage", "menu_icon":"paperclip" },
 
 
 	"privacy":
@@ -118,9 +118,9 @@
 	"settings":
 		{"page_name":"System settings", "menu_icon":""},
 	"settings/connections":
-		{"page_name":"Connections", "menu_icon":{"xlink":"#icon-cog", "viewBox":"0 0 240 240"} },
+		{"page_name":"Connections", "menu_icon":"cog" },
 	"settings/update":
-		{"page_name":"System update", "menu_icon":{"xlink":"#icon-arrw-up", "viewBox":"0 0 252 162"} },
+		{"page_name":"System update", "menu_icon":"arrw-up" },
 
 
 	"terms":

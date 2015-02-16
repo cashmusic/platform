@@ -1,5 +1,6 @@
+<div class="pure-u-1">
+<h2>Mailing List - <strong>"{{list_description}}"</strong></h2>
 {{#ui_title}}
-	<p class="big">{{list_description}}</p>
 
 	<div id="stats">
 	<h4>Statistics</h4>
@@ -7,13 +8,18 @@
 	<p class="inactive">Inactive members: <span>{{analytics_inactive}}</span></p>
 	<p class="newm">New members, past 7 days: <span>{{analytics_last_week}}</span></p>
 	</div><!--stats-->
+
+
 	
+	<!-- Show members on list -->
 	{{#list_members}}
 		<h4 class="tabletitle">List Members</h4>
 		<div id="actions">
-			<a href="{{www_path}}/people/lists/edit/{{list_id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
-			<a href="{{www_path}}/people/lists/export/{{list_id}}" class="mininav_flush noajax"><svg class="icon" viewBox="0 0 260 240"><use xlink:href="#icon-dwnld"></use></svg>Export</a>
-			<a href="{{www_path}}/people/lists/delete/{{list_id}}" class="mininav_flush needsconfirmation"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg>Delete</a>
+			<div class="action-inner">
+			<a href="{{www_path}}/people/lists/edit/{{list_id}}" class="mininav_flush"><div class="icon icon-pencil"></div><!--icon-->Edit</a>
+			<a href="{{www_path}}/people/lists/export/{{list_id}}" class="mininav_flush noajax"><div class="icon icon-dwnld"></div><!--icon-->Export</a>
+			<a href="{{www_path}}/people/lists/delete/{{list_id}}" class="mininav_flush needsconfirmation"><div class="icon icon-ban"></div><!--icon-->Delete</a>
+			</div><!--action-inner-->
 		</div><!--actions-->
 
 		<table style="width:100%;">
@@ -43,7 +49,14 @@
 			</tbody>
 		</table>
 	{{/list_members}}
+
+	<!-- No members on list -->
+	{{^list_members}}
+		<p>Sorry, no members have joined this list yet.</p>
+	{{/list_members}}
+
 {{/ui_title}}
 {{^ui_title}}
 	<h4>Sorry</h4>Error getting list.
 {{/ui_title}}
+</div><!--pure-->

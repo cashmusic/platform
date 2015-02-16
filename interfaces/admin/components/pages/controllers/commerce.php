@@ -1,4 +1,5 @@
 <?php
+
 $items_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'commerce', 
@@ -16,6 +17,43 @@ $orders_response = $cash_admin->requestAndStore(
 	)
 );
 
+//Commerce connection or Items present?
+$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('commerce') || $items_response['payload']; 
+
+
+// Return Connection
+$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+$settings_types_data = $page_data_object->getConnectionTypes('commerce');
+
+$all_services = array();
+$typecount = 1;
+foreach ($settings_types_data as $key => $data) {
+	if ($typecount % 2 == 0) {
+		$alternating_type = true;
+	} else {
+		$alternating_type = false;
+	}
+	if (file_exists(ADMIN_BASE_PATH.'/assets/images/settings/' . $key . '.png')) {
+		$service_has_image = true;
+	} else {
+		$service_has_image = false;
+	}
+	if (in_array($cash_admin->platform_type, $data['compatibility'])) {
+		$all_services[] = array(
+			'key' => $key,
+			'name' => $data['name'],
+			'description' => $data['description'],
+			'link' => $data['link'],
+			'alternating_type' => $alternating_type,
+			'service_has_image' => $service_has_image
+		);
+		$typecount++;
+	}
+}
+$cash_admin->page_data['all_services'] = new ArrayIterator($all_services);
+
+
+//items
 if (is_array($items_response['payload'])) {
 	$cash_admin->page_data['items_all'] = new ArrayIterator($items_response['payload']);
 }
@@ -45,14 +83,20 @@ if (is_array($orders_response['payload'])) {
 					'id' => $order_details['id'],
 					'number' => '#' . str_pad($order_details['id'],6,0,STR_PAD_LEFT),
 					'date' => CASHSystem::formatTimeAgo((int)$order_date),
+					'mmm' => date('M',(int)$order_date),
+					'dd' => date('d',(int)$order_date),
 					'items' => str_replace('\n','<br />',$order_details['order_totals']['description']),
-					'gross' => '$' . sprintf("%01.2f",$order_details['gross_price']),
+					'gross' => CASHSystem::getCurrencySymbol($order['currency']) . sprintf("%01.2f",$order_details['gross_price']),
 				);
 			}
 		}
 	}
 	if (count($all_order_details) > 0) {
 		$cash_admin->page_data['orders_recent'] = new ArrayIterator($all_order_details);
+		$cash_admin->page_data['show_filters'] = true;
+		if (count($all_order_details) > 10) {
+			$cash_admin->page_data['show_pagination'] = true;
+		}
 	}
 }
 

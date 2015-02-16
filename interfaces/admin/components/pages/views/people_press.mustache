@@ -21,9 +21,15 @@
 		<h4>Press links</h4>
 		{{#press_links}}
 			<p>
-			<a href="{{location}}"><strong>{{title}}</strong></a><br />
+			<a target="_blank" href="{{location}}"><strong>{{title}}</strong></a><br />
 			<span class="fadedtext">{{publishing_date}} &nbsp;</span>
 			{{#description}}{{description}}{{/description}}
 			</p>
+		{{/press_links}}
+
+		{{^press_links}}
+			<div class="empty">
+			<p>No press links have been added.<br /> Add one to get started.</p>
+			</div><!--empty-->
 		{{/press_links}}
 	</div><!--pure-->

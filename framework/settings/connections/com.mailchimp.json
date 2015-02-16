@@ -1,6 +1,8 @@
 {
 	"name":"MailChimp",
-	"description":"Enter a MailChimp API key to start working with MailChimp email lists.",
+	"instructions":"Enter a MailChimp API key to start working with MailChimp email lists.",
+	"description":"This is very reliable connection type at scale. Be aware price per mail-out increases at volume.",
+	"link":"http://mailchimp.com/",
 	"type":"com.mailchimp",
 	"seed":"MailchimpSeed",
 	"scope":["users","lists","list_members"],

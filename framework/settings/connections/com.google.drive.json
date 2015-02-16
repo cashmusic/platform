@@ -1,6 +1,8 @@
 {
 	"name":"Google Drive",
-	"description":"Connect your google drive to store files on Google.",
+	"instructions":"Connect your google drive to store files on Google.",
+	"description":"Best for testing and smaller scale campaigns. This service isn't designed for heavy load.",
+	"link":"http://www.google.com/drive/",
 	"type":"com.google.drive",
 	"seed":"GoogleDriveSeed",
 	"scope":["assets"],

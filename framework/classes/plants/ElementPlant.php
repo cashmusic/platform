@@ -34,6 +34,7 @@ class ElementPlant extends PlantBase {
 			'editelement'               => array('editElement','direct'),
 			'editcampaign'              => array('editCampaign','direct'),
 			'getanalytics'              => array('getAnalytics','direct'),
+			'getanalyticsforcampaign'   => array('getAnalyticsForCampaign','direct'),
 			'getcampaign'               => array('getCampaign','direct'),
 			'getelement'                => array('getElement','direct'),
 			'getcampaignsforuser'       => array('getCampaignsForUser','direct'),
@@ -615,6 +616,30 @@ class ElementPlant extends PlantBase {
 		);
 		foreach ($result as $key => &$val) {
 			$val['options'] = json_decode($val['options'],true);
+		}
+		return $result;
+	}
+
+	protected function getAnalyticsForCampaign($id) {
+		$campaign = $this->getCampaign($id);
+		$result = $this->db->getData(
+			'elements_analytics_basic',
+			'MAX(total)',
+			array(
+				"element_id" => array(
+					"condition" => "IN",
+					"value" => $campaign['elements']
+				)
+			)
+		);
+		$returnarray = array(
+			'total_views' => 0
+		);
+		if ($result) {
+			$returnarray['total_views'] = $result[0]['MAX(total)'];
+			return $returnarray;
+		} else {
+			return false;
 		}
 		return $result;
 	}

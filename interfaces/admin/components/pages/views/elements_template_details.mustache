@@ -1,19 +1,16 @@
-<!--p>
-{{{copy_top}}}
-</p>
+<div class="editor">
+ 	<div class="editor-inner">
 
-<a href="{{www_path}}/elements/templates/"><i class="icon icon-list-alt"></i><b>See all templates</b></a>
-
+<!--p>{{{copy_top}}}</p>
+<a href="{{www_path}}/elements/templates/"><div class="icon icon-list"></div><strong>See all templates</strong></a>
 <br /><br />
+<h4>Template details</h4>-->
 
-<h4>Template details</h4>
-
--->
 <form accept-charset="UTF-8" method="post" class="returntocurrentroute" action="{{www_path}}/elements/templates" name="elements_template">
 	<input type="hidden" name="dotemplateset" value="makeitso" />
 	{{#id}}<input type="hidden" name="template_id" value="{{id}}" />{{/id}}
-<!--
-	<label for="template_name">{{label_name}}</label>
+
+	<!-- <label for="template_name">{{label_name}}</label>
 	<input type="text" id="template_name" name="template_name" placeholder="Give it a name" value="{{name}}" />
 	
 		<div class="pure-u-1 pure-u-md-1-2">
@@ -32,13 +29,23 @@
 			<span class="tooltip" data-tooltip="{{tooltip_page}}"><a href="#" id="usedefaultpage" class="smalltext" style="margin-right:3em;">{{{copy_usepage}}}</a></span>
 			<span class="tooltip" data-tooltip="{{tooltip_embed}}"><a href="#" id="usedefaultembed" class="smalltext" style="margin-right:3em;">{{{copy_useembed}}}</a></span>
 		</div>
-		{{/adding}}
-
-	-->
+		{{/adding}} -->
 
 	<label>{{label_template}}</label>
+	<a class="ql copy" title="Copy quick embed code" data-clipboard-target="template" ><div class="icon icon-share"></div><!--icon--></a>
 	<textarea id="template" name="template" class="taller" wrap="off"  spellcheck="false">{{template}}</textarea>
 
 	<button type="submit">{{button_text}}</button>
 
 </form>
+
+	</div><!-- editor-inner -->
+</div><!-- editor -->
+
+<div class="element-list">
+	<ul class="list">
+		{{#elements_output}}
+			<li><a class="elementdisplay" name="#{{element_type}}" href="{{www_path}}/elements/add/{{element_type}}">{{element_type_name}}<span>Author:{{element_type_author}}</span><div class="icon icon-circle-plus"></div><!--icon--></a></li>
+		{{/elements_output}}
+	</ul>
+</div><!-- element-list -->

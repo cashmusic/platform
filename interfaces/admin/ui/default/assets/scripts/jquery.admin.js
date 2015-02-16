@@ -44,6 +44,10 @@
 	$(document).ready(function() {
 		setUIBehaviors();
 		setContentBehaviors();
+		
+		// Mobile Swipe // Bind the Swipe Handler callback function to the swipe event on page
+  		$( "#page" ).on( "swipeleft", swipeleftHandler );
+  		$( "#page" ).on( "swiperight", swiperightHandler );
 
 		window.globaltimeout = false;
 
@@ -53,7 +57,11 @@
 				refreshPageData(location.pathname,null,null,null,true);
 			}
 		}, false);
+
 	}); // $document
+
+
+
 
 	//Readjust for orientation
 	function readDeviceOrientation() {
@@ -63,16 +71,52 @@
         	console.log('Landscape');
         	$('html').removeClass('portrait');
         	$('html').addClass('landscape');
+        	// No menu panel obstruction
+        	$('#navmenu, #menutoggle').removeClass('display');
     	} else {
     		// Portrait
     		console.log('Portrait');
     		$('html').removeClass('landscape');
     		$('html').addClass('portrait');
+    		// No menu panel obstruction
+    		$('#navmenu, #menutoggle').removeClass('display');
     	}
 	}
 
 	window.onorientationchange = readDeviceOrientation;
 
+
+	//Mobile Swipe Functions
+  	function swipeleftHandler( event ){
+
+   	 	if ($('body').hasClass('swiperight')){
+			$('body').removeClass('swiperight');
+		}
+
+   	 	else if ($('body').hasClass("swipeleft")){
+   	 		console.log('swipeleft  - nah you already good');
+   	 		//do nothing
+   	 	}
+   	 	else {
+   	 		$('body').removeClass("swiperight");
+   	 		$('body').addClass("swipeleft");
+   	 	}
+  	};
+  	function swiperightHandler( event ){
+
+   	 	if ($('body').hasClass('swipeleft')){
+			$('body').removeClass('swipeleft');
+		}
+
+   	 	else if ($('body').hasClass("swiperight")){
+   	 		console.log('swiperight  - nah you already good');
+   	 		//do nothing
+   	 	}
+   	 	else {
+   	 		$('body').removeClass("swipeleft");
+   	 		$('body').addClass("swiperight");
+   	 	}
+  	};
 
 	/**
 	 *
@@ -92,8 +136,8 @@
 	 */
 	function redrawPage(data) {
 		// change the color
-		$('#mainspc, #pagetitle').removeClass();
-		$('#mainspc').addClass(data.specialcolor);
+		$('#mainspc, #pagetitle, #page').removeClass();
+		$('#mainspc, #page').addClass(data.specialcolor);
 
 		// nav
 		redrawMainNav(data.section_name);
@@ -237,7 +281,7 @@
 	 */
 	function setContentBehaviors() {
 		// show/hide drawers
-		prepDrawers('<i class="icon icon-chevron-sign-up"></i>Hide','<i class="icon icon-chevron-sign-down"></i>Show');
+		prepDrawers('<div class="icon icon-arw-up"></div><!--icon-->Hide','<div class="icon icon-arw-dwn"></div><!--icon-->Show');
 
 		// datepicker
 		$('input[type=date],input.date').datepicker();
@@ -248,7 +292,9 @@
 		elementMenuStates();
 		releaseFlip();
 		iNeedaHero();
-		firstUseHL();
+		firstUtpHL();
+		ZclipBoard();
+		PrefPanel();
 	}
 
 	/**
@@ -269,6 +315,7 @@
 		touchToggles();
 		autoPanel();
 		moveToExample();
+		readDeviceOrientation();
 
 		// page tip show/hide
 		$(document).on('click', '#tipslink', function(e) {
@@ -292,7 +339,6 @@
 			$( "#search" ).toggleClass( "display" );
 		});
 
-		
 		// show/hide hero video
 		// Hide for Verision 7 Update
 		/*$( ".welcome" ).click(function() {
@@ -319,6 +365,10 @@
 		$(document).on('click', 'input.externalsubmit', function(e) {
 			$($(this).data('cash-target-form')).submit();
 		});
+
+		$(document).on('change','#current-campaign',function(event) {
+     		$(this).closest('form').submit();
+     	});
 
 		// element embed highlight-and-copy code
 		$(document).on('click', '.codearea', function(e) {
@@ -382,7 +432,7 @@
 				$('div.modallightbox').html(
 					'<h4>' + data.ui_title + '</h4>' +
 					 data.content + //jQuery.param(data) +
-					 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><i class="icon icon-ban-circle"></i><span>cancel</span></a></div>'
+					 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a></div>'
 				);
 				$('.store .modallightbox h4').css('width','62%');
 
@@ -508,7 +558,7 @@
 		// a little more pain than it could handle smoothly.)
 
 		//Reveal the header
-		$('section').addClass('hero');
+		$('#cnvs').addClass('hero');
 			
 		window.globaltimeout = window.setTimeout(function(){
 			
@@ -519,7 +569,7 @@
 
 			// console.log('color shift: ' + swc + ', glitch: ' + imno + ', artist: ' + atno);
 
-			cnvs = document.getElementById('canvas');
+			cnvs = document.getElementById('cnvs');
 
 			if (cnvs) {
 				cnvs = cnvs.bitmapData;
@@ -535,13 +585,13 @@
 						olayData.draw(olay);
 
 						cnvs.copyChannel(olayData,
-							new Rectangle(300, 0, 2000, 700), 
+							new Rectangle(0, 0, 2000, 398), 
 							new Point(0, 0), 
 							BitmapDataChannel[swc], 
 							BitmapDataChannel[swc]
 						);
 
-						$('canvas').addClass('display');
+						$('#cnvs').addClass('display');
 					};
 				};
 			}
@@ -637,21 +687,33 @@
 		});
 	};
 
-	/*  First Use Highlight States */
-	function firstUseHL() {
-		
-		// on mouse hover flip the image
-		$('.firstuse .hlt').mouseenter(function (){
-			$('body').addClass('hl');
-			console.log('highlight');
+	/* First use touchpoint highlight */
+	function firstUtpHL() {
+		$( ".settings.hlt" ).hover(function() {
+			$( "#settings" ).toggleClass( "highlight" );
 		});
+	};
 
-		// on mouse leave return to orginal state
-		$('.firstuse .hlt').mouseleave(function (){
-			$('body').removeClass('hl');
-			console.log('remove highlight');
-		});
+	// ZeroClipboard
+	function ZclipBoard() {
+		ZeroClipboard.config( { swfPath: cashAdminPath+"/ui/default/assets/flash/ZeroClipboard.swf" } );
+
+		var client = new ZeroClipboard($(".copy"));
+		client.on( "ready", function( readyEvent ) {
+			//alert ("ready!");
+  			client.on( "aftercopy", function( event ) {
+    			alert("Element Embed Code Copied To Clipboard! " ) //+ event.data["text/plain"] )
+  			} );
+
+		} );
 	};	
+
+	//Preference Panel
+	function PrefPanel() {
+		$(".prefpanel .title").click(function(){
+			$(".prefpanel").toggleClass("display");
+		});
+	};
 
 	/**
 	 *
@@ -671,7 +733,7 @@
 			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
 				&& !el.hasClass('noajax') && !el.parents('div').hasClass('inner')
-				&& (!$('body').hasClass('store') && el.attr('href').indexOf('elements/add'))
+				&& (!$('body').hasClass('store') && el.attr('href').indexOf('elements/add') && !$('body').hasClass('page-editor'))
 			) {
 				e.preventDefault();
 				var url = el.attr('href');
@@ -692,6 +754,11 @@
 			} else if (el.hasClass('store')){
 				e.preventDefault();
 				$('body').addClass('store');
+			} 
+			// if launching the pageeditor lightbox
+				else if (el.hasClass('page-editor')){
+				e.preventDefault();
+				$('body').addClass('page-editor');
 			}
 		});
 
@@ -937,7 +1004,7 @@
 	 function modalBehaviors() {
 
 		// overlay cancel button event
-		$(document).on('click', '.modalcancel', function(e) {
+		$(document).on('click', '.modalcancel, .modalskip', function(e) {
 			e.preventDefault();
 		//remove the store identifier on close
 			removeModal();
@@ -975,7 +1042,8 @@
 		});
 		$('.modalbg').fadeOut('fast', function() {
 			$('.modalbg').remove();
-					$("body").removeClass("store");
+					$("body").removeClass("store page-editor");
+
 		});
 		$(document).unbind('scroll',handleModalScroll);
 	}
@@ -1079,7 +1147,7 @@
 						 '<h4>' + data.ui_title + '</h4>' +
 						 data.content + //jQuery.param(data) +
 						 //'</div></div>' +
-						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><i class="icon icon-ban-circle"></i><span>cancel</span></a></div>' +
+						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a></div>' +
 						 '</div></div>';
 
 			markup = $(markup);
@@ -1129,12 +1197,6 @@
 			for (var i = 1; i <= mpForm.total; i++) {
 				addMultipartButtons(i);
 			};
-			if (window.location.pathname.indexOf('campaigns/view')) {
-				var parts = window.location.pathname.split('/');
-				if ($('#in_campaign')) {
-					$('#in_campaign').val(parts[parts.length - 1]);
-				}
-			}
 		});
 	}
 

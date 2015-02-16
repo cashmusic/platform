@@ -69,7 +69,7 @@
 
 			$menulevel = substr_count($page_endpoint, '/');
 			if ($menulevel == 1 && !isset($page['hide'])) { // only show top-level menu items
-				$menustr .= "<li><a href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><span>{$page['page_name']}</span><svg class=\"icon\" viewBox=\"{$page['menu_icon']['viewBox']}\"><use xlink:href=\"{$page['menu_icon']['xlink']}\"></use></svg></a></li>";
+				$menustr .= "<li><a class=\"{$page['add_class']}\" href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><span>{$page['page_name']}</span><div class=\"icon icon-{$page['menu_icon']}\"></div><!--icon--></a></li>";
 			}
 		}
 
@@ -125,15 +125,15 @@
 	 * CONNECTION DETAILS
 	 *
 	 *********************************************/
+	
 	/**
 	 * Finds settings matching a specified scope and echoes them out formatted
 	 * for a dropdown box in a form
 	 *
 	 */public static function echoConnectionsOptions($scope,$selected=false,$return=false) {
-		// get system settings:
-		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
-		$applicable_settings_array = $page_data_object->getConnectionsByScope($scope);
 
+		AdminHelper::getConnectionsByScope($scope);
+		
 		$all_connections = '<option value="0">None</option>';
 
 		// echo out the proper dropdown bits
@@ -150,6 +150,16 @@
 				echo $all_connections;
 			}
 		}
+	}
+
+	//get connections scope
+	public static function getConnectionsByScope($scope){
+		
+		// get system settings:
+		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+		$applicable_settings_array = $page_data_object->getConnectionsByScope($scope);
+
+		return $applicable_settings_array;
 	}
 
 	/**
@@ -401,18 +411,25 @@
 				);
 				if ($admin_primary_cash_request->response['status_uid'] == 'element_addelement_200') {
 
+					$current_campaign = false;
 					if ($post_data['in_campaign']) {
+						$current_campaign = $post_data['in_campaign'];
+					} else {
+						$current_campaign = AdminHelper::getPersistentData('current_campaign');
+					}
+
+					if ($current_campaign) {
 						$cash_admin->requestAndStore(	
 							array(
 								'cash_request_type' => 'element', 
 								'cash_action' => 'addelementtocampaign',
-								'campaign_id' => $post_data['in_campaign'],
+								'campaign_id' => $current_campaign,
 								'element_id' => $admin_primary_cash_request->response['payload']
 							)
 						);
 						// handle differently for AJAX and non-AJAX
 						if ($cash_admin->page_data['data_only']) {
-							AdminHelper::formSuccess('Success. New element added.','/campaigns/view/' . $post_data['in_campaign']);
+							AdminHelper::formSuccess('Success. New element added.','/');
 						} else {
 							$cash_admin->setCurrentElement($admin_primary_cash_request->response['payload']);
 						}
