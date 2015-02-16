@@ -347,7 +347,7 @@ input::-webkit-calendar-picker-indicator{
 select{
 	width:100%;
 	background:none;
-	background:#00cf7f url(../images/select_bg.png) 93% 50% no-repeat;
+	background:#00cf7f url(../images/select_bg.png) 96% 50% no-repeat;
 	border:none;
 	padding:10px;
 	color:#f5f5f5;
@@ -403,7 +403,7 @@ input.checkorradio:checked{
 }
 
 label{
-	display:block;
+	display:inline-block;
 	padding:0;
 	margin:0 5px 5px 0;
 	line-height: 30px;
@@ -674,6 +674,10 @@ small{
 	border-radius: 3px;
 }
 
+.empty.noevents{
+	height:600px;
+}
+
 .empty p{
 	text-align: center;
 	display: block;
@@ -681,6 +685,10 @@ small{
 	font-size: 18px;
 	color:#666;
 	padding:0;
+}
+
+.empty.noevents p{
+	margin:40% 0 0 0;
 }
 
 .modallightbox .empty{

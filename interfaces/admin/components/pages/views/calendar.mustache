@@ -44,7 +44,9 @@
 		{{/events_thisweek}}
 
 		{{^events_thisweek}}
+		<div class="empty">
 		<p>No upcoming events for the next week were found.</p>
+		</div><!--empty-->
 		{{/events_thisweek}}
 
 		<h4>Unpublished events</h4>
@@ -68,6 +70,8 @@
 		{{/events_unpublished}}
 
 		{{^events_unpublished}}
+		<div class="empty">
 		<p>No unpublished events were found.</p>
+		</div><!--empty-->
 		{{/events_unpublished}}
 	</div><!--pure-->
