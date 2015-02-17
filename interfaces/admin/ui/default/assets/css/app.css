@@ -3341,6 +3341,7 @@ ul.people.alternating li a span{
 	margin:25px 40px 0 0;
 	float:left;
 	color:#adadad;
+	display:none;
 }
 
 .commerce .item:hover .amount{
@@ -5015,6 +5016,7 @@ width:100%;
 }
 
 .ql:hover{
+	cursor: pointer;
 	background:#999;
 }
 
@@ -5264,6 +5266,12 @@ section[role=main].hero, .login section[role=main]{
 	font-size: 18px;
 	padding:0;
 } 
+
+/* Commerce */
+
+.commerce .item .amount{
+	display: inline-block;
+}
 
 /* Zero Clipboard Quick Copy */
 
