@@ -3329,7 +3329,8 @@ ul.people.alternating li a span{
 
 .commerce.order .item .info{
 	width:55%;
-	margin:0 0 0 15%;
+	margin:0 0 0 110px;
+	padding:33px 20px;
 	border-left:solid 1px #dbdbdb;
 	border-radius: 0;
 }
@@ -3371,7 +3372,7 @@ ul.people.alternating li a span{
 .item .date{
 	position:absolute;
 	top:50%;
-	left:15px;
+	left:0;
 	width:70px;
 	height:75px;
 	margin:-37.5px 0 0 20px;
