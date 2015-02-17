@@ -1,7 +1,14 @@
-<div class="pure-u-1">
-<h2>Mailing List - <strong>"{{list_description}}"</strong></h2>
-{{#ui_title}}
+<div class="pure-u-1 pure-u-md-2-3">
+<h4>{{ui_title}}</h4>
+</div><!--pure-->
 
+<div class="pure-u-1 pure-u-md-1-3">
+	<ul class="inline_subnav">
+		<li><a class="current" href="{{www_path}}/people/">Back to Lists</a></li>
+	</ul>
+</div><!--pure-->
+
+{{#ui_title}}
 	<div id="stats">
 	<h4>Statistics</h4>
 	<p class="total">Total active members: <span>{{analytics_active}}</span></p>
@@ -52,11 +59,15 @@
 
 	<!-- No members on list -->
 	{{^list_members}}
-		<p>Sorry, no members have joined this list yet.</p>
+		<div class="empty">
+			<p>Sorry, no members have joined this list yet.</p>
+		</div><!--empty-->
 	{{/list_members}}
 
 {{/ui_title}}
 {{^ui_title}}
-	<h4>Sorry</h4>Error getting list.
+	<div class="empty">
+		<p><strong>Sorry</strong>Error getting list.</p>
+	</div><!--empty-->
 {{/ui_title}}
 </div><!--pure-->
