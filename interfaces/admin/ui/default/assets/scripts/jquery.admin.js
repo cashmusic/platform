@@ -702,7 +702,7 @@
 		client.on( "ready", function( readyEvent ) {
 			//alert ("ready!");
   			client.on( "aftercopy", function( event ) {
-    			alert("Element Embed Code Copied To Clipboard! " ) //+ event.data["text/plain"] )
+    			alert("Embed Code Copied To Clipboard." ) //+ event.data["text/plain"] )
   			} );
 
 		} );
@@ -1158,6 +1158,9 @@
 			// fix form position based on current scrolltop:
 			currentScroll = $(document).scrollTop();
 			$('.modallightbox').css('top',currentScroll+'px');
+
+			//reload quick copy
+			ZclipBoard();
 
 			$(document).bind('scroll',handleModalScroll);
 
