@@ -3217,13 +3217,14 @@ ul.people.alternating li a span{
 	font-size: 32px;
 	width:32px;
 	height:32px;
+	margin:0 10px 0 0;
+
 }
 
 .people .item .stats .icon.icon-nothing{
 	font-size: 24px;
 	color:#adadad;
 	opacity:0.3;
-	margin:0 10px 0 0;
 }
 
 .people .item:hover .stats{
