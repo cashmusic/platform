@@ -2457,8 +2457,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00cf7f', end
 
 .itemnav, .drawercontent{
 	padding:20px;
-	background:#ededed;
+	background:#ddd;
 	border:solid 1px #ddd;
+		-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
 
 
@@ -2853,6 +2856,9 @@ fieldset{
 	padding:0;
 	overflow:hidden;
 	margin:0 0 10px 0;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
 
 .drawer.noprefix{
@@ -3313,6 +3319,10 @@ ul.people.alternating li a span{
 
 /* Commerce Specific Lists */
 
+.commerce.alternating{
+	margin:0 0 30px 0;
+}
+
 .commerce .item .assetlink{
 	padding:0;
 	border:none;
@@ -3380,6 +3390,10 @@ ul.people.alternating li a span{
 	display: block;
 	overflow: hidden;
 	color:rgba(34,34,34,0.5);
+}
+
+.commerce .item .assetlink.unlink .icon{
+	color:#f5f5f5;
 }
 
 .commerce .item .assetlink .icon.icon-file{
@@ -3801,7 +3815,7 @@ label.checkbox {
 label.checklabel{
 	font-size: 14px;
 	opacity: 0.8;
-	margin:0 20px 20px 0;
+	margin:0 10px 10px 0;
 	display: inline-block;
 }
 
@@ -4541,6 +4555,7 @@ width:100%;
 
 #campaigns ul.alternating li a span{
 	font-size: 14px;
+	width:68%;
 }
 
 #campaigns ul.alternating li a .descriptive{
@@ -4815,8 +4830,14 @@ width:100%;
   	-webkit-transform: rotateY( 180deg );
   	transform: rotateY( 180deg );
   	text-align: center;
-  	background:#222 url(../images/release_back.jpg);
-  	background-size: 95%;
+	background: rgb(34,34,34); /* Old browsers */
+	background: -moz-linear-gradient(-45deg,  rgba(34,34,34,1) 0%, rgba(17,17,17,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(34,34,34,1)), color-stop(100%,rgba(17,17,17,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(-45deg,  rgba(34,34,34,1) 0%,rgba(17,17,17,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(-45deg,  rgba(34,34,34,1) 0%,rgba(17,17,17,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(-45deg,  rgba(34,34,34,1) 0%,rgba(17,17,17,1) 100%); /* IE10+ */
+	background: linear-gradient(135deg,  rgba(34,34,34,1) 0%,rgba(17,17,17,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#222222', endColorstr='#111111',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
   	background-repeat: no-repeat;
   	background-position: center;
   	color:#f5f5f5;
@@ -4826,7 +4847,14 @@ width:100%;
 	text-decoration: none;
 }
 
+#card .back .signifier{
+	margin:20px 0;
+}
 
+#card .back .signifier .icon{
+	margin:2px;
+	color:#f5f5f5;
+}
 /* Alternate Colours */
 
 .usecolor2 #card .back h3{ color:#fa3838; }
@@ -4844,7 +4872,7 @@ width:100%;
 #card .back h3{
 	color:#f5f5f5;	
 	position:absolute;
-	bottom:30px;
+	bottom:40px;
 	left:0;
 	width:100%;
 	text-align: center;
@@ -4871,7 +4899,7 @@ width:100%;
 	padding:20px;
 	margin:0;
 	width:100%;
-	color:#000;
+	color:#666;
 	line-height: 18px;
 	font-size: 14px;
 	text-align: center;
@@ -5358,13 +5386,13 @@ section[role=main].hero, .login section[role=main]{
 	font-size: 14px;
 }
 .additional_releases.drawer  #card .back h2{ 
-	font-size: 20px;
+	font-size: 16px;
 	margin:0;
 	padding:5px 0;
 	line-height: 20px;
 }
 .additional_releases.drawer #card .back h3{
-	font-size: 18px;
+	font-size: 16px;
 	padding:0;
 } 
 
@@ -5377,7 +5405,7 @@ section[role=main].hero, .login section[role=main]{
 /* Special Selection Dropdown */
 
 .selecta{
-	margin:20px 0 30px 0;
+	display: inline-block;
 }
 
 .selecta label{
@@ -5677,7 +5705,7 @@ button, .button, #modallightbox .modalcancel{
 /* Page Description */
 
 .page-description{
-	padding:20px 20px 30px 70px;
+	padding:20px 20px 20px 70px;
 	display: block;
 }
 
