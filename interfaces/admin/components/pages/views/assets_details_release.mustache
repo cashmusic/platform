@@ -2,7 +2,15 @@
 	<fieldset class="pure-u-1">
 		<input type="hidden" name="doassetedit" value="makeitso" />
 		<input type="hidden" name="asset_type" value="release" />
-		<h4>Release Details</h4>
+		<div class="pure-u-1 pure-u-md-1-2">
+		<h4 class="secondary-title"><div class="icon icon-record"></div><!--icon-->{{title}}</h4> <h5 class="release-artistname">{{#metadata_artist_name}}by {{metadata_artist_name}}{{/metadata_artist_name}}</h5>
+		</div><!--pure-->
+		<div class="pure-u-1 pure-u-md-1-2">
+			<ul class="inline_subnav">
+				<li><a class="current" href="{{www_path}}/assets/">Back to Releases</a></li>
+			</ul>
+		</div><!--pure-->
+		<div class="release-details">
 			<div class="pure-u-1 pure-u-md-1-3">
 				<!--<style type="text/css">
 					.release-cover a {{{#cover_asset_id}}color:#fff;{{/cover_asset_id}}}
@@ -43,7 +51,7 @@
 						<label class="col_oneoftwo lastcol">Matrix/Catalog Number <input type="text" id="matrix_number" name="matrix_number" value="{{metadata_matrix_number}}" /></label>
 					</div><!--pure-->
 					<div class="fulfillment-files">
-						<label>Fulfillment Files</label>
+						<div class="pure-u-1"><label>Fulfillment Files</label></div><!--pure-->
 						{{#fulfillment_files}}
 						<ul class="alternating">
 						{{/fulfillment_files}}
@@ -65,32 +73,34 @@
 						</ul>
 						{{/fulfillment_files}}
 						{{^fulfillment_files}}
-						<div class="pure-u-1 pure-u-md-1-2"><p>No files have been added for fulfillment yet.</p></div><!--pure-->
+						<div class="pure-u-1 pure-u-md-3-5"><p class="fadedtext">No files have been added for fulfillment yet.</p></div><!--pure-->
 						{{/fulfillment_files}}
-						<div class="pure-u-1 {{^fulfillment_files}}pure-u-md-1-2{{/fulfillment_files}}"><a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/fulfillment" class="add-fulfillment-file lightboxed returntocurrentroute button {{^fulfillment_files}}right{{/fulfillment_files}}">Attach A File</a>
+						<div class="pure-u-1 {{^fulfillment_files}}pure-u-md-2-5{{/fulfillment_files}}"><a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/fulfillment" class="add-fulfillment-file lightboxed returntocurrentroute button {{^fulfillment_files}}right{{/fulfillment_files}}">Attach A File</a>
 						<input type="hidden" id="metadata_fulfillment" name="metadata_fulfillment" value="{{metadata_fulfillment_json}}" />
 						</div><!--pure-->
 					</div><!--fullfillment-files-->
 			</div><!--release-general-info-->
-	</fieldset>
 
+			</div><!--release-details-->
+	</fieldset>
+<!--
 	<h4>Additional Fields</h4>
 	<div class="pure-u-1">	
 		<div class="drawer">
 		<div class="itemnav">
 			<a class="meta drawerhandle">standard metadata</a>
-			</div><!--itemnav-->
+			</div>
 			<div class="drawercontent">
 				<fieldset>
 						<div class="pure-u-1 pure-u-md-1-2">
 							<label>Label Name <input type="text" id="label_name" name="label_name" value="{{metadata_label_name}}" placeholder="" /></label>
 							<label>Copyright <textarea id="copyright" name="copyright">{{metadata_copyright}}</textarea></label>
-						</div><!--pure-->
+						</div>
 						<div class="pure-u-1 pure-u-md-1-2">
 							<label>Genre <input type="text" id="genre" name="genre" value="{{metadata_genre}}" placeholder="" /></label>
 							<label>Publishing <textarea id="publishing" name="publishing">{{metadata_publishing}}</textarea></label>
-						</div><!--pure-->
-					<!--div>
+						</div> -->
+					<!-- div>
 						<label>Formats/UPC Codes</label>
 						<ul class="alternating">
 							<li>
@@ -106,26 +116,26 @@
 						</ul>
 						<a href="#" class="add-format"><div class="icon icon-plus"></div>Add New Format</a>
 					</div-->
-				</fieldset>
-			</div><!--drawercontent-->
-		</div><!--drawer-->
+				<!--</fieldset>
+			</div> <!-drawercontent-> 
+		</div> drawer-->
 
-		<div class="drawer">
+		<!--<div class="drawer">
 		<div class="itemnav">
 			<a class="meta drawerhandle">press/PR information</a>
-			</div><!--itemnav-->
+			</div>
 			<div class="drawercontent">
 				<fieldset>
 					<div class="pure-u-1 pure-u-md-1-2">
 						<label class="col_oneoftwo">Publicist's Name <input type="text" id="publicist_name" name="publicist_name" value="{{metadata_publicist_name}}" placeholder="" /></label>
-					</div><!--pure-->
+					</div>
 					<div class="pure-u-1 pure-u-md-1-2">
 						<label class="col_oneoftwo lastcol">Publicist's Email<input type="text" id="publicist_email" name="publicist_email" value="{{metadata_publicist_email}}" placeholder="" /></label>
-					</div><!--pure-->
+					</div>
 					<label>Bio / Onesheet<textarea id="onesheet" name="onesheet" class="tall">{{metadata_onesheet}}</textarea></label>
 				</fieldset>
-			</div><!--drawercontent-->
-		</div><!--drawer-->
+			</div><!-drawercontent->
+		</div><!-drawer-->
 
 		<!-- div class="drawer">
 			<a class="drawerhandle">miscellaneous</a>

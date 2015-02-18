@@ -9,7 +9,7 @@ if ($request_parameters) {
 		)
 	);
 	if ($current_response['payload']) {
-		$cash_admin->page_data['ui_title'] = 'People: View "' . $current_response['payload']['name'] . '"';
+		$cash_admin->page_data['ui_title'] = '"' . $current_response['payload']['name'] . '"';
 		$cash_admin->page_data['list_description'] = $current_response['payload']['description'];
 		$cash_admin->page_data['list_id'] = $request_list_id;
 
