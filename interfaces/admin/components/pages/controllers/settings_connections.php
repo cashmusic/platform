@@ -38,6 +38,7 @@ if ($settings_action) {
 	switch ($settings_action) {
 		case 'add':
 			$settings_type = $request_parameters[1];
+			$seed_name = $settings_types_data[$settings_type]['seed'];
 			if ($cash_admin->platform_type == 'single') {
 				if (!isset($_POST['dosettingsadd'])) {
 					if (array_key_exists($settings_type, $settings_types_data)) {
@@ -71,6 +72,14 @@ if ($settings_action) {
 						$settings_data_array
 					);
 					if ($result) {
+						// postConnection hook
+						if (method_exists($seed_name,'postConnection')) {
+							$_POST['settings_id'] = $result;
+							$_POST['user_id'] = $cash_admin->effective_user_id;
+							$_POST['settings_type'] = $settings_type;
+							$_POST['settings_name'] = $settings_name;
+							$seed_name::postConnection($_POST);
+						}
 						$cash_admin->page_data['action_message'] = '<strong>Success.</strong> Everything was added successfully. You\'ll see it in your list of connections.';
 					} else {
 						$cash_admin->page_data['action_message'] = '<strong>Error.</strong> Something went wrong. Please make sure you\'re using a unique name for this connection. Not only is that just smart, it\'s required.';
@@ -90,6 +99,14 @@ if ($settings_action) {
 						$_POST
 					);
 					if ($result) {
+						// postConnection hook
+						if (method_exists($seed_name,'postConnection')) {
+							$_POST['settings_id'] = $result;
+							$_POST['user_id'] = $cash_admin->effective_user_id;
+							$_POST['settings_type'] = $settings_type;
+							$_POST['settings_name'] = $settings_name;
+							$seed_name::postConnection($_POST);
+						}
 						AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
 					} else {
 						AdminHelper::formFailure('Error. Something just didn\'t work right.','/settings/connections/');

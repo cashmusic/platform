@@ -124,6 +124,21 @@ class MailchimpSeed extends SeedBase {
 		}
 	}
 
+	public static function postConnection($data=false) {
+		if (isset($data['settings_name']) && isset($data['settings_id']) && isset($data['user_id'])) {
+			$list_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'people', 
+					'cash_action' => 'addlist',
+					'name' => $data['settings_name'],
+					'description' => 'Automatically added for MailChimp list on ' . date("F j, Y"),
+					'user_id' => $data['user_id'],
+					'connection_id' => $data['settings_id']
+				)
+			);
+		}
+	}
+
 	private function detectError($response) {
 		if (isset($response["status"])) {
 			if ($response["status"] == "error") {
