@@ -29,6 +29,7 @@ class ElementPlant extends PlantBase {
 			'addcampaign'               => array('addCampaign','direct'),
 			'addelement'                => array('addElement','direct'),
 			'addlockcode'               => array('addLockCode','direct'),
+			'checkuserrequirements'     => array('checkUserRequirements','direct'),
 			'deletecampaign'            => array('deleteCampaign','direct'),
 			'deleteelement'             => array('deleteElement','direct'),
 			'editelement'               => array('editElement','direct'),
@@ -84,6 +85,81 @@ class ElementPlant extends PlantBase {
 				}
 			}
 			closedir($elements_dir);
+		}
+	}
+
+	/**
+	 * Feed in a user id and element type (string) and this function returns either
+	 * true, meaning the user has defined all the required bits needed to set up an
+	 * element of the type; or an array containing codes for what's missing. 
+	 *
+	 * A boolean return of false means there was an error reading the JSON
+	 *
+	 * @param {int} $user_id 		 - the user
+	 * @param {string} $element_type - element type name
+	 * @return true|false|array
+	 */ protected function checkUserRequirements($user_id,$element_type) {
+		$json_location = CASH_PLATFORM_ROOT.'/elements/' . $element_type . '/app.json';
+		$app_json = false;
+		if (file_exists($json_location)) {
+			$app_json = json_decode(file_get_contents($json_location),true);
+		} 
+		if ($app_json) {
+			$failures = array();
+			foreach ($app_json['options'] as $section_name => $details) {
+				foreach ($details['data'] as $data => $values) {
+					if ($values['type'] == 'select') {
+						if (is_string($values['values'])) {
+							if (substr($values['values'],0,7) == 'connect') {
+								$scope = explode('/',$values['values']);
+								// get system settings:
+								$data_object = new CASHConnection($user_id);
+								if (!$data_object->getConnectionsByScope($scope)) {
+									$failures[] = $values['values'];
+								}
+							} else {
+								$action_name = false;
+								switch ($values['values']) {
+									case 'assets':
+										$plant_name = 'asset';
+										$action_name = 'getassetsforuser';
+										break;
+									case 'people/lists':
+										$plant_name = 'people';
+										$action_name = 'getlistsforuser';
+										break;
+									case 'items':
+									case 'commerce/items':
+										$plant_name = 'commerce';
+										$action_name = 'getitemsforuser';
+										break;
+								}		
+								if ($action_name) {
+									$requirements_request = new CASHRequest(
+										array(
+											'cash_request_type' => $plant_name, 
+											'cash_action' => $action_name,
+											'user_id' => $user_id,
+											'parent_id' => 0
+										)
+									);
+
+									if (!$requirements_request->response['payload']) {
+										$failures[] = $values['values'];
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			if (count($failures) == 0) {
+				return true;
+			} else {
+				return $failures;
+			}
+		} else {
+			return false;
 		}
 	}
 

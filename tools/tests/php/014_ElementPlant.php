@@ -370,6 +370,35 @@ class ElementPlantTests extends UnitTestCase {
 		$this->assertFalse($campaign_request->response['payload']);
 	}
 
+	function testElementRequirements() {
+		$requirements_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'element', 
+				'cash_action' => 'checkuserrequirements',
+				'user_id' => 1,
+				'element_type' => 'digitalpurchase'
+			)
+		);
+		// should return an array of failures
+		$this->assertTrue(is_array($requirements_request->response['payload']));
+		// cool we're failing. now let's make sure we're failing for the right reasons:
+		$this->assertTrue(in_array('commerce/items',$requirements_request->response['payload']));
+		$this->assertTrue(in_array('connections/commerce',$requirements_request->response['payload']));
+		// and ONLY the right reasons
+		$this->assertEqual(count($requirements_request->response['payload']),2);
+
+		$requirements_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'element', 
+				'cash_action' => 'checkuserrequirements',
+				'user_id' => 1,
+				'element_type' => 'downloadcodes'
+			)
+		);
+		// should be true as in good
+		$this->assertTrue($requirements_request->response['payload']);
+	}
+
 }
 
 ?>
