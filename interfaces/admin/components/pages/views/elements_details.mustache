@@ -1,33 +1,16 @@
 <div class="pure-u-1 pure-u-md-1-3">
-	<ul class="inline_subnav return">
-		<li><a class="current" href="{{www_path}}/">Back to Campaign</a></li>
-	</ul>
+		<a class="returnlink current" href="{{www_path}}/"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">{{ui_title}}</h4>
 </div><!--pure-->
 
-<div class="pure-u-1 pure-u-md-2-3">
-<h4 class="alignright">{{ui_title}}</h4>
-</div><!--pure-->
 
-{{#location_analytics}}
-<div id="snapshot">
-	<div class="pure-u-1 pure-u-md-1-3">
+<div class="pure-u-1 pure-u-md-1-2">
+	<div id="snapshot">
 		<div class="snapshot-inner">
 					<h4>Total Unique Views</h4>
 					<h5 class="totalviews">{{total_views}}</h5>
 				</div><!--snapshot-inner-->
-			</div><!--pure-->
-			<div class="pure-u-1 pure-u-md-2-3">
-				<div class="snapshot-inner">
-					<h4>Top Locations</h4>
-					<ul>
-					{{#location_analytics}}
-						<li><a href="{{access_location}}" target="_blank"><span><strong>{{total}}</strong></span><span class="location">{{access_location}}</span></a></li>
-					{{/location_analytics}}
-					</ul>
-				</div><!--snapshot-inner-->
-	</div><!--pure-->
-</div><!--snapshot-->
-{{/location_analytics}}
+	</div><!--snapshot-->
+</div><!--pure-->
 
 
 			{{#platform_type_single}}
@@ -67,9 +50,19 @@
 
 <!--<h4>Statistics</h4>-->
 <!--<div class="stat">Total unique views: {{total_views}}</div>-->
+{{#location_analytics}}
+<div class="pure-u-1">
+<h4>Top Embed Locations</h4>
+	<ul>
+		{{#location_analytics}}
+			<li><a href="{{access_location}}" target="_blank"><span><strong>{{total}}</strong></span><span class="location">{{access_location}}</span></a></li>
+		{{/location_analytics}}
+	</ul>
+</div><!--pure-->
+{{/location_analytics}}
 
 {{#location_analytics}}
-	<div class="drawer statoverview">
+	<!--<div class="drawer statoverview">
 		<div class="drawercontent">
 			{{#location_analytics}}
 				<h5>Views by location</h5>
@@ -112,11 +105,11 @@
 					</tbody>
 				</table>
 			{{/method_analytics}}
-		</div><!--drawercontent-->
+		</div><
 		<div class="itemnav">
 		<a class="drawerhandle usecolor1">detailed statistics</a>
-		</div><!--itemnav-->
-	</div><!--drawer stateoverview-->
+		</div>
+	</div> drawer stateoverview-->
 {{/location_analytics}}
 
 <div class="prefpanel pure-u-1">
