@@ -135,8 +135,8 @@
 	 *
 	 */public static function echoConnectionsOptions($scope,$selected=false,$return=false) {
 
-		AdminHelper::getConnectionsByScope($scope);
-		
+		$applicable_settings_array = AdminHelper::getConnectionsByScope($scope);
+
 		$all_connections = '<option value="0">None</option>';
 
 		// echo out the proper dropdown bits
