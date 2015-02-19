@@ -1,13 +1,27 @@
+	{{#parent_id}}
+		<div class="pure-u-1 pure-u-md-1-4">
+			<ul class="inline_subnav return">
+				<li><a class="current" href="{{www_path}}/assets/edit/{{parent_id}}">Return to parent asset</a></li>
+			</ul>
+		</div><!--pure-->
+	{{/parent_id}}
+
+	{{^parent_id}}
+		<div class="pure-u-1 pure-u-md-1-4">
+			<ul class="inline_subnav return">
+				<li><a class="current" href="{{www_path}}/assets/">Return to uploads</a></li>
+			</ul>
+		</div><!--pure-->
+	{{/parent_id}}
+
+<div class="pure-u-1 pure-u-md-3-4">
 <h4 class="secondary-title"><div class="icon icon-file"></div><!--icon-->{{title}}</h4>
+</div><!--pure-->
+
+
 <form accept-charset="UTF-8" method="post" id="edit-file-form" action="{{www_path}}/assets/edit/{{id}}">
 	<input type="hidden" name="doassetedit" value="makeitso" />
 	<input type="hidden" name="asset_type" value="file" />
-
-	{{#parent_id}}
-	<ul class="pagesubnav">
-	<li><a href="{{www_path}}/assets/edit/{{parent_id}}">Return to parent asset</a></li>
-	</ul><!--pagesubnav-->
-	{{/parent_id}}
 
 	<label for="asset_title">Title / Name</label>
 	<input type="text" id="asset_title" name="asset_title" value="{{title}}" class="required" />

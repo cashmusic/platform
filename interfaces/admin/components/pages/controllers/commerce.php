@@ -81,6 +81,7 @@ if (is_array($orders_response['payload'])) {
 				
 				$all_order_details[] = array(
 					'id' => $order_details['id'],
+					'customer' => $order_details['customer_details']['display_name'],
 					'number' => '#' . str_pad($order_details['id'],6,0,STR_PAD_LEFT),
 					'date' => CASHSystem::formatTimeAgo((int)$order_date),
 					'mmm' => date('M',(int)$order_date),

@@ -40,7 +40,7 @@
 		</div><!--snapshot-->
 {{/dashboard_list_total_new}}
 
-	<div class="pure-u-1 {{^mass_connection}}pure-u-md-2-3{{/mass_connection}}">
+	<div class="pure-u-1 {{^mass_connection}}-pure-u-md-2-3{{/mass_connection}}">
 		{{#lists_all}}
 		<ul class="people alternating">
 			{{#lists_all}}
@@ -81,16 +81,16 @@
 
 	{{^mass_connection}}
 		{{#all_mass_services}}
-			<div class="pure-u-1 pure-u-md-1-3">
+			<!--div class="pure-u-1 pure-u-md-1-3">
 				<aside>
 					<div class="aside-inner">
 						{{#service_has_image}}<h3><a href="{{link}}" target="_blank"><img src="{{www_path}}/assets/images/settings/{{key}}.png" alt="{{name}}"/></a></h3>{{/service_has_image}}
 						<p>{{description}}</p>
 						<p><a class="fadedtext" href="{{link}}">{{link}}</a></p>
 						<a class="button fullwidth lightboxed" href="{{www_path}}/settings/connections/add/{{key}}">Add Connection</a>
-					</div><!--aside-inner-->
-				</aside><!-- Mandrill -->
-			</div><!--pure-->
+					</div>
+				</aside>
+			</div> -->
 		{{/all_mass_services}}
 	{{/mass_connection}}
 {{/connection}}

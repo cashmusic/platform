@@ -1053,6 +1053,7 @@
 			$(document).on('click', '.needsconfirmation', function(e) {
 				e.preventDefault();
 				doMessage('','Are you sure?',true,$(this).attr('href'));
+
 				this.blur();
 			});
 
@@ -1084,7 +1085,7 @@
 	function doMessage(msg,label,modal,redirectUrl) {
 		// markup for the confirmation link
 		var markup = '<div class="modalbg"><div class="modaldialog">' +
-					 '<div class="row"><div class="two columns"></div><div class="eight columns">' +
+					 '<div class="pure-u-1">' +
 					 '<h4>' + label + '</h4>';
 					 if (msg) {
 					 	markup += '<p><span class="big">' + msg + '</span></p>';
@@ -1096,7 +1097,7 @@
 					 if (modal && !redirectUrl) {
 					 	markup += '<input type="button" class="button modalyes" value="OK" />';
 					 }
-					 markup += '</div><div class="two columns"></div></div>' +
+					 markup += '</div><!--pure-->' +
 					 '</div></div>';
 		markup = $(markup);
 		markup.hide();
