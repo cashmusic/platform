@@ -114,7 +114,7 @@ class ElementPlant extends PlantBase {
 								$scope = explode('/',$values['values']);
 								// get system settings:
 								$data_object = new CASHConnection($user_id);
-								if (!$data_object->getConnectionsByScope($scope)) {
+								if (!$data_object->getConnectionsByScope($scope[1])) {
 									$failures[] = $values['values'];
 								}
 							} else {

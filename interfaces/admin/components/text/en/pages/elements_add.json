@@ -4,5 +4,12 @@
 	"related":{},
 	"labels":{},
 	"tooltips":{},
-	"copy":{}
+	"copy":{
+		"requirements_needed":"Looks like you need to do a little more work before you can set up this element. Before you can get started you'll need to add:",
+		"requirement_assets":"A release of uploaded file",
+		"requirement_people/lists":"A mailing list",
+		"requirement_items":"A commerce item for sale",
+		"requirement_commerce/items":"A commerce item for sale",
+		"requirement_connections/commerce":"A commerce connection to process payments"
+	}
 }

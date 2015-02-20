@@ -166,8 +166,10 @@
 		
 		if (is_array($all_connections)) {
 			foreach ($all_connections as $key => $data) {
-				if (array_key_exists($data['type'],$connection_types_data)) {
-					$filtered_connections[] = $data;
+				if (is_array($connection_types_data)) {
+					if (array_key_exists($data['type'],$connection_types_data)) {
+						$filtered_connections[] = $data;
+					}
 				}
 			}
 		}

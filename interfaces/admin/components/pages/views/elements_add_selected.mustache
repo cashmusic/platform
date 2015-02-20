@@ -1,1 +1,11 @@
-{{{element_rendered_content}}}
+{{#all_requirements}}
+	{{{element_rendered_content}}}
+{{/all_requirements}}
+{{^all_requirements}}
+	<div class="gallery elementinstructions">
+	</div>
+		<div class="elementform">
+			{{copy_requirements_needed}}
+			{{{needed_requirements}}}
+		</div>
+{{/all_requirements}}

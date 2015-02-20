@@ -376,7 +376,7 @@ class ElementPlantTests extends UnitTestCase {
 				'cash_request_type' => 'element', 
 				'cash_action' => 'checkuserrequirements',
 				'user_id' => 1,
-				'element_type' => 'digitalpurchase'
+				'element_type' => 'singlepurchase'
 			)
 		);
 		// should return an array of failures
