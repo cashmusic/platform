@@ -80,10 +80,25 @@ if ($request_parameters) {
 				$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render(AdminHelper::getElementTemplate($element_addtype), $cash_admin->page_data);
 			}
 		} else if (is_array($requirements_response['payload'])) {
+			$requirements_links = array(
+				'assets' => '/assets/',
+				'people/lists' => '/people/',
+				'items' => '/commerce/items/',
+				'commerce/items' => '/commerce/items/',
+				'connections/commerce' => '/settings/connections/'
+			);
 			$cash_admin->page_data['needed_requirements'] = '<ul>';
 			foreach ($requirements_response['payload'] as $requirement) {
 				if (isset($cash_admin->page_data['copy_requirement_' . $requirement])) {
-					$cash_admin->page_data['needed_requirements'] .= '<li>' . $cash_admin->page_data['copy_requirement_' . $requirement] . '</li>';
+					$cash_admin->page_data['needed_requirements'] .= '<li>';
+					if (isset($requirements_links[$requirement])) {
+						$cash_admin->page_data['needed_requirements'] .= '<a href="' . $cash_admin->page_data['www_path'] . $requirements_links[$requirement] . '">';
+					}
+					$cash_admin->page_data['needed_requirements'] .= $cash_admin->page_data['copy_requirement_' . $requirement];
+					if (isset($requirements_links[$requirement])) {
+						$cash_admin->page_data['needed_requirements'] .= '</a>';
+					}
+					$cash_admin->page_data['needed_requirements'] .= '</li>';
 				}
 			}
 			$cash_admin->page_data['needed_requirements'] .= '</ul>';
