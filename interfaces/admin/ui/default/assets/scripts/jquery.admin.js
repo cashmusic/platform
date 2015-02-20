@@ -263,7 +263,6 @@
   		});	
 	};
 
-
 	/**
 	 *
 	 *
@@ -733,7 +732,7 @@
 			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
 				&& !el.hasClass('noajax') && !el.parents('div').hasClass('inner')
-				&& (!$('body').hasClass('store') && el.attr('href').indexOf('elements/add') && !$('body').hasClass('page-editor'))
+				&& (!$('body').hasClass('store') && el.attr('href').indexOf('elements/add') && !$('body').hasClass('page-editor') && !el.hasClass('connection') && !el.hasClass('faq'))
 			) {
 				e.preventDefault();
 				var url = el.attr('href');
@@ -741,7 +740,7 @@
 				el.blur();
 
 			// if inside the tertiary panel or a panel touchpoint
-			} else if (el.parents('div').hasClass('inner')){
+			} else if (el.parents('div').hasClass('inner') && !el.hasClass('connection') && !el.hasClass('faq') ){
 				e.preventDefault();
 				$('.panelcontent').removeClass('display');
 				var url = el.attr('href');
@@ -750,6 +749,11 @@
   				$('.inner a').removeClass('current');
   				el.addClass('current');
 				el.blur();
+
+			}else if(el.hasClass('faq')){
+				$('.panelcontent').addClass('display');
+				$('body').addClass('display help');
+
 			// if launching the store lightbox
 			} else if (el.hasClass('store')){
 				e.preventDefault();
