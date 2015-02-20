@@ -880,8 +880,7 @@ div.switchblock div.show {display:block;}
 	margin:0 0 0 0;
 	color: #fff;
 	opacity:1;
-	width:80px;
-	height:80px;
+	width:100%;
 	text-decoration: none;
 	display:inline-block;
 	-webkit-transition: 0.3s  ease-in-out;
