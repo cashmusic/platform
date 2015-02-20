@@ -3315,10 +3315,14 @@ ul.alternating li .actions a{
 }
 
 .alternating .item .info .descriptive{
-	display: inline-block;
+	display:block;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	transition:0.3s ease-in-out;
+}
+
+.alternating.commerce.order .item .info .descriptive{
+	display: inline-block;
 }
 
 /* People Specific Lists */
@@ -3606,6 +3610,9 @@ ul.alternating li .more.display .toggle{
 	background: -ms-linear-gradient(top,  rgba(214,214,214,1) 0%,rgba(227,227,227,1) 100%,rgba(227,227,227,1) 100%); /* IE10+ */
 	background: linear-gradient(to bottom,  rgba(214,214,214,1) 0%,rgba(227,227,227,1) 100%,rgba(227,227,227,1) 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d6d6d6', endColorstr='#e3e3e3',GradientType=0 ); /* IE6-9 */
+	-webkit-box-shadow: inset 0px 5px 8px 0px rgba(0,0,0,0.1);
+	-moz-box-shadow: inset 0px 5px 8px 0px rgba(0,0,0,0.1);
+	box-shadow: inset 0px 5px 8px 0px rgba(0,0,0,0.1);
 }
 
 #snapshot .snapshot-inner{
@@ -3623,6 +3630,22 @@ ul.alternating li .more.display .toggle{
 	font-size: 16px;
 	line-height: 20px;
 	margin:0 0 20px 0;
+}
+
+#snapshot .snapshot-inner h4 a{
+	background:#bbb;
+	color:#f5f5f5;
+	padding:2px 10px;
+	display: block;
+	font-size: 12px;
+	text-decoration: none;	
+	-webkit-border-radius: 50px;
+	-moz-border-radius: 50px;
+	border-radius: 50px;
+}
+
+#snapshot .snapshot-inner h4 a:hover{
+	background:#222;
 }
 
 #snapshot .snapshot-inner ul{
