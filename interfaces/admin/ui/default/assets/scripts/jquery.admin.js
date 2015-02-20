@@ -294,6 +294,7 @@
 		firstUtpHL();
 		ZclipBoard();
 		PrefPanel();
+		handleSwitchBlocks();
 	}
 
 	/**
@@ -1052,28 +1053,93 @@
 		$(document).unbind('scroll',handleModalScroll);
 	}
 
-	 function listenForModals() {
-			// modal pop-ups
-			$(document).on('click', '.needsconfirmation', function(e) {
+	function listenForModals() {
+		// modal pop-ups
+		$(document).on('click', '.needsconfirmation', function(e) {
+			e.preventDefault();
+			doMessage('','Are you sure?',true,$(this).attr('href'));
+
+			this.blur();
+		});
+
+		// modal lightboxes
+		$(document).on('click', '.lightboxed', function(e) {
+			if ($(window).width() > 768) {
 				e.preventDefault();
-				doMessage('','Are you sure?',true,$(this).attr('href'));
-
-				this.blur();
-			});
-
-			// modal lightboxes
-			$(document).on('click', '.lightboxed', function(e) {
-				if ($(window).width() > 768) {
-					e.preventDefault();
-					if ($(this).hasClass('returntocurrentroute')) {
-						doModalLightbox($(this).attr('href'),true);
-					} else {
-						doModalLightbox($(this).attr('href'));
-					}
-					this.blur();
+				if ($(this).hasClass('returntocurrentroute')) {
+					doModalLightbox($(this).attr('href'),true);
+				} else {
+					doModalLightbox($(this).attr('href'));
 				}
-			});
-		}
+				this.blur();
+			}
+		});
+	}
+
+	/**
+	 *
+	 * function handleSwitchBlocks()
+	 *
+	 * parses out div.switchblock div and shows/hides stuff as needed
+	 * ex: <div class="switchblock" data-watch="#target-select" data-default="#show-default" ...
+	 *         ... data-change="#show-on-change" data-special='{"val":"#show-if-val"}'>
+	 *
+	 **/
+	function handleSwitchBlocks() {
+		$('div.switchblock').each( function() {
+			var w = $($(this).data('watch'));
+			if (w) {
+				// we found a select to watch
+				var c = $(this).data('change');
+				w.change(function() {
+					$(c).addClass('show');
+				});
+				var v = w.val(); // grab the current val for the select 
+				var s = $(this).data('special');
+				if (s) {
+					// we found special values to display for certain options
+					if (typeof(s) === 'object') {
+						if (s.val) {
+							// this means it's a single set option
+							if (v == s.val) {
+								if($(s.target)) {
+									$(s.target).addClass('show'); // show it
+									w.change(function() {
+										// make sure to hide on change
+										$(s.target).removeClass('show');
+									});
+									return true;
+								}
+							}
+						} else {
+							$.each(s, function(ii,iv) {
+								// no .val means we have an array of objects. neat!
+								// iterate through and compare current value to special value
+								if (v == iv.val) {
+									if($(iv.target)) {
+										$(iv.target).addClass('show'); // show it
+										w.change(function() {
+											// hide on change
+											$(iv.target).removeClass('show');
+										});
+										return true;
+									}
+								}
+							});
+						}
+					}
+				}
+				// we made it all the way to the end, and the monster at the end of the book
+				// is me. lovable, huggable, grover.
+				var d = $(this).data('default');
+				$(d).addClass('show'); // show the default thing
+				w.change(function() {
+					// hide on change
+					$(d).removeClass('show');
+				});
+			}
+		});
+	}
 
 	/**
 	 * doMessage (function)
