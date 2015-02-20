@@ -2,11 +2,11 @@
 	<fieldset class="pure-u-1">
 		<input type="hidden" name="doassetedit" value="makeitso" />
 		<input type="hidden" name="asset_type" value="release" />
-		<div class="pure-u-1  artist-info">
+		<header>
 		<a class="returnlink current" href="{{www_path}}/assets/"><div class="icon icon-arw-dwn"></div><!--icon--></a>
 		<h4 class="secondary-title">&ldquo;{{title}}&rdquo;<span class="release-artistname">{{#metadata_artist_name}}by {{metadata_artist_name}}{{/metadata_artist_name}}</span></h4>
 		<div class="icon typemarker icon-record"></div><!--icon-->
-		</div><!--pure-->
+		</header>
 		<div class="release">
 			<div class="pure-u-1 pure-u-md-1-3">
 				<!--<style type="text/css">
@@ -189,14 +189,15 @@
 				{{/asset_codes_count}}
 				</p>
 				<form id="export-dwnld-codes" accept-charset="UTF-8" method="post" action="{{www_path}}/assets/edit/{{id}}">
-					<label for="add_codes_qty">Add (qty) more codes:</label>
-					<div class="pure-u-1 pure-u-md-1-2">
+					<div class="pure-u-1"><label for="add_codes_qty">Add (qty) more codes:</label></div><!--label-->
+					<div class="pure-u-1 pure-u-md-1-3">
 						<input type="text" name="add_codes_qty" id="add_codes_qty" value="500" />
 					</div><!--pure-->
-					<div class="pure-u-1 pure-u-md-1-2">
-						<button type="submit"><div class="icon icon-list"></div><!--icon--> add codes</button>
-						</form>
+					<div class="pure-u-1 pure-u-md-2-3">
+						<button class="right" type="submit"><div class="icon icon-list"></div><!--icon--> add codes</button>
 					</div><!--pure-->
+				</form>
+		
 		</div><!--pref-inner-->
 	</div><!--pure-->
 	<div class="pure-u-1 pure-u-md-1-2">

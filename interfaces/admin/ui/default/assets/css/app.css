@@ -615,7 +615,7 @@ h1,h2,h3,h4,h5{
 
 h2{ font-size:28px; line-height:32px;}
 h3{ font-size:20px; line-height:28px;}
-h4{ font-size:30px; line-height:36px; margin:10px 0 20px 0; }
+h4{ font-size:30px; line-height:36px; margin:0 0 20px 0; }
 h5{ font-size:18px; line-height:26px;}
 
 /* Text Types */
@@ -1799,7 +1799,7 @@ font-size: 16px;
 
 .inline_subnav{
 	list-style-type: none;
-	margin:10px 0 20px 0;
+	margin:0 0 20px 0;
 	padding:0;
 	text-align: left;
 }
@@ -2425,7 +2425,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00cf7f', end
 
 #mainspc.usecolor3 a, #mainspc.usecolor3 button, #mainspc.usecolor3 #stats .total span, .usecolor3 button,  .usecolor3 .button{color:#ff7c12;}
 #mainspc.usecolor3 button, #mainspc.usecolor3 .button, .usecolor3 button, .usecolor3 .button, .usecolor3 input.checkorradio {border-color:#ff7c12;}
-#mainspc.usecolor3 button:hover, #mainspc.usecolor3 .button:hover,  #mainspc.usecolor3 #stats .total, .usecolor3 button:hover, .usecolor3 .button:hover,.usecolor3 select{background:#ff7c12;color:#f5f5f5;}
+#mainspc.usecolor3 button:hover, #mainspc.usecolor3 .button:hover, .usecolor3 button:hover, .usecolor3 .button:hover,.usecolor3 select{background:#ff7c12;color:#f5f5f5;}
 .usecolor3 input.checkorradio:checked {background-color:#ff7c12;}
 
 #mainspc.usecolor4 a, #mainspc.usecolor4 button, .usecolor4 button,  .usecolor4 .button{color:#6a38fa;}
@@ -2526,6 +2526,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00cf7f', end
 	overflow: hidden;
 }
 
+#page_content header{
+	padding:15px 0;
+	display: block;
+}
+
 /* Secondary Title*/
 
 .secondary-title{
@@ -2558,18 +2563,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00cf7f', end
 	margin:0 0 20px 0;
 	text-decoration: none;
 	color:#f5f5f5;
-	float:left;
 	width:40px;
 	height:40px;
 	border:solid 3px #333;
-	/*background:#00cf7f;*/
 	-webkit-border-radius: 500px;
 	-moz-border-radius: 500px;
 	border-radius: 500px;
-	/*text-indent: -5000em;*/
-	text-align: right;
 	padding:10px 11px 0 0;
-	display: block;
+	display: inline-block;
+	vertical-align: top;
 }
 
 
@@ -3311,7 +3313,7 @@ ul.alternating li .actions a{
 }
 
 .alternating .item .info .descriptive{
-	display: block;
+	display: inline-block;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	transition:0.3s ease-in-out;
@@ -3375,6 +3377,10 @@ ul.people.alternating li a span{
 
 .commerce.alternating{
 	margin:0 0 30px 0;
+}
+
+.commerce.order .item{
+	padding:10px 0;
 }
 
 .commerce .item .assetlink{
@@ -3473,9 +3479,13 @@ ul.people.alternating li a span{
 	border-radius: 0;
 }
 
+.commerce.order .item .info strong{
+	margin:0 10px 0 0;
+}
+
 .commerce .item .amount{
 	font-size:24px;
-	margin:30px 100px 0 0;
+	margin:24px 100px 0 0;
 	display: inline-block;
 	float: right;
 	color:#adadad;
@@ -3583,23 +3593,34 @@ ul.alternating li .more.display .toggle{
 #snapshot{
 	margin:0 0 20px 0;
 	padding:0;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	background: rgb(214,214,214); /* Old browsers */
+	background: -moz-linear-gradient(top,  rgba(214,214,214,1) 0%, rgba(227,227,227,1) 100%, rgba(227,227,227,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(214,214,214,1)), color-stop(100%,rgba(227,227,227,1)), color-stop(100%,rgba(227,227,227,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  rgba(214,214,214,1) 0%,rgba(227,227,227,1) 100%,rgba(227,227,227,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  rgba(214,214,214,1) 0%,rgba(227,227,227,1) 100%,rgba(227,227,227,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  rgba(214,214,214,1) 0%,rgba(227,227,227,1) 100%,rgba(227,227,227,1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  rgba(214,214,214,1) 0%,rgba(227,227,227,1) 100%,rgba(227,227,227,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d6d6d6', endColorstr='#e3e3e3',GradientType=0 ); /* IE6-9 */
 }
 
 #snapshot .snapshot-inner{
 	margin:0;
-	/*padding:30px;*/
-	height:150px;
-	/*background:#dbdbdb;
-	border: solid 1px #cbcbcb;*/
+	padding:30px;
+	/*height:150px;*/
+	/*background:#dbdbdb;*/
+	/*border-top: solid 1px #cbcbcb;*/
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 }
 
 #snapshot .snapshot-inner h4 {
-	font-size: 18px;
+	font-size: 16px;
 	line-height: 20px;
-	margin:0 0 30px 0;
+	margin:0 0 20px 0;
 }
 
 #snapshot .snapshot-inner ul{
@@ -4066,17 +4087,17 @@ label.checklabel{
 	color:#4d4d4d;
 }
 
-.modallightbox button, .modallightbox .button{
+.modallightbox button, .modallightbox .button,.modaldialog .button, .modaldialog button{
 	color:#f5f5f5;
 	background: #00cf7f;
 	border:none;
 	margin:30px 5px 0 0;
 }
 
-.usecolor2 .modallightbox button, .usecolor2 .modallightbox .button{ background: #fa3838; }
-.usecolor3 .modallightbox button, .usecolor3 .modallightbox .button{ background: #ff7c12; }
-.usecolor4 .modallightbox button, .usecolor4 .modallightbox .button{ background: #6a38fa; }
-.usecolor5 .modallightbox button, .usecolor5 .modallightbox .button{ background: #fa3866; }
+.usecolor2 .modallightbox button, .usecolor2 .modallightbox .button,  .usecolor2 .modaldialog .button, .usecolor2 .modaldialog button { background: #fa3838; }
+.usecolor3 .modallightbox button, .usecolor3 .modallightbox .button,  .usecolor3 .modaldialog .button, .usecolor3 .modaldialog button { background: #ff7c12; }
+.usecolor4 .modallightbox button, .usecolor4 .modallightbox .button,  .usecolor4 .modaldialog .button, .usecolor4 .modaldialog button { background: #6a38fa; }
+.usecolor5 .modallightbox button, .usecolor5 .modallightbox .button,  .usecolor5 .modaldialog .button, .usecolor5 .modaldialog button { background: #fa3866; }
 
 .modallightbox button:hover, .modallightbox .button:hover{
 	background:#111;
@@ -4355,7 +4376,7 @@ width:100%;
 
 /* Inline Statistics */
 
-.totalviews{ font-size: 72px; margin:0; display: inline-block;}
+.totalviews{ font-size: 72px; line-height: 60px; margin:0; display: inline-block;}
 .percentage{ font-size: 38px; margin:0 0 0 5px; display: inline-block; }
 .percentage .icon{  font-size: 26px; color:#00cf7f; width:26px; height:26px; vertical-align:baseline; margin:0 3px 0 10px; }
 
@@ -4760,14 +4781,10 @@ width:100%;
 	overflow:auto;
 }
 
-.artist-info{
-	margin:15px 0;
-}
-
 .typemarker{
 	display: block;
 	position: absolute;
-	top:130px;
+	top:115px;
 	right:10px;
 	width:32px;
 	height:32px;
@@ -4875,6 +4892,7 @@ width:100%;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	margin:10px;
+	padding:0;
 	overflow: auto;
 }
 
@@ -5157,21 +5175,20 @@ width:100%;
 }
 
 #stats{
-	overflow: auto;
-	margin:0 0 5% 0;
+	padding:0;
+	margin:0 0 30px 0;
 }
 
 #stats p{
-	font-size: 16px;
+	font-size: 14px;
 	float:left;
-	padding:2%;
+	padding:20px 0 0 0;
 	text-align: center;
 	width:100%;
-	height:150px;
 	background:#eee;
 	border: solid 1px #ddd;
 	color:#222;
-	margin:1% 1% 1% 0;
+	margin:0;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -5182,22 +5199,15 @@ width:100%;
 	display:block;
 	text-align: center;
 	font-size:50px;
-	margin:2% 0 0 0;
+	margin:20px 0 0 0;
 	line-height: 100px;
 	background:#f5f5f5;
 	color:#222;
-	position:absolute;
-	bottom:5%;
-	width:95%;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 }
 
-#stats .total{
-	color:#f5f5f5;
-	background:#222;
-}
 
 
 #stats .total span{
@@ -5324,8 +5334,9 @@ html{
 /* Asset Type marker */
 
 .typemarker{
-	top:150px;
+	top:130px;
 	right:30px;
+	vertical-align: bottom;
 }
 
 /* Pure Grid Gutters */
@@ -5749,17 +5760,6 @@ button, .button, #modallightbox .modalcancel{
 	width:9%;
 }
 
-#stats p{
-	width:32.3%;
-	min-height:200px;
-}
-
-#stats span{
-	font-size:60px;
-	bottom:8%;
-	width:88%;
-}
-
 /* Date Picker */
 
 #ui-datepicker-div{
@@ -5957,7 +5957,7 @@ td{display:table-cell; vertical-align: inherit;}
 /* Asset Type marker */
 
 .typemarker{
-	top:130px;
+	top:120px;
 }
 
 #header{
@@ -6001,7 +6001,7 @@ section[role=main]{
 
 .commerce .item .amount{
 	font-size:48px;
-	margin:15px 100px 0 0;
+	margin:8px 100px 0 0;
 	display: inline-block;
 }
 
