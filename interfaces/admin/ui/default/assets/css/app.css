@@ -262,7 +262,7 @@ p{
 	border-radius: 3px;
 	border: solid 1px #ddd;
 	text-align: left;
-	margin:30px 0;
+	margin:30px 0 0 0;
 	padding:30px;
 }
 
@@ -1132,7 +1132,7 @@ div.switchblock div.show {display:block;}
 /* Element Statistics */
 
 .statoverview{
-	margin:5% 0;
+	margin:20px 0;
 	overflow: auto;
 }
 
@@ -1340,7 +1340,7 @@ div.switchblock div.show {display:block;}
 
 #mainspc{
 	padding:0;
-	height:100%;
+	height:auto;
 	position:relative;
 	z-index:5;
 	background:#e3e3e3;
@@ -3058,22 +3058,34 @@ table{
 }
 
 table tr th{
-	background:#222;
+	background: rgb(214,214,214); /* Old browsers */
+	background: -moz-linear-gradient(top,  rgba(214,214,214,1) 0%, rgba(227,227,227,1) 100%, rgba(227,227,227,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(214,214,214,1)), color-stop(100%,rgba(227,227,227,1)), color-stop(100%,rgba(227,227,227,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  rgba(214,214,214,1) 0%,rgba(227,227,227,1) 100%,rgba(227,227,227,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  rgba(214,214,214,1) 0%,rgba(227,227,227,1) 100%,rgba(227,227,227,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  rgba(214,214,214,1) 0%,rgba(227,227,227,1) 100%,rgba(227,227,227,1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  rgba(214,214,214,1) 0%,rgba(227,227,227,1) 100%,rgba(227,227,227,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d6d6d6', endColorstr='#e3e3e3',GradientType=0 ); /* IE6-9 */
 	background-position: center;
-	color:#f5f5f5;
-	text-align:center!important;
+	color:#222;
+	padding:20px 15px;
+	text-align:left
 }
 
-table tr:nth-child(odd){
-	background:#f5f5f5;
-	padding:0!important;
+table tr{
+	background:#fff;
+}
+
+table tr:nth-child(even){
+	background:#eee;
 	margin:0;
+	border-bottom:solid 1px #ddd;
 }
 
 table td{
-	padding:2%;
+	padding:15px;
 	margin:0;
-	text-align:center!important;
+	/*text-align:center!important;*/
 	word-wrap:break-word;
 }
 
@@ -3635,9 +3647,11 @@ ul.alternating li .more.display .toggle{
 #snapshot .snapshot-inner h4 a{
 	background:#bbb;
 	color:#f5f5f5;
-	padding:2px 10px;
+	padding:5px 10px;
+	margin:-5px 0 0 0;
 	display: block;
-	font-size: 12px;
+	float: right;
+	font-size: 14px;
 	text-decoration: none;	
 	-webkit-border-radius: 50px;
 	-moz-border-radius: 50px;
@@ -3646,6 +3660,7 @@ ul.alternating li .more.display .toggle{
 
 #snapshot .snapshot-inner h4 a:hover{
 	background:#222;
+	color:#f5f5f5;
 }
 
 #snapshot .snapshot-inner ul{
