@@ -643,6 +643,9 @@ small{
 
 /* Helpers */
 
+div.switchblock div {display:none;}
+div.switchblock div.show {display:block;}
+
 .firstuse-title .disclaimer{
 	display:block;
 	font-size: 16px;
