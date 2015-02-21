@@ -2,11 +2,11 @@
 
 @font-face {
   font-family: "cashmusic";
-  src:url("../fonts/cashmusic.eot");
-  src:url("../fonts/cashmusic.eot?#iefix") format("embedded-opentype"),
-    url("../fonts/cashmusic.woff") format("woff"),
-    url("../fonts/cashmusic.ttf") format("truetype"),
-    url("../fonts/cashmusic.svg#cashmusic") format("svg");
+  src:url("fonts/cashmusic.eot");
+  src:url("fonts/cashmusic.eot?#iefix") format("embedded-opentype"),
+    url("fonts/cashmusic.woff") format("woff"),
+    url("fonts/cashmusic.ttf") format("truetype"),
+    url("fonts/cashmusic.svg#cashmusic") format("svg");
   font-weight: normal;
   font-style: normal;
 
@@ -46,9 +46,6 @@
 }
 .icon-ext-link:before {
   content: "d";
-}
-.icon-arw-up:before {
-  content: "e";
 }
 .icon-ban:before {
   content: "f";
@@ -152,9 +149,6 @@
 .icon-bulb-o:before {
   content: "L";
 }
-.icon-circle-plus:before {
-  content: "N";
-}
 .icon-warn:before {
   content: "a";
 }
@@ -163,4 +157,16 @@
 }
 .icon-nothing:before {
   content: "Q";
+}
+.icon-circle-plus:before {
+  content: "N";
+}
+.icon-arw-up:before {
+  content: "e";
+}
+.icon-truck:before {
+  content: "P";
+}
+.icon-file-block:before {
+  content: "R";
 }
