@@ -1133,10 +1133,12 @@
 				// is me. lovable, huggable, grover.
 				var d = $(this).data('default');
 				$(d).addClass('show'); // show the default thing
-				w.change(function() {
-					// hide on change
-					$(d).removeClass('show');
-				});
+				if (d !== c) {
+					w.change(function() {
+						// hide on change
+						$(d).removeClass('show');
+					});
+				}
 			}
 		});
 	}

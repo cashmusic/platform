@@ -50,10 +50,19 @@
 					<select id="change_template_id" name="change_template_id">{{{template_options}}}</select>
 				</div><!--pure-->
 				<div class="pure-u-1 pure-u-md-1-2">
-					<button class="right" type="submit">Change style</button>
-					{{#custom_template}}
-						<a href="{{www_path}}/elements/templates/edit/{{template_id}}/embed/parent/{{id}}" class="button lightboxed right">Edit custom embed</a>
-					{{/custom_template}}
+					<div class="switchblock" 
+						data-watch="#change_template_id" 
+						data-default="#changestyle" 
+						data-change="#changestyle" 
+						data-special='{"val":"0","target":"#editbutton"}'
+					>
+						<div id="editbutton">
+							<a href="{{www_path}}/elements/templates/edit/{{template_id}}/embed/parent/{{id}}" class="button lightboxed right">Edit custom embed</a>
+						</div>
+						<div id="changestyle">
+							<button class="right" type="submit">Change style</button>
+						</div>
+					</div>
 				</div><!--pure-->
 		</form>
 	</div><!--selecta-->
