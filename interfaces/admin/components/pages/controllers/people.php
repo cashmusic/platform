@@ -102,7 +102,7 @@ if (is_array($list_response['payload'])) {
 		} elseif ($list['analytics_last_week'] < 0) {
 			$list['analytics_icon'] = 'lg-arw down';
 		} else {
-			$list['analytics_icon'] = 'nothing';
+			$list['analytics_icon'] = 'lg-arw nochange';
 		}
 	}
 

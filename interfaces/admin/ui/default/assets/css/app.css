@@ -3370,10 +3370,13 @@ ul.people.alternating li a span{
 
 }
 
-.people .item .stats .icon.icon-nothing{
-	font-size: 24px;
+.people .item .stats .icon.nochange{
+	margin:-10px 10px 0 0;
 	color:#adadad;
 	opacity:0.3;
+	-ms-transfrom:rotate(-90deg);
+	-webkit-transform:rotate(-90deg);
+	transform:rotate(-90deg);
 }
 
 .people .item:hover .stats{
