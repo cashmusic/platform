@@ -3421,6 +3421,7 @@ ul.people.alternating li a span{
 	border-bottom-left-radius: 3px;
 }
 
+
 .commerce .item .assetlink.unlink{
 	background:#afafaf;
 }
@@ -3469,6 +3470,25 @@ ul.people.alternating li a span{
 	overflow: hidden;
 	color:rgba(34,34,34,0.5);
 }
+
+.commerce .item .assetlink.physical .icon{
+	display: none;
+}
+
+.commerce .item .assetlink.physical .icon.physical{
+	/*font-size: 30px;
+	position: absolute;
+	top:5px;
+	left:10px;
+	height:25px;
+	width:35px;
+	vertical-align: top;
+	margin:0;
+	padding:0;
+	color:#f5f5f5;*/
+	display: block;
+}
+
 
 .commerce .item .assetlink.unlink .icon{
 	color:#f5f5f5;

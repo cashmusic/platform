@@ -6,8 +6,9 @@
 			<li>
 				<div class="item">
 					
-					<div class="assetlink{{#physical_fulfillment}} physical{{/physical_fulfillment}}">
+					<div class="assetlink {{#physical_fulfillment}}physical{{/physical_fulfillment}}">
 						<div class="icon {{#fulfillment_asset}}icon-{{#release_asset}}record{{/release_asset}}{{^release_asset}}file-block{{/release_asset}}{{/fulfillment_asset}}{{^fulfillment_asset}}icon-warning{{/fulfillment_asset}} "></div><!--icon-->
+						{{#physical_fulfillment}}<div class="physical icon icon-truck"></div><!--icon-->{{/physical_fulfillment}}
 					</div>
 					{{^fulfillment_asset}}
 					<div class="assetlink unlink">

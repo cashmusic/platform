@@ -164,9 +164,9 @@
 .icon-arw-up:before {
   content: "e";
 }
-.icon-truck:before {
-  content: "P";
-}
 .icon-file-block:before {
   content: "R";
+}
+.icon-truck:before {
+  content: "P";
 }
