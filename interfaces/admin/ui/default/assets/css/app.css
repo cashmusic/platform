@@ -3391,6 +3391,28 @@ ul.people.alternating li a span{
 	-webkit-border-radius:0;
 }
 
+/* People Press Links */
+.press-links {
+	list-style-type: none;
+}
+
+.press-links li{
+	background:#eee;
+	margin:0 0 3px 0;
+	padding:20px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.press-links li a{
+	display: block;
+	margin:5px 0;
+}
+
+.press-links li span{
+	display: block;
+}	
 /* Commerce Specific Lists */
 
 .commerce.alternating{
