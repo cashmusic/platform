@@ -1,7 +1,8 @@
 	<div class="pure-u-1 pure-u-md-1-2">
+		<header>
 		<h4>Quick add a venue</h4>
-		<p>Quickly add a venue with just the basics.</p>
-
+		</header>
+		<p>Quickly add a venue with just the basics,<br /> or alternatively <a class="lightboxed" href="{{www_path}}/calendar/venues/add/">Add a venue with all details</a>.</p>
 		<form accept-charset="UTF-8" method="post" action="{{www_path}}/calendar/venues/add/" name="quick_add_venue">
 			<input type="hidden" name="dovenueadd" value="makeitso" />
 
@@ -24,9 +25,9 @@
 		</form>
 	</div><!--pure-->
 	<div class="pure-u-1 pure-u-md-1-2">
-		<h4>Add a venue</h4>
-		<p><a href="{{www_path}}/calendar/venues/add/">Add a venue with all details.</a></p>
+		<header>
 		<h4>All venues</h4>
+		</header>
 		{{#all_venues}}
 		<ul class="alternating">
 			{{#all_venues}}

@@ -2529,7 +2529,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00cf7f', end
 }
 
 #page_content header{
-	padding:15px 0;
+	padding:10px 0;
 	display: block;
 }
 
@@ -3665,7 +3665,7 @@ ul.alternating li .more.display .toggle{
 /* Analytics Snapshots */
 
 #snapshot{
-	margin:0 0 20px 0;
+	margin:0;
 	padding:0;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
