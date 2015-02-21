@@ -61,6 +61,9 @@ if (is_array($session_news['activity']['lists'])) {
 	}
 }
 
+//Any Notifications?
+$cash_admin->page_data['dashboard_active'] = $session_news['activity']['lists'] || $session_news['activity']['orders'];
+
 $cash_admin->page_data['dashboard_lists'] = $session_news['activity']['lists'];
 if ($session_news['activity']['orders']) {
 	$cash_admin->page_data['dashboard_orders'] = count($session_news['activity']['orders']);
@@ -70,6 +73,7 @@ if ($session_news['activity']['orders']) {
 } else {
 	$cash_admin->page_data['dashboard_orders'] = false;
 }
+
 
 
 

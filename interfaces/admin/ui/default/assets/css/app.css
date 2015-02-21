@@ -2844,7 +2844,7 @@ fieldset{
 
 .callout.newsfeed{
 	color:rgba(13,13,13,0.5);
-	background:#222;
+	background:#eee;
 	background-repeat: no-repeat;
 	background-position: center top;
 	background-attachment: fixed;
@@ -2855,6 +2855,7 @@ fieldset{
 	border:none;
 	padding:20px;
 	margin:0 0 5px 0;
+	position: relative;
 }
 
 .callout.newsfeed .details{
@@ -2887,16 +2888,26 @@ fieldset{
 	text-decoration: none;
 }
 
+/* Special Colours */
+
+.callout.newsfeed.commerce .action a{
+	background:#6a38fa;
+}
+
+.callout.newsfeed.people .action a{
+	background:#ff7c12;
+}
+
 .callout.newsfeed .action a:hover{
 	background:#222;
 	color:#f5f5f5;
 }
 
-.callout.newsfeed .details strong{ color:#f5f5f5;}
+.callout.newsfeed.commerce .details strong, .callout.newsfeed.commerce .details .icon{ color:#6a38fa;}
+.callout.newsfeed.people .details strong, .callout.newsfeed.people .details .icon { color:#ff7c12;}
 
-.callout.newsfeed.commerce{ background:#6a38fa; }
-.callout.newsfeed.people{ background:#ff7c12; }
 
+/* Drawers */
 
 .drawer{
 	width:100%;
@@ -4476,6 +4487,10 @@ width:100%;
 	overflow: auto;
 }
 
+#campaigns.notifications{
+	margin-top:20px;
+}
+
 .campaign{
 	height:300px;
 	margin:0;
@@ -5525,7 +5540,7 @@ section[role=main].hero, .login section[role=main]{
 }
 
 #campaigns .associated .elements{
-	height:300px;
+	height:250px;
 }
 
 #campaigns .associated .add{
@@ -5585,11 +5600,6 @@ section[role=main].hero, .login section[role=main]{
 	padding:0;
 } 
 
-/* Zero Clipboard Quick Copy */
-
-#pagedisplay .ql.copy{
-	display: inline-block;
-}
 
 /* Special Selection Dropdown */
 
@@ -6039,6 +6049,12 @@ td{display:table-cell; vertical-align: inherit;}
     WIDE - (Desktop/Laptop)
    ==================== */
 
+/* Zero Clipboard Quick Copy */
+
+#pagedisplay .ql.copy{
+	display: inline-block;
+}
+
 /* Asset Type marker */
 
 .typemarker{
@@ -6080,6 +6096,12 @@ section[role=main]{
 
 #pagetitle{
 	/*padding:6% 0 0 3.8%;*/
+}
+
+/* Campaigns */
+
+#campaigns .associated .elements{
+	height:300px;
 }
 
 /* Commerce */
