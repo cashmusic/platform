@@ -36,8 +36,30 @@ $current_element = $cash_admin->setCurrentElement($request_parameters[0]);
 				);
 			}
 
+			$tmp_locations_array = array(); // temp array to combine totals by hostname
+			foreach ($locations_array as $key => $location) {
+				// cycle through all locations, push to temp array and combine if necessary
+				$parsed = parse_url($location['access_location']);
+				// fix when &access_token is set without an initial ? query
+				$better_path = explode('&access_token', $parsed['path']);
+				$path = $better_path[0];
+				if (isset($tmp_locations_array[$parsed['host'] . $path])) {
+					$tmp_locations_array[$parsed['host'] . $path] = $tmp_locations_array[$parsed['host'] . $path] + $location['total'];
+				} else {
+					$tmp_locations_array[$parsed['host'] . $path] = $location['total'];
+				}
+			}
+			arsort($tmp_locations_array); // sort temp array most to least
+
+			$locations_array = array(); // let's rebuild the locations array
+			foreach ($tmp_locations_array as $location => $total) {
+				$locations_array[] = array(
+					'access_location' => $location,
+					'total' => $total
+				);
+			}
+
 			$cash_admin->page_data['location_analytics'] = new ArrayIterator($locations_array);
-			$cash_admin->page_data['method_analytics'] = new ArrayIterator($methods_array);
 		}
 
 $cash_admin->page_data['ui_title'] = '' . $current_element['name'] . '';

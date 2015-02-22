@@ -1,27 +1,6 @@
 <header>
-		<a class="returnlink current" href="{{www_path}}/elements/edit/{{id}}"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">Statistics for &dash; &ldquo;{{ui_title}}&rdquo;</h4>
+		<a class="returnlink current" href="{{www_path}}/elements/edit/{{id}}"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">&ldquo;{{ui_title}}&rdquo; statistics</h4>
 </header>
-
-		{{#location_analytics}}
-		<div id="snapshot">
-		<div class="pure-u-1 pure-u-md-1-3">
-			<div class="snapshot-inner">
-			<h4>Total Unique Views</h4>
-				<h5 class="totalviews">{{total_views}}</h5>
-			</div><!--snapshot-inner-->
-			</div><!--pure-->
-			<div class="pure-u-1 pure-u-md-2-3">
-				<div class="snapshot-inner">
-					<h4>Top Embed Locations</h4>
-					<ul>
-						{{#location_analytics}}
-							<li><a href="{{access_location}}" target="_blank"><span><strong>{{total}}</strong></span><span class="location">{{access_location}}</span></a></li>
-						{{/location_analytics}}
-					</ul>
-				</div><!--snapshot-inner-->
-			</div><!--pure-->
-		</div><!--snapshot-->
-		{{/location_analytics}}
 
 	{{#location_analytics}}
 	<div class="statoverview">
@@ -46,26 +25,5 @@
 					</tbody>
 				</table>
 			{{/location_analytics}}
-
-			{{#method_analytics}}
-				<h5>Views by request method</h5>
-				<table style="width:100%;" class="responsive">
-					<colgroup style="width:85%;" /><colgroup />	
-					<thead>
-						<tr>
-							<th scope="col">Request method</th>
-							<th scope="col">Views</th>
-						</tr>
-					</thead>
-					<tbody>
-					{{#method_analytics}}
-					<tr>
-						<td>{{access_method}}</td>
-						<td>{{total}}</td>
-					</tr>
-					{{/method_analytics}}
-					</tbody>
-				</table>
-			{{/method_analytics}}
 		</div>
 {{/location_analytics}}
