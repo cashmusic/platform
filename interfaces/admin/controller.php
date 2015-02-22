@@ -46,6 +46,7 @@ spl_autoload_register('cash_admin_autoloadCore');
 $cash_admin = new AdminCore($admin_primary_cash_request->sessionGet('cash_effective_user'),$admin_primary_cash_request);
 $cash_admin->mustache_groomer = new Mustache;
 $cash_admin->page_data['www_path'] = ADMIN_WWW_BASE_PATH;
+$cash_admin->page_data['public_url'] = CASH_PUBLIC_URL;
 $cash_admin->page_data['platform_version'] = CASHRequest::$version;
 
 // basic script vars

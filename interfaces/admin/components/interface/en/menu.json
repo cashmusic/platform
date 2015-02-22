@@ -64,6 +64,8 @@
 		{"page_name":"Delete element", "menu_icon":"", "hide":true},
 	"elements/edit":
 		{"page_name":"Edit element", "menu_icon":"", "hide":true},
+	"elements/preview":
+		{"page_name":"Preview element", "menu_icon":"", "hide":true},
 	"elements/stats":
 		{"page_name":"Statistics element", "menu_icon":"", "hide":true},
 	"elements/templates":

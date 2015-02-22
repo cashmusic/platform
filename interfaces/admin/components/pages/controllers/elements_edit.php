@@ -120,7 +120,6 @@ if ($current_element) {
 				}
 			}
 			$cash_admin->page_data['ui_title'] = '' . $current_element['name'] . '';
-			$cash_admin->page_data['public_url'] = CASH_PUBLIC_URL;
 			$cash_admin->page_data['element_button_text'] = 'Edit the element';
 			$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render(AdminHelper::getElementTemplate($current_element['type']), $cash_admin->page_data);
 		}
