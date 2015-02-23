@@ -68,14 +68,14 @@
                  		
     if (Math.abs(window.orientation) === 90) {
         	// Landscape
-        	console.log('Landscape');
+        	// console.log('Landscape');
         	$('html').removeClass('portrait');
         	$('html').addClass('landscape');
         	// No menu panel obstruction
         	$('#navmenu, #menutoggle').removeClass('display');
     	} else {
     		// Portrait
-    		console.log('Portrait');
+    		// console.log('Portrait');
     		$('html').removeClass('landscape');
     		$('html').addClass('portrait');
     		// No menu panel obstruction
@@ -94,7 +94,7 @@
 		}
 
    	 	else if ($('body').hasClass("swipeleft")){
-   	 		console.log('swipeleft  - nah you already good');
+   	 		//console.log('swipeleft  - nah you already good');
    	 		//do nothing
    	 	}
    	 	else {
@@ -109,7 +109,7 @@
 		}
 
    	 	else if ($('body').hasClass("swiperight")){
-   	 		console.log('swiperight  - nah you already good');
+   	 		//console.log('swiperight  - nah you already good');
    	 		//do nothing
    	 	}
    	 	else {
@@ -187,7 +187,7 @@
 					doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
 				} else {
 					if (data.initiallogin) {
-						console.log('login');
+						//console.log('login');
 						$('body').removeClass('login');
 						$('#loadingmask').css('width','1%');
 					}
@@ -560,42 +560,43 @@
 		//Reveal the header
 		$('#cnvs').addClass('hero');
 			
-		window.globaltimeout = window.setTimeout(function(){
-			
-			var clr = new Array("RED", "GREEN", "BLUE");
-			var swc = clr[Math.floor(Math.random() * 2)].toString(); // 0-2
-			var imno = Math.floor(Math.random() * 5) + 1 // 1-6
-			var atno = Math.floor(Math.random() * 4) + 1 // 1-5
+		var imno = Math.floor(Math.random() * 5) + 1 // 1-6
+		var atno = Math.floor(Math.random() * 4) + 1 // 1-5
 
-			// console.log('color shift: ' + swc + ', glitch: ' + imno + ', artist: ' + atno);
+		if ($('#cnvs')) {
+			var bg = new Image();
+			bg.src = cashAdminPath+"/assets/images/glitch/background/glitch"+imno+".jpg";
+			bg.addEventListener("load", function() {
+				var cnvs = document.getElementById('cnvs').getContext('2d');
 
-			cnvs = document.getElementById('cnvs');
+				//cnvs.globalAlpha = 0.6;
+				cnvs.drawImage(bg,0,0);
+				
+				olay = new Image();
+				olay.src = cashAdminPath+"/assets/images/glitch/artist/artist"+atno+".jpg";
+				olay.addEventListener("load", function() {
+											
+					cnvs.globalCompositeOperation = "screen";
+					cnvs.globalAlpha = 0.85;
+    				cnvs.drawImage(olay,0,0);
+    				cnvs.save();
 
-			if (cnvs) {
-				cnvs = cnvs.bitmapData;
-				bg = new Image();
-				bg.src = cashAdminPath+"/assets/images/glitch/background/glitch"+imno+".jpg";
-				bg.onload = function(){
-					cnvs.draw(bg);
+    				cnvs.globalCompositeOperation = "hard-light";
 
-					olay = new Image();
-					olay.src = cashAdminPath+"/assets/images/glitch/artist/artist"+atno+".jpg";
-					olay.onload = function(){
-						olayData = new BitmapData(Math.floor(Math.random() * 200) + 1, 600);
-						olayData.draw(olay);
+    				var g = cnvs.createLinearGradient(0,0,$('#cnvs').width()/2,0);
+					g.addColorStop(0,'rgba(255,0,0,0.2)');
+					g.addColorStop(1,'rgba(0,0,255,0.7)');
 
-						cnvs.copyChannel(olayData,
-							new Rectangle(0, 0, 2000, 398), 
-							new Point(0, 0), 
-							BitmapDataChannel[swc], 
-							BitmapDataChannel[swc]
-						);
+					cnvs.fillStyle=g;
 
-						$('#cnvs').addClass('display');
-					};
-				};
-			}
-		}, 100);
+					//cnvs.fillStyle = "rgba(255, 0, 0, 0.25)";
+					cnvs.fillRect(0, 0, $('#cnvs').width(), $('#cnvs').height());
+					cnvs.restore();
+
+					$('#cnvs').addClass('display');
+				}, false);
+			}, false);
+		}
 	};	
 
 
@@ -608,7 +609,7 @@
 			var url = $('#settingspanel .tertiarynav li a.current').attr('href');
 				refreshPanelData(url);
 				$('.panelcontent').addClass('display');
-				console.log('firstuse click?');
+				//console.log('firstuse click?');
 		});
 		$( "#help.toggle, .firstuse .help.toggle" ).click(function() {
 			$('#helppanel .tertiarynav li a').removeClass('current');

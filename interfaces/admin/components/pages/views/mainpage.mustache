@@ -10,9 +10,9 @@
 </div><!--modallightbox-->
 {{/has_campaigns}}
 
-{{^has_elements}}
+{{^has_campaigns}}
 <div id="learn_tip" class="page-description display" style="display: block;">If you have questions look for these page tips, help and learn buttons throughout to guide you.</div>
-{{/has_elements}}
+{{/has_campaigns}}
 
 {{#dashboard_lists}}
 	<div class="callout newsfeed people"><span class="details"><strong><div class="icon icon-list"></div><!--icon-->{{name}}:</strong> There {{#singular}}is{{/singular}}{{^singular}}are{{/singular}} <strong>{{total}}</strong> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}} on this list.</span> <span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><div class="icon icon-search"></div><!--icon-->View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><div class="icon icon-dwnld"></div><!--icon-->Export</a></span><div class="newsimage" style=""></div><!--newsimage--></div><!--newsfeed people-->
