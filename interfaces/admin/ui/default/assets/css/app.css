@@ -2506,9 +2506,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b300cf7f', e
 
 .itemnav, .drawercontent{
 	padding:20px;
-	background:#d6d5d5;
-	border:solid 1px #ddd;
-		-webkit-border-radius: 3px;
+	background:#dbdbdb;
+	color:#696969;
+	border: 1px solid #cbcbcb;
+	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 }
@@ -2971,8 +2972,9 @@ fieldset{
 }
 
 .drawerhandle{
-	border:solid 1px #ccc;
-	background:#efefef;
+	background:#dbdbdb;
+	color:#696969!important;
+	border: 1px solid #cbcbcb;
 	margin:0;
 	padding:10px;
 	-webkit-border-radius: 3px;
