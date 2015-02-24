@@ -72,10 +72,10 @@
 						</p>
 						<form accept-charset="UTF-8" method="post" action="{{www_path}}/assets/edit/{{id}}">
 						<div class="pure-u-1"><label for="add_codes_qty">Add (qty) more codes</label></div><!--label-->
-							<div class="pure-u-1 pure-u-md-1-3">
+							<div class="pure-u-1 pure-u-md-12-24">
 								<input type="text" name="add_codes_qty" id="add_codes_qty" value="500" />
 							</div><!--pure-->
-							<div class="pure-u-1 pure-u-md-2-3">
+							<div class="pure-u-1 pure-u-md-12-24">
 								<button class="right" type="submit">Add codes</button>
 							</div><!--pure-->
 						</form>
@@ -84,7 +84,8 @@
 		<div class="pure-u-1 pure-u-md-1-2">
 			<div class="pref-inner">
 				<h5><div class="icon icon-card"></div><!--icon--> Selling out?</h5>
-				<a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="lightboxed returntocurrentroute"><span>Define commerce settings</span></a>
+				<p>Define the commerce settings for below if you would like to sell this release online.</p>
+				<a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="button fullwidth lightboxed returntocurrentroute"><span>Define commerce settings</span></a>
 			</div><!--pref-inner-->
 		</div><!--pure-->
 </div><!--prefpanel-->
