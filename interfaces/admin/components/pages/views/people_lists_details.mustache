@@ -1,5 +1,13 @@
+<div class="pure-u-1">
+<header>
+		<a class="returnlink current" href="{{www_path}}/people/lists/view/{{id}}"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">&ldquo;{{ui_title}}&rdquo;</h4>
+</header>
+</div><!--pure-->
+
+
 <h4>Edit List</h4>
-<div class="pure-u-1 pure-u-md-1-2">
+<div class="pure-u-1">
+<p>Need to add a lot of contacts to the list in a hurry? <a href="">Batch add contacts</a>.</p>
 		<form accept-charset="UTF-8" method="post" action="{{www_path}}{{requested_route}}">
 			<input type="hidden" name="{{form_state_action}}" value="makeitso" />
 			<label for="list_name">Name</label>
@@ -19,8 +27,6 @@
 </div><!--pure-->
 
 <div class="pure-u-1 pure-u-md-1-2">
-	<h4>Batch add contacts</h4>
-		<p>Need to add a lot of contacts to the list in a hurry?</p>
 		<div class="drawer">
 			<div class="drawercontent">
 				<form accept-charset="UTF-8" name="batchaddcontacts" method="post" action="{{www_path}}{{requested_route}}">

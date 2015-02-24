@@ -55,7 +55,7 @@ $current_response = $cash_admin->requestAndStore(
 		'list_id' => $request_parameters[0]
 	)
 );
-$cash_admin->page_data['ui_title'] = 'People: Edit "' . $current_response['payload']['name'] . '"';
+$cash_admin->page_data['ui_title'] = '' . $current_response['payload']['name'] . '';
 
 $current_list = $current_response['payload'];
 
