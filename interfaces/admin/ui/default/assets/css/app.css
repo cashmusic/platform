@@ -4568,7 +4568,7 @@ width:100%;
 	position:absolute;
 	top:0;
 	left:0;   
-	opacity:0.6;
+	opacity:0.7;
 	-webkit-animation: adjustHue 20s alternate infinite;
 	-webkit-transition: 2s  ease-in-out;
 	-moz-transition: 2s  ease-in-out;
