@@ -2,11 +2,11 @@
 
 @font-face {
   font-family: "cashmusic";
-  src:url("../fonts/cashmusic.eot");
-  src:url("../fonts/cashmusic.eot?#iefix") format("embedded-opentype"),
-    url("../fonts/cashmusic.woff") format("woff"),
-    url("../fonts/cashmusic.ttf") format("truetype"),
-    url("../fonts/cashmusic.svg#cashmusic") format("svg");
+  src:url("fonts/cashmusic.eot");
+  src:url("fonts/cashmusic.eot?#iefix") format("embedded-opentype"),
+    url("fonts/cashmusic.woff") format("woff"),
+    url("fonts/cashmusic.ttf") format("truetype"),
+    url("fonts/cashmusic.svg#cashmusic") format("svg");
   font-weight: normal;
   font-style: normal;
 
@@ -169,4 +169,7 @@
 }
 .icon-truck:before {
   content: "P";
+}
+.icon-data:before {
+  content: "S";
 }
