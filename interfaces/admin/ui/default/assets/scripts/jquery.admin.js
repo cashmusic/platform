@@ -5,7 +5,7 @@
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2014, CASH Music
+ * Copyright (c) 2015, CASH Music
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -290,7 +290,7 @@
 		handleUploadForms();
 		elementMenuStates();
 		releaseFlip();
-		iNeedaHero();
+		glitch();
 		firstUtpHL();
 		ZclipBoard();
 		PrefPanel();
@@ -442,27 +442,6 @@
 			},'json')
 		});
 
-		/*
-		 * images for glitched heros
-		 *
-    	$([
-			cashAdminPath+"/assets/images/glitch/background/glitch1.jpg",
-			cashAdminPath+"/assets/images/glitch/background/glitch2.jpg",
-			cashAdminPath+"/assets/images/glitch/background/glitch3.jpg",
-			cashAdminPath+"/assets/images/glitch/background/glitch4.jpg",
-			cashAdminPath+"/assets/images/glitch/background/glitch5.jpg",
-			cashAdminPath+"/assets/images/glitch/background/glitch6.jpg",
-			cashAdminPath+"/assets/images/glitch/artist/artist1.jpg",
-			cashAdminPath+"/assets/images/glitch/artist/artist2.jpg",
-			cashAdminPath+"/assets/images/glitch/artist/artist3.jpg",
-			cashAdminPath+"/assets/images/glitch/artist/artist4.jpg",
-			cashAdminPath+"/assets/images/glitch/artist/artist5.jpg"
-    	]).each(function(){
-        	//$('<img/>')[0].src = this;
-        	// Alternatively you could use:
-        	(new Image()).src = this;
-   		});*/
-
 		$(document).on('click', '.revealpassword' ,function(e){
 			e.preventDefault();
 			var p = $(e.target).prev('input[type="password"]').attr('value');
@@ -543,27 +522,33 @@
 	/* Glitch Hero Background */	
 
 	function glitch(){
-		// moved preload to initial UI load
-		//
-		//
-		//
-		//
-		//
-		// TODO:
-		// the preload isn't actually speeding up load times. i've disabled it for now
-		// and will reintroduce a more comprehensive version. for now i've moved to using
-		// onload events below to guarantee all hero elements have loaded before revealing
-		// them. the setTimeout remains (but has been lowered) to give the transition 
-		// effect time to render (transion plus canvas at the same time caused the browser
-		// a little more pain than it could handle smoothly.)
+		if ($('#cnvs')) {	
+			var seed = $('#cnvs').data('seed').toString().split('').reverse();
+		
+			var imno = Math.ceil((Number(seed[0]) + 1) / 2);
+			var atno = Math.ceil((Number(seed[1]) + 1) / 2);
 
-		//Reveal the header
-		$('#cnvs').addClass('hero');
-			
-		var imno = Math.floor(Math.random() * 5) + 1 // 1-6
-		var atno = Math.floor(Math.random() * 4) + 1 // 1-5
+			var colors = [
+				// pink, purple, orange, red, green
+				"250,56,102",
+				"106,56,250",
+				"255,124,18",
+				"250,56,56",
+				"0,207,127",
+				// pink, purple, orange, red, green
+				"250,56,102",
+				"106,56,250",
+				"255,124,18",
+				"250,56,56",
+				"0,207,127"
+			];
 
-		if ($('#cnvs')) {
+			var alphas = [
+				"0.9",
+				"0.6",
+				"0.3"
+			]
+		
 			var bg = new Image();
 			bg.src = cashAdminPath+"/assets/images/glitch/background/glitch"+imno+".jpg";
 			bg.addEventListener("load", function() {
@@ -577,15 +562,15 @@
 				olay.addEventListener("load", function() {
 											
 					cnvs.globalCompositeOperation = "screen";
-					cnvs.globalAlpha = 0.85;
+					cnvs.globalAlpha = 0.9;
     				cnvs.drawImage(olay,0,0);
     				cnvs.save();
 
     				cnvs.globalCompositeOperation = "hard-light";
 
     				var g = cnvs.createLinearGradient(0,0,$('#cnvs').width()/2,0);
-					g.addColorStop(0,'rgba(255,0,0,0.2)');
-					g.addColorStop(1,'rgba(0,0,255,0.7)');
+					g.addColorStop(0,'rgba(' + colors[Number(seed[3])] + ',' + alphas[Number(seed[3]) % 3] + ')');
+					g.addColorStop(1,'rgba(' + colors[Number(seed[4])] + ',' + alphas[Number(seed[3]) % 3] + ')');
 
 					cnvs.fillStyle=g;
 
@@ -672,21 +657,6 @@
 			$('#card', this).removeClass('flipped');
 		});
 	};	
-
-	/*  Show/Hide Hero Area */
-	function iNeedaHero() {
-		if (document.getElementById("hero")) {
-			//console.log("my hero");
-			glitch();	
-			$('#pagetitle').addClass('hero');
-		} else {
-				//console.log("you ain't no hero");
-				$('section').removeClass('hero');
-		}
-		$( "#hero h5" ).click(function() {
-			$('section, #pagetitle').toggleClass('hero');
-		});
-	};
 
 	/* First use touchpoint highlight */
 	function firstUtpHL() {
