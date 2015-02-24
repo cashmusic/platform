@@ -600,7 +600,7 @@ button .icon, .button .icon{
 
 /* Uploader */
 .upload-corral .icon{
-	padding:0 10px 0 0;
+	margin:0 10px 0 0;
 }
 
 .upload-corral a{
@@ -613,6 +613,10 @@ button .icon, .button .icon{
 	color:#f5f5f5!important;
 }
 
+.upload-corral input[type=file]{
+	background:#333;
+	padding:10px;
+}
 
 /* #headers */
 
@@ -4965,6 +4969,14 @@ width:100%;
   	float:left;
   	background:rgba(34,34,34,0.5);
   	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.ghost-release{
+	height:230px;
+	background:rgba(34,34,34,0.1);
+	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 }
