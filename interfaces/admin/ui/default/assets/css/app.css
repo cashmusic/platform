@@ -4920,10 +4920,10 @@ width:100%;
 /* Featured Release */
 
 .releases{
-	background: #dbdbdb;
-	border:solid 1px #ccc;
+	/*background: #dbdbdb;
+	border:solid 1px #ccc;*/
 	margin:0 0 10px 0;
-	padding:10px;
+	/*padding:10px;*/
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -4991,7 +4991,7 @@ width:100%;
 } 
 
 .additional_releases .drawercontent{
-	padding:20px 20px 10px 20px;
+	padding:10px 10px 0px 10px;
 }
 
 .featured-release:hover{
@@ -5253,10 +5253,8 @@ width:100%;
 
 /* General Release Details Form */
 .release-general-info{
-	padding:25px;
+	padding:20px;
 	border-radius:0px;
-	border-top:solid 1px #ccc;
-	/*border-bottom:solid 1px #ccc;*/
 }
 
 /* Statistics */
