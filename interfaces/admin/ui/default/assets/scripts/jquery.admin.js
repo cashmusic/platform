@@ -522,65 +522,97 @@
 	/* Glitch Hero Background */	
 
 	function glitch(){
-		if ($('#cnvs')) {	
-			var seed = $('#cnvs').data('seed').toString().split('').reverse();
-		
-			var imno = Math.ceil((Number(seed[0]) + 1) / 2);
-			var atno = Math.ceil((Number(seed[1]) + 1) / 2);
+		if ($('#cnvs')) {
+			var dataseed = $('#cnvs').data('seed');
+			if (dataseed) {
+				var seed = dataseed.toString().split('').reverse();
+			
+				var imno = Math.ceil((Number(seed[0]) + 1) / 2);
+				var atno = Math.ceil((Number(seed[1]) + 1) / 2);
 
-			var colors = [
-				// pink, purple, orange, red, green
-				"250,56,102",
-				"106,56,250",
-				"255,124,18",
-				"250,56,56",
-				"0,207,127",
-				// pink, purple, orange, red, green
-				"250,56,102",
-				"106,56,250",
-				"255,124,18",
-				"250,56,56",
-				"0,207,127"
-			];
+				var colors = [
+					// pink, purple, orange, red, green
+					"250,56,102",
+					"106,56,250",
+					"255,124,18",
+					"250,56,56",
+					"0,207,127",
+					// pink, purple, orange, red, green
+					"250,56,102",
+					"106,56,250",
+					"255,124,18",
+					"250,56,56",
+					"0,207,127"
+				];
 
-			var alphas = [
-				"0.9",
-				"0.6",
-				"0.3"
-			]
-		
-			var bg = new Image();
-			bg.src = cashAdminPath+"/assets/images/glitch/background/glitch"+imno+".jpg";
-			bg.addEventListener("load", function() {
-				var cnvs = document.getElementById('cnvs').getContext('2d');
+				var alphas = [
+					"0.9",
+					"0.6",
+					"0.3"
+				];
 
-				//cnvs.globalAlpha = 0.6;
-				cnvs.drawImage(bg,0,0);
-				
-				olay = new Image();
-				olay.src = cashAdminPath+"/assets/images/glitch/artist/artist"+atno+".jpg";
-				olay.addEventListener("load", function() {
-											
-					cnvs.globalCompositeOperation = "screen";
-					cnvs.globalAlpha = 0.9;
-    				cnvs.drawImage(olay,0,0);
-    				cnvs.save();
+				var widths = [
+					9,
+					24,
+					60,
+					980,
+					120,
+					180,
+					210,
+					300,
+					420,
+					690
+				];
+			
+				var bg = new Image();
+				bg.src = cashAdminPath+"/assets/images/glitch/background/glitch"+imno+".jpg";
+				bg.addEventListener("load", function() {
+					var cw = $('#cnvs').width();
+					var ch = $('#cnvs').height();
+					var cnvs = document.getElementById('cnvs').getContext('2d');
 
-    				cnvs.globalCompositeOperation = "hard-light";
+					cnvs.drawImage(bg,0,0);
+					
+					olay = new Image();
+					olay.src = cashAdminPath+"/assets/images/glitch/artist/artist"+atno+".jpg";
+					olay.addEventListener("load", function() {
+												
+						cnvs.globalCompositeOperation = "screen";
+						//cnvs.globalAlpha = 0.9;
 
-    				var g = cnvs.createLinearGradient(0,0,$('#cnvs').width()/2,0);
-					g.addColorStop(0,'rgba(' + colors[Number(seed[3])] + ',' + alphas[Number(seed[3]) % 3] + ')');
-					g.addColorStop(1,'rgba(' + colors[Number(seed[4])] + ',' + alphas[Number(seed[3]) % 3] + ')');
+						var i = 0;
+						while (i < 2000) {
+							cnvs.drawImage(
+								olay,
+								(olay.width / ((Number(seed[2]) +1) * 5)) + (i / 3),
+								0,
+								widths[Number(seed[2])],
+								ch,
+								i,
+								0,
+								widths[Number(seed[2])],
+								ch
+							);	
+							i = i + widths[Number(seed[2])];
+						}
 
-					cnvs.fillStyle=g;
+	    				cnvs.save();
 
-					//cnvs.fillStyle = "rgba(255, 0, 0, 0.25)";
-					cnvs.fillRect(0, 0, $('#cnvs').width(), $('#cnvs').height());
-					cnvs.restore();
+	    				cnvs.globalCompositeOperation = "hard-light";
 
-					$('#cnvs').addClass('display');
+	    				var g = cnvs.createLinearGradient(0,0,$('#cnvs').width()/2,0);
+						g.addColorStop(0,'rgba(' + colors[Number(seed[3])] + ',' + alphas[Number(seed[3]) % 3] + ')');
+						g.addColorStop(1,'rgba(' + colors[Number(seed[4])] + ',' + alphas[Number(seed[3]) % 3] + ')');
+
+						cnvs.fillStyle=g;
+
+						cnvs.fillRect(0, 0, cw, ch);
+						cnvs.restore();
+
+						$('#cnvs').addClass('display');
+					}, false);
 				}, false);
-			}, false);
+			}
 		}
 	};	
 
