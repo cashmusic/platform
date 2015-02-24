@@ -2733,7 +2733,6 @@ fieldset{
 	padding:0 0 0px 0;
 }
 
-.callout,.fulfillment-files, .order-detail{
 .callout,.fulfillment-files{
 	background:#efefef;
 	background-repeat: no-repeat;
@@ -3622,18 +3621,15 @@ ul.people.alternating li a span{
 
 .order-detail h4{
 	background:rgba(225,225,225,0.4);
-	padding:20px;
+	margin:0 0 10px 0;
+	padding:20px 0;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 }
 
 .order-detail table{
-	margin:0 0 30px 0;
-}
-
-.order-detail p{
-	padding-left: 20px;
+	margin:0 0 10px 0;
 }
 
 
@@ -4569,11 +4565,10 @@ width:100%;
 
 .campaign #cnvs {
 	z-index: 1;
-	opacity: 0.4!important;
 	position:absolute;
 	top:0;
 	left:0;   
-	opacity:1;
+	opacity:0.6;
 	-webkit-animation: adjustHue 20s alternate infinite;
 	-webkit-transition: 2s  ease-in-out;
 	-moz-transition: 2s  ease-in-out;
