@@ -2734,6 +2734,7 @@ fieldset{
 }
 
 .callout,.fulfillment-files, .order-detail{
+.callout,.fulfillment-files{
 	background:#efefef;
 	background-repeat: no-repeat;
 	background-position: center top;
@@ -3621,7 +3622,6 @@ ul.people.alternating li a span{
 
 .order-detail h4{
 	background:rgba(225,225,225,0.4);
-	margin:0 0 30px 0;
 	padding:20px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
