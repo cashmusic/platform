@@ -40,20 +40,18 @@
 	{{#parent_id}}
 		<input type="hidden" name="parent_id" value="{{parent_id}}" />
 	{{/parent_id}}
-	
-			<div class="pure-u-1 pure-u-md-1-2 spacedtext">			
-				{{#show_make_public}}
-					<p>
-					<span class="fadedtext"><div class="icon icon-unlock"></div><!--icon--> Don't need security?</span > <a href="#" data-publicize-endpoint="{{{www_path}}}/ajax/publicizeasset/{{id}}" class="usecolor2"><span><strong>Make this file public</strong></span></a>
-					</p>
-				{{/show_make_public}}
-			</div><!--pure-->
 
-			<div class="pure-u-1">
+			<div class="pure-u-1 pure-u-md-1-2 ">
 				<button class="nojs" type="submit">Save changes</button>
 				<button class="onlyjs externalsubmit" data-cash-target-form="#edit-file-form" type="submit">Save changes</button>
 				<a href="{{www_path}}/assets/delete/{{id}}" class="button usecolor2 needsconfirmation">Delete this file</a>
 			</div><!--pure-->
+
+				{{#show_make_public}}
+			<div class="pure-u-1 pure-u-md-1-2 file-security spacedtext">			
+					<div class="icon icon-unlock"></div><!--icon--> Don't need security? <a href="#" data-publicize-endpoint="{{{www_path}}}/ajax/publicizeasset/{{id}}" class="usecolor2"><strong>Make this file public</strong></a>
+			</div><!--pure-->
+			{{/show_make_public}}
 </form>
 </div><!--pure-->
 	
