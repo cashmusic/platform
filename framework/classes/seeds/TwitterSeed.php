@@ -84,7 +84,7 @@ class TwitterSeed extends SeedBase {
 						   . '<a href="' . $login_url . '" class="button">Connect your Twitter account</a>';
 			return $return_markup;
 		} else {
-			return 'Please add default mailchimp app credentials.';
+			return 'Please add default twitter app credentials.';
 		}
 	}
 
