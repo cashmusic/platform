@@ -427,9 +427,9 @@ class CommercePlant extends PlantBase {
 		return false;
 	}
 
-	protected function getOrdersForUser($user_id,$include_abandoned=false,$max_returned=false,$since_date=0,$unfulfilled_only=0,$deep=false) {
+	protected function getOrdersForUser($user_id,$include_abandoned=false,$max_returned=false,$since_date=0,$unfulfilled_only=0,$deep=false,$skip=0) {
 		if ($max_returned) {
-			$limit = '0, ' . $max_returned;
+			$limit = $skip . ', ' . $max_returned;
 		} else {
 			$limit = false;
 		}

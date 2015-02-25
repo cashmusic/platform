@@ -1,16 +1,34 @@
 <?php
 // are we filtered? 
-$filter_key = array_search('filter', $request_parameters);
-$filter = false;
-if ($filter_key !== false) {
-	$filter = $request_parameters[$filter_key + 1];
-	if ($filter == 'week') {
-		$cash_admin->page_data['filter_week'] = true;
-	} else if ($filter == 'unfulfilled') {
-		$cash_admin->page_data['filter_unfulfilled'] = true;
-	} else {
-		$cash_admin->page_data['no_filter'] = true;
+$cash_admin->page_data['current_page'] = 1;
+$cash_admin->page_data['next_page'] = 2;
+if ($request_parameters) {
+	$filter_key = array_search('filter', $request_parameters);
+	$filter = false;
+	if ($filter_key !== false) {
+		$filter = $request_parameters[$filter_key + 1];
+		if ($filter == 'week') {
+			$cash_admin->page_data['filter_week'] = true;
+		} else if ($filter == 'unfulfilled') {
+			$cash_admin->page_data['filter_unfulfilled'] = true;
+		} else {
+			$cash_admin->page_data['no_filter'] = true;
+		}
 	}
+
+	$page_key = array_search('page', $request_parameters);
+	if ($page_key !== false) {
+		$cash_admin->page_data['current_page'] = $request_parameters[$page_key + 1];
+		$cash_admin->page_data['next_page'] = $request_parameters[$page_key + 1] + 1;
+		$cash_admin->page_data['previous_page'] = $request_parameters[$page_key + 1] - 1;
+		if ($cash_admin->page_data['previous_page'] == 1) {
+			$cash_admin->page_data['back_to_first'] = true;
+		}
+		$cash_admin->page_data['show_pagination'] = true;
+		$cash_admin->page_data['show_previous'] = true;
+	} 
+} else {
+	$cash_admin->page_data['no_filter'] = true;
 }
 
 $items_response = $cash_admin->requestAndStore(
@@ -25,7 +43,8 @@ $order_request = array(
 	'cash_request_type' => 'commerce', 
 	'cash_action' => 'getordersforuser',
 	'user_id' => $cash_admin->effective_user_id,
-	'max_returned' => 11
+	'max_returned' => 11,
+	'skip' => ($cash_admin->page_data['current_page'] - 1) * 10
 );
 if ($filter == 'unfulfilled') {
 	$order_request['unfulfilled_only'] = 1;
@@ -115,11 +134,15 @@ if (is_array($orders_response['payload'])) {
 		}
 	}
 	if (count($all_order_details) > 0) {
-		$cash_admin->page_data['orders_recent'] = new ArrayIterator($all_order_details);
-		$cash_admin->page_data['show_filters'] = true;
 		if (count($all_order_details) > 10) {
 			$cash_admin->page_data['show_pagination'] = true;
+			$cash_admin->page_data['show_next'] = true;
+			if ($cash_admin->page_data['show_previous']) {
+				$cash_admin->page_data['show_nextandprevious'] = true;
+			}
 		}
+		$cash_admin->page_data['orders_recent'] = new ArrayIterator($all_order_details);
+		$cash_admin->page_data['show_filters'] = true;
 	}
 }
 
