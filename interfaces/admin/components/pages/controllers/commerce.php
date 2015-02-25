@@ -17,6 +17,19 @@ $orders_response = $cash_admin->requestAndStore(
 	)
 );
 
+// are we filtered? 
+$filter_key = array_search('filter', $request_parameters);
+if ($filter_key !== false) {
+	$filter = $request_parameters[$filter_key + 1];
+	if ($filter == 'week') {
+		$cash_admin->page_data['filter_week'] = true;
+	} else if ($filter == 'unfulfilled') {
+		$cash_admin->page_data['filter_unfulfilled'] = true;
+	} else {
+		$cash_admin->page_data['no_filter'] = true;
+	}
+}
+
 //Commerce connection or Items present?
 $cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('commerce') || $items_response['payload']; 
 
