@@ -57,14 +57,16 @@ class S3Seed extends SeedBase {
 	*/
 
 	public static function getRedirectMarkup($data=false) {
+		// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth 
+		// calls would only happen in the admin. If this changes we can fuck around with it later.
 		$return_markup = '<h4>Amazon S3</h4>'
-					   . '<p>You\'ll need your S3 key, secret, and a bucket name to proceed. For security reasons '
-					   . 'we don\'t store your key and secret — you\'re granting permission to our own account to access the '
+					   . '<p>You\'ll need your S3 key and secret to proceed. For security reasons '
+					   . 'we don\'t store your key or secret — you\'re granting permission to our own account to access the '
 					   . 'bucket, which you can revoke any time.</p>'
 					   . '<form accept-charset="UTF-8" method="post" action="' . $data . '">'
 					   . '<label for="key">Key</label><input type="text" name="key" value="" /><br />'
 					   . '<label for="secret">Secret</label><input type="text" name="secret" value="" /><br />'
-					   . '<label for="bucket">Bucket name</label><input type="text" name="bucket" value="" /><br />'
+					   . '<input type="hidden" name="bucket" value="cashmusic.' . AdminHelper::getPersistentData('cash_effective_user') . '.' . time() . '" /><br />'
 					   . '<div><input class="button" type="submit" value="Add The Connection" /></div>'
 					   . '</form>';
 		return $return_markup;
@@ -82,8 +84,12 @@ class S3Seed extends SeedBase {
 			// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth 
 			// calls would only happen in the admin. If this changes we can fuck around with it later.
 			$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+			$connection_name = $data['bucket'] . ' (Amazon S3)';
+			if (substr($connection_name, 0, 10) == 'cashmusic.') {
+				$connection_name = 'Amazon S3 (created ' . date("M j, Y") . ')';
+			}
 			$result = $new_connection->setSettings(
-				$data['bucket'] . ' (Amazon S3)',
+				$connection_name,
 				'com.amazon',
 				array(
 					'bucket' => $data['bucket']
@@ -104,12 +110,18 @@ class S3Seed extends SeedBase {
 	public static function connectAndAuthorize($key,$secret,$bucket,$email,$auth_type='FULL_CONTROL') {
 		require_once(CASH_PLATFORM_ROOT.'/lib/S3.php');
 		$s3_instance = new S3($key,$secret);
-		$acp = $s3_instance->getAccessControlPolicy($bucket);
-		if (is_array($acp)) {
-			$acp['acl'][] = array('email' => $email,'permission'=>$auth_type);
-			return $s3_instance->setAccessControlPolicy($bucket,'',$acp);
-		} else {
-			return false;
+		$bucket_exists = $s3_instance->getBucket($bucket);
+		if (!$bucket_exists) {
+			$bucket_exists = $s3_instance->putBucket($bucket);
+		}
+		if ($bucket_exists) {
+			$acp = $s3_instance->getAccessControlPolicy($bucket);
+			if (is_array($acp)) {
+				$acp['acl'][] = array('email' => $email,'permission'=>$auth_type);
+				return $s3_instance->setAccessControlPolicy($bucket,'',$acp);
+			} else {
+				return false;
+			}
 		}
 	}
 
