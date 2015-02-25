@@ -1,24 +1,7 @@
 <?php
-
-$items_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'commerce', 
-		'cash_action' => 'getitemsforuser',
-		'user_id' => $cash_admin->effective_user_id,
-	)
-);
-
-$orders_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'commerce', 
-		'cash_action' => 'getordersforuser',
-		'user_id' => $cash_admin->effective_user_id,
-		'max_returned' => 6
-	)
-);
-
 // are we filtered? 
 $filter_key = array_search('filter', $request_parameters);
+$filter = false;
 if ($filter_key !== false) {
 	$filter = $request_parameters[$filter_key + 1];
 	if ($filter == 'week') {
@@ -29,6 +12,32 @@ if ($filter_key !== false) {
 		$cash_admin->page_data['no_filter'] = true;
 	}
 }
+
+$items_response = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'commerce', 
+		'cash_action' => 'getitemsforuser',
+		'user_id' => $cash_admin->effective_user_id,
+	)
+);
+
+$order_request = array(
+	'cash_request_type' => 'commerce', 
+	'cash_action' => 'getordersforuser',
+	'user_id' => $cash_admin->effective_user_id,
+	'max_returned' => 11
+);
+if ($filter == 'unfulfilled') {
+	$order_request['unfulfilled_only'] = 1;
+}
+if ($filter == 'week') {
+	$order_request['since_date'] = time() - 604800;;
+}
+
+$orders_response = $cash_admin->requestAndStore(
+	$order_request
+);
+
 
 //Commerce connection or Items present?
 $cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('commerce') || $items_response['payload']; 
