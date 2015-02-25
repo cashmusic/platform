@@ -488,6 +488,10 @@
 			};
 		});
 
+		$(".swipehint").click(function(){
+			$(this).addClass("hide");
+		});
+
 		$( "#settings.toggle, #settingspanel .toggle, #settingspanel .paneltitle, .firstuse .settings.toggle").click(function() {
 			//check if learn panel is open & close it
 			if ( $("body").hasClass("panel", "settings") ){
