@@ -1068,7 +1068,6 @@
 
 		// modal lightboxes
 		$(document).on('click', '.lightboxed', function(e) {
-			if ($(window).width() > 768) {
 				e.preventDefault();
 				if ($(this).hasClass('returntocurrentroute')) {
 					doModalLightbox($(this).attr('href'),true);
@@ -1076,7 +1075,6 @@
 					doModalLightbox($(this).attr('href'));
 				}
 				this.blur();
-			}
 		});
 	}
 
