@@ -42,15 +42,17 @@
 </div><!-- editor -->
 
 <div class="element-list storedisplay">
-	<ul class="list">
 
 		{{#elements_for_campaign}}
+
+		<p>{{copy_injectelements}}</p>
+
 		<ul class="alternating">
 			{{#elements_for_campaign}}
-			<li><a class="elementdisplay injectcode" name="{{name}}" data-elementid="{{id}}" href="{{www_path}}/elements/edit/{{id}}">{{name}}<div class="icon icon-circle-plus"></div><!--icon--></a>
+			<li><a class="injectcode" name="{{name}}" data-elementid="{{id}}" href="{{www_path}}/elements/edit/{{id}}">{{name}}<div class="icon icon-circle-plus"></div><!--icon--></a>
 			</li>
 			{{/elements_for_campaign}}
 		</ul>
 		{{/elements_for_campaign}}
-	</ul>
+
 </div><!-- element-list -->

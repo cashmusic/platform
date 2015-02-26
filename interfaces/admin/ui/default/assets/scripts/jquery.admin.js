@@ -31,6 +31,34 @@
  **/
 ;
 
+// insertAtCaret plugin for textarea stuff / injecting codes on page editor
+jQuery.fn.extend({
+	insertAtCaret: function(myValue){
+		return this.each(function(i) {
+			if (document.selection) {
+				//For browsers like Internet Explorer
+				this.focus();
+				var sel = document.selection.createRange();
+				sel.text = myValue;
+				this.focus();
+			} else if (this.selectionStart || this.selectionStart == '0') {
+				//For browsers like Firefox and Webkit based
+				var startPos = this.selectionStart;
+				var endPos = this.selectionEnd;
+				var scrollTop = this.scrollTop;
+				this.value = this.value.substring(0, startPos)+myValue+this.value.substring(endPos,this.value.length);
+				this.focus();
+				this.selectionStart = startPos + myValue.length;
+				this.selectionEnd = startPos + myValue.length;
+				this.scrollTop = scrollTop;
+			} else {
+				this.value += myValue;
+				this.focus();
+			}
+		});
+	}
+});
+
 (function($) {
 	/**
 	 *
@@ -346,6 +374,14 @@
 			$( this ).toggleClass( "video" );
 			$( "#hero" ).toggleClass( "video" );
 		});*/
+
+		
+		$(document).on('click','a.injectcode',function(e) {
+			e.preventDefault();
+			if ($('#template')) {
+				$('#template').insertAtCaret('{{{element_' + $(this).data('elementid') + '}}}');
+			}
+		});
 
 		// hide mainmenu & tertiary panel
 		$( "#flipback" ).click(function() {
