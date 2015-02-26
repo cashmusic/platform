@@ -89,12 +89,14 @@
 	//Mobile Swipe Functions
   	function swipeleftHandler( event ){
 
+  		//remove mobile hint
+   	 		$('.swipehint').addClass("hide");
+
    	 	if ($('body').hasClass('swiperight')){
 			$('body').removeClass('swiperight');
 		}
 
    	 	else if ($('body').hasClass("swipeleft")){
-   	 		//console.log('swipeleft  - nah you already good');
    	 		//do nothing
    	 	}
    	 	else {
@@ -109,7 +111,6 @@
 		}
 
    	 	else if ($('body').hasClass("swiperight")){
-   	 		//console.log('swiperight  - nah you already good');
    	 		//do nothing
    	 	}
    	 	else {
