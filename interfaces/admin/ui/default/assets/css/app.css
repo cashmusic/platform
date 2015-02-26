@@ -566,9 +566,6 @@ button, .button{
 	-webkit-apperance:none;
 }
 
-button.right, .button.right{
-	margin:0 0 0 10px;
-}
 
 .modalcancel:hover .icon{
 	-webkit-animation: modalrotate ease-in-out 0.8s;
@@ -679,10 +676,6 @@ div.switchblock div.show {display:block;}
 
 .fullwidth{
 	width:100%!important;
-}
-
-.right{
-	float:right;
 }
 
 .alignright{
@@ -5539,6 +5532,16 @@ aside .aside-inner img, aside .aside-inner .button{
 html{
 	background-attachment: fixed;
 }  
+
+/* Helpers */
+
+.right{
+	float:right;
+}
+
+button.right, .button.right{
+	margin:0 0 0 10px;
+}
 
 /* Login */
 
