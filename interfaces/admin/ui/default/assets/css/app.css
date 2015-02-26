@@ -1647,7 +1647,7 @@ font-size: 16px;
 	display:block;
 	margin:0;
 	width:40px;
-	height:40px;
+	height:0px;
 	background:#111 url(../images/menu_icon.png) no-repeat 50% 50%;
 	background-size: 35%;
 	-webkit-transition: 0.3s;
@@ -5543,6 +5543,11 @@ button.right, .button.right{
 	margin:0 0 0 10px;
 }
 
+/* Flipback */
+#flipback{
+	height:40px;
+}
+
 /* Login */
 
 .login #mainspc .grid{
@@ -6100,6 +6105,15 @@ td{display:table-cell; vertical-align: inherit;}
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	transition:0.3s ease-in-out;
+}
+
+/* Flipback */
+.landscape #flipback{
+	height:40px;
+}
+
+.portrait #flipback{
+	height:0px;
 }
 
 /* logo */
