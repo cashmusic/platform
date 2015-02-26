@@ -785,7 +785,7 @@ jQuery.fn.extend({
 				el.blur();
 
 			// if inside the tertiary panel or a panel touchpoint
-			} else if (el.parents('div').hasClass('inner') && !el.hasClass('connection') ){
+			} else if (el.parents('div').hasClass('inner') && !el.hasClass('connection')){
 				e.preventDefault();
 				$('.panelcontent').removeClass('display');
 				var url = el.attr('href');
@@ -1106,6 +1106,7 @@ jQuery.fn.extend({
 		// modal lightboxes
 		$(document).on('click', '.lightboxed', function(e) {
 				e.preventDefault();
+				removeModal();
 				if ($(this).hasClass('returntocurrentroute')) {
 					doModalLightbox($(this).attr('href'),true);
 				} else {
