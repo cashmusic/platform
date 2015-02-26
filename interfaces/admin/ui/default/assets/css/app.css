@@ -156,6 +156,11 @@ a.revealpassword {
 #template::-webkit-scrollbar-track{background: rgba(30, 30, 30, 0.97);}
 #template::-webkit-scrollbar-thumb{background: rgba(34, 34, 34, 0.97);-webkit-border-radius: 20px;}
 
+.page-editor .modallightbox .element-list .list::-webkit-scrollbar{width: 12px; height: 12px;}
+.page-editor .modallightbox .element-list .list::-webkit-scrollbar-track{background: rgba(0, 0, 0, 0.97);}
+.page-editor .modallightbox .element-list .list::-webkit-scrollbar-thumb{background: rgba(34, 34, 34, 0.97);-webkit-border-radius: 20px;}
+
+
 .nojs{
 	display:none;
 	visibility:hidden;
@@ -4182,12 +4187,25 @@ label.checklabel{
 
 .page-editor .modallightbox .element-list{
 	background:#030303;
-	padding:30px;
+	padding:80px 30px;
 	height:100%;
 	width:40%;
 	position:fixed;
 	top:0;
 	right:0;
+}
+
+.page-editor .modallightbox .element-list .list{
+	height:450px;
+	overflow-y:auto;
+}
+
+.page-editor .modallightbox .element-list p{
+	padding:0 5px;
+}
+
+.page-editor .modallightbox .element-list .alternating li a{
+	background:#222;
 }
 
 .page-editor .modallightbox .modalcancel{
@@ -4372,7 +4390,12 @@ label.checklabel{
 list-style-type:none;
 margin:5% 0;
 padding:0;
+width:95%;
+}
+/* List of elements types in page editor */
+.page-editor .modallightbox .storedisplay .list{
 width:100%;
+padding:0 5px;
 }
 
 .modallightbox .storedisplay .list li{
@@ -4384,6 +4407,15 @@ width:100%;
 	border-radius: 3px;
 	border:solid 1px #212121;
 	margin:0 0 2px 0;
+}
+
+.page-editor .modallightbox .storedisplay .list li{
+	border:solid 1px #161616;
+}
+
+
+.page-editor .modallightbox .storedisplay .list li{
+	background:#171717;
 }
 
 .modallightbox .storedisplay .list li:hover{
@@ -4406,8 +4438,17 @@ width:100%;
 	padding:3% 4%;
 	text-decoration: none;
 }
+
+.page-editor .modallightbox .storedisplay .list li a.elementdisplay{
+	padding: 15px 20px;
+}
+
 .modallightbox .storedisplay .list li:nth-child(odd){
 	background:#171717;
+}
+
+.page-editor .modallightbox .storedisplay .list li:nth-child(odd){
+	background:#0e0e0e;
 }
 
 .modallightbox .storedisplay .list li a.elementdisplay:hover{
@@ -6308,7 +6349,7 @@ section[role=main]{
 }
 
 .modallightbox .storedisplay .list li{
-	width:94%;
+	width:100%;
 }
 
 ul.alternating li a{
