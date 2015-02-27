@@ -223,7 +223,7 @@
 						'<input type="hidden" name="element_type" value="' . $element_type . '" />' .
 						'<input type="hidden" name="in_campaign" id="in_campaign" value="" />' .
 						'<div class="section basic-information" data-section-name="Element name">' .
-						'<p class="section-description"><div class="icon icon-bulb"></div><!--icon--> Give the element a name for your own reference.</p>' .
+						'<p class="section-description"><i class="icon icon-bulb-o"></i><!--icon--> Give the element a name for your own reference.</p>' .
 						'<div class="pure-u-1"><label for="element_name">Element name</label></div>' .
 						'<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="Name your element"{{/element_name}} class="required" />' .
 						'</div>';
@@ -232,7 +232,7 @@
 			foreach ($all_sections as $section_name => $details) {
 				$template .= '<div class=" section part-' . $current_section . '" data-section-name="' . $details['group_label']['en'] . '">' .
 						     '<h5 class="section-header">' . $details['group_label']['en'] . '</h5>' .
-						     '<p class="section-description"><div class="icon icon-bulb"></div><!--icon--> ' . $details['description']['en'] . '</p>' .
+						     '<p class="section-description"><i class="icon icon-bulb-o"></i><!--icon--> ' . $details['description']['en'] . '</p>' .
 						     '<div class="pure-u-1">';
 				$current_data = 0;
 				$current_count = 0;
