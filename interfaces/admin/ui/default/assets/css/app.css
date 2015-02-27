@@ -4387,10 +4387,8 @@ label.checklabel{
 }
 
 .prefpanel .section-description .icon{
-	vertical-align: top;
-	margin:0 10px 0 0;
-	height:5px;
-	background:#333;
+	vertical-align: middle;
+	margin:-3px 5px 0 0;
 }
 
 
@@ -4408,6 +4406,11 @@ label.checklabel{
 	transition: background-color 0.3s ease-in-out;
 	line-height: 20px;
 	display: none;
+}
+
+
+.page-description .icon{
+	color:#222;
 }
 
 /* Store Functionality */
@@ -6248,13 +6251,6 @@ button, .button, #modallightbox .modalcancel{
 	background-repeat: no-repeat;
 	background-size: 1.8%;
 	background-position: 2.5% 50%;
-}
-
-.page-description:hover{
-	background-image: url(../images/bulb.svg);
-	background-repeat: no-repeat;
-	background-size: 3%;
-	background-position: 1.9% 41%;
 }
 
 /*  Re-format table for wider display */
