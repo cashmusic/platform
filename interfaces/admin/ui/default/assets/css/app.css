@@ -2108,7 +2108,7 @@ color:#f5f5f5!important;
 	color:#696969;
 }
 
-.prefpanel .pref-inner{
+.prefpanel .pref-inner, .prefpanel .elementform{
 	margin:0;
 	padding:0;
 	height:0;
@@ -2143,6 +2143,30 @@ color:#f5f5f5!important;
 
 .prefpanel.display h4{
 	margin:0 0 40px 0;
+}
+
+/* Element Details Forms */
+
+.prefpanel.display .elementform{
+	height:100%;
+	min-height:210px;
+	opacity:1;
+}
+
+.prefpanel.display .section{
+	background:#e2e2e2;
+	padding:20px;
+	margin:0 0 10px 0;
+	position: relative;
+}
+
+.prefpanel.display .section .section-header{
+	display: inline-block;
+	margin:0 10px 20px 0;
+}
+
+.prefpanel .section.part-1 .section-header{
+	display:none;
 }
 
 /* Zero Clipboard Quick Copy */
@@ -4344,7 +4368,7 @@ label.checklabel{
 
 /* Callout Specific Tips / Directions */
 
-.callout .section-description, .prefpanel .section-description{
+.callout .section-description{
 	padding:10px;
 	margin:0 0 10px 0;
 	color:#999;
@@ -4352,6 +4376,22 @@ label.checklabel{
 	border: 1px dotted #999;
 }
 
+.prefpanel .section-description{
+	margin:0 0 10px 0;
+	padding:0px;
+	display:inline-block;
+	/*position: absolute;
+	top:0;
+	right:0;*/
+	opacity:0.5;
+}
+
+.prefpanel .section-description .icon{
+	vertical-align: top;
+	margin:0 10px 0 0;
+	height:5px;
+	background:#333;
+}
 
 
 /* Inline Learning Panel Tips */
