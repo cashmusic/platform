@@ -11,12 +11,13 @@
 
 			<label for="new_username">Username (alphanumeric only)</label>
 			<input type="text" id="new_username" name="new_username" placeholder="{{username}}" value="{{username}}" />
+			<p class="small fadedtext"  style="display:block; margin:0 0 10px 0; position:relative;top:-7px;color:#666;">http://{{user_page_display_uri}}</p>
 
 			<label for="new_username">Display name</label>
 			<input type="text" id="new_displayname" name="new_displayname" placeholder="{{display_name}}" value="{{display_name}}" />
 
-			<label for="new_url">URL</label>
-			<input type="text" id="new_url" name="new_url" value="{{url}}" placeholder="http://..." />
+			<!-- label for="new_url">URL</label -->
+			<input type="hidden" id="new_url" name="new_url" value="{{url}}" placeholder="http://..." />
 
 			<label for="new_password">New password (Blank = no change)</label>
 			<input type="password" id="new_password" class="needsreveal" name="new_password" autocomplete="off" />
