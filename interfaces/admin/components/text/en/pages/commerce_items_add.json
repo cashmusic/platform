@@ -1,5 +1,5 @@
 {
-	"pagetip":"Add/edit the items you'd like to sell.",
+	"pagetip":"",
 	"learn":"<p>An item added here can be digital and/or physical. Make sure that if your item has a digital component that you have added those files in Assets.</p><p>Your item will not be visible until you attach to an element and then either publish it as part of a campaign or embed it.</p><p>The name should probably include the band’s name, the release title, and format. What you put in here is what the public will see.</p><p>In the item’s description make sure and note important things like limited edition, colored vinyl, t-shirt manufacturer, unreleased songs, etc. Let me know why they should buy it.</p><p>Note that if you leave the quantity as -1 then it it will be considered unlimited. So if this is a physical item make sure and put in the correct quantity or you’ll have some unhappy customers when you sell out.</p><p>Clicking the enable “pay-at-least” minimum pricing box lets your fans pay more than the price that you’ve set for the item if they want to.</p> ",
 	"related":{},
 	"labels":{},

@@ -1,8 +1,10 @@
 {
-	"pagetip":"Add/edit the releases and files that you’ll need for your campaigns here.",
+	"pagetip":"",
 	"learn":"<p>This section is where you’ll organize and define your releases as well as add all the digital files that you’ll be using in your elements.</p><p>Once you've added a release or file you can also generate download codes for it. </p> <p>Note: if you’re adding an album file you can also add cover art, photos, liner notes, even videos in the ZIP file.</p>",
 	"related":{},
 	"labels":{},
 	"tooltips":{},
-	"copy":{"firstuse":"CASH Assets are places to keep releases &amp; files you’ll need for your Campaigns. Before you can begin adding Assets you will need to connect to one of the 3rd-party storage platforms below."}
+	"copy":{
+		"firstuse":"CASH Assets are places to keep releases &amp; files you’ll need for your Campaigns. Before you can begin adding Assets you will need to connect to one of the 3rd-party storage platforms below."
+	}
 }
