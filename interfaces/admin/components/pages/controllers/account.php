@@ -106,10 +106,5 @@ if (SUBDOMAIN_USERNAMES) {
 }
 $cash_admin->page_data['user_page_display_uri'] = str_replace('http://','',$cash_admin->page_data['user_page_uri']);
 
-
-if ($cash_admin->platform_type == 'single') {
-	$cash_admin->page_data['platform_type_single'] = true;
-}
-
 $cash_admin->setPageContentTemplate('account');
 ?>

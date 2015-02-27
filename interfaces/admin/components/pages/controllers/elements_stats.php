@@ -65,9 +65,6 @@ $current_element = $cash_admin->setCurrentElement($request_parameters[0]);
 $cash_admin->page_data['ui_title'] = '' . $current_element['name'] . '';
 $cash_admin->page_data['id'] = $current_element['id'];
 		
-if ($cash_admin->platform_type == 'single') {
-	$cash_admin->page_data['platform_type_single'] = true;
-}
 $cash_admin->page_data['platform_path'] = CASH_PLATFORM_PATH;
 
 $cash_admin->setPageContentTemplate('elements_stats');

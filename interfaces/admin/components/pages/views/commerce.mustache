@@ -69,9 +69,9 @@
 			{{/orders_recent}}
 		</ul>
 
-		<footer>
+		
 		{{#show_pagination}}<div class="left pagination">{{#show_previous}}<a class="prev" href="{{www_path}}/commerce/{{^back_to_first}}page/{{previous_page}}/{{/back_to_first}}{{#filter_unfulfilled}}filter/unfulfilled/{{/filter_unfulfilled}}{{#filter_week}}filter/week/{{/filter_week}}">Previous</a>{{/show_previous}}{{#show_nextandprevious}}<span> / </span>{{/show_nextandprevious}}{{#show_next}}<a class="next active" href="{{www_path}}/commerce/page/{{next_page}}/{{#filter_unfulfilled}}filter/unfulfilled/{{/filter_unfulfilled}}{{#filter_week}}filter/week/{{/filter_week}}">Next</a>{{/show_next}}</div><!--pagination-->{{/show_pagination}}
-		</footer>
+		
 
 		{{/orders_recent}}
 
@@ -81,6 +81,21 @@
 		</div><!--empty-->
 		{{/orders_recent}}
 
+
+		<div class="prefpanel pure-u-1">
+			<h4 class="title"><div class="icon icon-wrench"></div><!--icon--><span>Commerce Settings</span></h4>
+			<div class="pure-u-1 pure-u-md-1-2">
+				<div class="pref-inner">
+					<form accept-charset="UTF-8" method="post" class="returntocurrentroute" action="{{www_path}}/commerce/">	
+						<label for="currency_id">Currency</label>
+						<select id="currency_id" name="currency_id">{{{currency_options}}}</select>
+						<button class="fullwidth" type="submit">Use this currency</button>
+					</form>
+				</div><!--pref-inner-->
+			</div><!--pure-->
+
+
+		</div><!--prefpanel-->
 
 	</div><!--pure-->
 {{/connection}}
