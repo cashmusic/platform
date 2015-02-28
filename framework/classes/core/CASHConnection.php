@@ -40,21 +40,30 @@
 	 * Finds all settings type JSON files, builds an array keyed by type
 	 *
 	 * @return array
-	 */public function getConnectionTypes($filter_by_scope=false) {
+	 */public function getConnectionTypes($filter_by_scope=false,$force_all=false) {
 		if ($settings_dir = opendir(CASH_PLATFORM_ROOT.'/settings/connections')) {
 			$settings_types = false;
+			$filter_array = json_decode(file_get_contents(CASH_PLATFORM_ROOT.'/settings/connections/supported.json'));
 			while (false !== ($file = readdir($settings_dir))) {
 				if (substr($file,0,1) != "." && !is_dir($file)) {
 					$tmp_key = strtolower(substr_replace($file, '', -5));
-					$tmp_value = json_decode(file_get_contents(CASH_PLATFORM_ROOT.'/settings/connections/'.$file),true);
-					if ($filter_by_scope) {
-						if (!in_array($filter_by_scope, $tmp_value['scope'])) {
-							$tmp_value = false;
+					$add_to_settings = true;
+					if (!$force_all) {
+						if (!in_array($tmp_key, $filter_array)) {
+							$add_to_settings = false;	
 						}
 					}
-					if ($tmp_value !== false) {
-						if (!$settings_types) { $settings_types = array(); }
-						$settings_types["$tmp_key"] = $tmp_value;
+					if ($add_to_settings) {
+						$tmp_value = json_decode(file_get_contents(CASH_PLATFORM_ROOT.'/settings/connections/'.$file),true);
+						if ($filter_by_scope) {
+							if (!in_array($filter_by_scope, $tmp_value['scope'])) {
+								$tmp_value = false;
+							}
+						}
+						if ($tmp_value !== false) {
+							if (!$settings_types) { $settings_types = array(); }
+							$settings_types["$tmp_key"] = $tmp_value;
+						}
 					}
 				}
 			}
