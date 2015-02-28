@@ -3901,22 +3901,27 @@ ul.alternating li .more.display .toggle{
 /* Pagination Links */
 
 .pagination{
-	float: right;
+	text-align:right;
 	margin:0px 0 0px 0;
 }
 
 .left.pagination{
-	float:left;
+	text-align:left;
 }
 
 .pagination span{
 	margin:0 5px;
+	display:inline-block;
 }
 
 .pagination, .pagination a{
 	text-decoration: none;
 	color:#979797!important;
 	font-size: 18px;
+}
+
+.pagination a{
+	display:inline-block;
 }
 
 .pagination a.active{
