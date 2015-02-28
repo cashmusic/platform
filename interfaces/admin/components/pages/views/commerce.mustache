@@ -84,12 +84,14 @@
 
 		<div class="prefpanel pure-u-1">
 			<h4 class="title"><div class="icon icon-wrench"></div><!--icon--><span>Commerce Settings</span></h4>
-			<div class="pure-u-1 pure-u-md-1-2">
+			<div class="pure-u-1">
 				<div class="pref-inner">
+				<h5>Change Currency</h5>
 					<form accept-charset="UTF-8" method="post" class="returntocurrentroute" action="{{www_path}}/commerce/">	
-						<label for="currency_id">Currency</label>
+						<div class="pure-u-1 pure-u-md-1-2">
 						<select id="currency_id" name="currency_id">{{{currency_options}}}</select>
 						<button class="fullwidth" type="submit">Use this currency</button>
+						</div>
 					</form>
 				</div><!--pref-inner-->
 			</div><!--pure-->
