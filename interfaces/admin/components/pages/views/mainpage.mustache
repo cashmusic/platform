@@ -119,7 +119,8 @@
 </div><!--campaigns-->
 
 {{#has_campaigns}}
-<div class="published"><h4>Your public page is live at: <a class="url-link" href="{{user_page_uri}}" target="_blank"><i>{{user_page_display_uri}}</i></a></h4><div id="settings" class="link right toggle">Change Subdomain</div> <div class="link right">Unpublish</div></div>
+<div class="published">
+<div class="info"><p class="fadedtext">Your public page is live at:</p><h4><a class="url-link" href="{{user_page_uri}}" target="_blank"><i>{{user_page_display_uri}}</i></a></h4></div><!--info--><div id="settings" class="link right toggle">Change Subdomain</div> <div class="link right">Unpublish</div></div>
 <div class="prefpanel pure-u-1">
 	<h4 class="title"><div class="icon icon-wrench"></div><!--icon--><span>Publish Settings</span></h4>
 	<div class="pure-u-1 pure-u-md-1-2">
@@ -171,7 +172,7 @@
 {{/has_campaigns}}
 
 {{^has_campaigns}}
-<h4 class="published">Your public page is not live yet.</h4>
+<div class="published"><h4 class="fadedtext">Your public page is not live yet.</h4><p class="fadedtext">Select which campaign you want to publish from the dropdown below.</p></div>
 <div class="prefpanel pure-u-1">
 	<h4><div class="icon icon-wrench"></div><!--icon--><span>Publish Settings</span></h4>
 	<div class="pure-u-1 pure-u-md-1-2">

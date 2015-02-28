@@ -5140,10 +5140,12 @@ padding:0 5px;
 	overflow:auto;
 }
 
-.published h4{
-	font-size: 18px;
-	margin:0;
+.published .info{
 	float:left;
+}
+
+.published p, .published h4{
+	margin:0;
 }
 
 .published .link{
@@ -5153,7 +5155,7 @@ padding:0 5px;
 	background:#ccc;
 	color:#666;
 	padding:10px 20px;
-	margin:0 5px 0 0;
+	margin:10px 5px 0 0;
 	text-align: center;
 	text-decoration: none;
 	-webkit-transition: 0.3s  ease-in-out;
@@ -5964,7 +5966,6 @@ section[role=main].hero, .login section[role=main]{
 .panel #mainspc{
 	margin:0 0 0 28%;
 	width:66%;
-	height:100%;
 }
 
 .panel #mainspc .grid{
