@@ -4001,8 +4001,13 @@ ul.alternating li .actions a:hover .icon{color:#222!important;}
 }
 
 /* Tooltips */
-.tooltip {display:block;position:relative;
-margin:0; padding:0;}
+.tooltip {display:inline-block;position:relative;
+margin:0 5px 0 0; padding:0;}
+
+.tooltip:hover{
+	cursor: pointer;
+	color:#222;
+}
 
 .tooltip:hover:after, .tooltip:hover:before {
 	visibility:visible;
@@ -4013,24 +4018,26 @@ margin:0; padding:0;}
 	transition:all 0.2s ease-in;
 	transition-delay:0.5s;
 	-webkit-transition-delay:0.5s;
+	z-index: 500;
 }
 
 .tooltip:after {
 	color:#fff;
 	text-decoration:none;
-	background:rgba(34,34,34,0.95);
+	background:rgba(34,34,34,0.9);
 	box-shadow:-2px 2px 2px rgba(0,0,0,0.15);
-	bottom:2em;
+	bottom:-1.5em;
 	content:attr(data-tooltip);
 	font-size:14px;
 	line-height:18px;
-	display:block;opacity:0;
+	display:block;
+	opacity:0;
 	visibility:hidden;
-	left:-1em;
+	left:2em;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	padding:5%;
+	padding:10px 15px;
 	position:absolute;
 	width:20em;
 	z-index:98;
