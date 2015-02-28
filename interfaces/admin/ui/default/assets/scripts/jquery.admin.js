@@ -529,7 +529,7 @@ jQuery.fn.extend({
 			$(this).addClass("hide");
 		});
 
-		$( "#settings.toggle, #settingspanel .toggle, #settingspanel .paneltitle, .firstuse .settings.toggle").click(function() {
+		$( "#settings.toggle, #settingspanel .toggle, #settingspanel .paneltitle, .settings.toggle").click(function() {
 			//check if learn panel is open & close it
 			if ( $("body").hasClass("panel", "settings") ){
 					$("body").removeClass("panel");
