@@ -2170,7 +2170,7 @@ color:#f5f5f5!important;
 	margin:0 10px 20px 0;
 }
 
-.prefpanel .section.part-1 .section-header{
+.prefpanel .section.part-1 .section-header, .prefpanel .section.part-1 i, .prefpanel .section.basic-information i{
 	display:none;
 }
 
