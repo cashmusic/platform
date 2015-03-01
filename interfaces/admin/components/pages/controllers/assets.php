@@ -82,20 +82,11 @@ $cash_admin->page_data['all_services'] = new ArrayIterator($all_services);
 if (is_array($releases_response['payload'])) {
 	$releases_response['payload'] = array_reverse($releases_response['payload']); // newest first
 	if (count($releases_response['payload']) == 2) {
-		$cash_admin->page_data['two_features'] = true;	
+		$cash_admin->page_data['one_remaining'] = true;	
+	} else if (count($releases_response['payload']) == 2) {
+		$cash_admin->page_data['two_remaining'] = true;
 	}
-	$asset_count = 0;
 	foreach ($releases_response['payload'] as &$asset) {
-		$asset_count++;
-		if ($asset_count == 1) {
-			$cash_admin->page_data['one_remaining'] = true;
-		} elseif ($asset_count == 2) {
-			$cash_admin->page_data['two_remaining'] = true;
-		} elseif ($asset_count == 3) {
-			$cash_admin->page_data['one_remaining'] = false;
-			$cash_admin->page_data['two_remaining'] = false;
-			$asset_count = 0;
-		}
 		if ($asset['modification_date']) {
 			$asset['descriptor_string'] = 'updated: ' . CASHSystem::formatTimeAgo($asset['modification_date']);
 		} else {
