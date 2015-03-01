@@ -90,7 +90,7 @@ class MandrillSeed extends SeedBase {
 				if ($result) {
 					AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
 				} else {
-					AdminHelper::formFailure('Error. Something just didn\'t work right.','/settings/connections/');
+					AdminHelper::formFailure('Error. Something just didn\'t work right.');
 				}
 			}
 		}

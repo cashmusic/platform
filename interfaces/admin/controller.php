@@ -209,6 +209,11 @@ if ($logged_in) {
 	// we need a session
 	$admin_primary_cash_request->startSession();
 	$cash_admin->page_data['user_email'] = $admin_primary_cash_request->sessionGet('cash_effective_user_email');
+
+	// store the current route in session
+	if (strpos(REQUESTED_ROUTE,'/settings') === false && strpos(REQUESTED_ROUTE,'/account') === false) {
+		$cash_admin->page_data['user_email'] = $admin_primary_cash_request->sessionSet('last_route',REQUESTED_ROUTE);
+	}
 }
 
 // set basic data for the template

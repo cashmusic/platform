@@ -218,5 +218,6 @@ if (!$settings_action || isset($_POST['dosettingsadd']) || isset($_POST['dosetti
 	}
 }
 
+$cash_admin->page_data['ui_title'] = '';
 $cash_admin->setPageContentTemplate('settings_connections');
 ?>

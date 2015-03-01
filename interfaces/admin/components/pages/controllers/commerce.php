@@ -2,9 +2,10 @@
 // are we filtered? 
 $cash_admin->page_data['current_page'] = 1;
 $cash_admin->page_data['next_page'] = 2;
+$cash_admin->page_data['show_previous'] = false;
+$filter = false;
 if ($request_parameters) {
 	$filter_key = array_search('filter', $request_parameters);
-	$filter = false;
 	if ($filter_key !== false) {
 		$filter = $request_parameters[$filter_key + 1];
 		if ($filter == 'week') {

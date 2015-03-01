@@ -98,11 +98,12 @@ class S3Seed extends SeedBase {
 			if ($result) {
 				AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
 			} else {
-				AdminHelper::formFailure('Error. Something just didn\'t work right.','/settings/connections/');
+				AdminHelper::formFailure('Error. Something just didn\'t work right.');
 			}
 		} else {
-			$return_markup = '<h4>Error</h4>'
-						   . '<p>We couldn\'t connect with your S3 account. Please check the key, secret, and bucket and try again.</p>';
+			//$return_markup = '<h4>Error</h4>'
+			//			   . '<p>We couldn\'t connect with your S3 account. Please check the key and secret.</p>';
+			AdminHelper::formFailure('We couldn\'t connect your S3 account. Please check the key and secret.');
 		}
 		return $return_markup;
 	}

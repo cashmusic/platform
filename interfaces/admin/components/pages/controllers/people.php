@@ -52,27 +52,29 @@ $settings_mass_types_data = $page_data_object->getConnectionTypes('mass_email');
 
 $all_mass_services = array();
 $typecount = 1;
-foreach ($settings_mass_types_data as $key => $data) {
-	if ($typecount % 2 == 0) {
-		$alternating_type = true;
-	} else {
-		$alternating_type = false;
-	}
-	if (file_exists(ADMIN_BASE_PATH.'/assets/images/settings/' . $key . '.png')) {
-		$service_has_image = true;
-	} else {
-		$service_has_image = false;
-	}
-	if (in_array($cash_admin->platform_type, $data['compatibility'])) {
-		$all_mass_services[] = array(
-			'key' => $key,
-			'name' => $data['name'],
-			'description' => $data['description'],
-			'link' => $data['link'],
-			'alternating_type' => $alternating_type,
-			'service_has_image' => $service_has_image
-		);
-		$typecount++;
+if (is_array($settings_mass_types_data)) {
+	foreach ($settings_mass_types_data as $key => $data) {
+		if ($typecount % 2 == 0) {
+			$alternating_type = true;
+		} else {
+			$alternating_type = false;
+		}
+		if (file_exists(ADMIN_BASE_PATH.'/assets/images/settings/' . $key . '.png')) {
+			$service_has_image = true;
+		} else {
+			$service_has_image = false;
+		}
+		if (in_array($cash_admin->platform_type, $data['compatibility'])) {
+			$all_mass_services[] = array(
+				'key' => $key,
+				'name' => $data['name'],
+				'description' => $data['description'],
+				'link' => $data['link'],
+				'alternating_type' => $alternating_type,
+				'service_has_image' => $service_has_image
+			);
+			$typecount++;
+		}
 	}
 }
 

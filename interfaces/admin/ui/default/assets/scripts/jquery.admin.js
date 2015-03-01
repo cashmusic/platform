@@ -1085,6 +1085,7 @@ jQuery.fn.extend({
 	function removeModal() {
 		$('.modallightbox').fadeOut('fast', function() {
 			$('.modallightbox').remove();
+			openlightbox = false;
 		});
 		$('.modalbg').fadeOut('fast', function() {
 			$('.modalbg').remove();
@@ -1106,7 +1107,7 @@ jQuery.fn.extend({
 		// modal lightboxes
 		$(document).on('click', '.lightboxed', function(e) {
 				e.preventDefault();
-				removeModal();
+				//removeModal();
 				if ($(this).hasClass('returntocurrentroute')) {
 					doModalLightbox($(this).attr('href'),true);
 				} else {
@@ -1221,7 +1222,9 @@ jQuery.fn.extend({
 			// button events
 			$('.modalyes').on('click', function(e) {
 				e.preventDefault();
-				refreshPageData(redirectUrl,'modalconfirm=1&redirectto='+location.pathname.replace(cashAdminPath, ''));
+				if (redirectUrl) {
+					refreshPageData(redirectUrl,'modalconfirm=1&redirectto='+location.pathname.replace(cashAdminPath, ''));
+				}
 				$('.modalbg').remove();
 			});
 		}
@@ -1248,29 +1251,38 @@ jQuery.fn.extend({
 	 */
 	function doModalLightbox(route,returntocurrentroute) {
 		jQuery.post(route,'data_only=1', function(data) {
-			removeModal();
+			//removeModal();
 			var addedClass = '';
 			if (returntocurrentroute) {
 				addedClass = 'returntocurrentroute '
 			}
-			// markup for the confirmation link
-			//var modalTop = $(document).scrollTop() + 120;
-			var markup = '<div class="modalbg">&nbsp;</div><div class="modallightbox ' + addedClass + '">' +
-						 //'<div class="row"><div class="twelve columns">' +
-						 '<h4>' + data.ui_title + '</h4>' +
-						 data.content + //jQuery.param(data) +
-						 //'</div></div>' +
-						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a></div>' +
-						 '</div></div>';
+			var alreadyopen = $('.modallightbox').length;
+			if (!alreadyopen) {
+				// markup for the confirmation link
+				//var modalTop = $(document).scrollTop() + 120;
+				var markup = '<div class="modalbg">&nbsp;</div><div class="modallightbox ' + addedClass + '">' +
+							 //'<div class="row"><div class="twelve columns">' +
+							 '<h4>' + data.ui_title + '</h4>' +
+							 data.content + //jQuery.param(data) +
+							 //'</div></div>' +
+							 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a></div>' +
+							 '</div></div>';
 
-			markup = $(markup);
-			markup.hide();
-			$('body').append(markup);
-			prepDrawers('<i class="icon icon-chevron-sign-up"></i>Hide','<i class="icon icon-chevron-sign-down"></i>Show');
+				markup = $(markup);
+				markup.hide();
+				$('body').append(markup);
+				prepDrawers('<i class="icon icon-chevron-sign-up"></i>Hide','<i class="icon icon-chevron-sign-down"></i>Show');
 
-			// fix form position based on current scrolltop:
-			currentScroll = $(document).scrollTop();
-			$('.modallightbox').css('top',currentScroll+'px');
+				// fix form position based on current scrolltop:
+				currentScroll = $(document).scrollTop();
+				$('.modallightbox').css('top',currentScroll+'px');
+			} else {
+				var markup = '<h4>' + data.ui_title + '</h4>' +
+							 data.content + //jQuery.param(data) +
+							 //'</div></div>' +
+							 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a></div>';
+				$('.modallightbox').html(markup);
+			}
 
 			//reload quick copy
 			ZclipBoard();
@@ -1279,12 +1291,16 @@ jQuery.fn.extend({
 
 			handleMultipartForms();
 
-			// show the dialog with a fast fade-in
-			$('.modalbg').fadeIn('fast');
-			$('.modallightbox').fadeIn('fast', function() {
-				// the lightboxes have forms, so tell them to validate and post by ajax...
+			if (!alreadyopen) {
+				// show the dialog with a fast fade-in
+				$('.modalbg').fadeIn('fast');
+				$('.modallightbox').fadeIn('fast', function() {
+					// the lightboxes have forms, so tell them to validate and post by ajax...
+					formValidateBehavior();
+				});
+			} else {
 				formValidateBehavior();
-			});
+			}
 		},'json');
 	}
 
