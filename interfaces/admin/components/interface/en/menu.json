@@ -43,7 +43,7 @@
 	"commerce":
 		{"page_name":"Commerce", "menu_icon":"", "tagline":"orders and items for sale"},
 	"commerce/items":
-		{"page_name":"Items", "menu_icon":"barcode"},
+		{"page_name":"Inventory", "menu_icon":"barcode"},
 	"commerce/items/delete":
 		{"page_name":"Delete item", "menu_icon":""},
 	"commerce/items/edit":
