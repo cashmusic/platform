@@ -1,6 +1,6 @@
 {
 	"pagetip":"",
-	"learn":"<p>An item added here can be digital and/or physical. Make sure that if your item has a digital component that you have added those files in Assets.</p><p>Your item will not be visible until you attach to an element and then either publish it as part of a campaign or embed it.</p>",
+	"learn":"<p>Inventory added here can be digital and/or physical. Make sure that if your item has a digital component that you have added those files in Assets before you go live.</p><p>Your item will not be visible until you attach to an element and then either publish it as part of a campaign or embed the element.</p>",
 	"related":{},
 	"labels":{},
 	"tooltips":{},
