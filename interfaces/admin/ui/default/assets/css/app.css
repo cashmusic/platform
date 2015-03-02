@@ -4950,6 +4950,11 @@ padding:0 5px;
 	width:auto;
 }
 
+#campaigns .associated .add .icon{
+	margin:-2px 0 0 0;
+	color: #f5f5f5;
+}
+
 #campaigns .associated .add:hover{
 	background:#222;
 }
