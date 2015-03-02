@@ -5,6 +5,6 @@
 	"labels":{},
 	"tooltips":{},
 	"copy":{
-		"firstuse":"Assets is where you'll define your releases and upload the files you'll be using in your campaigns. Before you can begin adding any assets you will need to connect to one of the 3rd-party storage platforms below."
+		"firstuse":"Assets is where you'll add your releases and upload the files you'll be using in your campaigns. Before you can begin adding any assets you will need to connect to one of the 3rd-party storage platforms below."
 	}
 }

@@ -1,9 +1,9 @@
 {
 	"pagetip":"",
-	"learn":" <p>This section is where you’ll set up your email lists, set list permissions, and keep track of your press clippings</p><p>This section is still under construction and has a lot more coming. Right now it's a great place to connect or set up your email lists as well as keep track of press clippings and related links about your band online.</p> <p>It's important to note that whenever you set up an email collection element you'll need to set up and/or connect a list that all those email addresses coming in will be collected to. Select Lists from the submenu under People to get started.</p>",
+	"learn":" <p>This section is where you’ll set up your email lists, set list permissions, and keep track of your press clippings</p><p>We're still under construction and there's a lot more coming but right now it's a great place to connect or set up your email lists as well as keep track of press clippings and related links about your band online.</p>",
 	"related":{},
 	"labels":{},
 	"tooltips":{},
-	"copy":{"firstuse":"CASH Lists are used to create &amp; manage your mailing lists (people would like to contact about things that are happening). You can create and collection email lists without the need of any 3rd-party connection. You can also connect to one of the 3rd-party mailing platforms below to enhance list functionality. <span class='disclaimer'>Any CASH list is always owned by you. We will never use or sell any of the information you have collected in the platform. Pinky swear.</span>"}
+	"copy":{"firstuse":"People is where you'll manage and connect your email lists. You can create email lists without the need of any 3rd-party connection, you can also connect to one of the 3rd-party mailing platforms below to enhance list functionality. <span class='disclaimer'>Any list is always owned by you. We will never use or sell any of the information you have collected in the platform. </span>"}
 
 }
