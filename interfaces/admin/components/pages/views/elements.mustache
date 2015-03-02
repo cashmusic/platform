@@ -1,17 +1,36 @@
-<p class="big">
-	Combine everything else and build functionality, check analytics for existing elements, and get embed codes to use your elements on your site.
-</p>
-
+<header>
+	<h4>Elements</h4>
+</header>
 {{#elements_for_user}}
 <ul class="alternating">
 	{{#elements_for_user}}
-	<li>
+	<!--<li>
 		<strong>{{name}}</strong> <span class="descriptive spaced fadedtext">{{type_name}}</span>
 		<div class="itemnav">
-			<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><div class="icon icon-search"></div><!--icon-->Details</a> 
-			<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation"><div class="icon icon-ban"></div><!--icon--> Delete</a>
+			<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><div class="icon icon-search"></div>Details</a> 
+			<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation"><div class="icon icon-ban"></div>Delete</a>
 		</div>
-	</li>
+	</li>-->
+
+
+
+		<li>
+			<a class="primary" href="{{www_path}}/elements/edit/{{id}}">
+			<span class="element-title">{{name}}</span><br />
+			<span class="descriptive spaced fadedtext">{{type}}</span></a>
+				<div class="more"><div class="toggle"></div><!--toggle-->
+					<div class="actions">
+						<div class="action-inner">
+							<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><div class="icon icon-pencil"></div><!--icon-->Edit</a>
+							<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation delete"><div class="icon icon-ban"></div><!--icon--> Delete</a>
+						</div><!--action--inner-->
+					</div><!--actions-->
+				</div><!--more-->
+			</li>
+
+
+
+
 	{{/elements_for_user}}
 </ul>
 {{/elements_for_user}}
