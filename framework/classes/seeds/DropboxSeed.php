@@ -12,14 +12,14 @@
  *
  **/
 
+require_once(CASH_PLATFORM_ROOT.'/lib/dropbox/autoload.php');
+
 use \Dropbox as dbx;
 
 class DropboxSeed extends SeedBase {
 
 	private $client,
-			$auth_client,
 			$access_token, 
-			$redirect_uri, 
 			$app_key,
 			$app_secret,
 			$error_message=false;
@@ -33,34 +33,47 @@ class DropboxSeed extends SeedBase {
 
 		if ($this->getCASHConnection()) {
 
-			require_once(CASH_PLATFORM_ROOT.'/lib/dropbox/autoload.php"');
-			
 			$connections = CASHSystem::getSystemSettings('system_connections');
 
 			if (isset($connections['com.dropbox'])) {
-
 				$app_key      = $connections['com.dropbox']['app_key'];
 				$app_secret   = $connections['com.dropbox']['app_secret'];
-				$redirect_uri = $connections['com.dropbox']['redirect_uri'];
 			}
-
-			$app_info = array(
-				'key' 		=> $app_key,
-				'secret' 	=> $app_secret,
-			);
-
- 			$client_identifier = "CASH Music/1.0";
- 			$csrf_token_store = new dbx\ArrayEntryStore($_SESSION, 'dropbox-auth-csrf-token');
-
- 			$this->auth_client = dbx\WebAuth($app_info, $client_identifier, $redirect_uri, $csrf_token_store);
 
 		} else {
 			$this->error_message = 'could not get connection';
 		}
 	}
 
-	public static function getAuthorizationUrl($client_id, $redirect_uri) {
-		$this->auth_client->start();
+	public static function getWebAuthClient($redirect_uri) {
+
+		$connections = CASHSystem::getSystemSettings('system_connections');
+		
+		if (isset($connections['com.dropbox'])) {
+
+			$app_info = new dbx\AppInfo(
+				$connections['com.dropbox']['app_key'],
+				$connections['com.dropbox']['app_secret']
+			);
+
+			$client_identifier = "CASH Music/1.0";
+			$csrf_token_store = new dbx\ArrayEntryStore($_SESSION, 'dropbox-auth-csrf-token');
+
+			return new dbx\WebAuth($app_info, $client_identifier, $redirect_uri, $csrf_token_store);
+
+		} else {
+			return false;
+		}		
+	}
+
+	public static function getAuthorizationUrl($redirect_uri) {
+
+		$auth_client = DropboxSeed::getWebAuthClient($redirect_uri);
+		if (!$auth_client) {
+			return false;
+		}
+
+		return $auth_client->start();
 	}
 
 	public static function getRedirectMarkup($data=false) {
@@ -70,13 +83,15 @@ class DropboxSeed extends SeedBase {
 		if (isset($connections['com.dropbox'])) {
 
 			$login_url = DropboxSeed::getAuthorizationUrl(
-				$connections['com.google.drive']['client_id'],
-				$connections['com.google.drive']['redirect_url']
+				$connections['com.dropbox']['redirect_uri']
 			);
+		}
 
-			$return_markup  = '<h4>Dropbox</h4>\n';
-			$return_markup .= '<p>This will redirect you to a secure login at Dropbox and bring you right back.</p>\n';
-			$return_markup .= '<a href="' . $login_url . '" class="button">Connect your Dropbox</a>\n';
+		if ($login_url) {
+
+			$return_markup  = '<h4>Dropbox</h4>';
+			$return_markup .= '<p>This will redirect you to a secure login at Dropbox and bring you right back.</p>';
+			$return_markup .= '<a href="' . $login_url . '" class="button">Connect your Dropbox</a>';
 
 			return $return_markup;
 
