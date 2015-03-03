@@ -193,6 +193,15 @@ if ($total_campaigns) {
 		}
 	}
 
+	if ($cash_admin->page_data['template_id']) {
+		foreach ($campaigns_response['payload'] as &$campaign) {
+			error_log($cash_admin->page_data['template_id']);
+			if ($campaign['template_id'] == $cash_admin->page_data['template_id']) {
+				$campaign['currently_published'] = true;
+			}
+		}
+	}
+
 	// set all campaigns as a mustache var
 	$cash_admin->page_data['campaigns_for_user'] = new ArrayIterator($campaigns_response['payload']);
 }

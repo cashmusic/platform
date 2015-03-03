@@ -1,12 +1,17 @@
 <?php
-if (isset($_POST['dopublish'])) {
+if (isset($_POST['dopublish']) || isset($_REQUEST['modalconfirm'])) {
 	$new_template = 0;
-	if ($_POST['campaign_id'] != 0) {
+	if (isset($_POST['campaign_id'])) {
+		$requested_campaign_id = $_POST['campaign_id'];
+	} else {
+		$requested_campaign_id = $request_parameters[0];
+	}
+	if ($requested_campaign_id != 0) {
 		$current_response = $cash_admin->requestAndStore(
 			array(
 				'cash_request_type' => 'element', 
 				'cash_action' => 'getcampaign',
-				'id' => $_POST['campaign_id']
+				'id' => $requested_campaign_id
 			)
 		);
 		$campaign = $current_response['payload'];
@@ -53,7 +58,7 @@ if (isset($_POST['dopublish'])) {
 				array(
 					'cash_request_type' => 'element', 
 					'cash_action' => 'editcampaign',
-					'id' => $_POST['campaign_id'],
+					'id' => $requested_campaign_id,
 					'template_id' => $template_id
 				)
 			);

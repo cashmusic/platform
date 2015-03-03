@@ -407,6 +407,16 @@ jQuery.fn.extend({
      		$(this).closest('form').submit();
      	});
 
+     	$(document).on('change','#current-published-campaign',function(event) {
+     		//$(this).closest('form').submit();
+     		var tmplt = $(this).find(':selected').data('template');
+     		if (!tmplt) {
+     			doMessage('','Before you can publish this campaign, you need to set its page theme. Open the campaign and click the edit icon to start.',true);
+     		} else {
+     			doMessage('','This will change your public page. Are you sure?',true,$(this).find(':selected').data('path'));
+     		}
+     	});
+
 		// element embed highlight-and-copy code
 		$(document).on('click', '.codearea', function(e) {
 			element = this;
@@ -1106,14 +1116,14 @@ jQuery.fn.extend({
 
 		// modal lightboxes
 		$(document).on('click', '.lightboxed', function(e) {
-				e.preventDefault();
-				//removeModal();
-				if ($(this).hasClass('returntocurrentroute')) {
-					doModalLightbox($(this).attr('href'),true);
-				} else {
-					doModalLightbox($(this).attr('href'));
-				}
-				this.blur();
+			e.preventDefault();
+			//removeModal();
+			if ($(this).hasClass('returntocurrentroute')) {
+				doModalLightbox($(this).attr('href'),true);
+			} else {
+				doModalLightbox($(this).attr('href'));
+			}
+			this.blur();
 		});
 	}
 
