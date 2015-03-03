@@ -4855,12 +4855,8 @@ label.checklabel{
 
 .published{
 	margin:25px 0 0 0;
-	/*background:#ddd;*/
-	/*border:solid 1px #ccc;*/
-	background:#e1e1e1;
-	/*border:solid 1px #ddd;*/
+	background:#e6e6e6;
 	padding:20px;
-
 	border:solid 1px #d2d2d2;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -4932,7 +4928,6 @@ label.checklabel{
 }
 
 .published .url-link{
-	/*background:#e4e4e4;*/
 	display:inline-block;
 	padding:0px;
 	-webkit-border-radius: 3px;
