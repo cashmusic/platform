@@ -6020,7 +6020,7 @@ td{display:table-cell; vertical-align: inherit;}
 
 #navmenu, #navmenu.display{
 	position: absolute;
-	height:100%;
+	min-height:1250px;
 }
 
 }/* Min - Height Fixes END */
