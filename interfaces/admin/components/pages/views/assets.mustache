@@ -62,12 +62,14 @@
 	</div><!--empty-->
 {{/featured_releases}}
 
-
-{{#two_features}}
-	<div class="pure-u-1 pure-u-md-1-2"></div><!--pure-->
-{{/two_features}}
-
 <div class="additional_releases drawer">
+
+	{{#more_releases}}
+	<div class="itemnav">
+		<a class="drawerhandle usecolor2">releases</a>
+	</div><!--itemnav-->
+	{{/more_releases}}
+	
 	{{#remaining_releases}}
 	<div class="drawercontent pure-u-1">
 		{{#remaining_releases}}
@@ -101,19 +103,14 @@
 		</div><!--pure-->
 		{{/remaining_releases}}
 		{{#one_remaining}}
-			<div class="pure-u-1"></div>
+			<div class="pure-u-1 pure-u-md-1-4 ghost-release"></div>
 		{{/one_remaining}}
 		{{#two_remaining}}
-			<div class="pure-u-1 pure-u-md-1-2"></div>
+			<div class="pure-u-1 pure-u-md-1-4 ghost-release"></div>
+			<div class="pure-u-1 pure-u-md-1-4 ghost-release"></div>
 		{{/two_remaining}}
 	</div><!--drawercontent-->
 	{{/remaining_releases}}
-
-		{{#more_releases}}
-		<div class="itemnav">
-			<a class="drawerhandle usecolor2">releases</a>
-		</div><!--itemnav-->
-		{{/more_releases}}
 </div><!--releases-->
 
 
@@ -147,19 +144,20 @@ to be sold through a <a class="store lightboxed" href="{{www_path}}/elements/add
 			<p>No files have been added yet. Add one to get started.</p>
 		</div><!--empty-->
 		{{/featured_files}}
+	</div><!--pure-->
 
-		<div class="drawer">
-		{{#more_files}}<div class="itemnav"><a class="drawerhandle usecolor2">older files</a></div>{{/more_files}}
-			{{#more_files}}
+		{{#more_files}}
+		<div class="drawer pure-u-1 display-files">
+		<div class="itemnav"><a class="drawerhandle usecolor2">older files</a></div>
 			<div class="drawercontent">
 				{{#remaining_files}}
 					<a class="files" href="{{www_path}}/assets/edit/{{id}}"><div class="icon icon-file"></div><!--icon-->{{title}} <span class="descriptive fadedtext file-description">({{descriptor_string}})</span>{{#monetized}}<!-- If commerce item associated --><span class="monetised"><div class="icon icon-dollar"></div><!--icon--></span>{{/monetized}}</a>
 				{{/remaining_files}}
 			</div><!--drawercontent-->
-			{{/more_files}}
 		</div><!--drawer-->
+		{{/more_files}}
 	
-	</div><!--pure-->
+
 </div><!--pure-->
 <script type="text/javascript">
 	jQuery('div.cover').height(jQuery('div.cover').width());

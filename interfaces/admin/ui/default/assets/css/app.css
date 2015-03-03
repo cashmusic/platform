@@ -2879,6 +2879,10 @@ fieldset{
 	margin:40px 0 0 0;
 }
 
+.display-files{
+	margin:0 0 30px 0;
+}
+
 .display-files .files{
 	background:#cfcfcf;
 	margin:0 0 1px 0;
