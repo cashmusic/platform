@@ -4920,7 +4920,7 @@ label.checklabel{
 	transition:0.3s ease-in-out;
 }
 
-.published .touchpoints .link.unpublish, .published .touchpoints.display .link, .panel .published .touchpoints .link{
+.published .touchpoints.display .link, .panel .published .touchpoints .link{
 	opacity:1;
 	visibility: visible;
 }
