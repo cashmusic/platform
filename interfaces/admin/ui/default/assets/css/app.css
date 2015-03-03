@@ -1835,7 +1835,7 @@ color:#f5f5f5!important;
 
 /* Preferences Panel */
 
-.prefpanel{
+.drawer.prefpanel{
 	background:#dbdbdb;
 	color:#696969;
 	border: 1px solid #cbcbcb;
@@ -1895,7 +1895,7 @@ color:#f5f5f5!important;
 	margin:0 10px 0 0;
 }
 
-.prefpanel.display h5{
+.prefpanel h5{
 	font-size: 14px;
 	line-height: 14px;
 	font-weight: 700;
@@ -1903,32 +1903,32 @@ color:#f5f5f5!important;
 	color:#696969;
 }
 
-.prefpanel .pref-inner, .prefpanel .elementform{
+/*.prefpanel .pref-inner, .prefpanel .elementform{
 	margin:0;
 	padding:0;
 	height:0;
 	opacity:0;
 	overflow: hidden;
-}
+}*/
 
 
 .prefpanel .pref-inner label{
 	font-size: 14px;
 }	
 
-.prefpanel .pure-u-md-1-2{
+/*.prefpanel .pure-u-md-1-2{
 	display:none;
 	height:0%;
 	opacity: 0;
-}
+}*/
 
-.prefpanel.display .pure-u-md-1-2{
+.prefpanel .pure-u-md-1-2{
 	display: inline-block;
 	height:100%;
 	opacity: 1;
 }
 
-.prefpanel.display .pref-inner{
+.prefpanel .pref-inner{
 	padding:20px;
 	background:#e2e2e2;
 	height:100%;
@@ -1936,26 +1936,28 @@ color:#f5f5f5!important;
 	opacity:1;
 }
 
-.prefpanel.display h4{
-	margin:0 0 40px 0;
-}
+.prefpanel .drawerhandleaction{display:none;}
+
+.drawer.prefpanel .itemnav{padding:0;}
+
+.drawer.prefpanel .drawercontent{padding:20px 0 0 0;}
 
 /* Element Details Forms */
 
-.prefpanel.display .elementform{
+.prefpanel .elementform{
 	height:100%;
 	min-height:210px;
 	opacity:1;
 }
 
-.prefpanel.display .section{
+.prefpanel .section{
 	background:#e2e2e2;
 	padding:20px;
 	margin:0 0 10px 0;
 	position: relative;
 }
 
-.prefpanel.display .section .section-header{
+.prefpanel .section .section-header{
 	display: inline-block;
 	margin:0 10px 20px 0;
 }
@@ -2349,8 +2351,7 @@ color:#f5f5f5!important;
 }
 
 /* Item Nav */
-
-.itemnav, .drawercontent{
+.drawer{
 	padding:20px;
 	background:#dbdbdb;
 	color:#696969;
@@ -2358,6 +2359,14 @@ color:#f5f5f5!important;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+}
+
+.drawer .itemnav{
+	padding:20px 20px 18px 20px;
+}
+
+.drawer .drawercontent{
+	padding:0 20px 20px 20px;
 }
 
 
@@ -4723,11 +4732,14 @@ label.checklabel{
 	height:100%;
 	padding:5%;
 	position: relative;
+	display: block;
+	text-decoration: none;
 }
 
 #campaigns .associated .elements .noelement .icon{
 	width:100%;
 	font-size: 85px;
+	height:auto;
 	text-align: center;
 	color:#dbdbdb;
 	display: block;
@@ -4736,6 +4748,7 @@ label.checklabel{
 
 #campaigns .associated .elements .noelement p{
 	background:#dbdbdb;
+		color:#868686;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -4744,6 +4757,7 @@ label.checklabel{
 	padding:10px 2%;
 	width:90%;
 	display: block;
+	text-align: center;
 }
 
 #campaigns .associated .elements .noelement p span{
