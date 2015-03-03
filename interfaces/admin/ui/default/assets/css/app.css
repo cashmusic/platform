@@ -3762,6 +3762,37 @@ margin:0 5px 0 0; padding:0;}
 	text-transform:none !important;
 }
 
+/* Modal Tooltip */
+
+.modallightbox .tooltip{
+	display: block;
+	position: static;
+	width:100%;
+	height:auto;
+	padding:0;
+	margin:20px 0 20px 0;
+}
+
+.modallightbox .tooltip:before {
+	display: none;
+}
+
+.modallightbox .tooltip:after {
+	opacity:0.3;
+	visibility: visible;
+	position: static;
+	box-shadow: none;
+	width:100%;
+	border:dotted 1px;
+	background:none;
+	padding:10px 20px;
+	margin:0;
+	display: block;
+}
+.modallightbox .tooltip:hover{
+	cursor: auto;
+}
+
 /* Lightbox */
 
 .modalbg{
