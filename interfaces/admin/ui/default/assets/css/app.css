@@ -195,9 +195,9 @@ a.revealpassword {
 	margin:1%;
 	padding:10px;
 	position: relative;
-	-webkit-transition: 0.3s  ease-in-out;
-	-moz-transition: 0.3s  ease-in-out;
-	transition:0.3s ease-in-out;
+	-webkit-transition: 0.3s  linear;
+	-moz-transition: 0.3s  linear;
+	transition: 0.3s linear;
 }
 
 #mainspc .grid{
@@ -450,8 +450,8 @@ form button{
 }
 
 .login #cash_signin_form {
-	margin:30px 0 0 0;
-	padding:200px 20px 20px 20px;
+	margin:0;
+	padding:150px 20px 20px 20px;
 	background:transparent url(../images/logo.svg) center 30px no-repeat;
 	background-size:80px;
 }
@@ -737,6 +737,7 @@ div.switchblock div.show {display:block;}
 .login .swipehint{
 	height:0;
 	opacity:0;
+	display:none;
 }
 
 /* //// Animation //// */
@@ -1857,7 +1858,7 @@ color:#f5f5f5!important;
 	color:#696969;
 }
 
-.prefpanel .ql.icon{
+#pagedisplay .prefpanel .ql.icon{
 	color:#696969;
 	margin:0 10px;
 	display: inline;
@@ -1867,7 +1868,7 @@ color:#f5f5f5!important;
 	border: 1px solid #cbcbcb;
 }
 
-.prefpanel .ql.inline.icon{
+#pagedisplay .prefpanel .ql.inline.icon{
 	margin:0;
 	display: inline-block;
 }
@@ -1976,7 +1977,6 @@ color:#f5f5f5!important;
 
 .login #mainspc{
 	background: url('../images/hero_bg.jpg');
-	height:100%;
 	width:100%;
 	padding:0;
 	margin:0;
@@ -2130,7 +2130,7 @@ color:#f5f5f5!important;
 #navmenu{
 	position:fixed;
 	overflow:visible;
-	right:-100%;
+	right:-85%;
 	top:0;
 	margin:0;
 	padding:0;
@@ -2138,9 +2138,9 @@ color:#f5f5f5!important;
 	opacity:1;
 	z-index:6;
 	height:100%;
-	-webkit-transition: right 0.3s  ease-in-out;
-	-moz-transition: right 0.3s  ease-in-out;
-	transition: right 0.3s ease-in-out;
+	-webkit-transition:  0.3s  ease-out;
+	-moz-transition:  0.3s  ease-out;
+	transition:  0.3s ease-out;
 	background:#222;
 }
 
@@ -2161,17 +2161,22 @@ color:#f5f5f5!important;
 /* Mobile Gestures */
 .swipeleft #navmenu{
 	right:0%;
-	width:60%;
+	width:70%;
 	-webkit-transition: 0.3s  linear;
 	-moz-transition: 0.3s  linear;
 	transition: 0.3s linear;
 }
 
 .swipeleft #pagedisplay{
-	right:62%;
+	right:72%;
 	-webkit-transition: 0.3s  linear;
 	-moz-transition: 0.3s  linear;
 	transition: 0.3s linear;
+	pointer-events: none;
+}
+
+.login.swipeleft #pagedisplay{
+	right:0;
 }
 
 .swiperight #pagedisplay{
@@ -2180,11 +2185,6 @@ color:#f5f5f5!important;
 	transition: 0.3s linear;
 }
 
-#page{
-	-webkit-transition: 0.3s  linear;
-	-moz-transition: 0.3s  linear;
-	transition: 0.3s linear;
-}
 
 #navmenu ul li a{
 	padding:18px 15% 18px 15%;
@@ -5547,6 +5547,15 @@ html{
 	background-attachment: fixed;
 }  
 
+.login #mainspc{
+	height:100%;
+}
+
+.login #cash_signin_form {
+	margin:30px 0 0 0;
+	padding:200px 20px 20px 20px;
+}
+
 /* Helpers */
 
 .right{
@@ -5660,9 +5669,9 @@ section[role=main].hero, .login section[role=main]{ margin:400px 0 0 0; }
 }
 
 #mainspc{
-	-webkit-transition: margin 0.3s  ease-in-out;
-	-moz-transition: margin 0.3s  ease-in-out;
-	transition: margin 0.3s ease-in-out;
+	-webkit-transition: 0.3s  ease-out;
+	-moz-transition: 0.3s  ease-out;
+	transition: 0.3s ease-out;
 }
 
 /* Inline nav */
@@ -6071,7 +6080,7 @@ td{display:table-cell; vertical-align: inherit;}
 /* ===============
    Min - Height Fixes
    =============== */
-@media only screen and (min-width: 769px) and (max-height : 650px){
+@media only screen and (min-width: 769px) and (max-height : 550px){
 
 .version{ opacity: 0; }
 
