@@ -524,7 +524,7 @@ span.invalid{
 
 /* Buttons General */
 
-button, .button{
+button, .button, .pref-inner button, .pref-inner .button{
 	margin:20px 0;
 	display:inline-block;
 	border:solid 1px #00cf7f;
@@ -2611,6 +2611,10 @@ fieldset{
 	margin:20px 0 0 0;
 }
 
+.fulfillment-files ul.alternating{
+	margin:0;
+}
+
 .fulfillment-files .attachment{
 	margin:-20px 10px 0 0;
 	color:#222;
@@ -3791,7 +3795,7 @@ margin:0 5px 0 0; padding:0;}
 }
 
 .modallightbox .tooltip:after {
-	opacity:0.3;
+	opacity:1;
 	visibility: visible;
 	position: static;
 	box-shadow: none;
