@@ -322,7 +322,6 @@ jQuery.fn.extend({
 		glitch();
 		firstUtpHL();
 		ZclipBoard();
-		PrefPanel();
 		handleSwitchBlocks();
 	}
 
@@ -762,12 +761,6 @@ jQuery.fn.extend({
 		} );
 	};	
 
-	//Preference Panel
-	function PrefPanel() {
-		$(".prefpanel .title").click(function(){
-			$(".prefpanel").toggleClass("display");
-		});
-	};
 
 	/**
 	 *
