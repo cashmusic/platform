@@ -137,6 +137,10 @@
 </div><!--published-->
 {{/show_published}}
 
+{{^show_published}}
+<div class="published"><h4 class="fadedtext">Your public page is not live yet.</h4><p class="fadedtext">Select which campaign you want to publish from the dropdown below.</p></div>
+{{/show_published}}
+
 {{#has_campaigns}}
 <div class="prefpanel pure-u-1">
 	<h4 class="title"><div class="icon icon-wrench"></div><!--icon--><span>Publish Settings</span></h4>
@@ -180,9 +184,8 @@
 {{/has_campaigns}}
 
 {{^has_campaigns}}
-<div class="published"><h4 class="fadedtext">Your public page is not live yet.</h4><p class="fadedtext">Select which campaign you want to publish from the dropdown below.</p></div>
 <div class="prefpanel pure-u-1">
-	<h4><div class="icon icon-wrench"></div><!--icon--><span>Publish Settings</span></h4>
+	<h4 class="title"><div class="icon icon-wrench"></div><!--icon--><span>Publish Settings</span></h4>
 	<div class="pure-u-1 pure-u-md-1-2">
 		<div class="pref-inner">
 			<h5>Publish a campaign</h5>
