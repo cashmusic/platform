@@ -4869,7 +4869,7 @@ label.checklabel{
 	position:relative;
 }
 
-.published .info p{
+.published p{
 	padding:0;
 	margin:0;
 }
@@ -4885,7 +4885,7 @@ label.checklabel{
 
 .published .toggle{ 
 	float:right;
-	margin:0px 0 0 10px;
+	margin:0px 0 0 5px;
 	padding:6px 9px 8px 9px; 
 	background:#ccc;
 	-webkit-border-radius: 50px;
@@ -4904,8 +4904,7 @@ label.checklabel{
 	-webkit-border-radius: 50px;
 	-moz-border-radius: 50px;
 	border-radius: 50px;
-	background:#e4e4e4;
-	background:#dcdcdc;
+	background:#ccc;
 	display: inline-block;
 	color:#666;
 	float:right;
@@ -4921,7 +4920,7 @@ label.checklabel{
 	transition:0.3s ease-in-out;
 }
 
-.published .touchpoints.display .link, .panel .published .touchpoints .link{
+.published .touchpoints .link.unpublish, .published .touchpoints.display .link, .panel .published .touchpoints .link{
 	opacity:1;
 	visibility: visible;
 }
