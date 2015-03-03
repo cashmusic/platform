@@ -199,9 +199,9 @@ if (is_array($files_response['payload'])) {
 		}
 	}
 
-	$featured_files = array_slice($files_response['payload'],0,10);
-	if (count($files_response['payload']) > 10) {
-		$remaining_files = array_slice($files_response['payload'],10);
+	$featured_files = array_slice($files_response['payload'],0,5);
+	if (count($files_response['payload']) > 5) {
+		$remaining_files = array_slice($files_response['payload'],5);
 		$cash_admin->page_data['more_files'] = true;
 		$cash_admin->page_data['remaining_files'] = new ArrayIterator($remaining_files);
 	}

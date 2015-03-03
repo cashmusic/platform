@@ -149,16 +149,14 @@ to be sold through a <a class="store lightboxed" href="{{www_path}}/elements/add
 		{{/featured_files}}
 
 		<div class="drawer">
+		{{#more_files}}<div class="itemnav"><a class="drawerhandle usecolor2">older files</a></div>{{/more_files}}
 			{{#more_files}}
 			<div class="drawercontent">
 				{{#remaining_files}}
-					<a class="files" href="{{www_path}}/assets/edit/{{id}}"><div class="icon icon-file"></div><!--icon-->{{title}}</a>
-					<span class="descriptive fadedtext file-description">({{descriptor_string}})</span>{{#monetized}}<!-- If commerce item associated -->
-					<div class="icon icon-dollar"></div><!--icon-->{{/monetized}}
+					<a class="files" href="{{www_path}}/assets/edit/{{id}}"><div class="icon icon-file"></div><!--icon-->{{title}} <span class="descriptive fadedtext file-description">({{descriptor_string}})</span>{{#monetized}}<!-- If commerce item associated --><span class="monetised"><div class="icon icon-dollar"></div><!--icon--></span>{{/monetized}}</a>
 				{{/remaining_files}}
 			</div><!--drawercontent-->
 			{{/more_files}}
-				{{#more_files}}<a class="drawerhandle mininav_flush usecolor2">files</a>{{/more_files}}
 		</div><!--drawer-->
 	
 	</div><!--pure-->
