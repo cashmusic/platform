@@ -1,0 +1,25 @@
+<form method="post" action="/admin/campaigns/theme" novalidate="novalidate">
+	<input type="hidden" name="settheme" value="doit" />
+	<input type="hidden" name="campaign_id" value="{{campaign_id}}" />
+
+	<div class="section basic-information row" data-section-name="Final settings" style="display: block;">
+		<div id="elementformspc">
+			<p><label for="element_id">This page helps you create a basic campaign page theme. You'll be able to make changes later. <br />Choose a page style to start</label></p>
+			<select name="pagetheme" id="element_id">
+				<option value="dark" selected="selected">Use dark theme</option>
+				<option value="light">Use light theme</option>
+			</select>
+
+			{{#campaign_elements}}
+				<p><label for="element_id">Now a featured element to start with</label></p>
+				<select name="element_id" id="element_id">
+					<option value="0">None</option>
+					{{#campaign_elements}}
+						<option value="{{id}}">{{name}}</option>
+					{{/campaign_elements}}
+				</select>
+			{{/campaign_elements}}
+		</div>
+	</div>
+	<input class="button" id="submit" type="submit" value="Create a theme for this campaign" />
+</form>

@@ -23,6 +23,9 @@ if (isset($_POST['change_template_id'])) {
 	);
 
 $cash_admin->page_data['template_id'] = $settings_request->response['payload'];
+if ($cash_admin->page_data['template_id']) {
+	$cash_admin->page_data['show_published'] = true;
+} 
 
 // handle campaign selection
 $current_campaign = $admin_primary_cash_request->sessionGet('current_campaign');
@@ -162,6 +165,10 @@ if ($total_campaigns) {
 			// set element count
 			$campaign['element_count'] = count($campaign['elements']);
 
+			if ($campaign['template_id'] == 0) {
+				$campaign['show_wizard'] = true;
+			}
+
 			// add campaign to dropdown options
 			$cash_admin->page_data['campaigns_as_options'] .= '<option value="' . $campaign['id'] .'"';
 			if ($campaign['id'] == $current_campaign) {
@@ -195,7 +202,6 @@ if ($total_campaigns) {
 
 	if ($cash_admin->page_data['template_id']) {
 		foreach ($campaigns_response['payload'] as &$campaign) {
-			error_log($cash_admin->page_data['template_id']);
 			if ($campaign['template_id'] == $cash_admin->page_data['template_id']) {
 				$campaign['currently_published'] = true;
 			}
