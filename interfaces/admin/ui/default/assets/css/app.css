@@ -5587,8 +5587,11 @@ button.right, .button.right{
 }
 
 /* Lightbox */
-.modallightbox{
-  width:74%;
+.modallightbox{ width:74%; }
+
+#page_content .modallightbox{
+	width:100%;
+	padding:10% 18%;
 }
 
 .modallightbox .modalcancel{ right:30%; }
