@@ -4485,7 +4485,8 @@ label.checklabel{
 	position: absolute;
 	top:20px;
 	right:20px;
-	padding:10px 9px 9px 10px;
+	padding:12px 12px 11px 13px;
+	line-height: auto;
 	text-align: center;
 	display:block;
 }
@@ -4853,36 +4854,76 @@ label.checklabel{
 }
 
 .published{
-	margin:30px 0 0 0;
-	background:#ddd;
+	margin:25px 0 0 0;
+	/*background:#ddd;*/
+	/*border:solid 1px #ccc;*/
+	background:#e1e1e1;
+	/*border:solid 1px #ddd;*/
 	padding:20px;
+
+	border:solid 1px #d2d2d2;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	overflow:auto;
+	position:relative;
 }
 
-.published .info{
-	float:left;
-}
-
-.published p, .published h4{
+.published .info p{
+	padding:0;
 	margin:0;
 }
 
-.published .link{
+.published .touchpoints{
+	position:absolute;
+	right:20px;
+	top:50%;
+	margin:-18px 0 0 0;
+}
+
+.published .info{ display:block;}
+
+.published .toggle{ 
+	float:right;
+	margin:0px 0 0 10px;
+	padding:6px 9px 8px 9px; 
+	background:#ccc;
 	-webkit-border-radius: 50px;
 	-moz-border-radius: 50px;
 	border-radius: 50px;
-	background:#ccc;
+}
+
+.published .toggle:hover{ cursor: pointer; }
+
+.published h4{
+	margin:0 0 0 0;
+	width:70%;
+}
+
+.published .touchpoints .link{
+	-webkit-border-radius: 50px;
+	-moz-border-radius: 50px;
+	border-radius: 50px;
+	background:#e4e4e4;
+	background:#dcdcdc;
+	display: inline-block;
 	color:#666;
+	float:right;
 	padding:10px 20px;
-	margin:10px 5px 0 0;
+	font-size: 12px;
+	margin:0px 5px 0 0;
 	text-align: center;
 	text-decoration: none;
+	opacity:0;
+	visibility: hidden;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	transition:0.3s ease-in-out;
+}
+
+.published .touchpoints.display .link, .panel .published .touchpoints .link{
+	opacity:1;
+	visibility: visible;
 }
 
 .published .link:hover{
@@ -4892,7 +4933,12 @@ label.checklabel{
 }
 
 .published .url-link{
-	background:none;
+	/*background:#e4e4e4;*/
+	display:inline-block;
+	padding:0px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 	color:#00cf7f;
 	padding:0;
 	text-decoration: underline;
