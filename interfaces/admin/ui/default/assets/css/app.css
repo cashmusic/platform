@@ -575,6 +575,22 @@ button .icon, .button .icon{
 }
 
 /* Uploader */
+
+.drawer.upload-corral {
+	background:none;
+	border:none;
+}	
+
+.drawer.upload-corral .drawercontent{
+	padding:0;
+}
+
+
+.upload-corral{
+	display: none;
+}
+
+
 .upload-corral .icon{
 	margin:0 10px 0 0;
 }
@@ -589,9 +605,13 @@ button .icon, .button .icon{
 	color:#f5f5f5!important;
 }
 
+.upload-corral input[type=file]{
+	padding:10px;
+	background:#ddd;
+}
+
 .modallightbox .upload-corral input[type=file]{
 	background:#333;
-	padding:10px;
 }
 
 .file-security{
@@ -2989,7 +3009,7 @@ table tr th{
 	background-position: center;
 	color:#222;
 	padding:20px 15px;
-	text-align:left
+	text-align:left;
 }
 
 table tr{
@@ -3006,6 +3026,7 @@ table td{
 	padding:15px;
 	margin:0;
 	word-wrap:break-word;
+	text-align:left;
 }
 
 table td a{
@@ -6028,6 +6049,14 @@ td{display:table-cell; vertical-align: inherit;}
 	-moz-transition: 0.3s  ease-in-out;
 	transition:0.3s ease-in-out;	
 }
+
+.portrait table { display:table;}
+.portrait thead{ display:table-#header-group;}
+.portrait tbody {display:table-row-group;}
+.portrait th{display:table-cell;}
+.portrait tr {display:table-row;}
+.portrait td{display:table-cell; vertical-align: inherit;}
+
 
 .landscape .pure-u-md-3-4{
 	width:75%;	
