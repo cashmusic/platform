@@ -1,0 +1,64 @@
+<div class="tour">
+	<form method="post" id="tourform" action="{{www_path}}/" class="multipart" data-parts="4" novalidate="novalidate">
+	<input type="hidden" name="sawthetour" value="yup">	
+
+	<div class=" section part-1" data-section-name="Welcome">
+		<div class="pure-u-1">
+			<p class="big">
+				What an amazing welcome message! It even has a statement of purpose and sounds nice.
+			</p>
+		</div>
+	</div>
+
+	<div class=" section part-2" data-section-name="Campaigns" style="display: none;">
+		<div class="pure-u-1">
+			<p class="big">
+				We should mention campaigns and elements, what they are, and that they're great.
+			</p>
+		</div>
+	</div>
+
+	<div class=" section part-3" data-section-name="Embeds" style="display: none;">
+		<div class="pure-u-1">
+			<p class="big">
+				I'd say maybe a page about embeds and how they work. Use as many as you like! We don't care! I'd say maybe a page about embeds and how they work. Use as many as you like! We don't care!
+			</p>
+		</div>
+	</div>
+
+	<div class=" section part-4" data-section-name="Pages" style="display: none;">
+		<div class="pure-u-1">
+			<p class="big">
+				And pages! Pages are great! You only get one at a time so make it good. Each campaign gets one, though — publish when you're ready!
+			</p>
+		</div>
+	</div>
+
+	<div class="section basic-information" data-section-name="Enjoy!" style="display: none;">
+		<div class="pure-u-1">
+			<p class="big">
+				We should finish with some flair! Try out all the crap. Go nuts! 
+			</p>
+		</div>
+	</div>
+
+	<input class="button" type="submit" value="Let's go!" style="display: none;">
+	</form>
+</div>
+
+
+
+<div class="gallery elementinstructions">
+	<h5>TL;DR</h5>
+	<p class="big">The short version is that we built this thing to help you take control of how you release your music. Use your own accounts. Do it your way. Try new things and get them to your audience quickly.</p>
+	<p>All the rest is just details. On the main page you can create a campaign and fill it with all the elements you need to make it work for you. Embed those elements on your own website or publish them on a page here. It's up to you.</p>
+	<p>All free, now and forever.</p>
+
+	<h5><a href="{{www_path}}/" id="skipbutton">Skip the rest of the tour.</a></span></h5>
+	<script type="text/javascript">
+		$('#skipbutton').click(function(e) {
+			e.preventDefault();
+			$('#tourform').submit()
+		});
+	</script>
+</div>

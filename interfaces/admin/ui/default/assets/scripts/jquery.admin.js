@@ -383,18 +383,9 @@ jQuery.fn.extend({
 		});
 
 		// hide mainmenu & tertiary panel
-		$( "#flipback" ).click(function() {
+		$('#flipback').click(function() {
 			$ (this).parent().removeClass( "display" );
-			
-			if ( $("body").hasClass("panel") ){
-					$("body").removeClass("panel");
-
-					//timer to remove content of panel after close
-					window.globaltimeout = window.setTimeout(function(){
-						$("body").removeClass("learn").removeClass("settings").removeClass("help");
-				}, 150);
-			};
-				$('.panelcontent').removeClass('display');
+			closePanel();
 		});
 
 		// when we need a submit button outside it's target form (see file assets, etc)
@@ -516,58 +507,61 @@ jQuery.fn.extend({
 	};
 
 	/* Show/Hide Tertiary Panel */
+	var currentPanel = false;
 
 	function touchToggles() {
-		
-		$( "#learn.toggle, #learnpanel .toggle, #learnpanel .paneltitle" ).click(function() {
-			//check if learn panel is open & close it
-			if ( $("body").hasClass("panel", "learn") ){
-					$("body").removeClass("panel");
-					//timer to remove content of panel after close
-					window.globaltimeout = window.setTimeout(function(){
-						$("body").removeClass("learn");
-				}, 150);
-			}
-			//open panel
-			else {
-				$ (this).parents("body").addClass("panel").addClass("learn");
-			};
-		});
-
 		$(".swipehint").click(function(){
 			$(this).addClass("hide");
 		});
 
-		$( "#settings.toggle, #settingspanel .toggle, #settingspanel .paneltitle, .settings.toggle").click(function() {
+		$( "#learn.toggle, #learnpanel .toggle, #learnpanel .paneltitle" ).click(function() {
 			//check if learn panel is open & close it
-			if ( $("body").hasClass("panel", "settings") ){
-					$("body").removeClass("panel");
-					//timer to remove content of panel after close
-					window.globaltimeout = window.setTimeout(function(){
-						$("body").removeClass("settings");
-				}, 150);
+			if (currentPanel == 'learn'){
+				closePanel();
 			}
 			//open panel
 			else {
-				$ (this).parents("body").addClass("panel").addClass("settings");
+				$ (this).parents('body').addClass('panel').addClass('learn');
+				currentPanel = 'learn';
+			};
+		});
+
+		$( "#settings.toggle, #settingspanel .toggle, #settingspanel .paneltitle, .settings.toggle").click(function() {
+			//check if settings panel is open & close it
+			if (currentPanel == 'settings'){
+				closePanel();
+			}
+			//open panel
+			else {
+				$ (this).parents('body').addClass('panel').addClass('settings');
+				currentPanel = 'settings';
 			};
 		});
 
 		$( "#help.toggle, #helppanel .toggle, #helppanel .paneltitle" ).click(function() {
-			//check if learn panel is open & close it
-			if ( $("body").hasClass("panel", "help") ){
-					$("body").removeClass("panel");
-					//timer to remove content of panel after close
-					window.globaltimeout = window.setTimeout(function(){
-						$("body").removeClass("help");
-				}, 150);
+			//check if help panel is open & close it
+			if (currentPanel == 'help'){
+				closePanel();
 			}
 			//open panel
 			else {
-				$ (this).parents("body").addClass("panel").addClass("help");
+				$ (this).parents('body').addClass('panel').addClass('help');
+				currentPanel = 'help';
 			};
 		});
 	};
+
+	function closePanel() {
+		if (currentPanel) {
+			$('body').removeClass('panel');
+			//timer to remove content of panel after close
+			window.globaltimeout = window.setTimeout(function(){
+				$('body').removeClass('help').removeClass('settings').removeClass('learn');
+				$('.panelcontent').removeClass('display');
+			}, 150);
+			currentPanel = false;
+		}
+	}
 
 	/* Glitch Hero Background */	
 
@@ -788,7 +782,7 @@ jQuery.fn.extend({
 				el.blur();
 
 			// if inside the tertiary panel or a panel touchpoint
-			} else if (el.parents('div').hasClass('inner') && !el.hasClass('connection')){
+			} else if (el.parents('div').hasClass('inner') && !el.hasClass('connection') && !el.hasClass('lightboxed')){
 				e.preventDefault();
 				$('.panelcontent').removeClass('display');
 				var url = el.attr('href');
@@ -1110,7 +1104,9 @@ jQuery.fn.extend({
 		// modal lightboxes
 		$(document).on('click', '.lightboxed', function(e) {
 			e.preventDefault();
-			//removeModal();
+			if ($(this).hasClass('closepanel')) {
+				closePanel();
+			}
 			if ($(this).hasClass('returntocurrentroute')) {
 				doModalLightbox($(this).attr('href'),true);
 			} else {

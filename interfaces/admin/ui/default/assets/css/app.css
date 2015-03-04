@@ -4146,22 +4146,18 @@ label.checklabel{
 	margin:2% 0 4% 0;
 }
 
-.modallightbox .multipart-prev{
+.modallightbox button.multipart-prev{
 	margin-right:1%;
-	float:left;
-	border-color:#4d4d4d;
-	color:#4d4d4d;
-}
-
-.modallightbox .multipart-prev:hover{
-	border: 1px solid #00cf7f;
-	color:#f5f5f5;
 }
 
 .modallightbox .row .row{
 	margin:0;
 	width:100%;
 	display:block;
+}
+
+.modallightbox .tour h5.steps {
+	display:none;
 }
 
 /* Callout Specific Tips / Directions */
