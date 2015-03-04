@@ -42,6 +42,6 @@
 	"addanelement" : {
 		"file":"addanelement",
 		"compatibility":["single","multi"],
-		"title":"Elements: add an element to a PHP page"
+		"title":"Elements: embed an element on your web site"
 	}
 }	
