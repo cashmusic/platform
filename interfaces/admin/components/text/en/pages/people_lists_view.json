@@ -1,6 +1,6 @@
 {
 	"pagetip":"",
-	"learn":"<p>Here you can view the latest info about your mailing lists. You can also export, edit, and delete your lists.</p><p>If you'd like to collect emails on your site or as part of your campaign you'll need to set up an email collection element first. </p>",
+	"learn":"<p>Here you can view the latest info about your mailing lists. You can also export, edit, and delete your lists.</p><p>If you'd like to collect emails onto a list, either on your site or as part of a campaign, you'll need to set up an email collection element first. </p>",
 	"related":{},
 	"labels":{},
 	"tooltips":{},
