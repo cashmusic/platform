@@ -2,22 +2,26 @@
 	<input type="hidden" name="settheme" value="doit" />
 	<input type="hidden" name="campaign_id" value="{{campaign_id}}" />
 
-	<div class="section basic-information row" data-section-name="Final settings" style="display: block;">
+	<div class="section basic-information" data-section-name="Final settings" style="display: block;">
 		<div id="elementformspc">
-			<p><label for="element_id">This page helps you create a basic campaign page theme. You'll be able to make changes later. <br />Choose a page style to start</label></p>
+		<i class="tooltip" data-tooltip="This page helps you create a basic campaign page theme. You'll be able to make changes later."></i>
+			<div class="pure-u-1 {{#campaign_elements}}pure-u-md-1-2{{/campaign_elements}}">
+			<label for="element_id">Choose a page style to start</label>
 			<select name="pagetheme" id="element_id">
 				<option value="dark" selected="selected">Use dark theme</option>
 				<option value="light">Use light theme</option>
 			</select>
-
+			</div><!--pure-->
 			{{#campaign_elements}}
-				<p><label for="element_id">Now a featured element to start with</label></p>
+			<div class="pure-u-1 pure-u-md-1-2">
+				<label for="element_id">Now a featured element to start with</label>
 				<select name="element_id" id="element_id">
 					<option value="0">None</option>
 					{{#campaign_elements}}
 						<option value="{{id}}">{{name}}</option>
 					{{/campaign_elements}}
 				</select>
+			</div><!--pure-->
 			{{/campaign_elements}}
 		</div>
 	</div>
