@@ -43,5 +43,9 @@
 		"file":"addanelement",
 		"compatibility":["single","multi"],
 		"title":"Misc: add an element to a PHP page"
-	
-}
+	},
+	"migratedb" : {
+		"file":"migratedb",
+		"compatibility":["single","multi"],
+		"title":"Misc: migrating to a MySQL database"
+	}
