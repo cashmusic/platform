@@ -4311,8 +4311,35 @@ label.checklabel{
 }
 
 .store .modallightbox .elementform {
-	width:62%;
+	width:57%;
 }
+
+.store .modallightbox .elementform ul{
+	list-style-type: none;
+	margin:0;
+	padding:0;
+}
+
+.store .modallightbox .elementform ul li{
+	margin:0;
+	padding:0;
+}
+
+.store .modallightbox .elementform ul li a{
+	background: #00cf7f;
+	color:#fff;
+	padding: 8px 20px;
+	text-decoration: none;
+  	display: inline-block;
+  	-webkit-border-radius: 50px;
+  	-moz-border-radius: 50px;
+  	border-radius: 50px;
+}
+
+
+.store .modallightbox .elementform ul li a:hover{
+	background:#111;
+}	
 
 /* Examples of  types in store */
 .modallightbox .gallery{
