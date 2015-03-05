@@ -34,10 +34,9 @@ if ($request_parameters) {
 			)
 		);
 
+		$app_json = AdminHelper::getElementAppJSON($element_addtype);
 		if ($requirements_response['payload'] === true) {
-			$app_json = AdminHelper::getElementAppJSON($element_addtype);
 			if ($app_json) {
-
 				// set page title/tip
 				$cash_admin->page_data['ui_title'] = 'Add ' . $app_json['details']['en']['name'] . ' Element';
 				$cash_admin->page_data['ui_page_tip'] = $app_json['details']['en']['instructions'];
@@ -102,6 +101,10 @@ if ($request_parameters) {
 				}
 			}
 			$cash_admin->page_data['needed_requirements'] .= '</ul>';
+
+			//$cash_admin->page_data['ui_title'] = 'Add ' . $app_json['details']['en']['name'] . ' Element';
+			$cash_admin->page_data['ui_title'] = '';
+			$cash_admin->page_data['copy_longdescription'] = $app_json['details']['en']['longdescription'];
 		}
 	} else {
 		$cash_admin->page_data['element_rendered_content'] = "You're trying to add an unsupported element. That's lame.";
