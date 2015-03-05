@@ -2709,6 +2709,16 @@ fieldset{
 	margin:20px 0 50px 0;
 }
 
+.callout .callout-inner .title.logo{
+	margin:0;
+}
+
+.callout .callout-inner .title .icon{
+	font-size:50px;
+	color:#222;
+	margin:5px  0 30px 0;
+}
+
 .callout .callout-inner {
 	color:#888888;
 	text-align:center;
