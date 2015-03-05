@@ -4342,6 +4342,7 @@ label.checklabel{
 	background: #00cf7f;
 	color:#fff;
 	padding: 8px 20px;
+	margin:0 5px 5px 0;
 	text-decoration: none;
   	display: inline-block;
   	-webkit-border-radius: 50px;
