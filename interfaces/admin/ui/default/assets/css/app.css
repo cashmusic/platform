@@ -1176,7 +1176,7 @@ div.switchblock div.show {display:block;}
 	transition: 3s ease-in-out;
 }
 
-#hero img{
+img, #hero img{
 	width:100%;
 	height:auto;
 }
@@ -3961,7 +3961,7 @@ label.checklabel{
 
 .page-editor .modallightbox{
 	padding:30px;
-	width:100%;
+	width:60%;
 	z-index:30;
 	height:100%;
 	position:absolute;
@@ -3969,10 +3969,6 @@ label.checklabel{
 
 .page-editor{
 	overflow: hidden;
-}
-
-.page-editor .modallightbox .editor{
-	width:58%;
 }
 
 .page-editor .modallightbox .editor .editor-inner{
@@ -4156,8 +4152,23 @@ label.checklabel{
 	display:block;
 }
 
+/* Platform Tour Window */
+
 .modallightbox .tour h5.steps {
 	display:none;
+}
+
+.tour .logo{
+	display:inline-block;
+	width:15%;
+	margin:20px 30px 50px 0;
+	float:left;
+}
+.tour h1{
+	margin:0;
+	float:left;
+	text-align: left;
+	display:inline-block;
 }
 
 /* Callout Specific Tips / Directions */
@@ -4335,7 +4346,7 @@ label.checklabel{
 .modallightbox .gallery.elementinstructions {
 	display:block;
 	padding:3%;
-	width:35%;
+	width:40%;
 }
 
 .modallightbox .gallery.elementinstructions h5 {
