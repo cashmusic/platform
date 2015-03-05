@@ -77,6 +77,10 @@ jQuery.fn.extend({
   		$( "#page" ).on( "swipeleft", swipeleftHandler );
   		$( "#page" ).on( "swiperight", swiperightHandler );
 
+  		window.addEventListener('load', function () {
+		FastClick.attach(document.body);
+		}, false);
+
 		window.globaltimeout = false;
 
 		history.pushState(1, null, location.pathname);
