@@ -158,9 +158,6 @@
 .icon-nothing:before {
   content: "Q";
 }
-.icon-circle-plus:before {
-  content: "N";
-}
 .icon-arw-up:before {
   content: "e";
 }
@@ -170,6 +167,9 @@
 .icon-truck:before {
   content: "P";
 }
+.icon-circle-plus:before {
+  content: "N";
+}
 .icon-data:before {
-  content: "S";
+  content: "T";
 }
