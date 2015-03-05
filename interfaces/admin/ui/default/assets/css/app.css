@@ -4162,13 +4162,6 @@ label.checklabel{
 	display:inline-block;
 	width:15%;
 	margin:20px 30px 50px 0;
-	float:left;
-}
-.tour h1{
-	margin:0;
-	float:left;
-	text-align: left;
-	display:inline-block;
 }
 
 /* Callout Specific Tips / Directions */
