@@ -39,6 +39,11 @@ body {
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	transition: 0.3s ease-in-out;
+	-webkit-touch-callout: none; 
+	-webkit-text-size-adjust: none; 
+	-webkit-user-select: none; 
+	-webkit-highlight: none; 
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 
@@ -2159,7 +2164,7 @@ color:#f5f5f5!important;
 #navmenu{
 	position:fixed;
 	overflow:visible;
-	right:-85%;
+	right:-100%;
 	top:0;
 	margin:0;
 	padding:0;
