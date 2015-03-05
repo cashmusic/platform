@@ -3969,8 +3969,8 @@ label.checklabel{
 /* Page Editor Lightbox */
 
 .page-editor .modallightbox{
+	width:100%;
 	padding:30px;
-	width:60%;
 	z-index:30;
 	height:100%;
 	position:absolute;
@@ -4022,7 +4022,7 @@ label.checklabel{
 	width:40%;
 	position:fixed;
 	top:0;
-	right:0;
+	right:-100%;
 }
 
 .page-editor .modallightbox .element-list .list{
@@ -5684,6 +5684,14 @@ button.right, .button.right{
 #page_content .modallightbox{
 	width:100%;
 	padding:10% 18%;
+}
+
+.page-editor .modallightbox{
+	width:60%;
+}
+
+.page-editor .modallightbox .element-list{
+	right:0;
 }
 
 .modallightbox .modalcancel{ right:30%; }
