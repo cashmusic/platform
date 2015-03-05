@@ -4788,6 +4788,12 @@ label.checklabel{
 	width:auto;
 }
 
+.panel #campaigns .associated .add{
+	margin:10px auto 0 auto;
+	position: initial;
+	width:100%;
+}
+
 #campaigns .associated .add .icon{
 	margin:-2px 0 0 0;
 	color: #f5f5f5;
