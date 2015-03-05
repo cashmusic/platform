@@ -13,14 +13,14 @@ if (isset($_POST['change_template_id'])) {
 }
 
 // get the current template:
-	$settings_request = new CASHRequest(
-		array(
-			'cash_request_type' => 'system', 
-			'cash_action' => 'getsettings',
-			'type' => 'public_profile_template',
-			'user_id' => $cash_admin->effective_user_id
-		)
-	);
+$settings_request = new CASHRequest(
+	array(
+		'cash_request_type' => 'system', 
+		'cash_action' => 'getsettings',
+		'type' => 'public_profile_template',
+		'user_id' => $cash_admin->effective_user_id
+	)
+);
 
 $cash_admin->page_data['template_id'] = $settings_request->response['payload'];
 if ($cash_admin->page_data['template_id']) {
@@ -220,6 +220,29 @@ if ($extra_elements !== 0) {
 	$cash_admin->page_data['show_archive'] = true;
 }
 
+
+
+// handle tour junk
+$settings_request = new CASHRequest(
+	array(
+		'cash_request_type' => 'system', 
+		'cash_action' => 'getsettings',
+		'type' => 'tour',
+		'user_id' => $cash_admin->effective_user_id
+	)
+);
+if (!$settings_request->response['payload']) {
+	$settings_request = new CASHRequest(
+		array(
+			'cash_request_type' => 'system', 
+			'cash_action' => 'setsettings',
+			'type' => 'tour',
+			'value' => 1,
+			'user_id' => $cash_admin->effective_user_id
+		)
+	);
+	$cash_admin->page_data['show_tour'] = true;
+}
 
 
 // figure out and select 	the correct view
