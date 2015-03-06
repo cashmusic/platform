@@ -732,6 +732,50 @@ div.switchblock div.show {display:block;}
 	background:none;
 }
 
+/* Search Results */
+
+.search ul{
+	margin:0;
+	padding:0;
+	list-style-type: none;
+}
+
+.search .results li a{
+	display: block;
+	padding:10px 20px;
+	background:#ddd;
+	margin:0 0 5px 0;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.search .results li:nth-child(odd) a{
+	background:#eee;
+}
+
+.search .results h5{
+	display: inline-block;
+	margin:0 10px 0 0;
+}
+
+.search .results li a .icon{
+	margin:0 10px 0 0;
+}
+
+.search .results li a:hover{
+	background:#222;
+}
+
+.search .results li a.campaign:hover{ background-color:#00cf7f; }
+.search .results li a.asset:hover{ background-color:#fa3838; }
+.search .results li a.people:hover{ background-color:#ff7c12;}
+.search .results li a.commerce:hover{ background-color:#6a38fa; }
+.search .results li a.calendar:hover{ background-color:#fa3866; }
+
+.search .results li a:hover h5, .search .results li a:hover .icon{
+	color:#f5f5f5;
+}
 /* Mobile Hints */
 .swipehint{
 	margin:-20px -21px 30px -21px;
