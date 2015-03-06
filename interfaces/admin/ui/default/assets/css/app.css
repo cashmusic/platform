@@ -1898,6 +1898,10 @@ color:#f5f5f5!important;
 	color:#696969;
 }
 
+.prefpanel .pure-u-1{
+	margin-bottom:0;
+}
+
 #pagedisplay .prefpanel .ql.icon{
 	color:#696969;
 	margin:0 10px;
