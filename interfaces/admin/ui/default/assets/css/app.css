@@ -4836,7 +4836,7 @@ label.checklabel{
 	text-align: center;
 	color:#dbdbdb;
 	display: block;
-	margin:85px auto;
+	margin:65px auto;
 }
 
 #campaigns .associated .elements .noelement p{
@@ -6242,6 +6242,10 @@ section[role=main]{ padding:0; }
 /* Campaigns */
 
 #campaigns .associated .elements{ height:300px; }
+.panel #campaigns .associated .elements{ height:250px; }
+
+#campaigns .associated .elements .noelement .icon{ margin:85px auto; }
+.panel #campaigns .associated .elements .noelement .icon{ margin:65px auto; }
 
 /* Commerce */
 
