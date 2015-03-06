@@ -269,6 +269,12 @@ html, button, input, select, textarea,
     box-sizing: border-box;
 }
 
+/*Vertical Spacing*/
+
+.pure-u-1{
+	margin-bottom:10px;
+}
+
 /* Icons General */
 
 .icon{
@@ -5674,6 +5680,10 @@ button.right, .button.right{
 .swipehint{ display:none; }
 
 /* Pure Grid Gutters */
+
+.pure-u-1{
+	margin:-bottom;0;
+}
 
 /* 2 Col Layout */
 
