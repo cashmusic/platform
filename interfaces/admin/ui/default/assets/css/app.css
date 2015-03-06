@@ -5682,7 +5682,7 @@ button.right, .button.right{
 /* Pure Grid Gutters */
 
 .pure-u-1{
-	margin:-bottom;0;
+	margin-bottom:0;
 }
 
 /* 2 Col Layout */
