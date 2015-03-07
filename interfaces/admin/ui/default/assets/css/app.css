@@ -3559,6 +3559,10 @@ ul.people.alternating li a span{
 
 /* Order Detail Page */
 
+.order-detail .pure-u-md-1-2{
+	padding:0!important;
+}
+
 .order-detail h4{
 	background:rgba(225,225,225,0.4);
 	margin:0 0 10px 0;
@@ -3566,6 +3570,13 @@ ul.people.alternating li a span{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+}
+
+.order-detail .fulfilled{
+	padding:15px 0!important;
+}
+.order-detail .fulfilled a{
+	margin:0;
 }
 
 .order-detail table{

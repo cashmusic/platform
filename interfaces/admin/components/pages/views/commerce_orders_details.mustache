@@ -5,22 +5,33 @@
 </div><!--pure-->
 
 <div class="order-detail">
-	<div class="pure-u-1">
+	<div class="pure-u-1 {{^order_fulfilled}}pure-u-md-1-2{{/order_fulfilled}}">
 		<h4>Order details</h4>
 	</div><!--pure-->
-	<div class="pure-u-1">
+
+	{{^order_fulfilled}}
+	<div class="pure-u-1 pure-u-md-1-2 fulfilled alignright">
+		<a href="/" class=" button">Mark as fulfilled!</a>
+	</div><!--pure-->
+	{{/order_fulfilled}}
+
+	<div class="pure-u-1 pure-u-md-1-2">
 		<p><strong>Order number:</strong>{{padded_id}}<br />
 		<strong>Placed on: </strong>{{order_date}}<br />
-		<strong>Fulfilled: </strong>{{order_fulfilled}}<br />
 		<strong>Payment status: </strong>{{status}}</p>
 	</div><!--pure-->
+
+	<div class="pure-u-1 pure-u-md-1-2">
+		<p><strong>Fulfilled: </strong>{{order_fulfilled}}</p>
+	</div><!--pure-->
+
 	<div class="pure-u-1 pure-u-md-1-2">
 		<p><strong>Customer:</strong> 
 		{{customer_display_name}}  
 		<a href="mailto:{{customer_email_address}}">{{customer_email_address}}</a><br />
 		<strong>Country: </strong> {{customer_address_country}}</p>
 	</div><!--pure-->
-	<div class="pure-u-1 pure-u-md-1-2">
+	<div class="pure-u-1 pure-u-md-1-2 ">
 		<p><strong>Order total: </strong>${{formatted_gross_price}} <br />
 		<strong>Total minus fees: </strong> ${{formatted_net_price}}</p>
 	</div><!--pure-->
