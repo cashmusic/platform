@@ -5731,12 +5731,13 @@ html{
 }
 
 .login #cash_signin_form{
-	margin:-300px 0 0 -25%;
+	margin:-290px 0 0 -25%;
 	position:absolute;
 	top:50%;
 	left:50%;
 	width:50%;
 	padding:140px 50px 50px 50px;
+	z-index: 2;
 }
 
 /* Helpers */
