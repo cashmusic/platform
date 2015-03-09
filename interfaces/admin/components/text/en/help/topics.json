@@ -9,6 +9,13 @@
 		"compatibility":["single","multi"],
 		"title":"A glossary of terms"
 	},
+
+	"terms" : {
+		"file":"publishingcampaign",
+		"compatibility":["single","multi"],
+		"title":"Creating & publishing a campaign"
+		},
+
 	"s3" : {
 		"file":"s3",
 		"compatibility":["single","multi"],
