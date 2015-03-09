@@ -1,30 +1,12 @@
-To start working with a MailChimp list all you need is your MailChimp **API key** and 
-a **list ID**. Once you have connected the list it will stay synced with your local list 
-and vice versa. 
+###Setting up a MailChimp connection
 
-*(Please note: this will not automatically import your list members prior to the 
-connection being made. You'll need to export those manually first.)*
+The CASH Music platform and MailChimp integrate seamlessly to directly add email sign-ups collected with our tools to your MailChimp account.
 
-### Step by step  
+From the CASH Music platform, select the **gear icon** from the upper-right-hand corner to open up your account settings. Click the **Connections** button, select the MailChimp button, and then click **Connect your MailChimp account**.
 
- 1. Obtain your **Mailchimp API key** by logging in and selecting "API Keys & Authorized Apps" 
-    from the account menu. You can add or copy a key from here.
- 2. Get the **list ID** by clicking "Lists" from the main MailChimp menu, then hovering over 
-    the "Settings" link for the list you'd like to sync. Select "List settings and Unique ID" 
-    then scroll to the very bottom of the page of options where you'll see the ID.
- 3. In the CASH Music admin go to the System settings menu and choose "Connections" from the 
-    main navigation. Add a new MailChimp connection and use the key/ID from your MailChimp account.
- 4. Still in the CASH admin, go to People, then Lists. If you have already created a list 
-    edit it, if not create a new one. You'll see the "connect to" option — your new MailChimp
-    connection should show up. Select it, save, and you're done. Any new additions to your local
-    list will be added to MailChimp.
+You'll be prompted for your MailChimp username and password. Once you click submit, you'll be brought to another page and asked which of your MailChimp mailing lists you'd like to sync your CASH account with. Once you've selected the appropriate list, click **Add the Connection**, and you're done!
 
-### Screenshots
-  
-Getting your API key:
-![Hover over settings menu](https://s3.amazonaws.com/cashmusic/permalink/help/mailchimp/apikey/1.jpg)
-![Copy API key](https://s3.amazonaws.com/cashmusic/permalink/help/mailchimp/apikey/2.jpg)
-  
-Finding the list ID:
-![Choose 'lists' menu item, hover on list settings](https://s3.amazonaws.com/cashmusic/permalink/help/mailchimp/listid/1.jpg)
-![List ID is the very last thing at page bottom](https://s3.amazonaws.com/cashmusic/permalink/help/mailchimp/listid/2.jpg)
+If you have multiple mailing lists with MailChimp, you can keep creating new connections within CASH Music for each one. Just repeat the process, but select a different list at the last step.
+
+Lastly, if you want to create a new list within MailChimp just for emails you retrieve via the platform, log into your your MailChimp account. Click **Lists** from the top menu, and click the **Create List** button in the top right-hand corner. For a more detailed walkthrough, check out [MailChimp's article on creating a new list](http://kb.mailchimp.com/lists/growth/create-a-new-list).
+
