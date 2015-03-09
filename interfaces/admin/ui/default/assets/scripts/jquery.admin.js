@@ -95,28 +95,6 @@ jQuery.fn.extend({
 
 
 
-	//Readjust for orientation
-	function readDeviceOrientation() {
-                 		
-    if (Math.abs(window.orientation) === 90) {
-        	// Landscape
-        	// console.log('Landscape');
-        	$('html').removeClass('portrait');
-        	$('html').addClass('landscape');
-        	// No menu panel obstruction
-        	$('#navmenu, #menutoggle').removeClass('display');
-    	} else {
-    		// Portrait
-    		// console.log('Portrait');
-    		$('html').removeClass('landscape');
-    		$('html').addClass('portrait');
-    		// No menu panel obstruction
-    		$('#navmenu, #menutoggle').removeClass('display');
-    	}
-	}
-
-	window.onorientationchange = readDeviceOrientation;
-
 
 	//Mobile Swipe Functions
   	function swipeleftHandler( event ){
@@ -347,7 +325,6 @@ jQuery.fn.extend({
 		touchToggles();
 		autoPanel();
 		moveToExample();
-		readDeviceOrientation();
 
 		// page tip show/hide
 		$(document).on('click', '#tipslink', function(e) {
