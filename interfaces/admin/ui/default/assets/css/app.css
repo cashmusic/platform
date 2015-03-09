@@ -3387,6 +3387,7 @@ ul.alternating li .actions a{
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	transition:0.3s ease-in-out;
+	display:none;
 }
 
 .people .item .stats span{
@@ -3421,8 +3422,7 @@ ul.people.alternating li a span{
 .people .item .info{
 	width:50%;
 	min-height:78px;
-	border-left:solid 1px #dbdbdb;
-	margin:10px 0 10px 25%;
+	margin:10px 0 10px 0;
 	padding:20px 30px;
 	border-radius:0;
 	-moz-border-radius:0;
@@ -5893,6 +5893,15 @@ section[role=main].hero, .login section[role=main]{ margin:400px 0 0 0; }
 	margin:0 0 20px 0;
 }
 
+/* People */
+
+.people .item .info{ 
+	border-left: solid 1px #dbdbdb; 
+	margin:10px 0 10px 25%;
+}
+
+.people .item .stats{ display:inline-block;}
+
 /* Commerce */
 
 .commerce .item .amount{ display: inline-block; }
@@ -6224,47 +6233,8 @@ td{display:table-cell; vertical-align: inherit;}
 	display: none;
 }
 
-.portrait #mainspc{
-	height:100%;
-}
-
-.portrait .pure-u-md-3-4{
-	width:100%;
-	-webkit-transition: 0.3s  ease-in-out;
-	-moz-transition: 0.3s  ease-in-out;
-	transition:0.3s ease-in-out;	
-}
-
-.portrait table { display:table;}
-.portrait thead{ display:table-#header-group;}
-.portrait tbody {display:table-row-group;}
-.portrait th{display:table-cell;}
-.portrait tr {display:table-row;}
-.portrait td{display:table-cell; vertical-align: inherit;}
-
-
-.landscape .pure-u-md-3-4{
-	width:75%;	
-	-webkit-transition: 0.3s  ease-in-out;
-	-moz-transition: 0.3s  ease-in-out;
-	transition:0.3s ease-in-out;
-}
-
-/* Flipback */
-.landscape #flipback{ height:40px; }
-
-.portrait #flipback{ height:0px; }
-
-/* logo */
-.landscape .panel #header #logo a{ padding:0 10px; }
-
-.landscape .modallightbox .gallery{ overflow-x:scroll; }
-
 /* Login */
 .pure-u-md-2-5{ padding:0 10px 0 0; }
-
-/* Campaign / Associated */
-.portrait #campaigns .campaign, .portrait #campaigns .associated{ width:100%; }
 
 /* Pure Grid Gutters */
 
@@ -6279,6 +6249,59 @@ td{display:table-cell; vertical-align: inherit;}
 }
 
 }/*  Tablet Fixes END */
+
+/* ===============
+   Tablet Landscape Only Fixes
+   =============== */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+
+.pure-u-md-3-4{
+	width:75%;	
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	transition:0.3s ease-in-out;
+}
+
+/* Flipback */
+#flipback{ height:40px; }
+
+/* logo */
+.panel #header #logo a{ padding:0 10px; }
+
+.modallightbox .gallery{ overflow-x:scroll; }
+
+}/*  Tablet Landscape Fixes END */
+
+/* ===============
+   Tablet Portrait Only Fixes
+   =============== */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) { 
+
+#mainspc{
+	height:100%;
+}
+
+.pure-u-md-3-4{
+	width:100%;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	transition:0.3s ease-in-out;	
+}
+
+table { display:table;}
+thead{ display:table-#header-group;}
+tbody {display:table-row-group;}
+th{display:table-cell;}
+tr {display:table-row;}
+td{display:table-cell; vertical-align: inherit;}
+
+#flipback{ height:0px; }
+
+/* Campaign / Associated */
+#campaigns .campaign, #campaigns .associated{ width:100%; }
+
+}/*  Tablet Portrait Fixes END */
+
 
 /* ===============
    Min - Height Fixes
