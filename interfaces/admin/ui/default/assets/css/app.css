@@ -41,11 +41,17 @@ body {
 	transition: 0.3s ease-in-out;
 	-webkit-touch-callout: none; 
 	-webkit-text-size-adjust: none; 
-	-webkit-user-select: none; 
 	-webkit-highlight: none; 
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
+::selection {
+  background: #ddd; /* WebKit/Blink Browsers */
+}
+
+::-moz-selection {
+  background: #ddd; /* Gecko Browsers */
+}
 
 body.login #navmenu, body.login #pagetitle {
 	display:none;
@@ -1404,7 +1410,7 @@ img, #hero img{
 
 #mainspc{
 	padding:0;
-	height:auto;
+	height:100%;
 	position:relative;
 	z-index:5;
 	background:#e3e3e3;
