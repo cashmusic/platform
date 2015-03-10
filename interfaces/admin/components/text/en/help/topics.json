@@ -24,7 +24,7 @@
 	},
 	"paypal" : {
 		"file":"paypal",
-		"compatibility":["single"],
+		"compatibility":["single", "multi"],
 		"title":"Add a PayPal connection"
 	},
 	"addarelease" : {
