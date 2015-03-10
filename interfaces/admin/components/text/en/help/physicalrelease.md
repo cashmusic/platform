@@ -9,7 +9,7 @@ Next, select **Inventory** from the left-hand menu. Click **Add an item**, and y
 
 Be sure to check the **Physical goods?** box, and then save your changes.
 
-Now go to your campaign and create a **Single Purchase** element. Give it a name for your own reference. Now select the item and Paypal connection you'd like to use. Tweak messages until your heart's content.
+Now go to your campaign and create a **Single Purchase** element. Give it a name for your own reference. Now select the item and PayPal connection you'd like to use. Tweak messages until your heart's content.
 
 Once the element is created and you're ready to go live, either embed it or publish the campaign page. 
 
