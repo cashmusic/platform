@@ -563,6 +563,7 @@ button, .button, .pref-inner button, .pref-inner .button{
 	background:none;
 	padding:10px 50px;
 	word-wrap:break-word;
+	text-transform: capitalize;
 	text-align: center;
 	width:100%;
 	font:400 14px/20px 'Montserrat',Helvetica,Arial,sans-serif;
