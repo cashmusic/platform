@@ -16,10 +16,10 @@ First and foremost, look at the main menu and you'll see five main categories:
   **Calendar:** Shows and venues.
 
 
-While you explore the platform remember that you can always use the Learn icon in the upper bar to see 
-tips for the page you're on or to come back to this Help section. 
+While you explore the platform remember that you can always click the learn icon <i class="icon icon-book"></i> to see 
+tips for the page you're on. 
 
-Click on the gear icon at any time to access system settings, edit your account,
+Click on the gear icon <i class="icon icon-cog"></i>at any time to access system settings, edit your account,
 or add connections. 
 
 For more, follow us on Twitter as [@cashmusic](http://twitter.com/cashmusic) or follow our 
