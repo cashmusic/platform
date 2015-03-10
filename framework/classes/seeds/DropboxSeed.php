@@ -56,8 +56,21 @@ class DropboxSeed extends SeedBase {
 				$connections['com.dropbox']['app_secret']
 			);
 
+			$cash_page_request = new CASHRequest(null);
+			$csrf_token = $cash_page_request->sessionGet('dropbox_csrf_token');
+
+			if (!$csrf_token) {
+
+				$user_id = AdminHelper::getPersistentData('cash_effective_user');
+				$csrf_token = sha1('com.dropbox:user-{$user_id}');
+			}
+
 			$client_identifier = "CASH Music/1.0";
-			$csrf_token_store = new dbx\ArrayEntryStore($_SESSION, 'dropbox-auth-csrf-token');
+			$csrf_array = array(
+				'dropbox-auth-csrf-token' => $csrf_token,
+			);
+
+			$csrf_token_store = new dbx\ArrayEntryStore($csrf_array, 'dropbox-auth-csrf-token');
 
 			return new dbx\WebAuth($app_info, $client_identifier, $redirect_uri, $csrf_token_store);
 
@@ -73,7 +86,13 @@ class DropboxSeed extends SeedBase {
 			return false;
 		}
 
-		return $auth_client->start();
+		$url = $auth_client->start();
+		$csrf_token = $auth_client->getCsrfTokenStore()->get();
+
+		$cash_page_request = new CASHRequest(null);
+		$cash_page_request->sessionSet('dropbox_csrf_token', $csrf_token);
+
+		return $url;
 	}
 
 	public static function getRedirectMarkup($data=false) {
@@ -101,7 +120,51 @@ class DropboxSeed extends SeedBase {
 	}
 
 	public static function handleRedirectReturn($data=false) {
-	}
 
-} // END class 
+		if (!isset($data['state'])) {
+			return "Please start the Dropbox authentication flow from the beginning.";
+		}
+
+		$connections = CASHSystem::getSystemSettings('system_connections');
+		
+		if (!isset($connections['com.dropbox'])) {
+			return 'Please add default Dropbox credentials.';
+		}
+
+		$auth_client = DropboxSeed::getWebAuthClient($connections['com.dropbox']['redirect_uri']);
+
+		try {
+			list($token, $user_id) = $auth_client->finish($data);
+		} catch (Exception $e) {
+			$token = false;
+		}
+
+		if (!$token) {
+			return "The Dropbox authentication flow failed - please try again.";
+		}
+
+		$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+
+		$result = $new_connection->setSettings(
+			'Dropbox (' . $user_id . ')',
+			'com.dropbox',
+			array(
+				'access_token'	=> $token,
+				'user_id' 			=> $user_id,
+			)
+		);
+
+		if (isset($data['return_result_directly'])) {
+			return $result;
+
+		} else {
+
+			if ($result) {
+				AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
+			} else {
+				AdminHelper::formFailure('Error. Something just didn\'t work right.','/settings/connections/');
+			}
+		}
+	}
+}
 ?>
