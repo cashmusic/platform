@@ -1,4 +1,9 @@
-<h4>Event details</h4>
+<div class="pure-u-1">
+<header>
+		<a class="returnlink current" href="{{www_path}}/calendar/"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">Event details</h4>
+</header>
+</div><!--pure-->
+
 <p>
 	Add a date to the system. Information about published/unpublished status and
 	cancellation can be found in the page tips.
@@ -9,11 +14,11 @@
 
 		<div class="pure-u-1 pure-u-md-1-2">
 			<label for="event_date">Date</label>
-			<input type="text" id="event_date" name="event_date" value="{{formatted_date}}"{{^formatted_date}} class="date" placeholder="MM/DD/YYYY"{{/formatted_date}} />
+			<input class="required" type="text" id="event_date" name="event_date" value="{{formatted_date}}"{{^formatted_date}} class="date" placeholder="MM/DD/YYYY"{{/formatted_date}} />
 		</div><!--pure-->
 		<div class="pure-u-1 pure-u-md-1-2">
 			<label for="event_venue_name">Venue</label>
-			<input type="text" id="event_venue_name" name="event_venue_name" value="{{venue_display_string}}" placeholder="Start typing to search venues" class="autocomplete" data-cash-endpoint-url="{{{www_path}}}/ajax/autocomplete/venues" />
+			<input class="required" type="text" id="event_venue_name" name="event_venue_name" value="{{venue_display_string}}" placeholder="Start typing to search venues" class="autocomplete" data-cash-endpoint-url="{{{www_path}}}/ajax/autocomplete/venues" />
 			<input type="hidden" id="event_venue" name="event_venue" value="{{venue_id}}" />
 			<small class="fadedtext">Can't find the venue you're looking for? <a href="{{www_path}}/calendar/venues/add/" class="add-fulfillment-file lightboxed returntocurrentroute usecolor5">Add a new venue</a></small>
 		</div><!--pure-->

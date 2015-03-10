@@ -1,52 +1,64 @@
 {
-	"gettingstarted" : {
-		"file":"gettingstarted",
-		"compatibility":["single","multi"],
-		"title":"Getting started"
-	},
 	"terms" : {
 		"file":"terms",
-		"compatibility":["single","multi"],
-		"title":"A glossary of terms"
-	},
-	"s3" : {
-		"file":"s3",
-		"compatibility":["single","multi"],
-		"title":"Connections: Amazon S3 secure file hosting"
-	},
-	"mailchimp" : {
-		"file":"mailchimp",
 		"compatibility":["single"],
-		"title":"Connections: connect a MailChimp list"
+		"title":"Glossary"
 	},
-	"paypal" : {
-		"file":"paypal",
-		"compatibility":["single"],
-		"title":"Connections: Paypal"
-	},
-	"downloadcodes" : {
-		"file":"downloadcodes",
-		"compatibility":["single","multi"],
-		"title":"Elements: set up download codes"
-	},
-	"paiddownload" : {
-		"file":"paiddownload",
-		"compatibility":["single","multi"],
-		"title":"Elements: sell a release as a paid download"
-	},
-	"emailcollection" : {
-		"file":"emailcollection",
-		"compatibility":["single","multi"],
-		"title":"Elements: collect email addresses for a download (or not)"
-	},
+
 	"addanelement" : {
 		"file":"addanelement",
 		"compatibility":["single","multi"],
-		"title":"Misc: add an element to a PHP page"
+		"title":"Embed an element"
 	},
-	"migratedb" : {
-		"file":"migratedb",
+	"terms" : {
+		"file":"publishingcampaign",
 		"compatibility":["single","multi"],
-		"title":"Misc: migrating to a MySQL database"
+		"title":"Create & publish a campaign page"
+		},
+
+	"s3" : {
+		"file":"s3",
+		"compatibility":["single","multi"],
+		"title":"Add an Amazon S3 connection"
+	},
+
+	"mailchimp" : {
+		"file":"mailchimp",
+		"compatibility":["single", "multi"],
+		"title":"Add a MailChimp connection"
+	},
+	"paypal" : {
+		"file":"paypal",
+		"compatibility":["single", "multi"],
+		"title":"Add a PayPal connection"
+	},
+	"addarelease" : {
+		"file":"addarelease",
+		"compatibility":["single","multi"],
+		"title":"Add a file or release"
+	},
+	
+	"paiddownload" : {
+		"file":"paiddownload",
+		"compatibility":["single","multi"],
+		"title":"Sell a digital download"
+	},
+	"physicalrelease" : {
+		"file":"physicalrelease",
+		"compatibility":["single","multi"],
+		"title":"Sell a physical item"
+	},	
+	"emailcollection" : {
+		"file":"emailcollection",
+		"compatibility":["single","multi"],
+		"title":"Set up an email-for-download element"
+	},
+
+	"downloadcodes" : {
+		"file":"downloadcodes",
+		"compatibility":["single","multi"],
+		"title":"Download codes"
+	
 	}
-}
+	
+}	

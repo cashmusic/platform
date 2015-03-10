@@ -1,0 +1,17 @@
+<?php
+
+require_once(dirname(__FILE__) . '/base.php');
+require_once(CASH_PLATFORM_ROOT.'/elements/TourDates.php');
+require_once(CASH_PLATFORM_ROOT.'/elements/SocialFeeds.php');
+
+class ElementTests extends UnitTestCase {
+	function testTourDates(){
+		$e = new TourDates('blarg',1);
+		$this->assertIsa($e, 'TourDates');
+	}
+	function testSocialFeeds(){
+		$e = new SocialFeeds('blarg',1);
+		$this->assertIsa($e, 'SocialFeeds');
+	}
+}
+?>

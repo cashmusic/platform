@@ -57,7 +57,7 @@ if ($current_element) {
 		);
 		$cash_admin->page_data['total_views'] = 0;
 		if (is_array($analytics['payload'])) {
-			$cash_admin->page_data['total_views'] = $analytics['payload']['total'];
+			$cash_admin->page_data['total_views'] = CASHSystem::formatCount($analytics['payload']['total']);
 
 			$methods_array   = array();
 			$locations_array = array();
@@ -71,6 +71,27 @@ if ($current_element) {
 				);
 			}
 			foreach ($analytics['payload']['locations'] as $location => $total) {
+				$locations_array[] = array(
+					'access_location' => $location,
+					'total' => $total
+				);
+			}
+
+			$tmp_locations_array = array(); // temp array to combine totals by hostname
+			foreach ($locations_array as $key => $location) {
+				// cycle through all locations, push to temp array and combine if necessary
+				$parsed = parse_url($location['access_location']);
+				if (isset($tmp_locations_array[$parsed['host']])) {
+					$tmp_locations_array[$parsed['host']] = $tmp_locations_array[$parsed['host']] + $location['total'];
+				} else {
+					$tmp_locations_array[$parsed['host']] = $location['total'];
+				}
+			}
+			arsort($tmp_locations_array); // sort temp array most to least
+			$tmp_locations_array = array_slice($tmp_locations_array, 0, 5); // trim temp array to no more than 5
+
+			$locations_array = array(); // let's rebuild the locations array
+			foreach ($tmp_locations_array as $location => $total) {
 				$locations_array[] = array(
 					'access_location' => $location,
 					'total' => $total
@@ -119,8 +140,7 @@ if ($current_element) {
 					$cash_admin->page_data['options_' . $data] = $default_val;
 				}
 			}
-			$cash_admin->page_data['ui_title'] = 'Elements: “' . $current_element['name'] . '”';
-			$cash_admin->page_data['public_url'] = CASH_PUBLIC_URL;
+			$cash_admin->page_data['ui_title'] = '' . $current_element['name'] . '';
 			$cash_admin->page_data['element_button_text'] = 'Edit the element';
 			$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render(AdminHelper::getElementTemplate($current_element['type']), $cash_admin->page_data);
 		}
@@ -143,9 +163,6 @@ if ($current_element) {
 	AdminHelper::controllerRedirect('/elements/');
 }
 
-if ($cash_admin->platform_type == 'single') {
-	$cash_admin->page_data['platform_type_single'] = true;
-}
 $cash_admin->page_data['platform_path'] = CASH_PLATFORM_PATH;
 
 $cash_admin->setPageContentTemplate('elements_details');

@@ -46,7 +46,10 @@ spl_autoload_register('cash_admin_autoloadCore');
 $cash_admin = new AdminCore($admin_primary_cash_request->sessionGet('cash_effective_user'),$admin_primary_cash_request);
 $cash_admin->mustache_groomer = new Mustache;
 $cash_admin->page_data['www_path'] = ADMIN_WWW_BASE_PATH;
+$cash_admin->page_data['public_url'] = CASH_PUBLIC_URL;
 $cash_admin->page_data['platform_version'] = CASHRequest::$version;
+
+
 
 // basic script vars
 $pages_path = ADMIN_BASE_PATH . '/components/pages/';
@@ -59,16 +62,16 @@ $cash_admin->page_data['data_only'] = isset($_REQUEST['data_only']);
 // basic rendering options based on optional constants from constants.php
 $cash_admin->page_data['jquery_url'] = (defined('JQUERY_URL')) ? JQUERY_URL : ADMIN_WWW_BASE_PATH . '/ui/default/assets/scripts/jquery.min.js';
 $cash_admin->page_data['jqueryui_url'] = (defined('JQUERYUI_URL')) ? JQUERYUI_URL : ADMIN_WWW_BASE_PATH . '/ui/default/assets/scripts/jquery-ui.min.js';
-$cash_admin->page_data['pure_base'] = (defined('PURE_BASE')) ? PURE_BASE : ADMIN_WWW_BASE_PATH . '/ui/default/assets/css/pure/base-min.css';
-$cash_admin->page_data['pure_grid'] = (defined('PURE_GRID')) ? PURE_GRID : ADMIN_WWW_BASE_PATH . '/ui/default/assets/css/pure/grids-responsive-min.css';
-$cash_admin->page_data['pure_grid_ie'] = (defined('PURE_GRID_IE')) ? PURE_GRID_IE : ADMIN_WWW_BASE_PATH . '/ui/default/assets/css/pure/grids-responsive-old-ie-min.css';
-$cash_admin->page_data['img_base_url'] = (defined('CDN_URL')) ? CDN_URL : ADMIN_WWW_BASE_PATH;
+$cash_admin->page_data['cdn_url'] = (defined('CDN_URL')) ? CDN_URL : ADMIN_WWW_BASE_PATH;
 
 // check for TOS and privacy stuff
 $cash_admin->page_data['showterms'] = file_exists(ADMIN_BASE_PATH . '/terms.md');
 $cash_admin->page_data['showprivacy'] = file_exists(ADMIN_BASE_PATH . '/privacy.md');
 
-
+// platform type
+if ($cash_admin->platform_type == 'single') {
+	$cash_admin->page_data['platform_type_single'] = true;
+}
 
 /***************************************************************************************************
  *
@@ -206,6 +209,11 @@ if ($logged_in) {
 	// we need a session
 	$admin_primary_cash_request->startSession();
 	$cash_admin->page_data['user_email'] = $admin_primary_cash_request->sessionGet('cash_effective_user_email');
+
+	// store the current route in session
+	if (strpos(REQUESTED_ROUTE,'/settings') === false && strpos(REQUESTED_ROUTE,'/account') === false) {
+		$cash_admin->page_data['user_email'] = $admin_primary_cash_request->sessionSet('last_route',REQUESTED_ROUTE);
+	}
 }
 
 // set basic data for the template
@@ -280,7 +288,6 @@ include($pages_path . 'controllers/' . $include_filename);
 // render the content to be passed to final output
 // $cash_admin->page_content_template is set in the included controller
 $cash_admin->page_data['content'] = preg_replace('~>\s+<~', '><', $cash_admin->mustache_groomer->render($cash_admin->page_content_template, $cash_admin->page_data));
-
 
 
 /***************************************************************************************************

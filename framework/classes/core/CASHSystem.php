@@ -447,6 +447,19 @@
 		return $ago_str;
 	}
 
+	public static function formatCount($val) {
+		if ($val > 999 && $val <= 99999) {
+			$result  = round((float)$val / 1000, 1) . 'K';
+		} elseif ($val > 99999 && $val <= 999999) {
+			$result  = floor($val / 1000) . 'K';
+		} elseif ($val > 999999) {
+			$result  = round((float)$val / 1000000, 1) . 'M';
+		} else {
+			$result  = $val;
+		}
+		return $result;
+	}
+
 	/**
 	 * Turns plain text links into HYPERlinks. Welcome to the future, chump.
 	 * 

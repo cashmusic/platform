@@ -17,7 +17,7 @@
  * This file is generously sponsored by Paul Lightfoot
  *
  */class CASHRequest extends CASHData {
-	public static $version = 7;
+	public static $version = 8;
 	
 	protected $request_method,
 			  $plant_array=array(),

@@ -1,20 +1,28 @@
+<header>
+<div class="pure-u-1 pure-u-md-2-3">
+<a class="returnlink current" href="{{www_path}}/people/"><div class="icon icon-arw-dwn"></div><!--icon--></a>
+<h4 class="secondary-title">&ldquo;{{ui_title}}&rdquo;</h4>
+</div><!--pure-->
+	<div class="pure-u-1 pure-u-md-1-3">
+			<ul class="inline_subnav">
+				<li><a href="{{www_path}}/people/lists/edit/{{list_id}}">Edit</a></li>
+				<li><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax">Export</a></li>
+				<li><a href="{{www_path}}/people/lists/delete/{{list_id}}" class="needsconfirmation">Delete</a></li>
+			</ul>
+	</div><!--pure-->
+</header>
 {{#ui_title}}
-	<p class="big">{{list_description}}</p>
-
 	<div id="stats">
-	<h4>Statistics</h4>
-	<p class="total">Total active members: <span>{{analytics_active}}</span></p>
-	<p class="inactive">Inactive members: <span>{{analytics_inactive}}</span></p>
-	<p class="newm">New members, past 7 days: <span>{{analytics_last_week}}</span></p>
+	<div class="pure-u-1 pure-u-md-1-3"><p class="total">Total active members: <span>{{analytics_active}}</span></p></div><!--pure-->
+	<div class="pure-u-1 pure-u-md-1-3"><p class="inactive">Inactive members: <span>{{analytics_inactive}}</span></p></div><!--pure-->
+	<div class="pure-u-1 pure-u-md-1-3"><p class="newm">New members, past 7 days: <span>{{analytics_last_week}}</span></p></div><!--pure-->
 	</div><!--stats-->
+
+
 	
+	<!-- Show members on list -->
 	{{#list_members}}
-		<h4 class="tabletitle">List Members</h4>
-		<div id="actions">
-			<a href="{{www_path}}/people/lists/edit/{{list_id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
-			<a href="{{www_path}}/people/lists/export/{{list_id}}" class="mininav_flush noajax"><svg class="icon" viewBox="0 0 260 240"><use xlink:href="#icon-dwnld"></use></svg>Export</a>
-			<a href="{{www_path}}/people/lists/delete/{{list_id}}" class="mininav_flush needsconfirmation"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg>Delete</a>
-		</div><!--actions-->
+		<h4 class="tabletitle">Recently Added</h4>
 
 		<table style="width:100%;">
 			<colgroup style="width:32%;" />
@@ -43,7 +51,18 @@
 			</tbody>
 		</table>
 	{{/list_members}}
+
+	<!-- No members on list -->
+	{{^list_members}}
+		<div class="empty">
+			<p>Sorry, no members have joined this list yet.</p>
+		</div><!--empty-->
+	{{/list_members}}
+
 {{/ui_title}}
 {{^ui_title}}
-	<h4>Sorry</h4>Error getting list.
+	<div class="empty">
+		<p><strong>Sorry</strong>Error getting list.</p>
+	</div><!--empty-->
 {{/ui_title}}
+</div><!--pure-->

@@ -61,8 +61,8 @@
 .ui-datepicker{width:17em;padding:.2em .2em 0;display:none}
 .ui-datepicker .ui-datepicker-header{position:relative;padding:.2em 0}
 .ui-datepicker .ui-datepicker-next,.ui-datepicker .ui-datepicker-prev{position:absolute;top:2px;width:1.8em;height:1.8em;cursor:pointer}
-.ui-datepicker .ui-datepicker-prev{left:2px;background-color:#fff;border-radius:50%}
-.ui-datepicker .ui-datepicker-next{right:2px;background-color:#fff;border-radius:50%}
+.ui-datepicker .ui-datepicker-prev{left:2px;border:1px solid #fff;border-radius:50%;}
+.ui-datepicker .ui-datepicker-next{right:2px;border:1px solid #fff;border-radius:50%;}
 .ui-datepicker .ui-datepicker-next span,.ui-datepicker .ui-datepicker-prev span{display:block;position:absolute;left:50%;margin-left:-8px;top:50%;margin-top:-8px}
 .ui-datepicker .ui-datepicker-title{margin:0 2.3em;line-height:1.8em;text-align:center}
 .ui-datepicker .ui-datepicker-title select{font-size:1em;margin:1px 0}

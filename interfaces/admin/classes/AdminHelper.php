@@ -69,7 +69,10 @@
 
 			$menulevel = substr_count($page_endpoint, '/');
 			if ($menulevel == 1 && !isset($page['hide'])) { // only show top-level menu items
-				$menustr .= "<li><a href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><span>{$page['page_name']}</span><svg class=\"icon\" viewBox=\"{$page['menu_icon']['viewBox']}\"><use xlink:href=\"{$page['menu_icon']['xlink']}\"></use></svg></a></li>";
+				if (!isset($page['add_class'])) {
+					$page['add_class'] = '';
+				}
+				$menustr .= "<li><a title=\"{$page['page_name']}\" class=\"{$page['add_class']}\" href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><span>{$page['page_name']}</span><div class=\"icon icon-{$page['menu_icon']}\"></div><!--icon--></a></li>";
 			}
 		}
 
@@ -125,14 +128,14 @@
 	 * CONNECTION DETAILS
 	 *
 	 *********************************************/
+	
 	/**
 	 * Finds settings matching a specified scope and echoes them out formatted
 	 * for a dropdown box in a form
 	 *
 	 */public static function echoConnectionsOptions($scope,$selected=false,$return=false) {
-		// get system settings:
-		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
-		$applicable_settings_array = $page_data_object->getConnectionsByScope($scope);
+
+		$applicable_settings_array = AdminHelper::getConnectionsByScope($scope);
 
 		$all_connections = '<option value="0">None</option>';
 
@@ -150,6 +153,16 @@
 				echo $all_connections;
 			}
 		}
+	}
+
+	//get connections scope
+	public static function getConnectionsByScope($scope){
+		
+		// get system settings:
+		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+		$applicable_settings_array = $page_data_object->getConnectionsByScope($scope);
+
+		return $applicable_settings_array;
 	}
 
 	/**
@@ -209,9 +222,8 @@
 						'{{#element_id}}<input type="hidden" name="element_id" value="{{element_id}}" />{{/element_id}}' .
 						'<input type="hidden" name="element_type" value="' . $element_type . '" />' .
 						'<input type="hidden" name="in_campaign" id="in_campaign" value="" />' .
-						'<div class="section basic-information row" data-section-name="Element name">' .
-						'<p class="section-description">Give the element a name for your own reference.</p>' .
-						'<label for="element_name">Element name</label>' .
+						'<div class="section basic-information" data-section-name="Element name">' .
+						'<div class="pure-u-1"><i data-tooltip="Give the element a name for your own reference." class="tooltip icon icon-learn"></i><label for="element_name">Element name</label></div>' .
 						'<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="Name your element"{{/element_name}} class="required" />' .
 						'</div>';
 
@@ -219,8 +231,8 @@
 			foreach ($all_sections as $section_name => $details) {
 				$template .= '<div class=" section part-' . $current_section . '" data-section-name="' . $details['group_label']['en'] . '">' .
 						     '<h5 class="section-header">' . $details['group_label']['en'] . '</h5>' .
-						     '<p class="section-description">' . $details['description']['en'] . '</p>' .
-						     '<div class="row">';
+						     '<i data-tooltip="' . $details['description']['en'] .'" class="tooltip icon icon-learn"></i>' .
+						     '<div class="pure-u-1">';
 				$current_data = 0;
 				$current_count = 0;
 				$total_count = count($details);
@@ -276,7 +288,7 @@
 						}
 
 						if ($current_data !== ($total_count - 1)) {
-							$template .= '</div><div class="row">';
+							$template .= '</div><div class="pure-u-1">';
 						}
 						$current_count = 0;
 					}
@@ -401,18 +413,25 @@
 				);
 				if ($admin_primary_cash_request->response['status_uid'] == 'element_addelement_200') {
 
+					$current_campaign = false;
 					if ($post_data['in_campaign']) {
+						$current_campaign = $post_data['in_campaign'];
+					} else {
+						$current_campaign = AdminHelper::getPersistentData('current_campaign');
+					}
+
+					if ($current_campaign) {
 						$cash_admin->requestAndStore(	
 							array(
 								'cash_request_type' => 'element', 
 								'cash_action' => 'addelementtocampaign',
-								'campaign_id' => $post_data['in_campaign'],
+								'campaign_id' => $current_campaign,
 								'element_id' => $admin_primary_cash_request->response['payload']
 							)
 						);
 						// handle differently for AJAX and non-AJAX
 						if ($cash_admin->page_data['data_only']) {
-							AdminHelper::formSuccess('Success. New element added.','/campaigns/view/' . $post_data['in_campaign']);
+							AdminHelper::formSuccess('Success. New element added.','/');
 						} else {
 							$cash_admin->setCurrentElement($admin_primary_cash_request->response['payload']);
 						}
@@ -677,7 +696,11 @@
 
 	public static function formSuccess($message=false,$location=false) {
 		if (!$location) {
-			$location = REQUESTED_ROUTE;
+			global $admin_primary_cash_request;
+			$location = $admin_primary_cash_request->sessionGet('last_route');
+			if (!$location) {
+				$location = REQUESTED_ROUTE;
+			}
 		}
 		if (isset($_REQUEST['forceroute'])) {
 			// we force a route using JS for certain lightboxed forms — really used 
@@ -707,7 +730,11 @@
 
 	public static function formFailure($error_message,$location=false) {
 		if (!$location) {
-			$location = REQUESTED_ROUTE;
+			global $admin_primary_cash_request;
+			$location = $admin_primary_cash_request->sessionGet('last_route');
+			if (!$location) {
+				$location = REQUESTED_ROUTE;
+			}
 		}
 		if (isset($_REQUEST['forceroute'])) {
 			// we force a route using JS for certain lightboxed forms — really used 
@@ -715,6 +742,9 @@
 			$location = $_REQUEST['forceroute'];
 		}
 		if (isset($_REQUEST['data_only'])) {
+			if ($location == '//') {
+				$location = '/';
+			}
 			echo json_encode(
 				array(
 					'doredirect'  => true,

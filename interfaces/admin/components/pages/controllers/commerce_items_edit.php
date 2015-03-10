@@ -25,7 +25,7 @@ if (isset($_POST['doitemadd'])) {
 		)
 	);
 	if ($add_response['payload']) {
-		AdminHelper::formSuccess('Success. Item added.','/commerce/items/edit/' . $add_response['payload']);
+		AdminHelper::formSuccess('Success. Item added.','/commerce/items/' . $add_response['payload']);
 	} else {
 		AdminHelper::formFailure('Error. Something just didn\'t work right.','/commerce/items/');
 	}

@@ -1,37 +1,95 @@
+{{^connection}}
+	<h2 class="firstuse-title">{{{copy_firstuse}}}</h2>
+	<div class="callout texture pure-u-1">
+		{{#all_services}}
+		<div class="pure-u-1 pure-u-md-1-3">
+			<div class="callout-inner">
+				{{#service_has_image}}<h3><a href="{{link}}" target="_blank"><img src="{{www_path}}/assets/images/settings/{{key}}.png" alt="{{name}}"/></a></h3>{{/service_has_image}}
+				<p>{{description}}</p>
+				<a class="button fullwidth lightboxed" href="{{www_path}}/settings/connections/add/{{key}}">Add Connection</a>
+			</div><!--callout-inner-->
+		</div><!--pure-->
+		{{/all_services}}
+	</div><!--pure-->
+
+	<p class="center">I host files on my own server. <a href="{{www_path}}/assets/add/file" class="lightboxed"> Add a file</a> or
+	<a href="{{www_path}}/assets/add/release" class="lightboxed">Add a new release</a>.</p>
+{{/connection}}
+
+{{#connection}}
+<header>
+<h4>Releases</h4>
+</header>
+<div class="releases">
 {{#featured_releases}}
 	<div class="pure-u-1 pure-u-md-1-3">
 		<div class="featured-release">
-		<div id="card">
-			<div class="front" style="background-image:url({{cover_url}});"></div><!--front-->
-				<a href="{{www_path}}/assets/edit/{{id}}" class="back">
-					<h2>{{title}}</h2>
-					<h3>Artist Name</h3>
-					<span class="smalltext release-details">{{{descriptor_string}}}</span>
-				</a><!--back-->
-			</div><!--card-->
+				<div id="card">
+					<div class="front" style="background-image:url({{cover_url}});">
+						<header>
+							{{#artist_name}}<h3>{{artist_name}}</h3>{{/artist_name}}
+							<h2>{{title}}
+							{{#monetized}}
+								<!-- If commerce item associated -->
+								<div class="monetised icon icon-dollar"></div><!--icon-->
+							{{/monetized}}
+							{{#has_fulfillment}}
+								<!-- If files associated -->
+								<div class="attachement icon icon-paperclip"></div><!--icon-->
+							{{/has_fulfillment}}
+							</h2>
+						</header>
+					</div><!--front-->
+						<a href="{{www_path}}/assets/edit/{{id}}" class="back">
+							<h2>{{title}}</h2>
+							{{#artist_name}}<h3>{{artist_name}}</h3>{{/artist_name}}
+							<span class="smalltext release-details">{{{descriptor_string}}}</span>
+					</a><!--back-->
+				</div><!--card-->
 		</div><!--featured-release-->
 	</div><!--pure-->
 {{/featured_releases}}
-{{#two_features}}
-	<div class="pure-u-1 pure-u-md-1-2"></div><!--pure-->
-{{/two_features}}
 
-<div id="releases" class="drawer pure-u-1">
+{{#one_remaining}} <div class="pure-u-1 pure-u-md-1-3 ghost-release"></div><!--pure-->{{/one_remaining}}
+{{#two_remaining}} <div class="pure-u-1 pure-u-md-1-3 ghost-release"></div><!--pure--> 
+<div class="pure-u-1 pure-u-md-1-3 ghost-release"></div><!--pure-->{{/two_remaining}}
+
+</div><!--releases-->
+
+{{^featured_releases}}
+	<div class="empty">
+		<p>No releases have been created yet. Add one to get started.</p>
+	</div><!--empty-->
+{{/featured_releases}}
+
+<div class="additional_releases drawer">
+	{{#more_releases}}
+	<div class="itemnav">
+		<a class="drawerhandle usecolor2">additional releases</a>
+	</div><!--itemnav-->
+	{{/more_releases}}
+	
 	{{#remaining_releases}}
 	<div class="drawercontent pure-u-1">
 		{{#remaining_releases}}
 		<div class="pure-u-1 pure-u-md-1-4">
-			<!--<a href="{{www_path}}/assets/edit/{{id}}">
-			{{#cover_url}}<img src="{{cover_url}}" class="smallcover" alt="" />{{/cover_url}}
-			<span{{^cover_url}} style="padding-left:0;"{{/cover_url}}>{{title}}</span></a>
-			<span{{^cover_url}} style="padding-left:0;"{{/cover_url}} class="smalltext fadedtext">{{{descriptor_string}}}</span>-->
 			<div class="featured-release">
 				<div id="card">
 					<a href="{{www_path}}/assets/edit/{{id}}">
 						<div class="front" style="background-image:url({{cover_url}});"></div><!--front-->
 						<div class="back">
 							<h2>{{title}}</h2>
-							<h3>Artist Name</h3>
+								<div class="signifier">
+								{{#monetized}}
+								<!-- If commerce item associated -->
+								<div class="monetised icon icon-dollar"></div><!--icon-->
+								{{/monetized}}
+								{{#has_fulfillment}}
+								<!-- If files associated -->
+								<div class="attachement icon icon-paperclip"></div><!--icon-->
+								{{/has_fulfillment}}
+								</div><!---->
+							<h3>{{artist_name}}</h3>
 						<span class="smalltext release-details">{{{descriptor_string}}}</span>
 						</div><!--back-->
 					</a><!--link-->
@@ -40,46 +98,56 @@
 		</div><!--pure-->
 		{{/remaining_releases}}
 		{{#one_remaining}}
-			<div class="pure-u-1 pure-u-md-1-4"></div>
-			<div class="pure-u-1 pure-u-md-1-4"></div>
+			<div class="pure-u-1 pure-u-md-1-4 ghost-release"></div>
 		{{/one_remaining}}
 		{{#two_remaining}}
-			<div class="pure-u-1 pure-u-md-1-4"></div>
+			<div class="pure-u-1 pure-u-md-1-4 ghost-release"></div>
+			<div class="pure-u-1 pure-u-md-1-4 ghost-release"></div>
 		{{/two_remaining}}
 	</div><!--drawercontent-->
 	{{/remaining_releases}}
-
-		{{#more_releases}}
-		<div class="itemnav">
-			<a class="drawerhandle mininav_flush usecolor2">releases</a>
-		</div><!--itemnav-->
-		{{/more_releases}}
-		<a href="{{www_path}}/assets/add/release" class="button lightboxed">Add a new release</a>
 </div><!--releases-->
 
 <div class="pure-u-1 pure-u-md-1-2">
-	<h4>Files</h4>
-		<p>Files are listed to the right. Coming soon: use tags to narrow this list.</p>
+		<a href="{{www_path}}/assets/add/release" class="button lightboxed">Add a new release</a>
+</div><!--pure-->
+
+<div class="filesection pure-u-1">
+<h4>Uploads</h4>
+<div class="pure-u-1 pure-u-md-1-2">
+		<p>File asset types are for any file type that <strong>does not</strong> require release meta data.</p>
+		<p>Files can be sold by connecting to a <a href="{{www_path}}/commerce/items/">commerce item</a> and embedding a <a class="store lightboxed" href="{{www_path}}/elements/add/">purchase element</a> on your site.</p> 
+
+		<a href="{{www_path}}/assets/add/file" class="button lightboxed"> Upload a new file</a>
 </div><!--pure-->
 
 <div class="display-files pure-u-1 pure-u-md-1-2">
 		{{#featured_files}}
-			<a class="files" href="{{www_path}}/assets/edit/{{id}}"><svg class="icon" viewBox="0 0 240 280"><use xlink:href="#icon-file"></use></svg>{{title}} <span class="descriptive fadedtext file-description">({{descriptor_string}})</span></a>
+			<a class="files" href="{{www_path}}/assets/edit/{{id}}"><div class="icon icon-file"></div><!--icon-->{{title}} <span class="descriptive fadedtext file-description">({{descriptor_string}})</span>{{#monetized}}<!-- If commerce item associated -->
+					<span class="monetised"><div class="icon icon-dollar"></div><!--icon--></span>{{/monetized}}</a>
 		{{/featured_files}}
-		<div class="drawer">
-			{{#more_files}}
+
+		{{^featured_files}}
+		<div class="empty">
+			<p>No files have been added yet. Add one to get started.</p>
+		</div><!--empty-->
+		{{/featured_files}}
+
+		{{#more_files}}
+		<div class="drawer pure-u-1">
+		<div class="itemnav"><a class="drawerhandle usecolor2">additional files</a></div>
 			<div class="drawercontent">
 				{{#remaining_files}}
-					<a class="files" href="{{www_path}}/assets/edit/{{id}}"><svg class="icon" viewBox="0 0 240 280"><use xlink:href="#icon-file"></use></svg>{{title}}</a>
-					<span class="descriptive fadedtext file-description">({{descriptor_string}})</span>
+					<a class="files" href="{{www_path}}/assets/edit/{{id}}"><div class="icon icon-file"></div><!--icon-->{{title}} <span class="descriptive fadedtext file-description">({{descriptor_string}})</span>{{#monetized}}<!-- If commerce item associated --><span class="monetised"><div class="icon icon-dollar"></div><!--icon--></span>{{/monetized}}</a>
 				{{/remaining_files}}
 			</div><!--drawercontent-->
-			{{/more_files}}
-				{{#more_files}}<a class="drawerhandle mininav_flush usecolor2">files</a>{{/more_files}}
 		</div><!--drawer-->
-		<a href="{{www_path}}/assets/add/file" class="button lightboxed"> Add a new file</a>
-	</div><!--pure-->
+		{{/more_files}}
+</div><!--display-files-->	
 
+</div><!--pure-->
 <script type="text/javascript">
 	jQuery('div.cover').height(jQuery('div.cover').width());
 </script>
+
+{{/connection}}

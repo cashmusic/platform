@@ -1,31 +1,36 @@
+<script type="text/javascript">
+$(document.body).addClass('login');
+</script>
+
 <h3 id="message" {{#login_error}} class="error"{{/login_error}}>{{login_message}}</h3>
 	<form method="post" id="cash_signin_form" action="{{www_path}}/">
 
-		<div class="pure-u-1 pure-u-md-2-5">
+		<div class="pure-u-1">
 			<label for="address">Email address</label>
 			<input type="email" name="address" value="" />
 		</div><!--pure-->
-		<div class="pure-u-1 pure-u-md-2-5">
+		<div class="pure-u-1">
 			<label for="password">Password</label>
 			<input type="password" name="password" value="" />
 			<input type="hidden" name="login" value="1" />
 		</div><!--pure-->
-		<div class="pure-u-1 pure-u-md-1-5">
+		<div class="pure-u-1">
 			<input type="submit" class="button" value="Log in" />
 		</div><!--pure-->
 
 		<div class="pure-u-1">
 			<a href="{{www_path}}/resetpassword/" id="forgotlink" class="lightboxed">Forgot your password?</a>
 		</div><!--pure-->
-	</form>
-
-{{#allow_signups}}
+		{{#allow_signups}}
 <div class="signup">
 	<div class="pure-u-1">
 		<p>No account? <a href="{{www_path}}/signup/" id="signupbtn" class="lightboxed">Sign up.</a> An account is free, now and forever. Sign up to get started.</p>
 	</div><!--pure-->
 </div><!--signup-->
 {{/allow_signups}}
+	</form>
+
+
 
 <script type="text/javascript">
 	$('#cash_signin_form').on('submit', function(e) {

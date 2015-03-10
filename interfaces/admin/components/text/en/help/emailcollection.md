@@ -1,21 +1,16 @@
-You can collect email addresses with or without offering downloads. It's totally up to you. Either 
-way, email is very effective and lets you speak directly to the people who care most. 
+###Set up an email-for-download element
 
-You'll need:  
+Connecting directly to your fans is vitally important and your mailing list is one of the best ways to maintain those relationships. This is one of the most popular tools in our platform. 
 
- - An S3 connection to upload files (for downloads)
- - A file or release asset with fulfillment files attached (for downloads)
- - A list created in the People section
+What you’ll need:
 
-With your asset and list in hand, head to the Elements section and create a new "Email Collection" 
-element. Give the element a name for your own internal reference. Select the asset you'd like to 
-offer for download (or none if you're not offering one.) Select the list you'd like people to sign
-up to. And lastly, edit the default messages. (They assume you're offering a download...so be sure
-to change them if you're not.)
+- A storage connection, we recommend an Amazon S3 account for reliability 
+- The file you’re planning to give away uploaded to your storage account
+- A file or release set up in Assets with fulfillment files attached
+- An email list either created or connected in the People section 
 
-Note the "Finalize/download without email verification (instant)" checkbox. If left unchecked then 
-anyone signing up will be emailed to confirm the address is legitimate. **Be sure to check your email 
-settings in the System Settings menu!** If you check the box you are essentially trusting that any 
-emails given are legitimate. You'll get more sign-ups, but with less guarantee that they're legit.
+Once your download and list are set up, head to your Main Page and either create a new campaign or choose an already existing one. Click on add element and select **Email Collection**. Give the element a name for your own internal reference. Select the asset you'd like to offer for download (or none if you're not offering one.) Select the list you'd like people to sign up to. And lastly, edit the default messages. 
 
-Once the element is created, embed it and you're done.
+Note the **Skip email verification** checkbox. If left unchecked then anyone signing up will be emailed to confirm the address is legitimate. Be sure to check your email settings in the system settings menu. If you check the box you are essentially trusting that any emails given are legitimate. You'll get more sign-ups, but with less guarantee that they're legit.
+
+Once the element is created either embed it on your site or publish the campaign page and you're done.

@@ -1,6 +1,6 @@
 {
-	"pagetip":"If you have questions while you're using the platform there are page tips, help and learn buttons throughout to guide you.",
-	"learn":"<p>The mainpage is where you’ll find your campaigns. Campaigns are designed to help you organize your digital workflow and keep track of how things are going. Feel free to add as many different campaigns as you like - they can be organized by release, band, month, whatever works for you.</p><p>A campaign can be easily published as one single page on our hosted site or each individual element may be embedded on any site with a simple cut/paste.</p><p>Click on add a campaign to get started.</p>",
+	"pagetip":"",
+	"learn":"<p> This learn section can be found on nearly every page of the platform. It's here to give you page tips and help as you go along. It can be pulled up at any time by clicking on the book icon above the main menu. </p><p>The mainpage is where you’ll find your campaigns. Campaigns are designed to help you organize your digital workflow and keep track of how things are going.</p><p>Feel free to add as many different campaigns as you like - they can be organized by release, band, month, whatever works for you. But keep in mind you can only have one campaign <strong>published</strong> at a time on our site.</p><p>Once you set up a campaign you can add as many elements to it as you need. <p>Any individual element of a campaign may be embedded on your site with a simple cut/paste.</p>",
 	"related":{
 		"cashmusic.org":"http://cashmusic.org/",
 		"CASH help/support site":"http://help.cashmusic.org/"

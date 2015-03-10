@@ -1,17 +1,39 @@
-<h4>Order details</h4>
+<div class="pure-u-1">
+<header>
+		<a class="returnlink current" href="{{www_path}}/commerce/"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">{{ui_title}}</h4>
+</header>
+</div><!--pure-->
+
+<div class="order-detail">
+	<div class="pure-u-1 {{^order_fulfilled}}pure-u-md-1-2{{/order_fulfilled}}">
+		<h4>Order details</h4>
+	</div><!--pure-->
+
+	{{^order_fulfilled}}
+	<div class="pure-u-1 pure-u-md-1-2 fulfilled alignright">
+		<a href="/" class=" button">Mark as fulfilled!</a>
+	</div><!--pure-->
+	{{/order_fulfilled}}
+
 	<div class="pure-u-1 pure-u-md-1-2">
 		<p><strong>Order number:</strong>{{padded_id}}<br />
 		<strong>Placed on: </strong>{{order_date}}<br />
-		<strong>Fulfilled: </strong>{{order_fulfilled}}<br />
-		<strong>Payment status: </strong>{{status}}<br /><br />
-		<strong>Order total: </strong>${{formatted_gross_price}} <br />
-		<strong>Total minus fees: </strong> ${{formatted_net_price}}</p>
+		<strong>Payment status: </strong>{{status}}</p>
 	</div><!--pure-->
+
 	<div class="pure-u-1 pure-u-md-1-2">
-			<p><strong>Customer:</strong><br />
-			{{customer_display_name}}<br /> 
-			<a href="mailto:{{customer_email_address}}">{{customer_email_address}}</a>
-			<strong>Country: </strong> {{customer_address_country}}</p>
+		<p><strong>Fulfilled: </strong>{{order_fulfilled}}</p>
+	</div><!--pure-->
+
+	<div class="pure-u-1 pure-u-md-1-2">
+		<p><strong>Customer:</strong> 
+		{{customer_display_name}}  
+		<a href="mailto:{{customer_email_address}}">{{customer_email_address}}</a><br />
+		<strong>Country: </strong> {{customer_address_country}}</p>
+	</div><!--pure-->
+	<div class="pure-u-1 pure-u-md-1-2 ">
+		<p><strong>Order total: </strong>${{formatted_gross_price}} <br />
+		<strong>Total minus fees: </strong> ${{formatted_net_price}}</p>
 	</div><!--pure-->
 {{#order_contents}}
 	<h4>Items included</h4>
@@ -32,7 +54,7 @@
 	{{#order_contents}}
 		<tr>
 			<td>1</td>
-			<td><a href="{{www_path}}/commerce/items/edit/{{id}}">{{name}}</a></td>
+			<td><a class="lightboxed" href="{{www_path}}/commerce/items/edit/{{id}}">{{name}}</a></td>
 			<td>{{description}}</td>
 			<td style="text-align:right;">${{price}}</td>
 		</tr>
@@ -41,26 +63,39 @@
 	</table>
 {{/order_contents}}
 
+<div class="pure-u-1">
 <h4>Transaction details</h4>
 <p><strong>Connection used: </strong> {{order_connection_details}} <br />
 <strong>Transaction ID: </strong> {{service_transaction_id}}<br />
 <strong>Service fees: </strong> ${{service_fee}}</p>
+</div><!--pure-->
 
+</div><!--order-detail-->
+
+<div class="drawer prefpanel pure-u-1">
+<div class="itemnav pure-u-1">
+	<h4 class="drawerhandle title"><div class="icon icon-data"></div><!--icon--><span>Data Sent &amp; Received</span></h4>
+<div class="drawercontent">
 	<div class="pure-u-1 pure-u-md-1-2">
+		<div class="pref-inner">
 		<h5>Data sent to service</h5>
-		
-		<ul class="smalltext">
-		{{#formatted_data_sent}}
-			<li><b>{{key}}:</b> {{value}}</li>
-		{{/formatted_data_sent}}
-		</ul>
+			<ul class="smalltext">
+				{{#formatted_data_sent}}
+					<li><b>{{key}}:</b> {{value}}</li>
+				{{/formatted_data_sent}}
+			</ul>
+		</div><!--pref-inner-->
 	</div><!--pure-->
 	<div class="pure-u-1 pure-u-md-1-2">
+		<div class="pref-inner">
 		<h5>Data returned by service</h5>
-
-		<ul class="smalltext">
-		{{#formatted_data_returned}}
-			<li><b>{{key}}:</b> {{value}}</li>
-		{{/formatted_data_returned}}
-		</ul>
+			<ul class="smalltext">
+				{{#formatted_data_returned}}
+					<li><b>{{key}}:</b> {{value}}</li>
+				{{/formatted_data_returned}}
+			</ul>
+		</div><!--pref-inner-->
 	</div><!--pure-->
+</div><!--drawercontent-->
+</div><!--itemnav-->
+</div><!--drawer prefpanel-->

@@ -30,7 +30,7 @@ if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
 					'element_id' => $request_parameters[0]
 				)
 			);
-			AdminHelper::formSuccess('Success. Deleted.','/campaigns/edit/'.$campaign_response['payload']['id']);
+			AdminHelper::formSuccess('Success. Deleted.','/');
 		}
 
 

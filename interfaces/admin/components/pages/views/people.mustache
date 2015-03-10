@@ -1,61 +1,81 @@
-{{#dashboard_list_total_new}}
-	<div class="sectiondash pure-u-1">
-		<div class="primarystat">
-			{{dashboard_list_total_new}}<label>New Subscriber{{^people_singular}}s{{/people_singular}}<br /><br /></label>
-		</div>
-		<div class="details">
-			<ul>
-			{{#dashboard_lists}}
-				<li><strong><svg class="icon" viewBox="0 0 280 220"><use xlink:href="#icon-list"></use></svg>{{name}}:</strong> <strong>{{total}}</strong> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}}.</li> 
-				<li class="actions"><span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><svg class="icon" viewBox="0 0 260 260"><use xlink:href="#icon-search"></use></svg>View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><svg class="icon" viewBox="0 0 260 240"><use xlink:href="#icon-dwnld"></use></svg>Export</a></span></li>
-			{{/dashboard_lists}}
-			</ul>
-		</div>
-	</div><!--sectiondash-->
-{{/dashboard_list_total_new}}
-	<div class="pure-u-1 pure-u-md-1-2">
-		<h4>Lists</h4>
+{{^connection}}
+	<h2 class="firstuse-title">{{{copy_firstuse}}}</h2>
+<div class="callout texture pure-u-1">
+	{{#all_services}}
+		<div class="pure-u-1 pure-u-md-1-2">
+			<div class="callout-inner">
+				{{#service_has_image}}<h3><a href="{{link}}" target="_blank"><img src="{{www_path}}/assets/images/settings/{{key}}.png" alt="{{name}}"/></a></h3>{{/service_has_image}}
+				<p>{{description}}</p>
+				<a class="button fullwidth lightboxed" href="{{www_path}}/settings/connections/add/{{key}}">Add Connection</a>
+			</div><!--callout-inner-->
+		</div><!--pure-->
+	{{/all_services}}
+		<div class="pure-u-1 pure-u-md-1-2">
+			<div class="callout-inner">
+				<h3 class="title logo"><i class="icon icon-logo"></i></h3>
+				<p>I don’t want to add any 3rd-party connections at the moment. I’ll just create a new list on the CASH system.</p>
+				<a class="button fullwidth lightboxed" href="{{www_path}}/people/lists/add/">Create List</a>
+			</div><!--callout-inner-->
+		</div><!--pure-->
+	</div><!--pure-->
+{{/connection}}
+
+{{#connection}}
+<header>
+<h4>Mailing Lists</h4>
+</header>
+
+	<div class="pure-u-1 {{^mass_connection}}-pure-u-md-2-3{{/mass_connection}}">
 		{{#lists_all}}
-		<ul class="alternating">
+		<ul class="people alternating">
 			{{#lists_all}}
 			<li>
-				<a class="primary" href="{{www_path}}/people/lists/view/{{id}}">
+			<div class="item">
+				<div class="stats">
+					<div class="icon icon-{{analytics_icon}}"></div><!--icon-->
+					<span>{{analytics_active}}</span></div><!--stats-->
+				<a class="info" href="{{www_path}}/people/lists/view/{{id}}">
 				<strong>{{name}}</strong>{{#description}}<span class="descriptive spaced fadedtext">{{description}}</span>{{/description}}</a>
+			</div><!--item-->
 				<div class="more"><div class="toggle"></div><!--toggle-->
 					<div class="actions">
-						<a href="{{www_path}}/people/lists/view/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 260 260"><use xlink:href="#icon-search"></use></svg>View</a>
-						<a href="{{www_path}}/people/lists/edit/{{id}}" class="mininav_flush"><svg class="icon" viewBox="0 0 238 237"><use xlink:href="#icon-pencil"></use></svg>Edit</a>
-						<a href="{{www_path}}/people/lists/export/{{id}}" class="mininav_flush noajax"><svg class="icon" viewBox="0 0 260 240"><use xlink:href="#icon-dwnld"></use></svg>Export</a>
+						<div class="action-inner">
+							<a href="{{www_path}}/people/lists/view/{{id}}" class="mininav_flush"><div class="icon icon-search"></div><!--icon-->View</a>
+							<a href="{{www_path}}/people/lists/edit/{{id}}" class="mininav_flush"><div class="icon icon-pencil"></div><!--icon-->Edit</a>
+							<a href="{{www_path}}/people/lists/export/{{id}}" class="mininav_flush noajax"><div class="icon icon-dwnld"></div><!--icon-->Export</a>
+							<a href="{{www_path}}/people/lists/delete/{{id}}" class="mininav_flush needsconfirmation"><div class="icon icon-ban"></div><!--icon--> Delete</a>
+						</div><!--action-inner-->
 					</div><!--actions-->
 				</div><!--more-->
 			</li>
-
 			{{/lists_all}}
 		</ul>
 		{{/lists_all}}
 
 		{{^lists_all}}
-		<p>No lists have been created.</p>
+		<div class="empty">
+			<p>No lists have been created. Add one to get started.</p>
+		</div><!--empty-->
 		{{/lists_all}}
-	</div><!--pure-->
-	<div class="pure-u-1 pure-u-md-1-2">
-		<h4>Add new press coverage</h4>
-		<form accept-charset="UTF-8" method="post" action="{{www_path}}/people/press">
-			<label for="press_url">URL</label>
-			<input type="text" id="press_url" name="press_url" /> 
 
-			<label for="publishing_date">Publishing date</label>
-			<input type="text" id="publishing_date" name="publishing_date" value="{{current_date}}" /> 
-
-			<!--
-			<br />
-			<label>Tags</label>
-			{{{tag_markup}}}
-			<a href="#" class="injectbefore" rev="<input type='text' name='tag' value='' placeholder='Tag' />" rel="{{tag_counter}}"><small>+ ADD TAG</small></a>
-			-->
-
-			<br />
-			<button type="submit">Add new link</button>
+		<footer>
+		<a class="button lightboxed" href="{{www_path}}/people/lists/add/">Add a new list</a>
 		
-		</form>
+		</footer>
 	</div><!--pure-->
+
+	{{^mass_connection}}
+		{{#all_mass_services}}
+			<!--div class="pure-u-1 pure-u-md-1-3">
+				<aside>
+					<div class="aside-inner">
+						{{#service_has_image}}<h3><a href="{{link}}" target="_blank"><img src="{{www_path}}/assets/images/settings/{{key}}.png" alt="{{name}}"/></a></h3>{{/service_has_image}}
+						<p>{{description}}</p>
+						<p><a class="fadedtext" href="{{link}}">{{link}}</a></p>
+						<a class="button fullwidth lightboxed" href="{{www_path}}/settings/connections/add/{{key}}">Add Connection</a>
+					</div>
+				</aside>
+			</div> -->
+		{{/all_mass_services}}
+	{{/mass_connection}}
+{{/connection}}

@@ -1,0 +1,33 @@
+<header>
+		<a class="returnlink current" href="{{www_path}}/"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">Elements Archive</h4>
+</header>
+
+
+<div class="pure-u-1 pure-u-md-1-1">
+		{{#elements_for_campaign}}
+		<ul class="alternating">
+			{{#elements_for_campaign}}
+			<li>
+			<a class="primary" href="{{www_path}}/elements/edit/{{id}}">
+				<strong>{{name}}</strong><span class="descriptive spaced fadedtext">{{type}} / {{formatted_date}}</span></a>
+				<div class="more"><div class="toggle"></div><!--toggle-->
+				<div class="actions">
+				<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><div class="icon icon-pencil"></div><!--icon-->Edit</a>
+				<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation delete"><div class="icon icon-ban"></div><!--icon--> Delete</a></div><!--actions-->
+				</div><!--more-->
+			</li>
+			{{/elements_for_campaign}}
+		</ul>
+		{{/elements_for_campaign}}
+
+		{{^isarchive}}
+			<div class="pure-u-1 pure-u-md-1-2">
+			{{^elements_for_campaign}}
+			<p>No elements have been added yet.</p>
+			{{/elements_for_campaign}}
+			</div><!--pure-->
+			<div class="pure-u-1">
+			<a href="{{www_path}}/elements/add/" class="button lightboxed store">Add an element</a>
+			</div><!--pure-->
+		{{/isarchive}}
+</div><!--pure-->

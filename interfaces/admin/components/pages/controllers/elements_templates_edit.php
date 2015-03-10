@@ -44,6 +44,29 @@ if (isset($request_parameters[0])) {
 		$template_id = $template_response['payload'];
 	}
 
+	if ($request_parameters[1] == 'page') {
+		$current_campaign = $admin_primary_cash_request->sessionGet('current_campaign');
+			$elements_response = $cash_admin->requestAndStore(
+				array(
+					'cash_request_type' => 'element', 
+					'cash_action' => 'getelementsforcampaign',
+					'id' => $current_campaign
+				)
+			);
+
+			if (is_array($elements_response['payload'])) {
+				$elements_response['payload'] = array_reverse($elements_response['payload']);
+				foreach ($elements_response['payload'] as &$element) {
+					if ($element['modification_date'] == 0) {
+						$element['formatted_date'] = CASHSystem::formatTimeAgo($element['creation_date']);	
+					} else {
+						$element['formatted_date'] = CASHSystem::formatTimeAgo($element['modification_date']);
+					}
+				}
+				$cash_admin->page_data['elements_for_campaign'] = new ArrayIterator($elements_response['payload']);
+			}
+	}
+
 	$template_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'system', 

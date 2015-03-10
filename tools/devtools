@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+cd ${0%/*}
+
+echo "                                          __"
+echo "                                         / _)"
+echo "                                _.----._/ /"
+echo "                               /         /"
+echo "                            __/ (  | (  |"
+echo "                           /__.-'|_|--|_|"
+echo ""
+echo "                         C A S H  M U S I C"
+echo "                      DEVELOPER TOOLS AND STUFF"
+echo ""
+
+if [ "$1" = "vagrant" ]
+then
+    echo "So you managed to type 'devtools' at least. What else do you want to do?"
+	select yn in "Run the test suite" "Add sample commerce data" "Reset all data"; do
+		case $yn in
+			"Run the test suite" ) php ./tests/php/all.php; php ./tests/php/test-uninstaller.php; break;;
+			"Add sample commerce data" ) php ./php/sample_commerce.php vagrant; break;;
+			"Reset all data" ) rm ../framework/db/cashmusic_vagrant.sqlite; php ../.vagrant_settings/vagrant_cashmusic_installer.php; break;;
+		esac
+	done
+else
+	echo "So you managed to type 'devtools' at least. What else do you want to do?"
+	select yn in "Run the test suite" "Add sample commerce data"; do
+		case $yn in
+			"Run the test suite" ) php ./tests/php/all.php; php ./tests/php/test-uninstaller.php; break;;
+			"Add sample commerce data" ) php ./php/sample_commerce.php; break;;
+		esac
+	done
+fi

@@ -5,7 +5,7 @@
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2014, CASH Music
+ * Copyright (c) 2015, CASH Music
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -31,6 +31,34 @@
  **/
 ;
 
+// insertAtCaret plugin for textarea stuff / injecting codes on page editor
+jQuery.fn.extend({
+	insertAtCaret: function(myValue){
+		return this.each(function(i) {
+			if (document.selection) {
+				//For browsers like Internet Explorer
+				this.focus();
+				var sel = document.selection.createRange();
+				sel.text = myValue;
+				this.focus();
+			} else if (this.selectionStart || this.selectionStart == '0') {
+				//For browsers like Firefox and Webkit based
+				var startPos = this.selectionStart;
+				var endPos = this.selectionEnd;
+				var scrollTop = this.scrollTop;
+				this.value = this.value.substring(0, startPos)+myValue+this.value.substring(endPos,this.value.length);
+				this.focus();
+				this.selectionStart = startPos + myValue.length;
+				this.selectionEnd = startPos + myValue.length;
+				this.scrollTop = scrollTop;
+			} else {
+				this.value += myValue;
+				this.focus();
+			}
+		});
+	}
+});
+
 (function($) {
 	/**
 	 *
@@ -44,6 +72,14 @@
 	$(document).ready(function() {
 		setUIBehaviors();
 		setContentBehaviors();
+		
+		// Mobile Swipe // Bind the Swipe Handler callback function to the swipe event on page
+  		$( "#page" ).on( "swipeleft", swipeleftHandler );
+  		$( "#page" ).on( "swiperight", swiperightHandler );
+
+  		window.addEventListener('load', function () {
+		FastClick.attach(document.body);
+		}, false);
 
 		window.globaltimeout = false;
 
@@ -53,26 +89,45 @@
 				refreshPageData(location.pathname,null,null,null,true);
 			}
 		}, false);
+
 	}); // $document
 
-	//Readjust for orientation
-	function readDeviceOrientation() {
-                 		
-    if (Math.abs(window.orientation) === 90) {
-        	// Landscape
-        	console.log('Landscape');
-        	$('html').removeClass('portrait');
-        	$('html').addClass('landscape');
-    	} else {
-    		// Portrait
-    		console.log('Portrait');
-    		$('html').removeClass('landscape');
-    		$('html').addClass('portrait');
-    	}
-	}
 
-	window.onorientationchange = readDeviceOrientation;
 
+
+
+	//Mobile Swipe Functions
+  	function swipeleftHandler( event ){
+
+  		//remove mobile hint
+   	 		$('.swipehint').addClass("hide");
+
+   	 	if ($('body').hasClass('swiperight')){
+			$('body').removeClass('swiperight');
+		}
+
+   	 	else if ($('body').hasClass("swipeleft")){
+   	 		//do nothing
+   	 	}
+   	 	else {
+   	 		$('body').removeClass("swiperight");
+   	 		$('body').addClass("swipeleft");
+   	 	}
+  	};
+  	function swiperightHandler( event ){
+
+   	 	if ($('body').hasClass('swipeleft')){
+			$('body').removeClass('swipeleft');
+		}
+
+   	 	else if ($('body').hasClass("swiperight")){
+   	 		//do nothing
+   	 	}
+   	 	else {
+   	 		$('body').removeClass("swipeleft");
+   	 		$('body').addClass("swiperight");
+   	 	}
+  	};
 
 	/**
 	 *
@@ -92,8 +147,8 @@
 	 */
 	function redrawPage(data) {
 		// change the color
-		$('#mainspc, #pagetitle').removeClass();
-		$('#mainspc').addClass(data.specialcolor);
+		$('#mainspc, #pagetitle, #page').removeClass();
+		$('#mainspc, #page').addClass(data.specialcolor);
 
 		// nav
 		redrawMainNav(data.section_name);
@@ -143,7 +198,7 @@
 					doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
 				} else {
 					if (data.initiallogin) {
-						console.log('login');
+						//console.log('login');
 						$('body').removeClass('login');
 						$('#loadingmask').css('width','1%');
 					}
@@ -219,7 +274,6 @@
   		});	
 	};
 
-
 	/**
 	 *
 	 *
@@ -237,7 +291,7 @@
 	 */
 	function setContentBehaviors() {
 		// show/hide drawers
-		prepDrawers('<i class="icon icon-chevron-sign-up"></i>Hide','<i class="icon icon-chevron-sign-down"></i>Show');
+		prepDrawers('<div class="icon icon-arw-up"></div><!--icon-->Hide','<div class="icon icon-arw-dwn"></div><!--icon-->Show');
 
 		// datepicker
 		$('input[type=date],input.date').datepicker();
@@ -247,8 +301,10 @@
 		handleUploadForms();
 		elementMenuStates();
 		releaseFlip();
-		iNeedaHero();
-		firstUseHL();
+		glitch();
+		firstUtpHL();
+		ZclipBoard();
+		handleSwitchBlocks();
 	}
 
 	/**
@@ -292,7 +348,6 @@
 			$( "#search" ).toggleClass( "display" );
 		});
 
-		
 		// show/hide hero video
 		// Hide for Verision 7 Update
 		/*$( ".welcome" ).click(function() {
@@ -300,25 +355,38 @@
 			$( "#hero" ).toggleClass( "video" );
 		});*/
 
-		// hide mainmenu & tertiary panel
-		$( "#flipback" ).click(function() {
-			$ (this).parent().removeClass( "display" );
-			
-			if ( $("body").hasClass("panel") ){
-					$("body").removeClass("panel");
+		
+		$(document).on('click','a.injectcode',function(e) {
+			e.preventDefault();
+			if ($('#template')) {
+				$('#template').insertAtCaret('{{{element_' + $(this).data('elementid') + '}}}');
+			}
+		});
 
-					//timer to remove content of panel after close
-					window.globaltimeout = window.setTimeout(function(){
-						$("body").removeClass("learn").removeClass("settings").removeClass("help");
-				}, 150);
-			};
-				$('.panelcontent').removeClass('display');
+		// hide mainmenu & tertiary panel
+		$('#flipback').click(function() {
+			$ (this).parent().removeClass( "display" );
+			closePanel();
 		});
 
 		// when we need a submit button outside it's target form (see file assets, etc)
 		$(document).on('click', 'input.externalsubmit', function(e) {
 			$($(this).data('cash-target-form')).submit();
 		});
+
+		$(document).on('change','#current-campaign',function(event) {
+     		$(this).closest('form').submit();
+     	});
+
+     	$(document).on('change','#current-published-campaign',function(event) {
+     		//$(this).closest('form').submit();
+     		var tmplt = $(this).find(':selected').data('template');
+     		if (!tmplt) {
+     			doMessage('','Before you can publish this campaign, you need to set its page theme. Open the campaign and click the edit icon to start.',true);
+     		} else {
+     			doMessage('','This will change your public page. Are you sure?',true,$(this).find(':selected').data('path'));
+     		}
+     	});
 
 		// element embed highlight-and-copy code
 		$(document).on('click', '.codearea', function(e) {
@@ -382,7 +450,7 @@
 				$('div.modallightbox').html(
 					'<h4>' + data.ui_title + '</h4>' +
 					 data.content + //jQuery.param(data) +
-					 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><i class="icon icon-ban-circle"></i><span>cancel</span></a></div>'
+					 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a></div>'
 				);
 				$('.store .modallightbox h4').css('width','62%');
 
@@ -391,27 +459,6 @@
 				formValidateBehavior();
 			},'json')
 		});
-
-		/*
-		 * images for glitched heros
-		 *
-    	$([
-			cashAdminPath+"/assets/images/glitch/background/glitch1.jpg",
-			cashAdminPath+"/assets/images/glitch/background/glitch2.jpg",
-			cashAdminPath+"/assets/images/glitch/background/glitch3.jpg",
-			cashAdminPath+"/assets/images/glitch/background/glitch4.jpg",
-			cashAdminPath+"/assets/images/glitch/background/glitch5.jpg",
-			cashAdminPath+"/assets/images/glitch/background/glitch6.jpg",
-			cashAdminPath+"/assets/images/glitch/artist/artist1.jpg",
-			cashAdminPath+"/assets/images/glitch/artist/artist2.jpg",
-			cashAdminPath+"/assets/images/glitch/artist/artist3.jpg",
-			cashAdminPath+"/assets/images/glitch/artist/artist4.jpg",
-			cashAdminPath+"/assets/images/glitch/artist/artist5.jpg"
-    	]).each(function(){
-        	//$('<img/>')[0].src = this;
-        	// Alternatively you could use:
-        	(new Image()).src = this;
-   		});*/
 
 		$(document).on('click', '.revealpassword' ,function(e){
 			e.preventDefault();
@@ -441,111 +488,157 @@
 	};
 
 	/* Show/Hide Tertiary Panel */
+	var currentPanel = false;
 
 	function touchToggles() {
-		
+		$(".swipehint").click(function(){
+			$(this).addClass("hide");
+		});
+
 		$( "#learn.toggle, #learnpanel .toggle, #learnpanel .paneltitle" ).click(function() {
 			//check if learn panel is open & close it
-			if ( $("body").hasClass("panel", "learn") ){
-					$("body").removeClass("panel");
-					//timer to remove content of panel after close
-					window.globaltimeout = window.setTimeout(function(){
-						$("body").removeClass("learn");
-				}, 150);
+			if (currentPanel == 'learn'){
+				closePanel();
 			}
 			//open panel
 			else {
-				$ (this).parents("body").addClass("panel").addClass("learn");
+				$ (this).parents('body').addClass('panel').addClass('learn');
+				currentPanel = 'learn';
 			};
 		});
 
-		$( "#settings.toggle, #settingspanel .toggle, #settingspanel .paneltitle, .firstuse .settings.toggle").click(function() {
-			//check if learn panel is open & close it
-			if ( $("body").hasClass("panel", "settings") ){
-					$("body").removeClass("panel");
-					//timer to remove content of panel after close
-					window.globaltimeout = window.setTimeout(function(){
-						$("body").removeClass("settings");
-				}, 150);
+		$( "#settings.toggle, #settingspanel .toggle, #settingspanel .paneltitle, .settings.toggle").click(function() {
+			//check if settings panel is open & close it
+			if (currentPanel == 'settings'){
+				closePanel();
 			}
 			//open panel
 			else {
-				$ (this).parents("body").addClass("panel").addClass("settings");
+				$ (this).parents('body').addClass('panel').addClass('settings');
+				currentPanel = 'settings';
 			};
 		});
 
 		$( "#help.toggle, #helppanel .toggle, #helppanel .paneltitle" ).click(function() {
-			//check if learn panel is open & close it
-			if ( $("body").hasClass("panel", "help") ){
-					$("body").removeClass("panel");
-					//timer to remove content of panel after close
-					window.globaltimeout = window.setTimeout(function(){
-						$("body").removeClass("help");
-				}, 150);
+			//check if help panel is open & close it
+			if (currentPanel == 'help'){
+				closePanel();
 			}
 			//open panel
 			else {
-				$ (this).parents("body").addClass("panel").addClass("help");
+				$ (this).parents('body').addClass('panel').addClass('help');
+				currentPanel = 'help';
 			};
 		});
 	};
 
+	function closePanel() {
+		if (currentPanel) {
+			$('body').removeClass('panel');
+			//timer to remove content of panel after close
+			window.globaltimeout = window.setTimeout(function(){
+				$('body').removeClass('help').removeClass('settings').removeClass('learn');
+				$('.panelcontent').removeClass('display');
+			}, 150);
+			currentPanel = false;
+		}
+	}
+
 	/* Glitch Hero Background */	
 
 	function glitch(){
-		// moved preload to initial UI load
-		//
-		//
-		//
-		//
-		//
-		// TODO:
-		// the preload isn't actually speeding up load times. i've disabled it for now
-		// and will reintroduce a more comprehensive version. for now i've moved to using
-		// onload events below to guarantee all hero elements have loaded before revealing
-		// them. the setTimeout remains (but has been lowered) to give the transition 
-		// effect time to render (transion plus canvas at the same time caused the browser
-		// a little more pain than it could handle smoothly.)
-
-		//Reveal the header
-		$('section').addClass('hero');
+		if ($('#cnvs')) {
+			var dataseed = $('#cnvs').data('seed');
+			if (dataseed) {
+				var seed = dataseed.toString().split('').reverse();
 			
-		window.globaltimeout = window.setTimeout(function(){
+				var imno = Math.ceil((Number(seed[0]) + 1) / 2);
+				var atno = Math.ceil((Number(seed[1]) + 1) / 2);
+
+				var colors = [
+					// pink, purple, orange, red, green
+					"250,56,102",
+					"106,56,250",
+					"255,124,18",
+					"250,56,56",
+					"0,207,127",
+					// pink, purple, orange, red, green
+					"250,56,102",
+					"106,56,250",
+					"255,124,18",
+					"250,56,56",
+					"0,207,127"
+				];
+
+				var alphas = [
+					"0.9",
+					"0.6",
+					"0.3"
+				];
+
+				var widths = [
+					9,
+					24,
+					60,
+					980,
+					120,
+					180,
+					210,
+					240,
+					270,
+					330
+				];
 			
-			var clr = new Array("RED", "GREEN", "BLUE");
-			var swc = clr[Math.floor(Math.random() * 2)].toString(); // 0-2
-			var imno = Math.floor(Math.random() * 5) + 1 // 1-6
-			var atno = Math.floor(Math.random() * 4) + 1 // 1-5
-
-			// console.log('color shift: ' + swc + ', glitch: ' + imno + ', artist: ' + atno);
-
-			cnvs = document.getElementById('canvas');
-
-			if (cnvs) {
-				cnvs = cnvs.bitmapData;
-				bg = new Image();
+				var bg = new Image();
 				bg.src = cashAdminPath+"/assets/images/glitch/background/glitch"+imno+".jpg";
-				bg.onload = function(){
-					cnvs.draw(bg);
+				bg.addEventListener("load", function() {
+					var cw = $('#cnvs').width();
+					var ch = $('#cnvs').height();
+					var cnvs = document.getElementById('cnvs').getContext('2d');
 
+					cnvs.drawImage(bg,0,0);
+					
 					olay = new Image();
 					olay.src = cashAdminPath+"/assets/images/glitch/artist/artist"+atno+".jpg";
-					olay.onload = function(){
-						olayData = new BitmapData(Math.floor(Math.random() * 200) + 1, 600);
-						olayData.draw(olay);
+					olay.addEventListener("load", function() {
+												
+						cnvs.globalCompositeOperation = "screen";
+						//cnvs.globalAlpha = 0.9;
 
-						cnvs.copyChannel(olayData,
-							new Rectangle(300, 0, 2000, 700), 
-							new Point(0, 0), 
-							BitmapDataChannel[swc], 
-							BitmapDataChannel[swc]
-						);
+						var i = 0;
+						while (i < 2000) {
+							cnvs.drawImage(
+								olay,
+								(olay.width / ((Number(seed[2]) +1) * 5)) + (i / 3),
+								0,
+								widths[Number(seed[2])],
+								ch,
+								i,
+								0,
+								widths[Number(seed[2])],
+								ch
+							);	
+							i = i + widths[Number(seed[2])];
+						}
 
-						$('canvas').addClass('display');
-					};
-				};
+	    				cnvs.save();
+
+	    				cnvs.globalCompositeOperation = "hard-light";
+
+	    				var g = cnvs.createLinearGradient(0,0,$('#cnvs').width()/2,0);
+						g.addColorStop(0,'rgba(' + colors[Number(seed[3])] + ',' + alphas[Number(seed[3]) % 3] + ')');
+						g.addColorStop(1,'rgba(' + colors[Number(seed[4])] + ',' + alphas[Number(seed[3]) % 3] + ')');
+
+						cnvs.fillStyle=g;
+
+						cnvs.fillRect(0, 0, cw, ch);
+						cnvs.restore();
+
+						$('#cnvs').addClass('display');
+					}, false);
+				}, false);
 			}
-		}, 100);
+		}
 	};	
 
 
@@ -558,7 +651,7 @@
 			var url = $('#settingspanel .tertiarynav li a.current').attr('href');
 				refreshPanelData(url);
 				$('.panelcontent').addClass('display');
-				console.log('firstuse click?');
+				//console.log('firstuse click?');
 		});
 		$( "#help.toggle, .firstuse .help.toggle" ).click(function() {
 			$('#helppanel .tertiarynav li a').removeClass('current');
@@ -622,36 +715,27 @@
 		});
 	};	
 
-	/*  Show/Hide Hero Area */
-	function iNeedaHero() {
-		if (document.getElementById("hero")) {
-			//console.log("my hero");
-			glitch();	
-			$('#pagetitle').addClass('hero');
-		} else {
-				//console.log("you ain't no hero");
-				$('section').removeClass('hero');
-		}
-		$( "#hero h5" ).click(function() {
-			$('section, #pagetitle').toggleClass('hero');
+	/* First use touchpoint highlight */
+	function firstUtpHL() {
+		$( ".settings.hlt" ).hover(function() {
+			$( "#settings" ).toggleClass( "highlight" );
 		});
 	};
 
-	/*  First Use Highlight States */
-	function firstUseHL() {
-		
-		// on mouse hover flip the image
-		$('.firstuse .hlt').mouseenter(function (){
-			$('body').addClass('hl');
-			console.log('highlight');
-		});
+	// ZeroClipboard
+	function ZclipBoard() {
+		ZeroClipboard.config( { swfPath: cashAdminPath+"/ui/default/assets/flash/ZeroClipboard.swf" } );
 
-		// on mouse leave return to orginal state
-		$('.firstuse .hlt').mouseleave(function (){
-			$('body').removeClass('hl');
-			console.log('remove highlight');
-		});
+		var client = new ZeroClipboard($(".copy"));
+		client.on( "ready", function( readyEvent ) {
+			//alert ("ready!");
+  			client.on( "aftercopy", function( event ) {
+    			alert("Embed Code Copied To Clipboard." ) //+ event.data["text/plain"] )
+  			} );
+
+		} );
 	};	
+
 
 	/**
 	 *
@@ -671,7 +755,7 @@
 			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
 				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
 				&& !el.hasClass('noajax') && !el.parents('div').hasClass('inner')
-				&& (!$('body').hasClass('store') && el.attr('href').indexOf('elements/add'))
+				&& (!$('body').hasClass('store') && el.attr('href').indexOf('elements/add') && !$('body').hasClass('page-editor') && !el.hasClass('connection'))
 			) {
 				e.preventDefault();
 				var url = el.attr('href');
@@ -679,7 +763,7 @@
 				el.blur();
 
 			// if inside the tertiary panel or a panel touchpoint
-			} else if (el.parents('div').hasClass('inner')){
+			} else if (el.parents('div').hasClass('inner') && !el.hasClass('connection') && !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation')){
 				e.preventDefault();
 				$('.panelcontent').removeClass('display');
 				var url = el.attr('href');
@@ -688,10 +772,16 @@
   				$('.inner a').removeClass('current');
   				el.addClass('current');
 				el.blur();
+
 			// if launching the store lightbox
 			} else if (el.hasClass('store')){
 				e.preventDefault();
 				$('body').addClass('store');
+			} 
+			// if launching the pageeditor lightbox
+				else if (el.hasClass('page-editor')){
+				e.preventDefault();
+				$('body').addClass('page-editor');
 			}
 		});
 
@@ -869,6 +959,7 @@
 				alert('Sorry, can\'t upload without a connection. Have you tried a normal link?');
 				return false;
 			} else {
+				trigger.parents('.fadedtext').css('height','0px');
 				trigger.parents('.fadedtext').animate({ opacity: 0 });
 			}
 		});
@@ -937,7 +1028,7 @@
 	 function modalBehaviors() {
 
 		// overlay cancel button event
-		$(document).on('click', '.modalcancel', function(e) {
+		$(document).on('click', '.modalcancel, .modalskip', function(e) {
 			e.preventDefault();
 		//remove the store identifier on close
 			removeModal();
@@ -972,35 +1063,106 @@
 	function removeModal() {
 		$('.modallightbox').fadeOut('fast', function() {
 			$('.modallightbox').remove();
+			openlightbox = false;
 		});
 		$('.modalbg').fadeOut('fast', function() {
 			$('.modalbg').remove();
-					$("body").removeClass("store");
+					$("body").removeClass("store page-editor");
+
 		});
 		$(document).unbind('scroll',handleModalScroll);
 	}
 
-	 function listenForModals() {
-			// modal pop-ups
-			$(document).on('click', '.needsconfirmation', function(e) {
-				e.preventDefault();
-				doMessage('','Are you sure?',true,$(this).attr('href'));
-				this.blur();
-			});
+	function listenForModals() {
+		// modal pop-ups
+		$(document).on('click', '.needsconfirmation', function(e) {
+			e.preventDefault();
+			doMessage('','Are you sure?',true,$(this).attr('href'));
 
-			// modal lightboxes
-			$(document).on('click', '.lightboxed', function(e) {
-				if ($(window).width() > 768) {
-					e.preventDefault();
-					if ($(this).hasClass('returntocurrentroute')) {
-						doModalLightbox($(this).attr('href'),true);
-					} else {
-						doModalLightbox($(this).attr('href'));
+			this.blur();
+		});
+
+		// modal lightboxes
+		$(document).on('click', '.lightboxed', function(e) {
+			e.preventDefault();
+			if ($(this).hasClass('closepanel')) {
+				closePanel();
+			}
+			if ($(this).hasClass('returntocurrentroute')) {
+				doModalLightbox($(this).attr('href'),true);
+			} else {
+				doModalLightbox($(this).attr('href'));
+			}
+			this.blur();
+		});
+	}
+
+	/**
+	 *
+	 * function handleSwitchBlocks()
+	 *
+	 * parses out div.switchblock div and shows/hides stuff as needed
+	 * ex: <div class="switchblock" data-watch="#target-select" data-default="#show-default" ...
+	 *         ... data-change="#show-on-change" data-special='{"val":"#show-if-val"}'>
+	 *
+	 **/
+	function handleSwitchBlocks() {
+		$('div.switchblock').each( function() {
+			var w = $($(this).data('watch'));
+			if (w) {
+				// we found a select to watch
+				var c = $(this).data('change');
+				w.change(function() {
+					$(c).addClass('show');
+				});
+				var v = w.val(); // grab the current val for the select 
+				var s = $(this).data('special');
+				if (s) {
+					// we found special values to display for certain options
+					if (typeof(s) === 'object') {
+						if (s.val) {
+							// this means it's a single set option
+							if (v == s.val) {
+								if($(s.target)) {
+									$(s.target).addClass('show'); // show it
+									w.change(function() {
+										// make sure to hide on change
+										$(s.target).removeClass('show');
+									});
+									return true;
+								}
+							}
+						} else {
+							$.each(s, function(ii,iv) {
+								// no .val means we have an array of objects. neat!
+								// iterate through and compare current value to special value
+								if (v == iv.val) {
+									if($(iv.target)) {
+										$(iv.target).addClass('show'); // show it
+										w.change(function() {
+											// hide on change
+											$(iv.target).removeClass('show');
+										});
+										return true;
+									}
+								}
+							});
+						}
 					}
-					this.blur();
 				}
-			});
-		}
+				// we made it all the way to the end, and the monster at the end of the book
+				// is me. lovable, huggable, grover.
+				var d = $(this).data('default');
+				$(d).addClass('show'); // show the default thing
+				if (d !== c) {
+					w.change(function() {
+						// hide on change
+						$(d).removeClass('show');
+					});
+				}
+			}
+		});
+	}
 
 	/**
 	 * doMessage (function)
@@ -1016,7 +1178,7 @@
 	function doMessage(msg,label,modal,redirectUrl) {
 		// markup for the confirmation link
 		var markup = '<div class="modalbg"><div class="modaldialog">' +
-					 '<div class="row"><div class="two columns"></div><div class="eight columns">' +
+					 '<div class="pure-u-1">' +
 					 '<h4>' + label + '</h4>';
 					 if (msg) {
 					 	markup += '<p><span class="big">' + msg + '</span></p>';
@@ -1028,7 +1190,7 @@
 					 if (modal && !redirectUrl) {
 					 	markup += '<input type="button" class="button modalyes" value="OK" />';
 					 }
-					 markup += '</div><div class="two columns"></div></div>' +
+					 markup += '</div><!--pure-->' +
 					 '</div></div>';
 		markup = $(markup);
 		markup.hide();
@@ -1040,7 +1202,9 @@
 			// button events
 			$('.modalyes').on('click', function(e) {
 				e.preventDefault();
-				refreshPageData(redirectUrl,'modalconfirm=1&redirectto='+location.pathname.replace(cashAdminPath, ''));
+				if (redirectUrl) {
+					refreshPageData(redirectUrl,'modalconfirm=1&redirectto='+location.pathname.replace(cashAdminPath, ''));
+				}
 				$('.modalbg').remove();
 			});
 		}
@@ -1067,40 +1231,56 @@
 	 */
 	function doModalLightbox(route,returntocurrentroute) {
 		jQuery.post(route,'data_only=1', function(data) {
-			removeModal();
+			//removeModal();
 			var addedClass = '';
 			if (returntocurrentroute) {
 				addedClass = 'returntocurrentroute '
 			}
-			// markup for the confirmation link
-			//var modalTop = $(document).scrollTop() + 120;
-			var markup = '<div class="modalbg">&nbsp;</div><div class="modallightbox ' + addedClass + '">' +
-						 //'<div class="row"><div class="twelve columns">' +
-						 '<h4>' + data.ui_title + '</h4>' +
-						 data.content + //jQuery.param(data) +
-						 //'</div></div>' +
-						 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><i class="icon icon-ban-circle"></i><span>cancel</span></a></div>' +
-						 '</div></div>';
+			var alreadyopen = $('.modallightbox').length;
+			if (!alreadyopen) {
+				// markup for the confirmation link
+				//var modalTop = $(document).scrollTop() + 120;
+				var markup = '<div class="modalbg">&nbsp;</div><div class="modallightbox ' + addedClass + '">' +
+							 //'<div class="row"><div class="twelve columns">' +
+							 '<h4>' + data.ui_title + '</h4>' +
+							 data.content + //jQuery.param(data) +
+							 //'</div></div>' +
+							 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a></div>' +
+							 '</div></div>';
 
-			markup = $(markup);
-			markup.hide();
-			$('body').append(markup);
-			prepDrawers('<i class="icon icon-chevron-sign-up"></i>Hide','<i class="icon icon-chevron-sign-down"></i>Show');
+				markup = $(markup);
+				markup.hide();
+				$('body').append(markup);
+				prepDrawers('<i class="icon icon-chevron-sign-up"></i>Hide','<i class="icon icon-chevron-sign-down"></i>Show');
 
-			// fix form position based on current scrolltop:
-			currentScroll = $(document).scrollTop();
-			$('.modallightbox').css('top',currentScroll+'px');
+				// fix form position based on current scrolltop:
+				currentScroll = $(document).scrollTop();
+				$('.modallightbox').css('top',currentScroll+'px');
+			} else {
+				var markup = '<h4>' + data.ui_title + '</h4>' +
+							 data.content + //jQuery.param(data) +
+							 //'</div></div>' +
+							 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a></div>';
+				$('.modallightbox').html(markup);
+			}
+
+			//reload quick copy
+			ZclipBoard();
 
 			$(document).bind('scroll',handleModalScroll);
 
 			handleMultipartForms();
 
-			// show the dialog with a fast fade-in
-			$('.modalbg').fadeIn('fast');
-			$('.modallightbox').fadeIn('fast', function() {
-				// the lightboxes have forms, so tell them to validate and post by ajax...
+			if (!alreadyopen) {
+				// show the dialog with a fast fade-in
+				$('.modalbg').fadeIn('fast');
+				$('.modallightbox').fadeIn('fast', function() {
+					// the lightboxes have forms, so tell them to validate and post by ajax...
+					formValidateBehavior();
+				});
+			} else {
 				formValidateBehavior();
-			});
+			}
 		},'json');
 	}
 
@@ -1129,12 +1309,6 @@
 			for (var i = 1; i <= mpForm.total; i++) {
 				addMultipartButtons(i);
 			};
-			if (window.location.pathname.indexOf('campaigns/view')) {
-				var parts = window.location.pathname.split('/');
-				if ($('#in_campaign')) {
-					$('#in_campaign').val(parts[parts.length - 1]);
-				}
-			}
 		});
 	}
 

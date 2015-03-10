@@ -1,10 +1,18 @@
+<div class="pure-u-1">
+	{{#parent_id}}
+		<a class="returnlink current" href="{{www_path}}/assets/edit/{{parent_id}}"><div class="icon icon-arw-dwn"></div><!--icon--></a>
+	{{/parent_id}}
+
+	{{^parent_id}}
+	<a class="returnlink current" href="{{www_path}}/assets/"><div class="icon icon-arw-dwn"></div><!--icon--></a>
+	{{/parent_id}}
+<h4 class="secondary-title">&ldquo;{{title}}&rdquo;</h4>
+</div><!--pure-->
+
+<div class="pure-u-1">
 <form accept-charset="UTF-8" method="post" id="edit-file-form" action="{{www_path}}/assets/edit/{{id}}">
 	<input type="hidden" name="doassetedit" value="makeitso" />
 	<input type="hidden" name="asset_type" value="file" />
-
-	{{#parent_id}}
-	<p class="smalltext fadedtext"><a href="{{www_path}}/assets/edit/{{parent_id}}"><strong>return to parent asset</strong></a></p>
-	{{/parent_id}}
 
 	<label for="asset_title">Title / Name</label>
 	<input type="text" id="asset_title" name="asset_title" value="{{title}}" class="required" />
@@ -21,40 +29,39 @@
 
 		<div class="pure-u-1 pure-u-md-1-2">
 			<label for="asset_location">Location (URI)</label>
-			<input type="text" id="asset_location" name="asset_location" value="{{location}}" />
+			<input class="required" type="text" id="asset_location" name="asset_location" value="{{location}}" />
+		</div><!--pure-->
+		<div class="pure-u-1">
 			<div class="drawer noprefix upload-corral">
-				<small class="fadedtext"><svg class="icon" viewBox="0 0 271 198"><use xlink:href="#icon-cloud"></use></svg>Using a hosting connection? <a href="#" data-upload-endpoint="{{{www_path}}}/assets/uploadform/" class="drawerhandle usecolor2 file-upload-trigger">Upload a file</a></small>
+				<small class="fadedtext"><div class="icon icon-cloud-upload"></div><!--icon-->Using a hosting connection? <a href="#" data-upload-endpoint="{{{www_path}}}/assets/uploadform/" class="drawerhandle usecolor2 file-upload-trigger">Upload a file</a></small>
 				<div class="drawercontent"></div>
 			</div>
 		</div><!--pure-->
-
 	{{#parent_id}}
 		<input type="hidden" name="parent_id" value="{{parent_id}}" />
 	{{/parent_id}}
 
-		<h4>Additional actions</h4>
-
-			<div class="pure-u-1 pure-u-md-1-2 spacedtext">
-				<p><span class="fadedtext"><svg class="icon" viewBox="0 0 262 211"><use xlink:href="#icon-card"></use></svg>Selling out? </span><a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="lightboxed returntocurrentroute"><span><strong>Define commerce settings</strong></span></a></p>
-
-				<p><span class="fadedtext"><svg class="icon" viewBox="0 0 241 241"><use xlink:href="#icon-ban"></use></svg> Need it gone? </span><a href="{{www_path}}/assets/delete/{{id}}" class="usecolor2 needsconfirmation"><span><strong>Delete this file</strong></span></a>
-				</p>
-				{{#show_make_public}}
-					<p>
-					<span class="fadedtext"><svg class="icon" viewBox="0 0 180 240"><use xlink:href="#icon-unlock"></use></svg> Don't need security?</span > <a href="#" data-publicize-endpoint="{{{www_path}}}/ajax/publicizeasset/{{id}}" class="usecolor2"><span><strong>Make this file public</strong></span></a>
-					</p>
-				{{/show_make_public}}
-
+			<div class="pure-u-1">
 				<button class="nojs" type="submit">Save changes</button>
-				
-		<button class="onlyjs externalsubmit" data-cash-target-form="#edit-file-form" type="submit">Save changes</button>
-</form>
+				<button class="onlyjs externalsubmit" data-cash-target-form="#edit-file-form" type="submit">Save changes</button>
+				<a href="{{www_path}}/assets/delete/{{id}}" class="button usecolor2 needsconfirmation">Delete this file</a>
 			</div><!--pure-->
 
-			<div class="pure-u-1 pure-u-md-1-2 spacedtext">
-				<div class="drawer noprefix">
-					<p><span class="fadedtext"><svg class="icon" viewBox="0 0 260 240"><use xlink:href="#icon-dwnld"></use></svg>Need download codes?</span></p><a class="drawerhandle usecolor2">Export or create codes</a>
-					<div class="drawercontent">
+				{{#show_make_public}}
+			<div class="pure-u-1 pure-u-md-1-2 file-security spacedtext">			
+					<div class="icon icon-unlock"></div><!--icon--> Don't need security? <a href="#" data-publicize-endpoint="{{{www_path}}}/ajax/publicizeasset/{{id}}" class="usecolor2"><strong>Make this file public</strong></a>
+			</div><!--pure-->
+			{{/show_make_public}}
+</form>
+</div><!--pure-->
+	
+<div class="drawer prefpanel pure-u-1">
+<div class="itemnav pure-u-1">
+	<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>Asset Settings</span></h4>
+	<div class="drawercontent">
+		<div class="pure-u-1 pure-u-md-1-2">
+			<div class="pref-inner">
+				<h5><div class="icon icon-dwnld"></div><!--icon--> Export or create download codes</h5>
 						<p>
 						{{#asset_codes_count}}
 							<span>There are {{asset_codes_count}} codes for this asset. <a class="usecolor2 noajax" href="{{www_path}}/assets/edit/{{id}}?exportcodes=1"><strong>Export them!</strong></a></span >
@@ -64,16 +71,23 @@
 						{{/asset_codes_count}}
 						</p>
 						<form accept-charset="UTF-8" method="post" action="{{www_path}}/assets/edit/{{id}}">
-
-						<label for="add_codes_qty">Add (qty) more codes</label>
-							<div class="pure-u-1 pure-u-md-1-2">
+						<div class="pure-u-1"><label for="add_codes_qty">Add (qty) more codes</label></div><!--label-->
+							<div class="pure-u-1 pure-u-md-12-24">
 								<input type="text" name="add_codes_qty" id="add_codes_qty" value="500" />
 							</div><!--pure-->
-							<div class="pure-u-1 pure-u-md-1-2">
-								<button type="submit">Add codes</button>
+							<div class="pure-u-1 pure-u-md-12-24">
+								<button class="right" type="submit">Add codes</button>
 							</div><!--pure-->
-					</div><!--drawercontent-->
-				</div><!--drawer-->
-			</div><!--pure-->
-	
-
+						</form>
+			</div><!--pref-inner-->
+		</div><!--pure-->
+		<div class="pure-u-1 pure-u-md-1-2">
+			<div class="pref-inner">
+				<h5><div class="icon icon-card"></div><!--icon--> Ready to sell?</h5>
+				<p>Add this file to your commerce inventory if you would like to sell it.</p>
+				<a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="button fullwidth lightboxed returntocurrentroute"><span>Add to inventory</span></a>
+			</div><!--pref-inner-->
+		</div><!--pure-->
+	</div><!--drawercontent-->
+</div><!--itemnav-->		
+</div><!--drawer prefpanel-->

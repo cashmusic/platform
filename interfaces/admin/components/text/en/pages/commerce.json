@@ -1,8 +1,8 @@
 {
-	"pagetip":"Selling stuff? This section is where you’ll keep track of your orders, add items to sell, and manage inventory.",
-	"learn":"<p>This is an important section to keep an eye on! It's where you'll see and export your orders as well as define the items you're selling.</p><p>When exporting keep in mind that recent orders refers to all the orders that have been placed since your last export.</p>",
+	"pagetip":"",
+	"learn":"<p>This is an important section to keep an eye on! It's where you'll see and export your orders as well as add/edit the items you're selling.</p><p>When exporting keep in mind that recent orders refers to all the orders that have been placed since your last export.</p>",
 	"related":{},
 	"labels":{},
 	"tooltips":{},
-	"copy":{}
+	"copy":{"firstuse":"Selling stuff? This section is where you’ll keep track of your orders, add items to sell, and manage inventory. Before you can begin selling items you will need to connect to one of the payment platforms below."}
 }

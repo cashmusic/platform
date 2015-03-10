@@ -12,9 +12,9 @@ if (isset($_POST['docampaignedit'])) {
 		)
 	);
 	if ($edit_response['status_uid'] == 'element_editcampaign_200') {
-		AdminHelper::formSuccess('Success. Edited.');
+		AdminHelper::formSuccess('Success. Edited.','/');
 	} else {
-		AdminHelper::formFailure('Error. There was a problem editing.');
+		AdminHelper::formFailure('Error. There was a problem editing your campaign.','/');
 	}
 }
 

@@ -1,9 +1,9 @@
 <h4>Platform settings</h4>
 <p>Change primary system settings without editing the cashmusic.ini.php file. 
 Advanced settings have been hidden and should not be changed unless you like broken things.</p>
-	<div class="pure-u-1 pure-u-md-1-2">
+	<div class="pure-u-1">
 		<h4>Connections</h4>
-		<a class="lrglink" href="{{www_path}}/settings/connections/"><svg class="icon" viewBox="0 0 240 240"><use xlink:href="#icon-cog"></use></svg>Manage third-party service connections</a>
+		<a class="button fullwidth lrglink" href="{{www_path}}/settings/connections/"><div class="icon icon-cog"></div><!--icon-->Manage third-party service connections</a>
 		{{#platform_type_single}}
 			<h4>Database</h4>
 			<label>Current database format</label>
@@ -31,7 +31,7 @@ Advanced settings have been hidden and should not be changed unless you like bro
 			{{/migrate_from_sqlite}}
 		{{/platform_type_single}}
 	</div><!--pure-->
-	<div class="pure-u-1 pure-u-md-1-2">
+	<div class="pure-u-1">
 		{{#platform_type_single}}
 		<h4>Miscellaneous</h4>
 			<form accept-charset="UTF-8" method="post" action="">
@@ -51,7 +51,7 @@ Advanced settings have been hidden and should not be changed unless you like bro
 			<form accept-charset="UTF-8" method="post" class="returntocurrentroute" action="{{www_path}}/settings/">	
 				<label for="currency_id">Currency</label>
 				<select id="currency_id" name="currency_id">{{{currency_options}}}</select>
-				<button type="submit">Use this currency</button>
+				<button class="fullwidth" type="submit">Use this currency</button>
 			</form>
 	</div><!--pure-->
 
