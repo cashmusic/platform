@@ -4278,6 +4278,8 @@ label.checklabel{
 	margin:20px 5px 0 0;
 }
 
+.modallightbox button.inline{ margin:29px 0 0 0;}
+
 .usecolor2 .modallightbox button, .usecolor2 .modallightbox .button,  .usecolor2 .modaldialog .button, .usecolor2 .modaldialog button { background: #fa3838; }
 .usecolor3 .modallightbox button, .usecolor3 .modallightbox .button,  .usecolor3 .modaldialog .button, .usecolor3 .modaldialog button { background: #ff7c12; }
 .usecolor4 .modallightbox button, .usecolor4 .modallightbox .button,  .usecolor4 .modaldialog .button, .usecolor4 .modaldialog button { background: #6a38fa; }

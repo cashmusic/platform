@@ -1,9 +1,22 @@
 {{#orders_recent}}
-	<div class="center">
-	<a href="{{www_path}}/commerce/orders/export/unfulfilled" class="button noajax">Export recent orders</a>
-	<a href="{{www_path}}/commerce/orders/export/" class="button noajax">Export all orders</a>
-	</div><!--centered-->
+	<div class="pure-u-1 pure-u-md-2-3">
+<form name="export_orders" action="/">
+	<label for="export_options">Export Orders:</label>
+	<select name="export_options" onchange="">
+		<option value="{{www_path}}/commerce/orders/export/">All</option>
+		<option value="{{www_path}}/commerce/orders/export/unfulfilled">Unfulfilled</option>
+		<option value="{{www_path}}/commerce/orders/export/fulfilled">Fulfilled</option>
+		<option value="{{www_path}}/commerce/orders/export/physical">Physical</option>
+		<option value="{{www_path}}/commerce/orders/export/digital">Digital</option>
+	</select>
+	</div><!--pure-->
+	<div class="pure-u-1 pure-u-md-1-3"> 
+	<button class="fullwidth inline" type="submit">Export</button>
+	</div><!--pure-->
+</form>
+
 	{{#orders_recent}}{{/orders_recent}}
+
 {{/orders_recent}}
 
 {{^orders_recent}}
