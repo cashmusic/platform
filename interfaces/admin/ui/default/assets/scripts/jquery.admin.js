@@ -763,7 +763,7 @@ jQuery.fn.extend({
 				el.blur();
 
 			// if inside the tertiary panel or a panel touchpoint
-			} else if (el.parents('div').hasClass('inner') && !el.hasClass('connection') && !el.hasClass('lightboxed')){
+			} else if (el.parents('div').hasClass('inner') && !el.hasClass('connection') && !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation')){
 				e.preventDefault();
 				$('.panelcontent').removeClass('display');
 				var url = el.attr('href');

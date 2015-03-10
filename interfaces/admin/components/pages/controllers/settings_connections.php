@@ -179,9 +179,11 @@ if ($settings_action) {
 			$connection_id = $request_parameters[1];
 			$result = $page_data_object->deleteSettings($connection_id);
 			if ($result) {
-				$cash_admin->page_data['action_message'] = '<strong>Success.</strong> All gone. Sad.';
+				AdminHelper::formSuccess('Success. Deleted. Sad.','/');
+				//$cash_admin->page_data['action_message'] = '<strong>Success.</strong> All gone. Sad.';
 			} else {
-				$cash_admin->page_data['action_message'] = '<strong>Error.</strong> Something went wrong.';
+				AdminHelper::formFailure('Something went wrong.','/');
+				//$cash_admin->page_data['action_message'] = '<strong>Error.</strong> Something went wrong.';
 			}
 			break;
 	}	

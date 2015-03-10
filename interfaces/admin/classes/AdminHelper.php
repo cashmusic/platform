@@ -696,7 +696,11 @@
 
 	public static function formSuccess($message=false,$location=false) {
 		if (!$location) {
-			$location = REQUESTED_ROUTE;
+			global $admin_primary_cash_request;
+			$location = $admin_primary_cash_request->sessionGet('last_route');
+			if (!$location) {
+				$location = REQUESTED_ROUTE;
+			}
 		}
 		if (isset($_REQUEST['forceroute'])) {
 			// we force a route using JS for certain lightboxed forms — really used 
