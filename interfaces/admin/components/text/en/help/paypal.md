@@ -1,9 +1,8 @@
-###Set up a PayPal connection
+###Add a PayPal connection
 
 What you'll need:
 
-- A PayPal account
-- Verified Business or Premier status. Click [here](https://developer.paypal.com/webapps/developer/docs/classic/products/) to learn how to upgrade for free.
+- A verified business or premier status PayPal account
 
 Connecting CASH Music and your PayPal account makes it possible for you to sell both digital and physical merchandise. It's easy and only requires a few quick steps.
 
