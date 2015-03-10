@@ -585,11 +585,6 @@ button, .button, .pref-inner button, .pref-inner .button{
 }
 
 
-.modalcancel:hover .icon{
-	-webkit-animation: modalrotate ease-in-out 0.8s;
-    -moz-animation: modalrotate ease-in-out 0.8s;
-    animation: modalrotate ease-in-out  0.8s;
-}
 
 .button.modalcancel:hover{
 	-webkit-animation:none;
@@ -1029,7 +1024,7 @@ div.switchblock div.show {display:block;}
 }
 
 #header #logo a img{
-	padding:5px;
+	padding:8px;
 	margin:0 0 0 0;
 	color: #fff;
 	opacity:1;
@@ -4211,17 +4206,19 @@ label.checklabel{
 
 .modallightbox .modalcancel .icon{
 	color:#f5f5f5;
+	margin: 12.5px;
+}
+
+.modallightbox .modalcancel{
 	-ms-transfrom:rotate(45deg);
 	-webkit-transform:rotate(45deg);
 	transform:rotate(45deg);
-	position:absolute;
-	top:50%;
-	left:50%;
-	font-size: 15px;
-	height:15px;
-	width:15px;
-	padding:0;
-	margin:-7.5px 0 0 -7.5px;
+}
+
+.modallightbox .modalcancel:hover{
+	-webkit-animation: modalrotate ease-in-out 0.8s;
+    -moz-animation: modalrotate ease-in-out 0.8s;
+    animation: modalrotate ease-in-out  0.8s;
 }
 
 .modallightbox .modalcancel{
