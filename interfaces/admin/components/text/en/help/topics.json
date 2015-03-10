@@ -27,6 +27,11 @@
 		"compatibility":["single"],
 		"title":"Add a PayPal connection"
 	},
+	"addarelease" : {
+		"file":"addarelease",
+		"compatibility":["single","multi"],
+		"title":"Add a file or release"
+	},
 	
 	"paiddownload" : {
 		"file":"paiddownload",
