@@ -38,6 +38,11 @@
 		"compatibility":["single","multi"],
 		"title":"Sell a digital download"
 	},
+	"physicalrelease" : {
+		"file":"physicalrelease",
+		"compatibility":["single","multi"],
+		"title":"Sell a physical release"
+	},	
 	"emailcollection" : {
 		"file":"emailcollection",
 		"compatibility":["single","multi"],
