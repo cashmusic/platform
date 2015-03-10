@@ -1,6 +1,5 @@
 
-
-###Creating and publishing a campaign
+###Create and publish a campaign
 
 To create a campaign, navigate to the main page and click the **Add a Campaign** button. Give it a name and a description. Only you'll be able to see this—it'll help you keep your campaigns organized.
 

@@ -1,3 +1,5 @@
+###Sell a digital download
+
 Paid digital downloads using your own S3 and Paypal accounts. A simple and efficient way to sell music directly from your site.
 
 What you'll need:  

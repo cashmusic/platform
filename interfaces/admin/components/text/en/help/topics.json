@@ -41,7 +41,7 @@
 	"physicalrelease" : {
 		"file":"physicalrelease",
 		"compatibility":["single","multi"],
-		"title":"Sell a physical release"
+		"title":"Sell a physical item"
 	},	
 	"emailcollection" : {
 		"file":"emailcollection",

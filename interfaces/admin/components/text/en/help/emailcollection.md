@@ -1,3 +1,5 @@
+###Set up an email-for-download element
+
 Connecting directly to your fans is vitally important and your mailing list is one of the best ways to maintain those relationships. This is one of the most popular tools in our platform. 
 
 What you’ll need:

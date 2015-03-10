@@ -1,4 +1,4 @@
-###Setting up a MailChimp connection
+###Set up a MailChimp connection
 
 The CASH Music platform and MailChimp integrate seamlessly to directly add email sign-ups collected with our tools to your MailChimp account.
 

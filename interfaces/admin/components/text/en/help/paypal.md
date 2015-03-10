@@ -1,4 +1,4 @@
-###Setting up a PayPal connection
+###Set up a PayPal connection
 
 What you'll need:
 
