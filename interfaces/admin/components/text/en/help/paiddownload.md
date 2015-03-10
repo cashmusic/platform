@@ -7,7 +7,7 @@ You'll need:
 - A Paypal connection
 
 
-Start with your asset. After you’ve added your file or release open the asset’s settings section. You’ll see an option to add the item to your inventory. Here is where you’ll give it a **public** title and description, set the price, and enable "pay-at-least" pricing if you like. Pay at least means a customer can set his or own price, as long as it meets or exceeds your base price. 
+Start with your asset. After you’ve added your file or release open the asset’s settings section. You’ll see an option to add the item to your inventory. Here is where you’ll give it a **public** title and description, set the price, and enable "pay-at-least" pricing if you like. 
 
 If you're using a release asset be sure you've added any files you want included in the download as "fulfillment files" — the customer will be able to download all of these. 
 
