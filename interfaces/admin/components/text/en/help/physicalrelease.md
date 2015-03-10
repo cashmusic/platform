@@ -1,7 +1,7 @@
 Before you get started:
 
-- [Have you set up a PayPal connection?] (http://cashmusic.org/admin/help/paypal)
-- If you plan to offer a digital download with the purchase of your physical product, [have you added your files or release yet?] (http://cashmusic.org/admin/help/addarelease)
+- [Have you set up a PayPal connection?](http://cashmusic.org/admin/help/paypal)
+- If you plan to offer a digital download with the purchase of your physical product, [have you added your files or release yet?](http://cashmusic.org/admin/help/addarelease)
 
 To get started, select **Commerce** from the left-hand menu to open the commerce overview page, and click the **Commerce Settings** link at the bottom of the page. Select which currency you'd like to use, and then click **Use this currency**.
 
