@@ -48,6 +48,6 @@
 	"addanelement" : {
 		"file":"addanelement",
 		"compatibility":["single","multi"],
-		"title":"Embed an element
+		"title":"Embed an element"
 	}
 }	
