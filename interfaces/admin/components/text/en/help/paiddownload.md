@@ -1,6 +1,6 @@
 Paid digital downloads using your own S3 and Paypal accounts. A simple and efficient way to sell music directly from your site.
 
-You'll need:  
+What you'll need:  
 
 - A storage connection, we recommend an Amazon S3 account
 - A file or release asset with fulfillment files attached 

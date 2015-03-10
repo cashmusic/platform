@@ -1,24 +1,12 @@
-Connect your Paypal account to accept payments via the CASH platform. To do this, you'll need a 
-special API login, not your usual login credentials. Have no fear, it's easy to get.
+###Setting up a PayPal connection
 
-### Step by step
+What you'll need:
 
- 1. Log in to your paypal account and select "Profile" from the "My Account" menu up top.
- 2. On your profile page select "My Selling Tools" from the left-hand menu. Then choose "update" for
-    "API Access" from the list of options.
- 3. You'll see two options on this page. Select "Option 2 - Request API credentials..." to the right.
- 4. Now copy the API Username, API Password, and Signature from this page.
- 5. In the CASH Admin open System Settings > Connections and add a new Paypal connection. Paste the 
-    values from Paypal. For the field labeled "Sandbox" just enter "0" (zero. Yeah this should totally
-    be a check-box. We'll get to it. Basically setting it to zero tells Paypal not to use a testing
-    "sandbox" server...these are real-deal credentials.)
+- A PayPal account
+- Verified Business or Premier status. Click [here](https://developer.paypal.com/webapps/developer/docs/classic/products/) to learn how to upgrade for free.
 
-All done.
+Connecting CASH Music and your PayPal account makes it possible for you to sell both digital and physical merchandise. It's easy and only requires a few quick steps.
 
-### Screenshots
+From the CASH Music platform, select the **gear icon** from the upper-right-hand corner to open up your account settings. Click the **Connections** button and select the **PayPal** button.
 
-Getting your API credentials:
-![Log in and select 'Profile'](https://s3.amazonaws.com/cashmusic/permalink/help/paypal/1.jpg)
-![Now 'My Selling Tools' and 'API Access'](https://s3.amazonaws.com/cashmusic/permalink/help/paypal/2.jpg)
-![Request API Credentials](https://s3.amazonaws.com/cashmusic/permalink/help/paypal/3.jpg)
-![Copy them](https://s3.amazonaws.com/cashmusic/permalink/help/paypal/4.jpg)
+You'll be prompted for your PayPal email address. Once you're entered it, click **Add The Connection**, and you're all set!

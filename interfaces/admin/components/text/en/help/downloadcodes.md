@@ -2,7 +2,7 @@ Every file or release asset can be associated with download codes. So first you'
 connection and upload some files — either direct as files or to a release under it's "fulfillment files" 
 section. 
 
-You'll need:  
+What you'll need:  
 
  - An S3 connection to upload files
  - A file or release asset with fulfillment files attached
