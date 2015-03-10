@@ -1983,7 +1983,7 @@ color:#f5f5f5!important;
 
 .prefpanel h4 .icon{
 	width:20px;
-	height:20px;
+	height:15px;
 	margin:0 10px 0 0;
 }
 
@@ -6288,8 +6288,8 @@ td{display:table-cell; vertical-align: inherit;}
 	transition:0.3s ease-in-out;	
 }
 
-table { display:table;}
-thead{ display:table-#header-group;}
+table {display:table;}
+thead{display:table-#header-group;}
 tbody {display:table-row-group;}
 th{display:table-cell;}
 tr {display:table-row;}
@@ -6302,6 +6302,24 @@ td{display:table-cell; vertical-align: inherit;}
 
 }/*  Tablet Portrait Fixes END */
 
+
+/* ===============
+   Older Smartphone Only Fixes
+   =============== */
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+
+#header{padding:15px 0 10px 0;}
+
+#header #logo a {
+	padding:0;
+}
+
+#navmenu ul li a {
+	padding: 13px 15% 13px 15%;
+}
+
+}
 
 /* ===============
    Min - Height Fixes
