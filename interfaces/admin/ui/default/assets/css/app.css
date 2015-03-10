@@ -298,6 +298,7 @@ html, button, input, select, textarea,
 	margin:0;
 	color: #666;
 	opacity:1;
+	text-align: center;
 	text-decoration: none;
 	display:inline-block;
 	vertical-align:middle;
@@ -1458,7 +1459,7 @@ section[role=main].hero{
 	height:37px;
 	line-height: 0px;
 	display: inline-block;
-	margin:0 2px 0 0;
+	margin:1px;
 }
 
 .panel #touchpoints{
@@ -1478,7 +1479,7 @@ section[role=main].hero{
 	display: inline-block;
 	text-align: center;
 	padding:0!important;
-	margin:0 2px 2px 0;
+	margin:0;
 	font-weight: 400;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
@@ -1497,10 +1498,7 @@ section[role=main].hero{
 
 /* Touchpoints icons */
 
-.mainnavmenu #touchpoints .icon{
-line-height:42px;
-font-size: 16px;
-}
+.mainnavmenu #touchpoints .icon{ padding:11px 0; }
 
 /* Getting Fancy With It */
 
@@ -2340,9 +2338,7 @@ color:#fff!important;
 	border-bottom:solid 1px #333;
 	display:block;
 	width:100%;
-	clear:left;
 	color:#ddd;
-	float:left;
 }
 
 #navmenu ul li span{
