@@ -5,5 +5,3 @@
 **Connection:** Store account information for a third-party service like PayPal or S3.
 
 **Element:** Elements are the tools that power your campaigns. Everything from simple text to download codes to sales. HOT TIP: You must set up a campaign before you can access elements. Once they're set up you can easily embed an element anywhere on the web as well as on your campaign page. 
-
-**Fulfillment Files:** 
