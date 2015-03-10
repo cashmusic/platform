@@ -6,4 +6,3 @@ Next, go to your site and paste the embed link where you want it to live. That's
 
 You can embed as many of your elements as you like, on as many sites as you like. 
 
-

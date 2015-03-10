@@ -1,7 +1,7 @@
 {
 	"terms" : {
 		"file":"terms",
-		"compatibility":["single","multi"],
+		"compatibility":["single"],
 		"title":"Glossary"
 	},
 
@@ -13,7 +13,7 @@
 	"terms" : {
 		"file":"publishingcampaign",
 		"compatibility":["single","multi"],
-		"title":"Create & publish a campaign"
+		"title":"Create & publish a campaign page"
 		},
 
 	"s3" : {
