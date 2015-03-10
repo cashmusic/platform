@@ -3,7 +3,7 @@ directly from your site.
 
 You'll need:  
 
- - An S3 connection to upload files 
+ - [An S3 connection to upload files](/help/s3) 
  - A file or release asset with fulfillment files attached 
  - To configure the asset for sale as an "item"
  - A valid Paypal connection
