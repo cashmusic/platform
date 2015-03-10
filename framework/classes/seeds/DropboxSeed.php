@@ -146,13 +146,25 @@ class DropboxSeed extends SeedBase {
 		$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
 
 		$result = $new_connection->setSettings(
-			'Dropbox (' . $user_id . ')',
+			$user_id . ' (Dropbox)',
 			'com.dropbox',
 			array(
 				'access_token'	=> $token,
 				'user_id' 			=> $user_id,
 			)
 		);
+
+		if (!$result) {
+			$settings_for_user = $new_connection->getAllConnectionsforUser();
+			if (is_array($settings_for_user)) {
+				foreach ($settings_for_user as $key => $connection_data) {
+					if ($connection_data['name'] == $user_id . ' (Dropbox)') {
+						$result = $connection_data['id'];
+						break;
+					}
+				}
+			}
+		}
 
 		if (isset($data['return_result_directly'])) {
 			return $result;
