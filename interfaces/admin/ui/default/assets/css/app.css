@@ -2360,7 +2360,7 @@ color:#fff!important;
 }
 
 .panel #navmenu ul li a .icon{
-	float:left;
+	display: inherit;
 }
 
 

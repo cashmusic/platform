@@ -72,7 +72,7 @@
 				if (!isset($page['add_class'])) {
 					$page['add_class'] = '';
 				}
-				$menustr .= "<li><a class=\"{$page['add_class']}\" href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><span>{$page['page_name']}</span><div class=\"icon icon-{$page['menu_icon']}\"></div><!--icon--></a></li>";
+				$menustr .= "<li><a title=\"{$page['page_name']}\" class=\"{$page['add_class']}\" href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><span>{$page['page_name']}</span><div class=\"icon icon-{$page['menu_icon']}\"></div><!--icon--></a></li>";
 			}
 		}
 
