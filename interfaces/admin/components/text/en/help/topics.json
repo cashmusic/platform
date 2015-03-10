@@ -5,6 +5,11 @@
 		"title":"Glossary"
 	},
 
+	"addanelement" : {
+		"file":"addanelement",
+		"compatibility":["single","multi"],
+		"title":"Embed an element"
+	},
 	"terms" : {
 		"file":"publishingcampaign",
 		"compatibility":["single","multi"],
@@ -54,10 +59,6 @@
 		"compatibility":["single","multi"],
 		"title":"Download codes"
 	
-	},
-	"addanelement" : {
-		"file":"addanelement",
-		"compatibility":["single","multi"],
-		"title":"Embed an element"
 	}
+	
 }	
