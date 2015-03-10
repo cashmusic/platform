@@ -310,6 +310,11 @@ html, button, input, select, textarea,
 	color: #f5f5f5;
 }
 
+.panelcontent .icon{
+	color:#222;
+	margin:0 5px;
+}
+
 /* Mainnav Icons  */
 
 #navmenu ul li a:hover .icon{
