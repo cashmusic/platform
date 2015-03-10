@@ -6,7 +6,7 @@ To create a campaign, navigate to the main page and click the **Add a Campaign**
 
 Next, you'll want to begin adding elements to your campaign. Click the **Add +** button to the right. 
 
-Once you're done adding elements, return to the main page. Click the **edit icon** <i class="icon icon-pencil"></i>, select **Page theme**, and a new page will open.
+Once you're done adding elements, return to the main page. Click the **edit icon**  <i class="icon icon-pencil"></i> and select **Page theme**.
 
 Here, you'll see your campaign template. It includes an editor and some basic html code. If you're a novice and aren't sure what this code means, don't worry! We've made it really easy. Just look for **div id="mainspace"**. There's an empty line after it. Click there.
 
