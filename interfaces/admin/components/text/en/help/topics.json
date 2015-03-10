@@ -8,46 +8,46 @@
 	"terms" : {
 		"file":"publishingcampaign",
 		"compatibility":["single","multi"],
-		"title":"Creating & publishing a campaign"
+		"title":"Create & publish a campaign"
 		},
 
 	"s3" : {
 		"file":"s3",
 		"compatibility":["single","multi"],
-		"title":"Setting up an Amazon S3 connection"
+		"title":"Add an Amazon S3 connection"
 	},
 
 	"mailchimp" : {
 		"file":"mailchimp",
 		"compatibility":["single", "multi"],
-		"title":"Setting Up a MailChimp connection"
+		"title":"Add a MailChimp connection"
 	},
 	"paypal" : {
 		"file":"paypal",
 		"compatibility":["single"],
-		"title":"Connections: Paypal"
+		"title":"Add a Paypal connection"
 	},
 	
 	"paiddownload" : {
 		"file":"paiddownload",
 		"compatibility":["single","multi"],
-		"title":"Elements: Selling a digital download"
+		"title":"Sell a digital download"
 	},
 	"emailcollection" : {
 		"file":"emailcollection",
 		"compatibility":["single","multi"],
-		"title":"Elements: Setting up an email-for-download element"
+		"title":"Set up an email-for-download element"
 	},
 
 	"downloadcodes" : {
 		"file":"downloadcodes",
 		"compatibility":["single","multi"],
-		"title":"Elements: set up download codes"
+		"title":"Download codes"
 	
 	},
 	"addanelement" : {
 		"file":"addanelement",
 		"compatibility":["single","multi"],
-		"title":"Elements: embedding an element on your own web site"
+		"title":"Embed an element
 	}
 }	
