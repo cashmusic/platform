@@ -238,7 +238,7 @@ ul{
 	padding:0;
 }
 
-#pagedisplay ul{
+ul.list{
 	margin:0 0 0 20px;
 }
 
@@ -663,6 +663,10 @@ h5{ font-size:18px; line-height:26px;}
 
 small{
 	font-size: 12px;
+}
+
+.drawercontent small{
+	margin:80px 0 30px 0;
 }
 
 .smalltext{
@@ -4726,25 +4730,29 @@ label.checklabel{
 	position: absolute;
 	top:20px;
 	right:20px;
-	padding:12px 12px 11px 13px;
+	padding:12px;
 	line-height: auto;
 	text-align: center;
 	display:block;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	transition:0.3s ease-in-out;
 }
 
 .campaign .actions .toggle:hover{
 	cursor: pointer;
+	background:#00cf7f;
 }
 
 .campaign .actions .toggle .icon{
 	color:#f5f5f5;
-	margin:0;
+	margin:0 auto;
 	padding:0;
-	font-size: 15px;
+	font-size: 17px;
 	display:block;
 	line-height: 15px;
 	text-align: center;
-	vertical-align: center;
+	vertical-align: middle;
 }
 
 .campaign .actions{
@@ -4885,6 +4893,7 @@ label.checklabel{
 	border-radius: 50px;
 	color:#f5f5f5;
 	background:#00cf7f;
+	font-size: 11px;
 	padding:3px 8px;
 	margin:0 5px 0 0;
 	text-align: center;
@@ -4897,7 +4906,7 @@ label.checklabel{
 	display: inline-block;
 	margin:0;
 	padding:8px 10px;
-	font-size: 14px;
+	font-size: 13px;
 	position: absolute;
 	top:20px;
 	right:20px;
@@ -5139,9 +5148,14 @@ label.checklabel{
 	-webkit-border-radius: 50px;
 	-moz-border-radius: 50px;
 	border-radius: 50px;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	transition:0.3s ease-in-out;
 }
 
-.published .toggle:hover{ cursor: pointer; }
+.published .toggle:hover{ cursor: pointer; background:#00cf7f;}
+
+.published .toggle:hover .icon{color:#f5f5f5;}
 
 .published h4{
 	margin:0 0 0 0;
@@ -5187,6 +5201,9 @@ label.checklabel{
 	border-radius: 3px;
 	color:#00cf7f;
 	padding:0;
+	width:60%;
+	line-height: 30px;
+	word-wrap:break-word;
 	text-decoration: underline;
 }
 
@@ -6453,7 +6470,7 @@ ul.alternating li a{ padding:30px; }
 #campaigns .associated .add{
 	margin:0;
 	position: absolute;
-	top:20px;
+	top:21px;
 	right:20px;
 	width:auto;
 }
