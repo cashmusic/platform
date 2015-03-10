@@ -1,13 +1,8 @@
 {
-	"gettingstarted" : {
-		"file":"gettingstarted",
-		"compatibility":["single","multi"],
-		"title":"Getting started"
-	},
 	"terms" : {
 		"file":"terms",
 		"compatibility":["single","multi"],
-		"title":"A glossary of terms"
+		"title":"Glossary"
 	},
 
 	"terms" : {
@@ -21,9 +16,10 @@
 		"compatibility":["single","multi"],
 		"title":"Setting up an Amazon S3 connection"
 	},
+
 	"mailchimp" : {
 		"file":"mailchimp",
-		"compatibility":["single"],
+		"compatibility":["single", "multi"],
 		"title":"Setting Up a MailChimp connection"
 	},
 	"paypal" : {
@@ -52,6 +48,6 @@
 	"addanelement" : {
 		"file":"addanelement",
 		"compatibility":["single","multi"],
-		"title":"Elements: embed an element on your web site"
+		"title":"Elements: embedding an element on your own web site"
 	}
 }	
