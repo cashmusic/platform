@@ -405,6 +405,7 @@ input.checkorradio:checked{
 	background-image:url(../images/cross.png);
 	background-position: 50% 50%;
 	background-repeat: no-repeat; 
+	background-size: 50%;
 }
 
 label{
@@ -1878,14 +1879,23 @@ font-size: 16px;
 	display:none;
 }
 
+#ui-datepicker-div table{
+	border:#fff;
+}
+
+#ui-datepicker-div .ui-datepicker-prev {
+ background:url(../images/l-arw.png) 45% 50% no-repeat!important;
+ background-size: 50%!important;
+}
+
+#ui-datepicker-div .ui-datepicker-next {
+ background:url(../images/r-arw.png) 55% 50% no-repeat!important;
+  background-size: 50%!important;
+}
+
 .ui-datepicker-#header{
 background:#222!important;
 border:none!important;
-}
-
-.ui-datepicker-calendar th{
-background:#333 !important;
-border-left:solid 1px #232323!important;
 }
 
 .ui-datepicker-calendar td a:hover{
@@ -1896,7 +1906,7 @@ background:#ddd!important;
 .ui-state-highlight{
 border:none!important;
 background:#222!important;
-color:#f5f5f5!important;
+color:#fff!important;
 }
 
 /* Errors */
