@@ -3564,6 +3564,11 @@ ul.people.alternating li a span{
 	color:rgba(34,34,34,0.5);
 }
 
+.commerce .item .assetlink .icon.icon-file-block{
+	font-size: 30px;
+	margin:-20px 0 0 -25px;
+}
+
 .commerce .item .assetlink.physical .icon{
 	display: none;
 }
