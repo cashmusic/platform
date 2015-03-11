@@ -6232,8 +6232,12 @@ button, .button, #modallightbox .modalcancel{
 /* Page Description */
 
 .page-description{
-	padding:20px 20px 20px 70px;
+	padding:20px 20px 20px 20px;
 	display: block;
+}
+
+.page-description .marker{
+	margin:0 20px 0 0;
 }
 
 .page-description:hover{
@@ -6246,16 +6250,6 @@ button, .button, #modallightbox .modalcancel{
 .usecolor3 .page-description:hover{background-color:#ff7c12; border: 1px solid #ff7c12;}
 .usecolor4 .page-description:hover{background-color:#6a38fa; border: 1px solid #6a38fa;}
 .usecolor5 .page-description:hover{background-color:#fa3866; border: 1px solid #fa3866;}
-
-
-/* Page Description Iconography */
-
-.page-description{
-	background-image: url(../images/bulb_o.svg);
-	background-repeat: no-repeat;
-	background-size: 1.8%;
-	background-position: 2.5% 50%;
-}
 
 /*  Re-format table for wider display */
 
