@@ -418,7 +418,7 @@ input.checkorradio{
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	padding:10px;
-	margin:10px 5px -5px 0;
+	margin:10px 0px -5px 0;
 	width:auto;
 	-webkit-appearance: none;
 }
@@ -4087,7 +4087,7 @@ label.checkbox {
 label.checklabel{
 	font-size: 14px;
 	opacity: 0.8;
-	margin:0 10px 10px 0;
+	margin:0 10px 10px 5px;
 	display: inline-block;
 }
 
