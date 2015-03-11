@@ -5281,9 +5281,7 @@ label.checklabel{
 
 /* Additional Releases */
 
-.additional_releases.drawer .featured-release{
-	margin:0 0 10px 0;
-}
+.additional_releases.drawer .featured-release{ margin:0 0 10px 0; }
 
 .additional_releases.drawer #card .back .release-details{
 	font-size: 8px;
@@ -5302,13 +5300,11 @@ label.checklabel{
 	bottom:20px;
 } 
 
-.additional_releases .drawercontent{
-	padding:0px 10px 10px 10px;
-}
+.additional_releases .drawercontent{ padding:0px 10px 10px 10px; }
 
-.featured-release:hover{
-	cursor:pointer;
-} 
+.additional_releases #card .front{ border:none; }
+
+.featured-release:hover{ cursor:pointer; } 
 
 #card {
   	width: 100%;
@@ -5539,6 +5535,7 @@ label.checklabel{
 	width:100%;
 	display:block;
 	padding-bottom:100%;
+	border: 1px solid #CCC;
 }
 
 .editcover{
