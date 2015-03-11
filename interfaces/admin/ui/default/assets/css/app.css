@@ -435,6 +435,12 @@ label{
 	padding:0;
 	margin:0 5px 5px 0;
 	line-height: 30px;
+	text-transform: lowercase;
+	display: block;
+}
+
+label:first-letter{
+	text-transform: capitalize;
 }
 
 form small{
@@ -2765,7 +2771,16 @@ fieldset{
 }
 
 .fulfillment-files .attachment{
-	margin:-20px 10px 0 0;
+	margin:10px 10px 25px 0;
+	font-size: 15px;
+}
+
+.fulfillment-files .add-fulfillment-file{
+	margin:0 0 20px 0!important;
+}
+
+.fulfillment-files .attachment .icon{
+	margin:0 10px 0 0;
 	color:#222;
 }
 
