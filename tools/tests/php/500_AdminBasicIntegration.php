@@ -67,19 +67,19 @@ class AdminBasicIntegration extends UnitTestCase {
 					'login'              => '1'
 				))
 			);
-			$this->assertPattern('/<div id="logoutbtn" class="toggle">/', $src);
+			$this->assertPattern('/Now it’s time to add a campaign./', $src);
 
 			// make sure the cookie is persistent
 			$src = $this->cc->get($this->cash_test_url . '/admin/');
-			$this->assertPattern('/<div id="logoutbtn" class="toggle">/', $src);
+			$this->assertPattern('/Now it’s time to add a campaign./', $src);
 		}
     }
 
-    /*
+
     public function testAllRoutes() {
     	if ($this->cash_test_url) {
 	    	// run through all known routes and make sure we're getting pages, not error messages
-	    	$all_routes = json_decode(file_get_contents(dirname(__FILE__) . '/../../interfaces/admin/components/interface/en/menu.json'),true);
+	    	$all_routes = json_decode(file_get_contents(dirname(__FILE__) . '/../../../interfaces/admin/components/interface/en/menu.json'),true);
 	    	foreach ($all_routes as $route => $details) {
 	    		$src = $this->cc->get($this->cash_test_url . '/' . $route);
 	    		$this->assertPattern('/<html/', $src);
@@ -90,6 +90,6 @@ class AdminBasicIntegration extends UnitTestCase {
 	    	}
     	}
     }
-    */
+
 }
 ?>
