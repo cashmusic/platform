@@ -271,7 +271,7 @@ blockquote{
 	border-radius: 3px;
 	border: solid 1px #ddd;
 	text-align: left;
-	margin:30px 0 0 0;
+	margin:30px 0 30px 0;
 	padding:30px;
 }
 
@@ -350,7 +350,7 @@ html, button, input, select, textarea,
 input{
 	margin: 0 0 12px 0;
 	width:100%;
-	padding:10px;
+	padding:11px;
 	border:none;
 	font:400 14px/20px 'Montserrat',Helvetica,Arial,sans-serif;
 	-webkit-apperance:none;
@@ -418,7 +418,7 @@ input.checkorradio{
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	padding:10px;
-	margin:10px 5px -5px 0;
+	margin:10px 0px -5px 0;
 	width:auto;
 	-webkit-appearance: none;
 }
@@ -435,6 +435,12 @@ label{
 	padding:0;
 	margin:0 5px 5px 0;
 	line-height: 30px;
+	text-transform: lowercase;
+	display: block;
+}
+
+label:first-letter{
+	text-transform: capitalize;
 }
 
 form small{
@@ -2765,7 +2771,16 @@ fieldset{
 }
 
 .fulfillment-files .attachment{
-	margin:-20px 10px 0 0;
+	margin:10px 10px 25px 0;
+	font-size: 15px;
+}
+
+.fulfillment-files .add-fulfillment-file{
+	margin:0 0 20px 0!important;
+}
+
+.fulfillment-files .attachment .icon{
+	margin:0 10px 0 0;
 	color:#222;
 }
 
@@ -3415,6 +3430,7 @@ ul.alternating li .actions a{
 	margin:-40px 0 0 0;
 	position: absolute;
 	top:50%;
+	left:0;
 	font-size: 48px;
 	color:#adadad;
 	-webkit-transition: 0.3s  ease-in-out;
@@ -3564,6 +3580,11 @@ ul.people.alternating li a span{
 	color:rgba(34,34,34,0.5);
 }
 
+.commerce .item .assetlink .icon.icon-file-block{
+	font-size: 30px;
+	margin:-20px 0 0 -25px;
+}
+
 .commerce .item .assetlink.physical .icon{
 	display: none;
 }
@@ -3625,7 +3646,6 @@ ul.people.alternating li a span{
 }
 
 .order-detail h4{
-	background:rgba(225,225,225,0.4);
 	margin:0 0 10px 0;
 	padding:20px 0;
 	-webkit-border-radius: 3px;
@@ -4067,7 +4087,7 @@ label.checkbox {
 label.checklabel{
 	font-size: 14px;
 	opacity: 0.8;
-	margin:0 10px 10px 0;
+	margin:0 10px 10px 5px;
 	display: inline-block;
 }
 
@@ -5211,7 +5231,6 @@ label.checklabel{
 	border-radius: 3px;
 	color:#00cf7f;
 	padding:0;
-	width:60%;
 	line-height: 30px;
 	word-wrap:break-word;
 	text-decoration: underline;
@@ -5277,9 +5296,7 @@ label.checklabel{
 
 /* Additional Releases */
 
-.additional_releases.drawer .featured-release{
-	margin:0 0 10px 0;
-}
+.additional_releases.drawer .featured-release{ margin:0 0 10px 0; }
 
 .additional_releases.drawer #card .back .release-details{
 	font-size: 8px;
@@ -5298,13 +5315,11 @@ label.checklabel{
 	bottom:20px;
 } 
 
-.additional_releases .drawercontent{
-	padding:0px 10px 10px 10px;
-}
+.additional_releases .drawercontent{ padding:0px 10px 10px 10px; }
 
-.featured-release:hover{
-	cursor:pointer;
-} 
+.additional_releases #card .front{ border:none; }
+
+.featured-release:hover{ cursor:pointer; } 
 
 #card {
   	width: 100%;
@@ -5535,6 +5550,7 @@ label.checklabel{
 	width:100%;
 	display:block;
 	padding-bottom:100%;
+	border: 1px solid #CCC;
 }
 
 .editcover{
@@ -5844,6 +5860,9 @@ button.right, .button.right{
 .pure-u-md-1-4:nth-of-type(1),.pure-u-md-1-4:nth-of-type(5),.pure-u-md-1-4:nth-of-type(9),.pure-u-md-1-4:nth-of-type(13),.pure-u-md-1-4:nth-of-type(17){ padding:0 5px; }
 .pure-u-md-1-4:nth-of-type(2),.pure-u-md-1-4:nth-of-type(3),.pure-u-md-1-4:nth-of-type(6), .pure-u-md-1-4:nth-of-type(7), .pure-u-md-1-4:nth-of-type(10), .pure-u-md-1-4:nth-of-type(11), .pure-u-md-1-4:nth-of-type(14), .pure-u-md-1-4:nth-of-type(15), .pure-u-md-1-4:nth-of-type(18), .pure-u-md-1-4:nth-of-type(19){ padding:0 5px;}
 .pure-u-md-1-4:nth-of-type(4),.pure-u-md-1-4:nth-of-type(8),.pure-u-md-1-4:nth-of-type(12), .pure-u-md-1-4:nth-of-type(16), .pure-u-md-1-4:nth-of-type(20){ padding:0 5px; }
+
+.pure-u-md-12-24:nth-of-type(odd){ padding:0 0 0 10px; }
+
 
 /* Login */
 
@@ -6231,8 +6250,12 @@ button, .button, #modallightbox .modalcancel{
 /* Page Description */
 
 .page-description{
-	padding:20px 20px 20px 70px;
+	padding:20px 20px 20px 20px;
 	display: block;
+}
+
+.page-description .marker{
+	margin:0 20px 0 0;
 }
 
 .page-description:hover{
@@ -6245,16 +6268,6 @@ button, .button, #modallightbox .modalcancel{
 .usecolor3 .page-description:hover{background-color:#ff7c12; border: 1px solid #ff7c12;}
 .usecolor4 .page-description:hover{background-color:#6a38fa; border: 1px solid #6a38fa;}
 .usecolor5 .page-description:hover{background-color:#fa3866; border: 1px solid #fa3866;}
-
-
-/* Page Description Iconography */
-
-.page-description{
-	background-image: url(../images/bulb_o.svg);
-	background-repeat: no-repeat;
-	background-size: 1.8%;
-	background-position: 2.5% 50%;
-}
 
 /*  Re-format table for wider display */
 

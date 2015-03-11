@@ -136,7 +136,7 @@
 							{{#error_message}}<p><span class="highlightcopy errormessage">{{error_message}}</span></p>{{/error_message}} {{#page_message}}<p><span class="highlightcopy">{{page_message}}</span></p>{{/page_message}}</div><!--pagemessage-->
 						<div id="pagedisplay">
 							<div class="swipehint">Swipe from right to left for the menu.<br /> <span class="okay">Okay, I got it.</span></div><!--swipehint-->
-							<div id="learn_tip"{{#ui_page_tip}}style="display:block;"{{/ui_page_tip}} class="page-description">{{ui_page_tip}}</div><!--learntip-->
+							<div id="learn_tip"{{#ui_page_tip}}style="display:block;"{{/ui_page_tip}} class="page-description"><i class="icon icon-learn marker"></i><!--marker-->{{ui_page_tip}}</div><!--learntip-->
 							<div id="page_content">{{{content}}}</div><!--page_content-->
 						<div id="footer">
 							<p>{{{misc_footer_markup}}} <a href="{{www_path}}/licenses/" style="margin-left:0;">{{link_footer_learnmore}}.</a>{{#showterms}}<a href="{{www_path}}/terms/">{{link_footer_terms}},</a>{{/showterms}}{{#showprivacy}}<a href="{{www_path}}/privacy/">{{link_footer_privacy}},</a> {{/showprivacy}}<a href="http://cashmusic.org/donate/" class="donatelink"><strong>{{action_donate}}.</strong></a></p>
