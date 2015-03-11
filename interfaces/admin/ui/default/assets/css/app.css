@@ -3415,6 +3415,7 @@ ul.alternating li .actions a{
 	margin:-40px 0 0 0;
 	position: absolute;
 	top:50%;
+	left:0;
 	font-size: 48px;
 	color:#adadad;
 	-webkit-transition: 0.3s  ease-in-out;
