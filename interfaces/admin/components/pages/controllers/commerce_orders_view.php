@@ -2,6 +2,21 @@
 $effective_user = $cash_admin->effective_user_id;
 
 if ($request_parameters) {
+	
+	if (isset($request_parameters[1])) {
+		if ($request_parameters[1] == 'fulfilled') {
+			$order_details_response = $cash_admin->requestAndStore(
+				array(
+					'cash_request_type' => 'commerce', 
+					'cash_action' => 'editorder',
+					'id' => $request_parameters[0],
+					'fulfilled' => 1
+				)
+			);
+			AdminHelper::formSuccess('Changes saved.','/commerce/orders/view/' . $request_parameters[0]);
+		}
+	}
+
 	$order_details_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'commerce', 
@@ -17,7 +32,7 @@ if ($request_parameters) {
 		$order_details['formatted_gross_price'] = sprintf("%01.2f",$order_details['gross_price']);
 		$order_details['formatted_net_price'] = sprintf("%01.2f",$order_details['gross_price'] - $order_details['service_fee']);
 		$order_details['order_connection_details'] = AdminHelper::getConnectionName($order_details['connection_id']) . ' (' . $order_details['connection_type'] . ')';
-		if ($order_details['fulfilled']) { $order_details['order_fulfilled'] = 'yes'; } else { $order_details['order_fulfilled'] = 'no'; }
+		//if ($order_details['fulfilled']) { $order_details['order_fulfilled'] = 'yes'; } else { $order_details['order_fulfilled'] = 'no'; }
 		$cash_admin->page_data = array_merge($cash_admin->page_data,$order_details);
 		$cash_admin->page_data['order_contents'] = new ArrayIterator(json_decode($order_details['order_contents'],true));
 		$cash_admin->page_data['customer_display_name'] = $order_details['customer_details']['display_name'];

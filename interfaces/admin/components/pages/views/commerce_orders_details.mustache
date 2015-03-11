@@ -5,15 +5,10 @@
 </div><!--pure-->
 
 <div class="order-detail">
-	<div class="pure-u-1 {{^order_fulfilled}}pure-u-md-1-2{{/order_fulfilled}}">
+	<div class="pure-u-1">
 		<h4>Order details</h4>
 	</div><!--pure-->
-
-	{{^order_fulfilled}}
-	<div class="pure-u-1 pure-u-md-1-2 fulfilled alignright">
-		<a href="/" class=" button">Mark as fulfilled!</a>
-	</div><!--pure-->
-	{{/order_fulfilled}}
+	
 
 	<div class="pure-u-1 pure-u-md-1-2">
 		<p><strong>Order number:</strong>{{padded_id}}<br />
@@ -22,7 +17,14 @@
 	</div><!--pure-->
 
 	<div class="pure-u-1 pure-u-md-1-2">
-		<p><strong>Fulfilled: </strong>{{order_fulfilled}}</p>
+		{{#physical}}
+			{{#fulfilled}}
+				<p><strong>Order has been fulfilled</strong></p>
+			{{/fulfilled}}
+			{{^fulfilled}}
+				<a href="{{www_path}}/commerce/orders/view/{{id}}/fulfilled" class="button needsconfirmation">Mark as fulfilled</a>
+			{{/fulfilled}}
+		{{/physical}}
 	</div><!--pure-->
 
 	<div class="pure-u-1 pure-u-md-1-2">
