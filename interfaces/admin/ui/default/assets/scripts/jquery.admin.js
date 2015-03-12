@@ -72,14 +72,9 @@ jQuery.fn.extend({
 	$(document).ready(function() {
 		setUIBehaviors();
 		setContentBehaviors();
-		
-		// Mobile Swipe // Bind the Swipe Handler callback function to the swipe event on page
-  		$( "#page" ).on( "swipeleft", swipeleftHandler );
-  		$( "#page" ).on( "swiperight", swiperightHandler );
 
-  		window.addEventListener('load', function () {
+  		// safe to call. already loaded before admin
 		FastClick.attach(document.body);
-		}, false);
 
 		window.globaltimeout = false;
 
@@ -92,42 +87,6 @@ jQuery.fn.extend({
 
 	}); // $document
 
-
-
-
-
-	//Mobile Swipe Functions
-  	function swipeleftHandler( event ){
-
-  		//remove mobile hint
-   	 		$('.swipehint').addClass("hide");
-
-   	 	if ($('body').hasClass('swiperight')){
-			$('body').removeClass('swiperight');
-		}
-
-   	 	else if ($('body').hasClass("swipeleft")){
-   	 		//do nothing
-   	 	}
-   	 	else {
-   	 		$('body').removeClass("swiperight");
-   	 		$('body').addClass("swipeleft");
-   	 	}
-  	};
-  	function swiperightHandler( event ){
-
-   	 	if ($('body').hasClass('swipeleft')){
-			$('body').removeClass('swipeleft');
-		}
-
-   	 	else if ($('body').hasClass("swiperight")){
-   	 		//do nothing
-   	 	}
-   	 	else {
-   	 		$('body').removeClass("swipeleft");
-   	 		$('body').addClass("swiperight");
-   	 	}
-  	};
 
 	/**
 	 *
@@ -258,6 +217,9 @@ jQuery.fn.extend({
 			$('.modalbg').remove();
 		});
 
+		// close panel
+		closePanel();
+
 		// fade out
 		//$('#ajaxloading').show();
 		$('#ajaxloading, #logo, #hero, #learnpanel, #settingspanel, #helppanel').addClass('loading');
@@ -265,14 +227,6 @@ jQuery.fn.extend({
 			doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
 		});
 	}
-
-
-	function refreshPanelData(url){
-		$.post(url, 'data_only=1', function(data) {
-  			$('.panelcontent').html($(data.content));
-  			formValidateBehavior();
-  		});	
-	};
 
 	/**
 	 *
@@ -290,6 +244,9 @@ jQuery.fn.extend({
 	 *
 	 */
 	function setContentBehaviors() {
+		// close tertiary panel
+		closePanel();
+
 		// show/hide drawers
 		prepDrawers('<div class="icon icon-arw-up"></div><!--icon-->Hide','<div class="icon icon-arw-dwn"></div><!--icon-->Show');
 
@@ -299,10 +256,7 @@ jQuery.fn.extend({
 		formValidateBehavior();
 		venueAutocompleteBehavior();
 		handleUploadForms();
-		elementMenuStates();
-		releaseFlip();
 		glitch();
-		firstUtpHL();
 		ZclipBoard();
 		handleSwitchBlocks();
 	}
@@ -321,9 +275,7 @@ jQuery.fn.extend({
 		modalBehaviors();
 		textareaTabBehavior();
 		listenForModals();
-		listenForInjectLinks();
-		touchToggles();
-		autoPanel();
+		//listenForInjectLinks();
 		moveToExample();
 
 		// page tip show/hide
@@ -336,36 +288,47 @@ jQuery.fn.extend({
 			$('#pagetips').slideUp(100);
 		});
 
+		// Mobile Swipe // Bind the Swipe Handler callback function to the swipe event on page
+		$(document).on('swipeleft', '#page', function(e) {
+			$('body').removeClass('swiperight');
+			if (!$('body').hasClass('swipeleft') && !$('body').hasClass('swiperight')){
+				$('body').addClass("swipeleft");
+			}
+		});
+		$(document).on('swiperight', '#page', function(e) {
+			$('body').removeClass('swipeleft');
+			if (!$('body').hasClass('swipeleft') && !$('body').hasClass('swiperight')){
+				$('body').addClass('swiperight');
+			}
+		});
+
 		// show/hide mainmenu
-		$( "#menutoggle" ).click(function() {
-			$( this ).toggleClass( "display" );
-			$( "#navmenu" ).toggleClass( "display" );
+		$(document).on('click', '#menutoggle', function(e) {
+			$('#menutoggle').toggleClass('display');
+			$('#navmenu').toggleClass('display');
 		});
 
 		// show/hide search
-		$( "#searchbtn" ).click(function() {
-			$( this ).toggleClass( "display" );
-			$( "#search" ).toggleClass( "display" );
+		$(document).on('click', '#searchbtn', function(e) {
+			$('#searchbtn').toggleClass('display');
+			$('#search').toggleClass('display');
 		});
-
-		// show/hide hero video
-		// Hide for Verision 7 Update
-		/*$( ".welcome" ).click(function() {
-			$( this ).toggleClass( "video" );
-			$( "#hero" ).toggleClass( "video" );
-		});*/
-
 		
+		/*
+		 * THIS WILL BE NEEDED SOON - TODO - ADD BACK WHEN SOCIAL FEEDS ELEMENT IS DONE
+		 *
+		// injecting dynamic code (wait for it)
 		$(document).on('click','a.injectcode',function(e) {
 			e.preventDefault();
 			if ($('#template')) {
 				$('#template').insertAtCaret('{{{element_' + $(this).data('elementid') + '}}}');
 			}
 		});
+		*/
 
 		// hide mainmenu & tertiary panel
-		$('#flipback').click(function() {
-			$ (this).parent().removeClass( "display" );
+		$(document).on('click', '#flipback', function(e) {
+			$('#flipback').parent().removeClass('display');
 			closePanel();
 		});
 
@@ -476,78 +439,71 @@ jQuery.fn.extend({
 				$(this).attr('value',value);
 			});
 		});
+
+		// featured asset cover flip stuff
+		$(document).on('mouseenter', '.featured-release' ,function(e){
+			$('#card',this).addClass('flipped');
+		});
+		$(document).on('mouseleave', '.featured-release' ,function(e){
+			$('#card',this).removeClass('flipped');
+		});
+
+		// toggle element/list menus
+		$(document).on('click', '.toggle' ,function(e){
+			$(this).parent().toggleClass('display');
+		});
+
+		// tertiary panel 
+		$(document).on('click', '.paneltitle', function (e) {
+			closePanel();
+		});
+
+		$(document).on('click', '#learn.toggle, #learnpanel .toggle', function (e) {
+			$('body').removeClass('help').removeClass('settings');
+			$ (this).parents('body').addClass('panel').addClass('learn');
+		});
+		$(document).on('click', '#settings.toggle, #settingspanel .toggle, .settings.toggle', function (e) {
+			$('body').removeClass('help').removeClass('learn');
+			$ (this).parents('body').addClass('panel').addClass('settings');
+
+			$('#settingspanel .tertiarynav li a').removeClass('current');
+			refreshPanelData(cashAdminPath + '/account/');
+			$('#settingspanel .tertiarynav li a:first').addClass('current');
+		});
+		$(document).on('click', '#help.toggle, #helppanel .toggle', function (e) {
+			$('body').removeClass('settings').removeClass('learn');
+			$ (this).parents('body').addClass('panel').addClass('help');
+
+			$('#helppanel .tertiarynav li a').removeClass('current');
+			refreshPanelData(cashAdminPath + '/help/');
+			$('#helppanel .tertiarynav li a:first').addClass('current');
+		});
+
+		// swipe hint hide on click
+		$(document).on('click', '.swipehint', function (e) {		
+			$(this).addClass('hide');
+		});
 	}
 
-	/* Show/Hide Element Menus */
-
-	function elementMenuStates() {
-		// show/hide element menus
-		$( ".toggle" ).click(function() {
-			$ (this).parent().toggleClass( "display" );
-		});
+	function refreshPanelData(url){
+		$.post(url, 'data_only=1', function(data) {
+			if ($('body').hasClass('help')) {
+  				$('#helppanel .panelcontent').html($(data.content));
+  			} else if ($('body').hasClass('settings')) {
+  				$('#settingspanel .panelcontent').html($(data.content));
+  			}
+  			formValidateBehavior();
+  		});	
 	};
 
-	/* Show/Hide Tertiary Panel */
-	var currentPanel = false;
-
-	function touchToggles() {
-		$(".swipehint").click(function(){
-			$(this).addClass("hide");
-		});
-
-		$( "#learn.toggle, #learnpanel .toggle, #learnpanel .paneltitle" ).click(function() {
-			//check if learn panel is open & close it
-			if (currentPanel == 'learn'){
-				closePanel();
-			}
-			//open panel
-			else {
-				$ (this).parents('body').addClass('panel').addClass('learn');
-				currentPanel = 'learn';
-			};
-		});
-
-		$( "#settings.toggle, #settingspanel .toggle, #settingspanel .paneltitle, .settings.toggle").click(function() {
-			//check if settings panel is open & close it
-			if (currentPanel == 'settings'){
-				closePanel();
-			}
-			//open panel
-			else {
-				$ (this).parents('body').addClass('panel').addClass('settings');
-				currentPanel = 'settings';
-			};
-		});
-
-		$( "#help.toggle, #helppanel .toggle, #helppanel .paneltitle" ).click(function() {
-			//check if help panel is open & close it
-			if (currentPanel == 'help'){
-				closePanel();
-			}
-			//open panel
-			else {
-				$ (this).parents('body').addClass('panel').addClass('help');
-				currentPanel = 'help';
-			};
-		});
-	};
-
+	// close the tertiary panel entirely
 	function closePanel() {
-		if (currentPanel) {
-			$('body').removeClass('panel');
-			//timer to remove content of panel after close
-			window.globaltimeout = window.setTimeout(function(){
-				$('body').removeClass('help').removeClass('settings').removeClass('learn');
-				$('.panelcontent').removeClass('display');
-			}, 150);
-			currentPanel = false;
-		}
+		$('body').removeClass('panel').removeClass('help').removeClass('settings').removeClass('learn');
 	}
 
-	/* Glitch Hero Background */	
-
+	// glitch campaign backgrounds
 	function glitch(){
-		if ($('#cnvs')) {
+		if ($('#cnvs').length) {
 			var dataseed = $('#cnvs').data('seed');
 			if (dataseed) {
 				var seed = dataseed.toString().split('').reverse();
@@ -642,41 +598,9 @@ jQuery.fn.extend({
 	};	
 
 
-	/* Show/Hide contents in tertiary panel */
-
-	function autoPanel() {
-		$( "#settings.toggle, .firstuse .settings.toggle" ).click(function() {
-			$('#settingspanel .tertiarynav li a').removeClass('current');
-			$('#settingspanel .tertiarynav li a:first').addClass('current');
-			var url = $('#settingspanel .tertiarynav li a.current').attr('href');
-				refreshPanelData(url);
-				$('.panelcontent').addClass('display');
-				//console.log('firstuse click?');
-		});
-		$( "#help.toggle, .firstuse .help.toggle" ).click(function() {
-			$('#helppanel .tertiarynav li a').removeClass('current');
-			$('#helppanel .tertiarynav li a:first').addClass('current');
-			var url = $('#helppanel .tertiarynav li a.current').attr('href');
-				refreshPanelData(url);
-				$('.panelcontent').addClass('display');
-		});
-		$( "#learn.toggle, .firstuse .learn.toggle" ).click(function() {
-			$('#learnpanel .tertiarynav li a').removeClass('current');
-			$('#learnpanel .tertiarynav li a:first').addClass('current');
-			var url = $('#learnpanel .tertiarynav li a.current').attr('href');
-				refreshPanelData(url);
-				$('.panelcontent').addClass('display');
-		});
-	};
-
-
 	/* Show/Hide Element Gallery */
 
 	function moveToExample() {
-		var scrollStore = function(todiv) {
-
-		}
-
 		$(document).on('mouseenter', '.elementdisplay', function(e) {
 			e.preventDefault();	
 			var panel_name = $(this).attr('name');
@@ -699,28 +623,6 @@ jQuery.fn.extend({
   			}
   		});
 	};		
-
-	/*  Featured Asset Flip */
-
-	function releaseFlip() {
-		
-		// on mouse hover flip the image
-		$('.featured-release').hover(function (){
-			$('#card', this).addClass('flipped');
-		});
-
-		// on mouse leave return to orginal state
-		$('.featured-release').mouseleave(function (){
-			$('#card', this).removeClass('flipped');
-		});
-	};	
-
-	/* First use touchpoint highlight */
-	function firstUtpHL() {
-		$( ".settings.hlt" ).hover(function() {
-			$( "#settings" ).toggleClass( "highlight" );
-		});
-	};
 
 	// ZeroClipboard
 	function ZclipBoard() {
@@ -1402,6 +1304,9 @@ jQuery.fn.extend({
 		});
 	}
 
+	/*
+	 * TODO: this stuff will come back with social feeds. ditch for now but do not delete
+	 *
 	function listenForInjectLinks() {
 		// inserts html into the current document/form (dynamic inputs primarily)
 		// grabs rel, inserts rev data and iterates the name, changing the rel
@@ -1427,6 +1332,7 @@ jQuery.fn.extend({
 			$(e.currentTarget).attr('rel',iteration+1);
 		});
 	}
+	*/
 
 	function textareaTabBehavior() {
 		$(document).on('keydown', 'textarea.taller', function(e) {

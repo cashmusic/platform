@@ -100,7 +100,6 @@
 			'link_menu_calendar' => $pages_array['calendar']['page_name'],
 			'link_menu_elements' => $pages_array['elements']['page_name'],
 			'link_menu_help' => $pages_array['help']['page_name'],
-			'link_menu_help_gettingstarted' => $pages_array['help/gettingstarted']['page_name'],
 			'link_youraccount' => $pages_array['account']['page_name'],
 			'link_settings' => $pages_array['settings']['page_name'],
 			'link_settings_connections' => $pages_array['settings/connections']['page_name']
