@@ -1,16 +1,16 @@
 {{#orders_recent}}
-<form name="export_orders" action="/">
+<form name="export_orders" action="{{www_path}}/commerce/orders/export">
 	<div class="pure-u-1">
 	<label for="export_options">Export Orders:</label>
 	<select name="export_options" onchange="">
-		<option value="{{www_path}}/commerce/orders/export/">All</option>
-		<option value="{{www_path}}/commerce/orders/export/unfulfilled">Unfulfilled</option>
-		<option value="{{www_path}}/commerce/orders/export/fulfilled">Fulfilled</option>
-		<option value="{{www_path}}/commerce/orders/export/physical">Physical</option>
-		<option value="{{www_path}}/commerce/orders/export/digital">Digital</option>
+		<option value="all">All</option>
+		<option value="unfulfilled">Unfulfilled</option>
+		<option value="fulfilled">Fulfilled</option>
+		<option value="physical">Physical</option>
+		<option value="digital">Digital</option>
 	</select>
 	</div><!--pure-->
-	<div class="pure-u-1"><input type='checkbox' class='checkorradio' id="mark_fulfilled" name='mark_fulfilled' value='' /><label class="checklabel" for="mark_fulfilled" > Mark all exported orders as fulfilled</label></div><!--pure-->
+	<div class="pure-u-1"><input type='checkbox' class='checkorradio' id="mark_fulfilled" name='mark_fulfilled' value='' /><label class="checklabel" for="mark_fulfilled" > Mark exported orders as fulfilled</label></div><!--pure-->
 	<div class="pure-u-1"> 
 	<button class="" type="submit">Export</button>
 	</div><!--pure-->
