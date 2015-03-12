@@ -1,9 +1,9 @@
 {
 	"pagetip":"",
-	"learn":" <p>This section is where you’ll set up your email lists, set list permissions, and keep track of your press clippings</p>",
+	"learn":" <p>This section is where you’ll set up your email lists, set list permissions, and keep track of your press clippings</p><p>Why would you use a 3rd party connection for your email lists? MailChimp offer a ton of great features like email templates, detailed subscriber analytics, and more. Their service works seamlessly with our platform and they have a pretty generous free tier.</p>", 
 	"related":{},
 	"labels":{},
 	"tooltips":{},
-	"copy":{"firstuse":"People is where you'll manage and connect your email lists. You can create email lists without the need of any 3rd-party connection, you can also connect to one of the 3rd-party mailing platforms below to enhance list functionality. <span class='disclaimer'>Your lists are always owned by you. We will never use or sell any of the information you have collected within the platform. </span>"}
+	"copy":{"firstuse":"People is where you'll manage and connect your email lists. You can create lists with or without a 3rd-party connection. <span class='disclaimer'>Your lists are always owned by you. Any information collected by your account via the platform belongs to you entirely. We value your privacy. </span>"}
 
 }

@@ -5,7 +5,6 @@ Connecting directly to your fans is vitally important and your mailing list is o
 What you’ll need:
 
 - A storage connection, we recommend an Amazon S3 account for reliability 
-- The file you’re planning to give away uploaded to your storage account
 - A file or release set up in Assets with fulfillment files attached
 - An email list either created or connected in the People section 
 
