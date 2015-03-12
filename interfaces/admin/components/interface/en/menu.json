@@ -84,8 +84,6 @@
 		
 	"help":
 		{"page_name":"Help", "menu_icon":""},
-	"help/gettingstarted":
-		{"page_name":"Getting started", "menu_icon":"rocket" },
 		
 		
 	"licenses":
