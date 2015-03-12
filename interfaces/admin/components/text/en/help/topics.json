@@ -10,7 +10,7 @@
 		"compatibility":["single","multi"],
 		"title":"Embed an element"
 	},
-	"terms" : {
+	"publishing" : {
 		"file":"publishingcampaign",
 		"compatibility":["single","multi"],
 		"title":"Publish a campaign page"
