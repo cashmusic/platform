@@ -13,10 +13,9 @@ Start with your asset. After you’ve added your file or release open the asset�
 
 If you're using a release asset be sure you've added any files you want included in the download as "fulfillment files" — the customer will be able to download all of these. 
 
-Now go to your campaign and create a **Single Purchase** element. Give it a name for your own reference. Now select the item and Paypal connection you'd like to use. Tweak messages until your heart's content.
+Go to your campaign and create a **Single Purchase** element. Give it a name for your own reference. Now select the item and Paypal connection you'd like to use. Tweak messages until your heart's content.
 
 Once the element is created and you're ready to go live either embed it or publish the campaign page. 
-
 When a customer buys your music they'll go off-site to Paypal for the transaction and return to a confirmation page with download options. They will also receive a one-time use code to unlock the download just in case they're on their phone or tablet. 
 
 All completed orders will show up in your **Commerce** section. You can also find details on every order, manage inventory, and export orders at any time there. 

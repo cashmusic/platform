@@ -13,7 +13,7 @@
 	"terms" : {
 		"file":"publishingcampaign",
 		"compatibility":["single","multi"],
-		"title":"Create & publish a campaign page"
+		"title":"Publish a campaign page"
 		},
 
 	"s3" : {
