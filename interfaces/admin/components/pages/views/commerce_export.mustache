@@ -1,5 +1,4 @@
-{{#orders_recent}}
-<form name="export_orders" action="{{www_path}}/commerce/orders/export">
+<form name="export_orders" class="noajax" method="post" action="{{www_path}}/commerce/orders/export">
 	<div class="pure-u-1">
 	<label for="export_options">Export Orders:</label>
 	<select name="export_options" onchange="">
@@ -7,7 +6,7 @@
 		<option value="unfulfilled">Unfulfilled</option>
 		<option value="fulfilled">Fulfilled</option>
 		<option value="physical">Physical</option>
-		<option value="digital">Digital</option>
+		<option value="digital">Digital-only</option>
 	</select>
 	</div><!--pure-->
 	<div class="pure-u-1"><input type='checkbox' class='checkorradio' id="mark_fulfilled" name='mark_fulfilled' value='' /><label class="checklabel" for="mark_fulfilled" > Mark exported orders as fulfilled</label></div><!--pure-->
@@ -15,13 +14,3 @@
 	<button class="" type="submit">Export</button>
 	</div><!--pure-->
 </form>
-
-	{{#orders_recent}}{{/orders_recent}}
-
-{{/orders_recent}}
-
-{{^orders_recent}}
-	<div class="empty">
-			<p>Sorry, no orders have been placed yet. There is nothing to export.</p>
-		</div><!--empty-->
-{{/orders_recent}}
