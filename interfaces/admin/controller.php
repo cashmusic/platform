@@ -283,7 +283,9 @@ if (
 	$cash_admin->page_data['section_name'] = 'main';
 }
 // include controller for current page
-include($pages_path . 'controllers/' . $include_filename);
+if ($include_filename !== '.php') { // TODO: Why is this getting called at odd times with blank include name. Shouldn't happen, no?
+	include($pages_path . 'controllers/' . $include_filename);
+}
 
 // render the content to be passed to final output
 // $cash_admin->page_content_template is set in the included controller

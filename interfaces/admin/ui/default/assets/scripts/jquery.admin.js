@@ -787,14 +787,15 @@ jQuery.fn.extend({
 
 
 
-
+		/*
 		// stop in-app forms from submitting — we handle them in formValidateBehavior()
 		$(document).on('submit', 'form', function(e) {
 			var el = $(e.currentTarget);
-			if (el.attr('action').toLowerCase().indexOf('s3.amazonaws') < 1) {
+			if (el.attr('action').toLowerCase().indexOf('s3.amazonaws') < 1 && !el.hasClass('noajax')) {
 				e.preventDefault();
 			}
 		});
+		*/
 	 }
 
 	 // submit a form via AJAX
@@ -830,11 +831,16 @@ jQuery.fn.extend({
 					$(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
 				},
 				submitHandler: function(f) {
-					//e.preventDefault();
-					f = $(f);
-					if (f.attr('action').toLowerCase().indexOf('s3.amazonaws') < 1) {
+					//
+					//
+					// DO NOT wrap f as $(f) here or we'll convert it to a jquery object and 
+					// trigger the submit events on loop if it fails conditions for ajaxFormSubmit
+					
+					// note the $() added below
+					if ($(f).attr('action').toLowerCase().indexOf('s3.amazonaws') < 1 && !$(f).hasClass('noajax')) {
 						ajaxFormSubmit(f);
 					} else {
+						// and note the complete lack of dollarz here
 						f.submit();
 					}
 				}
