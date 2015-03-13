@@ -49,7 +49,7 @@
 	"commerce/items/edit":
 		{"page_name":"Edit item", "menu_icon":""},
 	"commerce/items/add":
-		{"page_name":"Add item", "menu_icon":""},
+		{"page_name":"Add an item", "menu_icon":""},
 	"commerce/export":
 		{"page_name":"Export", "menu_icon":"dwnld","add_class":"lightboxed"},
 	"commerce/orders/view":
