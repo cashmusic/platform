@@ -12,7 +12,7 @@ $releases_response = $cash_admin->requestAndStore(
 		'user_id' => $user_id
 	)
 );
-/*
+
 $playlists_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'asset', 
@@ -22,7 +22,7 @@ $playlists_response = $cash_admin->requestAndStore(
 		'user_id' => $user_id
 	)
 );
-*/
+
 $files_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'asset', 
@@ -154,7 +154,7 @@ if (is_array($releases_response['payload'])) {
 		$cash_admin->page_data['remaining_releases'] = new ArrayIterator($remaining_releases);
 	}
 }
-/*
+
 if (is_array($playlists_response['payload'])) {
 	$playlists_response['payload'] = array_reverse($playlists_response['payload']); // newest first
 	$asset_count = 0;
@@ -179,7 +179,7 @@ if (is_array($playlists_response['payload'])) {
 		$cash_admin->page_data['remaining_playlists'] = new ArrayIterator($remaining_playlists);
 	}
 }
-*/
+
 if (is_array($files_response['payload'])) {
 	$files_response['payload'] = array_reverse($files_response['payload']); // newest first
 	foreach ($files_response['payload'] as &$asset) {
