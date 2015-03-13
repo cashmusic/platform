@@ -1,7 +1,7 @@
 {
 	"name":"MailChimp",
 	"instructions":"Enter a MailChimp API key to start working with MailChimp email lists.",
-	"description":"MailChimp offer great features like easy to use email templates, timed send outs, and detailed subscriber data. Free up to 2000 subscribers.",
+	"description":"MailChimp offer features like easy to use email templates, detailed subscriber data, and timed mailings. Free up to 2000 subscribers.",
 	"link":"http://mailchimp.com/",
 	"type":"com.mailchimp",
 	"seed":"MailchimpSeed",

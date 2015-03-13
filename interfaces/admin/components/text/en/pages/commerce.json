@@ -1,8 +1,8 @@
 {
 	"pagetip":"",
-	"learn":"<p>This is an important section to keep an eye on! It's where you'll see and export your orders as well as add/edit the items you're selling.</p><p>When exporting keep in mind that recent orders refers to all the orders that have been placed since your last export.</p>",
+	"learn":"<p>This is an important section to keep an eye on!</p><p> Commerce is where you'll find your incoming orders, add/edit the items you're selling, manage inventory, and export orders.</p><p> Once you've connected your payment platform make sure and set your default currency as well in your commerce settings.",
 	"related":{},
 	"labels":{},
 	"tooltips":{},
-	"copy":{"firstuse":"Selling stuff? This section is where you’ll keep track of your orders, add items to sell, and manage inventory. Before you can begin selling items you will need to connect to one of the payment platforms below."}
+	"copy":{"firstuse":"Selling stuff? This section is where you’ll keep track of your orders, add items to sell, and manage inventory. Before you can begin selling items you will need to connect to a payment platform below."}
 }
