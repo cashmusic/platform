@@ -70,16 +70,11 @@ body.login #mainspc, body.login #footer, body.login h2#pagetitle  {
 
 body.login #footer, body.login h2#pagetitle {
 	text-align: center;
-	padding-left:0;
-	/*background:rgba(0,0,0,0.8);
-	border-color:#111;*/
 }
 
 body.login #footer p, body.login #footer a{
 	color:#f5f5f5;
 }
-
-
 
 body.store,  body.page-editor{
 	overflow: hidden;
@@ -90,7 +85,6 @@ body.store,  body.page-editor{
 	50% {opacity:0.2; }
 	100% {opacity:1; }
 }
-
 
 #wrap{
 	width:100%;
@@ -490,13 +484,6 @@ form button{
 
 .login #cash_signin_form label{
 	color:#222;
-}
-
-.login #cash_signin_form{
-	margin:0;
-	padding:150px 20px 20px 20px;
-	background:transparent url(../images/logo_alt.svg) center 50px no-repeat;
-	background-size:80px;
 }
 
 .login #cash_signin_form input.button {
@@ -2108,7 +2095,10 @@ color:#fff!important;
 /* Login Page */
 
 .login #mainspc{
-	/*: url('../images/hero_bg.jpg');*/
+	position:fixed;
+	overflow: scroll;
+	top:0;
+	left:0;
 	background: url(../images/collage_bg.jpg);
 	background-width: 100%;
 	background-repeat: no-repeat;
@@ -2119,16 +2109,19 @@ color:#fff!important;
 	-o-background-size: cover;
 	background-size: cover;
 	width:100%;
+	height:100%;
 	padding:0;
 	margin:0;
 }
 
 .login #cash_signin_form{
+	background:transparent url(../images/logo_alt.svg) center 30px no-repeat;
+	background-size:80px;
 	background-color:rgba(255,255,255,0.96);
 	-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
 	-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
 	box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
-	padding:120px 20px 20px 20px;
+	padding:120px 30px 30px 30px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -2137,20 +2130,16 @@ color:#fff!important;
 	margin:50px auto 0 auto;
 }	
 
+.login #cash_signin_form .pure-u-1{
+	margin-bottom:0;
+}
+
 .login #mainspc .grid{
 	width:100%;
 	padding:30px 2%;
-	/*background: -moz-linear-gradient(-45deg,  rgba(0,207,127,0.7) 0%, rgba(106,56,250,0.7) 100%); 
-	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(0,207,127,0.7)), color-stop(100%,rgba(106,56,250,0.7))); 
-	background: -webkit-linear-gradient(-45deg,  rgba(0,207,127,0.7) 0%,rgba(106,56,250,0.7) 100%); 
-	background: -o-linear-gradient(-45deg,  rgba(0,207,127,0.7) 0%,rgba(106,56,250,0.7) 100%); 
-	background: -ms-linear-gradient(-45deg,  rgba(0,207,127,0.7) 0%,rgba(106,56,250,0.7) 100%); 
-	background: linear-gradient(135deg,  rgba(0,207,127,0.7) 0%,rgba(106,56,250,0.7) 100%); 
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b300cf7f', endColorstr='#b36a38fa',GradientType=1 ); */
 }
 
 .login h1{
-	/*color:#f5f5f5;*/
 	text-align: center;
 	width:100%;
 	margin:0 auto;
@@ -5794,6 +5783,7 @@ html{background-attachment: fixed;}
 
 .login #mainspc{
 	height:100%;
+	position:static;
 }
 
 .login #cash_signin_form{
@@ -6333,6 +6323,11 @@ td{display:table-cell; vertical-align: inherit;}
 
 .modallightbox .gallery{ overflow-x:scroll; }
 
+.login #cash_signin_form{
+	margin:-300px 0 0 -30%;
+	width:60%;
+}
+
 }/*  Tablet Landscape Fixes END */
 
 /* ===============
@@ -6370,7 +6365,7 @@ td{display:table-cell; vertical-align: inherit;}
    Older Smartphone Only Fixes
    =============== */
 
-@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+@media only screen and (min-device-width : 320px) and (max-device-width : 374px) {
 
 #header{padding:15px 0 10px 0;}
 
