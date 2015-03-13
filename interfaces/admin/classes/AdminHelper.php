@@ -81,9 +81,6 @@
 		$endpoint_parts = explode('/',$endpoint);
 		if (isset($pages_array[$endpoint])) {
 			$current_title = '';
-			/*if (count($endpoint_parts) > 1) {
-				$current_title .= $pages_array[$endpoint_parts[0]]['page_name'] . ': ';
-			}*/
 			$current_title .= $pages_array[$endpoint]['page_name'];
 			$return_array['page_title'] = $current_title;
 			if (isset($pages_array[$endpoint]['tagline'])) {
