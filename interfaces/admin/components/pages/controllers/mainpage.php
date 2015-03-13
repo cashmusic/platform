@@ -29,9 +29,32 @@ if ($cash_admin->page_data['template_id']) {
 
 // handle campaign selection
 $current_campaign = $admin_primary_cash_request->sessionGet('current_campaign');
+if (!$current_campaign) {
+	$settings_request = new CASHRequest(
+		array(
+			'cash_request_type' => 'system', 
+			'cash_action' => 'getsettings',
+			'type' => 'selected_campaign',
+			'user_id' => $cash_admin->effective_user_id
+		)
+	);
+	if ($settings_request->response['payload']) {
+		$current_campaign = $settings_request->response['payload'];
+		$admin_primary_cash_request->sessionSet('current_campaign',$current_campaign);
+	}
+}
 if (isset($_POST['current-campaign'])) {
 	$current_campaign = $_POST['current-campaign'];
 	$admin_primary_cash_request->sessionSet('current_campaign',$current_campaign);
+	$settings_request = new CASHRequest(
+		array(
+			'cash_request_type' => 'system', 
+			'cash_action' => 'setsettings',
+			'type' => 'selected_campaign',
+			'value' => $current_campaign,
+			'user_id' => $cash_admin->effective_user_id
+		)
+	);
 }
 
 
