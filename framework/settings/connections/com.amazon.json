@@ -1,7 +1,7 @@
 {
 	"name":"Amazon S3",
 	"instructions":"Each Amazon S3 connection require a key, secret, and bucket. The key and secret can be reused in another connection if you'd like to connect to another bucket.",
-	"description":"This is the most reliable connection type at scale.",
+	"description":"This is the most reliable storage connection by far. ",
 	"link":"http://aws.amazon.com/s3",
 	"type":"com.amazon",
 	"seed":"S3Seed",
