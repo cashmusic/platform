@@ -60,7 +60,7 @@ if (isset($_POST['doassetadd'])) {
 }
 
 $cash_admin->page_data['form_state_action'] = 'doassetadd';
-$cash_admin->page_data['asset_button_text'] = 'Add that asset';
+$cash_admin->page_data['asset_button_text'] = 'Save changes';
 // create type options with current selected:
 if (isset($request_parameters[0])) {
 	$add_type = $request_parameters[0];

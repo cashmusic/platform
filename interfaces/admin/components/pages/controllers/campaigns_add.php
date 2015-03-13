@@ -33,7 +33,7 @@ if (isset($_POST['docampaignadd'])) {
 }
 
 $cash_admin->page_data['form_state_action'] = 'docampaignadd';
-$cash_admin->page_data['button_text'] = 'Add the campaign';
+$cash_admin->page_data['button_text'] = 'Save changes';
 
 $cash_admin->setPageContentTemplate('campaign_edit');
 ?>
