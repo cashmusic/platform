@@ -22,7 +22,7 @@ if (isset($_POST['dolistadd'])) {
 
 $cash_admin->page_data['connection_options'] = AdminHelper::echoConnectionsOptions('lists',0,true);
 $cash_admin->page_data['form_state_action'] = 'dolistadd';
-$cash_admin->page_data['list_button_text'] = 'Add the list';
+$cash_admin->page_data['list_button_text'] = 'Add a list';
 
 $cash_admin->setPageContentTemplate('people_lists_add');
 ?>

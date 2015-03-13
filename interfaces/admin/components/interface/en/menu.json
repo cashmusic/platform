@@ -29,7 +29,7 @@
 	"campaigns":
 		{"page_name":"Campaigns", "menu_icon":""},
 	"campaigns/add":
-		{"page_name":"Add campaigns", "menu_icon":"plus"},
+		{"page_name":"Add a campaign", "menu_icon":"plus"},
 	"campaigns/delete":
 		{"page_name":"Delete campaign", "menu_icon":"", "hide":true},
 	"campaigns/edit":
