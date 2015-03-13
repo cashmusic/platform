@@ -1,7 +1,7 @@
 {
 	"name":"PayPal",
 	"instructions":"PayPal issues an API username (generally your email), an API password, and an API signature. Check 'sandbox' to run in testing mode.",
-	"description":"This is the most reliable connection type at scale.",
+	"description":"",
 	"link":"http://www.paypal.com",
 	"type":"com.paypal",
 	"seed":"PaypalSeed",

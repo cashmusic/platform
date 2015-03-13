@@ -6,5 +6,5 @@ Next, go to your site and paste the embed link where you want it to live. That's
 
 You can embed as many of your elements as you like, on as many sites as you like. 
 
-You can also customize any of your elements whenever you like. Simply click on the element's details and edit til your heart's content. Those changes will be reflected across the web. 
+You can also customize any of your elements whenever you like. Simply click on the element's details and edit til your heart's content. Any changes you make will be reflected across the web. 
 
