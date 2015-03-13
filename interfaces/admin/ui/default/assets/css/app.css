@@ -3964,6 +3964,7 @@ margin:0 5px 0 0; padding:0;}
 .modallightbox .tooltip{
 	display: block;
 	position: static;
+	text-align: left;
 	width:100%;
 	height:auto;
 	padding:0;
@@ -4288,6 +4289,7 @@ label.checklabel{
 	background: #00cf7f;
 	border:none;
 	margin:20px 5px 0 0;
+	text-transform: none;
 }
 
 .modallightbox button.inline{ margin:29px 0 0 0;}
