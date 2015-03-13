@@ -75,7 +75,7 @@ if ($request_parameters) {
 				}
 
 				$cash_admin->page_data['all_requirements'] = true;
-				$cash_admin->page_data['element_button_text'] = 'Add the element';
+				$cash_admin->page_data['element_button_text'] = 'Save Changes';
 				$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render(AdminHelper::getElementTemplate($element_addtype), $cash_admin->page_data);
 			}
 		} else if (is_array($requirements_response['payload'])) {
