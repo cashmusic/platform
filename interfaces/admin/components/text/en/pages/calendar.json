@@ -2,9 +2,7 @@
 	"pagetip":"",
 	"learn":"<p>Here you can add all your events - shows, in-stores, radio interviews & performances. You can also keep track of what’s happening this week and what dates you haven’t published yet.</p><p>Keep in mind that you must set up an element if you wish to publish tour dates on your page. Dates are not live until you start a campaign, select a tour date element, and then either publish your page or embed the element widget on another site.</p><p>However, if do you already have a live tour dates element you will automatically publish new dates when you add them here unless you uncheck the published box. So if you’re waiting to announce a show or tour make sure you uncheck published until it's time to announce so you don’t spill the beans.</p> ",
 	"related":{},
-	"labels":{
-		"submit_button":"Add an event",
-	},
+	"labels":{"submit_button":"Add an event"},
 	"tooltips":{},
 	"copy":{
 		"firstuse":"Calendar is where you'll enter in your upcoming tour dates, in stores, radio performances, etc. Anything you need to tell your fans about and use in one of your campaign elements. "}

@@ -2,9 +2,7 @@
 	"pagetip":"",
 	"learn":"",
 	"related":{},
-	"labels":{
-		"submit_button":"Save changes",
-	},
+	"labels":{"submit_button":"Save changes"},
 	"tooltips":{},
 	"copy":{}
 }
