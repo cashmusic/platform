@@ -75,7 +75,9 @@ class AssetPlant extends PlantBase {
 	}
 
 	protected function getStoredAssets($asset_details,$type='fulfillment') {
+
 		$result = false; // default return
+		
 		if (!is_array($asset_details)) {
 			// if $asset details isn't an array, assume it's an id
 			$asset_details = $this->getAssetInfo($asset_details);
@@ -83,32 +85,43 @@ class AssetPlant extends PlantBase {
 
 		// test that getInfo returned results
 		if ($asset_details) {
-			if ($asset_details['type'] == 'file') {
-				$result = array($asset_details);
-			} elseif ($asset_details['type'] == 'release') {
-				if (isset($asset_details['metadata'][$type])) {
-					// check isset first, in case the asset is newly set
-					if (count($asset_details['metadata'][$type])) {
-						$final_assets = array();
-						foreach ($asset_details['metadata'][$type] as $fulfillment_id) {
-							$fulfillment_resquest = new CASHRequest(
-								array(
-									'cash_request_type' => 'asset',
-									'cash_action' => 'getasset',
-									'id' => $fulfillment_id
-								)
-							);
-							if ($fulfillment_resquest->response['payload']) {
-								$final_assets[] = $fulfillment_resquest->response['payload'];
+
+			switch ($asset_details['type']) {
+
+				case 'file':
+					$result = array($asset_details);
+					break;
+
+				case 'release':
+
+					if (isset($asset_details['metadata'][$type])) {
+
+						// check isset first, in case the asset is newly set
+
+						if (count($asset_details['metadata'][$type])) {
+
+							$final_assets = array();
+
+							foreach ($asset_details['metadata'][$type] as $fulfillment_id) {
+
+								$fulfillment_resquest = new CASHRequest(
+									array(
+										'cash_request_type' => 'asset',
+										'cash_action' => 'getasset',
+										'id' => $fulfillment_id
+									)
+								);
+
+								if ($fulfillment_resquest->response['payload']) {
+									$final_assets[] = $fulfillment_resquest->response['payload'];
+								}
 							}
-						}
-						if (count($final_assets)) {
-							return $final_assets;
-						} else {
-							return false;
+
+							return count($final_assets) ? $final_assets : false;
 						}
 					}
-				}
+
+					break;
 			}
 		}
 
