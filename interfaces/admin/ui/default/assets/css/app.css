@@ -2096,7 +2096,7 @@ color:#fff!important;
 
 .login #mainspc{
 	position:fixed;
-	overflow: scroll;
+	overflow: auto;
 	top:0;
 	left:0;
 	background: url(../images/collage_bg.jpg);
