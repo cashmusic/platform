@@ -1,16 +1,31 @@
 <header>
-<h4>Search Results: &ldquo;Search term&rdquo;</h4>
+	{{#query}}
+		<h4>Searching for &ldquo;{{query}}&rdquo;</h4>
+	{{/query}}
+	{{^query}}
+		<h4>No search found. Please try again.</h4>
+	{{/query}}
 </header>
 
 <div class="search pure-u-1">
+	{{#results}}
 	<ul class="results">
 	
-		<li><a class="asset" href="/"><i class="icon icon-paste"></i><h5>Asset: Result description</h5></a></li>
-		<li><a class="asset" href="/"><i class="icon icon-paste"></i><h5>Asset: Result description</h5></a></li>
-		<li><a class="commerce" href="/"><i class="icon icon-card"></i><h5>Commerce: Result description</h5></a></li>
-		<li><a class="commerce" href="/"><i class="icon icon-card"></i><h5>Commerce: Result description</h5></a></li>
-		<li><a class="people" href="/"><i class="icon icon-group"></i><h5>People: Result description</h5></a></li>
-		<li><a class="commerce" href="/"><i class="icon icon-card"></i><h5>Commerce: Result description</h5></a></li>
+		{{#results}}
+		<!--li><a class="asset" href="/"><i class="icon icon-paste"></i><h5>Asset: Result description</h5></a></li>
+		<li><a class="people" href="/"><i class="icon icon-group"></i><h5>People: Result description</h5></a></li-->
+
+		<li><a class="commerce" href="{{www_path}}/commerce/orders/view/{{id}}"><i class="icon icon-card"></i><h5>Order: {{formatted_number}}</h5></a></li>
+		{{/results}}
 
 	</ul>
+	{{/results}}
+
+	{{^results}}
+		<p>
+			Nope. Nothing found. I'm going to level with you. Right now the search pretty much only returns results
+			for orders. Search for a customer email address and you'll find something. Otherwise not so much. We're
+			working on that.
+		</p>
+	{{/results}}
 </div><!--pure-->
