@@ -2,7 +2,7 @@
 require_once(dirname(__FILE__) . '/base.php');
 
 $test_seeds = true;
-if (defined('STDIN')) {
+if (defined('STDIN') && count($argv) > 1) {
 	if ($argv[1] == 'noseeds') {
 		$test_seeds = false;
 	}
