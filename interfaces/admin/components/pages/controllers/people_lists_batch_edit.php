@@ -38,9 +38,9 @@ if (isset($_POST['dobatchcontactsadd'])) {
 					$total_added++;
 				}
 			}
-			$cash_admin->page_data['page_message'] = 'Success. Added ' . $total_added . ' new emails to your list.';
+			AdminHelper::formSuccess('Success. Added ' . $total_added . ' new people.','/people/lists/view/' . $request_parameters[0]);
 		} else {
-			$cash_admin->page_data['error_message'] = 'Could not find any valid email addresses. Please try again.';
+			AdminHelper::formFailure('Error. There was a problem adding new people.','/people/lists/view/' . $request_parameters[0]);
 		}
 	} else {
 		$cash_admin->page_data['error_message'] = 'Error. Please try again.';
