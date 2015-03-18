@@ -80,6 +80,30 @@ body.store,  body.page-editor{
 	overflow: hidden;
 }
 
+.login .mainnavmenu{
+	right:-100%;
+}
+
+.login #page_content{
+	background-color:rgba(255,255,255,0.96);
+	-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+	-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+	box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+	padding:20px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	width:100%;
+	color:#222;
+	position: relative;
+	z-index:2;
+	margin:30px auto 80px auto;
+}
+
+.login .learnmore{
+	display:none;
+}
+
 @-webkit-keyframes pulse {
 	0% {opacity:1; }
 	50% {opacity:0.2; }
@@ -2115,12 +2139,8 @@ color:#fff!important;
 }
 
 .login #cash_signin_form{
-	background:transparent url(../images/logo_alt.svg) center 30px no-repeat;
+	background:transparent url(../images/logo_alt.svg) center 15px no-repeat;
 	background-size:80px;
-	background-color:rgba(255,255,255,0.96);
-	-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
-	-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
-	box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
 	padding:120px 30px 30px 30px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -5789,12 +5809,8 @@ html{background-attachment: fixed;}
 }
 
 .login #cash_signin_form{
-	margin:-290px 0 0 -25%;
-	position:absolute;
-	top:50%;
-	left:50%;
-	width:50%;
-	padding:140px 50px 50px 50px;
+	margin:0 auto;
+	padding:140px 0px 0px 0px;
 	z-index: 2;
 }
 
@@ -5818,6 +5834,13 @@ button.right, .button.right{
 .login #mainspc .grid{
 	padding:30px 10%; 
 }
+
+
+.login #page_content{
+	width:500px;
+	padding:50px;
+}
+
 
 /* Asset Type marker */
 
@@ -6326,7 +6349,7 @@ td{display:table-cell; vertical-align: inherit;}
 .modallightbox .gallery{ overflow-x:scroll; }
 
 .login #cash_signin_form{
-	margin:-300px 0 0 -30%;
+	margin:0px 0 0 -30%;
 	width:60%;
 }
 
