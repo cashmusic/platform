@@ -317,14 +317,14 @@ jQuery.fn.extend({
 		/*
 		 * THIS WILL BE NEEDED SOON - TODO - ADD BACK WHEN SOCIAL FEEDS ELEMENT IS DONE
 		 *
-		// injecting dynamic code (wait for it)
+		 */
+		//injecting dynamic code (wait for it)
 		$(document).on('click','a.injectcode',function(e) {
 			e.preventDefault();
 			if ($('#template')) {
 				$('#template').insertAtCaret('{{{element_' + $(this).data('elementid') + '}}}');
 			}
 		});
-		*/
 
 		// hide mainmenu & tertiary panel
 		$(document).on('click', '#flipback', function(e) {
@@ -602,17 +602,18 @@ jQuery.fn.extend({
 
 	function moveToExample() {
 		$(document).on('mouseenter', '.elementdisplay', function(e) {
-			e.preventDefault();	
-			var panel_name = $(this).attr('name');
-			// the timeout slows it down just enough we don't get accidental changes on a 
-			// quick pass through a menu element to the right panel
-			window.globaltimeout = window.setTimeout(function(){
-				// Math.floor to avoid weird pixel fractions. the -34 accounts for padding
-				$('.gallery').stop().animate({ scrollLeft:Math.floor($(panel_name).position().left) - 34}, "slow");
-			}, 150);
-			$('.example').removeClass('current');
-			$('.gallery '+panel_name).addClass('current'); 
-
+			if (!$(this).hasClass('injectcode')) {
+				e.preventDefault();	
+				var panel_name = $(this).attr('name');
+				// the timeout slows it down just enough we don't get accidental changes on a 
+				// quick pass through a menu element to the right panel
+				window.globaltimeout = window.setTimeout(function(){
+					// Math.floor to avoid weird pixel fractions. the -34 accounts for padding
+					$('.gallery').stop().animate({ scrollLeft:Math.floor($(panel_name).position().left) - 34}, "slow");
+				}, 150);
+				$('.example').removeClass('current');
+				$('.gallery '+panel_name).addClass('current');
+			} 
 		});
 
 		$(document).on('mouseleave', '.elementdisplay', function(e) {
