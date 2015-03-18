@@ -23,21 +23,22 @@ class CommercePlant extends PlantBase {
 			// alphabetical for ease of reading
 			// first value  = target method to call
 			// second value = allowed request methods (string or array of strings)
-			'additem'          => array('addItem','direct'),
-			'addorder'         => array('addOrder','direct'),
-			'addtransaction'   => array('addTransaction','direct'),
-			'deleteitem'       => array('deleteItem','direct'),
-			'edititem'         => array('editItem','direct'),
-			'editorder'        => array('editOrder','direct'),
-			'edittransaction'  => array('editTransaction','direct'),
-			'getanalytics'     => array('getAnalytics','direct'),
-			'getitem'          => array('getItem','direct'),
-			'getitemsforuser'  => array('getItemsForUser','direct'),
-			'getorder'         => array('getOrder','direct'),
-			'getordersforuser' => array('getOrdersForUser','direct'),
-			'gettransaction'   => array('getTransaction','direct'),
-			'finalizepayment'  => array('finalizeRedirectedPayment',array('get','post','direct')),
-			'initiatecheckout' => array('initiateCheckout',array('get','post','direct','api_public'))
+			'additem'             => array('addItem','direct'),
+			'addorder'            => array('addOrder','direct'),
+			'addtransaction'      => array('addTransaction','direct'),
+			'deleteitem'          => array('deleteItem','direct'),
+			'edititem'            => array('editItem','direct'),
+			'editorder'           => array('editOrder','direct'),
+			'edittransaction'     => array('editTransaction','direct'),
+			'getanalytics'        => array('getAnalytics','direct'),
+			'getitem'             => array('getItem','direct'),
+			'getitemsforuser'     => array('getItemsForUser','direct'),
+			'getorder'            => array('getOrder','direct'),
+			'getordersforuser'    => array('getOrdersForUser','direct'),
+			'getordersbycustomer' => array('getOrdersByCustomer','direct'),
+			'gettransaction'      => array('getTransaction','direct'),
+			'finalizepayment'     => array('finalizeRedirectedPayment',array('get','post','direct')),
+			'initiatecheckout'    => array('initiateCheckout',array('get','post','direct','api_public'))
 		);
 		$this->plantPrep($request_type,$request);
 	}
@@ -490,6 +491,37 @@ class CommercePlant extends PlantBase {
 				'id DESC'
 			);
 		}
+		return $result;
+	}
+
+	protected function getOrdersByCustomer($user_id,$customer_email) {
+		$user_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people', 
+				'cash_action' => 'getuseridforaddress',
+				'address' => $customer_email
+			)
+		);
+		$customer_id = $user_request->response['payload'];
+
+		$result = $this->db->getData(
+			'orders',
+			'*',
+			array(
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				),
+				"customer_user_id" => array(
+					"condition" => "=",
+					"value" => $customer_id
+				),
+				"modification_date" => array(
+					"condition" => ">",
+					"value" => 0
+				)
+			)
+		);
 		return $result;
 	}
 
