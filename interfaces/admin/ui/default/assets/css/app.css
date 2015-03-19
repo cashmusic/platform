@@ -3009,7 +3009,7 @@ fieldset{
 	width:100%;
 	padding:0;
 	overflow:hidden;
-	margin:0 0 10px 0;
+	margin:0 0 20px 0;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -5254,7 +5254,7 @@ label.checklabel{
 /* Featured Release */
 
 .releases{
-	margin:0 0 10px 0;
+	margin:0 0 20px 0;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -5307,6 +5307,8 @@ label.checklabel{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	position: relative;
+  	padding-bottom: 100%;
 }
 
 /* Additional Releases */

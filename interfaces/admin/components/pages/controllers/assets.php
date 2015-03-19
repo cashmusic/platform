@@ -83,7 +83,7 @@ if (is_array($releases_response['payload'])) {
 	$releases_response['payload'] = array_reverse($releases_response['payload']); // newest first
 	if (count($releases_response['payload']) == 2) {
 		$cash_admin->page_data['one_remaining'] = true;	
-	} else if (count($releases_response['payload']) == 2) {
+	} else if (count($releases_response['payload']) == 1) {
 		$cash_admin->page_data['two_remaining'] = true;
 	}
 	foreach ($releases_response['payload'] as &$asset) {
