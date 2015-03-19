@@ -257,6 +257,10 @@ a:hover{
 	color:#222;
 }
 
+.modallightbox a:hover{
+	color:#666;
+}
+
 ul{
 	margin:0;
 	padding:0;
@@ -6348,9 +6352,14 @@ td{display:table-cell; vertical-align: inherit;}
 
 .modallightbox .gallery{ overflow-x:scroll; }
 
+.login #page_content{
+	width:500px;
+	padding:30px 50px 40px 50px;
+	margin:10px auto;
+}
+
 .login #cash_signin_form{
-	margin:0px 0 0 -30%;
-	width:60%;
+	padding:120px 0 0 0;
 }
 
 }/*  Tablet Landscape Fixes END */
