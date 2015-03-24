@@ -138,6 +138,15 @@ CREATE TABLE `commerce_items` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `commerce_item_variants`;
+CREATE TABLE `commerce_item_variants` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `item_id` int(11) NOT NULL,
+  `attributes` blob NOT NULL,
+  `quantities` blob NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `commerce_offers`;
 CREATE TABLE `commerce_offers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
