@@ -124,6 +124,15 @@ CREATE TABLE commerce_items (
   modification_date integer DEFAULT NULL
 );
 
+CREATE TABLE commerce_item_variants (
+  id integer PRIMARY KEY,
+  item_id integer,
+  attributes blob,
+  quantities blob,
+  creation_date integer DEFAULT '0',
+  modification_date integer DEFAULT NULL
+);
+
 CREATE TABLE commerce_offers (
   id integer PRIMARY KEY,
   user_id integer,
