@@ -144,6 +144,8 @@ CREATE TABLE `commerce_item_variants` (
   `item_id` int(11) NOT NULL,
   `attributes` blob NOT NULL,
   `quantities` blob NOT NULL,
+  `creation_date` int(11) NOT NULL DEFAULT '0',
+  `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
