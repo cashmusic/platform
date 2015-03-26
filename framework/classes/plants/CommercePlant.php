@@ -24,14 +24,17 @@ class CommercePlant extends PlantBase {
 			// first value  = target method to call
 			// second value = allowed request methods (string or array of strings)
 			'additem'             => array('addItem','direct'),
+			'additemvariants'     => array('addItemVariants','direct'),
 			'addorder'            => array('addOrder','direct'),
 			'addtransaction'      => array('addTransaction','direct'),
 			'deleteitem'          => array('deleteItem','direct'),
 			'edititem'            => array('editItem','direct'),
+			'edititemvariants'    => array('editItemVariants','direct'),
 			'editorder'           => array('editOrder','direct'),
 			'edittransaction'     => array('editTransaction','direct'),
 			'getanalytics'        => array('getAnalytics','direct'),
 			'getitem'             => array('getItem','direct'),
+			'getitemvariants'     => array('getItemVariants','direct'),
 			'getitemsforuser'     => array('getItemsForUser','direct'),
 			'getorder'            => array('getOrder','direct'),
 			'getordersforuser'    => array('getOrdersForUser','direct'),
@@ -87,8 +90,30 @@ class CommercePlant extends PlantBase {
 		);
 		return $result;
 	}
+
+	protected function addItemVariants(
+		$item_id,
+		$variants
+	) {
+
+		list($variants, $quantities) = $this->prepareItemVariants($variants) = array();
+
+		$variants_json 		= json_encode($variants);
+		$quantities_json 	= json_encode($quantities);
+
+		$result = $this->db->setData(
+			'item_variants',
+			array(
+				'item_id' 		=> $item_id,
+				'variants' 		=> $variants_json,
+				'quantities' 	=> $quantities_json
+			)
+		);
+
+		return $result;
+	}
 	
-	protected function getItem($id,$user_id=false) {
+	protected function getItem($id,$user_id=false,$with_variants=true) {
 		$condition = array(
 			"id" => array(
 				"condition" => "=",
@@ -107,7 +132,13 @@ class CommercePlant extends PlantBase {
 			$condition
 		);
 		if ($result) {
-			return $result[0];
+			$item = $result[0];
+
+			if ($with_variants) {
+				// call getItemVariants here.
+			}
+
+			return $item;
 		} else {
 			return false;
 		}
@@ -1034,6 +1065,25 @@ class CommercePlant extends PlantBase {
 				}
 		//		break;
 		//}
+	}
+
+	private function prepareItemVariants($variants) {
+
+		$variants = array();
+		$quantities = array();
+
+		foreach ($variants as $variant) {
+
+			$attributes = sort($variant['attributes']);
+			$quantity_name = implode('_', array_keys($attributes));
+			$quantity = isset($variant['quantity']) ? $variant['quantity'] : 0;
+
+			$quantities[$quantity_name] = $quantity;
+
+			$variants[] = $attributes;
+		}
+
+		return array($variants, $quantities);
 	}
 	
 } // END class 
