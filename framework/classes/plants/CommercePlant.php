@@ -96,7 +96,7 @@ class CommercePlant extends PlantBase {
 		$variants
 	) {
 
-		list($variants, $quantities) = $this->prepareItemVariants($variants) = array();
+		list($variants, $quantities) = $this->prepareItemVariants($variants);
 
 		$variants_json 		= json_encode($variants);
 		$quantities_json 	= json_encode($quantities);
