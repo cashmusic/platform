@@ -100,7 +100,7 @@
 					},
 					"type":"text",
 					"default":{
-						"en":"You must verify your email address to continue. An email has been sent. Click the link provided to conrirm membership. (If you don't see the message, check your SPAM folder.)"
+						"en":"You must verify your email address to continue. An email has been sent. Click the link provided to confirm membership. (If you don't see the message, check your SPAM folder.)"
 					},
 					"displaysize":"medium"
 				}
@@ -130,7 +130,7 @@
 					},
 					"type":"text",
 					"default":{
-						"en":"sign me up"
+						"en":"Sign me up"
 					},
 					"displaysize":"small"
 				}
