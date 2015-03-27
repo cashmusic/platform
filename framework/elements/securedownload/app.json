@@ -20,7 +20,7 @@
 				"en":"Main settings"
 			},
 			"description":{
-				"en":"Instructions or clarifications that should appear with this group."
+				"en":"Choose a list to verify against and an asset for the download."
 			},
 			"data":{
 				"email_list_id":{
@@ -48,7 +48,7 @@
 				"en":"Additional settings"
 			},
 			"description":{
-				"en":"Instructions or clarifications that should appear with this group."
+				"en":"Customize messages, define a universal password, or set it to skip login entirely."
 			},
 			"data":{
 				"message_success":{

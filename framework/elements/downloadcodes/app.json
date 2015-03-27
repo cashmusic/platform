@@ -20,7 +20,7 @@
 				"en":"Main settings"
 			},
 			"description":{
-				"en":"Instructions or clarifications that should appear with this group."
+				"en":"Just define a success message — codes are defined with each individual asset."
 			},
 			"data":{
 				"message_success":{

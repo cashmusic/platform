@@ -26,7 +26,7 @@
 				"en":"Main settings"
 			},
 			"description":{
-				"en":"Instructions or clarifications that should appear with this group."
+				"en":"Select a target mailing list and an asset to give away (if you want.)"
 			},
 			"data":{
 				"email_list_id":{
@@ -61,7 +61,7 @@
 				"en":"Success/error messages"
 			},
 			"description":{
-				"en":"Instructions or clarifications that should appear with this group."
+				"en":"Customize messages shown to people using this element."
 			},
 			"data":{
 				"message_success":{
@@ -111,7 +111,7 @@
 				"en":"Customize signup form"
 			},
 			"description":{
-				"en":"Instructions or clarifications that should appear with this group."
+				"en":"Change placeholder and text in the form shown to the public."
 			},
 			"data":{
 				"placeholder_text":{
