@@ -4932,7 +4932,7 @@ label.checklabel{
 	display: inline-block;
 }
 
-#campaigns .associated h4 span, #campaigns .associated .add{
+#campaigns .associated h4 span, #campaigns .associated .add, .alt-button{
 	-webkit-border-radius: 50px;
 	-moz-border-radius: 50px;
 	border-radius: 50px;
@@ -4946,7 +4946,7 @@ label.checklabel{
 
 /* Campaigns */
 
-#campaigns .associated .add{
+#campaigns .associated .add, .alt-button{
 	text-decoration: none;
 	display: inline-block;
 	margin:0;
@@ -4958,18 +4958,18 @@ label.checklabel{
 	width:auto;
 }
 
-.panel #campaigns .associated .add{
+.panel #campaigns .associated .add, .panel .alt-button{
 	margin:10px auto 0 auto;
 	position: initial;
 	width:100%;
 }
 
-#campaigns .associated .add .icon{
+#campaigns .associated .add .icon, .alt-button .icon{
 	margin:-2px 0 0 0;
 	color: #f5f5f5;
 }
 
-#campaigns .associated .add:hover{
+#campaigns .associated .add:hover, .alt-button:hover{
 	background:#222;
 }
 
@@ -5970,7 +5970,7 @@ section[role=main].hero, .login section[role=main]{ margin:400px 0 0 0; }
 
 #campaigns .associated .elements{ height:250px; }
 
-#campaigns .associated .add{
+#campaigns .associated .add, .alt-button{
 	margin:10px auto 0 auto;
 	position: initial;
 	width:100%;
@@ -6521,7 +6521,7 @@ ul.alternating li a{ padding:30px; }
 
 /* Campaigns */
 
-#campaigns .associated .add{
+#campaigns .associated .add, .alt-button{
 	margin:0;
 	position: absolute;
 	top:21px;
