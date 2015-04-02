@@ -79,9 +79,7 @@ if (isset($request_parameters[0])) {
 	if (is_array($template_response['payload'])) {
 		$cash_admin->page_data = array_merge($template_response['payload'],$cash_admin->page_data);
 		if ($template_response['payload']['type'] == 'embed') {
-			$cash_admin->page_data['ui_title'] = 'Edit embed';
-		} else {
-			$cash_admin->page_data['ui_title'] = 'Edit page';
+			$cash_admin->page_data['is_embed'] = true;
 		}
 	}
 }
