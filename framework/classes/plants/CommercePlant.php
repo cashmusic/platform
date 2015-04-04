@@ -1074,7 +1074,10 @@ class CommercePlant extends PlantBase {
 
 		foreach ($variants as $variant) {
 
-			$attributes = sort($variant['attributes']);
+			$attributes = $variant['attributes'];
+
+			sort($attributes);
+
 			$quantity_name = implode('_', array_keys($attributes));
 			$quantity = isset($variant['quantity']) ? $variant['quantity'] : 0;
 
