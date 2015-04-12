@@ -96,16 +96,14 @@ class CommercePlant extends PlantBase {
 		$variants
 	) {
 
-		list($variants, $quantities) = $this->prepareItemVariants($variants);
-
-		$variants_json 		= json_encode($variants);
-		$quantities_json 	= json_encode($quantities);
+		$attributes_json 	= json_encode($variants['attributes']);
+		$quantities_json 	= json_encode($variants['quantities']);
 
 		$result = $this->db->setData(
 			'item_variants',
 			array(
 				'item_id' 		=> $item_id,
-				'variants' 		=> $variants_json,
+				'attributes' 	=> $attributes_json,
 				'quantities' 	=> $quantities_json
 			)
 		);
@@ -1065,28 +1063,6 @@ class CommercePlant extends PlantBase {
 				}
 		//		break;
 		//}
-	}
-
-	private function prepareItemVariants($variants) {
-
-		$variants = array();
-		$quantities = array();
-
-		foreach ($variants as $variant) {
-
-			$attributes = $variant['attributes'];
-
-			sort($attributes);
-
-			$quantity_name = implode('_', array_keys($attributes));
-			$quantity = isset($variant['quantity']) ? $variant['quantity'] : 0;
-
-			$quantities[$quantity_name] = $quantity;
-
-			$variants[] = $attributes;
-		}
-
-		return array($variants, $quantities);
 	}
 	
 } // END class 
