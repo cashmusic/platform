@@ -14,9 +14,6 @@ html,body{
 	padding:0;
 	width:100%;
 	color:#222;
-	-webkit-transition: opacity 0.3s  ease-in-out;
-	-moz-transition: opacity 0.3s  ease-in-out;
-	trasition: opacity 0.3s ease-in-out;
 }
 
 *, *:before, *:after {
