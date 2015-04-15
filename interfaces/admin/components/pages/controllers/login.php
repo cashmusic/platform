@@ -1,67 +1,83 @@
 <?php
 // allow signups?
 $signups = (defined('ALLOW_SIGNUPS')) ? ALLOW_SIGNUPS : true;
+// filter signups?
+$filter_signups = false;
+if (defined('FILTER_SIGNUPS')) {
+	if (FILTER_SIGNUPS) {
+		$filter_signups = FILTER_SIGNUPS;
+	}
+}
 // minimum password length
 $cash_admin->page_data['minimum_password_length'] = (defined('MINIMUM_PASSWORD_LENGTH')) ? MINIMUM_PASSWORD_LENGTH : 10;
 
 if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 	if (isset($_POST['dosignup'])) {
-		if (!empty($_POST['address']) && isset($_POST['termsread'])) {	
+		if (!empty($_POST['address']) && isset($_POST['termsread'])) {
 			if(filter_var($_POST['address'], FILTER_VALIDATE_EMAIL)) {
-				$username_success = false;
-				$final_username = strtolower(preg_replace("/[^a-z0-9]+/i", '',$_POST['username']));
-				if (!empty($final_username)) {
-					$username_request = new CASHRequest(
+				$approved_address = true;
+				if ($filter_signups) {
+					if (strpos($_POST['address'],$filter_signups) === false) {
+						$approved_address = false;
+						AdminHelper::formFailure('This site restricts signups. Please enter a new email and try again.','/');
+					}
+				}
+				if ($approved_address) {
+					$username_success = false;
+					$final_username = strtolower(preg_replace("/[^a-z0-9]+/i", '',$_POST['username']));
+					if (!empty($final_username)) {
+						$username_request = new CASHRequest(
+							array(
+								'cash_request_type' => 'people',
+								'cash_action' => 'getuseridforusername',
+								'username' => $final_username
+							)
+						);
+						if ($username_request->response['payload']) {
+							$final_username = strtolower(str_replace(array('@','.'),'',$_POST['address']));
+						} else {
+							$username_success = true;
+						}
+					} else {
+						$final_username = strtolower(str_replace(array('@','.'),'',$_POST['address']));
+					}
+
+					$add_request = new CASHRequest(
 						array(
-							'cash_request_type' => 'people', 
-							'cash_action' => 'getuseridforusername',
-							'username' => $final_username
+							'cash_request_type' => 'system',
+							'cash_action' => 'addlogin',
+							'address' => $_POST['address'],
+							'password' => $_POST['password'],
+							'is_admin' => 0,
+							'username' => $final_username,
+							'data' => array('agreed_terms' => time())
 						)
 					);
-					if ($username_request->response['payload']) {
-						$final_username = strtolower(str_replace(array('@','.'),'',$_POST['address']));
-					} else {
-						$username_success = true;
-					}
-				} else {
-					$final_username = strtolower(str_replace(array('@','.'),'',$_POST['address']));
-				}
 
-				$add_request = new CASHRequest(
-					array(
-						'cash_request_type' => 'system', 
-						'cash_action' => 'addlogin',
-						'address' => $_POST['address'],
-						'password' => $_POST['password'],
-						'is_admin' => 0,
-						'username' => $final_username,
-						'data' => array('agreed_terms' => time())
-					)
-				);
-
-				$reset_key = $cash_admin->requestAndStore(
-					array(
-						'cash_request_type' => 'system', 
-						'cash_action' => 'setresetflag',
-						'address' => $_POST['address']
-					)
-				);
-				$reset_key = $reset_key['payload'];
-
-				if ($add_request->response['payload']) {
-					CASHSystem::sendEmail(
-						'Your CASH Music account is ready',
-						false,
-						$_POST['address'],
-						'Your CASH Music account has been created. '
-							. 'To get started you just need to activate it by visiting: ' 
-							. "\n\n"
-							. CASH_ADMIN_URL . '/verify?key=' . $reset_key . '&address=' . urlencode($_POST['address'])
-							. "\n\n"
-							. '',
-						'Welcome to CASH Music'
+					$reset_key = $cash_admin->requestAndStore(
+						array(
+							'cash_request_type' => 'system',
+							'cash_action' => 'setresetflag',
+							'address' => $_POST['address']
+						)
 					);
-					AdminHelper::formSuccess('Thanks. Check your inbox for instructions.','/');
+					$reset_key = $reset_key['payload'];
+
+					if ($add_request->response['payload']) {
+						CASHSystem::sendEmail(
+							'Your CASH Music account is ready',
+							false,
+							$_POST['address'],
+							'Your CASH Music account has been created. '
+								. 'To get started you just need to activate it by visiting: '
+								. "\n\n"
+								. CASH_ADMIN_URL . '/verify?key=' . $reset_key . '&address=' . urlencode($_POST['address'])
+								. "\n\n"
+								. '',
+							'Welcome to CASH Music'
+						);
+						AdminHelper::formSuccess('Thanks. Check your inbox for instructions.','/');
+					}
 				}
 			} else {
 				AdminHelper::formFailure('Please enter a valid email address.','/');
@@ -78,7 +94,7 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 		if (filter_var($_POST['address'], FILTER_VALIDATE_EMAIL)) {
 			$reset_key = $cash_admin->requestAndStore(
 				array(
-					'cash_request_type' => 'system', 
+					'cash_request_type' => 'system',
 					'cash_action' => 'setresetflag',
 					'address' => $_POST['address']
 				)
@@ -119,7 +135,7 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 	if (substr(trim($_REQUEST['p'],'/'),0,11) == 'setpassword') {
 		$valid_key = $cash_admin->requestAndStore(
 			array(
-				'cash_request_type' => 'system', 
+				'cash_request_type' => 'system',
 				'cash_action' => 'validateresetflag',
 				'address' => $_GET['address'],
 				'key' => $_GET['key']
@@ -136,7 +152,7 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 		if (isset($_GET['key'])) {
 			$valid_key = $cash_admin->requestAndStore(
 				array(
-					'cash_request_type' => 'system', 
+					'cash_request_type' => 'system',
 					'cash_action' => 'validateresetflag',
 					'address' => $_GET['address'],
 					'key' => $_GET['key']
@@ -145,7 +161,7 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 			if ($valid_key) {
 				$id_response = $cash_admin->requestAndStore(
 					array(
-						'cash_request_type' => 'people', 
+						'cash_request_type' => 'people',
 						'cash_action' => 'getuseridforaddress',
 						'address' => $_GET['address']
 					)
@@ -153,9 +169,9 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 				if ($id_response['payload']) {
 					$change_response = $cash_admin->requestAndStore(
 						array(
-							'cash_request_type' => 'system', 
+							'cash_request_type' => 'system',
 							'cash_action' => 'setlogincredentials',
-							'user_id' => $id_response['payload'], 
+							'user_id' => $id_response['payload'],
 							'is_admin' => 1
 						)
 					);
@@ -183,7 +199,7 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 	if (isset($_POST['finalizepasswordreset'])) {
 		$valid_key = $cash_admin->requestAndStore(
 			array(
-				'cash_request_type' => 'system', 
+				'cash_request_type' => 'system',
 				'cash_action' => 'validateresetflag',
 				'address' => $_POST['address'],
 				'key' => $_POST['key']
@@ -192,7 +208,7 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 		if ($valid_key) {
 			$id_response = $cash_admin->requestAndStore(
 				array(
-					'cash_request_type' => 'people', 
+					'cash_request_type' => 'people',
 					'cash_action' => 'getuseridforaddress',
 					'address' => $_POST['address']
 				)
@@ -200,10 +216,10 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 			if ($id_response['payload']) {
 				$change_response = $cash_admin->requestAndStore(
 					array(
-						'cash_request_type' => 'system', 
+						'cash_request_type' => 'system',
 						'cash_action' => 'setlogincredentials',
-						'user_id' => $id_response['payload'], 
-						'address' => $_POST['address'], 
+						'user_id' => $id_response['payload'],
+						'address' => $_POST['address'],
 						'password' => $_POST['new_password'],
 						'is_admin' => 1
 					)

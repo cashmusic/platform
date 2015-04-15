@@ -5,6 +5,7 @@ framework/settings/connections.json
 framework/db/*
 interfaces/admin/terms.md
 interfaces/admin/privacy.md
+interfaces/admin/admin.ini.php
 testinstall/*
 sandbox/*
 
