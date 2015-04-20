@@ -133,10 +133,73 @@ class CommercePlant extends PlantBase {
 			$item = $result[0];
 
 			if ($with_variants) {
-				// call getItemVariants here.
+				$item['variants'] = $this->getItemVariants($id);
 			}
-
+			
 			return $item;
+		} else {
+			return false;
+		}
+	}
+
+	protected function getItemVariants($item_id, $include_empties = false) {
+		$condition = array(
+			"item_id" => array(
+				"condition" => "=",
+				"value" => $item_id
+			)
+		);
+
+		$result = $this->db->getData(
+			'item_variants',
+			'*',
+			$condition
+		);
+
+		if ($result) {
+
+			$variants = array(
+				'attributes' => array(),
+				'quantities' => array(),
+			);
+
+			foreach ($result as $variant) {
+
+				$attributes = json_decode($variant['attributes']);
+				$quantities = json_decode($variant['quantities']);
+
+				foreach ($attributes as $type => $options) {
+
+					if (!isset($variants['attributes'][$type])) {
+						$variants['attributes'][$type] = array();
+					}
+
+					$variants['attributes'][$type] = $options;
+				}
+
+				foreach ($quantities as $key => $quantity) {
+
+					if ($quantity > 0 || $include_empties) {
+
+						$variant_keys = explode('+', $key);
+
+						$item = array(
+							'matrix' => array()
+						);
+
+						foreach ($variant_keys as $part) {
+							$part_keys = explode('->', $part);
+							$item['matrix'][$part_keys[0]] = $part_keys[1];
+						}
+
+						$item['value'] = $quantity;
+					}
+
+					$variants['quantities'][] = $item;
+				}
+
+				return $variants;
+			}
 		} else {
 			return false;
 		}
