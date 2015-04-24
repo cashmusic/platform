@@ -23,7 +23,16 @@
 				"en":"Instructions or clarifications that should appear with this group."
 			},
 			"data":{
-				
+				"twitter":{
+					"label":{
+						"en":"Twitter feeds"
+					},
+					"type":"scalar",
+					"values":{
+						
+					},
+					"required":false
+				},
 			}
 		}
 	}
