@@ -25,14 +25,130 @@
 			"data":{
 				"twitter":{
 					"label":{
-						"en":"Twitter feeds"
+						"en":"Twitter"
 					},
 					"type":"scalar",
 					"values":{
-						
+						"twitterusername":{
+							"label":{
+								"en":"Username"
+							},
+							"type":"text",
+							"displaysize":"small"
+						},
+						"twitterfiltertype":{
+							"label":{
+								"en":"Fliter by"
+							},
+							"type":"select",
+							"values":{
+								"none":"Do not filter",
+				            "contain":"Tweets that contain",
+				            "beginwith":"Tweets that begin with"
+							},
+							"required":true,
+							"displaysize":"small"
+						},
+						"twitterfiltervalue":{
+							"label":{
+								"en":"Filter value"
+							},
+							"type":"text",
+							"displaysize":"small"
+						}
 					},
 					"required":false
 				},
+				"tumblr":{
+					"label":{
+						"en":"Tumblr"
+					},
+					"type":"scalar",
+					"values":{
+						"tumblrurl":{
+							"label":{
+								"en":"Tumblr URL"
+							},
+							"type":"text",
+							"displaysize":"small"
+						},
+						"tumblrtag":{
+							"label":{
+								"en":"Filter by tag"
+							},
+							"placeholder":{
+				            "en":"Do not filter"
+				          },
+							"type":"text",
+							"displaysize":"small"
+						},
+						"tumblroptions":{
+							"label":{
+								"en":"Post types"
+							},
+							"type":"options",
+							"values":{
+								"post_type_regular":{
+									"label":{
+										"en":"regular"
+									},
+									"type":"boolean",
+									"default":true,
+									"displaysize":"small"
+								},
+								"post_type_photo":{
+									"label":{
+										"en":"photo"
+									},
+									"type":"boolean",
+									"default":true,
+									"displaysize":"small"
+								},
+								"post_type_video":{
+									"label":{
+										"en":"video"
+									},
+									"type":"boolean",
+									"default":true,
+									"displaysize":"small"
+								},
+								"post_type_link":{
+									"label":{
+										"en":"link"
+									},
+									"type":"boolean",
+									"default":true,
+									"displaysize":"small"
+								},
+								"post_type_audio":{
+									"label":{
+										"en":"audio"
+									},
+									"type":"boolean",
+									"default":true,
+									"displaysize":"small"
+								},
+								"post_type_quote":{
+									"label":{
+										"en":"quote"
+									},
+									"type":"boolean",
+									"default":true,
+									"displaysize":"small"
+								},
+								"post_type_answer":{
+									"label":{
+										"en":"answer"
+									},
+									"type":"boolean",
+									"default":true,
+									"displaysize":"small"
+								}
+							}
+						}
+					},
+					"required":false
+				}
 			}
 		}
 	}
