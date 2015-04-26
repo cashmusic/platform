@@ -142,7 +142,7 @@ class CommercePlant extends PlantBase {
 		}
 	}
 
-	protected function getItemVariants($item_id, $include_empties = false) {
+	protected function getItemVariants($item_id, $exclude_empties = false) {
 		$condition = array(
 			"item_id" => array(
 				"condition" => "=",
@@ -179,7 +179,7 @@ class CommercePlant extends PlantBase {
 
 				foreach ($quantities as $key => $quantity) {
 
-					if ($quantity > 0 || $include_empties) {
+					if (!$exclude_empties) {
 
 						$variant_keys = explode('+', $key);
 
@@ -290,7 +290,7 @@ class CommercePlant extends PlantBase {
 		return $result;
 	}
 
-	protected function getItemsForUser($user_id) {
+	protected function getItemsForUser($user_id,$with_variants=true) {
 		$result = $this->db->getData(
 			'items',
 			'*',
@@ -301,6 +301,15 @@ class CommercePlant extends PlantBase {
 				)
 			)
 		);
+
+		if ($with_variants) {
+			$length = count($result);
+
+			for ($index = 0; $index < $length; $index++) {
+				$result[$index]['variants'] = $this->getItemVariants($result[$index]['id']);
+			}
+		}
+
 		return $result;
 	}
 
