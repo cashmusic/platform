@@ -179,13 +179,7 @@ class CommercePlant extends PlantBase {
 
 				foreach ($quantities as $key => $quantity) {
 
-					$include_quantity = true;
-
-					if ($quantity < 1 && $exclude_empties) {
-						$include_quantity = false;
-					}
-
-					if ($include_quantity) {
+					if (!($quantity < 1 && $exclude_empties)) {
 
 						$variant_keys = explode('+', $key);
 
