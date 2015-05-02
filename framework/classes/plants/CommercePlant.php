@@ -181,7 +181,7 @@ class CommercePlant extends PlantBase {
 
 					$include_quantity = true;
 
-					if ($quantity < 1 && !$exclude_empties) {
+					if ($quantity < 1 && $exclude_empties) {
 						$include_quantity = false;
 					}
 
