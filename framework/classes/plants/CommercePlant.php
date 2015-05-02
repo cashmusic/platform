@@ -16,7 +16,7 @@
  *
  **/
 class CommercePlant extends PlantBase {
-	
+
 	public function __construct($request_type,$request) {
 		$this->request_type = 'commerce';
 		$this->routing_table = array(
@@ -45,7 +45,7 @@ class CommercePlant extends PlantBase {
 		);
 		$this->plantPrep($request_type,$request);
 	}
-	
+
 	protected function addItem(
 		$user_id,
 		$name,
@@ -110,7 +110,7 @@ class CommercePlant extends PlantBase {
 
 		return $result;
 	}
-	
+
 	protected function getItem($id,$user_id=false,$with_variants=true) {
 		$condition = array(
 			"id" => array(
@@ -135,7 +135,7 @@ class CommercePlant extends PlantBase {
 			if ($with_variants) {
 				$item['variants'] = $this->getItemVariants($id);
 			}
-			
+
 			return $item;
 		} else {
 			return false;
@@ -179,7 +179,13 @@ class CommercePlant extends PlantBase {
 
 				foreach ($quantities as $key => $quantity) {
 
-					if (!$exclude_empties) {
+					$include_quantity = true;
+
+					if ($quantity < 1 && !$exclude_empties) {
+						$include_quantity = false;
+					}
+
+					if ($include_quantity) {
 
 						$variant_keys = explode('+', $key);
 
@@ -204,7 +210,7 @@ class CommercePlant extends PlantBase {
 			return false;
 		}
 	}
-	
+
 	protected function editItem(
 		$id,
 		$name=false,
@@ -269,7 +275,7 @@ class CommercePlant extends PlantBase {
 		);
 		return $result;
 	}
-	
+
 	protected function deleteItem($id,$user_id=false) {
 		$condition = array(
 			"id" => array(
@@ -331,7 +337,7 @@ class CommercePlant extends PlantBase {
 		if (is_array($order_contents)) {
 			/*
 				basically we store as JSON to prevent loss of order history
-				in the event an item changes or is deleted. we want accurate 
+				in the event an item changes or is deleted. we want accurate
 				history so folks don't get all crazy bananas about teh $$s
 			*/
 			$final_order_contents = json_encode($order_contents);
@@ -358,7 +364,7 @@ class CommercePlant extends PlantBase {
 			return false;
 		}
 	}
-	
+
 	protected function getOrder($id,$deep=false,$user_id=false) {
 		if ($deep) {
 			$result = $this->db->getData(
@@ -380,7 +386,7 @@ class CommercePlant extends PlantBase {
 				$result[0]['order_totals'] = $this->getOrderTotals($result[0]['order_contents']);
 				$user_request = new CASHRequest(
 					array(
-						'cash_request_type' => 'people', 
+						'cash_request_type' => 'people',
 						'cash_action' => 'getuser',
 						'user_id' => $result[0]['customer_user_id']
 					)
@@ -412,7 +418,7 @@ class CommercePlant extends PlantBase {
 			return false;
 		}
 	}
-	
+
 	protected function editOrder(
 		$id,
 		$fulfilled=false,
@@ -473,7 +479,7 @@ class CommercePlant extends PlantBase {
 					'customer_first_name' => $data_sent['FIRSTNAME'],
 					'customer_last_name' => $data_sent['LASTNAME']
 				);
-				
+
 				// this is ugly, but the if statements normalize Paypal's love of omitting empty data
 
 				if (isset($data_sent['PAYMENTREQUEST_0_SHIPTONAME'])) {
@@ -598,7 +604,7 @@ class CommercePlant extends PlantBase {
 	protected function getOrdersByCustomer($user_id,$customer_email) {
 		$user_request = new CASHRequest(
 			array(
-				'cash_request_type' => 'people', 
+				'cash_request_type' => 'people',
 				'cash_action' => 'getuseridforaddress',
 				'address' => $customer_email
 			)
@@ -659,7 +665,7 @@ class CommercePlant extends PlantBase {
 		);
 		return $result;
 	}
-	
+
 	protected function getTransaction($id,$user_id=false) {
 		$condition = array(
 			"id" => array(
@@ -684,7 +690,7 @@ class CommercePlant extends PlantBase {
 			return false;
 		}
 	}
-	
+
 	protected function editTransaction(
 		$id,
 		$service_timestamp=false,
@@ -721,7 +727,7 @@ class CommercePlant extends PlantBase {
 		);
 		return $result;
 	}
-	
+
 	protected function initiateCheckout($user_id,$connection_id,$order_contents=false,$item_id=false,$element_id=false,$total_price=false,$return_url_only=false) {
 		if (!$order_contents && !$item_id) {
 			return false;
@@ -788,7 +794,7 @@ class CommercePlant extends PlantBase {
 			}
 		}
 	}
-	
+
 	protected function getOrderTotals($order_contents) {
 		$contents = json_decode($order_contents,true);
 		$return_array = array(
@@ -806,7 +812,7 @@ class CommercePlant extends PlantBase {
 	protected function getCurrencyForUser($user_id) {
 		$currency_request = new CASHRequest(
 			array(
-				'cash_request_type' => 'system', 
+				'cash_request_type' => 'system',
 				'cash_action' => 'getsettings',
 				'type' => 'use_currency',
 				'user_id' => $user_id
@@ -819,7 +825,7 @@ class CommercePlant extends PlantBase {
 		}
 		return $currency;
 	}
-	
+
 	protected function initiatePaymentRedirect($order_id,$element_id=false,$price_addition=0,$return_url_only=false) {
 		$order_details = $this->getOrder($order_id);
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
@@ -854,7 +860,7 @@ class CommercePlant extends PlantBase {
 					$return_url,
 					$require_shipping,
 					$allow_note,
-					$currency 
+					$currency
 				);
 				if (!$return_url_only) {
 					$redirect = CASHSystem::redirectToUrl($redirect_url);
@@ -870,7 +876,7 @@ class CommercePlant extends PlantBase {
 		}
 		return false;
 	}
-	
+
 	protected function finalizeRedirectedPayment($order_id,$creation_date,$direct_post_details=false) {
 		$order_details = $this->getOrder($order_id);
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
@@ -889,7 +895,7 @@ class CommercePlant extends PlantBase {
 									// look for a user to match the email. if not present, make one
 									$user_request = new CASHRequest(
 										array(
-											'cash_request_type' => 'people', 
+											'cash_request_type' => 'people',
 											'cash_action' => 'getuseridforaddress',
 											'address' => $initial_details['EMAIL']
 										)
@@ -898,9 +904,9 @@ class CommercePlant extends PlantBase {
 									if (!$user_id) {
 										$user_request = new CASHRequest(
 											array(
-												'cash_request_type' => 'system', 
+												'cash_request_type' => 'system',
 												'cash_action' => 'addlogin',
-												'address' => $initial_details['EMAIL'], 
+												'address' => $initial_details['EMAIL'],
 												'password' => time(),
 												'is_admin' => 0,
 												'display_name' => $initial_details['FIRSTNAME'] . ' ' . $initial_details['LASTNAME'],
@@ -911,7 +917,7 @@ class CommercePlant extends PlantBase {
 										);
 										$user_id = $user_request->response['payload'];
 									}
-									
+
 									// deal with physical quantities
 									if ($order_details['physical'] == 1) {
 										$order_items = json_decode($order_details['order_contents'],true);
@@ -962,14 +968,14 @@ class CommercePlant extends PlantBase {
 										$final_details['PAYMENTINFO_0_FEEAMT'],
 										'complete'
 									);
-									
+
 									// TODO: add code to order metadata
 									// bit of a hack, hard-wiring the email bits:
 									try {
 										if ($order_details['digital']) {
 											$addcode_request = new CASHRequest(
 												array(
-													'cash_request_type' => 'element', 
+													'cash_request_type' => 'element',
 													'cash_action' => 'addlockcode',
 													'element_id' => $order_details['element_id']
 												)
@@ -1136,6 +1142,6 @@ class CommercePlant extends PlantBase {
 		//		break;
 		//}
 	}
-	
-} // END class 
+
+} // END class
 ?>
