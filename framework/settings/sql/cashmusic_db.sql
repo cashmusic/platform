@@ -1,4 +1,4 @@
--- 
+--
 -- CASH Music platform
 -- flavor: MySQL
 -- schema version: 8
@@ -6,10 +6,10 @@
 
 SET FOREIGN_KEY_CHECKS = 0;
 
--- 
--- 
+--
+--
 -- Section: ASSETS
--- 
+--
 DROP TABLE IF EXISTS `assets`;
 CREATE TABLE `assets` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -58,10 +58,10 @@ CREATE TABLE `assets_analytics_basic` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
--- 
--- 
+--
+--
 -- Section: CALENDAR
--- 
+--
 DROP TABLE IF EXISTS `calendar_events`;
 CREATE TABLE `calendar_events` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -110,10 +110,10 @@ CREATE TABLE `calendar_venues` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
--- 
--- 
+--
+--
 -- Section: COMMERCE
--- 
+--
 DROP TABLE IF EXISTS `commerce_items`;
 CREATE TABLE `commerce_items` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -142,8 +142,8 @@ DROP TABLE IF EXISTS `commerce_item_variants`;
 CREATE TABLE `commerce_item_variants` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `item_id` int(11) NOT NULL,
-  `attributes` blob NOT NULL,
-  `quantities` blob NOT NULL,
+  `attributes` varchar(50) DEFAULT NULL,
+  `quantity` int(11) NOT NULL DEFAULT '0',
   `creation_date` int(11) NOT NULL DEFAULT '0',
   `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -217,10 +217,10 @@ CREATE TABLE `commerce_transactions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
--- 
--- 
+--
+--
 -- Section: ELEMENTS
--- 
+--
 DROP TABLE IF EXISTS `elements`;
 CREATE TABLE `elements` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -279,10 +279,10 @@ CREATE TABLE `elements_campaigns` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
--- 
--- 
+--
+--
 -- Section: PEOPLE
--- 
+--
 DROP TABLE IF EXISTS `people`;
 CREATE TABLE `people` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -431,10 +431,10 @@ CREATE TABLE `people_resetpassword` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
--- 
--- 
+--
+--
 -- Section: SYSTEM
--- 
+--
 DROP TABLE IF EXISTS `system_analytics`;
 CREATE TABLE `system_analytics` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
