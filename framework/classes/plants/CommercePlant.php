@@ -96,19 +96,23 @@ class CommercePlant extends PlantBase {
 		$variants
 	) {
 
-		$attributes_json 	= json_encode($variants['attributes']);
-		$quantities_json 	= json_encode($variants['quantities']);
+		foreach ($variants as $attributes => $quantity) {
 
-		$result = $this->db->setData(
-			'item_variants',
-			array(
-				'item_id' 		=> $item_id,
-				'attributes' 	=> $attributes_json,
-				'quantities' 	=> $quantities_json
-			)
-		);
+			$result = $this->db->setData(
+				'item_variants',
+				array(
+					'item_id' 		=> $item_id,
+					'attributes' 	=> $attributes,
+					'quantity' 		=> $quantity,
+				)
+			);
 
-		return $result;
+			if (!$result) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	protected function getItem($id,$user_id=false,$with_variants=true) {
@@ -129,6 +133,7 @@ class CommercePlant extends PlantBase {
 			'*',
 			$condition
 		);
+
 		if ($result) {
 			$item = $result[0];
 
@@ -163,43 +168,29 @@ class CommercePlant extends PlantBase {
 				'quantities' => array(),
 			);
 
-			foreach ($result as $variant) {
+			foreach ($result as $item) {
 
-				$attributes = json_decode($variant['attributes']);
-				$quantities = json_decode($variant['quantities']);
+				if (!($item['quantity'] < 1 && $exclude_empties)) {
+					$variants['quantities'][$item['attributes']] = $item['quantity'];
 
-				foreach ($attributes as $type => $options) {
+					$attribute_keys = explode('+', $item['attributes']);
 
-					if (!isset($variants['attributes'][$type])) {
-						$variants['attributes'][$type] = array();
-					}
+					foreach ($attribute_keys as $part) {
 
-					$variants['attributes'][$type] = $options;
-				}
+						list($attribute_name, $attribute_value) = explode('->', $part);
 
-				foreach ($quantities as $key => $quantity) {
-
-					if (!($quantity < 1 && $exclude_empties)) {
-
-						$variant_keys = explode('+', $key);
-
-						$item = array(
-							'matrix' => array()
-						);
-
-						foreach ($variant_keys as $part) {
-							$part_keys = explode('->', $part);
-							$item['matrix'][$part_keys[0]] = $part_keys[1];
+						if (!isset($variants['attributes'][$attribute_name])) {
+							$variants['attributes'][$attribute_name] = array();
 						}
 
-						$item['value'] = $quantity;
+						if (!in_array($attribute_value, $variants['attributes'][$attribute_name])) {
+							$variants['attributes'][$attribute_name][] = $attribute_value;
+						}
 					}
-
-					$variants['quantities'][] = $item;
 				}
-
-				return $variants;
 			}
+
+			return $variants;
 		} else {
 			return false;
 		}
