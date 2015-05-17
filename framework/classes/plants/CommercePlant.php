@@ -29,7 +29,7 @@ class CommercePlant extends PlantBase {
 			'addtransaction'      => array('addTransaction','direct'),
 			'deleteitem'          => array('deleteItem','direct'),
 			'edititem'            => array('editItem','direct'),
-			'edititemvariants'    => array('editItemVariants','direct'),
+			'edititemvariant'   	=> array('editItemVariant','direct'),
 			'editorder'           => array('editOrder','direct'),
 			'edittransaction'     => array('editTransaction','direct'),
 			'getanalytics'        => array('getAnalytics','direct'),
@@ -171,7 +171,12 @@ class CommercePlant extends PlantBase {
 			foreach ($result as $item) {
 
 				if (!($item['quantity'] < 1 && $exclude_empties)) {
-					$variants['quantities'][$item['attributes']] = $item['quantity'];
+
+					$variants['quantities'][] = array(
+						'id' => $item['id'],
+						'key' => $item['attributes'],
+						'value' => $item['quantity']
+					);
 
 					$attribute_keys = explode('+', $item['attributes']);
 
@@ -256,6 +261,27 @@ class CommercePlant extends PlantBase {
 		$result = $this->db->setData(
 			'items',
 			$final_edits,
+			$condition
+		);
+		return $result;
+	}
+
+	protected function editItemVariant($id, $quantity) {
+
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $id,
+			)
+		);
+
+		$updates = array(
+			'quantity' => $quantity
+		);
+
+		$result = $this->db->setData(
+			'item_variants',
+			$updates,
 			$condition
 		);
 		return $result;
