@@ -1,8 +1,8 @@
 {
 	"type":"element",
 	"subtype":"socialfeeds",
-	"lastupdated":"May 9, 2012",
-	"version":1,
+	"lastupdated":"May 9, 2015",
+	"version":2,
 	"author":"CASH Music",
 	"url":"http://cashmusic.org/",
 	"license":"AGPL",
@@ -28,6 +28,9 @@
 						"en":"Twitter"
 					},
 					"type":"scalar",
+					"actiontext": {
+						"en":"Add a new Twitter feed"
+					},
 					"values":{
 						"twitterusername":{
 							"label":{
@@ -64,6 +67,9 @@
 						"en":"Tumblr"
 					},
 					"type":"scalar",
+					"actiontext": {
+						"en":"Add a new tublr URL"
+					},
 					"values":{
 						"tumblrurl":{
 							"label":{
@@ -133,7 +139,7 @@
 										"en":"quote"
 									},
 									"type":"boolean",
-									"default":true,
+									"default":false,
 									"displaysize":"small"
 								},
 								"post_type_answer":{
@@ -141,7 +147,7 @@
 										"en":"answer"
 									},
 									"type":"boolean",
-									"default":true,
+									"default":false,
 									"displaysize":"small"
 								}
 							}

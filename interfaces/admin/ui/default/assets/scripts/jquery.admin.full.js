@@ -1,34 +1,34 @@
 /**
- * JavaScript behaviors for the CASH admin
- *
- * @package platform.org.cashmusic
- * @author CASH Music
- * @link http://cashmusic.org/
- *
- * Copyright (c) 2015, CASH Music
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * Redistributions of source code must retain the above copyright notice, this list
- * of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright notice, this
- * list of conditions and the following disclaimer in the documentation and/or other
- * materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
- * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
- * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
- * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
- * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
- * OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- **/
+* JavaScript behaviors for the CASH admin
+*
+* @package platform.org.cashmusic
+* @author CASH Music
+* @link http://cashmusic.org/
+*
+* Copyright (c) 2015, CASH Music
+* All rights reserved.
+*
+* Redistribution and use in source and binary forms, with or without modification,
+* are permitted provided that the following conditions are met:
+*
+* Redistributions of source code must retain the above copyright notice, this list
+* of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this
+* list of conditions and the following disclaimer in the documentation and/or other
+* materials provided with the distribution.
+*
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+* ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+* WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+* IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+* INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+* NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+* OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+* LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+* OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+* OF THE POSSIBILITY OF SUCH DAMAGE.
+*
+**/
 ;
 
 // insertAtCaret plugin for textarea stuff / injecting codes on page editor
@@ -36,24 +36,24 @@ jQuery.fn.extend({
 	insertAtCaret: function(myValue){
 		return this.each(function(i) {
 			if (document.selection) {
-				//For browsers like Internet Explorer
-				this.focus();
-				var sel = document.selection.createRange();
-				sel.text = myValue;
-				this.focus();
+			//For browsers like Internet Explorer
+			this.focus();
+			var sel = document.selection.createRange();
+			sel.text = myValue;
+			this.focus();
 			} else if (this.selectionStart || this.selectionStart == '0') {
-				//For browsers like Firefox and Webkit based
-				var startPos = this.selectionStart;
-				var endPos = this.selectionEnd;
-				var scrollTop = this.scrollTop;
-				this.value = this.value.substring(0, startPos)+myValue+this.value.substring(endPos,this.value.length);
-				this.focus();
-				this.selectionStart = startPos + myValue.length;
-				this.selectionEnd = startPos + myValue.length;
-				this.scrollTop = scrollTop;
+			//For browsers like Firefox and Webkit based
+			var startPos = this.selectionStart;
+			var endPos = this.selectionEnd;
+			var scrollTop = this.scrollTop;
+			this.value = this.value.substring(0, startPos)+myValue+this.value.substring(endPos,this.value.length);
+			this.focus();
+			this.selectionStart = startPos + myValue.length;
+			this.selectionEnd = startPos + myValue.length;
+			this.scrollTop = scrollTop;
 			} else {
-				this.value += myValue;
-				this.focus();
+			this.value += myValue;
+			this.focus();
 			}
 		});
 	}
@@ -61,19 +61,19 @@ jQuery.fn.extend({
 
 (function($) {
 	/**
-	 *
-	 *
-	 *
-	 * INITIAL LOAD: SET IT ALL IN MOTION
-	 *
-	 *
-	 *
-	 **/
+	*
+	*
+	*
+	* INITIAL LOAD: SET IT ALL IN MOTION
+	*
+	*
+	*
+	**/
 	$(document).ready(function() {
 		setUIBehaviors();
 		setContentBehaviors();
 
-  		// safe to call. already loaded before admin
+		// safe to call. already loaded before admin
 		FastClick.attach(document.body);
 
 		window.globaltimeout = false;
@@ -81,7 +81,7 @@ jQuery.fn.extend({
 		history.pushState(1, null, location.pathname);
 		window.addEventListener('popstate', function(e) {
 			if (e.state) {
-				refreshPageData(location.pathname,null,null,null,true);
+			refreshPageData(location.pathname,null,null,null,true);
 			}
 		}, false);
 
@@ -89,21 +89,21 @@ jQuery.fn.extend({
 
 
 	/**
-	 *
-	 *
-	 *
-	 * PAGE REDRAW AND AJAX REQUESTS
-	 *
-	 *
-	 *
-	 **/
+	*
+	*
+	*
+	* PAGE REDRAW AND AJAX REQUESTS
+	*
+	*
+	*
+	**/
 
 	/**
-	 * redrawPage (function)
-	 *
-	 * handle per-element specific redraws for each request
-	 *
-	 */
+	* redrawPage (function)
+	*
+	* handle per-element specific redraws for each request
+	*
+	*/
 	function redrawPage(data) {
 		// change the color
 		$('#mainspc, #pagetitle, #page').removeClass();
@@ -136,16 +136,16 @@ jQuery.fn.extend({
 	}
 
 	/*
-	 * doPersistentPost(url,formdata,showerror,showmessage,skiphistory) 
-	 *
-	 * When we made the move to hosted there were a lot of issues with null returns
-	 * — was never able to duplicate it locally, so it probably has something to do 
-	 * with the server config, latency, or load balancing.
-	 *
-	 * This function pulls out a lot of what was in refreshPageData and allows us to
-	 * check for null success returns and try again. Loop potential like you read
-	 * about...
-	 */
+	* doPersistentPost(url,formdata,showerror,showmessage,skiphistory)
+	*
+	* When we made the move to hosted there were a lot of issues with null returns
+	* — was never able to duplicate it locally, so it probably has something to do
+	* with the server config, latency, or load balancing.
+	*
+	* This function pulls out a lot of what was in refreshPageData and allows us to
+	* check for null success returns and try again. Loop potential like you read
+	* about...
+	*/
 	function doPersistentPost(url,formdata,showerror,showmessage,skiphistory) {
 		// do a POST to get the page data, change pushstate, redraw page
 		$.ajax({
@@ -153,9 +153,9 @@ jQuery.fn.extend({
 			url: url,
 			data: formdata+'data_only=1',
 			success: function(data) {
-				if (!data) {
+			if (!data) {
 					doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
-				} else {
+			} else {
 					if (data.initiallogin) {
 						//console.log('login');
 						$('body').removeClass('login');
@@ -165,7 +165,7 @@ jQuery.fn.extend({
 						if (data.template_name.toLowerCase().indexOf('login') >= 0) {
 							$('body').addClass('login');
 							history.pushState(1, null, cashAdminPath + '/');
-						} 
+						}
 					}
 					if (!("doredirect" in data)){ data.doredirect = false; }
 					if (data.doredirect) {
@@ -186,22 +186,22 @@ jQuery.fn.extend({
 					//$('#ajaxloading').hide();
 					$('#ajaxloading, #logo, #hero, #learnpanel, #settingspanel, #helppanel').removeClass('loading');
 					$('#pagedisplay').fadeTo(200,1);
-				}
+			}
 			},
 			error: function(obj,status,errorThrown) {
-				console.log(status + ': ' + errorThrown);
+			console.log(status + ': ' + errorThrown);
 			},
 			dataType: 'json'
 		});
 	}
 
 	/**
-	 * refreshPageData (function)
-	 *
-	 * handles the data request for each page load, manipulates history,
-	 * and decides redraw method (full redraw or redrawPage)
-	 *
-	 */
+	* refreshPageData (function)
+	*
+	* handles the data request for each page load, manipulates history,
+	* and decides redraw method (full redraw or redrawPage)
+	*
+	*/
 	function refreshPageData(url,formdata,showerror,showmessage,skiphistory) {
 		if (!formdata) {
 			formdata = '';
@@ -229,26 +229,29 @@ jQuery.fn.extend({
 	}
 
 	/**
-	 *
-	 *
-	 *
-	 * MAIN UI ELEMENT BEHAVIORS
-	 *
-	 *
-	 *
-	 **/
+	*
+	*
+	*
+	* MAIN UI ELEMENT BEHAVIORS
+	*
+	*
+	*
+	**/
 
 	/**
-	 * setContentBehaviors (function)
-	 * miscellaneous behaviors for various things — needs to run each AJAX page load
-	 *
-	 */
+	* setContentBehaviors (function)
+	* miscellaneous behaviors for various things — needs to run each AJAX page load
+	*
+	*/
 	function setContentBehaviors() {
 		// close tertiary panel
 		closePanel();
 
 		// show/hide drawers
 		prepDrawers('<div class="icon icon-arw-up"></div><!--icon-->Hide','<div class="icon icon-arw-dwn"></div><!--icon-->Show');
+
+      // deal with scalar form fields
+      listenForScalars();
 
 		// datepicker
 		$('input[type=date],input.date').datepicker();
@@ -262,12 +265,12 @@ jQuery.fn.extend({
 	}
 
 	/**
-	 * setUIBehaviors (function)
-	 *
-	 * The main UI behaviors — only needs to be run on the first page load, not on
-	 * each AJAX load-in, bind all events with on to document to preserve cross-load
-	 *
-	 */
+	* setUIBehaviors (function)
+	*
+	* The main UI behaviors — only needs to be run on the first page load, not on
+	* each AJAX load-in, bind all events with on to document to preserve cross-load
+	*
+	*/
 	function setUIBehaviors() {
 		// vital/complex behavior
 		ajaxPageBehaviors();
@@ -275,7 +278,6 @@ jQuery.fn.extend({
 		modalBehaviors();
 		textareaTabBehavior();
 		listenForModals();
-		//listenForInjectLinks();
 		moveToExample();
 
 		// page tip show/hide
@@ -292,13 +294,13 @@ jQuery.fn.extend({
 		$(document).on('swipeleft', '#page', function(e) {
 			$('body').removeClass('swiperight');
 			if (!$('body').hasClass('swipeleft') && !$('body').hasClass('swiperight')){
-				$('body').addClass("swipeleft");
+			$('body').addClass("swipeleft");
 			}
 		});
 		$(document).on('swiperight', '#page', function(e) {
 			$('body').removeClass('swipeleft');
 			if (!$('body').hasClass('swipeleft') && !$('body').hasClass('swiperight')){
-				$('body').addClass('swiperight');
+			$('body').addClass('swiperight');
 			}
 		});
 
@@ -313,16 +315,16 @@ jQuery.fn.extend({
 			$('#searchbtn').toggleClass('display');
 			$('#search').toggleClass('display');
 		});
-		
+
 		/*
-		 * THIS WILL BE NEEDED SOON - TODO - ADD BACK WHEN SOCIAL FEEDS ELEMENT IS DONE
-		 *
-		 */
+		* THIS WILL BE NEEDED SOON - TODO - ADD BACK WHEN SOCIAL FEEDS ELEMENT IS DONE
+		*
+		*/
 		//injecting dynamic code (wait for it)
 		$(document).on('click','a.injectcode',function(e) {
 			e.preventDefault();
 			if ($('#template')) {
-				$('#template').insertAtCaret('{{{element_' + $(this).data('elementid') + '}}}');
+			$('#template').insertAtCaret('{{{element_' + $(this).data('elementid') + '}}}');
 			}
 		});
 
@@ -338,33 +340,33 @@ jQuery.fn.extend({
 		});
 
 		$(document).on('change','#current-campaign',function(event) {
-     		$(this).closest('form').submit();
-     	});
+			$(this).closest('form').submit();
+		});
 
-     	$(document).on('change','#current-published-campaign',function(event) {
-     		//$(this).closest('form').submit();
-     		var tmplt = $(this).find(':selected').data('template');
-     		if (!tmplt) {
-     			doMessage('','Before you can publish this campaign, you need to set its page theme. Open the campaign and click the edit icon to start.',true);
-     		} else {
-     			doMessage('','This will change your public page. Are you sure?',true,$(this).find(':selected').data('path'));
-     		}
-     	});
+		$(document).on('change','#current-published-campaign',function(event) {
+			//$(this).closest('form').submit();
+			var tmplt = $(this).find(':selected').data('template');
+			if (!tmplt) {
+				doMessage('','Before you can publish this campaign, you need to set its page theme. Open the campaign and click the edit icon to start.',true);
+			} else {
+				doMessage('','This will change your public page. Are you sure?',true,$(this).find(':selected').data('path'));
+			}
+		});
 
 		// element embed highlight-and-copy code
 		$(document).on('click', '.codearea', function(e) {
 			element = this;
 			if (document.body.createTextRange) {
-				var range = document.body.createTextRange();
-				range.moveToElementText(element);
-				range.select();
-		   } else if (window.getSelection) {
-				var selection = window.getSelection();        
-				var range = document.createRange();
-				range.selectNodeContents(element);
-				selection.removeAllRanges();
-				selection.addRange(range);
-		   }
+			var range = document.body.createTextRange();
+			range.moveToElementText(element);
+			range.select();
+		} else if (window.getSelection) {
+			var selection = window.getSelection();
+			var range = document.createRange();
+			range.selectNodeContents(element);
+			selection.removeAllRanges();
+			selection.addRange(range);
+		}
 		});
 
 		$(document).on('click', '.multipart-next', function (e) {
@@ -372,27 +374,27 @@ jQuery.fn.extend({
 
 			var forcestop = false;
 			$($(mpForm.form).children('.part-'+mpForm.section)[0]).find('input,select,textarea').each(function() { // replace this with a hunt for specific children?
-				if (!validator.element($(this))) {
+			if (!validator.element($(this))) {
 					forcestop = true;
 					return false;
-				}
+			}
 			});
 
 			if (!forcestop) {
-				$(mpForm.form.children('.part-'+mpForm.section)[0]).hide();
-				mpForm.section = mpForm.section+1;
-				if (mpForm.section > mpForm.total) {
+			$(mpForm.form.children('.part-'+mpForm.section)[0]).hide();
+			mpForm.section = mpForm.section+1;
+			if (mpForm.section > mpForm.total) {
 					$($(mpForm.form).children('.section.basic-information')[0]).fadeIn();
 					$(mpForm.steps).text(
 						'Finalize: ' + $($(mpForm.form).children('.section.basic-information')[0]).data('section-name')
 					);
 					$(mpForm.submit).show();
-				} else {
+			} else {
 					$($(mpForm.form).children('.part-'+mpForm.section)[0]).fadeIn();
 					$(mpForm.steps).text(
 						'Step ' + mpForm.section + ' of ' + mpForm.total + ': ' + $($(mpForm.form).children('.part-'+mpForm.section)[0]).data('section-name')
 					);
-				}
+			}
 			}
 		});
 
@@ -402,7 +404,7 @@ jQuery.fn.extend({
 			mpForm.section = mpForm.section-1;
 			$($(mpForm.form).children('.part-'+mpForm.section)[0]).fadeIn();
 			$(mpForm.steps).text(
-				'Step ' + mpForm.section + ' of ' + mpForm.total + ': ' + $($(mpForm.form).children('.part-'+mpForm.section)[0]).data('section-name')
+			'Step ' + mpForm.section + ' of ' + mpForm.total + ': ' + $($(mpForm.form).children('.part-'+mpForm.section)[0]).data('section-name')
 			);
 		});
 
@@ -410,16 +412,16 @@ jQuery.fn.extend({
 			e.preventDefault();
 			e.stopPropagation();
 			jQuery.post(this.href,'data_only=1', function(data) {
-				$('div.modallightbox').html(
+			$('div.modallightbox').html(
 					'<h4>' + data.ui_title + '</h4>' +
-					 data.content + //jQuery.param(data) +
-					 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a></div>'
-				);
-				$('.store .modallightbox h4').css('width','62%');
+					data.content + //jQuery.param(data) +
+					'<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a></div>'
+			);
+			$('.store .modallightbox h4').css('width','62%');
 
-				$(document).bind('scroll',handleModalScroll);
-				handleMultipartForms();
-				formValidateBehavior();
+			$(document).bind('scroll',handleModalScroll);
+			handleMultipartForms();
+			formValidateBehavior();
 			},'json')
 		});
 
@@ -428,15 +430,15 @@ jQuery.fn.extend({
 			var p = $(e.target).prev('input[type="password"]').attr('value');
 
 			$(e.target).parent().children('.needsreveal').each(function() {
-				var value = $(this).prop('value');
-				
-				if($(this).prop('type') == 'password') {
+			var value = $(this).prop('value');
+
+			if($(this).prop('type') == 'password') {
 					$(this).attr('type','text');
-				} else {
+			} else {
 					$(this).attr('type','password');
-				}
-				
-				$(this).attr('value',value);
+			}
+
+			$(this).attr('value',value);
 			});
 		});
 
@@ -453,7 +455,7 @@ jQuery.fn.extend({
 			$(this).parent().toggleClass('display');
 		});
 
-		// tertiary panel 
+		// tertiary panel
 		$(document).on('click', '.paneltitle', function (e) {
 			closePanel();
 		});
@@ -480,7 +482,7 @@ jQuery.fn.extend({
 		});
 
 		// swipe hint hide on click
-		$(document).on('click', '.swipehint', function (e) {		
+		$(document).on('click', '.swipehint', function (e) {
 			$(this).addClass('hide');
 		});
 	}
@@ -488,12 +490,12 @@ jQuery.fn.extend({
 	function refreshPanelData(url){
 		$.post(url, 'data_only=1', function(data) {
 			if ($('body').hasClass('help')) {
-  				$('#helppanel .panelcontent').html($(data.content));
-  			} else if ($('body').hasClass('settings')) {
-  				$('#settingspanel .panelcontent').html($(data.content));
-  			}
-  			formValidateBehavior();
-  		});	
+				$('#helppanel .panelcontent').html($(data.content));
+			} else if ($('body').hasClass('settings')) {
+				$('#settingspanel .panelcontent').html($(data.content));
+			}
+			formValidateBehavior();
+		});
 	};
 
 	// close the tertiary panel entirely
@@ -506,12 +508,12 @@ jQuery.fn.extend({
 		if ($('#cnvs').length) {
 			var dataseed = $('#cnvs').data('seed');
 			if (dataseed) {
-				var seed = dataseed.toString().split('').reverse();
-			
-				var imno = Math.ceil((Number(seed[0]) + 1) / 2);
-				var atno = Math.ceil((Number(seed[1]) + 1) / 2);
+			var seed = dataseed.toString().split('').reverse();
 
-				var colors = [
+			var imno = Math.ceil((Number(seed[0]) + 1) / 2);
+			var atno = Math.ceil((Number(seed[1]) + 1) / 2);
+
+			var colors = [
 					// pink, purple, orange, red, green
 					"250,56,102",
 					"106,56,250",
@@ -524,15 +526,15 @@ jQuery.fn.extend({
 					"255,124,18",
 					"250,56,56",
 					"0,207,127"
-				];
+			];
 
-				var alphas = [
+			var alphas = [
 					"0.9",
 					"0.6",
 					"0.3"
-				];
+			];
 
-				var widths = [
+			var widths = [
 					9,
 					24,
 					60,
@@ -543,21 +545,21 @@ jQuery.fn.extend({
 					240,
 					270,
 					330
-				];
-			
-				var bg = new Image();
-				bg.src = cashAdminPath+"/assets/images/glitch/background/glitch"+imno+".jpg";
-				bg.addEventListener("load", function() {
+			];
+
+			var bg = new Image();
+			bg.src = cashAdminPath+"/assets/images/glitch/background/glitch"+imno+".jpg";
+			bg.addEventListener("load", function() {
 					var cw = $('#cnvs').width();
 					var ch = $('#cnvs').height();
 					var cnvs = document.getElementById('cnvs').getContext('2d');
 
 					cnvs.drawImage(bg,0,0);
-					
+
 					olay = new Image();
 					olay.src = cashAdminPath+"/assets/images/glitch/artist/artist"+atno+".jpg";
 					olay.addEventListener("load", function() {
-												
+
 						cnvs.globalCompositeOperation = "screen";
 						//cnvs.globalAlpha = 0.9;
 
@@ -573,15 +575,15 @@ jQuery.fn.extend({
 								0,
 								widths[Number(seed[2])],
 								ch
-							);	
+							);
 							i = i + widths[Number(seed[2])];
 						}
 
-	    				cnvs.save();
+						cnvs.save();
 
-	    				cnvs.globalCompositeOperation = "hard-light";
+						cnvs.globalCompositeOperation = "hard-light";
 
-	    				var g = cnvs.createLinearGradient(0,0,$('#cnvs').width()/2,0);
+						var g = cnvs.createLinearGradient(0,0,$('#cnvs').width()/2,0);
 						g.addColorStop(0,'rgba(' + colors[Number(seed[3])] + ',' + alphas[Number(seed[3]) % 3] + ')');
 						g.addColorStop(1,'rgba(' + colors[Number(seed[4])] + ',' + alphas[Number(seed[3]) % 3] + ')');
 
@@ -592,10 +594,10 @@ jQuery.fn.extend({
 
 						$('#cnvs').addClass('display');
 					}, false);
-				}, false);
+			}, false);
 			}
 		}
-	};	
+	};
 
 
 	/* Show/Hide Element Gallery */
@@ -603,27 +605,27 @@ jQuery.fn.extend({
 	function moveToExample() {
 		$(document).on('mouseenter', '.elementdisplay', function(e) {
 			if (!$(this).hasClass('injectcode')) {
-				e.preventDefault();	
-				var panel_name = $(this).attr('name');
-				// the timeout slows it down just enough we don't get accidental changes on a 
-				// quick pass through a menu element to the right panel
-				window.globaltimeout = window.setTimeout(function(){
+			e.preventDefault();
+			var panel_name = $(this).attr('name');
+			// the timeout slows it down just enough we don't get accidental changes on a
+			// quick pass through a menu element to the right panel
+			window.globaltimeout = window.setTimeout(function(){
 					// Math.floor to avoid weird pixel fractions. the -34 accounts for padding
 					$('.gallery').stop().animate({ scrollLeft:Math.floor($(panel_name).position().left) - 34}, "slow");
-				}, 150);
-				$('.example').removeClass('current');
-				$('.gallery '+panel_name).addClass('current');
-			} 
+			}, 150);
+			$('.example').removeClass('current');
+			$('.gallery '+panel_name).addClass('current');
+			}
 		});
 
 		$(document).on('mouseleave', '.elementdisplay', function(e) {
-			e.preventDefault();	
-  			//$('.gallery').animate({ scrollLeft: 0}, "fast");
-  			if (window.globaltimeout) {
-  				window.clearTimeout(window.globaltimeout);
-  			}
-  		});
-	};		
+			e.preventDefault();
+			//$('.gallery').animate({ scrollLeft: 0}, "fast");
+			if (window.globaltimeout) {
+				window.clearTimeout(window.globaltimeout);
+			}
+		});
+	};
 
 	// ZeroClipboard
 	function ZclipBoard() {
@@ -632,59 +634,59 @@ jQuery.fn.extend({
 		var client = new ZeroClipboard($(".copy"));
 		client.on( "ready", function( readyEvent ) {
 			//alert ("ready!");
-  			client.on( "aftercopy", function( event ) {
-    			alert("Embed Code Copied To Clipboard." ) //+ event.data["text/plain"] )
-  			} );
+			client.on( "aftercopy", function( event ) {
+				alert("Embed Code Copied To Clipboard." ) //+ event.data["text/plain"] )
+			} );
 
 		} );
-	};	
+	};
 
 
 	/**
-	 *
-	 *
-	 *
-	 * DO LINKS AND FORMS VIA AJAX
-	 *
-	 *
-	 *
-	 **/
+	*
+	*
+	*
+	* DO LINKS AND FORMS VIA AJAX
+	*
+	*
+	*
+	**/
 
-	 function ajaxPageBehaviors() {
-	 	// open local (admin) links via AJAX
+	function ajaxPageBehaviors() {
+		// open local (admin) links via AJAX
 		// cashAdminPath is set in the main template to the www_base of the admin
 		$(document).on('click', 'a[href^="' + cashAdminPath + '"]', function(e) {
 			var el = $(e.currentTarget);
 			if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
-				&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
-				&& !el.hasClass('noajax') && !el.parents('div').hasClass('inner')
-				&& (!$('body').hasClass('store') && el.attr('href').indexOf('elements/add') && !$('body').hasClass('page-editor') && !el.hasClass('connection'))
+			&& !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
+			&& !el.hasClass('noajax') && !el.parents('div').hasClass('inner')
+			&& (!$('body').hasClass('store') && el.attr('href').indexOf('elements/add') && !$('body').hasClass('page-editor') && !el.hasClass('connection'))
 			) {
-				e.preventDefault();
-				var url = el.attr('href');
-				refreshPageData(url);
-				el.blur();
+			e.preventDefault();
+			var url = el.attr('href');
+			refreshPageData(url);
+			el.blur();
 
 			// if inside the tertiary panel or a panel touchpoint
 			} else if (el.parents('div').hasClass('inner') && !el.hasClass('connection') && !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation')){
-				e.preventDefault();
-				$('.panelcontent').removeClass('display');
-				var url = el.attr('href');
-  				refreshPanelData(url);
-  				$('.panelcontent').addClass('display');
-  				$('.inner a').removeClass('current');
-  				el.addClass('current');
-				el.blur();
+			e.preventDefault();
+			$('.panelcontent').removeClass('display');
+			var url = el.attr('href');
+				refreshPanelData(url);
+				$('.panelcontent').addClass('display');
+				$('.inner a').removeClass('current');
+				el.addClass('current');
+			el.blur();
 
 			// if launching the store lightbox
 			} else if (el.hasClass('store')){
-				e.preventDefault();
-				$('body').addClass('store');
-			} 
+			e.preventDefault();
+			$('body').addClass('store');
+			}
 			// if launching the pageeditor lightbox
-				else if (el.hasClass('page-editor')){
-				e.preventDefault();
-				$('body').addClass('page-editor');
+			else if (el.hasClass('page-editor')){
+			e.preventDefault();
+			$('body').addClass('page-editor');
 			}
 		});
 
@@ -695,14 +697,14 @@ jQuery.fn.extend({
 		$(document).on('submit', 'form', function(e) {
 			var el = $(e.currentTarget);
 			if (el.attr('action').toLowerCase().indexOf('s3.amazonaws') < 1 && !el.hasClass('noajax')) {
-				e.preventDefault();
+			e.preventDefault();
 			}
 		});
 		*/
-	 }
+	}
 
-	 // submit a form via AJAX
-	 function ajaxFormSubmit(form) {
+	// submit a form via AJAX
+	function ajaxFormSubmit(form) {
 		form = $(form);
 		var url = form.attr('action');
 		if (url == '') {
@@ -715,30 +717,30 @@ jQuery.fn.extend({
 		refreshPageData(url,formdata);
 	}
 
-	 // validate forms and get them ready to submit (via AJAX)
-	 // for more, see: http://jqueryvalidation.org/documentation/
+	// validate forms and get them ready to submit (via AJAX)
+	// for more, see: http://jqueryvalidation.org/documentation/
 	var validator;
 	function formValidateBehavior() {
 		$("form").each(function () {
 			var el = $(this);
 			validator = el.validate({
-				errorClass: "invalid",
-				errorElement: "span",
-				//errorLabelContainer:"#pagemessage",
-				highlight: function(element, errorClass) {
+			errorClass: "invalid",
+			errorElement: "span",
+			//errorLabelContainer:"#pagemessage",
+			highlight: function(element, errorClass) {
 					$(element).addClass(errorClass);
 					$(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
-				},
-				unhighlight: function(element, errorClass) {
+			},
+			unhighlight: function(element, errorClass) {
 					$(element).removeClass(errorClass);
 					$(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
-				},
-				submitHandler: function(f) {
+			},
+			submitHandler: function(f) {
 					//
 					//
-					// DO NOT wrap f as $(f) here or we'll convert it to a jquery object and 
+					// DO NOT wrap f as $(f) here or we'll convert it to a jquery object and
 					// trigger the submit events on loop if it fails conditions for ajaxFormSubmit
-					
+
 					// note the $() added below
 					if ($(f).attr('action').toLowerCase().indexOf('s3.amazonaws') < 1 && !$(f).hasClass('noajax')) {
 						ajaxFormSubmit(f);
@@ -746,7 +748,7 @@ jQuery.fn.extend({
 						// and note the complete lack of dollarz here
 						f.submit();
 					}
-				}
+			}
 			});
 		});
 	}
@@ -756,35 +758,35 @@ jQuery.fn.extend({
 
 
 	/**
-	 *
-	 *
-	 *
-	 * MAIN NAVIGATION 
-	 *
-	 *
-	 *
-	 **/
+	*
+	*
+	*
+	* MAIN NAVIGATION
+	*
+	*
+	*
+	**/
 
-	 /**
-	 * redrawMainNav (function)
-	 * collapse all main nav tabs, opening one if a section is specified
-	 *
-	 */
+	/**
+	* redrawMainNav (function)
+	* collapse all main nav tabs, opening one if a section is specified
+	*
+	*/
 	function redrawMainNav(section) {
 		if (section != currentSection) {
 			currentSection = section;
-			
+
 			$('div.mainnavmenu li').each(function(index) {
-				$(this).removeClass('current');
-				if ($(this).hasClass(section+'nav')) {
+			$(this).removeClass('current');
+			if ($(this).hasClass(section+'nav')) {
 					$(this).addClass('current');
-				}
+			}
 			});
-			
+
 			$('div.mainnavmenu a').each(function(index) {
-				if ($(this).hasClass(section+'nav')) {
+			if ($(this).hasClass(section+'nav')) {
 					$(this).parent().addClass('current');
-				}
+			}
 			});
 		}
 	}
@@ -794,65 +796,65 @@ jQuery.fn.extend({
 
 
 	/**
-	 *
-	 *
-	 *
-	 * ASSET FILE HANDLING UI CODE 
-	 *
-	 *
-	 *
-	 **/
+	*
+	*
+	*
+	* ASSET FILE HANDLING UI CODE
+	*
+	*
+	*
+	**/
 
-	 // handle the upload forms
+	// handle the upload forms
 	function handleUploadForms() {
 		$('#connection_id').each( function() {
 			if ( this.value > 0 ) {
-				var newUploadEndpoint = $('.file-upload-trigger').data('upload-endpoint') + this.value;
-				$('.upload-corral').fadeIn().find('.file-upload-trigger').data('upload-endpoint', newUploadEndpoint );
+			var newUploadEndpoint = $('.file-upload-trigger').data('upload-endpoint') + this.value;
+			$('.upload-corral').fadeIn().find('.file-upload-trigger').data('upload-endpoint', newUploadEndpoint );
 			}
 		});
 	}
 
-	 function assetFormBehaviors() {
-	 	// make an asset public
+	function assetFormBehaviors() {
+		// make an asset public
 		$(document).on('click', 'a[data-publicize-endpoint]', function(e) {
 			e.preventDefault();
 
 			var publicize = $.ajax({
-				url: $(this).data('publicize-endpoint'),
-				dataType: 'json'
+			url: $(this).data('publicize-endpoint'),
+			dataType: 'json'
 			}).done(function(result) {
-				}).complete(function(result) {
+			}).complete(function(result) {
 					var response = $.parseJSON(result.responseText);
 					if (response.success) {
 						$('#asset_location').val(response.location);
 						$('#connection_id').val('0');
 						$('.upload-corral').fadeOut();
 					}
-				});
+			});
 
 		});
 
 		// storage connection change handler
 		$(document).on('change', '#connection_id', function(e) {
 			if ( this.value > 0 ) {
-				//var connectionID = this.value;
-				var newUploadEndpoint = $('.file-upload-trigger').data('upload-endpoint') + this.value;
+			//var connectionID = this.value;
+			var newUploadEndpoint = $('.file-upload-trigger').data('upload-endpoint') + this.value;
 
-				var trigger = $('.upload-corral').fadeIn().find('.file-upload-trigger')
-				trigger.data('upload-endpoint', newUploadEndpoint );
+			var trigger = $('.upload-corral').fadeIn().find('.file-upload-trigger')
+			trigger.data('upload-endpoint', newUploadEndpoint );
 
-				var uploadTo = $.ajax({
+			var uploadTo = $.ajax({
 					url: newUploadEndpoint,
 					dataType: 'json',
 					data: 'data_only=1'
-				}).done(function(result) {
+			}).done(function(result) {
 					//trigger.parents('.fadedtext').fadeOut( function() {
 						trigger.parents('.drawer').find('.drawercontent').html(result.content);
 					//});
-				});
+			});
 			} else {
-				$('.upload-corral').fadeOut();
+			$('.upload-corral').fadeOut();
 			}
 		});
 
@@ -865,35 +867,35 @@ jQuery.fn.extend({
 			connectionID = $('#connection_id').val();
 
 			if ( connectionID == '0' ) {
-				alert('Sorry, can\'t upload without a connection. Have you tried a normal link?');
-				return false;
+			alert('Sorry, can\'t upload without a connection. Have you tried a normal link?');
+			return false;
 			} else {
-				trigger.parents('.fadedtext').css('height','0px');
-				trigger.parents('.fadedtext').animate({ opacity: 0 });
+			trigger.parents('.fadedtext').css('height','0px');
+			trigger.parents('.fadedtext').animate({ opacity: 0 });
 			}
 		});
-	 }
+	}
 
 
 
 
-	 /**
-	 *
-	 *
-	 *
-	 * EVENT UI CODE 
-	 *
-	 *
-	 *
-	 **/
+	/**
+	*
+	*
+	*
+	* EVENT UI CODE
+	*
+	*
+	*
+	**/
 
-	 // venue autocomplete
+	// venue autocomplete
 	function venueAutocompleteBehavior() {
 		$('.autocomplete').each( function() {
 			var acURL = $(this).data('cash-endpoint-url');
 			$(this).autocomplete({
-				// probably should do some error handling here.
-				source: function( request, response ) {
+			// probably should do some error handling here.
+			source: function( request, response ) {
 					$.ajax({
 						url: acURL + '/' + request.term,
 						dataType: "json",
@@ -910,12 +912,12 @@ jQuery.fn.extend({
 							);
 						}
 					})
-				},
-				select: function( event, ui ) {
+			},
+			select: function( event, ui ) {
 					// TODO: this is pretty ugly
 					$('#event_venue').val( ui.item.id );
-				},
-				minLength: 2
+			},
+			minLength: 2
 			});
 		});
 	}
@@ -925,16 +927,16 @@ jQuery.fn.extend({
 
 
 	/**
-	 *
-	 *
-	 *
-	 * DIALOGS, LIGHTBOXES, UI DISPLAY ENHANCEMENTS
-	 *
-	 *
-	 *
-	 **/
+	*
+	*
+	*
+	* DIALOGS, LIGHTBOXES, UI DISPLAY ENHANCEMENTS
+	*
+	*
+	*
+	**/
 
-	 function modalBehaviors() {
+	function modalBehaviors() {
 
 		// overlay cancel button event
 		$(document).on('click', '.modalcancel, .modalskip', function(e) {
@@ -942,29 +944,29 @@ jQuery.fn.extend({
 		//remove the store identifier on close
 			removeModal();
 		});
-	
+
 		// Learn tips opened by inline click
 		$(document).on('click', '.page-description', function(e) {
 
 			if($("body").hasClass("settings") || $("body").hasClass("help")){
-				$("body").removeClass("settings").removeClass("help");
-				$("body").addClass("learn");
-				$(this).addClass("display");
+			$("body").removeClass("settings").removeClass("help");
+			$("body").addClass("learn");
+			$(this).addClass("display");
 			} else if($("body").hasClass("learn")){
-				$("body").removeClass("panel");
+			$("body").removeClass("panel");
 					window.globaltimeout = window.setTimeout(function(){
 						$("body").removeClass("learn").removeClass("settings").removeClass("help");
-				}, 250);
+			}, 250);
 			} else {
-				$(this).parents("body").addClass("learn").addClass("panel");
-				$(this).addClass("display");
+			$(this).parents("body").addClass("learn").addClass("panel");
+			$(this).addClass("display");
 			}
 		});
 
 		// fade/close on escape key
 		$(document).keyup(function(e) {
 			if(e.keyCode === 27) {
-				removeModal();
+			removeModal();
 			}
 		});
 	}
@@ -995,38 +997,38 @@ jQuery.fn.extend({
 		$(document).on('click', '.lightboxed', function(e) {
 			e.preventDefault();
 			if ($(this).hasClass('closepanel')) {
-				closePanel();
+			closePanel();
 			}
 			if ($(this).hasClass('returntocurrentroute')) {
-				doModalLightbox($(this).attr('href'),true);
+			doModalLightbox($(this).attr('href'),true);
 			} else {
-				doModalLightbox($(this).attr('href'));
+			doModalLightbox($(this).attr('href'));
 			}
 			this.blur();
 		});
 	}
 
 	/**
-	 *
-	 * function handleSwitchBlocks()
-	 *
-	 * parses out div.switchblock div and shows/hides stuff as needed
-	 * ex: <div class="switchblock" data-watch="#target-select" data-default="#show-default" ...
-	 *         ... data-change="#show-on-change" data-special='{"val":"#show-if-val"}'>
-	 *
-	 **/
+	*
+	* function handleSwitchBlocks()
+	*
+	* parses out div.switchblock div and shows/hides stuff as needed
+	* ex: <div class="switchblock" data-watch="#target-select" data-default="#show-default" ...
+	*         ... data-change="#show-on-change" data-special='{"val":"#show-if-val"}'>
+	*
+	**/
 	function handleSwitchBlocks() {
 		$('div.switchblock').each( function() {
 			var w = $($(this).data('watch'));
 			if (w) {
-				// we found a select to watch
-				var c = $(this).data('change');
-				w.change(function() {
+			// we found a select to watch
+			var c = $(this).data('change');
+			w.change(function() {
 					$(c).addClass('show');
-				});
-				var v = w.val(); // grab the current val for the select 
-				var s = $(this).data('special');
-				if (s) {
+			});
+			var v = w.val(); // grab the current val for the select
+			var s = $(this).data('special');
+			if (s) {
 					// we found special values to display for certain options
 					if (typeof(s) === 'object') {
 						if (s.val) {
@@ -1058,49 +1060,49 @@ jQuery.fn.extend({
 							});
 						}
 					}
-				}
-				// we made it all the way to the end, and the monster at the end of the book
-				// is me. lovable, huggable, grover.
-				var d = $(this).data('default');
-				$(d).addClass('show'); // show the default thing
-				if (d !== c) {
+			}
+			// we made it all the way to the end, and the monster at the end of the book
+			// is me. lovable, huggable, grover.
+			var d = $(this).data('default');
+			$(d).addClass('show'); // show the default thing
+			if (d !== c) {
 					w.change(function() {
 						// hide on change
 						$(d).removeClass('show');
 					});
-				}
+			}
 			}
 		});
 	}
 
 	/**
-	 * doMessage (function)
-	 * displays a message to the user (modal/non-modal) or:
-	 *
-	 * opens a modal confirmation box for delete links, etc. essentially this is a
-	 * silly "are you sure you want to click this?" message, and it sends along a
-	 * GET param saying that it's been clicked — so the receiving controller knows
-	 * it's happened and can skip displaying any form confirmation, etc.
-	 *
-	 */
+	* doMessage (function)
+	* displays a message to the user (modal/non-modal) or:
+	*
+	* opens a modal confirmation box for delete links, etc. essentially this is a
+	* silly "are you sure you want to click this?" message, and it sends along a
+	* GET param saying that it's been clicked — so the receiving controller knows
+	* it's happened and can skip displaying any form confirmation, etc.
+	*
+	*/
 
 	function doMessage(msg,label,modal,redirectUrl) {
 		// markup for the confirmation link
 		var markup = '<div class="modalbg"><div class="modaldialog">' +
-					 '<div class="pure-u-1">' +
-					 '<h4>' + label + '</h4>';
-					 if (msg) {
-					 	markup += '<p><span class="big">' + msg + '</span></p>';
-					 }
-					 if (modal && redirectUrl) {
-					 	markup += '<input type="button" class="button modalcancel" value="Cancel" />' +
-					 			  '<input type="button" class="button modalyes" value="Yes do it" />';
-					 }
-					 if (modal && !redirectUrl) {
-					 	markup += '<input type="button" class="button modalyes" value="OK" />';
-					 }
-					 markup += '</div><!--pure-->' +
-					 '</div></div>';
+					'<div class="pure-u-1">' +
+					'<h4>' + label + '</h4>';
+					if (msg) {
+						markup += '<p><span class="big">' + msg + '</span></p>';
+					}
+					if (modal && redirectUrl) {
+						markup += '<input type="button" class="button modalcancel" value="Cancel" />' +
+									'<input type="button" class="button modalyes" value="Yes do it" />';
+					}
+					if (modal && !redirectUrl) {
+						markup += '<input type="button" class="button modalyes" value="OK" />';
+					}
+					markup += '</div><!--pure-->' +
+					'</div></div>';
 		markup = $(markup);
 		markup.hide();
 		$('body').append(markup);
@@ -1110,11 +1112,11 @@ jQuery.fn.extend({
 		} else {
 			// button events
 			$('.modalyes').on('click', function(e) {
-				e.preventDefault();
-				if (redirectUrl) {
+			e.preventDefault();
+			if (redirectUrl) {
 					refreshPageData(redirectUrl,'modalconfirm=1&redirectto='+location.pathname.replace(cashAdminPath, ''));
-				}
-				$('.modalbg').remove();
+			}
+			$('.modalbg').remove();
 			});
 		}
 
@@ -1127,50 +1129,50 @@ jQuery.fn.extend({
 		if ($(document).scrollTop() < currentScroll) {
 			currentScroll = $(document).scrollTop();
 			if (currentScroll < 0) {
-				currentScroll = 0;
+			currentScroll = 0;
 			}
 			$('.modallightbox').css('top',currentScroll+'px');
 		}
 	}
 
 	/**
-	 * doModalLightbox (function)
-	 * opens a modal input form from a specific route
-	 *
-	 */
+	* doModalLightbox (function)
+	* opens a modal input form from a specific route
+	*
+	*/
 	function doModalLightbox(route,returntocurrentroute) {
 		jQuery.post(route,'data_only=1', function(data) {
 			//removeModal();
 			var addedClass = '';
 			if (returntocurrentroute) {
-				addedClass = 'returntocurrentroute '
+			addedClass = 'returntocurrentroute '
 			}
 			var alreadyopen = $('.modallightbox').length;
 			if (!alreadyopen) {
-				// markup for the confirmation link
-				//var modalTop = $(document).scrollTop() + 120;
-				var markup = '<div class="modalbg">&nbsp;</div><div class="modallightbox ' + addedClass + '">' +
-							 //'<div class="row"><div class="twelve columns">' +
-							 '<h4>' + data.ui_title + '</h4>' +
-							 data.content + //jQuery.param(data) +
-							 //'</div></div>' +
-							 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a></div>' +
-							 '</div></div>';
+			// markup for the confirmation link
+			//var modalTop = $(document).scrollTop() + 120;
+			var markup = '<div class="modalbg">&nbsp;</div><div class="modallightbox ' + addedClass + '">' +
+							//'<div class="row"><div class="twelve columns">' +
+							'<h4>' + data.ui_title + '</h4>' +
+							data.content + //jQuery.param(data) +
+							//'</div></div>' +
+							'<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a></div>' +
+							'</div></div>';
 
-				markup = $(markup);
-				markup.hide();
-				$('body').append(markup);
-				prepDrawers('<i class="icon icon-chevron-sign-up"></i>Hide','<i class="icon icon-chevron-sign-down"></i>Show');
+			markup = $(markup);
+			markup.hide();
+			$('body').append(markup);
+			prepDrawers('<i class="icon icon-chevron-sign-up"></i>Hide','<i class="icon icon-chevron-sign-down"></i>Show');
 
-				// fix form position based on current scrolltop:
-				currentScroll = $(document).scrollTop();
-				$('.modallightbox').css('top',currentScroll+'px');
+			// fix form position based on current scrolltop:
+			currentScroll = $(document).scrollTop();
+			$('.modallightbox').css('top',currentScroll+'px');
 			} else {
-				var markup = '<h4>' + data.ui_title + '</h4>' +
-							 data.content + //jQuery.param(data) +
-							 //'</div></div>' +
-							 '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a></div>';
-				$('.modallightbox').html(markup);
+			var markup = '<h4>' + data.ui_title + '</h4>' +
+							data.content + //jQuery.param(data) +
+							//'</div></div>' +
+							'<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a></div>';
+			$('.modallightbox').html(markup);
 			}
 
 			//reload quick copy
@@ -1181,14 +1183,14 @@ jQuery.fn.extend({
 			handleMultipartForms();
 
 			if (!alreadyopen) {
-				// show the dialog with a fast fade-in
-				$('.modalbg').fadeIn('fast');
-				$('.modallightbox').fadeIn('fast', function() {
+			// show the dialog with a fast fade-in
+			$('.modalbg').fadeIn('fast');
+			$('.modallightbox').fadeIn('fast', function() {
 					// the lightboxes have forms, so tell them to validate and post by ajax...
 					formValidateBehavior();
-				});
+			});
 			} else {
-				formValidateBehavior();
+			formValidateBehavior();
 			}
 		},'json');
 	}
@@ -1201,22 +1203,29 @@ jQuery.fn.extend({
 		"steps":null
 	};
 	function handleMultipartForms() {
-		// in lightboxes: 
+		// in lightboxes:
 		mpForm.section = 1;
 		$('.modallightbox form.multipart').each(function() {
 			mpForm.form = $(this);
 			mpForm.submit = $(this).children('input[type=submit]')[0];//.value;
 			mpForm.total = $(this).data('parts');
-			$(mpForm.submit).hide();
 			$('.modallightbox form.multipart div.section').each(function() { // replace this with a hunt for specific children?
-				if (!$(this).hasClass('part-'+mpForm.section)) {
+			if (!$(this).hasClass('part-'+mpForm.section) || !mpForm.total) {
 					$(this).hide();
-				}
+			}
 			});
 			mpForm.steps = $('<h5 class="steps">Step 1 of ' + mpForm.total + ': ' + $($(mpForm.form).children('.part-'+mpForm.section)[0]).data('section-name') + '</h5>');
-			mpForm.steps.insertBefore($(this));
+		if (mpForm.total) {
+			$(mpForm.submit).hide();
+		} else {
+			$($(mpForm.form).children('.section.basic-information')[0]).fadeIn();
+			$(mpForm.steps).text(
+				'Finalize: ' + $($(mpForm.form).children('.section.basic-information')[0]).data('section-name')
+			);
+		}
+		mpForm.steps.insertBefore($(this));
 			for (var i = 1; i <= mpForm.total; i++) {
-				addMultipartButtons(i);
+			addMultipartButtons(i);
 			};
 		});
 	}
@@ -1227,16 +1236,16 @@ jQuery.fn.extend({
 		$(containerDiv).append(buttonDiv);
 		if (section <= mpForm.total) {
 			if (section == mpForm.total) {
-				// this structure means we ALWAYS need a .section.basic-information div
-				var descriptor = 'Next';
-				//var nextTitle = $($(mpForm.form).children('.section.basic-information')[0]).data('section-name');
+			// this structure means we ALWAYS need a .section.basic-information div
+			var descriptor = 'Next';
+			//var nextTitle = $($(mpForm.form).children('.section.basic-information')[0]).data('section-name');
 			} else {
-				var descriptor = 'Next';
-				//var nextTitle = $($(mpForm.form).children('.part-'+(section+1))[0]).data('section-name');
+			var descriptor = 'Next';
+			//var nextTitle = $($(mpForm.form).children('.part-'+(section+1))[0]).data('section-name');
 			}
 			if (section > 1) {
-				//var prevTitle = $($(mpForm.form).children('.part-'+(section-1))[0]).data('section-name');
-				$(buttonDiv).append($('<button class="button multipart-prev">Previous</button> '));
+			//var prevTitle = $($(mpForm.form).children('.part-'+(section-1))[0]).data('section-name');
+			$(buttonDiv).append($('<button class="button multipart-prev">Previous</button> '));
 			}
 			$(buttonDiv).append('<button class="button multipart-next">'+descriptor+'</button>');
 			$($(mpForm.form).children('.part-'+section)[0]).append(containerDiv);
@@ -1244,17 +1253,17 @@ jQuery.fn.extend({
 	}
 
 	/**
-	 * prepDrawers (function)
-	 * Simple function to roll-up and roll-down content inside a div with class "drawer" â€” will
-	 * look for a "handle" inside the div â€” an element that triggers the effect on click and remains
-	 * visible throughout.
-	 *
-	 * Pass labelTextVisible/labelTextHidden to prepend the handle width "show"/"hide" type text
-	 * Pass labelClassVisible/labelClassHidden to add classes for visible/hidden states
-	 *
-	 * Automatically closes all drawers and attaches event handlers
-	 *
-	 */
+	* prepDrawers (function)
+	* Simple function to roll-up and roll-down content inside a div with class "drawer" â€” will
+	* look for a "handle" inside the div â€” an element that triggers the effect on click and remains
+	* visible throughout.
+	*
+	* Pass labelTextVisible/labelTextHidden to prepend the handle width "show"/"hide" type text
+	* Pass labelClassVisible/labelClassHidden to add classes for visible/hidden states
+	*
+	* Automatically closes all drawers and attaches event handlers
+	*
+	*/
 	function prepDrawers(labelTextVisible,labelTextHidden,labelClassVisible,labelClassHidden) {
 
 		$('.drawer').each(function() {
@@ -1262,25 +1271,25 @@ jQuery.fn.extend({
 			var drawer, drawerHandle, drawerContent, drawerHandleLabel;
 			drawer = $(this);
 			if (drawer.find('.drawerhandleaction').length == 0) {
-				if (drawer.hasClass('noprefix')) {
+			if (drawer.hasClass('noprefix')) {
 					$.data(drawer,'labelTextHidden','');
 					$.data(drawer,'labelTextVisible','');
-				} else {
+			} else {
 					$.data(drawer,'labelTextHidden',labelTextHidden);
 					$.data(drawer,'labelTextVisible',labelTextVisible);
-				}
-				drawerHandle = drawer.find('.drawerhandle');
-				drawerContent = drawer.find('.drawercontent');
-				// create the label span and add necessary classes
-				drawerHandleLabel = $('<span class="drawerhandleaction">' + $.data(drawer,'labelTextHidden') + ' </span>');
-				if (labelClassVisible) {
+			}
+			drawerHandle = drawer.find('.drawerhandle');
+			drawerContent = drawer.find('.drawercontent');
+			// create the label span and add necessary classes
+			drawerHandleLabel = $('<span class="drawerhandleaction">' + $.data(drawer,'labelTextHidden') + ' </span>');
+			if (labelClassVisible) {
 					drawerHandleLabel.addClass(labelClassHidden);
-				}
-				// first hide the content add a label to all the drawerhandles
-				drawerContent.hide();
-				drawerHandle.prepend(drawerHandleLabel);
-				// then set up click actions on each of them
-				$(this).find('.drawerhandle').on('click',function () {
+			}
+			// first hide the content add a label to all the drawerhandles
+			drawerContent.hide();
+			drawerHandle.prepend(drawerHandleLabel);
+			// then set up click actions on each of them
+			$(this).find('.drawerhandle').on('click',function () {
 					$(this).blur();
 					if (drawerContent.is(':hidden')) {
 						drawerContent.slideDown(200, function () {
@@ -1300,14 +1309,20 @@ jQuery.fn.extend({
 							}
 						});
 					}
-				});
+			});
 			}
 		});
 	}
 
 	/*
-	 * TODO: this stuff will come back with social feeds. ditch for now but do not delete
-	 *
+	* TODO: this stuff will come back with social feeds. ditch for now but do not delete
+	*
+
+	1. hide all "scalar" divs
+	2. use data-actiontext for the link after the div
+	3. on click create the clone BEFORE the add div
+	4. add a "Remove" link to the clone
+
 	function listenForInjectLinks() {
 		// inserts html into the current document/form (dynamic inputs primarily)
 		// grabs rel, inserts rev data and iterates the name, changing the rel
@@ -1317,17 +1332,17 @@ jQuery.fn.extend({
 			e.currentTarget.blur();
 			var iteration = $(e.currentTarget).attr('rel');
 			if (iteration) {
-				jQuery.data(e.currentTarget,'nameiteration',iteration);
+			jQuery.data(e.currentTarget,'nameiteration',iteration);
 			} else {
-				iteration = 1;
+			iteration = 1;
 			}
 			$(e.currentTarget).attr('rel',iteration);
 			var toinsert = $(e.currentTarget).attr('rev');
 			var names = toinsert.match(/name='([^']*)/g);
 			if (names) {
-				jQuery.each(names, function(index, name) {
+			jQuery.each(names, function(index, name) {
 					toinsert = toinsert.replace(name, name+iteration);
-				});
+			});
 			}
 			$(e.currentTarget).before('<div>' + toinsert + '</div>');
 			$(e.currentTarget).attr('rel',iteration+1);
@@ -1335,23 +1350,55 @@ jQuery.fn.extend({
 	}
 	*/
 
+   function listenForScalars() {
+      $('div.scalar').each(function( index ) {
+         $(this).hide();
+
+         var cloneButton = $('<a href="#" class="clonebutton">' + $(this).data('actiontext') + '</a>');
+         var cloneMarkup = $(this).html();
+         var cloneCount = 0;
+         var clonedFrom = $(this).data('name');
+         $(this).after(cloneButton);
+
+         cloneButton.click(function(e) {
+            e.preventDefault();
+            var cloned = $('<div class="clonedscalar">' + cloneMarkup + '</div>');
+            cloned.children().each(function() {
+               if ($(this).attr('name')) {
+                  $(this).attr('name',$(this).attr('name')+'-clone-'+clonedFrom+'-'+cloneCount);
+               }
+            });
+            cloneCount++;
+            var removeButton = $('<a href="#" class="removebutton">Remove</a>');
+            $(removeButton).click(function(e) {
+               e.preventDefault();
+               cloned.fadeOut(400, function() {
+                  cloned.detach();
+               });
+            });
+            cloned.append(removeButton);
+            $(this).before(cloned);
+         });
+      });
+   }
+
 	function textareaTabBehavior() {
 		$(document).on('keydown', 'textarea.taller', function(e) {
 			// repurposed from here: http://jsfiddle.net/sdDVf/8/
 
-			if(e.keyCode === 9) { 
-				var start = this.selectionStart;
+			if(e.keyCode === 9) {
+			var start = this.selectionStart;
 					end = this.selectionEnd;
-				var target = $(this);
+			var target = $(this);
 
-				// set textarea value to: text before caret + tab + text after caret
-				target.val(target.val().substring(0, start)
+			// set textarea value to: text before caret + tab + text after caret
+			target.val(target.val().substring(0, start)
 							+ "\t"
 							+ target.val().substring(end));
 
-				// put caret at right position again
-				this.selectionStart = this.selectionEnd = start + 1;
-				return false;
+			// put caret at right position again
+			this.selectionStart = this.selectionEnd = start + 1;
+			return false;
 			}
 		});
 	}

@@ -2,21 +2,21 @@
 if (!$request_parameters) {
 	AdminHelper::controllerRedirect('/');
 }
- 
+
 $current_element = $cash_admin->setCurrentElement($request_parameters[0]);
 
 if ($current_element) {
-	$cash_admin->page_data['form_state_action'] = 'doelementedit';	
+	$cash_admin->page_data['form_state_action'] = 'doelementedit';
 	$cash_admin->page_data = array_merge($cash_admin->page_data,$current_element);
 	$effective_user = $cash_admin->effective_user_id;
-	
+
 	if ($current_element['user_id'] == $effective_user) {
 		// handle template change
 		if (isset($_POST['change_template_id'])) {
 			if ($_POST['change_template_id'] != $_POST['current_template_id']) {
 				$new_template_id = $cash_admin->requestAndStore(
 					array(
-						'cash_request_type' => 'element', 
+						'cash_request_type' => 'element',
 						'cash_action' => 'setelementtemplate',
 						'element_id' => $request_parameters[0],
 						'template_id' => $_POST['change_template_id']
@@ -27,7 +27,7 @@ if ($current_element) {
 						// delete old custom templates
 						$cash_admin->requestAndStore(
 							array(
-								'cash_request_type' => 'system', 
+								'cash_request_type' => 'system',
 								'cash_action' => 'deletetemplate',
 								'template_id' => $_POST['current_template_id']
 							)
@@ -38,17 +38,17 @@ if ($current_element) {
 			}
 		}
 
-		// deal with templates 
+		// deal with templates
 		$embed_templates = AdminHelper::echoTemplateOptions('embed',$cash_admin->page_data['template_id']);
 		$cash_admin->page_data['template_options'] = $embed_templates;
-		
+
 		if ($cash_admin->page_data['template_id'] >= 0) {
 			$cash_admin->page_data['custom_template'] = true;
 		}
 
 		$analytics = $cash_admin->requestAndStore(
 			array(
-				'cash_request_type' => 'element', 
+				'cash_request_type' => 'element',
 				'cash_action' => 'getanalytics',
 				'analtyics_type' => 'elementbasics',
 				'element_id' => $request_parameters[0],
@@ -108,21 +108,73 @@ if ($current_element) {
 		// Set basic id/name stuff for the element
 		AdminHelper::setBasicElementFormData($cash_admin);
 
+		/*
+		function getOptionData($name,$values,$type,$parent=false,$count=0) {
+			if (!$parent) {
+				$parent = $current_element['options'];
+			}
+			if ($type == 'select') {
+				$selected = 0;
+				if (isset($parent[$name])) {
+					$selected = $parent[$name];
+				}
+				$default_val = AdminHelper::echoFormOptions($values['values'],$selected,false,true);
+			} else if ($type == 'options' || $type == 'scalar') {
+				// return array for these guys (flat, with all values set with appended count)
+				$returnarray = array();
+				if (isset($parent[$name])) {
+					$scalarcount = 0;
+					foreach ($variable as $key => $value) {
+
+						$scalarcount++;
+					}
+				}
+			} else {
+				if (isset($parent[$name])) {
+					$default_val = $parent[$name];
+				} else {
+					if (isset($values['default']) {
+						if ($values['type'] == 'boolean') {
+							if ($values['default']) {
+								$default_val = true;
+							}
+						} else if ($values['type'] == 'number') {
+							$default_val = $values['default'];
+						} else {
+							$default_val = $values['default']['en'];
+						}
+					}
+				}
+			}
+			return $default_val;
+		}
+
+
+			1. get scalar defaults [check]
+			2. get options defaults too [check]
+			3. fuck nesting [check]
+			4. get stored values for all, including scalar and options
+			5. fucking i don't know like spit it out to mustache or some shit?
+		*/
+
 		$app_json = AdminHelper::getElementAppJSON($current_element['type']);
 		if ($app_json) {
+			$element_defaults = AdminHelper::getElementDefaults($app_json['options']);
+			$cash_admin->page_data = array_merge($cash_admin->page_data,$element_defaults);
+
 			foreach ($app_json['options'] as $section_name => $details) {
 				foreach ($details['data'] as $data => $values) {
 					// 95% of the time all options will be set, but we check in case NEW options
 					// have been added to the app.json definition since this element was first added
 					if (isset($current_element['options'][$data])) {
 						if ($values['type'] == 'select') {
-							$default_val = AdminHelper::echoFormOptions(str_replace('/','_',$values['values']),$current_element['options'][$data],false,true);
+								$default_val = AdminHelper::echoFormOptions($values['values'],$current_element['options'][$data],false,true);
 						} else {
 							$default_val = $current_element['options'][$data];
 						}
 					} else {
 						// option not defined, so instead spit out defaults
-						if (isset($values['default']) && $values['type'] !== 'select') {
+						if (isset($values['default']) && ($values['type'] !== 'select' || $values['type'] !== 'scalar' || $values['type'] !== 'options')) {
 							if ($values['type'] == 'boolean') {
 								if ($values['default']) {
 									$default_val = true;
@@ -134,7 +186,7 @@ if ($current_element) {
 							}
 						}
 						if ($values['type'] == 'select') {
-							$default_val = AdminHelper::echoFormOptions(str_replace('/','_',$values['values']),0,false,true);
+							$default_val = AdminHelper::echoFormOptions($values['values'],0,false,true,false);
 						}
 					}
 					$cash_admin->page_data['options_' . $data] = $default_val;
@@ -147,7 +199,7 @@ if ($current_element) {
 
 		$campaign_response = $cash_admin->requestAndStore(
 			array(
-				'cash_request_type' => 'element', 
+				'cash_request_type' => 'element',
 				'cash_action' => 'getcampaignforelement',
 				'id' => $current_element['id']
 			)
