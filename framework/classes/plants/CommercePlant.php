@@ -28,6 +28,8 @@ class CommercePlant extends PlantBase {
 			'addorder'            => array('addOrder','direct'),
 			'addtransaction'      => array('addTransaction','direct'),
 			'deleteitem'          => array('deleteItem','direct'),
+			'deleteitemvariant'   => array('deleteItemVariant','direct'),
+			'deleteitemvariants'  => array('deleteItemVariants','direct'),
 			'edititem'            => array('editItem','direct'),
 			'edititemvariant'   	=> array('editItemVariant','direct'),
 			'editorder'           => array('editOrder','direct'),
@@ -138,7 +140,7 @@ class CommercePlant extends PlantBase {
 			$item = $result[0];
 
 			if ($with_variants) {
-				$item['variants'] = $this->getItemVariants($id);
+				$item['variants'] = $this->getItemVariants($id, $user_id);
 			}
 
 			return $item;
@@ -147,13 +149,20 @@ class CommercePlant extends PlantBase {
 		}
 	}
 
-	protected function getItemVariants($item_id, $exclude_empties = false) {
+	protected function getItemVariants($item_id, $exclude_empties = false, $user_id=false) {
 		$condition = array(
 			"item_id" => array(
 				"condition" => "=",
 				"value" => $item_id
 			)
 		);
+
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
 
 		$result = $this->db->getData(
 			'item_variants',
@@ -266,7 +275,7 @@ class CommercePlant extends PlantBase {
 		return $result;
 	}
 
-	protected function editItemVariant($id, $quantity) {
+	protected function editItemVariant($id, $quantity, $user_id=false) {
 
 		$condition = array(
 			"id" => array(
@@ -274,6 +283,13 @@ class CommercePlant extends PlantBase {
 				"value" => $id,
 			)
 		);
+
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
 
 		$updates = array(
 			'quantity' => $quantity
@@ -304,6 +320,60 @@ class CommercePlant extends PlantBase {
 			'items',
 			$condition
 		);
+
+		if (!$result) {
+			return false;
+		}
+
+		$result = $this->deleteItemVariants($id, $user_id);
+
+		return $result;
+	}
+
+	protected function deleteItemVariant($id, $user_id=false) {
+
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $id
+			)
+		);
+
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
+
+		$result = $this->db->deleteData(
+			'item_variants',
+			$condition
+		);
+		return $result;
+	}
+
+	protected function deleteItemVariants($item_id, $user_id=false) {
+
+		$condition = array(
+			"item_id" => array(
+				"condition" => "=",
+				"value" => $item_id
+			)
+		);
+
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
+
+		$result = $this->db->deleteData(
+			'item_variants',
+			$condition
+		);
+
 		return $result;
 	}
 
@@ -323,7 +393,7 @@ class CommercePlant extends PlantBase {
 			$length = count($result);
 
 			for ($index = 0; $index < $length; $index++) {
-				$result[$index]['variants'] = $this->getItemVariants($result[$index]['id']);
+				$result[$index]['variants'] = $this->getItemVariants($result[$index]['id'], false, $user_id);
 			}
 		}
 
