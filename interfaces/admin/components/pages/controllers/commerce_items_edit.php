@@ -90,5 +90,5 @@ if (is_array($item_response['payload'])) {
 }
 
 $cash_admin->page_data['form_state_action'] = 'doitemedit';
-$cash_admin->setPageContentTemplate('commerce_items_details');
+$cash_admin->setPageContentTemplate('commerce_items_edit');
 ?>
