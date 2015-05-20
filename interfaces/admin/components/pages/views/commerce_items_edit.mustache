@@ -41,6 +41,74 @@
 		<input type="checkbox" name="item_physical" id="item_physical"{{#physical_fulfillment}} checked="checked"{{/physical_fulfillment}} class="checkorradio" /> Physical goods? (Will require shipping address)
 	</label>
 	</div><!--pure-->
+
+
+<div class="drawer prefpanel pure-u-1">
+	<div class="itemnav pure-u-1">
+	<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>Item variants</span></h4>
+	<div class="drawercontent">
+	<div class=" section part-1" data-section-name="Establish Item Variants">
+		<div class="pure-u-1">
+			<label for="item_name">Primary variant name</label>
+			<input type="text" id="primary_variant_name" name="primary_variant_name" value="{{primary_variant_name}}" placeholder="e.g color" class="required" />
+			<label for="item_name">Secondary variant name</label>
+			<input type="text" id="secondary_variant_name" name="secondary_variant_name" value="{{secondary_variant_name}}" placeholder="e.g size" />
+		</div><!--pure-->
+	</div><!--section-->
+	<input class="button" type="submit" value="Next">
+	<h4>Create &ldquo;{primary_variant_name}&rdquo; options:</h4>
+	<div class="section part-2" data-section-name="Establish Primary Variant Options">
+		<div class="pure-u-1">
+			<label for="item_name">Option One</label>
+			<input type="text" id="primary_variant_option1" name="primary_variant_option1" value="{{primary_variant_option1}}" placeholder="e.g purple" class="required" />
+		</div><!--pure-->
+	</div><!--section-->
+	
+	<input class="button" type="submit" value="Add Option">
+	<input class="button" type="submit" value="Next">
+	<h4>Create &ldquo;{secondary_variant_name}&rdquo; options:</h4>
+	<div class="section part-3" data-section-name="Establish Secondary Variant Options">
+		<div class="pure-u-1">
+			<label for="item_name">Option One</label>
+			<input type="text" id="secondary_variant_option1" name="secondary_variant_option1" value="{{secondary_variant_option1}}" placeholder="e.g small" class="required" />
+		</div><!--pure-->
+	</div><!--section-->
+	<input class="button" type="submit" value="Add Option">
+	<input class="button" type="submit" value="Next">
+	<div class="section part-4" data-section-name="Establish Secondary Variant Options">
+		<div class="pure-u-1">
+			<table style="width:100%;">
+			<colgroup style="width:50%;" />
+			<colgroup style="width:50%;" />	
+			<thead>
+				<tr>
+					<th scope="col">Variant description</th>
+					<th scope="col">Available Quantity</th>
+				</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>Purple Small</td>
+				<td><select id="item_fulfillment_asset" name="item_fulfillment_asset" aria-invalid="false"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>
+			</tr>	
+			<tr>
+				<td>Purple Medium</td>
+				<td><select id="item_fulfillment_asset" name="item_fulfillment_asset" aria-invalid="false"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>
+			</tr>	
+			<tr>
+				<td>Purple Large</td>
+				<td><select id="item_fulfillment_asset" name="item_fulfillment_asset" aria-invalid="false"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>
+			</tr>	
+			</tbody>
+		</table>
+		</div><!--pure-->
+		<input class="button" type="submit" value="Update Quanties">
+		<input class="button" type="submit" value="Delete Variants">
+	</div><!--section-->
+	</div><!--drawercontent-->
+	</div><!--itemnav-->
+</div><!--drawer prefpanel-->
+
 <div class="pure-u-1">
 	<button type="submit">Save changes</button>
 	<a href="{{www_path}}/commerce/items/delete/{{id}}" class="button needsconfirmation"><div class="icon icon-ban"></div><!--icon-->Delete this item</a>
