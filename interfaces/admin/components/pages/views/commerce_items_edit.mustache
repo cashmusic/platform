@@ -4,7 +4,7 @@
 </header>
 </div><!--pure-->
 
-<form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/items/edit/{{id}}" name="edit_item">
+<form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/items/edit/{{id}}" name="edit_item" >
 	<input type="hidden" name="{{form_state_action}}" value="makeitso" />
 
 	<label for="item_name">Name</label>
@@ -41,8 +41,10 @@
 		<input type="checkbox" name="item_physical" id="item_physical"{{#physical_fulfillment}} checked="checked"{{/physical_fulfillment}} class="checkorradio" /> Physical goods? (Will require shipping address)
 	</label>
 	</div><!--pure-->
+</form>
 
-
+<form name="add_item_variants" class="multipart" data-parts="4" novalidate="novalidate">
+<input type="hidden" name="{{form_state_action}}" value="makeitso" />
 <div class="drawer prefpanel pure-u-1">
 	<div class="itemnav pure-u-1">
 	<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>Item variants</span></h4>
@@ -55,7 +57,7 @@
 			<input type="text" id="secondary_variant_name" name="secondary_variant_name" value="{{secondary_variant_name}}" placeholder="e.g size" />
 		</div><!--pure-->
 	</div><!--section-->
-	<input class="button" type="submit" value="Next">
+	<button class="button multipart-next">Next</button>
 	<h4>Create &ldquo;{primary_variant_name}&rdquo; options:</h4>
 	<div class="section part-2" data-section-name="Establish Primary Variant Options">
 		<div class="pure-u-1">
@@ -65,7 +67,7 @@
 	</div><!--section-->
 	
 	<input class="button" type="submit" value="Add Option">
-	<input class="button" type="submit" value="Next">
+	<button class="button multipart-next">Next</button>
 	<h4>Create &ldquo;{secondary_variant_name}&rdquo; options:</h4>
 	<div class="section part-3" data-section-name="Establish Secondary Variant Options">
 		<div class="pure-u-1">
@@ -74,7 +76,7 @@
 		</div><!--pure-->
 	</div><!--section-->
 	<input class="button" type="submit" value="Add Option">
-	<input class="button" type="submit" value="Next">
+	<button class="button multipart-next">Next</button>
 	<div class="section part-4" data-section-name="Establish Secondary Variant Options">
 		<div class="pure-u-1">
 			<table style="width:100%;">
