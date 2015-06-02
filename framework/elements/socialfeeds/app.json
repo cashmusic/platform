@@ -28,6 +28,7 @@
 						"en":"Twitter"
 					},
 					"type":"scalar",
+					"displaysize":"large",
 					"actiontext": {
 						"en":"Add a new Twitter feed"
 					},
@@ -67,8 +68,9 @@
 						"en":"Tumblr"
 					},
 					"type":"scalar",
+					"displaysize":"large",
 					"actiontext": {
-						"en":"Add a new tublr URL"
+						"en":"Add a new tumblr URL"
 					},
 					"values":{
 						"tumblrurl":{
@@ -88,13 +90,13 @@
 							"type":"text",
 							"displaysize":"small"
 						},
-						"tumblroptions":{
+						"post_types":{
 							"label":{
 								"en":"Post types"
 							},
 							"type":"options",
 							"values":{
-								"post_type_regular":{
+								"regular":{
 									"label":{
 										"en":"regular"
 									},
@@ -102,7 +104,7 @@
 									"default":true,
 									"displaysize":"small"
 								},
-								"post_type_photo":{
+								"photo":{
 									"label":{
 										"en":"photo"
 									},
@@ -110,7 +112,7 @@
 									"default":true,
 									"displaysize":"small"
 								},
-								"post_type_video":{
+								"video":{
 									"label":{
 										"en":"video"
 									},
@@ -118,7 +120,7 @@
 									"default":true,
 									"displaysize":"small"
 								},
-								"post_type_link":{
+								"link":{
 									"label":{
 										"en":"link"
 									},
@@ -126,7 +128,7 @@
 									"default":true,
 									"displaysize":"small"
 								},
-								"post_type_audio":{
+								"audio":{
 									"label":{
 										"en":"audio"
 									},
@@ -134,7 +136,7 @@
 									"default":true,
 									"displaysize":"small"
 								},
-								"post_type_quote":{
+								"quote":{
 									"label":{
 										"en":"quote"
 									},
@@ -142,7 +144,7 @@
 									"default":false,
 									"displaysize":"small"
 								},
-								"post_type_answer":{
+								"answer":{
 									"label":{
 										"en":"answer"
 									},
@@ -154,6 +156,14 @@
 						}
 					},
 					"required":false
+				},
+				"post_limit":{
+					"label":{
+						"en":"Post Limit"
+					},
+					"type":"number",
+					"default":"40",
+					"displaysize":"small"
 				}
 			}
 		}

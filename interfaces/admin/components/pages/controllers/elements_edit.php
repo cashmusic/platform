@@ -108,94 +108,12 @@ if ($current_element) {
 		// Set basic id/name stuff for the element
 		AdminHelper::setBasicElementFormData($cash_admin);
 
-		/*
-		function getOptionData($name,$values,$type,$parent=false,$count=0) {
-			if (!$parent) {
-				$parent = $current_element['options'];
-			}
-			if ($type == 'select') {
-				$selected = 0;
-				if (isset($parent[$name])) {
-					$selected = $parent[$name];
-				}
-				$default_val = AdminHelper::echoFormOptions($values['values'],$selected,false,true);
-			} else if ($type == 'options' || $type == 'scalar') {
-				// return array for these guys (flat, with all values set with appended count)
-				$returnarray = array();
-				if (isset($parent[$name])) {
-					$scalarcount = 0;
-					foreach ($variable as $key => $value) {
+		// pull stored element data
+		$cash_admin->page_data = array_merge($cash_admin->page_data,AdminHelper::getElementValues($current_element));
 
-						$scalarcount++;
-					}
-				}
-			} else {
-				if (isset($parent[$name])) {
-					$default_val = $parent[$name];
-				} else {
-					if (isset($values['default']) {
-						if ($values['type'] == 'boolean') {
-							if ($values['default']) {
-								$default_val = true;
-							}
-						} else if ($values['type'] == 'number') {
-							$default_val = $values['default'];
-						} else {
-							$default_val = $values['default']['en'];
-						}
-					}
-				}
-			}
-			return $default_val;
-		}
-
-
-			1. get scalar defaults [check]
-			2. get options defaults too [check]
-			3. fuck nesting [check]
-			4. get stored values for all, including scalar and options
-			5. fucking i don't know like spit it out to mustache or some shit?
-		*/
-
-		$app_json = AdminHelper::getElementAppJSON($current_element['type']);
-		if ($app_json) {
-			$element_defaults = AdminHelper::getElementDefaults($app_json['options']);
-			$cash_admin->page_data = array_merge($cash_admin->page_data,$element_defaults);
-
-			foreach ($app_json['options'] as $section_name => $details) {
-				foreach ($details['data'] as $data => $values) {
-					// 95% of the time all options will be set, but we check in case NEW options
-					// have been added to the app.json definition since this element was first added
-					if (isset($current_element['options'][$data])) {
-						if ($values['type'] == 'select') {
-								$default_val = AdminHelper::echoFormOptions($values['values'],$current_element['options'][$data],false,true);
-						} else {
-							$default_val = $current_element['options'][$data];
-						}
-					} else {
-						// option not defined, so instead spit out defaults
-						if (isset($values['default']) && ($values['type'] !== 'select' || $values['type'] !== 'scalar' || $values['type'] !== 'options')) {
-							if ($values['type'] == 'boolean') {
-								if ($values['default']) {
-									$default_val = true;
-								}
-							} else if ($values['type'] == 'number') {
-								$default_val = $values['default'];
-							} else {
-								$default_val = $values['default']['en'];
-							}
-						}
-						if ($values['type'] == 'select') {
-							$default_val = AdminHelper::echoFormOptions($values['values'],0,false,true,false);
-						}
-					}
-					$cash_admin->page_data['options_' . $data] = $default_val;
-				}
-			}
-			$cash_admin->page_data['ui_title'] = '' . $current_element['name'] . '';
-			$cash_admin->page_data['element_button_text'] = 'Edit the element';
-			$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render(AdminHelper::getElementTemplate($current_element['type']), $cash_admin->page_data);
-		}
+		$cash_admin->page_data['ui_title'] = '' . $current_element['name'] . '';
+		$cash_admin->page_data['element_button_text'] = 'Edit the element';
+		$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render(AdminHelper::getElementTemplate($current_element), $cash_admin->page_data);
 
 		$campaign_response = $cash_admin->requestAndStore(
 			array(

@@ -190,6 +190,7 @@
 	}
 
 	public static function getValueDefault($value) {
+		$default_val = false;
 		if (isset($value['default']) && $value['type'] !== 'select') {
 			if ($value['type'] == 'boolean') {
 				if ($value['default']) {
@@ -208,8 +209,10 @@
 			$default_val = array();
 			foreach ($value['values'] as $subdata => $subvalue) {
 				if ($subvalue['type'] == 'options') {
-					if (is_array($value['values'])) {
-						$value['values'] = array_merge($value['values'],$subvalue['values']);
+					if (is_array($subvalue['values'])) {
+						foreach ($subvalue['values'] as $subname => $subvalue) {
+							$value['values'][$subdata.'-'.$subname] = $subvalue;
+						}
 					}
 				}
 			}
@@ -220,6 +223,77 @@
 		return $default_val;
 	}
 
+	public static function formatElementValue($value,$type,$formatting_data=false) {
+		$return_val = $value;
+		if ($type == 'select') {
+			$return_val = AdminHelper::echoFormOptions($formatting_data,$value,false,true,false);
+		}
+		return $return_val;
+	}
+
+	public static function getElementValues($storedElement) {
+		$return_array = array();
+		$app_json = AdminHelper::getElementAppJSON($storedElement['type']);
+		if ($app_json) {
+			// start by getting defaults. this will populate scalars, etc.
+			$return_array = AdminHelper::getElementDefaults($app_json['options']);
+
+			foreach ($app_json['options'] as $section_name => $details) {
+
+				foreach ($details['data'] as $data => $value) {
+					if (isset($value['values'])) {
+						$formatting_data = $value['values'];
+					}
+					if ($value['type'] == 'options') {
+						if (is_array($value['values'])) {
+							foreach ($value['values'] as $subname => $subvalue) {
+								if (isset($storedElement['options'][$data][$subname])) {
+									$return_array['options_'.$value['name'].'-'.$subname] = AdminHelper::formatElementValue($storedElement['options'][$data][$subname],$subvalue['type'],$formatting_data);
+								}
+							}
+						}
+					} else if ($value['type'] == 'scalar') {
+						$scalarcount = 0;
+						if (isset($storedElement['options'][$data])) {
+							if (is_array($storedElement['options'][$data])) {
+								$scalarcount = count($storedElement['options'][$data]);
+							}
+						}
+						for ($i=0; $i < $scalarcount; $i++) {
+							foreach ($value['values'] as $subname => $subvalue) {
+								if (isset($subvalue['values'])) {
+									$formatting_data = $subvalue['values'];
+								}
+								if ($subvalue['type'] == 'options') {
+									if (is_array($subvalue['values'])) {
+										foreach ($subvalue['values'] as $sub2name => $sub2value) {
+											if (isset($sub2value['values'])) {
+												$formatting_data = $sub2value['values'];
+											}
+											if (isset($storedElement['options'][$data][$i][$subname][$sub2name])) {
+												$return_array['options_'.$subname.'-'.$sub2name.'-clone-'.$data.'-'.$i] = AdminHelper::formatElementValue($storedElement['options'][$data][$i][$subname][$sub2name],$sub2value['type'],$formatting_data);
+											}
+										}
+									}
+								} else {
+									if (isset($storedElement['options'][$data][$i][$subname])) {
+										$return_array['options_' . $subname.'-clone-'.$data.'-'.$i] = AdminHelper::formatElementValue($storedElement['options'][$data][$i][$subname],$subvalue['type'],$formatting_data);
+									}
+								}
+							}
+						}
+					} else {
+						if (isset($storedElement['options'][$data])) {
+							$return_array['options_' . $data] = AdminHelper::formatElementValue($storedElement['options'][$data],$value['type'],$formatting_data);
+						}
+					}
+				}
+			}
+		}
+
+		return $return_array;
+	}
+
 	public static function getElementDefaults($options) {
 		$return_array = array();
 		foreach ($options as $section_name => $details) {
@@ -227,7 +301,10 @@
 			foreach ($details['data'] as $data => $value) {
 				if ($value['type'] == 'options') {
 					if (is_array($value['values'])) {
-						$details['data'] = array_merge($details['data'],$value['values']);
+						foreach ($value['values'] as $subname => $subvalue) {
+							$details['data'][$data.'-'.$subname] = $subvalue;
+							//error_log('HMMM: '.$value['name'].'-'.$subname);
+						}
 					}
 				}
 			}
@@ -244,7 +321,14 @@
 		return $return_array;
 	}
 
-	public static function getElementTemplate($element_type) {
+	public static function getElementTemplate($element) {
+		if (is_array($element)) {
+			// all data sent, so you know...set the type
+			$element_type = $element['type'];
+		} else {
+			// we only got the element type, so just set that and forget it
+			$element_type = $element;
+		}
 		$app_json = AdminHelper::getElementAppJSON($element_type);
 		if ($app_json) {
 			// count sections
@@ -289,6 +373,9 @@
 				$total_count = count($details);
 				$data_keys = array_keys($details['data']);
 				foreach ($details['data'] as $data => $values) {
+					if (!isset($values['displaysize'])) {
+						$values['displaysize'] = 'large';
+					}
 					$current_count++;
 					$nextnotsmall = true;
 					if (isset($data_keys[$current_data + 1])) {
@@ -324,13 +411,25 @@
 						}
 
 						for ($i=1; $i < $current_count+1; $i++) {
+							$input_name = $data_keys[$current_data - ($current_count - $i)];
+							$input_data = $details['data'][$data_keys[$current_data - ($current_count - $i)]];
+							if ($input_data['type'] == 'scalar') {
+								if (is_array($element)) { // first we need to know there's element data
+									if (isset($element['options'][$input_name])) { // next is the option we're looking for present?
+										if (is_array($element['options'][$input_name])) { // is it an array?
+											// then party on, motherfucker!
+											$input_data['scalar_clone_count'] = count($element['options'][$input_name]);
+										}
+									}
+								}
+							}
 							$template .= '<div class="' . $column_width_text . '">' .
-										 // contents
-										 AdminHelper::drawInput(
-										 	$data_keys[$current_data - ($current_count - $i)],
-										 	$details['data'][$data_keys[$current_data - ($current_count - $i)]]
-										 ) .
-										 '</div>';
+										// contents
+										AdminHelper::drawInput(
+											$input_name,
+											$input_data
+										) .
+										'</div>';
 						}
 
 						// single small element — make sure it's not full width
@@ -377,18 +476,45 @@
 			$return_str .= '<select id="' . $input_name . '" name="' . $input_name . '" class="';
 		}
 		if ($input_data['type'] == 'boolean') {
-			$return_str = '<label class="checkbox" for="' . $input_name . '"><input type="checkbox" class="checkorradio" id="' . $input_name . '" name="' . $input_name . '"';
+			$return_str = '<label class="checkbox" for="' . $input_name . '"><input type="checkbox" class="checkorradio" id="' . $input_name . '" name="' . $input_name . '" value="1"';
 		}
 		if ($input_data['type'] == 'scalar' || $input_data['type'] == 'options') {
+			// TODO:
+			// Need to properly handle option sets
+			// Right now all options checkboxes are farted out without the clone data. dumb.
 			$return_str .= '<div class="' . $input_data['type'] . '" data-name="' . $input_name . '"';
 			if (isset($input_data['actiontext']['en'])) {
 				$return_str .= ' data-actiontext="' . $input_data['actiontext']['en'] . '"';
 			}
+			if (isset($input_data['scalar_clone_count'])) {
+				$return_str .= ' data-clonecount="' . $input_data['scalar_clone_count'] . '"';
+			}
 			$return_str .= '>';
 			foreach ($input_data['values'] as $subname => $subdata) {
-				$return_str .= AdminHelper::drawInput($subname,$subdata);
+				$prepend = '';
+				if ($input_data['type'] == 'options') {
+					$prepend = $input_name . '-';
+				}
+				$return_str .= AdminHelper::drawInput($prepend.$subname,$subdata);
 			}
 			$return_str .= '</div>';
+			if (isset($input_data['scalar_clone_count'])) {
+				for ($i=0; $i < $input_data['scalar_clone_count']; $i++) {
+					$return_str .= '<div class="clonedscalar">';
+					foreach ($input_data['values'] as $subname => $subdata) {
+						if ($subdata['type'] == 'options') {
+							$return_str .= '<div class="options" data-name="' . $subname.'-clone-'.$input_name.'-'.$i . '">';
+							foreach ($subdata['values'] as $sub2name => $sub2data) {
+								$return_str .= AdminHelper::drawInput($subname.'-'.$sub2name.'-clone-'.$input_name.'-'.$i,$sub2data);
+							}
+							$return_str .= '</div>';
+						} else {
+							$return_str .= AdminHelper::drawInput($subname.'-clone-'.$input_name.'-'.$i,$subdata);
+						}
+					}
+					$return_str .= '<a href="#" class="removescalar">Remove</a></div>';
+				}
+			}
 		}
 
 		/*
@@ -436,6 +562,54 @@
 		}
 	}
 
+	public static function processScalarData($post_data,$app_json) {
+		$return_array = array();
+		$tmp_array = array();
+		$options_in_scalars = array();
+		foreach ($app_json['options'] as $section_name => $details) {
+			foreach ($details['data'] as $data => $values) {
+				if ($values['type'] == 'scalar') {
+					if (is_array($values['values'])) {
+						foreach ($values['values'] as $subname => $subvalue) {
+							if ($subvalue['type'] == 'options') {
+								$options_in_scalars[] = $subname;
+							}
+						}
+					}
+				}
+			}
+		}
+		foreach ($post_data as $name => $data) {
+			if (strpos($name,'-clone')) {
+				$exploded = explode('-clone-',$name);
+				$root_name = $exploded[0];
+				$origin_and_index = explode('-',$exploded[1]);
+				$exploded_root = explode('-',$root_name);
+				$in_options = false;
+				if (count($exploded_root) > 1) {
+					if (in_array($exploded_root[0],$options_in_scalars)) {
+						// pop off and store the options name here:
+						$in_options = array_shift($exploded_root);
+						// put the remaining pieces of the exploded root back together
+						$root_name = implode('-',$exploded_root);
+					}
+				}
+				if (!$in_options) {
+					$tmp_array[$origin_and_index[0]][intval($origin_and_index[1])][$root_name] = $data;
+				} else {
+					$tmp_array[$origin_and_index[0]][intval($origin_and_index[1])][$in_options][$root_name] = $data;
+				}
+			}
+		}
+		// stripping the problematic middle keys
+		foreach ($tmp_array as $key => $value) {
+			foreach ($value as $removedkey => $savedvalue) {
+				$return_array[$key][] = $savedvalue;
+			}
+		}
+		return $return_array;
+	}
+
 	public static function handleElementFormPOST($post_data,&$cash_admin) {
 		global $admin_primary_cash_request;
 		if (AdminHelper::elementFormSubmitted($post_data)) {
@@ -453,11 +627,21 @@
 							} else {
 								$options_array[$data] = 0;
 							}
+						} elseif ($values['type'] == 'options') {
+							if (is_array($values['values'])) {
+								foreach ($values['values'] as $subname => $subvalues) {
+									$options_array[$data][$subname] = $post_data[$data.'-'.$subname];
+								}
+							}
 						} else {
-							$options_array[$data] = $post_data[$data];
+							if ($values['type'] != 'scalar') {
+								$options_array[$data] = $post_data[$data];
+							}
 						}
 					}
 				}
+				$scalars = AdminHelper::processScalarData($post_data,$app_json);
+				$options_array = array_merge($options_array,$scalars);
 			}
 
 			if (isset($post_data['doelementadd'])) {
@@ -1171,6 +1355,7 @@
 	 */public static function echoFormOptions($base_type,$selected=0,$range=false,$return=false,$shownone=true) {
 		global $admin_primary_cash_request;
 		$available_options = false;
+		$all_options = '';
 
 		if (is_array($base_type)) {
 			$available_options = array();
