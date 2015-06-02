@@ -368,82 +368,16 @@
 						     '<h5 class="section-header">' . $details['group_label']['en'] . '</h5>' .
 						     '<i data-tooltip="' . $details['description']['en'] .'" class="tooltip icon icon-learn"></i>' .
 						     '<div class="pure-u-1">';
-				$current_data = 0;
-				$current_count = 0;
-				$total_count = count($details);
-				$data_keys = array_keys($details['data']);
-				foreach ($details['data'] as $data => $values) {
-					if (!isset($values['displaysize'])) {
-						$values['displaysize'] = 'large';
-					}
-					$current_count++;
-					$nextnotsmall = true;
-					if (isset($data_keys[$current_data + 1])) {
-						if ($details['data'][$data_keys[$current_data + 1]]['displaysize'] !== 'small') {
-							$nextnotsmall = true;
-						} else {
-							$nextnotsmall = false;
-						}
-					}
-					if ($current_count == 4 ||
-						$current_data == ($total_count) ||
-						$values['displaysize'] !== 'small' ||
-						$nextnotsmall
-					) {
-						switch ($current_count) {
-							case 4:
-								$column_width_text = "pure-u-1 pure-u-md-1-2";
-								break;
-							case 3:
-								$column_width_text = "pure-u-1 pure-u-md-1-3";
-								break;
-							case 2:
-								$column_width_text = "pure-u-1 pure-u-md-1-2";
-								break;
-							case 1:
-								$column_width_text = "pure-u-1";
-								break;
-						}
+				//$current_data = 0;
+				//$current_count = 0;
+				//$total_count = count($details);
+				//$data_keys = array_keys($details['data']);
+				//
+				//
+				//
+				// REFACTOR THIS SHIT OUT FOR SCALAR AND HERE
+				$template .= AdminHelper::drawMarkup($element,$details['data'],count($details));
 
-						// single small element — make sure it's not full width
-						if ($values['displaysize'] == 'small' && $current_count == 1) {
-							$column_width_text = "pure-u-1 pure-u-md-1-3";
-						}
-
-						for ($i=1; $i < $current_count+1; $i++) {
-							$input_name = $data_keys[$current_data - ($current_count - $i)];
-							$input_data = $details['data'][$data_keys[$current_data - ($current_count - $i)]];
-							if ($input_data['type'] == 'scalar') {
-								if (is_array($element)) { // first we need to know there's element data
-									if (isset($element['options'][$input_name])) { // next is the option we're looking for present?
-										if (is_array($element['options'][$input_name])) { // is it an array?
-											// then party on, motherfucker!
-											$input_data['scalar_clone_count'] = count($element['options'][$input_name]);
-										}
-									}
-								}
-							}
-							$template .= '<div class="' . $column_width_text . '">' .
-										// contents
-										AdminHelper::drawInput(
-											$input_name,
-											$input_data
-										) .
-										'</div>';
-						}
-
-						// single small element — make sure it's not full width
-						if ($values['displaysize'] == 'small' && $current_count == 1) {
-							$template .= '<div class="pure-u-1 pure-u-md-1-3"></div><div class="pure-u-1 pure-u-md-1-3"></div>';
-						}
-
-						if ($current_data !== ($total_count - 1)) {
-							$template .= '</div><div class="pure-u-1">';
-						}
-						$current_count = 0;
-					}
-					$current_data++;
-				}
 				$template .= '</div></div>';
 				$current_section++;
 			}
@@ -455,7 +389,100 @@
 		}
 	}
 
-	public static function drawInput($input_name,$input_data) {
+	public static function drawMarkup($element,$input_values,$count,$cloneparent=false,$clonecount=false) {
+		$template = '';
+		$current_data = 0;
+		$current_count = 0;
+		$data_keys = array_keys($input_values);
+		foreach ($input_values as $data => $values) {
+			if (!isset($values['displaysize'])) {
+				$values['displaysize'] = 'large';
+			}
+			$current_count++;
+			$nextnotsmall = true;
+			if (isset($data_keys[$current_data + 1])) {
+				if ($input_values[$data_keys[$current_data + 1]]['displaysize'] !== 'small') {
+					$nextnotsmall = true;
+				} else {
+					$nextnotsmall = false;
+				}
+			}
+
+			if ($current_count == 4 ||
+				$current_data == ($count) ||
+				$values['displaysize'] !== 'small' ||
+				$nextnotsmall
+			) {
+				switch ($current_count) {
+					case 4:
+						$column_width_text = "pure-u-1 pure-u-md-1-2";
+						break;
+					case 3:
+						$column_width_text = "pure-u-1 pure-u-md-1-3";
+						break;
+					case 2:
+						$column_width_text = "pure-u-1 pure-u-md-1-2";
+						break;
+					case 1:
+						$column_width_text = "pure-u-1";
+						break;
+				}
+
+				// single small element — make sure it's not full width
+				if ($values['displaysize'] == 'small' && $current_count == 1) {
+					$column_width_text = "pure-u-1 pure-u-md-1-3";
+				}
+
+				for ($i=1; $i < $current_count+1; $i++) {
+					$input_name = $data_keys[$current_data - ($current_count - $i)];
+					$input_data = $input_values[$data_keys[$current_data - ($current_count - $i)]];
+					if ($input_data['type'] == 'scalar') {
+						if (is_array($element)) { // first we need to know there's element data
+							if (isset($element['options'][$input_name])) { // next is the option we're looking for present?
+								if (is_array($element['options'][$input_name])) { // is it an array?
+									// then party on, motherfucker!
+									$input_data['scalar_clone_count'] = count($element['options'][$input_name]);
+								}
+							}
+						}
+					}
+					$template .= '<div class="' . $column_width_text . '">' .
+								// contents
+								AdminHelper::drawInput(
+									$input_name,
+									$input_data,
+									$cloneparent,
+									$clonecount
+								) .
+								'</div>';
+				}
+
+				// single small element — make sure it's not full width
+				if ($values['displaysize'] == 'small' && $current_count == 1) {
+					$template .= '<div class="pure-u-1 pure-u-md-1-3"></div><div class="pure-u-1 pure-u-md-1-3"></div>';
+				}
+
+				/*
+				HEY CHRIS:
+				Not sure why this was here, but when I remove it everything works. Any idea?
+				if ($current_data !== ($count - 1)) {
+					$template .= '</div><div class="pure-u-1">';
+				}
+				*/
+				$current_count = 0;
+			}
+			$current_data++;
+		}
+		return $template;
+	}
+
+	public static function drawInput($input_name,$input_data,$cloneparent=false,$clonecount=false) {
+		// handle appending clone count stuff more intelligently
+		$original_input_name = $input_name;
+		if ($clonecount !== false) {
+			$input_name = $input_name.'-clone-'.$cloneparent.'-'.$clonecount;
+		}
+
 		// label (for everything except checkboxes)
 		if ($input_data['type'] !== 'boolean') {
 			$return_str = '<label for="' . $input_name . '">' . $input_data['label']['en'] . '</label>';
@@ -478,10 +505,15 @@
 		if ($input_data['type'] == 'boolean') {
 			$return_str = '<label class="checkbox" for="' . $input_name . '"><input type="checkbox" class="checkorradio" id="' . $input_name . '" name="' . $input_name . '" value="1"';
 		}
-		if ($input_data['type'] == 'scalar' || $input_data['type'] == 'options') {
-			// TODO:
-			// Need to properly handle option sets
-			// Right now all options checkboxes are farted out without the clone data. dumb.
+
+		if ($input_data['type'] == 'options') {
+			$return_str .= '<div class="' . $input_data['type'] . '" data-name="' . $input_name . '">';
+			foreach ($input_data['values'] as $subname => $subdata) {
+				$return_str .= AdminHelper::drawInput($original_input_name.'-'.$subname,$subdata,$cloneparent,$clonecount);
+			}
+			$return_str .= '</div>';
+		}
+		if ($input_data['type'] == 'scalar') {
 			$return_str .= '<div class="' . $input_data['type'] . '" data-name="' . $input_name . '"';
 			if (isset($input_data['actiontext']['en'])) {
 				$return_str .= ' data-actiontext="' . $input_data['actiontext']['en'] . '"';
@@ -490,65 +522,65 @@
 				$return_str .= ' data-clonecount="' . $input_data['scalar_clone_count'] . '"';
 			}
 			$return_str .= '>';
+			$return_str .= AdminHelper::drawMarkup(false,$input_data['values'],count($input_data['values']));
+			/*
+			HEY CHRIS:
+			If we run into any trouble, here's how I was doing stuff before the drawMarkup change...
 			foreach ($input_data['values'] as $subname => $subdata) {
-				$prepend = '';
-				if ($input_data['type'] == 'options') {
-					$prepend = $input_name . '-';
-				}
-				$return_str .= AdminHelper::drawInput($prepend.$subname,$subdata);
+				$return_str .= AdminHelper::drawInput($subname,$subdata);
 			}
+			*/
 			$return_str .= '</div>';
 			if (isset($input_data['scalar_clone_count'])) {
 				for ($i=0; $i < $input_data['scalar_clone_count']; $i++) {
 					$return_str .= '<div class="clonedscalar">';
+					$return_str .= AdminHelper::drawMarkup(false,$input_data['values'],count($input_data['values']),$input_name,$i);
+					/*
+					HEY CHRIS:
+					If we run into any trouble, here's how I was doing stuff before the drawMarkup change...
 					foreach ($input_data['values'] as $subname => $subdata) {
-						if ($subdata['type'] == 'options') {
-							$return_str .= '<div class="options" data-name="' . $subname.'-clone-'.$input_name.'-'.$i . '">';
-							foreach ($subdata['values'] as $sub2name => $sub2data) {
-								$return_str .= AdminHelper::drawInput($subname.'-'.$sub2name.'-clone-'.$input_name.'-'.$i,$sub2data);
-							}
-							$return_str .= '</div>';
-						} else {
-							$return_str .= AdminHelper::drawInput($subname.'-clone-'.$input_name.'-'.$i,$subdata);
-						}
+						$return_str .= AdminHelper::drawInput($subname,$subdata,$input_name,$i);
 					}
+					*/
 					$return_str .= '<a href="#" class="removescalar">Remove</a></div>';
 				}
 			}
 		}
 
-		/*
-		 declare any classes that need declaring (form validation or special functionality)
-		*/
-		if (isset($input_data['required'])) {
-			if ($input_data['required']) {
-				$return_str .= ' required';
-			}
-		}
-		if ($input_data['type'] == 'number') {
-			$return_str .= ' number';
-		}
-
-		/*
-		 close out markup
-		*/
-		if ($input_data['type'] == 'text' || $input_data['type'] == 'number') {
-			if ($input_data['type'] == 'text' && $input_data['displaysize'] == 'large') {
-				$return_str .= '">{{#options_' . $input_name .
-				'}}{{options_' . $input_name . '}}{{/options_' . $input_name . '}}{{^options_' . $input_name . '}}{{element_copy_' . $input_name . '}}{{/options_' . $input_name . '}}</textarea>';
-			} else {
-				if (isset($input_data['placeholder'])) {
-					$return_str .= ' placeholder="' . $input_data['placeholder']['en'] . '"';
+		if ($input_data['type'] != 'scalar' && $input_data['type'] != 'scalar') {
+			/*
+			 declare any classes that need declaring (form validation or special functionality)
+			*/
+			if (isset($input_data['required'])) {
+				if ($input_data['required']) {
+					$return_str .= ' required';
 				}
-				$return_str .= '" />';
 			}
-		}
-		if ($input_data['type'] == 'select') {
-			$return_str .= '">{{{options_' . $input_name . '}}}</select>';
-		}
-		if ($input_data['type'] == 'boolean') {
-			$return_str .= '{{#options_' . $input_name . '}} checked="checked"{{/options_' . $input_name . '}} /> ' .
-						   $input_data['label']['en'] . '</label>';
+			if ($input_data['type'] == 'number') {
+				$return_str .= ' number';
+			}
+
+			/*
+			 close out markup
+			*/
+			if ($input_data['type'] == 'text' || $input_data['type'] == 'number') {
+				if ($input_data['type'] == 'text' && $input_data['displaysize'] == 'large') {
+					$return_str .= '">{{#options_' . $input_name .
+					'}}{{options_' . $input_name . '}}{{/options_' . $input_name . '}}{{^options_' . $input_name . '}}{{element_copy_' . $input_name . '}}{{/options_' . $input_name . '}}</textarea>';
+				} else {
+					if (isset($input_data['placeholder'])) {
+						$return_str .= ' placeholder="' . $input_data['placeholder']['en'] . '"';
+					}
+					$return_str .= '" />';
+				}
+			}
+			if ($input_data['type'] == 'select') {
+				$return_str .= '">{{{options_' . $input_name . '}}}</select>';
+			}
+			if ($input_data['type'] == 'boolean') {
+				$return_str .= '{{#options_' . $input_name . '}} checked="checked"{{/options_' . $input_name . '}} /> ' .
+							   $input_data['label']['en'] . '</label>';
+			}
 		}
 
 		return $return_str;

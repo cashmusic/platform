@@ -95,6 +95,7 @@
 								"en":"Post types"
 							},
 							"type":"options",
+							"displaysize":"large",
 							"values":{
 								"regular":{
 									"label":{
