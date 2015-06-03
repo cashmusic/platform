@@ -1333,7 +1333,7 @@
           cloneButton.click(function(e) {
              e.preventDefault();
              var cloned = $('<div class="clonedscalar">' + cloneMarkup + '</div>');
-             cloned.children().each(function() {
+             cloned.find('*').each(function() {
                 if ($(this).attr('name')) {
                    $(this).attr('name',$(this).attr('name')+'-clone-'+clonedFrom+'-'+cloneCount);
                    $(this).attr('id',$(this).attr('id')+'-clone-'+clonedFrom+'-'+cloneCount);
