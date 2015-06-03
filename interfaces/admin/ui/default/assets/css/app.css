@@ -5286,6 +5286,9 @@ label.checklabel{
 .section .clonedscalar .removescalar .icon{
 	color:#999!important;
 	margin: 8px!important;
+	font-size: 10px;
+	height:10px;
+	width:10px;
 }
 
 .section .clonedscalar .removescalar{
@@ -5302,15 +5305,15 @@ label.checklabel{
 
 .section .clonedscalar .removescalar{
 	position:absolute;
-	top:20px;
-	right:20px;
+	top:15px;
+	right:15px;
 	text-align: center;
 	display: inline;
 	color:#f5f5f5;
 	margin:0;
 	padding:0;
-	width:30px;
-	height:30px;
+	width:26px;
+	height:26px;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	transition:0.3s ease-in-out;
