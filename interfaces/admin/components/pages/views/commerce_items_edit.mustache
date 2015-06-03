@@ -43,6 +43,7 @@
 	</div><!--pure-->
 </form>
 
+{{#hidethisbecausethisvariablewillneverbeseteverever}}
 <form name="add_item_variants" class="multipart" data-parts="4" novalidate="novalidate">
 <input type="hidden" name="{{form_state_action}}" value="makeitso" />
 <div class="drawer prefpanel pure-u-1">
@@ -65,7 +66,7 @@
 			<input type="text" id="primary_variant_option1" name="primary_variant_option1" value="{{primary_variant_option1}}" placeholder="e.g purple" class="required" />
 		</div><!--pure-->
 	</div><!--section-->
-	
+
 	<input class="button" type="submit" value="Add Option">
 	<button class="button multipart-next">Next</button>
 	<h4>Create &ldquo;{secondary_variant_name}&rdquo; options:</h4>
@@ -81,7 +82,7 @@
 		<div class="pure-u-1">
 			<table style="width:100%;">
 			<colgroup style="width:50%;" />
-			<colgroup style="width:50%;" />	
+			<colgroup style="width:50%;" />
 			<thead>
 				<tr>
 					<th scope="col">Variant description</th>
@@ -92,15 +93,15 @@
 			<tr>
 				<td>Purple Small</td>
 				<td><select id="item_fulfillment_asset" name="item_fulfillment_asset" aria-invalid="false"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>
-			</tr>	
+			</tr>
 			<tr>
 				<td>Purple Medium</td>
 				<td><select id="item_fulfillment_asset" name="item_fulfillment_asset" aria-invalid="false"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>
-			</tr>	
+			</tr>
 			<tr>
 				<td>Purple Large</td>
 				<td><select id="item_fulfillment_asset" name="item_fulfillment_asset" aria-invalid="false"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>
-			</tr>	
+			</tr>
 			</tbody>
 		</table>
 		</div><!--pure-->
@@ -110,6 +111,7 @@
 	</div><!--drawercontent-->
 	</div><!--itemnav-->
 </div><!--drawer prefpanel-->
+{{/hidethisbecausethisvariablewillneverbeseteverever}}
 
 <div class="pure-u-1">
 	<button type="submit">Save changes</button>
