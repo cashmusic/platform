@@ -29,7 +29,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  **/
- ;
 
  // insertAtCaret plugin for textarea stuff / injecting codes on page editor
  jQuery.fn.extend({
@@ -1340,7 +1339,7 @@
                 }
              });
              cloneCount++;
-             var removeButton = $('<a href="#" class="removescalar">Remove</a>');
+             var removeButton = $('<a href="#" class="removescalar"><div class="icon icon-plus"></div></a>');
              cloned.append(removeButton);
              $(this).before(cloned);
           });

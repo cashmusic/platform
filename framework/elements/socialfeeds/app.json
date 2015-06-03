@@ -70,7 +70,7 @@
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
-						"en":"Add a new tumblr URL"
+						"en":"Add a new Tumblr URL"
 					},
 					"values":{
 						"tumblrurl":{

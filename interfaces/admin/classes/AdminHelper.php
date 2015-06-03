@@ -542,7 +542,7 @@
 						$return_str .= AdminHelper::drawInput($subname,$subdata,$input_name,$i);
 					}
 					*/
-					$return_str .= '<a href="#" class="removescalar">Remove</a></div>';
+					$return_str .= '<a href="#" class="removescalar"><div class="icon icon-plus"></div></a></div>';
 				}
 			}
 		}
