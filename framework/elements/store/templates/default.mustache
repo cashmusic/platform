@@ -11,17 +11,60 @@
 <form id="cash_{{element_type}}_form_{{element_id}}" class="cash_form {{element_type}}" method="post" action="">
 <input type="hidden" name="singlepurchase1" value="go" />
 <input type="hidden" name="user_id" value="{{user_id}}" />
-{{#items}}
 
-	{{#item_flexible_price}}
-	<span class="cash_singlepurchase_flexible_price">
-		<span class="cash_singlepurchase_currency">{{currency}}</span>
-		<input type="text" name="total_price" class="total_price" value="{{price}}" />
-	</span>
-	{{/item_flexible_price}}
-	<input type="submit" value="{{name}}{{copy_cart}}" class="button" /><br />
 
-{{/items}}
+
+<style type="text/css">
+	div.cash_item.featured {color:#ff0 !important;}
+	div.cash_store.featured_items {padding:20px;background-color:#333;margin-bottom:80px;}
+	/*div.cash_store.unfeatured_items {display:none;}*/
+</style>
+
+
+
+<div class="cash_store featured_items">
+	{{#features}}
+
+	<div class="cash_store cash_item item_{{id}} featured">
+		<h2>{{name}}</h2>
+		<p>{{description}}</p>
+		{{#flexible_price}}
+		<span class="cash_singlepurchase_flexible_price">
+			<span class="cash_singlepurchase_currency">{{currency}}</span>
+			<input type="text" name="total_price" class="total_price" value="{{price}}" />
+		</span>
+		{{/flexible_price}}
+		<input type="submit" value="{{copy_cart}}" class="button" /><br />
+	</div>
+
+	<div>&nbsp;</div>
+
+	{{/features}}
+</div>
+
+
+
+<div class="cash_store unfeatured_items">
+	{{#items}}
+
+	<div class="cash_store cash_item item_{{id}}">
+		<h2>{{name}}</h2>
+		<p>{{description}}</p>
+		{{#flexible_price}}
+		<span class="cash_singlepurchase_flexible_price">
+			<span class="cash_singlepurchase_currency">{{currency}}</span>
+			<input type="text" name="total_price" class="total_price" value="{{price}}" />
+		</span>
+		{{/flexible_price}}
+		<input type="submit" value="{{copy_cart}}" class="button" /><br />
+	</div>
+
+	<div>&nbsp;</div>
+
+	{{/items}}
+</div>
+
+
 </form>
 
 

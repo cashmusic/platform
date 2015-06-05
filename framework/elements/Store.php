@@ -25,11 +25,8 @@ class Store extends ElementBase {
 			)
 		);
 		$items = $items_request->response['payload'];
-		/*
-		error_log(
-			'testing '.print_r($items_request->response,true)
-		);
 
+		/*
 		$this->element_data['item_name'] = $item['name'];
 		$this->element_data['item_price'] = number_format($item['price'], 2, '.', '');
 		$this->element_data['item_flexible_price'] = $item['flexible_price'];
@@ -37,7 +34,26 @@ class Store extends ElementBase {
 		$this->element_data['item_asset'] = $item['fulfillment_asset'];
 		*/
 
-		$this->element_data['items'] = new ArrayIterator($items);
+		$featured_items_ids = array();
+		$featured_items = array();
+		$unfeatured_items = array();
+		if (is_array($this->element_data['featured_items'])) {
+			foreach ($this->element_data['featured_items'] as $i) {
+				$featured_items_ids[] = $i['item_id'];
+			}
+		}
+
+		foreach ($items as $i) {
+			if (in_array($i['id'],$featured_items_ids)) {
+				$featured_items[] = $i;
+			} else {
+				$unfeatured_items[] = $i;
+			}
+		}
+
+
+		$this->element_data['items'] = new ArrayIterator($unfeatured_items);
+		$this->element_data['features'] = new ArrayIterator($featured_items);
 
 		/*
 		if ($item['available_units'] != 0) {
