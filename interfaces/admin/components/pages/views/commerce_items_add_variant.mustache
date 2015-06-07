@@ -1,0 +1,34 @@
+<form name="add_item_variants" class="multipart" data-parts="2" novalidate="novalidate">
+<input type="hidden" name="{{form_state_action}}" value="makeitso" />
+
+	<div class=" section part-1" data-section-name="Establish Item Variants">
+		<div class="pure-u-1">
+			<label for="item_name">Primary variant name</label>
+			<input type="text" id="primary_variant_name" name="primary_variant_name" value="{{primary_variant_name}}" placeholder="e.g color" class="required" />
+			<label for="item_name">Secondary variant name</label>
+			<input type="text" id="secondary_variant_name" name="secondary_variant_name" value="{{secondary_variant_name}}" placeholder="e.g size" />
+		</div><!--pure-->
+	</div><!--section-->
+
+	<div class="section part-2" data-section-name="Establish Primary Variant Options">
+	<h4>Create &ldquo;{primary_variant_name}&rdquo; options:</h4>
+	
+		<div class="pure-u-1">
+			<label for="item_name">Option One</label>
+			<input type="text" id="primary_variant_option1" name="primary_variant_option1" value="{{primary_variant_option1}}" placeholder="e.g purple" class="required" />
+		</div><!--pure-->
+	<input class="button" type="submit" value="Add Option">
+	</div><!--section-->
+
+	
+	<div class="section part-3 basic-information" data-section-name="Establish Secondary Variant Options">
+	<h4>Create &ldquo;{secondary_variant_name}&rdquo; options:</h4>
+		<div class="pure-u-1">
+			<label for="item_name">Option One</label>
+			<input type="text" id="secondary_variant_option1" name="secondary_variant_option1" value="{{secondary_variant_option1}}" placeholder="e.g small" class="required" />
+		</div><!--pure-->
+		<input class="button" type="submit" value="Add Option">
+			<input class="button" type="submit" value="Save Changes">
+	</div><!--section-->
+	
+</form>

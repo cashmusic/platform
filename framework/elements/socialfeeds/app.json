@@ -1,8 +1,8 @@
 {
 	"type":"element",
 	"subtype":"socialfeeds",
-	"lastupdated":"May 9, 2012",
-	"version":1,
+	"lastupdated":"May 9, 2015",
+	"version":2,
 	"author":"CASH Music",
 	"url":"http://cashmusic.org/",
 	"license":"AGPL",
@@ -23,7 +23,149 @@
 				"en":"Instructions or clarifications that should appear with this group."
 			},
 			"data":{
-				
+				"twitter":{
+					"label":{
+						"en":"Twitter"
+					},
+					"type":"scalar",
+					"displaysize":"large",
+					"actiontext": {
+						"en":"Add a new Twitter feed"
+					},
+					"values":{
+						"twitterusername":{
+							"label":{
+								"en":"Username"
+							},
+							"type":"text",
+							"displaysize":"small"
+						},
+						"twitterfiltertype":{
+							"label":{
+								"en":"Fliter by"
+							},
+							"type":"select",
+							"values":{
+								"none":"Do not filter",
+				            "contain":"Tweets that contain",
+				            "beginwith":"Tweets that begin with"
+							},
+							"required":true,
+							"displaysize":"small"
+						},
+						"twitterfiltervalue":{
+							"label":{
+								"en":"Filter value"
+							},
+							"type":"text",
+							"displaysize":"small"
+						}
+					},
+					"required":false
+				},
+				"tumblr":{
+					"label":{
+						"en":"Tumblr"
+					},
+					"type":"scalar",
+					"displaysize":"large",
+					"actiontext": {
+						"en":"Add a new Tumblr URL"
+					},
+					"values":{
+						"tumblrurl":{
+							"label":{
+								"en":"Tumblr URL"
+							},
+							"type":"text",
+							"displaysize":"small"
+						},
+						"tumblrtag":{
+							"label":{
+								"en":"Filter by tag"
+							},
+							"placeholder":{
+				            "en":"Do not filter"
+				          },
+							"type":"text",
+							"displaysize":"small"
+						},
+						"post_types":{
+							"label":{
+								"en":"Post types"
+							},
+							"type":"options",
+							"displaysize":"large",
+							"values":{
+								"regular":{
+									"label":{
+										"en":"regular"
+									},
+									"type":"boolean",
+									"default":true,
+									"displaysize":"small"
+								},
+								"photo":{
+									"label":{
+										"en":"photo"
+									},
+									"type":"boolean",
+									"default":true,
+									"displaysize":"small"
+								},
+								"video":{
+									"label":{
+										"en":"video"
+									},
+									"type":"boolean",
+									"default":true,
+									"displaysize":"small"
+								},
+								"link":{
+									"label":{
+										"en":"link"
+									},
+									"type":"boolean",
+									"default":true,
+									"displaysize":"small"
+								},
+								"audio":{
+									"label":{
+										"en":"audio"
+									},
+									"type":"boolean",
+									"default":true,
+									"displaysize":"small"
+								},
+								"quote":{
+									"label":{
+										"en":"quote"
+									},
+									"type":"boolean",
+									"default":false,
+									"displaysize":"small"
+								},
+								"answer":{
+									"label":{
+										"en":"answer"
+									},
+									"type":"boolean",
+									"default":false,
+									"displaysize":"small"
+								}
+							}
+						}
+					},
+					"required":false
+				},
+				"post_limit":{
+					"label":{
+						"en":"Post Limit"
+					},
+					"type":"number",
+					"default":"40",
+					"displaysize":"small"
+				}
 			}
 		}
 	}

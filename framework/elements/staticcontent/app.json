@@ -20,7 +20,7 @@
 				"en":"The Content"
 			},
 			"description":{
-				"en":"Instructions or clarifications that should appear with this group."
+				"en":"Type what you want to appear. Plain text or markdown."
 			},
 			"data":{
 				"storedcotent":{

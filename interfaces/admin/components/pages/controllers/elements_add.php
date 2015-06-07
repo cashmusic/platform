@@ -1,7 +1,7 @@
 <?php
-$types_response = $cash_admin->requestAndStore(	
+$types_response = $cash_admin->requestAndStore(
 	array(
-		'cash_request_type' => 'element', 
+		'cash_request_type' => 'element',
 		'cash_action' => 'getsupportedtypes'
 	)
 );
@@ -22,12 +22,12 @@ if ($request_parameters) {
 			AdminHelper::controllerRedirect('/elements/edit/' . $current_element['id']);
 		}
 
-		// Not a completed add, so let's show the form 
+		// Not a completed add, so let's show the form
 
 		// first check for requirements
-		$requirements_response = $cash_admin->requestAndStore(	
+		$requirements_response = $cash_admin->requestAndStore(
 			array(
-				'cash_request_type' => 'element', 
+				'cash_request_type' => 'element',
 				'cash_action' => 'checkuserrequirements',
 				'user_id' => $cash_admin->effective_user_id,
 				'element_type' => $element_addtype
@@ -41,25 +41,8 @@ if ($request_parameters) {
 				$cash_admin->page_data['ui_title'] = 'Add ' . $app_json['details']['en']['name'] . ' Element';
 				$cash_admin->page_data['ui_page_tip'] = $app_json['details']['en']['instructions'];
 
-				foreach ($app_json['options'] as $section_name => $details) {
-					foreach ($details['data'] as $data => $values) {
-						if (isset($values['default']) && $values['type'] !== 'select') {
-							if ($values['type'] == 'boolean') {
-								if ($values['default']) {
-									$default_val = true;
-								}
-							} else if ($values['type'] == 'number') {
-								$default_val = $values['default'];
-							} else {
-								$default_val = $values['default']['en'];
-							}
-						}
-						if ($values['type'] == 'select') {
-							$default_val = AdminHelper::echoFormOptions(str_replace('/','_',$values['values']),0,false,true);
-						}
-						$cash_admin->page_data['options_' . $data] = $default_val;
-					}
-				}
+				$element_defaults = AdminHelper::getElementDefaults($app_json['options']);
+				$cash_admin->page_data = array_merge($cash_admin->page_data,$element_defaults);
 
 				if (isset($app_json['copy'])) {
 					if (is_array($app_json['copy']['en'])) {
@@ -129,7 +112,7 @@ if ($request_parameters) {
 		);
 
 		$elementcollection[] = $formatted_element;
-	
+
 	}
 
 	$cash_admin->page_data['elements_output'] = new ArrayIterator($elementcollection);

@@ -66,7 +66,7 @@ class S3Seed extends SeedBase {
 					   . '<form accept-charset="UTF-8" method="post" action="' . $data . '">'
 					   . '<label for="key">Key</label><input type="text" name="key" value="" /><br />'
 					   . '<label for="secret">Secret</label><input type="text" name="secret" value="" /><br />'
-					   . '<input type="hidden" name="bucket" value="cashmusic.' . AdminHelper::getPersistentData('cash_effective_user') . '.' . time() . '" /><br />'
+					   . '<input type="hidden" name="bucket" value="cashmusic-' . AdminHelper::getPersistentData('cash_effective_user') . '-' . time() . '" /><br />'
 					   . '<div><input class="button" type="submit" value="Add The Connection" /></div>'
 					   . '</form>';
 		return $return_markup;

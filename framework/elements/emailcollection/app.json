@@ -26,7 +26,7 @@
 				"en":"Main settings"
 			},
 			"description":{
-				"en":"Instructions or clarifications that should appear with this group."
+				"en":"Select a target mailing list and an asset to give away (if you want.)"
 			},
 			"data":{
 				"email_list_id":{
@@ -61,7 +61,7 @@
 				"en":"Success/error messages"
 			},
 			"description":{
-				"en":"Instructions or clarifications that should appear with this group."
+				"en":"Customize messages shown to people using this element."
 			},
 			"data":{
 				"message_success":{
@@ -100,7 +100,7 @@
 					},
 					"type":"text",
 					"default":{
-						"en":"You must verify your email address to continue. An email has been sent. Click the link provided to conrirm membership. (If you don't see the message, check your SPAM folder.)"
+						"en":"You must verify your email address to continue. An email has been sent. Click the link provided to confirm membership. (If you don't see the message, check your SPAM folder.)"
 					},
 					"displaysize":"medium"
 				}
@@ -111,7 +111,7 @@
 				"en":"Customize signup form"
 			},
 			"description":{
-				"en":"Instructions or clarifications that should appear with this group."
+				"en":"Change placeholder and text in the form shown to the public."
 			},
 			"data":{
 				"placeholder_text":{
@@ -130,7 +130,7 @@
 					},
 					"type":"text",
 					"default":{
-						"en":"sign me up"
+						"en":"Sign me up"
 					},
 					"displaysize":"small"
 				}

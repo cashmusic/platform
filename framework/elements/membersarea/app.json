@@ -20,7 +20,7 @@
 				"en":"Main settings"
 			},
 			"description":{
-				"en":"Instructions or clarifications that should appear with this group."
+				"en":"Choose a list and define a password for them to use in unlocking this element's content."
 			},
 			"data":{
 				"alternate_password":{

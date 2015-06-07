@@ -20,7 +20,7 @@
 				"en":"Main settings"
 			},
 			"description":{
-				"en":"Instructions or clarifications that should appear with this group."
+				"en":"Customize how many dates you want to display and what type of events to show."
 			},
 			"data":{
 				"max_display_dates":{
@@ -33,7 +33,7 @@
 				},
 				"visible_event_types":{
 					"label":{
-						"en":"Target mailing list"
+						"en":"What events should display?"
 					},
 					"type":"select",
 					"values":{

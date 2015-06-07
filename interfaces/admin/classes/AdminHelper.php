@@ -1,8 +1,8 @@
 <?php
 /**
- * The AdminHelper class provides a single location for various formatting and 
+ * The AdminHelper class provides a single location for various formatting and
  * quick processing methods needed throughout the admin
- * 
+ *
  * Most functions that are simple/static framework wrappers or data formatting should go here
  *
  * @package admin.org.cashmusic
@@ -19,9 +19,9 @@
 		global $admin_primary_cash_request;
 		$admin_primary_cash_request->processRequest(
 			array(
-				'cash_request_type' => 'system', 
+				'cash_request_type' => 'system',
 				'cash_action' => 'validatelogin',
-				'address' => $email_address, 
+				'address' => $email_address,
 				'password' => $password,
 				'require_admin' => $require_admin
 			)
@@ -124,7 +124,7 @@
 	 * CONNECTION DETAILS
 	 *
 	 *********************************************/
-	
+
 	/**
 	 * Finds settings matching a specified scope and echoes them out formatted
 	 * for a dropdown box in a form
@@ -153,7 +153,7 @@
 
 	//get connections scope
 	public static function getConnectionsByScope($scope){
-		
+
 		// get system settings:
 		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
 		$applicable_settings_array = $page_data_object->getConnectionsByScope($scope);
@@ -189,7 +189,146 @@
 		}
 	}
 
-	public static function getElementTemplate($element_type) {
+	public static function getValueDefault($value) {
+		$default_val = false;
+		if (isset($value['default']) && $value['type'] !== 'select') {
+			if ($value['type'] == 'boolean') {
+				if ($value['default']) {
+					$default_val = true;
+				}
+			} else if ($value['type'] == 'number') {
+				$default_val = $value['default'];
+			} else {
+				$default_val = $value['default']['en'];
+			}
+		}
+		if ($value['type'] == 'select') {
+			$default_val = AdminHelper::echoFormOptions($value['values'],0,false,true,false);
+		}
+		if ($value['type'] == 'scalar') {
+			$default_val = array();
+			foreach ($value['values'] as $subdata => $subvalue) {
+				if ($subvalue['type'] == 'options') {
+					if (is_array($subvalue['values'])) {
+						foreach ($subvalue['values'] as $subname => $subvalue) {
+							$value['values'][$subdata.'-'.$subname] = $subvalue;
+						}
+					}
+				}
+			}
+			foreach ($value['values'] as $subdata => $subvalue) {
+				$default_val['options_' . $subdata] = AdminHelper::getValueDefault($subvalue);
+			}
+		}
+		return $default_val;
+	}
+
+	public static function formatElementValue($value,$type,$formatting_data=false) {
+		$return_val = $value;
+		if ($type == 'select') {
+			$return_val = AdminHelper::echoFormOptions($formatting_data,$value,false,true,false);
+		}
+		return $return_val;
+	}
+
+	public static function getElementValues($storedElement) {
+		$return_array = array();
+		$app_json = AdminHelper::getElementAppJSON($storedElement['type']);
+		if ($app_json) {
+			// start by getting defaults. this will populate scalars, etc.
+			$return_array = AdminHelper::getElementDefaults($app_json['options']);
+
+			foreach ($app_json['options'] as $section_name => $details) {
+
+				foreach ($details['data'] as $data => $value) {
+					if (isset($value['values'])) {
+						$formatting_data = $value['values'];
+					}
+					if ($value['type'] == 'options') {
+						if (is_array($value['values'])) {
+							foreach ($value['values'] as $subname => $subvalue) {
+								if (isset($storedElement['options'][$data][$subname])) {
+									$return_array['options_'.$value['name'].'-'.$subname] = AdminHelper::formatElementValue($storedElement['options'][$data][$subname],$subvalue['type'],$formatting_data);
+								}
+							}
+						}
+					} else if ($value['type'] == 'scalar') {
+						$scalarcount = 0;
+						if (isset($storedElement['options'][$data])) {
+							if (is_array($storedElement['options'][$data])) {
+								$scalarcount = count($storedElement['options'][$data]);
+							}
+						}
+						for ($i=0; $i < $scalarcount; $i++) {
+							foreach ($value['values'] as $subname => $subvalue) {
+								if (isset($subvalue['values'])) {
+									$formatting_data = $subvalue['values'];
+								}
+								if ($subvalue['type'] == 'options') {
+									if (is_array($subvalue['values'])) {
+										foreach ($subvalue['values'] as $sub2name => $sub2value) {
+											if (isset($sub2value['values'])) {
+												$formatting_data = $sub2value['values'];
+											}
+											if (isset($storedElement['options'][$data][$i][$subname][$sub2name])) {
+												$return_array['options_'.$subname.'-'.$sub2name.'-clone-'.$data.'-'.$i] = AdminHelper::formatElementValue($storedElement['options'][$data][$i][$subname][$sub2name],$sub2value['type'],$formatting_data);
+											}
+										}
+									}
+								} else {
+									if (isset($storedElement['options'][$data][$i][$subname])) {
+										$return_array['options_' . $subname.'-clone-'.$data.'-'.$i] = AdminHelper::formatElementValue($storedElement['options'][$data][$i][$subname],$subvalue['type'],$formatting_data);
+									}
+								}
+							}
+						}
+					} else {
+						if (isset($storedElement['options'][$data])) {
+							$return_array['options_' . $data] = AdminHelper::formatElementValue($storedElement['options'][$data],$value['type'],$formatting_data);
+						}
+					}
+				}
+			}
+		}
+
+		return $return_array;
+	}
+
+	public static function getElementDefaults($options) {
+		$return_array = array();
+		foreach ($options as $section_name => $details) {
+
+			foreach ($details['data'] as $data => $value) {
+				if ($value['type'] == 'options') {
+					if (is_array($value['values'])) {
+						foreach ($value['values'] as $subname => $subvalue) {
+							$details['data'][$data.'-'.$subname] = $subvalue;
+							//error_log('HMMM: '.$value['name'].'-'.$subname);
+						}
+					}
+				}
+			}
+
+			foreach ($details['data'] as $data => $value) {
+				$default_val = AdminHelper::getValueDefault($value);
+				if (is_array($default_val)) {
+					$return_array = array_merge($return_array,$default_val);
+				} else {
+					$return_array['options_' . $data] = $default_val;
+				}
+			}
+		}
+		return $return_array;
+	}
+
+	public static function getElementTemplate($element) {
+		if (is_array($element)) {
+			// all data sent, so you know...set the type
+			$element_type = $element['type'];
+		} else {
+			// we only got the element type, so just set that and forget it
+			$element_type = $element;
+		}
 		$app_json = AdminHelper::getElementAppJSON($element_type);
 		if ($app_json) {
 			// count sections
@@ -212,7 +351,7 @@
 			$total_sections = count($sections_required);
 
 			$template =	'<div class="gallery elementinstructions"><h5>Learn more:</h5>' .
-						'<p class="big">{{details_longdescription}}</p><p>{{{details_instructions}}}</p></div>' . 
+						'<p class="big">{{details_longdescription}}</p><p>{{{details_instructions}}}</p></div>' .
 						'<div class="elementform"><form method="post" action="{{www_path}}/elements/{{#element_id}}edit/{{element_id}}{{/element_id}}{{^element_id}}add/' . $element_type . '{{/element_id}}" class="multipart" data-parts="' . $total_sections . '">' .
 						'<input type="hidden" name="{{form_state_action}}" value="makeitso">' .
 						'{{#element_id}}<input type="hidden" name="element_id" value="{{element_id}}" />{{/element_id}}' .
@@ -229,67 +368,16 @@
 						     '<h5 class="section-header">' . $details['group_label']['en'] . '</h5>' .
 						     '<i data-tooltip="' . $details['description']['en'] .'" class="tooltip icon icon-learn"></i>' .
 						     '<div class="pure-u-1">';
-				$current_data = 0;
-				$current_count = 0;
-				$total_count = count($details);
-				$data_keys = array_keys($details['data']);
-				foreach ($details['data'] as $data => $values) {
-					$current_count++;
-					$nextnotsmall = true;
-					if (isset($data_keys[$current_data + 1])) {
-						if ($details['data'][$data_keys[$current_data + 1]]['displaysize'] !== 'small') {
-							$nextnotsmall = true;
-						} else {
-							$nextnotsmall = false;
-						}
-					}
-					if ($current_count == 4 || 
-						$current_data == ($total_count) || 
-						$values['displaysize'] !== 'small' ||
-						$nextnotsmall
-					) {
-						switch ($current_count) {
-							case 4:
-								$column_width_text = "pure-u-1 pure-u-md-1-2";
-								break;
-							case 3:
-								$column_width_text = "pure-u-1 pure-u-md-1-3";
-								break;
-							case 2:
-								$column_width_text = "pure-u-1 pure-u-md-1-2";
-								break;
-							case 1:
-								$column_width_text = "pure-u-1";
-								break;
-						}
+				//$current_data = 0;
+				//$current_count = 0;
+				//$total_count = count($details);
+				//$data_keys = array_keys($details['data']);
+				//
+				//
+				//
+				// REFACTOR THIS SHIT OUT FOR SCALAR AND HERE
+				$template .= AdminHelper::drawMarkup($element,$details['data'],count($details));
 
-						// single small element — make sure it's not full width
-						if ($values['displaysize'] == 'small' && $current_count == 1) {
-							$column_width_text = "pure-u-1 pure-u-md-1-3";
-						}
-
-						for ($i=1; $i < $current_count+1; $i++) { 
-							$template .= '<div class="' . $column_width_text . '">' .
-										 // contents
-										 AdminHelper::drawInput(
-										 	$data_keys[$current_data - ($current_count - $i)],
-										 	$details['data'][$data_keys[$current_data - ($current_count - $i)]]
-										 ) .
-										 '</div>';
-						}
-
-						// single small element — make sure it's not full width
-						if ($values['displaysize'] == 'small' && $current_count == 1) {
-							$template .= '<div class="pure-u-1 pure-u-md-1-3"></div><div class="pure-u-1 pure-u-md-1-3"></div>';
-						}
-
-						if ($current_data !== ($total_count - 1)) {
-							$template .= '</div><div class="pure-u-1">';
-						}
-						$current_count = 0;
-					}
-					$current_data++;
-				}
 				$template .= '</div></div>';
 				$current_section++;
 			}
@@ -301,7 +389,100 @@
 		}
 	}
 
-	public static function drawInput($input_name,$input_data) {
+	public static function drawMarkup($element,$input_values,$count,$cloneparent=false,$clonecount=false) {
+		$template = '';
+		$current_data = 0;
+		$current_count = 0;
+		$data_keys = array_keys($input_values);
+		foreach ($input_values as $data => $values) {
+			if (!isset($values['displaysize'])) {
+				$values['displaysize'] = 'large';
+			}
+			$current_count++;
+			$nextnotsmall = true;
+			if (isset($data_keys[$current_data + 1])) {
+				if ($input_values[$data_keys[$current_data + 1]]['displaysize'] !== 'small') {
+					$nextnotsmall = true;
+				} else {
+					$nextnotsmall = false;
+				}
+			}
+
+			if ($current_count == 4 ||
+				$current_data == ($count) ||
+				$values['displaysize'] !== 'small' ||
+				$nextnotsmall
+			) {
+				switch ($current_count) {
+					case 4:
+						$column_width_text = "pure-u-1 pure-u-md-1-2";
+						break;
+					case 3:
+						$column_width_text = "pure-u-1 pure-u-md-1-3";
+						break;
+					case 2:
+						$column_width_text = "pure-u-1 pure-u-md-1-2";
+						break;
+					case 1:
+						$column_width_text = "pure-u-1";
+						break;
+				}
+
+				// single small element — make sure it's not full width
+				if ($values['displaysize'] == 'small' && $current_count == 1) {
+					$column_width_text = "pure-u-1 pure-u-md-1-3";
+				}
+
+				for ($i=1; $i < $current_count+1; $i++) {
+					$input_name = $data_keys[$current_data - ($current_count - $i)];
+					$input_data = $input_values[$data_keys[$current_data - ($current_count - $i)]];
+					if ($input_data['type'] == 'scalar') {
+						if (is_array($element)) { // first we need to know there's element data
+							if (isset($element['options'][$input_name])) { // next is the option we're looking for present?
+								if (is_array($element['options'][$input_name])) { // is it an array?
+									// then party on, motherfucker!
+									$input_data['scalar_clone_count'] = count($element['options'][$input_name]);
+								}
+							}
+						}
+					}
+					$template .= '<div class="' . $column_width_text . '">' .
+								// contents
+								AdminHelper::drawInput(
+									$input_name,
+									$input_data,
+									$cloneparent,
+									$clonecount
+								) .
+								'</div>';
+				}
+
+				// single small element — make sure it's not full width
+				if ($values['displaysize'] == 'small' && $current_count == 1) {
+					$template .= '<div class="pure-u-1 pure-u-md-1-3"></div><div class="pure-u-1 pure-u-md-1-3"></div>';
+				}
+
+				/*
+				HEY CHRIS:
+				Not sure why this was here, but when I remove it everything works. Any idea?
+				if ($current_data !== ($count - 1)) {
+					$template .= '</div><div class="pure-u-1">';
+				}
+				*/
+				$current_count = 0;
+			}
+			$current_data++;
+		}
+		return $template;
+	}
+
+	public static function drawInput($input_name,$input_data,$cloneparent=false,$clonecount=false) {
+		// handle appending clone count stuff more intelligently
+		$original_input_name = $input_name;
+		if ($clonecount !== false) {
+			$input_name = $input_name.'-clone-'.$cloneparent.'-'.$clonecount;
+		}
+
 		// label (for everything except checkboxes)
 		if ($input_data['type'] !== 'boolean') {
 			$return_str = '<label for="' . $input_name . '">' . $input_data['label']['en'] . '</label>';
@@ -314,49 +495,92 @@
 			if ($input_data['type'] == 'text' && $input_data['displaysize'] == 'large') {
 				$return_str .= '<textarea id="' . $input_name . '" name="' . $input_name . '" class="';
 			} else {
-				$return_str .= '<input type="text" id="' . $input_name . '" name="' . $input_name . '" value="{{#options_' . $input_name . 
+				$return_str .= '<input type="text" id="' . $input_name . '" name="' . $input_name . '" value="{{#options_' . $input_name .
 				'}}{{options_' . $input_name . '}}{{/options_' . $input_name . '}}{{^options_' . $input_name . '}}{{element_copy_' . $input_name . '}}{{/options_' . $input_name . '}}" class="';
 			}
 		}
 		if ($input_data['type'] == 'select') {
-			$return_str .= '<select id="' . $input_name . '" name="' . $input_name . '">';
+			$return_str .= '<select id="' . $input_name . '" name="' . $input_name . '" class="';
 		}
 		if ($input_data['type'] == 'boolean') {
-			$return_str = '<label class="checkbox" for="' . $input_name . '"><input type="checkbox" class="checkorradio" id="' . $input_name . '" name="' . $input_name . '"';
+			$return_str = '<label class="checkbox" for="' . $input_name . '"><input type="checkbox" class="checkorradio" id="' . $input_name . '" name="' . $input_name . '" value="1"';
 		}
 
-		/*
-		 declare any classes that need declaring (form validation or special functionality)
-		*/
-		if (isset($input_data['required'])) {
-			if ($input_data['required']) {
-				$return_str .= ' required';
+		if ($input_data['type'] == 'options') {
+			$return_str .= '<div class="' . $input_data['type'] . '" data-name="' . $input_name . '">';
+			foreach ($input_data['values'] as $subname => $subdata) {
+				$return_str .= AdminHelper::drawInput($original_input_name.'-'.$subname,$subdata,$cloneparent,$clonecount);
 			}
+			$return_str .= '</div>';
 		}
-		if ($input_data['type'] == 'number') {
-			$return_str .= ' number';
-		}
-
-		/*
-		 close out markup
-		*/
-		if ($input_data['type'] == 'text' || $input_data['type'] == 'number') {
-			if ($input_data['type'] == 'text' && $input_data['displaysize'] == 'large') {
-				$return_str .= '">{{#options_' . $input_name . 
-				'}}{{options_' . $input_name . '}}{{/options_' . $input_name . '}}{{^options_' . $input_name . '}}{{element_copy_' . $input_name . '}}{{/options_' . $input_name . '}}</textarea>';
-			} else {
-				if (isset($input_data['placeholder'])) {
-					$return_str .= ' placeholder="' . $input_data['placeholder']['en'] . '"';
+		if ($input_data['type'] == 'scalar') {
+			$return_str .= '<div class="' . $input_data['type'] . '" data-name="' . $input_name . '"';
+			if (isset($input_data['actiontext']['en'])) {
+				$return_str .= ' data-actiontext="' . $input_data['actiontext']['en'] . '"';
+			}
+			if (isset($input_data['scalar_clone_count'])) {
+				$return_str .= ' data-clonecount="' . $input_data['scalar_clone_count'] . '"';
+			}
+			$return_str .= '>';
+			$return_str .= AdminHelper::drawMarkup(false,$input_data['values'],count($input_data['values']));
+			/*
+			HEY CHRIS:
+			If we run into any trouble, here's how I was doing stuff before the drawMarkup change...
+			foreach ($input_data['values'] as $subname => $subdata) {
+				$return_str .= AdminHelper::drawInput($subname,$subdata);
+			}
+			*/
+			$return_str .= '</div>';
+			if (isset($input_data['scalar_clone_count'])) {
+				for ($i=0; $i < $input_data['scalar_clone_count']; $i++) {
+					$return_str .= '<div class="clonedscalar">';
+					$return_str .= AdminHelper::drawMarkup(false,$input_data['values'],count($input_data['values']),$input_name,$i);
+					/*
+					HEY CHRIS:
+					If we run into any trouble, here's how I was doing stuff before the drawMarkup change...
+					foreach ($input_data['values'] as $subname => $subdata) {
+						$return_str .= AdminHelper::drawInput($subname,$subdata,$input_name,$i);
+					}
+					*/
+					$return_str .= '<a href="#" class="removescalar"><div class="icon icon-plus"></div></a></div>';
 				}
-				$return_str .= '" />';
 			}
 		}
-		if ($input_data['type'] == 'select') {
-			$return_str .= '{{{options_' . $input_name . '}}}</select>';
-		}
-		if ($input_data['type'] == 'boolean') {
-			$return_str .= '{{#options_' . $input_name . '}} checked="checked"{{/options_' . $input_name . '}} /> ' .
-						   $input_data['label']['en'] . '</label>';
+
+		if ($input_data['type'] != 'scalar' && $input_data['type'] != 'scalar') {
+			/*
+			 declare any classes that need declaring (form validation or special functionality)
+			*/
+			if (isset($input_data['required'])) {
+				if ($input_data['required']) {
+					$return_str .= ' required';
+				}
+			}
+			if ($input_data['type'] == 'number') {
+				$return_str .= ' number';
+			}
+
+			/*
+			 close out markup
+			*/
+			if ($input_data['type'] == 'text' || $input_data['type'] == 'number') {
+				if ($input_data['type'] == 'text' && $input_data['displaysize'] == 'large') {
+					$return_str .= '">{{#options_' . $input_name .
+					'}}{{options_' . $input_name . '}}{{/options_' . $input_name . '}}{{^options_' . $input_name . '}}{{element_copy_' . $input_name . '}}{{/options_' . $input_name . '}}</textarea>';
+				} else {
+					if (isset($input_data['placeholder'])) {
+						$return_str .= ' placeholder="' . $input_data['placeholder']['en'] . '"';
+					}
+					$return_str .= '" />';
+				}
+			}
+			if ($input_data['type'] == 'select') {
+				$return_str .= '">{{{options_' . $input_name . '}}}</select>';
+			}
+			if ($input_data['type'] == 'boolean') {
+				$return_str .= '{{#options_' . $input_name . '}} checked="checked"{{/options_' . $input_name . '}} /> ' .
+							   $input_data['label']['en'] . '</label>';
+			}
 		}
 
 		return $return_str;
@@ -368,6 +592,54 @@
 		} else {
 			return false;
 		}
+	}
+
+	public static function processScalarData($post_data,$app_json) {
+		$return_array = array();
+		$tmp_array = array();
+		$options_in_scalars = array();
+		foreach ($app_json['options'] as $section_name => $details) {
+			foreach ($details['data'] as $data => $values) {
+				if ($values['type'] == 'scalar') {
+					if (is_array($values['values'])) {
+						foreach ($values['values'] as $subname => $subvalue) {
+							if ($subvalue['type'] == 'options') {
+								$options_in_scalars[] = $subname;
+							}
+						}
+					}
+				}
+			}
+		}
+		foreach ($post_data as $name => $data) {
+			if (strpos($name,'-clone')) {
+				$exploded = explode('-clone-',$name);
+				$root_name = $exploded[0];
+				$origin_and_index = explode('-',$exploded[1]);
+				$exploded_root = explode('-',$root_name);
+				$in_options = false;
+				if (count($exploded_root) > 1) {
+					if (in_array($exploded_root[0],$options_in_scalars)) {
+						// pop off and store the options name here:
+						$in_options = array_shift($exploded_root);
+						// put the remaining pieces of the exploded root back together
+						$root_name = implode('-',$exploded_root);
+					}
+				}
+				if (!$in_options) {
+					$tmp_array[$origin_and_index[0]][intval($origin_and_index[1])][$root_name] = $data;
+				} else {
+					$tmp_array[$origin_and_index[0]][intval($origin_and_index[1])][$in_options][$root_name] = $data;
+				}
+			}
+		}
+		// stripping the problematic middle keys
+		foreach ($tmp_array as $key => $value) {
+			foreach ($value as $removedkey => $savedvalue) {
+				$return_array[$key][] = $savedvalue;
+			}
+		}
+		return $return_array;
 	}
 
 	public static function handleElementFormPOST($post_data,&$cash_admin) {
@@ -387,11 +659,21 @@
 							} else {
 								$options_array[$data] = 0;
 							}
+						} elseif ($values['type'] == 'options') {
+							if (is_array($values['values'])) {
+								foreach ($values['values'] as $subname => $subvalues) {
+									$options_array[$data][$subname] = $post_data[$data.'-'.$subname];
+								}
+							}
 						} else {
-							$options_array[$data] = $post_data[$data];
+							if ($values['type'] != 'scalar') {
+								$options_array[$data] = $post_data[$data];
+							}
 						}
 					}
 				}
+				$scalars = AdminHelper::processScalarData($post_data,$app_json);
+				$options_array = array_merge($options_array,$scalars);
 			}
 
 			if (isset($post_data['doelementadd'])) {
@@ -399,7 +681,7 @@
 				$cash_admin->setCurrentElementState('add');
 				$admin_primary_cash_request->processRequest(
 					array(
-						'cash_request_type' => 'element', 
+						'cash_request_type' => 'element',
 						'cash_action' => 'addelement',
 						'name' => $post_data['element_name'],
 						'type' => $post_data['element_type'],
@@ -417,9 +699,9 @@
 					}
 
 					if ($current_campaign) {
-						$cash_admin->requestAndStore(	
+						$cash_admin->requestAndStore(
 							array(
-								'cash_request_type' => 'element', 
+								'cash_request_type' => 'element',
 								'cash_action' => 'addelementtocampaign',
 								'campaign_id' => $current_campaign,
 								'element_id' => $admin_primary_cash_request->response['payload']
@@ -438,7 +720,7 @@
 						} else {
 							$cash_admin->setCurrentElement($admin_primary_cash_request->response['payload']);
 						}
-					}					
+					}
 				} else {
 					// handle differently for AJAX and non-AJAX
 					if ($cash_admin->page_data['data_only']) {
@@ -452,7 +734,7 @@
 				$cash_admin->setCurrentElementState('edit');
 				$admin_primary_cash_request->processRequest(
 					array(
-						'cash_request_type' => 'element', 
+						'cash_request_type' => 'element',
 						'cash_action' => 'editelement',
 						'id' => $post_data['element_id'],
 						'name' => $post_data['element_name'],
@@ -533,7 +815,7 @@
 				} else {
 					echo $all_templates;
 				}
-		
+
 	}
 
 	/**********************************************
@@ -545,9 +827,9 @@
 	public static function createdModifiedFromRow($row,$top=false) {
 		$addtoclass = '';
 		if ($top) { $addtoclass = '_top'; }
-		$markup = '<div class="smalltext fadedtext created_mod' . $addtoclass . '">Created: ' . date('M jS, Y',$row['creation_date']); 
-		if ($row['modification_date']) { 
-			$markup .= ' (Modified: ' . date('F jS, Y',$row['modification_date']) . ')'; 
+		$markup = '<div class="smalltext fadedtext created_mod' . $addtoclass . '">Created: ' . date('M jS, Y',$row['creation_date']);
+		if ($row['modification_date']) {
+			$markup .= ' (Modified: ' . date('F jS, Y',$row['modification_date']) . ')';
 		}
 		$markup .= '</div>';
 		return $markup;
@@ -622,7 +904,7 @@
 			$ps = $doc->getElementsByTagName('p');
 			foreach ($ps as $p) {
 				if ($p->nodeValue) {
-					$dashboard_news = '<p><b><i>' . $tumblr_request[0]->{$tumblr_request[0]->type . '-title'} . ':</i></b> ' . 
+					$dashboard_news = '<p><b><i>' . $tumblr_request[0]->{$tumblr_request[0]->type . '-title'} . ':</i></b> ' .
 						$p->nodeValue . ' <a href="' . $tumblr_request[0]->{'url-with-slug'} . '" class="usecolor1" target="_blank">' . 'Read more.</a></p>';
 					break;
 				}
@@ -649,13 +931,13 @@
 			if (is_array($current_userdata)) {
 				if (array_key_exists('last_login', $current_userdata)) {
 					$last_login = $current_userdata['last_login'];
-				} 
+				}
 			}
 
 			// get recent activity
 			$activity_request = new CASHRequest(
 				array(
-					'cash_request_type' => 'people', 
+					'cash_request_type' => 'people',
 					'cash_action' => 'getrecentactivity',
 					'user_id' => $cash_admin->effective_user_id,
 					'since_date' => $last_login
@@ -699,7 +981,7 @@
 			}
 		}
 		if (isset($_REQUEST['forceroute'])) {
-			// we force a route using JS for certain lightboxed forms — really used 
+			// we force a route using JS for certain lightboxed forms — really used
 			// as an override that should take precenece over the standard $location
 			$location = $_REQUEST['forceroute'];
 		}
@@ -713,7 +995,7 @@
 			);
 			exit();
 		} else {
-			if ($location == REQUESTED_ROUTE) { 
+			if ($location == REQUESTED_ROUTE) {
 				if ($message) {
 					global $cash_admin;
 					$cash_admin->page_data['page_message'] = $message;
@@ -733,7 +1015,7 @@
 			}
 		}
 		if (isset($_REQUEST['forceroute'])) {
-			// we force a route using JS for certain lightboxed forms — really used 
+			// we force a route using JS for certain lightboxed forms — really used
 			// as an override that should take precenece over the standard $location
 			$location = $_REQUEST['forceroute'];
 		}
@@ -1102,9 +1384,10 @@
 	 * at the speed of light — it'll make a supersonic nerd of you. Don't stop it.
 	 *
 	 * @return array
-	 */public static function echoFormOptions($base_type,$selected=0,$range=false,$return=false) {
+	 */public static function echoFormOptions($base_type,$selected=0,$range=false,$return=false,$shownone=true) {
 		global $admin_primary_cash_request;
 		$available_options = false;
+		$all_options = '';
 
 		if (is_array($base_type)) {
 			$available_options = array();
@@ -1117,13 +1400,17 @@
 			$display_information = 'display';
 			$all_options = '';
 		} else {
+			// fix for an old style. we prefer '/' in app.json but use '_' in other calls
+			$base_type = str_replace('/','_',$base_type);
 
 			if (substr($base_type,0,7) == 'connect') {
 				$scope = explode('_',$base_type);
 				return AdminHelper::echoConnectionsOptions($scope[1],$selected,true);
 			}
 
-			$all_options = '<option value="0">None</option>';
+			if ($shownone) {
+				$all_options = '<option value="0">None</option>';
+			}
 			switch ($base_type) {
 				case 'assets':
 					$plant_name = 'asset';
@@ -1145,7 +1432,7 @@
 					$plant_name = 'calendar';
 					$action_name = 'getallvenues';
 					$display_information = 'name';
-					break;	
+					break;
 				case 'items':
 				case 'commerce_items':
 					$plant_name = 'commerce';
@@ -1156,7 +1443,7 @@
 			global $admin_primary_cash_request;
 			$admin_primary_cash_request->processRequest(
 				array(
-					'cash_request_type' => $plant_name, 
+					'cash_request_type' => $plant_name,
 					'cash_action' => $action_name,
 					'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
 					'parent_id' => 0
@@ -1177,7 +1464,7 @@
 				}
 				if ($doloop) {
 					$selected_string = '';
-					if ($item['id'] === $selected) { 
+					if ($item['id'] === $selected) {
 						$selected_string = ' selected="selected"';
 					}
 					$all_options .= '<option value="' . $item['id'] . '"' . $selected_string . '>' . $item[$display_information] . '</option>';
@@ -1212,6 +1499,6 @@
 		}
 		return $all_options;
 	}
-	
-} // END class 
+
+} // END class
 ?>

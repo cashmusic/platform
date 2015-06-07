@@ -26,7 +26,7 @@
 				"en":"Main settings"
 			},
 			"description":{
-				"en":"Instructions or clarifications that should appear with this group."
+				"en":"Choose an inventory item to sell and commerce connection to use."
 			},
 			"data":{
 				"item_id":{
@@ -54,7 +54,7 @@
 				"en":"Success/error messages"
 			},
 			"description":{
-				"en":"Instructions or clarifications that should appear with this group."
+				"en":"Customize messages shown to people using this element."
 			},
 			"data":{
 				"message_success":{
@@ -84,7 +84,7 @@
 				"en":"Shipping regions"
 			},
 			"description":{
-				"en":"Instructions or clarifications that should appear with this group."
+				"en":"Define shipping regions and costs if you're selling a physical inventory item."
 			},
 			"data":{
 				"region1_name":{
