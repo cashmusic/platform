@@ -98,6 +98,8 @@ class CommercePlant extends PlantBase {
 		$variants
 	) {
 
+		$variant_ids = array();
+
 		foreach ($variants as $attributes => $quantity) {
 
 			$result = $this->db->setData(
@@ -112,9 +114,11 @@ class CommercePlant extends PlantBase {
 			if (!$result) {
 				return false;
 			}
+
+			$variant_ids[$attributes] = $result;
 		}
 
-		return true;
+		return $variant_ids;
 	}
 
 	protected function getItem($id,$user_id=false,$with_variants=true) {
