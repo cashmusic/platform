@@ -127,6 +127,7 @@ CREATE TABLE commerce_items (
 CREATE TABLE commerce_item_variants (
   id integer PRIMARY KEY,
   item_id integer,
+  user_id integer,
   attributes text,
   quantity integer DEFAULT '0',
   creation_date integer DEFAULT '0',
