@@ -48,56 +48,58 @@
 
 </form>
 
-<div class="drawer prefpanel pure-u-1">
-<div class="itemnav pure-u-1">
-	<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>Configure Item Variants</span></h4>
-<div class="drawercontent">
-	
-{{#are_variants}}
-	<div class="pure-u-1">
-	<div class="pref-inner">
-			<table style="width:100%;">
-			<colgroup style="width:50%;" />
-			<colgroup style="width:50%;" />
-			<thead>
+{{#physical_fulfillment}}
+	<div class="drawer prefpanel pure-u-1">
+	<div class="itemnav pure-u-1">
+		<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>Configure Item Variants</span></h4>
+	<div class="drawercontent">
+
+	{{#are_variants}}
+		<div class="pure-u-1">
+		<div class="pref-inner">
+				<table style="width:100%;">
+				<colgroup style="width:50%;" />
+				<colgroup style="width:50%;" />
+				<thead>
+					<tr>
+						<th scope="col">Variant description</th>
+						<th scope="col">Available Quantity</th>
+					</tr>
+				</thead>
+				<tbody>
 				<tr>
-					<th scope="col">Variant description</th>
-					<th scope="col">Available Quantity</th>
+					<td>Purple Small</td>
+					<td><input type="text" id="item_name" name="item_name" value="0" placeholder="A public name for the item" class="required" /></td>
 				</tr>
-			</thead>
-			<tbody>
-			<tr>
-				<td>Purple Small</td>
-				<td><input type="text" id="item_name" name="item_name" value="0" placeholder="A public name for the item" class="required" /></td>
-			</tr>
-			<tr>
-				<td>Purple Medium</td>
-				<td><input type="text" id="item_name" name="item_name" value="0" placeholder="A public name for the item" class="required" /></td>
-			</tr>
-			<tr>
-				<td>Purple Large</td>
-				<td><input type="text" id="item_name" name="item_name" value="0" placeholder="A public name for the item" class="required" /></td>
-			</tr>
-			</tbody>
-			</table>
+				<tr>
+					<td>Purple Medium</td>
+					<td><input type="text" id="item_name" name="item_name" value="0" placeholder="A public name for the item" class="required" /></td>
+				</tr>
+				<tr>
+					<td>Purple Large</td>
+					<td><input type="text" id="item_name" name="item_name" value="0" placeholder="A public name for the item" class="required" /></td>
+				</tr>
+				</tbody>
+				</table>
 
-		<div class="pure-u-1 pure-u-md-1-3"><input class="button" type="submit" value="Update"></div><!--pure-->
-		<div class="pure-u-1 pure-u-md-1-3"><input class="button" type="submit" value="Remove"></div><!--pure-->
-		</div><!--pref-inner-->
+			<div class="pure-u-1 pure-u-md-1-3"><input class="button" type="submit" value="Update"></div><!--pure-->
+			<div class="pure-u-1 pure-u-md-1-3"><input class="button" type="submit" value="Remove"></div><!--pure-->
+			</div><!--pref-inner-->
+		</div><!--pure-->
+	{{/are_variants}}
+	<div class="pure-u-1 pure-u-md-1-2">
+	<div class="pref-inner">
+
+	<h5>Add Item Variants</h5>
+	<p>Does your item come in mulitple sizes, colors or other formats? Add those variations here.</p>
+	<a href="{{www_path}}/commerce/items/variant/{{id}}" class="button lightboxed">Add Variants</a>
+
+	</div><!--pref-inner-->
 	</div><!--pure-->
-{{/are_variants}}
-<div class="pure-u-1 pure-u-md-1-2">
-<div class="pref-inner">
 
-<h5>Add Item Variants</h5>
-<p>Does your item come in mulitple sizes, colors or other formats? Add those variations here.</p>
-<a href="{{www_path}}/commerce/items/variant/{{id}}" class="button lightboxed">Add Variants</a>
-
-</div><!--pref-inner-->
-</div><!--pure-->
-
-</div><!--drawercontent-->
-</div><!--itemnav-->
-</div><!--drawer prefpanel-->
+	</div><!--drawercontent-->
+	</div><!--itemnav-->
+	</div><!--drawer prefpanel-->
+{{/physical_fulfillment}}
 
 </form>
