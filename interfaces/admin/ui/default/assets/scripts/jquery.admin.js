@@ -255,6 +255,7 @@ jQuery.fn.extend({
       listenForModals();
       listenForScalars();
       moveToExample();
+      prepItemVariants();
 
       // page tip show/hide
       $(document).on('click', '#tipslink', function(e) {
@@ -1351,6 +1352,40 @@ jQuery.fn.extend({
          // put caret at right position again
          this.selectionStart = this.selectionEnd = start + 1;
          return false;
+         }
+      });
+   }
+
+   function prepItemVariants() {
+      $(document).on('input', 'form.add_variants #primary_variant_name', function(e) {
+         var v = $('#primary_variant_name').val();
+         if (v) {
+            $('form.add_variants div.variant1').addClass('pure-u-md-1-2');
+            $('form.add_variants div.variant2').css('display', 'inline-block');
+            $('form.add_variants .findreplace').each(function() {
+               if ($(this).data('startvalue').indexOf('[primary_variant_name]') !== -1) {
+                  $(this).text($(this).data('startvalue').replace('[primary_variant_name]',v));
+               }
+            });
+         } else {
+            $('form.add_variants div.variant1').removeClass('pure-u-md-1-2');
+            $('form.add_variants div.variant2').css('display', 'none');
+         }
+      });
+
+      $(document).on('input', 'form.add_variants #secondary_variant_name', function(e) {
+         var v = $('#secondary_variant_name').val();
+         if (v) {
+            $('form.add_variants div.variant1-options').addClass('pure-u-md-1-2');
+            $('form.add_variants div.variant2-options').css('display', 'inline-block');
+            $('form.add_variants .findreplace').each(function() {
+               if ($(this).data('startvalue').indexOf('[secondary_variant_name]') !== -1) {
+                  $(this).text($(this).data('startvalue').replace('[secondary_variant_name]',v));
+               }
+            });
+         } else {
+            $('form.add_variants div.variant1-options').removeClass('pure-u-md-1-2');
+            $('form.add_variants div.variant2-options').css('display', 'none');
          }
       });
    }
