@@ -11,7 +11,7 @@ if (isset($_POST['doitemadd'])) {
 	}
 	$add_response = $cash_admin->requestAndStore(
 		array(
-			'cash_request_type' => 'commerce', 
+			'cash_request_type' => 'commerce',
 			'cash_action' => 'additem',
 			'user_id' => $cash_admin->effective_user_id,
 			'name' => $_POST['item_name'],
@@ -31,7 +31,7 @@ if (isset($_POST['doitemadd'])) {
 	}
 	$item_response = $cash_admin->requestAndStore(
 		array(
-			'cash_request_type' => 'commerce', 
+			'cash_request_type' => 'commerce',
 			'cash_action' => 'getitem',
 			'id' => $add_response['payload']
 		)
@@ -54,7 +54,7 @@ if (isset($_POST['doitemadd'])) {
 		}
 		$edit_response = $cash_admin->requestAndStore(
 			array(
-				'cash_request_type' => 'commerce', 
+				'cash_request_type' => 'commerce',
 				'cash_action' => 'edititem',
 				'name' => $_POST['item_name'],
 				'description' => $_POST['item_description'],
@@ -74,11 +74,23 @@ if (isset($_POST['doitemadd'])) {
 	}
 	$item_response = $cash_admin->requestAndStore(
 		array(
-			'cash_request_type' => 'commerce', 
+			'cash_request_type' => 'commerce',
 			'cash_action' => 'getitem',
 			'id' => $request_parameters[0]
 		)
 	);
+}
+
+/* ITEM VARIANTS */
+if (isset($_POST['configure_variants'])) {
+	// TODO:
+	// DO THE VARIANTS
+	// DO THEM!
+	//
+	// EXAMPLE print_r of form output:
+	//
+	// Array ( [configure_variants] => makeitso [item_id] => 13 [primary_variant_name] => color [secondary_variant_name] => butts [optionname] => [optionname-clone-primary-options-0] => hahaha [optionname-clone-primary-options-1] => haha [optionname-clone-primary-options-2] => ha [optionname-clone-secondary-options-0] => no [data_only] => 1 ) 
+	$cash_admin->page_data['varrrrrrrrriants'] = print_r($_POST,true);
 }
 
 if (is_array($item_response['payload'])) {

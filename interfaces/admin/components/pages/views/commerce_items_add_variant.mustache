@@ -1,5 +1,7 @@
-<form name="add_item_variants" class="multipart" data-parts="3" novalidate="novalidate">
-	<input type="hidden" name="{{form_state_action}}" value="makeitso" />
+<form name="add_item_variants" method="post" action="{{www_path}}/commerce/items/edit/{{item_id}}" class="multipart" data-parts="3" novalidate="novalidate">
+	<input type="hidden" name="configure_variants" value="makeitso" />
+	<input type="hidden" name="item_id" value="{{item_id}}" />
+
 
 	<div class=" section part-1" data-section-name="Establish Item Variants">
 		<div class="pure-u-1">
