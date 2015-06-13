@@ -1,34 +1,43 @@
-<form name="add_item_variants" class="multipart" data-parts="2" novalidate="novalidate">
-<input type="hidden" name="{{form_state_action}}" value="makeitso" />
+<form name="add_item_variants" class="multipart" data-parts="3" novalidate="novalidate">
+	<input type="hidden" name="{{form_state_action}}" value="makeitso" />
 
 	<div class=" section part-1" data-section-name="Establish Item Variants">
 		<div class="pure-u-1">
-			<label for="item_name">Primary variant name</label>
+			<label for="item_name">First variant name</label>
 			<input type="text" id="primary_variant_name" name="primary_variant_name" value="{{primary_variant_name}}" placeholder="e.g color" class="required" />
-			<label for="item_name">Secondary variant name</label>
+			<label for="item_name">Second variant name (optional)</label>
 			<input type="text" id="secondary_variant_name" name="secondary_variant_name" value="{{secondary_variant_name}}" placeholder="e.g size" />
 		</div><!--pure-->
 	</div><!--section-->
 
-	<div class="section part-2" data-section-name="Establish Primary Variant Options">
-	<h4>Create &ldquo;{primary_variant_name}&rdquo; options:</h4>
-	
+
+	<div class="section part-2" data-section-name="Options For First Variant">
+		<label>List all [variant] options</label>
 		<div class="pure-u-1">
-			<label for="item_name">Option One</label>
-			<input type="text" id="primary_variant_option1" name="primary_variant_option1" value="{{primary_variant_option1}}" placeholder="e.g purple" class="required" />
+			<div class="scalar" data-name="primary-options" data-actiontext="Add a new [variant] options" data-clonecount="0" style="display: none;">
+				<input type="text" id="optionname" name="optionname" value="" placeholder="e.g purple" />
+			</div>
 		</div><!--pure-->
-	<input class="button" type="submit" value="Add Option">
 	</div><!--section-->
 
-	
-	<div class="section part-3 basic-information" data-section-name="Establish Secondary Variant Options">
-	<h4>Create &ldquo;{secondary_variant_name}&rdquo; options:</h4>
+
+	<div class="section part-3" data-section-name="Options For Second Variant">
+		<label>List all [variant] options</label>
 		<div class="pure-u-1">
-			<label for="item_name">Option One</label>
-			<input type="text" id="secondary_variant_option1" name="secondary_variant_option1" value="{{secondary_variant_option1}}" placeholder="e.g small" class="required" />
+			<div class="scalar" data-name="secondary-options" data-actiontext="Add a new [variant] options" data-clonecount="0" style="display: none;">
+				<input type="text" id="optionname" name="optionname" value="" placeholder="e.g purple" />
+			</div>
 		</div><!--pure-->
-		<input class="button" type="submit" value="Add Option">
-			<input class="button" type="submit" value="Save Changes">
 	</div><!--section-->
-	
+
+
+	<div class="section basic-information" data-section-name="Save and continue">
+		<label>That's it.</label>
+
+		<div class="pure-u-1">
+			<p>Great! After you save your new item variants you'll just need to set quantities in the "Configure Item Variants" panel on the item page.</p>
+			<input class="button" type="submit" value="Save Changes"/>
+		</div><!--pure-->
+	</div><!--section-->
+
 </form>
