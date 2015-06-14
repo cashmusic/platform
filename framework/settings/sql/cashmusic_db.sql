@@ -143,7 +143,7 @@ CREATE TABLE `commerce_item_variants` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `item_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `attributes` varchar(50) NOT NULL,
+  `attributes` varchar(255) NOT NULL,
   `quantity` int(11) NOT NULL DEFAULT '0',
   `creation_date` int(11) NOT NULL DEFAULT '0',
   `modification_date` int(11) DEFAULT NULL,

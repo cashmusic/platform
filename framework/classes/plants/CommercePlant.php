@@ -98,27 +98,33 @@ class CommercePlant extends PlantBase {
 		$variants
 	) {
 
-		$variant_ids = array();
+		$item_details = $this->getItem($item_id);
+		if ($item_details) {
+			$variant_ids = array();
 
-		foreach ($variants as $attributes => $quantity) {
+			foreach ($variants as $attributes => $quantity) {
 
-			$result = $this->db->setData(
-				'item_variants',
-				array(
-					'item_id' 		=> $item_id,
-					'attributes' 	=> $attributes,
-					'quantity' 		=> $quantity,
-				)
-			);
+				$result = $this->db->setData(
+					'item_variants',
+					array(
+						'item_id' 		=> $item_id,
+						'user_id'		=> $item_details['user_id'],
+						'attributes' 	=> $attributes,
+						'quantity' 		=> $quantity,
+					)
+				);
 
-			if (!$result) {
-				return false;
+				if (!$result) {
+					return false;
+				}
+
+				$variant_ids[$attributes] = $result;
 			}
 
-			$variant_ids[$attributes] = $result;
+			return $variant_ids;
+		} else {
+			return false;
 		}
-
-		return $variant_ids;
 	}
 
 	protected function getItem($id,$user_id=false,$with_variants=true) {

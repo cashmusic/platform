@@ -89,8 +89,59 @@ if (isset($_POST['configure_variants'])) {
 	//
 	// EXAMPLE print_r of form output:
 	//
-	// Array ( [configure_variants] => makeitso [item_id] => 13 [primary_variant_name] => color [secondary_variant_name] => butts [optionname] => [optionname-clone-primary-options-0] => hahaha [optionname-clone-primary-options-1] => haha [optionname-clone-primary-options-2] => ha [optionname-clone-secondary-options-0] => no [data_only] => 1 ) 
-	$cash_admin->page_data['varrrrrrrrriants'] = print_r($_POST,true);
+	// Array ( [configure_variants] => makeitso [item_id] => 13 [primary_variant_name] => color [secondary_variant_name] => butts [optionname] => [optionname-clone-primary-options-0] => hahaha [optionname-clone-primary-options-1] => haha [optionname-clone-primary-options-2] => ha [optionname-clone-secondary-options-0] => no [data_only] => 1 )
+	$variants_array = array();
+	$processing_array = array();
+	foreach ($_POST as $name => $data) {
+		if (strpos($name,'-clone')) {
+			$exploded = explode('-clone-',$name);
+			$root_name = $exploded[0];
+			$origin_and_index = explode('-',$exploded[1]);
+			$exploded_root = explode('-',$root_name);
+
+			$processing_array[$origin_and_index[0]][intval($origin_and_index[1])][$root_name] = $data;
+		}
+	}
+	if (isset($processing_array['primaryoptions'])) {
+		if (is_array($processing_array['primaryoptions'])) {
+			if (isset($processing_array['secondaryoptions'])) {
+				if (is_array($processing_array['secondaryoptions'])) {
+					$secondary_array = array();
+					foreach ($processing_array['secondaryoptions'] as $option) {
+						//error_log(print_r($option,true));
+						$secondary_array[] = $_POST['secondary_variant_name'].'->'.$option['optionname'];
+					}
+				}
+			}
+
+			foreach ($processing_array['primaryoptions'] as $option) {
+				$fullname = $_POST['primary_variant_name'].'->'.$option['optionname'];
+				if (isset($secondary_array)) {
+					foreach ($secondary_array as $secondary_option) {
+						$variants_array[$fullname.'+'.$secondary_option] = 0;
+					}
+				} else {
+					$variants_array[$fullname] = 0;
+				}
+			}
+		}
+	}
+
+	$item_variant_response = $cash_admin->requestAndStore(
+		array(
+			'cash_request_type' => 'commerce',
+			'cash_action' => 'deleteitemvariants',
+			'item_id' => $request_parameters[0]
+		)
+	);
+	$item_variant_response = $cash_admin->requestAndStore(
+		array(
+			'cash_request_type' => 'commerce',
+			'cash_action' => 'additemvariants',
+			'item_id' => $request_parameters[0],
+			'variants' => $variants_array
+		)
+	);
 }
 
 if (is_array($item_response['payload'])) {
