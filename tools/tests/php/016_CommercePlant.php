@@ -131,11 +131,11 @@ class CommercePlantTests extends UnitTestCase {
 		);
 
 		$this->assertTrue($item_request->response['payload']);
-		$this->assertEqual($item_request->response['payload']['attributes']['size'], array('small', 'medium', 'large'));
-		$this->assertEqual($item_request->response['payload']['attributes']['color'], array('red', 'green'));
+		$this->assertEqual($item_request->response['payload']['attributes']['size'], array('small' => 30, 'medium' => 20, 'large' => 20));
+		$this->assertEqual($item_request->response['payload']['attributes']['color'], array('red' => 40, 'green' => 30));
 
-		foreach($item_request->response['payload']['quantities'] as $quantity) {
-			if ($variant_key == $quantity['key']) {
+		foreach($item_request->response['payload']['quantities'] as $key => $quantity) {
+			if ($variant_key == $key) {
 				$this->assertEqual($quantity['value'], 20);
 			} else {
 				$this->assertEqual($quantity['value'], 10);
