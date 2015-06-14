@@ -206,9 +206,11 @@ class CommercePlant extends PlantBase {
 							$variants['attributes'][$attribute_name] = array();
 						}
 
-						if (!in_array($attribute_value, $variants['attributes'][$attribute_name])) {
-							$variants['attributes'][$attribute_name][$attribute_value] += $item['quantity'];
+						if (!isset($variants['attributes'][$attribute_name][$attribute_value])) {
+							$variants['attributes'][$attribute_name][$attribute_value] = 0;
 						}
+
+						$variants['attributes'][$attribute_name][$attribute_value] += $item['quantity'];
 					}
 				}
 			}
