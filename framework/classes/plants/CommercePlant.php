@@ -191,9 +191,8 @@ class CommercePlant extends PlantBase {
 
 				if (!($item['quantity'] < 1 && $exclude_empties)) {
 
-					$variants['quantities'][] = array(
+					$variants['quantities'][$item['attributes']] = array(
 						'id' => $item['id'],
-						'key' => $item['attributes'],
 						'value' => $item['quantity']
 					);
 
@@ -208,7 +207,7 @@ class CommercePlant extends PlantBase {
 						}
 
 						if (!in_array($attribute_value, $variants['attributes'][$attribute_name])) {
-							$variants['attributes'][$attribute_name][] = $attribute_value;
+							$variants['attributes'][$attribute_name][$attribute_value] += $item['quantity'];
 						}
 					}
 				}
