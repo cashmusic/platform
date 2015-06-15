@@ -46,6 +46,7 @@ if (isset($_POST['doitemadd'])) {
 				    'cash_request_type' => 'commerce',
 				    'cash_action' => 'edititemvariant',
 				    'id' => str_replace('varquantity-','',$name),
+					 'item_id' => $request_parameters[0],
 				    'quantity' => $value,
 				  )
 				);

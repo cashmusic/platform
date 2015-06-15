@@ -116,6 +116,7 @@ class CommercePlantTests extends UnitTestCase {
 		  array(
 		    'cash_request_type' => 'commerce',
 		    'cash_action' => 'edititemvariant',
+			 'item_id' => $this->testing_item,
 		    'id' => $this->testing_item_variants[$variant_key],
 		    'quantity' => 20,
 		  )
@@ -146,6 +147,7 @@ class CommercePlantTests extends UnitTestCase {
 		$this->assertEqual($item_request->response['payload']['quantities'][0]['value'], 20);
 	}
 
+/*
 	function testUpdateItemQuantity() {
 
 		$item_request = new CASHRequest(
@@ -174,6 +176,7 @@ class CommercePlantTests extends UnitTestCase {
 
 		$this->assertEqual($item_request->response['payload']['available_units'], $total_quantity);
 	}
+*/
 
 	function testDeleteItem() {
 		$item_request = new CASHRequest(

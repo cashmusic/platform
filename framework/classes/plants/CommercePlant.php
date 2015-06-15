@@ -34,7 +34,6 @@ class CommercePlant extends PlantBase {
 			'edititemvariant'   	=> array('editItemVariant','direct'),
 			'editorder'           => array('editOrder','direct'),
 			'edittransaction'     => array('editTransaction','direct'),
-			'updateitemquantity'	=> array('updateItemQuantity', 'direct'),
 			'getanalytics'        => array('getAnalytics','direct'),
 			'getitem'             => array('getItem','direct'),
 			'getitemvariants'     => array('getItemVariants','direct'),
@@ -121,6 +120,8 @@ class CommercePlant extends PlantBase {
 
 				$variant_ids[$attributes] = $result;
 			}
+
+			$this->updateItemQuantity($item_id);
 
 			return $variant_ids;
 		} else {
@@ -309,7 +310,7 @@ class CommercePlant extends PlantBase {
 		return $result;
 	}
 
-	protected function editItemVariant($id, $quantity, $user_id=false) {
+	protected function editItemVariant($id, $quantity, $item_id, $user_id=false) {
 
 		$condition = array(
 			"id" => array(
@@ -334,6 +335,11 @@ class CommercePlant extends PlantBase {
 			$updates,
 			$condition
 		);
+
+		if ($result) {
+			$this->updateItemQuantity($item_id);
+		}
+
 		return $result;
 	}
 
