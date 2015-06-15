@@ -37,6 +37,22 @@ if (isset($_POST['doitemadd'])) {
 		)
 	);
 } else {
+	/* ITEM VARIANTS */
+	if (isset($_POST['dovariantqty'])) {
+		foreach ($_POST as $name => $value) {
+			if (substr($name,0,12) == 'varquantity-') {
+				$varqty_response = $cash_admin->requestAndStore(
+				  array(
+				    'cash_request_type' => 'commerce',
+				    'cash_action' => 'edititemvariant',
+				    'id' => str_replace('varquantity-','',$name),
+				    'quantity' => $value,
+				  )
+				);
+			}
+		}
+	}
+
 	// parsing posted data:
 	if (isset($_POST['doitemedit'])) {
 		// do the actual list add stuffs...
