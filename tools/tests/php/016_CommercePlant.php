@@ -109,7 +109,7 @@ class CommercePlantTests extends UnitTestCase {
 
 	function testEditAndGetItemVariant() {
 
-		$variant_key = array_keys($this->testing_item_variants)[0];
+		$variant_key = array_shift(array_keys($this->testing_item_variants));
 
 		$item_request = new CASHRequest(
 		  array(
