@@ -1,8 +1,8 @@
 <?php
 /**
- * No frills DBA connection class using PHP's PDO library. CASHDBA provides 
- * easy functions for data access using a get/set convention and auto-detection 
- * of conditions. All database tables are abstracted using a lookupTableName() 
+ * No frills DBA connection class using PHP's PDO library. CASHDBA provides
+ * easy functions for data access using a get/set convention and auto-detection
+ * of conditions. All database tables are abstracted using a lookupTableName()
  * function to centralize any future schema changes.
  *
  * @package platform.org.cashmusic
@@ -47,7 +47,7 @@ class CASHDBA {
 	}
 
 	public function connect() {
-		try {  
+		try {
 			if ($this->driver == 'sqlite') {
 				$this->db = new PDO("sqlite:" . CASH_PLATFORM_ROOT . "/db/{$this->dbname}");
 			} else {
@@ -58,8 +58,8 @@ class CASHDBA {
 				}
 			}
 			$this->db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-		} catch(PDOException $e) {  
-			$this->error = $e->getMessage();  
+		} catch(PDOException $e) {
+			$this->error = $e->getMessage();
 			error_log('CASHDBA error: ' . $this->error);
 			die();
 		}
@@ -68,7 +68,7 @@ class CASHDBA {
 	public function getErrorMessage() {
 		return $this->error;
 	}
-	
+
 	public function lookupTableName($data_name) {
 		$table_lookup = array(
 			'analytics' => 'system_analytics',
@@ -118,9 +118,10 @@ class CASHDBA {
 			$q = $this->db->query($query);
 		}
 		$q->setFetchMode(PDO::FETCH_ASSOC);
-		try {  
+
+		try {
 			$result = $q->fetchAll();
-		} catch(PDOException $e) {  
+		} catch(PDOException $e) {
 			$this->error = $e->getMessage();
 			error_log('CASHDBA error: ' . $this->error);
 		}
@@ -132,7 +133,7 @@ class CASHDBA {
 			}
 		}
 	}
-	
+
 	public function getRealTableNames() {
 		if ($this->driver == 'sqlite') {
 			$query = 'SELECT name FROM sqlite_master WHERE type=\'table\'';
@@ -158,7 +159,7 @@ class CASHDBA {
 			return false;
 		}
 	}
-	
+
 	public function migrateDB($todriver='mysql',$tosettings=false) {
 		/* for mysql we're expecting a $tosettings array that looks like:
 		   hostname => hostname[:port]
@@ -184,14 +185,14 @@ class CASHDBA {
 				}
 			}
 			if ($newdb_hostname) {
-				try {  
+				try {
 					if (substr($this->hostname,0,2) == ':/') {
 						$newdb = new PDO("$todriver:unix_socket=$newdb_hostname;dbname={$tosettings['database']}", $tosettings['username'], $tosettings['password']);
 					} else {
 						$newdb = new PDO("$todriver:host=$newdb_hostname;port=$newdb_port;dbname={$tosettings['database']}", $tosettings['username'], $tosettings['password']);
 					}
 					$newdb->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-				} catch(PDOException $e) {  
+				} catch(PDOException $e) {
 					return false;
 				}
 				// run the baseline sql file — will blow away any old bullshit but leave non-standard tables
@@ -223,7 +224,7 @@ class CASHDBA {
 									$separator = ',';
 								}
 								$query .= "$query_columns) VALUES ($query_values)";
-								try {  
+								try {
 									$q = $newdb->prepare($query);
 									$q->execute($data);
 								} catch(PDOException $e) {
@@ -246,14 +247,14 @@ class CASHDBA {
 					} else {
 						return $result;
 					}
-					
+
 				}
 			} else {
 				return false;
 			}
 		}
 	}
-	
+
 	public function parseConditions(&$conditions,$prepared=true) {
 		$return_str = " WHERE ";
 		$separator = '';
@@ -348,7 +349,7 @@ class CASHDBA {
 			return false;
 		}
 	}
-	
+
 	public function setData($data_name,$data,$conditions=false) {
 		if (!is_object($this->db)) {
 			$this->connect();
@@ -395,7 +396,7 @@ class CASHDBA {
 				$query .= ")";
 			}
 			if ($query) {
-				try {  
+				try {
 					$q = $this->db->prepare($query);
 					$success = $q->execute($data);
 					if ($success) {
@@ -411,10 +412,10 @@ class CASHDBA {
 					} else {
 						return false;
 					}
-				} catch(PDOException $e) {  
+				} catch(PDOException $e) {
 					$this->error = $e->getMessage();
 					error_log('CASHDBA error: ' . $this->error);
-				}	
+				}
 			} else {
 				return false;
 			}
@@ -422,7 +423,7 @@ class CASHDBA {
 			return false;
 		}
 	}
-	
+
 	public function deleteData($data_name,$conditions=false) {
 		if (!is_object($this->db)) {
 			$this->connect();
@@ -431,14 +432,14 @@ class CASHDBA {
 		$table_name = $this->lookupTableName($data_name);
 		if ($conditions) {
 			$query = "DELETE FROM $table_name" . $this->parseConditions($conditions,false);
-			try {  
+			try {
 				$result = $this->db->exec($query);
 				if ($result) {
 					return true;
 				} else {
 					return false;
 				}
-			} catch(PDOException $e) {  
+			} catch(PDOException $e) {
 				$this->error = $e->getMessage();
 				error_log('CASHDBA error: ' . $this->error);
 				die();
@@ -447,11 +448,12 @@ class CASHDBA {
 			return false;
 		}
 	}
-	
+
 	public function getSpecialData($data_name,$conditions=false,$limit=false,$orderby=false) {
 		if (!is_object($this->db)) {
 			$this->connect();
 		}
+
 		switch ($data_name) {
 			case 'AssetPlant_getAnalytics_mostaccessed':
 				$query = "SELECT aa.asset_id as 'id', COUNT(aa.id) as 'count', a.title as 'title', a.description as 'description' "
@@ -514,6 +516,11 @@ class CASHDBA {
 				$query = "SELECT SUM(gross_price) AS total_gross, COUNT(id) AS total_transactions  "
 				. "FROM commerce_transactions "
 				. "WHERE user_id = :user_id AND successful = 1 AND creation_date > :date_low  AND creation_date < :date_high";
+				break;
+			case 'CommercePlant_getTotalItemVariantsQuantity':
+				$query = "SELECT SUM(quantity) as total_quantity "
+				. "FROM commerce_item_variants "
+				. "WHERE item_id = :item_id";
 				break;
 			case 'ElementPlant_getAnalytics_mostactive':
 				$query = "SELECT ea.element_id as 'id', COUNT(ea.id) as 'count', e.name as 'name' "
@@ -580,6 +587,7 @@ class CASHDBA {
 				foreach ($conditions as $value => $details) {
 					$values_array[':'.$value] = $details['value'];
 				}
+
 				return $this->doQuery($query,$values_array);
 			} else {
 				return $this->doQuery($query);
@@ -588,5 +596,5 @@ class CASHDBA {
 			return false;
 		}
 	}
-} // END class 
+} // END class
 ?>
