@@ -193,13 +193,8 @@ class CommercePlant extends PlantBase {
 			foreach ($result as $item) {
 
 				if (!($item['quantity'] < 1 && $exclude_empties)) {
-					$variants['quantities'][] = array(
-						'id' => $item['id'],
-						'key' => $item['attributes'],
-						'value' => $item['quantity']
-					);
-
 					$attribute_keys = explode('+', $item['attributes']);
+					$name_pairs = array();
 
 					foreach ($attribute_keys as $part) {
 
@@ -214,7 +209,16 @@ class CommercePlant extends PlantBase {
 						}
 
 						$attributes[$key][$type] += $item['quantity'];
+
+						$name_pairs[] = "$key: $type";
 					}
+
+					$variants['quantities'][] = array(
+						'id' => $item['id'],
+						'key' => $item['attributes'],
+						'formatted_name' => implode(", ", $name_pairs),
+						'value' => $item['quantity']
+					);
 				}
 			}
 
