@@ -34,6 +34,7 @@ class CommercePlant extends PlantBase {
 			'edititemvariant'   	=> array('editItemVariant','direct'),
 			'editorder'           => array('editOrder','direct'),
 			'edittransaction'     => array('editTransaction','direct'),
+			'updateitemquantity'	=> array('updateItemQuantity', 'direct'),
 			'getanalytics'        => array('getAnalytics','direct'),
 			'getitem'             => array('getItem','direct'),
 			'getitemvariants'     => array('getItemVariants','direct'),
@@ -187,12 +188,14 @@ class CommercePlant extends PlantBase {
 				'quantities' => array(),
 			);
 
+			$attributes = array();
+
 			foreach ($result as $item) {
 
 				if (!($item['quantity'] < 1 && $exclude_empties)) {
-
-					$variants['quantities'][$item['attributes']] = array(
+					$variants['quantities'][] = array(
 						'id' => $item['id'],
+						'key' => $item['attributes'],
 						'value' => $item['quantity']
 					);
 
@@ -200,19 +203,35 @@ class CommercePlant extends PlantBase {
 
 					foreach ($attribute_keys as $part) {
 
-						list($attribute_name, $attribute_value) = explode('->', $part);
+						list($key, $type) = explode('->', $part);
 
-						if (!isset($variants['attributes'][$attribute_name])) {
-							$variants['attributes'][$attribute_name] = array();
+						if (!array_key_exists($key, $attributes)) {
+							$attributes[$key] = array();
 						}
 
-						if (!isset($variants['attributes'][$attribute_name][$attribute_value])) {
-							$variants['attributes'][$attribute_name][$attribute_value] = 0;
+						if (!array_key_exists($type, $attributes[$key])) {
+							$attributes[$key][$type] = 0;
 						}
 
-						$variants['attributes'][$attribute_name][$attribute_value] += $item['quantity'];
+						$attributes[$key][$type] += $item['quantity'];
 					}
 				}
+			}
+
+			foreach ($attributes as $key => $values) {
+				$items = array();
+
+				foreach ($values as $type => $quantity) {
+					$items[] = array(
+						'key' => $type,
+						'value' => $quantity,
+					);
+				}
+
+				$variants['attributes'][] = array(
+					'key' => $key,
+					'items' => $items
+				);
 			}
 
 			return $variants;
@@ -817,6 +836,45 @@ class CommercePlant extends PlantBase {
 				)
 			)
 		);
+		return $result;
+	}
+
+	protected function updateItemQuantity(
+		$id
+	) {
+
+		$result = $this->db->getData(
+			'CommercePlant_getTotalItemVariantsQuantity',
+			false,
+			array(
+				"item_id" => array(
+					"condition" => "=",
+					"value" => $id
+				)
+			)
+		);
+
+		if (!$result) {
+			return false;
+		}
+
+		$updates = array(
+			'available_units' => $result[0]['total_quantity']
+		);
+
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $id
+			)
+		);
+
+		$result = $this->db->setData(
+			'items',
+			$updates,
+			$condition
+		);
+
 		return $result;
 	}
 
