@@ -108,7 +108,6 @@ if (isset($_POST['configure_variants'])) {
 				if (is_array($processing_array['secondaryoptions'])) {
 					$secondary_array = array();
 					foreach ($processing_array['secondaryoptions'] as $option) {
-						//error_log(print_r($option,true));
 						$secondary_array[] = $_POST['secondary_variant_name'].'->'.$option['optionname'];
 					}
 				}
@@ -150,6 +149,20 @@ if (is_array($item_response['payload'])) {
 		$cash_admin->page_data['page_message'] = 'Success. Event added.';
 	}
 	$cash_admin->page_data['asset_options'] = AdminHelper::echoFormOptions('assets',$item_response['payload']['fulfillment_asset'],$cash_admin->getAllFavoriteAssets(),true);
+
+	if ($item_response['payload']['physical_fulfillment']) {
+		$item_variant_response = $cash_admin->requestAndStore(
+			array(
+				'cash_request_type' => 'commerce',
+				'cash_action' => 'getitemvariants',
+				'item_id' => $request_parameters[0]
+			)
+		);
+		if ($item_variant_response['payload']) {
+			$cash_admin->page_data['has_variants'] = true;
+			$cash_admin->page_data['variants_quantities'] = new ArrayIterator($item_variant_response['payload']['quantities']);
+		}
+	}
 }
 
 $cash_admin->page_data['form_state_action'] = 'doitemedit';
