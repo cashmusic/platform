@@ -109,7 +109,8 @@ class CommercePlantTests extends UnitTestCase {
 
 	function testEditAndGetItemVariant() {
 
-		$variant_key = array_shift(array_keys($this->testing_item_variants));
+		$variant_keys = array_keys($this->testing_item_variants);
+		$variant_key = array_shift($variant_keys);
 
 		$item_request = new CASHRequest(
 		  array(
@@ -130,17 +131,19 @@ class CommercePlantTests extends UnitTestCase {
 		  )
 		);
 
-		$this->assertTrue($item_request->response['payload']);
-		$this->assertEqual($item_request->response['payload']['attributes']['size'], array('small' => 30, 'medium' => 20, 'large' => 20));
-		$this->assertEqual($item_request->response['payload']['attributes']['color'], array('red' => 40, 'green' => 30));
+		$expected_items = array(
+			array('key' => 'small', 'value' => 30),
+			array('key' => 'medium', 'value' => 20),
+			array('key' => 'large', 'value' => 20),
+		);
 
-		foreach($item_request->response['payload']['quantities'] as $key => $quantity) {
-			if ($variant_key == $key) {
-				$this->assertEqual($quantity['value'], 20);
-			} else {
-				$this->assertEqual($quantity['value'], 10);
-			}
-		}
+		$this->assertTrue($item_request->response['payload']);
+		$this->assertEqual($item_request->response['payload']['attributes'][0]['key'], 'size');
+		$this->assertEqual($item_request->response['payload']['attributes'][0]['items'], $expected_items);
+		$this->assertEqual($item_request->response['payload']['quantities'][0]['id'], 1);
+		$this->assertEqual($item_request->response['payload']['quantities'][0]['key'], 'size->small+color->red');
+		$this->assertEqual($item_request->response['payload']['quantities'][0]['formatted_name'], 'size: small, color: red');
+		$this->assertEqual($item_request->response['payload']['quantities'][0]['value'], 20);
 	}
 
 	function testDeleteItem() {
