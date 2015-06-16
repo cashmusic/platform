@@ -44,15 +44,15 @@ class TwitterSeed extends SeedBase {
 					$this->error_message = 'no API key found';
 				} else {
 					require_once(CASH_PLATFORM_ROOT.'/lib/twitter/OAuth.php');
-					require_once(CASH_PLATFORM_ROOT.'/lib/twitter/twitteroauth.php');		
-					
+					require_once(CASH_PLATFORM_ROOT.'/lib/twitter/twitteroauth.php');
+
 					$connections = CASHSystem::getSystemSettings('system_connections');
 					$this->client_id = $connections['com.twitter']['client_id'];
 					$this->client_secret = $connections['com.twitter']['client_secret'];
 
 					$this->twitter = new TwitterOAuth(
-						$this->client_id, 
-						$this->client_secret, 
+						$this->client_id,
+						$this->client_secret,
 						$this->oauth_token,
 						$this->oauth_token_secret
 					);
@@ -65,7 +65,7 @@ class TwitterSeed extends SeedBase {
 
 	public static function getRedirectMarkup($data=false) {
 		$connections = CASHSystem::getSystemSettings('system_connections');
-		
+
 		if (isset($connections['com.twitter'])) {
 			require_once(CASH_PLATFORM_ROOT.'/lib/twitter/OAuth.php');
 			require_once(CASH_PLATFORM_ROOT.'/lib/twitter/twitteroauth.php');
@@ -100,8 +100,8 @@ class TwitterSeed extends SeedBase {
 			$temporary_credentials = AdminHelper::getPersistentData('twitter_temporary_credentials');
 
 			$twitter = new TwitterOAuth(
-				$connections['com.mailchimp']['client_id'], 
-				$connections['com.mailchimp']['client_secret'], 
+				$connections['com.mailchimp']['client_id'],
+				$connections['com.mailchimp']['client_secret'],
 				$temporary_credentials['oauth_token'],
 				$temporary_credentials['oauth_token_secret']
 			);
@@ -109,7 +109,7 @@ class TwitterSeed extends SeedBase {
 
 
 			if ($twitter->http_code == 200) {
-				// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth 
+				// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
 				// calls would only happen in the admin. If this changes we can fuck around with it later.
 				$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
 				$result = $new_connection->setSettings(
@@ -135,7 +135,7 @@ class TwitterSeed extends SeedBase {
 		$data_name = http_build_query($params, '', '-');
 		$data = $this->getCacheData($this->settings_type,$data_name);
 
-		if (!$data) {
+		if (!$data && $this->twitter) {
 			$data = $this->twitter->get($endpoint,$params);
 			if (!$data) {
 				$data = $this->getCacheData($this->settings_type,$data_name,true);
@@ -177,7 +177,7 @@ class TwitterSeed extends SeedBase {
 
 	public function getUserFeed($username,$exclude_replies=true,$count=200,$filtertype=false,$filter=false) {
 		if ($username) {
-			// twitter does some filtering (RTs and replies, if specified) but the count variable comes 
+			// twitter does some filtering (RTs and replies, if specified) but the count variable comes
 			// before that filtering. we need to jack this way up, then cut it down after the fact
 			$working_count = ($count * 2) + 100;
 
@@ -262,13 +262,13 @@ class TwitterSeed extends SeedBase {
 				}
 			}
 		}
-		
+
 		return $innermarkup;
 		/*
 		The CSS to go along with the twitter markup:
-		
+
 		From our stuff up on http://marketairglovamusic.com/
-		
+
 		.cashmusic_social {margin:10px 0 20px 0;padding:15px;background-color:#fff;border-top-left-radius:5px 5px;border-top-right-radius:5px 5px;border-bottom-right-radius:5px 5px;border-bottom-left-radius:5px 5px;}
 		.cashmusic_social a {color:#cdcdcd;}
 		.cashmusic_twitter {font:14.5px/1.75em georgia,'times new roman',times,serif;}
@@ -281,5 +281,5 @@ class TwitterSeed extends SeedBase {
 		.cashmusic_clearall {clear:both;height:1px;overflow:hidden;visibility:hidden;}
 		*/
 	}
-} // END class 
+} // END class
 ?>

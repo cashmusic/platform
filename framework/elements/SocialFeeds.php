@@ -27,29 +27,37 @@ class SocialFeeds extends ElementBase {
 		$raw_feeds = array();
 		$twitter_feeds = array();
 		$tumblr_feeds = array();
-		
+
 		$feedcount = 0;
-		foreach($this->options['twitter'] as $feedname => $feed) {
-			$twitter_request = $this->twitter_seed->getUserFeed($feed['twitterusername'],$feed['twitterhidereplies'],$this->options['post_limit'],$feed['twitterfiltertype'],$feed['twitterfiltervalue']);
-			if ($twitter_request) {
-				$twitter_feeds[] = $twitter_request;
-				$feedcount++;
+		if (isset($this->options['twitter'])) {
+			if (is_array($this->options['twitter'])) {
+				foreach($this->options['twitter'] as $feedname => $feed) {
+					$twitter_request = $this->twitter_seed->getUserFeed($feed['twitterusername'],$feed['twitterhidereplies'],$this->options['post_limit'],$feed['twitterfiltertype'],$feed['twitterfiltervalue']);
+					if ($twitter_request) {
+						$twitter_feeds[] = $twitter_request;
+						$feedcount++;
+					}
+				}
 			}
 		}
-		foreach($this->options['tumblr'] as $feedname => $feed) {
-			$tumblr_request = $this->tumblr_seed->getTumblrFeed($feed['tumblrurl'],0,$feed['tumblrtag'],(array) $feed['post_types']);
-			if ($tumblr_request) {
-				$tumblr_feeds[] = $tumblr_request;
-				$feedcount++;
+		if (isset($this->options['tumblr'])) {
+			if (is_array($this->options['tumblr'])) {
+				foreach($this->options['tumblr'] as $feedname => $feed) {
+					$tumblr_request = $this->tumblr_seed->getTumblrFeed($feed['tumblrurl'],0,$feed['tumblrtag'],(array) $feed['post_types']);
+					if ($tumblr_request) {
+						$tumblr_feeds[] = $tumblr_request;
+						$feedcount++;
+					}
+				}
 			}
 		}
-		
+
 		$raw_feeds['twitter'] = $twitter_feeds;
 		$raw_feeds['tumblr'] = $tumblr_feeds;
-		
+
 		if ($feedcount) {
 			$formatted_feed = array();
-			
+
 			foreach ($raw_feeds['twitter'] as $feed) {
 				foreach ($feed as $tweet) {
 					$formatted_feed[strtotime($tweet->created_at)] = array(
@@ -66,12 +74,12 @@ class SocialFeeds extends ElementBase {
 						'markup' => $this->tumblr_seed->prepMarkup($post)
 					);
 				}
-				
+
 			}
 
 			krsort($formatted_feed);
 			$formatted_feed = array_slice($formatted_feed,0,$this->options['post_limit'],true);
-			
+
 			$this->element_data['raw_feeds'] = $raw_feeds;
 			$this->element_data['formatted_feed'] = new ArrayIterator($formatted_feed);
 		} else {
@@ -80,5 +88,5 @@ class SocialFeeds extends ElementBase {
 		}
 		return $this->element_data;
 	}
-} // END class 
+} // END class
 ?>
