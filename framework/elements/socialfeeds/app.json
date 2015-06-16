@@ -27,6 +27,9 @@
 					"label":{
 						"en":"Twitter"
 					},
+					"description":{
+						"en":"You'll need to add a Twitter connection for tweets to appear in your feed."
+					},
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
@@ -74,6 +77,9 @@
 				"tumblr":{
 					"label":{
 						"en":"Tumblr"
+					},
+					"description":{
+						"en":"No connection is needed to pull Tumblr posts. Just add a URL, select post types, and you're off."
 					},
 					"type":"scalar",
 					"displaysize":"large",

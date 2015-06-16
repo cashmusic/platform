@@ -1,7 +1,14 @@
-[
-	"com.amazon",
-	"com.google.drive",
-	"com.mailchimp",
-	"com.paypal",
-	"com.twitter"
-]
+{
+	"public":[
+		"downloadcodes",
+		"emailcollection",
+		"membersarea",
+		"securedownload",
+		"singlepurchase",
+		"staticcontent",
+		"tourdates"
+	],
+	"beta":[
+		"socialfeeds"
+	]
+}

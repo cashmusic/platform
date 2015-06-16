@@ -16,7 +16,7 @@
  *
  **/
 class CommercePlant extends PlantBase {
-	
+
 	public function __construct($request_type,$request) {
 		$this->request_type = 'commerce';
 		$this->routing_table = array(
@@ -24,14 +24,19 @@ class CommercePlant extends PlantBase {
 			// first value  = target method to call
 			// second value = allowed request methods (string or array of strings)
 			'additem'             => array('addItem','direct'),
+			'additemvariants'     => array('addItemVariants','direct'),
 			'addorder'            => array('addOrder','direct'),
 			'addtransaction'      => array('addTransaction','direct'),
 			'deleteitem'          => array('deleteItem','direct'),
+			'deleteitemvariant'   => array('deleteItemVariant','direct'),
+			'deleteitemvariants'  => array('deleteItemVariants','direct'),
 			'edititem'            => array('editItem','direct'),
+			'edititemvariant'   	=> array('editItemVariant','direct'),
 			'editorder'           => array('editOrder','direct'),
 			'edittransaction'     => array('editTransaction','direct'),
 			'getanalytics'        => array('getAnalytics','direct'),
 			'getitem'             => array('getItem','direct'),
+			'getitemvariants'     => array('getItemVariants','direct'),
 			'getitemsforuser'     => array('getItemsForUser','direct'),
 			'getorder'            => array('getOrder','direct'),
 			'getordersforuser'    => array('getOrdersForUser','direct'),
@@ -42,7 +47,7 @@ class CommercePlant extends PlantBase {
 		);
 		$this->plantPrep($request_type,$request);
 	}
-	
+
 	protected function addItem(
 		$user_id,
 		$name,
@@ -87,8 +92,44 @@ class CommercePlant extends PlantBase {
 		);
 		return $result;
 	}
-	
-	protected function getItem($id,$user_id=false) {
+
+	protected function addItemVariants(
+		$item_id,
+		$variants
+	) {
+
+		$item_details = $this->getItem($item_id);
+		if ($item_details) {
+			$variant_ids = array();
+
+			foreach ($variants as $attributes => $quantity) {
+
+				$result = $this->db->setData(
+					'item_variants',
+					array(
+						'item_id' 		=> $item_id,
+						'user_id'		=> $item_details['user_id'],
+						'attributes' 	=> $attributes,
+						'quantity' 		=> $quantity,
+					)
+				);
+
+				if (!$result) {
+					return false;
+				}
+
+				$variant_ids[$attributes] = $result;
+			}
+
+			$this->updateItemQuantity($item_id);
+
+			return $variant_ids;
+		} else {
+			return false;
+		}
+	}
+
+	protected function getItem($id,$user_id=false,$with_variants=true) {
 		$condition = array(
 			"id" => array(
 				"condition" => "=",
@@ -106,13 +147,104 @@ class CommercePlant extends PlantBase {
 			'*',
 			$condition
 		);
+
 		if ($result) {
-			return $result[0];
+			$item = $result[0];
+
+			if ($with_variants) {
+				$item['variants'] = $this->getItemVariants($id, $user_id);
+			}
+
+			return $item;
 		} else {
 			return false;
 		}
 	}
-	
+
+	protected function getItemVariants($item_id, $exclude_empties = false, $user_id=false) {
+		$condition = array(
+			"item_id" => array(
+				"condition" => "=",
+				"value" => $item_id
+			)
+		);
+
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
+
+		$result = $this->db->getData(
+			'item_variants',
+			'*',
+			$condition
+		);
+
+		if ($result) {
+
+			$variants = array(
+				'attributes' => array(),
+				'quantities' => array(),
+			);
+
+			$attributes = array();
+
+			foreach ($result as $item) {
+
+				if (!($item['quantity'] < 1 && $exclude_empties)) {
+					$attribute_keys = explode('+', $item['attributes']);
+					$name_pairs = array();
+
+					foreach ($attribute_keys as $part) {
+
+						list($key, $type) = explode('->', $part);
+
+						if (!array_key_exists($key, $attributes)) {
+							$attributes[$key] = array();
+						}
+
+						if (!array_key_exists($type, $attributes[$key])) {
+							$attributes[$key][$type] = 0;
+						}
+
+						$attributes[$key][$type] += $item['quantity'];
+
+						$name_pairs[] = "$key: $type";
+					}
+
+					$variants['quantities'][] = array(
+						'id' => $item['id'],
+						'key' => $item['attributes'],
+						'formatted_name' => implode(", ", $name_pairs),
+						'value' => $item['quantity']
+					);
+				}
+			}
+
+			foreach ($attributes as $key => $values) {
+				$items = array();
+
+				foreach ($values as $type => $quantity) {
+					$items[] = array(
+						'key' => $type,
+						'value' => $quantity,
+					);
+				}
+
+				$variants['attributes'][] = array(
+					'key' => $key,
+					'items' => $items
+				);
+			}
+
+			return $variants;
+		} else {
+			return false;
+		}
+	}
+
 	protected function editItem(
 		$id,
 		$name=false,
@@ -177,7 +309,40 @@ class CommercePlant extends PlantBase {
 		);
 		return $result;
 	}
-	
+
+	protected function editItemVariant($id, $quantity, $item_id, $user_id=false) {
+
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $id,
+			)
+		);
+
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
+
+		$updates = array(
+			'quantity' => $quantity
+		);
+
+		$result = $this->db->setData(
+			'item_variants',
+			$updates,
+			$condition
+		);
+
+		if ($result) {
+			$this->updateItemQuantity($item_id);
+		}
+
+		return $result;
+	}
+
 	protected function deleteItem($id,$user_id=false) {
 		$condition = array(
 			"id" => array(
@@ -195,10 +360,64 @@ class CommercePlant extends PlantBase {
 			'items',
 			$condition
 		);
+
+		if (!$result) {
+			return false;
+		}
+
+		$result = $this->deleteItemVariants($id, $user_id);
+
 		return $result;
 	}
 
-	protected function getItemsForUser($user_id) {
+	protected function deleteItemVariant($id, $user_id=false) {
+
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $id
+			)
+		);
+
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
+
+		$result = $this->db->deleteData(
+			'item_variants',
+			$condition
+		);
+		return $result;
+	}
+
+	protected function deleteItemVariants($item_id, $user_id=false) {
+
+		$condition = array(
+			"item_id" => array(
+				"condition" => "=",
+				"value" => $item_id
+			)
+		);
+
+		if ($user_id) {
+			$condition['user_id'] = array(
+				"condition" => "=",
+				"value" => $user_id
+			);
+		}
+
+		$result = $this->db->deleteData(
+			'item_variants',
+			$condition
+		);
+
+		return $result;
+	}
+
+	protected function getItemsForUser($user_id,$with_variants=true) {
 		$result = $this->db->getData(
 			'items',
 			'*',
@@ -209,6 +428,15 @@ class CommercePlant extends PlantBase {
 				)
 			)
 		);
+
+		if ($with_variants) {
+			$length = count($result);
+
+			for ($index = 0; $index < $length; $index++) {
+				$result[$index]['variants'] = $this->getItemVariants($result[$index]['id'], false, $user_id);
+			}
+		}
+
 		return $result;
 	}
 
@@ -230,7 +458,7 @@ class CommercePlant extends PlantBase {
 		if (is_array($order_contents)) {
 			/*
 				basically we store as JSON to prevent loss of order history
-				in the event an item changes or is deleted. we want accurate 
+				in the event an item changes or is deleted. we want accurate
 				history so folks don't get all crazy bananas about teh $$s
 			*/
 			$final_order_contents = json_encode($order_contents);
@@ -257,7 +485,7 @@ class CommercePlant extends PlantBase {
 			return false;
 		}
 	}
-	
+
 	protected function getOrder($id,$deep=false,$user_id=false) {
 		if ($deep) {
 			$result = $this->db->getData(
@@ -279,7 +507,7 @@ class CommercePlant extends PlantBase {
 				$result[0]['order_totals'] = $this->getOrderTotals($result[0]['order_contents']);
 				$user_request = new CASHRequest(
 					array(
-						'cash_request_type' => 'people', 
+						'cash_request_type' => 'people',
 						'cash_action' => 'getuser',
 						'user_id' => $result[0]['customer_user_id']
 					)
@@ -311,7 +539,7 @@ class CommercePlant extends PlantBase {
 			return false;
 		}
 	}
-	
+
 	protected function editOrder(
 		$id,
 		$fulfilled=false,
@@ -372,7 +600,7 @@ class CommercePlant extends PlantBase {
 					'customer_first_name' => $data_sent['FIRSTNAME'],
 					'customer_last_name' => $data_sent['LASTNAME']
 				);
-				
+
 				// this is ugly, but the if statements normalize Paypal's love of omitting empty data
 
 				if (isset($data_sent['PAYMENTREQUEST_0_SHIPTONAME'])) {
@@ -497,7 +725,7 @@ class CommercePlant extends PlantBase {
 	protected function getOrdersByCustomer($user_id,$customer_email) {
 		$user_request = new CASHRequest(
 			array(
-				'cash_request_type' => 'people', 
+				'cash_request_type' => 'people',
 				'cash_action' => 'getuseridforaddress',
 				'address' => $customer_email
 			)
@@ -558,7 +786,7 @@ class CommercePlant extends PlantBase {
 		);
 		return $result;
 	}
-	
+
 	protected function getTransaction($id,$user_id=false) {
 		$condition = array(
 			"id" => array(
@@ -583,7 +811,7 @@ class CommercePlant extends PlantBase {
 			return false;
 		}
 	}
-	
+
 	protected function editTransaction(
 		$id,
 		$service_timestamp=false,
@@ -620,7 +848,46 @@ class CommercePlant extends PlantBase {
 		);
 		return $result;
 	}
-	
+
+	protected function updateItemQuantity(
+		$id
+	) {
+
+		$result = $this->db->getData(
+			'CommercePlant_getTotalItemVariantsQuantity',
+			false,
+			array(
+				"item_id" => array(
+					"condition" => "=",
+					"value" => $id
+				)
+			)
+		);
+
+		if (!$result) {
+			return false;
+		}
+
+		$updates = array(
+			'available_units' => $result[0]['total_quantity']
+		);
+
+		$condition = array(
+			"id" => array(
+				"condition" => "=",
+				"value" => $id
+			)
+		);
+
+		$result = $this->db->setData(
+			'items',
+			$updates,
+			$condition
+		);
+
+		return $result;
+	}
+
 	protected function initiateCheckout($user_id,$connection_id,$order_contents=false,$item_id=false,$element_id=false,$total_price=false,$return_url_only=false) {
 		if (!$order_contents && !$item_id) {
 			return false;
@@ -687,7 +954,7 @@ class CommercePlant extends PlantBase {
 			}
 		}
 	}
-	
+
 	protected function getOrderTotals($order_contents) {
 		$contents = json_decode($order_contents,true);
 		$return_array = array(
@@ -705,7 +972,7 @@ class CommercePlant extends PlantBase {
 	protected function getCurrencyForUser($user_id) {
 		$currency_request = new CASHRequest(
 			array(
-				'cash_request_type' => 'system', 
+				'cash_request_type' => 'system',
 				'cash_action' => 'getsettings',
 				'type' => 'use_currency',
 				'user_id' => $user_id
@@ -718,7 +985,7 @@ class CommercePlant extends PlantBase {
 		}
 		return $currency;
 	}
-	
+
 	protected function initiatePaymentRedirect($order_id,$element_id=false,$price_addition=0,$return_url_only=false) {
 		$order_details = $this->getOrder($order_id);
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
@@ -753,7 +1020,7 @@ class CommercePlant extends PlantBase {
 					$return_url,
 					$require_shipping,
 					$allow_note,
-					$currency 
+					$currency
 				);
 				if (!$return_url_only) {
 					$redirect = CASHSystem::redirectToUrl($redirect_url);
@@ -769,7 +1036,7 @@ class CommercePlant extends PlantBase {
 		}
 		return false;
 	}
-	
+
 	protected function finalizeRedirectedPayment($order_id,$creation_date,$direct_post_details=false) {
 		$order_details = $this->getOrder($order_id);
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
@@ -788,7 +1055,7 @@ class CommercePlant extends PlantBase {
 									// look for a user to match the email. if not present, make one
 									$user_request = new CASHRequest(
 										array(
-											'cash_request_type' => 'people', 
+											'cash_request_type' => 'people',
 											'cash_action' => 'getuseridforaddress',
 											'address' => $initial_details['EMAIL']
 										)
@@ -797,9 +1064,9 @@ class CommercePlant extends PlantBase {
 									if (!$user_id) {
 										$user_request = new CASHRequest(
 											array(
-												'cash_request_type' => 'system', 
+												'cash_request_type' => 'system',
 												'cash_action' => 'addlogin',
-												'address' => $initial_details['EMAIL'], 
+												'address' => $initial_details['EMAIL'],
 												'password' => time(),
 												'is_admin' => 0,
 												'display_name' => $initial_details['FIRSTNAME'] . ' ' . $initial_details['LASTNAME'],
@@ -810,7 +1077,7 @@ class CommercePlant extends PlantBase {
 										);
 										$user_id = $user_request->response['payload'];
 									}
-									
+
 									// deal with physical quantities
 									if ($order_details['physical'] == 1) {
 										$order_items = json_decode($order_details['order_contents'],true);
@@ -861,14 +1128,14 @@ class CommercePlant extends PlantBase {
 										$final_details['PAYMENTINFO_0_FEEAMT'],
 										'complete'
 									);
-									
+
 									// TODO: add code to order metadata
 									// bit of a hack, hard-wiring the email bits:
 									try {
 										if ($order_details['digital']) {
 											$addcode_request = new CASHRequest(
 												array(
-													'cash_request_type' => 'element', 
+													'cash_request_type' => 'element',
 													'cash_action' => 'addlockcode',
 													'element_id' => $order_details['element_id']
 												)
@@ -1035,6 +1302,6 @@ class CommercePlant extends PlantBase {
 		//		break;
 		//}
 	}
-	
-} // END class 
+
+} // END class
 ?>
