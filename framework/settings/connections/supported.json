@@ -1,6 +1,12 @@
-[
-	"com.amazon",
-	"com.google.drive",
-	"com.mailchimp",
-	"com.paypal"
-]
+{
+	"public":[
+		"com.amazon",
+		"com.google.drive",
+		"com.mailchimp",
+		"com.paypal"
+	],
+	"beta":[
+		"com.mandrillapp",
+		"com.twitter"
+	]
+}

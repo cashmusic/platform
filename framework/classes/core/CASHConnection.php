@@ -1,8 +1,8 @@
 <?php
 /**
- * CASHConnection stores and retrieves 3rd party API connection settings from the 
- * database. API settings definitions are stored as JSON flat files in /settings/connections 
- * then read in by this class. Actual API keys and needed settings are stored as JSON 
+ * CASHConnection stores and retrieves 3rd party API connection settings from the
+ * database. API settings definitions are stored as JSON flat files in /settings/connections
+ * then read in by this class. Actual API keys and needed settings are stored as JSON
  * in the settings table in the database.
  *
  * @package platform.org.cashmusic
@@ -15,27 +15,27 @@
  *
  *
  * This file is generously sponsored by Anchor Brain
- * Anchor Brain: A Providence based record label featuring releases by bands like 
+ * Anchor Brain: A Providence based record label featuring releases by bands like
  * Doomsday Student, What Cheer? Brigade, Six Finger Satellite. Website: anchorbrain.com
  *
  */class CASHConnection extends CASHData {
 	public $user_id,$connection_id,$connection_name,$creation_date;
-	
+
 	public function __construct($user_id=false,$connection_id=false) {
 		$this->user_id = $user_id;
 		$this->connection_id = $connection_id;
 		$this->settings = null;
 		$this->connectDB();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * PLATFORM / GENERAL USER SETTINGS
 	 * These functions don't handle specific settings, rather find what's available
 	 * on a platform level, find all settings for a given user, etc.
 	 *
 	 */
-	
+
 	/**
 	 * Finds all settings type JSON files, builds an array keyed by type
 	 *
@@ -43,14 +43,22 @@
 	 */public function getConnectionTypes($filter_by_scope=false,$force_all=false) {
 		if ($settings_dir = opendir(CASH_PLATFORM_ROOT.'/settings/connections')) {
 			$settings_types = false;
-			$filter_array = json_decode(file_get_contents(CASH_PLATFORM_ROOT.'/settings/connections/supported.json'));
+			$tmp_array = json_decode(file_get_contents(CASH_PLATFORM_ROOT.'/settings/connections/supported.json'),true);
+			$filter_array = $tmp_array['public'];
+			if (defined('SHOW_BETA')) {
+				if (SHOW_BETA) {
+					if (is_array($tmp_array['beta']) && !$force_all) {
+						$filter_array = array_merge($tmp_array['public'],$tmp_array['beta']);
+					}
+				}
+			}
 			while (false !== ($file = readdir($settings_dir))) {
 				if (substr($file,0,1) != "." && !is_dir($file)) {
 					$tmp_key = strtolower(substr_replace($file, '', -5));
 					$add_to_settings = true;
 					if (!$force_all) {
 						if (!in_array($tmp_key, $filter_array)) {
-							$add_to_settings = false;	
+							$add_to_settings = false;
 						}
 					}
 					if ($add_to_settings) {
@@ -73,7 +81,7 @@
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Returns all settings for a given user
 	 *
@@ -95,17 +103,17 @@
 			return false;
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * SPECIFIC SESSION FUNCTIONS
 	 * These return or set individual settings
 	 *
 	 */
-	
+
 	/**
 	 * Returns the decoded JSON for the setting id the CASHConnection
-	 * object was instantiated with. 
+	 * object was instantiated with.
 	 *
 	 * @return settings obj
 	 */public function getConnectionSettings($id_override=false) {
@@ -141,7 +149,7 @@
 			return false;
 		}
 	}
-	
+
 	/**
 	 *
 	 * @return settings obj
@@ -172,7 +180,7 @@
 		$applicable_settings_array = false;
 		$all_connections = $this->getAllConnectionsforUser();
 		$filtered_connections = array();
-		
+
 		if (is_array($all_connections)) {
 			foreach ($all_connections as $key => $data) {
 				if (is_array($connection_types_data)) {
@@ -182,7 +190,7 @@
 				}
 			}
 		}
-		
+
 		if (count($filtered_connections)) {
 			foreach ($filtered_connections as &$connection) {
 				$connection['data'] = json_decode(CASHSystem::simpleXOR(base64_decode($connection['data'])),true);
@@ -207,7 +215,7 @@
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param {array} settings_data: settings data as associative array
 	 * @return boolean
@@ -244,7 +252,7 @@
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param {array} settings_data: settings data as associative array
 	 * @return boolean
@@ -266,7 +274,7 @@
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 * @param {int} connection_id
 	 * @return boolean
@@ -281,7 +289,7 @@
 			)
 		);
 		return $result;
-	}	
+	}
 
 	/**
 	 * Ensures that the specified name / type combination is unique per user
@@ -312,5 +320,5 @@
 			return true;
 		}
 	}
-} // END class 
+} // END class
 ?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * ElementPlant Takes an element ID finds it's settings, returns either raw data 
+ * ElementPlant Takes an element ID finds it's settings, returns either raw data
  * or markup ready to be used in the requesting app.
  *
  * @package platform.org.cashmusic
@@ -18,7 +18,7 @@
 class ElementPlant extends PlantBase {
 	protected $elements_array=array();
 	protected $typenames_array=array();
-	
+
 	public function __construct($request_type,$request) {
 		$this->request_type = 'element';
 		$this->routing_table = array(
@@ -44,7 +44,7 @@ class ElementPlant extends PlantBase {
 			'getelementsforuser'        => array('getElementsForUser','direct'),
 			'getelementtemplate'        => array('getElementTemplate','direct'),
 			//'getmarkup'            => array('getElementMarkup',array('direct','get','post','api_public','api_key','api_fullauth')),
-			// closing up the above -> security risk allowing people to simply request markup and pass a status UID via 
+			// closing up the above -> security risk allowing people to simply request markup and pass a status UID via
 			// API or GET. we'll need to require signed status codes and reopen...
 			'getmarkup'                 => array('getElementMarkup','direct'),
 			'getsupportedtypes'         => array('getSupportedTypes','direct'),
@@ -55,7 +55,7 @@ class ElementPlant extends PlantBase {
 		$this->buildElementsArray();
 		$this->plantPrep($request_type,$request);
 	}
-	
+
 	/**
 	 * Builds an associative array of all Element class files in /elements/
 	 * stored as $this->elements_array and used to include proper markup in getElementMarkup()
@@ -78,7 +78,7 @@ class ElementPlant extends PlantBase {
 					$element_object_type = substr_replace($file, '', -4);
 					$tmpKey = strtolower($element_object_type);
 					include(CASH_PLATFORM_ROOT.'/elements/'.$file);
-					
+
 					// Would rather do this with $element_object_type::type but that requires 5.3.0+
 					// Any ideas?
 					$this->typenames_array["$tmpKey"] = constant($element_object_type . '::name');
@@ -91,7 +91,7 @@ class ElementPlant extends PlantBase {
 	/**
 	 * Feed in a user id and element type (string) and this function returns either
 	 * true, meaning the user has defined all the required bits needed to set up an
-	 * element of the type; or an array containing codes for what's missing. 
+	 * element of the type; or an array containing codes for what's missing.
 	 *
 	 * A boolean return of false means there was an error reading the JSON
 	 *
@@ -103,7 +103,7 @@ class ElementPlant extends PlantBase {
 		$app_json = false;
 		if (file_exists($json_location)) {
 			$app_json = json_decode(file_get_contents($json_location),true);
-		} 
+		}
 		if ($app_json) {
 			$failures = array();
 			foreach ($app_json['options'] as $section_name => $details) {
@@ -133,11 +133,11 @@ class ElementPlant extends PlantBase {
 										$plant_name = 'commerce';
 										$action_name = 'getitemsforuser';
 										break;
-								}		
+								}
 								if ($action_name) {
 									$requirements_request = new CASHRequest(
 										array(
-											'cash_request_type' => $plant_name, 
+											'cash_request_type' => $plant_name,
 											'cash_action' => $action_name,
 											'user_id' => $user_id,
 											'parent_id' => 0
@@ -205,7 +205,7 @@ class ElementPlant extends PlantBase {
 				if ($element['template_id']) {
 					$template_request = new CASHRequest(
 						array(
-							'cash_request_type' => 'system', 
+							'cash_request_type' => 'system',
 							'cash_action' => 'gettemplate',
 							'template_id' => $element['template_id'],
 							'all_details' => 1
@@ -214,7 +214,7 @@ class ElementPlant extends PlantBase {
 					if ($template_request->response['payload']) {
 						$template = $template_request->response['payload']['template'];
 					} else {
-						$template = @file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/embed.mustache');	
+						$template = @file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/embed.mustache');
 					}
 				} else {
 					$template = @file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/embed.mustache');
@@ -256,7 +256,7 @@ class ElementPlant extends PlantBase {
 		);
 		return $result;
 	}
-	
+
 	protected function getElementsForUser($user_id) {
 		$result = $this->db->getData(
 			'elements',
@@ -273,9 +273,17 @@ class ElementPlant extends PlantBase {
 
 	protected function getSupportedTypes($force_all=false) {
 		$return_array = array_keys($this->elements_array);
-		$filter_array = json_decode(file_get_contents(CASH_PLATFORM_ROOT.'/elements/supported.json'));
-		if (is_array($filter_array) && !$force_all) {
-			$return_array = array_intersect($return_array,$filter_array);
+		$filter_array = json_decode(file_get_contents(CASH_PLATFORM_ROOT.'/elements/supported.json'),true);
+		if (is_array($filter_array['public']) && !$force_all) {
+			$allowed_types = $filter_array['public'];
+			if (defined('SHOW_BETA')) {
+				if (SHOW_BETA) {
+					if (is_array($filter_array['beta']) && !$force_all) {
+						$allowed_types = array_merge($filter_array['public'],$filter_array['beta']);
+					}
+				}
+			}
+			$return_array = array_intersect($return_array,$allowed_types);
 		}
 		return $return_array;
 	}
@@ -304,7 +312,7 @@ class ElementPlant extends PlantBase {
 			} else {
 				// didn't find a record of this asset. record it and move forward
 				$recorded_elements[] = $id . $access_method . $location;
-				$this->sessionSet('recorded_elements',$recorded_elements);	
+				$this->sessionSet('recorded_elements',$recorded_elements);
 			}
 		} else {
 			$this->sessionSet('recorded_elements',array($id . $access_method . $location));
@@ -376,7 +384,7 @@ class ElementPlant extends PlantBase {
 				$condition
 			);
 		}
-		
+
 		return $result;
 	}
 
@@ -469,7 +477,7 @@ class ElementPlant extends PlantBase {
 		);
 		return $result;
 	}
-	
+
 	protected function editElement($id,$name,$options_data,$user_id=false) {
 		$options_data = json_encode($options_data);
 		$condition = array(
@@ -523,9 +531,9 @@ class ElementPlant extends PlantBase {
 	 */protected function addLockCode($element_id){
 		$add_request = new CASHRequest(
 			array(
-				'cash_request_type' => 'system', 
+				'cash_request_type' => 'system',
 				'cash_action' => 'addlockcode',
-				'scope_table_alias' => 'elements', 
+				'scope_table_alias' => 'elements',
 				'scope_table_id' => $element_id
 			)
 		);
@@ -541,10 +549,10 @@ class ElementPlant extends PlantBase {
 	 */protected function redeemLockCode($code,$element_id) {
 		$redeem_request = new CASHRequest(
 			array(
-				'cash_request_type' => 'system', 
+				'cash_request_type' => 'system',
 				'cash_action' => 'redeemlockcode',
 				'code' => $code,
-				'scope_table_alias' => 'elements', 
+				'scope_table_alias' => 'elements',
 				'scope_table_id' => $element_id
 			)
 		);
@@ -555,7 +563,7 @@ class ElementPlant extends PlantBase {
 	 *
 	 *
 	 * CAMPAIGNS
-	 * 
+	 *
 	 *
 	 */
 
@@ -580,7 +588,7 @@ class ElementPlant extends PlantBase {
 		);
 		return $result;
 	}
-	
+
 	protected function editCampaign($id,$user_id=false,$title=false,$description=false,$elements=false,$metadata=false,$template_id=false) {
 		$final_edits = array_filter(
 			array(
@@ -751,11 +759,11 @@ class ElementPlant extends PlantBase {
 				)
 			)
 		);
-		// 6 conditions is overkill, but wanted to make sure this would work if PHP treats the 
+		// 6 conditions is overkill, but wanted to make sure this would work if PHP treats the
 		// json_encode variables as strings OR ints (have only seen string handling)
-		// 
+		//
 		// i swear i'll never take regex for granted
-		// PS: pattern matching across sqlite and mysql is hard. like stupid hard. 
+		// PS: pattern matching across sqlite and mysql is hard. like stupid hard.
 		// like no thank you. No REGEXP, no GLOB, and CONCAT versus || issues.
 		if ($result) {
 			return $result[0];
@@ -780,5 +788,5 @@ class ElementPlant extends PlantBase {
 		return $this->editCampaign($campaign_id,false,false,false,$campaign['elements']);
 	}
 
-} // END class 
+} // END class
 ?>
