@@ -514,12 +514,17 @@
 			$return_str .= '</div>';
 		}
 		if ($input_data['type'] == 'scalar') {
+			if (isset($input_data['description'])) {
+				$return_str .= '<div class="description"><p>'.$input_data['description']['en'].'</p></div>';
+			}
 			$return_str .= '<div class="' . $input_data['type'] . '" data-name="' . $input_name . '"';
 			if (isset($input_data['actiontext']['en'])) {
 				$return_str .= ' data-actiontext="' . $input_data['actiontext']['en'] . '"';
 			}
 			if (isset($input_data['scalar_clone_count'])) {
 				$return_str .= ' data-clonecount="' . $input_data['scalar_clone_count'] . '"';
+			} else {
+				$return_str .= ' data-clonecount="0"';
 			}
 			$return_str .= '>';
 			$return_str .= AdminHelper::drawMarkup(false,$input_data['values'],count($input_data['values']));
