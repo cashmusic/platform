@@ -63,6 +63,7 @@ $cash_admin->page_data['data_only'] = isset($_REQUEST['data_only']);
 $cash_admin->page_data['jquery_url'] = (defined('JQUERY_URL')) ? JQUERY_URL : ADMIN_WWW_BASE_PATH . '/ui/default/assets/scripts/jquery.min.js';
 $cash_admin->page_data['jqueryui_url'] = (defined('JQUERYUI_URL')) ? JQUERYUI_URL : ADMIN_WWW_BASE_PATH . '/ui/default/assets/scripts/jquery-ui.min.js';
 $cash_admin->page_data['cdn_url'] = (defined('CDN_URL')) ? CDN_URL : ADMIN_WWW_BASE_PATH;
+$cash_admin->page_data['show_beta'] = (defined('SHOW_BETA')) ? SHOW_BETA : false;
 
 // check for TOS and privacy stuff
 $cash_admin->page_data['showterms'] = file_exists(ADMIN_BASE_PATH . '/terms.md');
@@ -76,14 +77,14 @@ if ($cash_admin->platform_type == 'single') {
 /***************************************************************************************************
  *
  * USER LOGIN
- * 
+ *
  * check for logged-in status and try to handle any login attempt BEFORE we deal with rendering the
  * page so we show the proper status, etc.
  *
  ***************************************************************************************************/
 $logged_in = $admin_primary_cash_request->sessionGet('cash_actual_user');
 if (!$logged_in) {
-	// check for signup 
+	// check for signup
 	$cash_admin->page_data['allow_signups'] = (defined('ALLOW_SIGNUPS')) ? ALLOW_SIGNUPS : true;
 
 	// delete/clear sessions
@@ -118,8 +119,8 @@ if (!$logged_in) {
 /***************************************************************************************************
  *
  * ROUTING
- * 
- * grab path from .htaccess redirect, determine the appropriate route, parse out 
+ *
+ * grab path from .htaccess redirect, determine the appropriate route, parse out
  * additional parameters for the page to use
  *
  ***************************************************************************************************/
@@ -167,7 +168,7 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH)) && ($_REQUES
 			define('BASE_PAGENAME', '');
 			$include_filename = 'error.php';
 		}
-		// turn the rest of the request into the parameters array 
+		// turn the rest of the request into the parameters array
 		// (available to page controllers)
 		$request_parameters = array_slice($exploded_request, 0 - (sizeof($exploded_request) - ($fails_at_level)));
 	}
@@ -178,7 +179,7 @@ if ($_REQUEST['p'] && ($_REQUEST['p'] != realpath(ADMIN_BASE_PATH)) && ($_REQUES
 	} else {
 		if (REQUESTED_ROUTE == '/terms/') {
 			define('BASE_PAGENAME','terms');
-			$include_filename = 'terms.php';	
+			$include_filename = 'terms.php';
 		} else if (REQUESTED_ROUTE == '/privacy/') {
 			define('BASE_PAGENAME','privacy');
 			$include_filename = 'privacy.php';
@@ -197,7 +198,7 @@ $cash_admin->page_data['template_name'] = BASE_PAGENAME;
 /***************************************************************************************************
  *
  * RENDER PAGE
- * 
+ *
  * check for a logged-in user. if found we need to handle page routing and set up the final page
  * four output. if not, we need to handle login page details and set that up for output
  *
@@ -295,13 +296,13 @@ $cash_admin->page_data['content'] = preg_replace('~>\s+<~', '><', $cash_admin->m
 /***************************************************************************************************
  *
  * FINAL OUTPUT
- * 
+ *
  * put it all together and spit it all out
  *
  ***************************************************************************************************/
 $rendered_content = preg_replace('~>\s+<~', '><', $cash_admin->mustache_groomer->render(file_get_contents(ADMIN_BASE_PATH . '/ui/' . $admin_theme . '/template.mustache'), $cash_admin->page_data));
 if ($cash_admin->page_data['data_only']) {
-    // data_only means we're working with AJAX requests, 
+    // data_only means we're working with AJAX requests,
     // so dump valid JSON to the browser for the script to parse
     $cash_admin->page_data['fullcontent'] = $rendered_content;
     if (!headers_sent()) {
