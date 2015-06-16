@@ -1,5 +1,5 @@
 <?php
-// are we filtered? 
+// are we filtered?
 $cash_admin->page_data['current_page'] = 1;
 $cash_admin->page_data['next_page'] = 2;
 $cash_admin->page_data['show_previous'] = false;
@@ -27,21 +27,21 @@ if ($request_parameters) {
 		}
 		$cash_admin->page_data['show_pagination'] = true;
 		$cash_admin->page_data['show_previous'] = true;
-	} 
+	}
 } else {
 	$cash_admin->page_data['no_filter'] = true;
 }
 
 $items_response = $cash_admin->requestAndStore(
 	array(
-		'cash_request_type' => 'commerce', 
+		'cash_request_type' => 'commerce',
 		'cash_action' => 'getitemsforuser',
 		'user_id' => $cash_admin->effective_user_id,
 	)
 );
 
 $order_request = array(
-	'cash_request_type' => 'commerce', 
+	'cash_request_type' => 'commerce',
 	'cash_action' => 'getordersforuser',
 	'user_id' => $cash_admin->effective_user_id,
 	'max_returned' => 11,
@@ -60,7 +60,7 @@ $orders_response = $cash_admin->requestAndStore(
 
 
 //Commerce connection or Items present?
-$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('commerce') || $items_response['payload']; 
+$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('commerce') || $items_response['payload'];
 
 
 // Return Connection
@@ -104,23 +104,23 @@ if (is_array($orders_response['payload'])) {
 	$all_order_details = array();
 	foreach ($orders_response['payload'] as $order) {
 		if ($order['canceled'] == 0) {
-			
+
 			$order_details_response = $cash_admin->requestAndStore(
 				array(
-					'cash_request_type' => 'commerce', 
+					'cash_request_type' => 'commerce',
 					'cash_action' => 'getorder',
 					'id' => $order['id'],
 					'deep' => true
 				)
 			);
-			
+
 			$order_details = $order_details_response['payload'];
 			if ($order_details['successful']) {
 				$order_date = $order_details['creation_date'];
 				if ($order_details['creation_date']) {
 					$order_date = $order_details['modification_date'];
 				}
-				
+
 				$all_order_details[] = array(
 					'id' => $order_details['id'],
 					'customer' => $order_details['customer_details']['display_name'],
@@ -149,7 +149,7 @@ if (is_array($orders_response['payload'])) {
 
 $user_response = $cash_admin->requestAndStore(
 	array(
-		'cash_request_type' => 'people', 
+		'cash_request_type' => 'people',
 		'cash_action' => 'getuser',
 		'user_id' => $cash_admin->effective_user_id
 	)
@@ -173,9 +173,9 @@ if ($session_news) {
 			}
 			$orders_currency = $order['currency'];
 		}
-		$total_spend = round($total_spend); 
+		$total_spend = round($total_spend);
 	}
-	$cash_admin->page_data['dashboard_lists'] = $session_news['activity']['lists'];	
+	$cash_admin->page_data['dashboard_lists'] = $session_news['activity']['lists'];
 
 	if ($session_news['activity']['orders']) {
 		$cash_admin->page_data['total_orders'] = count($session_news['activity']['orders']);
@@ -194,7 +194,7 @@ if ($session_news) {
 if (isset($_POST['currency_id'])) {
 	$settings_response = $cash_admin->requestAndStore(
 		array(
-			'cash_request_type' => 'system', 
+			'cash_request_type' => 'system',
 			'cash_action' => 'setsettings',
 			'type' => 'use_currency',
 			'value' => $_POST['currency_id'],
@@ -208,7 +208,7 @@ if (isset($_POST['currency_id'])) {
 // now get the current setting
 $settings_response = $cash_admin->requestAndStore(
 	array(
-		'cash_request_type' => 'system', 
+		'cash_request_type' => 'system',
 		'cash_action' => 'getsettings',
 		'type' => 'use_currency',
 		'user_id' => $cash_admin->effective_user_id
@@ -220,6 +220,41 @@ if ($settings_response['payload']) {
 	$current_currency = 'USD';
 }
 $cash_admin->page_data['currency_options'] = AdminHelper::echoCurrencyOptions($current_currency);
+
+
+// handle regions
+if (isset($_POST['region1'])) {
+	$regions = array(
+		'region1' => $_POST['region1'],
+		'region2' => $_POST['region2']
+	);
+	$settings_response = $cash_admin->requestAndStore(
+		array(
+			'cash_request_type' => 'system',
+			'cash_action' => 'setsettings',
+			'type' => 'regions',
+			'value' => $regions,
+			'user_id' => $cash_admin->effective_user_id
+		)
+	);
+	if ($settings_response['payload']) {
+		AdminHelper::formSuccess('Success.','/commerce/');
+	}
+}
+// now get the current setting
+$settings_response = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'system',
+		'cash_action' => 'getsettings',
+		'type' => 'regions',
+		'user_id' => $cash_admin->effective_user_id
+	)
+);
+if ($settings_response['payload']) {
+	error_log(print_r($settings_response['payload'],true));
+	$cash_admin->page_data['region1'] = $settings_response['payload']['region1'];
+	$cash_admin->page_data['region2'] = $settings_response['payload']['region2'];
+}
 
 
 $cash_admin->setPageContentTemplate('commerce');
