@@ -5965,6 +5965,11 @@ button.right, .button.right{
 
 .swipehint{ display:none; }
 
+/* reinstate pointer events */
+.swipeleft #pagedisplay{
+	pointer-events: auto;
+}
+
 /* Pure Grid Gutters */
 
 .pure-u-1{
