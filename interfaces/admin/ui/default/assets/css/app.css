@@ -382,6 +382,16 @@ input{
 	border-radius: 3px;
 }
 
+.inputreadonly{
+	background:#ddd;
+	padding:12px;
+	width:100%;
+	display: inline-block;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
 input:focus, select:focus, textarea:focus, button:focus{
 	outline:none;
 	background-color:#ccc;
