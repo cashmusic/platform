@@ -73,7 +73,7 @@
 				{{#variants_quantities}}
 					<tr>
 						<td>{{formatted_name}}</td>
-						<td><input type="text" id="varquantity-{{id}}" name="varquantity-{{id}}" value="{{value}}" class="required" /></td>
+						<td><input type="number" id="varquantity-{{id}}" name="varquantity-{{id}}" value="{{value}}" class="required" /></td>
 					</tr>
 				{{/variants_quantities}}
 				</tbody>
@@ -84,8 +84,9 @@
 				</div>
 
 			</form>
-
-				<div class="pure-u-1 pure-u-md-1-2">
+			</div><!--pref-inner-->
+		</div><!--pure-->
+		<div class="pure-u-1">
 				<div class="pref-inner">
 
 					<h5>Reconfigure Variants</h5>
@@ -94,9 +95,6 @@
 
 				</div><!--pref-inner-->
 				</div><!--pure-->
-
-			</div><!--pref-inner-->
-		</div><!--pure-->
 	{{/has_variants}}
 	{{^has_variants}}
 		<div class="pure-u-1 pure-u-md-1-2">

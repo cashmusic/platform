@@ -2114,6 +2114,10 @@ color:#fff!important;
 	display:none;
 }
 
+.prefpanel table{
+	margin:0 0 20px 0;
+}
+
 /* Zero Clipboard Quick Copy */
 
 #pagedisplay .ql.copy{
@@ -3204,6 +3208,14 @@ table td a{
 
 table colgroup{
 	width:16.6%!important;
+}
+
+table input{
+	border:solid 1px;
+	margin:0;
+	border-top-color:#ddd!important;
+	border-bottom-color:#ddd!important;
+	border-right-color:#ddd!important;
 }
 
 /* Lists */
