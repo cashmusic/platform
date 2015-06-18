@@ -1321,7 +1321,7 @@
        $('div.scalar').each(function( index ) {
           $(this).hide();
 
-          var cloneButton = $('<a href="#" class="clonebutton">' + $(this).data('actiontext') + '</a>');
+          var cloneButton = $('<a href="#" class="clonebutton"><i class="icon icon-circle-plus"></i>' + $(this).data('actiontext') + '</a>');
           var cloneMarkup = $(this).html();
           var cloneCount = 0 + Number($(this).data('clonecount'));
           var clonedFrom = $(this).data('name');
