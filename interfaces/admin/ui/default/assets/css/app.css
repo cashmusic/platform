@@ -570,6 +570,10 @@ span.invalid{
 	margin: -10px 0 10px 0;
 }
 
+.prefpanel span.invalid{
+	margin:-4px 0 0 0;
+}
+
 /* Required */
 .required{
 	border-left: 5px solid #00cf7f;
@@ -586,10 +590,12 @@ span.invalid{
 	z-index: 30;
 }
 
-.usecolor2 .required{ border-color:#fa3838; }
-.usecolor3 .required{ border-color:#ff7c12; }
-.usecolor4 .required{ border-color:#6a38fa; }
-.usecolor5 .required{ border-color:#fa3866; }
+/* Required Field Highlights */
+
+.usecolor2 .required{ border-left-color:#fa3838; }
+.usecolor3 .required{ border-left-color:#ff7c12; }
+.usecolor4 .required{ border-left-color:#6a38fa; }
+.usecolor5 .required{ border-left-color:#fa3866; }
 
 /* Buttons General */
 
@@ -3223,9 +3229,9 @@ table colgroup{
 table input{
 	border:solid 1px;
 	margin:0;
-	border-top-color:#ddd!important;
-	border-bottom-color:#ddd!important;
-	border-right-color:#ddd!important;
+	border-top-color:#ddd;
+	border-bottom-color:#ddd;
+	border-right-color:#ddd;
 }
 
 /* Lists */
@@ -5297,6 +5303,10 @@ label.checklabel{
 	padding:10px 20px;
 	display: inline-block;
 	color:#f5f5f5!important;
+}
+
+.modallightbox .clonebutton{
+	margin:5px 5px 0 0;
 }
 
 /* Clone section colors */
