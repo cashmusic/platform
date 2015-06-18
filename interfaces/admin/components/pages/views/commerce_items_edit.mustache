@@ -21,8 +21,11 @@
 				</div><!--pure-->
 				<div class="pure-u-1 pure-u-md-1-3">
 					<label for="item_quantity">Quantity (-1: unlimited)</label>
-					{{#has_variants}}<span class="inputreadonly">{{#available_units}}{{available_units}}{{/available_units}}{{^available_units}}-1{{/available_units}}</span>{{/has_variants}}
-					{{^has_variants}}<input type="text" id="item_quantity" name="item_quantity" value="{{#available_units}}{{available_units}}{{/available_units}}{{^available_units}}-1{{/available_units}}" class="number required" />{{/has_variants}}
+					{{#show_beta}}
+						{{#has_variants}}<span class="inputreadonly">{{#available_units}}{{available_units}}{{/available_units}}{{^available_units}}-1{{/available_units}}</span>{{/has_variants}}
+						{{^has_variants}}<input type="text" id="item_quantity" name="item_quantity" value="{{#available_units}}{{available_units}}{{/available_units}}{{^available_units}}-1{{/available_units}}" class="number required" />{{/has_variants}}
+					{{/show_beta}}
+					<input type="text" id="item_quantity" name="item_quantity" value="{{#available_units}}{{available_units}}{{/available_units}}{{^available_units}}-1{{/available_units}}" class="number required" />
 				</div><!--pure-->
 				<div class="pure-u-1 pure-u-md-1-3">
 			<label for="item_fulfillment_asset">Fulfillment asset</label>
@@ -48,7 +51,7 @@
 	</div><!--pure-->
 
 </form>
-
+{{#show_beta}}
 {{#physical_fulfillment}}
 	<div class="drawer prefpanel pure-u-1">
 	<div class="itemnav pure-u-1">
@@ -112,3 +115,4 @@
 	</div><!--itemnav-->
 	</div><!--drawer prefpanel-->
 {{/physical_fulfillment}}
+{{/show_beta}}
