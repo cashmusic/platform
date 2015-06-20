@@ -100,8 +100,8 @@ class TwitterSeed extends SeedBase {
 			$temporary_credentials = AdminHelper::getPersistentData('twitter_temporary_credentials');
 
 			$twitter = new TwitterOAuth(
-				$connections['com.mailchimp']['client_id'],
-				$connections['com.mailchimp']['client_secret'],
+				$connections['com.twitter']['client_id'],
+				$connections['com.teitter']['client_secret'],
 				$temporary_credentials['oauth_token'],
 				$temporary_credentials['oauth_token_secret']
 			);
@@ -140,6 +140,49 @@ class TwitterSeed extends SeedBase {
 			if (!$data) {
 				$data = $this->getCacheData($this->settings_type,$data_name,true);
 			} else {
+				foreach ($data as $tweet) {
+					// add formatted time to tweet
+					$tweet->formatted_created_at = CASHSystem::formatTimeAgo($tweet->created_at);
+					// handle url links
+					$twitterstatus = true;
+					if (isset($tweet->entities)) {
+						if (isset($tweet->entities->urls)) {
+							$twitterstatus = $tweet->entities->urls;
+						}
+					}
+					$tweet->text = CASHSystem::linkifyText($tweet->text,$twitterstatus);
+					// add media collections
+					// handle twitter photos
+					if (isset($tweet->extended_entities)) {
+						if (is_object($tweet->extended_entities)) {
+							if (is_array($tweet->extended_entities->media)) {
+								$tweet->photos = array();
+								foreach ($tweet->extended_entities->media as $m) {
+									$tweet->photos[] = $m;
+								}
+							}
+						}
+					}
+					// handle youtube videos
+					if (isset($tweet->entities)) {
+						if (is_object($tweet->entities)) {
+							if (is_array($tweet->entities->urls)) {
+								$tweet->iframes = array();
+								foreach ($tweet->entities->urls as $u) {
+									if (strpos($u->expanded_url,'youtube.com') > 0) {
+										$parsed_url = parse_url($u->expanded_url);
+										$query_array = array();
+										parse_str($parsed_url['query'],$query_array);
+										if (isset($query_array['v'])) {
+											$tweet->iframes[] = array('iframe_url' => '//www.youtube.com/embed/' . $query_array['v']);
+											// <iframe src="//www.youtube.com/embed/dOy7vPwEtCw" frameborder="0" allowfullscreen></iframe>
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 				$this->setCacheData($this->settings_type,$data_name,$data);
 			}
 		}
@@ -190,6 +233,11 @@ class TwitterSeed extends SeedBase {
 					'include_rts' => false
 				)
 			);
+
+			/*
+			$tweet->text = CASHSystem::linkifyText($tweet->text,true);
+			$tweet->formatted_created_at = CASHSystem::formatTimeAgo($tweet->created_at);
+			*/
 
 			if (is_array($feed_data) && $filter) {
 				$filter = strtolower($filter);

@@ -1,0 +1,20 @@
+<li class="cm-twitter cm-tweet">
+	{{#user}}
+	<img class="cm-avatar" src="{{profile_image_url_https}}" alt="Avatar"/>
+	<p class="cm-name">{{name}} <span class="cm-username">@{{screen_name}}</span></p>
+	{{/user}}
+	<a href="https://twitter.com/{{#user}}{{screen_name}}{{/user}}/status/{{id}}" target="_blank" class="cm-date">{{formatted_created_at}} <span class="cm-platform">Twitter</span></a>
+	<div class="cm-content">
+		<p>
+			{{{text}}}
+		</p>
+	</div>
+	{{#photos}}
+		<a href="{{expanded_url}}" target="_blank"><img src="{{media_url_https}}" alt="{{display_url}}" /></a>
+	{{/photos}}
+	{{#iframes}}
+		<div class="cm-aspect">
+			<iframe src="{{iframe_url}}" frameborder="0" allowfullscreen></iframe>
+		</div>
+	{{/iframes}}
+</li>
