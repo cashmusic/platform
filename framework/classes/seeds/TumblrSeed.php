@@ -32,7 +32,7 @@ class TumblrSeed extends SeedBase {
 			}
 		}
 	}
-	
+
 	public function getTumblrFeed($tumblr_domain,$start_at=0,$tagged=false,$post_types=false) {
 		if ($tumblr_domain) {
 			$default_post_types = array(
@@ -65,13 +65,14 @@ class TumblrSeed extends SeedBase {
 				// decode the trimmed content, then return just the posts
 				$feed_data = json_decode($feed_data);
 				$feed_data = $feed_data->posts;
-				
+
 				// make a dummy array to save final posts
 				$final_feed_data = array();
-				
+
 				// loop through all the posts, filter by type
 				foreach ($feed_data as $post) {
 					if ($final_post_types[$post->type]) {
+						$post->formatted_date = CASHSystem::formatTimeAgo($post->{'unix-timestamp'});
 						$final_feed_data[] = $post;
 					}
 				}
@@ -144,18 +145,18 @@ class TumblrSeed extends SeedBase {
 				. '<div class="cashmusic_clearall">.</div></div>';
 				break;
 		}
-		
+
 		return $innermarkup;
 		/*
 		The CSS to go along with the video container:
-		
+
 		Thanks to http://www.alistapart.com/articles/creating-intrinsic-ratios-for-video/
-		
+
 		echo '<style type="text/css">';
 		echo '.cashmusic_video_container {position:relative;padding-bottom:56.25%;padding-top:30px;height:0;overflow:hidden;}';
 		echo '.cashmusic_video_container iframe, .cashmusic_video_container object, .cashmusic_video_container embed {position:absolute;top:0;left:0;width:100%;height:100%;}';
 		echo '</style>';
 		*/
 	}
-} // END class 
+} // END class
 ?>
