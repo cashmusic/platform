@@ -1,7 +1,9 @@
-<li class="cm-tumblr cm-post-regular">
-	<a href="/" class="cm-date">{{formatted_date}} <span class="cm-platform">Tumblr</span></a>
+<li class="cm-tumblr cm-post-quote">
+	<a href="{{url-with-slug}}" target="_blank" class="cm-date">{{formatted_date}} <span class="cm-platform">Tumblr</span></a>
+	<blockquote>
+		{{{quote-text}}}
+	</blockquote>
 	<div class="cm-content">
-		<h3>{{regular-title}}</h3>
-		{{{regular-body}}}
+		{{quote-source}}
 	</div>
 </li>

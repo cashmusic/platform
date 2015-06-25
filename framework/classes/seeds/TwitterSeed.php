@@ -143,6 +143,11 @@ class TwitterSeed extends SeedBase {
 				foreach ($data as $tweet) {
 					// add formatted time to tweet
 					$tweet->formatted_created_at = CASHSystem::formatTimeAgo($tweet->created_at);
+					if ($tweet->user->profile_image_url_https === true) {
+						$tweet->user->profile_image_url_https_bigger = 'https://a0.twimg.com/sticky/default_profile_images/default_profile_1_bigger.png';
+					} else {
+						$tweet->user->profile_image_url_https_bigger = str_replace('_normal','_bigger',$tweet->user->profile_image_url_https);
+					}
 					// handle url links
 					$twitterstatus = true;
 					if (isset($tweet->entities)) {
