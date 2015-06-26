@@ -17,8 +17,8 @@
 	background: linear-gradient(135deg,  rgba(224,224,224,0.95) 0%,rgba(238,238,238,0.95) 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2e0e0e0', endColorstr='#f2eeeeee',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
 	color:#222;
-	padding:4%;
-	width:100%;
+	padding:2%;
+	width:96%;
 }
 
 input{
@@ -77,11 +77,41 @@ input[type=submit]:hover, .button:hover{
 	color:#cacaca;
 }
 
+/* Social Feeds */
+
+.cm-social-feed{
+	background: #e0e0e0;
+  	background: rgba(224,224,224,0.9);
+	color:#222;
+}
+
+.cm-social-feed .cm-platform{
+	filter: invert(0%);
+	-webkit-filter: invert(0%);
+}
+
+.cm-social-feed li {
+	border-bottom: solid 1px #ccc;
+}
+
+.cm-social-feed .cm-content a:hover{
+	color:#222;
+	border-color:#222;
+}
+
+.cm-social-feed .cm-username{
+	color:#000;
+}
+
+.cm-social-feed .cm-twitter .cm-username:hover{
+	border-color:#000;
+}
+
 /* -- Mid Size + Above / Vertical Tablet -- */
 @media screen and (min-width: 535px){
 	
 	#mainspc{
 		padding:2%;
-		width:100%;
+		width:96%;
 	}
 }
