@@ -152,7 +152,9 @@ class TwitterSeed extends SeedBase {
 					$twitterstatus = true;
 					if (isset($tweet->entities)) {
 						if (isset($tweet->entities->urls)) {
-							$twitterstatus = $tweet->entities->urls;
+							if (count($tweet->entities->urls)) {
+								$twitterstatus = $tweet->entities->urls;
+							}
 						}
 					}
 					$tweet->text = CASHSystem::linkifyText($tweet->text,$twitterstatus);
