@@ -6,9 +6,9 @@ class CASHSystemTests extends UnitTestCase {
 
 	function test_getSystemSettings() {
 		echo "Testing CASHSystem:: functions\n";
-		
+
 		// get all settings
-		$return = CASHSystem::getSystemSettings(); 
+		$return = CASHSystem::getSystemSettings();
 		$this->assertTrue(is_array($return));
 		// check the basic structure of the settings
 		$this->assertTrue(array_key_exists('driver',$return));
@@ -25,12 +25,12 @@ class CASHSystemTests extends UnitTestCase {
 		$return = CASHSystem::getSystemSettings('debug'); // get db driver ('sqlite')
 		$this->assertTrue($return);
 	}
-	
+
 	function test_setSystemSetting() {
 		// also tests findAndReplaceInFile()
-		$control = CASHSystem::getSystemSettings('timezone'); 
+		$control = CASHSystem::getSystemSettings('timezone');
 		CASHSystem::setSystemSetting('timezone','Not really a timezone');
-		$return = CASHSystem::getSystemSettings('timezone'); 
+		$return = CASHSystem::getSystemSettings('timezone');
 		$this->assertNotEqual($control,$return);
 		$this->assertEqual('Not really a timezone',$return);
 		CASHSystem::setSystemSetting('timezone','US/Pacific');
@@ -44,7 +44,7 @@ class CASHSystemTests extends UnitTestCase {
 		$return_1minute = CASHSystem::formatTimeAgo(time() - 90);
 		$return_seconds = CASHSystem::formatTimeAgo(time() - 45);
 		$give_string_return = CASHSystem::formatTimeAgo(date('d M Y h:i:s A', (time() - 5000)));
-		
+
 		$this->assertPattern('/^[0-9]{2} [A-Za-z]{3}/', $return_date); // > 1 day returns a 'd M' formatted date
 		$this->assertPattern('/hours/', $return_hours); // between 2 and 24 hours
 		$this->assertEqual('1 hour ago',$return_1hour); // 1 hour ago (fuzzy)
@@ -60,7 +60,7 @@ class CASHSystemTests extends UnitTestCase {
 		$this->assertPattern('/href=\"http:\/\/cashmusic.org\"\>http:\/\/cashmusic.org/', $linkified); // test www link
 		$this->assertPattern('/href=\"mailto:info@cashmusic.org\"\>info@cashmusic.org/', $linkified); // test mailto
 		$linkified = CASHSystem::linkifyText($test_str,true);
-		$this->assertPattern('/href=\"http:\/\/www.twitter.com\/cashmusic\" target=\"_blank\">@cashmusic/', $linkified); // test twitter
+		$this->assertPattern('/href=\"https:\/\/twitter.com\/cashmusic\" target=\"_blank\">@cashmusic/', $linkified); // test twitter
 	}
 
 	function test_getURLContents() {
@@ -85,7 +85,7 @@ class CASHSystemTests extends UnitTestCase {
 	function test_embedElement() {
 		$element_request = new CASHRequest(
 			array(
-				'cash_request_type' => 'element', 
+				'cash_request_type' => 'element',
 				'cash_action' => 'addelement',
 				'name' => 'test',
 				'type' => 'staticcontent',
