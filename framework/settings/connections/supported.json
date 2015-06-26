@@ -1,14 +1,12 @@
 {
 	"public":[
-		"downloadcodes",
-		"emailcollection",
-		"membersarea",
-		"securedownload",
-		"singlepurchase",
-		"staticcontent",
-		"tourdates"
+		"com.amazon",
+		"com.google.drive",
+		"com.mailchimp",
+		"com.paypal"
 	],
 	"beta":[
-		"socialfeeds"
+		"com.twitter",
+		"com.mandrillapp"
 	]
 }
