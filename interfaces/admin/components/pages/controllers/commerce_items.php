@@ -1,15 +1,17 @@
 <?php
 $items_response = $cash_admin->requestAndStore(
 	array(
-		'cash_request_type' => 'commerce', 
+		'cash_request_type' => 'commerce',
 		'cash_action' => 'getitemsforuser',
 		'user_id' => $cash_admin->effective_user_id
 	)
 );
 
+error_log(print_r($items_response,true));
+
 $releases_response = $cash_admin->requestAndStore(
 	array(
-		'cash_request_type' => 'asset', 
+		'cash_request_type' => 'asset',
 		'cash_action' => 'getassetsforuser',
 		'type' => 'release',
 		'user_id' => $cash_admin->effective_user_id

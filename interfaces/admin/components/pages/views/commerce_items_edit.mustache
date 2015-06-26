@@ -21,7 +21,13 @@
 				</div><!--pure-->
 				<div class="pure-u-1 pure-u-md-1-3">
 					<label for="item_quantity">Quantity (-1: unlimited)</label>
+					{{#show_beta}}
+						{{#has_variants}}<span class="inputreadonly">{{#available_units}}{{available_units}}{{/available_units}}{{^available_units}}-1{{/available_units}}</span>{{/has_variants}}
+						{{^has_variants}}<input type="text" id="item_quantity" name="item_quantity" value="{{#available_units}}{{available_units}}{{/available_units}}{{^available_units}}-1{{/available_units}}" class="number required" />{{/has_variants}}
+					{{/show_beta}}
+					{{^show_beta}}
 					<input type="text" id="item_quantity" name="item_quantity" value="{{#available_units}}{{available_units}}{{/available_units}}{{^available_units}}-1{{/available_units}}" class="number required" />
+					{{/show_beta}}
 				</div><!--pure-->
 				<div class="pure-u-1 pure-u-md-1-3">
 			<label for="item_fulfillment_asset">Fulfillment asset</label>
@@ -41,80 +47,74 @@
 		<input type="checkbox" name="item_physical" id="item_physical"{{#physical_fulfillment}} checked="checked"{{/physical_fulfillment}} class="checkorradio" /> Physical goods? (Will require shipping address)
 	</label>
 	</div><!--pure-->
+	<div class="pure-u-1">
+		<button type="submit">Save changes</button>
+		<a href="{{www_path}}/commerce/items/delete/{{id}}" class="button needsconfirmation"><div class="icon icon-ban"></div><!--icon-->Delete this item</a>
+	</div><!--pure-->
+
 </form>
-
-{{#hidethisbecausethisvariablewillneverbeseteverever}}
-<form name="add_item_variants" class="multipart" data-parts="4" novalidate="novalidate">
-<input type="hidden" name="{{form_state_action}}" value="makeitso" />
-<div class="drawer prefpanel pure-u-1">
+{{#show_beta}}
+{{#physical_fulfillment}}
+	<div class="drawer prefpanel pure-u-1">
 	<div class="itemnav pure-u-1">
-	<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>Item variants</span></h4>
+		<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>Configure Item Variants</span></h4>
 	<div class="drawercontent">
-	<div class=" section part-1" data-section-name="Establish Item Variants">
-		<div class="pure-u-1">
-			<label for="item_name">Primary variant name</label>
-			<input type="text" id="primary_variant_name" name="primary_variant_name" value="{{primary_variant_name}}" placeholder="e.g color" class="required" />
-			<label for="item_name">Secondary variant name</label>
-			<input type="text" id="secondary_variant_name" name="secondary_variant_name" value="{{secondary_variant_name}}" placeholder="e.g size" />
-		</div><!--pure-->
-	</div><!--section-->
-	<button class="button multipart-next">Next</button>
-	<h4>Create &ldquo;{primary_variant_name}&rdquo; options:</h4>
-	<div class="section part-2" data-section-name="Establish Primary Variant Options">
-		<div class="pure-u-1">
-			<label for="item_name">Option One</label>
-			<input type="text" id="primary_variant_option1" name="primary_variant_option1" value="{{primary_variant_option1}}" placeholder="e.g purple" class="required" />
-		</div><!--pure-->
-	</div><!--section-->
 
-	<input class="button" type="submit" value="Add Option">
-	<button class="button multipart-next">Next</button>
-	<h4>Create &ldquo;{secondary_variant_name}&rdquo; options:</h4>
-	<div class="section part-3" data-section-name="Establish Secondary Variant Options">
+	{{#has_variants}}
 		<div class="pure-u-1">
-			<label for="item_name">Option One</label>
-			<input type="text" id="secondary_variant_option1" name="secondary_variant_option1" value="{{secondary_variant_option1}}" placeholder="e.g small" class="required" />
+		<div class="pref-inner">
+			<form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/items/edit/{{id}}" name="edit_item" >
+				<input type="hidden" name="dovariantqty" value="makeitso" />
+				<table style="width:100%;">
+				<colgroup style="width:50%;" />
+				<colgroup style="width:50%;" />
+				<thead>
+					<tr>
+						<th scope="col">Variant description</th>
+						<th scope="col">Available Quantity</th>
+					</tr>
+				</thead>
+				<tbody>
+				{{#variants_quantities}}
+					<tr>
+						<td>{{formatted_name}}</td>
+						<td><input type="text" id="varquantity-{{id}}" name="varquantity-{{id}}" value="{{value}}" class="required number" /></td>
+					</tr>
+				{{/variants_quantities}}
+				</tbody>
+				</table>
+
+				<div class="pure-u-1 pure-u-md-1-3">
+					<button type="submit">Save variants</button>
+				</div>
+
+			</form>
+			</div><!--pref-inner-->
 		</div><!--pure-->
-	</div><!--section-->
-	<input class="button" type="submit" value="Add Option">
-	<button class="button multipart-next">Next</button>
-	<div class="section part-4" data-section-name="Establish Secondary Variant Options">
 		<div class="pure-u-1">
-			<table style="width:100%;">
-			<colgroup style="width:50%;" />
-			<colgroup style="width:50%;" />
-			<thead>
-				<tr>
-					<th scope="col">Variant description</th>
-					<th scope="col">Available Quantity</th>
-				</tr>
-			</thead>
-			<tbody>
-			<tr>
-				<td>Purple Small</td>
-				<td><select id="item_fulfillment_asset" name="item_fulfillment_asset" aria-invalid="false"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>
-			</tr>
-			<tr>
-				<td>Purple Medium</td>
-				<td><select id="item_fulfillment_asset" name="item_fulfillment_asset" aria-invalid="false"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>
-			</tr>
-			<tr>
-				<td>Purple Large</td>
-				<td><select id="item_fulfillment_asset" name="item_fulfillment_asset" aria-invalid="false"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>
-			</tr>
-			</tbody>
-		</table>
+				<div class="pref-inner">
+
+					<h5>Reconfigure Variants</h5>
+					<p>Need a new set of variants? Reset all variant options and quantities here.</p>
+					<a href="{{www_path}}/commerce/items/variant/{{id}}" class="button lightboxed">Reconfigure Variants</a>
+
+				</div><!--pref-inner-->
+				</div><!--pure-->
+	{{/has_variants}}
+	{{^has_variants}}
+		<div class="pure-u-1 pure-u-md-1-2">
+		<div class="pref-inner">
+
+		<h5>Add Item Variants</h5>
+		<p>Does your item come in mulitple sizes, colors or other formats? Add those variations here.</p>
+		<a href="{{www_path}}/commerce/items/variant/{{id}}" class="button lightboxed">Add Variants</a>
+
+		</div><!--pref-inner-->
 		</div><!--pure-->
-		<input class="button" type="submit" value="Update Quantities">
-		<input class="button" type="submit" value="Remove Variants">
-	</div><!--section-->
+	{{/has_variants}}
+
 	</div><!--drawercontent-->
 	</div><!--itemnav-->
-</div><!--drawer prefpanel-->
-{{/hidethisbecausethisvariablewillneverbeseteverever}}
-
-<div class="pure-u-1">
-	<button type="submit">Save changes</button>
-	<a href="{{www_path}}/commerce/items/delete/{{id}}" class="button needsconfirmation"><div class="icon icon-ban"></div><!--icon-->Delete this item</a>
-</div><!--pure-->
-</form>
+	</div><!--drawer prefpanel-->
+{{/physical_fulfillment}}
+{{/show_beta}}

@@ -382,6 +382,16 @@ input{
 	border-radius: 3px;
 }
 
+.inputreadonly{
+	background:#ddd;
+	padding:12px;
+	width:100%;
+	display: inline-block;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
 input:focus, select:focus, textarea:focus, button:focus{
 	outline:none;
 	background-color:#ccc;
@@ -404,7 +414,7 @@ select{
 	text-indent: 0;
 	margin: 0 0 12px 0;
 	display:block;
-	height:38px;
+	height:42px;
 	font:400 14px/20px 'Montserrat',Helvetica,Arial,sans-serif;
 	border:none;
 	-webkit-border-radius: 3px;
@@ -560,6 +570,10 @@ span.invalid{
 	margin: -10px 0 10px 0;
 }
 
+.prefpanel span.invalid{
+	margin:-4px 0 0 0;
+}
+
 /* Required */
 .required{
 	border-left: 5px solid #00cf7f;
@@ -576,10 +590,12 @@ span.invalid{
 	z-index: 30;
 }
 
-.usecolor2 .required{ border-color:#fa3838; }
-.usecolor3 .required{ border-color:#ff7c12; }
-.usecolor4 .required{ border-color:#6a38fa; }
-.usecolor5 .required{ border-color:#fa3866; }
+/* Required Field Highlights */
+
+.usecolor2 .required{ border-left-color:#fa3838; }
+.usecolor3 .required{ border-left-color:#ff7c12; }
+.usecolor4 .required{ border-left-color:#6a38fa; }
+.usecolor5 .required{ border-left-color:#fa3866; }
 
 /* Buttons General */
 
@@ -2114,6 +2130,10 @@ color:#fff!important;
 	display:none;
 }
 
+.prefpanel table{
+	margin:0 0 20px 0;
+}
+
 /* Zero Clipboard Quick Copy */
 
 #pagedisplay .ql.copy{
@@ -2554,13 +2574,6 @@ color:#fff!important;
 	margin:0 0 5px 0;
 	display:inline-block;
 	text-decoration: none;
-}
-
-.itemnav .clonebutton{
-	padding:10px 20px;
-	font-size: 13px;
-	display: inline-block;
-	margin:10px 0 18px 0;
 }
 
 
@@ -3211,6 +3224,14 @@ table td a{
 
 table colgroup{
 	width:16.6%!important;
+}
+
+table input{
+	border:solid 1px;
+	margin:0;
+	border-top-color:#ddd;
+	border-bottom-color:#ddd;
+	border-right-color:#ddd;
 }
 
 /* Lists */
@@ -3955,7 +3976,7 @@ margin:0 5px 0 0; padding:0;}
 	color:#222;
 }
 
-.tooltip:hover:after, .tooltip:hover:before {
+.tooltip:hover:after, .tooltip:hover:before{
 	visibility:visible;
 	opacity:1;
 	-webkit-transition:all 0.2s ease-in;
@@ -3967,7 +3988,7 @@ margin:0 5px 0 0; padding:0;}
 	z-index: 500;
 }
 
-.tooltip:after {
+.tooltip:after,{
 	color:#fff;
 	text-decoration:none;
 	background:rgba(34,34,34,0.9);
@@ -4007,7 +4028,7 @@ margin:0 5px 0 0; padding:0;}
 	display: none;
 }
 
-.modallightbox .tooltip:after {
+.modallightbox .tooltip:after, .section .description p {
 	opacity:1;
 	visibility: visible;
 	position: static;
@@ -4940,16 +4961,17 @@ label.checklabel{
 	display: inline-block;
 }
 
-#campaigns .associated h4 span, #campaigns .associated .add, .alt-button, .clonebutton{
+#campaigns .associated h4 span, #campaigns .associated .add, .alt-button{
 	-webkit-border-radius: 50px;
 	-moz-border-radius: 50px;
 	border-radius: 50px;
-	color:#f5f5f5;
+	color:#f5f5f5 !important;
 	background:#00cf7f;
 	font-size: 11px;
 	padding:3px 8px;
 	margin:0 5px 0 0;
 	text-align: center;
+	text-decoration: none;
 }
 
 /* Campaigns */
@@ -5269,6 +5291,43 @@ label.checklabel{
 
 /* Scalar Data */
 
+
+.clonebutton, .prefpanel .clonebutton{
+	-webkit-border-radius: 50px;
+	-moz-border-radius: 50px;
+	border-radius: 50px;
+	font-size: 11px;
+	margin:10px 0;
+	text-align: center;
+	text-decoration: none;
+	padding:10px;
+	display: inline-block;
+	color:#f5f5f5!important;
+}
+
+.clonebutton .icon, .prefpanel .clonebutton .icon{
+	color:#f5f5f5!important;
+	margin: 0 5px 0 0;
+	vertical-align: top;
+	display: inline-block!important;
+}
+
+.modallightbox .clonebutton{
+	margin:5px 5px 0 0;
+}
+
+/* Clone section colors */
+
+.usecolor1 .clonebutton{ background:#00cf7f; }
+.usecolor2 .clonebutton{ background:#fa3838; }
+.usecolor3 .clonebutton{ background:#ff7c12; }
+.usecolor4 .clonebutton{ background:#6a38fa; }
+.usecolor5 .clonebutton{ background:#fa3866; }
+
+.clonebutton:hover{
+	 background: #111;
+}
+
 .section .clonedscalar{
 	position: relative;
 	background:#f5f5f5;
@@ -5323,6 +5382,19 @@ label.checklabel{
 	background:#e2e2e2;
 }
 
+.modallightbox .clonedscalar {
+	background:transparent;
+	padding:0;
+	margin:0 0 2px 0;
+	-webkit-border-radius:0;
+	-moz-border-radius:0;
+	border-radius:0;
+	padding-right:56px;
+}
+
+.modallightbox .clonedscalar  .removescalar {
+	top:8px;
+}
 
 
 /* Featured Release */
@@ -5931,6 +6003,11 @@ button.right, .button.right{
 }
 
 .swipehint{ display:none; }
+
+/* reinstate pointer events */
+.swipeleft #pagedisplay{
+	pointer-events: auto;
+}
 
 /* Pure Grid Gutters */
 

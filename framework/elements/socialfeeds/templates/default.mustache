@@ -1,6 +1,8 @@
 {{#error_message}}{{error_message}}{{/error_message}}
 {{^error_message}}
-	{{#formatted_feed}}
+	<ul class="cm-social-feed">
+	{{#formatted_feed}}	
 		{{{markup}}}
 	{{/formatted_feed}}
+	</ul>
 {{/error_message}}

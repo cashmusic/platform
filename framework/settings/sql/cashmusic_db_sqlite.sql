@@ -1,4 +1,4 @@
--- 
+--
 -- CASH Music platform
 -- flavor: SQLite
 -- schema version: 8
@@ -6,10 +6,10 @@
 
 BEGIN TRANSACTION;
 
--- 
--- 
+--
+--
 -- Section: ASSETS
--- 
+--
 CREATE TABLE assets (
   id INTEGER PRIMARY KEY,
   user_id integer DEFAULT NULL,
@@ -52,10 +52,10 @@ CREATE TABLE assets_analytics_basic (
 );
 
 
--- 
--- 
+--
+--
 -- Section: CALENDAR
--- 
+--
 CREATE TABLE calendar_events (
   id INTEGER PRIMARY KEY,
   date integer DEFAULT NULL,
@@ -98,10 +98,10 @@ CREATE TABLE calendar_guestlist (
 );
 
 
--- 
--- 
+--
+--
 -- Section: COMMERCE
--- 
+--
 CREATE TABLE commerce_items (
   id integer PRIMARY KEY,
   user_id integer,
@@ -120,6 +120,16 @@ CREATE TABLE commerce_items (
   variable_pricing integer DEFAULT '0',
   fulfillment_asset integer DEFAULT '0',
   descriptive_asset integer DEFAULT '0',
+  creation_date integer DEFAULT '0',
+  modification_date integer DEFAULT NULL
+);
+
+CREATE TABLE commerce_item_variants (
+  id integer PRIMARY KEY,
+  item_id integer,
+  user_id integer,
+  attributes text,
+  quantity integer DEFAULT '0',
   creation_date integer DEFAULT '0',
   modification_date integer DEFAULT NULL
 );
@@ -184,10 +194,10 @@ CREATE TABLE commerce_transactions (
 );
 
 
--- 
--- 
+--
+--
 -- Section: ELEMENTS
--- 
+--
 CREATE TABLE elements (
   id INTEGER PRIMARY KEY,
   user_id integer DEFAULT NULL,
@@ -238,10 +248,10 @@ CREATE TABLE elements_campaigns (
 );
 
 
--- 
--- 
+--
+--
 -- Section: PEOPLE
--- 
+--
 CREATE TABLE people (
   id INTEGER PRIMARY KEY,
   email_address text DEFAULT '',
@@ -372,10 +382,10 @@ CREATE TABLE people_resetpassword (
 );
 
 
--- 
--- 
+--
+--
 -- Section: SYSTEM
--- 
+--
 CREATE TABLE system_analytics (
   id INTEGER PRIMARY KEY,
   type text,

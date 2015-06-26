@@ -44,15 +44,15 @@ class TwitterSeed extends SeedBase {
 					$this->error_message = 'no API key found';
 				} else {
 					require_once(CASH_PLATFORM_ROOT.'/lib/twitter/OAuth.php');
-					require_once(CASH_PLATFORM_ROOT.'/lib/twitter/twitteroauth.php');		
-					
+					require_once(CASH_PLATFORM_ROOT.'/lib/twitter/twitteroauth.php');
+
 					$connections = CASHSystem::getSystemSettings('system_connections');
 					$this->client_id = $connections['com.twitter']['client_id'];
 					$this->client_secret = $connections['com.twitter']['client_secret'];
 
 					$this->twitter = new TwitterOAuth(
-						$this->client_id, 
-						$this->client_secret, 
+						$this->client_id,
+						$this->client_secret,
 						$this->oauth_token,
 						$this->oauth_token_secret
 					);
@@ -65,7 +65,7 @@ class TwitterSeed extends SeedBase {
 
 	public static function getRedirectMarkup($data=false) {
 		$connections = CASHSystem::getSystemSettings('system_connections');
-		
+
 		if (isset($connections['com.twitter'])) {
 			require_once(CASH_PLATFORM_ROOT.'/lib/twitter/OAuth.php');
 			require_once(CASH_PLATFORM_ROOT.'/lib/twitter/twitteroauth.php');
@@ -100,8 +100,8 @@ class TwitterSeed extends SeedBase {
 			$temporary_credentials = AdminHelper::getPersistentData('twitter_temporary_credentials');
 
 			$twitter = new TwitterOAuth(
-				$connections['com.mailchimp']['client_id'], 
-				$connections['com.mailchimp']['client_secret'], 
+				$connections['com.twitter']['client_id'],
+				$connections['com.teitter']['client_secret'],
 				$temporary_credentials['oauth_token'],
 				$temporary_credentials['oauth_token_secret']
 			);
@@ -109,7 +109,7 @@ class TwitterSeed extends SeedBase {
 
 
 			if ($twitter->http_code == 200) {
-				// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth 
+				// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
 				// calls would only happen in the admin. If this changes we can fuck around with it later.
 				$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
 				$result = $new_connection->setSettings(
@@ -135,11 +135,61 @@ class TwitterSeed extends SeedBase {
 		$data_name = http_build_query($params, '', '-');
 		$data = $this->getCacheData($this->settings_type,$data_name);
 
-		if (!$data) {
+		if (!$data && $this->twitter) {
 			$data = $this->twitter->get($endpoint,$params);
 			if (!$data) {
 				$data = $this->getCacheData($this->settings_type,$data_name,true);
 			} else {
+				foreach ($data as $tweet) {
+					// add formatted time to tweet
+					$tweet->formatted_created_at = CASHSystem::formatTimeAgo($tweet->created_at);
+					if ($tweet->user->profile_image_url_https === true) {
+						$tweet->user->profile_image_url_https_bigger = 'https://a0.twimg.com/sticky/default_profile_images/default_profile_1_bigger.png';
+					} else {
+						$tweet->user->profile_image_url_https_bigger = str_replace('_normal','_bigger',$tweet->user->profile_image_url_https);
+					}
+					// handle url links
+					$twitterstatus = true;
+					if (isset($tweet->entities)) {
+						if (isset($tweet->entities->urls)) {
+							if (count($tweet->entities->urls)) {
+								$twitterstatus = $tweet->entities->urls;
+							}
+						}
+					}
+					$tweet->text = CASHSystem::linkifyText($tweet->text,$twitterstatus);
+					// add media collections
+					// handle twitter photos
+					if (isset($tweet->extended_entities)) {
+						if (is_object($tweet->extended_entities)) {
+							if (is_array($tweet->extended_entities->media)) {
+								$tweet->photos = array();
+								foreach ($tweet->extended_entities->media as $m) {
+									$tweet->photos[] = $m;
+								}
+							}
+						}
+					}
+					// handle youtube videos
+					if (isset($tweet->entities)) {
+						if (is_object($tweet->entities)) {
+							if (is_array($tweet->entities->urls)) {
+								$tweet->iframes = array();
+								foreach ($tweet->entities->urls as $u) {
+									if (strpos($u->expanded_url,'youtube.com') > 0) {
+										$parsed_url = parse_url($u->expanded_url);
+										$query_array = array();
+										parse_str($parsed_url['query'],$query_array);
+										if (isset($query_array['v'])) {
+											$tweet->iframes[] = array('iframe_url' => '//www.youtube.com/embed/' . $query_array['v']);
+											// <iframe src="//www.youtube.com/embed/dOy7vPwEtCw" frameborder="0" allowfullscreen></iframe>
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 				$this->setCacheData($this->settings_type,$data_name,$data);
 			}
 		}
@@ -177,7 +227,7 @@ class TwitterSeed extends SeedBase {
 
 	public function getUserFeed($username,$exclude_replies=true,$count=200,$filtertype=false,$filter=false) {
 		if ($username) {
-			// twitter does some filtering (RTs and replies, if specified) but the count variable comes 
+			// twitter does some filtering (RTs and replies, if specified) but the count variable comes
 			// before that filtering. we need to jack this way up, then cut it down after the fact
 			$working_count = ($count * 2) + 100;
 
@@ -190,6 +240,11 @@ class TwitterSeed extends SeedBase {
 					'include_rts' => false
 				)
 			);
+
+			/*
+			$tweet->text = CASHSystem::linkifyText($tweet->text,true);
+			$tweet->formatted_created_at = CASHSystem::formatTimeAgo($tweet->created_at);
+			*/
 
 			if (is_array($feed_data) && $filter) {
 				$filter = strtolower($filter);
@@ -220,66 +275,5 @@ class TwitterSeed extends SeedBase {
 			return false;
 		}
 	}
-
-	public function prepMarkup($tweet) {
-		$tmp_profile_img = $tweet->user->profile_image_url;
-		if ($tmp_profile_img == 'http://static.twitter.com/images/default_profile_normal.png') {
-			$tmp_profile_img = 'http://a2.twimg.com/sticky/default_profile_images/default_profile_' . rand(0, 6) . '_normal.png';
-		}
-		$innermarkup = "<div class=\"cashmusic_social cashmusic_twitter cashmusic_twitter_" . $tweet->user->screen_name . "\"><img src=\"$tmp_profile_img\" class=\"cashmusic_twitter_avatar\" alt=\"avatar\" />"
-		. "<div class=\"cashmusic_twitter_namespc\"><a href=\"http://twitter.com/" . $tweet->user->screen_name . "\">@" . $tweet->user->screen_name . "</a><br />" . $tweet->user->name . "</div><div class=\"cashmusic_clearall\">.</div>"
-		. "<div class=\"tweet\">" . CASHSystem::linkifyText($tweet->text,true) . '<div class="cashmusic_social_date"><a href="http://twitter.com/#!/' . $tweet->user->screen_name . '/status/' . $tweet->id_str . '" target="_blank">' . CASHSystem::formatTimeAgo($tweet->created_at) . ' / twitter</a> </div></div>'
-		. "</div>";
-
-		// handle twitter photos
-		if (isset($tweet->extended_entities)) {
-			if (is_object($tweet->extended_entities)) {
-				if (is_array($tweet->extended_entities->media)) {
-					foreach ($tweet->extended_entities->media as $m) {
-						if ($m->type == 'photo') {
-							$innermarkup = str_replace('<a href="' . $m->url . '">' . $m->url . '</a>', '<img src="' . $m->media_url_https . '" alt="' . $m->display_url . '" />', $innermarkup);
-						}
-					}
-				}
-			}
-		}
-
-		// handle youtube videos
-		if (isset($tweet->entities)) {
-			if (is_object($tweet->entities)) {
-				if (is_array($tweet->entities->urls)) {
-					foreach ($tweet->entities->urls as $u) {
-						if (strpos($u->expanded_url,'youtube.com') > 0) {
-							$parsed_url = parse_url($u->expanded_url);
-							$query_array = array();
-							parse_str($parsed_url['query'],$query_array);
-							if (isset($query_array['v'])) {
-								$innermarkup = str_replace('<a href="' . $u->url . '">' . $u->url . '</a>', '<iframe src="//www.youtube.com/embed/' . $query_array['v'] . '" frameborder="0" allowfullscreen></iframe>', $innermarkup);
-							// <iframe src="//www.youtube.com/embed/dOy7vPwEtCw" frameborder="0" allowfullscreen></iframe>
-							}
-						}
-					}
-				}
-			}
-		}
-		
-		return $innermarkup;
-		/*
-		The CSS to go along with the twitter markup:
-		
-		From our stuff up on http://marketairglovamusic.com/
-		
-		.cashmusic_social {margin:10px 0 20px 0;padding:15px;background-color:#fff;border-top-left-radius:5px 5px;border-top-right-radius:5px 5px;border-bottom-right-radius:5px 5px;border-bottom-left-radius:5px 5px;}
-		.cashmusic_social a {color:#cdcdcd;}
-		.cashmusic_twitter {font:14.5px/1.75em georgia,'times new roman',times,serif;}
-		.cashmusic_twitter_avatar {float:left;margin:1px 8px 8px 0;}
-		.cashmusic_twitter_namespc {color:#cdcdcd;font:11px/1.5em helvetica,"helvetica neue",arial,sans-serif;}
-		.cashmusic_twitter_namespc a {color:#007e3d;font:bold 15px/1.85em helvetica,"helvetica neue",arial,sans-serif;}
-		.cashmusic_twitter a {color:#007e3d;}
-		.cashmusic_tumblr h2, .cashmusic_tumblr h2 a, #topmenu * a, h2 {color:#111;font:28px/1em 'IM Fell English',georgia,'times new roman',times,serif;}
-		.cashmusic_social_date {margin-top:10px;color:#cdcdcd;font:11px/1.75em helvetica,"helvetica neue",arial,sans-serif;}
-		.cashmusic_clearall {clear:both;height:1px;overflow:hidden;visibility:hidden;}
-		*/
-	}
-} // END class 
+} // END class
 ?>

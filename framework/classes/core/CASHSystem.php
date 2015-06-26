@@ -1,6 +1,6 @@
 <?php
 /**
- * An abstract collection of lower level static functions that are useful 
+ * An abstract collection of lower level static functions that are useful
  * across other classes.
  *
  * @package platform.org.cashmusic
@@ -14,7 +14,7 @@
  */abstract class CASHSystem  {
 
 	/**
-	 * Handle annoying environment issues like magic quotes, constants and 
+	 * Handle annoying environment issues like magic quotes, constants and
 	 * auto-loaders before firing up the CASH platform and whatnot
 	 *
 	 */public static function startUp($return_request=false) {
@@ -27,7 +27,7 @@
 				array_walk_recursive($gpc, 'stripslashes_from_gpc');
 				unset($gpc);
 			}
-			
+
 			// define constants (use sparingly!)
 			$root = realpath(dirname(__FILE__) . '/../..');
 			define('CASH_PLATFORM_ROOT', $root);
@@ -40,10 +40,10 @@
 			define('CASH_PUBLIC_URL',str_replace('admin','public',CASH_ADMIN_URL));
 			// set up auto-load
 			spl_autoload_register('CASHSystem::autoloadClasses');
-			
+
 			// set timezone
 			date_default_timezone_set($cash_settings['timezone']);
-			
+
 			// fire off new CASHRequest to cover any immediate-need things like GET
 			// asset requests, etc...
 			$cash_page_request = new CASHRequest();
@@ -107,9 +107,9 @@
 		}
 		$cash_body_request = new CASHRequest(
 			array(
-				'cash_request_type' => 'element', 
+				'cash_request_type' => 'element',
 				'cash_action' => 'getmarkup',
-				'id' => $element_id, 
+				'id' => $element_id,
 				'status_uid' => $status_uid,
 				'original_request' => $original_request,
 				'original_response' => $original_response,
@@ -137,12 +137,12 @@
 	}
 
 	/**
-	 * Gets the contents from a URL. First tries file_get_contents then cURL. 
-	 * If neither of those work, then the server asks a friend to print out the 
+	 * Gets the contents from a URL. First tries file_get_contents then cURL.
+	 * If neither of those work, then the server asks a friend to print out the
 	 * page at the URL and mail it to the data center. Since this takes a couple
-	 * days we return false, but that's taking nothing away from the Postal 
+	 * days we return false, but that's taking nothing away from the Postal
 	 * service. They've got a hard job, so say thank you next time you get some
-	 * mail from the postman. 
+	 * mail from the postman.
 	 *
 	 * @return string
 	 */public static function getURLContents($data_url,$post_data=false,$ignore_errors=false) {
@@ -166,7 +166,7 @@
 			if ($do_post) {
 				$options['http']['method'] = 'POST';
 				$options['http']['content'] = $post_query;
-			} 
+			}
 			if ($ignore_errors) {
 				$options['http']['ignore_errors'] = true;
 			}
@@ -176,7 +176,7 @@
 			// fall back to cURL
 			$ch = curl_init();
 			$timeout = 20;
-			
+
 			@curl_setopt($ch,CURLOPT_URL,$data_url);
 			if ($do_post) {
 				curl_setopt($ch,CURLOPT_POST,$post_length);
@@ -226,7 +226,7 @@
 		if ($user_id) {
 			$data_request = new CASHRequest(
 				array(
-					'cash_request_type' => 'system', 
+					'cash_request_type' => 'system',
 					'cash_action' => 'getapicredentials',
 					'user_id' => $user_id
 				)
@@ -239,7 +239,7 @@
 
 	/**
 	 * Very basic. Takes a URL and checks if headers have been sent. If not we
-	 * do a proper location header redirect. If headers have been sent it 
+	 * do a proper location header redirect. If headers have been sent it
 	 * returns a line of JS to initiate a client-side redirect.
 	 *
 	 * @return none
@@ -253,7 +253,7 @@
 			return $output_script;
 		}
 	}
-	
+
 	public static function findReplaceInFile($filename,$find,$replace) {
 		if (is_file($filename)) {
 			$file = file_get_contents($filename);
@@ -308,7 +308,7 @@
 	}
 
 	public static function setSystemSetting($setting_name=false,$value='') {
-		if ($setting_name) {		
+		if ($setting_name) {
 			$cash_settings = CASHSystem::getSystemSettings();
 			// if ($cash_settings['instancetype'] != 'multi') { --- DISABLED SINGLE-USER ONLY BECAUSE WHY?
 				if (array_key_exists($setting_name, $cash_settings)) {
@@ -332,7 +332,7 @@
 	}
 
 	/**
-	 * Super basic XOR encoding — used for encoding connection data 
+	 * Super basic XOR encoding — used for encoding connection data
 	 *
 	 */public static function simpleXOR($input, $key = false) {
 		if (!$key) {
@@ -382,7 +382,7 @@
 		);
 		return $ip_and_proxy;
 	}
-	
+
 	/**
 	 * Returns the (best guess at) current URL or false for CLI access
 	 *
@@ -411,10 +411,10 @@
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Takes a datestamp or a string capable of being converted to a datestamp and
-	 * returns a "23 minutes ago" type string for it. Now you can be cute like 
+	 * returns a "23 minutes ago" type string for it. Now you can be cute like
 	 * Twitter.
 	 *
 	 * @return string
@@ -462,20 +462,26 @@
 
 	/**
 	 * Turns plain text links into HYPERlinks. Welcome to the future, chump.
-	 * 
+	 *
 	 * Stole all the regex from:
 	 * http://buildinternet.com/2010/05/how-to-automatically-linkify-text-with-php-regular-expressions/
 	 * (Because I stink at regex.)
 	 *
 	 * @return string
 	 */public static function linkifyText($text,$twitter=false) {
-		$text= preg_replace("/(^|[\n ])([\w]*?)((ht|f)tp(s)?:\/\/[\w]+[^ \,\"\n\r\t<]*)/is", "$1$2<a href=\"$3\">$3</a>", $text);
-		$text= preg_replace("/(^|[\n ])([\w]*?)((www|ftp)\.[^ \,\"\t\n\r<]*)/is", "$1$2<a href=\"http://$3\">$3</a>", $text);
-		$text= preg_replace("/(^|[\n ])([a-z0-9&\-_\.]+?)@([\w\-]+\.([\w\-\.]+)+)/i", "$1<a href=\"mailto:$2@$3\">$2@$3</a>", $text);
 		if ($twitter) {
-			$text= preg_replace("/@(\w+)/", '<a href="http://www.twitter.com/$1" target="_blank">@$1</a>', $text);
-			$text= preg_replace("/\#(\w+)/", '<a href="http://search.twitter.com/search?q=$1" target="_blank">#$1</a>',$text);
+			$text = preg_replace("/@(\w+)/", '<a href="https://twitter.com/$1" target="_blank">@$1</a>', $text);
+			$text = preg_replace("/\#(\w+)/", '<a href="https://search.twitter.com/search?q=$1" target="_blank">#$1</a>',$text);
+			if (is_array($twitter)) {
+				foreach ($twitter as $url_details) {
+					$text = str_replace($url_details->url,'<a href="' . $url_details->expanded_url . '" target="_blank">' . $url_details->display_url . '</a>',$text);
+				}
+				return $text;
+			}
 		}
+		$text = preg_replace("/(^|[\n ])([\w]*?)((ht|f)tp(s)?:\/\/[\w]+[^ \,\"\n\r\t<]*)/is", "$1$2<a href=\"$3\">$3</a>", $text);
+		$text = preg_replace("/(^|[\n ])([\w]*?)((www|ftp)\.[^ \,\"\t\n\r<]*)/is", "$1$2<a href=\"http://$3\">$3</a>", $text);
+		$text = preg_replace("/(^|[\n ])([a-z0-9&\-_\.]+?)@([\w\-]+\.([\w\-\.]+)+)/i", "$1<a href=\"mailto:$2@$3\">$2@$3</a>", $text);
 		return $text;
 	}
 
@@ -500,7 +506,7 @@
 			);
 			return $return_array;
 		}
-		
+
 	}
 
 	public static function notExplicitFalse($test) {
@@ -531,13 +537,13 @@
 			return false;
 		}
 
-		// TODO: look up user settings for email if user_id is set — allow for multiple SMTP settings 
+		// TODO: look up user settings for email if user_id is set — allow for multiple SMTP settings
 		// on a per-user basis in the multi-user system
 		$email_settings = CASHSystem::getDefaultEmail(true);
 		if (CASHSystem::getSystemSettings('instancetype') == 'multi' && $user_id) {
 			$user_request = new CASHRequest(
 				array(
-					'cash_request_type' => 'people', 
+					'cash_request_type' => 'people',
 					'cash_action' => 'getuser',
 					'user_id' => $user_id
 				)
@@ -548,7 +554,7 @@
 				$setname = $user_details['display_name'];
 			}
 			if (!$setname && $user_details['username']) {
-				$setname = $user_details['username'];	
+				$setname = $user_details['username'];
 			}
 			if ($setname) {
 				$fromaddress = $setname . ' <' . $user_details['email_address'] . '>';
@@ -569,7 +575,7 @@
 				$from = $fromaddress;
 			}
 		} else {
-			$from = $fromaddress;	
+			$from = $fromaddress;
 		}
 
 		// handle encoding of HTML if specific HTML isn't passed in:
@@ -666,7 +672,7 @@
 			if (isset($types[$extension])) {
 				return $types[$extension];
 			}
-		} else { 
+		} else {
 			return 'application/octet-stream';
 		}
 	}
@@ -714,5 +720,5 @@
 			}
 		}
 	}
-} // END class 
+} // END class
 ?>

@@ -69,9 +69,9 @@
 			{{/orders_recent}}
 		</ul>
 
-		
+
 		{{#show_pagination}}<div class="left pagination">{{#show_previous}}<a class="prev" href="{{www_path}}/commerce/{{^back_to_first}}page/{{previous_page}}/{{/back_to_first}}{{#filter_unfulfilled}}filter/unfulfilled/{{/filter_unfulfilled}}{{#filter_week}}filter/week/{{/filter_week}}">Previous</a>{{/show_previous}}{{#show_nextandprevious}}<span> / </span>{{/show_nextandprevious}}{{#show_next}}<a class="next active" href="{{www_path}}/commerce/page/{{next_page}}/{{#filter_unfulfilled}}filter/unfulfilled/{{/filter_unfulfilled}}{{#filter_week}}filter/week/{{/filter_week}}">Next</a>{{/show_next}}</div><!--pagination-->{{/show_pagination}}
-		
+
 
 		{{/orders_recent}}
 
@@ -86,17 +86,33 @@
 		<div class="itemnav pure-u-1">
 			<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>Commerce Settings</span></h4>
 			<div class="drawercontent">
-			<div class="pure-u-1">
+			<div class="pure-u-1 pure-u-md-1-2">
 				<div class="pref-inner">
-				<h5>Change Currency</h5>
-					<form accept-charset="UTF-8" method="post" class="returntocurrentroute" action="{{www_path}}/commerce/">	
-						<div class="pure-u-1 pure-u-md-1-2">
+				<h5>Primary Currency</h5>
+					<form accept-charset="UTF-8" method="post" class="returntocurrentroute" action="{{www_path}}/commerce/">
+						<div class="pure-u-">
 						<select id="currency_id" name="currency_id">{{{currency_options}}}</select>
 						<button class="fullwidth" type="submit">Use this currency</button>
 						</div>
 					</form>
 				</div><!--pref-inner-->
 			</div><!--pure-->
+			{{#show_beta}}
+			<div class="pure-u-1 pure-u-md-1-2">
+				<div class="pref-inner">
+				<h5>Shipping regions</h5>
+					<form accept-charset="UTF-8" method="post" class="returntocurrentroute" action="{{www_path}}/commerce/">
+						<div class="pure-u-1">
+							<label for="region1">Region 1</label>
+							<input type="text" id="region1" name="region1" value="{{region1}}" placeholder="US" class="required" />
+							<label for="region2">Region 2</label>
+							<input type="text" id="region2" name="region2" value="{{region2}}" placeholder="Rest of world" class="required" />
+							<button class="fullwidth" type="submit">Set shipping regions</button>
+						</div>
+					</form>
+				</div><!--pref-inner-->
+			</div><!--pure-->
+			{{/show_beta}}
 			</div><!--draercontent-->
 		</div><!--itemnav-->
 		</div><!--drawer prefpanel-->

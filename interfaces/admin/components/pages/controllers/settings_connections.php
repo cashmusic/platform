@@ -49,7 +49,7 @@ if ($settings_action) {
 							. '<input type="hidden" name="settings_type" value="' . $settings_type . '" />'
 							. '<label for="settings_name">Connection name</label>'
 							. '<input type="text" id="settings_name" name="settings_name" placeholder="Give It A Name" /><br />';
-							
+
 							foreach ($settings_types_data[$settings_type]['dataTypes'][$cash_admin->platform_type] as $key => $data) {
 								$cash_admin->page_data['state_markup'] .= '<label for="' . $key . '">' . $key . '</label>'
 									. '<input type="text" id="' . $key . '" name="' . $key . '" placeholder="' . ucfirst($key) . '" />';
@@ -111,7 +111,7 @@ if ($settings_action) {
 					} else {
 						AdminHelper::formFailure('Error. Something just didn\'t work right.','/settings/connections/');
 					}
-				} else {	
+				} else {
 					$finalize = false;
 					if (isset($request_parameters[2])) {
 						if ($request_parameters[2] == 'finalize') {
@@ -186,7 +186,7 @@ if ($settings_action) {
 				//$cash_admin->page_data['action_message'] = '<strong>Error.</strong> Something went wrong.';
 			}
 			break;
-	}	
+	}
 }
 if (!$settings_action || isset($_POST['dosettingsadd']) || isset($_POST['dosettingsedit']) || $settings_action == 'delete' ) {
 	$cash_admin->page_data['state_markup'] = '<h4>Current connections:</h4>'
@@ -199,11 +199,11 @@ if (!$settings_action || isset($_POST['dosettingsadd']) || isset($_POST['dosetti
 
 			if (array_key_exists($data['type'],$settings_types_data)) {
 				$cash_admin->page_data['state_markup'] .= '<p><strong>' . $settings_types_data[$data['type']]['name'] . '</strong>';
-			} 
+			}
 
 			$cash_admin->page_data['state_markup'] .= '&nbsp; <span class="fadedtext nobr">Created: ' . date('M jS, Y',$data['creation_date'])  . '</p>';
-			if ($data['modification_date']) { 
-				$cash_admin->page_data['state_markup'] .=  ' (Modified: ' . date('F jS, Y',$data['modification_date']) . ')'; 
+			if ($data['modification_date']) {
+				$cash_admin->page_data['state_markup'] .=  ' (Modified: ' . date('F jS, Y',$data['modification_date']) . ')';
 			}
 
 			$cash_admin->page_data['state_markup'] .= '</span>'
