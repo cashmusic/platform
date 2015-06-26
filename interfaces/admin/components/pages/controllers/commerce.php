@@ -251,7 +251,6 @@ $settings_response = $cash_admin->requestAndStore(
 	)
 );
 if ($settings_response['payload']) {
-	error_log(print_r($settings_response['payload'],true));
 	$cash_admin->page_data['region1'] = $settings_response['payload']['region1'];
 	$cash_admin->page_data['region2'] = $settings_response['payload']['region2'];
 }

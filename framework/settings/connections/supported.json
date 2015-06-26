@@ -3,10 +3,10 @@
 		"com.amazon",
 		"com.google.drive",
 		"com.mailchimp",
-		"com.paypal"
+		"com.paypal",
+		"com.twitter"
 	],
 	"beta":[
-		"com.twitter",
 		"com.mandrillapp"
 	]
 }
