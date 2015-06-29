@@ -29,7 +29,7 @@
 		<input class="required" type="password" id="password" name="password" autocomplete="off" />
 		<br />
 		<!--input type="submit" value="Save changes" /-->
-		<button class="fullwidth" type="submit">Save changes</button>
+		<button class="fullwidth" type="submit">{{copy_button_save_changes}}</button>
 </form>
 
 <h4>{{copy_delete_account}}</h4>
@@ -37,7 +37,7 @@
 <p>
 	{{copy_delete_warning}}
 </p>
-<a href="{{www_path}}/account/delete/" class="button fullwidth noajax needsconfirmation">Delete account</a>
+<a href="{{www_path}}/account/delete/" class="button fullwidth noajax needsconfirmation">{{copy_button_delete_account}}</a>
 
 {{#platform_type_single}}
 	<div>

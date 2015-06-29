@@ -12,6 +12,8 @@
 	"copy":{"delete_warning":"Deleting your account is permanent. There is no undo. It's also kind of sad. Be very sure you want to do it.",
             "enter_password":"Please enter your current password to make changes:",
             "delete_account":"Delete account",
-            "api_details":"API details for developer access:"
+            "api_details":"API details for developer access:",
+            "button_save_changes":"Save Changes!",
+            "button_delete_account":"Delete Account!"
             }
 }
