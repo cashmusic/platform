@@ -2,7 +2,12 @@
 	"pagetip":"",
 	"learn":"<p>Add/edit your account settings here.<p>Put your homepage in the URL section.</p><p>You can also delete your account and find your API key below</p>",
 	"related":{},
-	"labels":{},
+	"labels":{"new_email_address":"New Email Address",
+            "new_username":"New Username (alphanumeric only)",
+            "new_display_name":"New Display Name",
+            "new_password":"New password (Blank = no change)",
+            "password":"Password"
+            },
 	"tooltips":{},
 	"copy":{}
 }
