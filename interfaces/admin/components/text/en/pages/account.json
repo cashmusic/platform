@@ -9,5 +9,9 @@
             "password":"Password"
             },
 	"tooltips":{},
-	"copy":{}
+	"copy":{"delete_warning":"Deleting your account is permanent. There is no undo. It's also kind of sad. Be very sure you want to do it.",
+            "enter_password":"Please enter your current password to make changes:",
+            "delete_account":"Delete account",
+            "api_details":"API details for developer access:"
+            }
 }

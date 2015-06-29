@@ -23,7 +23,7 @@
 			<input type="password" id="new_password" class="needsreveal" name="new_password" autocomplete="off" />
 			<a href="#" class="revealpassword" style="position:relative;top:-7px;color:#666;">reveal text</a>
 		<p>
-			Please enter your current password to make changes:
+			{{copy_enter_password}}
 		</p>
 		<label for="password">{{label_password}}</label>
 		<input class="required" type="password" id="password" name="password" autocomplete="off" />
@@ -32,10 +32,10 @@
 		<button class="fullwidth" type="submit">Save changes</button>
 </form>
 
-<h4>Delete account</h4>
+<h4>{{copy_delete_account}}</h4>
 
 <p>
-	Deleting your account is <b>permanent</b>. There is no undo. It's also kind of sad. Be very sure you want to do it.
+	{{copy_delete_warning}}
 </p>
 <a href="{{www_path}}/account/delete/" class="button fullwidth noajax needsconfirmation">Delete account</a>
 
@@ -43,7 +43,7 @@
 	<div>
 		<h4>API Key / Secret</h4>
 		<p>
-			API details for developer access:
+			{{copy_api_details}}
 		</p>
 		<div class="callout">
 			<code>
