@@ -7,13 +7,11 @@
 		<label for="password">Password</label>
 		<input type="password" name="password" value="" placeholder="Password" class="cash_input cash_input_password" />
 	</div>
-	
+
 	<div class="clearfix">&nbsp;</div>
 	<input type="hidden" name="cash_request_type" value="people" />
 	<input type="hidden" name="cash_action" value="signintolist" />
 	<input type="hidden" name="list_id" value="{{email_list_id}}" />
 	<input type="hidden" name="element_id" value="{{element_id}}" />
-	<input type="hidden" name="browserid_assertion" value="" id="browseridassertion_{{element_id}}" />
-	<input type="submit" value="log in" class="button" /> <span class="cash_divider_text"> - or - </span> <a href="javascript:void(0)" id="browserid_login_link_{{element_id}}"><img src="{{www_url}}/assets/images/browserid.png" alt="log in with browser id" class="cash_browserid_button" /></a>
+	<input type="submit" value="log in" class="button" />
 </form>
-{{{browserid_js}}}
