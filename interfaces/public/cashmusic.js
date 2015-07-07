@@ -1,22 +1,899 @@
-// cashmusic.js v2 | (c) 2014 CASH Music | http://cashmusic.github.io/cashmusic.js/ | https://github.com/cashmusic/cashmusic.js/blob/master/LICENSE
-window.cashmusic=function(){var g;null!=window.cashmusic?g=window.cashmusic:(g={embeds:{whitelist:"",all:[]},loaded:!1,soundplayer:!1,lightbox:!1,options:"",path:"",templates:{},eventlist:{},storage:{},embedded:!1,_init:function(){var a=window.cashmusic;a.scriptElement=document.querySelector('script[src$="cashmusic.js"]');a.scriptElement&&(a.path=a.scriptElement.src.substr(0,a.scriptElement.src.length-12));a.options=String(a.scriptElement.getAttribute("data-options"));-1!==this.options.indexOf("lightboxvideo")&&
-a.loadScript(a.path+"lightbox/lightbox.js");0<document.querySelectorAll("a.cashmusic.soundplayer,div.cashmusic.soundplayer").length&&a.loadScript(a.path+"soundplayer/soundplayer.js");self!==top&&a._initEmbed();a.events.add(window,"message",function(b){-1!==a.embeds.whitelist.indexOf(b.origin)&&a._handleMessage(b)});this.loaded=!0},_initEmbed:function(){var a=window.cashmusic;a.embedded=!0;a.storage.embedheight=a.measure.scrollheight();a.events.relay("resize",a.storage.embedheight);var b=document.querySelector("div.cashmusic.element");
-a.fader.hide(b);var c=b.className.split(" ");a.events.relay("identify",[c[2],c[3].substr(3)]);window.setInterval(function(){var b=a.measure.scrollheight();b!=a.storage.embedheight&&(a.storage.embedheight=b,a.events.relay("resize",b))},250);(c=a.getQueryVariable("cssoverride"))&&a.styles.injectCSS(c,!0);window.setTimeout(function(){a.fader.init(b,100)},100);for(var c=document.getElementsByTagName("form"),d=0;d<c.length;d++){var e=document.createElement("input");e.setAttribute("type","hidden");e.setAttribute("name",
-"embedded_element");e.setAttribute("value","1");c[d].appendChild(e)}},_handleMessage:function(a){for(var b=window.cashmusic,c=JSON.parse(a.data),d,e=0;e<b.embeds.all.length;e++)if(b.embeds.all[e].el.contentWindow===a.source){d=b.embeds.all[e];break}"resize"==c.type?(d.el.height=c.data,d.el.style.height=c.data+"px"):"identify"==c.type&&d.id==c.data[1]&&(d.type=c.data[0])},contentLoaded:function(a){var b=!1,c=!0,d=window.document,e=d.documentElement,f=function(c){if("readystatechange"!=c.type||"complete"==
-d.readyState)g.events.remove("load"==c.type?window:d,c.type,f),!b&&(b=!0)&&a.call(window,c.type||c)},l=function(){try{e.doScroll("left")}catch(a){setTimeout(l,50);return}f("poll")};if("complete"==d.readyState)a.call(window,"lazy");else{if(d.createEventObject&&e.doScroll){try{c=!window.frameElement}catch(h){}c&&l()}this.events.add(d,"DOMContentLoaded",f);this.events.add(d,"readystatechange",f);this.events.add(d,"load",f)}},embed:function(a,b,c,d,e,f,l){"object"===typeof a&&(b=a.elementid?a.elementid:
-!1,c=a.lightboxed?a.lightboxed:!1,d=a.lightboxtxt?a.lightboxtxt:!1,e=a.position?a.position:!1,f=a.targetnode?a.targetnode:!1,l=a.cssoverride?a.cssoverride:!1,a=a.endpoint);var h=window.cashmusic,g=a.replace(/\/$/,"")+"/request/embed/"+b+"/location/"+encodeURIComponent(window.location.href.replace(/\//g,"!slash!"));l&&(g=g+"?cssoverride="+encodeURIComponent(l));var k=document.createElement("iframe");k.src=g;k.className="cashmusic embed";k.style.width="100%";k.style.height="0";k.style.border="0";k.style.overflow=
-"hidden";k.scrolling="no";if(f)var m=document.querySelector(f);else a=document.querySelectorAll("script"),m=a[a.length-1];if(m){if(c){var n=document.createElement("span");n.className="cashmusic embed link";h.contentLoaded(function(){d||(d="open element");h.overlay.create(function(){var a=document.createElement("a");a.href=g;a.target="_blank";a.innerHTML=d;n.appendChild(a);m.parentNode.insertBefore(n,m);(function(b){"object"!==typeof b&&(b={top:"40px",left:"30%",width:"40%",marginLeft:"0"});h.events.add(a,
-"click",function(a){h.overlay.resize(b.top,b.left,b.width,b.marginLeft);h.overlay.content.appendChild(k);window.cashmusic.fader.init(h.overlay.bg,100);a.preventDefault();return!1})})(e)})})}else m.parentNode.insertBefore(k,m);c=g.split("/").slice(0,3).join("/");-1===h.embeds.whitelist.indexOf(c)&&(h.embeds.whitelist+=c);h.embeds.all.push({el:k,id:b,type:""})}},getTemplate:function(a,b){var c=window.cashmusic,d=c.templates;if(void 0!==d[a])b(d[a]);else if(this.ajax.jsonp(c.path+"templates/"+a+".js",
-"callback",function(c){d[a]=c.template;b(c.template)},"cashmusic"+a+"Callback"),!document.querySelectorAll('link[href="'+c.path+"templates/"+a+'.css"]').length){var e=document.createElement("link");e.setAttribute("href",c.path+"templates/"+a+".css");e.setAttribute("rel","stylesheet");e.setAttribute("type","text/css");document.getElementsByTagName("head")[0].appendChild(e)}},addEventListener:function(a,b){var c=window.cashmusic;c.eventlist.hasOwnProperty(a)||(c.eventlist[a]=[]);c.eventlist[a].push(b)},
-removeEventListener:function(a,b){var c=window.cashmusic;if(c.eventlist.hasOwnProperty(a)){var d=c.eventlist[a].indexOf(b);-1!=d&&c.eventlist[a].splice(d,1)}},dispatchEvent:function(a){var b=window.cashmusic;if(b.eventlist.hasOwnProperty(a.type)){var c;for(c=0;c<b.eventlist[a.type].length;c++)if(b.eventlist[a.type][c])b.eventlist[a.type][c](a)}},loadScript:function(a,b){if(0<document.querySelectorAll('a[src="'+a+'"]').length)"function"===typeof b&&b();else{var c=document.getElementsByTagName("head")[0]||
-document.documentElement,d=document.createElement("script");d.src=a;var e=!1;d.onload=d.onreadystatechange=function(){e||this.readyState&&"loaded"!==this.readyState&&"complete"!==this.readyState||(e=!0,"function"===typeof b&&b(),d.onload=d.onreadystatechange=null,c&&d.parentNode&&c.removeChild(d))};c.insertBefore(d,c.firstChild)}},getQueryVariable:function(a){for(var b=window.location.search.substring(1).split("&"),c=0;c<b.length;c++){var d=b[c].split("=");if(d[0]==a)return decodeURIComponent(d[1])}return!1},
-ajax:{getXHR:function(){try{return new XMLHttpRequest}catch(a){try{return new ActiveXObject("Msxml2.XMLHTTP")}catch(b){try{return new ActiveXObject("Microsoft.XMLHTTP")}catch(c){return!1}}}},send:function(a,b,c,d){var e="POST";b||(e="GET",b=null);var f=this.getXHR();f&&(f.open(e,a,!0),f.setRequestHeader("X-Requested-With","XMLHttpRequest"),"POST"==e&&f.setRequestHeader("Content-type","application/x-www-form-urlencoded"),"function"==typeof c&&(f.onreadystatechange=function(){4===f.readyState&&(200===
-f.status?c(f.responseText):"function"===typeof d&&d(f.responseText))}),f.send(b))},jsonp:function(a,b,c,d){a=a||"";b=b||"";c=c||function(){};d=d||!1;"function"==typeof b&&(c=b,b="callback");if(d){var e=d,f=function(){};"function"==typeof window[e]&&(f=window[e])}else e="jsonp"+Math.round(1000001*Math.random());window[e]=function(a){c(a);d?f(a):delete window[e]};a=-1===a.indexOf("?")?a+"?":a+"&";var g=document.createElement("script");g.setAttribute("src",a+b+"="+e);document.getElementsByTagName("head")[0].appendChild(g)},
-encodeForm:function(a){if("object"!==typeof a)return!1;var b="";a=a.elements||a;for(var c=0;c<a.length;c++)"checkbox"===a[c].type||"radio"===a[c].type?a[c].checked&&(b+=(b.length?"&":"")+a[c].name+"="+a[c].value):b+=(b.length?"&":"")+a[c].name+"="+a[c].value;return encodeURI(b)}},events:{add:function(a,b,c){a.attachEvent?(a["e"+b+c]=c,a[b+c]=function(){a["e"+b+c](window.event)},a.attachEvent("on"+b,a[b+c])):a.addEventListener(b,c,!1)},remove:function(a,b,c){a.detachEvent?(a.detachEvent("on"+b,a[b+
-c]),a[b+c]=null):a.removeEventListener(b,c,!1)},fire:function(a,b,c){var d=window.cashmusic;if(document.dispatchEvent){var e=document.createEvent("CustomEvent");e.initCustomEvent(b,!1,!1,c);a.dispatchEvent(e)}else e=document.createEventObject(),e.detail=c,a.fireEvent("on"+b,e);d.embedded&&d.events.relay(b,c)},relay:function(a,b){window.parent.postMessage(JSON.stringify({type:a,data:b}),"*")}},fader:{elem:!1,flag:!1,alpha:!1,target:!1,init:function(a,b,c){var d=window.cashmusic.fader;d.setElement(a);
-clearInterval(d.si);d.alpha=d.elem.style.opacity?100*parseFloat(d.elem.style.opacity):0;d.flag=d.alpha>b?-1:1;d.target=b;0==d.alpha&&0<b&&(d.elem.style.opacity=0,d.elem.style.display="block");d.si=setInterval(function(){d.tween(c)},10)},tween:function(a){var b=window.cashmusic.fader;b.alpha==b.target?(clearInterval(b.si),"function"==typeof a&&a()):(a=Math.round(b.alpha+.05*(b.target-b.alpha))+b.flag,b.elem.style.opacity=a/100,b.elem.style.filter="alpha(opacity="+a+")",0==a&&(b.elem.style.display=
-"none"),b.alpha=a)},hide:function(a){var b=window.cashmusic.fader;b.setElement(a);b.elem.style.opacity=0;b.elem.style.display="none"},show:function(a){var b=window.cashmusic.fader;b.setElement(a);b.elem.style.opacity=100;b.elem.style.display="block"},setElement:function(a){window.cashmusic.fader.elem="string"===typeof a?document.getElementById(a):a}},measure:{viewport:function(){return{x:window.innerWidth||document.body.offsetWidth||0,y:window.innerHeight||document.body.offsetHeight||0}},scrollheight:function(){var a=
-document.body,b=document.documentElement;return Math.max(a.scrollHeight,b.scrollHeight,a.offsetHeight,b.offsetHeight,a.clientHeight,b.clientHeight)}},overlay:{bg:!1,content:!1,total:0,callbacks:[],create:function(a){var b=window.cashmusic,c=b.overlay;!1===c.bg?(c.total++,"function"===typeof a&&c.callbacks.push(a),1==c.total&&b.getTemplate("overlay",function(a){var e=document.createElement("div");e.innerHTML=a;c.bg=e.firstChild;c.bg.style.display="none";document.body.appendChild(c.bg);e=null;a=c.bg.getElementsByTagName("div");
-c.content=a[0];b.events.add(window,"keyup",function(a){27==a.keyCode&&(c.bg.style.display="block",b.fader.hide(c.bg),c.content.innerHTML="")});b.events.add(c.bg,"click",function(a){a.target===this&&(b.fader.hide(c.bg),c.content.innerHTML="")});for(a=0;a<c.callbacks.length;a++)c.callbacks[a]()})):a()},resize:function(a,b,c,d){var e=window.cashmusic.overlay.content.style;e.top=a;e.left=b;e.width=c;e.marginLeft=d}},styles:{addClass:function(a,b){a.className=a.className+" "+b},hasClass:function(a,b){return-1<
-(" "+a.className+" ").indexOf(" "+b+" ")},injectCSS:function(a,b){var c=document.getElementsByTagName("head")[0]||document.documentElement;if("http"==a.substr(0,4)){var d=document.createElement("link");d.rel="stylesheet";d.href=a}else d=document.createElement("style"),d.innerHTML=a;d.type="text/css";b?c.appendChild(d):c.insertBefore(d,c.firstChild)},removeClass:function(a,b){a.className=(" "+a.className+" ").replace(" "+b+" ").replace(/^\s+/,"").replace(/\s+$/,"")},swapClasses:function(a,b,c){a.className=
-(" "+a.className+" ").replace(" "+b+" "," "+c+" ").replace(/^\s+/,"").replace(/\s+$/,"")}}},g.contentLoaded(function(){g._init(g)}));return g}();
+/**
+ * The core cashmusic.js file
+ *
+ * COMPRESSION SETTINGS
+ * http://closure-compiler.appspot.com/
+ * Closure compiler, SIMPLE MODE
+ *
+ * @package cashmusic.org.cashmusic
+ * @author CASH Music
+ * @link http://cashmusic.org/
+ *
+ * Copyright (c) 2015, CASH Music
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this list
+ * of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this
+ * list of conditions and the following disclaimer in the documentation and/or other
+ * materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+ * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *
+ *
+ * VERSION: 4
+ *
+ **/
+
+;window.cashmusic = (function() {
+	'use strict';
+	var cashmusic;
+	if (window.cashmusic != null) {
+		// if window.cashmusic exists, we just return the current instance
+		cashmusic = window.cashmusic;
+	} else {
+		// no window.cashmusic, so we build and return an object
+		cashmusic = {
+			embeds: {
+				whitelist: '',
+				all: []
+			},
+			loaded: false,
+			soundplayer: false,
+			lightbox: false,
+			options:'',
+			path:'',
+			templates: {},
+			eventlist: {},
+			storage: {},
+			embedded: false,
+
+			_init: function() {
+				var cm = window.cashmusic;
+
+				// determine file location and path
+				cm.scriptElement = document.querySelector('script[src$="cashmusic.js"]');
+				if (cm.scriptElement) {
+					// chop off last 12 characters for 'cashmusic.js' -- not just a replace in case
+					// a directory is actually named 'cashmusic.js'
+					cm.path = cm.scriptElement.src.substr(0,cm.scriptElement.src.length-12);
+				}
+				cm.options = String(cm.scriptElement.getAttribute('data-options'));
+
+				// check lightbox options
+				if (this.options.indexOf('lightboxvideo') !== -1) {
+					// load lightbox.js
+					cm.loadScript(cm.path+'lightbox/lightbox.js');
+				}
+
+				// look for .cashmusic.soundplayer divs/links
+				var soundTest = document.querySelectorAll('a.cashmusic.soundplayer,div.cashmusic.soundplayer');
+				if (soundTest.length > 0) {
+					cm.loadScript(cm.path+'soundplayer/soundplayer.js');
+				}
+
+				// if we're running in an iframe assume it's an embed (won't do any harm if not)
+				if (self !== top) {
+					cm._initEmbed();
+				}
+
+				// using messages passed between the request and this script to resize the iframe
+				cm.events.add(window,'message',function(e) {
+					// make sure the message comes from our embeds (via origin whitelist)
+					if (cm.embeds.whitelist.indexOf(e.origin) !== -1) {
+						cm._handleMessage(e);
+					}
+				});
+
+				// add current domain to whitelist for postmesage calls (regardless of embed or no)
+				cm.embeds.whitelist = cm.embeds.whitelist + window.location.href.split('/').slice(0,3).join('/');
+
+				// we're loaded
+				this.loaded = true;
+			},
+
+			_initEmbed: function() {
+				var cm = window.cashmusic;
+				cm.embedded = true; // set this as an embed
+
+				// get main div
+				var el = document.querySelector('div.cashmusic.element');
+				if (el) {
+					cm.storage['embedheight'] = cm.measure.scrollheight(); // store current height
+					cm.events.fire(cm,'resize',cm.storage.embedheight); // fire resize event immediately
+
+					// use element classes to identify type and id of element
+					var cl = el.className.split(' ');
+					cm.events.fire(cm,'identify',[cl[2],cl[3].substr(3)]); // [type, id]
+
+					// poll for height and fire resize event if it changes
+					window.setInterval(function() {
+						var h  = cm.measure.scrollheight();
+						if (h != cm.storage.embedheight) {
+							cm.storage.embedheight = h;
+							cm.events.fire(cm,'resize',h);
+						}
+					},250);
+
+					// rewrite CSS stuff?
+					var cssOverride = cm.getQueryVariable('cssoverride');
+					if (cssOverride) {
+						cm.styles.injectCSS(cssOverride,true);
+					}
+				}
+
+				// add an embedded_element input to all forms to tell the platform they're embeds
+				var forms = document.getElementsByTagName("form");
+				for (var i=0; i<forms.length; i++) {
+					var ee=document.createElement("input");
+					ee.setAttribute("type","hidden");
+					ee.setAttribute("name","embedded_element");
+					ee.setAttribute("value","1");
+					forms[i].appendChild(ee);
+				}
+			},
+
+			_handleMessage: function(e) {
+				var cm = window.cashmusic;
+				var msg = JSON.parse(e.data);
+				var source; // source embed (if from an embed)
+				// find the source of the message in our embeds object
+				for (var i = 0; i < cm.embeds.all.length; i++) {
+					if (cm.embeds.all[i].el.contentWindow === e.source) {
+						source = cm.embeds.all[i];
+						break;
+					}
+				}
+
+				// now figure out what to do with it
+				if (msg.type == 'resize') {
+					source.el.height = msg.data;
+					source.el.style.height = msg.data + 'px'; // resize to correct height
+				} else if (msg.type == 'identify') {
+					if (source.id == msg.data[1]) { // double-check that id's match
+						source.type = msg.data[0]; // set the type. now we have all the infos
+					}
+				} else if (msg.type == 'stripetokenrequested') {
+					cm.stripe.generateToken(msg.data,e.source);
+				} else if (msg.type == 'stripetoken') {
+					cm.events.fire(cm,'stripetokengenerated',msg.data);
+				}
+			},
+
+			/*
+			 * contentloaded.js by Diego Perini (diego.perini at gmail.com)
+			 * http://javascript.nwbox.com/ContentLoaded/
+			 * http://javascript.nwbox.com/ContentLoaded/MIT-LICENSE
+			 *
+			 * modified a little because you know
+			 */
+			contentLoaded: function(fn) {
+				var done = false, top = true,
+				doc = window.document, root = doc.documentElement,
+
+				init = function(e) {
+					if (e.type == 'readystatechange' && doc.readyState != 'complete') return;
+					cashmusic.events.remove((e.type == 'load' ? window : doc),e.type,init);
+					if (!done && (done = true)) fn.call(window, e.type || e);
+				},
+
+				poll = function() {
+					try { root.doScroll('left'); } catch(e) { setTimeout(poll, 50); return; }
+					init('poll');
+				};
+
+				if (doc.readyState == 'complete') fn.call(window, 'lazy');
+				else {
+					if (doc.createEventObject && root.doScroll) {
+						try { top = !window.frameElement; } catch(e) { }
+						if (top) poll();
+					}
+					this.events.add(doc,'DOMContentLoaded', init);
+					this.events.add(doc,'readystatechange', init);
+					this.events.add(doc,'load', init);
+				}
+			},
+
+			/*
+			 * window.cashmusic.embed(string endPoint, string/int elementId, bool lightboxed, bool lightboxTxt)
+			 * Generates the embed iFrame code for embedding a given element.
+			 * Optional third and fourth parameters allow the element to be
+			 * embedded with a lightbox and to customize the text of lightbox
+			 * opener link. (default: 'open element')
+			 *
+			 * The iFrame is embedded at 1px high and sends a postMessage back
+			 * to this parent window with its proper height.
+			 *
+			 * This is called in a script inline as a piece of blocking script — calling it before
+			 * contentLoaded because the partial load tells us where to embed each chunk — we find the
+			 * last script node and inject the content by it. For dynamic calls you need to specify
+			 * a targetNode to serve as the anchor — with the embed chucked immediately after that
+			 * element in the DOM.
+			 */
+			embed: function(endPoint, elementId, lightboxed, lightboxTxt, position, targetNode, cssOverride) {
+				// Allow for a single object to be passed instead of all arguments
+				// object properties should be lowercase versions of the standard arguments, any order
+				if (typeof endPoint === 'object') {
+					elementId   = endPoint.elementid ? endPoint.elementid : false;
+					lightboxed  = endPoint.lightboxed ? endPoint.lightboxed : false;
+					lightboxTxt = endPoint.lightboxtxt ? endPoint.lightboxtxt : false;
+					position    = endPoint.position ? endPoint.position : false;
+					targetNode  = endPoint.targetnode ? endPoint.targetnode : false;
+					cssOverride = endPoint.cssoverride ? endPoint.cssoverride : false;;
+					endPoint   = endPoint.endpoint;
+				}
+				var cm = window.cashmusic;
+				var embedURL = endPoint.replace(/\/$/, '') + '/request/embed/' + elementId + '/location/' + encodeURIComponent(window.location.href.replace(/\//g,'!slash!'));
+				if (cssOverride) {
+					embedURL = embedURL + '?cssoverride=' + encodeURIComponent(cssOverride);
+				}
+				var iframe = document.createElement('iframe');
+					iframe.src = embedURL;
+					iframe.className = 'cashmusic embed';
+					iframe.style.width = '100%';
+					iframe.style.height = '0'; // if not explicitly set the scrollheight of the document will be wrong
+					iframe.style.border = '0';
+					iframe.style.overflow = 'hidden'; // important for overlays, which flicker scrollbars on open
+					iframe.scrolling = 'no'; // programming
+				if (targetNode) {
+					// for AJAX, specify target node: '#id', '#id .class', etc. NEEDS to be specific
+					var currentNode = document.querySelector(targetNode);
+				} else {
+					// if used non-AJAX we just grab the current place in the doc
+					// because we're running as the document is loading in a blocking fashion, the
+					// last script element will be the current script asset.
+					var allScripts = document.querySelectorAll('script');
+					var currentNode = allScripts[allScripts.length - 1];
+				}
+				// be nice neighbors. if we can't find currentNode, don't do the rest or pitch errors. silently fail.
+				if (currentNode) {
+					if (lightboxed) {
+						// create a div to contain the overlay link
+						var embedNode = document.createElement('span');
+						embedNode.className = 'cashmusic embed link';
+						cm.contentLoaded(function() {
+							// open in a lightbox with a link in the target div
+							if (!lightboxTxt) {lightboxTxt = 'open element';}
+							cm.overlay.create(function() {
+								var a = document.createElement('a');
+									a.href = embedURL;
+									a.target = '_blank';
+									a.innerHTML = lightboxTxt;
+								embedNode.appendChild(a);
+								currentNode.parentNode.insertBefore(embedNode,currentNode);
+								(function(position) {
+									cm.events.add(a,'click',function(e) {
+										cm.overlay.reveal(iframe);
+										e.preventDefault();
+										return false;
+									});
+								})(position);
+							});
+						});
+					} else {
+						// put the iframe in place
+						currentNode.parentNode.insertBefore(iframe,currentNode);
+					}
+
+					var origin = embedURL.split('/').slice(0,3).join('/');
+					if (cm.embeds.whitelist.indexOf(origin) === -1) {
+						cm.embeds.whitelist = cm.embeds.whitelist + origin;
+					}
+
+					cm.embeds.all.push({el:iframe,id:elementId,type:''});
+				}
+			},
+
+			getTemplate: function(templateName,successCallback) {
+				var cm = window.cashmusic;
+				var templates = cm.templates;
+				if (templates[templateName] !== undefined) {
+					successCallback(templates[templateName]);
+				} else {
+					// get the template
+					this.ajax.jsonp(
+						cm.path + 'templates/' + templateName + '.js',
+						'callback',
+						function(json) {
+							templates[templateName] = json.template;
+							successCallback(json.template);
+						},
+						'cashmusic' + templateName + 'Callback'
+					);
+
+
+					// check for existence of the CSS file and if not found, include it
+					var test = document.querySelectorAll('link[href="' + cm.path + 'templates/' + templateName + '.css' + '"]');
+					if (!test.length ) { // if nothing found
+						cm.styles.injectCSS(cm.path + 'templates/' + templateName + '.css');
+					}
+				}
+			},
+
+			/*
+			 *	Use standard event footprint
+			 */
+			addEventListener: function(eventName, callback) {
+				var cm = window.cashmusic;
+				if(!cm.eventlist.hasOwnProperty(eventName)) {
+					cm.eventlist[eventName] = [];
+				}
+				cm.eventlist[eventName].push(callback);
+			},
+
+			/*
+			 *	Use standard event footprint
+			 */
+			removeEventListener: function(eventName, callback) {
+				var cm = window.cashmusic;
+				if(cm.eventlist.hasOwnProperty(eventName)) {
+					var idx = cm.eventlist[eventName].indexOf(callback);
+					if(idx != -1) {
+						cm.eventlist[eventName].splice(idx, 1);
+					}
+				}
+			},
+
+			/*
+			 *	Use standard event footprint
+			 */
+			dispatchEvent: function(e) {
+				var cm = window.cashmusic;
+				if(cm.eventlist.hasOwnProperty(e.type)) {
+					var i;
+					for(i = 0; i < cm.eventlist[e.type].length; i++) {
+						if (cm.eventlist[e.type][i]) {
+							cm.eventlist[e.type][i](e);
+						}
+					}
+				}
+			},
+
+			// stolen from jQuery
+			loadScript: function(url,callback) {
+				var test = document.querySelectorAll('a[src="' + url + '"]');
+				if (test.length > 0) {
+					if (typeof callback === 'function') {
+						callback();
+					}
+				} else {
+					var head = document.getElementsByTagName('head')[0] || document.documentElement;
+					var script = document.createElement('script');
+					script.src = url;
+
+					// Handle Script loading
+					var done = false;
+
+					// Attach handlers for all browsers
+					script.onload = script.onreadystatechange = function() {
+						if ( !done && (!this.readyState || this.readyState === "loaded" || this.readyState === "complete") ) {
+							done = true;
+							if (typeof callback === 'function') {
+								callback();
+							}
+
+							// Handle memory leak in IE
+							script.onload = script.onreadystatechange = null;
+							if (head && script.parentNode) {head.removeChild(script);}
+						}
+					};
+					head.insertBefore( script, head.firstChild );
+				}
+			},
+
+			// found: http://css-tricks.com/snippets/javascript/get-url-variables/
+			getQueryVariable: function(v) {
+				var query = window.location.search.substring(1);
+				var vars = query.split("&");
+				for (var i=0;i<vars.length;i++) {
+					var pair = vars[i].split("=");
+					if(pair[0] == v){
+						return decodeURIComponent(pair[1]);
+					}
+				}
+				return(false);
+			},
+
+
+
+			/***************************************************************************************
+			 *
+			 * window.cashmusic.ajax (object)
+			 * Object wrapping XHR calls cross-browser and providing form encoding for POST
+			 *
+			 * PUBLIC-ISH FUNCTIONS
+			 * window.cashmusic.ajax.send(string url, string postString, function successCallback)
+			 * window.cashmusic.ajax.encodeForm(object form)
+			 *
+			 ***************************************************************************************/
+			ajax: {
+				/*
+				 * window.cashmusic.ajax.getXHR()
+				 * Tests for the proper XHR object type and returns the appropriate
+				 * object type for the current browser using a try/catch block. If
+				 * no viable objects are found it returns false. But we should make
+				 * fun of that browser, because it sucks.
+				 */
+				getXHR: function() {
+					try	{
+						return new XMLHttpRequest();
+					} catch(e) {
+						try {
+							return new ActiveXObject('Msxml2.XMLHTTP');
+						} catch(er) {
+							try {
+								return new ActiveXObject('Microsoft.XMLHTTP');
+							} catch(err) {
+								return false;
+							}
+						}
+					}
+				},
+
+				/*
+				 * window.cashmusic.ajax.send(string url, string postString, function successCallback)
+				 * Do a POST or GET request via XHR/AJAX. Passing a postString will
+				 * force a POST request, whereas passing false will send a GET.
+				 */
+				send: function(url,postString,successCallback,failureCallback) {
+					var method = 'POST';
+					if (!postString) {
+						method = 'GET';
+						postString = null;
+					}
+					var xhr = this.getXHR();
+					if (xhr) {
+						xhr.open(method,url,true);
+						xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+						if (method == 'POST') {
+							xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+						}
+						if (typeof successCallback == 'function') {
+							xhr.onreadystatechange = function() {
+								if (xhr.readyState === 4) {
+									if (xhr.status === 200) {
+										successCallback(xhr.responseText);
+									} else {
+										if (typeof failureCallback === 'function') {
+											failureCallback(xhr.responseText);
+										}
+									}
+								}
+							};
+						}
+						xhr.send(postString);
+					}
+				},
+
+				jsonp: function(url,method,callback,forceCallbackName) {
+					// lifted from Oscar Godson here:
+					// http://oscargodson.com/posts/unmasking-jsonp.html
+
+					// added the forceCallbackName bits, and callback queing/stacking
+
+					url = url || '';
+					method = method || '';
+					callback = callback || function(){};
+					forceCallbackName = forceCallbackName || false;
+
+					if(typeof method == 'function'){
+						callback = method;
+						method = 'callback';
+					}
+
+					if (forceCallbackName) {
+						// this is weird. it looks to see if the callback is already defined
+						// if it is it means we hit a race condition loading the template and
+						// handling the callback.
+						var generatedFunction = forceCallbackName;
+						var oldCallback = (function(){});
+						if (typeof window[generatedFunction] == 'function') {
+							// we grab the old callback, create a new closure for it, and call
+							// it in our new callback — nests as deep as it needs to go, calling
+							// every callback in reverse order
+							oldCallback = window[generatedFunction];
+						}
+					} else {
+						var generatedFunction = 'jsonp'+Math.round(Math.random()*1000001);
+					}
+
+					window[generatedFunction] = function(json){
+						callback(json);
+						if (!forceCallbackName) {
+							delete window[generatedFunction];
+						} else {
+							// here we start the weird loop down through all the defined
+							// callbacks. if no callbacks were defined oldCallback is an
+							// empty function so it does nothing.
+							oldCallback(json);
+						}
+					};
+
+					if (url.indexOf('?') === -1) {url = url+'?';} else {url = url+'&';}
+
+					var s = document.createElement('script');
+					s.setAttribute('src', url+method+'='+generatedFunction);
+					document.getElementsByTagName('head')[0].appendChild(s);
+				},
+
+				/*
+				 * window.cashmusic.ajax.encodeForm(object form)
+				 * Takes a form object returned by a document.getElementBy... call
+				 * and turns it into a querystring to be used with a GET or POST call.
+				 */
+				encodeForm: function(form) {
+					if (typeof form !== 'object') {
+						return false;
+					}
+					var querystring = '';
+					form = form.elements || form; //double check for elements node-list
+					for (var i=0;i<form.length;i++) {
+						if (form[i].type === 'checkbox' || form[i].type === 'radio') {
+							if (form[i].checked) {
+								querystring += (querystring.length ? '&' : '') + form[i].name + '=' + form[i].value;
+							}
+							continue;
+						}
+						querystring += (querystring.length ? '&' : '') + form[i].name +'='+ form[i].value;
+					}
+					return encodeURI(querystring);
+				}
+			},
+
+			/***************************************************************************************
+			 *
+			 * window.cashmusic.events (object)
+			 * Add, remove, and fire events
+			 *
+			 * PUBLIC-ISH FUNCTIONS
+			 * window.cashmusic.events.add(object obj, string type, function fn)
+			 * window.cashmusic.events.remove(object obj, string type, function fn)
+			 * window.cashmusic.events.fire(object obj, string type, object/any data)
+			 *
+			 ***************************************************************************************/
+			events: {
+				// Thanks, John Resig!
+				// http://ejohn.org/blog/flexible-javascript-events/
+				add: function(obj,type,fn) {
+					if (obj.attachEvent) {
+						obj['e'+type+fn] = fn;
+						obj[type+fn] = function(){obj['e'+type+fn]( window.event );}
+						obj.attachEvent( 'on'+type, obj[type+fn] );
+					} else {
+						obj.addEventListener( type, fn, false );
+					}
+				},
+
+				// Thanks, John Resig!
+				// http://ejohn.org/blog/flexible-javascript-events/
+				remove: function(obj,type,fn) {
+					if (obj.detachEvent) {
+						obj.detachEvent( 'on'+type, obj[type+fn] );
+						obj[type+fn] = null;
+					} else {
+						obj.removeEventListener( type, fn, false );
+					}
+				},
+
+				fire: function(obj,type,data) {
+					var cm = window.cashmusic;
+					if (document.dispatchEvent){
+						// standard
+						var e = document.createEvent('CustomEvent');
+    					e.initCustomEvent(type, false, false, data);
+    					obj.dispatchEvent(e);
+					} else {
+						// dispatch for IE < 9
+						var e = document.createEventObject();
+						e.detail = data;
+						obj.fireEvent('on'+type,e);
+					}
+					if (cm.embedded) {
+						cm.events.relay(type,data);
+					}
+				},
+
+				relay: function(type,data) {
+					window.parent.postMessage(JSON.stringify({
+						'type': type,
+						'data': data
+					}),'*');
+				}
+			},
+
+			/***************************************************************************************
+			 *
+			 * window.cashmusic.measure (object)
+			 * Basic window/element measurements
+			 *
+			 * PUBLIC-ISH FUNCTIONS
+			 * window.cashmusic.measure.viewport()
+			 * window.cashmusic.measure.getClickPosition(event e)
+			 *
+			 ***************************************************************************************/
+			measure: {
+				viewport: function() {
+					/*
+						x: viewport width
+						y: viewport height
+					*/
+					return {
+						x: window.innerWidth || document.body.offsetWidth || 0,
+						y: window.innerHeight || document.body.offsetHeight || 0
+					};
+				},
+
+				scrollheight: function() {
+					// returns scrollable content height
+					var db=document.body;
+					var de=document.documentElement;
+					return Math.max(db.scrollHeight,de.scrollHeight,db.offsetHeight,de.offsetHeight,db.clientHeight,de.clientHeight);
+				}
+			},
+
+			/***************************************************************************************
+			 *
+			 * window.cashmusic.overlay (object)
+			 * Building the actual lightbox bits
+			 *
+			 * PUBLIC-ISH FUNCTIONS
+			 * window.cashmusic.overlay.create(function callback)
+			 * window.cashmusic.overlay.hide()
+			 * window.cashmusic.overlay.reveal(string/object innerContent, string wrapClass)
+			 *
+			 ***************************************************************************************/
+			overlay: {
+				bg: false,
+				wrapper: false,
+				content: false,
+				close: false,
+				callbacks: [],
+
+				create: function(callback) {
+					var cm = window.cashmusic;
+					var self = cm.overlay;
+					if (self.wrapper === false) {
+						cm.styles.injectCSS(cm.path + 'templates/overlay.css');
+
+						self.wrapper = document.createElement('div');
+						self.wrapper.className = 'cm-wrapper';
+
+						self.bg = document.createElement('div');
+						self.bg.className = 'cm-bg';
+
+						// apply all body styles to the bg
+						var bs = window.getComputedStyle(document.body);
+						self.bg.style.backgroundImage 		= bs.getPropertyValue('background-image');
+						self.bg.style.backgroundPosition 	= bs.getPropertyValue('background-position');
+						self.bg.style.backgroundSize 			= bs.getPropertyValue('background-size');
+						self.bg.style.backgroundRepeat 		= bs.getPropertyValue('background-repeat');
+						self.bg.style.backgroundOrigin 		= bs.getPropertyValue('background-origin');
+						self.bg.style.backgroundClip 			= bs.getPropertyValue('background-clip');
+						self.bg.style.backgroundAttachment 	= bs.getPropertyValue('background-attachment');
+						self.bg.style.backgroundColor 		= bs.getPropertyValue('background-color');
+
+						// move all page nodes to the new wrapper
+						while (document.body.childNodes.length) {
+							self.wrapper.appendChild(document.body.childNodes[0]);
+						}
+
+						document.body.appendChild(self.wrapper);
+
+						self.content = document.createElement('div');
+						self.content.className = 'cm-overlay';
+
+						self.close = document.createElement('div');
+						self.close.className = 'cm-close';
+
+						cm.events.add(window,'keyup', function(e) {
+							if (e.keyCode == 27) {
+								if (self.content.parentNode == document.body) {
+									self.hide();
+								}
+							}
+						});
+						cm.events.add(self.close,'click', function(e) {
+							if (self.content.parentNode == document.body) {
+								self.hide();
+							}
+						});
+						/*
+						cm.events.add(self.bg,'click', function(e) {
+							if(e.target === this) {
+								self.hide();
+							}
+						});
+						*/
+						if (typeof callback === 'function') {
+							callback();
+						}
+					}
+				},
+
+				hide: function() {
+					var cm = window.cashmusic;
+					var self = cm.overlay;
+					var db = document.body;
+					self.wrapper.className = 'cm-wrapper';
+					self.bg.className = 'cm-bg';
+					setTimeout(function() {
+						db.removeChild(self.bg);
+					}, 1000);
+					//self.content.innerHTML = '';
+					while (self.content.firstChild) {
+						self.content.removeChild(self.content.firstChild);
+					}
+					db.removeChild(self.close);
+					db.removeChild(self.content);
+
+					// reenable body scrolling
+					db.style.overflow = 'auto';
+				},
+
+				reveal: function(innerContent,wrapClass) {
+					// add the correct content to the content div
+					var cm = window.cashmusic;
+					var self = cm.overlay;
+					var db = document.body;
+					var alert = document.createElement('div');
+					if (wrapClass) {
+						alert.className = wrapClass;
+					} else {
+						alert.className = 'cm-element';
+					}
+					if (typeof innerContent === 'string') {
+						alert.innerHTML = innerContent;
+					} else {
+						alert.appendChild(innerContent);
+					}
+					self.content.appendChild(alert);
+
+					// disable body scrolling
+					db.style.overflow = 'hidden';
+
+					// go
+					self.wrapper.className = 'cm-wrapper cm-active';
+					self.content.style.opacity = 0;
+					self.bg.style.height = cm.measure.scrollheight() + 'px';
+					db.appendChild(self.bg);
+					self.bg.className = 'cm-bg cm-active';
+					db.appendChild(self.content);
+					db.appendChild(self.close);
+					// force style refresh/redraw on element
+					window.getComputedStyle(self.content).opacity;
+					// initiate fade-in
+					self.content.style.opacity = 1;
+				}
+			},
+
+			/***************************************************************************************
+			 *
+			 * window.cashmusic.styles (object)
+			 * Building the actual lightbox bits
+			 *
+			 * PUBLIC-ISH FUNCTIONS
+			 * window.cashmusic.styles.addClass(HTML element el, string classname)
+			 * window.cashmusic.styles.hasClass(HTML element el, string classname)
+			 * window.cashmusic.styles.injectCSS(string css, boolean important)
+			 * window.cashmusic.styles.removeClass(HTML element el, string classname)
+			 * window.cashmusic.styles.swapClasses(HTML element el, string oldclass, string newclass)
+			 *
+			 ***************************************************************************************/
+			styles: {
+				addClass: function(el,classname) {
+					el.className = el.className + ' ' + classname;
+				},
+
+				hasClass: function(el,classname) {
+					// borrowed the idea from http://stackoverflow.com/a/5898748/1964808
+					return (' ' + el.className + ' ').indexOf(' ' + classname + ' ') > -1;
+				},
+
+				injectCSS: function(css,important) {
+					var head = document.getElementsByTagName('head')[0] || document.documentElement;
+					if (css.substr(0,4) == 'http') {
+						// if css starts with "http" treat it as an external stylesheet
+						var el = document.createElement('link');
+						el.rel = 'stylesheet';
+						el.href = css;
+					} else {
+						// without the "http" wrap css with a style tag
+						var el = document.createElement('style');
+						el.innerHTML = css;
+					}
+					el.type = 'text/css';
+
+					if (important) {
+						// important means we don't need to write !important all over the place
+						// allows for overrides, etc
+						head.appendChild(el);
+					} else {
+						// by injecting the css BEFORE any other style elements it means all
+						// styles can be manually overridden with ease — no !important or similar,
+						// no external files, etc...
+						head.insertBefore(el, head.firstChild);
+					}
+				},
+
+				removeClass: function(el,classname) {
+					// extra spaces allow for consistent matching.
+					// the "replace(/^\s+/, '').replace(/\s+$/, '')" stuff is because .trim() isn't supported on ie8
+					el.className = ((' ' + el.className + ' ').replace(' ' + classname + ' ')).replace(/^\s+/, '').replace(/\s+$/, '');
+				},
+
+				swapClasses: function(el,oldclass,newclass) {
+					// add spaces to ensure we're not doing a partial find/replace,
+					// trim off extra spaces before setting
+					el.className = ((' ' + el.className + ' ').replace(' ' + oldclass + ' ',' ' + newclass + ' ')).replace(/^\s+/, '').replace(/\s+$/, '');
+				}
+			},
+
+			/***************************************************************************************
+			 *
+			 * window.cashmusic.stripe (object)
+			 * Handle Stripe.com payment token generation
+			 *
+			 ***************************************************************************************/
+			stripe: {
+				generateToken: function(params,origin) {
+					var cm = window.cashmusic;
+					if (cm.embedded) {
+						cm.events.fire(cm,'stripetokenrequested',params);
+					} else {
+						cm.loadScript('https://checkout.stripe.com/checkout.js', function() {
+							var handler = StripeCheckout.configure({
+								key: params.key,
+								image: params.image,
+								token: function(token) {
+									if (origin) {
+										origin.postMessage(JSON.stringify({
+											'type': 'stripetoken',
+											'data': token
+										}),'*');
+									} else {
+										cm.events.fire(cm,'stripetokengenerated',token);
+									}
+								}
+							});
+
+							// open checkout
+							handler.open({
+								name: params.name,
+								description: params.description,
+								amount: params.amount,
+								currency: params.currency,
+								bitcoin: params.bitcoin
+							});
+						});
+					}
+				}
+			}
+		};
+
+		/*
+		 *	Post-definition (runtime) calls. For the _init() function to "auto" load...
+		 */
+		var init = function(){cashmusic._init(cashmusic);}; // function traps cashmusic in a closure
+		cashmusic.contentLoaded(init); // loads only after the page is complete
+	}
+
+	/*
+	 *	return the main object in case it's called into a different scope
+	 */
+	return cashmusic;
+
+}());
