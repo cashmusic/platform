@@ -42,25 +42,18 @@ body{
 h1,h2,h3,h4,h5{
 	font-weight: 400;
 	word-wrap:break-word;
-	margin:3% 0;
+	margin:0;
 	padding:0;
 	line-height: 1em;
 }
 
 a{
-	margin:3% 0;
+	margin:0;
 	display:inline-block;
 	-webkit-transition: opacity 0.3s  ease-in-out;
 	-moz-transition: opacity 0.3s  ease-in-out;
 	trasition: opacity 0.3s ease-in-out;
 }
-
-p{
-	width:80%;
-	/*text-align: justify;*/
-	margin:0 auto;
-}
-
 
 #mainspc{
   	display: table;
