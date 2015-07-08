@@ -61,6 +61,7 @@
 			eventlist: {},
 			storage: {},
 			embedded: false,
+			geo: false,
 
 			_init: function() {
 				var cm = window.cashmusic;
@@ -102,8 +103,26 @@
 				// add current domain to whitelist for postmesage calls (regardless of embed or no)
 				cm.embeds.whitelist = cm.embeds.whitelist + window.location.href.split('/').slice(0,3).join('/');
 
-				// we're loaded
-				this.loaded = true;
+				// if we don't have a geo response we'll loop and wait a couple
+				// seconds before declaring the script ready.
+				var l = 0;
+				var i = setInterval(function() {
+					if ((l < 25) && !cm.geo) {
+						l++;
+					} else {
+						cm.loaded = Date.now(); // ready and loaded
+						if (typeof cm.storage.elementQueue == 'object') {
+							// this means we've got elements waiting for us...do a
+							// foreach loop and start embedding them
+							cm.storage.elementQueue.forEach(function(args) {
+								// we stored the args in our queue...spit them back out
+								cm.embed(args[0],args[1],args[2],args[3],args[4],args[5]);
+							});
+						}
+						// and since we're ready kill the loops
+						clearInterval(i);
+					}
+				}, 100);
 			},
 
 			_initEmbed: function() {
@@ -224,77 +243,101 @@
 			 * a targetNode to serve as the anchor — with the embed chucked immediately after that
 			 * element in the DOM.
 			 */
-			embed: function(endPoint, elementId, lightboxed, lightboxTxt, position, targetNode, cssOverride) {
-				// Allow for a single object to be passed instead of all arguments
-				// object properties should be lowercase versions of the standard arguments, any order
-				if (typeof endPoint === 'object') {
-					elementId   = endPoint.elementid ? endPoint.elementid : false;
-					lightboxed  = endPoint.lightboxed ? endPoint.lightboxed : false;
-					lightboxTxt = endPoint.lightboxtxt ? endPoint.lightboxtxt : false;
-					position    = endPoint.position ? endPoint.position : false;
-					targetNode  = endPoint.targetnode ? endPoint.targetnode : false;
-					cssOverride = endPoint.cssoverride ? endPoint.cssoverride : false;;
-					endPoint   = endPoint.endpoint;
-				}
+			embed: function(endPoint, elementId, lightboxed, lightboxTxt, targetNode, cssOverride) {
 				var cm = window.cashmusic;
-				var embedURL = endPoint.replace(/\/$/, '') + '/request/embed/' + elementId + '/location/' + encodeURIComponent(window.location.href.replace(/\//g,'!slash!'));
-				if (cssOverride) {
-					embedURL = embedURL + '?cssoverride=' + encodeURIComponent(cssOverride);
-				}
-				var iframe = document.createElement('iframe');
-					iframe.src = embedURL;
-					iframe.className = 'cashmusic embed';
-					iframe.style.width = '100%';
-					iframe.style.height = '0'; // if not explicitly set the scrollheight of the document will be wrong
-					iframe.style.border = '0';
-					iframe.style.overflow = 'hidden'; // important for overlays, which flicker scrollbars on open
-					iframe.scrolling = 'no'; // programming
-				if (targetNode) {
-					// for AJAX, specify target node: '#id', '#id .class', etc. NEEDS to be specific
-					var currentNode = document.querySelector(targetNode);
-				} else {
+				if (!targetNode) {
 					// if used non-AJAX we just grab the current place in the doc
 					// because we're running as the document is loading in a blocking fashion, the
 					// last script element will be the current script asset.
 					var allScripts = document.querySelectorAll('script');
 					var currentNode = allScripts[allScripts.length - 1];
 				}
-				// be nice neighbors. if we can't find currentNode, don't do the rest or pitch errors. silently fail.
-				if (currentNode) {
-					if (lightboxed) {
-						// create a div to contain the overlay link
-						var embedNode = document.createElement('span');
-						embedNode.className = 'cashmusic embed link';
-						cm.contentLoaded(function() {
+				if (!cm.loaded) {
+					// cheap/fast queue waiting on geo. there's a 2.5s timeout on this. the geo
+					// request usually beats page load but this still seems smart and an acceptable
+					// balance given the benefit of more data.
+					if (typeof cm.storage.elementQueue !== 'object') {
+						cm.storage.elementQueue = [];
+					}
+					// store the endpoint correctly
+					if (typeof endPoint === 'object') {
+						if (!endPoint.targetnode) {
+							endPoint.targetnode = currentNode;
+							arguments[0] = endPoint;
+						}
+					} else {
+						arguments[4] = currentNode;
+					}
+					cm.storage.elementQueue.push(arguments);
+				} else {
+					// Allow for a single object to be passed instead of all arguments
+					// object properties should be lowercase versions of the standard arguments, any order
+					if (typeof endPoint === 'object') {
+						elementId   = endPoint.elementid ? endPoint.elementid : false;
+						lightboxed  = endPoint.lightboxed ? endPoint.lightboxed : false;
+						lightboxTxt = endPoint.lightboxtxt ? endPoint.lightboxtxt : false;
+						targetNode  = endPoint.targetnode ? endPoint.targetnode : false;
+						cssOverride = endPoint.cssoverride ? endPoint.cssoverride : false;;
+						endPoint   = endPoint.endpoint;
+					}
+					if (typeof targetNode === 'string') {
+						// for AJAX, specify target node: '#id', '#id .class', etc. NEEDS to be specific
+						var currentNode = document.querySelector(targetNode);
+					} else {
+						var currentNode = targetNode;
+					}
+					var embedURL = endPoint.replace(/\/$/, '') + '/request/embed/' + elementId + '?location=' + encodeURIComponent(window.location.href);
+					if (cm.geo) {
+						embedURL += '&geo=' + encodeURIComponent(cm.geo);
+					}
+					if (cssOverride) {
+						embedURL = embedURL + '?cssoverride=' + encodeURIComponent(cssOverride);
+					}
+					var iframe = document.createElement('iframe');
+						 iframe.src = embedURL;
+						 iframe.className = 'cashmusic embed';
+						 iframe.style.width = '100%';
+						 iframe.style.height = '0'; // if not explicitly set the scrollheight of the document will be wrong
+						 iframe.style.border = '0';
+						 iframe.style.overflow = 'hidden'; // important for overlays, which flicker scrollbars on open
+						 iframe.scrolling = 'no'; // programming
+					// be nice neighbors. if we can't find currentNode, don't do the rest or pitch errors. silently fail.
+					if (currentNode) {
+						if (lightboxed) {
+							// create a div to contain the overlay link
+							var embedNode = document.createElement('span');
+							embedNode.className = 'cashmusic embed link';
+
 							// open in a lightbox with a link in the target div
 							if (!lightboxTxt) {lightboxTxt = 'open element';}
 							cm.overlay.create(function() {
 								var a = document.createElement('a');
-									a.href = embedURL;
+									a.href = '';
 									a.target = '_blank';
 									a.innerHTML = lightboxTxt;
 								embedNode.appendChild(a);
 								currentNode.parentNode.insertBefore(embedNode,currentNode);
-								(function(position) {
+								(function() {
 									cm.events.add(a,'click',function(e) {
 										cm.overlay.reveal(iframe);
 										e.preventDefault();
 										return false;
 									});
-								})(position);
+								})();
 							});
-						});
-					} else {
-						// put the iframe in place
-						currentNode.parentNode.insertBefore(iframe,currentNode);
-					}
 
-					var origin = embedURL.split('/').slice(0,3).join('/');
-					if (cm.embeds.whitelist.indexOf(origin) === -1) {
-						cm.embeds.whitelist = cm.embeds.whitelist + origin;
-					}
+						} else {
+							// put the iframe in place
+							currentNode.parentNode.insertBefore(iframe,currentNode);
+						}
 
-					cm.embeds.all.push({el:iframe,id:elementId,type:''});
+						var origin = embedURL.split('/').slice(0,3).join('/');
+						if (cm.embeds.whitelist.indexOf(origin) === -1) {
+							cm.embeds.whitelist = cm.embeds.whitelist + origin;
+						}
+
+						cm.embeds.all.push({el:iframe,id:elementId,type:''});
+					}
 				}
 			},
 
@@ -551,6 +594,17 @@
 						querystring += (querystring.length ? '&' : '') + form[i].name +'='+ form[i].value;
 					}
 					return encodeURI(querystring);
+				},
+
+				getHeaderForURL: function(url,header,callback) {
+					var xhr = this.getXHR();
+					xhr.open('HEAD', 'https://javascript-cashmusic.netdna-ssl.com/cashmusic.js');
+					xhr.onreadystatechange = function() {
+						if (this.readyState == this.DONE) {
+							callback(this.getResponseHeader(header));
+						}
+					};
+					xhr.send();
 				}
 			},
 
@@ -718,9 +772,9 @@
 							}
 						});
 						*/
-						if (typeof callback === 'function') {
-							callback();
-						}
+					}
+					if (typeof callback === 'function') {
+						callback();
 					}
 				},
 
@@ -887,6 +941,11 @@
 		/*
 		 *	Post-definition (runtime) calls. For the _init() function to "auto" load...
 		 */
+		// start on geo-ip data early
+		cashmusic.ajax.getHeaderForURL('https://javascript-cashmusic.netdna-ssl.com/cashmusic.js','GeoIp-Data',function(h) {
+			cashmusic.geo = h;
+		});
+
 		var init = function(){cashmusic._init(cashmusic);}; // function traps cashmusic in a closure
 		cashmusic.contentLoaded(init); // loads only after the page is complete
 	}

@@ -75,7 +75,7 @@ if (!isset($_REQUEST['nooutput'])) {
 			$embed_data = array();
 			$element_markup = false;
 			ob_start();
-			CASHSystem::embedElement($requests[1],'embed',$embed_location);
+			CASHSystem::embedElement($requests[1],'embed',$embed_location,$embed_geo);
 			$embed_data['element_markup'] = ob_get_contents();
 			$embed_data['cdn_url'] = (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL;
 
