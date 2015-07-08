@@ -2,7 +2,15 @@
 	"pagetip":"",
 	"learn":"<p>To batch add email addresses, simply add email addresses—do not include names. Separate each address by a comma or by hitting return after each one.</p>",
 	"related":{},
-	"labels":{},
+	"labels":{"name":"Name",
+            "connect":"Connect To",
+            "description":"Description"
+
+   },
 	"tooltips":{},
-	"copy":{}
+	"copy":{"edit":"Edit - ",
+            "add_a_lot":"Need to add a lot of contacts to the list in a hurry? ",
+            "batch_add":"Batch add contacts",
+            "none":"None (local list only)"
+}
 }

@@ -14,6 +14,7 @@
             "delete_account":"Delete account",
             "api_details":"API details for developer access:",
             "button_save_changes":"Save Changes!",
-            "button_delete_account":"Delete Account!"
+            "button_delete_account":"Delete Account!",
+            "are_you_sure":"Are you sure you want to delete this? It will be permanently erased."
             }
 }

@@ -2,7 +2,24 @@
 	"pagetip":"",
 	"learn":"<p>Keep track of the people in your world - fans, writers, booking agents, labels, friends, and enemies alike.</p>",
 	"related":{},
-	"labels":{},
+	"labels":{"first_name":"First name",
+               "last_name":"Last Name",
+               "email":"Email address",
+               "org":"Organization(s)",
+               "phone":"Phone",
+               "mailing":"Mailing address",
+               "city":"City",
+               "state":"State / province",
+               "postal":"Postal code",
+               "country":"Country"
+
+   },
 	"tooltips":{},
-	"copy":{}
+	"copy":{"add_new":"Add new contact",
+            "additional":"additional options",
+            "contacts":"Contacts by last name"
+
+
+
+}
 }

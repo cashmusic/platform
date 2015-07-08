@@ -1,9 +1,11 @@
+{{! corresponding files: search.php & search.json }}
+
 <header>
 	{{#query}}
-		<h4>Searching for &ldquo;{{query}}&rdquo;</h4>
+		<h4>{{copy_searching_for}}&ldquo;{{query}}&rdquo;</h4>
 	{{/query}}
 	{{^query}}
-		<h4>No search found. Please try again.</h4>
+		<h4>{{copy_no_search_found}}</h4>
 	{{/query}}
 </header>
 
@@ -12,10 +14,10 @@
 	<ul class="results">
 	
 		{{#results}}
-		<!--li><a class="asset" href="/"><i class="icon icon-paste"></i><h5>Asset: Result description</h5></a></li>
-		<li><a class="people" href="/"><i class="icon icon-group"></i><h5>People: Result description</h5></a></li-->
+		<!--li><a class="asset" href="/"><i class="icon icon-paste"></i><h5>{{copy_asset}}</h5></a></li>
+		<li><a class="people" href="/"><i class="icon icon-group"></i><h5>{{copy_people}}</h5></a></li-->
 
-		<li><a class="commerce" href="{{www_path}}/commerce/orders/view/{{id}}"><i class="icon icon-card"></i><h5>Order: {{formatted_number}}</h5></a></li>
+		<li><a class="commerce" href="{{www_path}}/commerce/orders/view/{{id}}"><i class="icon icon-card"></i><h5>{{copy_order}}{{formatted_number}}</h5></a></li>
 		{{/results}}
 
 	</ul>
@@ -23,11 +25,9 @@
 
 	{{^results}}
 		<p class="big">
-			Nope. Nothing found. 
+			{{copy_nope}}
 		</p><p class="big">
-			I'm going to level with you. Right now the search pretty much only returns results
-			for orders. Search for a customer email address and you'll find something. Otherwise not so much. We're
-			working on that. Love you!
+			{{copy_love_you}}
 		</p>
 	{{/results}}
 </div><!--pure-->

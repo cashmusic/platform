@@ -1,9 +1,10 @@
+{{! corresponding files: elements_templates.php & elements_templates.json }}
+
 <a href="{{www_path}}/elements/templates/add/"><strong>Add a new template</strong></a>
 <div class="pure-u-1 pure-u-md-1-2">
-	<h4>Page templates</h4>
+	<h4>{{copy_page_templates}}</h4>
 		<p>
-			Page templates are used to publish a page directly from your CASH account. You'll see more 
-			options on your account's main page.
+			{{copy_page_templates_details}}
 		</p>
 		{{#page_templates}}
 			<ul class="alternating">
@@ -13,7 +14,7 @@
 						<strong>{{name}}</strong><span class="fadedtext nobr" style="font-weight:normal;"> // {{type}}</span></a>
 					<div class="more"><div class="toggle"></div><!--toggle-->
 						<div class="actions">
-							<a href="{{www_path}}/elements/templates/edit/{{id}}" class="mininav_flush"><div class="icon icon-search"></div><!--icon-->Details</a> 
+							<a href="{{www_path}}/elements/templates/edit/{{id}}" class="mininav_flush"><div class="icon icon-search"></div><!--icon-->{{copy_details}}</a> 
 							<a href="{{www_path}}/elements/templates/delete/{{id}}" class="mininav_flush needsconfirmation"><div class="icon icon-ban"></div><!--icon--> Delete</a>
 						</div><!--actions-->
 					</div><!--more-->
@@ -23,14 +24,13 @@
 		{{/page_templates}}
 
 		{{^page_templates}}
-			<p>No page templates found.</p>
+			<p>{{copy_no_templates}}</p>
 		{{/page_templates}}
 </div><!--pure-->
 <div class="pure-u-1 pure-u-md-1-2">
-	<h4>Embed templates</h4>
+	<h4>{{copy_embed_templates}}</h4>
 		<p>
-			Embed templates are used to style HTML5 embeds for your elements. You'll be able to choose
-			a template on the element details page.
+			{{copy_embed_templates_details}}
 		</p>
 			
 		{{#embed_templates}}
@@ -41,8 +41,8 @@
 						<strong>{{name}}</strong><span class="fadedtext nobr" style="font-weight:normal;"> // {{type} </span></a>
 						<div class="more"><div class="toggle"></div><!--toggle-->
 						<div class="actions">
-							<a href="{{www_path}}/elements/templates/edit/{{id}}" class="mininav_flush"><div class="icon icon-search"></div><!--icon-->Details</a> 
-							<a href="{{www_path}}/elements/templates/delete/{{id}}" class="mininav_flush needsconfirmation"><div class="icon icon-ban"></div><!--icon--> Delete</a>
+							<a href="{{www_path}}/elements/templates/edit/{{id}}" class="mininav_flush"><div class="icon icon-search"></div><!--icon-->{{copy_details}}</a> 
+							<a href="{{www_path}}/elements/templates/delete/{{id}}" class="mininav_flush needsconfirmation"><div class="icon icon-ban"></div><!--icon-->{{copy_delete}}</a>
 						</div><!--actions-->
 					</div><!--more-->
 				</li>
@@ -51,6 +51,6 @@
 		{{/embed_templates}}
 
 		{{^embed_templates}}
-			<p>No embed templates found.</p>
+			<p>{{copy_no_embed_templates}}</p>
 		{{/embed_templates}}
 </div><!--pure-->

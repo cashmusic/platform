@@ -1,3 +1,5 @@
+{{! corresponding files: commerce_items_edit.php & commerce_items_edit.json}}
+
 <div class="pure-u-1">
 <header>
 		<a class="returnlink current" href="{{www_path}}/commerce/items"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">&ldquo;{{name}}&rdquo;</h4>
@@ -7,20 +9,20 @@
 <form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/items/edit/{{id}}" name="edit_item" >
 	<input type="hidden" name="{{form_state_action}}" value="makeitso" />
 
-	<label for="item_name">Name</label>
+	<label for="item_name">{{label_name}}</label>
 	<input type="text" id="item_name" name="item_name" value="{{name}}" placeholder="A public name for the item" class="required" />
 
-	<label for="item_description">Description</label>
+	<label for="item_description">{{label_description}}</label>
 	<textarea rows="3" id="item_description" name="item_description">{{description}}</textarea>
 
 
 		<div class="pure-u-1">
 				<div class="pure-u-1 pure-u-md-1-3">
-					<label for="item_price">Price ($ USD)</label>
+					<label for="item_price">{{label_price}}</label>
 					<input type="text" id="item_price" name="item_price" value="{{price}}" class="required number" />
 				</div><!--pure-->
 				<div class="pure-u-1 pure-u-md-1-3">
-					<label for="item_quantity">Quantity (-1: unlimited)</label>
+					<label for="item_quantity">{{label_quantity}}</label>
 					{{#show_beta}}
 						{{#has_variants}}<span class="inputreadonly">{{#available_units}}{{available_units}}{{/available_units}}{{^available_units}}-1{{/available_units}}</span>{{/has_variants}}
 						{{^has_variants}}<input type="text" id="item_quantity" name="item_quantity" value="{{#available_units}}{{available_units}}{{/available_units}}{{^available_units}}-1{{/available_units}}" class="number required" />{{/has_variants}}
@@ -30,26 +32,26 @@
 					{{/show_beta}}
 				</div><!--pure-->
 				<div class="pure-u-1 pure-u-md-1-3">
-			<label for="item_fulfillment_asset">Fulfillment asset</label>
+			<label for="item_fulfillment_asset">{{label_fulfillment_asset}}</label>
 			<select id="item_fulfillment_asset" name="item_fulfillment_asset">
-				<option value="0">None (No digital fulfillment)</option>
+				<option value="0">{{copy_op_none}}</option>
 				{{{asset_options}}}
 			</select>
 		</div><!--pure-->
 		</div><!--pure-->
 		<div class="pure-u-1">
 	<label class="checklabel" for="item_flexible_price">
-		<input type="checkbox" name="item_flexible_price" id="item_flexible_price"{{#flexible_price}} checked="checked"{{/flexible_price}} class="checkorradio" /> Enable "pay-at-least" minimum pricing
+		<input type="checkbox" name="item_flexible_price" id="item_flexible_price"{{#flexible_price}} checked="checked"{{/flexible_price}} class="checkorradio" />{{label_enable}}
 	</label>
 		</div><!--pure-->
 		<div class="pure-u-1">
 	<label class="checklabel" for="item_physical">
-		<input type="checkbox" name="item_physical" id="item_physical"{{#physical_fulfillment}} checked="checked"{{/physical_fulfillment}} class="checkorradio" /> Physical goods? (Will require shipping address)
+		<input type="checkbox" name="item_physical" id="item_physical"{{#physical_fulfillment}} checked="checked"{{/physical_fulfillment}} class="checkorradio" />{{label_physical}}
 	</label>
 	</div><!--pure-->
 	<div class="pure-u-1">
-		<button type="submit">Save changes</button>
-		<a href="{{www_path}}/commerce/items/delete/{{id}}" class="button needsconfirmation"><div class="icon icon-ban"></div><!--icon-->Delete this item</a>
+		<button type="submit">{{copy_button_save}}</button>
+		<a href="{{www_path}}/commerce/items/delete/{{id}}" class="button needsconfirmation"><div class="icon icon-ban"></div><!--icon-->{{copy_button_delete}}</a>
 	</div><!--pure-->
 
 </form>
@@ -57,7 +59,7 @@
 {{#physical_fulfillment}}
 	<div class="drawer prefpanel pure-u-1">
 	<div class="itemnav pure-u-1">
-		<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>Configure Item Variants</span></h4>
+		<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>{{copy_configure}}</span></h4>
 	<div class="drawercontent">
 
 	{{#has_variants}}
@@ -70,8 +72,8 @@
 				<colgroup style="width:50%;" />
 				<thead>
 					<tr>
-						<th scope="col">Variant description</th>
-						<th scope="col">Available Quantity</th>
+						<th scope="col">{{copy_variant_description}}</th>
+						<th scope="col">{{copy_available_quantity}}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -85,7 +87,7 @@
 				</table>
 
 				<div class="pure-u-1 pure-u-md-1-3">
-					<button type="submit">Save variants</button>
+					<button type="submit">{{copy_button_save_variants}}</button>
 				</div>
 
 			</form>
@@ -94,8 +96,8 @@
 		<div class="pure-u-1">
 				<div class="pref-inner">
 
-					<h5>Reconfigure Variants</h5>
-					<p>Need a new set of variants? Reset all variant options and quantities here.</p>
+					<h5>{{copy_reconfigure_variants}}</h5>
+					<p>{{copy_reset_variants}}</p>
 					<a href="{{www_path}}/commerce/items/variant/{{id}}" class="button lightboxed">Reconfigure Variants</a>
 
 				</div><!--pref-inner-->
@@ -105,9 +107,9 @@
 		<div class="pure-u-1 pure-u-md-1-2">
 		<div class="pref-inner">
 
-		<h5>Add Item Variants</h5>
-		<p>Does your item come in mulitple sizes, colors or other formats? Add those variations here.</p>
-		<a href="{{www_path}}/commerce/items/variant/{{id}}" class="button lightboxed">Add Variants</a>
+		<h5>{{copy_add_item_variants}}</h5>
+		<p>{{copy_variations}}</p>
+		<a href="{{www_path}}/commerce/items/variant/{{id}}" class="button lightboxed">{{copy_add_variants}}</a>
 
 		</div><!--pref-inner-->
 		</div><!--pure-->

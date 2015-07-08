@@ -1,4 +1,6 @@
-<a href="{{www_path}}/help/tour/" class="fullwidth button lightboxed closepanel page-editor">Platform tour</a>
+{{! corresponding files: help.php & help.json }}
+
+<a href="{{www_path}}/help/tour/" class="fullwidth button lightboxed closepanel page-editor">{{copy_platform_tour}}</a>
 
 <ol>
 {{#help_topics}}
@@ -6,4 +8,4 @@
 {{/help_topics}}
 </ol>
 
-{{^help_topics}}There are no help topics available.{{/help_topics}}
+{{^help_topics}}{{copy_no_help}}{{/help_topics}}

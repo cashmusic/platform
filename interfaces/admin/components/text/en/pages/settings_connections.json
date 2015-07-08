@@ -4,5 +4,9 @@
 	"related":{},
 	"labels":{},
 	"tooltips":{},
-	"copy":{}
+	"copy":{"add_new_connection":"Add a new service connection:",
+            "easily_connect":"Easily connect to any of these services:"
+
+
+}
 }

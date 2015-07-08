@@ -2,7 +2,23 @@
 	"pagetip":"",
 	"learn":"<p>You will need to enter in a venue first if it’s not already in our database.</p><p> The good news is any time you add a venue, it gets added to the big list. Which means the more people use the platform, the better and more complete that database will get.</p>",
 	"related":{},
-	"labels":{"submit_button":"Add a venue"},
+	"labels":{"submit_button":"Add a venue",
+            "name":"Name",
+            "city":"City",
+            "state":"State / Province / Region",
+            "country":"Country"
+
+
+   },
 	"tooltips":{},
-	"copy":{}
+	"copy":{"quick_add":"Quick add a venue",
+            "quick_details":"Quickly add a venue with just the basics,",
+            "quick_details_2":" or alternatively ",
+            "quick_details_3":"add a venue with all details",
+            "all_venues":"All venues",
+            "details":"Details",
+            "no_venues":"No venues were found."
+
+
+}
 }
