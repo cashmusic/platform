@@ -156,6 +156,7 @@ body.light input:focus placeholder{color:#4d4d4d;}
 	height: 100px;
 	width:25%;
 	text-align: left;
+	  z-index: -1;
 }
 
 .logo h1{
@@ -220,6 +221,35 @@ p{
 	/*text-align: justify;*/
 	margin:0 auto;
 }
+
+/* Social Feeds */
+
+body.dark .cm-social-feed{
+	border:solid 1px #333;
+}
+
+body.dark .cm-social-feed .cm-platform{
+	filter: invert(100%);
+	-webkit-filter: invert(100%);
+}
+
+body.dark .cm-social-feed li {
+	border-bottom: solid 1px #333;
+}
+
+body.dark .cm-social-feed .cm-content a:hover{
+	color:#ccc;
+	border-color:#ccc;
+}
+
+body.dark .cm-social-feed .cm-username{
+	color:#fff;
+}
+
+body.dark .cm-social-feed .cm-twitter .cm-username:hover{
+	border-color:#fff;
+}
+
 
 /* Ebmed Specific */
 
