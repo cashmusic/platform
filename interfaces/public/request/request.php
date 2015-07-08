@@ -12,14 +12,14 @@ if (!isset($_REQUEST['nooutput'])) {
 	/*
 		Dear Jesse in the future,
 
-		Don't fucking remove this. You think you want to. You feel you should. 
+		Don't fucking remove this. You think you want to. You feel you should.
 		But remember that time you removed this and broke commerce for half a day?
 		Yeah? You do? WELL THAT WAS BECAUSE YOU REMOVED THIS LITTLE BLOCK, JERK.
 
-		Could you implement it better? Sure. Totally. 
+		Could you implement it better? Sure. Totally.
 
 		Should you? Definitely. Wrap the direct JSON/payload stuff into the API
-		proper. That's better than this half-assery. 
+		proper. That's better than this half-assery.
 
 		But should you delete this block?
 
@@ -53,13 +53,18 @@ if (!isset($_REQUEST['nooutput'])) {
 			$embed_location = false;
 			if (isset($requests[3])) {
 				$embed_location = $requests[3];
-				$embed_location = str_replace('!slash!', '/', $embed_location);
+				$embed_location = str_replace('!slash!', '/', $embed_location); // dumb. supporting old versions.
 			}
-			//$template = @file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/embed.mustache');
-			
+			if (isset($_GET['location'])) {
+				$embed_location = $_GET['location'];
+			}
+			if (isset($_GET['geo'])) {
+				$embed_geo = $_GET['geo'];
+			}
+
 			$template_request = new CASHRequest(
 				array(
-					'cash_request_type' => 'element', 
+					'cash_request_type' => 'element',
 					'cash_action' => 'getelementtemplate',
 					'element_id' => $requests[1],
 					'return_template' => 1
