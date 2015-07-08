@@ -234,6 +234,12 @@ input[type=submit]:hover, .button:hover{
  	opacity: 0.5;
 }
 
+.singlepurchase .cash_singlepurchase_shippingmessage{
+	display: block;
+	margin:0 0 10px 0;
+}
+
+
 .cash_singlepurchase_flexible_price {
 	position:relative;
 }
@@ -604,7 +610,7 @@ input[type=submit]:hover, .button:hover{
 /* -- Larger Size -- */
 @media screen and (min-width: 500px) {
 	input, .cash_singlepurchase_flexible_price .total_price{
-			width:63.7%;
+			width:63.4%;
 	}
 
 	/* Members Area */
@@ -623,7 +629,7 @@ input[type=submit]:hover, .button:hover{
 	}
 
    .cm-social-feed{
-   		width:50%;
+   		/*width:50%;*/
    		max-width:600px;
    }
 
