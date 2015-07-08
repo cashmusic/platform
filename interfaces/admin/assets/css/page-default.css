@@ -39,6 +39,29 @@ body{
 	background-size: cover;
 }
 
+h1,h2,h3,h4,h5{
+	font-weight: 400;
+	word-wrap:break-word;
+	margin:3% 0;
+	padding:0;
+	line-height: 1em;
+}
+
+a{
+	margin:3% 0;
+	display:inline-block;
+	-webkit-transition: opacity 0.3s  ease-in-out;
+	-moz-transition: opacity 0.3s  ease-in-out;
+	trasition: opacity 0.3s ease-in-out;
+}
+
+p{
+	width:80%;
+	/*text-align: justify;*/
+	margin:0 auto;
+}
+
+
 #mainspc{
   	display: table;
     position: absolute;
@@ -191,6 +214,10 @@ body.light .singlepurchase .cash_singlepurchase_currency{
 
 /* Tour Dates */
 
+.tourdates .cash_event{
+	border: solid 1px #333;
+}
+
 body.light .tourdates .cash_event:nth-child(odd){
 	background:#eee;
 	background:rgba(238,238,238,0.9);
@@ -203,27 +230,12 @@ body.light .tourdates .cash_event:nth-child(even){
 	color:#222;
 }
 
-
-h1,h2,h3,h4,h5{
-	font-weight: 400;
-	word-wrap:break-word;
-	margin:3% 0;
-	padding:0;
-	line-height: 1em;
+body.dark .tourdates .cash_event:nth-child(odd){
+	background: rgba(34,34,34,0.5);
 }
 
-a{
-	margin:3% 0;
-	display:inline-block;
-	-webkit-transition: opacity 0.3s  ease-in-out;
-	-moz-transition: opacity 0.3s  ease-in-out;
-	trasition: opacity 0.3s ease-in-out;
-}
-
-p{
-	width:80%;
-	/*text-align: justify;*/
-	margin:0 auto;
+body.dark .tourdates .cash_event:nth-child(even){
+	background: rgba(34,34,34,1);
 }
 
 /* Social Feeds */
