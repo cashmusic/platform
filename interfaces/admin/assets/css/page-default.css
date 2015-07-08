@@ -207,7 +207,7 @@ body.light .singlepurchase .cash_singlepurchase_currency{
 
 /* Tour Dates */
 
-.tourdates .cash_event{
+body.dark .tourdates .cash_event{
 	border: solid 1px #333;
 }
 
