@@ -156,7 +156,7 @@ body.light input:focus placeholder{color:#4d4d4d;}
 	height: 100px;
 	width:25%;
 	text-align: left;
-	  z-index: -1;
+	z-index: -1;
 }
 
 .logo h1{
@@ -183,6 +183,10 @@ body.light .singlepurchase .cash_singlepurchase_itemname, body.light .singlepurc
 
 body.light .singlepurchase .cash_singlepurchase_currency{
 	color:rgba(51,51,51,0.6);
+}
+
+.cash_singlepurchase_flexible_price .cash_singlepurchase_currency{
+	padding: 14px 0 0 1.2em;
 }
 
 /* Tour Dates */
