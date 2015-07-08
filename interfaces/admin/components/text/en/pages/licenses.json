@@ -1,0 +1,36 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{},
+	"tooltips":{},
+	"copy":{"why_open_source":"Why open source?",
+            "open_source":"Open source is a vital part of CASH Music. All of our software is built in the open, directly with musicians, and with open source licenses that ensure it will remain free and open to the music community. ",
+            "open_source_2":"Everything that makes up this platform can be adapted and built upon, with the whole community reaping the benefits. Open source ensures that all musicians will always have a viable option to sell, promote, and distribute their work — in a way that's inclusive to labels and web innovators.",
+            "open_source_3":"This is just the start.",
+            "third_party_software":"Third party software",
+            "third_party_software_2":"The CASH Music platform is built on the shoulders of other great open projects. Where applicable full licenses are included in our distribution. The links below list each project:",
+            "pure_css":"Pure CSS",
+            "mailchimp":"MailChimp's PHP API wrapper",
+            "mustache":"Mustache.php",
+            "php":"PHP",
+            "php_markdown":"PHP Markdown",
+            "our_fork":"our fork",
+            "s3":"S3 PHP Class",
+            "simpletest":"SimpleTest",
+            "swift":"Swift Mailer",
+            "jquery":"jQuery",
+            "our_licenses":"Our licenses",
+            "our_licenses_2":"Our core framework is licensed with an LGPL license to allow it to be used as a library in a larger work. The rest of the platform is licensed under the AGPL license, except for JavaScript that is sent to the browser. JavaScript is licensed under a more permissive BSD license in hopes it might be useful in another project. ",
+            "our_licenses_3":"Essentially that means that all of our code is available to be used or modified, even commercially, as long as the changes are made available back to the community at large. ",
+            "our_licenses_4":"The short version of the license looks like this:",
+            "our_licenses_5":"Copyright (c) 2015, CASH Music",
+            "our_licenses_6":"This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or any later version.",
+            "our_licenses_7":"This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.",
+            "full_text":"full AGPL license text"
+
+
+
+
+}
+}
