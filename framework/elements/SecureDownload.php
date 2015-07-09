@@ -23,15 +23,14 @@ class SecureDownload extends ElementBase {
 			$show_final_message = true;
 		} else {
 			$show_final_message = false;
-			$this->element_data['browserid_js'] = CASHSystem::getBrowserIdJS($this->element_id);
 			if ($this->status_uid == 'people_signintolist_200') {
 				$show_final_message = true;
 			} elseif ($this->status_uid == 'people_signintolist_400') {
-				// sign-in failed, try element-specific password and check that the 
+				// sign-in failed, try element-specific password and check that the
 				// address is for realy realz on the list
 				if (trim($this->original_request['password']) == trim($this->options['alternate_password']) && trim($this->options['alternate_password']) != '') {
 					$status_request = new CASHRequest(array(
-						'cash_request_type' => 'people', 
+						'cash_request_type' => 'people',
 						'cash_action' => 'getaddresslistinfo',
 						'address' => $this->original_request['address'],
 						'list_id' => $this->options['email_list_id']
@@ -48,7 +47,7 @@ class SecureDownload extends ElementBase {
 				// get all fulfillment assets
 				$fulfillment_request = new CASHRequest(
 					array(
-						'cash_request_type' => 'asset', 
+						'cash_request_type' => 'asset',
 						'cash_action' => 'getfulfillmentassets',
 						'asset_details' => $this->options['asset_id']
 					)
@@ -61,5 +60,5 @@ class SecureDownload extends ElementBase {
 		}
 		return $this->element_data;
 	}
-} // END class 
+} // END class
 ?>
