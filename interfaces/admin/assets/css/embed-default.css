@@ -1,15 +1,23 @@
 /*************************************************** 
  *
  *  CASH Music - Embedded Elements Styles
- *	Created by CASH Music
+ *	Created by Christopher Leckie @ CASH Music
  *
  ***************************************************/
 
 /* General */
+html{
+	 box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 html,body{
 	overflow-x:hidden;
 	overflow-y: auto;
-	font: 400 18px/20px 'Montserrat',Helvetica,Arial,sans-serif;
+	font: 100 14px/20px 'Montserrat',Helvetica,Arial,sans-serif;
 	margin:0;
 	padding:0;
 	width:100%;
@@ -47,14 +55,20 @@ html,body{
 /* Zero Out */
 
 a{
-	background:#00cf7f;
-	color:#222;
-	border-radius: 3px;
-	padding:20px;
+	/*background:#00cf7f;*/
+	padding:0px;
+	background:none;
+	color:#00cf7f;
+	/*color:#222;*/
+	/*border-radius: 3px;*/
 	text-decoration: none;
 	display: inline-block;
 	-webkit-transition: 0.3s  ease-in-out;
 	transition: 0.3s  ease-in-out;
+}
+
+p a{
+	border-bottom:solid 1px #00cf7f;
 }
 
 ul{
@@ -76,19 +90,35 @@ br{
 	display:none;
 }
 
+.cash_emailcollection_extras{
+	visibility: hidden;
+	pointer-events: none;
+}
+
+.cash_form{
+	padding:0;
+	margin:0;
+}
+
+.clearfix{
+	display: none;
+	visibility: none;
+}
+
 /* Input Fields */
 
 input{
 	width:100%;
-	padding:20px 5%;
+	padding:10px 10px;
 	margin:0;
 	border:none;
 	font-weight: 100;
 	display:inline-block;
-	background:#222;
-	background:rgba(34,34,34,0.9);
-	color:#f5f5f5;
-	font: 400 18px/20px 'Montserrat',Helvetica,Arial,sans-serif;
+	background:#eee;
+	border:solid 1px #ccc;
+	background:rgba(34,34,34,0.1);
+	color:#222;
+	font: 100 12px/14px 'Montserrat',Helvetica,Arial,sans-serif;
 	-webkit-transition: background 0.3s  ease-in-out;
 	-moz-transition: background 0.3s  ease-in-out;
 	trasition: background 0.3s ease-in-out;
@@ -100,14 +130,16 @@ input{
 
 /* Placeholder Text */
 
-::-webkit-input-placeholder{color:#eee;}
-placeholder{color:#eee;}
+::-webkit-input-placeholder{color:#4d4d4d;}
+placeholder{color:#4d4d4d;}
 
 /* Form Field Focus */
 
 input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, textarea:focus{
-	background:#00cf7f;
-	color:#000;
+	background:#222;
+	background:rgba(34,34,34,0.9);
+	border-color:rgba(34,34,34,0.1);
+	color:#f5f5f5;
 	outline: none;
 }
 
@@ -118,24 +150,26 @@ input:focus placeholder{color:#111;}
 /* Button */
 
 input[type=submit], .button{
-	padding:21px 0;
+	padding:9px 10px;
 	width:100%;
 	text-align: center;
-	margin:4px auto 0 auto;
-	background:#00cf7f;
-	color:#222;
+	margin:2px auto 0 auto;
+	background:none;
+	border:solid 2px #00cf7f;
+	font-size: 12px;
+	color:#00cf7f;
 	display:inline-block;
-	border:none;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
 	text-transform: capitalize;
 	-webkit-appearance:none;
+	vertical-align: top;
 }
 
 input[type=submit]:hover, .button:hover{
-	background:#000;
-	color:#fff;
+	background:#00cf7f;
+	color:rgba(0,0,0,0.3);
 	cursor: pointer;
 	outline: none;
 }
@@ -144,14 +178,15 @@ input[type=submit]:hover, .button:hover{
 
 .cash_error{
 	text-align: center;
-	padding:20px 5% 20px 5%;
+	padding:10px 2%;
 	margin:0 0 4px 0;
 	width:100%;
 	height:100%;
 	background:#ff3232;
 	color:#f5f5f5;
-	font-size: 12px;
-	font-weight: 400;
+	font-size: 10px;
+	line-height: 12px;
+	font-weight: 100;
 	-webkit-animation: ooops 1.5s; /* Chrome, Safari, Opera */
     animation: ooops 1.5s;
     -webkit-animation-iteration-count: 1; /* Safari and Chrome */
@@ -165,7 +200,9 @@ input[type=submit]:hover, .button:hover{
 
 .cash_notation{
 	font-size: 12px;
+	line-height: 12px;
 	padding:10px 0;
+	opacity: 0.5;
 }
 
 /* Single Purchase */
@@ -182,22 +219,33 @@ input[type=submit]:hover, .button:hover{
 }
 
 .singlepurchase .cash_singlepurchase_itemname{
-	margin:0 0 10px 0;
+	margin:0 0 5px 0;
 }
 
 .singlepurchase .cash_singlepurchase_itemprice{
 	color:#333;
-	margin:0 0 10px 0;
+	margin:0 0 5px 0;
 }
 
 .singlepurchase .cash_singlepurchase_itemdescription{
  	font-size: 12px;
  	display:block;
  	margin: 0 0 10px 0;
+ 	opacity: 0.5;
 }
+
+.singlepurchase .cash_singlepurchase_shippingmessage{
+	display: block;
+	margin:0 0 10px 0;
+}
+
 
 .cash_singlepurchase_flexible_price {
 	position:relative;
+}
+
+.cash_singlepurchase_flexible_price input{
+	color:#4d4d4d;
 }
 
 .cash_singlepurchase_flexible_price .total_price{
@@ -208,9 +256,9 @@ input[type=submit]:hover, .button:hover{
 .cash_singlepurchase_flexible_price .cash_singlepurchase_currency{
 	position:absolute;
 	background:transparent;
-	color:#f5f5f5;
+	color:#4d4d4d;
 	opacity:0.6;
-	padding:20px 0 0 1.5em;
+	padding:8px 0 0 1.2em;
 	margin:0;
 }
 
@@ -240,27 +288,44 @@ input[type=submit]:hover, .button:hover{
 	padding:10px 2%;
 	display:block;
 	overflow:auto;
-	margin:0 0 2px 0;
-	color: #f5f5f5;
+	margin:0 auto 2px auto;
+	/*color: #f5f5f5;*/
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	border:solid 1px #ccc;
+	position: relative;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition:0.3s ease-in-out;
+	text-align: justify; 
+}
+
+.tourdates .cash_event:after{
+    content: '';
+    display: inline-block;
+    width: 100%;
+    height: 0;
+    font-size:0;
+    line-height:0;
 }
 
 .tourdates .cash_event:nth-child(odd){
-	background:#111;
-	background:rgba(25,25,25,0.9);
+	/*background:#111;*/
+	/*background:rgba(25,25,25,0.1);*/
+	background:rgba(34,34,34,0.05);
 }
 
 .tourdates .cash_event:nth-child(even){
-	background:#121212;
-	background:rgba(18,18,18,0.9);
+	/*background:#121212;*/
+	background:rgba(34,34,34,0.1);
 }
 
-.cash_timeandplace{
+.tourdates .cash_timeandplace{
 	margin:0 2% 0 0;
 	display:inline-block;
-	width:88%;
+	width:70%;
+	text-align: left;
 }
 
 .tourdates .cash_location{
@@ -273,36 +338,61 @@ input[type=submit]:hover, .button:hover{
 
 .tourdates .cash_date{
 	padding:10px 0;
+	font-weight: 700;
 }
 
 .tourdates .cash_comments{
 	display:inline-block;
-	color:#555;
-	font-size: 16px;
-	padding:5px 0;
+	opacity:0.5;
+	font-size: 12px;
 	margin:0 2% 0 0;
-	width:86%;
+	width:70%;
 }
 
 .tourdates .cash_purchase_url{
 	display:inline-block;
-	padding:10px 5%;
-	text-align: center;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition:0.3s ease-in-out;
-	margin:5px 0 0 0;
-	padding:10px 5%;
-	width:100%;
-	display:block;
+	margin:0;
+	padding:10px;
+	vertical-align: baseline; 
+	border:solid 2px #00cf7f;
+	font-size: 12px;
+	color:#00cf7f;
 }
 
-.tourdates .cash_purchase_url:hover{
-	background:#000;
-	color:#fff;
+.tourdates .cash_map_url a{
+	display:inline-block;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	trasition:0.3s ease-in-out;
+	margin:0;
+	padding:10px;
+	vertical-align: baseline; 
+	border:solid 2px #00cf7f;
+	font-size: 12px;
+	color:#00cf7f;
+}
+
+.tourdates .cash_purchase_url:hover, .tourdates .cash_map_url a:hover{
+	background:#00cf7f;
+	color:rgba(0,0,0,0.3)!important;
 	cursor: pointer;
 	outline: none;
 }
+
+/* Members Area */
+
+.membersarea .cash_address_container, .membersarea .cash_password_container{
+	width:49.5%;
+	display: inline-block;
+}
+
+.membersarea .cash_address_container{
+	margin:0 0.5% 0 0;
+}
+
 
 /* Social Feeds */
 
@@ -320,6 +410,7 @@ input[type=submit]:hover, .button:hover{
 	padding:0px;
 	background:none;
 	color:#00cf7f;
+	border:none;
 }
 
 .cm-social-feed li{
@@ -444,7 +535,7 @@ input[type=submit]:hover, .button:hover{
 }
 
 .cm-social-feed .cm-twitter .cm-platform{
-	background:url(../img/twitter.svg) no-repeat 100% 0%;
+	background:url(../images/icons/twitter.svg) no-repeat 100% 0%;
 	background-size: 70%;
 	opacity: 0.5;
 	height:25px;
@@ -472,43 +563,60 @@ input[type=submit]:hover, .button:hover{
 }
 
 .cm-social-feed .cm-tumblr .cm-platform{
-	background:url(../img/tumblr.svg) no-repeat 100% 0%;
+	background:url(../images/icons/tumblr.svg) no-repeat 100% 0%;
 	background-size: 70%;
 	opacity: 0.5;
 	width:15px;
 }
 
 
-/* -- Mid Size + Above / Vertical Tablet -- */
-@media screen and (min-width: 535px) {
+/* -- Main Size -- */
+@media screen and (min-width: 275px) {
 	
 	input{
-		padding:20px 3%;
-		width:69%;
+		padding:10px;
+		width:63%;
 		margin:0;
 	}
 
 	input[type=submit], .button{
-		width:30%;
+		width:35.5%;
 		margin:0;
 	}
 
-	.cash_error{
-		width:99.5%;
-	}
-
 	/* Tour Dates */
-	.tourdates .cash_purchase_url{
+	.tourdates .cash_purchase_url, .tourdates .cash_map_url a{
 		width:auto;
-		padding:10px 2%;
+		padding:5px 15px;
 		display: inline-block;
 	}
 
 	/* Single Purchase */
 	.cash_singlepurchase_flexible_price .total_price{
-	 	width:69%;
+	 	width:63%;
 	}
 
+	/* Members Area */
+	.membersarea .cash_address_container, .membersarea .cash_password_container{
+		width:31.25%;
+	}
+
+	.membersarea .cash_address_container input, .membersarea .cash_password_container input{
+		width:100%;
+	}
+
+}
+
+/* -- Larger Size -- */
+@media screen and (min-width: 500px) {
+	input, .cash_singlepurchase_flexible_price .total_price{
+			width:63.4%;
+	}
+
+	/* Members Area */
+	.membersarea .cash_address_container, .membersarea .cash_password_container{
+		width:31.6%;
+	}
 }
 
 /* ====================
@@ -521,7 +629,7 @@ input[type=submit]:hover, .button:hover{
 	}
 
    .cm-social-feed{
-   		width:50%;
+   		/*width:50%;*/
    		max-width:600px;
    }
 
