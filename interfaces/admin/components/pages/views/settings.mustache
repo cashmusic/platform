@@ -1,30 +1,31 @@
-<h4>Platform settings</h4>
-<p>Change primary system settings without editing the cashmusic.ini.php file. 
-Advanced settings have been hidden and should not be changed unless you like broken things.</p>
+{{! corresponding files: settings.php & settings.json }}
+
+<h4>{{copy_platform_settings}}</h4>
+<p>{{copy_change_settings}}</p>
 	<div class="pure-u-1">
-		<h4>Connections</h4>
-		<a class="button fullwidth lrglink" href="{{www_path}}/settings/connections/"><div class="icon icon-cog"></div><!--icon-->Manage third-party service connections</a>
+		<h4>{{copy_connections}}</h4>
+		<a class="button fullwidth lrglink" href="{{www_path}}/settings/connections/"><div class="icon icon-cog"></div><!--icon-->{{copy_manage}}</a>
 		{{#platform_type_single}}
-			<h4>Database</h4>
-			<label>Current database format</label>
+			<h4>{{copy_database}}</h4>
+			<label>{{label_current_db_format}}</label>
 			{{db_type}}
 			{{#migrate_from_mysql}}
-			&nbsp; <span class="altcopystyle fadedtext">(SQLite export coming soon)</span>
+			&nbsp; <span class="altcopystyle fadedtext">{{copy_sqlite}}</span>
 			{{/migrate_from_mysql}}
 			{{#migrate_from_sqlite}}
-			<strong>Migrate to MySQL</strong>
-			<p class="altcopystyle fadedtext">Migrating means things will be a lot more robust, and probably quicker too.</p>
+			<strong>{{copy_migrate_mysql}}</strong>
+			<p class="altcopystyle fadedtext">{{copy_migrating}}</p>
 			<form accept-charset="UTF-8" method="post" action="">
 				<input type="hidden" name="domigrate" value="makeitso" />
 				<input type="hidden" name="driver" value="mysql" />
-				<label for="hostname">Server hostname</label>
+				<label for="hostname">{{label_hostname}}</label>
 				<input type="text" id="hostname" name="hostname" />
-				<span class="altcopystyle fadedtext">server or server:port</span></span><br />
-				<label for="databasename">Database name</label>
+				<span class="altcopystyle fadedtext">{{copy_server}}</span></span><br />
+				<label for="databasename">{{label_db_name}}</label>
 				<input type="text" id="databasename" name="databasename" />
-				<label for="adminuser">Admin User</label>
+				<label for="adminuser">{{label_admin_user}}</label>
 				<input type="text" id="adminuser" name="adminuser" />
-				<label for="adminpassword">Admin Password</label>
+				<label for="adminpassword">{{label_admin_pass}}</label>
 				<input type="password" id="adminpassword" name="adminpassword" />
 				<input type="submit" value="Migrate" />
 			</form>
@@ -33,13 +34,13 @@ Advanced settings have been hidden and should not be changed unless you like bro
 	</div><!--pure-->
 	<div class="pure-u-1">
 		{{#platform_type_single}}
-		<h4>Miscellaneous</h4>
+		<h4>{{copy_miscellaneous}}</h4>
 			<form accept-charset="UTF-8" method="post" action="">
 				<input type="hidden" name="domisc" value="makeitso" />
-				<label for="systememail">Default system email address</label>
+				<label for="systememail">{{label_default_email}}</label>
 				<input type="text" id="systememail" name="systememail" value="{{{system_email}}}" />
 				<span class="altcopystyle fadedtext">(name@domain.com or "<span class="nobr">Name &lt;name@domain.com&gt;</span>")</span>
-				<label for="timezone">System time zone</label>
+				<label for="timezone">{{label_time_zone}}</label>
 				<select id="timezone" name="timezone">
 					{{{timezone_options}}}
 				</select>
@@ -47,17 +48,17 @@ Advanced settings have been hidden and should not be changed unless you like bro
 			</form>	
 		{{/platform_type_single}}
 
-		<h4>Commerce currency</h4>
+		<h4>{{copy_commerce_currency}}</h4>
 			<form accept-charset="UTF-8" method="post" class="returntocurrentroute" action="{{www_path}}/settings/">	
-				<label for="currency_id">Currency</label>
+				<label for="currency_id">{{label_currency}}</label>
 				<select id="currency_id" name="currency_id">{{{currency_options}}}</select>
-				<button class="fullwidth" type="submit">Use this currency</button>
+				<button class="fullwidth" type="submit">{{copy_use_currency}}</button>
 			</form>
 	</div><!--pure-->
 
 {{#platform_type_single}}
-	<h4>Platform install location</h4>
-	<p>Here's the full path to the cashmusic.php script needed to initialize the CASH platform:</p>
+	<h4>{{copy_platform_install}}</h4>
+	<p>{{copy_full_path}}</p>
 	<div class="callout">	
 		<code>
 			<input type="text" value="{{platform_path}}" />

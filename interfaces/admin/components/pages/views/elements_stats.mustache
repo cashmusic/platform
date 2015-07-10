@@ -1,18 +1,20 @@
+{{! corresponding files: elements_stats.php & elements_stats.json }}
+
 <header>
-		<a class="returnlink current" href="{{www_path}}/elements/edit/{{id}}"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">&ldquo;{{ui_title}}&rdquo; statistics</h4>
+		<a class="returnlink current" href="{{www_path}}/elements/edit/{{id}}"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">&ldquo;{{ui_title}}&rdquo;{{copy_statistics}}</h4>
 </header>
 
 	{{#location_analytics}}
 	<div class="statoverview">
 
 			{{#location_analytics}}
-				<h5>Views by location</h5>
+				<h5>{{copy_views_by_location}}</h5>
 				<table style="width:100%;" class="responsive">
 					<colgroup style="width:85%;" /><colgroup />	
 					<thead>
 						<tr>
-							<th scope="col">Element location</th>
-							<th scope="col">Views</th>
+							<th scope="col">{{copy_element_location}}</th>
+							<th scope="col">{{copy_views}}</th>
 						</tr>
 					</thead>
 					<tbody>

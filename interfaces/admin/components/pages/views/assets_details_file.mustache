@@ -1,3 +1,5 @@
+{{! corresponding files: assets_edit.php & assets_edit.json }}
+
 <div class="pure-u-1">
 	{{#parent_id}}
 		<a class="returnlink current" href="{{www_path}}/assets/edit/{{parent_id}}"><div class="icon icon-arw-dwn"></div><!--icon--></a>
@@ -14,26 +16,26 @@
 	<input type="hidden" name="doassetedit" value="makeitso" />
 	<input type="hidden" name="asset_type" value="file" />
 
-	<label for="asset_title">Title / Name</label>
+	<label for="asset_title">{{label_title}}</label>
 	<input type="text" id="asset_title" name="asset_title" value="{{title}}" class="required" />
 
-	<label for="asset_description">Description</label>
+	<label for="asset_description">{{label_description}}</label>
 	<textarea rows="3" id="asset_description" name="asset_description">{{description}}</textarea>
 
 		<div class="pure-u-1 pure-u-md-1-2">
-			<label for="connection_id">Which storage connection?</label>
+			<label for="connection_id">{{label_connection}}</label>
 			<select id="connection_id" name="connection_id">
 				{{{connection_options}}}
 			</select>
 		</div><!--pure-->
 
 		<div class="pure-u-1 pure-u-md-1-2">
-			<label for="asset_location">Location (URI)</label>
+			<label for="asset_location">{{label_location}}</label>
 			<input class="required" type="text" id="asset_location" name="asset_location" value="{{location}}" />
 		</div><!--pure-->
 		<div class="pure-u-1">
 			<div class="drawer noprefix upload-corral">
-				<small class="fadedtext"><div class="icon icon-cloud-upload"></div><!--icon-->Using a hosting connection? <a href="#" data-upload-endpoint="{{{www_path}}}/assets/uploadform/" class="drawerhandle usecolor2 file-upload-trigger">Upload a file</a></small>
+				<small class="fadedtext"><div class="icon icon-cloud-upload"></div><!--icon-->{{copy_hosting_connection}}<a href="#" data-upload-endpoint="{{{www_path}}}/assets/uploadform/" class="drawerhandle usecolor2 file-upload-trigger">{{copy_upload_a_file}}</a></small>
 				<div class="drawercontent"></div>
 			</div>
 		</div><!--pure-->
@@ -43,13 +45,13 @@
 
 			<div class="pure-u-1">
 				<button class="nojs" type="submit">Save changes</button>
-				<button class="onlyjs externalsubmit" data-cash-target-form="#edit-file-form" type="submit">Save changes</button>
-				<a href="{{www_path}}/assets/delete/{{id}}" class="button usecolor2 needsconfirmation">Delete this file</a>
+				<button class="onlyjs externalsubmit" data-cash-target-form="#edit-file-form" type="submit">{{copy_button_save_changes}}</button>
+				<a href="{{www_path}}/assets/delete/{{id}}" class="button usecolor2 needsconfirmation">{{copy_button_delete_file}}</a>
 			</div><!--pure-->
 
 				{{#show_make_public}}
 			<div class="pure-u-1 pure-u-md-1-2 file-security spacedtext">			
-					<div class="icon icon-unlock"></div><!--icon--> Don't need security? <a href="#" data-publicize-endpoint="{{{www_path}}}/ajax/publicizeasset/{{id}}" class="usecolor2"><strong>Make this file public</strong></a>
+					<div class="icon icon-unlock"></div><!--icon-->{{copy_dont_need_security}}<a href="#" data-publicize-endpoint="{{{www_path}}}/ajax/publicizeasset/{{id}}" class="usecolor2"><strong>{{copy_make_public}}</strong></a>
 			</div><!--pure-->
 			{{/show_make_public}}
 </form>
@@ -57,35 +59,35 @@
 	
 <div class="drawer prefpanel pure-u-1">
 <div class="itemnav pure-u-1">
-	<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>Asset Settings</span></h4>
+	<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>{{copy_asset_settings}}</span></h4>
 	<div class="drawercontent">
 		<div class="pure-u-1 pure-u-md-1-2">
 			<div class="pref-inner">
-				<h5><div class="icon icon-dwnld"></div><!--icon--> Export or create download codes</h5>
+				<h5><div class="icon icon-dwnld"></div><!--icon-->{{copy_export_create_download_codes}}</h5>
 						<p>
 						{{#asset_codes_count}}
-							<span>There are {{asset_codes_count}} codes for this asset. <a class="usecolor2 noajax" href="{{www_path}}/assets/edit/{{id}}?exportcodes=1"><strong>Export them!</strong></a></span >
+							<span>{{copy_there_are}}{{asset_codes_count}}{{copy_codes_for_this_asset}}<a class="usecolor2 noajax" href="{{www_path}}/assets/edit/{{id}}?exportcodes=1"><strong>{{copy_export_them}}</strong></a></span >
 						{{/asset_codes_count}}
 						{{^asset_codes_count}}
-							<span>There are no download codes for this asset.</span>
+							<span>{{copy_no_download_codes}}</span>
 						{{/asset_codes_count}}
 						</p>
 						<form accept-charset="UTF-8" method="post" action="{{www_path}}/assets/edit/{{id}}">
-						<div class="pure-u-1"><label for="add_codes_qty">Add (qty) more codes</label></div><!--label-->
+						<div class="pure-u-1"><label for="add_codes_qty">{{label_add_more_codes}}</label></div><!--label-->
 							<div class="pure-u-1 pure-u-md-12-24">
 								<input type="text" name="add_codes_qty" id="add_codes_qty" value="500" />
 							</div><!--pure-->
 							<div class="pure-u-1 pure-u-md-12-24">
-								<button class="right" type="submit">Add codes</button>
+								<button class="right" type="submit">{{copy_add_codes}}</button>
 							</div><!--pure-->
 						</form>
 			</div><!--pref-inner-->
 		</div><!--pure-->
 		<div class="pure-u-1 pure-u-md-1-2">
 			<div class="pref-inner">
-				<h5><div class="icon icon-card"></div><!--icon--> Ready to sell?</h5>
-				<p>Add this file to your commerce inventory if you would like to sell it.</p>
-				<a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="button fullwidth lightboxed returntocurrentroute"><span>Add to inventory</span></a>
+				<h5><div class="icon icon-card"></div><!--icon-->{{copy_ready_to_sell}}</h5>
+				<p>{{copy_add_release_if_sell}}</p>
+				<a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="button fullwidth lightboxed returntocurrentroute"><span>{{copy_add_to_inventory}}</span></a>
 			</div><!--pref-inner-->
 		</div><!--pure-->
 	</div><!--drawercontent-->

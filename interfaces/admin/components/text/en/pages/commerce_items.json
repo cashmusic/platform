@@ -4,5 +4,14 @@
 	"related":{},
 	"labels":{},
 	"tooltips":{},
-	"copy":{}
+	"copy":{"inventory":"Inventory",
+            "button_add_item":"Add an item",
+            "no_items":"No items have been created. Add one to get started.",
+            "previous":"Previous",
+            "next":"Next",
+            "inventory_items":"Inventory Items",
+            "inventory_items_needed":"Inventory items need to be added for anything you plan to sell.",
+            "an_item_can_be":"An item can be connected to a release or an uploaded file as a fulfillment asset for download."
+
+}
 }

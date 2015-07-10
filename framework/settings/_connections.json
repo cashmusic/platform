@@ -1,6 +1,34 @@
 {
-	"com.amazon": {
-			"key":"keyvalue",
-			"secret":"secretvalue",
-		}
+    "com.mailchimp": {
+        "redirect_uri":"https://localhost:8888/interfaces/admin/settings/connections/add/com.mailchimp/finalize",
+        "client_id":"959690340934",
+        "client_secret":"1f10abaadc64aa7dcc32251c6b97b1ce"
+    },
+    "com.mandrillapp": {
+        "redirect_uri":"https://localhost:8888/interfaces/admin/settings/connections/add/com.mandrillapp/finalize",
+        "app_authentication_id":"dFImuKs1lAtY2Xjv6y6nKw"
+    },
+    "com.amazon": {
+        "key":"0JQ2XC5FJRQA01YNSR82",
+        "secret":"20vnJRjKPp/HA67c/cIm33IHnv3F8oJFlDXlAh0z",
+        "email":"aws@cashmusic.org"
+    },
+    "com.paypal": {
+        "username":"donations_api1.cashmusic.org",
+        "password":"NVMLR9G2U9AC93EN",
+        "signature":"AUxTpA71Ttm6QERFPvfXaRexRIFrA6NjSe2CQTrmeNDm24mj-1L58x0T",
+        "sandboxed":false
+    },
+    "com.google.drive": {
+        "redirect_uri":"https://localhost:8888/interfaces/admin/settings/connections/add/com.google.drive/finalize",
+        "client_id":"887084664768.apps.googleusercontent.com",
+        "client_secret":"qcbDs-aJ_zm9MGJVj7dyGdF_",
+        "app_id":"887084664768",
+        "api_key":"AIzaSyBjuWCRqNx2B5ktujoAOlxyKRao_mO6H8g"
+    },
+    "com.twitter": {
+       "redirect_uri":"http://localhost:8888/admin/settings/connections/add/com.twitter/finalize",
+       "client_id":"GmfmWT73HaYtLsiY74Y4UA",
+       "client_secret":"R8JtsF9GHL6v78zg3E3TdL5GcmEfwJeGJwK29moTh0"
+   }
 }

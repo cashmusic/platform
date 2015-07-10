@@ -1,3 +1,5 @@
+{{! corresponding files: commerce_items_variant.php & commerce_items_variant.json}}
+
 <form name="add_item_variants" method="post" action="{{www_path}}/commerce/items/edit/{{item_id}}" class="multipart add_variants" data-parts="2" novalidate="novalidate">
 	<input type="hidden" name="configure_variants" value="makeitso" />
 	<input type="hidden" name="item_id" value="{{item_id}}" />
@@ -5,11 +7,11 @@
 
 	<div class=" section part-1" data-section-name="Item Variant Names">
 		<div class="pure-u-1 variant1">
-			<label for="item_name">First variant name</label>
+			<label for="item_name">{{label_first_variant}}</label>
 			<input type="text" id="primary_variant_name" name="primary_variant_name" value="" placeholder="e.g color" class="required" />
 		</div><!--pure-->
 		<div class="pure-u-1 pure-u-md-1-2 variant2" style="display:none;">
-			<label for="item_name">Second variant name (optional)</label>
+			<label for="item_name">{{label_second_variant}}</label>
 			<input type="text" id="secondary_variant_name" name="secondary_variant_name" value="" placeholder="e.g size" />
 		</div><!--pure-->
 	</div><!--section-->
@@ -17,14 +19,14 @@
 
 	<div class="section part-2" data-section-name="Options For Variants">
 		<div class="pure-u-1 variant1-options">
-			<label class="findreplace" data-startvalue="List all [primary_variant_name] options">List all [primary_variant_name] options</label>
+			<label class="findreplace" data-startvalue="List all [primary_variant_name] options">{{label_list_all_options}}</label>
 			<div class="scalar" data-name="primaryoptions" data-actiontext="Add a new option" data-clonecount="0" style="display: none;">
 				<input type="text" id="optionname" name="optionname" value="" placeholder="e.g purple" />
 			</div>
 		</div><!--pure-->
 
 		<div class="pure-u-1 pure-u-md-1-2 variant2-options" style="display:none;">
-			<label class="findreplace" data-startvalue="List all [secondary_variant_name] options">List all [secondary_variant_name] options</label>
+			<label class="findreplace" data-startvalue="List all [secondary_variant_name] options">{{label_list_all_options_2}}</label>
 			<div class="scalar" data-name="secondaryoptions" data-actiontext="Add a new option" data-clonecount="0" style="display: none;">
 				<input type="text" id="optionname" name="optionname" value="" placeholder="e.g small" />
 			</div>
@@ -33,10 +35,10 @@
 
 
 	<div class="section basic-information" data-section-name="Save and continue">
-		<label>That's it.</label>
+		<label>{{label_thats_it}}</label>
 
 		<div class="pure-u-1">
-			<p>Great! After you save your new item variants you'll just need to set quantities in the "Configure Item Variants" panel on the item page.</p>
+			<p>{{copy_great}}</p>
 			<input class="button" type="submit" value="Save Changes"/>
 		</div><!--pure-->
 	</div><!--section-->

@@ -1,44 +1,45 @@
+{{! corresponding files: calendar_venues_add.php & calendar_venues_add.json }}
 
 <div class="pure-u-1">
 <header>
-		<a class="returnlink current" href="{{www_path}}/calendar/venues"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">Edit Venue</h4>
+		<a class="returnlink current" href="{{www_path}}/calendar/venues"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">{{copy_edit_venue}}</h4>
 </header>
 </div><!--pure-->
 
 <form accept-charset="UTF-8" method="post" action="{{www_path}}{{requested_route}}" name="venue_add">
 	<input type="hidden" name="{{form_state_action}}" value="makeitso" />
-	<label for="venue_name">Name</label>
+	<label for="venue_name">{{label_name}}</label>
 	<input type="text" id="venue_name" name="venue_name" value="{{name}}" class="required" />
 		<div class="pure-u-1 pure-u-md-1-2">
-			<label for="venue_url">Website</label>
+			<label for="venue_url">{{label_website}}</label>
 			<input type="text" id="venue_url" name="venue_url" value="{{url}}" />
 		</div><!--pure-->
 		<div class="pure-u-1 pure-u-md-1-2">
-			<label for="venue_phone">Phone</label>
+			<label for="venue_phone">{{label_phone}}</label>
 			<input type="text" id="venue_phone" name="venue_phone" value="{{phone}}" />
 		</div><!--pure-->
 		<div class="pure-u-1 pure-u-md-1-2">
-			<label for="venue_address1">Address 1</label>
+			<label for="venue_address1">{{label_address_1}}</label>
 			<input type="text" id="venue_address1" name="venue_address1" value="{{address1}}" />
 		</div><!--pure-->
 		<div class="pure-u-1 pure-u-md-1-2">
-			<label for="venue_address2">Address 2</label>
+			<label for="venue_address2">{{label_address_2}}</label>
 			<input type="text" id="venue_address2" name="venue_address2" value="{{address2}}" />
 		</div><!--pure-->
 		<div class="pure-u-1 pure-u-md-1-2">
-			<label for="venue_city">City</label>
+			<label for="venue_city">{{label_city}}</label>
 			<input type="text" id="venue_city" name="venue_city" value="{{city}}" class="required" />
 		</div><!--pure-->
 		<div class="pure-u-1 pure-u-md-1-2">
-			<label for="venue_region">State / Province / Region</label>
+			<label for="venue_region">{{label_state}}</label>
 			<input type="text" id="venue_region" name="venue_region" value="{{region}}" />
 		</div><!--pure-->
 		<div class="pure-u-1 pure-u-md-1-2">
-			<label for="venue_postalcode">Postal Code</label>
+			<label for="venue_postalcode">{{label_postal_code}}</label>
 			<input type="text" id="venue_postalcode" name="venue_postalcode" value="{{postalcode}}" />
 		</div><!--pure-->
 		<div class="pure-u-1 pure-u-md-1-2">
-			<label for="venue_country">Country</label>
+			<label for="venue_country">{{label_country}}</label>
 			<select id="venue_country" name="venue_country">
 				{{{country_options}}}
 			</select>

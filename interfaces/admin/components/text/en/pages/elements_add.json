@@ -11,6 +11,10 @@
 		"requirement_people/lists":"A mailing list",
 		"requirement_items":"A commerce item for sale",
 		"requirement_commerce/items":"A commerce item for sale",
-		"requirement_connections/commerce":"A commerce connection to process payments"
+		"requirement_connections/commerce":"A commerce connection to process payments",
+		"author":"Author:",
+		"add_element":"Add element",
+		"last_updated":"Last updated: ",
+		"learn_more":"Learn More"
 	}
 }

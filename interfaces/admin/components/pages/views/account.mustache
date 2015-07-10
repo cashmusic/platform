@@ -5,45 +5,45 @@
 	<!-- YOLO -->
 	<input type="hidden" name="doaccountchange" value="makeitso" />
 
-			<input type="hidden" name="email_address" value="{{email_address}}" />
-			<label for="new_email_address">Email address</label>
+			<input type="hidden" name="new_email_address" value="new_email_address" />
+			<label for="new_email_address">{{label_new_email_address}}</label>
 			<input type="text" id="new_email_address" name="new_email_address" placeholder="{{email_address}}" value="{{email_address}}" />
 
-			<label for="new_username">Username (alphanumeric only)</label>
+			<label for="new_username">{{label_new_username}}</label>
 			<input type="text" id="new_username" name="new_username" placeholder="{{username}}" value="{{username}}" />
 			<p class="small fadedtext"  style="display:block; margin:0 0 10px 0; position:relative;top:-7px;color:#666;">{{user_page_display_uri}}</p>
 
-			<label for="new_username">Display name</label>
+			<label for="new_display_name">{{label_new_display_name}}</label>
 			<input type="text" id="new_displayname" name="new_displayname" placeholder="{{display_name}}" value="{{display_name}}" />
 
-			<!-- label for="new_url">URL</label -->
+			<!-- label for="new_url">{{URL}}</label -->
 			<input type="hidden" id="new_url" name="new_url" value="{{url}}" placeholder="http://..." />
 
-			<label for="new_password">New password (Blank = no change)</label>
+			<label for="new_password">{{label_new_password}}</label>
 			<input type="password" id="new_password" class="needsreveal" name="new_password" autocomplete="off" />
 			<a href="#" class="revealpassword" style="position:relative;top:-7px;color:#666;">reveal text</a>
 		<p>
-			Please enter your current password to make changes:
+			{{copy_enter_password}}
 		</p>
-		<label for="password">Password</label>
+		<label for="password">{{label_password}}</label>
 		<input class="required" type="password" id="password" name="password" autocomplete="off" />
 		<br />
 		<!--input type="submit" value="Save changes" /-->
-		<button class="fullwidth" type="submit">Save changes</button>
+		<button class="fullwidth" type="submit">{{copy_button_save_changes}}</button>
 </form>
 
-<h4>Delete account</h4>
+<h4>{{copy_delete_account}}</h4>
 
 <p>
-	Deleting your account is <b>permanent</b>. There is no undo. It's also kind of sad. Be very sure you want to do it.
+	{{copy_delete_warning}}
 </p>
-<a href="{{www_path}}/account/delete/" class="button fullwidth noajax needsconfirmation">Delete account</a>
+<a href="{{www_path}}/account/delete/" class="button fullwidth noajax needsconfirmation">{{copy_button_delete_account}}</a>
 
 {{#platform_type_single}}
 	<div>
 		<h4>API Key / Secret</h4>
 		<p>
-			API details for developer access:
+			{{copy_api_details}}
 		</p>
 		<div class="callout">
 			<code>
