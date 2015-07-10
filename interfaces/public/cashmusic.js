@@ -103,26 +103,36 @@
 				// add current domain to whitelist for postmesage calls (regardless of embed or no)
 				cm.embeds.whitelist = cm.embeds.whitelist + window.location.href.split('/').slice(0,3).join('/');
 
-				// if we don't have a geo response we'll loop and wait a couple
-				// seconds before declaring the script ready.
-				var l = 0;
-				var i = setInterval(function() {
-					if ((l < 25) && !cm.geo) {
-						l++;
-					} else {
-						cm.loaded = Date.now(); // ready and loaded
-						if (typeof cm.storage.elementQueue == 'object') {
-							// this means we've got elements waiting for us...do a
-							// foreach loop and start embedding them
-							cm.storage.elementQueue.forEach(function(args) {
-								// we stored the args in our queue...spit them back out
-								cm.embed(args[0],args[1],args[2],args[3],args[4],args[5]);
-							});
+				if (cm.embedded) {
+					cm.loaded = Date.now(); // ready and loaded
+					cm._drawQueuedEmbeds();
+				} else {
+					// if we don't have a geo response we'll loop and wait a couple
+					// seconds before declaring the script ready.
+					var l = 0;
+					var i = setInterval(function() {
+						if ((l < 25) && !cm.geo) {
+							l++;
+						} else {
+							cm.loaded = Date.now(); // ready and loaded
+							cm._drawQueuedEmbeds();
+							// and since we're ready kill the loops
+							clearInterval(i);
 						}
-						// and since we're ready kill the loops
-						clearInterval(i);
-					}
-				}, 100);
+					}, 100);
+				}
+			},
+
+			_drawQueuedEmbeds() {
+				var cm = window.cashmusic;
+				if (typeof cm.storage.elementQueue == 'object') {
+					// this means we've got elements waiting for us...do a
+					// foreach loop and start embedding them
+					cm.storage.elementQueue.forEach(function(args) {
+						// we stored the args in our queue...spit them back out
+						cm.embed(args[0],args[1],args[2],args[3],args[4],args[5]);
+					});
+				}
 			},
 
 			_initEmbed: function() {
@@ -190,6 +200,9 @@
 					cm.stripe.generateToken(msg.data,e.source);
 				} else if (msg.type == 'stripetoken') {
 					cm.events.fire(cm,'stripetokengenerated',msg.data);
+				} else if (msg.type == 'overlayreveal') {
+					cm.overlay.reveal(msg.data.innerContent,msg.data.wrapClass);
+					cm.events.fire(cm,'overlayopened','');
 				}
 			},
 
@@ -782,6 +795,7 @@
 					var cm = window.cashmusic;
 					var self = cm.overlay;
 					var db = document.body;
+					cm.events.fire(cm,'overlayclosed',''); // tell em
 					self.wrapper.className = 'cm-wrapper';
 					self.bg.className = 'cm-bg';
 					setTimeout(function() {
@@ -803,34 +817,38 @@
 					var cm = window.cashmusic;
 					var self = cm.overlay;
 					var db = document.body;
-					var alert = document.createElement('div');
-					if (wrapClass) {
-						alert.className = wrapClass;
+					if (cm.embedded) {
+						cm.events.fire(cm,'overlayreveal',{"innerContent":innerContent,"wrapClass":wrapClass});
 					} else {
-						alert.className = 'cm-element';
-					}
-					if (typeof innerContent === 'string') {
-						alert.innerHTML = innerContent;
-					} else {
-						alert.appendChild(innerContent);
-					}
-					self.content.appendChild(alert);
+						var alert = document.createElement('div');
+						if (wrapClass) {
+							alert.className = wrapClass;
+						} else {
+							alert.className = 'cm-element';
+						}
+						if (typeof innerContent === 'string') {
+							alert.innerHTML = innerContent;
+						} else {
+							alert.appendChild(innerContent);
+						}
+						self.content.appendChild(alert);
 
-					// disable body scrolling
-					db.style.overflow = 'hidden';
+						// disable body scrolling
+						db.style.overflow = 'hidden';
 
-					// go
-					self.wrapper.className = 'cm-wrapper cm-active';
-					self.content.style.opacity = 0;
-					self.bg.style.height = cm.measure.scrollheight() + 'px';
-					db.appendChild(self.bg);
-					self.bg.className = 'cm-bg cm-active';
-					db.appendChild(self.content);
-					db.appendChild(self.close);
-					// force style refresh/redraw on element
-					window.getComputedStyle(self.content).opacity;
-					// initiate fade-in
-					self.content.style.opacity = 1;
+						// go
+						self.wrapper.className = 'cm-wrapper cm-active';
+						self.content.style.opacity = 0;
+						self.bg.style.height = cm.measure.scrollheight() + 'px';
+						db.appendChild(self.bg);
+						self.bg.className = 'cm-bg cm-active';
+						db.appendChild(self.content);
+						db.appendChild(self.close);
+						// force style refresh/redraw on element
+						window.getComputedStyle(self.content).opacity;
+						// initiate fade-in
+						self.content.style.opacity = 1;
+					}
 				}
 			},
 
