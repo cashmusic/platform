@@ -1,3 +1,5 @@
+{{! corresponding files: elements_edit.php & elements_edit.json }}
+
 <header>
 		<a class="returnlink current" href="{{www_path}}/"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">&ldquo;{{ui_title}}&rdquo;</h4>
 </header>
@@ -6,13 +8,13 @@
 		<div id="snapshot">
 		<div class="pure-u-1 pure-u-md-1-3">
 			<div class="snapshot-inner">
-			<h4>Total Unique Views</h4>
+			<h4>{{copy_total_unique_views}}</h4>
 				<h5 class="elements totalviews">{{total_views}}</h5>
 			</div><!--snapshot-inner-->
 			</div><!--pure-->
 			<div class="pure-u-1 pure-u-md-2-3">
 				<div class="snapshot-inner">
-					<h4>Top Embed Locations <a class="right" href="{{www_path}}/elements/stats/{{id}}">View detailed statistics</a></h4>
+					<h4>{{copy_top_embed_locations}}<a class="right" href="{{www_path}}/elements/stats/{{id}}">{{copy_view_detailed_statistics}}</a></h4>
 					<ul>
 						{{#location_analytics}}
 							<li><a href="http://{{access_location}}" target="_blank"><span><strong>{{total}}</strong></span><span class="location">{{access_location}}</span></a></li>
@@ -26,21 +28,21 @@
 			{{#platform_type_single}}
 			<div class="pure-u-1">
 				<div class="embedpanel">
-					<strong class="fadedtext codelabel">PHP: </strong><code><div class="codearea" contenteditable="true">&lt;?php include_once('{{platform_path}}');CASHSystem::embedElement({{id}}); // ({{name}}) ?&gt;</div></code>
-					<strong class="fadedtext codelabel">WordPress: </strong><code><div class="codearea" contenteditable="true">[cashmusic element=&quot;{{id}}&quot; name=&quot;{{name}}&quot;]</div></code>
+					<strong class="fadedtext codelabel">{{copy_php}}</strong><code><div class="codearea" contenteditable="true">&lt;?php include_once('{{platform_path}}');CASHSystem::embedElement({{id}}); // ({{name}}) ?&gt;</div></code>
+					<strong class="fadedtext codelabel">{{copy_wordpress}}</strong><code><div class="codearea" contenteditable="true">[cashmusic element=&quot;{{id}}&quot; name=&quot;{{name}}&quot;]</div></code>
 				</div><!--embedding-->
 			</div><!--pure-->
 			{{/platform_type_single}}
 			
 			<div class="pure-u-1">
 				<div class="embedpanel">
-					<p class="codelabel"><strong>HTML5 embed code: </strong> <span class="fadedtext">(Embed anywhere)</span></p>
+					<p class="codelabel"><strong>{{copy_html5_embed_code}}</strong> <span class="fadedtext">{{copy_embed_anywhere}}</span></p>
 
 					<a class="ql copy" title="Copy quick embed code" data-clipboard-text="&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;" ><div class="icon icon-share"></div><!--icon--></a>
 					
 					<code><div class="codearea" contenteditable="true">&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;</div></code>
 
-					<a href="{{www_path}}/elements/preview/{{id}}" class="preview lightboxed">Preview element</a>
+					<a href="{{www_path}}/elements/preview/{{id}}" class="preview lightboxed">{{copy_preview_element}}</a>
 				</div><!--embedding-->
 			</div><!--pure-->
 
@@ -48,7 +50,7 @@
 		<form method="post" action="">
 			<input type="hidden" name="current_template_id" value="{{template_id}}" />
 				<div class="pure-u-1 pure-u-md-1-2">
-					<label for="template_id">Embed style:</label>
+					<label for="template_id">{{label_embed_style}}</label>
 					<select id="change_template_id" name="change_template_id">{{{template_options}}}</select>
 				</div><!--pure-->
 				<div class="pure-u-1 pure-u-md-1-2">
@@ -59,10 +61,10 @@
 						data-special='{"val":"0","target":"#editbutton"}'
 					>
 						<div id="editbutton">
-							<a href="{{www_path}}/elements/templates/edit/{{template_id}}/embed/parent/{{id}}" class="button lightboxed right">Edit custom embed</a>
+							<a href="{{www_path}}/elements/templates/edit/{{template_id}}/embed/parent/{{id}}" class="button lightboxed right">{{copy_edit_custom_embed}}</a>
 						</div>
 						<div id="changestyle">
-							<button class="right" type="submit">Change style</button>
+							<button class="right" type="submit">{{copy_button_change_style}}</button>
 						</div>
 					</div>
 				</div><!--pure-->
@@ -71,7 +73,7 @@
 
 <div class="drawer prefpanel pure-u-1">
 	<div class="itemnav pure-u-1">
-	<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>Element Settings</span></h4>
+	<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>{{copy_element_settings}}</span></h4>
 	<div class="drawercontent">
 		<div class="pure-u-1">
 			{{{element_rendered_content}}}

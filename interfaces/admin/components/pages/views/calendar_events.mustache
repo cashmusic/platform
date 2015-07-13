@@ -1,40 +1,41 @@
+{{! corresponding files: calendar_events.php & calendar_events.json }}
+
 	<div class="pure-u-1 pure-u-md-1-2">
 		<header>
-		<h4>Add an event</h4>
+		<h4>{{copy_add_an_event}}</h4>
 		</header>
 		<p>
-			Quickly add a date to the system. Information about published/unpublished status and
-			cancellation can be found in the learn section.
+			{{copy_quickly_details}}
 		</p>
 
 		<form accept-charset="UTF-8" method="post" action="{{www_path}}/calendar/events/add/" name="add_event">
 			<input type="hidden" name="doeventadd" value="makeitso" />
 
-			<label for="event_date">Date</label>
+			<label for="event_date">{{label_date}}</label>
 			<input type="text" id="event_date" name="event_date" class="required date" value="" placeholder="MM/DD/YYYY" />
 
-			<label for="event_venue_name">Venue</label>
+			<label for="event_venue_name">{{label_venue}}</label>
 			<input type="text" id="event_venue_name" name="event_venue_name" value="{{event_venue_name}}" placeholder="Start typing to search venues" class="autocomplete required" data-cash-endpoint-url="{{{www_path}}}/ajax/autocomplete/venues" />
 			<input type="hidden" id="event_venue" name="event_venue" value="" />
-			<small class="fadedtext">Can't find the venue you're looking for? <a href="{{www_path}}/calendar/venues/add/" class="add-fulfillment-file lightboxed returntocurrentroute usecolor5">Add a new venue</a></small>
+			<small class="fadedtext">{{copy_cant_find}}<a href="{{www_path}}/calendar/venues/add/" class="add-fulfillment-file lightboxed returntocurrentroute usecolor5">{{copy_add_new_venue}}</a></small>
 
-			<label for="event_comment">Comments (Support, CD Release, etc)</label>
+			<label for="event_comment">{{label_comments}}</label>
 			<textarea rows="3" id="event_comment" name="event_comment"></textarea>
 
-			<label for="event_purchase_url">Ticket Purchase URL</label>
+			<label for="event_purchase_url">{{label_ticket_purchase}}</label>
 			<input type="text" id="event_purchase_url" name="event_purchase_url" value="" placeholder="Ticket Link URL" />
 
 			<div class="pure-u-1">
-			<input type='checkbox' class='checkorradio' id="event_ispublished" name='event_ispublished' value='' checked='checked' /> <label class="checklabel" for="event_ispublished">Published?</label> <input type='checkbox' class='checkorradio' id="event_iscancelled" name='event_iscancelled' value='' /> <label class="checklabel" for="event_iscancelled">Cancelled?</label> 
+			<input type='checkbox' class='checkorradio' id="event_ispublished" name='event_ispublished' value='' checked='checked' /> <label class="checklabel" for="event_ispublished">{{label_published}}</label> <input type='checkbox' class='checkorradio' id="event_iscancelled" name='event_iscancelled' value='' /> <label class="checklabel" for="event_iscancelled">{{label_cancelled}}</label> 
 			</div><!--pure-->
 
-			<button type="submit">Add That Event</button>
+			<button type="submit">{{copy_button_add_event}}</button>
 
 		</form>
 	</div><!--pure-->
 	<div class="pure-u-1 pure-u-md-1-2">
 		<header>
-		<h4>All upcoming events</h4>
+		<h4>{{copy_upcoming_events}}</h4>
 		</header>
 		{{#events_allfuture}}
 		<ul class="alternating">
@@ -57,7 +58,7 @@
 
 		{{^events_allfuture}}
 		<div class="empty noevents">
-		<p>No upcoming events were found.</p>
+		<p>{{copy_no_upcoming_events}}</p>
 		</div><!--empty-->
 		{{/events_allfuture}}
 	</div><!--pure-->

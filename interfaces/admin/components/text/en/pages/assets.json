@@ -5,6 +5,19 @@
 	"labels":{},
 	"tooltips":{},
 	"copy":{
-		"firstuse":"Assets is where you'll add your releases and upload the files you'll be using in your campaigns. Before you can begin adding any assets you will need to connect to one of the 3rd-party storage platforms below."
+		"firstuse":"Assets is where you'll add your releases and upload the files you'll be using in your campaigns. Before you can begin adding any assets you will need to connect to one of the 3rd-party storage platforms below.",
+      "host_own_files":"I host files on my own server! ",
+      "button_new_release":"Add a new release",
+      "no_releases_yet":"No releases have been created yet. Add one to get started.",
+      "additional_releases":"additional releases",
+      "not_working":"Not working on an album or need to just upload a file quickly?",
+      "your_spot":"This is your spot.",
+      "button_upload_new_file":"Upload a new file",
+      "no_files_added_yet":"No files have been added yet. Add one to get started.",
+      "button_add_a_file":"Add a file",
+      "add_connection":"Add Connection",
+      "releases":"Releases",
+      "uploads":"Uploads"
+
 	}
 }

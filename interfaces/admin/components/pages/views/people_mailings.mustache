@@ -1,44 +1,46 @@
-<p>Send a test message to a specific list.</p>
+{{! corresponding files: people_mailings.php & people_mailings.json }}
+
+<p>{{copy_test_message}}</p>
 
 {{#connection_options}}
 	<form method="post" action="">
 		<input type="hidden" name="doemailsend" value="makeitso">
 
 			<div class="pure-u-1">
-				<label for="mail_subject">Mail subject</label>
+				<label for="mail_subject">{{label_mail_subject}}</label>
 				<input type="text" id="mail_subject" name="mail_subject" />
 			</div><!--pure-->
 
 			<div class="pure-u-1 pure-u-md-1-2">
-				<label for="mail_from">From name (sent from {{user_email}})</label>
+				<label for="mail_from">{{label_from_name}}</label>
 				<input type="text" id="mail_from" name="mail_from" />
 			</div><!--pure-->
 			<div class="pure-u-1 pure-u-md-1-2">
 
-				<label for="template_id">Use template</label>
+				<label for="template_id">{{label_use_template}}</label>
 				<select id="template_id" name="template_id">
-					<option value="default" selected="selected">Default (plain)</option>
-					<option value="none">No template (include all markup)</option>
+					<option value="default" selected="selected">{{copy_default}}</option>
+					<option value="none">{{copy_no_template}}</option>
 				</select>
 			</div><!--pure-->
 			
 			<div class="pure-u-1 pure-u-md-1-2">
-				<label for="email_list_id">Send to list</label>
+				<label for="email_list_id">{{label_send_to_list}}</label>
 				<select id="email_list_id" name="email_list_id">
-					<option value="0">None</option>
+					<option value="0">{{copy_none}}</option>
 					{{{options_people_lists}}}
 				</select>
 			</div><!--pure-->
 			<div class="pure-u-1 pure-u-md-1-2">
-				<label for="connection_id">Use mass mailing connection</label>
+				<label for="connection_id">{{label_use_mass}}</label>
 				<select id="connection_id" name="connection_id">
-					<option value="0" selected="selected">None</option>
+					<option value="0" selected="selected">{{copy_none}}</option>
 					{{{connection_options}}}
 				</select>
 			</div><!--pure-->
 
 			<div class="pure-u-1">
-				<label for="html_content">Message <span class="tooltip" data-tooltip="The message will be formatted as HTML using Markdown, and added to a template. You can use HTML and Markdown to control content.">(markdown/html allowed)</span></label>
+				<label for="html_content">{{label_message}}<span class="tooltip" data-tooltip="The message will be formatted as HTML using Markdown, and added to a template. You can use HTML and Markdown to control content.">(markdown/html allowed)</span></label>
 				<textarea rows="3" id="html_content" name="html_content" class="tall"></textarea>
 				<input class="button" type="submit" value="send test email" />
 			</div><!--pure-->
@@ -46,5 +48,5 @@
 {{/connection_options}}
 
 {{^connection_options}}
-	<p>You'll need to add a <a href="{{www_path}}/settings/connections/">mass mailing connection</a> to use this page.</p>
+	<p>{{copy_youll_need}}<a href="{{www_path}}/settings/connections/">{{copy_mass_mailing}}</a>{{copy_to_use}}</p>
 {{/connection_options}}
