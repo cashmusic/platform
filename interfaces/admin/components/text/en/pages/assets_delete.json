@@ -4,5 +4,5 @@
 	"related":{},
 	"labels":{},
 	"tooltips":{},
-	"copy":{}
+	"copy":{"button_delete_it":"Delete it"}
 }

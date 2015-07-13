@@ -1,7 +1,9 @@
+{{! corresponding files: elements_add.php & elements_add.json }}
+
  <div class="storedisplay pure-u-md-1-2">
 		<ul class="list">
 		{{#elements_output}}
-			<li><a class="elementdisplay" name="#{{element_type}}" href="{{www_path}}/elements/add/{{element_type}}">{{element_type_name}}<span>Author:{{element_type_author}}</span><div class="icon icon-circle-plus"></div><!--icon--></a></li>
+			<li><a class="elementdisplay" name="#{{element_type}}" href="{{www_path}}/elements/add/{{element_type}}">{{element_type_name}}<span>{{copy_author}}{{element_type_author}}</span><div class="icon icon-circle-plus"></div><!--icon--></a></li>
 		{{/elements_output}}
 		</ul>
 </div><!--storedisplay-->
@@ -16,8 +18,8 @@
 			<h3>{{element_type_description}}</h3>
 			<p class="longdescription"><span class="altcopystyle">{{element_type_longdescription}}</span></p>
 			<hr />
-			<a class="button" href="{{www_path}}/elements/add/{{element_type}}">Add element</a>
-			<p class="updated">Last updated: {{element_type_updated}}</p>
+			<a class="button" href="{{www_path}}/elements/add/{{element_type}}">{{copy_add_element}}</a>
+			<p class="updated">{{copy_last_updated}}{{element_type_updated}}</p>
 		</div>
 	{{/elements_output}}
 	</div><!--movement-->

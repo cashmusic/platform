@@ -1,0 +1,16 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{},
+	"tooltips":{},
+	"copy":{"searching_for":"Searching for ",
+            "no_search_found":"No search found. Please try again.",
+            "asset":"Asset: Result description",
+            "people":"People: Result description",
+            "order":"Order: ",
+            "nope":"Nope. Nothing found. ",
+            "love_you":"I'm going to level with you. Right now the search pretty much only returns results for orders. Search for a customer email address and you'll find something. Otherwise not so much. We're working on that. Love you!"
+
+}
+}

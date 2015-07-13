@@ -1,3 +1,5 @@
+{{! corresponding files: poeple.php & people.json}}
+
 {{^connection}}
 	<h2 class="firstuse-title">{{{copy_firstuse}}}</h2>
 <div class="callout texture pure-u-1">
@@ -6,15 +8,15 @@
 			<div class="callout-inner">
 				{{#service_has_image}}<h3><a href="{{link}}" target="_blank"><img src="{{www_path}}/assets/images/settings/{{key}}.png" alt="{{name}}"/></a></h3>{{/service_has_image}}
 				<p>{{description}}</p>
-				<a class="button fullwidth lightboxed" href="{{www_path}}/settings/connections/add/{{key}}">Add Connection</a>
+				<a class="button fullwidth lightboxed" href="{{www_path}}/settings/connections/add/{{key}}">{{copy_button_add_connection}}</a>
 			</div><!--callout-inner-->
 		</div><!--pure-->
 	{{/all_services}}
 		<div class="pure-u-1 pure-u-md-1-2">
 			<div class="callout-inner">
 				<h3 class="title logo"><i class="icon icon-logo"></i></h3>
-				<p>I don’t want to add any 3rd-party connections at the moment. I’ll just create a new list on the CASH system.</p>
-				<a class="button fullwidth lightboxed" href="{{www_path}}/people/lists/add/">Create List</a>
+				<p>{{copy_no_third_party}}</p>
+				<a class="button fullwidth lightboxed" href="{{www_path}}/people/lists/add/">{{copy_button_create_list}}</a>
 			</div><!--callout-inner-->
 		</div><!--pure-->
 	</div><!--pure-->
@@ -22,7 +24,7 @@
 
 {{#connection}}
 <header>
-<h4>Mailing Lists</h4>
+<h4>{{copy_mailing_lists}}</h4>
 </header>
 
 	<div class="pure-u-1 {{^mass_connection}}-pure-u-md-2-3{{/mass_connection}}">
@@ -54,12 +56,12 @@
 
 		{{^lists_all}}
 		<div class="empty">
-			<p>No lists have been created. Add one to get started.</p>
+			<p>{{copy_no_lists}}</p>
 		</div><!--empty-->
 		{{/lists_all}}
 
 		<footer>
-		<a class="button lightboxed" href="{{www_path}}/people/lists/add/">Add a new list</a>
+		<a class="button lightboxed" href="{{www_path}}/people/lists/add/">{{copy_button_add_new_list}}</a>
 		
 		</footer>
 	</div><!--pure-->
@@ -72,7 +74,7 @@
 						{{#service_has_image}}<h3><a href="{{link}}" target="_blank"><img src="{{www_path}}/assets/images/settings/{{key}}.png" alt="{{name}}"/></a></h3>{{/service_has_image}}
 						<p>{{description}}</p>
 						<p><a class="fadedtext" href="{{link}}">{{link}}</a></p>
-						<a class="button fullwidth lightboxed" href="{{www_path}}/settings/connections/add/{{key}}">Add Connection</a>
+						<a class="button fullwidth lightboxed" href="{{www_path}}/settings/connections/add/{{key}}">{{copy_button_add_connection}}</a>
 					</div>
 				</aside>
 			</div> -->

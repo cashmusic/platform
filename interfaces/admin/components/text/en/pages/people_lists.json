@@ -2,7 +2,21 @@
 	"pagetip":"",
 	"learn":"",
 	"related":{},
-	"labels":{},
+	"labels":{"name":"Name",
+               "connect":"Connect To"
+
+   },
 	"tooltips":{},
-	"copy":{}
+	"copy":{"add_new_list":"Add A New List",
+            "none":"None (local list only)",
+            "description":"Description",
+            "add_new_list_2":"Add new list",
+            "your_lists":"Your Lists",
+            "view":"View",
+            "edit":"Edit",
+            "export":"Export",
+            "delete":"Delete",
+            "no_lists":"No lists have been created."
+
+}
 }

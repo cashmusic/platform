@@ -4,5 +4,15 @@
 	"related":{},
 	"labels":{},
 	"tooltips":{},
-	"copy":{}
+	"copy":{"page_templates":"Page templates",
+            "page_templates_details":"Page templates are used to publish a page directly from your CASH account. You'll see more options on your account's main page.",
+            "details":"Details",
+            "no_templates":"No page templates found.",
+            "embed_templates":"Embed templates",
+            "embed_templates_details":"Embed templates are used to style HTML5 embeds for your elements. You'll be able to choose a template on the element details page.",
+            "delete":" Delete",
+            "no_embed_templates":"No embed templates found."
+
+
+}
 }

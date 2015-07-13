@@ -1,13 +1,15 @@
+{{! corresponding files: settings_update.php & settings_update.json }}
+
 <p>
-	<strong>Current platform version:</strong> {{platform_version}}<br />
-	<strong>Upgrade available:</strong> 
-		{{^upgrade_available}}No{{/upgrade_available}}
-		{{#upgrade_available}}Yes{{/upgrade_available}}
+	<strong>{{copy_version}}</strong> {{platform_version}}<br />
+	<strong>{{copy_upgrade}}</strong> 
+		{{^upgrade_available}}{{copy_no}}{{/upgrade_available}}
+		{{#upgrade_available}}{{copy_yes}}{{/upgrade_available}}
 </p>
 
 {{#upgrade_available}}
 	<form accept-charset="UTF-8" method="post" action="" name="add_event">
 		<input type="hidden" name="doupgrade" value="makeitso" />
-		<button type="submit"><div class="icon icon-rocket"></div><!--icon-->Launch the system update tool</button>
+		<button type="submit"><div class="icon icon-rocket"></div><!--icon-->{{copy_launch}}</button>
 	</form>
 {{/upgrade_available}}

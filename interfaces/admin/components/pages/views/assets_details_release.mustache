@@ -1,10 +1,12 @@
+{{! corresponding files: assets_edit.php & assets_edit.json }}
+
 <form accept-charset="UTF-8" method="post" action="" id="add-release-form">
 	<fieldset class="pure-u-1">
 		<input type="hidden" name="doassetedit" value="makeitso" />
 		<input type="hidden" name="asset_type" value="release" />
 		<header>
 		<a class="returnlink current" href="{{www_path}}/assets/"><div class="icon icon-arw-dwn"></div><!--icon--></a>
-		<h4 class="secondary-title">&ldquo;{{title}}&rdquo;<span class="release-artistname">{{#metadata_artist_name}}by {{metadata_artist_name}}{{/metadata_artist_name}}</span></h4>
+		<h4 class="secondary-title">&ldquo;{{title}}&rdquo;<span class="release-artistname">{{#metadata_artist_name}}{{copy_by}} {{metadata_artist_name}}{{/metadata_artist_name}}</span></h4>
 		</header>
 		<div class="release">
 			<div class="pure-u-1 pure-u-md-1-3">
@@ -15,47 +17,47 @@
 				<div class="release-cover " style="background-image:url({{cover_url}});">
 					<div class="release-cover-options">
 						{{#cover_asset_id}}
-							<a href="{{www_path}}/assets/edit/{{cover_asset_id}}" class="smalltext"><span class="editcover"><div class="icon icon-camera"></div><!--icon--><strong>Add/edit cover</strong></span></a>
+							<a href="{{www_path}}/assets/edit/{{cover_asset_id}}" class="smalltext"><span class="editcover"><div class="icon icon-camera"></div><!--icon--><strong>{{copy_add_edit_cover}}</strong></span></a>
 						{{/cover_asset_id}}
 						{{^cover_asset_id}}
-							<a href="{{www_path}}/assets/add/file/setparent/{{id}}/setmetadata/cover" class="lightboxed returntocurrentroute smalltext"><span class="editcover"><div class="icon icon-camera"></div><!--icon--><strong>Add/edit cover</strong></span></a>
+							<a href="{{www_path}}/assets/add/file/setparent/{{id}}/setmetadata/cover" class="lightboxed returntocurrentroute smalltext"><span class="editcover"><div class="icon icon-camera"></div><!--icon--><strong>{{copy_add_edit_cover}}</strong></span></a>
 						{{/cover_asset_id}}
 					</div><!--release-cover-options-->
 				</div><!--release-cover-->
 
 				<input type="hidden" id="metadata_cover" name="metadata_cover" value="{{cover_asset_id}}" />
 				<!--div class="track-list">
-					<h5>Track List</h5>
+					<h5>{{copy_track_list}}</h5>
 					<ol class="alternating">
-						<li>Track Title</li>
-						<li>Track Title</li>
-						<li>Track Title</li>
-						<li>Track Title</li>
-						<li>Track Title</li>
+						<li>{{copy_track_title}}</li>
+						<li>{{copy_track_title}}</li>
+						<li>{{copy_track_title}}</li>
+						<li>{{copy_track_title}}</li>
+						<li>{{copy_track_title}}</li>
 					</ol>
-					<a href="#" class="add-track"><i class="icon icon-plus-sign"></i>Add Track</a>
+					<a href="#" class="add-track"><i class="icon icon-plus-sign"></i>{{copy_add_track}}</a>
 				</div-->
 			</div><!--pure-->
 			<div class="release-general-info pure-u-1 pure-u-md-2-3">
 					<div class="pure-u-1">
-					<label>Release Title</label><input type="text" id="asset_title" name="asset_title" value="{{title}}" placeholder="Give It A Name" class="required" />
+					<label>{{label_release_title}}</label><input type="text" id="asset_title" name="asset_title" value="{{title}}" placeholder="Give It A Name" class="required" />
 					</div><!--pure-->
 					<div class="pure-u-1">
-					<label>Artist Name</label> <input type="text" id="artist_name" name="artist_name" value="{{metadata_artist_name}}" placeholder="The Who" />
+					<label>{{label_artist_name}}</label> <input type="text" id="artist_name" name="artist_name" value="{{metadata_artist_name}}" placeholder="The Who" />
 					</div><!--pure-->
 					<div class="pure-u-1 pure-u-md-1-2">
-						<label class="col_oneoftwo">Release Date</label><input type="text" id="release_date" name="release_date" class="date" placeholder="mm/dd/yyyy" value="{{metadata_release_date}}" />
+						<label class="col_oneoftwo">{{label_release_date}}</label><input type="text" id="release_date" name="release_date" class="date" placeholder="mm/dd/yyyy" value="{{metadata_release_date}}" />
 					</div><!--pure-->
 					<div class="pure-u-1 pure-u-md-1-2">
-						<label class="col_oneoftwo lastcol">Matrix/Catalog Number</label><input type="text" id="matrix_number" name="matrix_number" value="{{metadata_matrix_number}}" />
+						<label class="col_oneoftwo lastcol">{{label_matrix_catalog_number}}</label><input type="text" id="matrix_number" name="matrix_number" value="{{metadata_matrix_number}}" />
 					</div><!--pure-->
 			</div><!--release-general-info-->
 		</div><!--release-->
 
 
 					<div class="fulfillment-files pure-u-1">
-						<div class="pure-u-1 pure-u-md-2-3"><p class="attachment"><i class="icon icon-paperclip"></i><!--icon-->Attached fulfillment files</p></div><!--pure-->
-						<div class="pure-u-1 pure-u-md-1-3"><a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/fulfillment" class="add-fulfillment-file lightboxed returntocurrentroute button right">Attach A File</a>
+						<div class="pure-u-1 pure-u-md-2-3"><p class="attachment"><i class="icon icon-paperclip"></i><!--icon-->{{copy_attached_fulfillment_files}}</p></div><!--pure-->
+						<div class="pure-u-1 pure-u-md-1-3"><a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/fulfillment" class="add-fulfillment-file lightboxed returntocurrentroute button right">{{copy_attach_a_file}}</a>
 						<input type="hidden" id="metadata_fulfillment" name="metadata_fulfillment" value="{{metadata_fulfillment_json}}" />
 						</div><!--pure-->
 						{{#fulfillment_files}}
@@ -69,8 +71,8 @@
 								<div class="toggle"></div><!--toggle-->
 								<div class="actions">
 									<div class="action-inner">
-										<a href="{{www_path}}/assets/edit/{{id}}" class="mininav_flush"><div class="icon icon-pencil"></div><!--icon-->Edit</a>
-										<a href="{{www_path}}/assets/delete/{{id}}" class="mininav_flush needsconfirmation"><div class="icon icon-ban"></div><!--icon-->Delete</a>
+										<a href="{{www_path}}/assets/edit/{{id}}" class="mininav_flush"><div class="icon icon-pencil"></div><!--icon-->{{copy_edit_button}}</a>
+										<a href="{{www_path}}/assets/delete/{{id}}" class="mininav_flush needsconfirmation"><div class="icon icon-ban"></div><!--icon-->{{copy_delete_button}}</a>
 									</div><!--action-inner-->
 								</div><!--actions-->
 							</div><!--more-->
@@ -81,7 +83,7 @@
 						</div><!--pure-->
 						{{/fulfillment_files}}
 						{{^fulfillment_files}}
-						<div class="empty pure-u-1"><p class="fadedtext">No files have been added for fulfillment yet.</p></div><!--pure-->
+						<div class="empty pure-u-1"><p class="fadedtext">{{copy_no_files_yet}}</p></div><!--pure-->
 						{{/fulfillment_files}}
 					</div><!--fullfillment-files-->
 	</fieldset>
@@ -172,34 +174,34 @@
 	</div> pure-->
 
 <div class="pure-u-1">
-<button class="nojs" type="submit">Save changes</button>
-<button class="onlyjs externalsubmit" data-cash-target-form="#edit-file-form" type="submit">Save changes</button>
-<a href="{{www_path}}/assets/delete/{{id}}" class="button usecolor2 needsconfirmation">Delete this release</a>
+<button class="nojs" type="submit">{{copy_button_save_changes}}</button>
+<button class="onlyjs externalsubmit" data-cash-target-form="#edit-file-form" type="submit">{{copy_button_save_changes}}</button>
+<a href="{{www_path}}/assets/delete/{{id}}" class="button usecolor2 needsconfirmation">{{copy_button_delete_release}}</a>
 </div><!--pure-->
 </form><!--add-release-form-->
 
 <div class="drawer prefpanel pure-u-1">
 <div class="itemnav pure-u-1">
-	<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>Asset Settings</span></h4>
+	<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>{{copy_asset_settings}}</span></h4>
 	<div class="drawercontent">
 	<div class="pure-u-1 pure-u-md-1-2">
 		<div class="pref-inner">
-				<h5><div class="icon icon-dwnld"></div><!--icon--> Export or create download codes</h5>
+				<h5><div class="icon icon-dwnld"></div><!--icon-->{{copy_download_codes}}</h5>
 				<p>
 				{{#asset_codes_count}}
-					<span>There are {{asset_codes_count}} codes for this asset. <a class="usecolor2 noajax" href="{{www_path}}/assets/edit/{{id}}?exportcodes=1"><b>Export them!</b></a></span>
+					<span>{{copy_there_are}}{{asset_codes_count}}{{copy_codes_for_this_asset}}<a class="usecolor2 noajax" href="{{www_path}}/assets/edit/{{id}}?exportcodes=1"><b>{{copy_export_them}}</b></a></span>
 				{{/asset_codes_count}}
 				{{^asset_codes_count}}
-					<span>There are no download codes for this asset.</span>
+					<span>{{copy_no_download_codes}}</span>
 				{{/asset_codes_count}}
 				</p>
 				<form id="export-dwnld-codes" accept-charset="UTF-8" method="post" action="{{www_path}}/assets/edit/{{id}}">
-					<div class="pure-u-1"><label for="add_codes_qty">Add (qty) more codes:</label></div><!--label-->
+					<div class="pure-u-1"><label for="add_codes_qty">{{label_add_more_codes}}</label></div><!--label-->
 					<div class="pure-u-1 pure-u-md-12-24">
 						<input class="" type="text" name="add_codes_qty" id="add_codes_qty" value="500" />
 					</div><!--pure-->
 					<div class="pure-u-1 pure-u-md-12-24">
-						<button class="right" type="submit"><div class="icon icon-list"></div><!--icon--> add codes</button>
+						<button class="right" type="submit"><div class="icon icon-list"></div><!--icon-->{{copy_add_codes}}</button>
 					</div><!--pure-->
 				</form>
 		
@@ -207,9 +209,9 @@
 	</div><!--pure-->
 	<div class="pure-u-1 pure-u-md-1-2">
 		<div class="pref-inner">
-			<h5><div class="icon icon-card"></div><!--icon--> Ready to sell?</h5>
-			<p>Add this release to your commerce inventory if you would like to sell it.</p>
-			<a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="button fullwidth lightboxed returntocurrentroute">Add to inventory</a>
+			<h5><div class="icon icon-card"></div><!--icon-->{{copy_ready_to_sell}}</h5>
+			<p>{{copy_add_release_if_sell}}</p>
+			<a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="button fullwidth lightboxed returntocurrentroute">{{copy_add_to_inventory}}</a>
 		</div><!--pref-inner-->
 	</div><!--pure-->
 	</div><!--drawercontent-->
