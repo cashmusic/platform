@@ -1,5 +1,7 @@
+{{! corresponding files: campaigns_archive.php & campaigns_archive.json }}
+
 <header>
-		<a class="returnlink current" href="{{www_path}}/"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">Elements Archive</h4>
+		<a class="returnlink current" href="{{www_path}}/"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">{{copy_elements_archive}}</h4>
 </header>
 
 
@@ -13,7 +15,7 @@
 				<div class="more"><div class="toggle"></div><!--toggle-->
 				<div class="actions">
 				<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><div class="icon icon-pencil"></div><!--icon-->Edit</a>
-				<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation delete"><div class="icon icon-ban"></div><!--icon--> Delete</a></div><!--actions-->
+				<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation delete"><div class="icon icon-ban"></div><!--icon-->{{copy_delete}}</a></div><!--actions-->
 				</div><!--more-->
 			</li>
 			{{/elements_for_campaign}}
@@ -23,11 +25,11 @@
 		{{^isarchive}}
 			<div class="pure-u-1 pure-u-md-1-2">
 			{{^elements_for_campaign}}
-			<p>No elements have been added yet.</p>
+			<p>{{copy_no_elements_yet}}</p>
 			{{/elements_for_campaign}}
 			</div><!--pure-->
 			<div class="pure-u-1">
-			<a href="{{www_path}}/elements/add/" class="button lightboxed store">Add an element</a>
+			<a href="{{www_path}}/elements/add/" class="button lightboxed store">{{copy_button_add_an_element}}</a>
 			</div><!--pure-->
 		{{/isarchive}}
 </div><!--pure-->

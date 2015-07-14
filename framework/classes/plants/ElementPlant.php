@@ -328,7 +328,7 @@ class ElementPlant extends PlantBase {
 					'access_method' => $access_method,
 					'access_location' => $location,
 					'access_action' => $access_action,
-					'access_data' => $access_data,
+					'access_data' => json_encode($access_data),
 					'access_time' => time(),
 					'client_ip' => $ip_and_proxy['ip'],
 					'client_proxy' => $ip_and_proxy['proxy'],
@@ -349,6 +349,13 @@ class ElementPlant extends PlantBase {
 				'*',
 				$condition
 			);
+			$short_geo = false;
+			if (is_array($access_data)) {
+				if (isset($access_data['geo'])) {
+					$short_geo = $access_data['geo']['city'] . ', ' . $access_data['geo']['region'] . ' / ' . $access_data['geo']['countrycode'];
+				}
+			}
+			error_log('geo: '.$short_geo);
 			if (is_array($current_result)) {
 				$new_total = $current_result[0]['total'] +1;
 				$data      = json_decode($current_result[0]['data'],true);
@@ -362,14 +369,22 @@ class ElementPlant extends PlantBase {
 				} else {
 					$data['methods'][$access_method] = 1;
 				}
+				if (isset($data['geo'][$short_geo])) {
+					$data['geo'][$short_geo] = $data['geo'][$short_geo] + 1;
+				} else {
+					$data['geo'][$short_geo] = 1;
+				}
 			} else {
 				$new_total = 1;
 				$data      = array(
-					'locations' => array(
+					'locations'  => array(
 						$location => 1
 					),
-					'methods'   => array(
+					'methods'    => array(
 						$access_method => 1
+					),
+					'geo'        => array(
+						$short_geo => 1
 					)
 				);
 				$condition = false;
@@ -444,7 +459,7 @@ class ElementPlant extends PlantBase {
 		}
 	}
 
-	protected function getElementMarkup($id,$status_uid,$original_request=false,$original_response=false,$access_method='direct',$location=false) {
+	protected function getElementMarkup($id,$status_uid,$original_request=false,$original_response=false,$access_method='direct',$location=false,$geo=false) {
 		$element = $this->getElement($id);
 		$element_type = $element['type'];
 		$element_options = $element['options'];
@@ -454,7 +469,14 @@ class ElementPlant extends PlantBase {
 				include_once($for_include);
 				$element_object_type = substr_replace($this->elements_array[$element_type], '', -4);
 				$element_object = new $element_object_type($id,$element,$status_uid,$original_request,$original_response);
-				$this->recordAnalytics($id,$access_method,'getmarkup',$location);
+				if ($geo) {
+					$access_data = array(
+						'geo' => json_decode($geo,true)
+					);
+				} else {
+					$access_data = false;
+				}
+				$this->recordAnalytics($id,$access_method,'getmarkup',$location,$access_data);
 				$markup = $element_object->getMarkup();
 				$markup = '<div class="cashmusic element ' . $element_type . ' id-' . $id . '">' . $markup . '</div>';
 				return $markup;

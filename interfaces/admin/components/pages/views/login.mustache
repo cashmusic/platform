@@ -1,3 +1,5 @@
+{{! corresponding files: login.php & login.json }}
+
 <script type="text/javascript">
 $(document.body).addClass('login');
 </script>
@@ -6,11 +8,11 @@ $(document.body).addClass('login');
 	<form method="post" id="cash_signin_form" action="{{www_path}}/">
 
 		<div class="pure-u-1">
-			<label for="address">Email address</label>
+			<label for="address">{{label_email}}</label>
 			<input type="email" name="address" value="" />
 		</div><!--pure-->
 		<div class="pure-u-1">
-			<label for="password">Password</label>
+			<label for="password">{{label_password}}</label>
 			<input type="password" name="password" value="" />
 			<input type="hidden" name="login" value="1" />
 		</div><!--pure-->
@@ -19,12 +21,12 @@ $(document.body).addClass('login');
 		</div><!--pure-->
 
 		<div class="pure-u-1">
-			<a href="{{www_path}}/resetpassword/" id="forgotlink" class="lightboxed">Forgot your password?</a>
+			<a href="{{www_path}}/resetpassword/" id="forgotlink" class="lightboxed">{{copy_forgot_pass}}</a>
 		</div><!--pure-->
 		{{#allow_signups}}
 <div class="signup">
 	<div class="pure-u-1">
-		<p>No account? <a href="{{www_path}}/signup/" id="signupbtn" class="lightboxed">Sign up.</a> An account is free, now and forever. Sign up to get started.</p>
+		<p>{{copy_no_account}}<a href="{{www_path}}/signup/" id="signupbtn" class="lightboxed">{{copy_sign_up}}</a>{{copy_its_free}}</p>
 	</div><!--pure-->
 </div><!--signup-->
 {{/allow_signups}}

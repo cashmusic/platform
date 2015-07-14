@@ -11,18 +11,32 @@
 	background:#000;
 	background:rgba(0,0,0,0.9);
 	color:#f5f5f5;
-	padding:2%;
-	width:96%;
+	padding:10px;
+	width:100%;
 }
 
-.cash_comments{
-	color:#444;
+.singlepurchase .cash_singlepurchase_itemprice, .cash_notation, .cash_comments, .singlepurchase .cash_singlepurchase_itemdescription{
+	color:#999;
 }
 
-.singlepurchase .cash_singlepurchase_itemprice, .cash_notation {
-	color:#777;
+input{
+	border: solid 1px #222;
+	background:#232323;
 }
 
+/* Tour Dates */
+
+.tourdates .cash_event{
+	border: solid 1px #333;
+}
+
+.tourdates .cash_event:nth-child(odd){
+	background: rgba(34,34,34,0.5);
+}
+
+.tourdates .cash_event:nth-child(even){
+	background: rgba(34,34,34,1);
+}
 
 /* Social Feeds */
 
@@ -30,6 +44,7 @@
 	background: #222;
   	background: rgba(17,17,17,0.9);
 	color:#f5f5f5;
+	border:solid 1px #333;
 }
 
 .cm-social-feed .cm-platform{
@@ -53,8 +68,4 @@
 
 .cm-social-feed .cm-twitter .cm-username:hover{
 	border-color:#fff;
-}
-
-/* -- Mid Size + Above / Vertical Tablet -- */
-@media screen and (min-width: 535px){
 }

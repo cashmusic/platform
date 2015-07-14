@@ -1,22 +1,24 @@
+{{! corresponding files: calendar.php & calendar.json}}
+
 	<div class="pure-u-1 pure-u-md-1-2">
 		<header>
-		<h4>Add an event</h4>
+		<h4>{{copy_add_an_event}}</h4>
 		</header>
 		<form accept-charset="UTF-8" method="post" action="{{www_path}}/calendar/events/add/" name="add_event">
 			<input type="hidden" name="doeventadd" value="makeitso" />
 
-			<label for="event_date">Date</label>
+			<label for="event_date">{{label_date}}</label>
 			<input type="text" id="event_date" name="event_date" class="required date" placeholder="mm/dd/yyyy" value="" />
 
-			<label for="event_venue_name">Venue</label>
+			<label for="event_venue_name">{{label_venue}}</label>
 			<input type="text" id="event_venue_name" name="event_venue_name" value="{{event_venue_name}}" placeholder="Start typing to search venues" class="required autocomplete" data-cash-endpoint-url="{{{www_path}}}/ajax/autocomplete/venues" />
 			<input type="hidden" id="event_venue" name="event_venue" value="" />
-			<small class="fadedtext">Can't find the venue you're looking for? <a href="{{www_path}}/calendar/venues/add/" class="add-fulfillment-file lightboxed returntocurrentroute usecolor5">Add a new venue</a></small>
+			<small class="fadedtext">{{copy_cant_find_venue}} <a href="{{www_path}}/calendar/venues/add/" class="add-fulfillment-file lightboxed returntocurrentroute usecolor5">{{copy_add_new_venue}}</a></small>
 
-			<label for="event_comment">Comments (Support, CD Release, etc)</label>
+			<label for="event_comment">{{label_comments}}</label>
 			<textarea rows="3" id="event_comment" name="event_comment"></textarea>
 
-			<label for="event_purchase_url">Ticket Purchase URL</label>
+			<label for="event_purchase_url">{{label_ticket_purchase_url}}</label>
 			<input type="text" id="event_purchase_url" name="event_purchase_url" value="" placeholder="Ticket Link URL" />
 
 			<div class="pure-u-1"><input type='checkbox' class='checkorradio' id="event_ispublished" name='event_ispublished' value='' checked='checked' /><label class="checklabel" for="event_ispublished">Published?</label><input type='checkbox' class='checkorradio' id="event_iscancelled" name='event_iscancelled' value='' /><label class="checklabel" for="event_iscancelled">Cancelled?</label> </div><!--pure-->
@@ -27,7 +29,7 @@
 
 	<div class="pure-u-1 pure-u-md-1-2">
 		<header>
-		<h4>This week at a glance</h4>
+		<h4>{{copy_this_week}}</h4>
 		</header>
 		{{#events_thisweek}}
 		<ul class="alternating">
@@ -38,7 +40,7 @@
 				<div class="more"><div class="toggle"></div><!--toggle-->
 					<div class="actions">
 						<div class="action-inner">
-							<a href="{{www_path}}/calendar/events/edit/{{event_id}}" class="mininav_flush"><div class="icon icon-search"></div><!--icon-->Details</a>
+							<a href="{{www_path}}/calendar/events/edit/{{event_id}}" class="mininav_flush"><div class="icon icon-search"></div><!--icon-->{{copy_details}}</a>
 						</div><!--action-inner-->
 					</div><!--actions-->
 				</div><!--more-->
@@ -49,11 +51,11 @@
 
 		{{^events_thisweek}}
 		<div class="empty">
-		<p>No upcoming events for the next week were found.</p>
+		<p>{{copy_no_upcoming_events}}</p>
 		</div><!--empty-->
 		{{/events_thisweek}}
 
-		<h4>Unpublished events</h4>
+		<h4>{{copy_unpublished_events}}</h4>
 		{{#events_unpublished}}
 		<ul class="alternating">
 			{{#events_unpublished}}
@@ -75,7 +77,7 @@
 
 		{{^events_unpublished}}
 		<div class="empty">
-		<p>No unpublished events were found.</p>
+		<p>{{copy_no_unpublished_events}}</p>
 		</div><!--empty-->
 		{{/events_unpublished}}
 	</div><!--pure-->

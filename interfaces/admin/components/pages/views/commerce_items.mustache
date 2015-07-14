@@ -1,5 +1,7 @@
+{{! corresponding files: commerce_items.php & commerce_items.json }}
+
 	<header>
-	<h4>Inventory</h4>
+	<h4>{{_inventory}}</h4>
 	</header>
 	<div class="pure-u-1 pure-u-md-2-3">
 		{{#items_all}}
@@ -41,27 +43,27 @@
 			</li>
 			{{/items_all}}
 		</ul>
-		<a href="{{www_path}}/commerce/items/add" class="button lightboxed">Add an item</a>
+		<a href="{{www_path}}/commerce/items/add" class="button lightboxed">{{copy_button_add_item}}</a>
 		{{/items_all}}
 
 		{{^items_all}}
 		<div class="empty">
-			<p>No items have been created. Add one to get started.</p>
+			<p>{{copy_no_items}}</p>
 		</div><!--empty-->
 		{{/items_all}}
 
 		{{#show_pagination}}	
 			<footer>
 				
-				<div class="left pagination"><a class="prev" href="/">Previous</a><span>/</span><a class="next active" href="/">Next</a></div><!--pagination-->
+				<div class="left pagination"><a class="prev" href="/">{{copy_previous}}</a><span>/</span><a class="next active" href="/">{{copy_next}}</a></div><!--pagination-->
 			</footer>
 		{{/show_pagination}}
 	</div><!--pure-->
 	<div class="pure-u-1 pure-u-md-1-3">
-	<h3 class="side-title">Inventory Items</h3>
-	<p>Inventory items need to be added for anything you plan to sell.</p>
-	<p>An item can be connected to a release or an uploaded file as a fulfillment asset for download.</p>
-	<a href="{{www_path}}/commerce/items/add" class="button fullwidth lightboxed">Add an item</a>
+	<h3 class="side-title">{{copy_inventory_items}}</h3>
+	<p>{{copy_inventory_items_needed}}</p>
+	<p>{{copy_an_item_can_be}}</p>
+	<a href="{{www_path}}/commerce/items/add" class="button fullwidth lightboxed">{{copy_button_add_item}}</a>
 	</div><!--pure-->
 
 

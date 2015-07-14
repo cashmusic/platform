@@ -5,7 +5,44 @@
 		"cashmusic.org":"http://cashmusic.org/",
 		"CASH help/support site":"http://help.cashmusic.org/"
 	},
-	"labels":{},
+	"labels":{"selected_campaign":"Selected Campaign:"
+
+   },
 	"tooltips":{},
-	"copy":{}
+	"copy":{"total_campaign_views":"Total Campaign Views",
+   "page_theme":"Page theme",
+   "edit":"Edit",
+   "delete":"Delete",
+   "associated_elements":"Associated Elements",
+   "element_add":"Add",
+   "add_element_to_start":"Add an element to start",
+   "time_to_add_campaign":"Hey! Now it’s time to add a campaign. Campaigns are there to help you organize your digital workflow. You can add or edit elements here as well as keep track of how they are doing.",
+   "add_campaign":"Add a Campaign",
+   "there_are_archived_elements":"There are archived elements. ",
+   "view_archive":"View archive.",
+   "public_page":"Your public page is live at:",
+   "change_username":"Change Username",
+   "public_not_live":"Your public page is not live yet.",
+   "select_campaign":"Select which campaign you want to publish from the dropdown below.",
+   "hello_new":"Hello, it looks like you’re new here. Thanks for signing up and kicking our tires.",
+   "how_platform_works_1":"The platform works with your own storage, payment, and mailing list accounts. To add connections to your services, open the ",
+   "how_platform_works_2":"settings menu",
+   "how_platform_works_3":", click 'Connections,' and choose the type of account you'd like to connect. ",
+   "ok_got_it":"Okay, Got it!",
+   "publish_settings":"Publish Settings",
+   "publish_a_campaign":"Publish a campaign",
+   "publish_campaign_info":"Publishing a campaign sets it live as your public page, using the theme you've set above.",
+   "published":"Published:",
+   "unpublish_all":"None (Unpublish all)",
+   "embed_element":"Embed an element",
+   "embed_info_1":"If you don’t want to publish a page you can embed any element from your campaign anywhere on the web. Simply click the quick embed icon ",
+   "embed_info_2":"on the element above.",
+   "no_elements":"No Elements have been created. Click the +Add button in the campaign window above to create and embed elements on the platform.",
+   "no_campaign":"No Campaign",
+   "no_elements_add_campaign_1":"No Elements have been created. You must ",
+   "no_elements_add_campaign_2":"add a campaign",
+   "no_elements_add_campaign_3":" before you can create and embed elements on the platform."
+
+
+}
 }

@@ -1,9 +1,11 @@
+{{! corresponding files: elements_add.php & elements_add.json }}
+
 {{#all_requirements}}
 	{{{element_rendered_content}}}
 {{/all_requirements}}
 {{^all_requirements}}
 	<div class="gallery elementinstructions">
-		<h5>Learn More</h5>
+		<h5>{{copy_learn_more}}</h5>
 		<p class="big">{{copy_longdescription}}</p>
 	</div>
 		<div class="elementform">

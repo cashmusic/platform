@@ -6,29 +6,19 @@
  ***************************************************/
 
 #mainspc{
-	background:#e0e0e0;
-	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
-	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZTBlMGUwIiBzdG9wLW9wYWNpdHk9IjAuOTUiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2VlZWVlZSIgc3RvcC1vcGFjaXR5PSIwLjk1Ii8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
-	background: -moz-linear-gradient(-45deg,  rgba(224,224,224,0.95) 0%, rgba(238,238,238,0.95) 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(224,224,224,0.95)), color-stop(100%,rgba(238,238,238,0.95))); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(-45deg,  rgba(224,224,224,0.95) 0%,rgba(238,238,238,0.95) 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(-45deg,  rgba(224,224,224,0.95) 0%,rgba(238,238,238,0.95) 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(-45deg,  rgba(224,224,224,0.95) 0%,rgba(238,238,238,0.95) 100%); /* IE10+ */
-	background: linear-gradient(135deg,  rgba(224,224,224,0.95) 0%,rgba(238,238,238,0.95) 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2e0e0e0', endColorstr='#f2eeeeee',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
+	background:rgba(237,237,237,0.9);
 	color:#222;
-	padding:2%;
-	width:96%;
 }
 
 input{
 	background:#f5f5f5;
 	background:rgba(245,245,245,0.9);
 	color:#222;
+	border:solid 1px #ccc;
 }
 
-::-webkit-input-placeholder{color:#222;}
-placeholder{color:#222;}
+::-webkit-input-placeholder{color:#4d4d4d;}
+placeholder{color:#4d4d4d;}
 
 
 input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, textarea:focus{
@@ -39,15 +29,8 @@ input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, tex
 input:focus::-webkit-input-placeholder{color:#111;}
 input:focus placeholder{color:#111;}
 
-
-input[type=submit], .button{
-	background:#00cf7f;
+.singlepurchase .cash_singlepurchase_itemprice, .cash_notation, .cash_comments, .singlepurchase .cash_singlepurchase_itemdescription{
 	color:#222;
-}
-
-input[type=submit]:hover, .button:hover{
- 	background:#000;
-	color:#fff;
 }
 
 /* Single Purchase */
@@ -55,11 +38,16 @@ input[type=submit]:hover, .button:hover{
 	color:#222;
 }
 
-.singlepurchase .cash_singlepurchase_currency{
-	color:rgba(51,51,51,0.6);
+.singlepurchase .cash_singlepurchase_currency, .cash_singlepurchase_flexible_price input{
+	color:#4d4d4d;
+
 }
 
 /* Tour Dates */
+
+.tourdates .cash_event{
+	border: solid 1px #ccc;
+}
 
 .tourdates .cash_event:nth-child(odd){
 	background:#eee;
@@ -73,16 +61,13 @@ input[type=submit]:hover, .button:hover{
 	color:#222;
 }
 
-.cash_comments{
-	color:#cacaca;
-}
-
 /* Social Feeds */
 
 .cm-social-feed{
 	background: #e0e0e0;
   	background: rgba(224,224,224,0.9);
 	color:#222;
+	border: solid 1px #ccc;
 }
 
 .cm-social-feed .cm-platform{
@@ -105,13 +90,4 @@ input[type=submit]:hover, .button:hover{
 
 .cm-social-feed .cm-twitter .cm-username:hover{
 	border-color:#000;
-}
-
-/* -- Mid Size + Above / Vertical Tablet -- */
-@media screen and (min-width: 535px){
-	
-	#mainspc{
-		padding:2%;
-		width:96%;
-	}
 }

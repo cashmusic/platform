@@ -1,10 +1,12 @@
+{{! corresponding files: campaigns_add.php & campaigns_add.json }}
+
 <div class="pure-u-1">
 	<form accept-charset="UTF-8" method="post" action="{{www_path}}{{requested_route}}">
 		<input type="hidden" name="{{form_state_action}}" value="makeitso" />
-		<label for="campaign_title">Name</label>
+		<label for="campaign_title">{{label_name}}</label>
 		<input class="required" type="text" id="campaign_title" name="campaign_title" value="{{title}}" />
 
-		<label for="list_description">Description</label>
+		<label for="list_description">{{label_description}}</label>
 		<textarea rows="3" id="campaign_description" name="campaign_description">{{description}}</textarea>
 
 		<button type="submit">{{button_text}}</button>

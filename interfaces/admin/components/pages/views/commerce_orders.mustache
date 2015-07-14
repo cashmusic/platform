@@ -1,9 +1,11 @@
-{{#all_order_details}}
-	<h4>Export orders</h4>
-	<a href="{{www_path}}/commerce/orders/export/unfulfilled" class="button noajax">Export recent orders</a>
-	<a href="{{www_path}}/commerce/orders/export/" class="button noajax">Export all orders</a>
+{{! corresponding files: commerce_orders.php & commerce_orders.json }}
 
-	<h4>All completed orders</h4>
+{{#all_order_details}}
+	<h4>{{copy_export_orders}}</h4>
+	<a href="{{www_path}}/commerce/orders/export/unfulfilled" class="button noajax">{{copy_export_recent}}</a>
+	<a href="{{www_path}}/commerce/orders/export/" class="button noajax">{{copy_export_all}}</a>
+
+	<h4>{{copy_all_completed}}</h4>
 	<table style="width:100%;" class="responsive">
 		<colgroup style="width:10%;" />
 		<colgroup style="width:13%;" />
@@ -13,12 +15,12 @@
 		<colgroup style="width:8%;" />
 		<thead>
 			<tr>
-				<th scope="col">Order #</th>
-				<th scope="col">Date</th>
-				<th scope="col">Customer</th>
-				<th scope="col">Items</th>
-				<th scope="col" style="text-align:right;">Gross</th>
-				<th scope="col" style="text-align:right;">Net</th>
+				<th scope="col">{{copy_order_num}}</th>
+				<th scope="col">{{copy_date}}</th>
+				<th scope="col">{{copy_customer}}</th>
+				<th scope="col">{{copy_items}}</th>
+				<th scope="col" style="text-align:right;">{{copy_gross}}</th>
+				<th scope="col" style="text-align:right;">{{copy_net}}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -38,6 +40,6 @@
 	</table>
 {{/all_order_details}}
 {{^all_order_details}}
-	<h4>Sorry, no completed orders</h4>
-	<p>There are no completed orders right now.</p>
+	<h4>{{copy_no_orders}}</h4>
+	<p>{{copy_no_orders_2}}</p>
 {{/all_order_details}}
