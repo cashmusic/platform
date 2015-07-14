@@ -106,6 +106,8 @@
 				if (cm.embedded) {
 					cm.loaded = Date.now(); // ready and loaded
 					cm._drawQueuedEmbeds();
+					// tell em
+					cm.events.fire(cm,'ready',cm.loaded);
 				} else {
 					// create overlay stuff first
 					cm.overlay.create();
@@ -120,6 +122,8 @@
 							cm._drawQueuedEmbeds();
 							// and since we're ready kill the loops
 							clearInterval(i);
+							// tell em
+							cm.events.fire(cm,'ready',cm.loaded);
 						}
 					}, 100);
 				}
@@ -976,7 +980,6 @@
 							"important":important
 						});
 					} else {
-						el = cm.styles.resolveElement(el);
 						var head = document.getElementsByTagName('head')[0] || document.documentElement;
 						if (css.substr(0,4) == 'http') {
 							// if css starts with "http" treat it as an external stylesheet

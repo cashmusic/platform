@@ -121,6 +121,10 @@ class Store extends ElementBase {
 			} else {
 				$this->element_data['error_message'] = 'Make sure you enter a price of at least ' . $this->element_data['currency'] . $item['price'] . ' and try again.';
 			}
+		} elseif (isset($_REQUEST['state'])) {
+			if ($_REQUEST['state'] == 'cart') {
+				$this->setTemplate('cart');
+			}
 		}
 		return $this->element_data;
 	}
