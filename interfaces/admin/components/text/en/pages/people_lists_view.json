@@ -4,5 +4,19 @@
 	"related":{},
 	"labels":{},
 	"tooltips":{},
-	"copy":{}
+	"copy":{"edit":"Edit",
+            "export":"Export",
+            "delete":"Delete",
+            "active":"Total active members: ",
+            "inactive":"Inactive members: ",
+            "new_members":"New members, past 7 days: ",
+            "recently_added":"Recently Added",
+            "email":"Email",
+            "name":"Name",
+            "joined":"Joined",
+            "comment":"Comment",
+            "sorry":"Sorry, no members have joined this list yet.",
+            "sorry_2":"Sorry",
+            "error":"Error getting list."
+}
 }

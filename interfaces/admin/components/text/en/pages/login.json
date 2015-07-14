@@ -1,0 +1,27 @@
+{
+	"pagetip":"Pick a topic to learn more.",
+	"learn":"",
+	"related":{},
+	"labels":{"email":"Email address",
+               "password":"Password",
+               "username":"Desired username"
+
+
+
+   },
+	"tooltips":{},
+	"copy":{"forgot_pass":"Forgot your password?",
+            "no_account":"No account? ",
+            "sign_up":"Sign up.",
+            "its_free":" An account is free, now and forever. Sign up to get started.",
+            "enter_email":"Enter your email, we'll send a reset link.",
+            "its_free_2":"It's free and always will be. All you need to do to get started is provide a valid email address, choose a username, and set your password.",
+            "reveal_text":"reveal text",
+            "i_read":" I have read and agree to the ",
+            "tos":"terms of service",
+            "and":" and ",
+            "privacy":"privacy policy"
+
+
+}
+}

@@ -1,18 +1,20 @@
+{{! corresponding files: login.php & login.json }}
+
 <div class="pure-u-1">
-	<p>It's free and always will be. All you need to do to get started is provide a valid email address, choose a username, and set your password.</p>
+	<p>{{copy_its_free_2}}</p>
 		<form action="{{www_path}}/signup/" id="signupform" method="post">
 		<input type="hidden" name="dosignup" value="engage" />
 			<div class="pure-u-1 pure-u-md-1-3">
-				<label for="address">Email address</label><input type="email" name="address" value="" placeholder="your email address" title="Valid address required" required />
+				<label for="address">{{label_email}}</label><input type="email" name="address" value="" placeholder="your email address" title="Valid address required" required />
 			</div><!--pure-->
 			<div class="pure-u-1 pure-u-md-1-3">
-				<label for="address">Desired username</label><input type="text" name="username" value="" placeholder="username" title="Required" required />
+				<label for="address">{{label_username}}</label><input type="text" name="username" value="" placeholder="username" title="Required" required />
 			</div><!--pure-->
 			<div class="pure-u-1 pure-u-md-1-3">
-				<label for="address">Password</label><input type="password" name="password" id="password" value="" title="At least {{minimum_password_length}} characters" placeholder="at least {{minimum_password_length}} characters" minlength="{{minimum_password_length}}" required /><small><a href="#" id="revealpassword" style="position:relative;top:-12px;color:#666;">reveal text</a></small>
+				<label for="address">{{label_password}}</label><input type="password" name="password" id="password" value="" title="At least {{minimum_password_length}} characters" placeholder="at least {{minimum_password_length}} characters" minlength="{{minimum_password_length}}" required /><small><a href="#" id="revealpassword" style="position:relative;top:-12px;color:#666;">{{copy_reveal_text}}</a></small>
 			</div><!--pure-->
 			<div class="terms">
-				<input type="checkbox" class="checkorradio" name="termsread" title="Required" required /> I have read and agree to the <a href="{{www_path}}/terms/" class="noajax" target="_blank">terms of service</a> and <a href="{{www_path}}/privacy/" class="noajax" target="_blank">privacy policy</a>
+				<input type="checkbox" class="checkorradio" name="termsread" title="Required" required />{{copy_i_read}}<a href="{{www_path}}/terms/" class="noajax" target="_blank">{{copy_tos}}</a>{{copy_and}}<a href="{{www_path}}/privacy/" class="noajax" target="_blank">{{copy_privacy}}</a>
 			</div><!--terms-->
 		<input type="submit" class="button" value="Sign up" />
 		</form>

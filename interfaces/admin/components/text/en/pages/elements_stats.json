@@ -4,5 +4,10 @@
 	"related":{},
 	"labels":{},
 	"tooltips":{},
-	"copy":{}
+	"copy":{"statistics":" statistics",
+            "views_by_location":"Views by location",
+            "element_location":"Element location",
+            "views":"Views"
+
+}
 }

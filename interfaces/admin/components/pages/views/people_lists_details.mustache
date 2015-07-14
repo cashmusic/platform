@@ -1,22 +1,24 @@
+{{! corresponding files: people_lists_edit.php & people_lists_edit.json }}
+
 <div class="pure-u-1">
 <header>
-		<a class="returnlink current" href="{{www_path}}/people/lists/view/{{id}}"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">Edit - &ldquo;{{ui_title}}&rdquo;</h4>
+		<a class="returnlink current" href="{{www_path}}/people/lists/view/{{id}}"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">{{copy_edit}}&ldquo;{{ui_title}}&rdquo;</h4>
 </header>
 </div><!--pure-->
 <div class="pure-u-1">
-<p>Need to add a lot of contacts to the list in a hurry? <a class="lightboxed" href="{{www_path}}/people/lists/batch/edit/{{id}}">Batch add contacts</a>.</p>
+<p>{{copy_add_a_lot}}<a class="lightboxed" href="{{www_path}}/people/lists/batch/edit/{{id}}">{{copy_batch_add}}</a>.</p>
 		<form accept-charset="UTF-8" method="post" action="{{www_path}}{{requested_route}}">
 			<input type="hidden" name="{{form_state_action}}" value="makeitso" />
-			<label for="list_name">Name</label>
+			<label for="list_name">{{label_name}}</label>
 			<input type="text" id="list_name" name="list_name" value="{{name}}" />
 
-			<label for="connection_id">Connect To</label>
+			<label for="connection_id">{{label_connect}}</label>
 			<select id="connection_id" name="connection_id">
-				<option value="0"{{#no_selected_connection}} selected="selected"{{/no_selected_connection}}>None (local list only)</option>
+				<option value="0"{{#no_selected_connection}} selected="selected"{{/no_selected_connection}}>{{copy_none}}</option>
 				{{{connection_options}}}
 			</select>
 
-			<label for="list_description">Description</label>
+			<label for="list_description">{{label_description}}</label>
 			<textarea rows="3" id="list_description" name="list_description">{{description}}</textarea>
 
 			<button type="submit">{{list_button_text}}</button>

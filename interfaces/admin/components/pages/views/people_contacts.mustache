@@ -1,68 +1,70 @@
+{{! corresponding files: people_contacts.php & people_contacts.json }}
+
 <div class="col_oneoftwo">
-	<h4>Add new contact</h4>
+	<h4>{{copy_add_new}}</h4>
 	<form accept-charset="UTF-8" method="post" action="{{www_path}}/people/contacts/">	
 		<input type="hidden" name="docontactadd" value="makeitso" />
 		<div class="col_oneoftwo">
-			<label for="first_name">First name</label>
+			<label for="first_name">{{label_first_name}}</label>
 			<input type="text" id="first_name" name="first_name" placeholder="First" /> 
 		</div>
 		<div class="col_oneoftwo lastcol">
-			<label for="last_name">Last Name</label>
+			<label for="last_name">{{label_last_name}}</label>
 			<input type="text" id="last_name" name="last_name" placeholder="Last" /> 
 		</div>
 
 		<br />
-		<label for="email_address">Email address</label>
+		<label for="email_address">{{label_email}}</label>
 		<input type="text" id="email_address" name="email_address" /> 
 
 		<div class="drawer">
 			<br />
 			<div class="drawercontent">
-				<label for="organization">Organization(s)</label>
+				<label for="organization">{{label_org}}</label>
 				<input type="text" id="organization" name="organization" /> 
 
 				<br />
-				<label for="phone">Phone</label>
+				<label for="phone">{{label_phone}}</label>
 				<input type="text" id="phone" name="phone" /> 
 
 				<br />
-				<label for="address1">Mailing address</label>
+				<label for="address1">{{label_mailing}}</label>
 				<input type="text" id="address1" name="address1" /> 
 
 				<br />
 				<div class="col_oneofthree">
-					<label for="address_city">City</label>
+					<label for="address_city">{{label_city}}</label>
 					<input type="text" id="address_city" name="address_city" /> 
 				</div>
 				<div class="col_oneofthree">
-					<label for="address_region">State / province</label>
+					<label for="address_region">{{label_state}}</label>
 					<input type="text" id="address_region" name="address_region" /> 
 				</div>
 				<div class="col_oneofthree lastcol">
-					<label for="address_postalcode">Postal code</label>
+					<label for="address_postalcode">{{label_postal}}</label>
 					<input type="text" id="address_postalcode" name="address_postalcode" /> 
 				</div>
 
 				<br />
 
-				<label for="address_country">Country</label>
+				<label for="address_country">{{label_country}}</label>
 				<select id="address_country" name="address_country">
 					{{{country_codes}}}
 				</select>
 
 				<br />
 			</div>
-			<a class="drawerhandle">additional options</a>
+			<a class="drawerhandle">{{copy_additional}}</a>
 		</div>
 
 		<br /><br />
-		<button type="submit">Add new contact</button>
+		<button type="submit">{{copy_add_new}}</button>
 		
 	</form>
 </div>
 
 <div class="col_oneoftwo lastcol">
-	<h4>Contacts by last name</h4>
+	<h4>{{copy_contacts}}</h4>
 	<div class="washedtext">
 		{{#alphabet}}
 			{{#contact}}<a href="{{www_path}}/people/contacts/bylastname/{{letter}}">{{/contact}}{{letter}}{{#contact}}</a>{{/contact}}

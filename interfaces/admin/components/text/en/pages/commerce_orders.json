@@ -4,5 +4,18 @@
 	"related":{},
 	"labels":{},
 	"tooltips":{},
-	"copy":{}
+	"copy":{"export_orders":"Export orders",
+            "export_recent":"Export recent orders",
+            "export_all":"Export all orders",
+            "all_completed":"All completed orders",
+            "order_num":"Order #",
+            "date":"Date",
+            "customer":"Customer",
+            "items":"Items",
+            "gross":"Gross",
+            "net":"Net",
+            "no_orders":"Sorry, no completed orders",
+            "no_orders_2":"There are no completed orders right now."
+
+}
 }
