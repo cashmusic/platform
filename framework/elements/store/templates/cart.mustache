@@ -1,3 +1,28 @@
 <div class="cm-store cm-cart">
-	I am a cart.
+{{#error_message}}<div class="cm-error">{{error_message}}</div>{{/error_message}}
+	<ul class="cm-items">
+		<li class="cm-item">
+			<div class="cm-close">x</div>
+			<h3 class="cm-item">{{item_title}}</h3>
+			<p class="cm-description">{{item_description}}</p>
+			<div class="cm-info">
+				<p class="cm-shipping">Price <span>{{currency}}{{item_amount}}</span></p>
+				<p class="cm-shipping">Shipping <span>{{currency}}{{item_shipping_amount}}</span></p>
+				<label class="cm-qty">QTY</label> <input type="text" name="cm-qty" value="cm-current-qty" />
+			</div><!--cm-info-->
+		</li><!--cm-item-->
+	</ul>
+	<div class="cm-destination">	
+		<span class="cm-shipping">Shipping to:</span>
+		<select class="cm-region">
+  			<option value="{{region_one}}">{{region_one}}</option>
+ 			<option value="{{region_two}}">{{region_two}}</option>
+		</select>
+	</div><!--cm-destination-->
+	<h2 class="cm-pricing">
+		<span class="cm-subtotal">Subtotal<span class="cm-amount">{{currency}}{{subtotal_amount}}</span></span>&#43;
+		<span class="cm-shipping">Shipping<span class="cm-amount">{{currency}}{{shipping_amount}}</span></span>&#61;
+		<span class="cm-total">Total<span class="cm-amount">{{currency}}{{total_amount}}</span></span>
+	</h2><!--cm-pricing-->
+	<a class="cm-checkout" href="/">Checkout with {{service}}</a>
 </div>
