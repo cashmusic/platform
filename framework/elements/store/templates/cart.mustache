@@ -3,15 +3,15 @@
 	<ul class="cm-items">
 		<li class="cm-item">
 			<div class="cm-close">x</div>
-			<h3 class="cm-item">{{item_title}}</h3>
+			<h3 class="cm-item">{{item_name}}</h3>
 			<p class="cm-description">{{item_description}}</p>
 			<div class="cm-info">
 				<p class="cm-shipping">Price <span>{{currency}}{{item_amount}}</span></p>
 				<p class="cm-shipping">Shipping <span>{{currency}}{{item_shipping_amount}}</span></p>
-				<label class="cm-qty">QTY</label> <input type="text" name="cm-qty" value="cm-current-qty" />
+				<label class="cm-qty">QTY</label> <input type="text" name="cm-current-qty" value="{{item-current-qty}}" />
 			</div><!--cm-info-->
 		</li><!--cm-item-->
-	</ul>
+	</ul><!--cm-items-->
 	<div class="cm-destination">	
 		<span class="cm-shipping">Shipping to:</span>
 		<select class="cm-region">
@@ -25,4 +25,4 @@
 		<span class="cm-total">Total<span class="cm-amount">{{currency}}{{total_amount}}</span></span>
 	</h2><!--cm-pricing-->
 	<a class="cm-checkout" href="/">Checkout with {{service}}</a>
-</div>
+</div><!--cm-cart-->
