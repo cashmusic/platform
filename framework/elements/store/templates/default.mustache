@@ -4,7 +4,7 @@
 	{{#features}}
 
 	<div class="cash_store cash_item item_{{id}} featured">
-	<div class="cash_store cash_inner">
+	<div class="cash_store cash_info cash_inner">
 		<h2>{{name}}</h2>
 		<span class="cm-itemprice">{{currency}}{{price}}{{#flexible_price}} {{copy_flexibleprice_suffix}}{{/flexible_price}}</span>
 		<p>{{description}}</p>
@@ -37,7 +37,7 @@
 
 <div class="cash_store cash_return redeem">
 	<h3 class="cash_store cash_return return">Returning Customer? <span>Login for order details and downloads.</span></h3>
-	<div class="cash_store cash_inner">
+	<div class="cash_store cash_return cash_inner">
 	<form id="cash_{{element_type}}_form_{{element_id}}" class="cash_form {{element_id}}" method="post" action="">
 	<div class="cash_address_container">
 		<label for="address">Email</label>
@@ -52,11 +52,11 @@
 </div>
 
 <div class="cash_store unfeatured_items">
-<div class="cash_store cash_inner">
+<div class="cash_store cash_info cash_inner">
 	<h2 class="title">Also Available</h2>
 	{{#items}}
 	<div class="cash_store cash_item item_{{id}}">
-		<div class="cash_store cash_inner">
+		<div class="cash_store cash_item cash_inner">
 		<h2>{{name}}</h2>
 		<span class="cm-itemprice">{{currency}}{{price}}{{#flexible_price}} {{copy_flexibleprice_suffix}}{{/flexible_price}}</span>
 		<p>{{description}}</p>
