@@ -31,7 +31,11 @@ class Store extends ElementBase {
 			} else {
 				$item['is_available'] = false;
 			}
-			error_log(print_r($item['variants'],true));
+			if ($item['variants']) {
+				$item['has_variants'] = true;
+				$item['attributes'] = $item['variants']['attributes'];
+				$item['variants_dump'] = print_r($item['variants'],true);
+			}
 		}
 
 

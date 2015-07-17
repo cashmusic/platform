@@ -17,7 +17,8 @@
 	"copy":{
 		"en":{
 			"cart":"Add to cart",
-			"flexibleprice_suffix":"or more"
+			"flexibleprice_suffix":"or more",
+			"choose_variants":"Choose an option first"
 		}
 	},
 	"options":{
