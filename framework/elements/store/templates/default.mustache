@@ -33,8 +33,24 @@
 	{{/features}}
 </div>
 
+<div class="cash_store cash_return redeem">
+	<h3 class="cash_store cash_return return">Returning Customer? <span>Login for order details and downloads.</span></h3>
+	<div class="cash_store cash_inner">
+	<form id="cash_{{element_type}}_form_{{element_id}}" class="cash_form {{element_id}}" method="post" action="">
+	<div class="cash_address_container">
+		<label for="address">Email</label>
+		<input type="email" name="address"  placeholder="Email" value="" class="cash_input cash_input_address" />
+	</div><div class="cash_password_container">
+		<label for="password">Order N<sup>o</sup></label>
+		<input type="password" name="password" value="" placeholder="Order Number" class="cash_input cash_input_order_number" />
+	</div>
+	<input type="submit" value="log in" class="button" /> 
+	</div><!--inner-->
+</form>
+</div>
+
 <div class="cash_store unfeatured_items">
-<div class="inner">
+<div class="cash_store cash_inner">
 	<h2 class="title">Also Available</h2>
 	{{#items}}
 	<div class="cash_store cash_item item_{{id}}">
