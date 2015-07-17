@@ -122,6 +122,7 @@ CREATE TABLE `commerce_items` (
   `description` text,
   `sku` varchar(20) DEFAULT NULL,
   `price` decimal(9,2) DEFAULT NULL,
+  `shipping` varchar(255) DEFAULT NULL,
   `flexible_price` bool DEFAULT '0',
   `digital_fulfillment` bool DEFAULT '0',
   `physical_fulfillment` bool DEFAULT '0',
