@@ -6,6 +6,7 @@
 	{{#features}}
 
 	<div class="cash_store cash_item item_{{id}} featured">
+	<div class="cash_store cash_inner">
 		<h2>{{name}}</h2>
 		<span class="cm-itemprice">{{currency}}{{price}}{{#flexible_price}} {{copy_flexibleprice_suffix}}{{/flexible_price}}</span>
 		<p>{{description}}</p>
@@ -32,6 +33,7 @@
 			</span>
 		{{/is_available}}
 	</div>
+	</div>
 	{{/features}}
 </div>
 
@@ -56,6 +58,7 @@
 	<h2 class="title">Also Available</h2>
 	{{#items}}
 	<div class="cash_store cash_item item_{{id}}">
+		<div class="cash_store cash_inner">
 		<h2>{{name}}</h2>
 		<span class="cm-itemprice">{{currency}}{{price}}{{#flexible_price}} {{copy_flexibleprice_suffix}}{{/flexible_price}}</span>
 		<p>{{description}}</p>
@@ -81,9 +84,10 @@
 				Sorry, this item is currently unavailable.
 			</span>
 		{{/is_available}}
+		</div>
 	</div>
 	{{/items}}
-	</div><!--inner-->
+	</div>
 </div>
 
 
