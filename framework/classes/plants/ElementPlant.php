@@ -355,7 +355,6 @@ class ElementPlant extends PlantBase {
 					$short_geo = $access_data['geo']['city'] . ', ' . $access_data['geo']['region'] . ' / ' . $access_data['geo']['countrycode'];
 				}
 			}
-			error_log('geo: '.$short_geo);
 			if (is_array($current_result)) {
 				$new_total = $current_result[0]['total'] +1;
 				$data      = json_decode($current_result[0]['data'],true);

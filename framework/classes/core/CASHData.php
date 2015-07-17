@@ -1,8 +1,8 @@
 <?php
 /**
- * Data access for all Plant and Seed classes. CASHData abstracts out SESSION 
- * data handling, provides a CASHDBA object as $this->db, and provides functions 
- * to access metadata for all tables. 
+ * Data access for all Plant and Seed classes. CASHData abstracts out SESSION
+ * data handling, provides a CASHDBA object as $this->db, and provides functions
+ * to access metadata for all tables.
  *
  * @package platform.org.cashmusic
  * @author CASH Music
@@ -14,7 +14,7 @@
  *
  *
  * This file is generously sponsored by John Luini and chime.com
- * jon luini and chime.com support cashmusic's efforts towards furthering 
+ * jon luini and chime.com support cashmusic's efforts towards furthering
  * easy-to-use open source tools for musicians!
  *
  */abstract class CASHData {
@@ -26,7 +26,7 @@
 			  $cache_dir = null;
 
 	/**
-	 * 
+	 *
 	 * DATABASE CONNECTION
 	 * Create and store new CASHDBA
 	 *
@@ -48,13 +48,13 @@
 			$cash_db_settings['driver']
 		);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * SESSION HANDLERS
 	 * CASH session management. Uses a manual implementaion of cookie (session id only) and
 	 * database store for persistence. Allows for multiple web servers running against a
-	 * single database back-end. Also means we don't accidentally trample another app's 
+	 * single database back-end. Also means we don't accidentally trample another app's
 	 * session data.
 	 *
 	 */
@@ -87,13 +87,13 @@
 			$GLOBALS['cashmusic_script_store'] = array();
 		}
 	}
-	
+
 	/**
 	 * Sets the initial CASH session_id and cookie on the user's machine
 	 *
 	 * @return boolean
 	 */public function startSession($reset_session_id=false,$force_session_id=false) {
-		// if 'session_id' is already set in script store then we've already started 
+		// if 'session_id' is already set in script store then we've already started
 		// the session in this script, do not hammer the database needlessly
 		if (!$this->sessionGet('start_time','script') || $reset_session_id || $force_session_id) {
 			if ($force_session_id) {
@@ -110,7 +110,7 @@
 					$force_session_id = false;
 				}
 			}
-			$expiration = time() + $this->cash_session_timeout; 
+			$expiration = time() + $this->cash_session_timeout;
 			$current_ip = CASHSystem::getRemoteIP();
 			$session_id = $this->getSessionID();
 			if ($force_session_id) {
@@ -143,7 +143,7 @@
 				$session_data['session_id'] = $session_id;
 			}
 			if (!$current_session['persistent']) {
-				// no existing session, set up empty data 
+				// no existing session, set up empty data
 				$session_data['data'] = json_encode(array());
 			}
 			// set the client-side cookie
@@ -151,7 +151,7 @@
 				// no headers yet, we can just send the cookie through
 				setcookie ('cashmusic_session', $session_id, $expiration, '/', '', false, true);
 			} else {
-				// tell 
+				// tell
 				$this->sessionSet('render_session_pixel',true,'script');
 				$this->sessionSet('session_pixel_markup','<img src="' . CASH_PUBLIC_URL . 'sessionpixel.php?session_id=' . $session_id . '" alt="" />','script');
 			}
@@ -211,9 +211,9 @@
 		}
 		return $return_array;
 	}
-	
+
 	/**
-	 * Returns the CASH session_id 
+	 * Returns the CASH session_id
 	 *
 	 * @return boolean
 	 */protected function getSessionID() {
@@ -231,8 +231,8 @@
 	 * Replaces script-scoped 'cash_last_response' with a new response
 	 *
 	 * @param {array} $response - the new CASHResponse
-	 * @param {boolean} $reset_session_id [default: false] - if true a new 
-	 *        session id is generated as a security measure 
+	 * @param {boolean} $reset_session_id [default: false] - if true a new
+	 *        session id is generated as a security measure
 	 * @return boolean
 	 */protected function sessionSetLastResponse($response) {
 		$this->sessionSet('cash_last_response',$response,'script');
@@ -367,14 +367,14 @@
 		$this->resetSession();
 		// set the client-side cookie
 		if (!headers_sent()) {
-			// if headers have already been sent the cookie will be cleared on 
+			// if headers have already been sent the cookie will be cleared on
 			// next sessionStart()
 			setcookie ('cashmusic_session', false, 1, '/', '', false, true);
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * METADATA
 	 * Metadata can be applied to any table by way of a scope table (alias) and
 	 * id. These functions make access available to all plants.
@@ -419,7 +419,7 @@
 			return true;
 		}
 	}
-	
+
 	public function getMetaData($scope_table_alias,$scope_table_id,$user_id,$data_key,$data_value=false) {
 		// set up options for the query. leave off $data_value to widen the results
 		// by default
@@ -479,7 +479,7 @@
 		);
 		return $result;
 	}
-	
+
 	public function removeAllMetaData($scope_table_alias,$scope_table_id,$user_id=false,$ignore_or_match='match',$data_key=false) {
 		// set table / id up front. if no user is specified it will remove ALL
 		// metadata for a given table+id — used primarily when deleting the parent item
@@ -562,7 +562,7 @@
 			return false;
 		}
 	}
-	
+
 	public function setAllMetaData($scope_table_alias,$scope_table_id,$user_id,$tags=false,$metadata=false,$delete_existing=false) {
 		// also need to add $ignore_or_match='match',$data_key=false to removeAllMetaData
 
@@ -586,7 +586,7 @@
 			foreach ($tags as $tag) {
 				$this->setMetaData($scope_table_alias,$scope_table_id,$user_id,'tag',$tag);
 			}
-		} 
+		}
 		if ($metadata) {
 			if ($delete_existing) {
 				// remove all non-tag metadata if delete_existing is set
@@ -611,14 +611,14 @@
 	/**
 	 *
 	 * FEED/DATA CACHE STUFF
-	 * Functions to read and write data to file — useful both for raw data and 
+	 * Functions to read and write data to file — useful both for raw data and
 	 * structured JSON. Primarily used for feeds from API scrapes, etc.
 	 *
 	 */
 
 	/**
-	 * Readies the basic file cache for JSON/feed caching — essentially just tests 
-	 * to ensure that the cache directory exists and is writeable. primeCache() will 
+	 * Readies the basic file cache for JSON/feed caching — essentially just tests
+	 * to ensure that the cache directory exists and is writeable. primeCache() will
 	 * set $this->cache_enabled true on success.
 	 *
 	 * @return void
@@ -640,7 +640,7 @@
 	}
 
 	/**
-	 * Sets the contents of a given cache file. Setting $encode will tell it to 
+	 * Sets the contents of a given cache file. Setting $encode will tell it to
 	 * encode the data as JSON or not.
 	 *
 	 * @return string or decoded JSON object/array
@@ -663,10 +663,10 @@
 			return false;
 		}
 	}
-	
+
 	/**
-	 * Gets the contents of a given cache file. If $force_last is set it will 
-	 * ignore expiry state and simply return the data in the file regardless. 
+	 * Gets the contents of a given cache file. If $force_last is set it will
+	 * ignore expiry state and simply return the data in the file regardless.
 	 * Setting $decode will tell it to parse the data as JSON or not.
 	 *
 	 * @return string or decoded JSON object/array
@@ -703,10 +703,10 @@
 			return false;
 		}
 	}
-	
+
 	/**
-	 * Takes a cache name, data name, and URL — first looks for viable cache data, 
-	 * then 
+	 * Takes a cache name, data name, and URL — first looks for viable cache data,
+	 * then
 	 *
 	 * @return int (remaining time in seconds) or false
 	 */protected function getCachedURL($cache_name, $data_name, $data_url, $format='json', $decode=true) {
@@ -766,7 +766,7 @@
 			return false;
 		}
 	}
-	
-	
-} // END class 
+
+
+} // END class
 ?>

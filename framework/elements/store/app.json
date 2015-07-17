@@ -16,7 +16,8 @@
 	},
 	"copy":{
 		"en":{
-			"cart":"Add to cart"
+			"cart":"Add to cart",
+			"flexibleprice_suffix":"or more"
 		}
 	},
 	"options":{

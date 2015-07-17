@@ -25,10 +25,10 @@
 					<label for="item_quantity">{{label_quantity}}</label>
 					{{#show_beta}}
 						{{#has_variants}}<span class="inputreadonly">{{#available_units}}{{available_units}}{{/available_units}}{{^available_units}}-1{{/available_units}}</span>{{/has_variants}}
-						{{^has_variants}}<input type="text" id="item_quantity" name="item_quantity" value="{{#available_units}}{{available_units}}{{/available_units}}{{^available_units}}-1{{/available_units}}" class="number required" />{{/has_variants}}
+						{{^has_variants}}<input type="text" id="item_quantity" name="item_quantity" value="{{available_units}}" class="number required" />{{/has_variants}}
 					{{/show_beta}}
 					{{^show_beta}}
-					<input type="text" id="item_quantity" name="item_quantity" value="{{#available_units}}{{available_units}}{{/available_units}}{{^available_units}}-1{{/available_units}}" class="number required" />
+					<input type="text" id="item_quantity" name="item_quantity" value="{{available_units}}" class="number required" />
 					{{/show_beta}}
 				</div><!--pure-->
 				<div class="pure-u-1 pure-u-md-1-3">

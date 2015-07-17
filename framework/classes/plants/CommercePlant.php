@@ -26,15 +26,19 @@ class CommercePlant extends PlantBase {
 			'additem'             => array('addItem','direct'),
 			'additemvariants'     => array('addItemVariants','direct'),
 			'addorder'            => array('addOrder','direct'),
+			'addtocart'				 => array('addToCart',array('get','post','direct','api_public')),
 			'addtransaction'      => array('addTransaction','direct'),
 			'deleteitem'          => array('deleteItem','direct'),
 			'deleteitemvariant'   => array('deleteItemVariant','direct'),
 			'deleteitemvariants'  => array('deleteItemVariants','direct'),
+			'editcartquantity'	 => array('editCartQuantity',array('get','post','direct','api_public')),
 			'edititem'            => array('editItem','direct'),
-			'edititemvariant'   	=> array('editItemVariant','direct'),
+			'edititemvariant'   	 => array('editItemVariant','direct'),
 			'editorder'           => array('editOrder','direct'),
 			'edittransaction'     => array('editTransaction','direct'),
+			'emptycart'				 => array('emptyCart','direct'),
 			'getanalytics'        => array('getAnalytics','direct'),
+			'getcart'				 => array('getCart','direct'),
 			'getitem'             => array('getItem','direct'),
 			'getitemvariants'     => array('getItemVariants','direct'),
 			'getitemsforuser'     => array('getItemsForUser','direct'),
@@ -438,6 +442,59 @@ class CommercePlant extends PlantBase {
 		}
 
 		return $result;
+	}
+
+	protected function addToCart($item_id,$item_variant=false,$price=false) {
+		$r = new CASHRequest();
+		$r->startSession();
+
+		$cart = $r->sessionGet('cart');
+		if (!$cart) {
+			$cart = array();
+		}
+		$qty = 1;
+		if (isset($cart[$item_id.$item_variant])) {
+			$qty = $cart[$item_id.$item_variant]['qty'] + 1;
+		}
+		$cart[$item_id.$item_variant] = array(
+			'id' 		 	 => $item_id,
+			'variant' 	 => $item_variant,
+			'price' 		 => $price,
+			'qty'		 	 => $qty
+		);
+
+		$r->sessionSet('cart', $cart);
+		return $cart;
+	}
+
+	protected function editCartQuantity($item_id,$item_variant,$qty) {
+		$r = new CASHRequest();
+		$r->startSession();
+
+		$cart = $request->sessionGet('cart');
+		if (!$cart) {
+			return false;
+		}
+
+		if (!isset($cart[$item_id.$item_variant])) {
+			return false;
+		} else {
+			$cart[$item_id.$item_variant]['qty'] = $qty;
+			$r->sessionSet('cart', $cart);
+			return $cart;
+		}
+	}
+
+	protected function emptyCart() {
+		$r = new CASHRequest();
+		$r->startSession();
+		$r->sessionClear('cart');
+	}
+
+	protected function getCart() {
+		$r = new CASHRequest();
+		$r->startSession();
+		return $r->sessionGet('cart');
 	}
 
 	protected function addOrder(

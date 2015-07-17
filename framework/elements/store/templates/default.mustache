@@ -1,40 +1,35 @@
 {{#error_message}}<div class="cash_error cash_{{element_type}}_error">{{error_message}}</div>{{/error_message}}
-<div class="packshot">
-<div class="front"></div><!--front-->
-</div><!--packshot-->
-<div class="info">
 
-
-
-
-
-<form id="cash_{{element_type}}_form_{{element_id}}" class="cash_form {{element_type}}" method="post" action="">
-<input type="hidden" name="singlepurchase1" value="go" />
-<input type="hidden" name="user_id" value="{{user_id}}" />
-
-
+<pre>
+	{{cart_dump}}
+</pre>
 
 <style type="text/css">
 	div.cash_item.featured {color:#ff0 !important;}
 	div.cash_store.featured_items {padding:20px;background-color:#333;margin-bottom:80px;}
 	/*div.cash_store.unfeatured_items {display:none;}*/
 </style>
-
-
-
 <div class="cash_store featured_items">
 	{{#features}}
 
 	<div class="cash_store cash_item item_{{id}} featured">
 		<h2>{{name}}</h2>
+		<span class="cm-itemprice">{{currency}}{{price}}{{#flexible_price}} {{copy_flexibleprice_suffix}}{{/flexible_price}}</span>
 		<p>{{description}}</p>
+		{{#is_available}}
 		{{#flexible_price}}
-		<span class="cash_singlepurchase_flexible_price">
-			<span class="cash_singlepurchase_currency">{{currency}}</span>
-			<input type="text" name="total_price" class="total_price" value="{{price}}" />
+		<span class="cash_store_flexible_price">
+			<span class="cash_store_currency">{{currency}}</span>
+			<input type="text" name="total_price" data-itemid="{{id}}" data-atleast="{{price}}" class="cm-price" value="{{price}}" />
 		</span>
 		{{/flexible_price}}
-		<input type="submit" value="{{copy_cart}}" class="button" /><br />
+		<button type="button" data-itemid="{{id}}" data-price="{{price}}" class="button cm-addtocart cm-item-{{id}}"><span class="cm-price">{{currency}}{{price}}</span> - {{copy_cart}}</button>
+		{{/is_available}}
+		{{^is_available}}
+			<span class="cm-unavailable">
+				Sorry, this item is currently unavailable.
+			</span>
+		{{/is_available}}
 	</div>
 
 	<div>&nbsp;</div>
@@ -49,14 +44,22 @@
 
 	<div class="cash_store cash_item item_{{id}}">
 		<h2>{{name}}</h2>
+		<span class="cm-itemprice">{{currency}}{{price}}{{#flexible_price}} {{copy_flexibleprice_suffix}}{{/flexible_price}}</span>
 		<p>{{description}}</p>
+		{{#is_available}}
 		{{#flexible_price}}
-		<span class="cash_singlepurchase_flexible_price">
-			<span class="cash_singlepurchase_currency">{{currency}}</span>
-			<input type="text" name="total_price" class="total_price" value="{{price}}" />
+		<span class="cash_store_flexible_price">
+			<span class="cash_store_currency">{{currency}}</span>
+			<input type="text" name="total_price" data-itemid="{{id}}" data-atleast="{{price}}" class="cm-price" value="{{price}}" />
 		</span>
 		{{/flexible_price}}
-		<input type="submit" value="{{copy_cart}}" class="button" /><br />
+		<button type="button" data-itemid="{{id}}" data-price="{{price}}" class="button cm-addtocart cm-item-{{id}}"><span class="cm-price">{{currency}}{{price}}</span> - {{copy_cart}}</button>
+		{{/is_available}}
+		{{^is_available}}
+			<span class="cm-unavailable">
+				Sorry, this item is currently unavailable.
+			</span>
+		{{/is_available}}
 	</div>
 
 	<div>&nbsp;</div>
@@ -76,19 +79,75 @@
 
 <script type="text/javascript">
 	var cm = window.cashmusic;
+	var cartpresent = false;
+
 	cm.events.add(cm,'ready', function(e) {
-		// Bag icon by Mike Ashley for the Noun Project
-		var css = ".cm-cartbutton {position:fixed;top:40px;right:40px;width:40px;height:40px;border-radius:40px;z-index:54321;cursor:pointer;background:#111 url('data:image/png;base64,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') top left / cover no-repeat;}";
-		   css += ".cm-cartbutton:hover{-webkit-animation: modalrotate ease-out 0.8s;-moz-animation: modalrotate ease-out 0.8s;animation: modalrotate ease-out  0.8s;}";
-		   css += "@-webkit-keyframes flash {0% {-webkit-box-shadow: 0px 0px 5px -5px #fa2658;}50% {-webkit-box-shadow: 0px 0px 5px 5px #fa2658;}100% { -webkit-box-shadow: 0px 0px 5px -5px #fa2658;}}";
-		   css += "@keyframes flash {0% {box-shadow: 0px 0px 5px -5px #fa2658;}50% {box-shadow: 0px 0px 5px 10px #fa2658;}100% {box-shadow: 0px 0px 5px -5px #fa2658;}}";
-		   css += ".cm-flash{animation-name:flash;animation-duration: 1s;animation-timing-function: ease-out;animation-iteration-count: 1;-webkit-animation-name: flash;-webkit-animation-duration: 1s;-webkit-animation-timing-function: ease-out;-webkit-animation-iteration-count:1;}";
-		cm.styles.injectCSS(css,false,true);
-		setTimeout(function() {
+		function flashCartButton() {
+			if (cartpresent) {
+				cm.styles.addClass('storage:cartbutton','cm-flash',true);
+				setTimeout(function() {
+					cm.styles.removeClass('storage:cartbutton','cm-flash',true);
+				},2000);
+			} else {
+				addCartButton();
+			}
+		}
+
+		function addCartButton() {
 			cm.overlay.addOverlayTrigger({"element":"{{element_id}}","endpoint":"http://localhost/public","state":"cart"},'cm-cartbutton cm-flash','cartbutton');
 			setTimeout(function() {
 				cm.styles.removeClass('storage:cartbutton','cm-flash',true);
 			},2000);
-		},1000);
+			cartpresent = true;
+		}
+
+		// Bag icon by Mike Ashley for the Noun Project
+		var css = ".cm-cartbutton {position:fixed;top:40px;right:40px;width:40px;height:40px;border-radius:40px;z-index:54321;cursor:pointer;background:#111 url('data:image/png;base64,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') top left / cover no-repeat;}";
+		   css += ".cm-cartbutton:hover{-webkit-animation: modalrotate ease-out 0.8s;-moz-animation: modalrotate ease-out 0.8s;animation: modalrotate ease-out  0.8s;}";
+		   css += "@-webkit-keyframes flash {0% {-webkit-box-shadow: 0px 0px 5px -5px #fa2658;}50% {-webkit-box-shadow: 0px 0px 5px 7px #fa2658;}100% { -webkit-box-shadow: 0px 0px 5px -5px #fa2658;}}";
+		   css += "@keyframes flash {0% {box-shadow: 0px 0px 5px -5px #fa2658;}50% {box-shadow: 0px 0px 5px 7px #fa2658;}100% {box-shadow: 0px 0px 5px -5px #fa2658;}}";
+		   css += ".cm-flash{animation-name:flash;animation-duration: 1s;animation-timing-function: ease-out;animation-iteration-count: 1;-webkit-animation-name: flash;-webkit-animation-duration: 1s;-webkit-animation-timing-function: ease-out;-webkit-animation-iteration-count:1;}";
+		cm.styles.injectCSS(css,false,true);
+
+		{{#items_in_cart}}
+			addCartButton();
+		{{/items_in_cart}}
+
+		// sort all the cart buttons
+		var buttons = document.querySelectorAll('.cm-addtocart');
+		if (buttons.length > 0) {
+			for (var i = 0, len = buttons.length; i < len; i++) {
+				cm.events.add(buttons[i],'click', function(e) {
+					cm.ajax.send('{{api_url}}/verbose/commerce/addtocart/item_id/' + this.getAttribute('data-itemid') + '/item_variant/0/price/' + this.getAttribute('data-price') + '/', false,
+					function(r) {
+						flashCartButton();
+					});
+					e.preventDefault();
+					return false;
+				});
+			}
+		}
+
+		// sort all the cart buttons
+		var prices = document.querySelectorAll('input.cm-price');
+		if (prices.length > 0) {
+			for (var i = 0, len = prices.length; i < len; i++) {
+				cm.events.add(prices[i],'keyup', function(e) {
+					var newprice = parseFloat(this.value);
+					if (newprice) {
+						if (newprice > this.getAttribute('data-atleast')) {
+							document.querySelector('button.cm-addtocart.cm-item-' + this.getAttribute('data-itemid') + ' span.cm-price').innerHTML = '{{currency}}' + newprice.toFixed(2);
+							document.querySelector('button.cm-addtocart.cm-item-' + this.getAttribute('data-itemid')).setAttribute('data-price',newprice.toFixed(2))
+						}
+					}
+					e.preventDefault();
+					return false;
+				});
+
+				cm.events.add(prices[i],'blur', function(e) {
+					this.value = document.querySelector('button.cm-addtocart.cm-item-' + this.getAttribute('data-itemid')).getAttribute('data-price');
+				});
+			}
+		}
 	});
 </script>

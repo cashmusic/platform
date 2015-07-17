@@ -16,23 +16,36 @@ class Store extends ElementBase {
 	public $name = 'Store';
 
 	public function getData() {
-		// define $markup to store all screen output
-		$items_request = new CASHRequest(
+		$item_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'commerce',
 				'cash_action' => 'getitemsforuser',
 				'user_id' => $this->element_data['user_id']
 			)
 		);
-		$items = $items_request->response['payload'];
+		$items = $item_request->response['payload'];
+		foreach ($items as &$item) {
+			$item['price'] = number_format($item['price'], 2, '.', '');
+			if ($item['available_units'] != 0) {
+				$item['is_available'] = true;
+			} else {
+				$item['is_available'] = false;
+			}
+			error_log(print_r($item['variants'],true));
+		}
 
-		/*
-		$this->element_data['item_name'] = $item['name'];
-		$this->element_data['item_price'] = number_format($item['price'], 2, '.', '');
-		$this->element_data['item_flexible_price'] = $item['flexible_price'];
-		$this->element_data['item_description'] = $item['description'];
-		$this->element_data['item_asset'] = $item['fulfillment_asset'];
-		*/
+
+		$cart_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'commerce',
+				'cash_action' => 'getcart'
+			)
+		);
+		$cart = $cart_request->response['payload'];
+		if ($cart) {
+			$this->element_data['items_in_cart'] = true;
+			$this->element_data['cart_dump'] = print_r($cart,true);
+		}
 
 		$featured_items_ids = array();
 		$featured_items = array();
