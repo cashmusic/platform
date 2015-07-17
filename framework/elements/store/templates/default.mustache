@@ -1,10 +1,5 @@
 {{#error_message}}<div class="cash_error cash_{{element_type}}_error">{{error_message}}</div>{{/error_message}}
 
-<style type="text/css">
-	div.cash_item.featured {color:#ff0 !important;}
-	div.cash_store.featured_items {padding:20px;background-color:#333;margin-bottom:80px;}
-	/*div.cash_store.unfeatured_items {display:none;}*/
-</style>
 <div class="cash_store featured_items">
 	{{#features}}
 
@@ -35,17 +30,13 @@
 			</span>
 		{{/is_available}}
 	</div>
-
-	<div>&nbsp;</div>
-
 	{{/features}}
 </div>
 
-
-
 <div class="cash_store unfeatured_items">
+<div class="inner">
+	<h2 class="title">Also Available</h2>
 	{{#items}}
-
 	<div class="cash_store cash_item item_{{id}}">
 		<h2>{{name}}</h2>
 		<span class="cm-itemprice">{{currency}}{{price}}{{#flexible_price}} {{copy_flexibleprice_suffix}}{{/flexible_price}}</span>
@@ -73,10 +64,8 @@
 			</span>
 		{{/is_available}}
 	</div>
-
-	<div>&nbsp;</div>
-
 	{{/items}}
+	</div><!--inner-->
 </div>
 
 
