@@ -7,13 +7,13 @@
 	<div class="cash_store cash_info cash_inner">
 		<h2>{{name}}</h2>
 		<span class="cm-itemprice">{{currency}}{{price}}{{#flexible_price}} {{copy_flexibleprice_suffix}}{{/flexible_price}}</span>
-		<p>{{description}}</p>
+		<div class="cm-description">{{{description}}}</div>
 		{{#is_available}}
 		{{#attributes}}
-			<select>
-				<option value="">choose {{key}}</option>
+			<select class="cm-attribute" name="{{name}}" data-key="{{key}}" data-item="{{id}}" data-totalattributes="{{attributes_count}}" data-attributeorder="{{attribute_index}}">
+				<option value="resetattributes">{{copy_choose_verb}} {{key}}</option>
 				{{#items}}
-				<option value="">{{key}}</option>
+				<option value="{{key}}" {{#countermenu}}data-countermenu='{{countermenu}}'{{/countermenu}}>{{key}}</option>
 				{{/items}}
 			</select>
 		{{/attributes}}
@@ -59,13 +59,13 @@
 		<div class="cash_store cash_inner">
 		<h2>{{name}}</h2>
 		<span class="cm-itemprice">{{currency}}{{price}}{{#flexible_price}} {{copy_flexibleprice_suffix}}{{/flexible_price}}</span>
-		<p>{{description}}</p>
+		<div class="cm-description">{{{description}}}</div>
 		{{#is_available}}
 		{{#attributes}}
-			<select class="cm-attribute" data-key="{{key}}" data-item="{{id}}">
-				<option value="">choose {{key}}</option>
+			<select class="cm-attribute" name="{{name}}" data-key="{{key}}" data-item="{{id}}" data-totalattributes="{{attributes_count}}" data-attributeorder="{{index}}">
+				<option value="resetattributes">{{copy_choose_verb}} {{key}}</option>
 				{{#items}}
-				<option value="{{key}}">{{key}}</option>
+				<option value="{{key}}" {{#countermenu}}data-countermenu='{{countermenu}}'{{/countermenu}}>{{key}}</option>
 				{{/items}}
 			</select>
 		{{/attributes}}
@@ -96,14 +96,19 @@
 <script type="text/javascript">
 	var cm = window.cashmusic;
 	var cartpresent = false;
+	var cartbuttonbusy = false;
 
 	cm.events.add(cm,'ready', function(e) {
 		function flashCartButton() {
 			if (cartpresent) {
-				cm.styles.addClass('storage:cartbutton','cm-flash',true);
-				setTimeout(function() {
-					cm.styles.removeClass('storage:cartbutton','cm-flash',true);
-				},2000);
+				if (!cartbuttonbusy) {
+					cm.styles.addClass('storage:cartbutton','cm-flash',true);
+					cartbuttonbusy = true;
+					setTimeout(function() {
+						cm.styles.removeClass('storage:cartbutton','cm-flash',true);
+						cartbuttonbusy = false;
+					},2000);
+				}
 			} else {
 				addCartButton();
 			}
@@ -111,8 +116,10 @@
 
 		function addCartButton() {
 			cm.overlay.addOverlayTrigger({"element":"{{element_id}}","endpoint":"http://localhost/public","state":"cart"},'cm-cartbutton cm-flash','cartbutton');
+			cartbuttonbusy = true;
 			setTimeout(function() {
 				cm.styles.removeClass('storage:cartbutton','cm-flash',true);
+				cartbuttonbusy = false;
 			},2000);
 			cartpresent = true;
 		}
@@ -134,17 +141,25 @@
 		if (buttons.length > 0) {
 			for (var i = 0, len = buttons.length; i < len; i++) {
 				cm.events.add(buttons[i],'click', function(e) {
-					cm.ajax.send('{{api_url}}/verbose/commerce/addtocart/item_id/' + this.getAttribute('data-itemid') + '/item_variant/0/price/' + this.getAttribute('data-price') + '/', false,
-					function(r) {
-						flashCartButton();
-					});
+					if (e.target.innerHTML != '{{copy_added}}') {
+						cm.ajax.send('{{api_url}}/verbose/commerce/addtocart/item_id/' + this.getAttribute('data-itemid') + '/item_variant/0/price/' + this.getAttribute('data-price') + '/', false,
+							function(r) {
+								flashCartButton();
+								var returnTxt = e.target.innerHTML;
+								e.target.innerHTML = '{{copy_added}}';
+								setTimeout(function() {
+									e.target.innerHTML = returnTxt;
+								},2200);
+							}
+						);
+					}
 					e.preventDefault();
 					return false;
 				});
 			}
 		}
 
-		// sort all the cart buttons
+		// keep prices correct
 		var prices = document.querySelectorAll('input.cm-price');
 		if (prices.length > 0) {
 			for (var i = 0, len = prices.length; i < len; i++) {
@@ -167,6 +182,27 @@
 					this.value = document.querySelector('button.cm-addtocart.cm-item-' + this.getAttribute('data-itemid')).getAttribute('data-price');
 				});
 			}
+		}
+
+		// i hate you, item variants
+		// to clarify, i hate the dropdown logic not the variants.
+		// the variants were lovingly crafted by @waferbaby and they're very nice
+		var attributes = document.querySelectorAll('select.cm-attribute');
+		if (attributes.length > 0) {
+			for (var i = 0, len = attributes.length; i < len; i++) {
+				cm.events.add(attributes[i],'change', function(e) {
+					var otherselect = e.target.parentNode.querySelector('select:not([name="'+e.target.getAttribute('name')+'"]');
+					if (otherselect) {
+						console.log(otherselect.getAttribute('data-key'));
+					}
+				});
+			}
+
+			/*
+			1. unique classes for each attribute select
+			2. IF other is set, get other select with parent.querySelector('select.{{uniqueclass}}')
+			3. store
+			*/
 		}
 	});
 </script>

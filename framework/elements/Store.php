@@ -32,9 +32,52 @@ class Store extends ElementBase {
 				$item['is_available'] = false;
 			}
 			if ($item['variants']) {
+				error_log(print_r($item['variants'],true));
 				$item['has_variants'] = true;
-				$item['attributes'] = $item['variants']['attributes'];
-				$item['variants_dump'] = print_r($item['variants'],true);
+				$verified_attributes = array();
+				$item['attributes_count'] = count($item['variants']['attributes']);
+				foreach ($item['variants']['attributes'] as $key => $attribute) {
+					$attribute['index'] = $key;
+					$attribute['name'] = ''.strtolower(str_replace(' ','',$attribute['key']));
+					$verified_items = array();
+					foreach ($attribute['items'] as $i) {
+						if ($i['value'] > 0) {
+							if ($item['attributes_count'] > 1) {
+								// hard coding for 2 attributes RN
+								$counter_index = 1;
+								if ($attribute['index'] == 1) {
+									$counter_index = 0;
+								}
+								$counter_attribute = $item['variants']['attributes'][$counter_index];
+								$counter_key = $counter_attribute['key'];
+								$this_frag = $attribute['key'] . '->' . $i['key'];
+								$counter_options = array();
+								foreach ($counter_attribute['items'] as $ci) {
+									$that_frag = $counter_key.'->'.$ci['key'];
+									if ($counter_index == 1) {
+										$qty_key = $this_frag.'+'.$that_frag;
+									} else {
+										$qty_key = $that_frag.'+'.$this_frag;
+									}
+									foreach ($item['variants']['quantities'] as $q) {
+										if ($q['key'] == $qty_key && $q['value']) {
+											$counter_options[] = $ci['key'];
+										}
+									}
+								}
+								$counter_options = str_replace("'","\'",json_encode($counter_options));
+								// quantities -> id,key,value color->red+size->m
+								$i['countermenu'] = $counter_options;
+							}
+							$verified_items[] = $i;
+						}
+					}
+					if (count($verified_items)) {
+						$attribute['items'] = $verified_items;
+						$verified_attributes[] = $attribute;
+					}
+				}
+				$item['attributes'] = $verified_attributes;
 			}
 		}
 
@@ -71,14 +114,6 @@ class Store extends ElementBase {
 
 		$this->element_data['items'] = new ArrayIterator($unfeatured_items);
 		$this->element_data['features'] = new ArrayIterator($featured_items);
-
-		/*
-		if ($item['available_units'] != 0) {
-			$this->element_data['is_available'] = true;
-		} else {
-			$this->element_data['is_available'] = false;
-		}
-		*/
 
 		$currency_request = new CASHRequest(
 			array(
