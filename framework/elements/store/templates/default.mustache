@@ -10,8 +10,8 @@
 		<div class="cm-description">{{{description}}}</div>
 		{{#is_available}}
 		{{#attributes}}
-			<select class="cm-attribute" name="{{name}}" data-key="{{key}}" data-item="{{id}}" data-totalattributes="{{attributes_count}}" data-attributeorder="{{attribute_index}}">
-				<option value="resetattributes">{{copy_choose_verb}} {{key}}</option>
+			<select class="cm-attribute" name="{{name}}" data-key="{{key}}" data-itemid="{{id}}" data-totalattributes="{{attributes_count}}" data-attributeorder="{{attribute_index}}">
+				<option value="resetattributes" {{#defaultcountermenu}}data-countermenu='{{defaultcountermenu}}'{{/defaultcountermenu}}>{{copy_choose_verb}} {{key}}</option>
 				{{#items}}
 				<option value="{{key}}" {{#countermenu}}data-countermenu='{{countermenu}}'{{/countermenu}}>{{key}}</option>
 				{{/items}}
@@ -27,7 +27,7 @@
 		{{/is_available}}
 		{{^is_available}}
 			<span class="cm-unavailable">
-				Sorry, this item is currently unavailable.
+				{{copy_unavailable}}
 			</span>
 		{{/is_available}}
 	</div>
@@ -62,8 +62,8 @@
 		<div class="cm-description">{{{description}}}</div>
 		{{#is_available}}
 		{{#attributes}}
-			<select class="cm-attribute" name="{{name}}" data-key="{{key}}" data-item="{{id}}" data-totalattributes="{{attributes_count}}" data-attributeorder="{{index}}">
-				<option value="resetattributes">{{copy_choose_verb}} {{key}}</option>
+			<select class="cm-attribute" name="{{name}}" data-key="{{key}}" data-itemid="{{id}}" data-totalattributes="{{attributes_count}}" data-attributeorder="{{index}}">
+				<option value="resetattributes" {{#defaultcountermenu}}data-countermenu='{{defaultcountermenu}}'{{/defaultcountermenu}}>{{copy_choose_verb}} {{key}}</option>
 				{{#items}}
 				<option value="{{key}}" {{#countermenu}}data-countermenu='{{countermenu}}'{{/countermenu}}>{{key}}</option>
 				{{/items}}
@@ -79,7 +79,7 @@
 		{{/is_available}}
 		{{^is_available}}
 			<span class="cm-unavailable">
-				Sorry, this item is currently unavailable.
+				{{copy_unavailable}}
 			</span>
 		{{/is_available}}
 		</div>
@@ -142,7 +142,12 @@
 			for (var i = 0, len = buttons.length; i < len; i++) {
 				cm.events.add(buttons[i],'click', function(e) {
 					if (e.target.innerHTML != '{{copy_added}}') {
-						cm.ajax.send('{{api_url}}/verbose/commerce/addtocart/item_id/' + this.getAttribute('data-itemid') + '/item_variant/0/price/' + this.getAttribute('data-price') + '/', false,
+						//
+						var requesturl = '{{api_url}}/verbose/commerce/addtocart/item_id/' + this.getAttribute('data-itemid') + '/price/' + this.getAttribute('data-price') + '/';
+						if (this.getAttribute('data-variantid')) {
+							requesturl += 'item_variant/'+this.getAttribute('data-variantid')+'/'
+						}
+						cm.ajax.send(requesturl, false,
 							function(r) {
 								flashCartButton();
 								var returnTxt = e.target.innerHTML;
@@ -193,16 +198,32 @@
 				cm.events.add(attributes[i],'change', function(e) {
 					var otherselect = e.target.parentNode.querySelector('select:not([name="'+e.target.getAttribute('name')+'"]');
 					if (otherselect) {
-						console.log(otherselect.getAttribute('data-key'));
+						var supportedoptions = JSON.parse(e.target.options[e.target.selectedIndex].getAttribute('data-countermenu'));
+						var otheroptions = otherselect.querySelectorAll('option');
+						for (var i = 0, len = otheroptions.length; i < len; i++) {
+							otheroptions[i].setAttribute('disabled','disabled');
+							if (otheroptions[i].value == 'resetattributes' || supportedoptions.indexOf(otheroptions[i].value) !== -1) {
+								otheroptions[i].removeAttribute('disabled');
+							}
+						}
+						var b = document.querySelector('button.cm-addtocart.cm-item-' + e.target.getAttribute('data-itemid'));
+						if (e.target.value != 'resetattributes' && otherselect.value != 'resetattributes') {
+							var thisid = e.target.getAttribute('data-key')+'->'+e.target.value;
+							var otherid = otherselect.getAttribute('data-key')+'->'+otherselect.value;
+							if (e.target.getAttribute('data-attributeorder') == 0) {
+								var attributekey = thisid+'+'+otherid;
+							} else {
+								var attributekey = otherid+'+'+thisid;
+							}
+							b.setAttribute('data-variantid',attributekey);
+							b.innerHTML = '<span class="cm-price">{{currency}}'+b.getAttribute('data-price')+'</span> - {{copy_cart}}';
+						} else {
+							b.removeAttribute('data-variantid');
+							b.innerHTML = '{{copy_choose_variants}}';
+						}
 					}
 				});
 			}
-
-			/*
-			1. unique classes for each attribute select
-			2. IF other is set, get other select with parent.querySelector('select.{{uniqueclass}}')
-			3. store
-			*/
 		}
 	});
 </script>

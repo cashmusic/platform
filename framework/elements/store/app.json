@@ -20,7 +20,8 @@
 			"flexibleprice_suffix":"or more",
 			"choose_variants":"Choose an option first",
 			"choose_verb":"Choose",
-			"added":"Added to cart!"
+			"added":"Added to cart!",
+			"unavailable":"Sorry, this item is currently unavailable."
 		}
 	},
 	"options":{
