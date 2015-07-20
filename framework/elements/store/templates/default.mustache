@@ -197,6 +197,7 @@
 			for (var i = 0, len = attributes.length; i < len; i++) {
 				cm.events.add(attributes[i],'change', function(e) {
 					var otherselect = e.target.parentNode.querySelector('select:not([name="'+e.target.getAttribute('name')+'"]');
+					var b = document.querySelector('button.cm-addtocart.cm-item-' + e.target.getAttribute('data-itemid'));
 					if (otherselect) {
 						var supportedoptions = JSON.parse(e.target.options[e.target.selectedIndex].getAttribute('data-countermenu'));
 						var otheroptions = otherselect.querySelectorAll('option');
@@ -206,7 +207,6 @@
 								otheroptions[i].removeAttribute('disabled');
 							}
 						}
-						var b = document.querySelector('button.cm-addtocart.cm-item-' + e.target.getAttribute('data-itemid'));
 						if (e.target.value != 'resetattributes' && otherselect.value != 'resetattributes') {
 							var thisid = e.target.getAttribute('data-key')+'->'+e.target.value;
 							var otherid = otherselect.getAttribute('data-key')+'->'+otherselect.value;
@@ -216,6 +216,17 @@
 								var attributekey = otherid+'+'+thisid;
 							}
 							b.setAttribute('data-variantid',attributekey);
+							b.removeAttribute('disabled');
+							b.innerHTML = '<span class="cm-price">{{currency}}'+b.getAttribute('data-price')+'</span> - {{copy_cart}}';
+						} else {
+							b.removeAttribute('data-variantid');
+							b.setAttribute('disabled','disabled');
+							b.innerHTML = '{{copy_choose_variants}}';
+						}
+					}
+					if (e.target.getAttribute('data-totalattributes') == 1) {
+						if (e.target.value != 'resetattributes') {
+							b.setAttribute('data-variantid',e.target.getAttribute('data-key')+'->'+e.target.value);
 							b.removeAttribute('disabled');
 							b.innerHTML = '<span class="cm-price">{{currency}}'+b.getAttribute('data-price')+'</span> - {{copy_cart}}';
 						} else {
