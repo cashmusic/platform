@@ -23,7 +23,7 @@
 			<input type="text" name="total_price" data-itemid="{{id}}" data-atleast="{{price}}" class="cm-price" value="{{price}}" />
 		</span>
 		{{/flexible_price}}
-		<button type="button" data-itemid="{{id}}" data-price="{{price}}" class="button {{#has_variants}}cm-disabled{{/has_variants}} cm-addtocart cm-item-{{id}}">{{#has_variants}}{{copy_choose_variants}}{{/has_variants}}{{^has_variants}}<span class="cm-price">{{currency}}{{price}}</span> - {{copy_cart}}{{/has_variants}}</button>
+		<button type="button" data-itemid="{{id}}" data-price="{{price}}" class="button {{#has_variants}}cm-disabled{{/has_variants}} cm-addtocart cm-item-{{id}}"{{#has_variants}} disabled="disabled"{{/has_variants}}>{{#has_variants}}{{copy_choose_variants}}{{/has_variants}}{{^has_variants}}<span class="cm-price">{{currency}}{{price}}</span> - {{copy_cart}}{{/has_variants}}</button>
 		{{/is_available}}
 		{{^is_available}}
 			<span class="cm-unavailable">
@@ -75,7 +75,7 @@
 			<input type="text" name="total_price" data-itemid="{{id}}" data-atleast="{{price}}" class="cm-price" value="{{price}}" />
 		</span>
 		{{/flexible_price}}
-		<button type="button" data-itemid="{{id}}" data-price="{{price}}" class="button {{#has_variants}}cm-disabled{{/has_variants}} cm-addtocart cm-item-{{id}}">{{#has_variants}}{{copy_choose_variants}}{{/has_variants}}{{^has_variants}}<span class="cm-price">{{currency}}{{price}}</span> - {{copy_cart}}{{/has_variants}}</button>
+		<button type="button" data-itemid="{{id}}" data-price="{{price}}" class="button {{#has_variants}}cm-disabled{{/has_variants}} cm-addtocart cm-item-{{id}}"{{#has_variants}} disabled="disabled"{{/has_variants}}>{{#has_variants}}{{copy_choose_variants}}{{/has_variants}}{{^has_variants}}<span class="cm-price">{{currency}}{{price}}</span> - {{copy_cart}}{{/has_variants}}</button>
 		{{/is_available}}
 		{{^is_available}}
 			<span class="cm-unavailable">
@@ -216,9 +216,11 @@
 								var attributekey = otherid+'+'+thisid;
 							}
 							b.setAttribute('data-variantid',attributekey);
+							b.removeAttribute('disabled');
 							b.innerHTML = '<span class="cm-price">{{currency}}'+b.getAttribute('data-price')+'</span> - {{copy_cart}}';
 						} else {
 							b.removeAttribute('data-variantid');
+							b.setAttribute('disabled','disabled');
 							b.innerHTML = '{{copy_choose_variants}}';
 						}
 					}
@@ -226,4 +228,8 @@
 			}
 		}
 	});
+
+	/*
+		TODO: disable butttons when selection isn't possible
+	*/
 </script>
