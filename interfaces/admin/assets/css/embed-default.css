@@ -167,6 +167,11 @@ input[type=submit], .button{
 	vertical-align: top;
 }
 
+input[type=submit]:disabled, .button:disabled{
+	pointer-events:none;
+	opacity: 0.5;
+}
+
 input[type=submit]:hover, .button:hover{
 	background:#00cf7f;
 	color:rgba(0,0,0,0.3);
