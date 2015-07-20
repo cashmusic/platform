@@ -1,10 +1,10 @@
-{{#error_message}}<div class="cash_error cash_{{element_type}}_error">{{error_message}}</div>{{/error_message}}
+{{#error_message}}<div class="cm-error cm-{{element_type}}-error">{{error_message}}</div>{{/error_message}}
 
-<div class="cash_store featured_items">
+<div class="cm-store featured-items">
 	{{#features}}
 
-	<div class="cash_store cash_item item_{{id}} featured">
-	<div class="cash_store cash_info cash_inner">
+	<div class="cm-store cm-item item-{{id}} featured">
+	<div class="cm-store cm-info cm-inner">
 		<h2>{{name}}</h2>
 		<span class="cm-itemprice">{{currency}}{{price}}{{#flexible_price}} {{copy_flexibleprice_suffix}}{{/flexible_price}}</span>
 		<div class="cm-description">{{{description}}}</div>
@@ -18,8 +18,8 @@
 			</select>
 		{{/attributes}}
 		{{#flexible_price}}
-		<span class="cash_store_flexible_price">
-			<span class="cash_store_currency">{{currency}}</span>
+		<span class="cm-store-flexible-price">
+			<span class="cm-store-currency">{{currency}}</span>
 			<input type="text" name="total_price" data-itemid="{{id}}" data-atleast="{{price}}" class="cm-price" value="{{price}}" />
 		</span>
 		{{/flexible_price}}
@@ -35,28 +35,28 @@
 	{{/features}}
 </div>
 
-<div class="cash_store cash_return redeem">
-	<h3 id="cmrtrntoggle" class="cash_store cash_return return"><span>Returning Customer?</span> Login for order details and downloads.</h3>
-	<div id="cmrtrndraw" class="cash_store cash_return cash_inner">
-	<form id="cash_{{element_type}}_form_{{element_id}}" class="cash_form {{element_id}}" method="post" action="">
-	<div class="cash_address_container">
+<div class="cm-store cm-return redeem">
+	<h3 id="cmrtrntoggle" class="cm-store cm-return return"><span>Returning Customer?</span> Login for order details and downloads.</h3>
+	<div id="cmrtrndraw" class="cm-store cm-return cm-inner">
+	<form id="cm-{{element_type}}-form-{{element_id}}" class="cm-form {{element_id}}" method="post" action="">
+	<div class="cm-address-container">
 		<label for="address">Email</label>
-		<input type="email" name="address"  placeholder="Email" value="" class="cash_input cash_input_address" />
-	</div><div class="cash_order_container">
+		<input type="email" name="address"  placeholder="Email" value="" class="cm-input cm-input-address" />
+	</div><div class="cm-order-container">
 		<label for="orderno">Order N<sup>o</sup></label>
-		<input type="text" name="orderno" value="" placeholder="Order Number" class="cash_input cash_input_order_number" />
+		<input type="text" name="orderno" value="" placeholder="Order Number" class="cm-input cm-input-order-number" />
 	</div>
 	<input type="submit" value="log in" class="button" />
 	</div><!--inner-->
 </form>
 </div>
 
-<div class="cash_store unfeatured_items">
-<div class="cash_store cash_info cash_inner">
+<div class="cm-store unfeatured-items">
+<div class="cm-store cm-info cm-inner">
 	<h2 class="title">Also Available</h2>
 	{{#items}}
-	<div class="cash_store cash_item item_{{id}}">
-		<div class="cash_store cash_inner">
+	<div class="cm-store cm-item item-{{id}}">
+		<div class="cm-store cm-inner">
 		<h2>{{name}}</h2>
 		<span class="cm-itemprice">{{currency}}{{price}}{{#flexible_price}} {{copy_flexibleprice_suffix}}{{/flexible_price}}</span>
 		<div class="cm-description">{{{description}}}</div>
@@ -70,8 +70,8 @@
 			</select>
 		{{/attributes}}
 		{{#flexible_price}}
-		<span class="cash_store_flexible_price">
-			<span class="cash_store_currency">{{currency}}</span>
+		<span class="cm-store-flexible-price">
+			<span class="cm-store-currency">{{currency}}</span>
 			<input type="text" name="total_price" data-itemid="{{id}}" data-atleast="{{price}}" class="cm-price" value="{{price}}" />
 		</span>
 		{{/flexible_price}}

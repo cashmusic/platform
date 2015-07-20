@@ -580,34 +580,34 @@ input[type=submit]:hover, .button:hover{
 	display: none;
 }
 
-.cash_store h2{
+.cm-store h2{
 	font-size:14px;
 	margin:0 0 5px 0;
 }
 
-.cash_store h2.title {
+.cm-store h2.title {
   display: block;
   margin: 0 0 30px 0;
 }
 
-.cash_store .cash_item p{
+.cm-store .cm-item p{
 	margin:10px 0;
 	font-size:12px;
 	line-height: 12px;
 }
 
-.cash_store .cart-scroll-message{
+.cm-store .cart-scroll-message{
 	text-align: center;
  	margin: 30px 0;
  	display: block;
 }
 
 
-.cash_store .cm-description{
+.cm-store .cm-description{
 	margin:0 0 5px 0;
 }
 
-.cash_store .cash_item select{
+.cm-store .cm-item select{
 	width:100%;
 	background:none;
 	background-color:#00cf7f;
@@ -631,29 +631,29 @@ input[type=submit]:hover, .button:hover{
 	-moz-appearance:none;
 }
 
-.cash_store .cash_item select:focus{
+.cm-store .cm-item select:focus{
 	outline:none;
 }
 
 /* Store Flexible Price */
 
 
-.cash_store_flexible_price {
+.cm-store-flexible-price {
 	display: block;
 	position:relative;
 	margin:0 0 5px 0;
 }
 
-.cash_store_flexible_price input{
+.cm-store-flexible-price input{
 	color:#4d4d4d;
 }
 
-.cash_store_flexible_price .cm-price{
+.cm-store-flexible-price .cm-price{
  	width:100%;
  	padding-left:3.5em;
 }
 
-.cash_store_flexible_price .cash_store_currency{
+.cm-store-flexible-price .cm-store-currency{
 	position:absolute;
 	background:transparent;
 	color:#4d4d4d;
@@ -664,13 +664,13 @@ input[type=submit]:hover, .button:hover{
 
 /* Store Redeem Purchases */
 
-.cash_store.cash_return.redeem .cash_address_container, .cash_store.cash_return.redeem .cash_order_container{
+.cm-store.cm-return.redeem .cm-address-container, .cm-store.cm-return.redeem .cm-order-container{
 	width:25%;
 	display:inline-block;
 	margin:0 5px 0 0;
 }
 
-.cash_store.cash_return.redeem h3{
+.cm-store.cm-return.redeem h3{
 	-webkit-user-select: none; /* webkit (safari, chrome) browsers */
     -moz-user-select: none; /* mozilla browsers */
     -khtml-user-select: none; /* webkit (konqueror) browsers */
@@ -680,23 +680,23 @@ input[type=submit]:hover, .button:hover{
 	trasition:0.3s ease-in-out;
 }
 
-.cash_store.cash_return.redeem h3:hover{
+.cm-store.cm-return.redeem h3:hover{
 	opacity: 0.5;
 }
 
-.cash_store.cash_return.redeem h3 span{
+.cm-store.cm-return.redeem h3 span{
 	text-decoration: underline;
 }
 
-.cash_store.cash_return.redeem input{
+.cm-store.cm-return.redeem input{
 	width:100%;
 }
 
-.cash_store.cash_return.redeem input.button{
+.cm-store.cm-return.redeem input.button{
 	width:25%;
 }
 
-.cash_store.cash_return.redeem .cash_store.cash_return.cash_inner{
+.cm-store.cm-return.redeem .cm-store.cm-return.cm-inner{
 	opacity: 0;
 	padding:0 50px;
 	-webkit-transition: 0.3s ease-in-out;
@@ -704,66 +704,66 @@ input[type=submit]:hover, .button:hover{
 	trasition:0.3s ease-in-out;
 }
 
-.cash_store.cash_return.redeem .cash_store.cash_return.cash_inner .cash_form{
+.cm-store.cm-return.redeem .cm-store.cm-return.cm-inner .cm-form{
 	height:0;
 	-webkit-transition: 0.3s height ease-in-out;
 	-moz-transition: 0.3s height ease-in-out;
 	trasition:0.3s height ease-in-out;
 }
 
-.cash_store.cash_return.redeem .cash_store.cash_return.cash_inner.active{
+.cm-store.cm-return.redeem .cm-store.cm-return.cm-inner.active{
 	opacity: 1;
 	padding:50px;
 } 
 
-.cash_store.cash_return.redeem .cash_store.cash_return.cash_inner.active .cash_form{
+.cm-store.cm-return.redeem .cm-store.cm-return.cm-inner.active .cm-form{
 	height:100%;
 }
 
 /* Store Featured Items */
 
-.cash_store.featured_items{
+.cm-store.featured-items{
 	margin:0 auto;
 }
 
-.cash_store.featured_items .cash_item{
+.cm-store.featured-items .cm-item{
 	width:30%;
 	display: inline-block;
 }
 
-.cash_store.unfeatured_items{
+.cm-store.unfeatured-items{
 	margin:0;
 	padding:0;
 }
 
-.cash_store.unfeatured_items .cash_inner{
+.cm-store.unfeatured-items .cm-inner{
 	padding:0;
 	margin:0 auto;
 	text-align: center;
 } 
 
-.cash_store.unfeatured_items .cash_inner .cash_store.cash_inner{
+.cm-store.unfeatured-items .cm-inner .cm-store.cm-inner{
 	text-align: left;
 }
 
-.cash_store.unfeatured_items .cash_item{
+.cm-store.unfeatured-items .cm-item{
 	display: inline-block;
 	width:49.5%;
 	overflow: auto;
 	padding:20px;
 }
 
-.cash_store .cash_item input[type=submit], .cash_store .cash_item .button{
+.cm-store .cm-item input[type=submit], .cm-store .cm-item .button{
 	width:100%;
 	padding:15px;
 	-webkit-transition: 0.3s  ease-in-out;
 	transition: 0.3s  ease-in-out;
 }
 
-.cash_store .cash_item input[type=submit]:focus, .cash_store .cash_item .button:focus {outline:0;}
+.cm-store .cm-item input[type=submit]:focus, .cm-store .cm-item .button:focus {outline:0;}
 
 
-.cash_store input:disabled{
+.cm-store input:disabled{
 	pointer-events:none;
 	opacity: 0.5;
 }
