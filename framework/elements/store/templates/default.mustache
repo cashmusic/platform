@@ -36,8 +36,8 @@
 </div>
 
 <div class="cash_store cash_return redeem">
-	<h3 class="cash_store cash_return return">Returning Customer? <span>Login for order details and downloads.</span></h3>
-	<div class="cash_store cash_return cash_inner">
+	<h3 id="cmrtrntoggle" class="cash_store cash_return return"><span>Returning Customer?</span> Login for order details and downloads.</h3>
+	<div id="cmrtrndraw" class="cash_store cash_return cash_inner">
 	<form id="cash_{{element_type}}_form_{{element_id}}" class="cash_form {{element_id}}" method="post" action="">
 	<div class="cash_address_container">
 		<label for="address">Email</label>
@@ -94,6 +94,19 @@
 </div><!--info-->
 
 <script type="text/javascript">
+
+//login panel show/hide
+document.getElementById('cmrtrntoggle').onclick = function() {
+
+    var className = ' ' + cmrtrndraw.className + ' ';
+
+    if ( ~className.indexOf(' active ') ) {
+        document.getElementById('cmrtrndraw').className = className.replace(' active ', ' ');
+    } else {
+        document.getElementById('cmrtrndraw').className += ' active';
+    }              
+}
+
 	var cm = window.cashmusic;
 	var cartpresent = false;
 	var cartbuttonbusy = false;
