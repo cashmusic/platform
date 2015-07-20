@@ -21,7 +21,8 @@
 			"choose_variants":"Choose an option first",
 			"choose_verb":"Choose",
 			"added":"Added to cart!",
-			"unavailable":"Sorry, this item is currently unavailable."
+			"unavailable":"Sorry, this item is currently unavailable.",
+			"emptycart":"Your cart is empty."
 		}
 	},
 	"options":{

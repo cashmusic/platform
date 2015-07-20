@@ -32,7 +32,6 @@ class Store extends ElementBase {
 				$item['is_available'] = false;
 			}
 			if ($item['variants']) {
-				error_log(print_r($item['variants'],true));
 				$item['has_variants'] = true;
 				$verified_attributes = array();
 				$item['attributes_count'] = count($item['variants']['attributes']);
@@ -100,7 +99,6 @@ class Store extends ElementBase {
 		$cart = $cart_request->response['payload'];
 		if ($cart) {
 			$this->element_data['items_in_cart'] = true;
-			$this->element_data['cart_dump'] = print_r($cart,true);
 		}
 
 		$featured_items_ids = array();
@@ -158,32 +156,40 @@ class Store extends ElementBase {
 			}
 			*/
 			$this->setTemplate('success');
-		} elseif ($this->status_uid == 'commerce_initiatecheckout_400') {
-			// could happen on a database glitch, but probably means the user set a pay-minimum price below the
-			// minimum price. what a heel.
-			$this->element_data['error_message'] = 'Make sure you enter a price of at least ' . $this->element_data['currency'] . $item['price'] . ' and try again.';
 		} elseif ($this->status_uid == 'commerce_finalizepayment_400' || $this->status_uid == 'element_redeemcode_400') {
 			// payerid is specific to paypal, so this is temporary to tell between canceled and errored:
 			if (isset($_GET['PayerID'])) {
 				//$this->element_data['error_message'] = $this->options['message_error'];
 				$this->element_data['error_message'] = print_r($this->original_response,true);
 			}
-		} elseif (isset($_POST['singlepurchase1'])) {
-			$total_price = $item['price'];
-			if (isset($_POST['total_price'])) {
-				$total_price = $_POST['total_price'];
-			}
-			$this->element_data['total_price'] = $total_price;
-			if ($this->element_data['region1_cost'] + $this->element_data['region2_cost'] == 0.00) {
-				$this->element_data['no_shipping'] = true;
-			}
-			if ($total_price >= $item['price']) {
-				$this->setTemplate('shipping');
-			} else {
-				$this->element_data['error_message'] = 'Make sure you enter a price of at least ' . $this->element_data['currency'] . $item['price'] . ' and try again.';
-			}
 		} elseif (isset($_REQUEST['state'])) {
 			if ($_REQUEST['state'] == 'cart') {
+				$subtotal = 0;
+				$shipping = 0;
+				foreach ($cart as &$i) {
+					foreach ($items as $ii) {
+						if ($ii['id'] == $i['id']) {
+							$i['price'] = max($i['price'],$ii['price']);
+							$i['total_price'] = number_format($i['qty'] * $i['price'],2);
+							$subtotal += $i['total_price'];
+							$i['name'] = $ii['name'];
+							if ($i['variant']) {
+								foreach ($ii['variants']['quantities'] as $q) {
+									if ($q['key'] == str_replace(' ','+',$i['variant'])) { //TODO: hacky fix for plus signs decoded as spaces
+										$i['variant_name'] = $q['formatted_name'];
+										break;
+									}
+								}
+							}
+							break;
+						}
+					}
+				}
+				//$this->element_data['cart_dump'] = print_r($cart,true);
+				$this->element_data['cart'] = new ArrayIterator($cart);;
+				$this->element_data['subtotal'] =  number_format($subtotal,2);
+				$this->element_data['shipping'] =  number_format($shipping,2);
+				$this->element_data['total'] =  number_format($subtotal+$shipping,2);;
 				$this->setTemplate('cart');
 			}
 		}
