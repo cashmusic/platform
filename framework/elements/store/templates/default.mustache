@@ -128,7 +128,7 @@ document.getElementById('cmrtrntoggle').onclick = function() {
 		}
 
 		function addCartButton() {
-			cm.overlay.addOverlayTrigger({"element":"{{element_id}}","endpoint":"http://localhost/public","state":"cart"},'cm-cartbutton cm-flash','cartbutton');
+			cm.overlay.addOverlayTrigger({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"cart"},'cm-cartbutton cm-flash','cartbutton');
 			cartbuttonbusy = true;
 			setTimeout(function() {
 				cm.styles.removeClass('storage:cartbutton','cm-flash',true);
@@ -154,8 +154,7 @@ document.getElementById('cmrtrntoggle').onclick = function() {
 		if (buttons.length > 0) {
 			for (var i = 0, len = buttons.length; i < len; i++) {
 				cm.events.add(buttons[i],'click', function(e) {
-					if (e.target.innerHTML != '{{copy_added}}') {
-						//
+					if (this.innerHTML != '{{copy_added}}') {
 						var requesturl = '{{api_url}}/verbose/commerce/addtocart/item_id/' + this.getAttribute('data-itemid') + '/price/' + this.getAttribute('data-price') + '/';
 						if (this.getAttribute('data-variantid')) {
 							requesturl += 'item_variant/'+this.getAttribute('data-variantid')+'/'
@@ -163,10 +162,14 @@ document.getElementById('cmrtrntoggle').onclick = function() {
 						cm.ajax.send(requesturl, false,
 							function(r) {
 								flashCartButton();
+								var el = e.target;
+								if(e.target.getAttribute('type') != 'button') {
+									el = e.target.parentNode; // if the span is clicked use the button parent
+								}
 								var returnTxt = e.target.innerHTML;
-								e.target.innerHTML = '{{copy_added}}';
+								el.innerHTML = '{{copy_added}}';
 								setTimeout(function() {
-									e.target.innerHTML = returnTxt;
+									el.innerHTML = returnTxt;
 								},2200);
 							}
 						);

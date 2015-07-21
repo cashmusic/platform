@@ -16,6 +16,7 @@ class Store extends ElementBase {
 	public $name = 'Store';
 
 	public function getData() {
+		$this->element_data['public_url'] = CASH_PUBLIC_URL;
 		$item_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'commerce',
