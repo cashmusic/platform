@@ -123,6 +123,7 @@ class Store extends ElementBase {
 		$this->element_data['items'] = new ArrayIterator($unfeatured_items);
 		$this->element_data['features'] = new ArrayIterator($featured_items);
 
+		// get currency info for element owner
 		$currency_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'system',
@@ -135,6 +136,24 @@ class Store extends ElementBase {
 			$this->element_data['currency'] = CASHSystem::getCurrencySymbol($currency_request->response['payload']);
 		} else {
 			$this->element_data['currency'] = CASHSystem::getCurrencySymbol('USD');
+		}
+
+		// get region information for element owner
+		// now get the current setting
+		$settings_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system',
+				'cash_action' => 'getsettings',
+				'type' => 'regions',
+				'user_id' => $this->element_data['user_id']
+			)
+		);
+		if ($settings_request->response['payload']) {
+			$this->element_data['region1'] = $settings_request->response['payload']['region1'];
+			$this->element_data['region2'] = $settings_request->response['payload']['region2'];
+		} else {
+			$this->element_data['region1'] = 'US';
+			$this->element_data['region2'] = 'International';
 		}
 
 		if (
