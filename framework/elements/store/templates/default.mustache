@@ -1,5 +1,5 @@
 {{#error_message}}<div class="cm-error cm-{{element_type}}-error">{{error_message}}</div>{{/error_message}}
-
+<div class="cm-store cm-front">
 <div class="cm-store featured-items">
 	{{#features}}
 
@@ -33,7 +33,7 @@
 	</div>
 	</div>
 	{{/features}}
-</div>
+</div><!--featured-->
 
 <div class="cm-store cm-return redeem">
 	<h3 id="cmrtrntoggle" class="cm-store cm-return return"><span>Returning Customer?</span> Login for order details and downloads.</h3>
@@ -49,7 +49,7 @@
 	<input type="submit" value="log in" class="button" />
 	</div><!--inner-->
 </form>
-</div>
+</div><!--return-->
 
 <div class="cm-store unfeatured-items">
 <div class="cm-store cm-info cm-inner">
@@ -91,7 +91,8 @@
 
 </form>
 
-</div><!--info-->
+</div><!--unfeatured-->
+</div><!--cm-store cm-front-->
 
 <script type="text/javascript">
 
