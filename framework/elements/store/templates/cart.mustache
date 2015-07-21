@@ -1,8 +1,8 @@
 <div class="cm-store cm-cart">
 {{#error_message}}<div class="cm-error">{{error_message}}</div>{{/error_message}}
 {{#items_in_cart}}
+	<ul class="cm-items">
 	{{#cart}}
-		<ul class="cm-items">
 			<li class="cm-item">
 				<h3 class="cm-title">{{name}}</h3>
 				{{#variant_name}}<p class="cm-variant">{{variant_name}}</p>{{/variant_name}}
@@ -11,8 +11,8 @@
 					<label class="cm-qty">QTY</label> <input type="text" name="cm-current-qty" value="{{qty}}" />
 				</div><!--cm-info-->
 			</li><!--cm-item-->
-		</ul><!--cm-items-->
 	{{/cart}}
+	</ul><!--cm-items-->
 	<div class="cm-destination">
 		<span class="cm-shipping">Shipping to:</span>
 		<select class="cm-region">
