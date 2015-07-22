@@ -768,6 +768,148 @@ input[type=submit]:hover, .button:hover{
 	opacity: 0.5;
 }
 
+/* Store Cart */
+
+.cm-cart{
+	font:100 14px/20px 'Montserrat',Helvetica,Arial,sans-serif;
+	color:#fff;
+	margin:50px 0;
+	padding:20px;
+}
+
+.cm-cart .cm-item{
+	position: relative;
+	background:rgba(255,255,255,0.125);
+	margin:0 0 2px 0;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+	-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+	box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+	-webkit-transition: 0.1s  ease-in-out;
+	transition: 0.1s  ease-in-out;
+}
+
+.cm-cart .cm-item .cm-variant{
+	padding:0 0 0 15px;
+	margin:0;
+	color:#bcbcbc;
+}
+
+.cm-cart .cm-item .cm-info{
+	padding:5px 15px 15px 15px;
+}
+
+.cm-cart .cm-item .cm-title{
+	margin:0;
+	font-size: 14px;
+	font-weight: 100;
+	padding:15px 0 0 15px;
+}
+
+.cm-cart .cm-info .cm-price{
+	display: inline-block;
+	width:30%;
+	color:#bcbcbc;
+}
+
+.cm-cart .cm-info .cm-price span{
+	color:#fff;
+	margin:0 0 0 5px;
+}
+
+.cm-cart .cm-qty{
+	position: static;
+	text-indent: 0;
+	font-size: 12px;
+	margin:0 5px 0 0;
+	color:#bcbcbc;
+}
+
+.cm-cart input[name="cm-current-qty"]{
+	font:100 12px/20px 'Montserrat',Helvetica,Arial,sans-serif;
+	width:auto;
+	color:#fff;
+	border:none; 
+	background:rgba(221,221,221,0.15);
+	padding:2px 10px;
+}
+
+/* Cart Shipping */
+
+.cm-cart .cm-destination{
+	background:#d3d3d3;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	padding:15px;
+	color:#222222;
+}
+
+.cm-cart .cm-region{
+	background:none;
+	display: inline-block;
+	width:80%;
+	border:none;
+	padding:15px;
+	color:#222222;
+	font:400 12px/20px 'Montserrat',Helvetica,Arial,sans-serif;
+}
+
+.cm-cart .cm-region:focus, .cm-cart .cm-region:active{
+	outline:none;
+}
+
+/* Cart Summary */
+
+.cm-cart .cm-pricing{
+	color:#bcbcbc;
+	font-size: 20px;
+	line-height: 26px;
+	margin:50px 0;
+	font-weight: 100;
+	text-align: center;
+}
+
+.cm-cart .cm-pricing span{
+	margin:0 5px;
+}
+
+.cm-cart .cm-checkout{
+	color:#fff;
+	background:#00cf7f;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	display: block;
+	padding:15px;
+	text-align: center;
+	font-weight: 100;
+}
+
+.cm-cart .cm-total{
+	color:#fff;
+}
+
+.cm-cart .cm-remove{
+	opacity: 0.5;
+	position: absolute;
+	top:2px;
+	right:0px;
+	padding:0;
+	margin:0;
+	height:40px;
+	width:40px;
+	background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMMAAADDCAYAAAFIeJU8AAAABGdBTUEAALGPC/xhBQAAA7dJREFUeNrt3UuvmzoUBtDAwP//9zJoOop0etQkGLbfa01aXV3x2v7AJq55PIBxHMfxPI7j+e2/vbPn7uznn2dtuTv4KaW0he7k947O7qDamex3zqBI4V87yLlUADBPXyusk/Da2OuRmtMj2e4e6e0dfNrJmU7C5X5UaG+w6BncrcHXDtrPDaSUNp0zAIDBhPbefo8vvnVRo3qPW+TBf+ryfupf3z2ZLboKObqqRO7JRA9CdsGeqTlNE+yWt1gAAAAAoLSzs+xzZuOfVeRd7LvXk1enYBU/ibPTt+5M82pSid8HWPIEwk7i04G+E/lGvMir/ZonEH4SZ06kxG8SRX7kKJ0BlZg+E8PfnYZ/Tkz7xK7dd5qiFwsAAAAAAAAAAEBB3a5Ycmb1ldxtRW1viUJETtIsuebPtIWInJCdM7ezl4JsIxXh2wVsubTXVLemqxdy5AJ0/bAuOW3cw7pxQXpf026IBffuFGSURQWnWMjTgM6tycPaw1r31YDOgK6jYnjF0bggXvo1Lsgqr8EBAAAAAAAAAAAAAAAAAAAAAABgbCWX/OxN92uuBi/jtqeUnopwIQF3CvGf7XVXiGEWvQ1eWbKrQgy1zmpOIU5sr5tCDLfqcPBit10UYh+pAGf+/8zt/emhETYvQuS9ftRu7XBrb78roAXQGxdi9E8CDLP4eetb4NIj5tkL0G0RShXCZ2IaF6Lnpf+7/yZBRCF8uapxIUb4+MUwX+eY4ctUkqAIngl6R3pHxglGzEbMfRWg10Lsoxcg+quGSyfB7wmTJGDUQuyzFGCkEfLwSYicbeF2dOHCRc478vPmhQsX2Qvy8+aFCxc5F9Vg7cKFi5yV7cPaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwLg2lyDPcRzP199TSluvx/Z4PPaU0lPFhKF0Q/tH61B8OjahEIZaDa1pKHKOTSiEoVZDqxqKO8cmFMJQq6EVDUXksQmFMNRqaKGhKHlsQiEMNRvb5VD0elzCIBTVGp8QCMPyoRACYVg+FLUIgTAsHwohEIblQyEEwrB8KIRAGJYPhRAIw/KhEAJhWD4UQhBrdwnAk0E3CWEwgEYYJg2BUAiDEAiFMAiBUAiDEAiFMMwZAlO4hUEI/OMeYRAC/+xTGBYPRM8LAgiCMFRpeD0vFSMEwlCl4fW8iJgQCEOVhtfz8pJCIAxVGl7PCw8LgTBUaXg9L0kvBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABv/AXcat9putnPiwAAAABJRU5ErkJggg==') top left / cover no-repeat;
+	-webkit-transition: 0.3s  ease-in-out;
+	transition: 0.3s  ease-in-out;
+}
+
+.cm-cart .cm-remove:hover{
+	opacity: 1;
+	cursor: pointer;
+}
 
 /* -- Main Size -- */
 @media screen and (min-width: 275px) {
