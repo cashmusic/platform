@@ -69,6 +69,20 @@ if (isset($_POST['doitemadd'])) {
 		if (isset($_POST['item_physical'])) {
 			$physical = 1;
 		}
+		$shipping = '';
+		if ($physical) {
+			$shipping = array (
+				'r1-1' => $_POST['region1_first'],
+				'r1-1+' => $_POST['region1_rest'],
+				'r2-1' => $_POST['region2_first'],
+				'r2-1+' => $_POST['region2_rest']
+			);
+			$shipping = json_encode($shipping);
+		}
+
+		if (!isset($_POST['item_quantity'])) {
+			$_POST['item_quantity'] = false;
+		}
 
 		$edit_response = $cash_admin->requestAndStore(
 			array(
@@ -77,6 +91,7 @@ if (isset($_POST['doitemadd'])) {
 				'name' => $_POST['item_name'],
 				'description' => $_POST['item_description'],
 				'price' => $_POST['item_price'],
+				'shipping' => $shipping,
 				'available_units' => $_POST['item_quantity'],
 				'flexible_price' => $flexible_price,
 				'fulfillment_asset' => $_POST['item_fulfillment_asset'],
@@ -97,6 +112,14 @@ if (isset($_POST['doitemadd'])) {
 			'id' => $request_parameters[0]
 		)
 	);
+	$shipping_options = json_decode($item_response['payload']['shipping'],true);
+	error_log(print_r($shipping_options['r1-1'],true));
+	if ($shipping_options) {
+		$item_response['payload']['region1_first'] = number_format((float)$shipping_options['r1-1'],2);
+		$item_response['payload']['region1_rest'] = number_format((float)$shipping_options['r1-1+'],2);
+		$item_response['payload']['region2_first'] = number_format((float)$shipping_options['r2-1'],2);
+		$item_response['payload']['region2_rest'] = number_format((float)$shipping_options['r2-1+'],2);
+	}
 }
 
 /* ITEM VARIANTS */
@@ -181,6 +204,22 @@ if (is_array($item_response['payload'])) {
 			$cash_admin->page_data['variants_quantities'] = new ArrayIterator($item_variant_response['payload']['quantities']);
 		}
 	}
+}
+
+// now get the current setting
+$settings_response = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'system',
+		'cash_action' => 'getsettings',
+		'type' => 'regions',
+		'user_id' => $cash_admin->effective_user_id
+	)
+);
+if ($settings_response['payload']) {
+	$cash_admin->page_data['region1'] = $settings_response['payload']['region1'];
+	$cash_admin->page_data['region2'] = $settings_response['payload']['region2'];
+} else {
+	$cash_admin->page_data['noshippingregions'] = true;
 }
 
 $cash_admin->page_data['form_state_action'] = 'doitemedit';

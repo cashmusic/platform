@@ -268,7 +268,6 @@ $pp = array();
 foreach ($page_data_object->getConnectionsByType('com.paypal') as $ppq) {
 	$pp[$ppq['id']] = $ppq['name'];
 }
-error_log(print_r($pp_default,true));
 $cash_admin->page_data['paypal_default_options'] = AdminHelper::echoFormOptions($pp,$pp_default,false,true);
 $cash_admin->page_data['paypal_micro_options'] = AdminHelper::echoFormOptions($pp,$pp_micro,false,true);
 
@@ -304,6 +303,8 @@ $settings_response = $cash_admin->requestAndStore(
 if ($settings_response['payload']) {
 	$cash_admin->page_data['region1'] = $settings_response['payload']['region1'];
 	$cash_admin->page_data['region2'] = $settings_response['payload']['region2'];
+} else {
+	$cash_admin->page_data['noshippingregions'] = true;
 }
 
 

@@ -68,7 +68,8 @@ class CommercePlant extends PlantBase {
 		$physical_depth=0,
 		$variable_pricing=0,
 		$fulfillment_asset=0,
-		$descriptive_asset=0
+		$descriptive_asset=0,
+		$shipping=''
 	   ) {
 	   	if (!$fulfillment_asset) {
 	   		$digital_fulfillment = false;
@@ -81,6 +82,7 @@ class CommercePlant extends PlantBase {
 				'description' => $description,
 				'sku' => $sku,
 				'price' => $price,
+				'shipping' => $shipping,
 				'flexible_price' => $flexible_price,
 				'available_units' => $available_units,
 				'digital_fulfillment' => $digital_fulfillment,
@@ -266,7 +268,8 @@ class CommercePlant extends PlantBase {
 		$variable_pricing=false,
 		$fulfillment_asset=false,
 		$descriptive_asset=false,
-		$user_id=false
+		$user_id=false,
+		$shipping=''
 	   ) {
 	   	if ($fulfillment_asset === 0) {
 	   		$digital_fulfillment = 0;
@@ -280,6 +283,7 @@ class CommercePlant extends PlantBase {
 				'description' => $description,
 				'sku' => $sku,
 				'price' => $price,
+				'shipping' => $shipping,
 				'flexible_price' => $flexible_price,
 				'available_units' => $available_units,
 				'digital_fulfillment' => $digital_fulfillment,
