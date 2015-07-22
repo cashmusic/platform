@@ -95,6 +95,9 @@ foreach ($settings_types_data as $key => $data) {
 $cash_admin->page_data['all_services'] = new ArrayIterator($all_services);
 
 
+
+
+
 //items
 if (is_array($items_response['payload'])) {
 	$cash_admin->page_data['items_all'] = new ArrayIterator($items_response['payload']);
@@ -190,7 +193,18 @@ if ($session_news) {
 }
 
 
-// handle all of the currency options, first the change
+
+
+
+
+
+
+
+
+
+
+
+// handle all of the sales options, first the change
 if (isset($_POST['currency_id'])) {
 	$settings_response = $cash_admin->requestAndStore(
 		array(
@@ -201,11 +215,23 @@ if (isset($_POST['currency_id'])) {
 			'user_id' => $cash_admin->effective_user_id
 		)
 	);
+	$settings_response = $cash_admin->requestAndStore(
+		array(
+			'cash_request_type' => 'system',
+			'cash_action' => 'setsettings',
+			'type' => 'paypal_defaults',
+			'value' => array(
+				'default' => $_POST['paypal_default_id'],
+				'micro' => $_POST['paypal_micropayment_id']
+			),
+			'user_id' => $cash_admin->effective_user_id
+		)
+	);
 	if ($settings_response['payload']) {
 		AdminHelper::formSuccess('Success.','/commerce/');
 	}
 }
-// now get the current setting
+// now get the current currency setting
 $settings_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'system',
@@ -220,6 +246,31 @@ if ($settings_response['payload']) {
 	$current_currency = 'USD';
 }
 $cash_admin->page_data['currency_options'] = AdminHelper::echoCurrencyOptions($current_currency);
+// current paypal
+$settings_response = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'system',
+		'cash_action' => 'getsettings',
+		'type' => 'paypal_defaults',
+		'user_id' => $cash_admin->effective_user_id
+	)
+);
+if (is_array($settings_response['payload'])) {
+	$pp_default = $settings_response['payload']['default'];
+	$pp_micro = $settings_response['payload']['micro'];
+} else {
+	$pp_default = 0;
+	$pp_micro = 0;
+}
+$cash_admin->page_data['currency_options'] = AdminHelper::echoCurrencyOptions($current_currency);
+
+$pp = array();
+foreach ($page_data_object->getConnectionsByType('com.paypal') as $ppq) {
+	$pp[$ppq['id']] = $ppq['name'];
+}
+error_log(print_r($pp_default,true));
+$cash_admin->page_data['paypal_default_options'] = AdminHelper::echoFormOptions($pp,$pp_default,false,true);
+$cash_admin->page_data['paypal_micro_options'] = AdminHelper::echoFormOptions($pp,$pp_micro,false,true);
 
 
 // handle regions

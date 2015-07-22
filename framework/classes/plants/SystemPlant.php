@@ -1,7 +1,7 @@
 <?php
 /**
- * SystemPlant deals with any low-level or secure requests that need processing. 
- * Some things like user logins appear here instead of their more natural homes 
+ * SystemPlant deals with any low-level or secure requests that need processing.
+ * Some things like user logins appear here instead of their more natural homes
  * in order to centralize potential security risks.
  *
  * @package platform.org.cashmusic
@@ -22,7 +22,7 @@ class SystemPlant extends PlantBase {
 		'all_chars' => array('2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','m','n','p','q','r','s','t','u','v','w','x','y','z'),
 		'code_break' => array(2,3,3,4,4,4,5)
 	);
-	
+
 	public function __construct($request_type,$request) {
 		$this->request_type = 'system';
 		$this->routing_table = array(
@@ -55,9 +55,9 @@ class SystemPlant extends PlantBase {
 		$this->salt = CASHSystem::getSystemSettings('salt');
 		$this->plantPrep($request_type,$request);
 	}
-	
+
 	/**
-	 * Wrapper for CASHData migrateDB call. Currently used for SQLite -> MySQL migrations but any 
+	 * Wrapper for CASHData migrateDB call. Currently used for SQLite -> MySQL migrations but any
 	 * from/to should be possible. More tests need to be written for full support.
 	 *
 	 * @return bool
@@ -94,20 +94,20 @@ class SystemPlant extends PlantBase {
 
 		return $password_hash;
 	}
-	
+
 	/**
-	 * Logins are validated using the email address given with a salted sha256 hash of the given 
-	 * password. Blowfish is unavailable to PHP 5.2 (reliably) so we're limited in hashing. The 
-	 * system salt is stored in /framework/settings/cashmusic.ini.php outside the database for 
+	 * Logins are validated using the email address given with a salted sha256 hash of the given
+	 * password. Blowfish is unavailable to PHP 5.2 (reliably) so we're limited in hashing. The
+	 * system salt is stored in /framework/settings/cashmusic.ini.php outside the database for
 	 * additional security.
-	 * 
-	 * In addition to the standard email/pass we also validate against Mozilla's Browser ID standard
-	 * using the browserid_assetion which can be passed in. This works with the CASHSystem Browser ID 
-	 * calls to determine a positive login status for the user, get the email address, and compare it 
-	 * to the system to return the correct user and login status. 
 	 *
-	 * Pass require_admin to only return true for admin-level users. Pass an element_id if you want 
-	 * the login analytics to be tied to a specific element. 
+	 * In addition to the standard email/pass we also validate against Mozilla's Browser ID standard
+	 * using the browserid_assetion which can be passed in. This works with the CASHSystem Browser ID
+	 * calls to determine a positive login status for the user, get the email address, and compare it
+	 * to the system to return the correct user and login status.
+	 *
+	 * Pass require_admin to only return true for admin-level users. Pass an element_id if you want
+	 * the login analytics to be tied to a specific element.
 	 *
 	 * @return array|false
 	 */protected function validateLogin($address,$password,$require_admin=false,$verified_address=false,$browserid_assertion=false,$element_id=null,$keep_session=false) {
@@ -148,7 +148,7 @@ class SystemPlant extends PlantBase {
 				)
 			)
 		);
-		
+
 		if ($result) {
 			$ciphers = $this->getCryptConstants();
 			$parts = explode('$', $result[0]['password']);
@@ -225,7 +225,7 @@ class SystemPlant extends PlantBase {
 			if ($login_method == 'internal' && $last_login < (time() - 120)) {
 				new CASHRequest(
 					array(
-						'cash_request_type' => 'people', 
+						'cash_request_type' => 'people',
 						'cash_action' => 'storeuserdata',
 						'user_id' => $user_id,
 						'key' => 'last_login',
@@ -242,8 +242,8 @@ class SystemPlant extends PlantBase {
 				);
 			}
 		}
-		
-		return $result;		
+
+		return $result;
 	}
 
 	/**
@@ -255,7 +255,7 @@ class SystemPlant extends PlantBase {
 	 */protected function addLogin($address,$password,$is_admin=0,$username='',$display_name='Anonymous',$first_name='',$last_name='',$organization='',$address_country='',$force52compatibility=false,$data='') {
 		$id_request = new CASHRequest(
 			array(
-				'cash_request_type' => 'people', 
+				'cash_request_type' => 'people',
 				'cash_action' => 'getuseridforaddress',
 				'with_security_credentials' => true,
 				'address' => $address
@@ -296,7 +296,7 @@ class SystemPlant extends PlantBase {
 			$password_hash = $this->generatePasswordHash($password,$force52compatibility);
 		} else {
 			// blank string for password hash if not an admin — will disallow logins withou
-			// a reset, but that's a good thing. and for sign-in style elements we'll simly 
+			// a reset, but that's a good thing. and for sign-in style elements we'll simly
 			// provide a password reset (a la the admin), which is good UX anyway. this will
 			// greatly speed things up...
 			$password_hash = '';
@@ -366,7 +366,7 @@ class SystemPlant extends PlantBase {
 			// also remove any list members and webhooks associated with them
 			$lists_request = new CASHRequest(
 				array(
-					'cash_request_type' => 'people', 
+					'cash_request_type' => 'people',
 					'cash_action' => 'getlistsforuser',
 					'user_id' => $user_id
 				)
@@ -375,7 +375,7 @@ class SystemPlant extends PlantBase {
 				foreach ($lists_request->response['payload'] as $list) {
 					$list_delete_request = new CASHRequest(
 						array(
-							'cash_request_type' => 'people', 
+							'cash_request_type' => 'people',
 							'cash_action' => 'deletelist',
 							'list_id' => $list['id']
 						)
@@ -413,14 +413,14 @@ class SystemPlant extends PlantBase {
 	 * @return array|false
 	 */protected function setLoginCredentials($user_id,$address=false,$password=false,$username=false,$is_admin=false,$display_name=false,$url=false) {
 		if ($password) {
-			$password_hash = $this->generatePasswordHash($password);	
+			$password_hash = $this->generatePasswordHash($password);
 		}
 
 		$credentials = array();
 		if ($address) {
 			$id_request = new CASHRequest(
 				array(
-					'cash_request_type' => 'people', 
+					'cash_request_type' => 'people',
 					'cash_action' => 'getuseridforaddress',
 					'address' => $address
 				)
@@ -446,7 +446,7 @@ class SystemPlant extends PlantBase {
 		if ($username) {
 			$id_request = new CASHRequest(
 				array(
-					'cash_request_type' => 'people', 
+					'cash_request_type' => 'people',
 					'cash_action' => 'getuseridforusername',
 					'username' => $username
 				)
@@ -556,7 +556,7 @@ class SystemPlant extends PlantBase {
 	}
 
 	/**
-	 * Verifies that the password reset is valid 
+	 * Verifies that the password reset is valid
 	 *
 	 * @return bool
 	 */protected function validateResetFlag($address,$key) {
@@ -731,7 +731,7 @@ class SystemPlant extends PlantBase {
 	}
 
 	/**
-	 * Gets settings of the given type for a user. Set return_json to true and the system will 
+	 * Gets settings of the given type for a user. Set return_json to true and the system will
 	 * return the stored JSON without decoding.
 	 *
 	 * @return string|array|false
@@ -763,7 +763,7 @@ class SystemPlant extends PlantBase {
 	}
 
 	/**
-	 * Sets data for the given type for a user. This is basically a single key/value, so if the type 
+	 * Sets data for the given type for a user. This is basically a single key/value, so if the type
 	 * already exists this call with overwrite the existing value.
 	 *
 	 * @return bool
@@ -789,7 +789,7 @@ class SystemPlant extends PlantBase {
 		);
 		if ($exists) {
 			// the key/user exists, so first compare value
-			if ($exists[0]['value'] === $value) {
+			if ($exists[0]['value'] === json_encode($value)) {
 				// equal to what's there already? do nothing, return true
 				$go = false;
 			} else {
@@ -801,7 +801,7 @@ class SystemPlant extends PlantBase {
 					)
 				);
 			}
-		} 
+		}
 		if ($go) {
 			// insert/update
 			$result = $this->db->setData(
@@ -819,10 +819,10 @@ class SystemPlant extends PlantBase {
 			return true;
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 
 	/**
 	 * Removes a user page/embed template
@@ -986,12 +986,12 @@ class SystemPlant extends PlantBase {
 		return $result;
 	}
 
-	
-	
-	
-	
+
+
+
+
 	/**
-	 * Retrieves the last known UID or if none are found creates and returns a 
+	 * Retrieves the last known UID or if none are found creates and returns a
 	 * random UID as a starting point
 	 *
 	 * @return string
@@ -1031,7 +1031,7 @@ class SystemPlant extends PlantBase {
 				'user_id' => $user_id
 			)
 		);
-		if ($result) { 
+		if ($result) {
 			return $code;
 		} else {
 			return false;
@@ -1039,14 +1039,14 @@ class SystemPlant extends PlantBase {
 	}
 
 	/**
-	 * Attempts to redeem a given lock code, returning all details for the code on success or false 
-	 * on failure. The code is tied to a scope_table_alias and scope_table_id pointing to a specific 
-	 * asset, element, etc. 
+	 * Attempts to redeem a given lock code, returning all details for the code on success or false
+	 * on failure. The code is tied to a scope_table_alias and scope_table_id pointing to a specific
+	 * asset, element, etc.
 	 *
-	 * Pass a specific scope_table_alias, scope_table_id, or user_id to limit results to only matching 
-	 * returns. 
-	 * 
-	 * This will continue to return true for four hours after initial redemption — in the case of a 
+	 * Pass a specific scope_table_alias, scope_table_id, or user_id to limit results to only matching
+	 * returns.
+	 *
+	 * This will continue to return true for four hours after initial redemption — in the case of a
 	 * failed download this will give a user a second try without risking any long-term breach.
 	 *
 	 * @return array|false
@@ -1101,7 +1101,7 @@ class SystemPlant extends PlantBase {
 	}
 
 	/**
-	 * Returns all data for a given code. Look for "scope_table_alias" and "scope_table_id" in the 
+	 * Returns all data for a given code. Look for "scope_table_alias" and "scope_table_id" in the
 	 * returned aray to find the asset / element / etc that was unlocked with the code.
 	 *
 	 * @return array|false
@@ -1167,7 +1167,7 @@ class SystemPlant extends PlantBase {
 			list($items[count($items) - 1], $items[0]) = array($items[0], $items[count($items) - 1]);
 		}
 	}
-	
+
 	protected function generateCode($all_chars,$code_break,$last_code=false) {
 		$this->consistentShuffle($all_chars,$this->salt);
 		$this->consistentShuffle($code_break,$this->salt);
@@ -1211,6 +1211,6 @@ class SystemPlant extends PlantBase {
 		$chars = implode($chars);
 		return $chars;
 	}
-	
-} // END class 
+
+} // END class
 ?>

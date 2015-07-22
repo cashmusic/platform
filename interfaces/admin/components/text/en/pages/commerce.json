@@ -2,28 +2,31 @@
 	"pagetip":"",
 	"learn":"<p>This is an important section to keep an eye on!</p><p> Commerce is where you'll find your incoming orders, add/edit the items you're selling, manage inventory, and export orders.</p><p> Once you've connected your payment platform make sure and set your default currency as well in your commerce settings.",
 	"related":{},
-	"labels":{"region_1":"Region 1",
-            "region_2":"Region 2"
-
+	"labels":{
+		"default_paypal":"Default PayPal adress",
+		"micropayment_paypal":"Micropayment rate PayPal adress",
+		"primary_currency":"Primary Currency",
+		"region_1":"Region 1",
+      "region_2":"Region 2"
    },
 	"tooltips":{},
-	"copy":{"firstuse":"Selling stuff? This section is where you’ll keep track of your orders, add items to sell, and manage inventory. Before you can begin selling items you will need to connect to a payment platform below.",
-            "all_time":"All time",
-            "this_week":"This week",
-            "num_unfulfilled":"(Number) Unfulfilled",
-            "total_amount":"Total Amount",
-            "sorry_no_orders":"Sorry, no orders match that filter.",
-            "commerce_settings":"Commerce Settings",
-            "primary_currency":"Primary Currency",
-            "use_this_currency":"Use this currency",
-            "shipping_regions":"Shipping regions",
-            "button_set_shipping_regions":"Set shipping regions",
-            "orders":"Orders",
-            "unfulfilled":"Unfulfilled",
-            "new_order":"New Order",
-            "zero":"0%",
-            "order":"Order: ",
-            "details":"Details"
-
+	"copy":{
+		"firstuse":"Selling stuff? This section is where you’ll keep track of your orders, add items to sell, and manage inventory. Before you can begin selling items you will need to connect to a payment platform below.",
+      "all_time":"All time",
+      "this_week":"This week",
+      "num_unfulfilled":"(Number) Unfulfilled",
+      "total_amount":"Total Amount",
+      "sorry_no_orders":"Sorry, no orders match that filter.",
+      "commerce_settings":"Commerce Settings",
+      "save_sales_settings":"Save sales settings",
+      "shipping_regions":"Shipping regions",
+      "button_set_shipping_regions":"Set shipping regions",
+      "orders":"Orders",
+      "unfulfilled":"Unfulfilled",
+      "new_order":"New Order",
+		"sales_settings":"Sales settings",
+      "zero":"0%",
+      "order":"Order: ",
+      "details":"Details"
    }
 }
