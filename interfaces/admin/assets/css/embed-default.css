@@ -590,6 +590,10 @@ input[type=submit]:hover, .button:hover{
   margin: 0 0 30px 0;
 }
 
+.cm-store .cm-item{
+	vertical-align: top;
+}
+
 .cm-store .cm-item p{
 	margin:10px 0;
 	font-size:12px;
@@ -614,7 +618,7 @@ input[type=submit]:hover, .button:hover{
 	background-image:url("data:image/svg+xml;utf8,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='17.625px' height='35.25px' viewBox='0 0 17.625 35.25' enable-background='new 0 0 17.625 35.25' xml:space='preserve'><g><polygon fill='#FFFFFF' points='0,14.565 8.812,0 17.625,14.565'/><polygon fill='#FFFFFF' points='17.625,20.683 8.812,35.25 0,20.683'/></g></svg>");
 	background-repeat: no-repeat;
 	background-position: 96% 50%;
-	background-size: 1.6%;
+	background-size: 6px;
 	border:none;
 	padding:10px;
 	color:#f5f5f5;
@@ -773,13 +777,13 @@ input[type=submit]:hover, .button:hover{
 .cm-cart{
 	font:100 14px/20px 'Montserrat',Helvetica,Arial,sans-serif;
 	color:#fff;
-	margin:50px 0;
+	margin:70px 0;
 	padding:20px;
 }
 
 .cm-cart .cm-item{
 	position: relative;
-	background:rgba(255,255,255,0.125);
+	background:rgba(255,255,255,0.2);
 	margin:0 0 2px 0;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -799,6 +803,7 @@ input[type=submit]:hover, .button:hover{
 
 .cm-cart .cm-item .cm-info{
 	padding:5px 15px 15px 15px;
+	text-align: left;
 }
 
 .cm-cart .cm-item .cm-title{
@@ -810,8 +815,8 @@ input[type=submit]:hover, .button:hover{
 
 .cm-cart .cm-info .cm-price{
 	display: inline-block;
-	width:30%;
 	color:#bcbcbc;
+	width:80%;
 }
 
 .cm-cart .cm-info .cm-price span{
@@ -829,7 +834,7 @@ input[type=submit]:hover, .button:hover{
 
 .cm-cart input[name="cm-current-qty"]{
 	font:100 12px/20px 'Montserrat',Helvetica,Arial,sans-serif;
-	width:auto;
+	width:45px;
 	color:#fff;
 	border:none; 
 	background:rgba(221,221,221,0.15);
@@ -839,20 +844,33 @@ input[type=submit]:hover, .button:hover{
 /* Cart Shipping */
 
 .cm-cart .cm-destination{
+	font-size: 12px;
+	padding:0;
+	margin:0;
+	color:#222222;
 	background:#d3d3d3;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	padding:15px;
-	color:#222222;
+}
+
+.cm-cart .cm-destination .cm-shipping{
+	width:20%;
+	display: inline-block;
+	padding:10px 15px;
+	margin:0;
+	color:#818181;
 }
 
 .cm-cart .cm-region{
+	width:77%;
+	margin:0;
+	padding:0;
 	background:none;
-	display: inline-block;
-	width:80%;
+	display:inline-block;
 	border:none;
-	padding:15px;
+	padding:0 25px;
+	height:42px;
 	color:#222222;
 	font:400 12px/20px 'Montserrat',Helvetica,Arial,sans-serif;
 }
