@@ -186,19 +186,25 @@ class Store extends ElementBase {
 			if ($_REQUEST['state'] == 'cart') {
 				$subtotal = 0;
 				$shipping = 0;
+				$physical = false;
 				foreach ($cart as &$i) {
 					foreach ($items as $ii) {
 						if ($ii['id'] == $i['id']) {
 							$i['price'] = max($i['price'],$ii['price']);
 							$i['total_price'] = number_format($i['qty'] * $i['price'],2);
 							//$i['shipping_r1'] = $ii['shipping']['r1-1'];
-							if ($ii['shipping']) {
-								if (isset($ii['shipping']['r1-1'])) {
-									$i['shipping_r1'] = $ii['shipping']['r1-1'];
-									$i['shipping_r1rest'] = $ii['shipping']['r1-1+'];
-									$i['shipping_r2'] = $ii['shipping']['r2-1'];
-									$i['shipping_r2rest'] = $ii['shipping']['r2-1+'];
-									$shipping += $i['shipping_r1rest']*($i['qty']-1)+$i['shipping_r1'];
+							if ($ii['physical_fulfillment']) {
+								if (!$physical) {
+									$physical = true;
+								}
+								if ($ii['shipping']) {
+									if (isset($ii['shipping']['r1-1'])) {
+										$i['shipping_r1'] = $ii['shipping']['r1-1'];
+										$i['shipping_r1rest'] = $ii['shipping']['r1-1+'];
+										$i['shipping_r2'] = $ii['shipping']['r2-1'];
+										$i['shipping_r2rest'] = $ii['shipping']['r2-1+'];
+										$shipping += $i['shipping_r1rest']*($i['qty']-1)+$i['shipping_r1'];
+									}
 								}
 							}
 							$subtotal += $i['total_price'];
@@ -216,7 +222,7 @@ class Store extends ElementBase {
 						}
 					}
 				}
-				//$this->element_data['cart_dump'] = print_r($cart,true);
+				$this->element_data['has_physical'] = $physical;
 				$this->element_data['cart'] = new ArrayIterator($cart);;
 				$this->element_data['subtotal'] =  number_format($subtotal,2);
 				$this->element_data['shipping'] =  number_format($shipping,2);

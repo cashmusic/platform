@@ -15,6 +15,7 @@
 			</li><!--cm-item-->
 	{{/cart}}
 	</ul><!--cm-items-->
+	{{#has_physical}}
 	<div class="cm-destination">
 		<span class="cm-shipping">{{copy_shippingto}}:</span>
 		<select class="cm-region">
@@ -22,9 +23,12 @@
 			<option value="r2">{{region2}}</option>
 		</select>
 	</div><!--cm-destination-->
+	{{/has_physical}}
 	<h2 class="cm-pricing">
+		{{#has_physical}}
 		<span class="cm-subtotal">{{copy_subtotal}}<span class="cm-amount">{{currency}}<span class="cm-subtotal-amount">{{subtotal}}</span></span></span>&#43;
 		<span class="cm-shipping">{{copy_shipping}}<span class="cm-amount">{{currency}}<span class="cm-shipping-amount">{{shipping}}</span></span></span>&#61;
+		{{/has_physical}}
 		<span class="cm-total">{{copy_total}}<span class="cm-amount">{{currency}}<span class="cm-total-amount">{{total}}</span></span>
 	</h2><!--cm-pricing-->
 	<a class="cm-checkout" href="/">{{copy_checkout}}</a>
@@ -43,19 +47,23 @@
 		if (qtys.length > 0) {
 			var subtotal = 0;
 			var shipping = 0;
-			var region = document.querySelector('select.cm-region').value;
+			{{#has_physical}}var region = document.querySelector('select.cm-region').value;{{/has_physical}}
 			for (var i = 0, len = qtys.length; i < len; i++) {
 				var itemtotal = qtys[i].value*qtys[i].getAttribute('data-price');
 				var price = document.querySelector('span.cm-totalprice[data-itemid="'+qtys[i].getAttribute('data-itemid')+'"][data-variant="'+qtys[i].getAttribute('data-variant')+'"]');
 				price.innerHTML = itemtotal.toFixed(2);
 				subtotal += itemtotal;
+				{{#has_physical}}
 				if (qtys[i].getAttribute('data-shipping'+region)) {
 					shipping += ((qtys[i].value-1)*parseFloat(qtys[i].getAttribute('data-shipping'+region+'rest')))+parseFloat(qtys[i].getAttribute('data-shipping'+region));
 				}
+				{{/has_physical}}
 			}
 
+			{{#has_physical}}
 			document.querySelector('.cm-subtotal-amount').innerHTML = subtotal.toFixed(2);
 			document.querySelector('.cm-shipping-amount').innerHTML = shipping.toFixed(2);
+			{{/has_physical}}
 			document.querySelector('.cm-total-amount').innerHTML = (subtotal+shipping).toFixed(2);
 
 		}
@@ -118,8 +126,11 @@
 			}
 		}
 
+		{{#has_physical}}
+		// shipping dropdown
 		cm.events.add(document.querySelector('select.cm-region'),'change', function(e) {
 			recount();
 		});
+		{{/has_physical}}
 	});
 </script>
