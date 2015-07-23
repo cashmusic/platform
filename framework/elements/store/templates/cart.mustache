@@ -105,7 +105,7 @@
 		if (qtys.length > 0) {
 			for (var i = 0, len = qtys.length; i < len; i++) {
 				cm.events.add(qtys[i],'keyup', function(e) {
-					if (e.which != 8 && e.which != 46) {
+					if ((e.which != 8 && e.which != 46 && e.which > 47 && e.which < 58) || this.value > 0) {
 						if (this.value == 0) {
 							removeItem(this.getAttribute('data-itemid'),this.getAttribute('data-variant'));
 						} else {
