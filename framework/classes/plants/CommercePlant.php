@@ -82,7 +82,7 @@ class CommercePlant extends PlantBase {
 				'description' => $description,
 				'sku' => $sku,
 				'price' => $price,
-				'shipping' => $shipping,
+				'shipping' => json_encode($shipping),
 				'flexible_price' => $flexible_price,
 				'available_units' => $available_units,
 				'digital_fulfillment' => $digital_fulfillment,
@@ -160,6 +160,8 @@ class CommercePlant extends PlantBase {
 			if ($with_variants) {
 				$item['variants'] = $this->getItemVariants($id, $user_id);
 			}
+
+			$item['shipping'] = json_decode($item['shipping'],true);
 
 			return $item;
 		} else {
@@ -283,7 +285,7 @@ class CommercePlant extends PlantBase {
 				'description' => $description,
 				'sku' => $sku,
 				'price' => $price,
-				'shipping' => $shipping,
+				'shipping' => json_encode($shipping),
 				'flexible_price' => $flexible_price,
 				'available_units' => $available_units,
 				'digital_fulfillment' => $digital_fulfillment,
@@ -442,6 +444,7 @@ class CommercePlant extends PlantBase {
 
 			for ($index = 0; $index < $length; $index++) {
 				$result[$index]['variants'] = $this->getItemVariants($result[$index]['id'], false, $user_id);
+				$result[$index]['shipping'] = json_decode($result[$index]['shipping'],true);
 			}
 		}
 
@@ -471,11 +474,11 @@ class CommercePlant extends PlantBase {
 		return $cart;
 	}
 
-	protected function editCartQuantity($item_id,$item_variant,$qty) {
+	protected function editCartQuantity($item_id,$qty,$item_variant='') {
 		$r = new CASHRequest();
 		$r->startSession();
 
-		$cart = $request->sessionGet('cart');
+		$cart = $r->sessionGet('cart');
 		if (!$cart) {
 			return false;
 		}
@@ -483,7 +486,11 @@ class CommercePlant extends PlantBase {
 		if (!isset($cart[$item_id.$item_variant])) {
 			return false;
 		} else {
-			$cart[$item_id.$item_variant]['qty'] = $qty;
+			if ($qty == 0) {
+				unset($cart[$item_id.$item_variant]);
+			} else {
+				$cart[$item_id.$item_variant]['qty'] = $qty;
+			}
 			$r->sessionSet('cart', $cart);
 			return $cart;
 		}

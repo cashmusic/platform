@@ -22,7 +22,13 @@
 			"choose_verb":"Choose",
 			"added":"Added to cart!",
 			"unavailable":"Sorry, this item is currently unavailable.",
-			"emptycart":"Your cart is empty."
+			"emptycart":"Your cart is empty.",
+			"subtotal":"Subtotal",
+			"total":"Total",
+			"shipping":"Shipping",
+			"shippingto":"Shipping to",
+			"qty":"QTY",
+			"checkout":"Begin checkout"
 		}
 	},
 	"options":{

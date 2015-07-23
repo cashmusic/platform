@@ -191,9 +191,20 @@ class Store extends ElementBase {
 						if ($ii['id'] == $i['id']) {
 							$i['price'] = max($i['price'],$ii['price']);
 							$i['total_price'] = number_format($i['qty'] * $i['price'],2);
+							//$i['shipping_r1'] = $ii['shipping']['r1-1'];
+							if ($ii['shipping']) {
+								if (isset($ii['shipping']['r1-1'])) {
+									$i['shipping_r1'] = $ii['shipping']['r1-1'];
+									$i['shipping_r1rest'] = $ii['shipping']['r1-1+'];
+									$i['shipping_r2'] = $ii['shipping']['r2-1'];
+									$i['shipping_r2rest'] = $ii['shipping']['r2-1+'];
+									$shipping += $i['shipping_r1rest']*($i['qty']-1)+$i['shipping_r1'];
+								}
+							}
 							$subtotal += $i['total_price'];
 							$i['name'] = $ii['name'];
 							if ($i['variant']) {
+								$i['variant_fixed'] = str_replace(' ','+',$i['variant']);
 								foreach ($ii['variants']['quantities'] as $q) {
 									if ($q['key'] == str_replace(' ','+',$i['variant'])) { //TODO: hacky fix for plus signs decoded as spaces
 										$i['variant_name'] = $q['formatted_name'];

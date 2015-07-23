@@ -77,7 +77,7 @@ if (isset($_POST['doitemadd'])) {
 				'r2-1' => $_POST['region2_first'],
 				'r2-1+' => $_POST['region2_rest']
 			);
-			$shipping = json_encode($shipping);
+			//$shipping = json_encode($shipping);
 		}
 
 		if (!isset($_POST['item_quantity'])) {
@@ -112,13 +112,13 @@ if (isset($_POST['doitemadd'])) {
 			'id' => $request_parameters[0]
 		)
 	);
-	$shipping_options = json_decode($item_response['payload']['shipping'],true);
-	error_log(print_r($shipping_options['r1-1'],true));
-	if ($shipping_options) {
-		$item_response['payload']['region1_first'] = number_format((float)$shipping_options['r1-1'],2);
-		$item_response['payload']['region1_rest'] = number_format((float)$shipping_options['r1-1+'],2);
-		$item_response['payload']['region2_first'] = number_format((float)$shipping_options['r2-1'],2);
-		$item_response['payload']['region2_rest'] = number_format((float)$shipping_options['r2-1+'],2);
+	//$shipping_options = json_decode($item_response['payload']['shipping'],true);
+	//error_log(print_r($shipping_options['r1-1'],true));
+	if ($item_response['payload']['shipping']) {
+		$item_response['payload']['region1_first'] = number_format((float)$item_response['payload']['shipping']['r1-1'],2);
+		$item_response['payload']['region1_rest'] = number_format((float)$item_response['payload']['shipping']['r1-1+'],2);
+		$item_response['payload']['region2_first'] = number_format((float)$item_response['payload']['shipping']['r2-1'],2);
+		$item_response['payload']['region2_rest'] = number_format((float)$item_response['payload']['shipping']['r2-1+'],2);
 	}
 }
 

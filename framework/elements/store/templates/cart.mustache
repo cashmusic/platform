@@ -3,32 +3,123 @@
 {{#items_in_cart}}
 	<ul class="cm-items">
 	{{#cart}}
-			<li class="cm-item">
-				<div class="cm-remove"></div><!--cm-remove-->
+			<li class="cm-item" data-itemid="{{id}}" data-variant="{{variant_fixed}}">
+				<div class="cm-remove" data-itemid="{{id}}" data-variant="{{variant_fixed}}"></div><!--cm-remove-->
 				<h3 class="cm-title">{{name}}</h3>
 				{{#variant_name}}<p class="cm-variant">{{variant_name}}</p>{{/variant_name}}
 				<div class="cm-info">
-					<p class="cm-price">Price <span>{{currency}}{{total_price}}</span></p>
-					<label class="cm-qty">QTY</label> <input type="text" name="cm-current-qty" value="{{qty}}" />
+					<p class="cm-price">{{copy_subtotal}} <span>{{currency}}</span><span class="cm-totalprice" data-itemid="{{id}}" data-variant="{{variant_fixed}}">{{total_price}}</span></p>
+					<label class="cm-qty">{{copy_qty}}</label>
+					<input type="text" name="cm-current-qty" class="cm-qty" value="{{qty}}" data-itemid="{{id}}" data-variant="{{variant_fixed}}" data-price="{{price}}" data-shippingr1="{{shipping_r1}}" data-shippingr1rest="{{shipping_r1rest}}" data-shippingr2="{{shipping_r2}}" data-shippingr2rest="{{shipping_r2rest}}" />
 				</div><!--cm-info-->
 			</li><!--cm-item-->
 	{{/cart}}
 	</ul><!--cm-items-->
 	<div class="cm-destination">
-		<span class="cm-shipping">Shipping to:</span>
+		<span class="cm-shipping">{{copy_shippingto}}:</span>
 		<select class="cm-region">
-			<option value="{{region_one}}">{{region1}}</option>
-			<option value="{{region_two}}">{{region2}}</option>
+			<option value="r1">{{region1}}</option>
+			<option value="r2">{{region2}}</option>
 		</select>
 	</div><!--cm-destination-->
 	<h2 class="cm-pricing">
-		<span class="cm-subtotal">Subtotal<span class="cm-amount">{{currency}}{{subtotal}}</span></span>&#43;
-		<span class="cm-shipping">Shipping<span class="cm-amount">{{currency}}{{shipping}}</span></span>&#61;
-		<span class="cm-total">Total<span class="cm-amount">{{currency}}{{total}}</span></span>
+		<span class="cm-subtotal">{{copy_subtotal}}<span class="cm-amount">{{currency}}<span class="cm-subtotal-amount">{{subtotal}}</span></span></span>&#43;
+		<span class="cm-shipping">{{copy_shipping}}<span class="cm-amount">{{currency}}<span class="cm-shipping-amount">{{shipping}}</span></span></span>&#61;
+		<span class="cm-total">{{copy_total}}<span class="cm-amount">{{currency}}<span class="cm-total-amount">{{total}}</span></span>
 	</h2><!--cm-pricing-->
-	<a class="cm-checkout" href="/">Begin checkout</a>
+	<a class="cm-checkout" href="/">{{copy_checkout}}</a>
 {{/items_in_cart}}
 {{^items_in_cart}}
 	<p class="cm-emptycart">{{copy_emptycart}}</p>
 {{/items_in_cart}}
 </div><!--cm-cart-->
+
+
+<script type="text/javascript">
+	var cm = window.cashmusic;
+
+	function recount() {
+		var qtys = document.querySelectorAll('input.cm-qty');
+		if (qtys.length > 0) {
+			var subtotal = 0;
+			var shipping = 0;
+			var region = document.querySelector('select.cm-region').value;
+			for (var i = 0, len = qtys.length; i < len; i++) {
+				var itemtotal = qtys[i].value*qtys[i].getAttribute('data-price');
+				var price = document.querySelector('span.cm-totalprice[data-itemid="'+qtys[i].getAttribute('data-itemid')+'"][data-variant="'+qtys[i].getAttribute('data-variant')+'"]');
+				price.innerHTML = itemtotal.toFixed(2);
+				subtotal += itemtotal;
+				if (qtys[i].getAttribute('data-shipping'+region)) {
+					shipping += ((qtys[i].value-1)*parseFloat(qtys[i].getAttribute('data-shipping'+region+'rest')))+parseFloat(qtys[i].getAttribute('data-shipping'+region));
+				}
+			}
+
+			document.querySelector('.cm-subtotal-amount').innerHTML = subtotal.toFixed(2);
+			document.querySelector('.cm-shipping-amount').innerHTML = shipping.toFixed(2);
+			document.querySelector('.cm-total-amount').innerHTML = (subtotal+shipping).toFixed(2);
+
+		}
+	}
+
+	function removeItem(itemid,variant) {
+		var li = document.querySelector('li[data-itemid="'+itemid+'"][data-variant="'+variant+'"]');
+		var requesturl = '{{api_url}}/verbose/commerce/editcartquantity/item_id/' + itemid + '/qty/0/';
+		if (variant) {
+			requesturl += 'item_variant/'+variant+'/'
+		}
+		cm.ajax.send(requesturl, false,
+			function() {
+				if (li) {
+					li.parentNode.removeChild(li);
+				}
+				recount();
+			}
+		);
+	}
+
+	cm.events.add(cm,'ready', function(e) {
+
+		// itemremove buttons
+		var buttons = document.querySelectorAll('.cm-remove');
+		if (buttons.length > 0) {
+			for (var i = 0, len = buttons.length; i < len; i++) {
+				cm.events.add(buttons[i],'click', function(e) {
+					removeItem(this.getAttribute('data-itemid'),this.getAttribute('data-variant'));
+					e.preventDefault();
+					return false;
+				});
+			}
+		}
+
+		// qty inputs
+		// itemremove buttons
+		var qtys = document.querySelectorAll('.cm-qty');
+		if (qtys.length > 0) {
+			for (var i = 0, len = qtys.length; i < len; i++) {
+				cm.events.add(qtys[i],'keyup', function(e) {
+					if (e.which != 8 && e.which != 46) {
+						if (this.value == 0) {
+							removeItem(this.getAttribute('data-itemid'),this.getAttribute('data-variant'));
+						} else {
+							var requesturl = '{{api_url}}/verbose/commerce/editcartquantity/item_id/' + this.getAttribute('data-itemid') + '/qty/'+this.value+'/';
+							if (this.getAttribute('data-variant')) {
+								requesturl += 'item_variant/'+this.getAttribute('data-variant')+'/'
+							}
+							cm.ajax.send(requesturl, false,
+								function() {
+									recount();
+								}
+							);
+						}
+						e.preventDefault();
+						return false;
+					}
+				});
+			}
+		}
+
+		cm.events.add(document.querySelector('select.cm-region'),'change', function(e) {
+			recount();
+		});
+	});
+</script>
