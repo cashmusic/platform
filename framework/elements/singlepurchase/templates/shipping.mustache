@@ -114,14 +114,14 @@
 					if (window.location.port) {
 						submitUrl += ':' + window.location.port;
 					}
-					submitUrl += '/public/request/payload';
+					submitUrl += '/public/request/payload'; // <--- TODO: just use mustache, not JS, for this garbage  
 
 					var ruo = document.createElement("input");
 					ruo.setAttribute("type", "hidden");
 					ruo.setAttribute("name", "return_url_only");
 					ruo.setAttribute("value", "1");
 					elementForm.appendChild(ruo);
-	
+
 					window.cashmusic.ajax.send(
 						submitUrl,
 						window.cashmusic.ajax.encodeForm(elementForm),
@@ -144,13 +144,12 @@
 		{{^no_shipping}}
 			var computeTotal = function(e) {
 				var target = e.target ? e.target : e.srcElement;
-				elementForm.elements['total_price'].value = 
+				elementForm.elements['total_price'].value =
 					parseFloat(original_price) + parseFloat(e.target.getAttribute('data-shiping')
 				);
 				if (self!=top) {
 					handleSubmit(false);
 				} else {
-					console.log(elementForm);
 					elementForm.submit();
 				}
 			}

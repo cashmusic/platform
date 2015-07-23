@@ -19,8 +19,8 @@
 	<div class="cm-destination">
 		<span class="cm-shipping">{{copy_shippingto}}:</span>
 		<select class="cm-region">
-			<option value="r1">{{region1}}</option>
-			<option value="r2">{{region2}}</option>
+			<option value="r1"{{#shiptor1}} selected="selected"{{/shiptor1}}>{{region1}}</option>
+			<option value="r2"{{#shiptor2}} selected="selected"{{/shiptor2}}>{{region2}}</option>
 		</select>
 	</div><!--cm-destination-->
 	{{/has_physical}}
@@ -129,7 +129,12 @@
 		{{#has_physical}}
 		// shipping dropdown
 		cm.events.add(document.querySelector('select.cm-region'),'change', function(e) {
-			recount();
+			var requesturl = '{{api_url}}/verbose/commerce/editcartshipping/region/' + this.value + '/';
+			cm.ajax.send(requesturl, false,
+				function() {
+					recount();
+				}
+			);
 		});
 		{{/has_physical}}
 	});

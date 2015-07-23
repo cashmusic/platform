@@ -187,7 +187,14 @@ class Store extends ElementBase {
 				$subtotal = 0;
 				$shipping = 0;
 				$physical = false;
-				foreach ($cart as &$i) {
+				if ($cart['shipto'] == 'r2') {
+					$this->element_data['shiptor2'] = true;
+				} else {
+					$this->element_data['shiptor1'] = true;
+				}
+				$shipto = $cart['shipto'];
+				unset($cart['shipto']);
+				foreach ($cart as $key => &$i) {
 					foreach ($items as $ii) {
 						if ($ii['id'] == $i['id']) {
 							$i['price'] = max($i['price'],$ii['price']);
@@ -203,7 +210,7 @@ class Store extends ElementBase {
 										$i['shipping_r1rest'] = $ii['shipping']['r1-1+'];
 										$i['shipping_r2'] = $ii['shipping']['r2-1'];
 										$i['shipping_r2rest'] = $ii['shipping']['r2-1+'];
-										$shipping += $i['shipping_r1rest']*($i['qty']-1)+$i['shipping_r1'];
+										$shipping += $i['shipping_'.$shipto.'rest']*($i['qty']-1)+$i['shipping_'.$shipto];
 									}
 								}
 							}

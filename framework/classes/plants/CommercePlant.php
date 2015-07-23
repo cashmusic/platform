@@ -32,6 +32,7 @@ class CommercePlant extends PlantBase {
 			'deleteitemvariant'   => array('deleteItemVariant','direct'),
 			'deleteitemvariants'  => array('deleteItemVariants','direct'),
 			'editcartquantity'	 => array('editCartQuantity',array('get','post','direct','api_public')),
+			'editcartshipping'	 => array('editCartShipping',array('get','post','direct','api_public')),
 			'edititem'            => array('editItem','direct'),
 			'edititemvariant'   	 => array('editItemVariant','direct'),
 			'editorder'           => array('editOrder','direct'),
@@ -457,7 +458,9 @@ class CommercePlant extends PlantBase {
 
 		$cart = $r->sessionGet('cart');
 		if (!$cart) {
-			$cart = array();
+			$cart = array(
+				'shipto' => 'r1'
+			);
 		}
 		$qty = 1;
 		if (isset($cart[$item_id.$item_variant])) {
@@ -494,6 +497,20 @@ class CommercePlant extends PlantBase {
 			$r->sessionSet('cart', $cart);
 			return $cart;
 		}
+	}
+
+	protected function editCartShipping($region='r1') {
+		$r = new CASHRequest();
+		$r->startSession();
+
+		$cart = $r->sessionGet('cart');
+		if (!$cart) {
+			return false;
+		}
+
+		$cart['shipto'] = $region;
+		$r->sessionSet('cart', $cart);
+		return $cart;
 	}
 
 	protected function emptyCart() {
