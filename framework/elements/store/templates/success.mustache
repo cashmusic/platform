@@ -1,27 +1,28 @@
-<div class="cm-store cm-return {{#fulfillment_assets}}cm-w-grat{{/fulfillment_assets}}">
 {{#error_message}}<div class="cm-error">{{error_message}}</div>{{/error_message}}
+<div class="cm-store cm-receipt {{#fulfillment_assets}}cm-w-grat{{/fulfillment_assets}}">
 <ul class="cm-items">
 <h2>Order Summary</h2>
+	{{item}}
 	<li class="cm-item">
-		<h3 class="cm-item">{{item_name}}</h3>
-		<p class="cm-description">{{item_description}}</p>
+		<h3 class="cm-title">{{name}}</h3>
+		{{#variant_name}}<p class="cm-variant">{{variant_name}}</p>{{/variant_name}}
 		<div class="cm-info">
 			<p class="cm-shipping">Price <span>{{currency}}{{item_amount}}</span></p>
-			<p class="cm-shipping">Shipping <span>{{currency}}{{item_shipping_amount}}</span></p>
 			<p class="cm-qty">QTY <span>{{currency}}{{item-current-qty}}</span></p>
 		</div><!--cm-info-->
 	</li><!--cm-item-->
+	{{/item}}
 </ul><!--cm-items-->
-	{{#payment_success}}<div class="cm-payment-success">Paid in full</div>{{/payment_success}}
-	{{^payment_success}}<div class="cm-payment-failure">Payment not completed</div>{{/payment_success}}
-</div><!--cm-return-->
+<div class="cm-payment-success">Paid in full</div>
+</div><!--cm-receipt-->
 {{#fulfillment_assets}}
 <div class="cm-store cm-instant-grat">
 <h2>Your Downloads</h2>
 	<ul class="cm-dwld-items">
 		<li class="cm-dwld-item">
-			<a href="?cash_request_type=asset&cash_action=claim&id={{id}}&element_id={{element_id}}" class="cm-download">{{title}}</a> 
-			<p class="description">{{description}}</p>
+			<h3 class="cm-title">{{name}}</h3>
+			{{#variant_name}}<p class="cm-variant">{{variant_name}}</p>{{/variant_name}}
+			<a href="/" class="cm-download">{{asset_title}}</a><!--cm-dowload-->
 		</li>
 	</ul>	
 	<h3 class="cm-dwld-instructions">{{check_email}}</h3>
