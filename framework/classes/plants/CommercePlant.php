@@ -973,8 +973,12 @@ class CommercePlant extends PlantBase {
 		return $result;
 	}
 
-	protected function initiateCheckout($user_id,$connection_id,$order_contents=false,$item_id=false,$element_id=false,$total_price=false,$return_url_only=false) {
-		if (!$order_contents && !$item_id) {
+	protected function initiateCheckout($user_id=false,$connection_id=false,$order_contents=false,$item_id=false,$element_id=false,$total_price=false,$return_url_only=false) {
+
+		//TODO: store last seen top URL
+		//      or maybe make the API accept GET params? does it already? who can know?
+
+		if (!$item_id && !$element_id) {
 			return false;
 		} else {
 			$is_physical = 0;
@@ -983,6 +987,7 @@ class CommercePlant extends PlantBase {
 				$order_contents = array();
 			}
 			if ($item_id) {
+				// old style...we'll be refactoring this junk
 				$item_details = $this->getItem($item_id);
 				$order_contents[] = $item_details;
 				if ($total_price !== false && $total_price >= $item_details['price']) {
@@ -997,6 +1002,70 @@ class CommercePlant extends PlantBase {
 				}
 				if ($item_details['digital_fulfillment']) {
 					$is_digital = 1;
+				}
+			} else {
+				$element_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'element',
+						'cash_action' => 'getelement',
+						'id' => $element_id
+					)
+				);
+				$user_id = $element_request->response['payload']['user_id'];
+				$settings_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'system',
+						'cash_action' => 'getsettings',
+						'type' => 'payment_defaults',
+						'user_id' => $user_id
+					)
+				);
+				if (is_array($settings_request->response['payload'])) {
+					$pp_default = $settings_request->response['payload']['pp_default'];
+					$pp_micro = $settings_request->response['payload']['pp_micro'];
+				} else {
+					return false; // no default PP shit set
+				}
+				$cart = $this->getCart();
+				$shipto = $cart['shipto'];
+				unset($cart['shipto']);
+				$subtotal = 0;
+				$shipping = 0;
+				foreach ($cart as $key => &$i) {
+					$item_details = $this->getItem($item_id,false,false);
+					$variants = $this->getItemVariants($item_id);
+					$item_details['qty'] = $i['qty'];
+					$item_details['price'] = max($i['price'],$item_details['price']);
+					$subtotal += $item_details['price'];
+					$item_details['variant'] = str_replace(' ','+',$i['variant']); // swap spaces for plusses in  case javascript scrubbed them
+					if ($item_details['physical_fulfillment']) {
+						$is_physical = 1;
+					}
+					if ($item_details['digital_fulfillment']) {
+						$is_digital = 1;
+					}
+					if ($item_details['shipping']) {
+						if (isset($item_details['shipping']['r1-1'])) {
+							$shipping += $item_details['shipping'][$shipto.'-1+']*($i['qty']-1)+$item_details['shipping'][$shipto.'-1'];
+						}
+					}
+					if ($variants) {
+						foreach ($variants['quantities'] as $q) {
+							if ($q['key'] == $item_details['variant']) {
+								$item_details['variant_name'] = $q['formatted_name'];
+								break;
+							}
+						}
+					}
+					$order_contents[] = $item_details;
+				}
+				$price_addition = $shipping;
+
+				//TODO: this connection stuff is hard-coded for paypal, but does the default/micro switch well
+				if (($subtotal+$shipping < 12) && $pp_micro) {
+					$connection_id = $pp_micro;
+				} else {
+					$connection_id = $pp_default;
 				}
 			}
 
@@ -1048,7 +1117,14 @@ class CommercePlant extends PlantBase {
 		);
 		foreach($contents as $item) {
 			$return_array['price'] += $item['price'];
-			$return_array['description'] .= $item['name'] . "\n";
+			if (isset($item['qty'])) {
+				$return_array['description'] .= $item['qty'] . 'x ';
+			}
+			$return_array['description'] .= $item['name'];
+			if (isset($item['variant_name'])) {
+				$return_array['description'] .= '(' . $item['variant_name'] . ')';
+			}
+			$return_array['description'] .= "\n";
 		}
 		$return_array['description'] = rtrim($return_array['description']);
 		return $return_array;
@@ -1170,16 +1246,33 @@ class CommercePlant extends PlantBase {
 											foreach ($order_items as $i) {
 												if ($i['available_units'] > 0 && $i['physical_fulfillment'] == 1) {
 													$item = $this->getItem($i['id']);
-													$available_units =
-													$this->editItem(
-														$i['id'],
-														false,
-														false,
-														false,
-														false,
-														false,
-														$item['available_units'] - 1
-													);
+													if ($i['variant']) {
+														$variant_id = 0;
+														$variant_qty = 0;
+														if ($item['variants']) {
+															foreach ($item['variants']['quantities'] as $q) {
+																if ($q['key'] == $i['variant']) {
+																	$variant_id = $q['id'];
+																	$variant_qty = $q['value'];
+																	break;
+																}
+															}
+															if ($variant_id) {
+																$this->editItemVariant($variant_id, max($variant_qty-$i['qty'],0), $i['id']);
+															}
+														}
+													} else {
+														$available_units =
+														$this->editItem(
+															$i['id'],
+															false,
+															false,
+															false,
+															false,
+															false,
+															$item['available_units'] - 1
+														);
+													}
 												}
 											}
 										}

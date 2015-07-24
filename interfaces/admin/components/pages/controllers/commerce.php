@@ -219,10 +219,10 @@ if (isset($_POST['currency_id'])) {
 		array(
 			'cash_request_type' => 'system',
 			'cash_action' => 'setsettings',
-			'type' => 'paypal_defaults',
+			'type' => 'payment_defaults',
 			'value' => array(
-				'default' => $_POST['paypal_default_id'],
-				'micro' => $_POST['paypal_micropayment_id']
+				'pp_default' => $_POST['paypal_default_id'],
+				'pp_micro' => $_POST['paypal_micropayment_id']
 			),
 			'user_id' => $cash_admin->effective_user_id
 		)
@@ -251,13 +251,13 @@ $settings_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'system',
 		'cash_action' => 'getsettings',
-		'type' => 'paypal_defaults',
+		'type' => 'payment_defaults',
 		'user_id' => $cash_admin->effective_user_id
 	)
 );
 if (is_array($settings_response['payload'])) {
-	$pp_default = $settings_response['payload']['default'];
-	$pp_micro = $settings_response['payload']['micro'];
+	$pp_default = $settings_response['payload']['pp_default'];
+	$pp_micro = $settings_response['payload']['pp_micro'];
 } else {
 	$pp_default = 0;
 	$pp_micro = 0;
