@@ -2,7 +2,7 @@
 <div class="cm-store cm-receipt {{#fulfillment_assets}}cm-w-grat{{/fulfillment_assets}}">
 <ul class="cm-items">
 <h2>Order Summary</h2>
-	{{item}}
+	{{#item}}
 	<li class="cm-item">
 		<h3 class="cm-title">{{name}}</h3>
 		{{#variant_name}}<p class="cm-variant">{{variant_name}}</p>{{/variant_name}}
@@ -24,7 +24,7 @@
 			{{#variant_name}}<p class="cm-variant">{{variant_name}}</p>{{/variant_name}}
 			<a href="/" class="cm-download">{{asset_title}}</a><!--cm-dowload-->
 		</li>
-	</ul>	
+	</ul>
 	<h3 class="cm-dwld-instructions">{{check_email}}</h3>
 </div><!--cm-instant-grat-->
 {{/fulfillment_assets}}

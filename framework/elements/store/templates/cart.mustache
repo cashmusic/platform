@@ -137,5 +137,24 @@
 			);
 		});
 		{{/has_physical}}
+
+		// go go go
+		cm.events.add(document.querySelector('a.cm-checkout'),'click', function(e) {
+			// add a style to the button as a visual indicator we're working on things
+			cm.styles.addClass(this,'cm-busy');
+			// now send the request through
+			submitUrl = window.location.href.split('/embed/')[0]+'/payload';
+			window.cashmusic.ajax.send(
+				submitUrl,
+				'cash_request_type=commerce&cash_action=initiatecheckout&element_id={{element_id}}&return_url_only=1',
+				function(thereply) {
+					if (thereply.substring(0,4) == 'http') {
+						top.location.href = thereply;
+					}
+				}
+			);
+			e.preventDefault();
+			return false;
+		});
 	});
 </script>

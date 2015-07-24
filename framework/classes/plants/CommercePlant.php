@@ -1032,7 +1032,7 @@ class CommercePlant extends PlantBase {
 				$subtotal = 0;
 				$shipping = 0;
 				foreach ($cart as $key => &$i) {
-					$item_details = $this->getItem($item_id,false,false);
+					$item_details = $this->getItem($i['id'],false,false);
 					$variants = $this->getItemVariants($item_id);
 					$item_details['qty'] = $i['qty'];
 					$item_details['price'] = max($i['price'],$item_details['price']);
@@ -1124,9 +1124,9 @@ class CommercePlant extends PlantBase {
 			if (isset($item['variant_name'])) {
 				$return_array['description'] .= '(' . $item['variant_name'] . ')';
 			}
-			$return_array['description'] .= "\n";
+			$return_array['description'] .= ",\n";
 		}
-		$return_array['description'] = rtrim($return_array['description']);
+		$return_array['description'] = rtrim($return_array['description']," ,\n");
 		return $return_array;
 	}
 
@@ -1306,6 +1306,9 @@ class CommercePlant extends PlantBase {
 										$final_details['PAYMENTINFO_0_FEEAMT'],
 										'complete'
 									);
+
+									// empty the cart at this point
+									$this->emptyCart();
 
 									// TODO: add code to order metadata
 									// bit of a hack, hard-wiring the email bits:
