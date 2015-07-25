@@ -1181,7 +1181,10 @@ class CommercePlant extends PlantBase {
 					$return_url,
 					$require_shipping,
 					$allow_note,
-					$currency
+					$currency,
+					'Sale',
+					false,
+					$price_addition
 				);
 				if (!$return_url_only) {
 					$redirect = CASHSystem::redirectToUrl($redirect_url);

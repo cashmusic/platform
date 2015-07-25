@@ -45,7 +45,7 @@ class PaypalSeed extends SeedBase {
 			}
 
 			$this->token = $token;
-			
+
 			$this->api_endpoint = "https://api-3t.paypal.com/nvp";
 			$this->paypal_base_url = "https://www.paypal.com/webscr&cmd=";
 			if ($sandboxed) {
@@ -59,9 +59,9 @@ class PaypalSeed extends SeedBase {
 
 	public static function getRedirectMarkup($data=false) {
 		$connections = CASHSystem::getSystemSettings('system_connections');
-		
-		// I don't like using ADMIN_WWW_BASE_PATH below, but as this call is always called inside the 
-		// admin I'm just going to do it. Without the full path in the form this gets all fucky 
+
+		// I don't like using ADMIN_WWW_BASE_PATH below, but as this call is always called inside the
+		// admin I'm just going to do it. Without the full path in the form this gets all fucky
 		// and that's no bueno.
 
 		if (isset($connections['com.paypal'])) {
@@ -94,11 +94,11 @@ class PaypalSeed extends SeedBase {
 	protected function setErrorMessage($msg) {
 		$this->error_message = $msg;
 	}
-	
+
 	public function getErrorMessage() {
 		return $this->error_message;
 	}
-	
+
 	protected function postToPaypal($method_name, $nvp_parameters) {
 		// Set the API operation, version, and API signature in the request.
 		$request_parameters = array (
@@ -142,7 +142,7 @@ class PaypalSeed extends SeedBase {
 			return false;
 		}
 	}
-	
+
 	public function setExpressCheckout(
 		$payment_amount,
 		$ordersku,
@@ -153,7 +153,8 @@ class PaypalSeed extends SeedBase {
 		$allow_note=false,
 		$currency_id='USD', /* 'USD', 'GBP', 'EUR', 'JPY', 'CAD', 'AUD' */
 		$payment_type='Sale', /* 'Sale', 'Order', or 'Authorization' */
-		$invoice=false
+		$invoice=false,
+		$shipping_amount=false
 	) {
 		// Set NVP variables:
 		$nvp_parameters = array(
@@ -175,16 +176,23 @@ class PaypalSeed extends SeedBase {
 		if (!$request_shipping_info) {
 			$nvp_parameters['NOSHIPPING'] = 1;
 		}
+		if ($shipping_amount) {
+			$nvp_parameters['NOSHIPPING'] = 0;
+			$nvp_parameters['L_PAYMENTREQUEST_0_AMT0'] = $payment_amount-$shipping_amount;
+			$nvp_parameters['PAYMENTREQUEST_0_ITEMAMT'] = $payment_amount-$shipping_amount;
+			$nvp_parameters['PAYMENTREQUEST_0_SHIPPINGAMT'] = $shipping_amount;
+		}
 		if ($allow_note) {
 			$nvp_parameters['ALLOWNOTE'] = 1;
 		}
 		if ($invoice) {
 			$nvp_parameters['PAYMENTREQUEST_0_INVNUM'] = $invoice;
 		}
-		
+
 		$parsed_response = $this->postToPaypal('SetExpressCheckout', $nvp_parameters);
 		if (!$parsed_response) {
 			$this->setErrorMessage('SetExpressCheckout failed: ' . $this->getErrorMessage());
+			error_log($this->getErrorMessage());
 			return false;
 		} else {
 			// Redirect to paypal.com.
@@ -193,7 +201,7 @@ class PaypalSeed extends SeedBase {
 			return $paypal_url;
 		}
 	}
-	
+
 	public function getExpressCheckout() {
 		if ($this->token) {
 			$nvp_parameters = array(
@@ -211,7 +219,7 @@ class PaypalSeed extends SeedBase {
 			return false;
 		}
 	}
-	
+
 	public function doExpressCheckout($payment_type='Sale') {
 		if ($this->token) {
 			$token_details = $this->getExpressCheckout();
@@ -223,7 +231,7 @@ class PaypalSeed extends SeedBase {
 				'PAYMENTREQUEST_0_CURRENCYCODE' => $token_details['PAYMENTREQUEST_0_CURRENCYCODE'],
 				'PAYMENTREQUEST_0_ALLOWEDPAYMENTMETHOD' => 'InstantPaymentOnly'
 			);
-			
+
 			$parsed_response = $this->postToPaypal('DoExpressCheckoutPayment', $nvp_parameters);
 			if (!$parsed_response) {
 				$this->setErrorMessage($this->getErrorMessage());
@@ -236,14 +244,14 @@ class PaypalSeed extends SeedBase {
 			return false;
 		}
 	}
-	
+
 	public function doRefund($transaction_id, $refund_amount, $fullrefund=true,$memo=false,$currency_id='USD') {
 		if ($fullrefund) {
 			$refund_type = "Full";
 		} else {
 			$refund_type = "Partial";
 		}
-		
+
 		$nvp_parameters = array (
 			'TRANSACTIONID' => $transaction_id,
 			'REFUNDTYPE' => $refund_type,
@@ -253,7 +261,7 @@ class PaypalSeed extends SeedBase {
 		if($memo) {
 			$nvp_parameters['NOTE'] = $memo;
 		}
-		
+
 		if (!$fullrefund) {
 			if(!isset($refund_amount)) {
 				$this->setErrorMessage('Partial Refund: must specify amount.');
@@ -267,7 +275,7 @@ class PaypalSeed extends SeedBase {
 				return false;
 			}
 		}
-		
+
 		$parsed_response = $this->postToPaypal('RefundTransaction', $nvp_parameters);
 
 		if (!$parsed_response) {
@@ -275,5 +283,5 @@ class PaypalSeed extends SeedBase {
 			return false;
 		}
 	}
-} // END class 
+} // END class
 ?>
