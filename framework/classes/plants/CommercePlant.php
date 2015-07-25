@@ -1155,6 +1155,12 @@ class CommercePlant extends PlantBase {
 
 		$currency = $this->getCurrencyForUser($order_details['user_id']);
 
+		if ($finalize_url) {
+			$r = new CASHRequest();
+			$r->startSession();
+			$r->sessionSet('payment_finalize_url',$finalize_url);
+		}
+
 		if (($order_totals['price'] + $price_addition) < 0.35) {
 			// basically a zero dollar transaction. hard-coding a 35¢ minimum for now
 			// we can add a system minimum later, or a per-connection minimum, etc...
@@ -1208,6 +1214,14 @@ class CommercePlant extends PlantBase {
 		$order_details = $this->getOrder($order_id);
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
 		$connection_type = $this->getConnectionType($transaction_details['connection_id']);
+
+		$r = new CASHRequest();
+		$r->startSession();
+		$finalize_url = $r->sessionGet('payment_finalize_url');
+		if ($finalize_url) {
+			$r->sessionClear('payment_finalize_url');
+		}
+
 		switch ($connection_type) {
 			case 'com.paypal':
 				if (isset($_GET['token'])) {
@@ -1328,12 +1342,16 @@ class CommercePlant extends PlantBase {
 												)
 											);
 
+											if (!$finalize_url) {
+												$finalize_url = CASHSystem::getCurrentURL();
+											}
+
 											CASHSystem::sendEmail(
 												'Thank you for your order',
 												$order_details['user_id'],
 												$initial_details['EMAIL'],
 												'Your download of "' . $initial_details['PAYMENTREQUEST_0_DESC'] . '" is ready and can be found at: '
-												. CASHSystem::getCurrentURL() . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
+												. $finalize_url . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
 												. '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($initial_details['EMAIL']),
 												'Thank you.'
 											);
