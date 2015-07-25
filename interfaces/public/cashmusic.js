@@ -109,8 +109,10 @@
 					// tell em
 					cm.events.fire(cm,'ready',cm.loaded);
 				} else {
-					// create overlay stuff first
-					cm.overlay.create();
+					// create overlay stuff first, only if nowrap isn't set
+					if (this.options.indexOf('nowrap') === -1) {
+						cm.overlay.create();
+					}
 					// if we don't have a geo response we'll loop and wait a couple
 					// seconds before declaring the script ready.
 					var l = 0;
