@@ -973,7 +973,7 @@ class CommercePlant extends PlantBase {
 		return $result;
 	}
 
-	protected function initiateCheckout($user_id=false,$connection_id=false,$order_contents=false,$item_id=false,$element_id=false,$total_price=false,$return_url_only=false) {
+	protected function initiateCheckout($user_id=false,$connection_id=false,$order_contents=false,$item_id=false,$element_id=false,$total_price=false,$url_only=false,$finalize_url=false) {
 
 		//TODO: store last seen top URL
 		//      or maybe make the API accept GET params? does it already? who can know?
@@ -1101,7 +1101,7 @@ class CommercePlant extends PlantBase {
 				$currency
 			);
 			if ($order_id) {
-				$success = $this->initiatePaymentRedirect($order_id,$element_id,$price_addition,$return_url_only);
+				$success = $this->initiatePaymentRedirect($order_id,$element_id,$price_addition,$url_only,$finalize_url);
 				return $success;
 			} else {
 				return false;
@@ -1147,7 +1147,7 @@ class CommercePlant extends PlantBase {
 		return $currency;
 	}
 
-	protected function initiatePaymentRedirect($order_id,$element_id=false,$price_addition=0,$return_url_only=false) {
+	protected function initiatePaymentRedirect($order_id,$element_id=false,$price_addition=0,$url_only=false,$finalize_url=false) {
 		$order_details = $this->getOrder($order_id);
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
 		$order_totals = $this->getOrderTotals($order_details['order_contents']);
@@ -1163,7 +1163,10 @@ class CommercePlant extends PlantBase {
 		switch ($connection_type) {
 			case 'com.paypal':
 				$pp = new PaypalSeed($order_details['user_id'],$transaction_details['connection_id']);
-				$return_url = CASHSystem::getCurrentURL() . '?cash_request_type=commerce&cash_action=finalizepayment&order_id=' . $order_id . '&creation_date=' . $order_details['creation_date'];
+				if (!$finalize_url) {
+					$finalize_url = CASHSystem::getCurrentURL();
+				}
+				$return_url = $finalize_url . '?cash_request_type=commerce&cash_action=finalizepayment&order_id=' . $order_id . '&creation_date=' . $order_details['creation_date'];
 				if ($element_id) {
 					$return_url .= '&element_id=' . $element_id;
 				}
@@ -1186,7 +1189,7 @@ class CommercePlant extends PlantBase {
 					false,
 					$price_addition
 				);
-				if (!$return_url_only) {
+				if (!$url_only) {
 					$redirect = CASHSystem::redirectToUrl($redirect_url);
 					// the return will only happen if headers have already been sent
 					// if they haven't redirectToUrl() will handle it and call exit

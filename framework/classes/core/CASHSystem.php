@@ -118,7 +118,6 @@
 				'geo' => $geo
 			)
 		);
-		error_log(print_r($cash_body_request->response,true));
 		if ($cash_body_request->response['status_uid'] == 'element_getmarkup_400') {
 			// there was no element found. so you know...punt
 			echo '<div class="cashmusic error">Element #' . $element_id . ' could not be found.</div>';

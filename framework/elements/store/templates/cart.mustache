@@ -31,7 +31,7 @@
 		{{/has_physical}}
 		<span class="cm-total">{{copy_total}}<span class="cm-amount">{{currency}}<span class="cm-total-amount">{{total}}</span></span>
 	</h2><!--cm-pricing-->
-	<a class="cm-checkout" href="/">{{copy_checkout}}</a>
+	<a class="cm-checkout" href="#">{{copy_checkout}}</a>
 {{/items_in_cart}}
 {{^items_in_cart}}
 	<p class="cm-emptycart">{{copy_emptycart}}</p>
@@ -143,10 +143,14 @@
 			// add a style to the button as a visual indicator we're working on things
 			cm.styles.addClass(this,'cm-busy');
 			// now send the request through
-			submitUrl = window.location.href.split('/embed/')[0]+'/payload';
+			var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
+			var poststring = 'cash_request_type=commerce&cash_action=initiatecheckout&element_id={{element_id}}&url_only=1';
+			if (cm.get['params']['location']) {
+				poststring += '&finalize_url='+decodeURIComponent(cm.get['params']['location'].split('?')[0])
+			}
 			window.cashmusic.ajax.send(
 				submitUrl,
-				'cash_request_type=commerce&cash_action=initiatecheckout&element_id={{element_id}}&return_url_only=1',
+				poststring,
 				function(thereply) {
 					if (thereply.substring(0,4) == 'http') {
 						top.location.href = thereply;

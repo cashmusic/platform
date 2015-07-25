@@ -52,6 +52,7 @@
 				whitelist: '',
 				all: []
 			},
+			get: {},
 			loaded: false,
 			soundplayer: false,
 			lightbox: false,
@@ -103,12 +104,34 @@
 				// add current domain to whitelist for postmesage calls (regardless of embed or no)
 				cm.embeds.whitelist = cm.embeds.whitelist + window.location.href.split('/').slice(0,3).join('/');
 
+				// look for GET string, parse that shit if we can
+				if (window.location.search) {
+					cm.get['qs'] =  window.location.search.substring(1);
+					cm.get['params'] = {};
+					var t;
+					var q = cm.get['qs'].split("&");
+					for (var i = 0; i < q.length; i++) {
+						t = q[i].split('=');
+						cm.get['params'][t[0]] = t[1];
+					}
+				}
+
 				if (cm.embedded) {
 					cm.loaded = Date.now(); // ready and loaded
 					cm._drawQueuedEmbeds();
 					// tell em
 					cm.events.fire(cm,'ready',cm.loaded);
 				} else {
+					// look for GET string, parse that shit if we can
+					if (cm.get['qs']) {
+						if (cm.get['qs'].indexOf('element_id') !== -1) {
+							if (!!(window.history && history.pushState)) {
+								// we know this is aimed at us, so we caught it. now remove it.
+								history.pushState(null, null, window.location.href.split('?')[0]);
+							}
+						}
+					}
+
 					// create overlay stuff first, only if nowrap isn't set
 					if (this.options.indexOf('nowrap') === -1) {
 						cm.overlay.create();
@@ -373,10 +396,15 @@
 					embedURL += '&geo=' + encodeURIComponent(cm.geo);
 				}
 				if (cssoverride) {
-					embedURL = embedURL + '&cssoverride=' + encodeURIComponent(cssoverride);
+					embedURL += '&cssoverride=' + encodeURIComponent(cssoverride);
 				}
 				if (querystring) {
-					embedURL = embedURL + '&' + querystring;
+					embedURL += '&' + querystring;
+				}
+				if (cm.get['params']) {
+					if (cm.get['params']['element_id'] == id) {
+						embedURL += '&' + cm.get['qs'];
+					}
 				}
 				var iframe = document.createElement('iframe');
 					iframe.src = embedURL;
