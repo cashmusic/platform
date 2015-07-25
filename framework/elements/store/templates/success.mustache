@@ -1,5 +1,8 @@
 {{#error_message}}<div class="cm-error">{{error_message}}</div>{{/error_message}}
+
+<div class="cm-store cm-success">
 <div class="cm-store cm-receipt {{#fulfillment_assets}}cm-w-grat{{/fulfillment_assets}}">
+<div class="cm-inner">
 <ul class="cm-items">
 <h2>Order Summary</h2>
 	{{#item}}
@@ -14,20 +17,25 @@
 	{{/item}}
 </ul><!--cm-items-->
 <div class="cm-payment-success">Paid in full</div>
+</div><!--cm-inner-->
 </div><!--cm-receipt-->
+
 {{#fulfillment_assets}}
 <div class="cm-store cm-instant-grat">
 <h2>Your Downloads</h2>
+	<p class="cm-dwld-instructions">{{check_email_dwnld}}</p>
 	<ul class="cm-dwld-items">
 		<li class="cm-dwld-item">
 			<h3 class="cm-title">{{name}}</h3>
 			{{#variant_name}}<p class="cm-variant">{{variant_name}}</p>{{/variant_name}}
-			<a href="/" class="cm-download">{{asset_title}}</a><!--cm-dowload-->
+			{{#asset}}<a href="/" class="cm-download">{{asset_title}}</a><!--cm-dowload-->{{/asset}}
 		</li>
+
 	</ul>
-	<h3 class="cm-dwld-instructions">{{check_email}}</h3>
 </div><!--cm-instant-grat-->
 {{/fulfillment_assets}}
+
+</div><!--cm-success-->
 
 <script type="text/javascript">
 (function() {
