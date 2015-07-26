@@ -1352,7 +1352,7 @@ class CommercePlant extends PlantBase {
 												$initial_details['EMAIL'],
 												'Your download of "' . $initial_details['PAYMENTREQUEST_0_DESC'] . '" is ready and can be found at: '
 												. $finalize_url . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
-												. '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($initial_details['EMAIL']),
+												. '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($initial_details['EMAIL']) . '&order_id=' . $order_details['id'],
 												'Thank you.'
 											);
 										} else {
@@ -1368,7 +1368,7 @@ class CommercePlant extends PlantBase {
 										// TODO: handle the case where an email can't be sent. maybe display the download
 										//       code on-screen? that plus storing it with the order is probably enough
 									}
-									return true;
+									return $order_details['id'];
 								} else {
 									// make sure this isn't an accidentally refreshed page
 									if ($initial_details['CHECKOUTSTATUS'] != 'PaymentActionCompleted'){

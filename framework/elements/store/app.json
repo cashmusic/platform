@@ -28,7 +28,8 @@
 			"shipping":"Shipping",
 			"shippingto":"Shipping to",
 			"qty":"QTY",
-			"checkout":"Begin checkout"
+			"checkout":"Begin checkout",
+			"check_email":"Check your email for a receipt and secure link back to this page."
 		}
 	},
 	"options":{

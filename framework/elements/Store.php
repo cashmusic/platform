@@ -158,24 +158,80 @@ class Store extends ElementBase {
 
 		if (
 			$this->status_uid == 'commerce_finalizepayment_200' ||
-			$this->status_uid == 'element_redeemcode_200' ||
-			$this->status_uid == 'commerce_initiatecheckout_200' && $this->original_response['payload'] == 'force_success'
+			$this->status_uid == 'element_redeemcode_200'
 			) {
-			/*
-			if ($item['fulfillment_asset'] != 0) {
-				$fulfillment_request = new CASHRequest(
-					array(
-						'cash_request_type' => 'asset',
-						'cash_action' => 'getfulfillmentassets',
-						'asset_details' => $item['fulfillment_asset']
-					)
-				);
-				if ($fulfillment_request->response['payload']) {
-					$this->element_data['fulfillment_assets'] = new ArrayIterator($fulfillment_request->response['payload']);
+			if ($this->status_uid == 'commerce_finalizepayment_200') {
+				$this->element_data['order_id'] = $this->original_response['payload'];
+				$verified = true;
+			} else if ($this->status_uid == 'element_redeemcode_200') {
+				$this->element_data['order_id'] = $_GET['order_id'];
+				$verified = false;
+			}
+
+			$order_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'commerce',
+					'cash_action' => 'getorder',
+					'id' => $this->element_data['order_id'],
+					'deep' => true
+				)
+			);
+			$order_details = $order_request->response['payload'];
+
+			if ($order_details) {
+				if ($this->status_uid == 'element_redeemcode_200') {
+					if ($_GET['email'] == $order_details['customer_details']['email_address']) {
+						$verified = true;
+					}
+				}
+				if ($verified) {
+					$order_contents = json_decode($order_details['order_contents'],true);
+					$this->element_data['has_physical'] = false;
+					$this->element_data['item_subtotal'] = 0;
+					foreach ($order_contents as &$i) {
+						$i['total_price'] = number_format($i['qty'] * $i['price'],2);
+						$this->element_data['item_subtotal'] += $i['total_price'];
+						if ($i['fulfillment_asset'] != 0) {
+							$fulfillment_request = new CASHRequest(
+								array(
+									'cash_request_type' => 'asset',
+									'cash_action' => 'getfulfillmentassets',
+									'asset_details' => $i['fulfillment_asset']
+								)
+							);
+							if ($fulfillment_request->response['payload']) {
+								$i['digital_fulfillment_details'] = new ArrayIterator($fulfillment_request->response['payload']);
+							}
+						}
+						if (!$this->element_data['has_physical'] && $i['physical_fulfillment']) {
+							$this->element_data['has_physical'] = true;
+						}
+						if ($i['variant']) {
+							$variant_request = new CASHRequest(
+								array(
+									'cash_request_type' => 'commerce',
+									'cash_action' => 'getitemvariants',
+									'item_id' => $i['id']
+								)
+							);
+							if ($variant_request->response['payload']) {
+								if (is_array($variant_request->response['payload'])) {
+									foreach ($variant_request->response['payload']['quantities'] as $v) {
+										if ($v['key'] == $i['variant']) {
+											$i['variant_name'] = $v['formatted_name'];
+											break;
+										}
+									}
+								}
+							}
+						}
+					}
+					$this->element_data['shipping_subtotal'] =  number_format($order_details['gross_price'] - $this->element_data['item_subtotal'],2);
+					$this->element_data['total'] = number_format($order_details['gross_price'],2);
+					$this->element_data['order_contents'] = $order_contents;
+					$this->setTemplate('success');
 				}
 			}
-			*/
-			$this->setTemplate('success');
 		} elseif ($this->status_uid == 'commerce_finalizepayment_400' || $this->status_uid == 'element_redeemcode_400') {
 			// payerid is specific to paypal, so this is temporary to tell between canceled and errored:
 			if (isset($_GET['PayerID'])) {

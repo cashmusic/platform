@@ -4,22 +4,22 @@
 <div class="cm-store cm-receipt {{#fulfillment_assets}}cm-w-grat{{/fulfillment_assets}}">
 <div class="cm-inner">
 <ul class="cm-items">
-<h2>Order Summary</h2>
-	{{#item}}
+<h2>Order #{{order_id}}</h2>
+	{{#order_contents}}
 	<li class="cm-item">
 		<h3 class="cm-title">{{name}}</h3>
 		{{#variant_name}}<p class="cm-variant">{{variant_name}}</p>{{/variant_name}}
 		<div class="cm-info">
-			<p class="cm-qty">QTY <span>{{currency}}{{item-current-qty}}</span></p>
-			<p class="cm-shipping">Price <span>{{currency}}{{item_amount}}</span></p>
+			<p class="cm-qty">QTY <span>{{qty}}</span></p>
+			<p class="cm-totalprice">Price <span>{{currency}}{{total_price}}</span></p>
 		</div><!--cm-info-->
 	</li><!--cm-item-->
-	{{/item}}
+	{{/order_contents}}
 </ul><!--cm-items-->
 <div class="cm-pricing">
 		{{#has_physical}}
-		<h3 class="cm-subtotal">{{copy_subtotal}}<span class="cm-amount">{{currency}}<span class="cm-subtotal-amount">{{subtotal}}</span></span></h3>
-		<h3 class="cm-shipping">{{copy_shipping}}<span class="cm-amount">{{currency}}<span class="cm-shipping-amount">{{shipping}}</span></span></h3>
+		<h3 class="cm-subtotal">{{copy_subtotal}}<span class="cm-amount">{{currency}}<span class="cm-subtotal-amount">{{item_subtotal}}</span></span></h3>
+		<h3 class="cm-shipping">{{copy_shipping}}<span class="cm-amount">{{currency}}<span class="cm-shipping-amount">{{shipping_subtotal}}</span></span></h3>
 		{{/has_physical}}
 		<h2 class="cm-total">{{copy_total}}<span class="cm-amount">{{currency}}<span class="cm-total-amount">{{total}}</span></h2>
 </div><!--cm-pricing-->
@@ -27,20 +27,24 @@
 </div><!--cm-inner-->
 </div><!--cm-receipt-->
 
-{{#fulfillment_assets}}
-<div class="cm-store cm-instant-grat">
-<h2>Your Downloads</h2>
-	<p class="cm-dwld-instructions">{{check_email_dwnld}}</p>
-	<ul class="cm-dwld-items">
-		<li class="cm-dwld-item">
-			<h3 class="cm-title">{{name}}</h3>
-			{{#variant_name}}<p class="cm-variant">{{variant_name}}</p>{{/variant_name}}
-			{{#asset}}<a href="/" class="cm-download">{{asset_title}}</a><!--cm-dowload-->{{/asset}}
-		</li>
 
-	</ul>
+<div class="cm-store cm-instant-grat">
+<h2>More</h2>
+	<p class="cm-dwld-instructions">{{copy_check_email}}</p>
+	{{#order_contents}}
+		{{#digital_fulfillment_details}}
+		<ul class="cm-dwld-items">
+			{{#digital_fulfillment_details}}
+			<li class="cm-dwld-item">
+				<h3 class="cm-title">{{name}}</h3>
+				<a href="?cash_request_type=asset&cash_action=claim&id={{id}}&element_id={{element_id}}" class="download">{{title}}</a>
+				<div class="description">{{description}}</div>
+			</li>
+			{{/digital_fulfillment_details}}
+		</ul>
+		{{/digital_fulfillment_details}}
+	{{/order_contents}}
 </div><!--cm-instant-grat-->
-{{/fulfillment_assets}}
 
 </div><!--cm-success-->
 
