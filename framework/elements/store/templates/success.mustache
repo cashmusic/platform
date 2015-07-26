@@ -1,3 +1,4 @@
+<link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
 {{#error_message}}<div class="cm-error">{{error_message}}</div>{{/error_message}}
 
 <div class="cm-store cm-success">
@@ -45,7 +46,7 @@
 		{{/digital_fulfillment_details}}
 	{{/order_contents}}
 </div><!--cm-instant-grat-->
-
+<div class="madebycash"><a href="https://cashmusic.org/" target="_blank">Made with &#9825; by CASH Music. Open-source &amp; Free forever. </a></div>
 </div><!--cm-success-->
 
 <script type="text/javascript">
@@ -55,4 +56,20 @@
 		history.pushState(null, null, location.protocol + '//' + location.host + location.pathname);
 	}
 })();
+
+
+// Include Recipt Font
+  WebFontConfig = {
+    google: { families: [ 'VT323::latin' ] }
+  };
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+      '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+  })();
+
 </script>
