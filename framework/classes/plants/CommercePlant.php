@@ -1350,9 +1350,9 @@ class CommercePlant extends PlantBase {
 												'Thank you for your order',
 												$order_details['user_id'],
 												$initial_details['EMAIL'],
-												'Your download of "' . $initial_details['PAYMENTREQUEST_0_DESC'] . '" is ready and can be found at: '
-												. $finalize_url . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
-												. '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($initial_details['EMAIL']) . '&order_id=' . $order_details['id'],
+												'Your download of "' . $initial_details['PAYMENTREQUEST_0_DESC'] . '" is ready: ' . "\n\n"
+												. '[View your receipt and any downloads](' . $finalize_url . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
+												. '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($initial_details['EMAIL']) . '&order_id=' . $order_details['id'] . ')',
 												'Thank you.'
 											);
 										} else {
