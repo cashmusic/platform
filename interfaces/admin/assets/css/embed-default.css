@@ -1,4 +1,4 @@
-/***************************************************
+/*************************************************** 
  *
  *  CASH Music - Embedded Elements Styles
  *	Created by Christopher Leckie @ CASH Music
@@ -25,7 +25,7 @@ html,body{
 }
 
 /* Device Scrolling */
-@media only screen and (max-device-width: 535px) {
+@media only screen and (max-device-width: 535px) { 
 	html,body{
 		overflow-x:hidden;
 		overflow-y: scroll; /* has to be scroll, not auto */
@@ -303,7 +303,7 @@ input[type=submit]:hover, .button:hover{
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition:0.3s ease-in-out;
-	text-align: justify;
+	text-align: justify; 
 }
 
 .tourdates .cash_event:after{
@@ -361,7 +361,7 @@ input[type=submit]:hover, .button:hover{
 	trasition:0.3s ease-in-out;
 	margin:0;
 	padding:10px;
-	vertical-align: baseline;
+	vertical-align: baseline; 
 	border:solid 2px #00cf7f;
 	font-size: 12px;
 	color:#00cf7f;
@@ -374,7 +374,7 @@ input[type=submit]:hover, .button:hover{
 	trasition:0.3s ease-in-out;
 	margin:0;
 	padding:10px;
-	vertical-align: baseline;
+	vertical-align: baseline; 
 	border:solid 2px #00cf7f;
 	font-size: 12px;
 	color:#00cf7f;
@@ -966,7 +966,7 @@ input[type=number]::-webkit-outer-spin-button {
 /* Store - Success/Download */
 
 .cm-store.cm-success{
-	max-width:600px;
+	max-width:700px;
 	margin:0 auto;
 }
 
@@ -974,35 +974,49 @@ input[type=number]::-webkit-outer-spin-button {
 	margin:0;
 }
 
-.cm-store.cm-success h2{
+.cm-store.cm-success .cm-receipt .cm-title{
 	font-size: 18px;
 }
 
+.cm-store.cm-success .cm-receipt  .cm-variant, .cm-store.cm-success .cm-receipt .cm-qty, .cm-store.cm-success .cm-receipt .cm-info .cm-shipping{
+	font-size: 14px;
+}
+
+
+.cm-store.cm-success .cm-receipt h2{
+	font-size: 20px;
+}
+
 .cm-receipt, .cm-instant-grat{
-	margin:0;
-	padding:0;
-	width:60%;
+	margin:0 2%;
+	padding:0px;
+	width:96%;
 	display: inline-block;
 	vertical-align: top;
 }
 
 .cm-instant-grat{ 
-	width:38%;
 	padding:20px;
 	color:#fff;
+	-webkit-box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.3);
+	-moz-box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.3);
+	box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.3);
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
 
 .cm-receipt{
-	font-family: 'telidon_inkregular';
+	font-family: 'VT323','Montserrat',Helvetica,Arial,sans-serif ;
 	text-align: center;
 	min-height:200px;
 	position: relative;
-	-webkit-filter: drop-shadow(0px 5px 5px rgba(0,0,0,0.5));
-	filter: drop-shadow(0px 5px 5px rgba(0,0,0,0.5));
+	-webkit-filter: drop-shadow(0px 5px 5px rgba(0,0,0,0.3));
+	filter: drop-shadow(0px 5px 5px rgba(0,0,0,0.3));
 }
 
 .cm-receipt .cm-inner{
-	margin:0 0 20px 0;
+	margin:0 0 16px 0;
 	padding: 20px;
 	background:#ededed;
 	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f9f9f9+0,ededed+100 */
@@ -1014,75 +1028,25 @@ input[type=number]::-webkit-outer-spin-button {
 	background: -ms-linear-gradient(top,  rgba(249,249,249,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
 	background: linear-gradient(to bottom,  rgba(249,249,249,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
-}
 
-/*.cm-dropshadow
-{
-  	position:relative;       
-    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 }
-.cm-dropshadow:before, .cm-dropshadow:after
-{
-	content:"";
-    position:absolute; 
-    z-index:-1;
-    -webkit-box-shadow:0 0 20px rgba(0,0,0,0.8);
-    -moz-box-shadow:0 0 20px rgba(0,0,0,0.8);
-    box-shadow:0 0 20px rgba(0,0,0,0.8);
-    top:10px;
-    bottom:10px;
-    left:0;
-    right:0;
-    -moz-border-radius:100px / 10px;
-    border-radius:100px / 10px;
-} 
-.cm-dropshadow:after
-{
-	right:10px; 
-    left:auto;
-    -webkit-transform:skew(8deg) rotate(3deg); 
-       -moz-transform:skew(8deg) rotate(3deg);     
-        -ms-transform:skew(8deg) rotate(3deg);     
-         -o-transform:skew(8deg) rotate(3deg); 
-            transform:skew(8deg) rotate(3deg);
-}
-*/
-
-/*.cm-receipt:before{
-	 background: linear-gradient(-45deg, #ededed 16px, transparent 0), linear-gradient(45deg, #ededed 16px, transparent 0);
-     background-position: left-bottom;
-     background-repeat: repeat-x;
-     background-size: 22px 22px;
-     content: " ";
-     display: block;
-     position: absolute;
-     top: 0px;
-     left: 0px;
-     width: 100%;
-     height: 12px;
-
-    }
-*/
 
 .cm-receipt:after{
  	 background: linear-gradient(-45deg, transparent 16px, #ededed 0), linear-gradient(45deg, transparent 16px, #ededed 0 );
      background-position: left-bottom;
      background-repeat: repeat-x;
-     background-size: 22px 22px;
+     background-size: 16px 16px;
      content: " ";
      display: block;
      position: absolute;
      bottom: 0px;
      left: 0px;
      width: 100%;
-     height: 22px;
+     height: 16px;
 }
 
 .cm-receipt .cm-item{
 	padding:20px;
-	border-bottom: dotted 1px #ccc;
 }
 
 .cm-receipt .cm-payment-success{
@@ -1092,42 +1056,47 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .cm-receipt .cm-pricing{
-	padding:20px 0 0px 0;
+	padding:20px 0 0 0;
+	border-top: dotted 1px #ccc;
 }
 
 .cm-receipt .cm-pricing .cm-subtotal, .cm-receipt .cm-pricing .cm-shipping{
-	font-size: 14px;
+	font-size: 16px;
 	margin:0;
 }
 
 .cm-receipt .cm-pricing .cm-shipping{
 	padding:0 0 20px 0;
-	border-bottom: dotted 1px #ccc;
 }
 
 .cm-receipt .cm-total{
-	font-size: 18px;
+	font-size: 20px;
 	text-transform: uppercase;
 	font-weight: 700;
 	padding:20px 0 0 0;
+	display: block!important;
+	border-top: dotted 1px #ccc;
 }
 
 /* Instant Grat Files */
 
 .cm-store .cm-instant-grat{
-	margin:10px 0;
 	background:rgba(0,0,0,0.3);
-	-webkit-border-top-right-radius: 3px;
-	-webkit-border-bottom-right-radius: 3px;
-	-moz-border-radius-topright: 3px;
-	-moz-border-radius-bottomright: 3px;
-	border-top-right-radius: 3px;
-	border-bottom-right-radius: 3px;
 }
 
 .cm-store .cm-instant-grat a{
 	text-decoration: underline;
 	font-size: 12px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	padding:2px 0;
+}
+
+.cm-store .cm-instant-grat a:hover{
+	background: rgba(0,0,0,0.3);
+	color:#fff;
+	text-decoration: none;
 }
 
 .cm-instant-grat .cm-dwld-instructions{
@@ -1136,10 +1105,54 @@ input[type=number]::-webkit-outer-spin-button {
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	padding:10px;
+	margin:20px 0;
 	font-size:12px;
 	line-height: 14px;
 	font-weight: 100;
 	text-align: left;
+}
+
+.cm-instant-grat .cm-dwld-item{
+	border-top: solid 1px rgba(0,0,0,0.1);
+	padding:20px 0;
+}
+
+.cm-instant-grat .cm-dwld-item .cm-title{
+	font-size: 14px;
+	font-weight: 100;
+}
+
+.cm-instant-grat .cm-dwld-item .cm-variant{
+	font-size: 12px;
+}
+
+/* Made by CASH Footer */
+
+.cm-store .madebycash{
+	background-size:50px 50px;
+	width: 100%;
+	padding:20px 0;
+	display:block;
+	font-weight:100!important;
+	font-size:11px;
+	z-index: 1;
+	text-align: center;
+}
+
+
+.cm-store .madebycash a{
+	margin:0;
+	background:none;
+	color:#333;
+	font-weight:100!important;
+	-webkit-transition: color 0.3s  ease-in-out;
+	-moz-transition: color 0.3s  ease-in-out;
+	trasition: color 0.3s ease-in-out;
+	
+}
+
+.cm-store .madebycash a:hover{
+	color:#00cf7f;
 }
 
 /* -- Main Size -- */
@@ -1193,6 +1206,22 @@ input[type=number]::-webkit-outer-spin-button {
 	/* Store */
 	.cm-store .cm-item select{
 	width:49.5%;
+	}
+
+	.cm-instant-grat{ 
+	width:43%;
+	margin: 10px 0 0 -5px;
+	-webkit-border-top-right-radius: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	-moz-border-radius-topright: 3px;
+	-moz-border-radius-bottomright: 3px;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+	}
+	
+	.cm-receipt, .cm-store .madebycash{
+	width:55%;
+	margin:0;
 	}
 }
 
