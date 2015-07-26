@@ -28,8 +28,7 @@
 			"shipping":"Shipping",
 			"shippingto":"Shipping to",
 			"qty":"QTY",
-			"checkout":"Begin checkout",
-			"check_email":"Check your email for a receipt and secure link back to this page."
+			"checkout":"Begin checkout"
 		}
 	},
 	"options":{
@@ -62,15 +61,6 @@
 						}
 					},
 					"required":false
-				},
-				"connection_id":{
-					"label":{
-						"en":"Commerce connection to use"
-					},
-					"type":"select",
-					"values":"connections/commerce",
-					"required":true,
-					"displaysize":"small"
 				}
 			}
 		},
@@ -88,7 +78,7 @@
 					},
 					"type":"text",
 					"default":{
-						"en":"Thank you! Here's your download. Mobile users check your inbox and spam folders for a download link."
+						"en":"Thank you! Check your inbox and spam folders for a receipt and link back to this page."
 					},
 					"displaysize":"medium"
 				},
@@ -101,52 +91,6 @@
 						"en":"There was an error processing your payment. Please reload and try again."
 					},
 					"displaysize":"medium"
-				}
-			}
-		},
-		"shipping":{
-			"group_label":{
-				"en":"Shipping regions"
-			},
-			"description":{
-				"en":"Define shipping regions and costs if you're selling a physical inventory item."
-			},
-			"data":{
-				"region1_name":{
-					"label":{
-						"en":"Region 1"
-					},
-					"type":"text",
-					"default":{
-						"en":"US"
-					},
-					"displaysize":"small"
-				},
-				"region1_cost":{
-					"label":{
-						"en":"R1 Shipping cost"
-					},
-					"type":"number",
-					"default":"0.00",
-					"displaysize":"small"
-				},
-				"region2_name":{
-					"label":{
-						"en":"Region 2"
-					},
-					"type":"text",
-					"default":{
-						"en":"International"
-					},
-					"displaysize":"small"
-				},
-				"region2_cost":{
-					"label":{
-						"en":"R2 Shipping cost"
-					},
-					"type":"number",
-					"default":"0.00",
-					"displaysize":"small"
 				}
 			}
 		}
