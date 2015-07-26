@@ -1124,7 +1124,7 @@ class CommercePlant extends PlantBase {
 			if (isset($item['variant_name'])) {
 				$return_array['description'] .= '(' . $item['variant_name'] . ')';
 			}
-			$return_array['description'] .= ",\n";
+			$return_array['description'] .= ", ";
 		}
 		$return_array['description'] = rtrim($return_array['description']," ,\n");
 		return $return_array;

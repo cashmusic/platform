@@ -35,21 +35,7 @@
 	{{/features}}
 </div><!--featured-->
 
-<div class="cm-store cm-return redeem">
-	<h3 id="cmrtrntoggle" class="cm-store cm-return return"><span>Returning Customer?</span> Login for order details and downloads.</h3>
-	<div id="cmrtrndraw" class="cm-store cm-return cm-inner">
-	<form id="cm-{{element_type}}-form-{{element_id}}" class="cm-form {{element_id}}" method="post" action="">
-	<div class="cm-address-container">
-		<label for="address">Email</label>
-		<input type="email" name="address"  placeholder="Email" value="" class="cm-input cm-input-address" />
-	</div><div class="cm-order-container">
-		<label for="orderno">Order N<sup>o</sup></label>
-		<input type="text" name="orderno" value="" placeholder="Order Number" class="cm-input cm-input-order-number" />
-	</div>
-	<input type="submit" value="log in" class="button" />
-	</div><!--inner-->
-</form>
-</div><!--return-->
+<a href="#" class="cm-cartbutton">View cart</a>
 
 <div class="cm-store unfeatured-items">
 <div class="cm-store cm-info cm-inner">
@@ -93,19 +79,6 @@
 </div><!--cm-store cm-front-->
 
 <script type="text/javascript">
-
-//login panel show/hide
-document.getElementById('cmrtrntoggle').onclick = function() {
-
-    var className = ' ' + cmrtrndraw.className + ' ';
-
-    if ( ~className.indexOf(' active ') ) {
-        document.getElementById('cmrtrndraw').className = className.replace(' active ', ' ');
-    } else {
-        document.getElementById('cmrtrndraw').className += ' active';
-    }
-}
-
 	var cm = window.cashmusic;
 	var cartpresent = false;
 	var cartbuttonbusy = false;
