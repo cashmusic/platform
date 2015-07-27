@@ -101,7 +101,9 @@ class Store extends ElementBase {
 		);
 		$cart = $cart_request->response['payload'];
 		if ($cart) {
-			$this->element_data['items_in_cart'] = true;
+			if ((isset($cart['shipto']) && count($cart) > 1) || (!isset($cart['shipto']) && count($cart))) {
+				$this->element_data['items_in_cart'] = true;
+			}
 		}
 
 		$featured_items = array();
