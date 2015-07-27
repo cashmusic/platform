@@ -7,8 +7,6 @@ $items_response = $cash_admin->requestAndStore(
 	)
 );
 
-error_log(print_r($items_response,true));
-
 $releases_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'asset',

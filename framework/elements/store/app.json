@@ -1,0 +1,140 @@
+{
+	"type":"element",
+	"subtype":"store",
+	"lastupdated":"Jun 13, 2015",
+	"version":1,
+	"author":"CASH Music",
+	"url":"http://cashmusic.org/",
+	"license":"AGPL",
+	"details":{
+		"en":{
+			"name":"Store",
+			"description":"A store element.",
+			"longdescription":"You know what a store is.",
+			"instructions":"...."
+		}
+	},
+	"copy":{
+		"en":{
+			"cart":"Add to cart",
+			"flexibleprice_suffix":"or more",
+			"choose_variants":"Choose an option first",
+			"choose_verb":"Choose",
+			"added":"Added to cart!",
+			"unavailable":"Sorry, this item is currently unavailable.",
+			"emptycart":"Your cart is empty.",
+			"subtotal":"Subtotal",
+			"total":"Total",
+			"shipping":"Shipping",
+			"shippingto":"Shipping to",
+			"qty":"QTY",
+			"checkout":"Begin checkout"
+		}
+	},
+	"options":{
+		"main":{
+			"group_label":{
+				"en":"Main settings"
+			},
+			"description":{
+				"en":"Choose an inventory item to sell and commerce connection to use."
+			},
+			"data":{
+				"featured_items":{
+					"label":{
+						"en":"Featured items"
+					},
+					"type":"scalar",
+					"displaysize":"large",
+					"actiontext": {
+						"en":"Add a new featured item"
+					},
+					"values":{
+						"item_id":{
+							"label":{
+								"en":"Selected item"
+							},
+							"type":"select",
+							"values":"commerce/items",
+							"required":false,
+							"displaysize":"large"
+						}
+					},
+					"required":false
+				},
+				"additional_items":{
+					"label":{
+						"en":"Additional items"
+					},
+					"type":"scalar",
+					"displaysize":"large",
+					"actiontext": {
+						"en":"Add another item"
+					},
+					"values":{
+						"item_id":{
+							"label":{
+								"en":"Selected item"
+							},
+							"type":"select",
+							"values":"commerce/items",
+							"required":false,
+							"displaysize":"small"
+						},
+						"tags":{
+							"label":{
+								"en":"Tags (optional)"
+							},
+							"type":"text",
+							"default":{
+								"en":""
+							},
+							"displaysize":"small"
+						}
+					},
+					"required":false
+				}
+			}
+		},
+		"messages":{
+			"group_label":{
+				"en":"Success/error messages"
+			},
+			"description":{
+				"en":"Customize messages shown to people using this element."
+			},
+			"data":{
+				"message_success":{
+					"label":{
+						"en":"Success message"
+					},
+					"type":"text",
+					"default":{
+						"en":"Thank you! Check your inbox and spam folders for a receipt and link back to this page."
+					},
+					"displaysize":"medium"
+				},
+				"message_error":{
+					"label":{
+						"en":"Invalid email message"
+					},
+					"type":"text",
+					"default":{
+						"en":"There was an error processing your payment. Please reload and try again."
+					},
+					"displaysize":"medium"
+				},
+				"message_email":{
+					"label":{
+						"en":"Personalized email message"
+					},
+					"type":"text",
+					"default":{
+						"en":""
+					},
+					"displaysize":"medium"
+				}
+			}
+		}
+	}
+}

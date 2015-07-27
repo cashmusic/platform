@@ -1393,7 +1393,9 @@
 		global $admin_primary_cash_request;
 		$available_options = false;
 		$all_options = '';
-
+		if ($shownone) {
+			$all_options = '<option value="0">None</option>';
+		}
 		if (is_array($base_type)) {
 			$available_options = array();
 			foreach ($base_type as $key => $value) {
@@ -1403,7 +1405,6 @@
 				);
 			}
 			$display_information = 'display';
-			$all_options = '';
 		} else {
 			// fix for an old style. we prefer '/' in app.json but use '_' in other calls
 			$base_type = str_replace('/','_',$base_type);
@@ -1413,9 +1414,6 @@
 				return AdminHelper::echoConnectionsOptions($scope[1],$selected,true);
 			}
 
-			if ($shownone) {
-				$all_options = '<option value="0">None</option>';
-			}
 			switch ($base_type) {
 				case 'assets':
 					$plant_name = 'asset';
@@ -1469,7 +1467,7 @@
 				}
 				if ($doloop) {
 					$selected_string = '';
-					if ($item['id'] === $selected) {
+					if ($item['id'] == $selected) {
 						$selected_string = ' selected="selected"';
 					}
 					$all_options .= '<option value="' . $item['id'] . '"' . $selected_string . '>' . $item[$display_information] . '</option>';

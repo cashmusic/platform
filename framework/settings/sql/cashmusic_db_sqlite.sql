@@ -109,6 +109,7 @@ CREATE TABLE commerce_items (
   description text,
   sku text DEFAULT NULL,
   price numeric DEFAULT NULL,
+  shipping text DEFAULT NULL,
   flexible_price numeric DEFAULT NULL,
   digital_fulfillment integer DEFAULT '0',
   physical_fulfillment integer DEFAULT '0',

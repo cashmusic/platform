@@ -83,7 +83,7 @@
 	 * out the needed code...
 	 *
 	 * @return none
-	 */public static function embedElement($element_id,$access_method='direct',$location=false) {
+	 */public static function embedElement($element_id,$access_method='direct',$location=false,$geo=false) {
 		// fire up the platform sans-direct-request to catch any GET/POST info sent
 		// in to the page
 		CASHSystem::startSession();
@@ -114,7 +114,8 @@
 				'original_request' => $original_request,
 				'original_response' => $original_response,
 				'access_method' => $access_method,
-				'location' => $location
+				'location' => $location,
+				'geo' => $geo
 			)
 		);
 		if ($cash_body_request->response['status_uid'] == 'element_getmarkup_400') {
@@ -581,7 +582,11 @@
 		// handle encoding of HTML if specific HTML isn't passed in:
 		if (!$encoded_html) {
 			$template = @file_get_contents(CASH_PLATFORM_ROOT . '/settings/defaults/system_email.mustache');
-			$encoded_html = str_replace("\n","<br />\n",preg_replace('/(http:\/\/(\S*))/', '<a href="\1">\1</a>', $message_text));
+			if (file_exists(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php')) {
+				include_once(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php');
+			}
+			$message_text = Markdown($message_text);
+			$encoded_html = preg_replace('/(\shttp:\/\/(\S*))/', '<a href="\1">\1</a>', $message_text);
 			if (!$template) {
 				$encoded_html .= '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' . $message_title . '</title></head><body>'
 						  . "<h1>$message_title</h1>\n" . "<p>" . $encoded_html . "</p>"

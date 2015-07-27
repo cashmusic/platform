@@ -1,0 +1,75 @@
+<link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
+{{#error_message}}<div class="cm-error">{{error_message}}</div>{{/error_message}}
+
+<div class="cm-store cm-success">
+<div class="cm-store cm-receipt {{#fulfillment_assets}}cm-w-grat{{/fulfillment_assets}}">
+<div class="cm-inner">
+<ul class="cm-items">
+<h2>Order #{{order_id}}</h2>
+	{{#order_contents}}
+	<li class="cm-item">
+		<h3 class="cm-title">{{name}}</h3>
+		{{#variant_name}}<p class="cm-variant">{{variant_name}}</p>{{/variant_name}}
+		<div class="cm-info">
+			<p class="cm-qty">QTY <span>{{qty}}</span></p>
+			<p class="cm-totalprice">Price <span>{{currency}}{{total_price}}</span></p>
+		</div><!--cm-info-->
+	</li><!--cm-item-->
+	{{/order_contents}}
+</ul><!--cm-items-->
+<div class="cm-pricing">
+		{{#has_physical}}
+		<h3 class="cm-subtotal">{{copy_subtotal}}<span class="cm-amount">{{currency}}<span class="cm-subtotal-amount">{{item_subtotal}}</span></span></h3>
+		<h3 class="cm-shipping">{{copy_shipping}}<span class="cm-amount">{{currency}}<span class="cm-shipping-amount">{{shipping_subtotal}}</span></span></h3>
+		{{/has_physical}}
+		<h2 class="cm-total">{{copy_total}}<span class="cm-amount">{{currency}}<span class="cm-total-amount">{{total}}</span></h2>
+</div><!--cm-pricing-->
+<div class="cm-payment-success">Paid in full</div>
+</div><!--cm-inner-->
+</div><!--cm-receipt-->
+
+
+<div class="cm-store cm-instant-grat">
+<h2>More</h2>
+	<p class="cm-dwld-instructions">{{message_success}}</p>
+	{{#order_contents}}
+		{{#digital_fulfillment_details}}
+		<ul class="cm-dwld-items">
+			{{#digital_fulfillment_details}}
+			<li class="cm-dwld-item">
+				<h3 class="cm-title">{{name}}</h3>
+				<a href="?cash_request_type=asset&cash_action=claim&id={{id}}&element_id={{element_id}}" class="download">{{title}}</a>
+				<div class="description">{{description}}</div>
+			</li>
+			{{/digital_fulfillment_details}}
+		</ul>
+		{{/digital_fulfillment_details}}
+	{{/order_contents}}
+</div><!--cm-instant-grat-->
+<div class="madebycash"><a href="https://cashmusic.org/" target="_blank">Made with &#9825; by CASH Music. Open-source &amp; Free forever. </a></div>
+</div><!--cm-success-->
+
+<script type="text/javascript">
+(function() {
+	var hasPushstate = !!(window.history && history.pushState);
+	if (hasPushstate) {
+		history.pushState(null, null, location.protocol + '//' + location.host + location.pathname);
+	}
+})();
+
+
+// Include Recipt Font
+  WebFontConfig = {
+    google: { families: [ 'VT323::latin' ] }
+  };
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+      '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+  })();
+
+</script>

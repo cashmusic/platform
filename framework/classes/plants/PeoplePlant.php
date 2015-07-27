@@ -1,6 +1,6 @@
 <?php
 /**
- * PeoplePlant handles all user functions except login. It manages lists of users 
+ * PeoplePlant handles all user functions except login. It manages lists of users
  * and will sync those lists between services.
  *
  * @package platform.org.cashmusic
@@ -15,7 +15,7 @@
  *
  **/
 class PeoplePlant extends PlantBase {
-	
+
 	public function __construct($request_type,$request) {
 		$this->request_type = 'people';
 		$this->routing_table = array(
@@ -99,7 +99,7 @@ class PeoplePlant extends PlantBase {
 		// get orders for the timeframe
 		$order_request = new CASHRequest(
 			array(
-				'cash_request_type' => 'commerce', 
+				'cash_request_type' => 'commerce',
 				'cash_action' => 'getordersforuser',
 				'user_id' => $user_id,
 				'since_date' => $since_date
@@ -146,7 +146,7 @@ class PeoplePlant extends PlantBase {
 			$phone='',
 			$notes='',
 			$links=''
-		) 
+		)
 	 {
 		$result = $this->db->setData(
 			'contacts',
@@ -313,7 +313,7 @@ class PeoplePlant extends PlantBase {
 			if ($element_id) {
 				$element_request = new CASHRequest(
 					array(
-						'cash_request_type' => 'element', 
+						'cash_request_type' => 'element',
 						'cash_action' => 'getelement',
 						'id' => $element_id
 					)
@@ -459,13 +459,13 @@ class PeoplePlant extends PlantBase {
 		}
 		return $result;
 	}
-	
+
 	protected function getConnectionAPI($list_id) {
 		$list_info     = $this->getList($list_id);
 		// settings are called connections now
 		$connection_id = $list_info['connection_id'];
 		$user_id       = $list_info['user_id'];
-		
+
 		// if there is an external connection
 		if ($connection_id) {
 			$connection_type = $this->getConnectionType($connection_id);
@@ -532,7 +532,7 @@ class PeoplePlant extends PlantBase {
 			switch($connection_type) {
 				case 'com.mailchimp':
 					$mc = new MailchimpSeed($user_id, $connection_id);
-					
+
 					$mailchimp_members = sort($mc->listMembers());
 					// TODO: fix hard-coded limit...TO-DONE!
 					$local_members	   = $this->getUsersForList($list_id,false);
@@ -582,7 +582,7 @@ class PeoplePlant extends PlantBase {
 		if ($limit) {
 			$query_limit = "$start,$limit";
 		}
-		
+
 		$result = $this->db->getData(
 			'PeoplePlant_getUsersForList',
 			false,
@@ -740,7 +740,7 @@ class PeoplePlant extends PlantBase {
 
 					$addlogin_request = new CASHRequest(
 						array(
-							'cash_request_type' => 'system', 
+							'cash_request_type' => 'system',
 							'cash_action' => 'addlogin',
 							'address' => $address,
 							'password' => md5(rand(23456,9876541)),
@@ -799,7 +799,7 @@ class PeoplePlant extends PlantBase {
 								$list_details['user_id'],
 								$address,
 								'You requested to join the ' . $list_details['name'] . ' list. If this message has been sent in error ignore it.'
-                                   . 'To complete your sign-up visit: ' . "\n\n" . $verification_url . "\n\nNote to iOS users: you can only download on your computers, then sync to your device. Downloads will not work if on your iPhone or iPad.",
+                           . 'To complete your sign-up: ' . "\n\n [Verify your email address](" . $verification_url . ") \n\nNote to iOS users: you can only download on your computers, then sync to your device. Downloads will not work if on your iPhone or iPad.",
 								'Please confirm your membership'
 							);
 						}
@@ -815,7 +815,7 @@ class PeoplePlant extends PlantBase {
 	}
 
 	/**
-	 * Sets a user inactive for a given list. If the user is not present on the 
+	 * Sets a user inactive for a given list. If the user is not present on the
 	 * list it returns true.
 	 *
 	 * @param {string} $address -  the email address in question
@@ -840,7 +840,7 @@ class PeoplePlant extends PlantBase {
 				if (!$result) {
 					return false; // couldn't remove from the list
 				}
-			} 
+			}
 			$api_connection = $this->getConnectionAPI($list_id);
 			$rc = -1;
 			if ($api_connection) {
@@ -873,7 +873,7 @@ class PeoplePlant extends PlantBase {
 	 */protected function addressIsVerified($address,$list_id) {
 		$address_information = $this->getAddressListInfo($address,$list_id);
 		if (!$address_information) {
-			return false; 
+			return false;
 		} else {
 			return $address_information['verified'];
 		}
@@ -899,10 +899,10 @@ class PeoplePlant extends PlantBase {
 					)
 				)
 			);
-			if ($result) { 
+			if ($result) {
 				return $verification_code;
 			}
-		}	
+		}
 		return false;
 	}
 
@@ -932,7 +932,7 @@ class PeoplePlant extends PlantBase {
 						)
 					)
 				);
-				if ($result) { 
+				if ($result) {
 					$id = $result[0]['id'];
 					$result = $this->db->setData(
 						'list_members',
@@ -946,7 +946,7 @@ class PeoplePlant extends PlantBase {
 							)
 						)
 					);
-					if ($result) { 
+					if ($result) {
 						$api_connection = $this->getConnectionAPI($list_id);
 						$rc             = -1;
 						if ($api_connection) {
@@ -1003,7 +1003,7 @@ class PeoplePlant extends PlantBase {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Returns user id for a given email address
 	 *
@@ -1081,9 +1081,9 @@ class PeoplePlant extends PlantBase {
 		if ($validate) {
 			$login_request = new CASHRequest(
 				array(
-					'cash_request_type' => 'system', 
+					'cash_request_type' => 'system',
 					'cash_action' => 'validatelogin',
-					'address' => $address, 
+					'address' => $address,
 					'password' => $password,
 					'verified_address' => $verified_address,
 					'browserid_assertion' => $browserid_assertion,
@@ -1212,7 +1212,7 @@ class PeoplePlant extends PlantBase {
 			if ($mailing['send_date'] == 0) {
 				$list_request = new CASHRequest(
 					array(
-						'cash_request_type' => 'people', 
+						'cash_request_type' => 'people',
 						'cash_action' => 'viewlist',
 						'list_id' => $mailing['list_id'],
 						'user_id' => $mailing['user_id'],
@@ -1240,7 +1240,7 @@ class PeoplePlant extends PlantBase {
 
 					$user_request = new CASHRequest(
 						array(
-							'cash_request_type' => 'people', 
+							'cash_request_type' => 'people',
 							'cash_action' => 'getuser',
 							'user_id' => $mailing['user_id']
 						)
@@ -1406,7 +1406,7 @@ class PeoplePlant extends PlantBase {
 	 */
 
 	/**
-	 * Used with the verbose API for remote webhook calls — incoming data into the system from 
+	 * Used with the verbose API for remote webhook calls — incoming data into the system from
 	 * third parties, etc.
 	 *
 	 */protected function processWebhook($origin,$user_id,$list_id=0,$type=false,$data=false,$mandrill_events=false) {
@@ -1463,7 +1463,7 @@ class PeoplePlant extends PlantBase {
 						return false; // incorrect owner
 					}
 					// possible events: 'hard_bounce','soft_bounce','open','click','spam','unsub','reject'
-					if ($mandrill_event['event'] == 'hard_bounce' || 
+					if ($mandrill_event['event'] == 'hard_bounce' ||
 						$mandrill_event['event'] == 'soft_bounce' ||
 						$mandrill_event['event'] == 'spam' ||
 						$mandrill_event['event'] == 'unsub' ||
@@ -1509,5 +1509,5 @@ class PeoplePlant extends PlantBase {
 				return false;
 		}
 	}
-} // END class 
+} // END class
 ?>

@@ -88,32 +88,52 @@
 		<div class="itemnav pure-u-1">
 			<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>{{copy_commerce_settings}}</span></h4>
 			<div class="drawercontent">
-			<div class="pure-u-1 pure-u-md-1-2">
-				<div class="pref-inner">
-				<h5>{{copy_primary_currency}}</h5>
-					<form accept-charset="UTF-8" method="post" class="returntocurrentroute" action="{{www_path}}/commerce/">
-						<div class="pure-u-">
-						<select id="currency_id" name="currency_id">{{{currency_options}}}</select>
-						<button class="fullwidth" type="submit">{{copy_use_this_currency}}</button>
-						</div>
-					</form>
-				</div><!--pref-inner-->
-			</div><!--pure-->
-			{{#show_beta}}
-			<div class="pure-u-1 pure-u-md-1-2">
-				<div class="pref-inner">
-				<h5>{{copy_shipping_regions}}</h5>
-					<form accept-charset="UTF-8" method="post" class="returntocurrentroute" action="{{www_path}}/commerce/">
-						<div class="pure-u-1">
-							<label for="region1">{{label_region_1}}</label>
-							<input type="text" id="region1" name="region1" value="{{region1}}" placeholder="US" class="required" />
-							<label for="region2">{{label_region_2}}</label>
-							<input type="text" id="region2" name="region2" value="{{region2}}" placeholder="Rest of world" class="required" />
-							<button class="fullwidth" type="submit">{{copy_button_set_shipping_regions}}</button>
-						</div>
-					</form>
-				</div><!--pref-inner-->
-			</div><!--pure-->
+				{{^show_beta}}
+				<div class="pure-u-1 pure-u-md-1-2">
+					<div class="pref-inner">
+					<h5>{{copy_primary_currency}}</h5>
+						<form accept-charset="UTF-8" method="post" class="returntocurrentroute" action="{{www_path}}/commerce/">
+							<div class="pure-u-">
+							<select id="currency_id" name="currency_id">{{{currency_options}}}</select>
+							<button class="fullwidth" type="submit">{{copy_use_this_currency}}</button>
+							</div>
+						</form>
+					</div><!--pref-inner-->
+				</div><!--pure-->
+				{{/show_beta}}
+
+				{{#show_beta}}
+				<div class="pure-u-1 pure-u-md-1-2">
+					<div class="pref-inner">
+					<h5>Sales settings</h5>
+						<form accept-charset="UTF-8" method="post" class="returntocurrentroute" action="{{www_path}}/commerce/">
+							<div class="pure-u-">
+							<label for="currency_id">{{label_primary_currency}}</label>
+							<select id="currency_id" name="currency_id">{{{currency_options}}}</select>
+							<label for="paypal_default_id">{{label_default_paypal}}</label>
+							<select id="paypal_default_id" name="paypal_default_id">{{{paypal_default_options}}}</select>
+							<label for="paypal_micropayment_id">{{label_micropayment_paypal}}</label>
+							<select id="paypal_micropayment_id" name="paypal_micropayment_id">{{{paypal_micro_options}}}</select>
+
+							<button class="fullwidth" type="submit">{{copy_save_sales_settings}}</button>
+							</div>
+						</form>
+					</div><!--pref-inner-->
+				</div><!--pure-->
+				<div class="pure-u-1 pure-u-md-1-2">
+					<div class="pref-inner">
+					<h5>{{copy_shipping_regions}}</h5>
+						<form accept-charset="UTF-8" method="post" class="returntocurrentroute" action="{{www_path}}/commerce/">
+							<div class="pure-u-1">
+								<label for="region1">{{label_region_1}}</label>
+								<input type="text" id="region1" name="region1" value="{{region1}}" placeholder="US" class="required" />
+								<label for="region2">{{label_region_2}}</label>
+								<input type="text" id="region2" name="region2" value="{{region2}}" placeholder="Rest of world" class="required" />
+								<button class="fullwidth" type="submit">{{copy_button_set_shipping_regions}}</button>
+							</div>
+						</form>
+					</div><!--pref-inner-->
+				</div><!--pure-->
 			{{/show_beta}}
 			</div><!--draercontent-->
 		</div><!--itemnav-->

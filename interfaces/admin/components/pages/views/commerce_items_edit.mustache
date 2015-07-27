@@ -16,39 +16,63 @@
 	<textarea rows="3" id="item_description" name="item_description">{{description}}</textarea>
 
 
-		<div class="pure-u-1">
-				<div class="pure-u-1 pure-u-md-1-3">
-					<label for="item_price">{{label_price}}</label>
-					<input type="text" id="item_price" name="item_price" value="{{price}}" class="required number" />
-				</div><!--pure-->
-				<div class="pure-u-1 pure-u-md-1-3">
-					<label for="item_quantity">{{label_quantity}}</label>
-					{{#show_beta}}
-						{{#has_variants}}<span class="inputreadonly">{{#available_units}}{{available_units}}{{/available_units}}{{^available_units}}-1{{/available_units}}</span>{{/has_variants}}
-						{{^has_variants}}<input type="text" id="item_quantity" name="item_quantity" value="{{#available_units}}{{available_units}}{{/available_units}}{{^available_units}}-1{{/available_units}}" class="number required" />{{/has_variants}}
-					{{/show_beta}}
-					{{^show_beta}}
-					<input type="text" id="item_quantity" name="item_quantity" value="{{#available_units}}{{available_units}}{{/available_units}}{{^available_units}}-1{{/available_units}}" class="number required" />
-					{{/show_beta}}
-				</div><!--pure-->
-				<div class="pure-u-1 pure-u-md-1-3">
+	<div class="pure-u-1">
+		<div class="pure-u-1 pure-u-md-1-3">
+			<label for="item_price">{{label_price}}</label>
+			<input type="text" id="item_price" name="item_price" value="{{price}}" class="required number" />
+		</div><!--pure-->
+		<div class="pure-u-1 pure-u-md-1-3">
+			<label for="item_quantity">{{label_quantity}}</label>
+			{{#show_beta}}
+				{{#has_variants}}<span class="inputreadonly">{{#available_units}}{{available_units}}{{/available_units}}{{^available_units}}-1{{/available_units}}</span>{{/has_variants}}
+				{{^has_variants}}<input type="text" id="item_quantity" name="item_quantity" value="{{available_units}}" class="number required" />{{/has_variants}}
+			{{/show_beta}}
+			{{^show_beta}}
+			<input type="text" id="item_quantity" name="item_quantity" value="{{available_units}}" class="number required" />
+			{{/show_beta}}
+		</div><!--pure-->
+		<div class="pure-u-1 pure-u-md-1-3">
 			<label for="item_fulfillment_asset">{{label_fulfillment_asset}}</label>
 			<select id="item_fulfillment_asset" name="item_fulfillment_asset">
 				<option value="0">{{copy_op_none}}</option>
 				{{{asset_options}}}
 			</select>
 		</div><!--pure-->
-		</div><!--pure-->
-		<div class="pure-u-1">
-	<label class="checklabel" for="item_flexible_price">
-		<input type="checkbox" name="item_flexible_price" id="item_flexible_price"{{#flexible_price}} checked="checked"{{/flexible_price}} class="checkorradio" />{{label_enable}}
-	</label>
-		</div><!--pure-->
-		<div class="pure-u-1">
-	<label class="checklabel" for="item_physical">
-		<input type="checkbox" name="item_physical" id="item_physical"{{#physical_fulfillment}} checked="checked"{{/physical_fulfillment}} class="checkorradio" />{{label_physical}}
-	</label>
 	</div><!--pure-->
+
+	<div class="pure-u-1">
+		<label class="checklabel" for="item_flexible_price">
+			<input type="checkbox" name="item_flexible_price" id="item_flexible_price"{{#flexible_price}} checked="checked"{{/flexible_price}} class="checkorradio" />{{label_enable}}
+		</label>
+	</div><!--pure-->
+	<div class="pure-u-1">
+		<label class="checklabel" for="item_physical">
+			<input type="checkbox" name="item_physical" id="item_physical"{{#physical_fulfillment}} checked="checked"{{/physical_fulfillment}} class="checkorradio" />{{label_physical}}
+		</label>
+	</div><!--pure-->
+
+	{{#show_beta}}
+	<div class="pure-u-1" id="shippingrates" {{^physical_fulfillment}}style="display:none;"{{/physical_fulfillment}}>
+		{{^noshippingregions}}
+			<div class="pure-u-1 pure-u-md-1-2">
+				<label for="region1_first">{{label_first_shipped}} ({{region1}})</label>
+				<input type="text" id="region1_first" name="region1_first" value="{{region1_first}}" class="number" placeholder="3.00" />
+				<label for="region1_rest">{{label_rest_shipped}} ({{region1}})</label>
+				<input type="text" id="region1_rest" name="region1_rest" value="{{region1_rest}}" class="number" placeholder="2.00" />
+			</div>
+			<div class="pure-u-1 pure-u-md-1-2">
+				<label for="region2_first">{{label_first_shipped}} ({{region2}})</label>
+				<input type="text" id="region2_first" name="region2_first" value="{{region2_first}}" class="number" placeholder="3.00" />
+				<label for="region2_rest">{{label_rest_shipped}} ({{region2}})</label>
+				<input type="text" id="region2_rest" name="region2_rest" value="{{region2_rest}}" class="number" placeholder="2.00" />
+			</div>
+		{{/noshippingregions}}
+		{{#noshippingregions}}
+			<p>{{no_regions}} <a href="{{www_path}}/commerce/">{{commerce_settings}}</a>.</p>
+		{{/noshippingregions}}
+	</div><!--pure-->
+	{{/show_beta}}
+
 	<div class="pure-u-1">
 		<button type="submit">{{copy_button_save}}</button>
 		<a href="{{www_path}}/commerce/items/delete/{{id}}" class="button needsconfirmation"><div class="icon icon-ban"></div><!--icon-->{{copy_button_delete}}</a>

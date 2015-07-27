@@ -26,15 +26,20 @@ class CommercePlant extends PlantBase {
 			'additem'             => array('addItem','direct'),
 			'additemvariants'     => array('addItemVariants','direct'),
 			'addorder'            => array('addOrder','direct'),
+			'addtocart'				 => array('addToCart',array('get','post','direct','api_public')),
 			'addtransaction'      => array('addTransaction','direct'),
 			'deleteitem'          => array('deleteItem','direct'),
 			'deleteitemvariant'   => array('deleteItemVariant','direct'),
 			'deleteitemvariants'  => array('deleteItemVariants','direct'),
+			'editcartquantity'	 => array('editCartQuantity',array('get','post','direct','api_public')),
+			'editcartshipping'	 => array('editCartShipping',array('get','post','direct','api_public')),
 			'edititem'            => array('editItem','direct'),
-			'edititemvariant'   	=> array('editItemVariant','direct'),
+			'edititemvariant'   	 => array('editItemVariant','direct'),
 			'editorder'           => array('editOrder','direct'),
 			'edittransaction'     => array('editTransaction','direct'),
+			'emptycart'				 => array('emptyCart','direct'),
 			'getanalytics'        => array('getAnalytics','direct'),
+			'getcart'				 => array('getCart','direct'),
 			'getitem'             => array('getItem','direct'),
 			'getitemvariants'     => array('getItemVariants','direct'),
 			'getitemsforuser'     => array('getItemsForUser','direct'),
@@ -64,7 +69,8 @@ class CommercePlant extends PlantBase {
 		$physical_depth=0,
 		$variable_pricing=0,
 		$fulfillment_asset=0,
-		$descriptive_asset=0
+		$descriptive_asset=0,
+		$shipping=''
 	   ) {
 	   	if (!$fulfillment_asset) {
 	   		$digital_fulfillment = false;
@@ -77,6 +83,7 @@ class CommercePlant extends PlantBase {
 				'description' => $description,
 				'sku' => $sku,
 				'price' => $price,
+				'shipping' => json_encode($shipping),
 				'flexible_price' => $flexible_price,
 				'available_units' => $available_units,
 				'digital_fulfillment' => $digital_fulfillment,
@@ -154,6 +161,8 @@ class CommercePlant extends PlantBase {
 			if ($with_variants) {
 				$item['variants'] = $this->getItemVariants($id, $user_id);
 			}
+
+			$item['shipping'] = json_decode($item['shipping'],true);
 
 			return $item;
 		} else {
@@ -262,7 +271,8 @@ class CommercePlant extends PlantBase {
 		$variable_pricing=false,
 		$fulfillment_asset=false,
 		$descriptive_asset=false,
-		$user_id=false
+		$user_id=false,
+		$shipping=''
 	   ) {
 	   	if ($fulfillment_asset === 0) {
 	   		$digital_fulfillment = 0;
@@ -276,6 +286,7 @@ class CommercePlant extends PlantBase {
 				'description' => $description,
 				'sku' => $sku,
 				'price' => $price,
+				'shipping' => json_encode($shipping),
 				'flexible_price' => $flexible_price,
 				'available_units' => $available_units,
 				'digital_fulfillment' => $digital_fulfillment,
@@ -434,10 +445,84 @@ class CommercePlant extends PlantBase {
 
 			for ($index = 0; $index < $length; $index++) {
 				$result[$index]['variants'] = $this->getItemVariants($result[$index]['id'], false, $user_id);
+				$result[$index]['shipping'] = json_decode($result[$index]['shipping'],true);
 			}
 		}
 
 		return $result;
+	}
+
+	protected function addToCart($item_id,$item_variant=false,$price=false) {
+		$r = new CASHRequest();
+		$r->startSession();
+
+		$cart = $r->sessionGet('cart');
+		if (!$cart) {
+			$cart = array(
+				'shipto' => 'r1'
+			);
+		}
+		$qty = 1;
+		if (isset($cart[$item_id.$item_variant])) {
+			$qty = $cart[$item_id.$item_variant]['qty'] + 1;
+		}
+		$cart[$item_id.$item_variant] = array(
+			'id' 		 	 => $item_id,
+			'variant' 	 => $item_variant,
+			'price' 		 => $price,
+			'qty'		 	 => $qty
+		);
+
+		$r->sessionSet('cart', $cart);
+		return $cart;
+	}
+
+	protected function editCartQuantity($item_id,$qty,$item_variant='') {
+		$r = new CASHRequest();
+		$r->startSession();
+
+		$cart = $r->sessionGet('cart');
+		if (!$cart) {
+			return false;
+		}
+
+		if (!isset($cart[$item_id.$item_variant])) {
+			return false;
+		} else {
+			if ($qty == 0) {
+				unset($cart[$item_id.$item_variant]);
+			} else {
+				$cart[$item_id.$item_variant]['qty'] = $qty;
+			}
+			$r->sessionSet('cart', $cart);
+			return $cart;
+		}
+	}
+
+	protected function editCartShipping($region='r1') {
+		$r = new CASHRequest();
+		$r->startSession();
+
+		$cart = $r->sessionGet('cart');
+		if (!$cart) {
+			return false;
+		}
+
+		$cart['shipto'] = $region;
+		$r->sessionSet('cart', $cart);
+		return $cart;
+	}
+
+	protected function emptyCart() {
+		$r = new CASHRequest();
+		$r->startSession();
+		$r->sessionClear('cart');
+	}
+
+	protected function getCart() {
+		$r = new CASHRequest();
+		$r->startSession();
+		return $r->sessionGet('cart');
 	}
 
 	protected function addOrder(
@@ -888,8 +973,12 @@ class CommercePlant extends PlantBase {
 		return $result;
 	}
 
-	protected function initiateCheckout($user_id,$connection_id,$order_contents=false,$item_id=false,$element_id=false,$total_price=false,$return_url_only=false) {
-		if (!$order_contents && !$item_id) {
+	protected function initiateCheckout($user_id=false,$connection_id=false,$order_contents=false,$item_id=false,$element_id=false,$total_price=false,$url_only=false,$finalize_url=false) {
+
+		//TODO: store last seen top URL
+		//      or maybe make the API accept GET params? does it already? who can know?
+
+		if (!$item_id && !$element_id) {
 			return false;
 		} else {
 			$is_physical = 0;
@@ -898,6 +987,7 @@ class CommercePlant extends PlantBase {
 				$order_contents = array();
 			}
 			if ($item_id) {
+				// old style...we'll be refactoring this junk
 				$item_details = $this->getItem($item_id);
 				$order_contents[] = $item_details;
 				if ($total_price !== false && $total_price >= $item_details['price']) {
@@ -912,6 +1002,70 @@ class CommercePlant extends PlantBase {
 				}
 				if ($item_details['digital_fulfillment']) {
 					$is_digital = 1;
+				}
+			} else {
+				$element_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'element',
+						'cash_action' => 'getelement',
+						'id' => $element_id
+					)
+				);
+				$user_id = $element_request->response['payload']['user_id'];
+				$settings_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'system',
+						'cash_action' => 'getsettings',
+						'type' => 'payment_defaults',
+						'user_id' => $user_id
+					)
+				);
+				if (is_array($settings_request->response['payload'])) {
+					$pp_default = $settings_request->response['payload']['pp_default'];
+					$pp_micro = $settings_request->response['payload']['pp_micro'];
+				} else {
+					return false; // no default PP shit set
+				}
+				$cart = $this->getCart();
+				$shipto = $cart['shipto'];
+				unset($cart['shipto']);
+				$subtotal = 0;
+				$shipping = 0;
+				foreach ($cart as $key => &$i) {
+					$item_details = $this->getItem($i['id'],false,false);
+					$variants = $this->getItemVariants($item_id);
+					$item_details['qty'] = $i['qty'];
+					$item_details['price'] = max($i['price'],$item_details['price']);
+					$subtotal += $item_details['price'];
+					$item_details['variant'] = str_replace(' ','+',$i['variant']); // swap spaces for plusses in  case javascript scrubbed them
+					if ($item_details['physical_fulfillment']) {
+						$is_physical = 1;
+					}
+					if ($item_details['digital_fulfillment']) {
+						$is_digital = 1;
+					}
+					if ($item_details['shipping']) {
+						if (isset($item_details['shipping']['r1-1'])) {
+							$shipping += $item_details['shipping'][$shipto.'-1+']*($i['qty']-1)+$item_details['shipping'][$shipto.'-1'];
+						}
+					}
+					if ($variants) {
+						foreach ($variants['quantities'] as $q) {
+							if ($q['key'] == $item_details['variant']) {
+								$item_details['variant_name'] = $q['formatted_name'];
+								break;
+							}
+						}
+					}
+					$order_contents[] = $item_details;
+				}
+				$price_addition = $shipping;
+
+				//TODO: this connection stuff is hard-coded for paypal, but does the default/micro switch well
+				if (($subtotal+$shipping < 12) && $pp_micro) {
+					$connection_id = $pp_micro;
+				} else {
+					$connection_id = $pp_default;
 				}
 			}
 
@@ -947,7 +1101,7 @@ class CommercePlant extends PlantBase {
 				$currency
 			);
 			if ($order_id) {
-				$success = $this->initiatePaymentRedirect($order_id,$element_id,$price_addition,$return_url_only);
+				$success = $this->initiatePaymentRedirect($order_id,$element_id,$price_addition,$url_only,$finalize_url);
 				return $success;
 			} else {
 				return false;
@@ -963,9 +1117,16 @@ class CommercePlant extends PlantBase {
 		);
 		foreach($contents as $item) {
 			$return_array['price'] += $item['price'];
-			$return_array['description'] .= $item['name'] . "\n";
+			if (isset($item['qty'])) {
+				$return_array['description'] .= $item['qty'] . 'x ';
+			}
+			$return_array['description'] .= $item['name'];
+			if (isset($item['variant_name'])) {
+				$return_array['description'] .= '(' . $item['variant_name'] . ')';
+			}
+			$return_array['description'] .= ",  \n";
 		}
-		$return_array['description'] = rtrim($return_array['description']);
+		$return_array['description'] = rtrim($return_array['description']," ,\n");
 		return $return_array;
 	}
 
@@ -986,13 +1147,19 @@ class CommercePlant extends PlantBase {
 		return $currency;
 	}
 
-	protected function initiatePaymentRedirect($order_id,$element_id=false,$price_addition=0,$return_url_only=false) {
+	protected function initiatePaymentRedirect($order_id,$element_id=false,$price_addition=0,$url_only=false,$finalize_url=false) {
 		$order_details = $this->getOrder($order_id);
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
 		$order_totals = $this->getOrderTotals($order_details['order_contents']);
 		$connection_type = $this->getConnectionType($transaction_details['connection_id']);
 
 		$currency = $this->getCurrencyForUser($order_details['user_id']);
+
+		if ($finalize_url) {
+			$r = new CASHRequest();
+			$r->startSession();
+			$r->sessionSet('payment_finalize_url',$finalize_url);
+		}
 
 		if (($order_totals['price'] + $price_addition) < 0.35) {
 			// basically a zero dollar transaction. hard-coding a 35¢ minimum for now
@@ -1002,7 +1169,10 @@ class CommercePlant extends PlantBase {
 		switch ($connection_type) {
 			case 'com.paypal':
 				$pp = new PaypalSeed($order_details['user_id'],$transaction_details['connection_id']);
-				$return_url = CASHSystem::getCurrentURL() . '?cash_request_type=commerce&cash_action=finalizepayment&order_id=' . $order_id . '&creation_date=' . $order_details['creation_date'];
+				if (!$finalize_url) {
+					$finalize_url = CASHSystem::getCurrentURL();
+				}
+				$return_url = $finalize_url . '?cash_request_type=commerce&cash_action=finalizepayment&order_id=' . $order_id . '&creation_date=' . $order_details['creation_date'];
 				if ($element_id) {
 					$return_url .= '&element_id=' . $element_id;
 				}
@@ -1020,9 +1190,12 @@ class CommercePlant extends PlantBase {
 					$return_url,
 					$require_shipping,
 					$allow_note,
-					$currency
+					$currency,
+					'Sale',
+					false,
+					$price_addition
 				);
-				if (!$return_url_only) {
+				if (!$url_only) {
 					$redirect = CASHSystem::redirectToUrl($redirect_url);
 					// the return will only happen if headers have already been sent
 					// if they haven't redirectToUrl() will handle it and call exit
@@ -1041,6 +1214,14 @@ class CommercePlant extends PlantBase {
 		$order_details = $this->getOrder($order_id);
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
 		$connection_type = $this->getConnectionType($transaction_details['connection_id']);
+
+		$r = new CASHRequest();
+		$r->startSession();
+		$finalize_url = $r->sessionGet('payment_finalize_url');
+		if ($finalize_url) {
+			$r->sessionClear('payment_finalize_url');
+		}
+
 		switch ($connection_type) {
 			case 'com.paypal':
 				if (isset($_GET['token'])) {
@@ -1085,16 +1266,33 @@ class CommercePlant extends PlantBase {
 											foreach ($order_items as $i) {
 												if ($i['available_units'] > 0 && $i['physical_fulfillment'] == 1) {
 													$item = $this->getItem($i['id']);
-													$available_units =
-													$this->editItem(
-														$i['id'],
-														false,
-														false,
-														false,
-														false,
-														false,
-														$item['available_units'] - 1
-													);
+													if ($i['variant']) {
+														$variant_id = 0;
+														$variant_qty = 0;
+														if ($item['variants']) {
+															foreach ($item['variants']['quantities'] as $q) {
+																if ($q['key'] == $i['variant']) {
+																	$variant_id = $q['id'];
+																	$variant_qty = $q['value'];
+																	break;
+																}
+															}
+															if ($variant_id) {
+																$this->editItemVariant($variant_id, max($variant_qty-$i['qty'],0), $i['id']);
+															}
+														}
+													} else {
+														$available_units =
+														$this->editItem(
+															$i['id'],
+															false,
+															false,
+															false,
+															false,
+															false,
+															$item['available_units'] - 1
+														);
+													}
 												}
 											}
 										}
@@ -1129,9 +1327,31 @@ class CommercePlant extends PlantBase {
 										'complete'
 									);
 
+									// empty the cart at this point
+									$this->emptyCart();
+
 									// TODO: add code to order metadata
 									// bit of a hack, hard-wiring the email bits:
 									try {
+										$personalized_message = '';
+										if ($order_details['element_id']) {
+											$element_request = new CASHRequest(
+												array(
+													'cash_request_type' => 'element',
+													'cash_action' => 'getelement',
+													'id' => $order_details['element_id']
+												)
+											);
+
+											if ($element_request->response['payload']) {
+												if (isset($element_request->response['payload']['options']['message_email'])) {
+													if ($element_request->response['payload']['options']['message_email']) {
+														$personalized_message = $element_request->response['payload']['options']['message_email'] . "\n\n";
+													}
+												}
+											}
+										}
+
 										if ($order_details['digital']) {
 											$addcode_request = new CASHRequest(
 												array(
@@ -1141,13 +1361,18 @@ class CommercePlant extends PlantBase {
 												)
 											);
 
+											if (!$finalize_url) {
+												$finalize_url = CASHSystem::getCurrentURL();
+											}
+
 											CASHSystem::sendEmail(
 												'Thank you for your order',
 												$order_details['user_id'],
 												$initial_details['EMAIL'],
-												'Your download of "' . $initial_details['PAYMENTREQUEST_0_DESC'] . '" is ready and can be found at: '
-												. CASHSystem::getCurrentURL() . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
-												. '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($initial_details['EMAIL']),
+												$personalized_message . "Your order is complete. Here are some details:\n\n**Order #" . $order_details['id'] . "**  \n"
+												. $initial_details['PAYMENTREQUEST_0_DESC'] . "  \n Total: " . CASHSystem::getCurrencySymbol($order_details['currency']) . number_format($final_details['PAYMENTINFO_0_AMT'],2) . "\n\n"
+												. "\n\n" . '[View your receipt and any downloads](' . $finalize_url . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
+												. '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($initial_details['EMAIL']) . '&order_id=' . $order_details['id'] . ')',
 												'Thank you.'
 											);
 										} else {
@@ -1155,7 +1380,8 @@ class CommercePlant extends PlantBase {
 												'Thank you for your order',
 												$order_details['user_id'],
 												$initial_details['EMAIL'],
-												'Your order is complete.' . "\n\n" . $initial_details['PAYMENTREQUEST_0_DESC'] . "\n\n" . ' Thank you.',
+												$personalized_message . "Your order is complete. Here are some details:\n\n**Order #" . $order_details['id'] . "**  \n"
+												. $initial_details['PAYMENTREQUEST_0_DESC'] . "  \n Total: " . CASHSystem::getCurrencySymbol($order_details['currency']) . number_format($final_details['PAYMENTINFO_0_AMT'],2) . "\n\n",
 												'Thank you.'
 											);
 										}
@@ -1163,7 +1389,7 @@ class CommercePlant extends PlantBase {
 										// TODO: handle the case where an email can't be sent. maybe display the download
 										//       code on-screen? that plus storing it with the order is probably enough
 									}
-									return true;
+									return $order_details['id'];
 								} else {
 									// make sure this isn't an accidentally refreshed page
 									if ($initial_details['CHECKOUTSTATUS'] != 'PaymentActionCompleted'){
