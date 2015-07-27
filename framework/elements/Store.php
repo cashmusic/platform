@@ -25,6 +25,7 @@ class Store extends ElementBase {
 			)
 		);
 		$items = $item_request->response['payload'];
+		$indexed_items = array();
 		foreach ($items as &$item) {
 			$item['price'] = number_format($item['price'], 2, '.', '');
 			if ($item['available_units'] != 0) {
@@ -88,6 +89,7 @@ class Store extends ElementBase {
 				}
 				$item['attributes'] = $verified_attributes;
 			}
+			$indexed_items[$item['id']] = $item;
 		}
 
 
@@ -102,20 +104,16 @@ class Store extends ElementBase {
 			$this->element_data['items_in_cart'] = true;
 		}
 
-		$featured_items_ids = array();
 		$featured_items = array();
 		$unfeatured_items = array();
 		if (is_array($this->element_data['featured_items'])) {
 			foreach ($this->element_data['featured_items'] as $i) {
-				$featured_items_ids[] = $i['item_id'];
+				$featured_items[] = $indexed_items[$i['item_id']];
 			}
 		}
-
-		foreach ($items as $i) {
-			if (in_array($i['id'],$featured_items_ids)) {
-				$featured_items[] = $i;
-			} else {
-				$unfeatured_items[] = $i;
+		if (is_array($this->element_data['additional_items'])) {
+			foreach ($this->element_data['additional_items'] as $i) {
+				$unfeatured_items[] = $indexed_items[$i['item_id']];
 			}
 		}
 
