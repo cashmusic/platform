@@ -1124,7 +1124,7 @@ class CommercePlant extends PlantBase {
 			if (isset($item['variant_name'])) {
 				$return_array['description'] .= '(' . $item['variant_name'] . ')';
 			}
-			$return_array['description'] .= ", ";
+			$return_array['description'] .= ", \n";
 		}
 		$return_array['description'] = rtrim($return_array['description']," ,\n");
 		return $return_array;
@@ -1350,8 +1350,9 @@ class CommercePlant extends PlantBase {
 												'Thank you for your order',
 												$order_details['user_id'],
 												$initial_details['EMAIL'],
-												'Your download of "' . $initial_details['PAYMENTREQUEST_0_DESC'] . '" is ready: ' . "\n\n"
-												. '[View your receipt and any downloads](' . $finalize_url . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
+												"Your order is complete. Here are some details:\n\nOrder #" . $order_details['id'] . "\n"
+												. $initial_details['PAYMENTREQUEST_0_DESC'] . "\n Total: " . CASHSystem::getCurrencySymbol($order_details['currency']) . number_format($final_details['PAYMENTINFO_0_AMT'],2) . "\n\n"
+												. "\n\n" . '[View your receipt and any downloads](' . $finalize_url . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
 												. '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($initial_details['EMAIL']) . '&order_id=' . $order_details['id'] . ')',
 												'Thank you.'
 											);
@@ -1360,7 +1361,8 @@ class CommercePlant extends PlantBase {
 												'Thank you for your order',
 												$order_details['user_id'],
 												$initial_details['EMAIL'],
-												'Your order is complete.' . "\n\n" . $initial_details['PAYMENTREQUEST_0_DESC'] . "\n\n" . ' Thank you.',
+												"Your order is complete. Here are some details:\n\nOrder #" . $order_details['id'] . "\n"
+												. $initial_details['PAYMENTREQUEST_0_DESC'] . "\n Total: " . CASHSystem::getCurrencySymbol($order_details['currency']) . number_format($final_details['PAYMENTINFO_0_AMT'],2) . "\n\n",
 												'Thank you.'
 											);
 										}
