@@ -375,9 +375,7 @@ class CommercePlant extends PlantBase {
 		if (!$result) {
 			return false;
 		}
-
-		$result = $this->deleteItemVariants($id, $user_id);
-
+		$this->deleteItemVariants($id, $user_id);
 		return $result;
 	}
 
