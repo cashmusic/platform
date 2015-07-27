@@ -57,6 +57,38 @@
 							"type":"select",
 							"values":"commerce/items",
 							"required":false,
+							"displaysize":"large"
+						}
+					},
+					"required":false
+				},
+				"additional_items":{
+					"label":{
+						"en":"Additional items"
+					},
+					"type":"scalar",
+					"displaysize":"large",
+					"actiontext": {
+						"en":"Add another item"
+					},
+					"values":{
+						"item_id":{
+							"label":{
+								"en":"Selected item"
+							},
+							"type":"select",
+							"values":"commerce/items",
+							"required":false,
+							"displaysize":"small"
+						},
+						"tags":{
+							"label":{
+								"en":"Tags (optional)"
+							},
+							"type":"text",
+							"default":{
+								"en":""
+							},
 							"displaysize":"small"
 						}
 					},

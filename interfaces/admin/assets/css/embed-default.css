@@ -1,4 +1,4 @@
-/*************************************************** 
+/***************************************************
  *
  *  CASH Music - Embedded Elements Styles
  *	Created by Christopher Leckie @ CASH Music
@@ -25,7 +25,7 @@ html,body{
 }
 
 /* Device Scrolling */
-@media only screen and (max-device-width: 535px) { 
+@media only screen and (max-device-width: 535px) {
 	html,body{
 		overflow-x:hidden;
 		overflow-y: scroll; /* has to be scroll, not auto */
@@ -303,7 +303,7 @@ input[type=submit]:hover, .button:hover{
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	trasition:0.3s ease-in-out;
-	text-align: justify; 
+	text-align: justify;
 }
 
 .tourdates .cash_event:after{
@@ -361,7 +361,7 @@ input[type=submit]:hover, .button:hover{
 	trasition:0.3s ease-in-out;
 	margin:0;
 	padding:10px;
-	vertical-align: baseline; 
+	vertical-align: baseline;
 	border:solid 2px #00cf7f;
 	font-size: 12px;
 	color:#00cf7f;
@@ -374,7 +374,7 @@ input[type=submit]:hover, .button:hover{
 	trasition:0.3s ease-in-out;
 	margin:0;
 	padding:10px;
-	vertical-align: baseline; 
+	vertical-align: baseline;
 	border:solid 2px #00cf7f;
 	font-size: 12px;
 	color:#00cf7f;
@@ -499,7 +499,7 @@ input[type=submit]:hover, .button:hover{
 	padding:0;
 	margin:0;
 	border-radius:0;
-	border-bottom:solid 1px #00cf7f;	
+	border-bottom:solid 1px #00cf7f;
 }
 
 .cm-social-feed .cm-content a:hover{
@@ -588,7 +588,7 @@ input[type=submit]:hover, .button:hover{
 
 .cm-store .cm-inner h2{
 	display: inline-block;
-}	
+}
 
 .cm-store h2.title {
   display: block;
@@ -742,7 +742,7 @@ input[type=submit]:hover, .button:hover{
 .cm-store.cm-return.redeem .cm-store.cm-return.cm-inner.active{
 	opacity: 1;
 	padding:0 0 30px 0;
-} 
+}
 
 .cm-store.cm-return.redeem .cm-store.cm-return.cm-inner.active .cm-form{
 	height:100%;
@@ -767,7 +767,7 @@ input[type=submit]:hover, .button:hover{
 .cm-store.unfeatured-items .cm-inner{
 	padding:0;
 	margin:0 auto;
-} 
+}
 
 .cm-store.unfeatured-items .cm-inner .cm-store.cm-inner{
 	text-align: left;
@@ -894,17 +894,17 @@ input[type=submit]:hover, .button:hover{
 	-webkit-appearance:none;
 }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .cm-cart input[name="cm-current-qty"]{
 	font:100 12px/20px 'Montserrat',Helvetica,Arial,sans-serif;
 	width:45px;
 	color:#fff;
-	border:none; 
+	border:none;
 	background:rgba(221,221,221,0.15);
 	padding:2px 10px;
 }
@@ -989,7 +989,7 @@ input[type=number]::-webkit-outer-spin-button {
   height: 100%;
   background-color: rgba(0,0,0,0.8);
   content: "";
-  transition: width 3s;
+  transition: width 5s;
 }
 
 .cm-cart .cm-checkout.cm-busy{
@@ -1055,7 +1055,7 @@ input[type=number]::-webkit-outer-spin-button {
 	vertical-align: top;
 }
 
-.cm-instant-grat{ 
+.cm-instant-grat{
 	padding:20px;
 	color:#fff;
 	-webkit-box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.3);
@@ -1208,7 +1208,7 @@ input[type=number]::-webkit-outer-spin-button {
 	-webkit-transition: color 0.3s  ease-in-out;
 	-moz-transition: color 0.3s  ease-in-out;
 	trasition: color 0.3s ease-in-out;
-	
+
 }
 
 .cm-store .madebycash a:hover{
@@ -1217,7 +1217,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* -- Main Size -- */
 @media screen and (min-width: 275px) {
-	
+
 	input{
 		padding:10px;
 		width:63%;
@@ -1268,7 +1268,7 @@ input[type=number]::-webkit-outer-spin-button {
 	width:49.5%;
 	}
 
-	.cm-instant-grat{ 
+	.cm-instant-grat{
 	width:43%;
 	margin: 10px 0 0 -5px;
 	-webkit-border-top-right-radius: 3px;
@@ -1278,7 +1278,7 @@ input[type=number]::-webkit-outer-spin-button {
 	border-top-right-radius: 3px;
 	border-bottom-right-radius: 3px;
 	}
-	
+
 	.cm-receipt, .cm-store .madebycash{
 	width:55%;
 	margin:0;
@@ -1310,4 +1310,3 @@ input[type=number]::-webkit-outer-spin-button {
 	width:49.7%;
 	}
 }
-
