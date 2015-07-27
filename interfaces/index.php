@@ -1,8 +1,8 @@
-<?php 
+<?php
 /**
  *
- * The main page publishing script for a CASH Music instance. Handles the main 
- * public-facing pages, either the default service page or the user-published 
+ * The main page publishing script for a CASH Music instance. Handles the main
+ * public-facing pages, either the default service page or the user-published
  * pages (assumes user id = 1 for single-user instances, looks for a 'username')
  * GET parameter for multi-user instances.
  *
@@ -27,12 +27,12 @@ if (isset($_GET['subdomain']) || isset($_GET['path'])) {
 	require_once(__DIR__ . '/admin/constants.php');
 	//error_log($_GET['subdomain'] . "\n" . $_GET['path'] . "\n" . print_r($_GET,true));
 
-	if ($_GET['subdomain'] !== 'cashmusic.org' && 
-		$_GET['subdomain'] !== 'x.cashmusic.org' && 
+	if ($_GET['subdomain'] !== 'cashmusic.org' &&
+		$_GET['subdomain'] !== 'x.cashmusic.org' &&
 		$_GET['subdomain'] !== 'localhost.cashmusic.org' &&
 		$_GET['subdomain'] !== 'testing.cashmusic.org' &&
 		$_GET['subdomain'] !== 'staging.cashmusic.org' &&
-		$_GET['subdomain'] !== 'air.cashmusic.org' && 
+		$_GET['subdomain'] !== 'air.cashmusic.org' &&
 		SUBDOMAIN_USERNAMES
 	) {
 		$username = explode('.', $_GET['subdomain']);
@@ -59,7 +59,7 @@ if (isset($_GET['subdomain']) || isset($_GET['path'])) {
 		}
 		$user_request = new CASHRequest(
 			array(
-				'cash_request_type' => 'people', 
+				'cash_request_type' => 'people',
 				'cash_action' => 'getuseridforusername',
 				'username' => $username
 			)
@@ -78,7 +78,7 @@ if (isset($_GET['subdomain']) || isset($_GET['path'])) {
 if ($user_id) {
 	$settings_request = new CASHRequest(
 		array(
-			'cash_request_type' => 'system', 
+			'cash_request_type' => 'system',
 			'cash_action' => 'getsettings',
 			'type' => 'public_profile_template',
 			'user_id' => $user_id
@@ -94,7 +94,7 @@ if ($user_id) {
 	if ($template_id) {
 		$template_request = new CASHRequest(
 			array(
-				'cash_request_type' => 'system', 
+				'cash_request_type' => 'system',
 				'cash_action' => 'gettemplate',
 				'template_id' => $template_id,
 				'user_id' => $user_id
@@ -115,7 +115,7 @@ if ($user_id) {
 				$page_vars['element_' . $element_id] = ob_get_contents();
 				ob_end_clean();
 			}
-			
+
 		}
 		// render out the page itself
 		echo CASHSystem::renderMustache($template,$page_vars);
@@ -124,7 +124,7 @@ if ($user_id) {
 		// redirect to the admin
 		header('Location: ./admin/');
 	}
-} 
+}
 
 
 /***************************************
@@ -145,12 +145,12 @@ if ($user_id) {
 		<meta name="description" content="The CASH Music platform is a set of digital tools designed to solve real problems for working musicians, based on years of direct collaboration with artists.">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!--<link rel="stylesheet" href="https://www-cashmusic.netdna-ssl.com/admin/ui/default/assets/css/front.css">-->
-		<link rel="stylesheet" href="admin/ui/default/assets/css/front.css">
+		<link rel="stylesheet" href="https://cashmusic.org/admin/ui/default/assets/css/front.css">
 		<link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 		<!--facebook metadata-->
 		<meta property="og:title" content="CASH Music - A nonprofit organization focused on educating and empowering artists and their fans to foster a viable and sustainable future for music."/>
-		<meta property="og:url" content="http://www.cashmusic.org"/>
-		<meta property="og:site_name" content="www.cashmusic.org" />
+		<meta property="og:url" content="https://cashmusic.org"/>
+		<meta property="og:site_name" content="cashmusic.org" />
 		<meta property="fb:admins" content="100001809157387" />
 		<!--facebook metadata-->
 	</head>
@@ -181,7 +181,7 @@ if ($user_id) {
 					<!--<li><a href="http://tools.cashmusic.org">Tools</a></li>
 					<li><a href="http://learn.cashmusic.org">Learning</a></li>
 					<li><a href="http://events.cashmusic.org">Events</a></li>-->
-					<li><a href="http://donate.cashmusic.org">Donate</a></li>          	
+					<li><a href="http://donate.cashmusic.org">Donate</a></li>
 				</ul>
 			</nav>
 		<div class="header-container">
@@ -195,21 +195,21 @@ if ($user_id) {
 				<h1>Get Started With CASH Music.</h1>
 				<div class="examples">
 				<!--<img src="images/examples/examples.gif" alt="examples"/> -->
-			  
+
 			   <!-- <iframe width="1280" height="720" src="//www.youtube.com/embed/YLS_WWYUQBg?&amp;vq=hd720&amp;modestbranding=1&amp;showinfo=0&amp;autoplay=1&amp;autohide=1&amp;color=white" autoplay="1" frameborder="0" allowfullscreen></iframe> -->
 
 				<video autoplay loop>
 				<source src="https://www-cashmusic.netdna-ssl.com/admin/ui/default/assets/video/phone.webm" type="video/webm">
 				Sorry Your browser does not support the video tag.
-				</video> 
+				</video>
 				</div>
 
 
-				<h2>Manage your mailing list, sell your music, organize your digital world. The CASH Music platform is free to use, now and forever.</h2> 
+				<h2>Manage your mailing list, sell your music, organize your digital world. The CASH Music platform is free to use, now and forever.</h2>
 				 <div class="action">
 				<a class="singup btn" href="/admin/dosignup/">Sign up</a><!--signup--> <a class="login btn" href="/admin/">Login</a><!--login--></div><!--action-->
 				 </div><!--inner-->
-		</div><!--panel-->	
+		</div><!--panel-->
 
 		<div class="panel made">
 			<div class="inner">
@@ -219,32 +219,32 @@ if ($user_id) {
 				<source src="https://www-cashmusic.netdna-ssl.com/admin/ui/default/assets/video/phone.mp4" type="video/mp4">
 				<source src="https://www-cashmusic.netdna-ssl.com/admin/ui/default/assets/video/phone.webm" type="video/webm">
 				Sorry Your browser does not support the video tag.
-				</video> 
+				</video>
 				<h2>The CASH Music platform is a set of digital tools designed to solve real problems for working musicians, based on years of direct collaboration with artists.</h2>
-			  
+
 			</div><!--inner-->
-		</div><!--panel-->	
+		</div><!--panel-->
 		<div class="panel free">
 		<img src="https://www-cashmusic.netdna-ssl.com/admin/ui/default/assets/images/free.jpg" alt="Free"/>
 		<div class="inner">
 				<h1>Free Forever.</h1>
 				<h2>Our goal is to help build a sustainable future for music. Musicians are our partners, not our customers, and our platform will always be free to use.</h2>
 			</div><!--inner-->
-		</div><!--panel-->	
+		</div><!--panel-->
 		<div class="panel better">
 		<img src="https://www-cashmusic.netdna-ssl.com/admin/ui/default/assets/images/blank.gif" alt="Getting Better"/>
 			<div class="inner">
 				<h1>Getting Better All the Time.</h1>
 				<h2>CASH Music is an open source project, with a community of brilliant developers working every day to make it better.</h2>
 				</div><!--inner-->
-				</div><!--panel-->	
-				
+				</div><!--panel-->
+
 		<div class="panel about">
 			<div class="inner">
 				<h1>About Us</h1>
 				<h2>CASH Music is a <a href="https://medium.com/cash-music/the-organization-is-our-protest-song-1c9b01ea3ceb" target="_blank">nonprofit organization</a> focused on educating and empowering artists and their fans to foster a viable and sustainable future for music. We believe the best way to ensure a sustainable future for music is to invest in its creators.</h2>
-			
-			   
+
+
 				<script type="text/javascript" src="https://air.cashmusic.org/public/cashmusic.js"></script><script type="text/javascript"> window.cashmusic.embed('https://air.cashmusic.org/public/','12');</script>
 
 				<p>Made possible with the support of:</p>
@@ -254,7 +254,7 @@ if ($user_id) {
 				<a class="rackspace" href="http://www.rackspace.com/" target="_blank"><img src="https://www-cashmusic.netdna-ssl.com/admin/ui/default/assets/images/rackspace.png" alt="Rackspace"/></a>
 				<a class="maxcdn" href="http://www.maxcdn.com/" target="_blank"><img src="https://www-cashmusic.netdna-ssl.com/admin/ui/default/assets/images/maxcdn.png" alt="Max CDN"/></a>
 				</div><!--inner-->
-			</div><!--panel-->	
+			</div><!--panel-->
 		</div> <!-- #main -->
 		</div> <!-- #main-container -->
 
@@ -267,7 +267,7 @@ if ($user_id) {
 				if ( !$(".menutoggle").hasClass("show")){
 				$(".menutoggle").addClass("show");
 				$(".menutoggle").removeClass("hide");
-				
+
 				} else {
 
 					if ( $(".menutoggle").hasClass("show")){
@@ -290,7 +290,3 @@ if ($user_id) {
 		</script>
 	</body>
 </html>
-
-
-
-
