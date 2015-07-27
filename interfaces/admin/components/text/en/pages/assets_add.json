@@ -2,14 +2,14 @@
 	"pagetip":"",
 	"learn":"<p>If you’d like to sell this release you must also go to commerce and enter it as an inventory item before you add the purchase element.</p><p>Making download codes? Once you’ve added your release info you can then generate and export download codes in the asset's settings. You don’t have to have a fulfillment file up yet to generate them which is handy if you're using them for LP's but make sure you’ve uploaded it, and made a corresponding download code redemption form element, before you start sending those codes out!</p><p>You can always change any details - all linked commerce items and elements will automatically reflect the changes.</p>",
 	"related":{},
-	"labels":{"which_connection":"Which storage connection?",
-            "title":"Title / Name",
-            "description":"Description",
-            "location":"Location (uri)"
-
-
-
+	"labels":{
+		"which_connection":"Which storage connection?",
+      "title":"Title / Name",
+      "description":"Description",
+      "location":"Location (uri)"
    },
 	"tooltips":{},
-	"copy":{}
+	"copy":{
+		"upload_a_file":"Upload a file"
+	}
 }

@@ -5,7 +5,7 @@
 	<!-- YOLO -->
 	<input type="hidden" name="doaccountchange" value="makeitso" />
 
-			<input type="hidden" name="new_email_address" value="new_email_address" />
+			<input type="hidden" name="email_address" value="{{email_address}}" />
 			<label for="new_email_address">{{label_new_email_address}}</label>
 			<input type="text" id="new_email_address" name="new_email_address" placeholder="{{email_address}}" value="{{email_address}}" />
 
@@ -48,8 +48,8 @@
 		<div class="callout">
 			<code>
 			<b>API endpoint:</b> {{api_url}}<br /><br />
-			<b>Key:</b> {{api_key}} &nbsp; &nbsp; 
-			<b>Secret:</b> 
+			<b>Key:</b> {{api_key}} &nbsp; &nbsp;
+			<b>Secret:</b>
 			{{#api_secret}}{{api_secret}}{{/api_secret}}{{^api_secret}}<a href="?reveal=true">Click to reveal API Secret</a>{{/api_secret}}
 			</code>
 		</div>
