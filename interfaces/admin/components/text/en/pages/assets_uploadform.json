@@ -4,9 +4,7 @@
 	"related":{},
 	"labels":{},
 	"tooltips":{},
-	"copy":{"choose_connection":"You need to choose a connection."
-
-
-
-}
+	"copy":{
+		"choose_connection":"You need to choose a connection."
+	}
 }
