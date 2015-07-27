@@ -152,6 +152,18 @@
 			}
 		}
 
+		// view cart button
+		var cartbuttons = document.querySelectorAll('.cm-cartbutton');
+		if (cartbuttons.length > 0) {
+			for (var i = 0, len = cartbuttons.length; i < len; i++) {
+				cm.events.add(cartbuttons[i],'click', function(e) {
+					cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"cart"});
+					e.preventDefault();
+					return false;
+				});
+			}
+		}
+
 		// keep prices correct
 		var prices = document.querySelectorAll('input.cm-price');
 		if (prices.length > 0) {
