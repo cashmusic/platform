@@ -123,6 +123,16 @@
 						"en":"There was an error processing your payment. Please reload and try again."
 					},
 					"displaysize":"medium"
+				},
+				"message_email":{
+					"label":{
+						"en":"Personalized email message"
+					},
+					"type":"text",
+					"default":{
+						"en":""
+					},
+					"displaysize":"medium"
 				}
 			}
 		}
