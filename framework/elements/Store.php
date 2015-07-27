@@ -101,9 +101,17 @@ class Store extends ElementBase {
 		);
 		$cart = $cart_request->response['payload'];
 		if ($cart) {
-			if ((isset($cart['shipto']) && count($cart) > 1) || (!isset($cart['shipto']) && count($cart))) {
-				$this->element_data['items_in_cart'] = true;
+			if (is_array($cart)) {
+				$checkcount = count($cart);
+				if (isset($cart['shipto'])) {
+					$checkcount = $checkcount-1;
+				}
+				if ($checkcount) {
+					$this->element_data['items_in_cart'] = true;
+				}
 			}
+		} else {
+			$cart = array();
 		}
 
 		$featured_items = array();
@@ -250,43 +258,45 @@ class Store extends ElementBase {
 				}
 				$shipto = $cart['shipto'];
 				unset($cart['shipto']);
-				foreach ($cart as $key => &$i) {
-					foreach ($items as $ii) {
-						if ($ii['id'] == $i['id']) {
-							$i['price'] = max($i['price'],$ii['price']);
-							$i['total_price'] = number_format($i['qty'] * $i['price'],2);
-							//$i['shipping_r1'] = $ii['shipping']['r1-1'];
-							if ($ii['physical_fulfillment']) {
-								if (!$physical) {
-									$physical = true;
-								}
-								if ($ii['shipping']) {
-									if (isset($ii['shipping']['r1-1'])) {
-										$i['shipping_r1'] = $ii['shipping']['r1-1'];
-										$i['shipping_r1rest'] = $ii['shipping']['r1-1+'];
-										$i['shipping_r2'] = $ii['shipping']['r2-1'];
-										$i['shipping_r2rest'] = $ii['shipping']['r2-1+'];
-										$shipping += $i['shipping_'.$shipto.'rest']*($i['qty']-1)+$i['shipping_'.$shipto];
+				if (is_array($cart)) {
+					foreach ($cart as $key => &$i) {
+						foreach ($items as $ii) {
+							if ($ii['id'] == $i['id']) {
+								$i['price'] = max($i['price'],$ii['price']);
+								$i['total_price'] = number_format($i['qty'] * $i['price'],2);
+								//$i['shipping_r1'] = $ii['shipping']['r1-1'];
+								if ($ii['physical_fulfillment']) {
+									if (!$physical) {
+										$physical = true;
+									}
+									if ($ii['shipping']) {
+										if (isset($ii['shipping']['r1-1'])) {
+											$i['shipping_r1'] = $ii['shipping']['r1-1'];
+											$i['shipping_r1rest'] = $ii['shipping']['r1-1+'];
+											$i['shipping_r2'] = $ii['shipping']['r2-1'];
+											$i['shipping_r2rest'] = $ii['shipping']['r2-1+'];
+											$shipping += $i['shipping_'.$shipto.'rest']*($i['qty']-1)+$i['shipping_'.$shipto];
+										}
 									}
 								}
-							}
-							$subtotal += $i['total_price'];
-							$i['name'] = $ii['name'];
-							if ($i['variant']) {
-								$i['variant_fixed'] = str_replace(' ','+',$i['variant']);
-								foreach ($ii['variants']['quantities'] as $q) {
-									if ($q['key'] == str_replace(' ','+',$i['variant'])) { //TODO: hacky fix for plus signs decoded as spaces
-										$i['variant_name'] = $q['formatted_name'];
-										break;
+								$subtotal += $i['total_price'];
+								$i['name'] = $ii['name'];
+								if ($i['variant']) {
+									$i['variant_fixed'] = str_replace(' ','+',$i['variant']);
+									foreach ($ii['variants']['quantities'] as $q) {
+										if ($q['key'] == str_replace(' ','+',$i['variant'])) { //TODO: hacky fix for plus signs decoded as spaces
+											$i['variant_name'] = $q['formatted_name'];
+											break;
+										}
 									}
 								}
+								break;
 							}
-							break;
 						}
 					}
 				}
 				$this->element_data['has_physical'] = $physical;
-				$this->element_data['cart'] = new ArrayIterator($cart);;
+				$this->element_data['cart'] = new ArrayIterator($cart);
 				$this->element_data['subtotal'] =  number_format($subtotal,2);
 				$this->element_data['shipping'] =  number_format($shipping,2);
 				$this->element_data['total'] =  number_format($subtotal+$shipping,2);;
