@@ -197,13 +197,17 @@
 			for (var i = 0, len = attributes.length; i < len; i++) {
 				cm.events.add(attributes[i],'blur', function(e) {
 					var b = document.querySelector('button.cm-addtocart.cm-item-' + e.target.getAttribute('data-itemid'));
-					/*
+
 					if (e.target.getAttribute('data-totalattributes') > 1) {
 						var allselects = e.target.parentNode.querySelectorAll('select');
+						var otherselect = false;
+						for (var ii = 0, l = allselects.length; ii < l; ii++) {
+							if (allselects[ii] != e.target) {
+								otherselect = allselects[ii];
+								break;
+							}
+						}
 
-						var otherselect = e.target.parentNode.querySelector('select:not([name="'+e.target.getAttribute('name')+'"]');
-
-						var b = document.querySelector('button.cm-addtocart.cm-item-' + e.target.getAttribute('data-itemid'));
 						if (otherselect) {
 							var supportedoptions = JSON.parse(e.target.options[e.target.selectedIndex].getAttribute('data-countermenu'));
 							var otheroptions = otherselect.querySelectorAll('option');
@@ -231,7 +235,6 @@
 							}
 						}
 					} else {
-					*/
 						if (e.target.value != 'resetattributes') {
 							b.setAttribute('data-variantid',e.target.getAttribute('data-key')+'->'+e.target.value);
 							b.removeAttribute('disabled');
@@ -241,7 +244,7 @@
 							b.setAttribute('disabled','disabled');
 							b.innerHTML = '{{copy_choose_variants}}';
 						}
-					//}
+					}
 				});
 				cm.events.add(attributes[i],'change', function(e) {
 					e.target.blur(); // using change to fire blur gives us change events consistently. ff doesn't do auto-blur, ios safari doesn't do change
