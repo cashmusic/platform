@@ -196,35 +196,39 @@
 		if (attributes.length > 0) {
 			for (var i = 0, len = attributes.length; i < len; i++) {
 				cm.events.add(attributes[i],'blur', function(e) {
-					var otherselect = e.target.parentNode.querySelector('select:not([name="'+e.target.getAttribute('name')+'"]');
-					var b = document.querySelector('button.cm-addtocart.cm-item-' + e.target.getAttribute('data-itemid'));
-					if (otherselect) {
-						var supportedoptions = JSON.parse(e.target.options[e.target.selectedIndex].getAttribute('data-countermenu'));
-						var otheroptions = otherselect.querySelectorAll('option');
-						for (var i = 0, len = otheroptions.length; i < len; i++) {
-							otheroptions[i].setAttribute('disabled','disabled');
-							if (otheroptions[i].value == 'resetattributes' || supportedoptions.indexOf(otheroptions[i].value) !== -1) {
-								otheroptions[i].removeAttribute('disabled');
+					if (e.target.getAttribute('data-totalattributes') > 1) {
+						var allselects = e.target.parentNode.querySelectorAll('select');
+
+						var otherselect = e.target.parentNode.querySelector('select:not([name="'+e.target.getAttribute('name')+'"]');
+
+						var b = document.querySelector('button.cm-addtocart.cm-item-' + e.target.getAttribute('data-itemid'));
+						if (otherselect) {
+							var supportedoptions = JSON.parse(e.target.options[e.target.selectedIndex].getAttribute('data-countermenu'));
+							var otheroptions = otherselect.querySelectorAll('option');
+							for (var i = 0, len = otheroptions.length; i < len; i++) {
+								otheroptions[i].setAttribute('disabled','disabled');
+								if (otheroptions[i].value == 'resetattributes' || supportedoptions.indexOf(otheroptions[i].value) !== -1) {
+									otheroptions[i].removeAttribute('disabled');
+								}
 							}
-						}
-						if (e.target.value != 'resetattributes' && otherselect.value != 'resetattributes') {
-							var thisid = e.target.getAttribute('data-key')+'->'+e.target.value;
-							var otherid = otherselect.getAttribute('data-key')+'->'+otherselect.value;
-							if (e.target.getAttribute('data-attributeorder') == 0) {
-								var attributekey = thisid+'+'+otherid;
+							if (e.target.value != 'resetattributes' && otherselect.value != 'resetattributes') {
+								var thisid = e.target.getAttribute('data-key')+'->'+e.target.value;
+								var otherid = otherselect.getAttribute('data-key')+'->'+otherselect.value;
+								if (e.target.getAttribute('data-attributeorder') == 0) {
+									var attributekey = thisid+'+'+otherid;
+								} else {
+									var attributekey = otherid+'+'+thisid;
+								}
+								b.setAttribute('data-variantid',attributekey);
+								b.removeAttribute('disabled');
+								b.innerHTML = '<span class="cm-price">{{currency}}'+b.getAttribute('data-price')+'</span> - {{copy_cart}}';
 							} else {
-								var attributekey = otherid+'+'+thisid;
+								b.removeAttribute('data-variantid');
+								b.setAttribute('disabled','disabled');
+								b.innerHTML = '{{copy_choose_variants}}';
 							}
-							b.setAttribute('data-variantid',attributekey);
-							b.removeAttribute('disabled');
-							b.innerHTML = '<span class="cm-price">{{currency}}'+b.getAttribute('data-price')+'</span> - {{copy_cart}}';
-						} else {
-							b.removeAttribute('data-variantid');
-							b.setAttribute('disabled','disabled');
-							b.innerHTML = '{{copy_choose_variants}}';
 						}
-					}
-					if (e.target.getAttribute('data-totalattributes') == 1) {
+					} else {
 						if (e.target.value != 'resetattributes') {
 							b.setAttribute('data-variantid',e.target.getAttribute('data-key')+'->'+e.target.value);
 							b.removeAttribute('disabled');
