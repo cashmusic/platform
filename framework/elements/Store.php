@@ -251,13 +251,15 @@ class Store extends ElementBase {
 				$subtotal = 0;
 				$shipping = 0;
 				$physical = false;
-				if ($cart['shipto'] == 'r2') {
-					$this->element_data['shiptor2'] = true;
-				} else {
-					$this->element_data['shiptor1'] = true;
+				if (isset($cart['shipto'])) {
+					if ($cart['shipto'] == 'r2') {
+						$this->element_data['shiptor2'] = true;
+					} else {
+						$this->element_data['shiptor1'] = true;
+					}
+					$shipto = $cart['shipto'];
+					unset($cart['shipto']);
 				}
-				$shipto = $cart['shipto'];
-				unset($cart['shipto']);
 				foreach ($cart as $key => &$i) {
 					foreach ($items as $ii) {
 						if ($ii['id'] == $i['id']) {
