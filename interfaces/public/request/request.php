@@ -83,6 +83,9 @@ if (!isset($_REQUEST['nooutput'])) {
 
 			header('Content-Type: text/html; charset=utf-8');
 			header('P3P: CP="ALL CUR OUR"'); // P3P privacy policy fix
+			header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+			header("Cache-Control: post-check=0, pre-check=0", false);
+			header("Pragma: no-cache");
 
 			$template = str_replace('</head>', '<script type="text/javascript" src="' . CASH_PUBLIC_URL . '/cashmusic.js"></script></head>', $template);
 			$encoded_html = $freddiemercury->render($template, $embed_data);
@@ -103,9 +106,21 @@ if (!isset($_REQUEST['nooutput'])) {
 			}
 			if (in_array('payload', $requests)) {
 				header('Content-Type: text/plain; charset=utf-8');
+				header('P3P: CP="ALL CUR OUR"'); // P3P privacy policy fix
+				header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+				header("Cache-Control: post-check=0, pre-check=0", false);
+				header("Pragma: no-cache");
+				header("Access-Control-Allow-Origin: *");
+				header('Access-Control-Allow-Credentials: true');
 				echo (string)$output;
 			} else if (in_array('json', $requests)) {
 				header('Content-Type: application/json; charset=utf-8');
+				header('P3P: CP="ALL CUR OUR"'); // P3P privacy policy fix
+				header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+				header("Cache-Control: post-check=0, pre-check=0", false);
+				header("Pragma: no-cache");
+				header("Access-Control-Allow-Origin: *");
+				header('Access-Control-Allow-Credentials: true');
 				echo json_encode($output);
 			} else {
 				header('Content-Type: text/html; charset=utf-8');
