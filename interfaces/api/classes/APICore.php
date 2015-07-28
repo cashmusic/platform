@@ -87,7 +87,7 @@
 	 *
 	 * @return array
 	 */public function respond($parsed_url) {
-		// pass basic no-cache headers
+		// pass basic no-cache / CORS headers
 		header('P3P: CP="ALL CUR OUR"'); // P3P privacy policy fix
 		header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 		header("Cache-Control: post-check=0, pre-check=0", false);
