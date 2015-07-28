@@ -94,6 +94,7 @@
 			var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
 			var poststring = 'cash_request_type=system&cash_action=getsessioncreated';
 			submitUrl += '?ts=' + new Date().getTime();
+			console.log(submitUrl);
 			window.cashmusic.ajax.send(
 				submitUrl,
 				poststring,

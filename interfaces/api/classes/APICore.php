@@ -1,6 +1,6 @@
 <?php
 /**
- * The main API Class used to translate incoming requests to 
+ * The main API Class used to translate incoming requests to
  *
  * @package api.org.cashmusic
  * @author CASH Music
@@ -14,7 +14,7 @@
 	public $version;
 	private $cash_framework_core;
 	private $passed_url;
-	
+
 	public function __construct($incoming_url) {
 		// future: deal with headers/methods before url stuff
 		// present: url stuff
@@ -25,7 +25,7 @@
 		$this->version = floatval('1.' . CASHRequest::$version);
 		$this->respond($this->parseURL($incoming_url));
 	}
-	
+
 	/**
 	 * Parse the URL and return a response
 	 *
@@ -53,7 +53,7 @@
 					$request_parameters['id'] = array_shift($exploded_request);
 				}
 				$request_array = array(
-					'cash_request_type' => $request_parameters['plant'], 
+					'cash_request_type' => $request_parameters['plant'],
 					'cash_action' => $request_parameters['action']
 				);
 				if ($request_parameters['id']) {
@@ -75,7 +75,7 @@
 					}
 				}
 				$request_parameters['request'] = $request_array;
-			} 
+			}
 			return $request_parameters;
 		} else {
 			return false;
@@ -88,8 +88,13 @@
 	 * @return array
 	 */public function respond($parsed_url) {
 		// pass basic no-cache headers
-		header("Cache-Control: no-store, no-cache, must-revalidate, private");
+		header('P3P: CP="ALL CUR OUR"'); // P3P privacy policy fix
+		header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+		header("Cache-Control: post-check=0, pre-check=0", false);
+		header("Pragma: no-cache");
 		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+		header("Access-Control-Allow-Origin: *");
+		header('Access-Control-Allow-Credentials: true');
 
 		// check the parsed_url to see if things are good
 		if (count($parsed_url['parsed'])) {
@@ -108,7 +113,7 @@
 					unset($parsed_url['request']['api_key']);
 					$auth_request = new CASHRequest(
 						array(
-							'cash_request_type' => 'system', 
+							'cash_request_type' => 'system',
 							'cash_action' => 'validateapicredentials',
 							'api_key' => $api_key
 						)
@@ -147,7 +152,7 @@
 					$asset_format = $asset_identifiers[1];
 					$asset_request = new CASHRequest(
 						array(
-							'cash_request_type' => 'asset', 
+							'cash_request_type' => 'asset',
 							'cash_action' => 'getasset',
 							'id' => $asset_id
 						)
@@ -158,7 +163,7 @@
 						if (strtolower($asset_format) == 'json') {
 							$user_request = new CASHRequest(
 								array(
-									'cash_request_type' => 'people', 
+									'cash_request_type' => 'people',
 									'cash_action' => 'getuser',
 									'user_id' => $asset_request->response['payload']['user_id']
 								)
@@ -204,5 +209,5 @@
 		}
 	}
 
-} // END class 
+} // END class
 ?>
