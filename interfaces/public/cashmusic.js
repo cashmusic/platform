@@ -586,6 +586,7 @@
 					if (xhr) {
 						xhr.open(method,url,true);
 						xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+						xhr.withCredentials = true;
 						if (method == 'POST') {
 							xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 						}
