@@ -82,8 +82,8 @@ if (!isset($_REQUEST['nooutput'])) {
 			ob_end_clean();
 
 			header('Content-Type: text/html; charset=utf-8');
-			header('P3P: CP="ALL CUR OUR"'); // IE P3P privacy policy fix
-			
+			header('P3P: CP="ALL CUR OUR"'); // P3P privacy policy fix
+
 			$template = str_replace('</head>', '<script type="text/javascript" src="' . CASH_PUBLIC_URL . '/cashmusic.js"></script></head>', $template);
 			$encoded_html = $freddiemercury->render($template, $embed_data);
 			echo $encoded_html;
