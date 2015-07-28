@@ -195,7 +195,8 @@
 		var attributes = document.querySelectorAll('select.cm-attribute');
 		if (attributes.length > 0) {
 			for (var i = 0, len = attributes.length; i < len; i++) {
-				cm.events.add(attributes[i],'blur', function(e) {
+				cm.events.add(attributes[i],'change', function(e) {
+					/*
 					if (e.target.getAttribute('data-totalattributes') > 1) {
 						var allselects = e.target.parentNode.querySelectorAll('select');
 
@@ -229,6 +230,7 @@
 							}
 						}
 					} else {
+					*/
 						if (e.target.value != 'resetattributes') {
 							b.setAttribute('data-variantid',e.target.getAttribute('data-key')+'->'+e.target.value);
 							b.removeAttribute('disabled');
@@ -238,11 +240,11 @@
 							b.setAttribute('disabled','disabled');
 							b.innerHTML = '{{copy_choose_variants}}';
 						}
-					}
+					//}
 				});
-				cm.events.add(attributes[i],'change', function(e) {
-					e.target.blur(); // using change to fire blur gives us change events consistently. ff doesn't do auto-blur, ios safari doesn't do change
-				});
+				//cm.events.add(attributes[i],'change', function(e) {
+				//	e.target.blur(); // using change to fire blur gives us change events consistently. ff doesn't do auto-blur, ios safari doesn't do change
+				//});
 			}
 		}
 	});
