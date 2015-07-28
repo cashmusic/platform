@@ -196,6 +196,7 @@
 		if (attributes.length > 0) {
 			for (var i = 0, len = attributes.length; i < len; i++) {
 				cm.events.add(attributes[i],'change', function(e) {
+					var b = document.querySelector('button.cm-addtocart.cm-item-' + e.target.getAttribute('data-itemid'));
 					/*
 					if (e.target.getAttribute('data-totalattributes') > 1) {
 						var allselects = e.target.parentNode.querySelectorAll('select');
