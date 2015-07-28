@@ -79,6 +79,10 @@
 </div><!--cm-store cm-front-->
 
 <script type="text/javascript">
+	if (navigator.vendor.match(/Apple Computer, Inc./)) {
+		console.log('appppppple!!!');
+	}
+
 	var cm = window.cashmusic;
 	var cartpresent = false;
 	var cartbuttonbusy = false;
@@ -131,8 +135,7 @@
 						if (this.getAttribute('data-variantid')) {
 							requesturl += 'item_variant/'+this.getAttribute('data-variantid')+'/'
 						}
-						requesturl += '?ts=' + Date.now();
-						console.log(requesturl);
+						requesturl += '?ts=' + new Date().getTime();
 						cm.ajax.send(requesturl, false,
 							function(r) {
 								flashCartButton();
