@@ -237,7 +237,7 @@
 					}
 				});
 				cm.events.add(attributes[i],'change', function(e) {
-					e.target.blur();
+					e.target.blur(); // using change to fire blur gives us change events consistently. ff doesn't do auto-blur, ios safari doesn't do change
 				});
 			}
 		}
