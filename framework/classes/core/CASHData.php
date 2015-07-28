@@ -144,7 +144,9 @@
 			}
 			if (!$current_session['persistent']) {
 				// no existing session, set up empty data
-				$session_data['data'] = json_encode(array());
+				$session_data['data'] = json_encode(array(
+					'created' => time()
+				));
 			}
 			// set the client-side cookie
 			if (!headers_sent()) {

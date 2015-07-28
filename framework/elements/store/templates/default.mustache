@@ -79,15 +79,53 @@
 </div><!--cm-store cm-front-->
 
 <script type="text/javascript">
-	if (navigator.vendor.match(/Apple Computer, Inc./)) {
-		console.log('appppppple!!!');
-	}
-
 	var cm = window.cashmusic;
 	var cartpresent = false;
 	var cartbuttonbusy = false;
+	var sessiontest = false;
 
 	cm.events.add(cm,'ready', function(e) {
+
+
+
+
+
+		function testSesstion() {
+			var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
+			var poststring = 'cash_request_type=system&cash_action=getsessioncreated';
+			submitUrl += '?ts=' + new Date().getTime();
+			window.cashmusic.ajax.send(
+				submitUrl,
+				poststring,
+				function(thereply) {
+					if (sessiontest) {
+						if (sessiontest == thereply) {
+							cm.events.fire(cm,'sessiontested',true);
+						} else {
+							cm.events.fire(cm,'sessiontested',false);
+						}
+					} else {
+						cm.events.add(cm,'sessiontested', function(e) {
+							if (e.detail) {
+								console.log('yay the session works just fine. you go, girl!');
+							} else {
+								console.log('so...apple, huh? cool story.');
+							}
+						});
+						sessiontest = thereply;
+						setTimeout(function() {
+							testSesstion();
+						},20);
+					}
+				}
+			);
+		}
+		testSesstion();
+
+
+
+
+
 		function flashCartButton() {
 			if (cartpresent) {
 				if (!cartbuttonbusy) {

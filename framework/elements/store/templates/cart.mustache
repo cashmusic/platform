@@ -156,7 +156,7 @@
 				if (cm.get['params']['location']) {
 					poststring += '&finalize_url='+decodeURIComponent(cm.get['params']['location'].split('?')[0])
 				}
-				requesturl += '?ts=' + new Date().getTime();
+				submitUrl += '?ts=' + new Date().getTime();
 				window.cashmusic.ajax.send(
 					submitUrl,
 					poststring,

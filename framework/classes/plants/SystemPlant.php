@@ -37,6 +37,7 @@ class SystemPlant extends PlantBase {
 				'getapicredentials'       => array('getAPICredentials','direct'),
 				'getlockcodes'            => array('getLockCodes','direct'),
 				'getnewesttemplate'       => array('getNewestTemplate','direct'),
+				'getsessioncreated'		  => array('getSessionCreated',array('direct','get','post')),
 				'getsettings'             => array('getSettings','direct'),
 				'gettemplate'             => array('getTemplate','direct'),
 				'gettemplatesforuser'     => array('getTemplatesForUser','direct'),
@@ -1210,6 +1211,17 @@ class SystemPlant extends PlantBase {
 		} while ($loop > 0);
 		$chars = implode($chars);
 		return $chars;
+	}
+
+	/*
+	 *
+	 * SESSION TEST/SET FOR __EXTERNAL__ sessions
+	 *
+	 */
+	protected function getSessionCreated() {
+		$r = new CASHRequest();
+		$r->startSession();
+		return $r->sessionGet('created');
 	}
 
 } // END class
