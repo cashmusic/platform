@@ -195,7 +195,7 @@
 		var attributes = document.querySelectorAll('select.cm-attribute');
 		if (attributes.length > 0) {
 			for (var i = 0, len = attributes.length; i < len; i++) {
-				cm.events.add(attributes[i],'change', function(e) {
+				cm.events.add(attributes[i],'blur', function(e) {
 					var otherselect = e.target.parentNode.querySelector('select:not([name="'+e.target.getAttribute('name')+'"]');
 					var b = document.querySelector('button.cm-addtocart.cm-item-' + e.target.getAttribute('data-itemid'));
 					if (otherselect) {
