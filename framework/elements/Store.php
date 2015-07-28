@@ -101,9 +101,17 @@ class Store extends ElementBase {
 		);
 		$cart = $cart_request->response['payload'];
 		if ($cart) {
-			if ((isset($cart['shipto']) && count($cart) > 1) || (!isset($cart['shipto']) && count($cart))) {
-				$this->element_data['items_in_cart'] = true;
+			if (is_array($cart)) {
+				$checkcount = count($cart);
+				if (isset($cart['shipto'])) {
+					$checkcount = $checkcount-1;
+				}
+				if ($checkcount) {
+					$this->element_data['items_in_cart'] = true;
+				}
 			}
+		} else {
+			$cart = array();
 		}
 
 		$featured_items = array();
@@ -286,7 +294,7 @@ class Store extends ElementBase {
 					}
 				}
 				$this->element_data['has_physical'] = $physical;
-				$this->element_data['cart'] = new ArrayIterator($cart);;
+				$this->element_data['cart'] = new ArrayIterator($cart);
 				$this->element_data['subtotal'] =  number_format($subtotal,2);
 				$this->element_data['shipping'] =  number_format($shipping,2);
 				$this->element_data['total'] =  number_format($subtotal+$shipping,2);;
