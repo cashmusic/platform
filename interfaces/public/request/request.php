@@ -49,14 +49,6 @@ if (!isset($_REQUEST['nooutput'])) {
 			$freddiemercury = new Mustache;
 		}
 
-		header('P3P: CP="ALL CUR OUR"'); // P3P privacy policy fix
-		header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-		header("Cache-Control: post-check=0, pre-check=0", false);
-		header("Pragma: no-cache");
-		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
-		header("Access-Control-Allow-Origin: *");
-		header('Access-Control-Allow-Credentials: true');
-
 		if ($requests[0] == 'embed' && isset($requests[1])) {
 			$embed_location = false;
 			if (isset($requests[3])) {
@@ -90,6 +82,8 @@ if (!isset($_REQUEST['nooutput'])) {
 			ob_end_clean();
 
 			header('Content-Type: text/html; charset=utf-8');
+			header('P3P: CP="ALL CUR OUR"'); // IE P3P privacy policy fix
+
 			$template = str_replace('</head>', '<script type="text/javascript" src="' . CASH_PUBLIC_URL . '/cashmusic.js"></script></head>', $template);
 			$encoded_html = $freddiemercury->render($template, $embed_data);
 			echo $encoded_html;
@@ -107,7 +101,6 @@ if (!isset($_REQUEST['nooutput'])) {
 					'response' => false
 				);
 			}
-
 			if (in_array('payload', $requests)) {
 				header('Content-Type: text/plain; charset=utf-8');
 				echo (string)$output;
