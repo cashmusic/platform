@@ -132,6 +132,7 @@
 							requesturl += 'item_variant/'+this.getAttribute('data-variantid')+'/'
 						}
 						requesturl += '?ts=' + Date.now();
+						console.log(requesturl);
 						cm.ajax.send(requesturl, false,
 							function(r) {
 								flashCartButton();
