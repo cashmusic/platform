@@ -77,6 +77,7 @@
 		if (variant) {
 			requesturl += 'item_variant/'+variant+'/'
 		}
+		requesturl += '?ts=' + Date.now();
 		cm.ajax.send(requesturl, false,
 			function() {
 				if (li) {
@@ -115,6 +116,7 @@
 							if (this.getAttribute('data-variant')) {
 								requesturl += 'item_variant/'+this.getAttribute('data-variant')+'/'
 							}
+							requesturl += '?ts=' + Date.now();
 							cm.ajax.send(requesturl, false,
 								function() {
 									recount();
@@ -132,6 +134,7 @@
 		// shipping dropdown
 		cm.events.add(document.querySelector('select.cm-region'),'change', function(e) {
 			var requesturl = '{{api_url}}/verbose/commerce/editcartshipping/region/' + this.value + '/';
+			requesturl += '?ts=' + Date.now();
 			cm.ajax.send(requesturl, false,
 				function() {
 					recount();
@@ -153,6 +156,7 @@
 				if (cm.get['params']['location']) {
 					poststring += '&finalize_url='+decodeURIComponent(cm.get['params']['location'].split('?')[0])
 				}
+				submitUrl += '?ts=' + Date.now();
 				window.cashmusic.ajax.send(
 					submitUrl,
 					poststring,
