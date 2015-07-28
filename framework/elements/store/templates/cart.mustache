@@ -65,7 +65,9 @@
 			document.querySelector('.cm-shipping-amount').innerHTML = shipping.toFixed(2);
 			{{/has_physical}}
 			document.querySelector('.cm-total-amount').innerHTML = (subtotal+shipping).toFixed(2);
-
+		} else {
+			var maindiv = document.querySelector('div.cm-cart');
+			maindiv.innerHTML = '<p class="cm-emptycart">{{copy_emptycart}}</p>';
 		}
 	}
 

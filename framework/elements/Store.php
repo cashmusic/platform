@@ -258,40 +258,38 @@ class Store extends ElementBase {
 				}
 				$shipto = $cart['shipto'];
 				unset($cart['shipto']);
-				if (is_array($cart)) {
-					foreach ($cart as $key => &$i) {
-						foreach ($items as $ii) {
-							if ($ii['id'] == $i['id']) {
-								$i['price'] = max($i['price'],$ii['price']);
-								$i['total_price'] = number_format($i['qty'] * $i['price'],2);
-								//$i['shipping_r1'] = $ii['shipping']['r1-1'];
-								if ($ii['physical_fulfillment']) {
-									if (!$physical) {
-										$physical = true;
-									}
-									if ($ii['shipping']) {
-										if (isset($ii['shipping']['r1-1'])) {
-											$i['shipping_r1'] = $ii['shipping']['r1-1'];
-											$i['shipping_r1rest'] = $ii['shipping']['r1-1+'];
-											$i['shipping_r2'] = $ii['shipping']['r2-1'];
-											$i['shipping_r2rest'] = $ii['shipping']['r2-1+'];
-											$shipping += $i['shipping_'.$shipto.'rest']*($i['qty']-1)+$i['shipping_'.$shipto];
-										}
+				foreach ($cart as $key => &$i) {
+					foreach ($items as $ii) {
+						if ($ii['id'] == $i['id']) {
+							$i['price'] = max($i['price'],$ii['price']);
+							$i['total_price'] = number_format($i['qty'] * $i['price'],2);
+							//$i['shipping_r1'] = $ii['shipping']['r1-1'];
+							if ($ii['physical_fulfillment']) {
+								if (!$physical) {
+									$physical = true;
+								}
+								if ($ii['shipping']) {
+									if (isset($ii['shipping']['r1-1'])) {
+										$i['shipping_r1'] = $ii['shipping']['r1-1'];
+										$i['shipping_r1rest'] = $ii['shipping']['r1-1+'];
+										$i['shipping_r2'] = $ii['shipping']['r2-1'];
+										$i['shipping_r2rest'] = $ii['shipping']['r2-1+'];
+										$shipping += $i['shipping_'.$shipto.'rest']*($i['qty']-1)+$i['shipping_'.$shipto];
 									}
 								}
-								$subtotal += $i['total_price'];
-								$i['name'] = $ii['name'];
-								if ($i['variant']) {
-									$i['variant_fixed'] = str_replace(' ','+',$i['variant']);
-									foreach ($ii['variants']['quantities'] as $q) {
-										if ($q['key'] == str_replace(' ','+',$i['variant'])) { //TODO: hacky fix for plus signs decoded as spaces
-											$i['variant_name'] = $q['formatted_name'];
-											break;
-										}
-									}
-								}
-								break;
 							}
+							$subtotal += $i['total_price'];
+							$i['name'] = $ii['name'];
+							if ($i['variant']) {
+								$i['variant_fixed'] = str_replace(' ','+',$i['variant']);
+								foreach ($ii['variants']['quantities'] as $q) {
+									if ($q['key'] == str_replace(' ','+',$i['variant'])) { //TODO: hacky fix for plus signs decoded as spaces
+										$i['variant_name'] = $q['formatted_name'];
+										break;
+									}
+								}
+							}
+							break;
 						}
 					}
 				}
