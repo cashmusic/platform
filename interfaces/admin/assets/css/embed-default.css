@@ -941,6 +941,8 @@ input[type=number]::-webkit-outer-spin-button {
 	height:42px;
 	color:#222222;
 	font:400 12px/20px 'Montserrat',Helvetica,Arial,sans-serif;
+    -moz-appearance:none;
+    -webkit-appearance:none;
 }
 
 .cm-cart .cm-region:focus, .cm-cart .cm-region:active{
