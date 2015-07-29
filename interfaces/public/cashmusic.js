@@ -256,6 +256,16 @@
 					case 'swapclasses':
 						cm.styles.swapClasses(md.el,md.oldclass,md.newclass);
 						break;
+					case 'sessiontested':
+						if (md) {
+							console.log('session working!');
+						} else {
+							console.log('apple. sigh. no, apple. bad.');
+						}
+						break;
+					case 'sessiontesting':
+						cm.session.test(md.endpoint,md.c);
+						break;
 				}
 			},
 
@@ -732,8 +742,8 @@
 					if (document.dispatchEvent){
 						// standard
 						var e = document.createEvent('CustomEvent');
-    					e.initCustomEvent(type, false, false, data);
-    					obj.dispatchEvent(e);
+   					e.initCustomEvent(type, false, false, data);
+   					obj.dispatchEvent(e);
 					} else {
 						// dispatch for IE < 9
 						var e = document.createEventObject();
@@ -750,6 +760,38 @@
 						'type': type,
 						'data': data
 					}),'*');
+				}
+			},
+
+			/***************************************************************************************
+			 *
+			 * window.cashmusic.session (object)
+			 * Test session things because Safari is garbage
+			 *
+			 ***************************************************************************************/
+			session: {
+				test: function(endpoint,c) {
+					var cm = window.cashmusic;
+					if (endpoint.indexOf('embed')) {
+						endpoint = endpoint.split('/embed/')[0]+'/payload';
+						endpoint += '?cash_request_type=system&cash_action=getsessioncreated&ts=' + new Date().getTime();
+					}
+					cm.ajax.send(
+						endpoint,
+						false,
+						function(thereply) {
+							console.log(thereply);
+							if (c) {
+								if (c == thereply) {
+									cm.events.fire(cm,'sessiontested',true);
+								} else {
+									cm.events.fire(cm,'sessiontested',false);
+								}
+							} else {
+								cm.events.fire(cm,'sessiontesting',{"endpoint":endpoint,"c":thereply});
+							}
+						}
+					);
 				}
 			},
 
