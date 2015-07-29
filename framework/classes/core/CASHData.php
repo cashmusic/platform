@@ -95,15 +95,16 @@
 	 */public function startSession($reset_session_id=false,$force_session_id=false) {
 		// if 'session_id' is already set in script store then we've already started
 		// the session in this script, do not hammer the database needlessly
+		$newsession = false;
 		if (!$this->sessionGet('start_time','script') || $reset_session_id || $force_session_id) {
 			if ($force_session_id) {
 				$this->sessionSet('session_id',$force_session_id,'script');
 			}
 			// first make sure we have a valid session
 			$current_session = $this->getAllSessionData();
-			if ($current_session['persistent'] && isset($current_session['persistent']['expiration_date'])) {
+			if ($current_session['persistent'] && isset($current_session['expiration_date'])) {
 				// found session data, check expiration
-				if ($current_session['persistent']['expiration_date'] > time()) {
+				if ($current_session['expiration_date'] < time()) {
 					$this->sessionClearAll();
 					$current_session['persistent'] = false;
 					$reset_session_id = false;
@@ -128,6 +129,9 @@
 				);
 			} else {
 				// create a new session
+				error_log(json_encode($newsession));
+				$newsession = true;
+				error_log(json_encode($newsession));
 				$session_id = md5($current_ip['ip'] . rand(10000,99999)) . time(); // IP + random, hashed, plus timestamo
 				$previous_session = false;
 			}
@@ -166,12 +170,18 @@
 			);
 			$this->sessionSet('session_id',$session_id,'script');
 			$this->sessionSet('start_time',time(),'script');
+		} else {
+			$session_id = $this->sessionGet('session_id','script');
 		}
 		// garbage collection daemon. 2% chance of running.
 		if (rand(1,100) <= 2) {
 			$gc = new CASHDaemon();
 		}
-		return true;
+		error_log(json_encode($newsession));
+		return array(
+			'newsession' => $newsession,
+			'id' => $session_id
+		);
 	}
 
 	public function embedSessionPixel() {
@@ -199,7 +209,7 @@
 			if (!$this->db) $this->connectDB();
 			$result = $this->db->getData(
 				'sessions',
-				'data',
+				'data,expiration_date',
 				array(
 					"session_id" => array(
 						"condition" => "=",
@@ -209,6 +219,7 @@
 			);
 			if ($result) {
 				$return_array['persistent'] = json_decode($result[0]['data'],true);
+				$return_array['expiration_date'] = $result[0]['expiration_date'];
 			}
 		}
 		return $return_array;
