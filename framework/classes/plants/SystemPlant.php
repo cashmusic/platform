@@ -1222,14 +1222,17 @@ class SystemPlant extends PlantBase {
 		$r = new CASHRequest();
 		$session_details = $r->startSession();
 
-		/*
 		if ($session_details['newsession']) {
-			return $session_details['id'];
+			$endpoint = explode('/',CASHSystem::getCurrentURL(),4);
+			unset($endpoint[3]);
+			$endpoint = join('/',$endpoint);
+			if (!$session_details['expiration']) {
+				$session_details['expiration'] = time() + 10800;
+			}
+			return json_encode(array('endpoint' => $endpoint, 'expiration' => $session_details['expiration'], 'id' => $session_details['id']));
 		} else {
-			return 1;
+			return '';
 		}
-		*/
-		return json_encode($session_details);
 	}
 
 } // END class

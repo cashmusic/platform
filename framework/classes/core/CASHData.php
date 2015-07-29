@@ -96,6 +96,7 @@
 		// if 'session_id' is already set in script store then we've already started
 		// the session in this script, do not hammer the database needlessly
 		$newsession = false;
+		$expiration = false;
 		if (!$this->sessionGet('start_time','script') || $reset_session_id || $force_session_id) {
 			if ($force_session_id) {
 				$this->sessionSet('session_id',$force_session_id,'script');
@@ -115,9 +116,11 @@
 			$current_ip = CASHSystem::getRemoteIP();
 			$session_id = $this->getSessionID();
 			if ($force_session_id) {
-				// if we're forcing an id, we must also reset(array)
+				// if we're forcing an id, we're almost certainly in our JS session stuff
 				$session_id = $force_session_id;
-				$reset_session_id = true;
+				// we SHOULD rotate ids here, but that's hard to keep in sync on the JS side
+				// revisit this later:
+				//$reset_session_id = true;
 			}
 			if ($session_id) {
 				// if there is an existing cookie that's not expired, use it as the
@@ -129,9 +132,7 @@
 				);
 			} else {
 				// create a new session
-				error_log(json_encode($newsession));
 				$newsession = true;
-				error_log(json_encode($newsession));
 				$session_id = md5($current_ip['ip'] . rand(10000,99999)) . time(); // IP + random, hashed, plus timestamo
 				$previous_session = false;
 			}
@@ -180,6 +181,7 @@
 		error_log(json_encode($newsession));
 		return array(
 			'newsession' => $newsession,
+			'expiration' => $expiration,
 			'id' => $session_id
 		);
 	}
