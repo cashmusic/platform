@@ -1221,8 +1221,8 @@ class SystemPlant extends PlantBase {
 	protected function getSessionCreated() {
 		$r = new CASHRequest();
 		$r->startSession();
-		return json_encode($r->getAllSessionData());
-		//return $r->sessionGet('created');
+		//return json_encode($r->getAllSessionData());
+		return $r->sessionGet('created');
 	}
 
 } // END class
