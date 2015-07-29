@@ -37,7 +37,6 @@ class SystemPlant extends PlantBase {
 				'getapicredentials'       => array('getAPICredentials','direct'),
 				'getlockcodes'            => array('getLockCodes','direct'),
 				'getnewesttemplate'       => array('getNewestTemplate','direct'),
-				'getsessioncreated'		  => array('getSessionCreated',array('direct','get','post')),
 				'getsettings'             => array('getSettings','direct'),
 				'gettemplate'             => array('getTemplate','direct'),
 				'gettemplatesforuser'     => array('getTemplatesForUser','direct'),
@@ -48,6 +47,7 @@ class SystemPlant extends PlantBase {
 				'setresetflag'            => array('setResetFlag','direct'),
 				'setsettings'             => array('setSettings','direct'),
 				'settemplate'             => array('setTemplate','direct'),
+				'startjssession'			  => array('startJSSession',array('direct','get','post')),
 				'validateapicredentials'  => array('validateAPICredentials','direct'),
 				'validatelogin'           => array('validateLogin','direct'),
 				'validateresetflag'       => array('validateResetFlag',array('direct','get','post'))
@@ -1218,11 +1218,18 @@ class SystemPlant extends PlantBase {
 	 * SESSION TEST/SET FOR __EXTERNAL__ sessions
 	 *
 	 */
-	protected function getSessionCreated() {
+	protected function startJSSession() {
 		$r = new CASHRequest();
-		$r->startSession();
-		//return json_encode($r->getAllSessionData());
-		return $r->sessionGet('created');
+		$session_details = $r->startSession();
+
+		/*
+		if ($session_details['newsession']) {
+			return $session_details['id'];
+		} else {
+			return 1;
+		}
+		*/
+		return json_encode($session_details);
 	}
 
 } // END class
