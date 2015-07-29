@@ -90,6 +90,15 @@
 
 	cm.events.add(cm,'ready', function(e) {
 
+		{{#session_id}}
+			cm.session.setid(JSON.stringify({
+				"endpoint": window.location.href.split('/').slice(0,3).join('/'),
+				"expiration": Math.floor(new Date().getTime() /1000) + 10800,
+				"id": "{{session_id}}"
+			}));
+		{{/session_id}}
+		cm.session.start();
+
 		// itemremove buttons
 		var buttons = document.querySelectorAll('.cm-remove');
 		if (buttons.length > 0) {
