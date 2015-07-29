@@ -14,7 +14,7 @@
  *
  **/
 abstract class ElementBase extends CASHData {
-	protected $element_id, $status_uid, $template, $element_data, $original_request, $original_response, $options, $element, $appdata, $unlocked=false, $mustache=false;
+	protected $element_id, $session_id, $status_uid, $template, $element_data, $original_request, $original_response, $options, $element, $appdata, $unlocked=false, $mustache=false;
 	public $type = 'unknown';
 	public $name = 'Unknown Element';
 
@@ -22,13 +22,14 @@ abstract class ElementBase extends CASHData {
 
 	public function __construct($element_id=0,$element=false,$status_uid=false,$original_request=false,$original_response=false) {
 		// FYI: the element class takes an element object by reference because
-		// ElementPlant needs to query the element_type anyway. So there didn't 
+		// ElementPlant needs to query the element_type anyway. So there didn't
 		// seem like much point in hitting the database twice every request.
 		//
 		// This is a note to myself as much as anyone else. Always feels silly.
 		// -- jvd
 		$this->element = $element;
 		$this->element_id = $element_id;
+		$this->session_id = false;
 		$this->original_request = $original_request;
 		$this->original_response = $original_response;
 		$this->status_uid = $status_uid;
@@ -37,6 +38,9 @@ abstract class ElementBase extends CASHData {
 			if ($_REQUEST['element_id'] != $this->element_id) {
 				$this->status_uid = false;
 			}
+		}
+		if (isset($_REQUEST['session_id'])) {
+			$this->session_id = $_REQUEST['session_id'];
 		}
 		$this->options = $element['options'];
 		if ($this->isUnlocked()) {
@@ -48,7 +52,8 @@ abstract class ElementBase extends CASHData {
 			'status_uid' => $this->status_uid,
 			'user_id' => $this->element['user_id'],
 			'www_url' => CASH_PUBLIC_URL,
-			'api_url' => CASH_API_URL
+			'api_url' => CASH_API_URL,
+			'session_id' => $this->session_id
 		);
 		$this->appdata = $this->getAppData();
 		if (is_array($this->appdata)) {
@@ -141,5 +146,5 @@ abstract class ElementBase extends CASHData {
 		}
 	}
 
-} // END class 
+} // END class
 ?>

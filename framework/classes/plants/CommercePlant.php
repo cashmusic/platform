@@ -450,9 +450,9 @@ class CommercePlant extends PlantBase {
 		return $result;
 	}
 
-	protected function addToCart($item_id,$item_variant=false,$price=false) {
+	protected function addToCart($item_id,$item_variant=false,$price=false,$session_id=false) {
 		$r = new CASHRequest();
-		$r->startSession();
+		$r->startSession(false,$session_id);
 
 		$cart = $r->sessionGet('cart');
 		if (!$cart) {
@@ -475,9 +475,9 @@ class CommercePlant extends PlantBase {
 		return $cart;
 	}
 
-	protected function editCartQuantity($item_id,$qty,$item_variant='') {
+	protected function editCartQuantity($item_id,$qty,$item_variant='',$session_id=false) {
 		$r = new CASHRequest();
-		$r->startSession();
+		$r->startSession(false,$session_id);
 
 		$cart = $r->sessionGet('cart');
 		if (!$cart) {
@@ -497,9 +497,9 @@ class CommercePlant extends PlantBase {
 		}
 	}
 
-	protected function editCartShipping($region='r1') {
+	protected function editCartShipping($region='r1',$session_id=false) {
 		$r = new CASHRequest();
-		$r->startSession();
+		$r->startSession(false,$session_id);
 
 		$cart = $r->sessionGet('cart');
 		if (!$cart) {
@@ -511,15 +511,15 @@ class CommercePlant extends PlantBase {
 		return $cart;
 	}
 
-	protected function emptyCart() {
+	protected function emptyCart($session_id=false) {
 		$r = new CASHRequest();
-		$r->startSession();
+		$r->startSession(false,$session_id);
 		$r->sessionClear('cart');
 	}
 
-	protected function getCart() {
+	protected function getCart($session_id=false) {
 		$r = new CASHRequest();
-		$r->startSession();
+		$r->startSession(false,$session_id);
 		return $r->sessionGet('cart');
 	}
 
@@ -971,7 +971,7 @@ class CommercePlant extends PlantBase {
 		return $result;
 	}
 
-	protected function initiateCheckout($user_id=false,$connection_id=false,$order_contents=false,$item_id=false,$element_id=false,$total_price=false,$url_only=false,$finalize_url=false) {
+	protected function initiateCheckout($user_id=false,$connection_id=false,$order_contents=false,$item_id=false,$element_id=false,$total_price=false,$url_only=false,$finalize_url=false,$session_id=false) {
 
 		//TODO: store last seen top URL
 		//      or maybe make the API accept GET params? does it already? who can know?
@@ -1024,7 +1024,7 @@ class CommercePlant extends PlantBase {
 				} else {
 					return false; // no default PP shit set
 				}
-				$cart = $this->getCart();
+				$cart = $this->getCart($session_id);
 				$shipto = $cart['shipto'];
 				unset($cart['shipto']);
 				$subtotal = 0;
@@ -1099,7 +1099,7 @@ class CommercePlant extends PlantBase {
 				$currency
 			);
 			if ($order_id) {
-				$success = $this->initiatePaymentRedirect($order_id,$element_id,$price_addition,$url_only,$finalize_url);
+				$success = $this->initiatePaymentRedirect($order_id,$element_id,$price_addition,$url_only,$finalize_url,$session_id);
 				return $success;
 			} else {
 				return false;
@@ -1145,7 +1145,7 @@ class CommercePlant extends PlantBase {
 		return $currency;
 	}
 
-	protected function initiatePaymentRedirect($order_id,$element_id=false,$price_addition=0,$url_only=false,$finalize_url=false) {
+	protected function initiatePaymentRedirect($order_id,$element_id=false,$price_addition=0,$url_only=false,$finalize_url=false,$session_id=false) {
 		$order_details = $this->getOrder($order_id);
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
 		$order_totals = $this->getOrderTotals($order_details['order_contents']);
@@ -1155,7 +1155,7 @@ class CommercePlant extends PlantBase {
 
 		if ($finalize_url) {
 			$r = new CASHRequest();
-			$r->startSession();
+			$r->startSession(false,$session_id);
 			$r->sessionSet('payment_finalize_url',$finalize_url);
 		}
 
@@ -1208,13 +1208,13 @@ class CommercePlant extends PlantBase {
 		return false;
 	}
 
-	protected function finalizeRedirectedPayment($order_id,$creation_date,$direct_post_details=false) {
+	protected function finalizeRedirectedPayment($order_id,$creation_date,$direct_post_details=false,$session_id=false) {
 		$order_details = $this->getOrder($order_id);
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
 		$connection_type = $this->getConnectionType($transaction_details['connection_id']);
 
 		$r = new CASHRequest();
-		$r->startSession();
+		$r->startSession(false,$session_id);
 		$finalize_url = $r->sessionGet('payment_finalize_url');
 		if ($finalize_url) {
 			$r->sessionClear('payment_finalize_url');
@@ -1326,7 +1326,7 @@ class CommercePlant extends PlantBase {
 									);
 
 									// empty the cart at this point
-									$this->emptyCart();
+									$this->emptyCart($session_id);
 
 									// TODO: add code to order metadata
 									// bit of a hack, hard-wiring the email bits:

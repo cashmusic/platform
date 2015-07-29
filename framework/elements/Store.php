@@ -96,7 +96,8 @@ class Store extends ElementBase {
 		$cart_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'commerce',
-				'cash_action' => 'getcart'
+				'cash_action' => 'getcart',
+				'session_id' => $this->session_id
 			)
 		);
 		$cart = $cart_request->response['payload'];

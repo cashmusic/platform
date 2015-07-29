@@ -256,15 +256,8 @@
 					case 'swapclasses':
 						cm.styles.swapClasses(md.el,md.oldclass,md.newclass);
 						break;
-					case 'sessiontested':
-						if (md) {
-							console.log('session working!');
-						} else {
-							console.log('apple. sigh. no, apple. bad.');
-						}
-						break;
-					case 'sessiontesting':
-						cm.session.test(md.endpoint,md.c);
+					case 'sessionstarted':
+						cm.session.setid(md);
 						break;
 				}
 			},
@@ -415,6 +408,9 @@
 					if (cm.get['params']['element_id'] == id) {
 						embedURL += '&' + cm.get['qs'];
 					}
+				}
+				if (cm.session.getid(endpoint.split('/').slice(0,3).join('/'))) {
+					embedURL += '&session_id=' + cm.session.getid(endpoint.split('/').slice(0,3).join('/'));
 				}
 				var iframe = document.createElement('iframe');
 					iframe.src = embedURL;
@@ -588,9 +584,21 @@
 				 */
 				send: function(url,postString,successCallback,failureCallback) {
 					var method = 'POST';
+					var session = cm.session.getid(window.location.href.split('/').slice(0,3).join('/'));
 					if (!postString) {
 						method = 'GET';
 						postString = null;
+						if (session) {
+							if (url.indexOf('?') === -1) {
+								url += '?session_id=' + session;
+							} else {
+								url += '&session_id=' + session;
+							}
+						}
+					} else {
+						if (session) {
+							postString += '&session_id=' + session;
+						}
 					}
 					var xhr = this.getXHR();
 					if (xhr) {
@@ -770,28 +778,64 @@
 			 *
 			 ***************************************************************************************/
 			session: {
-				test: function(endpoint,c) {
+				start: function(endpoint) {
 					var cm = window.cashmusic;
-					if (endpoint.indexOf('embed')) {
-						endpoint = endpoint.split('/embed/')[0]+'/payload';
-						endpoint += '?cash_request_type=system&cash_action=getsessioncreated&ts=' + new Date().getTime();
+					var sessions = localStorage.getItem('sessions');
+					var go = true;
+					if (!endpoint) {
+						endpoint = window.location.href.split('/embed/')[0]+'/payload';
+						endpoint += '?cash_request_type=system&cash_action=startjssession&ts=' + new Date().getTime();
 					}
-					cm.ajax.send(
-						endpoint,
-						false,
-						function(thereply) {
-							console.log(thereply);
-							if (c) {
-								if (c == thereply) {
-									cm.events.fire(cm,'sessiontested',true);
-								} else {
-									cm.events.fire(cm,'sessiontested',false);
-								}
+					// clean up after expired sessions
+					if (sessions) {
+						sessions = JSON.parse(sessions);
+						var k = endpoint.split('/').slice(0,3).join('/');
+						if (sessions[k]) {
+							if ((sessions[k].expiration) < Math.floor(new Date().getTime() /1000)) {
+								delete sessions[k];
+								localStorage.setItem('sessions', JSON.stringify(sessions));
 							} else {
-								cm.events.fire(cm,'sessiontesting',{"endpoint":endpoint,"c":thereply});
+								go = false;
 							}
 						}
-					);
+					}
+					// do the real work
+					if (go) {
+						cm.ajax.send(
+							endpoint,
+							false,
+							function(r) {
+								if (r) {
+									cm.events.fire(cm,'sessionstarted',r);
+								}
+							}
+						);
+					}
+				},
+
+				setid: function(id) {
+					var session = JSON.parse(id);
+					var sessions = localStorage.getItem('sessions');
+					if (!sessions) {
+						sessions = {};
+					} else {
+						sessions = JSON.parse(sessions);
+					}
+					sessions[session.endpoint] = {
+						"id":session.id,
+						"expiration":session.expiration
+					};
+					localStorage.setItem('sessions', JSON.stringify(sessions));
+				},
+
+				getid: function(key) {
+					var sessions = localStorage.getItem('sessions');
+					if (!sessions) {
+						return false;
+					} else {
+						sessions = JSON.parse(sessions);
+						return sessions[key].id;
+					}
 				}
 			},
 
