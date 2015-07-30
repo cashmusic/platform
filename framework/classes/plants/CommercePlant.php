@@ -1291,7 +1291,7 @@ class CommercePlant extends PlantBase {
 															false,
 															false,
 															false,
-															$item['available_units'] - $i['qty']
+															max($item['available_units'] - $i['qty'],0)
 														);
 													}
 												}
