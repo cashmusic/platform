@@ -272,7 +272,7 @@ class CommercePlant extends PlantBase {
 		$fulfillment_asset=false,
 		$descriptive_asset=false,
 		$user_id=false,
-		$shipping=''
+		$shipping=false
 	   ) {
 	   	if ($fulfillment_asset === 0) {
 	   		$digital_fulfillment = 0;
@@ -286,7 +286,7 @@ class CommercePlant extends PlantBase {
 				'description' => $description,
 				'sku' => $sku,
 				'price' => $price,
-				'shipping' => json_encode($shipping),
+				'shipping' => $shipping,
 				'flexible_price' => $flexible_price,
 				'available_units' => $available_units,
 				'digital_fulfillment' => $digital_fulfillment,
@@ -301,6 +301,9 @@ class CommercePlant extends PlantBase {
 			),
 			'CASHSystem::notExplicitFalse'
 		);
+		if (isset($final_edits['shipping'])) {
+			$final_edits['shipping'] = json_encode($shipping);
+		}
 		$condition = array(
 			"id" => array(
 				"condition" => "=",
@@ -1288,7 +1291,7 @@ class CommercePlant extends PlantBase {
 															false,
 															false,
 															false,
-															$item['available_units'] - 1
+															$item['available_units'] - $i['qty']
 														);
 													}
 												}
