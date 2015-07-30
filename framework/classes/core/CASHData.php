@@ -178,7 +178,6 @@
 		if (rand(1,100) <= 2) {
 			$gc = new CASHDaemon();
 		}
-		error_log(json_encode($newsession));
 		return array(
 			'newsession' => $newsession,
 			'expiration' => $expiration,
