@@ -824,9 +824,7 @@
 
 				getid: function(key) {
 					var sessions = localStorage.getItem('sessions');
-					if (!sessions) {
-						return false;
-					} else {
+					if (sessions) {
 						sessions = JSON.parse(sessions);
 						if (sessions[key]) {
 							if ((sessions[key].expiration) > Math.floor(new Date().getTime() /1000)) {
@@ -834,6 +832,7 @@
 							}
 						}
 					}
+					return false;
 				}
 			},
 
