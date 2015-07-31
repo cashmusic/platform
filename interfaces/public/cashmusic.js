@@ -781,29 +781,30 @@
 			session: {
 				start: function(endpoint) {
 					var cm = window.cashmusic;
-					if (!endpoint) {
-						endpoint = window.location.href.split('/embed/')[0]+'/payload';
-						endpoint += '?cash_request_type=system&cash_action=startjssession&ts=' + new Date().getTime();
-					}
-					// fire off the ajax call
-					console.log(window.location.href + ': sending ajax');
-					cm.ajax.send(
-						endpoint,
-						false,
-						function(r) {
-							if (r) {
-								cm.events.fire(cm,'sessionstarted',r);
-								cm.session.setid(r);
-								console.log(window.location.href + ': ajax sent');
-							}
+					if (!cm.session.getid(window.location.href.split('/').slice(0,3).join('/'))) {
+						if (!endpoint) {
+							endpoint = window.location.href.split('/embed/')[0]+'/payload';
+							endpoint += '?cash_request_type=system&cash_action=startjssession&ts=' + new Date().getTime();
 						}
-					);
+						// fire off the ajax call
+						console.log(window.location.href + ': requesting new session id');
+						cm.ajax.send(
+							endpoint,
+							false,
+							function(r) {
+								if (r) {
+									cm.events.fire(cm,'sessionstarted',r);
+									cm.session.setid(r);
+									console.log(window.location.href + ': ajax sent');
+								}
+							}
+						);
+					}
 				},
 
 				setid: function(id) {
 					var session = JSON.parse(id);
 					var sessions = localStorage.getItem('sessions');
-					var go = true;
 					if (!sessions) {
 						sessions = {};
 					} else {
@@ -830,8 +831,6 @@
 								console.log(window.location.href + ': expired id');
 							}
 						}
-					} else {
-						console.log(window.location.href + ': no id set');
 					}
 					return false;
 				}
