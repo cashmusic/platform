@@ -409,8 +409,9 @@
 						embedURL += '&' + cm.get['qs'];
 					}
 				}
-				if (cm.session.getid(endpoint.split('/').slice(0,3).join('/'))) {
-					embedURL += '&session_id=' + cm.session.getid(endpoint.split('/').slice(0,3).join('/'));
+				var sid = cm.session.getid(endpoint.split('/').slice(0,3).join('/'));
+				if (sid) {
+					embedURL += '&session_id=' + sid;
 				}
 				var iframe = document.createElement('iframe');
 					iframe.src = embedURL;
@@ -584,20 +585,20 @@
 				 */
 				send: function(url,postString,successCallback,failureCallback) {
 					var method = 'POST';
-					var session = cm.session.getid(window.location.href.split('/').slice(0,3).join('/'));
+					var sid = cm.session.getid(window.location.href.split('/').slice(0,3).join('/'));
 					if (!postString) {
 						method = 'GET';
 						postString = null;
-						if (session) {
+						if (sid) {
 							if (url.indexOf('?') === -1) {
-								url += '?session_id=' + session;
+								url += '?session_id=' + sid;
 							} else {
-								url += '&session_id=' + session;
+								url += '&session_id=' + sid;
 							}
 						}
 					} else {
 						if (session) {
-							postString += '&session_id=' + session;
+							postString += '&session_id=' + sid;
 						}
 					}
 					var xhr = this.getXHR();
@@ -785,6 +786,7 @@
 						endpoint += '?cash_request_type=system&cash_action=startjssession&ts=' + new Date().getTime();
 					}
 					// fire off the ajax call
+					console.log(window.location.href + ': sending ajax');
 					cm.ajax.send(
 						endpoint,
 						false,
@@ -792,6 +794,7 @@
 							if (r) {
 								cm.events.fire(cm,'sessionstarted',r);
 								cm.session.setid(r);
+								console.log(window.location.href + ': ajax sent');
 							}
 						}
 					);
@@ -806,20 +809,13 @@
 					} else {
 						sessions = JSON.parse(sessions);
 					}
-					if (sessions[session.endpoint]) {
-						if ((sessions[session.endpoint].expiration) < Math.floor(new Date().getTime() /1000)) {
-							go = true;
-						} else {
-							go = false;
-						}
-					}
-					if (go) {
-						sessions[session.endpoint] = {
-							"id":session.id,
-							"expiration":session.expiration
-						};
-						localStorage.setItem('sessions', JSON.stringify(sessions));
-					}
+					console.log(window.location.href + ': setting a new cookie for '+ session.endpoint ' -> '+ session.id);
+					sessions[session.endpoint] = {
+						"id":session.id,
+						"expiration":session.expiration
+					};
+					localStorage.setItem('sessions', JSON.stringify(sessions));
+					console.log(window.location.href + ': set');
 				},
 
 				getid: function(key) {
@@ -828,9 +824,14 @@
 						sessions = JSON.parse(sessions);
 						if (sessions[key]) {
 							if ((sessions[key].expiration) > Math.floor(new Date().getTime() /1000)) {
+								console.log(window.location.href + ': found a good id!');
 								return sessions[key].id;
+							} else {
+								console.log(window.location.href + ': expired id');
 							}
 						}
+					} else {
+						console.log(window.location.href + ': no id set');
 					}
 					return false;
 				}
