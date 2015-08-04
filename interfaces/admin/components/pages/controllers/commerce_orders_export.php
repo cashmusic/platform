@@ -3,7 +3,7 @@ if (isset($_POST['export_options'])) {
 
 	// initial details for the request
 	$request_details = array(
-		'cash_request_type' => 'commerce', 
+		'cash_request_type' => 'commerce',
 		'cash_action' => 'getordersforuser',
 		'user_id' => $cash_admin->effective_user_id,
 		'deep' => 1
@@ -18,9 +18,9 @@ if (isset($_POST['export_options'])) {
 
 	if (is_array($orders_response)) {
 		header('Content-Disposition: attachment; filename="orders_' . $_POST['export_options'] . '_' . date('Mj-Y',time()) . '.csv"');
-		echo '"order id","order date","description","shipping name","first name","last name","address 1","address 2","city","region","postal code","country code","country","gross price","service fee"' . "\n";
+		echo '"order id","order date","description","shipping name","email address","first name","last name","address 1","address 2","city","region","postal code","country code","country","gross price","service fee"' . "\n";
 
-		if ($orders_response['status_uid'] == 'commerce_getordersforuser_200') {			
+		if ($orders_response['status_uid'] == 'commerce_getordersforuser_200') {
 			foreach ($orders_response['payload'] as $entry) {
 				$go = true;
 				if ($_POST['export_options'] == 'fulfilled') {
@@ -35,13 +35,15 @@ if (isset($_POST['export_options'])) {
 					if ($entry['physical'] || !$entry['digital']) {
 						$go = false;
 					}
-				} 
+				}
 
 				if ($go) {
-				    echo '"' . str_replace ('"','""',$entry['id']) . '"';
+					error_log(json_encode($entry));
+				   echo '"' . str_replace ('"','""',$entry['id']) . '"';
 					echo ',"' . date('M j, Y h:iA T',$entry['modification_date']) . '"';
 					echo ',"' . str_replace ('"','""',$entry['transaction_description']) . '"';
 					echo ',"' . str_replace ('"','""',$entry['customer_shipping_name']) . '"';
+					echo ',"' . str_replace ('"','""',$entry['customer_email']) . '"';
 					echo ',"' . str_replace ('"','""',$entry['customer_first_name']) . '"';
 					echo ',"' . str_replace ('"','""',$entry['customer_last_name']) . '"';
 					echo ',"' . str_replace ('"','""',$entry['customer_address1']) . '"';
@@ -60,7 +62,7 @@ if (isset($_POST['export_options'])) {
 					// mark as fulfilled
 					$cash_admin->requestAndStore(
 						array(
-							'cash_request_type' => 'commerce', 
+							'cash_request_type' => 'commerce',
 							'cash_action' => 'editorder',
 							'id' => $entry['id'],
 							'fulfilled' => 1
