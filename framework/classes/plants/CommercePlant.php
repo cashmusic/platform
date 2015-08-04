@@ -46,6 +46,7 @@ class CommercePlant extends PlantBase {
 			'getorder'            => array('getOrder','direct'),
 			'getordersforuser'    => array('getOrdersForUser','direct'),
 			'getordersbycustomer' => array('getOrdersByCustomer','direct'),
+			'getordertotals' 		 => array('getOrderTotals','direct'),
 			'gettransaction'      => array('getTransaction','direct'),
 			'finalizepayment'     => array('finalizeRedirectedPayment',array('get','post','direct')),
 			'initiatecheckout'    => array('initiateCheckout',array('get','post','direct','api_public'))
@@ -1122,8 +1123,10 @@ class CommercePlant extends PlantBase {
 				$return_array['description'] .= $item['qty'] . 'x ';
 			}
 			$return_array['description'] .= $item['name'];
-			if (isset($item['variant_name'])) {
-				$return_array['description'] .= '(' . $item['variant_name'] . ')';
+			if (isset($item['variant'])) {
+				if ($item['variant']) {
+					$return_array['description'] .= ' (' . str_replace(array('->','+'),array(': ',', '),$item['variant']) . ')';
+				}
 			}
 			$return_array['description'] .= ",  \n";
 		}

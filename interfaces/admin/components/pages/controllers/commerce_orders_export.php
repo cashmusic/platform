@@ -38,10 +38,25 @@ if (isset($_POST['export_options'])) {
 				}
 
 				if ($go) {
-					error_log(json_encode($entry));
+
+					// TODO:
+					// this is a temporary fix. yank it later
+					$order_response = $cash_admin->requestAndStore(
+						array(
+							'cash_request_type' => 'commerce',
+							'cash_action' => 'getordertotals',
+							'order_contents' => $entry['order_contents']
+						)
+					);
+					if ($order_response['payload']) {
+						$order_totals_description = $order_response['payload']['description'];
+					}
+					// end TODO
+
 				   echo '"' . str_replace ('"','""',$entry['id']) . '"';
 					echo ',"' . date('M j, Y h:iA T',$entry['modification_date']) . '"';
-					echo ',"' . str_replace ('"','""',$entry['transaction_description']) . '"';
+					//echo ',"' . str_replace ('"','""',$entry['transaction_description']) . '"';
+					echo ',"' . str_replace ('"','""',$order_totals_description) . '"';
 					echo ',"' . str_replace ('"','""',$entry['customer_shipping_name']) . '"';
 					echo ',"' . str_replace ('"','""',$entry['customer_email']) . '"';
 					echo ',"' . str_replace ('"','""',$entry['customer_first_name']) . '"';
