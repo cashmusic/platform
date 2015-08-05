@@ -18,7 +18,7 @@ if (isset($_POST['export_options'])) {
 
 	if (is_array($orders_response)) {
 		header('Content-Disposition: attachment; filename="orders_' . $_POST['export_options'] . '_' . date('Mj-Y',time()) . '.csv"');
-		echo '"order id","order date","description","shipping name","email address","first name","last name","address 1","address 2","city","region","postal code","country code","country","gross price","service fee"' . "\n";
+		echo '"order id","order date","description","shipping name","email address","first name","last name","address 1","address 2","city","region","postal code","country code","country","gross price","service fee","total shipping"' . "\n";
 
 		if ($orders_response['status_uid'] == 'commerce_getordersforuser_200') {
 			foreach ($orders_response['payload'] as $entry) {
@@ -41,6 +41,8 @@ if (isset($_POST['export_options'])) {
 
 					// TODO:
 					// this is a temporary fix. yank it later
+					$order_totals_description = '';
+					$shipping_charged = 0;
 					$order_response = $cash_admin->requestAndStore(
 						array(
 							'cash_request_type' => 'commerce',
@@ -50,6 +52,9 @@ if (isset($_POST['export_options'])) {
 					);
 					if ($order_response['payload']) {
 						$order_totals_description = $order_response['payload']['description'];
+						if ($order_response['payload']['price']) {
+							$shipping_charged = $entry['gross_price'] - $order_response['payload']['price'];
+						}
 					}
 					// end TODO
 
@@ -70,6 +75,7 @@ if (isset($_POST['export_options'])) {
 					echo ',"' . str_replace ('"','""',$entry['customer_country']) . '"';
 					echo ',"' . str_replace ('"','""',$entry['gross_price']) . '"';
 					echo ',"' . str_replace ('"','""',$entry['service_fee']) . '"';
+					echo ',"' . number_format($shipping_charged,2) . '"';
 					echo "\n";
 				}
 
