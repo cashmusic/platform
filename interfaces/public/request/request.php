@@ -62,6 +62,7 @@ if (!isset($_REQUEST['nooutput'])) {
 
 		if ($requests[0] == 'embed' && isset($requests[1])) {
 			$embed_location = false;
+			$embed_geo = false;
 			if (isset($requests[3])) {
 				$embed_location = $requests[3];
 				$embed_location = str_replace('!slash!', '/', $embed_location); // dumb. supporting old versions.

@@ -71,13 +71,14 @@ if (isset($_POST['doitemadd'])) {
 		}
 		$shipping = '';
 		if ($physical) {
-			$shipping = array (
-				'r1-1' => $_POST['region1_first'],
-				'r1-1+' => $_POST['region1_rest'],
-				'r2-1' => $_POST['region2_first'],
-				'r2-1+' => $_POST['region2_rest']
-			);
-			//$shipping = json_encode($shipping);
+			if (isset($_POST['region1_first'])) {
+				$shipping = array (
+					'r1-1' => $_POST['region1_first'],
+					'r1-1+' => $_POST['region1_rest'],
+					'r2-1' => $_POST['region2_first'],
+					'r2-1+' => $_POST['region2_rest']
+				);
+			}
 		}
 
 		if (!isset($_POST['item_quantity'])) {
