@@ -991,6 +991,7 @@ class CommercePlant extends PlantBase {
 			if ($item_id) {
 				// old style...we'll be refactoring this junk
 				$item_details = $this->getItem($item_id);
+				$item_details['qty'] = 1; // hard-coded to support old one-item-only stuff
 				$order_contents[] = $item_details;
 				if ($total_price !== false && $total_price >= $item_details['price']) {
 					$price_addition = $total_price - $item_details['price'];

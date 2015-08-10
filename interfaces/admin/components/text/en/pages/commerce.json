@@ -27,6 +27,7 @@
 		"sales_settings":"Sales settings",
       "zero":"0%",
       "order":"Order: ",
-      "details":"Details"
+      "details":"Details",
+		"use_this_currency":"Use this currency"
    }
 }
