@@ -13,9 +13,9 @@
 
 
 	<div class="pure-u-1 pure-u-md-1-2">
-		<p><strong>{{copy_order_number}}</strong>{{padded_id}}<br />
-		<strong>{{copy_placed_on}}</strong>{{order_date}}<br />
-		<strong>{{copy_payment_status}}</strong>{{status}}</p>
+		<p><strong>{{copy_order_number}}</strong> {{padded_id}}<br />
+		<strong>{{copy_placed_on}}</strong> {{order_date}}<br />
+		<strong>{{copy_payment_status}}</strong> {{status}}</p>
 	</div><!--pure-->
 
 	<div class="pure-u-1 pure-u-md-1-2">
@@ -30,15 +30,14 @@
 	</div><!--pure-->
 
 	<div class="pure-u-1 pure-u-md-1-2">
-		<p><strong>{{copy_customer}}</strong>
-		{{customer_display_name}}
-		<a href="mailto:{{customer_email_address}}">{{customer_email_address}}</a><br />
+		<p><strong>{{copy_customer}}</strong>&nbsp;<a href="mailto:{{customer_email_address}}">{{customer_display_name}}</a><br />
 		<strong>{{copy_country}}</strong> {{customer_address_country}}</p>
 	</div><!--pure-->
 	<div class="pure-u-1 pure-u-md-1-2 ">
 		<p><strong>{{copy_order_total}}</strong>${{formatted_gross_price}} <br />
 		<strong>{{copy_total_minus_fees}}</strong> ${{formatted_net_price}}</p>
 	</div><!--pure-->
+
 {{#order_contents}}
 	<h4>{{copy_items_included}}</h4>
 	<table style="width:100%;" class="responsive">
@@ -66,6 +65,12 @@
 		</tbody>
 	</table>
 {{/order_contents}}
+
+<form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/orders/view/{{id}}">
+<label for="ordernotes">{{label_notes}}</label>
+<textarea id="ordernotes" name="ordernotes" class="small">{{notes}}</textarea>
+<button type="submit">{{copy_button_notes}}</button>
+</form>
 
 <div class="pure-u-1">
 <h4>{{copy_transaction_details}}</h4>
