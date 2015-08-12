@@ -492,14 +492,14 @@ class CASHDBA {
 				if ($limit) $query .= " LIMIT $limit";
 				break;
 			case 'CommercePlant_getOrder_deep':
-				$query = "SELECT o.id as id, o.user_id as user_id, o.creation_date as creation_date, o.modification_date as modification_date, o.order_contents as order_contents, o.customer_user_id as customer_user_id, o.fulfilled as fulfilled, o.canceled as canceled, o.physical as physical, o.digital as digital, o.country_code as country_code, "
+				$query = "SELECT o.id as id, o.user_id as user_id, o.creation_date as creation_date, o.modification_date as modification_date, o.order_contents as order_contents, o.customer_user_id as customer_user_id, o.fulfilled as fulfilled, o.canceled as canceled, o.notes as notes, o.physical as physical, o.digital as digital, o.country_code as country_code, "
 				. "t.connection_id as connection_id, t.connection_type as connection_type, t.service_transaction_id as service_transaction_id, t.data_sent as data_sent, t.data_returned as data_returned, t.gross_price as gross_price, t.service_fee as service_fee, t.status as status, t.successful as successful "
 				. "FROM commerce_orders o JOIN commerce_transactions t ON o.transaction_id = t.id "
 				. "WHERE o.id = :id ";
 				break;
 			case 'CommercePlant_getOrders_deep':
 				// gets multiple orders with all information
-				$query = "SELECT o.id as id, o.user_id as user_id, o.creation_date as creation_date, o.modification_date as modification_date, o.order_contents as order_contents, o.customer_user_id as customer_user_id, o.fulfilled as fulfilled, o.canceled as canceled, o.physical as physical, o.digital as digital, o.country_code as country_code, "
+				$query = "SELECT o.id as id, o.user_id as user_id, o.creation_date as creation_date, o.modification_date as modification_date, o.order_contents as order_contents, o.customer_user_id as customer_user_id, o.fulfilled as fulfilled, o.canceled as canceled, o.notes as notes, o.physical as physical, o.digital as digital, o.country_code as country_code, "
 				. "t.connection_id as connection_id, t.connection_type as connection_type, t.service_transaction_id as service_transaction_id, t.data_sent as data_sent, t.data_returned as data_returned, t.gross_price as gross_price, t.service_fee as service_fee, t.status as status, t.successful as successful "
 				. "FROM commerce_orders o JOIN commerce_transactions t ON o.transaction_id = t.id "
 				. "WHERE o.user_id = :user_id AND t.successful = 1";
