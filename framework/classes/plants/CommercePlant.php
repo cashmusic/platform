@@ -1126,7 +1126,22 @@ class CommercePlant extends PlantBase {
 			$return_array['description'] .= $item['name'];
 			if (isset($item['variant'])) {
 				if ($item['variant']) {
-					$return_array['description'] .= ' (' . str_replace(array('->','+'),array(': ',', '),$item['variant']) . ')';
+
+					preg_match_all("/([a-z]+)->/", $item['variant'], $key_parts);
+
+					$variant_keys = $key_parts[1];
+					$variant_values = preg_split("/([a-z]+)->/", $item['variant'], 0, PREG_SPLIT_NO_EMPTY);
+					$count = count($variant_keys);
+
+					$variant_descriptions = array();
+
+					for($index = 0; $index < $count; $index++) {
+						$key = $variant_keys[$index];
+						$value = trim(str_replace('+', ' ', $variant_values[$index]));
+						$variant_descriptions[] = "$key: $value";
+					}
+
+					$return_array['description'] .= ' (' . implode(', ', $variant_descriptions) . ')';
 				}
 			}
 			$return_array['description'] .= ",  \n";
