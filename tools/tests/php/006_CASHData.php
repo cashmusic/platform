@@ -32,7 +32,9 @@ class CASHDataTests extends UnitTestCase {
 		$value = $request->sessionGet('foobar');
 		$this->assertFalse($value); // fail without startSession()
 
-		CASHSystem::startSession();
+		$session = CASHSystem::startSession();
+		$this->assertTrue($session);
+		echo 'Session started: ' . json_encode($session) . "\n";
 		$request->sessionSet('foobar', 'baz');
 		$value = $request->sessionGet('foobar');
 		$this->assertEqual($value, 'baz');

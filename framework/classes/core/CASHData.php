@@ -153,19 +153,20 @@
 					'created' => time()
 				));
 			}
+			// set the session info
+			$this->sessionSet('session_id',$session_id,'script');
+			$this->sessionSet('start_time',time(),'script');
+			// set the database session data
+			if (!$this->db) $this->connectDB();
+			$this->db->setData(
+				'sessions',
+				$session_data,
+				$previous_session
+			);
 			// set the client-side cookie
 			if (!headers_sent()) {
 				// no headers yet, we can just send the cookie through
 				setcookie('cashmusic_session', $session_id, $expiration, '/');
-				// set the database session data
-				if (!$this->db) $this->connectDB();
-				$this->db->setData(
-					'sessions',
-					$session_data,
-					$previous_session
-				);
-				$this->sessionSet('session_id',$session_id,'script');
-				$this->sessionSet('start_time',time(),'script');
 			}
 		} else {
 			$session_id = $this->sessionGet('session_id','script');
