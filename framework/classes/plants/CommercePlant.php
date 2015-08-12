@@ -1119,6 +1119,9 @@ class CommercePlant extends PlantBase {
 			'description' => ''
 		);
 		foreach($contents as $item) {
+			if (!isset($item['qty'])) {
+				$item['qty'] = 1;
+			}
 			$return_array['price'] += $item['price']*$item['qty'];
 			if (isset($item['qty'])) {
 				$return_array['description'] .= $item['qty'] . 'x ';
