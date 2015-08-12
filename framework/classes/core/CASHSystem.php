@@ -32,9 +32,6 @@
 			$root = realpath(dirname(__FILE__) . '/../..');
 			define('CASH_PLATFORM_ROOT', $root);
 			$cash_settings = CASHSystem::getSystemSettings();
-			if (substr($cash_settings['apilocation'], -1) != '/') {
-				$cash_settings['apilocation'] .= '/';
-			}
 			define('CASH_API_URL', trim($cash_settings['apilocation'],'/'));
 			define('CASH_ADMIN_URL', str_replace('/api','/admin',CASH_API_URL));
 			define('CASH_PUBLIC_URL',str_replace('admin','public',CASH_ADMIN_URL));
@@ -73,8 +70,9 @@
 	 * @return none
 	 */public static function startSession($reset_session_id=false,$force_session_id=false) {
 		$cash_page_request = new CASHRequest(null);
-		$cash_page_request->startSession($reset_session_id,$force_session_id);
+		$session = $cash_page_request->startSession($reset_session_id,$force_session_id);
 		unset($cash_page_request);
+		return($session);
 	}
 
 	/**
@@ -132,7 +130,6 @@
 				ob_flush();
 			}
 		}
-		$cash_body_request->embedSessionPixel();
 		unset($cash_page_request);
 		unset($cash_body_request);
 	}

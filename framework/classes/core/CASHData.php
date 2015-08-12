@@ -153,15 +153,9 @@
 					'created' => time()
 				));
 			}
-			// set the client-side cookie
-			if (!headers_sent()) {
-				// no headers yet, we can just send the cookie through
-				setcookie ('cashmusic_session', $session_id, $expiration, '/', '', false, true);
-			} else {
-				// tell
-				$this->sessionSet('render_session_pixel',true,'script');
-				$this->sessionSet('session_pixel_markup','<img src="' . CASH_PUBLIC_URL . 'sessionpixel.php?session_id=' . $session_id . '" alt="" />','script');
-			}
+			// set the session info
+			$this->sessionSet('session_id',$session_id,'script');
+			$this->sessionSet('start_time',time(),'script');
 			// set the database session data
 			if (!$this->db) $this->connectDB();
 			$this->db->setData(
@@ -169,8 +163,11 @@
 				$session_data,
 				$previous_session
 			);
-			$this->sessionSet('session_id',$session_id,'script');
-			$this->sessionSet('start_time',time(),'script');
+			// set the client-side cookie
+			if (!headers_sent()) {
+				// no headers yet, we can just send the cookie through
+				setcookie('cashmusic_session', $session_id, $expiration, '/');
+			}
 		} else {
 			$session_id = $this->sessionGet('session_id','script');
 		}
@@ -183,13 +180,6 @@
 			'expiration' => $expiration,
 			'id' => $session_id
 		);
-	}
-
-	public function embedSessionPixel() {
-		if ($this->sessionGet('render_session_pixel','script')) {
-			echo $this->sessionGet('session_pixel_markup','script');
-			$this->sessionClear('render_session_pixel','script');
-		}
 	}
 
 	/**
@@ -383,7 +373,9 @@
 		if (!headers_sent()) {
 			// if headers have already been sent the cookie will be cleared on
 			// next sessionStart()
-			setcookie ('cashmusic_session', false, 1, '/', '', false, true);
+			if (isset($_COOKIE['cashmusic_session'])) {
+				setcookie('cashmusic_session', null, -1, '/');
+			}
 		}
 	}
 
