@@ -284,9 +284,9 @@ class Store extends ElementBase {
 							$subtotal += $i['total_price'];
 							$i['name'] = $ii['name'];
 							if ($i['variant']) {
-								$i['variant_fixed'] = str_replace(' ','+',$i['variant']);
+								//$i['variant_fixed'] = str_replace(' ','+',$i['variant']);
 								foreach ($ii['variants']['quantities'] as $q) {
-									if ($q['key'] == str_replace(' ','+',$i['variant'])) { //TODO: hacky fix for plus signs decoded as spaces
+									if ($q['key'] == $i['variant']) { //TODO: hacky fix for plus signs decoded as spaces
 										$i['variant_name'] = $q['formatted_name'];
 										break;
 									}

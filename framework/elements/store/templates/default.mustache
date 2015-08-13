@@ -142,7 +142,7 @@
 						var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
 						var poststring = 'cash_request_type=commerce&cash_action=addtocart&item_id=' + this.getAttribute('data-itemid') + '&price=' + this.getAttribute('data-price');
 						if (this.getAttribute('data-variantid')) {
-							poststring += '&item_variant='+this.getAttribute('data-variantid');
+							poststring += '&item_variant='+ encodeURIComponent(this.getAttribute('data-variantid'));
 						}
 
 						cm.ajax.send(submitUrl, poststring,
