@@ -3,14 +3,14 @@
 {{#items_in_cart}}
 	<ul class="cm-items">
 	{{#cart}}
-			<li class="cm-item" data-itemid="{{id}}" data-variant="{{variant_fixed}}">
-				<div class="cm-remove" data-itemid="{{id}}" data-variant="{{variant_fixed}}"></div><!--cm-remove-->
+			<li class="cm-item" data-itemid="{{id}}" data-variant="{{variant}}">
+				<div class="cm-remove" data-itemid="{{id}}" data-variant="{{variant}}"></div><!--cm-remove-->
 				<h3 class="cm-title">{{name}}</h3>
 				{{#variant_name}}<p class="cm-variant">{{variant_name}}</p>{{/variant_name}}
 				<div class="cm-info">
-					<p class="cm-price">{{copy_subtotal}} <span>{{currency}}</span><span class="cm-totalprice" data-itemid="{{id}}" data-variant="{{variant_fixed}}">{{total_price}}</span></p>
+					<p class="cm-price">{{copy_subtotal}} <span>{{currency}}</span><span class="cm-totalprice" data-itemid="{{id}}" data-variant="{{variant}}">{{total_price}}</span></p>
 					<label class="cm-qty">{{copy_qty}}</label>
-					<input type="text" name="cm-current-qty" class="cm-qty" value="{{qty}}" data-itemid="{{id}}" data-variant="{{variant_fixed}}" data-price="{{price}}" data-shippingr1="{{shipping_r1}}" data-shippingr1rest="{{shipping_r1rest}}" data-shippingr2="{{shipping_r2}}" data-shippingr2rest="{{shipping_r2rest}}" />
+					<input type="text" name="cm-current-qty" class="cm-qty" value="{{qty}}" data-itemid="{{id}}" data-variant="{{variant}}" data-price="{{price}}" data-shippingr1="{{shipping_r1}}" data-shippingr1rest="{{shipping_r1rest}}" data-shippingr2="{{shipping_r2}}" data-shippingr2rest="{{shipping_r2rest}}" />
 				</div><!--cm-info-->
 			</li><!--cm-item-->
 	{{/cart}}
@@ -73,25 +73,10 @@
 
 	function removeItem(itemid,variant) {
 		var li = document.querySelector('li[data-itemid="'+itemid+'"][data-variant="'+variant+'"]');
-
-
-
-
-		/*
-		var requesturl = '{{api_url}}/verbose/commerce/editcartquantity/item_id/' + itemid + '/qty/0/';
-		if (variant) {
-			requesturl += 'item_variant/'+encodeURIComponent(variant)+'/'
-		}
-		requesturl += '?ts=' + new Date().getTime();
-		*/
-
-
-
-
 		var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
 		var poststring = 'cash_request_type=commerce&cash_action=editcartquantity&item_id=' + itemid + '&qty=0';
 		if (variant) {
-			poststring += '&item_variant='+variant;
+			poststring += '&item_variant='+encodeURIComponent(variant);
 		}
 
 
@@ -141,26 +126,11 @@
 						if (this.value == 0) {
 							removeItem(this.getAttribute('data-itemid'),this.getAttribute('data-variant'));
 						} else {
-							/*
-							var requesturl = '{{api_url}}/verbose/commerce/editcartquantity/item_id/' + this.getAttribute('data-itemid') + '/qty/'+this.value+'/';
-							if (this.getAttribute('data-variant')) {
-								requesturl += 'item_variant/'+encodeURIComponent(this.getAttribute('data-variant'))+'/'
-							}
-							requesturl += '?ts=' + new Date().getTime();
-							*/
-
-
-
 							var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
 							var poststring = 'cash_request_type=commerce&cash_action=editcartquantity&item_id=' + this.getAttribute('data-itemid') + '&qty=' + this.value;
-							if (this.getAttribute('data-variantid')) {
-								poststring += '&item_variant='+this.getAttribute('data-variant');
+							if (this.getAttribute('data-variant')) {
+								poststring += '&item_variant='+encodeURIComponent(this.getAttribute('data-variant'));
 							}
-
-
-
-
-
 							cm.ajax.send(submitUrl, poststring,
 								function() {
 									recount();

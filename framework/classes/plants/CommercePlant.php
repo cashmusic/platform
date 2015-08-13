@@ -1040,7 +1040,8 @@ class CommercePlant extends PlantBase {
 					$item_details['qty'] = $i['qty'];
 					$item_details['price'] = max($i['price'],$item_details['price']);
 					$subtotal += $item_details['price']*$i['qty'];
-					$item_details['variant'] = str_replace(' ','+',$i['variant']); // swap spaces for plusses in  case javascript scrubbed them
+					$item_details['variant'] = $i['variant'];
+
 					if ($item_details['physical_fulfillment']) {
 						$is_physical = 1;
 					}
