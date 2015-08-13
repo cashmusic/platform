@@ -1035,7 +1035,6 @@ class CommercePlant extends PlantBase {
 				$subtotal = 0;
 				$shipping = 0;
 				foreach ($cart as $key => &$i) {
-					error_log(print_r($i,true));
 					$item_details = $this->getItem($i['id'],false,false);
 					$variants = $this->getItemVariants($item_id);
 					$item_details['qty'] = $i['qty'];
