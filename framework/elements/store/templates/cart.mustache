@@ -73,12 +73,32 @@
 
 	function removeItem(itemid,variant) {
 		var li = document.querySelector('li[data-itemid="'+itemid+'"][data-variant="'+variant+'"]');
+
+
+
+
+		/*
 		var requesturl = '{{api_url}}/verbose/commerce/editcartquantity/item_id/' + itemid + '/qty/0/';
 		if (variant) {
-			requesturl += 'item_variant/'+variant+'/'
+			requesturl += 'item_variant/'+encodeURIComponent(variant)+'/'
 		}
 		requesturl += '?ts=' + new Date().getTime();
-		cm.ajax.send(requesturl, false,
+		*/
+
+
+
+
+		var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
+		var poststring = 'cash_request_type=commerce&cash_action=editcartquantity&item_id=' + itemid + '&qty=0';
+		if (variant) {
+			poststring += '&item_variant='+variant;
+		}
+
+
+
+
+
+		cm.ajax.send(submitUrl, poststring,
 			function() {
 				if (li) {
 					li.parentNode.removeChild(li);
@@ -121,12 +141,27 @@
 						if (this.value == 0) {
 							removeItem(this.getAttribute('data-itemid'),this.getAttribute('data-variant'));
 						} else {
+							/*
 							var requesturl = '{{api_url}}/verbose/commerce/editcartquantity/item_id/' + this.getAttribute('data-itemid') + '/qty/'+this.value+'/';
 							if (this.getAttribute('data-variant')) {
-								requesturl += 'item_variant/'+this.getAttribute('data-variant')+'/'
+								requesturl += 'item_variant/'+encodeURIComponent(this.getAttribute('data-variant'))+'/'
 							}
 							requesturl += '?ts=' + new Date().getTime();
-							cm.ajax.send(requesturl, false,
+							*/
+
+
+
+							var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
+							var poststring = 'cash_request_type=commerce&cash_action=editcartquantity&item_id=' + this.getAttribute('data-itemid') + '&qty=' + this.value;
+							if (this.getAttribute('data-variantid')) {
+								poststring += '&item_variant='+this.getAttribute('data-variant');
+							}
+
+
+
+
+
+							cm.ajax.send(submitUrl, poststring,
 								function() {
 									recount();
 								}
