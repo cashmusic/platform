@@ -40,7 +40,7 @@ if ($request_parameters) {
 	$order_details = $order_details_response['payload'];
 	if ($order_details['user_id'] == $effective_user) {
 		$order_details['padded_id'] = str_pad($order_details['id'],6,0,STR_PAD_LEFT);
-		$order_details['order_date'] = date("M j, Y, g:i A", $order_details['modification_date']);
+		$order_details['order_date'] = date("M j, Y, g:i A", $order_details['creation_date']);
 		$order_details['formatted_gross_price'] = sprintf("%01.2f",$order_details['gross_price']);
 		$order_details['formatted_net_price'] = sprintf("%01.2f",$order_details['gross_price'] - $order_details['service_fee']);
 		$order_details['order_connection_details'] = AdminHelper::getConnectionName($order_details['connection_id']) . ' (' . $order_details['connection_type'] . ')';
