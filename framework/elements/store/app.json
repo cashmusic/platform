@@ -26,7 +26,8 @@
 			"subtotal":"Subtotal",
 			"total":"Total",
 			"shipping":"Shipping",
-			"shippingto":"Shipping to",
+			"shippingto":"Ship to",
+			"pleaseselect":"Please select region",
 			"qty":"QTY",
 			"checkout":"Begin checkout"
 		}
