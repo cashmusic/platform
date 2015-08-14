@@ -19,6 +19,7 @@
 	<div class="cm-destination">
 		<span class="cm-shipping">{{copy_shippingto}}:</span>
 		<select class="cm-region">
+			<option value="tbd">{{copy_pleaseselect}}</option>
 			<option value="r1"{{#shiptor1}} selected="selected"{{/shiptor1}}>{{region1}}</option>
 			<option value="r2"{{#shiptor2}} selected="selected"{{/shiptor2}}>{{region2}}</option>
 		</select>
@@ -31,7 +32,16 @@
 		{{/has_physical}}
 		<span class="cm-total">{{copy_total}}<span class="cm-amount">{{currency}}<span class="cm-total-amount">{{total}}</span></span>
 	</h2><!--cm-pricing-->
-	<a class="cm-checkout" href="#">{{copy_checkout}}</a>
+	<div id="checkoutprimary">
+		<a class="cm-checkout" href="#">{{copy_checkout}}</a>
+	</div>
+	<div id="checkouttbd" style="display:none;">
+		<div class="cm-shippingoption1">
+			<a class="cm-checkout" id="checkoutr1" data-region="r1" href="#">{{copy_shippingto}} {{region1}} (+ {{currency}}<span>{{shippingr1}}</span>)</a>
+		</div><div class="cm-shippingoption2">
+			<a class="cm-checkout" id="checkoutr2" data-region="r2" href="#">{{copy_shippingto}} {{region2}} (+ {{currency}}<span>{{shippingr2}}</span>)</a>
+		</div>
+	</div>
 {{/items_in_cart}}
 {{^items_in_cart}}
 	<p class="cm-emptycart">{{copy_emptycart}}</p>
@@ -47,22 +57,38 @@
 		if (qtys.length > 0) {
 			var subtotal = 0;
 			var shipping = 0;
+			var shippingr1 = 0;
+			var shippingr2 = 0;
 			{{#has_physical}}var region = document.querySelector('select.cm-region').value;{{/has_physical}}
+			if (region == 'tbd') {
+				shipping = 'TBD';
+			}
 			for (var i = 0, len = qtys.length; i < len; i++) {
 				var itemtotal = qtys[i].value*qtys[i].getAttribute('data-price');
 				var price = document.querySelector('span.cm-totalprice[data-itemid="'+qtys[i].getAttribute('data-itemid')+'"][data-variant="'+qtys[i].getAttribute('data-variant')+'"]');
 				price.innerHTML = itemtotal.toFixed(2);
 				subtotal += itemtotal;
 				{{#has_physical}}
-				if (qtys[i].getAttribute('data-shipping'+region)) {
-					shipping += ((qtys[i].value-1)*parseFloat(qtys[i].getAttribute('data-shipping'+region+'rest')))+parseFloat(qtys[i].getAttribute('data-shipping'+region));
+				if (qtys[i].getAttribute('data-shippingr1')) {
+					if (region !== 'tbd') {
+						shipping += ((qtys[i].value-1)*parseFloat(qtys[i].getAttribute('data-shipping'+region+'rest')))+parseFloat(qtys[i].getAttribute('data-shipping'+region));
+					}
+					shippingr1 = ((qtys[i].value-1)*parseFloat(qtys[i].getAttribute('data-shippingr1rest')))+parseFloat(qtys[i].getAttribute('data-shippingr1'));
+					shippingr2 = ((qtys[i].value-1)*parseFloat(qtys[i].getAttribute('data-shippingr2rest')))+parseFloat(qtys[i].getAttribute('data-shippingr2'));
 				}
 				{{/has_physical}}
 			}
 
 			{{#has_physical}}
 			document.querySelector('.cm-subtotal-amount').innerHTML = subtotal.toFixed(2);
-			document.querySelector('.cm-shipping-amount').innerHTML = shipping.toFixed(2);
+			document.querySelector('#checkoutr1 span').innerHTML = shippingr1.toFixed(2);
+			document.querySelector('#checkoutr2 span').innerHTML = shippingr2.toFixed(2);
+			if (region !== 'tbd') {
+				document.querySelector('.cm-shipping-amount').innerHTML = shipping.toFixed(2);
+			} else {
+				document.querySelector('.cm-shipping-amount').innerHTML = shipping;
+				shipping = 0;
+			}
 			{{/has_physical}}
 			document.querySelector('.cm-total-amount').innerHTML = (subtotal+shipping).toFixed(2);
 		} else {
@@ -78,11 +104,6 @@
 		if (variant) {
 			poststring += '&item_variant='+encodeURIComponent(variant);
 		}
-
-
-
-
-
 		cm.ajax.send(submitUrl, poststring,
 			function() {
 				if (li) {
@@ -94,7 +115,6 @@
 	}
 
 	cm.events.add(cm,'ready', function(e) {
-
 		{{#session_id}}
 			cm.session.setid(JSON.stringify({
 				"endpoint": window.location.href.split('/').slice(0,3).join('/'),
@@ -159,31 +179,73 @@
 
 		// go go go
 		var checkingout = false;
-		cm.events.add(document.querySelector('a.cm-checkout'),'click', function(e) {
-			if (!checkingout) {
-				checkingout = true;
-				// add a style to the button as a visual indicator we're working on things
-				cm.styles.addClass(this,'cm-busy');
-				// now send the request through
-				var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
-				var poststring = 'cash_request_type=commerce&cash_action=initiatecheckout&element_id={{element_id}}&url_only=1';
-				if (cm.get['params']['location']) {
-					poststring += '&finalize_url='+decodeURIComponent(cm.get['params']['location'].split('?')[0])
-				}
-				submitUrl += '?ts=' + new Date().getTime();
-				window.cashmusic.ajax.send(
-					submitUrl,
-					poststring,
-					function(thereply) {
-						if (thereply.substring(0,4) == 'http') {
-							top.location.href = thereply;
+
+		var checkouts = document.querySelectorAll('a.cm-checkout');
+		if (checkouts.length > 0) {
+			for (var i = 0, len = checkouts.length; i < len; i++) {
+				cm.events.add(checkouts[i],'click', function(e) {
+					{{^has_physical}}
+						if (!checkingout) {
+							checkingout = true;
+							// add a style to the button as a visual indicator we're working on things
+							cm.styles.addClass(this,'cm-busy');
+							// now send the request through
+							var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
+							var poststring = 'cash_request_type=commerce&cash_action=initiatecheckout&element_id={{element_id}}&url_only=1';
+							if (cm.get['params']['location']) {
+								poststring += '&finalize_url='+decodeURIComponent(cm.get['params']['location'].split('?')[0])
+							}
+							submitUrl += '?ts=' + new Date().getTime();
+							window.cashmusic.ajax.send(
+								submitUrl,
+								poststring,
+								function(thereply) {
+									if (thereply.substring(0,4) == 'http') {
+										top.location.href = thereply;
+									}
+								}
+							);
 						}
-					}
-				);
+					{{/has_physical}}
+					{{#has_physical}}
+						var region = document.querySelector('select.cm-region').value;
+						if (region == 'tbd' && !this.getAttribute('data-region')) {
+							console.log('do switch!');
+							document.querySelector('#checkoutprimary').style.display = 'none';
+							document.querySelector('#checkouttbd').style.display = 'block';
+						} else {
+							if (!checkingout) {
+								checkingout = true;
+								// add a style to the button as a visual indicator we're working on things
+								cm.styles.addClass(this,'cm-busy');
+								var requesturl = '{{api_url}}/verbose/commerce/editcartshipping/region/' + this.getAttribute('data-region') + '/';
+								requesturl += '?ts=' + new Date().getTime();
+								cm.ajax.send(requesturl, false,function() {
+									// now send the request through
+									var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
+									var poststring = 'cash_request_type=commerce&cash_action=initiatecheckout&element_id={{element_id}}&url_only=1';
+									if (cm.get['params']['location']) {
+										poststring += '&finalize_url='+decodeURIComponent(cm.get['params']['location'].split('?')[0])
+									}
+									submitUrl += '?ts=' + new Date().getTime();
+									window.cashmusic.ajax.send(
+										submitUrl,
+										poststring,
+										function(thereply) {
+											if (thereply.substring(0,4) == 'http') {
+												top.location.href = thereply;
+											}
+										}
+									);
+								});
+							}
+						}
+					{{/has_physical}}
+					e.preventDefault();
+					return false;
+				});
 			}
-			e.preventDefault();
-			return false;
-		});
+		}
 	});
 </script>
 {{/items_in_cart}}

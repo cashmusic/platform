@@ -1020,6 +1020,16 @@ input[type=number]::-webkit-outer-spin-button {
 	transition: 0.3s  ease-in-out;
 }
 
+.cm-cart .cm-shippingoption1 {
+	display:inline-block;width:49%;margin-right:2%;
+}
+
+.cm-cart .cm-shippingoption2 {
+	display:inline-block;width:49%;;
+}
+
+.cm-cart .cm-emptycart {text-align:center;}
+
 .cm-cart .cm-remove:hover{
 	opacity: 1;
 	cursor: pointer;

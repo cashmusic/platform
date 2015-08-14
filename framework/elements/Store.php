@@ -236,6 +236,7 @@ class Store extends ElementBase {
 						}
 					}
 					$this->element_data['shipping_subtotal'] =  number_format($order_details['gross_price'] - $this->element_data['item_subtotal'],2);
+					$this->element_data['item_subtotal'] = number_format($this->element_data['item_subtotal'],2);
 					$this->element_data['total'] = number_format($order_details['gross_price'],2);
 					$this->element_data['order_contents'] = $order_contents;
 					$this->setTemplate('success');
@@ -251,11 +252,13 @@ class Store extends ElementBase {
 			if ($_REQUEST['state'] == 'cart') {
 				$subtotal = 0;
 				$shipping = 0;
+				$shippingr1 = 0;
+				$shippingr2 = 0;
 				$physical = false;
 				if (isset($cart['shipto'])) {
 					if ($cart['shipto'] == 'r2') {
 						$this->element_data['shiptor2'] = true;
-					} else {
+					} else if ($cart['shipto'] == 'r1') {
 						$this->element_data['shiptor1'] = true;
 					}
 					$shipto = $cart['shipto'];
@@ -277,7 +280,11 @@ class Store extends ElementBase {
 										$i['shipping_r1rest'] = $ii['shipping']['r1-1+'];
 										$i['shipping_r2'] = $ii['shipping']['r2-1'];
 										$i['shipping_r2rest'] = $ii['shipping']['r2-1+'];
-										$shipping += $i['shipping_'.$shipto.'rest']*($i['qty']-1)+$i['shipping_'.$shipto];
+										if ($shipto !== 'tbd') {
+											$shipping += $i['shipping_'.$shipto.'rest']*($i['qty']-1)+$i['shipping_'.$shipto];
+										}
+										$shippingr1 += $i['shipping_r1rest']*($i['qty']-1)+$i['shipping_r1'];
+										$shippingr2 += $i['shipping_r2rest']*($i['qty']-1)+$i['shipping_r2'];
 									}
 								}
 							}
@@ -299,7 +306,13 @@ class Store extends ElementBase {
 				$this->element_data['has_physical'] = $physical;
 				$this->element_data['cart'] = new ArrayIterator($cart);
 				$this->element_data['subtotal'] =  number_format($subtotal,2);
-				$this->element_data['shipping'] =  number_format($shipping,2);
+				if ($shipto !== 'tbd') {
+					$this->element_data['shipping'] =  number_format($shipping,2);
+				} else {
+					$this->element_data['shipping'] = 'TBD';
+				}
+				$this->element_data['shippingr1'] =  number_format($shippingr1,2);
+				$this->element_data['shippingr2'] =  number_format($shippingr2,2);
 				$this->element_data['total'] =  number_format($subtotal+$shipping,2);;
 				$this->setTemplate('cart');
 			}

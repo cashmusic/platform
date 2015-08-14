@@ -461,7 +461,7 @@ class CommercePlant extends PlantBase {
 		$cart = $r->sessionGet('cart');
 		if (!$cart) {
 			$cart = array(
-				'shipto' => 'r1'
+				'shipto' => 'tbd'
 			);
 		}
 		$qty = 1;
