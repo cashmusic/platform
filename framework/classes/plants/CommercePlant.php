@@ -1032,6 +1032,9 @@ class CommercePlant extends PlantBase {
 				$cart = $this->getCart($session_id);
 				$shipto = $cart['shipto'];
 				unset($cart['shipto']);
+				if ($shipto == 'tbd') {
+					$shipto = 'r1';
+				}
 				$subtotal = 0;
 				$shipping = 0;
 				foreach ($cart as $key => &$i) {
