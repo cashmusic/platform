@@ -22,11 +22,15 @@
       "shipping_regions":"Shipping regions",
       "button_set_shipping_regions":"Set shipping regions",
       "orders":"Orders",
+      "fulfilled":"Fulfilled",
+      "fulfilled_button":"Mark as fulfilled",
       "unfulfilled":"Unfulfilled",
       "new_order":"New Order",
 		"sales_settings":"Sales settings",
       "zero":"0%",
       "order":"Order: ",
+      "total":"Total: ",
+      "shipping":"Shipping: ",
       "details":"Details",
 		"use_this_currency":"Use this currency"
    }
