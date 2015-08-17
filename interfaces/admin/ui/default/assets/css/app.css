@@ -3758,7 +3758,7 @@ ul.people.alternating li a span{
 }
 
 .commerce.order .item.complete .inventory li span.description{
-	text-decoration: line-through;
+	opacity: 0.5;
 }
 
 .commerce.order .item.complete .inventory li span.fulfilled{
