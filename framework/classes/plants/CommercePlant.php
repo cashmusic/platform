@@ -461,7 +461,7 @@ class CommercePlant extends PlantBase {
 		$cart = $r->sessionGet('cart');
 		if (!$cart) {
 			$cart = array(
-				'shipto' => 'tbd'
+				'shipto' => ''
 			);
 		}
 		$qty = 1;
@@ -1032,7 +1032,7 @@ class CommercePlant extends PlantBase {
 				$cart = $this->getCart($session_id);
 				$shipto = $cart['shipto'];
 				unset($cart['shipto']);
-				if ($shipto == 'tbd') {
+				if ($shipto != 'r1' && $shipto != 'r2') {
 					$shipto = 'r1';
 				}
 				$subtotal = 0;
@@ -1051,7 +1051,7 @@ class CommercePlant extends PlantBase {
 					if ($item_details['digital_fulfillment']) {
 						$is_digital = 1;
 					}
-					if ($item_details['shipping']) {
+					if ($item_details['shipping'] && $shipto) {
 						if (isset($item_details['shipping']['r1-1'])) {
 							$shipping += $item_details['shipping'][$shipto.'-1+']*($i['qty']-1)+$item_details['shipping'][$shipto.'-1'];
 						}
