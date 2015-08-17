@@ -113,7 +113,11 @@ if (!isset($_REQUEST['nooutput'])) {
 			}
 			if (in_array('payload', $requests)) {
 				header('Content-Type: text/plain; charset=utf-8');
-				echo (string)$output;
+				if (is_array($output)) {
+					echo json_encode($output);
+				} else {
+					echo (string)$output;
+				}
 			} else if (in_array('json', $requests)) {
 				header('Content-Type: application/json; charset=utf-8');
 				echo json_encode($output);

@@ -5,10 +5,10 @@
 # the rest is pretty much stock
 # ----------------------------------------------------------------------
 
-RewriteEngine On 
+RewriteEngine On
 RewriteBase /api
-Options +FollowSymlinks 
-Options -Indexes 
+Options +FollowSymlinks
+Options -Indexes
 
 # add a slash to root requests
 RewriteRule ^api$ api/ [R]

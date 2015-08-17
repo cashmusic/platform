@@ -59,7 +59,7 @@ if (isset($_POST['export_options'])) {
 					// end TODO
 
 				   echo '"' . str_replace ('"','""',$entry['id']) . '"';
-					echo ',"' . date('M j, Y h:iA T',$entry['modification_date']) . '"';
+					echo ',"' . date('M j, Y h:iA T',$entry['creation_date']) . '"';
 					//echo ',"' . str_replace ('"','""',$entry['transaction_description']) . '"';
 					echo ',"' . str_replace ('"','""',$order_totals_description) . '"';
 					echo ',"' . str_replace ('"','""',$entry['customer_shipping_name']) . '"';

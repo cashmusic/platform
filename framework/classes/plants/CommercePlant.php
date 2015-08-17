@@ -461,7 +461,7 @@ class CommercePlant extends PlantBase {
 		$cart = $r->sessionGet('cart');
 		if (!$cart) {
 			$cart = array(
-				'shipto' => 'r1'
+				'shipto' => ''
 			);
 		}
 		$qty = 1;
@@ -1032,6 +1032,9 @@ class CommercePlant extends PlantBase {
 				$cart = $this->getCart($session_id);
 				$shipto = $cart['shipto'];
 				unset($cart['shipto']);
+				if ($shipto != 'r1' && $shipto != 'r2') {
+					$shipto = 'r1';
+				}
 				$subtotal = 0;
 				$shipping = 0;
 				foreach ($cart as $key => &$i) {
@@ -1040,14 +1043,15 @@ class CommercePlant extends PlantBase {
 					$item_details['qty'] = $i['qty'];
 					$item_details['price'] = max($i['price'],$item_details['price']);
 					$subtotal += $item_details['price']*$i['qty'];
-					$item_details['variant'] = str_replace(' ','+',$i['variant']); // swap spaces for plusses in  case javascript scrubbed them
+					$item_details['variant'] = $i['variant'];
+
 					if ($item_details['physical_fulfillment']) {
 						$is_physical = 1;
 					}
 					if ($item_details['digital_fulfillment']) {
 						$is_digital = 1;
 					}
-					if ($item_details['shipping']) {
+					if ($item_details['shipping'] && $shipto) {
 						if (isset($item_details['shipping']['r1-1'])) {
 							$shipping += $item_details['shipping'][$shipto.'-1+']*($i['qty']-1)+$item_details['shipping'][$shipto.'-1'];
 						}
@@ -1119,6 +1123,9 @@ class CommercePlant extends PlantBase {
 			'description' => ''
 		);
 		foreach($contents as $item) {
+			if (!isset($item['qty'])) {
+				$item['qty'] = 1;
+			}
 			$return_array['price'] += $item['price']*$item['qty'];
 			if (isset($item['qty'])) {
 				$return_array['description'] .= $item['qty'] . 'x ';
@@ -1126,7 +1133,22 @@ class CommercePlant extends PlantBase {
 			$return_array['description'] .= $item['name'];
 			if (isset($item['variant'])) {
 				if ($item['variant']) {
-					$return_array['description'] .= ' (' . str_replace(array('->','+'),array(': ',', '),$item['variant']) . ')';
+
+					preg_match_all("/([a-z]+)->/", $item['variant'], $key_parts);
+
+					$variant_keys = $key_parts[1];
+					$variant_values = preg_split("/([a-z]+)->/", $item['variant'], 0, PREG_SPLIT_NO_EMPTY);
+					$count = count($variant_keys);
+
+					$variant_descriptions = array();
+
+					for($index = 0; $index < $count; $index++) {
+						$key = $variant_keys[$index];
+						$value = trim(str_replace('+', ' ', $variant_values[$index]));
+						$variant_descriptions[] = "$key: $value";
+					}
+
+					$return_array['description'] .= ' (' . implode(', ', $variant_descriptions) . ')';
 				}
 			}
 			$return_array['description'] .= ",  \n";

@@ -139,12 +139,13 @@
 			for (var i = 0, len = buttons.length; i < len; i++) {
 				cm.events.add(buttons[i],'click', function(e) {
 					if (this.innerHTML != '{{copy_added}}') {
-						var requesturl = '{{api_url}}/verbose/commerce/addtocart/item_id/' + this.getAttribute('data-itemid') + '/price/' + this.getAttribute('data-price') + '/';
+						var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
+						var poststring = 'cash_request_type=commerce&cash_action=addtocart&item_id=' + this.getAttribute('data-itemid') + '&price=' + this.getAttribute('data-price');
 						if (this.getAttribute('data-variantid')) {
-							requesturl += 'item_variant/'+this.getAttribute('data-variantid')+'/'
+							poststring += '&item_variant='+ encodeURIComponent(this.getAttribute('data-variantid'));
 						}
-						requesturl += '?ts=' + new Date().getTime();
-						cm.ajax.send(requesturl, false,
+
+						cm.ajax.send(submitUrl, poststring,
 							function(r) {
 								flashCartButton();
 								var el = e.target;
