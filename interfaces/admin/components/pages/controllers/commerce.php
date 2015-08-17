@@ -126,15 +126,20 @@ if (is_array($orders_response['payload'])) {
 
 				$all_order_details[] = array(
 					'id' => $order_details['id'],
-					'customer' => $order_details['customer_details']['display_name'],
+					'customer_name' => $order_details['customer_details']['display_name'],
+					'customer_email' => $order_details['customer_details']['email_address'],
+					'customer_country' => $order_details['customer_details']['address_country'],
 					'number' => '#' . str_pad($order_details['id'],6,0,STR_PAD_LEFT),
 					'date' => CASHSystem::formatTimeAgo((int)$order_date),
+					'yy' => date('Y',(int)$order_date),
 					'mmm' => date('M',(int)$order_date),
 					'dd' => date('d',(int)$order_date),
+					'dw' => date('l',(int)$order_date),
 					'items' => str_replace('\n','<br />',$order_details['order_totals']['description']),
 					'gross' => CASHSystem::getCurrencySymbol($order['currency']) . sprintf("%01.2f",$order_details['gross_price']),
 				);
 			}
+
 		}
 	}
 	if (count($all_order_details) > 0) {
