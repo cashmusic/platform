@@ -50,9 +50,9 @@
 {{/total_orders}}
 
 	<div class="pure-u-1">
-		{{^orders_recent}}
+		{{#orders_recent}}
 		<ul class="commerce order">
-			{{^orders_recent}}
+			{{#orders_recent}}
 			<li>
 				<div class="item unfulfilled">
 					<div class="pure-u-1 pure-u-md-1-3">
@@ -116,7 +116,7 @@
 
 		{{/orders_recent}}
 
-		{{#orders_recent}}
+		{{^orders_recent}}
 		<div class="empty">
 			<p>{{copy_sorry_no_orders}}</p>
 		</div><!--empty-->
