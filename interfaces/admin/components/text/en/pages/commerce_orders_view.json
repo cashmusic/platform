@@ -7,7 +7,7 @@
 	},
 	"tooltips":{},
 	"copy":{
-		"order_details":"Order details",
+		"order_details":"Order ",
       "order_number":"Order number:",
       "placed_on":"Placed on: ",
       "payment_status":"Payment status: ",
@@ -16,7 +16,7 @@
       "customer":"Customer:",
       "country":"Country: ",
       "order_total":"Order total: ",
-      "total_minus_fees":"Total minus fees: ",
+      "total_minus_fees":"Total minus connection fees: ",
       "items_included":"Items included",
       "qty":"Qty",
       "name":"Name",
@@ -29,6 +29,8 @@
       "data":"Data Sent and Received",
       "data_sent_to_service":"Data sent to service",
       "data_returned_by_service":"Data returned by service",
-		"button_notes":"Edit order notes"
+		"button_notes":"Edit order notes",
+		"shipping":"Shipping: ",
+		"shipto": "Ship to: "
 	}
 }

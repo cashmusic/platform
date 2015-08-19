@@ -7,15 +7,11 @@
 </div><!--pure-->
 
 <div class="order-detail">
-	<div class="pure-u-1">
-		<h4>{{copy_order_details}}</h4>
-	</div><!--pure-->
-
-
 	<div class="pure-u-1 pure-u-md-1-2">
-		<p><strong>{{copy_order_number}}</strong> {{padded_id}}<br />
+		<p>
 		<strong>{{copy_placed_on}}</strong> {{order_date}}<br />
-		<strong>{{copy_payment_status}}</strong> {{status}}</p>
+		<strong>{{copy_payment_status}}</strong> {{status}}
+		</p>
 	</div><!--pure-->
 
 	<div class="pure-u-1 pure-u-md-1-2">
@@ -31,25 +27,35 @@
 
 	<div class="pure-u-1 pure-u-md-1-2">
 		<p><strong>{{copy_customer}}</strong>&nbsp;<a href="mailto:{{customer_email_address}}">{{customer_display_name}}</a><br />
-		<strong>{{copy_country}}</strong> {{customer_address_country}}</p>
+		{{^shipping_name}}<strong>{{copy_country}}</strong> {{customer_address_country}}{{/shipping_name}}
+		{{#shipping_name}}
+			<br /><strong>{{copy_shipto}}</strong><br />
+			{{shipping_name}}<br />
+			{{shipping_address1}}<br/>
+			{{#shipping_address2}}{{shipping_address2}}<br/>{{/shipping_address2}}
+			{{shipping_city}}, {{shipping_region}} {{shipping_postalcode}}<br />
+			{{shipping_country}}
+		{{/shipping_name}}
+		</p>
 	</div><!--pure-->
 	<div class="pure-u-1 pure-u-md-1-2 ">
-		<p><strong>{{copy_order_total}}</strong>${{formatted_gross_price}} <br />
-		<strong>{{copy_total_minus_fees}}</strong> ${{formatted_net_price}}</p>
+		<p>
+			<strong>{{copy_order_total}}</strong>${{formatted_gross_price}} <br />
+			<strong>{{copy_total_minus_fees}}</strong> ${{formatted_net_price}}
+			{{#formatted_shipping}}<br /><strong>{{copy_shipping}}</strong>${{formatted_shipping}} <br />{{/formatted_shipping}}
+		</p>
 	</div><!--pure-->
 
 {{#order_contents}}
 	<h4>{{copy_items_included}}</h4>
 	<table style="width:100%;" class="responsive">
-		<colgroup style="width:8%;" />
-		<colgroup style="width:25%;" />
+		<colgroup style="width:5%;" />
 		<colgroup />
 		<colgroup style="width:8%;" />
 		<thead>
 			<tr>
 				<th scope="col">{{copy_qty}}</th>
 				<th scope="col">{{copy_name}}</th>
-				<th scope="col">{{copy_description}}</th>
 				<th scope="col" style="text-align:right;">{{copy_price}}</th>
 			</tr>
 		</thead>
@@ -57,8 +63,10 @@
 	{{#order_contents}}
 		<tr>
 			<td>{{#qty}}{{qty}}{{/qty}}{{^qty}}1{{/qty}}</td>
-			<td><a class="lightboxed" href="{{www_path}}/commerce/items/edit/{{id}}">{{name}}</a></td>
-			<td>{{description}}</td>
+			<td>
+				<a class="lightboxed" href="{{www_path}}/commerce/items/edit/{{id}}">{{name}}</a>
+				{{#variant}}<span class="fadedtext">{{variant}}</span>{{/variant}}
+			</td>
 			<td style="text-align:right;">${{price}}</td>
 		</tr>
 	{{/order_contents}}

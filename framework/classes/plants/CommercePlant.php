@@ -592,6 +592,12 @@ class CommercePlant extends PlantBase {
 					}
 				}
 				$result[0]['order_totals'] = $this->getOrderTotals($result[0]['order_contents']);
+				$transaction_data = $this->parseTransactionData($result[0]['connection_type'],$result[0]['data_sent']);
+				if (is_array($transaction_data)) {
+					$result[0] = array_merge($result[0],$transaction_data);
+				}
+				$order['order_description'] = $order_totals['description'];
+
 				$user_request = new CASHRequest(
 					array(
 						'cash_request_type' => 'people',
