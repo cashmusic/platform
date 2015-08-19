@@ -4,6 +4,7 @@ $cash_admin->page_data['current_page'] = 1;
 $cash_admin->page_data['next_page'] = 2;
 $cash_admin->page_data['show_previous'] = false;
 $filter = false;
+
 if ($request_parameters) {
 	$filter_key = array_search('filter', $request_parameters);
 	if ($filter_key !== false) {
@@ -32,6 +33,22 @@ if ($request_parameters) {
 	$cash_admin->page_data['no_filter'] = true;
 }
 
+if (isset($_POST['fulfill'])) {
+	$order_details_response = $cash_admin->requestAndStore(
+		array(
+			'cash_request_type' => 'commerce',
+			'cash_action' => 'editorder',
+			'id' => $_POST['fulfill'],
+			'fulfilled' => 1
+		)
+	);
+	if ($request_parameters) {
+		$addtourl = implode('/',$request_parameters);
+	} else {
+		$addtourl = '';
+	}
+}
+
 $items_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'commerce',
@@ -45,7 +62,8 @@ $order_request = array(
 	'cash_action' => 'getordersforuser',
 	'user_id' => $cash_admin->effective_user_id,
 	'max_returned' => 11,
-	'skip' => ($cash_admin->page_data['current_page'] - 1) * 10
+	'skip' => ($cash_admin->page_data['current_page'] - 1) * 10,
+	'deep' => true
 );
 if ($filter == 'unfulfilled') {
 	$order_request['unfulfilled_only'] = 1;
@@ -54,10 +72,7 @@ if ($filter == 'week') {
 	$order_request['since_date'] = time() - 604800;;
 }
 
-$orders_response = $cash_admin->requestAndStore(
-	$order_request
-);
-
+$orders_response = $cash_admin->requestAndStore($order_request);
 
 //Commerce connection or Items present?
 $cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('commerce') || $items_response['payload'];
@@ -94,54 +109,77 @@ foreach ($settings_types_data as $key => $data) {
 }
 $cash_admin->page_data['all_services'] = new ArrayIterator($all_services);
 
-
-
-
-
-//items
-if (is_array($items_response['payload'])) {
-	$cash_admin->page_data['items_all'] = new ArrayIterator($items_response['payload']);
-}
-
 if (is_array($orders_response['payload'])) {
 	$all_order_details = array();
-	foreach ($orders_response['payload'] as $order) {
-		if ($order['canceled'] == 0) {
+	foreach ($orders_response['payload'] as $o) {
+		if ($o['successful']) {
+			$order_date = $o['creation_date'];
 
-			$order_details_response = $cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'commerce',
-					'cash_action' => 'getorder',
-					'id' => $order['id'],
-					'deep' => true
-				)
-			);
-
-			$order_details = $order_details_response['payload'];
-			if ($order_details['successful']) {
-				$order_date = $order_details['creation_date'];
-				if ($order_details['creation_date']) {
-					$order_date = $order_details['modification_date'];
+			$order_contents = json_decode($o['order_contents'],true);
+			$item_price = 0;
+			foreach ($order_contents as $key => &$item) {
+				if (!isset($item['qty'])) {
+					$item['qty'] = 1;
 				}
+				$item_price += $item['qty'] * $item['price'];
 
-				$all_order_details[] = array(
-					'id' => $order_details['id'],
-					'customer_name' => $order_details['customer_details']['display_name'],
-					'customer_email' => $order_details['customer_details']['email_address'],
-					'customer_country' => $order_details['customer_details']['address_country'],
-					'number' => '#' . str_pad($order_details['id'],6,0,STR_PAD_LEFT),
-					'date' => CASHSystem::formatTimeAgo((int)$order_date),
-					'yy' => date('Y',(int)$order_date),
-					'mmm' => date('M',(int)$order_date),
-					'dd' => date('d',(int)$order_date),
-					'dw' => date('l',(int)$order_date),
-					'items' => str_replace('\n','<br />',$order_details['order_totals']['description']),
-					'gross' => CASHSystem::getCurrencySymbol($order['currency']) . sprintf("%01.2f",$order_details['gross_price']),
-				);
+				// TODO: stealing the variant parser from CommercePlant::getOrderTotals
+				//       we know this is going to change so no sense streamlining yet
+				//       FIX LATER
+				if (isset($item['variant'])) {
+
+					preg_match_all("/([a-z]+)->/", $item['variant'], $key_parts);
+
+					$variant_keys = $key_parts[1];
+					$variant_values = preg_split("/([a-z]+)->/", $item['variant'], 0, PREG_SPLIT_NO_EMPTY);
+					$count = count($variant_keys);
+
+					$variant_descriptions = array();
+
+					for($index = 0; $index < $count; $index++) {
+						$key = $variant_keys[$index];
+						$value = trim(str_replace('+', ' ', $variant_values[$index]));
+						$variant_descriptions[] = "$key: $value";
+					}
+
+					$item['variant'] = implode(', ', $variant_descriptions);
+				}
 			}
 
+			if ($o['gross_price'] - $item_price) {
+				$shipping_cost = CASHSystem::getCurrencySymbol($o['currency']) . number_format($o['gross_price'] - $item_price,2);
+				$item_price = CASHSystem::getCurrencySymbol($o['currency']) . number_format($item_price,2);
+			} else {
+				$shipping_cost = false;
+			}
+
+			$customer_name = $o['customer_shipping_name'];
+			if (!$customer_name) {
+				$customer_name = $o['customer_name'];
+			}
+
+			$all_order_details[] = array(
+				'id' => $o['id'],
+				'customer_name' => $customer_name,
+				'customer_email' => $o['customer_email'],
+				'customer_address1' => $o['customer_address1'],
+				'customer_address2' => $o['customer_address2'],
+				'customer_city' => $o['customer_city'],
+				'customer_region' => $o['customer_region'],
+				'customer_postalcode' => $o['customer_postalcode'],
+				'customer_country' => $o['customer_country'],
+				'number' => '#' . str_pad($o['id'],6,0,STR_PAD_LEFT),
+				'date' => CASHSystem::formatTimeAgo((int)$order_date,true),
+				'order_description' => str_replace("\n",' ',$o['order_description']),
+				'order_contents' => $order_contents,
+				'shipping' => $shipping_cost,
+				'itemtotal' => $item_price,
+				'gross' => CASHSystem::getCurrencySymbol($o['currency']) . number_format($o['gross_price'],2),
+				'fulfilled' => $o['fulfilled']
+			);
 		}
 	}
+
 	if (count($all_order_details) > 0) {
 		if (count($all_order_details) > 10) {
 			$cash_admin->page_data['show_pagination'] = true;
@@ -149,6 +187,7 @@ if (is_array($orders_response['payload'])) {
 			if ($cash_admin->page_data['show_previous']) {
 				$cash_admin->page_data['show_nextandprevious'] = true;
 			}
+			array_pop($all_order_details);
 		}
 		$cash_admin->page_data['orders_recent'] = new ArrayIterator($all_order_details);
 		$cash_admin->page_data['show_filters'] = true;
@@ -196,15 +235,6 @@ if ($session_news) {
 
 	$cash_admin->page_data['total_spend'] = CASHSystem::getCurrencySymbol($orders_currency) . $total_spend;
 }
-
-
-
-
-
-
-
-
-
 
 
 

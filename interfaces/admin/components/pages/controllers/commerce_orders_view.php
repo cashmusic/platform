@@ -13,7 +13,7 @@ if ($request_parameters) {
 					'fulfilled' => 1
 				)
 			);
-			AdminHelper::formSuccess('Changes saved.','/commerce/orders/view/' . $request_parameters[0]);
+			AdminHelper::formSuccess('Order fulfilled.','/commerce/orders/view/' . $request_parameters[0]);
 		}
 	}
 
