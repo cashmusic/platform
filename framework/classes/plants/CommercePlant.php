@@ -592,6 +592,12 @@ class CommercePlant extends PlantBase {
 					}
 				}
 				$result[0]['order_totals'] = $this->getOrderTotals($result[0]['order_contents']);
+				$transaction_data = $this->parseTransactionData($result[0]['connection_type'],$result[0]['data_sent']);
+				if (is_array($transaction_data)) {
+					$result[0] = array_merge($result[0],$transaction_data);
+				}
+				$order['order_description'] = $order_totals['description'];
+
 				$user_request = new CASHRequest(
 					array(
 						'cash_request_type' => 'people',
@@ -685,7 +691,8 @@ class CommercePlant extends PlantBase {
 					'transaction_description' => $data_sent['PAYMENTREQUEST_0_DESC'],
 					'customer_email' => $data_sent['EMAIL'],
 					'customer_first_name' => $data_sent['FIRSTNAME'],
-					'customer_last_name' => $data_sent['LASTNAME']
+					'customer_last_name' => $data_sent['LASTNAME'],
+					'customer_name' => $data_sent['FIRSTNAME'] . ' ' . $data_sent['LASTNAME']
 				);
 
 				// this is ugly, but the if statements normalize Paypal's love of omitting empty data
@@ -762,7 +769,8 @@ class CommercePlant extends PlantBase {
 						"condition" => "=",
 						"value" => $unfulfilled_only
 					)
-				)
+				),
+				$limit
 			);
 			if ($result) {
 				// loop through and parse all transactions
@@ -772,6 +780,8 @@ class CommercePlant extends PlantBase {
 						if (is_array($transaction_data)) {
 							$order = array_merge($order,$transaction_data);
 						}
+						$order_totals = $this->getOrderTotals($order['order_contents']);
+						$order['order_description'] = $order_totals['description'];
 					}
 				}
 			}

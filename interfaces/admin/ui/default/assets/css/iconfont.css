@@ -176,3 +176,12 @@
 .icon-learn:before {
   content: "S";
 }
+.icon-divider:before {
+  content: "U";
+}
+.icon-menu:before {
+  content: "V";
+}
+.icon-tick:before {
+  content: "W";
+}

@@ -416,7 +416,7 @@
 	 * Twitter.
 	 *
 	 * @return string
-	 */public static function formatTimeAgo($time) {
+	 */public static function formatTimeAgo($time,$long=false) {
 		if (is_string($time)) {
 			if (is_numeric($time)) {
 				$datestamp = (int) $time;
@@ -438,9 +438,17 @@
 		} else if ($seconds >= 7200 && $seconds < 86400) {
 			$ago_str = floor($seconds / 3600) .' hours ago';
 		} else if ($seconds >= 86400 && $seconds < 31536000) {
-			$ago_str = date('d M', $datestamp);
+			if ($long) {
+				$ago_str = date('l, F d', $datestamp);
+			} else {
+				$ago_str = date('d M', $datestamp);
+			}
 		} else {
-			$ago_str = date('d M, y', $datestamp);
+			if ($long) {
+				$ago_str = date('l, F d, Y', $datestamp);
+			} else {
+				$ago_str = date('d M, y', $datestamp);
+			}
 		}
 		return $ago_str;
 	}
