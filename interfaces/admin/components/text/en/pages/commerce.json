@@ -30,7 +30,7 @@
       "zero":"0%",
       "order":"Order: ",
       "total":"Total: ",
-      "shipping":"Shipping: ",
+      "shipping":"shipping",
       "details":"Details",
 		"use_this_currency":"Use this currency"
    }
