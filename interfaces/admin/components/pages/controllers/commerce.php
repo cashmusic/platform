@@ -176,7 +176,8 @@ if (is_array($orders_response['payload'])) {
 				'shipping' => $shipping_cost,
 				'itemtotal' => $item_price,
 				'gross' => CASHSystem::getCurrencySymbol($o['currency']) . number_format($o['gross_price'],2),
-				'fulfilled' => $o['fulfilled']
+				'fulfilled' => $o['fulfilled'],
+				'notes' => $o['notes']
 			);
 		}
 	}

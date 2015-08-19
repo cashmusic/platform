@@ -3720,6 +3720,7 @@ ul.people.alternating li a span{
 	margin:5px 0 0 0;
 }
 
+.order-number span.icon {position:relative;bottom:2px;left:6px;}
 
 .commerce.order .customer-details{
 	margin:10px 0 0 0;
