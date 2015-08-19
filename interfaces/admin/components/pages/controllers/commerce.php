@@ -5,16 +5,17 @@ $cash_admin->page_data['next_page'] = 2;
 $cash_admin->page_data['show_previous'] = false;
 $filter = false;
 
+$cash_admin->page_data['no_filter'] = true;
 if ($request_parameters) {
 	$filter_key = array_search('filter', $request_parameters);
 	if ($filter_key !== false) {
 		$filter = $request_parameters[$filter_key + 1];
 		if ($filter == 'week') {
 			$cash_admin->page_data['filter_week'] = true;
-		} else if ($filter == 'unfulfilled') {
-			$cash_admin->page_data['filter_unfulfilled'] = true;
-		} else {
-			$cash_admin->page_data['no_filter'] = true;
+			$cash_admin->page_data['no_filter'] = false;
+		} else if ($filter == 'all') {
+			$cash_admin->page_data['filter_all'] = true;
+			$cash_admin->page_data['no_filter'] = false;
 		}
 	}
 
@@ -65,7 +66,7 @@ $order_request = array(
 	'skip' => ($cash_admin->page_data['current_page'] - 1) * 10,
 	'deep' => true
 );
-if ($filter == 'unfulfilled') {
+if ($cash_admin->page_data['no_filter']) {
 	$order_request['unfulfilled_only'] = 1;
 }
 if ($filter == 'week') {
