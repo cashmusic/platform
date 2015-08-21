@@ -62,6 +62,7 @@ $current_element = $cash_admin->setCurrentElement($request_parameters[0]);
 			$cash_admin->page_data['location_analytics'] = new ArrayIterator($locations_array);
 
 			if (isset($analytics['payload']['geo'])) {
+				arsort($analytics['payload']['geo']); // sort temp array most to least		
 				$geo_array = array();
 				foreach ($analytics['payload']['geo'] as $city => $total) {
 					$geo_array[] = array(
