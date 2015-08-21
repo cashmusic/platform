@@ -2,12 +2,12 @@
 if (!$request_parameters) {
 	AdminHelper::controllerRedirect('/');
 }
- 
+
 $current_element = $cash_admin->setCurrentElement($request_parameters[0]);
 
 		$analytics = $cash_admin->requestAndStore(
 			array(
-				'cash_request_type' => 'element', 
+				'cash_request_type' => 'element',
 				'cash_action' => 'getanalytics',
 				'analtyics_type' => 'elementbasics',
 				'element_id' => $request_parameters[0],
@@ -60,11 +60,26 @@ $current_element = $cash_admin->setCurrentElement($request_parameters[0]);
 			}
 
 			$cash_admin->page_data['location_analytics'] = new ArrayIterator($locations_array);
+
+			if (isset($analytics['payload']['geo'])) {
+				$geo_array = array();
+				foreach ($analytics['payload']['geo'] as $city => $total) {
+					$geo_array[] = array(
+						'city' => $city,
+						'total' => $total
+					);
+				}
+
+				if (count($geo_array)) {
+					$cash_admin->page_data['has_geo'] = true;
+				}
+				$cash_admin->page_data['geo_analytics'] = $geo_array;
+			}
 		}
 
 $cash_admin->page_data['ui_title'] = '' . $current_element['name'] . '';
 $cash_admin->page_data['id'] = $current_element['id'];
-		
+
 $cash_admin->page_data['platform_path'] = CASH_PLATFORM_PATH;
 
 $cash_admin->setPageContentTemplate('elements_stats');

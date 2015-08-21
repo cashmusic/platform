@@ -4,10 +4,12 @@
 	"related":{},
 	"labels":{},
 	"tooltips":{},
-	"copy":{"statistics":" statistics",
-            "views_by_location":"Views by location",
-            "element_location":"Element location",
-            "views":"Views"
-
-}
+	"copy":{
+		"statistics":" statistics",
+      "views_by_location":"Views by URL",
+		"views_by_city":"Views by city",
+      "element_location":"Element location",
+		"element_city":"Viewer city",
+      "views":"Views"
+	}
 }
