@@ -768,6 +768,10 @@ class CommercePlant extends PlantBase {
 					"unfulfilled_only" => array(
 						"condition" => "=",
 						"value" => $unfulfilled_only
+					),
+					"since_date" => array(
+						"condition" => ">",
+						"value" => $since_date
 					)
 				),
 				$limit

@@ -503,6 +503,9 @@ class CASHDBA {
 				. "t.connection_id as connection_id, t.connection_type as connection_type, t.service_transaction_id as service_transaction_id, t.data_sent as data_sent, t.data_returned as data_returned, t.gross_price as gross_price, t.service_fee as service_fee, t.status as status, t.successful as successful "
 				. "FROM commerce_orders o JOIN commerce_transactions t ON o.transaction_id = t.id "
 				. "WHERE o.user_id = :user_id AND t.successful = 1";
+				if (isset($conditions['since_date'])) {
+					$query .=  " AND o.creation_date > :since_date";
+				}
 				if (isset($conditions['unfulfilled_only'])) {
 					if ($conditions['unfulfilled_only']['value'] == 1) {
 						$query .=  " AND o.fulfilled < :unfulfilled_only ORDER BY o.id ASC";
