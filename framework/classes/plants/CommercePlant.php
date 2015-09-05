@@ -1564,8 +1564,14 @@ class CommercePlant extends PlantBase {
 						1,
 						"Cancelled " . date("F j, Y, g:i a T") . "\n\n" . $order_details['notes']
 					);
-					// TODO:
-					// restock all physical items in the order contents
+
+					// NOTE:
+					// we aren't restocking physical goods for a few reasons:
+					// 1. cancellations should be less common than sales
+					// 2. lack of inventory is a common reason to cancel, restocking makes it worse
+					// 3. manually re-adding stock isn't hard
+					// 4. if an order is a return of damaged goods, you won't restocking
+					// 5. fuck it
 				}
 				break;
 			default:
