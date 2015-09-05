@@ -245,7 +245,7 @@ class PaypalSeed extends SeedBase {
 		}
 	}
 
-	public function doRefund($transaction_id, $refund_amount, $fullrefund=true,$memo=false,$currency_id='USD') {
+	public function doRefund($transaction_id,$note=false,$refund_amount=0,$fullrefund=true,$currency_id='USD') {
 		if ($fullrefund) {
 			$refund_type = "Full";
 		} else {
@@ -259,7 +259,7 @@ class PaypalSeed extends SeedBase {
 		);
 
 		if($memo) {
-			$nvp_parameters['NOTE'] = $memo;
+			$nvp_parameters['NOTE'] = $note;
 		}
 
 		if (!$fullrefund) {
@@ -281,6 +281,8 @@ class PaypalSeed extends SeedBase {
 		if (!$parsed_response) {
 			$this->setErrorMessage('RefundTransaction failed: ' . $this->getErrorMessage());
 			return false;
+		} else {
+			return $parsed_response;
 		}
 	}
 } // END class

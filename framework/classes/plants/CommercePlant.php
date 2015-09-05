@@ -1531,6 +1531,48 @@ class CommercePlant extends PlantBase {
 		}
 	}
 
+	protected function cancelOrder($order_id,$user_id=false) {
+		$order_details = $this->getOrder($order_id,true);
+
+		// if we send a user id, make sure that user matches the order
+		if ($user_id) {
+			if ($user_id != $order_details['user_id']) {
+				return false;
+			}
+		}
+
+		switch ($order_details['connection_type']) {
+			case 'com.paypal':
+				$pp = new PaypalSeed($order_details['user_id'],$order_details['connection_id']);
+				$refund_details = $pp->doRefund(
+					$order_details['service_transaction_id'],
+					'This order was cancelled by the seller.'
+				);
+				// check initial refund success
+				if (!$refund_details) {
+					return false;
+				} else {
+					// make sure the refund went through fully, return false if not
+					if (isset($refund_details['REFUNDINFO'])) {
+						if ($refund_details['REFUNDINFO']['REFUNDSTATUS'] == 'none') {
+							return false;
+						}
+					}
+					$this->editOrder(
+						$order_id,
+						false,
+						1,
+						"Cancelled " . date("F j, Y, g:i a T") . "\n\n" . $order_details['notes']
+					);
+					// TODO:
+					// restock all physical items in the order contents
+				}
+				break;
+			default:
+				return false;
+		}
+	}
+
 	/**
 	 * Pulls analytics queries in a few different formats
 	 *
