@@ -1564,6 +1564,17 @@ class CommercePlant extends PlantBase {
 						1,
 						"Cancelled " . date("F j, Y, g:i a T") . "\n\n" . $order_details['notes']
 					);
+					$this->editTransaction(
+						$order_details['transaction_id'],
+						false,
+						false,
+						false,
+						false,
+						false,
+						false,
+						false,
+						'refunded'
+					);
 
 					// NOTE:
 					// we aren't restocking physical goods for a few reasons:
