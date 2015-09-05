@@ -258,7 +258,7 @@ class PaypalSeed extends SeedBase {
 			'CURRENCYCODE' => $currency_id
 		);
 
-		if($memo) {
+		if($note) {
 			$nvp_parameters['NOTE'] = $note;
 		}
 
@@ -270,7 +270,7 @@ class PaypalSeed extends SeedBase {
 				$nvp_parameters['AMT'] = $refund_amount;
 			}
 
-			if(!$memo) {
+			if(!$note) {
 				$this->setErrorMessage('Partial Refund: must specify memo.');
 				return false;
 			}
@@ -280,6 +280,7 @@ class PaypalSeed extends SeedBase {
 
 		if (!$parsed_response) {
 			$this->setErrorMessage('RefundTransaction failed: ' . $this->getErrorMessage());
+			error_log($this->getErrorMessage());
 			return false;
 		} else {
 			return $parsed_response;

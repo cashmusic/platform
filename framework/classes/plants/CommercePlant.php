@@ -28,6 +28,7 @@ class CommercePlant extends PlantBase {
 			'addorder'            => array('addOrder','direct'),
 			'addtocart'				 => array('addToCart',array('get','post','direct','api_public')),
 			'addtransaction'      => array('addTransaction','direct'),
+			'cancelorder'			 => array('cancelOrder','direct'),
 			'deleteitem'          => array('deleteItem','direct'),
 			'deleteitemvariant'   => array('deleteItemVariant','direct'),
 			'deleteitemvariants'  => array('deleteItemVariants','direct'),
@@ -596,7 +597,7 @@ class CommercePlant extends PlantBase {
 				if (is_array($transaction_data)) {
 					$result[0] = array_merge($result[0],$transaction_data);
 				}
-				$order['order_description'] = $order_totals['description'];
+				$order['order_description'] = $result[0]['order_totals']['description'];
 
 				$user_request = new CASHRequest(
 					array(
@@ -1531,8 +1532,8 @@ class CommercePlant extends PlantBase {
 		}
 	}
 
-	protected function cancelOrder($order_id,$user_id=false) {
-		$order_details = $this->getOrder($order_id,true);
+	protected function cancelOrder($id,$user_id=false) {
+		$order_details = $this->getOrder($id,true);
 
 		// if we send a user id, make sure that user matches the order
 		if ($user_id) {
@@ -1559,7 +1560,7 @@ class CommercePlant extends PlantBase {
 						}
 					}
 					$this->editOrder(
-						$order_id,
+						$id,
 						false,
 						1,
 						"Cancelled " . date("F j, Y, g:i a T") . "\n\n" . $order_details['notes']
@@ -1575,6 +1576,8 @@ class CommercePlant extends PlantBase {
 						false,
 						'refunded'
 					);
+
+					return true;
 
 					// NOTE:
 					// we aren't restocking physical goods for a few reasons:
