@@ -1372,65 +1372,10 @@ class CommercePlant extends PlantBase {
 									// empty the cart at this point
 									$this->emptyCart($session_id);
 
-									// TODO: add code to order metadata
-									// bit of a hack, hard-wiring the email bits:
-									try {
-										$personalized_message = '';
-										if ($order_details['element_id']) {
-											$element_request = new CASHRequest(
-												array(
-													'cash_request_type' => 'element',
-													'cash_action' => 'getelement',
-													'id' => $order_details['element_id']
-												)
-											);
-
-											if ($element_request->response['payload']) {
-												if (isset($element_request->response['payload']['options']['message_email'])) {
-													if ($element_request->response['payload']['options']['message_email']) {
-														$personalized_message = $element_request->response['payload']['options']['message_email'] . "\n\n";
-													}
-												}
-											}
-										}
-
-										if ($order_details['digital']) {
-											$addcode_request = new CASHRequest(
-												array(
-													'cash_request_type' => 'element',
-													'cash_action' => 'addlockcode',
-													'element_id' => $order_details['element_id']
-												)
-											);
-
-											if (!$finalize_url) {
-												$finalize_url = CASHSystem::getCurrentURL();
-											}
-
-											CASHSystem::sendEmail(
-												'Thank you for your order',
-												$order_details['user_id'],
-												$initial_details['EMAIL'],
-												$personalized_message . "Your order is complete. Here are some details:\n\n**Order #" . $order_details['id'] . "**  \n"
-												. $initial_details['PAYMENTREQUEST_0_DESC'] . "  \n Total: " . CASHSystem::getCurrencySymbol($order_details['currency']) . number_format($final_details['PAYMENTINFO_0_AMT'],2) . "\n\n"
-												. "\n\n" . '[View your receipt and any downloads](' . $finalize_url . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
-												. '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($initial_details['EMAIL']) . '&order_id=' . $order_details['id'] . ')',
-												'Thank you.'
-											);
-										} else {
-											CASHSystem::sendEmail(
-												'Thank you for your order',
-												$order_details['user_id'],
-												$initial_details['EMAIL'],
-												$personalized_message . "Your order is complete. Here are some details:\n\n**Order #" . $order_details['id'] . "**  \n"
-												. $initial_details['PAYMENTREQUEST_0_DESC'] . "  \n Total: " . CASHSystem::getCurrencySymbol($order_details['currency']) . number_format($final_details['PAYMENTINFO_0_AMT'],2) . "\n\n",
-												'Thank you.'
-											);
-										}
-									} catch (Exception $e) {
-										// TODO: handle the case where an email can't be sent. maybe display the download
-										//       code on-screen? that plus storing it with the order is probably enough
-									}
+									// TODO: add code to order metadata so we can track opens, etc
+									$order_details['customer_details']['email_address'] = $initial_details['EMAIL'];
+									$transaction_details['gross_price'] = $final_details['PAYMENTINFO_0_AMT'];
+									$this->sendOrderReceipt(false,$order_details,$transaction_details,$finalize_url);
 									return $order_details['id'];
 								} else {
 									// make sure this isn't an accidentally refreshed page
@@ -1529,6 +1474,78 @@ class CommercePlant extends PlantBase {
 				break;
 			default:
 				return false;
+		}
+	}
+
+	protected function sendOrderReceipt($id=false,$order_details=false,$transaction_details=false,$finalize_url=false) {
+		if (!$id && !$order_details) {
+			return false;
+		}
+		if (!$order_details) {
+			$order_details = $this->getOrder($id);
+		}
+		if (!$transaction_details) {
+			$transaction_details = $this->getTransaction($order_details['transaction_id']);
+		}
+
+		$order_totals = $this->getOrderTotals($order_details['order_contents']);
+		try {
+			$personalized_message = '';
+			if ($order_details['element_id']) {
+				$element_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'element',
+						'cash_action' => 'getelement',
+						'id' => $order_details['element_id']
+					)
+				);
+
+				if ($element_request->response['payload']) {
+					if (isset($element_request->response['payload']['options']['message_email'])) {
+						if ($element_request->response['payload']['options']['message_email']) {
+							$personalized_message = $element_request->response['payload']['options']['message_email'] . "\n\n";
+						}
+					}
+				}
+			}
+
+			if ($order_details['digital']) {
+				$addcode_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'element',
+						'cash_action' => 'addlockcode',
+						'element_id' => $order_details['element_id']
+					)
+				);
+
+				if (!$finalize_url) {
+					$finalize_url = CASHSystem::getCurrentURL();
+				}
+
+				return CASHSystem::sendEmail(
+					'Thank you for your order',
+					$order_details['user_id'],
+					$order_details['customer_details']['email_address'],
+					$personalized_message . "Your order is complete. Here are some details:\n\n**Order #" . $order_details['id'] . "**  \n"
+					. $order_totals['description'] . "  \n Total: " . CASHSystem::getCurrencySymbol($order_details['currency']) . number_format($transaction_details['gross_price'],2) . "\n\n"
+					. "\n\n" . '[View your receipt and any downloads](' . $finalize_url . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
+					. '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($order_details['customer_details']['email_address']) . '&order_id=' . $order_details['id'] . ')',
+					'Thank you.'
+				);
+			} else {
+				return CASHSystem::sendEmail(
+					'Thank you for your order',
+					$order_details['user_id'],
+					$order_details['customer_details']['email_address'],
+					$personalized_message . "Your order is complete. Here are some details:\n\n**Order #" . $order_details['id'] . "**  \n"
+					. $order_totals['description'] . "  \n Total: " . CASHSystem::getCurrencySymbol($order_details['currency']) . number_format($transaction_details['gross_price'],2) . "\n\n",
+					'Thank you.'
+				);
+			}
+		} catch (Exception $e) {
+			// TODO: handle the case where an email can't be sent. maybe display the download
+			//       code on-screen? that plus storing it with the order is probably enough
+			return false;
 		}
 	}
 
