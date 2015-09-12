@@ -179,8 +179,8 @@ if ($user_id) {
 					<li><a href="http://about.cashmusic.org">About</a></li>
 					<li><a href="https://medium.com/cash-music" target="_blank">Blog</a></li>
 					<!--<li><a href="http://tools.cashmusic.org">Tools</a></li>
-					<li><a href="http://learn.cashmusic.org">Learning</a></li>
-					<li><a href="http://events.cashmusic.org">Events</a></li>-->
+					<li><a href="http://learn.cashmusic.org">Learning</a></li>-->
+					<li><a href="http://legacy.cashmusic.org/events/" target="_blank">Events</a></li>
 					<li><a href="http://donate.cashmusic.org">Donate</a></li>
 				</ul>
 			</nav>
