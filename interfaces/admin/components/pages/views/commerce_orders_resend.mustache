@@ -1,0 +1,22 @@
+{{! corresponding files: commerce_orders_resend.php & commerce_orders_resend.json }}
+
+{{#location_analytics}}
+<form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/orders/view/{{id}}">
+	<label for="resend_store_url">{{label_store_url}}</label>
+	<p>{{copy_instructions}}</p>
+	<input type="hidden" name="">
+	<!--input type="text" id="resend_store_url" name="resend_store_url" value="" placeholder="" class="required" /-->
+
+	<select id="resend_store_url" name="resend_store_url">
+		{{#location_analytics}}
+			<option value="{{access_location}}">{{access_location}}</option>
+		{{/location_analytics}}
+	</select>
+
+	<button type="submit">{{label_submit_button}}</button>
+</form>
+{{/location_analytics}}
+{{^location_analytics}}
+	<label>{{label_error}}</label>
+	<p>{{copy_error}}</p>
+{{/location_analytics}}

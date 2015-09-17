@@ -50,7 +50,8 @@ class CommercePlant extends PlantBase {
 			'getordertotals' 		 => array('getOrderTotals','direct'),
 			'gettransaction'      => array('getTransaction','direct'),
 			'finalizepayment'     => array('finalizeRedirectedPayment',array('get','post','direct')),
-			'initiatecheckout'    => array('initiateCheckout',array('get','post','direct','api_public'))
+			'initiatecheckout'    => array('initiateCheckout',array('get','post','direct','api_public')),
+			'sendorderreceipt'	 => array('sendOrderReceipt','direct')
 		);
 		$this->plantPrep($request_type,$request);
 	}
@@ -1374,8 +1375,8 @@ class CommercePlant extends PlantBase {
 
 									// TODO: add code to order metadata so we can track opens, etc
 									$order_details['customer_details']['email_address'] = $initial_details['EMAIL'];
-									$transaction_details['gross_price'] = $final_details['PAYMENTINFO_0_AMT'];
-									$this->sendOrderReceipt(false,$order_details,$transaction_details,$finalize_url);
+									$order_details['gross_price'] = $final_details['PAYMENTINFO_0_AMT'];
+									$this->sendOrderReceipt(false,$order_details,$finalize_url);
 									return $order_details['id'];
 								} else {
 									// make sure this isn't an accidentally refreshed page
@@ -1477,15 +1478,12 @@ class CommercePlant extends PlantBase {
 		}
 	}
 
-	protected function sendOrderReceipt($id=false,$order_details=false,$transaction_details=false,$finalize_url=false) {
+	protected function sendOrderReceipt($id=false,$order_details=false,$finalize_url=false) {
 		if (!$id && !$order_details) {
 			return false;
 		}
 		if (!$order_details) {
-			$order_details = $this->getOrder($id);
-		}
-		if (!$transaction_details) {
-			$transaction_details = $this->getTransaction($order_details['transaction_id']);
+			$order_details = $this->getOrder($id,true);
 		}
 
 		$order_totals = $this->getOrderTotals($order_details['order_contents']);
@@ -1527,7 +1525,7 @@ class CommercePlant extends PlantBase {
 					$order_details['user_id'],
 					$order_details['customer_details']['email_address'],
 					$personalized_message . "Your order is complete. Here are some details:\n\n**Order #" . $order_details['id'] . "**  \n"
-					. $order_totals['description'] . "  \n Total: " . CASHSystem::getCurrencySymbol($order_details['currency']) . number_format($transaction_details['gross_price'],2) . "\n\n"
+					. $order_totals['description'] . "  \n Total: " . CASHSystem::getCurrencySymbol($order_details['currency']) . number_format($order_details['gross_price'],2) . "\n\n"
 					. "\n\n" . '[View your receipt and any downloads](' . $finalize_url . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
 					. '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($order_details['customer_details']['email_address']) . '&order_id=' . $order_details['id'] . ')',
 					'Thank you.'
@@ -1538,7 +1536,7 @@ class CommercePlant extends PlantBase {
 					$order_details['user_id'],
 					$order_details['customer_details']['email_address'],
 					$personalized_message . "Your order is complete. Here are some details:\n\n**Order #" . $order_details['id'] . "**  \n"
-					. $order_totals['description'] . "  \n Total: " . CASHSystem::getCurrencySymbol($order_details['currency']) . number_format($transaction_details['gross_price'],2) . "\n\n",
+					. $order_totals['description'] . "  \n Total: " . CASHSystem::getCurrencySymbol($order_details['currency']) . number_format($order_details['gross_price'],2) . "\n\n",
 					'Thank you.'
 				);
 			}

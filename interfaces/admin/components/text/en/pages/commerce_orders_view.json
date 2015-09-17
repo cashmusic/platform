@@ -32,6 +32,7 @@
       "data_returned_by_service":"Data returned by service",
 		"button_notes":"Edit order notes",
 		"shipping":"Shipping: ",
-		"shipto": "Ship to: "
+		"shipto": "Ship to: ",
+		"resend":"Resend order receipt / downloads"
 	}
 }

@@ -3,6 +3,18 @@ $effective_user = $cash_admin->effective_user_id;
 
 if ($request_parameters) {
 
+	if (isset($_POST['resend_store_url'])) {
+		$resend_response = $cash_admin->requestAndStore(
+			array(
+				'cash_request_type' => 'commerce',
+				'cash_action' => 'sendorderreceipt',
+				'id' => $request_parameters[0],
+				'finalize_url' => $_POST['resend_store_url']
+			)
+		);
+		AdminHelper::formSuccess('Receipt sent!','/commerce/orders/view/' . $request_parameters[0]);
+	}
+
 	if (isset($request_parameters[1])) {
 		if ($request_parameters[1] == 'fulfilled') {
 			$order_details_response = $cash_admin->requestAndStore(
