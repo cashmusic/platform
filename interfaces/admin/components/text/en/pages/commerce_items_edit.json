@@ -28,6 +28,7 @@
       "variations":"Does your item come in mulitple sizes, colors or other formats? Add those variations here. ",
       "add_variants":"Add Variants",
 		"no_regions":"Please set shipping regions before setting shipping prices:",
-		"commerce_settings":"commerce settings"
+		"commerce_settings":"commerce settings",
+		"find_orders":"Find all orders for this item"
 	}
 }

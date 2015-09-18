@@ -47,6 +47,7 @@ class CommercePlant extends PlantBase {
 			'getorder'            => array('getOrder','direct'),
 			'getordersforuser'    => array('getOrdersForUser','direct'),
 			'getordersbycustomer' => array('getOrdersByCustomer','direct'),
+			'getordersbyitem'		 => array('getOrdersByItem','direct'),
 			'getordertotals' 		 => array('getOrderTotals','direct'),
 			'gettransaction'      => array('getTransaction','direct'),
 			'finalizepayment'     => array('finalizeRedirectedPayment',array('get','post','direct')),
@@ -853,6 +854,43 @@ class CommercePlant extends PlantBase {
 				)
 			)
 		);
+		return $result;
+	}
+
+	protected function getOrdersByItem($user_id,$item_id,$max_returned=false,$skip=0) {
+		if ($max_returned) {
+			$limit = $skip . ', ' . $max_returned;
+		} else {
+			$limit = false;
+		}
+		$result = $this->db->getData(
+			'CommercePlant_getOrders_deep',
+			false,
+			array(
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				),
+				"contains_item" => array(
+					"condition" => "=",
+					"value" => '%"id":"' . $item_id . '"%'
+				)
+			),
+			$limit
+		);
+		if ($result) {
+			// loop through and parse all transactions
+			if (is_array($result)) {
+				foreach ($result as &$order) {
+					$transaction_data = $this->parseTransactionData($order['connection_type'],$order['data_sent']);
+					if (is_array($transaction_data)) {
+						$order = array_merge($order,$transaction_data);
+					}
+					$order_totals = $this->getOrderTotals($order['order_contents']);
+					$order['order_description'] = $order_totals['description'];
+				}
+			}
+		}
 		return $result;
 	}
 

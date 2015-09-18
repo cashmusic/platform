@@ -513,6 +513,9 @@ class CASHDBA {
 						$query .=  " AND o.fulfilled >= :unfulfilled_only ORDER BY o.id DESC";
 					}
 				}
+				if (isset($conditions['contains_item'])) {
+					$query .=  " AND o.order_contents LIKE :contains_item";
+				}
 				if ($limit) $query .= " LIMIT $limit";
 				break;
 			case 'CommercePlant_getAnalytics_transactions':
