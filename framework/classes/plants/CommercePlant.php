@@ -38,6 +38,7 @@ class CommercePlant extends PlantBase {
 			'edititemvariant'   	 => array('editItemVariant','direct'),
 			'editorder'           => array('editOrder','direct'),
 			'edittransaction'     => array('editTransaction','direct'),
+			'emailbuyersbyitem'	 => array('emailBuyersByItem','direct'),
 			'emptycart'				 => array('emptyCart','direct'),
 			'getanalytics'        => array('getAnalytics','direct'),
 			'getcart'				 => array('getCart','direct'),
@@ -455,6 +456,100 @@ class CommercePlant extends PlantBase {
 		}
 
 		return $result;
+	}
+
+	protected function emailBuyersByItem($user_id,$item_id,$connection_id,$subject,$message,$include_download=false) {
+		$item_details = $this->getItem($item_id);
+
+		if ($item_details['user_id'] == $user_id) {
+			$merge_vars = null;
+			$global_merge_vars = array(
+				array(
+					'name' => 'itemname',
+					'content' => $item_details['name']
+				),
+				array(
+					'name' => 'itemdescription',
+					'content' => $item_details['description']
+				)
+			);
+
+			$user_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'people',
+					'cash_action' => 'getuser',
+					'user_id' => $user_id
+				)
+			);
+			$user_details = $user_request->response['payload'];
+
+			if ($user_details['display_name'] == 'Anonymous' || !$user_details['display_name']) {
+				$user_details['display_name'] = $user_details['email_address'];
+			}
+
+			$recipients = array();
+			$tmp_recipients = array();
+			$all_orders = $this->getOrdersByItem($user_id,$item_id);
+			foreach ($all_orders as $order) {
+				$tmp_recipients[] = $order['customer_email'];
+			}
+			$tmp_recipients = array_unique($tmp_recipients);
+
+			foreach ($tmp_recipients as $email) {
+				$recipients[] = array(
+					'email' => $email
+				);
+			}
+
+			if (count($recipients)) {
+				if (file_exists(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php')) {
+					include_once(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php');
+				}
+				$html_message = Markdown($message);
+
+				if ($include_download) {
+					$message .= "\n\n" . 'Download *|ITEMNAME|* at https://cashmusic.org/?c=*|UNLOCKCODE|*';
+					$html_message .= "\n\n" . '<p><a href="https://cashmusic.org/?c=*|UNLOCKCODE|*">Download *|ITEMNAME|*</a></p>';
+					$merge_vars = array();
+					foreach ($recipients as $recipient) {
+						$addcode_request = new CASHRequest(
+							array(
+								'cash_request_type' => 'asset',
+								'cash_action' => 'addlockcode',
+								'asset_id' => $item_details['fulfillment_asset']
+							)
+						);
+						if ($addcode_request->response['payload']) {
+							$merge_vars[] = array(
+								'rcpt' => $recipient['email'],
+								'vars' => array(
+									array(
+										'name' => 'unlockcode',
+										'content' => $addcode_request->response['payload']
+									)
+								)
+							);
+						}
+					}
+				}
+
+				$mandrill = new MandrillSeed($user_id,$connection_id);
+				$result = $mandrill->send(
+					$subject,
+					$message,
+					$html_message,
+					$user_details['email_address'],
+					$user_details['display_name'],
+					$recipients,
+					null,
+					$global_merge_vars,
+					$merge_vars
+				);
+				return $result;
+			}
+		} else {
+			return false;
+		}
 	}
 
 	protected function addToCart($item_id,$item_variant=false,$price=false,$session_id=false) {
