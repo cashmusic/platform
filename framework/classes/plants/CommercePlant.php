@@ -508,27 +508,75 @@ class CommercePlant extends PlantBase {
 				$html_message = Markdown($message);
 
 				if ($include_download) {
-					$message .= "\n\n" . 'Download *|ITEMNAME|* at https://cashmusic.org/?c=*|UNLOCKCODE|*';
-					$html_message .= "\n\n" . '<p><a href="https://cashmusic.org/?c=*|UNLOCKCODE|*">Download *|ITEMNAME|*</a></p>';
-					$merge_vars = array();
-					foreach ($recipients as $recipient) {
-						$addcode_request = new CASHRequest(
-							array(
-								'cash_request_type' => 'asset',
-								'cash_action' => 'addlockcode',
-								'asset_id' => $item_details['fulfillment_asset']
-							)
-						);
-						if ($addcode_request->response['payload']) {
-							$merge_vars[] = array(
-								'rcpt' => $recipient['email'],
-								'vars' => array(
-									array(
-										'name' => 'unlockcode',
-										'content' => $addcode_request->response['payload']
-									)
+					$asset_request = new CASHRequest(
+						array(
+							'cash_request_type' => 'asset',
+							'cash_action' => 'getasset',
+							'id' => $item_details['fulfillment_asset']
+						)
+					);
+					if ($asset_request->response['payload']) {
+						$unlock_suffix = 1;
+						$all_assets = array();
+						if ($asset_request->response['payload']['type'] == 'file') {
+							$message .= "\n\n" . 'Download *|ITEMNAME|* at '.CASH_PUBLIC_URL.'/download/?code=*|UNLOCKCODE1|*';
+							$html_message .= "\n\n" . '<p><b><a href="'.CASH_PUBLIC_URL.'/download/?code=*|UNLOCKCODE1|*">Download *|ITEMNAME|*</a></b></p>';
+							$all_assets[] = array(
+								'id' => $item_details['fulfillment_asset'],
+								'name' => $asset_request->response['payload']['title']
+							);
+						} else {
+							$message .= "\n\n" . '*|ITEMNAME|*:' . "\n\n";
+							$html_message .= "\n\n" . '<p><b>*|ITEMNAME|*:</b></p>';
+							$fulfillment_request = new CASHRequest(
+								array(
+									'cash_request_type' => 'asset',
+									'cash_action' => 'getfulfillmentassets',
+									'asset_details' => $asset_request->response['payload']
 								)
 							);
+							if ($fulfillment_request->response['payload']) {
+								foreach ($fulfillment_request->response['payload'] as $asset) {
+									$all_assets[] = array(
+										'id' => $asset['id'],
+										'name' => $asset['title']
+									);
+									$message .= "\n\n" . 'Download *|ASSETNAME'.$unlock_suffix.'|* at '.CASH_PUBLIC_URL.'/download/?code=*|UNLOCKCODE'.$unlock_suffix.'|*';
+									$html_message .= "\n\n" . '<p><b><a href="'.CASH_PUBLIC_URL.'/download/?code=*|UNLOCKCODE'.$unlock_suffix.'|*">Download *|ASSETNAME'.$unlock_suffix.'|*</a></b></p>';
+									$unlock_suffix++;
+								}
+							}
+						}
+						$merge_vars = array();
+						$all_vars = array();
+						$unlock_suffix = 1;
+						foreach ($recipients as $recipient) {
+							foreach ($all_assets as $asset) {
+								$addcode_request = new CASHRequest(
+									array(
+										'cash_request_type' => 'asset',
+										'cash_action' => 'addlockcode',
+										'asset_id' => $asset['id']
+									)
+								);
+								$all_vars[] = array(
+									'name' => 'assetname'.$unlock_suffix,
+									'content' => $asset['name']
+								);
+								$all_vars[] = array(
+									'name' => 'unlockcode'.$unlock_suffix,
+									'content' => $addcode_request->response['payload']
+								);
+								$unlock_suffix++;
+							}
+							if ($addcode_request->response['payload']) {
+								$merge_vars[] = array(
+									'rcpt' => $recipient['email'],
+									'vars' => $all_vars
+								);
+							}
+							$all_vars = array();
+							$unlock_suffix = 1;
 						}
 					}
 				}
