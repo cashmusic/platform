@@ -54,6 +54,33 @@ if (isset($_POST['doitemadd'])) {
 		}
 	}
 
+
+	if (isset($_POST['emailbuyers'])) {
+		$include_download = false;
+		if (isset($_POST['include_download'])) {
+			$include_download = true;
+		}
+
+		$email_response = $cash_admin->requestAndStore(
+			array(
+				'cash_request_type' => 'commerce',
+				'cash_action' => 'emailbuyersbyitem',
+				'user_id' => $cash_admin->effective_user_id,
+				'item_id' => $request_parameters[0],
+				'connection_id' => $_POST['connection_id'],
+				'subject' => $_POST['email_subject'],
+				'message' => $_POST['email_message'],
+				'include_download' => $include_download
+			)
+		);
+		if ($email_response['payload']) {
+			AdminHelper::formSuccess('Success. Email sent.');
+		} else {
+			AdminHelper::formFailure('Error. Something just didn\'t work right.');
+		}
+	}
+
+
 	// parsing posted data:
 	if (isset($_POST['doitemedit'])) {
 		// do the actual list add stuffs...

@@ -1,0 +1,25 @@
+{{! corresponding files: commerce_items_send.php & commerce_items_send.json }}
+
+<form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/items/edit/{{id}}">
+	<input type="hidden" name="emailbuyers" value="gogo" />
+	<!--input type="text" id="resend_store_url" name="resend_store_url" value="" placeholder="" class="required" /-->
+
+	<label for="connection_id">{{label_connection_id}}</label>
+	<select id="connection_id" name="connection_id">
+		{{{connection_options}}}
+	</select>
+
+	<label for="email_subject">{{label_subject}}</label>
+	<input type="text" id="email_subject" name="email_subject" value="" placeholder="" class="required" />
+
+	<label for="email_message">{{label_message}}</label>
+	<textarea rows="3" id="email_message" name="email_message"></textarea>
+
+	<div>
+	<label class="checklabel" for="include_download">
+		<input type="checkbox" name="include_download" id="include_download" checked="checked" class="checkorradio" /> {{label_include_download}}
+	</label>
+	</div>
+
+	<button type="submit">{{copy_button_send}}</button>
+</form>

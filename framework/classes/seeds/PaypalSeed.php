@@ -245,7 +245,7 @@ class PaypalSeed extends SeedBase {
 		}
 	}
 
-	public function doRefund($transaction_id, $refund_amount, $fullrefund=true,$memo=false,$currency_id='USD') {
+	public function doRefund($transaction_id,$note=false,$refund_amount=0,$fullrefund=true,$currency_id='USD') {
 		if ($fullrefund) {
 			$refund_type = "Full";
 		} else {
@@ -258,8 +258,8 @@ class PaypalSeed extends SeedBase {
 			'CURRENCYCODE' => $currency_id
 		);
 
-		if($memo) {
-			$nvp_parameters['NOTE'] = $memo;
+		if($note) {
+			$nvp_parameters['NOTE'] = $note;
 		}
 
 		if (!$fullrefund) {
@@ -270,7 +270,7 @@ class PaypalSeed extends SeedBase {
 				$nvp_parameters['AMT'] = $refund_amount;
 			}
 
-			if(!$memo) {
+			if(!$note) {
 				$this->setErrorMessage('Partial Refund: must specify memo.');
 				return false;
 			}
@@ -280,7 +280,10 @@ class PaypalSeed extends SeedBase {
 
 		if (!$parsed_response) {
 			$this->setErrorMessage('RefundTransaction failed: ' . $this->getErrorMessage());
+			error_log($this->getErrorMessage());
 			return false;
+		} else {
+			return $parsed_response;
 		}
 	}
 } // END class

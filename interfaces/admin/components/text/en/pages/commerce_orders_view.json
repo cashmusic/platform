@@ -13,6 +13,7 @@
       "payment_status":"Payment status: ",
       "order_fulfilled":"Order has been fulfilled",
       "mark_as_fulfilled":"Mark as fulfilled",
+		"cancel":"Cancel and refund order",
       "customer":"Customer:",
       "country":"Country: ",
       "order_total":"Order total: ",
@@ -31,6 +32,7 @@
       "data_returned_by_service":"Data returned by service",
 		"button_notes":"Edit order notes",
 		"shipping":"Shipping: ",
-		"shipto": "Ship to: "
+		"shipto": "Ship to: ",
+		"resend":"Resend order receipt / downloads"
 	}
 }

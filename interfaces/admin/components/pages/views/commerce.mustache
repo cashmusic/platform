@@ -120,7 +120,7 @@
 		</ul>
 
 
-		{{#show_pagination}}<div class="left pagination">{{#show_previous}}<a class="prev" href="{{www_path}}/commerce/{{^back_to_first}}page/{{previous_page}}/{{/back_to_first}}{{#filter_all}}filter/all/{{/filter_all}}{{#filter_week}}filter/week/{{/filter_week}}">Previous</a>{{/show_previous}}{{#show_nextandprevious}}<span> / </span>{{/show_nextandprevious}}{{#show_next}}<a class="next active" href="{{www_path}}/commerce/page/{{next_page}}/{{#filter_all}}filter/all/{{/filter_all}}{{#filter_week}}filter/week/{{/filter_week}}">Next</a>{{/show_next}}</div><!--pagination-->{{/show_pagination}}
+		{{#show_pagination}}<div class="left pagination">{{#show_previous}}<a class="prev" href="{{www_path}}/commerce/{{^back_to_first}}page/{{previous_page}}/{{/back_to_first}}{{^no_filter}}filter/{{filter_type}}/{{filter_item_id}}{{/no_filter}}">Previous</a>{{/show_previous}}{{#show_nextandprevious}}<span> / </span>{{/show_nextandprevious}}{{#show_next}}<a class="next active" href="{{www_path}}/commerce/page/{{next_page}}/{{^no_filter}}filter/{{filter_type}}/{{filter_item_id}}{{/no_filter}}">Next</a>{{/show_next}}</div><!--pagination-->{{/show_pagination}}
 
 
 		{{/orders_recent}}

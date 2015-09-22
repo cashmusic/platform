@@ -9,41 +9,41 @@
 <div class="order-detail">
 	<div class="pure-u-1 pure-u-md-1-2">
 		<p>
-		<strong>{{copy_placed_on}}</strong> {{order_date}}<br />
-		<strong>{{copy_payment_status}}</strong> {{status}}
+			<strong>{{copy_placed_on}}</strong> {{order_date}}<br />
+			<strong>{{copy_payment_status}}</strong> {{status}}
 		</p>
-	</div><!--pure-->
-
-	<div class="pure-u-1 pure-u-md-1-2">
-		{{#physical}}
-			{{#fulfilled}}
-				<p><strong>{{copy_order_fulfilled}}</strong></p>
-			{{/fulfilled}}
-			{{^fulfilled}}
-				<a href="{{www_path}}/commerce/orders/view/{{id}}/fulfilled" class="button">{{copy_mark_as_fulfilled}}</a>
-			{{/fulfilled}}
-		{{/physical}}
-	</div><!--pure-->
-
-	<div class="pure-u-1 pure-u-md-1-2">
-		<p><strong>{{copy_customer}}</strong>&nbsp;<a href="mailto:{{customer_email_address}}">{{customer_display_name}}</a><br />
-		{{^shipping_name}}<strong>{{copy_country}}</strong> {{customer_address_country}}{{/shipping_name}}
-		{{#shipping_name}}
-			<br /><strong>{{copy_shipto}}</strong><br />
-			{{shipping_name}}<br />
-			{{shipping_address1}}<br/>
-			{{#shipping_address2}}{{shipping_address2}}<br/>{{/shipping_address2}}
-			{{shipping_city}}, {{shipping_region}} {{shipping_postalcode}}<br />
-			{{shipping_country}}
-		{{/shipping_name}}
-		</p>
-	</div><!--pure-->
-	<div class="pure-u-1 pure-u-md-1-2 ">
 		<p>
 			<strong>{{copy_order_total}}</strong>${{formatted_gross_price}} <br />
 			<strong>{{copy_total_minus_fees}}</strong> ${{formatted_net_price}}
 			{{#formatted_shipping}}<br /><strong>{{copy_shipping}}</strong>${{formatted_shipping}} <br />{{/formatted_shipping}}
 		</p>
+	</div><!--pure-->
+
+	<div class="pure-u-1 pure-u-md-1-2">
+		<p>
+			<strong>{{copy_customer}}</strong>&nbsp;<a href="mailto:{{customer_email_address}}">{{customer_display_name}}</a>
+			{{^shipping_name}}<br /><strong>{{copy_country}}</strong> {{customer_address_country}}{{/shipping_name}}
+		</p><br />
+		{{#shipping_name}}
+			<p>
+				<strong>{{copy_shipto}}</strong><br />
+				{{shipping_name}}<br />
+				{{shipping_address1}}<br/>
+				{{#shipping_address2}}{{shipping_address2}}<br/>{{/shipping_address2}}
+				{{shipping_city}}, {{shipping_region}} {{shipping_postalcode}}<br />
+				{{shipping_country}}
+			</p>
+		{{/shipping_name}}
+
+		{{#physical}}
+			<br />
+			{{#fulfilled}}
+				<p><strong>{{copy_order_fulfilled}}</strong></p>
+			{{/fulfilled}}
+			{{^fulfilled}}
+				<p><a href="{{www_path}}/commerce/orders/view/{{id}}/fulfilled" class="button">{{copy_mark_as_fulfilled}}</a></p>
+			{{/fulfilled}}
+		{{/physical}}
 	</div><!--pure-->
 
 {{#order_contents}}
@@ -64,7 +64,7 @@
 		<tr>
 			<td>{{#qty}}{{qty}}{{/qty}}{{^qty}}1{{/qty}}</td>
 			<td>
-				<a class="lightboxed" href="{{www_path}}/commerce/items/edit/{{id}}">{{name}}</a>
+				<a href="{{www_path}}/commerce/items/edit/{{id}}">{{name}}</a>
 				{{#variant}}<span class="fadedtext">{{variant}}</span>{{/variant}}
 			</td>
 			<td style="text-align:right;">${{price}}</td>
@@ -75,6 +75,8 @@
 {{/order_contents}}
 
 </div><!--order-detail-->
+
+<small><span class="icon icon-rocket fadedtext"></span> &nbsp;<a href="{{www_path}}/commerce/orders/resend/{{id}}" class="fadedtext lightboxed">{{copy_resend}}</a></small>
 
 <div class="drawer prefpanel pure-u-1{{#notes}} defaultopen{{/notes}}">
 	<div class="itemnav pure-u-1">

@@ -38,12 +38,12 @@ class MandrillSeed extends SeedBase {
 
 	public static function getRedirectMarkup($data=false) {
 		$connections = CASHSystem::getSystemSettings('system_connections');
-		
+
 		if (isset($connections['com.mandrillapp'])) {
 			require_once(CASH_PLATFORM_ROOT.'/lib/mandrill/Mandrill.php');
-			$login_url = 'http://mandrillapp.com/api-auth/?id=' 
-					   . $connections['com.mandrillapp']['app_authentication_id'] 
-					   . '&redirect_url=' 
+			$login_url = 'http://mandrillapp.com/api-auth/?id='
+					   . $connections['com.mandrillapp']['app_authentication_id']
+					   . '&redirect_url='
 					   . urlencode($connections['com.mandrillapp']['redirect_uri']);
 
 			$return_markup = '<h4>Mandrill</h4>'
@@ -64,7 +64,7 @@ class MandrillSeed extends SeedBase {
 			$user_info = $m->getUserInfo();
 			$username  = $user_info['username'];
 
-			// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth 
+			// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
 			// calls would only happen in the admin. If this changes we can fuck around with it later.
 			$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
 			$result = $new_connection->setSettings(
@@ -115,14 +115,14 @@ class MandrillSeed extends SeedBase {
 		}
 	}
 	//https://mandrillapp.com/api/docs/messages.html#method=send
-	public function send($subject,$message_txt,$message_html,$from_address,$from_name,$recipients,$metadata=null,$merge_vars=null,$tags=null) {
+	public function send($subject,$message_txt,$message_html,$from_address,$from_name,$recipients,$metadata=null,$global_merge_vars=null,$merge_vars=null,$tags=null) {
 		$unsubscribe_link = '';
 		if ($metadata) {
 			if (isset($metadata['list_id'])) {
-				$unsubscribe_link = '<a href="' . 
-					CASH_PUBLIC_URL . 
-					'request/html?cash_request_type=people&cash_action=removeaddress&list_id=' . 
-					$metadata['list_id'] . 
+				$unsubscribe_link = '<a href="' .
+					CASH_PUBLIC_URL .
+					'request/html?cash_request_type=people&cash_action=removeaddress&list_id=' .
+					$metadata['list_id'] .
 					'&address={{email_address}}' .
 					'">Unsubscribe</a>';
 			}
@@ -157,6 +157,17 @@ class MandrillSeed extends SeedBase {
 				);
 			}
 		}
+
+		/*
+		if ($global_merge_vars) {
+			$global_merge_vars = json_encode($global_merge_vars);
+		}
+
+		if ($merge_vars) {
+			$merge_vars = json_encode($merge_vars);
+		}
+		*/
+
 		$message = array(
 			"html" => $message_html,
 			"text" => $message_txt,
@@ -176,8 +187,8 @@ class MandrillSeed extends SeedBase {
 			"tracking_domain" => null,
 			"signing_domain" => null,
 			"merge" => null,
-			"global_merge_vars" => $merge_vars,
-			"merge_vars" => $recipient_merge_vars,
+			"global_merge_vars" => $global_merge_vars,
+			"merge_vars" => $merge_vars,
 			"tags" => $tags,
 			"google_analytics_domains" => null,
 			"google_analytics_campaign" => null,
@@ -186,8 +197,8 @@ class MandrillSeed extends SeedBase {
 			"attachments" => null,
 			"images" => null
 		);
-		
-        return $this->api->call('messages/send', array("message" => $message, "async" => true));
+
+      return $this->api->call('messages/send', array("message" => $message, "async" => true));
 	}
 
 } // END class

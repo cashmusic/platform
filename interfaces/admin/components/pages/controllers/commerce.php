@@ -10,12 +10,12 @@ if ($request_parameters) {
 	$filter_key = array_search('filter', $request_parameters);
 	if ($filter_key !== false) {
 		$filter = $request_parameters[$filter_key + 1];
+		$cash_admin->page_data['no_filter'] = false;
+		$cash_admin->page_data['filter_type'] = $filter;
 		if ($filter == 'week') {
 			$cash_admin->page_data['filter_week'] = true;
-			$cash_admin->page_data['no_filter'] = false;
 		} else if ($filter == 'all') {
 			$cash_admin->page_data['filter_all'] = true;
-			$cash_admin->page_data['no_filter'] = false;
 		}
 	}
 
@@ -70,7 +70,12 @@ if ($cash_admin->page_data['no_filter']) {
 	$order_request['unfulfilled_only'] = 1;
 }
 if ($filter == 'week') {
-	$order_request['since_date'] = time() - 604800;;
+	$order_request['since_date'] = time() - 604800;
+}
+if ($filter == 'byitem') {
+	$order_request['cash_action'] = 'getordersbyitem';
+	$order_request['item_id'] = $request_parameters[$filter_key + 2];
+	$cash_admin->page_data['filter_item_id'] = $order_request['item_id'];
 }
 
 $orders_response = $cash_admin->requestAndStore($order_request);

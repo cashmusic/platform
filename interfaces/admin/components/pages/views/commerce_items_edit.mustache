@@ -4,6 +4,10 @@
 <header>
 		<a class="returnlink current" href="{{www_path}}/commerce/items"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">&ldquo;{{name}}&rdquo;</h4>
 </header>
+<p>
+	<small><span class="icon icon-search"></span> &nbsp;<a href="{{www_path}}/commerce/filter/byitem/{{id}}">{{copy_find_orders}}</a></small>
+	{{#show_beta}}<br /><small><span class="icon icon-rocket"></span> &nbsp;<a href="{{www_path}}/commerce/items/send/{{id}}" class="lightboxed">Send to buyers</a></small>{{/show_beta}}
+</p>
 </div><!--pure-->
 
 <form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/items/edit/{{id}}" name="edit_item" >

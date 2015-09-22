@@ -28,6 +28,7 @@ class CommercePlant extends PlantBase {
 			'addorder'            => array('addOrder','direct'),
 			'addtocart'				 => array('addToCart',array('get','post','direct','api_public')),
 			'addtransaction'      => array('addTransaction','direct'),
+			'cancelorder'			 => array('cancelOrder','direct'),
 			'deleteitem'          => array('deleteItem','direct'),
 			'deleteitemvariant'   => array('deleteItemVariant','direct'),
 			'deleteitemvariants'  => array('deleteItemVariants','direct'),
@@ -37,6 +38,7 @@ class CommercePlant extends PlantBase {
 			'edititemvariant'   	 => array('editItemVariant','direct'),
 			'editorder'           => array('editOrder','direct'),
 			'edittransaction'     => array('editTransaction','direct'),
+			'emailbuyersbyitem'	 => array('emailBuyersByItem','direct'),
 			'emptycart'				 => array('emptyCart','direct'),
 			'getanalytics'        => array('getAnalytics','direct'),
 			'getcart'				 => array('getCart','direct'),
@@ -46,10 +48,12 @@ class CommercePlant extends PlantBase {
 			'getorder'            => array('getOrder','direct'),
 			'getordersforuser'    => array('getOrdersForUser','direct'),
 			'getordersbycustomer' => array('getOrdersByCustomer','direct'),
+			'getordersbyitem'		 => array('getOrdersByItem','direct'),
 			'getordertotals' 		 => array('getOrderTotals','direct'),
 			'gettransaction'      => array('getTransaction','direct'),
 			'finalizepayment'     => array('finalizeRedirectedPayment',array('get','post','direct')),
-			'initiatecheckout'    => array('initiateCheckout',array('get','post','direct','api_public'))
+			'initiatecheckout'    => array('initiateCheckout',array('get','post','direct','api_public')),
+			'sendorderreceipt'	 => array('sendOrderReceipt','direct')
 		);
 		$this->plantPrep($request_type,$request);
 	}
@@ -454,6 +458,148 @@ class CommercePlant extends PlantBase {
 		return $result;
 	}
 
+	protected function emailBuyersByItem($user_id,$item_id,$connection_id,$subject,$message,$include_download=false) {
+		$item_details = $this->getItem($item_id);
+
+		if ($item_details['user_id'] == $user_id) {
+			$merge_vars = null;
+			$global_merge_vars = array(
+				array(
+					'name' => 'itemname',
+					'content' => $item_details['name']
+				),
+				array(
+					'name' => 'itemdescription',
+					'content' => $item_details['description']
+				)
+			);
+
+			$user_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'people',
+					'cash_action' => 'getuser',
+					'user_id' => $user_id
+				)
+			);
+			$user_details = $user_request->response['payload'];
+
+			if ($user_details['display_name'] == 'Anonymous' || !$user_details['display_name']) {
+				$user_details['display_name'] = $user_details['email_address'];
+			}
+
+			$recipients = array();
+			$tmp_recipients = array();
+			$all_orders = $this->getOrdersByItem($user_id,$item_id);
+			foreach ($all_orders as $order) {
+				$tmp_recipients[] = $order['customer_email'];
+			}
+			$tmp_recipients = array_unique($tmp_recipients);
+
+			foreach ($tmp_recipients as $email) {
+				$recipients[] = array(
+					'email' => $email
+				);
+			}
+
+			if (count($recipients)) {
+				if (file_exists(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php')) {
+					include_once(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php');
+				}
+				$html_message = Markdown($message);
+
+				if ($include_download) {
+					$asset_request = new CASHRequest(
+						array(
+							'cash_request_type' => 'asset',
+							'cash_action' => 'getasset',
+							'id' => $item_details['fulfillment_asset']
+						)
+					);
+					if ($asset_request->response['payload']) {
+						$unlock_suffix = 1;
+						$all_assets = array();
+						if ($asset_request->response['payload']['type'] == 'file') {
+							$message .= "\n\n" . 'Download *|ITEMNAME|* at '.CASH_PUBLIC_URL.'/download/?code=*|UNLOCKCODE1|*';
+							$html_message .= "\n\n" . '<p><b><a href="'.CASH_PUBLIC_URL.'/download/?code=*|UNLOCKCODE1|*">Download *|ITEMNAME|*</a></b></p>';
+							$all_assets[] = array(
+								'id' => $item_details['fulfillment_asset'],
+								'name' => $asset_request->response['payload']['title']
+							);
+						} else {
+							$message .= "\n\n" . '*|ITEMNAME|*:' . "\n\n";
+							$html_message .= "\n\n" . '<p><b>*|ITEMNAME|*:</b></p>';
+							$fulfillment_request = new CASHRequest(
+								array(
+									'cash_request_type' => 'asset',
+									'cash_action' => 'getfulfillmentassets',
+									'asset_details' => $asset_request->response['payload']
+								)
+							);
+							if ($fulfillment_request->response['payload']) {
+								foreach ($fulfillment_request->response['payload'] as $asset) {
+									$all_assets[] = array(
+										'id' => $asset['id'],
+										'name' => $asset['title']
+									);
+									$message .= "\n\n" . 'Download *|ASSETNAME'.$unlock_suffix.'|* at '.CASH_PUBLIC_URL.'/download/?code=*|UNLOCKCODE'.$unlock_suffix.'|*';
+									$html_message .= "\n\n" . '<p><b><a href="'.CASH_PUBLIC_URL.'/download/?code=*|UNLOCKCODE'.$unlock_suffix.'|*">Download *|ASSETNAME'.$unlock_suffix.'|*</a></b></p>';
+									$unlock_suffix++;
+								}
+							}
+						}
+						$merge_vars = array();
+						$all_vars = array();
+						$unlock_suffix = 1;
+						foreach ($recipients as $recipient) {
+							foreach ($all_assets as $asset) {
+								$addcode_request = new CASHRequest(
+									array(
+										'cash_request_type' => 'asset',
+										'cash_action' => 'addlockcode',
+										'asset_id' => $asset['id']
+									)
+								);
+								$all_vars[] = array(
+									'name' => 'assetname'.$unlock_suffix,
+									'content' => $asset['name']
+								);
+								$all_vars[] = array(
+									'name' => 'unlockcode'.$unlock_suffix,
+									'content' => $addcode_request->response['payload']
+								);
+								$unlock_suffix++;
+							}
+							if ($addcode_request->response['payload']) {
+								$merge_vars[] = array(
+									'rcpt' => $recipient['email'],
+									'vars' => $all_vars
+								);
+							}
+							$all_vars = array();
+							$unlock_suffix = 1;
+						}
+					}
+				}
+
+				$mandrill = new MandrillSeed($user_id,$connection_id);
+				$result = $mandrill->send(
+					$subject,
+					$message,
+					$html_message,
+					$user_details['email_address'],
+					$user_details['display_name'],
+					$recipients,
+					null,
+					$global_merge_vars,
+					$merge_vars
+				);
+				return $result;
+			}
+		} else {
+			return false;
+		}
+	}
+
 	protected function addToCart($item_id,$item_variant=false,$price=false,$session_id=false) {
 		$r = new CASHRequest();
 		$r->startSession(false,$session_id);
@@ -596,7 +742,7 @@ class CommercePlant extends PlantBase {
 				if (is_array($transaction_data)) {
 					$result[0] = array_merge($result[0],$transaction_data);
 				}
-				$order['order_description'] = $order_totals['description'];
+				$order['order_description'] = $result[0]['order_totals']['description'];
 
 				$user_request = new CASHRequest(
 					array(
@@ -768,6 +914,10 @@ class CommercePlant extends PlantBase {
 					"unfulfilled_only" => array(
 						"condition" => "=",
 						"value" => $unfulfilled_only
+					),
+					"since_date" => array(
+						"condition" => ">",
+						"value" => $since_date
 					)
 				),
 				$limit
@@ -847,6 +997,43 @@ class CommercePlant extends PlantBase {
 				)
 			)
 		);
+		return $result;
+	}
+
+	protected function getOrdersByItem($user_id,$item_id,$max_returned=false,$skip=0) {
+		if ($max_returned) {
+			$limit = $skip . ', ' . $max_returned;
+		} else {
+			$limit = false;
+		}
+		$result = $this->db->getData(
+			'CommercePlant_getOrders_deep',
+			false,
+			array(
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				),
+				"contains_item" => array(
+					"condition" => "=",
+					"value" => '%"id":"' . $item_id . '"%'
+				)
+			),
+			$limit
+		);
+		if ($result) {
+			// loop through and parse all transactions
+			if (is_array($result)) {
+				foreach ($result as &$order) {
+					$transaction_data = $this->parseTransactionData($order['connection_type'],$order['data_sent']);
+					if (is_array($transaction_data)) {
+						$order = array_merge($order,$transaction_data);
+					}
+					$order_totals = $this->getOrderTotals($order['order_contents']);
+					$order['order_description'] = $order_totals['description'];
+				}
+			}
+		}
 		return $result;
 	}
 
@@ -1367,65 +1554,10 @@ class CommercePlant extends PlantBase {
 									// empty the cart at this point
 									$this->emptyCart($session_id);
 
-									// TODO: add code to order metadata
-									// bit of a hack, hard-wiring the email bits:
-									try {
-										$personalized_message = '';
-										if ($order_details['element_id']) {
-											$element_request = new CASHRequest(
-												array(
-													'cash_request_type' => 'element',
-													'cash_action' => 'getelement',
-													'id' => $order_details['element_id']
-												)
-											);
-
-											if ($element_request->response['payload']) {
-												if (isset($element_request->response['payload']['options']['message_email'])) {
-													if ($element_request->response['payload']['options']['message_email']) {
-														$personalized_message = $element_request->response['payload']['options']['message_email'] . "\n\n";
-													}
-												}
-											}
-										}
-
-										if ($order_details['digital']) {
-											$addcode_request = new CASHRequest(
-												array(
-													'cash_request_type' => 'element',
-													'cash_action' => 'addlockcode',
-													'element_id' => $order_details['element_id']
-												)
-											);
-
-											if (!$finalize_url) {
-												$finalize_url = CASHSystem::getCurrentURL();
-											}
-
-											CASHSystem::sendEmail(
-												'Thank you for your order',
-												$order_details['user_id'],
-												$initial_details['EMAIL'],
-												$personalized_message . "Your order is complete. Here are some details:\n\n**Order #" . $order_details['id'] . "**  \n"
-												. $initial_details['PAYMENTREQUEST_0_DESC'] . "  \n Total: " . CASHSystem::getCurrencySymbol($order_details['currency']) . number_format($final_details['PAYMENTINFO_0_AMT'],2) . "\n\n"
-												. "\n\n" . '[View your receipt and any downloads](' . $finalize_url . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
-												. '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($initial_details['EMAIL']) . '&order_id=' . $order_details['id'] . ')',
-												'Thank you.'
-											);
-										} else {
-											CASHSystem::sendEmail(
-												'Thank you for your order',
-												$order_details['user_id'],
-												$initial_details['EMAIL'],
-												$personalized_message . "Your order is complete. Here are some details:\n\n**Order #" . $order_details['id'] . "**  \n"
-												. $initial_details['PAYMENTREQUEST_0_DESC'] . "  \n Total: " . CASHSystem::getCurrencySymbol($order_details['currency']) . number_format($final_details['PAYMENTINFO_0_AMT'],2) . "\n\n",
-												'Thank you.'
-											);
-										}
-									} catch (Exception $e) {
-										// TODO: handle the case where an email can't be sent. maybe display the download
-										//       code on-screen? that plus storing it with the order is probably enough
-									}
+									// TODO: add code to order metadata so we can track opens, etc
+									$order_details['customer_details']['email_address'] = $initial_details['EMAIL'];
+									$order_details['gross_price'] = $final_details['PAYMENTINFO_0_AMT'];
+									$this->sendOrderReceipt(false,$order_details,$finalize_url);
 									return $order_details['id'];
 								} else {
 									// make sure this isn't an accidentally refreshed page
@@ -1520,6 +1652,136 @@ class CommercePlant extends PlantBase {
 						);
 						return false;
 					}
+				}
+				break;
+			default:
+				return false;
+		}
+	}
+
+	protected function sendOrderReceipt($id=false,$order_details=false,$finalize_url=false) {
+		if (!$id && !$order_details) {
+			return false;
+		}
+		if (!$order_details) {
+			$order_details = $this->getOrder($id,true);
+		}
+
+		$order_totals = $this->getOrderTotals($order_details['order_contents']);
+		try {
+			$personalized_message = '';
+			if ($order_details['element_id']) {
+				$element_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'element',
+						'cash_action' => 'getelement',
+						'id' => $order_details['element_id']
+					)
+				);
+
+				if ($element_request->response['payload']) {
+					if (isset($element_request->response['payload']['options']['message_email'])) {
+						if ($element_request->response['payload']['options']['message_email']) {
+							$personalized_message = $element_request->response['payload']['options']['message_email'] . "\n\n";
+						}
+					}
+				}
+			}
+
+			if ($order_details['digital']) {
+				$addcode_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'element',
+						'cash_action' => 'addlockcode',
+						'element_id' => $order_details['element_id']
+					)
+				);
+
+				if (!$finalize_url) {
+					$finalize_url = CASHSystem::getCurrentURL();
+				}
+
+				return CASHSystem::sendEmail(
+					'Thank you for your order',
+					$order_details['user_id'],
+					$order_details['customer_details']['email_address'],
+					$personalized_message . "Your order is complete. Here are some details:\n\n**Order #" . $order_details['id'] . "**  \n"
+					. $order_totals['description'] . "  \n Total: " . CASHSystem::getCurrencySymbol($order_details['currency']) . number_format($order_details['gross_price'],2) . "\n\n"
+					. "\n\n" . '[View your receipt and any downloads](' . $finalize_url . '?cash_request_type=element&cash_action=redeemcode&code=' . $addcode_request->response['payload']
+					. '&element_id=' . $order_details['element_id'] . '&email=' . urlencode($order_details['customer_details']['email_address']) . '&order_id=' . $order_details['id'] . ')',
+					'Thank you.'
+				);
+			} else {
+				return CASHSystem::sendEmail(
+					'Thank you for your order',
+					$order_details['user_id'],
+					$order_details['customer_details']['email_address'],
+					$personalized_message . "Your order is complete. Here are some details:\n\n**Order #" . $order_details['id'] . "**  \n"
+					. $order_totals['description'] . "  \n Total: " . CASHSystem::getCurrencySymbol($order_details['currency']) . number_format($order_details['gross_price'],2) . "\n\n",
+					'Thank you.'
+				);
+			}
+		} catch (Exception $e) {
+			// TODO: handle the case where an email can't be sent. maybe display the download
+			//       code on-screen? that plus storing it with the order is probably enough
+			return false;
+		}
+	}
+
+	protected function cancelOrder($id,$user_id=false) {
+		$order_details = $this->getOrder($id,true);
+
+		// if we send a user id, make sure that user matches the order
+		if ($user_id) {
+			if ($user_id != $order_details['user_id']) {
+				return false;
+			}
+		}
+
+		switch ($order_details['connection_type']) {
+			case 'com.paypal':
+				$pp = new PaypalSeed($order_details['user_id'],$order_details['connection_id']);
+				$refund_details = $pp->doRefund(
+					$order_details['service_transaction_id'],
+					'This order was cancelled by the seller.'
+				);
+				// check initial refund success
+				if (!$refund_details) {
+					return false;
+				} else {
+					// make sure the refund went through fully, return false if not
+					if (isset($refund_details['REFUNDINFO'])) {
+						if ($refund_details['REFUNDINFO']['REFUNDSTATUS'] == 'none') {
+							return false;
+						}
+					}
+					$this->editOrder(
+						$id,
+						false,
+						1,
+						"Cancelled " . date("F j, Y, g:i a T") . "\n\n" . $order_details['notes']
+					);
+					$this->editTransaction(
+						$order_details['transaction_id'],
+						false,
+						false,
+						false,
+						false,
+						false,
+						false,
+						false,
+						'refunded'
+					);
+
+					return true;
+
+					// NOTE:
+					// we aren't restocking physical goods for a few reasons:
+					// 1. cancellations should be less common than sales
+					// 2. lack of inventory is a common reason to cancel, restocking makes it worse
+					// 3. manually re-adding stock isn't hard
+					// 4. if an order is a return of damaged goods, you won't restocking
+					// 5. fuck it
 				}
 				break;
 			default:

@@ -3,6 +3,18 @@ $effective_user = $cash_admin->effective_user_id;
 
 if ($request_parameters) {
 
+	if (isset($_POST['resend_store_url'])) {
+		$resend_response = $cash_admin->requestAndStore(
+			array(
+				'cash_request_type' => 'commerce',
+				'cash_action' => 'sendorderreceipt',
+				'id' => $request_parameters[0],
+				'finalize_url' => $_POST['resend_store_url']
+			)
+		);
+		AdminHelper::formSuccess('Receipt sent!','/commerce/orders/view/' . $request_parameters[0]);
+	}
+
 	if (isset($request_parameters[1])) {
 		if ($request_parameters[1] == 'fulfilled') {
 			$order_details_response = $cash_admin->requestAndStore(
@@ -14,7 +26,20 @@ if ($request_parameters) {
 				)
 			);
 			AdminHelper::formSuccess('Order fulfilled.','/commerce/orders/view/' . $request_parameters[0]);
-		}
+		} /* else if ($request_parameters[1] == 'cancel') {
+			$order_cancel_response = $cash_admin->requestAndStore(
+				array(
+					'cash_request_type' => 'commerce',
+					'cash_action' => 'cancelorder',
+					'id' => $request_parameters[0]
+				)
+			);
+			if ($order_cancel_response['payload']) {
+				AdminHelper::formSuccess('Order cancelled.','/commerce/orders/view/' . $request_parameters[0]);
+			} else {
+				AdminHelper::formFailure('Try again.','/commerce/orders/view/' . $request_parameters[0]);
+			}
+		} */
 	}
 
 	if (isset($_POST['ordernotes'])) {
@@ -76,9 +101,6 @@ if ($request_parameters) {
 			}
 		}
 
-
-		error_log(print_r($order_details,true));
-
 		$order_details['padded_id'] = str_pad($order_details['id'],6,0,STR_PAD_LEFT);
 		$order_details['order_date'] = date("M j, Y, g:i A", $order_details['creation_date']);
 		$order_details['formatted_gross_price'] = sprintf("%01.2f",$order_details['gross_price']);
@@ -102,7 +124,7 @@ if ($request_parameters) {
 		$cash_admin->page_data['shipping_postalcode'] = $order_details['customer_postalcode'];
 		$cash_admin->page_data['shipping_country'] = $order_details['customer_country'];
 		$cash_admin->page_data['notes'] = $order_details['notes'];
-		$cash_admin->page_data['ui_title'] = 'Commerce: Order #' . $order_details['padded_id'];
+		$cash_admin->page_data['ui_title'] = 'Order #' . $order_details['padded_id'];
 
 		$formatted_data_sent = array();
 		foreach (json_decode($order_details['data_sent'],true) as $key => $value) {
