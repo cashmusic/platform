@@ -175,7 +175,7 @@ class CommercePlant extends PlantBase {
 		}
 	}
 
-	protected function getItemVariants($item_id, $exclude_empties = false, $user_id=false) {
+	protected function getItemVariants($item_id, $exclude_empties=false, $user_id=false) {
 		$condition = array(
 			"item_id" => array(
 				"condition" => "=",
@@ -259,6 +259,37 @@ class CommercePlant extends PlantBase {
 		}
 	}
 
+	protected function formatVariantName ($name) {
+		$final_name = '';
+		$name_decoded = json_decode($name,true);
+		if ($name_decoded) {
+			foreach ($name_decoded as $var => $val) {
+				$final_name .= $var . ': ' $val . ', ';
+			}
+			$final_name = rtrim($final_name,', ');
+			return $final_name;
+		} else {
+			$totalmatches = preg_match_all("/([a-z]+)->/", $name, $key_parts);
+			if ($totalmatches) {
+				$variant_keys = $key_parts[1];
+				$variant_values = preg_split("/([a-z]+)->/", $name, 0, PREG_SPLIT_NO_EMPTY);
+				$count = count($variant_keys);
+
+				$variant_descriptions = array();
+
+				for($index = 0; $index < $count; $index++) {
+					$key = $variant_keys[$index];
+					$value = trim(str_replace('+', ' ', $variant_values[$index]));
+					$variant_descriptions[] = "$key: $value";
+				}
+
+				return implode(', ', $variant_descriptions);
+			} else {
+				return $name;
+			}
+		}
+	}
+
 	protected function editItem(
 		$id,
 		$name=false,
@@ -271,7 +302,6 @@ class CommercePlant extends PlantBase {
 		$physical_fulfillment=false,
 		$physical_weight=false,
 		$physical_width=false,
-		$physical_height=false,
 		$physical_depth=false,
 		$variable_pricing=false,
 		$fulfillment_asset=false,
