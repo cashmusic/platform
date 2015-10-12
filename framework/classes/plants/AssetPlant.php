@@ -103,9 +103,9 @@ class AssetPlant extends PlantBase {
 							}
 						}
 						if (count($final_assets)) {
-							return $final_assets;
+							$result = $final_assets;
 						} else {
-							return false;
+							$result = false;
 						}
 					}
 				}
