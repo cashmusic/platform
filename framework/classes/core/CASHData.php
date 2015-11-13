@@ -628,7 +628,7 @@
 	 * set $this->cache_enabled true on success.
 	 *
 	 * @return void
-	 */protected function primeCache($cache_dir=false) {
+	 */public function primeCache($cache_dir=false) {
 		if (!$cache_dir) {
 			$cache_dir = CASH_PLATFORM_ROOT.'/cache';
 		}
@@ -715,7 +715,7 @@
 	 * then
 	 *
 	 * @return int (remaining time in seconds) or false
-	 */protected function getCachedURL($cache_name, $data_name, $data_url, $format='json', $decode=true) {
+	 */public function getCachedURL($cache_name, $data_name, $data_url, $format='json', $decode=true) {
 		$url_contents = $this->getCacheData($cache_name,$data_name,false,$decode);
 		if (!$url_contents) {
 			$url_contents = CASHSystem::getURLContents($data_url);
