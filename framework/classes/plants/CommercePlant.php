@@ -1372,12 +1372,20 @@ class CommercePlant extends PlantBase {
 	}
 
 	protected function initiatePaymentRedirect($order_id,$element_id=false,$price_addition=0,$url_only=false,$finalize_url=false,$session_id=false) {
+
 		$order_details = $this->getOrder($order_id);
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
+
 		$order_totals = $this->getOrderTotals($order_details['order_contents']);
 		$connection_type = $this->getConnectionType($transaction_details['connection_id']);
 
+		// get connection type settings so we can extract Seed classname
+		$connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
+		$seed_class = $connection_settings['seed'];
+
 		$currency = $this->getCurrencyForUser($order_details['user_id']);
+		$require_shipping = false;
+		$allow_note = false;
 
 		if ($finalize_url) {
 			$r = new CASHRequest();
@@ -1390,49 +1398,58 @@ class CommercePlant extends PlantBase {
 			// we can add a system minimum later, or a per-connection minimum, etc...
 			return 'force_success';
 		}
-		switch ($connection_type) {
-			case 'com.paypal':
-				$pp = new PaypalSeed($order_details['user_id'],$transaction_details['connection_id']);
-				if (!$finalize_url) {
-					$finalize_url = CASHSystem::getCurrentURL();
-				}
-				$return_url = $finalize_url . '?cash_request_type=commerce&cash_action=finalizepayment&order_id=' . $order_id . '&creation_date=' . $order_details['creation_date'];
-				if ($element_id) {
-					$return_url .= '&element_id=' . $element_id;
-				}
-				$require_shipping = false;
-				$allow_note = false;
-				if ($order_details['physical']) {
-					$require_shipping = true;
-					$allow_note = true;
-				}
-				$redirect_url = $pp->setExpressCheckout(
-					$order_totals['price'] + $price_addition,
-					'order-' . $order_id,
-					$order_totals['description'],
-					$return_url,
-					$return_url,
-					$require_shipping,
-					$allow_note,
-					$currency,
-					'Sale',
-					false,
-					$price_addition
-				);
-				if (!$url_only) {
-					$redirect = CASHSystem::redirectToUrl($redirect_url);
-					// the return will only happen if headers have already been sent
-					// if they haven't redirectToUrl() will handle it and call exit
-					return $redirect;
-				} else {
-					return $redirect_url;
-				}
-				break;
-			default:
-				return false;
+
+		// we're going to switch seeds by $connection_type, so check to make sure this class even exists
+		if (!class_exists($seed_class)) {
+			return false;
 		}
+
+		// call the payment seed class
+		$payment_seed = new $seed_class($order_details['user_id'],$transaction_details['connection_id']);
+
+		if (!$finalize_url) {
+			$finalize_url = CASHSystem::getCurrentURL();
+		}
+
+		// build a return URL for the payment system to redirect to once payment is ready to be finalized
+		$return_url = $finalize_url . '?cash_request_type=commerce&cash_action=finalizepayment&order_id=' . $order_id . '&creation_date=' . $order_details['creation_date'];
+		if ($element_id) {
+			$return_url .= '&element_id=' . $element_id;
+		}
+
+		// collect shipping information on payment service, if possible
+		if ($order_details['physical']) {
+			$require_shipping = true;
+			$allow_note = true;
+		}
+
+		// create checkout object with URL redirect
+		$redirect_url = $payment_seed->setCheckout(
+			$order_totals['price'] + $price_addition,
+			'order-' . $order_id,
+			$order_totals['description'],
+			$return_url,
+			$return_url,
+			$require_shipping,
+			$allow_note,
+			$currency,
+			'Sale',
+			false,
+			$price_addition
+		);
+
+		if (!$url_only) {
+			$redirect = CASHSystem::redirectToUrl($redirect_url);
+			// the return will only happen if headers have already been sent
+			// if they haven't redirectToUrl() will handle it and call exit
+			return $redirect;
+		} else {
+			return $redirect_url;
+		}
+
 		return false;
 	}
+
 
 	protected function finalizeRedirectedPayment($order_id,$creation_date,$direct_post_details=false,$session_id=false) {
 		$order_details = $this->getOrder($order_id);

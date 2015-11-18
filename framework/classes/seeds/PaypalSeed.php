@@ -23,10 +23,12 @@ class PaypalSeed extends SeedBase {
 	protected $merchant_email = false;
 
 	public function __construct($user_id, $connection_id, $token=false) {
-		$this->settings_type = 'com.mailchimp';
+
+		$this->settings_type = 'com.paypal';
 		$this->user_id = $user_id;
 		$this->connection_id = $connection_id;
 		if ($this->getCASHConnection()) {
+
 			$this->api_version   = '94.0';
 			$this->api_username  = $this->settings->getSetting('username');
 			$this->api_password  = $this->settings->getSetting('password');
@@ -35,11 +37,12 @@ class PaypalSeed extends SeedBase {
 
 			if (!$this->api_username || !$this->api_password || !$this->api_signature) {
 				$connections = CASHSystem::getSystemSettings('system_connections');
+
 				if (isset($connections['com.paypal'])) {
 					$this->merchant_email = $this->settings->getSetting('merchant_email'); // present in multi
-					$this->api_username   = $connections['com.paypal']['username'];
-					$this->api_password   = $connections['com.paypal']['password'];
-					$this->api_signature  = $connections['com.paypal']['signature'];
+					$this->account   = $connections['com.paypal']['account'];
+					$this->client_id   = $connections['com.paypal']['client_id'];
+					$this->secret  = $connections['com.paypal']['secret'];
 					$sandboxed            = $connections['com.paypal']['sandboxed'];
 				}
 			}
@@ -143,7 +146,7 @@ class PaypalSeed extends SeedBase {
 		}
 	}
 
-	public function setExpressCheckout(
+	public function setCheckout(
 		$payment_amount,
 		$ordersku,
 		$ordername,

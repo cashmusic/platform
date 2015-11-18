@@ -13,15 +13,15 @@
 	},
 	"dataTypes": {
 		"single": {
-			"api username":"string",
-			"api password":"string",
-			"api signature":"string",
+			"account":"string",
+			"client_id":"string",
+			"secret":"string",
 			"sandboxed":"bool"	
 		},
 		"multi": {
-			"username":"string",
-			"password":"string",
-			"signature":"string",
+			"account":"string",
+			"client_id":"string",
+			"secret":"string",
 			"sandboxed":"bool"	
 		}
 	}

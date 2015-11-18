@@ -1,0 +1,23 @@
+{
+  "name":"Stripe",
+  "instructions":"Stripe issues an API secret key. Go to Stripe Dashboard > Account Settings > API keys",
+  "description":"Enter Stripe API key.",
+  "type":"com.stripe",
+  "seed":"StripeSeed",
+  "scope":["commerce"],
+  "compatibility":["single","multi"],
+  "interface":{
+    "single":"generate",
+    "multi":"docallback"
+  },
+  "dataTypes": {
+    "single": {
+      "key":"string"
+    },
+    "multi": {
+      "redirect_uri":"string",
+      "client_id":"string",
+      "client_secret":"string"
+    }
+  }
+}
