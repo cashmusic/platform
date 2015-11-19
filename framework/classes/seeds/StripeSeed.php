@@ -231,7 +231,7 @@ class StripeSeed extends SeedBase {
      * Some of the parameters are not used but sent to this method just in case we need them in the future.
      */
 
-    public function setExpressCheckout(
+    public function setCheckout(
         $payment_amount,
         $ordersku,
         $ordername,

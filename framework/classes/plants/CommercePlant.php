@@ -1373,6 +1373,7 @@ class CommercePlant extends PlantBase {
 
 	protected function initiatePaymentRedirect($order_id,$element_id=false,$price_addition=0,$url_only=false,$finalize_url=false,$session_id=false) {
 
+		// set values
 		$order_details = $this->getOrder($order_id);
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
 
@@ -1383,9 +1384,10 @@ class CommercePlant extends PlantBase {
 		$connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
 		$seed_class = $connection_settings['seed'];
 
+		$payment_amount = $order_totals['price'] + $price_addition;
 		$currency = $this->getCurrencyForUser($order_details['user_id']);
-		$require_shipping = false;
-		$allow_note = false;
+		$shipping_required = false;
+		$note_allowed = false;
 
 		if ($finalize_url) {
 			$r = new CASHRequest();
@@ -1419,23 +1421,23 @@ class CommercePlant extends PlantBase {
 
 		// collect shipping information on payment service, if possible
 		if ($order_details['physical']) {
-			$require_shipping = true;
-			$allow_note = true;
+			$shipping_required = true;
+			$note_allowed = true;
 		}
 
 		// create checkout object with URL redirect
 		$redirect_url = $payment_seed->setCheckout(
-			$order_totals['price'] + $price_addition,
-			'order-' . $order_id,
-			$order_totals['description'],
-			$return_url,
-			$return_url,
-			$require_shipping,
-			$allow_note,
-			$currency,
-			'Sale',
-			false,
-			$price_addition
+				$payment_amount,							# payment amount
+				'order-' . $order_id,						# order id
+				$order_totals['description'],				# order name
+				$return_url,								# return URL
+				$return_url,								# cancel URL (the same in our case)
+				$shipping_required,							# shipping info required (boolean)
+				$note_allowed,								# allow an order note (boolean)
+				$currency,									# payment currency
+				'Sale',										# transaction type (e.g. 'Sale', 'Order', or 'Authorization')
+				false,										# invoice (boolean)
+				$price_addition								# price additions (like shipping, but could be taxes in future as well)
 		);
 
 		if (!$url_only) {

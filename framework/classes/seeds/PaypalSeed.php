@@ -1,6 +1,6 @@
 <?php
 /**
- * The PaypalSeed class speaks to the Paypal NVP API.
+ * The PaypalSeed class speaks to the Paypal REST API.
  *
  * @package platform.org.cashmusic
  * @author CASH Music
@@ -18,24 +18,45 @@
  * This file is generously sponsored by Justin Miranda
  *
  **/
+//namespace Seeds\PaypalSeed;
+
+require CASH_PLATFORM_ROOT  . '/lib/paypal/autoload.php';
+
+use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Rest\ApiContext;
+use PayPal\Api\Amount;
+use PayPal\Api\Details;
+use PayPal\Api\Item;
+use PayPal\Api\ItemList;
+use PayPal\Api\Payer;
+use PayPal\Api\Payment;
+use PayPal\Api\RedirectUrls;
+use PayPal\Api\Transaction;
+
 class PaypalSeed extends SeedBase {
 	protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token;
 	protected $merchant_email = false;
 
 	public function __construct($user_id, $connection_id, $token=false) {
-
 		$this->settings_type = 'com.paypal';
 		$this->user_id = $user_id;
 		$this->connection_id = $connection_id;
+
 		if ($this->getCASHConnection()) {
 
-			$this->api_version   = '94.0';
-			$this->api_username  = $this->settings->getSetting('username');
-			$this->api_password  = $this->settings->getSetting('password');
-			$this->api_signature = $this->settings->getSetting('signature');
+			$this->account  = $this->settings->getSetting('account');
+			$this->client_id  = $this->settings->getSetting('client_id');
+			$this->secret = $this->settings->getSetting('secret');
 			$sandboxed           = $this->settings->getSetting('sandboxed');
 
-			if (!$this->api_username || !$this->api_password || !$this->api_signature) {
+			$this->api_context = new \PayPal\Rest\ApiContext(
+					new \PayPal\Auth\OAuthTokenCredential(
+						$this->client_id,		# ClientID
+						$this->secret			# ClientSecret
+					)
+				);
+
+			if (!$this->account || !$this->client_id || !$this->secret) {
 				$connections = CASHSystem::getSystemSettings('system_connections');
 
 				if (isset($connections['com.paypal'])) {
@@ -44,6 +65,13 @@ class PaypalSeed extends SeedBase {
 					$this->client_id   = $connections['com.paypal']['client_id'];
 					$this->secret  = $connections['com.paypal']['secret'];
 					$sandboxed            = $connections['com.paypal']['sandboxed'];
+
+					$this->api_context = new \PayPal\Rest\ApiContext(
+						new \PayPal\Auth\OAuthTokenCredential(
+							$this->client_id,		# ClientID
+							$this->secret			# ClientSecret
+						)
+					);
 				}
 			}
 
