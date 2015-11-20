@@ -20,39 +20,73 @@ class PaypalSeedTests extends UnitTestCase {
 		);
 		$this->cash_user_id = $user_add_request->response['payload'];
 		
-		// add a new connection 
-		$this->paypal_username = getTestEnv("PAYPAL_USERNAME");
-		if(!$this->paypal_username) {
+		// add a new connection
+
+
+		$this->paypal_account = getTestEnv("PAYPAL_ACCOUNT");
+		if(!$this->paypal_account) {
 			echo "Paypal credentials not found, skipping tests\n";
 		}
 		$c = new CASHConnection($this->cash_user_id); // the '1' sets a user id=1
 		$this->paypal_connection_id = $c->setSettings('Paypal', 'com.paypal',
 			array(
-				"username" => $this->paypal_username, 
-				"password" => getTestEnv("PAYPAL_PASSWORD"), 
-				"signature" => getTestEnv("PAYPAL_SIGNATURE"), 
+				"account" => $this->paypal_account,
+				"client_id" => getTestEnv("PAYPAL_CLIENT_ID"),
+				"secret" => getTestEnv("PAYPAL_SECRET"),
 				"sandboxed" => true
 			) 
 		);
 	}
 
 	function testPaypalSeed(){
-		if($this->paypal_username) {
+		if($this->paypal_account) {
 			$pp = new PaypalSeed($this->cash_user_id, $this->paypal_connection_id);
 			$this->assertIsa($pp, 'PaypalSeed');
 		}
 	}
 
-	function testSet(){
-		if($this->paypal_username) {
-			$pp = new PaypalSeed($this->cash_user_id, $this->paypal_connection_id);
-			$redirect_url = $pp->setExpressCheckout(
-				'13.26',
-				'order_sku',
-				'this is the best order ever',
-				'http://localhost',
-				'http://localhost'
+	function testSingleItemNoShipping(){
+		if($this->paypal_account) {
+			$payment_seed = new PaypalSeed($this->cash_user_id, $this->paypal_connection_id);
+
+			$redirect_url = $payment_seed->setCheckout(
+				'6.66',										# payment amount
+				'order-sku',								# order id
+				'the order of the beast',					# order name
+				'http://dev.localhost:8888',				# return URL
+				'http://dev.localhost:8888',				# cancel URL (the same in our case)
+				false,										# shipping info required (boolean)
+				false,										# allow an order note (boolean)
+				'USD',										# payment currency
+				'sale',										# transaction type (e.g. 'Sale', 'Order', or 'Authorization')
+				false,										# invoice (boolean)
+				0											# price additions (like shipping, but could be taxes in future as well)
 			);
+
+			$this->assertTrue($redirect_url);
+			//$redirect = CASHSystem::redirectToUrl($redirect_url);
+			//echo $redirect;
+		}
+	}
+
+	function testSingleItemWithShipping(){
+		if($this->paypal_account) {
+			$payment_seed = new PaypalSeed($this->cash_user_id, $this->paypal_connection_id);
+
+			$redirect_url = $payment_seed->setCheckout(
+				6.66,										# payment amount
+				'order-sku',								# order id
+				'the order of the beast',					# order name
+				'http://dev.localhost:8888',				# return URL
+				'http://dev.localhost:8888',				# cancel URL (the same in our case)
+				true,										# shipping info required (boolean)
+				true,										# allow an order note (boolean)
+				'USD',										# payment currency
+				'sale',										# transaction type (e.g. 'Sale', 'Order', or 'Authorization')
+				false,										# invoice (boolean)
+				1.23											# price additions (like shipping, but could be taxes in future as well)
+			);
+
 			$this->assertTrue($redirect_url);
 			//$redirect = CASHSystem::redirectToUrl($redirect_url);
 			//echo $redirect;

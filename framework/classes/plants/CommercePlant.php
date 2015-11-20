@@ -738,6 +738,8 @@ class CommercePlant extends PlantBase {
 					}
 				}
 				$result[0]['order_totals'] = $this->getOrderTotals($result[0]['order_contents']);
+
+//				$result[0]['order_properties'] = json_decode($result[0]['order_contents'], true);
 				$transaction_data = $this->parseTransactionData($result[0]['connection_type'],$result[0]['data_sent']);
 				if (is_array($transaction_data)) {
 					$result[0] = array_merge($result[0],$transaction_data);
@@ -1327,6 +1329,9 @@ class CommercePlant extends PlantBase {
 			if (isset($item['qty'])) {
 				$return_array['description'] .= $item['qty'] . 'x ';
 			}
+
+			// checking physical fulfillment
+
 			$return_array['description'] .= $item['name'];
 			if (isset($item['variant'])) {
 				if ($item['variant']) {
@@ -1350,6 +1355,8 @@ class CommercePlant extends PlantBase {
 			}
 			$return_array['description'] .= ",  \n";
 		}
+
+
 		$return_array['description'] = rtrim($return_array['description']," ,\n");
 		return $return_array;
 	}
@@ -1371,10 +1378,29 @@ class CommercePlant extends PlantBase {
 		return $currency;
 	}
 
+	/**
+	 * $this->getOrderProperties
+	 *
+	 * Literally just returning the first index of this item, for legibility
+	 * @param string $order_contents
+	 * @return array or bool
+	 */
+	protected function getOrderProperties($order_contents) {
+		$contents = json_decode($order_contents, true);
+
+		if (!empty($contents[0])) {
+			return $contents[0];
+		} else {
+			return false;
+		}
+	}
+
 	protected function initiatePaymentRedirect($order_id,$element_id=false,$price_addition=0,$url_only=false,$finalize_url=false,$session_id=false) {
 
 		// set values
 		$order_details = $this->getOrder($order_id);
+		$order_properties = $this->getOrderProperties($order_details['order_contents']);
+
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
 
 		$order_totals = $this->getOrderTotals($order_details['order_contents']);
@@ -1420,7 +1446,8 @@ class CommercePlant extends PlantBase {
 		}
 
 		// collect shipping information on payment service, if possible
-		if ($order_details['physical']) {
+
+		if ($order_properties['physical_fulfillment'] == 1) {
 			$shipping_required = true;
 			$note_allowed = true;
 		}
@@ -1435,7 +1462,7 @@ class CommercePlant extends PlantBase {
 				$shipping_required,							# shipping info required (boolean)
 				$note_allowed,								# allow an order note (boolean)
 				$currency,									# payment currency
-				'Sale',										# transaction type (e.g. 'Sale', 'Order', or 'Authorization')
+				'sale',										# transaction type (e.g. 'Sale', 'Order', or 'Authorization')
 				false,										# invoice (boolean)
 				$price_addition								# price additions (like shipping, but could be taxes in future as well)
 		);
@@ -1454,6 +1481,8 @@ class CommercePlant extends PlantBase {
 
 
 	protected function finalizeRedirectedPayment($order_id,$creation_date,$direct_post_details=false,$session_id=false) {
+		console_log("this is the return method?");
+		exit();
 		$order_details = $this->getOrder($order_id);
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
 		$connection_type = $this->getConnectionType($transaction_details['connection_id']);
@@ -1846,6 +1875,8 @@ class CommercePlant extends PlantBase {
 		//		break;
 		//}
 	}
+
+
 
 } // END class
 ?>

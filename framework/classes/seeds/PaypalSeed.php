@@ -75,14 +75,7 @@ class PaypalSeed extends SeedBase {
 				}
 			}
 
-			$this->token = $token;
 
-			$this->api_endpoint = "https://api-3t.paypal.com/nvp";
-			$this->paypal_base_url = "https://www.paypal.com/webscr&cmd=";
-			if ($sandboxed) {
-				$this->api_endpoint = "https://api-3t.sandbox.paypal.com/nvp";
-				$this->paypal_base_url = "https://www.sandbox.paypal.com/webscr&cmd=";
-			}
 		} else {
 			$this->error_message = 'could not get connection settings';
 		}
@@ -183,53 +176,63 @@ class PaypalSeed extends SeedBase {
 		$request_shipping_info=true,
 		$allow_note=false,
 		$currency_id='USD', /* 'USD', 'GBP', 'EUR', 'JPY', 'CAD', 'AUD' */
-		$payment_type='Sale', /* 'Sale', 'Order', or 'Authorization' */
+		$payment_type='sale', /* 'Sale', 'Order', or 'Authorization' */
 		$invoice=false,
 		$shipping_amount=false
 	) {
-		// Set NVP variables:
-		$nvp_parameters = array(
-			'PAYMENTREQUEST_0_AMT' => $payment_amount,
-			'PAYMENTREQUEST_0_PAYMENTACTION' => $payment_type,
-			'PAYMENTREQUEST_0_CURRENCYCODE' => $currency_id,
-			'PAYMENTREQUEST_0_ALLOWEDPAYMENTMETHOD' => 'InstantPaymentOnly',
-			'PAYMENTREQUEST_0_DESC' => $ordername,
-			'RETURNURL' => $return_url,
-			'CANCELURL' => $cancel_url,
-			'L_PAYMENTREQUEST_0_AMT0' => $payment_amount,
-			'L_PAYMENTREQUEST_0_NUMBER0' => $ordersku,
-			'L_PAYMENTREQUEST_0_NAME0' => $ordername,
-			'NOSHIPPING' => '0',
-			'ALLOWNOTE' => '0',
-			'SOLUTIONTYPE' => 'Sole',
-			'LANDINGPAGE' => 'Billing'
-		);
-		if (!$request_shipping_info) {
-			$nvp_parameters['NOSHIPPING'] = 1;
-		}
-		if ($shipping_amount) {
-			$nvp_parameters['NOSHIPPING'] = 0;
-			$nvp_parameters['L_PAYMENTREQUEST_0_AMT0'] = $payment_amount-$shipping_amount;
-			$nvp_parameters['PAYMENTREQUEST_0_ITEMAMT'] = $payment_amount-$shipping_amount;
-			$nvp_parameters['PAYMENTREQUEST_0_SHIPPINGAMT'] = $shipping_amount;
-		}
-		if ($allow_note) {
-			$nvp_parameters['ALLOWNOTE'] = 1;
-		}
-		if ($invoice) {
-			$nvp_parameters['PAYMENTREQUEST_0_INVNUM'] = $invoice;
+
+
+		$payer = new Payer();
+		$payer->setPaymentMethod("paypal");
+
+		if ($request_shipping_info && $shipping_amount > 0) {
+			$shipping = new Details();
+			$shipping->setShipping($shipping_amount)
+				//->setTax(1.3)
+				->setSubtotal($payment_amount-$shipping_amount); //TODO: assumes shipping cost is passed in as part of the total $payment_amount, at the moment
+		} else {
+			$shipping = "";
 		}
 
-		$parsed_response = $this->postToPaypal('SetExpressCheckout', $nvp_parameters);
-		if (!$parsed_response) {
-			$this->setErrorMessage('SetExpressCheckout failed: ' . $this->getErrorMessage());
-			error_log($this->getErrorMessage());
-			return false;
+		$amount = new Amount();
+		$amount->setCurrency($currency_id)
+			->setTotal($payment_amount);
+
+		if ($request_shipping_info) {
+			$amount->setDetails($shipping);
+		}
+
+		$transaction = new Transaction();
+		$transaction->setAmount($amount)
+			->setDescription($ordername)
+			->setInvoiceNumber($ordersku);
+
+		$redirectUrls = new RedirectUrls();
+		$redirectUrls->setReturnUrl($return_url)
+					 ->setCancelUrl($cancel_url);
+
+
+		$payment = new Payment();
+		$payment->setIntent($payment_type)
+			->setPayer($payer)
+			->setRedirectUrls($redirectUrls)
+			->setTransactions(array($transaction));
+		error_log( print_r($payment, true) );
+		exit;
+
+		try { $payment->create($this->api_context); } catch (Exception $ex) {
+
+			$error = json_decode($ex->getData());
+			$this->setErrorMessage($error->message);
+		}
+
+		$approval_url = $payment->getApprovalLink();
+
+		if (!empty($approval_url)) {
+			return $approval_url;
 		} else {
-			// Redirect to paypal.com.
-			$token = urldecode($parsed_response["TOKEN"]);
-			$paypal_url = $this->paypal_base_url . "_express-checkout&token=$token";
-			return $paypal_url;
+			// approval link isn't set, return to page and post error
+			$this->setErrorMessage('There was an error contacting PayPal for this payment.');
 		}
 	}
 
