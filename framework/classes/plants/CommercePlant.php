@@ -1481,8 +1481,7 @@ class CommercePlant extends PlantBase {
 
 
 	protected function finalizeRedirectedPayment($order_id,$creation_date,$direct_post_details=false,$session_id=false) {
-		console_log("this is the return method?");
-		exit();
+
 		$order_details = $this->getOrder($order_id);
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
 		$connection_type = $this->getConnectionType($transaction_details['connection_id']);

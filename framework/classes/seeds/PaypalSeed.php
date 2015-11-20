@@ -217,8 +217,7 @@ class PaypalSeed extends SeedBase {
 			->setPayer($payer)
 			->setRedirectUrls($redirectUrls)
 			->setTransactions(array($transaction));
-		error_log( print_r($payment, true) );
-		exit;
+
 
 		try { $payment->create($this->api_context); } catch (Exception $ex) {
 
