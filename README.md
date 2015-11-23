@@ -1,3 +1,5 @@
+[![Funded by The Shuttleworth Foundation](https://cloud.githubusercontent.com/assets/368640/11352290/6d23f2fe-91f0-11e5-9104-53eab0a36abe.jpg)](https://www.shuttleworthfoundation.org/)
+
 # CASH Music Platform
 
 The CASH Music platform gives everyone access to tools that let them manage, 
