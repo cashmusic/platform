@@ -1429,6 +1429,7 @@ class CommercePlant extends PlantBase {
 
 		// we're going to switch seeds by $connection_type, so check to make sure this class even exists
 		if (!class_exists($seed_class)) {
+			$this->setErrorMessage("Couldn't find payment type $connection_type.");
 			return false;
 		}
 
@@ -1453,7 +1454,7 @@ class CommercePlant extends PlantBase {
 		}
 
 		// create checkout object with URL redirect
-		$redirect_url = $payment_seed->setCheckout(
+		$payment_details = $payment_seed->setCheckout(
 				$payment_amount,							# payment amount
 				'order-' . $order_id,						# order id
 				$order_totals['description'],				# order name
@@ -1467,13 +1468,27 @@ class CommercePlant extends PlantBase {
 				$price_addition								# price additions (like shipping, but could be taxes in future as well)
 		);
 
+
+
+		$this->editTransaction(
+			$order_details['transaction_id'], 		// order id
+			false, 									// service timestamp
+			false,										// service transaction id
+			json_encode($payment_details['data_sent']),	// data sent
+			false,			// data received
+			false,										// successful (boolean 0/1)
+			false,										// gross price
+			false,										// service fee
+			false									// transaction status
+		);
+
 		if (!$url_only) {
-			$redirect = CASHSystem::redirectToUrl($redirect_url);
+			$redirect = CASHSystem::redirectToUrl($payment_details['redirect_url']);
 			// the return will only happen if headers have already been sent
 			// if they haven't redirectToUrl() will handle it and call exit
 			return $redirect;
 		} else {
-			return $redirect_url;
+			return $payment_details['redirect_url'];
 		}
 
 		return false;
@@ -1481,7 +1496,6 @@ class CommercePlant extends PlantBase {
 
 
 	protected function finalizeRedirectedPayment($order_id,$creation_date,$direct_post_details=false,$session_id=false) {
-
 
 		$order_details = $this->getOrder($order_id);
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
@@ -1498,9 +1512,9 @@ class CommercePlant extends PlantBase {
 			$r->sessionClear('payment_finalize_url');
 		}
 
-
 		// we're going to switch seeds by $connection_type, so check to make sure this class even exists
 		if (!class_exists($seed_class)) {
+			$this->setErrorMessage("Couldn't find payment type $connection_type.");
 			return false;
 		}
 
@@ -1532,29 +1546,39 @@ class CommercePlant extends PlantBase {
 
 					$this->editTransaction(
 						$order_details['transaction_id'], 		// order id
-						strtotime($final_details['TIMESTAMP']), // service timestamp
-						$final_details['CORRELATIONID'],		// service transaction id
-						json_encode($initial_details),			// data sent
-						json_encode($final_details),			// data received
+						$payment_details['timestamp'], 			// service timestamp
+						$payment_details['transaction_id'],		// service transaction id
+						false,									// data sent
+						$payment_details['everything'],			// data received
 						1,										// successful (boolean 0/1)
-						$final_details['PAYMENTINFO_0_AMT'],	// gross price
-						$final_details['PAYMENTINFO_0_FEEAMT'],	// service fee
+						$payment_details['total'],				// gross price
+						$payment_details['transaction_fee']['value'],	// service fee
 						'complete'								// transaction status
 					);
 
+					// empty the cart at this point
+					$this->emptyCart($session_id);
+
+					// TODO: add code to order metadata so we can track opens, etc
+					$order_details['customer_details']['email_address'] = $payment_details['payer']['email'];
+					$order_details['gross_price'] = $payment_details['total'];
+					$this->sendOrderReceipt(false,$order_details,$finalize_url);
+					return $order_details['id'];
+
 				} else {
-					//TODO: error creating a user, maybe?
+					$this->setErrorMessage("Couldn't find your account.");
 					return false;
 				}
 
 			} else {
 
-				//TODO: payments don't match up!
+				$this->setErrorMessage("The order total and payment total don't match.");
 				return false;
 			}
 
 		} else {
-			//TODO: couldn't find that payment
+
+			$this->setErrorMessage("There's no record of this payment.");
 			return false;
 		}
 

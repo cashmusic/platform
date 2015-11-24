@@ -49,7 +49,7 @@ class PaypalSeedTests extends UnitTestCase {
 		if($this->paypal_account) {
 			$payment_seed = new PaypalSeed($this->cash_user_id, $this->paypal_connection_id);
 
-			$redirect_url = $payment_seed->setCheckout(
+			$payment_details = $payment_seed->setCheckout(
 				'6.66',										# payment amount
 				'order-sku',								# order id
 				'the order of the beast',					# order name
@@ -63,7 +63,7 @@ class PaypalSeedTests extends UnitTestCase {
 				0											# price additions (like shipping, but could be taxes in future as well)
 			);
 
-			$this->assertTrue($redirect_url);
+			$this->assertTrue($payment_details['redirect_url']);
 			//$redirect = CASHSystem::redirectToUrl($redirect_url);
 			//echo $redirect;
 		}
@@ -73,7 +73,7 @@ class PaypalSeedTests extends UnitTestCase {
 		if($this->paypal_account) {
 			$payment_seed = new PaypalSeed($this->cash_user_id, $this->paypal_connection_id);
 
-			$redirect_url = $payment_seed->setCheckout(
+			$payment_details = $payment_seed->setCheckout(
 				6.66,										# payment amount
 				'order-sku',								# order id
 				'the order of the beast',					# order name
@@ -87,7 +87,7 @@ class PaypalSeedTests extends UnitTestCase {
 				1.23											# price additions (like shipping, but could be taxes in future as well)
 			);
 
-			$this->assertTrue($redirect_url);
+			$this->assertTrue($payment_details['redirect_url']);
 			//$redirect = CASHSystem::redirectToUrl($redirect_url);
 			//echo $redirect;
 		}

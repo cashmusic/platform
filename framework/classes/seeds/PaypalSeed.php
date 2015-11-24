@@ -230,7 +230,10 @@ class PaypalSeed extends SeedBase {
 		$approval_url = $payment->getApprovalLink();
 
 		if (!empty($approval_url)) {
-			return $approval_url;
+			return array(
+				'redirect_url' => $approval_url,
+				'data_sent' => json_encode($payment->getTransactions() )
+			);
 		} else {
 			// approval link isn't set, return to page and post error
 			$this->setErrorMessage('There was an error contacting PayPal for this payment.');
@@ -241,7 +244,7 @@ class PaypalSeed extends SeedBase {
 
 		// check if we got a PayPal token in the return url; if not, cheese it!
 		if (!empty($_GET['token'])) {
-			error_log( print_r($_GET, true) );
+
 		} else {
 			$this->setErrorMessage("No PayPal token was found.");
 			return false;
@@ -288,7 +291,12 @@ class PaypalSeed extends SeedBase {
 			$details = $payment->toArray();
 
 			return array('total' => $details['transactions'][0]['amount']['total'],
-					'payer' => $details['payer']['payer_info']);
+						'payer' => $details['payer']['payer_info'],
+						'timestamp' => strtotime($details['create_time']),
+						'transaction_id' => $details['id'],
+						'transaction_fee' => $details['transactions'][0]['related_resources'][0]['sale']['transaction_fee'],
+						'everything' => json_encode($details)
+						);
 		} else {
 			//ResultPrinter::printResult("User Cancelled the Approval", null);
 			return false;
