@@ -32,12 +32,15 @@ use PayPal\Api\Payer;
 use PayPal\Api\Payment;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
+use PayPal\Api\ExecutePayment;
+use PayPal\Api\PaymentExecution;
+
 
 class PaypalSeed extends SeedBase {
 	protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token;
 	protected $merchant_email = false;
 
-	public function __construct($user_id, $connection_id, $token=false) {
+	public function __construct($user_id, $connection_id) {
 		$this->settings_type = 'com.paypal';
 		$this->user_id = $user_id;
 		$this->connection_id = $connection_id;
@@ -181,24 +184,23 @@ class PaypalSeed extends SeedBase {
 		$shipping_amount=false
 	) {
 
-
 		$payer = new Payer();
 		$payer->setPaymentMethod("paypal");
 
-		if ($request_shipping_info && $shipping_amount > 0) {
-			$shipping = new Details();
-			$shipping->setShipping($shipping_amount)
-				//->setTax(1.3)
-				->setSubtotal($payment_amount-$shipping_amount); //TODO: assumes shipping cost is passed in as part of the total $payment_amount, at the moment
-		} else {
-			$shipping = "";
-		}
+
 
 		$amount = new Amount();
 		$amount->setCurrency($currency_id)
 			->setTotal($payment_amount);
 
-		if ($request_shipping_info) {
+
+		if ($request_shipping_info && $shipping_amount > 0) {
+			$shipping = new Details();
+			$shipping->setShipping($shipping_amount)
+				//->setTax(1.3)
+				->setSubtotal($payment_amount - $shipping_amount);
+				//TODO: assumes shipping cost is passed in as part of the total $payment_amount
+
 			$amount->setDetails($shipping);
 		}
 
@@ -208,8 +210,8 @@ class PaypalSeed extends SeedBase {
 			->setInvoiceNumber($ordersku);
 
 		$redirectUrls = new RedirectUrls();
-		$redirectUrls->setReturnUrl($return_url)
-					 ->setCancelUrl($cancel_url);
+		$redirectUrls->setReturnUrl($return_url."&success=true")
+					 ->setCancelUrl($cancel_url."&success=false");
 
 
 		$payment = new Payment();
@@ -235,8 +237,65 @@ class PaypalSeed extends SeedBase {
 		}
 	}
 
-	public function getExpressCheckout() {
-		if ($this->token) {
+	public function getCheckout() {
+
+		// check if we got a PayPal token in the return url; if not, cheese it!
+		if (!empty($_GET['token'])) {
+			error_log( print_r($_GET, true) );
+		} else {
+			$this->setErrorMessage("No PayPal token was found.");
+			return false;
+		}
+
+		// Determine if the user approved the payment or not
+		if (!empty($_GET['success']) && $_GET['success'] == 'true' &&
+			!empty($_GET['paymentId']) && !empty($_GET['PayerID'])
+			) {
+
+			// Get the payment Object by passing paymentId
+			// payment id was previously stored in session in
+			// CreatePaymentUsingPayPal.php
+			$this->payment_id = $_GET['paymentId'];
+			$payment = Payment::get($this->payment_id, $this->api_context);
+
+			// ### Payment Execute
+			// PaymentExecution object includes information necessary
+			// to execute a PayPal account payment.
+			// The payer_id is added to the request query parameters
+			// when the user is redirected from paypal back to your site
+			$execution = new PaymentExecution();
+			$execution->setPayerId($_GET['PayerID']);
+
+			try {
+				// Execute the payment
+				$result = $payment->execute($execution, $this->api_context);
+
+				//ResultPrinter::printResult("Executed Payment", "Payment", $payment->getId(), $execution, $result);
+
+				try {
+					$payment = Payment::get($this->payment_id, $this->api_context);
+				} catch (Exception $ex) {
+					//ResultPrinter::printError("Get Payment", "Payment", null, null, $ex);
+					return false;
+				}
+			} catch (Exception $ex) {
+				//ResultPrinter::printError("Executed Payment", "Payment", null, null, $ex);
+				return false;
+			}
+			//ResultPrinter::printResult("Get Payment", "Payment", $payment->getId(), null, $payment);
+
+			// let's return a standardized array to generalize for multiple payment types
+			$details = $payment->toArray();
+
+			return array('total' => $details['transactions'][0]['amount']['total'],
+					'payer' => $details['payer']['payer_info']);
+		} else {
+			//ResultPrinter::printResult("User Cancelled the Approval", null);
+			return false;
+		}
+
+
+		/*if ($this->token) {
 			$nvp_parameters = array(
 				'TOKEN' => $this->token
 			);
@@ -250,7 +309,7 @@ class PaypalSeed extends SeedBase {
 		} else {
 			$this->setErrorMessage("No token was found.");
 			return false;
-		}
+		}*/
 	}
 
 	public function doExpressCheckout($payment_type='Sale') {

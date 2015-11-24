@@ -1482,9 +1482,14 @@ class CommercePlant extends PlantBase {
 
 	protected function finalizeRedirectedPayment($order_id,$creation_date,$direct_post_details=false,$session_id=false) {
 
+
 		$order_details = $this->getOrder($order_id);
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
 		$connection_type = $this->getConnectionType($transaction_details['connection_id']);
+
+		// get connection type settings so we can extract Seed classname
+		$connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
+		$seed_class = $connection_settings['seed'];
 
 		$r = new CASHRequest();
 		$r->startSession(false,$session_id);
@@ -1493,217 +1498,167 @@ class CommercePlant extends PlantBase {
 			$r->sessionClear('payment_finalize_url');
 		}
 
-		switch ($connection_type) {
-			case 'com.paypal':
-				if (isset($_GET['token'])) {
-					if (isset($_GET['PayerID'])) {
-						$pp = new PaypalSeed($order_details['user_id'],$transaction_details['connection_id'],$_GET['token']);
-						$initial_details = $pp->getExpressCheckout();
-						if ($initial_details['ACK'] == 'Success') {
-							$order_totals = $this->getOrderTotals($order_details['order_contents']);
-							if ($initial_details['AMT'] >= $order_totals['price']) {
-								$final_details = $pp->doExpressCheckout();
-								if ($final_details) {
-									// look for a user to match the email. if not present, make one
-									$user_request = new CASHRequest(
-										array(
-											'cash_request_type' => 'people',
-											'cash_action' => 'getuseridforaddress',
-											'address' => $initial_details['EMAIL']
-										)
-									);
-									$user_id = $user_request->response['payload'];
-									if (!$user_id) {
-										$user_request = new CASHRequest(
-											array(
-												'cash_request_type' => 'system',
-												'cash_action' => 'addlogin',
-												'address' => $initial_details['EMAIL'],
-												'password' => time(),
-												'is_admin' => 0,
-												'display_name' => $initial_details['FIRSTNAME'] . ' ' . $initial_details['LASTNAME'],
-												'first_name' => $initial_details['FIRSTNAME'],
-												'last_name' => $initial_details['LASTNAME'],
-												'address_country' => $initial_details['COUNTRYCODE']
-											)
-										);
-										$user_id = $user_request->response['payload'];
-									}
 
-									// deal with physical quantities
-									if ($order_details['physical'] == 1) {
-										$order_items = json_decode($order_details['order_contents'],true);
-										if (is_array($order_items)) {
-											foreach ($order_items as $i) {
-												if ($i['available_units'] > 0 && $i['physical_fulfillment'] == 1) {
-													$item = $this->getItem($i['id']);
-													if ($i['variant']) {
-														$variant_id = 0;
-														$variant_qty = 0;
-														if ($item['variants']) {
-															foreach ($item['variants']['quantities'] as $q) {
-																if ($q['key'] == $i['variant']) {
-																	$variant_id = $q['id'];
-																	$variant_qty = $q['value'];
-																	break;
-																}
-															}
-															if ($variant_id) {
-																$this->editItemVariant($variant_id, max($variant_qty-$i['qty'],0), $i['id']);
-															}
-														}
-													} else {
-														$available_units =
-														$this->editItem(
-															$i['id'],
-															false,
-															false,
-															false,
-															false,
-															false,
-															max($item['available_units'] - $i['qty'],0)
-														);
-													}
-												}
-											}
-										}
-									}
+		// we're going to switch seeds by $connection_type, so check to make sure this class even exists
+		if (!class_exists($seed_class)) {
+			return false;
+		}
 
-									// record all the details
-									if ($order_details['digital'] == 1 && $order_details['physical'] == 0) {
-										// if the order is 100% digital just mark it as fulfilled
-										$is_fulfilled = 1;
-									} else {
-										// there's something physical. sorry dude. gotta deal with it still.
-										$is_fulfilled = 0;
-									}
+		// call the payment seed class
+		$payment_seed = new $seed_class($order_details['user_id'],$transaction_details['connection_id']);
 
-									$this->editOrder(
-										$order_id,
-										$is_fulfilled,
-										0,
-										false,
-										$initial_details['COUNTRYCODE'],
-										$user_id
-									);
-									$this->editTransaction(
-										$order_details['transaction_id'],
-										strtotime($final_details['TIMESTAMP']),
-										$final_details['CORRELATIONID'],
-										json_encode($initial_details),
-										json_encode($final_details),
-										1,
-										$final_details['PAYMENTINFO_0_AMT'],
-										$final_details['PAYMENTINFO_0_FEEAMT'],
-										'complete'
-									);
+		// if this was approved by the user, we need to compare some values to make sure everything matches up
+		if ($payment_details = $payment_seed->getCheckout()) {
 
-									// empty the cart at this point
-									$this->emptyCart($session_id);
+			$order_totals = $this->getOrderTotals($order_details['order_contents']);
 
-									// TODO: add code to order metadata so we can track opens, etc
-									$order_details['customer_details']['email_address'] = $initial_details['EMAIL'];
-									$order_details['gross_price'] = $final_details['PAYMENTINFO_0_AMT'];
-									$this->sendOrderReceipt(false,$order_details,$finalize_url);
-									return $order_details['id'];
-								} else {
-									// make sure this isn't an accidentally refreshed page
-									if ($initial_details['CHECKOUTSTATUS'] != 'PaymentActionCompleted'){
-										$initial_details['ERROR_MESSAGE'] = $pp->getErrorMessage();
-										// there was an error processing the transaction
-										$this->editOrder(
-											$order_id,
-											0,
-											1
-										);
-										$this->editTransaction(
-											$order_details['transaction_id'],
-											strtotime($initial_details['TIMESTAMP']),
-											$initial_details['CORRELATIONID'],
-											false,
-											json_encode($initial_details),
-											0,
-											false,
-											false,
-											'error processing payment'
-										);
-										return false;
-									} else {
-										// this is a successful transaction with the user hitting refresh
-										// as long as it's within 30 minutes of the original return true, otherwise
-										// call it false and allow the page to expire
-										if (time() - strtotime($initial_details['TIMESTAMP']) < 180) {
-											return true;
-										} else {
-											return false;
-										}
+			// okay, we've got the matching totals, so let's get the $user_id, y'all
+			if ($payment_details['total'] >= $order_totals['price']) {
+
+				if ($user_id = $this->getOrCreateUser($payment_details['payer'])) {
+
+					// marking order fulfillment for digital only, physical quantities, all that fun stuff
+					$is_fulfilled = $this->processProducts($order_details);
+
+					// takin' care of business
+					$this->editOrder(
+						$order_id, 		// order id
+						$is_fulfilled,	// fulfilled status
+						0,				// cancelled (boolean 0/1)
+						false,			// notes
+						$payment_details['payer']['country_code'],	// country code
+						$user_id		// user id
+					);
+
+					$this->editTransaction(
+						$order_details['transaction_id'], 		// order id
+						strtotime($final_details['TIMESTAMP']), // service timestamp
+						$final_details['CORRELATIONID'],		// service transaction id
+						json_encode($initial_details),			// data sent
+						json_encode($final_details),			// data received
+						1,										// successful (boolean 0/1)
+						$final_details['PAYMENTINFO_0_AMT'],	// gross price
+						$final_details['PAYMENTINFO_0_FEEAMT'],	// service fee
+						'complete'								// transaction status
+					);
+
+				} else {
+					//TODO: error creating a user, maybe?
+					return false;
+				}
+
+			} else {
+
+				//TODO: payments don't match up!
+				return false;
+			}
+
+		} else {
+			//TODO: couldn't find that payment
+			return false;
+		}
+
+	}
+
+
+	/**
+	 * Find a user's id by their email, or create one
+	 * @param array $payer
+	 * @return int
+     */
+
+	protected function getOrCreateUser(array $payer) {
+
+		// let's try to find this user id via email
+		$user_request = new CASHRequest(
+			array('cash_request_type' => 'people',
+				'cash_action' => 'getuseridforaddress',
+				'address' => $payer['email'])
+		);
+
+		$user_id = $user_request->response['payload'];
+
+		// no dice, so let's make them feel welcome and create an account
+		if (!$user_id) {
+			$user_request = new CASHRequest(
+				array('cash_request_type' => 'system',
+					'cash_action' => 'addlogin',
+					'address' => $payer['email'],
+					'password' => time(),
+					'is_admin' => 0,
+					'display_name' => $payer['first_name'] . ' ' . $payer['last_name'],
+					'first_name' => $payer['first_name'],
+					'last_name' => $payer['last_name'],
+					'address_country' => $payer['country_code'])
+			);
+			$user_id = $user_request->response['payload'];
+		}
+
+		if (!$user_id) {
+			//TODO: uh oh, something went wrong while trying to create a user, maybe?
+			return false;
+		} else {
+			return $user_id;
+		}
+	}
+
+	/**
+	 * Mostly dealing with physical quantities, and order fulfillment status for digital
+	 * @param array $order_details
+	 * @return $is_fulfilled int
+     */
+	protected function processProducts(array $order_details) {
+
+		// deal with physical quantities
+		if ($order_details['physical'] == 1) {
+			$order_items = json_decode($order_details['order_contents'],true);
+			if (is_array($order_items)) {
+				foreach ($order_items as $i) {
+					if ($i['available_units'] > 0 && $i['physical_fulfillment'] == 1) {
+						$item = $this->getItem($i['id']);
+						if ($i['variant']) {
+							$variant_id = 0;
+							$variant_qty = 0;
+							if ($item['variants']) {
+								foreach ($item['variants']['quantities'] as $q) {
+									if ($q['key'] == $i['variant']) {
+										$variant_id = $q['id'];
+										$variant_qty = $q['value'];
+										break;
 									}
 								}
-							} else {
-								// insufficient funds — user changed amount?
-								$this->editOrder(
-									$order_id,
-									0,
-									1
-								);
-								$this->editTransaction(
-									$order_details['transaction_id'],
-									strtotime($initial_details['TIMESTAMP']),
-									$initial_details['CORRELATIONID'],
-									false,
-									json_encode($initial_details),
-									0,
-									false,
-									false,
-									'incorrect amount'
-								);
-								return false;
+								if ($variant_id) {
+									$this->editItemVariant($variant_id, max($variant_qty-$i['qty'],0), $i['id']);
+								}
 							}
 						} else {
-							// order reporting failure
-							$this->editOrder(
-								$order_id,
-								0,
-								1
-							);
-							$this->editTransaction(
-								$order_details['transaction_id'],
-								strtotime($initial_details['TIMESTAMP']),
-								$initial_details['CORRELATIONID'],
-								false,
-								json_encode($initial_details),
-								0,
-								false,
-								false,
-								'payment failed'
-							);
-							return false;
+							$available_units =
+								$this->editItem(
+									$i['id'],
+									false,
+									false,
+									false,
+									false,
+									false,
+									max($item['available_units'] - $i['qty'],0)
+								);
 						}
-					} else {
-						// user canceled transaction
-						$this->editOrder(
-							$order_id,
-							0,
-							1
-						);
-						$this->editTransaction(
-							$order_details['transaction_id'],
-							time(),
-							false,
-							false,
-							false,
-							0,
-							false,
-							false,
-							'canceled'
-						);
-						return false;
 					}
 				}
-				break;
-			default:
-				return false;
+			}
 		}
+
+		// record all the details
+		if ($order_details['digital'] == 1 && $order_details['physical'] == 0) {
+			// if the order is 100% digital just mark it as fulfilled
+			$is_fulfilled = 1;
+		} else {
+			// there's something physical. sorry dude. gotta deal with it still.
+			$is_fulfilled = 0;
+		}
+
+		return $is_fulfilled;
+
 	}
 
 	protected function sendOrderReceipt($id=false,$order_details=false,$finalize_url=false) {
