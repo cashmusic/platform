@@ -1558,9 +1558,10 @@ class CommercePlant extends PlantBase {
 
 					// empty the cart at this point
 					$this->emptyCart($session_id);
-
+//					error_log( print_r($payment_details['payer'], true)  );
 					// TODO: add code to order metadata so we can track opens, etc
 					$order_details['customer_details']['email_address'] = $payment_details['payer']['email'];
+
 					$order_details['gross_price'] = $payment_details['total'];
 					$this->sendOrderReceipt(false,$order_details,$finalize_url);
 					return $order_details['id'];
@@ -1604,17 +1605,20 @@ class CommercePlant extends PlantBase {
 
 		// no dice, so let's make them feel welcome and create an account
 		if (!$user_id) {
+
 			$user_request = new CASHRequest(
 				array('cash_request_type' => 'system',
 					'cash_action' => 'addlogin',
 					'address' => $payer['email'],
 					'password' => time(),
+					'username' => preg_replace('/\s+/', '', $payer['first_name'] . $payer['last_name']),
 					'is_admin' => 0,
 					'display_name' => $payer['first_name'] . ' ' . $payer['last_name'],
 					'first_name' => $payer['first_name'],
 					'last_name' => $payer['last_name'],
 					'address_country' => $payer['country_code'])
 			);
+
 			$user_id = $user_request->response['payload'];
 		}
 
