@@ -756,7 +756,7 @@ small, .small{
 	font-family:'Nunito',Helvetica,Arial,sans-serif;
 }
 
-strong, #navmenu span, .drawerhandle span{
+strong, #navmenu span, .drawerhandle span, .element-title{
 	font-family:'Montserrat',Helvetica,Arial,sans-serif;
 }
 
