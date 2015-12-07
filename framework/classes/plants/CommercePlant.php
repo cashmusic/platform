@@ -933,6 +933,7 @@ class CommercePlant extends PlantBase {
 							$order = array_merge($order,$transaction_data);
 						}
 						$order_totals = $this->getOrderTotals($order['order_contents']);
+
 						$order['order_description'] = $order_totals['description'];
 					}
 				}
@@ -1549,7 +1550,7 @@ class CommercePlant extends PlantBase {
 						$payment_details['timestamp'], 			// service timestamp
 						$payment_details['transaction_id'],		// service transaction id
 						false,									// data sent
-						$payment_details['everything'],			// data received
+						$payment_details['order_details'],			// data received
 						1,										// successful (boolean 0/1)
 						$payment_details['total'],				// gross price
 						$payment_details['transaction_fee']['value'],	// service fee

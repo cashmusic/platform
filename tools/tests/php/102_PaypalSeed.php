@@ -53,8 +53,8 @@ class PaypalSeedTests extends UnitTestCase {
 				'6.66',										# payment amount
 				'order-sku',								# order id
 				'the order of the beast',					# order name
-				'http://dev.localhost:8888',				# return URL
-				'http://dev.localhost:8888',				# cancel URL (the same in our case)
+				'http://dev.localhost:8888?cash_request_type=commerce&cash_action=finalizepayment',				# return URL
+				'http://dev.localhost:8888?cash_request_type=commerce&cash_action=finalizepayment',				# cancel URL (the same in our case)
 				false,										# shipping info required (boolean)
 				false,										# allow an order note (boolean)
 				'USD',										# payment currency
@@ -62,6 +62,7 @@ class PaypalSeedTests extends UnitTestCase {
 				false,										# invoice (boolean)
 				0											# price additions (like shipping, but could be taxes in future as well)
 			);
+
 
 			$this->assertTrue($payment_details['redirect_url']);
 			//$redirect = CASHSystem::redirectToUrl($redirect_url);
@@ -77,8 +78,8 @@ class PaypalSeedTests extends UnitTestCase {
 				6.66,										# payment amount
 				'order-sku',								# order id
 				'the order of the beast',					# order name
-				'http://dev.localhost:8888',				# return URL
-				'http://dev.localhost:8888',				# cancel URL (the same in our case)
+				'http://dev.localhost:8888?cash_request_type=commerce&cash_action=finalizepayment',				# return URL
+				'http://dev.localhost:8888?cash_request_type=commerce&cash_action=finalizepaymentt',				# cancel URL (the same in our case)
 				true,										# shipping info required (boolean)
 				true,										# allow an order note (boolean)
 				'USD',										# payment currency

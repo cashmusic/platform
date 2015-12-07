@@ -62,6 +62,7 @@ if ($request_parameters) {
 			'deep' => true
 		)
 	);
+
 	$order_details = $order_details_response['payload'];
 	if ($order_details['user_id'] == $effective_user) {
 
@@ -112,6 +113,7 @@ if ($request_parameters) {
 		//if ($order_details['fulfilled']) { $order_details['order_fulfilled'] = 'yes'; } else { $order_details['order_fulfilled'] = 'no'; }
 		$cash_admin->page_data = array_merge($cash_admin->page_data,$order_details);
 		$cash_admin->page_data['order_contents'] = new ArrayIterator($order_contents);
+
 		$cash_admin->page_data['customer_display_name'] = $order_details['customer_details']['display_name'];
 		$cash_admin->page_data['customer_email_address'] = $order_details['customer_details']['email_address'];
 		$cash_admin->page_data['customer_address_country'] = $order_details['customer_details']['address_country'];

@@ -289,13 +289,29 @@ class PaypalSeed extends SeedBase {
 
 			// let's return a standardized array to generalize for multiple payment types
 			$details = $payment->toArray();
+			// nested array for data received, standard across seeds
+			//TODO: this is set for single item transactions for now; should be expanded for cart transactions
+			$order_details = array(
+				'transaction_date' 	=> strtotime($details['create_time']),
+				'transaction_id' 	=> $details['id'],
+				'items' 			=> array(),
+				'total' 			=> $details['transactions'][0]['amount']['total'],
+				'other_charges' 	=> array(),
+				'transaction_fees'  => $details['transactions'][0]['related_resources'][0]['sale']['transaction_fee'],
+							'payer' => array(
+								'first_name' 	=> $details['payer']['payer_info']['first_name'],
+								'last_name' 	=> $details['payer']['payer_info']['last_name'],
+								'email'			=> $details['payer']['payer_info']['email'],
+								'shipping_address' => array()
+							)
+				);
 
 			return array('total' => $details['transactions'][0]['amount']['total'],
 						'payer' => $details['payer']['payer_info'],
 						'timestamp' => strtotime($details['create_time']),
 						'transaction_id' => $details['id'],
 						'transaction_fee' => $details['transactions'][0]['related_resources'][0]['sale']['transaction_fee'],
-						'everything' => json_encode($details)
+						'order_details' => json_encode($order_details)
 						);
 		} else {
 			//ResultPrinter::printResult("User Cancelled the Approval", null);
