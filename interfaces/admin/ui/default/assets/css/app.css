@@ -32,8 +32,8 @@ body {
 	background-size: cover;
 	color:#222;
 	font-family: 'Montserrat',Helvetica,Arial,sans-serif;
-	font-weight:400;
-	font-size: 0.96em;
+	font-weight:300;
+	font-size: 0.90em;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-transition: 0.3s  ease-in-out;
@@ -276,7 +276,9 @@ p{
 	line-height: 20px;
 	margin:0 0 20px 0;
 	padding:0;
+	font-family: 'Nunito',Helvetica,Arial,sans-serif;
 }
+
 
 blockquote{
 	margin:0 0 30px 0;
@@ -427,7 +429,7 @@ select{
 textarea{
 	font:400 14px/16px 'Montserrat',Helvetica,Arial,sans-serif;
 	width:100%;
-	padding:10px;
+	padding:15px;
 	height:100px;
 	margin: 0 0 12px 0;
 	-webkit-apperance:none;
@@ -450,7 +452,8 @@ input.checkorradio{
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	padding:10px;
-	margin:10px 0px -5px 0;
+	margin:0;
+	vertical-align: middle;
 	width:auto;
 	-webkit-appearance: none;
 }
@@ -698,18 +701,18 @@ button .icon, .button .icon{
 h1,h2,h3,h4,h5{
 	clear:both;
 	color:#222;
-	font:400 30px/40px 'Montserrat',Helvetica,Arial,sans-serif;
+	font:100 30px/40px 'Montserrat',Helvetica,Arial,sans-serif;
 	display:block;
 }
 
-h2{ font-size:28px; line-height:32px;}
+h2{ font-size:25px; line-height:30px;}
 h3{ font-size:20px; line-height:28px;}
-h4{ font-size:30px; line-height:36px; margin:0 0 20px 0; }
+h4{ font-size:28px; line-height:32px; margin:0 0 15px 0; }
 h5{ font-size:18px; line-height:26px;}
 
 /* Text Types */
 
-small{
+small, .small{
 	font-size: 12px;
 }
 
@@ -734,7 +737,28 @@ small{
 	margin:0 0 30px 0;
 }
 
+.hl-num{
+	height:30px;
+	width:30px;
+	display: inline-block;
+	line-height: 30px;
+	font-size: 14px;
+	padding:0!important;
+	margin:0 5px 0 0!important;
+	vertical-align: middle;
+}
+
 /* Helpers */
+
+/* Font Usage */
+
+.descriptive, ol, label, span{
+	font-family:'Nunito',Helvetica,Arial,sans-serif;
+}
+
+strong, #navmenu span, .drawerhandle span, .element-title{
+	font-family:'Montserrat',Helvetica,Arial,sans-serif;
+}
 
 div.switchblock div {display:none;}
 div.switchblock div.show {display:block;}
@@ -748,7 +772,7 @@ div.switchblock div.show {display:block;}
 }
 
 .fadedtext{
-	opacity:0.5;
+	opacity:0.7;
 }
 
 .fullwidth{
@@ -798,6 +822,7 @@ div.switchblock div.show {display:block;}
 .modallightbox .empty{
 	background:none;
 }
+
 
 /* Search Results */
 
@@ -1823,7 +1848,7 @@ section[role=main].hero{
 
 .inline_subnav li a{
 	text-decoration: none;
-	font-size: 14px;
+	font-size: 12px;
 	background:#dbdbdb;
 	color:#979797!important;
 	padding:10px 20px;
@@ -2044,7 +2069,6 @@ color:#fff!important;
 	margin:0;
 }
 
-
 .prefpanel h4{
 	font-size: 14px;
 	line-height: 14px;
@@ -2067,24 +2091,9 @@ color:#fff!important;
 	color:#696969;
 }
 
-/*.prefpanel .pref-inner, .prefpanel .elementform{
-	margin:0;
-	padding:0;
-	height:0;
-	opacity:0;
-	overflow: hidden;
-}*/
-
-
 .prefpanel .pref-inner label{
-	font-size: 14px;
+	font-size: 13px;
 }
-
-/*.prefpanel .pure-u-md-1-2{
-	display:none;
-	height:0%;
-	opacity: 0;
-}*/
 
 .prefpanel .pure-u-md-1-2{
 	display: inline-block;
@@ -2254,7 +2263,6 @@ color:#fff!important;
 }
 
 .login #footer {
-	/*background: #121212;*/
 	border:none;
 	background-repeat: no-repeat;
 	background-position: center top;
@@ -3340,13 +3348,22 @@ ul.alternating li .toggle{
 	padding:16px;
 	width:25px;
 	height:25px;
-	margin:-16px 0 0 0;
+	margin:-18px 0 0 0;
 	position:absolute;
 	top:50%;
+	vertical-align: middle;
 	right:30px;
-	-webkit-box-shadow:inset 0 0 3px 0 rgba(0,0,0,0.3);
-	box-shadow:inset 0 0 3px 0 rgba(0,0,0,0.3);
+	/*-webkit-box-shadow:inset 0 0 3px 0 rgba(0,0,0,0.3);
+	box-shadow:inset 0 0 3px 0 rgba(0,0,0,0.3);*/
+	border: 1px solid #d1d1d1;
 }
+
+ul.alternating li .toggle:hover{
+	background:#222 url(../images/menu_icon.png) no-repeat 50% 50%;
+	background-size: 40%;
+	border-color:#222;
+}
+
 
 #campaigns ul.alternating li .toggle{
 	right:15px;
@@ -3354,11 +3371,6 @@ ul.alternating li .toggle{
 
 .pure-u-md-1-2 ul.alternating li .toggle{
 	right:4.5%;
-}
-
-ul.alternating li .toggle:hover{
-	background:#222 url(../images/menu_icon.png) no-repeat 50% 50%;
-	background-size: 40%;
 }
 
 ul.alternating li .actions{
@@ -3919,6 +3931,7 @@ ul.alternating li .more.display .actions{
 ul.alternating li .more.display .toggle{
 	background:#00cf7f url(../images/menu_icon_w.png) no-repeat 50% 50%;
 	background-size: 40%;
+	border-color: #00cf7f;
 }
 
 /* Analytics Snapshots */
@@ -4048,10 +4061,10 @@ ul.alternating li .more.display .toggle{
 
 /* Alternate colours */
 
-.usecolor2 ul.alternating li .more.display .toggle {background:#fa3838 url(../images/menu_icon_w.png) no-repeat 50% 50%; background-size: 40%; }
-.usecolor3 ul.alternating li .more.display .toggle {background:#ff7c12 url(../images/menu_icon_w.png) no-repeat 50% 50%; background-size: 40%; }
-.usecolor4 ul.alternating li .more.display .toggle {background:#6a38fa url(../images/menu_icon_w.png) no-repeat 50% 50%; background-size: 40%; }
-.usecolor5 ul.alternating li .more.display .toggle {background:#fa3866 url(../images/menu_icon_w.png) no-repeat 50% 50%; background-size: 40%; }
+.usecolor2 ul.alternating li .more.display .toggle {background:#fa3838 url(../images/menu_icon_w.png) no-repeat 50% 50%; border-color:#fa3838; background-size: 40%; }
+.usecolor3 ul.alternating li .more.display .toggle {background:#ff7c12 url(../images/menu_icon_w.png) no-repeat 50% 50%; border-color:#ff7c12; background-size: 40%; }
+.usecolor4 ul.alternating li .more.display .toggle {background:#6a38fa url(../images/menu_icon_w.png) no-repeat 50% 50%; border-color:#6a38fa; background-size: 40%; }
+.usecolor5 ul.alternating li .more.display .toggle {background:#fa3866 url(../images/menu_icon_w.png) no-repeat 50% 50%; border-color:#fa3866; background-size: 40%; }
 
 
 ul.alternating li .more:hover {cursor:pointer;}
@@ -5100,6 +5113,7 @@ label.checklabel{
 
 #campaigns .associated h4{
 	font-size: 14px;
+	line-height: 14px;
 	margin:0;
 	color:#868686;
 	display: inline-block;
@@ -5124,7 +5138,7 @@ label.checklabel{
 	text-decoration: none;
 	display: inline-block;
 	margin:0;
-	padding:8px 10px;
+	padding:7px 10px;
 	font-size: 13px;
 	position: absolute;
 	top:20px;
@@ -5139,7 +5153,8 @@ label.checklabel{
 }
 
 #campaigns .associated .add .icon, .alt-button .icon{
-	margin:-2px 0 0 0;
+	vertical-align: bottom;
+	margin:0 7px 0 0;
 	color: #f5f5f5;
 }
 
@@ -5608,6 +5623,7 @@ label.checklabel{
 .additional_releases.drawer #card .back .release-details{
 	font-size: 8px;
 	bottom:0;
+	padding:0 0 5px 0;
 }
 
 .additional_releases.drawer #card .back h2{
@@ -6340,11 +6356,14 @@ section[role=main].hero, .login section[role=main]{ margin:400px 0 0 0; }
 
 .selecta label{
 	width:auto;
+	font-size: 13px;
 	margin:0 5px 0 0;
+	font-family:'Montserrat',Helvetica,Arial,sans-serif;
 }
 
 .selecta select{
 	width:auto;
+	font-size: 13px;
 	max-width:250px;
 	margin:0 0 0 -33px;
 }
@@ -6839,8 +6858,8 @@ ul.alternating li a{ padding:30px; }
 #card .back h2{
 	padding:20px;
 	margin:0;
-	font-size: 30px;
-	line-height: 35px;
+	font-size: 28px;
+	line-height: 32px;
 	color:#f5f5f5;
 }
 
