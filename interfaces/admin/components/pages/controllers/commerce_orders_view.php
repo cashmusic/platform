@@ -66,9 +66,6 @@ if ($request_parameters) {
 	$order_details = $order_details_response['payload'];
 	if ($order_details['user_id'] == $effective_user) {
 
-
-
-
 		$order_contents = json_decode($order_details['order_contents'],true);
 		$item_price = 0;
 		foreach ($order_contents as $key => &$item) {

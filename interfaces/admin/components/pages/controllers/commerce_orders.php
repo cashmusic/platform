@@ -12,7 +12,7 @@ $orders_response = $cash_admin->requestAndStore(
 if (is_array($orders_response['payload'])) {
 	$all_order_details = array();
 	foreach ($orders_response['payload'] as $order) {
-		if ($order['canceled'] == 0) {
+		if ($order['cancelled'] == 0) {
 			
 			$order_details_response = $cash_admin->requestAndStore(
 				array(

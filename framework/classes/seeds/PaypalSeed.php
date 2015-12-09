@@ -324,7 +324,7 @@ class PaypalSeed extends SeedBase {
 	}
 
 	public function doRefund($sale_id,$refund_amount=0,$currency_id='USD') {
-
+		error_log("doRefund");
 		$amt = new Amount();
 		$amt->setCurrency($currency_id);
 		$amt->setTotal($refund_amount);
