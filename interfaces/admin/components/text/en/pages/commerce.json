@@ -25,6 +25,7 @@
       "fulfilled":"Fulfilled",
       "fulfilled_button":"Mark as fulfilled",
       "unfulfilled":"Unfulfilled",
+       "cancelled_button":"Refund & Cancel",
       "new_order":"New Order",
 		"sales_settings":"Sales settings",
       "zero":"0%",

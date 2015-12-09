@@ -26,7 +26,7 @@ if ($request_parameters) {
 				)
 			);
 			AdminHelper::formSuccess('Order fulfilled.','/commerce/orders/view/' . $request_parameters[0]);
-		} /* else if ($request_parameters[1] == 'cancel') {
+		}  else if ($request_parameters[1] == 'cancel') {
 			$order_cancel_response = $cash_admin->requestAndStore(
 				array(
 					'cash_request_type' => 'commerce',
@@ -39,7 +39,7 @@ if ($request_parameters) {
 			} else {
 				AdminHelper::formFailure('Try again.','/commerce/orders/view/' . $request_parameters[0]);
 			}
-		} */
+		}
 	}
 
 	if (isset($_POST['ordernotes'])) {
@@ -129,22 +129,43 @@ if ($request_parameters) {
 		$cash_admin->page_data['ui_title'] = 'Order #' . $order_details['padded_id'];
 
 		$formatted_data_sent = array();
-		foreach (json_decode($order_details['data_sent'],true) as $key => $value) {
-			$formatted_data_sent[] = array(
-				'key' => $key,
-				'value' => $value
-			);
-		}
-		$cash_admin->page_data['formatted_data_sent'] = new ArrayIterator($formatted_data_sent);
-
 		$formatted_data_returned = array();
-		foreach (json_decode($order_details['data_returned'],true) as $key => $value) {
-			$formatted_data_returned[] = array(
-				'key' => $key,
-				'value' => $value
-			);
+
+		// let's make sure we've got data_sent, even
+		if (!empty($order_details['data_sent'])) {
+
+			$data_sent = json_decode($order_details['data_sent'], true);
+
+			if (
+				count($data_sent) > 0 && is_array($data_sent)
+			) {
+				foreach ($data_sent as $key => $value) {
+					$formatted_data_sent[] = array(
+						'key' => $key,
+						'value' => $value
+					);
+				}
+			}
 		}
-		$cash_admin->page_data['formatted_data_returned'] = new ArrayIterator($formatted_data_returned);
+
+		// let's make sure we've got data_returned
+		if (!empty($order_details['data_returned'])) {
+			$data_returned = json_decode($order_details['data_returned'], true);
+
+			if (
+				count($data_returned) > 0 && is_array($data_returned)
+			) {
+				foreach ($data_returned as $key => $value) {
+					$formatted_data_returned[] = array(
+						'key' => $key,
+						'value' => $value
+					);
+				}
+			}
+		}
+
+			$cash_admin->page_data['formatted_data_sent'] = new ArrayIterator($formatted_data_sent);
+			$cash_admin->page_data['formatted_data_returned'] = new ArrayIterator($formatted_data_returned);
 	} else {
 		header('Location: ' . ADMIN_WWW_BASE_PATH . '/commerce/orders/');
 	}

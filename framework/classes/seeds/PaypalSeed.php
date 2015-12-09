@@ -75,6 +75,12 @@ class PaypalSeed extends SeedBase {
 							$this->secret			# ClientSecret
 						)
 					);
+
+					if ($sandboxed) {
+						$this->api_context->setConfig(
+							array("mode" => "sandbox")
+						);
+					}
 				}
 			}
 
@@ -273,31 +279,29 @@ class PaypalSeed extends SeedBase {
 				// Execute the payment
 				$result = $payment->execute($execution, $this->api_context);
 
-				//ResultPrinter::printResult("Executed Payment", "Payment", $payment->getId(), $execution, $result);
-
 				try {
 					$payment = Payment::get($this->payment_id, $this->api_context);
 				} catch (Exception $ex) {
-					//ResultPrinter::printError("Get Payment", "Payment", null, null, $ex);
 					return false;
 				}
 			} catch (Exception $ex) {
-				//ResultPrinter::printError("Executed Payment", "Payment", null, null, $ex);
+
 				return false;
 			}
-			//ResultPrinter::printResult("Get Payment", "Payment", $payment->getId(), null, $payment);
 
 			// let's return a standardized array to generalize for multiple payment types
 			$details = $payment->toArray();
 			// nested array for data received, standard across seeds
 			//TODO: this is set for single item transactions for now; should be expanded for cart transactions
+			error_log( print_r($details, true) );
 			$order_details = array(
 				'transaction_date' 	=> strtotime($details['create_time']),
 				'transaction_id' 	=> $details['id'],
+				'sale_id'			=> $details['transactions'][0]['related_resources'][0]['sale']['id'],
 				'items' 			=> array(),
 				'total' 			=> $details['transactions'][0]['amount']['total'],
 				'other_charges' 	=> array(),
-				'transaction_fees'  => $details['transactions'][0]['related_resources'][0]['sale']['transaction_fee'],
+				'transaction_fees'  => $details['transactions'][0]['related_resources'][0]['sale']['transaction_fee']['value'],
 							'payer' => array(
 								'first_name' 	=> $details['payer']['payer_info']['first_name'],
 								'last_name' 	=> $details['payer']['payer_info']['last_name'],
@@ -314,93 +318,33 @@ class PaypalSeed extends SeedBase {
 						'order_details' => json_encode($order_details)
 						);
 		} else {
-			//ResultPrinter::printResult("User Cancelled the Approval", null);
 			return false;
 		}
 
-
-		/*if ($this->token) {
-			$nvp_parameters = array(
-				'TOKEN' => $this->token
-			);
-			$parsed_response = $this->postToPaypal('GetExpressCheckoutDetails', $nvp_parameters);
-			if (!$parsed_response) {
-				$this->setErrorMessage('GetExpressCheckoutDetails failed: ' . $this->getErrorMessage());
-				return false;
-			} else {
-				return $parsed_response;
-			}
-		} else {
-			$this->setErrorMessage("No token was found.");
-			return false;
-		}*/
 	}
 
-	public function doExpressCheckout($payment_type='Sale') {
-		if ($this->token) {
-			$token_details = $this->getExpressCheckout();
-			$nvp_parameters = array(
-				'TOKEN' => $this->token,
-				'PAYERID' => $token_details['PAYERID'],
-				'PAYMENTREQUEST_0_PAYMENTACTION' => $payment_type,
-				'PAYMENTREQUEST_0_AMT' => $token_details['PAYMENTREQUEST_0_AMT'],
-				'PAYMENTREQUEST_0_CURRENCYCODE' => $token_details['PAYMENTREQUEST_0_CURRENCYCODE'],
-				'PAYMENTREQUEST_0_ALLOWEDPAYMENTMETHOD' => 'InstantPaymentOnly'
-			);
+	public function doRefund($sale_id,$refund_amount=0,$currency_id='USD') {
 
-			$parsed_response = $this->postToPaypal('DoExpressCheckoutPayment', $nvp_parameters);
-			if (!$parsed_response) {
-				$this->setErrorMessage($this->getErrorMessage());
-				return false;
-			} else {
-				return $parsed_response;
-			}
-		} else {
-			$this->setErrorMessage("No token was found.");
-			return false;
-		}
-	}
+		$amt = new Amount();
+		$amt->setCurrency($currency_id);
+		$amt->setTotal($refund_amount);
 
-	public function doRefund($transaction_id,$note=false,$refund_amount=0,$fullrefund=true,$currency_id='USD') {
-		if ($fullrefund) {
-			$refund_type = "Full";
-		} else {
-			$refund_type = "Partial";
-		}
+		$refund = new Refund();
+		$refund->setAmount($amt);
 
-		$nvp_parameters = array (
-			'TRANSACTIONID' => $transaction_id,
-			'REFUNDTYPE' => $refund_type,
-			'CURRENCYCODE' => $currency_id
-		);
+		$sale = new Sale();
+		$sale->setId($sale_id);
 
-		if($note) {
-			$nvp_parameters['NOTE'] = $note;
-		}
+		$refund_response = $sale->refund($refund, $this->api_context);
 
-		if (!$fullrefund) {
-			if(!isset($refund_amount)) {
-				$this->setErrorMessage('Partial Refund: must specify amount.');
-				return false;
-			} else {
-				$nvp_parameters['AMT'] = $refund_amount;
-			}
-
-			if(!$note) {
-				$this->setErrorMessage('Partial Refund: must specify memo.');
-				return false;
-			}
-		}
-
-		$parsed_response = $this->postToPaypal('RefundTransaction', $nvp_parameters);
-
-		if (!$parsed_response) {
+		if (!$refund_response) {
 			$this->setErrorMessage('RefundTransaction failed: ' . $this->getErrorMessage());
 			error_log($this->getErrorMessage());
 			return false;
 		} else {
-			return $parsed_response;
+			return $refund_response;
 		}
+
 	}
 } // END class
 ?>

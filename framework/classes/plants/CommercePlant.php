@@ -1759,8 +1759,21 @@ class CommercePlant extends PlantBase {
 		}
 	}
 
-	protected function cancelOrder($id,$user_id=false) {
-		$order_details = $this->getOrder($id,true);
+	protected function cancelOrder($order_id,$user_id=false) {
+
+		$order_details = $this->getOrder($order_id,true);
+		$transaction_details = $this->getTransaction($order_details['transaction_id']);
+		$connection_type = $this->getConnectionType($transaction_details['connection_id']);
+
+		// get connection type settings so we can extract Seed classname
+		$connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
+		$seed_class = $connection_settings['seed'];
+
+		// we're going to switch seeds by $connection_type, so check to make sure this class even exists
+		if (!class_exists($seed_class)) {
+			$this->setErrorMessage("Couldn't find payment type $connection_type.");
+			return false;
+		}
 
 		// if we send a user id, make sure that user matches the order
 		if ($user_id) {
@@ -1769,55 +1782,60 @@ class CommercePlant extends PlantBase {
 			}
 		}
 
-		switch ($order_details['connection_type']) {
-			case 'com.paypal':
-				$pp = new PaypalSeed($order_details['user_id'],$order_details['connection_id']);
-				$refund_details = $pp->doRefund(
-					$order_details['service_transaction_id'],
-					'This order was cancelled by the seller.'
-				);
-				// check initial refund success
-				if (!$refund_details) {
+		// call the payment seed class
+		$payment_seed = new $seed_class($order_details['user_id'],$transaction_details['connection_id']);
+
+		$refund_details = $payment_seed->doRefund(
+			$order_details['sale_id'],
+			$order_details['total']
+		);
+
+
+		// check initial refund success
+		if (!$refund_details) {
+			return false;
+		} else {
+			// make sure the refund went through fully, return false if not
+			error_log( print_r($refund_details, true) );
+			/*if (isset($refund_details['REFUNDINFO'])) {
+				if ($refund_details['REFUNDINFO']['REFUNDSTATUS'] == 'none') {
 					return false;
-				} else {
-					// make sure the refund went through fully, return false if not
-					if (isset($refund_details['REFUNDINFO'])) {
-						if ($refund_details['REFUNDINFO']['REFUNDSTATUS'] == 'none') {
-							return false;
-						}
-					}
-					$this->editOrder(
-						$id,
-						false,
-						1,
-						"Cancelled " . date("F j, Y, g:i a T") . "\n\n" . $order_details['notes']
-					);
-					$this->editTransaction(
-						$order_details['transaction_id'],
-						false,
-						false,
-						false,
-						false,
-						false,
-						false,
-						false,
-						'refunded'
-					);
-
-					return true;
-
-					// NOTE:
-					// we aren't restocking physical goods for a few reasons:
-					// 1. cancellations should be less common than sales
-					// 2. lack of inventory is a common reason to cancel, restocking makes it worse
-					// 3. manually re-adding stock isn't hard
-					// 4. if an order is a return of damaged goods, you won't restocking
-					// 5. fuck it
 				}
-				break;
-			default:
-				return false;
+			}*/
+			$this->editOrder(
+				$order_id,
+				false,
+				1,
+				"Cancelled " . date("F j, Y, g:i a T") . "\n\n" . $order_details['notes']
+			);
+			$this->editTransaction(
+				$order_details['transaction_id'],
+				false,
+				false,
+				false,
+				false,
+				false,
+				false,
+				false,
+				'refunded'
+			);
+
+			return true;
+
+			// NOTE:
+			// we aren't restocking physical goods for a few reasons:
+			// 1. cancellations should be less common than sales
+			// 2. lack of inventory is a common reason to cancel, restocking makes it worse
+			// 3. manually re-adding stock isn't hard
+			// 4. if an order is a return of damaged goods, you won't restocking
+			// 5. fuck it
 		}
+
+
+// entre vous
+
+
+
 	}
 
 	/**
