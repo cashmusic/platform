@@ -303,7 +303,7 @@ if (is_array($orders_response['payload'])) {
 				'number' => '#' . str_pad($o['id'],6,0,STR_PAD_LEFT),
 				'date' => CASHSystem::formatTimeAgo((int)$order_date,true),
 				'order_description' => str_replace("\n",' ',$o['order_description']),
-				'order_contents' => $order_contents,
+				'order_contents' => new ArrayIterator($order_contents),
 				'shipping' => $shipping_cost,
 				'itemtotal' => $item_price,
 				'gross' => CASHSystem::getCurrencySymbol($o['currency']) . number_format($o['gross_price'],2),
