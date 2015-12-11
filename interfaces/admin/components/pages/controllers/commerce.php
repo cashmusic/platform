@@ -255,26 +255,17 @@ if (is_array($orders_response['payload'])) {
 				}
 				$item_price += $item['qty'] * $item['price'];
 
-				// TODO: stealing the variant parser from CommercePlant::getOrderTotals
-				//       we know this is going to change so no sense streamlining yet
-				//       FIX LATER
 				if (isset($item['variant'])) {
-
-					preg_match_all("/([a-z]+)->/", $item['variant'], $key_parts);
-
-					$variant_keys = $key_parts[1];
-					$variant_values = preg_split("/([a-z]+)->/", $item['variant'], 0, PREG_SPLIT_NO_EMPTY);
-					$count = count($variant_keys);
-
-					$variant_descriptions = array();
-
-					for($index = 0; $index < $count; $index++) {
-						$key = $variant_keys[$index];
-						$value = trim(str_replace('+', ' ', $variant_values[$index]));
-						$variant_descriptions[] = "$key: $value";
+					$variant_response = $cash_admin->requestAndStore(
+						array(
+							'cash_request_type' => 'commerce',
+							'cash_action' => 'formatvariantname',
+							'name' => $item['variant']
+						)
+					);
+					if ($variant_response['payload']) {
+						$item['variant'] = $variant_response['payload'];
 					}
-
-					$item['variant'] = implode(', ', $variant_descriptions);
 				}
 			}
 
