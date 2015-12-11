@@ -40,6 +40,7 @@ class CommercePlant extends PlantBase {
 			'edittransaction'     => array('editTransaction','direct'),
 			'emailbuyersbyitem'	 => array('emailBuyersByItem','direct'),
 			'emptycart'				 => array('emptyCart','direct'),
+			'formatvariantname'   => array('formatVariantName','direct'),
 			'getanalytics'        => array('getAnalytics','direct'),
 			'getcart'				 => array('getCart','direct'),
 			'getitem'             => array('getItem','direct'),
