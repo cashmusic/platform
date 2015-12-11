@@ -1,8 +1,19 @@
 <?php
+/*******************************************************************************
+ *
+ * 1. SET UP SCRIPT VARIABLES
+ *
+ ******************************************************************************/
 $effective_user = $cash_admin->effective_user_id;
 
 if ($request_parameters) {
+	/****************************************************************************
+	 *
+	 * 2. FOUND (AT LEAST) AN ORDER ID, FIRST LOOK FOR ACTION PARAMS
+	 *
+	 ***************************************************************************/
 
+	// receipt request requested
 	if (isset($_POST['resend_store_url'])) {
 		$resend_response = $cash_admin->requestAndStore(
 			array(
@@ -15,6 +26,20 @@ if ($request_parameters) {
 		AdminHelper::formSuccess('Receipt sent!','/commerce/orders/view/' . $request_parameters[0]);
 	}
 
+	// edit order notes
+	if (isset($_POST['ordernotes'])) {
+		$order_details_response = $cash_admin->requestAndStore(
+			array(
+				'cash_request_type' => 'commerce',
+				'cash_action' => 'editorder',
+				'id' => $request_parameters[0],
+				'notes' => $_POST['ordernotes']
+			)
+		);
+		AdminHelper::formSuccess('Changes saved.','/commerce/orders/view/' . $request_parameters[0]);
+	}
+
+	// mark order as fulfilled
 	if (isset($request_parameters[1])) {
 		if ($request_parameters[1] == 'fulfilled') {
 			$order_details_response = $cash_admin->requestAndStore(
@@ -42,18 +67,11 @@ if ($request_parameters) {
 		} */
 	}
 
-	if (isset($_POST['ordernotes'])) {
-		$order_details_response = $cash_admin->requestAndStore(
-			array(
-				'cash_request_type' => 'commerce',
-				'cash_action' => 'editorder',
-				'id' => $request_parameters[0],
-				'notes' => $_POST['ordernotes']
-			)
-		);
-		AdminHelper::formSuccess('Changes saved.','/commerce/orders/view/' . $request_parameters[0]);
-	}
-
+	/****************************************************************************
+	 *
+	 * 3. GET ORDER DETAILS AND FORMAT RETURN
+	 *
+	 ***************************************************************************/
 	$order_details_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'commerce',
@@ -64,10 +82,6 @@ if ($request_parameters) {
 	);
 	$order_details = $order_details_response['payload'];
 	if ($order_details['user_id'] == $effective_user) {
-
-
-
-
 		$order_contents = json_decode($order_details['order_contents'],true);
 		$item_price = 0;
 		foreach ($order_contents as $key => &$item) {
@@ -101,6 +115,7 @@ if ($request_parameters) {
 			}
 		}
 
+		// format all the details into easy mustache variables
 		$order_details['padded_id'] = str_pad($order_details['id'],6,0,STR_PAD_LEFT);
 		$order_details['order_date'] = date("M j, Y, g:i A", $order_details['creation_date']);
 		$order_details['formatted_gross_price'] = sprintf("%01.2f",$order_details['gross_price']);
@@ -144,11 +159,22 @@ if ($request_parameters) {
 		}
 		$cash_admin->page_data['formatted_data_returned'] = new ArrayIterator($formatted_data_returned);
 	} else {
+		// bogus ID specified — bounce that shit
 		header('Location: ' . ADMIN_WWW_BASE_PATH . '/commerce/orders/');
 	}
 } else {
+	/****************************************************************************
+	 *
+	 * 4. NO ORDER ID SET, BOUNCE BACK TO MAIN ORDERS PAGE
+	 *
+	 ***************************************************************************/
 	header('Location: ' . ADMIN_WWW_BASE_PATH . '/commerce/orders/');
 }
 
+/*******************************************************************************
+ *
+ * 5. SET THE TEMPLATE AND GO!
+ *
+ ******************************************************************************/
 $cash_admin->setPageContentTemplate('commerce_orders_details');
 ?>
