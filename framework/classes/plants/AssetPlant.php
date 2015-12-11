@@ -103,9 +103,9 @@ class AssetPlant extends PlantBase {
 							}
 						}
 						if (count($final_assets)) {
-							return $final_assets;
+							$result = $final_assets;
 						} else {
-							return false;
+							$result = false;
 						}
 					}
 				}
@@ -251,7 +251,7 @@ class AssetPlant extends PlantBase {
 		return $result;
 	}
 
-	protected function addAsset($title,$description,$user_id,$location='',$connection_id=0,$hash='',$size=0,$public_url='',$type='file',$tags=false,$metadata=false,$parent_id=0,$public_status=1) {
+	protected function addAsset($title,$description,$user_id,$location='',$connection_id=0,$hash='',$size=0,$public_url='',$type='file',$tags=false,$metadata=false,$parent_id=0,$public_status=0) {
 		$result = $this->db->setData(
 			'assets',
 			array(
@@ -382,7 +382,7 @@ class AssetPlant extends PlantBase {
 	 */protected function getPublicStatus($id) {
 		$result = $this->db->getData(
 			'assets',
-			'public_status',
+			'public_url', // originally we did this with public_status but that's become unnecessary
 			array(
 				"id" => array(
 					"condition" => "=",
@@ -391,7 +391,7 @@ class AssetPlant extends PlantBase {
 			),
 			1
 		);
-		if ($result[0]['public_status']) {
+		if ($result[0]['public_url']) {
 			return true;
 		} else {
 			return false;
@@ -465,7 +465,7 @@ class AssetPlant extends PlantBase {
 			} else {
 				// didn't find a record of this asset. record it and move forward
 				$recorded_assets[] = $id;
-				$this->sessionSet('recorded_assets',$recorded_assets);	
+				$this->sessionSet('recorded_assets',$recorded_assets);
 			}
 		} else {
 			$this->sessionSet('recorded_assets',array($id));
@@ -514,7 +514,7 @@ class AssetPlant extends PlantBase {
 				$condition
 			);
 		}
-		
+
 		return $result;
 	}
 
