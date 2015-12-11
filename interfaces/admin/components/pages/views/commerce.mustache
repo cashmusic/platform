@@ -1,7 +1,11 @@
 {{! corresponding files: commerce.php & commerce.json }}
 
 {{#firstuse}}
-{{! SPECIAL FIRST USE SECTION WITH CONNECTION OPTIONS }}
+{{! ****************************************************************************
+{{
+{{  SPECIAL FIRST USE SECTION WITH CONNECTION OPTIONS
+{{
+{{  ************************************************************************* }}
 	<h2 class="firstuse-title">{{{copy_firstuse}}}</h2>
 	<div class="callout texture pure-u-1">
 		{{#all_services}}
@@ -18,13 +22,21 @@
 {{/firstuse}}
 
 {{^firstuse}}
-{{! NOT FIRST USE - SHOW ORDERS }}
+{{! ****************************************************************************
+{{
+{{  NOT FIRST USE - SHOW ORDERS
+{{
+{{  ************************************************************************* }}
 	<header>
 	<div class="pure-u-1 pure-u-md-1-2">
 	<h4>{{copy_orders}}</h4>
 	</div><!--pure-->
 
-	{{! VIEW FILTER SELECTOR }}
+	{{! *************************************************************************
+	{{
+	{{  VIEW FILTER SELECTOR
+	{{
+	{{  ********************************************************************** }}
 	<div class="pure-u-1 pure-u-md-1-2">
 	<ul class="inline_subnav">
 		<li><a {{#no_filter}}class="current" {{/no_filter}}href="{{www_path}}/commerce/">{{copy_unfulfilled}}</a></li>
@@ -36,11 +48,20 @@
 
 	<div class="pure-u-1">
 		{{#orders_recent}}
-		{{! WE HAVE ORDERS, SO DISPLAY THEM IN A LIST }}
+		{{! **********************************************************************
+		{{
+		{{  WE HAVE ORDERS, SO DISPLAY THEM IN A LIST
+		{{
+		{{  ******************************************************************* }}
 		<ul class="commerce order">
 			{{#orders_recent}}
 			{{^fulfilled}}
-			{{! UNFULFILLED ORDERS HAVE MORE DETAIL, AND LIST ITEMS FOR EASY PICK AND PULL }}
+			{{! *******************************************************************
+			{{
+			{{  UNFULFILLED ORDERS HAVE MORE DETAIL,
+			{{  LIST ITEMS FOR EASY PICK AND PULL
+			{{
+			{{  **************************************************************** }}
 			<li>
 				<div class="item unfulfilled">
 					<div class="pure-u-1 pure-u-md-1-3">
@@ -79,7 +100,11 @@
 			</li>
 			{{/fulfilled}}
 			{{#fulfilled}}
-			{{! FULFILLED ORDERS ARE A MORE CONDENSED VIEW }}
+			{{! *******************************************************************
+			{{
+			{{  FULFILLED ORDERS ARE A MORE CONDENSED VIEW
+			{{
+			{{  **************************************************************** }}
 			<li>
 				<div class="item complete">
 					<div class="fulfillment-marker">
@@ -107,18 +132,28 @@
 			{{/orders_recent}}
 		</ul>
 
-		{{! PAGINATION NEXT/PREV BUTTONS IF NEEDED }}
+		{{! **********************************************************************
+		{{
+		{{  PAGINATION NEXT/PREV BUTTONS IF NEEDED
+		{{
+		{{  ******************************************************************* }}
 		{{#show_pagination}}<div class="left pagination">{{#show_previous}}<a class="prev" href="{{www_path}}/commerce/{{^back_to_first}}page/{{previous_page}}/{{/back_to_first}}{{^no_filter}}filter/{{filter_type}}/{{filter_item_id}}{{/no_filter}}">Previous</a>{{/show_previous}}{{#show_nextandprevious}}<span> / </span>{{/show_nextandprevious}}{{#show_next}}<a class="next active" href="{{www_path}}/commerce/page/{{next_page}}/{{^no_filter}}filter/{{filter_type}}/{{filter_item_id}}{{/no_filter}}">Next</a>{{/show_next}}</div><!--pagination-->{{/show_pagination}}
 		{{/orders_recent}}
 
 		{{^orders_recent}}
-		{{! MESSAGE IF NO ORDERS ARE PRESENT THAT MATCH THE FILTER }}
+		{{! **********************************************************************
+		{{
+		{{  MESSAGE IF NO ORDERS ARE PRESENT THAT MATCH THE FILTER }}
 		<div class="empty">
 			<p>{{copy_sorry_no_orders}}</p>
 		</div><!--empty-->
 		{{/orders_recent}}
 
-		{{! SECTION SETTINGS PANEL }}
+		{{! **********************************************************************
+		{{
+		{{  SECTION SETTINGS PANEL
+		{{
+		{{  ******************************************************************* }}
 		<div class="drawer prefpanel pure-u-1">
 		<div class="itemnav pure-u-1">
 			<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>{{copy_commerce_settings}}</span></h4>

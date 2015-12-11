@@ -1,5 +1,10 @@
 {{! corresponding files: commerce_orders_view.php & commerce_orders_view.json }}
 
+{{! ****************************************************************************
+{{
+{{  HEADER, BACK BUTTON, ETC
+{{
+{{  ************************************************************************* }}
 <div class="pure-u-1">
 <header>
 		<a class="returnlink current" href="{{www_path}}/commerce/"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">{{ui_title}}</h4>
@@ -7,6 +12,11 @@
 </div><!--pure-->
 
 <div class="order-detail">
+	{{! *************************************************************************
+	{{
+	{{  DATE, CUSTOMER DETAILS, FULFILLMENT STATUS
+	{{
+	{{  ********************************************************************** }}
 	<div class="pure-u-1 pure-u-md-1-2">
 		<p>
 			<strong>{{copy_placed_on}}</strong> {{order_date}}<br />
@@ -47,6 +57,11 @@
 	</div><!--pure-->
 
 {{#order_contents}}
+{{! ****************************************************************************
+{{
+{{  THE TABLE SHOWING ALL ORDER ITEMS
+{{
+{{  ************************************************************************* }}
 	<h4>{{copy_items_included}}</h4>
 	<table style="width:100%;" class="responsive">
 		<colgroup style="width:5%;" />
@@ -76,8 +91,18 @@
 
 </div><!--order-detail-->
 
+{{! ****************************************************************************
+{{
+{{  RESEND CONFIRMATION EMAIL
+{{
+{{  ************************************************************************* }}
 <small><span class="icon icon-rocket fadedtext"></span> &nbsp;<a href="{{www_path}}/commerce/orders/resend/{{id}}" class="fadedtext lightboxed">{{copy_resend}}</a></small>
 
+{{! ****************************************************************************
+{{
+{{  ORDER NOTES
+{{
+{{  ************************************************************************* }}
 <div class="drawer prefpanel pure-u-1{{#notes}} defaultopen{{/notes}}">
 	<div class="itemnav pure-u-1">
 		<h4 class="drawerhandle title"><div class="icon icon-paperclip"></div><!--icon--><span>{{label_notes}}</span></h4>
@@ -94,6 +119,11 @@
 	</div>
 </div>
 
+{{! ****************************************************************************
+{{
+{{  RAW ORDER DATA SENT/RECEIVED
+{{
+{{  ************************************************************************* }}
 <div class="pure-u-1 order-detail">
 	<h4>{{copy_transaction_details}}</h4>
 	<strong>{{copy_connection_used}}</strong> {{order_connection_details}} <br />
