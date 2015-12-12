@@ -1,6 +1,5 @@
 <?php
 // are we filtered?
-
 $cash_admin->page_data['current_page'] = 1;
 $cash_admin->page_data['next_page'] = 2;
 $cash_admin->page_data['show_previous'] = false;
@@ -121,7 +120,8 @@ if (is_array($orders_response['payload'])) {
 	foreach ($orders_response['payload'] as $o) {
 
 		if (!empty($o['data_returned'])) {
-			$transaction_results = json_decode($o['data_returned']);
+			$transaction_results = json_decode($o['data_returned'], true);
+
 		} else {
 			$transaction_results = null;
 		}
@@ -167,24 +167,22 @@ if (is_array($orders_response['payload'])) {
 				$shipping_cost = false;
 			}
 
-			$customer_name = $transaction_results->payer->first_name . " " . $transaction_results->payer->last_name;
-
 			$all_order_details[] = array(
 				'id' => $o['id'],
-				'customer_name' => $customer_name,
-				'customer_email' => $transaction_results->payer->email,
-				'customer_address1' => "",
-				'customer_address2' => "",
-				'customer_city' => "",
-				'customer_region' => "",
-				'customer_postalcode' => "",
-				'customer_country' => "",
+				'customer_name' => $transaction_results['customer_name'],
+				'customer_email' => $transaction_results['customer_email'],
+				'customer_address1' => $transaction_results['customer_address1'],
+				'customer_address2' => $transaction_results['customer_address2'],
+				'customer_city' => $transaction_results['customer_city'],
+				'customer_region' => $transaction_results['customer_region'],
+				'customer_postalcode' => $transaction_results['customer_postalcode'],
+				'customer_country' => $transaction_results['customer_countrycode'],
 				'number' => '#' . str_pad($o['id'],6,0,STR_PAD_LEFT),
-				'date' => CASHSystem::formatTimeAgo((int)$transaction_results->transaction_date,true),
+				'date' => CASHSystem::formatTimeAgo((int)$transaction_results['transaction_date'],true),
 				'order_description' => str_replace("\n",' ',$o['order_description']),
 				'order_contents' => $order_contents,
 				'shipping' => $shipping_cost,
-				'itemtotal' => $transaction_results->total,
+				'itemtotal' => $transaction_results['total'],
 				'gross' => CASHSystem::getCurrencySymbol($o['currency']) . number_format($o['gross_price'],2),
 				'fulfilled' => $o['fulfilled'],
 				'notes' => $o['notes'],

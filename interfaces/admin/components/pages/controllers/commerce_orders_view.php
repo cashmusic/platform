@@ -1,6 +1,5 @@
 <?php
 $effective_user = $cash_admin->effective_user_id;
-
 if ($request_parameters) {
 
 	if (isset($_POST['resend_store_url'])) {
@@ -27,13 +26,15 @@ if ($request_parameters) {
 			);
 			AdminHelper::formSuccess('Order fulfilled.','/commerce/orders/view/' . $request_parameters[0]);
 		}  else if ($request_parameters[1] == 'cancel') {
+
 			$order_cancel_response = $cash_admin->requestAndStore(
 				array(
 					'cash_request_type' => 'commerce',
 					'cash_action' => 'cancelorder',
-					'id' => $request_parameters[0]
+					'order_id' => $request_parameters[0]
 				)
 			);
+
 			if ($order_cancel_response['payload']) {
 				AdminHelper::formSuccess('Order cancelled.','/commerce/orders/view/' . $request_parameters[0]);
 			} else {

@@ -683,7 +683,7 @@ class CommercePlant extends PlantBase {
 		$element_id=0,
 		$customer_user_id=0,
 		$fulfilled=0,
-		$cancelled=0,
+		$canceled=0,
 		$notes='',
 		$country_code='',
 		$currency='USD'
@@ -703,7 +703,7 @@ class CommercePlant extends PlantBase {
 					'transaction_id' => $transaction_id,
 					'order_contents' => $final_order_contents,
 					'fulfilled' => $fulfilled,
-					'cancelled' => $cancelled,
+					'canceled' => $canceled,
 					'physical' => $physical,
 					'digital' => $digital,
 					'notes' => $notes,
@@ -731,6 +731,7 @@ class CommercePlant extends PlantBase {
 					)
 				)
 			);
+
 			if ($result) {
 				if ($user_id) {
 					if ($result[0]['user_id'] != $user_id) {
@@ -738,12 +739,12 @@ class CommercePlant extends PlantBase {
 					}
 				}
 				$result[0]['order_totals'] = $this->getOrderTotals($result[0]['order_contents']);
+				$transaction_data = $this->parseTransactionData($result[0]['data_returned']);
 
-//				$result[0]['order_properties'] = json_decode($result[0]['order_contents'], true);
-				$transaction_data = $this->parseTransactionData($result[0]['connection_type'],$result[0]['data_sent']);
 				if (is_array($transaction_data)) {
 					$result[0] = array_merge($result[0],$transaction_data);
 				}
+
 				$order['order_description'] = $result[0]['order_totals']['description'];
 
 				$user_request = new CASHRequest(
@@ -774,6 +775,7 @@ class CommercePlant extends PlantBase {
 				$condition
 			);
 		}
+
 		if ($result) {
 			return $result[0];
 		} else {
@@ -784,7 +786,7 @@ class CommercePlant extends PlantBase {
 	protected function editOrder(
 		$id,
 		$fulfilled=false,
-		$cancelled=false,
+		$canceled=false,
 		$notes=false,
 		$country_code=false,
 		$customer_user_id=false,
@@ -802,7 +804,7 @@ class CommercePlant extends PlantBase {
 				'transaction_id' => $transaction_id,
 				'order_contents' => $order_contents,
 				'fulfilled' => $fulfilled,
-				'cancelled' => $cancelled,
+				'canceled' => $canceled,
 				'physical' => $physical,
 				'digital' => $digital,
 				'notes' => $notes,
@@ -831,71 +833,8 @@ class CommercePlant extends PlantBase {
 		return $result;
 	}
 
-	protected function parseTransactionData($connection_type,$data_sent=false,$data_returned=false) {
-		if ($connection_type == 'com.paypal') {
-			$data_sent = json_decode($data_sent,true);
-			if ($data_sent) {
-				$return_array = array(
-					'transaction_description' => $data_sent['PAYMENTREQUEST_0_DESC'],
-					'customer_email' => $data_sent['EMAIL'],
-					'customer_first_name' => $data_sent['FIRSTNAME'],
-					'customer_last_name' => $data_sent['LASTNAME'],
-					'customer_name' => $data_sent['FIRSTNAME'] . ' ' . $data_sent['LASTNAME']
-				);
-
-				// this is ugly, but the if statements normalize Paypal's love of omitting empty data
-
-				if (isset($data_sent['PAYMENTREQUEST_0_SHIPTONAME'])) {
-					$return_array['customer_shipping_name'] = $data_sent['PAYMENTREQUEST_0_SHIPTONAME'];
-				} else {
-					$return_array['customer_shipping_name'] = '';
-				}
-				if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOSTREET'])) {
-					$return_array['customer_address1'] = $data_sent['PAYMENTREQUEST_0_SHIPTOSTREET'];
-				} else {
-					$return_array['customer_address1'] = '';
-				}
-				if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOSTREET2'])) {
-					$return_array['customer_address2'] = $data_sent['PAYMENTREQUEST_0_SHIPTOSTREET2'];
-				} else {
-					$return_array['customer_address2'] = '';
-				}
-				if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOCITY'])) {
-					$return_array['customer_city'] = $data_sent['PAYMENTREQUEST_0_SHIPTOCITY'];
-				} else {
-					$return_array['customer_city'] = '';
-				}
-				if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOSTATE'])) {
-					$return_array['customer_region'] = $data_sent['PAYMENTREQUEST_0_SHIPTOSTATE'];
-				} else {
-					$return_array['customer_region'] = '';
-				}
-				if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOZIP'])) {
-					$return_array['customer_postalcode'] = $data_sent['PAYMENTREQUEST_0_SHIPTOZIP'];
-				} else {
-					$return_array['customer_postalcode'] = '';
-				}
-				if (isset($data_sent['SHIPTOCOUNTRYNAME'])) {
-					$return_array['customer_country'] = $data_sent['SHIPTOCOUNTRYNAME'];
-				} else {
-					$return_array['customer_country'] = '';
-				}
-				if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE'])) {
-					$return_array['customer_countrycode'] = $data_sent['PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE'];
-				} else {
-					$return_array['customer_countrycode'] = '';
-				}
-				if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOPHONENUM'])) {
-					$return_array['customer_phone'] = $data_sent['PAYMENTREQUEST_0_SHIPTOPHONENUM'];
-				} else {
-					$return_array['customer_phone'] = '';
-				}
-				return $return_array;
-			} else {
-				return false;
-			}
-		}
-		return false;
+	protected function parseTransactionData($data) {
+		return json_decode($data, true);
 	}
 
 	protected function getOrdersForUser($user_id,$include_abandoned=false,$max_returned=false,$since_date=0,$unfulfilled_only=0,$deep=false,$skip=0) {
@@ -1092,6 +1031,7 @@ class CommercePlant extends PlantBase {
 			'*',
 			$condition
 		);
+
 		if ($result) {
 			return $result[0];
 		} else {
@@ -1123,6 +1063,7 @@ class CommercePlant extends PlantBase {
 			),
 			'CASHSystem::notExplicitFalse'
 		);
+
 		$result = $this->db->setData(
 			'transactions',
 			$final_edits,
@@ -1762,7 +1703,9 @@ class CommercePlant extends PlantBase {
 	protected function cancelOrder($order_id,$user_id=false) {
 
 		$order_details = $this->getOrder($order_id,true);
-		$transaction_details = $this->getTransaction($order_details['transaction_id']);
+		//error_log( "details + " . print_r( $order_details, true) );
+		$transaction_details = $this->getTransaction($order_id); //$order_details['transaction_id']
+
 		$connection_type = $this->getConnectionType($transaction_details['connection_id']);
 
 		// get connection type settings so we can extract Seed classname
@@ -1789,27 +1732,24 @@ class CommercePlant extends PlantBase {
 			$order_details['sale_id'],
 			$order_details['total']
 		);
-
+//		error_log( print_r($refund_details, true) );
 
 		// check initial refund success
 		if (!$refund_details) {
+			error_log("refund returning false");
 			return false;
 		} else {
+			error_log("refund returning true");
 			// make sure the refund went through fully, return false if not
-			error_log( print_r($refund_details, true) );
-			/*if (isset($refund_details['REFUNDINFO'])) {
-				if ($refund_details['REFUNDINFO']['REFUNDSTATUS'] == 'none') {
-					return false;
-				}
-			}*/
 			$this->editOrder(
 				$order_id,
 				false,
 				1,
 				"Cancelled " . date("F j, Y, g:i a T") . "\n\n" . $order_details['notes']
 			);
+
 			$this->editTransaction(
-				$order_details['transaction_id'],
+				$order_id,
 				false,
 				false,
 				false,

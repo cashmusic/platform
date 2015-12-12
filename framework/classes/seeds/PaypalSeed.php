@@ -29,6 +29,9 @@ use PayPal\Api\Details;
 use PayPal\Api\Item;
 use PayPal\Api\ItemList;
 use PayPal\Api\Payer;
+use PayPal\Api\Refund;
+use PayPal\Api\RefundDetail;
+use PayPal\Api\Sale;
 use PayPal\Api\Payment;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
@@ -293,8 +296,23 @@ class PaypalSeed extends SeedBase {
 			$details = $payment->toArray();
 			// nested array for data received, standard across seeds
 			//TODO: this is set for single item transactions for now; should be expanded for cart transactions
-			error_log( print_r($details, true) );
+
 			$order_details = array(
+				'transaction_description' => '',
+				'customer_email' => $details['payer']['payer_info']['email'],
+				'customer_first_name' => $details['payer']['payer_info']['first_name'],
+				'customer_last_name' => $details['payer']['payer_info']['last_name'],
+				'customer_name' => $details['payer']['payer_info']['first_name'] . " " . $details['payer']['payer_info']['last_name'],
+				'customer_shipping_name' => '',
+				'customer_address1' => '',
+				'customer_address2' => '',
+				'customer_city' => '',
+				'customer_region' => '',
+				'customer_postalcode' => '',
+				'customer_country' => '',
+				'customer_countrycode' => '',
+				'customer_phone' => '',
+				/* 																*/
 				'transaction_date' 	=> strtotime($details['create_time']),
 				'transaction_id' 	=> $details['id'],
 				'sale_id'			=> $details['transactions'][0]['related_resources'][0]['sale']['id'],
@@ -302,12 +320,6 @@ class PaypalSeed extends SeedBase {
 				'total' 			=> $details['transactions'][0]['amount']['total'],
 				'other_charges' 	=> array(),
 				'transaction_fees'  => $details['transactions'][0]['related_resources'][0]['sale']['transaction_fee']['value'],
-							'payer' => array(
-								'first_name' 	=> $details['payer']['payer_info']['first_name'],
-								'last_name' 	=> $details['payer']['payer_info']['last_name'],
-								'email'			=> $details['payer']['payer_info']['email'],
-								'shipping_address' => array()
-							)
 				);
 
 			return array('total' => $details['transactions'][0]['amount']['total'],
@@ -324,7 +336,7 @@ class PaypalSeed extends SeedBase {
 	}
 
 	public function doRefund($sale_id,$refund_amount=0,$currency_id='USD') {
-		error_log("doRefund");
+
 		$amt = new Amount();
 		$amt->setCurrency($currency_id);
 		$amt->setTotal($refund_amount);

@@ -13,8 +13,8 @@ $ram = '256'
 Vagrant.configure("2") do |config|
   config.vm.box = $box
   config.vm.box_url = $box_url
-  config.vm.network :forwarded_port, guest: 80, host: 8888
-  config.vm.network :forwarded_port, guest: 88, host: 7777
+  config.vm.network :forwarded_port, guest: 80, host: 8008
+  config.vm.network :forwarded_port, guest: 88, host: 8899
   config.vm.synced_folder '.', '/vagrant', 
     owner: 'vagrant', 
     group: 'www-data',
