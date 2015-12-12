@@ -28,6 +28,7 @@
 	<li><a {{#filter_week}}class="current" {{/filter_week}}href="{{www_path}}/commerce/filter/week/">{{copy_this_week}}</a></li>
 	<li><a {{#filter_all}}class="current" {{/filter_all}}href="{{www_path}}/commerce/filter/all/">{{copy_all_time}}</a></li>
 </ul>
+</ul>
 </div><!--pure-->
 </header>
 
@@ -92,7 +93,6 @@
 							<input type="hidden" name="fulfill" value="{{id}}" />
 							<input type="submit" class="button" value="{{copy_fulfilled_button}}" />
 						</form>
-
 
                         <form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/orders/view/{{id}}/cancel">
                             <input type="hidden" name="cancel" value="{{id}}" />

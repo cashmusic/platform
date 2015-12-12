@@ -202,7 +202,7 @@ class PaypalSeed extends SeedBase {
 		$amount->setCurrency($currency_id)
 			->setTotal($payment_amount);
 
-
+		error_log("shipping + ". $shipping_amount);
 		if ($request_shipping_info && $shipping_amount > 0) {
 			$shipping = new Details();
 			$shipping->setShipping($shipping_amount)
@@ -216,7 +216,7 @@ class PaypalSeed extends SeedBase {
 		$transaction = new Transaction();
 		$transaction->setAmount($amount)
 			->setDescription($ordername)
-			->setInvoiceNumber($ordersku."10294");
+			->setInvoiceNumber($ordersku."farts");
 
 		$redirectUrls = new RedirectUrls();
 		$redirectUrls->setReturnUrl($return_url."&success=true")
