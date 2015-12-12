@@ -44,9 +44,10 @@
 				<p><a href="{{www_path}}/commerce/orders/view/{{id}}/fulfilled" class="button">{{copy_mark_as_fulfilled}}</a></p>
 			{{/fulfilled}}
 		{{/physical}}
-
+        {{^canceled}}
         <p><a href="{{www_path}}/commerce/orders/view/{{id}}/cancel" class="button">Cancel</a></p>
-	</div><!--pure-->
+        {{/canceled}}
+            </div><!--pure-->
 
 {{#order_contents}}
 	<h4>{{copy_items_included}}</h4>

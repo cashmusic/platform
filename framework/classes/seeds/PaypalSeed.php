@@ -216,7 +216,7 @@ class PaypalSeed extends SeedBase {
 		$transaction = new Transaction();
 		$transaction->setAmount($amount)
 			->setDescription($ordername)
-			->setInvoiceNumber($ordersku);
+			->setInvoiceNumber($ordersku."10294");
 
 		$redirectUrls = new RedirectUrls();
 		$redirectUrls->setReturnUrl($return_url."&success=true")

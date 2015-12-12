@@ -167,6 +167,15 @@ if (is_array($orders_response['payload'])) {
 				$shipping_cost = false;
 			}
 
+//			$order_details_response = $cash_admin->requestAndStore(
+//				array(
+//					'cash_request_type' => 'commerce',
+//					'cash_action' => 'getorder',
+//					'id' => $request_parameters[0],
+//					'deep' => true
+//				)
+//			);
+
 			$all_order_details[] = array(
 				'id' => $o['id'],
 				'customer_name' => $transaction_results['customer_name'],
@@ -186,7 +195,7 @@ if (is_array($orders_response['payload'])) {
 				'gross' => CASHSystem::getCurrencySymbol($o['currency']) . number_format($o['gross_price'],2),
 				'fulfilled' => $o['fulfilled'],
 				'notes' => $o['notes'],
-				'test' => print_r($transaction_results, true)
+				'canceled' => $o['canceled']
 			);
 		}
 	}
