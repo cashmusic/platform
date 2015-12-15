@@ -207,6 +207,26 @@ class CommercePlant extends PlantBase {
 			$attributes = array();
 
 			foreach ($result as $item) {
+				// first try json_decode
+				$attribute_array = json_decode($item['attributes'],true);
+
+				if (!$attribute_array) {
+					// old style keys, so format them to match JSON
+					$attribute_array = array();
+					$attribute_keys = explode('+', $item['attributes']);
+					foreach ($attribute_keys as $part) {
+						list($key, $type) = explode('->', $part);
+						$attribute_array[$key] = $type;
+					}
+				}
+
+				foreach ($attribute_array as $key => $type) {
+					// build the final attributes array
+					if (!array_key_exists($type, $attributes[$key])) {
+						$attributes[$key][$type] = 0;
+					}
+					$attributes[$key][$type] += $item['quantity'];
+				}
 
 				if (!($item['quantity'] < 1 && $exclude_empties)) {
 					$variants['quantities'][] = array(
@@ -216,6 +236,8 @@ class CommercePlant extends PlantBase {
 						'value' => $item['quantity']
 					);
 				}
+
+
 			}
 
 			foreach ($attributes as $key => $values) {

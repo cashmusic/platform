@@ -76,8 +76,12 @@ class Store extends ElementBase {
 										}
 									}
 								}
-								$attribute['defaultcountermenu'] = str_replace("'","\'",json_encode($defaultArray));
+								if ($counter_index == 1) {
+									$this_frag .= '+'; // add the + to the first attribute items
+								}
+								$i['keyvalue'] = $this_frag; // set the
 								$i['countermenu'] = str_replace("'","\'",json_encode($counter_options));
+								$attribute['defaultcountermenu'] = str_replace("'","\'",json_encode($defaultArray));
 							}
 							$verified_items[] = $i;
 						}
