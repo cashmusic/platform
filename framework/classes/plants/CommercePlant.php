@@ -306,6 +306,7 @@ class CommercePlant extends PlantBase {
 		$physical_fulfillment=false,
 		$physical_weight=false,
 		$physical_width=false,
+		$physical_height=false,
 		$physical_depth=false,
 		$variable_pricing=false,
 		$fulfillment_asset=false,
