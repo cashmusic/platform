@@ -234,10 +234,6 @@
 								}
 							}
 							if (e.target.value != 'resetattributes' && otherselect.value != 'resetattributes') {
-
-
-
-								// TODO: let this handle JSON ids too
 								if (b.getAttribute('data-legacykeys')) {
 									var thisid = e.target.getAttribute('data-key')+'->'+e.target.value;
 									var otherid = otherselect.getAttribute('data-key')+'->'+otherselect.value;
@@ -257,9 +253,6 @@
 									}
 									attributekey = JSON.stringify(attributekey);
 								}
-
-
-
 								b.setAttribute('data-variantid',attributekey);
 								b.removeAttribute('disabled');
 								b.innerHTML = '<span class="cm-price">{{currency}}'+b.getAttribute('data-price')+'</span> - {{copy_cart}}';
