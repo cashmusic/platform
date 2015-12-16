@@ -215,14 +215,15 @@ class CommercePlant extends PlantBase {
 					$attribute_array = array();
 					$attribute_keys = explode('+', $item['attributes']);
 					foreach ($attribute_keys as $part) {
-						list($key, $type) = explode('->', $part);
+						list($key, $type) = array_pad(explode('->', $part, 2), 2, null);
+						// weird syntax to avoid warnings on: list($key, $type) = explode('->', $part);
 						$attribute_array[$key] = $type;
 					}
 				}
 
 				foreach ($attribute_array as $key => $type) {
 					// build the final attributes array
-					if (!array_key_exists($type, $attributes[$key])) {
+					if (!isset($attributes[$key][$type])) {
 						$attributes[$key][$type] = 0;
 					}
 					$attributes[$key][$type] += $item['quantity'];
