@@ -147,6 +147,7 @@ class StripeSeed extends SeedBase {
 			// approval link isn't set, return to page and post error
 			$this->setErrorMessage('There was an error contacting PayPal for this payment.');
 		}
+		return true;
 	}
 
 	public function getCheckout() {

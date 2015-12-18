@@ -45,6 +45,7 @@
 			$settings_types = false;
 			$tmp_array = json_decode(file_get_contents(CASH_PLATFORM_ROOT.'/settings/connections/supported.json'),true);
 			$filter_array = $tmp_array['public'];
+
 			if (defined('SHOW_BETA')) {
 				if (SHOW_BETA) {
 					if (is_array($tmp_array['beta']) && !$force_all) {

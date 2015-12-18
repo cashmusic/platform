@@ -5,8 +5,9 @@ $settings_for_user = $page_data_object->getAllConnectionsforUser();
 
 $all_services = array();
 $typecount = 1;
+
 foreach ($settings_types_data as $key => $data) {
-	error_log( print_r($data, true ));
+
 	if ($typecount % 2 == 0) {
 		$alternating_type = true;
 	} else {
