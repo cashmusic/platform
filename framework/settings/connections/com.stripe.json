@@ -5,7 +5,7 @@
   "type":"com.stripe",
   "seed":"StripeSeed",
   "scope":["commerce"],
-  "compatibility":["single","multi"],
+  "compatibility":["multi"],
   "interface":{
     "single":"generate",
     "multi":"docallback"
@@ -15,9 +15,9 @@
       "key":"string"
     },
     "multi": {
-      "redirect_uri":"string",
       "client_id":"string",
-      "client_secret":"string"
+      "client_secret":"string",
+      "publishable_key":"string"
     }
   }
 }
