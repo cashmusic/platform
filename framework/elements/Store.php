@@ -93,9 +93,6 @@ class Store extends ElementBase {
 										}
 									}
 								}
-								if ($counter_index == 1) {
-									$this_frag .= '+'; // add the + to the first attribute items
-								}
 								$i['keyvalue'] = $this_frag; // set the
 								$i['countermenu'] = str_replace("'","&apos;",json_encode($counter_options));
 								$attribute['defaultcountermenu'] = str_replace("'","&apos;",json_encode($defaultArray));
@@ -313,11 +310,13 @@ class Store extends ElementBase {
 							$subtotal += $i['total_price'];
 							$i['name'] = $ii['name'];
 							if ($i['variant']) {
-								//$i['variant_fixed'] = str_replace(' ','+',$i['variant']);
 								foreach ($ii['variants']['quantities'] as $q) {
 									$decoded_key = json_decode($q['key'],true,1) ?: $q['key'];
 									if ($decoded_key == $i['variant']) { //TODO: hacky fix for plus signs decoded as spaces
-										$i['variant_name'] = $q['formatted_name'];
+										$i['variant_id']     = $q['id'];
+										$i['variant_key']    = $q['key'];
+										$i['variant_js_key'] = str_replace("'","\'",$q['key']);
+										$i['variant_name']   = $q['formatted_name'];
 										break;
 									}
 								}
