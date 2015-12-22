@@ -21,6 +21,8 @@
 //namespace Seeds\StripeSeed;
 
 require CASH_PLATFORM_ROOT  . '/lib/stripe/init.php';
+require CASH_PLATFORM_ROOT  . '/lib/stripe/StripeOAuth.class.php';
+//require CASH_PLATFORM_ROOT  . '/lib/stripe/StripeOAuth2Client.class.php';
 
 class StripeSeed extends SeedBase {
 	protected $client_id, $client_secret, $publishable_key, $error_message;
@@ -35,6 +37,7 @@ class StripeSeed extends SeedBase {
 			$this->client_id  = $this->settings->getSetting('client_id');
 			$this->client_secret = $this->settings->getSetting('client_secret');
 			$this->publishable_key = $this->settings->getSetting('publishable_key');
+			$this->access_token = $this->settings->getSetting('access_token');
 			$sandboxed           = $this->settings->getSetting('sandboxed');
 
 			\Stripe\Stripe::setApiKey($this->client_secret);
@@ -61,14 +64,124 @@ class StripeSeed extends SeedBase {
 	public static function getRedirectMarkup($data=false) {
 		$connections = CASHSystem::getSystemSettings('system_connections');
 		if (isset($connections['com.stripe'])) {
-			$login_url = StripeSeed::getAuthorizationUrl($this->client_id, $this->secret);
+			$login_url = StripeSeed::getAuthorizationUrl($connections['com.stripe']['client_id'], $connections['com.stripe']['client_secret']);
 			$return_markup = '<h4>Stripe</h4>'
 				. '<p>This will redirect you to a secure login at Stripe and bring you right back.</p>'
-				. '<a href="' . $login_url . '" class="button">Connect your Stripe</a>';
+				. '<a href="' . $login_url . '&redirect_uri=http://dev.localhost:8008'. ADMIN_WWW_BASE_PATH . '/settings/connections/add/com.stripe/finalize" class="button">Connect with Stripe</a>';
 			return $return_markup;
 		} else {
 			return 'Please add default stripe api credentials.';
 		}
+	}
+
+	public static function getAuthorizationUrl($client_id,$client_secret) {
+
+		$client = new StripeOAuth($client_id, $client_secret);
+		$auth_url = $client->getAuthorizeUri();
+		return $auth_url;
+	}
+
+
+
+	/*
+     * This method is used during the charge process. It is used after receiving token generated from the Stripe Checkout Javascript.
+     * It will send the token to Stripe to exchange for its information. Such information will be used throughout the charge process (such as, create new user).
+     * This happens before the actual charge occurs.
+     */
+
+	public function getTokenInformation() {
+		error_log("tokenInfo");
+		if ($this->token) {
+
+			Stripe::setApiKey($this->access_token);
+			$tokenInfo = Stripe_Token::retrieve($this->token);
+			if (!$tokenInfo) {
+				$this->setErrorMessage('getTokenInformation failed: ' . $this->getErrorMessage());
+				return false;
+			} else {
+				return $tokenInfo;
+			}
+		} else {
+			$this->setErrorMessage("Token is Missing!");
+			return false;
+		}
+	}
+
+
+	/**
+	 * handleRedirectReturn
+	 * Handles redirect from API Auth for service
+	 * @param bool|false $data
+	 * @return string
+     */
+	public static function handleRedirectReturn($data=false) {
+		return "Hey here's the redirect return";
+//		if (isset($data['code'])) {
+//			$connections = CASHSystem::getSystemSettings('system_connections');
+//			if (isset($connections['com.google.drive'])) {
+//				$credentials = GoogleDriveSeed::exchangeCode(
+//					$data['code'],
+//					$connections['com.google.drive']['client_id'],
+//					$connections['com.google.drive']['client_secret'],
+//					$connections['com.google.drive']['redirect_uri']
+//				);
+//				$user_info = GoogleDriveSeed::getUserInfo(
+//					$credentials,
+//					$connections['com.google.drive']['client_id'],
+//					$connections['com.google.drive']['client_secret']
+//				);
+//				if ($user_info) {
+//					$email_address = $user_info['email'];
+//					$user_id       = $user_info['id'];
+//				} else {
+//					$email_address = false;
+//					$user_id       = false;
+//				}
+//				$credentials_array = json_decode($credentials, true);
+//				if (isset($credentials_array['refresh_token'])) {
+//					// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
+//					// calls would only happen in the admin. If this changes we can fuck around with it later.
+//					$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+//					$result = $new_connection->setSettings(
+//						$email_address . ' (Google Drive)',
+//						'com.google.drive',
+//						array(
+//							'user_id'        => $user_id,
+//							'email_address'  => $email_address,
+//							'access_token'   => $credentials,
+//							'access_expires' => $credentials_array['created'] + $credentials_array['expires_in'],
+//							'refresh_token'  => $credentials_array['refresh_token']
+//						)
+//					);
+//					if (!$result) {
+//						$settings_for_user = $new_connection->getAllConnectionsforUser();
+//						if (is_array($settings_for_user)) {
+//							foreach ($settings_for_user as $key => $connection_data) {
+//								if ($connection_data['name'] == $email_address . ' (Google Drive)') {
+//									$result = $connection_data['id'];
+//									break;
+//								}
+//							}
+//						}
+//					}
+//					if (isset($data['return_result_directly'])) {
+//						return $result;
+//					} else {
+//						if ($result) {
+//							AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
+//						} else {
+//							AdminHelper::formFailure('Error. Something just didn\'t work right.','/settings/connections/');
+//						}
+//					}
+//				} else {
+//					return 'Could not find a refresh token from google';
+//				}
+//			} else {
+//				return 'Please add default google drive app credentials.';
+//			}
+//		} else {
+//			return 'There was an error. (session) Please try again.';
+//		}
 	}
 
 	protected function setErrorMessage($msg) {
