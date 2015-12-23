@@ -18,7 +18,8 @@
  * This file is generously sponsored by Justin Miranda
  *
  **/
-//namespace Seeds\StripeSeed;
+use \Stripe\Stripe as Stripe;
+use \Stripe\Account as Account;
 
 require CASH_PLATFORM_ROOT  . '/lib/stripe/init.php';
 require CASH_PLATFORM_ROOT  . '/lib/stripe/StripeOAuth.class.php';
@@ -40,7 +41,7 @@ class StripeSeed extends SeedBase {
 			$this->access_token = $this->settings->getSetting('access_token');
 			$sandboxed           = $this->settings->getSetting('sandboxed');
 
-			\Stripe\Stripe::setApiKey($this->client_secret);
+			Stripe::setApiKey($this->client_secret);
 
 			if (!$this->client_id || !$this->client_secret || !$this->publishable_key) {
 				$connections = CASHSystem::getSystemSettings('system_connections');
@@ -67,7 +68,7 @@ class StripeSeed extends SeedBase {
 			$login_url = StripeSeed::getAuthorizationUrl($connections['com.stripe']['client_id'], $connections['com.stripe']['client_secret']);
 			$return_markup = '<h4>Stripe</h4>'
 				. '<p>This will redirect you to a secure login at Stripe and bring you right back.</p>'
-				. '<a href="' . $login_url . '&redirect_uri=http://dev.localhost:8008'. ADMIN_WWW_BASE_PATH . '/settings/connections/add/com.stripe/finalize" class="button">Connect with Stripe</a>';
+				. '<a href="' . $login_url . '&redirect_uri=http://dev.localhost:8888'. ADMIN_WWW_BASE_PATH . '/settings/connections/add/com.stripe/finalize" class="button">Connect with Stripe</a>';
 			return $return_markup;
 		} else {
 			return 'Please add default stripe api credentials.';
@@ -90,7 +91,7 @@ class StripeSeed extends SeedBase {
      */
 
 	public function getTokenInformation() {
-		error_log("tokenInfo");
+
 		if ($this->token) {
 
 			Stripe::setApiKey($this->access_token);
@@ -115,73 +116,80 @@ class StripeSeed extends SeedBase {
 	 * @return string
      */
 	public static function handleRedirectReturn($data=false) {
-		return "Hey here's the redirect return";
-//		if (isset($data['code'])) {
-//			$connections = CASHSystem::getSystemSettings('system_connections');
-//			if (isset($connections['com.google.drive'])) {
-//				$credentials = GoogleDriveSeed::exchangeCode(
-//					$data['code'],
-//					$connections['com.google.drive']['client_id'],
-//					$connections['com.google.drive']['client_secret'],
-//					$connections['com.google.drive']['redirect_uri']
-//				);
-//				$user_info = GoogleDriveSeed::getUserInfo(
-//					$credentials,
-//					$connections['com.google.drive']['client_id'],
-//					$connections['com.google.drive']['client_secret']
-//				);
-//				if ($user_info) {
-//					$email_address = $user_info['email'];
-//					$user_id       = $user_info['id'];
-//				} else {
-//					$email_address = false;
-//					$user_id       = false;
-//				}
-//				$credentials_array = json_decode($credentials, true);
-//				if (isset($credentials_array['refresh_token'])) {
-//					// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
-//					// calls would only happen in the admin. If this changes we can fuck around with it later.
-//					$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
-//					$result = $new_connection->setSettings(
-//						$email_address . ' (Google Drive)',
-//						'com.google.drive',
-//						array(
-//							'user_id'        => $user_id,
-//							'email_address'  => $email_address,
-//							'access_token'   => $credentials,
-//							'access_expires' => $credentials_array['created'] + $credentials_array['expires_in'],
-//							'refresh_token'  => $credentials_array['refresh_token']
-//						)
-//					);
-//					if (!$result) {
-//						$settings_for_user = $new_connection->getAllConnectionsforUser();
-//						if (is_array($settings_for_user)) {
-//							foreach ($settings_for_user as $key => $connection_data) {
-//								if ($connection_data['name'] == $email_address . ' (Google Drive)') {
-//									$result = $connection_data['id'];
-//									break;
-//								}
-//							}
-//						}
-//					}
-//					if (isset($data['return_result_directly'])) {
-//						return $result;
-//					} else {
-//						if ($result) {
-//							AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
-//						} else {
-//							AdminHelper::formFailure('Error. Something just didn\'t work right.','/settings/connections/');
-//						}
-//					}
-//				} else {
-//					return 'Could not find a refresh token from google';
-//				}
-//			} else {
-//				return 'Please add default google drive app credentials.';
-//			}
-//		} else {
-//			return 'There was an error. (session) Please try again.';
-//		}
+		if (isset($data['code'])) {
+			$connections = CASHSystem::getSystemSettings('system_connections');
+			if (isset($connections['com.stripe'])) {
+				//exchange the returned code for user credentials.
+				$credentials = StripeSeed::exchangeCode($data['code'],
+					$connections['com.stripe']['client_id'],
+					$connections['com.stripe']['client_secret']);
+
+				if (isset($credentials['refresh'])) {
+					//get the user information from the returned credentials.
+					$user_info = StripeSeed::getUserInfo($credentials['access']);
+					//create new connection and add it to the database.
+					$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+
+
+					$result = $new_connection->setSettings(
+						'Stripe',
+						'com.stripe',
+						array(
+							'access_token'   => $credentials['access'],
+							'publishable_key' => $credentials['publish'],
+							'user_id' => $credentials['userid']
+						)
+					);
+
+					if ($result) {
+						AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
+					} else {
+						AdminHelper::formFailure('Error. Could not save connection.','/settings/connections/');
+					}
+				}else{
+					return 'Could not find a refresh token from Stripe';
+				}
+			} else {
+				return 'Please add default stripe app credentials.';
+			}
+		} else {
+			return 'There was an error. (session) Please try again.';
+		}
+	}
+
+	/**
+	 *
+	 * This method is used to exchange the returned code from Stripe with Stripe again to get the user credentials during the authentication process.
+	 *
+	 * Exchange an authorization code for OAuth 2.0 credentials.
+	 *
+	 * @param String $authorization_code Authorization code to exchange for OAuth 2.0 credentials.
+	 * @return String Json representation of the OAuth 2.0 credentials.
+	 */
+	public static function exchangeCode($authorization_code,$client_id,$client_secret) {
+		require_once(CASH_PLATFORM_ROOT.'/lib/stripe/StripeOAuth.class.php');
+		try {
+			$client = new StripeOAuth($client_id, $client_secret);
+			$token =  $client->getTokens($authorization_code);
+			$publishable = array(
+				'publish' => $client->getPublishableKey(),
+				'userid' => $client->getUserId()
+			);
+			return array_merge($token, $publishable);
+		} catch (Exception $e) {
+			return false;
+		}
+	}
+
+	/*
+ * This method makes use of Stripe library in getting the user information from the returned credentials during the authentication process.
+ */
+	public static function getUserInfo($credentials) {
+		//require_once(CASH_PLATFORM_ROOT.'/lib/stripe/lib/Stripe.php');
+		Stripe::setApiKey($credentials);
+
+		$user_info = Account::retrieve();
+		return $user_info;
 	}
 
 	protected function setErrorMessage($msg) {
