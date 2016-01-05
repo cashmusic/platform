@@ -26,7 +26,8 @@ require CASH_PLATFORM_ROOT  . '/lib/stripe/StripeOAuth.class.php';
 //require CASH_PLATFORM_ROOT  . '/lib/stripe/StripeOAuth2Client.class.php';
 
 class StripeSeed extends SeedBase {
-	protected $client_id, $client_secret, $publishable_key, $error_message;
+	protected $client_id, $client_secret, $error_message;
+	public $publishable_key;
 
 	public function __construct($user_id, $connection_id) {
 		$this->settings_type = 'com.stripe';
@@ -214,10 +215,7 @@ class StripeSeed extends SeedBase {
 		$shipping_amount=false
 	) {
 
-		$payer = new Payer();
-		$payer->setPaymentMethod("paypal");
-
-
+		echo "StripeSeed::setCheckout";
 
 		$amount = new Amount();
 		$amount->setCurrency($currency_id)

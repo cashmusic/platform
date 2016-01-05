@@ -19,7 +19,7 @@ class SinglePurchase extends ElementBase {
 		// define $markup to store all screen output
 		$item_request = new CASHRequest(
 			array(
-				'cash_request_type' => 'commerce', 
+				'cash_request_type' => 'commerce',
 				'cash_action' => 'getitem',
 				'id' => $this->options['item_id']
 			)
@@ -30,6 +30,23 @@ class SinglePurchase extends ElementBase {
 		$this->element_data['item_flexible_price'] = $item['flexible_price'];
 		$this->element_data['item_description'] = $item['description'];
 		$this->element_data['item_asset'] = $item['fulfillment_asset'];
+		$this->element_data['item_asset'] = $item['fulfillment_asset'];
+		$this->element_data['connection_type'] = CASHData::getConnectionType($this->element_data['connection_id']);
+
+        // we need do do all this to get the publishable key, i believe
+        $connection_settings = CASHSystem::getConnectionTypeSettings($this->element_data['connection_type']);
+        $seed_class = $connection_settings['seed'];
+
+        // we're going to switch seeds by $connection_type, so check to make sure this class even exists
+        if (!class_exists($seed_class)) {
+            $this->setErrorMessage("Couldn't find payment type {$this->element_data['connection_type']}.");
+            return false;
+        }
+
+        // call the payment seed class
+        $payment_seed = new $seed_class($this->element_data['user_id'],$this->element_data['connection_id']);
+        $this->element_data['public_key'] = $payment_seed->publishable_key;
+
 		if ($item['available_units'] != 0) {
 			$this->element_data['is_available'] = true;
 		} else {

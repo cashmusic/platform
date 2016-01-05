@@ -76,6 +76,24 @@
 <input type="hidden" name="user_id" value="{{user_id}}" />
 <input type="hidden" name="total_price" value="{{total_price}}" />
 
+
+    <div class="form-row">
+        <label>Card Number</label>
+        <input type="text" size="20" autocomplete="off" id="card-number" placeholder="1111222233334444" />
+    </div>
+    <div class="form-row">
+        <label>CVC</label>
+        <input type="text" size="4" autocomplete="off" id="card-cvc" placeholder="123"/>
+    </div>
+    <div class="form-row">
+        <label>Expiration (MM/YYYY)</label>
+        <input type="text" size="2" id="card-expiry-month" placeholder="12"/>
+        <span> / </span>
+        <input type="text" size="4" id="card-expiry-year" placeholder="2015">
+    </div>
+    <button type="submit" id="submit-button">Submit Payment</button>
+
+
 	<div class="cashmusic-sp-actions">
 		<div class="cashmusic-sp-actions" id="actionspc">
 			{{^no_shipping}}
@@ -92,9 +110,11 @@
 		</div>
 	</div>
 </form>
-
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script type="text/javascript">
 	(function() {
+        Stripe.setPublishableKey('{{public_key}}');
+        var connection_type = "{{connection_type}}";
 		var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
 		var original_price = elementForm.elements['total_price'].value;
 
@@ -114,7 +134,7 @@
 					if (window.location.port) {
 						submitUrl += ':' + window.location.port;
 					}
-					submitUrl += '/public/request/payload'; 
+					submitUrl += '/public/request/payload';
 
 					var ruo = document.createElement("input");
 					ruo.setAttribute("type", "hidden");
@@ -163,11 +183,36 @@
 			}
 		{{/no_shipping}}
 		{{#no_shipping}}
-			if (self!=top) {
-				handleSubmit(false);
-			} else {
-				elementForm.submit();
-			}
+
+
+            if (connection_type != "com.stripe") {
+                if (self!=top) {
+                    handleSubmit(false);
+                } else {
+                    elementForm.submit();
+                }
+            } else {
+
+                if(elementForm.addEventListener) {
+                    elementForm.addEventListener("submit", function(evt){
+                        evt.preventDefault();
+                        Stripe.card.createToken({
+                            number: document.getElementById('card-number').value,
+                            cvc: document.getElementById('card-cvc').value,
+                            exp_month: document.getElementById('card-expiry-month').value,
+                            exp_year: document.getElementById('card-expiry-year').value
+                        }, stripeResponseHandler);
+
+                    }, true);
+                } else {
+                    elementForm.attachEvent('onsubmit', function(evt){
+                        evt.preventDefault();
+                        console.log("prevented")
+
+                    });
+                }
+            }
+
 		{{/no_shipping}}
 	})();
 </script>
