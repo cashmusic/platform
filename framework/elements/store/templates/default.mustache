@@ -35,9 +35,7 @@
 	{{/features}}
 </div><!--featured-->
 
-{{! TODO: make a second view cart thing, not just cm-cartbutton
-<a href="#" class="cm-cartbutton"><i class="icon"></i>View cart</a>
-}}
+<a href="#" class="cm-showcart"><i class="icon"></i>View cart</a>
 
 <div class="cm-store unfeatured-items">
 <div class="cm-store cm-info cm-inner">
@@ -168,7 +166,7 @@
 		}
 
 		// view cart button
-		var cartbuttons = document.querySelectorAll('.cm-cartbutton');
+		var cartbuttons = document.querySelectorAll('.cm-cartbutton,.cm-showcart');
 		if (cartbuttons.length > 0) {
 			for (var i = 0, len = cartbuttons.length; i < len; i++) {
 				cm.events.add(cartbuttons[i],'click', function(e) {
