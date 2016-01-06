@@ -3,14 +3,14 @@
 {{#items_in_cart}}
 	<ul class="cm-items">
 	{{#cart}}
-			<li class="cm-item" data-itemid="{{id}}" data-variant="{{variant}}">
-				<div class="cm-remove" data-itemid="{{id}}" data-variant="{{variant}}"></div><!--cm-remove-->
+			<li class="cm-item" data-itemid="{{id}}" data-variant="{{variant_id}}">
+				<div class="cm-remove" data-itemid="{{id}}" data-variant="{{variant_id}}"></div><!--cm-remove-->
 				<h3 class="cm-title">{{name}}</h3>
 				{{#variant_name}}<p class="cm-variant">{{variant_name}}</p>{{/variant_name}}
 				<div class="cm-info">
-					<p class="cm-price">{{copy_subtotal}} <span>{{currency}}</span><span class="cm-totalprice" data-itemid="{{id}}" data-variant="{{variant}}">{{total_price}}</span></p>
+					<p class="cm-price">{{copy_subtotal}} <span>{{currency}}</span><span class="cm-totalprice" data-itemid="{{id}}" data-variant="{{variant_id}}">{{total_price}}</span></p>
 					<label class="cm-qty">{{copy_qty}}</label>
-					<input type="text" name="cm-current-qty" class="cm-qty" value="{{qty}}" data-itemid="{{id}}" data-variant="{{variant}}" data-price="{{price}}" data-shippingr1="{{shipping_r1}}" data-shippingr1rest="{{shipping_r1rest}}" data-shippingr2="{{shipping_r2}}" data-shippingr2rest="{{shipping_r2rest}}" />
+					<input type="text" name="cm-current-qty" class="cm-qty" value="{{qty}}" data-itemid="{{id}}" data-variant="{{variant_id}}" data-price="{{price}}" data-shippingr1="{{shipping_r1}}" data-shippingr1rest="{{shipping_r1rest}}" data-shippingr2="{{shipping_r2}}" data-shippingr2rest="{{shipping_r2rest}}" />
 				</div><!--cm-info-->
 			</li><!--cm-item-->
 	{{/cart}}
@@ -51,6 +51,15 @@
 {{#items_in_cart}}
 <script type="text/javascript">
 	var cm = window.cashmusic;
+
+	{{#items_in_cart}}
+		var id_table = {
+		{{#cart}}
+			'{{variant_id}}':'{{{variant_js_key}}}',
+		{{/cart}}
+			'n':'n' // to avoid trailing comma, LTE IE 8
+		}
+	{{/items_in_cart}}
 
 	function recount() {
 		var qtys = document.querySelectorAll('input.cm-qty');
@@ -102,7 +111,7 @@
 		var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
 		var poststring = 'cash_request_type=commerce&cash_action=editcartquantity&item_id=' + itemid + '&qty=0';
 		if (variant) {
-			poststring += '&item_variant='+encodeURIComponent(variant);
+			poststring += '&item_variant='+encodeURIComponent(id_table[variant]);
 		}
 		cm.ajax.send(submitUrl, poststring,
 			function() {
@@ -168,7 +177,7 @@
 							var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
 							var poststring = 'cash_request_type=commerce&cash_action=editcartquantity&item_id=' + this.getAttribute('data-itemid') + '&qty=' + this.value;
 							if (this.getAttribute('data-variant')) {
-								poststring += '&item_variant='+encodeURIComponent(this.getAttribute('data-variant'));
+								poststring += '&item_variant='+encodeURIComponent(id_table[this.getAttribute('data-variant')]);
 							}
 							cm.ajax.send(submitUrl, poststring,
 								function() {

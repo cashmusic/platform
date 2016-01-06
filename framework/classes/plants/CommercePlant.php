@@ -40,6 +40,7 @@ class CommercePlant extends PlantBase {
 			'edittransaction'     => array('editTransaction','direct'),
 			'emailbuyersbyitem'	 => array('emailBuyersByItem','direct'),
 			'emptycart'				 => array('emptyCart','direct'),
+			'formatvariantname'   => array('formatVariantName','direct'),
 			'getanalytics'        => array('getAnalytics','direct'),
 			'getcart'				 => array('getCart','direct'),
 			'getitem'             => array('getItem','direct'),
@@ -175,7 +176,7 @@ class CommercePlant extends PlantBase {
 		}
 	}
 
-	protected function getItemVariants($item_id, $exclude_empties = false, $user_id=false) {
+	protected function getItemVariants($item_id, $exclude_empties=false, $user_id=false) {
 		$condition = array(
 			"item_id" => array(
 				"condition" => "=",
@@ -206,35 +207,38 @@ class CommercePlant extends PlantBase {
 			$attributes = array();
 
 			foreach ($result as $item) {
+				// first try json_decode
+				$attribute_array = json_decode($item['attributes'],true);
+
+				if (!$attribute_array) {
+					// old style keys, so format them to match JSON
+					$attribute_array = array();
+					$attribute_keys = explode('+', $item['attributes']);
+					foreach ($attribute_keys as $part) {
+						list($key, $type) = array_pad(explode('->', $part, 2), 2, null);
+						// weird syntax to avoid warnings on: list($key, $type) = explode('->', $part);
+						$attribute_array[$key] = $type;
+					}
+				}
+
+				foreach ($attribute_array as $key => $type) {
+					// build the final attributes array
+					if (!isset($attributes[$key][$type])) {
+						$attributes[$key][$type] = 0;
+					}
+					$attributes[$key][$type] += $item['quantity'];
+				}
 
 				if (!($item['quantity'] < 1 && $exclude_empties)) {
-					$attribute_keys = explode('+', $item['attributes']);
-					$name_pairs = array();
-
-					foreach ($attribute_keys as $part) {
-
-						list($key, $type) = explode('->', $part);
-
-						if (!array_key_exists($key, $attributes)) {
-							$attributes[$key] = array();
-						}
-
-						if (!array_key_exists($type, $attributes[$key])) {
-							$attributes[$key][$type] = 0;
-						}
-
-						$attributes[$key][$type] += $item['quantity'];
-
-						$name_pairs[] = "$key: $type";
-					}
-
 					$variants['quantities'][] = array(
 						'id' => $item['id'],
 						'key' => $item['attributes'],
-						'formatted_name' => implode(", ", $name_pairs),
+						'formatted_name' => $this->formatVariantName($item['attributes']),
 						'value' => $item['quantity']
 					);
 				}
+
+
 			}
 
 			foreach ($attributes as $key => $values) {
@@ -256,6 +260,37 @@ class CommercePlant extends PlantBase {
 			return $variants;
 		} else {
 			return false;
+		}
+	}
+
+	protected function formatVariantName ($name) {
+		$final_name = '';
+		$name_decoded = json_decode($name,true);
+		if ($name_decoded) {
+			foreach ($name_decoded as $var => $val) {
+				$final_name .= $var . ': ' . $val . ', ';
+			}
+			$final_name = rtrim($final_name,', ');
+			return $final_name;
+		} else {
+			$totalmatches = preg_match_all("/([a-z]+)->/", $name, $key_parts);
+			if ($totalmatches) {
+				$variant_keys = $key_parts[1];
+				$variant_values = preg_split("/([a-z]+)->/", $name, 0, PREG_SPLIT_NO_EMPTY);
+				$count = count($variant_keys);
+
+				$variant_descriptions = array();
+
+				for($index = 0; $index < $count; $index++) {
+					$key = $variant_keys[$index];
+					$value = trim(str_replace('+', ' ', $variant_values[$index]));
+					$variant_descriptions[] = "$key: $value";
+				}
+
+				return implode(', ', $variant_descriptions);
+			} else {
+				return $name;
+			}
 		}
 	}
 
@@ -1330,22 +1365,8 @@ class CommercePlant extends PlantBase {
 			$return_array['description'] .= $item['name'];
 			if (isset($item['variant'])) {
 				if ($item['variant']) {
-
-					preg_match_all("/([a-z]+)->/", $item['variant'], $key_parts);
-
-					$variant_keys = $key_parts[1];
-					$variant_values = preg_split("/([a-z]+)->/", $item['variant'], 0, PREG_SPLIT_NO_EMPTY);
-					$count = count($variant_keys);
-
-					$variant_descriptions = array();
-
-					for($index = 0; $index < $count; $index++) {
-						$key = $variant_keys[$index];
-						$value = trim(str_replace('+', ' ', $variant_values[$index]));
-						$variant_descriptions[] = "$key: $value";
-					}
-
-					$return_array['description'] .= ' (' . implode(', ', $variant_descriptions) . ')';
+					// format the variant all nice nice
+					$return_array['description'] .= ' (' . $this->formatVariantName($item['variant']) . ')';
 				}
 			}
 			$return_array['description'] .= ",  \n";

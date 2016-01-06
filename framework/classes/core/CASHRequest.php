@@ -1,15 +1,15 @@
 <?php
 /**
- * The CASHRequest / CASHResponse relationship is the core of the CASH framework. 
- * CASHRequest looks for direct or indirect (POST/GET) requests for CASH resources 
- * then determines the correct Plant to instantiate in order to fulfill the request 
+ * The CASHRequest / CASHResponse relationship is the core of the CASH framework.
+ * CASHRequest looks for direct or indirect (POST/GET) requests for CASH resources
+ * then determines the correct Plant to instantiate in order to fulfill the request
  * and return a proper CASHResponse.
  *
  * @package platform.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2013, CASH Music
+ * Copyright (c) 2015, CASH Music
  * Licensed under the GNU Lesser General Public License version 3.
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
@@ -18,7 +18,7 @@
  *
  */class CASHRequest extends CASHData {
 	public static $version = 8;
-	
+
 	protected $request_method,
 			  $plant_array=array(),
 			  $total_requests = 0,
@@ -26,7 +26,7 @@
 			  $user;
 	public $request = false,
 		   $response;
-	
+
 	/**
 	 * Sets object parameters, calls detectRequest(), and attempts to initialize
 	 * the proper Plant
@@ -70,6 +70,8 @@
 	}
 
 	public function processRequest($request,$method='direct') {
+		$this->request = $request;
+		$this->request_method = $method;
 		// found something, let's make sure it's legit and do work
 		if (is_array($request)) {
 			$this->request = $request;
@@ -93,9 +95,9 @@
 		$this->user = $user;
 		return $this->user;
 	}
-	
+
 	/**
-	 * Determines the method used to make the Seed request, setting $this->request
+	 * Determines the method used to make the CASH request, setting $this->request
 	 * and $this->request_method
 	 *
 	 * @return void
@@ -122,10 +124,10 @@
 				*/
 		}
 	}
-	
+
 	/**
 	 * Builds an associative array of all Plant class files in /classes/plants/
-	 * stored as $this->plant_array and used to initialize the appropriate class 
+	 * stored as $this->plant_array and used to initialize the appropriate class
 	 * based on the cash_request_type
 	 *
 	 * @return void
@@ -140,5 +142,5 @@
 			closedir($plant_dir);
 		}
 	}
-} // END class 
+} // END class
 ?>
