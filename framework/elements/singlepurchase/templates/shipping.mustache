@@ -76,6 +76,18 @@
 <input type="hidden" name="user_id" value="{{user_id}}" />
 <input type="hidden" name="total_price" value="{{total_price}}" />
 
+    <div id="payment-errors"></div>
+    <div class="form-row">
+        <label>Name</label>
+        <input type="text" size="20" id="name" placeholder="Cardholder name" />
+
+    </div>
+
+    <div class="form-row">
+        <label>Email</label>
+        <input type="email" size="20" id="email" name="email" placeholder="Email" />
+        </div>
+
 
     <div class="form-row">
         <label>Card Number</label>
@@ -91,7 +103,7 @@
         <span> / </span>
         <input type="text" size="4" id="card-expiry-year" placeholder="2015">
     </div>
-    <button type="submit" id="submit-button">Submit Payment</button>
+    <button type="submit" id="stripe-submit">Submit Payment</button>
 
 
 	<div class="cashmusic-sp-actions">
@@ -112,6 +124,31 @@
 </form>
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script type="text/javascript">
+
+    function stripeResponseHandler(status, response) {
+
+        var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
+        if (response.error) {
+            // Show the errors on the form
+            console.log(response.error.message)
+            document.getElementById('payment-errors').innerText = response.error.message;
+            document.getElementById("stripe-submit").disabled = false;
+        } else {
+            // response contains id and card, which contains additional card details
+            var token = response.id;
+            // Insert the token into the form so it gets submitted to the server
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'stripeToken';
+            input.value = token;
+            elementForm.appendChild(input);
+
+            // and submit
+            elementForm.submit();
+        }
+    }
+
+
 	(function() {
         Stripe.setPublishableKey('{{public_key}}');
         var connection_type = "{{connection_type}}";
@@ -195,13 +232,15 @@
 
                 if(elementForm.addEventListener) {
                     elementForm.addEventListener("submit", function(evt){
-                        evt.preventDefault();
                         Stripe.card.createToken({
+                            name: document.getElementById('name').value,
                             number: document.getElementById('card-number').value,
                             cvc: document.getElementById('card-cvc').value,
                             exp_month: document.getElementById('card-expiry-month').value,
                             exp_year: document.getElementById('card-expiry-year').value
                         }, stripeResponseHandler);
+                        evt.preventDefault();
+
 
                     }, true);
                 } else {
@@ -214,5 +253,8 @@
             }
 
 		{{/no_shipping}}
+
+
+
 	})();
 </script>

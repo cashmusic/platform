@@ -215,7 +215,7 @@ class StripeSeed extends SeedBase {
 		$shipping_amount=false
 	) {
 
-		echo "StripeSeed::setCheckout";
+		/*echo "StripeSeed::setCheckout";
 
 		$amount = new Amount();
 		$amount->setCurrency($currency_id)
@@ -266,54 +266,29 @@ class StripeSeed extends SeedBase {
 			// approval link isn't set, return to page and post error
 			$this->setErrorMessage('There was an error contacting PayPal for this payment.');
 		}
-		return true;
+		return true;*/
+
+        if (!empty($return_url)) {
+            return array(
+                'redirect_url' => $return_url."&success=true&email=".$_GET['email'],
+                'data_sent'    => ""
+            );
+        } else {
+            // approval link isn't set, return to page and post error
+            $this->setErrorMessage('There was an error contacting Stripe for this payment.');
+        }
+
+        return true;
 	}
 
 	public function getCheckout() {
 
-		// check if we got a PayPal token in the return url; if not, cheese it!
-		if (!empty($_GET['token'])) {
+        // Stripe.js pretty much handled all the fun stuff. Really all we need to do at this point is pop everything into the database.
 
-		} else {
-			$this->setErrorMessage("No PayPal token was found.");
-			return false;
-		}
 
-		// Determine if the user approved the payment or not
-		if (!empty($_GET['success']) && $_GET['success'] == 'true' &&
-			!empty($_GET['paymentId']) && !empty($_GET['PayerID'])
-			) {
+		// Let's keep the success boolean here even though it's redundant in this case
+		if (!empty($_GET['success']) && $_GET['success'] == 'true') {
 
-			// Get the payment Object by passing paymentId
-			// payment id was previously stored in session in
-			// CreatePaymentUsingPayPal.php
-			$this->payment_id = $_GET['paymentId'];
-			$payment = Payment::get($this->payment_id, $this->api_context);
-
-			// ### Payment Execute
-			// PaymentExecution object includes information necessary
-			// to execute a PayPal account payment.
-			// The payer_id is added to the request query parameters
-			// when the user is redirected from paypal back to your site
-			$execution = new PaymentExecution();
-			$execution->setPayerId($_GET['PayerID']);
-
-			try {
-				// Execute the payment
-				$result = $payment->execute($execution, $this->api_context);
-
-				try {
-					$payment = Payment::get($this->payment_id, $this->api_context);
-				} catch (Exception $ex) {
-					return false;
-				}
-			} catch (Exception $ex) {
-
-				return false;
-			}
-
-			// let's return a standardized array to generalize for multiple payment types
-			$details = $payment->toArray();
 			// nested array for data received, standard across seeds
 			//TODO: this is set for single item transactions for now; should be expanded for cart transactions
 
