@@ -1388,6 +1388,23 @@ class CommercePlant extends PlantBase {
 			$return_url .= '&element_id=' . $element_id;
 		}
 
+		if (!empty($_POST['email'])) {
+			$return_url .= '&email='.$_POST['email'];
+		}
+
+		if (!empty($_POST['connection_id'])) {
+			$return_url .= '&connection_id='.$_POST['connection_id'];
+		}
+
+		if (!empty($_POST['connection_id'])) {
+			$return_url .= '&connection_id='.$_POST['connection_id'];
+		}
+
+		if (!empty($_POST['stripeToken'])) {
+			$return_url .= '&stripeToken='.$_POST['stripeToken'];
+		}
+
+
 		// collect shipping information on payment service, if possible
 
 		if ($order_properties['physical_fulfillment'] == 1) {
@@ -1462,6 +1479,8 @@ class CommercePlant extends PlantBase {
 
 		// call the payment seed class
 		$payment_seed = new $seed_class($order_details['user_id'],$transaction_details['connection_id']);
+
+
 
 		// if this was approved by the user, we need to compare some values to make sure everything matches up
 		if ($payment_details = $payment_seed->getCheckout()) {
@@ -1566,6 +1585,7 @@ class CommercePlant extends PlantBase {
 
 		if (!$user_id) {
 			//TODO: uh oh, something went wrong while trying to create a user, maybe?
+			$this->setErrorMessage("Something went wrong while trying to create a new user.");
 			return false;
 		} else {
 			return $user_id;
@@ -1815,6 +1835,9 @@ class CommercePlant extends PlantBase {
 				}
 		//		break;
 		//}
+	}
+	public function setErrorMessage($message) {
+		error_log($message);
 	}
 
 

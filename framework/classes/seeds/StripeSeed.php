@@ -18,11 +18,9 @@
  * This file is generously sponsored by Justin Miranda
  *
  **/
-use \Stripe\Stripe as Stripe;
-use \Stripe\Account as Account;
 
-require CASH_PLATFORM_ROOT  . '/lib/stripe/init.php';
 require CASH_PLATFORM_ROOT  . '/lib/stripe/StripeOAuth.class.php';
+require CASH_PLATFORM_ROOT	. '/lib/stripe/init.php';
 //require CASH_PLATFORM_ROOT  . '/lib/stripe/StripeOAuth2Client.class.php';
 
 class StripeSeed extends SeedBase {
@@ -42,7 +40,7 @@ class StripeSeed extends SeedBase {
 			$this->access_token = $this->settings->getSetting('access_token');
 			$sandboxed           = $this->settings->getSetting('sandboxed');
 
-			Stripe::setApiKey($this->client_secret);
+			\Stripe\Stripe::setApiKey($this->client_secret);
 
 			if (!$this->client_id || !$this->client_secret || !$this->publishable_key) {
 				$connections = CASHSystem::getSystemSettings('system_connections');
@@ -96,7 +94,7 @@ class StripeSeed extends SeedBase {
 		if ($this->token) {
 
 			Stripe::setApiKey($this->access_token);
-			$tokenInfo = Stripe_Token::retrieve($this->token);
+			$tokenInfo = \Stripe\Token::retrieve($this->token);
 			if (!$tokenInfo) {
 				$this->setErrorMessage('getTokenInformation failed: ' . $this->getErrorMessage());
 				return false;
@@ -189,7 +187,7 @@ class StripeSeed extends SeedBase {
 		//require_once(CASH_PLATFORM_ROOT.'/lib/stripe/lib/Stripe.php');
 		Stripe::setApiKey($credentials);
 
-		$user_info = Account::retrieve();
+		$user_info = \Stripe\Account::retrieve();
 		return $user_info;
 	}
 
@@ -270,7 +268,7 @@ class StripeSeed extends SeedBase {
 
         if (!empty($return_url)) {
             return array(
-                'redirect_url' => $return_url."&success=true&email=".$_GET['email'],
+                'redirect_url' => $return_url."&success=true",
                 'data_sent'    => ""
             );
         } else {
@@ -283,21 +281,50 @@ class StripeSeed extends SeedBase {
 
 	public function getCheckout() {
 
-        // Stripe.js pretty much handled all the fun stuff. Really all we need to do at this point is pop everything into the database.
+        // Stripe.js pretty much handled all the fun stuff.
+		// TODO: Get token
+		// TODO: Do charge
+		error_log(print_r($_GET, true));
+		//TODO: remember to generalize the token GET var
 
+		\Stripe\Stripe::setApiKey($this->client_secret);
+
+		if (!empty($_GET['stripeToken'])) {
+
+			if (!$payment_results = \Stripe\Charge::create(
+				array(
+				"amount" => 400,
+				"currency" => "usd",
+				"source" => $_GET['stripeToken'], // obtained with Stripe.js
+				"description" => "Charge for test@example.com"
+				)
+				)
+			) {
+
+				$this->setErrorMessage("Stripe payment failed.");
+				return false;
+			}
+		} else {
+			$this->setErrorMessage("No token found.");
+			return false;
+		}
+
+		// TODO: Get transaction from Stripe
+		// TODO: Pass transaction results and standardize
+		//
 
 		// Let's keep the success boolean here even though it's redundant in this case
-		if (!empty($_GET['success']) && $_GET['success'] == 'true') {
+		if ($payment_results['status'] == "succeeded") {
 
 			// nested array for data received, standard across seeds
 			//TODO: this is set for single item transactions for now; should be expanded for cart transactions
 
 			$order_details = array(
 				'transaction_description' => '',
-				'customer_email' => $details['payer']['payer_info']['email'],
-				'customer_first_name' => $details['payer']['payer_info']['first_name'],
-				'customer_last_name' => $details['payer']['payer_info']['last_name'],
-				'customer_name' => $details['payer']['payer_info']['first_name'] . " " . $details['payer']['payer_info']['last_name'],
+				'customer_email' => $_GET['email'],
+				'customer_first_name' => '',
+				'customer_last_name' => '',
+				'customer_name' => '',
 				'customer_shipping_name' => '',
 				'customer_address1' => '',
 				'customer_address2' => '',
@@ -308,21 +335,31 @@ class StripeSeed extends SeedBase {
 				'customer_countrycode' => '',
 				'customer_phone' => '',
 				/* 																*/
-				'transaction_date' 	=> strtotime($details['create_time']),
-				'transaction_id' 	=> $details['id'],
-				'sale_id'			=> $details['transactions'][0]['related_resources'][0]['sale']['id'],
+				'transaction_date' 	=> strtotime($payment_results->created),
+				'transaction_id' 	=> $payment_results->id,
+				'sale_id'			=> $payment_results->balance_transaction,
 				'items' 			=> array(),
-				'total' 			=> $details['transactions'][0]['amount']['total'],
+				'total' 			=> $payment_results->amount,
 				'other_charges' 	=> array(),
-				'transaction_fees'  => $details['transactions'][0]['related_resources'][0]['sale']['transaction_fee']['value'],
+				'transaction_fees'  => 0,
 				);
 
-			return array('total' => $details['transactions'][0]['amount']['total'],
-						'payer' => $details['payer']['payer_info'],
-						'timestamp' => strtotime($details['create_time']),
-						'transaction_id' => $details['id'],
-						'transaction_fee' => $details['transactions'][0]['related_resources'][0]['sale']['transaction_fee'],
-						'order_details' => json_encode($order_details)
+			$payer_info = array("payer" => array(
+				"first_name" => "",
+				"last_name" => "",
+				"email" => $_GET['email'],
+				"country_code" => ""
+
+			)
+			);
+
+
+			return array('total' => $payment_results->amount,
+						'payer' => $payer_info,
+						'timestamp' => strtotime($payment_results->created),
+						'transaction_id' => $payment_results->id,
+						'transaction_fee' => 0,
+						'order_details' => json_encode($payment_results)
 						);
 		} else {
 			return false;
@@ -352,6 +389,36 @@ class StripeSeed extends SeedBase {
 			return $refund_response;
 		}
 
+	}
+
+	/**
+	 * getTransactionByData
+	 *
+	 * Seed specific method to get transaction details for a payment service
+	 *
+	 * @param $token
+	 * @return array
+	 */
+
+	public function setTransactionByToken($amount, $currency, $token, $description) {
+
+		// Create the charge on Stripe's servers - this will charge the user's card
+		try {
+
+			$result = \Stripe\Charge::create(array(
+				"amount" => 1000, // amount in cents, again
+				"currency" => "usd",
+				"source" => $token,
+				"description" => "Example charge"
+			));
+
+			error_log("RESULT ". print_r($result, true));
+		} catch(\Stripe\Error\Card $e) {
+			error_log("ERROR ".print_r($e, true));
+			return false;
+		}
+
+		return $result;
 	}
 } // END class
 ?>

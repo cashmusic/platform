@@ -18,6 +18,38 @@ class CurlClient implements ClientInterface
         return self::$instance;
     }
 
+    // USER DEFINED TIMEOUTS
+
+    const DEFAULT_TIMEOUT = 80;
+    const DEFAULT_CONNECT_TIMEOUT = 30;
+
+    private $timeout = self::DEFAULT_TIMEOUT;
+    private $connectTimeout = self::DEFAULT_CONNECT_TIMEOUT;
+
+    public function setTimeout($seconds)
+    {
+        $this->timeout = (int) max($seconds, 0);
+        return $this;
+    }
+
+    public function setConnectTimeout($seconds)
+    {
+        $this->connectTimeout = (int) max($seconds, 0);
+        return $this;
+    }
+
+    public function getTimeout()
+    {
+        return $this->timeout;
+    }
+
+    public function getConnectTimeout()
+    {
+        return $this->connectTimeout;
+    }
+
+    // END OF USER DEFINED TIMEOUTS
+
     public function request($method, $absUrl, $headers, $params, $hasFile)
     {
         $curl = curl_init();
@@ -62,14 +94,26 @@ class CurlClient implements ClientInterface
         $absUrl = Util\Util::utf8($absUrl);
         $opts[CURLOPT_URL] = $absUrl;
         $opts[CURLOPT_RETURNTRANSFER] = true;
-        $opts[CURLOPT_CONNECTTIMEOUT] = 30;
-        $opts[CURLOPT_TIMEOUT] = 80;
+        $opts[CURLOPT_CONNECTTIMEOUT] = $this->connectTimeout;
+        $opts[CURLOPT_TIMEOUT] = $this->timeout;
         $opts[CURLOPT_RETURNTRANSFER] = true;
         $opts[CURLOPT_HEADERFUNCTION] = $headerCallback;
         $opts[CURLOPT_HTTPHEADER] = $headers;
         if (!Stripe::$verifySslCerts) {
             $opts[CURLOPT_SSL_VERIFYPEER] = false;
         }
+        // @codingStandardsIgnoreStart
+        // PSR2 requires all constants be upper case. Sadly, the CURL_SSLVERSION
+        // constants to not abide by those rules.
+        //
+        // Opt into TLS 1.x support on older versions of curl. This causes some
+        // curl versions, notably on RedHat, to upgrade the connection to TLS
+        // 1.2, from the default TLS 1.0.
+        if (!defined('CURL_SSLVERSION_TLSv1')) {
+            define('CURL_SSLVERSION_TLSv1', 1); // constant not defined in PHP < 5.5
+        }
+        $opts[CURLOPT_SSLVERSION] = CURL_SSLVERSION_TLSv1;
+        // @codingStandardsIgnoreEnd
 
         curl_setopt_array($curl, $opts);
         $rbody = curl_exec($curl);
