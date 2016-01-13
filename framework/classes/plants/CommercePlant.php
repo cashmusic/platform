@@ -1340,6 +1340,7 @@ class CommercePlant extends PlantBase {
 	protected function initiatePaymentRedirect($order_id,$element_id=false,$price_addition=0,$url_only=false,$finalize_url=false,$session_id=false) {
 
 		// set values
+
 		$order_details = $this->getOrder($order_id);
 		$order_properties = $this->getOrderProperties($order_details['order_contents']);
 
@@ -1429,6 +1430,7 @@ class CommercePlant extends PlantBase {
 
 
 
+
 		$this->editTransaction(
 			$order_details['transaction_id'], 		// order id
 			false, 									// service timestamp
@@ -1440,6 +1442,8 @@ class CommercePlant extends PlantBase {
 			false,										// service fee
 			false									// transaction status
 		);
+
+
 
 		if (!$url_only) {
 			$redirect = CASHSystem::redirectToUrl($payment_details['redirect_url']);
@@ -1483,7 +1487,7 @@ class CommercePlant extends PlantBase {
 
 
 		// if this was approved by the user, we need to compare some values to make sure everything matches up
-		if ($payment_details = $payment_seed->getCheckout()) {
+		if ($payment_details = $payment_seed->getCheckout($transaction_details)) {
 
 			$order_totals = $this->getOrderTotals($order_details['order_contents']);
 
@@ -1554,7 +1558,7 @@ class CommercePlant extends PlantBase {
      */
 
 	protected function getOrCreateUser(array $payer) {
-
+		error_log( "#PAYER: " . print_r($payer, true) );
 		// let's try to find this user id via email
 		$user_request = new CASHRequest(
 			array('cash_request_type' => 'people',
