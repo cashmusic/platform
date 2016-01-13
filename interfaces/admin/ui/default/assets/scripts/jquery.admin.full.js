@@ -261,6 +261,27 @@
       glitch();
       ZclipBoard();
       handleSwitchBlocks();
+
+      // should we clear the form persistence stuff?
+      // remove all localstorage form persistence junk
+      if (localStorage.getItem('resetadminforms') && !$('body').hasClass('login')) {
+      	var i = localStorage.length;
+      	while(i--) {
+      		var key = localStorage.key(i);
+      		if(/-adminformdata$/.test(key)) {
+      			localStorage.removeItem(key);
+      		}
+      	}
+         localStorage.removeItem('resetadminforms');
+      }
+
+      $("form").each(function() {
+         $(this).sisyphus({
+            excludeFields: $("input[type=hidden]"),
+            customKeySuffix: "-adminformdata",
+            locationBased: true
+         });
+      });
     }
 
     /**
@@ -382,20 +403,20 @@
           });
 
           if (!forcestop) {
-          $(mpForm.form.children('.part-'+mpForm.section)[0]).hide();
-          mpForm.section = mpForm.section+1;
-          if (mpForm.section > mpForm.total) {
-                $($(mpForm.form).children('.section.basic-information')[0]).fadeIn();
-                $(mpForm.steps).text(
-                   'Finalize: ' + $($(mpForm.form).children('.section.basic-information')[0]).data('section-name')
-                );
-                $(mpForm.submit).show();
-          } else {
-                $($(mpForm.form).children('.part-'+mpForm.section)[0]).fadeIn();
-                $(mpForm.steps).text(
-                   'Step ' + mpForm.section + ' of ' + mpForm.total + ': ' + $($(mpForm.form).children('.part-'+mpForm.section)[0]).data('section-name')
-                );
-          }
+             $(mpForm.form.children('.part-'+mpForm.section)[0]).hide();
+             mpForm.section = mpForm.section+1;
+             if (mpForm.section > mpForm.total) {
+                   $($(mpForm.form).children('.section.basic-information')[0]).fadeIn();
+                   $(mpForm.steps).text(
+                      'Finalize: ' + $($(mpForm.form).children('.section.basic-information')[0]).data('section-name')
+                   );
+                   $(mpForm.submit).show();
+             } else {
+                   $($(mpForm.form).children('.part-'+mpForm.section)[0]).fadeIn();
+                   $(mpForm.steps).text(
+                      'Step ' + mpForm.section + ' of ' + mpForm.total + ': ' + $($(mpForm.form).children('.part-'+mpForm.section)[0]).data('section-name')
+                   );
+             }
           }
       });
 
