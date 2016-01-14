@@ -730,5 +730,28 @@
 			}
 		}
 	}
+
+	public static function errorLog($data) {
+		switch(gettype($data)) {
+			case "string":
+			case "boolean":
+			case "integer":
+			case "double":
+				error_log("### errorLog -> " . $data);
+
+			case "NULL":
+			case "unknown type":
+				error_log("### errorLog -> NULL");
+
+			case "array":
+			case "object":
+			case "resource":
+				error_log("### errorLog -> ". print_r($data, true));
+
+			default:
+				error_log("### errorLog -> no data");
+
+		}
+	}
 } // END class
 ?>

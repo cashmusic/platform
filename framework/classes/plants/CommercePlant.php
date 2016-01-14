@@ -1074,6 +1074,8 @@ class CommercePlant extends PlantBase {
 				)
 			)
 		);
+
+
 		return $result;
 	}
 
@@ -1703,7 +1705,6 @@ class CommercePlant extends PlantBase {
 	protected function cancelOrder($order_id,$user_id=false) {
 
 		$order_details = $this->getOrder($order_id,true);
-
 		$connection_type = $this->getConnectionType($order_details['connection_id']);
 
 		// get connection type settings so we can extract Seed classname
@@ -1745,14 +1746,15 @@ class CommercePlant extends PlantBase {
 				"Cancelled " . date("F j, Y, g:i a T") . "\n\n" . $order_details['notes']
 			);
 
+			$data_returned = json_decode($order_details);
 
-			error_log($order_id);
+			$data_returned['status'] = 'refunded';
 			$this->editTransaction(
-				$order_id,
+				$order_details['transaction_id'],
 				false,
 				false,
 				false,
-				false,
+				json_encode($data_returned),
 				false,
 				false,
 				false,

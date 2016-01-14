@@ -358,8 +358,8 @@ class StripeSeed extends SeedBase {
                 'customer_country' => '',
                 'customer_countrycode' => '',
                 'customer_phone' => '',
-                'transaction_date' 	=> $payment_results->created,
-                'transaction_id' 	=> $payment_results->balance_transaction,
+                'transaction_date' 	=> $transaction['creation_date'],
+                'transaction_id' 	=> $transaction['transaction_id'],
                 'sale_id'			=> $payment_results->id,
                 'items' 			=> array(),
                 'total' 			=> round($payment_results->amount/100),
@@ -381,7 +381,9 @@ class StripeSeed extends SeedBase {
             return array('total' => round($payment_results->amount/100),
                 'payer' => $payer_info,
                 'timestamp' => $payment_results->created,
-                'transaction_id' => $payment_results->id,
+                'transaction_id' => $transaction['transaction_id'],
+                'service_transaction_id' => $payment_results->id,
+                'service_charge_id' => $payment_results->balance_transaction,
                 'transaction_fee' => ($transaction_fees->fee/100),
                 'order_details' => json_encode($order_details)
             );
@@ -402,7 +404,7 @@ class StripeSeed extends SeedBase {
      * @param string $currency_id
      * @return bool|Refund
      */
-    private function doRefund($sale_id, $refund_amount=0, $currency_id='USD') {
+    public function doRefund($sale_id, $refund_amount=0, $currency_id='USD') {
 
         // try to contact the stripe API for refund, or fail gracefully
         try {
