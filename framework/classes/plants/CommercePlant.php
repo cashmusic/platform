@@ -1413,8 +1413,8 @@ class CommercePlant extends PlantBase {
 			$note_allowed = true;
 		}
 
-		// create checkout object with URL redirect
-		$payment_details = $payment_seed->setCheckout(
+		// prepare payment with URL redirect, where applicable
+		$payment_details = $payment_seed->preparePayment(
 				$payment_amount,							# payment amount
 				'order-' . $order_id,						# order id
 				$order_totals['description'],				# order name
@@ -1461,8 +1461,10 @@ class CommercePlant extends PlantBase {
 	protected function finalizeRedirectedPayment($order_id,$creation_date,$direct_post_details=false,$session_id=false) {
 
 		$order_details = $this->getOrder($order_id);
+
 		$transaction_details = $this->getTransaction($order_details['transaction_id']);
 		$connection_type = $this->getConnectionType($transaction_details['connection_id']);
+        $order_totals = $this->getOrderTotals($order_details['order_contents']);
 
 		// get connection type settings so we can extract Seed classname
 		$connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
@@ -1487,9 +1489,9 @@ class CommercePlant extends PlantBase {
 
 
 		// if this was approved by the user, we need to compare some values to make sure everything matches up
-		if ($payment_details = $payment_seed->getCheckout($transaction_details)) {
+		if ($payment_details = $payment_seed->doPayment($order_details)) {
 
-			$order_totals = $this->getOrderTotals($order_details['order_contents']);
+
 
 			// okay, we've got the matching totals, so let's get the $user_id, y'all
 			if ($payment_details['total'] >= $order_totals['price']) {
@@ -1517,7 +1519,7 @@ class CommercePlant extends PlantBase {
 						$payment_details['order_details'],			// data received
 						1,										// successful (boolean 0/1)
 						$payment_details['total'],				// gross price
-						$payment_details['transaction_fee']['value'],	// service fee
+						$payment_details['transaction_fee'],	// service fee
 						'complete'								// transaction status
 					);
 

@@ -179,7 +179,7 @@ class PaypalSeed extends SeedBase {
 		}
 	}
 
-	public function setCheckout(
+	public function preparePayment(
 		$payment_amount,
 		$ordersku,
 		$ordername,
@@ -249,7 +249,7 @@ class PaypalSeed extends SeedBase {
 		}
 	}
 
-	public function getCheckout() {
+	public function doPayment() {
 
 		// check if we got a PayPal token in the return url; if not, cheese it!
 		if (!empty($_GET['token'])) {

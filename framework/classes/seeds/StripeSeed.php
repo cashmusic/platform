@@ -200,7 +200,7 @@ class StripeSeed extends SeedBase {
         return $this->error_message;
     }
 
-    public function setCheckout(
+    public function preparePayment(
         $payment_amount,
         $ordersku,
         $ordername,
@@ -214,7 +214,7 @@ class StripeSeed extends SeedBase {
         $shipping_amount=false
     ) {
 
-        error_log("### setCheckout");
+        error_log("### preparePayment");
 
         //	if ($payment_results->status == "succeeded") {
         return array(
@@ -234,12 +234,11 @@ class StripeSeed extends SeedBase {
         //return true;
     }
 
-    public function getCheckout($transaction_results = "") {
+    public function doPayment($transaction = "") {
 
-        error_log("### getCheckout");
-        $transaction = json_decode($transaction_results['data_sent']);
-        error_log("getCheckout: " . print_r($transaction_results, true));
-        error_log( print_r($_GET, true));
+        $order_details = json_decode($transaction['order_contents']);
+        $order_details = $order_details[0];
+
         // TODO: Pass transaction results and standardize
         //
         \Stripe\Stripe::setApiKey($this->client_secret);
@@ -248,10 +247,10 @@ class StripeSeed extends SeedBase {
 
             if (!$payment_results = \Stripe\Charge::create(
                 array(
-                    "amount" => ($transaction['total']*100),
+                    "amount" => ($order_details->price*100),
                     "currency" => "usd",
                     "source" => $_GET['stripeToken'], // obtained with Stripe.js
-                    "description" => $transaction['ordersku'] . ": " . $transaction['ordername']
+                    "description" => $order_details->description
                 )
             )
             ) {
@@ -264,37 +263,40 @@ class StripeSeed extends SeedBase {
             return false;
         }
 
-        $order_details = array(
-            'transaction_description' => '',
-            'customer_email' => $_GET['email'],
-            'customer_first_name' => '',
-            'customer_last_name' => '',
-            'customer_name' => '',
-            'customer_shipping_name' => '',
-            'customer_address1' => '',
-            'customer_address2' => '',
-            'customer_city' => '',
-            'customer_region' => '',
-            'customer_postalcode' => '',
-            'customer_country' => '',
-            'customer_countrycode' => '',
-            'customer_phone' => '',
-            'transaction_date' 	=> strtotime($payment_results->created),
-            'transaction_id' 	=> $payment_results->id,
-            'sale_id'			=> $payment_results->balance_transaction,
-            'items' 			=> array(),
-            'total' 			=> $payment_results->amount,
-            'other_charges' 	=> array(),
-            'transaction_fees'  => 0,
-            'refund_url'        => $payment_results->refunds->url,
-            'status'            => $payment_results->status
-        );
 
         // TODO: need to update how this checks i guess
 
         if ($payment_results->status == "succeeded") {
+            $transaction_fees = \Stripe\BalanceTransaction::retrieve($payment_results->balance_transaction);
+            error_log(($transaction_fees->fee/100));
 
             // nested array for data received, standard across seeds
+            $order_details = array(
+                'transaction_description' => '',
+                'customer_email' => $_GET['email'],
+                'customer_first_name' => '',
+                'customer_last_name' => '',
+                'customer_name' => '',
+                'customer_shipping_name' => '',
+                'customer_address1' => '',
+                'customer_address2' => '',
+                'customer_city' => '',
+                'customer_region' => '',
+                'customer_postalcode' => '',
+                'customer_country' => '',
+                'customer_countrycode' => '',
+                'customer_phone' => '',
+                'transaction_date' 	=> strtotime($payment_results->created),
+                'transaction_id' 	=> $payment_results->id,
+                'sale_id'			=> $payment_results->balance_transaction,
+                'items' 			=> array(),
+                'total' 			=> round($payment_results->amount/100),
+                'other_charges' 	=> array(),
+                'transaction_fees'  => ($transaction_fees->fee/100),
+                'refund_url'        => $payment_results->refunds->url,
+                'status'            => "complete"
+            );
+
             //TODO: this is set for single item transactions for now; should be expanded for cart transactions
 
             $payer_info = array(
@@ -304,16 +306,16 @@ class StripeSeed extends SeedBase {
                 "country_code" => "");
 
 
-            return array('total' => $payment_results->amount,
+            return array('total' => round($payment_results->amount/100),
                 'payer' => $payer_info,
                 'timestamp' => strtotime($payment_results->transaction_date),
                 'transaction_id' => $payment_results->id,
-                'transaction_fee' => 0,
+                'transaction_fee' => ($transaction_fees->fee/100),
                 'order_details' => json_encode($order_details)
             );
         } else {
 
-            $this->setErrorMessage("Error with getCheckout");
+            $this->setErrorMessage("Error with doPayment");
             return false;
         }
 
