@@ -1389,23 +1389,6 @@ class CommercePlant extends PlantBase {
 			$return_url .= '&element_id=' . $element_id;
 		}
 
-		if (!empty($_POST['email'])) {
-			$return_url .= '&email='.$_POST['email'];
-		}
-
-		if (!empty($_POST['connection_id'])) {
-			$return_url .= '&connection_id='.$_POST['connection_id'];
-		}
-
-		if (!empty($_POST['connection_id'])) {
-			$return_url .= '&connection_id='.$_POST['connection_id'];
-		}
-
-		if (!empty($_POST['stripeToken'])) {
-			$return_url .= '&stripeToken='.$_POST['stripeToken'];
-		}
-
-
 		// collect shipping information on payment service, if possible
 
 		if ($order_properties['physical_fulfillment'] == 1) {
@@ -1490,8 +1473,6 @@ class CommercePlant extends PlantBase {
 
 		// if this was approved by the user, we need to compare some values to make sure everything matches up
 		if ($payment_details = $payment_seed->doPayment($order_details)) {
-
-
 
 			// okay, we've got the matching totals, so let's get the $user_id, y'all
 			if ($payment_details['total'] >= $order_totals['price']) {
@@ -1751,6 +1732,7 @@ class CommercePlant extends PlantBase {
 			}
 		}
 
+
 		// call the payment seed class
 		$payment_seed = new $seed_class($order_details['user_id'],$transaction_details['connection_id']);
 
@@ -1758,11 +1740,10 @@ class CommercePlant extends PlantBase {
 			$order_details['sale_id'],
 			$order_details['total']
 		);
-//		error_log( print_r($refund_details, true) );
 
 		// check initial refund success
 		if (!$refund_details) {
-			error_log("refund returning false");
+			$this->setErrorMessage("There was a problem issuing this refund.");
 			return false;
 		} else {
 			error_log("refund returning true");
@@ -1796,12 +1777,6 @@ class CommercePlant extends PlantBase {
 			// 4. if an order is a return of damaged goods, you won't restocking
 			// 5. fuck it
 		}
-
-
-// entre vous
-
-
-
 	}
 
 	/**

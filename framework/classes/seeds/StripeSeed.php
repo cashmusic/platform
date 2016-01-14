@@ -214,14 +214,31 @@ class StripeSeed extends SeedBase {
         $shipping_amount=false
     ) {
 
-        error_log("### preparePayment");
+        // there's not a whole lot to do in this method for Stripe. let's make sure we have all the params we need to make the transaction spin, and return them to initiatePaymentRedirect.
 
-        //	if ($payment_results->status == "succeeded") {
-        return array(
-            'redirect_url' => $return_url."&success=true",
-            'data_sent'    => ""
-        );
-        /*} else {
+        if (!empty($_POST['email'])) {
+            $return_url .= '&email='.$_POST['email'];
+        }
+
+        if (!empty($_POST['connection_id'])) {
+            $return_url .= '&connection_id='.$_POST['connection_id'];
+        }
+
+        if (!empty($_POST['connection_id'])) {
+            $return_url .= '&connection_id='.$_POST['connection_id'];
+        }
+
+        if (!empty($_POST['stripeToken'])) {
+            $return_url .= '&stripeToken='.$_POST['stripeToken'];
+        }
+
+        // not a whole lot we can check on at this point, so let's just make sure the token is set.
+        if (!empty($_POST['stripeToken'])) {
+            return array(
+                'redirect_url' => $return_url."&success=true",
+                'data_sent'    => ""
+            );
+        } else {
             // approval link isn't set, return to page and post error
             $this->setErrorMessage('There was an error contacting Stripe for this payment.');
             return array(
@@ -229,18 +246,15 @@ class StripeSeed extends SeedBase {
                 'data_sent'    => ""
             );
 
-        }*/
-
-        //return true;
+        }
     }
 
     public function doPayment($transaction = "") {
 
+        // we need to get the details of the order to pass in the amount to Stripe
         $order_details = json_decode($transaction['order_contents']);
         $order_details = $order_details[0];
 
-        // TODO: Pass transaction results and standardize
-        //
         \Stripe\Stripe::setApiKey($this->client_secret);
 
         if (!empty($_GET['stripeToken'])) {
@@ -259,16 +273,21 @@ class StripeSeed extends SeedBase {
                 return false;
             }
         } else {
-            $this->setErrorMessage("No token found.");
+            $this->setErrorMessage("No Stripe token found.");
             return false;
         }
 
-
-        // TODO: need to update how this checks i guess
-
+        // check if Stripe charge was successful
         if ($payment_results->status == "succeeded") {
+
+            // look up the transaction fees taken off the top, for record
             $transaction_fees = \Stripe\BalanceTransaction::retrieve($payment_results->balance_transaction);
-            error_log(($transaction_fees->fee/100));
+
+            // we can actually use the BalanceTransaction::retrieve method as verification that the charge has been placed
+            if (!$transaction_fees) {
+                $this->setErrorMessage("Balance transaction failed, is this a valid charge?");
+                return false;
+            }
 
             // nested array for data received, standard across seeds
             $order_details = array(
@@ -286,9 +305,9 @@ class StripeSeed extends SeedBase {
                 'customer_country' => '',
                 'customer_countrycode' => '',
                 'customer_phone' => '',
-                'transaction_date' 	=> strtotime($payment_results->created),
-                'transaction_id' 	=> $payment_results->id,
-                'sale_id'			=> $payment_results->balance_transaction,
+                'transaction_date' 	=> $payment_results->created,
+                'transaction_id' 	=> $payment_results->balance_transaction,
+                'sale_id'			=> $payment_results->id,
                 'items' 			=> array(),
                 'total' 			=> round($payment_results->amount/100),
                 'other_charges' 	=> array(),
@@ -308,7 +327,7 @@ class StripeSeed extends SeedBase {
 
             return array('total' => round($payment_results->amount/100),
                 'payer' => $payer_info,
-                'timestamp' => strtotime($payment_results->transaction_date),
+                'timestamp' => $payment_results->created,
                 'transaction_id' => $payment_results->id,
                 'transaction_fee' => ($transaction_fees->fee/100),
                 'order_details' => json_encode($order_details)
@@ -323,23 +342,18 @@ class StripeSeed extends SeedBase {
 
     public function doRefund($sale_id,$refund_amount=0,$currency_id='USD') {
 
-        $amt = new Amount();
-        $amt->setCurrency($currency_id);
-        $amt->setTotal($refund_amount);
+        \Stripe\Stripe::setApiKey($this->client_secret);
 
-        $refund = new Refund();
-        $refund->setAmount($amt);
+        $refund_response = \Stripe\Refund::create(array(
+            "charge" => $sale_id
+        ));
 
-        $sale = new Sale();
-        $sale->setId($sale_id);
-
-        $refund_response = $sale->refund($refund, $this->api_context);
-
-        if (!$refund_response) {
-            $this->setErrorMessage('RefundTransaction failed: ' . $this->getErrorMessage());
-            error_log($this->getErrorMessage());
+        if (!$refund_response || $refund_response->object != "refund") {
+            $this->setErrorMessage('Refund Transaction failed ');
+            error_log(print_r($refund_response, true));
             return false;
         } else {
+            error_log(print_r($refund_response, true));
             return $refund_response;
         }
 
