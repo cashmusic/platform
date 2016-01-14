@@ -1411,9 +1411,6 @@ class CommercePlant extends PlantBase {
 				$price_addition								# price additions (like shipping, but could be taxes in future as well)
 		);
 
-
-
-
 		$this->editTransaction(
 			$order_details['transaction_id'], 		// order id
 			false, 									// service timestamp
@@ -1425,8 +1422,6 @@ class CommercePlant extends PlantBase {
 			false,										// service fee
 			false									// transaction status
 		);
-
-
 
 		if (!$url_only) {
 			$redirect = CASHSystem::redirectToUrl($payment_details['redirect_url']);
@@ -1468,8 +1463,6 @@ class CommercePlant extends PlantBase {
 
 		// call the payment seed class
 		$payment_seed = new $seed_class($order_details['user_id'],$transaction_details['connection_id']);
-
-
 
 		// if this was approved by the user, we need to compare some values to make sure everything matches up
 		if ($payment_details = $payment_seed->doPayment($order_details)) {
@@ -1710,10 +1703,8 @@ class CommercePlant extends PlantBase {
 	protected function cancelOrder($order_id,$user_id=false) {
 
 		$order_details = $this->getOrder($order_id,true);
-		//error_log( "details + " . print_r( $order_details, true) );
-		$transaction_details = $this->getTransaction($order_id); //$order_details['transaction_id']
 
-		$connection_type = $this->getConnectionType($transaction_details['connection_id']);
+		$connection_type = $this->getConnectionType($order_details['connection_id']);
 
 		// get connection type settings so we can extract Seed classname
 		$connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
@@ -1732,9 +1723,8 @@ class CommercePlant extends PlantBase {
 			}
 		}
 
-
 		// call the payment seed class
-		$payment_seed = new $seed_class($order_details['user_id'],$transaction_details['connection_id']);
+		$payment_seed = new $seed_class($order_details['user_id'],$order_details['connection_id']);
 
 		$refund_details = $payment_seed->doRefund(
 			$order_details['sale_id'],
@@ -1746,7 +1736,7 @@ class CommercePlant extends PlantBase {
 			$this->setErrorMessage("There was a problem issuing this refund.");
 			return false;
 		} else {
-			error_log("refund returning true");
+
 			// make sure the refund went through fully, return false if not
 			$this->editOrder(
 				$order_id,
@@ -1755,6 +1745,8 @@ class CommercePlant extends PlantBase {
 				"Cancelled " . date("F j, Y, g:i a T") . "\n\n" . $order_details['notes']
 			);
 
+
+			error_log($order_id);
 			$this->editTransaction(
 				$order_id,
 				false,

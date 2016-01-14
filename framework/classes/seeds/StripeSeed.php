@@ -23,10 +23,19 @@ require CASH_PLATFORM_ROOT  . '/lib/stripe/StripeOAuth.class.php';
 require CASH_PLATFORM_ROOT	. '/lib/stripe/init.php';
 //require CASH_PLATFORM_ROOT  . '/lib/stripe/StripeOAuth2Client.class.php';
 
+use \Stripe;
+use \Stripe\Refund;
+use \Stripe\Error;
+
 class StripeSeed extends SeedBase {
     protected $client_id, $client_secret, $error_message;
     public $publishable_key;
 
+    /**
+     * StripeSeed constructor.
+     * @param $user_id
+     * @param $connection_id
+     */
     public function __construct($user_id, $connection_id) {
         $this->settings_type = 'com.stripe';
         $this->user_id = $user_id;
@@ -62,6 +71,10 @@ class StripeSeed extends SeedBase {
         }
     }
 
+    /**
+     * @param bool $data
+     * @return string
+     */
     public static function getRedirectMarkup($data=false) {
         $connections = CASHSystem::getSystemSettings('system_connections');
         if (isset($connections['com.stripe'])) {
@@ -75,7 +88,12 @@ class StripeSeed extends SeedBase {
         }
     }
 
-    public static function getAuthorizationUrl($client_id,$client_secret) {
+    /**
+     * @param $client_id
+     * @param $client_secret
+     * @return String
+     */
+    public static function getAuthorizationUrl($client_id, $client_secret) {
 
         $client = new StripeOAuth($client_id, $client_secret);
         $auth_url = $client->getAuthorizeUri();
@@ -90,6 +108,9 @@ class StripeSeed extends SeedBase {
      * This happens before the actual charge occurs.
      */
 
+    /**
+     * @return bool|Stripe\Token
+     */
     public function getTokenInformation() {
 
         if ($this->token) {
@@ -184,6 +205,10 @@ class StripeSeed extends SeedBase {
     /*
  * This method makes use of Stripe library in getting the user information from the returned credentials during the authentication process.
  */
+    /**
+     * @param $credentials
+     * @return Stripe\Account
+     */
     public static function getUserInfo($credentials) {
         //require_once(CASH_PLATFORM_ROOT.'/lib/stripe/lib/Stripe.php');
         Stripe::setApiKey($credentials);
@@ -192,14 +217,36 @@ class StripeSeed extends SeedBase {
         return $user_info;
     }
 
+    /**
+     * @param $msg
+     */
     protected function setErrorMessage($msg) {
         $this->error_message = $msg;
     }
 
+    /**
+     * @return string
+     */
     public function getErrorMessage() {
         return $this->error_message;
     }
 
+    /**
+     * Fired from initiateRedirectedPayment, in CommercePlant. For StripeSeed, all this really does is tack the $_POST items onto the end of the uri to be sent over GET to finalizeRedirectedPayment.
+     *
+     * @param $payment_amount
+     * @param $ordersku
+     * @param $ordername
+     * @param $return_url
+     * @param $cancel_url
+     * @param bool $request_shipping_info
+     * @param bool $allow_note
+     * @param string $currency_id
+     * @param string $payment_type
+     * @param bool $invoice
+     * @param bool $shipping_amount
+     * @return array
+     */
     public function preparePayment(
         $payment_amount,
         $ordersku,
@@ -249,6 +296,12 @@ class StripeSeed extends SeedBase {
         }
     }
 
+    /**
+     * Fired from finalizeRedirectedPayment, in CommercePlant. Sends the actual charge and stripeToken to the Stripe API—this is really where almost everything happens for StripeSeed charges.
+     *
+     * @param string $transaction
+     * @return array|bool
+     */
     public function doPayment($transaction = "") {
 
         // we need to get the details of the order to pass in the amount to Stripe
@@ -340,22 +393,72 @@ class StripeSeed extends SeedBase {
 
     }
 
-    public function doRefund($sale_id,$refund_amount=0,$currency_id='USD') {
 
-        \Stripe\Stripe::setApiKey($this->client_secret);
+    /**
+     * Fired from cancelOrder, in CommercePlant. Sends charge token to the Stripe API with our client secret in order to do full refund.
+     *
+     * @param $sale_id
+     * @param int $refund_amount
+     * @param string $currency_id
+     * @return bool|Refund
+     */
+    private function doRefund($sale_id, $refund_amount=0, $currency_id='USD') {
 
-        $refund_response = \Stripe\Refund::create(array(
-            "charge" => $sale_id
-        ));
+        // try to contact the stripe API for refund, or fail gracefully
+        try {
+            \Stripe\Stripe::setApiKey($this->client_secret);
 
-        if (!$refund_response || $refund_response->object != "refund") {
-            $this->setErrorMessage('Refund Transaction failed ');
-            error_log(print_r($refund_response, true));
+            $refund_response = \Stripe\Refund::create(array(
+                "charge" => $sale_id
+            ));
+        } catch (\Stripe\Error\RateLimit $e) {
+            // Too many requests made to the API too quickly
+            $body = $e->getJsonBody();
+            $this->setErrorMessage("Stripe API rate limit exceeded: " . $body['error']['message']);
             return false;
-        } else {
-            error_log(print_r($refund_response, true));
-            return $refund_response;
+
+        } catch (\Stripe\Error\InvalidRequest $e) {
+            // Invalid parameters were supplied to Stripe's API
+            $body = $e->getJsonBody();
+            $this->setErrorMessage("Invalid Stripe refund request: " . $body['error']['message']);
+            return false;
+
+        } catch (\Stripe\Error\Authentication $e) {
+            // Authentication with Stripe's API failed
+            // (maybe you changed API keys recently)
+            $body = $e->getJsonBody();
+            $this->setErrorMessage("Could not authenticate Stripe: " . $body['error']['message']);
+            return false;
+
+        } catch (\Stripe\Error\ApiConnection $e) {
+            // Network communication with Stripe failed
+            $body = $e->getJsonBody();
+            $this->setErrorMessage("Could not communicate with Stripe API: " . $body['error']['message']);
+            return false;
+
+        } catch (\Stripe\Error\Base $e) {
+            // Display a very generic error to the user, and maybe send
+            // yourself an email
+            $body = $e->getJsonBody();
+            $this->setErrorMessage("General Stripe error: " . $body['error']['message']);
+            return false;
+
+        } catch (Exception $e) {
+            // Something else happened, completely unrelated to Stripe
+            $body = $e->getJsonBody();
+            $this->setErrorMessage("Something went wrong: " . $body['error']['message']);
+            return false;
+
         }
+
+        // let's make sure that the object returned is a successful refund object
+        if ($refund_response->object == "refund") {
+            return $refund_response;
+        } else {
+            $this->setErrorMessage("Something went wrong while issuing this refund.");
+            return false;
+        }
+
 
     }
 } // END class
