@@ -19,15 +19,12 @@
  *
  **/
 
-require CASH_PLATFORM_ROOT  . '/lib/stripe/StripeOAuth.class.php';
-require CASH_PLATFORM_ROOT	. '/lib/stripe/init.php';
-//require CASH_PLATFORM_ROOT  . '/lib/stripe/StripeOAuth2Client.class.php';
+require CASH_PLATFORM_ROOT . '/lib/stripe/StripeOAuth.class.php';
+require CASH_PLATFORM_ROOT . '/lib/stripe/init.php';
 
-use \Stripe;
-use \Stripe\Refund;
-use \Stripe\Error;
 
-class StripeSeed extends SeedBase {
+class StripeSeed extends SeedBase
+{
     protected $client_id, $client_secret, $error_message;
     public $publishable_key;
 
@@ -36,18 +33,19 @@ class StripeSeed extends SeedBase {
      * @param $user_id
      * @param $connection_id
      */
-    public function __construct($user_id, $connection_id) {
+    public function __construct($user_id, $connection_id)
+    {
         $this->settings_type = 'com.stripe';
         $this->user_id = $user_id;
         $this->connection_id = $connection_id;
 
         if ($this->getCASHConnection()) {
 
-            $this->client_id  = $this->settings->getSetting('client_id');
+            $this->client_id = $this->settings->getSetting('client_id');
             $this->client_secret = $this->settings->getSetting('client_secret');
             $this->publishable_key = $this->settings->getSetting('publishable_key');
             $this->access_token = $this->settings->getSetting('access_token');
-            $sandboxed           = $this->settings->getSetting('sandboxed');
+            $sandboxed = $this->settings->getSetting('sandboxed');
 
             \Stripe\Stripe::setApiKey($this->client_secret);
 
@@ -55,14 +53,19 @@ class StripeSeed extends SeedBase {
                 $connections = CASHSystem::getSystemSettings('system_connections');
 
                 if (isset($connections['com.stripe'])) {
-                    $this->client_id     = $connections['com.stripe']['client_id'];
-                    $this->client_secret   = $connections['com.stripe']['client_secret'];
-                    $this->publishable_key  	   = $connections['com.stripe']['publishable_key'];
-                    $sandboxed         = $connections['com.stripe']['sandboxed'];
+
+                    $sandboxed = $connections['com.stripe']['sandboxed'];
 
                     //TODO: We want to add test/sandbox credentials to the JSON, so we can just set them here instead
                     if ($sandboxed) {
-                        //sandboxed
+                        // get sandbox versions
+                        $this->client_id = $connections['com.stripe']['client_id'];
+                        $this->client_secret = $connections['com.stripe']['client_secret'];
+                        $this->publishable_key = $connections['com.stripe']['publishable_key'];
+                    } else {
+                        $this->client_id = $connections['com.stripe']['client_id'];
+                        $this->client_secret = $connections['com.stripe']['client_secret'];
+                        $this->publishable_key = $connections['com.stripe']['publishable_key'];
                     }
                 }
             }
@@ -75,13 +78,14 @@ class StripeSeed extends SeedBase {
      * @param bool $data
      * @return string
      */
-    public static function getRedirectMarkup($data=false) {
+    public static function getRedirectMarkup($data = false)
+    {
         $connections = CASHSystem::getSystemSettings('system_connections');
         if (isset($connections['com.stripe'])) {
             $login_url = StripeSeed::getAuthorizationUrl($connections['com.stripe']['client_id'], $connections['com.stripe']['client_secret']);
             $return_markup = '<h4>Stripe</h4>'
                 . '<p>This will redirect you to a secure login at Stripe and bring you right back.</p>'
-                . '<a href="' . $login_url . '&redirect_uri=http://localhost:8888'. ADMIN_WWW_BASE_PATH . '/settings/connections/add/com.stripe/finalize" class="button">Connect with Stripe</a>';
+                . '<a href="' . $login_url . '&redirect_uri=http://localhost:8888' . ADMIN_WWW_BASE_PATH . '/settings/connections/add/com.stripe/finalize" class="button">Connect with Stripe</a>';
             return $return_markup;
         } else {
             return 'Please add default stripe api credentials.';
@@ -93,7 +97,8 @@ class StripeSeed extends SeedBase {
      * @param $client_secret
      * @return String
      */
-    public static function getAuthorizationUrl($client_id, $client_secret) {
+    public static function getAuthorizationUrl($client_id, $client_secret)
+    {
 
         $client = new StripeOAuth($client_id, $client_secret);
         $auth_url = $client->getAuthorizeUri();
@@ -111,11 +116,12 @@ class StripeSeed extends SeedBase {
     /**
      * @return bool|Stripe\Token
      */
-    public function getTokenInformation() {
+    public function getTokenInformation()
+    {
 
         if ($this->token) {
 
-            Stripe::setApiKey($this->access_token);
+            \Stripe\Stripe::setApiKey($this->access_token);
             $tokenInfo = \Stripe\Token::retrieve($this->token);
             if (!$tokenInfo) {
                 $this->setErrorMessage('getTokenInformation failed: ' . $this->getErrorMessage());
@@ -136,7 +142,8 @@ class StripeSeed extends SeedBase {
      * @param bool|false $data
      * @return string
      */
-    public static function handleRedirectReturn($data=false) {
+    public static function handleRedirectReturn($data = false)
+    {
         if (isset($data['code'])) {
             $connections = CASHSystem::getSystemSettings('system_connections');
             if (isset($connections['com.stripe'])) {
@@ -146,8 +153,8 @@ class StripeSeed extends SeedBase {
                     $connections['com.stripe']['client_secret']);
 
                 if (isset($credentials['refresh'])) {
-                    //get the user information from the returned credentials.
-                    $user_info = StripeSeed::getUserInfo($credentials['access']);
+//                    //get the user information from the returned credentials.
+//                    $user_info = StripeSeed::getUserInfo($credentials['access']);
                     //create new connection and add it to the database.
                     $new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
 
@@ -156,25 +163,30 @@ class StripeSeed extends SeedBase {
                         $credentials['userid'] . " (Stripe)",
                         'com.stripe',
                         array(
-                            'access_token'   => $credentials['access'],
+                            'access_token' => $credentials['access'],
                             'publishable_key' => $credentials['publish'],
                             'user_id' => $credentials['userid']
                         )
                     );
 
                     if ($result) {
-                        AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
+                        AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.', '/settings/connections/');
+                        return true;
                     } else {
-                        AdminHelper::formFailure('Error. Could not save connection.','/settings/connections/');
+                        AdminHelper::formFailure('Error. Could not save connection.', '/settings/connections/');
+                        return false;
                     }
-                }else{
-                    return 'Could not find a refresh token from Stripe';
+                } else {
+                    AdminHelper::formFailure('Could not find a refresh token from Stripe');
+                    return false;
                 }
             } else {
-                return 'Please add default stripe app credentials.';
+                AdminHelper::formFailure('Please add default stripe app credentials.');
+                return false;
             }
         } else {
-            return 'There was an error. (session) Please try again.';
+            AdminHelper::formFailure('There was an error. (session) Please try again.');
+            return false;
         }
     }
 
@@ -185,13 +197,16 @@ class StripeSeed extends SeedBase {
      * Exchange an authorization code for OAuth 2.0 credentials.
      *
      * @param String $authorization_code Authorization code to exchange for OAuth 2.0 credentials.
+     * @param $client_id
+     * @param $client_secret
      * @return String Json representation of the OAuth 2.0 credentials.
      */
-    public static function exchangeCode($authorization_code,$client_id,$client_secret) {
-        require_once(CASH_PLATFORM_ROOT.'/lib/stripe/StripeOAuth.class.php');
+    public static function exchangeCode($authorization_code, $client_id, $client_secret)
+    {
+        require_once(CASH_PLATFORM_ROOT . '/lib/stripe/StripeOAuth.class.php');
         try {
             $client = new StripeOAuth($client_id, $client_secret);
-            $token =  $client->getTokens($authorization_code);
+            $token = $client->getTokens($authorization_code);
             $publishable = array(
                 'publish' => $client->getPublishableKey(),
                 'userid' => $client->getUserId()
@@ -209,9 +224,10 @@ class StripeSeed extends SeedBase {
      * @param $credentials
      * @return Stripe\Account
      */
-    public static function getUserInfo($credentials) {
+    public static function getUserInfo($credentials)
+    {
         //require_once(CASH_PLATFORM_ROOT.'/lib/stripe/lib/Stripe.php');
-        Stripe::setApiKey($credentials);
+        \Stripe\Stripe::setApiKey($credentials);
 
         $user_info = \Stripe\Account::retrieve();
         return $user_info;
@@ -220,14 +236,16 @@ class StripeSeed extends SeedBase {
     /**
      * @param $msg
      */
-    protected function setErrorMessage($msg) {
+    protected function setErrorMessage($msg)
+    {
         $this->error_message = $msg;
     }
 
     /**
      * @return string
      */
-    public function getErrorMessage() {
+    public function getErrorMessage()
+    {
         return $this->error_message;
     }
 
@@ -253,44 +271,45 @@ class StripeSeed extends SeedBase {
         $ordername,
         $return_url,
         $cancel_url,
-        $request_shipping_info=true,
-        $allow_note=false,
-        $currency_id='USD', /* 'USD', 'GBP', 'EUR', 'JPY', 'CAD', 'AUD' */
-        $payment_type='sale', /* 'Sale', 'Order', or 'Authorization' */
-        $invoice=false,
-        $shipping_amount=false
-    ) {
+        $request_shipping_info = true,
+        $allow_note = false,
+        $currency_id = 'USD', /* 'USD', 'GBP', 'EUR', 'JPY', 'CAD', 'AUD' */
+        $payment_type = 'sale', /* 'Sale', 'Order', or 'Authorization' */
+        $invoice = false,
+        $shipping_amount = false
+    )
+    {
 
         // there's not a whole lot to do in this method for Stripe. let's make sure we have all the params we need to make the transaction spin, and return them to initiatePaymentRedirect.
 
         if (!empty($_POST['email'])) {
-            $return_url .= '&email='.$_POST['email'];
+            $return_url .= '&email=' . $_POST['email'];
         }
 
         if (!empty($_POST['connection_id'])) {
-            $return_url .= '&connection_id='.$_POST['connection_id'];
+            $return_url .= '&connection_id=' . $_POST['connection_id'];
         }
 
         if (!empty($_POST['connection_id'])) {
-            $return_url .= '&connection_id='.$_POST['connection_id'];
+            $return_url .= '&connection_id=' . $_POST['connection_id'];
         }
 
         if (!empty($_POST['stripeToken'])) {
-            $return_url .= '&stripeToken='.$_POST['stripeToken'];
+            $return_url .= '&stripeToken=' . $_POST['stripeToken'];
         }
 
         // not a whole lot we can check on at this point, so let's just make sure the token is set.
         if (!empty($_POST['stripeToken'])) {
             return array(
-                'redirect_url' => $return_url."&success=true",
-                'data_sent'    => ""
+                'redirect_url' => $return_url . "&success=true",
+                'data_sent' => ""
             );
         } else {
             // approval link isn't set, return to page and post error
             $this->setErrorMessage('There was an error contacting Stripe for this payment.');
             return array(
-                'redirect_url' => $return_url."&success=false",
-                'data_sent'    => ""
+                'redirect_url' => $return_url . "&success=false",
+                'data_sent' => ""
             );
 
         }
@@ -302,7 +321,8 @@ class StripeSeed extends SeedBase {
      * @param string $transaction
      * @return array|bool
      */
-    public function doPayment($transaction = "") {
+    public function doPayment($transaction = "")
+    {
 
         // we need to get the details of the order to pass in the amount to Stripe
         $order_details = json_decode($transaction['order_contents']);
@@ -314,7 +334,7 @@ class StripeSeed extends SeedBase {
 
             if (!$payment_results = \Stripe\Charge::create(
                 array(
-                    "amount" => ($order_details->price*100),
+                    "amount" => ($order_details->price * 100),
                     "currency" => "usd",
                     "source" => $_GET['stripeToken'], // obtained with Stripe.js
                     "description" => $order_details->description
@@ -358,15 +378,15 @@ class StripeSeed extends SeedBase {
                 'customer_country' => '',
                 'customer_countrycode' => '',
                 'customer_phone' => '',
-                'transaction_date' 	=> $transaction['creation_date'],
-                'transaction_id' 	=> $transaction['transaction_id'],
-                'sale_id'			=> $payment_results->id,
-                'items' 			=> array(),
-                'total' 			=> round($payment_results->amount/100),
-                'other_charges' 	=> array(),
-                'transaction_fees'  => ($transaction_fees->fee/100),
-                'refund_url'        => $payment_results->refunds->url,
-                'status'            => "complete"
+                'transaction_date' => $transaction['creation_date'],
+                'transaction_id' => $transaction['transaction_id'],
+                'sale_id' => $payment_results->id,
+                'items' => array(),
+                'total' => round($payment_results->amount / 100),
+                'other_charges' => array(),
+                'transaction_fees' => ($transaction_fees->fee / 100),
+                'refund_url' => $payment_results->refunds->url,
+                'status' => "complete"
             );
 
             //TODO: this is set for single item transactions for now; should be expanded for cart transactions
@@ -378,13 +398,13 @@ class StripeSeed extends SeedBase {
                 "country_code" => "");
 
 
-            return array('total' => round($payment_results->amount/100),
+            return array('total' => round($payment_results->amount / 100),
                 'payer' => $payer_info,
                 'timestamp' => $payment_results->created,
                 'transaction_id' => $transaction['transaction_id'],
                 'service_transaction_id' => $payment_results->id,
                 'service_charge_id' => $payment_results->balance_transaction,
-                'transaction_fee' => ($transaction_fees->fee/100),
+                'transaction_fee' => ($transaction_fees->fee / 100),
                 'order_details' => json_encode($order_details)
             );
         } else {
@@ -402,9 +422,10 @@ class StripeSeed extends SeedBase {
      * @param $sale_id
      * @param int $refund_amount
      * @param string $currency_id
-     * @return bool|Refund
+     * @return bool|\Stripe\Refund
      */
-    public function doRefund($sale_id, $refund_amount=0, $currency_id='USD') {
+    public function doRefund($sale_id, $refund_amount = 0, $currency_id = 'USD')
+    {
 
         // try to contact the stripe API for refund, or fail gracefully
         try {
@@ -464,4 +485,3 @@ class StripeSeed extends SeedBase {
 
     }
 } // END class
-?>
