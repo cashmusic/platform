@@ -1341,8 +1341,8 @@ class CommercePlant extends PlantBase {
 
     protected function initiatePaymentRedirect($order_id,$element_id=false,$price_addition=0,$url_only=false,$finalize_url=false,$session_id=false) {
 
+		CASHSystem::errorLog($_POST);
         // set values
-
         $order_details = $this->getOrder($order_id);
         $order_properties = $this->getOrderProperties($order_details['order_contents']);
 

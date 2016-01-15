@@ -76,34 +76,7 @@
 <input type="hidden" name="user_id" value="{{user_id}}" />
 <input type="hidden" name="total_price" value="{{total_price}}" />
 
-    <div id="payment-errors"></div>
-    <div class="form-row">
-        <label>Name</label>
-        <input value="tom" type="text" size="20" id="name" placeholder="Cardholder name" />
 
-    </div>
-
-    <div class="form-row">
-        <label>Email</label>
-        <input value="tom@tom.com" type="email" size="20" id="email" name="email" placeholder="Email" />
-        </div>
-
-
-    <div class="form-row">
-        <label>Card Number</label>
-        <input value="4242424242424242" type="text" size="20" autocomplete="off" id="card-number" placeholder="1111222233334444" />
-    </div>
-    <div class="form-row">
-        <label>CVC</label>
-        <input value="123" type="text" size="4" autocomplete="off" id="card-cvc" placeholder="123"/>
-    </div>
-    <div class="form-row">
-        <label>Expiration (MM/YYYY)</label>
-        <input value="12" type="text" size="2" id="card-expiry-month" placeholder="12"/>
-        <span> / </span>
-        <input value="2018" type="text" size="4" id="card-expiry-year" placeholder="2015">
-    </div>
-    <button type="submit" id="stripe-submit">Submit Payment</button>
 
 
 	<div class="cashmusic-sp-actions">
@@ -122,6 +95,8 @@
 		</div>
 	</div>
 </form>
+
+<!-- also conditionals for stripe -->
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script type="text/javascript">
 
@@ -143,6 +118,27 @@
             input.value = token;
             elementForm.appendChild(input);
 
+            // we need to remove the card fields so they don't get posted over an insecure connection
+            document.getElementById('card-number').parentNode.removeChild(
+                    document.getElementById('card-number')
+            );
+            document.getElementById('card-cvc').parentNode.removeChild(
+                    document.getElementById('card-cvc')
+            );
+
+            document.getElementById('card-expiry-month').parentNode.removeChild(
+                    document.getElementById('card-expiry-month')
+            );
+
+            document.getElementById('card-expiry-year').parentNode.removeChild(
+                    document.getElementById('card-expiry-year')
+            );
+
+            // hide the other fields because they look weird on that redirecting screen...
+            document.getElementById("name").style.visibility = "hidden";
+            document.getElementById("email").style.visibility = "hidden";
+            document.getElementById("stripe-submit").style.visibility = "hidden";
+
             // and submit
             elementForm.submit();
         }
@@ -150,8 +146,76 @@
 
 
 	(function() {
-        Stripe.setPublishableKey('{{public_key}}');
         var connection_type = "{{connection_type}}";
+
+        // temp form injection stuff for stripe
+        if (connection_type == "com.stripe") {
+            // get that form container
+            var form = document.getElementById("cash_{{element_type}}_form_{{element_id}}");
+
+            // div container for error display from stripe.js
+            var errors = document.createElement("div");
+            errors.id = "payment-errors";
+            form.appendChild(errors);
+
+            // cardholder name
+            var input = document.createElement("input");
+            input.type = "text";
+            input.name = "name";
+            input.placeholder = "Cardholder name";
+            input.id = "name";
+            form.appendChild(input);
+
+            // email
+            var input = document.createElement("input");
+            input.type = "email";
+            input.name = "email";
+            input.placeholder = "Email";
+            input.id = "email";
+            form.appendChild(input);
+
+            // card number
+            var input = document.createElement("input");
+            input.type = "text";
+            input.name = "card-number";
+            input.placeholder = "Credit card number";
+            input.id = "card-number";
+            form.appendChild(input);
+
+            // cvv
+            var input = document.createElement("input");
+            input.type = "text";
+            input.name = "card-cvc";
+            input.placeholder = "CVV";
+            input.id = "card-cvc";
+            form.appendChild(input);
+
+            // expiration month
+            var input = document.createElement("input");
+            input.type = "text";
+            input.name = "card-expiry-month";
+            input.placeholder = "12";
+            input.id = "card-expiry-month";
+            form.appendChild(input);
+
+            // expiration year
+            var input = document.createElement("input");
+            input.type = "text";
+            input.name = "card-expiry-year";
+            input.placeholder = "2016";
+            input.id = "card-expiry-year";
+            form.appendChild(input);
+
+            var button = document.createElement("button");
+            button.type = "submit";
+            button.id = "stripe-submit";
+            button.innerHTML = "Submit Payment";
+
+            form.appendChild(button);
+        }
+
+
+
 		var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
 		var original_price = elementForm.elements['total_price'].value;
 
@@ -232,6 +296,7 @@
 
                 if(elementForm.addEventListener) {
                     elementForm.addEventListener("submit", function(evt){
+                        Stripe.setPublishableKey('{{public_key}}');
                         Stripe.card.createToken({
                             name: document.getElementById('name').value,
                             number: document.getElementById('card-number').value,
