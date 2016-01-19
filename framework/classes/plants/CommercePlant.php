@@ -1341,7 +1341,6 @@ class CommercePlant extends PlantBase {
 
     protected function initiatePaymentRedirect($order_id,$element_id=false,$price_addition=0,$url_only=false,$finalize_url=false,$session_id=false) {
 
-		CASHSystem::errorLog($_POST);
         // set values
         $order_details = $this->getOrder($order_id);
         $order_properties = $this->getOrderProperties($order_details['order_contents']);
@@ -1746,9 +1745,12 @@ class CommercePlant extends PlantBase {
                 "Cancelled " . date("F j, Y, g:i a T") . "\n\n" . $order_details['notes']
             );
 
-            $data_returned = json_decode($order_details);
+			// we need to edit the json in data_returned to reflect the new status; admin reads most transaction data from this json
+			// instead of from the fields, for better future proofing
 
+            $data_returned = json_decode($order_details);
             $data_returned['status'] = 'refunded';
+
             $this->editTransaction(
                 $order_details['transaction_id'],
                 false,
