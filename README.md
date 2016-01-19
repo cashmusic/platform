@@ -9,7 +9,7 @@ The platform can be used as a PHP library, integrated into popular CMS systems,
 or standalone with the included admin app. This repo contains the core framework, 
 installers, an admin webapp, APIs, demos, and a full suite of tests.
 
-[![Build Status](https://secure.travis-ci.org/cashmusic/platform.png)](http://travis-ci.org/cashmusic/platform)
+[![Build Status](https://secure.travis-ci.org/cashmusic/platform.svg)](http://travis-ci.org/cashmusic/platform)
 
   
 ## Get up and running
@@ -18,7 +18,7 @@ All you need to get started is [VirtualBox](https://www.virtualbox.org/wiki/Down
 [Vagrant 1.4+](http://www.vagrantup.com/downloads.html), and this repo. Just fork, install
 VirtualBox and Vagrant, then open a terminal window and in the repo directory type:
 
-```
+```bash
 vagrant up
 ```  
 
