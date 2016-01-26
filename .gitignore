@@ -14,3 +14,4 @@ sandbox/*
 __test_environment.json
 
 .DS_Store
+.idea
