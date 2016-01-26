@@ -56,17 +56,13 @@ class StripeSeed extends SeedBase
 
                     $sandboxed = $connections['com.stripe']['sandboxed'];
 
-                    //TODO: We want to add test/sandbox credentials to the JSON, so we can just set them here instead
-                    if ($sandboxed) {
+                    // there actually is no sandbox for stripe, so let's ignore for this seed. it's contingent on whether or not you're using a test API key set or not.
+                    //if ($sandboxed) {
                         // get sandbox versions
                         $this->client_id = $connections['com.stripe']['client_id'];
                         $this->client_secret = $connections['com.stripe']['client_secret'];
                         $this->publishable_key = $connections['com.stripe']['publishable_key'];
-                    } else {
-                        $this->client_id = $connections['com.stripe']['client_id'];
-                        $this->client_secret = $connections['com.stripe']['client_secret'];
-                        $this->publishable_key = $connections['com.stripe']['publishable_key'];
-                    }
+                    //}
                 }
             }
         } else {
