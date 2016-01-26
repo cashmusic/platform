@@ -1,8 +1,8 @@
 <?php
 /**
- * The CASHRequest / CASHResponse relationship is the core of the CASH framework. 
- * CASHRequest looks for direct or indirect (POST/GET) requests for CASH resources 
- * then determines the correct Plant to instantiate in order to fulfill the request 
+ * The CASHRequest / CASHResponse relationship is the core of the CASH framework.
+ * CASHRequest looks for direct or indirect (POST/GET) requests for CASH resources
+ * then determines the correct Plant to instantiate in order to fulfill the request
  * and return a proper CASHResponse.
  *
  * @package platform.org.cashmusic
@@ -18,7 +18,7 @@
  *
  */class CASHRequest extends CASHData {
 	public static $version = 8;
-	
+
 	protected $request_method,
 			  $plant_array=array(),
 			  $total_requests = 0,
@@ -26,7 +26,7 @@
 			  $user;
 	public $request = false,
 		   $response;
-	
+
 	/**
 	 * Sets object parameters, calls detectRequest(), and attempts to initialize
 	 * the proper Plant
@@ -93,7 +93,7 @@
 		$this->user = $user;
 		return $this->user;
 	}
-	
+
 	/**
 	 * Determines the method used to make the Seed request, setting $this->request
 	 * and $this->request_method
@@ -122,10 +122,10 @@
 				*/
 		}
 	}
-	
+
 	/**
 	 * Builds an associative array of all Plant class files in /classes/plants/
-	 * stored as $this->plant_array and used to initialize the appropriate class 
+	 * stored as $this->plant_array and used to initialize the appropriate class
 	 * based on the cash_request_type
 	 *
 	 * @return void
@@ -140,5 +140,5 @@
 			closedir($plant_dir);
 		}
 	}
-} // END class 
+} // END class
 ?>

@@ -12,7 +12,7 @@
 
 	<link rel="icon" type="image/png" href="{{cdn_url}}/ui/default/assets/images/favicon.png">
 	<!--[if IE]><link rel="shortcut icon" href="{{cdn_url}}/ui/default/assets/images/favicon.ico" type="image/x-icon" /><![endif]-->
-	<link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+	<link href='//fonts.googleapis.com/css?family=Montserrat:400,700|Nunito:300,400,700' rel='stylesheet' type='text/css'>
 	<link href='{{www_path}}/ui/default/assets/css/jquery-ui.css' rel='stylesheet' type='text/css'>
 	<link href="{{www_path}}/ui/default/assets/css/iconfont.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" href="{{cdn_url}}/ui/default/assets/css/pure/base-min.css">
@@ -70,13 +70,13 @@
 							</li><!--logout-->
 						</ul>
 					</div><!--touchpoints-->
-					<div id="flipback"></div><!--flipback-->	
-						<form id="search" accept-charset="UTF-8" method="post" action="{{www_path}}/search/">	
+					<div id="flipback"></div><!--flipback-->
+						<form id="search" accept-charset="UTF-8" method="post" action="{{www_path}}/search/">
 								<label for="query">Search for:</label>
 									<div class="icon icon-search"></div><!--icon-->
-									<input type="text" id="query" name="query" placeholder="" /> 
+									<input type="text" id="query" name="query" placeholder="" />
 						</form><!--search-->
-				</div><!--header-->		
+				</div><!--header-->
 					<ul>
 						<li{{#ui_current_main}} class="current"{{/ui_current_main}}>
 							<a title="Main page" href="{{www_path}}/" class="mainnav">
@@ -110,7 +110,7 @@
 								<span>{{link_menu_commerce}}</span>
 									<div class="icon icon-card"></div><!--icon-->
 							</a>
-							
+
 							<div class="subnavmenu usecolor4">
 								{{{commerce_section_menu}}}
 							</div>
@@ -128,10 +128,10 @@
 					</ul>
 					<div id="donate"><a href="http://donate.cashmusic.org/" target="_blank"><p>We can't exist without your support. <br />Please Donate!</p><div class="heart icon icon-heart"></div><!--icon--></a></div><!--donate-->
 				</div><!--navmenu-->
-			
+
 			<div id="mainspc" class="{{specialcolor}}">
 				<div class="grid pure-u-1 pure-u-md-3-4">
-				
+
 						<div id="pagemessage">
 							{{#error_message}}<p><span class="highlightcopy errormessage">{{error_message}}</span></p>{{/error_message}} {{#page_message}}<p><span class="highlightcopy">{{page_message}}</span></p>{{/page_message}}</div><!--pagemessage-->
 						<div id="pagedisplay">
@@ -142,7 +142,7 @@
 							<p>{{{misc_footer_markup}}} <a href="{{www_path}}/licenses/" target="_blank" class="learnmore noajax" style="margin-left:0;">{{link_footer_learnmore}}.</a>{{#showterms}}<a href="{{www_path}}/terms/" target="_blank" class="noajax">{{link_footer_terms}},</a>{{/showterms}}{{#showprivacy}}<a href="{{www_path}}/privacy/" target="_blank" class="noajax">{{link_footer_privacy}},</a> {{/showprivacy}}<a href="http://cashmusic.org/donate/" target="_blank" class="donatelink"><strong>{{action_donate}}.</strong></a></p>
 						</div><!--footer-->
 						</div><!--pagedisplay-->
-					
+
 
 						<div id="tertiary">
 							<div id="learnpanel">
@@ -160,7 +160,7 @@
 										<li><a href="{{www_path}}/settings/connections/" ><div class="icon icon-cog"></div><!--icon-->{{link_settings_connections}}</a></li>
 									</ul><!--tertiarynav-->
 									<div class="panelcontent"></div><!--panelcontent-->
-								</div><!--inner-->	
+								</div><!--inner-->
 							</div><!--settingspanel-->
 							<div id="helppanel">
 								<div class="inner">
@@ -187,10 +187,11 @@
 	<!--Glitch-->
 	<script src="{{www_path}}/ui/default/assets/scripts/ZeroClipboard.min.js" type="text/javascript" ></script>
 	<script src="{{www_path}}/ui/default/assets/scripts/fastclick.js" type="text/javascript" ></script>
+   <script src="{{www_path}}/ui/default/assets/scripts/garlic.min.js" type="text/javascript" ></script>
 	<script src="{{www_path}}/ui/default/assets/scripts/jquery.admin.js" type="text/javascript"></script>
 	<script src="{{www_path}}/ui/default/assets/scripts/jquery.mobile.custom.min.js" type="text/javascript"></script>
 
-{{#reset_key}}	
+{{#reset_key}}
 	<!-- Password reset popups, etc -->
 	<div class="modalbg">
 		<div class="modallightbox">
@@ -204,7 +205,7 @@
 					<input type="button" id="do_submit" class="button" value="Change password" />
 				</form>
 				<a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a>
-		
+
 		<script type="text/javascript">
 			// http://www.electrictoolbox.com/toggle-password-field-text-password/
 			(function() {
@@ -216,7 +217,7 @@
 					var toggle = document.getElementById('revealpassword');
 					toggle.addEventListener('click', toggleClicked, false);
 					toggle.style.display = 'inline';
-					
+
 				}
 				catch(err) {}
 			})();
@@ -232,7 +233,7 @@
 				else {
 					p.type = 'password';
 				}
-				
+
 				p.value = value;
 			}
 

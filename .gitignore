@@ -16,3 +16,4 @@ __test_environment.json
 .DS_Store
 .idea
 PayPal.log
+auth.cache

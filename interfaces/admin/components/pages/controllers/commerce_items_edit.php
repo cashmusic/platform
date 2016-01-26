@@ -173,23 +173,18 @@ if (isset($_POST['configure_variants'])) {
 	}
 	if (isset($processing_array['primaryoptions'])) {
 		if (is_array($processing_array['primaryoptions'])) {
-			if (isset($processing_array['secondaryoptions'])) {
-				if (is_array($processing_array['secondaryoptions'])) {
-					$secondary_array = array();
-					foreach ($processing_array['secondaryoptions'] as $option) {
-						$secondary_array[] = $_POST['secondary_variant_name'].'->'.$option['optionname'];
-					}
-				}
-			}
-
 			foreach ($processing_array['primaryoptions'] as $option) {
-				$fullname = $_POST['primary_variant_name'].'->'.$option['optionname'];
-				if (isset($secondary_array)) {
-					foreach ($secondary_array as $secondary_option) {
-						$variants_array[$fullname.'+'.$secondary_option] = 0;
+				$finaloption = array();
+				$finaloption[$_POST['primary_variant_name']] = $option['optionname'];
+				if (isset($processing_array['secondaryoptions'])) {
+					if (is_array($processing_array['secondaryoptions'])) {
+						foreach ($processing_array['secondaryoptions'] as $option2) {
+							$finaloption[$_POST['secondary_variant_name']] = $option2['optionname'];
+							$variants_array[json_encode($finaloption)] = 0;
+						}
 					}
 				} else {
-					$variants_array[$fullname] = 0;
+					$variants_array[json_encode($finaloption)] = 0;
 				}
 			}
 		}
