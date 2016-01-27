@@ -123,7 +123,7 @@ class PaypalSeedTests extends UnitTestCase {
 
 	}
 
-	function testTransactionData() {
+	function testTransactionDataStructure() {
 
 	}
 }
