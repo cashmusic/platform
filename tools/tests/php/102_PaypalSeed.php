@@ -95,10 +95,35 @@ class PaypalSeedTests extends UnitTestCase {
 		}
 	}
 
-	//TODO: check what happens when sandboxed is turned off
-	//TODO: check what happens on below minimum charge
-	//TODO: check success of charge
-	//TODO: check success of refund
-	//TODO: check for transaction fees
-	//TODO: assert integrity of returned data
+	function testSandboxOff() {
+
+	}
+
+	function testSandboxOn() {
+
+	}
+
+	function testMinimumCharge() {
+
+	}
+
+	function testSuccessCharge() {
+
+	}
+
+	function testFailedCharge() {
+		// is this possible?
+	}
+
+	function testRefundCharge() {
+
+	}
+
+	function testTransactionFee() {
+
+	}
+
+	function testTransactionData() {
+
+	}
 }
