@@ -1744,7 +1744,7 @@ class CommercePlant extends PlantBase {
         // call the payment seed class
         $payment_seed = new $seed_class($order_details['user_id'],$order_details['connection_id']);
 
-        $refund_details = $payment_seed->doRefund(
+        $refund_details = $payment_seed->refundPayment(
             $order_details['sale_id'],
             $order_details['total']
         );

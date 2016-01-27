@@ -385,8 +385,6 @@ class StripeSeed extends SeedBase
                 'status' => "complete"
             );
 
-            //TODO: this is set for single item transactions for now; should be expanded for cart transactions
-
             $payer_info = array(
                 "first_name" => "",
                 "last_name" => "",
@@ -420,7 +418,7 @@ class StripeSeed extends SeedBase
      * @param string $currency_id
      * @return bool|\Stripe\Refund
      */
-    public function doRefund($sale_id, $refund_amount = 0, $currency_id = 'USD')
+    public function refundPayment($sale_id, $refund_amount = 0, $currency_id = 'USD')
     {
 
         // try to contact the stripe API for refund, or fail gracefully
