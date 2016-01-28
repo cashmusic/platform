@@ -193,7 +193,7 @@ class PaypalSeed extends SeedBase
         try {
             $payment->create($this->api_context);
         } catch (Exception $ex) {
-
+            error_log( print_r($ex, true));
             $error = json_decode($ex->getData());
             $this->setErrorMessage($error->message);
 

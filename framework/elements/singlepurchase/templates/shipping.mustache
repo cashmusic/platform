@@ -262,27 +262,34 @@
 			}
 		}
 
-		{{^no_shipping}}
-			var computeTotal = function(e) {
-				var target = e.target ? e.target : e.srcElement;
-				elementForm.elements['total_price'].value =
-					parseFloat(original_price) + parseFloat(e.target.getAttribute('data-shiping')
-				);
-				if (self!=top) {
-					handleSubmit(false);
-				} else {
-					elementForm.submit();
-				}
-			}
 
-			if (window.addEventListener) {
-				document.getElementById('shipping1').addEventListener('click', computeTotal, false);
-				document.getElementById('shipping2').addEventListener('click', computeTotal, false);
-			} else if (window.attachEvent) {
-				document.getElementById('shipping1').attachEvent('onclick', computeTotal);
-				document.getElementById('shipping2').attachEvent('onclick', computeTotal);
-			}
+		{{^no_shipping}}
+
+            var computeTotal = function (e) {
+                var target = e.target ? e.target : e.srcElement;
+                elementForm.elements['total_price'].value =
+                        parseFloat(original_price) + parseFloat(e.target.getAttribute('data-shiping')
+                        );
+
+                if (connection_type != "com.stripe") {
+                if (self != top) {
+                    handleSubmit(false);
+                } else {
+                    elementForm.submit();
+                }
+
+            }
+
+            if (window.addEventListener) {
+                document.getElementById('shipping1').addEventListener('click', computeTotal, false);
+                document.getElementById('shipping2').addEventListener('click', computeTotal, false);
+            } else if (window.attachEvent) {
+                document.getElementById('shipping1').attachEvent('onclick', computeTotal);
+                document.getElementById('shipping2').attachEvent('onclick', computeTotal);
+            }
+
 		{{/no_shipping}}
+
 		{{#no_shipping}}
 
 

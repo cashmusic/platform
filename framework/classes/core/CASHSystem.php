@@ -738,18 +738,25 @@
 			case "integer":
 			case "double":
 				error_log("### errorLog -> " . $data);
+				return true;
+			break;
 
 			case "NULL":
 			case "unknown type":
 				error_log("### errorLog -> NULL");
+				return true;
+			break;
 
 			case "array":
 			case "object":
 			case "resource":
 				error_log("### errorLog -> ". print_r($data, true));
+				return true;
+			break;
 
 			default:
 				error_log("### errorLog -> no data");
+				return true;
 
 		}
 	}
