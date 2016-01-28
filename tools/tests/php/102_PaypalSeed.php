@@ -24,6 +24,7 @@ class PaypalSeedTests extends UnitTestCase {
 
 
 		$this->paypal_account = getTestEnv("PAYPAL_ACCOUNT");
+
 		if(!$this->paypal_account) {
 			echo "Paypal credentials not found, skipping tests\n";
 		}
@@ -49,7 +50,7 @@ class PaypalSeedTests extends UnitTestCase {
 		if($this->paypal_account) {
 			$payment_seed = new PaypalSeed($this->cash_user_id, $this->paypal_connection_id);
 
-			$payment_details = $payment_seed->setCheckout(
+			$payment_details = $payment_seed->preparePayment(
 				'6.66',										# payment amount
 				'order-sku',								# order id
 				'the order of the beast',					# order name
@@ -74,7 +75,7 @@ class PaypalSeedTests extends UnitTestCase {
 		if($this->paypal_account) {
 			$payment_seed = new PaypalSeed($this->cash_user_id, $this->paypal_connection_id);
 
-			$payment_details = $payment_seed->setCheckout(
+			$payment_details = $payment_seed->preparePayment(
 				6.66,										# payment amount
 				'order-sku',								# order id
 				'the order of the beast',					# order name
@@ -92,5 +93,37 @@ class PaypalSeedTests extends UnitTestCase {
 			//$redirect = CASHSystem::redirectToUrl($redirect_url);
 			//echo $redirect;
 		}
+	}
+
+	function testSandboxOff() {
+
+	}
+
+	function testSandboxOn() {
+
+	}
+
+	function testMinimumCharge() {
+
+	}
+
+	function testSuccessCharge() {
+
+	}
+
+	function testFailedCharge() {
+		// is this possible?
+	}
+
+	function testRefundCharge() {
+
+	}
+
+	function testTransactionFee() {
+
+	}
+
+	function testTransactionDataStructure() {
+
 	}
 }

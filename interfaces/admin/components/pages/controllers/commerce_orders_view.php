@@ -1,7 +1,18 @@
 <?php
+/*******************************************************************************
+ *
+ * 1. SET UP SCRIPT VARIABLES
+ *
+ ******************************************************************************/
 $effective_user = $cash_admin->effective_user_id;
 if ($request_parameters) {
+	/****************************************************************************
+	 *
+	 * 2. FOUND (AT LEAST) AN ORDER ID, FIRST LOOK FOR ACTION PARAMS
+	 *
+	 ***************************************************************************/
 
+	// receipt request requested
 	if (isset($_POST['resend_store_url'])) {
 		$resend_response = $cash_admin->requestAndStore(
 			array(
@@ -14,6 +25,20 @@ if ($request_parameters) {
 		AdminHelper::formSuccess('Receipt sent!','/commerce/orders/view/' . $request_parameters[0]);
 	}
 
+	// edit order notes
+	if (isset($_POST['ordernotes'])) {
+		$order_details_response = $cash_admin->requestAndStore(
+			array(
+				'cash_request_type' => 'commerce',
+				'cash_action' => 'editorder',
+				'id' => $request_parameters[0],
+				'notes' => $_POST['ordernotes']
+			)
+		);
+		AdminHelper::formSuccess('Changes saved.','/commerce/orders/view/' . $request_parameters[0]);
+	}
+
+	// mark order as fulfilled
 	if (isset($request_parameters[1])) {
 		if ($request_parameters[1] == 'fulfilled') {
 			$order_details_response = $cash_admin->requestAndStore(
@@ -43,18 +68,11 @@ if ($request_parameters) {
 		}
 	}
 
-	if (isset($_POST['ordernotes'])) {
-		$order_details_response = $cash_admin->requestAndStore(
-			array(
-				'cash_request_type' => 'commerce',
-				'cash_action' => 'editorder',
-				'id' => $request_parameters[0],
-				'notes' => $_POST['ordernotes']
-			)
-		);
-		AdminHelper::formSuccess('Changes saved.','/commerce/orders/view/' . $request_parameters[0]);
-	}
-
+	/****************************************************************************
+	 *
+	 * 3. GET ORDER DETAILS AND FORMAT RETURN
+	 *
+	 ***************************************************************************/
 	$order_details_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'commerce',
@@ -77,29 +95,21 @@ if ($request_parameters) {
 			$item_price += $item['price'];
 			$item['price'] = number_format($item['price'],2);
 
-			// TODO: stealing the variant parser from CommercePlant::getOrderTotals
-			//       we know this is going to change so no sense streamlining yet
-			//       FIX LATER
 			if (isset($item['variant'])) {
-
-				preg_match_all("/([a-z]+)->/", $item['variant'], $key_parts);
-
-				$variant_keys = $key_parts[1];
-				$variant_values = preg_split("/([a-z]+)->/", $item['variant'], 0, PREG_SPLIT_NO_EMPTY);
-				$count = count($variant_keys);
-
-				$variant_descriptions = array();
-
-				for($index = 0; $index < $count; $index++) {
-					$key = $variant_keys[$index];
-					$value = trim(str_replace('+', ' ', $variant_values[$index]));
-					$variant_descriptions[] = "$key: $value";
+				$variant_response = $cash_admin->requestAndStore(
+					array(
+						'cash_request_type' => 'commerce',
+						'cash_action' => 'formatvariantname',
+						'name' => $item['variant']
+					)
+				);
+				if ($variant_response['payload']) {
+					$item['variant'] = $variant_response['payload'];
 				}
-
-				$item['variant'] = implode(', ', $variant_descriptions);
 			}
 		}
 
+		// format all the details into easy mustache variables
 		$order_details['padded_id'] = str_pad($order_details['id'],6,0,STR_PAD_LEFT);
 		$order_details['order_date'] = date("M j, Y, g:i A", $order_details['creation_date']);
 		$order_details['formatted_gross_price'] = sprintf("%01.2f",$order_details['gross_price']);
@@ -165,11 +175,22 @@ if ($request_parameters) {
 			$cash_admin->page_data['formatted_data_sent'] = new ArrayIterator($formatted_data_sent);
 			$cash_admin->page_data['formatted_data_returned'] = new ArrayIterator($formatted_data_returned);
 	} else {
+		// bogus ID specified — bounce that shit
 		header('Location: ' . ADMIN_WWW_BASE_PATH . '/commerce/orders/');
 	}
 } else {
+	/****************************************************************************
+	 *
+	 * 4. NO ORDER ID SET, BOUNCE BACK TO MAIN ORDERS PAGE
+	 *
+	 ***************************************************************************/
 	header('Location: ' . ADMIN_WWW_BASE_PATH . '/commerce/orders/');
 }
 
+/*******************************************************************************
+ *
+ * 5. SET THE TEMPLATE AND GO!
+ *
+ ******************************************************************************/
 $cash_admin->setPageContentTemplate('commerce_orders_details');
 ?>

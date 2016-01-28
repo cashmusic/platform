@@ -34,6 +34,7 @@ class Store extends ElementBase {
 				$item['is_available'] = false;
 			}
 			if ($item['variants']) {
+				$item['json_keys'] = (bool) json_decode($item['variants']['quantities'][0]['key']);
 				$item['has_variants'] = true;
 				$verified_attributes = array();
 				$item['attributes_count'] = count($item['variants']['attributes']);
@@ -51,7 +52,12 @@ class Store extends ElementBase {
 								}
 								$counter_attribute = $item['variants']['attributes'][$counter_index];
 								$counter_key = $counter_attribute['key'];
-								$this_frag = $attribute['key'] . '->' . $i['key']; // current attribute id for qty
+								if ($item['json_keys']) {
+									$this_frag = array($attribute['key'] => $i['key']);
+								} else {
+									$this_frag = $attribute['key'] . '->' . $i['key']; // current attribute id for qty
+								}
+
 								$counter_options = array();
 								$defaultArray = array();
 								foreach ($counter_attribute['items'] as $ci) {
@@ -61,13 +67,24 @@ class Store extends ElementBase {
 											$defaultArray[] = $ci['key'];
 										}
 									}
-									$that_frag = $counter_key.'->'.$ci['key']; // other attribute id
-									// combine attribute ids to get the quantity key
-									if ($counter_index == 1) {
-										$qty_key = $this_frag.'+'.$that_frag;
+									if ($item['json_keys']) {
+										$that_frag = array($counter_key => $ci['key']);
+										// combine attribute ids to get the quantity key
+										if ($counter_index == 1) {
+											$qty_key = json_encode(array_merge($this_frag,$that_frag));
+										} else {
+											$qty_key = json_encode(array_merge($that_frag,$this_frag));
+										}
 									} else {
-										$qty_key = $that_frag.'+'.$this_frag;
+										$that_frag = $counter_key.'->'.$ci['key']; // other attribute id
+										// combine attribute ids to get the quantity key
+										if ($counter_index == 1) {
+											$qty_key = $this_frag.'+'.$that_frag;
+										} else {
+											$qty_key = $that_frag.'+'.$this_frag;
+										}
 									}
+
 									// we need to loop through our list of quantities and check keys
 									foreach ($item['variants']['quantities'] as $q) {
 										if ($q['key'] == $qty_key && $q['value']) { // check that value > 0
@@ -76,8 +93,9 @@ class Store extends ElementBase {
 										}
 									}
 								}
-								$attribute['defaultcountermenu'] = str_replace("'","\'",json_encode($defaultArray));
-								$i['countermenu'] = str_replace("'","\'",json_encode($counter_options));
+								$i['keyvalue'] = $this_frag; // set the
+								$i['countermenu'] = str_replace("'","&apos;",json_encode($counter_options));
+								$attribute['defaultcountermenu'] = str_replace("'","&apos;",json_encode($defaultArray));
 							}
 							$verified_items[] = $i;
 						}
@@ -292,10 +310,13 @@ class Store extends ElementBase {
 							$subtotal += $i['total_price'];
 							$i['name'] = $ii['name'];
 							if ($i['variant']) {
-								//$i['variant_fixed'] = str_replace(' ','+',$i['variant']);
 								foreach ($ii['variants']['quantities'] as $q) {
-									if ($q['key'] == $i['variant']) { //TODO: hacky fix for plus signs decoded as spaces
-										$i['variant_name'] = $q['formatted_name'];
+									$decoded_key = json_decode($q['key'],true,1) ?: $q['key'];
+									if ($decoded_key == $i['variant']) { //TODO: hacky fix for plus signs decoded as spaces
+										$i['variant_id']     = $q['id'];
+										$i['variant_key']    = $q['key'];
+										$i['variant_js_key'] = str_replace("'","\'",$q['key']);
+										$i['variant_name']   = $q['formatted_name'];
 										break;
 									}
 								}

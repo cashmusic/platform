@@ -42,10 +42,12 @@ $(document.body).addClass('login');
 	if ($('#message.error').css('display') == 'block') {
 		$('#loadingmask').css('width','1%');
 	}
+
+	localStorage.setItem('resetadminforms',true);
 </script>
 
 {{#open_signup_panel}}
 	<script type="text/javascript">
 		$(this).data('timeout', setTimeout($.proxy(function(){ $('#signupbtn').trigger('click'); }, this), 750));
 	</script>
-{{/open_signup_panel}}	
+{{/open_signup_panel}}

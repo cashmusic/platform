@@ -45,7 +45,13 @@ class SinglePurchase extends ElementBase {
 
         // call the payment seed class
         $payment_seed = new $seed_class($this->element_data['user_id'],$this->element_data['connection_id']);
-        $this->element_data['public_key'] = $payment_seed->publishable_key;
+
+		if (!empty($payment_seed->publishable_key)) {
+			$this->element_data['public_key'] = $payment_seed->publishable_key;
+		} else {
+			$this->element_data['public_key'] = "";
+		}
+
 
 		if ($item['available_units'] != 0) {
 			$this->element_data['is_available'] = true;

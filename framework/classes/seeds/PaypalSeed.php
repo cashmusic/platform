@@ -140,50 +140,6 @@ class PaypalSeed extends SeedBase
         return $this->error_message;
     }
 
-    protected function postToPaypal($method_name, $nvp_parameters)
-    {
-        // Set the API operation, version, and API signature in the request.
-        $request_parameters = array(
-            'METHOD' => $method_name,
-            'VERSION' => $this->api_version,
-            'PWD' => $this->api_password,
-            'USER' => $this->api_username,
-            'SIGNATURE' => $this->api_signature
-        );
-        if ($this->merchant_email) {
-            $request_parameters['SUBJECT'] = $this->merchant_email;
-        }
-        $request_parameters = array_merge($request_parameters, $nvp_parameters);
-
-        // Get response from the server.
-        $http_response = CASHSystem::getURLContents($this->api_endpoint, $request_parameters, true);
-        if ($http_response) {
-            // Extract the response details.
-            $http_response = explode("&", $http_response);
-            $parsed_response = array();
-            foreach ($http_response as $i => $value) {
-                $tmpAr = explode("=", $value);
-                if (sizeof($tmpAr) > 1) {
-                    $parsed_response[$tmpAr[0]] = urldecode($tmpAr[1]);
-                }
-            }
-
-            if ((0 == sizeof($parsed_response)) || !array_key_exists('ACK', $parsed_response)) {
-                $this->setErrorMessage("Invalid HTTP Response for POST (" . $nvpreq . ") to " . $this->api_endpoint);
-                return false;
-            }
-
-            if ("SUCCESS" == strtoupper($parsed_response["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($parsed_response["ACK"])) {
-                return $parsed_response;
-            } else {
-                $this->setErrorMessage(print_r($parsed_response, true));
-                return false;
-            }
-        } else {
-            $this->setErrorMessage('could not reach Paypal servers');
-            return false;
-        }
-    }
 
     public function preparePayment(
         $payment_amount,
@@ -202,13 +158,11 @@ class PaypalSeed extends SeedBase
 
         $payer = new Payer();
         $payer->setPaymentMethod("paypal");
-
-
         $amount = new Amount();
         $amount->setCurrency($currency_id)
             ->setTotal($payment_amount);
 
-        error_log("shipping + " . $shipping_amount);
+
         if ($request_shipping_info && $shipping_amount > 0) {
             $shipping = new Details();
             $shipping->setShipping($shipping_amount)
@@ -222,7 +176,7 @@ class PaypalSeed extends SeedBase
         $transaction = new Transaction();
         $transaction->setAmount($amount)
             ->setDescription($ordername)
-            ->setInvoiceNumber($ordersku . "farts");
+            ->setInvoiceNumber($ordersku); // owner-id order-id
 
         $redirectUrls = new RedirectUrls();
         $redirectUrls->setReturnUrl($return_url . "&success=true")
@@ -242,6 +196,7 @@ class PaypalSeed extends SeedBase
 
             $error = json_decode($ex->getData());
             $this->setErrorMessage($error->message);
+
         }
 
         $approval_url = $payment->getApprovalLink();
@@ -327,8 +282,8 @@ class PaypalSeed extends SeedBase
                 'sale_id' => $details['transactions'][0]['related_resources'][0]['sale']['id'],
                 'items' => array(),
                 'total' => $details['transactions'][0]['amount']['total'],
-                'other_charges' => array(),
-                'transaction_fees' => $details['transactions'][0]['related_resources'][0]['sale']['transaction_fee']['value'],
+                'other_charges' => $details['transactions'][0]['related_resources'][0]['sale']['transaction_fee']['value'],
+                'service_fee' => $details['transactions'][0]['related_resources'][0]['sale']['transaction_fee']['value'],
             );
 
             return array('total' => $details['transactions'][0]['amount']['total'],
@@ -344,7 +299,7 @@ class PaypalSeed extends SeedBase
 
     }
 
-    public function doRefund($sale_id, $refund_amount = 0, $currency_id = 'USD')
+    public function refundPayment($sale_id, $refund_amount = 0, $currency_id = 'USD')
     {
 
         $amt = new Amount();

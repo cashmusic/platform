@@ -56,17 +56,13 @@ class StripeSeed extends SeedBase
 
                     $sandboxed = $connections['com.stripe']['sandboxed'];
 
-                    //TODO: We want to add test/sandbox credentials to the JSON, so we can just set them here instead
-                    if ($sandboxed) {
+                    // there actually is no sandbox for stripe, so let's ignore for this seed. it's contingent on whether or not you're using a test API key set or not.
+                    //if ($sandboxed) {
                         // get sandbox versions
                         $this->client_id = $connections['com.stripe']['client_id'];
                         $this->client_secret = $connections['com.stripe']['client_secret'];
                         $this->publishable_key = $connections['com.stripe']['publishable_key'];
-                    } else {
-                        $this->client_id = $connections['com.stripe']['client_id'];
-                        $this->client_secret = $connections['com.stripe']['client_secret'];
-                        $this->publishable_key = $connections['com.stripe']['publishable_key'];
-                    }
+                    //}
                 }
             }
         } else {
@@ -389,8 +385,6 @@ class StripeSeed extends SeedBase
                 'status' => "complete"
             );
 
-            //TODO: this is set for single item transactions for now; should be expanded for cart transactions
-
             $payer_info = array(
                 "first_name" => "",
                 "last_name" => "",
@@ -424,7 +418,7 @@ class StripeSeed extends SeedBase
      * @param string $currency_id
      * @return bool|\Stripe\Refund
      */
-    public function doRefund($sale_id, $refund_amount = 0, $currency_id = 'USD')
+    public function refundPayment($sale_id, $refund_amount = 0, $currency_id = 'USD')
     {
 
         // try to contact the stripe API for refund, or fail gracefully

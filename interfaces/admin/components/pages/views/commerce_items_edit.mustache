@@ -2,13 +2,15 @@
 
 <div class="pure-u-1">
 <header>
+<div class="pure-u-1 pure-u-md-1-2">
 		<a class="returnlink current" href="{{www_path}}/commerce/items"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">&ldquo;{{name}}&rdquo;</h4>
-</header>
-<p>
-	<small><span class="icon icon-search"></span> &nbsp;<a href="{{www_path}}/commerce/filter/byitem/{{id}}">{{copy_find_orders}}</a></small>
-	{{#show_beta}}<br /><small><span class="icon icon-rocket"></span> &nbsp;<a href="{{www_path}}/commerce/items/send/{{id}}" class="lightboxed">Send to buyers</a></small>{{/show_beta}}
-</p>
+</div><!--pure--><div class="pure-u-1 pure-u-md-1-2">
+<ul class="inline_subnav">
+	<li><a class="current" href="{{www_path}}/commerce/filter/byitem/{{id}}"><span class="icon icon-search"></span> {{copy_find_orders}}</a></li>
+	{{#show_beta}}<li><a href="{{www_path}}/commerce/items/send/{{id}}" class="lightboxed"><span class="icon icon-rocket"></span> Send to buyers</a></li>{{/show_beta}}
+</ul>
 </div><!--pure-->
+</header>
 
 <form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/items/edit/{{id}}" name="edit_item" >
 	<input type="hidden" name="{{form_state_action}}" value="makeitso" />
@@ -108,7 +110,7 @@
 				{{#variants_quantities}}
 					<tr>
 						<td>{{formatted_name}}</td>
-						<td><input type="text" id="varquantity-{{id}}" name="varquantity-{{id}}" value="{{value}}" class="required number" /></td>
+						<td><input type="text" id='varquantity-{{id}}' name='varquantity-{{id}}' value='{{value}}' class="required number" /></td>
 					</tr>
 				{{/variants_quantities}}
 				</tbody>
