@@ -215,23 +215,21 @@ class PaypalSeed extends SeedBase
     public function doPayment()
     {
 
-        // check if we got a PayPal token in the return url; if not, cheese it!
-        if (!empty($_GET['token'])) {
-
-        } else {
+        // check if we got a PayPal token in the return url or via arguments; if not, cheese it!
+        if (empty($_REQUEST['token'])) {
             $this->setErrorMessage("No PayPal token was found.");
             return false;
         }
 
         // Determine if the user approved the payment or not
-        if (!empty($_GET['success']) && $_GET['success'] == 'true' &&
-            !empty($_GET['paymentId']) && !empty($_GET['PayerID'])
+        if (!empty($_REQUEST['success']) && $_REQUEST['success'] == 'true' &&
+            !empty($_REQUEST['paymentId']) && !empty($_REQUEST['PayerID'])
         ) {
 
             // Get the payment Object by passing paymentId
             // payment id was previously stored in session in
             // CreatePaymentUsingPayPal.php
-            $this->payment_id = $_GET['paymentId'];
+            $this->payment_id = $_REQUEST['paymentId'];
             $payment = Payment::get($this->payment_id, $this->api_context);
 
             // ### Payment Execute
@@ -240,7 +238,7 @@ class PaypalSeed extends SeedBase
             // The payer_id is added to the request query parameters
             // when the user is redirected from paypal back to your site
             $execution = new PaymentExecution();
-            $execution->setPayerId($_GET['PayerID']);
+            $execution->setPayerId($_REQUEST['PayerID']);
 
             try {
                 // Execute the payment
@@ -316,7 +314,6 @@ class PaypalSeed extends SeedBase
 
         if (!$refund_response) {
             $this->setErrorMessage('RefundTransaction failed: ' . $this->getErrorMessage());
-            error_log($this->getErrorMessage());
             return false;
         } else {
             return $refund_response;
