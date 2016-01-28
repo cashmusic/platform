@@ -1553,7 +1553,6 @@ class CommercePlant extends PlantBase {
      */
 
     protected function getOrCreateUser(array $payer) {
-        error_log( "#PAYER: " . print_r($payer, true) );
         // let's try to find this user id via email
         $user_request = new CASHRequest(
             array('cash_request_type' => 'people',

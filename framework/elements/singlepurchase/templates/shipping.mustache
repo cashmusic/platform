@@ -105,7 +105,6 @@
         var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
         if (response.error) {
             // Show the errors on the form
-            console.log(response.error.message)
             document.getElementById('payment-errors').innerText = response.error.message;
             document.getElementById("stripe-submit").disabled = false;
         } else {
@@ -267,26 +266,49 @@
 
             var computeTotal = function (e) {
                 var target = e.target ? e.target : e.srcElement;
-                elementForm.elements['total_price'].value =
-                        parseFloat(original_price) + parseFloat(e.target.getAttribute('data-shiping')
-                        );
+                var value = parseFloat(original_price) + parseFloat(e.target.getAttribute('data-shiping'));
+                elementForm.elements['total_price'].value = value;
 
-                if (connection_type != "com.stripe") {
-                if (self != top) {
+            }
+
+            if (connection_type != "com.stripe") {
+                if (self!=top) {
                     handleSubmit(false);
                 } else {
                     elementForm.submit();
                 }
+            } else {
 
+                if(elementForm.addEventListener) {
+                    elementForm.addEventListener("submit", function(evt){
+                        Stripe.setPublishableKey('{{public_key}}');
+                        Stripe.card.createToken({
+                            name: document.getElementById('name').value,
+                            number: document.getElementById('card-number').value,
+                            cvc: document.getElementById('card-cvc').value,
+                            exp_month: document.getElementById('card-expiry-month').value,
+                            exp_year: document.getElementById('card-expiry-year').value
+                        }, stripeResponseHandler);
+                        evt.preventDefault();
+
+
+                    }, true);
+                } else {
+                    elementForm.attachEvent('onsubmit', function(evt){
+                        evt.preventDefault();
+                        console.log("prevented")
+
+                    });
+                }
             }
 
-            if (window.addEventListener) {
-                document.getElementById('shipping1').addEventListener('click', computeTotal, false);
-                document.getElementById('shipping2').addEventListener('click', computeTotal, false);
-            } else if (window.attachEvent) {
-                document.getElementById('shipping1').attachEvent('onclick', computeTotal);
-                document.getElementById('shipping2').attachEvent('onclick', computeTotal);
-            }
+                if (window.addEventListener) {
+                    document.getElementById('shipping1').addEventListener('click', computeTotal, false);
+                    document.getElementById('shipping2').addEventListener('click', computeTotal, false);
+                } else if (window.attachEvent) {
+                    document.getElementById('shipping1').attachEvent('onclick', computeTotal);
+                    document.getElementById('shipping2').attachEvent('onclick', computeTotal);
+                }
 
 		{{/no_shipping}}
 
@@ -325,8 +347,6 @@
             }
 
 		{{/no_shipping}}
-
-
 
 	})();
 </script>
