@@ -93,6 +93,9 @@
 		<div id="cashmusic-sp-overlay">
 			<div class="cashmusic-sp-loading"></div>
 		</div>
+
+
+        <div id="payment-errors"></div>
 	</div>
 </form>
 
@@ -105,7 +108,8 @@
         var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
         if (response.error) {
             // Show the errors on the form
-            document.getElementById('payment-errors').innerText = response.error.message;
+            console.log(response.error.message);
+            document.getElementById('payment-errors').innerHTML = response.error.message;
             document.getElementById("stripe-submit").disabled = false;
         } else {
             // response contains id and card, which contains additional card details
@@ -151,11 +155,6 @@
         if (connection_type == "com.stripe") {
             // get that form container
             var form = document.getElementById("cash_{{element_type}}_form_{{element_id}}");
-
-            // div container for error display from stripe.js
-            var errors = document.createElement("div");
-            errors.id = "payment-errors";
-            form.appendChild(errors);
 
             // cardholder name
             var input = document.createElement("input");
