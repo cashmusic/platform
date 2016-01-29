@@ -11,7 +11,7 @@
 
 {{#is_available}}
 	<form id="cash_{{element_type}}_form_{{element_id}}" class="cash_form {{element_type}}" method="post" action="">
-	<input type="hidden" name="singlepurchase1" value="go" />
+	<input type="hidden" name="initiate_checkout" value="go" />
 	<input type="hidden" name="user_id" value="{{user_id}}" />
 	{{#item_flexible_price}}
 	<span class="cash_singlepurchase_flexible_price">	

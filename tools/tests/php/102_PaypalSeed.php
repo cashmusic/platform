@@ -77,13 +77,15 @@ class PaypalSeedTests extends UnitTestCase {
 				'connection_type' => 'com.paypal',
 				'service_timestamp' => 'string not int — different formats',
 				'service_transaction_id' => '123abc',
-				'data_sent' => 'big JSON',
-				'data_returned' => 'also big JSON',
+				'data_sent' => 'false',
+				'data_returned' => 'false',
 				'successful' => -1,
 				'gross_price' => 123.45,
 				'service_fee' => 12.34
 			)
 		);
+
+		$this->testing_transaction = $this->transaction_request->response['payload'];
 	}
 
 	function testPaypalSeed(){
@@ -147,59 +149,6 @@ class PaypalSeedTests extends UnitTestCase {
 	}
 
 	function testSandboxOn() {
-
-	}
-
-	function testMinimumCharge() {
-
-		if($this->paypal_account) {
-			$payment_seed = new PaypalSeed($this->cash_user_id, $this->paypal_connection_id);
-
-			$payment_details = $payment_seed->preparePayment(
-				'6.66',										# payment amount
-				'order-sku'.time(),								# order id
-				'the order of the beast',					# order name
-				'http://dev.localhost:8888?cash_request_type=commerce&cash_action=finalizepayment',				# return URL
-				'http://dev.localhost:8888?cash_request_type=commerce&cash_action=finalizepayment',				# cancel URL (the same in our case)
-				false,										# shipping info required (boolean)
-				false,										# allow an order note (boolean)
-				'USD',										# payment currency
-				'sale',										# transaction type (e.g. 'Sale', 'Order', or 'Authorization')
-				false,										# invoice (boolean)
-				0											# price additions (like shipping, but could be taxes in future as well)
-			);
-			echo $payment_details['redirect_url'];
-			$url = parse_url($payment_details['redirect_url']);
-			parse_str($url['query'], $query);
-
-			if ($payment_details = $payment_seed->doPayment($query['token'])) {
-
-			}
-
-
-			//$this->assertTrue($payment_details['redirect_url']);
-			//$redirect = CASHSystem::redirectToUrl($redirect_url);
-			//echo $redirect;
-		}
-	}
-
-	function testSuccessCharge() {
-
-	}
-
-	function testFailedCharge() {
-		// is this possible?
-	}
-
-	function testRefundCharge() {
-
-	}
-
-	function testTransactionFee() {
-
-	}
-
-	function testTransactionDataStructure() {
 
 	}
 }

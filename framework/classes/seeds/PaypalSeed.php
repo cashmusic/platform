@@ -92,6 +92,7 @@ class PaypalSeed extends SeedBase
 
         } else {
             $this->error_message = 'could not get connection settings';
+            return false;
         }
     }
 
@@ -193,9 +194,9 @@ class PaypalSeed extends SeedBase
         try {
             $payment->create($this->api_context);
         } catch (Exception $ex) {
-            error_log( print_r($ex, true));
             $error = json_decode($ex->getData());
             $this->setErrorMessage($error->message);
+            return false;
 
         }
 

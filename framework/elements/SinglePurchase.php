@@ -101,22 +101,43 @@ class SinglePurchase extends ElementBase {
 				//$this->element_data['error_message'] = $this->options['message_error'];
 				$this->element_data['error_message'] = print_r($this->original_response,true);
 			}
-		} elseif (isset($_POST['singlepurchase1'])) {
+		} elseif (isset($_REQUEST['initiate_checkout'])) {
+
+			// we've submitted the default stage, so we need to check if we're going to the shipping stage next, or skipping to the init payment stage
 			$total_price = $item['price'];
-			if (isset($_POST['total_price'])) {
-				$total_price = $_POST['total_price'];
+			if (isset($_REQUEST['total_price'])) {
+				$total_price = $_REQUEST['total_price'];
 			}
 			$this->element_data['total_price'] = $total_price;
 			if ($this->element_data['region1_cost'] + $this->element_data['region2_cost'] == 0.00) {
 				$this->element_data['no_shipping'] = true;
 			}
-			if ($total_price >= $item['price']) {
-				$this->setTemplate('shipping');
-			} else {
+
+			if ($total_price < $item['price']) {
+				// okay, someone's a wiseguy and trying to change the price on the checkout form
 				$this->element_data['error_message'] = 'Make sure you enter a price of at least ' . $this->element_data['currency'] . $item['price'] . ' and try again.';
 			}
+			else {
+
+				if ($this->element_data['no_shipping']) {
+					// there's no shipping, so go to init payment stage
+					$this->setTemplate('init_payment');
+				} else {
+					// go to shipping stage
+					$this->setTemplate('shipping');
+				}
+
+
+
+
+			}
+
 		}
-		return $this->element_data;	
+		
+		elseif (isset($_REQUEST['get_shipping'])) {
+			$this->setTemplate('init_payment');
+		}
+		return $this->element_data;
 	}
 } // END class 
 ?>
