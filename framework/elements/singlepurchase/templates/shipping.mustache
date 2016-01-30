@@ -81,97 +81,110 @@
 
 	<div class="cashmusic-sp-actions">
 		<div class="cashmusic-sp-actions" id="actionspc">
-			{{^no_shipping}}
+
 				<span class="cash_singlepurchase_shippingmessage">Please choose a shipping option:</span>
-				<input type="button" id="shipping1" data-shiping="{{region1_cost}}" value="{{region1_name}} - {{currency}}{{region1_cost}}" class="button" />
-				<input type="button" id="shipping2" data-shiping="{{region2_cost}}" value="{{region2_name}} - {{currency}}{{region2_cost}}" class="button" />
-			{{/no_shipping}}
-			{{#no_shipping}}
-				Redirecting...
-			{{/no_shipping}}
+
+                <select name="shipping_region" id="shipping_region">
+                    <option value="">Select a shipping region</option>
+                    <option value="{{region1_cost}}">{{region1_name}} - {{currency}}{{region1_cost}}</option>
+                    <option value="{{region2_cost}}">{{region2_name}} - {{currency}}{{region2_cost}}</option>
+                </select>
+
+            <span class="cash_singlepurchase_shippingmessage">Enter your shipping information:</span>
+
+            <input type="text" name="first_name" id="first_name" placeholder="First name">
+            <input type="text" name="last_name" id="last_name" placeholder="Last name">
+            <input type="text" name="street_address" id="street_address" placeholder="Street Address">
+            <input type="text" name="street_address2" id="street_address2" placeholder="Apt, suite">
+            <input type="text" name="city" id="city" placeholder="City">
+            <input type="text" name="province" id="province" placeholder="State/Province">
+            <input type="text" name="postal_code" id="postal_code" placeholder="Zip/Postal code">
+            <div>
+                <select name="country" id="country">
+                    <option value="">Select a country</option>
+                    <option value="US">United Snakes</option>
+                </select>
+            </div>
+
+
+            <input type="submit" value="Checkout &amp; Pay" class="button" />
+
+
 		</div>
 		<div id="cashmusic-sp-overlay">
 			<div class="cashmusic-sp-loading"></div>
 		</div>
 
-
-        <div id="payment-errors"></div>
 	</div>
 </form>
 
-<!-- also conditionals for stripe -->
-<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script type="text/javascript">
 
-	(function() {
+    (function() {
 
-		var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
-		var original_price = elementForm.elements['total_price'].value;
+        var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
+        var original_price = elementForm.elements['total_price'].value;
 
-		if (window.cashmusic) {
-			if (window.cashmusic.ajax && self!=top) {
-				var handleSubmit = function(e) {
-					if (e && e.preventDefault) {
-						e.preventDefault();
-					} else if (window.event && window.event.returnValue) {
-						window.eventReturnValue = false;
-					}
+        if (window.cashmusic) {
+            if (window.cashmusic.ajax && self!=top) {
+                var handleSubmit = function(e) {
+                    if (e && e.preventDefault) {
+                        e.preventDefault();
+                    } else if (window.event && window.event.returnValue) {
+                        window.eventReturnValue = false;
+                    }
 
-					document.getElementById('actionspc').style.opacity='0.4';
-					document.getElementById('cashmusic-sp-overlay').style.display='block';
+                    document.getElementById('actionspc').style.opacity='0.4';
+                    document.getElementById('cashmusic-sp-overlay').style.display='block';
 
-					var submitUrl = window.location.protocol + '//' + window.location.host;
-					if (window.location.port) {
-						submitUrl += ':' + window.location.port;
-					}
-					submitUrl += '/public/request/payload';
+                    var submitUrl = window.location.protocol + '//' + window.location.host;
+                    if (window.location.port) {
+                        submitUrl += ':' + window.location.port;
+                    }
+                    submitUrl += '/public/request/payload';
 
-					var ruo = document.createElement("input");
-					ruo.setAttribute("type", "hidden");
-					ruo.setAttribute("name", "url_only");
-					ruo.setAttribute("value", "1");
-					elementForm.appendChild(ruo);
+                    var ruo = document.createElement("input");
+                    ruo.setAttribute("type", "hidden");
+                    ruo.setAttribute("name", "url_only");
+                    ruo.setAttribute("value", "1");
+                    elementForm.appendChild(ruo);
 
-					window.cashmusic.ajax.send(
-						submitUrl,
-						window.cashmusic.ajax.encodeForm(elementForm),
-						function(thereply) {
-							if (thereply.substring(0,4) == 'http') {
-								top.location.href = thereply;
-							}
-						}
-					);
-				};
-
-				if (window.addEventListener) {
-					elementForm.addEventListener('submit', handleSubmit, false);
-				} else if (window.attachEvent) {
-					elementForm.attachEvent('onsubmit', handleSubmit);
-				}
-			}
-		}
-
-
-            var computeTotal = function (e) {
-                var target = e.target ? e.target : e.srcElement;
-                var value = parseFloat(original_price) + parseFloat(e.target.getAttribute('data-shiping'));
-                elementForm.elements['total_price'].value = value;
-
-            }
-
-                if (self!=top) {
-                    handleSubmit(false);
-                } else {
-                    elementForm.submit();
-                }
+                    window.cashmusic.ajax.send(
+                            submitUrl,
+                            window.cashmusic.ajax.encodeForm(elementForm),
+                            function(thereply) {
+                                if (thereply.substring(0,4) == 'http') {
+                                    top.location.href = thereply;
+                                }
+                            }
+                    );
+                };
 
                 if (window.addEventListener) {
-                    document.getElementById('shipping1').addEventListener('click', computeTotal, false);
-                    document.getElementById('shipping2').addEventListener('click', computeTotal, false);
+                    elementForm.addEventListener('submit', handleSubmit, false);
                 } else if (window.attachEvent) {
-                    document.getElementById('shipping1').attachEvent('onclick', computeTotal);
-                    document.getElementById('shipping2').attachEvent('onclick', computeTotal);
+                    elementForm.attachEvent('onsubmit', handleSubmit);
                 }
+            }
+        }
 
-	})();
+
+        var computeTotal = function (e) {
+            var target = e.target ? e.target : e.srcElement;
+            var value = parseFloat(original_price) + parseFloat(e.target.value);
+            elementForm.elements['total_price'].value = value;
+
+        }
+
+
+
+
+
+        if (window.addEventListener) {
+            document.getElementById('shipping_region').addEventListener('change', computeTotal, false);
+        } else if (window.attachEvent) {
+            document.getElementById('shipping_region').attachEvent('onchange', computeTotal);
+        }
+
+    })();
 </script>

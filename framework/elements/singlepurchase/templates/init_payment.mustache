@@ -76,11 +76,8 @@
     <input type="hidden" name="user_id" value="{{user_id}}" />
     <input type="hidden" name="total_price" value="{{total_price}}" />
 
-
-
-
     <div class="cashmusic-sp-actions">
-
+        stripe
         <div id="cashmusic-sp-overlay">
             <div class="cashmusic-sp-loading"></div>
         </div>
@@ -108,7 +105,6 @@
             var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
             if (response.error) {
                 // Show the errors on the form
-                console.log(response.error.message);
                 document.getElementById('payment-errors').innerHTML = response.error.message;
                 document.getElementById("stripe-submit").disabled = false;
             } else {
@@ -216,21 +212,20 @@
         }
 
 
-
         var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
         var original_price = elementForm.elements['total_price'].value;
 
         if (window.cashmusic) {
-            if (window.cashmusic.ajax && self!=top) {
-                var handleSubmit = function(e) {
+            if (window.cashmusic.ajax && self != top) {
+                var handleSubmit = function (e) {
                     if (e && e.preventDefault) {
                         e.preventDefault();
                     } else if (window.event && window.event.returnValue) {
                         window.eventReturnValue = false;
                     }
 
-                    document.getElementById('actionspc').style.opacity='0.4';
-                    document.getElementById('cashmusic-sp-overlay').style.display='block';
+                    document.getElementById('actionspc').style.opacity = '0.4';
+                    document.getElementById('cashmusic-sp-overlay').style.display = 'block';
 
                     var submitUrl = window.location.protocol + '//' + window.location.host;
                     if (window.location.port) {
@@ -247,8 +242,8 @@
                     window.cashmusic.ajax.send(
                             submitUrl,
                             window.cashmusic.ajax.encodeForm(elementForm),
-                            function(thereply) {
-                                if (thereply.substring(0,4) == 'http') {
+                            function (thereply) {
+                                if (thereply.substring(0, 4) == 'http') {
                                     top.location.href = thereply;
                                 }
                             }
@@ -264,27 +259,28 @@
         }
 
 
-            if (connection_type != "com.stripe") {
-                if (self!=top) {
-                    handleSubmit(false);
-                } else {
-                    elementForm.submit();
-                }
+        if (connection_type != "com.stripe") {
+            if (self != top) {
+                handleSubmit(false);
             } else {
+                elementForm.submit();
+            }
+        } else {
 
-                if(elementForm.addEventListener) {
-                    elementForm.addEventListener("submit", function(evt){
-                        getStripeToken();
+            if (elementForm.addEventListener) {
+                elementForm.addEventListener("submit", function (evt) {
+                    getStripeToken();
 
 
-                    }, true);
-                } else {
-                    elementForm.attachEvent('onsubmit', function(evt){
-                        evt.preventDefault();
-                        getStripeToken();
-                }
+                }, true);
+            } else {
+                elementForm.attachEvent('onsubmit', function (evt) {
+                    evt.preventDefault();
+                    getStripeToken();
+                });
             }
 
+        }
     })();
 </script>
 

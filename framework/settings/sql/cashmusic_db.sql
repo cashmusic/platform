@@ -193,6 +193,7 @@ CREATE TABLE `commerce_orders` (
   `currency` varchar(255) DEFAULT 'USD',
   `element_id` int(11),
   `cash_session_id` varchar(24),
+  `data` text NOT NULL,
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)

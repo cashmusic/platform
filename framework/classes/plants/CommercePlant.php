@@ -704,7 +704,8 @@ class CommercePlant extends PlantBase {
         $canceled=0,
         $notes='',
         $country_code='',
-        $currency='USD'
+        $currency='USD',
+        $data=''
     ) {
         if (is_array($order_contents)) {
             /*
@@ -728,7 +729,8 @@ class CommercePlant extends PlantBase {
                     'country_code' => $country_code,
                     'currency' => $currency,
                     'element_id' => $element_id,
-                    'cash_session_id' => $cash_session_id
+                    'cash_session_id' => $cash_session_id,
+                    'data' => $data
                 )
             );
             return $result;
@@ -755,6 +757,10 @@ class CommercePlant extends PlantBase {
                     if ($result[0]['user_id'] != $user_id) {
                         return false;
                     }
+                }
+
+                if (!empty($result[0]['data'])) {
+                    $result[0]['data'] = json_decode($result[0]['data']);
                 }
                 $result[0]['order_totals'] = $this->getOrderTotals($result[0]['order_contents']);
                 $transaction_data = $this->parseTransactionData($result[0]['data_returned']);
@@ -812,7 +818,8 @@ class CommercePlant extends PlantBase {
         $transaction_id=false,
         $physical=false,
         $digital=false,
-        $user_id=false
+        $user_id=false,
+        $data=''
     ) {
         if ($order_contents) {
             $order_contents = json_encode($order_contents);
@@ -827,7 +834,8 @@ class CommercePlant extends PlantBase {
                 'digital' => $digital,
                 'notes' => $notes,
                 'country_code' => $country_code,
-                'customer_user_id' => $customer_user_id
+                'customer_user_id' => $customer_user_id,
+                'data' => $data
             ),
             'CASHSystem::notExplicitFalse'
         );
@@ -1253,6 +1261,11 @@ class CommercePlant extends PlantBase {
                 'abandoned',
                 $currency
             );
+
+            $request = new CASHRequest();
+
+            $order_data = $request->sessionGet("order_data");
+
             $order_id = $this->addOrder(
                 $user_id,
                 $order_contents,
@@ -1266,7 +1279,8 @@ class CommercePlant extends PlantBase {
                 0,
                 '',
                 '',
-                $currency
+                $currency,
+                $order_data
             );
             if ($order_id) {
                 $success = $this->initiatePaymentRedirect($order_id,$element_id,$price_addition,$url_only,$finalize_url,$session_id);

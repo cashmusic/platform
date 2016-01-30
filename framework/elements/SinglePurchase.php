@@ -126,15 +126,28 @@ class SinglePurchase extends ElementBase {
 					// go to shipping stage
 					$this->setTemplate('shipping');
 				}
-
-
-
-
 			}
-
 		}
 		
 		elseif (isset($_REQUEST['get_shipping'])) {
+
+			// we need to save values for access in init_payment
+			$request = new CASHRequest();
+
+			$request->sessionSet("order_data", json_encode(
+				array(
+					"shipping_region" => $_REQUEST['shipping'],
+					"first_name" => $_REQUEST['first_name'],
+					"last_name" => $_REQUEST['last_name'],
+					"street_address" => $_REQUEST['street_address'],
+					"street_address2" => $_REQUEST['street_address2'],
+					"city" => $_REQUEST['city'],
+					"province" => $_REQUEST['province'],
+					"postal_code" => $_REQUEST['postal_code']
+				)
+			));
+
+			$this->element_data['total_price'] = $_REQUEST['total_price'];
 			$this->setTemplate('init_payment');
 		}
 		return $this->element_data;
