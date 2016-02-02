@@ -119,7 +119,7 @@ class SinglePurchase extends ElementBase {
 			}
 			else {
 
-				if ($this->element_data['no_shipping']) {
+				if (!empty($this->element_data['no_shipping'])) {
 					// there's no shipping, so go to init payment stage
 					$this->setTemplate('init_payment');
 				} else {
@@ -133,7 +133,6 @@ class SinglePurchase extends ElementBase {
 
 			// we need to save values for access in init_payment
 			$request = new CASHRequest();
-
 			$request->sessionSet("order_data", json_encode(
 				array(
 					"shipping_region" => $_REQUEST['shipping'],

@@ -325,8 +325,8 @@ class StripeSeed extends SeedBase
         $order_details = $order_details[0];
 
         \Stripe\Stripe::setApiKey($this->client_secret);
-
-        if (!empty($_GET['stripeToken'])) {
+        error_log($_REQUEST['stripeToken']);
+    if (!empty($_REQUEST['stripeToken'])) {
 
             if (!$payment_results = \Stripe\Charge::create(
                 array(
@@ -347,6 +347,9 @@ class StripeSeed extends SeedBase
         }
 
         // check if Stripe charge was successful
+
+//        error_log( print_r($payment_results, true) );
+
         if ($payment_results->status == "succeeded") {
 
             // look up the transaction fees taken off the top, for record

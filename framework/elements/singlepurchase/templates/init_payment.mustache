@@ -67,6 +67,9 @@
     }
 </style>
 
+<div class="cashmusic-sp-actions">
+    <div class="cashmusic-sp-actions" id="actionspc">
+
 <form id="cash_{{element_type}}_form_{{element_id}}" class="cash_form {{element_type}}" method="post" action="">
     <input type="hidden" name="cash_request_type" value="commerce" />
     <input type="hidden" name="cash_action" value="initiatecheckout" />
@@ -86,12 +89,14 @@
         <div id="payment-errors"></div>
     </div>
 </form>
+        </div>
+    </div>
 
 <!-- also conditionals for stripe -->
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script type="text/javascript">
 
-    function getStripeToken() {
+    function getStripeToken(callback) {
         Stripe.setPublishableKey('{{public_key}}');
         Stripe.card.createToken({
 
@@ -101,7 +106,7 @@
             exp_month: document.getElementById('card-expiry-month').value,
             exp_year: document.getElementById('card-expiry-year').value
 
-        }, function(status, response) {
+        }, function(status, response, evt) {
             var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
             if (response.error) {
                 // Show the errors on the form
@@ -139,10 +144,12 @@
                 document.getElementById("stripe-submit").style.visibility = "hidden";
 
                 // and submit
-                elementForm.submit();
+                //elementForm.submit();
             }
+
+            callback();
         });
-        evt.preventDefault();
+//        elementForm.preventDefault();
     }
 
 
@@ -216,7 +223,8 @@
         var original_price = elementForm.elements['total_price'].value;
 
         if (window.cashmusic) {
-            if (window.cashmusic.ajax && self != top) {
+            if (connection_type != "com.paypal") { //self !== top &&
+
                 var handleSubmit = function (e) {
                     if (e && e.preventDefault) {
                         e.preventDefault();
@@ -228,9 +236,9 @@
                     document.getElementById('cashmusic-sp-overlay').style.display = 'block';
 
                     var submitUrl = window.location.protocol + '//' + window.location.host;
-                    if (window.location.port) {
+                    /*if (window.location.port) {
                         submitUrl += ':' + window.location.port;
-                    }
+                    }*/
                     submitUrl += '/public/request/payload';
 
                     var ruo = document.createElement("input");
@@ -239,15 +247,30 @@
                     ruo.setAttribute("value", "1");
                     elementForm.appendChild(ruo);
 
-                    window.cashmusic.ajax.send(
-                            submitUrl,
-                            window.cashmusic.ajax.encodeForm(elementForm),
-                            function (thereply) {
-                                if (thereply.substring(0, 4) == 'http') {
-                                    top.location.href = thereply;
+                    if (connection_type == "com.stripe") {
+                        getStripeToken(function() {
+
+                            window.cashmusic.ajax.send(
+                                    submitUrl,
+                                    window.cashmusic.ajax.encodeForm(elementForm),
+                                    function (thereply) {
+                                        if (thereply.substring(0, 4) == 'http') {
+                                            top.location.href = thereply;
+                                        }
+                                    }
+                            );
+                        });
+                    } else {
+                        window.cashmusic.ajax.send(
+                                submitUrl,
+                                window.cashmusic.ajax.encodeForm(elementForm),
+                                function (thereply) {
+                                    if (thereply.substring(0, 4) == 'http') {
+                                        top.location.href = thereply;
+                                    }
                                 }
-                            }
-                    );
+                        );
+                    }
                 };
 
                 if (window.addEventListener) {
@@ -256,30 +279,6 @@
                     elementForm.attachEvent('onsubmit', handleSubmit);
                 }
             }
-        }
-
-
-        if (connection_type != "com.stripe") {
-            if (self != top) {
-                handleSubmit(false);
-            } else {
-                elementForm.submit();
-            }
-        } else {
-
-            if (elementForm.addEventListener) {
-                elementForm.addEventListener("submit", function (evt) {
-                    getStripeToken();
-
-
-                }, true);
-            } else {
-                elementForm.attachEvent('onsubmit', function (evt) {
-                    evt.preventDefault();
-                    getStripeToken();
-                });
-            }
-
         }
     })();
 </script>

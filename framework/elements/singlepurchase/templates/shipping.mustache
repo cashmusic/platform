@@ -84,7 +84,7 @@
 
 				<span class="cash_singlepurchase_shippingmessage">Please choose a shipping option:</span>
 
-                <select name="shipping_region" id="shipping_region">
+                <select name="shipping" id="shipping">
                     <option value="">Select a shipping region</option>
                     <option value="{{region1_cost}}">{{region1_name}} - {{currency}}{{region1_cost}}</option>
                     <option value="{{region2_cost}}">{{region2_name}} - {{currency}}{{region2_cost}}</option>
@@ -181,9 +181,9 @@
 
 
         if (window.addEventListener) {
-            document.getElementById('shipping_region').addEventListener('change', computeTotal, false);
+            document.getElementById('shipping').addEventListener('change', computeTotal, false);
         } else if (window.attachEvent) {
-            document.getElementById('shipping_region').attachEvent('onchange', computeTotal);
+            document.getElementById('shipping').attachEvent('onchange', computeTotal);
         }
 
     })();
