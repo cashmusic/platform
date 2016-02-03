@@ -267,26 +267,21 @@
             }
 
             // add a submit form listener and act accordingly
-            if (window.cashmusic.ajax && self!=top) {
-                // ajax submit
+
                 var submitForm = function(e) {
                     e.preventDefault();
 
                     // get token and then submit
                     getToken(function() {
-                        handleSubmit(false);
+                        if (window.cashmusic.ajax && self!=top) {
+                            // ajax submit
+                            handleSubmit(false); }
+                        else {
+                            // regular submit
+                            elementForm.submit();
+                        }
                     });
                 }
-            } else {
-                // regular submit
-                var submitForm = function(e) {
-
-                    e.preventDefault();
-                    getToken(function() {
-                        elementForm.submit();
-                    });
-                }
-            }
 
             // add the appropriate submitForm callback to event listener
             if (window.addEventListener) {
