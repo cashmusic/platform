@@ -97,6 +97,18 @@
 <script type="text/javascript">
     (function() {
         var connection_type = "{{connection_type}}";
+
+        // this would ideally be dynamic, but let's break this out so the functions don't look like hell
+        var formElements = [
+            {id: "name", type: "text", placeholder: "Cardholder name", destroyOnSubmit: false},
+            {id: "email", type: "email", placeholder: "Email address", destroyOnSubmit: false},
+            {id: "card-number", type: "text", placeholder: "Credit card number", destroyOnSubmit: true},
+            {id: "card-cvc", type: "text", placeholder: "CVV", destroyOnSubmit: true},
+            {id: "card-expiry-month", type: "text", placeholder: "12", destroyOnSubmit: true},
+            {id: "card-expiry-year", type: "text", placeholder: "2016", destroyOnSubmit: true},
+            {id: "stripe-submit", type: "submit", text: "Submit Payment", destroyOnSubmit: true}
+        ];
+
         var getToken = function(callback) {
 
             Stripe.setPublishableKey('{{public_key}}');
@@ -125,26 +137,8 @@
                     elementForm.appendChild(input);
 
                     // we need to remove the card fields so they don't get posted over an insecure connection
-                    document.getElementById('card-number').parentNode.removeChild(
-                            document.getElementById('card-number')
-                    );
-                    document.getElementById('card-cvc').parentNode.removeChild(
-                            document.getElementById('card-cvc')
-                    );
-
-                    document.getElementById('card-expiry-month').parentNode.removeChild(
-                            document.getElementById('card-expiry-month')
-                    );
-
-                    document.getElementById('card-expiry-year').parentNode.removeChild(
-                            document.getElementById('card-expiry-year')
-                    );
-
-                    // hide the other fields because they look weird on that redirecting screen...
-                    document.getElementById("name").style.visibility = "hidden";
-                    document.getElementById("email").style.visibility = "hidden";
-                    document.getElementById("stripe-submit").style.visibility = "hidden";
-
+                    // additionally this will hide the remaining ones from view
+                    removeFormElements(formElements);
                 }
 
                 callback();
@@ -190,65 +184,38 @@
         };
 
         // temp form injection stuff for stripe, but we can make it for anything
-        var insertFormElements = function (e) {
+        var insertFormElements = function (elements) {
             var form = document.getElementById("cash_{{element_type}}_form_{{element_id}}");
 
-            // cardholder name
-            var input = document.createElement("input");
-            input.type = "text";
-            input.name = "name";
-            input.placeholder = "Cardholder name";
-            input.id = "name";
-            form.appendChild(input);
-
-            // email
-            var input = document.createElement("input");
-            input.type = "email";
-            input.name = "email";
-            input.placeholder = "Email";
-            input.id = "email";
-            form.appendChild(input);
-
-            // card number
-            var input = document.createElement("input");
-            input.type = "text";
-            input.name = "card-number";
-            input.placeholder = "Credit card number";
-            input.id = "card-number";
-            form.appendChild(input);
-
-            // cvv
-            var input = document.createElement("input");
-            input.type = "text";
-            input.name = "card-cvc";
-            input.placeholder = "CVV";
-            input.id = "card-cvc";
-            form.appendChild(input);
-
-            // expiration month
-            var input = document.createElement("input");
-            input.type = "text";
-            input.name = "card-expiry-month";
-            input.placeholder = "12";
-            input.id = "card-expiry-month";
-            form.appendChild(input);
-
-            // expiration year
-            var input = document.createElement("input");
-            input.type = "text";
-            input.name = "card-expiry-year";
-            input.placeholder = "2016";
-            input.id = "card-expiry-year";
-            form.appendChild(input);
-
-            var button = document.createElement("button");
-            button.type = "submit";
-            button.id = "stripe-submit";
-            button.innerHTML = "Submit Payment";
-
-            form.appendChild(button);
+            elements.forEach( function(element) {
+                console.log(element);
+                if (element.type !== "submit") {
+                    var input = document.createElement("input");
+                    input.type = element.type;
+                    input.name = element.id;
+                    input.placeholder = element.placeholder;
+                    input.id = element.id;
+                    form.appendChild(input);
+                } else {
+                    var button = document.createElement("button");
+                    button.type = "submit";
+                    button.id = element.id;
+                    button.innerHTML = element.text;
+                    form.appendChild(button);
+                }
+            });
         };
-
+        var removeFormElements = function (elements) {
+            elements.forEach( function(element) {
+                if (element.destroyOnSubmit !== false) {
+                    document.getElementById(element.id).parentNode.removeChild(
+                            document.getElementById(element.id)
+                    );
+                } else {
+                    document.getElementById(element.id).style.visibility = "hidden";
+                }
+            });
+        };
 
         var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
         var original_price = elementForm.elements['total_price'].value;
@@ -262,12 +229,11 @@
             }
         } else {
             // if this seed has a form element method, let's use it to populate the form
-            if (insertFormElements) {
-                insertFormElements();
+            if (formElements) {
+                insertFormElements(formElements);
             }
 
             // add a submit form listener and act accordingly
-
                 var submitForm = function(e) {
                     e.preventDefault();
 
