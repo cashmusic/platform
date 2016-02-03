@@ -277,25 +277,24 @@ class StripeSeed extends SeedBase
     {
 
         // there's not a whole lot to do in this method for Stripe. let's make sure we have all the params we need to make the transaction spin, and return them to initiatePaymentRedirect.
-
-        if (!empty($_POST['email'])) {
-            $return_url .= '&email=' . $_POST['email'];
+        if (!empty($_REQUEST['email'])) {
+            $return_url .= '&email=' . $_REQUEST['email'];
         }
 
-        if (!empty($_POST['connection_id'])) {
-            $return_url .= '&connection_id=' . $_POST['connection_id'];
+        if (!empty($_REQUEST['connection_id'])) {
+            $return_url .= '&connection_id=' . $_REQUEST['connection_id'];
         }
 
-        if (!empty($_POST['connection_id'])) {
-            $return_url .= '&connection_id=' . $_POST['connection_id'];
+        if (!empty($_REQUEST['connection_id'])) {
+            $return_url .= '&connection_id=' . $_REQUEST['connection_id'];
         }
 
-        if (!empty($_POST['seedToken'])) {
-            $return_url .= '&seedToken=' . $_POST['seedToken'];
+        if (!empty($_REQUEST['seedToken'])) {
+            $return_url .= '&seedToken=' . $_REQUEST['seedToken'];
         }
 
         // not a whole lot we can check on at this point, so let's just make sure the token is set.
-        if (!empty($_POST['seedToken'])) {
+        if (!empty($_REQUEST['seedToken'])) {
             return array(
                 'redirect_url' => $return_url . "&success=true",
                 'data_sent' => ""
@@ -325,7 +324,7 @@ class StripeSeed extends SeedBase
         $order_details = $order_details[0];
 
         \Stripe\Stripe::setApiKey($this->client_secret);
-        error_log($_REQUEST['seedToken']);
+
     if (!empty($_REQUEST['seedToken'])) {
 
             if (!$payment_results = \Stripe\Charge::create(

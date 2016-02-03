@@ -1262,9 +1262,7 @@ class CommercePlant extends PlantBase {
                 $currency
             );
 
-            $request = new CASHRequest();
 
-            $order_data = $request->sessionGet("order_data");
 
             $order_id = $this->addOrder(
                 $user_id,
@@ -1279,8 +1277,7 @@ class CommercePlant extends PlantBase {
                 0,
                 '',
                 '',
-                $currency,
-                $order_data
+                $currency
             );
             if ($order_id) {
                 $success = $this->initiatePaymentRedirect($order_id,$element_id,$price_addition,$url_only,$finalize_url,$session_id);
@@ -1429,6 +1426,8 @@ class CommercePlant extends PlantBase {
             $note_allowed = true;
         }
 
+
+
         // prepare payment with URL redirect, where applicable
         $payment_details = $payment_seed->preparePayment(
             $payment_amount,							# payment amount
@@ -1509,13 +1508,24 @@ class CommercePlant extends PlantBase {
                     $is_fulfilled = $this->processProducts($order_details);
 
                     // takin' care of business
+                    $request = new CASHRequest();
+
+                    $order_data = $request->sessionGet("order_data");
+
+
                     $this->editOrder(
                         $order_id, 		// order id
                         $is_fulfilled,	// fulfilled status
                         0,				// cancelled (boolean 0/1)
                         false,			// notes
                         $payment_details['payer']['country_code'],	// country code
-                        $user_id		// user id
+                        $user_id,		// user id
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        $order_data
                     );
 
                     $this->editTransaction(

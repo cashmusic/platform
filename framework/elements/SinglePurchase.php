@@ -131,6 +131,7 @@ class SinglePurchase extends ElementBase {
 		
 		elseif (isset($_REQUEST['get_shipping'])) {
 
+			error_log("ship" . print_r($_REQUEST, true));
 			// we need to save values for access in init_payment
 			$request = new CASHRequest();
 			$request->sessionSet("order_data", json_encode(
