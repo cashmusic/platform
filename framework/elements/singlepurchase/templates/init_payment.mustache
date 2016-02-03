@@ -80,7 +80,7 @@
     <input type="hidden" name="total_price" value="{{total_price}}" />
 
     <div class="cashmusic-sp-actions">
-        stripe
+
         <div id="cashmusic-sp-overlay">
             <div class="cashmusic-sp-loading"></div>
         </div>
@@ -95,71 +95,102 @@
 <!-- also conditionals for stripe -->
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script type="text/javascript">
-
-    function getStripeToken(callback) {
-        Stripe.setPublishableKey('{{public_key}}');
-        Stripe.card.createToken({
-
-            name: document.getElementById('name').value,
-            number: document.getElementById('card-number').value,
-            cvc: document.getElementById('card-cvc').value,
-            exp_month: document.getElementById('card-expiry-month').value,
-            exp_year: document.getElementById('card-expiry-year').value
-
-        }, function(status, response, evt) {
-            var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
-            if (response.error) {
-                // Show the errors on the form
-                document.getElementById('payment-errors').innerHTML = response.error.message;
-                document.getElementById("stripe-submit").disabled = false;
-            } else {
-                // response contains id and card, which contains additional card details
-                var token = response.id;
-                // Insert the token into the form so it gets submitted to the server
-                var input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'stripeToken';
-                input.value = token;
-                elementForm.appendChild(input);
-
-                // we need to remove the card fields so they don't get posted over an insecure connection
-                document.getElementById('card-number').parentNode.removeChild(
-                        document.getElementById('card-number')
-                );
-                document.getElementById('card-cvc').parentNode.removeChild(
-                        document.getElementById('card-cvc')
-                );
-
-                document.getElementById('card-expiry-month').parentNode.removeChild(
-                        document.getElementById('card-expiry-month')
-                );
-
-                document.getElementById('card-expiry-year').parentNode.removeChild(
-                        document.getElementById('card-expiry-year')
-                );
-
-                // hide the other fields because they look weird on that redirecting screen...
-                document.getElementById("name").style.visibility = "hidden";
-                document.getElementById("email").style.visibility = "hidden";
-                document.getElementById("stripe-submit").style.visibility = "hidden";
-
-                // and submit
-                //elementForm.submit();
-            }
-
-            callback();
-        });
-//        elementForm.preventDefault();
-    }
-
-
-
     (function() {
         var connection_type = "{{connection_type}}";
+        var getToken = function(callback) {
 
-        // temp form injection stuff for stripe
-        if (connection_type == "com.stripe") {
-            // get that form container
+            Stripe.setPublishableKey('{{public_key}}');
+            Stripe.card.createToken({
+
+                name: document.getElementById('name').value,
+                number: document.getElementById('card-number').value,
+                cvc: document.getElementById('card-cvc').value,
+                exp_month: document.getElementById('card-expiry-month').value,
+                exp_year: document.getElementById('card-expiry-year').value
+
+            }, function(status, response, evt) {
+                var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
+                if (response.error) {
+                    // Show the errors on the form
+                    document.getElementById('payment-errors').innerHTML = response.error.message;
+                    document.getElementById("stripe-submit").disabled = false;
+                } else {
+                    // response contains id and card, which contains additional card details
+                    var token = response.id;
+                    // Insert the token into the form so it gets submitted to the server
+                    var input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'seedToken';
+                    input.value = token;
+                    elementForm.appendChild(input);
+
+                    // we need to remove the card fields so they don't get posted over an insecure connection
+                    document.getElementById('card-number').parentNode.removeChild(
+                            document.getElementById('card-number')
+                    );
+                    document.getElementById('card-cvc').parentNode.removeChild(
+                            document.getElementById('card-cvc')
+                    );
+
+                    document.getElementById('card-expiry-month').parentNode.removeChild(
+                            document.getElementById('card-expiry-month')
+                    );
+
+                    document.getElementById('card-expiry-year').parentNode.removeChild(
+                            document.getElementById('card-expiry-year')
+                    );
+
+                    // hide the other fields because they look weird on that redirecting screen...
+                    document.getElementById("name").style.visibility = "hidden";
+                    document.getElementById("email").style.visibility = "hidden";
+                    document.getElementById("stripe-submit").style.visibility = "hidden";
+
+                }
+
+                callback();
+            });
+        };
+        var handleSubmit = function(e) {
+            if (e && e.preventDefault) {
+                e.preventDefault();
+            } else if (window.event && window.event.returnValue) {
+                window.eventReturnValue = false;
+            }
+
+            document.getElementById('actionspc').style.opacity = '0.4';
+            document.getElementById('cashmusic-sp-overlay').style.display = 'block';
+
+            var submitUrl = window.location.protocol + '//' + window.location.host;
+            /*if (window.location.port) {
+                submitUrl += ':' + window.location.port;
+            }*/
+            submitUrl += '/public/request/payload';
+
+            var ruo = document.createElement("input");
+            ruo.setAttribute("type", "hidden");
+            ruo.setAttribute("name", "url_only");
+            ruo.setAttribute("value", "1");
+            elementForm.appendChild(ruo);
+
+            window.cashmusic.ajax.send(
+                    submitUrl,
+                    window.cashmusic.ajax.encodeForm(elementForm),
+                    function (thereply) {
+                        if (thereply.substring(0, 4) == 'http') {
+                            top.location.href = thereply;
+                        }
+                    }
+            );
+
+            if (window.addEventListener) {
+                elementForm.addEventListener('submit', handleSubmit, false);
+            } else if (window.attachEvent) {
+                elementForm.attachEvent('onsubmit', handleSubmit);
+            }
+        };
+
+        // temp form injection stuff for stripe, but we can make it for anything
+        var insertFormElements = function (e) {
             var form = document.getElementById("cash_{{element_type}}_form_{{element_id}}");
 
             // cardholder name
@@ -216,74 +247,54 @@
             button.innerHTML = "Submit Payment";
 
             form.appendChild(button);
-        }
+        };
 
 
         var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
         var original_price = elementForm.elements['total_price'].value;
 
-        if (window.cashmusic) {
-            if (connection_type != "com.paypal") { //self !== top &&
+        if (connection_type == "com.paypal") {
+            // all we need to do here is submit the form, either via ajax or via regular submit
+            if (window.cashmusic.ajax && self!=top) {
+                handleSubmit(false);
+            } else {
+                elementForm.submit();
+            }
+        } else {
+            // if this seed has a form element method, let's use it to populate the form
+            if (insertFormElements) {
+                insertFormElements();
+            }
 
-                var handleSubmit = function (e) {
-                    if (e && e.preventDefault) {
-                        e.preventDefault();
-                    } else if (window.event && window.event.returnValue) {
-                        window.eventReturnValue = false;
-                    }
+            // add a submit form listener and act accordingly
+            if (window.cashmusic.ajax && self!=top) {
+                // ajax submit
+                var submitForm = function(e) {
+                    e.preventDefault();
 
-                    document.getElementById('actionspc').style.opacity = '0.4';
-                    document.getElementById('cashmusic-sp-overlay').style.display = 'block';
+                    // get token and then submit
+                    getToken(function() {
+                        handleSubmit(false);
+                    });
+                }
+            } else {
+                // regular submit
+                var submitForm = function(e) {
 
-                    var submitUrl = window.location.protocol + '//' + window.location.host;
-                    /*if (window.location.port) {
-                        submitUrl += ':' + window.location.port;
-                    }*/
-                    submitUrl += '/public/request/payload';
-
-                    var ruo = document.createElement("input");
-                    ruo.setAttribute("type", "hidden");
-                    ruo.setAttribute("name", "url_only");
-                    ruo.setAttribute("value", "1");
-                    elementForm.appendChild(ruo);
-
-                    if (connection_type == "com.stripe") {
-                        getStripeToken(function() {
-
-                            window.cashmusic.ajax.send(
-                                    submitUrl,
-                                    window.cashmusic.ajax.encodeForm(elementForm),
-                                    function (thereply) {
-                                        if (thereply.substring(0, 4) == 'http') {
-                                            top.location.href = thereply;
-                                        }
-                                    }
-                            );
-                        });
-                    } else {
-                        window.cashmusic.ajax.send(
-                                submitUrl,
-                                window.cashmusic.ajax.encodeForm(elementForm),
-                                function (thereply) {
-                                    if (thereply.substring(0, 4) == 'http') {
-                                        top.location.href = thereply;
-                                    }
-                                }
-                        );
-                    }
-                };
-
-                if (window.addEventListener) {
-                    elementForm.addEventListener('submit', handleSubmit, false);
-                } else if (window.attachEvent) {
-                    elementForm.attachEvent('onsubmit', handleSubmit);
+                    e.preventDefault();
+                    getToken(function() {
+                        elementForm.submit();
+                    });
                 }
             }
+
+            // add the appropriate submitForm callback to event listener
+            if (window.addEventListener) {
+                elementForm.addEventListener('submit', submitForm, false);
+            } else if (window.attachEvent) {
+                elementForm.attachEvent('onsubmit', submitForm);
+            }
         }
+
     })();
 </script>
-
-
-<!--if connection is paypal-->
-
-<!--else if it's stripe-->

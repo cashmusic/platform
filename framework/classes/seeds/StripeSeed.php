@@ -290,12 +290,12 @@ class StripeSeed extends SeedBase
             $return_url .= '&connection_id=' . $_POST['connection_id'];
         }
 
-        if (!empty($_POST['stripeToken'])) {
-            $return_url .= '&stripeToken=' . $_POST['stripeToken'];
+        if (!empty($_POST['seedToken'])) {
+            $return_url .= '&seedToken=' . $_POST['seedToken'];
         }
 
         // not a whole lot we can check on at this point, so let's just make sure the token is set.
-        if (!empty($_POST['stripeToken'])) {
+        if (!empty($_POST['seedToken'])) {
             return array(
                 'redirect_url' => $return_url . "&success=true",
                 'data_sent' => ""
@@ -312,7 +312,7 @@ class StripeSeed extends SeedBase
     }
 
     /**
-     * Fired from finalizeRedirectedPayment, in CommercePlant. Sends the actual charge and stripeToken to the Stripe API—this is really where almost everything happens for StripeSeed charges.
+     * Fired from finalizeRedirectedPayment, in CommercePlant. Sends the actual charge and seedToken to the Stripe API—this is really where almost everything happens for StripeSeed charges.
      *
      * @param string $transaction
      * @return array|bool
@@ -325,14 +325,14 @@ class StripeSeed extends SeedBase
         $order_details = $order_details[0];
 
         \Stripe\Stripe::setApiKey($this->client_secret);
-        error_log($_REQUEST['stripeToken']);
-    if (!empty($_REQUEST['stripeToken'])) {
+        error_log($_REQUEST['seedToken']);
+    if (!empty($_REQUEST['seedToken'])) {
 
             if (!$payment_results = \Stripe\Charge::create(
                 array(
                     "amount" => ($order_details->price * 100),
                     "currency" => "usd",
-                    "source" => $_GET['stripeToken'], // obtained with Stripe.js
+                    "source" => $_GET['seedToken'], // obtained with Stripe.js
                     "description" => $order_details->description
                 )
             )
