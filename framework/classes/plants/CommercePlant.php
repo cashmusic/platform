@@ -1505,7 +1505,7 @@ class CommercePlant extends PlantBase {
                 if ($user_id = $this->getOrCreateUser($payment_details['payer'])) {
 
                     // marking order fulfillment for digital only, physical quantities, all that fun stuff
-                    $is_fulfilled = $this->processProducts($order_details);
+                    $is_fulfilled = $this->getFulfillmentStatus($order_details);
 
                     // takin' care of business
                     $request = new CASHRequest();
@@ -1619,8 +1619,8 @@ class CommercePlant extends PlantBase {
      * @param array $order_details
      * @return $is_fulfilled int
      */
-    protected function processProducts(array $order_details) {
-
+    protected function getFulfillmentStatus(array $order_details) {
+        error_log("physical ". $order_details['physical']);
         // deal with physical quantities
         if ($order_details['physical'] == 1) {
             $order_items = json_decode($order_details['order_contents'],true);
@@ -1664,7 +1664,7 @@ class CommercePlant extends PlantBase {
         if ($order_details['digital'] == 1 && $order_details['physical'] == 0) {
             // if the order is 100% digital just mark it as fulfilled
             $is_fulfilled = 1;
-        } else {
+        } else if ($order_details['physical'] == 1) {
             // there's something physical. sorry dude. gotta deal with it still.
             $is_fulfilled = 0;
         }
