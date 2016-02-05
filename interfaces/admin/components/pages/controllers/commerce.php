@@ -11,12 +11,12 @@ $page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effe
  * 2. HANDLE ORDERS MARKED AS FULFILLED
  *
  ******************************************************************************/
-if (isset($_POST['fulfill'])) {
+if (isset($_REQUEST['fulfill'])) {
 	$order_details_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'commerce',
 			'cash_action' => 'editorder',
-			'id' => $_POST['fulfill'],
+			'id' => $_REQUEST['fulfill'],
 			'fulfilled' => 1
 		)
 	);
@@ -32,24 +32,26 @@ if (isset($_POST['fulfill'])) {
  * 3. SECTION SETTINGS
  *
  ******************************************************************************/
-if (isset($_POST['currency_id'])) {
+if (isset($_REQUEST['currency_id'])) {
 	$settings_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'system',
 			'cash_action' => 'setsettings',
 			'type' => 'use_currency',
-			'value' => $_POST['currency_id'],
+			'value' => $_REQUEST['currency_id'],
 			'user_id' => $cash_admin->effective_user_id
 		)
 	);
+
 	$settings_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'system',
 			'cash_action' => 'setsettings',
 			'type' => 'payment_defaults',
 			'value' => array(
-				'pp_default' => $_POST['paypal_default_id'],
-				'pp_micro' => $_POST['paypal_micropayment_id']
+				'pp_default' => $_REQUEST['paypal_default_id'],
+				'pp_micro' => $_REQUEST['paypal_micropayment_id'],
+				'stripe_default' => $_REQUEST['stripe_default']
 			),
 			'user_id' => $cash_admin->effective_user_id
 		)
@@ -85,9 +87,12 @@ $settings_response = $cash_admin->requestAndStore(
 if (is_array($settings_response['payload'])) {
 	$pp_default = $settings_response['payload']['pp_default'];
 	$pp_micro = $settings_response['payload']['pp_micro'];
+	$stripe_selected = $settings_response['payload']['stripe_default'];
+
 } else {
 	$pp_default = 0;
 	$pp_micro = 0;
+	$stripe_selected = 0;
 }
 $cash_admin->page_data['currency_options'] = AdminHelper::echoCurrencyOptions($current_currency);
 
@@ -98,12 +103,20 @@ foreach ($page_data_object->getConnectionsByType('com.paypal') as $ppq) {
 $cash_admin->page_data['paypal_default_options'] = AdminHelper::echoFormOptions($pp,$pp_default,false,true);
 $cash_admin->page_data['paypal_micro_options'] = AdminHelper::echoFormOptions($pp,$pp_micro,false,true);
 
+// admin stripe defaults
+$stripe = array();
+foreach ($page_data_object->getConnectionsByType('com.stripe') as $stripeq) {
+	$stripe[$stripeq['id']] = $stripeq['name'];
+}
+
+$cash_admin->page_data['stripe_options'] = AdminHelper::echoFormOptions($stripe,$stripe_selected,false,true);
+
 
 // handle regions
-if (isset($_POST['region1'])) {
+if (isset($_REQUEST['region1'])) {
 	$regions = array(
-		'region1' => $_POST['region1'],
-		'region2' => $_POST['region2']
+		'region1' => $_REQUEST['region1'],
+		'region2' => $_REQUEST['region2']
 	);
 	$settings_response = $cash_admin->requestAndStore(
 		array(

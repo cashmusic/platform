@@ -3,8 +3,9 @@
 	"learn":"<p>This is an important section to keep an eye on!</p><p> Commerce is where you'll find your incoming orders, add/edit the items you're selling, manage inventory, and export orders.</p><p> Once you've connected your payment platform make sure and set your default currency as well in your commerce settings.",
 	"related":{},
 	"labels":{
-		"default_paypal":"Default PayPal adress",
-		"micropayment_paypal":"Micropayment rate PayPal adress",
+		"default_paypal":"Default PayPal address",
+		"micropayment_paypal":"Micropayment rate PayPal address",
+        "default_stripe":"Default Stripe account",
 		"primary_currency":"Primary Currency",
 		"region_1":"Region 1",
       "region_2":"Region 2"
