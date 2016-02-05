@@ -103,15 +103,35 @@ class SinglePurchase extends ElementBase {
 			}
 		} elseif (isset($_REQUEST['initiate_checkout'])) {
 
-			// we've submitted the default stage, so we need to check if we're going to the shipping stage next, or skipping to the init payment stage
+			// we've submitted the default stage, so we need to check if we're going to shipping stage next, or skipping to init payment stage
 			$total_price = $item['price'];
 			if (isset($_REQUEST['total_price'])) {
 				$total_price = $_REQUEST['total_price'];
 			}
 			$this->element_data['total_price'] = $total_price;
-			if ($this->element_data['region1_cost'] + $this->element_data['region2_cost'] == 0.00) {
-				$this->element_data['no_shipping'] = true;
+
+			/** LEGACY NOTICE: shipping has moved from elements to items. */
+			if ($item['shipping']) {
+				// check if item has shipping first (new)
+				if ($item['shipping']['r1-1'] + $item['shipping']['r2-1'] == 0.00) {
+					$this->element_data['no_shipping'] = true;
+				} else {
+					// we've got shipping set via the new item standard, so let's give them precedence over the legacy values
+					$this->element_data['region1_cost'] = $item['shipping']['r1-1'];
+					$this->element_data['region2_cost'] = $item['shipping']['r2-1'];
+				}
+
 			}
+			else {
+				// else check if element has shipping (legacy)
+				if ($this->element_data['region1_cost'] + $this->element_data['region2_cost'] == 0.00) {
+					$this->element_data['no_shipping'] = true;
+				}
+			}
+
+
+
+
 
 			if ($total_price < $item['price']) {
 				// okay, someone's a wiseguy and trying to change the price on the checkout form
@@ -130,8 +150,6 @@ class SinglePurchase extends ElementBase {
 		}
 		
 		elseif (isset($_REQUEST['get_shipping'])) {
-
-			error_log("ship" . print_r($_REQUEST, true));
 			// we need to save values for access in init_payment
 			$request = new CASHRequest();
 			$request->sessionSet("order_data", json_encode(
