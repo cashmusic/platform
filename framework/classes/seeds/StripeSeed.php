@@ -346,9 +346,6 @@ class StripeSeed extends SeedBase
         }
 
         // check if Stripe charge was successful
-
-//        error_log( print_r($payment_results, true) );
-
         if ($payment_results->status == "succeeded") {
 
             // look up the transaction fees taken off the top, for record
@@ -363,7 +360,7 @@ class StripeSeed extends SeedBase
             // nested array for data received, standard across seeds
             $order_details = array(
                 'transaction_description' => '',
-                'customer_email' => $_GET['email'],
+                'customer_email' => $_REQUEST['email'],
                 'customer_first_name' => '',
                 'customer_last_name' => '',
                 'customer_name' => '',

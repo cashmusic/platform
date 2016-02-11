@@ -110,23 +110,31 @@ class SinglePurchase extends ElementBase {
 			}
 			$this->element_data['total_price'] = $total_price;
 
-			/** LEGACY NOTICE: shipping has moved from elements to items. */
-			if ($item['shipping']) {
-				// check if item has shipping first (new)
-				if ($item['shipping']['r1-1'] + $item['shipping']['r2-1'] == 0.00) {
-					$this->element_data['no_shipping'] = true;
-				} else {
-					// we've got shipping set via the new item standard, so let's give them precedence over the legacy values
-					$this->element_data['region1_cost'] = $item['shipping']['r1-1'];
-					$this->element_data['region2_cost'] = $item['shipping']['r2-1'];
-				}
+			if ($item['physical_fulfillment'] == 1) {
 
-			}
-			else {
-				// else check if element has shipping (legacy)
-				if ($this->element_data['region1_cost'] + $this->element_data['region2_cost'] == 0.00) {
-					$this->element_data['no_shipping'] = true;
+				// according to the item, we've got a product with physical fulfillment--- let's assume it's shippable
+				// and revert to no shipping if it doesn't meet the basic requirements on shipping regions
+				$this->element_data['no_shipping'] = false;
+
+				/** LEGACY NOTICE: shipping has moved from elements to items. */
+				if ($item['shipping']) {
+					// check if item has shipping first (new)
+					if ($item['shipping']['r1-1'] + $item['shipping']['r2-1'] == 0.00) {
+						$this->element_data['no_shipping'] = true;
+					} else {
+						// we've got shipping set via the new item standard, so let's give them precedence over the legacy values
+						$this->element_data['region1_cost'] = $item['shipping']['r1-1'];
+						$this->element_data['region2_cost'] = $item['shipping']['r2-1'];
+					}
 				}
+				else {
+					// else check if element has shipping (legacy)
+					if ($this->element_data['region1_cost'] + $this->element_data['region2_cost'] == 0.00) {
+						$this->element_data['no_shipping'] = true;
+					}
+				}
+			} else {
+				$this->element_data['no_shipping'] = true;
 			}
 
 
@@ -154,14 +162,15 @@ class SinglePurchase extends ElementBase {
 			$request = new CASHRequest();
 			$request->sessionSet("order_data", json_encode(
 				array(
-					"shipping_region" => $_REQUEST['shipping'],
+					"shipping" => $_REQUEST['shipping'],
 					"first_name" => $_REQUEST['first_name'],
 					"last_name" => $_REQUEST['last_name'],
 					"street_address" => $_REQUEST['street_address'],
 					"street_address2" => $_REQUEST['street_address2'],
 					"city" => $_REQUEST['city'],
 					"province" => $_REQUEST['province'],
-					"postal_code" => $_REQUEST['postal_code']
+					"postal_code" => $_REQUEST['postal_code'],
+					"country"	  => $_REQUEST['country']
 				)
 			));
 

@@ -798,6 +798,10 @@ class CommercePlant extends PlantBase {
                 '*',
                 $condition
             );
+
+            if (!empty($result[0]['data'])) {
+                $result[0]['data'] = json_decode($result[0]['data']);
+            }
         }
 
         if ($result) {
@@ -1261,8 +1265,6 @@ class CommercePlant extends PlantBase {
                 'abandoned',
                 $currency
             );
-
-
 
             $order_id = $this->addOrder(
                 $user_id,

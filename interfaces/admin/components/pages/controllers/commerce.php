@@ -207,7 +207,7 @@ if ($filter == 'byitem') {
 }
 
 $orders_response = $cash_admin->requestAndStore($order_request);
-
+error_log( "foo    " . print_r($orders_response, true) );
 /*******************************************************************************
  *
  * 5. GET ALL VALID SERVICE CONNECTIONS FOR FIRST-USE
