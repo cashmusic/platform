@@ -222,13 +222,26 @@ a.revealpassword {
 
 #pagedisplay{
 	height:100%;
+	min-height:100vh;
 	background: #e3e3e3;
 	margin:1%;
 	padding:10px;
 	position: relative;
-	-webkit-transition: 0.3s  linear;
-	-moz-transition: 0.3s  linear;
-	transition: 0.3s linear;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	transition: 0.3s ease-in-out;
+}
+
+#page_content{
+	opacity: 1;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	transition: 0.3s ease-in-out;
+}
+
+#page_content.loading{
+		opacity:0;
+		pointer-events: none;
 }
 
 #mainspc .grid{
@@ -1821,6 +1834,7 @@ section[role=main].hero{
 
 .tertiarynav li a:hover, .tertiarynav li a.current{
 	background:#333!important;
+	cursor: pointer;
 }
 
 .tertiarynav li a i{
@@ -4535,7 +4549,7 @@ label.checklabel{
 
 .tour .logo{
 	display:inline-block;
-	width:15%;
+	width:65px;
 	margin:20px 30px 30px 0;
 }
 
