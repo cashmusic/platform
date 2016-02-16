@@ -56,9 +56,9 @@
 							<li id="searchbtn" class="toggle">
 								<a title="Search"><div class="icon icon-search"></div><!--icon--></a>
 							</li><!--searchbtn-->
-							<li id="learn" class="toggle">
-								<a title="Learn"><div class="icon icon-learn"></div><!--icon--></a>
-							</li><!--learn-->
+							<!--li id="learn" class="toggle">
+								<a title="Learn"><div class="icon icon-learn"></div></a>
+							</li>-->
 							<li id="settings" class="toggle">
 								<a title="Account/Settings"><div class="icon icon-cog"></div><!--icon--></a>
 							</li><!--settings-->
@@ -143,14 +143,7 @@
 						</div><!--footer-->
 						</div><!--pagedisplay-->
 
-
 						<div id="tertiary">
-							<div id="learnpanel">
-								<div class="inner">
-									<h1 class="paneltitle"><div class="icon icon-learn"></div><!--icon-->Learn more</h1>
-									<div id="learn_text">{{{ui_learn_text}}}</div>
-								</div><!--inner-->
-							</div><!--learnpanel-->
 							<div id="settingspanel">
 								<div class="inner">
 								<h1 class="paneltitle"><div class="icon icon-cog"></div><!--icon-->Settings</h1>
@@ -166,9 +159,14 @@
 								<div class="inner">
 								<h1 class="paneltitle"><div class="icon icon-question"></div><!--icon-->Help</h1>
 									<ul class="tertiarynav">
+                    <li><a class="link learn">About this page</a></li>
+                    <li><a class="link faqs">FAQs</a></li>
+                    <li><a href="{{www_path}}/help/tour/" class="lightboxed closepanel page-editor">Platform tour</a></li>
 										<li><a href="http://help.cashmusic.org/" class="noajax" target="_blank"><div class="icon icon-ext-link"></div><!--icon-->help.cashmusic.org</a></li>
 									</ul>
-									<div class="panelcontent"></div><!--panelcontent-->
+									<div class="panelcontent">
+                          {{{ui_learn_text}}}
+                  </div><!--panelcontent-->
 								</div><!--inner-->
 							</div><!--helppanel-->
 						</div><!--tertiary-->
@@ -187,7 +185,7 @@
 	<!--Glitch-->
 	<script src="{{www_path}}/ui/default/assets/scripts/ZeroClipboard.min.js" type="text/javascript" ></script>
 	<script src="{{www_path}}/ui/default/assets/scripts/fastclick.js" type="text/javascript" ></script>
-   <script src="{{www_path}}/ui/default/assets/scripts/garlic.min.js" type="text/javascript" ></script>
+  <script src="{{www_path}}/ui/default/assets/scripts/garlic.min.js" type="text/javascript" ></script>
 	<script src="{{www_path}}/ui/default/assets/scripts/jquery.admin.js" type="text/javascript"></script>
 	<script src="{{www_path}}/ui/default/assets/scripts/jquery.mobile.custom.min.js" type="text/javascript"></script>
 
