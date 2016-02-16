@@ -1860,7 +1860,7 @@ section[role=main].hero{
 
 /* Navigation Colours */
 
-#mainspc.usecolor1 .returnlink:hover , #mainspc.usecolor1 .tertiarynav li a, #mainspc.usecolor1 .inline_subnav li a.current, #mainspc.usecolor1 .inline_subnav li a:hover {background-color:#00cf7f; color:#f5f5f5!important;}
+#mainspc .returnlink:hover , #mainspc .tertiarynav li a, #mainspc .inline_subnav li a.current, #mainspc .inline_subnav li a:hover {background-color:#00cf7f; color:#f5f5f5!important;}
 #mainspc.usecolor2 .returnlink:hover , #mainspc.usecolor2 .tertiarynav li a, #mainspc.usecolor2 .inline_subnav li a.current, #mainspc.usecolor2 .inline_subnav li a:hover {background-color:#fa3838; color:#f5f5f5!important;}
 #mainspc.usecolor3 .returnlink:hover , #mainspc.usecolor3 .tertiarynav li a, #mainspc.usecolor3 .inline_subnav li a.current, #mainspc.usecolor3 .inline_subnav li a:hover {background-color:#ff7c12; color:#f5f5f5!important;}
 #mainspc.usecolor4 .returnlink:hover , #mainspc.usecolor4 .tertiarynav li a, #mainspc.usecolor4 .inline_subnav li a.current, #mainspc.usecolor4 .inline_subnav li a:hover {background-color:#6a38fa; color:#f5f5f5!important;}
@@ -2717,6 +2717,21 @@ color:#fff!important;
 #mainspc.usecolor5 .pagesubnav li a  {background:#fa3866;}
 
 /* Panelling */
+
+.material{
+	padding:34px 30px;
+	margin:0 0 5px 0;
+	background:#f9f9f9;
+	border:solid 1px #ddd;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.material h5{
+	margin:0 0 25px 0;
+	font-size:14px;
+}
 
 .embedpanel{
 	background:#dbdbdb;
