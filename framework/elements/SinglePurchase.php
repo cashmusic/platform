@@ -137,26 +137,15 @@ class SinglePurchase extends ElementBase {
 				$this->element_data['no_shipping'] = true;
 			}
 
-
-
-
-
 			if ($total_price < $item['price']) {
 				// okay, someone's a wiseguy and trying to change the price on the checkout form
 				$this->element_data['error_message'] = 'Make sure you enter a price of at least ' . $this->element_data['currency'] . $item['price'] . ' and try again.';
 			}
 			else {
-
-				if (!empty($this->element_data['no_shipping'])) {
-					// there's no shipping, so go to init payment stage
-					$this->setTemplate('init_payment');
-				} else {
-					// go to shipping stage
-					$this->setTemplate('shipping');
-				}
+				$this->setTemplate('checkout');
 			}
 		}
-		
+
 		elseif (isset($_REQUEST['get_shipping'])) {
 			// we need to save values for access in init_payment
 			$request = new CASHRequest();

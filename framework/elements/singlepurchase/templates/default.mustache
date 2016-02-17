@@ -1,31 +1,139 @@
+{{#error_message}}
+    <div class="cash_error cash_{{element_type}}_error">
+        {{error_message}}
+    </div>
+{{/error_message}}
+
 {{#error_message}}<div class="cash_error cash_{{element_type}}_error">{{error_message}}</div>{{/error_message}}
 <div class="packshot">
-<div class="front"></div><!--front-->
+    <div class="front"></div><!--front-->
 </div><!--packshot-->
 <div class="info">
-<span class="cash_singlepurchase_itemname">{{item_name}}</span>
-{{#item_flexible_price}}
-<span class="cash_singlepurchase_itemprice">({{currency}}{{item_price}} {{copy_flexibleprice_suffix}})</span>
-{{/item_flexible_price}}
-<span class="cash_singlepurchase_itemdescription">{{item_description}}</span>
+    <span class="cash_singlepurchase_itemname">{{item_name}}</span>
+    {{#item_flexible_price}}
+        <span class="cash_singlepurchase_itemprice">({{currency}}{{item_price}} {{copy_flexibleprice_suffix}})</span>
+    {{/item_flexible_price}}
+    <span class="cash_singlepurchase_itemdescription">{{item_description}}</span>
 
-{{#is_available}}
-	<form id="cash_{{element_type}}_form_{{element_id}}" class="cash_form {{element_type}}" method="post" action="">
-	<input type="hidden" name="initiate_checkout" value="go" />
-	<input type="hidden" name="user_id" value="{{user_id}}" />
-	{{#item_flexible_price}}
-	<span class="cash_singlepurchase_flexible_price">	
+    {{#is_available}}
+        <form id="cash_{{element_type}}_form_{{element_id}}" class="cash_form {{element_type}}" method="post" action="">
+            <input type="hidden" name="initiate_checkout" value="go" />
+            <input type="hidden" name="user_id" value="{{user_id}}" />
+            <input type="hidden" name="cash_request_type" value="commerce" />
+            <input type="hidden" name="cash_action" value="initiatecheckout" />
+            <input type="hidden" name="element_id" value="{{element_id}}" />
+            <input type="hidden" name="item_id" value="{{item_id}}" />
+            <input type="hidden" name="connection_id" id="connection_id" value="{{connection_id}}" />
+            <input type="hidden" name="user_id" value="{{user_id}}" />
+            <input type="hidden" name="total_price" id="total_price" value="{{item_price}}" />
+
+            {{#item_flexible_price}}
+                <span class="cash_singlepurchase_flexible_price">
 		<span class="cash_singlepurchase_currency">{{currency}}</span>
 		<input type="text" name="total_price" class="total_price" value="{{item_price}}" />
 	</span>
-	{{/item_flexible_price}}
-	<input type="submit" value="{{^item_flexible_price}}{{currency}}{{item_price}} - {{/item_flexible_price}}{{copy_buy}}" class="button" /><br />
-	</form>
-{{/is_available}}
 
-{{^is_available}}
-	<span class="cash_singlepurchase_unavailable">
+            {{/item_flexible_price}}
+            <input type="submit" value="{{^item_flexible_price}}{{currency}}{{item_price}} - {{/item_flexible_price}}{{copy_buy}}" class="button" id="buy_button" /><br />
+        </form>
+    {{/is_available}}
+
+    {{^is_available}}
+        <span class="cash_singlepurchase_unavailable">
 		Sorry, this item is currently unavailable.
 	</span>
-{{/is_available}}
+    {{/is_available}}
 </div><!--info-->
+
+<script>
+    var cm = window.cashmusic;
+    var allowclick = true; // preventing double click
+
+    cm.events.add(cm, 'ready', function (e) {
+
+        cm.loadScript(cm.path + 'checkout/checkout.js', function () {
+            cm.events.add(document.getElementById('buy_button'), 'click', function (e) {
+                e.preventDefault();
+
+                // get stripe public key or fail
+                {{#public_key}}
+                    var stripe_public_key = "{{public_key}}";
+                {{/public_key}}
+
+                {{^public_key}}
+                    var stripe_public_key = false;
+                {{/public_key}}
+
+                // set shipping with regions, or to false if there is no shipping
+                {{#no_shipping}}
+                    var shipping = false;
+                {{/no_shipping}}
+
+                {{^no_shipping}}
+                    var shipping = {
+                        "r1": "{{region1_name}} (${{region1_cost}})",
+                        "r2": "{{region2_name}} (${{region2_cost}})"
+                    };
+                {{/no_shipping}}
+
+                if (allowclick) {
+                    cm.checkout.begin({
+                        "stripe": stripe_public_key,
+                        "paypal": true,
+                        "currency": "{{currency}}", // USD = auto default
+                        "shipping": shipping, // or bool true for no region selector
+                        "testing": true
+                    });
+
+                    cm.events.add(cm, 'checkoutdata', function (payment) {
+
+                        cm.overlay.hide();
+                        console.log(payment.detail);
+
+                        var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
+
+                        // set connection id by selection
+                        // calculate totals based on region + product pricing
+                        var original_price = elementForm.elements['total_price'].value;
+
+                        // add shipping to form
+                        if (payment.detail.shipping) {
+                            var shipping = 0;
+
+                            if (payment.detail.shipping['shipping-region'] == "r1") {
+                                shipping = {{region1_cost}};
+                            }
+
+                            if (payment.detail.shipping['shipping-region'] == "r2") {
+                                shipping = {{region2_cost}};
+                            }
+
+                            if (shipping > 0) {
+                                var price = parseFloat(shipping) + parseFloat(original_price);
+                                elementForm.elements['total_price'].value = price;
+                            }
+                        }
+                        // submit form
+                        elementForm.submit();
+
+
+                        if (payment.detail.paypal == true) {
+                            console.log("PAYPAL");
+                        }
+
+                        if (payment.detail.stripe == true) {
+                            console.log("STRIPE");
+                        }
+
+
+                    });
+
+                    allowclick = false;
+                    setTimeout(function () {
+                        allowclick = true;
+                    }, 1000); // only one click per second
+                }
+            });
+        });
+    });
+</script>
