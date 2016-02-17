@@ -1,0 +1,25 @@
+@keyframes nope {
+	0 {transform: translateX(0)}
+	6.5% {transform: translateX(-4px) rotate(-5deg)}
+	16.5% {transform: translateX(3px) rotate(3deg)}
+	31.5% {transform: translateX(-2px) rotate(-2deg)}
+	43.5% {transform: translateX(1px) rotate(1deg)}
+	50% {transform: translateX(0)}
+}
+
+.nope {
+	animation-duration: 600ms;
+	animation-timing-function: ease-in-out;
+	animation-name: nope;
+}
+
+.cm-userinput-container {
+	width:40%;
+	margin-left:30%;
+}
+
+.cm-userinput-container input {
+	display:block;
+	margin-bottom: 8px;
+	width:100%;
+}
