@@ -239,6 +239,10 @@
 						cm.overlay.reveal(md.innerContent,md.wrapClass);
 						cm.events.fire(cm,'overlayopened','');
 						break;
+					case 'overlayhide':
+						cm.overlay.hide();
+						cm.events.fire(cm,'overlayhidden','');
+						break;
 					case 'addoverlaytrigger':
 						cm.overlay.addOverlayTrigger(md.content,md.classname,md.ref);
 						break;
@@ -972,30 +976,34 @@
 					var cm = window.cashmusic;
 					var self = cm.overlay;
 					var db = document.body;
-					self.content.style.opacity = 0;
-					cm.events.fire(cm,'overlayclosed',''); // tell em
-					self.wrapper.className = 'cm-wrapper';
-					self.bg.className = 'cm-bg';
-					setTimeout(function() {
-						db.removeChild(self.bg);
-					}, 1000);
-					//self.content.innerHTML = '';
-					while (self.content.firstChild) {
-						self.content.removeChild(self.content.firstChild);
-					}
-					db.removeChild(self.close);
-					db.removeChild(self.content);
-
-					// reveal any (if) overlay triggers
-					var t = document.querySelectorAll('.cm-overlaytrigger');
-					if (t.length > 0) {
-						for (var i = 0, len = t.length; i < len; i++) {
-							t[i].style.visibility = 'visible';
+					if (cm.embedded) {
+						cm.events.fire(cm,'overlayhide');
+					} else {
+						self.content.style.opacity = 0;
+						cm.events.fire(cm,'overlayclosed',''); // tell em
+						self.wrapper.className = 'cm-wrapper';
+						self.bg.className = 'cm-bg';
+						setTimeout(function() {
+							db.removeChild(self.bg);
+						}, 1000);
+						//self.content.innerHTML = '';
+						while (self.content.firstChild) {
+							self.content.removeChild(self.content.firstChild);
 						}
-					}
+						db.removeChild(self.close);
+						db.removeChild(self.content);
 
-					// reenable body scrolling
-					db.style.overflow = 'auto';
+						// reveal any (if) overlay triggers
+						var t = document.querySelectorAll('.cm-overlaytrigger');
+						if (t.length > 0) {
+							for (var i = 0, len = t.length; i < len; i++) {
+								t[i].style.visibility = 'visible';
+							}
+						}
+
+						// reenable body scrolling
+						db.style.overflow = 'auto';
+					}
 				},
 
 				reveal: function(innerContent,wrapClass) {
