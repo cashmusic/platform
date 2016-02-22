@@ -30,7 +30,7 @@
 {{#has_campaigns}}
 <div class="pure-u-1 pure-u-md-2-3">
 	<div class="selecta">
-		<form accept-charset="UTF-8" method="post" action="{{www_path}}/">
+		<form accept-charset="UTF-8" method="post" action="{{www_path}}/embeds/">
 			<label for="current-campaign">{{label_selected_campaign}}</label>
 			<select name="current-campaign" id="current-campaign">
 			{{{campaigns_as_options}}}
@@ -78,7 +78,7 @@
 </div><!--campaign pure-->
 <div class="pure-u-1">
 <div class=" pure-u-1 pure-u-md-1-2">
-	<h4><span class="hl-num {{^has_elements}}zero{{/has_elements}}">{{element_count}}</span>'{{title}}'{{copy_embed_title}}</h4>
+	<h4><span class="number {{^has_elements}}zero{{/has_elements}}">{{element_count}}</span>'{{title}}' {{copy_embed_title}}</h4>
 </div><!--pure-->
 <div class=" pure-u-1 pure-u-md-1-2 alignright">
 	<a class="add button lightboxed store" href="{{www_path}}/elements/add/"><i class="icon icon-circle-plus"></i>{{copy_element_add}}</a>
