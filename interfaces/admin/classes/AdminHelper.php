@@ -714,7 +714,7 @@
 						);
 						// handle differently for AJAX and non-AJAX
 						if ($cash_admin->page_data['data_only']) {
-							AdminHelper::formSuccess('Success. New element added.','/');
+							AdminHelper::formSuccess('Success. New element added.','/embeds/');
 						} else {
 							$cash_admin->setCurrentElement($admin_primary_cash_request->response['payload']);
 						}
