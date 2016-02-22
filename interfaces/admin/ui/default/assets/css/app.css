@@ -11,7 +11,7 @@ html{
 	padding:0;
 	margin:0;
 	overflow-x:hidden;
-  box-sizing: border-box;
+  	box-sizing: border-box;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -277,9 +277,11 @@ a:hover{
 	color:#666;
 }
 
-ul{
+ul, ol{
 	margin:0;
 	padding:0;
+	font-size: 14px;
+    line-height: 18px;
 }
 
 ul.list{
@@ -383,31 +385,39 @@ html,a, button, input, select, textarea, .inline-subnav, .button{
 	-moz-border-radius-topright: 3px;
 	border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
+	-moz-transition: height 1s ease-in-out;
+  -webkit-transition: height 1s ease-in-out;
+  -o-transition: height 1s ease-in-out;
+  transition: height 1s ease-in-out;
 	}
 
-	.graph.bar-chart .values .value:nth-child(2) .bar{ height:50%; opacity:0.5;}
-	.graph.bar-chart .values .value:nth-child(3) .bar { height:30%; opacity:0.3;}
-	.graph.bar-chart .values .value:nth-child(4) .bar{ height:50%; opacity:0.5;}
-	.graph.bar-chart .values .value:nth-child(5) .bar { height:40%; opacity:0.4;}
-	.graph.bar-chart .values .value:nth-child(6) .bar{ height:60%; opacity:0.6;}
-	.graph.bar-chart .values .value:nth-child(7) .bar { height:70%; opacity:0.7;}
-	.graph.bar-chart .values .value:nth-child(8) .bar{ height:60%; opacity:0.6;}
-	.graph.bar-chart .values .value:nth-child(9) .bar { height:70%; opacity:0.7;}
-	.graph.bar-chart .values .value:nth-child(10) .bar{ height:100%; opacity:1;}
-	.graph.bar-chart .values .value:nth-child(11) .bar { height:90%; opacity:0.9;}
-	.graph.bar-chart .values .value:nth-child(12) .bar { height:50%; opacity:0.5;}
-	.graph.bar-chart .values .value:nth-child(13) .bar{ height:50%; opacity:0.5;}
-	.graph.bar-chart .values .value:nth-child(14) .bar { height:30%; opacity:0.3;}
-	.graph.bar-chart .values .value:nth-child(15) .bar{ height:50%; opacity:0.5;}
-	.graph.bar-chart .values .value:nth-child(16) .bar { height:40%; opacity:0.4;}
-	.graph.bar-chart .values .value:nth-child(17) .bar{ height:60%; opacity:0.6;}
-	.graph.bar-chart .values .value:nth-child(18) .bar { height:70%; opacity:0.7;}
-	.graph.bar-chart .values .value:nth-child(19) .bar{ height:60%; opacity:0.6;}
-	.graph.bar-chart .values .value:nth-child(20) .bar { height:70%; opacity:0.7;}
-	.graph.bar-chart .values .value:nth-child(21) .bar{ height:100%; opacity:1;}
-	.graph.bar-chart .values .value:nth-child(22) .bar { height:90%; opacity:0.9;}
-	.graph.bar-chart .values .value:nth-child(23) .bar { height:50%; opacity:0.5;}
+	.graph.loaded.bar-chart .values .value:nth-child(2) .bar{ height:50%; opacity:0.5;}
+	.graph.loaded.bar-chart .values .value:nth-child(3) .bar { height:30%; opacity:0.3;}
+	.graph.loaded.bar-chart .values .value:nth-child(4) .bar{ height:50%; opacity:0.5;}
+	.graph.loaded.bar-chart .values .value:nth-child(5) .bar { height:40%; opacity:0.4;}
+	.graph.loaded.bar-chart .values .value:nth-child(6) .bar{ height:60%; opacity:0.6;}
+	.graph.loaded.bar-chart .values .value:nth-child(7) .bar { height:70%; opacity:0.7;}
+	.graph.loaded.bar-chart .values .value:nth-child(8) .bar{ height:60%; opacity:0.6;}
+	.graph.loaded.bar-chart .values .value:nth-child(9) .bar { height:70%; opacity:0.7;}
+	.graph.loaded.bar-chart .values .value:nth-child(10) .bar{ height:100%; opacity:1;}
+	.graph.loaded.bar-chart .values .value:nth-child(11) .bar { height:90%; opacity:0.9;}
+	.graph.loaded.bar-chart .values .value:nth-child(12) .bar { height:50%; opacity:0.5;}
+	.graph.loaded.bar-chart .values .value:nth-child(13) .bar{ height:50%; opacity:0.5;}
+	.graph.loaded.bar-chart .values .value:nth-child(14) .bar { height:30%; opacity:0.3;}
+	.graph.loaded.bar-chart .values .value:nth-child(15) .bar{ height:50%; opacity:0.5;}
+	.graph.loaded.bar-chart .values .value:nth-child(16) .bar { height:40%; opacity:0.4;}
+	.graph.loaded.bar-chart .values .value:nth-child(17) .bar{ height:60%; opacity:0.6;}
+	.graph.loaded.bar-chart .values .value:nth-child(18) .bar { height:70%; opacity:0.7;}
+	.graph.loaded.bar-chart .values .value:nth-child(19) .bar{ height:60%; opacity:0.6;}
+	.graph.loaded.bar-chart .values .value:nth-child(20) .bar { height:70%; opacity:0.7;}
+	.graph.loaded.bar-chart .values .value:nth-child(21) .bar{ height:100%; opacity:1;}
+	.graph.loaded.bar-chart .values .value:nth-child(22) .bar { height:90%; opacity:0.9;}
+	.graph.loaded.bar-chart .values .value:nth-child(23) .bar { height:50%; opacity:0.5;}
 
+
+	.graph.loaded.bar-chart .value .bar:hover{
+		height:0%;
+	}
 /* Icons General */
 .icon{
 	height:15px;
@@ -579,7 +589,7 @@ form button{
 
 .selecta{
 	color:#adadad;
-	margin:10px 0 30px 0;
+	margin:0 0 36px 0;
 	overflow: auto;
 }
 
@@ -589,7 +599,7 @@ form button{
 	float:left;
 	background:#dbdbdb;
 	color:#868686;
-	padding:5px 40px 5px 20px;
+	padding:3px 40px 3px 20px;
 	-webkit-border-radius:100px;
 	-moz-border-radius:100px;
 	border-radius:100px;
@@ -2822,7 +2832,7 @@ color:#fff!important;
 
 .material{
 	height:100%;
-	padding:18px 30px;
+	padding:30px 30px;
 	margin:0 0 6px 0;
 	background:#f9f9f9;
 	border:solid 1px #ddd;
@@ -2830,78 +2840,162 @@ color:#fff!important;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	position: relative;
+	color:#7d7d7d;
+}
+
+.material .inner{
+	/*min-height: 14vh;*/
+	/*position: relative;*/
+	position: relative;
+}
+
+.material .initial{
+
+}
+
+.material .inner.empty{
+	min-height: 14vh;
+	padding:0;
+	margin:0;
+	background: none;
 }
 
 .material h5{
 	margin:0 0 25px 0;
 	font-size:14px;
+	line-height: 18px;
 	color:#00cf7f;
 }
 
-.material .inner{
-	height:100%;
+.material p{
+	margin:0;
 }
 
-.material{
-		border-left:solid 1px #ddd;
-		color:#7d7d7d;
+.material a{
+	font-size:13px;
+}
+
+.material ul{
+	list-style-type:none;
+}
+
+.material ul, .material ol{
+	margin:0;
+	color:#7d7d7d;
+}
+
+.material ol{
+	padding:0 0 0 20px;
+}
+
+
+/* Breakers need to sort out */
+/*.material{
+	border-left:solid 1px #ddd;
+	color:#7d7d7d;
+}*/
+
+.material .inner .alt-button{
+	position: absolute;
+	bottom:0px;
+	right:0px;
+	margin:0;
+}
+
+/* Number Styles */
+
+.material .number{
+	font-family:'Montserrat',Helvetica,Arial,sans-serif!important;
+	color:#00cf7f;
+	font-size: 12px;
+	margin:0;
+	display: inline-block;
 }
 
 .material h4.number{
-	color:#7d7d7d;
+	color:#7d7d7d!important;
 	font-size:42px;
 }
+
+/* Expanded Panels */
+
+.material .additional{
+	border-top:solid 1px #eee;
+	margin:18px 0 0 0;
+	padding:18px 0 0 0;
+	text-align: left;
+}
+
+.material .additional .display{
+	text-align: right;
+	float:right;
+	display: inline-block;
+}
+
+.material .expanded{
+	margin:36px 0 0 0;
+}
+
+/* Notifications */
 
 .notification.material{
 	display: block;
 	padding:10px 30px;
 	margin:0 0 6px 0;
-	flex-direction: row;
-	flex-wrap: wrap;
-  align-items: flex-start;
 }
 
 .notification.material p{
 	margin:0;
-	color:#7d7d7d;
+	width:90%;
 }
 
-.material .number{
-	font-family:'Montserrat',Helvetica,Arial,sans-serif;
-	color:#00cf7f;
-}
 
-.notification .number{
-	display: inline-block;
+.notification.material .number, .material .inner ul li .number{
 	background:#00cf7f;
-	color:#fff;
-	margin:0;
-	font-size: 12px;
+	color:#fff!important;
 	padding: 6px 0;
 	height: 30px;
 	width: 30px;
-  text-align: center;
-	font-family:'Montserrat',Helvetica,Arial,sans-serif;
+	font-size:11px;
+	text-align: center;
 	-webkit-border-radius: 50px;
 	-moz-border-radius: 50px;
 	border-radius: 50px;
 }
 
-.notification .icon{
+.material .inner ul li .number{
+	padding: 6px 0;
+}
+
+.notification.material .icon{
 	margin:0 10px 0 0;
 }
 
-.notification .notification-marker{
-	align-self: flex-end;
-}
-
-/* Activity Feed */
-
-#activity .material button, #activity .material .button, #activity .material .alt-button{
+.notification.material .notification-marker{
 	position: absolute;
-	bottom:18px;
-	right:20px;
+	right:30px;
+	top:50%;
+	margin:-7.5px 0 0 0;
 }
+
+/* Activity feed colors */
+
+ .material.usecolor2 .icon, .material.usecolor2 strong, .material.usecolor2 h5, .usecolor2 .notification-marker, .material.usecolor2 .number {color:#fa3838;}
+ .material.usecolor3 .icon, .material.usecolor3 strong, .material.usecolor3 h5, .usecolor3 .notification-marker, .material.usecolor3 .number {color:#ff7c12;}
+ .material.usecolor4 .icon, .material.usecolor4 strong, .material.usecolor4 h5, .usecolor4 .notification-marker, .material.usecolor4 .number {color:#6a38fa;}
+ .material.usecolor5 .icon, .material.usecolor5 strong, .material.usecolor5 h5, .usecolor5 .notification-marker, .material.usecolor5 .number {color:#fa3866;}
+
+.notification.material.usecolor2 .number, .material.usecolor2 .inner ul li .number, .material.usecolor2 .alt-button{background:#fa3838;}
+.notification.material.usecolor3 .number, .material.usecolor3 .inner ul li .number, .material.usecolor3 .alt-button{background:#ff7c12;}
+.notification.material.usecolor4 .number, .material.usecolor4 .inner ul li .number, .material.usecolor4 .alt-button{background:#6a38fa;}
+.notification.material.usecolor5 .number, .material.usecolor5 .inner ul li .number, .material.usecolor5 .alt-button{background:#fa3866;}
+
+/* Popularity heat maps */
+.material ul li:nth-child(2) .number{opacity: 0.8;}
+.material ul li:nth-child(3) .number{opacity: 0.6;}
+.material ul li:nth-child(4) .number{opacity: 0.4;}
+.material ul li:nth-child(5) .number{opacity: 0.2;}
+
 
 /* Embed panel */
 
@@ -3666,9 +3760,9 @@ ul.alternating li .actions a{
 .people .item .stats{
 	border:none;
 	padding:10px 0 0 25px;
-	height:80px;
+	height:40px;
 	width:35%;
-	margin:-40px 0 0 0;
+	margin:-20px 0 0 0;
 	position: absolute;
 	top:50%;
 	left:0;
