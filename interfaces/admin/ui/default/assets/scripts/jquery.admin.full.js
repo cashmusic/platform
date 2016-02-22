@@ -276,6 +276,14 @@ jQuery.fn.extend({
       }
 
       $('form').garlic();
+
+      // Animate graph load
+      //$('.graph').delay(8000).addClass('loaded');
+
+
+      setTimeout(function(){
+          $('.graph').addClass("loaded");
+      }, 100);
    }
 
    /**
