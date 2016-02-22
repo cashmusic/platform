@@ -4,9 +4,7 @@
 <div id="learn_tip" style="display:block;" class="page-description display"><i class="icon icon-question marker"></i><!--marker-->If you have questions look for the help (<i class='icon icon-question'></i>) icon throughout to guide you.</div><!--learntip-->
 {{/has_campaigns}}
 
-{{#dashboard_lists}}
-	<div class="callout newsfeed people"><span class="details"><strong><div class="icon icon-list"></div><!--icon-->{{name}}:</strong> There {{#singular}}is{{/singular}}{{^singular}}are{{/singular}} <strong>{{total}}</strong> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}} on this list.</span> <span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><div class="icon icon-search"></div><!--icon-->View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><div class="icon icon-dwnld"></div><!--icon-->Export</a></span><div class="newsimage" style=""></div><!--newsimage--></div><!--newsfeed people-->
-{{/dashboard_lists}}
+
 {{#dashboard_orders}}
 	<div class="callout newsfeed commerce"><span class="details"><strong><div class="icon icon-cart"></div><!--icon-->New order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}!</strong> There {{#dashboard_orders_singular}}is{{/dashboard_orders_singular}}{{^dashboard_orders_singular}}are{{/dashboard_orders_singular}} <strong>{{dashboard_orders}}</strong> new order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}.</span><span class="action"><a href="{{www_path}}/commerce/"><div class="icon icon-search"></div><!--icon-->All new orders</a></span><div class="newsimage" style=""></div><!--newsimage--></div><!--newsfeed commerce-->
 {{/dashboard_orders}}
@@ -32,7 +30,7 @@
 <div id="activity" class="pure-u-1">
 	<div class="material">
 		<div class="pure-u-1 pure-u-md-2-3">
-				<h5>Page views (last 22 days)</h5>
+				<h5>Page views <span class="fadedtext">(last 22 days)<span></h5>
 
 				<div class="graph bar-chart">
 					<div class="values">
@@ -100,26 +98,80 @@
 			</div>
 	</div><!--material-->
 
-	<div class="material">
+	<div class="material usecolor4">
 		<div class="pure-u-1 pure-u-md-1-4">
 			<div class="inner"><h5>New orders</h5><h4 class="number">300</h4></div></div>
 		<div class="pure-u-1 pure-u-md-1-4">
-			<div class="inner"><h5>Unfulfilled orders</h5><h4 class="number">25</h4></div></div><div class="pure-u-1 pure-u-md-1-4"><div class="inner"><h5>Total amount earned</h5><h4 class="number">$300.00</h4><p><strong>($280.00 + $20.00 shipping)</strong></p></div></div>
-		<div class="pure-u-1 pure-u-md-1-4"><a href="{{www_path}}/commerce/" class="alt-button">All new orders</a></div>
+			<div class="inner"><h5>Unfulfilled orders</h5><h4 class="number">25</h4></div></div><div class="pure-u-1 pure-u-md-1-4"><div class="inner"><h5>Total amount earned</h5><h4 class="number">$300.00</h4><span>($280.00 + $20.00 shipping)</span></div></div><div class="pure-u-1 pure-u-md-1-4"><div class="inner empty"><a href="{{www_path}}/commerce/" class="alt-button">All new orders</a></div></div>
 	</div>
 
-	<a class="pure-u-1 notification material usecolor4" href="{{www_path}}/commerce/items/"><p><span class="icon icon-card"></span><strong>Sellin’ like hotcakes!</strong> - You’ve sold <span class="number">8</span> of <strong>‘My album’</strong> in the last week, it is currently your best selling item.</p><div class="notification-marker icon icon-chevron"></div></a>
+	<a class="pure-u-1 notification material usecolor4" href="{{www_path}}/commerce/items/"><p><span class="icon icon-card"></span><strong>Sellin’ like hotcakes!</strong> - You've sold <span class="number">8</span> of <strong>‘My album’</strong> in the last week, it is currently your best selling item.</p><div class="notification-marker icon icon-chevron"></div></a>
 
-	<div class="material">
-		<div class="pure-u-1 pure-u-md-1-3">
-			<div class="inner"><h5>Total new subscribers (last 7 days)</h5><h4 class="number">200</h4></div></div>
-		<div class="pure-u-1 pure-u-md-1-3">
-			<div class="inner"><h5>Subscriber activity (last 7 days)</h5><h4 class="number">25</h4></div></div><div class="pure-u-1 pure-u-md-1-3"><div class="inner"><h5>Total amount earned</h5><h4 class="number">$300.00</h4><p><strong>($280.00 + $20.00 shipping)</strong></p>
-			<a href="{{www_path}}/commerce/" class="alt-button">View mailing lists</a></div></div>
+
+
+	{{#dashboard_lists}}
+		<div class="callout newsfeed people"><span class="details"><strong><div class="icon icon-list"></div><!--icon-->{{name}}:</strong> There {{#singular}}is{{/singular}}{{^singular}}are{{/singular}} <strong>{{total}}</strong> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}} on this list.</span> <span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><div class="icon icon-search"></div><!--icon-->View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><div class="icon icon-dwnld"></div><!--icon-->Export</a></span><div class="newsimage" style=""></div><!--newsimage--></div><!--newsfeed people-->
+	{{/dashboard_lists}}
+
+	<div class="material usecolor3">
+			<div class="initial">
+				<div class="pure-u-1 pure-u-md-1-6">
+					<div class="inner"><h5>{{copy_total_new_subscribers}}</h5><h4 class="number">{{analytics_last_week}}</h4></div>
+				</div>
+				<div class="pure-u-1 pure-u-md-1-3">
+					<div class="inner"><h5>Subscriber activity (last 7 days)</h5>graph</div></div>
+					<div class="pure-u-1 pure-u-md-1-3"><div class="inner"><h5>Popular Lists</h5>
+						<ul>
+							<li><span class="number">80+</span> List name</li>
+							<li><span class="number">80+</span> List name</li>
+							<li><span class="number">80+</span> List name</li>
+					</div></div>
+		<div class="pure-u-1 pure-u-md-1-6">
+			<div class="inner empty">
+				<a href="{{www_path}}/commerce/" class="alt-button">View mailing lists</a>
+			</div>
+		</div>
+			</div><!--initial-->
+		<div class="pure-u-1">
+			<div class="additional">
+				<p>The largest group of your fans are from <strong>Portland, OR</strong> in the <strong>United States</strong>.</p>
+				<a class="display" href="/">Find out more</a>
+				<div class="expanded">
+					<div class="pure-u-1 pure-u-md-1-3">
+						<div class="inner">map it up!</div>
+					</div>
+					<div class="pure-u-1 pure-u-md-1-3">
+						<div class="inner">
+							<h5>Top Countries</h5>
+							<ol>
+								<li>United States - <span class="number">7983</span></li>
+								<li>South Korea - <span class="number">7983</span></li>
+								<li>Nigeria - <span class="number">7983</span></li>
+								<li>United Kingdom - <span class="number">7983</span></li>
+								<li>United Kingdom - <span class="number">7983</span></li>
+							</ol>
+						</div>
+					</div>
+					<div class="pure-u-1 pure-u-md-1-3">
+						<div class="inner">
+							<h5>Top Cities</h5>
+							<ol>
+								<li>United States - <span class="number">7983</span></li>
+								<li>South Korea - <span class="number">7983</span></li>
+								<li>Nigeria - <span class="number">7983</span></li>
+								<li>United Kingdom - <span class="number">7983</span></li>
+								<li>United Kingdom - <span class="number">7983</span></li>
+							</ol>
+						</div>
+					</div>
+
+				</div><!--expanded-->
+			</div>
+		</div>
 	</div>
 
 	<a class="pure-u-1 notification material usecolor5" href="{{www_path}}/commerce/items/"><p><span class="icon icon-calendar"></span>Your next show is in <strong>Los Angeles</strong> at the <strong>Echoplex, tomorrow night!</strong> (6th January)   -  Remind your followers on <strong>Twitter</strong>.</p><div class="notification-marker icon icon-chevron"></div></a>
 
-	<a class="pure-u-1 notification material usecolor5" href="{{www_path}}/commerce/items/"><p><span class="icon icon-card"></span>Your next show is a week away in <strong>Los Angeles</strong> at the <strong>Echoplex</strong>, on <strong>13th January</strong>   -  Remind fans on your <strong>mailing lists</strong?.</p><div class="notification-marker icon icon-chevron"></div></a>
+	<a class="pure-u-1 notification material usecolor5" href="{{www_path}}/commerce/items/"><p><span class="icon icon-card"></span>Your next show is a week away in <strong>Los Angeles</strong> at the <strong>Echoplex</strong>, on <strong>13th January</strong>   -  Remind fans on your <strong>mailing lists</strong>.</p><div class="notification-marker icon icon-chevron"></div></a>
 
 </div><!--activity-->
