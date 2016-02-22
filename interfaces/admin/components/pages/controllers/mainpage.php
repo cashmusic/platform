@@ -100,6 +100,20 @@ if ($session_news['activity']['orders']) {
 	$cash_admin->page_data['dashboard_orders'] = false;
 }
 
+// Lists Analytics
+$list_analytics = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'people',
+		'cash_action' => 'getanalytics',
+		'analtyics_type' => 'listmembership',
+		'list_id' => $request_list_id,
+		'user_id' => $cash_admin->effective_user_id
+	)
+);
+$cash_admin->page_data['analytics_active'] = $list_analytics['payload']['active'];
+$cash_admin->page_data['analytics_inactive'] = $list_analytics['payload']['inactive'];
+$cash_admin->page_data['analytics_last_week'] = $list_analytics['payload']['last_week'];
+
 
 
 
