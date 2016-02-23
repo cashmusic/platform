@@ -2,11 +2,11 @@
 /**
  * Single Purchase element
  *
- * @package digitalpurchase.org.cashmusic
+ * @package singlepurchase.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2014, CASH Music
+ * Copyright (c) 2016, CASH Music
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
@@ -30,28 +30,47 @@ class SinglePurchase extends ElementBase {
 		$this->element_data['item_flexible_price'] = $item['flexible_price'];
 		$this->element_data['item_description'] = $item['description'];
 		$this->element_data['item_asset'] = $item['fulfillment_asset'];
-		$this->element_data['item_asset'] = $item['fulfillment_asset'];
-		$this->element_data['connection_type'] = CASHData::getConnectionType($this->element_data['connection_id']);
 
-        // we need do do all this to get the publishable key, i believe
-        $connection_settings = CASHSystem::getConnectionTypeSettings($this->element_data['connection_type']);
-        $seed_class = $connection_settings['seed'];
 
-        // we're going to switch seeds by $connection_type, so check to make sure this class even exists
-        if (!class_exists($seed_class)) {
-            $this->setErrorMessage("Couldn't find payment type {$this->element_data['connection_type']}.");
-            return false;
-        }
-
-        // call the payment seed class
-        $payment_seed = new $seed_class($this->element_data['user_id'],$this->element_data['connection_id']);
-
-		if (!empty($payment_seed->publishable_key)) {
-			$this->element_data['public_key'] = $payment_seed->publishable_key;
+		$this->element_data['paypal_connection'] = false;
+		$this->element_data['stripe_public_key'] = false;
+		$settings_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system',
+				'cash_action' => 'getsettings',
+				'type' => 'payment_defaults',
+				'user_id' => $this->element_data['user_id']
+			)
+		);
+		if (is_array($settings_request->response['payload'])) {
+			if ($settings_request->response['payload']['pp_default'] || $settings_request->response['payload']['pp_micro']) {
+				$this->element_data['paypal_connection'] = true;
+			}
+			if ($settings_request->response['payload']['stripe_default']) {
+				$payment_seed = new StripeSeed($this->element_data['user_id'],$settings_request->response['payload']['stripe_default']);
+				if (!empty($payment_seed->publishable_key)) {
+					$this->element_data['stripe_public_key'] = $payment_seed->publishable_key;
+				}
+			}
 		} else {
-			$this->element_data['public_key'] = "";
+			if (isset($this->element_data['connection_id'])) {
+				$connection_settings = CASHSystem::getConnectionTypeSettings($this->element_data['connection_type']);
+		      $seed_class = $connection_settings['seed'];
+				if ($seed_class == 'StripeSeed') {
+					$payment_seed = new StripeSeed($this->element_data['user_id'],$this->element_data['connection_id']);
+					if (!empty($payment_seed->publishable_key)) {
+						$this->element_data['stripe_public_key'] = $payment_seed->publishable_key;
+					}
+				} elseif ($seed_class == 'PaypalSeed') {
+					$this->element_data['paypal_connection'] = true;
+				}
+			}
 		}
 
+
+      if (!$this->element_data['paypal_connection'] && !$this->element_data['stripe_public_key']) {
+         $this->setError("No valid payment connection found.");
+      }
 
 		if ($item['available_units'] != 0) {
 			$this->element_data['is_available'] = true;
@@ -61,7 +80,7 @@ class SinglePurchase extends ElementBase {
 
 		$currency_request = new CASHRequest(
 			array(
-				'cash_request_type' => 'system', 
+				'cash_request_type' => 'system',
 				'cash_action' => 'getsettings',
 				'type' => 'use_currency',
 				'user_id' => $this->element_data['user_id']
@@ -74,14 +93,14 @@ class SinglePurchase extends ElementBase {
 		}
 
 		if (
-			$this->status_uid == 'commerce_finalizepayment_200' || 
+			$this->status_uid == 'commerce_finalizepayment_200' ||
 			$this->status_uid == 'element_redeemcode_200' ||
 			$this->status_uid == 'commerce_initiatecheckout_200' && $this->original_response['payload'] == 'force_success'
 			) {
 			if ($item['fulfillment_asset'] != 0) {
 				$fulfillment_request = new CASHRequest(
 					array(
-						'cash_request_type' => 'asset', 
+						'cash_request_type' => 'asset',
 						'cash_action' => 'getfulfillmentassets',
 						'asset_details' => $item['fulfillment_asset']
 					)
@@ -168,5 +187,5 @@ class SinglePurchase extends ElementBase {
 		}
 		return $this->element_data;
 	}
-} // END class 
+} // END class
 ?>

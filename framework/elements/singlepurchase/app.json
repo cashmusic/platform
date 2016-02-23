@@ -16,8 +16,11 @@
 	},
 	"copy":{
 		"en":{
-			"buy":"Buy Now",
-			"flexibleprice_suffix":"or more"
+			"flexibleprice_suffix":"or more",
+			"choose_variants":"Choose an option first",
+			"choose_verb":"Choose",
+			"buy":"Buy now",
+			"unavailable":"Sorry, this item is currently unavailable."
 		}
 	},
 	"options":{
