@@ -6,16 +6,9 @@
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * began with official Paypal SDK examples, much editing later...
- * original script(s) here:
- * https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/library_download_sdks#NVP
- *
- * Copyright (c) 2013, CASH Music
+ * Copyright (c) 2016, CASH Music
  * Licensed under the GNU Lesser General Public License version 3.
  * See http://www.gnu.org/licenses/lgpl-3.0.html
- *
- *
- * This file is generously sponsored by Justin Miranda
  *
  **/
 
