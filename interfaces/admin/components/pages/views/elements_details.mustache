@@ -1,7 +1,7 @@
 {{! corresponding files: elements_edit.php & elements_edit.json }}
 
 <header>
-		<a class="returnlink current" href="{{www_path}}/"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">&ldquo;{{ui_title}}&rdquo;</h4>
+		<a class="returnlink current" href="{{www_path}}/embeds/"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">&ldquo;{{ui_title}}&rdquo;</h4>
 </header>
 
 		{{#location_analytics}}
@@ -33,20 +33,20 @@
 				</div><!--embedding-->
 			</div><!--pure-->
 			{{/platform_type_single}}
-			
+
 			<div class="pure-u-1">
 				<div class="embedpanel">
 					<p class="codelabel"><strong>{{copy_html5_embed_code}}</strong> <span class="fadedtext">{{copy_embed_anywhere}}</span></p>
 
 					<a class="ql copy" title="Copy quick embed code" data-clipboard-text="&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;" ><div class="icon icon-share"></div><!--icon--></a>
-					
+
 					<code><div class="codearea" contenteditable="true">&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;</div></code>
 
 					<a href="{{www_path}}/elements/preview/{{id}}" class="preview lightboxed">{{copy_preview_element}}</a>
 				</div><!--embedding-->
 			</div><!--pure-->
 
-	<div class="selecta">	
+	<div class="selecta">
 		<form method="post" action="">
 			<input type="hidden" name="current_template_id" value="{{template_id}}" />
 				<div class="pure-u-1 pure-u-md-1-2">
@@ -54,10 +54,10 @@
 					<select id="change_template_id" name="change_template_id">{{{template_options}}}</select>
 				</div><!--pure-->
 				<div class="pure-u-1 pure-u-md-1-2">
-					<div class="switchblock" 
-						data-watch="#change_template_id" 
-						data-default="{{#custom_template}}#editbutton{{/custom_template}}{{^custom_template}}#changestyle{{/custom_template}}" 
-						data-change="#changestyle" 
+					<div class="switchblock"
+						data-watch="#change_template_id"
+						data-default="{{#custom_template}}#editbutton{{/custom_template}}{{^custom_template}}#changestyle{{/custom_template}}"
+						data-change="#changestyle"
 						data-special='{"val":"0","target":"#editbutton"}'
 					>
 						<div id="editbutton">
