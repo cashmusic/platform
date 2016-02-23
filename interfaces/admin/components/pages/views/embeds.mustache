@@ -1,14 +1,7 @@
-{{! corresponding files: mainpage.php & mainpage.json }}
+{{! corresponding files: embeds.php & embeds.json }}
 {{^has_campaigns}}
 <div id="learn_tip" style="display:block;" class="page-description display"><i class="icon icon-question marker"></i><!--marker-->If you have questions look for the help (<i class='icon icon-question'></i>) icon throughout to guide you.</div><!--learntip-->
 {{/has_campaigns}}
-
-{{#dashboard_lists}}
-	<div class="callout newsfeed people"><span class="details"><strong><div class="icon icon-list"></div><!--icon-->{{name}}:</strong> There {{#singular}}is{{/singular}}{{^singular}}are{{/singular}} <strong>{{total}}</strong> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}} on this list.</span> <span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><div class="icon icon-search"></div><!--icon-->View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><div class="icon icon-dwnld"></div><!--icon-->Export</a></span><div class="newsimage" style=""></div><!--newsimage--></div><!--newsfeed people-->
-{{/dashboard_lists}}
-{{#dashboard_orders}}
-	<div class="callout newsfeed commerce"><span class="details"><strong><div class="icon icon-cart"></div><!--icon-->New order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}!</strong> There {{#dashboard_orders_singular}}is{{/dashboard_orders_singular}}{{^dashboard_orders_singular}}are{{/dashboard_orders_singular}} <strong>{{dashboard_orders}}</strong> new order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}.</span><span class="action"><a href="{{www_path}}/commerce/"><div class="icon icon-search"></div><!--icon-->All new orders</a></span><div class="newsimage" style=""></div><!--newsimage--></div><!--newsfeed commerce-->
-{{/dashboard_orders}}
 
 <!-- /* Sub Nav */ -->
 <header>
@@ -26,7 +19,7 @@
 </header>
 
 <!--/* Campaigns */-->
-<div id="campaigns" class="{{#dashboard_active}}notifications{{/dashboard_active}}">
+<div id="campaigns">
 {{#has_campaigns}}
 <div class="pure-u-1 pure-u-md-2-3">
 	<div class="selecta">
@@ -37,6 +30,7 @@
 			</select>
 		</form>
 	</div><!--selecta-->
+	<div class="campaign-edit">
 	<div class="actions">
 		<div class="toggle"><div class="icon icon-pencil"></div><!--icon--></div><!--toggle-->
 		<div class="action-inner">
@@ -44,8 +38,8 @@
 			<a href="{{www_path}}/campaigns/delete/{{id}}" class="needsconfirmation delete">{{copy_delete}}</a>
 		</div><!--action-inner-->
 	</div><!--actions-->
+</div><!--campaign-edit-->
 </div><!--pure-->
-
 <div class="pure-u-1 pure-u-md-1-3 alignright">
 		<a class="button lightboxed" href="{{www_path}}/campaigns/add/">{{copy_add_campaign}}</a>
 </div>
@@ -66,9 +60,65 @@
 {{#selected_campaign}}
 <div class="material pure-u-1">
 		<div class="campaign-inner pure-u-1 pure-u-md-2-3">
-		<h5>'{{title}}' views</h5>
-		<h3>{{description}}</h3>
-				<footer><!--p>Created <span>&#124;</span> {{formatted_date}}</p--><p>Updated <span>&#124;</span> {{formatted_date}}</p></footer>
+		<h5>&#39;{{title}}&#39; - <span>{{description}}</span> views <br /><span class="fadedtext">Updated <span>&#124;</span> {{formatted_date}}</span></h5>
+		<div class="graph bar-chart">
+			<div class="values">
+				<div class="y-axis pure-u-1-12">
+					<h6>100</h6>
+					<h6>50</h6>
+					<h6>0</h6>
+				</div><!--y-axis-->
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+					<div class="value pure-u-1-24"><span class="bar"></span></div>
+				</div><!--values-->
+
+				<div class="x-axis pure-u-1">
+					<h6 class="pure-u-1-12"></h6>
+					<h6 class="pure-u-1-24">M</h6>
+					<h6 class="pure-u-1-24">T</h6>
+					<h6 class="pure-u-1-24">W</h6>
+					<h6 class="pure-u-1-24">T</h6>
+					<h6 class="pure-u-1-24">F</h6>
+					<h6 class="pure-u-1-24">S</h6>
+					<h6 class="pure-u-1-24">S</h6>
+					<h6 class="pure-u-1-24">M</h6>
+					<h6 class="pure-u-1-24">T</h6>
+					<h6 class="pure-u-1-24">W</h6>
+					<h6 class="pure-u-1-24">T</h6>
+					<h6 class="pure-u-1-24">F</h6>
+					<h6 class="pure-u-1-24">S</h6>
+					<h6 class="pure-u-1-24">S</h6>
+					<h6 class="pure-u-1-24">M</h6>
+					<h6 class="pure-u-1-24">T</h6>
+					<h6 class="pure-u-1-24">W</h6>
+					<h6 class="pure-u-1-24">T</h6>
+					<h6 class="pure-u-1-24">F</h6>
+					<h6 class="pure-u-1-24">S</h6>
+					<h6 class="pure-u-1-24">S</h6>
+					<h6 class="pure-u-1-24">M</h6>
+				</div><!--x-axis-->
+
+		</div><!--graph-->
 		</div><!--campaign-inner-->
 			<div class="stats pure-u-1 pure-u-md-1-3">
 				<h5>{{copy_total_campaign_views}}</h5>
@@ -76,18 +126,24 @@
 				<!--h5 class="percentage"><div class="icon icon-lg-arw"></div>&#37;</h5-->
 			</div><!--stats-->
 </div><!--campaign pure-->
+</div><!--campaigns-->
 <div class="pure-u-1">
 <div class=" pure-u-1 pure-u-md-1-2">
-	<h4><span class="number {{^has_elements}}zero{{/has_elements}}">{{element_count}}</span>'{{title}}' {{copy_embed_title}}</h4>
+	<h4>&#39;{{title}}&#39; {{copy_embed_title}} ({{element_count}})</h4>
 </div><!--pure-->
 <div class=" pure-u-1 pure-u-md-1-2 alignright">
-	<a class="add button lightboxed store" href="{{www_path}}/elements/add/"><i class="icon icon-circle-plus"></i>{{copy_element_add}}</a>
+{{^isarchive}}
+{{#has_elements}}<a class="add button lightboxed store" href="{{www_path}}/elements/add/"><div class="icon icon-circle-plus"></div>{{copy_element_add}}</a>{{/has_elements}}
+	{{^elements_for_campaign}}
+	<a href="{{www_path}}/elements/add/" class="noelement button lightboxed store"><div class="icon icon-plus"></div><!--icon-->{{copy_add_element_to_start}}</a><!--noelement-->
+	{{/elements_for_campaign}}
+{{/isarchive}}
 </div><!--pure-->
 </div>
 {{/selected_campaign}}
 
 {{#selected_campaign}}
-<div class="elements">
+<div class="campaign-elements">
 	{{#elements_for_campaign}}
 	<ul class="alternating">
 		{{#elements_for_campaign}}
@@ -108,21 +164,12 @@
 		{{/elements_for_campaign}}
 	</ul>
 	{{/elements_for_campaign}}
-	{{^isarchive}}
-		{{^elements_for_campaign}}
-		<a href="{{www_path}}/elements/add/" class="noelement store lightboxed">
-		<div class="icon icon-plus"></div><!--icon-->
-			<p>{{copy_add_element_to_start}}</p>
-		</a><!--noelement-->
-		{{/elements_for_campaign}}
-	{{/isarchive}}
 </div><!--elements-->
 {{/selected_campaign}}
 
 {{#show_archive}}
 	<p>{{copy_there_are_archived_elements}}<a href="{{www_path}}/campaigns/archive/">{{copy_view_archive}}</a></p>
 {{/show_archive}}
-</div><!--campaigns-->
 
 {{#show_tour}}
 <!--div class="modalbg">&nbsp;</div>
