@@ -8,8 +8,12 @@
 	 * window.cashmusic.stripe (object)
 	 * Handle Stripe.com payment token generation
 	 *
+	 * PUBLIC-ISH FUNCTIONS
+	 * window.cashmusic.stripe.generateToken(string key, target source)
+	 *
 	 ***************************************************************************************/
 	cm.stripe = {
+		// basic info needed by stripe
 		formElements: [
          {id: "name", type: "text", placeholder: "Cardholder name"},
          {id: "email", type: "email", placeholder: "Email address"},
@@ -58,9 +62,29 @@
 		}
 	};
 
+	/***************************************************************************************
+	 *
+	 * window.cashmusic.userinput (object)
+	 * pass in an array of needed information, it builds forms, you get answers back
+	 *
+	 * EXAMPLES:
+	 * event driven, so first pass in:
+	 *		[
+	 *			{id: "name", type: "text", placeholder: "an input", required: true},
+	 *			{id: "name", type: "hidden", value: "secret"},
+	 *			{id: "submit", type: "submit", text: "submit"}
+	 *		]
+	 *
+	 * then listen for an answer:
+	 * 	cm.events.add(cm,'checkoutdata', function(e) {
+	 *	 		console.log(e.detail);
+	 * 	});
+	 *
+	 * PUBLIC-ISH FUNCTIONS
+	 * window.cashmusic.userinput.getinput(array elements, string type)
+	 *
+	 ***************************************************************************************/
 	cm.userinput = {
-		// temp form injection stuff for stripe, but we can make it for anything
-		// inject = optional div to injec
 		getInput: function (elements,type) {
 			type = type || 'unknown';
 			var form = document.createElement('form');
@@ -73,43 +97,41 @@
 
 			elements.push({id:'cm-userinput-type', type:'hidden', value:type});
 
-			elements.forEach(function(element) {
+			for (var i = 0; i < elements.length; i++) {
+				var element = elements[i];
 				if (element.type !== "submit" && element.type !== "select") {
 					var input = document.createElement("input");
 					input.type = element.type;
-					input.name = element.id;
 					input.placeholder = element.placeholder;
-					input.id = "cm-userinput-" + type + "-" + element.id;
 					if (element.value) {
 						input.value = element.value;
 					}
-					form.appendChild(input);
 				} else {
 					if (element.type == "select") {
 						var input = document.createElement("select");
-						input.id = "cm-userinput-" + type + "-" + element.id;
 						var codes = Object.keys(element.options);
-						input.name = element.id;
-						for (var i = 0; i < codes.length; i++) {
+						for (var n = 0; n < codes.length; n++) {
 						   var option = document.createElement("option");
-						   option.value = codes[i];
-						   option.text = element.options[codes[i]];
-							if (element.value == codes[i]) {
+						   option.value = codes[n];
+						   option.text = element.options[codes[n]];
+							if (element.value == codes[n]) {
 								option.selected = 'selected';
 							}
 						   input.appendChild(option);
 						}
-						form.appendChild(input);
 					} else {
-						var button = document.createElement("button");
-						button.type = "submit";
-						button.id = "cm-userinput-" + type + "-" + element.id;
-						button.name = element.id;
-						button.innerHTML = element.text;
-						form.appendChild(button);
+						var input = document.createElement("button");
+						input.type = "submit";
+						input.innerHTML = element.text;
 					}
 				}
-			});
+				input.name = element.id;
+				input.id = "cm-userinput-" + type + "-" + element.id;
+				if (element.required) {
+					input.setAttribute('data-required','1');
+				}
+				form.appendChild(input);
+			}
 
 			container.appendChild(form);
 			container.appendChild(message);
@@ -118,17 +140,54 @@
 				e.preventDefault();
 				e.stopPropagation();
 				var formdata = {};
+				var incomplete = false;
 	         for ( var i = 0; i < form.elements.length; i++ ) {
 	            var e = form.elements[i];
 	            formdata[e.name] = e.value;
+					if (e.getAttribute('data-required') && e.value == '') {
+						incomplete = true;
+						cm.styles.addClass(e,'incomplete');
+					} else {
+						cm.styles.removeClass(e,'incomplete');
+					}
 	         }
-				cm.events.fire(cm,'userinput',formdata);
+				if (incomplete) {
+					// Show the errors on the form
+					document.getElementById('cm-userinput-message').innerHTML = 'Please complete all required fields.';
+					cm.styles.addClass(document.getElementsByClassName('cm-userinput-container')[0],'nope');
+					setTimeout(function(){
+						cm.styles.removeClass(document.getElementsByClassName('cm-userinput-container')[0],'nope');
+					}, 800);
+				} else {
+					cm.events.fire(cm,'userinput',formdata);
+				}
 			});
 
 			cm.overlay.reveal(container);
 		}
 	};
 
+	/***************************************************************************************
+	 *
+	 * window.cashmusic.checkout (object)
+	 * start the checkout flow for multiple payments in a controlled overlay
+	 *
+	 * PUBLIC FUNCTIONS
+	 * window.cashmusic.checkout.begin(obj options, target source)
+	 *
+	 * EXAMPLE
+	 		cm.checkout.begin({
+		 		"stripe"   : "pk_test_wh4t3ver", // false OR public stripe key
+		 		"paypal"   : true, // boolean for "should we have paypal as an option"
+		 		"currency" : "USD", // USD = default, but this also determines what country is
+								 auto-selected in the drop-down
+		 		"shipping" : {"r1":"US & Canada ($4)","r2":"Rest of world ($7)"}, // or bool.
+								 false = no shipping, true = shipping address but no region selector
+		 		"testing"  : true // allows stripe to work without SSL if true, false or omit
+								 (preferable for production) to enforce
+	 		});
+	 *
+	 ***************************************************************************************/
 	cm.checkout = {
 		countries: {
 			"AF":"Afghanistan",
@@ -380,30 +439,36 @@
 			"ZW":"Zimbabwe"
 		},
 
-		shippingElements: [
-			{id: "name", type: "text", placeholder: "Ship to name"},
-         {id: "address1", type: "text", placeholder: "Shipping address 1"},
-			{id: "address2", type: "text", placeholder: "Shipping address 2"},
-			{id: "city", type: "text", placeholder: "City"},
-			{id: "state", type: "text", placeholder: "State/Province/Region"},
-			{id: "postalcode", type: "text", placeholder: "Postal code"}
-		],
-
 		begin: function (options,source) {
 			if (cm.embedded) {
 				cm.events.fire(cm,'begincheckout',options);
 			} else {
+				// this push business feels really dumb but we need a proper length count
+				// and using a single array literal wasn't expanding properly via push
+				var shippingElements = [];
+				shippingElements.push(
+					{id: "name", type: "text", placeholder: "Ship to name", required: true},
+		   		{id: "address1", type: "text", placeholder: "Shipping address 1", required: true},
+					{id: "address2", type: "text", placeholder: "Shipping address 2"},
+					{id: "city", type: "text", placeholder: "City", required: true},
+					{id: "state", type: "text", placeholder: "State/Province/Region", required: true},
+					{id: "postalcode", type: "text", placeholder: "Postal code", required: true}
+				);
+
+				// add in styles
 				cm.styles.injectCSS(cm.path + 'templates/checkout.css');
+				// set up the empty object we'll populate in the return
 				cm.storage['checkoutdata'] = {
 					'stripe'   :false,
 					'paypal'   :false,
 					'shipping' :false,
 					'currency' :false
 				};
-
+				// detect SSL for stripe
 				if (location.protocol !== 'https:' && options.testing !== true) {
 					options.stripe = false;
 				}
+				// choose defaults by currency
 				if (options.shipping) {
 					if (options.stripe || options.paypal) {
 						var selectedCountry = "US";
@@ -435,17 +500,21 @@
 									break;
 							}
 						}
-						cm.checkout.shippingElements.push({id: "country", type: "select", options: cm.checkout.countries, value: selectedCountry});
+						// add in the country selector
+						shippingElements.push({id: "country", type: "select", options: cm.checkout.countries, value: selectedCountry});
+						// and if needed, the shipping region selector
 						if (typeof options.shipping === 'object') {
-							cm.checkout.shippingElements.push({id: "shipping-region", type: "select", options: {
+							shippingElements.push({id: "shipping-region", type: "select", options: {
 								"":"Please select a shipping region",
 								"r1":options.shipping.r1,
 								"r2":options.shipping.r2
-							}});
+							}, required: true});
 						}
-						cm.checkout.shippingElements.push({id: "shipping-submit", type: "submit", text: "Set shipping info"});
-						cm.userinput.getInput(cm.checkout.shippingElements,'getshippingaddress');
-						cm.checkout.shippingElements.length = 6;
+						// hey look a button!
+						shippingElements.push({id: "shipping-submit", type: "submit", text: "Set shipping info"});
+						// get the answers
+						cm.userinput.getInput(shippingElements,'getshippingaddress');
+						// wait for them
 						cm.events.add(cm,'userinput', function(e) {
 							if (e.detail['cm-userinput-type'] == 'getshippingaddress') {
 								cm.storage['checkoutdata']['shipping'] = e.detail;
@@ -462,12 +531,21 @@
 		},
 
 		initiatepayment: function (options,source) {
+			// just starts the payment flow and does the steps needed based on
+			// the options passed in...
+
+			// Stripe only
 			if (options.stripe && !options.paypal) {
 				cm.stripe.generateToken(options.stripe,source);
-			} else if (!options.stripe && options.paypal) {
+			}
+			// Paypal only
+			else if (!options.stripe && options.paypal) {
 				cm.storage['checkoutdata']['paypal'] = true;
 				cm.events.fire(cm,'checkoutdata',cm.storage['checkoutdata'],source);
-			} else if (options.stripe && options.paypal) {
+			}
+			// Stripe and Paypal
+			else if (options.stripe && options.paypal) {
+				// Create HTML elements to use as selectors
 				var container = document.createElement("div");
 				container.class = "cm-checkout-choose";
 
@@ -477,6 +555,7 @@
 				ppspan.innerHTML = "Pay with PayPal";
 				stspan.innerHTML = "Pay with a credit card";
 
+				// Create a special event to detect Paypal chosen
 				cm.events.add(ppspan,'click', function(e) {
 					e.preventDefault();
 					e.stopPropagation();
@@ -485,6 +564,7 @@
 					cm.overlay.reveal('redirecting...');
 				});
 
+				// Create a special event to detect Stripe chosen
 				cm.events.add(stspan,'click', function(e) {
 					e.preventDefault();
 					e.stopPropagation();
@@ -496,7 +576,9 @@
 
 				cm.overlay.reveal(container);
 
-			} else {
+			}
+			// No available payment types, by options or SSL limits on Stripe
+			else {
 				cm.checkout.showerror();
 			}
 		},

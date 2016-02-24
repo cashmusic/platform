@@ -38,106 +38,37 @@
 
 
 
-<script>
-   /*
-    var cm = window.cashmusic;
-    var allowclick = true; // preventing double click
-
-    cm.events.add(cm, 'ready', function (e) {
-
-        cm.loadScript(cm.path + 'checkout/checkout.js', function () {
-            cm.events.add(document.getElementById('buy_button'), 'click', function (e) {
-                e.preventDefault();
-
-                // get stripe public key or fail
-                {{#public_key}}
-                    var stripe_public_key = "{{public_key}}";
-                {{/public_key}}
-
-                {{^public_key}}
-                    var stripe_public_key = false;
-                {{/public_key}}
-
-                // set shipping with regions, or to false if there is no shipping
-                {{#no_shipping}}
-                    var shipping = false;
-                {{/no_shipping}}
-
-                {{^no_shipping}}
-                    var shipping = {
-                        "r1": "{{region1_name}} (${{region1_cost}})",
-                        "r2": "{{region2_name}} (${{region2_cost}})"
-                    };
-                {{/no_shipping}}
-
-                if (allowclick) {
-                    cm.checkout.begin({
-                        "stripe": stripe_public_key,
-                        "paypal": true,
-                        "currency": "{{currency}}", // USD = auto default
-                        "shipping": shipping, // or bool true for no region selector
-                        "testing": true
-                    });
-
-                    cm.events.add(cm, 'checkoutdata', function (payment) {
-
-                        cm.overlay.hide();
-                        console.log(payment.detail);
-
-                        var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
-
-                        // set connection id by selection
-                        // calculate totals based on region + product pricing
-                        var original_price = elementForm.elements['total_price'].value;
-
-                        // add shipping to form
-                        if (payment.detail.shipping) {
-                            var shipping = 0;
-
-                            if (payment.detail.shipping['shipping-region'] == "r1") {
-                                shipping = {{region1_cost}};
-                            }
-
-                            if (payment.detail.shipping['shipping-region'] == "r2") {
-                                shipping = {{region2_cost}};
-                            }
-
-                            if (shipping > 0) {
-                                var price = parseFloat(shipping) + parseFloat(original_price);
-                                elementForm.elements['total_price'].value = price;
-                            }
-                        }
-                        // submit form
-                        elementForm.submit();
-
-
-                        if (payment.detail.paypal == true) {
-                            console.log("PAYPAL");
-                        }
-
-                        if (payment.detail.stripe == true) {
-                            console.log("STRIPE");
-                        }
-
-
-                    });
-
-                    allowclick = false;
-                    setTimeout(function () {
-                        allowclick = true;
-                    }, 1000); // only one click per second
-                }
-            });
-        });
-    });
-    */
-</script>
-
-
-
 <script type="text/javascript">
 	var cm = window.cashmusic;
 
+   // get stripe public key
+   {{#public_key}}
+      var stripe_public_key = "{{stripe_public_key}}";
+   {{/public_key}}
+   {{^public_key}}
+      var stripe_public_key = false;
+   {{/public_key}}
+
+   // we like paypal?
+   {{#paypal_connection}}
+      var paypal = true;
+   {{/paypal_connection}}
+   {{^paypal_connection}}
+      var paypal = false;
+   {{/paypal_connection}}
+
+   // set shipping with regions, or to false if there is no shipping
+   {{#no_shipping}}
+      var shipping = false;
+   {{/no_shipping}}
+   {{^no_shipping}}
+      var shipping = {
+         "r1": "{{region1_name}} (${{region1_cost}})",
+         "r2": "{{region2_name}} (${{region2_cost}})"
+      };
+   {{/no_shipping}}
+
+   // go
 	cm.events.add(cm,'ready', function(e) {
 
 		{{#session_id}}
@@ -154,30 +85,56 @@
 		if (buttons.length > 0) {
 			for (var i = 0, len = buttons.length; i < len; i++) {
 				cm.events.add(buttons[i],'click', function(e) {
-					if (this.innerHTML != '{{copy_added}}') {
-						var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
-						var poststring = 'cash_request_type=commerce&cash_action=addtocart&item_id=' + this.getAttribute('data-itemid') + '&price=' + this.getAttribute('data-price');
-						if (this.getAttribute('data-variantid')) {
-							poststring += '&item_variant='+ encodeURIComponent(this.getAttribute('data-variantid'));
-						}
-
-						cm.ajax.send(submitUrl, poststring,
-							function(r) {
-								flashCartButton();
-								var el = e.target;
-								if(e.target.getAttribute('type') != 'button') {
-									el = e.target.parentNode; // if the span is clicked use the button parent
-								}
-								var returnTxt = e.target.innerHTML;
-								el.innerHTML = '{{copy_added}}';
-								setTimeout(function() {
-									el.innerHTML = returnTxt;
-								},2200);
-							}
-						);
+               e.preventDefault();
+					var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
+					var poststring = 'cash_request_type=commerce&cash_action=addtocart&item_id=' + this.getAttribute('data-itemid') + '&price=' + this.getAttribute('data-price');
+					if (this.getAttribute('data-variantid')) {
+						poststring += '&item_variant='+ encodeURIComponent(this.getAttribute('data-variantid'));
 					}
-					e.preventDefault();
-					return false;
+
+					cm.ajax.send(submitUrl, poststring,
+						function(r) {
+							var el = e.target;
+							if(e.target.getAttribute('type') != 'button') {
+								el = e.target.parentNode; // if the span is clicked use the button parent
+							}
+
+                     cm.loadScript(cm.path + 'checkout/checkout.js', function () {
+                        cm.checkout.begin({
+                           "stripe": stripe_public_key,
+                           "paypal": paypal,
+                           "currency": "{{currency}}", // USD = auto default
+                           "shipping": shipping, // or bool true for no region selector
+                           "testing": true
+                       });
+                     });
+
+                     cm.events.add(cm, 'checkoutdata', function (payment) {
+                        console.log(payment.detail);
+                        //var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
+                        // set connection id by selection
+                        // calculate totals based on region + product pricing
+                        //var original_price = elementForm.elements['total_price'].value;
+
+                        // add shipping to form
+                        if (payment.detail.shipping) {
+                            var shipping = 0;
+                            if (payment.detail.shipping['shipping-region'] == "r1") {
+                                shipping = {{region1_cost}};
+                            }
+                            if (payment.detail.shipping['shipping-region'] == "r2") {
+                                shipping = {{region2_cost}};
+                            }
+                            if (shipping > 0) {
+                                var price = parseFloat(shipping) + parseFloat(original_price);
+                                elementForm.elements['total_price'].value = price;
+                            }
+                        }
+                        // submit form
+                        //elementForm.submit();
+                    });
+						}
+					);
 				});
 			}
 		}
