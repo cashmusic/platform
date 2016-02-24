@@ -26,7 +26,7 @@
       <input type="text" name="total_price" data-itemid="{{item_id}}" data-atleast="{{item_price}}" class="cm-price" value="{{item_price}}" />
    </span>
    {{/item_flexible_price}}
-   <button type="button"{{^json_keys}} data-legacykeys="1"{{/json_keys}} data-itemid="{{item_id}}" data-price="{{item_price}}" class="button {{#has_variants}}cm-disabled{{/has_variants}} cm-addtocart cm-item-{{item_id}}"{{#has_variants}} disabled="disabled"{{/has_variants}}>{{#has_variants}}{{copy_choose_variants}}{{/has_variants}}{{^has_variants}}<span class="cm-price">{{currency}}{{item_price}}</span> - {{copy_buy}}{{/has_variants}}</button>
+   <button type="button"{{^json_keys}} data-legacykeys="1"{{/json_keys}} data-itemid="{{item_id}}" data-price="{{item_price}}" class="button cm-buynow cm-item-{{item_id}}"{{#has_variants}} disabled="disabled"{{/has_variants}}>{{#has_variants}}{{copy_choose_variants}}{{/has_variants}}{{^has_variants}}<span class="cm-price">{{currency}}{{item_price}}</span> - {{copy_buy}}{{/has_variants}}</button>
    {{/is_available}}
    {{^is_available}}
       <span class="cm-unavailable">
@@ -39,6 +39,7 @@
 
 
 <script>
+   /*
     var cm = window.cashmusic;
     var allowclick = true; // preventing double click
 
@@ -129,4 +130,154 @@
             });
         });
     });
+    */
+</script>
+
+
+
+<script type="text/javascript">
+	var cm = window.cashmusic;
+
+	cm.events.add(cm,'ready', function(e) {
+
+		{{#session_id}}
+			cm.session.setid(JSON.stringify({
+				"endpoint": window.location.href.split('/').slice(0,3).join('/'),
+				"expiration": Math.floor(new Date().getTime() /1000) + 10800,
+				"id": "{{session_id}}"
+			}));
+		{{/session_id}}
+		cm.session.start();
+
+		// sort all the cart buttons
+		var buttons = document.querySelectorAll('.cm-buynow');
+		if (buttons.length > 0) {
+			for (var i = 0, len = buttons.length; i < len; i++) {
+				cm.events.add(buttons[i],'click', function(e) {
+					if (this.innerHTML != '{{copy_added}}') {
+						var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
+						var poststring = 'cash_request_type=commerce&cash_action=addtocart&item_id=' + this.getAttribute('data-itemid') + '&price=' + this.getAttribute('data-price');
+						if (this.getAttribute('data-variantid')) {
+							poststring += '&item_variant='+ encodeURIComponent(this.getAttribute('data-variantid'));
+						}
+
+						cm.ajax.send(submitUrl, poststring,
+							function(r) {
+								flashCartButton();
+								var el = e.target;
+								if(e.target.getAttribute('type') != 'button') {
+									el = e.target.parentNode; // if the span is clicked use the button parent
+								}
+								var returnTxt = e.target.innerHTML;
+								el.innerHTML = '{{copy_added}}';
+								setTimeout(function() {
+									el.innerHTML = returnTxt;
+								},2200);
+							}
+						);
+					}
+					e.preventDefault();
+					return false;
+				});
+			}
+		}
+
+		// keep prices correct
+		var prices = document.querySelectorAll('input.cm-price');
+		if (prices.length > 0) {
+			for (var i = 0, len = prices.length; i < len; i++) {
+				cm.events.add(prices[i],'keyup', function(e) {
+					var newprice = parseFloat(this.value);
+					if (newprice) {
+						if (newprice > this.getAttribute('data-atleast')) {
+							var pricespan = document.querySelector('button.cm-buynow.cm-item-' + this.getAttribute('data-itemid') + ' span.cm-price');
+							if (pricespan) {
+								pricespan.innerHTML = '{{currency}}' + newprice.toFixed(2);
+							}
+							document.querySelector('button.cm-buynow.cm-item-' + this.getAttribute('data-itemid')).setAttribute('data-price',newprice.toFixed(2))
+						}
+					}
+					e.preventDefault();
+					return false;
+				});
+
+				cm.events.add(prices[i],'blur', function(e) {
+					this.value = document.querySelector('button.cm-buynow.cm-item-' + this.getAttribute('data-itemid')).getAttribute('data-price');
+				});
+			}
+		}
+
+		// item variants
+		var attributes = document.querySelectorAll('select.cm-attribute');
+		if (attributes.length > 0) {
+			for (var i = 0, len = attributes.length; i < len; i++) {
+				cm.events.add(attributes[i],'blur', function(e) {
+					var b = document.querySelector('button.cm-buynow.cm-item-' + e.target.getAttribute('data-itemid'));
+
+					if (e.target.getAttribute('data-totalattributes') > 1) {
+						var allselects = e.target.parentNode.querySelectorAll('select');
+						var otherselect = false;
+						for (var ii = 0, l = allselects.length; ii < l; ii++) {
+							if (allselects[ii] != e.target) {
+								otherselect = allselects[ii];
+								break;
+							}
+						}
+
+						if (otherselect) {
+							var supportedoptions = JSON.parse(e.target.options[e.target.selectedIndex].getAttribute('data-countermenu').replace('&apos;', '\''));
+							var otheroptions = otherselect.querySelectorAll('option');
+							for (var i = 0, len = otheroptions.length; i < len; i++) {
+								otheroptions[i].setAttribute('disabled','disabled');
+								if (otheroptions[i].value == 'resetattributes' || supportedoptions.indexOf(otheroptions[i].value) !== -1) {
+									otheroptions[i].removeAttribute('disabled');
+								}
+							}
+							if (e.target.value != 'resetattributes' && otherselect.value != 'resetattributes') {
+								if (b.getAttribute('data-legacykeys')) {
+									var thisid = e.target.getAttribute('data-key')+'->'+e.target.value;
+									var otherid = otherselect.getAttribute('data-key')+'->'+otherselect.value;
+									if (e.target.getAttribute('data-attributeorder') == 0) {
+										var attributekey = thisid+'+'+otherid;
+									} else {
+										var attributekey = otherid+'+'+thisid;
+									}
+								} else {
+									var attributekey = {};
+									if (e.target.getAttribute('data-attributeorder') == 0) {
+										attributekey[e.target.getAttribute('data-key').replace('&apos;', '\'')] = e.target.value.replace('&apos;', '\'');
+										attributekey[otherselect.getAttribute('data-key').replace('&apos;', '\'')] = otherselect.value.replace('&apos;', '\'');
+									} else {
+										attributekey[otherselect.getAttribute('data-key').replace('&apos;', '\'')] = otherselect.value.replace('&apos;', '\'');
+										attributekey[e.target.getAttribute('data-key').replace('&apos;', '\'')] = e.target.value.replace('&apos;', '\'');
+									}
+									attributekey = JSON.stringify(attributekey);
+								}
+								b.setAttribute('data-variantid',attributekey);
+								b.removeAttribute('disabled');
+								b.innerHTML = '<span class="cm-price">{{currency}}'+b.getAttribute('data-price')+'</span> - {{copy_buy}}';
+							} else {
+								b.removeAttribute('data-variantid');
+								b.setAttribute('disabled','disabled');
+								b.innerHTML = '{{copy_choose_variants}}';
+							}
+						}
+					} else {
+						if (e.target.value != 'resetattributes') {
+							b.setAttribute('data-variantid',e.target.getAttribute('data-key')+'->'+e.target.value);
+							b.removeAttribute('disabled');
+							b.innerHTML = '<span class="cm-price">{{currency}}'+b.getAttribute('data-price')+'</span> - {{copy_buy}}';
+						} else {
+							b.removeAttribute('data-variantid');
+							b.setAttribute('disabled','disabled');
+							b.innerHTML = '{{copy_choose_variants}}';
+						}
+					}
+				});
+				cm.events.add(attributes[i],'change', function(e) {
+					e.target.blur(); // using change to fire blur gives us change events consistently. ff doesn't do auto-blur, ios safari doesn't do change
+				});
+			}
+		}
+	});
 </script>

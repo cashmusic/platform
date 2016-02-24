@@ -33,17 +33,17 @@ class SinglePurchase extends ElementBase {
 
 		// item variants...ugh
 		if ($item['variants']) {
-			$item['json_keys'] = (bool) json_decode($item['variants']['quantities'][0]['key']);
-			$item['has_variants'] = true;
+			$this->element_data['has_variants'] = true;
+			$this->element_data['json_keys'] = (bool) json_decode($item['variants']['quantities'][0]['key']);
+			$this->element_data['attributes_count'] = count($item['variants']['attributes']);
 			$verified_attributes = array();
-			$item['attributes_count'] = count($item['variants']['attributes']);
 			foreach ($item['variants']['attributes'] as $key => $attribute) {
 				$attribute['index'] = $key;
 				$attribute['name'] = ''.strtolower(str_replace(' ','',$attribute['key']));
 				$verified_items = array();
 				foreach ($attribute['items'] as $i) {
 					if ($i['value'] > 0) { // this means we've got some quantity for this specific attribute
-						if ($item['attributes_count'] > 1) { // check if we have multiple attribute types
+						if ($this->element_data['attributes_count'] > 1) { // check if we have multiple attribute types
 							// hard coding for 2 attributes RN, sort out which is "other"
 							$counter_index = 1;
 							if ($attribute['index'] == 1) {
@@ -51,7 +51,7 @@ class SinglePurchase extends ElementBase {
 							}
 							$counter_attribute = $item['variants']['attributes'][$counter_index];
 							$counter_key = $counter_attribute['key'];
-							if ($item['json_keys']) {
+							if ($this->element_data['json_keys']) {
 								$this_frag = array($attribute['key'] => $i['key']);
 							} else {
 								$this_frag = $attribute['key'] . '->' . $i['key']; // current attribute id for qty
@@ -66,7 +66,7 @@ class SinglePurchase extends ElementBase {
 										$defaultArray[] = $ci['key'];
 									}
 								}
-								if ($item['json_keys']) {
+								if ($this->element_data['json_keys']) {
 									$that_frag = array($counter_key => $ci['key']);
 									// combine attribute ids to get the quantity key
 									if ($counter_index == 1) {

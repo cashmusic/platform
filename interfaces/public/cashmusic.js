@@ -9,7 +9,7 @@
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2015, CASH Music
+ * Copyright (c) 2016, CASH Music
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -35,7 +35,7 @@
  *
  *
  *
- * VERSION: 4
+ * VERSION: 5
  *
  **/
 
@@ -68,17 +68,8 @@
 			_init: function() {
 				var cm = window.cashmusic;
 
-				// determine file location and path
-				cm.scriptElement = document.querySelector('script[src$="cashmusic.js"]');
-				if (cm.scriptElement) {
-					// chop off last 12 characters for 'cashmusic.js' -- not just a replace in case
-					// a directory is actually named 'cashmusic.js'
-					cm.path = cm.scriptElement.src.substr(0,cm.scriptElement.src.length-12);
-				}
-				cm.options = String(cm.scriptElement.getAttribute('data-options'));
-
 				// check lightbox options
-				if (this.options.indexOf('lightboxvideo') !== -1) {
+				if (cm.options.indexOf('lightboxvideo') !== -1) {
 					// load lightbox.js
 					cm.loadScript(cm.path+'lightbox/lightbox.js');
 				}
@@ -134,7 +125,7 @@
 					}
 
 					// create overlay stuff first, only if nowrap isn't set
-					if (this.options.indexOf('nowrap') === -1) {
+					if (cm.options.indexOf('nowrap') === -1) {
 						cm.overlay.create();
 					}
 					// if we don't have a geo response we'll loop and wait a couple
@@ -810,22 +801,24 @@
 			session: {
 				start: function(endpoint) {
 					var cm = window.cashmusic;
-					if (!cm.session.getid(window.location.href.split('/').slice(0,3).join('/'))) {
-						if (!endpoint) {
-							endpoint = window.location.href.split('/embed/')[0]+'/payload';
-							endpoint += '?cash_request_type=system&cash_action=startjssession&ts=' + new Date().getTime();
-						}
-						// fire off the ajax call
-						cm.ajax.send(
-							endpoint,
-							false,
-							function(r) {
-								if (r) {
-									cm.events.fire(cm,'sessionstarted',r);
-									cm.session.setid(r);
-								}
+					if (cm.embedded) {
+						if (!cm.session.getid(window.location.href.split('/').slice(0,3).join('/'))) {
+							if (!endpoint) {
+								endpoint = window.location.href.split('/embed/')[0]+'/payload';
+								endpoint += '?cash_request_type=system&cash_action=startjssession&ts=' + new Date().getTime();
 							}
-						);
+							// fire off the ajax call
+							cm.ajax.send(
+								endpoint,
+								false,
+								function(r) {
+									if (r) {
+										cm.events.fire(cm,'sessionstarted',r);
+										cm.session.setid(r);
+									}
+								}
+							);
+						}
 					}
 				},
 
@@ -914,11 +907,17 @@
 				create: function(callback) {
 					var cm = window.cashmusic;
 					var self = cm.overlay;
+					var move = false;
 					if (self.wrapper === false) {
 						cm.styles.injectCSS(cm.path + 'templates/overlay.css');
 
-						self.wrapper = document.createElement('div');
-						self.wrapper.className = 'cm-wrapper';
+						self.wrapper = document.querySelector('div.cm-wrapper');
+
+						if (!self.wrapper) {
+							move = true;
+							self.wrapper = document.createElement('div');
+							self.wrapper.className = 'cm-wrapper';
+						}
 
 						self.bg = document.createElement('div');
 						self.bg.className = 'cm-bg';
@@ -934,12 +933,13 @@
 						self.bg.style.backgroundAttachment 	= bs.getPropertyValue('background-attachment');
 						self.bg.style.backgroundColor 		= bs.getPropertyValue('background-color');
 
-						// move all page nodes to the new wrapper
-						while (document.body.childNodes.length) {
-							self.wrapper.appendChild(document.body.childNodes[0]);
+						if (move) {
+							// move all page nodes to the new wrapper
+							while (document.body.childNodes.length) {
+								self.wrapper.appendChild(document.body.childNodes[0]);
+							}
+							document.body.appendChild(self.wrapper);
 						}
-
-						document.body.appendChild(self.wrapper);
 
 						self.content = document.createElement('div');
 						self.content.className = 'cm-overlay';
@@ -1205,12 +1205,34 @@
 		/*
 		 *	Post-definition (runtime) calls. For the _init() function to "auto" load...
 		 */
+
+		// set path and get all script options
+		// file location and path
+		var s = document.querySelector('script[src$="cashmusic.js"]');
+		if (s) {
+			// chop off last 12 characters for 'cashmusic.js' -- not just a replace in case
+			// a directory is actually named 'cashmusic.js'
+			cashmusic.path = s.src.substr(0,s.src.length-12);
+		}
+		// get and store options
+		cashmusic.options = String(s.getAttribute('data-options'));
+
 		// start on geo-ip data early
 		cashmusic.ajax.getHeaderForURL('https://javascript-cashmusic.netdna-ssl.com/cashmusic.js','GeoIp-Data',function(h) {
 			cashmusic.geo = h;
 		});
 
-		var init = function(){cashmusic._init(cashmusic);}; // function traps cashmusic in a closure
+		var init = function(){
+			// function traps cashmusic in a closure
+			if (cashmusic.options.indexOf('lazy') !== -1) {
+				// lazy mode...chill for a second
+				setTimeout(function() {
+					cashmusic._init(cashmusic);
+				}, 1000);
+			} else {
+				cashmusic._init(cashmusic);
+			}
+		};
 		cashmusic.contentLoaded(init); // loads only after the page is complete
 	}
 
