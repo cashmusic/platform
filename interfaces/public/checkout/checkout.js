@@ -52,6 +52,7 @@
 			                  // response contains id and card, which contains additional card details
 			                  cm.storage['checkoutdata']['stripe'] = response.id;
 									cm.events.fire(cm,'checkoutdata',cm.storage['checkoutdata'],source);
+									cm.overlay.reveal('<div class="cm-loading"></div>');
 			               }
 			            });
 
@@ -542,6 +543,7 @@
 			else if (!options.stripe && options.paypal) {
 				cm.storage['checkoutdata']['paypal'] = true;
 				cm.events.fire(cm,'checkoutdata',cm.storage['checkoutdata'],source);
+				cm.overlay.reveal('<div class="cm-loading"></div>');
 			}
 			// Stripe and Paypal
 			else if (options.stripe && options.paypal) {
@@ -561,7 +563,7 @@
 					e.stopPropagation();
 					cm.storage['checkoutdata']['paypal'] = true;
 					cm.events.fire(cm,'checkoutdata',cm.storage['checkoutdata'],source);
-					cm.overlay.reveal('redirecting...');
+					cm.overlay.reveal('<div class="cm-loading"></div>');
 				});
 
 				// Create a special event to detect Stripe chosen
