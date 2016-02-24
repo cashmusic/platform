@@ -115,7 +115,7 @@
                         f.method = 'post';
                         f.action = '';
 
-                        var els = ['cash_request_type','cash_action','element_id','shipping_price','total_price','shipping_info','use_paypal','stripe_token'];
+                        var els = ['cash_request_type','cash_action','element_id','shipping_price','total_price','shipping_info','paypal','stripe','origin'];
                         for (var i = 0, len = els.length; i < len; i++) {
                            var inp = document.createElement('input');
                            inp.type = 'hidden';
@@ -128,11 +128,12 @@
                         f.cash_action.value = 'initiatecheckout';
                         f.element_id.value = {{element_id}};
                         f.total_price.value = parseFloat(button.getAttribute('data-price'));
+                        f.origin.value = window.top.location.href;
                         if (payment.detail.paypal) {
-                           f.use_paypal.value = 1;
+                           f.paypal.value = 1;
                         }
                         if (payment.detail.stripe) {
-                           f.stripe_token.value = payment.detail.stripe;
+                           f.stripe.value = payment.detail.stripe;
                         }
 
                         // add shipping to form
@@ -155,16 +156,12 @@
                               requesturl += '?ts=' + new Date().getTime();
                               cm.ajax.send(requesturl, false,
                                  function() {
-                                    // submit form
-                                    document.body.appendChild(f);
-                                    f.submit();
+                                    initiatePayment(f)
                                  }
                               );
                            }
                         } else {
-                           // submit form
-                           document.body.appendChild(f);
-                           f.submit();
+                           initiatePayment(f)
                         }
                     });
 						}
@@ -172,6 +169,11 @@
 				});
 			}
 		}
+
+      function initiatePayment(f) {
+         document.body.appendChild(f);
+
+      }
 
 		// keep prices correct
 		var prices = document.querySelectorAll('input.cm-price');
