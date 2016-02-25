@@ -16,6 +16,7 @@ class SinglePurchase extends ElementBase {
 	public $name = 'Single Purchase';
 
 	public function getData() {
+		$this->element_data['public_url'] = CASH_PUBLIC_URL;
 		// define $markup to store all screen output
 		$item_request = new CASHRequest(
 			array(

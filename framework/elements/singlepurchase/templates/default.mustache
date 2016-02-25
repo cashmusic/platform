@@ -128,7 +128,7 @@
                         f.cash_action.value = 'initiatecheckout';
                         f.element_id.value = {{element_id}};
                         f.total_price.value = parseFloat(button.getAttribute('data-price'));
-                        f.origin.value = window.top.location.href;
+                        f.origin.value = top.location.href;
                         if (payment.detail.paypal) {
                            f.paypal.value = 1;
                         }
@@ -172,7 +172,23 @@
 
       function initiatePayment(f) {
          document.body.appendChild(f);
-
+         console.log(cm.ajax);
+         cm.ajax.send(
+				'{{public_url}}/request/payload',
+				cm.ajax.encodeForm(f),
+				function(details) {
+					if (details.substring(0,4) == 'http') {
+						top.location.href = details;
+					} else if (details == 'success') {
+                  cm.overlay.reveal('success!');
+               } else {
+                  cm.overlay.reveal('There was a problem with your payment. Please try again.');
+               }
+				},
+            function(details) {
+               cm.overlay.reveal('There was a problem with your payment. Please try again.');
+				}
+			);
       }
 
 		// keep prices correct
