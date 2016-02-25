@@ -19,7 +19,7 @@ require CASH_PLATFORM_ROOT . '/lib/stripe/init.php';
 class StripeSeed extends SeedBase
 {
     protected $client_id, $client_secret, $error_message;
-    public $publishable_key;
+    public $publishable_key, $redirects;
 
     /**
      * StripeSeed constructor.
@@ -34,11 +34,13 @@ class StripeSeed extends SeedBase
 
         if ($this->getCASHConnection()) {
 
+
             $this->client_id = $this->settings->getSetting('client_id');
             $this->client_secret = $this->settings->getSetting('client_secret');
             $this->publishable_key = $this->settings->getSetting('publishable_key');
             $this->access_token = $this->settings->getSetting('access_token');
             $sandboxed = $this->settings->getSetting('sandboxed');
+            $this->redirects = false;
 
             \Stripe\Stripe::setApiKey($this->client_secret);
 

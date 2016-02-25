@@ -53,7 +53,7 @@ class CommercePlant extends PlantBase {
             'getordersbyitem'		 => array('getOrdersByItem','direct'),
             'getordertotals' 		 => array('getOrderTotals','direct'),
             'gettransaction'      => array('getTransaction','direct'),
-            'finalizepayment'     => array('finalizeRedirectedPayment',array('get','post','direct')),
+            'finalizepayment'     => array('finalizePayment',array('get','post','direct')),
             'initiatecheckout'    => array('initiateCheckout',array('get','post','direct','api_public')),
             'sendorderreceipt'	 => array('sendOrderReceipt','direct')
         );
@@ -1148,7 +1148,18 @@ class CommercePlant extends PlantBase {
         return $result;
     }
 
-    protected function initiateCheckout($user_id=false,$connection_id=false,$order_contents=false,$item_id=false,$element_id=false,$total_price=false,$url_only=false,$finalize_url=false,$session_id=false) {
+    /** initiateCheckout
+     * @param bool $order_contents
+     * @param bool $element_id
+     * @param bool $shipping_info
+     * @param float $shipping_price
+     * @param bool $total_price
+     * @param bool $paypal
+     * @param bool $stripe
+     * @param bool $origin
+     * @return bool
+     */
+    protected function initiateCheckout($order_contents=false,$element_id=false,$shipping_info=false, $shipping_price=0.00, $total_price=false,$paypal=false,$stripe=false, $origin=false) {
 
         //TODO: store last seen top URL
         //      or maybe make the API accept GET params? does it already? who can know?
@@ -1161,25 +1172,7 @@ class CommercePlant extends PlantBase {
             if (!$order_contents) {
                 $order_contents = array();
             }
-            if ($item_id) {
-                // old style...we'll be refactoring this junk
-                $item_details = $this->getItem($item_id);
-                $item_details['qty'] = 1; // hard-coded to support old one-item-only stuff
-                $order_contents[] = $item_details;
-                if ($total_price !== false && $total_price >= $item_details['price']) {
-                    $price_addition = $total_price - $item_details['price'];
-                } elseif ($total_price === false) {
-                    $price_addition = 0;
-                } else {
-                    return false;
-                }
-                if ($item_details['physical_fulfillment']) {
-                    $is_physical = 1;
-                }
-                if ($item_details['digital_fulfillment']) {
-                    $is_digital = 1;
-                }
-            } else {
+
                 $element_request = new CASHRequest(
                     array(
                         'cash_request_type' => 'element',
@@ -1247,7 +1240,6 @@ class CommercePlant extends PlantBase {
                 } else {
                     $connection_id = $pp_default;
                 }
-            }
 
             $currency = $this->getCurrencyForUser($user_id);
 
@@ -1279,11 +1271,73 @@ class CommercePlant extends PlantBase {
                 0,
                 '',
                 '',
-                $currency
+                $currency,
+                $shipping_info
             );
             if ($order_id) {
-                $success = $this->initiatePaymentRedirect($order_id,$element_id,$price_addition,$url_only,$finalize_url,$session_id);
-                return $success;
+
+                $order_details = $this->getOrder($order_id);
+
+                $transaction_details = $this->getTransaction($order_details['transaction_id']);
+
+                //TODO: we'll need to figure out a way to get the connection_id for whatever payment method was chosen, in order to switch on the fly
+                $connection_type = $this->getConnectionType($transaction_details['connection_id']);
+                $order_totals = $this->getOrderTotals($order_details['order_contents']);
+
+                // get connection type settings so we can extract Seed classname
+                $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
+                $seed_class = $connection_settings['seed'];
+                //TODO: ultimately we want to load in the seed class name dynamically, but let's just get this working for now
+                if ($stripe) {
+                    $seed_class = "StripeSeed";
+                }
+
+                if ($paypal) {
+                    $seed_class = "PaypalSeed";
+                }
+
+                // ascertain whether or not this seed requires a redirect, else let's cheese it right to the charge
+                // we're going to switch seeds by $connection_type, so check to make sure this class even exists
+                if (!class_exists($seed_class)) {
+                    $this->setErrorMessage("Couldn't find payment type $seed_class.");
+                    return false;
+                }
+
+                // call the payment seed class
+
+                $payment_seed = new $seed_class($user_id,$transaction_details['connection_id']);
+
+                // does this payment type need to redirect? if so let's do preparePayment and get a redirect URL
+                if ($payment_seed->redirects) {
+                    // prepare payment with URL redirect
+                    $approval_url = $payment_seed->preparePayment(
+                        $total_price,							# payment amount
+                        'order-' . $order_id,						# order id
+                        $order_totals['description'],				# order name
+                        $origin,								# return URL
+                        $origin,								# cancel URL (the same in our case)
+                        $currency,									# payment currency
+                        'sale',										# transaction type (e.g. 'Sale', 'Order', or 'Authorization')
+                        $shipping_price								# price additions (like shipping, but could be taxes in future as well)
+                    );
+
+                    // returns a url, javascript parses for success/failure and gets http://, so it does a redirect
+                    return $approval_url;
+                } else {
+                    // doPayment
+                    $order_details = $this->getOrder($order_id);
+
+                    // javascript shows success or failure depending on what happens here
+                    if ($this->finalizePayment($order_id, $session_id)) {
+                        return "success";
+                    } else {
+                        return "failure";
+                    }
+
+                }
+
+                //$success = $this->initiatePaymentRedirect($order_id,$element_id,$price_addition,$url_only,$finalize_url,$session_id);
+                //return $success;
             } else {
                 return false;
             }
@@ -1370,107 +1424,7 @@ class CommercePlant extends PlantBase {
         }
     }
 
-    protected function initiatePaymentRedirect($order_id,$element_id=false,$price_addition=0,$url_only=false,$finalize_url=false,$session_id=false) {
-
-        // set values
-        $order_details = $this->getOrder($order_id);
-        $order_properties = $this->getOrderProperties($order_details['order_contents']);
-
-        $transaction_details = $this->getTransaction($order_details['transaction_id']);
-
-        $order_totals = $this->getOrderTotals($order_details['order_contents']);
-        $connection_type = $this->getConnectionType($transaction_details['connection_id']);
-
-        // get connection type settings so we can extract Seed classname
-        $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
-        $seed_class = $connection_settings['seed'];
-
-        $payment_amount = $order_totals['price'] + $price_addition;
-        $currency = $this->getCurrencyForUser($order_details['user_id']);
-        $shipping_required = false;
-        $note_allowed = false;
-
-        if ($finalize_url) {
-            $r = new CASHRequest();
-            $r->startSession(false,$session_id);
-            $r->sessionSet('payment_finalize_url',$finalize_url);
-        }
-
-        if (($order_totals['price'] + $price_addition) < 0.35) {
-            // basically a zero dollar transaction. hard-coding a 35¢ minimum for now
-            // we can add a system minimum later, or a per-connection minimum, etc...
-            return 'force_success';
-        }
-
-        // we're going to switch seeds by $connection_type, so check to make sure this class even exists
-        if (!class_exists($seed_class)) {
-            $this->setErrorMessage("Couldn't find payment type $connection_type.");
-            return false;
-        }
-
-        // call the payment seed class
-        $payment_seed = new $seed_class($order_details['user_id'],$transaction_details['connection_id']);
-
-        if (!$finalize_url) {
-            $finalize_url = CASHSystem::getCurrentURL();
-        }
-
-        // build a return URL for the payment system to redirect to once payment is ready to be finalized
-        $return_url = $finalize_url . '?cash_request_type=commerce&cash_action=finalizepayment&order_id=' . $order_id . '&creation_date=' . $order_details['creation_date'];
-        if ($element_id) {
-            $return_url .= '&element_id=' . $element_id;
-        }
-
-        // collect shipping information on payment service, if possible
-
-        if ($order_properties['physical_fulfillment'] == 1) {
-            $shipping_required = true;
-            $note_allowed = true;
-        }
-
-
-
-        // prepare payment with URL redirect, where applicable
-        $payment_details = $payment_seed->preparePayment(
-            $payment_amount,							# payment amount
-            'order-' . $order_id,						# order id
-            $order_totals['description'],				# order name
-            $return_url,								# return URL
-            $return_url,								# cancel URL (the same in our case)
-            $shipping_required,							# shipping info required (boolean)
-            $note_allowed,								# allow an order note (boolean)
-            $currency,									# payment currency
-            'sale',										# transaction type (e.g. 'Sale', 'Order', or 'Authorization')
-            false,										# invoice (boolean)
-            $price_addition								# price additions (like shipping, but could be taxes in future as well)
-        );
-
-        $this->editTransaction(
-            $order_details['transaction_id'], 		// order id
-            false, 									// service timestamp
-            false,										// service transaction id
-            json_encode($payment_details['data_sent']),	// data sent
-            false,			// data received
-            false,										// successful (boolean 0/1)
-            false,										// gross price
-            false,										// service fee
-            false									// transaction status
-        );
-
-        if (!$url_only) {
-            $redirect = CASHSystem::redirectToUrl($payment_details['redirect_url']);
-            // the return will only happen if headers have already been sent
-            // if they haven't redirectToUrl() will handle it and call exit
-            return $redirect;
-        } else {
-            return $payment_details['redirect_url'];
-        }
-
-        return false;
-    }
-
-
-    protected function finalizeRedirectedPayment($order_id,$creation_date,$direct_post_details=false,$session_id=false) {
+    protected function finalizePayment($order_id,$session_id=false) {
 
         $order_details = $this->getOrder($order_id);
 
@@ -1510,11 +1464,6 @@ class CommercePlant extends PlantBase {
                     $is_fulfilled = $this->getFulfillmentStatus($order_details);
 
                     // takin' care of business
-                    $request = new CASHRequest();
-
-                    $order_data = $request->sessionGet("order_data");
-
-
                     $this->editOrder(
                         $order_id, 		// order id
                         $is_fulfilled,	// fulfilled status
@@ -1527,15 +1476,15 @@ class CommercePlant extends PlantBase {
                         false,
                         false,
                         false,
-                        $order_data
+                        false
                     );
 
                     $this->editTransaction(
-                        $order_details['transaction_id'], 		// order id
-                        $payment_details['timestamp'], 			// service timestamp
-                        $payment_details['transaction_id'],		// service transaction id
+                        $order_id, 		// order id
+                        time(), 			// service timestamp
+                        false,		// service transaction id
                         false,									// data sent
-                        $payment_details['order_details'],			// data received
+                        false,			// data received
                         1,										// successful (boolean 0/1)
                         $payment_details['total'],				// gross price
                         $payment_details['transaction_fee'],	// service fee

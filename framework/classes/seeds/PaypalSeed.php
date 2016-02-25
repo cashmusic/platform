@@ -42,13 +42,16 @@ use PayPal\Api\PaymentExecution;
 class PaypalSeed extends SeedBase
 {
     protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token;
+    public $redirects;
     protected $merchant_email = false;
+
 
     public function __construct($user_id, $connection_id)
     {
         $this->settings_type = 'com.paypal';
         $this->user_id = $user_id;
         $this->connection_id = $connection_id;
+        $this->redirects = true;
 
         if ($this->getCASHConnection()) {
 
@@ -143,17 +146,14 @@ class PaypalSeed extends SeedBase
 
 
     public function preparePayment(
-        $payment_amount,
-        $ordersku,
-        $ordername,
+        $total_price,
+        $order_sku,
+        $order_name,
         $return_url,
         $cancel_url,
-        $request_shipping_info = true,
-        $allow_note = false,
         $currency_id = 'USD', /* 'USD', 'GBP', 'EUR', 'JPY', 'CAD', 'AUD' */
         $payment_type = 'sale', /* 'Sale', 'Order', or 'Authorization' */
-        $invoice = false,
-        $shipping_amount = false
+        $shipping_price = false
     )
     {
 
@@ -161,14 +161,14 @@ class PaypalSeed extends SeedBase
         $payer->setPaymentMethod("paypal");
         $amount = new Amount();
         $amount->setCurrency($currency_id)
-            ->setTotal($payment_amount);
+            ->setTotal($total_price);
 
 
-        if ($request_shipping_info && $shipping_amount > 0) {
+        if ($request_shipping_info && $shipping_price > 0) {
             $shipping = new Details();
-            $shipping->setShipping($shipping_amount)
+            $shipping->setShipping($shipping_price)
                 //->setTax(1.3)
-                ->setSubtotal($payment_amount - $shipping_amount);
+                ->setSubtotal($total_price - $shipping_price);
             //TODO: assumes shipping cost is passed in as part of the total $payment_amount
 
             $amount->setDetails($shipping);
@@ -176,8 +176,8 @@ class PaypalSeed extends SeedBase
 
         $transaction = new Transaction();
         $transaction->setAmount($amount)
-            ->setDescription($ordername)
-            ->setInvoiceNumber($ordersku); // owner-id order-id
+            ->setDescription($order_name)
+            ->setInvoiceNumber($order_sku); // owner-id order-id
 
         $redirectUrls = new RedirectUrls();
         $redirectUrls->setReturnUrl($return_url . "&success=true")
@@ -203,10 +203,7 @@ class PaypalSeed extends SeedBase
         $approval_url = $payment->getApprovalLink();
 
         if (!empty($approval_url)) {
-            return array(
-                'redirect_url' => $approval_url,
-                'data_sent' => json_encode($payment->getTransactions())
-            );
+            return $approval_url;
         } else {
             // approval link isn't set, return to page and post error
             $this->setErrorMessage('There was an error contacting PayPal for this payment.');
