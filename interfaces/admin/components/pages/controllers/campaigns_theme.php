@@ -3,16 +3,16 @@
 if (isset($_POST['settheme'])) {
 	$new_template = 0;
 	$requested_campaign_id = $_POST['campaign_id'];
-	
+
 	if ($requested_campaign_id != 0) {
-		
+
 		$template_default = file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/page.mustache');
 		$replacement = '';
 		if (isset($_POST['element_id'])) {
 			if ($_POST['element_id'] != 0) {
 				$element_response = $cash_admin->requestAndStore(
 					array(
-						'cash_request_type' => 'element', 
+						'cash_request_type' => 'element',
 						'cash_action' => 'getelement',
 						'id' => $_POST['element_id']
 					)
@@ -32,7 +32,7 @@ if (isset($_POST['settheme'])) {
 
 		$template_response = $cash_admin->requestAndStore(
 			array(
-				'cash_request_type' => 'system', 
+				'cash_request_type' => 'system',
 				'cash_action' => 'settemplate',
 				'name' => '',
 				'type' => 'page',
@@ -44,17 +44,17 @@ if (isset($_POST['settheme'])) {
 
 		$edit_response = $cash_admin->requestAndStore(
 			array(
-				'cash_request_type' => 'element', 
+				'cash_request_type' => 'element',
 				'cash_action' => 'editcampaign',
 				'id' => $requested_campaign_id,
 				'template_id' => $template_id
 			)
 		);
-			
+
 		if ($edit_response['payload']) {
-			AdminHelper::formSuccess('Success. Page theme created. You can edit it at any time.','/');
+			AdminHelper::formSuccess('Success. Page theme created. You can edit it at any time.','/yourpage/');
 		} else {
-			AdminHelper::formFailure('Error. Something just didn\'t work right.','/');
+			AdminHelper::formFailure('Error. Something just didn\'t work right.','/yourpage/');
 		}
 
 	}
@@ -65,7 +65,7 @@ if (isset($_POST['settheme'])) {
 
 	$current_response = $cash_admin->requestAndStore(
 		array(
-			'cash_request_type' => 'element', 
+			'cash_request_type' => 'element',
 			'cash_action' => 'getcampaign',
 			'id' => $requested_campaign_id
 		)
@@ -78,19 +78,19 @@ if (isset($_POST['settheme'])) {
 
 	$elements_response = $cash_admin->requestAndStore(
 		array(
-			'cash_request_type' => 'element', 
+			'cash_request_type' => 'element',
 			'cash_action' => 'getelementsforcampaign',
 			'id' => $requested_campaign_id
 		)
 	);
-			
+
 	if ( is_array($elements_response['payload']) ) {
 		$campaign_elements = new ArrayIterator($elements_response['payload']);
 	} else {
 		$campaign_elements = false;
 	}
-	$cash_admin->page_data['campaign_elements'] = $campaign_elements; 
-	$cash_admin->page_data['campaign_id'] = $requested_campaign_id; 
+	$cash_admin->page_data['campaign_elements'] = $campaign_elements;
+	$cash_admin->page_data['campaign_id'] = $requested_campaign_id;
 
 	$cash_admin->page_data['ui_title'] = 'Create a page theme';
 	$cash_admin->setPageContentTemplate('campaigns_theme');

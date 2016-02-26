@@ -6,18 +6,18 @@ if (isset($_REQUEST['modalconfirm'])) {
 	if ($requested_campaign_id != 0) {
 		$current_response = $cash_admin->requestAndStore(
 			array(
-				'cash_request_type' => 'element', 
+				'cash_request_type' => 'element',
 				'cash_action' => 'getcampaign',
 				'id' => $requested_campaign_id
 			)
 		);
 		$campaign = $current_response['payload'];
 		$new_template = $campaign['template_id'];
-	} 
+	}
 
 	$settings_response = $cash_admin->requestAndStore(
 		array(
-			'cash_request_type' => 'system', 
+			'cash_request_type' => 'system',
 			'cash_action' => 'setsettings',
 			'type' => 'public_profile_template',
 			'value' => $new_template,
@@ -27,15 +27,15 @@ if (isset($_REQUEST['modalconfirm'])) {
 
 	if ($settings_response['payload']) {
 		if ($new_template == 0) {
-			AdminHelper::formSuccess('Success. You have unpublished all campaigns.','/');
+			AdminHelper::formSuccess('Success. You have unpublished all campaigns.','/yourpage/');
 		} else {
-			AdminHelper::formSuccess('Success. Campaign published.','/');
+			AdminHelper::formSuccess('Success. Campaign published.','/yourpage/');
 		}
 	} else {
-		AdminHelper::formFailure('Error. Something just didn\'t work right.','/');
+		AdminHelper::formFailure('Error. Something just didn\'t work right.','/yourpage/');
 	}
-	
+
 } else {
-	AdminHelper::controllerRedirect('/');
+	AdminHelper::controllerRedirect('/yourpage/');
 }
 ?>

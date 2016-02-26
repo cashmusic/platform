@@ -73,36 +73,6 @@ if (is_array($user_response['payload'])) {
 }
 
 
-
-// get news for the news feed
-$session_news = AdminHelper::getActivity($current_userdata);
-
-if (is_array($session_news['activity']['lists'])) {
-	foreach ($session_news['activity']['lists'] as &$list_stats) {
-		if ($list_stats['total'] == 1) {
-			$list_stats['singular'] = true;
-		} else {
-			$list_stats['singular'] = false;
-		}
-	}
-}
-
-//Any Notifications?
-$cash_admin->page_data['dashboard_active'] = $session_news['activity']['lists'] || $session_news['activity']['orders'];
-
-$cash_admin->page_data['dashboard_lists'] = $session_news['activity']['lists'];
-if ($session_news['activity']['orders']) {
-	$cash_admin->page_data['dashboard_orders'] = count($session_news['activity']['orders']);
-	if ($cash_admin->page_data['dashboard_orders'] == 1) {
-		$cash_admin->page_data['dashboard_orders_singular'] = true;
-	}
-} else {
-	$cash_admin->page_data['dashboard_orders'] = false;
-}
-
-
-
-
 // get page url
 if (SUBDOMAIN_USERNAMES) {
 	$cash_admin->page_data['user_page_uri'] = str_replace('https','http',rtrim(str_replace('admin', '', CASH_ADMIN_URL),'/'));
@@ -199,12 +169,7 @@ if ($total_campaigns) {
 			}
 			$cash_admin->page_data['campaigns_as_options'] .= '>' . $campaign['title'] . '</option>';
 
-			// normalize modification/creation dates
-			if ($campaign['modification_date'] == 0) {
-				$campaign['formatted_date'] = CASHSystem::formatTimeAgo($campaign['creation_date']);
-			} else {
-				$campaign['formatted_date'] = CASHSystem::formatTimeAgo($campaign['modification_date']);
-			}
+
 
 			if ($campaign['id'] == $current_campaign) {
 				// get campaign analytics
@@ -235,38 +200,6 @@ if ($total_campaigns) {
 	if ($campaigns_response['payload']) {
 		$cash_admin->page_data['campaigns_for_user'] = new ArrayIterator($campaigns_response['payload']);
 	}
-}
-
-
-
-// handle users migrated from beta
-$extra_elements = $total_elements - count($campaign_elements);
-if ($extra_elements !== 0) {
-	$cash_admin->page_data['show_archive'] = true;
-}
-
-
-
-// handle tour junk
-$settings_request = new CASHRequest(
-	array(
-		'cash_request_type' => 'system',
-		'cash_action' => 'getsettings',
-		'type' => 'tour',
-		'user_id' => $cash_admin->effective_user_id
-	)
-);
-if (!$settings_request->response['payload']) {
-	$settings_request = new CASHRequest(
-		array(
-			'cash_request_type' => 'system',
-			'cash_action' => 'setsettings',
-			'type' => 'tour',
-			'value' => 1,
-			'user_id' => $cash_admin->effective_user_id
-		)
-	);
-	$cash_admin->page_data['show_tour'] = true;
 }
 
 

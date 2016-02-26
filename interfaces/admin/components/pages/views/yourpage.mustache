@@ -1,22 +1,9 @@
-{{! corresponding files: mainpage.php & mainpage.json }}
-
-{{^has_campaigns}}
-<div id="learn_tip" style="display:block;" class="page-description display"><i class="icon icon-question marker"></i><!--marker-->If you have questions look for the help (<i class='icon icon-question'></i>) icon throughout to guide you.</div><!--learntip-->
-{{/has_campaigns}}
-
-{{#dashboard_lists}}
-	<div class="callout newsfeed people"><span class="details"><strong><div class="icon icon-list"></div><!--icon-->{{name}}:</strong> There {{#singular}}is{{/singular}}{{^singular}}are{{/singular}} <strong>{{total}}</strong> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}} on this list.</span> <span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><div class="icon icon-search"></div><!--icon-->View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><div class="icon icon-dwnld"></div><!--icon-->Export</a></span><div class="newsimage" style=""></div><!--newsimage--></div><!--newsfeed people-->
-{{/dashboard_lists}}
-{{#dashboard_orders}}
-	<div class="callout newsfeed commerce"><span class="details"><strong><div class="icon icon-cart"></div><!--icon-->New order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}!</strong> There {{#dashboard_orders_singular}}is{{/dashboard_orders_singular}}{{^dashboard_orders_singular}}are{{/dashboard_orders_singular}} <strong>{{dashboard_orders}}</strong> new order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}.</span><span class="action"><a href="{{www_path}}/commerce/"><div class="icon icon-search"></div><!--icon-->All new orders</a></span><div class="newsimage" style=""></div><!--newsimage--></div><!--newsfeed commerce-->
-{{/dashboard_orders}}
-
+{{! corresponding files: yourpage.php & yourpage.json }}
 
 <!-- /* Sub Nav */ -->
 <header>
 <div class="pure-u-1 pure-u-md-1-2">
-	<h4 class="page-title">Your page: <a target="_blank" href="http://{{user_page_display_uri}}"><span class="fadedtext">({{user_page_display_uri}})</span></a></h4>
-	<h5 class="page-subtitle"><span class="fadedtext">Current status:</span> Live</h5>
+	<h4 class="page-title">Your page: <span class="fadedtext">({{#show_published}}Live{{/show_published}}{{^show_published}}Unpublished{{/show_published}})</span></h4>
 </div><!--pure-->
 
 <div class="pure-u-1 pure-u-md-1-2">
@@ -28,216 +15,59 @@
 </div><!--pure-->
 </header>
 
-<!--/* Campaigns */-->
-<div id="campaigns" class="{{#dashboard_active}}notifications{{/dashboard_active}}">
-{{#has_campaigns}}
-<div class="pure-u-1">
-	<div class="selecta">
-		<form accept-charset="UTF-8" method="post" action="{{www_path}}/">
-			<label for="current-campaign">{{label_selected_campaign}}</label>
-			<select name="current-campaign" id="current-campaign">
-			{{{campaigns_as_options}}}
-			</select>
-		</form>
-	</div><!--selecta-->
-</div><!--pure-->
-{{/has_campaigns}}
-
-{{#selected_campaign}}
-<div class="campaign pure-u-1  pure-u-md-7-12">
-
-		<canvas id="cnvs" data-seed="{{creation_date}}" width="2000" height="398"></canvas>
-		<div class="campaign-inner">
-		<h2>{{title}}</h2>
-		<h3>{{description}}</h3>
-			<div class="stats">
-				<h4>{{copy_total_campaign_views}}</h4>
-				<h5 class="totalviews">{{formatted_views}}</h5>
-				<!--h5 class="percentage"><div class="icon icon-lg-arw"></div>&#37;</h5-->
-			</div><!--stats-->
-			<div class="actions">
-				<div class="toggle"><div class="icon icon-pencil"></div><!--icon--></div><!--toggle-->
-				<div class="action-inner">
-					{{^show_wizard}}
-					<a href="{{www_path}}/elements/templates/edit/{{template_id}}/page/parent/{{id}}" class="lightboxed page-editor">{{copy_page_theme}}</a>
-					{{/show_wizard}}
-					{{#show_wizard}}
-					<a href="{{www_path}}/campaigns/theme/{{id}}" class="lightboxed">{{copy_page_theme}}</a>
-					{{/show_wizard}}
-					<a href="{{www_path}}/campaigns/edit/{{id}}" class="lightboxed">{{copy_edit}}</a>
-					<a href="{{www_path}}/campaigns/delete/{{id}}" class="needsconfirmation delete">{{copy_delete}}</a>
-				</div><!--action-inner-->
-			</div><!--actions-->
-
-		</div><!--campaign-inner-->
-		<footer><!--p>Created <span>&#124;</span> {{formatted_date}}</p--><p>Updated <span>&#124;</span> {{formatted_date}}</p></footer>
-</div><!--campaign pure-->
-<div class="associated pure-u-1 pure-u-md-5-12">
-	<h4><span class="hl-num {{^has_elements}}zero{{/has_elements}}">{{element_count}}</span>{{copy_associated_elements}}</h4>
-	<a class="add lightboxed store" href="{{www_path}}/elements/add/"><i class="icon icon-circle-plus"></i>{{copy_element_add}}</a>
-
-	<div class="elements">
-		{{#elements_for_campaign}}
-		<ul class="alternating">
-			{{#elements_for_campaign}}
-			<li>
-			<a class="primary" href="{{www_path}}/elements/edit/{{id}}">
-			<span class="element-title">{{name}}</span>
-			<span class="descriptive spaced fadedtext">{{type}}</span></a>
-			<a class="ql copy" title="Copy quick embed code" data-clipboard-text="&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;" ><div class="icon icon-share"></div><!--icon--></a>
-				<div class="more"><div class="toggle"></div><!--toggle-->
-					<div class="actions">
-						<div class="action-inner">
-							<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><div class="icon icon-pencil"></div><!--icon--> {{copy_edit}}</a>
-							<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation delete"><div class="icon icon-ban"></div><!--icon--> {{copy_delete}}</a>
-						</div><!--action-inner-->
-					</div><!--actions-->
-				</div><!--more-->
-			</li>
-			{{/elements_for_campaign}}
-		</ul>
-		{{/elements_for_campaign}}
-		{{^isarchive}}
-			{{^elements_for_campaign}}
-			<a href="{{www_path}}/elements/add/" class="noelement store lightboxed">
-			<div class="icon icon-plus"></div><!--icon-->
-				<p>{{copy_add_element_to_start}}</p>
-			</a><!--noelement-->
-			{{/elements_for_campaign}}
-		{{/isarchive}}
-	</div><!--elements-->
-</div><!--associated-->
-{{/selected_campaign}}
-
-{{^has_campaigns}}
-<div class="pure-u-1">
-	<div class="alt callout">
-		<div class="callout-inner">
-			<h2>{{copy_time_to_add_campaign}}</h2>
-			<a class="button lightboxed" href="{{www_path}}/campaigns/add/">{{copy_add_campaign}}</a>
-		</div><!--callout-inner-->
-	</div><!--callout-->
-</div><!--pure-->
-{{/has_campaigns}}
-
-
-{{#has_campaigns}}
-<a class="button lightboxed" href="{{www_path}}/campaigns/add/">{{copy_add_campaign}}</a>
-{{/has_campaigns}}
-
-{{#show_archive}}
-	<p>{{copy_there_are_archived_elements}}<a href="{{www_path}}/campaigns/archive/">{{copy_view_archive}}</a></p>
-{{/show_archive}}
-</div><!--campaigns-->
-
+<div class="yourpage">
 {{#show_published}}
-<div class="published">
-	<div class="info">
-		<p class="fadedtext">{{copy_public_page}}</p>
-		<h4><a class="url-link" href="{{user_page_uri}}" target="_blank">{{user_page_display_uri}}</a></h4>
-		<div class="touchpoints">
-			<div class="toggle"><div class="icon icon-pencil"></div><!--icon--></div><!--toggle-->
-			<a href="{{www_path}}/campaigns/publish/0" data-template="unpublish" class="link needsconfirmation unpublish">Unpublish</a>
-			<div id="settings" class="link settings toggle">{{copy_change_username}}</div>
-		</div><!--touchpoints-->
-	</div><!--info-->
-</div><!--published-->
+	<div class="pure-u-1">
+		<h4><span>{{copy_public_page}}</span><a class="url-link" href="{{user_page_uri}}" target="_blank">{{user_page_display_uri}}</a><a id="settings" class="button edit settings toggle"><div class="icon icon-pencil"></div><!--icon--></a></h4>
+	</div>
 {{/show_published}}
 
 {{^show_published}}
-<!--div class="published"><h4 class="fadedtext">{{copy_public_not_live}}</h4><p class="fadedtext">{{copy_select_campaign}}</p></div-->
+<h5 class="fadedtext">{{copy_public_not_live}}</h5><p class="fadedtext">{{copy_select_campaign}}</p>
 {{/show_published}}
 
-{{#show_tour}}
-<!--div class="modalbg">&nbsp;</div>
-<div class="modallightbox">
-<h1>{{copy_hello_new}}</h1>
-<div class="pure-u-1">
-<p>{{copy_how_platform_works_1}}<a class="settings hlt">{{copy_how_platform_works_2}}</a>{{copy_how_platform_works_3}}</p>
-<a class="button fullwidth modalskip">{{copy_ok_got_it}}</a>
+{{#show_published}}
+	<div class="material">
+		<div class="pure-u-1 pure-u-md-1-2">
+		<a href="{{user_page_uri}}" target="_blank"><div class="preview-header"><span></span><span></span><span></span></div><!--preview-header-->
+		<div class="preview-wrap"><iframe id="preview" src="http://{{user_page_display_uri}}"></iframe></div><!--preview-wrap--></a>
+		</div><!--pure-->
+		<div class="pure-u-1 pure-u-md-1-2">
+		<h5>{{copy_publish_a_campaign}}</h5>
+		<p>
+			{{copy_publish_campaign_info}}
+		</p>
+		<div class="selecta">
+			<label for="current-published-campaign">{{copy_published}}</label>
+			<select id="current-published-campaign">
+				<option data-path="{{www_path}}/campaigns/publish/0" data-template="unpublish" value="0">{{copy_unpublish_all}}</option>
+				{{#campaigns_for_user}}
+					<option data-path="{{www_path}}/campaigns/publish/{{id}}" {{#currently_published}}selected="selected"{{/currently_published}} data-template="{{template_id}}" value="{{title}}">{{title}}</option>
+				{{/campaigns_for_user}}
+			</select>
+		</div><!--selecta-->
+		<div class="pure-u-1">
+		<h5>Total page views</h5>
+		<h4 class="number">14k</h4>
+		</div>
+	</div>
 </div>
-</div><!--modallightbox-->
-<a id="firstusewelcome" href="{{www_path}}/welcome" class="lightboxed closepanel"></a>
-<script type="text/javascript">
-	$( document ).ready(function() {
-		$('#firstusewelcome').trigger('click');
-	});
-</script>
-{{/show_tour}}
-
-{{#has_campaigns}}
-<div class="drawer prefpanel">
-<div class="itemnav pure-u-1">
-	<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>{{copy_publish_settings}}</span></h4>
-	<div class="drawercontent">
-		<div class="pure-u-1 pure-u-md-1-2">
-			<div class="pref-inner">
-				<h5>{{copy_publish_a_campaign}}</h5>
-				<p>
-					{{copy_publish_campaign_info}}
-				</p>
-				<div class="selecta">
-					<label for="current-published-campaign">{{copy_published}}</label>
-					<select id="current-published-campaign">
-						<option data-path="{{www_path}}/campaigns/publish/0" data-template="unpublish" value="0">{{copy_unpublish_all}}</option>
-						{{#campaigns_for_user}}
-  						<option data-path="{{www_path}}/campaigns/publish/{{id}}" {{#currently_published}}selected="selected"{{/currently_published}} data-template="{{template_id}}" value="{{title}}">{{title}}</option>
-						{{/campaigns_for_user}}
-					</select>
-				</div><!--selecta-->
-			</div><!--pref-inner-->
-		</div><!--pure-->
+<div class="section pure-u-1">
+<a href="{{www_path}}/campaigns/publish/0" data-template="unpublish" class="button link needsconfirmation unpublish">Unpublish</a>
+<a href="{{www_path}}/elements/templates/edit/{{template_id}}/page/parent/{{id}}" class="lightboxed button page-editor">{{copy_page_theme}}</a>
+</div>
+{{/show_published}}
 
 
-		{{#has_elements}}
-		<div class="pure-u-1 pure-u-md-1-2">
-			<div class="pref-inner">
-				<h5>{{copy_embed_element}}</h5>
-					<p>{{copy_embed_info_1}}<i class="ql inline icon icon-share"></i><!--icon--> {{copy_embed_info_2}}</p>
-			</div><!--pref-inner-->
-		</div><!--pure-->
-		{{/has_elements}}
-
-		{{^has_elements}}
-		<div class="pure-u-1 pure-u-md-1-2">
-			<div class="pref-inner">
-				<h5>{{copy_embed_element}}</h5>
-				<p>{{copy_no_elements}}</p>
-			</div><!--pref-inner-->
-		</div><!--pure-->
-		{{/has_elements}}
-	</div><!--drawercontent-->
-</div><!--itemnav-->
-</div><!--drawer-->
-{{/has_campaigns}}
-
-{{^has_campaigns}}
-<div class="drawer prefpanel pure-u-1">
-	<div class="itemnav pure-u-1">
-	<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>Publish Settings</span></h4>
-	<div class="drawercontent">
-		<div class="pure-u-1 pure-u-md-1-2">
-			<div class="pref-inner">
-				<h5>{{copy_publish_a_campaign}}</h5>
-				<p>
-					{{copy_publish_campaign_info}}
-				</p>
-				<!--<a href="{{www_path}}/campaigns/publish" class="button lightboxed">{{copy_publish_a_campaign}}</a>-->
-					<div class="selecta comingsoon">
-						<label for="current-campaign">{{copy_published}}</label>
-						<select id="current-campaign">
-  							<option value="{{title}}">{{copy_no_campaign}}</option>
-						</select>
-					</div><!--selecta-->
-			</div><!--pref-inner-->
-		</div><!--pure-->
-		<div class="pure-u-1 pure-u-md-1-2">
-			<div class="pref-inner">
-				<h5>{{copy_embed_element}}</h5>
-				<p>{{copy_no_elements_add_campaign_1}}<a class="lightboxed" href="{{www_path}}/campaigns/add/">{{copy_no_elements_add_campaign_2}}</a>{{copy_no_elements_add_campaign_3}}</p>
-			</div><!--pref-inner-->
-		</div><!--pure-->
-	</div><!--drawercontent-->
-	</div><!--itemnav-->
-</div><!--drawer-->
-{{/has_campaigns}}
+{{^show_published}}
+<div class="material">
+	{{copy_publish_campaign_info}}
+<label for="current-published-campaign">{{copy_published}}</label>
+<select id="current-published-campaign">
+	<option data-path="{{www_path}}/campaigns/publish/0" data-template="unpublish" value="0">{{copy_unpublish_all}}</option>
+	{{#campaigns_for_user}}
+		<option data-path="{{www_path}}/campaigns/publish/{{id}}" {{#currently_published}}selected="selected"{{/currently_published}} data-template="{{template_id}}" value="{{title}}">{{title}}</option>
+	{{/campaigns_for_user}}
+</select>
+</div>
+{{/show_published}}

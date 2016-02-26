@@ -6,5 +6,7 @@
             "description":"Description"
             },
 	"tooltips":{},
-	"copy":{}
+	"copy":{
+		"delete_campaign":"Delete Campaign"
+	}
 }

@@ -8,7 +8,7 @@ class AdminBasicIntegration extends UnitTestCase {
 	private $cash_user_id=1;
 	private $cash_user_login='dev@cashmusic.org';
 	private $cash_user_password='dev';
-	
+
 	public function __construct() {
 		$this->cc = new cURL();
 		$this->cash_test_url = getTestEnv('CASHMUSIC_TEST_URL');
@@ -29,7 +29,7 @@ class AdminBasicIntegration extends UnitTestCase {
 			} else {
 				$user_add_request = new CASHRequest(
 					array(
-						'cash_request_type' => 'system', 
+						'cash_request_type' => 'system',
 						'cash_action' => 'addlogin',
 						'address' => $this->cash_user_login,
 						'password' => $this->cash_user_password,
@@ -40,13 +40,13 @@ class AdminBasicIntegration extends UnitTestCase {
 			}
 		}
     }
-	
+
 	public function testLogin() {
 		if ($this->cash_test_url) {
 			// make sure we get the login page
 			$src = $this->cc->get($this->cash_test_url . '/admin/');
 			$this->assertPattern('/<input type="email" name="address" value="" \/>/', $src);
-		
+
 			// look for an incorrect login
 			$src = $this->cc->post(
 				$this->cash_test_url . '/admin/',
@@ -57,7 +57,7 @@ class AdminBasicIntegration extends UnitTestCase {
 				))
 			);
 			$this->assertPattern('/<input type="email" name="address" value="" \/>/', $src); // not seeing main page
-		
+
 			// now try a good login
 			$src = $this->cc->post(
 				$this->cash_test_url . '/admin/',
