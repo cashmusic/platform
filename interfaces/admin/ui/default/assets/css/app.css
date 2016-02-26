@@ -222,13 +222,26 @@ a.revealpassword {
 
 #pagedisplay{
 	height:100%;
+	min-height:100vh;
 	background: #e3e3e3;
 	margin:1%;
 	padding:10px;
 	position: relative;
-	-webkit-transition: 0.3s  linear;
-	-moz-transition: 0.3s  linear;
-	transition: 0.3s linear;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	transition: 0.3s ease-in-out;
+}
+
+#page_content{
+	opacity: 1;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	transition: 0.3s ease-in-out;
+}
+
+#page_content.loading{
+		opacity:0;
+		pointer-events: none;
 }
 
 #mainspc .grid{
@@ -1012,7 +1025,7 @@ div.switchblock div.show {display:block;}
 	background:#111;
 	width:100%;
 	overflow:hidden;
-	padding:20px;
+	padding:0;
 	margin:0;
 	z-index:2;
 	background:rgba(17,17,17,0.97) url(../images/header_bg.jpg);
@@ -1043,14 +1056,15 @@ div.switchblock div.show {display:block;}
 
 .panel #header #logo{
 	width:100%;
-	margin:20% auto 0 auto;
+	padding:25%;
+	margin:5% auto 0 auto;
 }
 
 #header #logo a{
 	position:relative;
 	z-index: 3;
 	display:block;
-	padding:10px 0;
+	padding:0;
 }
 
 .panel #header #logo a{
@@ -1064,7 +1078,7 @@ div.switchblock div.show {display:block;}
 }
 
 #header #logo a img{
-	padding:8px;
+	padding:0;
 	margin:0 0 0 0;
 	color: #fff;
 	opacity:1;
@@ -1501,7 +1515,7 @@ section[role=main].hero{
 	height:37px;
 	line-height: 0px;
 	display: inline-block;
-	margin:1px;
+	margin:1px 3px 1px 1px;
 }
 
 .panel #touchpoints{
@@ -1752,24 +1766,23 @@ section[role=main].hero{
 }
 
 #tertiary .inner h1.paneltitle {
-	margin:0 0 30px 0;
+	margin:-30px -30px 30px -30px;
 	font-weight: 700;
 	background:#ededed;
-	-webkit-border-radius: 3px;
+	/*-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
-	border-radius: 3px;
-	padding:10px;
+	border-radius: 3px;*/
+	padding:40px 30px;
 }
 
 #tertiary .inner h1.paneltitle .icon{
-	font-size:25px;
+	font-size:20px;
 	color:#222;
-	margin:3px 20px 0 0;
+	margin:3px 5px 0 0;
 	vertical-align: top;
 }
 
 #tertiary .inner  h1.paneltitle:hover {
-	color:#111;
 	cursor: pointer;
 }
 
@@ -1796,6 +1809,7 @@ section[role=main].hero{
 
 .tertiarynav li a:hover, .tertiarynav li a.current{
 	background:#333!important;
+	cursor: pointer;
 }
 
 .tertiarynav li a i{
@@ -1805,6 +1819,64 @@ section[role=main].hero{
 .learn #learnpanel.loading, .help #helppanel.loading, .settings #settingspanel.loading{
 	opacity:0;
 	visibility: hidden;
+}
+
+/* Tertiary close button */
+
+
+#tertiary .close-panel{
+	-ms-transfrom:rotate(45deg);
+	-webkit-transform:rotate(45deg);
+	transform:rotate(45deg);
+}
+
+#tertiary .close-panel:hover, #tertiary .paneltitle:hover .close-panel{
+	-webkit-animation: modalrotate ease-in-out 0.8s;
+    -moz-animation: modalrotate ease-in-out 0.8s;
+    animation: modalrotate ease-in-out  0.8s;
+}
+
+#tertiary .close-panel{
+	/*position: absolute;
+	right:40px;*/
+	display: inline-block;
+	text-align: center;
+	margin:0;
+	padding:0px;
+	width:40px;
+	height:40px;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	transition:0.3s ease-in-out;
+	-webkit-border-radius: 50px;
+	-moz-border-radius: 50px;
+	border-radius: 50px;
+	background:#ddd;
+	border: 1px solid #eee;
+}
+
+#tertiary .inner h1.paneltitle .close-panel .icon{
+	color:#222;
+	margin:2px;
+	padding:0;
+	font-size: 15px;
+}
+
+#tertiary .inner h1.paneltitle:hover{
+	background:#222;
+	color:#f5f5f5;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	transition:0.3s ease-in-out;
+}
+
+#tertiary .inner h1.paneltitle:hover .icon{
+	color:#f5f5f5;
+}
+
+#tertiary .inner h1.paneltitle:hover .close-panel{
+	background:#121212;
+	border-color:#111;
 }
 
 /* Page View Sub Navigation */
@@ -2377,7 +2449,7 @@ color:#fff!important;
 
 
 #navmenu ul li a{
-	padding:18px 15% 18px 15%;
+	padding:18px 30px 18px 30px;
 	text-decoration: none;
 	border-bottom:solid 1px #333;
 	display:block;
@@ -2452,7 +2524,7 @@ color:#fff!important;
 #navmenu .current .subnavmenu ul li a{
 	background:#121212;
 	color:#f5f5f5;
-	padding:16px 16%;
+	padding:16px 55px;
 }
 
 
@@ -4522,7 +4594,7 @@ label.checklabel{
 
 .tour .logo{
 	display:inline-block;
-	width:15%;
+	width:65px;
 	margin:20px 30px 30px 0;
 }
 
@@ -6239,9 +6311,12 @@ section[role=main].hero, .login section[role=main]{ margin:400px 0 0 0; }
 #header #logo{
 	opacity:1;
 	margin:0 auto;
-	padding:10px 0 0 0;
-	width:26%;
+	padding:20px 0 0 0;
 	float:none;
+}
+
+#header #logo a{
+	padding:10px;
 }
 
 #header span{
@@ -6424,7 +6499,7 @@ button, .button, #modallightbox .modalcancel{
 	padding:0;
 }
 
-#navmenu ul li a{ padding:18px 12% 18px 12%; }
+#navmenu ul li a{ padding:18px 40px 18px 40px }
 
 /* Mobile Gestures */
 .swipeleft #navmenu{
@@ -6447,7 +6522,7 @@ button, .button, #modallightbox .modalcancel{
 
 .panel #navmenu ul li i{ float:left; }
 
-.panel #navmenu ul li a { padding: 15px 11%; }
+.panel #navmenu ul li a { padding: 18px 11%; }
 
 .panel #navmenu .current .subnavmenu ul li a{
 	padding:15px 11%;
@@ -6708,14 +6783,12 @@ td{display:table-cell; vertical-align: inherit;}
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 374px) {
 
-#header{padding:15px 0 10px 0;}
-
 #header #logo a {
 	padding:0;
 }
 
 #navmenu ul li a {
-	padding: 13px 15% 13px 15%;
+	padding: 13px 30px 13px 30px;
 }
 
 }
@@ -6750,14 +6823,12 @@ td{display:table-cell; vertical-align: inherit;}
 
 .typemarker{ top:120px; }
 
-#header{ padding:15px 10px; }
-
 #header #logo{
-	height:100%;
-	width:25%;
+	width:80px;
 	display: inline-block;
 	float:right;
-	padding:0;
+	padding:18px 0;
+	margin:0 20px 0 0;
 }
 
 #ajaxloading{
@@ -6799,8 +6870,8 @@ section[role=main]{ padding:0; }
 
 #touchpoints{
 	display:inline-block;
-	margin:33px 0 0 10px;
-	width:70%;
+	margin:40px 0 0 30px;
+	width:55%;
 }
 
 #touchpoints ul{ text-align: left; }

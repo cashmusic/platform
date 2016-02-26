@@ -105,8 +105,15 @@ jQuery.fn.extend({
    */
    function redrawPage(data) {
       // change the color
-      $('#mainspc, #pagetitle, #page').removeClass();
-      $('#mainspc, #page').addClass(data.specialcolor);
+      if ($('#page').hasClass('panel')){
+          $('#mainspc, #pagetitle, #page').removeClass (function (index, css) {
+            return (css.match (/(^|\s)usecolor\S+/g) || []).join(' ');
+          });
+          $('#mainspc, #page').addClass(data.specialcolor);
+      } else {
+        $('#mainspc, #pagetitle, #page').removeClass();
+          $('#mainspc, #page').addClass(data.specialcolor);
+      }
 
       // nav
       redrawMainNav(data.section_name);
@@ -126,7 +133,7 @@ jQuery.fn.extend({
       } else {
          $('#learn_tip').css('display','none');
       }
-      $('#learn_text').html(data.ui_learn_text);
+      $('.panelcontent').html(data.ui_learn_text);
       $('#page_content').html(data.content);
       $('#pagetitle span').html(data.ui_title);
 
@@ -182,9 +189,8 @@ jQuery.fn.extend({
                   if (!skiphistory) {history.pushState(1, null, url);}
                   setContentBehaviors();
                }
-               //$('#ajaxloading').hide();
-               $('#ajaxloading, #logo, #hero, #learnpanel, #settingspanel, #helppanel').removeClass('loading');
-               $('#pagedisplay').fadeTo(200,1);
+
+               $('#page_content, #ajaxloading, #logo, #hero, #learnpanel, #settingspanel, #helppanel').removeClass('loading');
             }
          },
          error: function(obj,status,errorThrown) {
@@ -216,15 +222,13 @@ jQuery.fn.extend({
          $('.modalbg').remove();
       });
 
-      // close panel
-      closePanel();
+      // close panel * if settings open *
+      if ($("body").hasClass('settings')){
+         closePanel();
+      }
 
-      // fade out
-      //$('#ajaxloading').show();
-      $('#ajaxloading, #logo, #hero, #learnpanel, #settingspanel, #helppanel').addClass('loading');
-      $('#pagedisplay').fadeTo(100,0.2, function() {
-         doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
-      });
+      $('#page_content, #ajaxloading, #logo, #hero, #learnpanel, #settingspanel, #helppanel').addClass('loading');
+      doPersistentPost(url,formdata,showerror,showmessage,skiphistory);
    }
 
    /**
@@ -243,8 +247,11 @@ jQuery.fn.extend({
    *
    */
    function setContentBehaviors() {
-      // close tertiary panel
-      closePanel();
+      // close tertiary panel *if settings open*
+
+      if ($("body").hasClass('settings')){
+        closePanel();
+      };
 
       // show/hide drawers
       prepDrawers('<div class="icon icon-arw-up"></div><!--icon-->Hide','<div class="icon icon-arw-dwn"></div><!--icon-->Show');
@@ -469,26 +476,40 @@ jQuery.fn.extend({
          closePanel();
       });
 
-      $(document).on('click', '#learn.toggle, #learnpanel .toggle', function (e) {
-         $('body').removeClass('help').removeClass('settings');
-         $ (this).parents('body').addClass('panel').addClass('learn');
-      });
+      /* Settings Panel */
       $(document).on('click', '#settings.toggle, #settingspanel .toggle, .settings.toggle', function (e) {
          $('body').removeClass('help').removeClass('learn');
          $ (this).parents('body').addClass('panel').addClass('settings');
-
          $('#settingspanel .tertiarynav li a').removeClass('current');
          refreshPanelData(cashAdminPath + '/account/');
          $('#settingspanel .tertiarynav li a:first').addClass('current');
       });
+      /* Help Panel */
       $(document).on('click', '#help.toggle, #helppanel .toggle', function (e) {
          $('body').removeClass('settings').removeClass('learn');
          $ (this).parents('body').addClass('panel').addClass('help');
-
          $('#helppanel .tertiarynav li a').removeClass('current');
-         refreshPanelData(cashAdminPath + '/help/');
          $('#helppanel .tertiarynav li a:first').addClass('current');
       });
+      /* Help FAQs Panel */
+      $(document).on('click', '#helppanel .tertiarynav li .faqs', function(e) {
+         $('body').removeClass('settings').removeClass('learn');
+         $('#helppanel .tertiarynav li a').removeClass('current');
+         refreshPanelData(cashAdminPath + '/help/');
+         $(this).addClass('current');
+      });
+      /* Help - FAQ Clicks */
+      $(document).on('click', '#helppanel .faq', function(e) {
+         $('#helppanel .tertiarynav li .faqs').addClass('current');
+      });
+      /* Help - Learn Content */
+      $(document).on('click', '#helppanel .tertiarynav li .learn', function(e) {
+         $ (this).parents('body').addClass('learn')
+         $('#helppanel .tertiarynav li a').removeClass('current');
+         refreshPanelData();
+         $(this).addClass('current');
+      });
+
 
       // swipe hint hide on click
       $(document).on('click', '.swipehint', function (e) {
@@ -510,7 +531,9 @@ jQuery.fn.extend({
 
    function refreshPanelData(url){
       $.post(url, 'data_only=1', function(data) {
-         if ($('body').hasClass('help')) {
+         if ($('body').hasClass('learn')) {
+           $('.panelcontent').html($(data.ui_learn_text));
+         } else if ($('body').hasClass('help')) {
             $('#helppanel .panelcontent').html($(data.content));
          } else if ($('body').hasClass('settings')) {
             $('#settingspanel .panelcontent').html($(data.content));
