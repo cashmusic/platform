@@ -224,8 +224,6 @@ class PaypalSeed extends SeedBase
         if (empty($this->experience_id))
             $this->experience_id = $this->customizeCheckoutFlow();
 
-        error_log("###".$this->experience_id);
-
         $payment = new Payment();
         $payment->setIntent($payment_type)
             ->setPayer($payer)

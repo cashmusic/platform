@@ -16,13 +16,15 @@
 			"account":"string",
 			"client_id":"string",
 			"secret":"string",
-			"sandboxed":"bool"	
+			"sandboxed":"bool",
+			"experience_id":"string"
 		},
 		"multi": {
 			"account":"string",
 			"client_id":"string",
 			"secret":"string",
-			"sandboxed":"bool"	
+			"sandboxed":"bool",
+			"experience_id":"string"
 		}
 	}
 }
