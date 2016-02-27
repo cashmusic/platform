@@ -1,15 +1,12 @@
 {{! corresponding files: commerce_items.php & commerce_items.json }}
 
-	<header>
-	<h4>{{_inventory}}</h4>
-	</header>
 	<div class="pure-u-1 pure-u-md-2-3">
 		{{#items_all}}
 		<ul class="commerce alternating">
 			{{#items_all}}
 			<li>
 				<div class="item">
-					
+
 					<div class="assetlink {{#physical_fulfillment}}physical{{/physical_fulfillment}}">
 						<div class="icon {{#fulfillment_asset}}icon-{{#release_asset}}record{{/release_asset}}{{^release_asset}}file-block{{/release_asset}}{{/fulfillment_asset}}{{^fulfillment_asset}}icon-warning{{/fulfillment_asset}} "></div><!--icon-->
 						{{#physical_fulfillment}}<div class="physical icon icon-truck"></div><!--icon-->{{/physical_fulfillment}}
@@ -52,18 +49,16 @@
 		</div><!--empty-->
 		{{/items_all}}
 
-		{{#show_pagination}}	
+		{{#show_pagination}}
 			<footer>
-				
+
 				<div class="left pagination"><a class="prev" href="/">{{copy_previous}}</a><span>/</span><a class="next active" href="/">{{copy_next}}</a></div><!--pagination-->
 			</footer>
 		{{/show_pagination}}
 	</div><!--pure-->
 	<div class="pure-u-1 pure-u-md-1-3">
-	<h3 class="side-title">{{copy_inventory_items}}</h3>
+	<h4 class="side-title">{{copy_inventory_items}}</h4>
 	<p>{{copy_inventory_items_needed}}</p>
 	<p>{{copy_an_item_can_be}}</p>
 	<a href="{{www_path}}/commerce/items/add" class="button fullwidth lightboxed">{{copy_button_add_item}}</a>
 	</div><!--pure-->
-
-
