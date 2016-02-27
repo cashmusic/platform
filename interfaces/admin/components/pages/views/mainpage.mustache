@@ -6,7 +6,7 @@
 
 
 <!-- /* Sub Nav */ -->
-<header>
+<header class="page-header">
 <div class="pure-u-1 pure-u-md-1-2">
 <h4 class="page-title">Activity Feed</h4>
 <h5 class="page-subtitle">Since you’ve been gone <span>(last logged in 25th, Dec, 2015)</span></h5>
@@ -23,70 +23,18 @@
 <!--/* Activity */ -->
 
 <div id="activity" class="pure-u-1">
-	<div class="material notification alert"><p><span class="icon icon-warn"></span> Alert!: something intense!</p></div><!--alert-->
 
-	<div class="material">
+
+	{{^firstuse}}
+			<div class="material"><h3>Welcome to your new activity feed!</h3><p>As you can see we've had a bit of a reshuffle. This is where you'll get an overview of what's happening with your embeds, page, lists and sales and downloads. This is just the begining but it's all part of us making the CASH tools easier to understand and use!</p><h5>Have fun!</h5></div><!--material-->
+	{{/firstuse}}
+
+	<a href="/" class="material notification alert"><p><span class="icon icon-warn"></span> <strong>Alert!</strong> -  Something intense that you should pay attention to.</p></a><!--alert-->
+
+	<div class="material lrg">
 		<div class="pure-u-1 pure-u-md-2-3">
 				<h5>Page views <span class="fadedtext">(last 22 days)<span></h5>
 
-				<div class="graph bar-chart">
-					<div class="values">
-						<div class="y-axis pure-u-1-12">
-							<h6>100</h6>
-							<h6>50</h6>
-							<h6>0</h6>
-						</div><!--y-axis-->
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-							<div class="value pure-u-1-24"><span class="bar"></span></div>
-						</div><!--values-->
-
-						<div class="x-axis pure-u-1">
-							<h6 class="pure-u-1-12"></h6>
-							<h6 class="pure-u-1-24">M</h6>
-							<h6 class="pure-u-1-24">T</h6>
-							<h6 class="pure-u-1-24">W</h6>
-							<h6 class="pure-u-1-24">T</h6>
-							<h6 class="pure-u-1-24">F</h6>
-							<h6 class="pure-u-1-24">S</h6>
-							<h6 class="pure-u-1-24">S</h6>
-							<h6 class="pure-u-1-24">M</h6>
-							<h6 class="pure-u-1-24">T</h6>
-							<h6 class="pure-u-1-24">W</h6>
-							<h6 class="pure-u-1-24">T</h6>
-							<h6 class="pure-u-1-24">F</h6>
-							<h6 class="pure-u-1-24">S</h6>
-							<h6 class="pure-u-1-24">S</h6>
-							<h6 class="pure-u-1-24">M</h6>
-							<h6 class="pure-u-1-24">T</h6>
-							<h6 class="pure-u-1-24">W</h6>
-							<h6 class="pure-u-1-24">T</h6>
-							<h6 class="pure-u-1-24">F</h6>
-							<h6 class="pure-u-1-24">S</h6>
-							<h6 class="pure-u-1-24">S</h6>
-							<h6 class="pure-u-1-24">M</h6>
-						</div><!--x-axis-->
-
-				</div><!--graph-->
 			</div><!--pure-->
 			<div class="pure-u-1 pure-u-md-1-3 l-box">
 				<h5>Insights</h5>
@@ -95,43 +43,75 @@
 			</div>
 	</div><!--material-->
 
-
 	{{^dashboard_orders}}
 	<!--div class="callout newsfeed commerce"><span class="details"><strong><div class="icon icon-cart"></div>New order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}!</strong> There {{#dashboard_orders_singular}}is{{/dashboard_orders_singular}}{{^dashboard_orders_singular}}are{{/dashboard_orders_singular}} <strong>{{dashboard_orders}}</strong> new order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}.</span><span class="action"><a href="{{www_path}}/commerce/"><div class="icon icon-search"></div>All new orders</a></span><div class="newsimage" style=""></div></div>-->
 
 	<div class="material usecolor4">
 		<div class="initial">
 		<div class="pure-u-1 pure-u-md-1-4">
-			<div class="inner"><h5>New orders</h5><h4 class="number">{{dashboard_orders}}</h4></div></div>
+			<div class="inner"><h5>New orders</h5><h4 class="number">20{{dashboard_orders}}</h4></div></div>
 		<div class="pure-u-1 pure-u-md-1-4 vertical-breaker">
-			<div class="inner"><h5>Unfulfilled orders</h5><h4 class="number">{{dashboard_orders_unfulfilled}}</h4></div></div><div class="pure-u-1 pure-u-md-1-4 vertical-breaker"><div class="inner"><h5>Total amount earned</h5><h4 class="number">$300.00</h4></div></div>
-			<a href="{{www_path}}/commerce/" class="alt-button feed">All new orders</a></div>
+			<div class="inner"><h5>Unfulfilled orders</h5><h4 class="number">13{{dashboard_orders_unfulfilled}}</h4></div></div><div class="pure-u-1 pure-u-md-1-4 vertical-breaker"><div class="inner"><h5>Total amount earned</h5><h4 class="number">$300.00</h4></div></div>
+			<div class="pure-u-1 pure-u-md-1-4"><a href="{{www_path}}/commerce/" class="alt-button feed">All new orders</a></div></div>
 	</div>
 
-	<a class="pure-u-1 notification material usecolor4" href="{{www_path}}/commerce/items/"><p><span class="icon icon-card"></span><strong>Sellin’ like hotcakes!</strong> - You've sold <span class="number">8</span> of <strong>‘My album’</strong> in the last week, it is currently your best selling item.</p><div class="notification-marker icon icon-chevron"></div></a>
+	<a class="pure-u-1 notification material usecolor4" href="{{www_path}}/commerce/items/"><p><span class="icon icon-card"></span><strong>Sellin’ like hotcakes!</strong> - You've recieved <span class="number">8</span> orders of <strong>‘My album’</strong> in the last week, it's your best selling item.</p><div class="notification-marker icon icon-chevron"></div></a>
 	{{/dashboard_orders}}
 
 	{{^dashboard_lists}}
 		<!--div class="callout newsfeed people"><span class="details"><strong><div class="icon icon-list"></div>{{name}}:</strong> There {{#singular}}is{{/singular}}{{^singular}}are{{/singular}} <strong>{{total}}</strong> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}} on this list.</span> <span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><div class="icon icon-search"></div>View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><div class="icon icon-dwnld"></div>Export</a></span><div class="newsimage" style=""></div></div -->
 	<div class="material usecolor3">
 			<div class="initial">
-				<div class="pure-u-1 pure-u-md-1-3">
-					<div class="inner"><h5>{{copy_total_new_subscribers}}</h5><h4 class="number">{{total}}</h4></div>
+				<div class="pure-u-1 pure-u-md-1-4">
+					<div class="inner"><h5>{{copy_total_new_subscribers}}</h5><h4 class="number">200{{total}}</h4></div>
 				</div>
 				<!--div class="pure-u-1 pure-u-md-1-3">
 					<div class="inner"><h5>Subscriber activity (last 7 days)</h5>graph</div>
 				</div-->
-					<div class="pure-u-1 pure-u-md-1-3"><div class="inner"><h5>Popular Lists</h5>
-						<ul>
-							{{#lists_all}}
-							<li><a href="{{www_path}}/people/lists/view/{{id}}"><span class="number">{{analytics_active}}</span>{{name}}</a></li>
-							{{/lists_all}}
-					</div></div>
+
+				<div class="pure-u-1 pure-u-md-1-3 vertical-breaker">
+						<h5>List growth <span>(last 7 days)</span></h5>
+								<div class="graph sml bar-chart">
+									<div class="values">
+										<div class="y-axis pure-u-1-12">
+											<h6>100</h6>
+											<h6>50</h6>
+											<h6>0</h6>
+										</div><!--y-axis-->
+											<div class="value pure-u-1-12"><span class="bar"></span></div>
+											<div class="value pure-u-1-12"><span class="bar"></span></div>
+											<div class="value pure-u-1-12"><span class="bar"></span></div>
+											<div class="value pure-u-1-12"><span class="bar"></span></div>
+											<div class="value pure-u-1-12"><span class="bar"></span></div>
+											<div class="value pure-u-1-12"><span class="bar"></span></div>
+											<div class="value pure-u-1-12"><span class="bar"></span></div>
+										</div><!--values-->
+
+										<div class="x-axis pure-u-1">
+											<h6 class="pure-u-1-12"></h6>
+											<h6 class="pure-u-1-12">M</h6>
+											<h6 class="pure-u-1-12">T</h6>
+											<h6 class="pure-u-1-12">W</h6>
+											<h6 class="pure-u-1-12">T</h6>
+											<h6 class="pure-u-1-12">F</h6>
+											<h6 class="pure-u-1-12">S</h6>
+											<h6 class="pure-u-1-12">S</h6>
+										</div><!--x-axis-->
+
+								</div><!--graph-->
+							</div><!--pure-->
+
+				<div class="pure-u-1 pure-u-md-1-4 r-box vertical-breaker"><div class="inner"><h5>List Popularity</h5>
+					<ul>
+						{{#lists_all}}
+						<li><a href="{{www_path}}/people/lists/view/{{id}}"><span class="number">{{analytics_active}}</span>{{name}}</a></li>
+						{{/lists_all}}
+				</div><!--inner--></div><!--pure-->
 
 				<a href="{{www_path}}/people/" class="alt-button feed">View mailing lists</a>
 		</div><!--initial-->
 
-		<div class="pure-u-1">
+		<!--div class="pure-u-1">
 			<div class="additional">
 				<p>The largest group of your fans are from <strong>Portland, OR</strong> in the <strong>United States</strong>.</p>
 				<a class="display" href="/">Find out more</a>
@@ -164,8 +144,8 @@
 						</div>
 					</div>
 
-				</div><!--expanded-->
-			</div>
+				</div>
+			</div -->
 		</div>
 	</div>
  {{/dashboard_lists}}

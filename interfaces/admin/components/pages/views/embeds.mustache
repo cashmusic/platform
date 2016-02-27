@@ -4,7 +4,7 @@
 {{/has_campaigns}}
 
 <!-- /* Sub Nav */ -->
-<header>
+<header class="page-header">
 <div class="pure-u-1 pure-u-md-1-2">
 <h4>Embeds</h4>
 </div><!--pure-->
@@ -31,7 +31,7 @@
 		</form>
 	</div><!--selecta-->
 		{{#selected_campaign}}
-		<a class="lightboxed button edit" href="{{www_path}}/campaigns/edit/{{id}}"><div class="icon icon-pencil"></div><!--icon--></a>
+		<a class="lightboxed button edit" href="{{www_path}}/campaigns/edit/{{id}}"><span class="icon icon-pencil"></span><!--icon--></a>
 		{{/selected_campaign}}
 </div><!--pure-->
 <div class="pure-u-1 pure-u-md-1-3 alignright">
@@ -51,7 +51,7 @@
 {{/has_campaigns}}
 
 {{#selected_campaign}}
-<div class="material pure-u-1">
+<div class="material lrg pure-u-1">
 		<div class="campaign-inner pure-u-1 pure-u-md-2-3">
 		<h5>&#39;{{title}}&#39; - <span>{{description}}</span> views <br /><span class="fadedtext">Updated <span>&#124;</span> {{formatted_date}}</span></h5>
 		<div class="graph bar-chart">

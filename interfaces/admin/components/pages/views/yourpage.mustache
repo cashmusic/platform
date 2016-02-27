@@ -1,7 +1,7 @@
 {{! corresponding files: yourpage.php & yourpage.json }}
 
 <!-- /* Sub Nav */ -->
-<header>
+<header class="page-header">
 <div class="pure-u-1 pure-u-md-1-2">
 	<h4 class="page-title">Your page: <span class="fadedtext">({{#show_published}}Live{{/show_published}}{{^show_published}}Unpublished{{/show_published}})</span></h4>
 </div><!--pure-->
@@ -16,44 +16,36 @@
 </header>
 
 <div class="yourpage">
+	<div class="published">
+		<div class="pure-u-1">
 {{#show_published}}
-	<div class="pure-u-1">
-		<h4><span>{{copy_public_page}}</span><a class="url-link" href="{{user_page_uri}}" target="_blank">{{user_page_display_uri}}</a><a id="settings" class="button edit settings toggle"><div class="icon icon-pencil"></div><!--icon--></a></h4>
-	</div>
+		<h4>{{copy_public_page}} <a class="url-link" href="{{user_page_uri}}" target="_blank">{{user_page_display_uri}}</a><a id="settings" class="button edit settings toggle"><div class="icon icon-pencil"></div><!--icon--></a></h4>
 {{/show_published}}
-
 {{^show_published}}
-<h5 class="fadedtext">{{copy_public_not_live}}</h5><p class="fadedtext">{{copy_select_campaign}}</p>
+		<h4 class="fadedtext">{{copy_public_not_live}}</h4>
 {{/show_published}}
+		</div><!--pure-->
+	</div><!--published-->
 
 {{#show_published}}
-	<div class="material">
+	<div class="material lrg">
 		<div class="pure-u-1 pure-u-md-1-2">
 		<a href="{{user_page_uri}}" target="_blank"><div class="preview-header"><span></span><span></span><span></span></div><!--preview-header-->
 		<div class="preview-wrap"><iframe id="preview" src="http://{{user_page_display_uri}}"></iframe></div><!--preview-wrap--></a>
 		</div><!--pure-->
 		<div class="pure-u-1 pure-u-md-1-2">
-		<h5>{{copy_publish_a_campaign}}</h5>
-		<p>
-			{{copy_publish_campaign_info}}
-		</p>
-		<div class="selecta">
-			<label for="current-published-campaign">{{copy_published}}</label>
-			<select id="current-published-campaign">
-				<option data-path="{{www_path}}/campaigns/publish/0" data-template="unpublish" value="0">{{copy_unpublish_all}}</option>
-				{{#campaigns_for_user}}
-					<option data-path="{{www_path}}/campaigns/publish/{{id}}" {{#currently_published}}selected="selected"{{/currently_published}} data-template="{{template_id}}" value="{{title}}">{{title}}</option>
-				{{/campaigns_for_user}}
-			</select>
-		</div><!--selecta-->
-		<div class="pure-u-1">
-		<h5>Total page views</h5>
-		<h4 class="number">14k</h4>
-		</div>
-	</div>
+			  <div class="pure-u-1">
+						<h5>Total page views</h5>
+						<h4 class="number">14k</h4>
+		  	</div><!--pure-->
+				<div class="pure-u-1">
+						<h5>{{copy_publish_a_campaign}}</h5>
+						<p>{{copy_publish_campaign_info}}</p>
+				</div><!--pure-->
+	</div><!--pure-->
 </div>
-<div class="section pure-u-1">
-<a href="{{www_path}}/campaigns/publish/0" data-template="unpublish" class="button link needsconfirmation unpublish">Unpublish</a>
+<div class="pure-u-1 section">
+<button href="{{www_path}}/campaigns/publish/0" data-template="unpublish" class="needsconfirmation unpublish">Unpublish</button>
 <a href="{{www_path}}/elements/templates/edit/{{template_id}}/page/parent/{{id}}" class="lightboxed button page-editor">{{copy_page_theme}}</a>
 </div>
 {{/show_published}}
