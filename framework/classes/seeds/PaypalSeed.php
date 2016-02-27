@@ -22,26 +22,30 @@
 
 require CASH_PLATFORM_ROOT . '/lib/paypal/autoload.php';
 
-use PayPal\Auth\OAuthTokenCredential;
-use PayPal\Rest\ApiContext;
 use PayPal\Api\Amount;
 use PayPal\Api\Details;
+use PayPal\Api\ExecutePayment;
+use PayPal\Api\FlowConfig;
+use PayPal\Api\FundingInstrument;
 use PayPal\Api\Item;
 use PayPal\Api\ItemList;
 use PayPal\Api\Payer;
+use PayPal\Api\Payment;
+use PayPal\Api\PaymentExecution;
+use PayPal\Api\Presentation;
+use PayPal\Api\RedirectUrls;
 use PayPal\Api\Refund;
 use PayPal\Api\RefundDetail;
 use PayPal\Api\Sale;
-use PayPal\Api\Payment;
-use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
-use PayPal\Api\ExecutePayment;
-use PayPal\Api\PaymentExecution;
+use PayPal\Api\WebProfile;
+use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Rest\ApiContext;
 
 
 class PaypalSeed extends SeedBase
 {
-    protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token;
+    protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token, $experience_id;
     public $redirects;
     protected $merchant_email = false;
 
@@ -59,6 +63,7 @@ class PaypalSeed extends SeedBase
             $this->client_id = $this->settings->getSetting('client_id');
             $this->secret = $this->settings->getSetting('secret');
             $sandboxed = $this->settings->getSetting('sandboxed');
+            $this->experience_id = $this->settings->getSetting('experience_id');
 
             $this->api_context = new \PayPal\Rest\ApiContext(
                 new \PayPal\Auth\OAuthTokenCredential(
@@ -76,6 +81,7 @@ class PaypalSeed extends SeedBase
                     $this->client_id = $connections['com.paypal']['client_id'];
                     $this->secret = $connections['com.paypal']['secret'];
                     $sandboxed = $connections['com.paypal']['sandboxed'];
+                    $this->experience_id = $connections['com.paypal']['experience_id'];
 
                     $this->api_context = new \PayPal\Rest\ApiContext(
                         new \PayPal\Auth\OAuthTokenCredential(
@@ -145,6 +151,37 @@ class PaypalSeed extends SeedBase
     }
 
 
+    protected function customizeCheckoutFlow() {
+        // Lets create an instance of FlowConfig and add
+// landing page type information
+        $flowConfig = new \PayPal\Api\FlowConfig();
+        $flowConfig->setLandingPageType("Login");
+
+        $presentation = new \PayPal\Api\Presentation();
+        $presentation->setBrandName("Midheaven Mailorder")
+            ->setLocaleCode("US");
+
+        $inputFields = new \PayPal\Api\InputFields();
+        $inputFields->setAllowNote(true)
+            ->setNoShipping(1)
+            ->setAddressOverride(0);
+
+        $webProfile = new \PayPal\Api\WebProfile();
+        $webProfile->setName("Midheaven Mailorder" . uniqid())
+            ->setFlowConfig($flowConfig)
+            ->setPresentation($presentation)
+            ->setInputFields($inputFields);
+
+        $request = clone $webProfile;
+        try {
+            $createProfileResponse = $webProfile->create($this->api_context);
+        } catch (\PayPal\Exception\PayPalConnectionException $ex) {
+            $this->setErrorMessage($ex);
+        }
+
+        return $createProfileResponse->getId();
+    }
+
     public function preparePayment(
         $total_price,
         $order_sku,
@@ -183,11 +220,17 @@ class PaypalSeed extends SeedBase
         $redirectUrls->setReturnUrl($return_url . "&success=true")
             ->setCancelUrl($cancel_url . "&success=false");
 
+        // weird Paypal nonsense to get rid of shipping details on checkout screen
+        if (empty($this->experience_id))
+            $this->experience_id = $this->customizeCheckoutFlow();
+
+        error_log("###".$this->experience_id);
 
         $payment = new Payment();
         $payment->setIntent($payment_type)
             ->setPayer($payer)
             ->setRedirectUrls($redirectUrls)
+            ->setExperienceProfileId($this->experience_id)
             ->setTransactions(array($transaction));
 
 
