@@ -42,12 +42,12 @@
 	var cm = window.cashmusic;
 
    // get stripe public key
-   {{#public_key}}
+   {{#stripe_public_key}}
       var stripe_public_key = "{{stripe_public_key}}";
-   {{/public_key}}
-   {{^public_key}}
+   {{/stripe_public_key}}
+   {{^stripe_public_key}}
       var stripe_public_key = false;
-   {{/public_key}}
+   {{/stripe_public_key}}
 
    // we like paypal?
    {{#paypal_connection}}
