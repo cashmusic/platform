@@ -327,6 +327,4 @@ if ($total_campaigns) {
 	}
 }
 
-/* Activity Additions */
-
 ?>

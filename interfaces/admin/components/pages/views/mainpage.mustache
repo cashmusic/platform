@@ -16,21 +16,23 @@
 </header>
 
 <!--/* Activity */ -->
-
 <div id="activity" class="pure-u-1">
+
+		<!-- /* Alert Style */ -->
+		<a href="/" class="material notification alert"><p><span class="icon icon-warn"></span> <strong>Alert!</strong> -  Something intense that you should pay attention to.</p></a><!--alert-->
+
 	{{^firstuse}}
-			<div class="material"><h3>Welcome to your new activity feed!</h3><p>As you can see we've had a bit of a reshuffle. This is where you'll get an overview of what's happening with your embeds, page, lists and sales and downloads. This is just the begining but it's all part of us making the CASH tools easier to understand and use!</p><h5>Have fun!</h5></div><!--material-->
+		<div class="alt callout"><div class="callout-inner"><h3>Welcome to your new activity feed!</h3><p>You may have noticed we've had a bit of a re-shuffle. This is where you'll get an overview of what's happening with your <a href="{{www_path}}/embeds/">embeds</a>, <a href="{{www_path}}/yourpage/">page</a>, <a href="{{www_path}}/people/">mailing lists</a> &amp; <a href="{{www_path}}/commerce/">sales</a>. This is just the begining but it's all part of us making the CASH tools easier use and understand!</p><p>You can read more about our efforts to improve our platform of tools on <a href="https://medium.com/cash-music" target="_blank">our blog</a>.</p></div><!--callout-inner--></div>
 	{{/firstuse}}
 
-	<!-- /* Alert Style */ -->
-	<a href="/" class="material notification alert"><p><span class="icon icon-warn"></span> <strong>Alert!</strong> -  Something intense that you should pay attention to.</p></a><!--alert-->
+<!-- /* Any Activity? */ -->
+{{#dashboard_active}}
 
-	<div class="material lrg">
-		<div class="pure-u-1 pure-u-md-2-3">
-				<h5>Page views <span class="fadedtext">(last 22 days)<span></h5>
-
+	<div class="material">
+		<div class="pure-u-1 pure-u-md-1-2">
+	<div class="inner"><h5>Total embed views <span class="fadedtext">(last 7 days)<span></h5><h4 class="number"><div class="icon icon-lg-arw"></div> 200{{total}}</h4></div>
 			</div><!--pure-->
-			<div class="pure-u-1 pure-u-md-1-3 l-box">
+			<div class="pure-u-1 pure-u-md-1-2 l-box">
 				<h5>Insights</h5>
 				<p>Page views are up <span class="number">453 (4%)</span> from last week. Your most popular embedded element is <a href="{{www_path}}/embeds/">‘My embed’</a>.</p>
 				<p>Sundays seem to be the best day to make an announcement to your fans based on your fans behaviour.</p>
@@ -40,7 +42,6 @@
 	<!-- /* Orders Snapshot */ -->
 	{{^dashboard_orders}}
 	<!--div class="callout newsfeed commerce"><span class="details"><strong><div class="icon icon-cart"></div>New order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}!</strong> There {{#dashboard_orders_singular}}is{{/dashboard_orders_singular}}{{^dashboard_orders_singular}}are{{/dashboard_orders_singular}} <strong>{{dashboard_orders}}</strong> new order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}.</span><span class="action"><a href="{{www_path}}/commerce/"><div class="icon icon-search"></div>All new orders</a></span><div class="newsimage" style=""></div></div>-->
-
 	<div class="material usecolor4">
 		<div class="initial">
 		<div class="pure-u-1 pure-u-md-1-4">
@@ -59,7 +60,7 @@
 	<div class="material usecolor3">
 			<div class="initial">
 				<div class="pure-u-1 pure-u-md-1-4">
-					<div class="inner"><h5>{{copy_total_new_subscribers}}</h5><h4 class="number">200{{total}}</h4></div>
+					<div class="inner"><h5>{{copy_total_new_subscribers}}</h5><h4 class="number"><div class="icon icon-lg-arw"></div> 200{{total}}</h4></div>
 				</div>
 				<div class="pure-u-1 pure-u-md-1-3 vertical-breaker">
 						<h5>List growth <span>(last 7 days)</span></h5>
@@ -146,5 +147,16 @@
 	<a class="pure-u-1 notification material usecolor5" href="{{www_path}}/commerce/items/"><p><span class="icon icon-calendar"></span>Your next show is in <strong>Los Angeles</strong> at <strong>Echoplex, tomorrow night!</strong>  -  Remind your followers on <strong>Twitter</strong>.</p><div class="notification-marker icon icon-chevron"></div></a>
 
 	<a class="pure-u-1 notification material usecolor5" href="{{www_path}}/commerce/items/"><p><span class="icon icon-card"></span>Your next show is a week away in <strong>Los Angeles</strong> at <strong>Echoplex</strong>, on <strong>13th January</strong>   -  Remind fans on your <strong>mailing lists</strong>.</p><div class="notification-marker icon icon-chevron"></div></a>
+
+{{/dashboard_active}}
+
+<!-- /* No Activity :( */ -->
+{{^dashboard_active}}
+
+	<div class="empty">
+		<p>Sorry, there is no activity to report yet. Get started by adding an <a href="{{www_path}}/embeds/">embed</a>.</p>
+	</div><!-- empty -->
+
+{{/dashboard_active}}
 
 </div><!--activity-->

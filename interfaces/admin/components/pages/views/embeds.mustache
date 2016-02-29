@@ -31,7 +31,7 @@
 		</form>
 	</div><!--selecta-->
 		{{#selected_campaign}}
-		<a class="lightboxed button edit" href="{{www_path}}/campaigns/edit/{{id}}"><span class="icon icon-pencil"></span><!--icon--></a>
+		<a class="lightboxed edit-button" href="{{www_path}}/campaigns/edit/{{id}}"><span class="icon icon-pencil"></span><!--icon--></a>
 		{{/selected_campaign}}
 </div><!--pure-->
 <div class="pure-u-1 pure-u-md-1-3 alignright">
@@ -51,71 +51,10 @@
 {{/has_campaigns}}
 
 {{#selected_campaign}}
-<div class="material lrg pure-u-1">
-		<div class="campaign-inner pure-u-1 pure-u-md-2-3">
-		<h5>&#39;{{title}}&#39; - <span>{{description}}</span> views <br /><span class="fadedtext">Updated <span>&#124;</span> {{formatted_date}}</span></h5>
-		<div class="graph bar-chart">
-			<div class="values">
-				<div class="y-axis pure-u-1-12">
-					<h6>100</h6>
-					<h6>50</h6>
-					<h6>0</h6>
-				</div><!--y-axis-->
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-					<div class="value pure-u-1-24"><span class="bar"></span></div>
-				</div><!--values-->
-
-				<div class="x-axis pure-u-1">
-					<h6 class="pure-u-1-12"></h6>
-					<h6 class="pure-u-1-24">M</h6>
-					<h6 class="pure-u-1-24">T</h6>
-					<h6 class="pure-u-1-24">W</h6>
-					<h6 class="pure-u-1-24">T</h6>
-					<h6 class="pure-u-1-24">F</h6>
-					<h6 class="pure-u-1-24">S</h6>
-					<h6 class="pure-u-1-24">S</h6>
-					<h6 class="pure-u-1-24">M</h6>
-					<h6 class="pure-u-1-24">T</h6>
-					<h6 class="pure-u-1-24">W</h6>
-					<h6 class="pure-u-1-24">T</h6>
-					<h6 class="pure-u-1-24">F</h6>
-					<h6 class="pure-u-1-24">S</h6>
-					<h6 class="pure-u-1-24">S</h6>
-					<h6 class="pure-u-1-24">M</h6>
-					<h6 class="pure-u-1-24">T</h6>
-					<h6 class="pure-u-1-24">W</h6>
-					<h6 class="pure-u-1-24">T</h6>
-					<h6 class="pure-u-1-24">F</h6>
-					<h6 class="pure-u-1-24">S</h6>
-					<h6 class="pure-u-1-24">S</h6>
-					<h6 class="pure-u-1-24">M</h6>
-				</div><!--x-axis-->
-
-		</div><!--graph-->
-		</div><!--campaign-inner-->
-			<div class="pure-u-1 pure-u-md-1-3 l-box">
-				<h5>{{copy_total_campaign_views}}</h5>
-				<h4 class="number">{{formatted_views}}</h4>
+<div class="material pure-u-1">
+			<div class="pure-u-1">
+				<h5>{{copy_total_campaign_views}} - &#39;{{title}}&#39;<br /><span class="fadedtext">Updated <span>&#124;</span> {{formatted_date}}</span></h5>
+				<h4 class="number"><div class="icon icon-lg-arw"></div> {{formatted_views}}</h4>
 				<!--h5 class="percentage"><div class="icon icon-lg-arw"></div>&#37;</h5-->
 			</div><!--stats-->
 </div><!--campaign pure-->
