@@ -258,11 +258,9 @@ if (is_array($orders_response['payload'])) {
 	$all_order_details = array();
 	foreach ($orders_response['payload'] as $o) {
 
-		if (!empty($o['data_returned'])) {
-			$transaction_results = json_decode($o['data_returned'], true);
-
-		} else {
-			$transaction_results = null;
+		$transaction_results = json_decode($o['data_returned'], true);
+		if (!isset($transaction_results['customer_name'])) {
+			error_log(json_encode($transaction_results));
 		}
 
 		if ($o['successful']) {
@@ -317,11 +315,11 @@ if (is_array($orders_response['payload'])) {
 				'customer_postalcode' => $transaction_results['customer_postalcode'],
 				'customer_country' => $transaction_results['customer_countrycode'],
 				'number' => '#' . str_pad($o['id'],6,0,STR_PAD_LEFT),
-				'date' => CASHSystem::formatTimeAgo((int)$transaction_results['transaction_date'],true),
+				'date' => CASHSystem::formatTimeAgo((int)$o['creation_date'],true),
 				'order_description' => str_replace("\n",' ',$o['order_description']),
 				'order_contents' => new ArrayIterator($order_contents),
 				'shipping' => $shipping_cost,
-				'itemtotal' => $transaction_results['total'],
+				'itemtotal' => $item_price,
 				'gross' => CASHSystem::getCurrencySymbol($o['currency']) . number_format($o['gross_price'],2),
 				'fulfilled' => $o['fulfilled'],
 				'notes' => $o['notes'],

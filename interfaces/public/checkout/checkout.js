@@ -51,6 +51,7 @@
 			               } else {
 			                  // response contains id and card, which contains additional card details
 			                  cm.storage['checkoutdata']['stripe'] = response.id;
+									cm.storage['checkoutdata']['email'] = e.detail['email'];
 									cm.events.fire(cm,'checkoutdata',cm.storage['checkoutdata'],source);
 									cm.overlay.reveal('<div class="cm-loading"></div>');
 			               }
@@ -463,7 +464,8 @@
 					'stripe'   :false,
 					'paypal'   :false,
 					'shipping' :false,
-					'currency' :false
+					'currency' :false,
+					'email'    :false
 				};
 				// detect SSL for stripe
 				if (location.protocol !== 'https:' && options.testing !== true) {
