@@ -1,10 +1,5 @@
 {{! corresponding files: mainpage.php & mainpage.json }}
 
-{{^has_campaigns}}
-<div id="learn_tip" style="display:block;" class="page-description display"><i class="icon icon-question marker"></i><!--marker-->If you have questions look for the help (<i class='icon icon-question'></i>) icon throughout to guide you.</div><!--learntip-->
-{{/has_campaigns}}
-
-
 <!-- /* Sub Nav */ -->
 <header class="page-header">
 <div class="pure-u-1 pure-u-md-1-2">
@@ -23,12 +18,11 @@
 <!--/* Activity */ -->
 
 <div id="activity" class="pure-u-1">
-
-
 	{{^firstuse}}
 			<div class="material"><h3>Welcome to your new activity feed!</h3><p>As you can see we've had a bit of a reshuffle. This is where you'll get an overview of what's happening with your embeds, page, lists and sales and downloads. This is just the begining but it's all part of us making the CASH tools easier to understand and use!</p><h5>Have fun!</h5></div><!--material-->
 	{{/firstuse}}
 
+	<!-- /* Alert Style */ -->
 	<a href="/" class="material notification alert"><p><span class="icon icon-warn"></span> <strong>Alert!</strong> -  Something intense that you should pay attention to.</p></a><!--alert-->
 
 	<div class="material lrg">
@@ -43,6 +37,7 @@
 			</div>
 	</div><!--material-->
 
+	<!-- /* Orders Snapshot */ -->
 	{{^dashboard_orders}}
 	<!--div class="callout newsfeed commerce"><span class="details"><strong><div class="icon icon-cart"></div>New order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}!</strong> There {{#dashboard_orders_singular}}is{{/dashboard_orders_singular}}{{^dashboard_orders_singular}}are{{/dashboard_orders_singular}} <strong>{{dashboard_orders}}</strong> new order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}.</span><span class="action"><a href="{{www_path}}/commerce/"><div class="icon icon-search"></div>All new orders</a></span><div class="newsimage" style=""></div></div>-->
 
@@ -58,6 +53,7 @@
 	<a class="pure-u-1 notification material usecolor4" href="{{www_path}}/commerce/items/"><p><span class="icon icon-card"></span><strong>Sellin’ like hotcakes!</strong> - You've recieved <span class="number">8</span> orders of <strong>‘My album’</strong> in the last week, it's your best selling item.</p><div class="notification-marker icon icon-chevron"></div></a>
 	{{/dashboard_orders}}
 
+	<!-- /* People Snapshot */ -->
 	{{^dashboard_lists}}
 		<!--div class="callout newsfeed people"><span class="details"><strong><div class="icon icon-list"></div>{{name}}:</strong> There {{#singular}}is{{/singular}}{{^singular}}are{{/singular}} <strong>{{total}}</strong> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}} on this list.</span> <span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><div class="icon icon-search"></div>View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><div class="icon icon-dwnld"></div>Export</a></span><div class="newsimage" style=""></div></div -->
 	<div class="material usecolor3">
@@ -65,10 +61,6 @@
 				<div class="pure-u-1 pure-u-md-1-4">
 					<div class="inner"><h5>{{copy_total_new_subscribers}}</h5><h4 class="number">200{{total}}</h4></div>
 				</div>
-				<!--div class="pure-u-1 pure-u-md-1-3">
-					<div class="inner"><h5>Subscriber activity (last 7 days)</h5>graph</div>
-				</div-->
-
 				<div class="pure-u-1 pure-u-md-1-3 vertical-breaker">
 						<h5>List growth <span>(last 7 days)</span></h5>
 								<div class="graph sml bar-chart">
@@ -150,7 +142,7 @@
 	</div>
  {{/dashboard_lists}}
 
-
+	<!-- /* Tourdates Snapshot */ -->
 	<a class="pure-u-1 notification material usecolor5" href="{{www_path}}/commerce/items/"><p><span class="icon icon-calendar"></span>Your next show is in <strong>Los Angeles</strong> at <strong>Echoplex, tomorrow night!</strong>  -  Remind your followers on <strong>Twitter</strong>.</p><div class="notification-marker icon icon-chevron"></div></a>
 
 	<a class="pure-u-1 notification material usecolor5" href="{{www_path}}/commerce/items/"><p><span class="icon icon-card"></span>Your next show is a week away in <strong>Los Angeles</strong> at <strong>Echoplex</strong>, on <strong>13th January</strong>   -  Remind fans on your <strong>mailing lists</strong>.</p><div class="notification-marker icon icon-chevron"></div></a>
