@@ -2103,7 +2103,7 @@ section[role=main].hero{
 	font-size: 12px;
 }
 
-.inline-subnav li a .icon{
+.inline-subnav li a.current .icon{
 	color: #fff;
 }
 
@@ -4606,7 +4606,20 @@ margin:0 5px 0 0; padding:0;}
 	color:#222;
 }
 
+.tooltip:before{
+	font-size:10px;
+	text-align: center;
+	background:#dbdbdb;
+	border: solid 1px #cbcbcb;
+	padding:6px;
+	vertical-align: top;
+	-webkit-border-radius: 50px;
+	-moz-border-radius: 50px;
+	border-radius: 50px;
+}
+
 .tooltip:hover:after, .tooltip:hover:before{
+	font-family:'Montserrat',Helvetica,Arial,sans-serif;
 	visibility:visible;
 	opacity:1;
 	-webkit-transition:all 0.2s ease-in;
@@ -4618,7 +4631,14 @@ margin:0 5px 0 0; padding:0;}
 	z-index: 500;
 }
 
-.tooltip:after,{
+.tooltip:hover:before{
+	background:#222;
+	color:#eee;
+	border-color:#222;
+	opacity: 0.8;
+}
+
+.tooltip:after{
 	color:#fff;
 	text-decoration:none;
 	background:rgba(34,34,34,0.9);
