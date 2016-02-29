@@ -308,26 +308,28 @@ class StripeSeed extends SeedBase
     /**
      * Fired from finalizeRedirectedPayment, in CommercePlant. Sends the actual charge and seedToken to the Stripe API—this is really where almost everything happens for StripeSeed charges.
      *
-     * @param string $transaction
+     * @param $total_price
+     * @param $description
+     * @param $token
      * @return array|bool
      */
-    public function doPayment($transaction = "")
+    public function doPayment($total_price, $description, $token)
     {
-
         // we need to get the details of the order to pass in the amount to Stripe
-        $order_details = json_decode($transaction['order_contents']);
-        $order_details = $order_details[0];
+/*        $order_details = json_decode($transaction['order_contents']);
+
+        $order_details = $order_details[0];*/
 
         \Stripe\Stripe::setApiKey($this->client_secret);
 
-    if (!empty($_REQUEST['seedToken'])) {
+    if (!empty($token)) {
 
             if (!$payment_results = \Stripe\Charge::create(
                 array(
-                    "amount" => ($order_details->price * 100),
+                    "amount" => ($total_price * 100),
                     "currency" => "usd",
-                    "source" => $_GET['seedToken'], // obtained with Stripe.js
-                    "description" => $order_details->description
+                    "source" => $token, // obtained with Stripe.js
+                    "description" => $description
                 )
             )
             ) {

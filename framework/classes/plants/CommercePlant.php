@@ -1192,6 +1192,7 @@ class CommercePlant extends PlantBase {
                 if (is_array($settings_request->response['payload'])) {
                     $pp_default = $settings_request->response['payload']['pp_default'];
                     $pp_micro = $settings_request->response['payload']['pp_micro'];
+                    $stripe_default = $settings_request->response['payload']['stripe_default'];
                 } else {
                     return false; // no default PP shit set
                 }
@@ -1203,6 +1204,7 @@ class CommercePlant extends PlantBase {
                 }
                 $subtotal = 0;
                 $shipping = 0;
+
                 foreach ($cart as $key => &$i) {
                     $item_details = $this->getItem($i['id'],false,false);
                     $variants = $this->getItemVariants($item_id);
@@ -1232,14 +1234,29 @@ class CommercePlant extends PlantBase {
                     }
                     $order_contents[] = $item_details;
                 }
+
                 $price_addition = $shipping;
 
-                //TODO: this connection stuff is hard-coded for paypal, but does the default/micro switch well
-                if (($subtotal+$shipping < 12) && $pp_micro) {
-                    $connection_id = $pp_micro;
-                } else {
-                    $connection_id = $pp_default;
+                // get connection type settings so we can extract Seed classname
+                $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
+                $seed_class = $connection_settings['seed'];
+                //TODO: ultimately we want to load in the seed class name dynamically, but let's just get this working for now
+                if ($stripe != false) {
+                    $seed_class = "StripeSeed";
+                    $connection_id = $stripe_default;
                 }
+
+                if ($paypal != false) {
+                    $seed_class = "PaypalSeed";
+                    //TODO: this connection stuff is hard-coded for paypal, but does the default/micro switch well
+                    if (($subtotal+$shipping < 12) && $pp_micro) {
+                        $connection_id = $pp_micro;
+                    } else {
+                        $connection_id = $pp_default;
+                    }
+                }
+
+
 
             $currency = $this->getCurrencyForUser($user_id);
 
@@ -1252,7 +1269,7 @@ class CommercePlant extends PlantBase {
                 '',
                 '',
                 -1,
-                0,
+                $total_price, // set price
                 0,
                 'abandoned',
                 $currency
@@ -1284,31 +1301,19 @@ class CommercePlant extends PlantBase {
                 $connection_type = $this->getConnectionType($transaction_details['connection_id']);
                 $order_totals = $this->getOrderTotals($order_details['order_contents']);
 
-                // get connection type settings so we can extract Seed classname
-                $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
-                $seed_class = $connection_settings['seed'];
-                //TODO: ultimately we want to load in the seed class name dynamically, but let's just get this working for now
-                if ($stripe) {
-                    $seed_class = "StripeSeed";
-                }
-
-                if ($paypal) {
-                    $seed_class = "PaypalSeed";
-                }
 
                 // ascertain whether or not this seed requires a redirect, else let's cheese it right to the charge
                 // we're going to switch seeds by $connection_type, so check to make sure this class even exists
                 if (!class_exists($seed_class)) {
-                    $this->setErrorMessage("Couldn't find payment type $seed_class.");
+                    $this->setErrorMessage("1301 Couldn't find payment type $seed_class.");
                     return false;
                 }
 
                 // call the payment seed class
-
                 $payment_seed = new $seed_class($user_id,$transaction_details['connection_id']);
 
                 // does this payment type need to redirect? if so let's do preparePayment and get a redirect URL
-                if ($payment_seed->redirects) {
+                if ($payment_seed->redirects != false) {
                     // prepare payment with URL redirect
                     $approval_url = $payment_seed->preparePayment(
                         $total_price,							# payment amount
@@ -1328,7 +1333,11 @@ class CommercePlant extends PlantBase {
                     $order_details = $this->getOrder($order_id);
 
                     // javascript shows success or failure depending on what happens here
-                    if ($this->finalizePayment($order_id, $session_id)) {
+                    if ($result = $this->finalizePayment(
+                        $order_id,
+                        $stripe,
+                        $total_price,
+                        $order_totals['description'])) {
                         return "success";
                     } else {
                         return "failure";
@@ -1424,28 +1433,31 @@ class CommercePlant extends PlantBase {
         }
     }
 
-    protected function finalizePayment($order_id,$session_id=false) {
+    protected function finalizePayment($order_id, $token, $total_price, $description) {
 
         $order_details = $this->getOrder($order_id);
-
         $transaction_details = $this->getTransaction($order_details['transaction_id']);
+
         $connection_type = $this->getConnectionType($transaction_details['connection_id']);
+
         $order_totals = $this->getOrderTotals($order_details['order_contents']);
 
+        //TODO: since we haven't actually set the connection settings at this point, let's
         // get connection type settings so we can extract Seed classname
         $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
         $seed_class = $connection_settings['seed'];
 
         $r = new CASHRequest();
-        $r->startSession(false,$session_id);
+        $r->startSession(false,"");
         $finalize_url = $r->sessionGet('payment_finalize_url');
         if ($finalize_url) {
             $r->sessionClear('payment_finalize_url');
         }
 
+
         // we're going to switch seeds by $connection_type, so check to make sure this class even exists
         if (!class_exists($seed_class)) {
-            $this->setErrorMessage("Couldn't find payment type $connection_type.");
+            $this->setErrorMessage("1448 Couldn't find payment type $connection_type.");
             return false;
         }
 
@@ -1453,9 +1465,10 @@ class CommercePlant extends PlantBase {
         $payment_seed = new $seed_class($order_details['user_id'],$transaction_details['connection_id']);
 
         // if this was approved by the user, we need to compare some values to make sure everything matches up
-        if ($payment_details = $payment_seed->doPayment($order_details)) {
-
+        if ($payment_details = $payment_seed->doPayment($total_price, $description, $token)) {
             // okay, we've got the matching totals, so let's get the $user_id, y'all
+
+            error_log( print_r($payment_details, true) );
             if ($payment_details['total'] >= $order_totals['price']) {
 
                 if ($user_id = $this->getOrCreateUser($payment_details['payer'])) {
@@ -1571,7 +1584,6 @@ class CommercePlant extends PlantBase {
      * @return $is_fulfilled int
      */
     protected function getFulfillmentStatus(array $order_details) {
-        error_log("physical ". $order_details['physical']);
         // deal with physical quantities
         if ($order_details['physical'] == 1) {
             $order_items = json_decode($order_details['order_contents'],true);
