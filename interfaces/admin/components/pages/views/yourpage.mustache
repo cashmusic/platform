@@ -19,7 +19,7 @@
 	<div class="published">
 		<div class="pure-u-1">
 {{#show_published}}
-		<h4>{{copy_public_page}} <a class="url-link" href="{{user_page_uri}}" target="_blank">{{user_page_display_uri}}</a><a id="settings" class="button edit settings toggle"><div class="icon icon-pencil"></div><!--icon--></a></h4>
+		<h4>{{copy_public_page}} <a class="url-link" href="{{user_page_uri}}" target="_blank">{{user_page_display_uri}}</a><a id="settings" class="edit-button settings toggle"><div class="icon icon-pencil"></div><!--icon--></a></h4>
 {{/show_published}}
 {{^show_published}}
 		<h4 class="fadedtext">{{copy_public_not_live}}</h4>
@@ -44,9 +44,9 @@
 				</div><!--pure-->
 	</div><!--pure-->
 </div>
-<div class="pure-u-1 section">
-<button href="{{www_path}}/campaigns/publish/0" data-template="unpublish" class="needsconfirmation unpublish">Unpublish</button>
-<a href="{{www_path}}/elements/templates/edit/{{template_id}}/page/parent/{{id}}" class="lightboxed button page-editor">{{copy_page_theme}}</a>
+<div class="pure-u-1 section breaker">
+	<button href="{{www_path}}/campaigns/publish/0" data-template="unpublish" class="needsconfirmation  button unpublish">Unpublish</button>
+	<a href="{{www_path}}/elements/templates/edit/{{template_id}}/page/parent/{{id}}" class="lightboxed button inline page-editor">{{copy_page_theme}}</a>
 </div>
 {{/show_published}}
 
