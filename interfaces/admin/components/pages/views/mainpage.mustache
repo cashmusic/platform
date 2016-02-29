@@ -32,15 +32,20 @@
 		<div class="pure-u-1 pure-u-md-1-2">
 	<div class="inner"><h5>Total embed views <span class="fadedtext">(last 7 days)<span></h5><h4 class="number"><div class="icon icon-lg-arw"></div> 200{{total}}</h4></div>
 			</div><!--pure-->
-			<div class="pure-u-1 pure-u-md-1-2 l-box">
-				<h5>Insights</h5>
-				<p>Page views are up <span class="number">453 (4%)</span> from last week. Your most popular embedded element is <a href="{{www_path}}/embeds/">‘My embed’</a>.</p>
-				<p>Sundays seem to be the best day to make an announcement to your fans based on your fans behaviour.</p>
-			</div>
+			<div class="pure-u-1 pure-u-md-1-2 r-box vertical-breaker">
+				<div class="inner">
+				<h5>Embed Popularity</h5>
+				<ul>
+					<li><a href="{{www_path}}/elements/edit/{{id}}"><span class="number">+80</span> Embed name{{embed_name}}</a></li>
+					<li><a href="{{www_path}}/elements/edit/{{id}}"><span class="number">+80</span> Embed name{{embed_name}}</a></li>
+					<li><a href="{{www_path}}/elements/edit/{{id}}"><span class="number">+80</span> Embed name{{embed_name}}</a></li>
+				</ul>
+			</div><!--inner-->
+		</div><!--pure-->
 	</div><!--material-->
 
 	<!-- /* Orders Snapshot */ -->
-	{{^dashboard_orders}}
+	{{#dashboard_orders}}
 	<!--div class="callout newsfeed commerce"><span class="details"><strong><div class="icon icon-cart"></div>New order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}!</strong> There {{#dashboard_orders_singular}}is{{/dashboard_orders_singular}}{{^dashboard_orders_singular}}are{{/dashboard_orders_singular}} <strong>{{dashboard_orders}}</strong> new order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}.</span><span class="action"><a href="{{www_path}}/commerce/"><div class="icon icon-search"></div>All new orders</a></span><div class="newsimage" style=""></div></div>-->
 	<div class="material usecolor4">
 		<div class="initial">
@@ -55,7 +60,7 @@
 	{{/dashboard_orders}}
 
 	<!-- /* People Snapshot */ -->
-	{{^dashboard_lists}}
+	{{#dashboard_lists}}
 		<!--div class="callout newsfeed people"><span class="details"><strong><div class="icon icon-list"></div>{{name}}:</strong> There {{#singular}}is{{/singular}}{{^singular}}are{{/singular}} <strong>{{total}}</strong> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}} on this list.</span> <span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><div class="icon icon-search"></div>View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><div class="icon icon-dwnld"></div>Export</a></span><div class="newsimage" style=""></div></div -->
 	<div class="material usecolor3">
 			<div class="initial">

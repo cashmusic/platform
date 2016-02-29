@@ -3094,6 +3094,11 @@ color:#fff!important;
 	display: inline-block;
 }
 
+
+.material ul li .number .material .inner .number{
+	margin:0;
+}
+
 .material h4.number{
 	color:#7d7d7d!important;
 	font-size:42px;
