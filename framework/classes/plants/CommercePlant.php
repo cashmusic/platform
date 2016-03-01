@@ -1226,7 +1226,7 @@ class CommercePlant extends PlantBase {
      * @param bool $origin
      * @return bool
      */
-    protected function initiateCheckout($order_contents=false,$element_id=false,$shipping_info=false, $shipping_price=0.00, $total_price=false,$paypal=false,$stripe=false, $origin=false) {
+    protected function initiateCheckout($order_contents=false,$element_id=false,$shipping_info=false, $shipping_price=0.00, $total_price=false,$paypal=false,$stripe=false, $origin=false, $email_address=false) {
 
         //TODO: store last seen top URL
         //      or maybe make the API accept GET params? does it already? who can know?
@@ -1404,7 +1404,8 @@ class CommercePlant extends PlantBase {
                         $order_id,
                         $stripe,
                         $total_price,
-                        $order_totals['description'])) {
+                        $order_totals['description'],
+                        $email_address)) {
                         return "success";
                     } else {
                         return "failure";
@@ -1500,7 +1501,7 @@ class CommercePlant extends PlantBase {
         }
     }
 
-    protected function finalizePayment($order_id, $token, $total_price, $description) {
+    protected function finalizePayment($order_id, $token, $total_price, $description, $email_address=false) {
 
         $order_details = $this->getOrder($order_id);
         $transaction_details = $this->getTransaction($order_details['transaction_id']);
@@ -1524,7 +1525,7 @@ class CommercePlant extends PlantBase {
 
         // we're going to switch seeds by $connection_type, so check to make sure this class even exists
         if (!class_exists($seed_class)) {
-            $this->setErrorMessage("1448 Couldn't find payment type $connection_type.");
+            $this->setErrorMessage("Couldn't find payment type $connection_type.");
             return false;
         }
 
@@ -1532,10 +1533,9 @@ class CommercePlant extends PlantBase {
         $payment_seed = new $seed_class($order_details['user_id'],$transaction_details['connection_id']);
 
         // if this was approved by the user, we need to compare some values to make sure everything matches up
-        if ($payment_details = $payment_seed->doPayment($total_price, $description, $token)) {
+        if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address)) {
             // okay, we've got the matching totals, so let's get the $user_id, y'all
 
-            error_log( print_r($payment_details, true) );
             if ($payment_details['total'] >= $order_totals['price']) {
 
                 if ($user_id = $this->getOrCreateUser($payment_details['payer'])) {

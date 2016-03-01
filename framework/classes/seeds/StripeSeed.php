@@ -311,9 +311,10 @@ class StripeSeed extends SeedBase
      * @param $total_price
      * @param $description
      * @param $token
+     * @param $email_address
      * @return array|bool
      */
-    public function doPayment($total_price, $description, $token)
+    public function doPayment($total_price, $description, $token, $email_address)
     {
         // we need to get the details of the order to pass in the amount to Stripe
 /*        $order_details = json_decode($transaction['order_contents']);
@@ -357,7 +358,7 @@ class StripeSeed extends SeedBase
             // nested array for data received, standard across seeds
             $order_details = array(
                 'transaction_description' => '',
-                'customer_email' => $_REQUEST['email'],
+                'customer_email' => $email_address,
                 'customer_first_name' => '',
                 'customer_last_name' => '',
                 'customer_name' => '',
@@ -384,7 +385,7 @@ class StripeSeed extends SeedBase
             $payer_info = array(
                 "first_name" => "",
                 "last_name" => "",
-                "email" => $_GET['email'],
+                "email" => $email_address,
                 "country_code" => "");
 
 
