@@ -173,6 +173,7 @@ CREATE TABLE commerce_orders (
   currency text DEFAULT 'USD',
   element_id integer,
   cash_session_id text,
+  data text,
   creation_date integer DEFAULT NULL,
   modification_date integer DEFAULT '0'
 );
