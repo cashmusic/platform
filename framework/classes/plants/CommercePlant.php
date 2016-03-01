@@ -1161,6 +1161,7 @@ class CommercePlant extends PlantBase {
             'CASHSystem::notExplicitFalse'
         );
 
+
         $result = $this->db->setData(
             'transactions',
             $final_edits,
@@ -1171,7 +1172,6 @@ class CommercePlant extends PlantBase {
                 )
             )
         );
-
 
         return $result;
     }
@@ -1226,12 +1226,16 @@ class CommercePlant extends PlantBase {
      * @param bool $origin
      * @param bool $email_address
      * @param bool $customer_name
+     * @param bool $session_id
      * @return bool
      */
-    protected function initiateCheckout($order_contents=false,$element_id=false,$shipping_info=false, $shipping_price=0.00, $total_price=false,$paypal=false,$stripe=false, $origin=false, $email_address=false, $customer_name=false) {
+    protected function initiateCheckout($order_contents=false,$element_id=false,$shipping_info=false, $shipping_price=0.00, $total_price=false,$paypal=false,$stripe=false, $origin=false, $email_address=false, $customer_name=false, $session_id=false) {
 
         //TODO: store last seen top URL
         //      or maybe make the API accept GET params? does it already? who can know?
+        $r = new CASHRequest();
+        $r->startSession(false,$session_id);
+
 
         if (!$item_id && !$element_id) {
             return false;
@@ -1266,6 +1270,8 @@ class CommercePlant extends PlantBase {
                     return false; // no default PP shit set
                 }
                 $cart = $this->getCart($session_id);
+
+                error_log( print_r($session_id, true));
                 $shipto = $cart['shipto'];
                 unset($cart['shipto']);
                 if ($shipto != 'r1' && $shipto != 'r2') {
@@ -1563,11 +1569,11 @@ class CommercePlant extends PlantBase {
                     );
 
                     $this->editTransaction(
-                        $order_id, 		// order id
+                        $order_details['transaction_id'], 		// order id
                         time(), 			// service timestamp
                         false,		// service transaction id
                         false,									// data sent
-                        false,			// data received
+                        json_encode($payment_details),			// data received
                         1,										// successful (boolean 0/1)
                         $payment_details['total'],				// gross price
                         $payment_details['transaction_fee'],	// service fee

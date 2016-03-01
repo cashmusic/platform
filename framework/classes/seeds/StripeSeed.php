@@ -355,9 +355,8 @@ class StripeSeed extends SeedBase
                 $this->setErrorMessage("Balance transaction failed, is this a valid charge?");
                 return false;
             }
-            error_log($customer_name);
+
             $full_name = explode(' ', $customer_name, 2);
-            error_log( print_r($full_name, true) );
             // nested array for data received, standard across seeds
             $order_details = array(
                 'transaction_description' => '',
