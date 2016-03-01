@@ -55,7 +55,7 @@
 			{{/fulfilled}}
 		{{/physical}}
         {{^canceled}}
-        <p><a href="{{www_path}}/commerce/orders/view/{{id}}/cancel" class="button">Cancel</a></p>
+        <p><a href="{{www_path}}/commerce/orders/view/{{id}}/cancel" class="button">{{copy_cancel}}</a></p>
         {{/canceled}}
             </div><!--pure-->
 
@@ -101,6 +101,20 @@
 {{  ************************************************************************* }}
 <small><span class="icon icon-rocket fadedtext"></span> &nbsp;<a href="{{www_path}}/commerce/orders/resend/{{id}}" class="fadedtext lightboxed">{{copy_resend}}</a></small>
 
+
+{{! ****************************************************************************
+{{
+{{  ORDER DETAILS
+{{
+{{  ************************************************************************* }}
+<div class="pure-u-1 order-detail">
+	<h4>{{copy_transaction_details}}</h4>
+	<strong>{{copy_connection_used}}</strong> {{order_connection_details}} <br />
+	<strong>{{copy_transaction_id}}</strong> {{service_transaction_id}}<br />
+	<strong>{{copy_service_fees}}</strong> ${{service_fee}}
+</div><!--pure-->
+
+
 {{! ****************************************************************************
 {{
 {{  ORDER NOTES
@@ -121,43 +135,3 @@
 		</div>
 	</div>
 </div>
-
-{{! ****************************************************************************
-{{
-{{  RAW ORDER DATA SENT/RECEIVED
-{{
-{{  ************************************************************************* }}
-<div class="pure-u-1 order-detail">
-	<h4>{{copy_transaction_details}}</h4>
-	<strong>{{copy_connection_used}}</strong> {{order_connection_details}} <br />
-	<strong>{{copy_transaction_id}}</strong> {{service_transaction_id}}<br />
-	<strong>{{copy_service_fees}}</strong> ${{service_fee}}
-</div><!--pure-->
-
-<div class="drawer prefpanel pure-u-1">
-<div class="itemnav pure-u-1">
-	<h4 class="drawerhandle title"><div class="icon icon-data"></div><!--icon--><span>{{copy_data}}</span></h4>
-<div class="drawercontent">
-	<div class="pure-u-1 pure-u-md-1-2">
-		<div class="pref-inner">
-		<h5>{{copy_data_sent_to_service}}</h5>
-			<ul class="smalltext">
-				{{#formatted_data_sent}}
-					<li><b>{{key}}:</b> {{value}}</li>
-				{{/formatted_data_sent}}
-			</ul>
-		</div><!--pref-inner-->
-	</div><!--pure-->
-	<div class="pure-u-1 pure-u-md-1-2">
-		<div class="pref-inner">
-		<h5>{{copy_data_returned_by_service}}</h5>
-			<ul class="smalltext">
-				{{#formatted_data_returned}}
-					<li><b>{{key}}:</b> {{value}}</li>
-				{{/formatted_data_returned}}
-			</ul>
-		</div><!--pref-inner-->
-	</div><!--pure-->
-</div><!--drawercontent-->
-</div><!--itemnav-->
-</div><!--drawer prefpanel-->

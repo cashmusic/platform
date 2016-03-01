@@ -123,18 +123,17 @@ if ($request_parameters) {
 		$cash_admin->page_data['order_contents'] = new ArrayIterator($order_contents);
 
 		$shipping_address = $order_details['data'];
-		error_log("cust" . print_r($order_details['customer_details'], true));
-		$cash_admin->page_data['customer_display_name'] = $order_details['customer_details']['display_name'];
-		$cash_admin->page_data['customer_email_address'] = $order_details['customer_details']['email_address'];
-		$cash_admin->page_data['customer_address_country'] = $order_details['customer_details']['address_country'];
-		$cash_admin->page_data['shipping_name'] = $shipping_address->first_name . " " . $shipping_address->last_name;
+		$cash_admin->page_data['customer_display_name'] = $order_details['customer_name'];
+		$cash_admin->page_data['customer_email_address'] = $order_details['customer_email'];
+		$cash_admin->page_data['customer_address_country'] = $order_details['customer_countrycode'];
+		$cash_admin->page_data['shipping_name'] = $order_details['customer_name'];
 		$cash_admin->page_data['shipping_email'] = $order_details['customer_email'];
-		$cash_admin->page_data['shipping_address1'] = $shipping_address->street_address;
-		$cash_admin->page_data['shipping_address2'] = $shipping_address->street_address2;
-		$cash_admin->page_data['shipping_city'] = $shipping_address->city;
-		$cash_admin->page_data['shipping_region'] = $shipping_address->province;
-		$cash_admin->page_data['shipping_postalcode'] = $shipping_address->postal_code;
-		$cash_admin->page_data['shipping_country'] = $shipping_address->country;
+		$cash_admin->page_data['shipping_address1'] = $order_details['customer_address1'];
+		$cash_admin->page_data['shipping_address2'] = $order_details['customer_address2'];
+		$cash_admin->page_data['shipping_city'] = $order_details['customer_city'];
+		$cash_admin->page_data['shipping_region'] = $order_details['customer_region'];
+		$cash_admin->page_data['shipping_postalcode'] = $order_details['customer_postalcode'];
+		$cash_admin->page_data['shipping_country'] = $order_details['customer_countrycode'];
 		$cash_admin->page_data['notes'] = $order_details['notes'];
 		$cash_admin->page_data['ui_title'] = 'Order #' . $order_details['padded_id'];
 

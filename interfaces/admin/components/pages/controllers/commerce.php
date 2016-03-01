@@ -207,7 +207,8 @@ if ($filter == 'byitem') {
 }
 
 $orders_response = $cash_admin->requestAndStore($order_request);
-error_log( "foo    " . print_r($orders_response, true) );
+
+
 /*******************************************************************************
  *
  * 5. GET ALL VALID SERVICE CONNECTIONS FOR FIRST-USE
@@ -258,11 +259,6 @@ if (is_array($orders_response['payload'])) {
 	$all_order_details = array();
 	foreach ($orders_response['payload'] as $o) {
 
-		$transaction_results = json_decode($o['data_returned'], true);
-		if (!isset($transaction_results['customer_name'])) {
-			error_log(json_encode($transaction_results));
-		}
-
 		if ($o['successful']) {
 			$order_date = $o['creation_date'];
 
@@ -306,14 +302,14 @@ if (is_array($orders_response['payload'])) {
 
 			$all_order_details[] = array(
 				'id' => $o['id'],
-				'customer_name' => $transaction_results['customer_name'],
-				'customer_email' => $transaction_results['customer_email'],
-				'customer_address1' => $transaction_results['customer_address1'],
-				'customer_address2' => $transaction_results['customer_address2'],
-				'customer_city' => $transaction_results['customer_city'],
-				'customer_region' => $transaction_results['customer_region'],
-				'customer_postalcode' => $transaction_results['customer_postalcode'],
-				'customer_country' => $transaction_results['customer_countrycode'],
+				'customer_name' => $o['customer_name'],
+				'customer_email' => $o['customer_email'],
+				'customer_address1' => $o['customer_address1'],
+				'customer_address2' => $o['customer_address2'],
+				'customer_city' => $o['customer_city'],
+				'customer_region' => $o['customer_region'],
+				'customer_postalcode' => $o['customer_postalcode'],
+				'customer_country' => $o['customer_countrycode'],
 				'number' => '#' . str_pad($o['id'],6,0,STR_PAD_LEFT),
 				'date' => CASHSystem::formatTimeAgo((int)$o['creation_date'],true),
 				'order_description' => str_replace("\n",' ',$o['order_description']),
