@@ -1271,7 +1271,6 @@ class CommercePlant extends PlantBase {
                 }
                 $cart = $this->getCart($session_id);
 
-                error_log( print_r($session_id, true));
                 $shipto = $cart['shipto'];
                 unset($cart['shipto']);
                 if ($shipto != 'r1' && $shipto != 'r2') {
@@ -1544,6 +1543,8 @@ class CommercePlant extends PlantBase {
         // if this was approved by the user, we need to compare some values to make sure everything matches up
         if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address, $customer_name)) {
             // okay, we've got the matching totals, so let's get the $user_id, y'all
+
+            error_log($payment_details['total'] . " <-payment order->" . $order_totals['price']);
 
             if ($payment_details['total'] >= $order_totals['price']) {
 
