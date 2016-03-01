@@ -1224,9 +1224,11 @@ class CommercePlant extends PlantBase {
      * @param bool $paypal
      * @param bool $stripe
      * @param bool $origin
+     * @param bool $email_address
+     * @param bool $customer_name
      * @return bool
      */
-    protected function initiateCheckout($order_contents=false,$element_id=false,$shipping_info=false, $shipping_price=0.00, $total_price=false,$paypal=false,$stripe=false, $origin=false, $email_address=false) {
+    protected function initiateCheckout($order_contents=false,$element_id=false,$shipping_info=false, $shipping_price=0.00, $total_price=false,$paypal=false,$stripe=false, $origin=false, $email_address=false, $customer_name=false) {
 
         //TODO: store last seen top URL
         //      or maybe make the API accept GET params? does it already? who can know?
@@ -1405,7 +1407,8 @@ class CommercePlant extends PlantBase {
                         $stripe,
                         $total_price,
                         $order_totals['description'],
-                        $email_address)) {
+                        $email_address,
+                        $customer_name)) {
                         return "success";
                     } else {
                         return "failure";
@@ -1501,7 +1504,7 @@ class CommercePlant extends PlantBase {
         }
     }
 
-    protected function finalizePayment($order_id, $token, $total_price, $description, $email_address=false) {
+    protected function finalizePayment($order_id, $token, $total_price, $description, $email_address=false, $customer_name=false) {
 
         $order_details = $this->getOrder($order_id);
         $transaction_details = $this->getTransaction($order_details['transaction_id']);
@@ -1533,7 +1536,7 @@ class CommercePlant extends PlantBase {
         $payment_seed = new $seed_class($order_details['user_id'],$transaction_details['connection_id']);
 
         // if this was approved by the user, we need to compare some values to make sure everything matches up
-        if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address)) {
+        if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address, $customer_name)) {
             // okay, we've got the matching totals, so let's get the $user_id, y'all
 
             if ($payment_details['total'] >= $order_totals['price']) {

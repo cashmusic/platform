@@ -312,9 +312,10 @@ class StripeSeed extends SeedBase
      * @param $description
      * @param $token
      * @param $email_address
+     * @param $customer_name
      * @return array|bool
      */
-    public function doPayment($total_price, $description, $token, $email_address)
+    public function doPayment($total_price, $description, $token, $email_address=false, $customer_name=false)
     {
         // we need to get the details of the order to pass in the amount to Stripe
 /*        $order_details = json_decode($transaction['order_contents']);
@@ -354,15 +355,17 @@ class StripeSeed extends SeedBase
                 $this->setErrorMessage("Balance transaction failed, is this a valid charge?");
                 return false;
             }
-
+            error_log($customer_name);
+            $full_name = explode(' ', $customer_name, 2);
+            error_log( print_r($full_name, true) );
             // nested array for data received, standard across seeds
             $order_details = array(
                 'transaction_description' => '',
                 'customer_email' => $email_address,
-                'customer_first_name' => '',
-                'customer_last_name' => '',
+                'customer_first_name' => $full_name[0],
+                'customer_last_name' => $full_name[1],
                 'customer_name' => '',
-                'customer_shipping_name' => '',
+                'customer_shipping_name' => $customer_name,
                 'customer_address1' => '',
                 'customer_address2' => '',
                 'customer_city' => '',
@@ -383,8 +386,8 @@ class StripeSeed extends SeedBase
             );
 
             $payer_info = array(
-                "first_name" => "",
-                "last_name" => "",
+                "first_name" => $full_name[0],
+                "last_name" => $full_name[1],
                 "email" => $email_address,
                 "country_code" => "");
 
