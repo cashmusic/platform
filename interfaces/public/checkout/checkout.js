@@ -466,7 +466,7 @@
 					'paypal'   :false,
 					'shipping' :false,
 					'currency' :false,
-					'name'     :false
+					'name'     :false,
 					'email'    :false
 				};
 				// detect SSL for stripe
