@@ -313,14 +313,16 @@ class StripeSeed extends SeedBase
      * @param $token
      * @param $email_address
      * @param $customer_name
+     * @param $shipping_info
      * @return array|bool
      */
-    public function doPayment($total_price, $description, $token, $email_address=false, $customer_name=false)
+    public function doPayment($total_price, $description, $token, $email_address=false, $customer_name=false, $shipping_info=false)
     {
         // we need to get the details of the order to pass in the amount to Stripe
 /*        $order_details = json_decode($transaction['order_contents']);
 
         $order_details = $order_details[0];*/
+        $shipping_info = json_decode($shipping_info, true);
 
         \Stripe\Stripe::setApiKey($this->client_secret);
 
@@ -365,13 +367,12 @@ class StripeSeed extends SeedBase
                 'customer_last_name' => $full_name[1],
                 'customer_name' => '',
                 'customer_shipping_name' => $customer_name,
-                'customer_address1' => '',
-                'customer_address2' => '',
-                'customer_city' => '',
-                'customer_region' => '',
-                'customer_postalcode' => '',
-                'customer_country' => '',
-                'customer_countrycode' => '',
+                'customer_address1' => $shipping_info['address1'],
+                'customer_address2' => $shipping_info['address2'],
+                'customer_city' => $shipping_info['city'],
+                'customer_region' => $shipping_info['state'],
+                'customer_postalcode' => $shipping_info['postalcode'],
+                'customer_countrycode' => $shipping_info['country'],
                 'customer_phone' => '',
                 'transaction_date' => $transaction['creation_date'],
                 'transaction_id' => $transaction['transaction_id'],

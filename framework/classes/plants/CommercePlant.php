@@ -1421,7 +1421,8 @@ class CommercePlant extends PlantBase {
                         $total_price,
                         $order_totals['description'],
                         $email_address,
-                        $customer_name)) {
+                        $customer_name,
+                        $shipping_info)) {
                         return "success";
                     } else {
                         return "failure";
@@ -1517,7 +1518,7 @@ class CommercePlant extends PlantBase {
         }
     }
 
-    protected function finalizePayment($order_id, $token, $total_price, $description, $email_address=false, $customer_name=false) {
+    protected function finalizePayment($order_id, $token, $total_price, $description, $email_address=false, $customer_name=false, $shipping_info=false) {
 
         $order_details = $this->getOrder($order_id);
         $transaction_details = $this->getTransaction($order_details['transaction_id']);
@@ -1549,7 +1550,7 @@ class CommercePlant extends PlantBase {
         $payment_seed = new $seed_class($order_details['user_id'],$transaction_details['connection_id']);
 
         // if this was approved by the user, we need to compare some values to make sure everything matches up
-        if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address, $customer_name)) {
+        if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address, $customer_name, $shipping_info)) {
             // okay, we've got the matching totals, so let's get the $user_id, y'all
 
             error_log($payment_details['total'] . " <-payment order->" . $order_totals['price']);
