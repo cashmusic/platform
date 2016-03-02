@@ -34,7 +34,7 @@
 			<strong>{{copy_customer}}</strong>&nbsp;<a href="mailto:{{customer_email_address}}">{{customer_display_name}}</a>
 			{{^shipping_name}}<br /><strong>{{copy_country}}</strong> {{customer_address_country}}{{/shipping_name}}
 		</p><br />
-		{{#shipping_name}}
+		{{#display_shipping_address}}
 			<p>
 				<strong>{{copy_shipto}}</strong><br />
 				{{shipping_name}}<br />
@@ -43,7 +43,7 @@
 				{{shipping_city}}, {{shipping_region}} {{shipping_postalcode}}<br />
 				{{shipping_country}}
 			</p>
-		{{/shipping_name}}
+		{{/display_shipping_address}}
 
 		{{#physical}}
 			<br />

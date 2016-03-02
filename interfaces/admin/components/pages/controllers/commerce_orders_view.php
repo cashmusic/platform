@@ -124,6 +124,15 @@ if ($request_parameters) {
 		$cash_admin->page_data = array_merge($cash_admin->page_data,$order_details);
 		$cash_admin->page_data['order_contents'] = new ArrayIterator($order_contents);
 
+		// we need to iterate through order_contents to see if any items are
+		$cash_admin->page_data['display_shipping_address'] = false;
+		foreach($order_contents as $item) {
+			if ($item['physical_fulfillment'] == 0)
+			{
+				$cash_admin->page_data['display_shipping_address'] = true;
+			}
+		}
+		$cash_admin->page_data['display_shipping_address'] = $order_contents['physical_fulfillment'];
 		$shipping_address = $order_details['data'];
 		$cash_admin->page_data['customer_display_name'] = $order_details['customer_name'];
 		$cash_admin->page_data['customer_email_address'] = $order_details['customer_email'];
