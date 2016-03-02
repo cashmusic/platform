@@ -83,6 +83,8 @@ if ($request_parameters) {
 	);
 
 	$order_details = $order_details_response['payload'];
+
+	//error_log( print_r( $order_details, true ) );
 	if ($order_details['user_id'] == $effective_user) {
 
 		$order_contents = json_decode($order_details['order_contents'],true);

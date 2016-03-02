@@ -866,6 +866,14 @@ class CommercePlant extends PlantBase {
     protected function parseTransactionData($data_returned,$data_sent) {
       if (!is_array($data_returned)) {
           $data_returned = json_decode($data_returned,true);
+
+          if (isset($data_returned['payer'])) {
+              $data_returned['customer_email'] = $data_returned['payer']['email'];
+              $data_returned['customer_first_name'] = $data_returned['payer']['first_name'];
+              $data_returned['customer_last_name'] = $data_returned['payer']['last_name'];
+              $data_returned['customer_name'] = $data_returned['payer']['first_name'] . " " . $data_returned['payer']['last_name'];
+          }
+
       }
       if (!is_array($data_sent)) {
          $data_sent = json_decode($data_sent,true);
