@@ -95,7 +95,7 @@
 		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 		header("Access-Control-Allow-Origin: *");
 		header('Access-Control-Allow-Credentials: true');
-		header('Access-Control-Allow-Headers: X-Requested-With, Content-Type');
+		header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Origin, Accept');
       header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
 
 		// check the parsed_url to see if things are good
