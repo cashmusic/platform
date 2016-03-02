@@ -865,7 +865,7 @@ class CommercePlant extends PlantBase {
 
     protected function parseTransactionData($data_returned,$data_sent) {
       if (!is_array($data_returned)) {
-         $data_received = json_decode($data_returned,true);
+          $data_returned = json_decode($data_returned,true);
       }
       if (!is_array($data_sent)) {
          $data_sent = json_decode($data_sent,true);
