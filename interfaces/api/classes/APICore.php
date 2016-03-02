@@ -6,7 +6,7 @@
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2012, CASH Music
+ * Copyright (c) 2016, CASH Music
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
@@ -95,6 +95,7 @@
 		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 		header("Access-Control-Allow-Origin: *");
 		header('Access-Control-Allow-Credentials: true');
+		header('Access-Control-Allow-Headers: *');
 
 		// check the parsed_url to see if things are good
 		if (count($parsed_url['parsed'])) {
