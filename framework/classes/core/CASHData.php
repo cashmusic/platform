@@ -628,7 +628,7 @@
 	 * set $this->cache_enabled true on success.
 	 *
 	 * @return void
-	 */protected function primeCache($cache_dir=false) {
+	 */public function primeCache($cache_dir=false) {
 		if (!$cache_dir) {
 			$cache_dir = CASH_PLATFORM_ROOT.'/cache';
 		}
