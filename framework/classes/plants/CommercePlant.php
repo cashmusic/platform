@@ -1229,7 +1229,7 @@ class CommercePlant extends PlantBase {
      * @param bool $session_id
      * @return bool
      */
-    protected function initiateCheckout($order_contents=false,$element_id=false,$shipping_info=false, $shipping_price=0.00, $total_price=false,$paypal=false,$stripe=false, $origin=false, $email_address=false, $customer_name=false, $session_id=false) {
+    protected function initiateCheckout($order_contents=false,$element_id=false,$shipping_info=false, $shipping_price=0.00, $paypal=false,$stripe=false, $origin=false, $email_address=false, $customer_name=false, $session_id=false) {
 
         //TODO: store last seen top URL
         //      or maybe make the API accept GET params? does it already? who can know?
@@ -1309,7 +1309,7 @@ class CommercePlant extends PlantBase {
                     $order_contents[] = $item_details;
                 }
 
-                $price_addition = $shipping;
+                $total_price = $subtotal + $shipping;
 
                 // get connection type settings so we can extract Seed classname
                 $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
