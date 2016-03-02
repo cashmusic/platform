@@ -34,7 +34,6 @@ class SinglePurchase extends ElementBase {
 
 		// shipping
 		if ($item['physical_fulfillment'] == 1) {
-			error_log('hmm');
 			// according to the item, we've got a product with physical fulfillment--- let's assume it's shippable
 			// and revert to no shipping if it doesn't meet the basic requirements on shipping regions
 			$this->element_data['no_shipping'] = false;
