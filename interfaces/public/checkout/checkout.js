@@ -13,7 +13,7 @@
 	 *
 	 ***************************************************************************************/
 	cm.stripe = {
-		eventAttached: false;
+		eventAttached: false,
 
 		getYears: function() {
 			var year =  new Date().getFullYear();
