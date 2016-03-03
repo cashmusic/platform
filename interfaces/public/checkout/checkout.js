@@ -13,6 +13,8 @@
 	 *
 	 ***************************************************************************************/
 	cm.stripe = {
+		eventAttached: false,
+
 		getYears: function() {
 			var year =  new Date().getFullYear();
 			var years = {};
@@ -51,35 +53,38 @@
 					formElements.push({id: "card-cvc", type: "text", placeholder: "CVV"});
 		         formElements.push({id: "stripe-submit", type: "submit", text: "Submit Payment"});
 					cm.userinput.getInput(formElements,'getstripetoken');
-					cm.events.add(cm,'userinput', function(e) {
-						if (e.detail['cm-userinput-type'] == 'getstripetoken') {
-							Stripe.setPublishableKey(key);
-			            Stripe.card.createToken({
-			                name: e.detail['name'],
-			                number: e.detail['card-number'],
-			                cvc: e.detail['card-cvc'],
-			                exp_month: e.detail['card-expiry-month'],
-			                exp_year: e.detail['card-expiry-year']
-			            }, function(status, response, evt) {
-			               if (response.error) {
-			                  // Show the errors on the form
-									document.getElementById('cm-userinput-message').innerHTML = response.error.message;
-									cm.styles.addClass(document.getElementsByClassName('cm-userinput-container')[0],'nope');
-									setTimeout(function(){
-										cm.styles.removeClass(document.getElementsByClassName('cm-userinput-container')[0],'nope');
-									}, 800);
-			               } else {
-			                  // response contains id and card, which contains additional card details
-			                  cm.storage['checkoutdata']['stripe'] = response.id;
-									cm.storage['checkoutdata']['name']   = e.detail['name'];
-									cm.storage['checkoutdata']['email']  = e.detail['email'];
-									cm.events.fire(cm,'checkoutdata',cm.storage['checkoutdata'],source);
-									cm.overlay.reveal('<div class="cm-loading"></div>');
-			               }
-			            });
+					if (!cm.stripe.eventAttached) {
+						cm.events.add(cm,'userinput', function(e) {
+							if (e.detail['cm-userinput-type'] == 'getstripetoken') {
+								Stripe.setPublishableKey(key);
+				            Stripe.card.createToken({
+				                name: e.detail['name'],
+				                number: e.detail['card-number'],
+				                cvc: e.detail['card-cvc'],
+				                exp_month: e.detail['card-expiry-month'],
+				                exp_year: e.detail['card-expiry-year']
+				            }, function(status, response, evt) {
+				               if (response.error) {
+				                  // Show the errors on the form
+										document.getElementById('cm-userinput-message').innerHTML = response.error.message;
+										cm.styles.addClass(document.getElementsByClassName('cm-userinput-container')[0],'nope');
+										setTimeout(function(){
+											cm.styles.removeClass(document.getElementsByClassName('cm-userinput-container')[0],'nope');
+										}, 800);
+				               } else {
+				                  // response contains id and card, which contains additional card details
+				                  cm.storage['checkoutdata']['stripe'] = response.id;
+										cm.storage['checkoutdata']['name']   = e.detail['name'];
+										cm.storage['checkoutdata']['email']  = e.detail['email'];
+										cm.events.fire(cm,'checkoutdata',cm.storage['checkoutdata'],source);
+										cm.overlay.reveal('<div class="cm-loading"></div>');
+				               }
+				            });
 
-						}
-					});
+							}
+						});
+						cm.stripe.eventAttached = true;
+					}
 				});
 			}
 		}
@@ -466,18 +471,6 @@
 			if (cm.embedded) {
 				cm.events.fire(cm,'begincheckout',options);
 			} else {
-				// this push business feels really dumb but we need a proper length count
-				// and using a single array literal wasn't expanding properly via push
-				var shippingElements = [];
-				shippingElements.push(
-					{id: "name", type: "text", placeholder: "Ship to name", required: true},
-		   		{id: "address1", type: "text", placeholder: "Shipping address 1", required: true},
-					{id: "address2", type: "text", placeholder: "Shipping address 2"},
-					{id: "city", type: "text", placeholder: "City", required: true},
-					{id: "state", type: "text", placeholder: "State/Province/Region", required: true},
-					{id: "postalcode", type: "text", placeholder: "Postal code", required: true}
-				);
-
 				// add in styles
 				cm.styles.injectCSS(cm.path + 'templates/checkout.css');
 				// set up the empty object we'll populate in the return
@@ -495,6 +488,17 @@
 				}
 				// choose defaults by currency
 				if (options.shipping) {
+					// this push business feels really dumb but we need a proper length count
+					// and using a single array literal wasn't expanding properly via push
+					var shippingElements = [];
+					shippingElements.push(
+						{id: "name", type: "text", placeholder: "Ship to name", required: true},
+			   		{id: "address1", type: "text", placeholder: "Shipping address 1", required: true},
+						{id: "address2", type: "text", placeholder: "Shipping address 2"},
+						{id: "city", type: "text", placeholder: "City", required: true},
+						{id: "state", type: "text", placeholder: "State/Province/Region", required: true},
+						{id: "postalcode", type: "text", placeholder: "Postal code", required: true}
+					);
 					if (options.stripe || options.paypal) {
 						var selectedCountry = "US";
 						if (options.currency) {
