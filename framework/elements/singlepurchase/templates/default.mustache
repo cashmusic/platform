@@ -85,6 +85,7 @@
 			cm.events.add(button,'click', function(e) {
             console.log('click, motherfucker');
             e.preventDefault();
+            e.stopPropagation();
 
             var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
 				var poststring = 'cash_request_type=commerce&cash_action=emptycart';
