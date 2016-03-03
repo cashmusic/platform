@@ -217,6 +217,8 @@
 	 *
 	 ***************************************************************************************/
 	cm.checkout = {
+		prepped: false,
+
 		countries: {
 			"AF":"Afghanistan",
 			"AX":"Åland Islands",
@@ -467,12 +469,19 @@
 			"ZW":"Zimbabwe"
 		},
 
+		prep: function () {
+			if (!cm.checkout.prepped) {
+				// add in styles
+				cm.styles.injectCSS(cm.path + 'templates/checkout.css',false,true);
+				cm.checkout.prepped = true;
+			}
+		},
+
 		begin: function (options,source) {
 			if (cm.embedded) {
 				cm.events.fire(cm,'begincheckout',options);
 			} else {
-				// add in styles
-				cm.styles.injectCSS(cm.path + 'templates/checkout.css');
+				cm.checkout.prep();
 				// set up the empty object we'll populate in the return
 				cm.storage['checkoutdata'] = {
 					'stripe'   :false,
