@@ -21,11 +21,12 @@ use PayPal\Api\ExecutePayment;
 use PayPal\Api\PaymentExecution;
 
 
-class PaypalSeedTests extends UnitTestCase {
-	private $paypal_connection_id, $paypal_username,$cash_user_id;
+class StripeSeedTests extends UnitTestCase {
+	protected $client_id, $client_secret, $error_message, $transaction_id, $cash_user_id, $stripe_connection_id, $transaction_request;
+	public $publishable_key, $redirects;
 	
 	function __construct() {
-		echo "Testing Paypal Seed\n";
+		echo "Testing Stripe Seed\n";
 		
 		// add a new admin user for this
 		$user_add_request = new CASHRequest(
@@ -38,33 +39,15 @@ class PaypalSeedTests extends UnitTestCase {
 			)
 		);
 
-		$this->api_context = new \PayPal\Rest\ApiContext(
-			new \PayPal\Auth\OAuthTokenCredential(
-				getTestEnv("PAYPAL_CLIENT_ID"),        # ClientID
-				getTestEnv("PAYPAL_SECRET")            # ClientSecret
-			)
-		);
-
-
-		$this->api_context->setConfig(
-			array("mode" => "sandbox")
-		);
-
 		$this->cash_user_id = $user_add_request->response['payload'];
 		
-		// add a new connection
-		$this->paypal_account = getTestEnv("PAYPAL_ACCOUNT");
 
-		if(!$this->paypal_account) {
-			echo "Paypal credentials not found, skipping tests\n";
-		}
 		$c = new CASHConnection($this->cash_user_id); // the '1' sets a user id=1
-		$this->paypal_connection_id = $c->setSettings('Paypal', 'com.paypal',
+		$this->stripe_connection_id = $c->setSettings('Stripe', 'com.stripe',
 			array(
-				"account" => $this->paypal_account,
-				"client_id" => getTestEnv("PAYPAL_CLIENT_ID"),
-				"secret" => getTestEnv("PAYPAL_SECRET"),
-				"sandboxed" => true
+				"client_id" => getTestEnv("STRIPE_client_id"),
+  				"client_secret" =>  getTestEnv("STRIPE_client_secret"),
+  				"publishable_key" => getTestEnv("STRIPE_publishable_key")
 			) 
 		);
 
@@ -74,7 +57,7 @@ class PaypalSeedTests extends UnitTestCase {
 				'cash_action' => 'addtransaction',
 				'user_id' => $this->cash_user_id,
 				'connection_id' => 1,
-				'connection_type' => 'com.paypal',
+				'connection_type' => 'com.stripe',
 				'service_timestamp' => 'string not int — different formats',
 				'service_transaction_id' => '123abc',
 				'data_sent' => 'false',
@@ -85,16 +68,28 @@ class PaypalSeedTests extends UnitTestCase {
 			)
 		);
 
+		$this->redirects = false;
+
+		$session_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system',
+				'cash_action' => 'startjssession'
+			)
+		);
+		if ($session_request->response['payload']) {
+			$s = json_decode($session_request->response['payload'],true);
+			$this->session_id = $s['id'];
+		}
+
 		$this->testing_transaction = $this->transaction_request->response['payload'];
 	}
 
-	function testPaypalSeed(){
-		if($this->paypal_account) {
-			$pp = new PaypalSeed($this->cash_user_id, $this->paypal_connection_id);
-			$this->assertIsa($pp, 'PaypalSeed');
-		}
-	}
+	function testStripeSeed(){
 
+		$payment_seed = new StripeSeed($this->cash_user_id, $this->stripe_connection_id);
+		$this->assertIsa($payment_seed, 'StripeSeed');
+	}
+/*
 	function testSingleItemNoShipping(){
 		if($this->paypal_account) {
 			$payment_seed = new PaypalSeed($this->cash_user_id, $this->paypal_connection_id);
@@ -112,8 +107,7 @@ class PaypalSeedTests extends UnitTestCase {
 				false,										# invoice (boolean)
 				0											# price additions (like shipping, but could be taxes in future as well)
 			);
-
-
+			
 			$this->assertTrue($payment_details['redirect_url']);
 			//$redirect = CASHSystem::redirectToUrl($redirect_url);
 			//echo $redirect;
@@ -150,5 +144,5 @@ class PaypalSeedTests extends UnitTestCase {
 
 	function testSandboxOn() {
 
-	}
+	}*/
 }

@@ -201,7 +201,7 @@ class PaypalSeed extends SeedBase
             ->setTotal($total_price);
 
 
-        if ($request_shipping_info && $shipping_price > 0) {
+/*        if ($request_shipping_info && $shipping_price > 0) {
             $shipping = new Details();
             $shipping->setShipping($shipping_price)
                 //->setTax(1.3)
@@ -209,7 +209,7 @@ class PaypalSeed extends SeedBase
             //TODO: assumes shipping cost is passed in as part of the total $payment_amount
 
             $amount->setDetails($shipping);
-        }
+        }*/
 
         $transaction = new Transaction();
         $transaction->setAmount($amount)
