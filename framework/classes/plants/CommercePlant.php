@@ -1423,8 +1423,10 @@ class CommercePlant extends PlantBase {
                         $email_address,
                         $customer_name,
                         $shipping_info)) {
+                        error_log("success fucker");
                         return "success";
                     } else {
+                        error_log("failure fucker");
                         return "failure";
                     }
 
@@ -1597,8 +1599,14 @@ class CommercePlant extends PlantBase {
                     $order_details['customer_details']['email_address'] = $payment_details['payer']['email'];
 
                     $order_details['gross_price'] = $payment_details['total'];
-                    $this->sendOrderReceipt(false,$order_details,$finalize_url);
-                    return $order_details['id'];
+
+                    try {
+                        $this->sendOrderReceipt(false,$order_details,$finalize_url);
+                    } catch (Exception $e) {
+                        //TODO: what happens when order receipt not sent?
+                    }
+
+                    return true;
 
                 } else {
                     $this->setErrorMessage("Couldn't find your account.");
