@@ -99,6 +99,7 @@
 					cm.ajax.send(submitUrl, poststring, function(r) {
                   console.log('adding to cart, requesting checkout data');
                   cm.loadScript(cm.path + 'checkout/checkout.js', function () {
+                     console.log('added checkout.js — starting');
                      cm.checkout.begin({
                         "stripe": stripe_public_key,
                         "paypal": paypal,
