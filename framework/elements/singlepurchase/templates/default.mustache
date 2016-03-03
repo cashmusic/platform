@@ -70,7 +70,6 @@
 
    // go
 	cm.events.add(cm,'ready', function(e) {
-
 		{{#session_id}}
 			cm.session.setid(JSON.stringify({
 				"endpoint": window.location.href.split('/').slice(0,3).join('/'),
@@ -81,92 +80,89 @@
 		cm.session.start();
 
 		// sort all the cart buttons
-		var buttons = document.querySelectorAll('.cm-buynow');
-		if (buttons.length > 0) {
-			for (var i = 0, len = buttons.length; i < len; i++) {
-				cm.events.add(buttons[i],'click', function(e) {
-               e.preventDefault();
-               var button = this;
+		var button = document.querySelector('.cm-buynow.cm-item-{{item_id}}');
+		if (button) {
+			cm.events.add(button,'click', function(e) {
+            e.preventDefault();
 
-               var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
-					var poststring = 'cash_request_type=commerce&cash_action=emptycart';
-               cm.ajax.send(submitUrl, poststring, function(r) {
-   					var poststring = 'cash_request_type=commerce&cash_action=addtocart&item_id=' + button.getAttribute('data-itemid') + '&price=' + button.getAttribute('data-price');
-   					if (button.getAttribute('data-variantid')) {
-   						poststring += '&item_variant='+ encodeURIComponent(button.getAttribute('data-variantid'));
-   					}
+            var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
+				var poststring = 'cash_request_type=commerce&cash_action=emptycart';
+            cm.ajax.send(submitUrl, poststring, function(r) {
+					var poststring = 'cash_request_type=commerce&cash_action=addtocart&item_id=' + button.getAttribute('data-itemid') + '&price=' + button.getAttribute('data-price');
+					if (button.getAttribute('data-variantid')) {
+						poststring += '&item_variant='+ encodeURIComponent(button.getAttribute('data-variantid'));
+					}
 
-   					cm.ajax.send(submitUrl, poststring, function(r) {
-                     cm.loadScript(cm.path + 'checkout/checkout.js', function () {
-                        cm.checkout.begin({
-                           "stripe": stripe_public_key,
-                           "paypal": paypal,
-                           "currency": "{{currency}}", // USD = auto default
-                           "shipping": shipping, // or bool true for no region selector
-                           "testing": true
-                       });
-                     });
+					cm.ajax.send(submitUrl, poststring, function(r) {
+                  cm.loadScript(cm.path + 'checkout/checkout.js', function () {
+                     cm.checkout.begin({
+                        "stripe": stripe_public_key,
+                        "paypal": paypal,
+                        "currency": "{{currency}}", // USD = auto default
+                        "shipping": shipping, // or bool true for no region selector
+                        "testing": true
+                    });
+                  });
 
-                     cm.events.add(cm, 'checkoutdata', function (payment) {
-                        var f = document.createElement('form');
-                        f.method = 'post';
-                        f.action = '';
+                  cm.events.add(cm, 'checkoutdata', function (payment) {
+                     var f = document.createElement('form');
+                     f.method = 'post';
+                     f.action = '';
 
-                        var els = ['cash_request_type','cash_action','element_id','shipping_price','total_price','shipping_info','paypal','stripe','origin','email_address','customer_name'];
-                        for (var i = 0, len = els.length; i < len; i++) {
-                           var inp = document.createElement('input');
-                           inp.type = 'hidden';
-                           inp.name = els[i];
-                           inp.value = '';
-                           f.appendChild(inp);
+                     var els = ['cash_request_type','cash_action','element_id','shipping_price','total_price','shipping_info','paypal','stripe','origin','email_address','customer_name'];
+                     for (var i = 0, len = els.length; i < len; i++) {
+                        var inp = document.createElement('input');
+                        inp.type = 'hidden';
+                        inp.name = els[i];
+                        inp.value = '';
+                        f.appendChild(inp);
+                     }
+
+                     f.cash_request_type.value = 'commerce';
+                     f.cash_action.value = 'initiatecheckout';
+                     f.element_id.value = {{element_id}};
+                     f.total_price.value = parseFloat(button.getAttribute('data-price'));
+                     f.origin.value = top.location.href;
+                     f.email_address.value = payment.detail.email;
+                     f.customer_name.value = payment.detail.name;
+                     if (payment.detail.paypal) {
+                        f.paypal.value = 1;
+                     }
+                     if (payment.detail.stripe) {
+                        f.stripe.value = payment.detail.stripe;
+                     }
+
+                     // add shipping to form
+                     if (payment.detail.shipping) {
+                        f.shipping_info.value = JSON.stringify(payment.detail.shipping);
+                        var shipping = 0;
+                        if (payment.detail.shipping['shipping-region'] == "r1") {
+                           shipping = {{region1_cost}};
                         }
-
-                        f.cash_request_type.value = 'commerce';
-                        f.cash_action.value = 'initiatecheckout';
-                        f.element_id.value = {{element_id}};
-                        f.total_price.value = parseFloat(button.getAttribute('data-price'));
-                        f.origin.value = top.location.href;
-                        f.email_address.value = payment.detail.email;
-                        f.customer_name.value = payment.detail.name;
-                        if (payment.detail.paypal) {
-                           f.paypal.value = 1;
+                        if (payment.detail.shipping['shipping-region'] == "r2") {
+                           shipping = {{region2_cost}};
                         }
-                        if (payment.detail.stripe) {
-                           f.stripe.value = payment.detail.stripe;
+                        if (shipping > 0) {
+                           shipping = parseFloat(shipping);
+                           f.shipping_price.value = shipping;
+                           f.total_price.value = shipping + f.total_price.value;
                         }
-
-                        // add shipping to form
-                        if (payment.detail.shipping) {
-                           f.shipping_info.value = JSON.stringify(payment.detail.shipping);
-                           var shipping = 0;
-                           if (payment.detail.shipping['shipping-region'] == "r1") {
-                              shipping = {{region1_cost}};
-                           }
-                           if (payment.detail.shipping['shipping-region'] == "r2") {
-                              shipping = {{region2_cost}};
-                           }
-                           if (shipping > 0) {
-                              shipping = parseFloat(shipping);
-                              f.shipping_price.value = shipping;
-                              f.total_price.value = shipping + f.total_price.value;
-                           }
-                           if (payment.detail.shipping['shipping-region']) {
-                              var requesturl = '{{api_url}}/verbose/commerce/editcartshipping/region/' + payment.detail.shipping['shipping-region'] + '/';
-                              requesturl += '?ts=' + new Date().getTime();
-                              cm.ajax.send(requesturl, false,
-                                 function() {
-                                    initiatePayment(f)
-                                 }
-                              );
-                           }
-                        } else {
-                           initiatePayment(f)
+                        if (payment.detail.shipping['shipping-region']) {
+                           var requesturl = '{{api_url}}/verbose/commerce/editcartshipping/region/' + payment.detail.shipping['shipping-region'] + '/';
+                           requesturl += '?ts=' + new Date().getTime();
+                           cm.ajax.send(requesturl, false,
+                              function() {
+                                 initiatePayment(f)
+                              }
+                           );
                         }
-                     });
-						});
-               });
-				});
-			}
+                     } else {
+                        initiatePayment(f)
+                     }
+                  });
+					});
+            });
+			});
 		}
 
       function initiatePayment(f) {
