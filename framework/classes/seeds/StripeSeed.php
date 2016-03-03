@@ -33,8 +33,6 @@ class StripeSeed extends SeedBase
         $this->connection_id = $connection_id;
 
         if ($this->getCASHConnection()) {
-
-
             $this->client_id = $this->settings->getSetting('client_id');
             $this->client_secret = $this->settings->getSetting('client_secret');
             $this->publishable_key = $this->settings->getSetting('publishable_key');
@@ -324,9 +322,12 @@ class StripeSeed extends SeedBase
         $order_details = $order_details[0];*/
         $shipping_info = json_decode($shipping_info, true);
 
-        \Stripe\Stripe::setApiKey($this->client_secret);
+
 
     if (!empty($token)) {
+
+        try {
+            \Stripe\Stripe::setApiKey($this->client_secret);
 
             if (!$payment_results = \Stripe\Charge::create(
                 array(
@@ -341,6 +342,12 @@ class StripeSeed extends SeedBase
                 $this->setErrorMessage("Stripe payment failed.");
                 return false;
             }
+        } catch (Exception $e) {
+            $this->setErrorMessage("Issue contacting the Stripe API servers.");
+            return false;
+        }
+
+
         } else {
             $this->setErrorMessage("No Stripe token found.");
             return false;
