@@ -147,36 +147,52 @@ class StripeSeedTests extends UnitTestCase {
 		//$this->assertIsA($payment_seed, "array");
 	}
 
-/*
-	function testSingleItemWithShipping(){
-		if($this->paypal_account) {
-			$payment_seed = new PaypalSeed($this->cash_user_id, $this->paypal_connection_id);
+	function testDoPaymentChargeDeclined(){
+		$payment_seed = new StripeSeed($this->cash_user_id, $this->stripe_connection_id);
 
-			$payment_details = $payment_seed->preparePayment(
-				6.66,										# payment amount
-				'order-sku',								# order id
-				'the order of the beast',					# order name
-				'http://dev.localhost:8888?cash_request_type=commerce&cash_action=finalizepayment',				# return URL
-				'http://dev.localhost:8888?cash_request_type=commerce&cash_action=finalizepaymentt',				# cancel URL (the same in our case)
-				true,										# shipping info required (boolean)
-				true,										# allow an order note (boolean)
-				'USD',										# payment currency
-				'sale',										# transaction type (e.g. 'Sale', 'Order', or 'Authorization')
-				false,										# invoice (boolean)
-				1.23											# price additions (like shipping, but could be taxes in future as well)
-			);
+		$token = \Stripe\Token::create(array(
+			"card" => array(
+				"number" => "4000000000000002",
+				"exp_month" => 3,
+				"exp_year" => 2017,
+				"cvc" => "314"
+			)
+		));
 
-			$this->assertTrue($payment_details['redirect_url']);
-			//$redirect = CASHSystem::redirectToUrl($redirect_url);
-			//echo $redirect;
-		}
+		$payment_details = $payment_seed->doPayment(
+			15, // total price
+			"test transaction", // description
+			$token,			// token
+			"timothy@mctest.com",	// email
+			"tim mctest",	// name
+			false);	// shipping info
+
+		$this->assertFalse($payment_details);
+		//$this->assertIsA($payment_seed, "array");
 	}
 
-	function testSandboxOff() {
+	function testDoPaymentIncorrectCVC(){
+		$payment_seed = new StripeSeed($this->cash_user_id, $this->stripe_connection_id);
 
+		$token = \Stripe\Token::create(array(
+			"card" => array(
+				"number" => "4000000000000127",
+				"exp_month" => 3,
+				"exp_year" => 2017,
+				"cvc" => "314"
+			)
+		));
+
+		$payment_details = $payment_seed->doPayment(
+			15, // total price
+			"test transaction", // description
+			$token,			// token
+			"timothy@mctest.com",	// email
+			"tim mctest",	// name
+			false);	// shipping info
+
+		$this->assertFalse($payment_details);
+		//$this->assertIsA($payment_seed, "array");
 	}
 
-	function testSandboxOn() {
-
-	}*/
 }
