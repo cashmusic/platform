@@ -20,7 +20,7 @@
 	{{/metadata_command}}
 
 	{{#show_location}}
-	
+
 			<div class="pure-u-1 pure-u-md-1-2">
 				<label for="connection_id">{{label_which_connection}}</label>
 				<select id="connection_id" name="connection_id">
@@ -32,7 +32,7 @@
 				<label for="asset_location">{{label_location}}</label>
 				<input type="text" class="required" id="asset_location" name="asset_location" value="{{location}}" />
 			</div><!--pure-->
-			
+
 			<div class="pure-u-1">
 			<!--
 				  *
@@ -42,7 +42,7 @@
 				  *
 				  -->
 			<div class="drawer noprefix upload-corral">
-					<small class="fadedtext"><div class="icon icon-cloud-upload"></div><!--icon-->{{copy_hosting_connection}}<a href="#" data-upload-endpoint="{{{www_path}}}/assets/uploadform/" class="drawerhandle usecolor2 file-upload-trigger">{{copy_upload_a_file}}</a></small>
+					<p class="small fadedtext"><div class="icon icon-cloud-upload"></div><!--icon-->{{copy_hosting_connection}}<a href="#" data-upload-endpoint="{{{www_path}}}/assets/uploadform/" class="drawerhandle usecolor2 file-upload-trigger">{{copy_upload_a_file}}</a></p>
 					<div class="drawercontent"></div>
 				</div><!--drawer-->
 			</div><!--pure-->
@@ -54,7 +54,7 @@
 
 	{{/show_location}}
 	{{^show_location}}
-		
+
 			<div class="pure-u-1">
 				<input type="hidden" name="connection_id" value="" />
 				<input type="hidden" name="asset_location" value="" />
