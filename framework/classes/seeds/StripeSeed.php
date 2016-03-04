@@ -316,13 +316,6 @@ class StripeSeed extends SeedBase
      */
     public function doPayment($total_price, $description, $token, $email_address=false, $customer_name=false, $shipping_info=false)
     {
-        // we need to get the details of the order to pass in the amount to Stripe
-/*        $order_details = json_decode($transaction['order_contents']);
-
-        $order_details = $order_details[0];*/
-        $shipping_info = json_decode($shipping_info, true);
-
-
 
     if (!empty($token)) {
 
@@ -365,6 +358,7 @@ class StripeSeed extends SeedBase
                 return false;
             }
 
+            $shipping_info = json_decode($shipping_info, true);
             $full_name = explode(' ', $customer_name, 2);
             // nested array for data received, standard across seeds
             $order_details = array(
@@ -381,8 +375,8 @@ class StripeSeed extends SeedBase
                 'customer_postalcode' => $shipping_info['postalcode'],
                 'customer_countrycode' => $shipping_info['country'],
                 'customer_phone' => '',
-                'transaction_date' => $transaction['creation_date'],
-                'transaction_id' => $transaction['transaction_id'],
+                'transaction_date' => $payment_results->created,
+                'transaction_id' => $payment_results->id,
                 'sale_id' => $payment_results->id,
                 'items' => array(),
                 'total' => round($payment_results->amount / 100),
@@ -402,7 +396,7 @@ class StripeSeed extends SeedBase
             return array('total' => round($payment_results->amount / 100),
                 'payer' => $payer_info,
                 'timestamp' => $payment_results->created,
-                'transaction_id' => $transaction['transaction_id'],
+                'transaction_id' => $payment_results->id,
                 'service_transaction_id' => $payment_results->id,
                 'service_charge_id' => $payment_results->balance_transaction,
                 'transaction_fee' => ($transaction_fees->fee / 100),
@@ -410,7 +404,7 @@ class StripeSeed extends SeedBase
             );
         } else {
 
-            $this->setErrorMessage("Error with doPayment");
+            $this->setErrorMessage("Error with Stripe payment.");
             return false;
         }
 

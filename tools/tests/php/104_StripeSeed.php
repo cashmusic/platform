@@ -2,23 +2,10 @@
 
 require_once(dirname(__FILE__) . '/base.php');
 
-require CASH_PLATFORM_ROOT . '/lib/paypal/autoload.php';
+//require_once(CASH_PLATFORM_ROOT . '/lib/stripe/StripeOAuth.class.php');
+//require_once(CASH_PLATFORM_ROOT . '/lib/stripe/init.php');
 
-use PayPal\Auth\OAuthTokenCredential;
-use PayPal\Rest\ApiContext;
-use PayPal\Api\Amount;
-use PayPal\Api\Details;
-use PayPal\Api\Item;
-use PayPal\Api\ItemList;
-use PayPal\Api\Payer;
-use PayPal\Api\Refund;
-use PayPal\Api\RefundDetail;
-use PayPal\Api\Sale;
-use PayPal\Api\Payment;
-use PayPal\Api\RedirectUrls;
-use PayPal\Api\Transaction;
-use PayPal\Api\ExecutePayment;
-use PayPal\Api\PaymentExecution;
+use \Stripe\Stripe;
 
 
 class StripeSeedTests extends UnitTestCase {
@@ -27,7 +14,7 @@ class StripeSeedTests extends UnitTestCase {
 	
 	function __construct() {
 		echo "Testing Stripe Seed\n";
-		
+		//echo print_r(get_included_files(), true);
 		// add a new admin user for this
 		$user_add_request = new CASHRequest(
 			array(
@@ -82,38 +69,85 @@ class StripeSeedTests extends UnitTestCase {
 		}
 
 		$this->testing_transaction = $this->transaction_request->response['payload'];
+
+
 	}
 
 	function testStripeSeed(){
 
 		$payment_seed = new StripeSeed($this->cash_user_id, $this->stripe_connection_id);
 		$this->assertIsa($payment_seed, 'StripeSeed');
+
+		\Stripe\Stripe::setApiKey(getTestEnv("STRIPE_client_secret"));
 	}
+
+	function testDoPaymentNoToken(){
+
+		$payment_seed = new StripeSeed($this->cash_user_id, $this->stripe_connection_id);
+			$payment_details = $payment_seed->doPayment(
+				15.32, // total price
+				"test transaction", // description
+				false,			// token
+				"timothy@mctest.com",	// email
+				"tim mctest",	// name
+				false);	// shipping info
+
+			$this->assertFalse($payment_details);
+			//$this->assertIsA($payment_seed, "array");
+	}
+
+	function testDoPaymentToken(){
+		$payment_seed = new StripeSeed($this->cash_user_id, $this->stripe_connection_id);
+
+		$token = \Stripe\Token::create(array(
+			"card" => array(
+				"number" => "4242424242424242",
+				"exp_month" => 3,
+				"exp_year" => 2017,
+				"cvc" => "314"
+			)
+		));
+
+		$payment_details = $payment_seed->doPayment(
+			15.32, // total price
+			"test transaction", // description
+			$token,			// token
+			"timothy@mctest.com",	// email
+			"tim mctest",	// name
+			false);	// shipping info
+
+		$this->assertTrue($payment_details);
+		$this->assertIsA($payment_details['transaction_id'], "string");
+		$this->assertIsA($payment_details['payer'], "array");
+		$this->assertEqual("timothy@mctest.com", $payment_details['payer']['email']);
+		//$this->assertIsA($payment_seed, "array");
+	}
+
+	function testDoPaymentZeroCharge(){
+		$payment_seed = new StripeSeed($this->cash_user_id, $this->stripe_connection_id);
+
+		$token = \Stripe\Token::create(array(
+			"card" => array(
+				"number" => "4242424242424242",
+				"exp_month" => 3,
+				"exp_year" => 2017,
+				"cvc" => "314"
+			)
+		));
+
+		$payment_details = $payment_seed->doPayment(
+			0, // total price
+			"test transaction", // description
+			$token,			// token
+			"timothy@mctest.com",	// email
+			"tim mctest",	// name
+			false);	// shipping info
+
+		$this->assertFalse($payment_details);
+		//$this->assertIsA($payment_seed, "array");
+	}
+
 /*
-	function testSingleItemNoShipping(){
-		if($this->paypal_account) {
-			$payment_seed = new PaypalSeed($this->cash_user_id, $this->paypal_connection_id);
-
-			$payment_details = $payment_seed->preparePayment(
-				'6.66',										# payment amount
-				'order-sku',								# order id
-				'the order of the beast',					# order name
-				'http://dev.localhost:8888?cash_request_type=commerce&cash_action=finalizepayment',				# return URL
-				'http://dev.localhost:8888?cash_request_type=commerce&cash_action=finalizepayment',				# cancel URL (the same in our case)
-				false,										# shipping info required (boolean)
-				false,										# allow an order note (boolean)
-				'USD',										# payment currency
-				'sale',										# transaction type (e.g. 'Sale', 'Order', or 'Authorization')
-				false,										# invoice (boolean)
-				0											# price additions (like shipping, but could be taxes in future as well)
-			);
-			
-			$this->assertTrue($payment_details['redirect_url']);
-			//$redirect = CASHSystem::redirectToUrl($redirect_url);
-			//echo $redirect;
-		}
-	}
-
 	function testSingleItemWithShipping(){
 		if($this->paypal_account) {
 			$payment_seed = new PaypalSeed($this->cash_user_id, $this->paypal_connection_id);
