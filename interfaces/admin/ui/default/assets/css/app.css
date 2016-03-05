@@ -284,9 +284,9 @@ a:hover{
 
 ul, ol{
 	margin:0;
-	padding:0;
+	padding:0 0 0 18px;
 	font-size: 14px;
-    line-height: 18px;
+  line-height: 18px;
 }
 
 ul.list{
