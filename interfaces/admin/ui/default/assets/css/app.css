@@ -2012,16 +2012,38 @@ section[role=main].hero{
 	overflow:auto;
 }
 
+.tertiarynav li{
+	display: inline-block;
+}
+
 .tertiarynav li a{
-	float:left;
+	display: inline-block;
 	background:#00cf7f;
 	color:#f5f5f5;
 	padding:10px;
 	margin:0 1px 1px 0;
 	text-decoration: none;
-	-webkit-border-radius: 3px;
+	/*-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
-	border-radius: 3px;
+	border-radius: 3px;*/
+}
+
+.tertiarynav li:first-of-type a{
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+
+.tertiarynav li:last-of-type a{
+	-webkit-border-top-right-radius: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	-moz-border-radius-topright: 3px;
+	-moz-border-radius-bottomright: 3px;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
 }
 
 .tertiarynav li a:hover, .tertiarynav li a.current{
@@ -2868,6 +2890,7 @@ color:#fff!important;
 	display:inline-block;
 	text-decoration: none;
 }
+
 
 
 /* Mini Nav */
@@ -4874,9 +4897,6 @@ label.checklabel{
 	position:absolute;
 }
 
-.page-editor{
-	overflow: hidden;
-}
 
 .page-editor .modallightbox .editor .editor-inner{
 	margin:0 auto;
