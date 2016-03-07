@@ -31,17 +31,17 @@
 
 	<div class="pure-u-1 pure-u-md-1-4">
 		<p>
-			<strong>{{copy_customer}}</strong>&nbsp;<a href="mailto:{{customer_email_address}}">{{customer_display_name}}</a>
-			{{^shipping_name}}<br /><strong>{{copy_country}}</strong> {{customer_address_country}}{{/shipping_name}}
+			<strong>{{copy_customer}}</strong>&nbsp;<a href="mailto:{{customer_emails}}">{{customer_name}}</a>
+			{{#customer_countrycode}}<br /><strong>{{copy_country}}</strong> {{customer_countrycode}}{{/customer_countrycode}}
 		</p><br />
 		{{#display_shipping_address}}
 			<p>
 				<strong>{{copy_shipto}}</strong><br />
-				{{shipping_name}}<br />
-				{{shipping_address1}}<br/>
-				{{#shipping_address2}}{{shipping_address2}}<br/>{{/shipping_address2}}
-				{{shipping_city}}, {{shipping_region}} {{shipping_postalcode}}<br />
-				{{shipping_country}}
+				{{#customer_shipping_name}}{{customer_shipping_name}}{{/customer_shipping_name}}{{^customer_shipping_name}}{{customer_name}}{{/customer_shipping_name}}<br />
+				{{customer_address1}}<br/>
+				{{#customer_address2}}{{customer_address2}}<br/>{{/customer_address2}}
+				{{customer_city}}, {{customer_region}} {{customer_country}}<br />
+				{{customer_postalcode}}
 			</p>
 		{{/display_shipping_address}}
 
