@@ -1237,7 +1237,7 @@ class CommercePlant extends PlantBase {
      * @param bool $session_id
      * @return bool
      */
-    protected function initiateCheckout($order_contents=false,$element_id=false,$shipping_info=false, $shipping_price=0.00, $paypal=false,$stripe=false, $origin=false, $email_address=false, $customer_name=false, $session_id=false) {
+    public function initiateCheckout($order_contents=false,$element_id=false,$shipping_info=false, $shipping_price=0.00, $paypal=false,$stripe=false, $origin=false, $email_address=false, $customer_name=false, $session_id=false) {
 
         //TODO: store last seen top URL
         //      or maybe make the API accept GET params? does it already? who can know?
@@ -1338,8 +1338,6 @@ class CommercePlant extends PlantBase {
                     }
                 }
 
-
-
             $currency = $this->getCurrencyForUser($user_id);
 
             $transaction_id = $this->addTransaction(
@@ -1412,7 +1410,7 @@ class CommercePlant extends PlantBase {
                     return $approval_url;
                 } else {
                     // doPayment
-                    $order_details = $this->getOrder($order_id);
+                    //$order_details = $this->getOrder($order_id);
 
                     // javascript shows success or failure depending on what happens here
                     if ($result = $this->finalizePayment(
@@ -1422,11 +1420,12 @@ class CommercePlant extends PlantBase {
                         $order_totals['description'],
                         $email_address,
                         $customer_name,
-                        $shipping_info)) {
-                        error_log("success fucker");
+                        $shipping_info,
+                        $session_id)) {
+                        error_log("success");
                         return "success";
                     } else {
-                        error_log("failure fucker");
+                        error_log("failure");
                         return "failure";
                     }
 
@@ -1520,7 +1519,7 @@ class CommercePlant extends PlantBase {
         }
     }
 
-    protected function finalizePayment($order_id, $token, $total_price, $description, $email_address=false, $customer_name=false, $shipping_info=false) {
+    public function finalizePayment($order_id, $token, $total_price, $description, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false) {
 
         $order_details = $this->getOrder($order_id);
         $transaction_details = $this->getTransaction($order_details['transaction_id']);
@@ -1554,8 +1553,6 @@ class CommercePlant extends PlantBase {
         // if this was approved by the user, we need to compare some values to make sure everything matches up
         if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address, $customer_name, $shipping_info)) {
             // okay, we've got the matching totals, so let's get the $user_id, y'all
-
-            error_log($payment_details['total'] . " <-payment order->" . $order_totals['price']);
 
             if ($payment_details['total'] >= $order_totals['price']) {
 
@@ -1621,7 +1618,7 @@ class CommercePlant extends PlantBase {
 
         } else {
 
-            $this->setErrorMessage("There's no record of this payment.");
+            $this->setErrorMessage("There was an issue with this payment.");
             return false;
         }
 
@@ -1717,13 +1714,12 @@ class CommercePlant extends PlantBase {
             }
         }
 
+        $is_fulfilled = 0;
+
         // record all the details
         if ($order_details['digital'] == 1 && $order_details['physical'] == 0) {
             // if the order is 100% digital just mark it as fulfilled
             $is_fulfilled = 1;
-        } else if ($order_details['physical'] == 1) {
-            // there's something physical. sorry dude. gotta deal with it still.
-            $is_fulfilled = 0;
         }
 
         return $is_fulfilled;
@@ -1912,7 +1908,8 @@ class CommercePlant extends PlantBase {
     //}
 }
     public function setErrorMessage($message) {
-        error_log($message);
+        //TODO:proper error message
+        //error_log($message);
     }
 } // END class
 ?>

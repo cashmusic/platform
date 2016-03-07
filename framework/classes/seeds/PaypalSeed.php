@@ -18,7 +18,6 @@
  * This file is generously sponsored by Justin Miranda
  *
  **/
-//namespace Seeds\PaypalSeed;
 
 require CASH_PLATFORM_ROOT . '/lib/paypal/autoload.php';
 

@@ -12,8 +12,8 @@
  *
  **/
 
-require CASH_PLATFORM_ROOT . '/lib/stripe/StripeOAuth.class.php';
-require CASH_PLATFORM_ROOT . '/lib/stripe/init.php';
+require_once CASH_PLATFORM_ROOT . '/lib/stripe/StripeOAuth.class.php';
+require_once CASH_PLATFORM_ROOT . '/lib/stripe/init.php';
 
 
 class StripeSeed extends SeedBase
@@ -31,6 +31,7 @@ class StripeSeed extends SeedBase
         $this->settings_type = 'com.stripe';
         $this->user_id = $user_id;
         $this->connection_id = $connection_id;
+        $this->redirects = false;
 
         if ($this->getCASHConnection()) {
             $this->client_id = $this->settings->getSetting('client_id');
@@ -38,7 +39,7 @@ class StripeSeed extends SeedBase
             $this->publishable_key = $this->settings->getSetting('publishable_key');
             $this->access_token = $this->settings->getSetting('access_token');
             $sandboxed = $this->settings->getSetting('sandboxed');
-            $this->redirects = false;
+
 
             \Stripe\Stripe::setApiKey($this->client_secret);
 
