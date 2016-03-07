@@ -359,6 +359,7 @@ class StripeSeed extends SeedBase
             }
 
             $shipping_info = json_decode($shipping_info, true);
+
             $full_name = explode(' ', $customer_name, 2);
             // nested array for data received, standard across seeds
             $order_details = array(
@@ -367,7 +368,7 @@ class StripeSeed extends SeedBase
                 'customer_first_name' => $full_name[0],
                 'customer_last_name' => $full_name[1],
                 'customer_name' => '',
-                'customer_shipping_name' => $customer_name,
+                'customer_shipping_name' => $shipping_info['name'],
                 'customer_address1' => $shipping_info['address1'],
                 'customer_address2' => $shipping_info['address2'],
                 'customer_city' => $shipping_info['city'],
