@@ -13,7 +13,7 @@
       "payment_status":"Payment status: ",
       "order_fulfilled":"Order has been fulfilled",
       "mark_as_fulfilled":"Mark as fulfilled",
-		"cancel":"Cancel and refund order",
+		"cancel":"Refund & Cancel",
       "customer":"Customer:",
       "country":"Country: ",
       "order_total":"Order total: ",

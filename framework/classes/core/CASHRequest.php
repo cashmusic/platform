@@ -9,7 +9,7 @@
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2015, CASH Music
+ * Copyright (c) 2013, CASH Music
  * Licensed under the GNU Lesser General Public License version 3.
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
@@ -70,8 +70,6 @@
 	}
 
 	public function processRequest($request,$method='direct') {
-		$this->request = $request;
-		$this->request_method = $method;
 		// found something, let's make sure it's legit and do work
 		if (is_array($request)) {
 			$this->request = $request;
@@ -97,7 +95,7 @@
 	}
 
 	/**
-	 * Determines the method used to make the CASH request, setting $this->request
+	 * Determines the method used to make the Seed request, setting $this->request
 	 * and $this->request_method
 	 *
 	 * @return void

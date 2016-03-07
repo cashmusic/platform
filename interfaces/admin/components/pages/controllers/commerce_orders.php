@@ -23,6 +23,8 @@ if (is_array($orders_response['payload'])) {
 			);
 			
 			$order_details = $order_details_response['payload'];
+
+
 			if ($order_details['successful']) {
 				$order_date = $order_details['creation_date'];
 				if ($order_details['creation_date']) {

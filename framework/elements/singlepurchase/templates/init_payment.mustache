@@ -1,0 +1,260 @@
+{{#error_message}}<div class="cash_error cash_{{element_type}}_error">{{error_message}}</div>{{/error_message}}
+
+<style type="text/css">
+    .cashmusic-sp-actions {
+        position:relative;
+        z-index:100;
+    }
+    #cashmusic-sp-overlay {
+        display:none;
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        z-index:500;
+    }
+    .cashmusic-sp-loading {
+        position:absolute;
+        top:50%;
+        left:50%;
+        margin-top:-12px;
+        margin-left:-12px;
+        background-color:transparent;
+        border-bottom: 3px solid #ccc;
+        border-left: 3px solid #ccc;
+        border-right: 3px solid #666;
+        border-top: 3px solid #666;
+        border-radius: 100%;
+        height: 24px;
+        width: 24px;
+        -webkit-animation: spin .9s infinite linear;
+        -moz-animation: spin .9s infinite linear;
+        -ms-animation: spin .9s infinite linear;
+        -o-animation: spin .9s infinite linear;
+        animation: spin .9s infinite linear;
+    }
+    @keyframes "spin" {
+        from {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        to {
+            -webkit-transform: rotate(359deg);
+            -moz-transform: rotate(359deg);
+            -o-transform: rotate(359deg);
+            -ms-transform: rotate(359deg);
+            transform: rotate(359deg);}
+    }
+    @-moz-keyframes spin {
+        from {-moz-transform: rotate(0deg);transform: rotate(0deg);}
+        to {-moz-transform: rotate(359deg);transform: rotate(359deg);}
+    }
+    @-webkit-keyframes "spin" {
+        from {-webkit-transform: rotate(0deg);transform: rotate(0deg);}
+        to {-webkit-transform: rotate(359deg);transform: rotate(359deg);}
+    }
+    @-ms-keyframes "spin" {
+        from {-ms-transform: rotate(0deg);transform: rotate(0deg);}
+        to {-ms-transform: rotate(359deg);transform: rotate(359deg);}
+    }
+    @-o-keyframes "spin" {
+        from {-o-transform: rotate(0deg);transform: rotate(0deg);}
+        to {-o-transform: rotate(359deg);transform: rotate(359deg);}
+    }
+</style>
+
+<div class="cashmusic-sp-actions">
+    <div class="cashmusic-sp-actions" id="actionspc">
+
+<form id="cash_{{element_type}}_form_{{element_id}}" class="cash_form {{element_type}}" method="post" action="">
+    <input type="hidden" name="cash_request_type" value="commerce" />
+    <input type="hidden" name="cash_action" value="initiatecheckout" />
+    <input type="hidden" name="element_id" value="{{element_id}}" />
+    <input type="hidden" name="item_id" value="{{item_id}}" />
+    <input type="hidden" name="connection_id" value="{{connection_id}}" />
+    <input type="hidden" name="user_id" value="{{user_id}}" />
+    <input type="hidden" name="total_price" value="{{total_price}}" />
+
+    <div class="cashmusic-sp-actions">
+
+        <div id="cashmusic-sp-overlay">
+            <div class="cashmusic-sp-loading"></div>
+        </div>
+
+        <div id="payment-errors"></div>
+    </div>
+</form>
+        </div>
+    </div>
+
+<!-- also conditionals for stripe -->
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript">
+    (function() {
+        var connection_type = "{{connection_type}}";
+
+        // this would ideally be dynamic, but let's break this out so the functions don't look like hell
+        var formElements = [
+            {id: "name", type: "text", placeholder: "Cardholder name", destroyOnSubmit: false},
+            {id: "email", type: "email", placeholder: "Email address", destroyOnSubmit: false},
+            {id: "card-number", type: "text", placeholder: "Credit card number", destroyOnSubmit: true},
+            {id: "card-cvc", type: "text", placeholder: "CVV", destroyOnSubmit: true},
+            {id: "card-expiry-month", type: "text", placeholder: "12", destroyOnSubmit: true},
+            {id: "card-expiry-year", type: "text", placeholder: "2016", destroyOnSubmit: true},
+            {id: "stripe-submit", type: "submit", text: "Submit Payment", destroyOnSubmit: true}
+        ];
+
+        var getToken = function(callback) {
+
+            Stripe.setPublishableKey('{{public_key}}');
+            Stripe.card.createToken({
+
+                name: document.getElementById('name').value,
+                number: document.getElementById('card-number').value,
+                cvc: document.getElementById('card-cvc').value,
+                exp_month: document.getElementById('card-expiry-month').value,
+                exp_year: document.getElementById('card-expiry-year').value
+
+            }, function(status, response, evt) {
+                var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
+                if (response.error) {
+                    // Show the errors on the form
+                    document.getElementById('payment-errors').innerHTML = response.error.message;
+                    document.getElementById("stripe-submit").disabled = false;
+                } else {
+                    // response contains id and card, which contains additional card details
+                    var token = response.id;
+                    // Insert the token into the form so it gets submitted to the server
+                    var input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'seedToken';
+                    input.value = token;
+                    elementForm.appendChild(input);
+
+                    // we need to remove the card fields so they don't get posted over an insecure connection
+                    // additionally this will hide the remaining ones from view
+                    removeFormElements(formElements);
+                }
+
+                callback();
+            });
+        };
+        var handleSubmit = function(e) {
+            if (e && e.preventDefault) {
+                e.preventDefault();
+            } else if (window.event && window.event.returnValue) {
+                window.eventReturnValue = false;
+            }
+
+            document.getElementById('actionspc').style.opacity = '0.4';
+            document.getElementById('cashmusic-sp-overlay').style.display = 'block';
+
+            var submitUrl = window.location.protocol + '//' + window.location.host;
+            /*if (window.location.port) {
+                submitUrl += ':' + window.location.port;
+            }*/
+            submitUrl += '/public/request/payload';
+
+            var ruo = document.createElement("input");
+            ruo.setAttribute("type", "hidden");
+            ruo.setAttribute("name", "url_only");
+            ruo.setAttribute("value", "1");
+            elementForm.appendChild(ruo);
+
+            window.cashmusic.ajax.send(
+                    submitUrl,
+                    window.cashmusic.ajax.encodeForm(elementForm),
+                    function (thereply) {
+                        if (thereply.substring(0, 4) == 'http') {
+                            top.location.href = thereply;
+                        }
+                    }
+            );
+
+            if (window.addEventListener) {
+                elementForm.addEventListener('submit', handleSubmit, false);
+            } else if (window.attachEvent) {
+                elementForm.attachEvent('onsubmit', handleSubmit);
+            }
+        };
+
+        // temp form injection stuff for stripe, but we can make it for anything
+        var insertFormElements = function (elements) {
+            var form = document.getElementById("cash_{{element_type}}_form_{{element_id}}");
+
+            elements.forEach( function(element) {
+                console.log(element);
+                if (element.type !== "submit") {
+                    var input = document.createElement("input");
+                    input.type = element.type;
+                    input.name = element.id;
+                    input.placeholder = element.placeholder;
+                    input.id = element.id;
+                    form.appendChild(input);
+                } else {
+                    var button = document.createElement("button");
+                    button.type = "submit";
+                    button.id = element.id;
+                    button.innerHTML = element.text;
+                    form.appendChild(button);
+                }
+            });
+        };
+        var removeFormElements = function (elements) {
+            elements.forEach( function(element) {
+                if (element.destroyOnSubmit !== false) {
+                    document.getElementById(element.id).parentNode.removeChild(
+                            document.getElementById(element.id)
+                    );
+                } else {
+                    document.getElementById(element.id).style.visibility = "hidden";
+                }
+            });
+        };
+
+        var elementForm = document.getElementById('cash_{{element_type}}_form_{{element_id}}');
+        var original_price = elementForm.elements['total_price'].value;
+
+        if (connection_type == "com.paypal") {
+            // all we need to do here is submit the form, either via ajax or via regular submit
+            if (window.cashmusic.ajax && self!=top) {
+                handleSubmit(false);
+            } else {
+                elementForm.submit();
+            }
+        } else {
+            // if this seed has a form element method, let's use it to populate the form
+            if (formElements) {
+                insertFormElements(formElements);
+            }
+
+            // add a submit form listener and act accordingly
+                var submitForm = function(e) {
+                    e.preventDefault();
+
+                    // get token and then submit
+                    getToken(function() {
+                        if (window.cashmusic.ajax && self!=top) {
+                            // ajax submit
+                            handleSubmit(false); }
+                        else {
+                            // regular submit
+                            elementForm.submit();
+                        }
+                    });
+                }
+
+            // add the appropriate submitForm callback to event listener
+            if (window.addEventListener) {
+                elementForm.addEventListener('submit', submitForm, false);
+            } else if (window.attachEvent) {
+                elementForm.attachEvent('onsubmit', submitForm);
+            }
+        }
+
+    })();
+</script>

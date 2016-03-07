@@ -13,16 +13,18 @@
 	},
 	"dataTypes": {
 		"single": {
-			"api username":"string",
-			"api password":"string",
-			"api signature":"string",
-			"sandboxed":"bool"	
+			"account":"string",
+			"client_id":"string",
+			"secret":"string",
+			"sandboxed":"bool",
+			"experience_id":"string"
 		},
 		"multi": {
-			"username":"string",
-			"password":"string",
-			"signature":"string",
-			"sandboxed":"bool"	
+			"account":"string",
+			"client_id":"string",
+			"secret":"string",
+			"sandboxed":"bool",
+			"experience_id":"string"
 		}
 	}
 }

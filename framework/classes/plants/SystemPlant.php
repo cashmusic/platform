@@ -1231,7 +1231,7 @@ class SystemPlant extends PlantBase {
 			}
 			return json_encode(array('endpoint' => $endpoint, 'expiration' => $session_details['expiration'], 'id' => $session_details['id']));
 		} else {
-			return '';
+			return json_encode($session_details);
 		}
 	}
 

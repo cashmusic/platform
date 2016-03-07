@@ -117,6 +117,10 @@ if ($user_id) {
 			}
 
 		}
+
+		// add cashmusic.js for page view
+		$template = str_replace('</head>', '<script type="text/javascript" src="' . CASH_PUBLIC_URL . '/cashmusic.js"></script></head>', $template);
+
 		// render out the page itself
 		echo CASHSystem::renderMustache($template,$page_vars);
 		exit();

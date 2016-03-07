@@ -6,7 +6,7 @@
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2013, CASH Music
+ * Copyright (c) 2016, CASH Music
  * Licensed under the GNU Lesser General Public License version 3.
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
@@ -15,8 +15,9 @@
  **/
 abstract class ElementBase extends CASHData {
 	protected $element_id, $session_id, $status_uid, $template, $element_data, $original_request, $original_response, $options, $element, $appdata, $unlocked=false, $mustache=false;
-	public $type = 'unknown';
-	public $name = 'Unknown Element';
+	public $type  = 'unknown';
+	public $name  = 'Unknown Element';
+	public $error = '';
 
 	abstract public function getData();
 
@@ -41,6 +42,17 @@ abstract class ElementBase extends CASHData {
 		}
 		if (isset($_REQUEST['session_id'])) {
 			$this->session_id = $_REQUEST['session_id'];
+		} else {
+			$session_request = new CASHRequest(
+				 array(
+					  'cash_request_type' => 'system',
+					  'cash_action' => 'startjssession'
+				 )
+			);
+			if ($session_request->response['payload']) {
+				$s = json_decode($session_request->response['payload'],true);
+				$this->session_id = $s['id'];
+			}
 		}
 		$this->options = $element['options'];
 		if ($this->isUnlocked()) {
@@ -121,6 +133,9 @@ abstract class ElementBase extends CASHData {
 			$this->element_data['template'] = $this->getTemplate('default');
 		}
 		$this->getData(); // call getData() first as it not only sets data but the correct template
+		if ($this->error) {
+			$this->element_data['error_message'] = $this->error;
+		}
 		return $this->mustache->render($this->element_data['template'],$this->element_data);
 	}
 
@@ -141,6 +156,18 @@ abstract class ElementBase extends CASHData {
 		if (file_exists(CASH_PLATFORM_ROOT . '/elements/' . $this->type . '/app.json')) {
 			$app_json = json_decode(file_get_contents(CASH_PLATFORM_ROOT . '/elements/' . $this->type . '/app.json'),true);
 			return $app_json;
+		} else {
+			return false;
+		}
+	}
+
+	public function setError($msg) {
+		$this->error = $msg;
+	}
+
+	public function getError() {
+		if ($this->error) {
+			return $this->error;
 		} else {
 			return false;
 		}

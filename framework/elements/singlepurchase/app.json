@@ -16,8 +16,11 @@
 	},
 	"copy":{
 		"en":{
-			"buy":"Buy Now",
-			"flexibleprice_suffix":"or more"
+			"flexibleprice_suffix":"or more",
+			"choose_variants":"Choose an option first",
+			"choose_verb":"Choose",
+			"buy":"Buy now",
+			"unavailable":"Sorry, this item is currently unavailable."
 		}
 	},
 	"options":{
@@ -36,16 +39,7 @@
 					"type":"select",
 					"values":"commerce/items",
 					"required":true,
-					"displaysize":"small"
-				},
-				"connection_id":{
-					"label":{
-						"en":"Commerce connection to use"
-					},
-					"type":"select",
-					"values":"connections/commerce",
-					"required":true,
-					"displaysize":"small"
+					"displaysize":"large"
 				}
 			}
 		},
@@ -76,52 +70,6 @@
 						"en":"There was an error processing your payment. Please reload and try again."
 					},
 					"displaysize":"medium"
-				}
-			}
-		},
-		"shipping":{
-			"group_label":{
-				"en":"Shipping regions"
-			},
-			"description":{
-				"en":"Define shipping regions and costs if you're selling a physical inventory item."
-			},
-			"data":{
-				"region1_name":{
-					"label":{
-						"en":"Region 1"
-					},
-					"type":"text",
-					"default":{
-						"en":"US"
-					},
-					"displaysize":"small"
-				},
-				"region1_cost":{
-					"label":{
-						"en":"R1 Shipping cost"
-					},
-					"type":"number",
-					"default":"0.00",
-					"displaysize":"small"
-				},
-				"region2_name":{
-					"label":{
-						"en":"Region 2"
-					},
-					"type":"text",
-					"default":{
-						"en":"International"
-					},
-					"displaysize":"small"
-				},
-				"region2_cost":{
-					"label":{
-						"en":"R2 Shipping cost"
-					},
-					"type":"number",
-					"default":"0.00",
-					"displaysize":"small"
 				}
 			}
 		}

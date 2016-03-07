@@ -29,21 +29,21 @@
 		</p>
 	</div><!--pure-->
 
-	<div class="pure-u-1 pure-u-md-1-2">
+	<div class="pure-u-1 pure-u-md-1-4">
 		<p>
-			<strong>{{copy_customer}}</strong>&nbsp;<a href="mailto:{{customer_email_address}}">{{customer_display_name}}</a>
-			{{^shipping_name}}<br /><strong>{{copy_country}}</strong> {{customer_address_country}}{{/shipping_name}}
+			<strong>{{copy_customer}}</strong>&nbsp;<a href="mailto:{{customer_emails}}">{{customer_name}}</a>
+			{{#customer_countrycode}}<br /><strong>{{copy_country}}</strong> {{customer_countrycode}}{{/customer_countrycode}}
 		</p><br />
-		{{#shipping_name}}
+		{{#display_shipping_address}}
 			<p>
 				<strong>{{copy_shipto}}</strong><br />
-				{{shipping_name}}<br />
-				{{shipping_address1}}<br/>
-				{{#shipping_address2}}{{shipping_address2}}<br/>{{/shipping_address2}}
-				{{shipping_city}}, {{shipping_region}} {{shipping_postalcode}}<br />
-				{{shipping_country}}
+				{{#customer_shipping_name}}{{customer_shipping_name}}{{/customer_shipping_name}}{{^customer_shipping_name}}{{customer_name}}{{/customer_shipping_name}}<br />
+				{{customer_address1}}<br/>
+				{{#customer_address2}}{{customer_address2}}<br/>{{/customer_address2}}
+				{{customer_city}}, {{customer_region}} {{customer_country}}<br />
+				{{customer_postalcode}}
 			</p>
-		{{/shipping_name}}
+		{{/display_shipping_address}}
 
 		{{#physical}}
 			<br />
@@ -54,7 +54,10 @@
 				<p><a href="{{www_path}}/commerce/orders/view/{{id}}/fulfilled" class="button">{{copy_mark_as_fulfilled}}</a></p>
 			{{/fulfilled}}
 		{{/physical}}
-	</div><!--pure-->
+        {{^canceled}}
+        <p><a href="{{www_path}}/commerce/orders/view/{{id}}/cancel" class="button">{{copy_cancel}}</a></p>
+        {{/canceled}}
+            </div><!--pure-->
 
 {{#order_contents}}
 {{! ****************************************************************************
@@ -98,6 +101,20 @@
 {{  ************************************************************************* }}
 <small><span class="icon icon-rocket fadedtext"></span> &nbsp;<a href="{{www_path}}/commerce/orders/resend/{{id}}" class="fadedtext lightboxed">{{copy_resend}}</a></small>
 
+
+{{! ****************************************************************************
+{{
+{{  ORDER DETAILS
+{{
+{{  ************************************************************************* }}
+<div class="pure-u-1 order-detail">
+	<h4>{{copy_transaction_details}}</h4>
+	<strong>{{copy_connection_used}}</strong> {{order_connection_details}} <br />
+	<strong>{{copy_transaction_id}}</strong> {{service_transaction_id}}<br />
+	<strong>{{copy_service_fees}}</strong> ${{service_fee}}
+</div><!--pure-->
+
+
 {{! ****************************************************************************
 {{
 {{  ORDER NOTES
@@ -118,43 +135,3 @@
 		</div>
 	</div>
 </div>
-
-{{! ****************************************************************************
-{{
-{{  RAW ORDER DATA SENT/RECEIVED
-{{
-{{  ************************************************************************* }}
-<div class="pure-u-1 order-detail">
-	<h4>{{copy_transaction_details}}</h4>
-	<strong>{{copy_connection_used}}</strong> {{order_connection_details}} <br />
-	<strong>{{copy_transaction_id}}</strong> {{service_transaction_id}}<br />
-	<strong>{{copy_service_fees}}</strong> ${{service_fee}}
-</div><!--pure-->
-
-<div class="drawer prefpanel pure-u-1">
-<div class="itemnav pure-u-1">
-	<h4 class="drawerhandle title"><div class="icon icon-data"></div><!--icon--><span>{{copy_data}}</span></h4>
-<div class="drawercontent">
-	<div class="pure-u-1 pure-u-md-1-2">
-		<div class="pref-inner">
-		<h5>{{copy_data_sent_to_service}}</h5>
-			<ul class="smalltext">
-				{{#formatted_data_sent}}
-					<li><b>{{key}}:</b> {{value}}</li>
-				{{/formatted_data_sent}}
-			</ul>
-		</div><!--pref-inner-->
-	</div><!--pure-->
-	<div class="pure-u-1 pure-u-md-1-2">
-		<div class="pref-inner">
-		<h5>{{copy_data_returned_by_service}}</h5>
-			<ul class="smalltext">
-				{{#formatted_data_returned}}
-					<li><b>{{key}}:</b> {{value}}</li>
-				{{/formatted_data_returned}}
-			</ul>
-		</div><!--pref-inner-->
-	</div><!--pure-->
-</div><!--drawercontent-->
-</div><!--itemnav-->
-</div><!--drawer prefpanel-->
