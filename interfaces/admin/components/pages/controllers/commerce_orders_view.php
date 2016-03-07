@@ -81,12 +81,8 @@ if ($request_parameters) {
 			'deep' => true
 		)
 	);
-
 	$order_all_details = $order_details_response['payload'];
 
-	$order_details = json_decode($order_all_details['order_details'], true);
-
-	//error_log( print_r( $order_all_details, true ) );
 	if ($order_all_details['user_id'] == $effective_user) {
 
 		$order_contents = json_decode($order_all_details['order_contents'],true);
@@ -127,62 +123,13 @@ if ($request_parameters) {
 		$cash_admin->page_data['order_contents'] = new ArrayIterator($order_contents);
 
 		$shipping_address = $order_all_details['data'];
-		$cash_admin->page_data['customer_display_name'] = $order_details['customer_name'];
-		$cash_admin->page_data['customer_email_address'] = $order_details['customer_email'];
-		$cash_admin->page_data['customer_address_country'] = $order_details['customer_countrycode'];
-		$cash_admin->page_data['shipping_name'] = $order_details['customer_shipping_name'];
-		$cash_admin->page_data['shipping_email'] = $order_details['customer_email'];
-		$cash_admin->page_data['shipping_address1'] = $order_details['customer_address1'];
-		$cash_admin->page_data['shipping_address2'] = $order_details['customer_address2'];
-		$cash_admin->page_data['shipping_city'] = $order_details['customer_city'];
-		$cash_admin->page_data['shipping_region'] = $order_details['customer_region'];
-		$cash_admin->page_data['shipping_postalcode'] = $order_details['customer_postalcode'];
-		$cash_admin->page_data['shipping_country'] = $order_details['customer_countrycode'];
-		$cash_admin->page_data['notes'] = $order_all_details['notes'];
 		$cash_admin->page_data['ui_title'] = 'Order #' . $order_all_details['padded_id'];
 
 		$formatted_data_sent = array();
 		$formatted_data_returned = array();
 
-		// let's make sure we've got data_sent, even
-		if (!empty($order_all_details['data_sent'])) {
-
-			$data_sent = json_decode($order_all_details['data_sent'], true);
-
-			if (
-				count($data_sent) > 0 && is_array($data_sent)
-			) {
-				foreach ($data_sent as $key => $value) {
-					$formatted_data_sent[] = array(
-						'key' => $key,
-						'value' => $value
-					);
-				}
-			}
-		}
-
-		// let's make sure we've got data_returned
-		if (!empty($order_all_details['data_returned'])) {
-			$data_returned = json_decode($order_all_details['data_returned'], true);
-
-			if (
-				count($data_returned) > 0 && is_array($data_returned)
-			) {
-				foreach ($data_returned as $key => $value) {
-					$formatted_data_returned[] = array(
-						'key' => $key,
-						'value' => $value
-					);
-				}
-			}
-		}
-
-			$cash_admin->page_data['formatted_data_sent'] = new ArrayIterator($formatted_data_sent);
-			$cash_admin->page_data['formatted_data_returned'] = new ArrayIterator($formatted_data_returned);
-
 		// we need to iterate through order_contents to see if any items are
 		$cash_admin->page_data['display_shipping_address'] = false;
-
 		foreach($order_contents as $item) {
 			if ($item['physical_fulfillment'] == 1)
 			{
