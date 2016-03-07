@@ -299,6 +299,7 @@ p{
 	line-height: 18px;
 	margin:0 0 18px 0;
 	padding:0;
+	font-family: 'Nunito',Helvetica,Arial,sans-serif;
 }
 
 p strong{
@@ -544,7 +545,7 @@ select{
 textarea{
 	font:400 14px/16px 'Montserrat',Helvetica,Arial,sans-serif;
 	width:100%;
-	padding:10px;
+	padding:15px;
 	height:100px;
 	margin: 0 0 12px 0;
 	-webkit-apperance:none;
@@ -567,7 +568,8 @@ input.checkorradio{
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	padding:10px;
-	margin:10px 0px -5px 0;
+	margin:0;
+	vertical-align: middle;
 	width:auto;
 	-webkit-appearance: none;
 }
@@ -839,10 +841,9 @@ h2{ font-size:42px; line-height:54px;}
 h3, h4{ font-size:28px; line-height:36px; margin:0 0 18px 0;}
 h5{ font-size:14px; line-height:18px;}
 h6{font-size: 12px; line-height: 18px;}
-
 /* Text Types */
 
-small{
+small, .small{
 	font-size: 12px;
 }
 
@@ -865,6 +866,17 @@ small{
 	line-height:25px;
 	clear:both;
 	margin:0 0 30px 0;
+}
+
+.hl-num{
+	height:30px;
+	width:30px;
+	display: inline-block;
+	line-height: 30px;
+	font-size: 14px;
+	padding:0!important;
+	margin:0 5px 0 0!important;
+	vertical-align: middle;
 }
 
 /* Helpers */
@@ -893,7 +905,7 @@ div.switchblock div.show {display:block;}
 }
 
 .fadedtext{
-	opacity:0.5;
+	opacity:0.7;
 }
 
 .fullwidth{
@@ -948,6 +960,7 @@ transform: scale(1.025)!important;
 .modallightbox .empty{
 	background:none;
 }
+
 
 /* Search Results */
 
@@ -2376,24 +2389,9 @@ color:#fff!important;
 	color:#696969;
 }
 
-/*.prefpanel .pref-inner, .prefpanel .elementform{
-	margin:0;
-	padding:0;
-	height:0;
-	opacity:0;
-	overflow: hidden;
-}*/
-
-
 .prefpanel .pref-inner label{
-	font-size: 14px;
+	font-size: 13px;
 }
-
-/*.prefpanel .pure-u-md-1-2{
-	display:none;
-	height:0%;
-	opacity: 0;
-}*/
 
 .prefpanel .pure-u-md-1-2{
 	display: inline-block;
@@ -2562,7 +2560,6 @@ color:#fff!important;
 }
 
 .login #footer {
-	/*background: #121212;*/
 	border:none;
 	background-repeat: no-repeat;
 	background-position: center top;
@@ -3877,9 +3874,10 @@ ul.alternating li .toggle{
 	padding:16px;
 	width:25px;
 	height:25px;
-	margin:-16px 0 0 0;
+	margin:-18px 0 0 0;
 	position:absolute;
 	top:50%;
+	vertical-align: middle;
 	right:30px;
 	/*-webkit-box-shadow:inset 0 0 3px 0 rgba(0,0,0,0.3);
 	box-shadow:inset 0 0 3px 0 rgba(0,0,0,0.3);*/
@@ -3899,11 +3897,6 @@ ul.alternating li .toggle:hover{
 
 .pure-u-md-1-2 ul.alternating li .toggle{
 	right:4.5%;
-}
-
-ul.alternating li .toggle:hover{
-	background:#222 url(../images/menu_icon.png) no-repeat 50% 50%;
-	background-size: 40%;
 }
 
 ul.alternating li .actions{
@@ -4466,6 +4459,7 @@ ul.alternating li .more.display .toggle{
 	background:#00cf7f url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iMTYuMDgzcHgiIGhlaWdodD0iMTIuMDQycHgiIHZpZXdCb3g9IjAgMCAxNi4wODMgMTIuMDQyIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAxNi4wODMgMTIuMDQyIiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxyZWN0IHg9IjAuMDc4IiB5PSIwLjA3MyIgZmlsbD0iI0ZGRkZGRiIgd2lkdGg9IjE1Ljk1MyIgaGVpZ2h0PSIxLjkxNyIvPg0KPHJlY3QgeD0iMC4wNzgiIHk9IjEwLjA3NCIgZmlsbD0iI0ZGRkZGRiIgd2lkdGg9IjE1Ljk1MyIgaGVpZ2h0PSIxLjkxNiIvPg0KPHJlY3QgeD0iMC4wNzgiIHk9IjUuMDczIiBmaWxsPSIjRkZGRkZGIiB3aWR0aD0iMTUuOTUzIiBoZWlnaHQ9IjEuOTE3Ii8+DQo8L3N2Zz4NCg==") no-repeat 50% 50%;
 	fill:#fff;
 	background-size: 40%;
+	border-color: #00cf7f;
 }
 
 /* Analytics Snapshots */
@@ -4601,6 +4595,7 @@ ul.alternating li .more.display .toggle{
 .usecolor3 ul.alternating li .more.display .toggle {background-color:#ff7c12; border-color:#ff7c12; background-size: 40%; }
 .usecolor4 ul.alternating li .more.display .toggle {background-color:#6a38fa; border-color:#6a38fa; background-size: 40%; }
 .usecolor5 ul.alternating li .more.display .toggle {background-color:#fa3866; border-color:#fa3866; background-size: 40%; }
+
 
 ul.alternating li .more:hover {cursor:pointer;}
 
@@ -5670,6 +5665,7 @@ a.edit-button:hover .icon{
 
 #campaigns .associated h4{
 	font-size: 14px;
+	line-height: 14px;
 	margin:0;
 	color:#868686;
 	display: inline-block;
@@ -5697,7 +5693,7 @@ a.edit-button:hover .icon{
 	text-decoration: none;
 	display: inline-block;
 	margin:0;
-	padding:8px 10px;
+	padding:7px 10px;
 	font-size: 13px;
 	position: absolute;
 	top:20px;
@@ -5712,7 +5708,8 @@ a.edit-button:hover .icon{
 }
 
 #campaigns .associated .add .icon, .alt-button .icon{
-	margin:-2px 0 0 0;
+	vertical-align: bottom;
+	margin:0 7px 0 0;
 	color: #f5f5f5;
 }
 
@@ -6102,6 +6099,7 @@ a.edit-button:hover .icon{
 .additional_releases.drawer #card .back .release-details{
 	font-size: 8px;
 	bottom:0;
+	padding:0 0 5px 0;
 }
 
 .additional_releases.drawer #card .back h2{
@@ -7410,8 +7408,8 @@ ul.alternating li a{ padding:30px; }
 #card .back h2{
 	padding:20px;
 	margin:0;
-	font-size: 30px;
-	line-height: 35px;
+	font-size: 28px;
+	line-height: 32px;
 	color:#f5f5f5;
 }
 
