@@ -316,14 +316,8 @@ blockquote{
 
 #footer{
 	width:100%;
-	background:#e6e6e6;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	border: solid 1px #ddd;
-	text-align: left;
-	margin:30px 0 30px 0;
-	padding:30px;
+	text-align: center;
+	margin:36px 0 0 0;
 }
 
 
@@ -7186,6 +7180,10 @@ td{display:table-cell; vertical-align: inherit;}
 .login #footer{
 	position: fixed;
 	width:100%;
+}
+
+#footer{
+	text-align: left;
 }
 
 } /* Intermediate END */
