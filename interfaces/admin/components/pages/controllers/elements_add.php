@@ -74,7 +74,7 @@ if ($request_parameters) {
 				if (isset($cash_admin->page_data['copy_requirement_' . $requirement])) {
 					$cash_admin->page_data['needed_requirements'] .= '<li>';
 					if (isset($requirements_links[$requirement])) {
-						$cash_admin->page_data['needed_requirements'] .= '<a href="' . $cash_admin->page_data['www_path'] . $requirements_links[$requirement] . '">';
+						$cash_admin->page_data['needed_requirements'] .= '<a class="alt-button" href="' . $cash_admin->page_data['www_path'] . $requirements_links[$requirement] . '">';
 					}
 					$cash_admin->page_data['needed_requirements'] .= $cash_admin->page_data['copy_requirement_' . $requirement];
 					if (isset($requirements_links[$requirement])) {
