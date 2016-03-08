@@ -5254,7 +5254,7 @@ label.checklabel{
 	padding:0;
 }
 
-.store .modallightbox .elementform ul li a{
+/*.store .modallightbox .elementform ul li a{
 	background: #00cf7f;
 	color:#fff;
 	padding: 8px 20px;
@@ -5264,11 +5264,11 @@ label.checklabel{
   	-webkit-border-radius: 50px;
   	-moz-border-radius: 50px;
   	border-radius: 50px;
-}
+}*/
 
 
 .store .modallightbox .elementform ul li a:hover{
-	background:#111;
+	background:#111!important;
 }
 
 /* Examples of  types in store */
@@ -5931,16 +5931,19 @@ a.edit-button:hover .icon{
 
 
 .clonebutton, .prefpanel .clonebutton{
-	-webkit-border-radius: 50px;
-	-moz-border-radius: 50px;
-	border-radius: 50px;
-	font-size: 11px;
-	margin:10px 0;
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+	color:#f5f5f5 !important;
+	background:#00cf7f;
+	font-size: 12px;
+	padding:12px 18px;
+	margin:0 6px 6px 0;
+	display: inline-block;
 	text-align: center;
 	text-decoration: none;
-	padding:10px;
-	display: inline-block;
-	color:#f5f5f5!important;
+	vertical-align: middle;
+	vertical-align: -webkit-baseline-middle;
 }
 
 .clonebutton .icon, .prefpanel .clonebutton .icon{
