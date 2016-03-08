@@ -52,9 +52,9 @@ if (isset($_POST['settheme'])) {
 		);
 
 		if ($edit_response['payload']) {
-			AdminHelper::formSuccess('Success. Page theme created. You can edit it at any time.','/yourpage/');
+			AdminHelper::formSuccess('Success. Page theme created. You can edit it at any time.','/page/');
 		} else {
-			AdminHelper::formFailure('Error. Something just didn\'t work right.','/yourpage/');
+			AdminHelper::formFailure('Error. Something just didn\'t work right.','/page/');
 		}
 
 	}

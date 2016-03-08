@@ -1,0 +1,45 @@
+{{! corresponding files: yourpage.php & yourpage.json }}
+
+<!-- /* Sub Nav */ -->
+<header class="page-header">
+<div class="pure-u-1 pure-u-md-1-2">
+	<h4 class="page-title">Your page <span class="fadedtext">({{#show_published}}Live{{/show_published}}{{^show_published}}Unpublished{{/show_published}})</span></h4>
+</div><!--pure-->
+
+<div class="pure-u-1 pure-u-md-1-2">
+<ul class="inline-subnav">
+	<li><a href="{{www_path}}/">Activity</a></li>
+	<li><a href="{{www_path}}/embeds/">Embeds</a></li>
+		<li><a class="current" href="{{www_path}}/page/">{{user_page_display_uri}}</a></li>
+</ul>
+</div><!--pure-->
+</header>
+
+
+<div class="material lrg">
+	<div class="pure-u-1 pure-u-md-1-2">
+	<a href="{{user_page_uri}}" target="_blank"><div class="preview-header"><span></span><span></span><span></span></div><!--preview-header-->
+	<div class="preview-wrap"><iframe id="preview" src="http://{{user_page_display_uri}}"></iframe></div><!--preview-wrap--></a>
+	</div><!--pure-->
+	<div class="pure-u-1 pure-u-md-1-2">
+		<h4 class="fadedtext">{{#show_published}}{{copy_public_page}}{{/show_published}}{{^show_published}}{{copy_public_not_live}}{{/show_published}}</h4><a class="url-link" href="{{user_page_uri}}" target="_blank">{{user_page_display_uri}}</a><br /><a id="settings"  class="settings toggle">[ change username ]</a>
+
+		<br /><br />
+		<button href="{{www_path}}/campaigns/publish/0" data-template="unpublish" class="needsconfirmation button unpublish">Unpublish</button>
+		<button href="{{www_path}}/elements/templates/edit/{{template_id}}/page/parent/{{id}}" class="lightboxed button page-editor">{{copy_page_theme}}</button>
+	</div><!--pure-->
+</div>
+
+
+{{^show_published}}
+<div class="material">
+	{{copy_publish_campaign_info}}
+<label for="current-published-campaign">{{copy_published}}</label>
+<select id="current-published-campaign">
+	<option data-path="{{www_path}}/campaigns/publish/0" data-template="unpublish" value="0">{{copy_unpublish_all}}</option>
+	{{#campaigns_for_user}}
+		<option data-path="{{www_path}}/campaigns/publish/{{id}}" {{#currently_published}}selected="selected"{{/currently_published}} data-template="{{template_id}}" value="{{title}}">{{title}}</option>
+	{{/campaigns_for_user}}
+</select>
+</div>
+{{/show_published}}

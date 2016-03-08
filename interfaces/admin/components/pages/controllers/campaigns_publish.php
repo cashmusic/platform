@@ -27,15 +27,15 @@ if (isset($_REQUEST['modalconfirm'])) {
 
 	if ($settings_response['payload']) {
 		if ($new_template == 0) {
-			AdminHelper::formSuccess('Success. You have unpublished all campaigns.','/yourpage/');
+			AdminHelper::formSuccess('Success. You have unpublished all campaigns.','/page/');
 		} else {
-			AdminHelper::formSuccess('Success. Campaign published.','/yourpage/');
+			AdminHelper::formSuccess('Success. Campaign published.','/page/');
 		}
 	} else {
-		AdminHelper::formFailure('Error. Something just didn\'t work right.','/yourpage/');
+		AdminHelper::formFailure('Error. Something just didn\'t work right.','/page/');
 	}
 
 } else {
-	AdminHelper::controllerRedirect('/yourpage/');
+	AdminHelper::controllerRedirect('/page/');
 }
 ?>

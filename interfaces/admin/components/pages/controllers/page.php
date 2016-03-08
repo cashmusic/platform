@@ -75,12 +75,12 @@ if (is_array($user_response['payload'])) {
 
 // get page url
 if (SUBDOMAIN_USERNAMES) {
-	$cash_admin->page_data['user_page_uri'] = str_replace('https','http',rtrim(str_replace('admin', '', CASH_ADMIN_URL),'/'));
+	//$cash_admin->page_data['user_page_uri'] = str_replace('https','http',rtrim(str_replace('admin', '', CASH_ADMIN_URL),'/'));
 	$cash_admin->page_data['user_page_uri'] = str_replace('://','://' . $current_username . '.',$cash_admin->page_data['user_page_uri']);
 } else {
-	$cash_admin->page_data['user_page_uri'] = str_replace('https','http',rtrim(str_replace('admin', $current_username, CASH_ADMIN_URL),'/'));
+	$cash_admin->page_data['user_page_uri'] = rtrim(str_replace('admin', $current_username, CASH_ADMIN_URL),'/');
 }
-$cash_admin->page_data['user_page_display_uri'] = str_replace('http://','',$cash_admin->page_data['user_page_uri']);
+$cash_admin->page_data['user_page_display_uri'] = str_replace(array('http://','https://'),'',$cash_admin->page_data['user_page_uri']);
 
 
 //get public URL
@@ -204,7 +204,7 @@ if ($total_campaigns) {
 
 
 // figure out and select 	the correct view
-$cash_admin->setPageContentTemplate('yourpage');
+$cash_admin->setPageContentTemplate('page');
 if ($total_campaigns) {
 	$cash_admin->page_data['has_campaigns'] = true;
 	if (!$total_elements) {
