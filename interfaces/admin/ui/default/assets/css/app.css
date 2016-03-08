@@ -1810,7 +1810,7 @@ section[role=main].hero{
 	border-radius: 3px;
 }
 
-#pagedisplay .connections{
+#page_content .connections{
 	background:#ddd;
 	border: 1px solid #cbcbcb;
 	-webkit-border-radius: 3px;
@@ -1820,7 +1820,7 @@ section[role=main].hero{
 	margin:0 0 30px 0;
 }
 
-#pagedisplay .connection {
+#page_content .connection {
 	width:23%;
 	padding:20px;
 	margin:1%;
@@ -2884,7 +2884,7 @@ color:#fff!important;
 
 /* Mini Nav */
 #pagedisplay .mininav_flush, .panelcontent .mininav_flush{
-	border:solid 1px #00cf7f;
+	border:solid 1px;
 	padding:8px 18px;
 	text-decoration: none;
 	-webkit-border-radius: 3px;
@@ -2893,9 +2893,11 @@ color:#fff!important;
 }
 
 #pagedisplay .mininav_flush:hover, .panelcontent .mininav_flush:hover{
-	color:#fff;
-	background:#00cf7f;
+	color:#fff!important;
+	background:#333;
+	border-color:#333;
 }
+
 
 #pagedisplay .mininav_flush .icon{
 	height: 12px;
@@ -2939,7 +2941,7 @@ color:#fff!important;
 
 .secondary-title{
 	display: inline-block;
-	margin:2px 10px 20px 10px;
+	/*margin:2px 10px 20px 10px;*/
 }
 
 
@@ -2964,7 +2966,7 @@ color:#fff!important;
 /* Back to Campaign link */
 
 .returnlink{
-	margin:0 0 18px 0;
+	margin:0 6px 18px 0;
 	text-decoration: none;
 	color:#f5f5f5;
 	width:40px;
@@ -3095,6 +3097,7 @@ color:#fff!important;
 
 .material ul, .material ol{
 	margin:0;
+	padding:0;
 	color:#7d7d7d;
 }
 
@@ -5251,7 +5254,7 @@ label.checklabel{
 	padding:0;
 }
 
-.store .modallightbox .elementform ul li a{
+/*.store .modallightbox .elementform ul li a{
 	background: #00cf7f;
 	color:#fff;
 	padding: 8px 20px;
@@ -5261,11 +5264,11 @@ label.checklabel{
   	-webkit-border-radius: 50px;
   	-moz-border-radius: 50px;
   	border-radius: 50px;
-}
+}*/
 
 
 .store .modallightbox .elementform ul li a:hover{
-	background:#111;
+	background:#111!important;
 }
 
 /* Examples of  types in store */
@@ -5928,16 +5931,19 @@ a.edit-button:hover .icon{
 
 
 .clonebutton, .prefpanel .clonebutton{
-	-webkit-border-radius: 50px;
-	-moz-border-radius: 50px;
-	border-radius: 50px;
-	font-size: 11px;
-	margin:10px 0;
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+	color:#f5f5f5 !important;
+	background:#00cf7f;
+	font-size: 12px;
+	padding:12px 18px;
+	margin:0 6px 6px 0;
+	display: inline-block;
 	text-align: center;
 	text-decoration: none;
-	padding:10px;
-	display: inline-block;
-	color:#f5f5f5!important;
+	vertical-align: middle;
+	vertical-align: -webkit-baseline-middle;
 }
 
 .clonebutton .icon, .prefpanel .clonebutton .icon{
