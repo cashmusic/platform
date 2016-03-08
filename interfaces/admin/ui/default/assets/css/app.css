@@ -6677,7 +6677,7 @@ button.right, .button.right{
 
 .pure-u-md-1-2:nth-of-type(odd) { padding:0 10px 0 0; }
 .pure-u-md-1-2:nth-of-type(even) { padding:0 0 0 10px; }
-.pure-u-md-2-3:nth-of-type(odd) { padding:0 10px 0 0; }
+.pure-u-md-2-3:nth-of-type(odd) { padding:0 20px 0 0; }
 
 /* 3 Col Layout */
 
@@ -7200,11 +7200,13 @@ td{display:table-cell; vertical-align: inherit;}
 }
 
 /* Login */
+
 .pure-u-md-2-5{ padding:0 10px 0 0; }
 
 /* Pure Grid Gutters */
 
 /* 2 Col Layout */
+
 .pure-u-md-1-2:nth-of-type(odd) { padding:0 10px 0 0; }
 .pure-u-md-1-2:nth-of-type(even) { padding:0 0 0 10px; }
 .pure-u-md-2-3:nth-of-type(odd) { padding:0 20px 0 0; }
