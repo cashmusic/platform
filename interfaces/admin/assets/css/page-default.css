@@ -128,40 +128,40 @@ body.light{
 }
 
 
-body.light input{
+body.light  .cashmusic.element input{
 	background:#f5f5f5;
 	background:rgba(245,245,245,0.9);
 	color:#222;
 }
 
-body.dark input{
-	border: solid 1px #222;
+body.dark .cashmusic.element input{
+	border: solid 1px #121212;
 	background: #232323;
 }
 
-body.dark input[type=submit],body.dark .button, body.light input[type=submit],body.light .button {
-  padding:14px 15px;
+body.dark .cashmusic.element input[type=submit],body.dark .cashmusic.element .button, body.light  .cashmusic.element input[type=submit],body.light .cashmusic.element .button {
+  padding:15px;
   background: none;
   border: solid 2px #00cf7f;
   color:#00cf7f;
 }
 
-body.dark input[type=submit]:hover ,body.dark .button:hover, body.light input[type=submit]:hover,body.light .button:hover {
+body.dark .cashmusic.element input[type=submit]:hover ,body.dark .cashmusic.element .button:hover, body.light .cashmusic.element input[type=submit]:hover,body.light .cashmusic.element .button:hover {
   background:#00cf7f;
   color:rgba(0,0,0,0.3);
 }
 
-body.light ::-webkit-input-placeholder{color:#4d4d4d;}
-body.light placeholder{color:#4d4d4d;}
+body.light .cashmusic.element ::-webkit-input-placeholder{color:#4d4d4d;}
+body.light .cashmusic.element placeholder{color:#4d4d4d;}
 
 
-body.light input[type=text]:focus, body.light input[type=email]:focus, body.light input[type=password]:focus, body.light textarea:focus{
+body.light .cashmusic.element input[type=text]:focus, body.light .cashmusic.element input[type=email]:focus, body.light .cashmusic.element input[type=password]:focus, body.light .cashmusic.element textarea:focus{
 	background:#ccc;
 	color:#222;
 }
 
-body.light input:focus::-webkit-input-placeholder{color:#4d4d4d;}
-body.light input:focus placeholder{color:#4d4d4d;}
+body.dark .cashmusic.element input:focus::-webkit-input-placeholder{color:#4d4d4d;}
+body.dark .cashmusic.element input:focus placeholder{color:#4d4d4d;}
 
 .logo{
 	position: fixed;
