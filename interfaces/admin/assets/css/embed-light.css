@@ -1,4 +1,4 @@
-/*************************************************** 
+/***************************************************
  *
  *  CASH Music - Embedded Elements Styles - Light Default
  *	Created by CASH Music
@@ -7,6 +7,7 @@
 
 #mainspc{
 	background:rgba(237,237,237,0.9);
+	padding:18px;
 	color:#222;
 }
 

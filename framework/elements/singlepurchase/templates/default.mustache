@@ -12,18 +12,11 @@
    <span class="cm-itemprice">{{currency}}{{item_price}}{{#item_flexible_price}} {{copy_flexibleprice_suffix}}{{/item_flexible_price}}</span>
    <div class="cm-description">{{{item_description}}}</div>
    {{#is_available}}
-   {{#attributes}}
-      <select class="cm-attribute" name="{{name}}" data-key="{{key}}" data-itemid="{{item_id}}" data-totalattributes="{{attributes_count}}" data-attributeorder="{{index}}">
-         <option value="resetattributes" {{#defaultcountermenu}}data-countermenu='{{defaultcountermenu}}'{{/defaultcountermenu}}>{{copy_choose_verb}} {{key}}</option>
-         {{#items}}
-         <option value="{{key}}" {{#countermenu}}data-countermenu='{{countermenu}}'{{/countermenu}}>{{key}}</option>
-         {{/items}}
-      </select>
-   {{/attributes}}
+   {{#attributes}}<select class="cm-attribute" name="{{name}}" data-key="{{key}}" data-itemid="{{item_id}}" data-totalattributes="{{attributes_count}}" data-attributeorder="{{index}}"><option value="resetattributes" {{#defaultcountermenu}}data-countermenu='{{defaultcountermenu}}'{{/defaultcountermenu}}>{{copy_choose_verb}} {{key}}</option>{{#items}}<option value="{{key}}" {{#countermenu}}data-countermenu='{{countermenu}}'{{/countermenu}}>{{key}}</option>{{/items}}</select>{{/attributes}}
    {{#item_flexible_price}}
    <span class="cm-store-flexible-price">
       <span class="cm-store-currency">{{currency}}</span>
-      <input type="text" name="total_price" data-itemid="{{item_id}}" data-atleast="{{item_price}}" class="cm-price" value="{{item_price}}" />
+      <input type="text" name="total_price" data-itemid="{{item_id}}" data-totalattributes="{{attributes_count}}" data-atleast="{{item_price}}" class="cm-price" value="{{item_price}}" />
    </span>
    {{/item_flexible_price}}
    <button type="button"{{^json_keys}} data-legacykeys="1"{{/json_keys}} data-itemid="{{item_id}}" data-price="{{item_price}}" class="button cm-buynow cm-item-{{item_id}}"{{#has_variants}} disabled="disabled"{{/has_variants}}>{{#has_variants}}{{copy_choose_variants}}{{/has_variants}}{{^has_variants}}<span class="cm-price">{{currency}}{{item_price}}</span> - {{copy_buy}}{{/has_variants}}</button>

@@ -5,16 +5,18 @@
  *
  ***************************************************/
 
-/* General */
-html{
-	 box-sizing: border-box;
+html {
+  box-sizing: border-box;
 }
 
 *, *:before, *:after {
   box-sizing: inherit;
 }
 
+/* General */
 html,body{
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 	overflow-x:hidden;
 	overflow-y: auto;
 	font: 100 14px/20px 'Montserrat',Helvetica,Arial,sans-serif;
@@ -31,10 +33,6 @@ html,body{
 		overflow-y: scroll; /* has to be scroll, not auto */
 		-webkit-overflow-scrolling: touch;
 	}
-}
-
-*, *:before, *:after {
-	box-sizing: inherit;
 }
 
 .cashmusic .cashmusic.embed, iframe{
@@ -107,15 +105,16 @@ br{
 
 /* Input Fields */
 
-input{
+.cashmusic.element input{
 	width:100%;
-	padding:10px 10px;
-	margin:0;
+	padding:15px;
+	text-indent: 15px;
+	margin:0 0 1% 0;
 	border:none;
 	font-weight: 100;
 	display:inline-block;
-	background:#eee;
 	border:solid 1px #ccc;
+	background:#eee;
 	background:rgba(34,34,34,0.1);
 	color:#333;
 	font: 100 12px/14px 'Montserrat',Helvetica,Arial,sans-serif;
@@ -128,29 +127,33 @@ input{
 	outline:none;
 }
 
-select{
+/* Select Boxes */
+
+.cashmusic.element select{
 	display: inline-block;
-	padding:0;
-	margin:0 0 3px 0;
-	line-height: 36px;
+	background:none;
 	background-color:#eee;
 	border:solid 1px #ccc;
-	background:solid 1px rgba(34,34,34,0.1);
+	background-color:rgba(34,34,34,0.1);
+	background-image:url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iNzQuMzMzcHgiIGhlaWdodD0iMTY0cHgiIHZpZXdCb3g9IjAgMCA3NC4zMzMgMTY0IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA3NC4zMzMgMTY0IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxwb2x5Z29uIGZpbGw9IiMyMjIyMjIiIHBvaW50cz0iMzcuMzcyLDAgMC45MTQsNzIuMDgzIDczLjYyMiw3MiAiLz4NCjxwb2x5Z29uIGZpbGw9IiMyMjIyMjIiIHBvaW50cz0iMzcuMTY0LDE2My4wODMgNzMuNjIyLDkxIDAuOTE0LDkxLjA4MyAiLz4NCjwvc3ZnPg0K");
+	background-repeat: no-repeat;
+	background-position: 95% 50%;
+	background-size: 6px;
+	padding:15px 0;
 	color:#333;
-	width:100%;
-	height:46px;
 	text-indent: 15px;
-	font-family: 'Montserrat', sans-serif;
-	-moz-appearance: none;
-  -webkit-appearance: none;
+	margin: 0 0 1% 0;
+	height:46px;
+	width:100%;
+	font:400 11px/18px 'Montserrat',Helvetica,Arial,sans-serif;
+	-webkit-transition: background 0.3s  ease-in-out;
+	-moz-transition: background 0.3s  ease-in-out;
+	trasition: background 0.3s ease-in-out;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	font-size: 11px;
-	background-image:url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iNzQuMzMzcHgiIGhlaWdodD0iMTY0cHgiIHZpZXdCb3g9IjAgMCA3NC4zMzMgMTY0IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA3NC4zMzMgMTY0IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxwb2x5Z29uIGZpbGw9IiNGRkZGRkYiIHBvaW50cz0iMzcuMzcyLDAgMC45MTQsNzIuMDgzIDczLjYyMiw3MiAiLz4NCjxwb2x5Z29uIGZpbGw9IiNGRkZGRkYiIHBvaW50cz0iMzcuMTY0LDE2My4wODMgNzMuNjIyLDkxIDAuOTE0LDkxLjA4MyAiLz4NCjwvc3ZnPg0K");
-	background-size: 6px;
-	background-repeat: no-repeat;
-	background-position: 95% 50%;
+	-webkit-appearance: none;
+	-moz-appearance:none;
 }
 
 /* Placeholder Text */
@@ -160,9 +163,13 @@ placeholder{color:#4d4d4d;}
 
 /* Form Field Focus */
 
-input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, textarea:focus, select:focus{
+.cashmusic.element input[type=text]:focus, .cashmusic.element input[type=email]:focus,.cashmusic.element input[type=password]:focus, .cashmusic.element  textarea:focus, .cashmusic.element  select:focus{
 	outline:none;
-}{
+	background-color:rgba(34,34,34,0.3);
+	border-color: #999;
+}
+
+{
 	background:#222;
 	background:rgba(34,34,34,0.9);
 	border-color:rgba(34,34,34,0.1);
@@ -177,7 +184,7 @@ input:focus placeholder{color:#111;}
 /* Button */
 
 input[type=submit], .button{
-	padding:9px 10px;
+	padding:15px 10px;
 	width:100%;
 	text-align: center;
 	margin:2px auto 0 auto;
@@ -659,42 +666,18 @@ input[type=submit]:hover, .button:hover{
 	opacity: 0.6;
 }
 
-.cm-store .cm-item select{
+.cm-store.cm-inner .button{
 	width:100%;
-	display: inline-block;
-	background:none;
-	background-color:#00cf7f;
-	background-color: rgba(0,207,127,0.9);
-	background-image:url("data:image/svg+xml;utf8,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='17.625px' height='35.25px' viewBox='0 0 17.625 35.25' enable-background='new 0 0 17.625 35.25' xml:space='preserve'><g><polygon fill='#FFFFFF' points='0,14.565 8.812,0 17.625,14.565'/><polygon fill='#FFFFFF' points='17.625,20.683 8.812,35.25 0,20.683'/></g></svg>");
-	background-repeat: no-repeat;
-	background-position: 96% 50%;
-	background-size: 6px;
-	border: solid 1px rgba(0,175,107,0.9);
-	padding:10px;
-	color:#fff;
-	text-indent: 0;
-	margin: 0 0 2px 0;
-	height:42px;
-	font:400 12px/20px 'Montserrat',Helvetica,Arial,sans-serif;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	-webkit-appearance: none;
-	-moz-appearance:none;
-}
-
-
-.cm-store .cm-item select:focus{
-	outline:none;
 }
 
 /* Store Flexible Price */
 
 
 .cm-store-flexible-price {
-	display: block;
-	position:relative;
-	margin:0 0 6px 0;
+	margin:0;
+	padding:0;
+	display: inline-block;
+	width:100%;
 }
 
 .cm-store-flexible-price input{
@@ -711,7 +694,7 @@ input[type=submit]:hover, .button:hover{
 	background:transparent;
 	color:#4d4d4d;
 	opacity:0.6;
-	padding:8px 0 0 1.2em;
+	padding:13px 0 0 15px;
 	margin:0;
 }
 
@@ -848,6 +831,7 @@ input[type=submit]:hover, .button:hover{
 	-webkit-appearance:none;
 	vertical-align: baseline;
 }
+
 .cm-store .cm-cartbutton:hover{
 	opacity: 0.5;
 }
@@ -1259,9 +1243,7 @@ input[type=number]::-webkit-outer-spin-button {
 @media screen and (min-width: 275px) {
 
 	input{
-		padding:10px;
 		width:63%;
-		margin:0;
 	}
 
 	input[type=submit], .button{
@@ -1294,8 +1276,25 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* -- Larger Size -- */
 @media screen and (min-width: 500px) {
-	input, .cash_singlepurchase_flexible_price .total_price{
-			width:63.4%;
+	.cashmusic.element input{
+			/*width:63.4%;*/
+	}
+
+
+/* With Variants */
+	.cashmusic.element select[data-totalattributes='1'], .cashmusic.element input[data-totalattributes='1']{
+		width:100%;
+	}
+
+	.cashmusic.element select[data-totalattributes='2']{
+		width:49.75%!important;
+	}
+
+	.cashmusic.element select[data-totalattributes='2']:first-of-type{
+		margin:0 0.25% 0.5% 0;
+	}
+	.cashmusic.element select[data-totalattributes='2']:last-of-type{
+		margin:0 0 0.5% 0.25%;
 	}
 
 	/* Members Area */

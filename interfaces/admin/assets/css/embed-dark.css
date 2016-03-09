@@ -1,4 +1,4 @@
-/*************************************************** 
+/***************************************************
  *
  *  CASH Music - Embedded Elements Styles - Dark Default
  *	Created by CASH Music
@@ -11,8 +11,7 @@
 	background:#000;
 	background:rgba(0,0,0,0.9);
 	color:#f5f5f5;
-	padding:10px;
-	width:100%;
+	padding:18px;
 }
 
 .singlepurchase .cash_singlepurchase_itemprice, .cash_notation, .cash_comments, .singlepurchase .cash_singlepurchase_itemdescription{
