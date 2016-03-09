@@ -57,11 +57,12 @@ class SinglePurchase extends ElementBase {
 				if (isset($item['shipping']['r1-1'])) {
 					$this->element_data['region1_cost'] = number_format($item['shipping']['r1-1'], 2);
 					$this->element_data['region2_cost'] = number_format($item['shipping']['r2-1'],2);
-				} else {
-					// TODO: NOOOOOOOOOOO
-					$this->element_data['region1_cost'] = '0.00';
-					$this->element_data['region2_cost'] = '0.00';
 				}
+			}
+			// fallback for errored shipping
+			if (!$this->element_data['region1_cost'] && !$this->element_data['region2_cost']) {
+				$this->element_data['region1_cost'] = '0.00';
+				$this->element_data['region2_cost'] = '0.00';
 			}
 		} else {
 			$this->element_data['no_shipping'] = true;

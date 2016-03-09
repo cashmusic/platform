@@ -137,10 +137,10 @@
                f.shipping_info.value = JSON.stringify(payment.detail.shipping);
                var shipping = 0;
                if (payment.detail.shipping['shipping-region'] == "r1") {
-                  shipping = 0 + {{region1_cost}};
+                  shipping = {{region1_cost}};
                }
                if (payment.detail.shipping['shipping-region'] == "r2") {
-                  shipping = 0 + {{region2_cost}};
+                  shipping = {{region2_cost}};
                }
                if (shipping > 0) {
                   shipping = parseFloat(shipping);
