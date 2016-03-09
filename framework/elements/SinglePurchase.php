@@ -38,13 +38,27 @@ class SinglePurchase extends ElementBase {
 			// and revert to no shipping if it doesn't meet the basic requirements on shipping regions
 			$this->element_data['no_shipping'] = false;
 
+			$settings_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'system',
+					'cash_action' => 'getsettings',
+					'type' => 'regions',
+					'user_id' => $this->element_data['user_id']
+				)
+			);
+			if ($settings_request->response['payload']) {
+				$this->element_data['region1_name'] = $settings_request->response['payload']['region1'];
+				$this->element_data['region2_name'] = $settings_request->response['payload']['region2'];
+			}
+
 			/** LEGACY NOTICE: shipping has moved from elements to items. */
 			if ($item['shipping']) {
 				// we've got shipping set via the new item standard, so let's give them precedence over the legacy values
-				if ($item['shipping']['r1-1']) {
+				if (isset($item['shipping']['r1-1'])) {
 					$this->element_data['region1_cost'] = number_format($item['shipping']['r1-1'], 2);
 					$this->element_data['region2_cost'] = number_format($item['shipping']['r2-1'],2);
 				} else {
+					// TODO: NOOOOOOOOOOO
 					$this->element_data['region1_cost'] = '0.00';
 					$this->element_data['region2_cost'] = '0.00';
 				}
