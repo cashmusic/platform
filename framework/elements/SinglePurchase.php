@@ -41,8 +41,13 @@ class SinglePurchase extends ElementBase {
 			/** LEGACY NOTICE: shipping has moved from elements to items. */
 			if ($item['shipping']) {
 				// we've got shipping set via the new item standard, so let's give them precedence over the legacy values
-				$this->element_data['region1_cost'] = $item['shipping']['r1-1'];
-				$this->element_data['region2_cost'] = $item['shipping']['r2-1'];
+				if ($item['shipping']['r1-1']) {
+					$this->element_data['region1_cost'] = number_format($item['shipping']['r1-1'], 2);
+					$this->element_data['region2_cost'] = number_format($item['shipping']['r2-1'],2);
+				} else {
+					$this->element_data['region1_cost'] = '0.00';
+					$this->element_data['region2_cost'] = '0.00';
+				}
 			}
 		} else {
 			$this->element_data['no_shipping'] = true;
