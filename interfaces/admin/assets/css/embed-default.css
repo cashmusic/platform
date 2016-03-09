@@ -145,7 +145,7 @@ br{
 	margin: 0 0 1% 0;
 	height:46px;
 	width:100%;
-	font:400 11px/18px 'Montserrat',Helvetica,Arial,sans-serif;
+	font:400 11px 'Montserrat',Helvetica,Arial,sans-serif;
 	-webkit-transition: background 0.3s  ease-in-out;
 	-moz-transition: background 0.3s  ease-in-out;
 	trasition: background 0.3s ease-in-out;
@@ -167,14 +167,6 @@ placeholder{color:#4d4d4d;}
 	outline:none;
 	background-color:rgba(34,34,34,0.3);
 	border-color: #999;
-}
-
-{
-	background:#222;
-	background:rgba(34,34,34,0.9);
-	border-color:rgba(34,34,34,0.1);
-	color:#f5f5f5;
-	outline: none;
 }
 
 input:focus::-webkit-input-placeholder{color:#111;}
