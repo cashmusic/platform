@@ -245,6 +245,7 @@ a.revealpassword, .input-additional-info {
 
 #page_content{
 	opacity: 1;
+	padding:0 0 36px 0;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	transition: 0.3s ease-in-out;
@@ -317,7 +318,10 @@ blockquote{
 #footer{
 	width:100%;
 	text-align: center;
-	margin:36px 0 0 0;
+	margin:36px 0 36px 0;
+	position: absolute;
+	bottom:0;
+	opacity: 1;
 }
 
 
@@ -7302,7 +7306,7 @@ td{display:table-cell; vertical-align: inherit;}
    =============== */
 @media only screen and (min-width: 769px) and (max-height : 550px){
 
-.version{ opacity: 0; }
+.version, #footer{ opacity: 0; pointer-events: none;}
 
 #navmenu, #navmenu.display{
 	position: absolute;
