@@ -107,9 +107,9 @@ br{
 
 .cashmusic.element input{
 	width:100%;
-	padding:15px;
+	padding:15px 0;
 	text-indent: 15px;
-	margin:0 0 1% 0;
+	margin:0 0 0.5% 0;
 	border:none;
 	font-weight: 100;
 	display:inline-block;
@@ -142,7 +142,7 @@ br{
 	padding:15px 0;
 	color:#333;
 	text-indent: 15px;
-	margin: 0 0 1% 0;
+	margin: 0 0 0.5% 0;
 	height:46px;
 	width:100%;
 	font:400 11px 'Montserrat',Helvetica,Arial,sans-serif;
@@ -175,30 +175,35 @@ input:focus placeholder{color:#111;}
 
 /* Button */
 
-input[type=submit], .button{
-	padding:15px 10px;
+.cashmusic.element input[type=submit], .cashmusic.element .button{
+	padding:14px 10px;
 	width:100%;
 	text-align: center;
-	margin:2px auto 0 auto;
+  text-indent: 0;
+	margin:0 auto 0 auto;
 	background:none;
 	border:solid 2px #00cf7f;
 	font-size: 12px;
 	color:#00cf7f;
+  font-family:'Montserrat',Helvetica,Arial,sans-serif;
 	display:inline-block;
 	-webkit-border-radius: 0px;
 	-moz-border-radius: 0px;
 	border-radius: 0px;
 	text-transform: capitalize;
 	-webkit-appearance:none;
-	vertical-align: top;
+	vertical-align: middle;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
 }
 
-input[type=submit]:disabled, .button:disabled{
+.cashmusic.element  input[type=submit]:disabled, .cashmusic.element  .button:disabled{
 	pointer-events:none;
 	opacity: 0.5;
 }
 
-input[type=submit]:hover, .button:hover{
+.cashmusic.element  input[type=submit]:hover, .cashmusic.element  .button:hover{
 	background:#00cf7f;
 	color:rgba(0,0,0,0.3);
 	cursor: pointer;
@@ -279,11 +284,6 @@ input[type=submit]:hover, .button:hover{
 	color:#4d4d4d;
 }
 
-.cash_singlepurchase_flexible_price .total_price{
- 	width:100%;
- 	padding-left:3.5em;
-}
-
 .cash_singlepurchase_flexible_price .cash_singlepurchase_currency{
 	position:absolute;
 	background:transparent;
@@ -316,7 +316,7 @@ input[type=submit]:hover, .button:hover{
 .tourdates .cash_event{
 	width:100%;
 	display:block;
-	padding:10px 2%;
+	padding:15px;
 	display:block;
 	overflow:auto;
 	margin:0 auto 2px auto;
@@ -416,12 +416,10 @@ input[type=submit]:hover, .button:hover{
 /* Members Area */
 
 .membersarea .cash_address_container, .membersarea .cash_password_container{
-	width:49.5%;
-	display: inline-block;
-}
-
-.membersarea .cash_address_container{
-	margin:0 0.5% 0 0;
+  width:100%;
+  margin:0;
+  padding:0;
+  display: inline-block;
 }
 
 
@@ -616,7 +614,7 @@ input[type=submit]:hover, .button:hover{
 	display: inline-block;
 }
 
-.cm-store h2.title {
+.cm-store .cm-showcart, .cm-store h2.title {
   display: block;
   margin: 20px 0 20px 0;
   text-align: center;
@@ -629,7 +627,7 @@ input[type=submit]:hover, .button:hover{
 .cm-store.cm-front .cm-item{
 	border:solid 1px #ccc;
 	border-color:rgba(204,204,204,0.6);
-	padding: 20px;
+	padding: 15px;
 	width:100%;
 	display: inline-block;
 }
@@ -676,9 +674,9 @@ input[type=submit]:hover, .button:hover{
 	color:#4d4d4d;
 }
 
-.cm-store-flexible-price .cm-price{
+.cashmusic.element .cm-store-flexible-price .cm-price{
  	width:100%;
- 	padding-left:3.5em;
+  padding:14px 15px;
 }
 
 .cm-store-flexible-price .cm-store-currency{
@@ -757,11 +755,6 @@ input[type=submit]:hover, .button:hover{
 	margin:0 auto;
 }
 
-.cm-store.featured-items .cm-item{
-	width:30%;
-	display: inline-block;
-}
-
 .cm-store.unfeatured-items{
 	margin:0;
 	padding:0;
@@ -783,13 +776,13 @@ input[type=submit]:hover, .button:hover{
 
 .cm-store .cm-item input[type=submit], .cm-store .cm-item .button{
 	width:100%;
-	padding:15px;
-	margin:5px 0 0 0;
+	/*padding:15px;
+	margin:0;*/
 	-webkit-transition: 0.3s  ease-in-out;
 	transition: 0.3s  ease-in-out;
 }
 
-.cm-store .cm-item .button:disabled{
+.cashmusic.element .cm-store .button:disabled{
 	-webkit-filter: grayscale(100%);
 	filter:grayscale(100%);
 }
@@ -1234,15 +1227,6 @@ input[type=number]::-webkit-outer-spin-button {
 /* -- Main Size -- */
 @media screen and (min-width: 275px) {
 
-	input{
-		width:63%;
-	}
-
-	input[type=submit], .button{
-		width:35.5%;
-		margin:0;
-	}
-
 	/* Tour Dates */
 	.tourdates .cash_purchase_url, .tourdates .cash_map_url a{
 		width:auto;
@@ -1251,29 +1235,26 @@ input[type=number]::-webkit-outer-spin-button {
 	}
 
 	/* Single Purchase */
-	.cash_singlepurchase_flexible_price .total_price{
+	.cash_singlepurchase_flexible_price .cm-price{
 	 	width:63%;
-	}
-
-	/* Members Area */
-	.membersarea .cash_address_container, .membersarea .cash_password_container{
-		width:31.25%;
-	}
-
-	.membersarea .cash_address_container input, .membersarea .cash_password_container input{
-		width:100%;
 	}
 
 }
 
 /* -- Larger Size -- */
-@media screen and (min-width: 500px) {
-	.cashmusic.element input{
-			/*width:63.4%;*/
-	}
+@media screen and (min-width: 380px) {
 
+  .cashmusic.element .emailcollection input.cash_input_address,
+  .cashmusic.element .downloadcodes input.cash_input_code{
+  		width:66%;
+      margin:0 0.5% 0 0;
+  	}
 
-/* With Variants */
+  .cashmusic.element .emailcollection .button ,.cashmusic.element .downloadcodes .button{
+    width:33.5%;
+  }
+
+  /* With Variants */
 	.cashmusic.element select[data-totalattributes='1'], .cashmusic.element input[data-totalattributes='1']{
 		width:100%;
 	}
@@ -1291,8 +1272,15 @@ input[type=number]::-webkit-outer-spin-button {
 
 	/* Members Area */
 	.membersarea .cash_address_container, .membersarea .cash_password_container{
-		width:31.6%;
+		width:32.75%;
+    margin:0 0.5% 0 0;
+    display: inline-block;
 	}
+
+  .membersarea input[type=submit].button{
+    margin:0;
+    width:33.5%;
+  }
 
 	/* Store */
 	.cm-store .cm-item select{
@@ -1314,6 +1302,15 @@ input[type=number]::-webkit-outer-spin-button {
 	width:55%;
 	margin:0;
 	}
+
+  /* Featured Items */
+
+  .cm-store.featured-items .cm-item{
+  	width:33.3%;
+  	display: inline-block;
+  }
+
+
 }
 
 /* ====================
