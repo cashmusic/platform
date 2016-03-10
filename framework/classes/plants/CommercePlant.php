@@ -1395,14 +1395,17 @@ class CommercePlant extends PlantBase {
                 // does this payment type need to redirect? if so let's do preparePayment and get a redirect URL
                 if ($payment_seed->redirects != false) {
                     // prepare payment with URL redirect
+                    $return_url = $origin . '?cash_request_type=commerce&cash_action=finalizepayment&order_id=' . $order_id . '&creation_date=' . $order_details['creation_date'];
+                    if ($element_id) {
+                        $return_url .= '&element_id=' . $element_id;
+                    }
 
-                    error_log( $origin );
-
+                    error_log($return_url);
                     $approval_url = $payment_seed->preparePayment(
                         $total_price,							# payment amount
                         'order-' . $order_id,						# order id
                         $order_totals['description'],				# order name
-                        $origin,								# return URL
+                        $return_url,								# return URL
                         $origin,								# cancel URL (the same in our case)
                         $currency,									# payment currency
                         'sale',										# transaction type (e.g. 'Sale', 'Order', or 'Authorization')
@@ -1522,7 +1525,7 @@ class CommercePlant extends PlantBase {
         }
     }
 
-    public function finalizePayment($order_id, $token, $total_price, $description, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false) {
+    public function finalizePayment($order_id, $token, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false, $total_price=false, $description=false) {
 
         $order_details = $this->getOrder($order_id);
         $transaction_details = $this->getTransaction($order_details['transaction_id']);
