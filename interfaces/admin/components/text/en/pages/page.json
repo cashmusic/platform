@@ -10,17 +10,19 @@
    },
 	"tooltips":{},
 	"copy":{
-   "page_theme":"Edit page",
-   "edit":"Edit",
-   "delete":"Delete",
-   "public_page":"Your page is live at:",
-   "change_username":"Change Username",
-   "public_not_live":"Your page will appear at:",
-   "publish_settings":"Publish Settings",
-   "publish_a_campaign":"Publish a campaign",
-   "publish_campaign_info":"Publishing a campaign sets it live as your public page, using the theme you've set above.",
-   "published":"Published:",
-   "unpublish_all":"None (Unpublish all)",
-	 "replace_new_page":"Replace with a new page"
-}
+	   "page_edit":"Edit page",
+	   "edit":"Edit",
+	   "delete":"Delete",
+	   "public_page":"Your page is live at:",
+	   "change_username":"Change Username",
+	   "public_not_live":"Your page will appear at:",
+	   "publish_settings":"Publish Settings",
+	   "publish_a_campaign":"Publish a campaign",
+	   "publish_campaign_info":"Publishing a campaign sets it live as your public page, using the theme you've set above.",
+	   "published":"Published:",
+	   "unpublish_all":"None (Unpublish all)",
+		"first_time":"Time to get started!",
+		"replace_new_page":"Replace with a new page",
+		"page_theme":"Start building a new page"
+	}
 }
