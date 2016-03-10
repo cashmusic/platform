@@ -81,7 +81,7 @@
 	 * out the needed code...
 	 *
 	 * @return none
-	 */public static function embedElement($element_id,$access_method='direct',$location=false,$geo=false) {
+	 */public static function embedElement($element_id,$access_method='direct',$location=false,$geo=false,$donottrack=false) {
 		// fire up the platform sans-direct-request to catch any GET/POST info sent
 		// in to the page
 		CASHSystem::startSession();
@@ -113,7 +113,8 @@
 				'original_response' => $original_response,
 				'access_method' => $access_method,
 				'location' => $location,
-				'geo' => $geo
+				'geo' => $geo,
+				'donottrack' => $donottrack
 			)
 		);
 		if ($cash_body_request->response['status_uid'] == 'element_getmarkup_400') {
