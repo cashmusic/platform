@@ -1315,8 +1315,21 @@ input[type=number]::-webkit-outer-spin-button {
   /* Featured Items */
 
   .cm-store.featured-items .cm-item{
-  	width:33.3%;
+  	width:32.9%;
   	display: inline-block;
+  }
+
+
+  .cm-store.featured-items .cm-item:nth-of-type(1){
+    margin:0 0.25% 0 0;
+  }
+
+  .cm-store.featured-items .cm-item:nth-of-type(2){
+    margin:0 0.25% 0 0.25%;
+  }
+
+  .cm-store.featured-items .cm-item:nth-of-type(3){
+    margin:0 0 0 0.25%;
   }
 
 

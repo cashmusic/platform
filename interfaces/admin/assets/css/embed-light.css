@@ -11,13 +11,6 @@
 	color:#222;
 }
 
-input{
-	background:#f5f5f5;
-	background:rgba(245,245,245,0.9);
-	color:#222;
-	border:solid 1px #ccc;
-}
-
 ::-webkit-input-placeholder{color:#4d4d4d;}
 placeholder{color:#4d4d4d;}
 

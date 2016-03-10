@@ -129,9 +129,9 @@ body.light{
 
 
 body.light  .cashmusic.element input, body.light  .cashmusic.element select{
-	background:#f5f5f5;
+/*	background:#f5f5f5;
 	background-color:rgba(245,245,245,0.9);
-	color:#222;
+	color:#222;*/
 }
 
 body.dark  .cashmusic.element input, body.dark  .cashmusic.element select{
