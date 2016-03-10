@@ -1,22 +1,13 @@
 {{#error_message}}<div class="cm-error cm-{{element_type}}-error">{{error_message}}</div>{{/error_message}}
 <div class="cm-store cm-front">
 <div class="cm-store featured-items">
-	{{#features}}
-
-	<div class="cm-store cm-item item-{{id}} featured">
+	{{#features}}<div class="cm-store cm-item item-{{id}} featured">
 	<div class="cm-store cm-info cm-inner">
 		<h2>{{name}}</h2>
 		<span class="cm-itemprice">{{currency}}{{price}}{{#flexible_price}} {{copy_flexibleprice_suffix}}{{/flexible_price}}</span>
 		<div class="cm-description">{{{description}}}</div>
 		{{#is_available}}
-		{{#attributes}}
-			<select class="cm-attribute" name="{{name}}" data-key="{{key}}" data-itemid="{{id}}" data-totalattributes="{{attributes_count}}" data-attributeorder="{{attribute_index}}">
-				<option value="resetattributes" {{#defaultcountermenu}}data-countermenu='{{defaultcountermenu}}'{{/defaultcountermenu}}>{{copy_choose_verb}} {{key}}</option>
-				{{#items}}
-				<option value="{{key}}" {{#countermenu}}data-countermenu='{{countermenu}}'{{/countermenu}}>{{key}}</option>
-				{{/items}}
-			</select>
-		{{/attributes}}
+		{{#attributes}}<select class="cm-attribute" name="{{name}}" data-key="{{key}}" data-itemid="{{id}}" data-totalattributes="{{attributes_count}}" data-attributeorder="{{attribute_index}}"><option value="resetattributes" {{#defaultcountermenu}}data-countermenu='{{defaultcountermenu}}'{{/defaultcountermenu}}>{{copy_choose_verb}} {{key}}</option>{{#items}}<option value="{{key}}" {{#countermenu}}data-countermenu='{{countermenu}}'{{/countermenu}}>{{key}}</option>{{/items}}</select>{{/attributes}}
 		{{#flexible_price}}
 		<span class="cm-store-flexible-price">
 			<span class="cm-store-currency">{{currency}}</span>
@@ -31,8 +22,7 @@
 			</span>
 		{{/is_available}}
 	</div>
-	</div>
-	{{/features}}
+	</div>{{/features}}
 </div><!--featured-->
 
 <a href="#" class="cm-showcart"><i class="icon"></i>View cart</a>
@@ -47,14 +37,8 @@
 		<span class="cm-itemprice">{{currency}}{{price}}{{#flexible_price}} {{copy_flexibleprice_suffix}}{{/flexible_price}}</span>
 		<div class="cm-description">{{{description}}}</div>
 		{{#is_available}}
-		{{#attributes}}
-			<select class="cm-attribute" name="{{name}}" data-key="{{key}}" data-itemid="{{id}}" data-totalattributes="{{attributes_count}}" data-attributeorder="{{index}}">
-				<option value="resetattributes" {{#defaultcountermenu}}data-countermenu='{{defaultcountermenu}}'{{/defaultcountermenu}}>{{copy_choose_verb}} {{key}}</option>
-				{{#items}}
-				<option value="{{key}}" {{#countermenu}}data-countermenu='{{countermenu}}'{{/countermenu}}>{{key}}</option>
-				{{/items}}
-			</select>
-		{{/attributes}}
+		{{#attributes}}<select class="cm-attribute" name="{{name}}" data-key="{{key}}" data-itemid="{{id}}" data-totalattributes="{{attributes_count}}" data-attributeorder="{{index}}"><option value="resetattributes" {{#defaultcountermenu}}data-countermenu='{{defaultcountermenu}}'{{/defaultcountermenu}}>{{copy_choose_verb}} {{key}}</option>{{#items}}<option value="{{key}}" {{#countermenu}}data-countermenu='{{countermenu}}'{{/countermenu}}>{{key}}</option>
+				{{/items}}</select>{{/attributes}}
 		{{#flexible_price}}
 		<span class="cm-store-flexible-price">
 			<span class="cm-store-currency">{{currency}}</span>
