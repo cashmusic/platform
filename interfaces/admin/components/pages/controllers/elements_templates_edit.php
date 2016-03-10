@@ -12,7 +12,7 @@ if (isset($request_parameters[0])) {
 		}
 		$template_response = $cash_admin->requestAndStore(
 			array(
-				'cash_request_type' => 'system', 
+				'cash_request_type' => 'system',
 				'cash_action' => 'settemplate',
 				'name' => '',
 				'type' => $request_parameters[1],
@@ -24,7 +24,7 @@ if (isset($request_parameters[0])) {
 		if ($request_parameters[1] == 'embed') {
 			$cash_admin->requestAndStore(
 				array(
-					'cash_request_type' => 'element', 
+					'cash_request_type' => 'element',
 					'cash_action' => 'setelementtemplate',
 					'element_id' => $request_parameters[3],
 					'template_id' => $template_response['payload']
@@ -33,7 +33,7 @@ if (isset($request_parameters[0])) {
 		} else if ($request_parameters[1] == 'page') {
 			$edit_response = $cash_admin->requestAndStore(
 				array(
-					'cash_request_type' => 'element', 
+					'cash_request_type' => 'element',
 					'cash_action' => 'editcampaign',
 					'id' => $request_parameters[3],
 					'template_id' => $template_response['payload']
@@ -45,31 +45,30 @@ if (isset($request_parameters[0])) {
 	}
 
 	if ($request_parameters[1] == 'page') {
-		$current_campaign = $admin_primary_cash_request->sessionGet('current_campaign');
-			$elements_response = $cash_admin->requestAndStore(
-				array(
-					'cash_request_type' => 'element', 
-					'cash_action' => 'getelementsforcampaign',
-					'id' => $current_campaign
-				)
-			);
+		$elements_response = $cash_admin->requestAndStore(
+			array(
+				'cash_request_type' => 'element',
+				'cash_action' => 'getelementsforuser',
+				'user_id' => $cash_admin->effective_user_id
+			)
+		);
 
-			if (is_array($elements_response['payload'])) {
-				$elements_response['payload'] = array_reverse($elements_response['payload']);
-				foreach ($elements_response['payload'] as &$element) {
-					if ($element['modification_date'] == 0) {
-						$element['formatted_date'] = CASHSystem::formatTimeAgo($element['creation_date']);	
-					} else {
-						$element['formatted_date'] = CASHSystem::formatTimeAgo($element['modification_date']);
-					}
+		if (is_array($elements_response['payload'])) {
+			$elements_response['payload'] = array_reverse($elements_response['payload']);
+			foreach ($elements_response['payload'] as &$element) {
+				if ($element['modification_date'] == 0) {
+					$element['formatted_date'] = CASHSystem::formatTimeAgo($element['creation_date']);
+				} else {
+					$element['formatted_date'] = CASHSystem::formatTimeAgo($element['modification_date']);
 				}
-				$cash_admin->page_data['elements_for_campaign'] = new ArrayIterator($elements_response['payload']);
 			}
+			$cash_admin->page_data['elements_for_campaign'] = new ArrayIterator($elements_response['payload']);
+		}
 	}
 
 	$template_response = $cash_admin->requestAndStore(
 		array(
-			'cash_request_type' => 'system', 
+			'cash_request_type' => 'system',
 			'cash_action' => 'gettemplate',
 			'template_id' => $template_id,
 			'all_details' => 1,
