@@ -1422,12 +1422,12 @@ class CommercePlant extends PlantBase {
                     if ($result = $this->finalizePayment(
                         $order_id,
                         $stripe,
-                        $total_price,
-                        $order_totals['description'],
                         $email_address,
                         $customer_name,
                         $shipping_info,
-                        $session_id)) {
+                        $session_id,
+                        $total_price,
+                        $description)) {
                         error_log("success");
                         return "success";
                     } else {
@@ -1539,14 +1539,6 @@ class CommercePlant extends PlantBase {
         $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
         $seed_class = $connection_settings['seed'];
 
-        $r = new CASHRequest();
-        $r->startSession(false,"");
-        $finalize_url = $r->sessionGet('payment_finalize_url');
-        if ($finalize_url) {
-            $r->sessionClear('payment_finalize_url');
-        }
-
-
         // we're going to switch seeds by $connection_type, so check to make sure this class even exists
         if (!class_exists($seed_class)) {
             $this->setErrorMessage("Couldn't find payment type $connection_type.");
@@ -1604,7 +1596,7 @@ class CommercePlant extends PlantBase {
                     $order_details['gross_price'] = $payment_details['total'];
 
                     try {
-                        $this->sendOrderReceipt(false,$order_details,$finalize_url);
+                        //$this->sendOrderReceipt(false,$order_details,$finalize_url);
                     } catch (Exception $e) {
                         //TODO: what happens when order receipt not sent?
                     }

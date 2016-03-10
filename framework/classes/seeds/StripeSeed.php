@@ -317,7 +317,6 @@ class StripeSeed extends SeedBase
      */
     public function doPayment($total_price, $description, $token, $email_address=false, $customer_name=false, $shipping_info=false)
     {
-
     if (!empty($token)) {
 
         try {
@@ -332,12 +331,11 @@ class StripeSeed extends SeedBase
                 )
             )
             ) {
-
                 $this->setErrorMessage("Stripe payment failed.");
                 return false;
             }
         } catch (Exception $e) {
-            $this->setErrorMessage("Issue contacting the Stripe API servers.");
+            $this->setErrorMessage("There was an issue with your Stripe API request.");
             return false;
         }
 
@@ -355,6 +353,7 @@ class StripeSeed extends SeedBase
 
             // we can actually use the BalanceTransaction::retrieve method as verification that the charge has been placed
             if (!$transaction_fees) {
+                error_log("Balance transaction failed, is this a valid charge?");
                 $this->setErrorMessage("Balance transaction failed, is this a valid charge?");
                 return false;
             }
