@@ -48,6 +48,9 @@ if (!$cash_admin->page_data['primary_template_id'] && !$cash_admin->page_data['p
 if ($cash_admin->page_data['primary_template_id']) {
 	// show that edit button
 	$cash_admin->page_data['show_edit_button'] = true;
+	if (!$cash_admin->page_data['public_template_id']) {
+		$cash_admin->page_data['show_preview'] = true;
+	}
 }
 
 
@@ -63,11 +66,13 @@ if ($request_parameters) {
 if ($action == 'publish') {
 	$action_id = $cash_admin->page_data['primary_template_id'];
 	$cash_admin->page_data['show_published'] = true;
+	$cash_admin->page_data['show_preview'] = false;
 }
 
 if ($action == 'unpublish') {
 	$action_id = 0;
 	$cash_admin->page_data['show_published'] = false;
+	$cash_admin->page_data['show_preview'] = true;
 }
 
 if ($action == 'publish' || $action == 'unpublish') {
@@ -98,6 +103,7 @@ $user_response = $cash_admin->requestAndStore(
 if (is_array($user_response['payload'])) {
 	$current_username = $user_response['payload']['username'];
 	$current_userdata = $user_response['payload']['data'];
+	$cash_admin->page_data['api_key'] = $user_response['payload']['api_key'];
 }
 
 // get page url

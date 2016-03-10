@@ -72,15 +72,29 @@ if (isset($_GET['subdomain']) || isset($_GET['path'])) {
 	}
 }
 
- // error_log($user_id);
-
 // if we find a user check for a template and render one if found.
 if ($user_id) {
+	// for standard user page:
+	$template_type = 'public_profile_template';
+	if (isset($_REQUEST['preview']) && isset($_REQUEST['key'])) {
+		// user preview
+		$user_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people',
+				'cash_action' => 'getuser',
+				'user_id' => $user_id
+			)
+		);
+		$user = $user_request->response['payload'];
+		if ($user['api_key'] == $_REQUEST['key']) {
+			$template_type = 'primary_template_id';
+		}
+	}
 	$settings_request = new CASHRequest(
 		array(
 			'cash_request_type' => 'system',
 			'cash_action' => 'getsettings',
-			'type' => 'public_profile_template',
+			'type' => $template_type,
 			'user_id' => $user_id
 		)
 	);

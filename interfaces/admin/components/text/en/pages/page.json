@@ -23,6 +23,7 @@
 	   "unpublish_all":"None (Unpublish all)",
 		"first_time":"Time to get started!",
 		"replace_new_page":"Replace with a new page",
-		"page_theme":"Start building a new page"
+		"page_theme":"Start building a new page",
+		"preview":"Preview page"
 	}
 }
