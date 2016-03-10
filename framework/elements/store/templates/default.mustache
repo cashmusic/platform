@@ -30,8 +30,7 @@
 <div class="cm-store unfeatured-items">
 <div class="cm-store cm-info cm-inner">
 	<h2 class="title">Also Available</h2>
-	{{#items}}
-	<div class="cm-store cm-item item-{{id}}">
+	{{#items}}<div class="cm-store cm-item item-{{id}}">
 		<div class="cm-store cm-inner">
 		<h2>{{name}}</h2>
 		<span class="cm-itemprice">{{currency}}{{price}}{{#flexible_price}} {{copy_flexibleprice_suffix}}{{/flexible_price}}</span>
@@ -53,8 +52,7 @@
 			</span>
 		{{/is_available}}
 		</div>
-	</div>
-	{{/items}}
+	</div>{{/items}}
 	</div>
 </div><!--unfeatured-->
 

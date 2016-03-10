@@ -20,7 +20,7 @@ html,body{
 	overflow-x:hidden;
 	overflow-y: auto;
 	font: 100 14px/20px 'Montserrat',Helvetica,Arial,sans-serif;
-	margin:0;
+	margin:1px 0;
 	padding:0;
 	width:100%;
 	color:#222;
@@ -145,7 +145,7 @@ br{
 	margin: 0 0 0.5% 0;
 	height:46px;
 	width:100%;
-	font:400 11px 'Montserrat',Helvetica,Arial,sans-serif;
+	font:100 11px 'Montserrat',Helvetica,Arial,sans-serif;
 	-webkit-transition: background 0.3s  ease-in-out;
 	-moz-transition: background 0.3s  ease-in-out;
 	trasition: background 0.3s ease-in-out;
@@ -601,9 +601,6 @@ input:focus placeholder{color:#111;}
 }
 
 /* Store */
-.cashmusic.store{
-	margin:40px auto;
-}
 
 .cm-store h2{
 	font-size:14px;
@@ -1286,6 +1283,18 @@ input[type=number]::-webkit-outer-spin-button {
 	.cm-store .cm-item select{
 	width:49.5%;
 	}
+
+  .cm-store.unfeatured-items .cm-item{
+    width:49.75%;
+  }
+
+  .cm-store.unfeatured-items .cm-item:nth-child(odd){
+    margin:0 0 0 0.25%;
+  }
+
+    .cm-store.unfeatured-items .cm-item:nth-child(even){
+    margin:0 0.25% 0 0;
+    }
 
 	.cm-instant-grat{
 	width:43%;
