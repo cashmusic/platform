@@ -1395,6 +1395,9 @@ class CommercePlant extends PlantBase {
                 // does this payment type need to redirect? if so let's do preparePayment and get a redirect URL
                 if ($payment_seed->redirects != false) {
                     // prepare payment with URL redirect
+
+                    error_log( $origin );
+
                     $approval_url = $payment_seed->preparePayment(
                         $total_price,							# payment amount
                         'order-' . $order_id,						# order id

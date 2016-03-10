@@ -40,6 +40,7 @@ use PayPal\Api\Transaction;
 use PayPal\Api\WebProfile;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Rest\ApiContext;
+use PayPal\Exception\PayPalConnectionException;
 
 
 class PaypalSeed extends SeedBase
@@ -96,7 +97,6 @@ class PaypalSeed extends SeedBase
                     }
                 }
             }
-
 
         } else {
             $this->error_message = 'could not get connection settings';
@@ -189,16 +189,14 @@ class PaypalSeed extends SeedBase
         $cancel_url,
         $currency_id = 'USD', /* 'USD', 'GBP', 'EUR', 'JPY', 'CAD', 'AUD' */
         $payment_type = 'sale', /* 'Sale', 'Order', or 'Authorization' */
-        $shipping_price = false
+        $shipping=null
     )
     {
-
         $payer = new Payer();
         $payer->setPaymentMethod("paypal");
         $amount = new Amount();
         $amount->setCurrency($currency_id)
             ->setTotal($total_price);
-
 
 /*        if ($request_shipping_info && $shipping_price > 0) {
             $shipping = new Details();
@@ -209,7 +207,6 @@ class PaypalSeed extends SeedBase
 
             $amount->setDetails($shipping);
         }*/
-
         $transaction = new Transaction();
         $transaction->setAmount($amount)
             ->setDescription($order_name)
@@ -233,8 +230,15 @@ class PaypalSeed extends SeedBase
 
         try {
             $payment->create($this->api_context);
+        } catch (PayPal\Exception\PayPalConnectionException $ex) {
+
+            $error = json_decode($ex->getData());
+            $this->setErrorMessage($error->message);
+            return false;
+
         } catch (Exception $ex) {
             $error = json_decode($ex->getData());
+
             $this->setErrorMessage($error->message);
             return false;
 
@@ -246,8 +250,10 @@ class PaypalSeed extends SeedBase
             return $approval_url;
         } else {
             // approval link isn't set, return to page and post error
+
             $this->setErrorMessage('There was an error contacting PayPal for this payment.');
-        }
+            return false;
+            }
     }
 
     public function doPayment()
@@ -280,7 +286,7 @@ class PaypalSeed extends SeedBase
 
             try {
                 // Execute the payment
-                $result = $payment->execute($execution, $this->api_context);
+                $payment->execute($execution, $this->api_context);
 
                 try {
                     $payment = Payment::get($this->payment_id, $this->api_context);
