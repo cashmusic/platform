@@ -242,7 +242,8 @@ if ($settings_response['payload']) {
 	$cash_admin->page_data['region1'] = $settings_response['payload']['region1'];
 	$cash_admin->page_data['region2'] = $settings_response['payload']['region2'];
 } else {
-	$cash_admin->page_data['noshippingregions'] = true;
+	$cash_admin->page_data['region1'] = 'US';
+	$cash_admin->page_data['region2'] = 'International';
 }
 
 $cash_admin->page_data['form_state_action'] = 'doitemedit';

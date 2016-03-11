@@ -59,23 +59,18 @@
 
 	{{#show_beta}}
 	<div class="pure-u-1" id="shippingrates" {{^physical_fulfillment}}style="display:none;"{{/physical_fulfillment}}>
-		{{^noshippingregions}}
-			<div class="pure-u-1 pure-u-md-1-2">
-				<label for="region1_first">{{label_first_shipped}} ({{region1}})</label>
-				<input type="text" id="region1_first" name="region1_first" value="{{region1_first}}" class="number" placeholder="3.00" />
-				<label for="region1_rest">{{label_rest_shipped}} ({{region1}})</label>
-				<input type="text" id="region1_rest" name="region1_rest" value="{{region1_rest}}" class="number" placeholder="2.00" />
-			</div>
-			<div class="pure-u-1 pure-u-md-1-2">
-				<label for="region2_first">{{label_first_shipped}} ({{region2}})</label>
-				<input type="text" id="region2_first" name="region2_first" value="{{region2_first}}" class="number" placeholder="3.00" />
-				<label for="region2_rest">{{label_rest_shipped}} ({{region2}})</label>
-				<input type="text" id="region2_rest" name="region2_rest" value="{{region2_rest}}" class="number" placeholder="2.00" />
-			</div>
-		{{/noshippingregions}}
-		{{#noshippingregions}}
-			<p>{{no_regions}} <a href="{{www_path}}/commerce/">{{commerce_settings}}</a>.</p>
-		{{/noshippingregions}}
+		<div class="pure-u-1 pure-u-md-1-2">
+			<label for="region1_first">{{label_first_shipped}} ({{region1}})</label>
+			<input type="text" id="region1_first" name="region1_first" value="{{region1_first}}" class="number" placeholder="3.00" />
+			<label for="region1_rest">{{label_rest_shipped}} ({{region1}})</label>
+			<input type="text" id="region1_rest" name="region1_rest" value="{{region1_rest}}" class="number" placeholder="2.00" />
+		</div>
+		<div class="pure-u-1 pure-u-md-1-2">
+			<label for="region2_first">{{label_first_shipped}} ({{region2}})</label>
+			<input type="text" id="region2_first" name="region2_first" value="{{region2_first}}" class="number" placeholder="3.00" />
+			<label for="region2_rest">{{label_rest_shipped}} ({{region2}})</label>
+			<input type="text" id="region2_rest" name="region2_rest" value="{{region2_rest}}" class="number" placeholder="2.00" />
+		</div>
 	</div><!--pure-->
 	{{/show_beta}}
 

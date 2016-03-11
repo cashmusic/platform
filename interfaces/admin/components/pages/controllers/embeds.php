@@ -1,35 +1,7 @@
 <?php
-// handle template change
-if (isset($_POST['change_template_id'])) {
-	$settings_request = new CASHRequest(
-		array(
-			'cash_request_type' => 'system',
-			'cash_action' => 'setsettings',
-			'type' => 'public_profile_template',
-			'value' => $_POST['change_template_id'],
-			'user_id' => $cash_admin->effective_user_id
-		)
-	);
-}
-
-// get the current template:
-$settings_request = new CASHRequest(
-	array(
-		'cash_request_type' => 'system',
-		'cash_action' => 'getsettings',
-		'type' => 'public_profile_template',
-		'user_id' => $cash_admin->effective_user_id
-	)
-);
-
-$cash_admin->page_data['template_id'] = $settings_request->response['payload'];
-if ($cash_admin->page_data['template_id']) {
-	$cash_admin->page_data['show_published'] = true;
-}
-
 // handle campaign selection
 $current_campaign = $admin_primary_cash_request->sessionGet('current_campaign');
-if (!$current_campaign) {
+if ($current_campaign !== false) {
 	$settings_request = new CASHRequest(
 		array(
 			'cash_request_type' => 'system',
@@ -44,6 +16,10 @@ if (!$current_campaign) {
 	}
 }
 if (isset($_POST['current-campaign'])) {
+	if ($_POST['current-campaign'] == -1) {
+		error_log('blorf');
+	}
+
 	$current_campaign = $_POST['current-campaign'];
 	$admin_primary_cash_request->sessionSet('current_campaign',$current_campaign);
 	$settings_request = new CASHRequest(
@@ -73,45 +49,14 @@ if (is_array($user_response['payload'])) {
 }
 
 
-
-// get news for the news feed
-$session_news = AdminHelper::getActivity($current_userdata);
-
-if (is_array($session_news['activity']['lists'])) {
-	foreach ($session_news['activity']['lists'] as &$list_stats) {
-		if ($list_stats['total'] == 1) {
-			$list_stats['singular'] = true;
-		} else {
-			$list_stats['singular'] = false;
-		}
-	}
-}
-
-//Any Notifications?
-$cash_admin->page_data['dashboard_active'] = $session_news['activity']['lists'] || $session_news['activity']['orders'];
-
-$cash_admin->page_data['dashboard_lists'] = $session_news['activity']['lists'];
-if ($session_news['activity']['orders']) {
-	$cash_admin->page_data['dashboard_orders'] = count($session_news['activity']['orders']);
-	if ($cash_admin->page_data['dashboard_orders'] == 1) {
-		$cash_admin->page_data['dashboard_orders_singular'] = true;
-	}
-} else {
-	$cash_admin->page_data['dashboard_orders'] = false;
-}
-
-
-
-
 // get page url
 if (SUBDOMAIN_USERNAMES) {
-	$cash_admin->page_data['user_page_uri'] = str_replace('https','http',rtrim(str_replace('admin', '', CASH_ADMIN_URL),'/'));
+	$cash_admin->page_data['user_page_uri'] = rtrim(str_replace('admin', '', CASH_ADMIN_URL),'/');
 	$cash_admin->page_data['user_page_uri'] = str_replace('://','://' . $current_username . '.',$cash_admin->page_data['user_page_uri']);
 } else {
-	$cash_admin->page_data['user_page_uri'] = str_replace('https','http',rtrim(str_replace('admin', $current_username, CASH_ADMIN_URL),'/'));
+	$cash_admin->page_data['user_page_uri'] = rtrim(str_replace('admin', $current_username, CASH_ADMIN_URL),'/');
 }
-$cash_admin->page_data['user_page_display_uri'] = str_replace('http://','',$cash_admin->page_data['user_page_uri']);
-
+$cash_admin->page_data['user_page_display_uri'] = str_replace(array('http://','https://'),'',$cash_admin->page_data['user_page_uri']);
 
 //get public URL
 $cash_admin->page_data['public_url'] = CASH_PUBLIC_URL;
@@ -143,8 +88,6 @@ $total_campaigns = count($campaigns_response['payload']);
 $total_elements = count($elements_response['payload']);
 
 if ($total_campaigns) {
-	//
-	//
 	// TODO: proper selection of elements instead of just the first one because whatever
 	if (!$current_campaign) {
 		$current_campaign = $campaigns_response['payload'][count($campaigns_response['payload']) - 1]['id'];

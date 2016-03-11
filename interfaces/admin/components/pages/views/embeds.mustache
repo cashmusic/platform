@@ -21,21 +21,20 @@
 <!--/* Campaigns */-->
 <div id="campaigns">
 {{#has_campaigns}}
-<div class="pure-u-1 pure-u-md-2-3">
+<div class="pure-u-1">
 	<div class="selecta">
 		<form accept-charset="UTF-8" method="post" action="{{www_path}}/embeds/">
 			<label for="current-campaign">{{label_selected_campaign}}</label>
 			<select name="current-campaign" id="current-campaign">
-			{{{campaigns_as_options}}}
+				<option value="-1" selected="selected">No campaign</option>
+				{{{campaigns_as_options}}}
 			</select>
 		</form>
 	</div><!--selecta-->
 		{{#selected_campaign}}
 		<a class="lightboxed edit-button" href="{{www_path}}/campaigns/edit/{{id}}"><span class="icon icon-pencil"></span><!--icon--></a>
 		{{/selected_campaign}}
-</div><!--pure-->
-<div class="pure-u-1 pure-u-md-1-3 alignright">
-		<a class="button lightboxed" href="{{www_path}}/campaigns/add/">{{copy_add_campaign}}</a>
+		&nbsp;<a class="lightboxed edit-button" href="{{www_path}}/campaigns/add/"><span class="icon icon-plus"></span><!--icon--></a>
 </div>
 {{/has_campaigns}}
 
@@ -51,17 +50,10 @@
 {{/has_campaigns}}
 
 {{#selected_campaign}}
-<div class="material pure-u-1">
-			<div class="pure-u-1">
-				<h5>{{copy_total_campaign_views}} - &#39;{{title}}&#39;<br /><span class="fadedtext">Updated <span>&#124;</span> {{formatted_date}}</span></h5>
-				<h4 class="number"><div class="icon icon-lg-arw"></div> {{formatted_views}}</h4>
-				<!--h5 class="percentage"><div class="icon icon-lg-arw"></div>&#37;</h5-->
-			</div><!--stats-->
-</div><!--campaign pure-->
-</div><!--campaigns-->
+
 <div class="section pure-u-1">
 <div class=" pure-u-1 pure-u-md-1-2">
-	<h4>&#39;{{title}}&#39; {{copy_embed_title}} ({{element_count}})</h4>
+	<h4>{{copy_embed_title}} ({{element_count}})</h4>
 </div><!--pure-->
 <div class=" pure-u-1 pure-u-md-1-2 alignright">
 {{^isarchive}}
