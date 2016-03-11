@@ -27,7 +27,7 @@ if (isset($_POST['doaccountchange'])) {
 		if (isset($_POST['new_username'])) { 
 			if ($_POST['new_username']) {
 				// strip all non-alpha/numeric and push it all to lowercase for the sake of uniqueness
-				$changes['username'] = strtolower(preg_replace("/[^a-z0-9]+/i", '',$_POST['new_username']));
+				$changes['username'] = strtolower(preg_replace("/[^a-z0-9-]+/i", '',$_POST['new_username']));
 			}
 		}
 		if (isset($_POST['new_displayname'])) { 
