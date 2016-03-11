@@ -15,23 +15,35 @@
 </div><!--pure-->
 </header>
 
-<style type="text/css">
-	iframe.preview {filter: grayscale(100%) contrast(60%);-webkit-filter: grayscale(100%) contrast(60%);-moz-filter: grayscale(100%) contrast(60%);-ms-filter: grayscale(100%) contrast(60%);}
-</style>
-
 <div class="pure-u-1 pure-u-md-1-2">
-{{#show_published}}<a href="{{user_page_uri}}" target="_blank">{{/show_published}}{{#first_time_page}}<a href="{{www_path}}/page/theme/" class="firsttime lightboxed">{{/first_time_page}}<div class="preview-header"><span></span><span></span><span></span></div><!--preview-header-->
-<div class="preview-wrap">{{^first_time_page}}<iframe id="preview" {{#show_preview}}class="preview" {{/show_preview}}src="http://{{user_page_display_uri}}?{{#show_preview}}preview=1&amp;key={{api_key}}&amp;{{/show_preview}}donottrack=1"></iframe>{{/first_time_page}}</div><!--preview-wrap--></a>
+{{#show_published}}<a class="page-display-link" href="{{user_page_uri}}" target="_blank">{{/show_published}}{{#first_time_page}}<a href="{{www_path}}/page/theme/" class="firsttime lightboxed">{{/first_time_page}}
+	<div class="preview-header"><span></span><span></span><span></span></div><!--preview-header-->
+	<div class="preview-wrap">
+		<div class="preview-overlay">
+			<div class="preview-overlay-inner">
+				{{#show_preview}}
+					<a href="http://{{user_page_display_uri}}?preview=1&amp;key={{api_key}}&amp;donottrack=1" class="page-preview-link alt-button" target="_blank"><span class="icon icon-search"></span> {{copy_preview}}</a>
+				{{/show_preview}}
+				{{#show_edit_button}}
+					<a href="{{www_path}}/elements/templates/edit/{{primary_template_id}}/page" class="page-edit-link lightboxed page-editor alt-button"><span class="icon icon-pencil"></span> {{copy_page_edit}}</a>
+				{{/show_edit_button}}
+			</div><!--preview-overlay-inner-->
+		</div><!--preview-overlay-->
+		{{^first_time_page}}<iframe id="preview" {{#show_preview}}class="preview" {{/show_preview}}src="http://{{user_page_display_uri}}?{{#show_preview}}preview=1&amp;key={{api_key}}&amp;{{/show_preview}}donottrack=1"></iframe>{{/first_time_page}}
+	</div><!--preview-wrap-->
+	{{#show_published}}</a>{{/show_published}}
+	{{#first_time_page}}</a>{{/first_time_page}}
 </div><!--pure-->
-<div class="pure-u-1 pure-u-md-1-2">
-	<h4 class="fadedtext">{{#show_published}}{{copy_public_page}}{{/show_published}}{{^show_published}}{{copy_public_not_live}}{{/show_published}}</h4><a class="url-link" href="{{user_page_uri}}" target="_blank"><big>{{user_page_display_uri}}</big></a><br /><a id="settings" class="settings toggle"><small>[ change username ]</small></a>
-	{{^first_time_page}}
-		{{#show_published}}<br /><br /><button href="{{www_path}}/page/unpublish" class="needsconfirmation button unpublish">Unpublish</button>{{/show_published}}
-		{{^show_published}}<br /><br /><button href="{{www_path}}/page/publish" class="needsconfirmation button publish">Publish</button>{{/show_published}}
 
-		<br />
-		{{#show_preview}}<br /><a href="http://{{user_page_display_uri}}?preview=1&amp;key={{api_key}}&amp;donottrack=1" class="button" target="_blank">{{copy_preview}}</a>{{/show_preview}}
-		{{#show_edit_button}}<br /><a href="{{www_path}}/elements/templates/edit/{{primary_template_id}}/page" class="lightboxed button page-editor">{{copy_page_edit}}</a>{{/show_edit_button}}
+<div class="pure-u-1 pure-u-md-1-2">
+	<h4>{{#show_published}}<span class="fadedtext">{{copy_public_page}}</span>{{/show_published}}{{^show_published}}<span class="fadedtext">{{copy_public_not_live}}</span>{{/show_published}}<a class="url-link" href="{{user_page_uri}}" target="_blank"> {{user_page_display_uri}}</a></h4><p class="small fadedtext"><a id="settings" class="settings toggle"><span class="icon icon-cog"></span><!--icon--> Update username/url</a></p>
+
+	{{^first_time_page}}
+	<div class="">
+		<h5>Publish on/off:</h5><br />
+		{{#show_published}}<!--button href="{{www_path}}/page/unpublish" class="needsconfirmation button unpublish">Unpublish</button--><a href="{{www_path}}/page/unpublish" class=" cm-on-off-toggle-switch on"><span></span></a> <br/><!--small class="fadedtext">(click to unpublish)</small-->{{/show_published}}
+		{{^show_published}}<!--button href="{{www_path}}/page/publish" class="needsconfirmation button publish">Publish</button--> <a href="{{www_path}}/page/publish" class=" cm-on-off-toggle-switch off"><span></span></a> <br/><!--small class="fadedtext">(click to publish)</small-->{{/show_published}}
+	</div>
 	{{/first_time_page}}
 
 	{{#first_time_page}}

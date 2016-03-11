@@ -1384,11 +1384,11 @@ transform: scale(1.025)!important;
 
 .preview-wrap{
 	position: relative;
-	width: 200%; height: 550px; padding: 0; margin:0 0 -275px 0; overflow: hidden;
-	pointer-events: none;
+	width: 200%; height: 550px; padding: 0; margin:0 0 -345px 0; overflow: hidden;
 }
 
 iframe#preview{
+		pointer-events: none;
 	width:100%;
 	height:100%;
 	border:none;
@@ -1403,6 +1403,102 @@ iframe#preview{
 	-webkit-transform: scale(0.5);
 	-webkit-transform-origin: 0 0;
 }
+
+iframe#preview.preview{
+	filter: grayscale(100%) contrast(30%);
+	-webkit-filter: grayscale(100%) contrast(30%);
+	-moz-filter: grayscale(100%) contrast(30%);
+	-ms-filter: grayscale(100%) contrast(30%);
+}
+
+.preview-overlay{
+	position: absolute;
+	top:0;
+	left:0;
+	width:50%;
+	height:275px;
+}
+
+.preview-overlay-inner{
+	background:rgba(17,17,17,0.5);
+	height:54px;
+	width:100%;
+	display: block;
+	z-index: 20;
+	position: absolute;
+	bottom:0;
+	left:0;
+	padding:8px 0;
+	text-align: right;
+}
+
+.page-preview-link, .page-edit-link{
+	background:#333;
+	text-decoration: none;
+	padding:12px 36px;
+	margin:6px 6px 6px 3px;
+	vertical-align: middle;
+	z-index: 20;
+	text-align: center;
+	display: inline-block;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.page-preview-link{
+		left:0;
+}
+
+.page-edit-link{
+	right:0;
+}
+
+/* On / Off Toggle Switch */
+
+.cm-on-off-toggle-switch{
+	position: relative;
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+	color:#f5f5f5 !important;
+	background:#444;
+	font-size: 12px;
+	padding:18px;
+	width:90px;
+	margin:0 auto 6px auto;
+	display: inline-block;
+	text-align: center;
+	text-decoration: none;
+	vertical-align: middle;
+	border: solid 1px #d1d1d1;
+	-webkit-box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+}
+
+.cm-on-off-toggle-switch span{
+	background:#999;
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+	padding:15px;
+	margin:2px;
+	position: absolute;
+	top:0;
+	border: solid 1px #444;
+}
+
+.cm-on-off-toggle-switch.off span{
+	left:0%;
+}
+
+.cm-on-off-toggle-switch.on span{
+	right:0%;
+	background:#00cf7f;
+}
+
+
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 iframe#preview  { zoom: 1;  }
@@ -5516,6 +5612,7 @@ a.edit-button {
 	color:#f5f5f5;
 	text-decoration: none;
 	padding:12px;
+	margin: 0 6px 0 0;
 	text-align: center;
 	display:inline-block;
 	-webkit-transition: 0.3s  ease-in-out;
@@ -5529,8 +5626,6 @@ a.edit-button .icon{
 	color:#999;
 	margin:0 auto;
 	padding:0;
-	font-size: 17px;
-	line-height: 15px;
 	text-align: center;
 	vertical-align: middle;
 }
@@ -5688,6 +5783,12 @@ a.edit-button:hover .icon{
 	vertical-align: -webkit-baseline-middle;
 }
 
+.alt-button .icon{
+	margin:0 3px 0 0;
+	font-size: 12px;
+	color: #f5f5f5;
+}
+
 /* Campaigns */
 
 #campaigns .associated .add{
@@ -5702,13 +5803,13 @@ a.edit-button:hover .icon{
 	width:auto;
 }
 
-.panel #campaigns .associated .add, .panel .alt-button{
+.panel #campaigns .associated .add{
 	margin:10px auto 0 auto;
 	position: initial;
 	width:100%;
 }
 
-#campaigns .associated .add .icon, .alt-button .icon{
+#campaigns .associated .add .icon{
 	vertical-align: bottom;
 	margin:0 7px 0 0;
 	color: #f5f5f5;
@@ -5913,7 +6014,7 @@ a.edit-button:hover .icon{
 }
 
 
-.published .url-link{
+.url-link{
 	display:inline-block;
 	padding:0px 6px 0 0;
 	-webkit-border-radius: 3px;
@@ -5921,7 +6022,7 @@ a.edit-button:hover .icon{
 	border-radius: 3px;
 	color:#00cf7f;
 	line-height: 30px;
-	word-wrap:break-word;
+	word-break:break-all;
 	text-decoration: underline;
 }
 
