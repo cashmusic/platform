@@ -1432,7 +1432,7 @@ iframe#preview.preview{
 	text-align: right;
 }
 
-.page-preview-link, .page-edit-link{
+.page-preview-link, .page-edit-link, .page-display-link{
 	background:#333;
 	text-decoration: none;
 	padding:12px 36px;
@@ -1446,8 +1446,20 @@ iframe#preview.preview{
 	border-radius: 3px;
 }
 
-.page-preview-link{
-		left:0;
+.page-update-username{
+	text-decoration: none;
+	color:#666;
+	display: block;
+	font-size: 12px;
+	margin:-10px 0 54px 0;
+}
+
+.page-update-username:hover{
+	cursor: pointer;
+}
+
+.page-preview-link, .page-display-link{
+	left:0;
 }
 
 .page-edit-link{

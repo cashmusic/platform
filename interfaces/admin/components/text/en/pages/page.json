@@ -11,6 +11,7 @@
 	"tooltips":{},
 	"copy":{
 	   "page_edit":"Edit",
+		 "page_view":"View page",
 	   "edit":"Edit",
 	   "delete":"Delete",
 	   "public_page":"Your page is live at:",
@@ -24,6 +25,6 @@
 		"first_time":"Time to get started!",
 		"replace_new_page":"Replace with a new page",
 		"page_theme":"Start building a new page",
-		"preview":"Preview"
+		"preview":"Preview page"
 	}
 }
