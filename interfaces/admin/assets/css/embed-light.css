@@ -11,6 +11,10 @@
 	color:#222;
 }
 
+.cm-lightboxed #mainspc{
+	background:none;
+}
+
 ::-webkit-input-placeholder{color:#4d4d4d;}
 placeholder{color:#4d4d4d;}
 
