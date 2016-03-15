@@ -1107,7 +1107,7 @@ class CommercePlant extends PlantBase {
                 'service_timestamp' => $service_timestamp,
                 'service_transaction_id' => $service_transaction_id,
                 'data_sent' => $data_sent,
-                'data_returned' => $data_returned,
+                'data_returned' => json_encode($data_returned),
                 'successful' => $successful,
                 'gross_price' => $gross_price,
                 'service_fee' => $service_fee,
@@ -1155,12 +1155,21 @@ class CommercePlant extends PlantBase {
         $service_fee=false,
         $status=false
     ) {
+
+        // we need to get the transaction, then join the new array with the old one in order to update this thing
+        $old_transaction = $this->getTransaction($id);
+
+        $joined_data_returned = array_merge(
+            json_decode($old_transaction['data_returned'], true),
+            $data_returned
+            );
+
         $final_edits = array_filter(
             array(
                 'service_timestamp' => $service_timestamp,
                 'service_transaction_id' => $service_transaction_id,
                 'data_sent' => $data_sent,
-                'data_returned' => $data_returned,
+                'data_returned' => json_encode($joined_data_returned),
                 'successful' => $successful,
                 'gross_price' => $gross_price,
                 'service_fee' => $service_fee,
@@ -1339,7 +1348,17 @@ class CommercePlant extends PlantBase {
                 }
 
             $currency = $this->getCurrencyForUser($user_id);
+            $shipping_info = json_decode($shipping_info, true);
 
+            $shipping_info_formatted = array(
+                    'customer_shipping_name' => $shipping_info['name'],
+                    'customer_address1' => $shipping_info['address1'],
+                    'customer_address2' => $shipping_info['address2'],
+                    'customer_city' => $shipping_info['city'],
+                    'customer_region' => $shipping_info['state'],
+                    'customer_postalcode' => $shipping_info['postalcode'],
+                    'customer_countrycode' => $shipping_info['country']);
+            error_log(print_r($shipping_info_formatted, true));
             $transaction_id = $this->addTransaction(
                 $user_id,
                 $connection_id,
@@ -1347,7 +1366,7 @@ class CommercePlant extends PlantBase {
                 '',
                 '',
                 '',
-                '',
+                $shipping_info_formatted,
                 -1,
                 $total_price, // set price
                 0,
@@ -1400,7 +1419,6 @@ class CommercePlant extends PlantBase {
                         $return_url .= '&element_id=' . $element_id;
                     }
 
-                    error_log($return_url);
                     $approval_url = $payment_seed->preparePayment(
                         $total_price,							# payment amount
                         'order-' . $order_id,						# order id
@@ -1580,7 +1598,7 @@ class CommercePlant extends PlantBase {
                         time(), 			// service timestamp
                         false,		// service transaction id
                         false,									// data sent
-                        json_encode($payment_details),			// data received
+                        $payment_details,			// data received
                         1,										// successful (boolean 0/1)
                         $payment_details['total'],				// gross price
                         $payment_details['transaction_fee'],	// service fee
@@ -1848,7 +1866,7 @@ class CommercePlant extends PlantBase {
                 false,
                 false,
                 false,
-                json_encode($data_returned),
+                $data_returned,
                 false,
                 false,
                 false,

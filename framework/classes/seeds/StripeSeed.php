@@ -240,68 +240,12 @@ class StripeSeed extends SeedBase
     }
 
     /**
-     * Fired from initiateRedirectedPayment, in CommercePlant. For StripeSeed, all this really does is tack the $_POST items onto the end of the uri to be sent over GET to finalizeRedirectedPayment.
+     * We don't need this for Stripe, since the checkout.js library handles it. Let's leave it for consistency across seeds, though
      *
-     * @param $payment_amount
-     * @param $ordersku
-     * @param $ordername
-     * @param $return_url
-     * @param $cancel_url
-     * @param bool $request_shipping_info
-     * @param bool $allow_note
-     * @param string $currency_id
-     * @param string $payment_type
-     * @param bool $invoice
-     * @param bool $shipping_amount
-     * @return array
+     * @return bool
      */
-    public function preparePayment(
-        $payment_amount,
-        $ordersku,
-        $ordername,
-        $return_url,
-        $cancel_url,
-        $request_shipping_info = true,
-        $allow_note = false,
-        $currency_id = 'USD', /* 'USD', 'GBP', 'EUR', 'JPY', 'CAD', 'AUD' */
-        $payment_type = 'sale', /* 'Sale', 'Order', or 'Authorization' */
-        $invoice = false,
-        $shipping_amount = false
-    )
-    {
-
-        // there's not a whole lot to do in this method for Stripe. let's make sure we have all the params we need to make the transaction spin, and return them to initiatePaymentRedirect.
-        if (!empty($_REQUEST['email'])) {
-            $return_url .= '&email=' . $_REQUEST['email'];
-        }
-
-        if (!empty($_REQUEST['connection_id'])) {
-            $return_url .= '&connection_id=' . $_REQUEST['connection_id'];
-        }
-
-        if (!empty($_REQUEST['connection_id'])) {
-            $return_url .= '&connection_id=' . $_REQUEST['connection_id'];
-        }
-
-        if (!empty($_REQUEST['seedToken'])) {
-            $return_url .= '&seedToken=' . $_REQUEST['seedToken'];
-        }
-
-        // not a whole lot we can check on at this point, so let's just make sure the token is set.
-        if (!empty($_REQUEST['seedToken'])) {
-            return array(
-                'redirect_url' => $return_url . "&success=true",
-                'data_sent' => ""
-            );
-        } else {
-            // approval link isn't set, return to page and post error
-            $this->setErrorMessage('There was an error contacting Stripe for this payment.');
-            return array(
-                'redirect_url' => $return_url . "&success=false",
-                'data_sent' => ""
-            );
-
-        }
+    public function preparePayment() {
+        return false;
     }
 
     /**
@@ -315,7 +259,7 @@ class StripeSeed extends SeedBase
      * @param $shipping_info
      * @return array|bool
      */
-    public function doPayment($total_price, $description, $token, $email_address=false, $customer_name=false, $shipping_info=false)
+    public function doPayment($total_price, $description, $token, $email_address=false, $customer_name=false)
     {
     if (!empty($token)) {
 
@@ -358,8 +302,6 @@ class StripeSeed extends SeedBase
                 return false;
             }
 
-            $shipping_info = json_decode($shipping_info, true);
-
             $full_name = explode(' ', $customer_name, 2);
             // nested array for data received, standard across seeds
             $order_details = array(
@@ -368,13 +310,7 @@ class StripeSeed extends SeedBase
                 'customer_first_name' => $full_name[0],
                 'customer_last_name' => $full_name[1],
                 'customer_name' => '',
-                'customer_shipping_name' => $shipping_info['name'],
-                'customer_address1' => $shipping_info['address1'],
-                'customer_address2' => $shipping_info['address2'],
-                'customer_city' => $shipping_info['city'],
-                'customer_region' => $shipping_info['state'],
-                'customer_postalcode' => $shipping_info['postalcode'],
-                'customer_countrycode' => $shipping_info['country'],
+
                 'customer_phone' => '',
                 'transaction_date' => $payment_results->created,
                 'transaction_id' => $payment_results->id,
