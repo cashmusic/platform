@@ -115,10 +115,6 @@ if (is_array($campaigns_response['payload'])) {
 						'id' => $campaign['id']
 					)
 				);
-
-				if (is_array($elements_response['payload'])) {
-					$elements_for_campaign = array_reverse($elements_response['payload']);
-				}
 			}
 		}
 		// add campaign to dropdown options
@@ -147,6 +143,10 @@ if ($current_campaign == -1) {
 	}
 }
 
+// newest first
+if (is_array($elements_response['payload'])) {
+	$elements_for_campaign = array_reverse($elements_response['payload']);
+}
 foreach ($elements_for_campaign as &$element) {
 	if ($element['modification_date'] == 0) {
 		$element['formatted_date'] = CASHSystem::formatTimeAgo($element['creation_date']);
