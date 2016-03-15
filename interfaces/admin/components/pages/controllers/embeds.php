@@ -73,17 +73,17 @@ if ($campaigns_response['payload']) {
 	$cash_admin->page_data['campaigns_for_user'] = new ArrayIterator($campaigns_response['payload']);
 }
 
-$elements_response = $cash_admin->requestAndStore(
+$all_elements_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'element',
 		'cash_action' => 'getelementsforuser',
 		'user_id' => $cash_admin->effective_user_id
 	)
 );
-if (!is_array($elements_response['payload'])) {
-	$elements_response['payload'] = array();
+if (!is_array($all_elements_response['payload'])) {
+	$all_elements_response['payload'] = array();
 }
-$total_elements = count($elements_response['payload']);
+$total_elements = count($all_elements_response['payload']);
 
 
 // get page url
@@ -130,12 +130,12 @@ if (is_array($campaigns_response['payload'])) {
 
 if ($current_campaign == -1) {
 	// show "No campaign" elements
-	$extra_elements = count($elements_response['payload']) - count($campaign_elements);
+	$extra_elements = count($all_elements_response['payload']) - count($campaign_elements);
 	$cash_admin->page_data['element_count'] = $extra_elements;
 
 	if ($extra_elements > 0) {
 		$elements_for_campaign = array();
-		foreach ($elements_response['payload'] as $element) {
+		foreach ($all_elements_response['payload'] as $element) {
 			if (!in_array($element['id'], $campaign_elements)) {
 				$elements_for_campaign[] = $element;
 			}
