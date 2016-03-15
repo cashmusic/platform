@@ -1143,7 +1143,7 @@ function doMessage(msg,label,modal,redirectUrl) {
    // markup for the confirmation link
    var markup = '<div class="modalbg"><div class="modaldialog">' +
    '<div class="pure-u-1">' +
-   '<h4>' + label + '</h4>';
+   '<p><span class="big">' + label + '</span></p><br />';
    if (msg) {
       markup += '<p><span class="big">' + msg + '</span></p>';
    }
