@@ -126,6 +126,7 @@ if (is_array($campaigns_response['payload'])) {
 		}
 		$cash_admin->page_data['campaigns_as_options'] .= '>' . $campaign['title'] . '</option>';
 	}
+	$elements_for_campaign = $elements_response['payload'];
 }
 
 if ($current_campaign == -1) {
@@ -144,8 +145,8 @@ if ($current_campaign == -1) {
 }
 
 // newest first
-if (is_array($elements_response['payload'])) {
-	$elements_for_campaign = array_reverse($elements_response['payload']);
+if (is_array($elements_for_campaign)) {
+	$elements_for_campaign = array_reverse($elements_for_campaign);
 }
 foreach ($elements_for_campaign as &$element) {
 	if ($element['modification_date'] == 0) {
