@@ -1,0 +1,15 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{
+		"which_connection":"Which storage connection?",
+      "title":"Title / Name",
+      "description":"Description",
+      "location":"Location (uri)"
+   },
+	"tooltips":{},
+	"copy":{
+		"upload_a_file":"Upload a file"
+	}
+}
