@@ -103,6 +103,7 @@ if ($session_news['activity']['orders']) {
 	$cash_admin->page_data['dashboard_orders'] = false;
 }
 
+/*
 // Lists Analytics
 $list_analytics = $cash_admin->requestAndStore(
 	array(
@@ -113,6 +114,7 @@ $list_analytics = $cash_admin->requestAndStore(
 		'user_id' => $cash_admin->effective_user_id
 	)
 );
+*/
 
 // Return Lists
 $list_response = $cash_admin->requestAndStore(

@@ -7,7 +7,7 @@
 		var view = new google.picker.DocsView()
 			.setParent('root')
 			.setIncludeFolders(true);
-		var uploadview = new google.picker.DocsUploadView();  
+		var uploadview = new google.picker.DocsUploadView();
 		var picker = new google.picker.PickerBuilder()
 			.enableFeature(google.picker.Feature.MINE_ONLY)
 			.disableFeature(google.picker.Feature.NAV_HIDDEN)
@@ -20,7 +20,7 @@
 			.setCallback(pickerCallback)
 			.build();
 		picker.setVisible(true);
-		
+
 		// move the dialog to the right place
 		$('.picker-dialog').css('overflow','hidden'); // firefox shows a scrollbar. dunno? this fixes
 		$('.picker-dialog').css('z-index',98765);
@@ -31,6 +31,11 @@
 		if (data.action == google.picker.Action.PICKED) {
 			var fileId = data.docs[0].id;
 			$('#asset_location').val(fileId);
+			// IF PARENT FORM HAS .autosubmit then submit that shit
+	      var parentForm = $('#asset_location').closest('form');
+	      if (parentForm.hasClass('autosubmit')) {
+	         parentForm.submit();
+	      }
 		}
 	}
 

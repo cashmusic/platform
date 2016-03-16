@@ -776,33 +776,40 @@ var validator;
 function formValidateBehavior() {
    $("form").each(function () {
       var el = $(this);
-      validator = el.validate({
-         errorClass: "invalid",
-         errorElement: "span",
-         //errorLabelContainer:"#pagemessage",
-         highlight: function(element, errorClass) {
-            $(element).addClass(errorClass);
-            $(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
-         },
-         unhighlight: function(element, errorClass) {
-            $(element).removeClass(errorClass);
-            $(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
-         },
-         submitHandler: function(f) {
-            //
-            //
-            // DO NOT wrap f as $(f) here or we'll convert it to a jquery object and
-            // trigger the submit events on loop if it fails conditions for ajaxFormSubmit
+      if (!el.hasClass('novalidate')) {
+         validator = el.validate({
+            errorClass: "invalid",
+            errorElement: "span",
+            //errorLabelContainer:"#pagemessage",
+            highlight: function(element, errorClass) {
+               $(element).addClass(errorClass);
+               $(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
+            },
+            unhighlight: function(element, errorClass) {
+               $(element).removeClass(errorClass);
+               $(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
+            },
+            submitHandler: function(f) {
+               //
+               //
+               // DO NOT wrap f as $(f) here or we'll convert it to a jquery object and
+               // trigger the submit events on loop if it fails conditions for ajaxFormSubmit
 
-            // note the $() added below
-            if ($(f).attr('action').toLowerCase().indexOf('s3.amazonaws') < 1 && !$(f).hasClass('noajax')) {
-               ajaxFormSubmit(f);
-            } else {
-               // and note the complete lack of dollarz here
-               f.submit();
+               // note the $() added below
+               if ($(f).attr('action').toLowerCase().indexOf('s3.amazonaws') < 1 && !$(f).hasClass('noajax')) {
+                  ajaxFormSubmit(f);
+               } else {
+                  // and note the complete lack of dollarz here
+                  f.submit();
+               }
             }
-         }
-      });
+         });
+      } else {
+         el.submit(function(e) {
+            ajaxFormSubmit(el);
+            e.preventDefault();
+         });
+      }
    });
 }
 
