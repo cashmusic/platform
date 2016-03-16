@@ -4,6 +4,8 @@
 $(document.body).addClass('login');
 </script>
 
+<div class="pure-u-1 pure-u-md-1-3">
+	<div class="inner">
 <h3 id="message" {{#login_error}} class="error"{{/login_error}}>{{login_message}}</h3>
 	<form method="post" id="cash_signin_form" action="{{www_path}}/">
 
@@ -31,8 +33,30 @@ $(document.body).addClass('login');
 </div><!--signup-->
 {{/allow_signups}}
 	</form>
+</div><!--inner-->
+</div><!--pure-->
 
+<div class="pure-u-1 pure-u-md-1-3 login-social-container">
+	<div class="inner login-social-feature">
+		<h4>Let's build a better future for music together.</h4>
+		<p>Learn more about the CASH Music organization</p>
+		<a href="http://about.cashmusic.org/" target="_blank" class="button">Preach!</a>
+	</div><!--inner-->
+	<div class="inner login-social-feature">
+		<h4><img src="/admin/ui/default/assets/images/slack.png" alt="Slack"/></h4>
+		<p>Talk to the team on our #community Slack channel</p>
+			<a href="https://cashmusic-slack.herokuapp.com/" target="_blank" class="button">I'm in!</a>
+	</div><!--inner-->
+</div><!--pure-->
 
+<div class="pure-u-1 pure-u-md-1-3">
+	<div class="inner login-carousel-feature">
+		<h4>Platform Features</h4>
+		<img src="/admin/assets/images/elementheader.php?element=emailcollection" width="100%" alt="Email Collection">
+		<h4>Collect an email address, give a download (or not.)</h4>
+		<p>This can be used as an email-for-download promotion or as a customizable email collection widget.</p>
+	</div><!--pure-->
+</div><!--pure-->
 
 <script type="text/javascript">
 	$('#cash_signin_form').on('submit', function(e) {
