@@ -1,7 +1,7 @@
 <?php
 
 //Asset connections?
-$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('assets'); 
+$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('assets');
 
 // Deal with download code requests
 if (isset($_REQUEST['add_codes_qty']) && $request_parameters[0]) {
@@ -210,21 +210,19 @@ if ($cash_admin->page_data['type'] == 'file') {
 			);
 			if ($cover_response['payload']) {
 				$cover_asset = $cover_response['payload'];
-				if (strpos(CASHSystem::getMimeTypeFor($cover_asset['location']),'image') !== false) {
-					$cover_url_response = $cash_admin->requestAndStore(
-						array(
-							'cash_request_type' => 'asset',
-							'cash_action' => 'getasseturl',
-							'connection_id' => $cover_asset['connection_id'],
-							'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
-							'asset_location' => $cover_asset['location'],
-							'inline' => true
-						)
-					);
-					if ($cover_url_response['payload']) {
-						$cash_admin->page_data['cover_url'] = $cover_url_response['payload'];
-						$cash_admin->page_data['cover_asset_id'] = $cash_admin->page_data['metadata']['cover'];
-					}
+				$cover_url_response = $cash_admin->requestAndStore(
+					array(
+						'cash_request_type' => 'asset',
+						'cash_action' => 'getasseturl',
+						'connection_id' => $cover_asset['connection_id'],
+						'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
+						'asset_location' => $cover_asset['location'],
+						'inline' => true
+					)
+				);
+				if ($cover_url_response['payload']) {
+					$cash_admin->page_data['cover_url'] = $cover_url_response['payload'];
+					$cash_admin->page_data['cover_asset_id'] = $cash_admin->page_data['metadata']['cover'];
 				}
 			}
 		}
