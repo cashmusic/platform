@@ -121,7 +121,6 @@ body.store,  body.page-editor{
 .login .login-carousel-container{
 	padding:0!important;
 	min-height:75vh;
-	border-left: solid 1px #333;
 }
 
 .login .login-carousel-feature{
@@ -5066,11 +5065,6 @@ label.checklabel{
 	transition:0.3s ease-in-out;
 }
 
-/* Login lightbox */
-
-.login .modallightbox {
-	left:13%;
-}
 
 /* Store Lightbox */
 
@@ -5228,10 +5222,6 @@ label.checklabel{
 .store .modallightbox .modalcancel{
 	right:8%;
 	background-color:#333;
-}
-
-.login .modallightbox .modalcancel{
-	right:17%;
 }
 
 .modallightbox .modalcancel span{
@@ -6830,9 +6820,25 @@ html{background-attachment: fixed;}
 	vertical-align: middle;
 }
 
-.login .login-content{
+body.login .login-content{
 		width: 75%;
 }
+
+.login .login-carousel-container{
+		border-left: solid 1px #333;
+}
+
+
+/* Login lightbox */
+
+.login .modallightbox {
+	left:13%;
+}
+
+.login .modallightbox .modalcancel{
+	right:17%;
+}
+
 
 /* Helpers */
 
