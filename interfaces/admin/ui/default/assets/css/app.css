@@ -3803,12 +3803,13 @@ fieldset{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	display:block;
+	display:inline-block;
 }
 
 .drawer .itemnav .drawerhandle, .drawer .itemnav .drawerhandle:hover{
 	border:none;
 	background:none;
+	display: block;
 }
 
 .drawerhandle:hover{
