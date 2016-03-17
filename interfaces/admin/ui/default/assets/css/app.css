@@ -2645,12 +2645,12 @@ body.login #pagedisplay{
 
 
 body.login .login-content{
+	width: 100%;
 	/*-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
 	-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
 	box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);*/
 	margin-left: auto;
 	margin-right: auto;
-	width: 75%;
 	padding:0px;
 	color:#333;
 	background:rgba(34,34,34,0.55);
@@ -6828,6 +6828,10 @@ html{background-attachment: fixed;}
 .login #page_content{
 	display: table-cell;
 	vertical-align: middle;
+}
+
+.login .login-content{
+		width: 75%;
 }
 
 /* Helpers */
