@@ -79,46 +79,53 @@ body.store,  body.page-editor{
 	right:-100%;
 }
 
-.login #page_content{
-	background-color:rgba(255,255,255,0.96);
-	-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
-	-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
-	box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
-	padding:0px;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	width:100%;
-	color:#333;
-	position: relative;
-	z-index:2;
-	margin:30px auto 80px auto;
-}
-
 .login .learnmore{
 	display:none;
 }
 
-
 /* Login Panels */
+
 .login .inner{
 	padding:30px;
 }
-
 
 .login .inner .button{
 	width:100%;
 }
 
-.login .login-carousel-feature{
-	background:#222;
-  color:#fff;
-		min-height:75vh;
+.login .login-panel-container{
+	padding:0!important;
+	background:rgba(255,255,255,0.96);
+	min-height:75vh;
+}
+
+.login  h4{
+	color:#fff;
+
+}
+
+.login a, .login a h4{
+	text-decoration: none;
+}
+
+.login a h4{
+	display: inline;
+	border-bottom:solid 2px #00cf7f;
+}
+
+.login a img{
+	border:none;
 }
 
 
-.login .login-carousel-feature h4{
-	color:#fff;
+.login .login-carousel-container{
+	padding:0!important;
+	min-height:75vh;
+	border-left: solid 1px #333;
+}
+
+.login .login-carousel-feature{
+  color:#fff;
 }
 
 .login .login-carousel-feature img{
@@ -126,17 +133,38 @@ body.store,  body.page-editor{
 }
 
 .login .login-social-container{
-	border-left: solid 1px #eee;
+	color:#fff;
+	padding:0!important;
 	min-height:75vh;
 	text-align: center;
 }
 
-.login .login-social-feature:first-of-type{
-	border-bottom: solid 1px #eee;
+.login .login-social-container a p{
+	color:#fff;
+}
+
+.login-social-feature{
+	margin:18px;
+	background:rgba(34,34,34,0);
+}
+
+.login-social-feature p{
+	margin:18px 0 0 0;
+}
+
+.login .login-social-feature:hover{
+	background:rgba(34,34,34,0.9);
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	transition: 0.3s ease-in-out;
+}
+
+.login hr{
+	background-color: #333;
 }
 
 .login .login-social-feature img{
-	width:50%;
+	width:65%;
 }
 
 
@@ -1395,7 +1423,7 @@ transform: scale(1.025)!important;
 	height:450px;
 }
 
-.preview-header{
+.browser-header{
 	background:#eee;
 	height:20px;
 	padding:2px 5px;
@@ -1407,7 +1435,7 @@ transform: scale(1.025)!important;
 	border-top-right-radius: 3px;
 }
 
-.preview-header span{
+.browser-header span{
 	-webkit-border-radius: 500px;
 	-moz-border-radius: 500px;
 	border-radius: 500px;
@@ -2590,13 +2618,10 @@ color:#fff!important;
 
 /* Login Page */
 
-.login #mainspc{
-	position:fixed;
-	overflow: auto;
-	top:0;
-	left:0;
-	background: url(../images/collage_bg.jpg);
+body.login #mainspc {
+	background: url(https://static-cashmusic.netdna-ssl.com/www/img/constant/texture/header.jpg);
 	background-width: 100%;
+	height:100vh;
 	background-repeat: no-repeat;
 	background-position: center top;
 	background-attachment: fixed;
@@ -2604,10 +2629,50 @@ color:#fff!important;
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
-	width:100%;
-	height:100%;
-	padding:0;
-	margin:0;
+}
+
+body.login #pagedisplay{
+	display: table;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	padding: 0;
+	margin: 0;
+	top:0;
+	left:0;
+}
+
+
+body.login .login-content{
+	/*-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+	-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+	box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);*/
+	margin-left: auto;
+	margin-right: auto;
+	width: 75%;
+	padding:0px;
+	color:#333;
+	background:rgba(34,34,34,0.55);
+}
+
+.login .gradient{
+	  content: '';
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgb(140,0,247);
+    background: -moz-linear-gradient(top, rgba(140,0,247,1) 0%, rgba(0,144,255,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(140,0,247,1)), color-stop(100%,rgba(0,144,255,1)));
+    background: -webkit-linear-gradient(top, rgba(140,0,247,1) 0%,rgba(0,144,255,1) 100%);
+    background: -o-linear-gradient(top, rgba(140,0,247,1) 0%,rgba(0,144,255,1) 100%);
+    background: -ms-linear-gradient(top, rgba(140,0,247,1) 0%,rgba(0,144,255,1) 100%);
+    background: linear-gradient(to bottom, rgba(140,0,247,1) 0%,rgba(0,144,255,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8c00f7', endColorstr='#0090ff',GradientType=0 );
+    opacity: 0.7;
+		z-index: -10;
 }
 
 .login #cash_signin_form{
@@ -2667,7 +2732,6 @@ color:#fff!important;
 
 .login .signup p{
 	margin:0;
-	font-size: 16px;
 }
 
 .login #forgotlink{
@@ -2687,6 +2751,7 @@ color:#fff!important;
 	position:fixed;
 	bottom:0;
 	left:0;
+	z-index: -1;
 	background:none;
 }
 
@@ -6070,6 +6135,8 @@ a.edit-button:hover .icon{
 	border-radius: 3px;
 	color:#00cf7f;
 	line-height: 30px;
+	z-index: 50;
+	position: relative;
 	word-break:break-all;
 	text-decoration: underline;
 }
@@ -6745,6 +6812,8 @@ html{background-attachment: fixed;}
 
 .modalbg{z-index:5;}
 
+
+/* Login */
 .login #mainspc{
 	height:100%;
 	position:static;
@@ -6754,6 +6823,11 @@ html{background-attachment: fixed;}
 	margin:0 auto;
 	padding:120px 0px 0px 0px;
 	z-index: 2;
+}
+
+.login #page_content{
+	display: table-cell;
+	vertical-align: middle;
 }
 
 /* Helpers */
