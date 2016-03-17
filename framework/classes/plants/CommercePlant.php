@@ -1358,7 +1358,7 @@ class CommercePlant extends PlantBase {
                     'customer_region' => $shipping_info['state'],
                     'customer_postalcode' => $shipping_info['postalcode'],
                     'customer_countrycode' => $shipping_info['country']);
-            error_log(print_r($shipping_info_formatted, true));
+
             $transaction_id = $this->addTransaction(
                 $user_id,
                 $connection_id,
@@ -1445,8 +1445,10 @@ class CommercePlant extends PlantBase {
                         $shipping_info,
                         $session_id,
                         $total_price,
-                        $description)) {
+                        $description,
+                        $subtotal)) {
                         error_log("success");
+                        error_log( print_r($result, true));
                         return "success";
                     } else {
                         error_log("failure");
@@ -1543,7 +1545,7 @@ class CommercePlant extends PlantBase {
         }
     }
 
-    public function finalizePayment($order_id, $token, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false, $total_price=false, $description=false) {
+    public function finalizePayment($order_id, $token, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false, $total_price=false, $description=false, $subtotal=false) {
 
         $order_details = $this->getOrder($order_id);
         $transaction_details = $this->getTransaction($order_details['transaction_id']);
@@ -1567,7 +1569,7 @@ class CommercePlant extends PlantBase {
         $payment_seed = new $seed_class($order_details['user_id'],$transaction_details['connection_id']);
 
         // if this was approved by the user, we need to compare some values to make sure everything matches up
-        if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address, $customer_name, $shipping_info)) {
+        if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address, $customer_name, $shipping_info, $subtotal)) {
             // okay, we've got the matching totals, so let's get the $user_id, y'all
 
             if ($payment_details['total'] >= $order_totals['price']) {
