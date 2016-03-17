@@ -259,8 +259,9 @@ class StripeSeed extends SeedBase
      * @param $shipping_info
      * @return array|bool
      */
-    public function doPayment($total_price, $description, $token, $email_address=false, $customer_name=false, $subtotal=false)
+    public function doPayment($total_price, $description, $token, $email_address=false, $customer_name=false)
     {
+
     if (!empty($token)) {
 
         try {
@@ -337,7 +338,6 @@ class StripeSeed extends SeedBase
                 'service_transaction_id' => $payment_results->id,
                 'service_charge_id' => $payment_results->balance_transaction,
                 'service_fee' => ($transaction_fees->fee / 100),
-                'subtotal' => $subtotal,
                 'order_details' => json_encode($order_details)
             );
         } else {

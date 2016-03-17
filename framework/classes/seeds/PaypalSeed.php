@@ -256,7 +256,7 @@ class PaypalSeed extends SeedBase
             }
     }
 
-    public function doPayment($total_price=false, $description=false, $token=false, $email_address=false, $customer_name=false, $subtotal=false)
+    public function doPayment($total_price=false, $description=false, $token=false, $email_address=false, $customer_name=false)
     {
 
         // check if we got a PayPal token in the return url or via arguments; if not, cheese it!
@@ -324,7 +324,6 @@ class PaypalSeed extends SeedBase
                 'timestamp' => strtotime($details['create_time']),
                 'transaction_id' => $details['id'],
                 'gross_price' => $details['transactions'][0]['amount']['total'],
-                'subtotal' => $subtotal,
                 'service_fee' => $details['transactions'][0]['related_resources'][0]['sale']['transaction_fee']['value'],
                 'order_details' => json_encode($order_details)
             );

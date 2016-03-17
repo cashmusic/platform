@@ -17,19 +17,23 @@
 	{{  DATE, CUSTOMER DETAILS, FULFILLMENT STATUS
 	{{
 	{{  ********************************************************************** }}
-    <div class="pure-u-1">
-
-    </div>
 	<div class="pure-u-1 pure-u-md-1-2">
-		<p>
-			<strong>{{copy_placed_on}}</strong> {{order_date}}<br />
-			<strong>{{copy_payment_status}}</strong> {{status}}
-		</p>
-		<p>
-			<strong>{{copy_order_total}}</strong>${{formatted_gross_price}} <br />
-			<strong>{{copy_total_minus_fees}}</strong> ${{formatted_net_price}}
-			{{#formatted_shipping}}<br /><strong>{{copy_shipping}}</strong>${{formatted_shipping}} <br />{{/formatted_shipping}}
-		</p>
+
+        <div class="pure-u-1 pure-u-md-1-2">
+            <p><strong>{{copy_placed_on}}</strong> {{order_date}}<br>
+                <strong>{{copy_payment_status}}</strong> {{status}}</p>
+            </div>
+
+        <div class="pure-u-1 pure-u-md-1-2">
+            <p><strong>{{copy_order_total}}</strong>${{formatted_gross_price}}<br>
+                <strong>{{copy_items_subtotal}}</strong>${{formatted_subtotal}}<br>
+                <strong>{{formatted_connection_name}} {{copy_transaction_fees}}</strong> ${{service_fee}}<br>
+                {{#formatted_shipping}}  <strong>{{copy_shipping}}</strong>${{formatted_shipping}} <br>{{/formatted_shipping}}
+
+            </p>
+            <p><strong>{{copy_net_total}}</strong> ${{formatted_net_price}}</p>
+
+            </div>
 	</div><!--pure-->
 
 	<div class="pure-u-1 pure-u-md-1-4">

@@ -1445,13 +1445,9 @@ class CommercePlant extends PlantBase {
                         $shipping_info,
                         $session_id,
                         $total_price,
-                        $description,
-                        $subtotal)) {
-                        error_log("success");
-                        error_log( print_r($result, true));
+                        $description)) {
                         return "success";
                     } else {
-                        error_log("failure");
                         return "failure";
                     }
 
