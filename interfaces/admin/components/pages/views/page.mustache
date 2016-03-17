@@ -17,7 +17,7 @@
 
 <div class="pure-u-1 pure-u-md-1-2">
 {{^first_time_page}}
-	<div class="preview-header"><span></span><span></span><span></span></div><!--preview-header-->
+	<div class="browser-header"><span></span><span></span><span></span></div><!--preview-header-->
 	<div class="preview-wrap">
 		<div class="preview-overlay">
 			<div class="preview-overlay-inner">
@@ -36,7 +36,7 @@
 </div><!--pure-->
 
 <div class="pure-u-1 {{^first_time_page}}pure-u-md-1-2{{/first_time_page}}">
-	<h4>{{#show_published}}<span class="fadedtext">{{copy_public_page}}</span>{{/show_published}}{{^show_published}}<span class="fadedtext">{{copy_public_not_live}}</span>{{/show_published}}<a class="url-link" href="{{user_page_uri}}" target="_blank"> {{user_page_display_uri}}</a></h4>
+	<h4>{{#show_published}}<span class="fadedtext">{{copy_public_page}}</span>{{/show_published}}{{^show_published}}<span class="fadedtext">{{copy_public_not_live}}</span>{{/show_published}}{{#show_published}}<a class="url-link" href="http://{{user_page_display_uri}}" target="_blank">{{/show_published}} {{user_page_display_uri}}{{#show_published}}</a>{{/show_published}}</h4>
 		<a id="settings" class="page-update-username settings toggle fadedtext"><span class="icon icon-cog"></span><!--icon--> Update username/url</a>
 
 	{{^first_time_page}}
