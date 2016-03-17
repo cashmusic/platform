@@ -86,7 +86,7 @@ body.store,  body.page-editor{
 /* Login Panels */
 
 .login .inner{
-	padding:30px;
+	padding:36px;
 }
 
 .login .inner .button{
@@ -96,7 +96,7 @@ body.store,  body.page-editor{
 .login .login-panel-container{
 	padding:0!important;
 	background:rgba(255,255,255,0.96);
-	min-height:75vh;
+	min-height:80vh;
 }
 
 .login  h4{
@@ -120,7 +120,7 @@ body.store,  body.page-editor{
 
 .login .login-carousel-container{
 	padding:0!important;
-	min-height:75vh;
+/*	min-height:75vh;*/
 }
 
 .login .login-carousel-feature{
@@ -134,7 +134,7 @@ body.store,  body.page-editor{
 .login .login-social-container{
 	color:#fff;
 	padding:0!important;
-	min-height:75vh;
+	/*min-height:75vh;*/
 	text-align: center;
 }
 
@@ -237,6 +237,9 @@ a.revealpassword, .input-additional-info {
 .page-editor .modallightbox .element-list .list::-webkit-scrollbar-track{background: rgba(0, 0, 0, 0.97);}
 .page-editor .modallightbox .element-list .list::-webkit-scrollbar-thumb{background: rgba(34, 34, 34, 0.97);-webkit-border-radius: 20px;}
 
+.login-content.legal::-webkit-scrollbar{width: 12px; height: 12px;}
+.login-content.legal::-webkit-scrollbar-track{background: rgba(30, 30, 30, 0.3);}
+.login-content.legal::-webkit-scrollbar-thumb{background: rgba(34, 34, 34, 0.97);-webkit-border-radius: 20px;}
 
 .nojs{
 	display:none;
@@ -2653,6 +2656,13 @@ body.login .login-content{
 	padding:0px;
 	color:#333;
 	background:rgba(34,34,34,0.55);
+}
+
+body.login .login-content.legal{
+	overflow: auto;
+	height: 90%;
+	color:#fff;
+	padding:36px;
 }
 
 .login .gradient{
