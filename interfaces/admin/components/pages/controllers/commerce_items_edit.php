@@ -246,6 +246,19 @@ if ($settings_response['payload']) {
 	$cash_admin->page_data['region2'] = 'International';
 }
 
+// item image stuff
+if ($item_response['payload']['descriptive_asset']) {
+	$item_image_response = $cash_admin->requestAndStore(
+		array(
+			'cash_request_type' => 'asset',
+			'cash_action' => 'getpublicurl',
+			'id' => $item_response['payload']['descriptive_asset'],
+			'user_id' => $cash_admin->effective_user_id
+		)
+	);
+	$cash_admin->page_data['image_url'] = $item_image_response['payload'];
+}
+
 $cash_admin->page_data['form_state_action'] = 'doitemedit';
 $cash_admin->setPageContentTemplate('commerce_items_edit');
 ?>

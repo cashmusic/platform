@@ -29,6 +29,7 @@
       "add_variants":"Add Variants",
 		"no_regions":"Please set shipping regions before setting shipping prices:",
 		"commerce_settings":"commerce settings",
-		"find_orders":"Find all orders for this item"
+		"find_orders":"Find all orders for this item",
+		"add_image":"Add/change the item image"
 	}
 }

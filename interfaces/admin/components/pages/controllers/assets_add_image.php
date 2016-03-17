@@ -2,13 +2,18 @@
 // parsing posted data:
 if (isset($_POST['doassetadd'])) {
 
+	$parent_id = 0;
+	if ($_POST['parent_type'] == 'release') {
+		$parent_id = $_POST['parent_id'];
+	}
+
 	$add_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'asset',
 			'cash_action' => 'addasset',
 			'title' => '',
 			'description' => '',
-			'parent_id' => $_POST['parent_id'],
+			'parent_id' => $parent_id,
 			'connection_id' => $_POST['connection_id'],
 			'location' => $_POST['asset_location'],
 			'user_id' => $cash_admin->effective_user_id,
@@ -47,7 +52,28 @@ if (isset($_POST['doassetadd'])) {
 			AdminHelper::formSuccess('Success.','/assets/edit/' . $_POST['parent_id']);
 		}
 		if ($_POST['parent_type'] == 'item') {
+			// make it public
+			$edit_response = $cash_admin->requestAndStore(
+				array(
+					'cash_request_type' => 'asset',
+					'cash_action' => 'makepublic',
+					'id' => $add_response['payload'],
+					'commit' => true,
+					'user_id' => $cash_admin->effective_user_id
+				)
+			);
 
+			// tell the item to use the asset
+			$item_response = $cash_admin->requestAndStore(
+				array(
+					'cash_request_type' => 'commerce',
+					'cash_action' => 'edititem',
+					'id' => $_POST['parent_id'],
+					'descriptive_asset' => $add_response['payload'],
+					'user_id' => $cash_admin->effective_user_id
+				)
+			);
+			AdminHelper::formSuccess('Success.','/commerce/items/edit/' . $_POST['parent_id']);
 		}
 	} else {
 		if ($_POST['parent_type'] == 'release') {
