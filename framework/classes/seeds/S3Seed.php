@@ -36,10 +36,10 @@ class S3Seed extends SeedBase {
 			$this->s3 = new S3($s3_key,$s3_secret);
 			$this->bucket = $this->settings->getSetting('bucket');
 		} else {
-			/* 
+			/*
 			 * error: could not get S3 settings
 			 * The likely problem here is that somehow an invalid setting was requested,
-			 * like a deleted setting without cascade or some other kind of invalid 
+			 * like a deleted setting without cascade or some other kind of invalid
 			 * or unknown setting. We should consider redirecting to a special-case
 			 * error message page so it doesn't just break like a big failure.
 			*/
@@ -57,7 +57,7 @@ class S3Seed extends SeedBase {
 	*/
 
 	public static function getRedirectMarkup($data=false) {
-		// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth 
+		// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
 		// calls would only happen in the admin. If this changes we can fuck around with it later.
 		$return_markup = '<h4>Amazon S3</h4>'
 					   . '<p>You\'ll need your S3 key and secret to proceed. For security reasons '
@@ -81,7 +81,7 @@ class S3Seed extends SeedBase {
 		}
 		$success = S3Seed::connectAndAuthorize($data['key'],$data['secret'],$data['bucket'],$s3_default_email);
 		if ($success) {
-			// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth 
+			// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
 			// calls would only happen in the admin. If this changes we can fuck around with it later.
 			$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
 			$connection_name = $data['bucket'] . ' (Amazon S3)';
@@ -145,7 +145,7 @@ class S3Seed extends SeedBase {
 		$acp['acl'][] = array('email' => $address,'permission'=>$auth_type);
 		return $this->s3->setAccessControlPolicy($bucket,'',$acp);
 	}
-	
+
 	public function getExpiryURL($path,$timeout=1000,$attachment=true,$private=true,$mime_type=true) {
 		// TODO:
 		// move all options after location to a parameters array, so we can have a unified
@@ -160,14 +160,14 @@ class S3Seed extends SeedBase {
 				$headers['response-cache-control'] = 'no-cache';
 			}
 			if ($mime_type && $mime_type !== true) {
-				$headers['response-content-type'] = $mime_type;	
+				$headers['response-content-type'] = $mime_type;
 			} else if ($mime_type === true) {
 				CASHSystem::getMimeTypeFor($path);
 			}
 		}
 		return $this->s3->getAuthenticatedURL($this->bucket, $path, $timeout, false, false, $headers);
 	}
-	
+
 	public function uploadFile($local_file,$remote_key=false,$private=true,$content_type='application/octet-stream') {
 		if ($private) {
 			$s3_acl = S3::ACL_PRIVATE;
@@ -193,27 +193,33 @@ class S3Seed extends SeedBase {
 		}
 	}
 
-	public function changeFileMIME($filename,$content_type,$private=true) {
+	public function prepareFileMetadata($filename,$content_type,$private=true) {
 		if ($private) {
 			$s3_acl = S3::ACL_PRIVATE;
 		} else {
 			$s3_acl = S3::ACL_PUBLIC_READ;
 		}
+		//$new_filename = strtolower(preg_replace('/[^a-zA-Z 0-9.\-\/]+/','',$filename));
+		//error_log('1: '.$filename);
+		//error_log('2: '.strtolower(preg_replace('/[^a-zA-Z 0-9.\-\/]+/','',$filename)));
+		$new_filename = $filename;
 		return $this->s3->copyObject(
-			$this->bucket, $filename, $this->bucket, $filename, $s3_acl,
-			array(), 
+			$this->bucket, $filename, $this->bucket,
+			$new_filename,
+			$s3_acl,
+			array(),
 			array("Content-Type" => $content_type, "Content-Disposition" => 'attachment')
 		);
 	}
 
 	public function finalizeUpload($filename) {
 		$content_type = CASHSystem::getMimeTypeFor($filename);
-		return $this->changeFileMIME($filename,$content_type);
+		return $this->prepareFileMetadata($filename,$content_type);
 	}
 
 	public function makePublic($filename) {
 		$content_type = CASHSystem::getMimeTypeFor($filename);
-		if ($this->changeFileMIME($filename,$content_type,false)) {
+		if ($this->prepareFileMetadata($filename,$content_type,false)) {
 			return 'https://s3.amazonaws.com/' . $this->getBucketName() . '/' . $filename;
 		} else {
 			return false;
@@ -283,8 +289,8 @@ class S3Seed extends SeedBase {
 	public function getPOSTUploadHTML($key_preface='',$success_url=200,$for_flash=false) {
 		$params = $this->getUploadParameters($key_preface,$success_url,$for_flash);
 		$upload_url = 'https://' . $this->bucket . '.s3.amazonaws.com/';
-		
-		if (!$params) { 
+
+		if (!$params) {
 			return false;
 		} else {
 			$output_html = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'
@@ -310,5 +316,5 @@ class S3Seed extends SeedBase {
 	public function getAWSSystemTime() {
 		return $this->s3->getAWSSystemTime();
 	}
-} // END class 
+} // END class
 ?>
