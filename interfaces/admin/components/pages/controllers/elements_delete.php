@@ -6,7 +6,7 @@ if (!$request_parameters) {
 if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
 	$delete_response = $cash_admin->requestAndStore(
 		array(
-			'cash_request_type' => 'element', 
+			'cash_request_type' => 'element',
 			'cash_action' => 'deleteelement',
 			'id' => $request_parameters[0]
 		)
@@ -16,7 +16,7 @@ if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
 		// look for the element in a campaign. if it's there, remove it.
 		$campaign_response = $cash_admin->requestAndStore(
 			array(
-				'cash_request_type' => 'element', 
+				'cash_request_type' => 'element',
 				'cash_action' => 'getcampaignforelement',
 				'id' => $request_parameters[0]
 			)
@@ -24,13 +24,13 @@ if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
 		if ($campaign_response['payload']) {
 			$cash_admin->requestAndStore(
 				array(
-					'cash_request_type' => 'element', 
+					'cash_request_type' => 'element',
 					'cash_action' => 'removeelementfromcampaign',
 					'campaign_id' => $campaign_response['payload']['id'],
 					'element_id' => $request_parameters[0]
 				)
 			);
-			AdminHelper::formSuccess('Success. Deleted.','/');
+			AdminHelper::formSuccess('Success. Deleted.','/embeds/');
 		}
 
 

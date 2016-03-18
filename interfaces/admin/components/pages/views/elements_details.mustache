@@ -1,7 +1,16 @@
 {{! corresponding files: elements_edit.php & elements_edit.json }}
 
-<header>
-		<a class="returnlink current" href="{{www_path}}/"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">&ldquo;{{ui_title}}&rdquo;</h4>
+<header class="page-header">
+<div class="pure-u-1 pure-u-md-2-3">
+		<a class="returnlink current" href="{{www_path}}/embeds/"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">&ldquo;{{ui_title}}&rdquo;</h4>
+</div><!--pure-->
+
+		<div class="pure-u-1 pure-u-md-1-3">
+				<ul class="inline-subnav">
+						{{#location_analytics}}<li><a href="{{www_path}}/elements/stats/{{id}}"><span class="icon icon-search"></span> {{copy_view_detailed_statistics}}</a></li>{{#location_analytics}}
+						{{/location_analytics}}{{/location_analytics}}
+				</ul>
+		</div><!--pure-->
 </header>
 
 		{{#location_analytics}}
@@ -14,7 +23,7 @@
 			</div><!--pure-->
 			<div class="pure-u-1 pure-u-md-2-3">
 				<div class="snapshot-inner">
-					<h4>{{copy_top_embed_locations}}<a class="right" href="{{www_path}}/elements/stats/{{id}}">{{copy_view_detailed_statistics}}</a></h4>
+					<h4>{{copy_top_embed_locations}}</h4>
 					<ul>
 						{{#location_analytics}}
 							<li><a href="http://{{access_location}}" target="_blank"><span><strong>{{total}}</strong></span><span class="location">{{access_location}}</span></a></li>
@@ -33,31 +42,29 @@
 				</div><!--embedding-->
 			</div><!--pure-->
 			{{/platform_type_single}}
-			
+
 			<div class="pure-u-1">
 				<div class="embedpanel">
 					<p class="codelabel"><strong>{{copy_html5_embed_code}}</strong> <span class="fadedtext">{{copy_embed_anywhere}}</span></p>
 
 					<a class="ql copy" title="Copy quick embed code" data-clipboard-text="&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;" ><div class="icon icon-share"></div><!--icon--></a>
-					
+
 					<code><div class="codearea" contenteditable="true">&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;</div></code>
 
 					<a href="{{www_path}}/elements/preview/{{id}}" class="preview lightboxed">{{copy_preview_element}}</a>
 				</div><!--embedding-->
 			</div><!--pure-->
 
-	<div class="selecta">	
+	<div class="selecta embed-style pure-u-1">
 		<form method="post" action="">
 			<input type="hidden" name="current_template_id" value="{{template_id}}" />
-				<div class="pure-u-1 pure-u-md-1-2">
+
 					<label for="template_id">{{label_embed_style}}</label>
 					<select id="change_template_id" name="change_template_id">{{{template_options}}}</select>
-				</div><!--pure-->
-				<div class="pure-u-1 pure-u-md-1-2">
-					<div class="switchblock" 
-						data-watch="#change_template_id" 
-						data-default="{{#custom_template}}#editbutton{{/custom_template}}{{^custom_template}}#changestyle{{/custom_template}}" 
-						data-change="#changestyle" 
+					<div class="switchblock"
+						data-watch="#change_template_id"
+						data-default="{{#custom_template}}#editbutton{{/custom_template}}{{^custom_template}}#changestyle{{/custom_template}}"
+						data-change="#changestyle"
 						data-special='{"val":"0","target":"#editbutton"}'
 					>
 						<div id="editbutton">
@@ -67,7 +74,6 @@
 							<button class="right" type="submit">{{copy_button_change_style}}</button>
 						</div>
 					</div>
-				</div><!--pure-->
 		</form>
 	</div><!--selecta-->
 

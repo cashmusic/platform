@@ -5,7 +5,7 @@ $user_id = $cash_admin->effective_user_id;
 // get all assets for page
 $releases_response = $cash_admin->requestAndStore(
 	array(
-		'cash_request_type' => 'asset', 
+		'cash_request_type' => 'asset',
 		'cash_action' => 'getassetsforuser',
 		'type' => 'release',
 		'parent_id' => 0,
@@ -15,7 +15,7 @@ $releases_response = $cash_admin->requestAndStore(
 /*
 $playlists_response = $cash_admin->requestAndStore(
 	array(
-		'cash_request_type' => 'asset', 
+		'cash_request_type' => 'asset',
 		'cash_action' => 'getassetsforuser',
 		'type' => 'playlist',
 		'parent_id' => 0,
@@ -25,7 +25,7 @@ $playlists_response = $cash_admin->requestAndStore(
 */
 $files_response = $cash_admin->requestAndStore(
 	array(
-		'cash_request_type' => 'asset', 
+		'cash_request_type' => 'asset',
 		'cash_action' => 'getassetsforuser',
 		'type' => 'file',
 		'parent_id' => 0,
@@ -36,14 +36,14 @@ $files_response = $cash_admin->requestAndStore(
 // we need to get all items for the user to determine if an asset is monetized
 $items_response = $cash_admin->requestAndStore(
 	array(
-		'cash_request_type' => 'commerce', 
+		'cash_request_type' => 'commerce',
 		'cash_action' => 'getitemsforuser',
 		'user_id' => $cash_admin->effective_user_id
 	)
 );
 
 //Commerce connection, release or files present?
-$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('assets') || $releases_response['payload'] || $files_response['payload']; 
+$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('assets') || $releases_response['payload'] || $files_response['payload'];
 
 // Return Connection
 $page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
@@ -82,7 +82,7 @@ $cash_admin->page_data['all_services'] = new ArrayIterator($all_services);
 if (is_array($releases_response['payload'])) {
 	$releases_response['payload'] = array_reverse($releases_response['payload']); // newest first
 	if (count($releases_response['payload']) == 2) {
-		$cash_admin->page_data['one_remaining'] = true;	
+		$cash_admin->page_data['one_remaining'] = true;
 	} else if (count($releases_response['payload']) == 1) {
 		$cash_admin->page_data['two_remaining'] = true;
 	}
@@ -90,7 +90,7 @@ if (is_array($releases_response['payload'])) {
 		if ($asset['modification_date']) {
 			$asset['descriptor_string'] = 'updated: ' . CASHSystem::formatTimeAgo($asset['modification_date']);
 		} else {
-			$asset['descriptor_string'] = 'updated: ' . CASHSystem::formatTimeAgo($asset['creation_date']);	
+			$asset['descriptor_string'] = 'updated: ' . CASHSystem::formatTimeAgo($asset['creation_date']);
 		}
 
 		$asset['cover_url'] = ADMIN_WWW_BASE_PATH . '/assets/images/release.jpg';
@@ -98,27 +98,25 @@ if (is_array($releases_response['payload'])) {
 			if ($asset['metadata']['cover']) { // effectively non-zero
 				$cover_response = $cash_admin->requestAndStore(
 					array(
-						'cash_request_type' => 'asset', 
+						'cash_request_type' => 'asset',
 						'cash_action' => 'getasset',
 						'id' => $asset['metadata']['cover']
 					)
 				);
 				if ($cover_response['payload']) {
 					$cover_asset = $cover_response['payload'];
-					if (strpos(CASHSystem::getMimeTypeFor($cover_asset['location']),'image') !== false) {
-						$cover_url_response = $cash_admin->requestAndStore(
-							array(
-								'cash_request_type' => 'asset', 
-								'cash_action' => 'getasseturl',
-								'connection_id' => $cover_asset['connection_id'],
-								'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
-								'asset_location' => $cover_asset['location'],
-								'inline' => true
-							)
-						);
-						if ($cover_url_response['payload']) {
-							$asset['cover_url'] = $cover_url_response['payload'];
-						}
+					$cover_url_response = $cash_admin->requestAndStore(
+						array(
+							'cash_request_type' => 'asset',
+							'cash_action' => 'getasseturl',
+							'connection_id' => $cover_asset['connection_id'],
+							'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
+							'asset_location' => $cover_asset['location'],
+							'inline' => true
+						)
+					);
+					if ($cover_url_response['payload']) {
+						$asset['cover_url'] = $cover_url_response['payload'];
 					}
 				}
 			}
@@ -164,7 +162,7 @@ if (is_array($playlists_response['payload'])) {
 			$asset['third_asset'] = true;
 		}
 		if ($asset_count == 6) {
-			$asset['last_feature'] = true;	
+			$asset['last_feature'] = true;
 		}
 		$asset['descriptor_string'] = 'created: ' . CASHSystem::formatTimeAgo($asset['creation_date']);
 		if ($asset['modification_date']) {
@@ -186,7 +184,7 @@ if (is_array($files_response['payload'])) {
 		if ($asset['modification_date']) {
 			$asset['descriptor_string'] = 'updated: ' . CASHSystem::formatTimeAgo($asset['modification_date']);
 		} else {
-			$asset['descriptor_string'] = 'updated: ' . CASHSystem::formatTimeAgo($asset['creation_date']);	
+			$asset['descriptor_string'] = 'updated: ' . CASHSystem::formatTimeAgo($asset['creation_date']);
 		}
 
 		if (is_array($items_response['payload'])) {

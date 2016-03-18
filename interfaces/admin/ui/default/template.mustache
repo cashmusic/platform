@@ -9,18 +9,19 @@
 
 	<title>CASH Music | Admin</title>
 
-
 	<link rel="icon" type="image/png" href="{{cdn_url}}/ui/default/assets/images/favicon.png">
 	<!--[if IE]><link rel="shortcut icon" href="{{cdn_url}}/ui/default/assets/images/favicon.ico" type="image/x-icon" /><![endif]-->
 	<link href='//fonts.googleapis.com/css?family=Montserrat:400,700|Nunito:300,400,700' rel='stylesheet' type='text/css'>
 	<link href='{{www_path}}/ui/default/assets/css/jquery-ui.css' rel='stylesheet' type='text/css'>
 	<link href="{{www_path}}/ui/default/assets/css/iconfont.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" href="{{cdn_url}}/ui/default/assets/css/pure/base-min.css">
+  <link rel="stylesheet" href="{{cdn_url}}/ui/default/assets/css/pure/grids-min.css">
 	<!--[if lte IE 8]>
     <link rel="stylesheet" href="{{cdn_url}}/ui/default/assets/css/pure/grids-responsive-old-ie-min.css">
 	<![endif]-->
 	<!--[if gt IE 8]><!-->
     <link rel="stylesheet" href="{{cdn_url}}/ui/default/assets/css/pure/grids-responsive-min.css">
+
 	<!--<![endif]-->
 	<link href="{{www_path}}/ui/default/assets/css/app.css" rel="stylesheet" type="text/css" />
 
@@ -139,14 +140,14 @@
 							<div id="learn_tip"{{#ui_page_tip}}style="display:block;"{{/ui_page_tip}} class="page-description"><i class="icon icon-learn marker"></i><!--marker-->{{ui_page_tip}}</div><!--learntip-->
 							<div id="page_content">{{{content}}}</div><!--page_content-->
 						<div id="footer">
-							<p>{{{misc_footer_markup}}} <a href="{{www_path}}/licenses/" target="_blank" class="learnmore noajax" style="margin-left:0;">{{link_footer_learnmore}}.</a>{{#showterms}}<a href="{{www_path}}/terms/" target="_blank" class="noajax">{{link_footer_terms}},</a>{{/showterms}}{{#showprivacy}}<a href="{{www_path}}/privacy/" target="_blank" class="noajax">{{link_footer_privacy}},</a> {{/showprivacy}}<a href="http://cashmusic.org/donate/" target="_blank" class="donatelink"><strong>{{action_donate}}.</strong></a></p>
+							<p>{{{misc_footer_markup}}} <a href="{{www_path}}/licenses/" target="_blank" class="learnmore noajax" style="margin-left:0;">{{link_footer_learnmore}}.</a>{{#showterms}}<a href="{{www_path}}/terms/" target="_blank" class="noajax">{{link_footer_terms}}.</a>{{/showterms}}{{#showprivacy}}<a href="{{www_path}}/privacy/" target="_blank" class="noajax">{{link_footer_privacy}},</a> {{/showprivacy}}<a href="http://cashmusic.org/donate/" target="_blank" class="donatelink"><strong>{{action_donate}}.</strong></a></p>
 						</div><!--footer-->
 						</div><!--pagedisplay-->
 
-						<div id="tertiary">
+						<div id="tertiary" class="pure-u-1">
 							<div id="settingspanel">
 								<div class="inner">
-								<h1 class="paneltitle"><div class="close-panel"><div class="icon icon-plus"></div></div> Settings (<div class="icon icon-cog"></div><!--icon-->)</h1>
+								<h1 class="paneltitle"><div class="close-panel"><div class="icon icon-plus"></div></div> Settings</h1>
 									<ul class="tertiarynav">
 										<li><a href="{{www_path}}/account/"><div class="icon icon-user"></div><!--icon-->{{link_youraccount}}</a></li>
 										{{#platform_type_single}}<li><a href="{{www_path}}/settings/" ><div class="icon icon-cog"></div><!--icon-->{{link_settings}}</a></li>{{/platform_type_single}}
@@ -157,12 +158,12 @@
 							</div><!--settingspanel-->
 							<div id="helppanel">
 								<div class="inner">
-								<h1 class="paneltitle"><div class="close-panel"><div class="icon icon-plus"></div></div> Help ()</h1>
+								<h1 class="paneltitle"><div class="close-panel"><div class="icon icon-plus"></div></div> Help</h1>
 									<ul class="tertiarynav">
                     <li><a class="link learn">About this page</a></li>
                     <li><a class="link faqs">FAQs</a></li>
                     <li><a href="{{www_path}}/help/tour/" class="lightboxed closepanel page-editor">Platform tour</a></li>
-										<li><a href="http://help.cashmusic.org/" class="noajax" target="_blank"><div class="icon icon-ext-link"></div><!--icon-->help.cashmusic.org</a></li>
+										<li><a href="http://help.cashmusic.org/" class="noajax" target="_blank">help.cashmusic.org</a></li>
 									</ul>
 									<div class="panelcontent">
                           {{{ui_learn_text}}}
@@ -170,7 +171,6 @@
 								</div><!--inner-->
 							</div><!--helppanel-->
 						</div><!--tertiary-->
-					</div><!--pure-->
 			</div><!--mainspc-->
 		</div><!--wrap-->
 

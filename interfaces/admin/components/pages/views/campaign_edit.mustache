@@ -10,5 +10,8 @@
 		<textarea rows="3" id="campaign_description" name="campaign_description">{{description}}</textarea>
 
 		<button type="submit">{{button_text}}</button>
+		{{#edit_exisiting}}
+		<button name="dodelete" href="{{www_path}}/campaigns/delete/{{id}}" class="needsconfirmation multipart-next delete">{{delete_text}}</button>
+		{{/edit_exisiting}}
 	</form>
 </div><!--pure-->

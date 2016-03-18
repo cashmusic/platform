@@ -95,6 +95,11 @@ if (!isset($_REQUEST['nooutput'])) {
 
 			header('Content-Type: text/html; charset=utf-8');
 			$template = str_replace('</head>', '<script type="text/javascript" src="' . CASH_PUBLIC_URL . '/cashmusic.js"></script></head>', $template);
+
+			if (isset($_GET['lightbox'])) {
+				$template = str_replace('<body>', '<body class="cm-lightboxed">', $template);
+			}
+
 			$encoded_html = $freddiemercury->render($template, $embed_data);
 			echo $encoded_html;
 		} else {

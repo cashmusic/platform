@@ -1,4 +1,5 @@
 <?php
+
 // handle template change
 if (isset($_POST['change_template_id'])) {
 	$settings_request = new CASHRequest(
@@ -89,10 +90,12 @@ if (is_array($session_news['activity']['lists'])) {
 
 //Any Notifications?
 $cash_admin->page_data['dashboard_active'] = $session_news['activity']['lists'] || $session_news['activity']['orders'];
-
 $cash_admin->page_data['dashboard_lists'] = $session_news['activity']['lists'];
+
+
 if ($session_news['activity']['orders']) {
 	$cash_admin->page_data['dashboard_orders'] = count($session_news['activity']['orders']);
+	//$cash_admin->page_data['dashboard_orders_unfulfilled'] = 10 + $cash_admin->page_data['dashboard_orders'] - count($session_news['activity']['orders']['fulfilled']);
 	if ($cash_admin->page_data['dashboard_orders'] == 1) {
 		$cash_admin->page_data['dashboard_orders_singular'] = true;
 	}
@@ -100,6 +103,49 @@ if ($session_news['activity']['orders']) {
 	$cash_admin->page_data['dashboard_orders'] = false;
 }
 
+/*
+// Lists Analytics
+$list_analytics = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'people',
+		'cash_action' => 'getanalytics',
+		'analtyics_type' => 'listmembership',
+		'list_id' => $request_list_id,
+		'user_id' => $cash_admin->effective_user_id
+	)
+);
+*/
+
+// Return Lists
+$list_response = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'people',
+		'cash_action' => 'getlistsforuser',
+		'user_id' => $cash_admin->effective_user_id
+	)
+);
+
+// lists
+if (is_array($list_response['payload'])) {
+
+	foreach ($list_response['payload'] as &$list) {
+		$list_analytics = $cash_admin->requestAndStore(
+			array(
+				'cash_request_type' => 'people',
+				'cash_action' => 'getanalytics',
+				'analtyics_type' => 'listmembership',
+				'list_id' => $list['id'],
+				'user_id' => $cash_admin->effective_user_id
+			)
+		);
+
+		$list['analytics_active'] = CASHSystem::formatCount($list_analytics['payload']['active']);
+		$list['analytics_inactive'] = CASHSystem::formatCount($list_analytics['payload']['inactive']);
+		$list['analytics_last_week'] = CASHSystem::formatCount($list_analytics['payload']['last_week']);
+	}
+
+	$cash_admin->page_data['lists_all'] = $list_response['payload'];
+}
 
 
 
@@ -282,4 +328,5 @@ if ($total_campaigns) {
 		$cash_admin->page_data['migrated'] = true;
 	}
 }
+
 ?>
