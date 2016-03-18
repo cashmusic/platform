@@ -1107,7 +1107,7 @@ class CommercePlant extends PlantBase {
                 'service_timestamp' => $service_timestamp,
                 'service_transaction_id' => $service_transaction_id,
                 'data_sent' => $data_sent,
-                'data_returned' => $data_returned,
+                'data_returned' => json_encode($data_returned),
                 'successful' => $successful,
                 'gross_price' => $gross_price,
                 'service_fee' => $service_fee,
@@ -1155,12 +1155,21 @@ class CommercePlant extends PlantBase {
         $service_fee=false,
         $status=false
     ) {
+
+        // we need to get the transaction, then join the new array with the old one in order to update this thing
+        $old_transaction = $this->getTransaction($id);
+
+        $joined_data_returned = array_merge(
+            json_decode($old_transaction['data_returned'], true),
+            $data_returned
+            );
+
         $final_edits = array_filter(
             array(
                 'service_timestamp' => $service_timestamp,
                 'service_transaction_id' => $service_transaction_id,
                 'data_sent' => $data_sent,
-                'data_returned' => $data_returned,
+                'data_returned' => json_encode($joined_data_returned),
                 'successful' => $successful,
                 'gross_price' => $gross_price,
                 'service_fee' => $service_fee,
@@ -1339,6 +1348,16 @@ class CommercePlant extends PlantBase {
                 }
 
             $currency = $this->getCurrencyForUser($user_id);
+            $shipping_info = json_decode($shipping_info, true);
+
+            $shipping_info_formatted = array(
+                    'customer_shipping_name' => $shipping_info['name'],
+                    'customer_address1' => $shipping_info['address1'],
+                    'customer_address2' => $shipping_info['address2'],
+                    'customer_city' => $shipping_info['city'],
+                    'customer_region' => $shipping_info['state'],
+                    'customer_postalcode' => $shipping_info['postalcode'],
+                    'customer_countrycode' => $shipping_info['country']);
 
             $transaction_id = $this->addTransaction(
                 $user_id,
@@ -1347,7 +1366,7 @@ class CommercePlant extends PlantBase {
                 '',
                 '',
                 '',
-                '',
+                $shipping_info_formatted,
                 -1,
                 $total_price, // set price
                 0,
@@ -1395,11 +1414,16 @@ class CommercePlant extends PlantBase {
                 // does this payment type need to redirect? if so let's do preparePayment and get a redirect URL
                 if ($payment_seed->redirects != false) {
                     // prepare payment with URL redirect
+                    $return_url = $origin . '?cash_request_type=commerce&cash_action=finalizepayment&order_id=' . $order_id . '&creation_date=' . $order_details['creation_date'];
+                    if ($element_id) {
+                        $return_url .= '&element_id=' . $element_id;
+                    }
+
                     $approval_url = $payment_seed->preparePayment(
                         $total_price,							# payment amount
                         'order-' . $order_id,						# order id
                         $order_totals['description'],				# order name
-                        $origin,								# return URL
+                        $return_url,								# return URL
                         $origin,								# cancel URL (the same in our case)
                         $currency,									# payment currency
                         'sale',										# transaction type (e.g. 'Sale', 'Order', or 'Authorization')
@@ -1416,16 +1440,14 @@ class CommercePlant extends PlantBase {
                     if ($result = $this->finalizePayment(
                         $order_id,
                         $stripe,
-                        $total_price,
-                        $order_totals['description'],
                         $email_address,
                         $customer_name,
                         $shipping_info,
-                        $session_id)) {
-                        error_log("success");
+                        $session_id,
+                        $total_price,
+                        $description)) {
                         return "success";
                     } else {
-                        error_log("failure");
                         return "failure";
                     }
 
@@ -1519,7 +1541,7 @@ class CommercePlant extends PlantBase {
         }
     }
 
-    public function finalizePayment($order_id, $token, $total_price, $description, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false) {
+    public function finalizePayment($order_id, $token, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false, $total_price=false, $description=false, $subtotal=false) {
 
         $order_details = $this->getOrder($order_id);
         $transaction_details = $this->getTransaction($order_details['transaction_id']);
@@ -1533,14 +1555,6 @@ class CommercePlant extends PlantBase {
         $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
         $seed_class = $connection_settings['seed'];
 
-        $r = new CASHRequest();
-        $r->startSession(false,"");
-        $finalize_url = $r->sessionGet('payment_finalize_url');
-        if ($finalize_url) {
-            $r->sessionClear('payment_finalize_url');
-        }
-
-
         // we're going to switch seeds by $connection_type, so check to make sure this class even exists
         if (!class_exists($seed_class)) {
             $this->setErrorMessage("Couldn't find payment type $connection_type.");
@@ -1551,7 +1565,7 @@ class CommercePlant extends PlantBase {
         $payment_seed = new $seed_class($order_details['user_id'],$transaction_details['connection_id']);
 
         // if this was approved by the user, we need to compare some values to make sure everything matches up
-        if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address, $customer_name, $shipping_info)) {
+        if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address, $customer_name, $shipping_info, $subtotal)) {
             // okay, we've got the matching totals, so let's get the $user_id, y'all
 
             if ($payment_details['total'] >= $order_totals['price']) {
@@ -1582,7 +1596,7 @@ class CommercePlant extends PlantBase {
                         time(), 			// service timestamp
                         false,		// service transaction id
                         false,									// data sent
-                        json_encode($payment_details),			// data received
+                        $payment_details,			// data received
                         1,										// successful (boolean 0/1)
                         $payment_details['total'],				// gross price
                         $payment_details['transaction_fee'],	// service fee
@@ -1598,7 +1612,7 @@ class CommercePlant extends PlantBase {
                     $order_details['gross_price'] = $payment_details['total'];
 
                     try {
-                        $this->sendOrderReceipt(false,$order_details,$finalize_url);
+                        //$this->sendOrderReceipt(false,$order_details,$finalize_url);
                     } catch (Exception $e) {
                         //TODO: what happens when order receipt not sent?
                     }
@@ -1850,7 +1864,7 @@ class CommercePlant extends PlantBase {
                 false,
                 false,
                 false,
-                json_encode($data_returned),
+                $data_returned,
                 false,
                 false,
                 false,

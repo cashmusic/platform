@@ -40,14 +40,15 @@ use PayPal\Api\Transaction;
 use PayPal\Api\WebProfile;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Rest\ApiContext;
+use PayPal\Exception\PayPalConnectionException;
 
 
 class PaypalSeed extends SeedBase
 {
-    protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token, $experience_id;
+    protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token, $experience_id, $LegacySeed;
     public $redirects;
     protected $merchant_email = false;
-
+    protected $legacy = false;
 
     public function __construct($user_id, $connection_id)
     {
@@ -55,6 +56,8 @@ class PaypalSeed extends SeedBase
         $this->user_id = $user_id;
         $this->connection_id = $connection_id;
         $this->redirects = true;
+
+
 
         if ($this->getCASHConnection()) {
 
@@ -95,8 +98,10 @@ class PaypalSeed extends SeedBase
                         );
                     }
                 }
+            } else if($this->settings->getSetting('merchant_email')) {
+                $this->legacy = true;
+                $this->LegacySeed = new PaypalNVPSeed($user_id,$connection_id);
             }
-
 
         } else {
             $this->error_message = 'could not get connection settings';
@@ -189,16 +194,27 @@ class PaypalSeed extends SeedBase
         $cancel_url,
         $currency_id = 'USD', /* 'USD', 'GBP', 'EUR', 'JPY', 'CAD', 'AUD' */
         $payment_type = 'sale', /* 'Sale', 'Order', or 'Authorization' */
-        $shipping_price = false
+        $shipping=null
     )
     {
+        if ($this->legacy) {
+            return $this->LegacySeed(
+                $total_price,
+                $order_sku,
+                $order_name,
+                $return_url,
+                $cancel_url,
+                $currency_id = 'USD', /* 'USD', 'GBP', 'EUR', 'JPY', 'CAD', 'AUD' */
+                $payment_type = 'sale', /* 'Sale', 'Order', or 'Authorization' */
+                $shipping=null
+            );
+        }
 
         $payer = new Payer();
         $payer->setPaymentMethod("paypal");
         $amount = new Amount();
         $amount->setCurrency($currency_id)
             ->setTotal($total_price);
-
 
 /*        if ($request_shipping_info && $shipping_price > 0) {
             $shipping = new Details();
@@ -209,7 +225,6 @@ class PaypalSeed extends SeedBase
 
             $amount->setDetails($shipping);
         }*/
-
         $transaction = new Transaction();
         $transaction->setAmount($amount)
             ->setDescription($order_name)
@@ -233,8 +248,15 @@ class PaypalSeed extends SeedBase
 
         try {
             $payment->create($this->api_context);
+        } catch (PayPal\Exception\PayPalConnectionException $ex) {
+
+            $error = json_decode($ex->getData());
+            $this->setErrorMessage($error->message);
+            return false;
+
         } catch (Exception $ex) {
             $error = json_decode($ex->getData());
+
             $this->setErrorMessage($error->message);
             return false;
 
@@ -246,12 +268,18 @@ class PaypalSeed extends SeedBase
             return $approval_url;
         } else {
             // approval link isn't set, return to page and post error
+
             $this->setErrorMessage('There was an error contacting PayPal for this payment.');
-        }
+            return false;
+            }
     }
 
-    public function doPayment()
+    public function doPayment($total_price=false, $description=false, $token=false, $email_address=false, $customer_name=false)
     {
+
+        if ($this->legacy) {
+            return $this->LegacySeed($total_price, $description, $token, $email_address, $customer_name);
+        }
 
         // check if we got a PayPal token in the return url or via arguments; if not, cheese it!
         if (empty($_REQUEST['token'])) {
@@ -280,7 +308,7 @@ class PaypalSeed extends SeedBase
 
             try {
                 // Execute the payment
-                $result = $payment->execute($execution, $this->api_context);
+                $payment->execute($execution, $this->api_context);
 
                 try {
                     $payment = Payment::get($this->payment_id, $this->api_context);
@@ -303,15 +331,6 @@ class PaypalSeed extends SeedBase
                 'customer_first_name' => $details['payer']['payer_info']['first_name'],
                 'customer_last_name' => $details['payer']['payer_info']['last_name'],
                 'customer_name' => $details['payer']['payer_info']['first_name'] . " " . $details['payer']['payer_info']['last_name'],
-                'customer_shipping_name' => '',
-                'customer_address1' => '',
-                'customer_address2' => '',
-                'customer_city' => '',
-                'customer_region' => '',
-                'customer_postalcode' => '',
-                'customer_country' => '',
-                'customer_countrycode' => '',
-                'customer_phone' => '',
                 /* 																*/
                 'transaction_date' => strtotime($details['create_time']),
                 'transaction_id' => $details['id'],
@@ -326,7 +345,8 @@ class PaypalSeed extends SeedBase
                 'payer' => $details['payer']['payer_info'],
                 'timestamp' => strtotime($details['create_time']),
                 'transaction_id' => $details['id'],
-                'transaction_fee' => $details['transactions'][0]['related_resources'][0]['sale']['transaction_fee'],
+                'gross_price' => $details['transactions'][0]['amount']['total'],
+                'service_fee' => $details['transactions'][0]['related_resources'][0]['sale']['transaction_fee']['value'],
                 'order_details' => json_encode($order_details)
             );
         } else {

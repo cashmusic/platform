@@ -116,7 +116,12 @@ if ($request_parameters) {
 		if ($order_all_details['gross_price']-$item_price) {
 			$order_all_details['formatted_shipping'] = number_format($order_all_details['gross_price']-$item_price,2);
 		}
+
+		error_log($order_all_details['gross_price'] . " // ".  $order_all_details['service_fee']);
+
+		$order_all_details['formatted_subtotal'] = sprintf("%01.2f",$item_price);
 		$order_all_details['formatted_net_price'] = sprintf("%01.2f",$order_all_details['gross_price'] - $order_all_details['service_fee']);
+		$order_all_details['formatted_connection_name'] = preg_replace('/\(|\)/','',AdminHelper::getConnectionName($order_all_details['connection_id']));
 		$order_all_details['order_connection_details'] = AdminHelper::getConnectionName($order_all_details['connection_id']) . ' (' . $order_all_details['connection_type'] . ')';
 		//if ($order_all_details['fulfilled']) { $order_all_details['order_fulfilled'] = 'yes'; } else { $order_all_details['order_fulfilled'] = 'no'; }
 		$cash_admin->page_data = array_merge($cash_admin->page_data,$order_all_details);
