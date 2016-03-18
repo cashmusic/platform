@@ -45,10 +45,10 @@ use PayPal\Exception\PayPalConnectionException;
 
 class PaypalSeed extends SeedBase
 {
-    protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token, $experience_id;
+    protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token, $experience_id, $LegacySeed;
     public $redirects;
     protected $merchant_email = false;
-
+    protected $legacy = false;
 
     public function __construct($user_id, $connection_id)
     {
@@ -56,6 +56,8 @@ class PaypalSeed extends SeedBase
         $this->user_id = $user_id;
         $this->connection_id = $connection_id;
         $this->redirects = true;
+
+
 
         if ($this->getCASHConnection()) {
 
@@ -96,6 +98,9 @@ class PaypalSeed extends SeedBase
                         );
                     }
                 }
+            } else if($this->settings->getSetting('merchant_email')) {
+                $this->legacy = true;
+                $this->LegacySeed = new PaypalNVPSeed($user_id,$connection_id);
             }
 
         } else {
@@ -192,6 +197,19 @@ class PaypalSeed extends SeedBase
         $shipping=null
     )
     {
+        if ($this->legacy) {
+            return $this->LegacySeed(
+                $total_price,
+                $order_sku,
+                $order_name,
+                $return_url,
+                $cancel_url,
+                $currency_id = 'USD', /* 'USD', 'GBP', 'EUR', 'JPY', 'CAD', 'AUD' */
+                $payment_type = 'sale', /* 'Sale', 'Order', or 'Authorization' */
+                $shipping=null
+            );
+        }
+
         $payer = new Payer();
         $payer->setPaymentMethod("paypal");
         $amount = new Amount();
@@ -258,6 +276,10 @@ class PaypalSeed extends SeedBase
 
     public function doPayment($total_price=false, $description=false, $token=false, $email_address=false, $customer_name=false)
     {
+
+        if ($this->legacy) {
+            return $this->LegacySeed($total_price, $description, $token, $email_address, $customer_name);
+        }
 
         // check if we got a PayPal token in the return url or via arguments; if not, cheese it!
         if (empty($_REQUEST['token'])) {
