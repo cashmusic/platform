@@ -23,24 +23,24 @@ class PaypalNVPSeed extends SeedBase {
     protected $merchant_email = false;
 
     public function __construct($user_id, $connection_id, $token=false) {
-        $this->settings_type = 'nvp.paypal';
+        $this->settings_type = 'com.paypal';
         $this->user_id = $user_id;
         $this->connection_id = $connection_id;
         if ($this->getCASHConnection()) {
             $this->api_version   = '94.0';
-            $this->api_username  = $this->settings->getSetting('username');
-            $this->api_password  = $this->settings->getSetting('password');
-            $this->api_signature = $this->settings->getSetting('signature');
-            $sandboxed           = $this->settings->getSetting('sandboxed');
+            $this->api_username  = $this->settings->getSetting('legacy_username');
+            $this->api_password  = $this->settings->getSetting('legacy_password');
+            $this->api_signature = $this->settings->getSetting('legacy_signature');
+            $sandboxed           = $this->settings->getSetting('legacy_sandboxed');
 
             if (!$this->api_username || !$this->api_password || !$this->api_signature) {
                 $connections = CASHSystem::getSystemSettings('system_connections');
                 if (isset($connections['com.paypal'])) {
                     $this->merchant_email = $this->settings->getSetting('merchant_email'); // present in multi
-                    $this->api_username   = $connections['com.paypal']['username'];
-                    $this->api_password   = $connections['com.paypal']['password'];
-                    $this->api_signature  = $connections['com.paypal']['signature'];
-                    $sandboxed            = $connections['com.paypal']['sandboxed'];
+                    $this->api_username   = $connections['com.paypal']['legacy_username'];
+                    $this->api_password   = $connections['com.paypal']['legacy_password'];
+                    $this->api_signature  = $connections['com.paypal']['legacy_signature'];
+                    $sandboxed            = $connections['com.paypal']['legacy_sandboxed'];
                 }
             }
 

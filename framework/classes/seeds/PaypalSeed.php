@@ -155,28 +155,33 @@ class PaypalSeed extends SeedBase
     }
 
 
-    protected function customizeCheckoutFlow() {
+    public function customizeCheckoutFlow($artist_name="CASH Music", $locale="US") {
+
+        // check if the legacy flag is set to true or false; if it's true we just exit out of this
+        if ($this->legacy) {
+            return true;
+        }
+
         // Lets create an instance of FlowConfig and add
 // landing page type information
         $flowConfig = new \PayPal\Api\FlowConfig();
         $flowConfig->setLandingPageType("Login");
 
         $presentation = new \PayPal\Api\Presentation();
-        $presentation->setBrandName("Midheaven Mailorder")
-            ->setLocaleCode("US");
+        $presentation->setBrandName($artist_name)
+            ->setLocaleCode($locale);
 
         $inputFields = new \PayPal\Api\InputFields();
-        $inputFields->setAllowNote(true)
+        $inputFields->setAllowNote(false)
             ->setNoShipping(1)
             ->setAddressOverride(0);
 
         $webProfile = new \PayPal\Api\WebProfile();
-        $webProfile->setName("Midheaven Mailorder" . uniqid())
+        $webProfile->setName($artist_name . uniqid())
             ->setFlowConfig($flowConfig)
             ->setPresentation($presentation)
             ->setInputFields($inputFields);
 
-        $request = clone $webProfile;
         try {
             $createProfileResponse = $webProfile->create($this->api_context);
         } catch (\PayPal\Exception\PayPalConnectionException $ex) {
@@ -197,6 +202,7 @@ class PaypalSeed extends SeedBase
         $shipping=null
     )
     {
+        // do a hacky little switch if this is a legacy paypal connection, to the legacy NVP seed
         if ($this->legacy) {
             return $this->LegacySeed(
                 $total_price,
@@ -216,18 +222,28 @@ class PaypalSeed extends SeedBase
         $amount->setCurrency($currency_id)
             ->setTotal($total_price);
 
-/*        if ($request_shipping_info && $shipping_price > 0) {
-            $shipping = new Details();
-            $shipping->setShipping($shipping_price)
-                //->setTax(1.3)
-                ->setSubtotal($total_price - $shipping_price);
-            //TODO: assumes shipping cost is passed in as part of the total $payment_amount
+        $item = new Item();
+        $item->setQuantity(1);
+        $item->setName($order_name);
+        $item->setPrice($total_price);
+        $item->setCurrency($currency_id);
 
-            $amount->setDetails($shipping);
-        }*/
+        $itemList = new ItemList();
+        $itemList->setItems(array($item));
+
+        /*        if ($request_shipping_info && $shipping_price > 0) {
+                    $shipping = new Details();
+                    $shipping->setShipping($shipping_price)
+                        //->setTax(1.3)
+                        ->setSubtotal($total_price - $shipping_price);
+                    //TODO: assumes shipping cost is passed in as part of the total $payment_amount
+
+                    $amount->setDetails($shipping);
+                }*/
         $transaction = new Transaction();
         $transaction->setAmount($amount)
             ->setDescription($order_name)
+            ->setItemList($itemList)
             ->setInvoiceNumber($order_sku); // owner-id order-id
 
         $redirectUrls = new RedirectUrls();
@@ -277,6 +293,7 @@ class PaypalSeed extends SeedBase
     public function doPayment($total_price=false, $description=false, $token=false, $email_address=false, $customer_name=false)
     {
 
+        // quick switch if we detect the old NVP connection for a user
         if ($this->legacy) {
             return $this->LegacySeed($total_price, $description, $token, $email_address, $customer_name);
         }
