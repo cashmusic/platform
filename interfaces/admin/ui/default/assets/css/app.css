@@ -89,6 +89,10 @@ body.store,  body.page-editor{
 	padding:36px;
 }
 
+.login .login-social-container .inner{
+	padding: 50px 30px;
+}
+
 .login .inner .button{
 	width:100%;
 }
@@ -96,7 +100,7 @@ body.store,  body.page-editor{
 .login .login-panel-container{
 	padding:0!important;
 	background:rgba(255,255,255,0.96);
-	min-height:80vh;
+	/*min-height:80vh;*/
 }
 
 .login  h4{
@@ -113,6 +117,10 @@ body.store,  body.page-editor{
 	border-bottom:solid 2px #00cf7f;
 }
 
+.login .login-social-feature:hover a h4{
+	border-color:#333;
+}
+
 .login a img{
 	border:none;
 }
@@ -121,6 +129,36 @@ body.store,  body.page-editor{
 .login .login-carousel-container{
 	padding:0!important;
 /*	min-height:75vh;*/
+position: relative;
+}
+
+.login .login-carousel-container .carousel-controller{
+	text-align: center;
+	position: absolute;
+	bottom:36px;
+	left:50%;
+	margin:0 0 0 -30px;
+	display: block;
+}
+
+.login .login-carousel-container .carousel-controller span{
+	display: inline-block;
+	height:14px;
+	width: 14px;
+	margin:0 6px 0 0;
+	background:rgba(0,0,0,0.4);
+	-webkit-border-radius: 50px;
+	-moz-border-radius: 50px;
+	border-radius: 50px;
+}
+
+.login .login-carousel-container .carousel-controller span:hover{
+	cursor: pointer;
+}
+
+.login .login-carousel-container .carousel-controller span.current{
+	background:rgba(255,255,255,0.6);
+	border:3px solid rgba(0,0,0,0.2);
 }
 
 .login .login-carousel-feature{
@@ -142,13 +180,14 @@ body.store,  body.page-editor{
 	color:#fff;
 }
 
-.login-social-feature{
-	margin:18px;
-	background:rgba(34,34,34,0);
+.login .login-social-feature:first-of-type p{
+	margin:36px 0 0 0;
 }
 
-.login-social-feature p{
-	margin:18px 0 0 0;
+.login-social-feature{
+	margin:6px;
+	background:rgba(34,34,34,0);
+	vertical-align: middle;
 }
 
 .login .login-social-feature:hover{
@@ -163,7 +202,8 @@ body.store,  body.page-editor{
 }
 
 .login .login-social-feature img{
-	width:65%;
+	width:50%;
+	margin:18px 0 0 0;
 }
 
 
@@ -722,7 +762,7 @@ form button{
 
 .login #cash_signin_form input.button {
 	width:100%;
-	margin-top:30px;
+	/*margin-top:30px;*/
 }
 
 .login #cash_signin_form input[type="email"], .login #cash_signin_form input[type="password"] {
@@ -2689,8 +2729,8 @@ body.login .login-content.legal{
 
 .login #cash_signin_form{
 	background:transparent url(../images/logo_alt.svg) center 0px no-repeat;
-	background-size:80px;
-	padding:120px 30px 30px 30px;
+	background-size:70px;
+	padding:100px 30px 30px 30px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -2737,7 +2777,7 @@ body.login .login-content.legal{
 
 .login .signup{
 	background:none;
-	margin:50px 0 0 0;
+	margin:36px 0 0 0;
 	color:#333;
 	text-align: center;
 }
@@ -6876,7 +6916,7 @@ html{background-attachment: fixed;}
 
 .login #cash_signin_form{
 	margin:0 auto;
-	padding:120px 0px 0px 0px;
+	padding:100px 0px 0px 0px;
 	z-index: 2;
 }
 
@@ -6886,11 +6926,13 @@ html{background-attachment: fixed;}
 }
 
 body.login .login-content{
-		width: 75%;
+		width: 960px;
 }
 
 .login .login-carousel-container{
-		border-left: solid 1px #333;
+		border-left: solid 1px rgba(0,0,0,0.1);
+		height:530px;
+		display: inline-block;
 }
 
 
@@ -7540,7 +7582,7 @@ td{display:table-cell; vertical-align: inherit;}
 }
 
 .login #cash_signin_form{
-	padding:120px 0 0 0;
+	padding:100px 0 0 0;
 }
 
 }/*  Tablet Landscape Fixes END */
