@@ -2,7 +2,15 @@
 	"pagetip":"Confirm to delete.",
 	"learn":"",
 	"related":{},
-	"labels":{},
+	"labels":{"name":"Name",
+            "website":"Website",
+            "phone":"Phone",
+            "address_1":"Address 1",
+            "address_2":"Address 2",
+            "city":"City",
+            "state":"State / Province / Region",
+            "postal_code":"Postal Code",
+            "country":"Country"},
 	"tooltips":{},
 	"copy":{}
 }

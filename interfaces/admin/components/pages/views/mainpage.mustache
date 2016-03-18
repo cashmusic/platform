@@ -1,226 +1,167 @@
 {{! corresponding files: mainpage.php & mainpage.json }}
 
-{{^has_campaigns}}
-<div id="learn_tip" style="display:block;" class="page-description display"><i class="icon icon-learn marker"></i><!--marker-->If you have questions look for the learn (<i class='icon icon-learn'></i>) &amp; help (<i class='icon icon-question'></i>) icons throughout to guide you.</div><!--learntip-->
-{{/has_campaigns}}
-
-{{#dashboard_lists}}
-	<div class="callout newsfeed people"><span class="details"><strong><div class="icon icon-list"></div><!--icon-->{{name}}:</strong> There {{#singular}}is{{/singular}}{{^singular}}are{{/singular}} <strong>{{total}}</strong> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}} on this list.</span> <span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><div class="icon icon-search"></div><!--icon-->View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><div class="icon icon-dwnld"></div><!--icon-->Export</a></span><div class="newsimage" style=""></div><!--newsimage--></div><!--newsfeed people-->
-{{/dashboard_lists}}
-{{#dashboard_orders}}
-	<div class="callout newsfeed commerce"><span class="details"><strong><div class="icon icon-cart"></div><!--icon-->New order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}!</strong> There {{#dashboard_orders_singular}}is{{/dashboard_orders_singular}}{{^dashboard_orders_singular}}are{{/dashboard_orders_singular}} <strong>{{dashboard_orders}}</strong> new order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}.</span><span class="action"><a href="{{www_path}}/commerce/"><div class="icon icon-search"></div><!--icon-->All new orders</a></span><div class="newsimage" style=""></div><!--newsimage--></div><!--newsfeed commerce-->
-{{/dashboard_orders}}
-
-<!--/* Campaigns */-->
-<div id="campaigns" class="{{#dashboard_active}}notifications{{/dashboard_active}}">
-{{#has_campaigns}}
-<div class="pure-u-1">
-	<div class="selecta">
-		<form accept-charset="UTF-8" method="post" action="{{www_path}}/">
-			<label for="current-campaign">{{label_selected_campaign}}</label>
-			<select name="current-campaign" id="current-campaign">
-			{{{campaigns_as_options}}}
-			</select>
-		</form>
-	</div><!--selecta-->
-</div><!--pure-->	
-{{/has_campaigns}}
-
-{{#selected_campaign}}
-<div class="campaign pure-u-1  pure-u-md-7-12">
-
-		<canvas id="cnvs" data-seed="{{creation_date}}" width="2000" height="398"></canvas>
-		<div class="campaign-inner">
-		<h2>{{title}}</h2>
-		<h3>{{description}}</h3>
-			<div class="stats">
-				<h4>{{copy_total_campaign_views}}</h4>
-				<h5 class="totalviews">{{formatted_views}}</h5>
-				<!--h5 class="percentage"><div class="icon icon-lg-arw"></div>&#37;</h5-->
-			</div><!--stats-->
-			<div class="actions">
-				<div class="toggle"><div class="icon icon-pencil"></div><!--icon--></div><!--toggle-->
-				<div class="action-inner">
-					{{^show_wizard}}
-					<a href="{{www_path}}/elements/templates/edit/{{template_id}}/page/parent/{{id}}" class="lightboxed page-editor">{{copy_page_theme}}</a>
-					{{/show_wizard}}
-					{{#show_wizard}}
-					<a href="{{www_path}}/campaigns/theme/{{id}}" class="lightboxed">{{copy_page_theme}}</a>
-					{{/show_wizard}}
-					<a href="{{www_path}}/campaigns/edit/{{id}}" class="lightboxed">{{copy_edit}}</a>
-					<a href="{{www_path}}/campaigns/delete/{{id}}" class="needsconfirmation delete">{{copy_delete}}</a>
-				</div><!--action-inner-->
-			</div><!--actions-->
-		
-		</div><!--campaign-inner-->
-		<footer><!--p>Created <span>&#124;</span> {{formatted_date}}</p--><p>Updated <span>&#124;</span> {{formatted_date}}</p></footer>
-</div><!--campaign pure-->
-<div class="associated pure-u-1 pure-u-md-5-12">
-	<h4><span class="hl-num {{^has_elements}}zero{{/has_elements}}">{{element_count}}</span>{{copy_associated_elements}}</h4>
-	<a class="add lightboxed store" href="{{www_path}}/elements/add/"><i class="icon icon-circle-plus"></i>{{copy_element_add}}</a>
-
-	<div class="elements">
-		{{#elements_for_campaign}}
-		<ul class="alternating">
-			{{#elements_for_campaign}}
-			<li>
-			<a class="primary" href="{{www_path}}/elements/edit/{{id}}">
-			<span class="element-title">{{name}}</span>
-			<span class="descriptive spaced fadedtext">{{type}}</span></a>
-			<a class="ql copy" title="Copy quick embed code" data-clipboard-text="&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;" ><div class="icon icon-share"></div><!--icon--></a>
-				<div class="more"><div class="toggle"></div><!--toggle-->
-					<div class="actions">
-						<div class="action-inner">
-							<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><div class="icon icon-pencil"></div><!--icon--> {{copy_edit}}</a>
-							<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation delete"><div class="icon icon-ban"></div><!--icon--> {{copy_delete}}</a>
-						</div><!--action-inner-->
-					</div><!--actions-->
-				</div><!--more-->
-			</li>
-			{{/elements_for_campaign}}
-		</ul>
-		{{/elements_for_campaign}}
-		{{^isarchive}}
-			{{^elements_for_campaign}}
-			<a href="{{www_path}}/elements/add/" class="noelement store lightboxed">
-			<div class="icon icon-plus"></div><!--icon-->
-				<p>{{copy_add_element_to_start}}</p>
-			</a><!--noelement-->
-			{{/elements_for_campaign}}
-		{{/isarchive}}
-	</div><!--elements-->		
-</div><!--associated-->
-{{/selected_campaign}}
-
-{{^has_campaigns}}
-<div class="pure-u-1">
-	<div class="alt callout">
-		<div class="callout-inner">
-			<h2>{{copy_time_to_add_campaign}}</h2>
-			<a class="button lightboxed" href="{{www_path}}/campaigns/add/">{{copy_add_campaign}}</a>
-		</div><!--callout-inner-->
-	</div><!--callout-->
+<!-- /* Sub Nav */ -->
+<header class="page-header">
+<div class="pure-u-1 pure-u-md-9-24">
+<h4 class="page-title">Activity Feed</h4>
+<h5 class="page-subtitle">Since you’ve been gone <span>(last logged in 25th, Dec, 2015)</span></h5>
 </div><!--pure-->
-{{/has_campaigns}}
+<div class="pure-u-1 pure-u-md-15-24">
+<ul class="inline-subnav">
+	<li><a class="current" href="{{www_path}}/">Activity</a></li>
+	<li><a  href="{{www_path}}/embeds/">Embeds</a></li>
+	<li><a href="{{www_path}}/page/">{{user_page_display_uri}}</a></li>
+</ul>
+</div><!--pure-->
+</header>
 
+<!--/* Activity */ -->
+<div id="activity" class="pure-u-1">
 
-{{#has_campaigns}}
-<a class="button lightboxed" href="{{www_path}}/campaigns/add/">{{copy_add_campaign}}</a>
-{{/has_campaigns}}
+		<!-- /* Alert Style */ -->
+		<a href="/" class="material notification alert"><p><span class="icon icon-warn"></span> <strong>Alert!</strong> -  Something intense that you should pay attention to.</p></a><!--alert-->
 
-{{#show_archive}}
-	<p>{{copy_there_are_archived_elements}}<a href="{{www_path}}/campaigns/archive/">{{copy_view_archive}}</a></p>
-{{/show_archive}}
-</div><!--campaigns-->
+	{{^firstuse}}
+		<div class="alt callout"><div class="callout-inner"><h3>Welcome to your new activity feed!</h3><p>You may have noticed we've had a bit of a re-shuffle. This is where you'll get an overview of what's happening with your <a href="{{www_path}}/embeds/">embeds</a>, <a href="{{www_path}}/page/">page</a>, <a href="{{www_path}}/people/">mailing lists</a> &amp; <a href="{{www_path}}/commerce/">sales</a>. This is just the begining but it's all part of us making the CASH tools easier use and understand!</p><p>You can read more about our efforts to improve our platform of tools on <a href="https://medium.com/cash-music" target="_blank">our blog</a>.</p></div><!--callout-inner--></div>
+	{{/firstuse}}
 
-{{#show_published}}
-<div class="published">
-	<div class="info">
-		<p class="fadedtext">{{copy_public_page}}</p>
-		<h4><a class="url-link" href="{{user_page_uri}}" target="_blank">{{user_page_display_uri}}</a></h4>
-		<div class="touchpoints">
-			<div class="toggle"><div class="icon icon-pencil"></div><!--icon--></div><!--toggle-->
-			<a href="{{www_path}}/campaigns/publish/0" data-template="unpublish" class="link needsconfirmation unpublish">Unpublish</a>
-			<div id="settings" class="link settings toggle">{{copy_change_username}}</div>
-		</div><!--touchpoints-->
-	</div><!--info-->
-</div><!--published-->
-{{/show_published}}
+<!-- /* Any Activity? */ -->
+{{#dashboard_active}}
 
-{{^show_published}}
-<!--div class="published"><h4 class="fadedtext">{{copy_public_not_live}}</h4><p class="fadedtext">{{copy_select_campaign}}</p></div-->
-{{/show_published}}
-
-{{#show_tour}}
-<!--div class="modalbg">&nbsp;</div>
-<div class="modallightbox">
-<h1>{{copy_hello_new}}</h1>
-<div class="pure-u-1">
-<p>{{copy_how_platform_works_1}}<a class="settings hlt">{{copy_how_platform_works_2}}</a>{{copy_how_platform_works_3}}</p>
-<a class="button fullwidth modalskip">{{copy_ok_got_it}}</a>
-</div>
-</div><!--modallightbox-->
-<a id="firstusewelcome" href="{{www_path}}/welcome" class="lightboxed closepanel"></a>
-<script type="text/javascript">
-	$( document ).ready(function() {
-		$('#firstusewelcome').trigger('click');
-	});
-</script>
-{{/show_tour}}
-
-{{#has_campaigns}}
-<div class="drawer prefpanel">
-<div class="itemnav pure-u-1">
-	<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>{{copy_publish_settings}}</span></h4>
-	<div class="drawercontent">
+	<div class="material">
 		<div class="pure-u-1 pure-u-md-1-2">
-			<div class="pref-inner">
-				<h5>{{copy_publish_a_campaign}}</h5>
-				<p>
-					{{copy_publish_campaign_info}}
-				</p>
-				<div class="selecta">
-					<label for="current-published-campaign">{{copy_published}}</label>
-					<select id="current-published-campaign">
-						<option data-path="{{www_path}}/campaigns/publish/0" data-template="unpublish" value="0">{{copy_unpublish_all}}</option>
-						{{#campaigns_for_user}}		
-  						<option data-path="{{www_path}}/campaigns/publish/{{id}}" {{#currently_published}}selected="selected"{{/currently_published}} data-template="{{template_id}}" value="{{title}}">{{title}}</option>
-						{{/campaigns_for_user}}
-					</select>
-				</div><!--selecta-->
-			</div><!--pref-inner-->
+	<div class="inner"><h5>Total embed views <span class="fadedtext">(last 7 days)<span></h5><h4 class="number"><div class="icon icon-lg-arw"></div> 200{{total}}</h4></div>
+			</div><!--pure-->
+			<div class="pure-u-1 pure-u-md-1-2 r-box vertical-breaker">
+				<div class="inner">
+				<h5>Embed Popularity</h5>
+				<ul>
+					<li><a href="{{www_path}}/elements/edit/{{id}}"><span class="number">+80</span> Embed name{{embed_name}}</a></li>
+					<li><a href="{{www_path}}/elements/edit/{{id}}"><span class="number">+80</span> Embed name{{embed_name}}</a></li>
+					<li><a href="{{www_path}}/elements/edit/{{id}}"><span class="number">+80</span> Embed name{{embed_name}}</a></li>
+				</ul>
+			</div><!--inner-->
 		</div><!--pure-->
+	</div><!--material-->
 
+	<!-- /* Orders Snapshot */ -->
+	{{#dashboard_orders}}
+	<!--div class="callout newsfeed commerce"><span class="details"><strong><div class="icon icon-cart"></div>New order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}!</strong> There {{#dashboard_orders_singular}}is{{/dashboard_orders_singular}}{{^dashboard_orders_singular}}are{{/dashboard_orders_singular}} <strong>{{dashboard_orders}}</strong> new order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}.</span><span class="action"><a href="{{www_path}}/commerce/"><div class="icon icon-search"></div>All new orders</a></span><div class="newsimage" style=""></div></div>-->
+	<div class="material usecolor4">
+		<div class="initial">
+		<div class="pure-u-1 pure-u-md-1-4">
+			<div class="inner"><h5>New orders</h5><h4 class="number">20{{dashboard_orders}}</h4></div></div>
+		<div class="pure-u-1 pure-u-md-1-4 vertical-breaker">
+			<div class="inner"><h5>Unfulfilled orders</h5><h4 class="number">13{{dashboard_orders_unfulfilled}}</h4></div></div><div class="pure-u-1 pure-u-md-1-4 vertical-breaker"><div class="inner"><h5>Total amount earned</h5><h4 class="number">$300.00</h4></div></div>
+			<div class="pure-u-1 pure-u-md-1-4"><a href="{{www_path}}/commerce/" class="alt-button feed">All new orders</a></div></div>
+	</div>
 
-		{{#has_elements}}
-		<div class="pure-u-1 pure-u-md-1-2">
-			<div class="pref-inner">
-				<h5>{{copy_embed_element}}</h5>
-					<p>{{copy_embed_info_1}}<i class="ql inline icon icon-share"></i><!--icon--> {{copy_embed_info_2}}</p>
-			</div><!--pref-inner-->
-		</div><!--pure-->
-		{{/has_elements}}
+	<a class="pure-u-1 notification material usecolor4" href="{{www_path}}/commerce/items/"><p><span class="icon icon-card"></span><strong>Sellin’ like hotcakes!</strong> - You've recieved <span class="number">8</span> orders of <strong>‘My album’</strong> in the last week, it's your best selling item.</p><div class="notification-marker icon icon-chevron"></div></a>
+	{{/dashboard_orders}}
 
-		{{^has_elements}}
-		<div class="pure-u-1 pure-u-md-1-2">
-			<div class="pref-inner">
-				<h5>{{copy_embed_element}}</h5>
-				<p>{{copy_no_elements}}</p>
-			</div><!--pref-inner-->
-		</div><!--pure-->
-		{{/has_elements}}
-	</div><!--drawercontent-->
-</div><!--itemnav-->
-</div><!--drawer-->
-{{/has_campaigns}}
+	<!-- /* People Snapshot */ -->
+	{{#dashboard_lists}}
+		<!--div class="callout newsfeed people"><span class="details"><strong><div class="icon icon-list"></div>{{name}}:</strong> There {{#singular}}is{{/singular}}{{^singular}}are{{/singular}} <strong>{{total}}</strong> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}} on this list.</span> <span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><div class="icon icon-search"></div>View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><div class="icon icon-dwnld"></div>Export</a></span><div class="newsimage" style=""></div></div -->
+	<div class="material usecolor3">
+			<div class="initial">
+				<div class="pure-u-1 pure-u-md-1-4">
+					<div class="inner"><h5>{{copy_total_new_subscribers}}</h5><h4 class="number"><div class="icon icon-lg-arw"></div> 200{{total}}</h4></div>
+				</div>
+				<div class="pure-u-1 pure-u-md-1-3 vertical-breaker">
+						<h5>List growth <span>(last 7 days)</span></h5>
+								<div class="graph sml bar-chart">
+									<div class="values">
+										<div class="y-axis pure-u-1-12">
+											<h6>100</h6>
+											<h6>50</h6>
+											<h6>0</h6>
+										</div><!--y-axis-->
+											<div class="value pure-u-1-12"><span class="bar"></span></div>
+											<div class="value pure-u-1-12"><span class="bar"></span></div>
+											<div class="value pure-u-1-12"><span class="bar"></span></div>
+											<div class="value pure-u-1-12"><span class="bar"></span></div>
+											<div class="value pure-u-1-12"><span class="bar"></span></div>
+											<div class="value pure-u-1-12"><span class="bar"></span></div>
+											<div class="value pure-u-1-12"><span class="bar"></span></div>
+										</div><!--values-->
 
-{{^has_campaigns}}
-<div class="drawer prefpanel pure-u-1">
-	<div class="itemnav pure-u-1">
-	<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>Publish Settings</span></h4>
-	<div class="drawercontent">
-		<div class="pure-u-1 pure-u-md-1-2">
-			<div class="pref-inner">
-				<h5>{{copy_publish_a_campaign}}</h5>
-				<p>
-					{{copy_publish_campaign_info}}
-				</p>
-				<!--<a href="{{www_path}}/campaigns/publish" class="button lightboxed">{{copy_publish_a_campaign}}</a>-->
-					<div class="selecta comingsoon">
-						<label for="current-campaign">{{copy_published}}</label>
-						<select id="current-campaign">
-  							<option value="{{title}}">{{copy_no_campaign}}</option>
-						</select>
-					</div><!--selecta-->
-			</div><!--pref-inner-->
-		</div><!--pure-->
-		<div class="pure-u-1 pure-u-md-1-2">
-			<div class="pref-inner">
-				<h5>{{copy_embed_element}}</h5>
-				<p>{{copy_no_elements_add_campaign_1}}<a class="lightboxed" href="{{www_path}}/campaigns/add/">{{copy_no_elements_add_campaign_2}}</a>{{copy_no_elements_add_campaign_3}}</p>
-			</div><!--pref-inner-->
-		</div><!--pure-->
-	</div><!--drawercontent-->
-	</div><!--itemnav-->
-</div><!--drawer-->
-{{/has_campaigns}}
+										<div class="x-axis pure-u-1">
+											<h6 class="pure-u-1-12"></h6>
+											<h6 class="pure-u-1-12">M</h6>
+											<h6 class="pure-u-1-12">T</h6>
+											<h6 class="pure-u-1-12">W</h6>
+											<h6 class="pure-u-1-12">T</h6>
+											<h6 class="pure-u-1-12">F</h6>
+											<h6 class="pure-u-1-12">S</h6>
+											<h6 class="pure-u-1-12">S</h6>
+										</div><!--x-axis-->
+
+								</div><!--graph-->
+							</div><!--pure-->
+
+				<div class="pure-u-1 pure-u-md-1-4 r-box vertical-breaker"><div class="inner"><h5>List Popularity</h5>
+					<ul>
+						{{#lists_all}}
+						<li><a href="{{www_path}}/people/lists/view/{{id}}"><span class="number">{{analytics_active}}</span>{{name}}</a></li>
+						{{/lists_all}}
+				</div><!--inner--></div><!--pure-->
+
+				<a href="{{www_path}}/people/" class="alt-button feed">View mailing lists</a>
+		</div><!--initial-->
+
+		<!--div class="pure-u-1">
+			<div class="additional">
+				<p>The largest group of your fans are from <strong>Portland, OR</strong> in the <strong>United States</strong>.</p>
+				<a class="display" href="/">Find out more</a>
+				<div class="expanded">
+					<div class="pure-u-1 pure-u-md-1-3">
+						<div class="inner">map it up!</div>
+					</div>
+					<div class="pure-u-1 pure-u-md-1-3">
+						<div class="inner">
+							<h5>Top Countries</h5>
+							<ol>
+								<li>United States - <span class="number">7983</span></li>
+								<li>South Korea - <span class="number">7983</span></li>
+								<li>Nigeria - <span class="number">7983</span></li>
+								<li>United Kingdom - <span class="number">7983</span></li>
+								<li>United Kingdom - <span class="number">7983</span></li>
+							</ol>
+						</div>
+					</div>
+					<div class="pure-u-1 pure-u-md-1-3">
+						<div class="inner">
+							<h5>Top Cities</h5>
+							<ol>
+								<li>United States - <span class="number">7983</span></li>
+								<li>South Korea - <span class="number">7983</span></li>
+								<li>Nigeria - <span class="number">7983</span></li>
+								<li>United Kingdom - <span class="number">7983</span></li>
+								<li>United Kingdom - <span class="number">7983</span></li>
+							</ol>
+						</div>
+					</div>
+
+				</div>
+			</div -->
+		</div>
+	</div>
+ {{/dashboard_lists}}
+
+	<!-- /* Tourdates Snapshot */ -->
+	<a class="pure-u-1 notification material usecolor5" href="{{www_path}}/commerce/items/"><p><span class="icon icon-calendar"></span>Your next show is in <strong>Los Angeles</strong> at <strong>Echoplex, tomorrow night!</strong>  -  Remind your followers on <strong>Twitter</strong>.</p><div class="notification-marker icon icon-chevron"></div></a>
+
+	<a class="pure-u-1 notification material usecolor5" href="{{www_path}}/commerce/items/"><p><span class="icon icon-card"></span>Your next show is a week away in <strong>Los Angeles</strong> at <strong>Echoplex</strong>, on <strong>13th January</strong>   -  Remind fans on your <strong>mailing lists</strong>.</p><div class="notification-marker icon icon-chevron"></div></a>
+
+{{/dashboard_active}}
+
+<!-- /* No Activity :( */ -->
+{{^dashboard_active}}
+
+	<div class="empty">
+		<p>Sorry, there is no activity to report yet. Get started by adding an <a href="{{www_path}}/embeds/">embed</a>.</p>
+	</div><!-- empty -->
+
+{{/dashboard_active}}
+
+</div><!--activity-->

@@ -49,8 +49,6 @@ $cash_admin->page_data['www_path'] = ADMIN_WWW_BASE_PATH;
 $cash_admin->page_data['public_url'] = CASH_PUBLIC_URL;
 $cash_admin->page_data['platform_version'] = CASHRequest::$version;
 
-
-
 // basic script vars
 $pages_path = ADMIN_BASE_PATH . '/components/pages/';
 $request_parameters = null;

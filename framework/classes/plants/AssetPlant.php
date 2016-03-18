@@ -37,6 +37,7 @@ class AssetPlant extends PlantBase {
 			'getasseturl'             => array('getFinalAssetLocation','direct'),
 			'getfulfillmentassets'    => array('getStoredAssets','direct'),
 			'getuploadparameters'     => array('getUploadParameters','direct'),
+			'getpublicurl'				  => array('getPublicURL','direct'),
 			'makepublic'              => array('makePublic','direct'),
 			'redeemcode'              => array('redeemLockCode',array('direct','get','post')),
 			'unlock'                  => array('unlockAsset','direct')
@@ -571,6 +572,20 @@ class AssetPlant extends PlantBase {
 		}
 	}
 
+	protected function getPublicURL($id,$user_id=false) {
+		$asset = $this->getAssetInfo($id);
+		if ($user_id) {
+			if ($asset['user_id'] != $user_id) {
+				return false;
+			}
+		}
+		if ($asset['public_status']) {
+			return $asset['location'];
+		} else {
+			return $this->makePublic($id);
+		}
+	}
+
 	/**
 	 * Reads asset details and redirects to the file directly. The success
 	 * Response is set here rather than in processRequest(), allowing it to
@@ -625,7 +640,7 @@ class AssetPlant extends PlantBase {
 		}
 	}
 
-	protected function makePublic($id,$user_id=false) {
+	protected function makePublic($id,$user_id=false,$commit=false) {
 		$asset = $this->getAssetInfo($id);
 		if ($user_id) {
 			if ($asset['user_id'] != $user_id) {
@@ -637,7 +652,19 @@ class AssetPlant extends PlantBase {
 		if (is_array($connection_type)) {
 			$seed_type = $connection_type['seed'];
 			$seed = new $seed_type($asset['user_id'],$asset['connection_id']);
-			return $seed->makePublic($asset['location']);
+			$public_location = $seed->makePublic($asset['location']);
+			if ($commit) {
+				$this->editAsset(
+					$id,
+					false,false,
+					$public_location,
+					false,false,false,
+					0,
+					false,false,
+					1
+				);
+			}
+			return $public_location;
 		} else {
 			return false;
 		}

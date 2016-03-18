@@ -1,4 +1,4 @@
-/*************************************************** 
+/***************************************************
  *
  *  CASH Music - Default Page Styles
  *
@@ -60,7 +60,7 @@ a{
   	display: table;
     position: absolute;
     width:100%;
-	height: 100%;
+		height: 100%;
   	z-index: 1;
   	padding:0;
   	margin:0;
@@ -76,7 +76,7 @@ a{
 	padding:20px;
 	background:rgba(17,17,17,0.8);
 	margin-left: auto;
-    margin-right: auto; 
+    margin-right: auto;
     max-width: 600px;
     -webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -88,7 +88,7 @@ body.dark .content .inner{
 }
 
 .content .inner .cashmusic{
-	margin:0 0 20px 0;
+	margin:0 0 18px 0;
 }
 
 .content .inner .cashmusic:last-of-type {
@@ -127,44 +127,57 @@ body.light{
 	color:#222;
 }
 
-body input{
-	padding:15px;
+
+body.light  .cashmusic.element input, body.light  .cashmusic.element select{
+/*	background:#f5f5f5;
+	background-color:rgba(245,245,245,0.9);
+	color:#222;*/
 }
 
-body.light input{
-	background:#f5f5f5;
-	background:rgba(245,245,245,0.9);
-	color:#222;
+body.dark  .cashmusic.element input, body.dark  .cashmusic.element select{
+	border: solid 1px #313131;
+	background-color: #232323;
+	color:#999;
 }
 
-body.dark input{
-	border: solid 1px #222;
-	background: #232323;
+body.dark .cashmusic.element select{
+	background-color: rgba(34,34,34,0.9);
+	/*border: solid 1px rgba(34,34,34,0.5);*/
+	background-image:url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iNzQuMzMzcHgiIGhlaWdodD0iMTY0cHgiIHZpZXdCb3g9IjAgMCA3NC4zMzMgMTY0IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA3NC4zMzMgMTY0IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxwb2x5Z29uIGZpbGw9IiNGRkZGRkYiIHBvaW50cz0iMzcuMzcyLDAgMC45MTQsNzIuMDgzIDczLjYyMiw3MiAiLz4NCjxwb2x5Z29uIGZpbGw9IiNGRkZGRkYiIHBvaW50cz0iMzcuMTY0LDE2My4wODMgNzMuNjIyLDkxIDAuOTE0LDkxLjA4MyAiLz4NCjwvc3ZnPg0K");
 }
 
-body.dark input[type=submit],body.dark .button, body.light input[type=submit],body.light .button {
-  padding:14px 15px;
+body.dark .cashmusic.element input[type=submit],body.dark .cashmusic.element .button, body.light  .cashmusic.element input[type=submit],body.light .cashmusic.element .button {
   background: none;
   border: solid 2px #00cf7f;
   color:#00cf7f;
 }
 
-body.dark input[type=submit]:hover ,body.dark .button:hover, body.light input[type=submit]:hover,body.light .button:hover {
+body.dark  .cashmusic.element input[type=submit]:hover ,body.dark .cashmusic.element .button:hover, body.light .cashmusic.element input[type=submit]:hover,body.light .cashmusic.element .button:hover {
   background:#00cf7f;
   color:rgba(0,0,0,0.3);
 }
 
-body.light ::-webkit-input-placeholder{color:#4d4d4d;}
-body.light placeholder{color:#4d4d4d;}
+body.dark .cashmusic.element ::-webkit-input-placeholder{color:#999;}
+body.dark .cashmusic.element placeholder{color:#999;}
 
 
-body.light input[type=text]:focus, body.light input[type=email]:focus, body.light input[type=password]:focus, body.light textarea:focus{
+body.dark .cashmusic.element input:focus, body.dark .cashmusic.element select:focus,  body.dark .cashmusic.element textarea:focus{
+	color:#fff; background-color:#111; border-color:#333;
+}
+
+
+body.light .cashmusic.element input[type=text]:focus, body.light .cashmusic.element input[type=email]:focus, body.light .cashmusic.element input[type=password]:focus, body.light .cashmusic.element textarea:focus{
 	background:#ccc;
 	color:#222;
 }
 
-body.light input:focus::-webkit-input-placeholder{color:#4d4d4d;}
-body.light input:focus placeholder{color:#4d4d4d;}
+body.light .cashmusic.element ::-webkit-input-placeholder{color:#4d4d4d;}
+body.light .cashmusic.element placeholder{color:#4d4d4d;}
+
+body.light .cashmusic.element input:focus::-webkit-input-placeholder{color:#4d4d4d;}
+body.light .cashmusic.element input:focus placeholder{color:#4d4d4d;}
+
+
 
 .logo{
 	position: fixed;
@@ -291,7 +304,7 @@ h2.subtitle{
 	display:block;
 	font-weight:100!important;
 	font-size:11px;
-	z-index: 1;
+	z-index: -1;
 	text-align: right;
 }
 
@@ -304,7 +317,7 @@ h2.subtitle{
 	-webkit-transition: color 0.3s  ease-in-out;
 	-moz-transition: color 0.3s  ease-in-out;
 	trasition: color 0.3s ease-in-out;
-	
+
 }
 
 .light .madebycash a{
@@ -338,4 +351,3 @@ h2.subtitle{
 }
 
 }
-

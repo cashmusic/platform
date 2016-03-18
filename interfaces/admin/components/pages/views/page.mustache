@@ -1,0 +1,62 @@
+{{! corresponding files: yourpage.php & yourpage.json }}
+
+<!-- /* Sub Nav */ -->
+<header class="page-header">
+<div class="pure-u-1 pure-u-md-9-24">
+	<h4 class="page-title">Your page <span class="fadedtext">({{#show_published}}Live{{/show_published}}{{^show_published}}Unpublished{{/show_published}})</span></h4>
+</div><!--pure-->
+
+<div class="pure-u-1 pure-u-md-15-24">
+<ul class="inline-subnav">
+	<li><a href="{{www_path}}/">Activity</a></li>
+	<li><a href="{{www_path}}/embeds/">Embeds</a></li>
+		<li><a class="current" href="{{www_path}}/page/">{{user_page_display_uri}}</a></li>
+</ul>
+</div><!--pure-->
+</header>
+
+<div class="pure-u-1 pure-u-md-1-2">
+{{^first_time_page}}
+	<div class="browser-header"><span></span><span></span><span></span></div><!--preview-header-->
+	<div class="preview-wrap">
+		<div class="preview-overlay">
+			<div class="preview-overlay-inner">
+				{{#show_published}}<a class="alt-button page-display-link" href="{{user_page_uri}}" target="_blank"><span class="icon icon-search"></span> {{copy_page_view}}</a>{{/show_published}}
+				{{#show_preview}}
+					<a href="http://{{user_page_display_uri}}?preview=1&amp;key={{api_key}}&amp;donottrack=1" class="page-preview-link alt-button" target="_blank"><span class="icon icon-search"></span> {{copy_preview}}</a>
+				{{/show_preview}}
+				{{#show_edit_button}}
+					<a href="{{www_path}}/elements/templates/edit/{{primary_template_id}}/page" class="page-edit-link lightboxed page-editor alt-button"><span class="icon icon-pencil"></span> {{copy_page_edit}}</a>
+				{{/show_edit_button}}
+			</div><!--preview-overlay-inner-->
+		</div><!--preview-overlay-->
+		{{^first_time_page}}<iframe id="preview" {{#show_preview}}class="preview" {{/show_preview}}src="http://{{user_page_display_uri}}?{{#show_preview}}preview=1&amp;key={{api_key}}&amp;{{/show_preview}}donottrack=1"></iframe>{{/first_time_page}}
+	</div><!--preview-wrap-->
+{{/first_time_page}}
+</div><!--pure-->
+
+<div class="pure-u-1 {{^first_time_page}}pure-u-md-1-2{{/first_time_page}}">
+	<h4>{{#show_published}}<span class="fadedtext">{{copy_public_page}}</span>{{/show_published}}{{^show_published}}<span class="fadedtext">{{copy_public_not_live}}</span>{{/show_published}}{{#show_published}}<a class="url-link" href="http://{{user_page_display_uri}}" target="_blank">{{/show_published}} {{user_page_display_uri}}{{#show_published}}</a>{{/show_published}}</h4>
+		<a id="settings" class="page-update-username settings toggle fadedtext"><span class="icon icon-cog"></span><!--icon--> Update username/url</a>
+
+	{{^first_time_page}}
+	<div>
+		<h5>Publish on/off:</h5><br />
+		{{#show_published}}<!--button href="{{www_path}}/page/unpublish" class="needsconfirmation button unpublish">Unpublish</button--><a href="{{www_path}}/page/unpublish" class=" cm-on-off-toggle-switch on"><span></span></a> <br/><!--small class="fadedtext">(click to unpublish)</small-->{{/show_published}}
+		{{^show_published}}<!--button href="{{www_path}}/page/publish" class="needsconfirmation button publish">Publish</button--> <a href="{{www_path}}/page/publish" class=" cm-on-off-toggle-switch off"><span></span></a> <br/><!--small class="fadedtext">(click to publish)</small-->{{/show_published}}
+	</div>
+	{{/first_time_page}}
+
+	{{#first_time_page}}
+		<p>{{copy_first_time}}</p><br />
+		<a href="{{www_path}}/page/theme/" class="button lightboxed">{{copy_page_theme}}</a>
+	{{/first_time_page}}
+</div><!--pure-->
+
+<script type="text/javascript">
+	setTimeout(function() {
+		if ((''+window.location).substr(-7) == 'publish') {
+			history.pushState(1, null, '{{www_path}}/page/');
+		}
+	}, 200);
+</script>

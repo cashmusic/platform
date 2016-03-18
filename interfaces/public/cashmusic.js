@@ -366,7 +366,7 @@
 					}
 
 					// make the iframe
-					var iframe = cm.buildEmbedIframe(endPoint,elementId,cssOverride);
+					var iframe = cm.buildEmbedIframe(endPoint,elementId,cssOverride,(lightboxed) ? 'lightbox=1' : false);
 
 					// be nice neighbors. if we can't find currentNode, don't do the rest or pitch errors. silently fail.
 					if (currentNode) {
@@ -1031,7 +1031,7 @@
 						} else {
 							if (innerContent.endpoint && innerContent.element) {
 								// make the iframe
-								var iframe = cm.buildEmbedIframe(innerContent.endpoint,innerContent.element,false,'&state='+innerContent.state);
+								var iframe = cm.buildEmbedIframe(innerContent.endpoint,innerContent.element,false,'lightbox=1&state='+innerContent.state);
 								alert.appendChild(iframe);
 							} else {
 								alert.appendChild(innerContent);

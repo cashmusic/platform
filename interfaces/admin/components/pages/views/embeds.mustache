@@ -1,0 +1,112 @@
+{{! corresponding files: embeds.php & embeds.json }}
+{{^has_campaigns}}
+<div id="learn_tip" style="display:block;" class="page-description display"><i class="icon icon-question marker"></i><!--marker-->If you have questions look for the help (<i class='icon icon-question'></i>) icon throughout to guide you.</div><!--learntip-->
+{{/has_campaigns}}
+
+<!-- /* Sub Nav */ -->
+<header class="page-header">
+<div class="pure-u-1 pure-u-md-7-24">
+<h4>{{copy_embed_title}} {{#selected_campaign}}<span class="fadedtext">({{element_count}})</span>{{/selected_campaign}}</h4>
+</div><!--pure-->
+
+<div class="pure-u-1 pure-u-md-17-24">
+<ul class="inline-subnav">
+	<li><a href="{{www_path}}/">Activity</a></li>
+	<li><a class="current" href="{{www_path}}/embeds/">Embeds</a></li>
+	<li><a href="{{www_path}}/page/">{{user_page_display_uri}}</a></li>
+</ul>
+</div><!--pure-->
+</header>
+
+<!--/* Campaigns */-->
+<div id="campaigns">
+{{#has_campaigns}}
+<div class="pure-u-1 pure-u-md-2-3">
+	<div class="selecta">
+		<form accept-charset="UTF-8" method="post" action="{{www_path}}/embeds/">
+			<label for="current-campaign">{{label_selected_campaign}}</label>
+			<select name="current-campaign" id="current-campaign">
+				<option value="-1" selected="selected">No campaign</option>
+				{{{campaigns_as_options}}}
+			</select>
+		</form>
+	</div><!--selecta-->
+		{{#selected_campaign}}
+		<a class="lightboxed edit-button" href="{{www_path}}/campaigns/edit/{{id}}"><span class="icon icon-pencil"></span><!--icon--></a>
+		{{/selected_campaign}}<a class="lightboxed edit-button" href="{{www_path}}/campaigns/add/"><span class="icon icon-plus"></span><!--icon--></a>
+</div>
+{{#selected_campaign}}
+<div class=" pure-u-1 pure-u-md-1-3 alignright">
+	{{#has_elements}}<a class="add button lightboxed store" href="{{www_path}}/elements/add/"><div class="icon icon-circle-plus"></div>{{copy_element_add}}</a>{{/has_elements}}
+	{{^elements_for_campaign}}<a href="{{www_path}}/elements/add/" class="noelement button lightboxed store"><div class="icon icon-plus"></div><!--icon-->{{copy_add_element_to_start}}</a><!--noelement-->
+{{/elements_for_campaign}}
+</div><!--pure-->
+{{/selected_campaign}}
+{{/has_campaigns}}
+
+{{^has_campaigns}}
+<div class="pure-u-1">
+	<div class="alt callout">
+		<div class="callout-inner">
+			<h3>{{copy_time_to_add_campaign}}</h3>
+			<a class="button lightboxed" href="{{www_path}}/campaigns/add/">{{copy_add_campaign}}</a>
+		</div><!--callout-inner-->
+	</div><!--callout-->
+</div><!--pure-->
+{{/has_campaigns}}
+
+{{#selected_campaign}}
+<div class="campaign-elements">
+	{{#elements_for_campaign}}
+	<ul class="alternating">
+		{{#elements_for_campaign}}
+		<li class="pure-u-1 pure-u-md-1-2">
+		<a class="primary" href="{{www_path}}/elements/edit/{{id}}">
+		<span class="element-title">{{name}}</span>
+		<span class="descriptive spaced fadedtext">{{type}}</span></a>
+		<a class="ql copy" title="Copy quick embed code" data-clipboard-text="&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;" ><div class="icon icon-share"></div><!--icon--></a>
+			<div class="more"><div class="toggle"></div><!--toggle-->
+				<div class="actions">
+					<div class="action-inner">
+						<a href="{{www_path}}/elements/edit/{{id}}" class="mininav_flush"><div class="icon icon-pencil"></div><!--icon--> {{copy_edit}}</a>
+						<a href="{{www_path}}/elements/delete/{{id}}" class="mininav_flush needsconfirmation delete"><div class="icon icon-ban"></div><!--icon--> {{copy_delete}}</a>
+					</div><!--action-inner-->
+				</div><!--actions-->
+			</div><!--more-->
+		</li>
+		{{/elements_for_campaign}}
+	</ul>
+	{{/elements_for_campaign}}
+</div><!--elements-->
+{{/selected_campaign}}
+
+{{^has_campaigns}}
+<div class="drawer prefpanel pure-u-1">
+	<div class="itemnav pure-u-1">
+	<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>Publish Settings</span></h4>
+	<div class="drawercontent">
+		<div class="pure-u-1 pure-u-md-1-2">
+			<div class="pref-inner">
+				<h5>{{copy_publish_a_campaign}}</h5>
+				<p>
+					{{copy_publish_campaign_info}}
+				</p>
+				<!--<a href="{{www_path}}/campaigns/publish" class="button lightboxed">{{copy_publish_a_campaign}}</a>-->
+					<div class="selecta comingsoon">
+						<label for="current-campaign">{{copy_published}}</label>
+						<select id="current-campaign">
+  							<option value="{{title}}">{{copy_no_campaign}}</option>
+						</select>
+					</div><!--selecta-->
+			</div><!--pref-inner-->
+		</div><!--pure-->
+		<div class="pure-u-1 pure-u-md-1-2">
+			<div class="pref-inner">
+				<h5>{{copy_embed_element}}</h5>
+				<p>{{copy_no_elements_add_campaign_1}}<a class="lightboxed" href="{{www_path}}/campaigns/add/">{{copy_no_elements_add_campaign_2}}</a>{{copy_no_elements_add_campaign_3}}</p>
+			</div><!--pref-inner-->
+		</div><!--pure-->
+	</div><!--drawercontent-->
+	</div><!--itemnav-->
+</div><!--drawer-->
+{{/has_campaigns}}

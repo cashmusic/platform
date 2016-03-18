@@ -358,7 +358,7 @@
 						'<input type="hidden" name="element_type" value="' . $element_type . '" />' .
 						'<input type="hidden" name="in_campaign" id="in_campaign" value="" />' .
 						'<div class="section basic-information" data-section-name="Element name">' .
-						'<div class="pure-u-1"><i data-tooltip="Give the element a name for your own reference." class="tooltip icon icon-learn"></i><label for="element_name">Element name</label></div>' .
+						'<div class="pure-u-1"><i data-tooltip="Give the element a name for your own reference." class="tooltip icon icon-question"></i><label for="element_name">Element name</label></div>' .
 						'<input type="text" id="element_name" name="element_name" value="{{#element_name}}{{element_name}}{{/element_name}}"{{^element_name}} placeholder="Name your element"{{/element_name}} class="required" />' .
 						'</div>';
 
@@ -366,7 +366,7 @@
 			foreach ($all_sections as $section_name => $details) {
 				$template .= '<div class=" section part-' . $current_section . '" data-section-name="' . $details['group_label']['en'] . '">' .
 						     '<h5 class="section-header">' . $details['group_label']['en'] . '</h5>' .
-						     '<i data-tooltip="' . $details['description']['en'] .'" class="tooltip icon icon-learn"></i>' .
+						     '<i data-tooltip="' . $details['description']['en'] .'" class="tooltip icon icon-question"></i>' .
 						     '<div class="pure-u-1">';
 				//$current_data = 0;
 				//$current_count = 0;
@@ -714,7 +714,7 @@
 						);
 						// handle differently for AJAX and non-AJAX
 						if ($cash_admin->page_data['data_only']) {
-							AdminHelper::formSuccess('Success. New element added.','/');
+							AdminHelper::formSuccess('Success. New element added.','/embeds/');
 						} else {
 							$cash_admin->setCurrentElement($admin_primary_cash_request->response['payload']);
 						}

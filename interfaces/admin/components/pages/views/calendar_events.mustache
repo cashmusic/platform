@@ -17,7 +17,8 @@
 			<label for="event_venue_name">{{label_venue}}</label>
 			<input type="text" id="event_venue_name" name="event_venue_name" value="{{event_venue_name}}" placeholder="Start typing to search venues" class="autocomplete required" data-cash-endpoint-url="{{{www_path}}}/ajax/autocomplete/venues" />
 			<input type="hidden" id="event_venue" name="event_venue" value="" />
-			<small class="fadedtext">{{copy_cant_find}}<a href="{{www_path}}/calendar/venues/add/" class="add-fulfillment-file lightboxed returntocurrentroute usecolor5">{{copy_add_new_venue}}</a></small>
+
+			<p class="input-additional-info small fadedtext">{{copy_cant_find}}<a href="{{www_path}}/calendar/venues/add/" class="add-fulfillment-file lightboxed returntocurrentroute usecolor5">{{copy_add_new_venue}}</a></p>
 
 			<label for="event_comment">{{label_comments}}</label>
 			<textarea rows="3" id="event_comment" name="event_comment"></textarea>
@@ -26,7 +27,7 @@
 			<input type="text" id="event_purchase_url" name="event_purchase_url" value="" placeholder="Ticket Link URL" />
 
 			<div class="pure-u-1">
-			<input type='checkbox' class='checkorradio' id="event_ispublished" name='event_ispublished' value='' checked='checked' /> <label class="checklabel" for="event_ispublished">{{label_published}}</label> <input type='checkbox' class='checkorradio' id="event_iscancelled" name='event_iscancelled' value='' /> <label class="checklabel" for="event_iscancelled">{{label_cancelled}}</label> 
+			<input type='checkbox' class='checkorradio' id="event_ispublished" name='event_ispublished' value='' checked='checked' /> <label class="checklabel" for="event_ispublished">{{label_published}}</label> <input type='checkbox' class='checkorradio' id="event_iscancelled" name='event_iscancelled' value='' /> <label class="checklabel" for="event_iscancelled">{{label_cancelled}}</label>
 			</div><!--pure-->
 
 			<button type="submit">{{copy_button_add_event}}</button>

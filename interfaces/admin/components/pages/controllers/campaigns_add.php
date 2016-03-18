@@ -5,7 +5,7 @@ if (isset($_POST['docampaignadd'])) {
 	$effective_user = $cash_admin->effective_user_id;
 	$add_response = $cash_admin->requestAndStore(
 		array(
-			'cash_request_type' => 'element', 
+			'cash_request_type' => 'element',
 			'cash_action' => 'addcampaign',
 			'title' => $_POST['campaign_title'],
 			'description' => $_POST['campaign_description'],
@@ -15,10 +15,10 @@ if (isset($_POST['docampaignadd'])) {
 	if ($add_response['payload']) {
 		// make the new campaign selected
 		$admin_primary_cash_request->sessionSet('current_campaign',$add_response['payload']);
-		
+
 		$settings_request = new CASHRequest(
 			array(
-				'cash_request_type' => 'system', 
+				'cash_request_type' => 'system',
 				'cash_action' => 'setsettings',
 				'type' => 'selected_campaign',
 				'value' => $add_response['payload'],
@@ -26,7 +26,7 @@ if (isset($_POST['docampaignadd'])) {
 			)
 		);
 
-		AdminHelper::formSuccess('Success. Campaign added.','/');
+		AdminHelper::formSuccess('Success. Campaign added.','/embeds/');
 	} else {
 		AdminHelper::formFailure('Error. Something just didn\'t work right.','/campaigns/add/');
 	}
