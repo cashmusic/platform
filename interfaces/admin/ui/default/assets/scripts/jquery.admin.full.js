@@ -705,6 +705,14 @@ jQuery.fn.extend({
    **/
 
    function ajaxPageBehaviors() {
+
+     // dropdown inline navigation element behaviour
+     $(document).on('change','.dropdown-nav',function(e) {
+        e.preventDefault();
+        var url = $('option:selected').attr('value');
+        refreshPageData(url);
+     });
+
       // open local (admin) links via AJAX
       // cashAdminPath is set in the main template to the www_base of the admin
       $(document).on('click', 'a[href^="' + cashAdminPath + '"]', function(e) {
@@ -1328,6 +1336,12 @@ function addMultipartButtons(section) {
 */
 function prepDrawers(labelTextVisible,labelTextHidden,labelClassVisible,labelClassHidden) {
 
+   $('.drawer-trigger').on('click',function () {
+     $(document.body).animate({
+         'scrollTop':   $('#settings-drawer').offset().top
+     }, 1000);
+   });
+
    $('.drawer').each(function() {
       // minimize jQuery calls and simplify. set each element up fron in the function scope:
       var drawer, drawerHandle, drawerContent, drawerHandleLabel;
@@ -1353,7 +1367,8 @@ function prepDrawers(labelTextVisible,labelTextHidden,labelClassVisible,labelCla
          }
          drawerHandle.prepend(drawerHandleLabel);
          // then set up click actions on each of them
-         $(this).find('.drawerhandle').on('click',function () {
+         $(this).find('.drawerhandle').add('.drawer-trigger').on('click',function () {
+           drawer.addClass('open');
             $(this).blur();
             if (drawerContent.is(':hidden')) {
                drawerContent.slideDown(200, function () {
@@ -1364,6 +1379,7 @@ function prepDrawers(labelTextVisible,labelTextHidden,labelClassVisible,labelCla
                   }
                });
             } else {
+              drawer.removeClass('open');
                drawerContent.slideUp(200, function () {
                   drawerContent.hide();
                   drawerHandleLabel.html($.data(drawer,'labelTextHidden') + ' ');
