@@ -213,7 +213,7 @@ class SinglePurchase extends ElementBase {
 		}
 
 		if (
-			$this->status_uid == 'commerce_finalizepayment_200' ||
+			($this->status_uid == 'commerce_finalizepayment_200') ||
 			$this->status_uid == 'element_redeemcode_200' ||
 			$this->status_uid == 'commerce_initiatecheckout_200' && $this->original_response['payload'] == 'force_success'
 			) {
@@ -229,16 +229,24 @@ class SinglePurchase extends ElementBase {
 					$this->element_data['fulfillment_assets'] = new ArrayIterator($fulfillment_request->response['payload']);
 				}
 			}
-			$this->setTemplate('success');
+			$this->unlock();
+			$this->element_data['showsuccess'] = true;
 		} elseif ($this->status_uid == 'commerce_initiatecheckout_400') {
 			// could happen on a database glitch, but probably means the user set a pay-minimum price below the
 			// minimum price. what a heel.
 			$this->element_data['error_message'] = 'Make sure you enter a price of at least ' . $this->element_data['currency'] . $item['price'] . ' and try again.';
-		} elseif ($this->status_uid == 'commerce_finalizepayment_400' || $this->status_uid == 'element_redeemcode_400') {
+		} elseif (($this->status_uid == 'commerce_finalizepayment_400' && !$this->unlocked) || $this->status_uid == 'element_redeemcode_400') {
 			// payerid is specific to paypal, so this is temporary to tell between canceled and errored:
 			if (isset($_GET['PayerID'])) {
 				//$this->element_data['error_message'] = $this->options['message_error'];
 				$this->element_data['error_message'] = print_r($this->original_response,true);
+			}
+		} elseif (isset($_REQUEST['state'])) {
+			if ($_REQUEST['state'] == 'success') {
+				if ($this->unlocked) {
+					$this->setTemplate('success');
+					//$this->lock();
+				}
 			}
 		}
 

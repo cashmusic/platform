@@ -1254,7 +1254,7 @@ class CommercePlant extends PlantBase {
         $r->startSession(false,$session_id);
 
 
-        if (!$item_id && !$element_id) {
+        if (!$element_id) {
             return false;
         } else {
             $is_physical = 0;
@@ -1280,9 +1280,9 @@ class CommercePlant extends PlantBase {
                     )
                 );
                 if (is_array($settings_request->response['payload'])) {
-                    $pp_default = $settings_request->response['payload']['pp_default'];
-                    $pp_micro = $settings_request->response['payload']['pp_micro'];
-                    $stripe_default = $settings_request->response['payload']['stripe_default'];
+                    $pp_default = (isset($settings_request->response['payload']['pp_default'])) ? $settings_request->response['payload']['pp_default'] : false;
+                    $pp_micro = (isset($settings_request->response['payload']['pp_micro'])) ? $settings_request->response['payload']['pp_micro'] : false;
+                    $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
                 } else {
                     return false; // no default PP shit set
                 }
@@ -1298,7 +1298,7 @@ class CommercePlant extends PlantBase {
 
                 foreach ($cart as $key => &$i) {
                     $item_details = $this->getItem($i['id'],false,false);
-                    $variants = $this->getItemVariants($item_id);
+                    $variants = $this->getItemVariants($i['id']);
                     $item_details['qty'] = $i['qty'];
                     $item_details['price'] = max($i['price'],$item_details['price']);
                     $subtotal += $item_details['price']*$i['qty'];
@@ -1328,9 +1328,12 @@ class CommercePlant extends PlantBase {
 
                 $total_price = $subtotal + $shipping;
 
+                /*
                 // get connection type settings so we can extract Seed classname
                 $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
                 $seed_class = $connection_settings['seed'];
+                */
+
                 //TODO: ultimately we want to load in the seed class name dynamically, but let's just get this working for now
                 if ($stripe != false) {
                     $seed_class = "StripeSeed";
