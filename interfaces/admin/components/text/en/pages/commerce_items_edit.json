@@ -16,6 +16,7 @@
 	"tooltips":{},
 	"copy":{
 		"op_none":"None (No digital fulfillment)",
+		"view_item_settings":"Edit settings",
       "button_save":"Save changes",
       "button_delete":"Delete this item",
       "configure":"Configure Item Variants",

@@ -425,8 +425,6 @@ blockquote{
 	width:100%;
 	text-align: center;
 	margin:36px 0 36px 0;
-	position: absolute;
-	bottom:0;
 	opacity: 1;
 }
 
@@ -2335,8 +2333,8 @@ section[role=main].hero{
 
 .inline-subnav{
 	list-style-type: none;
-	margin:46px 0 0 0;
 	padding:0;
+	margin:0;
 	text-align: left;
 }
 
@@ -2545,6 +2543,11 @@ color:#fff!important;
 	transition:0.3s ease-in-out;
 }
 
+.drawer.open.prefpanel{
+	background:#ddd;
+	border-color:#d1d1d1;
+}
+
 .prefpanel h4:hover{
 	cursor: pointer;
 }
@@ -2613,8 +2616,7 @@ color:#fff!important;
 }
 .prefpanel .pref-inner{
 	padding:20px;
-	background:#e2e2e2;
-	background:rgba(227,227,227,0.5);
+	background:#e4e4e4;
 	height:100%;
 	min-height:210px;
 	opacity:1;
@@ -2635,8 +2637,7 @@ color:#fff!important;
 }
 
 .prefpanel .section{
-	background:#e2e2e2;
-	background:rgba(227,227,227,0.7);
+	background:#e4e4e4;
 	padding:18px 20px;
 	margin:0 0 6px 0;
 	position: relative;
@@ -4781,6 +4782,7 @@ ul.alternating li .more.display .toggle{
 .top-locations, #snapshot .snapshot-inner ul{
 	list-style-type: none;
 	overflow: auto;
+	padding:0;
 	font-size: 12px;
 }
 
@@ -6907,7 +6909,6 @@ html{background-attachment: fixed;}
 
 .modalbg{z-index:5;}
 
-
 /* Login */
 .login #mainspc{
 	height:100%;
@@ -7034,10 +7035,6 @@ button.right, .button.right{
 
 .pure-u-md-12-24:nth-of-type(odd){ padding:0 0 0 10px; }
 
-
-/* Login */
-
-.pure-u-md-2-5{ padding:0 10px 0 0; }
 
 /* Pages */
 
@@ -7213,7 +7210,6 @@ section[role=main].hero, .login section[role=main]{ margin:400px 0 0 0; }
 	margin:0;
 }
 
-
 /* Releases */
 
 .releases{ overflow:visible; }
@@ -7230,7 +7226,6 @@ section[role=main].hero, .login section[role=main]{ margin:400px 0 0 0; }
 	font-size: 14px;
 	line-height: 18px;
 }
-
 
 .additional_releases.drawer #card .back .release-details{
 	font-size: 10px;
@@ -7264,6 +7259,7 @@ section[role=main].hero, .login section[role=main]{ margin:400px 0 0 0; }
 }
 
 /* Alternate States */
+
 .panel #mainspc{
 	margin:0 0 0 28%;
 	width:65.5%;
@@ -7344,6 +7340,7 @@ button, .button, #modallightbox .modalcancel{
 #navmenu ul li a{ padding:18px 40px 18px 40px }
 
 /* Mobile Gestures */
+
 .swipeleft #navmenu{
 	right:0%;
 	width:25%;
@@ -7464,6 +7461,7 @@ button, .button, #modallightbox .modalcancel{
 #ui-datepicker-div{ display:none; }
 
 /* Assets */
+
 .upload-corral { display:none; }
 
 /* Store  */
@@ -7473,6 +7471,7 @@ button, .button, #modallightbox .modalcancel{
 .store .modallightbox{ padding:0 3%; }
 
 /* Show Tertiary Panel */
+
 .learn #learnpanel, .help #helppanel, .settings #settingspanel{
 	opacity:1;
 	visibility: visible;
@@ -7522,6 +7521,8 @@ td{display:table-cell; vertical-align: inherit;}
 
 #footer{
 	text-align: left;
+	position: absolute;
+	bottom:0;
 }
 
 } /* Intermediate END */

@@ -1,14 +1,14 @@
 {{! corresponding files: elements_edit.php & elements_edit.json }}
 
 <header class="page-header">
-<div class="pure-u-1 pure-u-md-2-3">
+<div class="pure-u-1 pure-u-md-13-24">
 		<a class="returnlink current" href="{{www_path}}/embeds/"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">&ldquo;{{ui_title}}&rdquo;</h4>
 </div><!--pure-->
 
-		<div class="pure-u-1 pure-u-md-1-3">
+		<div class="pure-u-1 pure-u-md-11-24">
 				<ul class="inline-subnav">
 						{{#location_analytics}}<li><a href="{{www_path}}/elements/stats/{{id}}"><span class="icon icon-search"></span> {{copy_view_detailed_statistics}}</a></li>{{#location_analytics}}
-						{{/location_analytics}}{{/location_analytics}}
+						{{/location_analytics}}{{/location_analytics}}<li><a class="drawer-trigger" href="#"><span class="icon icon-wrench"></span> {{copy_view_element_settings}}</a></li>
 				</ul>
 		</div><!--pure-->
 </header>
@@ -77,9 +77,9 @@
 		</form>
 	</div><!--selecta-->
 
-<div class="drawer prefpanel pure-u-1">
+<div id="settings-drawer" class="drawer prefpanel pure-u-1">
 	<div class="itemnav pure-u-1">
-	<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>{{copy_element_settings}}</span></h4>
+	<h4 class="drawerhandle title"><div class="icon icon-wrench"></div><!--icon--><span>{{copy_element_settings}}</span></h4>
 	<div class="drawercontent">
 		<div class="pure-u-1">
 			{{{element_rendered_content}}}

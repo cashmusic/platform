@@ -38,12 +38,34 @@
         {{
         {{  ********************************************************************** }}
         <div class="pure-u-1 pure-u-md-1-2">
-            <ul class="inline-subnav">
+            <!--ul class="inline-subnav">
                 <li><a {{#no_filter}}class="current" {{/no_filter}}href="{{www_path}}/commerce/">{{copy_unfulfilled}}</a></li>
                 <li><a {{#filter_week}}class="current" {{/filter_week}}href="{{www_path}}/commerce/filter/week/">{{copy_this_week}}</a></li>
                 <li><a {{#filter_all}}class="current" {{/filter_all}}href="{{www_path}}/commerce/filter/all/">{{copy_all_time}}</a></li>
+            </ul-->
+            <ul class="inline-subnav right">
+                <li><a class="drawer-trigger" href="#"><span class="icon icon-wrench"></span> {{copy_view_commerce_settings}}</a></li>
             </ul>
-        </div><!--pure-->
+            <div class="selecta right">
+          			<label for="order-filter">Filter orders:</label>
+          			<select  id="order-filter" class="dropdown-nav">
+                  <option value="{{www_path}}/commerce/" {{#no_filter}}selected{{/no_filter}}>{{copy_unfulfilled}}</option>
+                  <option value="{{www_path}}/commerce/filter/week/" {{#filter_week}}selected{{/filter_week}}>{{copy_this_week}}</option>
+                  <option value="{{www_path}}/commerce/filter/all/" {{#filter_all}}selected{{/filter_all}}>{{copy_all_time}}</option>
+          			</select>
+          	</div><!--selecta-->
+
+
+            <!--div class="selecta">
+            <label for="order-filter">Filter orders:</label>
+            <select id="order-filter" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+
+                <option value="{{www_path}}/commerce/" {{#no_filter}}selected{{/no_filter}}>{{copy_unfulfilled}}</option>
+                <option value="{{www_path}}/commerce/filter/week/" {{#filter_week}}selected{{/filter_week}}>{{copy_this_week}}</option>
+                <option value="{{www_path}}/commerce/filter/all/" {{#filter_all}}selected{{/filter_all}}>{{copy_all_time}}</option>
+            </select-->
+
+        </div>
     </header>
 
     <div class="pure-u-1">
@@ -160,9 +182,9 @@
         {{  SECTION SETTINGS PANEL
         {{
         {{  ******************************************************************* }}
-        <div class="drawer prefpanel pure-u-1">
+        <div id="settings-drawer" class="drawer prefpanel pure-u-1">
             <div class="itemnav pure-u-1">
-                <h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>{{copy_commerce_settings}}</span></h4>
+                <h4 class="drawerhandle title"><div class="icon icon-wrench"></div><!--icon--><span>{{copy_commerce_settings}}</span></h4>
                 <div class="drawercontent">
                     {{^show_beta}}
                         <div class="pure-u-1 pure-u-md-1-2">

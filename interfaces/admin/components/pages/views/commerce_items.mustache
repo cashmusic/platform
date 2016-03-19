@@ -6,7 +6,6 @@
 			{{#items_all}}
 			<li>
 				<div class="item">
-
 					<div class="assetlink {{#physical_fulfillment}}physical{{/physical_fulfillment}}">
 						<div class="icon {{#fulfillment_asset}}icon-{{#release_asset}}record{{/release_asset}}{{^release_asset}}file-block{{/release_asset}}{{/fulfillment_asset}}{{^fulfillment_asset}}icon-warning{{/fulfillment_asset}} "></div><!--icon-->
 						{{#physical_fulfillment}}<div class="physical icon icon-truck"></div><!--icon-->{{/physical_fulfillment}}
@@ -50,10 +49,7 @@
 		{{/items_all}}
 
 		{{#show_pagination}}
-			<footer>
-
-				<div class="left pagination"><a class="prev" href="/">{{copy_previous}}</a><span>/</span><a class="next active" href="/">{{copy_next}}</a></div><!--pagination-->
-			</footer>
+				<div class="left pagination {{^show_nextandprevious}}single-prev-next{{/show_nextandprevious}} {{#show_nextandprevious}}both-prev-next{{/show_nextandprevious}}">{{#show_previous}}<a class="prev" href="/">{{copy_previous}}</a>{{/show_previous}}{{#show_next}}<a class="next" href="/">{{copy_next}}</a>{{/show_next}}</div><!--pagination-->
 		{{/show_pagination}}
 	</div><!--pure-->
 	<div class="pure-u-1 pure-u-md-1-3">

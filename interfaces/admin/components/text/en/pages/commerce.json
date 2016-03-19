@@ -13,7 +13,8 @@
 	"tooltips":{},
 	"copy":{
 		"firstuse":"Selling stuff? This section is where you’ll keep track of your orders, add items to sell, and manage inventory. Before you can begin selling items you will need to connect to a payment platform below.",
-      "all_time":"All time",
+			"view_commerce_settings":"Edit settings",
+			"all_time":"All time",
       "this_week":"This week",
       "num_unfulfilled":"(Number) Unfulfilled",
       "total_amount":"Total Amount",

@@ -9,6 +9,7 @@
 	"copy":{"total_unique_views":"Total Unique Views",
             "top_embed_locations":"Top Embed Locations ",
             "view_detailed_statistics":"View detailed statistics",
+						"view_element_settings":"Edit settings",
             "php":"PHP: ",
             "wordpress":"WordPress: ",
             "html5_embed_code":"HTML5 embed code: ",
@@ -17,7 +18,5 @@
             "edit_custom_embed":"Edit custom embed",
             "button_change_style":"Change style",
             "element_settings":"Element Settings"
-
-
 }
 }
