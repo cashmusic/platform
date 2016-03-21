@@ -413,7 +413,7 @@
 				if (querystring) {
 					embedURL += '&' + querystring;
 				}
-				if (cm.get['params']) {
+				if (cm.get['params'] && querystring.indexOf('lightbox=1') === -1) {
 					if (cm.get['params']['element_id'] == id) {
 						embedURL += '&' + cm.get['qs'];
 					}

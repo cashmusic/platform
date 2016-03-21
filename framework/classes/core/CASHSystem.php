@@ -624,8 +624,11 @@
 				$transport->setPassword($email_settings['smtppassword']);
 			}
 		} else {
+
+			//TODO: sendmail is gonna mess shit up
+
 			// aww shit. use mail() and hope it gets there
-			$transport = Swift_MailTransport::newInstance();
+			//$transport = Swift_MailTransport::newInstance();
 		}
 
 		$swift = Swift_Mailer::newInstance($transport);
