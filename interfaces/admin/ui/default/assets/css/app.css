@@ -687,8 +687,8 @@ input.checkorradio:checked{
 
 label{
 	padding:0;
-	margin:0 5px 0 0;
-	line-height: 36px;
+	margin:0 6px 6px 0;
+	line-height: 18px;
 	text-transform: lowercase;
 	display: block;
 }
@@ -703,7 +703,7 @@ form small{
 }
 
 form button{
-	margin:20px 5px 0 0;
+	margin:18px 6px 0 0;
 }
 
 /* Joined Selection Dropdown */
@@ -6698,8 +6698,8 @@ a.edit-button:hover .icon{
 
 
 /* General Release Details Form */
-.release-general-info{
-	padding:20px;
+.release-general-info, .item-general-info{
+	padding:18px 0 0 18px ;
 	border-radius:0px;
 }
 
