@@ -235,7 +235,7 @@ class SinglePurchase extends ElementBase {
 			// could happen on a database glitch, but probably means the user set a pay-minimum price below the
 			// minimum price. what a heel.
 			$this->element_data['error_message'] = 'Make sure you enter a price of at least ' . $this->element_data['currency'] . $item['price'] . ' and try again.';
-		} elseif (($this->status_uid == 'commerce_finalizepayment_400' && !$this->unlocked) || $this->status_uid == 'element_redeemcode_400') {
+		} elseif ($this->status_uid == 'commerce_finalizepayment_400' || $this->status_uid == 'element_redeemcode_400') {
 			// payerid is specific to paypal, so this is temporary to tell between canceled and errored:
 			if (isset($_GET['PayerID'])) {
 				//$this->element_data['error_message'] = $this->options['message_error'];
