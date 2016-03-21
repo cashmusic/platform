@@ -31,6 +31,17 @@ class SinglePurchase extends ElementBase {
 		$this->element_data['item_flexible_price'] = $item['flexible_price'];
 		$this->element_data['item_description'] = $item['description'];
 		$this->element_data['item_asset'] = $item['fulfillment_asset'];
+		if ($item['descriptive_asset']) {
+			$item_image_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'asset',
+					'cash_action' => 'getpublicurl',
+					'id' => $item['descriptive_asset'],
+					'user_id' => $this->element_data['user_id']
+				)
+			);
+			$this->element_data['item_image_url'] = $item_image_request->response['payload'];
+		}
 
 		// shipping
 		if ($item['physical_fulfillment'] == 1) {
