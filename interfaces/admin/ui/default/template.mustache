@@ -159,12 +159,12 @@
 							<div id="helppanel">
 								<div class="inner">
 								<h1 class="paneltitle"><div class="close-panel"><div class="icon icon-plus"></div></div> Help</h1>
-									<ul class="tertiarynav">
-                    <li><a class="link learn">About this page</a></li>
-                    <li><a class="link faqs">FAQs</a></li>
-                    <li><a href="{{www_path}}/help/tour/" class="lightboxed closepanel page-editor">Platform tour</a></li>
-										<li><a href="http://help.cashmusic.org/" class="noajax" target="_blank">help.cashmusic.org</a></li>
-									</ul>
+                <select  id="panel-filter">
+                  <option value="learn" class="link learn" >About this page</option>
+                  <option value="faqs" class="link faqs">FAQs</option>
+                  <option value="tour" href="{{www_path}}/help/tour/">Platform tour</option>
+                  <option value="http://help.cashmusic.org/" class="noajax">help.cashmusic.org</option>
+                </select>
 									<div class="panelcontent">
                           {{{ui_learn_text}}}
                   </div><!--panelcontent-->
@@ -186,7 +186,7 @@
 	<script src="{{www_path}}/ui/default/assets/scripts/ZeroClipboard.min.js" type="text/javascript" ></script>
 	<script src="{{www_path}}/ui/default/assets/scripts/fastclick.js" type="text/javascript" ></script>
   <script src="{{www_path}}/ui/default/assets/scripts/garlic.min.js" type="text/javascript" ></script>
-	<script src="{{www_path}}/ui/default/assets/scripts/jquery.admin.js" type="text/javascript"></script>
+	<script src="{{www_path}}/ui/default/assets/scripts/jquery.admin.full.js" type="text/javascript"></script>
 	<script src="{{www_path}}/ui/default/assets/scripts/jquery.mobile.custom.min.js" type="text/javascript"></script>
 
 {{#reset_key}}

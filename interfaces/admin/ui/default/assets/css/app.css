@@ -2223,6 +2223,10 @@ section[role=main].hero{
 	overflow:auto;
 }
 
+#panel-filter{
+	margin:0 0 30px 0;
+}
+
 .tertiarynav li{
 	display: inline-block;
 }

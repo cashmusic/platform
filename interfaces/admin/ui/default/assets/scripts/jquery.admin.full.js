@@ -214,6 +214,9 @@ jQuery.fn.extend({
          formdata = formdata+'&';
       }
 
+      //reset tertiary dropdown navigation
+      $("#panel-filter").val('learn').attr('selected','selected');
+
       // remove any dialogs
       $('.modallightbox').fadeOut('fast', function() {
          $('.modallightbox').remove();
@@ -499,25 +502,28 @@ jQuery.fn.extend({
          $('#helppanel .tertiarynav li a').removeClass('current');
          $('#helppanel .tertiarynav li a:first').addClass('current');
       });
-      /* Help FAQs Panel */
-      $(document).on('click', '#helppanel .tertiarynav li .faqs', function(e) {
-         $('body').removeClass('settings').removeClass('learn');
-         $('#helppanel .tertiarynav li a').removeClass('current');
-         refreshPanelData(cashAdminPath + '/help/');
-         $(this).addClass('current');
-      });
-      /* Help - FAQ Clicks */
-      $(document).on('click', '#helppanel .faq', function(e) {
-         $('#helppanel .tertiarynav li .faqs').addClass('current');
-      });
-      /* Help - Learn Content */
-      $(document).on('click', '#helppanel .tertiarynav li .learn', function(e) {
-         $ (this).parents('body').addClass('learn')
-         $('#helppanel .tertiarynav li a').removeClass('current');
-         refreshPanelData();
-         $(this).addClass('current');
-      });
 
+      $(document).on('change', '#panel-filter', function(e) {
+        /* Help FAQs Panel */
+        if ($("option:selected", this).attr('value') == 'faqs' ){
+        $("#panel-filter").val('faqs').attr('selected','selected');
+         $('body').removeClass('settings').removeClass('learn');
+         refreshPanelData(cashAdminPath + '/help/');
+         /* Help - Learn Content */
+       } else if ($("option:selected", this).attr('value') == 'learn' ){
+         $("#panel-filter").val('learn').attr('selected','selected');
+         $ (this).parents('body').addClass('learn')
+         refreshPanelData();
+         /* Help - Launch Tour */
+       } else if ($("option:selected", this).attr('value') == 'tour' ){
+         closePanel();
+         doModalLightbox($("option:selected", this).attr('href'));
+         $('body').addClass('page-editor');
+         /* Help - External Links */
+       } else if ($("option:selected", this).attr('value').substring(0,7) == 'http://' ){
+         window.open(this.value,'_blank');
+       }
+      });
 
       // swipe hint hide on click
       $(document).on('click', '.swipehint', function (e) {
@@ -708,10 +714,17 @@ jQuery.fn.extend({
 
      // dropdown inline navigation element behaviour
      $(document).on('change','.dropdown-nav',function(e) {
-        e.preventDefault();
-        var url = $('option:selected').attr('value');
-        refreshPageData(url);
-     });
+       var el = $(e.currentTarget);
+       if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
+          && !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
+          && !el.hasClass('noajax') && !el.parents('div').hasClass('inner')
+          && (!$('body').hasClass('store') && !$('body').hasClass('page-editor') && !el.hasClass('connection'))
+       ) {
+           e.preventDefault();
+           var url = $('option:selected').attr('value');
+           refreshPageData(url);
+       }
+    });
 
       // open local (admin) links via AJAX
       // cashAdminPath is set in the main template to the www_base of the admin
