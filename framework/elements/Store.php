@@ -33,6 +33,17 @@ class Store extends ElementBase {
 			} else {
 				$item['is_available'] = false;
 			}
+			if ($item['descriptive_asset']) {
+				$item_image_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'asset',
+						'cash_action' => 'getpublicurl',
+						'id' => $item['descriptive_asset'],
+						'user_id' => $this->element_data['user_id']
+					)
+				);
+				$item['image_url'] = $item_image_request->response['payload'];
+			}
 			if ($item['variants']) {
 				$item['json_keys'] = (bool) json_decode($item['variants']['quantities'][0]['key']);
 				$item['has_variants'] = true;
