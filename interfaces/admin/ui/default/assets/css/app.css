@@ -727,10 +727,11 @@ form button{
 	float:left;
 	background:#dbdbdb;
 	color:#868686;
-	padding:2px 40px 2px 20px;
+	padding:12px 40px 12px 20px;
 	-webkit-border-radius:100px;
 	-moz-border-radius:100px;
 	border-radius:100px;
+	border:solid 1px #d1d1d1;
 	width: 100%;
 	margin: 0;
 }
@@ -738,7 +739,7 @@ form button{
 .selecta select{
 	width:100%;
 	float:left;
-	height:40px;
+	height:44px;
 	padding:0 30px 0 20px;
 	-webkit-border-radius: 100px;
 	-moz-border-radius: 100px;
@@ -750,7 +751,7 @@ form button{
 	background-size: 6px;
 	background-repeat: no-repeat;
 	background-position: 90% 50%;
-
+	font-size: 12px!important;
 }
 
 
@@ -838,7 +839,7 @@ button, .button, .pref-inner button, .pref-inner .button{
 	display:inline-block;
 	border:solid 1px #00cf7f;
 	background:none;
-	padding:10px 50px;
+	padding:12px 50px;
 	word-wrap:break-word;
 	text-transform: lowercase;
 	text-align: center;
@@ -1317,7 +1318,7 @@ transform: scale(1.025)!important;
 	position:relative;
 	z-index: 3;
 	display:block;
-	padding:0;
+	padding:10px;
 }
 
 .panel #header #logo a{
@@ -1489,7 +1490,7 @@ transform: scale(1.025)!important;
 
 .preview-wrap{
 	position: relative;
-	width: 200%; height: 550px; padding: 0; margin:0 0 -345px 0; overflow: hidden;
+	width: 200%; height: 550px; padding: 0; margin:0 0 -245px 0; overflow: hidden;
 }
 
 iframe#preview{
@@ -3199,10 +3200,6 @@ body.login .login-content.legal{
 	font-size: 28px;
 	line-height: 36px;
 	margin:0;
-}
-
-#page_content header .page-subtitle{
-	margin:0 0 -10px 0;
 }
 
 /* Secondary Title*/
@@ -5801,7 +5798,7 @@ a.edit-button {
 	border-radius: 50px;
 	color:#f5f5f5;
 	text-decoration: none;
-	padding:12px;
+	padding:14px;
 	margin: 0 6px 0 0;
 	text-align: center;
 	display:inline-block;
@@ -6697,12 +6694,6 @@ a.edit-button:hover .icon{
 }
 
 
-/* General Release Details Form */
-.release-general-info, .item-general-info{
-	padding:18px 0 0 18px ;
-	border-radius:0px;
-}
-
 /* Statistics */
 
 .sectiondash .details {
@@ -6940,7 +6931,6 @@ body.login .login-content{
 		display: inline-block;
 }
 
-
 /* Login lightbox */
 
 .login .modallightbox {
@@ -6950,7 +6940,6 @@ body.login .login-content{
 .login .modallightbox .modalcancel{
 	right:17%;
 }
-
 
 /* Helpers */
 
@@ -7045,6 +7034,10 @@ button.right, .button.right{
 #pagedisplay{
 	padding:36px 30px;
 	overflow:initial;
+}
+
+#page_content header .page-subtitle{
+	margin:0 0 -10px 0;
 }
 
 /* Lightbox */
@@ -7246,6 +7239,11 @@ section[role=main].hero, .login section[role=main]{ margin:400px 0 0 0; }
 	font-size: 11px;
 	padding:0;
 	bottom:20px;
+}
+
+/* General Release/Item Details Form */
+.release-general-info, .item-general-info{
+	padding:18px 0 0 18px;
 }
 
 /* Special Selection Dropdown */
