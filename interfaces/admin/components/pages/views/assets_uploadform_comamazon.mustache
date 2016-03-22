@@ -1,6 +1,6 @@
 {{#AWSAccessKeyId}}
 <form accept-charset="UTF-8" id="file_upload" method="post" class="nodefaultajax" action="https://{{bucketname}}.s3.amazonaws.com/" enctype="multipart/form-data">
-	<input type="hidden" name="key" value="{{key}}" />
+	<input type="hidden" name="key" id="file_upload_key" value="{{key}}" />
 	<input type="hidden" name="AWSAccessKeyId" value="{{AWSAccessKeyId}}" />
 	<input type="hidden" name="acl" value="{{acl}}" />
 	<input type="hidden" name="success_action_status" value="{{success_action_status}}" />
@@ -26,6 +26,10 @@
 			add: function (e, data) {
 				// remember the filename and submit
 				filename = data.files[0].name;
+				filekey = filekey.replace('${filename}','') + filename.replace(/[^a-zA-Z0-9.\-\_]+/g, '').toLowerCase();
+
+				$('#file_upload_key').val(filekey);//.key.value = filekey;
+
 				data.submit();
 			},
 			send: function(e, data) {
@@ -39,18 +43,16 @@
 			done: function (event, data) {
 				// hide the spinner, add the final key to the location field of the
 				// main form, call ajax/finalizeupload with the key
-
-				var finalkey = filekey.replace('${filename}','') + filename;
 				$('.upload-corral').fadeOut();
 
-				jQuery.post(finalizeUrl, 'connection_id='+connectionId+'&filename='+finalkey, function(data) {
+				jQuery.post(finalizeUrl, 'connection_id='+connectionId+'&filename='+filekey, function(data) {
 					if (data.success) {
 						//alert('done: ' + finalkey);
 					} else {
 						//alert('done, but could not set MIME type: ' + finalkey);
 					}
 				},'json');
-				$('#asset_location').val(finalkey);
+				$('#asset_location').val(filekey);
 				//$('#asset_location').val(finalkey.replace(/[^a-zA-Z 0-9.\-\/]+/g, '').toLowerCase()); // LEAP OF FAITH! We do the same transform to the file name in the S3Seed finalize call. SUPER DAMN IMPORTANT! SO IMPORTANT THAT I'M TYPING A HELLA LONG UGLY LINE HERE
 				$('#loadingmask').css('width','1%');
 
