@@ -179,12 +179,12 @@
         {{  SECTION SETTINGS PANEL
         {{
         {{  ******************************************************************* }}
-        <div id="settings-drawer" class="drawer prefpanel pure-u-1 {{^orders_recent}}defaultopen{{/orders_recent}}">
+        <div id="settings-drawer" class="drawer prefpanel multipart pure-u-1 {{^orders_recent}}open{{/orders_recent}}">
             <div class="itemnav pure-u-1">
                 <h4 class="drawerhandle title"><div class="icon icon-wrench"></div><!--icon--><span>{{copy_commerce_settings}}</span></h4>
                 <ul class="page-settings-tabs">
-                    <li><a href="">Sales settings</a></li>
-                    <li><a href="">{{copy_shipping_regions}}</a></li>
+                    <li>Sales settings</li>
+                    <li>{{copy_shipping_regions}}</li>
                 </ul>
                 <div class="drawercontent">
                     {{^show_beta}}
@@ -221,12 +221,10 @@
                                         <label for="stripe_default">{{label_default_stripe}}</label>
                                         <select id="stripe_default" name="stripe_default">{{{stripe_options}}}</select>
                                     </div><!--pure-->
-                            </div><!--pref-inner-->
-                                        <br />
-                                        <button type="submit">{{copy_save_sales_settings}}</button>
-
+                                    <br />
+                                    <button type="submit">{{copy_save_sales_settings}}</button>
                                   </form>
-
+                            </div><!--pref-inner-->
 
                         <div class="pure-u-1">
                             <div class="pref-inner">
@@ -240,9 +238,9 @@
                                         <label for="region2">{{label_region_2}}</label>
                                         <input type="text" id="region2" name="region2" value="{{region2}}" placeholder="Rest of world" class="required" />
                                     </div><!--pure-->
-                                    </div><!--pref-inner-->
                                     <br />
                                     <button type="submit">{{copy_button_set_shipping_regions}}</button>
+                                    </div><!--pref-inner-->
                                 </form>
                         </div><!--pure-->
                     {{/show_beta}}

@@ -733,7 +733,7 @@ jQuery.fn.extend({
          if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
             && !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
             && !el.hasClass('noajax') && !el.parents('div').hasClass('inner')
-            && (!$('body').hasClass('store') && el.attr('href').indexOf('elements/add') && !$('body').hasClass('page-editor') && !el.hasClass('connection'))
+            && (!$('body').hasClass('store') && el.attr('href').indexOf('elements/add') && !$('body').hasClass('page-editor') && !el.hasClass('connection') && !el.parents('div').hasClass('.page-settings-tabs'))
          ) {
             e.preventDefault();
             var url = el.attr('href');
@@ -1369,15 +1369,37 @@ function prepDrawers(labelTextVisible,labelTextHidden,labelClassVisible,labelCla
          }
          drawerHandle = drawer.find('.drawerhandle');
          drawerContent = drawer.find('.drawercontent');
+         drawerNav = drawer.find('.page-settings-tabs');
+         drawerNavLink = drawer.find('.page-settings-tabs li');
+         drawerSection = drawer.find('.pref-inner');
+
          // create the label span and add necessary classes
          drawerHandleLabel = $('<span class="drawerhandleaction">' + $.data(drawer,'labelTextHidden') + ' </span>');
          if (labelClassVisible) {
             drawerHandleLabel.addClass(labelClassHidden);
          }
+
+         // Initial multipart default selection
+         if (drawer.hasClass('multipart')){
+           // on load first is selected
+           var i = 0;
+           drawerNavLink.eq(i).addClass('current');
+           drawerSection.eq(i).addClass('active');
+
+           //on click remove current & add to current
+           drawerNavLink.on('click',function () {
+             var index = drawerNavLink.index( this );
+             var i = index;
+             drawerNavLink.removeClass('current') && drawerSection.removeClass('active');
+             drawerNavLink.eq(i).addClass('current') && drawerSection.eq(i).addClass('active');
+           });
+         }
+
          // first hide the content add a label to all the drawerhandles
-         if (!drawer.hasClass('defaultopen')) {
+         if (!(drawer.hasClass ('defaultopen') || drawer.hasClass ('open'))) {
             drawerContent.hide();
          }
+
          drawerHandle.prepend(drawerHandleLabel);
          // then set up click actions on each of them
          $(this).find('.drawerhandle').add('.drawer-trigger').on('click',function () {
@@ -1390,9 +1412,18 @@ function prepDrawers(labelTextVisible,labelTextHidden,labelClassVisible,labelCla
                      drawerHandleLabel.removeClass();
                      drawerHandleLabel.addClass(labelClassVisible);
                   }
+                  if (drawer.hasClass('multipart')){
+                      drawerNavLink.eq(0).addClass('current');
+                      drawerSection.eq(0).addClass('active');
+                  }
                });
+
             } else {
               drawer.removeClass('open');
+              if (drawer.hasClass('multipart')){
+                drawerNavLink.removeClass('current');
+                drawerSection.removeClass('active');
+              }
                drawerContent.slideUp(200, function () {
                   drawerContent.hide();
                   drawerHandleLabel.html($.data(drawer,'labelTextHidden') + ' ');
