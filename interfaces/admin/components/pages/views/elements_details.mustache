@@ -13,27 +13,6 @@
 		</div><!--pure-->
 </header>
 
-		{{#location_analytics}}
-		<div id="snapshot">
-		<div class="pure-u-1 pure-u-md-1-3">
-			<div class="snapshot-inner">
-			<h4>{{copy_total_unique_views}}</h4>
-				<h5 class="elements totalviews">{{total_views}}</h5>
-			</div><!--snapshot-inner-->
-			</div><!--pure-->
-			<div class="pure-u-1 pure-u-md-2-3">
-				<div class="snapshot-inner">
-					<h4>{{copy_top_embed_locations}}</h4>
-					<ul>
-						{{#location_analytics}}
-							<li><a href="http://{{access_location}}" target="_blank"><span><strong>{{total}}</strong></span><span class="location">{{access_location}}</span></a></li>
-						{{/location_analytics}}
-					</ul>
-				</div><!--snapshot-inner-->
-			</div><!--pure-->
-		</div><!--snapshot-->
-		{{/location_analytics}}
-
 			{{#platform_type_single}}
 			<div class="pure-u-1">
 				<div class="embedpanel">
@@ -45,6 +24,27 @@
 
 			<div class="pure-u-1">
 				<div class="embedpanel">
+
+					{{#location_analytics}}
+					<div id="snapshot">
+					<div class="pure-u-1 pure-u-md-1-3">
+						<div class="snapshot-inner">
+						<h5>{{copy_total_unique_views}}</h5>
+							<h5 class="elements totalviews">{{total_views}}</h5>
+						</div><!--snapshot-inner-->
+						</div><!--pure-->
+						<div class="pure-u-1 pure-u-md-2-3">
+							<div class="snapshot-inner">
+								<h5>{{copy_top_embed_locations}}</h5>
+								<ul>
+									{{#location_analytics}}
+										<li><a href="http://{{access_location}}" target="_blank"><span><strong>{{total}}</strong></span><span class="location">{{access_location}}</span></a></li>
+									{{/location_analytics}}
+								</ul>
+							</div><!--snapshot-inner-->
+						</div><!--pure-->
+					</div><!--snapshot-->
+					{{/location_analytics}}
 					<p class="codelabel"><strong>{{copy_html5_embed_code}}</strong> <span class="fadedtext">{{copy_embed_anywhere}}</span></p>
 
 					<a class="ql copy" title="Copy quick embed code" data-clipboard-text="&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;" ><div class="icon icon-share"></div><!--icon--></a>
