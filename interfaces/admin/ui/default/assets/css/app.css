@@ -2535,6 +2535,7 @@ color:#fff!important;
 /* Preferences Panel */
 
 .drawer.prefpanel{
+	position: relative;
 	background:#ccc;
 	color:#696969;
 	border: 1px solid #bbb;
@@ -2548,7 +2549,7 @@ color:#fff!important;
 	transition:0.3s ease-in-out;
 }
 
-.drawer.open.prefpanel{
+.drawer.open.prefpanel, .drawer.defaultopen.prefpanel{
 	background:#ddd;
 	border-color:#d1d1d1;
 }
@@ -2632,6 +2633,48 @@ color:#fff!important;
 .drawer.prefpanel .itemnav{padding:0;}
 
 .drawer.prefpanel .drawercontent{padding:20px 0 0 0;}
+
+/* Preference panel tabbed navigation */
+.drawer.prefpanel .page-settings-tabs{
+		position: absolute;
+		right:20px;
+		top:12px;
+		list-style-type: none;
+		padding:0;
+		margin:0;
+}
+
+.drawer.prefpanel .page-settings-tabs li{
+	display: inline-block;
+}
+
+.drawer.prefpanel .page-settings-tabs li a{
+	background:#bbb;
+	background:#696969;
+	color:#eee;
+	display: inline-block;
+	font-size: 12px;
+	padding:6px 12px;
+	margin:0 1px 0 0;
+}
+
+.drawer.prefpanel .page-settings-tabs li:first-of-type a{
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+
+.drawer.prefpanel .page-settings-tabs li:last-of-type a{
+	-webkit-border-top-right-radius: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	-moz-border-radius-topright: 3px;
+	-moz-border-radius-bottomright: 3px;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
 
 /* Element Details Forms */
 
