@@ -730,7 +730,7 @@ class CommercePlant extends PlantBase {
                     'currency' => $currency,
                     'element_id' => $element_id,
                     'cash_session_id' => $cash_session_id,
-                    'data' => $data
+                    'data' => json_encode($data)
                 )
             );
             return $result;
@@ -1106,7 +1106,7 @@ class CommercePlant extends PlantBase {
                 'connection_type' => $connection_type,
                 'service_timestamp' => $service_timestamp,
                 'service_transaction_id' => $service_transaction_id,
-                'data_sent' => $data_sent,
+                'data_sent' => json_encode($data_sent),
                 'data_returned' => json_encode($data_returned),
                 'successful' => $successful,
                 'gross_price' => $gross_price,
@@ -1137,7 +1137,13 @@ class CommercePlant extends PlantBase {
             $condition
         );
 
-        if ($result) {
+         if ($result) {
+            if (!empty($result[0]['data_sent'])) {
+               $result[0]['data_sent'] = json_decode($result[0]['data_sent']);
+            }
+            if (!empty($result[0]['data_returned'])) {
+               $result[0]['data_returned'] = json_decode($result[0]['data_returned']);
+            }
             return $result[0];
         } else {
             return false;
@@ -1155,21 +1161,12 @@ class CommercePlant extends PlantBase {
         $service_fee=false,
         $status=false
     ) {
-
-        // we need to get the transaction, then join the new array with the old one in order to update this thing
-        $old_transaction = $this->getTransaction($id);
-
-        $joined_data_returned = array_merge(
-            json_decode($old_transaction['data_returned'], true),
-            $data_returned
-            );
-
         $final_edits = array_filter(
             array(
                 'service_timestamp' => $service_timestamp,
                 'service_transaction_id' => $service_transaction_id,
                 'data_sent' => $data_sent,
-                'data_returned' => json_encode($joined_data_returned),
+                'data_returned' => $data_returned,
                 'successful' => $successful,
                 'gross_price' => $gross_price,
                 'service_fee' => $service_fee,
@@ -1177,7 +1174,12 @@ class CommercePlant extends PlantBase {
             ),
             'CASHSystem::notExplicitFalse'
         );
-
+        if (isset($final_edits['data_sent'])) {
+            $final_edits['data_sent'] = json_encode($data_sent);
+        }
+        if (isset($final_edits['data_returned'])) {
+            $final_edits['data_returned'] = json_encode($data_returned);
+        }
 
         $result = $this->db->setData(
             'transactions',
@@ -1233,11 +1235,8 @@ class CommercePlant extends PlantBase {
     }
 
     /** initiateCheckout
-     * @param bool $order_contents
      * @param bool $element_id
      * @param bool $shipping_info
-     * @param float $shipping_price
-     * @param bool $total_price
      * @param bool $paypal
      * @param bool $stripe
      * @param bool $origin
@@ -1246,109 +1245,105 @@ class CommercePlant extends PlantBase {
      * @param bool $session_id
      * @return bool
      */
-    public function initiateCheckout($order_contents=false,$element_id=false,$shipping_info=false, $shipping_price=0.00, $paypal=false,$stripe=false, $origin=false, $email_address=false, $customer_name=false, $session_id=false) {
+    public function initiateCheckout($element_id=false,$shipping_info=false,$paypal=false,$stripe=false,$origin=false,$email_address=false,$customer_name=false,$session_id=false) {
 
         //TODO: store last seen top URL
         //      or maybe make the API accept GET params? does it already? who can know?
         $r = new CASHRequest();
         $r->startSession(false,$session_id);
 
-
         if (!$element_id) {
             return false;
         } else {
             $is_physical = 0;
             $is_digital = 0;
-            if (!$order_contents) {
-                $order_contents = array();
+
+            $element_request = new CASHRequest(
+              array(
+                  'cash_request_type' => 'element',
+                  'cash_action' => 'getelement',
+                  'id' => $element_id
+              )
+            );
+            $user_id = $element_request->response['payload']['user_id'];
+            $settings_request = new CASHRequest(
+              array(
+                  'cash_request_type' => 'system',
+                  'cash_action' => 'getsettings',
+                  'type' => 'payment_defaults',
+                  'user_id' => $user_id
+              )
+            );
+            if (is_array($settings_request->response['payload'])) {
+              $pp_default = (isset($settings_request->response['payload']['pp_default'])) ? $settings_request->response['payload']['pp_default'] : false;
+              $pp_micro = (isset($settings_request->response['payload']['pp_micro'])) ? $settings_request->response['payload']['pp_micro'] : false;
+              $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
+            } else {
+              return false; // no default PP shit set
+            }
+            $cart = $this->getCart($session_id);
+
+            $shipto = $cart['shipto'];
+            unset($cart['shipto']);
+            if ($shipto != 'r1' && $shipto != 'r2') {
+              $shipto = 'r1';
+            }
+            $subtotal = 0;
+            $shipping = 0;
+
+            foreach ($cart as $key => &$i) {
+              $item_details = $this->getItem($i['id'],false,false);
+              $variants = $this->getItemVariants($i['id']);
+              $item_details['qty'] = $i['qty'];
+              $item_details['price'] = max($i['price'],$item_details['price']);
+              $subtotal += $item_details['price']*$i['qty'];
+              $item_details['variant'] = $i['variant'];
+
+              if ($item_details['physical_fulfillment']) {
+                  $is_physical = 1;
+              }
+              if ($item_details['digital_fulfillment']) {
+                  $is_digital = 1;
+              }
+              if ($item_details['shipping'] && $shipto) {
+                  if (isset($item_details['shipping']['r1-1'])) {
+                      $shipping += $item_details['shipping'][$shipto.'-1+']*($i['qty']-1)+$item_details['shipping'][$shipto.'-1'];
+                  }
+              }
+              if ($variants) {
+                  foreach ($variants['quantities'] as $q) {
+                      if ($q['key'] == $item_details['variant']) {
+                          $item_details['variant_name'] = $q['formatted_name'];
+                          break;
+                      }
+                  }
+              }
+              $order_contents[] = $item_details;
             }
 
-                $element_request = new CASHRequest(
-                    array(
-                        'cash_request_type' => 'element',
-                        'cash_action' => 'getelement',
-                        'id' => $element_id
-                    )
-                );
-                $user_id = $element_request->response['payload']['user_id'];
-                $settings_request = new CASHRequest(
-                    array(
-                        'cash_request_type' => 'system',
-                        'cash_action' => 'getsettings',
-                        'type' => 'payment_defaults',
-                        'user_id' => $user_id
-                    )
-                );
-                if (is_array($settings_request->response['payload'])) {
-                    $pp_default = (isset($settings_request->response['payload']['pp_default'])) ? $settings_request->response['payload']['pp_default'] : false;
-                    $pp_micro = (isset($settings_request->response['payload']['pp_micro'])) ? $settings_request->response['payload']['pp_micro'] : false;
-                    $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
-                } else {
-                    return false; // no default PP shit set
-                }
-                $cart = $this->getCart($session_id);
+            $total_price = $subtotal + $shipping;
 
-                $shipto = $cart['shipto'];
-                unset($cart['shipto']);
-                if ($shipto != 'r1' && $shipto != 'r2') {
-                    $shipto = 'r1';
-                }
-                $subtotal = 0;
-                $shipping = 0;
+            /*
+            // get connection type settings so we can extract Seed classname
+            $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
+            $seed_class = $connection_settings['seed'];
+            */
 
-                foreach ($cart as $key => &$i) {
-                    $item_details = $this->getItem($i['id'],false,false);
-                    $variants = $this->getItemVariants($i['id']);
-                    $item_details['qty'] = $i['qty'];
-                    $item_details['price'] = max($i['price'],$item_details['price']);
-                    $subtotal += $item_details['price']*$i['qty'];
-                    $item_details['variant'] = $i['variant'];
+            //TODO: ultimately we want to load in the seed class name dynamically, but let's just get this working for now
+            if ($stripe != false) {
+              $seed_class = "StripeSeed";
+              $connection_id = $stripe_default;
+            }
 
-                    if ($item_details['physical_fulfillment']) {
-                        $is_physical = 1;
-                    }
-                    if ($item_details['digital_fulfillment']) {
-                        $is_digital = 1;
-                    }
-                    if ($item_details['shipping'] && $shipto) {
-                        if (isset($item_details['shipping']['r1-1'])) {
-                            $shipping += $item_details['shipping'][$shipto.'-1+']*($i['qty']-1)+$item_details['shipping'][$shipto.'-1'];
-                        }
-                    }
-                    if ($variants) {
-                        foreach ($variants['quantities'] as $q) {
-                            if ($q['key'] == $item_details['variant']) {
-                                $item_details['variant_name'] = $q['formatted_name'];
-                                break;
-                            }
-                        }
-                    }
-                    $order_contents[] = $item_details;
-                }
-
-                $total_price = $subtotal + $shipping;
-
-                /*
-                // get connection type settings so we can extract Seed classname
-                $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
-                $seed_class = $connection_settings['seed'];
-                */
-
-                //TODO: ultimately we want to load in the seed class name dynamically, but let's just get this working for now
-                if ($stripe != false) {
-                    $seed_class = "StripeSeed";
-                    $connection_id = $stripe_default;
-                }
-
-                if ($paypal != false) {
-                    $seed_class = "PaypalSeed";
-                    //TODO: this connection stuff is hard-coded for paypal, but does the default/micro switch well
-                    if (($subtotal+$shipping < 12) && $pp_micro) {
-                        $connection_id = $pp_micro;
-                    } else {
-                        $connection_id = $pp_default;
-                    }
-                }
+            if ($paypal != false) {
+              $seed_class = "PaypalSeed";
+              //TODO: this connection stuff is hard-coded for paypal, but does the default/micro switch well
+              if (($subtotal+$shipping < 12) && $pp_micro) {
+                  $connection_id = $pp_micro;
+              } else {
+                  $connection_id = $pp_default;
+              }
+            }
 
             $currency = $this->getCurrencyForUser($user_id);
             $shipping_info = json_decode($shipping_info, true);
@@ -1430,7 +1425,7 @@ class CommercePlant extends PlantBase {
                         $origin,								# cancel URL (the same in our case)
                         $currency,									# payment currency
                         'sale',										# transaction type (e.g. 'Sale', 'Order', or 'Authorization')
-                        $shipping_price								# price additions (like shipping, but could be taxes in future as well)
+                        $shipping								# price additions (like shipping, but could be taxes in future as well)
                     );
 
                     // returns a url, javascript parses for success/failure and gets http://, so it does a redirect
