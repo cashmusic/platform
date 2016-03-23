@@ -242,6 +242,9 @@ class Store extends ElementBase {
 			$order_details = $order_request->response['payload'];
 
 			if ($order_details) {
+				$request = new CASHRequest();
+				$request->sessionSet('store'.$this->element_id.'order' , $order_details);
+
 				if ($this->status_uid == 'element_redeemcode_200') {
 					if ($_GET['email'] == $order_details['customer_details']['email_address']) {
 						$verified = true;
@@ -340,17 +343,12 @@ class Store extends ElementBase {
 			if ($_REQUEST['state'] == 'success') {
 				if ($this->unlocked) {
 					$this->lock();
-					$order_request = new CASHRequest(
-						array(
-							'cash_request_type' => 'commerce',
-							'cash_action' => 'getorder',
-							'id' => $this->element_data['order_id'],
-							'deep' => true
-						)
-					);
-					$order_details = $order_request->response['payload'];
+
+					$request = new CASHRequest();
+					$order_details = $request->sessionGet('store'.$this->element_id.'order');
 
 					if ($order_details) {
+						$this->element_data['order_id'] = $order_details['id'];
 						$order_contents = json_decode($order_details['order_contents'],true);
 						$this->element_data['has_physical'] = false;
 						$this->element_data['item_subtotal'] = 0;
