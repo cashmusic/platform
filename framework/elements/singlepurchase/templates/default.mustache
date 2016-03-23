@@ -122,6 +122,7 @@
             f.cash_request_type.value = 'commerce';
             f.cash_action.value = 'initiatecheckout';
             f.element_id.value = {{element_id}};
+            f.total_price.value = parseFloat(button.getAttribute('data-price'));
             f.origin.value = top.location.href;
             f.email_address.value = payment.detail.email;
             f.customer_name.value = payment.detail.name;
@@ -143,8 +144,6 @@
                         initiatePayment(f);
                      }
                   );
-               } else {
-                  initiatePayment(f);
                }
             } else {
                initiatePayment(f);
