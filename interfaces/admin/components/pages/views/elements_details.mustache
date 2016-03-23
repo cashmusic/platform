@@ -51,7 +51,7 @@
 
 					<code><div class="codearea" contenteditable="true">&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;</div></code>
 
-					<a href="{{www_path}}/elements/preview/{{id}}" class="preview lightboxed">{{copy_preview_element}}</a>
+
 				</div><!--embedding-->
 			</div><!--pure-->
 
@@ -61,6 +61,9 @@
 
 					<label for="template_id">{{label_embed_style}}</label>
 					<select id="change_template_id" name="change_template_id">{{{template_options}}}</select>
+
+						<a href="{{www_path}}/elements/preview/{{id}}" class="preview lightboxed button right">{{copy_preview_element}}</a>
+
 					<div class="switchblock"
 						data-watch="#change_template_id"
 						data-default="{{#custom_template}}#editbutton{{/custom_template}}{{^custom_template}}#changestyle{{/custom_template}}"
