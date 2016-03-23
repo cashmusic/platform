@@ -1618,7 +1618,7 @@ class CommercePlant extends PlantBase {
                         //TODO: what happens when order receipt not sent?
                     }
 
-                    return true;
+                    return $order_id;
 
                 } else {
                     $this->setErrorMessage("Couldn't find your account.");

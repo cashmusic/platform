@@ -296,7 +296,7 @@
 			f.cash_request_type.value = 'commerce';
 			f.cash_action.value = 'initiatecheckout';
 			f.element_id.value = {{element_id}};
-			f.origin.value = top.location.href;
+			f.origin.value = payment.detail.origin;
 			f.email_address.value = payment.detail.email;
 			f.customer_name.value = payment.detail.name;
 			if (payment.detail.paypal) {
