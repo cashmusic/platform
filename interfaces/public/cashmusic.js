@@ -87,25 +87,29 @@
 
 				// using messages passed between the request and this script to resize the iframe
 				cm.events.add(window,'message',function(e) {
-					// make sure the message comes from our embeds (via origin whitelist)
+					// make sure the message comes from our embeds OR the main embedding cashmusic.js instance (via origin whitelist)
 					if (cm.embeds.whitelist.indexOf(e.origin) !== -1) {
 						cm._handleMessage(e);
 					}
 				});
 
-				// add current domain to whitelist for postmesage calls (regardless of embed or no)
-				cm.embeds.whitelist = cm.embeds.whitelist + window.location.href.split('/').slice(0,3).join('/');
-
 				// look for GET string, parse that shit if we can
-				if (window.location.search) {
-					cm.get['qs'] =  window.location.search.substring(1);
+				cm.get['qs'] =  window.location.search.substring(1);
+				cm.get['params'] = false;
+				if (cm.get['qs']) {
 					cm.get['params'] = {};
 					var t;
 					var q = cm.get['qs'].split("&");
 					for (var i = 0; i < q.length; i++) {
 						t = q[i].split('=');
-						cm.get['params'][t[0]] = t[1];
+						cm.get['params'][t[0]] = decodeURIComponent(t[1]);
 					}
+				}
+
+				// add current domain to whitelist for postmesage calls (regardless of embed or no)
+				cm.embeds.whitelist += window.location.href.split('/').slice(0,3).join('/');
+				if (cm.get['params']['location']) {
+					cm.embeds.whitelist += cm.get['params']['location'].split('/').slice(0,3).join('/');
 				}
 
 				if (cm.embedded) {
@@ -422,7 +426,7 @@
 				if (querystring) {
 					embedURL += '&' + querystring;
 				}
-				if (cm.get['params'] && !cm.get['params']['lightbox']) {
+				if (cm.get['params'] && !cm.get['params']['lightbox']) { // TODO: check this line
 					if (cm.get['params']['element_id'] == id) {
 						embedURL += '&' + cm.get['qs'];
 					}

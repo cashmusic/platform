@@ -489,7 +489,8 @@
 					'shipping' :false,
 					'currency' :false,
 					'name'     :false,
-					'email'    :false
+					'email'    :false,
+					'origin'   :window.location
 				};
 				// detect SSL for stripe
 				if (location.protocol !== 'https:' && options.testing !== true) {

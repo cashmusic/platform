@@ -123,7 +123,7 @@
             f.cash_action.value = 'initiatecheckout';
             f.element_id.value = {{element_id}};
             f.total_price.value = parseFloat(button.getAttribute('data-price'));
-            f.origin.value = top.location.href;
+            f.origin.value = payment.detail.origin;
             f.email_address.value = payment.detail.email;
             f.customer_name.value = payment.detail.name;
             if (payment.detail.paypal) {
@@ -157,6 +157,7 @@
 				'{{public_url}}/request/payload',
 				cm.ajax.encodeForm(f),
 				function(details) {
+               console.log(details);
 					if (details.substring(0,4) == 'http') {
 						top.location.href = details;
 					} else if (details == 'success') {
