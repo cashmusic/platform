@@ -338,7 +338,7 @@ if (is_array($orders_response['payload'])) {
 	}
 }
 
-
+$cash_admin->page_data['has_orders'] = $orders_response['payload'];
 
 /*******************************************************************************
  *
