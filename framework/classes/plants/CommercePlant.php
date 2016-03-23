@@ -825,9 +825,6 @@ class CommercePlant extends PlantBase {
         $user_id=false,
         $data=''
     ) {
-        if ($order_contents) {
-            $order_contents = json_encode($order_contents);
-        }
         $final_edits = array_filter(
             array(
                 'transaction_id' => $transaction_id,
@@ -843,6 +840,12 @@ class CommercePlant extends PlantBase {
             ),
             'CASHSystem::notExplicitFalse'
         );
+        if (isset($final_edits['order_contents'])) {
+            $final_edits['order_contents'] = json_encode($order_contents);
+        }
+        if (isset($final_edits['data'])) {
+            $final_edits['data'] = json_encode($data);
+        }
         $condition = array(
             "id" => array(
                 "condition" => "=",
