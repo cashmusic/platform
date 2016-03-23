@@ -253,12 +253,21 @@
 						cm.session.setid(md);
 						break;
 					case 'begincheckout':
+						var target = e.source;
+						if (md.target) {
+							for (var i = 0; i < cm.embeds.all.length; i++) {
+								if (cm.embeds.all[i].id == md.target) {
+									target = cm.embeds.all[i].el.contentWindow;
+									break;
+								}
+							}
+						}
 						if (!cm.checkout) {
 							cm.loadScript(cm.path+'checkout/checkout.js', function() {
-								cm.checkout.begin(md,e.source);
+								cm.checkout.begin(md,target);
 							});
 						} else {
-							cm.checkout.begin(md,e.source);
+							cm.checkout.begin(md,target);
 						}
 						break;
 				}
@@ -413,7 +422,7 @@
 				if (querystring) {
 					embedURL += '&' + querystring;
 				}
-				if (cm.get['params'] && querystring.indexOf('lightbox=1') === -1) {
+				if (cm.get['params'] && !cm.get['params']['lightbox']) {
 					if (cm.get['params']['element_id'] == id) {
 						embedURL += '&' + cm.get['qs'];
 					}
@@ -760,7 +769,7 @@
 				// added the fourth "source" parameter
 				fire: function(obj,type,data,source) {
 					var cm = window.cashmusic;
-					if (typeof source !== 'undefined') {
+					if (source) {
 						// source window found, so push to it via postMessage
 						source.postMessage(JSON.stringify({
 							'type': type,

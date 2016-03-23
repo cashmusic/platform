@@ -122,7 +122,6 @@
             f.cash_request_type.value = 'commerce';
             f.cash_action.value = 'initiatecheckout';
             f.element_id.value = {{element_id}};
-            f.total_price.value = parseFloat(button.getAttribute('data-price'));
             f.origin.value = top.location.href;
             f.email_address.value = payment.detail.email;
             f.customer_name.value = payment.detail.name;
@@ -136,29 +135,19 @@
             // add shipping to form
             if (payment.detail.shipping) {
                f.shipping_info.value = JSON.stringify(payment.detail.shipping);
-               var shipping = 0;
-               if (payment.detail.shipping['shipping-region'] == "r1") {
-                  shipping = {{region1_cost}};
-               }
-               if (payment.detail.shipping['shipping-region'] == "r2") {
-                  shipping = {{region2_cost}};
-               }
-               if (shipping > 0) {
-                  shipping = parseFloat(shipping);
-                  f.shipping_price.value = shipping;
-                  f.total_price.value = shipping + f.total_price.value;
-               }
                if (payment.detail.shipping['shipping-region']) {
                   var requesturl = '{{api_url}}/verbose/commerce/editcartshipping/region/' + payment.detail.shipping['shipping-region'] + '/';
                   requesturl += '?ts=' + new Date().getTime();
                   cm.ajax.send(requesturl, false,
                      function() {
-                        initiatePayment(f)
+                        initiatePayment(f);
                      }
                   );
+               } else {
+                  initiatePayment(f);
                }
             } else {
-               initiatePayment(f)
+               initiatePayment(f);
             }
          });
 		}
@@ -281,15 +270,9 @@
 			}
 		}
 
-
-
-
       {{#showsuccess}}
          cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"success"});
       {{/showsuccess}}
-
-
-
 	});
 }());
 </script>

@@ -247,10 +247,17 @@ class SinglePurchase extends ElementBase {
 			// minimum price. what a heel.
 			$this->element_data['error_message'] = 'Make sure you enter a price of at least ' . $this->element_data['currency'] . $item['price'] . ' and try again.';
 		} elseif ($this->status_uid == 'commerce_finalizepayment_400' || $this->status_uid == 'element_redeemcode_400') {
-			// payerid is specific to paypal, so this is temporary to tell between canceled and errored:
-			if (isset($_GET['PayerID'])) {
-				//$this->element_data['error_message'] = $this->options['message_error'];
-				$this->element_data['error_message'] = print_r($this->original_response,true);
+			if ($this->unlocked) {
+				// If we're seeing a payment error AND the element is unlocked it means the payment was
+				// processed in the top window and we're in an embed. This will show up as a success AND
+				// re-lock the element on success template display.
+				$this->element_data['showsuccess'] = true;
+			} else {
+				// payerid is specific to paypal, so this is temporary to tell between canceled and errored:
+				if (isset($_GET['PayerID'])) {
+					//$this->element_data['error_message'] = $this->options['message_error'];
+					$this->element_data['error_message'] = print_r($this->original_response,true);
+				}
 			}
 		} elseif (isset($_REQUEST['state'])) {
 			if ($_REQUEST['state'] == 'success') {

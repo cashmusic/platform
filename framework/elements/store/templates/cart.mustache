@@ -52,6 +52,22 @@
 <script type="text/javascript">
 	var cm = window.cashmusic;
 
+	// get stripe public key
+	{{#stripe_public_key}}
+		var stripe_public_key = "{{stripe_public_key}}";
+	{{/stripe_public_key}}
+	{{^stripe_public_key}}
+		var stripe_public_key = false;
+	{{/stripe_public_key}}
+
+	// we like paypal?
+	{{#paypal_connection}}
+		var paypal = true;
+	{{/paypal_connection}}
+	{{^paypal_connection}}
+		var paypal = false;
+	{{/paypal_connection}}
+
 	function recount() {
 		var qtys = document.querySelectorAll('input.cm-qty');
 		if (qtys.length > 0) {
@@ -110,25 +126,6 @@
 					li.parentNode.removeChild(li);
 				}
 				recount();
-			}
-		);
-	}
-
-	function initiateCheckout() {
-		// send the request through
-		var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
-		var poststring = 'cash_request_type=commerce&cash_action=initiatecheckout&element_id={{element_id}}&url_only=1';
-		if (cm.get['params']['location']) {
-			poststring += '&finalize_url='+decodeURIComponent(cm.get['params']['location'].split('?')[0])
-		}
-		submitUrl += '?ts=' + new Date().getTime();
-		window.cashmusic.ajax.send(
-			submitUrl,
-			poststring,
-			function(thereply) {
-				if (thereply.substring(0,4) == 'http') {
-					top.location.href = thereply;
-				}
 			}
 		);
 	}
@@ -201,53 +198,33 @@
 
 		var checkouts = document.querySelectorAll('a.cm-checkout');
 		if (checkouts.length > 0) {
+			var opt = {
+				"stripe": stripe_public_key,
+				"paypal": paypal,
+				"currency": "{{currency}}",
+				"target": {{element_id}},
+				"testing": true
+			};
 			for (var i = 0, len = checkouts.length; i < len; i++) {
 				cm.events.add(checkouts[i],'click', function(e) {
-					{{^has_physical}}
-						if (!checkingout) {
-							checkingout = true;
-							// add a style to the button as a visual indicator we're working on things
-							cm.styles.addClass(this,'cm-busy');
-							// now send the request through
-							var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
-							var poststring = 'cash_request_type=commerce&cash_action=initiatecheckout&element_id={{element_id}}&url_only=1';
-							if (cm.get['params']['location']) {
-								poststring += '&finalize_url='+decodeURIComponent(cm.get['params']['location'].split('?')[0])
+					cm.loadScript(cm.path + 'checkout/checkout.js', function () {
+						cm.checkout.prep();
+						{{^has_physical}}
+							opt.shipping = false;
+						{{/has_physical}}
+						{{#has_physical}}
+							var region = document.querySelector('select.cm-region').value;
+							if (region == '' && !this.getAttribute('data-region')) {
+								opt.shipping = {
+									"r1": "{{region1}} (${{shippingr1}})",
+									"r2": "{{region2}} (${{shippingr2}})"
+								};
+							} else {
+								opt.shipping = true;
 							}
-							submitUrl += '?ts=' + new Date().getTime();
-							window.cashmusic.ajax.send(
-								submitUrl,
-								poststring,
-								function(thereply) {
-									if (thereply.substring(0,4) == 'http') {
-										top.location.href = thereply;
-									}
-								}
-							);
-						}
-					{{/has_physical}}
-					{{#has_physical}}
-						var region = document.querySelector('select.cm-region').value;
-						if (region == '' && !this.getAttribute('data-region')) {
-							document.getElementById('checkoutprimary').style.display = 'none';
-							document.getElementById('checkouttbd').style.display = 'block';
-						} else {
-							if (!checkingout) {
-								checkingout = true;
-								// add a style to the button as a visual indicator we're working on things
-								cm.styles.addClass(this,'cm-busy');
-								if (region != 'r1' && region != 'r2') {
-									var requesturl = '{{api_url}}/verbose/commerce/editcartshipping/region/' + this.getAttribute('data-region') + '/';
-									requesturl += '?ts=' + new Date().getTime();
-									cm.ajax.send(requesturl, false,function() {
-										initiateCheckout();
-									});
-								} else {
-									initiateCheckout();
-								}
-							}
-						}
-					{{/has_physical}}
+						{{/has_physical}}
+						cm.checkout.begin(opt);
+					});
 					e.preventDefault();
 					return false;
 				});
