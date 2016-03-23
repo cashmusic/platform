@@ -241,6 +241,8 @@ class Store extends ElementBase {
 			);
 			$order_details = $order_request->response['payload'];
 
+			error_log('order#: ' . $this->element_data['order_id']);
+
 			if ($order_details) {
 				$request = new CASHRequest();
 				$request->sessionSet('store'.$this->element_id.'order' , $order_details);
