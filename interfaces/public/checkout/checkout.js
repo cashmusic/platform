@@ -490,7 +490,7 @@
 					'currency' :false,
 					'name'     :false,
 					'email'    :false,
-					'origin'   :window.location
+					'origin'   :window.location.href
 				};
 				// detect SSL for stripe
 				if (location.protocol !== 'https:' && options.testing !== true) {

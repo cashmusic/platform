@@ -157,7 +157,6 @@
 				'{{public_url}}/request/payload',
 				cm.ajax.encodeForm(f),
 				function(details) {
-               console.log(details);
 					if (details.substring(0,4) == 'http') {
 						top.location.href = details;
 					} else if (details == 'success') {
