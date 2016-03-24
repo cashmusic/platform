@@ -186,6 +186,11 @@ class Store extends ElementBase {
 		$this->element_data['items'] = new ArrayIterator($unfeatured_items);
 		$this->element_data['features'] = new ArrayIterator($featured_items);
 
+		$this->element_data['total_features'] = count($featured_items);
+		if ($this->element_data['total_features'] > 3) {
+			$this->element_data['total_features'] = many;
+		}
+
 		// get currency info for element owner
 		$currency_request = new CASHRequest(
 			array(
@@ -240,7 +245,7 @@ class Store extends ElementBase {
 				)
 			);
 			$order_details = $order_request->response['payload'];
-			
+
 			if ($order_details) {
 				$request = new CASHRequest();
 				$request->sessionSet('store'.$this->element_id.'order' , $order_details);
