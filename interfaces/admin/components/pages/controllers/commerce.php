@@ -255,6 +255,7 @@ if (!$cash_admin->page_data['connection']) {
  * 6. CLEAN UP ORDERS
  *
  ******************************************************************************/
+
 if (is_array($orders_response['payload'])) {
 	$all_order_details = array();
 	foreach ($orders_response['payload'] as $o) {
@@ -324,7 +325,13 @@ if (is_array($orders_response['payload'])) {
 		}
 	}
 
+
+
+	$cash_admin->page_data['has_orders'] = false;
+
+
 	if (count($all_order_details) > 0) {
+	$cash_admin->page_data['has_orders'] = true;
 		if (count($all_order_details) > 10) {
 			$cash_admin->page_data['show_pagination'] = true;
 			$cash_admin->page_data['show_next'] = true;
@@ -335,10 +342,9 @@ if (is_array($orders_response['payload'])) {
 		}
 		$cash_admin->page_data['orders_recent'] = new ArrayIterator($all_order_details);
 		$cash_admin->page_data['show_filters'] = true;
+		$cash_admin->page_data['has_orders'] = true;
 	}
 }
-
-
 
 /*******************************************************************************
  *

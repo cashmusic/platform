@@ -29,7 +29,7 @@
 {{  ************************************************************************* }}
     <header>
         <div class="pure-u-1 pure-u-md-1-2">
-            <h4>{{copy_orders}}</h4>
+            <h4>{{^has_orders}}Commerce Settings{{/has_orders}}{{#has_orders}}{{copy_orders}}{{/has_orders}}</h4>
         </div><!--pure-->
 
         {{! *************************************************************************
@@ -38,12 +38,33 @@
         {{
         {{  ********************************************************************** }}
         <div class="pure-u-1 pure-u-md-1-2">
-            <ul class="inline-subnav">
+            <!--ul class="inline-subnav">
                 <li><a {{#no_filter}}class="current" {{/no_filter}}href="{{www_path}}/commerce/">{{copy_unfulfilled}}</a></li>
                 <li><a {{#filter_week}}class="current" {{/filter_week}}href="{{www_path}}/commerce/filter/week/">{{copy_this_week}}</a></li>
                 <li><a {{#filter_all}}class="current" {{/filter_all}}href="{{www_path}}/commerce/filter/all/">{{copy_all_time}}</a></li>
-            </ul>
-        </div><!--pure-->
+            </ul-->
+            <ul class="inline-subnav right">
+                <li><a class="drawer-trigger" href="#"><span class="icon icon-wrench"></span> {{copy_view_commerce_settings}}</a></li>
+            </ul>{{#has_orders}}<div class="selecta right">
+          			<label for="order-filter">Filter orders:</label>
+          			<select  id="order-filter" class="dropdown-nav">
+                  <option value="{{www_path}}/commerce/" {{#no_filter}}selected{{/no_filter}}>{{copy_unfulfilled}}</option>
+                  <option value="{{www_path}}/commerce/filter/week/" {{#filter_week}}selected{{/filter_week}}>{{copy_this_week}}</option>
+                  <option value="{{www_path}}/commerce/filter/all/" {{#filter_all}}selected{{/filter_all}}>{{copy_all_time}}</option>
+          			</select>
+          	</div><!--selecta-->{{/has_orders}}
+
+
+            <!--div class="selecta">
+            <label for="order-filter">Filter orders:</label>
+            <select id="order-filter" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+
+                <option value="{{www_path}}/commerce/" {{#no_filter}}selected{{/no_filter}}>{{copy_unfulfilled}}</option>
+                <option value="{{www_path}}/commerce/filter/week/" {{#filter_week}}selected{{/filter_week}}>{{copy_this_week}}</option>
+                <option value="{{www_path}}/commerce/filter/all/" {{#filter_all}}selected{{/filter_all}}>{{copy_all_time}}</option>
+            </select-->
+
+        </div>
     </header>
 
     <div class="pure-u-1">
@@ -150,9 +171,7 @@
         {{! **********************************************************************
         {{
         {{  MESSAGE IF NO ORDERS ARE PRESENT THAT MATCH THE FILTER }}
-            <div class="empty">
-                <p>{{copy_sorry_no_orders}}</p>
-            </div><!--empty-->
+
         {{/orders_recent}}
 
         {{! **********************************************************************
@@ -160,59 +179,72 @@
         {{  SECTION SETTINGS PANEL
         {{
         {{  ******************************************************************* }}
-        <div class="drawer prefpanel pure-u-1">
+        <div id="settings-drawer" class="drawer prefpanel multipart pure-u-1 {{^orders_recent}}open{{/orders_recent}}">
             <div class="itemnav pure-u-1">
-                <h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>{{copy_commerce_settings}}</span></h4>
+                <h4 class="drawerhandle title"><div class="icon icon-wrench"></div><!--icon--><span>{{copy_commerce_settings}}</span></h4>
+                <ul class="page-settings-tabs">
+                    <li>Sales settings</li>
+                    <li>{{copy_shipping_regions}}</li>
+                </ul>
                 <div class="drawercontent">
                     {{^show_beta}}
-                        <div class="pure-u-1 pure-u-md-1-2">
+                        <div class="pure-u-1">
                             <div class="pref-inner">
                                 <h5>{{copy_primary_currency}}</h5>
                                 <form accept-charset="UTF-8" method="post" class="returntocurrentroute" action="{{www_path}}/commerce/">
-                                    <div class="pure-u-">
+                                    <div class="pure-u-1">
                                         <select id="currency_id" name="currency_id">{{{currency_options}}}</select>
                                         <button class="fullwidth" type="submit">{{copy_use_this_currency}}</button>
-                                    </div>
+                                    </div><!--pure-->
                                 </form>
                             </div><!--pref-inner-->
                         </div><!--pure-->
                     {{/show_beta}}
 
                     {{#show_beta}}
-                        <div class="pure-u-1 pure-u-md-1-2">
                             <div class="pref-inner">
                                 <h5>Sales settings</h5>
                                 <form accept-charset="UTF-8" method="post" class="returntocurrentroute" action="{{www_path}}/commerce/">
-                                    <div class="pure-u-">
+                                    <div class="pure-u-1 pure-u-md-1-2">
                                         <label for="currency_id">{{label_primary_currency}}</label>
                                         <select id="currency_id" name="currency_id">{{{currency_options}}}</select>
+                                    </div><!--pure-->
+                                    <div class="pure-u-1 pure-u-md-1-2">
                                         <label for="paypal_default_id">{{label_default_paypal}}</label>
                                         <select id="paypal_default_id" name="paypal_default_id">{{{paypal_default_options}}}</select>
+                                    </div><!--pure-->
+                                    <div class="pure-u-1 pure-u-md-1-2">
                                         <label for="paypal_micropayment_id">{{label_micropayment_paypal}}</label>
                                         <select id="paypal_micropayment_id" name="paypal_micropayment_id">{{{paypal_micro_options}}}</select>
+                                    </div><!--pure-->
+                                    <div class="pure-u-1 pure-u-md-1-2">
                                         <label for="stripe_default">{{label_default_stripe}}</label>
                                         <select id="stripe_default" name="stripe_default">{{{stripe_options}}}</select>
-                                        <button class="fullwidth" type="submit">{{copy_save_sales_settings}}</button>
-                                    </div>
-                                </form>
+                                    </div><!--pure-->
+                                    <br />
+                                    <button type="submit">{{copy_save_sales_settings}}</button>
+                                  </form>
                             </div><!--pref-inner-->
-                        </div><!--pure-->
-                        <div class="pure-u-1 pure-u-md-1-2">
+
+                        <div class="pure-u-1">
                             <div class="pref-inner">
                                 <h5>{{copy_shipping_regions}}</h5>
                                 <form accept-charset="UTF-8" method="post" class="returntocurrentroute" action="{{www_path}}/commerce/">
-                                    <div class="pure-u-1">
+                                    <div class="pure-u-1 pure-u-md-1-2">
                                         <label for="region1">{{label_region_1}}</label>
                                         <input type="text" id="region1" name="region1" value="{{region1}}" placeholder="US" class="required" />
+                                    </div><!--pure-->
+                                    <div class="pure-u-1 pure-u-md-1-2">
                                         <label for="region2">{{label_region_2}}</label>
                                         <input type="text" id="region2" name="region2" value="{{region2}}" placeholder="Rest of world" class="required" />
-                                        <button class="fullwidth" type="submit">{{copy_button_set_shipping_regions}}</button>
-                                    </div>
+                                    </div><!--pure-->
+                                    <br />
+                                    <button type="submit">{{copy_button_set_shipping_regions}}</button>
+                                    </div><!--pref-inner-->
                                 </form>
-                            </div><!--pref-inner-->
                         </div><!--pure-->
                     {{/show_beta}}
-                </div><!--draercontent-->
+                </div><!--drawercontent-->
             </div><!--itemnav-->
         </div><!--drawer prefpanel-->
 

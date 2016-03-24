@@ -16,6 +16,7 @@ class Store extends ElementBase {
 	public $name = 'Store';
 
 	public function getData() {
+		$this->element_data['element_id'] = $this->element_id;
 		$this->element_data['public_url'] = CASH_PUBLIC_URL;
 		$item_request = new CASHRequest(
 			array(
@@ -32,6 +33,17 @@ class Store extends ElementBase {
 				$item['is_available'] = true;
 			} else {
 				$item['is_available'] = false;
+			}
+			if ($item['descriptive_asset']) {
+				$item_image_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'asset',
+						'cash_action' => 'getpublicurl',
+						'id' => $item['descriptive_asset'],
+						'user_id' => $this->element_data['user_id']
+					)
+				);
+				$item['image_url'] = $item_image_request->response['payload'];
 			}
 			if ($item['variants']) {
 				$item['json_keys'] = (bool) json_decode($item['variants']['quantities'][0]['key']);
@@ -110,6 +122,30 @@ class Store extends ElementBase {
 			$indexed_items[$item['id']] = $item;
 		}
 
+		// payment connection settings
+		$this->element_data['paypal_connection'] = false;
+		$this->element_data['stripe_public_key'] = false;
+		$settings_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system',
+				'cash_action' => 'getsettings',
+				'type' => 'payment_defaults',
+				'user_id' => $this->element_data['user_id']
+			)
+		);
+		if (is_array($settings_request->response['payload'])) {
+			if ($settings_request->response['payload']['pp_default'] || $settings_request->response['payload']['pp_micro']) {
+				$this->element_data['paypal_connection'] = true;
+			}
+			if (isset($settings_request->response['payload']['stripe_default'])) {
+				if ($settings_request->response['payload']['stripe_default']) {
+					$payment_seed = new StripeSeed($this->element_data['user_id'],$settings_request->response['payload']['stripe_default']);
+					if (!empty($payment_seed->publishable_key)) {
+						$this->element_data['stripe_public_key'] = $payment_seed->publishable_key;
+					}
+				}
+			}
+		}
 
 		$cart_request = new CASHRequest(
 			array(
@@ -204,67 +240,33 @@ class Store extends ElementBase {
 				)
 			);
 			$order_details = $order_request->response['payload'];
-
+			
 			if ($order_details) {
+				$request = new CASHRequest();
+				$request->sessionSet('store'.$this->element_id.'order' , $order_details);
+
 				if ($this->status_uid == 'element_redeemcode_200') {
 					if ($_GET['email'] == $order_details['customer_details']['email_address']) {
 						$verified = true;
 					}
 				}
 				if ($verified) {
-					$order_contents = json_decode($order_details['order_contents'],true);
-					$this->element_data['has_physical'] = false;
-					$this->element_data['item_subtotal'] = 0;
-					foreach ($order_contents as &$i) {
-						$i['total_price'] = number_format($i['qty'] * $i['price'],2);
-						$this->element_data['item_subtotal'] += $i['total_price'];
-						if ($i['fulfillment_asset'] != 0) {
-							$fulfillment_request = new CASHRequest(
-								array(
-									'cash_request_type' => 'asset',
-									'cash_action' => 'getfulfillmentassets',
-									'asset_details' => $i['fulfillment_asset']
-								)
-							);
-							if ($fulfillment_request->response['payload']) {
-								$i['digital_fulfillment_details'] = new ArrayIterator($fulfillment_request->response['payload']);
-							}
-						}
-						if (!$this->element_data['has_physical'] && $i['physical_fulfillment']) {
-							$this->element_data['has_physical'] = true;
-						}
-						if ($i['variant']) {
-							$variant_request = new CASHRequest(
-								array(
-									'cash_request_type' => 'commerce',
-									'cash_action' => 'getitemvariants',
-									'item_id' => $i['id']
-								)
-							);
-							if ($variant_request->response['payload']) {
-								if (is_array($variant_request->response['payload'])) {
-									foreach ($variant_request->response['payload']['quantities'] as $v) {
-										if ($v['key'] == $i['variant']) {
-											$i['variant_name'] = $v['formatted_name'];
-											break;
-										}
-									}
-								}
-							}
-						}
-					}
-					$this->element_data['shipping_subtotal'] =  number_format($order_details['gross_price'] - $this->element_data['item_subtotal'],2);
-					$this->element_data['item_subtotal'] = number_format($this->element_data['item_subtotal'],2);
-					$this->element_data['total'] = number_format($order_details['gross_price'],2);
-					$this->element_data['order_contents'] = $order_contents;
-					$this->setTemplate('success');
+					$this->unlock();
+					$this->element_data['showsuccess'] = true;
 				}
 			}
 		} elseif ($this->status_uid == 'commerce_finalizepayment_400' || $this->status_uid == 'element_redeemcode_400') {
-			// payerid is specific to paypal, so this is temporary to tell between canceled and errored:
-			if (isset($_GET['PayerID'])) {
-				//$this->element_data['error_message'] = $this->options['message_error'];
-				$this->element_data['error_message'] = print_r($this->original_response,true);
+			if ($this->unlocked) {
+				// If we're seeing a payment error AND the element is unlocked it means the payment was
+				// processed in the top window and we're in an embed. This will show up as a success AND
+				// re-lock the element on success template display.
+				$this->element_data['showsuccess'] = true;
+			} else {
+				// payerid is specific to paypal, so this is temporary to tell between canceled and errored:
+				if (isset($_GET['PayerID'])) {
+					//$this->element_data['error_message'] = $this->options['message_error'];
+					$this->element_data['error_message'] = print_r($this->original_response,true);
+				}
 			}
 		} elseif (isset($_REQUEST['state'])) {
 			if ($_REQUEST['state'] == 'cart') {
@@ -337,6 +339,64 @@ class Store extends ElementBase {
 				$this->element_data['shippingr2'] =  number_format($shippingr2,2);
 				$this->element_data['total'] =  number_format($subtotal+$shipping,2);;
 				$this->setTemplate('cart');
+			}
+			if ($_REQUEST['state'] == 'success') {
+				if ($this->unlocked) {
+					$this->lock();
+
+					$request = new CASHRequest();
+					$order_details = $request->sessionGet('store'.$this->element_id.'order');
+
+					if ($order_details) {
+						$this->element_data['order_id'] = $order_details['id'];
+						$order_contents = json_decode($order_details['order_contents'],true);
+						$this->element_data['has_physical'] = false;
+						$this->element_data['item_subtotal'] = 0;
+						foreach ($order_contents as &$i) {
+							$i['total_price'] = number_format($i['qty'] * $i['price'],2);
+							$this->element_data['item_subtotal'] += $i['total_price'];
+							if ($i['fulfillment_asset'] != 0) {
+								$fulfillment_request = new CASHRequest(
+									array(
+										'cash_request_type' => 'asset',
+										'cash_action' => 'getfulfillmentassets',
+										'asset_details' => $i['fulfillment_asset']
+									)
+								);
+								if ($fulfillment_request->response['payload']) {
+									$i['digital_fulfillment_details'] = new ArrayIterator($fulfillment_request->response['payload']);
+								}
+							}
+							if (!$this->element_data['has_physical'] && $i['physical_fulfillment']) {
+								$this->element_data['has_physical'] = true;
+							}
+							if ($i['variant']) {
+								$variant_request = new CASHRequest(
+									array(
+										'cash_request_type' => 'commerce',
+										'cash_action' => 'getitemvariants',
+										'item_id' => $i['id']
+									)
+								);
+								if ($variant_request->response['payload']) {
+									if (is_array($variant_request->response['payload'])) {
+										foreach ($variant_request->response['payload']['quantities'] as $v) {
+											if ($v['key'] == $i['variant']) {
+												$i['variant_name'] = $v['formatted_name'];
+												break;
+											}
+										}
+									}
+								}
+							}
+						}
+						$this->element_data['shipping_subtotal'] =  number_format($order_details['gross_price'] - $this->element_data['item_subtotal'],2);
+						$this->element_data['item_subtotal'] = number_format($this->element_data['item_subtotal'],2);
+						$this->element_data['total'] = number_format($order_details['gross_price'],2);
+						$this->element_data['order_contents'] = $order_contents;
+						$this->setTemplate('success');
+					}
+				}
 			}
 		}
 		return $this->element_data;

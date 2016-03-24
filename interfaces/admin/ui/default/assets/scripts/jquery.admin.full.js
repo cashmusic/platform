@@ -214,6 +214,9 @@ jQuery.fn.extend({
          formdata = formdata+'&';
       }
 
+      //reset tertiary dropdown navigation
+      $("#panel-filter").val('learn').attr('selected','selected');
+
       // remove any dialogs
       $('.modallightbox').fadeOut('fast', function() {
          $('.modallightbox').remove();
@@ -499,25 +502,28 @@ jQuery.fn.extend({
          $('#helppanel .tertiarynav li a').removeClass('current');
          $('#helppanel .tertiarynav li a:first').addClass('current');
       });
-      /* Help FAQs Panel */
-      $(document).on('click', '#helppanel .tertiarynav li .faqs', function(e) {
-         $('body').removeClass('settings').removeClass('learn');
-         $('#helppanel .tertiarynav li a').removeClass('current');
-         refreshPanelData(cashAdminPath + '/help/');
-         $(this).addClass('current');
-      });
-      /* Help - FAQ Clicks */
-      $(document).on('click', '#helppanel .faq', function(e) {
-         $('#helppanel .tertiarynav li .faqs').addClass('current');
-      });
-      /* Help - Learn Content */
-      $(document).on('click', '#helppanel .tertiarynav li .learn', function(e) {
-         $ (this).parents('body').addClass('learn')
-         $('#helppanel .tertiarynav li a').removeClass('current');
-         refreshPanelData();
-         $(this).addClass('current');
-      });
 
+      $(document).on('change', '#panel-filter', function(e) {
+        /* Help FAQs Panel */
+        if ($("option:selected", this).attr('value') == 'faqs' ){
+        $("#panel-filter").val('faqs').attr('selected','selected');
+         $('body').removeClass('settings').removeClass('learn');
+         refreshPanelData(cashAdminPath + '/help/');
+         /* Help - Learn Content */
+       } else if ($("option:selected", this).attr('value') == 'learn' ){
+         $("#panel-filter").val('learn').attr('selected','selected');
+         $ (this).parents('body').addClass('learn')
+         refreshPanelData();
+         /* Help - Launch Tour */
+       } else if ($("option:selected", this).attr('value') == 'tour' ){
+         closePanel();
+         doModalLightbox($("option:selected", this).attr('href'));
+         $('body').addClass('page-editor');
+         /* Help - External Links */
+       } else if ($("option:selected", this).attr('value').substring(0,7) == 'http://' ){
+         window.open(this.value,'_blank');
+       }
+      });
 
       // swipe hint hide on click
       $(document).on('click', '.swipehint', function (e) {
@@ -705,6 +711,21 @@ jQuery.fn.extend({
    **/
 
    function ajaxPageBehaviors() {
+
+     // dropdown inline navigation element behaviour
+     $(document).on('change','.dropdown-nav',function(e) {
+       var el = $(e.currentTarget);
+       if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
+          && !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
+          && !el.hasClass('noajax') && !el.parents('div').hasClass('inner')
+          && (!$('body').hasClass('store') && !$('body').hasClass('page-editor') && !el.hasClass('connection'))
+       ) {
+           e.preventDefault();
+           var url = $('option:selected').attr('value');
+           refreshPageData(url);
+       }
+    });
+
       // open local (admin) links via AJAX
       // cashAdminPath is set in the main template to the www_base of the admin
       $(document).on('click', 'a[href^="' + cashAdminPath + '"]', function(e) {
@@ -712,7 +733,7 @@ jQuery.fn.extend({
          if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey
             && !el.hasClass('lightboxed') && !el.hasClass('needsconfirmation') && !el.hasClass('showelementdetails')
             && !el.hasClass('noajax') && !el.parents('div').hasClass('inner')
-            && (!$('body').hasClass('store') && el.attr('href').indexOf('elements/add') && !$('body').hasClass('page-editor') && !el.hasClass('connection'))
+            && (!$('body').hasClass('store') && el.attr('href').indexOf('elements/add') && !$('body').hasClass('page-editor') && !el.hasClass('connection') && !el.parents('div').hasClass('.page-settings-tabs'))
          ) {
             e.preventDefault();
             var url = el.attr('href');
@@ -1328,6 +1349,12 @@ function addMultipartButtons(section) {
 */
 function prepDrawers(labelTextVisible,labelTextHidden,labelClassVisible,labelClassHidden) {
 
+   $('.drawer-trigger').on('click',function () {
+     $(document.body).animate({
+         'scrollTop':   $('#settings-drawer').offset().top
+     }, 1000);
+   });
+
    $('.drawer').each(function() {
       // minimize jQuery calls and simplify. set each element up fron in the function scope:
       var drawer, drawerHandle, drawerContent, drawerHandleLabel;
@@ -1342,18 +1369,41 @@ function prepDrawers(labelTextVisible,labelTextHidden,labelClassVisible,labelCla
          }
          drawerHandle = drawer.find('.drawerhandle');
          drawerContent = drawer.find('.drawercontent');
+         drawerNav = drawer.find('.page-settings-tabs');
+         drawerNavLink = drawer.find('.page-settings-tabs li');
+         drawerSection = drawer.find('.pref-inner');
+
          // create the label span and add necessary classes
          drawerHandleLabel = $('<span class="drawerhandleaction">' + $.data(drawer,'labelTextHidden') + ' </span>');
          if (labelClassVisible) {
             drawerHandleLabel.addClass(labelClassHidden);
          }
+
+         // Initial multipart default selection
+         if (drawer.hasClass('multipart')){
+           // on load first is selected
+           var i = 0;
+           drawerNavLink.eq(i).addClass('current');
+           drawerSection.eq(i).addClass('active');
+
+           //on click remove current & add to current
+           drawerNavLink.on('click',function () {
+             var index = drawerNavLink.index( this );
+             var i = index;
+             drawerNavLink.removeClass('current') && drawerSection.removeClass('active');
+             drawerNavLink.eq(i).addClass('current') && drawerSection.eq(i).addClass('active');
+           });
+         }
+
          // first hide the content add a label to all the drawerhandles
-         if (!drawer.hasClass('defaultopen')) {
+         if (!(drawer.hasClass ('defaultopen') || drawer.hasClass ('open'))) {
             drawerContent.hide();
          }
+
          drawerHandle.prepend(drawerHandleLabel);
          // then set up click actions on each of them
-         $(this).find('.drawerhandle').on('click',function () {
+         $(this).find('.drawerhandle').add('.drawer-trigger').on('click',function () {
+           drawer.addClass('open');
             $(this).blur();
             if (drawerContent.is(':hidden')) {
                drawerContent.slideDown(200, function () {
@@ -1362,8 +1412,18 @@ function prepDrawers(labelTextVisible,labelTextHidden,labelClassVisible,labelCla
                      drawerHandleLabel.removeClass();
                      drawerHandleLabel.addClass(labelClassVisible);
                   }
+                  if (drawer.hasClass('multipart')){
+                      drawerNavLink.eq(0).addClass('current');
+                      drawerSection.eq(0).addClass('active');
+                  }
                });
+
             } else {
+              drawer.removeClass('open');
+              if (drawer.hasClass('multipart')){
+                drawerNavLink.removeClass('current');
+                drawerSection.removeClass('active');
+              }
                drawerContent.slideUp(200, function () {
                   drawerContent.hide();
                   drawerHandleLabel.html($.data(drawer,'labelTextHidden') + ' ');

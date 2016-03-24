@@ -3,6 +3,7 @@
 <div class="cm-store featured-items">
 	{{#features}}<div class="cm-store cm-item item-{{id}} featured">
 	<div class="cm-store cm-info cm-inner">
+		{{#image_url}}<img src="{{image_url}}" alt="" />{{/image_url}}
 		<h2>{{name}}</h2>
 		<span class="cm-itemprice">{{currency}}{{price}}{{#flexible_price}} {{copy_flexibleprice_suffix}}{{/flexible_price}}</span>
 		<div class="cm-description">{{{description}}}</div>
@@ -32,6 +33,7 @@
 	<h2 class="title">Also Available</h2>
 	{{#items}}<div class="cm-store cm-item item-{{id}}">
 		<div class="cm-store cm-inner">
+		{{#image_url}}<img src="{{image_url}}" alt="" />{{/image_url}}
 		<h2>{{name}}</h2>
 		<span class="cm-itemprice">{{currency}}{{price}}{{#flexible_price}} {{copy_flexibleprice_suffix}}{{/flexible_price}}</span>
 		<div class="cm-description">{{{description}}}</div>
@@ -258,5 +260,75 @@
 				});
 			}
 		}
+
+		function initiatePayment(f) {
+			document.body.appendChild(f);
+			cm.ajax.send(
+				'{{public_url}}/request/payload',
+				cm.ajax.encodeForm(f),
+				function(details) {
+					if (details.substring(0,4) == 'http') {
+						top.location.href = details;
+					} else if (details == 'success') {
+						cm.overlay.reveal('success!');
+					} else {
+						cm.overlay.reveal('There was a problem with your payment. Please try again.');
+					}
+				},
+				function(details) {
+					cm.overlay.reveal('There was a problem with your payment. Please try again.');
+				}
+			);
+		}
+
+		cm.events.add(cm, 'checkoutdata', function (payment) {
+			var f = document.createElement('form');
+			f.method = 'post';
+			f.action = '';
+
+			var els = ['cash_request_type','cash_action','element_id','shipping_price','total_price','shipping_info','paypal','stripe','origin','email_address','customer_name'];
+			for (var i = 0, len = els.length; i < len; i++) {
+				var inp = document.createElement('input');
+				inp.type = 'hidden';
+				inp.name = els[i];
+				inp.value = '';
+				f.appendChild(inp);
+			}
+
+			f.cash_request_type.value = 'commerce';
+			f.cash_action.value = 'initiatecheckout';
+			f.element_id.value = {{element_id}};
+			f.origin.value = payment.detail.origin;
+			f.email_address.value = payment.detail.email;
+			f.customer_name.value = payment.detail.name;
+			if (payment.detail.paypal) {
+				f.paypal.value = 1;
+			}
+			if (payment.detail.stripe) {
+				f.stripe.value = payment.detail.stripe;
+			}
+
+			// add shipping to form
+			if (payment.detail.shipping) {
+				f.shipping_info.value = JSON.stringify(payment.detail.shipping);
+				if (payment.detail.shipping['shipping-region']) {
+					var requesturl = '{{api_url}}/verbose/commerce/editcartshipping/region/' + payment.detail.shipping['shipping-region'] + '/';
+					requesturl += '?ts=' + new Date().getTime();
+					cm.ajax.send(requesturl, false,
+						function() {
+							initiatePayment(f);
+						}
+					);
+				} else {
+					initiatePayment(f);
+				}
+			} else {
+				initiatePayment(f);
+			}
+		});
+
+		{{#showsuccess}}
+         cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"success"});
+      {{/showsuccess}}
 	});
 </script>

@@ -1,38 +1,17 @@
 {{! corresponding files: elements_edit.php & elements_edit.json }}
 
 <header class="page-header">
-<div class="pure-u-1 pure-u-md-2-3">
+<div class="pure-u-1 pure-u-md-13-24">
 		<a class="returnlink current" href="{{www_path}}/embeds/"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">&ldquo;{{ui_title}}&rdquo;</h4>
 </div><!--pure-->
 
-		<div class="pure-u-1 pure-u-md-1-3">
+		<div class="pure-u-1 pure-u-md-11-24">
 				<ul class="inline-subnav">
 						{{#location_analytics}}<li><a href="{{www_path}}/elements/stats/{{id}}"><span class="icon icon-search"></span> {{copy_view_detailed_statistics}}</a></li>{{#location_analytics}}
-						{{/location_analytics}}{{/location_analytics}}
+						{{/location_analytics}}{{/location_analytics}}<li><a class="drawer-trigger" href="#"><span class="icon icon-wrench"></span> {{copy_view_element_settings}}</a></li>
 				</ul>
 		</div><!--pure-->
 </header>
-
-		{{#location_analytics}}
-		<div id="snapshot">
-		<div class="pure-u-1 pure-u-md-1-3">
-			<div class="snapshot-inner">
-			<h4>{{copy_total_unique_views}}</h4>
-				<h5 class="elements totalviews">{{total_views}}</h5>
-			</div><!--snapshot-inner-->
-			</div><!--pure-->
-			<div class="pure-u-1 pure-u-md-2-3">
-				<div class="snapshot-inner">
-					<h4>{{copy_top_embed_locations}}</h4>
-					<ul>
-						{{#location_analytics}}
-							<li><a href="http://{{access_location}}" target="_blank"><span><strong>{{total}}</strong></span><span class="location">{{access_location}}</span></a></li>
-						{{/location_analytics}}
-					</ul>
-				</div><!--snapshot-inner-->
-			</div><!--pure-->
-		</div><!--snapshot-->
-		{{/location_analytics}}
 
 			{{#platform_type_single}}
 			<div class="pure-u-1">
@@ -45,13 +24,34 @@
 
 			<div class="pure-u-1">
 				<div class="embedpanel">
+
+					{{#location_analytics}}
+					<div id="snapshot">
+					<div class="pure-u-1 pure-u-md-1-3">
+						<div class="snapshot-inner">
+						<h5>{{copy_total_unique_views}}</h5>
+							<h5 class="elements totalviews">{{total_views}}</h5>
+						</div><!--snapshot-inner-->
+						</div><!--pure-->
+						<div class="pure-u-1 pure-u-md-2-3">
+							<div class="snapshot-inner">
+								<h5>{{copy_top_embed_locations}}</h5>
+								<ul>
+									{{#location_analytics}}
+										<li><a href="http://{{access_location}}" target="_blank"><span><strong>{{total}}</strong></span><span class="location">{{access_location}}</span></a></li>
+									{{/location_analytics}}
+								</ul>
+							</div><!--snapshot-inner-->
+						</div><!--pure-->
+					</div><!--snapshot-->
+					{{/location_analytics}}
 					<p class="codelabel"><strong>{{copy_html5_embed_code}}</strong> <span class="fadedtext">{{copy_embed_anywhere}}</span></p>
 
 					<a class="ql copy" title="Copy quick embed code" data-clipboard-text="&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;" ><div class="icon icon-share"></div><!--icon--></a>
 
 					<code><div class="codearea" contenteditable="true">&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;</div></code>
 
-					<a href="{{www_path}}/elements/preview/{{id}}" class="preview lightboxed">{{copy_preview_element}}</a>
+
 				</div><!--embedding-->
 			</div><!--pure-->
 
@@ -61,6 +61,9 @@
 
 					<label for="template_id">{{label_embed_style}}</label>
 					<select id="change_template_id" name="change_template_id">{{{template_options}}}</select>
+
+						<a href="{{www_path}}/elements/preview/{{id}}" class="preview lightboxed button right">{{copy_preview_element}}</a>
+
 					<div class="switchblock"
 						data-watch="#change_template_id"
 						data-default="{{#custom_template}}#editbutton{{/custom_template}}{{^custom_template}}#changestyle{{/custom_template}}"
@@ -77,9 +80,9 @@
 		</form>
 	</div><!--selecta-->
 
-<div class="drawer prefpanel pure-u-1">
+<div id="settings-drawer" class="drawer prefpanel pure-u-1">
 	<div class="itemnav pure-u-1">
-	<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>{{copy_element_settings}}</span></h4>
+	<h4 class="drawerhandle title"><div class="icon icon-wrench"></div><!--icon--><span>{{copy_element_settings}}</span></h4>
 	<div class="drawercontent">
 		<div class="pure-u-1">
 			{{{element_rendered_content}}}

@@ -77,7 +77,12 @@
 		{{/elements_for_campaign}}
 	</ul>
 	{{/elements_for_campaign}}
-</div><!--elements-->
+</div><!--campiagn-elements-->
+
+	{{^elements_for_campaign}}
+	<div class="empty"><p>{{copy_no_elements_in_campaign}}</p></div>
+	{{/elements_for_campaign}}
+
 {{/selected_campaign}}
 
 {{^has_campaigns}}

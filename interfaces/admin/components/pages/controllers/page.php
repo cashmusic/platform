@@ -59,6 +59,7 @@ if ($cash_admin->page_data['primary_template_id']) {
  * 2. HANDLE PUBLISH / UNPUBLISH
  *
  ******************************************************************************/
+$action = false;
 if ($request_parameters) {
 	$action = $request_parameters[0];
 }

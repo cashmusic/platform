@@ -87,25 +87,29 @@
 
 				// using messages passed between the request and this script to resize the iframe
 				cm.events.add(window,'message',function(e) {
-					// make sure the message comes from our embeds (via origin whitelist)
+					// make sure the message comes from our embeds OR the main embedding cashmusic.js instance (via origin whitelist)
 					if (cm.embeds.whitelist.indexOf(e.origin) !== -1) {
 						cm._handleMessage(e);
 					}
 				});
 
-				// add current domain to whitelist for postmesage calls (regardless of embed or no)
-				cm.embeds.whitelist = cm.embeds.whitelist + window.location.href.split('/').slice(0,3).join('/');
-
 				// look for GET string, parse that shit if we can
-				if (window.location.search) {
-					cm.get['qs'] =  window.location.search.substring(1);
+				cm.get['qs'] =  window.location.search.substring(1);
+				cm.get['params'] = false;
+				if (cm.get['qs']) {
 					cm.get['params'] = {};
 					var t;
 					var q = cm.get['qs'].split("&");
 					for (var i = 0; i < q.length; i++) {
 						t = q[i].split('=');
-						cm.get['params'][t[0]] = t[1];
+						cm.get['params'][t[0]] = decodeURIComponent(t[1]);
 					}
+				}
+
+				// add current domain to whitelist for postmesage calls (regardless of embed or no)
+				cm.embeds.whitelist += window.location.href.split('/').slice(0,3).join('/');
+				if (cm.get['params']['location']) {
+					cm.embeds.whitelist += cm.get['params']['location'].split('/').slice(0,3).join('/');
 				}
 
 				if (cm.embedded) {
@@ -253,12 +257,21 @@
 						cm.session.setid(md);
 						break;
 					case 'begincheckout':
+						var target = e.source;
+						if (md.target) {
+							for (var i = 0; i < cm.embeds.all.length; i++) {
+								if (cm.embeds.all[i].id == md.target) {
+									target = cm.embeds.all[i].el.contentWindow;
+									break;
+								}
+							}
+						}
 						if (!cm.checkout) {
 							cm.loadScript(cm.path+'checkout/checkout.js', function() {
-								cm.checkout.begin(md,e.source);
+								cm.checkout.begin(md,target);
 							});
 						} else {
-							cm.checkout.begin(md,e.source);
+							cm.checkout.begin(md,target);
 						}
 						break;
 				}
@@ -413,7 +426,7 @@
 				if (querystring) {
 					embedURL += '&' + querystring;
 				}
-				if (cm.get['params']) {
+				if (cm.get['params'] && (''+querystring).indexOf('lightbox=1') === -1) {
 					if (cm.get['params']['element_id'] == id) {
 						embedURL += '&' + cm.get['qs'];
 					}
@@ -760,7 +773,7 @@
 				// added the fourth "source" parameter
 				fire: function(obj,type,data,source) {
 					var cm = window.cashmusic;
-					if (typeof source !== 'undefined') {
+					if (source) {
 						// source window found, so push to it via postMessage
 						source.postMessage(JSON.stringify({
 							'type': type,
