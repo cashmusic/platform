@@ -1,6 +1,6 @@
 <?php
 /**
- * The PaypalSeed class speaks to the Paypal REST API.
+ * The PaypalSeed class speaks to the Paypal REST API, in a soft, soothing voice.
  *
  * @package platform.org.cashmusic
  * @author CASH Music
