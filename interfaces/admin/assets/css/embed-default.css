@@ -630,6 +630,12 @@ input:focus placeholder{color:#111;}
 	vertical-align: top;
 }
 
+.cm-store.cm-item .cm-inner img{
+  width:100%;
+  height:auto;
+  margin:0 0 0.5% 0;
+}
+
 .cm-store.cm-front .cm-item{
 	border:solid 1px #ccc;
 	border-color:rgba(204,204,204,0.6);

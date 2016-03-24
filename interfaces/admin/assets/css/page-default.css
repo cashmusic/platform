@@ -273,6 +273,15 @@ body.dark .cm-social-feed .cm-twitter .cm-username:hover{
 	border-color:#fff;
 }
 
+/* Store */
+
+body.dark .cm-store.cm-front .cm-item{
+	border: solid 1px #101010;
+}
+
+body.light .cm-store.cm-front .cm-item{
+	border: solid 1px #ddd;
+}
 
 /* Ebmed Specific */
 
