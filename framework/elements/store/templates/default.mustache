@@ -30,10 +30,10 @@
 
 <div class="cm-store unfeatured-items">
 <div class="cm-store cm-info cm-inner">
-	{{#image_url}}<img src="{{image_url}}" alt="" />{{/image_url}}
 	<h2 class="title">Also Available</h2>
 	{{#items}}<div class="cm-store cm-item item-{{id}}">
 		<div class="cm-store cm-inner">
+		{{#image_url}}<img src="{{image_url}}" alt="" />{{/image_url}}
 		<h2>{{name}}</h2>
 		<span class="cm-itemprice">{{currency}}{{price}}{{#flexible_price}} {{copy_flexibleprice_suffix}}{{/flexible_price}}</span>
 		<div class="cm-description">{{{description}}}</div>
