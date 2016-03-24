@@ -177,16 +177,73 @@ body.light .cashmusic.element placeholder{color:#4d4d4d;}
 body.light .cashmusic.element input:focus::-webkit-input-placeholder{color:#4d4d4d;}
 body.light .cashmusic.element input:focus placeholder{color:#4d4d4d;}
 
+/* CASH Marque */
 
+/* Turn Animation */
+
+@-webkit-keyframes turn {
+ 0%{ -webkit-transform: rotate(360deg) scaleX(1) scaleY(1) skewX(0deg) skewY(0deg);}
+ 100% { -webkit-transform: rotate(0deg) scaleX(1) scaleY(1) skewX(0deg) skewY(0deg);}
+}
+
+@keyframes turn{
+ 0%{ transform:  rotate(360deg) scaleX(1) scaleY(1) skewX(0deg) skewY(0deg);}
+ 100% { transform:  rotate(0deg) scaleX(1) scaleY(1) skewX(0deg) skewY(0deg);}
+}
+
+@-moz-keyframes turn{
+ 0%{ -moz-transform:  rotate(360deg) scaleX(1) scaleY(1) skewX(0deg) skewY(0deg);}
+ 100% { -moz-transform:  rotate(0deg) scaleX(1) scaleY(1) skewX(0deg) skewY(0deg);}
+}
+
+.madebycash{
+	display:block;
+	font-weight:100!important;
+	font-size:11px;
+	text-align: left;
+	position: fixed;
+	bottom:0px;
+	left:0px;
+	padding:30px 40px;
+	z-index: 1000;
+	-webkit-transition: 1s  ease-in-out;
+	-moz-transition: 1s  ease-in-out;
+	transition:1s ease-in-out;
+}
+
+.madebycash span{
+	display: inline-block;
+	width: 400px;
+	position: absolute;
+	bottom:35px;
+	left:95px;
+	opacity: 0;
+	-webkit-transition:0.5s  ease-in-out;
+	-moz-transition:0.5s  ease-in-out;
+	transition:0.5s ease-in-out;
+	pointer-events: none;
+}
+
+.madebycash:hover span{
+	position: absolute;
+	bottom:46px;
+	left:95px;
+	opacity: 1;
+	pointer-events: auto;
+}
 
 .logo{
-	position: fixed;
-	top:15px;
-	left:15px;
-	height: 100px;
-	width:25%;
+	height: 40px;
+	width:40px;
 	text-align: left;
-	z-index: -1;
+	opacity: 0.4;
+}
+
+.madebycash:hover .logo{
+	opacity: 1;
+	-webkit-animation: turn ease-in-out  0.5s;
+		-moz-animation: turn ease-in-out  0.5s;
+		animation: turn ease-in-out  0.5s;
 }
 
 .logo h1{
@@ -195,16 +252,36 @@ body.light .cashmusic.element input:focus placeholder{color:#4d4d4d;}
 }
 
 .logo img{
-	height: 100%;
-	width:auto;
-	padding:15px;
-	margin:0 0 20px 0;
+	height:auto;
+	width:40px;
+	margin:0;
+	padding:0;
 }
 
 body.dark .logo img{
 	-webkit-filter: invert(100%);
     filter: invert(100%);
 }
+
+.madebycash a{
+	margin:0;
+	background:none;
+	color:#f5f5f5;
+	font-weight:100!important;
+	-webkit-transition: color 0.3s  ease-in-out;
+	-moz-transition: color 0.3s  ease-in-out;
+	trasition: color 0.3s ease-in-out;
+
+}
+
+.light .madebycash a{
+	color:#4d4d4d;
+}
+
+.madebycash a:hover{
+/*	color:#00cf7f;*/
+}
+
 
 /* Single Purchase */
 body.light .singlepurchase .cash_singlepurchase_itemname, body.light .singlepurchase .cash_singlepurchase_itemprice, body.light .singlepurchase .cash_singlepurchase_itemdescription{
@@ -299,42 +376,6 @@ h1.pagetitle{
 
 h2.subtitle{
 	padding:0 0 5% 0;
-}
-
-/* Footer */
-
-.madebycash{
-	background-size:50px 50px;
-	position:fixed;
-	bottom:0;
-	left:0;
-	width:100%;
-	padding:30px;
-	display:block;
-	font-weight:100!important;
-	font-size:11px;
-	z-index: -1;
-	text-align: right;
-}
-
-
-.madebycash a{
-	margin:0;
-	background:none;
-	color:#f5f5f5;
-	font-weight:100!important;
-	-webkit-transition: color 0.3s  ease-in-out;
-	-moz-transition: color 0.3s  ease-in-out;
-	trasition: color 0.3s ease-in-out;
-
-}
-
-.light .madebycash a{
-	color:#4d4d4d;
-}
-
-.madebycash a:hover{
-	color:#00cf7f;
 }
 
 /* Media Queries */
