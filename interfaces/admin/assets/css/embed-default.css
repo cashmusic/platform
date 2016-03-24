@@ -767,6 +767,12 @@ input:focus placeholder{color:#111;}
 	margin:0 auto;
 }
 
+.cm-store.featured-items .cm-item{
+  width:100%;
+  margin:0 0 0.5% 0;
+  display: inline-block;
+}
+
 .cm-store.unfeatured-items{
 	margin:0;
 	padding:0;
@@ -783,13 +789,11 @@ input:focus placeholder{color:#111;}
 
 .cm-store.unfeatured-items .cm-item{
 	overflow: auto;
-	margin:0 0 15px 0;
+	margin:0 0 0.5% 0;
 }
 
 .cm-store .cm-item input[type=submit], .cm-store .cm-item .button{
 	width:100%;
-	/*padding:15px;
-	margin:0;*/
 	-webkit-transition: 0.3s  ease-in-out;
 	transition: 0.3s  ease-in-out;
 }
@@ -800,7 +804,6 @@ input:focus placeholder{color:#111;}
 }
 
 .cm-store .cm-item input[type=submit]:focus, .cm-store .cm-item .button:focus {outline:0;}
-
 
 .cm-store input:disabled{
 	pointer-events:none;
@@ -1285,7 +1288,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 /* -- Larger Size -- */
-@media screen and (min-width: 380px) {
+@media screen and (min-width: 480px) {
 
   .cashmusic.element .emailcollection input.cash_input_address,
   .cashmusic.element .downloadcodes input.cash_input_code{
@@ -1338,7 +1341,7 @@ input[type=number]::-webkit-outer-spin-button {
     margin:0 0 0 0.25%;
   }
 
-    .cm-store.unfeatured-items .cm-item:nth-child(even){
+  .cm-store.unfeatured-items .cm-item:nth-child(even){
     margin:0 0.25% 0 0;
     }
 
@@ -1358,26 +1361,36 @@ input[type=number]::-webkit-outer-spin-button {
 	margin:0;
 	}
 
-  /* Featured Items */
+  /* 2 featured items */
 
-  .cm-store.featured-items .cm-item{
-  	width:32.9%;
-  	display: inline-block;
+  .cm-store.featured-items .cm-item.cm-featured2{
+    width:49.75%;
   }
 
-
-  .cm-store.featured-items .cm-item:nth-of-type(1){
+  .cm-store.featured-items .cm-item.cm-featured2:nth-of-type(1){
     margin:0 0.25% 0 0;
   }
 
-  .cm-store.featured-items .cm-item:nth-of-type(2){
-    margin:0 0.25% 0 0.25%;
-  }
-
-  .cm-store.featured-items .cm-item:nth-of-type(3){
+  .cm-store.featured-items .cm-item.cm-featured2:nth-of-type(2){
     margin:0 0 0 0.25%;
   }
 
+  /* 3 featured items */
+
+  .cm-store.featured-items .cm-item.cm-featured3:nth-of-type(1){
+    width:100%;
+    margin:0 0 0.5% 0;
+  }
+
+  .cm-store.featured-items .cm-item.cm-featured3:nth-of-type(2){
+    width:49.75%;
+    margin:0 0.25% 0 0;
+  }
+
+  .cm-store.featured-items .cm-item.cm-featured3:nth-of-type(3){
+    width:49.75%;
+    margin:0 0 0 0.25%;
+  }
 
 }
 
