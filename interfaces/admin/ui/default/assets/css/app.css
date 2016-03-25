@@ -249,7 +249,7 @@ a.revealpassword, .input-additional-info {
 	font-size:0.85em;
 	color:#666;
 	position:relative;
-	top: -6px;
+	top: -12px;
 	padding:0 0 6px 0;
 	margin:0;
 	display: block;
@@ -689,7 +689,7 @@ input.checkorradio:checked{
 
 label{
 	padding:0;
-	margin:0 6px 12px 0;
+	margin:0 6px 6px 0;
 	line-height: 18px;
 	font-size: 14px;
 	text-transform: lowercase;
@@ -7011,7 +7011,7 @@ body.login .login-content{
 
 .login .login-carousel-container{
 		border-left: solid 1px rgba(0,0,0,0.1);
-		height:540px;
+		height:530px;
 		display: inline-block;
 }
 
