@@ -5,17 +5,15 @@
 		</div><!--pure-->
 		<div class="pure-u-1 connections">
 				{{#all_services}}
-					<div class="pure-u-1">
-						<a class="connection lightboxed" href="{{www_path}}/settings/connections/add/{{key}}">
+					<a class="connection lightboxed" href="{{www_path}}/settings/connections/add/{{key}}">
 							{{#service_has_image}}
 								<img src="{{www_path}}/assets/images/settings/{{key}}.png" width="100%" alt="{{name}}" />
 							{{/service_has_image}}<small>{{name}}</small>
-						</a>
-					</div><!--pure-->
+					</a>
 				{{/all_services}}
 		</div><!--pure-->
 {{/service_selected}}
-	
+
 	<div class="pure-u-1 {{^service_selected}} pure-md-1-2 {{/service_selected}}{{#service_selected}}{{/service_selected}}">
 		{{{state_markup}}}
 
