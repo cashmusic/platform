@@ -220,7 +220,8 @@ class ElementPlant extends PlantBase {
 					$template = @file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/embed.mustache');
 				}
 				// set up our default styles in the template:
-				$styles = '<link rel="icon" type="image/x-icon" href="'.CASH_ADMIN_URL.'/ui/default/assets/images/favicon.png" />';
+				$styles  = '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+				$styles .= '<link rel="icon" type="image/x-icon" href="'.CASH_ADMIN_URL.'/ui/default/assets/images/favicon.png" />';
 				$styles .= '<link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">';
 				$styles .= '<link rel="stylesheet" type="text/css" href="'.CASH_ADMIN_URL.'/assets/css/embed-default.css" />';
 
