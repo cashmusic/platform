@@ -24,6 +24,7 @@
       "shipping_regions":"Shipping regions",
       "button_set_shipping_regions":"Set shipping regions",
       "orders":"Orders",
+			"settings":"Commerce Settings",
       "fulfilled":"Fulfilled",
       "fulfilled_button":"Mark as fulfilled",
       "unfulfilled":"Unfulfilled",

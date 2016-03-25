@@ -2651,12 +2651,10 @@ color:#fff!important;
 
 /* Preference panel tabbed navigation */
 .drawer.prefpanel .page-settings-tabs{
-		position: absolute;
-		right:20px;
-		top:11px;
+		text-align: left;
 		list-style-type: none;
 		padding:0;
-		margin:0;
+		margin:18px 0 0 0;
 		opacity: 0;
 		pointer-events: none;
 }
@@ -3271,13 +3269,13 @@ body.login .login-content.legal{
 }
 
 #page_content header.page-header{
-	margin:0 0 33px 0;
+	margin:18px 0 36px 0;
 }
 
 #page_content header .page-title{
 	font-size: 28px;
 	line-height: 36px;
-	margin:18px 0 0 0;
+	margin:0;
 }
 
 /* Secondary Title*/
@@ -6718,6 +6716,16 @@ a.edit-button:hover .icon{
 	overflow: visible;
 }
 
+.release-cover .placeholder{
+	font-size: 52px;
+	border: none;
+	position: absolute;
+	top:50%;
+	left:50%;
+	z-index: 0;
+	margin:-25px 0 0 -25px;
+}
+
 .release-cover a {
 	display:block;
 	width:90%;
@@ -7075,7 +7083,6 @@ button.right, .button.right{
 		padding:0 0 0 20px!important;
 }
 
-
 .pure-u-1{
 	margin-bottom:0;
 }
@@ -7114,6 +7121,10 @@ button.right, .button.right{
 
 #page_content header{
 	margin:0 0 18px 0;
+}
+
+#page_content header.page-header{
+	margin-top:0;
 }
 
 #page_content header .page-title{
@@ -7342,6 +7353,13 @@ section[role=main].hero, .login section[role=main]{ margin:400px 0 0 0; }
 	width:auto;
 	font-size: 14px;
 	margin:0 0 0 -36px;
+}
+
+
+/* inline drawer tabs */
+.drawer.prefpanel .page-settings-tabs{
+		margin:-12px 0 -18px 0;
+		text-align: right;
 }
 
 /* Alternate States */
