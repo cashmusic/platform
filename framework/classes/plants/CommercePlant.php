@@ -1606,20 +1606,35 @@ class CommercePlant extends PlantBase {
 
                     // empty the cart at this point
                     $this->emptyCart($session_id);
-//					error_log( print_r($payment_details['payer'], true)  );
+
                     // TODO: add code to order metadata so we can track opens, etc
                     $order_details['customer_details']['email_address'] = $payment_details['payer']['email'];
 
                     $order_details['gross_price'] = $payment_details['total'];
 
                     try {
-                        //$this->sendOrderReceipt(false,$order_details,$finalize_url);
+                        $this->sendOrderReceipt(false,$order_details,$finalize_url);
                     } catch (Exception $e) {
                         //TODO: what happens when order receipt not sent?
                     }
 
-                    return $order_id;
+                     if ($order_details['element_id']) {
+                        // borrowed from ElementBase — use the same mechanism to unlock the element
+                        // that issued the order so we're not reliant on a page refresh thing for
+                        // stripe or for an element embedded via script on a page, etc.
+                        $lock_session = $this->sessionGet('unlocked_elements');
+                  		if (is_array($lock_session)) {
+                  			$key = array_search($order_details['element_id'], $lock_session);
+                  			if ($key === false) {
+                  				$lock_session[] = $order_details['element_id'];
+                  				$this->sessionSet('unlocked_elements',$lock_session);
+                  			}
+                  		} else {
+                  			$this->sessionSet('unlocked_elements',array($order_details['element_id']));
+                  		}
+                     }
 
+                    return $order_id;
                 } else {
                     $this->setErrorMessage("Couldn't find your account.");
                     return false;

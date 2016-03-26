@@ -347,7 +347,7 @@ class Store extends ElementBase {
 			}
 			if ($_REQUEST['state'] == 'success') {
 				if ($this->unlocked) {
-					$this->lock();
+					//$this->lock();
 
 					$request = new CASHRequest();
 					$order_details = $request->sessionGet('store'.$this->element_id.'order');
