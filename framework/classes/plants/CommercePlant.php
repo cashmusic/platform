@@ -1252,8 +1252,8 @@ class CommercePlant extends PlantBase {
 
         //TODO: store last seen top URL
         //      or maybe make the API accept GET params? does it already? who can know?
-        $r = new CASHRequest();
-        $r->startSession(false,$session_id);
+        //$r = new CASHRequest();
+        $this->startSession(false,$session_id);
 
         if (!$element_id) {
             return false;
@@ -1419,6 +1419,9 @@ class CommercePlant extends PlantBase {
                     if ($element_id) {
                         $return_url .= '&element_id=' . $element_id;
                     }
+                    if ($session_id) {
+                        $return_url .= '&session_id=' . $session_id;
+                    }
 
                     $approval_url = $payment_seed->preparePayment(
                         $total_price,							# payment amount
@@ -1546,10 +1549,10 @@ class CommercePlant extends PlantBase {
 
         $order_details = $this->getOrder($order_id);
         $transaction_details = $this->getTransaction($order_details['transaction_id']);
-
         $connection_type = $this->getConnectionType($transaction_details['connection_id']);
-
         $order_totals = $this->getOrderTotals($order_details['order_contents']);
+
+        $this->startSession(false,$session_id);
 
         //TODO: since we haven't actually set the connection settings at this point, let's
         // get connection type settings so we can extract Seed classname
@@ -1632,6 +1635,9 @@ class CommercePlant extends PlantBase {
                   		} else {
                   			$this->sessionSet('unlocked_elements',array($order_details['element_id']));
                   		}
+
+                        // we're also going to set order details, which are used by the Store element
+                        $this->sessionSet('commerce-'.$this->element_id , $order_details);
                      }
 
                     return $order_id;

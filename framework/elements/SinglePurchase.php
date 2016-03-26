@@ -262,7 +262,7 @@ class SinglePurchase extends ElementBase {
 			if ($_REQUEST['state'] == 'success') {
 				if ($this->unlocked) {
 					$this->setTemplate('success');
-					//$this->lock();
+					$this->lock();
 				}
 			}
 		}

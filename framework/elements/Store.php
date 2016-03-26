@@ -248,7 +248,7 @@ class Store extends ElementBase {
 
 			if ($order_details) {
 				$request = new CASHRequest();
-				$request->sessionSet('store'.$this->element_id.'order' , $order_details);
+				$request->sessionSet('commerce-'.$this->element_id , $order_details);
 
 				if ($this->status_uid == 'element_redeemcode_200') {
 					if ($_GET['email'] == $order_details['customer_details']['email_address']) {
@@ -347,10 +347,10 @@ class Store extends ElementBase {
 			}
 			if ($_REQUEST['state'] == 'success') {
 				if ($this->unlocked) {
-					//$this->lock();
+					$this->lock();
 
 					$request = new CASHRequest();
-					$order_details = $request->sessionGet('store'.$this->element_id.'order');
+					$order_details = $request->sessionGet('commerce-'.$this->element_id);
 
 					if ($order_details) {
 						$this->element_data['order_id'] = $order_details['id'];

@@ -297,6 +297,7 @@
 
 			f.cash_request_type.value = 'commerce';
 			f.cash_action.value = 'initiatecheckout';
+			{{#session_id}}f.session_id = '{{session_id}}';{{/session_id}}
 			f.element_id.value = {{element_id}};
 			f.origin.value = payment.detail.origin;
 			f.email_address.value = payment.detail.email;
