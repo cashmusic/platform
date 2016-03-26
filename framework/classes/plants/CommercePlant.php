@@ -1552,7 +1552,8 @@ class CommercePlant extends PlantBase {
         $connection_type = $this->getConnectionType($transaction_details['connection_id']);
         $order_totals = $this->getOrderTotals($order_details['order_contents']);
 
-        $this->startSession(false,$session_id);
+        $r = new CASHRequest();
+        $r->startSession(false,$session_id);
 
         //TODO: since we haven't actually set the connection settings at this point, let's
         // get connection type settings so we can extract Seed classname
@@ -1630,14 +1631,14 @@ class CommercePlant extends PlantBase {
                   			$key = array_search($order_details['element_id'], $lock_session);
                   			if ($key === false) {
                   				$lock_session[] = $order_details['element_id'];
-                  				$this->sessionSet('unlocked_elements',$lock_session);
+                  				$r->sessionSet('unlocked_elements',$lock_session);
                   			}
                   		} else {
-                  			$this->sessionSet('unlocked_elements',array($order_details['element_id']));
+                  			$r->sessionSet('unlocked_elements',array($order_details['element_id']));
                   		}
 
                         // we're also going to set order details, which are used by the Store element
-                        $this->sessionSet('commerce-'.$this->element_id , $order_details);
+                        $r->sessionSet('commerce-'.$this->element_id , $order_details);
                      }
 
                     return $order_id;
