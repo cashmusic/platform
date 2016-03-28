@@ -1303,8 +1303,8 @@ transform: scale(1.025)!important;
 	-moz-transition: opacity 0.3s  ease-in-out;
 	transition: opacity 0.3s ease-in-out;
 	margin: 0 auto;
-	padding:0;
-	height:80px;
+	padding:10px 0 0 0;
+	height:100px;
 }
 
 #header #logo img{
@@ -7536,7 +7536,7 @@ button, .button, #modallightbox .modalcancel{
 #touchpoints{
 	display:inline-block;
 	width:100%;
-	margin:40px auto 0 auto;
+	margin:30px auto 0 auto;
 }
 
 #touchpoints ul{ text-align: center; }
