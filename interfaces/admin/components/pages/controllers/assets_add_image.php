@@ -38,6 +38,17 @@ if (isset($_POST['doassetadd'])) {
 				$new_metadata = $asset_response['payload']['metadata'];
 				$new_metadata['cover'] = $add_response['payload'];
 
+				// make it public
+				$edit_response = $cash_admin->requestAndStore(
+					array(
+						'cash_request_type' => 'asset',
+						'cash_action' => 'makepublic',
+						'id' => $add_response['payload'],
+						'commit' => true,
+						'user_id' => $cash_admin->effective_user_id
+					)
+				);
+
 				// now make the actual edits
 				$edit_response = $cash_admin->requestAndStore(
 					array(
