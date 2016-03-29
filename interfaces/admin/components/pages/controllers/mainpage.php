@@ -70,6 +70,7 @@ $activity_request = new CASHRequest(
 $activity = $activity_request->response['payload'];
 
 // PARSE ACTIVITY FOR LISTS
+$cash_admin->page_data['delta_lists'] = false;
 if (is_array($activity['lists'])) {
 	foreach ($activity['lists'] as &$list_stats) {
 		if ($list_stats['total'] == 1) {
@@ -92,6 +93,7 @@ if ($activity['orders']) {
 }
 
 // GET ALL LISTS AND MEMBERSHIP STATS
+$cash_admin->page_data['all_lists'] = false;
 $list_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'people',
@@ -118,6 +120,7 @@ if (is_array($list_response['payload'])) {
 }
 
 // FIND UNFULFILLED ORDERS
+$cash_admin->page_data['unfulfilled_orders'] = false;
 $orders_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'commerce',
@@ -136,6 +139,7 @@ if (is_array($orders_response)) {
  *
  * {{show_tour}} 					(should we show them a tour button?)
  * {{show_commerce_settings}} (should we show region/currency settings?)
+ * {{nothing_at_all}}			(tumbleweeds up in here)
  *
  ******************************************************************************/
 
@@ -149,6 +153,7 @@ $elements_response = $cash_admin->requestAndStore(
 );
 if (!is_array($elements_response['payload'])) {
 	$cash_admin->page_data['show_tour'] = true;
+	$cash_admin->page_data['first_use'] = true;
 }
 
 // what about regions, currency, and commerce?
@@ -167,6 +172,16 @@ if ($connections) {
 	}
 }
 
+// first use, or just really boring?
+if (!$cash_admin->page_data['first_use']) {
+	if (!$cash_admin->page_data['unfulfilled_orders']
+		 && !$cash_admin->page_data['all_lists']
+		 && !$cash_admin->page_data['delta_orders']
+		 && !$cash_admin->page_data['delta_lists']
+	) {
+		$cash_admin->page_data['nothing_at_all'] = true;
+	}
+}
 
 /*******************************************************************************
  *
