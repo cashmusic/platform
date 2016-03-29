@@ -76,6 +76,8 @@ $(document.body).addClass('login');
 	}
 
 	localStorage.setItem('resetadminforms',true);
+
+	history.pushState(null, null, '{{www_path}}/');
 </script>
 
 {{#open_signup_panel}}
