@@ -353,11 +353,11 @@ body.dark .cm-social-feed .cm-twitter .cm-username:hover{
 /* Store */
 
 body.dark .cm-store.cm-front .cm-item{
-	border: solid 1px #101010;
+	/*border: solid 1px #101010;*/
 }
 
 body.light .cm-store.cm-front .cm-item{
-	border: solid 1px #ddd;
+	/*border: solid 1px #ddd;*/
 }
 
 /* Ebmed Specific */
