@@ -618,7 +618,7 @@ class CommercePlant extends PlantBase {
         }
     }
 
-    protected function addToCart($item_id,$item_variant=false,$price=false,$session_id=false) {
+    protected function addToCart($item_id,$element_id,$item_variant=false,$price=false,$session_id=false) {
         $r = new CASHRequest();
         $r->startSession(false,$session_id);
 
@@ -643,7 +643,7 @@ class CommercePlant extends PlantBase {
         return $cart;
     }
 
-    protected function editCartQuantity($item_id,$qty,$item_variant='',$session_id=false) {
+    protected function editCartQuantity($item_id,$element_id,$qty,$item_variant='',$session_id=false) {
         $r = new CASHRequest();
         $r->startSession(false,$session_id);
 
@@ -665,7 +665,7 @@ class CommercePlant extends PlantBase {
         }
     }
 
-    protected function editCartShipping($region='r1',$session_id=false) {
+    protected function editCartShipping($element_id,$region='r1',$session_id=false) {
         $r = new CASHRequest();
         $r->startSession(false,$session_id);
 
@@ -679,13 +679,13 @@ class CommercePlant extends PlantBase {
         return $cart;
     }
 
-    protected function emptyCart($session_id=false) {
+    protected function emptyCart($element_id,$session_id=false) {
         $r = new CASHRequest();
         $r->startSession(false,$session_id);
         $r->sessionClear('cart');
     }
 
-    protected function getCart($session_id=false) {
+    protected function getCart($element_id,$session_id=false) {
         $r = new CASHRequest();
         $r->startSession(false,$session_id);
         return $r->sessionGet('cart');
@@ -1284,7 +1284,7 @@ class CommercePlant extends PlantBase {
             } else {
               return false; // no default PP shit set
             }
-            $cart = $this->getCart($session_id);
+            $cart = $this->getCart($element_id,$session_id);
 
             $shipto = $cart['shipto'];
             unset($cart['shipto']);
@@ -1609,7 +1609,7 @@ class CommercePlant extends PlantBase {
                     );
 
                     // empty the cart at this point
-                    $this->emptyCart($session_id);
+                    $this->emptyCart($element_id,$session_id);
 
                     // TODO: add code to order metadata so we can track opens, etc
                     $order_details['customer_details']['email_address'] = $payment_details['payer']['email'];
@@ -1638,7 +1638,7 @@ class CommercePlant extends PlantBase {
                   		}
 
                         // we're also going to set order details, which are used by the Store element
-                        $r->sessionSet('commerce-'.$this->element_id , $order_details);
+                        $r->sessionSet('commerce-'.$order_details['element_id'],$order_details);
                      }
 
                     return $order_id;

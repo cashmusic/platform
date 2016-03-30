@@ -151,6 +151,7 @@ class Store extends ElementBase {
 			array(
 				'cash_request_type' => 'commerce',
 				'cash_action' => 'getcart',
+				'element_id' => $this->element_id,
 				'session_id' => $this->session_id
 			)
 		);
