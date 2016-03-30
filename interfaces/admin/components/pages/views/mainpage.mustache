@@ -19,19 +19,32 @@
 <div id="activity" class="pure-u-1">
 
 		<!-- /* Alert Style */ -->
-		<a href="/" class="material notification alert"><p><span class="icon icon-warn"></span> <strong>Alert!</strong> -  Something intense that you should pay attention to.</p></a><!--alert-->
+		<!--a href="/" class="material notification alert"><p><span class="icon icon-warn"></span> <strong>Alert!</strong> -  Something intense that you should pay attention to.</p></a-->
+		{{#show_tour}}<a href="/" class="material notification alert"><p><span class="icon icon-warn"></span> We have created a new platform tour to help you find your way around our new features. click here to check it out.</p></a>{{/show_tour}}
 
-	{{^firstuse}}
-		<div class="alt callout"><div class="callout-inner"><h3>Welcome to your new activity feed!</h3><p>You may have noticed we've had a bit of a re-shuffle. This is where you'll get an overview of what's happening with your <a href="{{www_path}}/embeds/">embeds</a>, <a href="{{www_path}}/page/">page</a>, <a href="{{www_path}}/people/">mailing lists</a> &amp; <a href="{{www_path}}/commerce/">sales</a>. This is just the begining but it's all part of us making the CASH tools easier use and understand!</p><p>You can read more about our efforts to improve our platform of tools on <a href="https://medium.com/cash-music" target="_blank">our blog</a>.</p></div><!--callout-inner--></div>
+		{{^show_commerce_settings}}
+		<a href="{{www_path}}/commerce/" class="material notification alert"><p><span class="icon icon-warn"></span> We've added a few extra basic commerce settings that you'll need to set up to accept payments. Click here to check it out.</p></a>
+		{{/show_commerce_settings}}
+
+	{{#firstuse}}
+		<div class="alt callout"><div class="callout-inner"><h3>Welcome to your new CASH Music</h3><p>You may have noticed we've had a bit of a re-shuffle. We have worked hard to simplify the workflow for everyone, so you can spend more time making music! This is where you'll get an overview of what's happening with your <a href="{{www_path}}/embeds/">embeds</a>, <a href="{{www_path}}/page/">page</a>, <a href="{{www_path}}/people/">mailing lists</a> &amp; <a href="{{www_path}}/commerce/">sales</a>. This is just the begining but it's all part of us making the CASH tools easier use and understand.</p><p>You can read more about our efforts to improve our platform of tools on <a href="https://medium.com/cash-music" target="_blank">our blog</a>.</p>
+		</div><!--callout-inner--></div>
 	{{/firstuse}}
 
-<!-- /* Any Activity? */ -->
-{{#dashboard_active}}
+	{{^firstuse}}
+		<div class="alt callout"><div class="callout-inner"><h3>Welcome to your new CASH Music</h3><p>You may have noticed we've had a bit of a re-shuffle. We have worked hard to simplify the workflow for everyone, so you can spend more time making music! This is where you'll get an overview of what's happening with your <a href="{{www_path}}/embeds/">embeds</a>, <a href="{{www_path}}/page/">page</a>, <a href="{{www_path}}/people/">mailing lists</a> &amp; <a href="{{www_path}}/commerce/">sales</a>. This is just the begining but it's all part of us making the CASH tools easier use and understand.</p><p>You can read more about our efforts to improve our platform of tools on <a href="https://medium.com/cash-music" target="_blank">our blog</a>.</p>
+		</div><!--callout-inner--></div>
+	{{/firstuse}}
 
-	<div class="material">
+
+
+<!-- /* Any Activity? */ -->
+{{^nothing_at_all}}
+
+	<!--div class="material">
 		<div class="pure-u-1 pure-u-md-1-2">
 	<div class="inner"><h5>Total embed views <span class="fadedtext">(last 7 days)<span></h5><h4 class="number"><div class="icon icon-lg-arw"></div> 200{{total}}</h4></div>
-			</div><!--pure-->
+			</div>
 			<div class="pure-u-1 pure-u-md-1-2 r-box vertical-breaker">
 				<div class="inner">
 				<h5>Embed Popularity</h5>
@@ -40,32 +53,35 @@
 					<li><a href="{{www_path}}/elements/edit/{{id}}"><span class="number">+80</span> Embed name{{embed_name}}</a></li>
 					<li><a href="{{www_path}}/elements/edit/{{id}}"><span class="number">+80</span> Embed name{{embed_name}}</a></li>
 				</ul>
-			</div><!--inner-->
-		</div><!--pure-->
-	</div><!--material-->
+			</div>
+		</div>
+	</div-->
 
 	<!-- /* Orders Snapshot */ -->
-	{{#dashboard_orders}}
+	{{#delta_orders}}
 	<!--div class="callout newsfeed commerce"><span class="details"><strong><div class="icon icon-cart"></div>New order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}!</strong> There {{#dashboard_orders_singular}}is{{/dashboard_orders_singular}}{{^dashboard_orders_singular}}are{{/dashboard_orders_singular}} <strong>{{dashboard_orders}}</strong> new order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}.</span><span class="action"><a href="{{www_path}}/commerce/"><div class="icon icon-search"></div>All new orders</a></span><div class="newsimage" style=""></div></div>-->
-	<div class="material usecolor4">
-		<div class="initial">
-		<div class="pure-u-1 pure-u-md-1-4">
-			<div class="inner"><h5>New orders</h5><h4 class="number">20{{dashboard_orders}}</h4></div></div>
-		<div class="pure-u-1 pure-u-md-1-4 vertical-breaker">
-			<div class="inner"><h5>Unfulfilled orders</h5><h4 class="number">13{{dashboard_orders_unfulfilled}}</h4></div></div><div class="pure-u-1 pure-u-md-1-4 vertical-breaker"><div class="inner"><h5>Total amount earned</h5><h4 class="number">$300.00</h4></div></div>
-			<div class="pure-u-1 pure-u-md-1-4"><a href="{{www_path}}/commerce/" class="alt-button feed">All new orders</a></div></div>
-	</div>
 
-	<a class="pure-u-1 notification material usecolor4" href="{{www_path}}/commerce/items/"><p><span class="icon icon-card"></span><strong>Sellin’ like hotcakes!</strong> - You've recieved <span class="number">8</span> orders of <strong>‘My album’</strong> in the last week, it's your best selling item.</p><div class="notification-marker icon icon-chevron"></div></a>
-	{{/dashboard_orders}}
+	<!--div class="material usecolor4">
+		<div class="initial">
+		<div class="pure-u-1 pure-u-md-1-2">
+			<div class="inner"><h5>New orders since {{last_login}}</h5><h4 class="number">{{delta_orders}}</h4></div></div>
+		<div class="pure-u-1 pure-u-md-1-2 vertical-breaker">
+			<div class="inner"><h5>Total unfulfilled orders</h5><h4 class="number">{{unfulfilled_orders}}</h4></div></div>
+
+			div class="pure-u-1 pure-u-md-1-4 vertical-breaker"><div class="inner"><h5>Total amount earned</h5><h4 class="number">$300.00</h4></div></div>
+			<div class="pure-u-1 pure-u-md-1-4"><a href="{{www_path}}/commerce/" class="alt-button feed">All new orders</a></div></div>
+	</div-->
+
+	<!--a class="pure-u-1 notification material usecolor4" href="{{www_path}}/commerce/items/"><p><span class="icon icon-card"></span><strong>Sellin’ like hotcakes!</strong> - You've recieved <span class="number">8</span> orders of <strong>‘My album’</strong> in the last week, it's your best selling item.</p><div class="notification-marker icon icon-chevron"></div></a-->
+	{{/delta_orders}}
 
 	<!-- /* People Snapshot */ -->
-	{{#dashboard_lists}}
+
 		<!--div class="callout newsfeed people"><span class="details"><strong><div class="icon icon-list"></div>{{name}}:</strong> There {{#singular}}is{{/singular}}{{^singular}}are{{/singular}} <strong>{{total}}</strong> new {{#singular}}person{{/singular}}{{^singular}}people{{/singular}} on this list.</span> <span class="action"><a href="{{www_path}}/people/lists/view/{{list_id}}"><div class="icon icon-search"></div>View</a><a href="{{www_path}}/people/lists/export/{{list_id}}" class="noajax"><div class="icon icon-dwnld"></div>Export</a></span><div class="newsimage" style=""></div></div -->
-	<div class="material usecolor3">
+	<!--div class="material usecolor3">
 			<div class="initial">
 				<div class="pure-u-1 pure-u-md-1-4">
-					<div class="inner"><h5>{{copy_total_new_subscribers}}</h5><h4 class="number"><div class="icon icon-lg-arw"></div> 200{{total}}</h4></div>
+					<div class="inner"><h5>{{copy_total_new_subscribers}}</h5><h4 class="number"><div class="icon icon-lg-arw"></div> 200</h4></div>
 				</div>
 				<div class="pure-u-1 pure-u-md-1-3 vertical-breaker">
 						<h5>List growth <span>(last 7 days)</span></h5>
@@ -75,7 +91,7 @@
 											<h6>100</h6>
 											<h6>50</h6>
 											<h6>0</h6>
-										</div><!--y-axis-->
+										</div>
 											<div class="value pure-u-1-12"><span class="bar"></span></div>
 											<div class="value pure-u-1-12"><span class="bar"></span></div>
 											<div class="value pure-u-1-12"><span class="bar"></span></div>
@@ -83,7 +99,7 @@
 											<div class="value pure-u-1-12"><span class="bar"></span></div>
 											<div class="value pure-u-1-12"><span class="bar"></span></div>
 											<div class="value pure-u-1-12"><span class="bar"></span></div>
-										</div><!--values-->
+										</div>
 
 										<div class="x-axis pure-u-1">
 											<h6 class="pure-u-1-12"></h6>
@@ -94,17 +110,20 @@
 											<h6 class="pure-u-1-12">F</h6>
 											<h6 class="pure-u-1-12">S</h6>
 											<h6 class="pure-u-1-12">S</h6>
-										</div><!--x-axis-->
+										</div>
 
-								</div><!--graph-->
-							</div><!--pure-->
+								</div>
+							</div-->
 
-				<div class="pure-u-1 pure-u-md-1-4 r-box vertical-breaker"><div class="inner"><h5>List Popularity</h5>
+				<!--div class="pure-u-1 pure-u-md-1-4 r-box vertical-breaker">
+					<div class="inner"><h5>List Popularity</h5>
 					<ul>
-						{{#lists_all}}
-						<li><a href="{{www_path}}/people/lists/view/{{id}}"><span class="number">{{analytics_active}}</span>{{name}}</a></li>
-						{{/lists_all}}
-				</div><!--inner--></div><!--pure-->
+						{{#all_lists}}
+						<li><a href="{{www_path}}/people/lists/view/{{id}}"><span class="number">{{analytics_active}}</span>{{name}} </a>
+							<p>{{analytics_last_week}} in the last week</p>
+						</li>
+						{{/all_lists}}
+				</div></div>
 
 				<a href="{{www_path}}/people/" class="alt-button feed">View mailing lists</a>
 		</div><!--initial-->
@@ -143,25 +162,44 @@
 					</div>
 
 				</div>
-			</div -->
+			</div>
 		</div>
-	</div>
- {{/dashboard_lists}}
+	</div-->
 
+<!-- /* Orders */ -->
+
+{{#delta_orders}}
+	<a class="pure-u-1 notification material usecolor4" href="{{www_path}}/people/lists/view/{{id}}"><p><span class="icon icon-card"></span>Woo hoo!<span class="number">{{delta_orders}}</span>new	order{{^delta_orders_singular}}s{{/delta_orders_singular}} recieved since you last logged in.</p><div class="notification-marker icon icon-chevron"></div></a>
+{{/delta_orders}}
+
+<!-- /* Lists */ -->
+
+{{#delta_lists}}
+	<a class="pure-u-1 notification material usecolor3" href="{{www_path}}/people/lists/view/{{id}}"><p><span class="icon icon-group"></span><span class="number">{{total}}</span>	{{#singular}}person{{/singular}}{{^singular}}people{{/singular}} added to the <strong>{{name}}</strong> list since you last logged in.</p><div class="notification-marker icon icon-chevron"></div></a>
+{{/delta_lists}}
+
+<!-- /* Unfulfilled Orders */ -->
+
+{{#unfulfilled_orders}}
+	<a class="pure-u-1 notification material usecolor4" href="{{www_path}}/commerce/filter/unfulfilled"><p><span class="icon icon-card"></span>You currently have <span class="number">{{unfulfilled_orders}}</span> unfullfilled orders. </p><div class="notification-marker icon icon-chevron"></div></a>
+{{/unfulfilled_orders}}
+
+ {{#all_lists}}
+		 <!--a class="pure-u-1 notification material usecolor5" href="{{www_path}}/commerce/items/"><p><span class="icon icon-calendar"></span>Your next show is in <strong>Los Angeles</strong> at <strong>Echoplex, tomorrow night!</strong>  -  Remind your followers on <strong>Twitter</strong>.</p><div class="notification-marker icon icon-chevron"></div></a-->{{/all_lists}}
 	<!-- /* Tourdates Snapshot */ -->
-	<a class="pure-u-1 notification material usecolor5" href="{{www_path}}/commerce/items/"><p><span class="icon icon-calendar"></span>Your next show is in <strong>Los Angeles</strong> at <strong>Echoplex, tomorrow night!</strong>  -  Remind your followers on <strong>Twitter</strong>.</p><div class="notification-marker icon icon-chevron"></div></a>
+	<!--a class="pure-u-1 notification material usecolor5" href="{{www_path}}/commerce/items/"><p><span class="icon icon-calendar"></span>Your next show is in <strong>Los Angeles</strong> at <strong>Echoplex, tomorrow night!</strong>  -  Remind your followers on <strong>Twitter</strong>.</p><div class="notification-marker icon icon-chevron"></div></a-->
 
-	<a class="pure-u-1 notification material usecolor5" href="{{www_path}}/commerce/items/"><p><span class="icon icon-card"></span>Your next show is a week away in <strong>Los Angeles</strong> at <strong>Echoplex</strong>, on <strong>13th January</strong>   -  Remind fans on your <strong>mailing lists</strong>.</p><div class="notification-marker icon icon-chevron"></div></a>
+	<!--a class="pure-u-1 notification material usecolor5" href="{{www_path}}/commerce/items/"><p><span class="icon icon-card"></span>Your next show is a week away in <strong>Los Angeles</strong> at <strong>Echoplex</strong>, on <strong>13th January</strong>   -  Remind fans on your <strong>mailing lists</strong>.</p><div class="notification-marker icon icon-chevron"></div></a-->
 
-{{/dashboard_active}}
+{{/nothing_at_all}}
 
 <!-- /* No Activity :( */ -->
-{{^dashboard_active}}
+{{#nothing_at_all}}
 
 	<div class="empty">
 		<p>Sorry, there is no activity to report yet. Get started by adding an <a href="{{www_path}}/embeds/">embed</a>.</p>
 	</div><!-- empty -->
 
-{{/dashboard_active}}
+{{/nothing_at_all}}
 
 </div><!--activity-->

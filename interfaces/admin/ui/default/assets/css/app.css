@@ -3526,6 +3526,7 @@ body.login .login-content.legal{
 	background:#00cf7f;
 	color:#fff!important;
 	padding: 6px 0;
+	margin:0;
 	height: 30px;
 	width: 30px;
 	font-size:11px;
