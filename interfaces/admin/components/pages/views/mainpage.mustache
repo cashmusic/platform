@@ -3,8 +3,8 @@
 <!-- /* Sub Nav */ -->
 <header class="page-header">
 <div class="pure-u-1 pure-u-md-9-24">
-<h4 class="page-title">Activity Feed</h4>
-<h5 class="page-subtitle">Since {{last_login}}</h5>
+<h4 class="page-title">{{copy_activity_title}}</h4>
+<h5 class="page-subtitle">{{copy_subtitle}} {{last_login}}</h5>
 </div><!--pure-->
 <div class="pure-u-1 pure-u-md-15-24">
 <ul class="inline-subnav">
@@ -19,23 +19,19 @@
 <div id="activity" class="pure-u-1">
 
 		<!-- /* Alert Style */ -->
-		<!--a href="/" class="material notification alert"><p><span class="icon icon-warn"></span> <strong>Alert!</strong> -  Something intense that you should pay attention to.</p></a-->
-		{{#show_tour}}<a href="/" class="material notification alert"><p><span class="icon icon-warn"></span> We have created a new platform tour to help you find your way around our new features. click here to check it out.</p></a>{{/show_tour}}
+		{{^show_tour}}<a href="/" class="material notification alert"><p><span class="icon icon-warn"></span> {{copy_alert_tour}}</p></a>{{/show_tour}}
 
 		{{^show_commerce_settings}}
-		<a href="{{www_path}}/commerce/" class="material notification alert"><p><span class="icon icon-warn"></span> We've added a few extra basic commerce settings that you'll need to set up to accept payments. Click here to check it out.</p></a>
+		<a href="{{www_path}}/commerce/" class="material notification alert"><p><span class="icon icon-warn"></span>{{copy_alert_commerce_settings}}</p></a>
 		{{/show_commerce_settings}}
 
 	{{#firstuse}}
-		<div class="alt callout"><div class="callout-inner"><h3>Welcome to your new CASH Music</h3><p>You may have noticed we've had a bit of a re-shuffle. We have worked hard to simplify the workflow for everyone, so you can spend more time making music! This is where you'll get an overview of what's happening with your <a href="{{www_path}}/embeds/">embeds</a>, <a href="{{www_path}}/page/">page</a>, <a href="{{www_path}}/people/">mailing lists</a> &amp; <a href="{{www_path}}/commerce/">sales</a>. This is just the begining but it's all part of us making the CASH tools easier use and understand.</p><p>You can read more about our efforts to improve our platform of tools on <a href="https://medium.com/cash-music" target="_blank">our blog</a>.</p>
-		</div><!--callout-inner--></div>
+			<div class="alt callout"><div class="callout-inner"><h3>{{copy_firstuse_title}}</h3><p>{{copy_firstuse_body_1}} <a href='{{www_path}}/embeds/'>{{copy_firstuse_embeds}}</a>, <a href='{{www_path}}/page/'>{{copy_firstuse_page}}</a>, <a href='{{www_path}}/people/'>{{copy_firstuse_lists}}</a> &amp; <a href='{{www_path}}/commerce/'>{{copy_firstuse_sales}}</a> {{copy_firstuse_body_2}} <p>{{copy_firstuse_body_3}} <a href='https://medium.com/cash-music' target='_blank'>{{copy_firstuse_blog}}</a>.</p></div><!--callout-inner--></div>
 	{{/firstuse}}
 
 	{{^firstuse}}
-		<div class="alt callout"><div class="callout-inner"><h3>Welcome to your new CASH Music</h3><p>You may have noticed we've had a bit of a re-shuffle. We have worked hard to simplify the workflow for everyone, so you can spend more time making music! This is where you'll get an overview of what's happening with your <a href="{{www_path}}/embeds/">embeds</a>, <a href="{{www_path}}/page/">page</a>, <a href="{{www_path}}/people/">mailing lists</a> &amp; <a href="{{www_path}}/commerce/">sales</a>. This is just the begining but it's all part of us making the CASH tools easier use and understand.</p><p>You can read more about our efforts to improve our platform of tools on <a href="https://medium.com/cash-music" target="_blank">our blog</a>.</p>
-		</div><!--callout-inner--></div>
+		<div class="alt callout"><div class="callout-inner"><h3>{{copy_!firstuse_title}}</h3><p>{{copy_!firstuse_body_1}} <a href='{{www_path}}/embeds/'>{{copy_!firstuse_embeds}}</a>, <a href='{{www_path}}/page/'>{{copy_!firstuse_page}}</a>, <a href='{{www_path}}/people/'>{{copy_!firstuse_lists}}</a> &amp; <a href='{{www_path}}/commerce/'>{{copy_!firstuse_sales}}</a> {{copy_!firstuse_body_2}} <p>{{copy_!firstuse_body_3}} <a href='https://medium.com/cash-music' target='_blank'>{{copy_!firstuse_blog}}</a>.</p></div><!--callout-inner--></div>
 	{{/firstuse}}
-
 
 
 <!-- /* Any Activity? */ -->
@@ -58,7 +54,7 @@
 	</div-->
 
 	<!-- /* Orders Snapshot */ -->
-	{{#delta_orders}}
+	<!--{{#delta_orders}}-->
 	<!--div class="callout newsfeed commerce"><span class="details"><strong><div class="icon icon-cart"></div>New order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}!</strong> There {{#dashboard_orders_singular}}is{{/dashboard_orders_singular}}{{^dashboard_orders_singular}}are{{/dashboard_orders_singular}} <strong>{{dashboard_orders}}</strong> new order{{^dashboard_orders_singular}}s{{/dashboard_orders_singular}}.</span><span class="action"><a href="{{www_path}}/commerce/"><div class="icon icon-search"></div>All new orders</a></span><div class="newsimage" style=""></div></div>-->
 
 	<!--div class="material usecolor4">
@@ -73,7 +69,7 @@
 	</div-->
 
 	<!--a class="pure-u-1 notification material usecolor4" href="{{www_path}}/commerce/items/"><p><span class="icon icon-card"></span><strong>Sellin’ like hotcakes!</strong> - You've recieved <span class="number">8</span> orders of <strong>‘My album’</strong> in the last week, it's your best selling item.</p><div class="notification-marker icon icon-chevron"></div></a-->
-	{{/delta_orders}}
+	<!--{{/delta_orders}}-->
 
 	<!-- /* People Snapshot */ -->
 
@@ -169,23 +165,23 @@
 <!-- /* Orders */ -->
 
 {{#delta_orders}}
-	<a class="pure-u-1 notification material usecolor4" href="{{www_path}}/people/lists/view/{{id}}"><p><span class="icon icon-card"></span>Woo hoo!<span class="number">{{delta_orders}}</span>new	order{{^delta_orders_singular}}s{{/delta_orders_singular}} recieved since you last logged in.</p><div class="notification-marker icon icon-chevron"></div></a>
+	<a class="pure-u-1 notification material usecolor4" href="{{www_path}}/commerce/"><p><span class="icon icon-card"></span>{{copy_delta_orders_1}} <span class="number">{{delta_orders}}</span> {{copy_delta_new_order}}{{^delta_orders_singular}}{{copy_delta_new_orders}}{{/delta_orders_singular}} {{copy_delta_orders_2}}</p><div class="notification-marker icon icon-chevron"></div></a>
 {{/delta_orders}}
 
 <!-- /* Lists */ -->
 
 {{#delta_lists}}
-	<a class="pure-u-1 notification material usecolor3" href="{{www_path}}/people/lists/view/{{id}}"><p><span class="icon icon-group"></span><span class="number">{{total}}</span>	{{#singular}}person{{/singular}}{{^singular}}people{{/singular}} added to the <strong>{{name}}</strong> list since you last logged in.</p><div class="notification-marker icon icon-chevron"></div></a>
+	<a class="pure-u-1 notification material usecolor3" href="{{www_path}}/people/lists/view/{{id}}"><p><span class="icon icon-group"></span><span class="number">{{total}}</span>	{{#singular}}{{copy_delta_new_list_person}}{{/singular}}{{^singular}}{{copy_delta_new_list_people}}{{/singular}} {{copy_delta_new_list_1}} <strong>{{name}}</strong> {{copy_delta_new_list_2}}</p><div class="notification-marker icon icon-chevron"></div></a>
 {{/delta_lists}}
 
 <!-- /* Unfulfilled Orders */ -->
 
 {{#unfulfilled_orders}}
-	<a class="pure-u-1 notification material usecolor4" href="{{www_path}}/commerce/filter/unfulfilled"><p><span class="icon icon-card"></span>You currently have <span class="number">{{unfulfilled_orders}}</span> unfullfilled orders. </p><div class="notification-marker icon icon-chevron"></div></a>
+	<a class="pure-u-1 notification material usecolor4" href="{{www_path}}/commerce/filter/unfulfilled"><p><span class="icon icon-card"></span>{{copy_unfulfilled_orders_1}} <span class="number">{{unfulfilled_orders}}</span> {{copy_unfulfilled_orders_2}}</p><div class="notification-marker icon icon-chevron"></div></a>
 {{/unfulfilled_orders}}
 
- {{#all_lists}}
-		 <!--a class="pure-u-1 notification material usecolor5" href="{{www_path}}/commerce/items/"><p><span class="icon icon-calendar"></span>Your next show is in <strong>Los Angeles</strong> at <strong>Echoplex, tomorrow night!</strong>  -  Remind your followers on <strong>Twitter</strong>.</p><div class="notification-marker icon icon-chevron"></div></a-->{{/all_lists}}
+ <!--{{#all_lists}}
+		 <a class="pure-u-1 notification material usecolor5" href="{{www_path}}/commerce/items/"><p><span class="icon icon-calendar"></span>Your next show is in <strong>Los Angeles</strong> at <strong>Echoplex, tomorrow night!</strong>  -  Remind your followers on <strong>Twitter</strong>.</p><div class="notification-marker icon icon-chevron"></div></a>{{/all_lists}}-->
 	<!-- /* Tourdates Snapshot */ -->
 	<!--a class="pure-u-1 notification material usecolor5" href="{{www_path}}/commerce/items/"><p><span class="icon icon-calendar"></span>Your next show is in <strong>Los Angeles</strong> at <strong>Echoplex, tomorrow night!</strong>  -  Remind your followers on <strong>Twitter</strong>.</p><div class="notification-marker icon icon-chevron"></div></a-->
 
@@ -197,7 +193,7 @@
 {{#nothing_at_all}}
 
 	<div class="empty">
-		<p>Sorry, there is no activity to report yet. Get started by adding an <a href="{{www_path}}/embeds/">embed</a>.</p>
+		<p>{{copy_nothing_body}} <a href="{{www_path}}/embeds/">{{copy_nothing_link}}</a>.</p>
 	</div><!-- empty -->
 
 {{/nothing_at_all}}
