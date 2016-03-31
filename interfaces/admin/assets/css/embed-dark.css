@@ -80,3 +80,14 @@
 .cm-social-feed .cm-twitter .cm-username:hover{
 	border-color:#fff;
 }
+
+/* Store */
+
+.cm-store.cm-front .cm-item{
+  background:rgba(0,0,0,0.3);
+}
+
+.cm-store .cm-item .cm-item-image{
+	border: solid 1px #111;
+  background-color: rgba(34,34,34,0.9);
+}
