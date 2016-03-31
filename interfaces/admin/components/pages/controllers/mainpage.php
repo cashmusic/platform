@@ -144,6 +144,8 @@ if (is_array($orders_response)) {
  ******************************************************************************/
 
 // we'll check for elements, and show the tour if none are present
+$cash_admin->page_data['show_tour'] = false;
+$cash_admin->page_data['first_use'] = false;
 $elements_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'element',
