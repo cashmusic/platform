@@ -102,10 +102,10 @@ $campaign_elements = array();
 $elements_for_campaign = array();
 if (is_array($campaigns_response['payload'])) {
 	$cash_admin->page_data['campaigns_as_options'] = '';
+	$elements_response = false;
 	foreach ($campaigns_response['payload'] as &$campaign) {
 		// pull out element details
 		$campaign['elements'] = json_decode($campaign['elements'],true);
-		$elements_response = false;
 		if (is_array($campaign['elements'])) {
 			$campaign_elements = array_merge($campaign['elements'],$campaign_elements);
 			if ($campaign['id'] == $current_campaign) {
