@@ -2,9 +2,11 @@
 // parsing posted data:
 if (isset($_POST['doassetadd'])) {
 
-	$parent_id = 0;
+	$parent_id = -1;
 	if ($_POST['parent_type'] == 'release') {
-		$parent_id = $_POST['parent_id'];
+		if ($_POST['parent_id']) {
+			$parent_id = $_POST['parent_id'];
+		}
 	}
 
 	$add_response = $cash_admin->requestAndStore(

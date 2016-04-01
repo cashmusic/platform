@@ -46,9 +46,9 @@
 					},
 					"type":"select",
 					"values":{
-						"default":"Default",
-						"columns":"Two columns",
-						"compact":"Compact"
+						"cm-default":"Default",
+						"cm-grid":"Two columns",
+						"cm-compact":"Compact"
 					},
 					"required":false,
 					"displaysize":"large"
