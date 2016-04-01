@@ -18,6 +18,13 @@ class Store extends ElementBase {
 	public function getData() {
 		$this->element_data['element_id'] = $this->element_id;
 		$this->element_data['public_url'] = CASH_PUBLIC_URL;
+		if (!isset($this->element_data['layout'])) {
+			$this->element_data['layout'] = 'default';
+		} else {
+			if (!$this->element_data['layout']) {
+				$this->element_data['layout'] = 'default';
+			}
+		}
 		$item_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'commerce',
