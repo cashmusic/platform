@@ -339,7 +339,7 @@ body.light .cm-store.cm-front .cm-item{
 	/*border: solid 1px #ddd;*/
 }
 
-/* Ebmed Specific */
+/* Embed Specific */
 
 iframe[src*="www.youtube.com"] {
 	height:450px;
