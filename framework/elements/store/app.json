@@ -40,6 +40,19 @@
 				"en":"Choose an inventory item to sell and commerce connection to use."
 			},
 			"data":{
+				"layout":{
+					"label":{
+						"en":"Layout type"
+					},
+					"type":"select",
+					"values":{
+						"default":"Default",
+						"columns":"Two columns",
+						"compact":"Compact"
+					},
+					"required":false,
+					"displaysize":"large"
+				},
 				"featured_items":{
 					"label":{
 						"en":"Featured items"
