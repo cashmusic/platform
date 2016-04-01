@@ -3,7 +3,7 @@
 
 // This sample code demonstrate how you can process a refund on a sale transaction created using the Payments API. API used: /v1/payments/sale/{sale-id}/refund
 /** @var Sale $sale */
-require  './framework/lib/paypal/autoload.php';
+require './framework/lib/paypal.bak/autoload.php';
 
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Rest\ApiContext;

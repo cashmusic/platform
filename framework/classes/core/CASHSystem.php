@@ -144,7 +144,7 @@
 	 * mail from the postman.
 	 *
 	 * @return string
-	 */public static function getURLContents($data_url,$post_data=false,$ignore_errors=false) {
+	 */public static function getURLContents($data_url,$post_data=false,$ignore_errors=false,$headers=false) {
 		$url_contents = false;
 		$user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.5; rv:7.0) Gecko/20100101 Firefox/7.0';
 		$do_post = is_array($post_data);
@@ -177,6 +177,11 @@
 			$timeout = 20;
 
 			@curl_setopt($ch,CURLOPT_URL,$data_url);
+
+			if ($headers) {
+				@curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+			}
+
 			if ($do_post) {
 				curl_setopt($ch,CURLOPT_POST,$post_length);
 				curl_setopt($ch,CURLOPT_POSTFIELDS,$post_query);
