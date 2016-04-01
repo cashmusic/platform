@@ -29,7 +29,7 @@
 {{  ************************************************************************* }}
     <header>
         <div class="pure-u-1 pure-u-md-1-2">
-            <h4>{{^has_orders}}Commerce Settings{{/has_orders}}{{#has_orders}}{{copy_orders}}{{/has_orders}}</h4>
+            <h4>{{^has_orders}}{{copy_settings}}{{/has_orders}}{{#has_orders}}{{copy_orders}}{{/has_orders}}</h4>
         </div><!--pure-->
 
         {{! *************************************************************************
@@ -181,11 +181,15 @@
         {{  ******************************************************************* }}
         <div id="settings-drawer" class="drawer prefpanel multipart pure-u-1 {{^orders_recent}}open{{/orders_recent}}">
             <div class="itemnav pure-u-1">
+              <div class="pure-u-1 pure-u-md-1-2">
                 <h4 class="drawerhandle title"><div class="icon icon-wrench"></div><!--icon--><span>{{copy_commerce_settings}}</span></h4>
+              </div>
+                <div class="pure-u-1 pure-u-md-1-2">
                 <ul class="page-settings-tabs">
                     <li>Sales settings</li>
                     <li>{{copy_shipping_regions}}</li>
                 </ul>
+                  </div>
                 <div class="drawercontent">
                     {{^show_beta}}
                         <div class="pure-u-1">

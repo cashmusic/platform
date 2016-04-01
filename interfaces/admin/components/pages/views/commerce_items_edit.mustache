@@ -16,8 +16,9 @@
 </header>
 
 <div class="pure-u-1 pure-u-md-1-3">
-<div class="release-cover" style="background-image:url({{image_url}});">
+<div class="release-cover" style="{{#image_url}}background-image:url({{image_url}});{{/image_url}}">
 	<div class="release-cover-options">
+		{{^image_url}}<div class="icon icon-camera placeholder"></div><!--icon-->{{/image_url}}
 			<a href="{{www_path}}/assets/add/image/item/{{id}}" class="lightboxed smalltext"><span class="editcover"><div class="icon icon-camera"></div><!--icon--><strong>{{copy_add_image}}</strong></span></a>
 	</div><!--release-cover-options-->
 </div><!--release-cover-->

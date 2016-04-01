@@ -151,6 +151,7 @@ class Store extends ElementBase {
 			array(
 				'cash_request_type' => 'commerce',
 				'cash_action' => 'getcart',
+				'element_id' => $this->element_id,
 				'session_id' => $this->session_id
 			)
 		);
@@ -185,6 +186,11 @@ class Store extends ElementBase {
 
 		$this->element_data['items'] = new ArrayIterator($unfeatured_items);
 		$this->element_data['features'] = new ArrayIterator($featured_items);
+
+		$this->element_data['total_features'] = count($featured_items);
+		if ($this->element_data['total_features'] > 3) {
+			$this->element_data['total_features'] = many;
+		}
 
 		// get currency info for element owner
 		$currency_request = new CASHRequest(
@@ -240,10 +246,10 @@ class Store extends ElementBase {
 				)
 			);
 			$order_details = $order_request->response['payload'];
-			
+
 			if ($order_details) {
 				$request = new CASHRequest();
-				$request->sessionSet('store'.$this->element_id.'order' , $order_details);
+				$request->sessionSet('commerce-'.$this->element_id , $order_details);
 
 				if ($this->status_uid == 'element_redeemcode_200') {
 					if ($_GET['email'] == $order_details['customer_details']['email_address']) {
@@ -345,7 +351,7 @@ class Store extends ElementBase {
 					$this->lock();
 
 					$request = new CASHRequest();
-					$order_details = $request->sessionGet('store'.$this->element_id.'order');
+					$order_details = $request->sessionGet('commerce-'.$this->element_id);
 
 					if ($order_details) {
 						$this->element_data['order_id'] = $order_details['id'];

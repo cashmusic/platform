@@ -102,6 +102,7 @@ $campaign_elements = array();
 $elements_for_campaign = array();
 if (is_array($campaigns_response['payload'])) {
 	$cash_admin->page_data['campaigns_as_options'] = '';
+	$elements_response = false;
 	foreach ($campaigns_response['payload'] as &$campaign) {
 		// pull out element details
 		$campaign['elements'] = json_decode($campaign['elements'],true);
@@ -126,7 +127,9 @@ if (is_array($campaigns_response['payload'])) {
 		}
 		$cash_admin->page_data['campaigns_as_options'] .= '>' . $campaign['title'] . '</option>';
 	}
-	$elements_for_campaign = $elements_response['payload'];
+	if ($elements_response) {
+		$elements_for_campaign = $elements_response['payload'];
+	}
 }
 
 if ($current_campaign == -1) {

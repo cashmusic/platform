@@ -249,7 +249,7 @@ a.revealpassword, .input-additional-info {
 	font-size:0.85em;
 	color:#666;
 	position:relative;
-	top: -6px;
+	top: -12px;
 	padding:0 0 6px 0;
 	margin:0;
 	display: block;
@@ -689,7 +689,7 @@ input.checkorradio:checked{
 
 label{
 	padding:0;
-	margin:0 6px 12px 0;
+	margin:0 6px 6px 0;
 	line-height: 18px;
 	font-size: 14px;
 	text-transform: lowercase;
@@ -895,6 +895,7 @@ button .icon, .button .icon{
 
 .drawer.upload-corral .drawercontent{
 	padding:0;
+	margin:18px 0 0 0;
 }
 
 
@@ -1302,8 +1303,8 @@ transform: scale(1.025)!important;
 	-moz-transition: opacity 0.3s  ease-in-out;
 	transition: opacity 0.3s ease-in-out;
 	margin: 0 auto;
-	padding:0;
-	height:80px;
+	padding:10px 0 0 0;
+	height:100px;
 }
 
 #header #logo img{
@@ -2031,14 +2032,14 @@ section[role=main].hero{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	padding:0;
+	padding:0.5%;
 	margin:0 0 30px 0;
 }
 
 #page_content .connection {
-	width:23%;
+	width:24%;
 	padding:20px;
-	margin:1%;
+	margin:0.5%;
 }
 
 .connection img{
@@ -2650,12 +2651,10 @@ color:#fff!important;
 
 /* Preference panel tabbed navigation */
 .drawer.prefpanel .page-settings-tabs{
-		position: absolute;
-		right:20px;
-		top:11px;
+		text-align: left;
 		list-style-type: none;
 		padding:0;
-		margin:0;
+		margin:18px 0 0 0;
 		opacity: 0;
 		pointer-events: none;
 }
@@ -3270,13 +3269,13 @@ body.login .login-content.legal{
 }
 
 #page_content header.page-header{
-	margin:0 0 33px 0;
+	margin:18px 0 36px 0;
 }
 
 #page_content header .page-title{
 	font-size: 28px;
 	line-height: 36px;
-	margin:18px 0 0 0;
+	margin:0;
 }
 
 /* Secondary Title*/
@@ -3527,6 +3526,7 @@ body.login .login-content.legal{
 	background:#00cf7f;
 	color:#fff!important;
 	padding: 6px 0;
+	margin:0;
 	height: 30px;
 	width: 30px;
 	font-size:11px;
@@ -6717,6 +6717,16 @@ a.edit-button:hover .icon{
 	overflow: visible;
 }
 
+.release-cover .placeholder{
+	font-size: 52px;
+	border: none;
+	position: absolute;
+	top:50%;
+	left:50%;
+	z-index: 0;
+	margin:-25px 0 0 -25px;
+}
+
 .release-cover a {
 	display:block;
 	width:90%;
@@ -7002,7 +7012,7 @@ body.login .login-content{
 
 .login .login-carousel-container{
 		border-left: solid 1px rgba(0,0,0,0.1);
-		height:540px;
+		height:530px;
 		display: inline-block;
 }
 
@@ -7074,7 +7084,6 @@ button.right, .button.right{
 		padding:0 0 0 20px!important;
 }
 
-
 .pure-u-1{
 	margin-bottom:0;
 }
@@ -7113,6 +7122,10 @@ button.right, .button.right{
 
 #page_content header{
 	margin:0 0 18px 0;
+}
+
+#page_content header.page-header{
+	margin-top:0;
 }
 
 #page_content header .page-title{
@@ -7343,6 +7356,13 @@ section[role=main].hero, .login section[role=main]{ margin:400px 0 0 0; }
 	margin:0 0 0 -36px;
 }
 
+
+/* inline drawer tabs */
+.drawer.prefpanel .page-settings-tabs{
+		margin:-12px 0 -18px 0;
+		text-align: right;
+}
+
 /* Alternate States */
 
 .panel #mainspc{
@@ -7517,7 +7537,7 @@ button, .button, #modallightbox .modalcancel{
 #touchpoints{
 	display:inline-block;
 	width:100%;
-	margin:40px auto 0 auto;
+	margin:30px auto 0 auto;
 }
 
 #touchpoints ul{ text-align: center; }

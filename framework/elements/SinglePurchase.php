@@ -248,15 +248,21 @@ class SinglePurchase extends ElementBase {
 			$this->element_data['error_message'] = 'Make sure you enter a price of at least ' . $this->element_data['currency'] . $item['price'] . ' and try again.';
 		} elseif ($this->status_uid == 'commerce_finalizepayment_400' || $this->status_uid == 'element_redeemcode_400') {
 			// payerid is specific to paypal, so this is temporary to tell between canceled and errored:
-			if (isset($_GET['PayerID'])) {
-				//$this->element_data['error_message'] = $this->options['message_error'];
-				$this->element_data['error_message'] = print_r($this->original_response,true);
+			if ($this->unlocked) {
+				// if it's unlocked and we get a 400 it means we're in an embed that's put on a page that invoked
+				// a CASHRequest and caught the purchase return first. AKA: a band.cashmusic.org page
+				$this->element_data['showsuccess'] = true;
+			} else {
+				if (isset($_GET['PayerID'])) {
+					//$this->element_data['error_message'] = $this->options['message_error'];
+					$this->element_data['error_message'] = print_r($this->original_response,true);
+				}
 			}
 		} elseif (isset($_REQUEST['state'])) {
 			if ($_REQUEST['state'] == 'success') {
 				if ($this->unlocked) {
 					$this->setTemplate('success');
-					//$this->lock();
+					$this->lock();
 				}
 			}
 		}

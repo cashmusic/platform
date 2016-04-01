@@ -618,77 +618,105 @@ class CommercePlant extends PlantBase {
         }
     }
 
-    protected function addToCart($item_id,$item_variant=false,$price=false,$session_id=false) {
-        $r = new CASHRequest();
-        $r->startSession(false,$session_id);
+    protected function addToCart($item_id,$element_id,$item_variant=false,$price=false,$session_id=false) {
+         $r = new CASHRequest();
+         $r->startSession(false,$session_id);
 
-        $cart = $r->sessionGet('cart');
-        if (!$cart) {
+         $cart = $r->sessionGet('cart');
+         if (!$cart) {
             $cart = array(
-                'shipto' => ''
+               $element_id => array(
+                  'shipto' => ''
+               )
             );
-        }
-        $qty = 1;
-        if (isset($cart[$item_id.$item_variant])) {
-            $qty = $cart[$item_id.$item_variant]['qty'] + 1;
-        }
-        $cart[$item_id.$item_variant] = array(
+         } else {
+            if (!isset($cart[$element_id])) {
+               $cart[$element_id] = array(
+                  'shipto' => ''
+               );
+            }
+         }
+         $qty = 1;
+         if (isset($cart[$element_id][$item_id.$item_variant])) {
+            $qty = $cart[$element_id][$item_id.$item_variant]['qty'] + 1;
+         }
+         $cart[$element_id][$item_id.$item_variant] = array(
             'id' 		 	 => $item_id,
             'variant' 	 => $item_variant,
             'price' 		 => $price,
             'qty'		 	 => $qty
-        );
+         );
 
-        $r->sessionSet('cart', $cart);
-        return $cart;
+         $r->sessionSet('cart', $cart);
+         return $cart[$element_id];
     }
 
-    protected function editCartQuantity($item_id,$qty,$item_variant='',$session_id=false) {
+    protected function editCartQuantity($item_id,$element_id,$qty,$item_variant='',$session_id=false) {
         $r = new CASHRequest();
         $r->startSession(false,$session_id);
 
         $cart = $r->sessionGet('cart');
         if (!$cart) {
             return false;
+        } else {
+           if (!isset($cart[$element_id])) {
+             return false;
+           }
         }
 
-        if (!isset($cart[$item_id.$item_variant])) {
+        if (!isset($cart[$element_id][$item_id.$item_variant])) {
             return false;
         } else {
             if ($qty == 0) {
-                unset($cart[$item_id.$item_variant]);
+                unset($cart[$element_id][$item_id.$item_variant]);
             } else {
-                $cart[$item_id.$item_variant]['qty'] = $qty;
+                $cart[$element_id][$item_id.$item_variant]['qty'] = $qty;
             }
             $r->sessionSet('cart', $cart);
-            return $cart;
+            return $cart[$element_id];
         }
     }
 
-    protected function editCartShipping($region='r1',$session_id=false) {
+    protected function editCartShipping($element_id,$region='r1',$session_id=false) {
         $r = new CASHRequest();
         $r->startSession(false,$session_id);
 
         $cart = $r->sessionGet('cart');
         if (!$cart) {
             return false;
+        } else {
+           if (!isset($cart[$element_id])) {
+             return false;
+           }
         }
 
-        $cart['shipto'] = $region;
+        $cart[$element_id]['shipto'] = $region;
         $r->sessionSet('cart', $cart);
-        return $cart;
+        return $cart[$element_id];
     }
 
-    protected function emptyCart($session_id=false) {
-        $r = new CASHRequest();
-        $r->startSession(false,$session_id);
-        $r->sessionClear('cart');
+    protected function emptyCart($element_id,$session_id=false) {
+         $r = new CASHRequest();
+         $r->startSession(false,$session_id);
+         $cart = $r->sessionGet('cart');
+         if ($cart) {
+            if (isset($cart[$element_id])) {
+               unset($cart[$element_id]);
+            }
+         }
+         return true;
     }
 
-    protected function getCart($session_id=false) {
+    protected function getCart($element_id,$session_id=false) {
         $r = new CASHRequest();
         $r->startSession(false,$session_id);
-        return $r->sessionGet('cart');
+        $cart = $r->sessionGet('cart');
+        if ($cart) {
+           if (isset($cart[$element_id])) {
+             return $cart[$element_id];
+           }
+        }
+        return false;
     }
 
     protected function addOrder(
@@ -1252,8 +1280,8 @@ class CommercePlant extends PlantBase {
 
         //TODO: store last seen top URL
         //      or maybe make the API accept GET params? does it already? who can know?
-        $r = new CASHRequest();
-        $r->startSession(false,$session_id);
+        //$r = new CASHRequest();
+        $this->startSession(false,$session_id);
 
         if (!$element_id) {
             return false;
@@ -1284,7 +1312,7 @@ class CommercePlant extends PlantBase {
             } else {
               return false; // no default PP shit set
             }
-            $cart = $this->getCart($session_id);
+            $cart = $this->getCart($element_id,$session_id);
 
             $shipto = $cart['shipto'];
             unset($cart['shipto']);
@@ -1419,6 +1447,9 @@ class CommercePlant extends PlantBase {
                     if ($element_id) {
                         $return_url .= '&element_id=' . $element_id;
                     }
+                    if ($session_id) {
+                        $return_url .= '&session_id=' . $session_id;
+                    }
 
                     $approval_url = $payment_seed->preparePayment(
                         $total_price,							# payment amount
@@ -1546,10 +1577,11 @@ class CommercePlant extends PlantBase {
 
         $order_details = $this->getOrder($order_id);
         $transaction_details = $this->getTransaction($order_details['transaction_id']);
-
         $connection_type = $this->getConnectionType($transaction_details['connection_id']);
-
         $order_totals = $this->getOrderTotals($order_details['order_contents']);
+
+        $r = new CASHRequest();
+        $r->startSession(false,$session_id);
 
         //TODO: since we haven't actually set the connection settings at this point, let's
         // get connection type settings so we can extract Seed classname
@@ -1605,21 +1637,39 @@ class CommercePlant extends PlantBase {
                     );
 
                     // empty the cart at this point
-                    $this->emptyCart($session_id);
-//					error_log( print_r($payment_details['payer'], true)  );
+                    $this->emptyCart($element_id,$session_id);
+
                     // TODO: add code to order metadata so we can track opens, etc
                     $order_details['customer_details']['email_address'] = $payment_details['payer']['email'];
 
                     $order_details['gross_price'] = $payment_details['total'];
 
                     try {
-                        //$this->sendOrderReceipt(false,$order_details,$finalize_url);
+                        $this->sendOrderReceipt(false,$order_details,$finalize_url);
                     } catch (Exception $e) {
                         //TODO: what happens when order receipt not sent?
                     }
 
-                    return $order_id;
+                     if ($order_details['element_id']) {
+                        // borrowed from ElementBase — use the same mechanism to unlock the element
+                        // that issued the order so we're not reliant on a page refresh thing for
+                        // stripe or for an element embedded via script on a page, etc.
+                        $lock_session = $this->sessionGet('unlocked_elements');
+                  		if (is_array($lock_session)) {
+                  			$key = array_search($order_details['element_id'], $lock_session);
+                  			if ($key === false) {
+                  				$lock_session[] = $order_details['element_id'];
+                  				$r->sessionSet('unlocked_elements',$lock_session);
+                  			}
+                  		} else {
+                  			$r->sessionSet('unlocked_elements',array($order_details['element_id']));
+                  		}
 
+                        // we're also going to set order details, which are used by the Store element
+                        $r->sessionSet('commerce-'.$order_details['element_id'],$order_details);
+                     }
+
+                    return $order_id;
                 } else {
                     $this->setErrorMessage("Couldn't find your account.");
                     return false;

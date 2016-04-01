@@ -81,7 +81,7 @@
 			}
 			for (var i = 0, len = qtys.length; i < len; i++) {
 				var itemtotal = qtys[i].value*qtys[i].getAttribute('data-price');
-				var price = document.querySelector('span.cm-totalprice[data-itemid="'+qtys[i].getAttribute('data-itemid')+'"][data-variant="'+qtys[i].getAttribute('data-variant')+'"]');
+				var price = document.querySelector('span.cm-totalprice[data-itemid="'+qtys[i].getAttribute('data-itemid')+'"][data-variant="'+qtys[i].getAttribute('data-variant').replace(/["\\]/g, '\\$&')+'"]');
 				price.innerHTML = itemtotal.toFixed(2);
 				subtotal += itemtotal;
 				{{#has_physical}}
@@ -114,9 +114,9 @@
 	}
 
 	function removeItem(itemid,variant) {
-		var li = document.querySelector('li[data-itemid="'+itemid+'"][data-variant="'+variant+'"]');
+		var li = document.querySelector('li[data-itemid="'+itemid+'"][data-variant="'+variant.replace(/["\\]/g, '\\$&')+'"]');
 		var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
-		var poststring = 'cash_request_type=commerce&cash_action=editcartquantity&item_id=' + itemid + '&qty=0';
+		var poststring = 'cash_request_type=commerce&cash_action=editcartquantity&element_id={{element_id}}&item_id=' + itemid + '&qty=0';
 		if (variant) {
 			poststring += '&item_variant='+encodeURIComponent(variant);
 		}
@@ -163,7 +163,7 @@
 							removeItem(this.getAttribute('data-itemid'),this.getAttribute('data-variant'));
 						} else {
 							var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
-							var poststring = 'cash_request_type=commerce&cash_action=editcartquantity&item_id=' + this.getAttribute('data-itemid') + '&qty=' + this.value;
+							var poststring = 'cash_request_type=commerce&cash_action=editcartquantity&element_id={{element_id}}&item_id=' + this.getAttribute('data-itemid') + '&qty=' + this.value;
 							if (this.getAttribute('data-variant')) {
 								poststring += '&item_variant='+encodeURIComponent(this.getAttribute('data-variant'));
 							}
@@ -183,7 +183,7 @@
 		{{#has_physical}}
 		// shipping dropdown
 		cm.events.add(document.querySelector('select.cm-region'),'change', function(e) {
-			var requesturl = '{{api_url}}/verbose/commerce/editcartshipping/region/' + this.value + '/';
+			var requesturl = '{{api_url}}/verbose/commerce/editcartshipping/element_id/{{element_id}}/region/' + this.value + '/';
 			requesturl += '?ts=' + new Date().getTime();
 			cm.ajax.send(requesturl, false,
 				function() {
@@ -214,7 +214,7 @@
 						{{/has_physical}}
 						{{#has_physical}}
 							var region = document.querySelector('select.cm-region').value;
-							if (region == '' && !this.getAttribute('data-region')) {
+							if (!region) {
 								opt.shipping = {
 									"r1": "{{region1}} (${{shippingr1}})",
 									"r2": "{{region2}} (${{shippingr2}})"

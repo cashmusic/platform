@@ -142,6 +142,15 @@ if ($user_id) {
 		// add cashmusic.js for page view
 		$template = str_replace('</head>', '<script type="text/javascript" src="' . CASH_PUBLIC_URL . '/cashmusic.js"></script></head>', $template);
 
+		// add default page styles for page viewport
+		$styles  = '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+		$styles .= '<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1">';
+		$styles .= '<link rel="icon" type="image/x-icon" href="'.CASH_ADMIN_URL.'/ui/default/assets/images/favicon.png" />';
+		$styles .= '<link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">';
+		$styles .= '<link rel="stylesheet" type="text/css" href="'.CASH_ADMIN_URL.'/assets/css/embed-default.css" />';
+		$styles .= '<link rel="stylesheet" type="text/css" href="'.CASH_ADMIN_URL.'/assets/css/page-default.css" />';
+		$template = str_replace('<head>', "<head>\n".$styles."\n", $template);
+
 		// render out the page itself
 		echo CASHSystem::renderMustache($template,$page_vars);
 		exit();

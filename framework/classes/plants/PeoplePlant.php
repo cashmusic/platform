@@ -712,7 +712,7 @@ class PeoplePlant extends PlantBase {
 	 * @param {string} $additional_data -   any extra data (JSON, etc) a dev might pass with signup for later use
 	 * @param {string} $name -              if the user doesn't exist in the system this will be used as their display name
 	 * @return bool
-	 */protected function addAddress($address,$list_id,$do_not_verify=false,$initial_comment='',$additional_data='',$name='Anonymous',$force_verification_url=false,$request_from_service=false,$service_opt_in=true,$extra_querystring='',$first_name='',$last_name='',$additional_data='') {
+	 */protected function addAddress($address,$list_id,$do_not_verify=false,$initial_comment='',$additional_data='',$name='Anonymous',$force_verification_url=false,$request_from_service=false,$service_opt_in=true,$extra_querystring='',$first_name='',$last_name='') {
 		if (filter_var($address, FILTER_VALIDATE_EMAIL)) {
 			// first check to see if the email is already on the list
 			$take_action = false;

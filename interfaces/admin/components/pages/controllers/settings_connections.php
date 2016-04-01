@@ -209,7 +209,7 @@ if (!$settings_action || isset($_POST['dosettingsadd']) || isset($_POST['dosetti
 			}
 
 			$cash_admin->page_data['state_markup'] .= '</span>'
-				. '<div class="itemnav acation">';
+				. '<div class="itemnav action">';
 				if ($cash_admin->platform_type == 'single') {
 					$cash_admin->page_data['state_markup'] .=  '<a href="' . ADMIN_WWW_BASE_PATH . '/settings/connections/edit/' . $data['id'] . '/' . $data['name'] . '/' . $data['type'] . '/" class="mininav_flush">Edit</a> ';
 				}

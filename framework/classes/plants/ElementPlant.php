@@ -219,14 +219,21 @@ class ElementPlant extends PlantBase {
 				} else {
 					$template = @file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/embed.mustache');
 				}
+				// set up our default styles in the template:
+				$styles  = '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+				$styles .= '<link rel="icon" type="image/x-icon" href="'.CASH_ADMIN_URL.'/ui/default/assets/images/favicon.png" />';
+				$styles .= '<link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">';
+				$styles .= '<link rel="stylesheet" type="text/css" href="'.CASH_ADMIN_URL.'/assets/css/embed-default.css" />';
+
 				// zero or less means use our standard template, less than zero selects options
 				if ($element['template_id'] == '-1') {
-					$template = str_replace(array('!--light','light--'), '', $template);
-					$template = str_replace('<body', '<body class="light"', $template);
+					$styles .= '<link rel="stylesheet" type="text/css" href="'.CASH_ADMIN_URL.'/assets/css/embed-light.css" />';
 				} else if ($element['template_id'] == '-2') {
-					$template = str_replace(array('!--dark','dark--'), '', $template);
-					$template = str_replace('<body', '<body class="dark"', $template);
+					$styles .= '<link rel="stylesheet" type="text/css" href="'.CASH_ADMIN_URL.'/assets/css/embed-dark.css" />';
 				}
+
+				$template = str_replace('<head>', "<head>\n".$styles."\n", $template);
+
 				return $template;
 			}
 		} else {
