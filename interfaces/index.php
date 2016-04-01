@@ -146,7 +146,7 @@ if ($user_id) {
 		$styles  = '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
 		$styles .= '<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1">';
 		$styles .= '<link rel="icon" type="image/x-icon" href="'.CASH_ADMIN_URL.'/ui/default/assets/images/favicon.png" />';
-		$styles .= '<link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">';
+		$styles .= '<link href="//fonts.googleapis.com/css?family=Montserrat:400,700|Nunito:300,400,700" rel="stylesheet" type="text/css">';
 		$styles .= '<link rel="stylesheet" type="text/css" href="'.CASH_ADMIN_URL.'/assets/css/embed-default.css" />';
 		$styles .= '<link rel="stylesheet" type="text/css" href="'.CASH_ADMIN_URL.'/assets/css/page-default.css" />';
 		$template = str_replace('<head>', "<head>\n".$styles."\n", $template);
