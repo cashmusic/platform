@@ -1451,6 +1451,7 @@ class CommercePlant extends PlantBase {
                         $return_url .= '&session_id=' . $session_id;
                     }
 
+
                     $approval_url = $payment_seed->preparePayment(
                         $total_price,							# payment amount
                         'order-' . $order_id,						# order id

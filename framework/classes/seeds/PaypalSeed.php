@@ -37,6 +37,10 @@ class PaypalSeed extends SeedBase {
         $this->settings_type = 'com.paypal';
         $this->user_id = $user_id;
         $this->connection_id = $connection_id;
+
+        // this tells CommercePlant if we need a redirect for this seed, or if we can just head right to doPayment
+        $this->redirects = true;
+
         if ($this->getCASHConnection()) {
             $this->api_version   = '94.0';
             $this->api_username  = $this->settings->getSetting('username');
@@ -148,13 +152,25 @@ class PaypalSeed extends SeedBase {
                 $new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
 
                 //TODO: get email address from API
+
+                $authorization_header = PaypalSeed::getAuthorizationHeader(
+                    $connections['com.paypal']['username'],
+                    $connections['com.paypal']['password'],
+                    $response->token,
+                    $response->tokenSecret
+                );
+
+                error_log($authorization_header);
+
+                $merchant_basic_info = PaypalSeed::getEmailFromPermissionsAPI($authorization_header);
+
                 $result = $new_connection->setSettings(
                     "somedude@dude.com (PayPal)",
                     'com.paypal',
                     array(
                         'permissions_account' => "somedude@dude.com",
-                        'permissions_token' => $request->token,
-                        'permissions_token_secret' => $request->verifier
+                        'permissions_token' => $response->token,
+                        'permissions_token_secret' => $response->tokenSecret
                     )
                 );
 
@@ -177,19 +193,26 @@ class PaypalSeed extends SeedBase {
 
     }
 
-    protected function getAuthorizationHeader() {
+    /**
+     * @param $api_username
+     * @param $api_password
+     * @param $token
+     * @param $secret
+     * @return bool|string
+     */
+    protected static function getAuthorizationHeader($api_username, $api_password, $token, $secret) {
 
         $auth = new AuthSignature();
         $auth_response = $auth->genSign(
-            $this->api_username,
-            $this->api_password,
-            $this->permissions_token,
-            $this->permissions_token_secret,
+            $api_username,
+            $api_password,
+            $token,
+            $secret,
             'POST',
             "https://api.sandbox.paypal.com/nvp"
         );
 
-        $auth_string = "token=" . $response->token . ",signature=" . $auth_response['oauth_signature'] . ",timestamp=" . $auth_response['oauth_timestamp'];
+        $auth_string = "token=" . $token . ",signature=" . $auth_response['oauth_signature'] . ",timestamp=" . $auth_response['oauth_timestamp'];
 
         if ($auth_response) {
             return $auth_string;
@@ -224,13 +247,14 @@ class PaypalSeed extends SeedBase {
             if ($this->merchant_email) {
                 $request_parameters['SUBJECT'] = $this->merchant_email;
             }
-            $request_parameters = array_merge($request_parameters, $nvp_parameters);
 
             $headers = array(
                 0 => "X-PAYPAL-SECURITY-SUBJECT: " . $this->merchant_email,
                 1 => "X-PAYPAL-AUTHENTICATION: " . $this->getAuthorizationHeader()
             );
         }
+
+        $request_parameters = array_merge($request_parameters, $nvp_parameters);
 
         // Get response from the server.
         $http_response = CASHSystem::getURLContents($this->api_endpoint,$request_parameters,true, $headers);
@@ -262,6 +286,35 @@ class PaypalSeed extends SeedBase {
         }
     }
 
+
+    protected static function getEmailFromPermissionsAPI($authorization) {
+
+        $headers = array(
+            "X-PP-AUTHORIZATION: " .$authorization,
+            "X-PAYPAL-REQUEST-DATA-FORMAT:NV",
+            "X-PAYPAL-RESPONSE-DATA-FORMAT:json",
+            "X-PAYPAL-APPLICATION-ID: APP-1JE4291016473214C",
+            );
+
+        $url_api = "https://svcs.paypal.com/Permissions/GetBasicPersonalData";
+        $post_array = array(
+            "attributeList"=>array("attribute"=> array(0=>"http://axschema.org/contact/email")),
+            "requestEnvelope.errorLanguage"=>"en_US");
+        $curl_session =  curl_init();
+        curl_setopt($curl_session, CURLOPT_URL,$url_api );
+        curl_setopt($curl_session, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl_session, CURLOPT_POST, 1);
+        curl_setopt($curl_session, CURLOPT_POSTFIELDS, http_build_query($post_array));
+        curl_setopt($curl_session, CURLOPT_CONNECTTIMEOUT,10);
+        curl_setopt($curl_session, CURLOPT_TIMEOUT, 10);
+        curl_setopt($curl_session, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl_session, CURLOPT_SSL_VERIFYPEER, 0);
+        $response = json_decode(curl_exec($curl_session));
+
+        error_log( print_r($response, true) );
+        curl_close($curl_session);
+    }
+
     public function preparePayment(
         $total_price,
         $order_sku,
@@ -272,6 +325,8 @@ class PaypalSeed extends SeedBase {
         $payment_type='Sale', /* 'Sale', 'Order', or 'Authorization' */
         $shipping=null
     ) {
+
+        error_log($return_url."\n".$cancel_url);
         // Set NVP variables:
         $nvp_parameters = array(
             'PAYMENTREQUEST_0_AMT' => $total_price,
