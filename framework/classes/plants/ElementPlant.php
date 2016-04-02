@@ -222,7 +222,7 @@ class ElementPlant extends PlantBase {
 				// set up our default styles in the template:
 				$styles  = '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
 				$styles .= '<link rel="icon" type="image/x-icon" href="'.CASH_ADMIN_URL.'/ui/default/assets/images/favicon.png" />';
-				$styles .= '<link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">';
+				$styles .= '<link href="//fonts.googleapis.com/css?family=Montserrat:400,700|Nunito:300,400,700" rel="stylesheet" type="text/css">';
 				$styles .= '<link rel="stylesheet" type="text/css" href="'.CASH_ADMIN_URL.'/assets/css/embed-default.css" />';
 
 				// zero or less means use our standard template, less than zero selects options

@@ -248,6 +248,7 @@ input:focus placeholder{color:#111;}
 	line-height: 12px;
 	padding:10px 0;
 	opacity: 0.5;
+  font-family: 'Nunito',Helvetica,Arial,sans-serif;
 }
 
 /* Single Purchase */
@@ -626,6 +627,10 @@ input:focus placeholder{color:#111;}
   text-align: center;
 }
 
+.cm-store .cm-showcart svg{
+  height:15px;
+}
+
 .cm-store .cm-item{
 	vertical-align: top;
   position: relative;
@@ -708,6 +713,7 @@ input:focus placeholder{color:#111;}
 	font-size: 12px;
 	line-height: 14px;
 	opacity: 0.6;
+  font-family: 'Nunito',Helvetica,Arial,sans-serif;
 }
 
 .cm-itemprice{
@@ -1448,6 +1454,67 @@ input[type=number]::-webkit-outer-spin-button {
     width:49.75%;
     margin-left:0.25%;
   }
+
+
+  /* Compact layout (.cm-compact)  */
+
+  .cm-compact .cm-store.unfeatured-items .cm-inner .cm-store.cm-inner,  .cm-compact .cm-store.featured-items .cm-store.cm-inner{
+    width:73%;
+  }
+
+  .cm-compact .cm-store.unfeatured-items .cm-item{
+    width:49.75%;
+  }
+
+  .cm-compact .cm-store.unfeatured-items .cm-item:nth-child(odd){
+    margin-right:0.25%;
+  }
+
+  .cm-compact .cm-store.unfeatured-items .cm-item:nth-child(even){
+    margin-left:0.25%;
+  }
+
+  .cm-compact .cm-store .cm-item .cm-item-image-container {
+    width:25%;
+  }
+
+  .cm-compact .cm-store .cm-item .cm-item-image-container .cm-item-image{
+    -webkit-border-radius: 500px;
+    -moz-border-radius: 500px;
+    border-radius: 500px;
+  }
+
+
+    /* 2 featured items (compact version layout) */
+
+    .cm-compact .cm-store.featured-items .cm-item.cm-featured2{
+      width:49.75%;
+    }
+
+    .cm-compact .cm-store.featured-items .cm-item.cm-featured2:nth-of-type(1){
+      margin:0 0.25% 0 0;
+    }
+
+    .cm-compact .cm-store.featured-items .cm-item.cm-featured2:nth-of-type(2){
+      margin:0 0 0 0.25%;
+    }
+
+    /* 3 featured items (compact version layout) */
+
+    .cm-compact .cm-store.featured-items .cm-item.cm-featured3:nth-of-type(1){
+      width:100%;
+      margin:0 0 0.5% 0;
+    }
+
+    .cm-compact .cm-store.featured-items .cm-item.cm-featured3:nth-of-type(2){
+      width:49.75%;
+      margin-right:0.25%;
+    }
+
+    .cm-compact .cm-store.featured-items .cm-item.cm-featured3:nth-of-type(3){
+      width:49.75%;
+      margin-left:0.25%;
+    }
 
   /* Instant grat files */
 

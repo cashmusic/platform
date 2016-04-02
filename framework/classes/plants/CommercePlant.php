@@ -702,6 +702,7 @@ class CommercePlant extends PlantBase {
          if ($cart) {
             if (isset($cart[$element_id])) {
                unset($cart[$element_id]);
+               $r->sessionSet('cart', $cart);
             }
          }
          return true;

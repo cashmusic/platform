@@ -130,7 +130,8 @@ $orders_response = $cash_admin->requestAndStore(
 	)
 );
 if (is_array($orders_response)) {
-	$cash_admin->page_data['unfulfilled_orders'] = count($orders_response);
+	//error_log(json_encode($orders_response));
+	$cash_admin->page_data['unfulfilled_orders'] = count($orders_response['payload']);
 }
 
 /*******************************************************************************

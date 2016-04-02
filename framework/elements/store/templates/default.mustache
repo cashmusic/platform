@@ -1,5 +1,5 @@
 {{#error_message}}<div class="cm-error cm-{{element_type}}-error">{{error_message}}</div>{{/error_message}}
-<div class="cm-store cm-front">
+<div class="cm-store cm-front {{layout}}">
 <div class="cm-store featured-items">
 	{{#features}}<div class="cm-store cm-item item-{{id}} featured cm-featured{{total_features}}">
 		<div class="cm-item-image-container">
@@ -28,7 +28,19 @@
 	</div>{{/features}}
 </div><!--featured-->
 
-<a href="#" class="cm-showcart"><i class="icon"></i>View cart</a>
+<a href="#" class="cm-showcart"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="23.066px" height="20.783px" viewBox="0 0 23.066 20.783" enable-background="new 0 0 23.066 20.783" xml:space="preserve">
+<g>
+	<g>
+		<path fill="#00CF7F" d="M17.667,4.75V2.6L14.9,0.25v4.5h-7V0.217l-2.633,2.3V4.75H0c0,0,0,11.4,0,13.267
+			c0,1.867,2.533,2.767,2.533,2.767s15.8,0,17.8,0s2.733-2.667,2.733-2.667V4.75H17.667z M13.842,15
+			c-0.274,0.2-2.365,2.007-2.367,2.258v0.009c0-0.25-2.081-2.066-2.356-2.267s-2.575-1.875-2.575-3.8
+			C6.469,9.05,8.069,8.65,8.619,8.5c1.064-0.377,2.542,0.937,2.861,1.239c0.32-0.302,1.797-1.616,2.861-1.239
+			c0.55,0.15,2.149,0.55,2.075,2.7C16.417,13.125,14.116,14.8,13.842,15z"/>
+	</g>
+	<rect x="8.2" fill="#00CF7F" width="6.366" height="2.45"/>
+</g>
+</svg> View cart</a>
 
 <div class="cm-store unfeatured-items">
 <div class="cm-store cm-info cm-inner">

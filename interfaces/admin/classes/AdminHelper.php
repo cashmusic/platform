@@ -1389,13 +1389,10 @@
 	 * at the speed of light — it'll make a supersonic nerd of you. Don't stop it.
 	 *
 	 * @return array
-	 */public static function echoFormOptions($base_type,$selected=0,$range=false,$return=false,$shownone=true) {
+	 */public static function echoFormOptions($base_type,$selected=0,$range=false,$return=false,$shownone=false) {
 		global $admin_primary_cash_request;
 		$available_options = false;
 		$all_options = '';
-		if ($shownone) {
-			$all_options = '<option value="0">None</option>';
-		}
 		if (is_array($base_type)) {
 			$available_options = array();
 			foreach ($base_type as $key => $value) {
@@ -1406,6 +1403,7 @@
 			}
 			$display_information = 'display';
 		} else {
+			$shownone = true;
 			// fix for an old style. we prefer '/' in app.json but use '_' in other calls
 			$base_type = str_replace('/','_',$base_type);
 
@@ -1458,6 +1456,10 @@
 		}
 
 		if (is_array($available_options)) {
+			if ($shownone) {
+				$all_options = '<option value="0" selected="selected">None</option>';
+			}
+			$first = true;
 			foreach ($available_options as $item) {
 				$doloop = true;
 				if ($range) {
@@ -1466,7 +1468,13 @@
 					}
 				}
 				if ($doloop) {
-					$selected_string = '';
+					if ($first && !$shownone) {
+						// without shownone the first option should always be selected by default
+						$selected_string = ' selected="selected"';
+					} else {
+						// we're in a loop or have none, so reset select to empty and re-test
+						$selected_string = '';
+					}
 					if ($item['id'] == $selected) {
 						$selected_string = ' selected="selected"';
 					}
