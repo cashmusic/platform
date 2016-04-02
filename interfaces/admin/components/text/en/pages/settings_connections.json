@@ -4,5 +4,8 @@
 	"related":{},
 	"labels":{},
 	"tooltips":{},
-	"copy":{}
+	"copy":{
+		"added":"Connection added",
+		"success":"All connected! You'll see the service listed in your connections. Name: "
+	}
 }

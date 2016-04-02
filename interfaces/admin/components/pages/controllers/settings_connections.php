@@ -3,6 +3,8 @@ $page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effe
 $settings_types_data = $page_data_object->getConnectionTypes();
 $settings_for_user = $page_data_object->getAllConnectionsforUser();
 
+$cash_admin->setPageContentTemplate('settings_connections');
+
 $all_services = array();
 $typecount = 1;
 
@@ -82,7 +84,9 @@ if ($settings_action) {
 							$_POST['settings_name'] = $settings_name;
 							$seed_name::postConnection($_POST);
 						}
-						$cash_admin->page_data['action_message'] = '<strong>Success.</strong> Everything was added successfully. You\'ll see it in your list of connections.';
+
+						$cash_admin->page_data['connection_name'] = $settings_name;
+						$cash_admin->setPageContentTemplate('settings_connections_added');
 					} else {
 						$cash_admin->page_data['action_message'] = '<strong>Error.</strong> Something went wrong. Please make sure you\'re using a unique name for this connection. Not only is that just smart, it\'s required.';
 					}
@@ -109,7 +113,9 @@ if ($settings_action) {
 							$_POST['settings_name'] = $settings_name;
 							$seed_name::postConnection($_POST);
 						}
-						AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
+						$cash_admin->page_data['connection_name'] = $settings_name;
+						$cash_admin->setPageContentTemplate('settings_connections_added');
+						//AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
 					} else {
 						AdminHelper::formFailure('Error. Something just didn\'t work right.','/settings/connections/');
 					}
@@ -129,7 +135,14 @@ if ($settings_action) {
 						$connections_base_uri = rtrim(str_replace($request_parameters,'',CASHSystem::getCurrentURL()),'/');
 						$_REQUEST['connections_base_uri'] = $connections_base_uri;
 						// PHP <= 5.2 >>>> $cash_admin->page_data['state_markup'] = call_user_func($seed_name . '::handleRedirectReturn', $_REQUEST);
-						$cash_admin->page_data['state_markup'] = $seed_name::handleRedirectReturn($_REQUEST);
+						$returned_connection = $seed_name::handleRedirectReturn($_REQUEST);
+
+						if (!is_array($returned_connection)) {
+							$cash_admin->page_data['state_markup'] = $returned_connection;
+						} else {
+							$cash_admin->page_data['connection_name'] = $returned_connection['name'];
+							$cash_admin->setPageContentTemplate('settings_connections_added');
+						}
 					}
 				}
 			}
@@ -223,5 +236,4 @@ if (!$settings_action || isset($_POST['dosettingsadd']) || isset($_POST['dosetti
 }
 
 $cash_admin->page_data['ui_title'] = '';
-$cash_admin->setPageContentTemplate('settings_connections');
 ?>
