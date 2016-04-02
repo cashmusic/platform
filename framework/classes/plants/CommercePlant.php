@@ -1602,7 +1602,7 @@ class CommercePlant extends PlantBase {
         // if this was approved by the user, we need to compare some values to make sure everything matches up
         if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address, $customer_name, $shipping_info, $subtotal)) {
             // okay, we've got the matching totals, so let's get the $user_id, y'all
-
+            error_log("we made it here");
             if ($payment_details['total'] >= $order_totals['price']) {
 
                 if ($user_id = $this->getOrCreateUser($payment_details['payer'])) {

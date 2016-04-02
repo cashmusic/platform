@@ -181,12 +181,6 @@ class PaypalSeed extends SeedBase {
                     $nvp_parameters['PAYMENTREQUEST_0_ITEMAMT'] = $payment_amount-$shipping;
                     $nvp_parameters['PAYMENTREQUEST_0_SHIPPINGAMT'] = $shipping_amount;
                 }*/
-        if ($allow_note) {
-            $nvp_parameters['ALLOWNOTE'] = 1;
-        }
-        if ($invoice) {
-            $nvp_parameters['PAYMENTREQUEST_0_INVNUM'] = $invoice;
-        }
 
         $parsed_response = $this->postToPaypal('SetExpressCheckout', $nvp_parameters);
         if (!$parsed_response) {
