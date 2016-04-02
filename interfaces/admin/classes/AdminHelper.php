@@ -203,7 +203,7 @@
 			}
 		}
 		if ($value['type'] == 'select') {
-			$default_val = AdminHelper::echoFormOptions($value['values'],0,false,true,true);
+			$default_val = AdminHelper::echoFormOptions($value['values'],0,false,true,false);
 		}
 		if ($value['type'] == 'scalar') {
 			$default_val = array();
@@ -226,7 +226,7 @@
 	public static function formatElementValue($value,$type,$formatting_data=false) {
 		$return_val = $value;
 		if ($type == 'select') {
-			$return_val = AdminHelper::echoFormOptions($formatting_data,$value,false,true,true);
+			$return_val = AdminHelper::echoFormOptions($formatting_data,$value,false,true,false);
 		}
 		return $return_val;
 	}
