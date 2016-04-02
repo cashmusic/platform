@@ -1451,15 +1451,16 @@ class CommercePlant extends PlantBase {
                         $return_url .= '&session_id=' . $session_id;
                     }
 
+                    //$return_url = $return_url . "&success=true";
 
                     $approval_url = $payment_seed->preparePayment(
                         $total_price,							# payment amount
                         'order-' . $order_id,						# order id
                         $order_totals['description'],				# order name
-                        $return_url,								# return URL
-                        $origin,								# cancel URL (the same in our case)
+                        $return_url,				# return URL
+                        $origin,					# cancel URL (the same in our case)
                         $currency,									# payment currency
-                        'sale',										# transaction type (e.g. 'Sale', 'Order', or 'Authorization')
+                        'Sale',										# transaction type (e.g. 'Sale', 'Order', or 'Authorization')
                         $shipping								# price additions (like shipping, but could be taxes in future as well)
                     );
 

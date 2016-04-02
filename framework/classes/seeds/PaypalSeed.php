@@ -18,27 +18,14 @@
  * This file is generously sponsored by Justin Miranda
  *
  **/
-
-require_once CASH_PLATFORM_ROOT . '/lib/paypal/PPBootStrap.php';
-
-use PayPal\Service\PermissionsService;
-use PayPal\Types\Common\RequestEnvelope;
-use PayPal\Types\Perm\RequestPermissionsRequest;
-use PayPal\Types\Perm\GetAccessTokenRequest;
-use PayPal\Auth\Oauth\AuthSignature;
-
-
-
 class PaypalSeed extends SeedBase {
-    protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token, $permissions_account, $permissions_token, $permissions_token_secret;
+    protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token;
     protected $merchant_email = false;
 
     public function __construct($user_id, $connection_id, $token=false) {
         $this->settings_type = 'com.paypal';
         $this->user_id = $user_id;
         $this->connection_id = $connection_id;
-
-        // this tells CommercePlant if we need a redirect for this seed, or if we can just head right to doPayment
         $this->redirects = true;
 
         if ($this->getCASHConnection()) {
@@ -47,11 +34,6 @@ class PaypalSeed extends SeedBase {
             $this->api_password  = $this->settings->getSetting('password');
             $this->api_signature = $this->settings->getSetting('signature');
             $sandboxed           = $this->settings->getSetting('sandboxed');
-
-            /* permissions API stuff, new implementation for refunds, mass payments, etc */
-            $this->permissions_account  = $this->settings->getSetting('permissions_account');
-            $this->permissions_token  = $this->settings->getSetting('permissions_token');
-            $this->permissions_token_secret = $this->settings->getSetting('permissions_token_secret');
 
             if (!$this->api_username || !$this->api_password || !$this->api_signature) {
                 $connections = CASHSystem::getSystemSettings('system_connections');
@@ -80,144 +62,34 @@ class PaypalSeed extends SeedBase {
     public static function getRedirectMarkup($data=false) {
         $connections = CASHSystem::getSystemSettings('system_connections');
 
-        // do the PayPal Permissions API funky chicken
-
-        $url = "http://dev.localhost:8888";
-        $returnURL = $url. ADMIN_WWW_BASE_PATH . '/settings/connections/add/com.paypal/finalize';
-        $cancelURL = $url. "/";
-
-        $scope = array(0=>'EXPRESS_CHECKOUT',1=>'RECURRING_PAYMENTS',2=>'REFUND', 3=>'MASS_PAY', 4=>'ACCESS_BASIC_PERSONAL_DATA');
-
-        $requestEnvelope = new RequestEnvelope("en_US");
-
-        $request = new RequestPermissionsRequest($scope, $returnURL);
-        $request->requestEnvelope = $requestEnvelope;
-
-        $service = new PermissionsService(Configuration::getAcctAndConfig());
-        try {
-
-            $response = $service->RequestPermissions($request);
-        } catch(Exception $ex) {
-            error_log( print_r($ex, true) );
-        }
-
-        $token = $response->token;
-
-        if(strtoupper($response->responseEnvelope->ack) == 'SUCCESS') {
-
-            $payPalURL = 'https://www.sandbox.paypal.com/webscr&cmd=_grant-permission&request_token=' . $token;
-
-        }
+        // I don't like using ADMIN_WWW_BASE_PATH below, but as this call is always called inside the
+        // admin I'm just going to do it. Without the full path in the form this gets all fucky
+        // and that's no bueno.
 
         if (isset($connections['com.paypal'])) {
             $return_markup = '<h4>Paypal</h4>'
                 . '<p>You\'ll need a verified Business or Premier Paypal account to connect properly. '
-                . 'Those are free upgrades, so just double-check your account. You '
+                . 'Those are free upgrades, so just double-check your address and enter it below. You '
                 . 'can learn more about what they entail <a href="https://cms.paypal.com/cgi-bin/?cmd=_render-content&content_ID=developer/EC_setup_permissions">here</a>.</p>'
-                . '<a href="' . $payPalURL . '" class="button">Connect with Paypal</a>';
+                . '<form accept-charset="UTF-8" method="post" id="paypal_connection_form" action="' . ADMIN_WWW_BASE_PATH . '/settings/connections/add/com.paypal">'
+                . '<input type="hidden" name="dosettingsadd" value="makeitso" />'
+                . '<input type="hidden" name="permission_type" value="accelerated" />'
+                . '<input id="connection_name_input" type="hidden" name="settings_name" value="(Paypal)" />'
+                . '<input type="hidden" name="settings_type" value="com.paypal" />'
+                . '<label for="merchant_email">Your Paypal email address:</label>'
+                . '<input type="text" name="merchant_email" id="merchant_email" value="" />'
+                . '<br />'
+                . '<div><input class="button" type="submit" value="Add The Connection" /></div>'
+                . '</form>'
+                . '<script type="text/javascript">'
+                . '$("#paypal_connection_form").submit(function() {'
+                . '	var newvalue = $("#merchant_email").val() + " (Paypal)";'
+                . '	$("#connection_name_input").val(newvalue);'
+                . '});'
+                . '</script>';
             return $return_markup;
         } else {
             return 'Please add default paypal api credentials.';
-        }
-    }
-
-    /**
-     * handleRedirectReturn
-     * Handles redirect from API Auth for service
-     * @param bool|false $data
-     * @return string
-     */
-    public static function handleRedirectReturn($data = false)
-    {
-            $connections = CASHSystem::getSystemSettings('system_connections');
-            if (isset($connections['com.paypal'])) {
-                //exchange the returned code for user credentials.
-                $requestEnvelope = new RequestEnvelope();
-                $requestEnvelope->errorLanguage = "en_US";
-                $request = new GetAccessTokenRequest();
-                $request->requestEnvelope = $requestEnvelope;
-
-                $request->token = $_REQUEST['request_token'];
-                $request->verifier = $_REQUEST['verification_code'];
-
-                $service = new PermissionsService(Configuration::getAcctAndConfig());
-                try {
-                    $response = $service->GetAccessToken($request);
-                } catch (Exception $ex) {
-                    AdminHelper::formSuccess("There was an error authenticating with PayPal.");
-                    return false;
-                }
-
-                //create new connection and add it to the database.
-                $new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
-
-                //TODO: get email address from API
-
-                $authorization_header = PaypalSeed::getAuthorizationHeader(
-                    $connections['com.paypal']['username'],
-                    $connections['com.paypal']['password'],
-                    $response->token,
-                    $response->tokenSecret
-                );
-
-                error_log($authorization_header);
-
-                $merchant_basic_info = PaypalSeed::getEmailFromPermissionsAPI($authorization_header);
-
-                $result = $new_connection->setSettings(
-                    "somedude@dude.com (PayPal)",
-                    'com.paypal',
-                    array(
-                        'permissions_account' => "somedude@dude.com",
-                        'permissions_token' => $response->token,
-                        'permissions_token_secret' => $response->tokenSecret
-                    )
-                );
-
-                if ($result) {
-                    AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.', '/settings/connections/');
-                    return true;
-                } else {
-                    AdminHelper::formFailure('Error. Could not save connection.', '/settings/connections/');
-                    return false;
-                }
-
-
-
-
-
-            } else {
-                AdminHelper::formFailure('Please add default Paypal app credentials.');
-                return false;
-            }
-
-    }
-
-    /**
-     * @param $api_username
-     * @param $api_password
-     * @param $token
-     * @param $secret
-     * @return bool|string
-     */
-    protected static function getAuthorizationHeader($api_username, $api_password, $token, $secret) {
-
-        $auth = new AuthSignature();
-        $auth_response = $auth->genSign(
-            $api_username,
-            $api_password,
-            $token,
-            $secret,
-            'POST',
-            "https://api.sandbox.paypal.com/nvp"
-        );
-
-        $auth_string = "token=" . $token . ",signature=" . $auth_response['oauth_signature'] . ",timestamp=" . $auth_response['oauth_timestamp'];
-
-        if ($auth_response) {
-            return $auth_string;
-        } else {
-            return false;
         }
     }
 
@@ -229,7 +101,7 @@ class PaypalSeed extends SeedBase {
         return $this->error_message;
     }
 
-    protected function postToPaypal($method_name, $nvp_parameters, $permssions=false) {
+    protected function postToPaypal($method_name, $nvp_parameters) {
         // Set the API operation, version, and API signature in the request.
         $request_parameters = array (
             'METHOD'    => $method_name,
@@ -238,26 +110,13 @@ class PaypalSeed extends SeedBase {
             'USER'      => $this->api_username,
             'SIGNATURE' => $this->api_signature
         );
-
-        $headers = array();
-
-        if ($permissions) {
-            //TODO: get merchant email via API
-            $this->merchant_email = "permissions@cashmusic.org";
-            if ($this->merchant_email) {
-                $request_parameters['SUBJECT'] = $this->merchant_email;
-            }
-
-            $headers = array(
-                0 => "X-PAYPAL-SECURITY-SUBJECT: " . $this->merchant_email,
-                1 => "X-PAYPAL-AUTHENTICATION: " . $this->getAuthorizationHeader()
-            );
+        if ($this->merchant_email) {
+            $request_parameters['SUBJECT'] = $this->merchant_email;
         }
-
-        $request_parameters = array_merge($request_parameters, $nvp_parameters);
+        $request_parameters = array_merge($request_parameters,$nvp_parameters);
 
         // Get response from the server.
-        $http_response = CASHSystem::getURLContents($this->api_endpoint,$request_parameters,true, $headers);
+        $http_response = CASHSystem::getURLContents($this->api_endpoint,$request_parameters,true);
         if ($http_response) {
             // Extract the response details.
             $http_response = explode("&", $http_response);
@@ -286,47 +145,16 @@ class PaypalSeed extends SeedBase {
         }
     }
 
-
-    protected static function getEmailFromPermissionsAPI($authorization) {
-
-        $headers = array(
-            "X-PP-AUTHORIZATION: " .$authorization,
-            "X-PAYPAL-REQUEST-DATA-FORMAT:NV",
-            "X-PAYPAL-RESPONSE-DATA-FORMAT:json",
-            "X-PAYPAL-APPLICATION-ID: APP-1JE4291016473214C",
-            );
-
-        $url_api = "https://svcs.paypal.com/Permissions/GetBasicPersonalData";
-        $post_array = array(
-            "attributeList"=>array("attribute"=> array(0=>"http://axschema.org/contact/email")),
-            "requestEnvelope.errorLanguage"=>"en_US");
-        $curl_session =  curl_init();
-        curl_setopt($curl_session, CURLOPT_URL,$url_api );
-        curl_setopt($curl_session, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($curl_session, CURLOPT_POST, 1);
-        curl_setopt($curl_session, CURLOPT_POSTFIELDS, http_build_query($post_array));
-        curl_setopt($curl_session, CURLOPT_CONNECTTIMEOUT,10);
-        curl_setopt($curl_session, CURLOPT_TIMEOUT, 10);
-        curl_setopt($curl_session, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl_session, CURLOPT_SSL_VERIFYPEER, 0);
-        $response = json_decode(curl_exec($curl_session));
-
-        error_log( print_r($response, true) );
-        curl_close($curl_session);
-    }
-
     public function preparePayment(
         $total_price,
-        $order_sku,
+        $order_id,
         $order_name,
         $return_url,
         $cancel_url,
         $currency_id='USD', /* 'USD', 'GBP', 'EUR', 'JPY', 'CAD', 'AUD' */
-        $payment_type='Sale', /* 'Sale', 'Order', or 'Authorization' */
-        $shipping=null
+        $payment_type='Sale',
+        $shipping=false
     ) {
-
-        error_log($return_url."\n".$cancel_url);
         // Set NVP variables:
         $nvp_parameters = array(
             'PAYMENTREQUEST_0_AMT' => $total_price,
@@ -337,13 +165,28 @@ class PaypalSeed extends SeedBase {
             'RETURNURL' => $return_url,
             'CANCELURL' => $cancel_url,
             'L_PAYMENTREQUEST_0_AMT0' => $total_price,
-            'L_PAYMENTREQUEST_0_NUMBER0' => $order_sku,
+            'L_PAYMENTREQUEST_0_NUMBER0' => $order_id,
             'L_PAYMENTREQUEST_0_NAME0' => $order_name,
-            'NOSHIPPING' => '1',
+            'NOSHIPPING' => '0',
             'ALLOWNOTE' => '0',
             'SOLUTIONTYPE' => 'Sole',
             'LANDINGPAGE' => 'Billing'
         );
+
+        $nvp_parameters['NOSHIPPING'] = 1;
+
+        /*        if ($shipping) {
+                    $nvp_parameters['NOSHIPPING'] = 0;
+                    $nvp_parameters['L_PAYMENTREQUEST_0_AMT0'] = $payment_amount-$shipping;
+                    $nvp_parameters['PAYMENTREQUEST_0_ITEMAMT'] = $payment_amount-$shipping;
+                    $nvp_parameters['PAYMENTREQUEST_0_SHIPPINGAMT'] = $shipping_amount;
+                }*/
+        if ($allow_note) {
+            $nvp_parameters['ALLOWNOTE'] = 1;
+        }
+        if ($invoice) {
+            $nvp_parameters['PAYMENTREQUEST_0_INVNUM'] = $invoice;
+        }
 
         $parsed_response = $this->postToPaypal('SetExpressCheckout', $nvp_parameters);
         if (!$parsed_response) {
@@ -393,7 +236,6 @@ class PaypalSeed extends SeedBase {
                 $this->setErrorMessage($this->getErrorMessage());
                 return false;
             } else {
-
                 return $parsed_response;
             }
         } else {

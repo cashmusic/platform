@@ -19,9 +19,9 @@
 			"sandboxed":"bool"
 		},
 		"multi": {
-			"permissions_account":"string",
-			"permissions_token":"string",
-			"permissions_token_secret":"string",
+			"username":"string",
+			"password":"string",
+			"signature":"string",
 			"sandboxed":"bool"
 		}
 	}

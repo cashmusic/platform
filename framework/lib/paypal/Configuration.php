@@ -25,9 +25,9 @@ class Configuration
 	{
 		$config = array(
 				// Signature Credential
-				"acct1.UserName" => "fakese_1242924292_biz_api1.cashmusic.org",
-				"acct1.Password" => "1242924299",
-				"acct1.Signature" => "AFknz9AdqEmDKMqOcRzPeW4DL5mBAn2T3olUQEsYplP2aicvawo76ZUa",
+				"acct1.UserName" => "permissions_api1.cashmusic.org",
+				"acct1.Password" => "HYNRY4L6RWM5Q58C",
+				"acct1.Signature" => "AFcWxV21C7fd0v3bYYYRCpSSRl31A3tQ7fSy6HXTLvPtfTSdF4LfScnZ",
 				"acct1.AppId" => "APP-80W284485P519543T",
 				
 				// Sample Certificate Credential
