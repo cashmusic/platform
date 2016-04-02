@@ -27,7 +27,7 @@ class MailchimpSeed extends SeedBase {
 			$this->key      = $this->settings->getSetting('key');
 			$this->list_id  = $this->settings->getSetting('list');
 			$this->api      = new MailChimp($this->key);
-			
+
 			if (!$this->key) {
 				$this->error_message = 'no API key found';
 			}
@@ -38,7 +38,7 @@ class MailchimpSeed extends SeedBase {
 
 	public static function getRedirectMarkup($data=false) {
 		$connections = CASHSystem::getSystemSettings('system_connections');
-		
+
 		if (isset($connections['com.mailchimp'])) {
 			require_once(CASH_PLATFORM_ROOT.'/lib/oauth2/OAuth2Client.php');
 			require_once(CASH_PLATFORM_ROOT.'/lib/oauth2/OAuth2Exception.php');
@@ -63,7 +63,7 @@ class MailchimpSeed extends SeedBase {
 
 	public static function handleRedirectReturn($data=false) {
 		if (isset($data['error'])) {
-			return 'There was an error. (general) Please try again.';
+			return 'There was an error. (general) Please try again. More: ' . $data['error'];
 		} else {
 			$connections = CASHSystem::getSystemSettings('system_connections');
 
@@ -128,7 +128,7 @@ class MailchimpSeed extends SeedBase {
 		if (isset($data['settings_name']) && isset($data['settings_id']) && isset($data['user_id'])) {
 			$list_request = new CASHRequest(
 				array(
-					'cash_request_type' => 'people', 
+					'cash_request_type' => 'people',
 					'cash_action' => 'addlist',
 					'name' => $data['settings_name'],
 					'description' => 'Automatically added for MailChimp list on ' . date("F j, Y"),
@@ -166,7 +166,7 @@ class MailchimpSeed extends SeedBase {
 
 	// http://apidocs.mailchimp.com/api/2.0/lists/webhooks.php
 	public function listWebhooks() {
-		$response = $this->api->call('lists/webhooks', 
+		$response = $this->api->call('lists/webhooks',
 			array(
 				'id' => $this->list_id
 			)
@@ -182,7 +182,7 @@ class MailchimpSeed extends SeedBase {
 	public function listWebhookAdd($url, $options=null) {
 		// $options is reserved for expanding in the future for things
 		// like 'actions' and 'sources'
-		$response = $this->api->call('lists/webhook-add', 
+		$response = $this->api->call('lists/webhook-add',
 			array(
 				'id'  => $this->list_id,
 				'url' => $url
@@ -197,7 +197,7 @@ class MailchimpSeed extends SeedBase {
 
 	// http://apidocs.mailchimp.com/api/2.0/lists/webhook-del.php
 	public function listWebhookDel($url) {
-		$response = $this->api->call('lists/webhook-del', 
+		$response = $this->api->call('lists/webhook-del',
 			array(
 				'id'  => $this->list_id,
 				'url' => $url
@@ -214,9 +214,9 @@ class MailchimpSeed extends SeedBase {
 	public function listMembers($options=null) {
 		// $options reserved for options
 		// this will only pull a max of 100 members. ultimately we should
-		// switch over to the MC list export API here: 
+		// switch over to the MC list export API here:
 		// http://apidocs.mailchimp.com/export/1.0/list.func.php
-		$response = $this->api->call('lists/members', 
+		$response = $this->api->call('lists/members',
 			array(
 				'id'  => $this->list_id,
 				'opts' => array(
@@ -242,8 +242,8 @@ class MailchimpSeed extends SeedBase {
 		}
 
 		//$this->api->listSubscribe($this->list_id, $email, $merge_vars, $email_type, $double_optin, $update_existing, $replace_interests, $send_welcome);
-		
-		$response = $this->api->call('lists/subscribe', 
+
+		$response = $this->api->call('lists/subscribe',
 			array(
 				'id'  => $this->list_id,
 				'email' => array(
@@ -266,8 +266,8 @@ class MailchimpSeed extends SeedBase {
 		// $delete       = 0;
 		// $send_goodbye = 1;
 		// $send_notify  = 1;
-		
-		$response = $this->api->call('lists/unsubscribe', 
+
+		$response = $this->api->call('lists/unsubscribe',
 			array(
 				'id'  => $this->list_id,
 				'email' => array(

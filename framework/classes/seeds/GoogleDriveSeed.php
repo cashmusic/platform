@@ -11,17 +11,17 @@
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
  *
- * This file is generously sponsored by CaseyContrarian 
+ * This file is generously sponsored by CaseyContrarian
  * CaseyContrarian Hearts CASH Music
  *
  **/
 class GoogleDriveSeed extends SeedBase {
-	private $client, 
-			$drive_service, 
-			$access_token, 
-			$client_id, 
-			$client_secret, 
-			$redirect_uri, 
+	private $client,
+			$drive_service,
+			$access_token,
+			$client_id,
+			$client_secret,
+			$redirect_uri,
 			$app_id,
 			$api_key,
 			$user_email,
@@ -58,7 +58,7 @@ class GoogleDriveSeed extends SeedBase {
 				$this->client->setScopes($this->scopes);
 				$this->client->setAccessType('offline');
 
-				// check the access_expires time against right now. if the access_token is 
+				// check the access_expires time against right now. if the access_token is
 				// expired call $client->refreshToken(refresh_token) and get a new access_token
 				// and reset the connection with new access_token, access_expires, and refresh_token
 				if (time() > $this->settings->getSetting('access_expires')) {
@@ -100,7 +100,7 @@ class GoogleDriveSeed extends SeedBase {
 
 	public static function getRedirectMarkup($data=false) {
 		$connections = CASHSystem::getSystemSettings('system_connections');
-		
+
 		if (isset($connections['com.google.drive'])) {
 			$login_url = GoogleDriveSeed::getAuthorizationUrl(
 				$connections['com.google.drive']['client_id'],
@@ -143,7 +143,7 @@ class GoogleDriveSeed extends SeedBase {
 				}
 				$credentials_array = json_decode($credentials, true);
 				if (isset($credentials_array['refresh_token'])) {
-					// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth 
+					// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
 					// calls would only happen in the admin. If this changes we can fuck around with it later.
 					$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
 					$result = $new_connection->setSettings(
@@ -168,15 +168,11 @@ class GoogleDriveSeed extends SeedBase {
 							}
 						}
 					}
-					if (isset($data['return_result_directly'])) {
-						return $result;
-					} else {
-						if ($result) {
-							AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
-						} else {
-							AdminHelper::formFailure('Error. Something just didn\'t work right.','/settings/connections/');
-						}
-					}
+					return array(
+						'id' => $result,
+						'name' => $email_address . ' (Google Drive)',
+						'type' => 'com.google.drive'
+					);
 				} else {
 					return 'Could not find a refresh token from google';
 				}
@@ -269,7 +265,7 @@ class GoogleDriveSeed extends SeedBase {
 		$current_auth = json_decode($this->access_token,true);
 		$return_array = array(
 			'connection_type'       => $this->settings_type,
-			'google_drive_app_id'   => $this->app_id, 
+			'google_drive_app_id'   => $this->app_id,
 			'google_drive_key'      => $this->api_key,
 			'connection_auth_token' => $current_auth['access_token'],
 			'connection_auth_user'  => $this->email_address
@@ -281,7 +277,7 @@ class GoogleDriveSeed extends SeedBase {
 		$file = $this->drive_service->files->get($filename);
 
 		// funny and not-so-documented google drive trick. you don't have to use an authorization
-		// header for downloadUrl access if you have a valid oauth token. you can append an 
+		// header for downloadUrl access if you have a valid oauth token. you can append an
 		// access_token parameter to the url and get access — and with tokens expiring AT MOST
 		// one hour from now it makes the download URL nice and expiry. neat.
 		$full_token = json_decode($this->access_token,true);
@@ -308,6 +304,6 @@ class GoogleDriveSeed extends SeedBase {
 
 	// required for Asset seeds
 	public function finalizeUpload($filename) {return true;}
-	
+
 } // END class
 ?>

@@ -84,15 +84,11 @@ class MandrillSeed extends SeedBase {
 			//$m->webhooksAdd($webhook_api_url,array('send','hard_bounce','soft_bounce','open','click','spam','unsub','reject')); // add it, all events
 			$m->call('webhooks/add', array("url"=>$webhook_api_url,"events"=>array('hard_bounce','soft_bounce','open','click','spam','unsub','reject')));
 
-			if (isset($data['return_result_directly'])) {
-				return $result;
-			} else {
-				if ($result) {
-					AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
-				} else {
-					AdminHelper::formFailure('Error. Something just didn\'t work right.');
-				}
-			}
+			return array(
+				'id' => $result,
+				'name' => $username . ' (Mandrill)',
+				'type' => 'com.mandrillapp'
+			);
 		}
 	}
 
