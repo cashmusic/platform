@@ -22,7 +22,7 @@ class PaypalSeed extends SeedBase {
     protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token;
     protected $merchant_email = false;
 
-    public function __construct($user_id, $connection_id, $token=false) {
+    public function __construct($user_id, $connection_id) {
         $this->settings_type = 'com.paypal';
         $this->user_id = $user_id;
         $this->connection_id = $connection_id;
@@ -46,9 +46,9 @@ class PaypalSeed extends SeedBase {
                 }
             }
 
-            $this->token = $token;
+            $this->token = false;
 
-            if (empty($this->token)) {
+            if (!empty($_REQUEST['token'])) {
                 $this->token = $_REQUEST['token'];
             }
 
