@@ -6,25 +6,11 @@
 			{{#items_all}}
 			<li>
 				<div class="item">
-					<div class="assetlink {{#physical_fulfillment}}physical{{/physical_fulfillment}}">
-						<div class="icon {{#fulfillment_asset}}icon-{{#release_asset}}record{{/release_asset}}{{^release_asset}}file-block{{/release_asset}}{{/fulfillment_asset}}{{^fulfillment_asset}}icon-warning{{/fulfillment_asset}} "></div><!--icon-->
-						{{#physical_fulfillment}}<div class="physical icon icon-truck"></div><!--icon-->{{/physical_fulfillment}}
+					<div class="assetlink"{{#image_url}} style="background:url({{image_url}}) no-repeat center center cover;"{{/image_url}}>
+						<div class="icon {{#fulfillment_asset}}icon-{{#release_asset}}record{{/release_asset}}{{^release_asset}}file-block{{/release_asset}}{{/fulfillment_asset}}{{^fulfillment_asset}}icon-warning{{/fulfillment_asset}}"></div><!--icon-->
 					</div>
-					{{^fulfillment_asset}}
-					<div class="assetlink unlink">
-						<div class="icon icon-warn"></div><!--icon-->
-					</div>
-					{{/fulfillment_asset}}
 					<a class="info" href="{{www_path}}/commerce/items/edit/{{id}}">
 					<strong>{{name}}</strong>
-					{{#fulfillment_asset}}
-						<!-- If Linked to asset -->
-						<div class="icon icon-link"></div><!--icon-->
-					{{/fulfillment_asset}}
-					{{^fulfillment_asset}}
-						<!-- If Not linked to asset -->
-						<div class="icon icon-unlink"></div><!--icon-->
-					{{/fulfillment_asset}}
 
 					{{#description}}<span class="descriptive spaced fadedtext">{{description}}</span>{{/description}}</a>
 				</div><!--item-->

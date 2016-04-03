@@ -528,6 +528,11 @@ class CASHDBA {
 				. "FROM commerce_item_variants "
 				. "WHERE item_id = :item_id";
 				break;
+			case 'CommercePlant_getItemsForUser':
+				$query = "SELECT i.*,a.location as image_url "
+				. "FROM cashmusic.commerce_items i LEFT JOIN assets a ON i.descriptive_asset = a.id "
+				. "WHERE i.user_id = :user_id;";
+				break;
 			case 'ElementPlant_getAnalytics_mostactive':
 				$query = "SELECT ea.element_id as 'id', COUNT(ea.id) as 'count', e.name as 'name' "
 				. "FROM elements_analytics ea JOIN elements e ON ea.element_id = e.id "
