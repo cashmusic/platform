@@ -1578,18 +1578,22 @@ class CommercePlant extends PlantBase {
 
     public function finalizePayment($order_id, $token, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false, $total_price=false, $description=false, $subtotal=false) {
 
+        error_log("order id $order_id");
         $order_details = $this->getOrder($order_id);
         $transaction_details = $this->getTransaction($order_details['transaction_id']);
         $connection_type = $this->getConnectionType($transaction_details['connection_id']);
         $order_totals = $this->getOrderTotals($order_details['order_contents']);
-
+        error_log("session id $session_id");
         $r = new CASHRequest();
         $r->startSession(false,$session_id);
-
+        error_log("session started");
         //TODO: since we haven't actually set the connection settings at this point, let's
         // get connection type settings so we can extract Seed classname
         $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
+        error_log(print_r($connection_settings, true));
         $seed_class = $connection_settings['seed'];
+
+        error_log("seed class $seed_class");
 
         // we're going to switch seeds by $connection_type, so check to make sure this class even exists
         if (!class_exists($seed_class)) {
@@ -1597,14 +1601,19 @@ class CommercePlant extends PlantBase {
             return false;
         }
 
+        error_log("found $seed_class");
+
         // call the payment seed class
         $payment_seed = new $seed_class($order_details['user_id'],$transaction_details['connection_id']);
-
+        error_log("made $seed_class");
+        
         // if this was approved by the user, we need to compare some values to make sure everything matches up
         if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address, $customer_name, $shipping_info, $subtotal)) {
             // okay, we've got the matching totals, so let's get the $user_id, y'all
-            error_log("we made it here");
-            if ($payment_details['total'] >= $order_totals['price']) {
+
+            error_log( print_r($payment_details, true) );
+            error_log("shit equals shit " . $payment_details['total'] . " // " . $order_totals['price']);
+            if ($payment_details['PAYMENTINFO_0_AMT'] >= $order_totals['price']) {
 
                 if ($user_id = $this->getOrCreateUser($payment_details['payer'])) {
 
@@ -1617,7 +1626,7 @@ class CommercePlant extends PlantBase {
                         $is_fulfilled,	// fulfilled status
                         0,				// cancelled (boolean 0/1)
                         false,			// notes
-                        $payment_details['payer']['country_code'],	// country code
+                        false,	// country code
                         $user_id,		// user id
                         false,
                         false,
@@ -1685,7 +1694,6 @@ class CommercePlant extends PlantBase {
             }
 
         } else {
-
             $this->setErrorMessage("There was an issue with this payment.");
             return false;
         }

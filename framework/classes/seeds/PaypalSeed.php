@@ -48,6 +48,10 @@ class PaypalSeed extends SeedBase {
 
             $this->token = $token;
 
+            if (empty($this->token)) {
+                $this->token = $_REQUEST['token'];
+            }
+
             $this->api_endpoint = "https://api-3t.paypal.com/nvp";
             $this->paypal_base_url = "https://www.paypal.com/webscr&cmd=";
             if ($sandboxed) {
@@ -117,6 +121,9 @@ class PaypalSeed extends SeedBase {
 
         // Get response from the server.
         $http_response = CASHSystem::getURLContents($this->api_endpoint,$request_parameters,true);
+
+        error_log( print_r($http_response, true) );
+
         if ($http_response) {
             // Extract the response details.
             $http_response = explode("&", $http_response);
@@ -158,7 +165,7 @@ class PaypalSeed extends SeedBase {
         // Set NVP variables:
         $nvp_parameters = array(
             'PAYMENTREQUEST_0_AMT' => $total_price,
-            'PAYMENTREQUEST_0_PAYMENTACTION' => $payment_type,
+            'PAYMENTREQUEST_0_PAYMENTACTION' => 'Sale',
             'PAYMENTREQUEST_0_CURRENCYCODE' => $currency_id,
             'PAYMENTREQUEST_0_ALLOWEDPAYMENTMETHOD' => 'InstantPaymentOnly',
             'PAYMENTREQUEST_0_DESC' => $order_name,
@@ -213,13 +220,15 @@ class PaypalSeed extends SeedBase {
         }
     }
 
-    public function doPayment($payment_type='Sale') {
+    public function doPayment($total_price, $description, $token, $email_address, $customer_name, $shipping_info, $subtotal, $payment_type='Sale') {
         if ($this->token) {
             $token_details = $this->getExpressCheckout();
+
+            error_log( print_r($token_details, true) );
             $nvp_parameters = array(
                 'TOKEN' => $this->token,
                 'PAYERID' => $token_details['PAYERID'],
-                'PAYMENTREQUEST_0_PAYMENTACTION' => $payment_type,
+                'PAYMENTREQUEST_0_PAYMENTACTION' => 'Sale',
                 'PAYMENTREQUEST_0_AMT' => $token_details['PAYMENTREQUEST_0_AMT'],
                 'PAYMENTREQUEST_0_CURRENCYCODE' => $token_details['PAYMENTREQUEST_0_CURRENCYCODE'],
                 'PAYMENTREQUEST_0_ALLOWEDPAYMENTMETHOD' => 'InstantPaymentOnly'
