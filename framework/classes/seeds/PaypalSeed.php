@@ -122,8 +122,6 @@ class PaypalSeed extends SeedBase {
         // Get response from the server.
         $http_response = CASHSystem::getURLContents($this->api_endpoint,$request_parameters,true);
 
-        error_log( print_r($http_response, true) );
-
         if ($http_response) {
             // Extract the response details.
             $http_response = explode("&", $http_response);
@@ -169,7 +167,7 @@ class PaypalSeed extends SeedBase {
             'PAYMENTREQUEST_0_CURRENCYCODE' => $currency_id,
             'PAYMENTREQUEST_0_ALLOWEDPAYMENTMETHOD' => 'InstantPaymentOnly',
             'PAYMENTREQUEST_0_DESC' => $order_name,
-            'RETURNURL' => $return_url,
+            'RETURNURL' => $return_url."&success=true",
             'CANCELURL' => $cancel_url,
             'L_PAYMENTREQUEST_0_AMT0' => $total_price,
             'L_PAYMENTREQUEST_0_NUMBER0' => $order_id,
@@ -220,11 +218,21 @@ class PaypalSeed extends SeedBase {
         }
     }
 
-    public function doPayment($total_price, $description, $token, $email_address, $customer_name, $shipping_info, $subtotal, $payment_type='Sale') {
+    public function doPayment($total_price, $description, $token, $email_address, $customer_name, $shipping_info, $subtotal, $session_id=false,$payment_type='Sale') {
         if ($this->token) {
             $token_details = $this->getExpressCheckout();
 
-            error_log( print_r($token_details, true) );
+            $customer_info = array(
+                'email' => $token_details['EMAIL'],
+                'first_name' => $token_details['FIRSTNAME'],
+                'last_name' => $token_details['LASTNAME'],
+                'country_code' => $token_details['COUNTRYCODE']
+            );
+
+            $r = new CASHRequest();
+            $r->startSession(false,$session_id);
+            $r->sessionSet('customer_info',$customer_info);
+
             $nvp_parameters = array(
                 'TOKEN' => $this->token,
                 'PAYERID' => $token_details['PAYERID'],
@@ -239,6 +247,7 @@ class PaypalSeed extends SeedBase {
                 $this->setErrorMessage($this->getErrorMessage());
                 return false;
             } else {
+                $parsed_response['total'] = $parsed_response['PAYMENTINFO_0_AMT'];
                 return $parsed_response;
             }
         } else {
