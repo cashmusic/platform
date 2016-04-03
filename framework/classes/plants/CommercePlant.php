@@ -453,16 +453,16 @@ class CommercePlant extends PlantBase {
     }
 
     protected function getItemsForUser($user_id,$with_variants=true) {
-        $result = $this->db->getData(
-            'items',
-            '*',
-            array(
-                "user_id" => array(
-                    "condition" => "=",
-                    "value" => $user_id
-                )
-            )
-        );
+      $result = $this->db->getData(
+          'CommercePlant_getItemsForUser',
+          false,
+          array(
+               "user_id" => array(
+                   "condition" => "=",
+                   "value" => $user_id
+               )
+          )
+      );
 
         if ($with_variants) {
             $length = count($result);
