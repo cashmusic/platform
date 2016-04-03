@@ -38,7 +38,6 @@ class StripeSeed extends SeedBase
             $this->client_secret = $this->settings->getSetting('client_secret');
             $this->publishable_key = $this->settings->getSetting('publishable_key');
             $this->access_token = $this->settings->getSetting('access_token');
-            $sandboxed = $this->settings->getSetting('sandboxed');
 
 
             \Stripe\Stripe::setApiKey($this->client_secret);
@@ -47,16 +46,10 @@ class StripeSeed extends SeedBase
                 $connections = CASHSystem::getSystemSettings('system_connections');
 
                 if (isset($connections['com.stripe'])) {
-
-                    $sandboxed = $connections['com.stripe']['sandboxed'];
-
-                    // there actually is no sandbox for stripe, so let's ignore for this seed. it's contingent on whether or not you're using a test API key set or not.
-                    //if ($sandboxed) {
-                        // get sandbox versions
-                        $this->client_id = $connections['com.stripe']['client_id'];
-                        $this->client_secret = $connections['com.stripe']['client_secret'];
-                        $this->publishable_key = $connections['com.stripe']['publishable_key'];
-                    //}
+                    // there is no sandbox for stripe, so let's ignore. it's contingent on whether or not you're using a test API key.
+                    $this->client_id = $connections['com.stripe']['client_id'];
+                    $this->client_secret = $connections['com.stripe']['client_secret'];
+                    $this->publishable_key = $connections['com.stripe']['publishable_key'];
                 }
             }
         } else {
@@ -95,15 +88,12 @@ class StripeSeed extends SeedBase
         return $auth_url;
     }
 
-
-
-    /*
-     * This method is used during the charge process. It is used after receiving token generated from the Stripe Checkout Javascript.
-     * It will send the token to Stripe to exchange for its information. Such information will be used throughout the charge process (such as, create new user).
-     * This happens before the actual charge occurs.
-     */
-
     /**
+     * This method is used during the charge process. It is used after receiving token generated from the Stripe Checkout Javascript.
+     * It will send the token to Stripe to exchange for its information. Such information will be used throughout the charge process
+     * (such as, create new user).
+     *
+     * This happens before the actual charge occurs.
      * @return bool|Stripe\Token
      */
     public function getTokenInformation()
@@ -124,7 +114,6 @@ class StripeSeed extends SeedBase
             return false;
         }
     }
-
 
     /**
      * handleRedirectReturn
@@ -182,7 +171,8 @@ class StripeSeed extends SeedBase
 
     /**
      *
-     * This method is used to exchange the returned code from Stripe with Stripe again to get the user credentials during the authentication process.
+     * This method is used to exchange the returned code from Stripe with Stripe again to get the user credentials during
+     * the authentication process.
      *
      * Exchange an authorization code for OAuth 2.0 credentials.
      *
@@ -207,10 +197,11 @@ class StripeSeed extends SeedBase
         }
     }
 
-    /*
- * This method makes use of Stripe library in getting the user information from the returned credentials during the authentication process.
- */
+
     /**
+     * This method makes use of Stripe library in getting the user information from the returned credentials during
+     * the authentication process.
+     *
      * @param $credentials
      * @return Stripe\Account
      */
@@ -249,7 +240,8 @@ class StripeSeed extends SeedBase
     }
 
     /**
-     * Fired from finalizeRedirectedPayment, in CommercePlant. Sends the actual charge and seedToken to the Stripe API—this is really where almost everything happens for StripeSeed charges.
+     * Fired from finalizeRedirectedPayment, in CommercePlant. Sends the actual charge and seedToken to the Stripe API—
+     * this is really where almost everything happens for StripeSeed charges.
      *
      * @param $total_price
      * @param $description
