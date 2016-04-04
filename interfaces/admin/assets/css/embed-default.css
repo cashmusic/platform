@@ -697,6 +697,11 @@ input:focus placeholder{color:#111;}
   background:rgba(204,204,204,0.3);
 }
 
+/* Remove background for alternate styles */
+.cm-store.cm-grid.cm-front .cm-item, .cm-store.cm-compact.cm-front .cm-item{
+  background:none;
+}
+
 .cm-store .cm-item p{
 	margin:10px 0;
 	font-size:12px;
