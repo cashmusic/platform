@@ -67,7 +67,6 @@ if (isset($_POST['doitemadd'])) {
 				'cash_action' => 'emailbuyersbyitem',
 				'user_id' => $cash_admin->effective_user_id,
 				'item_id' => $request_parameters[0],
-				'connection_id' => $_POST['connection_id'],
 				'subject' => $_POST['email_subject'],
 				'message' => $_POST['email_message'],
 				'include_download' => $include_download
@@ -210,7 +209,7 @@ if (isset($_POST['configure_variants'])) {
 if (is_array($item_response['payload'])) {
 	$cash_admin->page_data = array_merge($cash_admin->page_data,$item_response['payload']);
 	if (isset($_POST['doitemadd'])) {
-		$cash_admin->page_data['page_message'] = 'Success. Event added.';
+		$cash_admin->page_data['page_message'] = 'Success. Item added.';
 	}
 	$cash_admin->page_data['asset_options'] = AdminHelper::echoFormOptions('assets',$item_response['payload']['fulfillment_asset'],$cash_admin->getAllFavoriteAssets(),true);
 
