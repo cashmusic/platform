@@ -1455,10 +1455,11 @@
 			}
 		}
 
+		if ($shownone) {
+			$all_options = '<option value="0" selected="selected">None</option>';
+		}
+
 		if (is_array($available_options)) {
-			if ($shownone) {
-				$all_options = '<option value="0" selected="selected">None</option>';
-			}
 			$first = true;
 			foreach ($available_options as $item) {
 				$doloop = true;
@@ -1482,7 +1483,9 @@
 				}
 			}
 		} else {
-			$all_options = false;
+			if (!$shownone) {
+				$all_options = false;
+			}
 		}
 
 		if ($return) {
