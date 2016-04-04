@@ -6,13 +6,15 @@
 			{{#items_all}}
 			<li>
 				<div class="item">
-					<div class="assetlink"{{#image_url}} style="background:url({{image_url}}) no-repeat center center cover;"{{/image_url}}>
-						<div class="icon {{#fulfillment_asset}}icon-{{#release_asset}}record{{/release_asset}}{{^release_asset}}file-block{{/release_asset}}{{/fulfillment_asset}}{{^fulfillment_asset}}icon-warning{{/fulfillment_asset}}"></div><!--icon-->
-					</div>
+					<div class="assetlink"{{#image_url}} style="background-image:url({{image_url}});"{{/image_url}}></div>
 					<a class="info" href="{{www_path}}/commerce/items/edit/{{id}}">
 					<strong>{{name}}</strong>
 
-					{{#description}}<span class="descriptive spaced fadedtext">{{description}}</span>{{/description}}</a>
+					{{#description}}<span class="descriptive spaced fadedtext">{{description}}</span>{{/description}}
+
+	<div class="icon {{#fulfillment_asset}}icon-{{#release_asset}}record{{/release_asset}}{{^release_asset}}file-block{{/release_asset}}{{/fulfillment_asset}}{{^fulfillment_asset}}icon-warning{{/fulfillment_asset}}"></div><!--icon-->
+				</a>
+
 				</div><!--item-->
 				<div class="more"><div class="toggle"></div><!--toggle-->
 					<div class="actions">
