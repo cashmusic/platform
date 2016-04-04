@@ -32,8 +32,13 @@ if (isset($_POST['current-campaign'])) {
 		)
 	);
 }
+
 if (!$current_campaign) {
 	$current_campaign = -1;
+}
+$cash_admin->page_data['show_edit']	= true;
+if ($current_campaign == -1) {
+	$cash_admin->page_data['show_edit']	= false;
 }
 $cash_admin->page_data['selected_campaign']	= $current_campaign;
 
