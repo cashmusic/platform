@@ -7,8 +7,8 @@
 </div><!--pure--><div class="pure-u-1 pure-u-md-2-3">
 <ul class="inline-subnav">
 	<li><a class="current" href="{{www_path}}/commerce/filter/byitem/{{id}}"><span class="icon icon-search"></span> {{copy_find_orders}}</a></li>
-	<li><a href="{{www_path}}/commerce/items/send/{{id}}" class="lightboxed"><span class="icon icon-rocket"></span> Send to buyers</a></li>
- 	 {{#has_variants}}<li><a class="drawer-trigger" href="#"><span class="icon icon-wrench"></span> {{copy_view_item_settings}}</a></li>{{/has_variants}}
+	{{#show_beta}}<li><a href="{{www_path}}/commerce/items/send/{{id}}" class="lightboxed"><span class="icon icon-rocket"></span> Send to buyers</a></li>{{/show_beta}}
+	{{#has_variants}}<li><a class="drawer-trigger" href="#"><span class="icon icon-wrench"></span> {{copy_view_item_settings}}</a></li>{{/has_variants}}
 </ul><!--inline-subnav-->
 </div><!--pure-->
 </header>
