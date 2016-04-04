@@ -330,6 +330,11 @@ body.dark .cm-store.cm-front .cm-item{
 	background:#111;
 }
 
+/* Remove background for alternate styles */
+body.dark .cm-store.cm-grid.cm-front .cm-item, body.dark .cm-store.cm-compact.cm-front .cm-item{
+  background:none;
+}
+
 body.dark .cm-store .cm-item .cm-item-image{
 	background-color:#212121;
 	border: solid 1px #101010;
