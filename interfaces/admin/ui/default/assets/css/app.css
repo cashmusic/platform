@@ -646,6 +646,12 @@ select{
 	-moz-appearance:none;
 }
 
+select:disabled{
+	pointer-events: none;
+	-webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+
 textarea{
 	font:400 14px/16px 'Montserrat',Helvetica,Arial,sans-serif;
 	width:100%;
