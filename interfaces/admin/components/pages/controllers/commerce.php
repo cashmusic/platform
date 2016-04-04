@@ -88,7 +88,6 @@ if (is_array($settings_response['payload'])) {
 	$pp_default = $settings_response['payload']['pp_default'];
 	$pp_micro = $settings_response['payload']['pp_micro'];
 	$stripe_selected = $settings_response['payload']['stripe_default'];
-
 } else {
 	$pp_default = 0;
 	$pp_micro = 0;
@@ -105,10 +104,12 @@ $cash_admin->page_data['paypal_micro_options'] = AdminHelper::echoFormOptions($p
 
 // admin stripe defaults
 $stripe = array();
-foreach ($page_data_object->getConnectionsByType('com.stripe') as $stripeq) {
-	$stripe[$stripeq['id']] = $stripeq['name'];
+$allstripe = $page_data_object->getConnectionsByType('com.stripe');
+if is_array($allstripe) {
+	foreach ($allstripe as $stripeq) {
+		$stripe[$stripeq['id']] = $stripeq['name'];
+	}
 }
-
 $cash_admin->page_data['stripe_options'] = AdminHelper::echoFormOptions($stripe,$stripe_selected,false,true);
 
 
