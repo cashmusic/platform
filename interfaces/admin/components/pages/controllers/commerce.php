@@ -96,11 +96,14 @@ if (is_array($settings_response['payload'])) {
 $cash_admin->page_data['currency_options'] = AdminHelper::echoCurrencyOptions($current_currency);
 
 $pp = array();
-foreach ($page_data_object->getConnectionsByType('com.paypal') as $ppq) {
-	$pp[$ppq['id']] = $ppq['name'];
+$allpp = $page_data_object->getConnectionsByType('com.paypal');
+if (is_array($allpp)) {
+	foreach ($allpp as $ppq) {
+		$pp[$ppq['id']] = $ppq['name'];
+	}
 }
-$cash_admin->page_data['paypal_default_options'] = AdminHelper::echoFormOptions($pp,$pp_default,false,true);
-$cash_admin->page_data['paypal_micro_options'] = AdminHelper::echoFormOptions($pp,$pp_micro,false,true);
+$cash_admin->page_data['paypal_default_options'] = AdminHelper::echoFormOptions($pp,$pp_default,false,true,true);
+$cash_admin->page_data['paypal_micro_options'] = AdminHelper::echoFormOptions($pp,$pp_micro,false,true,true);
 
 // admin stripe defaults
 $stripe = array();
@@ -110,7 +113,7 @@ if (is_array($allstripe)) {
 		$stripe[$stripeq['id']] = $stripeq['name'];
 	}
 }
-$cash_admin->page_data['stripe_options'] = AdminHelper::echoFormOptions($stripe,$stripe_selected,false,true);
+$cash_admin->page_data['stripe_options'] = AdminHelper::echoFormOptions($stripe,$stripe_selected,false,true,true);
 
 
 // handle regions
