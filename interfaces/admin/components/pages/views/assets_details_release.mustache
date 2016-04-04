@@ -5,8 +5,15 @@
 		<input type="hidden" name="doassetedit" value="makeitso" />
 		<input type="hidden" name="asset_type" value="release" />
 		<header>
-		<a class="returnlink current" href="{{www_path}}/assets/"><div class="icon icon-arw-dwn"></div><!--icon--></a>
-		<h4 class="secondary-title">&ldquo;{{title}}&rdquo;<span class="release-artistname">{{#metadata_artist_name}}{{copy_by}} {{metadata_artist_name}}{{/metadata_artist_name}}</span></h4>
+		<div class="pure-u-1 pure-u-md-1-2">
+			<a class="returnlink current" href="{{www_path}}/assets/"><div class="icon icon-arw-dwn"></div><!--icon--></a>
+			<h4 class="secondary-title">&ldquo;{{title}}&rdquo;<span class="release-artistname">{{#metadata_artist_name}}{{copy_by}} {{metadata_artist_name}}{{/metadata_artist_name}}</span></h4>
+		</div><!--pure-->
+		<div class="pure-u-1 pure-u-md-1-2">
+			<ul class="inline-subnav right">
+				<li><a class="drawer-trigger" href="#"><span class="icon icon-wrench"></span> {{copy_view_asset_settings}}</a></li>
+			</ul>
+		</div><!--pure-->
 		</header>
 		<div class="release">
 			<div class="pure-u-1 pure-u-md-1-3">
@@ -175,9 +182,9 @@
 </div><!--pure-->
 </form><!--add-release-form-->
 
-<div class="drawer prefpanel pure-u-1">
+<div id="settings-drawer" class="drawer prefpanel pure-u-1">
 <div class="itemnav pure-u-1">
-	<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>{{copy_asset_settings}}</span></h4>
+	<h4 class="drawerhandle title"><div class="icon icon-wrench"></div><!--icon--><span>{{copy_asset_settings}}</span></h4>
 	<div class="drawercontent">
 	<div class="pure-u-1 pure-u-md-1-2">
 		<div class="pref-inner">

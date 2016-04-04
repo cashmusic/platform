@@ -43,6 +43,7 @@
       "make_public":"Make this file public",
       "export_create_download_codes":" Export or create download codes",
       "ok":"ok",
-      "button_delete_release":"Delete this release"
+      "button_delete_release":"Delete this release",
+			"view_asset_settings":"Edit settings"
 	}
 }

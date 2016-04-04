@@ -1,6 +1,6 @@
 {{! corresponding files: assets_edit.php & assets_edit.json }}
-
-<div class="pure-u-1">
+<header>
+<div class="pure-u-1 pure-u-md-1-2">
 	{{#parent_id}}
 		<a class="returnlink current" href="{{www_path}}/assets/edit/{{parent_id}}"><div class="icon icon-arw-dwn"></div><!--icon--></a>
 	{{/parent_id}}
@@ -8,8 +8,14 @@
 	{{^parent_id}}
 	<a class="returnlink current" href="{{www_path}}/assets/"><div class="icon icon-arw-dwn"></div><!--icon--></a>
 	{{/parent_id}}
-<h4 class="secondary-title">&ldquo;{{title}}&rdquo;</h4>
+	<h4 class="secondary-title">&ldquo;{{title}}&rdquo;</h4>
 </div><!--pure-->
+<div class="pure-u-1 pure-u-md-1-2">
+	<ul class="inline-subnav right">
+		<li><a class="drawer-trigger" href="#"><span class="icon icon-wrench"></span> {{copy_view_asset_settings}}</a></li>
+	</ul>
+</div><!--pure-->
+</header>
 
 <div class="pure-u-1">
 <form accept-charset="UTF-8" method="post" id="edit-file-form" action="{{www_path}}/assets/edit/{{id}}">
@@ -57,9 +63,9 @@
 </form>
 </div><!--pure-->
 
-<div class="drawer prefpanel pure-u-1">
+<div id="settings-drawer" class="drawer prefpanel pure-u-1">
 <div class="itemnav pure-u-1">
-	<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>{{copy_asset_settings}}</span></h4>
+	<h4 class="drawerhandle title"><div class="icon icon-wrench"></div><!--icon--><span>{{copy_asset_settings}}</span></h4>
 	<div class="drawercontent">
 		<div class="pure-u-1 pure-u-md-1-2">
 			<div class="pref-inner">
