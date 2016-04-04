@@ -35,6 +35,8 @@
       "total":"Total: ",
       "shipping":"shipping",
       "details":"Details",
-		"use_this_currency":"Use this currency"
+		"use_this_currency":"Use this currency",
+		"filter_orders":"Filter orders:",
+		"sales_settings":"Sales settings"
    }
 }

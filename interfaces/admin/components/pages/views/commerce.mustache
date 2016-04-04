@@ -46,7 +46,7 @@
             <ul class="inline-subnav right">
                 <li><a class="drawer-trigger" href="#"><span class="icon icon-wrench"></span> {{copy_view_commerce_settings}}</a></li>
             </ul>{{#has_orders}}<div class="selecta right">
-          			<label for="order-filter">Filter orders:</label>
+          			<label for="order-filter">{{copy_filter_orders}}</label>
           			<select  id="order-filter" class="dropdown-nav">
                   <option value="{{www_path}}/commerce/" {{#no_filter}}selected{{/no_filter}}>{{copy_unfulfilled}}</option>
                   <option value="{{www_path}}/commerce/filter/week/" {{#filter_week}}selected{{/filter_week}}>{{copy_this_week}}</option>
@@ -186,13 +186,13 @@
               </div>
                 <div class="pure-u-1 pure-u-md-1-2">
                 <ul class="page-settings-tabs">
-                    <li>Sales settings</li>
+                    <li>{{copy_sales_settings}}</li>
                     <li>{{copy_shipping_regions}}</li>
                 </ul>
                   </div>
                 <div class="drawercontent">
                          <div class="pref-inner">
-                             <h5>Sales settings</h5>
+                             <h5>{{copy_sales_settings}}</h5>
                              <form accept-charset="UTF-8" method="post" class="returntocurrentroute" action="{{www_path}}/commerce/">
                                  <div class="pure-u-1 pure-u-md-1-2">
                                      <label for="currency_id">{{label_primary_currency}}</label>
