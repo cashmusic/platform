@@ -529,7 +529,7 @@ class CASHDBA {
 				. "WHERE item_id = :item_id";
 				break;
 			case 'CommercePlant_getItemsForUser':
-				$query = "SELECT i.*,a.location as image_url "
+				$query = "SELECT i.id,i.user_id,i.name,i.description,i.sku,i.price,i.shipping,i.flexible_price,i.digital_fulfillment,i.physical_fulfillment,i.physical_width,i.physical_depth,i.physical_weight,i.physical_height,i.available_units,i.variable_pricing,i.fulfillment_asset,i.descriptive_asset,i.creation_date,i.modification_date,a.location as image_url "
 				. "FROM cashmusic.commerce_items i LEFT JOIN assets a ON i.descriptive_asset = a.id "
 				. "WHERE i.user_id = :user_id;";
 				break;
