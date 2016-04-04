@@ -7289,6 +7289,10 @@ section[role=main].hero, .login section[role=main]{ margin:400px 0 0 0; }
 
 .elements.totalviews{position: absolute; bottom: 40px;}
 
+#pagedisplay .ql.copy{
+	display: inline-block;
+}
+
 /* People */
 
 .people .item .info{
