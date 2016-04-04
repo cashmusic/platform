@@ -105,7 +105,7 @@ $cash_admin->page_data['paypal_micro_options'] = AdminHelper::echoFormOptions($p
 // admin stripe defaults
 $stripe = array();
 $allstripe = $page_data_object->getConnectionsByType('com.stripe');
-if is_array($allstripe) {
+if (is_array($allstripe)) {
 	foreach ($allstripe as $stripeq) {
 		$stripe[$stripeq['id']] = $stripeq['name'];
 	}
