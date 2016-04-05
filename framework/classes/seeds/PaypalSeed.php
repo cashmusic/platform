@@ -231,6 +231,7 @@ class PaypalSeed extends SeedBase {
     }
 
     public function doPayment($total_price, $description, $token, $email_address, $customer_name, $shipping_info, $subtotal, $session_id=false,$payment_type='Sale') {
+
         if ($this->token) {
             $token_details = $this->getExpressCheckout();
 
@@ -240,10 +241,10 @@ class PaypalSeed extends SeedBase {
                 'last_name' => $token_details['LASTNAME'],
                 'country_code' => $token_details['COUNTRYCODE']
             );
-
+/*
             $r = new CASHRequest();
             $r->startSession(false,$session_id);
-            $r->sessionSet('customer_info',$customer_info);
+            $r->sessionSet('customer_info',$customer_info);*/
 
             $nvp_parameters = array(
                 'TOKEN' => $this->token,
@@ -261,6 +262,7 @@ class PaypalSeed extends SeedBase {
             } else {
                 $parsed_response['total'] = $parsed_response['PAYMENTINFO_0_AMT'];
                 $parsed_response['service_fee'] = $parsed_response['PAYMENTINFO_0_FEEAMT'];
+                $parsed_response['payer'] = $customer_info;
                 return $parsed_response;
             }
         } else {

@@ -1454,8 +1454,6 @@ class CommercePlant extends PlantBase {
                         $return_url .= '&session_id=' . $session_id;
                     }
 
-                    //$return_url = $return_url . "&success=true";
-
                     $approval_url = $payment_seed->preparePayment(
                         $total_price,							# payment amount
                         'order-' . $order_id,						# order id
@@ -1582,7 +1580,6 @@ class CommercePlant extends PlantBase {
     public function finalizePayment($order_id, $token, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false, $total_price=false, $description=false, $subtotal=false) {
 
         $order_details = $this->getOrder($order_id);
-
         $transaction_details = $this->getTransaction($order_details['transaction_id']);
         //error_log( print_r($transaction_details, true) );
         $connection_type = $this->getConnectionType($transaction_details['connection_id']);
@@ -1612,9 +1609,10 @@ class CommercePlant extends PlantBase {
 
             if ($payment_details['total'] >= $order_totals['price']) {
 
-                if (empty($payment_details['payer'])) {
+/*                if (empty($payment_details['payer'])) {
+                    // paypal NVP finagling the customer info via sessions
                     $payment_details['payer'] = $r->sessionGet('customer_info');
-                }
+                }*/
 
                 if ($user_id = $this->getOrCreateUser($payment_details['payer'])) {
 
