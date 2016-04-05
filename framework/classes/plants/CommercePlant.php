@@ -910,6 +910,7 @@ class CommercePlant extends PlantBase {
       if (!is_array($data_sent)) {
          $data_sent = json_decode($data_sent,true);
       }
+
       if (isset($data_returned['customer_name']) && isset($data_returned['total'])) {
          return $data_returned;
       } else {
@@ -927,6 +928,8 @@ class CommercePlant extends PlantBase {
    			} else {
    				$return_array['customer_shipping_name'] = '';
    			}
+
+
    			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOSTREET'])) {
    				$return_array['customer_address1'] = $data_sent['PAYMENTREQUEST_0_SHIPTOSTREET'];
    			} else {
@@ -1579,7 +1582,9 @@ class CommercePlant extends PlantBase {
     public function finalizePayment($order_id, $token, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false, $total_price=false, $description=false, $subtotal=false) {
 
         $order_details = $this->getOrder($order_id);
+
         $transaction_details = $this->getTransaction($order_details['transaction_id']);
+        //error_log( print_r($transaction_details, true) );
         $connection_type = $this->getConnectionType($transaction_details['connection_id']);
         $order_totals = $this->getOrderTotals($order_details['order_contents']);
 
@@ -1640,12 +1645,12 @@ class CommercePlant extends PlantBase {
                         $payment_details,			// data received
                         1,										// successful (boolean 0/1)
                         $payment_details['total'],				// gross price
-                        $payment_details['transaction_fee'],	// service fee
+                        $payment_details['service_fee'],	// service fee
                         'complete'								// transaction status
                     );
 
                     // empty the cart at this point
-                    $this->emptyCart($element_id,$session_id);
+                    $this->emptyCart($order_details['element_id'],$session_id);
 
                     // TODO: add code to order metadata so we can track opens, etc
                     $order_details['customer_details']['email_address'] = $payment_details['payer']['email'];

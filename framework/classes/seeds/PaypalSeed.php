@@ -248,6 +248,7 @@ class PaypalSeed extends SeedBase {
                 return false;
             } else {
                 $parsed_response['total'] = $parsed_response['PAYMENTINFO_0_AMT'];
+                $parsed_response['service_fee'] = $parsed_response['PAYMENTINFO_0_FEEAMT'];
                 return $parsed_response;
             }
         } else {
