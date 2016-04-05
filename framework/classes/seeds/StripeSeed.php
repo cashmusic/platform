@@ -302,7 +302,7 @@ class StripeSeed extends SeedBase
                 'customer_email' => $email_address,
                 'customer_first_name' => $full_name[0],
                 'customer_last_name' => $full_name[1],
-                'customer_name' => '',
+                'customer_name' => $customer_name,
 
                 'customer_phone' => '',
                 'transaction_date' => $payment_results->created,
@@ -316,21 +316,18 @@ class StripeSeed extends SeedBase
                 'status' => "complete"
             );
 
-            $payer_info = array(
-                "first_name" => $full_name[0],
-                "last_name" => $full_name[1],
-                "email" => $email_address,
-                "country_code" => "");
-
-
             return array('total' => round($payment_results->amount / 100),
-                'payer' => $payer_info,
+                'customer_email' => $email_address,
+                'customer_first_name' => $full_name[0],
+                'customer_last_name' => $full_name[1],
+                'customer_name' => $customer_name,
+
                 'timestamp' => $payment_results->created,
                 'transaction_id' => $payment_results->id,
                 'service_transaction_id' => $payment_results->id,
                 'service_charge_id' => $payment_results->balance_transaction,
                 'service_fee' => ($transaction_fees->fee / 100),
-                'order_details' => json_encode($order_details)
+                'order_details' => $order_details
             );
         } else {
 

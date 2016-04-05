@@ -902,59 +902,7 @@ class CommercePlant extends PlantBase {
       if (!is_array($data_sent)) {
          $data_sent = json_decode($data_sent,true);
       }
-      if (is_array($data_returned)) {
-         if (isset($data_returned['payer'])) {
-             $data_returned['customer_email'] = $data_returned['payer']['email'];
-             $data_returned['customer_first_name'] = $data_returned['payer']['first_name'];
-             $data_returned['customer_last_name'] = $data_returned['payer']['last_name'];
-             $data_returned['customer_name'] = $data_returned['payer']['first_name'] . " " . $data_returned['payer']['last_name'];
-             if (isset($data_returned['payer']['last_name'])) {
-                $return_array['customer_shipping_name'] = $data_sent['PAYMENTREQUEST_0_SHIPTONAME'];
-             } else {
-                $return_array['customer_shipping_name'] = '';
-             }
-             if (isset($data_returned['payer']['last_name'])) {
-                $return_array['customer_address1'] = $data_sent['PAYMENTREQUEST_0_SHIPTOSTREET'];
-             } else {
-                $return_array['customer_address1'] = '';
-             }
-             if (isset($data_returned['payer']['last_name'])) {
-                $return_array['customer_address2'] = $data_sent['PAYMENTREQUEST_0_SHIPTOSTREET2'];
-             } else {
-                $return_array['customer_address2'] = '';
-             }
-             if (isset($data_returned['payer']['last_name'])) {
-                $return_array['customer_city'] = $data_sent['PAYMENTREQUEST_0_SHIPTOCITY'];
-             } else {
-                $return_array['customer_city'] = '';
-             }
-             if (isset($data_returned['payer']['last_name'])) {
-                $return_array['customer_region'] = $data_sent['PAYMENTREQUEST_0_SHIPTOSTATE'];
-             } else {
-                $return_array['customer_region'] = '';
-             }
-             if (isset($data_returned['payer']['last_name'])) {
-                $return_array['customer_postalcode'] = $data_sent['PAYMENTREQUEST_0_SHIPTOZIP'];
-             } else {
-                $return_array['customer_postalcode'] = '';
-             }
-             if (isset($data_returned['payer']['last_name'])) {
-                $return_array['customer_country'] = $data_sent['SHIPTOCOUNTRYNAME'];
-             } else {
-                $return_array['customer_country'] = '';
-             }
-             if (isset($data_returned['payer']['country_code'])) {
-                $return_array['customer_countrycode'] = $data_returned['payer']['country_code'];
-             } else {
-                $return_array['customer_countrycode'] = '';
-             }
-             if (isset($data_returned['payer']['phone'])) {
-                $return_array['customer_phone'] = $data_returned['payer']['phone'];
-             } else {
-                $return_array['customer_phone'] = '';
-             }
-         }
-      }
+
 
       if (is_array($data_returned)) {
          if (isset($data_returned['customer_name']) && isset($data_returned['total'])) {
@@ -1668,7 +1616,7 @@ class CommercePlant extends PlantBase {
                     $payment_details['payer'] = $r->sessionGet('customer_info');
                 }*/
 
-                if ($user_id = $this->getOrCreateUser($payment_details['payer'])) {
+                if ($user_id = $this->getOrCreateUser($payment_details)) {
 
                     // marking order fulfillment for digital only, physical quantities, all that fun stuff
                     $is_fulfilled = $this->getFulfillmentStatus($order_details);
@@ -1705,7 +1653,7 @@ class CommercePlant extends PlantBase {
                     $this->emptyCart($order_details['element_id'],$session_id);
 
                     // TODO: add code to order metadata so we can track opens, etc
-                    $order_details['customer_details']['email_address'] = $payment_details['payer']['email'];
+                    $order_details['customer_details']['email_address'] = $payment_details['customer_email'];
 
                     $order_details['gross_price'] = $payment_details['total'];
 
@@ -1760,12 +1708,12 @@ class CommercePlant extends PlantBase {
      * @return int
      */
 
-    protected function getOrCreateUser(array $payer) {
+    protected function getOrCreateUser($payment_details) {
         // let's try to find this user id via email
         $user_request = new CASHRequest(
             array('cash_request_type' => 'people',
                 'cash_action' => 'getuseridforaddress',
-                'address' => $payer['email'])
+                'address' => $payment_details['customer_email'])
         );
 
         $user_id = $user_request->response['payload'];
@@ -1776,14 +1724,14 @@ class CommercePlant extends PlantBase {
             $user_request = new CASHRequest(
                 array('cash_request_type' => 'system',
                     'cash_action' => 'addlogin',
-                    'address' => $payer['email'],
+                    'address' => $payment_details['customer_email'],
                     'password' => time(),
-                    'username' => preg_replace('/\s+/', '', $payer['first_name'] . $payer['last_name']),
+                    'username' => preg_replace('/\s+/', '', $payment_details['customer_first_name'] . $payment_details['customer_last_name']),
                     'is_admin' => 0,
-                    'display_name' => $payer['first_name'] . ' ' . $payer['last_name'],
-                    'first_name' => $payer['first_name'],
-                    'last_name' => $payer['last_name'],
-                    'address_country' => $payer['country_code'])
+                    'display_name' => $payment_details['customer_name'],
+                    'first_name' => $payment_details['customer_first_name'],
+                    'last_name' => $payment_details['customer_last_name'],
+                    'address_country' => $payment_details['customer_countrycode'])
             );
 
             $user_id = $user_request->response['payload'];
