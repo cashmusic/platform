@@ -18,25 +18,20 @@
 <!--/* Activity */ -->
 <div id="activity" class="pure-u-1">
 
-		<!-- /* Alert Style */ -->
-		{{#show_tour}}<a href="/" class="material notification alert"><p><span class="icon icon-warn"></span> {{copy_alert_tour}}</p></a>{{/show_tour}}
+	<!-- /* Alert Style */ -->
+	{{#show_tour}}<a href="/" class="material notification alert"><p><span class="icon icon-warn"></span> {{copy_alert_tour}}</p></a>{{/show_tour}}
 
-		{{#show_commerce_settings}}
+	{{#show_commerce_settings}}
 		<a href="{{www_path}}/commerce/" class="material notification alert"><p><span class="icon icon-warn"></span>{{copy_alert_commerce_settings}}</p></a>
-		{{/show_commerce_settings}}
+	{{/show_commerce_settings}}
 
 	{{#firstuse}}
 			<div class="alt callout"><div class="callout-inner"><h3>{{copy_firstuse_title}}</h3><p>{{copy_firstuse_body_1}} <a href='{{www_path}}/embeds/'>{{copy_firstuse_embeds}}</a>, <a href='{{www_path}}/page/'>{{copy_firstuse_page}}</a>, <a href='{{www_path}}/people/'>{{copy_firstuse_lists}}</a> &amp; <a href='{{www_path}}/commerce/'>{{copy_firstuse_sales}}</a> {{copy_firstuse_body_2}} <p>{{copy_firstuse_body_3}}	<a class="page-editor lightboxed" href="{{www_path}}/help/tour/">{{copy_firstuse_tour}}</a>.</p></div><!--callout-inner--></div>
-
 	{{/firstuse}}
 
-	{{^firstuse}}
-		<div class="alt callout"><div class="callout-inner"><h3>{{copy_!firstuse_title}}</h3><p>{{copy_!firstuse_body_1}} <a href='{{www_path}}/embeds/'>{{copy_!firstuse_embeds}}</a>, <a href='{{www_path}}/page/'>{{copy_!firstuse_page}}</a>, <a href='{{www_path}}/people/'>{{copy_!firstuse_lists}}</a> &amp; <a href='{{www_path}}/commerce/'>{{copy_!firstuse_sales}}</a> {{copy_!firstuse_body_2}} <p>{{copy_!firstuse_body_3}}	<a class="page-editor lightboxed" href="{{www_path}}/help/tour/">{{copy_!firstuse_tour}}</a>.</p>
-		</div><!--callout-inner-->
-	</div>
-
-	{{/firstuse}}
-
+	{{#show_whatsnew}}
+		WHAT IS NEW?!
+	{{/show_whatsnew}}
 
 <!-- /* Any Activity? */ -->
 {{^nothing_at_all}}

@@ -154,10 +154,44 @@ $elements_response = $cash_admin->requestAndStore(
 		'user_id' => $cash_admin->effective_user_id
 	)
 );
-if (!is_array($elements_response['payload'])) {
+if (!$elements_response['payload']) {
 	$cash_admin->page_data['show_tour'] = true;
 	$cash_admin->page_data['first_use'] = true;
 }
+
+// SHOULD WE SHOW A WELCOME BACK MESSAGE?
+$r = new CASHRequest();
+$r->startSession(false);
+$whatsnew = $r->sessionGet('whatsnew');
+if (!$whatsnew) {
+	$settings_response = $cash_admin->requestAndStore(
+		array(
+			'cash_request_type' => 'system',
+			'cash_action' => 'getsettings',
+			'type' => 'showafnews',
+			'user_id' => $cash_admin->effective_user_id
+		)
+	);
+	if (!$settings_response['payload']) {
+		if (!$cash_admin->page_data['first_use']) {
+			$cash_admin->page_data['show_whatsnew'] = true;
+			$r->sessionSet('whatsnew', true);
+		}
+		// set this for later. we'll be able to reuse.
+		$settings_response = $cash_admin->requestAndStore(
+			array(
+				'cash_request_type' => 'system',
+				'cash_action' => 'setsettings',
+				'type' => 'showafnews',
+				'value' => time(),
+				'user_id' => $cash_admin->effective_user_id
+			)
+		);
+	}
+} else {
+	$cash_admin->page_data['show_whatsnew'] = true;
+}
+
 
 // what about regions, currency, and commerce?
 $connections = AdminHelper::getConnectionsByScope('commerce');
