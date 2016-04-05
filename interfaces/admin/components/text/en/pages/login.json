@@ -2,29 +2,32 @@
 	"pagetip":"",
 	"learn":"",
 	"related":{},
-	"labels":{"email":"Email address",
-               "password":"Password",
-               "username":"Desired username"
-
-
-
+	"labels":{
+		"email":"Email address",
+      "password":"Password",
+      "username":"Desired username"
    },
 	"tooltips":{},
-	"copy":{"forgot_pass":"Forgot your password?",
-            "no_account":"No account? ",
-            "sign_up":"Sign up.",
-            "its_free":" An account is free, now and forever. Sign up to get started.",
-            "enter_email":"Enter your email, we'll send a reset link.",
-            "its_free_2":"It's free and always will be. All you need to do to get started is provide a valid email address, choose a username, and set your password.",
-            "reveal_text":"reveal text",
-            "i_read":" I have read and agree to the ",
-            "tos":"terms of service",
-            "and":" and ",
-            "privacy":"privacy policy",
-						"learn_about_title":"Let's build a better future for music together.",
-						"learn_about_body":"Learn more about CASH Music.",
-						"community_body":"Talk to the team on our #community Slack channel. We are always here to talk about our tools & listen to your feedback.",
-						"feature_header":"CASH music x Run The Jewels.",
-						"feature_body":"Our tools are made for scale. They were used to release RTJ2, so from your first fan to your millionth, we've got you covered."
-}
+	"copy":{
+		"forgot_pass":"Forgot your password?",
+      "no_account":"No account? ",
+      "sign_up":"Sign up.",
+      "its_free":" An account is free, now and forever. Sign up to get started.",
+      "enter_email":"Enter your email, we'll send a reset link.",
+      "its_free_2":"It's free and always will be. All you need to do to get started is provide a valid email address, choose a username, and set your password.",
+      "reveal_text":"reveal text",
+      "i_read":" I have read and agree to the ",
+      "tos":"terms of service",
+      "and":" and ",
+      "privacy":"privacy policy",
+		"learn_about_title":"Let's build a better future for music together.",
+		"learn_about_body":"Learn more about CASH Music.",
+		"community_body":"Talk to the team on our #community Slack channel. We are always here to talk about our tools & listen to your feedback.",
+		"feature_header0":"All your data at a glance.",
+		"feature_body0":"Just log in to check your sales, mailing list signups, and more. All right at your fingertips.",
+		"feature_header1":"CASH music x Run The Jewels.",
+		"feature_body1":"Our tools are made for scale. They were used to release RTJ2, so from your first fan to your millionth, we've got you covered.",
+		"feature_header2":"CASH music x Bikini Kill.",
+		"feature_body2":"Sell digital and physical in one cart, no cuts, no middleman, using your own Stripe or PayPal account on your site."
+	}
 }

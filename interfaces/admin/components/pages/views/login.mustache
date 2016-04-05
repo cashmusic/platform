@@ -54,15 +54,13 @@ $(document.body).addClass('login');
 
 <div class="pure-u-1 pure-u-md-1-3 login-carousel-container">
 	<div class="inner login-carousel-feature">
-		<div class="panel">
-			<a href="http://www.runthejewels.net/" target="_blank" />
+		<div class="panel" id="cc">
 			<div class="browser-header"><span></span><span></span><span></span></div><!--brower-header-->
-			<img src="/admin/ui/default/assets/images/rtj_example.jpg" width="100%" alt="Email Collection" />
-			</a><!--link-->
-			<h4>{{copy_feature_header}}</h4>
-			<p>{{copy_feature_body}}</p>
+			<img id="ccimg" src="/admin/ui/default/assets/images/rtj_example.jpg" width="100%" alt="" />
+			<h4 id="ccheader">{{copy_feature_header1}}</h4>
+			<p id="ccfeature">{{copy_feature_body1}}</p>
 		</div><!--panel-->
-		<div class="carousel-controller"><span></span><span class="current"></span><span></span></div><!-- carousel-controls -->
+		<div class="carousel-controller"><span id="cc0"></span><span id="cc1" class="current"></span><span id="cc2"></span></div><!-- carousel-controls -->
 	</div><!--pure-->
 </div><!--pure-->
 
@@ -78,6 +76,37 @@ $(document.body).addClass('login');
 	localStorage.setItem('resetadminforms',true);
 
 	history.pushState(null, null, '{{www_path}}/');
+
+	window.setInterval(carousel, 12000);
+	var cc = 1;
+	function carousel() {
+		var c = $('#cc');
+		var prev = $('#cc'+cc);
+		var headers = [
+			"{{copy_feature_header0}}",
+			"{{copy_feature_header1}}",
+			"{{copy_feature_header2}}"
+		];
+		var features = [
+			"{{copy_feature_body0}}",
+			"{{copy_feature_body1}}",
+			"{{copy_feature_body2}}"
+		];
+		if (cc == 2) {
+			cc = 0;
+		} else {
+			cc++;
+		}
+		var next = $('#cc'+cc);
+		$(prev).toggleClass('current');
+		$(next).toggleClass('current');
+
+		c.fadeOut(function() {
+			$('#ccheader').text(headers[cc]);
+			$('#ccfeature').text(features[cc]);
+			c.fadeIn();
+		});
+	}
 </script>
 
 {{#open_signup_panel}}
