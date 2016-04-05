@@ -1433,7 +1433,6 @@ class CommercePlant extends PlantBase {
                 $connection_type = $this->getConnectionType($transaction_details['connection_id']);
                 $order_totals = $this->getOrderTotals($order_details['order_contents']);
 
-
                 // ascertain whether or not this seed requires a redirect, else let's cheese it right to the charge
                 // we're going to switch seeds by $connection_type, so check to make sure this class even exists
                 if (!class_exists($seed_class)) {
@@ -1465,7 +1464,8 @@ class CommercePlant extends PlantBase {
                         $origin,					# cancel URL (the same in our case)
                         $currency,									# payment currency
                         'Sale',										# transaction type (e.g. 'Sale', 'Order', or 'Authorization')
-                        $shipping								# price additions (like shipping, but could be taxes in future as well)
+                        $shipping,								# price additions (like shipping, but could be taxes in future as well)
+                        $transaction_id                         # for adding data sent
                     );
 
                     // returns a url, javascript parses for success/failure and gets http://, so it does a redirect

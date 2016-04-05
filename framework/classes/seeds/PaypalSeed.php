@@ -158,7 +158,8 @@ class PaypalSeed extends SeedBase {
         $cancel_url,
         $currency_id='USD', /* 'USD', 'GBP', 'EUR', 'JPY', 'CAD', 'AUD' */
         $payment_type='Sale',
-        $shipping=false
+        $shipping=false,
+        $transaction_id=false
     ) {
         // Set NVP variables:
         $nvp_parameters = array(
@@ -193,6 +194,17 @@ class PaypalSeed extends SeedBase {
             error_log($this->getErrorMessage());
             return false;
         } else {
+            // update the transaction with data_sent for parity
+            $data_sent_request = new CASHRequest(
+                array(
+                    'cash_request_type' => 'commerce',
+                    'cash_action' => 'edittransaction',
+                    'data_sent' => $parsed_response,
+                    'id' => $transaction_id
+                )
+            );
+
+
             // Redirect to paypal.com.
             $token = urldecode($parsed_response["TOKEN"]);
             $paypal_url = $this->paypal_base_url . "_express-checkout&token=$token";
