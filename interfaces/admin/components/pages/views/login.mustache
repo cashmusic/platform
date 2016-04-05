@@ -56,8 +56,8 @@ $(document.body).addClass('login');
 	<div class="inner login-carousel-feature">
 		<div class="panel" id="cc">
 			<div class="browser-header"><span></span><span></span><span></span></div><!--brower-header-->
-			<img id="ccimg" src="/admin/ui/default/assets/images/rtj_example.jpg" width="100%" alt="" />
-			<h4 id="ccheader">{{copy_feature_header1}}</h4>
+			<img id="ccimg" src="{{www_path}}/ui/default/assets/images/rtj_example.jpg" width="100%" alt="" />
+			<h4 id="ccheader">{{{copy_feature_header1}}}</h4>
 			<p id="ccfeature">{{copy_feature_body1}}</p>
 		</div><!--panel-->
 		<div class="carousel-controller"><span id="cc0"></span><span id="cc1" class="current"></span><span id="cc2"></span></div><!-- carousel-controls -->
@@ -79,34 +79,63 @@ $(document.body).addClass('login');
 
 	window.setInterval(carousel, 12000);
 	var cc = 1;
+	var ccskip = false;
 	function carousel() {
-		var c = $('#cc');
-		var prev = $('#cc'+cc);
-		var headers = [
-			"{{copy_feature_header0}}",
-			"{{copy_feature_header1}}",
-			"{{copy_feature_header2}}"
-		];
-		var features = [
-			"{{copy_feature_body0}}",
-			"{{copy_feature_body1}}",
-			"{{copy_feature_body2}}"
-		];
-		if (cc == 2) {
-			cc = 0;
+		if (ccskip) {
+			ccskip = false;
 		} else {
-			cc++;
-		}
-		var next = $('#cc'+cc);
-		$(prev).toggleClass('current');
-		$(next).toggleClass('current');
+			var c = $('#cc');
+			var images = [
+				'{{www_path}}/ui/default/assets/images/af_example.jpg',
+				'{{www_path}}/ui/default/assets/images/rtj_example.jpg',
+				'{{www_path}}/ui/default/assets/images/bk_example.jpg'
+			];
+			var headers = [
+				"{{{copy_feature_header0}}}",
+				"{{{copy_feature_header1}}}",
+				"{{{copy_feature_header2}}}"
+			];
+			var features = [
+				"{{copy_feature_body0}}",
+				"{{copy_feature_body1}}",
+				"{{copy_feature_body2}}"
+			];
+			if (cc == 2) {
+				cc = 0;
+			} else {
+				cc++;
+			}
+			var next = $('#cc'+cc);
+			$('div.carousel-controller span').removeClass('current');
+			$(next).toggleClass('current');
 
-		c.fadeOut(function() {
-			$('#ccheader').text(headers[cc]);
-			$('#ccfeature').text(features[cc]);
-			c.fadeIn();
-		});
+			c.fadeOut(function() {
+				$('#ccimg').attr('src',images[cc]);
+				$('#ccheader').text(headers[cc]);
+				$('#ccfeature').text(features[cc]);
+				c.fadeIn();
+			});
+		}
 	}
+
+	$('#cc0').click(function() {
+		ccskip = false;
+		cc = 2;
+		carousel();
+		ccskip = true;
+	});
+	$('#cc1').click(function() {
+		ccskip = false;
+		cc = 0;
+		carousel();
+		ccskip = true;
+	});
+	$('#cc2').click(function() {
+		ccskip = false;
+		cc = 1;
+		carousel();
+		ccskip = true;
+	});
 </script>
 
 {{#open_signup_panel}}
