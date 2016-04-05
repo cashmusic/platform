@@ -258,7 +258,9 @@ class SinglePurchase extends ElementBase {
 					$this->element_data['error_message'] = print_r($this->original_response,true);
 				}
 			}
-		} elseif (isset($_REQUEST['state'])) {
+		}
+
+		if (isset($_REQUEST['state'])) {
 			if ($_REQUEST['state'] == 'success') {
 				if ($this->unlocked) {
 					$this->setTemplate('success');
