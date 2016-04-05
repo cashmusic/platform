@@ -1,46 +1,38 @@
 {{! corresponding files: help_tour.php & help_tour.json }}
 
 <div class="tour">
-	<form method="post" id="tourform" action="" class="multipart" data-parts="4" novalidate="novalidate">
+	<form method="post" id="tourform" action="" class="multipart" data-parts="3" novalidate="novalidate">
 
 	<div class=" section part-1" data-section-name="Welcome">
 		<div class="pure-u-1">
 			<img class="logo" src="{{www_path}}/ui/default/assets/images/logo.svg" alt="Cash Music"/>
 			<p class="big">{{copy_intro}}</p>
-			<p class="big">{{copy_quick}}</p>
+				<p>{{copy_intro_2}}</p>
+					<p>{{copy_intro_3}}</p>
+			<p>{{copy_quick}}</p>
 		</div>
 	</div>
 
-	<div class=" section part-2" data-section-name="Campaigns" style="display: none;">
+	<div class=" section part-2" data-section-name="Embeds" style="display: none;">
 		<div class="pure-u-1">
 			<p class="big">{{copy_page_2}}</p>
-			<img src="{{www_path}}/ui/default/assets/images/tour/campaign_info.jpg" alt="Campaigns Info Graphic"/>
+			<p>{{copy_page_2_2}}</p>
+				<img src="{{www_path}}/ui/default/assets/images/tour/embed_info.jpg" alt="Embed Info Graphic"/>
 		</div>
 	</div>
 
-	<div class=" section part-3" data-section-name="Embeds" style="display: none;">
+	<div class=" section part-3" data-section-name="Pages" style="display: none;">
 		<div class="pure-u-1">
-			<img src="{{www_path}}/ui/default/assets/images/tour/embed_info.jpg" alt="Embed Info Graphic"/>
 			<p class="big">{{copy_page_3}}</p>
-		</div>
-	</div>
-
-	<div class=" section part-4" data-section-name="Pages" style="display: none;">
-		<div class="pure-u-1">
-			<img src="{{www_path}}/ui/default/assets/images/tour/page_info.jpg" alt="Embed Info Graphic"/>
-			<p class="big">{{copy_page_4}}</p>
+				<img src="{{www_path}}/ui/default/assets/images/tour/page_info.jpg" alt="Page Info Graphic"/>
 		</div>
 	</div>
 
 	<div class="section basic-information" data-section-name="Enjoy!" style="display: none;">
 		<div class="pure-u-1">
-			<p class="big">
-				{{copy_page_5}}
-			</p><p class="big">
-				{{copy_page_5a}}
-			</p><p class="big">
-				{{copy_page_5b}}
-			</p>
+			<p class="big">{{copy_page_4}}</p>
+				<p>{{copy_page_4_2}}</p>
+				<img src="{{www_path}}/ui/default/assets/images/tour/connections_info.jpg" alt="Embed Info Graphic"/>
 		</div>
 	</div>
 

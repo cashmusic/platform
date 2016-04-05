@@ -6148,7 +6148,15 @@ a.edit-button:hover .icon{
 	margin:0;
 }
 
+#campaigns .selecta{
+	margin-bottom:0;
+}
+
 /* Embeds elements list */
+
+.campaign-elements{
+	margin:18px 0 0 0;
+}
 
 .campaign-elements ul.alternating li a{
 	padding:18px 20px;
