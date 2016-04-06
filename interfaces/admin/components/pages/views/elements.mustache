@@ -1,5 +1,5 @@
 
-{{! corresponding files: embeds.php & embeds.json }}
+{{! corresponding files: elements.php & elements.json }}
 {{^has_campaigns}}
 <div id="learn_tip" style="display:block;" class="page-description display"><i class="icon icon-question marker"></i><!--marker-->If you have questions look for the help (<i class='icon icon-question'></i>) icon throughout to guide you.</div><!--learntip-->
 {{/has_campaigns}}
@@ -24,7 +24,7 @@
 {{#has_campaigns}}
 <div class="pure-u-1 pure-u-md-2-3">
 	<div class="selecta">
-		<form accept-charset="UTF-8" method="post" action="{{www_path}}/embeds/">
+		<form accept-charset="UTF-8" method="post" action="{{www_path}}/elements/">
 			<label for="current-campaign">{{label_selected_campaign}}</label>
 			<select name="current-campaign" id="current-campaign">
 				<option value="-1" selected="selected">No campaign</option>
@@ -49,7 +49,7 @@
 {{^has_campaigns}}
 <div class="pure-u-1 pure-u-md-2-3">
 	<div class="selecta">
-		<form accept-charset="UTF-8" method="post" action="{{www_path}}/embeds/">
+		<form accept-charset="UTF-8" method="post" action="{{www_path}}/elements/">
 			<label for="current-campaign">{{label_selected_campaign}}</label>
 			<select disabled name="current-campaign" id="current-campaign">
 				<option value="-1" selected="selected">No campaign</option>
