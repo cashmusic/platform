@@ -31,6 +31,7 @@
       "new_order":"New Order",
 		"sales_settings":"Sales settings",
       "zero":"0%",
+			"ship_to":"Ship to: ",
       "order":"Order: ",
       "total":"Total: ",
       "shipping":"shipping",
