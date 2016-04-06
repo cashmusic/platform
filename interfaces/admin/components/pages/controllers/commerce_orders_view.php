@@ -141,16 +141,16 @@ if ($request_parameters) {
 		);
 
 		$transaction_data = $parsed_transaction_data->response['payload']['data_returned'];
-
+		if ($transaction_data['connection_type'] == "com.paypal") $cash_admin->page_data['canceled'] = true;
 		$cash_admin->page_data['customer_name'] = $transaction_data['customer_shipping_name'];
 		$cash_admin->page_data['customer_email'] = $transaction_data['customer_email'];
 		$cash_admin->page_data['customer_countrycode'] = $transaction_data['customer_countrycode'];
-/*				'customer_address1' => $transaction_data['customer_address1'],
-				'customer_address2' => $transaction_data['customer_address2'],
-				'customer_city' => $transaction_data['customer_city'],
-				'customer_region' => $transaction_data['customer_region'],
-				'customer_postalcode' => $transaction_data['customer_postalcode'],
-				'customer_country' => $transaction_data['customer_countrycode'],*/
+		$cash_admin->page_data['customer_address1'] = $transaction_data['customer_address1'];
+		$cash_admin->page_data['customer_address2'] = $transaction_data['customer_address2'];
+		$cash_admin->page_data['customer_city'] = $transaction_data['customer_city'];
+		$cash_admin->page_data['customer_region'] = $transaction_data['customer_region'];
+		$cash_admin->page_data['customer_postalcode'] = $transaction_data['customer_postalcode'];
+		$cash_admin->page_data['customer_country'] = $transaction_data['customer_countrycode'];
 
 
 		$formatted_data_sent = array();
