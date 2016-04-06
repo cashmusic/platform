@@ -1664,7 +1664,7 @@ class CommercePlant extends PlantBase {
                     $order_details['gross_price'] = $payment_details['total'];
 
                     try {
-                        //$this->sendOrderReceipt(false,$order_details);
+                        $this->sendOrderReceipt(false,$order_details);
                     } catch (Exception $e) {
                         //TODO: what happens when order receipt not sent?
                     }

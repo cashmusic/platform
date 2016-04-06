@@ -566,106 +566,109 @@
 		// TODO: look up user settings for email if user_id is set — allow for multiple SMTP settings
 		// on a per-user basis in the multi-user system
 		$email_settings = CASHSystem::getDefaultEmail(true);
-		if (CASHSystem::getSystemSettings('instancetype') == 'multi' && $user_id) {
-			$user_request = new CASHRequest(
-				array(
-					'cash_request_type' => 'people',
-					'cash_action' => 'getuser',
-					'user_id' => $user_id
-				)
-			);
-			$user_details = $user_request->response['payload'];
-			$setname = false;
-			if (trim($user_details['display_name'] . '') !== '' && $user_details['display_name'] !== 'Anonymous') {
-				$setname = $user_details['display_name'];
-			}
-			if (!$setname && $user_details['username']) {
-				$setname = $user_details['username'];
-			}
-			if ($setname) {
-				$fromaddress = '"' . str_replace('"','\"',$setname) . '" <' . $user_details['email_address'] . '>';
-			} else {
-				$fromaddress = $user_details['email_address'];
-			}
-		} else {
-			$fromaddress = $email_settings['systememail'];
-		}
-
-		// let's deal with complex versus simple email addresses. if we find '>' present we try
-		// parsing for name + address from a 'Address Name <address@name.com>' style email:
-		$from = CASHSystem::parseEmailAddress($fromaddress);
-		$sender = CASHSystem::parseEmailAddress($email_settings['systememail']);
-
-		if (is_array($from) && is_array($sender)) {
-			// sets the display name as the username NOT the system name
-			$from_keys = array_keys($from);
-			$sender_keys = array_keys($sender);
-			$sender[$sender_keys[0]] = $from[$from_keys[0]];
-		}
-
-		// handle encoding of HTML if specific HTML isn't passed in:
-		if (!$encoded_html) {
-			$template = @file_get_contents(CASH_PLATFORM_ROOT . '/settings/defaults/system_email.mustache');
-			if (file_exists(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php')) {
-				include_once(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php');
-			}
-			$message_text = Markdown($message_text);
-			$encoded_html = preg_replace('/(\shttp:\/\/(\S*))/', '<a href="\1">\1</a>', $message_text);
-			if (!$template) {
-				$encoded_html .= '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' . $message_title . '</title></head><body>'
-						  . "<h1>$message_title</h1>\n" . "<p>" . $encoded_html . "</p>"
-						  . "</body></html>";
-			} else {
-				// open up some mustache in here:
-				include_once(CASH_PLATFORM_ROOT . '/lib/mustache/Mustache.php');
-				$higgins = new Mustache;
-				$mustache_vars = array(
-					'encoded_html' => $encoded_html,
-					'message_title' => $message_title,
-					'cdn_url' => (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL
+		if ($email_settings['smtp'] && $email_settings['smtpserver']) {
+			if (CASHSystem::getSystemSettings('instancetype') == 'multi' && $user_id) {
+				$user_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'people',
+						'cash_action' => 'getuser',
+						'user_id' => $user_id
+					)
 				);
-				$encoded_html = $higgins->render($template, $mustache_vars);
+				$user_details = $user_request->response['payload'];
+				$setname = false;
+				if (trim($user_details['display_name'] . '') !== '' && $user_details['display_name'] !== 'Anonymous') {
+					$setname = $user_details['display_name'];
+				}
+				if (!$setname && $user_details['username']) {
+					$setname = $user_details['username'];
+				}
+				if ($setname) {
+					$fromaddress = '"' . str_replace('"','\"',$setname) . '" <' . $user_details['email_address'] . '>';
+				} else {
+					$fromaddress = $user_details['email_address'];
+				}
+			} else {
+				$fromaddress = $email_settings['systememail'];
+			}
+
+			// let's deal with complex versus simple email addresses. if we find '>' present we try
+			// parsing for name + address from a 'Address Name <address@name.com>' style email:
+			$from = CASHSystem::parseEmailAddress($fromaddress);
+			$sender = CASHSystem::parseEmailAddress($email_settings['systememail']);
+
+			if (is_array($from) && is_array($sender)) {
+				// sets the display name as the username NOT the system name
+				$from_keys = array_keys($from);
+				$sender_keys = array_keys($sender);
+				$sender[$sender_keys[0]] = $from[$from_keys[0]];
+			}
+
+			// handle encoding of HTML if specific HTML isn't passed in:
+			if (!$encoded_html) {
+				$template = @file_get_contents(CASH_PLATFORM_ROOT . '/settings/defaults/system_email.mustache');
+				if (file_exists(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php')) {
+					include_once(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php');
+				}
+				$message_text = Markdown($message_text);
+				$encoded_html = preg_replace('/(\shttp:\/\/(\S*))/', '<a href="\1">\1</a>', $message_text);
+				if (!$template) {
+					$encoded_html .= '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' . $message_title . '</title></head><body>'
+							  . "<h1>$message_title</h1>\n" . "<p>" . $encoded_html . "</p>"
+							  . "</body></html>";
+				} else {
+					// open up some mustache in here:
+					include_once(CASH_PLATFORM_ROOT . '/lib/mustache/Mustache.php');
+					$higgins = new Mustache;
+					$mustache_vars = array(
+						'encoded_html' => $encoded_html,
+						'message_title' => $message_title,
+						'cdn_url' => (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL
+					);
+					$encoded_html = $higgins->render($template, $mustache_vars);
+				}
+			}
+
+			// deal with SMTP settings later:
+			$smtp = $email_settings['smtp'];
+
+			// include swift mailer
+			include_once CASH_PLATFORM_ROOT . '/lib/swift/swift_required.php';
+
+			if ($smtp) {
+				// use SMTP settings for goodtimes robust happy mailing
+				$transport = Swift_SmtpTransport::newInstance($email_settings['smtpserver'], $email_settings['smtpport']);
+				if ($email_settings['smtpusername']) {
+					$transport->setUsername($email_settings['smtpusername']);
+					$transport->setPassword($email_settings['smtppassword']);
+				}
+			} else {
+
+				//TODO: sendmail is gonna mess shit up
+
+				// aww shit. use mail() and hope it gets there
+				//$transport = Swift_MailTransport::newInstance();
+			}
+
+			$swift = Swift_Mailer::newInstance($transport);
+
+			$message = new Swift_Message($subject);
+			$message->setFrom($sender);
+			$message->setReplyTo($from);
+			//	$message->setSender($sender);
+			$message->setBody($encoded_html, 'text/html');
+			$message->setTo($toaddress);
+			$message->addPart($message_text, 'text/plain');
+			$headers = $message->getHeaders();
+			$headers->addTextHeader('X-MC-Track', 'opens'); // Mandrill-specific tracking...leave in by defauly, no harm if not Mandrill
+
+			if ($recipients = $swift->send($message, $failures)) {
+				return true;
+			} else {
+				return false;
 			}
 		}
-
-		// deal with SMTP settings later:
-		$smtp = $email_settings['smtp'];
-
-		// include swift mailer
-		include_once CASH_PLATFORM_ROOT . '/lib/swift/swift_required.php';
-
-		if ($smtp) {
-			// use SMTP settings for goodtimes robust happy mailing
-			$transport = Swift_SmtpTransport::newInstance($email_settings['smtpserver'], $email_settings['smtpport']);
-			if ($email_settings['smtpusername']) {
-				$transport->setUsername($email_settings['smtpusername']);
-				$transport->setPassword($email_settings['smtppassword']);
-			}
-		} else {
-
-			//TODO: sendmail is gonna mess shit up
-
-			// aww shit. use mail() and hope it gets there
-			//$transport = Swift_MailTransport::newInstance();
-		}
-
-		$swift = Swift_Mailer::newInstance($transport);
-
-		$message = new Swift_Message($subject);
-		$message->setFrom($sender);
-		$message->setReplyTo($from);
-		//	$message->setSender($sender);
-		$message->setBody($encoded_html, 'text/html');
-		$message->setTo($toaddress);
-		$message->addPart($message_text, 'text/plain');
-		$headers = $message->getHeaders();
-		$headers->addTextHeader('X-MC-Track', 'opens'); // Mandrill-specific tracking...leave in by defauly, no harm if not Mandrill
-
-		if ($recipients = $swift->send($message, $failures)) {
-			return true;
-		} else {
-			return false;
-		}
+		return false;
 	}
 
 	public static function getMimeTypeFor($path) {
