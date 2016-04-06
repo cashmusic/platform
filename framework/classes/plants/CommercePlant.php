@@ -1176,10 +1176,10 @@ class CommercePlant extends PlantBase {
 
          if ($result) {
             if (!empty($result[0]['data_sent'])) {
-               $result[0]['data_sent'] = json_decode($result[0]['data_sent']);
+               $result[0]['data_sent'] = json_decode($result[0]['data_sent'], true);
             }
             if (!empty($result[0]['data_returned'])) {
-               $result[0]['data_returned'] = json_decode($result[0]['data_returned']);
+               $result[0]['data_returned'] = json_decode($result[0]['data_returned'], true);
             }
             return $result[0];
         } else {
@@ -1288,7 +1288,7 @@ class CommercePlant extends PlantBase {
         //      or maybe make the API accept GET params? does it already? who can know?
         //$r = new CASHRequest();
         $this->startSession(false,$session_id);
-
+        error_log("Session initiateCheckout $session_id");
         if (!$element_id) {
             return false;
         } else {
@@ -1385,15 +1385,6 @@ class CommercePlant extends PlantBase {
             $currency = $this->getCurrencyForUser($user_id);
             $shipping_info = json_decode($shipping_info, true);
 
-            $shipping_info_formatted = array(
-                    'customer_shipping_name' => $shipping_info['name'],
-                    'customer_address1' => $shipping_info['address1'],
-                    'customer_address2' => $shipping_info['address2'],
-                    'customer_city' => $shipping_info['city'],
-                    'customer_region' => $shipping_info['state'],
-                    'customer_postalcode' => $shipping_info['postalcode'],
-                    'customer_countrycode' => $shipping_info['country']);
-
             $transaction_id = $this->addTransaction(
                 $user_id,
                 $connection_id,
@@ -1401,7 +1392,7 @@ class CommercePlant extends PlantBase {
                 '',
                 '',
                 '',
-                $shipping_info_formatted,
+                '',               # this is data_returned, dummy
                 -1,
                 $total_price, // set price
                 0,
@@ -1425,6 +1416,21 @@ class CommercePlant extends PlantBase {
                 $currency,
                 $shipping_info
             );
+
+
+            $shipping_info_formatted = array(
+                'customer_shipping_name' => $shipping_info['name'],
+                'customer_address1' => $shipping_info['address1'],
+                'customer_address2' => $shipping_info['address2'],
+                'customer_city' => $shipping_info['city'],
+                'customer_region' => $shipping_info['state'],
+                'customer_postalcode' => $shipping_info['postalcode'],
+                'customer_countrycode' => $shipping_info['country']);
+
+            $r = new CASHRequest();
+            $r->startSession(false,$session_id);
+            $r->sessionSet('shipping_info',$shipping_info_formatted);
+
             if ($order_id) {
 
                 $order_details = $this->getOrder($order_id);
@@ -1580,7 +1586,7 @@ class CommercePlant extends PlantBase {
     }
 
     public function finalizePayment($order_id, $token, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false, $total_price=false, $description=false, $subtotal=false) {
-
+        error_log( print_r($shipping_info, true) );
         $order_details = $this->getOrder($order_id);
         $transaction_details = $this->getTransaction($order_details['transaction_id']);
         //error_log( print_r($transaction_details, true) );
@@ -1611,11 +1617,6 @@ class CommercePlant extends PlantBase {
 
             if ($payment_details['total'] >= $order_totals['price']) {
 
-/*                if (empty($payment_details['payer'])) {
-                    // paypal NVP finagling the customer info via sessions
-                    $payment_details['payer'] = $r->sessionGet('customer_info');
-                }*/
-
                 if ($user_id = $this->getOrCreateUser($payment_details)) {
 
                     // marking order fulfillment for digital only, physical quantities, all that fun stuff
@@ -1636,6 +1637,13 @@ class CommercePlant extends PlantBase {
                         false,
                         false
                     );
+
+                    //TODO: this is a temporary stopgap; we need to introduce JSON appending
+                    $r = new CASHRequest();
+                    $r->startSession(false,$session_id);
+                    $shipping_info = $r->sessionGet('shipping_info');
+
+                    $payment_details = array_merge($payment_details, $shipping_info);
 
                     $this->editTransaction(
                         $order_details['transaction_id'], 		// order id
@@ -1658,7 +1666,7 @@ class CommercePlant extends PlantBase {
                     $order_details['gross_price'] = $payment_details['total'];
 
                     try {
-                        //$this->sendOrderReceipt(false,$order_details,$finalize_url);
+                        //$this->sendOrderReceipt(false,$order_details);
                     } catch (Exception $e) {
                         //TODO: what happens when order receipt not sent?
                     }

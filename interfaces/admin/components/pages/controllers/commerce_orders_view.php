@@ -83,6 +83,8 @@ if ($request_parameters) {
 	);
 	$order_all_details = $order_details_response['payload'];
 
+	error_log( print_r($order_all_details, true) );
+
 	if ($order_all_details['user_id'] == $effective_user) {
 
 		$order_contents = json_decode($order_all_details['order_contents'],true);
@@ -117,7 +119,6 @@ if ($request_parameters) {
 			$order_all_details['formatted_shipping'] = number_format($order_all_details['gross_price']-$item_price,2);
 		}
 
-		error_log($order_all_details['gross_price'] . " // ".  $order_all_details['service_fee']);
 
 		$order_all_details['formatted_subtotal'] = sprintf("%01.2f",$item_price);
 		$order_all_details['formatted_net_price'] = sprintf("%01.2f",$order_all_details['gross_price'] - $order_all_details['service_fee']);
@@ -129,6 +130,28 @@ if ($request_parameters) {
 
 		$shipping_address = $order_all_details['data'];
 		$cash_admin->page_data['ui_title'] = 'Order #' . $order_all_details['padded_id'];
+
+		// customer
+		$parsed_transaction_data = new CASHRequest(
+			array(
+				'cash_request_type' => 'commerce',
+				'cash_action' => 'gettransaction',
+				'id' => $order_all_details['transaction_id']
+			)
+		);
+
+		$transaction_data = $parsed_transaction_data->response['payload']['data_returned'];
+
+		$cash_admin->page_data['customer_name'] = $transaction_data['customer_shipping_name'];
+		$cash_admin->page_data['customer_email'] = $transaction_data['customer_email'];
+		$cash_admin->page_data['customer_countrycode'] = $transaction_data['customer_countrycode'];
+/*				'customer_address1' => $transaction_data['customer_address1'],
+				'customer_address2' => $transaction_data['customer_address2'],
+				'customer_city' => $transaction_data['customer_city'],
+				'customer_region' => $transaction_data['customer_region'],
+				'customer_postalcode' => $transaction_data['customer_postalcode'],
+				'customer_country' => $transaction_data['customer_countrycode'],*/
+
 
 		$formatted_data_sent = array();
 		$formatted_data_returned = array();

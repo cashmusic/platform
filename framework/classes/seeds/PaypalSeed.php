@@ -252,10 +252,12 @@ class PaypalSeed extends SeedBase {
                 $parsed_response['total'] = $parsed_response['PAYMENTINFO_0_AMT'];
                 $parsed_response['service_fee'] = $parsed_response['PAYMENTINFO_0_FEEAMT'];
 
+                // customer normalizing stuff
                 $parsed_response['customer_email'] = $token_details['EMAIL'];
                 $parsed_response['customer_first_name'] = $token_details['FIRSTNAME'];
                 $parsed_response['customer_last_name'] = $token_details['LASTNAME'];
-                $parsed_response['customer_name'] = $token_details['COUNTRYCODE'];
+                $parsed_response['countrycode'] = $token_details['COUNTRYCODE'];
+
 
                 return $parsed_response;
             }
