@@ -1288,7 +1288,7 @@ class CommercePlant extends PlantBase {
         //      or maybe make the API accept GET params? does it already? who can know?
         //$r = new CASHRequest();
         $this->startSession(false,$session_id);
-        error_log("$session_id <- initiateCheckout");
+        //error_log("$session_id <- initiateCheckout");
         if (!$element_id) {
             return false;
         } else {
@@ -1585,7 +1585,7 @@ class CommercePlant extends PlantBase {
     }
 
     public function finalizePayment($order_id, $token, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false, $total_price=false, $description=false, $subtotal=false) {
-        error_log( print_r($shipping_info, true) );
+        //error_log( print_r($shipping_info, true) );
         $order_details = $this->getOrder($order_id);
         $transaction_details = $this->getTransaction($order_details['transaction_id']);
         //error_log( print_r($transaction_details, true) );
