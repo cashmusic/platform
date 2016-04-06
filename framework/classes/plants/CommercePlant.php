@@ -1288,7 +1288,7 @@ class CommercePlant extends PlantBase {
         //      or maybe make the API accept GET params? does it already? who can know?
         //$r = new CASHRequest();
         $this->startSession(false,$session_id);
-        error_log("Session initiateCheckout $session_id");
+        error_log("$session_id <- initiateCheckout");
         if (!$element_id) {
             return false;
         } else {
@@ -1427,9 +1427,8 @@ class CommercePlant extends PlantBase {
                 'customer_postalcode' => $shipping_info['postalcode'],
                 'customer_countrycode' => $shipping_info['country']);
 
-            $r = new CASHRequest();
-            $r->startSession(false,$session_id);
-            $r->sessionSet('shipping_info',$shipping_info_formatted);
+            $this->startSession(false,$session_id);
+            $this->sessionSet('shipping_info',$shipping_info_formatted);
 
             if ($order_id) {
 
@@ -1593,7 +1592,7 @@ class CommercePlant extends PlantBase {
         $connection_type = $this->getConnectionType($transaction_details['connection_id']);
         $order_totals = $this->getOrderTotals($order_details['order_contents']);
 
-        $r = new CASHRequest();
+        //$r = new CASHRequest();
 
         //TODO: since we haven't actually set the connection settings at this point, let's
         // get connection type settings so we can extract Seed classname
@@ -1639,9 +1638,8 @@ class CommercePlant extends PlantBase {
                     );
 
                     //TODO: this is a temporary stopgap; we need to introduce JSON appending
-                    $r = new CASHRequest();
-                    $r->startSession(false,$session_id);
-                    $shipping_info = $r->sessionGet('shipping_info');
+                    $this->startSession(false,$session_id);
+                    $shipping_info = $this->sessionGet('shipping_info');
 
                     $payment_details = array_merge($payment_details, $shipping_info);
 
@@ -1680,14 +1678,14 @@ class CommercePlant extends PlantBase {
                   			$key = array_search($order_details['element_id'], $lock_session);
                   			if ($key === false) {
                   				$lock_session[] = $order_details['element_id'];
-                  				$r->sessionSet('unlocked_elements',$lock_session);
+                  				$this->sessionSet('unlocked_elements',$lock_session);
                   			}
                   		} else {
-                  			$r->sessionSet('unlocked_elements',array($order_details['element_id']));
+                  			$this->sessionSet('unlocked_elements',array($order_details['element_id']));
                   		}
 
                         // we're also going to set order details, which are used by the Store element
-                        $r->sessionSet('commerce-'.$order_details['element_id'],$order_details);
+                        $this->sessionSet('commerce-'.$order_details['element_id'],$order_details);
                      }
 
                     return $order_id;
