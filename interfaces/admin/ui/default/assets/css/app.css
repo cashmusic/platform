@@ -2099,7 +2099,7 @@ section[role=main].hero{
 }
 
 .panel #flipback{
-	margin:10px auto 10px auto;
+	margin:0px auto 25px auto;
 	opacity:1;
 	visibility: visible;
 	clear:both;
