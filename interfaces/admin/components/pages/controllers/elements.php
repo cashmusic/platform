@@ -185,5 +185,5 @@ if ($total_campaigns) {
  * X. SET THE TEMPLATE AND GO!
  *
  ******************************************************************************/
-$cash_admin->setPageContentTemplate('embeds');
+$cash_admin->setPageContentTemplate('elements');
 ?>

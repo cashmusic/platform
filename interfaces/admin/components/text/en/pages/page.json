@@ -10,6 +10,8 @@
    },
 	"tooltips":{},
 	"copy":{
+		"activity_subnav":"Activity",
+		"elements_subnav":"Elements",
 	   "page_edit":"Edit",
 		 "page_view":"View page",
 	   "edit":"Edit",

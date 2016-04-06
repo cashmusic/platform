@@ -10,6 +10,8 @@
    },
 	"tooltips":{},
 	"copy":{
+		"activity_subnav":"Activity",
+		"elements_subnav":"Elements",
 		"total_campaign_views":"Total Campaign Views",
 	   "page_theme":"Page theme",
 	   "edit":"Edit",
