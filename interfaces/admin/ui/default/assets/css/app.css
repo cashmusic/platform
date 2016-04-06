@@ -3812,6 +3812,11 @@ fieldset{
 	left:0;
 	height:100%;
 	width:100%;
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#00cf7f+0,0061ff+100&0.7+0,0.5+100 */
+	background: -moz-linear-gradient(top,  rgba(0,207,127,0.7) 0%, rgba(0,97,255,0.5) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  rgba(0,207,127,0.7) 0%,rgba(0,97,255,0.5) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  rgba(0,207,127,0.7) 0%,rgba(0,97,255,0.5) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b300cf7f', endColorstr='#800061ff',GradientType=0 ); /* IE6-9 */
 }
 
 .alt.callout.usecolor2:after{
