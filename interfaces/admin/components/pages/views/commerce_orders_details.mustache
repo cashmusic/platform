@@ -21,9 +21,9 @@
         <div class="pure-u-1 pure-u-md-1-3">
             <p><strong>{{copy_placed_on}}</strong> {{order_date}}</p>
 
-						<p><strong>{{copy_customer}}</strong>&nbsp;<a href="mailto:{{customer_emails}}">{{customer_name}}</a>
-								{{#customer_countrycode}}<br /><strong>{{copy_country}}</strong> {{customer_countrycode}}{{/customer_countrycode}}
-							</p>
+					<p><strong>{{copy_customer}}</strong>&nbsp;<a href="mailto:{{customer_email}}">{{customer_name}}</a>
+						{{#customer_countrycode}}<br /><strong>{{copy_country}}</strong> {{customer_countrycode}}{{/customer_countrycode}}
+					</p>
               <p><strong>{{copy_payment_status}}</strong> {{status}}</p>
             </div><!-- pure-->
 
@@ -60,9 +60,9 @@
 					<p><a href="{{www_path}}/commerce/orders/view/{{id}}/fulfilled" class="button">{{copy_mark_as_fulfilled}}</a></p>
 				{{/fulfilled}}
 			{{/physical}}
-	        {{^canceled}}
-	        <p><a href="{{www_path}}/commerce/orders/view/{{id}}/cancel" class="button">{{copy_cancel}}</a></p>
-	        {{/canceled}}
+	        <!--{{^canceled}}-->
+	        <!--<p><a href="{{www_path}}/commerce/orders/view/{{id}}/cancel" class="button">{{copy_cancel}}</a></p>-->
+	        <!--{{/canceled}}-->
 	</div><!--pure-->
 {{#order_contents}}
 {{! ****************************************************************************

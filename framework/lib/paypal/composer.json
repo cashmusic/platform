@@ -1,0 +1,14 @@
+{
+    "name": "cashmusic/paypal-tests",
+    "description": "Trying to make sense of life in a PayPal world",
+    "authors": [
+        {
+            "name": "Tom Filepp",
+            "email": "tom@paperscissorsandglue.com"
+        }
+    ],
+    "require": {
+        "paypal/permissions-sdk-php": "^3.9",
+        "paypal/adaptivepayments-sdk-php": "^3.9"
+    }
+}

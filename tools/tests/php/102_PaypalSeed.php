@@ -1,5 +1,5 @@
 <?php
-
+/*
 require_once(dirname(__FILE__) . '/base.php');
 
 require CASH_PLATFORM_ROOT . '/lib/paypal/autoload.php';
@@ -135,4 +135,4 @@ class PaypalSeedTests extends UnitTestCase {
 		}
 	}
 
-}
+} */

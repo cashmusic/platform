@@ -13,18 +13,16 @@
 	},
 	"dataTypes": {
 		"single": {
-			"account":"string",
-			"client_id":"string",
-			"secret":"string",
-			"sandboxed":"bool",
-			"experience_id":"string"
+			"username":"string",
+			"password":"string",
+			"signature":"string",
+			"sandboxed":"bool"
 		},
 		"multi": {
-			"account":"string",
-			"client_id":"string",
-			"secret":"string",
-			"sandboxed":"bool",
-			"experience_id":"string"
+			"username":"string",
+			"password":"string",
+			"signature":"string",
+			"sandboxed":"bool"
 		}
 	}
 }

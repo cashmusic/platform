@@ -898,80 +898,85 @@ class CommercePlant extends PlantBase {
     protected function parseTransactionData($data_returned,$data_sent) {
       if (!is_array($data_returned)) {
           $data_returned = json_decode($data_returned,true);
-
-          if (isset($data_returned['payer'])) {
-              $data_returned['customer_email'] = $data_returned['payer']['email'];
-              $data_returned['customer_first_name'] = $data_returned['payer']['first_name'];
-              $data_returned['customer_last_name'] = $data_returned['payer']['last_name'];
-              $data_returned['customer_name'] = $data_returned['payer']['first_name'] . " " . $data_returned['payer']['last_name'];
-          }
-
       }
       if (!is_array($data_sent)) {
          $data_sent = json_decode($data_sent,true);
       }
-      if (isset($data_returned['customer_name']) && isset($data_returned['total'])) {
-         return $data_returned;
-      } else {
-         if (isset($data_sent['PAYMENTREQUEST_0_DESC'])) {
-            $return_array = array(
-   				'transaction_description' => $data_sent['PAYMENTREQUEST_0_DESC'],
-   				'customer_email' => $data_sent['EMAIL'],
-   				'customer_first_name' => $data_sent['FIRSTNAME'],
-   				'customer_last_name' => $data_sent['LASTNAME'],
-   				'customer_name' => $data_sent['FIRSTNAME'] . ' ' . $data_sent['LASTNAME']
-   			);
-   			// this is ugly, but the if statements normalize Paypal's love of omitting empty data
-   			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTONAME'])) {
-   				$return_array['customer_shipping_name'] = $data_sent['PAYMENTREQUEST_0_SHIPTONAME'];
-   			} else {
-   				$return_array['customer_shipping_name'] = '';
-   			}
-   			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOSTREET'])) {
-   				$return_array['customer_address1'] = $data_sent['PAYMENTREQUEST_0_SHIPTOSTREET'];
-   			} else {
-   				$return_array['customer_address1'] = '';
-   			}
-   			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOSTREET2'])) {
-   				$return_array['customer_address2'] = $data_sent['PAYMENTREQUEST_0_SHIPTOSTREET2'];
-   			} else {
-   				$return_array['customer_address2'] = '';
-   			}
-   			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOCITY'])) {
-   				$return_array['customer_city'] = $data_sent['PAYMENTREQUEST_0_SHIPTOCITY'];
-   			} else {
-   				$return_array['customer_city'] = '';
-   			}
-   			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOSTATE'])) {
-   				$return_array['customer_region'] = $data_sent['PAYMENTREQUEST_0_SHIPTOSTATE'];
-   			} else {
-   				$return_array['customer_region'] = '';
-   			}
-   			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOZIP'])) {
-   				$return_array['customer_postalcode'] = $data_sent['PAYMENTREQUEST_0_SHIPTOZIP'];
-   			} else {
-   				$return_array['customer_postalcode'] = '';
-   			}
-   			if (isset($data_sent['SHIPTOCOUNTRYNAME'])) {
-   				$return_array['customer_country'] = $data_sent['SHIPTOCOUNTRYNAME'];
-   			} else {
-   				$return_array['customer_country'] = '';
-   			}
-   			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE'])) {
-   				$return_array['customer_countrycode'] = $data_sent['PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE'];
-   			} else {
-   				$return_array['customer_countrycode'] = '';
-   			}
-   			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOPHONENUM'])) {
-   				$return_array['customer_phone'] = $data_sent['PAYMENTREQUEST_0_SHIPTOPHONENUM'];
-   			} else {
-   				$return_array['customer_phone'] = '';
-   			}
-   			return $return_array;
-         } else {
-            return false;
+
+
+      if (is_array($data_returned)) {
+         if (isset($data_returned['customer_name']) && isset($data_returned['total'])) {
+            return $data_returned;
          }
       }
+
+      // LEGACY TRANSACTION
+      if (is_array($data_sent)) {
+         if (isset($data_sent['PAYMENTREQUEST_0_DESC'])) {
+            if (isset($data_sent['PAYMENTREQUEST_0_DESC'])) {
+               $return_array = array(
+      				'transaction_description' => $data_sent['PAYMENTREQUEST_0_DESC'],
+      				'customer_email' => $data_sent['EMAIL'],
+      				'customer_first_name' => $data_sent['FIRSTNAME'],
+      				'customer_last_name' => $data_sent['LASTNAME'],
+      				'customer_name' => $data_sent['FIRSTNAME'] . ' ' . $data_sent['LASTNAME']
+      			);
+      			// this is ugly, but the if statements normalize Paypal's love of omitting empty data
+      			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTONAME'])) {
+      				$return_array['customer_shipping_name'] = $data_sent['PAYMENTREQUEST_0_SHIPTONAME'];
+      			} else {
+      				$return_array['customer_shipping_name'] = '';
+      			}
+
+
+      			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOSTREET'])) {
+      				$return_array['customer_address1'] = $data_sent['PAYMENTREQUEST_0_SHIPTOSTREET'];
+      			} else {
+      				$return_array['customer_address1'] = '';
+      			}
+      			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOSTREET2'])) {
+      				$return_array['customer_address2'] = $data_sent['PAYMENTREQUEST_0_SHIPTOSTREET2'];
+      			} else {
+      				$return_array['customer_address2'] = '';
+      			}
+      			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOCITY'])) {
+      				$return_array['customer_city'] = $data_sent['PAYMENTREQUEST_0_SHIPTOCITY'];
+      			} else {
+      				$return_array['customer_city'] = '';
+      			}
+      			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOSTATE'])) {
+      				$return_array['customer_region'] = $data_sent['PAYMENTREQUEST_0_SHIPTOSTATE'];
+      			} else {
+      				$return_array['customer_region'] = '';
+      			}
+      			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOZIP'])) {
+      				$return_array['customer_postalcode'] = $data_sent['PAYMENTREQUEST_0_SHIPTOZIP'];
+      			} else {
+      				$return_array['customer_postalcode'] = '';
+      			}
+      			if (isset($data_sent['SHIPTOCOUNTRYNAME'])) {
+      				$return_array['customer_country'] = $data_sent['SHIPTOCOUNTRYNAME'];
+      			} else {
+      				$return_array['customer_country'] = '';
+      			}
+      			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE'])) {
+      				$return_array['customer_countrycode'] = $data_sent['PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE'];
+      			} else {
+      				$return_array['customer_countrycode'] = '';
+      			}
+      			if (isset($data_sent['PAYMENTREQUEST_0_SHIPTOPHONENUM'])) {
+      				$return_array['customer_phone'] = $data_sent['PAYMENTREQUEST_0_SHIPTOPHONENUM'];
+      			} else {
+      				$return_array['customer_phone'] = '';
+      			}
+               return $return_array;
+            } else {
+               return false;
+            }
+         }
+      }
+
+      return false;
     }
 
     protected function getOrdersForUser($user_id,$include_abandoned=false,$max_returned=false,$since_date=0,$unfulfilled_only=0,$deep=false,$skip=0) {
@@ -1171,10 +1176,10 @@ class CommercePlant extends PlantBase {
 
          if ($result) {
             if (!empty($result[0]['data_sent'])) {
-               $result[0]['data_sent'] = json_decode($result[0]['data_sent']);
+               $result[0]['data_sent'] = json_decode($result[0]['data_sent'], true);
             }
             if (!empty($result[0]['data_returned'])) {
-               $result[0]['data_returned'] = json_decode($result[0]['data_returned']);
+               $result[0]['data_returned'] = json_decode($result[0]['data_returned'], true);
             }
             return $result[0];
         } else {
@@ -1283,7 +1288,7 @@ class CommercePlant extends PlantBase {
         //      or maybe make the API accept GET params? does it already? who can know?
         //$r = new CASHRequest();
         $this->startSession(false,$session_id);
-
+        error_log("Session initiateCheckout $session_id");
         if (!$element_id) {
             return false;
         } else {
@@ -1380,15 +1385,6 @@ class CommercePlant extends PlantBase {
             $currency = $this->getCurrencyForUser($user_id);
             $shipping_info = json_decode($shipping_info, true);
 
-            $shipping_info_formatted = array(
-                    'customer_shipping_name' => $shipping_info['name'],
-                    'customer_address1' => $shipping_info['address1'],
-                    'customer_address2' => $shipping_info['address2'],
-                    'customer_city' => $shipping_info['city'],
-                    'customer_region' => $shipping_info['state'],
-                    'customer_postalcode' => $shipping_info['postalcode'],
-                    'customer_countrycode' => $shipping_info['country']);
-
             $transaction_id = $this->addTransaction(
                 $user_id,
                 $connection_id,
@@ -1396,7 +1392,7 @@ class CommercePlant extends PlantBase {
                 '',
                 '',
                 '',
-                $shipping_info_formatted,
+                '',               # this is data_returned, dummy
                 -1,
                 $total_price, // set price
                 0,
@@ -1420,6 +1416,21 @@ class CommercePlant extends PlantBase {
                 $currency,
                 $shipping_info
             );
+
+
+            $shipping_info_formatted = array(
+                'customer_shipping_name' => $shipping_info['name'],
+                'customer_address1' => $shipping_info['address1'],
+                'customer_address2' => $shipping_info['address2'],
+                'customer_city' => $shipping_info['city'],
+                'customer_region' => $shipping_info['state'],
+                'customer_postalcode' => $shipping_info['postalcode'],
+                'customer_countrycode' => $shipping_info['country']);
+
+            $r = new CASHRequest();
+            $r->startSession(false,$session_id);
+            $r->sessionSet('shipping_info',$shipping_info_formatted);
+
             if ($order_id) {
 
                 $order_details = $this->getOrder($order_id);
@@ -1429,7 +1440,6 @@ class CommercePlant extends PlantBase {
                 //TODO: we'll need to figure out a way to get the connection_id for whatever payment method was chosen, in order to switch on the fly
                 $connection_type = $this->getConnectionType($transaction_details['connection_id']);
                 $order_totals = $this->getOrderTotals($order_details['order_contents']);
-
 
                 // ascertain whether or not this seed requires a redirect, else let's cheese it right to the charge
                 // we're going to switch seeds by $connection_type, so check to make sure this class even exists
@@ -1456,11 +1466,12 @@ class CommercePlant extends PlantBase {
                         $total_price,							# payment amount
                         'order-' . $order_id,						# order id
                         $order_totals['description'],				# order name
-                        $return_url,								# return URL
-                        $origin,								# cancel URL (the same in our case)
+                        $return_url,				# return URL
+                        $origin,					# cancel URL (the same in our case)
                         $currency,									# payment currency
-                        'sale',										# transaction type (e.g. 'Sale', 'Order', or 'Authorization')
-                        $shipping								# price additions (like shipping, but could be taxes in future as well)
+                        'Sale',										# transaction type (e.g. 'Sale', 'Order', or 'Authorization')
+                        $shipping,								# price additions (like shipping, but could be taxes in future as well)
+                        $transaction_id                         # for adding data sent
                     );
 
                     // returns a url, javascript parses for success/failure and gets http://, so it does a redirect
@@ -1575,18 +1586,19 @@ class CommercePlant extends PlantBase {
     }
 
     public function finalizePayment($order_id, $token, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false, $total_price=false, $description=false, $subtotal=false) {
-
+        error_log( print_r($shipping_info, true) );
         $order_details = $this->getOrder($order_id);
         $transaction_details = $this->getTransaction($order_details['transaction_id']);
+        //error_log( print_r($transaction_details, true) );
         $connection_type = $this->getConnectionType($transaction_details['connection_id']);
         $order_totals = $this->getOrderTotals($order_details['order_contents']);
 
         $r = new CASHRequest();
-        $r->startSession(false,$session_id);
 
         //TODO: since we haven't actually set the connection settings at this point, let's
         // get connection type settings so we can extract Seed classname
         $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
+
         $seed_class = $connection_settings['seed'];
 
         // we're going to switch seeds by $connection_type, so check to make sure this class even exists
@@ -1595,16 +1607,17 @@ class CommercePlant extends PlantBase {
             return false;
         }
 
+
         // call the payment seed class
         $payment_seed = new $seed_class($order_details['user_id'],$transaction_details['connection_id']);
 
         // if this was approved by the user, we need to compare some values to make sure everything matches up
-        if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address, $customer_name, $shipping_info, $subtotal)) {
+        if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address, $customer_name, $shipping_info, $subtotal, $session_id)) {
             // okay, we've got the matching totals, so let's get the $user_id, y'all
 
             if ($payment_details['total'] >= $order_totals['price']) {
 
-                if ($user_id = $this->getOrCreateUser($payment_details['payer'])) {
+                if ($user_id = $this->getOrCreateUser($payment_details)) {
 
                     // marking order fulfillment for digital only, physical quantities, all that fun stuff
                     $is_fulfilled = $this->getFulfillmentStatus($order_details);
@@ -1615,7 +1628,7 @@ class CommercePlant extends PlantBase {
                         $is_fulfilled,	// fulfilled status
                         0,				// cancelled (boolean 0/1)
                         false,			// notes
-                        $payment_details['payer']['country_code'],	// country code
+                        false,	// country code
                         $user_id,		// user id
                         false,
                         false,
@@ -1625,6 +1638,13 @@ class CommercePlant extends PlantBase {
                         false
                     );
 
+                    //TODO: this is a temporary stopgap; we need to introduce JSON appending
+                    $r = new CASHRequest();
+                    $r->startSession(false,$session_id);
+                    $shipping_info = $r->sessionGet('shipping_info');
+
+                    $payment_details = array_merge($payment_details, $shipping_info);
+
                     $this->editTransaction(
                         $order_details['transaction_id'], 		// order id
                         time(), 			// service timestamp
@@ -1633,20 +1653,20 @@ class CommercePlant extends PlantBase {
                         $payment_details,			// data received
                         1,										// successful (boolean 0/1)
                         $payment_details['total'],				// gross price
-                        $payment_details['transaction_fee'],	// service fee
+                        $payment_details['service_fee'],	// service fee
                         'complete'								// transaction status
                     );
 
                     // empty the cart at this point
-                    $this->emptyCart($element_id,$session_id);
+                    $this->emptyCart($order_details['element_id'],$session_id);
 
                     // TODO: add code to order metadata so we can track opens, etc
-                    $order_details['customer_details']['email_address'] = $payment_details['payer']['email'];
+                    $order_details['customer_details']['email_address'] = $payment_details['customer_email'];
 
                     $order_details['gross_price'] = $payment_details['total'];
 
                     try {
-                        $this->sendOrderReceipt(false,$order_details,$finalize_url);
+                        //$this->sendOrderReceipt(false,$order_details);
                     } catch (Exception $e) {
                         //TODO: what happens when order receipt not sent?
                     }
@@ -1683,7 +1703,6 @@ class CommercePlant extends PlantBase {
             }
 
         } else {
-
             $this->setErrorMessage("There was an issue with this payment.");
             return false;
         }
@@ -1697,12 +1716,12 @@ class CommercePlant extends PlantBase {
      * @return int
      */
 
-    protected function getOrCreateUser(array $payer) {
+    protected function getOrCreateUser($payment_details) {
         // let's try to find this user id via email
         $user_request = new CASHRequest(
             array('cash_request_type' => 'people',
                 'cash_action' => 'getuseridforaddress',
-                'address' => $payer['email'])
+                'address' => $payment_details['customer_email'])
         );
 
         $user_id = $user_request->response['payload'];
@@ -1713,14 +1732,14 @@ class CommercePlant extends PlantBase {
             $user_request = new CASHRequest(
                 array('cash_request_type' => 'system',
                     'cash_action' => 'addlogin',
-                    'address' => $payer['email'],
+                    'address' => $payment_details['customer_email'],
                     'password' => time(),
-                    'username' => preg_replace('/\s+/', '', $payer['first_name'] . $payer['last_name']),
+                    'username' => preg_replace('/\s+/', '', $payment_details['customer_first_name'] . $payment_details['customer_last_name']),
                     'is_admin' => 0,
-                    'display_name' => $payer['first_name'] . ' ' . $payer['last_name'],
-                    'first_name' => $payer['first_name'],
-                    'last_name' => $payer['last_name'],
-                    'address_country' => $payer['country_code'])
+                    'display_name' => $payment_details['customer_name'],
+                    'first_name' => $payment_details['customer_first_name'],
+                    'last_name' => $payment_details['customer_last_name'],
+                    'address_country' => $payment_details['customer_countrycode'])
             );
 
             $user_id = $user_request->response['payload'];

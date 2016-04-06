@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project>
+<project name="PayPal_Core_SDK" default="build" basedir=".">
+
+	<property name="basedir" value="." />
+	<property name="release.dir" value="${basedir}/release" />
+	<property name="output.dir" value="${basedir}/build" />
+	<property name="phplint.out" value="${output.dir}/phplint.txt" />
+	<property name="phploc.out" value="${output.dir}/phploc.xml" />
+	
+	<property name="test.dir" value="tests" />
+	<property name="test.out" value="${output.dir}/junit.xml" />
+	
+	<property name="coverage.dir" value="${output.dir}/coverage" />	
+	<property name="clover.out" value="${coverage.dir}/clover.xml" />
+	
+	<fileset id="src.files" dir="lib" includes="**/*.php" />
+	
+	<!-- Init tasks -->
+	<target name="checkos">
+		<condition property="isWindows">
+			<os family="windows" />
+		</condition>
+		<condition property="isLinux">
+			<os family="unix" />
+		</condition>
+	</target>
+
+	<target name="init_windows" depends="checkos" if="isWindows">
+	   <property name="phpunit.bin" value="phpunit.bat" />
+	   <property name="phploc.bin" value="phploc.bat" />
+	</target>
+
+	<target name="init_unix" depends="checkos" if="isLinux">
+	   <property name="phpunit.bin" value="phpunit" />
+	   <property name="phploc.bin" value="phploc" />
+	</target>
+	
+	<target name="init" depends="init_unix,init_windows" />
+	
+	<target name="clean">
+		<delete dir="${output.dir}" />
+		<mkdir dir="${output.dir}"/>
+	</target>
+
+	<!-- Code analysis tasks -->
+	<target name="phplint" depends="init">		
+		<delete file="${phplint.out}"/>
+		<apply executable="php" failonerror="true" output="${phplint.out}" append="true">
+			<arg value="-l" />
+			<fileset refid="src.files" />
+		</apply>
+	</target>
+
+	<target name="phploc" depends="init">
+		<exec command="${phploc.bin} --log-xml ${phploc.out} ." dir="${basedir}/lib"  />
+	</target>
+
+	<!-- Test tasks -->
+	<target name="test" depends="init">
+		<exec dir="${basedir}" executable="${phpunit.bin}" failonerror="true">
+			<arg line="--testdox -c phpunit.xml ${test.dir}" />
+		</exec>
+	</target>
+
+	<target name="coverage" depends="init">
+		<mkdir dir="${output.dir}/coverage"/>
+		<exec command="${phpunit.bin} --coverage-html=${coverage.dir} --coverage-clover=${clover.out} -c phpunit.xml ${test.dir}" />
+	</target>
+	<!-- Requires phing -->	
+	<target name="convert-test-report">
+		<mkdir dir="${output.dir}/test"/>
+		<phpunitreport infile="${test.out}" 
+			format="frames" 
+			todir="${output.dir}/test" />
+	</target>
+
+	<!-- Main tasks -->
+	<target name="report" depends="init, clean, phplint, coverage, phploc" description="Runs code checks and coverage reports" />
+	<target name="build" depends="init, clean, test" />
+</project>
