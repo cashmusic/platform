@@ -529,6 +529,20 @@
 		}
 	}
 
+	public static function parseEmailAddress($address) {
+		if (strpos($address, '>')) {
+			preg_match('/([^<]+)\s<(.*)>/', $address, $matches);
+			if (count($matches)) {
+				$finaladdress = array($matches[2] => $matches[1]);
+			} else {
+				$finaladdress = $address;
+			}
+		} else {
+			$finaladdress = $address;
+		}
+		return $finaladdress;
+	}
+
 	/*
 	 * Sends a plain text and HTML email for system things like email verification,
 	 * password resets, etc.
@@ -569,7 +583,7 @@
 				$setname = $user_details['username'];
 			}
 			if ($setname) {
-				$fromaddress = $setname . ' <' . $user_details['email_address'] . '>';
+				$fromaddress = '"' . str_replace('"','\"',$setname) . '" <' . $user_details['email_address'] . '>';
 			} else {
 				$fromaddress = $user_details['email_address'];
 			}
@@ -579,15 +593,14 @@
 
 		// let's deal with complex versus simple email addresses. if we find '>' present we try
 		// parsing for name + address from a 'Address Name <address@name.com>' style email:
-		if (strpos($fromaddress, '>')) {
-			preg_match('/([^<]+)\s<(.*)>/', $fromaddress, $matches);
-			if (count($matches)) {
-				$from = array($matches[2] => $matches[1]);
-			} else {
-				$from = $fromaddress;
-			}
-		} else {
-			$from = $fromaddress;
+		$from = CASHSystem::parseEmailAddress($fromaddress);
+		$sender = CASHSystem::parseEmailAddress($email_settings['systememail']);
+
+		if (is_array($from) && is_array($sender)) {
+			// sets the display name as the username NOT the system name
+			$from_keys = array_keys($from);
+			$sender_keys = array_keys($sender);
+			$sender[$sender_keys[0]] = $from[$from_keys[0]];
 		}
 
 		// handle encoding of HTML if specific HTML isn't passed in:
@@ -639,7 +652,9 @@
 		$swift = Swift_Mailer::newInstance($transport);
 
 		$message = new Swift_Message($subject);
-		$message->setFrom($from);
+		$message->setFrom($sender);
+		$message->setReplyTo($from);
+		//	$message->setSender($sender);
 		$message->setBody($encoded_html, 'text/html');
 		$message->setTo($toaddress);
 		$message->addPart($message_text, 'text/plain');
