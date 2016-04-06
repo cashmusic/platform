@@ -1,10 +1,10 @@
 {
 	"pagetip":"",
-	"learn":" <p>This section is where you’ll set up your email lists, set list permissions, and keep track of your press clippings</p><p>Why would you use a 3rd party connection for your email lists? MailChimp offer a ton of great features like email templates, detailed subscriber analytics, and more. Their service works seamlessly with our platform and they have a pretty generous free tier.</p>", 
+	"learn":" <p>This section is where you’ll set up your email lists, set list permissions, and keep track of your press clippings</p><p>Why would you use a 3rd party connection for your email lists? MailChimp offer a ton of great features like email templates, detailed subscriber analytics, and more. Their service works seamlessly with our platform and they have a pretty generous free tier.</p>",
 	"related":{},
 	"labels":{},
 	"tooltips":{},
-	"copy":{"firstuse":"People is where you'll manage and connect your email lists. You can create lists with or without a 3rd-party connection. <span class='disclaimer'>Your lists are always owned by you. Any information collected by your account via the platform belongs to you entirely. We value your privacy. </span>",
+	"copy":{"firstuse":"People is where you'll manage and connect your email lists. You can create lists with or without a 3rd-party connection. <span class='first-para'>Your lists are always owned by you. Any information collected by your account via the platform belongs to you entirely. We value your privacy. </span>",
          "button_add_connection":"Add Connection",
          "no_third_party":"I don’t want to add any 3rd-party connections at the moment. I’ll just create a new list on the CASH system.",
          "button_create_list":"Create List",

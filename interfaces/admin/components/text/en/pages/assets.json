@@ -5,7 +5,7 @@
 	"labels":{},
 	"tooltips":{},
 	"copy":{
-		"firstuse":"Assets is where you'll add your releases and upload the files you'll be using in your campaigns. Before you can begin adding any assets you will need to connect to one of the 3rd-party storage platforms below.",
+		"firstuse":"Assets is where you'll add your releases and upload the files you'll be using in your elements. <span class='first-para'>Before you can begin adding any assets you will need to connect to one of the 3rd-party storage platforms below.</span>",
       "host_own_files":"I host files on my own server! ",
       "button_new_release":"Add a new release",
       "no_releases_yet":"No releases have been created yet. Add one to get started.",

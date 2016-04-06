@@ -1010,7 +1010,7 @@ strong, #navmenu span, .drawerhandle span, .element-title, .stats span, #stats s
 div.switchblock div {display:none;}
 div.switchblock div.show {display:block;}
 
-.firstuse-title .disclaimer{
+.firstuse-title .disclaimer, .firstuse-title .first-para{
 	display:block;
 	font-size: 16px;
 	opacity:0.5;
@@ -3727,10 +3727,10 @@ fieldset{
 }
 
 /* First Use Highlight Areas */
-.callout.texture{
+/*.callout.texture{
 	margin:50px 0;
 	background: url(../images/texture.jpg);
-}
+}*/
 
 .callout .callout-inner{
 	background:#f5f5f5;
@@ -3771,9 +3771,9 @@ fieldset{
 
 
 .callout .callout-inner img{
-	height:auto;
+	/*height:auto;
 	width:80%;
-	margin:0 0 30px 0;
+	margin:0 0 30px 0;*/
 }
 
 .callout .pure-u-md-1-2 .callout-inner img{
@@ -3790,7 +3790,9 @@ fieldset{
 .alt.callout{
 	border:none;
 	background: url(../images/alt_texture.jpg);
-	background-size: 40%;
+	background: url(https://static-cashmusic.netdna-ssl.com/www/img/constant/texture/header.jpg);
+	background-size: 50%;
+	position: relative;
 }
 
 .alt.callout .callout-inner{
@@ -3800,6 +3802,40 @@ fieldset{
 	background:rgba(34,34,34,0.8);
 	position: relative;
 	height:100%;
+	z-index: 20;
+}
+
+.alt.callout:after{
+	content: '';
+	position:absolute;
+	top:0;
+	left:0;
+	height:100%;
+	width:100%;
+}
+
+.alt.callout.usecolor2:after{
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fa3838+0,ff1476+100&0.7+0,0.7+100 */
+	background: -moz-linear-gradient(top,  rgba(250,56,56,0.7) 0%, rgba(255,20,118,0.7) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  rgba(250,56,56,0.7) 0%,rgba(255,20,118,0.7) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  rgba(250,56,56,0.7) 0%,rgba(255,20,118,0.7) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3fa3838', endColorstr='#b3ff1476',GradientType=0 ); /* IE6-9 */
+}
+
+.alt.callout.usecolor3:after{
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ff7c12+0,ff3b00+100&0.7+0,0.7+100 */
+	background: -moz-linear-gradient(top,  rgba(255,124,18,0.7) 0%, rgba(255,59,0,0.7) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  rgba(255,124,18,0.7) 0%,rgba(255,59,0,0.7) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  rgba(255,124,18,0.7) 0%,rgba(255,59,0,0.7) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3ff7c12', endColorstr='#b3ff3b00',GradientType=0 ); /* IE6-9 */
+}
+
+.alt.callout.usecolor4:after{
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#6a38fa+0,038dff+100&0.7+0,0.7+100 */
+	background: -moz-linear-gradient(top,  rgba(106,56,250,0.7) 0%, rgba(3,141,255,0.7) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  rgba(106,56,250,0.7) 0%,rgba(3,141,255,0.7) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  rgba(106,56,250,0.7) 0%,rgba(3,141,255,0.7) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b36a38fa', endColorstr='#b3038dff',GradientType=0 ); /* IE6-9 */
 }
 
 .alt.callout .callout-inner .button{
@@ -4579,6 +4615,8 @@ ul.people.alternating li a span{
 
 .commerce.order{
 	list-style-type: none;
+	padding:0;
+	margin:0;
 }
 
 .commerce.order li{
