@@ -5495,6 +5495,10 @@ label.checklabel{
 	/*display:none;*/
 }
 
+.tour p{
+	display: block;
+}
+
 .tour .logo{
 	display:inline-block;
 	width:65px;
