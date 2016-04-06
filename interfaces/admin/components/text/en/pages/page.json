@@ -1,6 +1,6 @@
 {
 	"pagetip":"",
-	"learn":"<p>Interesting stuff about Your Page</p>",
+	"learn":"<p>This is a simple web page that can host all of your elements. <p>Once you've created one or more elements you can embed them on this page. (You can also copy their embed codes and place them anywhere else on the Internet.) <p>Click the 'Edit' button to add or remove elements on your page. To add a title and text to the page, add a 'Plain Text' Element. <p>The URL (internet address) of this page is based on your CASH Music username. </p>",
 	"related":{
 		"cashmusic.org":"http://cashmusic.org/",
 		"CASH help/support site":"http://help.cashmusic.org/"
