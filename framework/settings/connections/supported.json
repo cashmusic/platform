@@ -4,10 +4,10 @@
 		"com.google.drive",
 		"com.mailchimp",
 		"com.paypal",
-		"com.twitter"
+		"com.twitter",
+		"com.stripe"
 	],
 	"beta":[
-		"com.mandrillapp",
-	  	"com.stripe"
+		"com.mandrillapp"
 	]
 }
