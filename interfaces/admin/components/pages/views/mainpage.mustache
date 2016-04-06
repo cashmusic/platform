@@ -25,14 +25,22 @@
 		<a href="{{www_path}}/commerce/" class="material notification alert"><p><span class="icon icon-warn"></span>{{copy_alert_commerce_settings}}</p></a>
 	{{/show_commerce_settings}}
 
-	{{#firstuse}}
-		<div class="alt callout"><div class="callout-inner"><h3>{{copy_firstuse_title}}</h3><p>{{copy_firstuse_body_1}} <a href='{{www_path}}/embeds/'>{{copy_firstuse_embeds}}</a>, <a href='{{www_path}}/page/'>{{copy_firstuse_page}}</a>, <a href='{{www_path}}/people/'>{{copy_firstuse_lists}}</a> &amp; <a href='{{www_path}}/commerce/'>{{copy_firstuse_sales}}</a> {{copy_firstuse_body_2}} <p>{{copy_firstuse_body_3}}	<a class="page-editor lightboxed" href="{{www_path}}/help/tour/">{{copy_firstuse_tour}}</a>.</p></div><!--callout-inner--></div>
+	{{^firstuse}}
+		<div class="alt callout"><div class="callout-inner">
+			<h3>{{copy_firstuse_title}}</h3>
+			<p>{{copy_firstuse_body_1}}</p>
+				<p>{{copy_firstuse_body_2}}</p>
+			<p>{{copy_firstuse_tour_body}}	<a class="page-editor lightboxed" href="{{www_path}}/help/tour/">{{copy_tour_link}}</a>.</p>
+		</div><!--callout-inner--></div>
 	{{/firstuse}}
 
 	{{^show_whatsnew}}
 			<div class="alt callout"><div class="callout-inner">
-				<h3>Something explaining whats new in the platform!</h3>
-				<p>{{copy_firstuse_body_3}}	<a class="page-editor lightboxed" href="{{www_path}}/help/tour/">{{copy_firstuse_tour}}</a>.</p></div><!--callout-inner--></div>
+				<h3>{{copy_whatsnew_title}}</h3><p>{{copy_whatsnew_body_1}} <a href='{{www_path}}/people/'>{{copy_whatsnew_lists}} </a> &amp; <a href='{{www_path}}/commerce/'>{{copy_whatsnew_sales}}</a>. {{copy_whatsnew_body_2}}
+					<p>{{copy_whatsnew_body_3}} </p>
+					<p>{{copy_whatsnew_tour_body}}	<a class="page-editor lightboxed" href="{{www_path}}/help/tour/">{{copy_tour_link}}</a>.</p>
+							<p>{{copy_whatsnew_body_4}} </p>
+			</div><!--callout-inner--></div>
 	{{/show_whatsnew}}
 
 <!-- /* Any Activity? */ -->
