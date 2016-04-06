@@ -212,7 +212,7 @@ if ($connections) {
 // first use, or just really boring?
 if (!$cash_admin->page_data['first_use']) {
 	if (!$cash_admin->page_data['unfulfilled_orders']
-		 && !$cash_admin->page_data['all_lists']
+		 //&& !$cash_admin->page_data['all_lists']
 		 && !$cash_admin->page_data['delta_orders']
 		 && !$cash_admin->page_data['delta_lists']
 	) {
