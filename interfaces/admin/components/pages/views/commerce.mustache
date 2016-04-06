@@ -92,13 +92,22 @@
                                 </div><!--pure-->
                                 <div class="pure-u-1 pure-u-md-1-3">
                                     <div class="customer-details">
-                                        <a class="customer-name" href="mailto:{{customer_email}}?subject=RE: {{copy_order}}{{number}} - {{order_description}}">{{customer_name}}</a>
+                                        <p></p>
+
                                         <p class="customer-address">
+                                            <strong>Customer:</strong><br/>
+                                            <a class="customer-name" href="mailto:{{customer_email}}?subject=RE: {{copy_order}}{{number}} - {{order_description}}">{{customer_name}}</a><br/>
+
+                                            <strong>Ship to:</strong><br/>
+                                            {{customer_shipping_name}}<br/>
                                             {{customer_address1}}<br/>
                                             {{#customer_address2}}{{customer_address2}}<br/>{{/customer_address2}}
                                             {{customer_city}}, {{customer_region}} {{customer_postalcode}}<br />
-                                            {{customer_country}}
+                                            {{customer_country}}<br/>
+
+
                                         </p>
+
                                     </div><!--customer-details--></div><!--pure-->
                                 <div class="pure-u-1 pure-u-md-2-3">
                                     <ul class="inventory">

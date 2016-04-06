@@ -316,7 +316,8 @@ if (is_array($orders_response['payload'])) {
 
 			$all_order_details[] = array(
 				'id' => $o['id'],
-				'customer_name' => $transaction_data['customer_shipping_name'],
+				'customer_name' => $transaction_data['customer_first_name'] . " " . $transaction_data['customer_last_name'],
+				'customer_shipping_name' => $transaction_data['customer_shipping_name'],
 				'customer_email' => $transaction_data['customer_email'],
 				'customer_address1' => $transaction_data['customer_address1'],
 				'customer_address2' => $transaction_data['customer_address2'],
