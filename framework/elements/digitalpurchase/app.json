@@ -11,7 +11,7 @@
 			"name":"Digital Purchase",
 			"description":"A simple pay-for-media element using your Paypal account.",
 			"longdescription":"Connect your Paypal account and users will get a single-click purchase flow for any asset defined in the system.",
-			"instructions":"This element type has been depreciated. It will continue to work, but sonsider migrating to the Single Purchase element."
+			"instructions":"This element type has been depreciated. It will continue to work, but consider migrating to the Single Purchase element."
 		}
 	},
 	"copy":{
