@@ -276,14 +276,14 @@ input:focus placeholder{color:#111;}
 	margin:0 0 5px 0;
 }
 
-.singlepurchase .cash_singlepurchase_itemdescription{
+.cash_singlepurchase_itemdescription{
  	display:block;
  	margin: 0 0 36px 0;
   text-align: center;
   font-size: 18px;
   line-height: 24px;
-  color:#fff;
-  opacity: 1;
+  color:#fff!important;
+  opacity:1!important;
 }
 
 
