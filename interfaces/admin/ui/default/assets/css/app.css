@@ -5845,8 +5845,8 @@ label.checklabel{
 	margin:0 0 18px 0;
 }
 
-#campaigns.notifications{
-	margin-top:20px;
+#campaigns.notifications, #campaigns .callout{
+	margin-top:18px;
 }
 /*
 .campaign{

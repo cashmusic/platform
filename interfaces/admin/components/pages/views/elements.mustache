@@ -103,34 +103,3 @@
 	{{/elements_for_campaign}}
 
 {{/selected_campaign}}
-
-{{^has_campaigns}}
-<div class="drawer prefpanel pure-u-1">
-	<div class="itemnav pure-u-1">
-	<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>Publish Settings</span></h4>
-	<div class="drawercontent">
-		<div class="pure-u-1 pure-u-md-1-2">
-			<div class="pref-inner">
-				<h5>{{copy_publish_a_campaign}}</h5>
-				<p>
-					{{copy_publish_campaign_info}}
-				</p>
-				<!--<a href="{{www_path}}/campaigns/publish" class="button lightboxed">{{copy_publish_a_campaign}}</a>-->
-					<div class="selecta comingsoon">
-						<label for="current-campaign">{{copy_published}}</label>
-						<select id="current-campaign">
-  							<option value="{{title}}">{{copy_no_campaign}}</option>
-						</select>
-					</div><!--selecta-->
-			</div><!--pref-inner-->
-		</div><!--pure-->
-		<div class="pure-u-1 pure-u-md-1-2">
-			<div class="pref-inner">
-				<h5>{{copy_embed_element}}</h5>
-				<p>{{copy_no_elements_add_campaign_1}}<a class="lightboxed" href="{{www_path}}/campaigns/add/">{{copy_no_elements_add_campaign_2}}</a>{{copy_no_elements_add_campaign_3}}</p>
-			</div><!--pref-inner-->
-		</div><!--pure-->
-	</div><!--drawercontent-->
-	</div><!--itemnav-->
-</div><!--drawer-->
-{{/has_campaigns}}
