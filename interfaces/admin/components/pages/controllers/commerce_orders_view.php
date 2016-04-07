@@ -83,8 +83,6 @@ if ($request_parameters) {
 	);
 	$order_all_details = $order_details_response['payload'];
 
-	error_log( print_r($order_all_details, true) );
-
 	if ($order_all_details['user_id'] == $effective_user) {
 
 		$order_contents = json_decode($order_all_details['order_contents'],true);
@@ -132,25 +130,15 @@ if ($request_parameters) {
 		$cash_admin->page_data['ui_title'] = 'Order #' . $order_all_details['padded_id'];
 
 		// customer
-		$parsed_transaction_data = new CASHRequest(
-			array(
-				'cash_request_type' => 'commerce',
-				'cash_action' => 'gettransaction',
-				'id' => $order_all_details['transaction_id']
-			)
-		);
-
-		$transaction_data = $parsed_transaction_data->response['payload']['data_returned'];
-		if ($transaction_data['connection_type'] == "com.paypal") $cash_admin->page_data['canceled'] = true;
-		$cash_admin->page_data['customer_name'] = $transaction_data['customer_shipping_name'];
-		$cash_admin->page_data['customer_email'] = $transaction_data['customer_email'];
-		$cash_admin->page_data['customer_countrycode'] = $transaction_data['customer_countrycode'];
-		$cash_admin->page_data['customer_address1'] = $transaction_data['customer_address1'];
-		$cash_admin->page_data['customer_address2'] = $transaction_data['customer_address2'];
-		$cash_admin->page_data['customer_city'] = $transaction_data['customer_city'];
-		$cash_admin->page_data['customer_region'] = $transaction_data['customer_region'];
-		$cash_admin->page_data['customer_postalcode'] = $transaction_data['customer_postalcode'];
-		$cash_admin->page_data['customer_country'] = $transaction_data['customer_countrycode'];
+		$cash_admin->page_data['customer_name'] = $order_all_details['customer_shipping_name'];
+		$cash_admin->page_data['customer_email'] = $order_all_details['customer_email'];
+		$cash_admin->page_data['customer_countrycode'] = $order_all_details['customer_countrycode'];
+		$cash_admin->page_data['customer_address1'] = $order_all_details['customer_address1'];
+		$cash_admin->page_data['customer_address2'] = $order_all_details['customer_address2'];
+		$cash_admin->page_data['customer_city'] = $order_all_details['customer_city'];
+		$cash_admin->page_data['customer_region'] = $order_all_details['customer_region'];
+		$cash_admin->page_data['customer_postalcode'] = $order_all_details['customer_postalcode'];
+		$cash_admin->page_data['customer_country'] = $order_all_details['customer_countrycode'];
 
 
 		$formatted_data_sent = array();
