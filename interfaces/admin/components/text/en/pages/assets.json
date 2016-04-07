@@ -5,7 +5,7 @@
 	"labels":{},
 	"tooltips":{},
 	"copy":{
-		"firstuse":"Assets are digital files, hosted on your own Amazon S3 or Google Drive server. <span class='first-para'> You can upload files directly to those accounts without leaving the CASH platform. You can organize your assets as part of a \"release\" or simply upload them. Once you've uploaded files, you can sell them as Inventory items (in the \"Commerce\" section), or use them in any other element of the platform. <br> <br>Before you can begin adding any assets you will need to connect to one of the 3rd-party storage platforms below. </span>",
+		"firstuse":"Assets are digital files that you'll need to use in your elements, hosted on your own Amazon S3 or Google Drive server. <span class='first-para'> You can upload files directly to those accounts without leaving the CASH platform. You can organize your assets as part of a \"release\" or simply upload them. Once you've uploaded files, you can sell them as Inventory items (in the \"Commerce\" section), or use them in any other element of the platform. <br> <br>Before you can begin adding any assets you will need to connect to one of the 3rd-party storage platforms below. </span>",
       "host_own_files":"I host files on my own server! ",
       "button_new_release":"Add a new release",
       "no_releases_yet":"No releases have been created yet. Add one to get started.",
