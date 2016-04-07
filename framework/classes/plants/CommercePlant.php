@@ -905,7 +905,9 @@ class CommercePlant extends PlantBase {
 
 
       if (is_array($data_returned)) {
-         if (isset($data_returned['customer_name']) && isset($data_returned['total'])) {
+
+         if (isset($data_returned['customer_shipping_name']) && isset($data_returned['total'])) {
+
             return $data_returned;
          }
       }
