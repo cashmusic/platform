@@ -10,11 +10,6 @@
 		"compatibility":["single","multi"],
 		"title":"Embed an element"
 	},
-	"publishing" : {
-		"file":"publishingcampaign",
-		"compatibility":["single","multi"],
-		"title":"Publish a campaign page"
-		},
 
 	"s3" : {
 		"file":"s3",

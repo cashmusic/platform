@@ -1,7 +1,7 @@
 
-###Publish a campaign page
+###Publishing your CASH Music page
 
-Once you've set up a campaign and are ready to publish your page click the **edit icon**  <i class="icon icon-pencil"></i> and select **Page theme**. It'll prompt you to choose a light or dark theme for your page. 
+Once you've added some elements and are ready to publish your page click the **edit icon**  <i class="icon icon-pencil"></i> and select **Page theme**. It'll prompt you to choose a light or dark theme for your page. 
 
  Click on the campaign's **edit icon** again to open your page template. It includes an editor and some basic html code. If you're a novice and aren't sure what this code means, don't worry! We've made it really easy. Just look for **div id="mainspace"**. There's an empty line after it. Click there.
 

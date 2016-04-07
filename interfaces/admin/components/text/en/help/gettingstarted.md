@@ -2,7 +2,7 @@ There's a lot in the CASH platform, and it helps to start with a few core concep
 
 First and foremost, look at the main menu and you'll see five main categories:  
 
-  **Main page:** This is where you'll set up and manage your campaigns and their corresponding elements. You can also publish and edit your quick one page site here, get an embed code for any element you've set up, and organize all your projects. 
+  **Main page:** This is where you'll set up your elements and track their activity. You can also publish and edit your quick one page site here, get an embed code for any element you've set up, and organize all your projects. 
   
   **Assets:** Files, releases, and playlists. Basically anything you'll work on or use for 
    fulfillment somewhere else in the platform.
