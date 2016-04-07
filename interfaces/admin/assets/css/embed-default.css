@@ -259,7 +259,7 @@ input:focus placeholder{color:#111;}
 	padding:0;
 	/*background:rgba(34,34,34,0.9);*/
 	-webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
+  -moz-border-radius: 3px;
 	border-radius: 3px;
 	margin:0 0 2px 0;
 }
@@ -282,6 +282,8 @@ input:focus placeholder{color:#111;}
   text-align: center;
   font-size: 18px;
   line-height: 24px;
+  color:#fff;
+  opacity: 1;
 }
 
 
