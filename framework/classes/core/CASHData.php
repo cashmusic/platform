@@ -177,7 +177,7 @@
 		}
 
 		// ERROR LOGGING
-		error_log('starting session: ' . $session_id);
+		// error_log('starting session: ' . $session_id);
 
 		return array(
 			'newsession' => $newsession,
@@ -298,7 +298,7 @@
 				);
 
 				// ERROR LOGGING
-				error_log('writing ' . $key . '(' . json_encode($value) . ') to session: ' . $session_id);
+				// error_log('writing ' . $key . '(' . json_encode($value) . ') to session: ' . $session_id);
 
 				return true;
 			} else {
@@ -325,15 +325,15 @@
 			if (isset($session_data['persistent'][(string)$key])) {
 
 				// ERROR LOGGING
-				$session_id = $this->getSessionID();
-				error_log('reading ' . $key . '(' . json_encode($session_data['persistent'][(string)$key]) . ') from session: ' . $session_id);
+				// $session_id = $this->getSessionID();
+				// error_log('reading ' . $key . '(' . json_encode($session_data['persistent'][(string)$key]) . ') from session: ' . $session_id);
 
 				return $session_data['persistent'][(string)$key];
 			} else {
 
 				// ERROR LOGGING
-				$session_id = $this->getSessionID();
-				error_log('reading ' . $key . '(false/empty) from session: ' . $session_id);
+				// $session_id = $this->getSessionID();
+				// error_log('reading ' . $key . '(false/empty) from session: ' . $session_id);
 
 				return false;
 			}
