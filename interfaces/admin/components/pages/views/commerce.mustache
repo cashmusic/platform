@@ -95,31 +95,36 @@
                     {{  **************************************************************** }}
                         <li>
                             <div class="item unfulfilled">
-                                <div class="pure-u-1 pure-u-md-1-3">
-                                    <a class="order-number" href="{{www_path}}/commerce/orders/view/{{id}}"><strong>{{copy_order}} {{number}}{{#notes}} <span class="icon icon-paperclip"></span>{{/notes}}</strong></a></div><!--pure-->
-                                <div class="pure-u-1 pure-u-md-2-3">
+                                <div class="pure-u-1 pure-u-md-1-4">
+                                    <a class="order-number" href="{{www_path}}/commerce/orders/view/{{id}}"><strong>{{copy_order}} {{number}}{{#notes}} <span class="icon icon-paperclip"></span>{{/notes}}</strong></a>
+                                </div><!--pure-->
+                                <div class="pure-u-1 pure-u-md-1-4">
+                                  <p class="ship-to"><strong>{{copy_ship_to}}</strong></p>
+                                </div><!--pure-->
+                                <div class="pure-u-1 pure-u-md-1-2">
                                     <a class="text-date" href="{{www_path}}/commerce/orders/view/{{id}}">{{date}}</a>
                                 </div><!--pure-->
-                                <div class="pure-u-1 pure-u-md-1-3">
+                                <div class="pure-u-1 pure-u-md-1-4">
                                     <div class="customer-details">
-                                        <p></p>
-
                                         <p class="customer-address">
                                             <strong>Customer:</strong><br/>
-                                            <a class="customer-name" href="mailto:{{customer_email}}?subject=RE: {{copy_order}}{{number}} - {{order_description}}">{{customer_name}}</a><br/>
-
-                                            <strong>Ship to:</strong><br/>
-                                            {{customer_shipping_name}}<br/>
-                                            {{customer_address1}}<br/>
-                                            {{#customer_address2}}{{customer_address2}}<br/>{{/customer_address2}}
-                                            {{customer_city}}, {{customer_region}} {{customer_postalcode}}<br />
-                                            {{customer_country}}<br/>
-
-
+                                            <a class="customer-name" href="mailto:{{customer_email}}?subject=RE: {{copy_order}}{{number}} - {{order_description}}">{{customer_name}}</a>
                                         </p>
-
                                     </div><!--customer-details--></div><!--pure-->
-                                <div class="pure-u-1 pure-u-md-2-3">
+
+                                <div class="pure-u-1 pure-u-md-1-4">
+                                  <div class="customer-details">
+                                    <p class="customer-address">
+                                      {{customer_shipping_name}}<br/>
+                                      {{customer_address1}}<br/>
+                                      {{#customer_address2}}{{customer_address2}}<br/>{{/customer_address2}}
+                                      {{customer_city}}, {{customer_region}} {{customer_postalcode}}<br />
+                                      {{customer_country}}
+                                    </p>
+                                  </div><!--customer-details-->
+                                </div><!--pure-->
+
+                                <div class="pure-u-1 pure-u-md-1-2">
                                     <ul class="inventory">
                                         {{#order_contents}}
                                             <li>{{#qty}}{{qty}}{{/qty}}{{^qty}}1{{/qty}}x {{name}}{{#variant}} <span class="fadedtext">({{variant}})</span>{{/variant}}</li>
@@ -131,12 +136,12 @@
                                     {{#canceled}}
                                         <p>Refunded</p>
                                     {{/canceled}}
-                                 <!--   {{^canceled}}
+                                    {{^canceled}}
                                         <form accept-charset="UTF-8" method="post" action="{{www_path}}{{requested_route}}">
                                             <input type="hidden" name="fulfill" value="{{id}}" />
                                             <input type="submit" class="button" value="{{copy_fulfilled_button}}" />
                                         </form>
-                                    {{/canceled}}-->
+                                    {{/canceled}}
                                 </div><!--pure-->
 
                                 <div class="pure-u-1 pure-u-md-1-2">

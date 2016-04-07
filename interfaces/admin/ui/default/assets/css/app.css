@@ -4654,7 +4654,7 @@ ul.people.alternating li a span{
 	text-decoration: none;
 }
 
-.commerce.order .text-date, .commerce.order .order-number{
+.commerce.order .text-date, .commerce.order .order-number, .commerce.order .ship-to{
 	margin:5px 0 0 0;
 }
 
