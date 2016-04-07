@@ -135,7 +135,6 @@ position: relative;
 .login .login-carousel-container .carousel-controller{
 	text-align: center;
 	position: absolute;
-	bottom:36px;
 	left:50%;
 	margin:0 0 0 -30px;
 	display: block;
@@ -7081,8 +7080,12 @@ body.login .login-content{
 
 .login .login-carousel-container{
 		border-left: solid 1px rgba(0,0,0,0.1);
-		height:530px;
+		height:520px;
 		display: inline-block;
+}
+
+.login .login-carousel-container .carousel-controller{
+		bottom:36px;
 }
 
 /* Login lightbox */

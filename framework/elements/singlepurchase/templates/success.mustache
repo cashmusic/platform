@@ -1,10 +1,10 @@
-<span class="cash_singlepurchase_itemname">{{item_name}}</span> 
 <span class="cash_singlepurchase_itemdescription">{{message_success}}</span>
-<br /><br />
+<span class="cash_singlepurchase_itemname">{{item_name}}</span>
 {{#fulfillment_assets}}
-<a href="?cash_request_type=asset&cash_action=claim&id={{id}}&element_id={{element_id}}" class="download">{{title}}</a>
-<div class="description">{{description}}</div>
-<br /><br />
+<div class="cm-singlepurchase-files">
+<div class="cm-singlepurchase-description">{{description}}</div>
+<a href="?cash_request_type=asset&cash_action=claim&id={{id}}&element_id={{element_id}}" class="cm-singlepurchase-download">{{title}}</a>
+</div><!--cm-singlepurchase-files-->
 {{/fulfillment_assets}}
 
 <script type="text/javascript">

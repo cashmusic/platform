@@ -233,11 +233,11 @@ input:focus placeholder{color:#111;}
 	line-height: 12px;
 	font-weight: 100;
 	-webkit-animation: ooops 1.5s; /* Chrome, Safari, Opera */
-    animation: ooops 1.5s;
-    -webkit-animation-iteration-count: 1; /* Safari and Chrome */
-    animation-iteration-count: 1;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
+  animation: ooops 1.5s;
+  -webkit-animation-iteration-count: 1; /* Safari and Chrome */
+  animation-iteration-count: 1;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
 	border-radius: 3px;
 }
 
@@ -259,13 +259,16 @@ input:focus placeholder{color:#111;}
 	padding:0;
 	/*background:rgba(34,34,34,0.9);*/
 	-webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
+  -moz-border-radius: 3px;
 	border-radius: 3px;
 	margin:0 0 2px 0;
 }
 
 .singlepurchase .cash_singlepurchase_itemname{
 	margin:0 0 5px 0;
+  display: block;
+  text-align: center;
+  font-size: 14px;
 }
 
 .singlepurchase .cash_singlepurchase_itemprice{
@@ -273,18 +276,49 @@ input:focus placeholder{color:#111;}
 	margin:0 0 5px 0;
 }
 
-.singlepurchase .cash_singlepurchase_itemdescription{
- 	font-size: 12px;
+.cash_singlepurchase_itemdescription{
  	display:block;
- 	margin: 0 0 10px 0;
- 	opacity: 0.5;
+ 	margin: 0 0 36px 0;
+  text-align: center;
+  font-size: 18px;
+  line-height: 24px;
+  color:#fff!important;
+  opacity:1!important;
 }
+
 
 .singlepurchase .cash_singlepurchase_shippingmessage{
 	display: block;
 	margin:0 0 10px 0;
 }
 
+.cm-singlepurchase-files{
+  margin:0 0 18px 0;
+  text-align: center;
+}
+
+.cm-singlepurchase-files .cm-singlepurchase-description{
+  font-size: 12px;
+  font-family: 'Nunito',Helvetica,Arial,sans-serif;
+}
+
+.cm-singlepurchase-files .cm-singlepurchase-download{
+  font-size: 12px;
+  text-decoration: underline;
+  -webkit-transition:  0.3s  ease-in-out;
+  -moz-transition:  0.3s  ease-in-out;
+  trasition:  0.3s ease-in-out;
+}
+
+.cm-singlepurchase-files .cm-singlepurchase-download:hover{
+  background:rgba(0,0,0,0.3);
+  text-decoration: none;
+  padding:10px;
+  color:#fff;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
 
 .cash_singlepurchase_flexible_price {
 	position:relative;

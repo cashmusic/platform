@@ -202,8 +202,7 @@
 				"stripe": stripe_public_key,
 				"paypal": paypal,
 				"currency": "{{currency}}",
-				"target": {{element_id}},
-				"testing": true
+				"target": {{element_id}}
 			};
 			for (var i = 0, len = checkouts.length; i < len; i++) {
 				cm.events.add(checkouts[i],'click', function(e) {
