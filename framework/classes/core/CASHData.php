@@ -175,6 +175,10 @@
 		if (rand(1,100) <= 2) {
 			$gc = new CASHDaemon();
 		}
+
+		// ERROR LOGGING
+		error_log('starting session: ' . $session_id);
+
 		return array(
 			'newsession' => $newsession,
 			'expiration' => $expiration,
@@ -292,6 +296,10 @@
 						)
 					)
 				);
+
+				// ERROR LOGGING
+				error_log('writing ' . $key . '(' . json_encode($value) . ') to session: ' . $session_id);
+
 				return true;
 			} else {
 				return false;
@@ -315,8 +323,18 @@
 		if ($scope == 'persistent') {
 			$session_data = $this->getAllSessionData();
 			if (isset($session_data['persistent'][(string)$key])) {
+
+				// ERROR LOGGING
+				$session_id = $this->getSessionID();
+				error_log('reading ' . $key . '(' . json_encode($session_data['persistent'][(string)$key]) . ') from session: ' . $session_id);
+
 				return $session_data['persistent'][(string)$key];
 			} else {
+
+				// ERROR LOGGING
+				$session_id = $this->getSessionID();
+				error_log('reading ' . $key . '(false/empty) from session: ' . $session_id);
+
 				return false;
 			}
 		} else {
