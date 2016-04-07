@@ -130,6 +130,7 @@ if ($request_parameters) {
 		$cash_admin->page_data['ui_title'] = 'Order #' . $order_all_details['padded_id'];
 
 		// customer
+
 		$cash_admin->page_data['customer_name'] = $order_all_details['customer_shipping_name'];
 		$cash_admin->page_data['customer_email'] = $order_all_details['customer_email'];
 		$cash_admin->page_data['customer_countrycode'] = $order_all_details['customer_countrycode'];
