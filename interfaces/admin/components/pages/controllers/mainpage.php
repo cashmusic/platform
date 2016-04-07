@@ -80,6 +80,7 @@ if (is_array($activity['lists'])) {
 		}
 	}
 	$cash_admin->page_data['delta_lists'] = $activity['lists'];
+	error_log(json_encode($cash_admin->page_data['delta_lists']));
 }
 
 // PARSE ACTIVITY FOR ORDERS
