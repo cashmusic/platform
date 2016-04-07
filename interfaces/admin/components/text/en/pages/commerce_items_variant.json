@@ -2,8 +2,8 @@
 	"pagetip":"",
 	"learn":"",
 	"related":{},
-	"labels":{"first_variant":"First variant name",
-                  "second_variant":"Second variant name (optional)",
+	"labels":{"first_variant":"First option name",
+                  "second_variant":"Second option name (optional)",
                   "list_all_options":"List all [primary_variant_name] options",
                   "list_all_options_2":"List all [secondary_variant_name] options",
                   "thats_it":"That's it."
@@ -11,7 +11,7 @@
 
    },
 	"tooltips":{},
-	"copy":{"great":"Great! After you save your new item variants you'll just need to set quantities in the 'Configure Item Variants' panel on the item page."
+	"copy":{"great":"Great! After you save your new item options you'll just need to set quantities in the 'Configure Item Options' panel on the item page."
             
 
 }

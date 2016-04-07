@@ -26,7 +26,7 @@
       "reconfigure_variants":"Reconfigure Options",
       "reset_variants":"Need a new set of options? Reset all options and quantities here.",
       "add_item_variants":"Add Item Options",
-      "variations":"Does your item come in mulitple sizes, colors or other formats? Add those variations here. ",
+      "variations":"Does your item come in mulitple sizes, colors or other formats? Add those options here. ",
       "add_variants":"Add Options",
 		"no_regions":"Please set shipping regions before setting shipping prices:",
 		"commerce_settings":"commerce settings",
