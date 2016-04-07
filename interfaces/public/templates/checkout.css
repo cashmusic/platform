@@ -154,7 +154,7 @@ box-sizing: inherit;
 }
 
 /* Select size without shipping dropdown */
-.noshipping .cm-overlay #cm-userinput-getshippingaddress-country{
+.noshipping #cm-userinput-getshippingaddress-country{
 	width:100%;
 }
 
