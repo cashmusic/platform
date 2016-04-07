@@ -1504,13 +1504,13 @@ transform: scale(1.025)!important;
 }
 
 iframe#preview{
-		pointer-events: none;
+	pointer-events: none;
 	width:100%;
 	height:100%;
 	border:none;
 	padding:0;
 	margin:0;
-	background:#eee;
+	background:#222;
 	zoom: 0.5;
 	-moz-transform: scale(0.5);
 	-moz-transform-origin: 0 0;
