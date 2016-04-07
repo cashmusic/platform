@@ -153,6 +153,11 @@ box-sizing: inherit;
 	background-position: 95% 50%;
 }
 
+/* Select size without shipping dropdown */
+.noshipping .cm-overlay #cm-userinput-getshippingaddress-country{
+	width:100%;
+}
+
 /* Placeholder Text */
 
 .cm-overlay ::-webkit-input-placeholder{color:#bcbcbc!important;}
