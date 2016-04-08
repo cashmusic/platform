@@ -116,9 +116,6 @@ if (SUBDOMAIN_USERNAMES) {
 }
 $cash_admin->page_data['user_page_display_uri'] = str_replace(array('http://','https://'),'',$cash_admin->page_data['user_page_uri']);
 
-//get public URL
-$cash_admin->page_data['public_url'] = CASH_PUBLIC_URL;
-
 
 /*******************************************************************************
  *

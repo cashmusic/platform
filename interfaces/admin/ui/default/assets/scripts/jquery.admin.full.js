@@ -362,7 +362,7 @@ jQuery.fn.extend({
       });
 
       // when we need a submit button outside it's target form (see file assets, etc)
-      $(document).on('click', 'input.externalsubmit', function(e) {
+      $(document).on('click', '.externalsubmit', function(e) {
          $($(this).data('cash-target-form')).submit();
       });
 

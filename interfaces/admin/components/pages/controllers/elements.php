@@ -60,9 +60,6 @@ if (is_array($user_response['payload'])) {
 	$current_userdata = $user_response['payload']['data'];
 }
 
-//get public URL
-$cash_admin->page_data['public_url'] = CASH_PUBLIC_URL;
-
 // get all campaigns
 $campaigns_response = $cash_admin->requestAndStore(
 	array(
@@ -99,9 +96,6 @@ if (SUBDOMAIN_USERNAMES) {
 	$cash_admin->page_data['user_page_uri'] = rtrim(str_replace('admin', $current_username, CASH_ADMIN_URL),'/');
 }
 $cash_admin->page_data['user_page_display_uri'] = str_replace(array('http://','https://'),'',$cash_admin->page_data['user_page_uri']);
-
-//get public URL
-$cash_admin->page_data['public_url'] = CASH_PUBLIC_URL;
 
 $campaign_elements = array();
 $elements_for_campaign = array();
