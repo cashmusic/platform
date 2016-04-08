@@ -22,7 +22,7 @@
 </div><!--release-cover-->
 </div><!--pure--><div class="item-general-info pure-u-1 pure-u-md-2-3">
 
-<form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/items/edit/{{id}}" name="edit_item" >
+<form accept-charset="UTF-8" method="post" id="edit-item-form" action="{{www_path}}/commerce/items/edit/{{id}}" name="edit_item" >
 
 	<input type="hidden" name="{{form_state_action}}" value="makeitso" />
 
@@ -47,6 +47,16 @@
 				{{{asset_options}}}
 			</select>
 		</div><!--pure-->
+	</div><!--pure-->
+
+	<div class="pure-u-1 section breaker">
+		<label class="checklabel" for="item_flexible_price">
+			<input type="checkbox" name="item_flexible_price" id="item_flexible_price"{{#flexible_price}} checked="checked"{{/flexible_price}} class="checkorradio" />{{label_enable}}
+		</label>
+
+		<label class="checklabel" for="item_physical">
+			<input type="checkbox" name="item_physical" id="item_physical"{{#physical_fulfillment}} checked="checked"{{/physical_fulfillment}} class="checkorradio" />{{label_physical}}
+		</label>
 	</div><!--pure-->
 
 	{{#physical_fulfillment}}
@@ -74,29 +84,14 @@
 
 	</div><!--drawer-->
 	{{/physical_fulfillment}}
-
-	<div class="pure-u-1 section breaker">
-		<label class="checklabel" for="item_flexible_price">
-			<input type="checkbox" name="item_flexible_price" id="item_flexible_price"{{#flexible_price}} checked="checked"{{/flexible_price}} class="checkorradio" />{{label_enable}}
-		</label>
-
-		<label class="checklabel" for="item_physical">
-			<input type="checkbox" name="item_physical" id="item_physical"{{#physical_fulfillment}} checked="checked"{{/physical_fulfillment}} class="checkorradio" />{{label_physical}}
-		</label>
-	</div><!--pure-->
-
-	<div class="pure-u-1">
-		<button type="submit">{{copy_button_save}}</button>
-		<a href="{{www_path}}/commerce/items/delete/{{id}}" class="button needsconfirmation"><div class="icon icon-ban"></div><!--icon-->{{copy_button_delete}}</a>
-	</div><!--pure-->
-
 </form>
-{{#physical_fulfillment}}
-	<div id="settings-drawer" class="drawer prefpanel pure-u-1">
-	<div class="itemnav pure-u-1">
-		<h4 class="drawerhandle title"><div class="icon icon-cog"></div><!--icon--><span>{{copy_configure}}</span></h4>
-	<div class="drawercontent">
 
+{{#physical_fulfillment}}
+	<div class="drawer breaker">
+	<div class="itemnav pure-u-1">
+		<a class="drawerhandle title">{{copy_configure}}</a>
+	<div class="drawercontent">
+	<br />
 	{{#has_variants}}
 		<div class="pure-u-1">
 		<div class="pref-inner">
@@ -146,3 +141,11 @@
 	</div><!--itemnav-->
 	</div><!--drawer prefpanel-->
 {{/physical_fulfillment}}
+</div><!--pure-->
+
+<br /><br />
+<div class="pure-u-1">
+	<button class="externalsubmit" data-cash-target-form="#edit-item-form" type="submit">{{copy_button_save}}</button>
+	<a href="{{www_path}}/commerce/items/delete/{{id}}" class="button needsconfirmation"><div class="icon icon-ban"></div><!--icon-->{{copy_button_delete}}</a>
+</div><!--pure-->
+<br /><br />

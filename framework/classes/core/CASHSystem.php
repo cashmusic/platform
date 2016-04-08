@@ -34,7 +34,7 @@
 			$cash_settings = CASHSystem::getSystemSettings();
 			define('CASH_API_URL', trim($cash_settings['apilocation'],'/'));
 			define('CASH_ADMIN_URL', str_replace('/api','/admin',CASH_API_URL));
-			define('CASH_PUBLIC_URL',str_replace('admin','public',CASH_ADMIN_URL));
+			define('CASH_PUBLIC_URL',str_replace('/api','/public',CASH_API_URL));
 			// set up auto-load
 			spl_autoload_register('CASHSystem::autoloadClasses');
 
