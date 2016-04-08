@@ -22,7 +22,7 @@
 		<a href="{{www_path}}/commerce/" class="material notification alert"><p><span class="icon icon-warn"></span>{{copy_alert_commerce_settings}}</p></a>
 	{{/show_commerce_settings}}
 
-	{{#firstuse}}
+	{{#first_use}}
 		<div class="alt callout"><div class="callout-inner">
 			<h3>{{copy_firstuse_title}}</h3>
 			<p>{{copy_firstuse_body_1}}</p>
@@ -30,7 +30,7 @@
 			<p>{{copy_firstuse_tour_body}}	<a class="page-editor lightboxed" href="{{www_path}}/help/tour/">{{copy_tour_link}}</a>.</p>
 			<a class="page-editor button lightboxed" href="{{www_path}}/help/tour/">{{copy_launch_tour_link}}</a>
 		</div><!--callout-inner--></div>
-	{{/firstuse}}
+	{{/first_use}}
 
 	{{#show_whatsnew}}
 			<div class="alt callout"><div class="callout-inner">
@@ -184,7 +184,7 @@
 <!-- /* Unfulfilled Orders */ -->
 
 {{#unfulfilled_orders}}
-	<a class="pure-u-1 notification material usecolor4" href="{{www_path}}/commerce/filter/unfulfilled"><p><span class="icon icon-card"></span>{{copy_unfulfilled_orders_1}} <span class="number">{{unfulfilled_orders}}</span> {{copy_unfulfilled_orders_2}}</p><div class="notification-marker icon icon-chevron"></div></a>
+	<a class="pure-u-1 notification material usecolor4" href="{{www_path}}/commerce/"><p><span class="icon icon-card"></span>{{copy_unfulfilled_orders_1}} <span class="number">{{unfulfilled_orders}}</span> {{copy_unfulfilled_orders_2}}</p><div class="notification-marker icon icon-chevron"></div></a>
 {{/unfulfilled_orders}}
 
  <!--{{#all_lists}}
