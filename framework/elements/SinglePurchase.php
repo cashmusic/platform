@@ -263,6 +263,19 @@ class SinglePurchase extends ElementBase {
 		if (isset($_REQUEST['state'])) {
 			if ($_REQUEST['state'] == 'success') {
 				if ($this->unlocked) {
+					if ($item['fulfillment_asset'] != 0) {
+						$fulfillment_request = new CASHRequest(
+							array(
+								'cash_request_type' => 'asset',
+								'cash_action' => 'getfulfillmentassets',
+								'asset_details' => $item['fulfillment_asset']
+							)
+						);
+						if ($fulfillment_request->response['payload']) {
+							$this->element_data['fulfillment_assets'] = new ArrayIterator($fulfillment_request->response['payload']);
+						}
+					}
+
 					$this->setTemplate('success');
 					$this->lock();
 				}
