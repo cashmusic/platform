@@ -1,7 +1,8 @@
 {
   "name":"Stripe",
   "instructions":"Stripe issues an API secret key. Go to Stripe Dashboard > Account Settings > API keys",
-  "description":"Enter Stripe API key.",
+  "description":"Accept credit card payments directly.",
+  "link":"https://stripe.com/",
   "type":"com.stripe",
   "seed":"StripeSeed",
   "scope":["commerce"],
