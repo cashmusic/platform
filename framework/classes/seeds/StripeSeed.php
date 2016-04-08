@@ -38,6 +38,7 @@ class StripeSeed extends SeedBase
             $this->client_secret = $this->settings->getSetting('client_secret');
             $this->publishable_key = $this->settings->getSetting('publishable_key');
             $this->access_token = $this->settings->getSetting('access_token');
+            $this->user_id = $this->settings->getSetting('user_id');
 
 
             \Stripe\Stripe::setApiKey($this->client_secret);
@@ -268,7 +269,8 @@ class StripeSeed extends SeedBase
                     "currency" => "usd",
                     "source" => $token, // obtained with Stripe.js
                     "description" => $description
-                )
+                ),
+                array("stripe_account" => $this->user_id) // stripe connect, charge goes to oauth user instead of cash
             )
             ) {
                 $this->setErrorMessage("Stripe payment failed.");
@@ -286,11 +288,12 @@ class StripeSeed extends SeedBase
         }
 
         // check if Stripe charge was successful
+
         if ($payment_results->status == "succeeded") {
 
             // look up the transaction fees taken off the top, for record
-            $transaction_fees = \Stripe\BalanceTransaction::retrieve($payment_results->balance_transaction);
-
+            $transaction_fees = \Stripe\BalanceTransaction::retrieve($payment_results->balance_transaction,
+                array("stripe_account" => $this->user_id));
             // we can actually use the BalanceTransaction::retrieve method as verification that the charge has been placed
             if (!$transaction_fees) {
                 error_log("Balance transaction failed, is this a valid charge?");
@@ -358,7 +361,7 @@ class StripeSeed extends SeedBase
 
             $refund_response = \Stripe\Refund::create(array(
                 "charge" => $sale_id
-            ));
+            ),array("stripe_account" => $this->user_id));
         } catch (\Stripe\Error\RateLimit $e) {
             // Too many requests made to the API too quickly
             $body = $e->getJsonBody();
