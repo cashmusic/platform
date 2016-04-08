@@ -222,8 +222,8 @@ class SystemPlant extends PlantBase {
 				$new_total = 1;
 				$condition = false;
 			}
-			// store the "last_login" time (as long as it's internal (web login) and > 2 min have passed)
-			if ($login_method == 'internal' && $last_login < (time() - 120)) {
+			// store the "last_login" time
+			if ($login_method == 'internal') {
 				new CASHRequest(
 					array(
 						'cash_request_type' => 'people',
