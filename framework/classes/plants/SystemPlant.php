@@ -437,6 +437,7 @@ class SystemPlant extends PlantBase {
 		}
 		if ($is_admin) {
 			$credentials['is_admin'] = $is_admin;
+			$this->setAPICredentials($user_id);
 		}
 		if ($display_name) {
 			$credentials['display_name'] = $display_name;
