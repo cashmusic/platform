@@ -18,6 +18,10 @@
 	 * auto-loaders before firing up the CASH platform and whatnot
 	 *
 	 */public static function startUp($return_request=false) {
+	 	// set errors and logging
+	 	ini_set('error_reporting',E_ALL);
+		ini_set('log_errors',TRUE);
+		ini_set('display_errors',FALSE);
 		// only want to do this once, so we check for 'initial_page_request_time'
 		if (!isset($GLOBALS['cashmusic_script_store']['initial_page_request_time'])) {
 			// remove magic quotes, never call them "magic" in front of your friends
@@ -35,6 +39,7 @@
 			define('CASH_API_URL', trim($cash_settings['apilocation'],'/'));
 			define('CASH_ADMIN_URL', str_replace('/api','/admin',CASH_API_URL));
 			define('CASH_PUBLIC_URL',str_replace('/api','/public',CASH_API_URL));
+			define('CASH_DEBUG',(bool)$cash_settings['debug']);
 			// set up auto-load
 			spl_autoload_register('CASHSystem::autoloadClasses');
 
