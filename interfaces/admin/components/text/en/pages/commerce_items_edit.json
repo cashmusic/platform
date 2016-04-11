@@ -19,7 +19,7 @@
 		"view_item_settings":"Edit settings",
       "button_save":"Save changes",
       "button_delete":"Delete this item",
-      "configure":"Configure Item Options",
+      "configure":"item options (size, color, etc.)",
       "variant_description":"Option description",
       "available_quantity":"Available Quantity",
       "button_save_variants":"Save Options",

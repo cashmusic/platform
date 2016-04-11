@@ -905,7 +905,9 @@ class CommercePlant extends PlantBase {
 
 
       if (is_array($data_returned)) {
-         if (isset($data_returned['customer_name']) && isset($data_returned['total'])) {
+
+         if (isset($data_returned['customer_shipping_name']) && isset($data_returned['total'])) {
+
             return $data_returned;
          }
       }
@@ -1288,7 +1290,6 @@ class CommercePlant extends PlantBase {
         //      or maybe make the API accept GET params? does it already? who can know?
         //$r = new CASHRequest();
         $this->startSession(false,$session_id);
-        //error_log("$session_id <- initiateCheckout");
         if (!$element_id) {
             return false;
         } else {
@@ -1488,7 +1489,7 @@ class CommercePlant extends PlantBase {
                         $shipping_info,
                         $session_id,
                         $total_price,
-                        $description)) {
+                        $order_totals['description'])) {
                         return "success";
                     } else {
                         return "failure";
@@ -1585,7 +1586,7 @@ class CommercePlant extends PlantBase {
     }
 
     public function finalizePayment($order_id, $token, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false, $total_price=false, $description=false, $subtotal=false) {
-        //error_log( print_r($shipping_info, true) );
+
         $order_details = $this->getOrder($order_id);
         $transaction_details = $this->getTransaction($order_details['transaction_id']);
         //error_log( print_r($transaction_details, true) );
@@ -1612,12 +1613,12 @@ class CommercePlant extends PlantBase {
 
         // if this was approved by the user, we need to compare some values to make sure everything matches up
         if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address, $customer_name, $shipping_info, $subtotal, $session_id)) {
+
             // okay, we've got the matching totals, so let's get the $user_id, y'all
 
             if ($payment_details['total'] >= $order_totals['price']) {
 
                 if ($user_id = $this->getOrCreateUser($payment_details)) {
-
                     // marking order fulfillment for digital only, physical quantities, all that fun stuff
                     $is_fulfilled = $this->getFulfillmentStatus($order_details);
 
@@ -1655,6 +1656,7 @@ class CommercePlant extends PlantBase {
                         'complete'								// transaction status
                     );
 
+
                     // empty the cart at this point
                     $this->emptyCart($order_details['element_id'],$session_id);
 
@@ -1668,6 +1670,7 @@ class CommercePlant extends PlantBase {
                     } catch (Exception $e) {
                         //TODO: what happens when order receipt not sent?
                     }
+
 
                      if ($order_details['element_id']) {
                         // borrowed from ElementBase — use the same mechanism to unlock the element

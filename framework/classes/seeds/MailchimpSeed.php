@@ -13,6 +13,12 @@
  *
  * This file is generously sponsored by TTSCC - http://tts.cc - This code kills fascists
  *
+ *
+ *
+ * TODO: UPGRADE TO MAILCHIMP v3.0 API >>> https://github.com/drewm/mailchimp-api/
+ *
+ *
+ *
  **/
 class MailchimpSeed extends SeedBase {
 	private $api;

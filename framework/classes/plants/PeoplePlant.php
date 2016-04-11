@@ -44,7 +44,7 @@ class PeoplePlant extends PlantBase {
 			'getuser'                => array('getUser','direct'),
 			'getuseridforaddress'    => array('getUserIDForAddress','direct'),
 			'getuseridforusername'   => array('getUserIDForUsername','direct'),
-			'processwebhook'         => array('processWebhook',array('direct','api_key')),
+			'processwebhook'         => array('processWebhook',array('direct','api_key','get','post')),
 			'recordmailinganalytics' => array('addToMailingAnalytics','direct'),
 			'removeaddress'          => array('removeAddress',array('direct','post','get','api_key')),
 			'sendmailing'            => array('sendMailing','direct'),

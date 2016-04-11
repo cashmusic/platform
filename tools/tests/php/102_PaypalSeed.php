@@ -1,7 +1,7 @@
 <?php
-/*
 require_once(dirname(__FILE__) . '/base.php');
 
+/*
 require CASH_PLATFORM_ROOT . '/lib/paypal/autoload.php';
 
 use PayPal\Auth\OAuthTokenCredential;
@@ -19,18 +19,19 @@ use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
 use PayPal\Api\ExecutePayment;
 use PayPal\Api\PaymentExecution;
-
+*/
 
 class PaypalSeedTests extends UnitTestCase {
 	private $paypal_connection_id, $paypal_username,$cash_user_id;
-	
+
 	function __construct() {
 		echo "Testing Paypal Seed\n";
-		
+
+		/*
 		// add a new admin user for this
 		$user_add_request = new CASHRequest(
 			array(
-				'cash_request_type' => 'system', 
+				'cash_request_type' => 'system',
 				'cash_action' => 'addlogin',
 				'address' => 'email@anothertest.com',
 				'password' => 'thiswillneverbeused',
@@ -51,7 +52,7 @@ class PaypalSeedTests extends UnitTestCase {
 		);
 
 		$this->cash_user_id = $user_add_request->response['payload'];
-		
+
 		// add a new connection
 		$this->paypal_account = getTestEnv("PAYPAL_ACCOUNT");
 
@@ -65,7 +66,7 @@ class PaypalSeedTests extends UnitTestCase {
 				"client_id" => getTestEnv("PAYPAL_CLIENT_ID"),
 				"secret" => getTestEnv("PAYPAL_SECRET"),
 				"sandboxed" => true
-			) 
+			)
 		);
 
 		$this->transaction_request = new CASHRequest(
@@ -86,15 +87,17 @@ class PaypalSeedTests extends UnitTestCase {
 		);
 
 		$this->testing_transaction = $this->transaction_request->response['payload'];
+		*/
 	}
 
 	function testPaypalSeed(){
-		if($this->paypal_account) {
-			$pp = new PaypalSeed($this->cash_user_id, $this->paypal_connection_id);
+		//if($this->paypal_account) {
+			$pp = new PaypalSeed(1, 1);
 			$this->assertIsa($pp, 'PaypalSeed');
-		}
+		//}
 	}
 
+	/*
 	function testPreparePaymentFailure	(){
 		if($this->paypal_account) {
 			$payment_seed = new PaypalSeed($this->cash_user_id, $this->paypal_connection_id);
@@ -134,5 +137,6 @@ class PaypalSeedTests extends UnitTestCase {
 			//echo $redirect;
 		}
 	}
+	*/
 
-} */
+}

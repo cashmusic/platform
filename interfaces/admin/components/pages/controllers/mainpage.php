@@ -21,8 +21,12 @@ $user_response = $cash_admin->requestAndStore(
 if (is_array($user_response['payload'])) {
 	$current_username = $user_response['payload']['username'];
 	$current_userdata = $user_response['payload']['data'];
-	if ($current_userdata) {
-		$cash_admin->page_data['last_login'] = CASHSystem::formatTimeAgo((int)$current_userdata['last_login'],true);
+	if (is_array($current_userdata)) {
+		if (isset($current_userdata['last_login'])) {
+			$cash_admin->page_data['last_login'] = CASHSystem::formatTimeAgo((int)$current_userdata['last_login'],true);
+		} else {
+			$cash_admin->page_data['last_login'] = false;
+		}
 	}
 }
 
@@ -34,9 +38,6 @@ if (SUBDOMAIN_USERNAMES) {
 	$cash_admin->page_data['user_page_uri'] = rtrim(str_replace('admin', $current_username, CASH_ADMIN_URL),'/');
 }
 $cash_admin->page_data['user_page_display_uri'] = str_replace(array('http://','https://'),'',$cash_admin->page_data['user_page_uri']);
-
-//get public URL
-$cash_admin->page_data['public_url'] = CASH_PUBLIC_URL;
 
 
 /*******************************************************************************

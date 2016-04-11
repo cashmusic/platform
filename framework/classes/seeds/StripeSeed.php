@@ -38,6 +38,7 @@ class StripeSeed extends SeedBase
             $this->client_secret = $this->settings->getSetting('client_secret');
             $this->publishable_key = $this->settings->getSetting('publishable_key');
             $this->access_token = $this->settings->getSetting('access_token');
+            $this->user_id = $this->settings->getSetting('user_id');
 
 
             \Stripe\Stripe::setApiKey($this->client_secret);
@@ -68,7 +69,7 @@ class StripeSeed extends SeedBase
             $login_url = StripeSeed::getAuthorizationUrl($connections['com.stripe']['client_id'], $connections['com.stripe']['client_secret']);
             $return_markup = '<h4>Stripe</h4>'
                 . '<p>This will redirect you to a secure login at Stripe and bring you right back.</p>'
-                . '<a href="' . $login_url . '&redirect_uri=http://localhost:8888' . ADMIN_WWW_BASE_PATH . '/settings/connections/add/com.stripe/finalize" class="button">Connect with Stripe</a>';
+                . '<br /><br /><a href="' . $login_url . '&redirect_uri=' . CASH_ADMIN_URL . '/settings/connections/add/com.stripe/finalize" class="button">Connect with Stripe</a>';
             return $return_markup;
         } else {
             return 'Please add default stripe api credentials.';
@@ -149,8 +150,11 @@ class StripeSeed extends SeedBase
                     );
 
                     if ($result) {
-                        AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.', '/settings/connections/');
-                        return true;
+                        return array(
+         						'id' => $result,
+         						'name' => $credentials['userid'] . ' (Stripe)',
+         						'type' => 'com.stripe'
+         					);
                     } else {
                         AdminHelper::formFailure('Error. Could not save connection.', '/settings/connections/');
                         return false;
@@ -265,7 +269,8 @@ class StripeSeed extends SeedBase
                     "currency" => "usd",
                     "source" => $token, // obtained with Stripe.js
                     "description" => $description
-                )
+                ),
+                array("stripe_account" => $this->user_id) // stripe connect, charge goes to oauth user instead of cash
             )
             ) {
                 $this->setErrorMessage("Stripe payment failed.");
@@ -283,11 +288,12 @@ class StripeSeed extends SeedBase
         }
 
         // check if Stripe charge was successful
+
         if ($payment_results->status == "succeeded") {
 
             // look up the transaction fees taken off the top, for record
-            $transaction_fees = \Stripe\BalanceTransaction::retrieve($payment_results->balance_transaction);
-
+            $transaction_fees = \Stripe\BalanceTransaction::retrieve($payment_results->balance_transaction,
+                array("stripe_account" => $this->user_id));
             // we can actually use the BalanceTransaction::retrieve method as verification that the charge has been placed
             if (!$transaction_fees) {
                 error_log("Balance transaction failed, is this a valid charge?");
@@ -355,7 +361,7 @@ class StripeSeed extends SeedBase
 
             $refund_response = \Stripe\Refund::create(array(
                 "charge" => $sale_id
-            ));
+            ),array("stripe_account" => $this->user_id));
         } catch (\Stripe\Error\RateLimit $e) {
             // Too many requests made to the API too quickly
             $body = $e->getJsonBody();

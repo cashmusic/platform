@@ -55,14 +55,14 @@
             </ul-->
             <ul class="inline-subnav right">
                 <li><a class="drawer-trigger" href="#"><span class="icon icon-wrench"></span> {{copy_view_commerce_settings}}</a></li>
-            </ul>{{#has_orders}}<div class="selecta right">
+            </ul><div class="selecta right">
           			<label for="order-filter">{{copy_filter_orders}}</label>
           			<select  id="order-filter" class="dropdown-nav">
                   <option value="{{www_path}}/commerce/" {{#no_filter}}selected{{/no_filter}}>{{copy_unfulfilled}}</option>
                   <option value="{{www_path}}/commerce/filter/week/" {{#filter_week}}selected{{/filter_week}}>{{copy_this_week}}</option>
                   <option value="{{www_path}}/commerce/filter/all/" {{#filter_all}}selected{{/filter_all}}>{{copy_all_time}}</option>
           			</select>
-          	</div><!--selecta-->{{/has_orders}}
+          	</div><!--selecta-->
 
 
             <!--div class="selecta">
