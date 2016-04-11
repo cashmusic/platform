@@ -231,7 +231,7 @@ if (!$settings_action || isset($_POST['dosettingsadd']) || isset($_POST['dosetti
 				. '</div>';
 		}
 	} else {
-		$cash_admin->page_data['state_markup'] .= 'No settings have been added.';
+		$cash_admin->page_data['state_markup'] .= '<p><strong>No settings have been added.</strong></p>';
 	}
 }
 
