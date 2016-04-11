@@ -26,7 +26,7 @@ if (isset($_POST['docampaignadd'])) {
 			)
 		);
 
-		AdminHelper::formSuccess('Success. Campaign added.','/embeds/');
+		AdminHelper::formSuccess('Success. Campaign added.','/elements/');
 	} else {
 		AdminHelper::formFailure('Error. Something just didn\'t work right.','/campaigns/add/');
 	}
