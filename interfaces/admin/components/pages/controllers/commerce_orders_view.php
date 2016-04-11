@@ -131,7 +131,13 @@ if ($request_parameters) {
 
 		// customer
 
-		$cash_admin->page_data['customer_name'] = $order_all_details['customer_shipping_name'];
+		if (!empty($order_all_details['customer_shipping_name'])) {
+			$customer_name = $order_all_details['customer_shipping_name'];
+		} else {
+			$customer_name = $order_all_details['customer_name'];
+		}
+
+		$cash_admin->page_data['customer_name'] = $customer_name;
 		$cash_admin->page_data['customer_email'] = $order_all_details['customer_email'];
 		$cash_admin->page_data['customer_countrycode'] = $order_all_details['customer_countrycode'];
 		$cash_admin->page_data['customer_address1'] = $order_all_details['customer_address1'];
@@ -141,7 +147,7 @@ if ($request_parameters) {
 		$cash_admin->page_data['customer_postalcode'] = $order_all_details['customer_postalcode'];
 		$cash_admin->page_data['customer_country'] = $order_all_details['customer_countrycode'];
 
-
+		error_log(print_r($cash_admin->page_data, true));
 		$formatted_data_sent = array();
 		$formatted_data_returned = array();
 
