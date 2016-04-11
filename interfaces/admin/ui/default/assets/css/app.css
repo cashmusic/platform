@@ -354,6 +354,8 @@ a.revealpassword, .input-additional-info {
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	transition: 0.3s ease-in-out;
+	position: relative;
+	min-height: 88vh;
 }
 
 #page_content.loading{
@@ -423,7 +425,7 @@ blockquote{
 #footer{
 	width:100%;
 	text-align: center;
-	margin:36px 0 36px 0;
+	margin:0 0 36px 0;
 	opacity: 1;
 }
 
@@ -7702,8 +7704,6 @@ td{display:table-cell; vertical-align: inherit;}
 
 #footer{
 	text-align: left;
-	position: absolute;
-	bottom:0;
 }
 
 } /* Intermediate END */
