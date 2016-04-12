@@ -97,8 +97,7 @@
                         "stripe": stripe_public_key,
                         "paypal": paypal,
                         "currency": "{{currency}}", // USD = auto default
-                        "shipping": shipping,
-                        "testing": true
+                        "shipping": shipping
                     });
                   });
 					});
@@ -149,6 +148,10 @@
             } else {
                initiatePayment(f);
             }
+         });
+
+         cm.loadScript(cm.path + 'checkout/checkout.js', function () {
+            cm.checkout.prep();
          });
 		}
 
