@@ -9,8 +9,8 @@
 	"details":{
 		"en":{
 			"name":"Store",
-			"description":"A store element.",
-			"longdescription":"You know what a store is.",
+			"description":"Build your store.",
+			"longdescription":"Sell physical and/or digital items on your web site. Add as many commerce items as you'd like to sell. We do not take a cut.",
 			"instructions":"...."
 		}
 	},

@@ -10,7 +10,7 @@
 		"en":{
 			"name":"Tour Dates",
 			"description":"List the dates from your calendar.",
-			"longdescription":"The filters let you set up tourdate archives as well as upcoming shows. The element will automatically update itself as dates expire or move to an archive.",
+			"longdescription":"Filters let you set up tourdate archives as well as upcoming shows. The element will automatically update itself as dates expire or move to an archive.",
 			"instructions":"All dates and times are in the timezone of their venue."
 		}
 	},
