@@ -12,10 +12,6 @@
  *
  **/
 
-require_once CASH_PLATFORM_ROOT . '/lib/stripe/StripeOAuth.class.php';
-require_once CASH_PLATFORM_ROOT . '/lib/stripe/init.php';
-
-
 class StripeSeed extends SeedBase
 {
     protected $client_id, $client_secret, $error_message;
@@ -32,6 +28,9 @@ class StripeSeed extends SeedBase
         $this->user_id = $user_id;
         $this->connection_id = $connection_id;
         $this->redirects = false;
+
+        require_once CASH_PLATFORM_ROOT . '/lib/stripe/StripeOAuth.class.php';
+        require_once CASH_PLATFORM_ROOT . '/lib/stripe/init.php';
 
         if ($this->getCASHConnection()) {
             $this->client_id = $this->settings->getSetting('client_id');

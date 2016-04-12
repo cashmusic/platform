@@ -1671,7 +1671,7 @@ class CommercePlant extends PlantBase {
         $payment_seed = new $seed_class($order_details['user_id'],$transaction_details['connection_id']);
 
         // if this was approved by the user, we need to compare some values to make sure everything matches up
-        if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address, $customer_name, $shipping_info, $subtotal, $session_id)) {
+        if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address, $customer_name, $order_details['currency'])) {
 
             // okay, we've got the matching totals, so let's get the $user_id, y'all
 
