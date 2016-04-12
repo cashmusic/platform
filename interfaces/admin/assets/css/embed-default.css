@@ -1296,12 +1296,15 @@ input[type=number]::-webkit-outer-spin-button {
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	padding:2px 0;
+  margin:10px;
+  padding:0px;
 }
 
 .cm-store .cm-instant-grat a:hover{
 	background: rgba(0,0,0,0.3);
 	color:#fff;
 	text-decoration: none;
+  margin:0;
   padding:10px;
 }
 
