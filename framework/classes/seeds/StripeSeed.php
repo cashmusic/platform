@@ -33,25 +33,27 @@ class StripeSeed extends SeedBase
         require_once CASH_PLATFORM_ROOT . '/lib/stripe/init.php';
 
         if ($this->getCASHConnection()) {
-            $this->client_id = $this->settings->getSetting('client_id');
-            $this->client_secret = $this->settings->getSetting('client_secret');
-            $this->publishable_key = $this->settings->getSetting('publishable_key');
+            $connections = CASHSystem::getSystemSettings('system_connections');
+            if (isset($connections['com.stripe'])) {
+               $this->client_id = $connections['com.stripe']['client_id'];
+               $this->client_secret = $connections['com.stripe']['client_secret'];
+               $this->publishable_key = $connections['com.stripe']['publishable_key'];
+            }
             $this->access_token = $this->settings->getSetting('access_token');
             $this->stripe_account_id = $this->settings->getSetting('stripe_account_id');
 
+            if (CASH_DEBUG) {
+               error_log(
+                  'Initiated StripeSeed with: '
+                  . '$this->client_id='            . (string)$this->client_id
+                  . ', $this->client_secret='      . (string)$this->client_secret
+                  . ', $this->publishable_key='    . (string)$this->publishable_key
+                  . ', $this->access_token='       . (string)$this->access_token
+                  . ', $this->stripe_account_id='  . (string)$this->stripe_account_id
+               );
+            }
 
             \Stripe\Stripe::setApiKey($this->client_secret);
-
-            if (!$this->client_id || !$this->client_secret || !$this->publishable_key) {
-                $connections = CASHSystem::getSystemSettings('system_connections');
-
-                if (isset($connections['com.stripe'])) {
-                    // there is no sandbox for stripe, so let's ignore. it's contingent on whether or not you're using a test API key.
-                    $this->client_id = $connections['com.stripe']['client_id'];
-                    $this->client_secret = $connections['com.stripe']['client_secret'];
-                    $this->publishable_key = $connections['com.stripe']['publishable_key'];
-                }
-            }
         } else {
             $this->error_message = 'could not get connection settings';
         }
@@ -267,6 +269,7 @@ class StripeSeed extends SeedBase
             . ', $token='           . (string)$token
             . ', $email_address='   . (string)$email_address
             . ', $customer_name='   . (string)$customer_name
+            . ', $currency='        . (string)$currency
          );
       }
 
