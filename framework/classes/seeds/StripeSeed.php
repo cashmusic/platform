@@ -284,16 +284,32 @@ class StripeSeed extends SeedBase
                     "source" => $token, // obtained with Stripe.js
                     "description" => $description
                 ),
-                array("stripe_account" => $this->stripe_account_id) // stripe connect, charge goes to oauth user instead of cash
-            )
-            ) {
+                array(
+                   "stripe_account" => $this->stripe_account_id
+                ) // stripe connect, charge goes to oauth user instead of cash
+            )) {
                 $this->setErrorMessage("In StripeSeed::doPayment. Stripe payment failed.");
                 return false;
             }
-        } catch (Exception $e) {
-            $this->setErrorMessage("In StripeSeed::doPayment. There was an issue with your Stripe API request. Exception: " . json_encode($e));
-            return false;
-        }
+            } catch (\Stripe\Error\Card $e) {
+               $this->setErrorMessage("In StripeSeed::doPayment. " . $e->getMessage());
+               return false;
+            } catch (\Stripe\Error\InvalidRequest $e) {
+               $this->setErrorMessage("In StripeSeed::doPayment. " . $e->getMessage());
+               return false;
+            } catch (\Stripe\Error\Authentication $e) {
+               $this->setErrorMessage("In StripeSeed::doPayment. " . $e->getMessage());
+               return false;
+            } catch (\Stripe\Error\ApiConnection $e) {
+               $this->setErrorMessage("In StripeSeed::doPayment. " . $e->getMessage());
+               return false;
+            } catch (\Stripe\Error\Base $e) {
+               $this->setErrorMessage("In StripeSeed::doPayment. " . $e->getMessage());
+               return false;
+            } catch (Exception $e) {
+               $this->setErrorMessage("In StripeSeed::doPayment. There was an issue with your Stripe API request. Exception: " . json_encode($e));
+               return false;
+            }
 
 
         } else {
