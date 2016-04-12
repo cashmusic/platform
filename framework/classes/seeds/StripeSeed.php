@@ -11,10 +11,8 @@
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
  **/
-
 require_once CASH_PLATFORM_ROOT . '/lib/stripe/StripeOAuth.class.php';
 require_once CASH_PLATFORM_ROOT . '/lib/stripe/init.php';
-
 
 class StripeSeed extends SeedBase
 {
@@ -34,25 +32,27 @@ class StripeSeed extends SeedBase
         $this->redirects = false;
 
         if ($this->getCASHConnection()) {
-            $this->client_id = $this->settings->getSetting('client_id');
-            $this->client_secret = $this->settings->getSetting('client_secret');
-            $this->publishable_key = $this->settings->getSetting('publishable_key');
+            $connections = CASHSystem::getSystemSettings('system_connections');
+            if (isset($connections['com.stripe'])) {
+               $this->client_id = $connections['com.stripe']['client_id'];
+               $this->client_secret = $connections['com.stripe']['client_secret'];
+               $this->publishable_key = $connections['com.stripe']['publishable_key'];
+            }
             $this->access_token = $this->settings->getSetting('access_token');
             $this->stripe_account_id = $this->settings->getSetting('stripe_account_id');
 
+            if (CASH_DEBUG) {
+               error_log(
+                  'Initiated StripeSeed with: '
+                  . '$this->client_id='            . (string)$this->client_id
+                  . ', $this->client_secret='      . (string)$this->client_secret
+                  . ', $this->publishable_key='    . (string)$this->publishable_key
+                  . ', $this->access_token='       . (string)$this->access_token
+                  . ', $this->stripe_account_id='  . (string)$this->stripe_account_id
+               );
+            }
 
             \Stripe\Stripe::setApiKey($this->client_secret);
-
-            if (!$this->client_id || !$this->client_secret || !$this->publishable_key) {
-                $connections = CASHSystem::getSystemSettings('system_connections');
-
-                if (isset($connections['com.stripe'])) {
-                    // there is no sandbox for stripe, so let's ignore. it's contingent on whether or not you're using a test API key.
-                    $this->client_id = $connections['com.stripe']['client_id'];
-                    $this->client_secret = $connections['com.stripe']['client_secret'];
-                    $this->publishable_key = $connections['com.stripe']['publishable_key'];
-                }
-            }
         } else {
             $this->error_message = 'could not get connection settings';
         }
@@ -69,7 +69,7 @@ class StripeSeed extends SeedBase
             $login_url = StripeSeed::getAuthorizationUrl($connections['com.stripe']['client_id'], $connections['com.stripe']['client_secret']);
             $return_markup = '<h4>Stripe</h4>'
                 . '<p>This will redirect you to a secure login at Stripe and bring you right back.</p>'
-                . '<br /><br /><a href="' . $login_url . '&redirect_uri=' . CASH_ADMIN_URL . '/settings/connections/add/com.stripe/finalize" class="button">Connect with Stripe</a>';
+                . '<br /><br /><a href="' . $login_url . '&redirect_uri=https://dev.localhost:4443/admin' . '/settings/connections/add/com.stripe/finalize" class="button">Connect with Stripe</a>';//CASH_ADMIN_URL
             return $return_markup;
         } else {
             return 'Please add default stripe api credentials.';
@@ -224,6 +224,9 @@ class StripeSeed extends SeedBase
     protected function setErrorMessage($msg)
     {
         $this->error_message = $msg;
+        if (CASH_DEBUG) {
+          error_log($this->error_message);
+       }
     }
 
     /**
@@ -255,8 +258,19 @@ class StripeSeed extends SeedBase
      * @param $shipping_info
      * @return array|bool
      */
-    public function doPayment($total_price, $description, $token, $email_address=false, $customer_name=false)
-    {
+    public function doPayment($total_price, $description, $token, $email_address=false, $customer_name=false, $currency='USD') {
+
+      if (CASH_DEBUG) {
+         error_log(
+            'Called StripeSeed::doPayment with: '
+            . '$total_price='       . (string)$total_price
+            . ', $description='     . (string)$description
+            . ', $token='           . (string)$token
+            . ', $email_address='   . (string)$email_address
+            . ', $customer_name='   . (string)$customer_name
+            . ', $currency='        . (string)$currency
+         );
+      }
 
     if (!empty($token)) {
 
@@ -266,24 +280,24 @@ class StripeSeed extends SeedBase
             if (!$payment_results = \Stripe\Charge::create(
                 array(
                     "amount" => ($total_price * 100),
-                    "currency" => "usd",
+                    "currency" => $currency,
                     "source" => $token, // obtained with Stripe.js
                     "description" => $description
                 ),
                 array("stripe_account" => $this->stripe_account_id) // stripe connect, charge goes to oauth user instead of cash
             )
             ) {
-                $this->setErrorMessage("Stripe payment failed.");
+                $this->setErrorMessage("In StripeSeed::doPayment. Stripe payment failed.");
                 return false;
             }
         } catch (Exception $e) {
-            $this->setErrorMessage("There was an issue with your Stripe API request.");
+            $this->setErrorMessage("In StripeSeed::doPayment. There was an issue with your Stripe API request. Exception: " . json_encode($e));
             return false;
         }
 
 
         } else {
-            $this->setErrorMessage("No Stripe token found.");
+            $this->setErrorMessage("In StripeSeed::doPayment. No Stripe token found.");
             return false;
         }
 
@@ -297,7 +311,7 @@ class StripeSeed extends SeedBase
             // we can actually use the BalanceTransaction::retrieve method as verification that the charge has been placed
             if (!$transaction_fees) {
                 error_log("Balance transaction failed, is this a valid charge?");
-                $this->setErrorMessage("Balance transaction failed, is this a valid charge?");
+                $this->setErrorMessage("In StripeSeed::doPayment. Balance transaction failed, is this a valid charge?");
                 return false;
             }
 
@@ -337,7 +351,7 @@ class StripeSeed extends SeedBase
             );
         } else {
 
-            $this->setErrorMessage("Error with Stripe payment.");
+            $this->setErrorMessage("In StripeSeed::doPayment. Error with Stripe payment.");
             return false;
         }
 
@@ -365,39 +379,39 @@ class StripeSeed extends SeedBase
         } catch (\Stripe\Error\RateLimit $e) {
             // Too many requests made to the API too quickly
             $body = $e->getJsonBody();
-            $this->setErrorMessage("Stripe API rate limit exceeded: " . $body['error']['message']);
+            $this->setErrorMessage("In StripeSeed::refundPayment. Stripe API rate limit exceeded: " . $body['error']['message']);
             return false;
 
         } catch (\Stripe\Error\InvalidRequest $e) {
             // Invalid parameters were supplied to Stripe's API
             $body = $e->getJsonBody();
-            $this->setErrorMessage("Invalid Stripe refund request: " . $body['error']['message']);
+            $this->setErrorMessage("In StripeSeed::refundPayment. Invalid Stripe refund request: " . $body['error']['message']);
             return false;
 
         } catch (\Stripe\Error\Authentication $e) {
             // Authentication with Stripe's API failed
             // (maybe you changed API keys recently)
             $body = $e->getJsonBody();
-            $this->setErrorMessage("Could not authenticate Stripe: " . $body['error']['message']);
+            $this->setErrorMessage("In StripeSeed::refundPayment. Could not authenticate Stripe: " . $body['error']['message']);
             return false;
 
         } catch (\Stripe\Error\ApiConnection $e) {
             // Network communication with Stripe failed
             $body = $e->getJsonBody();
-            $this->setErrorMessage("Could not communicate with Stripe API: " . $body['error']['message']);
+            $this->setErrorMessage("In StripeSeed::refundPayment. Could not communicate with Stripe API: " . $body['error']['message']);
             return false;
 
         } catch (\Stripe\Error\Base $e) {
             // Display a very generic error to the user, and maybe send
             // yourself an email
             $body = $e->getJsonBody();
-            $this->setErrorMessage("General Stripe error: " . $body['error']['message']);
+            $this->setErrorMessage("In StripeSeed::refundPayment. General Stripe error: " . $body['error']['message']);
             return false;
 
         } catch (Exception $e) {
             // Something else happened, completely unrelated to Stripe
             $body = $e->getJsonBody();
-            $this->setErrorMessage("Something went wrong: " . $body['error']['message']);
+            $this->setErrorMessage("In StripeSeed::refundPayment. Something went wrong: " . $body['error']['message']);
             return false;
 
         }
@@ -406,7 +420,7 @@ class StripeSeed extends SeedBase
         if ($refund_response->object == "refund") {
             return $refund_response;
         } else {
-            $this->setErrorMessage("Something went wrong while issuing this refund.");
+            $this->setErrorMessage("In StripeSeed::refundPayment. Something went wrong while issuing this refund.");
             return false;
         }
 

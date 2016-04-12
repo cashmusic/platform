@@ -1286,6 +1286,20 @@ class CommercePlant extends PlantBase {
      */
     public function initiateCheckout($element_id=false,$shipping_info=false,$paypal=false,$stripe=false,$origin=false,$email_address=false,$customer_name=false,$session_id=false) {
 
+      if (CASH_DEBUG) {
+         error_log(
+            'Called CommercePlant::initiateCheckout with: '
+            . '$element_id='      . (string)$element_id
+            . ', $shipping_info=' . (string)$shipping_info
+            . ', $paypal='        . (string)$paypal
+            . ', $stripe='        . (string)$stripe
+            . ', $origin='        . (string)$origin
+            . ', $email_address=' . (string)$email_address
+            . ', $customer_name=' . (string)$customer_name
+            . ', $session_id='    . (string)$session_id
+         );
+      }
+
         //TODO: store last seen top URL
         //      or maybe make the API accept GET params? does it already? who can know?
         //$r = new CASHRequest();
@@ -1361,6 +1375,15 @@ class CommercePlant extends PlantBase {
 
             $total_price = $subtotal + $shipping;
 
+            if (CASH_DEBUG) {
+               error_log(
+                  'In CommercePlant::initiateCheckout found: '
+                  . '$total_price=' . (string)$total_price
+                  . ', $subtotal='  . (string)$subtotal
+                  . ', $shipping='  . (string)$shipping
+               );
+            }
+
             /*
             // get connection type settings so we can extract Seed classname
             $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
@@ -1371,6 +1394,11 @@ class CommercePlant extends PlantBase {
             if ($stripe != false) {
               $seed_class = "StripeSeed";
               $connection_id = $stripe_default;
+              if (CASH_DEBUG) {
+                 error_log(
+                    'In CommercePlant::initiateCheckout using Stripe.'
+                 );
+              }
             }
 
             if ($paypal != false) {
@@ -1380,6 +1408,11 @@ class CommercePlant extends PlantBase {
                   $connection_id = $pp_micro;
               } else {
                   $connection_id = $pp_default;
+              }
+              if (CASH_DEBUG) {
+                 error_log(
+                    'In CommercePlant::initiateCheckout using Paypal.'
+                 );
               }
             }
 
@@ -1460,6 +1493,12 @@ class CommercePlant extends PlantBase {
                     }
                     if ($session_id) {
                         $return_url .= '&session_id=' . $session_id;
+                    }
+
+                    if (CASH_DEBUG) {
+                       error_log(
+                          'In CommercePlant::initiateCheckout redirecting to ' . $return_url
+                       );
                     }
 
                     $approval_url = $payment_seed->preparePayment(
@@ -1587,19 +1626,39 @@ class CommercePlant extends PlantBase {
 
     public function finalizePayment($order_id, $token, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false, $total_price=false, $description=false, $subtotal=false) {
 
+      if (CASH_DEBUG) {
+         error_log(
+            'Called CommercePlant::finalizePayment with: '
+            . '$order_id='               . (string)$order_id
+            . ', $token='                . (string)$token
+            . ', $email_address='        . (string)$email_address
+            . ', $customer_name='        . (string)$customer_name
+            . ', $shipping_info='        . (string)$shipping_info
+            . ', $session_id='           . (string)$session_id
+            . ', $total_price='          . (string)$total_price
+            . ', $description='          . (string)$description
+            . ', $subtotal='             . (string)$subtotal
+         );
+      }
+
+
         $order_details = $this->getOrder($order_id);
         $transaction_details = $this->getTransaction($order_details['transaction_id']);
         //error_log( print_r($transaction_details, true) );
         $connection_type = $this->getConnectionType($transaction_details['connection_id']);
         $order_totals = $this->getOrderTotals($order_details['order_contents']);
 
-        //$r = new CASHRequest();
-
         //TODO: since we haven't actually set the connection settings at this point, let's
         // get connection type settings so we can extract Seed classname
         $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
 
         $seed_class = $connection_settings['seed'];
+
+        if (CASH_DEBUG) {
+           error_log(
+             'In CommercePlant::finalizePayment using seed class ' . $seed_class
+           );
+        }
 
         // we're going to switch seeds by $connection_type, so check to make sure this class even exists
         if (!class_exists($seed_class)) {
@@ -1612,7 +1671,7 @@ class CommercePlant extends PlantBase {
         $payment_seed = new $seed_class($order_details['user_id'],$transaction_details['connection_id']);
 
         // if this was approved by the user, we need to compare some values to make sure everything matches up
-        if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address, $customer_name, $shipping_info, $subtotal, $session_id)) {
+        if ($payment_details = $payment_seed->doPayment($total_price, $description, $token, $email_address, $customer_name, $order_details['currency'])) {
 
             // okay, we've got the matching totals, so let's get the $user_id, y'all
 
@@ -1691,20 +1750,26 @@ class CommercePlant extends PlantBase {
                         $this->sessionSet('commerce-'.$order_details['element_id'],$order_details);
                      }
 
+                     if (CASH_DEBUG) {
+                        error_log(
+                          'In CommercePlant::finalizePayment. Success! Order number ' . $order_id
+                        );
+                     }
+
                     return $order_id;
                 } else {
-                    $this->setErrorMessage("Couldn't find your account.");
+                    $this->setErrorMessage("Error in CommercePlant::finalizePayment. Couldn't find your account.");
                     return false;
                 }
 
             } else {
 
-                $this->setErrorMessage("The order total and payment total don't match.");
+                $this->setErrorMessage("Error in CommercePlant::finalizePayment. The order total and payment total don't match.");
                 return false;
             }
 
         } else {
-            $this->setErrorMessage("There was an issue with this payment.");
+            $this->setErrorMessage("Error in CommercePlant::finalizePayment. There was an issue with this payment.");
             return false;
         }
 
@@ -1994,8 +2059,9 @@ class CommercePlant extends PlantBase {
     //}
 }
     public function setErrorMessage($message) {
-        //TODO:proper error message
-        //error_log($message);
+      if (CASH_DEBUG) {
+         error_log($message);
+      }
     }
 } // END class
 ?>

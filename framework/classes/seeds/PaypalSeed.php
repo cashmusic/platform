@@ -230,7 +230,7 @@ class PaypalSeed extends SeedBase {
         }
     }
 
-    public function doPayment($total_price, $description, $token, $email_address, $customer_name, $shipping_info, $subtotal, $session_id=false,$payment_type='Sale') {
+    public function doPayment($total_price, $description, $token, $email_address=false, $customer_name=false, $currency='USD') {
 
         if ($this->token) {
             $token_details = $this->getExpressCheckout();
