@@ -21,7 +21,7 @@
 	 	// set errors and logging
 	 	ini_set('error_reporting',E_ALL);
 		ini_set('log_errors',TRUE);
-		ini_set('display_errors',TRUE);
+		ini_set('display_errors',FALSE);
 		// only want to do this once, so we check for 'initial_page_request_time'
 		if (!isset($GLOBALS['cashmusic_script_store']['initial_page_request_time'])) {
 			// remove magic quotes, never call them "magic" in front of your friends
@@ -281,9 +281,6 @@
 		$cash_settings = json_decode(getenv('cashmusic_platform_settings'),true);
 		if (!$cash_settings) {
 			$cash_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
-			if (!isset($cash_settings['debug'])) {
-				$cash_settings['debug'] = false;
-			}
 			// check for system connections in environment and on file
 			$system_connections = json_decode(getenv('cashmusic_system_connections'),true);
 			if (!$system_connections && file_exists(CASH_PLATFORM_ROOT.'/settings/connections.json')) {
