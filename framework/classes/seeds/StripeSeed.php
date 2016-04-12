@@ -11,6 +11,8 @@
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
  **/
+require_once CASH_PLATFORM_ROOT . '/lib/stripe/StripeOAuth.class.php';
+require_once CASH_PLATFORM_ROOT . '/lib/stripe/init.php';
 
 class StripeSeed extends SeedBase
 {
@@ -28,9 +30,6 @@ class StripeSeed extends SeedBase
         $this->user_id = $user_id;
         $this->connection_id = $connection_id;
         $this->redirects = false;
-
-        require_once CASH_PLATFORM_ROOT . '/lib/stripe/StripeOAuth.class.php';
-        require_once CASH_PLATFORM_ROOT . '/lib/stripe/init.php';
 
         if ($this->getCASHConnection()) {
             $connections = CASHSystem::getSystemSettings('system_connections');
@@ -70,7 +69,7 @@ class StripeSeed extends SeedBase
             $login_url = StripeSeed::getAuthorizationUrl($connections['com.stripe']['client_id'], $connections['com.stripe']['client_secret']);
             $return_markup = '<h4>Stripe</h4>'
                 . '<p>This will redirect you to a secure login at Stripe and bring you right back.</p>'
-                . '<br /><br /><a href="' . $login_url . '&redirect_uri=' . CASH_ADMIN_URL . '/settings/connections/add/com.stripe/finalize" class="button">Connect with Stripe</a>';
+                . '<br /><br /><a href="' . $login_url . '&redirect_uri=https://dev.localhost:4443/admin' . '/settings/connections/add/com.stripe/finalize" class="button">Connect with Stripe</a>';//CASH_ADMIN_URL
             return $return_markup;
         } else {
             return 'Please add default stripe api credentials.';
