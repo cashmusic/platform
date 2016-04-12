@@ -292,7 +292,7 @@ class StripeSeed extends SeedBase
                 return false;
             }
         } catch (Exception $e) {
-            $this->setErrorMessage("In StripeSeed::doPayment. There was an issue with your Stripe API request.");
+            $this->setErrorMessage("In StripeSeed::doPayment. There was an issue with your Stripe API request. Exception: " . json_encode($e));
             return false;
         }
 
