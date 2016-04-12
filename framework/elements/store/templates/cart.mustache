@@ -229,6 +229,10 @@
 				});
 			}
 		}
+
+		cm.loadScript(cm.path + 'checkout/checkout.js', function () {
+			cm.checkout.prep();
+		});
 	});
 </script>
 {{/items_in_cart}}
