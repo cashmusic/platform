@@ -69,7 +69,7 @@ class StripeSeed extends SeedBase
             $login_url = StripeSeed::getAuthorizationUrl($connections['com.stripe']['client_id'], $connections['com.stripe']['client_secret']);
             $return_markup = '<h4>Stripe</h4>'
                 . '<p>This will redirect you to a secure login at Stripe and bring you right back.</p>'
-                . '<br /><br /><a href="' . $login_url . '&redirect_uri=https://dev.localhost:4443/admin' . '/settings/connections/add/com.stripe/finalize" class="button">Connect with Stripe</a>';//CASH_ADMIN_URL
+                . '<br /><br /><a href="' . $login_url . '&redirect_uri=' . CASH_ADMIN_URL . '/settings/connections/add/com.stripe/finalize" class="button">Connect with Stripe</a>';
             return $return_markup;
         } else {
             return 'Please add default stripe api credentials.';
