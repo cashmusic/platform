@@ -71,6 +71,10 @@ box-sizing: inherit;
 	animation: spin .9s infinite linear;
 }
 
+.cm-error, .cm-checkout-error{
+	color:#ff3232!important;
+}
+
 /* Incomplete required animation */
 
 @keyframes nope {
