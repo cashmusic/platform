@@ -38,7 +38,7 @@ class StripeSeed extends SeedBase
             $this->client_secret = $this->settings->getSetting('client_secret');
             $this->publishable_key = $this->settings->getSetting('publishable_key');
             $this->access_token = $this->settings->getSetting('access_token');
-            $this->user_id = $this->settings->getSetting('user_id');
+            $this->stripe_account_id = $this->settings->getSetting('stripe_account_id');
 
 
             \Stripe\Stripe::setApiKey($this->client_secret);
@@ -145,7 +145,7 @@ class StripeSeed extends SeedBase
                         array(
                             'access_token' => $credentials['access'],
                             'publishable_key' => $credentials['publish'],
-                            'user_id' => $credentials['userid']
+                            'stripe_account_id' => $credentials['userid']
                         )
                     );
 
@@ -270,7 +270,7 @@ class StripeSeed extends SeedBase
                     "source" => $token, // obtained with Stripe.js
                     "description" => $description
                 ),
-                array("stripe_account" => $this->user_id) // stripe connect, charge goes to oauth user instead of cash
+                array("stripe_account" => $this->stripe_account_id) // stripe connect, charge goes to oauth user instead of cash
             )
             ) {
                 $this->setErrorMessage("Stripe payment failed.");
@@ -293,7 +293,7 @@ class StripeSeed extends SeedBase
 
             // look up the transaction fees taken off the top, for record
             $transaction_fees = \Stripe\BalanceTransaction::retrieve($payment_results->balance_transaction,
-                array("stripe_account" => $this->user_id));
+                array("stripe_account" => $this->stripe_account_id));
             // we can actually use the BalanceTransaction::retrieve method as verification that the charge has been placed
             if (!$transaction_fees) {
                 error_log("Balance transaction failed, is this a valid charge?");
@@ -361,7 +361,7 @@ class StripeSeed extends SeedBase
 
             $refund_response = \Stripe\Refund::create(array(
                 "charge" => $sale_id
-            ),array("stripe_account" => $this->user_id));
+            ),array("stripe_account" => $this->stripe_account_id));
         } catch (\Stripe\Error\RateLimit $e) {
             // Too many requests made to the API too quickly
             $body = $e->getJsonBody();
