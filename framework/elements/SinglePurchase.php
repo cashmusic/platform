@@ -71,12 +71,12 @@ class SinglePurchase extends ElementBase {
 				}
 			}
 			// fallback for error shipping
-			if (!$this->element_data['region1_cost'] && !$this->element_data['region2_cost']) {
+			if (!isset($this->element_data['region1_cost']) && !isset($this->element_data['region2_cost'])) {
 				$this->element_data['region1_cost'] = '0.00';
 				$this->element_data['region2_cost'] = '0.00';
 			}
 			// fallback for empty regions
-			if (!$this->element_data['region1_name']) {
+			if (!isset($this->element_data['region1_name'])) {
 				$this->element_data['region1_name'] = 'US';
 				$this->element_data['region2_name'] = 'International';
 			}
