@@ -224,6 +224,9 @@ class StripeSeed extends SeedBase
     protected function setErrorMessage($msg)
     {
         $this->error_message = $msg;
+        if (CASH_DEBUG) {
+          error_log($this->error_message);
+       }
     }
 
     /**
@@ -255,8 +258,18 @@ class StripeSeed extends SeedBase
      * @param $shipping_info
      * @return array|bool
      */
-    public function doPayment($total_price, $description, $token, $email_address=false, $customer_name=false)
-    {
+    public function doPayment($total_price, $description, $token, $email_address=false, $customer_name=false, $currency='USD') {
+
+      if (CASH_DEBUG) {
+         error_log(
+            'Called StripeSeed::doPayment with: '
+            . '$total_price='       . (string)$total_price
+            . ', $description='     . (string)$description
+            . ', $token='           . (string)$token
+            . ', $email_address='   . (string)$email_address
+            . ', $customer_name='   . (string)$customer_name
+         );
+      }
 
     if (!empty($token)) {
 
@@ -266,24 +279,24 @@ class StripeSeed extends SeedBase
             if (!$payment_results = \Stripe\Charge::create(
                 array(
                     "amount" => ($total_price * 100),
-                    "currency" => "usd",
+                    "currency" => $currency,
                     "source" => $token, // obtained with Stripe.js
                     "description" => $description
                 ),
                 array("stripe_account" => $this->stripe_account_id) // stripe connect, charge goes to oauth user instead of cash
             )
             ) {
-                $this->setErrorMessage("Stripe payment failed.");
+                $this->setErrorMessage("In StripeSeed::doPayment. Stripe payment failed.");
                 return false;
             }
         } catch (Exception $e) {
-            $this->setErrorMessage("There was an issue with your Stripe API request.");
+            $this->setErrorMessage("In StripeSeed::doPayment. There was an issue with your Stripe API request.");
             return false;
         }
 
 
         } else {
-            $this->setErrorMessage("No Stripe token found.");
+            $this->setErrorMessage("In StripeSeed::doPayment. No Stripe token found.");
             return false;
         }
 
@@ -297,7 +310,7 @@ class StripeSeed extends SeedBase
             // we can actually use the BalanceTransaction::retrieve method as verification that the charge has been placed
             if (!$transaction_fees) {
                 error_log("Balance transaction failed, is this a valid charge?");
-                $this->setErrorMessage("Balance transaction failed, is this a valid charge?");
+                $this->setErrorMessage("In StripeSeed::doPayment. Balance transaction failed, is this a valid charge?");
                 return false;
             }
 
@@ -337,7 +350,7 @@ class StripeSeed extends SeedBase
             );
         } else {
 
-            $this->setErrorMessage("Error with Stripe payment.");
+            $this->setErrorMessage("In StripeSeed::doPayment. Error with Stripe payment.");
             return false;
         }
 
@@ -365,39 +378,39 @@ class StripeSeed extends SeedBase
         } catch (\Stripe\Error\RateLimit $e) {
             // Too many requests made to the API too quickly
             $body = $e->getJsonBody();
-            $this->setErrorMessage("Stripe API rate limit exceeded: " . $body['error']['message']);
+            $this->setErrorMessage("In StripeSeed::refundPayment. Stripe API rate limit exceeded: " . $body['error']['message']);
             return false;
 
         } catch (\Stripe\Error\InvalidRequest $e) {
             // Invalid parameters were supplied to Stripe's API
             $body = $e->getJsonBody();
-            $this->setErrorMessage("Invalid Stripe refund request: " . $body['error']['message']);
+            $this->setErrorMessage("In StripeSeed::refundPayment. Invalid Stripe refund request: " . $body['error']['message']);
             return false;
 
         } catch (\Stripe\Error\Authentication $e) {
             // Authentication with Stripe's API failed
             // (maybe you changed API keys recently)
             $body = $e->getJsonBody();
-            $this->setErrorMessage("Could not authenticate Stripe: " . $body['error']['message']);
+            $this->setErrorMessage("In StripeSeed::refundPayment. Could not authenticate Stripe: " . $body['error']['message']);
             return false;
 
         } catch (\Stripe\Error\ApiConnection $e) {
             // Network communication with Stripe failed
             $body = $e->getJsonBody();
-            $this->setErrorMessage("Could not communicate with Stripe API: " . $body['error']['message']);
+            $this->setErrorMessage("In StripeSeed::refundPayment. Could not communicate with Stripe API: " . $body['error']['message']);
             return false;
 
         } catch (\Stripe\Error\Base $e) {
             // Display a very generic error to the user, and maybe send
             // yourself an email
             $body = $e->getJsonBody();
-            $this->setErrorMessage("General Stripe error: " . $body['error']['message']);
+            $this->setErrorMessage("In StripeSeed::refundPayment. General Stripe error: " . $body['error']['message']);
             return false;
 
         } catch (Exception $e) {
             // Something else happened, completely unrelated to Stripe
             $body = $e->getJsonBody();
-            $this->setErrorMessage("Something went wrong: " . $body['error']['message']);
+            $this->setErrorMessage("In StripeSeed::refundPayment. Something went wrong: " . $body['error']['message']);
             return false;
 
         }
@@ -406,7 +419,7 @@ class StripeSeed extends SeedBase
         if ($refund_response->object == "refund") {
             return $refund_response;
         } else {
-            $this->setErrorMessage("Something went wrong while issuing this refund.");
+            $this->setErrorMessage("In StripeSeed::refundPayment. Something went wrong while issuing this refund.");
             return false;
         }
 
