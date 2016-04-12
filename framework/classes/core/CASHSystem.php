@@ -281,6 +281,9 @@
 		$cash_settings = json_decode(getenv('cashmusic_platform_settings'),true);
 		if (!$cash_settings) {
 			$cash_settings = parse_ini_file(CASH_PLATFORM_ROOT.'/settings/cashmusic.ini.php');
+			if (!isset($cash_settings['debug'])) {
+				$cash_settings['debug'] = false;
+			}
 			// check for system connections in environment and on file
 			$system_connections = json_decode(getenv('cashmusic_system_connections'),true);
 			if (!$system_connections && file_exists(CASH_PLATFORM_ROOT.'/settings/connections.json')) {
