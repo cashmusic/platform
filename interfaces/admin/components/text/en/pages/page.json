@@ -1,6 +1,6 @@
 {
 	"pagetip":"",
-	"learn":"<p>This is a simple web page that can host all of your elements. Once you've created one or more elements you can embed them on this page. <p>Here's how: Click the 'Edit' button. In the edit window, place your cursor after \"<div id=\"mainspc\">\". Then click the plus sign next to one of the elements you've already created to add that element to your page. <p>To add a title and text to the page, add a 'Plain Text' Element. <p>The URL (internet address) of this page is based on your CASH Music username. <p</p>",
+	"learn":"<p>This is a simple web page that can host all of your elements. Once you've created one or more elements you can embed them on this page. <p>Here's how: Click the 'Edit' button. In the edit window, place your cursor after <strong>id=\"mainspc\"</strong>. Then click the plus sign next to one of the elements you've already created to add that element to your page. <p>To add a title and text to the page, add a 'Plain Text' Element. <p>The URL (internet address) of this page is based on your CASH Music username.</p>",
 	"related":{
 		"cashmusic.org":"http://cashmusic.org/",
 		"CASH help/support site":"http://help.cashmusic.org/"
