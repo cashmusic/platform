@@ -20,7 +20,7 @@
 				"en":"Main settings"
 			},
 			"description":{
-				"en":"Choose a list to verify against and an asset for the download."
+				"en":"Choose a list and an asset for the download."
 			},
 			"data":{
 				"email_list_id":{
