@@ -1030,6 +1030,10 @@ class CommercePlant extends PlantBase {
                 "creation_date" => array(
                     "condition" => ">",
                     "value" => $since_date
+                ),
+                "customer_user_id" => array(
+                    "condition" => ">",
+                    "value" => 0
                 )
             );
             if ($unfulfilled_only) {
