@@ -108,44 +108,46 @@ class ElementPlant extends PlantBase {
 			$failures = array();
 			foreach ($app_json['options'] as $section_name => $details) {
 				foreach ($details['data'] as $data => $values) {
-					if ($values['type'] == 'select') {
-						if (is_string($values['values'])) {
-							if (substr($values['values'],0,7) == 'connect') {
-								$scope = explode('/',$values['values']);
-								// get system settings:
-								$data_object = new CASHConnection($user_id);
-								if (!$data_object->getConnectionsByScope($scope[1])) {
-									$failures[] = $values['values'];
-								}
-							} else {
-								$action_name = false;
-								switch ($values['values']) {
-									case 'assets':
-										$plant_name = 'asset';
-										$action_name = 'getassetsforuser';
-										break;
-									case 'people/lists':
-										$plant_name = 'people';
-										$action_name = 'getlistsforuser';
-										break;
-									case 'items':
-									case 'commerce/items':
-										$plant_name = 'commerce';
-										$action_name = 'getitemsforuser';
-										break;
-								}
-								if ($action_name) {
-									$requirements_request = new CASHRequest(
-										array(
-											'cash_request_type' => $plant_name,
-											'cash_action' => $action_name,
-											'user_id' => $user_id,
-											'parent_id' => 0
-										)
-									);
-
-									if (!$requirements_request->response['payload']) {
+					if (isset($values['required'])) {
+						if ($values['type'] == 'select' && $values['required'] == true) {
+							if (is_string($values['values'])) {
+								if (substr($values['values'],0,7) == 'connect') {
+									$scope = explode('/',$values['values']);
+									// get system settings:
+									$data_object = new CASHConnection($user_id);
+									if (!$data_object->getConnectionsByScope($scope[1])) {
 										$failures[] = $values['values'];
+									}
+								} else {
+									$action_name = false;
+									switch ($values['values']) {
+										case 'assets':
+											$plant_name = 'asset';
+											$action_name = 'getassetsforuser';
+											break;
+										case 'people/lists':
+											$plant_name = 'people';
+											$action_name = 'getlistsforuser';
+											break;
+										case 'items':
+										case 'commerce/items':
+											$plant_name = 'commerce';
+											$action_name = 'getitemsforuser';
+											break;
+									}
+									if ($action_name) {
+										$requirements_request = new CASHRequest(
+											array(
+												'cash_request_type' => $plant_name,
+												'cash_action' => $action_name,
+												'user_id' => $user_id,
+												'parent_id' => 0
+											)
+										);
+
+										if (!$requirements_request->response['payload']) {
+											$failures[] = $values['values'];
+										}
 									}
 								}
 							}
