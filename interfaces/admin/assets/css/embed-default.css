@@ -757,7 +757,7 @@ input:focus placeholder{color:#111;}
 	font-size: 12px;
 	line-height: 14px;
 	opacity: 0.6;
-  font-family: 'Nunito',Helvetica,Arial,sans-serif;
+  font-family: 'Nunito',Helvetica,Arial,sans-serif!important;
 }
 
 .cm-itemprice{
@@ -1218,7 +1218,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .cm-receipt{
-  font-family: 'Montserrat',Helvetica,Arial,sans-serif ;
+  font-family: 'Montserrat',Helvetica,Arial,sans-serif!important;
 	text-align: center;
 	position: relative;
 }
@@ -1309,6 +1309,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .cm-instant-grat .cm-dwld-instructions{
+  font-family:'Montserrat',Helvetica,Arial,sans-serif!important;
 	padding:10px;
 	margin:10px 0;
 	font-size:18px;
@@ -1338,6 +1339,8 @@ input[type=number]::-webkit-outer-spin-button {
 	padding:20px 0;
 	display:block;
 	font-weight:100!important;
+  color:#fff!important;
+  font-family:'Montserrat',Helvetica,Arial,sans-serif!important;
 	font-size:11px;
 	z-index: 1;
 	text-align: center;
