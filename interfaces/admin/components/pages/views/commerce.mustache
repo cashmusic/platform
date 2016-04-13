@@ -39,7 +39,8 @@
 {{  ************************************************************************* }}
     <header>
         <div class="pure-u-1 pure-u-md-1-2">
-            <h4>{{^has_orders}}{{copy_settings}}{{/has_orders}}{{#has_orders}}{{copy_orders}}{{/has_orders}}</h4>
+            <h4 class="page-title">{{^has_orders}}{{copy_settings}}{{/has_orders}}{{#has_orders}}{{copy_orders}}{{/has_orders}}</h4>
+            <h5 class="page-subtitle">{{#no_filter}}{{copy_subtitle_unfulfilled}}{{/no_filter}}{{#filter_week}}{{copy_subtitle_thisweek}}{{/filter_week}}{{#filter_all}}{{copy_subtitle_alltime}}{{/filter_all}}</h5>
         </div><!--pure-->
 
         {{! *************************************************************************

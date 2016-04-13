@@ -38,6 +38,9 @@
       "details":"Details",
 		"use_this_currency":"Use this currency",
 		"filter_orders":"Filter orders:",
-		"sales_settings":"Sales settings"
+		"sales_settings":"Sales settings",
+		"subtitle_unfulfilled":"Unfulfilled — showing oldest first",
+		"subtitle_thisweek":"This week — showing newest first",
+		"subtitle_alltime":"All time — showing newest first"
    }
 }
