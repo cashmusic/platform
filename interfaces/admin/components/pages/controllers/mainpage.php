@@ -128,7 +128,8 @@ $orders_response = $cash_admin->requestAndStore(
 		'cash_request_type' => 'commerce',
 		'cash_action' => 'getordersforuser',
 		'user_id' => $cash_admin->effective_user_id,
-		'unfulfilled_only' => 1
+		'unfulfilled_only' => 1,
+		'deep' => true
 	)
 );
 if (is_array($orders_response)) {
