@@ -1872,7 +1872,7 @@ class CommercePlant extends PlantBase {
         $is_fulfilled = 0;
 
         // record all the details
-        if ($order_details['digital'] == 1 && $order_details['physical'] == 0) {
+        if ($order_details['physical'] == 0) {
             // if the order is 100% digital just mark it as fulfilled
             $is_fulfilled = 1;
         }
