@@ -11,8 +11,8 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  *
- * This file is generously sponsored by This file sponsored by Balthrop, Alabama 
- * Balthrop, Alabama (http://www.ballthropalabama.com) and End Up Records (http://endup.org). 
+ * This file is generously sponsored by This file sponsored by Balthrop, Alabama
+ * Balthrop, Alabama (http://www.ballthropalabama.com) and End Up Records (http://endup.org).
  * Go CASH Music!
  *
  **/
@@ -21,6 +21,12 @@ class EmailCollection extends ElementBase {
 	public $name = 'Email Collection';
 
 	public function getData() {
+		if (isset($_REQUEST['geo'])) {
+			$this->element_data['geo'] = $_REQUEST['geo'];
+		}
+		if (isset($this->element_data['agree_message'])) {
+			$this->element_data['agree_message'] = str_replace("'","\'",$this->element_data['agree_message']);
+		}
 		if ($this->status_uid == 'people_signup_200' || $this->status_uid == 'people_verifyaddress_200') {
 			$switch_case = 'final';
 		} else {
@@ -33,7 +39,7 @@ class EmailCollection extends ElementBase {
 				if ($this->status_uid == 'people_signup_200' && !$this->options['do_not_verify']) {
 					// if this is a first submit and we're verifying the email, first check to see if it's been verified already
 					$verification_request = new CASHRequest(array(
-						'cash_request_type' => 'people', 
+						'cash_request_type' => 'people',
 						'cash_action' => 'checkverification',
 						'address' => $this->original_request['address'],
 						'list_id' => $this->options['email_list_id']
@@ -43,14 +49,14 @@ class EmailCollection extends ElementBase {
 						// not verified, so do not show the final message, and instead give a "you must verify" jam
 						$show_final_message = false;
 						$this->setTemplate('mustverify');
-					} 
-				} 
+					}
+				}
 				if ($show_final_message) {
 					if ($this->options['asset_id'] != 0) {
 						// get all fulfillment assets
 						$fulfillment_request = new CASHRequest(
 							array(
-								'cash_request_type' => 'asset', 
+								'cash_request_type' => 'asset',
 								'cash_action' => 'getfulfillmentassets',
 								'asset_details' => $this->options['asset_id']
 							)
@@ -68,5 +74,5 @@ class EmailCollection extends ElementBase {
 		}
 		return $this->element_data;
 	}
-} // END class 
+} // END class
 ?>

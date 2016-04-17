@@ -135,6 +135,34 @@
 					"displaysize":"small"
 				}
 			}
+		},
+		"datacollection":{
+			"group_label":{
+				"en":"Data collection options"
+			},
+			"description":{
+				"en":"Add a checkbox for age verification, agreeing to terms, etc."
+			},
+			"data":{
+				"agree_checkbox":{
+					"label":{
+						"en":"Show agreement checkbox"
+					},
+					"type":"boolean",
+					"default":false,
+					"displaysize":"small"
+				},
+				"agree_message":{
+					"label":{
+						"en":"Message to show (I agree...)"
+					},
+					"type":"text",
+					"default":{
+						"en":"I checked the checkbox!"
+					},
+					"displaysize":"small"
+				}
+			}
 		}
 	}
 }
