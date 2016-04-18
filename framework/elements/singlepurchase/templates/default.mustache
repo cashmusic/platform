@@ -109,7 +109,7 @@
             f.method = 'post';
             f.action = '';
 
-            var els = ['cash_request_type','cash_action','element_id','shipping_price','total_price','shipping_info','paypal','stripe','origin','email_address','customer_name'];
+            var els = ['cash_request_type','cash_action','element_id','shipping_price','total_price','shipping_info','paypal','stripe','origin','email_address','customer_name','geo'];
             for (var i = 0, len = els.length; i < len; i++) {
                var inp = document.createElement('input');
                inp.type = 'hidden';
@@ -126,6 +126,7 @@
             f.origin.value = payment.detail.origin;
             f.email_address.value = payment.detail.email;
             f.customer_name.value = payment.detail.name;
+            f.geo.value = cm.geo;
             if (payment.detail.paypal) {
                f.paypal.value = 1;
             }
