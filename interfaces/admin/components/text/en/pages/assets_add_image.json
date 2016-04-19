@@ -11,6 +11,8 @@
 	"tooltips":{},
 	"copy":{
 		"upload_a_file":"Upload a file",
-		"intro":"Simply select a file hosting connection (required) then upload a JPG/GIF/PNG."
+		"intro":"Simply select a file hosting connection (required) then upload a JPG/GIF/PNG.",
+		"add_connection":"No available storage connections can be found. Get started by",
+		"add_connection_button":"adding one"
 	}
 }
