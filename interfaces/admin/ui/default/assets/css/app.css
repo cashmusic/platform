@@ -2877,6 +2877,12 @@ body.login .login-content.legal{
 	color:#00cf7f;
 }
 
+/* Signup form */
+
+#signupform small {
+	margin:0;
+}
+
 .login .row .pure-u-md-1-2 {
 	margin:0;
 	padding:0;
