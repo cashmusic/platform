@@ -36,9 +36,9 @@ body {
 	font-family: 'Montserrat',Helvetica,Arial,sans-serif;
 	font-weight:100;
 	font-size: 14px;
-	-webkit-transition: 0.3s  ease-in-out;
-	-moz-transition: 0.3s  ease-in-out;
-	transition: 0.3s ease-in-out;
+	-webkit-transition: opacity 0.3s  ease-in-out;
+	-moz-transition: opacity 0.3s  ease-in-out;
+	transition: opacity 0.3s ease-in-out;
 	-webkit-touch-callout: none;
 	-webkit-text-size-adjust: none;
 	-webkit-highlight: none;
@@ -90,7 +90,7 @@ body.store,  body.page-editor{
 }
 
 .login .login-social-container .inner{
-	padding: 50px 30px;
+	padding: 53px 30px;
 }
 
 .login .inner .button{
@@ -343,17 +343,17 @@ a.revealpassword, .input-additional-info {
 	margin:1%;
 	padding:18px 10px;
 	position: relative;
-	-webkit-transition: 0.3s  ease-in-out;
-	-moz-transition: 0.3s  ease-in-out;
-	transition: 0.3s ease-in-out;
+	-webkit-transition: opacity 0.3s  ease-in-out;
+	-moz-transition: opacity 0.3s ease-in-out;
+	transition: opacity 0.3s ease-in-out;
 }
 
 #page_content{
 	opacity: 1;
 	padding:0 0 36px 0;
-	-webkit-transition: 0.3s  ease-in-out;
-	-moz-transition: 0.3s  ease-in-out;
-	transition: 0.3s ease-in-out;
+	-webkit-transition: opacity 0.3s  ease-in-out;
+	-moz-transition: opacity 0.3s  ease-in-out;
+	transition: opacity 0.3s ease-in-out;
 	position: relative;
 	min-height: 88vh;
 }
@@ -7492,9 +7492,9 @@ button, .button, #modallightbox .modalcancel{
 
 #pagedisplay{
 	margin: 0;
-	-webkit-transition: 0.3s  ease-in-out;
-	-moz-transition: 0.3s  ease-in-out;
-	transition: 0.3s ease-in-out;
+	-webkit-transition: opacity 0.3s  ease-in-out;
+	-moz-transition: opacity 0.3s  ease-in-out;
+	transition: opacity 0.3s  ease-in-out;
 }
 
 #pagedisplay footer{ margin:30px 0 20px 0; }
