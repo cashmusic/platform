@@ -1288,7 +1288,7 @@ class CommercePlant extends PlantBase {
      * @param bool $session_id
      * @return bool
      */
-    public function initiateCheckout($element_id=false,$shipping_info=false,$paypal=false,$stripe=false,$origin=false,$email_address=false,$customer_name=false,$session_id=false) {
+    public function initiateCheckout($element_id=false,$shipping_info=false,$paypal=false,$stripe=false,$origin=false,$email_address=false,$customer_name=false,$session_id=false, $geo=false) {
 
       if (CASH_DEBUG) {
          error_log(
@@ -1301,6 +1301,7 @@ class CommercePlant extends PlantBase {
             . ', $email_address=' . (string)$email_address
             . ', $customer_name=' . (string)$customer_name
             . ', $session_id='    . (string)$session_id
+            . ', $geo='    . (string)$geo
          );
       }
 
@@ -1423,6 +1424,9 @@ class CommercePlant extends PlantBase {
             $currency = $this->getCurrencyForUser($user_id);
             $shipping_info = json_decode($shipping_info, true);
 
+            $geo = array("geo" => $geo);
+            $data = array_merge($shipping_info, $geo);
+
             $transaction_id = $this->addTransaction(
                 $user_id,
                 $connection_id,
@@ -1452,7 +1456,7 @@ class CommercePlant extends PlantBase {
                 '',
                 '',
                 $currency,
-                $shipping_info
+                $data
             );
 
 
@@ -1628,7 +1632,7 @@ class CommercePlant extends PlantBase {
         }
     }
 
-    public function finalizePayment($order_id, $token, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false, $total_price=false, $description=false, $subtotal=false) {
+    public function finalizePayment($order_id, $token, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false, $total_price=false, $description=false,$geo=false) {
 
       if (CASH_DEBUG) {
          error_log(
@@ -1641,7 +1645,7 @@ class CommercePlant extends PlantBase {
             . ', $session_id='           . (string)$session_id
             . ', $total_price='          . (string)$total_price
             . ', $description='          . (string)$description
-            . ', $subtotal='             . (string)$subtotal
+            . ', $geo='             . (string)$geo
          );
       }
 
@@ -1685,6 +1689,7 @@ class CommercePlant extends PlantBase {
                     // marking order fulfillment for digital only, physical quantities, all that fun stuff
                     $is_fulfilled = $this->getFulfillmentStatus($order_details);
 
+
                     // takin' care of business
                     $this->editOrder(
                         $order_id, 		// order id
@@ -1693,12 +1698,11 @@ class CommercePlant extends PlantBase {
                         false,			// notes
                         false,	// country code
                         $user_id,		// user id
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false
+                        false,          // order contents
+                        false,          // transaction id
+                        false,          // physical
+                        false,          // digital
+                        false          // user id
                     );
 
                     //TODO: this is a temporary stopgap; we need to introduce JSON appending
