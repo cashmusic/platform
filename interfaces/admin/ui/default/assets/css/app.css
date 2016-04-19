@@ -55,6 +55,14 @@ body {
 	color:#fff;
 }
 
+
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px rgba(204,204,204,1) inset;
+    -webkit-text-fill-color: #666 !important;
+    border: none!important;
+    border-left: solid 5px #666!important;
+}
+
 body.login #navmenu, body.login #pagetitle {
 	display:none;
 }
@@ -330,6 +338,7 @@ a.revealpassword, .input-additional-info {
 	font-size: 14px;
 	line-height: 18px;
 	color:#7d7d7d;
+	font-family: 'Nunito',Helvetica,Arial,sans-serif;
 }
 
 .side-title{
@@ -653,7 +662,7 @@ select:disabled{
 }
 
 textarea{
-	font:400 14px/16px 'Montserrat',Helvetica,Arial,sans-serif;
+	font:400 14px/18px 'Montserrat',Helvetica,Arial,sans-serif;
 	width:100%;
 	padding:15px;
 	height:100px;
@@ -678,7 +687,7 @@ input.checkorradio{
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	padding:10px;
-	margin:0;
+	margin:0 6px 0 0;
 	vertical-align: middle;
 	width:auto;
 	-webkit-appearance: none;
@@ -712,15 +721,15 @@ form small{
 }
 
 form button{
-	margin:18px 6px 0 0;
+	margin:0 6px 0 0;
 }
 
 /* Joined Selection Dropdown */
 
 .selecta{
 	color:#adadad;
-	margin:0 5px 18px 0;
-	overflow: auto;
+	height:44px;
+	margin:0 6px 18px 0;
 	display: inline-block;
 	vertical-align: inherit;
 }
@@ -844,7 +853,7 @@ span.invalid{
 /* Buttons General */
 
 button, .button, .pref-inner button, .pref-inner .button{
-	margin:20px 0;
+	margin:0 0 18px 0;
 	display:inline-block;
 	border:solid 1px #00cf7f;
 	background:none;
@@ -953,7 +962,7 @@ h1,h2,h3,h4,h5,h6{
 h1{ font-size:56px; line-height:72px;}
 h2{ font-size:42px; line-height:54px;}
 h3, h4{ font-size:28px; line-height:36px; margin:0 0 18px 0;}
-h5{ font-size:14px; line-height:18px;}
+h5{ font-size:14px; line-height:18px; margin:0 0 6px 0;}
 h6{font-size: 12px; line-height: 18px;}
 /* Text Types */
 
@@ -1063,6 +1072,7 @@ transform: scale(1.025)!important;
 	display: block;
 	margin:0;
 	font-size: 18px;
+	line-height: 22px;
 	color:#666;
 	padding:0;
 }
@@ -2286,6 +2296,21 @@ section[role=main].hero{
 	visibility: hidden;
 }
 
+/* Settings Panel Specific Tertiary */
+
+#settingspanel .tertiarynav li{
+	width:50%;
+	overflow:hidden;
+}
+
+
+#settingspanel .tertiarynav li a{
+	width:100%;
+	text-align: center;
+	margin:0 0 0 1px;
+}
+
+
 /* Tertiary close button */
 
 
@@ -2535,7 +2560,7 @@ color:#fff!important;
 	text-align:center;
 	background:#ff3232;
 	color:#f5f5f5;
-	font-size: 16px;
+	font-size: 14px;
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	transition:0.3s ease-in-out;
@@ -2634,7 +2659,7 @@ color:#fff!important;
 	opacity: 1;
 }
 .prefpanel .pref-inner{
-	padding:18px;
+	padding:20px;
 	background:#e4e4e4;
 	height:100%;
 	min-height:210px;
@@ -2738,7 +2763,7 @@ color:#fff!important;
 	display:none;
 }
 
-.prefpanel table{
+.drawer table, .prefpanel table{
 	margin:0 0 18px 0;
 }
 
@@ -3228,6 +3253,9 @@ body.login .login-content.legal{
 	padding:0 20px 20px 20px;
 }
 
+.drawer.variants .drawercontent{
+	padding:0;
+}
 
 .alternating .itemnav{
 	padding:40px;
@@ -3690,10 +3718,12 @@ fieldset{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	margin:0 0 6px 0;
+	margin:0 0 18px 0;
 	border:solid 1px #ccc;
-	overflow:auto;
-	clear:both;
+}
+
+.callout{
+	margin:0 0 6px 0;
 }
 
 .fulfillment-files ul.alternating{
@@ -4036,7 +4066,7 @@ fieldset{
 /* File Assets */
 
 .filesection{
-	margin:40px 0 0 0;
+	margin:36px 0 36px 0;
 }
 
 .display-files{
@@ -4341,10 +4371,10 @@ ul.alternating li .actions .action-inner{
 ul.alternating li .actions a{
 	display:inline-block;
 	background:#333!important;
-	border:solid 1px #111!important;
+	border:solid 1px #222!important;
 	position:relative;
 	width:auto;
-	margin:0 3px 0 0;
+	margin:0 6px 0 0;
 }
 
 
@@ -5270,14 +5300,18 @@ margin:0 5px 0 0; padding:0;}
     display:none;
 }
 
+.modallightbox img{
+	margin:0 0 18px 0;
+}
+
 label.checkbox {
-	margin-top: 1.5em;
+	margin-bottom: 18px;
 }
 
 label.checklabel{
 	font-size: 14px;
 	opacity: 0.8;
-	margin:0 10px 10px 5px;
+	margin:0 18px 18px 0;
 	display: inline-block;
 }
 
@@ -5294,6 +5328,10 @@ label.checklabel{
     -webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	transition:0.3s ease-in-out;
+}
+
+.modallightbox header{
+	display: none;
 }
 
 
@@ -5323,7 +5361,7 @@ label.checklabel{
 }
 
 
-.page-editor .modallightbox .editor .editor-inner{
+.page-editor .modallightbox .editor .editor-inner, .modallightbox .editor .editor-inner{
 	margin:0 auto;
 	padding:20px;
 	background:rgba(34,34,34,1);
@@ -5333,7 +5371,7 @@ label.checklabel{
 	border-radius: 3px;
 }
 
-.page-editor .modallightbox .editor .editor-inner textarea{
+.page-editor .modallightbox .editor .editor-inner textarea, .modallightbox .editor .editor-inner textarea{
 	background:#2a2a2a;
 	color:#f5f5f5;
 	border:#1e1e1e solid 1px;
@@ -5396,11 +5434,11 @@ label.checklabel{
     position:relative;
     bottom:0;
     left:0;
-    margin:20px 6px 20px 0;
+    margin:18px 6px 18px 0;
 }
 
 .page-editor .modallightbox button{
-	margin:15px 0 10px 0;
+	margin:0;
 }
 
 .modallightbox .drawercontent{
@@ -5468,7 +5506,7 @@ label.checklabel{
 }
 
 .modallightbox .steps{
-	padding:1% 0 0 0;
+	padding:0 0 18px 0;
 	color:#4d4d4d;
 }
 
@@ -5476,7 +5514,7 @@ label.checklabel{
 	color:#f5f5f5;
 	background: #00cf7f;
 	border:none;
-	margin:20px 5px 0 0;
+	margin:0 6px 0 0;
 	text-transform: none;
 }
 
@@ -6211,9 +6249,6 @@ a.edit-button:hover .icon{
 	margin:0;
 }
 
-#campaigns .selecta{
-	margin-bottom:0;
-}
 
 /* Embeds elements list */
 
@@ -6474,17 +6509,24 @@ a.edit-button:hover .icon{
 .modallightbox .clonedscalar {
 	background:transparent;
 	padding:0;
-	margin:0 0 2px 0;
+	margin:0 0 0 0;
 	-webkit-border-radius:0;
 	-moz-border-radius:0;
 	border-radius:0;
 	padding-right:56px;
 }
 
+.modallightbox .clonedscalar input{
+	margin:0 0 6px 0;
+}
+
 .modallightbox .clonedscalar  .removescalar {
 	top:8px;
 }
 
+.modallightbox .variant1-options, .modallightbox .variant2-options{
+	margin:0 0 18px 0;
+}
 
 /* Featured Release */
 
@@ -7173,9 +7215,6 @@ button.right, .button.right{
 		padding:0 0 0 20px!important;
 }
 
-.pure-u-1{
-	margin-bottom:0;
-}
 
 /* 2 Col Layout */
 
@@ -7260,7 +7299,7 @@ button.right, .button.right{
 
 section[role=main].hero, .login section[role=main]{ margin:400px 0 0 0; }
 
-.row{ margin:5px 0; }
+.row{ margin:0; }
 
 #menutoggle{ display:none; }
 
@@ -7321,7 +7360,7 @@ section[role=main].hero, .login section[role=main]{ margin:400px 0 0 0; }
 }
 
 .material h5{
-	margin:0 0 25px 0;
+	margin:0 0 26px 0;
 }
 
 /* Campaigns */
@@ -7379,6 +7418,10 @@ section[role=main].hero, .login section[role=main]{ margin:400px 0 0 0; }
 .people .item .info{
 	border-left: solid 1px #dbdbdb;
 	margin:10px 0 10px 25%;
+}
+
+.people .item:hover .info{
+	border-left: solid 1px #e9700f;
 }
 
 .people .item .stats{ display:inline-block;}
