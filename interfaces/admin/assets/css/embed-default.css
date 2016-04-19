@@ -189,14 +189,38 @@ input#cm-agree-checkbox, .cashmusic.element input[type="checkbox"]{
   }
 }
 
+/* Required fields */
+
+@keyframes nope {
+	 0%, 100% { transform: translateX(0px) rotateY(0deg); }
+   25%, 75% { transform: translateX(-5px) rotateY(-5deg); }
+   50% { transform: translateX(5px) rotateY(5deg); }
+}
+
+.cashmusic.element label.cm-required input#cm-agree-checkbox, .cashmusic.element label.cm-required input[type="checkbox"]{
+  border: solid 1px #ff3232;
+}
+
+.cashmusic.element label.cm-required, label[for="cm-agree-checkbox"].cm-required{
+  -webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	animation-duration: 600ms;
+	animation-timing-function: ease-in-out;
+	animation-name: nope;
+}
+
 input#cm-agree-checkbox:checked, .cashmusic.element input[type="checkbox"]:checked{
 	background-color:#00cf7f;
+  border:solid 1px #00cf7f!important;
 	background-image:url(../images/cross.png);
 	background-image:url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iMTA2LjAxOXB4IiBoZWlnaHQ9IjEwNi4wMTlweCIgdmlld0JveD0iMCAwIDEwNi4wMTkgMTA2LjAxOSIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMTA2LjAxOSAxMDYuMDE5Ig0KCSB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxwYXRoIGZpbGw9IiNGRkZGRkYiIGQ9Ik0xMDUuMTk3LDgzLjM5Nkw3NC44MTEsNTMuMDFsMzAuMzg4LTMwLjM4OGMxLjA5My0xLjA5MywxLjA5My0yLjg3LDAtMy45NjNMODcuMzU5LDAuODE5DQoJYy0xLjA5My0xLjA5My0yLjg3LTEuMDkyLTMuOTYyLDAuMDAxTDUzLjAwOSwzMS4yMDhMMjIuNjIxLDAuODJjLTEuMDkzLTEuMDkzLTIuODY5LTEuMDkzLTMuOTYyLDBMMC44MiwxOC42NTgNCgljLTEuMDk0LDEuMDk0LTEuMDkzLDIuODcsMCwzLjk2MmwzMC4zODgsMzAuMzg5TDAuODIsODMuMzk2Yy0xLjA5MywxLjA5NC0xLjA5NCwyLjg3MS0wLjAwMSwzLjk2M2wxNy44MzksMTcuODM5DQoJYzEuMDk0LDEuMDk0LDIuODcsMS4wOTQsMy45NjQsMEw1My4wMSw3NC44MTFsMzAuMzg3LDMwLjM4N2MxLjA5NCwxLjA5NCwyLjg2OSwxLjA5NSwzLjk2MywwbDE3LjgzOC0xNy44MzgNCglDMTA2LjI5MSw4Ni4yNjYsMTA2LjI5MSw4NC40OSwxMDUuMTk3LDgzLjM5NnoiLz4NCjwvc3ZnPg0K");
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
 	background-size: 50%;
 }
+
+
+/* Label font family */
 
 .cashmusic.element label, label[for="cm-agree-checkbox"]{
   font-family: 'Nunito',Helvetica,Arial,sans-serif;

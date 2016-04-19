@@ -58,6 +58,7 @@
 		cm.events.add(document.querySelector("#cash_{{element_type}}_form_{{element_id}}"),'submit', function(e) {
 			if (!c.checked) {
 				e.preventDefault();
+				document.querySelector("label[for=cm-agree-checkbox]").setAttribute("class", "cm-required");
 				return false;
 			} else {
 				return true;
