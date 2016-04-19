@@ -2377,7 +2377,7 @@ section[role=main].hero{
 	font-size: 12px;
 }
 
-.inline-subnav li a:hover .icon, .inline-subnav li a.current .icon{
+.inline-subnav li a:hover .icon, .inline-subnav li a:active .icon, .inline-subnav li a.current .icon{
 	color: #fff;
 }
 
