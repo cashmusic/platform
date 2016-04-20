@@ -720,10 +720,6 @@ form small{
 	margin:0 0 18px 0;
 }
 
-form button{
-	margin:0 6px 0 0;
-}
-
 /* Joined Selection Dropdown */
 
 .selecta{
@@ -779,11 +775,11 @@ form button{
 
 .login #cash_signin_form input.button {
 	width:100%;
-	/*margin-top:30px;*/
+	margin-top:18px;
 }
 
 .login #cash_signin_form input[type="email"], .login #cash_signin_form input[type="password"] {
-	height:42px;
+	height:44px;
 	border:solid 1px #ddd;
 }
 
@@ -7513,7 +7509,7 @@ section[role=main].hero, .login section[role=main]{ margin:400px 0 0 0; }
 
 button, .button, #modallightbox .modalcancel{
 	width:auto;
-	margin:0 10px 0 0;
+	margin:0 6px 0 0;
 }
 
 .alignright button, .alignright .button, .alignright .alt-button{
