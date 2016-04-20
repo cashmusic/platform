@@ -2299,6 +2299,11 @@ section[role=main].hero{
 	overflow:hidden;
 }
 
+#settingspanel .tertiarynav.cm-triple-link li{
+	width:33%;
+	font-size: 12px: 
+}
+
 
 #settingspanel .tertiarynav li a{
 	width:100%;
