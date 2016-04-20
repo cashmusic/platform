@@ -1,4 +1,14 @@
 <?php
+// pass basic no-cache headers
+header('P3P: CP="ALL CUR OUR"'); // P3P privacy policy fix
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+header("Access-Control-Allow-Origin: *");
+header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Headers: X-Requested-With, Content-Type');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
 if (!isset($_REQUEST['nooutput'])) {
 	$requests = false;
 	if (isset($_GET['p'])) {
@@ -48,17 +58,6 @@ if (!isset($_REQUEST['nooutput'])) {
 			include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
 			$freddiemercury = new Mustache;
 		}
-
-		// pass basic no-cache headers
-		header('P3P: CP="ALL CUR OUR"'); // P3P privacy policy fix
-		header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-		header("Cache-Control: post-check=0, pre-check=0", false);
-		header("Pragma: no-cache");
-		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
-		header("Access-Control-Allow-Origin: *");
-		header('Access-Control-Allow-Credentials: true');
-		header('Access-Control-Allow-Headers: X-Requested-With, Content-Type');
-      header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
 
 		if ($requests[0] == 'embed' && isset($requests[1])) {
 			$embed_location = false;
