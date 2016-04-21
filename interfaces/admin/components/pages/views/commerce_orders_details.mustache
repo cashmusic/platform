@@ -21,7 +21,7 @@
         <div class="pure-u-1 pure-u-md-1-3">
             <p><strong>{{copy_placed_on}}</strong> {{order_date}}</p>
 
-					<p><strong>{{copy_customer}}</strong>&nbsp;<a href="mailto:{{customer_email}}">{{customer_name}}</a><br>
+					<p><strong>{{copy_customer}}</strong>&nbsp;<a href="mailto:{{customer_email}}">{{customer_name}}</a>
 						{{#customer_countrycode}}<br /><strong>{{copy_country}}</strong> {{customer_countrycode}}{{/customer_countrycode}}
 					</p>
               <p><strong>{{copy_payment_status}}</strong> {{status}}</p>
@@ -30,7 +30,7 @@
         <div class="pure-u-1 pure-u-md-1-3">
             <p><strong>{{copy_order_total}}</strong>${{formatted_gross_price}}<br>
                 <strong>{{copy_items_subtotal}}</strong>${{formatted_subtotal}}<br>
-                <strong>{{formatted_connection_name}} {{copy_transaction_fees}}</strong> ${{service_fee}}<br>
+                <strong>{{copy_transaction_fees}}</strong> ${{service_fee}}<br>
                 {{#formatted_shipping}}  <strong>{{copy_shipping}}</strong>${{formatted_shipping}} <br>{{/formatted_shipping}}
 
             </p>
@@ -42,7 +42,7 @@
 		{{#display_shipping_address}}
 			<p>
 				<strong>{{copy_shipto}}</strong><br />
-				{{#customer_shipping_name}}{{customer_shipping_name}}{{/customer_shipping_name}}{{^customer_shipping_name}}{{customer_name}}{{/customer_shipping_name}}<br />
+				{{#customer_shipping_name}}{{customer_shipping_name}}{{/customer_shipping_name}}{{^customer_shipping_name}}{{customer_name}}<br />{{/customer_shipping_name}}
 				{{customer_address1}}<br/>
 				{{#customer_address2}}{{customer_address2}}<br/>{{/customer_address2}}
 				{{customer_city}}, {{customer_region}} {{customer_country}}<br />
