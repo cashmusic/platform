@@ -84,16 +84,26 @@ if ($request_parameters) {
 	$order_all_details = $order_details_response['payload'];
 
 	if ($order_all_details['user_id'] == $effective_user) {
+		// format all the details into easy mustache variables
+		$order_all_details['padded_id'] = str_pad($order_all_details['id'],6,0,STR_PAD_LEFT);
+		$order_all_details['order_date'] = date("M j, Y, g:i A", $order_all_details['creation_date']);
+		$order_all_details['formatted_gross_price'] = sprintf("%01.2f",$order_all_details['gross_price']);
+		$order_all_details['formatted_subtotal'] = sprintf("%01.2f",$item_price);
+		$order_all_details['formatted_net_price'] = sprintf("%01.2f",$order_all_details['gross_price'] - $order_all_details['service_fee']);
+		$order_all_details['formatted_connection_name'] = preg_replace('/\(|\)/','',AdminHelper::getConnectionName($order_all_details['connection_id']));
+		$order_all_details['order_connection_details'] = AdminHelper::getConnectionName($order_all_details['connection_id']) . ' (' . $order_all_details['connection_type'] . ')';
+		//if ($order_all_details['fulfilled']) { $order_all_details['order_fulfilled'] = 'yes'; } else { $order_all_details['order_fulfilled'] = 'no'; }
+		$cash_admin->page_data = array_merge($cash_admin->page_data,$order_all_details);
 
 		$order_contents = json_decode($order_all_details['order_contents'],true);
+
 		$item_price = 0;
-		foreach ($order_contents as $key => &$item) {
+		foreach ($order_contents as $key => $item) {
 			if (!isset($item['qty'])) {
 				$item['qty'] = 1;
 			}
 			$item['price'] = $item['qty'] * $item['price'];
 			$item_price += $item['price'];
-			$item['price'] = number_format($item['price'],2);
 
 			if (isset($item['variant'])) {
 				$variant_response = $cash_admin->requestAndStore(
@@ -104,27 +114,13 @@ if ($request_parameters) {
 					)
 				);
 				if ($variant_response['payload']) {
-					$item['variant'] = $variant_response['payload'];
+					$order_contents[$key]['variant'] = $variant_response['payload'];
 				}
 			}
 		}
 
-		// format all the details into easy mustache variables
-		$order_all_details['padded_id'] = str_pad($order_all_details['id'],6,0,STR_PAD_LEFT);
-		$order_all_details['order_date'] = date("M j, Y, g:i A", $order_all_details['creation_date']);
-		$order_all_details['formatted_gross_price'] = sprintf("%01.2f",$order_all_details['gross_price']);
-		if ($order_all_details['gross_price']-$item_price) {
-			$order_all_details['formatted_shipping'] = number_format($order_all_details['gross_price']-$item_price,2);
-		}
-
-
-		$order_all_details['formatted_subtotal'] = sprintf("%01.2f",$item_price);
-		$order_all_details['formatted_net_price'] = sprintf("%01.2f",$order_all_details['gross_price'] - $order_all_details['service_fee']);
-		$order_all_details['formatted_connection_name'] = preg_replace('/\(|\)/','',AdminHelper::getConnectionName($order_all_details['connection_id']));
-		$order_all_details['order_connection_details'] = AdminHelper::getConnectionName($order_all_details['connection_id']) . ' (' . $order_all_details['connection_type'] . ')';
-		//if ($order_all_details['fulfilled']) { $order_all_details['order_fulfilled'] = 'yes'; } else { $order_all_details['order_fulfilled'] = 'no'; }
-		$cash_admin->page_data = array_merge($cash_admin->page_data,$order_all_details);
 		$cash_admin->page_data['order_contents'] = new ArrayIterator($order_contents);
+		$cash_admin->page_data['formatted_shipping'] = number_format($order_all_details['gross_price']-$item_price,2);
 
 		$shipping_address = $order_all_details['data'];
 		$cash_admin->page_data['ui_title'] = 'Order #' . $order_all_details['padded_id'];
@@ -146,10 +142,6 @@ if ($request_parameters) {
 		$cash_admin->page_data['customer_region'] = $order_all_details['customer_region'];
 		$cash_admin->page_data['customer_postalcode'] = $order_all_details['customer_postalcode'];
 		$cash_admin->page_data['customer_country'] = $order_all_details['customer_countrycode'];
-
-		error_log(print_r($cash_admin->page_data, true));
-		$formatted_data_sent = array();
-		$formatted_data_returned = array();
 
 		// we need to iterate through order_contents to see if any items are
 		$cash_admin->page_data['display_shipping_address'] = false;

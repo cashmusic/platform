@@ -295,15 +295,6 @@ if (is_array($orders_response['payload'])) {
 				$shipping_cost = false;
 			}
 
-//			$order_details_response = $cash_admin->requestAndStore(
-//				array(
-//					'cash_request_type' => 'commerce',
-//					'cash_action' => 'getorder',
-//					'id' => $request_parameters[0],
-//					'deep' => true
-//				)
-//			);
-
 			$all_order_details[] = array(
 				'id' => $o['id'],
 				'customer_name' => $o['customer_first_name'] . " " . $o['customer_last_name'],
