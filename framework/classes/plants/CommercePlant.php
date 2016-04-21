@@ -1422,10 +1422,15 @@ class CommercePlant extends PlantBase {
             }
 
             $currency = $this->getCurrencyForUser($user_id);
-            $shipping_info = json_decode($shipping_info, true);
 
-            $geo = array("geo" => $geo);
-            $data = array_merge($shipping_info, $geo);
+            // merge all this stuff into $data for storage
+            $shipping_info = json_decode($shipping_info, true);
+            $data = array("geo" => $geo);
+
+            if ($shipping_info) {
+                $data = array_merge($shipping_info, $data);
+            }
+
 
             $transaction_id = $this->addTransaction(
                 $user_id,
