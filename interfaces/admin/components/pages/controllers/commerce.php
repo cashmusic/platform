@@ -268,7 +268,7 @@ if (is_array($orders_response['payload'])) {
 
 			$order_contents = json_decode($o['order_contents'],true);
 			$item_price = 0;
-			foreach ($order_contents as $key => &$item) {
+			foreach ($order_contents as $key => $item) {
 				if (!isset($item['qty'])) {
 					$item['qty'] = 1;
 				}
@@ -283,7 +283,7 @@ if (is_array($orders_response['payload'])) {
 						)
 					);
 					if ($variant_response['payload']) {
-						$item['variant'] = $variant_response['payload'];
+						$order_contents[$key]['variant'] = $variant_response['payload'];
 					}
 				}
 			}
@@ -294,15 +294,6 @@ if (is_array($orders_response['payload'])) {
 			} else {
 				$shipping_cost = false;
 			}
-
-//			$order_details_response = $cash_admin->requestAndStore(
-//				array(
-//					'cash_request_type' => 'commerce',
-//					'cash_action' => 'getorder',
-//					'id' => $request_parameters[0],
-//					'deep' => true
-//				)
-//			);
 
 			$all_order_details[] = array(
 				'id' => $o['id'],
