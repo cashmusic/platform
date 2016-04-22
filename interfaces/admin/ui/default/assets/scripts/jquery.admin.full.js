@@ -1069,8 +1069,8 @@ function listenForModals() {
    // modal pop-ups
    $(document).on('click', '.needsconfirmation', function(e) {
       e.preventDefault();
+      $('.modallightbox').remove();
       doMessage('','Are you sure?',true,$(this).attr('href'));
-
       this.blur();
    });
 

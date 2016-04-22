@@ -224,14 +224,14 @@ body.light .cashmusic.element input:focus placeholder{color:#4d4d4d;}
 	padding:0;
 }
 
-.logo img{
+.logo svg{
 	height:auto;
 	width:40px;
 	margin:0 auto;
 	padding:0;
 }
 
-body.dark .logo img{
+body.dark .logo svg{
 	-webkit-filter: invert(100%);
     filter: invert(100%);
 }
@@ -382,25 +382,26 @@ h2.subtitle{
 	}
 
 	.madebycash span{
-		text-align: left;
-		display: inline-block;
-		width: 400px;
-		position: absolute;
-		bottom:35px;
-		left:95px;
-		opacity: 0;
-		-webkit-transition:0.5s  ease-in-out;
-		-moz-transition:0.5s  ease-in-out;
-		transition:0.5s ease-in-out;
-		pointer-events: none;
+		text-align: left!important;
+		display: inline-block!important;
+		width: 400px!important;
+		position: absolute!important;
+		bottom:35px!important;
+		left:95px!important;
+		opacity: 0!important;
+		-webkit-transition:0.5s  ease-in-out!important;
+		-moz-transition:0.5s  ease-in-out!important;
+		transition:0.5s ease-in-out!important;
+		pointer-events: none!important;
+		font-family:'Montserrat',Helvetica,Arial,sans-serif!important;
 	}
 
 	.madebycash:hover span{
-		position: absolute;
-		bottom:46px;
-		left:95px;
-		opacity: 1;
-		pointer-events: auto;
+		position: absolute!important;
+		bottom:46px!important;
+		left:95px!important;
+		opacity: 1!important;
+		pointer-events: auto!important;
 	}
 
 	.logo{

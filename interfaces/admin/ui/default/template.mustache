@@ -150,10 +150,10 @@
 							<div id="settingspanel">
 								<div class="inner">
 								<h1 class="paneltitle"><div class="close-panel"><div class="icon icon-plus"></div></div> Settings</h1>
-									<ul class="tertiarynav">
+									<ul class="tertiarynav {{#platform_type_single}}cm-triple-link{{/platform_type_single}}">
 										<li><a href="{{www_path}}/account/"><div class="icon icon-user"></div><!--icon-->{{link_youraccount}}</a></li>
 										{{#platform_type_single}}<li><a href="{{www_path}}/settings/" ><div class="icon icon-cog"></div><!--icon-->{{link_settings}}</a></li>{{/platform_type_single}}
-										<li><a href="{{www_path}}/settings/connections/" ><div class="icon icon-cog"></div><!--icon-->{{link_settings_connections}}</a></li>
+										<li><a href="{{www_path}}/settings/connections/" ><div class="icon icon-circle-plus"></div><!--icon-->{{link_settings_connections}}</a></li>
 									</ul><!--tertiarynav-->
 									<div class="panelcontent"></div><!--panelcontent-->
 								</div><!--inner-->

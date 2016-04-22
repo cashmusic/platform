@@ -1,5 +1,11 @@
 {{! corresponding files: assets_add_image.php }}
+	{{#connection_options}}
 <p>{{{copy_intro}}}</p>
+		{{/connection_options}}
+
+		{{^connection_options}}
+		<p>{{copy_add_connection}} <a href="{{{www_path}}}/settings/connections/">{{copy_add_connection_button}}</a></p>
+		{{/connection_options}}
 
 {{#parent_type}}
 	<form accept-charset="UTF-8" method="post" class="autosubmit novalidate" action="{{www_path}}/assets/add/image/{{parent_type}}/{{parent_id}}">
@@ -8,13 +14,14 @@
 		<input type="hidden" name="parent_id" value="{{parent_id}}" />
 		<input type="hidden" id="asset_location" name="asset_location" value="" />
 
+		{{#connection_options}}
 		<div class="pure-u-1">
 			<label for="connection_id">{{label_which_connection}}</label>
 			<select id="connection_id" name="connection_id">
 				{{{connection_options}}}
 			</select>
 		</div><!--pure-->
-
+		{{/connection_options}}
 		<div class="pure-u-1">
 		<!--
 			  *
