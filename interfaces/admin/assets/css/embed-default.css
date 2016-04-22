@@ -1277,12 +1277,21 @@ input[type=number]::-webkit-outer-spin-button {
 
 .cm-store.cm-success .cm-title, .cm-store.cm-success .cm-variant{
 	margin:0;
-  font-weight: 100;
-  font-size: 14px;
+  font-weight: 100!important;
+  font-size: 14px!important;
 }
 
+.cm-store.cm-success .cm-title{
+  margin:0 0 6px 0!important;
+}
+
+.cm-store.cm-success .cm-variant{
+  font-family: 'Nunito',Helvetica,Arial,sans-serif!important;
+}
+
+
 .cm-store.cm-success .cm-receipt  .cm-variant, .cm-store.cm-success .cm-receipt .cm-qty, .cm-store.cm-success .cm-receipt .cm-info .cm-shipping{
-	font-size: 12px;
+	font-size: 12px!important;
 }
 
 .cm-receipt .cm-item .cm-qty, .cm-receipt .cm-item .cm-totalprice{
@@ -1318,14 +1327,13 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .cm-receipt .cm-inner{
-	margin:0 0 16px 0;
-	padding: 20px;
-
-  border: solid 1px rgba(34,34,34,0.5);
-  background: rgba(34,34,34,0.7);
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
+	margin:0 0 16px 0!important;
+	padding: 20px!important;
+  border: solid 1px rgba(34,34,34,0.5)!important;
+  background: rgba(34,34,34,0.7)!important;
+  -webkit-border-radius: 3px!important;
+  -moz-border-radius: 3px!important;
+  border-radius: 3px!important;
 }
 
 .cm-receipt .cm-inner .cm-item-description, .cm-receipt .cm-inner .cm-info{
@@ -1423,6 +1431,26 @@ input[type=number]::-webkit-outer-spin-button {
 
 .cm-instant-grat .cm-dwld-item .cm-variant{
 	font-size: 12px;
+}
+
+/* Harden store success states */
+
+.cm-store.cm-success .cm-instant-grat .cm-dwld-item{
+  font-family:'Montserrat',Helvetica,Arial,sans-serif!important;
+  border-top: solid 1px rgba(0,0,0,0.1)!important;
+  padding:20px 0!important;
+}
+
+.cm-store.cm-success .cm-instant-grat .cm-dwld-item .cm-title{
+  font-family:'Montserrat',Helvetica,Arial,sans-serif!important;
+  font-size: 14px!important;
+  line-height: 18px!important;
+	font-weight: 100!important;
+}
+
+.cm-store.cm-success .cm-instant-grat .cm-dwld-item .cm-variant{
+  font-family:'Montserrat',Helvetica,Arial,sans-serif!important;
+	font-size: 12px!important;
 }
 
 /* Made by CASH Footer */
