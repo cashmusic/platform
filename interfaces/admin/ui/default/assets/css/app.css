@@ -730,6 +730,11 @@ form small{
 	vertical-align: inherit;
 }
 
+.selecta.right{
+	margin-right:0;
+	margin-left:6px;
+}
+
 .selecta.embed-style{
 	display: block;
 	margin:0;
@@ -2301,7 +2306,7 @@ section[role=main].hero{
 
 #settingspanel .tertiarynav.cm-triple-link li{
 	width:33%;
-	font-size: 12px: 
+	font-size: 12px:
 }
 
 
@@ -4705,6 +4710,10 @@ ul.people.alternating li a span{
 	margin:5px 0 0 0;
 }
 
+.commerce.order .text-date{
+	margin-left:10px;
+}
+
 .order-number span.icon {position:relative;bottom:2px;left:6px;}
 
 .commerce.order .customer-details{
@@ -4811,6 +4820,10 @@ ul.people.alternating li a span{
 
 
 /* Order Detail Page */
+
+.order-detail p{
+	display: block;
+}
 
 .order-detail .pure-u-md-1-2{
 	padding:0!important;
