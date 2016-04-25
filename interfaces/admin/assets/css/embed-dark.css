@@ -91,3 +91,12 @@
 	border: solid 1px #111;
   background-color: rgba(34,34,34,0.9);
 }
+
+.cm-store .cm-showcart{
+	color:#fff;
+}
+
+.cm-store .cm-showcart svg{
+	-webkit-filter: invert(100%);
+	filter: invert(100%);
+}
