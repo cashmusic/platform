@@ -109,11 +109,18 @@ class CurlClient implements ClientInterface
         // Opt into TLS 1.x support on older versions of curl. This causes some
         // curl versions, notably on RedHat, to upgrade the connection to TLS
         // 1.2, from the default TLS 1.0.
+
+        /*
+        CASH MODIFIED:
+        Crashing on the staging server...hoping defaults will suit us better in
+        our known environment.
+
         if (!defined('CURL_SSLVERSION_TLSv1')) {
             define('CURL_SSLVERSION_TLSv1', 1); // constant not defined in PHP < 5.5
         }
         $opts[CURLOPT_SSLVERSION] = CURL_SSLVERSION_TLSv1;
         // @codingStandardsIgnoreEnd
+        */
 
         curl_setopt_array($curl, $opts);
         $rbody = curl_exec($curl);
