@@ -1287,7 +1287,7 @@ class CommercePlant extends PlantBase {
      * @param bool $session_id
      * @return bool
      */
-    public function initiateCheckout($element_id=false,$shipping_info=false,$paypal=false,$stripe=false,$origin=false,$email_address=false,$customer_name=false,$session_id=false, $geo=false) {
+    public function initiateCheckout($element_id=false,$shipping_info=false,$paypal=false,$stripe=false,$origin=false,$email_address=false,$customer_name=false,$session_id=false,$geo=false,$finalize_url=false) {
 
       if (CASH_DEBUG) {
          error_log(
@@ -1506,6 +1506,9 @@ class CommercePlant extends PlantBase {
                     if ($session_id) {
                         $return_url .= '&session_id=' . $session_id;
                     }
+                    if ($finalize_url) {
+                       $return_url .= '&finalize_url=' . urlencode($finalize_url);
+                    }
 
                     if (CASH_DEBUG) {
                        error_log(
@@ -1540,7 +1543,8 @@ class CommercePlant extends PlantBase {
                         $shipping_info,
                         $session_id,
                         $total_price,
-                        $order_totals['description'])) {
+                        $order_totals['description'],
+                        $finalize_url)) {
                         return "success";
                     } else {
                         return "failure";
@@ -1636,7 +1640,7 @@ class CommercePlant extends PlantBase {
         }
     }
 
-    public function finalizePayment($order_id, $token, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false, $total_price=false, $description=false,$geo=false) {
+    public function finalizePayment($order_id, $token, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false, $total_price=false, $description=false, $finalize_url=false) {
 
       if (CASH_DEBUG) {
          error_log(
@@ -1649,7 +1653,6 @@ class CommercePlant extends PlantBase {
             . ', $session_id='           . (string)$session_id
             . ', $total_price='          . (string)$total_price
             . ', $description='          . (string)$description
-            . ', $geo='             . (string)$geo
          );
       }
 
@@ -1737,7 +1740,7 @@ class CommercePlant extends PlantBase {
                     $order_details['gross_price'] = $payment_details['total'];
 
                     try {
-                        $this->sendOrderReceipt(false,$order_details);
+                        $this->sendOrderReceipt(false,$order_details,$finalize_url);
                     } catch (Exception $e) {
                         //TODO: what happens when order receipt not sent?
                     }
