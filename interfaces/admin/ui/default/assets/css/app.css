@@ -3576,6 +3576,15 @@ body.login .login-content.legal{
 	transition:0.3s ease-in-out;
 }
 
+.material.notification:hover{
+	opacity: 0.6;
+}
+
+.material.notification:active{
+	background:#eee;
+	color:#999;
+}
+
 .material.notification p{
 	margin:0;
 	width:95%;
