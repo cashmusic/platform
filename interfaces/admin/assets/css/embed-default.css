@@ -345,7 +345,7 @@ input:focus placeholder{color:#111;}
 	margin:0 0 5px 0;
 }
 
-.cash_singlepurchase_itemdescription{
+.cash_singlepurchase_itemdescription, .singlepurchase .cash_singlepurchase_itemdescription{
  	display:block;
  	margin: 0 0 36px 0;
   text-align: center;
@@ -372,9 +372,14 @@ input:focus placeholder{color:#111;}
 }
 
 .cm-singlepurchase-files .cm-singlepurchase-download{
+  background:#00cf7f;
+  color:rgba(0,0,0,0.6);
   font-size: 12px;
-  margin:10px;
-  padding:0;
+  margin:10px 6px;
+  padding:10px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
   text-decoration: underline;
   -webkit-transition:  0.3s  ease-in-out;
   -moz-transition:  0.3s  ease-in-out;
@@ -384,12 +389,7 @@ input:focus placeholder{color:#111;}
 .cm-singlepurchase-files .cm-singlepurchase-download:hover{
   background:rgba(0,0,0,0.3);
   text-decoration: none;
-  padding:10px;
-  margin:0;
   color:#fff;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
 }
 
 .cash_singlepurchase_flexible_price {
