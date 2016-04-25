@@ -196,6 +196,34 @@ body.light .cashmusic.element input:focus placeholder{color:#4d4d4d;}
  100% { -moz-transform:  rotate(0deg) scaleX(1) scaleY(1) skewX(0deg) skewY(0deg);}
 }
 
+
+#mainspc .logo{
+	position: fixed;
+	top:15px;
+	left:15px;
+	height: 100px;
+	width:25%;
+	text-align: left;
+	z-index: -1;
+}
+
+#mainspc .logo h1{
+	margin:0;
+	padding:0;
+}
+
+#mainspc .logo img{
+	height: 100%;
+	width:auto;
+	padding:15px;
+	margin:0 0 20px 0;
+}
+
+body.dark #mainspc .logo img{
+	-webkit-filter: invert(100%);
+    filter: invert(100%);
+}
+
 .madebycash{
 	display:block;
 	font-weight:100!important;
@@ -210,7 +238,7 @@ body.light .cashmusic.element input:focus placeholder{color:#4d4d4d;}
 }
 
 
-.logo{
+.madebycash .logo{
 	height: 40px;
 	width:40px;
 	text-align: center;
@@ -218,20 +246,14 @@ body.light .cashmusic.element input:focus placeholder{color:#4d4d4d;}
 	display: none;
 }
 
-
-.logo h1{
-	margin:0;
-	padding:0;
-}
-
-.logo svg{
+.madebycash .logo svg{
 	height:auto;
 	width:40px;
 	margin:0 auto;
 	padding:0;
 }
 
-body.dark .logo svg{
+body.dark .madebycash .logo svg{
 	-webkit-filter: invert(100%);
     filter: invert(100%);
 }
@@ -330,6 +352,15 @@ body.dark .cm-store.cm-front .cm-item{
 	background:#111;
 }
 
+body.dark .cm-store .cm-showcart{
+	color:#fff;
+}
+
+body.dark .cm-store .cm-showcart svg{
+	-webkit-filter: invert(100%);
+	filter: invert(100%);
+}
+
 /* Remove background for alternate styles */
 body.dark .cm-store.cm-grid.cm-front .cm-item, body.dark .cm-store.cm-compact.cm-front .cm-item{
   background:none;
@@ -404,7 +435,7 @@ h2.subtitle{
 		pointer-events: auto!important;
 	}
 
-	.logo{
+  .madebycash .logo{
 		display: block;
 		opacity: 0.4;
 	}
