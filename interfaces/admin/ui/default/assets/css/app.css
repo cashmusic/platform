@@ -2914,6 +2914,10 @@ body.login .login-content.legal{
 	margin:0;
 }
 
+#signupform .terms{
+	margin:0 0 18px 0;
+}
+
 .login .row .pure-u-md-1-2 {
 	margin:0;
 	padding:0;
