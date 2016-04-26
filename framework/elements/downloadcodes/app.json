@@ -10,8 +10,8 @@
 		"en":{
 			"name":"Download Codes",
 			"description":"Download code redemption.",
-			"longdescription":"Generate download codes for any of your assets and this single element handles redemption of those codes.",
-			"instructions":"Generate codes for any asset on its page. This element makes a redemption form."
+			"longdescription":"Once you've generated download codes for any of your assets this element handles redemption of those codes.",
+			"instructions":"Generate codes for your asset on its page. This element makes a redemption form that can be used for all of your download codes. Simple. Once you've published this element do make sure and check a code before you send them out. ;)"
 		}
 	},
 	"options":{

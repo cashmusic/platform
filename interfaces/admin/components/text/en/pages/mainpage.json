@@ -51,9 +51,9 @@
 		 "subtitle":"Since",
 		 "alert_tour":"We have created a platform tour to help you find your way around our new features. Click here to check it out.",
 		 "alert_commerce_settings":"We've added a few extra basic commerce settings that you'll need to set up to accept payments. Click here to check it out.",
-		 "firstuse_title":"Welcome to the CASH Music platform. The platform works by linking to your accounts for hosting, payments, mailing lists, and more.",
+		 "firstuse_title":"Welcome to the CASH Music platform. Our tools work by connecting to your own accounts for hosting, payments, mailing lists, and more.",
 		 "firstuse_body_1":"You can start adding those connections by going to your settings, just click on the gear icon above the main menu.",
-		 "firstuse_body_2":"Elements are the tools you'll use to connect directly with your fans. Once you create them you can easily embed them anywhere, including on your own CASH Music page. To get started click on the elements tab above.",
+		 "firstuse_body_2":"Elements are the tools that you'll use to connect directly with your fans. Once you create them you can easily embed them anywhere, including on your own CASH Music page. To get started click on the elements tab above.",
 		 "firstuse_body_3":"When you've added elements this activity page is where you’ll find an overview of what's happening with your sales, mailing lists, and find out what's new from us.",	 
 		 "firstuse_embeds":"elements",
 		 "firstuse_page":"page",
@@ -62,7 +62,7 @@
 		 "whatsnew_lists":"mailing lists",
 		 "whatsnew_sales":"sales",
 		 "whatsnew_body_2":"This is just the beginning, we'll be expanding these notifications to give you an overview of everything you've created.",
-		 "whatsnew_body_3":"It's all part of us making the CASH tools easier for everyone to use. We have also seperated out the workflow for embeded elements and your page, it's now easier than ever to publish, preview & edit your page & embeds. We've also added the store element, which is fully customizable & enables you to sell everything all in one place with one single line of embed code. With that we've added support for Stripe so you can accept payments that way as well.",
+		 "whatsnew_body_3":"It's now easier than ever to publish and/or edit your page & elements. We've also added the store element (woo hoo!), which is fully customizable & enables you to sell everything all in one place with one single line of embed code. With that we've added support for Stripe so you can accept payments via credit card as well.",
 		 "whatsnew_body_4":"",
 		 "whatsnew_tour_body":"Take our new",
 		 "tour_link":"platform tour",
@@ -79,7 +79,7 @@
 		 "unfulfilled_orders_2":"unfullfilled orders.",
 		 "nothing_body":"Sorry, there is no activity to report yet. Get started by adding an",
 		 "nothing_link":"element",
-		 "blank_body":"This is your activity feed. You will see the latest information on your sales & mailing lists here whenever you log back in. For now there's no activity. Get started be adding an",
+		 "blank_body":"This is your activity feed. You will see the latest information on your sales & mailing lists here. For now there's no activity. Get started be adding an",
 		 "blank_link" : "element"
 	}
 }

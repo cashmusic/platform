@@ -1,11 +1,11 @@
 {
 	"pagetip":"",
-	"learn":"<p>This section is where you’ll add/edit your releases as well as upload the digital files that you’ll be using throughout the platform. Think important stuff like songs, albums, photos, videos, etc. </p><p>Once you've added a release or file you can also generate download codes for it. </p> <p>Note: if you’re adding an album zip file you can also add cover art, photos, liner notes, even videos in that zip.</p>",
+	"learn":"<p>This section is where you’ll add/edit your releases as well as upload the digital files that you’ll be using throughout the platform. Think important stuff like songs, albums, photos, videos, etc. </p><p>Once you've added a release or file you can also generate download codes for it here. </p> <p>Note: if you’re adding an album zip file you can also add cover art, photos, liner notes, even videos in that zip. Give the fans what they want.</p>",
 	"related":{},
 	"labels":{},
 	"tooltips":{},
 	"copy":{
-		"firstuse":"Assets are the digital files that you'll be using throughout your elements. Important things like music, photos, videos. <span class='first-para'> Files will be hosted on either your Amazon S3 or Google Drive account. Once you've add a connection you can upload files directly without leaving the CASH platform. Organize your assets as part of a release or simply upload them. Uploaded files can be sold as Inventory items (in the Commerce section), or used in any other elements. <br> <br>Before you can begin adding any assets you will need to connect to one of the 3rd-party storage platforms below. </span>",
+		"firstuse":"Assets are the digital files that you'll be using throughout your elements. Important things like music, photos, videos. <span class='first-para'> Before you can begin adding any assets you will need to connect to one of the 3rd-party storage platforms below. </span>",
       "host_own_files":"I host files on my own server! ",
       "button_new_release":"Add a new release",
       "no_releases_yet":"No releases have been created yet. Add one to get started.",
