@@ -1,6 +1,6 @@
 {
 	"pagetip":"",
-	"learn":"<p>Elements are the customizable tools that make up your campaigns. Email collection, digital sales, tour dates, and much more.</p><p>Every individual element can be embedded on any site by simple copy/paste or you can add several elements to a campaign and publish it as a single page.</p><p>Don't worry; nobody else will see anything until you publish it, and you can always edit any element even after you've published a campaign.</p>",
+	"learn":"<p>Elements are the customizable tools that you'll use to connect to your audience. Email collection, sales, tour dates, and much more.</p><p>Every individual element can be embedded on any site by a simple copy/paste or you can add several elements to your CASH Music page and publish that.</p><p>Don't worry; nobody will see anything until you publish it, and you can always edit any element even after you've published your page.</p>",
 	"related":{
 		"cashmusic.org":"http://cashmusic.org/",
 		"CASH help/support site":"http://help.cashmusic.org/"
@@ -21,7 +21,7 @@
 	 "no_elements_in_campaign":"You haven't created any elements in this campaign yet. Get started by adding one above.",
    "add_element_to_start":"Add an element to start",
 	 "add_campaign_to_start":"Add a campaign",
-   "get_started_body":"This is where all your elements will be created. To help your elements stay organized you can group them together in a campaign if you wish, just click the plus icon to add a new group or dive right in and add your first element straight away by clicking the 'Add an element' button.",
+   "get_started_body":"This is where all you'll create new elements and edit existing ones. To help your elements stay organized you can group them together in a campaign if you wish, just click the plus icon to add a new group or dive right in and add your first element straight away by clicking the 'Add an element' button.",
 	 "get_started_body_2":"to group some elements together or simply",
 	 "get_started_title":"Hey there! Now it’s time to get started.",
    "there_are_archived_elements":"There are archived elements. ",

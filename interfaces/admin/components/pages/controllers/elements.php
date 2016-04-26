@@ -86,6 +86,9 @@ if (!is_array($all_elements_response['payload'])) {
 	$all_elements_response['payload'] = array();
 }
 $total_elements = count($all_elements_response['payload']);
+if (!$total_elements) {
+	$cash_admin->page_data['show_first_use'] = true;
+}
 
 
 // get page url

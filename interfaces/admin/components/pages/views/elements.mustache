@@ -17,47 +17,27 @@
 
 <!--/* Campaigns */-->
 <div id="campaigns">
-{{#has_campaigns}}
-<div class="pure-u-1 pure-u-md-2-3">
-	<div class="selecta">
-		<form accept-charset="UTF-8" method="post" action="{{www_path}}/elements/">
-			<label for="current-campaign">{{label_selected_campaign}}</label>
-			<select name="current-campaign" id="current-campaign">
-				<option value="-1" selected="selected">No campaign</option>
-				{{{campaigns_as_options}}}
-			</select>
-		</form>
-	</div><!--selecta-->
-		{{#show_edit}}
-		<a class="lightboxed edit-button" href="{{www_path}}/campaigns/edit/{{selected_campaign}}"><span class="icon icon-pencil"></span><!--icon--></a>
-		{{/show_edit}}
-		<a class="lightboxed edit-button" href="{{www_path}}/campaigns/add/"><span class="icon icon-plus"></span><!--icon--></a>
-</div>
-{{#selected_campaign}}
-<div class=" pure-u-1 pure-u-md-1-3 alignright">
-	{{#has_elements}}<a class="add button lightboxed store" href="{{www_path}}/elements/add/"><div class="icon icon-circle-plus"></div>{{copy_element_add}}</a>{{/has_elements}}
-	{{^elements_for_campaign}}<a href="{{www_path}}/elements/add/" class="noelement button lightboxed store"><div class="icon icon-plus"></div><!--icon-->{{copy_add_element_to_start}}</a><!--noelement-->
-{{/elements_for_campaign}}
-</div><!--pure-->
-{{/selected_campaign}}
-{{/has_campaigns}}
+	<div class="pure-u-1 pure-u-md-2-3">
+		<div class="selecta">
+			<form accept-charset="UTF-8" method="post" action="{{www_path}}/elements/">
+				<label for="current-campaign">{{label_selected_campaign}}</label>
+				<select name="current-campaign" id="current-campaign">
+					<option value="-1" selected="selected">No campaign</option>
+					{{{campaigns_as_options}}}
+				</select>
+			</form>
+		</div><!--selecta-->
+			{{#show_edit}}
+			<a class="lightboxed edit-button" href="{{www_path}}/campaigns/edit/{{selected_campaign}}"><span class="icon icon-pencil"></span><!--icon--></a>
+			{{/show_edit}}
+			<a class="lightboxed edit-button" href="{{www_path}}/campaigns/add/"><span class="icon icon-plus"></span><!--icon--></a>
+	</div>
+	<div class="pure-u-1 pure-u-md-1-3 alignright">
+		<a href="{{www_path}}/elements/add/" class="noelement button lightboxed store"><div class="icon icon-plus"></div><!--icon-->{{copy_element_add}}</a><!--noelement-->
+	</div><!--pure-->
 
-{{^has_campaigns}}
-<div class="pure-u-1 pure-u-md-2-3">
-	<div class="selecta">
-		<form accept-charset="UTF-8" method="post" action="{{www_path}}/elements/">
-			<label for="current-campaign">{{label_selected_campaign}}</label>
-			<select disabled name="current-campaign" id="current-campaign">
-				<option value="-1" selected="selected">No campaign</option>
-				{{{campaigns_as_options}}}
-			</select>
-		</form>
-	</div><!--selecta-->
-		<a class="lightboxed edit-button" href="{{www_path}}/campaigns/add/"><span class="icon icon-plus"></span><!--icon--></a>
-</div>
-<div class="pure-u-1 pure-u-md-1-3 alignright">
-	<a href="{{www_path}}/elements/add/" class="noelement button lightboxed store"><div class="icon icon-plus"></div><!--icon-->{{copy_add_element_to_start}}</a><!--noelement-->
-</div><!--pure-->
+
+{{#show_first_use}}
 <div class="pure-u-1">
 	<div class="alt callout">
 		<div class="callout-inner">
@@ -68,7 +48,7 @@
 		</div><!--callout-inner-->
 	</div><!--callout-->
 </div><!--pure-->
-{{/has_campaigns}}
+{{/show_first_use}}
 
 {{#selected_campaign}}
 <div class="campaign-elements">
