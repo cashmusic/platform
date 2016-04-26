@@ -2914,6 +2914,10 @@ body.login .login-content.legal{
 	margin:0;
 }
 
+#signupform .terms{
+	margin:0 0 18px 0;
+}
+
 .login .row .pure-u-md-1-2 {
 	margin:0;
 	padding:0;
@@ -3570,6 +3574,15 @@ body.login .login-content.legal{
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
 	transition:0.3s ease-in-out;
+}
+
+.material.notification:hover{
+	opacity: 0.6;
+}
+
+.material.notification:active{
+	background:#eee;
+	color:#999;
 }
 
 .material.notification p{
