@@ -2826,7 +2826,7 @@ body.login .login-content.legal{
 	padding:36px;
 }
 
-.login .gradient{
+.login:after{
 	  content: '';
     position: fixed;
     top: 0;
@@ -2842,7 +2842,6 @@ body.login .login-content.legal{
     background: linear-gradient(to bottom, rgba(140,0,247,1) 0%,rgba(0,144,255,1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8c00f7', endColorstr='#0090ff',GradientType=0 );
     opacity: 0.7;
-		z-index: -10;
 }
 
 .login #cash_signin_form{
