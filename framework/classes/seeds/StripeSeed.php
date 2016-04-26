@@ -68,7 +68,7 @@ class StripeSeed extends SeedBase
         if (isset($connections['com.stripe'])) {
             $login_url = StripeSeed::getAuthorizationUrl($connections['com.stripe']['client_id'], $connections['com.stripe']['client_secret']);
             $return_markup = '<h4>Stripe</h4>'
-                . '<p>This will redirect you to a secure login at Stripe and bring you right back.</p>'
+                . '<p>This will redirect you to a secure login at Stripe and bring you right back. Note that you\'ll need a CASH page or secure site (https) to sell using Stripe. <a href="https://stripe.com/docs/security/ssl" target="_blank">Read more.</a></p>'
                 . '<br /><br /><a href="' . $login_url . '&redirect_uri=' . CASH_ADMIN_URL . '/settings/connections/add/com.stripe/finalize" class="button">Connect with Stripe</a>';
             return $return_markup;
         } else {
