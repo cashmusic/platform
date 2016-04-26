@@ -10,8 +10,8 @@
 		"en":{
 			"name":"Members Area",
 			"description":"Allow a list to log in and get exclusive content.",
-			"longdescription":"This lets you enter specific content that can be served securely to a list with a universal password.",
-			"instructions":"Choose a list to verify against, enter markup, and optionally add a universal password for this element."
+			"longdescription":"This element lets you share content to a specific list with a universal password. Think fan club, press, and more.",
+			"instructions":"Choose a list to verify against, customize using markup, and optionally add a universal password for this element."
 		}
 	},
 	"options":{

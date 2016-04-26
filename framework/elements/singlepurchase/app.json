@@ -9,8 +9,8 @@
 	"details":{
 		"en":{
 			"name":"Single Purchase",
-			"description":"A purchase flow for any single item, digital or physical.",
-			"longdescription":"Connect your Paypal account and users will get a single-click purchase flow for any commerce item in the system.",
+			"description":"Sell an item with a single click. Great for preorders.",
+			"longdescription":"Just need to sell one thing? Set up a simple single purchase element for the commerce item of your choice.",
 			"instructions":"For physical goods, define regions and shipping costs."
 		}
 	},
