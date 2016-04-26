@@ -2826,7 +2826,7 @@ body.login .login-content.legal{
 	padding:36px;
 }
 
-.login:after{
+body.login #mainspc:after{
 	  content: '';
     position: fixed;
     top: 0;
