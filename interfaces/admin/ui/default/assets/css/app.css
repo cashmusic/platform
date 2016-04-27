@@ -259,7 +259,12 @@ a.revealpassword, .input-additional-info {
 	top: -12px;
 	padding:0 0 6px 0;
 	margin:0;
-	display: block;
+	background:none;
+	display: block!important;
+}
+
+a.revealpassword:focus{
+	background:none;
 }
 
 /*Scrollbars*/

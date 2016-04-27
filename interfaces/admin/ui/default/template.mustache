@@ -194,17 +194,18 @@
 	<!-- Password reset popups, etc -->
 	<div class="modalbg">
 		<div class="modallightbox">
-				<h4>Password reset</h4>Enter a new password. At least {{minimum_password_length}} characters.<br />
+      <div class="pure-u-1">
+				<h4>Password reset</h4><label>Enter a new password. At least {{minimum_password_length}} characters.</label>
 				<form action="{{reset_action}}" id="password_reset_form" method="post">
 					<input type="hidden" name="finalizepasswordreset" value="go" />
 					<input type="hidden" name="key" value="{{reset_key}}" />
 					<input type="hidden" name="address" value="{{reset_email}}" />
 					<input type="password" id="new_password" name="new_password" autocomplete="off" />
-					<small><a href="#" id="revealpassword" style="position:relative;top:-7px;color:#666;">reveal text</a></small>
+					<a href="#" id="revealpassword" class="revealpassword">reveal text</a>
 					<input type="button" id="do_submit" class="button" value="Change password" />
 				</form>
 				<a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a>
-
+      </div>
 		<script type="text/javascript">
 			// http://www.electrictoolbox.com/toggle-password-field-text-password/
 			(function() {
