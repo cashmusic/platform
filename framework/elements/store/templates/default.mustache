@@ -319,7 +319,15 @@
 			f.email_address.value = payment.detail.email;
 			f.customer_name.value = payment.detail.name;
 			f.geo.value = cm.geo;
-			f.finalize_url.value = top.location.href;
+			if (cm.embedded) {
+				if (cm.get['params']['location']) {
+					f.finalize_url.value = cm.get['params']['location'];
+				} else {
+					f.finalize_url.value = window.location.href;
+				}
+			} else {
+				f.finalize_url.value = top.location.href;
+			}
 			if (payment.detail.paypal) {
 				f.paypal.value = 1;
 			}
