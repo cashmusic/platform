@@ -1388,6 +1388,12 @@ class CommercePlant extends PlantBase {
                );
             }
 
+            // total zero price stop-gap, before this thing can load seeds or create an order or any dumb stuff.
+            if ($total_price == 0) {
+                $this->unlockElement($element_id);
+                return "success"; // and dance
+            }
+
             /*
             // get connection type settings so we can extract Seed classname
             $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
@@ -1746,24 +1752,7 @@ class CommercePlant extends PlantBase {
                     }
 
 
-                     if ($order_details['element_id']) {
-                        // borrowed from ElementBase — use the same mechanism to unlock the element
-                        // that issued the order so we're not reliant on a page refresh thing for
-                        // stripe or for an element embedded via script on a page, etc.
-                        $lock_session = $this->sessionGet('unlocked_elements');
-                  		if (is_array($lock_session)) {
-                  			$key = array_search($order_details['element_id'], $lock_session);
-                  			if ($key === false) {
-                  				$lock_session[] = $order_details['element_id'];
-                  				$this->sessionSet('unlocked_elements',$lock_session);
-                  			}
-                  		} else {
-                  			$this->sessionSet('unlocked_elements',array($order_details['element_id']));
-                  		}
-
-                        // we're also going to set order details, which are used by the Store element
-                        $this->sessionSet('commerce-'.$order_details['element_id'],$order_details);
-                     }
+                    $this->unlockElement($order_details['element_id'], $order_details);
 
                      if (CASH_DEBUG) {
                         error_log(
@@ -2077,6 +2066,34 @@ class CommercePlant extends PlantBase {
       if (CASH_DEBUG) {
          error_log($message);
       }
+    }
+
+    /**
+     * Unlocks embed element for payment response
+     * @param $element_id
+     * @param array|bool $order_details
+     */
+    protected function unlockElement($element_id, $order_details=false) {
+        if ($element_id) {
+            // borrowed from ElementBase — use the same mechanism to unlock the element
+            // that issued the order so we're not reliant on a page refresh thing for
+            // stripe or for an element embedded via script on a page, etc.
+            $lock_session = $this->sessionGet('unlocked_elements');
+            if (is_array($lock_session)) {
+                $key = array_search($element_id, $lock_session);
+                if ($key === false) {
+                    $lock_session[] = $element_id;
+                    $this->sessionSet('unlocked_elements',$lock_session);
+                }
+            } else {
+                $this->sessionSet('unlocked_elements',array($element_id));
+            }
+
+            if ($order_details) {
+                // we're also going to set order details, which are used by the Store element
+                $this->sessionSet('commerce-' . $element_id, $order_details);
+            }
+        }
     }
 } // END class
 ?>
