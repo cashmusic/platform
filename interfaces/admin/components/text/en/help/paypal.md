@@ -1,11 +1,10 @@
-###Add a PayPal connection
+###Add a payment connection
 
-What you'll need:
 
-- A verified business or premier status PayPal account
+Connecting your CASH Music account to your PayPal and/or Stripe accounts makes it possible for you to sell both digital and physical merchandise. It's easy and both only require a few quick steps.
 
-Connecting CASH Music and your PayPal account makes it possible for you to sell both digital and physical merchandise. It's easy and only requires a few quick steps.
+Select the **gear icon** <i class="icon icon-cog"></i> from the upper-right-hand corner to open up your account settings. Click the **Connections** button. 
 
-From the CASH Music platform, select the **gear icon** <i class="icon icon-cog"></i> from the upper-right-hand corner to open up your account settings. Click the **Connections** button and select the **PayPal** button.
+To set up PayPal select the **PayPal** button. You'll be prompted for your PayPal business account email address. Once you're entered it, click **Add The Connection**, and you're all set! 
 
-You'll be prompted for your PayPal email address. Once you're entered it, click **Add The Connection**, and you're all set!
+To add Stripe simply select the **Stripe** button under Connections. If you do not yet have a Stripe account you can set one up as you make the connection. Stripe allows you to take credit cards on your site directly. 
