@@ -30,7 +30,7 @@
 				{{/show_edit_button}}
 			</div><!--preview-overlay-inner-->
 		</div><!--preview-overlay-->
-		{{^first_time_page}}<iframe id="preview" {{#show_preview}}class="preview" {{/show_preview}}src="http://{{user_page_display_uri}}?{{#show_preview}}preview=1&amp;key={{api_key}}&amp;{{/show_preview}}donottrack=1"></iframe>{{/first_time_page}}
+		{{^first_time_page}}<iframe id="preview" {{#show_preview}}class="preview" {{/show_preview}}src="{{user_page_uri}}?{{#show_preview}}preview=1&amp;key={{api_key}}&amp;{{/show_preview}}donottrack=1"></iframe>{{/first_time_page}}
 	</div><!--preview-wrap-->
 {{/first_time_page}}
 </div><!--pure-->
