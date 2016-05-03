@@ -1472,6 +1472,7 @@
 					if ($first && !$shownone) {
 						// without shownone the first option should always be selected by default
 						$selected_string = ' selected="selected"';
+						$first = false;
 					} else {
 						// we're in a loop or have none, so reset select to empty and re-test
 						$selected_string = '';
