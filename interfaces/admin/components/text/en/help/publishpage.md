@@ -11,7 +11,7 @@ In the edit window, place your cursor after **id="mainspc"**. Then click the plu
 
 You can preview your page by clicking on the **View page** button. All of your elements will be live so you can test them out before you publish your page and send it out to fans. 
 
-When you're ready to go live simply move the publish slider to the right. 
+When you're ready to go live simply move the publish slider to the right. If you'd like to unpublish move it back to the left. Easy. 
 
 You can edit/customize your page anytime and it will reflect those changes live. 
 
