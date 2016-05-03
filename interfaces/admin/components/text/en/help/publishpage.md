@@ -1,6 +1,7 @@
 ###Publishing your CASH Music Page
 
-What you'll need
+What you'll need:
+
 - An element or two set up and ready to go. 
 
 Each platform user is given a free hosted, single page site on the CASH Music server. You can add as many different elements as you like to your page. 

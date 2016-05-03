@@ -1,6 +1,7 @@
 ###Build a store
 
 What you'll need:
+
 - A payment connection
 - Any physical/digital items you wish to sell added to Commerce inventory
 

@@ -20,7 +20,7 @@
 	"paypal" : {
 		"file":"paypal",
 		"compatibility":["single", "multi"],
-		"title":"Add a PayPal connection"
+		"title":"Add your payment connections"
 	},
 
 	"commerce" : {
@@ -32,7 +32,7 @@
 	"addarelease" : {
 		"file":"addarelease",
 		"compatibility":["single","multi"],
-		"title":"Add a file or release"
+		"title":"Add an asset"
 	},
 	
 	"paiddownload" : {
