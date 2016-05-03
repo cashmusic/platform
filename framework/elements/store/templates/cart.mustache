@@ -206,26 +206,31 @@
 			};
 			for (var i = 0, len = checkouts.length; i < len; i++) {
 				cm.events.add(checkouts[i],'click', function(e) {
-					cm.loadScript(cm.path + 'checkout/checkout.js', function () {
-						cm.checkout.prep();
-						{{^has_physical}}
-							opt.shipping = false;
-						{{/has_physical}}
-						{{#has_physical}}
-							var region = document.querySelector('select.cm-region').value;
-							if (!region) {
-								opt.shipping = {
-									"r1": "{{region1}} (${{shippingr1}})",
-									"r2": "{{region2}} (${{shippingr2}})"
-								};
-							} else {
-								opt.shipping = true;
-							}
-						{{/has_physical}}
-						cm.checkout.begin(opt);
-					});
 					e.preventDefault();
-					return false;
+					e.stopPropagation();
+					if (document.querySelector('.cm-total-amount').innerHTML > 0) {
+						cm.loadScript(cm.path + 'checkout/checkout.js', function () {
+							cm.checkout.prep();
+							{{^has_physical}}
+								opt.shipping = false;
+							{{/has_physical}}
+							{{#has_physical}}
+								var region = document.querySelector('select.cm-region').value;
+								if (!region) {
+									opt.shipping = {
+										"r1": "{{region1}} (${{shippingr1}})",
+										"r2": "{{region2}} (${{shippingr2}})"
+									};
+								} else {
+									opt.shipping = true;
+								}
+							{{/has_physical}}
+							cm.checkout.begin(opt);
+						});
+					} else {
+						// this is where we change the process for zero dollar transactions
+						// fire an event and use the "target" attribute
+					}
 				});
 			}
 		}
