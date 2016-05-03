@@ -5,12 +5,6 @@
 		"title":"Glossary"
 	},
 
-	"addanelement" : {
-		"file":"addanelement",
-		"compatibility":["single","multi"],
-		"title":"Embed an element"
-	},
-
 	"s3" : {
 		"file":"s3",
 		"compatibility":["single","multi"],
@@ -22,11 +16,19 @@
 		"compatibility":["single", "multi"],
 		"title":"Add a MailChimp connection"
 	},
+
 	"paypal" : {
 		"file":"paypal",
 		"compatibility":["single", "multi"],
 		"title":"Add a PayPal connection"
 	},
+
+	"commerce" : {
+		"file":"commercesettings",
+		"compatibility": ["single", "multi"],	
+		"title":"Set up commerce settings"
+	},
+
 	"addarelease" : {
 		"file":"addarelease",
 		"compatibility":["single","multi"],
@@ -38,11 +40,19 @@
 		"compatibility":["single","multi"],
 		"title":"Sell a digital download"
 	},
+
 	"physicalrelease" : {
 		"file":"physicalrelease",
 		"compatibility":["single","multi"],
 		"title":"Sell a physical item"
 	},	
+
+	"store" : {
+		"file":"buildastore",
+		"compatibility": ["single", "multi"],
+		"title": "Build a store"
+	},
+
 	"emailcollection" : {
 		"file":"emailcollection",
 		"compatibility":["single","multi"],
@@ -53,7 +63,18 @@
 		"file":"downloadcodes",
 		"compatibility":["single","multi"],
 		"title":"Download codes"
-	
+	}, 
+
+	"addanelement" : {
+		"file":"addanelement",
+		"compatibility":["single","multi"],
+		"title":"Embed an element"
+	},
+
+	"publishpage" : {
+		"file":"publishpage",
+		"compatibility":["single", "multi"],
+		"title":"Publish your CASH Music page"
 	}
 	
 }	
