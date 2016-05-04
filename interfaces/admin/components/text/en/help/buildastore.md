@@ -1,5 +1,7 @@
 ###Build a store
 
+You can watch a detailed video taking you through all of the steps to set up a store <a href="https://www.youtube.com/watch?v=RGE-2Og_pxM" target="_blank">here.</a>
+
 What you'll need:
 
 - A payment connection
@@ -18,4 +20,6 @@ Make sure when you're done that you click **save changes** at the bottom of the 
 Now you're ready to make your store live. You can either embed it on your own site or add to your CASH Music page and publish. 
 
 All incoming orders will show up in your **Commerce** section. You can also find details on every order, manage inventory, and export orders at any time there. 
+
+
 
