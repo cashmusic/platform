@@ -7,4 +7,4 @@ Select the **gear icon** <i class="icon icon-cog"></i> from the upper-right-hand
 
 To set up PayPal select the **PayPal** button. You'll be prompted for your PayPal business account email address. Once you're entered it, click **Add The Connection**, and you're all set! 
 
-To add Stripe simply select the **Stripe** button under Connections. If you do not yet have a Stripe account you can set one up as you make the connection. Stripe allows you to take credit cards on your site directly. 
+To add Stripe simply select the **Stripe** button under Connections. It will push you to their site to log in. If you do not yet have a Stripe account you can set one up there. Stripe will allow you to take credit cards on your site directly. 
