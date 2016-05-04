@@ -7,8 +7,9 @@ What you'll need:
 
 Once you have an asset you want to add codes to just click on the **Asset settings** below. Type in how many download codes you'd like and hit add codes to generate them. This is also where you can export your codes to an Excel/Google Docs compatible CSV file. 
 
-Now either start a new campaign or go to an existing one and add a new **Download Codes** element. This is where folks will redeem the codes you give them. Give it a name for your own internal reference and edit the public success message. 
+Now you'll need to make the redepemtion form so your fans can redeem their codes.. Go back to the main page, click on the **Elements** tab, click on **Add an Element** and choose **Download Codes**. Give it a name for your own internal reference and edit the public success message. 
 
- This element will actually work with any code you've generated for any of your assets. It will automatically give the correct asset to any valid codes. 
+ Finally, either add the element to your CASH Music page or embed the element on your own site.
 
- Finally, either publish your campaign page or embed the element on your own site.
+ Fun fact: this element will work with any code you've generated for any of your assets. It knows to automatically give the correct asset to any valid codes. So you just have to set it once and forget. Easy. 
+
