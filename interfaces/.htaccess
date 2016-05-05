@@ -1,7 +1,7 @@
-RewriteEngine On 
+RewriteEngine On
 RewriteBase /
-Options +FollowSymlinks 
-Options -Indexes 
+Options +FollowSymlinks
+Options -Indexes
 
 # COMPRESSION
 AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/x-javascript
@@ -15,10 +15,9 @@ RewriteRule ^(.*)$ https://cashmusic.org/$1 [R=301,L]
 
 # REDIRECT CASH SPECIFIC STUFF
 RewriteRule ^about/?$ http://about.cashmusic.org/ [R,L] 
-RewriteRule ^donate/?$ http://donate.cashmusic.org/ [R,L] 
-RewriteRule ^events/?$ http://events.cashmusic.org/ [R,L] 
+RewriteRule ^events/?$ http://events.cashmusic.org/ [R,L]
 RewriteRule ^learn/?$ http://learn.cashmusic.org/ [R,L]
-RewriteRule ^beginpayment.php$ http://legacy.cashmusic.org/beginpayment.php [R,L,QSA] 
+RewriteRule ^beginpayment.php$ http://legacy.cashmusic.org/beginpayment.php [R,L,QSA]
 
 # USER PAGE REWRITES
 # skip any real files/folders
@@ -34,4 +33,4 @@ RewriteCond %{REQUEST_URI} !^/api
 RewriteCond %{REQUEST_URI} !^/docs
 RewriteCond %{REQUEST_URI} !^/public
 # rewrite that junk
-RewriteRule (.*) index.php?subdomain=%1&path=$1 [L,QSA] 
+RewriteRule (.*) index.php?subdomain=%1&path=$1 [L,QSA]
