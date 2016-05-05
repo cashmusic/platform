@@ -259,10 +259,10 @@ class CommercePlant extends PlantBase {
             $final_name = rtrim($final_name,', ');
             return $final_name;
         } else {
-            $totalmatches = preg_match_all("/([a-z]+)->/", $name, $key_parts);
+            $totalmatches = preg_match_all("/([a-z]+)->/i", $name, $key_parts);
             if ($totalmatches) {
                 $variant_keys = $key_parts[1];
-                $variant_values = preg_split("/([a-z]+)->/", $name, 0, PREG_SPLIT_NO_EMPTY);
+                $variant_values = preg_split("/([a-z]+)->/i", $name, 0, PREG_SPLIT_NO_EMPTY);
                 $count = count($variant_keys);
                 $variant_descriptions = array();
                 for($index = 0; $index < $count; $index++) {
