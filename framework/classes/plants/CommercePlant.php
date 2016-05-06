@@ -1867,19 +1867,16 @@ class CommercePlant extends PlantBase {
                               // won't break on us
                               $i['variant'] = json_encode($decoded);
                            }
-                           error_log('VARIANT: ' . $i['variant']);
                             $variant_id = 0;
                             $variant_qty = 0;
                             if ($item['variants']) {
                                 foreach ($item['variants']['quantities'] as $q) {
-                                   error_log('VARIANT OPTION: ' . $q['key']);
                                     if ($q['key'] == $i['variant']) {
                                         $variant_id = $q['id'];
                                         $variant_qty = $q['value'];
                                         break;
                                     }
                                 }
-                                error_log('VARIANT ID: ' . $variant_id);
                                 if ($variant_id) {
                                     $this->editItemVariant($variant_id, max($variant_qty-$i['qty'],0), $i['id']);
                                 }
