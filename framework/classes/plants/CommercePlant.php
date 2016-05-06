@@ -1648,6 +1648,22 @@ class CommercePlant extends PlantBase {
 
     public function finalizePayment($order_id, $token, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false, $total_price=false, $description=false, $finalize_url=false) {
 
+      $this->startSession(false,$session_id);
+
+      // this just checks to see if we've started finalizing already. really
+      // only an issue for embeds used on pages
+      $working = $this->sessionGet('finalizing_payment');
+      if ($working) {
+         // already doing shit just check the order id
+         if ($working == $order_id) {
+            // doing it. just return the id here
+            return $order_id;
+         }
+      }
+      // nothing found? set the in-progress marker to the current id
+      $this->sessionSet('finalizing_payment',$order_id);
+
+
       if (CASH_DEBUG) {
          error_log(
             'Called CommercePlant::finalizePayment with: '
@@ -1719,7 +1735,6 @@ class CommercePlant extends PlantBase {
                     );
 
                     //TODO: this is a temporary stopgap; we need to introduce JSON appending
-                    $this->startSession(false,$session_id);
                     $shipping_info = $this->sessionGet('shipping_info');
 
                     $payment_details = array_merge($payment_details, $shipping_info);
@@ -1841,13 +1856,16 @@ class CommercePlant extends PlantBase {
                             $variant_id = 0;
                             $variant_qty = 0;
                             if ($item['variants']) {
+                               error_log('VARIANT: ' . $i['variant']);
                                 foreach ($item['variants']['quantities'] as $q) {
+                                   error_log('VARIANT MATCH? ' . $q['key']);
                                     if ($q['key'] == $i['variant']) {
                                         $variant_id = $q['id'];
                                         $variant_qty = $q['value'];
                                         break;
                                     }
                                 }
+                                error_log('VARIANT ID: ' . $variant_id);
                                 if ($variant_id) {
                                     $this->editItemVariant($variant_id, max($variant_qty-$i['qty'],0), $i['id']);
                                 }
