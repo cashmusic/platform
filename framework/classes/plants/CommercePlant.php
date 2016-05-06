@@ -1853,6 +1853,11 @@ class CommercePlant extends PlantBase {
                     if ($i['available_units'] > 0 && $i['physical_fulfillment'] == 1) {
                         $item = $this->getItem($i['id']);
                         if ($i['variant']) {
+                           // IMPORTANT
+                           // This looks really stupid but because we've done a json_decode that goes
+                           // deep we actually create an object from the resulting string then re-
+                           // encode it...giving us a full match for the JSON in the variant name
+                           // for comparison.
                            $i['variant'] = json_encode(json_decode($i['variant']));
                             $variant_id = 0;
                             $variant_qty = 0;
