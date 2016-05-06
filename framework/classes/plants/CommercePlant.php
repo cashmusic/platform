@@ -1847,18 +1847,16 @@ class CommercePlant extends PlantBase {
     protected function getFulfillmentStatus(array $order_details) {
         // deal with physical quantities
         if ($order_details['physical'] == 1) {
-            $order_items = json_decode($order_details['order_contents'],true);
+           // IMPORTANT
+           // Note the third param (1) below. It sets the depth of the decode. Without
+           // that we go TOO DEEP and decode escape characters in the returned variant
+           // values, breaking the comparison. Breaking it sucks.
+            $order_items = json_decode($order_details['order_contents'],true,1);
             if (is_array($order_items)) {
                 foreach ($order_items as $i) {
                     if ($i['available_units'] > 0 && $i['physical_fulfillment'] == 1) {
                         $item = $this->getItem($i['id']);
                         if ($i['variant']) {
-                           // IMPORTANT
-                           // This looks really stupid but because we've done a json_decode that goes
-                           // deep we actually create an object from the resulting string then re-
-                           // encode it...giving us a full match for the JSON in the variant name
-                           // for comparison.
-                           $i['variant'] = json_encode(json_decode($i['variant']));
                             $variant_id = 0;
                             $variant_qty = 0;
                             if ($item['variants']) {
