@@ -1861,7 +1861,12 @@ class CommercePlant extends PlantBase {
                            // so we decode it fully to get an object then reencode it
                            // using json_encode and we have the same format our keys
                            // are stored in. pretty fucking dumb, huh?
-                           $i['variant'] = json_encode(json_decode($i['variant']));
+                           $decoded = json_decode($i['variant']);
+                           if ($decoded) {
+                              // we do this in an if statement so the old-style variants
+                              // won't break on us
+                              $i['variant'] = json_encode($decoded);
+                           }
                             $variant_id = 0;
                             $variant_qty = 0;
                             if ($item['variants']) {
