@@ -1648,6 +1648,22 @@ class CommercePlant extends PlantBase {
 
     public function finalizePayment($order_id, $token, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false, $total_price=false, $description=false, $finalize_url=false) {
 
+      $this->startSession(false,$session_id);
+
+      // this just checks to see if we've started finalizing already. really
+      // only an issue for embeds used on pages
+      $working = $this->sessionGet('finalizing_payment');
+      if ($working) {
+         // already doing shit just check the order id
+         if ($working == $order_id) {
+            // doing it. just return the id here
+            return $order_id;
+         }
+      }
+      // nothing found? set the in-progress marker to the current id
+      $this->sessionSet('finalizing_payment',$order_id);
+
+
       if (CASH_DEBUG) {
          error_log(
             'Called CommercePlant::finalizePayment with: '
@@ -1719,7 +1735,6 @@ class CommercePlant extends PlantBase {
                     );
 
                     //TODO: this is a temporary stopgap; we need to introduce JSON appending
-                    $this->startSession(false,$session_id);
                     $shipping_info = $this->sessionGet('shipping_info');
 
                     $payment_details = array_merge($payment_details, $shipping_info);
@@ -1832,12 +1847,21 @@ class CommercePlant extends PlantBase {
     protected function getFulfillmentStatus(array $order_details) {
         // deal with physical quantities
         if ($order_details['physical'] == 1) {
-            $order_items = json_decode($order_details['order_contents'],true);
+            $order_items = json_decode( $order_details['order_contents'],true);
             if (is_array($order_items)) {
                 foreach ($order_items as $i) {
                     if ($i['available_units'] > 0 && $i['physical_fulfillment'] == 1) {
                         $item = $this->getItem($i['id']);
                         if ($i['variant']) {
+                           // IMPORTANT
+                           // this decode then encode thing looks super dumb but it's
+                           // actually critical. we're comparing against JSON strings
+                           // encoded by json_encode. at this point we have the mostly
+                           // decoded version of that. which means no escape characters.
+                           // so we decode it fully to get an object then reencode it
+                           // using json_encode and we have the same format our keys
+                           // are stored in. pretty fucking dumb, huh?
+                           $i['variant'] = json_encode(json_decode($i['variant']));
                             $variant_id = 0;
                             $variant_qty = 0;
                             if ($item['variants']) {
