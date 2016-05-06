@@ -1853,19 +1853,17 @@ class CommercePlant extends PlantBase {
                     if ($i['available_units'] > 0 && $i['physical_fulfillment'] == 1) {
                         $item = $this->getItem($i['id']);
                         if ($i['variant']) {
+                           $i['variant'] = json_encode(json_decode($i['variant']));
                             $variant_id = 0;
                             $variant_qty = 0;
                             if ($item['variants']) {
-                               error_log('VARIANT: ' . $i['variant']);
                                 foreach ($item['variants']['quantities'] as $q) {
-                                   error_log('VARIANT MATCH? ' . $q['key']);
                                     if ($q['key'] == $i['variant']) {
                                         $variant_id = $q['id'];
                                         $variant_qty = $q['value'];
                                         break;
                                     }
                                 }
-                                error_log('VARIANT ID: ' . $variant_id);
                                 if ($variant_id) {
                                     $this->editItemVariant($variant_id, max($variant_qty-$i['qty'],0), $i['id']);
                                 }
