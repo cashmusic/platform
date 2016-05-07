@@ -20,7 +20,7 @@
          <input type="text" name="total_price" data-itemid="{{item_id}}" data-totalattributes="{{attributes_count}}" data-atleast="{{item_price}}" class="cm-price" value="{{item_price}}" />
       </span>
       {{/item_flexible_price}}
-      <button type="button"{{^json_keys}} data-legacykeys="1"{{/json_keys}} data-itemid="{{item_id}}" data-price="{{item_price}}" class="button cm-buynow cm-item-{{item_id}}"{{#has_variants}} disabled="disabled"{{/has_variants}}>{{#has_variants}}{{copy_choose_variants}}{{/has_variants}}{{^has_variants}}<span class="cm-price">{{currency}}{{item_price}}</span> - {{copy_buy}}{{/has_variants}}</button>
+      <button type="button" data-itemid="{{item_id}}" data-price="{{item_price}}" class="button cm-buynow cm-item-{{item_id}}"{{#has_variants}} disabled="disabled"{{/has_variants}}>{{#has_variants}}{{copy_choose_variants}}{{/has_variants}}{{^has_variants}}<span class="cm-price">{{currency}}{{item_price}}</span> - {{copy_buy}}{{/has_variants}}</button>
       {{/is_available}}
       {{^is_available}}
          <span class="cm-unavailable">
@@ -246,25 +246,15 @@
 								}
 							}
 							if (e.target.value != 'resetattributes' && otherselect.value != 'resetattributes') {
-								if (b.getAttribute('data-legacykeys') != '') {
-									var thisid = e.target.getAttribute('data-key')+'->'+e.target.value;
-									var otherid = otherselect.getAttribute('data-key')+'->'+otherselect.value;
-									if (e.target.getAttribute('data-attributeorder') == 0) {
-										var attributekey = thisid+'+'+otherid;
-									} else {
-										var attributekey = otherid+'+'+thisid;
-									}
+								var attributekey = {};
+								if (e.target.getAttribute('data-attributeorder') == 0) {
+									attributekey[e.target.getAttribute('data-key').replace('&apos;', '\'')] = e.target.value.replace('&apos;', '\'');
+									attributekey[otherselect.getAttribute('data-key').replace('&apos;', '\'')] = otherselect.value.replace('&apos;', '\'');
 								} else {
-									var attributekey = {};
-									if (e.target.getAttribute('data-attributeorder') == 0) {
-										attributekey[e.target.getAttribute('data-key').replace('&apos;', '\'')] = e.target.value.replace('&apos;', '\'');
-										attributekey[otherselect.getAttribute('data-key').replace('&apos;', '\'')] = otherselect.value.replace('&apos;', '\'');
-									} else {
-										attributekey[otherselect.getAttribute('data-key').replace('&apos;', '\'')] = otherselect.value.replace('&apos;', '\'');
-										attributekey[e.target.getAttribute('data-key').replace('&apos;', '\'')] = e.target.value.replace('&apos;', '\'');
-									}
-									attributekey = JSON.stringify(attributekey);
+									attributekey[otherselect.getAttribute('data-key').replace('&apos;', '\'')] = otherselect.value.replace('&apos;', '\'');
+									attributekey[e.target.getAttribute('data-key').replace('&apos;', '\'')] = e.target.value.replace('&apos;', '\'');
 								}
+								attributekey = JSON.stringify(attributekey);
 								b.setAttribute('data-variantid',attributekey);
 								b.removeAttribute('disabled');
 								b.innerHTML = '<span class="cm-price">{{currency}}'+b.getAttribute('data-price')+'</span> - {{copy_buy}}';
