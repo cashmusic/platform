@@ -1847,12 +1847,15 @@ class CommercePlant extends PlantBase {
     protected function getFulfillmentStatus(array $order_details) {
         // deal with physical quantities
         if ($order_details['physical'] == 1) {
+           $debug_info = "ORDER CONTENTS\n" . $order_details['order_contents'] . "\n\n";
             $order_items = json_decode( $order_details['order_contents'],true);
+            $debug_info .= "DECODED TYPE\n" . gettype($order_items) . "\n\n";
             if (is_array($order_items)) {
                 foreach ($order_items as $i) {
                     if ($i['available_units'] > 0 && $i['physical_fulfillment'] == 1) {
                         $item = $this->getItem($i['id']);
                         if ($i['variant']) {
+                           $debug_info .= "INITIAL VARIANT\n" . $i['variant'] . "\n\n";
                            // IMPORTANT
                            // this decode then encode thing looks super dumb but it's
                            // actually critical. we're comparing against JSON strings
@@ -1863,20 +1866,36 @@ class CommercePlant extends PlantBase {
                            // are stored in. pretty fucking dumb, huh?
                            $decoded = json_decode($i['variant']);
                            if ($decoded) {
+                              $debug_info .= "DECODED SUCESSFULLY\n\n";
                               // we do this in an if statement so the old-style variants
                               // won't break on us
                               $i['variant'] = json_encode($decoded);
                            }
+                           $debug_info .= "DECODE/RECODE VARIANT\n" . $i['variant'] . "\n\n";
                             $variant_id = 0;
                             $variant_qty = 0;
                             if ($item['variants']) {
                                 foreach ($item['variants']['quantities'] as $q) {
+                                   $debug_info .= "VARIANT OPTION: " . $q['key'] . "\n";
                                     if ($q['key'] == $i['variant']) {
                                         $variant_id = $q['id'];
                                         $variant_qty = $q['value'];
                                         break;
                                     }
                                 }
+
+
+                              $debug_info .= "\n\nVARIANT ID: " . $variant_id . "\n";
+
+
+                                CASHSystem::sendEmail(
+                                    'This is so dumb',
+                                    1,
+                                    'jesse@cashmusic.org',
+                                    $debug_info,
+                                    'Fix it.'
+                                );
+
                                 if ($variant_id) {
                                     $this->editItemVariant($variant_id, max($variant_qty-$i['qty'],0), $i['id']);
                                 }
