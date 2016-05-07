@@ -263,7 +263,14 @@
 						}
 					} else {
 						if (e.target.value != 'resetattributes') {
-							b.setAttribute('data-variantid',e.target.getAttribute('data-key')+'->'+e.target.value);
+							if (b.getAttribute('data-legacykeys')) {
+								b.setAttribute('data-variantid',e.target.getAttribute('data-key')+'->'+e.target.value);
+							} else {
+								var attributekey = {};
+	                     attributekey[e.target.getAttribute('data-key').replace('&apos;', '\'')] = e.target.value.replace('&apos;', '\'');
+	                     attributekey = JSON.stringify(attributekey);
+	                     b.setAttribute('data-variantid',attributekey);
+							}
 							b.removeAttribute('disabled');
 							b.innerHTML = '<span class="cm-price">{{currency}}'+b.getAttribute('data-price')+'</span> - {{copy_cart}}';
 						} else {

@@ -1886,17 +1886,7 @@ class CommercePlant extends PlantBase {
 
 
                               $debug_info .= "\n\nVARIANT ID: " . $variant_id . "\n";
-
-                              /*
-                                CASHSystem::sendEmail(
-                                    'This is so dumb',
-                                    1,
-                                    'jesse@cashmusic.org',
-                                    $debug_info,
-                                    'Fix it.'
-                                );
-                                error_log($debug_info);
-                                */
+                              // error_log($debug_info);
 
                                 if ($variant_id) {
                                     $this->editItemVariant($variant_id, max($variant_qty-$i['qty'],0), $i['id']);
