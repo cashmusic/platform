@@ -246,7 +246,7 @@
 								}
 							}
 							if (e.target.value != 'resetattributes' && otherselect.value != 'resetattributes') {
-								if (b.getAttribute('data-legacykeys')) {
+								if (b.hasAttribute('data-legacykeys')) {
 									var thisid = e.target.getAttribute('data-key')+'->'+e.target.value;
 									var otherid = otherselect.getAttribute('data-key')+'->'+otherselect.value;
 									if (e.target.getAttribute('data-attributeorder') == 0) {
