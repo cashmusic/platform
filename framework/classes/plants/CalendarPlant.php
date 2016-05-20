@@ -59,18 +59,32 @@ class CalendarPlant extends PlantBase {
 		$query_sanitized = preg_replace("/[^a-zA-Z0-9]+/", "", $query);
 		$query_uri = urlencode($query);
 
-		$venues_api_result = $this->getCachedURL("CalendarPlant_findVenues", "venues2_$query_sanitized", "http://192.168.33.10/venues/$query_uri");
+		// let's check the API to see if we get any results
+		if ($venues_api_result = $this->getCachedURL("CalendarPlant_findVenues", "venues_$query_sanitized","http://192.168.33.10/venues/$query_uri")) {
 
-		if ($result) {
-			if (count($venues_api_result['results']) > 0) {
-				$result = array_merge($result, $venues_api_result['results']);
+			// we need to namespace the results from the API so we can switch accordingly
+			$namespaced_results = array();
+
+			foreach ($venues_api_result['results'] as $venue) {
+
+				$venue['id'] = "venues.cashmusic.org:".$venue['UUID'];
+				$namespaced_results[] = $venue;
 			}
-		} else {
-			$result = $venues_api_result['results'];
+
+			// if $result is not falsy then we can just combine these two arrays
+			if ($result) {
+
+				if (count($namespaced_results) > 0) {
+					$result = array_merge($result, $namespaced_results);
+				}
+			}
+
+			// if $result is a no go then we can just replace it with our results from the API
+			if (!$result) {
+				$result = $namespaced_results;
+			}
 		}
-
-		error_log( print_r($result, true) );
-
+//		error_log( print_r($result, true) );
 		return $result;
 	}
 

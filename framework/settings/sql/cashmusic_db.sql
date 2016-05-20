@@ -67,7 +67,7 @@ CREATE TABLE `calendar_events` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `venue_id` int(11) DEFAULT NULL,
+  `venue_id` varchar(40) DEFAULT NULL,
   `published` bool DEFAULT NULL,
   `cancelled` bool DEFAULT NULL,
   `purchase_url` varchar(255),
