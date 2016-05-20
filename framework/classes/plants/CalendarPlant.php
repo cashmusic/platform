@@ -35,6 +35,8 @@ class CalendarPlant extends PlantBase {
 			'getevents'         => array('getEvents','direct'),
 			'getvenue'          => array('getVenue','direct')
 		);
+
+
 		$this->plantPrep($request_type,$request);
 	}
 
@@ -53,6 +55,22 @@ class CalendarPlant extends PlantBase {
 			),
 			$limit
 		);
+
+		$query_sanitized = preg_replace("/[^a-zA-Z0-9]+/", "", $query);
+		$query_uri = urlencode($query);
+
+		$venues_api_result = $this->getCachedURL("CalendarPlant_findVenues", "venues2_$query_sanitized", "http://192.168.33.10/venues/$query_uri");
+
+		if ($result) {
+			if (count($venues_api_result['results']) > 0) {
+				$result = array_merge($result, $venues_api_result['results']);
+			}
+		} else {
+			$result = $venues_api_result['results'];
+		}
+
+		error_log( print_r($result, true) );
+
 		return $result;
 	}
 

@@ -741,7 +741,7 @@
 				$url_contents = $this->getCacheData($cache_name,$data_name,true,$decode);
 			} else {
 				if ($format == 'json') {
-					$url_contents = json_decode($url_contents);
+					$url_contents = json_decode($url_contents, true);
 				}
 				$this->setCacheData($cache_name,$data_name,$url_contents);
 			}
