@@ -135,53 +135,56 @@ class TwitterSeed extends SeedBase {
 		$data_name = http_build_query($params, '', '-');
 		$data = $this->getCacheData($this->settings_type,$data_name);
 
+		//error_log(json_encode($data));
+
 		if (!$data && $this->twitter) {
 			$data = $this->twitter->get($endpoint,$params);
+			//error_log(json_encode($data));
 			if (!$data) {
 				$data = $this->getCacheData($this->settings_type,$data_name,true);
 			} else {
 				foreach ($data as $tweet) {
 					// add formatted time to tweet
-					$tweet->formatted_created_at = CASHSystem::formatTimeAgo($tweet->created_at);
-					if ($tweet->user->profile_image_url_https === true) {
-						$tweet->user->profile_image_url_https_bigger = 'https://a0.twimg.com/sticky/default_profile_images/default_profile_1_bigger.png';
+					$tweet['formatted_created_at'] = CASHSystem::formatTimeAgo($tweet['created_at']);
+					if ($tweet['user']['profile_image_url_https'] === true) {
+						$tweet['user']['profile_image_url_https_bigger'] = 'https://a0.twimg.com/sticky/default_profile_images/default_profile_1_bigger.png';
 					} else {
-						$tweet->user->profile_image_url_https_bigger = str_replace('_normal','_bigger',$tweet->user->profile_image_url_https);
+						$tweet['user']['profile_image_url_https_bigger'] = str_replace('_normal','_bigger',$tweet['user']['profile_image_url_https']);
 					}
 					// handle url links
 					$twitterstatus = true;
-					if (isset($tweet->entities)) {
-						if (isset($tweet->entities->urls)) {
-							if (count($tweet->entities->urls)) {
-								$twitterstatus = $tweet->entities->urls;
+					if (isset($tweet['entities'])) {
+						if (isset($tweet['entities']['urls'])) {
+							if (count($tweet['entities']['urls'])) {
+								$twitterstatus = $tweet['entities']['urls'];
 							}
 						}
 					}
-					$tweet->text = CASHSystem::linkifyText($tweet->text,$twitterstatus);
+					$tweet['text'] = CASHSystem::linkifyText($tweet['text'],$twitterstatus);
 					// add media collections
 					// handle twitter photos
-					if (isset($tweet->extended_entities)) {
-						if (is_object($tweet->extended_entities)) {
-							if (is_array($tweet->extended_entities->media)) {
-								$tweet->photos = array();
-								foreach ($tweet->extended_entities->media as $m) {
-									$tweet->photos[] = $m;
+					if (isset($tweet['extended_entities'])) {
+						if (is_array($tweet['extended_entities'])) {
+							if (is_array($tweet['extended_entities']['media'])) {
+								$tweet['photos'] = array();
+								foreach ($tweet['extended_entities']['media'] as $m) {
+									$tweet['photos'][] = $m;
 								}
 							}
 						}
 					}
 					// handle youtube videos
-					if (isset($tweet->entities)) {
-						if (is_object($tweet->entities)) {
-							if (is_array($tweet->entities->urls)) {
-								$tweet->iframes = array();
-								foreach ($tweet->entities->urls as $u) {
-									if (strpos($u->expanded_url,'youtube.com') > 0) {
-										$parsed_url = parse_url($u->expanded_url);
+					if (isset($tweet['entities'])) {
+						if (is_array($tweet['entities'])) {
+							if (is_array($tweet['entities']['urls'])) {
+								$tweet['iframes'] = array();
+								foreach ($tweet['entities']['urls'] as $u) {
+									if (strpos($u['expanded_url'],'youtube.com') > 0) {
+										$parsed_url = parse_url($u['expanded_url']);
 										$query_array = array();
 										parse_str($parsed_url['query'],$query_array);
 										if (isset($query_array['v'])) {
-											$tweet->iframes[] = array('iframe_url' => '//www.youtube.com/embed/' . $query_array['v']);
+											$tweet['iframes'][] = array('iframe_url' => '//www.youtube.com/embed/' . $query_array['v']);
 											// <iframe src="//www.youtube.com/embed/dOy7vPwEtCw" frameborder="0" allowfullscreen></iframe>
 										}
 									}
@@ -252,11 +255,11 @@ class TwitterSeed extends SeedBase {
 				if (is_array($feed_data)) {
 					foreach ($feed_data as $tweet) {
 						if ($filtertype == 'beginwith') {
-							if (strrpos(strtolower($tweet->text),$filter) === 0) {
+							if (strrpos(strtolower($tweet['text']),$filter) === 0) {
 								$return_feed[] = $tweet;
 							}
 						} else {
-							if (strrpos(strtolower($tweet->text),$filter) !== false) {
+							if (strrpos(strtolower($tweet['text']),$filter) !== false) {
 								$return_feed[] = $tweet;
 							}
 						}

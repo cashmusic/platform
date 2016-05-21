@@ -695,6 +695,7 @@
 	 *
 	 * @return string or decoded JSON object/array
 	 */public function getCacheData($cache_name, $data_name, $force_last=false, $decode=true) {
+	 	$this->primeCache();
 		if ($decode) {
 			$file_extension = '.json';
 		} else {
@@ -704,7 +705,7 @@
 		if ($this->cache_enabled && file_exists($datafile)) {
 			if ($force_last || $this->getCacheExpirationFor($datafile) >= 0) {
 				if ($decode) {
-					return json_decode(@file_get_contents($datafile));
+					return json_decode(@file_get_contents($datafile),true);
 				} else {
 					return @file_get_contents($datafile);
 				}
