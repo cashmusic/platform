@@ -647,18 +647,20 @@
 	 *
 	 * @return void
 	 */public function primeCache($cache_dir=false) {
-		if (!$cache_dir) {
-			$cache_dir = CASH_PLATFORM_ROOT.'/cache';
-		}
-		if (file_exists($cache_dir)) {
-			$this->cache_dir = $cache_dir;
-			if (is_writable($cache_dir) && is_readable($cache_dir)) {
-				$this->cache_enabled = true;
+	 	if (!$this->cache_enabled) {
+			if (!$cache_dir) {
+				$cache_dir = CASH_PLATFORM_ROOT.'/cache';
 			}
-		} else {
-			if (mkdir($cache_dir)) {
+			if (file_exists($cache_dir)) {
 				$this->cache_dir = $cache_dir;
-				$this->cache_enabled = true;
+				if (is_writable($cache_dir) && is_readable($cache_dir)) {
+					$this->cache_enabled = true;
+				}
+			} else {
+				if (mkdir($cache_dir)) {
+					$this->cache_dir = $cache_dir;
+					$this->cache_enabled = true;
+				}
 			}
 		}
 	}
@@ -669,6 +671,7 @@
 	 *
 	 * @return string or decoded JSON object/array
 	 */public function setCacheData($cache_name, $data_name, $data, $encode=true) {
+	 	$this->primeCache();
 		if ($this->cache_enabled) {
 			if ($encode) {
 				$payload = json_encode($data);
