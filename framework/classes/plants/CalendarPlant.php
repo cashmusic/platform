@@ -20,6 +20,7 @@ class CalendarPlant extends PlantBase {
 	public function __construct($request_type,$request) {
 		$this->request_type = 'calendar';
 		$this->venues_api = 'http://192.168.33.10';
+
 		$this->routing_table = array(
 			// alphabetical for ease of reading
 			// first value  = target method to call
@@ -268,7 +269,6 @@ class CalendarPlant extends PlantBase {
 		$venue = $this->getVenue($result[0]['venue_id']);
 		$results = array_merge($result[0], $venue);
 
-		error_log( print_r($results, true));
 		return $results;
 	}
 
