@@ -60,19 +60,19 @@ class TumblrSeed extends SeedBase {
 			if ($feed_data) {
 				// tumblr's funny, JSONP only, so we cache its return and strip of some extra
 				$feed_data = str_replace('var tumblr_api_read = ','',$feed_data); // strip off the variable declaration
-				$feed_data = substr($feed_data,0,strlen($feed_data)-2); // and the trailing semicolon+newline
+				$feed_data = rtrim($feed_data," ;\n"); // and the trailing semicolon
 
 				// decode the trimmed content, then return just the posts
-				$feed_data = json_decode($feed_data);
-				$feed_data = $feed_data->posts;
+				$feed_data = json_decode($feed_data,true);
+				$feed_data = $feed_data['posts'];
 
 				// make a dummy array to save final posts
 				$final_feed_data = array();
 
 				// loop through all the posts, filter by type
 				foreach ($feed_data as $post) {
-					if ($final_post_types[$post->type]) {
-						$post->formatted_date = CASHSystem::formatTimeAgo($post->{'unix-timestamp'});
+					if ($final_post_types[$post['type']]) {
+						$post['formatted_date'] = CASHSystem::formatTimeAgo($post['unix-timestamp']);
 						$final_feed_data[] = $post;
 					}
 				}

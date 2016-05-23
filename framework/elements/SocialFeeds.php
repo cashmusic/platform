@@ -71,8 +71,8 @@ class SocialFeeds extends ElementBase {
 
 			foreach ($raw_feeds['tumblr'] as $feed) {
 				foreach ($feed as $post) {
-					$template = file_get_contents(__DIR__.'/'.$this->type.'/templates/tumblrpost_' . $post->type . '.mustache');
-					$formatted_feed[$post->{'unix-timestamp'}] = array(
+					$template = file_get_contents(__DIR__.'/'.$this->type.'/templates/tumblrpost_' . $post['type'] . '.mustache');
+					$formatted_feed[$post['unix-timestamp']] = array(
 						'type' => 'tumblr',
 						'markup' => $this->mustache->render($template,$post)
 					);
