@@ -9,6 +9,7 @@ if (isset($_POST['doitemadd'])) {
 	if (isset($_POST['item_physical'])) {
 		$physical = 1;
 	}
+
 	$add_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'commerce',

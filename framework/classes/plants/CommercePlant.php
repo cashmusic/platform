@@ -81,6 +81,26 @@ class CommercePlant extends PlantBase {
     ) {
         if (!$fulfillment_asset) {
             $digital_fulfillment = false;
+        } else {
+            // if there's no descriptive asset we can try pulling the cover from the fulfillment asset
+            if (empty($descriptive_asset)) {
+                $request = new CASHRequest(
+                    array(
+                        'cash_request_type' => 'asset',
+                        'cash_action' => 'getasset',
+                        'id' => $fulfillment_asset
+                    )
+                );
+
+                // we've got the request, we need to make sure the properties actually exist
+
+                $fulfillment_asset_data = $request->response['payload'];
+                if (is_array($fulfillment_asset_data['metadata'])
+                    && isset($fulfillment_asset_data['metadata']['cover'])
+                ) {
+                    $descriptive_asset = $fulfillment_asset_data['metadata']['cover'];
+                }
+            }
         }
         $result = $this->db->setData(
             'items',
