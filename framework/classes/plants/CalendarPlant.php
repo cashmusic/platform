@@ -32,7 +32,6 @@ class CalendarPlant extends PlantBase {
 			'editvenue'         => array('editVenue','direct'),
 			'findvenues'        => array('findVenues','direct'),
 			'getallvenues'      => array('getAllVenues','direct'),
-			'geteventsbetween'  => array('getDatesBetween','direct'),
 			'getevent'          => array('getEvent','direct'),
 			'getevents'         => array('getEvents','direct'),
 			'getvenue'          => array('getVenue','direct')
@@ -198,7 +197,43 @@ class CalendarPlant extends PlantBase {
 		return $result;
 	}
 
-	protected function getDatesBetween($user_id,$offset=0,$cutoff_date_low='now',$cancelled_status=0,$published_status=1,$cutoff_date_high=2051244000) {
+	protected function getEvent($event_id) {
+
+		$result = $this->db->getData(
+			'events',
+			'*',
+			array(
+				"id" => array(
+					"condition" => "=",
+					"value" => $event_id
+				)
+			)
+		);
+
+		$venue = $this->getVenue($result[0]['venue_id']);
+		$results = array_merge($result[0], $venue);
+
+		return $results;
+	}
+
+	protected function getEvents($user_id, $offset=0, $published_status=1, $cancelled_status=0, $cutoff_date_low=false, $cutoff_date_high=false, $visible_event_types="upcoming") {
+
+		if (!$cutoff_date_low) {
+			switch ($visible_event_types) {
+				case 'upcoming':
+					$cutoff_date_low = 'now';
+					$cutoff_date_high = 2051244000;
+					break;
+				case 'archive':
+					$cutoff_date_low = 229305600; // april 8, 1977 -> yes it's significant
+					$cutoff_date_high = 'now';
+					break;
+				case 'both':
+					$cutoff_date_low = 229305600;
+					$cutoff_date_high = 2051244000;
+					break;
+			}
+		}
 
 		// offset = allow dates to hang around for x days after they've passed
 		// beforedate=2051244000 = jan 1, 2035. don't book dates that far in advance, jerks
@@ -237,81 +272,36 @@ class CalendarPlant extends PlantBase {
 			)
 		);
 
-		if ($result == NULL) {
+		if (!is_array($result)) {
 			return false;
 		}
-		return $result;
-	}
-
-	protected function getEvent($event_id) {
-/*		$result = $this->db->getData(
-			'CalendarPlant_getEvent',
-			false,
-			array(
-				"event_id" => array(
-					"condition" => "=",
-					"value" => $event_id
-				)
-			)
-		);*/
-
-		$result = $this->db->getData(
-			'events',
-			'*',
-			array(
-				"id" => array(
-					"condition" => "=",
-					"value" => $event_id
-				)
-			)
-		);
-
-		$venue = $this->getVenue($result[0]['venue_id']);
-		$results = array_merge($result[0], $venue);
-
-		return $results;
-	}
-
-	protected function getEvents($user_id, $visible_event_types, $offset=0, $published_status=1, $cancelled_status=0) {
-		switch ($visible_event_types) {
-			case 'upcoming':
-				$cutoff_date_low = 'now';
-				$cutoff_date_high = 2051244000;
-				break;
-			case 'archive':
-				$cutoff_date_low = 229305600; // april 8, 1977 -> yes it's significant
-				$cutoff_date_high = 'now';
-				break;
-			case 'both':
-				$cutoff_date_low = 229305600;
-				$cutoff_date_high = 2051244000;
-				break;
-		}
-		$result = $this->getDatesBetween($user_id,$offset,$cutoff_date_low,$cancelled_status,$published_status,$cutoff_date_high);
 
 		$events_with_venues = array();
 
-		foreach ($result as $event) {
-			// if we get a venue result, merge the arrays
-			if ($venue = $this->getVenue($event['venue_id'])) {
-				// remap to venue_
-				$venue = array_combine(
-					array_map(function($k){ return 'venue_'.$k; }, array_keys($venue)),
-					$venue
-				);
+		if (is_array($result)) {
+			foreach ($result as $event) {
+				// if we get a venue result, merge the arrays
+				if ($venue = $this->getVenue($event['venue_id'])) {
+					// remap to venue_
+					$venue = array_combine(
+						array_map(function($k){ return 'venue_'.$k; }, array_keys($venue)),
+						$venue
+					);
 
-				$events_with_venues[] = array_merge($event, $venue);
-			} else {
-				$events_with_venues[] = $event;
+					$events_with_venues[] = array_merge($event, $venue);
+				} else {
+					$events_with_venues[] = $event;
+				}
+
 			}
-
 		}
+
 
 		return $events_with_venues;
 	}
 
 	protected function getVenue($venue_id) {
-
+		error_log("venue id ".$venue_id);
 		$namespace = "venues.cashmusic.org";
 		// check the id for venues.cashmusic.org namespacing, get from API if exists
 		if (strpos($venue_id, $namespace) !== false) {
