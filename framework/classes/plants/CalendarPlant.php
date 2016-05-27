@@ -19,7 +19,7 @@
 class CalendarPlant extends PlantBase {
 	public function __construct($request_type,$request) {
 		$this->request_type = 'calendar';
-		$this->venues_api = 'http://192.168.33.10';
+		$this->venues_api = CASH_VENUES_API;
 
 		$this->routing_table = array(
 			// alphabetical for ease of reading
