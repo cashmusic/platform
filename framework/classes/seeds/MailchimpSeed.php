@@ -29,7 +29,7 @@ class MailchimpSeed extends SeedBase {
 		$this->user_id = $user_id;
 		$this->connection_id = $connection_id;
 		if ($this->getCASHConnection()) {
-			require_once(CASH_PLATFORM_ROOT.'/lib/mailchimp/MailChimp.class.php');
+			require_once(CASH_PLATFORM_ROOT . '/lib/mailchimp/MailChimp.php');
 			$this->key      = $this->settings->getSetting('key');
 			$this->list_id  = $this->settings->getSetting('list');
 			$this->api      = new MailChimp($this->key);
@@ -48,7 +48,7 @@ class MailchimpSeed extends SeedBase {
 		if (isset($connections['com.mailchimp'])) {
 			require_once(CASH_PLATFORM_ROOT.'/lib/oauth2/OAuth2Client.php');
 			require_once(CASH_PLATFORM_ROOT.'/lib/oauth2/OAuth2Exception.php');
-			require_once(CASH_PLATFORM_ROOT.'/lib/mailchimp/MC_OAuth2Client.php');
+			require_once(CASH_PLATFORM_ROOT . '/lib/mailchimp/MC_OAuth2Client.php');
 			$auth = new MC_OAuth2Client(
 				array(
 					'redirect_uri'  => $connections['com.mailchimp']['redirect_uri'],
@@ -75,7 +75,7 @@ class MailchimpSeed extends SeedBase {
 
 			require_once(CASH_PLATFORM_ROOT.'/lib/oauth2/OAuth2Client.php');
 			require_once(CASH_PLATFORM_ROOT.'/lib/oauth2/OAuth2Exception.php');
-			require_once(CASH_PLATFORM_ROOT.'/lib/mailchimp/MC_OAuth2Client.php');
+			require_once(CASH_PLATFORM_ROOT . '/lib/mailchimp/MC_OAuth2Client.php');
 			$oauth_options = array(
 				'redirect_uri'  => $connections['com.mailchimp']['redirect_uri'],
 				'client_id'     => $connections['com.mailchimp']['client_id'],
@@ -85,7 +85,7 @@ class MailchimpSeed extends SeedBase {
 			$client = new MC_OAuth2Client($oauth_options);
 			$session = $client->getSession();
 			if ($session) {
-				require_once(CASH_PLATFORM_ROOT.'/lib/mailchimp/MailChimp.class.php');
+				require_once(CASH_PLATFORM_ROOT . '/lib/mailchimp/MailChimp.php');
 				$cn = new MC_OAuth2Client($oauth_options);
         		$cn->setSession($session,false);
         		$odata = $cn->api('metadata', 'GET');
@@ -160,9 +160,8 @@ class MailchimpSeed extends SeedBase {
 		return $this->list_id;
 	}
 
-	// http://apidocs.mailchimp.com/api/2.0/lists/list.php
 	public function lists() {
-		$response = $this->api->call('lists/list');
+		$response = $this->api->get('lists');
 		if ($this->detectError($response)) {
 			return false;
 		} else {
@@ -172,11 +171,10 @@ class MailchimpSeed extends SeedBase {
 
 	// http://apidocs.mailchimp.com/api/2.0/lists/webhooks.php
 	public function listWebhooks() {
-		$response = $this->api->call('lists/webhooks',
-			array(
-				'id' => $this->list_id
-			)
-		);
+
+		$endpoint = 'lists/'.$this->list_id.'/webhooks';
+		$response = $this->api->request($endpoint);
+
 		if ($this->detectError($response)) {
 			return false;
 		} else {
@@ -216,20 +214,14 @@ class MailchimpSeed extends SeedBase {
 		}
 	}
 
-	// http://apidocs.mailchimp.com/api/2.0/lists/members.php
 	public function listMembers($options=null) {
 		// $options reserved for options
 		// this will only pull a max of 100 members. ultimately we should
 		// switch over to the MC list export API here:
 		// http://apidocs.mailchimp.com/export/1.0/list.func.php
-		$response = $this->api->call('lists/members',
-			array(
-				'id'  => $this->list_id,
-				'opts' => array(
-					'limit' => 100
-				)
-			)
-		);
+
+		$endpoint = 'lists/'.$this->list_id.'/members';
+		$response = $this->api->get($endpoint);
 		if ($this->detectError($response)) {
 			return false;
 		} else {
