@@ -20,6 +20,11 @@
  *
  *
  **/
+
+require_once(CASH_PLATFORM_ROOT . '/lib/mailchimp/MailChimp.php');
+
+use \DrewM\MailChimp\MailChimp as MailChimp;
+
 class MailchimpSeed extends SeedBase {
 	private $api;
 	public $url, $key, $list_id, $error_code=false, $error_message=false;
@@ -29,7 +34,7 @@ class MailchimpSeed extends SeedBase {
 		$this->user_id = $user_id;
 		$this->connection_id = $connection_id;
 		if ($this->getCASHConnection()) {
-			require_once(CASH_PLATFORM_ROOT . '/lib/mailchimp/MailChimp.php');
+
 			$this->key      = $this->settings->getSetting('key');
 			$this->list_id  = $this->settings->getSetting('list');
 			$this->api      = new MailChimp($this->key);
@@ -68,6 +73,7 @@ class MailchimpSeed extends SeedBase {
 	}
 
 	public static function handleRedirectReturn($data=false) {
+
 		if (isset($data['error'])) {
 			return 'There was an error. (general) Please try again. More: ' . $data['error'];
 		} else {
@@ -82,10 +88,11 @@ class MailchimpSeed extends SeedBase {
 				'client_secret' => $connections['com.mailchimp']['client_secret'],
 				'code'          => $data['code']
 			);
+
+
 			$client = new MC_OAuth2Client($oauth_options);
 			$session = $client->getSession();
 			if ($session) {
-				require_once(CASH_PLATFORM_ROOT . '/lib/mailchimp/MailChimp.php');
 				$cn = new MC_OAuth2Client($oauth_options);
         		$cn->setSession($session,false);
         		$odata = $cn->api('metadata', 'GET');
@@ -93,7 +100,7 @@ class MailchimpSeed extends SeedBase {
         		$api_key = $session['access_token'] . '-' . $odata['dc'];
 
         		$api = new MailChimp($api_key);
-        		$lists = $api->call('lists/list');
+        		$lists = $api->get('lists');
 
 				$return_markup = '<h4>Connect to MailChimp</h4>'
 							   . '<p>Now just choose a list and save the connection.</p>'
@@ -106,7 +113,9 @@ class MailchimpSeed extends SeedBase {
 							   . '<select id="list_select" name="list">';
 				$selected = ' selected="selected"';
 				$list_name = false;
-				foreach ($lists['data'] as $list) {
+
+				foreach ($lists['lists'] as $list) {
+
 					if ($selected) {
 						$list_name = $list['name'];
 					}
@@ -146,6 +155,10 @@ class MailchimpSeed extends SeedBase {
 	}
 
 	private function detectError($response) {
+
+		// we need to override if we're on a local machine, because Mailchimp actually validates URLs we send it
+		if (CASH_DEBUG == 'yes') return true;
+
 		if (isset($response["status"])) {
 			if ($response["status"] == "error") {
 				$this->error_code = $response["code"];
@@ -186,13 +199,14 @@ class MailchimpSeed extends SeedBase {
 	public function listWebhookAdd($url, $options=null) {
 		// $options is reserved for expanding in the future for things
 		// like 'actions' and 'sources'
-		$response = $this->api->call('lists/webhook-add',
+
+		$endpoint = 'lists/'.$this->list_id.'/webhooks';
+		$response = $this->api->post($endpoint,
 			array(
-				'id'  => $this->list_id,
 				'url' => $url
-			)
-		);
-		if ($this->detectError($response)) {
+			));
+
+		if ($this->detectError($response)){
 			return false;
 		} else {
 			return $response;
@@ -222,6 +236,8 @@ class MailchimpSeed extends SeedBase {
 
 		$endpoint = 'lists/'.$this->list_id.'/members';
 		$response = $this->api->get($endpoint);
+
+		error_log("list members: " .print_r($response, true));
 		if ($this->detectError($response)) {
 			return false;
 		} else {
@@ -240,16 +256,12 @@ class MailchimpSeed extends SeedBase {
 		}
 
 		//$this->api->listSubscribe($this->list_id, $email, $merge_vars, $email_type, $double_optin, $update_existing, $replace_interests, $send_welcome);
-
-		$response = $this->api->call('lists/subscribe',
+		$endpoint = 'lists/'.$this->list_id.'/members';
+		$response = $this->api->post($endpoint,
 			array(
-				'id'  => $this->list_id,
-				'email' => array(
-					'email' => $email
-				),
-				'double_optin' => $double_optin
-			)
-		);
+				'status' => 'subscribed',
+				'email_address' => $email
+			));
 
 		if ($this->detectError($response)) {
 			return false;
