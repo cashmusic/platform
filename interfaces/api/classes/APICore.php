@@ -131,9 +131,9 @@
 				);
 				if ($api_request->response) {
 					// echo the response from
-					if ($api_request->response['status_code'] == 400 && $api_request->response['action'] == 'processwebhook') {
+					if (($api_request->response['status_code'] == 400 || $api_request->response['status_code'] == 403) && $api_request->response['action'] == 'processwebhook') {
 						// some webhooks check for 200 on the base URL. we need to return 200 on processwebhook bad requests. dumb.
-						header("{$_SERVER['SERVER_PROTOCOL']} 200 OK",true);
+						header("{$_SERVER['SERVER_PROTOCOL']} 202 Accepted",true);
 					} else {
 						header("{$_SERVER['SERVER_PROTOCOL']} {$api_request->response['status_code']} {$api_request->response['status_message']}",true);
 					}
