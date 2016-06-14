@@ -183,7 +183,8 @@ class MailchimpSeed extends SeedBase {
 
 	public function lists() {
 		$response = $this->api->get('lists');
-		if ($this->detectError($response)) {
+
+		if (empty($response)) {
 			return false;
 		} else {
 			return $response;
@@ -194,9 +195,9 @@ class MailchimpSeed extends SeedBase {
 	public function listWebhooks() {
 
 		$endpoint = 'lists/'.$this->list_id.'/webhooks';
-		$response = $this->api->request($endpoint);
+		$response = $this->api->get($endpoint);
 
-		if ($this->detectError($response)) {
+		if (empty($response)) {
 			return false;
 		} else {
 			return $response;
@@ -206,7 +207,7 @@ class MailchimpSeed extends SeedBase {
 	// http://apidocs.mailchimp.com/api/2.0/lists/webhook-add.php
 
 	//TODO: in order to delete webhook we need to store an ID for it.
-	public function listWebhookAdd($url, $options=null) {
+	public function listWebhookAdd($url) {
 		// $options is reserved for expanding in the future for things
 		// like 'actions' and 'sources'
 		$endpoint = 'lists/'.$this->list_id.'/webhooks';
@@ -215,7 +216,7 @@ class MailchimpSeed extends SeedBase {
 				'url' => $url
 			));
 
-		if ($this->detectError($response)){
+		if (empty($response)){
 			return false;
 		} else {
 			return $response;
@@ -233,7 +234,7 @@ class MailchimpSeed extends SeedBase {
 		}
 	}
 
-	public function listMembers($options=null) {
+	public function listMembers() {
 		// $options reserved for options
 		// this will only pull a max of 100 members. ultimately we should
 		// switch over to the MC list export API here:
@@ -241,15 +242,30 @@ class MailchimpSeed extends SeedBase {
 
 		$endpoint = 'lists/'.$this->list_id.'/members';
 		$response = $this->api->get($endpoint);
-		if (empty($response["members"])) {
+		if (empty($response['members'])) {
 			return false;
 		} else {
-			return $response["members"];
+			return $response['members'];
+		}
+	}
+
+	public function listMembersCount() {
+		// $options reserved for options
+		// this will only pull a max of 100 members. ultimately we should
+		// switch over to the MC list export API here:
+		// http://apidocs.mailchimp.com/export/1.0/list.func.php
+
+		$endpoint = 'lists/'.$this->list_id.'/members';
+		$response = $this->api->get($endpoint);
+		if (empty($response['total_items'])) {
+			return false;
+		} else {
+			return $response['total_items'];
 		}
 	}
 
 	// http://apidocs.mailchimp.com/api/2.0/lists/subscribe.php
-	public function listSubscribe($email, $options=null, $data=null) {
+	public function listSubscribe($email) {
 		// TODO: use $data for merge_vars
 		$endpoint = 'lists/'.$this->list_id.'/members';
 		$response = $this->api->post($endpoint,
@@ -258,7 +274,7 @@ class MailchimpSeed extends SeedBase {
 				'email_address' => $email
 			));
 
-		if ($this->detectError($response)) {
+		if (empty($response)) {
 			return false;
 		} else {
 			return $response;
@@ -266,7 +282,7 @@ class MailchimpSeed extends SeedBase {
 	}
 
 	// http://apidocs.mailchimp.com/api/2.0/lists/unsubscribe.php
-	public function listUnsubscribe($email, $options=null) {
+	public function listUnsubscribe($email) {
 		// TODO: use $options to set these:
 		// $delete       = 0;
 		// $send_goodbye = 1;
@@ -275,8 +291,6 @@ class MailchimpSeed extends SeedBase {
 
 		$endpoint = 'lists/'.$this->list_id.'/members/'.md5($email_hash);
 		$response = $this->api->delete($endpoint);
-		error_log( print_r($response, true));
-
 		return $response;
 	}
 } // END class
