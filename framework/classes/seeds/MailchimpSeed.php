@@ -225,13 +225,15 @@ class MailchimpSeed extends SeedBase {
 
 	// http://apidocs.mailchimp.com/api/2.0/lists/webhook-del.php
 	public function listWebhookDel($url) {
-		$webhooks = $this->listWebhooks();
 
-		if ($this->detectError($response)) {
+		//TODO: not necessary but we may want to revisit in the future.
+/*		$webhooks = $this->listWebhooks();
+
+		if (empty($webhooks)) {
 			return false;
 		} else {
 			return $response;
-		}
+		}*/
 	}
 
 	public function listMembers($options=array()) {
