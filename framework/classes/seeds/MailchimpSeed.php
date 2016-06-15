@@ -234,14 +234,17 @@ class MailchimpSeed extends SeedBase {
 		}
 	}
 
-	public function listMembers() {
+	public function listMembers($options=array()) {
 		// $options reserved for options
 		// this will only pull a max of 100 members. ultimately we should
 		// switch over to the MC list export API here:
 		// http://apidocs.mailchimp.com/export/1.0/list.func.php
 
+		// we need to filter this to make sure we're not getting unsubscribed, etc and wasting bandwidth
+		$options = array_merge($options, array('status' => 'subscribed'));
+
 		$endpoint = 'lists/'.$this->list_id.'/members';
-		$response = $this->api->get($endpoint);
+		$response = $this->api->get($endpoint, $options);
 		if (empty($response['members'])) {
 			return false;
 		} else {

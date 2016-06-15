@@ -243,11 +243,11 @@ class MailchimpSeedTests extends UnitTestCase {
 					'service_opt_in' => false
 				)
 			);
+
 			$this->assertTrue($add_request->response['payload']);
 			$mc = new MailchimpSeed($this->cash_user_id, $this->mailchimp_connection_id);
-			$members = $mc->listMembers();
+			$members = $mc->listMembers(['count'=>500]);
 
-			//$this->assertTrue($members[$member_count - 1]['email_address'] == $test_address);
 			$this->assertTrue(
 				array_search($test_address,
 					array_column($members, 'email_address')
@@ -267,7 +267,11 @@ class MailchimpSeedTests extends UnitTestCase {
 			$members = $mc->listMembers();
 			// post-add total members - post-remove total members should equal one if it's been
 			// removed from the subscribers list correctly on the mailchimp end
-			$this->assertEqual($member_count - count($members['data']),1);
+			$this->assertFalse(
+				array_search($test_address,
+					array_column($members, 'email_address')
+				)
+			);
 		}
 	}
 }
