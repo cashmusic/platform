@@ -1,0 +1,163 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "b833218b67e1aa5a463799b7995b39fe",
+    "content-hash": "1e0e24371d1b13561049fba4fb203a99",
+    "packages": [
+        {
+            "name": "drewm/mailchimp-api",
+            "version": "v2.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/drewm/mailchimp-api.git",
+                "reference": "a2bf78208c49b205482c5ca884cb45a8cd266d5c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/drewm/mailchimp-api/zipball/a2bf78208c49b205482c5ca884cb45a8cd266d5c",
+                "reference": "a2bf78208c49b205482c5ca884cb45a8cd266d5c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.0.*",
+                "vlucas/phpdotenv": "^2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DrewM\\MailChimp\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Drew McLellan",
+                    "email": "drew.mclellan@gmail.com",
+                    "homepage": "http://allinthehead.com/"
+                }
+            ],
+            "description": "Super-simple, minimum abstraction MailChimp API v3 wrapper",
+            "homepage": "https://github.com/drewm/mailchimp-api",
+            "time": "2016-04-23 18:00:21"
+        },
+        {
+            "name": "mustache/mustache",
+            "version": "v2.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bobthecow/mustache.php.git",
+                "reference": "0bb2f76e2f34a8864a32be34c4ec66274d76c05e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bobthecow/mustache.php/zipball/0bb2f76e2f34a8864a32be34c4ec66274d76c05e",
+                "reference": "0bb2f76e2f34a8864a32be34c4ec66274d76c05e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.4"
+            },
+            "require-dev": {
+                "fabpot/php-cs-fixer": "~1.6",
+                "phpunit/phpunit": "~3.7|~4.0|~5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Mustache": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Justin Hileman",
+                    "email": "justin@justinhileman.info",
+                    "homepage": "http://justinhileman.com"
+                }
+            ],
+            "description": "A Mustache implementation in PHP.",
+            "homepage": "https://github.com/bobthecow/mustache.php",
+            "keywords": [
+                "mustache",
+                "templating"
+            ],
+            "time": "2016-02-27 19:22:46"
+        },
+        {
+            "name": "stripe/stripe-php",
+            "version": "v3.14.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stripe/stripe-php.git",
+                "reference": "e379140cf77debaa6a45e32b93543269851a144f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/e379140cf77debaa6a45e32b93543269851a144f",
+                "reference": "e379140cf77debaa6a45e32b93543269851a144f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "satooshi/php-coveralls": "~0.6.1",
+                "squizlabs/php_codesniffer": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Stripe\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stripe and contributors",
+                    "homepage": "https://github.com/stripe/stripe-php/contributors"
+                }
+            ],
+            "description": "Stripe PHP Library",
+            "homepage": "https://stripe.com/",
+            "keywords": [
+                "api",
+                "payment processing",
+                "stripe"
+            ],
+            "time": "2016-06-03 22:06:06"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

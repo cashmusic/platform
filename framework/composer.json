@@ -1,0 +1,16 @@
+{
+    "name": "cashmusic/platform",
+    "description": "A free and open platform giving all musicians access to tools that let them manage, promote, and sell their music online.",
+    "require": {
+        "drewm/mailchimp-api": "^2.2",
+        "stripe/stripe-php": "^3.14",
+        "mustache/mustache": "^2.10"
+    },
+    "license": "AGPL license",
+    "authors": [
+        {
+            "name": "CASH Music",
+            "email": "info@cashmusic.org"
+        }
+    ]
+}
