@@ -24,7 +24,7 @@ debug = no
 apilocation = "http://localhost/api/"
 
 [system]
-instancetype = "single" ;* single or multi
+instancetype = "multi" ;* single or multi
 timezone = "US/Pacific" ;* PHP timezone format
 analytics = "full"      ;* full or basic or off
 
