@@ -131,13 +131,6 @@
 	}
 
 	cm.events.add(cm,'ready', function(e) {
-		{{#session_id}}
-			cm.session.setid(JSON.stringify({
-				"endpoint": window.location.href.split('/').slice(0,3).join('/'),
-				"expiration": Math.floor(new Date().getTime() /1000) + 10800,
-				"id": "{{session_id}}"
-			}));
-		{{/session_id}}
 		cm.session.start();
 
 		// itemremove buttons
@@ -209,7 +202,7 @@
 					e.preventDefault();
 					e.stopPropagation();
 					if (document.querySelector('.cm-total-amount').innerHTML > 0) {
-						cm.loadScript(cm.path + 'checkout/checkout.js', function () {
+						cm.loadScript(cm.path + '/checkout/checkout.js', function () {
 							cm.checkout.prep();
 							{{^has_physical}}
 								opt.shipping = false;
@@ -235,7 +228,7 @@
 			}
 		}
 
-		cm.loadScript(cm.path + 'checkout/checkout.js', function () {
+		cm.loadScript(cm.path + '/checkout/checkout.js', function () {
 			cm.checkout.prep();
 		});
 	});
