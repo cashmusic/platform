@@ -66,13 +66,6 @@
 
    // go
 	cm.events.add(cm,'ready', function(e) {
-		{{#session_id}}
-			cm.session.setid(JSON.stringify({
-				"endpoint": window.location.href.split('/').slice(0,3).join('/'),
-				"expiration": Math.floor(new Date().getTime() /1000) + 10800,
-				"id": "{{session_id}}"
-			}));
-		{{/session_id}}
 		cm.session.start();
 
 		// sort all the cart buttons
@@ -93,7 +86,7 @@
    					}
 
    					cm.ajax.send(submitUrl, poststring, function(r) {
-                     cm.loadScript(cm.path + 'checkout/checkout.js', function () {
+                     cm.loadScript(cm.path + '/checkout/checkout.js', function () {
                         cm.checkout.prep();
                         cm.checkout.begin({
                            "stripe": stripe_public_key,
@@ -169,7 +162,7 @@
             }
          });
 
-         cm.loadScript(cm.path + 'checkout/checkout.js', function () {
+         cm.loadScript(cm.path + '/checkout/checkout.js', function () {
             cm.checkout.prep();
          });
 		}

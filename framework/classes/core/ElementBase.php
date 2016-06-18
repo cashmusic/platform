@@ -68,6 +68,9 @@ abstract class ElementBase extends CASHData {
 			'api_url' => CASH_API_URL,
 			'session_id' => $this->session_id
 		);
+		if (isset($_SERVER['HTTP_HOST'])) {
+			$this->element_data['current_url'] = "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+		}
 		$this->appdata = $this->getAppData();
 		if (is_array($this->appdata)) {
 			if (isset($this->appdata['copy'])) {
