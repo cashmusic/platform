@@ -1,7 +1,7 @@
 <div class="cash_success {{element_type}}">
 	<p>{{message_success}}</p>
 	{{#fulfillment_assets}}
-	<a href="{{current_url}}?cash_request_type=asset&cash_action=claim&id={{id}}&element_id={{element_id}}" class="download">{{title}}</a>
+	<a href="{{public_url}}/request?cash_request_type=asset&cash_action=claim&id={{id}}&element_id={{element_id}}" class="download">{{title}}</a>
 	<div class="description">{{description}}</div>
 	{{/fulfillment_assets}}
 </div>
