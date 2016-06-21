@@ -1,0 +1,7 @@
+{{grand_parent_id}}
+{{#parent_contexts}}
+  {{parent_id}} ({{grand_parent_id}})
+  {{#child_contexts}}
+    {{child_id}} ({{parent_id}} << {{grand_parent_id}})
+  {{/child_contexts}}
+{{/parent_contexts}}

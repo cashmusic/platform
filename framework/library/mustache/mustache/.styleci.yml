@@ -1,0 +1,13 @@
+preset: symfony
+
+enabled:
+  - align_double_arrow
+  - concat_with_spaces
+  - ordered_use
+  - strict
+
+disabled:
+  - concat_without_spaces
+  - pre_increment
+  - unalign_double_arrow
+  - unalign_equals
