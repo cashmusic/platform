@@ -47,6 +47,7 @@ if (is_array($current_event)) {
 			'venue_id' => $current_event['venue_id']
 		)
 	);
+
 	$venue_details = $venue_response['payload'];
 	if ($venue_details) {
 		$display_string = $venue_details['name'];

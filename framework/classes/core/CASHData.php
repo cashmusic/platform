@@ -647,18 +647,20 @@
 	 *
 	 * @return void
 	 */public function primeCache($cache_dir=false) {
-		if (!$cache_dir) {
-			$cache_dir = CASH_PLATFORM_ROOT.'/cache';
-		}
-		if (file_exists($cache_dir)) {
-			$this->cache_dir = $cache_dir;
-			if (is_writable($cache_dir) && is_readable($cache_dir)) {
-				$this->cache_enabled = true;
+	 	if (!$this->cache_enabled) {
+			if (!$cache_dir) {
+				$cache_dir = CASH_PLATFORM_ROOT.'/cache';
 			}
-		} else {
-			if (mkdir($cache_dir)) {
+			if (file_exists($cache_dir)) {
 				$this->cache_dir = $cache_dir;
-				$this->cache_enabled = true;
+				if (is_writable($cache_dir) && is_readable($cache_dir)) {
+					$this->cache_enabled = true;
+				}
+			} else {
+				if (mkdir($cache_dir)) {
+					$this->cache_dir = $cache_dir;
+					$this->cache_enabled = true;
+				}
 			}
 		}
 	}
@@ -669,6 +671,7 @@
 	 *
 	 * @return string or decoded JSON object/array
 	 */public function setCacheData($cache_name, $data_name, $data, $encode=true) {
+	 	$this->primeCache();
 		if ($this->cache_enabled) {
 			if ($encode) {
 				$payload = json_encode($data);
@@ -695,6 +698,7 @@
 	 *
 	 * @return string or decoded JSON object/array
 	 */public function getCacheData($cache_name, $data_name, $force_last=false, $decode=true) {
+	 	$this->primeCache();
 		if ($decode) {
 			$file_extension = '.json';
 		} else {
@@ -704,7 +708,7 @@
 		if ($this->cache_enabled && file_exists($datafile)) {
 			if ($force_last || $this->getCacheExpirationFor($datafile) >= 0) {
 				if ($decode) {
-					return json_decode(@file_get_contents($datafile));
+					return json_decode(@file_get_contents($datafile),true);
 				} else {
 					return @file_get_contents($datafile);
 				}
@@ -741,7 +745,7 @@
 				$url_contents = $this->getCacheData($cache_name,$data_name,true,$decode);
 			} else {
 				if ($format == 'json') {
-					$url_contents = json_decode($url_contents);
+					$url_contents = json_decode($url_contents, true);
 				}
 				$this->setCacheData($cache_name,$data_name,$url_contents);
 			}

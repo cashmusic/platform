@@ -20,6 +20,11 @@
  *
  *
  **/
+
+require_once(CASH_PLATFORM_ROOT . '/lib/mailchimp/MailChimp.php');
+
+use \DrewM\MailChimp\MailChimp as MailChimp;
+
 class MailchimpSeed extends SeedBase {
 	private $api;
 	public $url, $key, $list_id, $error_code=false, $error_message=false;
@@ -29,7 +34,7 @@ class MailchimpSeed extends SeedBase {
 		$this->user_id = $user_id;
 		$this->connection_id = $connection_id;
 		if ($this->getCASHConnection()) {
-			require_once(CASH_PLATFORM_ROOT.'/lib/mailchimp/MailChimp.class.php');
+
 			$this->key      = $this->settings->getSetting('key');
 			$this->list_id  = $this->settings->getSetting('list');
 			$this->api      = new MailChimp($this->key);
@@ -48,7 +53,7 @@ class MailchimpSeed extends SeedBase {
 		if (isset($connections['com.mailchimp'])) {
 			require_once(CASH_PLATFORM_ROOT.'/lib/oauth2/OAuth2Client.php');
 			require_once(CASH_PLATFORM_ROOT.'/lib/oauth2/OAuth2Exception.php');
-			require_once(CASH_PLATFORM_ROOT.'/lib/mailchimp/MC_OAuth2Client.php');
+			require_once(CASH_PLATFORM_ROOT . '/lib/mailchimp/MC_OAuth2Client.php');
 			$auth = new MC_OAuth2Client(
 				array(
 					'redirect_uri'  => $connections['com.mailchimp']['redirect_uri'],
@@ -68,6 +73,7 @@ class MailchimpSeed extends SeedBase {
 	}
 
 	public static function handleRedirectReturn($data=false) {
+
 		if (isset($data['error'])) {
 			return 'There was an error. (general) Please try again. More: ' . $data['error'];
 		} else {
@@ -75,17 +81,18 @@ class MailchimpSeed extends SeedBase {
 
 			require_once(CASH_PLATFORM_ROOT.'/lib/oauth2/OAuth2Client.php');
 			require_once(CASH_PLATFORM_ROOT.'/lib/oauth2/OAuth2Exception.php');
-			require_once(CASH_PLATFORM_ROOT.'/lib/mailchimp/MC_OAuth2Client.php');
+			require_once(CASH_PLATFORM_ROOT . '/lib/mailchimp/MC_OAuth2Client.php');
 			$oauth_options = array(
 				'redirect_uri'  => $connections['com.mailchimp']['redirect_uri'],
 				'client_id'     => $connections['com.mailchimp']['client_id'],
 				'client_secret' => $connections['com.mailchimp']['client_secret'],
 				'code'          => $data['code']
 			);
+
+
 			$client = new MC_OAuth2Client($oauth_options);
 			$session = $client->getSession();
 			if ($session) {
-				require_once(CASH_PLATFORM_ROOT.'/lib/mailchimp/MailChimp.class.php');
 				$cn = new MC_OAuth2Client($oauth_options);
         		$cn->setSession($session,false);
         		$odata = $cn->api('metadata', 'GET');
@@ -93,7 +100,7 @@ class MailchimpSeed extends SeedBase {
         		$api_key = $session['access_token'] . '-' . $odata['dc'];
 
         		$api = new MailChimp($api_key);
-        		$lists = $api->call('lists/list');
+        		$lists = $api->get('lists');
 
 				$return_markup = '<h4>Connect to MailChimp</h4>'
 							   . '<p>Now just choose a list and save the connection.</p>'
@@ -106,7 +113,9 @@ class MailchimpSeed extends SeedBase {
 							   . '<select id="list_select" name="list">';
 				$selected = ' selected="selected"';
 				$list_name = false;
-				foreach ($lists['data'] as $list) {
+
+				foreach ($lists['lists'] as $list) {
+
 					if ($selected) {
 						$list_name = $list['name'];
 					}
@@ -142,10 +151,22 @@ class MailchimpSeed extends SeedBase {
 					'connection_id' => $data['settings_id']
 				)
 			);
+
+			$data['settings_id'];
+
+			$mailchimp = new MailchimpSeed($data['user_id'], $data['settings_id']);
+			$list_members = $mailchimp->listMembers();
+
+
+			error_log( "member count " . count($list_members) );
 		}
 	}
 
 	private function detectError($response) {
+		//error_log( print_r($response, true) );
+		// we need to override if we're on a local machine, because Mailchimp actually validates URLs we send it
+		if (CASH_DEBUG == 'yes') return true;
+
 		if (isset($response["status"])) {
 			if ($response["status"] == "error") {
 				$this->error_code = $response["code"];
@@ -160,10 +181,10 @@ class MailchimpSeed extends SeedBase {
 		return $this->list_id;
 	}
 
-	// http://apidocs.mailchimp.com/api/2.0/lists/list.php
 	public function lists() {
-		$response = $this->api->call('lists/list');
-		if ($this->detectError($response)) {
+		$response = $this->api->get('lists');
+
+		if (empty($response)) {
 			return false;
 		} else {
 			return $response;
@@ -172,12 +193,11 @@ class MailchimpSeed extends SeedBase {
 
 	// http://apidocs.mailchimp.com/api/2.0/lists/webhooks.php
 	public function listWebhooks() {
-		$response = $this->api->call('lists/webhooks',
-			array(
-				'id' => $this->list_id
-			)
-		);
-		if ($this->detectError($response)) {
+
+		$endpoint = 'lists/'.$this->list_id.'/webhooks';
+		$response = $this->api->get($endpoint);
+
+		if (empty($response)) {
 			return false;
 		} else {
 			return $response;
@@ -185,16 +205,18 @@ class MailchimpSeed extends SeedBase {
 	}
 
 	// http://apidocs.mailchimp.com/api/2.0/lists/webhook-add.php
-	public function listWebhookAdd($url, $options=null) {
+
+	//TODO: in order to delete webhook we need to store an ID for it.
+	public function listWebhookAdd($url) {
 		// $options is reserved for expanding in the future for things
 		// like 'actions' and 'sources'
-		$response = $this->api->call('lists/webhook-add',
+		$endpoint = 'lists/'.$this->list_id.'/webhooks';
+		$response = $this->api->post($endpoint,
 			array(
-				'id'  => $this->list_id,
 				'url' => $url
-			)
-		);
-		if ($this->detectError($response)) {
+			));
+
+		if (empty($response)){
 			return false;
 		} else {
 			return $response;
@@ -203,63 +225,61 @@ class MailchimpSeed extends SeedBase {
 
 	// http://apidocs.mailchimp.com/api/2.0/lists/webhook-del.php
 	public function listWebhookDel($url) {
-		$response = $this->api->call('lists/webhook-del',
-			array(
-				'id'  => $this->list_id,
-				'url' => $url
-			)
-		);
-		if ($this->detectError($response)) {
+
+		//TODO: not necessary but we may want to revisit in the future.
+/*		$webhooks = $this->listWebhooks();
+
+		if (empty($webhooks)) {
 			return false;
 		} else {
 			return $response;
-		}
+		}*/
 	}
 
-	// http://apidocs.mailchimp.com/api/2.0/lists/members.php
-	public function listMembers($options=null) {
+	public function listMembers($options=array()) {
 		// $options reserved for options
 		// this will only pull a max of 100 members. ultimately we should
 		// switch over to the MC list export API here:
 		// http://apidocs.mailchimp.com/export/1.0/list.func.php
-		$response = $this->api->call('lists/members',
-			array(
-				'id'  => $this->list_id,
-				'opts' => array(
-					'limit' => 100
-				)
-			)
-		);
-		if ($this->detectError($response)) {
+
+		// we need to filter this to make sure we're not getting unsubscribed, etc and wasting bandwidth
+		$options = array_merge($options, array('status' => 'subscribed'));
+
+		$endpoint = 'lists/'.$this->list_id.'/members';
+		$response = $this->api->get($endpoint, $options);
+		if (empty($response['members'])) {
 			return false;
 		} else {
-			return $response;
+			return $response['members'];
+		}
+	}
+
+	public function listMembersCount() {
+		// $options reserved for options
+		// this will only pull a max of 100 members. ultimately we should
+		// switch over to the MC list export API here:
+		// http://apidocs.mailchimp.com/export/1.0/list.func.php
+
+		$endpoint = 'lists/'.$this->list_id.'/members';
+		$response = $this->api->get($endpoint);
+		if (empty($response['total_items'])) {
+			return false;
+		} else {
+			return $response['total_items'];
 		}
 	}
 
 	// http://apidocs.mailchimp.com/api/2.0/lists/subscribe.php
-	public function listSubscribe($email, $options=null, $data=null) {
+	public function listSubscribe($email) {
 		// TODO: use $data for merge_vars
-		$double_optin = true;
-		if (is_array($options)) {
-			if (isset($options['double_optin'])) {
-				$double_optin = $options['double_optin'];
-			}
-		}
-
-		//$this->api->listSubscribe($this->list_id, $email, $merge_vars, $email_type, $double_optin, $update_existing, $replace_interests, $send_welcome);
-
-		$response = $this->api->call('lists/subscribe',
+		$endpoint = 'lists/'.$this->list_id.'/members';
+		$response = $this->api->post($endpoint,
 			array(
-				'id'  => $this->list_id,
-				'email' => array(
-					'email' => $email
-				),
-				'double_optin' => $double_optin
-			)
-		);
+				'status' => 'subscribed',
+				'email_address' => $email
+			));
 
-		if ($this->detectError($response)) {
+		if (empty($response)) {
 			return false;
 		} else {
 			return $response;
@@ -267,26 +287,16 @@ class MailchimpSeed extends SeedBase {
 	}
 
 	// http://apidocs.mailchimp.com/api/2.0/lists/unsubscribe.php
-	public function listUnsubscribe($email, $options=null) {
+	public function listUnsubscribe($email) {
 		// TODO: use $options to set these:
 		// $delete       = 0;
 		// $send_goodbye = 1;
 		// $send_notify  = 1;
+		$email_hash = strtolower($email);
 
-		$response = $this->api->call('lists/unsubscribe',
-			array(
-				'id'  => $this->list_id,
-				'email' => array(
-					'email' => $email
-				)
-			)
-		);
-
-		if ($this->detectError($response)) {
-			return false;
-		} else {
-			return $response;
-		}
+		$endpoint = 'lists/'.$this->list_id.'/members/'.md5($email_hash);
+		$response = $this->api->delete($endpoint);
+		return $response;
 	}
 } // END class
 ?>
