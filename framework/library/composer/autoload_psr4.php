@@ -18,5 +18,6 @@ return array(
     'Google\\Auth\\' => array($vendorDir . '/google/auth/src'),
     'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
     'DrewM\\MailChimp\\' => array($vendorDir . '/drewm/mailchimp-api/src'),
+    'CFreear\\OAuth2\\Client\\' => array($vendorDir . '/cfreear/oauth2-mailchimp/src'),
     'AdamPaterson\\OAuth2\\Client\\' => array($vendorDir . '/adam-paterson/oauth2-stripe/src'),
 );

@@ -68,37 +68,23 @@ class StripeSeed extends SeedBase
 
             $redirect_uri = CASH_ADMIN_URL . '/settings/connections/add/com.stripe/finalize';
 
-            $login_url = StripeSeed::getAuthorizationUrl(
-                $connections['com.stripe']['client_id'],
-                $connections['com.stripe']['client_secret'],
-                $redirect_uri);
+            $client = new \AdamPaterson\OAuth2\Client\Provider\Stripe(
+                array(
+                    'clientId'          => $connections['com.stripe']['client_id'],
+                    'clientSecret'      => $connections['com.stripe']['client_secret'],
+                    'redirectUri'       => $redirect_uri,
+                )
+            );
+
+            $auth_url = $client->getAuthorizationUrl();
 
             $return_markup = '<h4>Stripe</h4>'
                 . '<p>This will redirect you to a secure login at Stripe and bring you right back. Note that you\'ll need a CASH page or secure site (https) to sell using Stripe. <a href="https://stripe.com/docs/security/ssl" target="_blank">Read more.</a></p>'
-                . '<br /><br /><a href="' . $login_url . '&redirect_uri=' . $redirect_uri.'" class="button">Connect with Stripe</a>';
+                . '<br /><br /><a href="' . $auth_url . '&redirect_uri=' . $redirect_uri.'" class="button">Connect with Stripe</a>';
             return $return_markup;
         } else {
             return 'Please add default stripe api credentials.';
         }
-    }
-
-    /**
-     * @param $client_id
-     * @param $client_secret
-     * @return String
-     */
-    public static function getAuthorizationUrl($client_id, $client_secret, $redirect_uri)
-    {
-
-        $client = new \AdamPaterson\OAuth2\Client\Provider\Stripe(
-            array(
-            'clientId'          => $client_id,
-            'clientSecret'      => $client_secret,
-            'redirectUri'       => $redirect_uri,
-            )
-        );
-        $auth_url = $client->getAuthorizationUrl();
-        return $auth_url;
     }
 
     /**
@@ -140,7 +126,7 @@ class StripeSeed extends SeedBase
             $connections = CASHSystem::getSystemSettings('system_connections');
             if (isset($connections['com.stripe'])) {
                 //exchange the returned code for user credentials.
-                $credentials = StripeSeed::exchangeCode($data['code'],
+                $credentials = StripeSeed::getOAuthCredentials($data['code'],
                     $connections['com.stripe']['client_id'],
                     $connections['com.stripe']['client_secret']);
 
@@ -197,9 +183,8 @@ class StripeSeed extends SeedBase
      * @param $client_secret
      * @return String Json representation of the OAuth 2.0 credentials.
      */
-    public static function exchangeCode($authorization_code, $client_id, $client_secret)
+    public static function getOAuthCredentials($authorization_code, $client_id, $client_secret)
     {
-        //require_once(CASH_PLATFORM_ROOT . '/lib/stripe/StripeOAuth.class.php');
         try {
             $client = new \AdamPaterson\OAuth2\Client\Provider\Stripe(
                 array(
@@ -207,6 +192,7 @@ class StripeSeed extends SeedBase
                 'clientSecret'      => $client_secret
                 )
             );
+
             $token = $client->getAccessToken('authorization_code', array(
                 'code' => $authorization_code
             )

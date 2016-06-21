@@ -1,0 +1,38 @@
+{
+    "name": "cfreear/oauth2-mailchimp",
+    "description": "MailChimp OAuth 2.0 Client Provider for The PHP League OAuth2-Client",
+    "keywords": [
+        "oauth",
+        "oauth2",
+        "authorization",
+        "authentication",
+        "idp",
+        "identity",
+        "sso",
+        "single sign on",
+        "mailchimp",
+        "mailchimp api"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christian Freear",
+            "email": "christianfreear@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0",
+        "league/oauth2-client": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0",
+        "mockery/mockery": "~0.9",
+        "squizlabs/php_codesniffer": "~2.0",
+        "scrutinizer/ocular": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "CFreear\\OAuth2\\Client\\": "src/"
+        }
+    }
+}

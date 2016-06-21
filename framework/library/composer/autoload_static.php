@@ -50,6 +50,10 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         array (
             'DrewM\\MailChimp\\' => 16,
         ),
+        'C' => 
+        array (
+            'CFreear\\OAuth2\\Client\\' => 22,
+        ),
         'A' => 
         array (
             'AdamPaterson\\OAuth2\\Client\\' => 27,
@@ -105,6 +109,10 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         'DrewM\\MailChimp\\' => 
         array (
             0 => __DIR__ . '/..' . '/drewm/mailchimp-api/src',
+        ),
+        'CFreear\\OAuth2\\Client\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cfreear/oauth2-mailchimp/src',
         ),
         'AdamPaterson\\OAuth2\\Client\\' => 
         array (
