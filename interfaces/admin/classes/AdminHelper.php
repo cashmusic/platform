@@ -552,7 +552,7 @@
 			}
 		}
 
-		if ($input_data['type'] != 'scalar' && $input_data['type'] != 'scalar') {
+		if ($input_data['type'] != 'scalar') {
 			/*
 			 declare any classes that need declaring (form validation or special functionality)
 			*/
