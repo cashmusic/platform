@@ -1,5 +1,6 @@
 *.sw?
 *.bak
+framework/cache/*
 framework/settings/cashmusic.ini.php
 framework/settings/connections.json
 framework/db/*
