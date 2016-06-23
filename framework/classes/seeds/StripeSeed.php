@@ -11,8 +11,6 @@
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
  **/
-require_once CASH_PLATFORM_ROOT . '/lib/stripe/StripeOAuth.class.php';
-require_once CASH_PLATFORM_ROOT . '/lib/stripe/init.php';
 
 class StripeSeed extends SeedBase
 {
@@ -32,6 +30,7 @@ class StripeSeed extends SeedBase
         $this->redirects = false;
 
         if ($this->getCASHConnection()) {
+
             $connections = CASHSystem::getSystemSettings('system_connections');
             if (isset($connections['com.stripe'])) {
                $this->client_id = $connections['com.stripe']['client_id'];
@@ -66,27 +65,26 @@ class StripeSeed extends SeedBase
     {
         $connections = CASHSystem::getSystemSettings('system_connections');
         if (isset($connections['com.stripe'])) {
-            $login_url = StripeSeed::getAuthorizationUrl($connections['com.stripe']['client_id'], $connections['com.stripe']['client_secret']);
+
+            $redirect_uri = CASH_ADMIN_URL . '/settings/connections/add/com.stripe/finalize';
+
+            $client = new \AdamPaterson\OAuth2\Client\Provider\Stripe(
+                array(
+                    'clientId'          => $connections['com.stripe']['client_id'],
+                    'clientSecret'      => $connections['com.stripe']['client_secret'],
+                    'redirectUri'       => $redirect_uri,
+                )
+            );
+
+            $auth_url = $client->getAuthorizationUrl();
+
             $return_markup = '<h4>Stripe</h4>'
                 . '<p>This will redirect you to a secure login at Stripe and bring you right back. Note that you\'ll need a CASH page or secure site (https) to sell using Stripe. <a href="https://stripe.com/docs/security/ssl" target="_blank">Read more.</a></p>'
-                . '<br /><br /><a href="' . $login_url . '&redirect_uri=' . CASH_ADMIN_URL . '/settings/connections/add/com.stripe/finalize" class="button">Connect with Stripe</a>';
+                . '<br /><br /><a href="' . $auth_url . '&redirect_uri=' . $redirect_uri.'" class="button">Connect with Stripe</a>';
             return $return_markup;
         } else {
             return 'Please add default stripe api credentials.';
         }
-    }
-
-    /**
-     * @param $client_id
-     * @param $client_secret
-     * @return String
-     */
-    public static function getAuthorizationUrl($client_id, $client_secret)
-    {
-
-        $client = new StripeOAuth($client_id, $client_secret);
-        $auth_url = $client->getAuthorizeUri();
-        return $auth_url;
     }
 
     /**
@@ -128,11 +126,11 @@ class StripeSeed extends SeedBase
             $connections = CASHSystem::getSystemSettings('system_connections');
             if (isset($connections['com.stripe'])) {
                 //exchange the returned code for user credentials.
-                $credentials = StripeSeed::exchangeCode($data['code'],
+                $credentials = StripeSeed::getOAuthCredentials($data['code'],
                     $connections['com.stripe']['client_id'],
                     $connections['com.stripe']['client_secret']);
 
-                if (isset($credentials['refresh'])) {
+                if (isset($credentials['refresh_token'])) {
 //                    //get the user information from the returned credentials.
 //                    $user_info = StripeSeed::getUserInfo($credentials['access']);
                     //create new connection and add it to the database.
@@ -140,19 +138,19 @@ class StripeSeed extends SeedBase
 
 
                     $result = $new_connection->setSettings(
-                        $credentials['userid'] . " (Stripe)",
+                        $credentials['stripe_user_id'] . " (Stripe)",
                         'com.stripe',
                         array(
-                            'access_token' => $credentials['access'],
-                            'publishable_key' => $credentials['publish'],
-                            'stripe_account_id' => $credentials['userid']
+                            'access_token' => $credentials['access_token'],
+                            'publishable_key' => $credentials['stripe_publishable_key'],
+                            'stripe_account_id' => $credentials['stripe_user_id']
                         )
                     );
 
                     if ($result) {
                         return array(
          						'id' => $result,
-         						'name' => $credentials['userid'] . ' (Stripe)',
+         						'name' => $credentials['stripe_user_id'] . ' (Stripe)',
          						'type' => 'com.stripe'
          					);
                     } else {
@@ -185,17 +183,34 @@ class StripeSeed extends SeedBase
      * @param $client_secret
      * @return String Json representation of the OAuth 2.0 credentials.
      */
-    public static function exchangeCode($authorization_code, $client_id, $client_secret)
+    public static function getOAuthCredentials($authorization_code, $client_id, $client_secret)
     {
-        require_once(CASH_PLATFORM_ROOT . '/lib/stripe/StripeOAuth.class.php');
         try {
-            $client = new StripeOAuth($client_id, $client_secret);
-            $token = $client->getTokens($authorization_code);
-            $publishable = array(
-                'publish' => $client->getPublishableKey(),
-                'userid' => $client->getUserId()
+            $client = new \AdamPaterson\OAuth2\Client\Provider\Stripe(
+                array(
+                'clientId'          => $client_id,
+                'clientSecret'      => $client_secret
+                )
             );
-            return array_merge($token, $publishable);
+
+            $token = $client->getAccessToken('authorization_code', array(
+                'code' => $authorization_code
+            )
+            );
+
+            $token_values = $token->getValues();
+
+            if (!empty($token_values)) {
+                return array(
+                    'access_token' => $token->access_token,
+                    'refresh_token' => $token->refresh_token,
+                    'stripe_publishable_key' => $token->stripe_publishable_key,
+                    'stripe_user_id' => $token->stripe_user_id
+                );
+            }
+
+            return false;
+
         } catch (Exception $e) {
             return false;
         }

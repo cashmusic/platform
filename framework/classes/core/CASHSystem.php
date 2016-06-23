@@ -22,6 +22,7 @@
 	 	ini_set('error_reporting',E_ALL);
 		ini_set('log_errors',TRUE);
 		ini_set('display_errors',FALSE);
+
 		// only want to do this once, so we check for 'initial_page_request_time'
 		if (!isset($GLOBALS['cashmusic_script_store']['initial_page_request_time'])) {
 			// remove magic quotes, never call them "magic" in front of your friends
@@ -39,9 +40,19 @@
 			define('CASH_API_URL', trim($cash_settings['apilocation'],'/'));
 			define('CASH_ADMIN_URL', str_replace('/api','/admin',CASH_API_URL));
 			define('CASH_PUBLIC_URL',str_replace('/api','/public',CASH_API_URL));
+
+			// venues api or bust
+			if (!isset($cash_settings['venues_api'])) {
+				define('CASH_VENUES_API', "https://venues.cashmusic.org/");
+			} else {
+				define('CASH_VENUES_API', trim($cash_settings['venues_api'],'/'));
+			}
+
 			define('CASH_DEBUG',(bool)$cash_settings['debug']);
 			// set up auto-load
 			spl_autoload_register('CASHSystem::autoloadClasses');
+			// composer autoloader, for seeds initially
+			require_once(CASH_PLATFORM_ROOT . '/library/autoload.php');
 
 			// set timezone
 			date_default_timezone_set($cash_settings['timezone']);

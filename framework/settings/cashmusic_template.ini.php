@@ -22,6 +22,7 @@ debug = no
 
 [api]
 apilocation = "http://localhost/api/"
+venues_api = "https://venues.cashmusic.org"
 
 [system]
 instancetype = "multi" ;* single or multi

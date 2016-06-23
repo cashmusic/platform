@@ -22,7 +22,7 @@ function formatEventOutput(&$response) {
 $thisweek_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'calendar', 
-		'cash_action' => 'geteventsbetween',
+		'cash_action' => 'getevents',
 		'user_id' => $cash_admin->effective_user_id,
 		'cutoff_date_low' => 'now',
 		'cutoff_date_high' => time() + (60*60*24*7) // weird time format, but easy to understand
