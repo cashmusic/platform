@@ -21,8 +21,6 @@
  *
  **/
 
-//require_once(CASH_PLATFORM_ROOT . '/lib/mailchimp/MailChimp.php');
-
 class MailchimpSeed extends SeedBase {
 	private $api;
 	public $url, $key, $list_id, $error_code=false, $error_message=false;
