@@ -7,7 +7,7 @@
 
 #main section ul{
 	list-style-type: circle;
-	margin:0 0 36px 20px;
+	margin:18px 0 36px 20px;
 }
 
 ol ul{
@@ -15,11 +15,16 @@ ol ul{
 	margin:10px 0;
 }
 
-.sectionnav .sub{
-	margin:0 0 0 10px;
-	text-decoration: none!important;
+.sectionnav li{
+	font-weight: 400;
+	list-style-type: none;
 }
 
+.sectionnav .sub{
+	margin:0;
+	font-weight: 100;
+	border:none!important;
+}
 
 code{
 	background:#fff;
@@ -68,4 +73,9 @@ border-bottom-left-radius: 3px;
 
 .section{
 	margin:0 0 36px 0;
+}
+
+.reading aside{
+	position: fixed;
+	top:100px;
 }
