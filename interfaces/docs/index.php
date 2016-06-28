@@ -1,6 +1,6 @@
 <?php
 function parseComments($filename) {
-	$regex = "/(?:\/\*\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)/"; 
+	$regex = "/(?:\/\*\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)/";
 
 	if (file_exists($filename)) {
 		$file_contents = file_get_contents($filename);
@@ -130,7 +130,7 @@ foreach ($all_plants as $type => $plant) {
 	foreach ($actions as $action => $details) {
 		$final_output .= '<div class="request_action">';
 		$final_output .= '<h4 class="action_name">' . $type . ' / ' . $action . '</h4>';
-		
+
 		$final_output .= '<div class="action_params">';
 		$final_output .= '<b>Allowed methods:</b> ';
 		if (is_array($details['allowed_methods'])) {
@@ -150,7 +150,7 @@ foreach ($all_plants as $type => $plant) {
 				}
 			}
 		} else {
-			$final_output .= '<li>none.</li>';	
+			$final_output .= '<li>none.</li>';
 		}
 		$final_output .= '</ul></div></div>';
 		if ($details['comment']) {
@@ -194,7 +194,7 @@ foreach ($defined_index as $key => $value) {
 		}
 		$docs_data['nav_menu'] .= '</ul>';
 	} else {
-		$docs_data['nav_menu'] .= '<div class="sectionnav"></div>';	
+		$docs_data['nav_menu'] .= '<div class="sectionnav"></div>';
 	}
 	$docs_data['nav_menu'] .= '</li>';
 }
