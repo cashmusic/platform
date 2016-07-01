@@ -301,7 +301,6 @@ class CalendarPlant extends PlantBase {
 	}
 
 	protected function getVenue($venue_id) {
-		error_log("venue id ".$venue_id);
 		$namespace = "venues.cashmusic.org";
 		// check the id for venues.cashmusic.org namespacing, get from API if exists
 		if (strpos($venue_id, $namespace) !== false) {
