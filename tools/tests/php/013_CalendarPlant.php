@@ -66,7 +66,7 @@ class CalendarPlantTests extends UnitTestCase {
 		$this->assertTrue($event_request->response['payload']);
 		if ($event_request->response['payload']) {
 			$this->assertEqual($event_request->response['payload']['date'],1321063200);
-			$this->assertEqual($event_request->response['payload']['user_id'],'1');
+			$this->assertEqual(abs($event_request->response['payload']['user_id']),'1');
 			$this->assertEqual($event_request->response['payload']['venue_id'],$this->testingvenue);
 			$this->assertEqual($event_request->response['payload']['published'],'1');
 			$this->assertEqual($event_request->response['payload']['comments'],'Test Comment');
