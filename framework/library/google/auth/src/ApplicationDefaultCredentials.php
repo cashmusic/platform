@@ -134,13 +134,10 @@ class ApplicationDefaultCredentials
      */
     public static function getCredentials($scope = null, callable $httpHandler = null)
     {
-        $creds = CredentialsLoader::fromEnv($scope);
-        if (!is_null($creds)) {
-            return $creds;
-        }
-        $creds = CredentialsLoader::fromWellKnownFile($scope);
-        if (!is_null($creds)) {
-            return $creds;
+        $jsonKey = CredentialsLoader::fromEnv()
+            ?: CredentialsLoader::fromWellKnownFile();
+        if (!is_null($jsonKey)) {
+            return CredentialsLoader::makeCredentials($scope, $jsonKey);
         }
         if (AppIdentityCredentials::onAppEngine()) {
             return new AppIdentityCredentials($scope);

@@ -16,7 +16,7 @@ class MailChimp
     private $api_endpoint = 'https://<dc>.api.mailchimp.com/3.0';
 
     /*  SSL Verification
-        Read before disabling: 
+        Read before disabling:
         http://snippets.webaware.com.au/howto/stop-turning-off-curlopt_ssl_verifypeer-and-fix-your-php-config/
     */
     public $verify_ssl = true;
@@ -246,7 +246,11 @@ class MailChimp
 
         curl_close($ch);
 
-        return $this->formatResponse($response);
+        $formattedResponse = $this->formatResponse($response);
+
+        $this->determineSuccess($response, $formattedResponse);
+
+        return $formattedResponse;
     }
 
     /**
@@ -264,25 +268,59 @@ class MailChimp
     /**
      * Decode the response and format any error messages for debugging
      * @param array $response The response from the curl request
-     * @return array|false     The JSON decoded into an array
+     * @return array|false    The JSON decoded into an array
      */
     private function formatResponse($response)
     {
         $this->last_response = $response;
 
         if (!empty($response['body'])) {
-
-            $d = json_decode($response['body'], true);
-
-            if (isset($d['status']) && $d['status'] != '200' && isset($d['detail'])) {
-                $this->last_error = sprintf('%d: %s', $d['status'], $d['detail']);
-            } else {
-                $this->request_successful = true;
-            }
-
-            return $d;
+            return json_decode($response['body'], true);
         }
 
         return false;
+    }
+
+    /**
+     * Check if the response was successful or a failure. If it failed, store the error.
+     * @param array $response The response from the curl request
+     * @param array|false $formattedResponse The response body payload from the curl request
+     * @return bool     If the request was successful
+     */
+    private function determineSuccess($response, $formattedResponse)
+    {
+        $status = $this->findHTTPStatus($response, $formattedResponse);
+
+        if ($status >= 200 && $status <= 299) {
+            $this->request_successful = true;
+            return true;
+        }
+
+        if (isset($formattedResponse['detail'])) {
+            $this->last_error = sprintf('%d: %s', $formattedResponse['status'], $formattedResponse['detail']);
+            return false;
+        }
+
+        $this->last_error = 'Unknown error, call getLastResponse() to find out what happened.';
+        return false;
+    }
+
+    /**
+     * Find the HTTP status code from the headers or API response body
+     * @param array $response The response from the curl request
+     * @param array|false $formattedResponse The response body payload from the curl request
+     * @return int  HTTP status code
+     */
+    private function findHTTPStatus($response, $formattedResponse)
+    {
+        if (!empty($response['body']) && isset($formattedResponse['status'])) {
+            return (int) $formattedResponse['status'];
+        }
+
+        if (!empty($response['headers']) && isset($response['headers']['http_code'])) {
+            return (int) $response['headers']['http_code'];
+        }
+
+        return 418;
     }
 }
