@@ -1,385 +1,81 @@
-/*************************************************** 
+/***************************************************
  *
  *  CASH Music Front-End Styles
  *
  ***************************************************/
 
-/* BASE STYLES AND RESETS */
 
-html{
-	min-height:100%;
-	padding:0;
-	background:#e3e3e3;
-	position: relative;
-	/*z-index:-2;*/
+#main section ul{
+	list-style-type: circle;
+	margin:18px 0 36px 20px;
 }
 
-body {
-	margin:0;
-	height:100%;
-	padding:0;
-	background: #e3e3e3; 
-	color:#222;
-	font:300 30px/40px 'Source Sans Pro',Helvetica,Arial,sans-serif;
-}
-
-/*Scrollbars*/
-/*
-::-webkit-scrollbar{width: 12px;height: 12px;}
-::-webkit-scrollbar-track{background: rgba(34, 34, 34, 0.97);}
-::-webkit-scrollbar-thumb{background: rgba(238, 238, 238, 0.97);}
-*/
-
-.row{
-	/*overflow:auto;*/
-	width:98%;
-}
-
-#pagetitle{
-	font-size:38px;
-	line-height: 40px;
-	margin:0 auto 20px auto;
-	width:90%;
-	font-weight:700;
-	text-transform: uppercase;
-	word-wrap:break-word;
-}
-
-#pagedisplay{
-	width:90%;
-	margin:0 auto;
-}
-
-a{
-	-webkit-transition: 0.3s  ease-in-out;
-	-moz-transition: 0.3s  ease-in-out;
-	trasition:0.3s ease-in-out;
-	padding:2%;
-	margin:0 1% 1% 0;
-	display:inline-block;
-	background:#00cf7f;
-	color:#222;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	text-decoration: none;
-}
-
-
-a:hover{
-	text-decoration: none;
-	color:#00cf7f;
-	background:#222;
-}
-
-/* Navigation */
-
-#nav{
-	position:fixed;
-	top:0;
-	left:0;
-	width:100%;
-	height:100px;
-	background:#222;
-	padding:1% 7%;
-	z-index:100;
-	-webkit-transition: 0.3s  ease-in-out;
-	-moz-transition: 0.3s  ease-in-out;
-	trasition:0.3s ease-in-out;
-}
-
-#nav h1 {
-	text-align: center !important;
-}
-
-#nav:hover{
-	background:#00cf7f;
-}
-
-#nav a:hover {
-	color:#f5f5f5;
-}
-
-#nav a span{
-	float:left;
-}
-
-#nav:hover #logo{
-	-webkit-filter: invert(100%);
-	-moz-filter: invert(100%);
-	filter: invert(100%);
-}
-
-/* Subnavigation */
-
-#docsnav{
-	position:fixed;
-	left:0;
-	top:100px;	
-	z-index:100;
-	margin:0;
-	list-style-type: none;
-	padding:0;
-	background:rgba(34,34,34,0.90);
-	height:38px;
-	width:100%;
-	font:400 14px/22px 'Montserrat',Helvetica,Arial,sans-serif;
-	text-align:center;
-}
-
-#docsnav a{
-	background:transparent;
-	color:#00cf7f;
-	padding:8px 16px 8px 16px;
-	margin:0;
-}
-
-#docsnav li{
-	display: inline !important;
-	margin:0 6px 0 6px;
-	width: auto;
-}
-
-#docsnav a:hover, .current a{
-	background:#f5f5f5!important;
-	-webkit-border-radius:0;
-	-moz-border-radius:0;
-	border-radius:0;
-	color:#222 !important;
-}
-
-#docsnav .toplevel a:hover{
-	border:none;
-}
-
-/* Secion nav */
-
-.sectionnav{
-	position:fixed;
-	left:0;
-	top:138px;	
-	z-index:100;
-	margin:0;
-	list-style-type: none;
-	padding:0;
-	background:#f5f5f5;
-	height:38px;
-	width:100%;
-	text-align:center;
-	display:none;
-}
-
-div.sectionnav {
-	height:8px;
-}
-
-.sectionnav a {
-	background:transparent;
-	color:#bbb !important;
-	padding:8px 16px 8px 16px;
-	margin:0;
-}
-
-.sectionnav a:hover {
-	color:#222;
+ol ul{
+	font-size: 12px;
+	margin:10px 0;
 }
 
 .sectionnav li{
-	display: inline !important;
-	margin:0 6px 0 6px;
-	width: auto;
+	font-weight: 400;
+	list-style-type: none;
 }
 
-.current .sectionnav {
-	display:block;
+.sectionnav .sub{
+	margin:0;
+	font-weight: 100;
+	border:none!important;
 }
 
-/* Headers */
-
-h1,h2,h3,h4,h5{
-	color:#222;
-	font:400 30px/40px 'Montserrat',Helvetica,Arial,sans-serif;
-	text-align: left !important;
+code{
+	background:#fff;
+	display: block;
+	padding:18px;
+	margin:18px 0;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
 
-h4{
-	margin:30px 0 10px 0;
+.action_params{
+	padding:18px;
+	background:#222;
+	color:#fff;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	margin:18px 0;
 }
 
-h1{
-	font-size: 72px;
-	font-weight: 700;
-	line-height: 50px;
-	margin:24px 0;
-	padding:0;
-	text-align: center;
+
+.params{
+	padding:18px 18px 6px 18px;
+	margin:18px -18px -18px -18px;
+	background:#fff;
+		color:#222;
+	-webkit-border-bottom-right-radius: 3px;
+-webkit-border-bottom-left-radius: 3px;
+-moz-border-radius-bottomright: 3px;
+-moz-border-radius-bottomleft: 3px;
+border-bottom-right-radius: 3px;
+border-bottom-left-radius: 3px;
 }
 
-h2 {
-	font-size: 60px;
-}
-
-/* Text Types */
-
-#pagedisplay .spacedtext a{
-	display:block;
-}
-
-/* Layout */
-
-#mainspc{
-	padding:0 0 80px 0;
+.action_params ul{
 	margin:0;
 }
+
+
+
+.gist{
+	margin:30px 0 30px 0;
+}
+
 
 .section{
-	padding:160px 0 0 0;
+	margin:0 0 36px 0;
 }
 
-.section.main{
-	padding:250px 0 0 0;
-}
-
-#logo{
-	padding:0;
-	margin:0 auto;
-	-webkit-transition: 1s  ease-in-out;
-	-moz-transition: 1s  ease-in-out;
-	trasition:1s ease-in-out;
-	z-index:40;
-}
-
-#logo img{
-	max-width:70px;
-	height:auto;
-}
-
-#logo a{
-	display:inline;
-	padding:0;
-	margin:0;
-}
-
-
-iframe{
-	width:100%;
-	padding:0 0 0 0;
-	overflow:hidden;
-}
-
-#logo a, .pull a, .calloutcontent a, .section p a{
-	display:inline;
-	background:none;
-	padding:0;
-	float:none;
-	margin:0;
-}
-
-.gist-meta {display:none;}
-.gist .gist-data {border-bottom:none !important;}
-
-p, .section ul, .section li {
-	font:300 24px/32px 'Source Sans Pro',Helvetica,Arial,sans-serif;
-}
-
-p a, .section ul a, .section li a {
-	font:400 24px/32px 'Source Sans Pro',Helvetica,Arial,sans-serif;
-	text-decoration: underline;
-}
-
-.section ul, .section ol {
-	padding-left: 2.5em;
-}
-
-.section img {
-	width:100%;
-}
-
-.action_params, code {
-	background:rgba(245,245,245,0.7);
-	padding:16px 16px 2px 24px;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-}
-
-.action_params, .action_params li, .action_params ul {
-	font:400 14px/24px 'Source Sans Pro',Helvetica,Arial,sans-serif;
-}
-
-.action_params i {
-	color:#888;
-}
-
-.action_params ul {
-	padding:0;
-}
-
-.action_params li {
-	display: inline-block;
-	margin:0 12px 0 0;
-	width: auto;
-	white-space: nowrap;
-}
-
-.action_comments {
-	margin:16px 0 40px 0;
-}
-
-#header {
-	position:relative;
+.reading aside{
+	position: fixed;
 	top:100px;
-	margin-top:200px;
-	box-sizing: border-box;
-	width:100%;
-	height:260px;
-	background-image:url(https://www-cashmusic.netdna-ssl.com/admin/ui/default/assets/images/blank.gif);
-	-webkit-filter: invert(100%);
-    filter: invert(100%);
-	background-position:center right;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	padding: 24px;
-}
-
-#header h1 {
-	line-height: 64px;
-	margin-bottom: 4px;
-}
-
-a.button {
-	display:inline;
-	border:solid 1px #00cf7f;
-	background:none;
-	padding:10px 24px 10px 24px !important;
-	word-wrap:break-word;
-	margin:24px 24px 2% 0 !important;
-	text-align: center;
-	/*float:left;*/
-	width:100%;
-	font:400 14px/20px 'Montserrat',Helvetica,Arial,sans-serif;
-	-webkit-transition: 0.3s  ease-in-out;
-	-moz-transition: 0.3s  ease-in-out;
-	trasition:0.3s ease-in-out;
-	text-decoration: none;
-	color:#00cf7f;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	-webkit-apperance:none;
-}
-
-a.button:hover{
-	background:#00cf7f;
-	color:#f5f5f5;
-	cursor: pointer;
-}
-
-code {
-	box-sizing: border-box;
-	display: block;
-	width:100% !important;
-	padding-bottom:18px;
-	margin:16px 0 16px 0 !important;
 }
