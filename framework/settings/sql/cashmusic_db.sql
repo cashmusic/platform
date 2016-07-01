@@ -106,7 +106,7 @@ CREATE TABLE `calendar_venues` (
   `phone` text,
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT -1
+  `user_id` int(11) DEFAULT -1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
