@@ -46,7 +46,7 @@ class Account extends ApiResource
      */
     public function save($opts = null)
     {
-        return $this->_save($opts);
+        return $this->_save();
     }
 
     /**
@@ -58,20 +58,6 @@ class Account extends ApiResource
     public function delete($params = null, $opts = null)
     {
         return $this->_delete($params, $opts);
-    }
-
-    /**
-     * @param array|null $params
-     * @param array|string|null $opts
-     *
-     * @return Account The rejected account.
-     */
-    public function reject($params = null, $opts = null)
-    {
-        $url = $this->instanceUrl() . '/reject';
-        list($response, $opts) = $this->_request('post', $url, $params, $opts);
-        $this->refreshFrom($response, $opts);
-        return $this;
     }
 
     /**

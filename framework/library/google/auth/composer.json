@@ -9,13 +9,13 @@
     "php": ">=5.4",
     "firebase/php-jwt": "~2.0|~3.0",
     "guzzlehttp/guzzle": "~5.3|~6.0",
-    "guzzlehttp/psr7": "1.2.*",
+    "guzzlehttp/psr7": "~1.2",
     "psr/http-message": "^1.0",
     "psr/cache": "^1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "3.7.*",
-    "fabpot/php-cs-fixer": "^1.11"
+    "friendsofphp/php-cs-fixer": "^1.11"
   },
   "autoload": {
     "classmap": [

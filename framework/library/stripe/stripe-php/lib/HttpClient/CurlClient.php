@@ -18,31 +18,6 @@ class CurlClient implements ClientInterface
         return self::$instance;
     }
 
-    protected $defaultOptions;
-
-    /**
-     * CurlClient constructor.
-     *
-     * Pass in a callable to $defaultOptions that returns an array of CURLOPT_* values to start
-     * off a request with, or an flat array with the same format used by curl_setopt_array() to
-     * provide a static set of options. Note that many options are overridden later in the request
-     * call, including timeouts, which can be set via setTimeout() and setConnectTimeout().
-     *
-     * Note that request() will silently ignore a non-callable, non-array $defaultOptions, and will
-     * throw an exception if $defaultOptions returns a non-array value.
-     *
-     * @param array|callable|null $defaultOptions
-     */
-    public function __construct($defaultOptions = null)
-    {
-        $this->defaultOptions = $defaultOptions;
-    }
-
-    public function getDefaultOptions()
-    {
-        return $this->defaultOptions;
-    }
-
     // USER DEFINED TIMEOUTS
 
     const DEFAULT_TIMEOUT = 80;
@@ -79,17 +54,7 @@ class CurlClient implements ClientInterface
     {
         $curl = curl_init();
         $method = strtolower($method);
-
         $opts = array();
-        if (is_callable($this->defaultOptions)) { // call defaultOptions callback, set options to return value
-            $opts = call_user_func_array($this->defaultOptions, func_get_args());
-            if (!is_array($opts)) {
-                throw new Error\Api("Non-array value returned by defaultOptions CurlClient callback");
-            }
-        } elseif (is_array($this->defaultOptions)) { // set default curlopts from array
-            $opts = $this->defaultOptions;
-        }
-
         if ($method == 'get') {
             if ($hasFile) {
                 throw new Error\Api(
@@ -131,23 +96,12 @@ class CurlClient implements ClientInterface
         $opts[CURLOPT_RETURNTRANSFER] = true;
         $opts[CURLOPT_CONNECTTIMEOUT] = $this->connectTimeout;
         $opts[CURLOPT_TIMEOUT] = $this->timeout;
+        $opts[CURLOPT_RETURNTRANSFER] = true;
         $opts[CURLOPT_HEADERFUNCTION] = $headerCallback;
         $opts[CURLOPT_HTTPHEADER] = $headers;
         if (!Stripe::$verifySslCerts) {
             $opts[CURLOPT_SSL_VERIFYPEER] = false;
         }
-        // @codingStandardsIgnoreStart
-        // PSR2 requires all constants be upper case. Sadly, the CURL_SSLVERSION
-        // constants to not abide by those rules.
-        //
-        // Opt into TLS 1.x support on older versions of curl. This causes some
-        // curl versions, notably on RedHat, to upgrade the connection to TLS
-        // 1.2, from the default TLS 1.0.
-        if (!defined('CURL_SSLVERSION_TLSv1')) {
-            define('CURL_SSLVERSION_TLSv1', 1); // constant not defined in PHP < 5.5
-        }
-        $opts[CURLOPT_SSLVERSION] = CURL_SSLVERSION_TLSv1;
-        // @codingStandardsIgnoreEnd
 
         curl_setopt_array($curl, $opts);
         $rbody = curl_exec($curl);
@@ -241,12 +195,10 @@ class CurlClient implements ClientInterface
                 continue;
             }
 
-            if ($prefix) {
-                if ($k !== null && (!is_int($k) || is_array($v))) {
-                    $k = $prefix."[".$k."]";
-                } else {
-                    $k = $prefix."[]";
-                }
+            if ($prefix && $k && !is_int($k)) {
+                $k = $prefix."[".$k."]";
+            } elseif ($prefix) {
+                $k = $prefix."[]";
             }
 
             if (is_array($v)) {

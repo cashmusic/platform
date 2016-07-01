@@ -157,7 +157,7 @@ class SACFromEnvTest extends \PHPUnit_Framework_TestCase
 
     public function testIsNullIfEnvVarIsNotSet()
     {
-        $this->assertNull(ServiceAccountCredentials::fromEnv('a scope'));
+        $this->assertNull(ServiceAccountCredentials::fromEnv());
     }
 
     /**
@@ -198,7 +198,7 @@ class SACFromWellKnownFileTest extends \PHPUnit_Framework_TestCase
     {
         putenv('HOME=' . __DIR__ . '/../not_exists_fixtures');
         $this->assertNull(
-            ServiceAccountCredentials::fromWellKnownFile('a scope')
+            ServiceAccountCredentials::fromWellKnownFile()
         );
     }
 

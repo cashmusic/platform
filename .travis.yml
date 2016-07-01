@@ -1,8 +1,9 @@
 language: php
 
 php:
-  - 5.3
   - 5.4
+  - 5.5
+  - 5.6
 
 env:
     - CI_USER=vagrant CASHMUSIC_TEST_URL='http://dev.cashmusic.org' CASH_CI_LOGIN='root@localhost' CASH_CI_PASSWORD='hack_my_gibson' 

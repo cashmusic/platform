@@ -7,7 +7,7 @@
     "require": {
         "google/apiclient":"^2.0",
         "drewm/mailchimp-api": "^2.2",
-        "stripe/stripe-php": "^3.14",
+        "stripe/stripe-php": "3.6.0",
         "mustache/mustache": "^2.10",
         "adam-paterson/oauth2-stripe": "^1.1",
         "league/oauth2-google": "^1.0",

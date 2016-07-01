@@ -146,11 +146,6 @@ class ApiRequestor
         if (Stripe::$apiVersion) {
             $defaultHeaders['Stripe-Version'] = Stripe::$apiVersion;
         }
-
-        if (Stripe::$accountId) {
-            $defaultHeaders['Stripe-Account'] = Stripe::$accountId;
-        }
-
         $hasFile = false;
         $hasCurlFile = class_exists('\CURLFile', false);
         foreach ($params as $k => $v) {

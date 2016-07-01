@@ -62,47 +62,16 @@ class ProductSKUOrderTest extends TestCase
         ));
 
         $sku->price = 600;
-        $sku->inventory->quantity = 50;
         $sku->save();
         $this->assertSame($sku->price, 600);
-        $this->assertSame(50, $sku->inventory->quantity);
 
         $stripeSku = SKU::retrieve($SkuID);
         $this->assertSame($sku->price, 600);
         $this->assertSame('finite', $sku->inventory->type);
-        $this->assertSame(50, $sku->inventory->quantity);
+        $this->assertSame(40, $sku->inventory->quantity);
     }
 
-    public function testSKUProductDelete()
-    {
-        Stripe::setApiKey('sk_test_JieJALRz7rPz7boV17oMma7a');
-        $ProductID = 'silver-' . self::generateRandomString(20);
-        $p = Product::create(array(
-            'name'     => 'Silver Product',
-            'id'       => $ProductID,
-            'url'      => 'stripe.com/silver'
-        ));
-
-        $SkuID = 'silver-sku-' . self::generateRandomString(20);
-        $sku = SKU::create(array(
-            'price'     => 500,
-            'currency'  => 'usd',
-            'id'        => $SkuID,
-            'inventory' => array(
-                'type'     => 'finite',
-                'quantity' => 40
-            ),
-            'product'   => $ProductID
-        ));
-
-        $deletedSku = $sku->delete();
-        $this->assertTrue($deletedSku->deleted);
-
-        $deletedProduct = $p->delete();
-        $this->assertTrue($deletedProduct->deleted);
-    }
-
-    public function testOrderCreateUpdateRetrievePayReturn()
+    public function testOrderCreateUpdateRetrievePay()
     {
         Stripe::setApiKey('sk_test_JieJALRz7rPz7boV17oMma7a');
         $ProductID = 'silver-' . self::generateRandomString(20);
@@ -151,8 +120,5 @@ class ProductSKUOrderTest extends TestCase
             ),
         ));
         $this->assertSame($order->status, 'paid');
-
-        $orderReturn = $order->returnOrder();
-        $this->assertSame($orderReturn->order, $order->id);
     }
 }

@@ -37,6 +37,7 @@ class Dispute extends ApiResource
     }
 
     /**
+     * @param array|null $params
      * @param array|string|null $options
      *
      * @return Dispute The closed dispute.
