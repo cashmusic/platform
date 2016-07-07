@@ -496,7 +496,20 @@ class CommercePlant extends PlantBase {
         return $result;
     }
 
-    protected function emailBuyersByItem($user_id,$item_id,$connection_id,$subject,$message,$include_download=false) {
+    protected function emailBuyersByItem($user_id,$item_id,$subject,$message,$include_download=false) {
+
+        if (CASH_DEBUG) {
+            error_log(
+                'Requested CommercePlant->emailBuyersByItem with: '
+                .'$user_id='. (string)$user_id
+                .',$item_id='. (string)$item_id
+                .',$connection_id='. (string)$connection_id
+                .',$subject='. (string)$subject
+                .',$message='. (string)$message
+                .',$include_download='. (string)$include_download
+            );
+        }
+
         $item_details = $this->getItem($item_id);
 
         if ($item_details['user_id'] == $user_id) {
@@ -512,6 +525,7 @@ class CommercePlant extends PlantBase {
                 )
             );
 
+
             $user_request = new CASHRequest(
                 array(
                     'cash_request_type' => 'people',
@@ -524,6 +538,8 @@ class CommercePlant extends PlantBase {
             if ($user_details['display_name'] == 'Anonymous' || !$user_details['display_name']) {
                 $user_details['display_name'] = $user_details['email_address'];
             }
+
+            //TODO: move these to the outer solar system in their own template
 
             $recipients = array();
             $tmp_recipients = array();
@@ -557,12 +573,13 @@ class CommercePlant extends PlantBase {
                         $unlock_suffix = 1;
                         $all_assets = array();
                         if ($asset_request->response['payload']['type'] == 'file') {
-                            $message .= "\n\n" . 'Download *|ITEMNAME|* at '.CASH_PUBLIC_URL.'/download/?code=*|UNLOCKCODE1|*';
+                            $message .= "\n\n" . 'Download fuh at '.CASH_PUBLIC_URL.'/download/?code=*|UNLOCKCODE1|*';
                             $html_message .= "\n\n" . '<p><b><a href="'.CASH_PUBLIC_URL.'/download/?code=*|UNLOCKCODE1|*">Download *|ITEMNAME|*</a></b></p>';
                             $all_assets[] = array(
                                 'id' => $item_details['fulfillment_asset'],
                                 'name' => $asset_request->response['payload']['title']
                             );
+
                         } else {
                             $message .= "\n\n" . '*|ITEMNAME|*:' . "\n\n";
                             $html_message .= "\n\n" . '<p><b>*|ITEMNAME|*:</b></p>';
@@ -588,7 +605,13 @@ class CommercePlant extends PlantBase {
                         $merge_vars = array();
                         $all_vars = array();
                         $unlock_suffix = 1;
+                        $success = true;
+
+
+                        //TODO: really we want to do this in one shot with the API
+
                         foreach ($recipients as $recipient) {
+
                             foreach ($all_assets as $asset) {
                                 $addcode_request = new CASHRequest(
                                     array(
@@ -605,6 +628,32 @@ class CommercePlant extends PlantBase {
                                     'name' => 'unlockcode'.$unlock_suffix,
                                     'content' => $addcode_request->response['payload']
                                 );
+
+                                // replace asset name
+                                $recipient_message = str_replace
+                                (
+                                    '*|ASSETNAME'.$unlock_suffix.'|*',
+                                    $asset['name'],
+                                    $html_message
+                                );
+
+                                $recipient_message = str_replace
+                                (
+                                    '*|ITEMNAME|*',
+                                    $global_merge_vars[0]['content'],
+                                    $recipient_message
+                                );
+
+
+
+                                // replace unlock code
+                                $recipient_message = str_replace
+                                (
+                                    '*|UNLOCKCODE'.$unlock_suffix.'|*',
+                                    $addcode_request->response['payload'],
+                                    $recipient_message
+                                );
+
                                 $unlock_suffix++;
                             }
                             if ($addcode_request->response['payload']) {
@@ -613,13 +662,25 @@ class CommercePlant extends PlantBase {
                                     'vars' => $all_vars
                                 );
                             }
+
                             $all_vars = array();
                             $unlock_suffix = 1;
+
+                            if (!CASHSystem::sendEmail(
+                                $subject,
+                                $user_id,
+                                $recipient['email'],
+                                $recipient_message,
+                                $subject,                // this seems more appropriate than hardcoding something
+                                false                    // tell sendEmail we're sending a full encoded HTML body
+                            )) {
+                                $success = false;
+                            }
                         }
                     }
                 }
 
-                $mandrill = new MandrillSeed($user_id,$connection_id);
+/*                $mandrill = new MandrillSeed($user_id,$connection_id);
                 $result = $mandrill->send(
                     $subject,
                     $message,
@@ -630,8 +691,10 @@ class CommercePlant extends PlantBase {
                     null,
                     $global_merge_vars,
                     $merge_vars
-                );
-                return $result;
+                );*/
+                if (!$success) return false;
+
+                return true;
             }
         } else {
             return false;
