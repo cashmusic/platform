@@ -74,9 +74,11 @@ if (isset($_POST['doitemadd'])) {
 			)
 		);
 
-		error_log(
-			print_r($email_response, true)
-		);
+		if (CASH_DEBUG) {
+			error_log( 'Commerce Item Edit: Results of CommercePlant emailbuyersbyitem'
+				.print_r($email_response, true)
+			);
+		}
 
 		if ($email_response['payload']) {
 			AdminHelper::formSuccess('Success. Email sent.');
