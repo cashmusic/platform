@@ -73,6 +73,11 @@ if (isset($_POST['doitemadd'])) {
 				'include_download' => $include_download
 			)
 		);
+
+		error_log(
+			print_r($email_response, true)
+		);
+
 		if ($email_response['payload']) {
 			AdminHelper::formSuccess('Success. Email sent.');
 		} else {
