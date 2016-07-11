@@ -16,21 +16,55 @@
  **/
 class MandrillSeed extends SeedBase {
 	private $api;
-	public $key, $error_code=false, $error_message=false;
+	public $api_key, $error_code=false, $error_message=false;
 
-	public function __construct($user_id, $connection_id) {
+	public function __construct($user_id, $connection_id=false) {
+
+		if(CASH_DEBUG) {
+			error_log("Called MandrillSeed with user id $user_id, connection id $connection_id");
+		}
 		$this->settings_type = 'com.mandrillapp';
 		$this->user_id = $user_id;
+		
+		// if there's no $connection_id, we'll just default to CASH's key
+		
 		$this->connection_id = $connection_id;
+		if(CASH_DEBUG) {
+			error_log("pre-get connection");
+		}
 		if ($this->getCASHConnection()) {
-			$this->key = $this->settings->getSetting('key');
-			if (!$this->key) {
-				$this->error_message = 'no API key found';
-			} else {
-				require_once(CASH_PLATFORM_ROOT.'/lib/mandrill/Mandrill.php');
-				$this->key = $this->settings->getSetting('key');
-				$this->api = new Mandrill($this->key);
+
+			if(CASH_DEBUG) {
+				error_log("MandrillSeed->getCASHConnection");
 			}
+
+			// check if the user already has a connection for this service
+			if (!$this->api_key = $this->settings->getSetting('api_key')) {
+
+				if(CASH_DEBUG) {
+					error_log("MandrillSeed->settings->getSetting");
+				}
+
+				// if not let's default to the system settings
+				$connections = CASHSystem::getSystemSettings('system_connections');
+				
+				if (isset($connections['com.mandrillapp']['api_key'])) {
+					$this->api_key = $connections['com.mandrillapp']['api_key'];
+				} else {
+					$this->error_message = 'no API key found';
+					return false;
+				}
+			}
+
+			error_log("API Key for Mandrill ".$this->api_key);
+
+			$this->api = new Mandrill($this->api_key);
+
+			error_log(
+				"API object: ".
+				print_r($this->api, true)
+			);
+
 		} else {
 			$this->error_message = 'could not get connection';
 		}
@@ -39,39 +73,46 @@ class MandrillSeed extends SeedBase {
 	public static function getRedirectMarkup($data=false) {
 		$connections = CASHSystem::getSystemSettings('system_connections');
 
-		if (isset($connections['com.mandrillapp'])) {
-			require_once(CASH_PLATFORM_ROOT.'/lib/mandrill/Mandrill.php');
-			$login_url = 'http://mandrillapp.com/api-auth/?id='
-					   . $connections['com.mandrillapp']['app_authentication_id']
-					   . '&redirect_url='
-					   . urlencode($connections['com.mandrillapp']['redirect_uri']);
+		// I don't like using ADMIN_WWW_BASE_PATH below, but as this call is always called inside the
+		// admin I'm just going to do it. Without the full path in the form this gets all fucky
+		// and that's no bueno.
 
-			$return_markup = '<h4>Mandrill</h4>'
-						   . '<p>This will redirect you to a secure login on mandrillapp.com and bring you right back.</p>'
-						   . '<a href="' . $login_url . '" class="button">Connect your Mandrill account</a>';
+		if (isset($connections['com.mandrillapp'])) {
+			$return_markup = '<h4>Mandrill by Mailchimp</h4>'
+				. '<p>You\'ll need a Mailchimp with Mandrill API key to connect properly. Mandrill is a paid add-on for Mailchimp. Read more <a href="http://kb.mailchimp.com/mandrill/add-or-remove-mandrill">here</a>.</p>'
+				. '<form accept-charset="UTF-8" method="post" id="mandrill_connection_form" action="' . $data . '">'
+//				. '<input type="hidden" name="dosettingsadd" value="makeitso" />'
+//				. '<input type="hidden" name="permission_type" value="accelerated" />'
+				. '<input id="connection_name_input" type="hidden" name="settings_name" value="(Mandrill)" />'
+//				. '<input type="hidden" name="settings_type" value="com.mandrillapp" />'
+				. '<label for="merchant_email">Your Mandrill API key:</label>'
+				. '<input type="text" name="api_key" id="api_key" value="" />'
+				. '<br />'
+				. '<div><input class="button" type="submit" value="Add The Connection" /></div>'
+				. '</form>';
+
 			return $return_markup;
 		} else {
-			return 'Please add default mandrill app credentials.';
+			return 'Please add default Mandrill API credentials.';
 		}
 	}
 
 	public static function handleRedirectReturn($data=false) {
-		if (!isset($data['key'])) {
+
+		if (!isset($data['api_key'])) {
 			return 'There was an error. (general) Please try again.';
 		} else {
-			require_once(CASH_PLATFORM_ROOT.'/lib/mandrill/Mandrill.php');
-			$m = new Mandrill($data['key']);
-			$user_info = $m->getUserInfo();
-			$username  = $user_info['username'];
+
+			$mandrill = new Mandrill($data['api_key']);
 
 			// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
 			// calls would only happen in the admin. If this changes we can fuck around with it later.
 			$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
 			$result = $new_connection->setSettings(
-				$username . ' (Mandrill)',
+				$data['api_key'] . ' (Mandrill)',
 				'com.mandrillapp',
 				array(
-					'key' => $data['key']
+					'key' => $data['api_key']
 				)
 			);
 			if (!$result) {
@@ -82,11 +123,11 @@ class MandrillSeed extends SeedBase {
 			$webhook_api_url = CASH_API_URL . '/verbose/people/processwebhook/origin/com.mandrillapp/api_key/' . $api_credentials['api_key'];
 			//$m->webhooksDelete($webhook_api_url); // remove duplicate webhooks
 			//$m->webhooksAdd($webhook_api_url,array('send','hard_bounce','soft_bounce','open','click','spam','unsub','reject')); // add it, all events
-			$m->call('webhooks/add', array("url"=>$webhook_api_url,"events"=>array('hard_bounce','soft_bounce','open','click','spam','unsub','reject')));
+			$mandrill->call('webhooks/add', array("url"=>$webhook_api_url,"events"=>array('hard_bounce','soft_bounce','open','click','spam','unsub','reject')));
 
 			return array(
 				'id' => $result,
-				'name' => $username . ' (Mandrill)',
+				'name' => $data['api_key'] . ' (Mandrill)',
 				'type' => 'com.mandrillapp'
 			);
 		}
@@ -154,7 +195,6 @@ class MandrillSeed extends SeedBase {
 			}
 		}
 
-		/*
 		if ($global_merge_vars) {
 			$global_merge_vars = json_encode($global_merge_vars);
 		}
@@ -162,7 +202,6 @@ class MandrillSeed extends SeedBase {
 		if ($merge_vars) {
 			$merge_vars = json_encode($merge_vars);
 		}
-		*/
 
 		$message = array(
 			"html" => $message_html,

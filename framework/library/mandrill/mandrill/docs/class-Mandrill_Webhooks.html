@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="ApiGen 2.8.0">
+
+	<title>Class Mandrill_Webhooks</title>
+
+	<link rel="stylesheet" href="resources/style.css?3901564645">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Namespaces</h3>
+			<ul>
+				<li class="active"><a href="namespace-None.html">None</a>
+						</li>
+				<li><a href="namespace-PHP.html">PHP</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Mandrill.html">Mandrill</a></li>
+				<li><a href="class-Mandrill_Exports.html">Mandrill_Exports</a></li>
+				<li><a href="class-Mandrill_Inbound.html">Mandrill_Inbound</a></li>
+				<li><a href="class-Mandrill_Internal.html">Mandrill_Internal</a></li>
+				<li><a href="class-Mandrill_Ips.html">Mandrill_Ips</a></li>
+				<li><a href="class-Mandrill_Messages.html">Mandrill_Messages</a></li>
+				<li><a href="class-Mandrill_Metadata.html">Mandrill_Metadata</a></li>
+				<li><a href="class-Mandrill_Rejects.html">Mandrill_Rejects</a></li>
+				<li><a href="class-Mandrill_Senders.html">Mandrill_Senders</a></li>
+				<li><a href="class-Mandrill_Subaccounts.html">Mandrill_Subaccounts</a></li>
+				<li><a href="class-Mandrill_Tags.html">Mandrill_Tags</a></li>
+				<li><a href="class-Mandrill_Templates.html">Mandrill_Templates</a></li>
+				<li><a href="class-Mandrill_Urls.html">Mandrill_Urls</a></li>
+				<li><a href="class-Mandrill_Users.html">Mandrill_Users</a></li>
+				<li class="active"><a href="class-Mandrill_Webhooks.html">Mandrill_Webhooks</a></li>
+				<li><a href="class-Mandrill_Whitelists.html">Mandrill_Whitelists</a></li>
+			</ul>
+
+
+
+			<h3>Exceptions</h3>
+			<ul>
+				<li><a href="class-Mandrill_Error.html">Mandrill_Error</a></li>
+				<li><a href="class-Mandrill_HttpError.html">Mandrill_HttpError</a></li>
+				<li><a href="class-Mandrill_Invalid_CustomDNS.html">Mandrill_Invalid_CustomDNS</a></li>
+				<li><a href="class-Mandrill_Invalid_CustomDNSPending.html">Mandrill_Invalid_CustomDNSPending</a></li>
+				<li><a href="class-Mandrill_Invalid_DeleteDefaultPool.html">Mandrill_Invalid_DeleteDefaultPool</a></li>
+				<li><a href="class-Mandrill_Invalid_DeleteNonEmptyPool.html">Mandrill_Invalid_DeleteNonEmptyPool</a></li>
+				<li><a href="class-Mandrill_Invalid_EmptyDefaultPool.html">Mandrill_Invalid_EmptyDefaultPool</a></li>
+				<li><a href="class-Mandrill_Invalid_Key.html">Mandrill_Invalid_Key</a></li>
+				<li><a href="class-Mandrill_Invalid_Reject.html">Mandrill_Invalid_Reject</a></li>
+				<li><a href="class-Mandrill_Invalid_Tag_Name.html">Mandrill_Invalid_Tag_Name</a></li>
+				<li><a href="class-Mandrill_Invalid_Template.html">Mandrill_Invalid_Template</a></li>
+				<li><a href="class-Mandrill_IP_ProvisionLimit.html">Mandrill_IP_ProvisionLimit</a></li>
+				<li><a href="class-Mandrill_Metadata_FieldLimit.html">Mandrill_Metadata_FieldLimit</a></li>
+				<li><a href="class-Mandrill_NoSendingHistory.html">Mandrill_NoSendingHistory</a></li>
+				<li><a href="class-Mandrill_PaymentRequired.html">Mandrill_PaymentRequired</a></li>
+				<li><a href="class-Mandrill_PoorReputation.html">Mandrill_PoorReputation</a></li>
+				<li><a href="class-Mandrill_ServiceUnavailable.html">Mandrill_ServiceUnavailable</a></li>
+				<li><a href="class-Mandrill_Unknown_Export.html">Mandrill_Unknown_Export</a></li>
+				<li><a href="class-Mandrill_Unknown_InboundDomain.html">Mandrill_Unknown_InboundDomain</a></li>
+				<li><a href="class-Mandrill_Unknown_InboundRoute.html">Mandrill_Unknown_InboundRoute</a></li>
+				<li><a href="class-Mandrill_Unknown_IP.html">Mandrill_Unknown_IP</a></li>
+				<li><a href="class-Mandrill_Unknown_Message.html">Mandrill_Unknown_Message</a></li>
+				<li><a href="class-Mandrill_Unknown_MetadataField.html">Mandrill_Unknown_MetadataField</a></li>
+				<li><a href="class-Mandrill_Unknown_Pool.html">Mandrill_Unknown_Pool</a></li>
+				<li><a href="class-Mandrill_Unknown_Sender.html">Mandrill_Unknown_Sender</a></li>
+				<li><a href="class-Mandrill_Unknown_Subaccount.html">Mandrill_Unknown_Subaccount</a></li>
+				<li><a href="class-Mandrill_Unknown_Template.html">Mandrill_Unknown_Template</a></li>
+				<li><a href="class-Mandrill_Unknown_TrackingDomain.html">Mandrill_Unknown_TrackingDomain</a></li>
+				<li><a href="class-Mandrill_Unknown_Url.html">Mandrill_Unknown_Url</a></li>
+				<li><a href="class-Mandrill_Unknown_Webhook.html">Mandrill_Unknown_Webhook</a></li>
+				<li><a href="class-Mandrill_ValidationError.html">Mandrill_ValidationError</a></li>
+			</ul>
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text">
+		<input type="submit" value="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-None.html" title="Summary of None"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Mandrill_Webhooks</h1>
+
+
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		
+
+		<b>Located at</b> <a href="source-class-Mandrill_Webhooks.html#3-120" title="Go to source code">Mandrill/Webhooks.php</a><br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-Mandrill_Webhooks.html#4-6" title="Go to source code">__construct</a>( <span><code><a href="class-Mandrill.html">Mandrill</a></code> <var>$master</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getList" id="_getList">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getList">#</a>
+		<code><a href="source-class-Mandrill_Webhooks.html#8-27" title="Go to source code">getList</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the list of all webhooks defined on the account</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the list of all webhooks defined on the account</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>the webhooks associated with the account - return[] struct the individual
+webhook info - id integer a unique integer indentifier for the webhook - url
+string The URL that the event data will be posted to - description string a
+description of the webhook - auth_key string the key used to requests for this
+webhook - events array The message events that will be posted to the hook -
+events[] string the individual message event (send, hard_bounce, soft_bounce,
+open, click, spam, unsub, or reject) - created_at string the date and time that
+the webhook was created as a UTC string in YYYY-MM-DD HH:MM:SS format -
+last_sent_at string the date and time that the webhook last successfully
+received events as a UTC string in YYYY-MM-DD HH:MM:SS format - batches_sent
+integer the number of event batches that have ever been sent to this webhook -
+events_sent integer the total number of events that have ever been sent to this
+webhook - last_error string if we've ever gotten an error trying to post to this
+webhook, the last error that we've seen<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="add" id="_add">
+
+		<td class="attributes"><code>
+			 public 
+			struct
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_add">#</a>
+		<code><a href="source-class-Mandrill_Webhooks.html#29-51" title="Go to source code">add</a>( <span>string <var>$url</var></span>, <span>string <var>$description</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$events</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+<p>Add a new webhook</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Add a new webhook</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$url</var></dt>
+					<dd>the URL to POST batches of events</dd>
+					<dt><var>$description</var></dt>
+					<dd>an optional description of the webhook</dd>
+					<dt><var>$events</var></dt>
+					<dd>an optional list of events that will be posted to the webhook - events[] string
+the individual event to listen for</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>struct</code><br>the information saved about the new webhook - id integer a unique integer
+indentifier for the webhook - url string The URL that the event data will be
+posted to - description string a description of the webhook - auth_key string
+the key used to requests for this webhook - events array The message events that
+will be posted to the hook - events[] string the individual message event (send,
+hard_bounce, soft_bounce, open, click, spam, unsub, or reject) - created_at
+string the date and time that the webhook was created as a UTC string in
+YYYY-MM-DD HH:MM:SS format - last_sent_at string the date and time that the
+webhook last successfully received events as a UTC string in YYYY-MM-DD HH:MM:SS
+format - batches_sent integer the number of event batches that have ever been
+sent to this webhook - events_sent integer the total number of events that have
+ever been sent to this webhook - last_error string if we've ever gotten an error
+trying to post to this webhook, the last error that we've seen<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="info" id="_info">
+
+		<td class="attributes"><code>
+			 public 
+			struct
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_info">#</a>
+		<code><a href="source-class-Mandrill_Webhooks.html#53-72" title="Go to source code">info</a>( <span>integer <var>$id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Given the ID of an existing webhook, return the data about it</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Given the ID of an existing webhook, return the data about it</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd>the unique identifier of a webhook belonging to this account</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>struct</code><br>the information about the webhook - id integer a unique integer indentifier for
+the webhook - url string The URL that the event data will be posted to -
+description string a description of the webhook - auth_key string the key used
+to requests for this webhook - events array The message events that will be
+posted to the hook - events[] string the individual message event (send,
+hard_bounce, soft_bounce, open, click, spam, unsub, or reject) - created_at
+string the date and time that the webhook was created as a UTC string in
+YYYY-MM-DD HH:MM:SS format - last_sent_at string the date and time that the
+webhook last successfully received events as a UTC string in YYYY-MM-DD HH:MM:SS
+format - batches_sent integer the number of event batches that have ever been
+sent to this webhook - events_sent integer the total number of events that have
+ever been sent to this webhook - last_error string if we've ever gotten an error
+trying to post to this webhook, the last error that we've seen<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="update" id="_update">
+
+		<td class="attributes"><code>
+			 public 
+			struct
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_update">#</a>
+		<code><a href="source-class-Mandrill_Webhooks.html#74-97" title="Go to source code">update</a>( <span>integer <var>$id</var></span>, <span>string <var>$url</var></span>, <span>string <var>$description</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$events</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+<p>Update an existing webhook</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Update an existing webhook</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd>the unique identifier of a webhook belonging to this account</dd>
+					<dt><var>$url</var></dt>
+					<dd>the URL to POST batches of events</dd>
+					<dt><var>$description</var></dt>
+					<dd>an optional description of the webhook</dd>
+					<dt><var>$events</var></dt>
+					<dd>an optional list of events that will be posted to the webhook - events[] string
+the individual event to listen for</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>struct</code><br>the information for the updated webhook - id integer a unique integer
+indentifier for the webhook - url string The URL that the event data will be
+posted to - description string a description of the webhook - auth_key string
+the key used to requests for this webhook - events array The message events that
+will be posted to the hook - events[] string the individual message event (send,
+hard_bounce, soft_bounce, open, click, spam, unsub, or reject) - created_at
+string the date and time that the webhook was created as a UTC string in
+YYYY-MM-DD HH:MM:SS format - last_sent_at string the date and time that the
+webhook last successfully received events as a UTC string in YYYY-MM-DD HH:MM:SS
+format - batches_sent integer the number of event batches that have ever been
+sent to this webhook - events_sent integer the total number of events that have
+ever been sent to this webhook - last_error string if we've ever gotten an error
+trying to post to this webhook, the last error that we've seen<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="delete" id="_delete">
+
+		<td class="attributes"><code>
+			 public 
+			struct
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_delete">#</a>
+		<code><a href="source-class-Mandrill_Webhooks.html#99-118" title="Go to source code">delete</a>( <span>integer <var>$id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Delete an existing webhook</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Delete an existing webhook</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd>the unique identifier of a webhook belonging to this account</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>struct</code><br>the information for the deleted webhook - id integer a unique integer
+indentifier for the webhook - url string The URL that the event data will be
+posted to - description string a description of the webhook - auth_key string
+the key used to requests for this webhook - events array The message events that
+will be posted to the hook - events[] string the individual message event (send,
+hard_bounce, soft_bounce, open, click, spam, unsub, or reject) - created_at
+string the date and time that the webhook was created as a UTC string in
+YYYY-MM-DD HH:MM:SS format - last_sent_at string the date and time that the
+webhook last successfully received events as a UTC string in YYYY-MM-DD HH:MM:SS
+format - batches_sent integer the number of event batches that have ever been
+sent to this webhook - events_sent integer the total number of events that have
+ever been sent to this webhook - last_error string if we've ever gotten an error
+trying to post to this webhook, the last error that we've seen<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js?2846385516"></script>
+<script src="elementlist.js?882160656"></script>
+</body>
+</html>

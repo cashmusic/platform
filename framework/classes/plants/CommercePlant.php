@@ -503,7 +503,7 @@ class CommercePlant extends PlantBase {
                 'Requested CommercePlant->emailBuyersByItem with: '
                 .'$user_id='. (string)$user_id
                 .',$item_id='. (string)$item_id
-                .',$connection_id='. (string)$connection_id
+                //.',$connection_id='. (string)$connection_id
                 .',$subject='. (string)$subject
                 .',$message='. (string)$message
                 .',$include_download='. (string)$include_download
@@ -666,7 +666,7 @@ class CommercePlant extends PlantBase {
                             $all_vars = array();
                             $unlock_suffix = 1;
 
-                            if (!CASHSystem::sendEmail(
+/*                            if (!CASHSystem::sendEmail(
                                 $subject,
                                 $user_id,
                                 $recipient['email'],
@@ -676,12 +676,12 @@ class CommercePlant extends PlantBase {
                             )) {
                                 //TODO: sendEmail is returning false even though everything is sending correctly.
                                 //$success = false;
-                            }
+                            }*/
                         }
                     }
                 }
 
-/*                $mandrill = new MandrillSeed($user_id,$connection_id);
+                $mandrill = new MandrillSeed($user_id);
                 $result = $mandrill->send(
                     $subject,
                     $message,
@@ -692,7 +692,7 @@ class CommercePlant extends PlantBase {
                     null,
                     $global_merge_vars,
                     $merge_vars
-                );*/
+                );
                 if (!$success) return false;
 
                 return true;
