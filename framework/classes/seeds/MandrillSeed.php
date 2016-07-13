@@ -29,9 +29,7 @@ class MandrillSeed extends SeedBase {
 		// if there's no $connection_id, we'll just default to CASH's key
 		
 		$this->connection_id = $connection_id;
-		if(CASH_DEBUG) {
-			error_log("pre-get connection");
-		}
+
 		if ($this->getCASHConnection()) {
 
 			if(CASH_DEBUG) {
@@ -56,14 +54,7 @@ class MandrillSeed extends SeedBase {
 				}
 			}
 
-			error_log("API Key for Mandrill ".$this->api_key);
-
 			$this->api = new Mandrill($this->api_key);
-
-			error_log(
-				"API object: ".
-				print_r($this->api, true)
-			);
 
 		} else {
 			$this->error_message = 'could not get connection';
@@ -153,6 +144,7 @@ class MandrillSeed extends SeedBase {
 	}
 	//https://mandrillapp.com/api/docs/messages.html#method=send
 	public function send($subject,$message_txt,$message_html,$from_address,$from_name,$recipients,$metadata=null,$global_merge_vars=null,$merge_vars=null,$tags=null) {
+
 		$unsubscribe_link = '';
 		if ($metadata) {
 			if (isset($metadata['list_id'])) {
@@ -195,14 +187,6 @@ class MandrillSeed extends SeedBase {
 			}
 		}
 
-		if ($global_merge_vars) {
-			$global_merge_vars = json_encode($global_merge_vars);
-		}
-
-		if ($merge_vars) {
-			$merge_vars = json_encode($merge_vars);
-		}
-
 		$message = array(
 			"html" => $message_html,
 			"text" => $message_txt,
@@ -231,6 +215,11 @@ class MandrillSeed extends SeedBase {
 			"recipient_metadata" => $recipient_metadata,
 			"attachments" => null,
 			"images" => null
+		);
+
+		error_log(
+			'@#$%^&*( global merge'.
+			print_r($message['global_merge_vars'], true)
 		);
 
       return $this->api->call('messages/send', array("message" => $message, "async" => true));

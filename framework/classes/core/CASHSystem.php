@@ -559,14 +559,15 @@
 		return $finaladdress;
 	}
 
-	/*
+	/**
 	 * Sends a plain text and HTML email for system things like email verification,
 	 * password resets, etc.
 	 *
 	 * USAGE:
 	 * CASHSystem::sendEmail('test email','CASH Music <info@cashmusic.org>','dev@cashmusic.org','message, with link: http://cashmusic.org/','title');
 	 *
-	 */public static function sendEmail($subject,$user_id,$toaddress,$message_text,$message_title,$encoded_html=false) {
+	 */
+	public static function sendEmail($subject,$user_id,$toaddress,$message_text,$message_title,$encoded_html=false) {
 		// pulling out just the TO email from a 'Address Name <address@name.com>' style address:
 		if (strpos($toaddress, '>')) {
 			preg_match('/([^<]+)\s<(.*)>/', $toaddress, $matches);
@@ -622,26 +623,19 @@
 
 			// handle encoding of HTML if specific HTML isn't passed in:
 			if (!$encoded_html) {
-				$template = @file_get_contents(CASH_PLATFORM_ROOT . '/settings/defaults/system_email.mustache');
-				if (file_exists(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php')) {
-					include_once(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php');
-				}
-				$message_text = Markdown($message_text);
-				$encoded_html = preg_replace('/(\shttp:\/\/(\S*))/', '<a href="\1">\1</a>', $message_text);
-				if (!$template) {
+
+				$message_text = CASHSystem::parseMarkdown($message_text);
+
+				if (!$template = CASHSystem::setMustacheTemplate("system_email")) {
+
+					//TODO: can we move this to
 					$encoded_html .= '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' . $message_title . '</title></head><body>'
 							  . "<h1>$message_title</h1>\n" . "<p>" . $encoded_html . "</p>"
 							  . "</body></html>";
 				} else {
-					// open up some mustache in here:
-					include_once(CASH_PLATFORM_ROOT . '/lib/mustache/Mustache.php');
-					$higgins = new Mustache;
-					$mustache_vars = array(
-						'encoded_html' => $encoded_html,
-						'message_title' => $message_title,
-						'cdn_url' => (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL
-					);
-					$encoded_html = $higgins->render($template, $mustache_vars);
+
+					// render the mustache template and return
+					$encoded_html = CASHSystem::renderMustacheTemplate($template, $message_title, $encoded_html);
 				}
 			}
 
@@ -685,6 +679,173 @@
 			}
 		}
 		return false;
+	}
+
+	public static function sendMassEmail($user_id, $subject, $recipients, $message_text, $message_title, $global_merge_vars=false, $merge_vars=false, $encoded_html=false) {
+
+		if (CASH_DEBUG) {
+			error_log("CASHSystem:sendMassEmail message:\n$message_text");
+		}
+		// get current user details for email
+		$user_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'people',
+				'cash_action' => 'getuser',
+				'user_id' => $user_id
+			)
+		);
+		$user_details = $user_request->response['payload'];
+
+		if ($user_details['display_name'] == 'Anonymous' || !$user_details['display_name']) {
+			$user_details['display_name'] = $user_details['email_address'];
+		}
+
+		// handle encoding of HTML if specific HTML isn't passed in:
+		if (!$encoded_html) {
+			$message_text = CASHSystem::parseMarkdown($message_text);
+
+			if (!$template = CASHSystem::setMustacheTemplate("system_email")) {
+
+				//TODO: can we move this to
+				$encoded_html .= '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' . $message_title . '</title></head><body>'
+					. "<h1>$message_title</h1>\n" . "<p>" . $encoded_html . "</p>"
+					. "</body></html>";
+			} else {
+
+				// render the mustache template and return
+				$encoded_html = CASHSystem::renderMustacheTemplate($template, $message_title, $message_text);
+			}
+		}
+
+		$html_message = $encoded_html;
+
+		// get mandrill connection info
+		$cash_request = new CASHConnection($user_id);
+		$mandrill = $cash_request->getConnectionsByType('com.mandrillapp');
+
+		// check viability of using mandrill vs. smtp fallback
+		$can_mandrill = true;
+
+		// if a viable connection, set connection id with user connection
+		if (is_array($mandrill) && !empty($mandrill[0]['id'])) {
+			$connection_id = $mandrill[0]['id'];
+		} else {
+			// else tell MandrillSeed to use system settings in connections.json
+			$connection_id = "system";
+
+			$connections = CASHSystem::getSystemSettings('system_connections');
+
+			if (!isset($connections['com.mandrillapp']['api_key'])) {
+				$can_mandrill = false;
+			}
+		}
+
+		if ($can_mandrill) {
+
+			if (CASH_DEBUG) {
+				error_log("CASHSystem:sendMassEmail -> Mandrill");
+			}
+
+			$mandrill = new MandrillSeed($user_id, $connection_id);
+
+			if ($result = $mandrill->send(
+				$subject,
+				$message_text,
+				$html_message,
+				$user_details['email_address'],
+				$user_details['display_name'],
+				$recipients,
+				null,
+				$global_merge_vars,
+				$merge_vars
+			)) {
+				return true;
+			}
+		}
+
+		if (!$can_mandrill) {
+			// if something is wacky with both user mandrill connection and the connections.json, let's just try to use smtp instead
+			if (CASH_DEBUG) {
+				error_log("CASHSystem:sendMassEmail -> Smtp");
+			}
+
+			return true;
+		}
+
+		// if all else fails, cry
+		return false;
+
+	}
+	/**
+	 * Parsing markdown, returning an HTML string. Automatically converts URLs to links, using the Parsedown library.
+	 *
+	 * https://github.com/erusev/parsedown/wiki/Tutorial:-Get-Started
+	 * @param $markdown
+	 * @return string
+	 */
+	public static function parseMarkdown($markdown) {
+		return Parsedown::instance()->text($markdown);
+	}
+
+	/**
+	 * Grab a specified mustache template
+	 *
+	 * @param $template
+	 * @param bool $directory_override
+	 * @return bool|string
+	 */
+	public static function setMustacheTemplate($template, $directory_override=false) {
+
+		// defaults to default template directory unless we're told otherwise
+		$directory = "/settings/defaults";
+
+		if ($directory_override) $directory = $directory_override;
+
+		// catch an exception or file not found and walk away if shit hits the fan
+		try {
+			$template = @file_get_contents(CASH_PLATFORM_ROOT . $directory . '/' . $template . '.mustache');
+		} catch(Exception $e) {
+			return false;
+		}
+
+		return $template;
+	}
+
+	/**
+	 * Render mustache based on loaded template file and set vars.
+	 *
+	 * @param $template
+	 * @param $title
+	 * @param $body
+	 * @return bool|string
+	 */
+	public static function renderMustacheTemplate($template, $title, $body) {
+
+
+		if (CASH_DEBUG) {
+			error_log(
+				"CASHSystem::renderMustacheTemplate\n".
+				'$template: '.$template.
+				'$title: '.$title.
+				'$body: '.$body
+			);
+		}
+
+		// try to render the template with the provided vars, or die
+		$mustache_engine = new Mustache_Engine;
+		try {
+
+			$rendered_template = $mustache_engine->render($template, array(
+				'encoded_html' => $body,
+				'message_title' => $title,
+				'cdn_url' => (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL
+				)
+			);
+		} catch (Exception $e) {
+			return false;
+		}
+
+		return $rendered_template;
 	}
 
 	public static function getMimeTypeFor($path) {
