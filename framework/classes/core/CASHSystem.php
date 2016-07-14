@@ -681,6 +681,21 @@
 		return false;
 	}
 
+	/**
+	 * Send email via Mandrill or SMTP if Mandrill isn't available
+	 *
+	 * @param $user_id
+	 * @param $subject
+	 * @param $recipients
+	 * @param $message_text
+	 * @param $message_title
+	 * @param bool $global_merge_vars
+	 * @param bool $merge_vars
+	 * @param bool $encoded_html
+	 * @param bool $message_text_html
+	 * @return bool
+	 */
+
 	public static function sendMassEmail($user_id, $subject, $recipients, $message_text, $message_title, $global_merge_vars=false, $merge_vars=false, $encoded_html=false, $message_text_html=true) {
 
 		if (CASH_DEBUG) {
@@ -694,7 +709,7 @@
 				'user_id' => $user_id
 			)
 		);
-		
+
 		$user_details = $user_request->response['payload'];
 
 		if ($user_details['display_name'] == 'Anonymous' || !$user_details['display_name']) {
@@ -720,8 +735,13 @@
 			} else {
 
 				// render the mustache template and return
-				$encoded_html = CASHSystem::renderMustacheTemplate(
-					$template, $message_title, $message_body_parsed
+				$encoded_html = CASHSystem::renderMustache(
+					$template, array(
+						// array of values to be passed to the mustache template
+						'encoded_html' => $message_body_parsed,
+						'message_title' => $message_title,
+						'cdn_url' => (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL
+					)
 				);
 			}
 		}
@@ -733,7 +753,7 @@
 		$mandrill = $cash_request->getConnectionsByType('com.mandrillapp');
 
 		// check viability of using mandrill vs. smtp fallback
-		$can_mandrill = true;
+		$connection_id = false;
 
 		// if a viable connection, set connection id with user connection
 		if (is_array($mandrill) && !empty($mandrill[0]['id'])) {
@@ -745,11 +765,11 @@
 			$connections = CASHSystem::getSystemSettings('system_connections');
 
 			if (!isset($connections['com.mandrillapp']['api_key'])) {
-				$can_mandrill = false;
+				$connection_id = false;
 			}
 		}
 
-		if ($can_mandrill) {
+		if ($connection_id) {
 
 			if (CASH_DEBUG) {
 				error_log("CASHSystem:sendMassEmail -> Mandrill");
@@ -770,15 +790,6 @@
 			)) {
 				return true;
 			}
-		}
-
-		if (!$can_mandrill) {
-			// if something is wacky with both user mandrill connection and the connections.json, let's just try to use smtp instead
-			if (CASH_DEBUG) {
-				error_log("CASHSystem:sendMassEmail -> Smtp");
-			}
-
-			return true;
 		}
 
 		// if all else fails, cry
@@ -830,28 +841,19 @@
 	 * @param $body
 	 * @return bool|string
 	 */
-	public static function renderMustacheTemplate($template, $title, $body) {
-
+	public static function renderMustache($template, $vars_array) {
 
 		if (CASH_DEBUG) {
 			error_log(
 				"CASHSystem::renderMustacheTemplate\n".
-				'$template: '.$template.
-				'$title: '.$title.
-				'$body: '.$body
+				'$vars_array: '.print_r($vars_array, true)
 			);
 		}
 
 		// try to render the template with the provided vars, or die
 		$mustache_engine = new Mustache_Engine;
 		try {
-
-			$rendered_template = $mustache_engine->render($template, array(
-				'encoded_html' => $body,
-				'message_title' => $title,
-				'cdn_url' => (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL
-				)
-			);
+			$rendered_template = $mustache_engine->render($template, $vars_array);
 		} catch (Exception $e) {
 			return false;
 		}
@@ -900,12 +902,6 @@
 		} else {
 			return 'application/octet-stream';
 		}
-	}
-
-	public static function renderMustache($template,$vars_array) {
-		include_once(CASH_PLATFORM_ROOT . '/lib/mustache/Mustache.php');
-		$axelrod = new Mustache;
-		return $axelrod->render($template,$vars_array);
 	}
 
 	public static function getConnectionTypeSettings($type_string) {
