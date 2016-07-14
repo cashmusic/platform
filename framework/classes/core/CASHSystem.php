@@ -760,7 +760,8 @@
 		$cash_request = new CASHConnection($user_id);
 		$mandrill = $cash_request->getConnectionsByType('com.mandrillapp');
 
-		// check viability of using mandrill vs. smtp fallback
+		// check viability of using mandrill
+		//TODO: this might be a good place to have a firewall to stop abuse
 		$connection_id = false;
 
 		// if a viable connection, set connection id with user connection
