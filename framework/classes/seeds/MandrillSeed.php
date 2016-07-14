@@ -197,7 +197,7 @@ class MandrillSeed extends SeedBase {
 			"headers" => null,
 			"track_opens" => true,
 			"track_clicks" => true,
-			"auto_text" => true,
+			"auto_text" => false,
 			"auto_html" => false,
 			"inline_css" => true,
 			"url_strip_qs" => null,
@@ -205,7 +205,7 @@ class MandrillSeed extends SeedBase {
 			"bcc_address" => null,
 			"tracking_domain" => null,
 			"signing_domain" => null,
-			"merge" => null,
+			"merge" => true,
 			"global_merge_vars" => $global_merge_vars,
 			"merge_vars" => $merge_vars,
 			"tags" => $tags,
@@ -215,11 +215,6 @@ class MandrillSeed extends SeedBase {
 			"recipient_metadata" => $recipient_metadata,
 			"attachments" => null,
 			"images" => null
-		);
-
-		error_log(
-			'@#$%^&*( global merge'.
-			print_r($message['global_merge_vars'], true)
 		);
 
       return $this->api->call('messages/send', array("message" => $message, "async" => true));

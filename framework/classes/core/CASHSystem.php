@@ -681,7 +681,7 @@
 		return false;
 	}
 
-	public static function sendMassEmail($user_id, $subject, $recipients, $message_text, $message_title, $global_merge_vars=false, $merge_vars=false, $encoded_html=false) {
+	public static function sendMassEmail($user_id, $subject, $recipients, $message_text, $message_title, $global_merge_vars=false, $merge_vars=false, $encoded_html=false, $message_text_html=true) {
 
 		if (CASH_DEBUG) {
 			error_log("CASHSystem:sendMassEmail message:\n$message_text");
@@ -694,6 +694,7 @@
 				'user_id' => $user_id
 			)
 		);
+		
 		$user_details = $user_request->response['payload'];
 
 		if ($user_details['display_name'] == 'Anonymous' || !$user_details['display_name']) {
@@ -702,7 +703,13 @@
 
 		// handle encoding of HTML if specific HTML isn't passed in:
 		if (!$encoded_html) {
-			$message_text = CASHSystem::parseMarkdown($message_text);
+
+			// need to make sure this isn't already parsed
+			if (!$message_text_html) {
+				$message_body_parsed = CASHSystem::parseMarkdown($message_text);
+			} else {
+				$message_body_parsed = $message_text;
+			}
 
 			if (!$template = CASHSystem::setMustacheTemplate("system_email")) {
 
@@ -713,11 +720,13 @@
 			} else {
 
 				// render the mustache template and return
-				$encoded_html = CASHSystem::renderMustacheTemplate($template, $message_title, $message_text);
+				$encoded_html = CASHSystem::renderMustacheTemplate(
+					$template, $message_title, $message_body_parsed
+				);
 			}
 		}
 
-		$html_message = $encoded_html;
+		$message_html = $encoded_html;
 
 		// get mandrill connection info
 		$cash_request = new CASHConnection($user_id);
@@ -751,7 +760,7 @@
 			if ($result = $mandrill->send(
 				$subject,
 				$message_text,
-				$html_message,
+				$message_html,
 				$user_details['email_address'],
 				$user_details['display_name'],
 				$recipients,
@@ -784,7 +793,9 @@
 	 * @return string
 	 */
 	public static function parseMarkdown($markdown) {
-		return Parsedown::instance()->text($markdown);
+		return Parsedown::instance()
+			//->setUrlsLinked(false)
+			->text($markdown);
 	}
 
 	/**

@@ -659,24 +659,14 @@ class CommercePlant extends PlantBase {
                     $user_id,
                     $subject,
                     $recipients,
-                    $message,
-                    $subject,
-                    $global_merge_vars,
-                    $merge_vars
-                );
-                
-                /*$mandrill = new MandrillSeed($user_id, $connection_id);
-                $result = $mandrill->send(
-                    $subject,
-                    $message,
                     $html_message,
-                    $user_details['email_address'],         // sender email
-                    $user_details['display_name'],          // sender display name
-                    $recipients,
-                    null,
+                    $subject,
                     $global_merge_vars,
-                    $merge_vars
-                );*/
+                    $merge_vars,
+                    false,
+                    true
+                );
+
                 if (!$success) return false;
 
                 return true;
