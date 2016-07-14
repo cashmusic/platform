@@ -635,7 +635,15 @@
 				} else {
 
 					// render the mustache template and return
-					$encoded_html = CASHSystem::renderMustacheTemplate($template, $message_title, $encoded_html);
+					$encoded_html = CASHSystem::renderMustache(
+						$template, array(
+							// array of values to be passed to the mustache template
+							'encoded_html' => $encoded_html,
+							'message_title' => $message_title,
+							'cdn_url' => (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL
+						)
+					);
+
 				}
 			}
 
@@ -769,11 +777,8 @@
 			}
 		}
 
+		// either we've got a valid connection ID, or a fallback api_key
 		if ($connection_id) {
-
-			if (CASH_DEBUG) {
-				error_log("CASHSystem:sendMassEmail -> Mandrill");
-			}
 
 			$mandrill = new MandrillSeed($user_id, $connection_id);
 
