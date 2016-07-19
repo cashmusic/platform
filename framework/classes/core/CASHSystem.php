@@ -846,6 +846,11 @@
 			curl_setopt($ch, CURLOPT_INFILESIZE, filesize($file));
 			curl_exec($ch);
 			$error_no = curl_errno($ch);
+
+			if  (CASH_DEBUG) {
+				error_log("CASHSystem::uploadToFTP error: ". $error_no);
+			}
+
 			curl_close($ch);
 
 			// if curl request returns 0 then we're cool
