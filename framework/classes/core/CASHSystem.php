@@ -803,5 +803,58 @@
 
 		}
 	}
+
+	/**
+	 * Uploads files to FTP site
+	 *
+	 * @param $file
+	 * @param $credentials
+	 * @param string $protocol
+	 * @return bool
+	 */
+	public static function uploadToFTP($file, $credentials, $protocol='ftp') {
+
+		// do we even have credentials?
+		if (empty($credentials) ||
+			empty($credentials['domain']) ||
+			empty($credentials['username']) ||
+			empty($credentials['password'])
+		) {
+			return false;
+		}
+
+		// open the file or fail
+		if ($fp = fopen($file, 'r')) {
+			$ch = curl_init();
+
+			curl_setopt(
+				$ch, CURLOPT_URL,
+				$protocol.'://' . $credentials['domain'] . '/' . basename($file)
+			);
+
+			curl_setopt($ch, CURLOPT_USERPWD,
+				$credentials['username'] . ':' . $credentials['password']
+			);
+			curl_setopt($ch, CURLOPT_UPLOAD, 1);
+
+			// if this is SFTP we need to set the protocol for the request
+			if ($protocol == "sftp") {
+				curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_SFTP);
+			}
+
+			curl_setopt($ch, CURLOPT_INFILE, $fp);
+			curl_setopt($ch, CURLOPT_INFILESIZE, filesize($file));
+			curl_exec($ch);
+			$error_no = curl_errno($ch);
+			curl_close($ch);
+
+			// if curl request returns 0 then we're cool
+			if ($error_no == 0) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 } // END class
 ?>
