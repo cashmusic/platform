@@ -77,7 +77,8 @@ class MailchimpSeedTests extends UnitTestCase {
 			// so we can test later
 			$total_members = $mc->listMembersCount();
 			$this->assertIsA($total_members, 'integer');
-			$this->assertTrue($members[0]['email_address'] == 'tom@paperscissorsandglue.com');
+						// $this->assertTrue($members[0]['email_address'] == 'tom@paperscissorsandglue.com');
+						// commented out because this assumes a specific key/id
 			$test_email = "dev+$time@cashmusic.org";
 
 			$rc = $mc->listSubscribe($test_email);
