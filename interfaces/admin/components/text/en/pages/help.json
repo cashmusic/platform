@@ -5,8 +5,8 @@
 	"labels":{},
 	"tooltips":{},
 	"copy":{
+		"platform_tour":"Platform tour",
 		"back":"Back to FAQ",
-   	"platform_tour":"Platform tour",
    	"no_help":"There are no help topics available."
 	}
 }

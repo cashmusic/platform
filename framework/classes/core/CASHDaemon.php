@@ -6,7 +6,7 @@
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * Copyright (c) 2013, CASH Music
+ * Copyright (c) 2016, CASH Music
  * Licensed under the GNU Lesser General Public License version 3.
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
@@ -15,40 +15,36 @@
  * Leigh Marble, independent musician, Portland, OR -- www.leighmarble.com --
  *
  */class CASHDaemon extends CASHData {
-	private $user_id = false;		   
+	private $user_id = false;
 
 	public function __construct($user_id=false) {
 		$this->user_id = $user_id;
 		$this->connectDB();
 	}
 
-	private function clearExpiredSessions() {
+	private function cleanTempData($table,$conditional_column,$timestamp) {
 		$this->db->deleteData(
-			'sessions',
+			$table,
 			array(
-				'expiration_date' => array(
+				$conditional_column => array(
 					'condition' => '<',
-					'value' => time()
+					'value' => $timestamp
 				)
 			)
 		);
 	}
 
+	private function clearExpiredSessions() {
+		$this->cleanTempData('sessions','expiration_date',time());
+	}
+
 	private function clearOldTokens() {
-		$this->db->deleteData(
-			'people_resetpassword',
-			array(
-				'creation_date' => array(
-					'condition' => '<',
-					'value' => time() - 86400
-				)
-			)
-		);
+		$this->cleanTempData('people_resetpassword','creation_date',time() - 86400);
 	}
 
 	public function __destruct() {
 		$this->clearExpiredSessions();
 		$this->clearOldTokens();
 	}
-} // END class 
+} // END class
 ?>

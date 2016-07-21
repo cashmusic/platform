@@ -10,8 +10,8 @@
             },
 	"tooltips":{},
 	"copy":{
+		"add_an_event":"Add an event",
 		"firstuse":"Calendar is where you'll enter in your upcoming tour dates, in stores, radio performances, etc. Anything you need to tell your fans about and use in one of your campaign elements. ",
-      "add_an_event":"Add an event",
       "cant_find_venue":"Can't find the venue you're looking for?",
       "add_new_venue":"Add a new venue",
       "this_week":"This week at a glance",

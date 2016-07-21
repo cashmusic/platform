@@ -4,9 +4,21 @@ require_once(dirname(__FILE__) . '/base.php');
 
 class CASHSystemTests extends UnitTestCase {
 
-	function test_getSystemSettings() {
-		echo "Testing CASHSystem:: functions\n";
+	function test_getURLContents() {
+		if (getTestEnv('CASHMUSIC_TEST_URL') == 'http://dev.cashmusic.org') {
+			// Test URL set to remote, so skip the local test
+			echo "Testing getURLContents with cashmusic.org because of remote test URL \n";
+			$return = CASHSystem::getURLContents('http://cashmusic.org/');
+			$this->assertPattern('/cash/',$return); // use google
+		} else {
+			echo 'Testing getURLContents against API URL: ' . CASH_API_URL . "\n";
+			$return = CASHSystem::getURLContents(CASH_API_URL);
+			//$this->assertPattern('/"greeting":"hi."/',$return); // using local API URL as firewalls could mess with an external test
+		}
+	}
 
+	function test_getSystemSettings() {
+		echo "Testing CASHSystem::functions\n";
 		// get all settings
 		$return = CASHSystem::getSystemSettings();
 		$this->assertTrue(is_array($return));
@@ -61,19 +73,6 @@ class CASHSystemTests extends UnitTestCase {
 		$this->assertPattern('/href=\"mailto:info@cashmusic.org\"\>info@cashmusic.org/', $linkified); // test mailto
 		$linkified = CASHSystem::linkifyText($test_str,true);
 		$this->assertPattern('/href=\"https:\/\/twitter.com\/cashmusic\" target=\"_blank\">@cashmusic/', $linkified); // test twitter
-	}
-
-	function test_getURLContents() {
-		if (getTestEnv('CASHMUSIC_TEST_URL') == 'http://dev.cashmusic.org') {
-			// Test URL set to remote, so skip the local test
-			echo "Testing getURLContents with cashmusic.org because of remote test URL.\n";
-			$return = CASHSystem::getURLContents('http://cashmusic.org/');
-			$this->assertPattern('/cash/',$return); // use google
-		} else {
-			echo 'Testing getURLContents against API URL: ' . CASH_API_URL . "\n";
-			$return = CASHSystem::getURLContents(CASH_API_URL);
-			//$this->assertPattern('/"greeting":"hi."/',$return); // using local API URL as firewalls could mess with an external test
-		}
 	}
 
 	function test_getDefaultEmail() {
