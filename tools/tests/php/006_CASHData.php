@@ -34,7 +34,7 @@ class CASHDataTests extends UnitTestCase {
 
 		$session = CASHSystem::startSession();
 		$this->assertTrue($session);
-		echo 'Session started: ' . json_encode($session) . "\n";
+		echo 'Testing sessions: ' . json_encode($session) . "\n";
 		$request->sessionSet('foobar', 'baz');
 		$value = $request->sessionGet('foobar');
 		$this->assertEqual($value, 'baz');

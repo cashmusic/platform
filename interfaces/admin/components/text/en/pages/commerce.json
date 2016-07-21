@@ -12,10 +12,10 @@
    },
 	"tooltips":{},
 	"copy":{
+		"this_week":"This week",
 		"firstuse":"Selling stuff? This section is where you’ll keep track of your orders, add items to sell, and manage inventory. <span class='first-para'>Before you can begin selling items you will need to connect to a payment platform below.</span>",
 			"view_commerce_settings":"Edit settings",
 			"all_time":"All time",
-      "this_week":"This week",
       "num_unfulfilled":"(Number) Unfulfilled",
       "total_amount":"Total Amount",
       "sorry_no_orders":"Sorry, no orders match that filter.",
