@@ -4,26 +4,39 @@ require_once(dirname(__FILE__) . '/curl.php');
 
 class AdminBasicIntegration extends UnitTestCase {
 	public $cc;
-	private $cash_test_url=getTestEnv("CASHMUSIC_TEST_URL");
-	private $cash_user_id=1;
-	private $cash_user_login=getTestEnv("CASHMUSIC_TEST_EMAIL");
-	private $cash_user_password=getTestEnv("CASHMUSIC_TEST_PASSWORD");
+	private $cash_test_url;
+	private $cash_user_login;
+	private $cash_user_password;
 
 	public function __construct() {
 		$this->cc = new cURL();
+		$this->cash_test_url=getTestEnv("CASHMUSIC_TEST_URL");
+		$this->cash_user_login=getTestEnv("CASH_CI_LOGIN");
+		$this->cash_user_password=getTestEnv("CASH_CI_PASSWORD");
 		if (!$this->cash_test_url) {
 			$this->cash_test_url = 'http://localhost';
+		}
+		// force a static login for CI workers (Travis, etc):
+		if (!$this->cash_user_login) {
+			$this->cash_user_login = 'dev@cashmusic.org';
+			$this->cash_user_password = 'dev';
+			$user_add_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'system',
+					'cash_action' => 'addlogin',
+					'address' => $this->cash_user_login,
+					'password' => $this->cash_user_password,
+					'is_admin' => true
+				)
+			);
+			$this->cash_user_id = $user_add_request->response['payload'];
 		}
 		if ($this->cash_test_url == 'http://dev.cashmusic.org') {
 			echo "Test URL is pointing to an external test server, skipping integration tests.\n";
 			$this->cash_test_url = false;
 		} else {
-			echo "\nTesting basic admin integration at:\n" . $this->cash_test_url . "\n\n";
-			// force a static login for CI workers (Travs, etc):
-			if (!$this->cash_user_login) {
-				$this->cash_user_login = 'dev@cashmusic.org';
-				$this->cash_user_password = 'dev';
-			}
+			echo "\nTesting basic admin integration at:\n" . $this->cash_test_url . "\n";
+			echo "using login: " . $this->cash_user_login . " / " . $this->cash_user_password . "\n\n";
 		}
     }
 
