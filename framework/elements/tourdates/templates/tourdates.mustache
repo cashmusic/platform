@@ -1,12 +1,32 @@
 {{#all_events}}
-	<div class="cash_event">
-		<div class="cash_timeandplace">
-			<span class="cash_date">{{formatted_date}}</span> 
-			{{#location}}<span class="cash_location">{{location}}</span> {{/location}}
-			@ <span class="cash_venue">{{venue_name}}</span>
+	<div class="cm-event">
+		<div class="cm-timeandplace">
+			<span class="cm-date">{{formatted_date}}</span>
+			<span class="cm-venue">{{#venue_address1}}<a href="http://maps.google.com/maps?f=q&hl=en&geocode=&q={{venue_address1}}{{#venue_city}}+{{venue_city}}{{/venue_city}}{{#venue_region}}+{{venue_region}}{{/venue_region}}{{#venue_country}}+{{venue_country}}{{/venue_country}}+({{venue_name}})" target="_blank" class="cm-map-url external"><svg version="1.1" id="cm-map-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+			 width="160.152px" height="239.659px" viewBox="0 0 160.152 239.659" style="enable-background:new 0 0 160.152 239.659;"
+			 xml:space="preserve">
+			 <defs>
+			     <filter id="dropshadow" height="130%">
+			       <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+			       <feOffset dx="2" dy="2" result="offsetblur"/>
+			       <feComponentTransfer>
+			         <feFuncA type="linear" slope="0.2"/>
+			       </feComponentTransfer>
+			       <feMerge>
+			         <feMergeNode/>
+			         <feMergeNode in="SourceGraphic"/>
+			       </feMerge>
+			     </filter>
+			   </defs>
+
+			 <g><path filter="url(#dropshadow)" d="M0,80.036C-0.016,41.51,28.555,7.112,65.546,1.131c40.786-6.597,79.016,16.181,90.802,54.771
+				c5.762,18.862,5.255,37.688-3.423,55.967c-18.047,38.02-36.062,76.056-53.672,114.279c-6.623,14.377-22.595,17.434-32.401,8.434
+				c-2.37-2.176-4.25-5.143-5.645-8.084C42.678,187.418,24.29,148.274,5.826,109.166C1.463,99.919,0.151,90.103,0,80.036z
+				 M119.987,79.614c-0.174-21.998-18.34-39.947-40.249-39.766c-22.025,0.184-40,18.377-39.764,40.249
+				c0.238,22.073,18.35,39.988,40.248,39.81C102.201,119.728,120.158,101.532,119.987,79.614z"/></g></svg> {{venue_name}}</a>{{/venue_address1}}{{^venue_address1}}{{venue_name}}{{/venue_address1}}</span>
 		</div>
-		{{#comments}}<span class="cash_comments">{{comments}}</span>{{/comments}}
-		{{#purchase_url}}<a class="cash_purchase_url" href="{{purchase_url}}" target="_blank" class="external">Tickets</a>{{/purchase_url}}
-		{{#venue_address1}}<span class="cash_map_url"><a href="http://maps.google.com/maps?f=q&hl=en&geocode=&q={{venue_address1}}{{#venue_city}}+{{venue_city}}{{/venue_city}}{{#venue_region}}+{{venue_region}}{{/venue_region}}{{#venue_country}}+{{venue_country}}{{/venue_country}}+({{venue_name}})" target="_blank" class="external">Map</a></span>{{/venue_address1}}
+		{{#location}}<span class="cm-location">{{location}}</span> {{/location}}
+			{{#comments}}<span class="cm-comments">{{comments}}</span>{{/comments}}
+		<div class="cm-purchase-buttons">{{#purchase_url}}<a class="cm-purchase-url" href="{{purchase_url}}" target="_blank" class="external">Tickets</a>{{/purchase_url}}</div><!--cm-buttons-->
 	</div>
 {{/all_events}}

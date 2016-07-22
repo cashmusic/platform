@@ -22,7 +22,7 @@ class TourDates extends ElementBase {
 	public function getData() {
 		$tourdates_request = new CASHRequest(
 			array(
-				'cash_request_type' => 'calendar', 
+				'cash_request_type' => 'calendar',
 				'cash_action' => 'getevents',
 				'visible_event_types' => $this->options['visible_event_types'],
 				'user_id' => $this->element['user_id']
@@ -40,19 +40,21 @@ class TourDates extends ElementBase {
 			}
 			$all_events = array_slice($all_events,0,$max_dates,true);
 			foreach ($all_events as &$event) {
-				if (strtolower($event['venue_country']) == 'usa' || strtolower($event['venue_country']) == 'canada') {
-					$event['location'] = $event['venue_city'] . ', ' . $event['venue_region'];
-				} else {
-					$event['location'] = $event['venue_city'] . ', ' . $event['venue_country'];
+				if ($event['venue_city'] != ""){
+					if (strtolower($event['venue_country']) == 'usa' || strtolower($event['venue_country']) == 'canada') {
+						$event['location'] = $event['venue_city'] . ', ' . $event['venue_region'];
+					} else {
+						$event['location'] = $event['venue_city'] . ', ' . $event['venue_country'];
+					}
 				}
 				$event['formatted_date'] = date('d F, Y',$event['date']);
 				if (!$event['venue_name']) $event['venue_name'] ='TBA';
 			}
-			// add all dates to the element data 
+			// add all dates to the element data
 			$this->element_data['all_events'] = $all_events;
 			$this->setTemplate('tourdates');
 		}
 		return $this->element_data;
 	}
-} // END class 
+} // END class
 ?>

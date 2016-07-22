@@ -41,23 +41,6 @@ input:focus placeholder{color:#111;}
 
 }
 
-/* Tour Dates */
-
-.tourdates .cash_event{
-	border: solid 1px #ccc;
-}
-
-.tourdates .cash_event:nth-child(odd){
-	background:#eee;
-	background:rgba(238,238,238,0.9);
-	color:#222;
-}
-
-.tourdates .cash_event:nth-child(even){
-	background:#e1e1e1;
-	background:rgba(225,225,225,0.9);
-	color:#222;
-}
 
 /* Social Feeds */
 
