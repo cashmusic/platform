@@ -823,6 +823,10 @@
 			return false;
 		}
 
+		if  (CASH_DEBUG) {
+			error_log("CASHSystem::uploadToFTP error: ". $error_no);
+		}
+
 		// open the file or fail
 		if ($fp = fopen($file, 'r')) {
 			$ch = curl_init();
