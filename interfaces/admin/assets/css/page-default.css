@@ -293,29 +293,18 @@ body.light .singlepurchase .cash_singlepurchase_currency{
 
 /* Tour Dates */
 
-body.dark .tourdates .cash_event{
-	border: solid 1px #333;
+body.dark .tourdates .cm-event{
+	border-bottom: solid 1px rgba(255,255,255,0.1);
 }
 
-body.light .tourdates .cash_event:nth-child(odd){
-	background:#eee;
-	background:rgba(238,238,238,0.9);
-	color:#222;
+body.dark .tourdates .cm-event:last-of-type{
+	border: none;
 }
 
-body.light .tourdates .cash_event:nth-child(even){
-	background:#e1e1e1;
-	background:rgba(225,225,225,0.9);
-	color:#222;
+body.dark .tourdates .cm-map-url{
+	color:#fff;
 }
 
-body.dark .tourdates .cash_event:nth-child(odd){
-	background: rgba(34,34,34,0.5);
-}
-
-body.dark .tourdates .cash_event:nth-child(even){
-	background: rgba(34,34,34,1);
-}
 
 /* Social Feeds */
 
