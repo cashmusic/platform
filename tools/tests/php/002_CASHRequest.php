@@ -6,7 +6,7 @@ class CASHRequestTests extends UnitTestCase {
 
 	function testCASHRequest(){
 		echo "Testing CASHRequest Class\n";
-		
+
 		$request = new CASHRequest();
 		$this->assertIsa($request, 'CASHRequest', 'can create a cash request with no params');
 

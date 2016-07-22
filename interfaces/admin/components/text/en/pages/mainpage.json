@@ -5,9 +5,7 @@
 		"cashmusic.org":"http://cashmusic.org/",
 		"CASH help/support site":"http://help.cashmusic.org/"
 	},
-	"labels":{"selected_campaign":"Selected Campaign:"
-
-   },
+	"labels":{},
 	"tooltips":{},
 	"copy":{
 		"activity_subnav":"Activity",
