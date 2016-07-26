@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="generator" content="ApiGen 2.8.0">
+
+	<title>Class Mandrill_Subaccounts</title>
+
+	<link rel="stylesheet" href="resources/style.css?3901564645">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Namespaces</h3>
+			<ul>
+				<li class="active"><a href="namespace-None.html">None</a>
+						</li>
+				<li><a href="namespace-PHP.html">PHP</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Mandrill.html">Mandrill</a></li>
+				<li><a href="class-Mandrill_Exports.html">Mandrill_Exports</a></li>
+				<li><a href="class-Mandrill_Inbound.html">Mandrill_Inbound</a></li>
+				<li><a href="class-Mandrill_Internal.html">Mandrill_Internal</a></li>
+				<li><a href="class-Mandrill_Ips.html">Mandrill_Ips</a></li>
+				<li><a href="class-Mandrill_Messages.html">Mandrill_Messages</a></li>
+				<li><a href="class-Mandrill_Metadata.html">Mandrill_Metadata</a></li>
+				<li><a href="class-Mandrill_Rejects.html">Mandrill_Rejects</a></li>
+				<li><a href="class-Mandrill_Senders.html">Mandrill_Senders</a></li>
+				<li class="active"><a href="class-Mandrill_Subaccounts.html">Mandrill_Subaccounts</a></li>
+				<li><a href="class-Mandrill_Tags.html">Mandrill_Tags</a></li>
+				<li><a href="class-Mandrill_Templates.html">Mandrill_Templates</a></li>
+				<li><a href="class-Mandrill_Urls.html">Mandrill_Urls</a></li>
+				<li><a href="class-Mandrill_Users.html">Mandrill_Users</a></li>
+				<li><a href="class-Mandrill_Webhooks.html">Mandrill_Webhooks</a></li>
+				<li><a href="class-Mandrill_Whitelists.html">Mandrill_Whitelists</a></li>
+			</ul>
+
+
+
+			<h3>Exceptions</h3>
+			<ul>
+				<li><a href="class-Mandrill_Error.html">Mandrill_Error</a></li>
+				<li><a href="class-Mandrill_HttpError.html">Mandrill_HttpError</a></li>
+				<li><a href="class-Mandrill_Invalid_CustomDNS.html">Mandrill_Invalid_CustomDNS</a></li>
+				<li><a href="class-Mandrill_Invalid_CustomDNSPending.html">Mandrill_Invalid_CustomDNSPending</a></li>
+				<li><a href="class-Mandrill_Invalid_DeleteDefaultPool.html">Mandrill_Invalid_DeleteDefaultPool</a></li>
+				<li><a href="class-Mandrill_Invalid_DeleteNonEmptyPool.html">Mandrill_Invalid_DeleteNonEmptyPool</a></li>
+				<li><a href="class-Mandrill_Invalid_EmptyDefaultPool.html">Mandrill_Invalid_EmptyDefaultPool</a></li>
+				<li><a href="class-Mandrill_Invalid_Key.html">Mandrill_Invalid_Key</a></li>
+				<li><a href="class-Mandrill_Invalid_Reject.html">Mandrill_Invalid_Reject</a></li>
+				<li><a href="class-Mandrill_Invalid_Tag_Name.html">Mandrill_Invalid_Tag_Name</a></li>
+				<li><a href="class-Mandrill_Invalid_Template.html">Mandrill_Invalid_Template</a></li>
+				<li><a href="class-Mandrill_IP_ProvisionLimit.html">Mandrill_IP_ProvisionLimit</a></li>
+				<li><a href="class-Mandrill_Metadata_FieldLimit.html">Mandrill_Metadata_FieldLimit</a></li>
+				<li><a href="class-Mandrill_NoSendingHistory.html">Mandrill_NoSendingHistory</a></li>
+				<li><a href="class-Mandrill_PaymentRequired.html">Mandrill_PaymentRequired</a></li>
+				<li><a href="class-Mandrill_PoorReputation.html">Mandrill_PoorReputation</a></li>
+				<li><a href="class-Mandrill_ServiceUnavailable.html">Mandrill_ServiceUnavailable</a></li>
+				<li><a href="class-Mandrill_Unknown_Export.html">Mandrill_Unknown_Export</a></li>
+				<li><a href="class-Mandrill_Unknown_InboundDomain.html">Mandrill_Unknown_InboundDomain</a></li>
+				<li><a href="class-Mandrill_Unknown_InboundRoute.html">Mandrill_Unknown_InboundRoute</a></li>
+				<li><a href="class-Mandrill_Unknown_IP.html">Mandrill_Unknown_IP</a></li>
+				<li><a href="class-Mandrill_Unknown_Message.html">Mandrill_Unknown_Message</a></li>
+				<li><a href="class-Mandrill_Unknown_MetadataField.html">Mandrill_Unknown_MetadataField</a></li>
+				<li><a href="class-Mandrill_Unknown_Pool.html">Mandrill_Unknown_Pool</a></li>
+				<li><a href="class-Mandrill_Unknown_Sender.html">Mandrill_Unknown_Sender</a></li>
+				<li><a href="class-Mandrill_Unknown_Subaccount.html">Mandrill_Unknown_Subaccount</a></li>
+				<li><a href="class-Mandrill_Unknown_Template.html">Mandrill_Unknown_Template</a></li>
+				<li><a href="class-Mandrill_Unknown_TrackingDomain.html">Mandrill_Unknown_TrackingDomain</a></li>
+				<li><a href="class-Mandrill_Unknown_Url.html">Mandrill_Unknown_Url</a></li>
+				<li><a href="class-Mandrill_Unknown_Webhook.html">Mandrill_Unknown_Webhook</a></li>
+				<li><a href="class-Mandrill_ValidationError.html">Mandrill_ValidationError</a></li>
+			</ul>
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text">
+		<input type="submit" value="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-None.html" title="Summary of None"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Mandrill_Subaccounts</h1>
+
+
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		
+
+		<b>Located at</b> <a href="source-class-Mandrill_Subaccounts.html#3-169" title="Go to source code">Mandrill/Subaccounts.php</a><br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-Mandrill_Subaccounts.html#4-6" title="Go to source code">__construct</a>( <span><code><a href="class-Mandrill.html">Mandrill</a></code> <var>$master</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getList" id="_getList">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getList">#</a>
+		<code><a href="source-class-Mandrill_Subaccounts.html#8-27" title="Go to source code">getList</a>( <span>string <var>$q</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Get the list of subaccounts defined for the account, optionally filtered by a
+prefix</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the list of subaccounts defined for the account, optionally filtered by a
+prefix</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$q</var></dt>
+					<dd>an optional prefix to filter the subaccounts' ids and names</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>the subaccounts for the account, up to a maximum of 1,000 - return[] struct the
+individual subaccount info - id string a unique indentifier for the subaccount -
+name string an optional display name for the subaccount - custom_quota integer
+an optional manual hourly quota for the subaccount. If not specified, the hourly
+quota will be managed based on reputation - status string the current sending
+status of the subaccount, one of "active" or "paused" - reputation integer the
+subaccount's current reputation on a scale from 0 to 100 - created_at string the
+date and time that the subaccount was created as a UTC string in YYYY-MM-DD
+HH:MM:SS format - first_sent_at string the date and time that the subaccount
+first sent as a UTC string in YYYY-MM-DD HH:MM:SS format - sent_weekly integer
+the number of emails the subaccount has sent so far this week (weeks start on
+midnight Monday, UTC) - sent_monthly integer the number of emails the subaccount
+has sent so far this month (months start on midnight of the 1st, UTC) -
+sent_total integer the number of emails the subaccount has sent since it was
+created<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="add" id="_add">
+
+		<td class="attributes"><code>
+			 public 
+			struct
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_add">#</a>
+		<code><a href="source-class-Mandrill_Subaccounts.html#29-50" title="Go to source code">add</a>( <span>string <var>$id</var></span>, <span>string <var>$name</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$notes</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$custom_quota</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Add a new subaccount</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Add a new subaccount</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd>a unique identifier for the subaccount to be used in sending calls</dd>
+					<dt><var>$name</var></dt>
+					<dd>an optional display name to further identify the subaccount</dd>
+					<dt><var>$notes</var></dt>
+					<dd>optional extra text to associate with the subaccount</dd>
+					<dt><var>$custom_quota</var></dt>
+					<dd>an optional manual hourly quota for the subaccount. If not specified, Mandrill
+will manage this based on reputation</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>struct</code><br>the information saved about the new subaccount - id string a unique indentifier
+for the subaccount - name string an optional display name for the subaccount -
+custom_quota integer an optional manual hourly quota for the subaccount. If not
+specified, the hourly quota will be managed based on reputation - status string
+the current sending status of the subaccount, one of "active" or "paused" -
+reputation integer the subaccount's current reputation on a scale from 0 to 100
+- created_at string the date and time that the subaccount was created as a UTC
+string in YYYY-MM-DD HH:MM:SS format - first_sent_at string the date and time
+that the subaccount first sent as a UTC string in YYYY-MM-DD HH:MM:SS format -
+sent_weekly integer the number of emails the subaccount has sent so far this
+week (weeks start on midnight Monday, UTC) - sent_monthly integer the number of
+emails the subaccount has sent so far this month (months start on midnight of
+the 1st, UTC) - sent_total integer the number of emails the subaccount has sent
+since it was created<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="info" id="_info">
+
+		<td class="attributes"><code>
+			 public 
+			struct
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_info">#</a>
+		<code><a href="source-class-Mandrill_Subaccounts.html#52-84" title="Go to source code">info</a>( <span>string <var>$id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Given the ID of an existing subaccount, return the data about it</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Given the ID of an existing subaccount, return the data about it</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd>the unique identifier of the subaccount to query</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>struct</code><br>the information about the subaccount - id string a unique indentifier for the
+subaccount - name string an optional display name for the subaccount - notes
+string optional extra text to associate with the subaccount - custom_quota
+integer an optional manual hourly quota for the subaccount. If not specified,
+the hourly quota will be managed based on reputation - status string the current
+sending status of the subaccount, one of "active" or "paused" - reputation
+integer the subaccount's current reputation on a scale from 0 to 100 -
+created_at string the date and time that the subaccount was created as a UTC
+string in YYYY-MM-DD HH:MM:SS format - first_sent_at string the date and time
+that the subaccount first sent as a UTC string in YYYY-MM-DD HH:MM:SS format -
+sent_weekly integer the number of emails the subaccount has sent so far this
+week (weeks start on midnight Monday, UTC) - sent_monthly integer the number of
+emails the subaccount has sent so far this month (months start on midnight of
+the 1st, UTC) - sent_total integer the number of emails the subaccount has sent
+since it was created - sent_hourly integer the number of emails the subaccount
+has sent in the last hour - hourly_quota integer the current hourly quota for
+the subaccount, either manual or reputation-based - last<sub>30</sub>_days
+struct stats for this subaccount in the last 30 days - sent integer the number
+of emails sent for this subaccount in the last 30 days - hard_bounces integer
+the number of emails hard bounced for this subaccount in the last 30 days -
+soft_bounces integer the number of emails soft bounced for this subaccount in
+the last 30 days - rejects integer the number of emails rejected for sending
+this subaccount in the last 30 days - complaints integer the number of spam
+complaints for this subaccount in the last 30 days - unsubs integer the number
+of unsbuscribes for this subaccount in the last 30 days - opens integer the
+number of times emails have been opened for this subaccount in the last 30 days
+- unique_opens integer the number of unique opens for emails sent for this
+subaccount in the last 30 days - clicks integer the number of URLs that have
+been clicked for this subaccount in the last 30 days - unique_clicks integer the
+number of unique clicks for emails sent for this subaccount in the last 30 days<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="update" id="_update">
+
+		<td class="attributes"><code>
+			 public 
+			struct
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_update">#</a>
+		<code><a href="source-class-Mandrill_Subaccounts.html#86-107" title="Go to source code">update</a>( <span>string <var>$id</var></span>, <span>string <var>$name</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$notes</var> = <span class="php-keyword1">null</span></span>, <span>integer <var>$custom_quota</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Update an existing subaccount</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Update an existing subaccount</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd>the unique identifier of the subaccount to update</dd>
+					<dt><var>$name</var></dt>
+					<dd>an optional display name to further identify the subaccount</dd>
+					<dt><var>$notes</var></dt>
+					<dd>optional extra text to associate with the subaccount</dd>
+					<dt><var>$custom_quota</var></dt>
+					<dd>an optional manual hourly quota for the subaccount. If not specified, Mandrill
+will manage this based on reputation</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>struct</code><br>the information for the updated subaccount - id string a unique indentifier for
+the subaccount - name string an optional display name for the subaccount -
+custom_quota integer an optional manual hourly quota for the subaccount. If not
+specified, the hourly quota will be managed based on reputation - status string
+the current sending status of the subaccount, one of "active" or "paused" -
+reputation integer the subaccount's current reputation on a scale from 0 to 100
+- created_at string the date and time that the subaccount was created as a UTC
+string in YYYY-MM-DD HH:MM:SS format - first_sent_at string the date and time
+that the subaccount first sent as a UTC string in YYYY-MM-DD HH:MM:SS format -
+sent_weekly integer the number of emails the subaccount has sent so far this
+week (weeks start on midnight Monday, UTC) - sent_monthly integer the number of
+emails the subaccount has sent so far this month (months start on midnight of
+the 1st, UTC) - sent_total integer the number of emails the subaccount has sent
+since it was created<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="delete" id="_delete">
+
+		<td class="attributes"><code>
+			 public 
+			struct
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_delete">#</a>
+		<code><a href="source-class-Mandrill_Subaccounts.html#109-127" title="Go to source code">delete</a>( <span>string <var>$id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Delete an existing subaccount. Any email related to the subaccount will be
+saved, but stats will be removed and any future sending calls to this subaccount
+will fail.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Delete an existing subaccount. Any email related to the subaccount will be
+saved, but stats will be removed and any future sending calls to this subaccount
+will fail.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd>the unique identifier of the subaccount to delete</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>struct</code><br>the information for the deleted subaccount - id string a unique indentifier for
+the subaccount - name string an optional display name for the subaccount -
+custom_quota integer an optional manual hourly quota for the subaccount. If not
+specified, the hourly quota will be managed based on reputation - status string
+the current sending status of the subaccount, one of "active" or "paused" -
+reputation integer the subaccount's current reputation on a scale from 0 to 100
+- created_at string the date and time that the subaccount was created as a UTC
+string in YYYY-MM-DD HH:MM:SS format - first_sent_at string the date and time
+that the subaccount first sent as a UTC string in YYYY-MM-DD HH:MM:SS format -
+sent_weekly integer the number of emails the subaccount has sent so far this
+week (weeks start on midnight Monday, UTC) - sent_monthly integer the number of
+emails the subaccount has sent so far this month (months start on midnight of
+the 1st, UTC) - sent_total integer the number of emails the subaccount has sent
+since it was created<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="pause" id="_pause">
+
+		<td class="attributes"><code>
+			 public 
+			struct
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_pause">#</a>
+		<code><a href="source-class-Mandrill_Subaccounts.html#129-147" title="Go to source code">pause</a>( <span>string <var>$id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Pause a subaccount's sending. Any future emails delivered to this subaccount
+will be queued for a maximum of 3 days until the subaccount is resumed.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Pause a subaccount's sending. Any future emails delivered to this subaccount
+will be queued for a maximum of 3 days until the subaccount is resumed.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd>the unique identifier of the subaccount to pause</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>struct</code><br>the information for the paused subaccount - id string a unique indentifier for
+the subaccount - name string an optional display name for the subaccount -
+custom_quota integer an optional manual hourly quota for the subaccount. If not
+specified, the hourly quota will be managed based on reputation - status string
+the current sending status of the subaccount, one of "active" or "paused" -
+reputation integer the subaccount's current reputation on a scale from 0 to 100
+- created_at string the date and time that the subaccount was created as a UTC
+string in YYYY-MM-DD HH:MM:SS format - first_sent_at string the date and time
+that the subaccount first sent as a UTC string in YYYY-MM-DD HH:MM:SS format -
+sent_weekly integer the number of emails the subaccount has sent so far this
+week (weeks start on midnight Monday, UTC) - sent_monthly integer the number of
+emails the subaccount has sent so far this month (months start on midnight of
+the 1st, UTC) - sent_total integer the number of emails the subaccount has sent
+since it was created<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="resume" id="_resume">
+
+		<td class="attributes"><code>
+			 public 
+			struct
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_resume">#</a>
+		<code><a href="source-class-Mandrill_Subaccounts.html#149-167" title="Go to source code">resume</a>( <span>string <var>$id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Resume a paused subaccount's sending</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Resume a paused subaccount's sending</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd>the unique identifier of the subaccount to resume</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>struct</code><br>the information for the resumed subaccount - id string a unique indentifier for
+the subaccount - name string an optional display name for the subaccount -
+custom_quota integer an optional manual hourly quota for the subaccount. If not
+specified, the hourly quota will be managed based on reputation - status string
+the current sending status of the subaccount, one of "active" or "paused" -
+reputation integer the subaccount's current reputation on a scale from 0 to 100
+- created_at string the date and time that the subaccount was created as a UTC
+string in YYYY-MM-DD HH:MM:SS format - first_sent_at string the date and time
+that the subaccount first sent as a UTC string in YYYY-MM-DD HH:MM:SS format -
+sent_weekly integer the number of emails the subaccount has sent so far this
+week (weeks start on midnight Monday, UTC) - sent_monthly integer the number of
+emails the subaccount has sent so far this month (months start on midnight of
+the 1st, UTC) - sent_total integer the number of emails the subaccount has sent
+since it was created<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js?2846385516"></script>
+<script src="elementlist.js?882160656"></script>
+</body>
+</html>

@@ -496,7 +496,7 @@ class CommercePlant extends PlantBase {
         return $result;
     }
 
-    protected function emailBuyersByItem($user_id,$item_id,$subject,$message,$include_download=false) {
+    protected function emailBuyersByItem($user_id,$connection_id,$item_id,$subject,$message,$include_download=false) {
 
         if (CASH_DEBUG) {
             error_log(
@@ -525,25 +525,18 @@ class CommercePlant extends PlantBase {
                 )
             );
 
-
-            $user_request = new CASHRequest(
-                array(
-                    'cash_request_type' => 'people',
-                    'cash_action' => 'getuser',
-                    'user_id' => $user_id
-                )
-            );
-            $user_details = $user_request->response['payload'];
-
-            if ($user_details['display_name'] == 'Anonymous' || !$user_details['display_name']) {
-                $user_details['display_name'] = $user_details['email_address'];
-            }
-
             //TODO: move these to the outer solar system in their own template
 
             $recipients = array();
             $tmp_recipients = array();
             $all_orders = $this->getOrdersByItem($user_id,$item_id);
+
+            // if there are no orders, let's cheese it
+            //TODO: no error being displayed
+            if (empty($all_orders)) {
+                return false;
+            }
+
             foreach ($all_orders as $order) {
                 $tmp_recipients[] = $order['customer_email'];
             }
@@ -556,10 +549,8 @@ class CommercePlant extends PlantBase {
             }
 
             if (count($recipients)) {
-                if (file_exists(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php')) {
-                    include_once(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php');
-                }
-                $html_message = Markdown($message);
+
+                $html_message = CASHSystem::parseMarkdown($message);
 
                 if ($include_download) {
                     $asset_request = new CASHRequest(
@@ -573,7 +564,7 @@ class CommercePlant extends PlantBase {
                         $unlock_suffix = 1;
                         $all_assets = array();
                         if ($asset_request->response['payload']['type'] == 'file') {
-                            $message .= "\n\n" . 'Download fuh at '.CASH_PUBLIC_URL.'/download/?code=*|UNLOCKCODE1|*';
+                            $message .= "\n\n" . 'Download *|ITEMNAME|*: at '.CASH_PUBLIC_URL.'/download/?code=*|UNLOCKCODE1|*';
                             $html_message .= "\n\n" . '<p><b><a href="'.CASH_PUBLIC_URL.'/download/?code=*|UNLOCKCODE1|*">Download *|ITEMNAME|*</a></b></p>';
                             $all_assets[] = array(
                                 'id' => $item_details['fulfillment_asset'],
@@ -666,33 +657,23 @@ class CommercePlant extends PlantBase {
                             $all_vars = array();
                             $unlock_suffix = 1;
 
-                            if (!CASHSystem::sendEmail(
-                                $subject,
-                                $user_id,
-                                $recipient['email'],
-                                $recipient_message,
-                                $subject,                // this seems more appropriate than hardcoding something
-                                false                    // tell sendEmail we're sending a full encoded HTML body
-                            )) {
-                                //TODO: sendEmail is returning false even though everything is sending correctly.
-                                //$success = false;
-                            }
                         }
                     }
                 }
-
-/*                $mandrill = new MandrillSeed($user_id,$connection_id);
-                $result = $mandrill->send(
+                
+                // by the power of grayskull
+                CASHSystem::sendMassEmail(
+                    $user_id,
                     $subject,
-                    $message,
-                    $html_message,
-                    $user_details['email_address'],
-                    $user_details['display_name'],
                     $recipients,
-                    null,
+                    $html_message,
+                    $subject,
                     $global_merge_vars,
-                    $merge_vars
-                );*/
+                    $merge_vars,
+                    false,
+                    true
+                );
+
                 if (!$success) return false;
 
                 return true;

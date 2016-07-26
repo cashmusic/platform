@@ -9,7 +9,9 @@ return array(
     'SecurityLib' => array($vendorDir . '/ircmaxell/security-lib/lib'),
     'RandomLib' => array($vendorDir . '/ircmaxell/random-lib/lib'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
+    'Parsedown' => array($vendorDir . '/erusev/parsedown'),
     'Mustache' => array($vendorDir . '/mustache/mustache/src'),
+    'Mandrill' => array($vendorDir . '/mandrill/mandrill/src'),
     'Google_Service_' => array($vendorDir . '/google/apiclient-services'),
     'Google_' => array($vendorDir . '/google/apiclient/src'),
 );

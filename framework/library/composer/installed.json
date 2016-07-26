@@ -1161,5 +1161,91 @@
         ],
         "description": "Super-simple, minimum abstraction MailChimp API v3 wrapper",
         "homepage": "https://github.com/drewm/mailchimp-api"
+    },
+    {
+        "name": "mandrill/mandrill",
+        "version": "1.0.55",
+        "version_normalized": "1.0.55.0",
+        "source": {
+            "type": "git",
+            "url": "https://bitbucket.org/mailchimp/mandrill-api-php.git",
+            "reference": "da3adc10042eafac2e53de141b358a52b8e53596"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://bitbucket.org/mailchimp/mandrill-api-php/get/da3adc10042eafac2e53de141b358a52b8e53596.zip",
+            "reference": "da3adc10042eafac2e53de141b358a52b8e53596",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.0"
+        },
+        "time": "2015-09-22 13:58:03",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Mandrill": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Mandrill Devs",
+                "email": "community@mandrill.com",
+                "homepage": "http://mandrill.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "API client library for the Mandrill email as a service platform",
+        "homepage": "https://bitbucket.org/mailchimp/mandrill-api-php",
+        "keywords": [
+            "api",
+            "email"
+        ]
+    },
+    {
+        "name": "erusev/parsedown",
+        "version": "1.6.0",
+        "version_normalized": "1.6.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/erusev/parsedown.git",
+            "reference": "3ebbd730b5c2cf5ce78bc1bf64071407fc6674b7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/erusev/parsedown/zipball/3ebbd730b5c2cf5ce78bc1bf64071407fc6674b7",
+            "reference": "3ebbd730b5c2cf5ce78bc1bf64071407fc6674b7",
+            "shasum": ""
+        },
+        "time": "2015-10-04 16:44:32",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Parsedown": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Emanuil Rusev",
+                "email": "hello@erusev.com",
+                "homepage": "http://erusev.com"
+            }
+        ],
+        "description": "Parser for Markdown.",
+        "homepage": "http://parsedown.org",
+        "keywords": [
+            "markdown",
+            "parser"
+        ]
     }
 ]

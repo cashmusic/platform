@@ -11,7 +11,9 @@
         "mustache/mustache": "^2.10",
         "adam-paterson/oauth2-stripe": "^1.1",
         "league/oauth2-google": "^1.0",
-        "cfreear/oauth2-mailchimp": "^1.0"
+        "cfreear/oauth2-mailchimp": "^1.0",
+        "mandrill/mandrill": "^1.0",
+        "erusev/parsedown": "^1.6"
     },
     "license": "AGPL license",
     "authors": [

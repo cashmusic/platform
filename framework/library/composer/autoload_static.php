@@ -141,12 +141,20 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
             array (
                 0 => __DIR__ . '/..' . '/psr/log',
             ),
+            'Parsedown' => 
+            array (
+                0 => __DIR__ . '/..' . '/erusev/parsedown',
+            ),
         ),
         'M' => 
         array (
             'Mustache' => 
             array (
                 0 => __DIR__ . '/..' . '/mustache/mustache/src',
+            ),
+            'Mandrill' => 
+            array (
+                0 => __DIR__ . '/..' . '/mandrill/mandrill/src',
             ),
         ),
         'G' => 
