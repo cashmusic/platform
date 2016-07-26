@@ -530,6 +530,13 @@ class CommercePlant extends PlantBase {
             $recipients = array();
             $tmp_recipients = array();
             $all_orders = $this->getOrdersByItem($user_id,$item_id);
+
+            // if there are no orders, let's cheese it
+            //TODO: no error being displayed
+            if (empty($all_orders)) {
+                return false;
+            }
+
             foreach ($all_orders as $order) {
                 $tmp_recipients[] = $order['customer_email'];
             }
