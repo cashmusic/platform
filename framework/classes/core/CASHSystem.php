@@ -626,24 +626,24 @@
 
 				$message_text = CASHSystem::parseMarkdown($message_text);
 
-				if (!$template = CASHSystem::setMustacheTemplate("system_email")) {
-
-					//TODO: can we move this to
-					$encoded_html .= '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' . $message_title . '</title></head><body>'
-							  . "<h1>$message_title</h1>\n" . "<p>" . $encoded_html . "</p>"
-							  . "</body></html>";
-				} else {
+				if ($template = CASHSystem::setMustacheTemplate("system_email")) {
 
 					// render the mustache template and return
 					$encoded_html = CASHSystem::renderMustache(
 						$template, array(
 							// array of values to be passed to the mustache template
-							'encoded_html' => $encoded_html,
+							'encoded_html' => $message_text,
 							'message_title' => $message_title,
 							'cdn_url' => (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL
 						)
 					);
 
+				} else {
+
+					//TODO: can we move this to
+					$encoded_html .= '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' . $message_title . '</title></head><body>'
+						. "<h1>$message_title</h1>\n" . "<p>" . $encoded_html . "</p>"
+						. "</body></html>";
 				}
 			}
 
