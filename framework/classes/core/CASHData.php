@@ -92,7 +92,7 @@
 	 * Sets the initial CASH session_id and cookie on the user's machine
 	 *
 	 * @return boolean
-	 */public function startSession($reset_session_id=false,$force_session_id=false) {
+	 */public function startSession($force_session_id=false,$write_cookie=true,$reset_session_id=false) {
 		// if 'session_id' is already set in script store then we've already started
 		// the session in this script, do not hammer the database needlessly
 		$newsession = false;
