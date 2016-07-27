@@ -158,7 +158,7 @@ class StripeSeed extends SeedBase
                         return false;
                     }
                 } else {
-                    AdminHelper::formFailure('Could not find a refresh token from Stripe');
+                    AdminHelper::formFailure('There was an error with the default Stripe app credentials');
                     return false;
                 }
             } else {

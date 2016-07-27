@@ -52,8 +52,10 @@ class MandrillSeed extends SeedBase {
 
 			if (isset($connections['com.mandrillapp']['api_key'])) {
 				$this->api_key = $connections['com.mandrillapp']['api_key'];
-				$this->api = new Mandrill($this->api_key);
 
+				$this->api = new Mandrill($this->api_key);
+				echo print_r(get_class_methods($this->api), true);
+				return false;
 			} else {
 				$this->error_message = 'no API key found';
 				return false;
