@@ -86,7 +86,7 @@
 	 * @return none
 	 */public static function startSession($force_session_id=false,$write_cookie=true,$reset_session_id=false) {
 		$cash_page_request = new CASHRequest(null);
-		$session = $cash_page_request->startSession($reset_session_id,$write_cookie,$force_session_id);
+		$session = $cash_page_request->startSession($force_session_id,$write_cookie,$reset_session_id);
 		unset($cash_page_request);
 		return($session);
 	}

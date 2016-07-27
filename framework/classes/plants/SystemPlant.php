@@ -1221,12 +1221,10 @@ class SystemPlant extends PlantBase {
 	 */
 	protected function startJSSession() {
 		$r = new CASHRequest();
-		$session_details = $r->startSession();
+		$session_details = $r->startSession(false,false); // second false stops us writing a cookie
 
 		if ($session_details['newsession']) {
-			$endpoint = explode('/',CASHSystem::getCurrentURL(),4);
-			unset($endpoint[3]);
-			$endpoint = join('/',$endpoint);
+			$endpoint = CASH_PUBLIC_URL . '/request/payload';
 			if (!$session_details['expiration']) {
 				$session_details['expiration'] = time() + 10800;
 			}
