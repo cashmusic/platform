@@ -403,7 +403,8 @@ class AssetPlant extends PlantBase {
 	 * Adds an unlock state to platform session persistent store
 	 *
 	 * @return boolean
-	 */protected function unlockAsset($id) {
+	 */protected function unlockAsset($id,$session_id=false) {
+	 	CASHSystem::startSession($session_id);
 		$current_unlocked_assets = $this->sessionGet('unlocked_assets');
 		$assets_to_unlock = array($id);
 		$asset = $this->getAssetInfo($id);
@@ -428,7 +429,8 @@ class AssetPlant extends PlantBase {
 	 * Returns true if an assetIsUnlocked, false if not
 	 *
 	 * @return boolean
-	 */protected function getUnlockedStatus($id) {
+	 */protected function getUnlockedStatus($id,$session_id=false) {
+		CASHSystem::startSession($session_id);
 		if ($this->getPublicStatus($id)) {
 			return true;
 		}
@@ -593,8 +595,8 @@ class AssetPlant extends PlantBase {
 	 *
 	 * @param {integer} $id - the asset you are trying to retrieve
 	 * @return string
-	 */protected function redirectToAsset($id,$element_id=0) {
-		if ($this->getUnlockedStatus($id)) {
+	 */protected function redirectToAsset($id,$element_id=0,$session_id=false) {
+		if ($this->getUnlockedStatus($id,$session_id)) {
 			$asset = $this->getAssetInfo($id);
 			$final_asset_location = $this->getFinalAssetLocation(
 				$asset['connection_id'],

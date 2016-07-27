@@ -92,15 +92,15 @@
 	 * Sets the initial CASH session_id and cookie on the user's machine
 	 *
 	 * @return boolean
-	 */public function startSession($reset_session_id=false,$force_session_id=false) {
+	 */public function startSession($force_session_id=false,$write_cookie=true,$reset_session_id=false) {
 		// if 'session_id' is already set in script store then we've already started
 		// the session in this script, do not hammer the database needlessly
 		$newsession = false;
 		$expiration = false;
+		if ($force_session_id) {
+			$this->sessionSet('session_id',$force_session_id,'script');
+		}
 		if (!$this->sessionGet('start_time','script') || $reset_session_id || $force_session_id) {
-			if ($force_session_id) {
-				$this->sessionSet('session_id',$force_session_id,'script');
-			}
 			// first make sure we have a valid session
 			$current_session = $this->getAllSessionData();
 			if ($current_session['persistent'] && isset($current_session['expiration_date'])) {
@@ -109,7 +109,6 @@
 					$this->sessionClearAll();
 					$current_session['persistent'] = false;
 					$reset_session_id = false;
-					$force_session_id = false;
 				}
 			}
 			$expiration = time() + $this->cash_session_timeout;
@@ -118,12 +117,9 @@
 			if ($force_session_id) {
 				// if we're forcing an id, we're almost certainly in our JS session stuff
 				$session_id = $force_session_id;
-				// we SHOULD rotate ids here, but that's hard to keep in sync on the JS side
-				// revisit this later:
-				//$reset_session_id = true;
 			}
 			if ($session_id) {
-				// if there is an existing cookie that's not expired, use it as the
+				// if there is an existing cookie that's not expired, use it
 				$previous_session = array(
 					'session_id' => array(
 						'condition' => '=',
@@ -156,17 +152,21 @@
 			// set the session info
 			$this->sessionSet('session_id',$session_id,'script');
 			$this->sessionSet('start_time',time(),'script');
-			// set the database session data
-			if (!$this->db) $this->connectDB();
-			$this->db->setData(
-				'sessions',
-				$session_data,
-				$previous_session
-			);
-			// set the client-side cookie
-			if (!headers_sent()) {
-				// no headers yet, we can just send the cookie through
-				setcookie('cashmusic_session', $session_id, $expiration, '/');
+			if (!$force_session_id) {
+				// set the database session data
+				if (!$this->db) $this->connectDB();
+				$this->db->setData(
+					'sessions',
+					$session_data,
+					$previous_session
+				);
+			}
+			if ($write_cookie && !$force_session_id) {
+				// set the client-side cookie
+				if (!headers_sent()) {
+					// no headers yet, we can just send the cookie through
+					setcookie('cashmusic_session', $session_id, $expiration, '/');
+				}
 			}
 		} else {
 			$session_id = $this->sessionGet('session_id','script');
@@ -225,14 +225,10 @@
 	 *
 	 * @return boolean
 	 */protected function getSessionID() {
-		if ($this->sessionGet('session_id','script') || isset($_COOKIE['cashmusic_session'])) {
-			if (!$this->sessionGet('session_id','script')) {
-				$this->sessionSet('session_id',$_COOKIE['cashmusic_session'],'script');
-			}
-			return $this->sessionGet('session_id','script');
-		} else {
-			return false;
+		if (!$this->sessionGet('session_id','script') && isset($_COOKIE['cashmusic_session'])) {
+			$this->sessionSet('session_id',$_COOKIE['cashmusic_session'],'script');
 		}
+		return $this->sessionGet('session_id','script');
 	}
 
 	/**
@@ -279,7 +275,6 @@
 					$this->resetSession();
 					$session_data['persistent'] = array();
 				}
-				$session_id = $this->getSessionID();
 				$session_data['persistent'][(string)$key] = $value;
 				$expiration = time() + $this->cash_session_timeout;
 				if (!$this->db) $this->connectDB();
@@ -296,14 +291,11 @@
 						)
 					)
 				);
-
+				return true;
 				// ERROR LOGGING
 				// error_log('writing ' . $key . '(' . json_encode($value) . ') to session: ' . $session_id);
-
-				return true;
-			} else {
-				return false;
 			}
+			return false;
 		} else {
 			// set scope to 'script' -- or you know, whatever
 			if (!isset($GLOBALS['cashmusic_script_store'])) {

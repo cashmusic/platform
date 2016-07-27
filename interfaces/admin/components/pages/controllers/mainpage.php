@@ -164,7 +164,7 @@ if (!$elements_response['payload']) {
 
 // SHOULD WE SHOW A WELCOME BACK MESSAGE?
 $r = new CASHRequest();
-$r->startSession(false);
+$r->startSession();
 $whatsnew = $r->sessionGet('whatsnew');
 if (!$whatsnew) {
 	$settings_response = $cash_admin->requestAndStore(

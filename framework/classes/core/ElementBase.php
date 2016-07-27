@@ -54,7 +54,7 @@ abstract class ElementBase extends CASHData {
 				$this->session_id = $s['id'];
 			}
 		}
-		$this->startSession(false,$this->session_id);
+		$this->startSession($this->session_id);
 		$this->options = $element['options'];
 		if ($this->isUnlocked()) {
 			$this->unlocked = true;

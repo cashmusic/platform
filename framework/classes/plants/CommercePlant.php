@@ -685,7 +685,7 @@ class CommercePlant extends PlantBase {
 
     protected function addToCart($item_id,$element_id,$item_variant=false,$price=false,$session_id=false) {
          $r = new CASHRequest();
-         $r->startSession(false,$session_id);
+         $r->startSession($session_id);
 
          $cart = $r->sessionGet('cart');
          if (!$cart) {
@@ -718,7 +718,7 @@ class CommercePlant extends PlantBase {
 
     protected function editCartQuantity($item_id,$element_id,$qty,$item_variant='',$session_id=false) {
         $r = new CASHRequest();
-        $r->startSession(false,$session_id);
+        $r->startSession($session_id);
 
         $cart = $r->sessionGet('cart');
         if (!$cart) {
@@ -744,7 +744,7 @@ class CommercePlant extends PlantBase {
 
     protected function editCartShipping($element_id,$region='r1',$session_id=false) {
         $r = new CASHRequest();
-        $r->startSession(false,$session_id);
+        $r->startSession($session_id);
 
         $cart = $r->sessionGet('cart');
         if (!$cart) {
@@ -762,7 +762,7 @@ class CommercePlant extends PlantBase {
 
     protected function emptyCart($element_id,$session_id=false) {
          $r = new CASHRequest();
-         $r->startSession(false,$session_id);
+         $r->startSession($session_id);
          $cart = $r->sessionGet('cart');
          if ($cart) {
             if (isset($cart[$element_id])) {
@@ -775,7 +775,7 @@ class CommercePlant extends PlantBase {
 
     protected function getCart($element_id,$session_id=false) {
         $r = new CASHRequest();
-        $r->startSession(false,$session_id);
+        $r->startSession($session_id);
         $cart = $r->sessionGet('cart');
         if ($cart) {
            if (isset($cart[$element_id])) {
@@ -1372,7 +1372,7 @@ class CommercePlant extends PlantBase {
         //TODO: store last seen top URL
         //      or maybe make the API accept GET params? does it already? who can know?
         //$r = new CASHRequest();
-        $this->startSession(false,$session_id);
+        $this->startSession($session_id);
         if (!$element_id) {
             return false;
         } else {
@@ -1544,7 +1544,7 @@ class CommercePlant extends PlantBase {
                 'customer_postalcode' => $shipping_info['postalcode'],
                 'customer_countrycode' => $shipping_info['country']);
 
-            $this->startSession(false,$session_id);
+            $this->startSession($session_id);
             $this->sessionSet('shipping_info',$shipping_info_formatted);
 
             if ($order_id) {
@@ -1713,7 +1713,7 @@ class CommercePlant extends PlantBase {
 
     public function finalizePayment($order_id, $token, $email_address=false, $customer_name=false, $shipping_info=false, $session_id=false, $total_price=false, $description=false, $finalize_url=false) {
 
-      $this->startSession(false,$session_id);
+      $this->startSession($session_id);
 
       // this just checks to see if we've started finalizing already. really
       // only an issue for embeds used on pages
