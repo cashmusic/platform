@@ -2,32 +2,31 @@
 	"pagetip":"All system settings for your account.",
 	"learn":"",
 	"related":{},
-	"labels":{"current_db_format":"Current database format",
-               "hostname":"Server hostname",
-               "db_name":"Database name",
-               "admin_user":"Admin User",
-               "admin_pass":"Admin Password",
-               "default_email":"Default system email address",
-               "time_zone":"System time zone",
-               "currency":"Currency"
-
+	"labels":{
+		"currency":"Currency",
+		"current_db_format":"Current database format",
+      "hostname":"Server hostname",
+      "db_name":"Database name",
+      "admin_user":"Admin User",
+      "admin_pass":"Admin Password",
+      "default_email":"Default system email address",
+      "time_zone":"System time zone"
    },
 	"tooltips":{},
-	"copy":{"platform_settings":"Platform settings",
-            "change_settings":"Change primary system settings without editing the cashmusic.ini.php file.  Advanced settings have been hidden and should not be changed unless you like broken things.",
-            "connections":"Connections",
-            "manage":"Manage third-party service connections",
-            "database":"Database",
-            "sqlite":"(SQLite export coming soon)",
-            "migrate_mysql":"Migrate to MySQL",
-            "migrating":"Migrating means things will be a lot more robust, and probably quicker too.",
-            "server":"server or server:port",
-            "miscellaneous":"Miscellaneous",
-            "commerce_currency":"Commerce currency",
-            "use_currency":"Use this currency",
-            "platform_install":"Platform install location",
-            "full_path":"Here's the full path to the cashmusic.php script needed to initialize the CASH platform:"
-
-
-}
+	"copy":{
+		"connections":"Connections",
+		"platform_settings":"Platform settings",
+      "change_settings":"Change primary system settings without editing the cashmusic.ini.php file.  Advanced settings have been hidden and should not be changed unless you like broken things.",
+      "manage":"Manage third-party service connections",
+      "database":"Database",
+      "sqlite":"(SQLite export coming soon)",
+      "migrate_mysql":"Migrate to MySQL",
+      "migrating":"Migrating means things will be a lot more robust, and probably quicker too.",
+      "server":"server or server:port",
+      "miscellaneous":"Miscellaneous",
+      "commerce_currency":"Commerce currency",
+      "use_currency":"Use this currency",
+      "platform_install":"Platform install location",
+      "full_path":"Here's the full path to the cashmusic.php script needed to initialize the CASH platform:"
+	}
 }
