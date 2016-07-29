@@ -1221,7 +1221,7 @@ class SystemPlant extends PlantBase {
 	 */
 	protected function startJSSession() {
 		$r = new CASHRequest();
-		$session_details = $r->startSession(false,false); // second false stops us writing a cookie
+		$session_details = $r->startSession(false,true); // second false sandboxes
 
 		if ($session_details['newsession']) {
 			$endpoint = CASH_PUBLIC_URL . '/request/payload';
