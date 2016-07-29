@@ -92,7 +92,7 @@
 	 * Sets the initial CASH session_id and cookie on the user's machine
 	 *
 	 * @return boolean
-	 */public function startSession($force_session_id=false,$write_cookie=true,$reset_session_id=false) {
+	 */public function startSession($force_session_id=false,$sandbox=false) {
 		// if 'session_id' is already set in script store then we've already started
 		// the session in this script, do not hammer the database needlessly
 		$newsession = false;
@@ -100,7 +100,7 @@
 		if ($force_session_id) {
 			$this->sessionSet('session_id',$force_session_id,'script');
 		}
-		if (!$this->sessionGet('start_time','script') || $reset_session_id || $force_session_id) {
+		if (!$this->sessionGet('start_time','script') || $force_session_id) {
 			// first make sure we have a valid session
 			$current_session = $this->getAllSessionData();
 			if ($current_session['persistent'] && isset($current_session['expiration_date'])) {
@@ -108,7 +108,6 @@
 				if ($current_session['expiration_date'] < time()) {
 					$this->sessionClearAll();
 					$current_session['persistent'] = false;
-					$reset_session_id = false;
 				}
 			}
 			$expiration = time() + $this->cash_session_timeout;
@@ -138,11 +137,6 @@
 				'client_ip' => $current_ip['ip'],
 				'client_proxy' => $current_ip['proxy']
 			);
-			if ($reset_session_id) {
-				// forced session reset
-				$session_id = md5($current_ip['ip'] . rand(10000,99999)) . time();
-				$session_data['session_id'] = $session_id;
-			}
 			if (!$current_session['persistent']) {
 				// no existing session, set up empty data
 				$session_data['data'] = json_encode(array(
@@ -161,7 +155,7 @@
 					$previous_session
 				);
 			}
-			if ($write_cookie && !$force_session_id) {
+			if (!$sandbox && !$force_session_id) {
 				// set the client-side cookie
 				if (!headers_sent()) {
 					// no headers yet, we can just send the cookie through
