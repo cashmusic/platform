@@ -97,6 +97,7 @@
 		// the session in this script, do not hammer the database needlessly
 		$newsession = false;
 		$expiration = false;
+		$generate_key = false;
 		if ($force_session_id) {
 			$this->sessionSet('session_id',$force_session_id,'script');
 		}
@@ -128,8 +129,11 @@
 			} else {
 				// create a new session
 				$newsession = true;
-				$session_id = md5($current_ip['ip'] . rand(10000,99999)) . time(); // IP + random, hashed, plus timestamo
+				$generate_key = true;
 				$previous_session = false;
+			}
+			if ($generate_key || $sandbox) {
+				$session_id = md5($current_ip['ip'] . rand(10000,99999)) . time(); // IP + random, hashed, plus timestamo
 			}
 			$session_data = array(
 				'session_id' => $session_id,
