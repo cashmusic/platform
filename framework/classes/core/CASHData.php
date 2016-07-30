@@ -150,15 +150,15 @@
 			// set the session info
 			$this->sessionSet('session_id',$session_id,'script');
 			$this->sessionSet('start_time',time(),'script');
-			if (!$force_session_id) {
-				// set the database session data
-				if (!$this->db) $this->connectDB();
-				$this->db->setData(
-					'sessions',
-					$session_data,
-					$previous_session
-				);
-			}
+
+			// set the database session data
+			if (!$this->db) $this->connectDB();
+			$this->db->setData(
+				'sessions',
+				$session_data,
+				$previous_session
+			);
+
 			if (!$sandbox && !$force_session_id) {
 				// set the client-side cookie
 				if (!headers_sent()) {
