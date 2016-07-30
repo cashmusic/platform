@@ -98,6 +98,8 @@
 		$newsession = false;
 		$expiration = false;
 		$generate_key = false;
+		$previous_session = false;
+		if (!$this->db) $this->connectDB();
 		if ($force_session_id) {
 			$this->sessionSet('session_id',$force_session_id,'script');
 		}
@@ -119,13 +121,25 @@
 				$session_id = $force_session_id;
 			}
 			if ($session_id) {
-				// if there is an existing cookie that's not expired, use it
-				$previous_session = array(
-					'session_id' => array(
-						'condition' => '=',
-						'value' => $session_id
+				$session_exists = $this->db->getData(
+					'sessions',
+					'id',
+					array(
+						"session_id" => array(
+							"condition" => "=",
+							"value" => $session_id
+						)
 					)
 				);
+				if ($session_exists) {
+					// if there is an existing session that's not expired, use it
+					$previous_session = array(
+						'session_id' => array(
+							'condition' => '=',
+							'value' => $session_id
+						)
+					);
+				} 
 			} else {
 				// create a new session
 				$newsession = true;
@@ -152,7 +166,6 @@
 			$this->sessionSet('start_time',time(),'script');
 
 			// set the database session data
-			if (!$this->db) $this->connectDB();
 			$this->db->setData(
 				'sessions',
 				$session_data,
