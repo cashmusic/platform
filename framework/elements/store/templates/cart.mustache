@@ -116,7 +116,7 @@
 	function removeItem(itemid,variant) {
 		var li = document.querySelector('li[data-itemid="'+itemid+'"][data-variant="'+variant.replace(/["\\]/g, '\\$&')+'"]');
 		var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
-		var poststring = 'cash_request_type=commerce&cash_action=editcartquantity&element_id={{element_id}}&item_id=' + itemid + '&qty=0';
+		var poststring = 'cash_request_type=commerce&cash_action=editcartquantity&element_id={{element_id}}&item_id=' + itemid + '&qty=0' + '&session_id={{session_id}}';
 		if (variant) {
 			poststring += '&item_variant='+encodeURIComponent(variant);
 		}
@@ -156,7 +156,7 @@
 							removeItem(this.getAttribute('data-itemid'),this.getAttribute('data-variant'));
 						} else {
 							var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
-							var poststring = 'cash_request_type=commerce&cash_action=editcartquantity&element_id={{element_id}}&item_id=' + this.getAttribute('data-itemid') + '&qty=' + this.value;
+							var poststring = 'cash_request_type=commerce&cash_action=editcartquantity&element_id={{element_id}}&item_id=' + this.getAttribute('data-itemid') + '&qty=' + this.value +  + '&session_id={{session_id}}';
 							if (this.getAttribute('data-variant')) {
 								poststring += '&item_variant='+encodeURIComponent(this.getAttribute('data-variant'));
 							}

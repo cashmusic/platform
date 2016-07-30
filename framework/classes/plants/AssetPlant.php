@@ -615,7 +615,7 @@ class AssetPlant extends PlantBase {
 					'unknown asset type, please as an admin to check the asset type'
 				);
 			}
-		/*
+			/*
 		} else {
 			// fail back to the default embed with an error string
 			CASHSystem::redirectToUrl(CASH_PUBLIC_URL . '/request/embed/' . $element_id . '?redirecterror=1&session_id=' . $session_id);

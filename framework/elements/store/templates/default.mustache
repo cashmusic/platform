@@ -133,7 +133,7 @@
 				cm.events.add(buttons[i],'click', function(e) {
 					if (this.innerHTML != '{{copy_added}}') {
 						var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
-						var poststring = 'cash_request_type=commerce&cash_action=addtocart&element_id={{element_id}}&item_id=' + this.getAttribute('data-itemid') + '&price=' + this.getAttribute('data-price');
+						var poststring = 'cash_request_type=commerce&cash_action=addtocart&element_id={{element_id}}&item_id=' + this.getAttribute('data-itemid') + '&price=' + this.getAttribute('data-price') + '&session_id={{session_id}}';
 						if (this.getAttribute('data-variantid')) {
 							poststring += '&item_variant='+ encodeURIComponent(this.getAttribute('data-variantid'));
 						}
