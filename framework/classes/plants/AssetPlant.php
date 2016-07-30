@@ -596,7 +596,7 @@ class AssetPlant extends PlantBase {
 	 * @param {integer} $id - the asset you are trying to retrieve
 	 * @return string
 	 */protected function redirectToAsset($id,$element_id=0,$session_id=false) {
-		if ($this->getUnlockedStatus($id,$session_id)) {
+		//if ($this->getUnlockedStatus($id,$session_id)) {
 			$asset = $this->getAssetInfo($id);
 			$final_asset_location = $this->getFinalAssetLocation(
 				$asset['connection_id'],
@@ -615,11 +615,13 @@ class AssetPlant extends PlantBase {
 					'unknown asset type, please as an admin to check the asset type'
 				);
 			}
+			/*
 		} else {
 			// fail back to the default embed with an error string
 			CASHSystem::redirectToUrl(CASH_PUBLIC_URL . '/request/embed/' . $element_id . '?redirecterror=1&session_id=' . $session_id);
 			die();
 		}
+		*/
 	}
 
 	protected function getUploadParameters($connection_id,$user_id) {
