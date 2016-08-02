@@ -954,7 +954,7 @@
 	 * @param $csv
 	 * @return array
 	 */
-	public static function convertCSVToArray($csv) {
+	public static function outputCSVToArray($csv) {
 		$array = array();
 		$header = null;
 		while ($row = fgetcsv($csv)) {
