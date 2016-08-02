@@ -948,6 +948,63 @@
 		}
 	}
 
+	/**
+	 * Converts a loaded CSV file's contents to an array, with the header column values mapped to array keys.
+	 *
+	 * @param $csv
+	 * @return array
+	 */
+	public static function convertCSVToArray($csv) {
+		$array = array();
+		$header = null;
+		while ($row = fgetcsv($csv)) {
+			if ($header === null) {
+				$header = array_map('trim', $row);
+				continue;
+			}
+			$array[] = array_combine($header, $row);
+		}
+
+		return $array;
+	}
+
+	/**
+	 * Takes an array and outputs a forced download CSV file on the fly, in memory.
+	 * Pass a header array to match to columns (should be a flat array, like:
+	 * ['column one', 'column two', 'column three', 'etc...']
+	 * Header array key count must match the $array key count to add to CSV array
+	 *
+	 * @param $array
+	 * @param bool $header
+	 * @param string $filename
+	 * @param string $delimiter
+	 * @return bool
+	 */
+
+	public static function outputArrayToCSV($array, $header=false, $filename='export.csv', $delimiter=';') {
+
+		if (is_array($array) && count($array) > 0) {
+			header("Content-Type:application/csv");
+			header("Content-Disposition:attachment;filename=$filename");
+
+			$f = fopen('php://output', 'w');
+
+			// if a header array is set we need to merge it, assuming it has a matching column count
+			if (is_array($header) && count($header) == count($array[0])) {
+
+				$array = array_merge([0=>$header], $array);
+			}
+
+			foreach ($array as $line) {
+				fputcsv($f, $line, $delimiter);
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
 	public static function errorLog($data) {
 		switch(gettype($data)) {
 			case "string":
