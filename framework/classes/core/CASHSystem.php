@@ -955,17 +955,28 @@
 	 * @return array
 	 */
 	public static function outputCSVToArray($csv) {
-		$array = array();
+		$array = [];
+		$unique_fields = [];
+
 		$header = null;
 		while ($row = fgetcsv($csv)) {
 			if ($header === null) {
+
 				$header = array_map('trim', $row);
+
+				$unique_fields = array_unique(
+					array_map('trim', $row)
+				);
+
 				continue;
 			}
 			$array[] = array_combine($header, $row);
 		}
 
-		return $array;
+		return [
+			'array' => $array,
+			'unique_fields' => $unique_fields
+		];
 	}
 
 	/**

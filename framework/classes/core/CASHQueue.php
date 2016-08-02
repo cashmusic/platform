@@ -2,7 +2,8 @@
 
 class CASHQueue extends CASHData
 {
-    private $job_id, $user_id, $type;
+    public $job_id;
+    private $user_id, $type;
 
     public function __construct($user_id, $type)
     {
@@ -30,6 +31,22 @@ class CASHQueue extends CASHData
         )) {
             return false;
         }
+    }
+
+    public function createSystemProcess($data, $name) {
+
+        if (!$process_id = $this->db->setData(
+            'system_processes',
+            array(
+                'job_id'        => $this->job_id,
+                'data' 		    => json_encode($data),
+                'name'		    => $name
+            )
+        )) {
+            return false;
+        }
+
+        return $process_id;
     }
 
 }
