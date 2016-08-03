@@ -177,7 +177,7 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 					);
 					if ($change_response['payload'] !== false) {
 						// mark user as logged in
-						$admin_primary_cash_request->startSession(true);
+						$admin_primary_cash_request->startSession();
 						$admin_primary_cash_request->sessionSet('cash_actual_user',$id_response['payload']);
 						$admin_primary_cash_request->sessionSet('cash_effective_user',$id_response['payload']);
 						$admin_primary_cash_request->sessionSet('cash_effective_user_email',$address);
