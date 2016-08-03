@@ -2,7 +2,8 @@
 
 class ExternalFulfillmentSeed extends SeedBase
 {
-    private $uploaded_files, $raw_data, $parsed_data, $mappable_fields, $mapped_fields, $minimum_field_requirements, $system_job, $user_id;
+    protected $user_id;
+    private $uploaded_files, $raw_data, $parsed_data, $mappable_fields, $mapped_fields, $minimum_field_requirements, $queue;
 
     public function __construct($user_id)
     {
@@ -13,19 +14,31 @@ class ExternalFulfillmentSeed extends SeedBase
         $this->mapped_fields = [];
         $this->user_id = $user_id;
 
+        if (!$this->db) $this->connectDB();
+
         $this->minimum_field_requirements = [
             'name' => false,
             'email' => false
         ];
+
+        if (CASH_DEBUG) {
+            error_log("ExternalFulfillmentSeed loaded with user_id ".$this->user_id);
+        }
     }
 
-    public function processUpload() {
+    public function processUpload($files) {
 
+        $this->uploaded_files = $files;
+
+        if (CASH_DEBUG) {
+            error_log("processUpload called on ".count($this->uploaded_files['name'])." files.");
+        }
         // loop through uploaded files
         for($i=0;$i<count($this->uploaded_files['name']);$i++) {
 
             // get file contents
-            $file_contents = $this->getFileContents($this->uploaded_files['tmp_name'][$i]);
+            $file_contents = CASHSystem::getFileContents($this->uploaded_files['tmp_name'][$i]);
+
 
             if ($csv_to_array = CASHSystem::outputCSVToArray($file_contents)) {
                 $this->raw_data[
@@ -67,7 +80,7 @@ class ExternalFulfillmentSeed extends SeedBase
     public function checkMinimumMappableFields() {
         // we need to check if these CSVs have the structure we're expecting
         //TODO: this needs to be more dynamic
-        
+
         if (
             in_array("Backer Name", $this->mappable_fields) ||
             in_array("Shipping Name", $this->mappable_fields)
@@ -156,8 +169,15 @@ class ExternalFulfillmentSeed extends SeedBase
 
     public function createOrders() {
 
+        if (CASH_DEBUG) {
+            error_log("Called createOrders");
+        }
+
         if ($this->queue = new CASHQueue($this->user_id, 'external_fulfillment')) {
 
+            if (CASH_DEBUG) {
+                error_log("new queue job created: ".$this->queue->job_id);
+            }
             // insert raw data into system processes, per CSV; then use process id to insert into fulfillment jobs
             foreach ($this->raw_data as $filename => $tier) {
 

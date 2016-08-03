@@ -22,6 +22,7 @@
 	 	ini_set('error_reporting',E_ALL);
 		ini_set('log_errors',TRUE);
 		ini_set('display_errors',FALSE);
+		ini_set('max_file_uploads',100);
 
 		// only want to do this once, so we check for 'initial_page_request_time'
 		if (!isset($GLOBALS['cashmusic_script_store']['initial_page_request_time'])) {
@@ -1014,6 +1015,24 @@
 		}
 
 		return false;
+	}
+
+	public static function getFileContents($file_uri) {
+		try {
+
+			if (file_exists($file_uri)) {
+				$file = fopen($file_uri, 'r');
+			} else {
+				return false;
+			}
+
+		} catch (Exception $e) {
+
+			error_log($e->getMessage());
+			return false;
+		}
+
+		return $file;
 	}
 
 	public static function errorLog($data) {

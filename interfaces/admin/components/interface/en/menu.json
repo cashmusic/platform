@@ -54,8 +54,8 @@
 		{"page_name":"Export", "menu_icon":"dwnld","add_class":"lightboxed"},
 	"commerce/orders/view":
 		{"page_name":"Order details", "menu_icon":""},
-	"commerce/external_fulfillment":
-		{""}
+	"commerce/externalfulfillment":
+		{"page_name":"External Fulfillment", "menu_icon":"dwnld", "tagline":"Import external orders"},
 		
 		
 	"elements":

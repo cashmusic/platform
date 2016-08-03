@@ -10,6 +10,8 @@ class CASHQueue extends CASHData
         $this->user_id = $user_id;
         $this->type = $type;
 
+        if (!$this->db) $this->connectDB();
+
         $this->createJob();
     }
 
@@ -29,6 +31,10 @@ class CASHQueue extends CASHData
                 'type'		    => $this->type
             )
         )) {
+
+            if (CASH_DEBUG) {
+                error_log("CASHQueue->createJob failed " . $this->job_id);
+            }
             return false;
         }
     }
