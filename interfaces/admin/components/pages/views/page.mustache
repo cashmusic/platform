@@ -15,6 +15,7 @@
 </div><!--pure-->
 </header>
 
+
 <div class="pure-u-1 pure-u-md-1-2">
 {{^first_time_page}}
 	<div class="browser-header"><span></span><span></span><span></span></div><!--preview-header-->
@@ -30,7 +31,7 @@
 				{{/show_edit_button}}
 			</div><!--preview-overlay-inner-->
 		</div><!--preview-overlay-->
-		{{^first_time_page}}<iframe id="preview" {{#show_preview}}class="preview" {{/show_preview}}src="{{user_page_uri}}?{{#show_preview}}preview=1&amp;key={{api_key}}&amp;{{/show_preview}}donottrack=1"></iframe>{{/first_time_page}}
+		{{#ughfixthatshitalready}}{{^first_time_page}}<iframe id="preview" {{#show_preview}}class="preview" {{/show_preview}}src="{{user_page_uri}}?{{#show_preview}}preview=1&amp;key={{api_key}}&amp;{{/show_preview}}donottrack=1"></iframe>{{/first_time_page}}{{/ughfixthatshitalready}}
 	</div><!--preview-wrap-->
 {{/first_time_page}}
 </div><!--pure-->
