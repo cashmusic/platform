@@ -25,7 +25,7 @@ class CASHQueue extends CASHData
 
         // create a job and set the id to this instance, or die trying
         if (!$this->job_id = $this->db->setData(
-            'system_jobs',
+            'jobs',
             array(
                 'user_id' 		=> $this->user_id,
                 'type'		    => $this->type
@@ -42,7 +42,7 @@ class CASHQueue extends CASHData
     public function createSystemProcess($data, $name) {
 
         if (!$process_id = $this->db->setData(
-            'system_processes',
+            'processes',
             array(
                 'job_id'        => $this->job_id,
                 'data' 		    => json_encode($data),

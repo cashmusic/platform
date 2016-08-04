@@ -101,7 +101,11 @@ class CASHDBA {
 			'people_resetpassword' => 'people_resetpassword',
 			'list_members' => 'people_lists_members',
 			'transactions' => 'commerce_transactions',
-			'venues' => 'calendar_venues'
+			'venues' => 'calendar_venues',
+			'jobs'	=> 'system_jobs',
+			'processes'	=> 'system_processes',
+			'external_fulfillment_jobs' => 'commerce_external_fulfillment_jobs',
+			'external_fulfillment_orders' => 'commerce_external_fulfillment_orders'
 		);
 		if (array_key_exists($data_name, $table_lookup)) {
 		    return $table_lookup[$data_name];

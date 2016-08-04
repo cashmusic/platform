@@ -142,7 +142,7 @@ class ExternalFulfillmentSeed extends SeedBase
     public function createFulfillmentJob($process_id, $name) {
 
         if (!$fulfillment_job = $this->db->setData(
-            'commerce_external_fulfillment_jobs',
+            'external_fulfillment_jobs',
             array(
                 'job_id'        => $this->queue->job_id,
                 'process_id' 	=> $process_id,
@@ -159,7 +159,7 @@ class ExternalFulfillmentSeed extends SeedBase
     public function createOrder($order_details) {
 
         if (!$order = $this->db->setData(
-            'commerce_external_fulfillment_orders', $order_details
+            'external_fulfillment_orders', $order_details
         )) {
             return false;
         }
