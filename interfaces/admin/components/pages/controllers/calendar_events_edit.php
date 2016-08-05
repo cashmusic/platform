@@ -21,7 +21,7 @@ if (isset($_POST['doeventedit'])) {
 		)
 	);
 	if ($edit_response['status_uid'] == 'calendar_editevent_200') {
-		AdminHelper::formSuccess('Success. Edited.');
+		AdminHelper::formSuccess('Success. Edited.','/calendar/events/');
 	} else {
 		AdminHelper::formFailure('Error. There was a problem editing.');
 	}
@@ -42,7 +42,7 @@ if (is_array($current_event)) {
 
 	$venue_response = $cash_admin->requestAndStore(
 		array(
-			'cash_request_type' => 'calendar', 
+			'cash_request_type' => 'calendar',
 			'cash_action' => 'getvenue',
 			'venue_id' => $current_event['venue_id']
 		)
@@ -54,7 +54,7 @@ if (is_array($current_event)) {
 		if (strtolower($venue_details['country']) == 'usa' || strtolower($venue_details['country']) == 'canada') {
 			$display_string .= ' / ' . $venue_details['city'] . ', ' . $venue_details['region'];
 		} else {
-			$display_string .= ' / ' . $venue_details['city'] . ', ' . $venue_details['country'];	
+			$display_string .= ' / ' . $venue_details['city'] . ', ' . $venue_details['country'];
 		}
 		$cash_admin->page_data['venue_display_string'] = $display_string;
 	} else {

@@ -8,6 +8,7 @@
 			{{copy_quickly_details}}
 		</p>
 
+
 		<form accept-charset="UTF-8" method="post" action="{{www_path}}/calendar/events/add/" name="add_event">
 			<input type="hidden" name="doeventadd" value="makeitso" />
 
@@ -30,15 +31,18 @@
 			<input type='checkbox' class='checkorradio' id="event_ispublished" name='event_ispublished' value='' checked='checked' /> <label class="checklabel" for="event_ispublished">{{label_published}}</label> <input type='checkbox' class='checkorradio' id="event_iscancelled" name='event_iscancelled' value='' /> <label class="checklabel" for="event_iscancelled">{{label_cancelled}}</label>
 			</div><!--pure-->
 
+
 			<button type="submit">{{copy_button_add_event}}</button>
 
 		</form>
 	</div><!--pure-->
+
 	<div class="pure-u-1 pure-u-md-1-2">
-		<header>
-		<h4>{{copy_upcoming_events}}</h4>
-		</header>
-		{{#events_allfuture}}
+
+	<header>
+	<h4>{{copy_upcoming_events}}</h4>
+	</header>
+	{{#events_allfuture}}
 		<ul class="alternating">
 			{{#events_allfuture}}
 			<li>
@@ -47,7 +51,9 @@
 				<div class="more"><div class="toggle"></div><!--toggle-->
 					<div class="actions">
 						<div class="action-inner">
-							<a href="{{www_path}}/calendar/events/edit/{{event_id}}" class="mininav_flush"><div class="icon icon-search"></div><!--icon-->Details</a>
+							<a href="{{www_path}}/calendar/events/edit/{{event_id}}" class="mininav_flush"><div class="icon icon-search"></div><!--icon-->{{copy_details}}</a>
+							<a href="{{www_path}}/calendar/events/delete/{{event_id}}" class="mininav_flush needsconfirmation"><div class="icon icon-ban"></div><!--icon-->{{copy_delete}}</a>
+
 						</div><!--action-inner-->
 					</div><!--actions-->
 				</div><!--more-->
@@ -58,8 +64,27 @@
 		{{/events_allfuture}}
 
 		{{^events_allfuture}}
-		<div class="empty noevents">
-		<p>{{copy_no_upcoming_events}}</p>
-		</div><!--empty-->
+				<div class="empty">
+				<p>{{copy_no_upcoming_events}}</p>
+				</div>
 		{{/events_allfuture}}
+
+	<header>
+	<h4>{{copy_archive_events}}</h4>
+	</header>
+	{{#events_allpast}}
+		<div class="display-list">
+			{{#events_allpast}}
+				<a class="files" href="{{www_path}}/calendar/events/edit/{{event_id}}"><div class="icon icon-calendar"></div><!--icon--><strong>{{formatted_date}}: </strong><span class="descriptive spaced fadedtext">@ {{venue_name}}</span></a>
+			{{/events_allpast}}
+		</div><!--display-files-->
+	{{/events_allpast}}
+
+
+{{^events_allpast}}
+		<div class="empty">
+		<p>{{copy_no_archive_events}}</p>
+		</div>
+{{/events_allpast}}
+
 	</div><!--pure-->

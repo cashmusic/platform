@@ -22,7 +22,7 @@ if (isset($_POST['doeventadd'])) {
 	);
 
 	if ($add_response['payload']) {
-		AdminHelper::formSuccess('Success. Event added.','/calendar/events/edit/' . $add_response['payload']);
+		AdminHelper::formSuccess('Success. Event added.','/calendar/events/');
 	} else {
 		AdminHelper::formFailure('Error. Something just didn\'t work right.','/calendar/events/add/');
 	}

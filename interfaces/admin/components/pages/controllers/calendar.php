@@ -11,7 +11,7 @@ function formatEventOutput(&$response) {
 		if (strtolower($event['venue_country']) == 'usa' || strtolower($event['venue_country']) == 'canada') {
 			$event['event_location'] = $event['venue_city'] . ', ' . $event['venue_region'];
 		} else {
-			$event['event_location'] = $event['venue_city'] . ', ' . $event['venue_country'];	
+			$event['event_location'] = $event['venue_city'] . ', ' . $event['venue_country'];
 		}
 		if ($event['event_location'] == ', ') {
 			$event['event_location'] = '';
@@ -21,7 +21,7 @@ function formatEventOutput(&$response) {
 
 $thisweek_response = $cash_admin->requestAndStore(
 	array(
-		'cash_request_type' => 'calendar', 
+		'cash_request_type' => 'calendar',
 		'cash_action' => 'getevents',
 		'user_id' => $cash_admin->effective_user_id,
 		'cutoff_date_low' => 'now',
@@ -30,7 +30,7 @@ $thisweek_response = $cash_admin->requestAndStore(
 );
 $unpublished_response = $cash_admin->requestAndStore(
 	array(
-		'cash_request_type' => 'calendar', 
+		'cash_request_type' => 'calendar',
 		'cash_action' => 'getevents',
 		'user_id' => $cash_admin->effective_user_id,
 		'visible_event_types' => 'upcoming',
@@ -50,6 +50,19 @@ if (is_array($unpublished_response['payload'])) {
 	formatEventOutput($unpublished_response);
 	$cash_admin->page_data['events_unpublished'] = new ArrayIterator($unpublished_response['payload']);
 }
+
+// Any events at all? (first use)
+$allevents_response = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'calendar',
+		'cash_action' => 'getevents',
+		'user_id' => $cash_admin->effective_user_id,
+		'visible_event_types' => 'both'
+	)
+);
+
+$cash_admin->page_data['no_events'] = !$allevents_response['payload'];
+
 
 $cash_admin->setPageContentTemplate('calendar');
 ?>

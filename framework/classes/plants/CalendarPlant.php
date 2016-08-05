@@ -1,6 +1,6 @@
 <?php
 /**
- * Live shows. Parties. Good times. CalendarPlant will undergo additional changes 
+ * Live shows. Parties. Good times. CalendarPlant will undergo additional changes
  * by the time the platform reaches 1.0 release.
  *
  * @package platform.org.cashmusic
@@ -27,6 +27,7 @@ class CalendarPlant extends PlantBase {
 			// second value = allowed request methods (string or array of strings)
 			'addevent'          => array('addEvent','direct'),
 			'addvenue'          => array('addVenue','direct'),
+			'deleteevent'       => array('deleteEvent','direct'),
 			'deletevenue'       => array('deleteVenue','direct'),
 			'editevent'         => array('editEvent','direct'),
 			'editvenue'         => array('editVenue','direct'),
@@ -42,7 +43,7 @@ class CalendarPlant extends PlantBase {
 	}
 
 	protected function findVenues($query,$page=1,$max_returned=12) {
-		$limit = (($page - 1) * $max_returned) . ',' . $max_returned;	
+		$limit = (($page - 1) * $max_returned) . ',' . $max_returned;
 		$fuzzy_query = '%' . $query . '%';
 
 		$result = $this->db->getData(
@@ -147,6 +148,18 @@ class CalendarPlant extends PlantBase {
 			)
 		);
 		return $result;
+	}
+
+	protected function deleteEvent($event_id) {
+		$result = $this->db->deleteData(
+			'events',
+			array(
+				'id' => array(
+					'condition' => '=',
+					'value' => $event_id
+				)
+			)
+		);
 	}
 
 	protected function addEvent($date,$user_id,$venue_id,$purchase_url='',$comment='',$published=0,$cancelled=0) {
@@ -346,5 +359,5 @@ class CalendarPlant extends PlantBase {
 		return $result;
 	}
 
-} // END class 
+} // END class
 ?>

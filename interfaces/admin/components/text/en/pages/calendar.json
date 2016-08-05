@@ -11,15 +11,14 @@
 	"tooltips":{},
 	"copy":{
 		"add_an_event":"Add an event",
-		"firstuse":"Calendar is where you'll enter in your upcoming tour dates, in stores, radio performances, etc. Anything you need to tell your fans about and use in one of your campaign elements. ",
-      "cant_find_venue":"Can't find the venue you're looking for?",
-      "add_new_venue":"Add a new venue",
-      "this_week":"This week at a glance",
-      "details":"Details",
-      "no_upcoming_events":"No upcoming events for the next week were found.",
-      "unpublished_events":"Unpublished events",
-      "no_unpublished_events":"No unpublished events were found."
-
-
+		"firstuse":"Calendar is where you'll enter in your upcoming tour dates, in stores, radio performances, etc. <span class='first-para'>Anything you need to tell your fans about and use in one of your campaign elements.</span>",
+    "cant_find_venue":"Can't find the venue you're looking for?",
+    "add_new_venue":"Add a new venue to your list",
+    "this_week":"This week at a glance",
+    "edit_event":"Edit",
+		"delete_event":"Delete",
+    "no_upcoming_events":"No upcoming events for the next week were found.",
+    "unpublished_events":"Unpublished events",
+    "no_unpublished_events":"No unpublished events were found."
    }
 }

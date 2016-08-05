@@ -12,6 +12,7 @@ html{
 	margin:0;
 	overflow-x:hidden;
   box-sizing: border-box;
+	text-ren­der­ing: op­ti­mizeLeg­i­bil­ity;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -4026,6 +4027,14 @@ fieldset{
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b36a38fa', endColorstr='#b3038dff',GradientType=0 ); /* IE6-9 */
 }
 
+.alt.callout.usecolor5:after{
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ff0592+0,fa3866+100&0.7+0,0.7+100 */
+	background: -moz-linear-gradient(left,  rgba(255,5,146,0.7) 0%, rgba(250,56,102,0.7) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(left,  rgba(255,5,146,0.7) 0%,rgba(250,56,102,0.7) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to right,  rgba(255,5,146,0.7) 0%,rgba(250,56,102,0.7) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3ff0592', endColorstr='#b3fa3866',GradientType=1 ); /* IE6-9 */
+}
+
 .alt.callout .callout-inner .button{
 	position: static;
 	margin:30px 0 0 0;
@@ -4206,11 +4215,11 @@ fieldset{
 	margin:36px 0 36px 0;
 }
 
-.display-files{
+.display-list{
 	margin:0 0 0px 0;
 }
 
-.display-files .files{
+.display-list a{
 	background:#cfcfcf;
 	margin:0 0 1px 0;
 	text-decoration: none;
@@ -4224,29 +4233,34 @@ fieldset{
 	overflow: auto;
 }
 
-.display-files .files:nth-of-type(odd){
+.display-list a:nth-of-type(odd){
 	background:#d6d5d5;
 }
 
-.display-files .files:hover{
-	background:#fa3838;
-	color:#f5f5f5;
+.display-list a:hover{
+	color:#f5f5f5!important;
 }
 
-.display-files .files .icon{
+.usecolor2 .display-list a:hover {background:#fa3838;}
+.usecolor3 .display-list a:hover {background:#ff7c12;}
+.usecolor4 .display-list a:hover {background:#6a38fa;}
+.usecolor5 .display-list a:hover {background:#fa3866;}
+
+
+.display-list a .icon{
 	color:#666;
 	margin:0 5px 0 0;
 }
 
-.display-files .files:hover .icon, .display-files .files:hover .file-description{
+.display-list a:hover .icon, .display-list a:hover .file-description{
 	color:#f5f5f5;
 }
 
-.display-files .files .monetised{
+.display-list a .monetised{
 	float: right;
 }
 
-.display-files .files .file-description{
+.display-list a .file-description{
 	font-size: 12px;
 	color:#666;
 }
