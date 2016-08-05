@@ -49,17 +49,15 @@
 			if($request_parameters['verbose']) {
 				$request_parameters['plant'] = array_shift($exploded_request);
 				$request_parameters['action'] = array_shift($exploded_request);
-				if (is_numeric($exploded_request[0])) {
-					$request_parameters['id'] = array_shift($exploded_request);
-				}
 				$request_array = array(
 					'cash_request_type' => $request_parameters['plant'],
 					'cash_action' => $request_parameters['action']
 				);
-				if ($request_parameters['id']) {
-					$request_array['id'] = $request_parameters['id'];
-				}
 				if (count($exploded_request)) {
+					if (is_numeric($exploded_request[0])) {
+						$request_parameters['id'] = array_shift($exploded_request);
+						$request_array['id'] = $request_parameters['id'];
+					}
 					$is_parameter = true;
 					foreach ($exploded_request as $position => $parameter) {
 						if ($is_parameter) {

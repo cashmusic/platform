@@ -115,10 +115,10 @@
 			}
 			$expiration = time() + $this->cash_session_timeout;
 			$current_ip = CASHSystem::getRemoteIP();
-			$session_id = $this->getSessionID();
-			if ($force_session_id) {
-				// if we're forcing an id, we're almost certainly in our JS session stuff
+			if ($force_session_id || $sandbox) {
 				$session_id = $force_session_id;
+			} else {
+				$session_id = $this->getSessionID();
 			}
 			if ($session_id) {
 				$session_exists = $this->db->getData(
@@ -139,15 +139,12 @@
 							'value' => $session_id
 						)
 					);
-				} 
+				}
 			} else {
 				// create a new session
 				$newsession = true;
-				$generate_key = true;
-				$previous_session = false;
-			}
-			if ($generate_key || $sandbox) {
 				$session_id = md5($current_ip['ip'] . rand(10000,99999)) . time(); // IP + random, hashed, plus timestamo
+				$previous_session = false;
 			}
 			$session_data = array(
 				'session_id' => $session_id,
