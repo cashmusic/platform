@@ -660,7 +660,7 @@ class CommercePlant extends PlantBase {
                         }
                     }
                 }
-                
+
                 // by the power of grayskull
                 CASHSystem::sendMassEmail(
                     $user_id,
