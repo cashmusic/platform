@@ -16,10 +16,10 @@ require_once(__DIR__ . '/constants.php');
 $cash_settings = json_decode(getenv('cashmusic_platform_settings'),true);
 // env settings allow use on multi-server, multi-user instances
 if ($cash_settings) {
-	// thanks to json_decode this will be null if the 
+	// thanks to json_decode this will be null if the
 	if (isset($cash_settings['platforminitlocation'])) {
 		$cashmusic_root = str_replace('/cashmusic.php', '', $_SERVER['DOCUMENT_ROOT'] . $cash_settings['platforminitlocation']);
-	}	
+	}
 }
 
 // set up autoload for core classes

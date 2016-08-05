@@ -42,19 +42,11 @@ abstract class ElementBase extends CASHData {
 		}
 		if (isset($_REQUEST['session_id'])) {
 			$this->session_id = $_REQUEST['session_id'];
+			$this->startSession($this->session_id);
 		} else {
-			$session_request = new CASHRequest(
-				 array(
-					  'cash_request_type' => 'system',
-					  'cash_action' => 'startjssession'
-				 )
-			);
-			if ($session_request->response['payload']) {
-				$s = json_decode($session_request->response['payload'],true);
-				$this->session_id = $s['id'];
-			}
+			// not called via embed. on-page element. full session party
+			$this->startSession();
 		}
-		$this->startSession($this->session_id);
 		$this->options = $element['options'];
 		if ($this->isUnlocked()) {
 			$this->unlocked = true;

@@ -103,8 +103,10 @@ if (!isset($_REQUEST['nooutput'])) {
 			$encoded_html = $freddiemercury->render($template, $embed_data);
 			echo $encoded_html;
 		} else {
+			error_log('do output!');
 			if ($initial_page_request) {
 				if (in_array('payload', $requests)) {
+					error_log('payload');
 					$output = $initial_page_request['response']['payload'];
 				} else {
 					$output = array(
