@@ -47,7 +47,18 @@ class TourDates extends ElementBase {
 						$event['location'] = $event['venue_city'] . ', ' . $event['venue_country'];
 					}
 				}
+
 				$event['formatted_date'] = date('d F, Y',$event['date']);
+
+				if (isset($this->options['date_format'])) {
+
+				$date_format = $this->options['date_format'];
+				// format dates
+				if ($date_format == 'year-month-day'){ $event['formatted_date'] = date('Y F, D d',$event['date']);}
+				else if ($date_format == 'month-day-year'){$event['formatted_date'] = date('F d, Y',$event['date']);}
+				else if ($date_format == 'day-month-year'){$event['formatted_date'] = date('D d F, Y',$event['date']);}
+				}
+
 				if (!$event['venue_name']) $event['venue_name'] ='TBA';
 			}
 			// add all dates to the element data
