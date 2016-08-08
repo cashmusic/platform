@@ -19,11 +19,10 @@
 
     <script type="text/javascript">
         $(function() {
-
+            //TODO: potentially fire this manually so we can loop through in groups of 20's, to avoid max files limitations
             $('#loading').hide();
 
             $('#file_upload').fileupload({
-                sequentialUploads: true,
                 forceIframeTransport: true,
                 autoUpload: true,
                 add: function (e, data) {

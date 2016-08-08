@@ -14,7 +14,6 @@ class CASHQueue extends CASHData
         if (!$this->db) $this->connectDB();
         
         // lookup to see if we've got a job
-        //TODO: support for multiple jobs
         if (!$this->getSystemJob()) $this->createSystemJob();
     }
 
@@ -45,6 +44,7 @@ class CASHQueue extends CASHData
 
     public function getSystemJob() {
 
+        //TODO: maybe get highest ID in case there are multiples
         $condition = [
             'user_id' => [
                 'condition' => '=',
