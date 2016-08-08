@@ -3,16 +3,19 @@
 class CASHQueue extends CASHData
 {
     public $job_id;
-    private $user_id, $type;
+    private $user_id, $table_id, $type;
 
-    public function __construct($user_id, $type)
+    public function __construct($user_id, $table_id, $type)
     {
         $this->user_id = $user_id;
         $this->type = $type;
+        $this->table_id = $table_id;
 
         if (!$this->db) $this->connectDB();
-
-        $this->createJob();
+        
+        // lookup to see if we've got a job
+        //TODO: support for multiple jobs
+        if (!$this->getSystemJob()) $this->createSystemJob();
     }
 
     /**
@@ -21,13 +24,14 @@ class CASHQueue extends CASHData
      *
      * @return bool
      */
-    public function createJob() {
+    public function createSystemJob() {
 
         // create a job and set the id to this instance, or die trying
         if (!$this->job_id = $this->db->setData(
             'jobs',
             array(
                 'user_id' 		=> $this->user_id,
+                'table_id'      => $this->table_id,
                 'type'		    => $this->type
             )
         )) {
@@ -36,6 +40,35 @@ class CASHQueue extends CASHData
                 error_log("CASHQueue->createJob failed " . $this->job_id);
             }
             return false;
+        }
+    }
+
+    public function getSystemJob() {
+
+        $condition = [
+            'user_id' => [
+                'condition' => '=',
+                'value' => $this->user_id
+            ],
+            'table_id' => [
+                'condition' => '=',
+                'value' => $this->table_id
+            ],
+            'type' => [
+                'condition' => '=',
+                'value' => $this->type
+            ]
+        ];
+
+        if (!$system_job = $this->db->getData(
+            'jobs', '*', $condition
+        )) {
+            return false;
+        } else {
+
+            $this->job_id = $system_job[0]['id'];
+
+            return true;
         }
     }
 
@@ -53,6 +86,65 @@ class CASHQueue extends CASHData
         }
 
         return $process_id;
+    }
+
+    public function getSystemProcessesByJob() {
+        $condition = [
+            'job_id' => [
+                'condition' => '=',
+                'value' => $this->job_id
+            ]
+        ];
+
+        if (!$system_processes = $this->db->getData(
+            'processes', '*', $condition
+        )) {
+            return false;
+        } else {
+            return $system_processes;
+        }
+    }
+
+    public function deleteSystemProcess($process_id, $job_id) {
+        $conditions = [
+            'id' => [
+                'condition' => '=',
+                'value' => $process_id
+            ],
+            'job_id' => [
+                'condition' => '=',
+                'value' => $job_id
+            ]
+        ];
+
+        if (!$this->db->deleteData(
+            'processes', $conditions
+        )) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function deleteSystemJob() {
+        $conditions = [
+            'id' => [
+                'condition' => '=',
+                'value' => $this->job_id
+            ],
+            'user_id' => [
+                'condition' => '=',
+                'value' => $this->user_id
+            ]
+        ];
+
+        if (!$this->db->deleteData(
+            'jobs', $conditions
+        )) {
+            return false;
+        }
+
+        return true;
     }
 
 }

@@ -13,7 +13,7 @@ $external_fulfillment = new ExternalFulfillmentSeed($user_id);
     
 $external_fulfillment
     ->processUpload($_FILES['csv_upload'])
-    ->createOrders();
+    ->createJob();
 
 }
 

@@ -105,6 +105,7 @@ class CASHDBA {
 			'jobs'	=> 'system_jobs',
 			'processes'	=> 'system_processes',
 			'external_fulfillment_jobs' => 'commerce_external_fulfillment_jobs',
+			'external_fulfillment_tiers' => 'commerce_external_fulfillment_tiers',
 			'external_fulfillment_orders' => 'commerce_external_fulfillment_orders'
 		);
 		if (array_key_exists($data_name, $table_lookup)) {

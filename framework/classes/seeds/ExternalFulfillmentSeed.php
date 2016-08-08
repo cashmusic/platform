@@ -2,7 +2,7 @@
 
 class ExternalFulfillmentSeed extends SeedBase
 {
-    protected $user_id;
+    protected $user_id, $system_job_id, $fulfillment_job_id;
     private $uploaded_files, $raw_data, $parsed_data, $mappable_fields, $mapped_fields, $minimum_field_requirements, $queue;
 
     public function __construct($user_id)
@@ -11,15 +11,30 @@ class ExternalFulfillmentSeed extends SeedBase
         $this->raw_data = [];
         $this->parsed_data = [];
         $this->mappable_fields = [];
-        $this->mapped_fields = [];
-        $this->user_id = $user_id;
+        $this->has_minimal_mappable_fields = false;
 
-        if (!$this->db) $this->connectDB();
+        // default for kickstarter imports
+        $this->mapped_fields = [
+            'name'                => 'Shipping Name',
+            'email'               => 'Email',
+            'price'               => 'Pledge Amount',
+            'notes'               => 'Notes',
+            'shipping_address_1'  => 'Shipping Address 1',
+            'shipping_address_2'  => 'Shipping Address 2',
+            'shipping_city'       => 'Shipping City',
+            'shipping_province'   => 'Shipping State',
+            'shipping_postal'     => 'Shipping Postal',
+            'shipping_country'    => 'Shipping Country Code'
+        ];
 
         $this->minimum_field_requirements = [
             'name' => false,
             'email' => false
         ];
+
+        $this->user_id = $user_id;
+
+        if (!$this->db) $this->connectDB();
 
         if (CASH_DEBUG) {
             error_log("ExternalFulfillmentSeed loaded with user_id ".$this->user_id);
@@ -58,20 +73,7 @@ class ExternalFulfillmentSeed extends SeedBase
 
         if ($this->checkMinimumMappableFields()) {
             // so we've ascertained this is a kickstarter import, so let's try to map these base fields
-            $this->mapped_fields = [
-                'name'                => 'Shipping Name',
-                'email'               => 'Email',
-                'price'               => 'Pledge Amount',
-                'notes'               => 'Notes',
-                'shipping_address_1'  => 'Shipping Address 1',
-                'shipping_address_2'  => 'Shipping Address 2',
-                'shipping_city'       => 'Shipping City',
-                'shipping_province'   => 'Shipping State',
-                'shipping_postal'     => 'Shipping Postal',
-            ];
-
-        } else {
-            // we need to map fields manually. :(
+            $this->has_minimal_mappable_fields = true;
         }
 
         return $this;
@@ -139,21 +141,101 @@ class ExternalFulfillmentSeed extends SeedBase
         return $this;
     }*/
 
-    public function createFulfillmentJob($process_id, $name) {
-
+    public function createFulfillmentJob($asset_id, $name) {
         if (!$fulfillment_job = $this->db->setData(
             'external_fulfillment_jobs',
             array(
-                'job_id'        => $this->queue->job_id,
+                'user_id'       => $this->user_id,
+                'asset_id'      => $asset_id,
+                'name'		    => $name,
+                'mappable_fields'   => json_encode($this->mappable_fields),
+                'has_minimum_mappable_fields'   => $this->has_minimal_mappable_fields
+            )
+        )) {
+            return false;
+        } else {
+            return $fulfillment_job;
+        }
+    }
+
+    public function getFulfillmentJobByUserId() {
+
+        $condition = [
+            'user_id' => [
+                'condition' => '=',
+                'value' => $this->user_id
+            ]
+        ];
+
+        if (!$fulfillment_job = $this->db->getData(
+            'external_fulfillment_jobs', '*', $condition
+        )) {
+            return false;
+        } else {
+
+            // map some fields from the results
+            $this->asset_id = $fulfillment_job[0]['asset_id'];
+            $this->fulfillment_job_name = $fulfillment_job[0]['name'];
+            $this->mappable_fields = json_decode($fulfillment_job[0]['mappable_fields']);
+            $this->has_minimum_mappable_fields = (bool) $fulfillment_job[0]['has_minimum_mappable_fields'];
+            $this->fulfillment_job_id = $fulfillment_job[0]['id'];
+
+            return $this;
+        }
+    }
+
+    public function createFulfillmentTier($process_id, $name, $data) {
+
+        if (!$fulfillment_tier = $this->db->setData(
+            'external_fulfillment_tiers',
+            array(
+                'system_job_id'        => $this->system_job_id,
+                'fulfillment_job_id'    => $this->fulfillment_job_id,
                 'process_id' 	=> $process_id,
                 'user_id'       => $this->user_id,
-                'name'		    => $name
+                'name'		    => $name,
+                'metadata'      => json_encode($data)
             )
         )) {
             return false;
         }
 
-        return $this;
+        return $fulfillment_tier;
+    }
+
+    public function processOrder($order, $tier_id) {
+        $order_mapped = [];
+
+        foreach($this->mapped_fields as $destination_field=>$source_field) {
+
+            // we can deal with the minimum expected fields first, and go from there
+            if (!empty($order[$source_field])) {
+                $source = empty($order[$source_field]) ? '' : $order[$source_field];
+            }
+
+            // fallback if it's empty or not set
+            if (empty($order[$source_field])) {
+
+                // the ol' digital order switcheroo
+                if ($source_field == "Shipping Name") {
+                    $source = empty($order["Backer Name"]) ? '' : $order["Backer Name"];
+                } else {
+                    $source = "";
+                }
+            }
+
+            // either way this is now mapped correctly
+            $order_mapped[$destination_field] = $source;
+        }
+
+        // hack the system
+        $order_mapped['notes'] = empty($order["Notes"]) ? '' : $order["Notes"];
+        $order_mapped['order_data'] = json_encode($order);
+
+        $order_mapped['tier_id'] = $tier_id;
+
+        // create order
+        $this->createOrder($order_mapped);
     }
 
     public function createOrder($order_details) {
@@ -167,16 +249,24 @@ class ExternalFulfillmentSeed extends SeedBase
         return $this;
     }
 
-    public function createOrders() {
+    public function createJob() {
 
         if (CASH_DEBUG) {
             error_log("Called createOrders");
         }
 
-        if ($this->queue = new CASHQueue($this->user_id, 'external_fulfillment')) {
+        // create external fulfillment job (asset id, job name FPO)
+        $this->fulfillment_job = $this->createFulfillmentJob(123, "Job name");
+
+        // pass external fulfillment job id to a new cash queue job
+        if ($this->queue = new CASHQueue(
+                $this->user_id,
+                $this->fulfillment_job,
+                'external_fulfillment_jobs')
+            ) {
 
             if (CASH_DEBUG) {
-                error_log("new queue job created: ".$this->queue->job_id);
+                error_log("New queue job created: ".$this->queue->job_id);
             }
             // insert raw data into system processes, per CSV; then use process id to insert into fulfillment jobs
             foreach ($this->raw_data as $filename => $tier) {
@@ -187,55 +277,67 @@ class ExternalFulfillmentSeed extends SeedBase
                     $job_name     // this could be anything, but naming the process by filename seems okay
                 );
 
-                // fulfillment job
-                $this->createFulfillmentJob($process_id, $job_name);
-
-                // loop through each order and store it in the database
-                foreach ($tier as $order) {
-
-                    $order_mapped = [];
-
-                    foreach($this->mapped_fields as $destination_field=>$source_field) {
-
-                        // we can deal with the minimum expected fields first, and go from there
-                        if (!empty($order[$source_field])) {
-                            $source = empty($order[$source_field]) ? '' : $order[$source_field];
-                        }
-
-                        // fallback if it's empty or not set
-                        if (empty($order[$source_field])) {
-
-                            // the ol' digital order switcheroo
-                            if ($source_field == "Shipping Name") {
-                                $source = empty($order["Backer Name"]) ? '' : $order["Backer Name"];
-                            } else {
-                                $source = "";
-                            }
-                        }
-
-                        // either way this is now mapped correctly
-                        $order_mapped[$destination_field] = $source;
-                    }
-
-                    // hack the system
-                    $order_mapped['notes'] = empty($order["Notes"]) ? '' : $order["Notes"];
-                    $order_mapped['job_id'] = $this->queue->job_id;
-
-                    $order_mapped['user_id'] = $this->user_id;
-
-                    $order_mapped['item_id'] = 1; //TODO: obviously FPO
-                    $order_mapped['order_data'] = json_encode($order);
-
-                    // create order
-                    $this->createOrder($order_mapped);
-
-                }
             }
 
             return $this;
         }
 
         return false;
+
+    }
+
+    public function createTiers() {
+
+        // lookup fulfillment jobs per user id
+        $this->getFulfillmentJobByUserId();
+
+        // hit system jobs with table_id, type to get master job id
+        if (!$this->queue = new CASHQueue(
+            $this->user_id,
+            $this->fulfillment_job_id,
+            'external_fulfillment_jobs')
+        ) {
+            
+            // there's no valid job id, brah
+            return false;
+        } else {
+            $this->system_job_id = $this->queue->job_id;
+
+            if (!$this->has_minimum_mappable_fields) {
+                // we need to have them map shit
+            }
+
+            // get processes by the system job id, and loop through them if there are any
+            if ($system_processes = $this->queue->getSystemProcessesByJob()) {
+                foreach($system_processes as $process) {
+                    // loop through system processes
+                    if($data = json_decode($process['data'], true)) {
+
+                        // create tiers
+                        if($tier_id = $this->createFulfillmentTier($process['id'], $process['name'], $data)) {
+                            //orders per tier
+
+                            foreach ($data as $order) {
+                                // loop through each order and store it in the database
+                                $this->processOrder($order, $tier_id);
+                            }
+
+                        }
+
+                        // if no errors, delete this system process
+                        $this->queue->deleteSystemProcess($process['id'], $this->system_job_id);
+
+                    }
+
+
+                }
+            }
+
+            // delete the system job
+            $this->queue->deleteSystemJob();
+
+        }
+
 
     }
 
