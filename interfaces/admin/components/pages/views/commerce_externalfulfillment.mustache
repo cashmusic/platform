@@ -23,7 +23,8 @@
             $('#loading').hide();
 
             $('#file_upload').fileupload({
-                forceIframeTransport: true,
+                singleFileUploads: true,
+                sequentialUploads: false,
                 autoUpload: true,
                 add: function (e, data) {
                     // remember the filename and submit
