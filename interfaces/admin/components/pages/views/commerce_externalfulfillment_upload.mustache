@@ -1,0 +1,55 @@
+<h1>{{job_name}}</h1>
+
+<div class="pure-u-1">
+    <p>Upload CSV file(s) from Kickstarter export</p>
+
+    <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/externalfulfillment" name="import_csv" id="file_upload">
+
+        <label for="csv_upload">Select file(s)</label>
+        <input type="file" name="csv_upload[]" multiple accept=".csv" />
+
+        <button type="submit">Upload and Continue</button>
+    </form>
+
+    <script src="{{www_path}}/ui/default/assets/scripts/jquery.fileupload.js"></script>
+
+    <script type="text/javascript">
+        $(function() {
+            //TODO: potentially fire this manually so we can loop through in groups of 20's, to avoid max files limitations
+            $('#loading').hide();
+
+            $('#file_upload').fileupload({
+                singleFileUploads: true,
+                sequentialUploads: false,
+                autoUpload: true,
+
+                add: function (e, data) {
+                    // remember the filename and submit
+                    console.log("add");
+                    data.formData = {action: 'do_upload'};
+                    data.submit();
+                },
+                send: function(e, data) {
+                    // spinner, etc
+                    console.log("send");
+                    $('#loadingmask').css('width','101%');
+                },
+                fail: function(e, data) {
+                    // we should do something useful here
+                    console.log("fail");
+                    $('#loadingmask').css('width','1%');
+                },
+                done: function (event, data) {
+                    // hide the spinner, add the final key to the location field of the
+                    $('#loadingmask').css('width','1%');
+                    // go to the next step
+                    //window.location = "{{www_path}}/commerce/externalfulfillment/process";
+
+
+
+
+                }
+            });
+        });
+    </script>
+</div><!--pure-->

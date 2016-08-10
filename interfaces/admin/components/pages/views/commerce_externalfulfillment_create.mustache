@@ -1,0 +1,17 @@
+<h1>Create a new fulfillment job</h1>
+
+<div class="pure-u-1">
+    <p>Import orders from an external service like Kickstarter</p>
+
+    <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/externalfulfillment" id="create_job" class="nodefaultajax">
+        <input type="hidden" name="action" value="do_create" />
+
+
+        <label for="item_name">Name</label>
+        <input type="text" id="fulfillment_name" name="fulfillment_name" value="" placeholder="A name for the imported campaign" class="required" />
+        <label for="fulfillment_description">Description</label>
+        <textarea name="fulfillment_description" id="fulfillment_description" cols="30" rows="10"></textarea>
+
+        <button type="submit">Create and Continue</button>
+    </form>
+</div><!--pure-->

@@ -12,7 +12,11 @@ class CASHQueue extends CASHData
         $this->table_id = $table_id;
 
         if (!$this->db) $this->connectDB();
-        
+
+        if (CASH_DEBUG) {
+            error_log("CASHQueue constructed");
+        }
+
         // lookup to see if we've got a job
         if (!$this->getSystemJob()) $this->createSystemJob();
     }
@@ -39,6 +43,12 @@ class CASHQueue extends CASHData
                 error_log("CASHQueue->createJob failed " . $this->job_id);
             }
             return false;
+        }
+
+        if(CASH_DEBUG) {
+            error_log(
+                'CASHQueue->createSystemJob called'
+            );
         }
     }
 
@@ -67,6 +77,12 @@ class CASHQueue extends CASHData
         } else {
 
             $this->job_id = $system_job[0]['id'];
+
+            if(CASH_DEBUG) {
+                error_log(
+                    'CASHQueue->getSystemJob called'
+                );
+            }
 
             return true;
         }

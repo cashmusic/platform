@@ -10,11 +10,12 @@ if (!empty($_FILES)) {
 
 $user_id = AdminHelper::getPersistentData('cash_effective_user');
 $external_fulfillment = new ExternalFulfillmentSeed($user_id);
-    
-$external_fulfillment
-    ->processUpload($_FILES['csv_upload'])
-    ->createJob();
 
+// need to setup error checking
+
+$job_id = $external_fulfillment
+        ->processUpload($_FILES['csv_upload'])
+        ->createOrContinueJob();
 }
 
 
