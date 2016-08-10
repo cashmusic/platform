@@ -1,5 +1,8 @@
 <h1>{{job_name}}</h1>
-
+<style>
+    .disabled { opacity: 0.3; transition: all 0.3s; }
+    .disabled:hover { cursor: not-allowed; }
+</style>
 <div class="pure-u-1">
     <p>Upload CSV file(s) from Kickstarter export</p>
 
@@ -8,7 +11,7 @@
         <label for="csv_upload">Select file(s)</label>
         <input type="file" name="csv_upload[]" multiple accept=".csv" />
 
-        <button type="submit">Upload and Continue</button>
+        <button class="disabled process-import" type="submit">Process Import</button>
     </form>
 
     <script src="{{www_path}}/ui/default/assets/scripts/jquery.fileupload.js"></script>
@@ -43,7 +46,8 @@
                     // hide the spinner, add the final key to the location field of the
                     $('#loadingmask').css('width','1%');
                     // go to the next step
-                    //window.location = "{{www_path}}/commerce/externalfulfillment/process";
+                    $("#file_upload").attr("action", "{{www_path}}/commerce/externalfulfillment/process");
+                    $('.process-import').removeClass("disabled");
 
 
 

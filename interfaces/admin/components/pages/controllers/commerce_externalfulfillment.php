@@ -64,6 +64,10 @@ if ($action == "do_process") {
         "do_process"
     );
 
+    $external_fulfillment
+        ->createOrContinueJob()
+        ->createTiers();
+
     // set the view to the job detail, because we're done
     $action = "show_detail";
 
@@ -92,16 +96,19 @@ if ($action == "show_upload") {
 }
 
 if ($action == "show_process" || $action == "process") {
-    // rename tiers and assign asset
+
+    // load pending processes for this job and list them
+
     // set whatever values we need for the template
     $cash_admin->page_data['job_name'] = $external_fulfillment->job_name;
 
+    // show process page with release asset selection
     $cash_admin->setPageContentTemplate('commerce_externalfulfillment_process');
 }
 
 if ($action == "show_detail") {
     // show an existing job; also the final display
-    $cash_admin->setPageContentTemplate('commerce_externalfulfillment_detail');
+    //$cash_admin->setPageContentTemplate('commerce_externalfulfillment_detail');
 }
 
 ?>
