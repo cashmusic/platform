@@ -102,7 +102,7 @@ if ($action == "show_process" || $action == "process") {
 
     $external_fulfillment
         ->createOrContinueJob("created")
-        ->updateFulfillmentJobStatus("process");
+        ->updateFulfillmentJobStatus("process");    // mark this as ready to go, to be processed
 
     // load pending processes for this job and list them
 
