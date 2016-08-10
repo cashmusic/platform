@@ -48,8 +48,7 @@ if ($action == "do_upload") {
         $external_fulfillment
             ->createOrContinueJob("created")    // only grab it if it has status 'created'
             ->parseUpload($_FILES['csv_upload'])
-            ->createJobProcesses()
-            ->updateFulfillmentJobStatus("process");
+            ->createJobProcesses();
 
     } else {
         // there's an issue, we're do_uploading without an upload
@@ -102,7 +101,8 @@ if ($action == "show_process" || $action == "process") {
     // this step we need to load the job manually here, because of the way the view is called
 
     $external_fulfillment
-        ->createOrContinueJob("process");
+        ->createOrContinueJob("created")
+        ->updateFulfillmentJobStatus("process");
 
     // load pending processes for this job and list them
 

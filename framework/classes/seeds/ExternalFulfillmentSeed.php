@@ -329,7 +329,7 @@ class ExternalFulfillmentSeed extends SeedBase
 
     public function updateFulfillmentJobStatus($status) {
 
-        $condition = [
+        $condition = array(
             'user_id' => [
                 'condition' => '=',
                 'value' => $this->user_id
@@ -338,10 +338,10 @@ class ExternalFulfillmentSeed extends SeedBase
                 'condition' => '=',
                 'value' => $this->status
             ]
-        ];
+        );
 
         if (!$fulfillment_tier = $this->db->setData(
-            'external_fulfillment_tiers',
+            'external_fulfillment_jobs',
             array(
                 'status'        => $status
             ),
@@ -350,6 +350,8 @@ class ExternalFulfillmentSeed extends SeedBase
         )) {
             return false;
         }
+
+        $this->status = $status;
 
         return $this;
     }
