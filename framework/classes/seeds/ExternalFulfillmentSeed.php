@@ -2,7 +2,7 @@
 
 class ExternalFulfillmentSeed extends SeedBase
 {
-    public $user_id, $system_job_id, $fulfillment_job, $job_name;
+    public $user_id, $system_job_id, $fulfillment_job, $job_name, $status;
     private $uploaded_files, $raw_data, $parsed_data, $mappable_fields, $mapped_fields, $minimum_field_requirements, $queue;
 
     public function __construct($user_id)
@@ -168,6 +168,8 @@ class ExternalFulfillmentSeed extends SeedBase
             $status = 'created';
         }
 
+        $this->status = $status;
+
         error_log(
             'fulfillment job status '.$status
         );
@@ -191,7 +193,7 @@ class ExternalFulfillmentSeed extends SeedBase
 
             // map some fields from the results
             $this->asset_id = $fulfillment_job[0]['asset_id'];
-            $this->fulfillment_job_name = $fulfillment_job[0]['name'];
+            $this->job_name = $fulfillment_job[0]['name'];
             $this->mappable_fields = json_decode($fulfillment_job[0]['mappable_fields']);
             $this->has_minimum_mappable_fields = (bool) $fulfillment_job[0]['has_minimum_mappable_fields'];
             $this->fulfillment_job = $fulfillment_job[0]['id'];
@@ -275,6 +277,8 @@ class ExternalFulfillmentSeed extends SeedBase
 
             $this->createOrGetSystemJob();
 
+            error_log("### existing fulfillment job ".$this->job_name);
+
             return $this;
         } else {
             // create external fulfillment job (asset id, job name FPO)
@@ -283,7 +287,7 @@ class ExternalFulfillmentSeed extends SeedBase
 
             $this->createOrGetSystemJob();
             $this->createFulfillmentJob(0, $job_name, $description);
-
+            $this->status = "created";
         }
 
         $this->job_name = $job_name;
@@ -314,12 +318,37 @@ class ExternalFulfillmentSeed extends SeedBase
         // insert raw data into system processes, per CSV; then use process id to insert into fulfillment jobs
         foreach ($this->raw_data as $filename => $tier) {
 
-            $job_name = basename($filename, '.csv');
-            $process_id = $this->queue->createSystemProcess(
+            $this->queue->createSystemProcess(
                 $tier,                          // raw data, for parity
-                $job_name     // this could be anything, but naming the process by filename seems okay
+                basename($filename, '.csv')     // this could be anything, but naming the process by filename seems okay
             );
+        }
 
+        return $this;
+    }
+
+    public function updateFulfillmentJobStatus($status) {
+
+        $condition = [
+            'user_id' => [
+                'condition' => '=',
+                'value' => $this->user_id
+            ],
+            'status' => [
+                'condition' => '=',
+                'value' => $this->status
+            ]
+        ];
+
+        if (!$fulfillment_tier = $this->db->setData(
+            'external_fulfillment_tiers',
+            array(
+                'status'        => $status
+            ),
+            $condition
+
+        )) {
+            return false;
         }
 
         return $this;
@@ -377,6 +406,7 @@ class ExternalFulfillmentSeed extends SeedBase
 
         }
 
+        return $this;
 
     }
 

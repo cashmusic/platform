@@ -46,9 +46,10 @@ if ($action == "do_upload") {
     if (!empty($_FILES['csv_upload'])) {
 
         $external_fulfillment
-            ->createOrContinueJob()
+            ->createOrContinueJob("created")    // only grab it if it has status 'created'
             ->parseUpload($_FILES['csv_upload'])
-            ->createJobProcesses();
+            ->createJobProcesses()
+            ->updateFulfillmentJobStatus("process");
 
     } else {
         // there's an issue, we're do_uploading without an upload
@@ -65,8 +66,9 @@ if ($action == "do_process") {
     );
 
     $external_fulfillment
-        ->createOrContinueJob()
-        ->createTiers();
+        ->createOrContinueJob("process")    // only grab the job if it's status 'process'
+        ->createTiers()
+        ->updateFulfillmentJobStatus("processed");
 
     // set the view to the job detail, because we're done
     $action = "show_detail";
@@ -97,11 +99,15 @@ if ($action == "show_upload") {
 
 if ($action == "show_process" || $action == "process") {
 
+    // this step we need to load the job manually here, because of the way the view is called
+
+    $external_fulfillment
+        ->createOrContinueJob("process");
+
     // load pending processes for this job and list them
 
     // set whatever values we need for the template
     $cash_admin->page_data['job_name'] = $external_fulfillment->job_name;
-
     // show process page with release asset selection
     $cash_admin->setPageContentTemplate('commerce_externalfulfillment_process');
 }
