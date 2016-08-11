@@ -6,9 +6,18 @@
     <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/externalfulfillment" id="rename_tiers" class="nodefaultajax">
         <input type="hidden" name="action" value="do_rename_tiers" />
 
-
-        <label for="item_name">Tier #1</label>
-        <input type="text" id="fulfillment_name" name="fulfillment_name" value="" placeholder="foo.csv" />
+        {{#processes}}
+            <div class="pure-u-3-5">
+        <label for="item_name">Tier name</label>
+        <input type="text" id="process_{{id}}" name="process_{{id}}" data-id="{{id}}" value="{{name}}" />
+            </div>
+            <div class="pure-u-1-5">
+                <label for=""><input type="checkbox" value="1"> Physical</label>
+            </div>
+            <div class="pure-u-1-5">
+                <label for=""><input type="checkbox" value="1"> Shipped</label>
+            </div>
+            {{/processes}}
 
 
         <button type="submit">Update Tier Names</button>

@@ -101,13 +101,14 @@ if ($action == "show_process" || $action == "process") {
     // this step we need to load the job manually here, because of the way the view is called
 
     $external_fulfillment
-        ->createOrContinueJob("created")
-        ->updateFulfillmentJobStatus("process");    // mark this as ready to go, to be processed
+        ->createOrContinueJob(["created", "process"])   //
+        ->updateFulfillmentJobStatus("process");        // mark this as ready to go, to be processed
 
     // load pending processes for this job and list them
 
     // set whatever values we need for the template
     $cash_admin->page_data['job_name'] = $external_fulfillment->job_name;
+    $cash_admin->page_data['processes'] = $external_fulfillment->getJobProcesses();
     // show process page with release asset selection
     $cash_admin->setPageContentTemplate('commerce_externalfulfillment_process');
 }

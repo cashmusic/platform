@@ -168,22 +168,32 @@ class ExternalFulfillmentSeed extends SeedBase
             $status = 'created';
         }
 
-        $this->status = $status;
+        if (is_array($status)) {
 
-        error_log(
-            'fulfillment job status '.$status
-        );
+            $condition = [
+                'user_id' => [
+                    'condition' => '=',
+                    'value' => $this->user_id
+                ],
+                'status' => [
+                    'condition' => 'IN',
+                    'value' => $status
+                ]
+            ];
+        } else {
 
-        $condition = [
-            'user_id' => [
-                'condition' => '=',
-                'value' => $this->user_id
-            ],
-            'status' => [
-                'condition' => '=',
-                'value' => $status
-            ]
-        ];
+            $condition = [
+                'user_id' => [
+                    'condition' => '=',
+                    'value' => $this->user_id
+                ],
+                'status' => [
+                    'condition' => '=',
+                    'value' => $status
+                ]
+            ];
+        }
+
 
         if (!$fulfillment_job = $this->db->getData(
             'external_fulfillment_jobs', '*', $condition
@@ -197,6 +207,7 @@ class ExternalFulfillmentSeed extends SeedBase
             $this->mappable_fields = json_decode($fulfillment_job[0]['mappable_fields']);
             $this->has_minimum_mappable_fields = (bool) $fulfillment_job[0]['has_minimum_mappable_fields'];
             $this->fulfillment_job = $fulfillment_job[0]['id'];
+            $this->status = $fulfillment_job[0]['status'];
 
             return true;
         }
@@ -325,6 +336,14 @@ class ExternalFulfillmentSeed extends SeedBase
         }
 
         return $this;
+    }
+
+    public function getJobProcesses() {
+        if (!$processes = $this->queue->getSystemProcessesByJob()) {
+            return false;
+        }
+
+        return $processes;
     }
 
     public function updateFulfillmentJobStatus($status) {
