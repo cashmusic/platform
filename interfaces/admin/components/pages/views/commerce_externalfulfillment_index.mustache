@@ -19,12 +19,14 @@
             <div class="pure-u-2-5">
                 <h4>{{name}}</h4>
                 <br>Status: {{status}}
+                <br>{{description}}
             </div>
 
             <div class="pure-u-2-5">
                 Reclaimed %
             </div>
             <div class="pure-u-1">
+
                 <hr>
                 <h5>{{tiers_count}} tiers</h5>
                 <hr>
@@ -32,6 +34,7 @@
                 {{#tiers}}
                     <div class="pure-u-4-5">
                         <h4>Tier: {{name}}</h4>
+                        {{#upc}}<h6><strong>UPC</strong> {{upc}}</h6>{{/upc}}
                     </div>
                     <hr>
                 {{/tiers}}
