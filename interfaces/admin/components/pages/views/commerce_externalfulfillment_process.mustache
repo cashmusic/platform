@@ -6,7 +6,9 @@
     <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/externalfulfillment" id="rename_tiers" class="nodefaultajax">
         <input type="hidden" name="action" value="do_process" />
         <h4>Select Release Asset</h4>
-        <input type="text" name="asset_id" placeholder="asset id">
+        <select id="item_fulfillment_asset" name="item_fulfillment_asset">
+            {{{asset_options}}}
+        </select>
 
         <h4>Rename Tiers ({{processes_count}})</h4>
         <p>Rename tiers, since they default to filenames</p>

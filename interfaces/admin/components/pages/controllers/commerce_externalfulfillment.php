@@ -66,6 +66,7 @@ if ($action == "do_process") {
 
     $external_fulfillment
         ->createOrContinueJob("pending")    // only grab the job if it's status 'process'
+        ->addFulfillmentJobAsset()
         ->createTiers()
         ->updateFulfillmentJobStatus("processed");
 
@@ -114,6 +115,8 @@ if ($action == "show_process" || $action == "process") {
     $cash_admin->page_data['job_name'] = $external_fulfillment->job_name;
     $cash_admin->page_data['processes'] = $processes;
     $cash_admin->page_data['processes_count'] = count($processes);
+    $cash_admin->page_data['asset_options'] = AdminHelper::echoFormOptions('assets',$item_response['payload']['fulfillment_asset'],$cash_admin->getAllFavoriteAssets(),true);
+
     // show process page with release asset selection
     $cash_admin->setPageContentTemplate('commerce_externalfulfillment_process');
 }

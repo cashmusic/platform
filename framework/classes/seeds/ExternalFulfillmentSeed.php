@@ -66,7 +66,7 @@ class ExternalFulfillmentSeed extends SeedBase
                 $tiers = $this->getTiersByJob($job['id']);
                 $job['tiers'] = $tiers;
                 $job['tiers_count'] = count($tiers);
-                
+
                 $user_jobs[] = $job;
             }
 
@@ -237,6 +237,31 @@ class ExternalFulfillmentSeed extends SeedBase
         }
     }
 
+    public function addFulfillmentJobAsset() {
+
+        if (!empty($_REQUEST['item_fulfillment_asset'])) {
+
+            $conditions = [
+                'user_id' => [
+                    'condition' => '=',
+                    'value' => $this->user_id
+                ],
+                'id' => [
+                    'condition' => '=',
+                    'value' => $this->fulfillment_job
+                ]
+            ];
+
+            $this->db->setData(
+                'external_fulfillment_jobs',
+                array('asset_id' => $_REQUEST['item_fulfillment_asset']),
+                $conditions
+            );
+        }
+
+        return $this;
+    }
+
     public function getFulfillmentJobByUserId($status) {
 
         if (!$status) {
@@ -257,7 +282,7 @@ class ExternalFulfillmentSeed extends SeedBase
             ];
         } else {
 
-            $condition = [
+            $conditions = [
                 'user_id' => [
                     'condition' => '=',
                     'value' => $this->user_id
@@ -271,7 +296,7 @@ class ExternalFulfillmentSeed extends SeedBase
 
 
         if (!$fulfillment_job = $this->db->getData(
-            'external_fulfillment_jobs', '*', $condition
+            'external_fulfillment_jobs', '*', $conditions
         )) {
             return false;
         } else {
