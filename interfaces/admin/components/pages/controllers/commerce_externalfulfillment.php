@@ -65,12 +65,12 @@ if ($action == "do_process") {
     );
 
     $external_fulfillment
-        ->createOrContinueJob("process")    // only grab the job if it's status 'process'
+        ->createOrContinueJob("pending")    // only grab the job if it's status 'process'
         ->createTiers()
         ->updateFulfillmentJobStatus("processed");
 
     // set the view to the job detail, because we're done
-    $action = "show_detail";
+    $action = "show_index";
 
 }
 
@@ -79,7 +79,9 @@ if ($action == "do_process") {
  * View switch
  */
 if ($action == "show_index") {
-    // just show the current job or option to create a new one
+    // show existing jobs, and a create new job button
+
+    $cash_admin->page_data['user_jobs'] = $external_fulfillment->getUserJobs();
     $cash_admin->setPageContentTemplate('commerce_externalfulfillment_index');
 }
 
@@ -101,21 +103,27 @@ if ($action == "show_process" || $action == "process") {
     // this step we need to load the job manually here, because of the way the view is called
 
     $external_fulfillment
-        ->createOrContinueJob(["created", "process"])   //
-        ->updateFulfillmentJobStatus("process");        // mark this as ready to go, to be processed
+        ->createOrContinueJob(["created", "pending"])   //
+        ->updateFulfillmentJobStatus("pending");        // mark this as ready to go, to be processed
 
     // load pending processes for this job and list them
 
     // set whatever values we need for the template
+    $processes = $external_fulfillment->getJobProcesses();
+
     $cash_admin->page_data['job_name'] = $external_fulfillment->job_name;
-    $cash_admin->page_data['processes'] = $external_fulfillment->getJobProcesses();
+    $cash_admin->page_data['processes'] = $processes;
+    $cash_admin->page_data['processes_count'] = count($processes);
     // show process page with release asset selection
     $cash_admin->setPageContentTemplate('commerce_externalfulfillment_process');
 }
 
-if ($action == "show_detail") {
+/*if ($action == "show_detail") {
     // show an existing job; also the final display
-    //$cash_admin->setPageContentTemplate('commerce_externalfulfillment_detail');
-}
+    $cash_admin->page_data['job_name'] = $external_fulfillment->job_name;
+    $cash_admin->page_data['tiers'] = [];
+
+    $cash_admin->setPageContentTemplate('commerce_externalfulfillment_detail');
+}*/
 
 ?>

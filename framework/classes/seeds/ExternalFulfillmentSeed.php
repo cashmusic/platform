@@ -2,8 +2,8 @@
 
 class ExternalFulfillmentSeed extends SeedBase
 {
-    public $user_id, $system_job_id, $fulfillment_job, $job_name, $status;
-    private $uploaded_files, $raw_data, $parsed_data, $mappable_fields, $mapped_fields, $minimum_field_requirements, $queue;
+    public $user_id, $system_job_id, $fulfillment_job, $job_name, $status, $queue;
+    private $uploaded_files, $raw_data, $parsed_data, $mappable_fields, $mapped_fields, $minimum_field_requirements;
 
     public function __construct($user_id)
     {
@@ -38,6 +38,81 @@ class ExternalFulfillmentSeed extends SeedBase
 
         if (CASH_DEBUG) {
             error_log("ExternalFulfillmentSeed loaded with user_id ".$this->user_id);
+        }
+    }
+
+    public function getUserJobs() {
+        $conditions = [
+            'user_id' => [
+                'condition' => '=',
+                'value' => $this->user_id
+            ],
+            'status' => [
+                'condition' => '=',
+                'value' => 'processed'
+            ]
+        ];
+
+        if (!$fulfillment_job = $this->db->getData(
+            'external_fulfillment_jobs', '*', $conditions
+        )) {
+            return false;
+        } else {
+
+            $user_jobs = [];
+
+            // loop through each job found
+            foreach($fulfillment_job as $job) {
+                $tiers = $this->getTiersByJob($job['id']);
+                $job['tiers'] = $tiers;
+                $job['tiers_count'] = count($tiers);
+                
+                $user_jobs[] = $job;
+            }
+
+            return $user_jobs;
+        }
+    }
+
+    public function getTiersByJob($job_id) {
+        $conditions = [
+            'user_id' => [
+                'condition' => '=',
+                'value' => $this->user_id
+            ],
+            'fulfillment_job_id' => [
+                'condition' => '=',
+                'value' => $job_id
+            ]
+        ];
+
+        if (!$tiers = $this->db->getData(
+            'external_fulfillment_tiers', '*', $conditions
+        )) {
+            return false;
+        } else {
+            return $tiers;
+        }
+    }
+
+    public function getTiersByJobCount($job_id) {
+        $conditions = [
+            'user_id' => [
+                'condition' => '=',
+                'value' => $this->user_id
+            ],
+            'fulfillment_job_id' => [
+                'condition' => '=',
+                'value' => $job_id
+            ]
+        ];
+
+        if (!$tiers = $this->db->getData(
+            'external_fulfillment_tiers', 'count(*) as total_tiers', $conditions
+        )) {
+            return false;
+        } else {
+            return $tiers[0]['total_tiers'];
         }
     }
 
@@ -213,7 +288,7 @@ class ExternalFulfillmentSeed extends SeedBase
         }
     }
 
-    public function createFulfillmentTier($process_id, $name, $data) {
+    public function createFulfillmentTier($process_id, $name, $upc, $data) {
 
         if (!$fulfillment_tier = $this->db->setData(
             'external_fulfillment_tiers',
@@ -223,6 +298,7 @@ class ExternalFulfillmentSeed extends SeedBase
                 'process_id' 	=> $process_id,
                 'user_id'       => $this->user_id,
                 'name'		    => $name,
+                'upc'           => $upc,
                 'metadata'      => json_encode($data)
             )
         )) {
@@ -377,19 +453,14 @@ class ExternalFulfillmentSeed extends SeedBase
 
     public function createTiers() {
 
-        // lookup fulfillment jobs per user id
-        $this->getFulfillmentJobByUserId();
-
         // hit system jobs with table_id, type to get master job id
-        if (!$this->queue = new CASHQueue(
-            $this->user_id,
-            $this->fulfillment_job,
-            'external_fulfillment_jobs')
-        ) {
+        if (!$this->queue) {
             
-            // there's no valid job id, brah
+            // there's no valid queue object, which means something went wrong when we tried to load or create
+            error_log("no valid queue object");
             return false;
         } else {
+            error_log("valid queue object");
             $this->system_job_id = $this->queue->job_id;
 
             if (!$this->has_minimum_mappable_fields) {
@@ -403,7 +474,14 @@ class ExternalFulfillmentSeed extends SeedBase
                     if($data = json_decode($process['data'], true)) {
 
                         // create tiers
-                        if($tier_id = $this->createFulfillmentTier($process['id'], $process['name'], $data)) {
+                        $tier_name = isset($_REQUEST['tier_name'][$process['id']])
+                            ? $_REQUEST['tier_name'][$process['id']] : $process['name'];
+
+                        $upc = isset($_REQUEST['tier_upc'][$process['id']])
+                            ? $_REQUEST['tier_upc'][$process['id']] : "";
+
+
+                        if($tier_id = $this->createFulfillmentTier($process['id'], $tier_name, $upc, $data)) {
                             //orders per tier
 
                             foreach ($data as $order) {

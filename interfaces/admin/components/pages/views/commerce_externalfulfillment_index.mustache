@@ -1,20 +1,49 @@
 <div id="activity" class="pure-u-1">
-        <div class="alt callout"><div class="callout-inner">
-            <h3>First use</h3>
-            <p>Lorem ipsum shitsum</p>
 
-        </div>
-
-    </div>
 
 <div class="pure-u-1">
-    <h4>Fulfillment Jobs (x)</h4>
+    <h4>Fulfillment Jobs</h4>
 
     <div class="fulfillment-jobs pure-u-1">
-        There are currently x jobs. Add one and stuff
-    </div>
-    <br>
-
+        <p>Fulfillment jobs hold all the information about your customer orders from a 3rd party.</p>
+    <p>They are used to consolidate the information into easy, manageable sections so you can make sure everyone gets what they paid for!
+    </p>
         <a class="button lightboxed" href="{{www_path}}/commerce/externalfulfillment/create">Create a fulfillment job</a>
 
+        {{#user_jobs}}
+        <div class="job empty pure-g">
+            <div class="pure-u-1-5">
+                Asset
+            </div>
+
+            <div class="pure-u-2-5">
+                <h4>{{name}}</h4>
+                <br>Status: {{status}}
+            </div>
+
+            <div class="pure-u-2-5">
+                Reclaimed %
+            </div>
+            <div class="pure-u-1">
+                <hr>
+                <h5>{{tiers_count}} tiers</h5>
+                <hr>
+
+                {{#tiers}}
+                    <div class="pure-u-4-5">
+                        <h4>Tier: {{name}}</h4>
+                    </div>
+                    <hr>
+                {{/tiers}}
+            </div>
+            <div class="pure-u-1">
+                <a href="#" class="button">Send</a>
+                <a href="#" class="button">Delete</a>
+            </div>
+        </div>
+        {{/user_jobs}}
+
+    </div>
+
 </div><!--pure-->
+</div>
