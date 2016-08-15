@@ -46,11 +46,11 @@ class ExternalFulfillmentSeed extends SeedBase
             'user_id' => [
                 'condition' => '=',
                 'value' => $this->user_id
-            ],
+            ]/*,
             'status' => [
                 'condition' => '=',
                 'value' => 'processed'
-            ]
+            ]*/
         ];
 
         if (!$fulfillment_job = $this->db->getData(
@@ -124,6 +124,10 @@ class ExternalFulfillmentSeed extends SeedBase
             error_log("parseUpload called (".count($this->uploaded_files['name'])." files.)");
         }
         // loop through uploaded files
+        error_log(
+          '///Uploaded Files #'.count($this->uploaded_files['name'])
+        );
+
         for($i=0;$i<count($this->uploaded_files['name']);$i++) {
 
             // get file contents
@@ -232,6 +236,10 @@ class ExternalFulfillmentSeed extends SeedBase
         )) {
             return false;
         } else {
+            error_log(
+                'createFulfillmentJobbyjob '.print_r($fulfillment_job, true)
+            );
+
             $this->fulfillment_job = $fulfillment_job;
             return true;
         }
@@ -293,14 +301,15 @@ class ExternalFulfillmentSeed extends SeedBase
                 ]
             ];
         }
-
+        error_log("getFulfillmentJobByUserId .......");
 
         if (!$fulfillment_job = $this->db->getData(
-            'external_fulfillment_jobs', '*', $conditions
+            'external_fulfillment_jobs', '*', $conditions, 1, 'id DESC'
         )) {
+            error_log("---- returned false");
             return false;
         } else {
-
+            error_log("---- returned true");
             // map some fields from the results
             $this->asset_id = $fulfillment_job[0]['asset_id'];
             $this->job_name = $fulfillment_job[0]['name'];
@@ -308,6 +317,8 @@ class ExternalFulfillmentSeed extends SeedBase
             $this->has_minimum_mappable_fields = (bool) $fulfillment_job[0]['has_minimum_mappable_fields'];
             $this->fulfillment_job = $fulfillment_job[0]['id'];
             $this->status = $fulfillment_job[0]['status'];
+
+            error_log("---- fulfillment job: ".$this->fulfillment_job);
 
             return true;
         }
@@ -397,8 +408,9 @@ class ExternalFulfillmentSeed extends SeedBase
             $job_name = $_REQUEST['fulfillment_name'] ? $_REQUEST['fulfillment_name'] : "";
             $description = $_REQUEST['fulfillment_description'] ? $_REQUEST['fulfillment_description'] : "";
 
-            $this->createOrGetSystemJob();
             $this->createFulfillmentJob(0, $job_name, $description);
+            $this->createOrGetSystemJob();
+
             $this->status = "created";
         }
 
