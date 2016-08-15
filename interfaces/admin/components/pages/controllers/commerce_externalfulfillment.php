@@ -64,9 +64,15 @@ if ($action == "do_process") {
         "do_process"
     );
 
+    $update = false;
+
+    if (!empty($_REQUEST['item_fulfillment_asset'])) {
+        $update = ['asset_id' => $_REQUEST['item_fulfillment_asset']];
+    }
+
     $external_fulfillment
         ->createOrContinueJob("pending")    // only grab the job if it's status 'process'
-        ->addFulfillmentJobAsset()
+        ->updateFulfillmentJob($update)
         ->createTiers()
         ->updateFulfillmentJobStatus("processed");
 

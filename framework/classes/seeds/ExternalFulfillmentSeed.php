@@ -245,9 +245,9 @@ class ExternalFulfillmentSeed extends SeedBase
         }
     }
 
-    public function addFulfillmentJobAsset() {
+    public function updateFulfillmentJob($values) {
 
-        if (!empty($_REQUEST['item_fulfillment_asset'])) {
+        if (!empty($values)) {
 
             $conditions = [
                 'user_id' => [
@@ -262,7 +262,7 @@ class ExternalFulfillmentSeed extends SeedBase
 
             $this->db->setData(
                 'external_fulfillment_jobs',
-                array('asset_id' => $_REQUEST['item_fulfillment_asset']),
+                $values,
                 $conditions
             );
         }
@@ -400,6 +400,19 @@ class ExternalFulfillmentSeed extends SeedBase
 
             $this->createOrGetSystemJob();
 
+            if (!empty($_REQUEST['fulfillment_name'])) {
+                // just in case this is one of those stray
+                $job_name = $_REQUEST['fulfillment_name'] ? $_REQUEST['fulfillment_name'] : "";
+                $description = $_REQUEST['fulfillment_description'] ? $_REQUEST['fulfillment_description'] : "";
+
+                $this->updateFulfillmentJob([
+                    'name' => $job_name,
+                    'description' => $description
+                ]);
+
+                $this->job_name = $job_name;
+            }
+
             error_log("### existing fulfillment job ".$this->job_name);
 
             return $this;
@@ -465,6 +478,10 @@ class ExternalFulfillmentSeed extends SeedBase
             'user_id' => [
                 'condition' => '=',
                 'value' => $this->user_id
+            ],
+            'id' => [
+                'condition' => '=',
+                'value' => $this->fulfillment_job
             ],
             'status' => [
                 'condition' => '=',
