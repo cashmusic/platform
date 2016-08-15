@@ -79,7 +79,7 @@ class MandrillSeed extends SeedBase {
 				. '<input id="connection_name_input" type="hidden" name="settings_name" value="(Mandrill)" />'
 //				. '<input type="hidden" name="settings_type" value="com.mandrillapp" />'
 				. '<label for="merchant_email">Your Mandrill API key:</label>'
-				. '<input type="text" name="api_key" id="api_key" value="" />'
+				. '<input type="text" name="api_key" id="api_key" value="" class="required" />'
 				. '<br />'
 				. '<div><input class="button" type="submit" value="Add The Connection" /></div>'
 				. '</form>';
