@@ -1,7 +1,9 @@
-<h1>{{job_name}}</h1>
-<h2>Tiers and orders created.</h2>
+{{#job}}
+    <h1>{{name}}</h1>
 
-<div class="pure-u-1">
+    {{#description}}
+    <h4>{{description}}</h4>
+    {{/description}}
 
   {{#tiers}}
       <div class="pure-u-4-5">
@@ -11,4 +13,41 @@
       <hr>
   {{/tiers}}
 
-</div><!--pure-->
+    <div class="pure-u-1">
+
+        <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/externalfulfillment/detail/{{id}}" id="rename_tiers" class="nodefaultajax">
+            <input type="hidden" name="action" value="do_change" />
+            <input type="hidden" name="fulfillment_job_id" value="{{id}}">
+            <h4>Select Release Asset</h4>
+            <select id="item_fulfillment_asset" name="item_fulfillment_asset">
+                {{{asset_options}}}
+            </select>
+
+            <h4>Rename {{tiers_count}} Tiers</h4>
+            <p>Rename tiers, since they default to filenames</p>
+
+            {{#tiers}}
+                <div class="pure-g">
+
+                    <div class="pure-u-2-5">
+                        <label>Tier name (tier has {{orders}} orders)</label>
+                        <input type="text" name="tier_name[{{id}}]" data-id="{{id}}" value="{{name}}" />
+                    </div>
+                    <div class="pure-u-2-5">
+                        <label>UPC</label>
+                        <input type="text" name="tier_upc[{{id}}]" value="{{upc}}" placeholder="UPC">
+                    </div>
+                    <div class="pure-u-1-5">
+                        <p><label for=""><input type="checkbox" class="checkorradio" name="tier_physical[{{id}}]" {{#physical}}checked{{/physical}} value="1"> Physical</label></p>
+                        <p><label for=""><input type="checkbox" class="checkorradio" name="tier_shipped[{{id}}]" {{#shipped}}checked{{/shipped}} value="1"> Shipped</label></p>
+                    </div>
+                </div>
+            {{/tiers}}
+
+
+            <button type="submit">Save changes</button>
+        </form>
+
+    </div><!--pure-->
+
+{{/job}}
