@@ -63,7 +63,44 @@ class ExternalFulfillmentSeed extends SeedBase
 
             // loop through each job found
             foreach($fulfillment_job as $job) {
+                $tiers = $this->getTiersByJobCount($job['id']);
+
+                if ($tiers < 1) { $tiers = false; }
+                $job['tiers_count'] = $tiers;
+
+                $user_jobs[] = $job;
+            }
+
+            return $user_jobs;
+        }
+    }
+
+    public function getUserJobById($id) {
+        $conditions = [
+            'user_id' => [
+                'condition' => '=',
+                'value' => $this->user_id
+            ],
+            'id' => [
+                'condition' => '=',
+                'value' => $id
+            ]
+        ];
+
+        if (!$fulfillment_job = $this->db->getData(
+            'external_fulfillment_jobs', '*', $conditions
+        )) {
+            return false;
+        } else {
+
+            $user_jobs = [];
+
+            // loop through each job found
+            foreach($fulfillment_job as $job) {
                 $tiers = $this->getTiersByJob($job['id']);
+
+                if ($tiers < 1) { $tiers = false; }
+
                 $job['tiers'] = $tiers;
                 $job['tiers_count'] = count($tiers);
 
@@ -245,8 +282,16 @@ class ExternalFulfillmentSeed extends SeedBase
         }
     }
 
-    public function updateFulfillmentJob($values) {
-
+    public function updateFulfillmentJob($values, $id=false) {
+        
+        // allows us to manually override
+        if (!$id) {
+            $id = $this->fulfillment_job;
+        } else {
+            // trickle down to the next method
+            $this->fulfillment_job = $id;
+        }
+        
         if (!empty($values)) {
 
             $conditions = [
@@ -256,7 +301,7 @@ class ExternalFulfillmentSeed extends SeedBase
                 ],
                 'id' => [
                     'condition' => '=',
-                    'value' => $this->fulfillment_job
+                    'value' => $id
                 ]
             ];
 
@@ -556,6 +601,66 @@ class ExternalFulfillmentSeed extends SeedBase
 
             // delete the system job
             $this->queue->deleteSystemJob();
+
+        }
+
+        return $this;
+
+    }
+
+    /**
+     * Update tiers on existing job, from the details page
+     *
+     * @return $this|bool
+     */
+    public function updateTiers() {
+
+        if(!empty($_REQUEST['tier_name']) && count($_REQUEST['tier_name']) > 0) {
+
+            foreach($_REQUEST['tier_name'] as $tier_id=>$tier_name) {
+                // update tier
+                $tier_name = isset($_REQUEST['tier_name'][$tier_id])
+                    ? $_REQUEST['tier_name'][$tier_id] : $tier_name;
+
+                $upc = isset($_REQUEST['tier_upc'][$tier_id])
+                    ? $_REQUEST['tier_upc'][$tier_id] : "";
+
+                $physical = isset($_REQUEST['tier_physical'][$tier_id])
+                    ? $_REQUEST['tier_physical'][$tier_id] : 0;
+
+                $shipped = isset($_REQUEST['tier_shipped'][$tier_id])
+                    ? $_REQUEST['tier_shipped'][$tier_id] : 0;
+
+
+                error_log("$tier_name // $upc");
+                $conditions = [
+                    'user_id' => [
+                        'condition' => '=',
+                        'value' => $this->user_id
+                    ],
+                    'id' => [
+                        'condition' => '=',
+                        'value' => $this->fulfillment_job
+                    ],
+                    'id' => [
+                        'condition' => '=',
+                        'value' => $tier_id
+                    ]
+                ];
+
+                $this->db->setData(
+                    'external_fulfillment_tiers',
+                    [
+                        'name' => $tier_name,
+                        'upc'  => $upc,
+                        'physical'  => $physical,
+                        'shipped'   => $shipped
+                    ],
+                    $conditions
+
+                );
+
+            }
 
         }
 

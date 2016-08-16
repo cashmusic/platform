@@ -28,18 +28,14 @@
             <div class="pure-u-1">
 
                 <hr>
+                {{#tiers_count}}
                 <h5>{{tiers_count}} tiers</h5>
-                <hr>
-
-                {{#tiers}}
-                    <div class="pure-u-4-5">
-                        <h4>Tier: {{name}}</h4>
-                        {{#upc}}<h6><strong>UPC</strong> {{upc}}</h6>{{/upc}}
-                    </div>
-                    <hr>
-                {{/tiers}}
+                {{/tiers_count}}
             </div>
-            <div class="pure-u-1">
+            <div class="pure-u-2-5">
+                <a href="{{www_path}}/commerce/externalfulfillment/detail/{{id}}" class="button">Edit</a>
+            </div>
+            <div class="pure-u-3-5">
                 <a href="#" class="button">Send</a>
                 <a href="#" class="button">Delete</a>
             </div>

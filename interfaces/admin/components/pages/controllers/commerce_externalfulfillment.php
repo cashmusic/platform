@@ -81,6 +81,39 @@ if ($action == "do_process" || $action == "process") {
 
 }
 
+// if we've got this key then we need to override--- not really a better way to retain the URI and do this
+if ($action == "detail" && !empty($_REQUEST['fulfillment_job_id'])) $action = "do_change";
+
+if ($action == "do_change") {
+    // we're renaming each tier, and actually doing the tier to order conversion here
+    // attaching a release asset for fulfillment
+    error_log(
+        "do_change"
+    );
+
+    if (!empty($_REQUEST['fulfillment_job_id'])) {
+
+
+        $id = $_REQUEST['fulfillment_job_id'];
+
+        $update = [];
+
+        if (!empty($_REQUEST['item_fulfillment_asset'])) {
+            $update = array_merge($update, ['asset_id' => $_REQUEST['item_fulfillment_asset']]);
+        }
+
+        $external_fulfillment
+            ->updateFulfillmentJob($update, $id)
+            ->updateTiers();
+    }
+
+
+    // set the view to the job detail, because we're done
+    $action = "show_detail";
+
+
+}
+
 
 /**
  * View switch
@@ -127,12 +160,21 @@ if ($action == "show_process") {
     $cash_admin->setPageContentTemplate('commerce_externalfulfillment_process');
 }
 
-/*if ($action == "show_detail") {
-    // show an existing job; also the final display
-    $cash_admin->page_data['job_name'] = $external_fulfillment->job_name;
-    $cash_admin->page_data['tiers'] = [];
+if ($action == "show_detail" || $action == "detail") {
+    // show an existing job and edit
 
-    $cash_admin->setPageContentTemplate('commerce_externalfulfillment_detail');
-}*/
+    if (!empty($request_parameters[1])) {
+        $fulfillment_job = $external_fulfillment->getUserJobById($request_parameters[1]);
+        $cash_admin->page_data['job'] = $fulfillment_job[0];//print_r($fulfillment_job, true);
+        $cash_admin->page_data['asset_options'] = AdminHelper::echoFormOptions('assets',$fulfillment_job[0]['asset_id'],$cash_admin->getAllFavoriteAssets(),true);
+
+        $cash_admin->setPageContentTemplate('commerce_externalfulfillment_detail');
+
+    } else {
+        // error
+    }
+
+
+}
 
 ?>
