@@ -3,6 +3,12 @@
 
 <div class="pure-u-1">
 
-
+  {{#tiers}}
+      <div class="pure-u-4-5">
+          <h4>Tier: {{name}}</h4>
+          {{#upc}}<h6><strong>UPC</strong> {{upc}}</h6>{{/upc}}
+      </div>
+      <hr>
+  {{/tiers}}
 
 </div><!--pure-->

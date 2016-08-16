@@ -1,0 +1,12 @@
+{
+	"pagetip": "",
+	"learn": "<p>This is where you’ll find basic information on your external fulfillment for 3rd party services (like kickstarter).</p>",
+	"related":{},
+	"labels":{
+		"notes": "Notes"
+	},
+	"tooltips":{},
+	"copy":{
+		"firstuse":"Fulfillment jobs hold all the information about your customer orders from a 3rd party. (like Kickstarter) <span class='first-para'>They are used to consolidate the information into easy, manageable sections so you can make sure everyone gets what they paid for!</span>"
+	}
+}

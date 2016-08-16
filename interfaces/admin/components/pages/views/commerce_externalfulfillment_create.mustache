@@ -1,17 +1,75 @@
-<h1>Create a new fulfillment job</h1>
-
 <div class="pure-u-1">
-    <p>Import orders from an external service like Kickstarter</p>
-
-    <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/externalfulfillment" id="create_job" class="nodefaultajax">
-        <input type="hidden" name="action" value="do_create" />
-
+    <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/externalfulfillment" id="create_job" class="nodefaultajax multipart" data-parts="3">
+      <input type="hidden" name="action" value="do_create" />
+        
+      <div class="section part-1" data-section-name="Add a job name">
+        <i data-tooltip="Name your job and add a description for your own reference" class="tooltip icon icon-question"></i>
 
         <label for="item_name">Name</label>
-        <input type="text" id="fulfillment_name" name="fulfillment_name" value="" placeholder="A name for the imported campaign" class="required" />
+        <input type="text" id="fulfillment_name" name="fulfillment_name" value="" placeholder="Name the imported information" class="required" />
         <label for="fulfillment_description">Description</label>
         <textarea name="fulfillment_description" id="fulfillment_description" cols="30" rows="10"></textarea>
 
-        <button type="submit">Create and Continue</button>
+      </div><!--basic information -->
+      
+      
+      <div class="section part-2" data-section-name="Main settings"><h5 class="section-header">Main settings</h5><i data-tooltip="Select a target mailing list and an asset to give away (if you want)." class="tooltip icon icon-question"></i>
+        
+      <div class="pure-u-1">
+        <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/externalfulfillment" name="import_csv" id="file_upload">
+
+            <label for="csv_upload">Select file(s)</label>
+            <input type="file" name="csv_upload[]" multiple accept=".csv" />
+
+            <button class="disabled process-import" type="submit">Process Import</button>
+        </form>
+        
+        <script src="{{www_path}}/ui/default/assets/scripts/jquery.fileupload.js"></script>
+
+        <script type="text/javascript">
+            $(function() {
+                //TODO: potentially fire this manually so we can loop through in groups of 20's, to avoid max files limitations
+                $('#loading').hide();
+
+                $('#file_upload').fileupload({
+                    singleFileUploads: true,
+                    sequentialUploads: false,
+                    autoUpload: true,
+
+                    add: function (e, data) {
+                        // remember the filename and submit
+                        console.log("add");
+                        data.formData = {action: 'do_upload'};
+                        data.submit();
+                    },
+                    send: function(e, data) {
+                        // spinner, etc
+                        console.log("send");
+                        $('#loadingmask').css('width','101%');
+                    },
+                    fail: function(e, data) {
+                        // we should do something useful here
+                        console.log("fail");
+                        $('#loadingmask').css('width','1%');
+                    },
+                    done: function (event, data) {
+                        // hide the spinner, add the final key to the location field of the
+                        $('#loadingmask').css('width','1%');
+                        // go to the next step
+                        $("#file_upload").attr("action", "{{www_path}}/commerce/externalfulfillment/process");
+                        $('.process-import').removeClass("disabled");
+
+                    }
+                });
+            });
+        </script>  
+        
+      
+      </div><!--part-2-->
+      
+      <div class="section part-3" data-section-name="Main settings"></div>
+        
+        
+          <button type="submit">Create and Continue</button>
     </form>
 </div><!--pure-->

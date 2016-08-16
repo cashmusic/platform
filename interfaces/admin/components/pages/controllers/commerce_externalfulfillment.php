@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Commerce external fulfillment index controller
  * All we're doing here is showing the existing jobs and giving them a "create job" button
@@ -72,17 +73,56 @@ if ($action == "do_process") {
 
     // set the view to the job detail, because we're done
     $action = "show_index";
-
 }
-
 
 /**
  * View switch
  */
 if ($action == "show_index") {
-    // show existing jobs, and a create new job button
 
+    // Any mass mailing connection present?
+    $cash_admin->page_data['mass_connection'] = AdminHelper::getConnectionsByScope('mass_email');
+
+    // If no mass mailing connection found prompt add connection
+    if (!$cash_admin->page_data['mass_connection']) {
+    
+        $page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+    		$settings_types_data = $page_data_object->getConnectionTypes('mass_email');
+
+        $all_services = array();
+        $typecount = 1;
+        foreach ($settings_types_data as $key => $data) {
+        	if ($typecount % 2 == 0) {
+        		$alternating_type = true;
+        	} else {
+        		$alternating_type = false;
+        	}
+        	if (file_exists(ADMIN_BASE_PATH.'/assets/images/settings/' . $key . '.png')) {
+        		$service_has_image = true;
+        	} else {
+        		$service_has_image = false;
+        	}
+        	if (in_array($cash_admin->platform_type, $data['compatibility'])) {
+        		$all_services[] = array(
+        			'key' => $key,
+        			'name' => $data['name'],
+        			'description' => $data['description'],
+        			'link' => $data['link'],
+        			'alternating_type' => $alternating_type,
+        			'service_has_image' => $service_has_image
+        		);
+        		$typecount++;
+        	}
+        }
+        $cash_admin->page_data['all_services'] = new ArrayIterator($all_services);
+    } 
+
+    // If mass mailing connection found show existing jobs, and a create new job button    
+    else {
     $cash_admin->page_data['user_jobs'] = $external_fulfillment->getUserJobs();
+    }
+  
+    // set index view
     $cash_admin->setPageContentTemplate('commerce_externalfulfillment_index');
 }
 
