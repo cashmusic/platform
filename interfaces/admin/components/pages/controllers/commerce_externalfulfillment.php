@@ -56,7 +56,7 @@ if ($action == "do_upload") {
 
 }
 
-if ($action == "do_process") {
+if ($action == "do_process" || $action == "process") {
     // we're renaming each tier, and actually doing the tier to order conversion here
     // attaching a release asset for fulfillment
 
@@ -66,15 +66,15 @@ if ($action == "do_process") {
 
     $update = false;
 
-    if (!empty($_REQUEST['item_fulfillment_asset'])) {
+/*    if (!empty($_REQUEST['item_fulfillment_asset'])) {
         $update = ['asset_id' => $_REQUEST['item_fulfillment_asset']];
-    }
+    }*/
 
     $external_fulfillment
-        ->createOrContinueJob("pending")    // only grab the job if it's status 'process'
-        ->updateFulfillmentJob($update)
+        ->createOrContinueJob("created")    // only grab the job if it's status 'process'
+        //->updateFulfillmentJob($update)
         ->createTiers()
-        ->updateFulfillmentJobStatus("processed");
+        ->updateFulfillmentJobStatus("pending");
 
     // set the view to the job detail, because we're done
     $action = "show_index";
@@ -105,7 +105,7 @@ if ($action == "show_upload") {
     $cash_admin->setPageContentTemplate('commerce_externalfulfillment_upload');
 }
 
-if ($action == "show_process" || $action == "process") {
+if ($action == "show_process") {
 
     // this step we need to load the job manually here, because of the way the view is called
 
