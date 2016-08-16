@@ -587,6 +587,10 @@ class CASHDBA {
 				. "FROM calendar_events e "
 				. "WHERE e.date > :cutoff_date_low AND e.date < :cutoff_date_high AND e.user_id = :user_id AND e.published = :published_status AND e.cancelled = :cancelled_status ORDER BY e.date ASC";
 				break;
+			case 'CommercePlant_getExternalFulfillmentTiersAndOrderCount':
+				$query = "SELECT (SELECT count(*) FROM commerce_external_fulfillment_orders as o WHERE o.tier_id = t.id) as orders, t.* from commerce_external_fulfillment_tiers as t "
+				. "WHERE t.fulfillment_job_id = :fulfillment_job_id and t.user_id = :user_id";
+				break;
 
 		    default:
 		       return false;

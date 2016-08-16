@@ -124,7 +124,7 @@ class ExternalFulfillmentSeed extends SeedBase
         ];
 
         if (!$tiers = $this->db->getData(
-            'external_fulfillment_tiers', '*', $conditions
+            'CommercePlant_getExternalFulfillmentTiersAndOrderCount', false, $conditions
         )) {
             return false;
         } else {
