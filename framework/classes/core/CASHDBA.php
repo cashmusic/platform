@@ -592,6 +592,12 @@ class CASHDBA {
 				. "WHERE t.fulfillment_job_id = :fulfillment_job_id and t.user_id = :user_id";
 				break;
 
+			case 'CommercePlant_getExternalFulfillmentOrdersByTimestamp':
+				$query = "SELECT o.shipping_postal, t.upc from commerce_external_fulfillment_orders as o "
+				. "JOIN commerce_external_fulfillment_tiers as t ON o.tier_id = t.id "
+				. "WHERE o.creation_date > :creation_date";
+				break;
+
 		    default:
 		       return false;
 		}

@@ -669,12 +669,30 @@ class ExternalFulfillmentSeed extends SeedBase
     }
 
     /**
-     * Get all orders since last timestamp
+     * Get all orders since timestamp
      *
-     * @param $last_timestamp
+     * @param $timestamp
      */
-    public static function getOrders($last_timestamp) {
-        
+    public static function getOrders($timestamp=0) {
+
+        $conditions = [
+            'creation_date' => [
+                'condition' => '>',
+                'value' => $timestamp
+                ]
+            ];
+
+        $data_connection = new CASHRequest(null);
+
+        if (!$data_connection->db) $data_connection->connectDB();
+
+        $orders = $data_connection->db->getData(
+            'CommercePlant_getExternalFulfillmentOrdersByTimestamp', false, $conditions
+        );
+
+        return $orders;
+
+
     }
 
 }

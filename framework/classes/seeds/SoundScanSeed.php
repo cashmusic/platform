@@ -15,21 +15,34 @@
  **/
 class SoundScanSeed extends SeedBase
 {
-    public $reportable_orders, $report;
+    public $orders, $report;
 
     public function __construct() {
         //
     }
 
-    public function addOrders($orders) {
+    public function addOrders() {
 
-        $formatted_orders = [];
-        foreach($orders as $order) {
-            $formatted_orders[] = [
-                'something' => $order['something'],
-                'something_else' => $order['something_else']
-            ];
+        // get last timestamp for soundscan process
+        $timestamp = 0;
+
+        // get external fulfillment orders after that timestamp
+        if ($orders = ExternalFulfillmentSeed::getOrders($timestamp)) {
+
+            // loop through the orders and format them to match the soundscan report structure
+            $formatted_orders = [];
+            foreach($orders as $order) {
+                $formatted_orders[] = implode("|", $order);
+            }
+
+            $this->orders = $formatted_orders;
+        } else {
+
+            // no orders found, should probably return an error here
+            return false;
         }
+
+
 
         return $this;
     }
