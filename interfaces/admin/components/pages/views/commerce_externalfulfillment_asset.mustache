@@ -1,0 +1,15 @@
+<h1>{{job_name}}</h1>
+<div class="pure-u-1">
+
+    <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/externalfulfillment/detail/{{id}}" name="add_asset"  >
+        <input type="hidden" name="action" value="do_change" />
+        <input type="hidden" name="fulfillment_job_id" value="{{id}}">
+
+        <h4>Select Release Asset</h4>
+        <select id="item_fulfillment_asset" name="item_fulfillment_asset">
+            {{{asset_options}}}
+        </select>
+
+        <button class="disabled process-import" type="submit">Add Asset</button>
+    </form>
+</div><!--pure-->

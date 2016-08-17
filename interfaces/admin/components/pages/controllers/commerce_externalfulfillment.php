@@ -77,7 +77,7 @@ if ($action == "do_process" || $action == "process") {
         ->updateFulfillmentJobStatus("pending");
 
     // set the view to the job detail, because we're done
-    $action = "show_index";
+    $action = "show_asset";
 
 }
 
@@ -110,8 +110,6 @@ if ($action == "do_change") {
 
     // set the view to the job detail, because we're done
     $action = "show_detail";
-
-
 }
 
 
@@ -136,6 +134,14 @@ if ($action == "show_upload") {
     $cash_admin->page_data['job_name'] = $external_fulfillment->job_name;
 
     $cash_admin->setPageContentTemplate('commerce_externalfulfillment_upload');
+}
+
+if ($action == "show_asset") {
+    $cash_admin->page_data['job_name'] = $external_fulfillment->job_name;
+    $cash_admin->page_data['asset_options'] = AdminHelper::echoFormOptions('assets',false,$cash_admin->getAllFavoriteAssets(),true);
+    $cash_admin->page_data['id'] = $external_fulfillment->fulfillment_job; // for redirect purposes
+
+    $cash_admin->setPageContentTemplate('commerce_externalfulfillment_asset');
 }
 
 if ($action == "show_process") {
