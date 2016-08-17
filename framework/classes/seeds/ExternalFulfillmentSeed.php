@@ -629,7 +629,7 @@ class ExternalFulfillmentSeed extends SeedBase
                     ? $_REQUEST['tier_physical'][$tier_id] : 0;
 
                 $shipped = isset($_REQUEST['tier_shipped'][$tier_id])
-                    ? $_REQUEST['tier_shipped'][$tier_id] : 0;
+                    ? time() : 0;
 
 
                 error_log("$tier_name // $upc");
@@ -660,6 +660,29 @@ class ExternalFulfillmentSeed extends SeedBase
 
                 );
 
+                // we also want to mark all orders inside this tier as completed,
+                // with the timestamp for reporting
+
+                $conditions = [
+                    'complete' => [
+                        'condition' => '=',
+                        'value' => 0
+                    ],
+                    'tier_id' => [
+                        'condition' => '=',
+                        'value' => $tier_id
+                    ]
+                ];
+
+
+                $this->db->setData(
+                    'external_fulfillment_orders',
+                    [
+                        'complete' => time()
+                    ],
+                    $conditions
+
+                );
             }
 
         }
@@ -686,6 +709,7 @@ class ExternalFulfillmentSeed extends SeedBase
 
         if (!$data_connection->db) $data_connection->connectDB();
 
+        // we're only getting stuff newer than $timestamp, and also where tier upc IS NOT NULL
         $orders = $data_connection->db->getData(
             'CommercePlant_getExternalFulfillmentOrdersByTimestamp', false, $conditions
         );
