@@ -17,25 +17,11 @@ class SoundScanSeed extends SeedBase
 {
     public $reportable_orders, $report;
 
-    public function __construct($user_id, $connection_id) {
-        $this->settings_type = 'com.soundscan';
-        $this->user_id = $user_id;
-        $this->connection_id = $connection_id;
-        $this->redirects = false;
-
-        if ($this->getCASHConnection()) {
-
-            $connections = CASHSystem::getSystemSettings('system_connections');
-            if (isset($connections['com.soundscan'])) {
-                $this->client_id = $connections['com.soundscan']['client_id'];
-            }
-
-        } else {
-            $this->error_message = 'could not get connection settings';
-        }
+    public function __construct() {
+        //
     }
 
-    public function addApplicableOrders($orders) {
+    public function addOrders($orders) {
 
         $formatted_orders = [];
         foreach($orders as $order) {
