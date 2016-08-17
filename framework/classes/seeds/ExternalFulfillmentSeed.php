@@ -668,4 +668,13 @@ class ExternalFulfillmentSeed extends SeedBase
 
     }
 
+    /**
+     * Get all orders since last timestamp
+     *
+     * @param $last_timestamp
+     */
+    public static function getOrders($last_timestamp) {
+        
+    }
+
 }
