@@ -102,6 +102,14 @@ if ($action == "do_change") {
             $update = array_merge($update, ['asset_id' => $_REQUEST['item_fulfillment_asset']]);
         }
 
+        if (!empty($_REQUEST['fulfillment_job_name'])) {
+            $update = array_merge($update, ['fulfillment_job_name' => $_REQUEST['fulfillment_job_name']]);
+        }
+
+        if (!empty($_REQUEST['fulfillment_job_description'])) {
+            $update = array_merge($update, ['fulfillment_job_description' => $_REQUEST['fulfillment_job_description']]);
+        }
+
         $external_fulfillment
             ->updateFulfillmentJob($update, $id)
             ->updateTiers();
