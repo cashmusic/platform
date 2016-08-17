@@ -691,6 +691,16 @@ class ExternalFulfillmentSeed extends SeedBase
 
     }
 
+    public function deleteJob() {
+        if (isset($_REQUEST['action']) &&
+            $_REQUEST['action'] == "delete" &&
+            !empty($_REQUEST['fulfillment_job_id'])
+        ) {
+            // delete shit
+
+        }
+    }
+
     /**
      * Get all orders since timestamp
      *
@@ -715,8 +725,6 @@ class ExternalFulfillmentSeed extends SeedBase
         );
 
         return $orders;
-
-
     }
 
 }
