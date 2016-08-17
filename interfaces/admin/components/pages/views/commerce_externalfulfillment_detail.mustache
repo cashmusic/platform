@@ -1,53 +1,56 @@
+{{! corresponding files: commerce_externalfulfillment.php & commerce_externalfulfillment.json }}
+
 {{#job}}
-    <h1>{{name}}</h1>
+<div class="pure-u-1">
+<header>
+		<a class="returnlink current" href="{{www_path}}/commerce/externalfulfillment"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">Job details: &quot;{{name}}&quot; </h4>
+</header>
+</div><!--pure-->
 
-    {{#description}}
-    <h4>{{description}}</h4>
-    {{/description}}
-
-  {{#tiers}}
-      <div class="pure-u-4-5">
-          <h4>Tier: {{name}}</h4>
-          {{#upc}}<h6><strong>UPC</strong> {{upc}}</h6>{{/upc}}
-      </div>
-      <hr>
-  {{/tiers}}
-
-    <div class="pure-u-1">
-
-        <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/externalfulfillment/detail/{{id}}" id="rename_tiers" class="nodefaultajax">
+<form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/externalfulfillment/detail/{{id}}" id="rename_tiers" class="nodefaultajax">
             <input type="hidden" name="action" value="do_change" />
             <input type="hidden" name="fulfillment_job_id" value="{{id}}">
-            <h4>Select Release Asset</h4>
+            
+            <label for="fulfillment_job_name">{{label_job_title}}</label>
+            <input type="text" id="asset_title" name="fulfillment_job_name" value="{{name}}" placeholder="Job Name" class="required" />
+            <label for="fulfillment_job_description">{{label_job_description}}</label>
+            <textarea id="fulfillment_job_description" name="fulfillment_job_description">{{description}}</textarea>
+            
+            <label for="item_fulfillment_asset">{{label_fulfillment_asset}}</label>
             <select id="item_fulfillment_asset" name="item_fulfillment_asset">
                 {{{asset_options}}}
             </select>
+            
+            <label>Rename Tiers ({{tiers_count}}) </label>
+            <div class="drawer prefpanel pure-u-1 defaultopen ">
+            	<div class="itemnav pure-u-1">
+            		<h4 class="drawerhandle title"><div class="icon icon-wrench"></div><!--icon--><span>Tier Settings</span></h4>
+            		<div class="drawercontent">
+            			<div class="pure-u-1">
+            				<div class="pref-inner">
+                      {{#tiers}}<div class="pure-u-1">
+                              <div class="pure-u-1 pure-u-md-1-2">
+                                  <label>Tier name <strong>({{orders}} orders)</strong></label>
+                                  <input type="text" name="tier_name[{{id}}]" data-id="{{id}}" value="{{name}}" />
+                              </div>
+                              <div class="pure-u-1 pure-u-md-1-4">
+                                  <label>UPC</label>
+                                  <input type="text" name="tier_upc[{{id}}]" value="{{upc}}" placeholder="UPC">
+                              </div>
+                              <div class="pure-u-1 pure-u-md-1-4">
+                                  <label>Options</label>
+                                  <p><label for="tier_physical[{{id}}]"><input type="checkbox" class="checkorradio" name="tier_physical[{{id}}]" {{#physical}}checked{{/physical}} value="1">Physical</label></p>  
+                                  <p><label for="tier_shipped[{{id}}]"><input type="checkbox" class="checkorradio" name="tier_shipped[{{id}}]" {{#shipped}}checked{{/shipped}} value="1">Shipped</label></p>
+                              </div>
+                          </div>{{/tiers}}
+            				</div>
+            			</div>
+            		</div>
+            	</div>
+            </div>
 
-            <h4>Rename {{tiers_count}} Tiers</h4>
-            <p>Rename tiers, since they default to filenames</p>
-
-            {{#tiers}}
-                <div class="pure-g">
-
-                    <div class="pure-u-2-5">
-                        <label>Tier name (tier has {{orders}} orders)</label>
-                        <input type="text" name="tier_name[{{id}}]" data-id="{{id}}" value="{{name}}" />
-                    </div>
-                    <div class="pure-u-2-5">
-                        <label>UPC</label>
-                        <input type="text" name="tier_upc[{{id}}]" value="{{upc}}" placeholder="UPC">
-                    </div>
-                    <div class="pure-u-1-5">
-                        <p><label for=""><input type="checkbox" class="checkorradio" name="tier_physical[{{id}}]" {{#physical}}checked{{/physical}} value="1"> Physical</label></p>
-                        <p><label for=""><input type="checkbox" class="checkorradio" name="tier_shipped[{{id}}]" {{#shipped}}checked{{/shipped}} value="1"> Shipped</label></p>
-                    </div>
-                </div>
-            {{/tiers}}
-
-
-            <button type="submit">Save changes</button>
+            <div class="pure-u-1">
+            <button type="submit">Save changes</button><button type="submit">Delete Job</button>
+            </div><!--pure-->
         </form>
-
-    </div><!--pure-->
-
 {{/job}}

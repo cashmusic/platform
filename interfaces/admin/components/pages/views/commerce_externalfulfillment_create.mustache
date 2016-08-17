@@ -13,63 +13,33 @@
       </div><!--basic information -->
       
       
-      <div class="section part-2" data-section-name="Main settings"><h5 class="section-header">Main settings</h5><i data-tooltip="Select a target mailing list and an asset to give away (if you want)." class="tooltip icon icon-question"></i>
+      <div class="section part-2" data-section-name="Select file(s)"><h5 class="section-header">Main settings</h5><i data-tooltip="Select 3rd party fulfillment file(s)" class="tooltip icon icon-question"></i>
         
       <div class="pure-u-1">
-        <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/externalfulfillment" name="import_csv" id="file_upload">
-
-            <label for="csv_upload">Select file(s)</label>
+        <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/externalfulfillment" name="import_csv" id="file_upload"-->          
+          <label for="csv_upload">Select file(s)</label>
+          <div class="pure-u-1 pure-u-md-2-3">
             <input type="file" name="csv_upload[]" multiple accept=".csv" />
-
-            <button class="disabled process-import" type="submit">Process Import</button>
+          </div><div class="pure-u-1 pure-u-md-1-3 alignright">
+            <button class="alt-button process-import"  type="submit">Process Import</button>
+          <button type="submit">Create and Continue</button>
+          </div>
         </form>
         
-        <script src="{{www_path}}/ui/default/assets/scripts/jquery.fileupload.js"></script>
-
-        <script type="text/javascript">
-            $(function() {
-                //TODO: potentially fire this manually so we can loop through in groups of 20's, to avoid max files limitations
-                $('#loading').hide();
-
-                $('#file_upload').fileupload({
-                    singleFileUploads: true,
-                    sequentialUploads: false,
-                    autoUpload: true,
-
-                    add: function (e, data) {
-                        // remember the filename and submit
-                        console.log("add");
-                        data.formData = {action: 'do_upload'};
-                        data.submit();
-                    },
-                    send: function(e, data) {
-                        // spinner, etc
-                        console.log("send");
-                        $('#loadingmask').css('width','101%');
-                    },
-                    fail: function(e, data) {
-                        // we should do something useful here
-                        console.log("fail");
-                        $('#loadingmask').css('width','1%');
-                    },
-                    done: function (event, data) {
-                        // hide the spinner, add the final key to the location field of the
-                        $('#loadingmask').css('width','1%');
-                        // go to the next step
-                        $("#file_upload").attr("action", "{{www_path}}/commerce/externalfulfillment/process");
-                        $('.process-import').removeClass("disabled");
-
-                    }
-                });
-            });
-        </script>  
-        
-      
       </div><!--part-2-->
       
-      <div class="section part-3" data-section-name="Main settings"></div>
+      <div class="section part-3" data-section-name="Attach fulfillment asset">
+
+        <label for="item_fulfillment_asset">{{label_fulfillment_asset}}</label>
+        <select id="item_fulfillment_asset" name="item_fulfillment_asset">
+            {{{asset_options}}}
+        </select>
         
         
-          <button type="submit">Create and Continue</button>
+      <button type="submit">Create and Continue</button>
+      
+    </div><!--part-3-->
+        
+  
     </form>
 </div><!--pure-->

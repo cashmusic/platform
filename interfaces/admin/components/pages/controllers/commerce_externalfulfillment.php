@@ -120,7 +120,7 @@ if ($action == "do_change") {
 if ($action == "show_index") {
 
     // Any mass mailing connection present?
-    $cash_admin->page_data['mass_connection'] = AdminHelper::getConnectionsByScope('mass_email');
+    $cash_admin->page_data['mass_connection'] = AdminHelper::getConnectionsByScope('mass_email') || !$fulfillment_job[0];
 
     // If no mass mailing connection found prompt add connection
     if (!$cash_admin->page_data['mass_connection']) {

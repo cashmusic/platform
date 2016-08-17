@@ -3,7 +3,10 @@
 	"learn": "<p>This is where you’ll find basic information on your external fulfillment for 3rd party services (like kickstarter).</p>",
 	"related":{},
 	"labels":{
-		"notes": "Notes"
+		"notes": "Notes",
+		"job_title":"Job title",
+		"job_description":"Job description",
+		"fulfillment_asset":"Select fulfillment asset (to send)"
 	},
 	"tooltips":{},
 	"copy":{
