@@ -114,7 +114,8 @@ class AdminBasicIntegration extends UnitTestCase {
 					$route != 'elements/add' &&
 					$route != 'elements/edit' &&
 					$route != 'elements/stats' &&
-					$route != 'settings/connections'
+					$route != 'settings/connections' &&
+					$route != 'commerce/externalfulfillment'
 				) {
 					// now check that the proper text is being displayed
 					$filename = dirname(__FILE__) . '/../../../interfaces/admin/components/text/en/pages/'.
