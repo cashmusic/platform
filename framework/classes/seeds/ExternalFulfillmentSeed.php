@@ -54,7 +54,7 @@ class ExternalFulfillmentSeed extends SeedBase
         ];
 
         if (!$fulfillment_job = $this->db->getData(
-            'external_fulfillment_jobs', '*', $conditions
+            'external_fulfillment_jobs', '*', $conditions, false, 'id DESC'
         )) {
             return false;
         } else {
@@ -631,8 +631,6 @@ class ExternalFulfillmentSeed extends SeedBase
                 $shipped = isset($_REQUEST['tier_shipped'][$tier_id])
                     ? time() : 0;
 
-
-                error_log("$tier_name // $upc");
                 $conditions = [
                     'user_id' => [
                         'condition' => '=',
@@ -661,28 +659,29 @@ class ExternalFulfillmentSeed extends SeedBase
                 );
 
                 // we also want to mark all orders inside this tier as completed,
-                // with the timestamp for reporting
+                // with the timestamp for reporting (assuming it's shipped)
+                if (!empty($shipped)) {
+                    $conditions = [
+                        'complete' => [
+                            'condition' => '=',
+                            'value' => 0
+                        ],
+                        'tier_id' => [
+                            'condition' => '=',
+                            'value' => $tier_id
+                        ]
+                    ];
 
-                $conditions = [
-                    'complete' => [
-                        'condition' => '=',
-                        'value' => 0
-                    ],
-                    'tier_id' => [
-                        'condition' => '=',
-                        'value' => $tier_id
-                    ]
-                ];
+                    $this->db->setData(
+                        'external_fulfillment_orders',
+                        [
+                            'complete' => time()
+                        ],
+                        $conditions
 
+                    );
+                }
 
-                $this->db->setData(
-                    'external_fulfillment_orders',
-                    [
-                        'complete' => time()
-                    ],
-                    $conditions
-
-                );
             }
 
         }

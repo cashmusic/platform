@@ -27,6 +27,7 @@ class SoundScanSeed extends SeedBase
         $timestamp = 0;
 
         // get external fulfillment orders after that timestamp
+        //TODO: needs to be filtered by country
         if ($orders = ExternalFulfillmentSeed::getOrders($timestamp)) {
 
             // loop through the orders and format them to match the soundscan report structure
@@ -35,7 +36,7 @@ class SoundScanSeed extends SeedBase
                 $formatted_orders[] = implode("|", $order);
             }
 
-            $this->orders = $formatted_orders;
+            $this->orders = implode("\n", $formatted_orders);
         } else {
 
             // no orders found, should probably return an error here
@@ -49,10 +50,25 @@ class SoundScanSeed extends SeedBase
 
     public function createReport() {
 
+        // grab some shit and concatenate into a report
+        $this->report = "header|shit|i|dunno\n"
+        .$this->orders;
+
         return $this;
     }
 
     public function sendReport() {
+
+        if (!CASHSystem::uploadStringToFTP($this->report, "testfilename39unjsdkn.txt", [
+            'domain' => 'supermegaawesomeftp.terrorbird.com',
+            'username' => 'terrorbird',
+            'password' => 'xLQV$bVO2GIWbWe'
+        ])) {
+            // something fucked up
+            error_log(
+                'something fucked up'
+            );
+        }
 
         return $this;
     }
