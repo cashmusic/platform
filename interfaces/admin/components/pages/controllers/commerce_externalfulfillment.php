@@ -103,11 +103,11 @@ if ($action == "do_change") {
         }
 
         if (!empty($_REQUEST['fulfillment_job_name'])) {
-            $update = array_merge($update, ['fulfillment_job_name' => $_REQUEST['fulfillment_job_name']]);
+            $update = array_merge($update, ['name' => $_REQUEST['fulfillment_job_name']]);
         }
 
         if (!empty($_REQUEST['fulfillment_job_description'])) {
-            $update = array_merge($update, ['fulfillment_job_description' => $_REQUEST['fulfillment_job_description']]);
+            $update = array_merge($update, ['description' => $_REQUEST['fulfillment_job_description']]);
         }
 
         $external_fulfillment
