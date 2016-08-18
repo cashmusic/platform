@@ -179,11 +179,17 @@ class MandrillSeed extends SeedBase {
 			}
 		}
 
+		$email_settings = CASHSystem::getDefaultEmail(true);
+		$sender = CASHSystem::parseEmailAddress($email_settings['systememail']);
+
+		echo "SENDER ".print_r($sender, true);
+
 		$message = array(
 			"html" => $message_html,
 			"text" => $message_txt,
 			"subject" => $subject,
-			"from_email" => $from_address,
+			'headers' => array('Reply-To' => $from_address),
+			"from_email" => key($sender),
 			"from_name" => $from_name,
 			"to" => $recipients,
 			"headers" => null,

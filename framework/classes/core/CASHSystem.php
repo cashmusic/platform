@@ -725,7 +725,7 @@
 		} else {
 			// we're testing so let's just fake this for now
 
-			$user_details['email_address'] = 'info@cashmusic.org';
+			$user_details['email_address'] = 'tom@paperscissorsandglue.com';
 			$user_details['display_name'] = 'Testing CASH Mailer';
 		}
 
