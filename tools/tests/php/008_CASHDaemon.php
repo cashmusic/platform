@@ -9,5 +9,7 @@ class CASHDaemonTests extends UnitTestCase {
 		$this->assertIsa($d, 'CASHDaemon');
 	}
 
+	
+
 }
 ?>

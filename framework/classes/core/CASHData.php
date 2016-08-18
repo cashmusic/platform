@@ -179,10 +179,6 @@
 		} else {
 			$session_id = $this->sessionGet('session_id','script');
 		}
-		// garbage collection daemon. 2% chance of running.
-		if (rand(1,100) <= 2) {
-			$gc = new CASHDaemon();
-		}
 
 		// ERROR LOGGING
 		// error_log('starting session: ' . $session_id);

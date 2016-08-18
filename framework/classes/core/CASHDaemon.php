@@ -16,10 +16,32 @@
  *
  */class CASHDaemon extends CASHData {
 	private $user_id = false;
+	private $history = false;
+	private $runtime = 0;
 
 	public function __construct($user_id=false) {
 		$this->user_id = $user_id;
 		$this->connectDB();
+		$this->runtime = time();
+		// get stored history
+		$history_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system',
+				'cash_action' => 'getsettings',
+				'type' => 'daemon',
+				'user_id' => -1
+			)
+		);
+		if ($history_request->response['payload']) {
+			$this->history = $history_request->response['payload'];
+		} else {
+			$this->history = array(
+				'total_runs' 		=> 1,
+				'last_run' 			=> $this->runtime,
+				'last3_runs' 		=> array($this->runtime),
+				'last_sceduled'	=> array()
+			);
+		}
 	}
 
 	private function cleanTempData($table,$conditional_column,$timestamp) {
@@ -43,8 +65,27 @@
 	}
 
 	public function __destruct() {
-		$this->clearExpiredSessions();
-		$this->clearOldTokens();
+		if ($this->history['last_run'] <= time() - 300) {
+			$this->clearExpiredSessions();
+			$this->clearOldTokens();
+			// update history
+			$this->history['total_runs'] 		= $this->history['total_runs'] + 1;
+			$this->history['last_run'] 		= $this->runtime;
+			$this->history['last3_runs'][]	= $this->runtime;
+			if (count($this->history['last3_runs']) > 3) {
+				$this->history['last3_runs'] = array_slice($this->history['last3_runs'],-3);
+			}
+			// store settings for next run
+			$history_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'system',
+					'cash_action' => 'setsettings',
+					'type' => 'daemon',
+					'user_id' => -1,
+					'value' => $this->history
+				)
+			);
+		}
 	}
 } // END class
 ?>
