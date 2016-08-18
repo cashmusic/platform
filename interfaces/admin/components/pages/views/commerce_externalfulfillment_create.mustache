@@ -1,45 +1,15 @@
 <div class="pure-u-1">
-    <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/externalfulfillment" id="create_job" class="nodefaultajax multipart" data-parts="3">
+    <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/externalfulfillment" id="create_job" class="nodefaultajax">
       <input type="hidden" name="action" value="do_create" />
         
-      <div class="section part-1" data-section-name="Add a job name">
         <i data-tooltip="Name your job and add a description for your own reference" class="tooltip icon icon-question"></i>
 
-        <label for="item_name">Name</label>
-        <input type="text" id="fulfillment_name" name="fulfillment_name" value="" placeholder="Name the imported information" class="required" />
-        <label for="fulfillment_description">Description</label>
+        <label for="item_name">{{label_name}}</label>
+        <input type="text" id="fulfillment_name" name="fulfillment_name" value="" placeholder="{{label_name_placeholder}}" class="required" />
+        <label for="fulfillment_description">{{label_description}}</label>
         <textarea name="fulfillment_description" id="fulfillment_description" cols="30" rows="10"></textarea>
 
-      </div><!--basic information -->
-      
-      
-      <div class="section part-2" data-section-name="Select file(s)"><h5 class="section-header">Main settings</h5><i data-tooltip="Select 3rd party fulfillment file(s)" class="tooltip icon icon-question"></i>
-        
-      <div class="pure-u-1">
-        <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/externalfulfillment" name="import_csv" id="file_upload"-->          
-          <label for="csv_upload">Select file(s)</label>
-          <div class="pure-u-1 pure-u-md-2-3">
-            <input type="file" name="csv_upload[]" multiple accept=".csv" />
-          </div><div class="pure-u-1 pure-u-md-1-3 alignright">
-            <button class="alt-button process-import"  type="submit">Process Import</button>
-          <button type="submit">Create and Continue</button>
-          </div>
-        </form>
-        
-      </div><!--part-2-->
-      
-      <div class="section part-3" data-section-name="Attach fulfillment asset">
-
-        <label for="item_fulfillment_asset">{{label_fulfillment_asset}}</label>
-        <select id="item_fulfillment_asset" name="item_fulfillment_asset">
-            {{{asset_options}}}
-        </select>
-        
-        
-      <button type="submit">Create and Continue</button>
-      
-    </div><!--part-3-->
-        
-  
+      <button type="submit">{{{copy_create_btn}}}</button>
+          
     </form>
 </div><!--pure-->

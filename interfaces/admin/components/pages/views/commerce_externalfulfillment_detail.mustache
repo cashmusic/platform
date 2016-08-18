@@ -3,7 +3,7 @@
 {{#job}}
 <div class="pure-u-1">
 <header>
-		<a class="returnlink current" href="{{www_path}}/commerce/externalfulfillment"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">Job details: &quot;{{name}}&quot; </h4>
+		<a class="returnlink current" href="{{www_path}}/commerce/externalfulfillment"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">{{copy_detail_title}} &quot;{{name}}&quot; </h4>
 </header>
 </div><!--pure-->
 
@@ -21,28 +21,32 @@
                 {{{asset_options}}}
             </select>
             
-            <label>Rename Tiers ({{tiers_count}}) </label>
+            <label>{{copy_rename_tiers}} ({{tiers_count}}) </label>
             <div class="drawer prefpanel pure-u-1 defaultopen ">
             	<div class="itemnav pure-u-1">
-            		<h4 class="drawerhandle title"><div class="icon icon-wrench"></div><!--icon--><span>Tier Settings</span></h4>
+            		<h4 class="drawerhandle title"><div class="icon icon-wrench"></div><!--icon--><span>{{copy_tier_settings}}</span></h4>
             		<div class="drawercontent">
             			<div class="pure-u-1">
             				<div class="pref-inner">
                       {{#tiers}}<div class="pure-u-1">
                               <div class="pure-u-1 pure-u-md-1-2">
-                                  <label>Tier name <strong>({{orders}} orders)</strong></label>
+                                  <label>{{label_tier_name}} <strong>({{orders}} {{label_order_amount}})</strong></label>
                                   <input type="text" name="tier_name[{{id}}]" data-id="{{id}}" value="{{name}}" />
                               </div>
                               <div class="pure-u-1 pure-u-md-1-4">
-                                  <label>UPC</label>
+                                  <label>{{label_upc}}</label>
                                   <input type="text" name="tier_upc[{{id}}]" value="{{upc}}" placeholder="UPC">
                               </div>
                               <div class="pure-u-1 pure-u-md-1-4">
-                                  <label>Options</label>
-                                  <p><label for="tier_physical[{{id}}]"><input type="checkbox" class="checkorradio" name="tier_physical[{{id}}]" {{#physical}}checked{{/physical}} value="1">Physical</label></p>  
-                                  <p><label for="tier_shipped[{{id}}]"><input type="checkbox" class="checkorradio" name="tier_shipped[{{id}}]" {{#shipped}}checked{{/shipped}} value="1">Shipped</label></p>
+                                  <label>{{label_options}}</label>
+                                  <p><label for="tier_physical[{{id}}]"><input type="checkbox" class="checkorradio" name="tier_physical[{{id}}]" {{#physical}}checked{{/physical}} value="1">{{copy_physical}}</label></p>  
+                                  <p><label for="tier_shipped[{{id}}]"><input type="checkbox" class="checkorradio" name="tier_shipped[{{id}}]" {{#shipped}}checked{{/shipped}} value="1">{{copy_shipped}}</label></p>
                               </div>
                           </div>{{/tiers}}
+													
+											{{^tiers}}
+													<div class="empty align-center">{{copy_no_tiers}}</div>
+											{{/tiers}}
             				</div>
             			</div>
             		</div>
@@ -50,7 +54,7 @@
             </div>
 
             <div class="pure-u-1">
-            <button type="submit">Save changes</button><button type="submit">Delete Job</button>
+            <button type="submit">{{copy_save}}</button><a class="button needsconfirmation" href="/commerce/externalfulfillment/delete/{{id}}" type="submit">{{copy_delete}}</a>
             </div><!--pure-->
         </form>
 {{/job}}

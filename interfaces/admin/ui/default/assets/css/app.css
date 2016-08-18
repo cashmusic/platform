@@ -943,7 +943,7 @@ button .icon, .button .icon{
 	color:#f5f5f5!important;
 }
 
-.upload-corral input[type=file]{
+.upload-corral input[type=file], input[type=file]{
 	padding:10px;
 	background:#ddd;
 }
@@ -2784,6 +2784,12 @@ form .drawer.prefpanel{
 	height:100%;
 	min-height:210px;
 	opacity:1;
+}
+
+.prefpanel .pref-inner .empty{
+	background:none;
+	margin:0;
+	text-align: center;
 }
 
 .drawer.multipart.prefpanel .pref-inner{
@@ -4945,14 +4951,54 @@ ul.people.alternating li a span{
 }
 
 /* 3rd Party Fulfillment */
+.fulfillment-jobs{
+	margin:0 0 18px 0;
+}
 
 .fulfillment-jobs .job{
-	background:#eee;
+	background:#fff;
+	margin:0 0 6px 0;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	border:solid 1px #ddd;
 }
 
+.fulfillment-jobs .job .alternating, .fulfillment-jobs .job .alternating li{
+	margin:0;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+}
+
+.fulfillment-jobs .job .alternating li a{
+	padding:18px;
+	border:none;
+	background:#f5f5f5;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-topright: 3px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	border-bottom: solid 1px #eee;
+}
+
+
+.fulfillment-jobs .job .footer{
+	padding:18px;
+}
+
+/* Reclaimed Amount */
 .fulfillment-jobs .job .loader-circular{
 display: inline-block;
+margin:18px 0;
 }
+
+
 
 /* Order Detail Page */
 

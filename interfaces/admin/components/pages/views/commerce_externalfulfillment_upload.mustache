@@ -1,17 +1,15 @@
-<h1>{{job_name}}</h1>
-<style>
-    .disabled { opacity: 0.3; transition: all 0.3s; }
-    .disabled:hover { cursor: not-allowed; }
-</style>
+
+<div class="pure-u-1">
+<header>
+		<a class="returnlink current" href="{{www_path}}/commerce/externalfulfillment"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">Upload files to: &quot;{{job_name}}&quot; job</h4>
+</header>
+</div><!--pure-->
 <div class="pure-u-1">
     <p>Upload CSV file(s) from Kickstarter export</p>
 
     <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/externalfulfillment" name="import_csv" id="file_upload">
-
         <label for="csv_upload">Select file(s)</label>
         <input type="file" name="csv_upload[]" multiple accept=".csv" />
-
-        <button class="disabled process-import" type="submit">Process Import</button>
     </form>
 
     <script src="{{www_path}}/ui/default/assets/scripts/jquery.fileupload.js"></script>
