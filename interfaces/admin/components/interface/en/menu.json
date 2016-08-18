@@ -55,7 +55,7 @@
 	"commerce/orders/view":
 		{"page_name":"Order details", "menu_icon":""},
 	"commerce/externalfulfillment":
-		{"page_name":"External Fulfillment", "menu_icon":"dwnld", "tagline":"Import external orders"},
+		{"page_name":"3rd Party Fulfillment", "menu_icon":"cloud-upload", "tagline":"Import external orders"},
 		
 		
 	"elements":
