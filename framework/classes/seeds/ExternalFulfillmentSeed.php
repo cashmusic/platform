@@ -573,13 +573,7 @@ class ExternalFulfillmentSeed extends SeedBase
                     if($data = json_decode($process['data'], true)) {
 
                         // create tiers
-                        /*$tier_name = isset($_REQUEST['tier_name'][$process['id']])
-                            ? $_REQUEST['tier_name'][$process['id']] : $process['name'];
-
-                        $upc = isset($_REQUEST['tier_upc'][$process['id']])
-                            ? $_REQUEST['tier_upc'][$process['id']] : "";*/
-
-
+                        
                         if($tier_id = $this->createFulfillmentTier($process['id'], $process['name'], '', $data)) {
                             //orders per tier
 
