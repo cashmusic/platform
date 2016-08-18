@@ -710,19 +710,27 @@
 		if (CASH_DEBUG) {
 			error_log("CASHSystem:sendMassEmail message:\n$message_text");
 		}
-		// get current user details for email
-		$user_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'people',
-				'cash_action' => 'getuser',
-				'user_id' => $user_id
-			)
-		);
 
-		$user_details = $user_request->response['payload'];
+		if ($user_id) {
+			// get current user details for email
+			$user_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'people',
+					'cash_action' => 'getuser',
+					'user_id' => $user_id
+				)
+			);
 
-		if ($user_details['display_name'] == 'Anonymous' || !$user_details['display_name']) {
-			$user_details['display_name'] = $user_details['email_address'];
+			$user_details = $user_request->response['payload'];
+
+			if ($user_details['display_name'] == 'Anonymous' || !$user_details['display_name']) {
+				$user_details['display_name'] = $user_details['email_address'];
+			}
+		} else {
+			// we're testing so let's just fake this for now
+
+			$user_details['email_address'] = 'tom@cashmusic.org';
+			$user_details['display_name'] = 'Testing CASH Mailer';
 		}
 
 		// handle encoding of HTML if specific HTML isn't passed in:
