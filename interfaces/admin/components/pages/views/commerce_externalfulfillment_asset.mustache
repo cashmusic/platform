@@ -1,3 +1,5 @@
+{{! corresponding files: commerce_externalfulfillment.php & commerce_externalfulfillment.json }}
+
 <h1>{{job_name}}</h1>
 <div class="pure-u-1">
 
@@ -5,11 +7,11 @@
         <input type="hidden" name="action" value="do_change" />
         <input type="hidden" name="fulfillment_job_id" value="{{id}}">
 
-        <h4>Select Release Asset</h4>
+        <h4>{{copy_select_assets}}</h4>
         <select id="item_fulfillment_asset" name="item_fulfillment_asset">
             {{{asset_options}}}
         </select>
 
-        <button class="disabled process-import" type="submit">Add Asset</button>
+        <button class="disabled process-import" type="submit">{{copy_add_assets}}</button>
     </form>
 </div><!--pure-->

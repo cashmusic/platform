@@ -17,7 +17,8 @@
 		"status":"Status:",
 		"name":"Name",
 		"description":"Description",
-		"name_placeholder":"Name the imported information"
+		"name_placeholder":"Name the imported information",
+		"select_files":"Select file(s)"
 	},
 	"tooltips":{},
 	"copy":{
@@ -38,6 +39,10 @@
 		"delete_btn":"Delete",
 		"edit_btn":"Edit",
 		"process_job":"Process job",
-		"create_btn":"Create &amp; Continue"
+		"create_btn":"Create &amp; Continue",
+		"upload_to":"Upload files to:",
+		"upload_description":"Upload CSV file(s) from Kickstarter export",
+		"select_assets":"Select Release Asset",
+		"add_assets":"Add Asset"
 	}
 }
