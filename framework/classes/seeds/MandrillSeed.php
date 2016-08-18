@@ -182,8 +182,6 @@ class MandrillSeed extends SeedBase {
 		$email_settings = CASHSystem::getDefaultEmail(true);
 		$sender = CASHSystem::parseEmailAddress($email_settings['systememail']);
 
-		echo "SENDER ".print_r($sender, true);
-
 		$message = array(
 			"html" => $message_html,
 			"text" => $message_txt,
@@ -215,12 +213,7 @@ class MandrillSeed extends SeedBase {
 			"images" => null
 		);
 
-      	try {
-			$result = $this->api->call('messages/send', array("message" => $message, "async" => true));
-			echo "### MANDRILL WTF: " .print_r($result, true);
-		} catch (Exception $e) {
-			echo $e->getMessage();
-		}
+		return $this->api->call('messages/send', array("message" => $message, "async" => true));
 	}
 
 } // END class
