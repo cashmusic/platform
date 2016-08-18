@@ -707,10 +707,6 @@
 
 	public static function sendMassEmail($user_id, $subject, $recipients, $message_text, $message_title, $global_merge_vars=false, $merge_vars=false, $encoded_html=false, $message_text_html=true) {
 
-		if (CASH_DEBUG) {
-			error_log("CASHSystem:sendMassEmail message:\n$message_text");
-		}
-
 		if ($user_id) {
 			// get current user details for email
 			$user_request = new CASHRequest(
@@ -729,7 +725,7 @@
 		} else {
 			// we're testing so let's just fake this for now
 
-			$user_details['email_address'] = 'tom@cashmusic.org';
+			$user_details['email_address'] = 'info@cashmusic.org';
 			$user_details['display_name'] = 'Testing CASH Mailer';
 		}
 

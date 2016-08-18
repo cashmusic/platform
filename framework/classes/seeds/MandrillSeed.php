@@ -20,9 +20,6 @@ class MandrillSeed extends SeedBase {
 
 	public function __construct($user_id, $connection_id=false) {
 
-		if(CASH_DEBUG) {
-			error_log("Called MandrillSeed with user id $user_id, connection id $connection_id");
-		}
 		$this->settings_type = 'com.mandrillapp';
 		$this->user_id = $user_id;
 		
@@ -43,18 +40,11 @@ class MandrillSeed extends SeedBase {
 			// if not let's default to the system settings
 			$connections = CASHSystem::getSystemSettings('system_connections');
 
-			if (CASH_DEBUG) {
-				error_log(
-					"Default Mandrill connection stuff\n".
-					print_r($connections['com.mandrillapp'], true)
-				);
-			}
-
 			if (isset($connections['com.mandrillapp']['api_key'])) {
 				$this->api_key = $connections['com.mandrillapp']['api_key'];
 
 				$this->api = new Mandrill($this->api_key);
-				echo print_r(get_class_methods($this->api), true);
+
 				return false;
 			} else {
 				$this->error_message = 'no API key found';
@@ -219,7 +209,12 @@ class MandrillSeed extends SeedBase {
 			"images" => null
 		);
 
-      return $this->api->call('messages/send', array("message" => $message, "async" => true));
+      	try {
+			$result = $this->api->call('messages/send', array("message" => $message, "async" => true));
+			echo "### MANDRILL WTF: " .print_r($result, true);
+		} catch (Exception $e) {
+			echo $e->getMessage();
+		}
 	}
 
 } // END class
