@@ -142,7 +142,7 @@ if ($action == "do_delete" || $action == "delete") {
 if ($action == "show_index") {
 
     // Any mass mailing connection present?
-    $cash_admin->page_data['mass_connection'] = AdminHelper::getConnectionsByScope('mass_email') || !$fulfillment_job[0];
+    $cash_admin->page_data['mass_connection'] = AdminHelper::getConnectionsByScope('mass_email') || $external_fulfillment->getUserJobs() != false;
 
     // If no mass mailing connection found prompt add connection
     if (!$cash_admin->page_data['mass_connection']) {

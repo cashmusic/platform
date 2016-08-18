@@ -1,13 +1,16 @@
 {{! corresponding files: commerce_externalfulfillment.php & commerce_externalfulfillment.json }}
-
-<h1>{{job_name}}</h1>
+<div class="pure-u-1">
+<header>
+		<a class="returnlink current" href="{{www_path}}/commerce/externalfulfillment"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">{{copy_detail_title}} &quot;{{job_name}}&quot; </h4>
+</header>
+</div><!--pure-->
 <div class="pure-u-1">
 
     <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/externalfulfillment/detail/{{id}}" name="add_asset"  >
         <input type="hidden" name="action" value="do_change" />
         <input type="hidden" name="fulfillment_job_id" value="{{id}}">
 
-        <h4>{{copy_select_assets}}</h4>
+        <label>{{copy_select_assets}}</label>
         <select id="item_fulfillment_asset" name="item_fulfillment_asset">
             {{{asset_options}}}
         </select>

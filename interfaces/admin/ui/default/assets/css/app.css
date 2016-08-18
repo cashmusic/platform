@@ -4392,6 +4392,7 @@ ul.alternating li a span{
 	padding:0;
 	display:inline-block;
 	margin:0 0 5px 0;
+	word-break: break-word;
 }
 
 .pure-u-md-1-2 ul.alternating li .primary strong{
@@ -4953,6 +4954,10 @@ ul.people.alternating li a span{
 /* 3rd Party Fulfillment */
 .fulfillment-jobs{
 	margin:0 0 18px 0;
+}
+
+.fulfillment-jobs .empty{
+	margin:0;
 }
 
 .fulfillment-jobs .job{
