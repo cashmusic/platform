@@ -690,14 +690,44 @@ class ExternalFulfillmentSeed extends SeedBase
 
     }
 
-    public function deleteJob() {
-        if (isset($_REQUEST['action']) &&
-            $_REQUEST['action'] == "delete" &&
-            !empty($_REQUEST['fulfillment_job_id'])
-        ) {
-            // delete shit
+    public function deleteJob($job_id) {
 
+        // get tiers for this job
+        if ($tiers = $this->getTiersByJob($job_id)) {
+            // loop through tiers and delete orders
+            foreach ($tiers as $tier) {
+
+                // delete orders
+                $this->db->deleteData(
+                    'external_fulfillment_orders', [
+                        'tier_id' => [
+                            'condition' => '=',
+                            'value' => $tier['id']
+                        ]
+                    ]
+                );
+            }
         }
+
+        // delete tiers
+        $this->db->deleteData(
+            'external_fulfillment_tiers', [
+                'fulfillment_job_id' => [
+                    'condition' => '=',
+                    'value' => $job_id
+                ]
+            ]
+        );
+
+        // delete job
+        $this->db->deleteData(
+            'external_fulfillment_jobs', [
+                'id' => [
+                    'condition' => '=',
+                    'value' => $job_id
+                ]
+            ]
+        );
     }
 
     /**

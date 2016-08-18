@@ -118,8 +118,22 @@ if ($action == "do_change") {
 
     // set the view to the job detail, because we're done
     $action = "show_detail";
+}
 
-    
+if ($action == "do_delete" || $action == "delete") {
+
+    error_log("do_delete");
+
+    if ($request_parameters[0] == "delete" &&
+        is_numeric($request_parameters[1])
+    ) {
+
+        $id = $request_parameters[1];
+
+        $external_fulfillment->deleteJob($id);
+    }
+
+    $action = "show_index";
 }
 
 /**
