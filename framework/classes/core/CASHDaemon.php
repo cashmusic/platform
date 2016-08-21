@@ -15,9 +15,21 @@
  * Leigh Marble, independent musician, Portland, OR -- www.leighmarble.com --
  *
  */class CASHDaemon extends CASHData {
-	private $user_id = false;
-	private $history = false;
-	private $runtime = 0;
+	private $user_id 	= false;
+	private $history 	= false;
+	private $runtime 	= 0;
+	// define the schedule — it's a fuzzy schedule based on traffic
+	// the jobs will run ~5min early/late, depending. keep that in mind.
+	private $schedule	= array(
+		"soundscan-digital" => array(
+			"type" => "friday", // lowercase day
+			"time" => "5:00 AM America/New_York" // time with timezone
+		),
+		"soundscan-physical" => array(
+			"type" => "tuesday",
+			"time" => "5:00 AM America/New_York"
+		)
+	);
 
 	public function __construct($user_id=false) {
 		$this->user_id = $user_id;
@@ -64,10 +76,85 @@
 		$this->cleanTempData('people_resetpassword','creation_date',time() - 86400);
 	}
 
+	private function runSchedule() {
+		$total_runs = count($this->history['last3_runs']);
+		// create an array of the gaps between tun times
+		$spans = array($this->runtime - $this->history['last3_runs'][$total_runs - 1]);
+		$i = $total_runs;
+		while ($i > 1) {
+			$spans[] = $this->history['last3_runs'][$i - 1] - $this->history['last3_runs'][$i - 2];
+			$i--;
+		}
+		// assuming we have 3 last runs, we now have 3 spans. let's add a minimum span:
+		$spans[] = 300;
+		// now let's get a max, plus, you know...a little extra
+		$max_span = floor(max($spans) * 1.15);
+
+		// last thing we need to know is what day it is (lol)
+		$today = strtolower(date('l'));
+
+		foreach ($this->schedule as $key => $details) {
+			if ($details['type'] == 'daily' || $today == $details['type']) {
+				$target = strtotime($details['time']);
+				// in case of first run
+				$already_run = false;
+				if (isset($this->history['last_sceduled'][$key])) {
+					// if we ran the job this same day OR within an hour of the deadline
+					// (within the hour so midnight jobs / timezones don't mess us up)
+					if (date('mdY',$this->history['last_sceduled'][$key]) == date('mdY') ||
+						abs($this->history['last_sceduled'][$key] - time()) < 3600) {
+						$already_run = true;
+					}
+				}
+				// if it hasn't already been run AND we're within the max span (+15%) of
+				// the scheduled run time then we go. (the max span stuff is an attempt
+				// to balance for slowed traffic load...)
+				if (!$already_run && ($this->runtime + $max_span) > $target) {
+					$this->runScheduledJob($key);
+				}
+			}
+		}
+	}
+
+	private function runScheduledJob($type) {
+		if (!$type) {
+			return false;
+		}
+		switch ($type) {
+			case 'soundscan-digital':
+				doSoundScanReport('digital');
+				break;
+			case 'soundscan-physical':
+				doSoundScanReport('physical');
+				break;
+		}
+		$this->history['last_sceduled'][$type] = time();
+	}
+
+	private function doSoundScanReport($type) {
+		if ($type == 'physical') {
+
+		}
+		if ($type == 'digital') {
+
+		}
+	}
+
+
+	/****************************************************************************
+	 *
+	 * The destructor function is where all the magic actually happens
+	 *
+	 * 1. clean up old sessions and tokens
+	 * 2. check/run scheduled jobs
+	 * 3. update all the runtime stats/data for the daemon
+	 *
+	 ***************************************************************************/
 	public function __destruct() {
 		if ($this->history['last_run'] <= time() - 300) {
 			$this->clearExpiredSessions();
 			$this->clearOldTokens();
+			$this->runSchedule();
 			// update history
 			$this->history['total_runs'] 		= $this->history['total_runs'] + 1;
 			$this->history['last_run'] 		= $this->runtime;
