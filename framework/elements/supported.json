@@ -7,11 +7,8 @@
 		"singlepurchase",
 		"socialfeeds",
 		"staticcontent",
+		"store",
 		"tourdates"
 	],
-	"beta":[
-	  	"com.stripe",
-		"store"
-
-	]
+	"beta":[]
 }
