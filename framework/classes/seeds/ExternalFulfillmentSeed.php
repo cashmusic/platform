@@ -426,11 +426,13 @@ class ExternalFulfillmentSeed extends SeedBase
 
     public function createOrder($order_details) {
 
-        if (!$order = $this->db->setData(
+        if (!$order_id = $this->db->setData(
             'external_fulfillment_orders', $order_details
         )) {
             return false;
         }
+
+        $this->generateDownloadCode($order_id);
 
         return $this;
     }
@@ -573,7 +575,6 @@ class ExternalFulfillmentSeed extends SeedBase
                     if($data = json_decode($process['data'], true)) {
 
                         // create tiers
-                        
                         if($tier_id = $this->createFulfillmentTier($process['id'], $process['name'], '', $data)) {
                             //orders per tier
 
@@ -581,7 +582,6 @@ class ExternalFulfillmentSeed extends SeedBase
                                 // loop through each order and store it in the database
                                 $this->processOrder($order, $tier_id);
                             }
-
                         }
 
                         // if no errors, delete this system process
@@ -748,6 +748,25 @@ class ExternalFulfillmentSeed extends SeedBase
         );
 
         return $orders;
+    }
+
+    /**
+     * @param $order_id
+     */
+    public function generateDownloadCode($order_id)
+    {
+        if (!$add_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'system',
+                'cash_action' => 'addlockcode',
+                'scope_table_alias' => 'commerce_external_fulfillment_orders',
+                'scope_table_id' => $order_id
+            )
+        )) {
+            return false;
+        }
+
+        return true;
     }
 
 }
