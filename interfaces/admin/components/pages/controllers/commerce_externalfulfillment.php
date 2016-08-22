@@ -233,9 +233,29 @@ if ($action == "show_detail" || $action == "detail") {
     // show an existing job and edit
 
     if (!empty($request_parameters[1])) {
-        $fulfillment_job = $external_fulfillment->getUserJobById($request_parameters[1]);
+        $fulfillment_job_id = $request_parameters[1];
+        $fulfillment_job = $external_fulfillment->getUserJobById($fulfillment_job_id);
         $cash_admin->page_data['job'] = $fulfillment_job[0];//print_r($fulfillment_job, true);
         $cash_admin->page_data['asset_options'] = AdminHelper::echoFormOptions('assets',$fulfillment_job[0]['asset_id'],$cash_admin->getAllFavoriteAssets(),true);
+
+        $cash_admin->page_data['order_count'] = $external_fulfillment->getOrderCountByJob($fulfillment_job_id);
+        $cash_admin->page_data['completed_orders'] =
+            $external_fulfillment->getOrderCountByJob($fulfillment_job_id,
+                    [
+                        'name' => 'complete',
+                        'value' => true
+                    ]
+                );
+
+        $cash_admin->page_data['imcomplete_orders'] =
+            $external_fulfillment->getOrderCountByJob($fulfillment_job_id,
+                [
+                    'name' => 'complete',
+                    'value' => false
+                ]
+            );
+
+
 
         $cash_admin->setPageContentTemplate('commerce_externalfulfillment_detail');
 

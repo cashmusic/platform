@@ -24,7 +24,7 @@ class ExternalFulfillmentSeed extends SeedBase
             'shipping_city'       => 'Shipping City',
             'shipping_province'   => 'Shipping State',
             'shipping_postal'     => 'Shipping Postal',
-            'shipping_country'    => 'Shipping Country Code'
+            'shipping_country'    => 'Shipping Country'
         ];
 
         $this->minimum_field_requirements = [
@@ -129,6 +129,42 @@ class ExternalFulfillmentSeed extends SeedBase
             return false;
         } else {
             return $tiers;
+        }
+    }
+
+    public function getOrderCountByJob($job_id=false, $filter=false) {
+
+        $conditions = [
+            'user_id' => [
+                'condition' => '=',
+                'value' => $this->user_id
+            ],
+            'fulfillment_job_id' => [
+                'condition' => '=',
+                'value' => ($job_id) ? $job_id : $this->fulfillment_job
+            ]
+        ];
+
+        // filter by some such thing
+        if (is_array($filter)) {
+            $conditions = array_merge([
+                $filter['name'] => [
+                    'condition' => '=',
+                    'value' => ($filter['value']) ? 1 : 0
+                ]
+            ], $conditions);
+        }
+
+        error_log(
+          print_r($conditions, true)
+        );
+
+        if (!$order_count = $this->db->getData(
+            'CommercePlant_getOrderCountByJob', false, $conditions
+        )) {
+            return false;
+        } else {
+            return $order_count[0]['total_orders'];
         }
     }
 

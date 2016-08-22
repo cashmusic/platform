@@ -599,6 +599,16 @@ class CASHDBA {
 				. "AND shipping_country = 'US'";
 				break;
 
+			case 'CommercePlant_getOrderCountByJob':
+				$query = "SELECT count(*) AS total_orders from commerce_external_fulfillment_orders AS o "
+				."JOIN commerce_external_fulfillment_tiers AS t ON t.fulfillment_job_id = :fulfillment_job_id AND t.id = o.tier_id and t.user_id = :user_id";
+
+				if (array_key_exists("complete", $conditions)) {
+					$query .= " AND o.complete = :complete";
+				}
+
+				break;
+
 		    default:
 		       return false;
 		}
