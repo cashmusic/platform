@@ -9,16 +9,17 @@
 	"details":{
 		"en":{
 			"name":"3rd Party Fulfillment",
-			"description":"Digital fulfillment for crowdfunding and third party preorders.",
+			"description":"Digital fulfillment for crowdfunding.",
 			"longdescription":"This element takes CSV exports from Kickstarter and similar services and delivers digital assets per tier.",
 			"instructions":"After creating a new fulfillment job, upload crowdfunding exports and assign downloads / UPC codes per tier."
 		}
 	},
 	"copy":{
 		"en":{
+			"location_required":"To continue please tell us your country and postal code.",
 			"country_selector":"Please choose your country",
 			"postal_code":"Enter your postal code",
-			"button":"Claim your download"
+			"button":"Set location and claim download"
 		}
 	},
 	"options":{
