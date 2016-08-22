@@ -16,7 +16,7 @@
 	},
 	"copy":{
 		"en":{
-			"location_required":"To continue please tell us your country and postal code.",
+			"location_required":"In order to get your download please tell us your postal code & country",
 			"country_selector":"Please choose your country",
 			"postal_code":"Enter your postal code",
 			"button":"Set location and claim download"
