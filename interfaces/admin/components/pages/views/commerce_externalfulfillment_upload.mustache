@@ -17,8 +17,6 @@
 
     <script type="text/javascript">
         $(function() {
-            //TODO: potentially fire this manually so we can loop through in groups of 20's, to avoid max files limitations
-            $('#loading').hide();
 
             window.filecount = 0;
 
@@ -47,15 +45,16 @@
                 },
                 done: function (event, data) {
                     // hide the spinner, add the final key to the location field of the
-                    $('#loadingmask').css('width','1%');
+
                     // go to the next step
-                    $("#file_upload").attr("action", "{{www_path}}/commerce/externalfulfillment/process");
 
                     if (window.filecount > 0) {
                         window.filecount--;
                     }
 
                     if (window.filecount < 1) {
+                        $("#file_upload").attr("action", "{{www_path}}/commerce/externalfulfillment/process");
+                        //('#loadingmask').css('width','1%');
                         $("#file_upload").submit();
                     }
                     console.log("done");

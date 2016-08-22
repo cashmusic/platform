@@ -93,7 +93,6 @@ if ($action == "do_change") {
 
     if (!empty($_REQUEST['fulfillment_job_id'])) {
 
-
         $id = $_REQUEST['fulfillment_job_id'];
 
         $update = [];

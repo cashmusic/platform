@@ -595,7 +595,7 @@ class CASHDBA {
 			case 'CommercePlant_getExternalFulfillmentOrdersByTimestamp':
 				$query = "SELECT o.shipping_postal, t.upc from commerce_external_fulfillment_orders as o "
 				. "JOIN commerce_external_fulfillment_tiers as t ON o.tier_id = t.id "
-				. "WHERE o.creation_date > :creation_date AND t.upc != '' AND o.shipping_postal != '' "
+				. "WHERE o.creation_date > :creation_date AND t.upc != '' AND o.shipping_postal != '' AND t.physical = :physical"
 				. "AND shipping_country = 'US'";
 				break;
 

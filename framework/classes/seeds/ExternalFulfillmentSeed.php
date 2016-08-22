@@ -729,12 +729,16 @@ class ExternalFulfillmentSeed extends SeedBase
      *
      * @param $timestamp
      */
-    public static function getOrders($timestamp=0) {
+    public static function getOrders($timestamp=0, $physical=true) {
 
         $conditions = [
             'creation_date' => [
                 'condition' => '>',
                 'value' => $timestamp
+                ],
+            'physical'  => [
+                'condition' => '=',
+                'value' => ($physical) ? 1 : 0
                 ]
             ];
 
