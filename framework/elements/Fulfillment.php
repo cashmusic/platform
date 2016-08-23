@@ -82,7 +82,19 @@ class Fulfillment extends ElementBase {
 					// we know where the person is (or where they shipped things to) so
 					// now it's time to unlock the asset and show the success template
 					// with the correct asset id
-					$this->element_data['asset_id'] = 0; // TODO getAssetForFulfillmentOrder
+					$this->element_data['asset_id'] = 0;
+					$job_request = new CASHRequest(
+						array(
+							'cash_request_type' => 'commerce',
+							'cash_action' => 'getfulfillmentjobbytier',
+							'id' => $order_request->response['payload']['tier_id']
+						)
+					);
+					if ($job_request->response['payload']) {
+						$this->element_data['asset_id'] = $job_request->response['asset_id'];
+					}
+
+					 // TODO getAssetForFulfillmentOrder
 					if ($this->element_data['asset_id'] != 0) {
 						// get all fulfillment assets
 						$fulfillment_request = new CASHRequest(
