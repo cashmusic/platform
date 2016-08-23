@@ -81,6 +81,16 @@ if ($action == "do_process" || $action == "process") {
     $action = "show_asset";
 }
 
+if ($action == "do_mailing" || $action == "mailing") { // && !empty($_REQUEST['fulfillment_job_id'])
+
+    // this needs to actually be a seed method, but just to get a good test in
+    CASHSystem::sendMassEmail(1, "Test", [
+            ['email'=>'tom@paperscissorsandglue.com'],
+            ['email'=>'conductor@carsandtrains.net']
+        ], "test", "test!", [], []);
+
+}
+
 // if we've got this key then we need to override--- not really a better way to retain the URI and do this
 if ($action == "detail" && !empty($_REQUEST['fulfillment_job_id'])) $action = "do_change";
 
@@ -254,8 +264,6 @@ if ($action == "show_detail" || $action == "detail") {
                     'value' => false
                 ]
             );
-
-
 
         $cash_admin->setPageContentTemplate('commerce_externalfulfillment_detail');
 

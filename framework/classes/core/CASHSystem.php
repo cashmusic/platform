@@ -772,20 +772,10 @@
 		// if a viable connection, set connection id with user connection
 		if (is_array($mandrill) && !empty($mandrill[0]['id'])) {
 			$connection_id = $mandrill[0]['id'];
-		} else {
-			// else tell MandrillSeed to use system settings in connections.json
-			$connection_id = "system";
-
-			$connections = CASHSystem::getSystemSettings('system_connections');
-
-			if (!isset($connections['com.mandrillapp']['api_key'])) {
-				$connection_id = false;
-			}
 		}
-
+		
 		// either we've got a valid connection ID, or a fallback api_key
 		if ($connection_id) {
-
 			$mandrill = new MandrillSeed($user_id, $connection_id);
 
 			if ($result = $mandrill->send(

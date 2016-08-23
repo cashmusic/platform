@@ -28,16 +28,21 @@ class MandrillSeed extends SeedBase {
 		$this->connection_id = $connection_id;
 
 		if ($this->getCASHConnection()) {
+			error_log(
+				$this->settings->getSetting('api_key')
+			);
 
 			// check if the user has a connection for this service
 			if (!$this->api_key = $this->settings->getSetting('api_key')) {
 				return false;
 			}
-
+			error_log("key ".$this->api_key);
 			$this->api = new Mandrill($this->api_key);
 
 		} else {
-			// if not let's default to the system settings
+
+			$this->error_message = 'No Mandrill API key found';
+			/*// if not let's default to the system settings
 			$connections = CASHSystem::getSystemSettings('system_connections');
 
 			if (isset($connections['com.mandrillapp']['api_key'])) {
@@ -49,7 +54,7 @@ class MandrillSeed extends SeedBase {
 			} else {
 				$this->error_message = 'no API key found';
 				return false;
-			}
+			}*/
 		}
 	}
 
@@ -95,7 +100,7 @@ class MandrillSeed extends SeedBase {
 				$data['api_key'] . ' (Mandrill)',
 				'com.mandrillapp',
 				array(
-					'key' => $data['api_key']
+					'api_key' => $data['api_key']
 				)
 			);
 			if (!$result) {
