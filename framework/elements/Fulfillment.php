@@ -21,10 +21,17 @@ class Fulfillment extends ElementBase {
 
 		// handle any rename stuff
 		if (isset($_REQUEST['setlocation'])) {
-			if ($_REQUEST['job_id'] && $_REQUEST['postal_code'] && $_REQUEST['country']) {
+			if ($_REQUEST['order_id'] && $_REQUEST['postal_code'] && $_REQUEST['country']) {
 				// set location for job
-				// TODO setLocationForFulfillmentOrder
-
+				$order_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'commerce',
+						'cash_action' => 'editfulfillmentorder',
+						'id' => $_REQUEST['order_id'],
+						'shipping_country' => $_REQUEST['country'],
+						'shipping_postal' => $_REQUEST['postal_code']
+					)
+				);
 			} else {
 				// not enough info. try again.
 				$this->element_data['error_message'] = true;
@@ -36,36 +43,77 @@ class Fulfillment extends ElementBase {
 			// and don't worry beyond that
 			$this->element_data['code'] = $_REQUEST['code'];
 		} elseif (isset($_REQUEST['processcode'])) {
-			// get the basics
+			// get/set the basics
+			$locationknown = false;
 			$this->element_data['code'] = $_REQUEST['processcode'];
-			// the code has been set and now we're in the overlay. first let's check
-			// the lock code to see if its part of a fulfillment order that has
-			// country and postal code info or not
-			$locationknown = false; // TODO  getFulfillmentOrderForCode (return details)
-			$this->element_data['fulfillment_job_id'] = 0;
-			if ($locationknown) {
-				// we know where the person is (or where they shipped things to) so
-				// now it's time to unlock the asset and show the success template
-				// with the correct asset id
-				$this->element_data['asset_id'] = 0; // TODO getAssetForFulfillmentOrder
-				if ($this->element_data['asset_id'] != 0) {
-					// get all fulfillment assets
-					$fulfillment_request = new CASHRequest(
-						array(
-							'cash_request_type' => 'asset',
-							'cash_action' => 'getfulfillmentassets',
-							'asset_details' => $this->element_data['asset_id'],
-							'session_id' => $this->session_id
-						)
-					);
-					if ($fulfillment_request->response['payload']) {
-						$this->element_data['fulfillment_assets'] = new ArrayIterator($fulfillment_request->response['payload']);
+			$this->element_data['fulfillment_order_id'] = 0;
+
+			// the code has been given and now we're in the overlay.
+			$code_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'system',
+					'cash_action' => 'redeemlockcode',
+					'code' => $this->element_data['code']
+				)
+			);
+			if ($code_request->response['payload']) {
+				if ($code_request->response['payload']['scope_table_alias'] == 'external_fulfillment_orders') {
+					$this->element_data['fulfillment_order_id'] = $code_request->response['payload']['scope_table_id'];
+				}
+			}
+
+			// now we either have a fulfillment_order_id or the code has been cashed in already or is invalid
+			if ($this->element_data['fulfillment_order_id']) {
+				// we have an order. let's get the details and see if we know location
+				$order_request = new CASHRequest(
+					array(
+						'cash_request_type' => 'commerce',
+						'cash_action' => 'getfulfillmentorder',
+						'id' => $this->element_data['fulfillment_order_id']
+					)
+				);
+				if ($order_request->response['payload']) {
+					if ($order_request->response['payload']['shipping_country'] && $order_request->response['payload']['shipping_postal']) {
+						$locationknown = true;
 					}
 				}
-				$this->setTemplate('success');
+
+				if ($locationknown) {
+					// we know where the person is (or where they shipped things to) so
+					// now it's time to unlock the asset and show the success template
+					// with the correct asset id
+					$this->element_data['asset_id'] = 0; // TODO getAssetForFulfillmentOrder
+					if ($this->element_data['asset_id'] != 0) {
+						// get all fulfillment assets
+						$fulfillment_request = new CASHRequest(
+							array(
+								'cash_request_type' => 'asset',
+								'cash_action' => 'getfulfillmentassets',
+								'asset_details' => $this->element_data['asset_id'],
+								'session_id' => $this->session_id
+							)
+						);
+						if ($fulfillment_request->response['payload']) {
+							$this->element_data['fulfillment_assets'] = new ArrayIterator($fulfillment_request->response['payload']);
+						}
+					}
+					// mark the order as complete with a timestamp
+					$order_request = new CASHRequest(
+						array(
+							'cash_request_type' => 'commerce',
+							'cash_action' => 'editfulfillmentorder',
+							'id' => $_REQUEST['order_id'],
+							'complete' => time()
+						)
+					);
+					$this->setTemplate('success');
+				} else {
+					// we don't know the location so let's ask
+					$this->setTemplate('location');
+				}
 			} else {
-				// we don't know the location so let's ask
-				$this->setTemplate('location');
+				// the code is already used/invalidate
+				$this->setTemplate('invalid');
 			}
 		}
 

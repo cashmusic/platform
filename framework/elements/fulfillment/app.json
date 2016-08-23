@@ -20,7 +20,8 @@
 			"country_selector":"Please choose your country",
 			"postal_code":"Enter your postal code",
 			"button":"Set location and claim download",
-			"location_error":"Please make sure you've selected a valid country and entered your postal code." 
+			"location_error":"Please make sure you've selected a valid country and entered your postal code.",
+			"invalid_code":"Sorry, but this unique code/link has already been used or is invalid." 
 		}
 	},
 	"options":{
