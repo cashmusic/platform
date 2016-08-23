@@ -2,6 +2,7 @@
 	"public":[
 		"downloadcodes",
 		"emailcollection",
+		"fulfillment",
 		"membersarea",
 		"securedownload",
 		"singlepurchase",
@@ -10,5 +11,7 @@
 		"store",
 		"tourdates"
 	],
-	"beta":[]
+	"beta":[
+	  	"fulfillment"
+	]
 }

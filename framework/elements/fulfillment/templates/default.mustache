@@ -1,0 +1,13 @@
+{{#error_message}}<div class="cm-error cash_{{element_type}}_error">{{error_message}}</div>{{/error_message}}
+<div class="cm-fulfillment-landing-message">
+{{{message_landing}}}
+</div><!--fulfillment-landing-message-->
+{{#code}}
+   <script type="text/javascript">
+      var cm = window.cashmusic;
+
+   	cm.events.add(cm,'ready', function(e) {
+         cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"processcode&processcode={{code}}"});
+      });
+   </script>
+{{/code}}
