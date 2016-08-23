@@ -81,45 +81,69 @@ if ($action == "do_process" || $action == "process") {
     $action = "show_asset";
 }
 
-if ($action == "do_mailing" || $action == "mailing") { // && !empty($_REQUEST['fulfillment_job_id'])
+if ($action == "do_mailing") {
 
-    //TODO: this should probably all be in a method
-    $fulfillment_job_id = 1; //$_REQUEST['fulfillment_job_id'];
+    if (!empty($_REQUEST['fulfillment_job_id']) &&
+        !empty($_REQUEST['email_subject']) &&
+        !empty($_REQUEST['email_message']) &&
+        !empty($_REQUEST['email_url'])
+        ) {
+        //TODO: this should probably all be in a method
+        $fulfillment_job_id = 1; //$_REQUEST['fulfillment_job_id'];
 
-    $backers = $external_fulfillment->getBackersForJob($fulfillment_job_id);
-    $recipients = [];
-    $merge_vars = [];
+        $backers = $external_fulfillment->getBackersForJob($fulfillment_job_id);
+        $recipients = [];
+        $merge_vars = [];
 
-    $global_merge_vars = [
-        [
-            'name' => 'url',
-            'content' => "http://google.com"
-        ]
-    ];
+        // remove trailing slash from URLs
+        $email_url = rtrim($_REQUEST['email_url'], "/");
 
-    foreach ($backers as $backer) {
-        $recipients[] = [
-            'email' => $backer['email'],
-            'name' => $backer['name']
-        ];
-
-        $merge_vars[] = [
-            'rcpt' => $backer['email'],
-            'vars' => [
-                [
-                    'name' => 'code',
-                    'content' => $backer['lockcode']
-                ]
+        $global_merge_vars = [
+            [
+                'name' => 'url',
+                'content' => $email_url
             ]
         ];
+
+        foreach ($backers as $backer) {
+            $recipients[] = [
+                'email' => $backer['email'],
+                'name' => $backer['name']
+            ];
+
+            $merge_vars[] = [
+                'rcpt' => $backer['email'],
+                'vars' => [
+                    [
+                        'name' => 'code',
+                        'content' => $backer['lockcode']
+                    ]
+                ]
+            ];
+        }
+
+        $html_message = CASHSystem::parseMarkdown($_REQUEST['email_message']);
+        $html_message .= "\n\n" . '<p><b><a href="*|URL|*/download/?code=*|CODE|*&handlequery=1">Download</a></b></p>';
+
+        $subject = trim($_REQUEST['email_subject']);
+
+        CASHSystem::sendMassEmail(
+            $user_id,
+            $subject,
+            $recipients,
+            $html_message,
+            $subject,
+            $global_merge_vars,
+            $merge_vars,
+            false,
+            true);
+
+        $external_fulfillment
+            ->createOrContinueJob("pending")
+            ->updateFulfillmentJobStatus("sent");
     }
 
-    $html_message = CASHSystem::parseMarkdown("This is the message\nLove, Tom");
-    $html_message .= "\n\n" . '<p><b><a href="*|URL|*/download/?code=*|CODE|*">Download</a></b></p>';
-    
-    // this needs to actually be a seed method, but just to get a good test in
-    CASHSystem::sendMassEmail(1, "Test", $recipients, $html_message, "test!", $global_merge_vars, $merge_vars, false, true);
-
+    $action = "show_index";
 }
 
 // if we've got this key then we need to override--- not really a better way to retain the URI and do this
@@ -305,4 +329,10 @@ if ($action == "show_detail" || $action == "detail") {
 
 }
 
+if ($action == "send") {
+    $cash_admin->page_data['ui_title'] = 'Send mass email to backers';
+    $cash_admin->page_data['id'] = $request_parameters[0];
+
+    $cash_admin->setPageContentTemplate('commerce_externalfulfillment_send');
+}
 ?>

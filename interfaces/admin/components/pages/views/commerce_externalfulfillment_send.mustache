@@ -1,0 +1,19 @@
+{{! corresponding files: commerce_items_send.php & commerce_items_send.json }}
+
+<form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/externalfulfillment">
+	<input type="hidden" name="action" value="do_mailing" />
+    <input type="hidden" name="fulfillment_job_id" value="{{id}}">
+	<!--input type="text" id="resend_store_url" name="resend_store_url" value="" placeholder="" class="required" /-->
+
+
+	<label for="email_subject">Subject</label>
+	<input type="text" id="email_subject" name="email_subject" value="" placeholder="" class="required" />
+
+	<label for="email_message">Message body</label>
+	<textarea rows="3" id="email_message" name="email_message" class="required"></textarea>
+
+    <label for="page_url">Page URL with embed</label>
+    <input type="text" id="email_url" name="email_url" value="" placeholder="http://google.com" class="required" />
+
+	<button type="submit" class="noneedsconfirmation">Send</button>
+</form>
