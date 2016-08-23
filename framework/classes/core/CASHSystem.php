@@ -1013,7 +1013,7 @@
 
 	public static function getFileContents($file_uri) {
 		try {
-
+			
 			if (file_exists($file_uri)) {
 				$file = fopen($file_uri, 'r');
 			} else {
@@ -1022,7 +1022,7 @@
 
 		} catch (Exception $e) {
 
-			error_log($e->getMessage());
+			error_log(" ". $e->getMessage());
 			return false;
 		}
 

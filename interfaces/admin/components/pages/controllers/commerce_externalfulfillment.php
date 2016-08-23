@@ -44,6 +44,10 @@ if ($action == "do_upload") {
       "do_upload"
     );
 
+    error_log("files:::: ".
+        print_r($_FILES['csv_upload'], true)
+    );
+
     if (!empty($_FILES['csv_upload'])) {
 
         $external_fulfillment
@@ -92,6 +96,9 @@ if ($action == "do_mailing") {
         $fulfillment_job_id = 1; //$_REQUEST['fulfillment_job_id'];
 
         $backers = $external_fulfillment->getBackersForJob($fulfillment_job_id);
+
+        //$backers = array_slice($backers, 0, 500);
+
         $recipients = [];
         $merge_vars = [];
 
@@ -106,13 +113,15 @@ if ($action == "do_mailing") {
         ];
 
         foreach ($backers as $backer) {
+            $test_email = uniqid("email")."@".uniqid("domain").".com";
+
             $recipients[] = [
-                'email' => $backer['email'],
+                'email' => $test_email, //['email'],
                 'name' => $backer['name']
             ];
 
             $merge_vars[] = [
-                'rcpt' => $backer['email'],
+                'rcpt' => $test_email,//$backer['email'],
                 'vars' => [
                     [
                         'name' => 'code',
@@ -121,6 +130,10 @@ if ($action == "do_mailing") {
                 ]
             ];
         }
+
+        error_log(
+            "shit " . print_r($recipients, true)
+        );
 
         $html_message = CASHSystem::parseMarkdown($_REQUEST['email_message']);
         $html_message .= "\n\n" . '<p><b><a href="*|URL|*/download/?code=*|CODE|*&handlequery=1">Download</a></b></p>';
@@ -139,7 +152,7 @@ if ($action == "do_mailing") {
             true);
 
         $external_fulfillment
-            ->createOrContinueJob("pending")
+            ->createOrContinueJob(["pending", "sent"])
             ->updateFulfillmentJobStatus("sent");
     }
 

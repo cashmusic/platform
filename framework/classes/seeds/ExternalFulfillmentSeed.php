@@ -212,11 +212,14 @@ class ExternalFulfillmentSeed extends SeedBase
             error_log("parseUpload called (" . count($this->uploaded_files['name']) . " files.)");
         }
 
+        error_log(
+            print_r($this->uploaded_files, true)
+        );
+
         for ($i = 0; $i < count($this->uploaded_files['name']); $i++) {
 
             // get file contents
             $file_contents = CASHSystem::getFileContents($this->uploaded_files['tmp_name'][$i]);
-
 
             if ($csv_to_array = CASHSystem::outputCSVToArray($file_contents)) {
                 $this->raw_data[$this->uploaded_files['name'][$i]] = $csv_to_array['array'];
@@ -262,6 +265,7 @@ class ExternalFulfillmentSeed extends SeedBase
 
         // if we didn't find any of the fields we're looking for, we need to do this manually
         if (in_array(false, $this->minimum_field_requirements)) {
+            error_log("no minimum mappables");
             return false;
         }
 
