@@ -609,6 +609,15 @@ class CASHDBA {
 
 				break;
 
+			case 'CommercePlant_getExternalFulfillmentBackersByJob':
+				$query = "SELECT o.name, o.email, o.id, l.uid AS lockcode FROM commerce_external_fulfillment_jobs AS j "
+				."JOIN commerce_external_fulfillment_tiers AS t ON t.fulfillment_job_id = j.id "
+				."JOIN commerce_external_fulfillment_orders as o ON o.tier_id = t.id AND j.user_id = :user_id "
+				."JOIN system_lock_codes AS l ON l.scope_table_id = o.id "
+				."WHERE j.id = :fulfillment_job_id GROUP BY o.id";
+
+				break;
+
 		    default:
 		       return false;
 		}

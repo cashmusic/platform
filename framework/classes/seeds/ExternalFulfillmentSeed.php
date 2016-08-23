@@ -15,16 +15,16 @@ class ExternalFulfillmentSeed extends SeedBase
 
         // default for kickstarter imports
         $this->mapped_fields = [
-            'name'                => 'Shipping Name',
-            'email'               => 'Email',
-            'price'               => 'Pledge Amount',
-            'notes'               => 'Notes',
-            'shipping_address_1'  => 'Shipping Address 1',
-            'shipping_address_2'  => 'Shipping Address 2',
-            'shipping_city'       => 'Shipping City',
-            'shipping_province'   => 'Shipping State',
-            'shipping_postal'     => 'Shipping Postal',
-            'shipping_country'    => 'Shipping Country'
+            'name' => 'Shipping Name',
+            'email' => 'Email',
+            'price' => 'Pledge Amount',
+            'notes' => 'Notes',
+            'shipping_address_1' => 'Shipping Address 1',
+            'shipping_address_2' => 'Shipping Address 2',
+            'shipping_city' => 'Shipping City',
+            'shipping_province' => 'Shipping State',
+            'shipping_postal' => 'Shipping Postal',
+            'shipping_country' => 'Shipping Country'
         ];
 
         $this->minimum_field_requirements = [
@@ -37,11 +37,12 @@ class ExternalFulfillmentSeed extends SeedBase
         if (!$this->db) $this->connectDB();
 
         if (CASH_DEBUG) {
-            error_log("ExternalFulfillmentSeed loaded with user_id ".$this->user_id);
+            error_log("ExternalFulfillmentSeed loaded with user_id " . $this->user_id);
         }
     }
 
-    public function getUserJobs() {
+    public function getUserJobs()
+    {
         $conditions = [
             'user_id' => [
                 'condition' => '=',
@@ -55,17 +56,20 @@ class ExternalFulfillmentSeed extends SeedBase
 
         if (!$fulfillment_job = $this->db->getData(
             'external_fulfillment_jobs', '*', $conditions, false, 'id DESC'
-        )) {
+        )
+        ) {
             return false;
         } else {
 
             $user_jobs = [];
 
             // loop through each job found
-            foreach($fulfillment_job as $job) {
+            foreach ($fulfillment_job as $job) {
                 $tiers = $this->getTiersByJobCount($job['id']);
 
-                if ($tiers < 1) { $tiers = false; }
+                if ($tiers < 1) {
+                    $tiers = false;
+                }
                 $job['tiers_count'] = $tiers;
 
                 $user_jobs[] = $job;
@@ -75,7 +79,8 @@ class ExternalFulfillmentSeed extends SeedBase
         }
     }
 
-    public function getUserJobById($id) {
+    public function getUserJobById($id)
+    {
         $conditions = [
             'user_id' => [
                 'condition' => '=',
@@ -89,17 +94,20 @@ class ExternalFulfillmentSeed extends SeedBase
 
         if (!$fulfillment_job = $this->db->getData(
             'external_fulfillment_jobs', '*', $conditions
-        )) {
+        )
+        ) {
             return false;
         } else {
 
             $user_jobs = [];
 
             // loop through each job found
-            foreach($fulfillment_job as $job) {
+            foreach ($fulfillment_job as $job) {
                 $tiers = $this->getTiersByJob($job['id']);
 
-                if ($tiers < 1) { $tiers = false; }
+                if ($tiers < 1) {
+                    $tiers = false;
+                }
 
                 $job['tiers'] = $tiers;
                 $job['tiers_count'] = count($tiers);
@@ -111,7 +119,8 @@ class ExternalFulfillmentSeed extends SeedBase
         }
     }
 
-    public function getTiersByJob($job_id) {
+    public function getTiersByJob($job_id)
+    {
         $conditions = [
             'user_id' => [
                 'condition' => '=',
@@ -125,14 +134,16 @@ class ExternalFulfillmentSeed extends SeedBase
 
         if (!$tiers = $this->db->getData(
             'CommercePlant_getExternalFulfillmentTiersAndOrderCount', false, $conditions
-        )) {
+        )
+        ) {
             return false;
         } else {
             return $tiers;
         }
     }
 
-    public function getOrderCountByJob($job_id=false, $filter=false) {
+    public function getOrderCountByJob($job_id = false, $filter = false)
+    {
 
         $conditions = [
             'user_id' => [
@@ -145,7 +156,7 @@ class ExternalFulfillmentSeed extends SeedBase
             ]
         ];
 
-        // filter by some such thing
+        // filter by some such thing (really, just complete, but left it open)
         if (is_array($filter)) {
             $conditions = array_merge([
                 $filter['name'] => [
@@ -156,19 +167,21 @@ class ExternalFulfillmentSeed extends SeedBase
         }
 
         error_log(
-          print_r($conditions, true)
+            print_r($conditions, true)
         );
 
         if (!$order_count = $this->db->getData(
             'CommercePlant_getOrderCountByJob', false, $conditions
-        )) {
+        )
+        ) {
             return false;
         } else {
             return $order_count[0]['total_orders'];
         }
     }
 
-    public function getTiersByJobCount($job_id) {
+    public function getTiersByJobCount($job_id)
+    {
         $conditions = [
             'user_id' => [
                 'condition' => '=',
@@ -182,35 +195,31 @@ class ExternalFulfillmentSeed extends SeedBase
 
         if (!$tiers = $this->db->getData(
             'external_fulfillment_tiers', 'count(*) as total_tiers', $conditions
-        )) {
+        )
+        ) {
             return false;
         } else {
             return $tiers[0]['total_tiers'];
         }
     }
 
-    public function parseUpload($files) {
+    public function parseUpload($files)
+    {
 
         $this->uploaded_files = $files;
 
         if (CASH_DEBUG) {
-            error_log("parseUpload called (".count($this->uploaded_files['name'])." files.)");
+            error_log("parseUpload called (" . count($this->uploaded_files['name']) . " files.)");
         }
-        // loop through uploaded files
-        error_log(
-          '///Uploaded Files #'.count($this->uploaded_files['name'])
-        );
 
-        for($i=0;$i<count($this->uploaded_files['name']);$i++) {
+        for ($i = 0; $i < count($this->uploaded_files['name']); $i++) {
 
             // get file contents
             $file_contents = CASHSystem::getFileContents($this->uploaded_files['tmp_name'][$i]);
 
 
             if ($csv_to_array = CASHSystem::outputCSVToArray($file_contents)) {
-                $this->raw_data[
-                $this->uploaded_files['name'][$i]
-                ] = $csv_to_array['array'];
+                $this->raw_data[$this->uploaded_files['name'][$i]] = $csv_to_array['array'];
 
                 $this->mappable_fields = array_merge(
                     $this->mappable_fields,
@@ -233,7 +242,8 @@ class ExternalFulfillmentSeed extends SeedBase
         return $this;
     }
 
-    public function checkMinimumMappableFields() {
+    public function checkMinimumMappableFields()
+    {
         // we need to check if these CSVs have the structure we're expecting
         //TODO: this needs to be more dynamic
 
@@ -258,59 +268,61 @@ class ExternalFulfillmentSeed extends SeedBase
         return true;
     }
 
-/*    public function standardizeOrderArray() {
-        //var_dump($this->mappable_fields);
-        // it's an array of CSV files; each CSV file has rows. so here we're looping through files, not rows of data
-        foreach($this->raw_data as $csv_set) {
-            // then here we're looping through rows in each file. each row is an order.
-            foreach ($csv_set as $csv_row) {
-                //var_dump($csv_row); // this is showing the right fields
-                $row = [];
-                // we have to map each field in each raw_data row to one big standardized array
+    /*    public function standardizeOrderArray() {
+            //var_dump($this->mappable_fields);
+            // it's an array of CSV files; each CSV file has rows. so here we're looping through files, not rows of data
+            foreach($this->raw_data as $csv_set) {
+                // then here we're looping through rows in each file. each row is an order.
+                foreach ($csv_set as $csv_row) {
+                    //var_dump($csv_row); // this is showing the right fields
+                    $row = [];
+                    // we have to map each field in each raw_data row to one big standardized array
 
-                foreach ($this->mappable_fields as $mappable_key) {
-                    // mappable field key exists in this row of raw data, so let's map it
-                    $mappable_key = trim($mappable_key);
-                    $row[$mappable_key] = "";
+                    foreach ($this->mappable_fields as $mappable_key) {
+                        // mappable field key exists in this row of raw data, so let's map it
+                        $mappable_key = trim($mappable_key);
+                        $row[$mappable_key] = "";
 
-                    if (array_key_exists($mappable_key, $csv_row)) {
-                        $row[$mappable_key] = $csv_row[$mappable_key];
+                        if (array_key_exists($mappable_key, $csv_row)) {
+                            $row[$mappable_key] = $csv_row[$mappable_key];
+                        }
                     }
+
+                    //var_dump($row); // this is also showing the correct amount of fields
+                    $this->parsed_data[] = $row;
                 }
-
-                //var_dump($row); // this is also showing the correct amount of fields
-                $this->parsed_data[] = $row;
+                //var_dump($this->parsed_data); // this shows all rows, but it's missing a bunch of fields on a lot of the rows
             }
-            //var_dump($this->parsed_data); // this shows all rows, but it's missing a bunch of fields on a lot of the rows
-        }
 
-        if ($this->checkMinimumMappableFields()) {
-            // this is a kickstarter import.
-            $this->mapStandardFields();
+            if ($this->checkMinimumMappableFields()) {
+                // this is a kickstarter import.
+                $this->mapStandardFields();
 
-        } else {
-            // we need to map fields manually.
-        }
+            } else {
+                // we need to map fields manually.
+            }
 
-        return $this;
-    }*/
+            return $this;
+        }*/
 
-    public function createFulfillmentJob($asset_id, $name, $description="") {
+    public function createFulfillmentJob($asset_id, $name, $description = "")
+    {
         if (!$fulfillment_job = $this->db->setData(
             'external_fulfillment_jobs',
             array(
-                'user_id'       => $this->user_id,
-                'asset_id'      => $asset_id,
-                'name'		    => $name,
-                'description'   => $description,
-                'mappable_fields'   => json_encode($this->mappable_fields),
-                'has_minimum_mappable_fields'   => $this->has_minimal_mappable_fields
+                'user_id' => $this->user_id,
+                'asset_id' => $asset_id,
+                'name' => $name,
+                'description' => $description,
+                'mappable_fields' => json_encode($this->mappable_fields),
+                'has_minimum_mappable_fields' => $this->has_minimal_mappable_fields
             )
-        )) {
+        )
+        ) {
             return false;
         } else {
             error_log(
-                'createFulfillmentJobbyjob '.print_r($fulfillment_job, true)
+                'createFulfillmentJobbyjob ' . print_r($fulfillment_job, true)
             );
 
             $this->fulfillment_job = $fulfillment_job;
@@ -318,8 +330,9 @@ class ExternalFulfillmentSeed extends SeedBase
         }
     }
 
-    public function updateFulfillmentJob($values, $id=false) {
-        
+    public function updateFulfillmentJob($values, $id = false)
+    {
+
         // allows us to manually override
         if (!$id) {
             $id = $this->fulfillment_job;
@@ -327,7 +340,7 @@ class ExternalFulfillmentSeed extends SeedBase
             // trickle down to the next method
             $this->fulfillment_job = $id;
         }
-        
+
         if (!empty($values)) {
 
             $conditions = [
@@ -351,7 +364,8 @@ class ExternalFulfillmentSeed extends SeedBase
         return $this;
     }
 
-    public function getFulfillmentJobByUserId($status) {
+    public function getFulfillmentJobByUserId($status)
+    {
 
         if (!$status) {
             $status = 'created';
@@ -386,7 +400,8 @@ class ExternalFulfillmentSeed extends SeedBase
 
         if (!$fulfillment_job = $this->db->getData(
             'external_fulfillment_jobs', '*', $conditions, 1, 'id DESC'
-        )) {
+        )
+        ) {
             error_log("---- returned false");
             return false;
         } else {
@@ -395,40 +410,43 @@ class ExternalFulfillmentSeed extends SeedBase
             $this->asset_id = $fulfillment_job[0]['asset_id'];
             $this->job_name = $fulfillment_job[0]['name'];
             $this->mappable_fields = json_decode($fulfillment_job[0]['mappable_fields']);
-            $this->has_minimum_mappable_fields = (bool) $fulfillment_job[0]['has_minimum_mappable_fields'];
+            $this->has_minimum_mappable_fields = (bool)$fulfillment_job[0]['has_minimum_mappable_fields'];
             $this->fulfillment_job = $fulfillment_job[0]['id'];
             $this->status = $fulfillment_job[0]['status'];
 
-            error_log("---- fulfillment job: ".$this->fulfillment_job);
+            error_log("---- fulfillment job: " . $this->fulfillment_job);
 
             return true;
         }
     }
 
-    public function createFulfillmentTier($process_id, $name, $upc, $data) {
+    public function createFulfillmentTier($process_id, $name, $upc, $data)
+    {
 
         if (!$fulfillment_tier = $this->db->setData(
             'external_fulfillment_tiers',
             array(
-                'system_job_id'        => $this->system_job_id,
-                'fulfillment_job_id'    => $this->fulfillment_job,
-                'process_id' 	=> $process_id,
-                'user_id'       => $this->user_id,
-                'name'		    => $name,
-                'upc'           => $upc,
-                'metadata'      => json_encode($data)
+                'system_job_id' => $this->system_job_id,
+                'fulfillment_job_id' => $this->fulfillment_job,
+                'process_id' => $process_id,
+                'user_id' => $this->user_id,
+                'name' => $name,
+                'upc' => $upc,
+                'metadata' => json_encode($data)
             )
-        )) {
+        )
+        ) {
             return false;
         }
 
         return $fulfillment_tier;
     }
 
-    public function processOrder($order, $tier_id) {
+    public function processOrder($order, $tier_id)
+    {
         $order_mapped = [];
 
-        foreach($this->mapped_fields as $destination_field=>$source_field) {
+        foreach ($this->mapped_fields as $destination_field => $source_field) {
 
             // we can deal with the minimum expected fields first, and go from there
             if (!empty($order[$source_field])) {
@@ -460,11 +478,13 @@ class ExternalFulfillmentSeed extends SeedBase
         $this->createOrder($order_mapped);
     }
 
-    public function createOrder($order_details) {
+    public function createOrder($order_details)
+    {
 
         if (!$order_id = $this->db->setData(
             'external_fulfillment_orders', $order_details
-        )) {
+        )
+        ) {
             return false;
         }
 
@@ -473,7 +493,8 @@ class ExternalFulfillmentSeed extends SeedBase
         return $this;
     }
 
-    public function createOrContinueJob($status=false) {
+    public function createOrContinueJob($status = false)
+    {
 
         if (CASH_DEBUG) {
             error_log("Called createOrContinueJob");
@@ -496,7 +517,7 @@ class ExternalFulfillmentSeed extends SeedBase
                 $this->job_name = $job_name;
             }
 
-            error_log("### existing fulfillment job ".$this->job_name);
+            error_log("### existing fulfillment job " . $this->job_name);
 
             return $this;
         } else {
@@ -516,7 +537,8 @@ class ExternalFulfillmentSeed extends SeedBase
 
     }
 
-    public function createOrGetSystemJob() {
+    public function createOrGetSystemJob()
+    {
         // get or create cash queue job object
         if ($this->queue = new CASHQueue(
             $this->user_id,
@@ -525,7 +547,7 @@ class ExternalFulfillmentSeed extends SeedBase
         ) {
 
             if (CASH_DEBUG) {
-                error_log("New queue job created: ".$this->queue->job_id);
+                error_log("New queue job created: " . $this->queue->job_id);
             }
 
 
@@ -534,7 +556,8 @@ class ExternalFulfillmentSeed extends SeedBase
         }
     }
 
-    public function createJobProcesses() {
+    public function createJobProcesses()
+    {
         // insert raw data into system processes, per CSV; then use process id to insert into fulfillment jobs
         foreach ($this->raw_data as $filename => $tier) {
 
@@ -547,7 +570,8 @@ class ExternalFulfillmentSeed extends SeedBase
         return $this;
     }
 
-    public function getJobProcesses() {
+    public function getJobProcesses()
+    {
         if (!$processes = $this->queue->getSystemProcessesByJob()) {
             return false;
         }
@@ -555,7 +579,8 @@ class ExternalFulfillmentSeed extends SeedBase
         return $processes;
     }
 
-    public function updateFulfillmentJobStatus($status) {
+    public function updateFulfillmentJobStatus($status)
+    {
 
         $condition = array(
             'user_id' => [
@@ -575,11 +600,12 @@ class ExternalFulfillmentSeed extends SeedBase
         if (!$fulfillment_tier = $this->db->setData(
             'external_fulfillment_jobs',
             array(
-                'status'        => $status
+                'status' => $status
             ),
             $condition
 
-        )) {
+        )
+        ) {
             return false;
         }
 
@@ -588,11 +614,12 @@ class ExternalFulfillmentSeed extends SeedBase
         return $this;
     }
 
-    public function createTiers() {
+    public function createTiers()
+    {
 
         // hit system jobs with table_id, type to get master job id
         if (!$this->queue) {
-            
+
             // there's no valid queue object, which means something went wrong when we tried to load or create
             error_log("no valid queue object");
             return false;
@@ -606,12 +633,12 @@ class ExternalFulfillmentSeed extends SeedBase
 
             // get processes by the system job id, and loop through them if there are any
             if ($system_processes = $this->queue->getSystemProcessesByJob()) {
-                foreach($system_processes as $process) {
+                foreach ($system_processes as $process) {
                     // loop through system processes
-                    if($data = json_decode($process['data'], true)) {
+                    if ($data = json_decode($process['data'], true)) {
 
                         // create tiers
-                        if($tier_id = $this->createFulfillmentTier($process['id'], $process['name'], '', $data)) {
+                        if ($tier_id = $this->createFulfillmentTier($process['id'], $process['name'], '', $data)) {
                             //orders per tier
 
                             foreach ($data as $order) {
@@ -643,11 +670,12 @@ class ExternalFulfillmentSeed extends SeedBase
      *
      * @return $this|bool
      */
-    public function updateTiers() {
+    public function updateTiers()
+    {
 
-        if(!empty($_REQUEST['tier_name']) && count($_REQUEST['tier_name']) > 0) {
+        if (!empty($_REQUEST['tier_name']) && count($_REQUEST['tier_name']) > 0) {
 
-            foreach($_REQUEST['tier_name'] as $tier_id=>$tier_name) {
+            foreach ($_REQUEST['tier_name'] as $tier_id => $tier_name) {
                 // update tier
                 $tier_name = isset($_REQUEST['tier_name'][$tier_id])
                     ? $_REQUEST['tier_name'][$tier_id] : $tier_name;
@@ -680,9 +708,9 @@ class ExternalFulfillmentSeed extends SeedBase
                     'external_fulfillment_tiers',
                     [
                         'name' => $tier_name,
-                        'upc'  => $upc,
-                        'physical'  => $physical,
-                        'shipped'   => $shipped
+                        'upc' => $upc,
+                        'physical' => $physical,
+                        'shipped' => $shipped
                     ],
                     $conditions
 
@@ -720,7 +748,8 @@ class ExternalFulfillmentSeed extends SeedBase
 
     }
 
-    public function deleteJob($job_id) {
+    public function deleteJob($job_id)
+    {
 
         // get tiers for this job
         if ($tiers = $this->getTiersByJob($job_id)) {
@@ -765,18 +794,19 @@ class ExternalFulfillmentSeed extends SeedBase
      *
      * @param $timestamp
      */
-    public static function getOrders($timestamp=0, $physical=true) {
+    public static function getOrders($timestamp = 0, $physical = true)
+    {
 
         $conditions = [
             'creation_date' => [
                 'condition' => '>',
                 'value' => $timestamp
-                ],
-            'physical'  => [
+            ],
+            'physical' => [
                 'condition' => '=',
                 'value' => ($physical) ? 1 : 0
-                ]
-            ];
+            ]
+        ];
 
         $data_connection = new CASHRequest(null);
 
@@ -799,14 +829,37 @@ class ExternalFulfillmentSeed extends SeedBase
             array(
                 'cash_request_type' => 'system',
                 'cash_action' => 'addlockcode',
-                'scope_table_alias' => 'commerce_external_fulfillment_orders',
+                'scope_table_alias' => 'external_fulfillment_orders',
                 'scope_table_id' => $order_id
             )
-        )) {
+        )
+        ) {
             return false;
         }
 
         return true;
+    }
+    
+    public function getBackersForJob($fulfillment_job_id) {
+        $conditions = [
+            'user_id' => [
+                'condition' => '=',
+                'value' => $this->user_id
+            ],
+            'fulfillment_job_id' => [
+                'condition' => '=',
+                'value' => $fulfillment_job_id
+            ]
+        ];
+
+        if (!$backers = $this->db->getData(
+            'CommercePlant_getExternalFulfillmentBackersByJob', false, $conditions
+        )
+        ) {
+            return false;
+        } else {
+            return $backers;
+        }
     }
 
 }

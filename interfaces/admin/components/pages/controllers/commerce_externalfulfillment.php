@@ -83,11 +83,42 @@ if ($action == "do_process" || $action == "process") {
 
 if ($action == "do_mailing" || $action == "mailing") { // && !empty($_REQUEST['fulfillment_job_id'])
 
+    //TODO: this should probably all be in a method
+    $fulfillment_job_id = 1; //$_REQUEST['fulfillment_job_id'];
+
+    $backers = $external_fulfillment->getBackersForJob($fulfillment_job_id);
+    $recipients = [];
+    $merge_vars = [];
+
+    $global_merge_vars = [
+        [
+            'name' => 'url',
+            'content' => "http://google.com"
+        ]
+    ];
+
+    foreach ($backers as $backer) {
+        $recipients[] = [
+            'email' => $backer['email'],
+            'name' => $backer['name']
+        ];
+
+        $merge_vars[] = [
+            'rcpt' => $backer['email'],
+            'vars' => [
+                [
+                    'name' => 'code',
+                    'content' => $backer['lockcode']
+                ]
+            ]
+        ];
+    }
+
+    $html_message = CASHSystem::parseMarkdown("This is the message\nLove, Tom");
+    $html_message .= "\n\n" . '<p><b><a href="*|URL|*/download/?code=*|CODE|*">Download</a></b></p>';
+    
     // this needs to actually be a seed method, but just to get a good test in
-    CASHSystem::sendMassEmail(1, "Test", [
-            ['email'=>'tom@paperscissorsandglue.com'],
-            ['email'=>'conductor@carsandtrains.net']
-        ], "test", "test!", [], []);
+    CASHSystem::sendMassEmail(1, "Test", $recipients, $html_message, "test!", $global_merge_vars, $merge_vars, false, true);
 
 }
 
