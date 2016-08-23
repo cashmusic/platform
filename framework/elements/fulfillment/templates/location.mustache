@@ -1,8 +1,9 @@
+<div class="cm-fulfillment">
 <p>
    {{copy_location_required}}
 </p>
-<form id="cash_{{element_type}}_form_{{element_id}}" class="cash_form {{element_type}}" method="post" action="">
-   <select>
+<form id="cash_{{element_type}}_form_{{element_id}}" class="cm-form {{element_type}}" method="post" action="">
+   <input type="text" name="postalcode" value="" placeholder="{{copy_postal_code}}" class="cm-postalcode" /><select class="cm-select-country">
       <option value="" selected="selected">{{copy_country_selector}}</option>
       <option value="US">United States</option>
       <option value="GB">United Kingdom</option>
@@ -255,6 +256,6 @@
       <option value="ZM">Zambia</option>
       <option value="ZW">Zimbabwe</option>
    </select>
-   <input type="text" name="postalcode" value="" placeholder="{{copy_postal_code}}" class="cash_input cash_input_postalcode" />
-   <input type="submit" value="{{copy_button}}" class="button" />
+   <button type="submit" value="{{copy_button}}" class="button">{{copy_button}}</button>
 </form>
+</div><!--cm-fulfillment-->
