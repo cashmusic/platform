@@ -15,4 +15,4 @@ jquery_url					= "//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"
 jqueryui_url 				= "//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"
 minimum_password_length = 10
 subdomain_usernames 		= true
-show_beta			 		= true
+show_beta			 		= false
