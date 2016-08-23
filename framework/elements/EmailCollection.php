@@ -24,6 +24,9 @@ class EmailCollection extends ElementBase {
 		if (isset($_REQUEST['geo'])) {
 			$this->element_data['geo'] = $_REQUEST['geo'];
 		}
+		if (isset($_REQUEST['redirecterror'])) {
+			$this->element_data['redirecterror'] = true;
+		}
 		if (isset($this->element_data['agree_message'])) {
 			$this->element_data['agree_message'] = str_replace("'","\'",$this->element_data['agree_message']);
 		}
@@ -58,7 +61,8 @@ class EmailCollection extends ElementBase {
 							array(
 								'cash_request_type' => 'asset',
 								'cash_action' => 'getfulfillmentassets',
-								'asset_details' => $this->options['asset_id']
+								'asset_details' => $this->options['asset_id'],
+								'session_id' => $this->session_id
 							)
 						);
 						if ($fulfillment_request->response['payload']) {

@@ -288,6 +288,22 @@ input:focus placeholder{color:#111;}
 	outline: none;
 }
 
+/* Buttons in overlay */
+
+.cm-lightboxed .cashmusic.element button {
+  margin: 36px 0 0 0;
+  padding: 15px 0;
+  background: none;
+  background: rgba(0,0,0,0.2);
+  border: solid 2px #00ec91;
+  color: #00ec91;
+  display: block;
+  width: 100%;
+  font-size: 12px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+
 /* Errors */
 
 .cash_error, .cm-error{
@@ -1489,6 +1505,57 @@ input[type=number]::-webkit-outer-spin-button {
 	color:#00cf7f!important;
 }
 
+
+/* 3rd Party Fulfillment */
+
+.cashmusic.element.fulfillment{
+margin: 0 auto;
+padding: 0 20px;
+}
+
+.cashmusic.element .cm-fulfillment p{
+  font-size: 14px;
+  margin:0 0 18px 0;
+  color:#fff;
+  text-align: center;
+}
+
+.cashmusic.element .cm-fulfillment input{
+display: inline-block!important;
+width: 100%;
+border: none;
+margin: 0 0 1% 0;
+padding: 15px 0!important;
+background: #f5f5f5;
+border: solid 1px rgba(34,34,34,0.5)!important;
+background: rgba(34,34,34,0.9)!important;
+color: #fff!important;
+-webkit-border-radius: 3px!important;
+-moz-border-radius: 3px!important;
+border-radius: 3px!important;
+text-indent: 15px!important;
+font-size: 11px!important;
+font-style: normal!important;
+font-family: 'Montserrat', sans-serif!important;
+}
+
+.cashmusic.element .cm-fulfillment .cm-select-country, .cashmusic.element .cm-fulfillment .cm-postalcode{
+  color:#fff;
+}
+
+.cashmusic.element .cm-fulfillment .cm-postalcode::-webkit-input-placeholder{
+  color:#ddd!important;
+}
+
+.cashmusic.element .cm-fulfillment-landing-message img{
+  width:100%;
+  margin:0 0 18px 0;
+}
+
+.cm-lightboxed .cashmusic.element .cm-fulfillment button {
+  margin: 18px 0 0 0;
+}
+
 /* -- Main Size -- */
 @media screen and (min-width: 275px) {
 
@@ -1696,6 +1763,28 @@ input[type=number]::-webkit-outer-spin-button {
   .cm-receipt, .cm-store .madebycash{
   /*width:55%;*/
   margin:0;
+  }
+  
+  
+  /* 3rd Party Fulfillment */
+  
+  .cashmusic.element.fulfillment{
+  margin: 0 auto;
+  padding: 0;
+  }
+  
+  .cashmusic.element .cm-fulfillment .cm-select-country, .cashmusic.element .cm-fulfillment .cm-postalcode{
+    width:49.5%;
+    margin:0;
+    display:inline-block;
+  }
+
+  .cashmusic.element .cm-fulfillment .cm-select-country{
+    margin-left:0.5%;
+  }
+
+  .cashmusic.element .cm-fulfillment .cm-postalcode{
+    margin-right:0.5%;
   }
 
 }

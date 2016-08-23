@@ -17,7 +17,8 @@
 	"copy":{
 		"en":{
 			"signup":"sign me up",
-			"verify":"Check your inbox for a verification email with download link."
+			"verify":"Check your inbox for a verification email with download link.",
+			"redirecterror":"There was an error claiming your asset. Please reload and try again."
 		}
 	},
 	"options":{

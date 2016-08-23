@@ -85,9 +85,9 @@
 	 * Starts a persistent CASH session in the database, with corresponding cookie
 	 *
 	 * @return none
-	 */public static function startSession($force_session_id=false,$write_cookie=true,$reset_session_id=false) {
+	 */public static function startSession($force_session_id=false,$sandbox=false) {
 		$cash_page_request = new CASHRequest(null);
-		$session = $cash_page_request->startSession($force_session_id,$write_cookie,$reset_session_id);
+		$session = $cash_page_request->startSession($force_session_id,$sandbox);
 		unset($cash_page_request);
 		return($session);
 	}
@@ -101,7 +101,8 @@
 	 */public static function embedElement($element_id,$access_method='direct',$location=false,$geo=false,$donottrack=false) {
 		// fire up the platform sans-direct-request to catch any GET/POST info sent
 		// in to the page
-		CASHSystem::startSession();
+		
+		// CASHSystem::startSession();
 		$cash_page_request = new CASHRequest(null);
 		$initial_page_request = $cash_page_request->sessionGet('initial_page_request','script');
 		if ($initial_page_request && isset($initial_page_request['request']['element_id'])) {

@@ -24,38 +24,41 @@ class CommercePlant extends PlantBase {
             // alphabetical for ease of reading
             // first value  = target method to call
             // second value = allowed request methods (string or array of strings)
-            'additem'             => array('addItem','direct'),
-            'additemvariants'     => array('addItemVariants','direct'),
-            'addorder'            => array('addOrder','direct'),
-            'addtocart'				 => array('addToCart',array('get','post','direct','api_public')),
-            'addtransaction'      => array('addTransaction','direct'),
-            'cancelorder'			 => array('cancelOrder','direct'),
-            'deleteitem'          => array('deleteItem','direct'),
-            'deleteitemvariant'   => array('deleteItemVariant','direct'),
-            'deleteitemvariants'  => array('deleteItemVariants','direct'),
-            'editcartquantity'	 => array('editCartQuantity',array('get','post','direct','api_public')),
-            'editcartshipping'	 => array('editCartShipping',array('get','post','direct','api_public')),
-            'edititem'            => array('editItem','direct'),
-            'edititemvariant'   	 => array('editItemVariant','direct'),
-            'editorder'           => array('editOrder','direct'),
-            'edittransaction'     => array('editTransaction','direct'),
-            'emailbuyersbyitem'	 => array('emailBuyersByItem','direct'),
-            'emptycart'				 => array('emptyCart',array('get','post','direct','api_public')),
-            'formatvariantname'   => array('formatVariantName','direct'),
-            'getanalytics'        => array('getAnalytics','direct'),
-            'getcart'				 => array('getCart','direct'),
-            'getitem'             => array('getItem','direct'),
-            'getitemvariants'     => array('getItemVariants','direct'),
-            'getitemsforuser'     => array('getItemsForUser','direct'),
-            'getorder'            => array('getOrder','direct'),
-            'getordersforuser'    => array('getOrdersForUser','direct'),
-            'getordersbycustomer' => array('getOrdersByCustomer','direct'),
-            'getordersbyitem'		 => array('getOrdersByItem','direct'),
-            'getordertotals' 		 => array('getOrderTotals','direct'),
-            'gettransaction'      => array('getTransaction','direct'),
-            'finalizepayment'     => array('finalizePayment',array('get','post','direct')),
-            'initiatecheckout'    => array('initiateCheckout',array('get','post','direct','api_public')),
-            'sendorderreceipt'	 => array('sendOrderReceipt','direct')
+            'additem'                  => array('addItem','direct'),
+            'additemvariants'          => array('addItemVariants','direct'),
+            'addorder'                 => array('addOrder','direct'),
+            'addtocart'				      => array('addToCart',array('get','post','direct','api_public')),
+            'addtransaction'           => array('addTransaction','direct'),
+            'cancelorder'			      => array('cancelOrder','direct'),
+            'deleteitem'               => array('deleteItem','direct'),
+            'deleteitemvariant'        => array('deleteItemVariant','direct'),
+            'deleteitemvariants'       => array('deleteItemVariants','direct'),
+            'editcartquantity'	      => array('editCartQuantity',array('get','post','direct','api_public')),
+            'editcartshipping'	      => array('editCartShipping',array('get','post','direct','api_public')),
+            'editfulfillmentorder'     => array('editFulfillmentOrder','direct'),
+            'edititem'                 => array('editItem','direct'),
+            'edititemvariant'   	      => array('editItemVariant','direct'),
+            'editorder'                => array('editOrder','direct'),
+            'edittransaction'          => array('editTransaction','direct'),
+            'emailbuyersbyitem'	      => array('emailBuyersByItem','direct'),
+            'emptycart'				      => array('emptyCart',array('get','post','direct','api_public')),
+            'formatvariantname'        => array('formatVariantName','direct'),
+            'getanalytics'             => array('getAnalytics','direct'),
+            'getcart'				      => array('getCart','direct'),
+            'getfulfillmentjobbytier'  => array('getFulfillmentJobByTier','direct'),
+            'getfulfillmentorder'      => array('getFulfillmentOrder','direct'),
+            'getitem'                  => array('getItem','direct'),
+            'getitemvariants'          => array('getItemVariants','direct'),
+            'getitemsforuser'          => array('getItemsForUser','direct'),
+            'getorder'                 => array('getOrder','direct'),
+            'getordersforuser'         => array('getOrdersForUser','direct'),
+            'getordersbycustomer'      => array('getOrdersByCustomer','direct'),
+            'getordersbyitem'		      => array('getOrdersByItem','direct'),
+            'getordertotals' 		      => array('getOrderTotals','direct'),
+            'gettransaction'           => array('getTransaction','direct'),
+            'finalizepayment'          => array('finalizePayment',array('get','post','direct')),
+            'initiatecheckout'         => array('initiateCheckout',array('get','post','direct','api_public')),
+            'sendorderreceipt'	      => array('sendOrderReceipt','direct')
         );
         $this->plantPrep($request_type,$request);
     }
@@ -660,7 +663,7 @@ class CommercePlant extends PlantBase {
                         }
                     }
                 }
-                
+
                 // by the power of grayskull
                 CASHSystem::sendMassEmail(
                     $user_id,
@@ -2139,34 +2142,35 @@ class CommercePlant extends PlantBase {
     //
     //switch (strtolower($analtyics_type)) {
     //	case 'transactions':
-    if (!$date_low) $date_low = 201243600;
-    if (!$date_high) $date_high = time();
-    $result = $this->db->getData(
-        'CommercePlant_getAnalytics_transactions',
-        false,
-        array(
-            "user_id" => array(
-                "condition" => "=",
-                "value" => $user_id
-            ),
-            "date_low" => array(
-                "condition" => "=",
-                "value" => $date_low
-            ),
-            "date_high" => array(
-                "condition" => "=",
-                "value" => $date_high
-            )
-        )
-    );
-    if ($result) {
-        return $result[0];
-    } else {
-        return $result;
+       if (!$date_low) $date_low = 201243600;
+       if (!$date_high) $date_high = time();
+       $result = $this->db->getData(
+           'CommercePlant_getAnalytics_transactions',
+           false,
+           array(
+               "user_id" => array(
+                   "condition" => "=",
+                   "value" => $user_id
+               ),
+               "date_low" => array(
+                   "condition" => "=",
+                   "value" => $date_low
+               ),
+               "date_high" => array(
+                   "condition" => "=",
+                   "value" => $date_high
+               )
+           )
+       );
+       if ($result) {
+           return $result[0];
+       } else {
+           return $result;
+       }
+       //		break;
+       //}
     }
-    //		break;
-    //}
-}
+
     public function setErrorMessage($message) {
       if (CASH_DEBUG) {
          error_log($message);
@@ -2200,5 +2204,114 @@ class CommercePlant extends PlantBase {
             }
         }
     }
+
+    protected function editFulfillmentOrder(
+        $id,
+        $name=false,
+        $email=false,
+        $shipping_address_1=false,
+        $shipping_address_2=false,
+        $shipping_city=false,
+        $shipping_postal=false,
+        $shipping_country=false,
+        $complete=false,
+        $fulfilled=false,
+        $price=false,
+        $tier_id=false,
+        $order_data=false,
+        $notes=false
+    ) {
+        $final_edits = array_filter(
+            array(
+                'name' => $name,
+                'email' => $email,
+                'shipping_address_1' => $shipping_address_1,
+                'shipping_address_2' => $shipping_address_2,
+                'shipping_city' => $shipping_city,
+                'shipping_province' => $shipping_province,
+                'shipping_postal' => $shipping_postal,
+                'shipping_country' => $shipping_country,
+                'complete' => $complete,
+                'fulfilled' => $fulfilled,
+                'price' => $price,
+                'tier_id' => $tier_id,
+                'order_data' => $order_data,
+                'notes' => $notes
+            ),
+            'CASHSystem::notExplicitFalse'
+        );
+        if (isset($final_edits['order_data'])) {
+            $final_edits['order_data'] = json_encode($data_sent);
+        }
+
+        $result = $this->db->setData(
+            'external_fulfillment_orders',
+            $final_edits,
+            array(
+                'id' => array(
+                    'condition' => '=',
+                    'value' => $id
+                )
+            )
+        );
+
+        return $result;
+    }
+
+    protected function getFulfillmentOrder($id,$user_id=false) {
+        $condition = array(
+            "id" => array(
+                "condition" => "=",
+                "value" => $id
+            )
+        );
+        if ($user_id) {
+            $condition['user_id'] = array(
+                "condition" => "=",
+                "value" => $user_id
+            );
+        }
+        $result = $this->db->getData(
+            'external_fulfillment_orders',
+            '*',
+            $condition
+        );
+
+        if ($result) {
+            return $result[0];
+        } else {
+            return false;
+        }
+    }
+
+    protected function getFulfillmentJobByTier($tier_id) {
+         $result = $this->db->getData(
+              'external_fulfillment_tiers',
+              '*',
+              array(
+                  "id" => array(
+                      "condition" => "=",
+                      "value" => $tier_id
+                  )
+              )
+         );
+         if ($result) {
+            $tier = $result[0];
+            $new_result = $this->db->getData(
+                 'external_fulfillment_jobs',
+                 '*',
+                 array(
+                     "id" => array(
+                         "condition" => "=",
+                         "value" => $tier['fulfillment_job_id']
+                     )
+                 )
+            );
+            if ($new_result) {
+               return $new_result[0];
+            }
+         }
+    }
+
 } // END class
 ?>

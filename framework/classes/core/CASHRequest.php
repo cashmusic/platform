@@ -63,6 +63,10 @@
 		if ($this->request) {
 			$this->processRequest($this->request,$this->request_method);
 		}
+		// garbage collection daemon. 1.5% chance of running.
+		if (rand(10,1000) <= 15) {			
+			$gc = new CASHDaemon();
+		}
 	}
 
 	public function getVersion() {

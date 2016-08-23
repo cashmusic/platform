@@ -47,7 +47,7 @@ class SystemPlant extends PlantBase {
 				'setresetflag'            => array('setResetFlag','direct'),
 				'setsettings'             => array('setSettings','direct'),
 				'settemplate'             => array('setTemplate','direct'),
-				'startjssession'			  => array('startJSSession',array('direct','get','post')),
+				'startjssession'			  => array('startJSSession',array('direct','get','post','api_public')),
 				'validateapicredentials'  => array('validateAPICredentials','direct'),
 				'validatelogin'           => array('validateLogin','direct'),
 				'validateresetflag'       => array('validateResetFlag',array('direct','get','post'))
@@ -1221,14 +1221,13 @@ class SystemPlant extends PlantBase {
 	 */
 	protected function startJSSession() {
 		$r = new CASHRequest();
-		$session_details = $r->startSession(false,false); // second false stops us writing a cookie
+		$session_details = $r->startSession(false,true); // second false sandboxes
 
 		if ($session_details['newsession']) {
-			$endpoint = CASH_PUBLIC_URL . '/request/payload';
 			if (!$session_details['expiration']) {
-				$session_details['expiration'] = time() + 10800;
+				$session_details['expiration'] = time() + $this->cash_session_timeout;
 			}
-			return json_encode(array('endpoint' => $endpoint, 'expiration' => $session_details['expiration'], 'id' => $session_details['id']));
+			return json_encode(array('expiration' => $session_details['expiration'], 'id' => $session_details['id']));
 		} else {
 			return json_encode($session_details);
 		}

@@ -176,7 +176,7 @@
 		{{#has_physical}}
 		// shipping dropdown
 		cm.events.add(document.querySelector('select.cm-region'),'change', function(e) {
-			var requesturl = '{{api_url}}/verbose/commerce/editcartshipping/element_id/{{element_id}}/region/' + this.value + '/';
+			var requesturl = '{{api_url}}/verbose/commerce/editcartshipping/element_id/{{element_id}}/region/' + this.value + '/session_id/{{session_id}}';
 			requesturl += '?ts=' + new Date().getTime();
 			cm.ajax.send(requesturl, false,
 				function() {
