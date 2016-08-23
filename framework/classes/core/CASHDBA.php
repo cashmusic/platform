@@ -101,7 +101,12 @@ class CASHDBA {
 			'people_resetpassword' => 'people_resetpassword',
 			'list_members' => 'people_lists_members',
 			'transactions' => 'commerce_transactions',
-			'venues' => 'calendar_venues'
+			'venues' => 'calendar_venues',
+			'jobs'	=> 'system_jobs',
+			'processes'	=> 'system_processes',
+			'external_fulfillment_jobs' => 'commerce_external_fulfillment_jobs',
+			'external_fulfillment_tiers' => 'commerce_external_fulfillment_tiers',
+			'external_fulfillment_orders' => 'commerce_external_fulfillment_orders'
 		);
 		if (array_key_exists($data_name, $table_lookup)) {
 		    return $table_lookup[$data_name];
@@ -581,6 +586,27 @@ class CASHDBA {
 				$query = "SELECT e.id as 'event_id', e.date as 'date',e.published as 'published',e.cancelled as 'cancelled',e.purchase_url as 'purchase_url',e.comments as 'comments',e.creation_date as 'creation_date',e.modification_date as 'modification_date', e.venue_id as 'venue_id' "
 				. "FROM calendar_events e "
 				. "WHERE e.date > :cutoff_date_low AND e.date < :cutoff_date_high AND e.user_id = :user_id AND e.published = :published_status AND e.cancelled = :cancelled_status ORDER BY e.date ASC";
+				break;
+			case 'CommercePlant_getExternalFulfillmentTiersAndOrderCount':
+				$query = "SELECT (SELECT count(*) FROM commerce_external_fulfillment_orders as o WHERE o.tier_id = t.id) as orders, t.* from commerce_external_fulfillment_tiers as t "
+				. "WHERE t.fulfillment_job_id = :fulfillment_job_id and t.user_id = :user_id";
+				break;
+
+			case 'CommercePlant_getExternalFulfillmentOrdersByTimestamp':
+				$query = "SELECT o.shipping_postal, t.upc from commerce_external_fulfillment_orders as o "
+				. "JOIN commerce_external_fulfillment_tiers as t ON o.tier_id = t.id "
+				. "WHERE o.creation_date > :creation_date AND t.upc != '' AND o.shipping_postal != '' AND t.physical = :physical"
+				. "AND shipping_country = 'US'";
+				break;
+
+			case 'CommercePlant_getOrderCountByJob':
+				$query = "SELECT count(*) AS total_orders from commerce_external_fulfillment_orders AS o "
+				."JOIN commerce_external_fulfillment_tiers AS t ON t.fulfillment_job_id = :fulfillment_job_id AND t.id = o.tier_id and t.user_id = :user_id";
+
+				if (array_key_exists("complete", $conditions)) {
+					$query .= " AND o.complete = :complete";
+				}
+
 				break;
 
 		    default:

@@ -1,0 +1,67 @@
+{{! corresponding files: commerce_externalfulfillment.php & commerce_externalfulfillment.json }}
+
+<div class="pure-u-1">
+<header>
+		<a class="returnlink current" href="{{www_path}}/commerce/externalfulfillment"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">{{copy_upload_to}} &quot;{{job_name}}&quot;</h4>
+</header>
+</div><!--pure-->
+<div class="pure-u-1">
+    <p>{{copy_upload_description}}</p>
+
+    <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/externalfulfillment" name="import_csv" id="file_upload">
+        <label for="csv_upload">{{label_select_files}}</label>
+        <input type="file" name="csv_upload[]" multiple accept=".csv" />
+    </form>
+
+    <script src="{{www_path}}/ui/default/assets/scripts/jquery.fileupload.js"></script>
+
+    <script type="text/javascript">
+        $(function() {
+
+            window.filecount = 0;
+
+            $('#file_upload').fileupload({
+                singleFileUploads: true,
+                sequentialUploads: false,
+                autoUpload: true,
+
+                add: function (e, data) {
+                    // remember the filename and submit
+                    console.log("add");
+                    data.formData = {action: 'do_upload'};
+                    window.filecount++;
+
+                    data.submit();
+                },
+                send: function(e, data) {
+                    // spinner, etc
+                    console.log("send");
+                    $('#loadingmask').css('width','101%');
+                },
+                fail: function(e, data) {
+                    // we should do something useful here
+                    console.log("fail");
+                    $('#loadingmask').css('width','1%');
+                },
+                done: function (event, data) {
+                    // hide the spinner, add the final key to the location field of the
+
+                    // go to the next step
+
+                    if (window.filecount > 0) {
+                        window.filecount--;
+                    }
+
+                    if (window.filecount < 1) {
+                        $("#file_upload").attr("action", "{{www_path}}/commerce/externalfulfillment/process");
+                        //('#loadingmask').css('width','1%');
+                        $("#file_upload").submit();
+                    }
+                    console.log("done");
+                    //$("#file_upload").submit();
+                    //$('.process-import').removeClass("disabled");
+                }
+            });
+        });
+    </script>
+</div><!--pure-->

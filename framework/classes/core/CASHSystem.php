@@ -22,6 +22,7 @@
 	 	ini_set('error_reporting',E_ALL);
 		ini_set('log_errors',TRUE);
 		ini_set('display_errors',FALSE);
+		ini_set('max_file_uploads',100);
 
 		// only want to do this once, so we check for 'initial_page_request_time'
 		if (!isset($GLOBALS['cashmusic_script_store']['initial_page_request_time'])) {
@@ -707,22 +708,26 @@
 
 	public static function sendMassEmail($user_id, $subject, $recipients, $message_text, $message_title, $global_merge_vars=false, $merge_vars=false, $encoded_html=false, $message_text_html=true) {
 
-		if (CASH_DEBUG) {
-			error_log("CASHSystem:sendMassEmail message:\n$message_text");
-		}
-		// get current user details for email
-		$user_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'people',
-				'cash_action' => 'getuser',
-				'user_id' => $user_id
-			)
-		);
+		if ($user_id) {
+			// get current user details for email
+			$user_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'people',
+					'cash_action' => 'getuser',
+					'user_id' => $user_id
+				)
+			);
 
-		$user_details = $user_request->response['payload'];
+			$user_details = $user_request->response['payload'];
 
-		if ($user_details['display_name'] == 'Anonymous' || !$user_details['display_name']) {
-			$user_details['display_name'] = $user_details['email_address'];
+			if ($user_details['display_name'] == 'Anonymous' || !$user_details['display_name']) {
+				$user_details['display_name'] = $user_details['email_address'];
+			}
+		} else {
+			// we're testing so let's just fake this for now
+
+			$user_details['email_address'] = 'tom@paperscissorsandglue.com';
+			$user_details['display_name'] = 'Testing CASH Mailer';
 		}
 
 		// handle encoding of HTML if specific HTML isn't passed in:
@@ -768,20 +773,10 @@
 		// if a viable connection, set connection id with user connection
 		if (is_array($mandrill) && !empty($mandrill[0]['id'])) {
 			$connection_id = $mandrill[0]['id'];
-		} else {
-			// else tell MandrillSeed to use system settings in connections.json
-			$connection_id = "system";
-
-			$connections = CASHSystem::getSystemSettings('system_connections');
-
-			if (!isset($connections['com.mandrillapp']['api_key'])) {
-				$connection_id = false;
-			}
 		}
-
+		
 		// either we've got a valid connection ID, or a fallback api_key
 		if ($connection_id) {
-
 			$mandrill = new MandrillSeed($user_id, $connection_id);
 
 			if ($result = $mandrill->send(
@@ -949,6 +944,92 @@
 		}
 	}
 
+	/**
+	 * Converts a loaded CSV file's contents to an array, with the header column values mapped to array keys.
+	 *
+	 * @param $csv
+	 * @return array
+	 */
+	public static function outputCSVToArray($csv) {
+		$array = [];
+		$unique_fields = [];
+
+		$header = null;
+		while ($row = fgetcsv($csv)) {
+			if ($header === null) {
+
+				$header = array_map('trim', $row);
+
+				$unique_fields = array_unique(
+					array_map('trim', $row)
+				);
+
+				continue;
+			}
+			$array[] = array_combine($header, $row);
+		}
+
+		return [
+			'array' => $array,
+			'unique_fields' => $unique_fields
+		];
+	}
+
+	/**
+	 * Takes an array and outputs a forced download CSV file on the fly, in memory.
+	 * Pass a header array to match to columns (should be a flat array, like:
+	 * ['column one', 'column two', 'column three', 'etc...']
+	 * Header array key count must match the $array key count to add to CSV array
+	 *
+	 * @param $array
+	 * @param bool $header
+	 * @param string $filename
+	 * @param string $delimiter
+	 * @return bool
+	 */
+
+	public static function outputArrayToCSV($array, $header=false, $filename='export.csv', $delimiter=';') {
+
+		if (is_array($array) && count($array) > 0) {
+			header("Content-Type:application/csv");
+			header("Content-Disposition:attachment;filename=$filename");
+
+			$f = fopen('php://output', 'w');
+
+			// if a header array is set we need to merge it, assuming it has a matching column count
+			if (is_array($header) && count($header) == count($array[0])) {
+
+				$array = array_merge([0=>$header], $array);
+			}
+
+			foreach ($array as $line) {
+				fputcsv($f, $line, $delimiter);
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	public static function getFileContents($file_uri) {
+		try {
+
+			if (file_exists($file_uri)) {
+				$file = fopen($file_uri, 'r');
+			} else {
+				return false;
+			}
+
+		} catch (Exception $e) {
+
+			error_log($e->getMessage());
+			return false;
+		}
+
+		return $file;
+	}
+
 	public static function errorLog($data) {
 		switch(gettype($data)) {
 			case "string":
@@ -977,6 +1058,128 @@
 				return true;
 
 		}
+	}
+
+	/**
+	 * Uploads files to FTP site
+	 *
+	 * @param $file
+	 * @param $credentials
+	 * @param string $protocol
+	 * @return bool
+	 */
+	public static function uploadToFTP($file, $credentials, $protocol='ftp') {
+
+		// do we even have credentials?
+		if (empty($credentials) ||
+			empty($credentials['domain']) ||
+			empty($credentials['username']) ||
+			empty($credentials['password'])
+		) {
+			return false;
+		}
+
+		if  (CASH_DEBUG) {
+			error_log("CASHSystem::uploadToFTP error: ");
+		}
+
+		// open the file or fail
+		if ($fp = fopen($file, 'r')) {
+			$ch = curl_init();
+
+			curl_setopt(
+				$ch, CURLOPT_URL,
+				$protocol.'://' . $credentials['domain'] . '/' . basename($file)
+			);
+
+			curl_setopt($ch, CURLOPT_USERPWD,
+				$credentials['username'] . ':' . $credentials['password']
+			);
+			curl_setopt($ch, CURLOPT_UPLOAD, 1);
+
+			// if this is SFTP we need to set the protocol for the request
+			if ($protocol == "sftp") {
+				curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_SFTP);
+			}
+
+			curl_setopt($ch, CURLOPT_INFILE, $fp);
+			curl_setopt($ch, CURLOPT_INFILESIZE, filesize($file));
+			curl_exec($ch);
+			$error_no = curl_errno($ch);
+
+			if  (CASH_DEBUG) {
+				error_log("CASHSystem::uploadToFTP error: ". $error_no);
+			}
+
+			curl_close($ch);
+
+			// if curl request returns 0 then we're cool
+			if ($error_no == 0) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public static function uploadStringToFTP($string, $filename, $credentials, $protocol='ftp') {
+
+		// do we even have credentials?
+		if (empty($credentials) ||
+			empty($credentials['domain']) ||
+			empty($credentials['username']) ||
+			empty($credentials['password'])
+		) {
+
+			if  (CASH_DEBUG) {
+				error_log("CASHSystem::uploadToFTP error: ");
+			}
+
+			return false;
+		}
+
+		// open the file or fail
+
+		// create temp file in memory so we don't lose it on rotation
+		$file = fopen('php://memory', 'r+');
+		fputs($file, $string);
+		rewind($file); // or fseek
+
+		$ch = curl_init();
+
+		curl_setopt(
+			$ch, CURLOPT_URL,
+			$protocol.'://' . $credentials['domain'] . '/' . $filename
+		);
+
+		curl_setopt($ch, CURLOPT_USERPWD,
+			$credentials['username'] . ':' . $credentials['password']
+		);
+		curl_setopt($ch, CURLOPT_UPLOAD, 1);
+
+		// if this is SFTP we need to set the protocol for the request
+		if ($protocol == "sftp") {
+			curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_SFTP);
+		}
+
+		curl_setopt($ch, CURLOPT_INFILE, $file);
+		//curl_setopt($ch, CURLOPT_INFILESIZE, filesize($file));
+		curl_exec($ch);
+		$error_no = curl_errno($ch);
+
+		if  (CASH_DEBUG) {
+			error_log("CASHSystem::uploadToFTP result: ". $error_no);
+		}
+
+		curl_close($ch);
+		fclose($file);
+
+		// if curl request returns 0 then we're cool
+		if ($error_no == 0) {
+			return true;
+		}
+
+		return false;
 	}
 } // END class
 ?>

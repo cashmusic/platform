@@ -81,7 +81,7 @@ class PaypalSeed extends SeedBase {
                 . '<input id="connection_name_input" type="hidden" name="settings_name" value="(Paypal)" />'
                 . '<input type="hidden" name="settings_type" value="com.paypal" />'
                 . '<label for="merchant_email">Your Paypal email address:</label>'
-                . '<input type="text" name="merchant_email" id="merchant_email" value="" />'
+                . '<input type="text" name="merchant_email" id="merchant_email" value="" class="required" />'
                 . '<br />'
                 . '<div><input class="button" type="submit" value="Add The Connection" /></div>'
                 . '</form>'
