@@ -93,8 +93,6 @@ if ($action == "do_mailing") {
         // let's break this up into 1000 at a time to make sure we don't overload the mandrill API
         $chunky_backers = array_chunk($backers, 1000);
 
-        error_log( print_r($chunky_backers, true));
-
         $html_message = CASHSystem::parseMarkdown($_REQUEST['email_message']);
         $html_message .= "\n\n" . '<p><b><a href="*|URL|*/download/?code=*|CODE|*&handlequery=1">Download</a></b></p>';
 
@@ -108,7 +106,7 @@ if ($action == "do_mailing") {
 
                 $recipients[] = [
                     'email' => $backer['email'],
-                    'name' => $backer['name']
+                    'name' => "",//$backer['name']
                 ];
 
                 $merge_vars[] = [
@@ -122,7 +120,6 @@ if ($action == "do_mailing") {
                 ];
             }
 
-            error_log("sendMassEmail START ".time());
             CASHSystem::sendMassEmail(
                 $user_id,
                 $subject,
@@ -133,8 +130,6 @@ if ($action == "do_mailing") {
                 $merge_vars,
                 false,
                 true);
-
-            error_log("sendMassEmail END ".time());
 
         }
 
