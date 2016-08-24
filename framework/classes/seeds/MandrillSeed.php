@@ -20,9 +20,6 @@ class MandrillSeed extends SeedBase {
 
 	public function __construct($user_id, $connection_id=false) {
 
-		if(CASH_DEBUG) {
-			error_log("Called MandrillSeed with user id $user_id, connection id $connection_id");
-		}
 		$this->settings_type = 'com.mandrillapp';
 		$this->user_id = $user_id;
 		
@@ -31,35 +28,33 @@ class MandrillSeed extends SeedBase {
 		$this->connection_id = $connection_id;
 
 		if ($this->getCASHConnection()) {
+			error_log(
+				$this->settings->getSetting('api_key')
+			);
 
 			// check if the user has a connection for this service
 			if (!$this->api_key = $this->settings->getSetting('api_key')) {
 				return false;
 			}
-
+			error_log("key ".$this->api_key);
 			$this->api = new Mandrill($this->api_key);
 
 		} else {
-			// if not let's default to the system settings
-			$connections = CASHSystem::getSystemSettings('system_connections');
 
-			if (CASH_DEBUG) {
-				error_log(
-					"Default Mandrill connection stuff\n".
-					print_r($connections['com.mandrillapp'], true)
-				);
-			}
+			$this->error_message = 'No Mandrill API key found';
+			/*// if not let's default to the system settings
+			$connections = CASHSystem::getSystemSettings('system_connections');
 
 			if (isset($connections['com.mandrillapp']['api_key'])) {
 				$this->api_key = $connections['com.mandrillapp']['api_key'];
 
 				$this->api = new Mandrill($this->api_key);
-				echo print_r(get_class_methods($this->api), true);
+
 				return false;
 			} else {
 				$this->error_message = 'no API key found';
 				return false;
-			}
+			}*/
 		}
 	}
 
@@ -79,7 +74,7 @@ class MandrillSeed extends SeedBase {
 				. '<input id="connection_name_input" type="hidden" name="settings_name" value="(Mandrill)" />'
 //				. '<input type="hidden" name="settings_type" value="com.mandrillapp" />'
 				. '<label for="merchant_email">Your Mandrill API key:</label>'
-				. '<input type="text" name="api_key" id="api_key" value="" />'
+				. '<input type="text" name="api_key" id="api_key" value="" class="required" />'
 				. '<br />'
 				. '<div><input class="button" type="submit" value="Add The Connection" /></div>'
 				. '</form>';
@@ -105,7 +100,7 @@ class MandrillSeed extends SeedBase {
 				$data['api_key'] . ' (Mandrill)',
 				'com.mandrillapp',
 				array(
-					'key' => $data['api_key']
+					'api_key' => $data['api_key']
 				)
 			);
 			if (!$result) {
@@ -189,11 +184,15 @@ class MandrillSeed extends SeedBase {
 			}
 		}
 
+		$email_settings = CASHSystem::getDefaultEmail(true);
+		$sender = CASHSystem::parseEmailAddress($email_settings['systememail']);
+
 		$message = array(
 			"html" => $message_html,
 			"text" => $message_txt,
 			"subject" => $subject,
-			"from_email" => $from_address,
+			'headers' => array('Reply-To' => $from_address),
+			"from_email" => key($sender),
 			"from_name" => $from_name,
 			"to" => $recipients,
 			"headers" => null,
@@ -219,7 +218,7 @@ class MandrillSeed extends SeedBase {
 			"images" => null
 		);
 
-      return $this->api->call('messages/send', array("message" => $message, "async" => true));
+		return $this->api->call('messages/send', array("message" => $message, "async" => true));
 	}
 
 } // END class

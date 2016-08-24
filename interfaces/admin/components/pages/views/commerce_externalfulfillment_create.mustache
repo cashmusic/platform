@@ -1,0 +1,17 @@
+{{! corresponding files: commerce_externalfulfillment.php & commerce_externalfulfillment.json }}
+
+<div class="pure-u-1">
+    <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/externalfulfillment" id="create_job" class="nodefaultajax">
+      <input type="hidden" name="action" value="do_create" />
+        
+        <i data-tooltip="Name your job and add a description for your own reference" class="tooltip icon icon-question"></i>
+
+        <label for="item_name">{{label_name}}</label>
+        <input type="text" id="fulfillment_name" name="fulfillment_name" value="" placeholder="{{label_name_placeholder}}" class="required" />
+        <label for="fulfillment_description">{{label_description}}</label>
+        <textarea name="fulfillment_description" id="fulfillment_description" cols="30" rows="10"></textarea>
+
+      <button type="submit">{{{copy_create_btn}}}</button>
+          
+    </form>
+</div><!--pure-->

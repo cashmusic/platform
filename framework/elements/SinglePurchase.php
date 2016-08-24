@@ -233,7 +233,8 @@ class SinglePurchase extends ElementBase {
 					array(
 						'cash_request_type' => 'asset',
 						'cash_action' => 'getfulfillmentassets',
-						'asset_details' => $item['fulfillment_asset']
+						'asset_details' => $item['fulfillment_asset'],
+						'session_id' => $this->session_id
 					)
 				);
 				if ($fulfillment_request->response['payload']) {
@@ -268,7 +269,8 @@ class SinglePurchase extends ElementBase {
 							array(
 								'cash_request_type' => 'asset',
 								'cash_action' => 'getfulfillmentassets',
-								'asset_details' => $item['fulfillment_asset']
+								'asset_details' => $item['fulfillment_asset'],
+								'session_id' => $this->session_id
 							)
 						);
 						if ($fulfillment_request->response['payload']) {

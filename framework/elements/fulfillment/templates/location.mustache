@@ -1,9 +1,15 @@
+{{#error_message}}<div class="cm-error cash_{{element_type}}_error">{{copy_location_error}}</div>{{/error_message}}
 <div class="cm-fulfillment">
+{{^error_message}}
 <p>
    {{copy_location_required}}
 </p>
+{{/error_message}}
 <form id="cash_{{element_type}}_form_{{element_id}}" class="cm-form {{element_type}}" method="post" action="">
-   <input type="text" name="postalcode" value="" placeholder="{{copy_postal_code}}" class="cm-postalcode" /><select class="cm-select-country">
+   <input type="hidden" name="processcode" value="{{code}}" />
+   <input type="hidden" name="setlocation" value="1" />
+   <input type="hidden" name="order_id" value="{{fulfillment_order_id}}" />
+   <input type="text" name="postal_code" value="" placeholder="{{copy_postal_code}}" class="cm-postalcode" /><select name="country" class="cm-select-country">
       <option value="" selected="selected">{{copy_country_selector}}</option>
       <option value="US">United States</option>
       <option value="GB">United Kingdom</option>

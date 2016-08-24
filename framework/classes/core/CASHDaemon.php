@@ -51,7 +51,7 @@
 				'total_runs' 		=> 1,
 				'last_run' 			=> $this->runtime,
 				'last3_runs' 		=> array($this->runtime),
-				'last_sceduled'	=> array()
+				'last_scheduled'	=> array()
 			);
 		}
 	}
@@ -98,11 +98,11 @@
 				$target = strtotime($details['time']);
 				// in case of first run
 				$already_run = false;
-				if (isset($this->history['last_sceduled'][$key])) {
+				if (isset($this->history['last_scheduled'][$key])) {
 					// if we ran the job this same day OR within an hour of the deadline
 					// (within the hour so midnight jobs / timezones don't mess us up)
-					if (date('mdY',$this->history['last_sceduled'][$key]) == date('mdY') ||
-						abs($this->history['last_sceduled'][$key] - time()) < 3600) {
+					if (date('mdY',$this->history['last_scheduled'][$key]) == date('mdY') ||
+						abs($this->history['last_scheduled'][$key] - time()) < 3600) {
 						$already_run = true;
 					}
 				}
@@ -128,7 +128,7 @@
 				doSoundScanReport('physical');
 				break;
 		}
-		$this->history['last_sceduled'][$type] = time();
+		$this->history['last_scheduled'][$type] = time();
 	}
 
 	private function doSoundScanReport($type) {

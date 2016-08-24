@@ -29,9 +29,10 @@ class DownloadCodes extends ElementBase {
 				// get all fulfillment assets
 				$fulfillment_request = new CASHRequest(
 					array(
-						'cash_request_type' => 'asset', 
+						'cash_request_type' => 'asset',
 						'cash_action' => 'getfulfillmentassets',
-						'asset_details' => $this->element_data['asset_id']
+						'asset_details' => $this->element_data['asset_id'],
+						'session_id' => $this->session_id
 					)
 				);
 				if ($fulfillment_request->response['payload']) {
@@ -42,5 +43,5 @@ class DownloadCodes extends ElementBase {
 		}
 		return $this->element_data;
 	}
-} // END class 
+} // END class
 ?>
