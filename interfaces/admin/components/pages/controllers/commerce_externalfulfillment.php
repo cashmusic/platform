@@ -13,8 +13,6 @@ if (!empty($request_parameters[0])) {
     $action = $_REQUEST['action'] ? $_REQUEST['action'] : "show_index";
 }
 
-error_log("####!!! Action: $action");
-
 /**
  * Behind the scenes controller actions
  */
@@ -25,10 +23,6 @@ $external_fulfillment = new ExternalFulfillmentSeed($user_id);
 
 if ($action == "do_create") {
     // create the fulfillment job
-
-    error_log(
-        "do_create"
-    );
     
     $external_fulfillment->createOrContinueJob();
 
@@ -39,14 +33,6 @@ if ($action == "do_create") {
 if ($action == "do_upload") {
     // process uploads one by one; we're not setting a template here
     // because we're going to have it redirect on completion only
-
-    error_log(
-      "do_upload"
-    );
-
-    error_log("files:::: ".
-        print_r($_FILES['csv_upload'], true)
-    );
 
     if (!empty($_FILES['csv_upload'])) {
 
@@ -64,10 +50,6 @@ if ($action == "do_upload") {
 if ($action == "do_process" || $action == "process") {
     // we're renaming each tier, and actually doing the tier to order conversion here
     // attaching a release asset for fulfillment
-
-    error_log(
-        "do_process"
-    );
 
     $update = false;
 
@@ -93,14 +75,10 @@ if ($action == "do_mailing") {
         !empty($_REQUEST['email_url'])
         ) {
         //TODO: this should probably all be in a method
-        $fulfillment_job_id = 1; //$_REQUEST['fulfillment_job_id'];
 
-        $backers = $external_fulfillment->getBackersForJob($fulfillment_job_id);
+        $backers = $external_fulfillment->getBackersForJob($_REQUEST['fulfillment_job_id']);
 
         //$backers = array_slice($backers, 0, 500);
-
-        $recipients = [];
-        $merge_vars = [];
 
         // remove trailing slash from URLs
         $email_url = rtrim($_REQUEST['email_url'], "/");
@@ -112,44 +90,53 @@ if ($action == "do_mailing") {
             ]
         ];
 
-        foreach ($backers as $backer) {
-            $test_email = uniqid("email")."@".uniqid("domain").".com";
+        // let's break this up into 1000 at a time to make sure we don't overload the mandrill API
+        $chunky_backers = array_chunk($backers, 1000);
 
-            $recipients[] = [
-                'email' => $test_email, //['email'],
-                'name' => $backer['name']
-            ];
-
-            $merge_vars[] = [
-                'rcpt' => $test_email,//$backer['email'],
-                'vars' => [
-                    [
-                        'name' => 'code',
-                        'content' => $backer['lockcode']
-                    ]
-                ]
-            ];
-        }
-
-        error_log(
-            "shit " . print_r($recipients, true)
-        );
+        error_log( print_r($chunky_backers, true));
 
         $html_message = CASHSystem::parseMarkdown($_REQUEST['email_message']);
         $html_message .= "\n\n" . '<p><b><a href="*|URL|*/download/?code=*|CODE|*&handlequery=1">Download</a></b></p>';
 
         $subject = trim($_REQUEST['email_subject']);
 
-        CASHSystem::sendMassEmail(
-            $user_id,
-            $subject,
-            $recipients,
-            $html_message,
-            $subject,
-            $global_merge_vars,
-            $merge_vars,
-            false,
-            true);
+        foreach ($chunky_backers as $backers) {
+            $recipients = [];
+            $merge_vars = [];
+
+            foreach ($backers as $backer) {
+
+                $recipients[] = [
+                    'email' => $backer['email'],
+                    'name' => $backer['name']
+                ];
+
+                $merge_vars[] = [
+                    'rcpt' => $backer['email'],
+                    'vars' => [
+                        [
+                            'name' => 'code',
+                            'content' => $backer['lockcode']
+                        ]
+                    ]
+                ];
+            }
+
+            error_log("sendMassEmail START ".time());
+            CASHSystem::sendMassEmail(
+                $user_id,
+                $subject,
+                $recipients,
+                $html_message,
+                $subject,
+                $global_merge_vars,
+                $merge_vars,
+                false,
+                true);
+
+            error_log("sendMassEmail END ".time());
+
+        }
 
         $external_fulfillment
             ->createOrContinueJob(["pending", "sent"])
@@ -165,9 +152,6 @@ if ($action == "detail" && !empty($_REQUEST['fulfillment_job_id'])) $action = "d
 if ($action == "do_change") {
     // we're renaming each tier, and actually doing the tier to order conversion here
     // attaching a release asset for fulfillment
-    error_log(
-        "do_change"
-    );
 
     if (!empty($_REQUEST['fulfillment_job_id'])) {
 
@@ -198,8 +182,6 @@ if ($action == "do_change") {
 }
 
 if ($action == "do_delete" || $action == "delete") {
-
-    error_log("do_delete");
 
     if ($request_parameters[0] == "delete" &&
         is_numeric($request_parameters[1])
@@ -344,7 +326,7 @@ if ($action == "show_detail" || $action == "detail") {
 
 if ($action == "send") {
     $cash_admin->page_data['ui_title'] = 'Send mass email to backers';
-    $cash_admin->page_data['id'] = $request_parameters[0];
+    $cash_admin->page_data['id'] = $request_parameters[1];
 
     $cash_admin->setPageContentTemplate('commerce_externalfulfillment_send');
 }

@@ -377,7 +377,7 @@ class ExternalFulfillmentSeed extends SeedBase
 
         if (is_array($status)) {
 
-            $condition = [
+            $conditions = [
                 'user_id' => [
                     'condition' => '=',
                     'value' => $this->user_id
@@ -400,16 +400,14 @@ class ExternalFulfillmentSeed extends SeedBase
                 ]
             ];
         }
-        error_log("getFulfillmentJobByUserId .......");
 
         if (!$fulfillment_job = $this->db->getData(
             'external_fulfillment_jobs', '*', $conditions, 1, 'id DESC'
         )
         ) {
-            error_log("---- returned false");
+
             return false;
         } else {
-            error_log("---- returned true");
             // map some fields from the results
             $this->asset_id = $fulfillment_job[0]['asset_id'];
             $this->job_name = $fulfillment_job[0]['name'];
@@ -417,8 +415,6 @@ class ExternalFulfillmentSeed extends SeedBase
             $this->has_minimum_mappable_fields = (bool)$fulfillment_job[0]['has_minimum_mappable_fields'];
             $this->fulfillment_job = $fulfillment_job[0]['id'];
             $this->status = $fulfillment_job[0]['status'];
-
-            error_log("---- fulfillment job: " . $this->fulfillment_job);
 
             return true;
         }
@@ -500,10 +496,6 @@ class ExternalFulfillmentSeed extends SeedBase
     public function createOrContinueJob($status = false)
     {
 
-        if (CASH_DEBUG) {
-            error_log("Called createOrContinueJob");
-        }
-
         if ($this->getFulfillmentJobByUserId($status)) {
 
             $this->createOrGetSystemJob();
@@ -520,8 +512,6 @@ class ExternalFulfillmentSeed extends SeedBase
 
                 $this->job_name = $job_name;
             }
-
-            error_log("### existing fulfillment job " . $this->job_name);
 
             return $this;
         } else {
@@ -692,6 +682,8 @@ class ExternalFulfillmentSeed extends SeedBase
 
                 $shipped = isset($_REQUEST['tier_shipped'][$tier_id])
                     ? time() : 0;
+
+                //TODO: mark all orders under this tier as shipped
 
                 $conditions = [
                     'user_id' => [
