@@ -2212,6 +2212,7 @@ class CommercePlant extends PlantBase {
         $shipping_address_1=false,
         $shipping_address_2=false,
         $shipping_city=false,
+        $shipping_province=false,
         $shipping_postal=false,
         $shipping_country=false,
         $complete=false,
