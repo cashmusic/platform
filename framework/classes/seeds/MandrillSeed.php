@@ -28,15 +28,12 @@ class MandrillSeed extends SeedBase {
 		$this->connection_id = $connection_id;
 
 		if ($this->getCASHConnection()) {
-			error_log(
-				$this->settings->getSetting('api_key')
-			);
 
 			// check if the user has a connection for this service
 			if (!$this->api_key = $this->settings->getSetting('api_key')) {
 				return false;
 			}
-			error_log("key ".$this->api_key);
+
 			$this->api = new Mandrill($this->api_key);
 
 		} else {

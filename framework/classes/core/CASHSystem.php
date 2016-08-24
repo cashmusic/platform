@@ -845,13 +845,6 @@
 	 */
 	public static function renderMustache($template, $vars_array) {
 
-		if (CASH_DEBUG) {
-			error_log(
-				"CASHSystem::renderMustacheTemplate\n".
-				'$vars_array: '.print_r($vars_array, true)
-			);
-		}
-
 		// try to render the template with the provided vars, or die
 		$mustache_engine = new Mustache_Engine;
 		try {
@@ -1077,10 +1070,6 @@
 			empty($credentials['password'])
 		) {
 			return false;
-		}
-
-		if  (CASH_DEBUG) {
-			error_log("CASHSystem::uploadToFTP error: ");
 		}
 
 		// open the file or fail

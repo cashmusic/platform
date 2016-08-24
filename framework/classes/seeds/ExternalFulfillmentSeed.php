@@ -35,10 +35,6 @@ class ExternalFulfillmentSeed extends SeedBase
         $this->user_id = $user_id;
 
         if (!$this->db) $this->connectDB();
-
-        if (CASH_DEBUG) {
-            error_log("ExternalFulfillmentSeed loaded with user_id " . $this->user_id);
-        }
     }
 
     public function getUserJobs()
@@ -166,10 +162,6 @@ class ExternalFulfillmentSeed extends SeedBase
             ], $conditions);
         }
 
-        error_log(
-            print_r($conditions, true)
-        );
-
         if (!$order_count = $this->db->getData(
             'CommercePlant_getOrderCountByJob', false, $conditions
         )
@@ -207,14 +199,6 @@ class ExternalFulfillmentSeed extends SeedBase
     {
 
         $this->uploaded_files = $files;
-
-        if (CASH_DEBUG) {
-            error_log("parseUpload called (" . count($this->uploaded_files['name']) . " files.)");
-        }
-
-        error_log(
-            print_r($this->uploaded_files, true)
-        );
 
         for ($i = 0; $i < count($this->uploaded_files['name']); $i++) {
 
@@ -265,7 +249,6 @@ class ExternalFulfillmentSeed extends SeedBase
 
         // if we didn't find any of the fields we're looking for, we need to do this manually
         if (in_array(false, $this->minimum_field_requirements)) {
-            error_log("no minimum mappables");
             return false;
         }
 
@@ -325,9 +308,6 @@ class ExternalFulfillmentSeed extends SeedBase
         ) {
             return false;
         } else {
-            error_log(
-                'createFulfillmentJobbyjob ' . print_r($fulfillment_job, true)
-            );
 
             $this->fulfillment_job = $fulfillment_job;
             return true;
@@ -377,7 +357,7 @@ class ExternalFulfillmentSeed extends SeedBase
 
         if (is_array($status)) {
 
-            $condition = [
+            $conditions = [
                 'user_id' => [
                     'condition' => '=',
                     'value' => $this->user_id
@@ -400,16 +380,14 @@ class ExternalFulfillmentSeed extends SeedBase
                 ]
             ];
         }
-        error_log("getFulfillmentJobByUserId .......");
 
         if (!$fulfillment_job = $this->db->getData(
             'external_fulfillment_jobs', '*', $conditions, 1, 'id DESC'
         )
         ) {
-            error_log("---- returned false");
+
             return false;
         } else {
-            error_log("---- returned true");
             // map some fields from the results
             $this->asset_id = $fulfillment_job[0]['asset_id'];
             $this->job_name = $fulfillment_job[0]['name'];
@@ -417,8 +395,6 @@ class ExternalFulfillmentSeed extends SeedBase
             $this->has_minimum_mappable_fields = (bool)$fulfillment_job[0]['has_minimum_mappable_fields'];
             $this->fulfillment_job = $fulfillment_job[0]['id'];
             $this->status = $fulfillment_job[0]['status'];
-
-            error_log("---- fulfillment job: " . $this->fulfillment_job);
 
             return true;
         }
@@ -500,10 +476,6 @@ class ExternalFulfillmentSeed extends SeedBase
     public function createOrContinueJob($status = false)
     {
 
-        if (CASH_DEBUG) {
-            error_log("Called createOrContinueJob");
-        }
-
         if ($this->getFulfillmentJobByUserId($status)) {
 
             $this->createOrGetSystemJob();
@@ -520,8 +492,6 @@ class ExternalFulfillmentSeed extends SeedBase
 
                 $this->job_name = $job_name;
             }
-
-            error_log("### existing fulfillment job " . $this->job_name);
 
             return $this;
         } else {
@@ -550,10 +520,7 @@ class ExternalFulfillmentSeed extends SeedBase
             'external_fulfillment_jobs')
         ) {
 
-            if (CASH_DEBUG) {
-                error_log("New queue job created: " . $this->queue->job_id);
-            }
-
+            //
 
         } else {
             // return an error
@@ -625,10 +592,8 @@ class ExternalFulfillmentSeed extends SeedBase
         if (!$this->queue) {
 
             // there's no valid queue object, which means something went wrong when we tried to load or create
-            error_log("no valid queue object");
             return false;
         } else {
-            error_log("valid queue object");
             $this->system_job_id = $this->queue->job_id;
 
             if (!$this->has_minimum_mappable_fields) {
@@ -692,6 +657,8 @@ class ExternalFulfillmentSeed extends SeedBase
 
                 $shipped = isset($_REQUEST['tier_shipped'][$tier_id])
                     ? time() : 0;
+
+                //TODO: mark all orders under this tier as shipped
 
                 $conditions = [
                     'user_id' => [

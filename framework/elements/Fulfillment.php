@@ -87,14 +87,13 @@ class Fulfillment extends ElementBase {
 						array(
 							'cash_request_type' => 'commerce',
 							'cash_action' => 'getfulfillmentjobbytier',
-							'id' => $order_request->response['payload']['tier_id']
+							'tier_id' => $order_request->response['payload']['tier_id']
 						)
 					);
 					if ($job_request->response['payload']) {
-						$this->element_data['asset_id'] = $job_request->response['asset_id'];
+						$this->element_data['asset_id'] = $job_request->response['payload']['asset_id'];
 					}
 
-					 // TODO getAssetForFulfillmentOrder
 					if ($this->element_data['asset_id'] != 0) {
 						// get all fulfillment assets
 						$fulfillment_request = new CASHRequest(
@@ -110,14 +109,16 @@ class Fulfillment extends ElementBase {
 						}
 					}
 					// mark the order as complete with a timestamp
-					$order_request = new CASHRequest(
-						array(
-							'cash_request_type' => 'commerce',
-							'cash_action' => 'editfulfillmentorder',
-							'id' => $_REQUEST['order_id'],
-							'complete' => time()
-						)
-					);
+					if (!$order_request->response['payload']['complete']) {
+						$order_request = new CASHRequest(
+							array(
+								'cash_request_type' => 'commerce',
+								'cash_action' => 'editfulfillmentorder',
+								'id' => $this->element_data['fulfillment_order_id'],
+								'complete' => time()
+							)
+						);
+					}
 					$this->setTemplate('success');
 				} else {
 					// we don't know the location so let's ask
