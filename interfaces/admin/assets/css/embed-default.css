@@ -1556,6 +1556,55 @@ font-family: 'Montserrat', sans-serif!important;
   margin: 18px 0 0 0;
 }
 
+/* fulfillment success */
+
+.cashmusic.element .cm-fulfillment.cm-success{
+	max-width:700px;
+	margin:0 auto;
+}
+
+
+.cashmusic.element .cm-fulfillment.cm-success .cm-dwld-item a{
+  background:#00cf7f!important;
+  color:rgba(0,0,0,0.6)!important;
+  font-size: 12px!important;
+  margin:10px 6px!important;
+  padding:10px!important;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  text-decoration: underline;
+  -webkit-transition:  0.3s  ease-in-out;
+  -moz-transition:  0.3s  ease-in-out;
+  trasition:  0.3s ease-in-out;
+}
+
+.cashmusic.element .cm-fulfillment.cm-success .cm-dwld-item a:hover{
+	background: rgba(0,0,0,0.3)!important;
+	color:#fff!important;
+	text-decoration: none;
+}
+
+.cashmusic.element .cm-fulfillment.cm-success .cm-dwld-instructions{
+  font-family:'Montserrat',Helvetica,Arial,sans-serif!important;
+	padding:10px;
+	margin:10px 0;
+	font-size:18px;
+	line-height: 24px;
+	font-weight: 100;
+}
+
+.cashmusic.element .cm-fulfillment.cm-success .cm-dwld-item{
+	border-top: solid 1px rgba(0,0,0,0.1);
+	padding:20px 0;
+}
+
+.cashmusic.element .cm-fulfillment.cm-success .cm-dwld-item .cm-title{
+	font-size: 14px;
+	font-weight: 100;
+}
+
+
 /* -- Main Size -- */
 @media screen and (min-width: 275px) {
 
