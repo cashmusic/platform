@@ -104,23 +104,26 @@ if ($action == "do_mailing") {
 
             foreach ($backers as $backer) {
 
-                $recipients[] = [
-                    'email' => $backer['email'],
-                    'name' => "",//$backer['name']
-                ];
+                if ($backer['email'] != "") {
+                    $recipients[] = [
+                        'email' => $backer['email'],
+                        'name' => $backer['name']
+                    ];
 
-                $merge_vars[] = [
-                    'rcpt' => $backer['email'],
-                    'vars' => [
-                        [
-                            'name' => 'code',
-                            'content' => $backer['lockcode']
+                    $merge_vars[] = [
+                        'rcpt' => $backer['email'],
+                        'vars' => [
+                            [
+                                'name' => 'code',
+                                'content' => $backer['lockcode']
+                            ]
                         ]
-                    ]
-                ];
+                    ];
+                }
             }
 
-            CASHSystem::sendMassEmail(
+            error_log("count " . count($recipients));
+/*            CASHSystem::sendMassEmail(
                 $user_id,
                 $subject,
                 $recipients,
@@ -129,7 +132,7 @@ if ($action == "do_mailing") {
                 $global_merge_vars,
                 $merge_vars,
                 false,
-                true);
+                true);*/
 
         }
 
