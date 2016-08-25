@@ -122,7 +122,6 @@ if ($action == "do_mailing") {
                 }
             }
 
-            error_log("count " . count($recipients));
             CASHSystem::sendMassEmail(
                 $user_id,
                 $subject,
