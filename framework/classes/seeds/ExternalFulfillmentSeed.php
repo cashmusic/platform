@@ -13,7 +13,7 @@ class ExternalFulfillmentSeed extends SeedBase
         $this->mappable_fields = [];
         $this->has_minimal_mappable_fields = false;
 
-        // default for kickstarter imports
+/*        // default for kickstarter imports
         $this->mapped_fields = [
             'name' => 'Shipping Name',
             'email' => 'Email',
@@ -25,7 +25,22 @@ class ExternalFulfillmentSeed extends SeedBase
             'shipping_province' => 'Shipping State',
             'shipping_postal' => 'Shipping Postal',
             'shipping_country' => 'Shipping Country'
+        ];*/
+
+        // dumbshit
+        $this->mapped_fields = [
+            'name' => 'First Name',
+            'email' => 'E Mail',
+            //'price' => 'Pledge Amount',
+            'notes' => 'Notes',
+            'shipping_address_1' => 'Address 1',
+            'shipping_address_2' => 'Address 2',
+            'shipping_city' => 'City',
+            'shipping_province' => 'State/Province',
+            'shipping_postal' => 'ZIP/Postal Code',
+            'shipping_country' => 'Country'
         ];
+
 
         $this->minimum_field_requirements = [
             'name' => false,
@@ -233,16 +248,18 @@ class ExternalFulfillmentSeed extends SeedBase
     {
         // we need to check if these CSVs have the structure we're expecting
         //TODO: this needs to be more dynamic
-
+        //TODO: I added shitty shit for this that needs to be taken out
         if (
             in_array("Backer Name", $this->mappable_fields) ||
-            in_array("Shipping Name", $this->mappable_fields)
+            in_array("Shipping Name", $this->mappable_fields) ||
+            in_array("First Name", $this->mappable_fields)
         ) {
             $this->minimum_field_requirements['name'] = true;
         }
 
         if (
-        in_array("Email", $this->mappable_fields)
+        in_array("Email", $this->mappable_fields) ||
+        in_array("E Mail", $this->mappable_fields)
         ) {
             $this->minimum_field_requirements['email'] = true;
         }
@@ -436,12 +453,16 @@ class ExternalFulfillmentSeed extends SeedBase
             // fallback if it's empty or not set
             if (empty($order[$source_field])) {
 
-                // the ol' digital order switcheroo
+                if ($source_field == "First Name") {
+                    $source = $order['First Name'] . " " . $order['Last Name'];
+                }
+                //TODO: put this back in
+/*                // the ol' digital order switcheroo
                 if ($source_field == "Shipping Name") {
                     $source = empty($order["Backer Name"]) ? '' : $order["Backer Name"];
                 } else {
                     $source = "";
-                }
+                }*/
             }
 
             // either way this is now mapped correctly
