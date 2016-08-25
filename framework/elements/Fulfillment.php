@@ -115,7 +115,7 @@ class Fulfillment extends ElementBase {
 								'cash_request_type' => 'commerce',
 								'cash_action' => 'editfulfillmentorder',
 								'id' => $this->element_data['fulfillment_order_id'],
-								'complete' => time()
+								'complete' => max(time(),1472227200)
 							)
 						);
 					}
