@@ -122,8 +122,7 @@ if ($action == "do_mailing") {
                 }
             }
 
-            error_log("count " . count($recipients));
-/*            CASHSystem::sendMassEmail(
+            CASHSystem::sendMassEmail(
                 $user_id,
                 $subject,
                 $recipients,
@@ -132,7 +131,7 @@ if ($action == "do_mailing") {
                 $global_merge_vars,
                 $merge_vars,
                 false,
-                true);*/
+                true);
 
         }
 
