@@ -833,4 +833,6 @@ class ExternalFulfillmentSeed extends SeedBase
         }
     }
 
+    //TODO: mark shipped physical tier orders as complete
+
 }

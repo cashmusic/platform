@@ -16,7 +16,7 @@
  **/
 class MandrillSeed extends SeedBase {
 	private $api;
-	public $api_key, $error_code=false, $error_message=false;
+	public $api_key, $api_email, $error_code=false, $error_message=false;
 
 	public function __construct($user_id, $connection_id=false) {
 
@@ -34,6 +34,7 @@ class MandrillSeed extends SeedBase {
 				return false;
 			}
 
+			$this->api_email = $this->settings->getSetting('api_email');
 			$this->api = new Mandrill($this->api_key);
 
 		} else {
@@ -72,6 +73,8 @@ class MandrillSeed extends SeedBase {
 //				. '<input type="hidden" name="settings_type" value="com.mandrillapp" />'
 				. '<label for="merchant_email">Your Mandrill API key:</label>'
 				. '<input type="text" name="api_key" id="api_key" value="" class="required" />'
+				. '<label for="merchant_email">Mandrill from email:</label>'
+				. '<input type="text" name="api_email" id="api_email" value="" class="required" />'
 				. '<br />'
 				. '<div><input class="button" type="submit" value="Add The Connection" /></div>'
 				. '</form>';
@@ -94,10 +97,11 @@ class MandrillSeed extends SeedBase {
 			// calls would only happen in the admin. If this changes we can fuck around with it later.
 			$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
 			$result = $new_connection->setSettings(
-				$data['api_key'] . ' (Mandrill)',
+				$data['api_email'] . ' (Mandrill)',
 				'com.mandrillapp',
 				array(
-					'api_key' => $data['api_key']
+					'api_key' => $data['api_key'],
+					'api_email' => $data['api_email']
 				)
 			);
 			if (!$result) {
@@ -112,7 +116,7 @@ class MandrillSeed extends SeedBase {
 
 			return array(
 				'id' => $result,
-				'name' => $data['api_key'] . ' (Mandrill)',
+				'name' => $data['api_email'] . ' (Mandrill)',
 				'type' => 'com.mandrillapp'
 			);
 		}
@@ -181,18 +185,45 @@ class MandrillSeed extends SeedBase {
 			}
 		}
 
+		// this should be the mandrill "sender email", else default to system
 		$email_settings = CASHSystem::getDefaultEmail(true);
 		$sender = CASHSystem::parseEmailAddress($email_settings['systememail']);
+		$sender_email = $this->api_email ? $this->api_email : key($sender);
+
+		if ($this->user_id) {
+			// get current user details for email
+			$user_request = new CASHRequest(
+				array(
+					'cash_request_type' => 'people',
+					'cash_action' => 'getuser',
+					'user_id' => $this->user_id
+				)
+			);
+
+			$user_details = $user_request->response['payload'];
+
+			$from_name = $user_details['display_name'];
+			$from_address = $user_details['email_address'];
+
+			if ($user_details['display_name'] == 'Anonymous' || !$user_details['display_name']) {
+				$from_name = $user_details['email_address'];
+			}
+
+		} else {
+			// we're testing so let's just fake this for now
+
+			$user_details['email_address'] = 'info@cashmusic.org';
+			$user_details['display_name'] = 'Testing CASH Mailer';
+		}
 
 		$message = array(
 			"html" => $message_html,
 			"text" => $message_txt,
 			"subject" => $subject,
 			'headers' => array('Reply-To' => $from_address),
-			"from_email" => key($sender),
+			"from_email" => $sender_email,
 			"from_name" => $from_name,
 			"to" => $recipients,
-			"headers" => null,
 			"track_opens" => true,
 			"track_clicks" => true,
 			"auto_text" => false,
