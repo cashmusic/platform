@@ -708,28 +708,6 @@
 
 	public static function sendMassEmail($user_id, $subject, $recipients, $message_text, $message_title, $global_merge_vars=false, $merge_vars=false, $encoded_html=false, $message_text_html=true) {
 
-		if ($user_id) {
-			// get current user details for email
-			$user_request = new CASHRequest(
-				array(
-					'cash_request_type' => 'people',
-					'cash_action' => 'getuser',
-					'user_id' => $user_id
-				)
-			);
-
-			$user_details = $user_request->response['payload'];
-
-			if ($user_details['display_name'] == 'Anonymous' || !$user_details['display_name']) {
-				$user_details['display_name'] = $user_details['email_address'];
-			}
-		} else {
-			// we're testing so let's just fake this for now
-
-			$user_details['email_address'] = 'tom@paperscissorsandglue.com';
-			$user_details['display_name'] = 'Testing CASH Mailer';
-		}
-
 		// handle encoding of HTML if specific HTML isn't passed in:
 		if (!$encoded_html) {
 
@@ -783,8 +761,8 @@
 				$subject,
 				$message_text,
 				$message_html,
-				$user_details['email_address'],
-				$user_details['display_name'],
+				false, // email address (reply-to)
+				false, // display name (reply-to)
 				$recipients,
 				null,
 				$global_merge_vars,
