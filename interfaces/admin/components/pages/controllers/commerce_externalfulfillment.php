@@ -94,7 +94,7 @@ if ($action == "do_mailing") {
         $chunky_backers = array_chunk($backers, 1000);
 
         $html_message = CASHSystem::parseMarkdown($_REQUEST['email_message']);
-        $html_message .= "\n\n" . '<p><b><a href="*|URL|*/download/?code=*|CODE|*&handlequery=1">Download</a></b></p>';
+        $html_message .= "\n\n" . '<p><b><a href="*|URL|*?code=*|CODE|*&handlequery=1">Download</a></b></p>';
 
         $subject = trim($_REQUEST['email_subject']);
 
