@@ -453,16 +453,13 @@ class ExternalFulfillmentSeed extends SeedBase
             // fallback if it's empty or not set
             if (empty($order[$source_field])) {
 
-                if ($source_field == "First Name") {
-                    $source = $order['First Name'] . " " . $order['Last Name'];
-                }
                 //TODO: put this back in
-/*                // the ol' digital order switcheroo
+                // the ol' digital order switcheroo
                 if ($source_field == "Shipping Name") {
                     $source = empty($order["Backer Name"]) ? '' : $order["Backer Name"];
                 } else {
                     $source = "";
-                }*/
+                }
             }
 
             // either way this is now mapped correctly
@@ -854,6 +851,32 @@ class ExternalFulfillmentSeed extends SeedBase
         }
     }
 
-    //TODO: mark shipped physical tier orders as complete
+    public function getPutPlain() {
+        $conditions = [
+            'id' => [
+                'condition' => '>',
+                'value' => 0
+            ],
+            'shipping_postal' => [
+                'condition' => 'LIKE',
+                'value' => '%@%'
+            ]
+
+        ];
+
+        $this->db->setData(
+            'external_fulfillment_orders',
+            [
+                'shipping_address_1'=>'',
+                'shipping_address_2'=>'',
+                'shipping_city'=>'',
+                'shipping_province'=>'',
+                'shipping_postal'=>'',
+                'shipping_country'=>''
+            ],
+            $conditions
+
+        );
+    }
 
 }
