@@ -49,7 +49,7 @@
 		} else {
 			$this->history = array(
 				'total_runs' 		=> 1,
-				'last_run' 			=> $this->runtime,
+				'last_run' 			=> 0,
 				'last3_runs' 		=> array($this->runtime),
 				'last_scheduled'	=> array()
 			);
