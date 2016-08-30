@@ -1,4 +1,15 @@
 <?php
+$fix_response = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'commerce',
+		'cash_action' => 'dothefixandstuff'
+	)
+);
+
+
+
+
+
 /*******************************************************************************
  *
  * 1. SET UP SCRIPT VARIABLES
