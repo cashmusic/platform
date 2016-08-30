@@ -4,6 +4,9 @@
  * The Soundscan class creates a report from passed orders,
  * then uploads the report to their FTP via CASH Daemon scheduling
  *
+ * Internet/Mail Order (IMO) runs on a Tuesday-Monday reporting schedule with reports due in by 1:00pm ET on Tuesdays.
+ * Digital runs Friday-Thursday, with reports due in no later than 1:00pm ET on Fridays.
+ *
  * @package platform.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
@@ -88,7 +91,7 @@ class SoundScanSeed extends SeedBase
             // first 2 characters of each line are record type "M3"
             // loop through each order and dump UPC and zip
             // end each line with sale ("S") or return ("R")
-            $this->report .= "M3" . $order[0] . $order[1] . "S\n";
+            $this->report .= "M3" . $order['upc'] . substr($order['postal'], 0, 5). "S\n";
         }
 
         return $this;

@@ -783,13 +783,16 @@ class ExternalFulfillmentSeed extends SeedBase
      *
      * @param $timestamp
      */
-    public static function getOrders($timestamp = 0, $physical = true)
+    public static function getOrders($start_date=0, $end_date=0, $physical=true)
     {
-
         $conditions = [
-            'creation_date' => [
-                'condition' => '>',
-                'value' => $timestamp
+            'start_date' => [
+                'condition' => '=',
+                'value' => $start_date
+            ],
+            'end_date' => [
+                'condition' => '=',
+                'value' => $end_date
             ],
             'physical' => [
                 'condition' => '=',
@@ -849,34 +852,6 @@ class ExternalFulfillmentSeed extends SeedBase
         } else {
             return $backers;
         }
-    }
-
-    public function getPutPlain() {
-        $conditions = [
-            'id' => [
-                'condition' => '>',
-                'value' => 0
-            ],
-            'shipping_postal' => [
-                'condition' => 'LIKE',
-                'value' => '%@%'
-            ]
-
-        ];
-
-        $this->db->setData(
-            'external_fulfillment_orders',
-            [
-                'shipping_address_1'=>'',
-                'shipping_address_2'=>'',
-                'shipping_city'=>'',
-                'shipping_province'=>'',
-                'shipping_postal'=>'',
-                'shipping_country'=>''
-            ],
-            $conditions
-
-        );
     }
 
 }
