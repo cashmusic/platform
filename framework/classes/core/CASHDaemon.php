@@ -153,7 +153,7 @@
 				CASHSystem::sendEmail(
 					 'The job ran perfectly.',
 					 1,
-					 'info@cashmusic.org',
+					 'jesse@cashmusic.org',
 					 'None of this really matters.',
 					 'It worked.'
 				);
