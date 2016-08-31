@@ -32,6 +32,10 @@
 		"soundscan-physical" => array(
 			"type" => "tuesday",
 			"time" => "3:00 AM America/Los_Angeles"
+		),
+		"test" => array(
+			"type" => "wednesday",
+			"time" => "10:10 AM America/Los_Angeles"
 		)
 	);
 
@@ -127,7 +131,6 @@
 				}
 				// if it hasn't already been run AND we're within the max span (+15%) of
 				// the scheduled run time then we go. (the max span stuff is an attempt
-				// to balance for slowed traffic load...)
 				if ((!$already_run && ($this->runtime + $max_span) > $target) || $overdue) {
 					$this->runScheduledJob($key);
 				}
@@ -145,6 +148,15 @@
 				break;
 			case 'soundscan-physical':
 				$this->doSoundScanReport('physical');
+				break;
+			case 'test':
+				CASHSystem::sendEmail(
+					 'The job ran perfectly.',
+					 1,
+					 'info@cashmusic.org',
+					 'None of this really matters.',
+					 'It worked.'
+				);
 				break;
 		}
 		$this->history['last_scheduled'][$type] = time();
