@@ -1092,14 +1092,13 @@
 	public static function uploadStringToFTP($string, $filename, $credentials, $protocol='ftp') {
 
 		// do we even have credentials?
-		if (empty($credentials) ||
-			empty($credentials['domain']) ||
+		if (empty($credentials['domain']) ||
 			empty($credentials['username']) ||
 			empty($credentials['password'])
 		) {
 
 			if  (CASH_DEBUG) {
-				error_log("CASHSystem::uploadToFTP error: ");
+				error_log("CASHSystem::uploadToFTP is missing required parameters");
 			}
 
 			return false;
@@ -1135,7 +1134,8 @@
 		$error_no = curl_errno($ch);
 
 		if  (CASH_DEBUG) {
-			error_log("CASHSystem::uploadToFTP result: ". $error_no);
+			$error = curl_error($ch);
+			error_log("CASHSystem::uploadToFTP result: ". $error);
 		}
 
 		curl_close($ch);

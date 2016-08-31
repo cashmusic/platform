@@ -26,6 +26,9 @@ class SoundScanSeed extends SeedBase
         $this->report = '';
         $this->total_items = 0;
 
+        $this->end_date = $end_date;
+        $this->orders = $orders;
+
         $this->report_type = $report_type ? $report_type : "physical";
 
         // get account identifiers and ftp information
@@ -52,6 +55,9 @@ class SoundScanSeed extends SeedBase
 
                 $this->ftp_user = $c['digital_ftp_user'];
                 $this->ftp_password = $c['digital_ftp_password'];
+
+                // reformat the orders to make digital reporting not as dumberly
+                $this->formatDigitalOrders();
             }
 
         } else {
@@ -60,9 +66,6 @@ class SoundScanSeed extends SeedBase
             );
             return false;
         }
-
-        $this->end_date = $end_date;
-        $this->orders = $orders;
     }
 
     private function addHeader() {
@@ -91,7 +94,7 @@ class SoundScanSeed extends SeedBase
             // first 2 characters of each line are record type "M3"
             // loop through each order and dump UPC and zip
             // end each line with sale ("S") or return ("R")
-            $this->report .= "M3" . $order['upc'] . substr($order['postal'], 0, 5). "S\n";
+            $this->report .= "M3" . $order['upc'] . $this->stripPostalCode($order['postal']). "S\n";
         }
 
         return $this;
@@ -99,23 +102,23 @@ class SoundScanSeed extends SeedBase
 
     private function parseOrdersDigital() {
 
-        foreach ($this->orders as $order) {
+        //foreach ($this->orders as $order) {
             // pipe delimited
             // first 2 characters of each line are record type "D3"
             // loop through each order, then contents, and dump
             // D3 | UPC (if album) | ZIP | S/R (sale/return) | # in order (3 digits, left pad) | ISRC (if single) | PRICE | S/A (single/album) | P/M (PC/web or Mobile)
             $itemcount = 1;
-            foreach ($order as $item) {
+            foreach ($this->orders as $item) {
                 $output = "D3" . "|";
                 if ($item[0] == 'A') {
-                    $output .= $item[1] . "|" . $item[2] . "|S|" . str_pad($itemcount,3,'0',STR_PAD_LEFT) . "||" . $item[3] . "|" . $item[0] . "|P\n";
+                    $output .= $item[1] . "|" . $this->stripPostalCode($item[2]) . "|S|" . str_pad($itemcount,3,'0',STR_PAD_LEFT) . "||" . $item[3] . "|" . $item[0] . "|P\n";
                 } else {
                     $output .= "|" . $item[2] . "|S|" . str_pad($itemcount,3,'0',STR_PAD_LEFT) . "|" . $item[1] . "|" . $item[3] . "|" . $item[0] . "|P\n";
                 }
                 $this->report .= $output;
                 $this->total_items++;
-                $itemcount++;
-            }
+                //$itemcount++;
+            //}
         }
 
         return $this;
@@ -135,7 +138,7 @@ class SoundScanSeed extends SeedBase
         // first 2 characters are record type "94"
         // left-padded total transactions
         // left-padded total units (net, actually...but fuck a return)
-        echo "94|" . $this->total_items . "|" . $this->total_items . "\n";
+        $this->report .=  "94|" . $this->total_items . "|" . $this->total_items . "\n";
 
         return $this;
     }
@@ -166,11 +169,11 @@ class SoundScanSeed extends SeedBase
         echo nl2br($this->report);
         file_put_contents("/var/www/".$this->filename, $this->report);
 
-        if (!CASHSystem::uploadStringToFTP($this->report, $this->filename, "sftp", [
-            'domain' => '', //$this->ftp_domain
-            'username' => '', //$this->ftp_user
-            'password' => '' //$this->ftp_password
-        ])) {
+        if (!CASHSystem::uploadStringToFTP($this->report, $this->filename, [
+            'domain' => $this->ftp_domain,
+            'username' => $this->ftp_user,
+            'password' =>$this->ftp_password
+        ], "sftp")) {
             // something did not work out right
             error_log(
                 'omg lol rotfl'
@@ -178,5 +181,25 @@ class SoundScanSeed extends SeedBase
         }
 
         return $this;
+    }
+
+    private function formatDigitalOrders() {
+
+        foreach ($this->orders as $order) {
+            // album(A) or single(S), ISRC/UPC, zip (no +4. first 5 digits only), price (4 digits in pennies)
+            $orders_formatted[] = [
+                'A',
+                $order['upc'],
+                $order['postal'],
+                $order['price']
+            ];
+        }
+
+        $this->orders = $orders_formatted;
+    }
+
+    private function stripPostalCode($postal) {
+        // USA USA USA USA USA USA!!!!
+        return substr($postal, 0, 5);
     }
 }
