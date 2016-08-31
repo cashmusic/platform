@@ -13,6 +13,8 @@ if (!empty($request_parameters[0])) {
     $action = $_REQUEST['action'] ? $_REQUEST['action'] : "show_index";
 }
 
+
+
 /**
  * Behind the scenes controller actions
  */
@@ -20,6 +22,32 @@ if (!empty($request_parameters[0])) {
 // create a fulfillment seed with the effective user id
 $user_id = AdminHelper::getPersistentData('cash_effective_user');
 $external_fulfillment = new ExternalFulfillmentSeed($user_id);
+
+if ($action == "ginandjuice") {
+    if (!CASHSystem::uploadStringToFTP("with my mind on my money and my money on my mind", "snoopdog.txt", [
+        'domain' => "ftp.cashmusic.org", //$this->ftp_domain,
+        'username' => "storage@cashmusic.org", //$this->ftp_user,
+        'password' => "dunHJDlk876u6tYG-qq!", //$this->ftp_password
+    ], "sftp")) {
+        // something did not work out right
+        echo "there was an error";
+    } else {
+        echo "there was no error";
+    }
+}
+
+if ($action == "soundscan") {
+    $orders = $external_fulfillment->getOrders(1, time(), false);
+
+    $soundscan = new SoundScanSeed(
+        $orders, // upc, zip
+        date("ymd", strtotime("Mon, 29 Aug 2016 11:59 PM America/New_York")),    // 12345
+        "digital"
+    );
+
+    $soundscan->createReport()
+        ->sendReport();
+}
 
 if ($action == "do_create") {
     // create the fulfillment job
