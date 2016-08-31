@@ -32,10 +32,6 @@
 		"soundscan-physical" => array(
 			"type" => "tuesday",
 			"time" => "3:00 AM America/Los_Angeles"
-		),
-		"test" => array(
-			"type" => "wednesday",
-			"time" => "10:10 AM America/Los_Angeles"
 		)
 	);
 
@@ -148,15 +144,6 @@
 				break;
 			case 'soundscan-physical':
 				$this->doSoundScanReport('physical');
-				break;
-			case 'test':
-				CASHSystem::sendEmail(
-					 'The job ran perfectly.',
-					 1,
-					 'jesse@cashmusic.org',
-					 'None of this really matters.',
-					 'It worked.'
-				);
 				break;
 		}
 		$this->history['last_scheduled'][$type] = time();
