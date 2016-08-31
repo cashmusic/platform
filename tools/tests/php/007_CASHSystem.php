@@ -111,6 +111,7 @@ class CASHSystemTests extends UnitTestCase {
 /*		$cash_request = new CASHConnection(1);
 		$mandrill = $cash_request->getConnectionsByType('com.mandrillapp');*/
 
+		/*
 		$this->assertTrue(
 			CASHSystem::sendMassEmail(
 			false,
@@ -123,6 +124,7 @@ class CASHSystemTests extends UnitTestCase {
 			"Hey guys this is a bulk email test",
 			"If you're seeing this, shit is working just fine. 500 errors be damned", [], [])
 		);
+		*/
 	}
 
 }

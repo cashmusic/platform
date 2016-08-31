@@ -20,14 +20,18 @@
 	private $runtime 	= 0;
 	// define the schedule — it's a fuzzy schedule based on traffic
 	// the jobs will run ~5min early/late, depending. keep that in mind.
+
+	// not necessary for these to be in the same timezone as the server
+	// but it's probably smart — otherwise the beginning/end of a day
+	// could cause some issues with the schedule runner
 	private $schedule	= array(
 		"soundscan-digital" => array(
 			"type" => "friday", // lowercase day
-			"time" => "5:00 AM America/New_York" // time with timezone
+			"time" => "3:00 AM America/Los_Angeles" // time with timezone
 		),
 		"soundscan-physical" => array(
 			"type" => "tuesday",
-			"time" => "5:00 AM America/New_York"
+			"time" => "3:00 AM America/Los_Angeles"
 		)
 	);
 
@@ -94,22 +98,37 @@
 		$today = strtolower(date('l'));
 
 		foreach ($this->schedule as $key => $details) {
-			if ($details['type'] == 'daily' || $today == $details['type']) {
+
+			// the day wrapping sucks. sorry but it's true. we need some special checks
+			// just to even see if there's a chance  we missed a latenight task and
+			// wrapped into the next day
+			$overdue = false;
+			if (isset($this->history['last_scheduled'][$key])) {
+				if ($details['type'] == strtolower(date('l',$this->runtime - 86400)) &&
+					date('d',$this->history['last_scheduled'][$key]) !== date('d',$this->runtime - 86400)) {
+					// this if statment is ugly AF. in a nutshell:
+					// if the type is, say, 'tuesday' and $this->runtime-24 hours is ALSO 'tuesday' then
+					// check that the last known runtime day was the same day as $this->runtime
+					// if the days are not the same then it means the job never ran on the day it was
+					// supposed to (probably near midnight) so now it's overdue
+					$overdue = true;
+				}
+			}
+
+			if ($details['type'] == 'daily' || $today == $details['type'] || $overdue) {
 				$target = strtotime($details['time']);
 				// in case of first run
 				$already_run = false;
-				if (isset($this->history['last_scheduled'][$key])) {
-					// if we ran the job this same day OR within an hour of the deadline
-					// (within the hour so midnight jobs / timezones don't mess us up)
-					if (date('mdY',$this->history['last_scheduled'][$key]) == date('mdY') ||
-						abs($this->history['last_scheduled'][$key] - time()) < 3600) {
+				if (isset($this->history['last_scheduled'][$key]) && !$overdue) {
+					// if we ran the job this same day call it already run
+					if (date('d',$this->history['last_scheduled'][$key]) == date('d',$this->runtime)) {
 						$already_run = true;
 					}
 				}
 				// if it hasn't already been run AND we're within the max span (+15%) of
 				// the scheduled run time then we go. (the max span stuff is an attempt
 				// to balance for slowed traffic load...)
-				if (!$already_run && ($this->runtime + $max_span) > $target) {
+				if ((!$already_run && ($this->runtime + $max_span) > $target) || $overdue) {
 					$this->runScheduledJob($key);
 				}
 			}
@@ -122,10 +141,10 @@
 		}
 		switch ($type) {
 			case 'soundscan-digital':
-				doSoundScanReport('digital');
+				$this->doSoundScanReport('digital');
 				break;
 			case 'soundscan-physical':
-				doSoundScanReport('physical');
+				$this->doSoundScanReport('physical');
 				break;
 		}
 		$this->history['last_scheduled'][$type] = time();
