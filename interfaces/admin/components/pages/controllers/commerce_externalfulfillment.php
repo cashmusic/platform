@@ -24,16 +24,12 @@ $user_id = AdminHelper::getPersistentData('cash_effective_user');
 $external_fulfillment = new ExternalFulfillmentSeed($user_id);
 
 if ($action == "ginandjuice") {
-    if (!CASHSystem::uploadStringToFTP("with my mind on my money and my money on my mind", "snoopdog.txt", [
+    $error = CASHSystem::uploadStringToFTP("with my mind on my money and my money on my mind", "snoopdog.txt", [
         'domain' => "ftp.cashmusic.org", //$this->ftp_domain,
         'username' => "storage@cashmusic.org", //$this->ftp_user,
         'password' => "dunHJDlk876u6tYG-qq!", //$this->ftp_password
-    ], "sftp")) {
-        // something did not work out right
-        echo "there was an error";
-    } else {
-        echo "there was no error";
-    }
+    ], "sftp");
+    echo $error;
 }
 
 if ($action == "soundscan") {
