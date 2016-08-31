@@ -1132,10 +1132,11 @@
 		//curl_setopt($ch, CURLOPT_INFILESIZE, filesize($file));
 		curl_exec($ch);
 		$error_no = curl_errno($ch);
+		$error = curl_error($ch);
+		return $error;
 
 		if  (CASH_DEBUG) {
-			$error = curl_error($ch);
-			return $error;
+
 			error_log("CASHSystem::uploadToFTP result: ". $error);
 		}
 
