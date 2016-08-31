@@ -1135,6 +1135,7 @@
 
 		if  (CASH_DEBUG) {
 			$error = curl_error($ch);
+			return $error;
 			error_log("CASHSystem::uploadToFTP result: ". $error);
 		}
 
