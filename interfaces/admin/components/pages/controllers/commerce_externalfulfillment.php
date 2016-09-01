@@ -21,7 +21,7 @@ if (!empty($request_parameters[0])) {
 
 // create a fulfillment seed with the effective user id
 $user_id = AdminHelper::getPersistentData('cash_effective_user');
-$external_fulfillment = new ExternalFulfillmentSeed($user_id);
+$external_fulfillment = new ExternalFulfillmentSeed();
 
 
 if ($action == "soundscan") {
