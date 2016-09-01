@@ -32,10 +32,6 @@
 		"soundscan-physical" => array(
 			"type" => "tuesday",
 			"time" => "3:00 AM America/New_York"
-		),
-		"test-asks9-soundscan-digital" => array(
-			"type" => "thursday",
-			"time" => "1:38 PM America/Los_Angeles"
 		)
 	);
 
@@ -148,9 +144,6 @@
 				break;
 			case 'soundscan-physical':
 				$this->doSoundScanReport('physical');
-				break;
-			case 'test-asks9-soundscan-digital':
-				$this->doSoundScanReport('digital');
 				break;
 		}
 		$this->history['last_scheduled'][$type] = time();
