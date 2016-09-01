@@ -167,9 +167,34 @@ class SoundScanSeed extends SeedBase
 
         // just test this shit for now
         echo nl2br($this->report);
-        file_put_contents("/var/www/".$this->filename, $this->report);
+        //file_put_contents("/var/www/".$this->filename, $this->report);
 
-        if (!CASHSystem::uploadStringToFTP($this->report, $this->filename, [
+        CASHSystem::sendEmail(
+            $this->report_type.' Soundscan report run.',
+            1,
+            'tom@cashmusic.org',
+            nl2br($this->report),
+            $this->report_type.' Soundscan report run.'
+        );
+
+/*        CASHSystem::sendEmail(
+            $this->report_type.' Soundscan report run.',
+            1,
+            'jesse@cashmusic.org',
+            nl2br($this->report),
+            $this->report_type.' Soundscan report run.'
+        );
+
+        CASHSystem::sendEmail(
+            $this->report_type.' Soundscan report run.',
+            1,
+            'chris@cashmusic.org',
+            nl2br($this->report),
+            $this->report_type.' Soundscan report run.'
+        );*/
+
+
+        /*        if (!CASHSystem::uploadStringToFTP($this->report, $this->filename, [
             'domain' => $this->ftp_domain,
             'username' => $this->ftp_user,
             'password' =>$this->ftp_password
@@ -178,7 +203,7 @@ class SoundScanSeed extends SeedBase
             error_log(
                 'omg lol rotfl'
             );
-        }
+        }*/
 
         return $this;
     }
