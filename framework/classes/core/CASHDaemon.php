@@ -35,7 +35,7 @@
 		),
 		"test-asks9-soundscan-digital" => array(
 			"type" => "thursday",
-			"time" => "1:32 PM America/Los_Angeles"
+			"time" => "1:38 PM America/Los_Angeles"
 		)
 	);
 
