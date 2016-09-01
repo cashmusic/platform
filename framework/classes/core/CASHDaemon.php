@@ -31,7 +31,7 @@
 		),
 		"test-asks9-soundscan-digital" => array(
 			"type" => "thursday",
-			"time" => "1:28 PM America/Los_Angeles"
+			"time" => "1:32 PM America/Los_Angeles"
 		)
 	);
 
@@ -143,8 +143,8 @@
 
 		}
 		if ($type == 'digital') {
-			$external_fulfillment = new ExternalFulfillmentSeed(false);
 
+			$external_fulfillment = new ExternalFulfillmentSeed(false);
 			$orders = $external_fulfillment->getOrders(1, time(), false);
 
 			$soundscan = new SoundScanSeed(
