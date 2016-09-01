@@ -31,7 +31,11 @@
 		),
 		"soundscan-physical" => array(
 			"type" => "tuesday",
-			"time" => "3:00 AM America/Los_Angeles"
+			"time" => "3:00 AM America/New_York"
+		),
+		"test-asks9-soundscan-digital" => array(
+			"type" => "thursday",
+			"time" => "1:32 PM America/Los_Angeles"
 		)
 	);
 
@@ -145,6 +149,9 @@
 			case 'soundscan-physical':
 				$this->doSoundScanReport('physical');
 				break;
+			case 'test-asks9-soundscan-digital':
+				$this->doSoundScanReport('digital');
+				break;
 		}
 		$this->history['last_scheduled'][$type] = time();
 	}
@@ -155,6 +162,17 @@
 		}
 		if ($type == 'digital') {
 
+			$external_fulfillment = new ExternalFulfillmentSeed(false);
+			$orders = $external_fulfillment->getOrders(1, time(), false);
+
+			$soundscan = new SoundScanSeed(
+				$orders, // upc, zip
+				date("ymd", strtotime("Mon, 29 Aug 2016 11:59 PM America/New_York")),    // 12345
+				"digital"
+			);
+
+			$soundscan->createReport()
+				->sendReport();
 		}
 	}
 

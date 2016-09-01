@@ -5,7 +5,7 @@ class ExternalFulfillmentSeed extends SeedBase
     public $user_id, $system_job_id, $fulfillment_job, $job_name, $status, $queue;
     private $uploaded_files, $raw_data, $parsed_data, $mappable_fields, $mapped_fields, $minimum_field_requirements;
 
-    public function __construct($user_id)
+    public function __construct($user_id=false)
     {
 
         $this->raw_data = [];

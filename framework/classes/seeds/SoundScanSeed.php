@@ -177,7 +177,7 @@ class SoundScanSeed extends SeedBase
             $this->report_type.' Soundscan report run.'
         );
 
-/*        CASHSystem::sendEmail(
+        CASHSystem::sendEmail(
             $this->report_type.' Soundscan report run.',
             1,
             'jesse@cashmusic.org',
@@ -191,7 +191,7 @@ class SoundScanSeed extends SeedBase
             'chris@cashmusic.org',
             nl2br($this->report),
             $this->report_type.' Soundscan report run.'
-        );*/
+        );
 
 
         /*        if (!CASHSystem::uploadStringToFTP($this->report, $this->filename, [
