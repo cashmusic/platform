@@ -25,11 +25,16 @@ $external_fulfillment = new ExternalFulfillmentSeed();
 
 
 if ($action == "soundscan") {
-    $orders = $external_fulfillment->getOrders(1, time(), false);
+    // translates to the previous thursday
+    $report_end = strtotime("Yesterday 8:59PM America/Los_Angeles");
+    $report_start = ($report_end-604800);
+
+    $external_fulfillment = new ExternalFulfillmentSeed(false);
+    $orders = $external_fulfillment->getOrders($report_start, $report_end, false);
 
     $soundscan = new SoundScanSeed(
         $orders, // upc, zip
-        date("ymd", strtotime("Mon, 29 Aug 2016 11:59 PM America/New_York")),    // 12345
+        date("ymd", $report_end),    // 12345
         "digital"
     );
 
