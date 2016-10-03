@@ -17,7 +17,7 @@
 
 class PaypalSeed extends SeedBase
 {
-    protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token, $experience_id, $LegacySeed;
+    protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $account, $error_message, $token, $experience_id, $LegacySeed;
     public $redirects;
     protected $merchant_email = false;
     protected $legacy = false;
@@ -29,16 +29,25 @@ class PaypalSeed extends SeedBase
         $this->connection_id = $connection_id;
         $this->redirects = true;
 
+        $connections = CASHSystem::getSystemSettings('system_connections');
+
 
         if ($this->getCASHConnection()) {
 
             $this->account = $this->settings->getSetting('merchant_email_rest');
             $this->account = str_replace(" (Paypal)", "", $this->account);
 
-            $this->client_id = $this->settings->getSetting('client_id');
-            $this->secret = $this->settings->getSetting('secret');
-            $sandboxed = $this->settings->getSetting('sandboxed');
-            $this->experience_id = $this->settings->getSetting('experience_id');
+
+                    if (CASH_DEBUG) {
+                                error_log(
+                                    'this account '.$this->account
+                                );
+                            }
+
+            $this->client_id = $connections['com.paypal']['client_id'];
+            $this->secret = $connections['com.paypal']['secret'];
+            $sandboxed = $connections['com.paypal']['sandboxed'];
+            $this->experience_id = $connections['com.paypal']['experience_id'];
 
             $this->api_context = new \PayPal\Rest\ApiContext(
                 new \PayPal\Auth\OAuthTokenCredential(
@@ -47,8 +56,16 @@ class PaypalSeed extends SeedBase
                 )
             );
 
-            if (!$this->account || !$this->client_id || !$this->secret) {
-                $connections = CASHSystem::getSystemSettings('system_connections');
+            if (!$this->account) {
+
+                if (CASH_DEBUG) {
+                            error_log(
+                                'Overriding PaypalSeed connection settings with defaults from connections.json'.
+                                'account '. $this->account .
+                                'client id '. $this->client_id .
+                                'secret '. $this->secret
+                            );
+                    }
 
                 if (isset($connections['com.paypal'])) {
                     $this->merchant_email = $this->settings->getSetting('merchant_email'); // present in multi
@@ -275,7 +292,8 @@ class PaypalSeed extends SeedBase
 
                 if (CASH_DEBUG) {
                             error_log(
-                                'transaction'
+                                'transaction '.
+                                $this->account
                             );
                         }
 
@@ -317,11 +335,7 @@ class PaypalSeed extends SeedBase
 
         try {
             $payment->create($this->api_context);
-                    if (CASH_DEBUG) {
-                                error_log(
-                                    print_r($payment, true)
-                                );
-                            }
+
         } catch (PayPal\Exception\PayPalConnectionException $ex) {
 
             $error = json_decode($ex->getData());
