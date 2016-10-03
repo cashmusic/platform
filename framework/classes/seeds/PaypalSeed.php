@@ -1,69 +1,89 @@
 <?php
 /**
- * The PaypalSeed class speaks to the Paypal NVP API.
+ * The PaypalSeed class speaks to the Paypal REST API, in a soft, soothing voice.
  *
  * @package platform.org.cashmusic
  * @author CASH Music
  * @link http://cashmusic.org/
  *
- * began with official Paypal SDK examples, much editing later...
- * original script(s) here:
- * https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/library_download_sdks#NVP
+ * Based on PayPal REST SDK:
+ * http://paypal.github.io/PayPal-PHP-SDK/
  *
- * Copyright (c) 2013, CASH Music
+ * Copyright (c) 2016, CASH Music
  * Licensed under the GNU Lesser General Public License version 3.
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
- *
- * This file is generously sponsored by Justin Miranda
- *
  **/
-class PaypalSeed extends SeedBase {
-    protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token;
-    protected $merchant_email = false;
 
-    public function __construct($user_id, $connection_id) {
+class PaypalSeed extends SeedBase
+{
+    protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token, $experience_id, $LegacySeed;
+    public $redirects;
+    protected $merchant_email = false;
+    protected $legacy = false;
+
+    public function __construct($user_id, $connection_id)
+    {
         $this->settings_type = 'com.paypal';
         $this->user_id = $user_id;
         $this->connection_id = $connection_id;
         $this->redirects = true;
 
-        if ($this->getCASHConnection()) {
-            $this->api_version   = '94.0';
-            $this->api_username  = $this->settings->getSetting('username');
-            $this->api_password  = $this->settings->getSetting('password');
-            $this->api_signature = $this->settings->getSetting('signature');
-            $sandboxed           = $this->settings->getSetting('sandboxed');
 
-            if (!$this->api_username || !$this->api_password || !$this->api_signature) {
+        if ($this->getCASHConnection()) {
+
+            $this->account = $this->settings->getSetting('merchant_email_rest');
+            $this->account = str_replace(" (Paypal)", "", $this->account);
+
+            $this->client_id = $this->settings->getSetting('client_id');
+            $this->secret = $this->settings->getSetting('secret');
+            $sandboxed = $this->settings->getSetting('sandboxed');
+            $this->experience_id = $this->settings->getSetting('experience_id');
+
+            $this->api_context = new \PayPal\Rest\ApiContext(
+                new \PayPal\Auth\OAuthTokenCredential(
+                    $this->client_id,        # ClientID
+                    $this->secret            # ClientSecret
+                )
+            );
+
+            if (!$this->account || !$this->client_id || !$this->secret) {
                 $connections = CASHSystem::getSystemSettings('system_connections');
+
                 if (isset($connections['com.paypal'])) {
                     $this->merchant_email = $this->settings->getSetting('merchant_email'); // present in multi
-                    $this->api_username   = $connections['com.paypal']['username'];
-                    $this->api_password   = $connections['com.paypal']['password'];
-                    $this->api_signature  = $connections['com.paypal']['signature'];
-                    $sandboxed            = $connections['com.paypal']['sandboxed'];
+                    $this->account = $connections['com.paypal']['account'];
+                    $this->client_id = $connections['com.paypal']['client_id'];
+                    $this->secret = $connections['com.paypal']['secret'];
+                    $sandboxed = $connections['com.paypal']['sandboxed'];
+                    $this->experience_id = $connections['com.paypal']['experience_id'];
+
+                    $this->api_context = new \PayPal\Rest\ApiContext(
+                        new \PayPal\Auth\OAuthTokenCredential(
+                            $this->client_id,        # ClientID
+                            $this->secret            # ClientSecret
+                        )
+                    );
+
+                    if ($sandboxed) {
+                        $this->api_context->setConfig(
+                            array("mode" => "sandbox")
+                        );
+                    }
                 }
+            } else if($this->settings->getSetting('merchant_email')) {
+                $this->legacy = true;
+                $this->LegacySeed = new PaypalNVPSeed($user_id,$connection_id);
             }
 
-            $this->token = false;
-
-            if (!empty($_REQUEST['token'])) {
-                $this->token = $_REQUEST['token'];
-            }
-
-            $this->api_endpoint = "https://api-3t.paypal.com/nvp";
-            $this->paypal_base_url = "https://www.paypal.com/webscr&cmd=";
-            if ($sandboxed) {
-                $this->api_endpoint = "https://api-3t.sandbox.paypal.com/nvp";
-                $this->paypal_base_url = "https://www.sandbox.paypal.com/webscr&cmd=";
-            }
         } else {
             $this->error_message = 'could not get connection settings';
+            return false;
         }
     }
 
-    public static function getRedirectMarkup($data=false) {
+    public static function getRedirectMarkup($data = false)
+    {
         $connections = CASHSystem::getSystemSettings('system_connections');
 
         // I don't like using ADMIN_WWW_BASE_PATH below, but as this call is always called inside the
@@ -81,13 +101,13 @@ class PaypalSeed extends SeedBase {
                 . '<input id="connection_name_input" type="hidden" name="settings_name" value="(Paypal)" />'
                 . '<input type="hidden" name="settings_type" value="com.paypal" />'
                 . '<label for="merchant_email">Your Paypal email address:</label>'
-                . '<input type="text" name="merchant_email" id="merchant_email" value="" class="required" />'
+                . '<input type="text" name="merchant_email_rest" id="merchant_email_rest" value="" />'
                 . '<br />'
                 . '<div><input class="button" type="submit" value="Add The Connection" /></div>'
                 . '</form>'
                 . '<script type="text/javascript">'
                 . '$("#paypal_connection_form").submit(function() {'
-                . '	var newvalue = $("#merchant_email").val() + " (Paypal)";'
+                . '	var newvalue = $("#merchant_email_rest").val() + " (Paypal)";'
                 . '	$("#connection_name_input").val(newvalue);'
                 . '});'
                 . '</script>';
@@ -97,217 +117,341 @@ class PaypalSeed extends SeedBase {
         }
     }
 
-    protected function setErrorMessage($msg) {
+    protected function setErrorMessage($msg)
+    {
         $this->error_message = $msg;
+
+                if (CASH_DEBUG) {
+                            error_log(
+                                $msg
+                            );
+                        }
     }
 
-    public function getErrorMessage() {
+    public function getErrorMessage()
+    {
         return $this->error_message;
     }
 
-    protected function postToPaypal($method_name, $nvp_parameters) {
-        // Set the API operation, version, and API signature in the request.
-        $request_parameters = array (
-            'METHOD'    => $method_name,
-            'VERSION'   => $this->api_version,
-            'PWD'       => $this->api_password,
-            'USER'      => $this->api_username,
-            'SIGNATURE' => $this->api_signature
-        );
-        if ($this->merchant_email) {
-            $request_parameters['SUBJECT'] = $this->merchant_email;
+
+    public function customizeCheckoutFlow($artist_name="CASH Music", $locale="US") {
+
+        // check if the legacy flag is set to true or false; if it's true we just exit out of this
+        if ($this->legacy) {
+            return true;
         }
-        $request_parameters = array_merge($request_parameters,$nvp_parameters);
 
-        // Get response from the server.
-        $http_response = CASHSystem::getURLContents($this->api_endpoint,$request_parameters,true);
+        if ($this->user_id) {
+            // get current user details for email
+            $user_request = new CASHRequest(
+                array(
+                    'cash_request_type' => 'people',
+                    'cash_action' => 'getuser',
+                    'user_id' => $this->user_id
+                )
+            );
 
-        if ($http_response) {
-            // Extract the response details.
-            $http_response = explode("&", $http_response);
-            $parsed_response = array();
-            foreach ($http_response as $i => $value) {
-                $tmpAr = explode("=", $value);
-                if(sizeof($tmpAr) > 1) {
-                    $parsed_response[$tmpAr[0]] = urldecode($tmpAr[1]);
-                }
+            $user_details = $user_request->response['payload'];
+
+            $artist_name = $user_details['display_name'];
+
+            if ($user_details['display_name'] == 'Anonymous' || !$user_details['display_name']) {
+                $artist_name = $artist_name;
             }
 
-            if((0 == sizeof($parsed_response)) || !array_key_exists('ACK', $parsed_response)) {
-                $this->setErrorMessage("Invalid HTTP Response for POST (" . $nvpreq . ") to " . $this->api_endpoint);
-                return false;
-            }
-
-            if("SUCCESS" == strtoupper($parsed_response["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($parsed_response["ACK"])) {
-                return $parsed_response;
-            } else {
-                $this->setErrorMessage(print_r($parsed_response, true));
-                return false;
-            }
-        } else {
-            $this->setErrorMessage('could not reach Paypal servers');
-            return false;
         }
+
+        // Lets create an instance of FlowConfig and add
+// landing page type information
+        $flowConfig = new \PayPal\Api\FlowConfig();
+        $flowConfig->setLandingPageType("Login");
+
+        $presentation = new \PayPal\Api\Presentation();
+        $presentation->setBrandName($artist_name)
+            ->setLocaleCode($locale);
+
+        $inputFields = new \PayPal\Api\InputFields();
+        $inputFields->setAllowNote(false)
+            ->setNoShipping(1)
+            ->setAddressOverride(0);
+
+        $webProfile = new \PayPal\Api\WebProfile();
+        $webProfile->setName($artist_name . uniqid())
+            ->setFlowConfig($flowConfig)
+            ->setPresentation($presentation)
+            ->setInputFields($inputFields);
+
+        try {
+            $createProfileResponse = $webProfile->create($this->api_context);
+        } catch (\PayPal\Exception\PayPalConnectionException $ex) {
+            $this->setErrorMessage($ex);
+        }
+
+        return $createProfileResponse->getId();
     }
 
     public function preparePayment(
         $total_price,
-        $order_id,
+        $order_sku,
         $order_name,
         $return_url,
         $cancel_url,
-        $currency_id='USD', /* 'USD', 'GBP', 'EUR', 'JPY', 'CAD', 'AUD' */
-        $payment_type='Sale',
-        $shipping=false,
-        $transaction_id=false
-    ) {
-        // Set NVP variables:
-        $nvp_parameters = array(
-            'PAYMENTREQUEST_0_AMT' => $total_price,
-            'PAYMENTREQUEST_0_PAYMENTACTION' => 'Sale',
-            'PAYMENTREQUEST_0_CURRENCYCODE' => $currency_id,
-            'PAYMENTREQUEST_0_ALLOWEDPAYMENTMETHOD' => 'InstantPaymentOnly',
-            'PAYMENTREQUEST_0_DESC' => $order_name,
-            'RETURNURL' => $return_url."&success=true",
-            'CANCELURL' => $cancel_url,
-            'L_PAYMENTREQUEST_0_AMT0' => $total_price,
-            'L_PAYMENTREQUEST_0_NUMBER0' => $order_id,
-            'L_PAYMENTREQUEST_0_NAME0' => $order_name,
-            'NOSHIPPING' => '0',
-            'ALLOWNOTE' => '0',
-            'SOLUTIONTYPE' => 'Sole',
-            'LANDINGPAGE' => 'Billing'
-        );
+        $currency_id = 'USD', /* 'USD', 'GBP', 'EUR', 'JPY', 'CAD', 'AUD' */
+        $payment_type = 'sale', /* 'Sale', 'Order', or 'Authorization' */
+        $shipping=null
+    )
+    {
 
-        $nvp_parameters['NOSHIPPING'] = 1;
 
-        /*        if ($shipping) {
-                    $nvp_parameters['NOSHIPPING'] = 0;
-                    $nvp_parameters['L_PAYMENTREQUEST_0_AMT0'] = $payment_amount-$shipping;
-                    $nvp_parameters['PAYMENTREQUEST_0_ITEMAMT'] = $payment_amount-$shipping;
-                    $nvp_parameters['PAYMENTREQUEST_0_SHIPPINGAMT'] = $shipping_amount;
+        // do a hacky little switch if this is a legacy paypal connection, to the legacy NVP seed
+        if ($this->legacy) {
+            return $this->LegacySeed(
+                $total_price,
+                $order_sku,
+                $order_name,
+                $return_url,
+                $cancel_url,
+                $currency_id = 'USD', /* 'USD', 'GBP', 'EUR', 'JPY', 'CAD', 'AUD' */
+                $payment_type = 'sale', /* 'Sale', 'Order', or 'Authorization' */
+                $shipping=null
+            );
+        }
+
+        if (CASH_DEBUG) {
+            error_log(
+              'PayPalSeed->preparePayment' .
+              'account: ' . $this->account
+            );
+        }
+
+        $payer = new \PayPal\Api\Payer();
+        $payer->setPaymentMethod("paypal");
+        $amount = new \PayPal\Api\Amount();
+        $amount->setCurrency($currency_id)
+            ->setTotal($total_price);
+
+        if (CASH_DEBUG) {
+                    error_log(
+                        "set payer and price\n"
+                    );
+                }
+
+
+        $item = new \PayPal\Api\Item();
+        $item->setQuantity(1);
+        $item->setName($order_name);
+        $item->setPrice($total_price);
+        $item->setCurrency($currency_id);
+
+                if (CASH_DEBUG) {
+                            error_log(
+                                'paypal create item'
+                            );
+                        }
+
+        $itemList = new \PayPal\Api\ItemList();
+        $itemList->setItems(array($item));
+
+        /*        if ($request_shipping_info && $shipping_price > 0) {
+                    $shipping = new Details();
+                    $shipping->setShipping($shipping_price)
+                        //->setTax(1.3)
+                        ->setSubtotal($total_price - $shipping_price);
+                    //TODO: assumes shipping cost is passed in as part of the total $payment_amount
+
+                    $amount->setDetails($shipping);
                 }*/
 
-        $parsed_response = $this->postToPaypal('SetExpressCheckout', $nvp_parameters);
-        if (!$parsed_response) {
-            $this->setErrorMessage('SetExpressCheckout failed: ' . $this->getErrorMessage());
-            error_log($this->getErrorMessage());
+
+        $payee = new \PayPal\Api\Payee();
+        $payee->setEmail($this->account);
+
+        $transaction = new \PayPal\Api\Transaction();
+        $transaction->setAmount($amount)
+            ->setDescription($order_name)
+            ->setPayee($payee)
+            ->setItemList($itemList)
+            ->setInvoiceNumber($order_sku); // owner-id order-id
+
+                if (CASH_DEBUG) {
+                            error_log(
+                                'transaction'
+                            );
+                        }
+
+        $redirectUrls = new \PayPal\Api\RedirectUrls();
+        $redirectUrls->setReturnUrl($return_url . "&success=true")
+            ->setCancelUrl($cancel_url . "&success=false");
+
+                if (CASH_DEBUG) {
+                            error_log(
+                                'redirects'
+                            );
+                        }
+
+        // weird Paypal nonsense to get rid of shipping details on checkout screen
+        // get user name and pass it to customize the checkout flow
+
+        if (empty($this->experience_id))
+            $this->experience_id = $this->customizeCheckoutFlow();
+
+        $payment = new \PayPal\Api\Payment();
+
+                if (CASH_DEBUG) {
+                            error_log(
+                                'payee, payment'
+                            );
+                        }
+
+        $payment->setIntent($payment_type)
+            ->setPayer($payer)
+            ->setRedirectUrls($redirectUrls)
+            ->setExperienceProfileId($this->experience_id)
+            ->setTransactions(array($transaction));
+
+                if (CASH_DEBUG) {
+                            error_log(
+                                'setpayer, payee'
+                            );
+                        }
+
+        try {
+            $payment->create($this->api_context);
+                    if (CASH_DEBUG) {
+                                error_log(
+                                    print_r($payment, true)
+                                );
+                            }
+        } catch (PayPal\Exception\PayPalConnectionException $ex) {
+
+            $error = json_decode($ex->getData());
+            $this->setErrorMessage($error->message);
             return false;
-        } else {
-            // update the transaction with data_sent for parity
-            $data_sent_request = new CASHRequest(
-                array(
-                    'cash_request_type' => 'commerce',
-                    'cash_action' => 'edittransaction',
-                    'data_sent' => $parsed_response,
-                    'id' => $transaction_id
-                )
-            );
 
+        } catch (Exception $ex) {
+            $error = json_decode($ex->getData());
 
-            // Redirect to paypal.com.
-            $token = urldecode($parsed_response["TOKEN"]);
-            $paypal_url = $this->paypal_base_url . "_express-checkout&token=$token";
-            return $paypal_url;
+            $this->setErrorMessage($error->message);
+            return false;
+
         }
+
+        $approval_url = $payment->getApprovalLink();
+
+        if (!empty($approval_url)) {
+            return $approval_url;
+        } else {
+            // approval link isn't set, return to page and post error
+
+            $this->setErrorMessage('There was an error contacting PayPal for this payment.');
+            return false;
+            }
     }
 
-    public function getExpressCheckout() {
-        if ($this->token) {
-            $nvp_parameters = array(
-                'TOKEN' => $this->token
-            );
-            $parsed_response = $this->postToPaypal('GetExpressCheckoutDetails', $nvp_parameters);
-            if (!$parsed_response) {
-                $this->setErrorMessage('GetExpressCheckoutDetails failed: ' . $this->getErrorMessage());
-                return false;
-            } else {
-                return $parsed_response;
-            }
-        } else {
-            $this->setErrorMessage("No token was found.");
+    public function doPayment($total_price=false, $description=false, $token=false, $email_address=false, $customer_name=false)
+    {
+
+        // quick switch if we detect the old NVP connection for a user
+        if ($this->legacy) {
+            return $this->LegacySeed($total_price, $description, $token, $email_address, $customer_name);
+        }
+
+        // check if we got a PayPal token in the return url or via arguments; if not, cheese it!
+        if (empty($_REQUEST['token'])) {
+            $this->setErrorMessage("No PayPal token was found.");
             return false;
         }
-    }
 
-    public function doPayment($total_price, $description, $token, $email_address=false, $customer_name=false, $currency='USD') {
+        // Determine if the user approved the payment or not
+        if (!empty($_REQUEST['success']) && $_REQUEST['success'] == 'true' &&
+            !empty($_REQUEST['paymentId']) && !empty($_REQUEST['PayerID'])
+        ) {
 
-        if ($this->token) {
-            $token_details = $this->getExpressCheckout();
+            // Get the payment Object by passing paymentId
+            // payment id was previously stored in session in
+            // CreatePaymentUsingPayPal.php
+            $this->payment_id = $_REQUEST['paymentId'];
+            $payment = \PayPal\Api\Payment::get($this->payment_id, $this->api_context);
 
-            $nvp_parameters = array(
-                'TOKEN' => $this->token,
-                'PAYERID' => $token_details['PAYERID'],
-                'PAYMENTREQUEST_0_PAYMENTACTION' => 'Sale',
-                'PAYMENTREQUEST_0_AMT' => $token_details['PAYMENTREQUEST_0_AMT'],
-                'PAYMENTREQUEST_0_CURRENCYCODE' => $token_details['PAYMENTREQUEST_0_CURRENCYCODE'],
-                'PAYMENTREQUEST_0_ALLOWEDPAYMENTMETHOD' => 'InstantPaymentOnly'
+            // ### Payment Execute
+            // PaymentExecution object includes information necessary
+            // to execute a PayPal account payment.
+            // The payer_id is added to the request query parameters
+            // when the user is redirected from paypal back to your site
+            $execution = new \PayPal\Api\PaymentExecution();
+            $execution->setPayerId($_REQUEST['PayerID']);
+
+            try {
+                // Execute the payment
+                $payment->execute($execution, $this->api_context);
+
+                try {
+                    $payment = \PayPal\Api\Payment::get($this->payment_id, $this->api_context);
+                } catch (Exception $ex) {
+                    return false;
+                }
+            } catch (Exception $ex) {
+
+                return false;
+            }
+
+            // let's return a standardized array to generalize for multiple payment types
+            $details = $payment->toArray();
+            // nested array for data received, standard across seeds
+            //TODO: this is set for single item transactions for now; should be expanded for cart transactions
+
+            $order_details = array(
+                'transaction_description' => '',
+                'customer_email' => $details['payer']['payer_info']['email'],
+                'customer_first_name' => $details['payer']['payer_info']['first_name'],
+                'customer_last_name' => $details['payer']['payer_info']['last_name'],
+                'customer_name' => $details['payer']['payer_info']['first_name'] . " " . $details['payer']['payer_info']['last_name'],
+                /* 																*/
+                'transaction_date' => strtotime($details['create_time']),
+                'transaction_id' => $details['id'],
+                'sale_id' => $details['transactions'][0]['related_resources'][0]['sale']['id'],
+                'items' => array(),
+                'total' => $details['transactions'][0]['amount']['total'],
+                'other_charges' => $details['transactions'][0]['related_resources'][0]['sale']['transaction_fee']['value'],
+                'service_fee' => $details['transactions'][0]['related_resources'][0]['sale']['transaction_fee']['value'],
             );
 
-            $parsed_response = $this->postToPaypal('DoExpressCheckoutPayment', $nvp_parameters);
-            if (!$parsed_response) {
-                $this->setErrorMessage($this->getErrorMessage());
-                return false;
-            } else {
-                $parsed_response['total'] = $parsed_response['PAYMENTINFO_0_AMT'];
-                $parsed_response['service_fee'] = $parsed_response['PAYMENTINFO_0_FEEAMT'];
-
-                // customer normalizing stuff
-                $parsed_response['customer_email'] = $token_details['EMAIL'];
-                $parsed_response['customer_name'] = $token_details['FIRSTNAME'] . " " . $token_details['LASTNAME'].
-                $parsed_response['customer_first_name'] = $token_details['FIRSTNAME'];
-                $parsed_response['customer_last_name'] = $token_details['LASTNAME'];
-                $parsed_response['countrycode'] = $token_details['COUNTRYCODE'];
-
-
-                return $parsed_response;
-            }
+            return array('total' => $details['transactions'][0]['amount']['total'],
+                'payer' => $details['payer']['payer_info'],
+                'timestamp' => strtotime($details['create_time']),
+                'transaction_id' => $details['id'],
+                'gross_price' => $details['transactions'][0]['amount']['total'],
+                'service_fee' => $details['transactions'][0]['related_resources'][0]['sale']['transaction_fee']['value'],
+                'order_details' => json_encode($order_details)
+            );
         } else {
-            $this->setErrorMessage("No token was found.");
             return false;
         }
+
     }
 
-    public function doRefund($transaction_id,$note=false,$refund_amount=0,$fullrefund=true,$currency_id='USD') {
-        if ($fullrefund) {
-            $refund_type = "Full";
-        } else {
-            $refund_type = "Partial";
-        }
+    public function refundPayment($sale_id, $refund_amount = 0, $currency_id = 'USD')
+    {
 
-        $nvp_parameters = array (
-            'TRANSACTIONID' => $transaction_id,
-            'REFUNDTYPE' => $refund_type,
-            'CURRENCYCODE' => $currency_id
-        );
+        $amt = new \PayPal\Api\Amount();
+        $amt->setCurrency($currency_id);
+        $amt->setTotal($refund_amount);
 
-        if($note) {
-            $nvp_parameters['NOTE'] = $note;
-        }
+        $refund = new \PayPal\Api\Refund();
+        $refund->setAmount($amt);
 
-        if (!$fullrefund) {
-            if(!isset($refund_amount)) {
-                $this->setErrorMessage('Partial Refund: must specify amount.');
-                return false;
-            } else {
-                $nvp_parameters['AMT'] = $refund_amount;
-            }
+        $sale = new \PayPal\Api\Sale();
+        $sale->setId($sale_id);
 
-            if(!$note) {
-                $this->setErrorMessage('Partial Refund: must specify memo.');
-                return false;
-            }
-        }
+        $refund_response = $sale->refund($refund, $this->api_context);
 
-        $parsed_response = $this->postToPaypal('RefundTransaction', $nvp_parameters);
-
-        if (!$parsed_response) {
+        if (!$refund_response) {
             $this->setErrorMessage('RefundTransaction failed: ' . $this->getErrorMessage());
-            error_log($this->getErrorMessage());
             return false;
         } else {
-            return $parsed_response;
+            return $refund_response;
         }
+
     }
 } // END class
 ?>

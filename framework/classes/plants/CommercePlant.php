@@ -601,9 +601,6 @@ class CommercePlant extends PlantBase {
                         $unlock_suffix = 1;
                         $success = true;
 
-
-                        //TODO: really we want to do this in one shot with the API
-
                         foreach ($recipients as $recipient) {
 
                             foreach ($all_assets as $asset) {
@@ -637,8 +634,6 @@ class CommercePlant extends PlantBase {
                                     $global_merge_vars[0]['content'],
                                     $recipient_message
                                 );
-
-
 
                                 // replace unlock code
                                 $recipient_message = str_replace
