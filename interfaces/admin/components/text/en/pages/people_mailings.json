@@ -3,7 +3,7 @@
 	"learn":"",
 	"related":{},
 	"labels":{"mail_subject":"Mail subject",
-               "from_name":"From name (sent from {{user_email}})",
+               "from_name":"From name (sent from <strong>{{user_email}}</strong> )",
                "use_template":"Use template",
                "send_to_list":"Send to list",
                "use_mass":"Use mass mailing connection",
@@ -18,6 +18,7 @@
             "no_template":"No template (include all markup)",
             "none":"None",
             "mass_mailing":"mass mailing connection",
-            "to_use":" to use this page."
+            "to_use":" to use this page.",
+            "mass_mailing_title":"Mass Mailing"
 }
 }
