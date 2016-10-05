@@ -104,5 +104,15 @@ if ($settings_test_array) {
 	$cash_admin->page_data['connection_options'] = AdminHelper::echoConnectionsOptions('mass_email',0,true);
 }
 
+$user_request = $cash_admin->requestAndStore(
+    array(
+        'cash_request_type' => 'people', 
+        'cash_action' => 'getuser',
+        'user_id' => $effective_user
+    )
+);
+
+$cash_admin->page_data['email_address'] = $user_request['payload']['email_address'];
+
 $cash_admin->setPageContentTemplate('people_mailings');
 ?>

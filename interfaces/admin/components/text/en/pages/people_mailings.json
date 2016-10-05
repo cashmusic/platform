@@ -3,7 +3,7 @@
 	"learn":"",
 	"related":{},
 	"labels":{"mail_subject":"Mail subject",
-               "from_name":"From name (sent from <strong>{{user_email}}</strong> )",
+               "from_name":"From name (Reply-to: ",
                "use_template":"Use template",
                "send_to_list":"Send to list",
                "use_mass":"Use mass mailing connection",

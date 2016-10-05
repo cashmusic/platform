@@ -6,20 +6,28 @@
 
 {{#connection_options}}
 <header>
-	<h4 class="page-title">{{copy_mass_mailing_title}}</h4>
-	<h5 class="page-subtitle">{{copy_test_message}}</h5>
+	<div class="pure-u-1 pure-u-md-1-2">
+		<h4 class="page-title">{{copy_mass_mailing_title}}</h4>
+		<h5 class="page-subtitle">{{copy_test_message}}</h5>
+ 	</div><!--pure-->
+
+	<div class="pure-u-1 pure-u-md-1-2">
+        <ul class="inline-subnav right">
+        	<li><button name="dotestsend" href="{{www_path}}/people/people_mailings/test/" class="lightboxed"><span class="icon icon-rocket"></span>Send test email</button></li>
+        </ul>
+    </div><!--pure-->
 </header>
 	<form method="post" action="">
 		<input type="hidden" name="doemailsend" value="makeitso">
 
 		
 			<label for="mail_subject">{{label_mail_subject}}</label>
-			<input type="text" id="mail_subject" name="mail_subject" />
+			<input class="required" type="text" id="mail_subject" name="mail_subject" />
 			
 
 			<div class="pure-u-1 pure-u-md-1-2">
-				<label for="mail_from">{{{label_from_name}}}</label>
-				<input type="text" id="mail_from" name="mail_from" />
+				<label for="mail_from">{{{label_from_name}}} <strong>{{email_address}}</strong>)</label>
+				<input class="required" type="text" id="mail_from" name="mail_from" />
 			</div><!--pure-->
 			<div class="pure-u-1 pure-u-md-1-2">
 
@@ -45,8 +53,8 @@
 
 			<div class="pure-u-1">
 				<label for="html_content">{{label_message}}<span class="tooltip" data-tooltip="The message will be formatted as HTML using Markdown, and added to a template. You can use HTML and Markdown to control content.">(markdown/html allowed)</span></label>
-				<textarea rows="3" id="html_content" name="html_content" class="tall"></textarea>
-				<input class="button" type="submit" value="send test email" />
+				<textarea class="required" rows="3" id="html_content" name="html_content" class="tall"></textarea>
+				<input class="button" name="doemailsend" type="submit" value="Send to list" />
 			</div><!--pure-->
 	</form>
 {{/connection_options}}
