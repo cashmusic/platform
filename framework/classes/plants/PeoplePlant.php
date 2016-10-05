@@ -26,6 +26,7 @@ class PeoplePlant extends PlantBase {
 			'addcontact'             => array('addContact','direct'),
 			'addmailing'             => array('addMailing','direct'),
 			'addlist'                => array('addList','direct'),
+			'buildmailingcontent'	 => array('buildMailingContent', 'direct'),
 			'checkverification'      => array('addressIsVerified','direct'),
 			'deletelist'             => array('deleteList','direct'),
 			'editcontact'            => array('editContact','direct'),
@@ -1229,12 +1230,6 @@ class PeoplePlant extends PlantBase {
 
 				$list_details = $list_request->response['payload'];
 
-				        if (CASH_DEBUG) {
-				                    error_log(
-				                        print_r($list_details, true)
-				                    );
-				                }
-
 				if (is_array($list_details)) {
 					$recipients = array();
 					foreach ($list_details['members'] as $subscriber) {
@@ -1536,6 +1531,57 @@ class PeoplePlant extends PlantBase {
 			default:
 				return false;
 		}
+	}
+
+	protected function buildMailingContent($template_id, $html_content, $title, $subject, $template="user_email") {
+
+		// use default template
+		if ($template_id == 'default') {
+			// parse the html content for any markdown
+			$html_content = CASHSystem::parseMarkdown($html_content);
+
+			if ($template = CASHSystem::setMustacheTemplate($template)) {
+
+				// render the mustache template and return
+				$html_content = CASHSystem::renderMustache(
+					$template, array(
+						// array of values to be passed to the mustache template
+						'encoded_html' => $html_content,
+						'message_title' => $title,
+						'subject' => $subject,
+						'cdn_url' => (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL
+					)
+				);
+			}
+
+			// make sure we include an unsubscribe link
+			if (!stripos($html_content,'{{{unsubscribe_link}}}')) {
+				if (stripos($html_content,'</body>')) {
+					$html_content = str_ireplace('</body>','<br /><br />{{{unsubscribe_link}}}</body>',$html_content);
+				} else {
+					$html_content = $html_content . '<br /><br />{{{unsubscribe_link}}}';
+				}
+			}
+
+			return $html_content;
+
+			// no template, just use the HTML
+		} else if ($template_id == 'none') {
+
+			// make sure we include an unsubscribe link
+			if (!stripos($html_content,'{{{unsubscribe_link}}}')) {
+				if (stripos($html_content,'</body>')) {
+					$html_content = str_ireplace('</body>','<br /><br />{{{unsubscribe_link}}}</body>',$html_content);
+				} else {
+					$html_content = $html_content . '<br /><br />{{{unsubscribe_link}}}';
+				}
+			}
+
+			return $html_content;
+		}
+
+		// fallback if nothing was selected
+		return CASHSystem::parseMarkdown($html_content);
 	}
 } // END class
 ?>
