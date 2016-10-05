@@ -202,11 +202,14 @@ class MandrillSeed extends SeedBase {
 
 			$user_details = $user_request->response['payload'];
 
-			$from_name = $user_details['display_name'];
-			$from_address = $user_details['email_address'];
+			// make sure we're not overriding the name that's passed manually
+			if (!$from_name) {
+				$from_name = $user_details['display_name'];
+				$from_address = $user_details['email_address'];
 
-			if ($user_details['display_name'] == 'Anonymous' || !$user_details['display_name']) {
-				$from_name = $user_details['email_address'];
+				if ($user_details['display_name'] == 'Anonymous' || !$user_details['display_name']) {
+					$from_name = $user_details['email_address'];
+				}
 			}
 
 		} else {

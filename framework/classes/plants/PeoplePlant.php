@@ -1280,17 +1280,21 @@ class PeoplePlant extends PlantBase {
 						$user_id,
 						$mailing['subject'],
 						$recipients,
-						$mailing['html_content'],
-						$mailing['subject'],
-						[
+						$mailing['html_content'], // message body
+						$mailing['subject'], // message subject
+						[ // global merge vars
 							[
 								'name' => 'unsubscribelink',
 								'content' => "<a href='http://google.com'>Unsubscribe</a>"
 							]
 						],
-						[],
+						[], // local merge vars (per email)
 						false,
-						true)) {
+						true,
+						true,
+						$mailing['from_name'],
+						false
+					)) {
 
 						$this->editMailing($mailing_id,time());
 						$this->addToMailingAnalytics($mailing_id,count($recipients));

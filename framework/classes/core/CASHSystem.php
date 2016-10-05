@@ -706,7 +706,7 @@
 	 * @return bool
 	 */
 
-	public static function sendMassEmail($user_id, $subject, $recipients, $message_text, $message_title, $global_merge_vars=false, $merge_vars=false, $encoded_html=false, $message_text_html=true) {
+	public static function sendMassEmail($user_id, $subject, $recipients, $message_text, $message_title, $global_merge_vars=false, $merge_vars=false, $encoded_html=false, $message_text_html=true, $override_template=false, $sender_name=false, $sender_email=false) {
 
 
 		        if (CASH_DEBUG) {
@@ -724,24 +724,33 @@
 				$message_body_parsed = $message_text;
 			}
 
-			if ($template = CASHSystem::setMustacheTemplate("system_email")) {
+			// we can also just completely override the template. there's a better way to do this maybe, though
 
-				// render the mustache template and return
-				$encoded_html = CASHSystem::renderMustache(
-					$template, array(
-						// array of values to be passed to the mustache template
-						'encoded_html' => $message_body_parsed,
-						'message_title' => $message_title,
-						'cdn_url' => (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL
-					)
-				);
-			} else {
+			if (!$override_template) {
+				if ($template = CASHSystem::setMustacheTemplate("system_email")) {
 
-				//TODO: can we move this to
-				$encoded_html .= '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' . $message_title . '</title></head><body>'
-					. "<h1>$message_title</h1>\n" . "<p>" . $encoded_html . "</p>"
-					. "</body></html>";
+					// render the mustache template and return
+					$encoded_html = CASHSystem::renderMustache(
+						$template, array(
+							// array of values to be passed to the mustache template
+							'encoded_html' => $message_body_parsed,
+							'message_title' => $message_title,
+							'cdn_url' => (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL
+						)
+					);
+				} else {
+
+					//TODO: can we move this to
+					$encoded_html .= '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' . $message_title . '</title></head><body>'
+						. "<h1>$message_title</h1>\n" . "<p>" . $encoded_html . "</p>"
+						. "</body></html>";
+				}
 			}
+
+			if ($override_template) {
+				$encoded_html = $message_text;
+			}
+
 		}
 
 		$message_html = $encoded_html;
@@ -767,8 +776,8 @@
 				$subject,
 				$message_text,
 				$message_html,
-				false, // email address (reply-to)
-				false, // display name (reply-to)
+				$sender_email, // email address (reply-to)
+				$sender_name, // display name (reply-to)
 				$recipients,
 				null,
 				$global_merge_vars,
