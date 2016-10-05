@@ -1219,7 +1219,21 @@ class PeoplePlant extends PlantBase {
 						'unlimited' => true
 					)
 				);
+
+				        if (CASH_DEBUG) {
+				                    error_log(
+				                        'list request '.
+										$mailing['list_id']
+				                    );
+				                }
+
 				$list_details = $list_request->response['payload'];
+
+				        if (CASH_DEBUG) {
+				                    error_log(
+				                        print_r($list_details, true)
+				                    );
+				                }
 
 				if (is_array($list_details)) {
 					$recipients = array();
@@ -1251,7 +1265,7 @@ class PeoplePlant extends PlantBase {
 						$mailing['from_name'] = $user_details['email_address'];
 					}
 
-					$mandrill = new MandrillSeed($user_id,$mailing['connection_id']);
+/*					$mandrill = new MandrillSeed($user_id,$mailing['connection_id']);
 					$result = $mandrill->send(
 						$mailing['subject'],
 						$mailing['text_content'],
@@ -1260,22 +1274,32 @@ class PeoplePlant extends PlantBase {
 						$mailing['from_name'],
 						$recipients,
 						array('mailing_id'=>$mailing_id,'list_id'=>$mailing['list_id'])
-					);
+					);*/
 
-					// error_log(print_r($result,true));
+					if (CASHSystem::sendMassEmail(
+						$user_id,
+						$mailing['subject'],
+						$recipients,
+						$mailing['html_content'],
+						$mailing['subject'],
+						[
+							[
+								'name' => 'unsubscribelink',
+								'content' => "<a href='http://google.com'>Unsubscribe</a>"
+							]
+						],
+						[],
+						false,
+						true)) {
 
-					$this->editMailing($mailing_id,time());
-					$this->addToMailingAnalytics($mailing_id,count($recipients));
+						$this->editMailing($mailing_id,time());
+						$this->addToMailingAnalytics($mailing_id,count($recipients));
 
-					if (is_array($result)) {
-						if (isset($result['status'])) {
-							if ($result['status'] == 'error') {
-								return false;
-							}
-						}
+						return true;
+
+					} else {
+						return false;
 					}
-
-					return true;
 				}
 			}
 		}

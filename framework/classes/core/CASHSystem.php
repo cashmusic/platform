@@ -708,6 +708,12 @@
 
 	public static function sendMassEmail($user_id, $subject, $recipients, $message_text, $message_title, $global_merge_vars=false, $merge_vars=false, $encoded_html=false, $message_text_html=true) {
 
+
+		        if (CASH_DEBUG) {
+		                    error_log(
+		                        'sendMassEmail'
+		                    );
+		                }
 		// handle encoding of HTML if specific HTML isn't passed in:
 		if (!$encoded_html) {
 

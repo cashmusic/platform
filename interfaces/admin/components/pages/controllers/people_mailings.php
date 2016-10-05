@@ -1,19 +1,48 @@
 <?php
 
 if (isset($_POST['doemailsend'])) {
-	if (file_exists(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php')) {
-		include_once(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php');
-	}
 
 	if ($_POST['template_id'] == 'default') {
-		$template = file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/user_email.mustache');
-		$marked_content = Markdown($_POST['html_content']);
-		$html_content = str_replace('{{{encoded_html}}}',$marked_content,$template);
-		$html_content = str_replace('{{subject}}', strip_tags($_POST['mail_subject']),$html_content);
+        if (CASH_DEBUG) {
+            error_log(
+                'default'
+            );
+        }
+
+        // parse the html content for any markdown
+        $html_content = CASHSystem::parseMarkdown($_POST['html_content']);
+
+        if ($template = CASHSystem::setMustacheTemplate("user_email")) {
+
+            // render the mustache template and return
+            $html_content = CASHSystem::renderMustache(
+                $template, array(
+                    // array of values to be passed to the mustache template
+                    'encoded_html' => $html_content,
+                    'message_title' => $_POST['mail_subject'],
+                    'subject' => $_POST['mail_subject'],
+                    'cdn_url' => (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL
+                )
+            );
+        }
+
 	} else if ($_POST['template_id'] == 'none') {
+        if (CASH_DEBUG) {
+            error_log(
+                'none'
+            );
+        }
+
 		$html_content = $_POST['html_content'];
 	} else {
-		$html_content = Markdown($_POST['html_content']);
+
+        if (CASH_DEBUG) {
+            error_log(
+                'nothing set'
+            );
+        }
+
+        $html_content = CASHSystem::parseMarkdown($_POST['html_content']);
 	}
 
 	// make sure we include an unsubscribe link
@@ -24,6 +53,13 @@ if (isset($_POST['doemailsend'])) {
 			$html_content = $html_content . '<br /><br />{{{unsubscribe_link}}}';
 		}
 	}
+
+
+    if (CASH_DEBUG) {
+        error_log(
+            'added mailing'
+        );
+    }
 
 	$mailing_response = $cash_admin->requestAndStore(
 		array(
@@ -38,11 +74,18 @@ if (isset($_POST['doemailsend'])) {
 		)
 	);
 
+    if (CASH_DEBUG) {
+        error_log(
+            'sent mailing'
+        );
+    }
+
 	$mailing_result = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'people', 
 			'cash_action' => 'sendmailing',
-			'mailing_id' => $mailing_response['payload']
+			'mailing_id' => $mailing_response['payload'],
+            'test' => 'true'
 		)
 	);
 
