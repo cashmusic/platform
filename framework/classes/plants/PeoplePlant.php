@@ -1550,7 +1550,7 @@ class PeoplePlant extends PlantBase {
 						'message_title' => $title,
 						'subject' => $subject,
 						'cdn_url' => (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL,
-						'unsubscribe' => 'https://google.com'
+						'unsubscribe' => 'https://cashmusic.org'
 					)
 				);
 			}
