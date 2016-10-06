@@ -685,7 +685,7 @@ textarea{
 }
 
 textarea.taller{
-	height:320px;
+	height:200px;
 }
 
 input.checkorradio{
@@ -2782,7 +2782,6 @@ form .drawer.prefpanel{
 	padding:20px;
 	background:#e4e4e4;
 	height:100%;
-	min-height:210px;
 	opacity:1;
 }
 
