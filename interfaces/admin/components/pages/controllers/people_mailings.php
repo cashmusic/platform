@@ -127,6 +127,14 @@ $user_request = $cash_admin->requestAndStore(
     )
 );
 
+// let's just set template vars up here, for persistence' sake
+$cash_admin->page_data['html_content'] = $html_content;
+$cash_admin->page_data['subject'] = $subject;
+$cash_admin->page_data['list_id'] = $list_id;
+$cash_admin->page_data['connection_id'] = $connection_id;
+$cash_admin->page_data['test_recipients'] = $test_recipients;
+$cash_admin->page_data['mail_from'] = $mail_from;
+
 $cash_admin->page_data['email_address'] = $user_request['payload']['email_address'];
 
 $cash_admin->setPageContentTemplate('people_mailings');
