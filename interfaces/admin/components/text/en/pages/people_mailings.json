@@ -13,6 +13,7 @@
    },
 	"tooltips":{},
 	"copy":{"test_message":"Send a message to a specific list.",
+            "firstuse":"Want to send out email to one of your lists? Great!<span class='first-para'>All you need to get started is add a mass mailing connection (Mandrill) by clicking the link below.</span>",
             "youll_need":"  You'll need to add a ",
             "default":"Default (plain)",
             "no_template":"No template (include all markup)",
@@ -24,5 +25,6 @@
             "test_label":"Send a test message to the following email <em>(comma seperated)</em>",
             "send_test":"Send to test list",
             "send_list":"Send to list"
+
 }
 }
