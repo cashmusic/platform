@@ -1,39 +1,96 @@
 <?php
 
-if (isset($_POST['doemailsend'])) {
-	if (file_exists(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php')) {
-		include_once(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php');
-	}
+$template_id = !empty($_POST['template_id']) ? $_POST['template_id'] : "none";
+$html_content = !empty($_POST['html_content']) ? $_POST['html_content'] : "";
+$subject = !empty($_POST['mail_subject']) ? $_POST['mail_subject'] : "";
+$list_id = !empty($_POST['email_list_id']) ? $_POST['email_list_id'] : "";
+$connection_id = !empty($_POST['connection_id']) ? $_POST['connection_id'] : "";
+$mail_from = !empty($_POST['mail_from']) ? $_POST['mail_from'] : "";
 
-	if ($_POST['template_id'] == 'default') {
-		$template = file_get_contents(dirname(CASH_PLATFORM_PATH) . '/settings/defaults/user_email.mustache');
-		$marked_content = Markdown($_POST['html_content']);
-		$html_content = str_replace('{{{encoded_html}}}',$marked_content,$template);
-		$html_content = str_replace('{{subject}}', strip_tags($_POST['mail_subject']),$html_content);
-	} else if ($_POST['template_id'] == 'none') {
-		$html_content = $_POST['html_content'];
-	} else {
-		$html_content = Markdown($_POST['html_content']);
-	}
+$test_recipients = !empty($_POST['test_recipients']) ? preg_replace('/\s+/', '', $_POST['test_recipients']) : "";
 
-	// make sure we include an unsubscribe link
-	if (!stripos($html_content,'{{{unsubscribe_link}}}')) {
-		if (stripos($html_content,'</body>')) {
-			$html_content = str_ireplace('</body>','<br /><br />{{{unsubscribe_link}}}</body>',$html_content);
-		} else {
-			$html_content = $html_content . '<br /><br />{{{unsubscribe_link}}}';
-		}
-	}
+// send a test email
+if (!empty($_POST['action']) && $_POST['action'] == 'dotestsend') {
+    // we need to do some direct send here so we're not creating a redundant test email
+
+    $mailing_result = new CASHRequest(
+        array(
+            'cash_request_type' => 'people',
+            'cash_action' => 'buildmailingcontent',
+            'template_id' => $template_id,
+            'html_content' => $html_content,
+            'title' => $subject,
+            'subject' => $subject
+        )
+    );
+
+    $html_content = $mailing_result->response['payload'];
+    $test_recipients = explode(",", $test_recipients);
+    $recipients = [];
+
+    foreach($test_recipients as $recipient) {
+        $recipients[] = [
+            'email' => $recipient,
+            'name' => 'Test recipient',
+            'metadata' => array(
+                'user_id' => 0
+            )
+        ];
+    }
+
+    // skip the requests and make the request directly for testing
+    CASHSystem::sendMassEmail(
+        $cash_admin->effective_user_id,
+        $subject." (test)",
+        $recipients,
+        $html_content, // message body
+        $subject, // message subject
+        [ // global merge vars
+            [
+                'name' => 'unsubscribelink',
+                'content' => "<a href='http://google.com'>Unsubscribe</a>"
+            ]
+        ],
+        [], // local merge vars (per email)
+        false,
+        true,
+        true,
+        $mail_from,
+        false
+    );
+
+    if ($mailing_result) {
+        AdminHelper::formSuccess('Test Success. The mail is sent, check it for errors.','/people/mailings/');
+    } else {
+        AdminHelper::formFailure('Test Error. Something just didn\'t work right.','/people/mailings/');
+    }
+
+}
+// send the email
+if (!empty($_POST['action']) && $_POST['action'] == 'dolivesend') {
+
+    $mailing_result = new CASHRequest(
+        array(
+            'cash_request_type' => 'people',
+            'cash_action' => 'buildmailingcontent',
+            'template_id' => $template_id,
+            'html_content' => $html_content,
+            'title' => $subject,
+            'subject' => $subject
+        )
+    );
+
+    $html_content = $mailing_result->response['payload'];
 
 	$mailing_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'people', 
 			'cash_action' => 'addmailing',
 			'user_id' => $cash_admin->effective_user_id,
-			'list_id' => $_POST['email_list_id'],
-			'connection_id' => $_POST['connection_id'],
-			'subject' => $_POST['mail_subject'],
-			'from_name' => $_POST['mail_from'],
+			'list_id' => $list_id,
+			'connection_id' => $connection_id,
+			'subject' => $subject,
+			'from_name' => $mail_from,
 			'html_content' => $html_content
 		)
 	);
@@ -42,7 +99,8 @@ if (isset($_POST['doemailsend'])) {
 		array(
 			'cash_request_type' => 'people', 
 			'cash_action' => 'sendmailing',
-			'mailing_id' => $mailing_response['payload']
+			'mailing_id' => $mailing_response['payload'],
+            'test' => 'true'
 		)
 	);
 
@@ -60,6 +118,16 @@ if ($settings_test_array) {
 	$cash_admin->page_data['options_people_lists'] = AdminHelper::echoFormOptions('people_lists',0,false,true);
 	$cash_admin->page_data['connection_options'] = AdminHelper::echoConnectionsOptions('mass_email',0,true);
 }
+
+$user_request = $cash_admin->requestAndStore(
+    array(
+        'cash_request_type' => 'people', 
+        'cash_action' => 'getuser',
+        'user_id' => $effective_user
+    )
+);
+
+$cash_admin->page_data['email_address'] = $user_request['payload']['email_address'];
 
 $cash_admin->setPageContentTemplate('people_mailings');
 ?>

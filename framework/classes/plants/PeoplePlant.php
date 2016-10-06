@@ -26,6 +26,7 @@ class PeoplePlant extends PlantBase {
 			'addcontact'             => array('addContact','direct'),
 			'addmailing'             => array('addMailing','direct'),
 			'addlist'                => array('addList','direct'),
+			'buildmailingcontent'	 => array('buildMailingContent', 'direct'),
 			'checkverification'      => array('addressIsVerified','direct'),
 			'deletelist'             => array('deleteList','direct'),
 			'editcontact'            => array('editContact','direct'),
@@ -1219,6 +1220,14 @@ class PeoplePlant extends PlantBase {
 						'unlimited' => true
 					)
 				);
+
+				        if (CASH_DEBUG) {
+				                    error_log(
+				                        'list request '.
+										$mailing['list_id']
+				                    );
+				                }
+
 				$list_details = $list_request->response['payload'];
 
 				if (is_array($list_details)) {
@@ -1251,7 +1260,7 @@ class PeoplePlant extends PlantBase {
 						$mailing['from_name'] = $user_details['email_address'];
 					}
 
-					$mandrill = new MandrillSeed($user_id,$mailing['connection_id']);
+/*					$mandrill = new MandrillSeed($user_id,$mailing['connection_id']);
 					$result = $mandrill->send(
 						$mailing['subject'],
 						$mailing['text_content'],
@@ -1260,22 +1269,36 @@ class PeoplePlant extends PlantBase {
 						$mailing['from_name'],
 						$recipients,
 						array('mailing_id'=>$mailing_id,'list_id'=>$mailing['list_id'])
-					);
+					);*/
 
-					// error_log(print_r($result,true));
+					if (CASHSystem::sendMassEmail(
+						$user_id,
+						$mailing['subject'],
+						$recipients,
+						$mailing['html_content'], // message body
+						$mailing['subject'], // message subject
+						[ // global merge vars
+							[
+								'name' => 'unsubscribelink',
+								'content' => "<a href='http://google.com'>Unsubscribe</a>"
+							]
+						],
+						[], // local merge vars (per email)
+						false,
+						true,
+						true,
+						$mailing['from_name'],
+						false
+					)) {
 
-					$this->editMailing($mailing_id,time());
-					$this->addToMailingAnalytics($mailing_id,count($recipients));
+						$this->editMailing($mailing_id,time());
+						$this->addToMailingAnalytics($mailing_id,count($recipients));
 
-					if (is_array($result)) {
-						if (isset($result['status'])) {
-							if ($result['status'] == 'error') {
-								return false;
-							}
-						}
+						return true;
+
+					} else {
+						return false;
 					}
-
-					return true;
 				}
 			}
 		}
@@ -1508,6 +1531,39 @@ class PeoplePlant extends PlantBase {
 			default:
 				return false;
 		}
+	}
+
+	protected function buildMailingContent($template_id, $html_content, $title, $subject, $template="user_email") {
+
+		// use default template
+		if ($template_id == 'default') {
+			// parse the html content for any markdown
+			$html_content = CASHSystem::parseMarkdown($html_content);
+
+			if ($template = CASHSystem::setMustacheTemplate($template)) {
+
+				// render the mustache template and return
+				$html_content = CASHSystem::renderMustache(
+					$template, array(
+						// array of values to be passed to the mustache template
+						'encoded_html' => $html_content,
+						'message_title' => $title,
+						'subject' => $subject,
+						'cdn_url' => (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL,
+						'unsubscribe' => 'https://cashmusic.org'
+					)
+				);
+			}
+
+			return $html_content;
+
+			// no template, just use the HTML
+		} else if ($template_id == 'none') {
+			return $html_content;
+		}
+
+		// fallback if nothing was selected
+		return CASHSystem::parseMarkdown($html_content);
 	}
 } // END class
 ?>

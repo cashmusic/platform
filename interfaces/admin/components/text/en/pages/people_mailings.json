@@ -3,7 +3,7 @@
 	"learn":"",
 	"related":{},
 	"labels":{"mail_subject":"Mail subject",
-               "from_name":"From name (sent from {{user_email}})",
+               "from_name":"From name (Reply-to: ",
                "use_template":"Use template",
                "send_to_list":"Send to list",
                "use_mass":"Use mass mailing connection",
@@ -12,12 +12,19 @@
 
    },
 	"tooltips":{},
-	"copy":{"test_message":"Send a test message to a specific list.  ",
+	"copy":{"test_message":"Send a message to a specific list.",
+            "firstuse":"Want to send out email to one of your lists? Great!<span class='first-para'>All you need to get started is add a mass mailing connection (Mandrill) by clicking the link below.</span>",
             "youll_need":"  You'll need to add a ",
             "default":"Default (plain)",
             "no_template":"No template (include all markup)",
             "none":"None",
             "mass_mailing":"mass mailing connection",
-            "to_use":" to use this page."
+            "to_use":" to use this page.",
+            "mass_mailing_title":"Mail Campaigns",
+            "test_message_title":"Send a test message",
+            "test_label":"Send a test message to the following email <em>(comma seperated)</em>",
+            "send_test":"Send to test list",
+            "send_list":"Send to list"
+
 }
 }
