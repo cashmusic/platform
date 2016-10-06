@@ -1554,29 +1554,10 @@ class PeoplePlant extends PlantBase {
 				);
 			}
 
-			// make sure we include an unsubscribe link
-			if (!stripos($html_content,'{{{unsubscribe_link}}}')) {
-				if (stripos($html_content,'</body>')) {
-					$html_content = str_ireplace('</body>','<br /><br />{{{unsubscribe_link}}}</body>',$html_content);
-				} else {
-					$html_content = $html_content . '<br /><br />{{{unsubscribe_link}}}';
-				}
-			}
-
 			return $html_content;
 
 			// no template, just use the HTML
 		} else if ($template_id == 'none') {
-
-			// make sure we include an unsubscribe link
-			if (!stripos($html_content,'{{{unsubscribe_link}}}')) {
-				if (stripos($html_content,'</body>')) {
-					$html_content = str_ireplace('</body>','<br /><br />{{{unsubscribe_link}}}</body>',$html_content);
-				} else {
-					$html_content = $html_content . '<br /><br />{{{unsubscribe_link}}}';
-				}
-			}
-
 			return $html_content;
 		}
 
