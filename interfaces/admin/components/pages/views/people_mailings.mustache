@@ -15,12 +15,12 @@
 
 		
 			<label for="mail_subject">{{label_mail_subject}}</label>
-			<input class="required" type="text" id="mail_subject" name="mail_subject" />
+			<input class="required" type="text" id="mail_subject" name="mail_subject" value="{{subject}}"/>
 			
 
 			<div class="pure-u-1 pure-u-md-1-2">
 				<label for="mail_from">{{{label_from_name}}} <strong>{{email_address}}</strong>)</label>
-				<input class="required" type="text" id="mail_from" name="mail_from" />
+				<input class="required" type="text" id="mail_from" name="mail_from" value="{{mail_from}}"/>
 			</div><!--pure-->
 			<div class="pure-u-1 pure-u-md-1-2">
 
@@ -45,7 +45,7 @@
 			</div><!--pure-->
 
 				<label for="html_content">{{label_message}}<span class="tooltip" data-tooltip="The message will be formatted as HTML using Markdown, and added to a template. You can use HTML and Markdown to control content.">(markdown/html allowed)</span></label>
-				<textarea class="required taller" rows="3" id="html_content" name="html_content"></textarea>
+				<textarea class="required taller" rows="3" id="html_content" name="html_content">{{html_content}}</textarea>
 		
 
 			<div id="settings-drawer" class="drawer prefpanel pure-u-1">
@@ -55,7 +55,7 @@
 		<div class="pref-inner">
 					<div class="pure-u-1 pure-u-md-2-3">
 					<label>{{{copy_test_label}}}</label>
-						<input type="text" id="test_recipients" name="test_recipients" placeholder="your@email.com" />
+						<input type="text" id="test_recipients" name="test_recipients" placeholder="your@email.com" value="{{test_recipients}}"/>
 					</div><!--pure-->
 					<div class="pure-u-1 pure-u-md-1-3">
 						<label>&nbsp;</label>
@@ -105,7 +105,7 @@
             e.preventDefault(); //Prevent the normal submission action
             $('#action').val(action);
 
-            if ($("#test_recipients").val() != "") {
+            if ($("#test_recipients").val() != "" && action == 'dotestsend' || action == 'dolivesend') {
                 $('#mass_mailing').submit();
             } else {
                 $("#test_recipients").addClass("shake");
