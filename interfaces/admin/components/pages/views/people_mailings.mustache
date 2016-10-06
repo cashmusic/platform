@@ -10,8 +10,8 @@
 		<h5 class="page-subtitle">{{copy_test_message}}</h5>
 
 </header>
-	<form method="post" action="">
-		<input type="hidden" name="doemailsend" value="makeitso">
+	<form method="post" action="/admin/people/mailings" id="mass_mailing">
+		<input type="hidden" name="action" id="action" value="dolivesend">
 
 		
 			<label for="mail_subject">{{label_mail_subject}}</label>
@@ -55,11 +55,11 @@
 		<div class="pref-inner">
 					<div class="pure-u-1 pure-u-md-2-3">
 					<label>{{{copy_test_label}}}</label>
-						<input type="text" placeholder="your@email.com" />
+						<input type="text" id="test_recipients" name="test_recipients" placeholder="your@email.com" />
 					</div><!--pure-->
 					<div class="pure-u-1 pure-u-md-1-3">
-							<label>&nbsp;</label>
-						<button type="submit"><div class="icon icon-list"></div><!--icon-->{{copy_send_test}}</button>
+						<label>&nbsp;</label>
+						<button class="send_email" type="submit" name="dotestsend"><div class="icon icon-list"></div><!--icon-->{{copy_send_test}}</button>
 					</div><!--pure-->
 			
 
@@ -71,7 +71,7 @@
 </div><!--drawer prefpanel-->
 
 <div class="pure-u-1">
-			<button name="doemailsend" type="submit">{{copy_send_list}}</button>
+			<button class="send_email" name="dolivesend" type="submit">{{copy_send_list}}</button>
 			</div><!--pure-->
 
 	</form>
@@ -96,3 +96,22 @@
 {{/connection_options}}
 
 {{/show_beta}}
+<script>
+    $(function() {
+
+        $(".send_email").click(function(e) {
+
+            var action = ($(this).attr('name') == "dolivesend") ? "dolivesend" : "dotestsend";
+
+            e.preventDefault(); //Prevent the normal submission action
+            $('#action').val(action);
+
+            if ($("#test_recipients").val() != "") {
+                $('#mass_mailing').submit();
+            } else {
+                $("#test_recipients").addClass("shake");
+            }
+        });
+
+    });
+</script>

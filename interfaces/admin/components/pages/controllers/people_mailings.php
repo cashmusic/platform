@@ -10,7 +10,7 @@ $mail_from = !empty($_POST['mail_from']) ? $_POST['mail_from'] : "";
 $test_recipients = !empty($_POST['test_recipients']) ? preg_replace('/\s+/', '', $_POST['test_recipients']) : "";
 
 // send a test email
-if (isset($_POST['dotestsend'])) {
+if (!empty($_POST['action']) && $_POST['action'] == 'dotestsend') {
     // we need to do some direct send here so we're not creating a redundant test email
 
     $mailing_result = new CASHRequest(
@@ -66,9 +66,8 @@ if (isset($_POST['dotestsend'])) {
     }
 
 }
-
 // send the email
-if (isset($_POST['doemailsend'])) {
+if (!empty($_POST['action']) && $_POST['action'] == 'dolivesend') {
 
     $mailing_result = new CASHRequest(
         array(
