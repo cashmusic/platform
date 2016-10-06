@@ -1549,7 +1549,8 @@ class PeoplePlant extends PlantBase {
 						'encoded_html' => $html_content,
 						'message_title' => $title,
 						'subject' => $subject,
-						'cdn_url' => (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL
+						'cdn_url' => (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL,
+						'unsubscribe' => 'https://google.com'
 					)
 				);
 			}
