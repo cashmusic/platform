@@ -20,10 +20,10 @@
             "add_new_venue":"Add a new venue",
             "button_add_event":"Add That Event",
             "upcoming_events":"All upcoming events",
-            "no_upcoming_events":"No upcoming events were found."
-
-
-
-
+						"archive_events":"All past events",
+            "no_upcoming_events":"No upcoming events were found.",
+						"no_archive_events":"No past events were found.",
+						"details":"Details",
+						"delete":"Delete"
    }
 }

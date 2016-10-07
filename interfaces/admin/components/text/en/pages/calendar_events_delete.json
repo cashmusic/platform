@@ -1,0 +1,11 @@
+{
+	"pagetip":"Confirm to delete.",
+	"learn":"",
+	"related":{},
+	"labels":{},
+	"tooltips":{},
+	"copy":{
+			"are_you_sure":"Are you sure?",
+			"button_delete_it":"Delete"
+	}
+}
