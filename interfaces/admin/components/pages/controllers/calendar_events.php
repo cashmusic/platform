@@ -47,12 +47,34 @@ $allfuture_response = $cash_admin->requestAndStore(
 	)
 );
 
+
 if (is_array($allfuture_response['payload'])) {
 	formatEventOutput($allfuture_response);
 	$cash_admin->page_data['events_allfuture'] = new ArrayIterator($allfuture_response['payload']);
 }
 
+
+// All events
+$allevents_response = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'calendar',
+		'cash_action' => 'getevents',
+		'user_id' => $cash_admin->effective_user_id,
+		'visible_event_types' => 'both'
+	)
+);
+
+
+if (is_array($allevents_response['payload'])) {
+	formatEventOutput($allevents_response);
+	$cash_admin->page_data['events_all'] = new ArrayIterator($allevents_response['payload']);
+}
+
+
 $cash_admin->page_data['options_venues'] = AdminHelper::echoFormOptions('venues',0,false,true);
+
+//Is Event Published Page data
+$cash_admin->page_data['published'] = $event['published'];
 
 $cash_admin->setPageContentTemplate('calendar_events');
 ?>

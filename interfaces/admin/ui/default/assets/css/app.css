@@ -5103,6 +5103,8 @@ margin:18px 0;
 }
 
 
+/* Lists items */
+
 ul.alternating li .actions a .icon{
 	-webkit-transition: 0.3s  ease-in-out;
 	-moz-transition: 0.3s  ease-in-out;
