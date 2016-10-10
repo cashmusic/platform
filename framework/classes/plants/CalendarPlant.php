@@ -41,7 +41,7 @@ class CalendarPlant extends PlantBase {
 		$this->plantPrep($request_type,$request);
 	}
 
-	protected function findVenues($query,$page=1,$max_returned=12) {
+	protected function findVenues($query,$page=1,$max_returned=12, $user_id) {
 		$limit = (($page - 1) * $max_returned) . ',' . $max_returned;	
 		$fuzzy_query = '%' . $query . '%';
 
@@ -52,7 +52,11 @@ class CalendarPlant extends PlantBase {
 				"query" => array(
 					"condition" => "=",
 					"value" => $fuzzy_query
-				)
+				),
+                "user_id" => array(
+                    "condition" => "=",
+                    "value" => $user_id
+                )
 			),
 			$limit
 		);
@@ -90,7 +94,7 @@ class CalendarPlant extends PlantBase {
 		return $result;
 	}
 
-	protected function addVenue($name,$city,$address1='',$address2='',$region='',$country='',$postalcode='',$url='',$phone='') {
+	protected function addVenue($name,$city,$address1='',$address2='',$region='',$country='',$postalcode='',$url='',$phone='', $user_id) {
 		$result = $this->db->setData(
 			'venues',
 			array(
@@ -102,7 +106,8 @@ class CalendarPlant extends PlantBase {
 				'country' => $country,
 				'postalcode' => $postalcode,
 				'url' => $url,
-				'phone' => $phone
+				'phone' => $phone,
+                'user_id' => $user_id
 			)
 		);
 		return $result;
@@ -245,31 +250,37 @@ class CalendarPlant extends PlantBase {
 			$cutoff_date_high = time() + $offset;
 		}
 
-		$result = $this->db->getData(
+        $conditions = array(
+            "user_id" => array(
+                "condition" => "=",
+                "value" => $user_id
+            ),
+            "cutoff_date_low" => array(
+                "condition" => ">",
+                "value" => $cutoff_date_low
+            ),
+            "cutoff_date_high" => array(
+                "condition" => "<",
+                "value" => $cutoff_date_high
+            ),
+            "cancelled_status" => array(
+                "condition" => "=",
+                "value" => $cancelled_status
+            )
+        );
+
+        // make it so we don't necessarily have to have published flags--- for admin side
+        if ($published_status) {
+            $conditions["published_status"] = array(
+                "condition" => "=",
+                "value" => $published_status
+            );
+        }
+
+        $result = $this->db->getData(
 			'CalendarPlant_getDatesBetween',
 			false,
-			array(
-				"user_id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				),
-				"cutoff_date_low" => array(
-					"condition" => ">",
-					"value" => $cutoff_date_low
-				),
-				"cutoff_date_high" => array(
-					"condition" => "<",
-					"value" => $cutoff_date_high
-				),
-				"cancelled_status" => array(
-					"condition" => "=",
-					"value" => $cancelled_status
-				),
-				"published_status" => array(
-					"condition" => "=",
-					"value" => $published_status
-				)
-			)
+            $conditions
 		);
 
 		if (!is_array($result)) {
@@ -335,11 +346,23 @@ class CalendarPlant extends PlantBase {
 		}
 	}
 
-	protected function getAllVenues() {
+	protected function getAllVenues($user_id, $visible_event_types) {
+
+        $conditions = [
+            'user_id' => [
+                'condition' => '=',
+                'value' => $user_id
+            ]/*,
+            'status' => [
+                'condition' => '=',
+                'value' => 'processed'
+            ]*/
+        ];
+
 		$result = $this->db->getData(
 			'venues',
 			'*',
-			false,
+			$conditions,
 			false,
 			'name ASC'
 		);

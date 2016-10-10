@@ -24,7 +24,8 @@ if (isset($_POST['dovenueadd'])) {
 			'address2' => $addvenue_address2,
 			'postalcode' => $addvenue_postalcode,
 			'url' => $addvenue_url,
-			'phone' => $addvenue_phone
+			'phone' => $addvenue_phone,
+            'user_id' => $cash_admin->effective_user_id
 		)
 	);
 	if ($add_response['payload']) {

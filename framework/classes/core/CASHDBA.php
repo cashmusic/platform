@@ -489,12 +489,14 @@ class CASHDBA {
 				// does not add per-appearance, just on true. slight preference for titles
 				// exact title matches get an additional +1, titles starting with the query an another +1
 				$query = "SELECT * FROM calendar_venues "
-				. "WHERE name LIKE :query OR city LIKE :query "
+				. "WHERE (name LIKE :query OR city LIKE :query) AND user_id = :user_id "
 				. "ORDER BY ("
   				. "(CASE WHEN name LIKE :query THEN 2 ELSE 0 END) + "
   				. "(CASE WHEN city LIKE :query THEN 1 ELSE 0 END)"
 				. ") DESC, name ASC";
 				if ($limit) $query .= " LIMIT $limit";
+
+				error_log($query);
 				break;
 			case 'CommercePlant_getOrder_deep':
 				$query = "SELECT o.id as id, o.user_id as user_id, o.creation_date as creation_date, o.modification_date as modification_date, o.order_contents as order_contents, o.customer_user_id as customer_user_id, o.fulfilled as fulfilled, o.canceled as canceled, o.notes as notes, o.physical as physical, o.digital as digital, o.country_code as country_code, o.currency as currency, o.element_id as element_id, o.transaction_id as transaction_id, o.data as data, "
