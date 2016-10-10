@@ -45,4 +45,5 @@
 			</select>
 		</div><!--pure-->
 	<button type="submit">{{venue_button_text}}</button>
+	{{#venue_editing}}<a href="{{www_path}}/calendar/venues/delete/{{id}}" class="button needsconfirmation">{{copy_delete_venue}}</a>{{/venue_editing}}
 </form>

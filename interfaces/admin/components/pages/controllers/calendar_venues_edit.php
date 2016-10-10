@@ -24,6 +24,7 @@ if (isset($_POST['dovenueedit'])) {
 	}
 }
 
+	
 $current_venue_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'calendar', 
@@ -39,6 +40,7 @@ if (is_array($current_venue)) {
 
 $cash_admin->page_data['form_state_action'] = 'dovenueedit';
 $cash_admin->page_data['venue_button_text'] = 'Save changes';
+$cash_admin->page_data['venue_editing'] = true;
 $cash_admin->page_data['country_options'] = AdminHelper::drawCountryCodeUL($current_venue['country']);
 
 $cash_admin->setPageContentTemplate('calendar_venues_details');
