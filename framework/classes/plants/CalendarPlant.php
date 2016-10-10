@@ -42,9 +42,11 @@ class CalendarPlant extends PlantBase {
 		$this->plantPrep($request_type,$request);
 	}
 
-	protected function findVenues($query,$page=1,$max_returned=12, $user_id) {
+	protected function findVenues($query,$user_id,$page=1,$max_returned=12) {
+
 		$limit = (($page - 1) * $max_returned) . ',' . $max_returned;
 		$fuzzy_query = '%' . $query . '%';
+
 
 		$result = $this->db->getData(
 			'CalendarPlant_findVenues',
@@ -61,6 +63,8 @@ class CalendarPlant extends PlantBase {
 			),
 			$limit
 		);
+
+
 
 		$query_sanitized = preg_replace("/[^a-zA-Z0-9]+/", "", $query);
 		$query_uri = urlencode($query);
@@ -91,7 +95,6 @@ class CalendarPlant extends PlantBase {
 				$result = $namespaced_results;
 			}
 		}
-//		error_log( print_r($result, true) );
 		return $result;
 	}
 

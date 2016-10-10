@@ -496,7 +496,6 @@ class CASHDBA {
 				. ") DESC, name ASC";
 				if ($limit) $query .= " LIMIT $limit";
 
-				error_log($query);
 				break;
 			case 'CommercePlant_getOrder_deep':
 				$query = "SELECT o.id as id, o.user_id as user_id, o.creation_date as creation_date, o.modification_date as modification_date, o.order_contents as order_contents, o.customer_user_id as customer_user_id, o.fulfilled as fulfilled, o.canceled as canceled, o.notes as notes, o.physical as physical, o.digital as digital, o.country_code as country_code, o.currency as currency, o.element_id as element_id, o.transaction_id as transaction_id, o.data as data, "

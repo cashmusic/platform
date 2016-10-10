@@ -20,6 +20,7 @@ function formatEventOutput(&$response) {
     }
 }
 
+$event = "";
 // Archive events
 $allpast_response = $cash_admin->requestAndStore(
 	array(

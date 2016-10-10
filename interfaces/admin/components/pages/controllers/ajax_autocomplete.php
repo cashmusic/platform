@@ -21,6 +21,7 @@
                     'user_id' => $cash_admin->effective_user_id
 				)
 			);
+
 			if (is_array($matchingvenues_response['payload'])) {
 				$options_array = array();
 				foreach ($matchingvenues_response['payload'] as $venue_details) {
