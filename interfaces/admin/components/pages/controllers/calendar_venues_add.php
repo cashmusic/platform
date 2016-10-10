@@ -29,7 +29,7 @@ if (isset($_POST['dovenueadd'])) {
 		)
 	);
 	if ($add_response['payload']) {
-		AdminHelper::formSuccess('Success. Venue added.','/calendar/venues/edit/' . $add_response['payload']);
+		AdminHelper::formSuccess('Success. Venue added.','/calendar/venues/' . $add_response['payload']);
 	} else {
 		AdminHelper::formFailure('Error. Something just didn\'t work right.','/calendar/venues/add/');
 	}
