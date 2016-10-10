@@ -15,8 +15,10 @@
             "quick_details":"Quickly add a venue with just the basics,",
             "quick_details_2":" or alternatively ",
             "quick_details_3":"add a venue with all details",
-            "all_venues":"All venues",
-            "details":"Details",
+            "my_venues":"My venues",
+						"my_venues_description":"(This is your list of manually added venues not found in the <a href='http://venues.cashmusic.org/' target='_blank'>CASH venue database</a>.)",
+            "edit":"Edit",
+						"delete":"Delete",
             "no_venues":"No venues were found."
 
 

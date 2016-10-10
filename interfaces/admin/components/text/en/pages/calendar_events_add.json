@@ -15,6 +15,7 @@
 		"event_details_header":"Event details",
       "add_a_date":"Add a date to the system. Information about published/unpublished status and cancellation can be found in the page tips.",
       "not_found":"Can't find the venue you're looking for? ",
-      "new_venue":"Add a new venue"
+      "new_venue":"Add a new venue",
+			"delete_event":"Delete event"
    }
 }

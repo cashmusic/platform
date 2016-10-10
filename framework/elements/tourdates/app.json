@@ -31,6 +31,19 @@
 					"default":"25",
 					"displaysize":"small"
 				},
+				"date_format":{
+					"label":{
+						"en":"How should dates be formatted?"
+					},
+					"type":"select",
+					"values":{
+						"year-month-day":"yy-mm-dd",
+						"day-month-year":"dd-mm-yy",
+						"month-day-year":"mm-dd-yy"
+					},
+					"required":true,
+					"displaysize":"small"
+				},
 				"visible_event_types":{
 					"label":{
 						"en":"What events should display?"

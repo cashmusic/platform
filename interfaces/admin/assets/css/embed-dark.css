@@ -37,16 +37,12 @@
 
 /* Tour Dates */
 
-.tourdates .cash_event{
-	border: solid 1px #333;
+.tourdates .cm-event{
+	border-bottom:solid 1px rgba(255,255,255,0.1);
 }
 
-.tourdates .cash_event:nth-child(odd){
-	background: rgba(34,34,34,0.5);
-}
-
-.tourdates .cash_event:nth-child(even){
-	background: rgba(34,34,34,1);
+.tourdates .cm-map-url{
+	color:#fff;
 }
 
 /* Social Feeds */
