@@ -62,20 +62,7 @@
 		</ul>
 		{{/events_allfuture}}
 
-<header>
-<h4>All events</h4>
-</header>
-{{#events_all}}
 
-			<p class="material">
-				<a class="primary" href="{{www_path}}/calendar/events/edit/{{event_id}}">
-				<strong>{{formatted_date}}: {{event_location}}</strong><span class="descriptive spaced fadedtext">@ {{venue_name}}</span> {{^published}}not published :({{/published}}{{#published}}published!{{/published}}</a>
-			</p>
-
-			{{/events_all}}
-
-
-{{^events_all}}nothing {{/events_all}}
 
 		{{^events_allfuture}}
 				<div class="empty">
