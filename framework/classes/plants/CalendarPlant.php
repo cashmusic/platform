@@ -286,7 +286,7 @@ class CalendarPlant extends PlantBase {
         );
 
         // make it so we don't necessarily have to have published flags--- for admin side
-        if ($published_status) {
+        if ($published_status != 'all') {
             $conditions["published_status"] = array(
                 "condition" => "=",
                 "value" => $published_status

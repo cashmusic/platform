@@ -27,7 +27,7 @@ $allpast_response = $cash_admin->requestAndStore(
 		'cash_request_type' => 'calendar',
 		'cash_action' => 'getevents',
 		'user_id' => $cash_admin->effective_user_id,
-        'published_status' => false,
+        'published_status' => 'all',
 		'visible_event_types' => 'archive'
 	)
 );
@@ -45,7 +45,7 @@ $allfuture_response = $cash_admin->requestAndStore(
 		'cash_request_type' => 'calendar',
 		'cash_action' => 'getevents',
 		'user_id' => $cash_admin->effective_user_id,
-        'published_status' => false,
+        'published_status' => 'all',
 		'visible_event_types' => 'upcoming'
 	)
 );
@@ -65,7 +65,7 @@ $allevents_response = $cash_admin->requestAndStore(
 		'cash_request_type' => 'calendar',
 		'cash_action' => 'getevents',
 		'user_id' => $cash_admin->effective_user_id,
-        'published_status' => false,
+        'published_status' => 'all',
 		'visible_event_types' => 'both'
 	)
 );
