@@ -11,7 +11,7 @@
 	"calendar":
 		{"page_name":"Calendar", "menu_icon":"", "tagline":"shows and venues"},
 	"calendar/events":
-		{"page_name":"Events", "menu_icon":"calendar"},
+		{"page_name":"Events", "menu_icon":"calendar", "hide":true},
 	"calendar/events/add":
 		{"page_name":"Add event", "menu_icon":""},
 	"calendar/events/edit":

@@ -19,14 +19,11 @@
 		<br /><br />
 {{/no_events}}
 
-
-	{{^no_events}}
-	<div class="pure-u-1">
-
-		<header>
+{{#events_thisweek}}
+ 	<div class="pure-u-1">
+ 		<header>
 		<h4>{{copy_this_week}}</h4>
 		</header>
- {{#events_thisweek}}
 		<ul class="alternating">
 			{{#events_thisweek}}
 			<li>
@@ -43,13 +40,49 @@
 			</li>
 			{{/events_thisweek}}
 		</ul>
-		{{/events_thisweek}}
-
-		{{^events_thisweek}}
-		<div class="empty">
-		<p>{{copy_no_upcoming_events}}</p>
-		</div><!--empty-->
-		{{/events_thisweek}}
-<a class="button" href="{{www_path}}/calendar/events/">{{label_submit_button}}</a>
 	</div><!--pure-->
-{{/no_events}}
+	{{/events_thisweek}}
+
+<div class="pure-u-1">
+	{{#events_allfuture}}
+		<div class="material">
+			<h5 class="usecolor5">{{copy_upcoming_events}}</h5>
+		<ul class="dates">
+			{{#events_allfuture}}
+			<li>
+				<a class="{{#published}}usecolor5{{/published}}" href="{{www_path}}/calendar/events/edit/{{event_id}}"><div class="icon icon-calendar"></div><!--icon--><strong> {{formatted_date}}: {{event_location}}</strong><span class="descriptive spaced fadedtext">@ {{venue_name}}</span> {{#published}}published!{{/published}}</a>
+			</li>
+			{{/events_allfuture}}
+		</ul></div><!--material-->
+	{{/events_allfuture}}
+
+
+
+	{{^events_allfuture}}
+			<div class="empty">
+				<p>{{copy_no_upcoming_events}}</p>
+			</div>
+	{{/events_allfuture}}
+
+	{{#events_allpast}}
+		<div class="material">
+		<h5>{{copy_archive_events}}</h5>
+		<ul class="dates">
+			{{#events_allpast}}
+				<li><a class="files" href="{{www_path}}/calendar/events/edit/{{event_id}}"><div class="icon icon-calendar"></div><!--icon--><strong> {{formatted_date}}: </strong><span class="descriptive spaced fadedtext">@ {{venue_name}}</span> {{#published}}published!{{/published}}</a>
+			</li>
+			{{/events_allpast}}
+		</ul></div><!--material-->
+	{{/events_allpast}}
+
+
+{{^events_allpast}}
+		<div class="empty">
+		<p>{{copy_no_archive_events}}</p>
+		</div>
+{{/events_allpast}}
+	</div><!--pure-->
+	<div class="pure-u-1">	
+	<a class="lightboxed button" href="{{www_path}}/calendar/events/">{{label_submit_button}}</a>
+	</div><!--pure-->
+
