@@ -50,9 +50,6 @@
 .icon-ban:before {
   content: "\66";
 }
-.icon-barcode:before {
-  content: "\67";
-}
 .icon-group:before {
   content: "\68";
 }
@@ -71,17 +68,11 @@
 .icon-heart:before {
   content: "\6d";
 }
-.icon-book:before {
-  content: "\6e";
-}
 .icon-calendar:before {
   content: "\6f";
 }
 .icon-lg-arw:before {
   content: "\70";
-}
-.icon-signout:before {
-  content: "\71";
 }
 .icon-share:before {
   content: "\72";
@@ -107,14 +98,8 @@
 .icon-unlock:before {
   content: "\79";
 }
-.icon-unlink:before {
-  content: "\7a";
-}
 .icon-user:before {
   content: "\41";
-}
-.icon-map:before {
-  content: "\42";
 }
 .icon-paperclip:before {
   content: "\43";
@@ -122,23 +107,8 @@
 .icon-paste:before {
   content: "\46";
 }
-.icon-cog:before {
-  content: "\47";
-}
 .icon-pencil:before {
   content: "\48";
-}
-.icon-plus:before {
-  content: "\49";
-}
-.icon-logo:before {
-  content: "\4b";
-}
-.icon-bulb:before {
-  content: "\4d";
-}
-.icon-dollar:before {
-  content: "\4a";
 }
 .icon-bulb-o:before {
   content: "\4c";
@@ -149,35 +119,14 @@
 .icon-question:before {
   content: "\4f";
 }
-.icon-nothing:before {
-  content: "\51";
-}
 .icon-arw-up:before {
   content: "\65";
 }
 .icon-file-block:before {
   content: "\52";
 }
-.icon-truck:before {
-  content: "\50";
-}
 .icon-circle-plus:before {
   content: "\4e";
-}
-.icon-data:before {
-  content: "\54";
-}
-.icon-learn:before {
-  content: "\53";
-}
-.icon-menu:before {
-  content: "\56";
-}
-.icon-tick:before {
-  content: "\57";
-}
-.icon-divider:before {
-  content: "\55";
 }
 .icon-wrench:before {
   content: "\44";
@@ -187,4 +136,58 @@
 }
 .icon-chevron:before {
   content: "\58";
+}
+.icon-plus:before {
+  content: "\49";
+}
+.icon-barcode:before {
+  content: "\67";
+}
+.icon-book:before {
+  content: "\6e";
+}
+.icon-book-1:before {
+  content: "\71";
+}
+.icon-bulb:before {
+  content: "\7a";
+}
+.icon-dollar:before {
+  content: "\42";
+}
+.icon-divider:before {
+  content: "\47";
+}
+.icon-data:before {
+  content: "\4a";
+}
+.icon-cog:before {
+  content: "\4b";
+}
+.icon-logo:before {
+  content: "\4d";
+}
+.icon-map:before {
+  content: "\50";
+}
+.icon-menu:before {
+  content: "\51";
+}
+.icon-nothing:before {
+  content: "\53";
+}
+.icon-unlink:before {
+  content: "\54";
+}
+.icon-truck:before {
+  content: "\55";
+}
+.icon-tick:before {
+  content: "\56";
+}
+.icon-signout:before {
+  content: "\57";
+}
+.icon-live:before {
+  content: "\59";
 }
