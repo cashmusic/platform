@@ -27,7 +27,7 @@ $allpast_response = $cash_admin->requestAndStore(
 		'cash_request_type' => 'calendar',
 		'cash_action' => 'getevents',
 		'user_id' => $cash_admin->effective_user_id,
-        'published_status' => 'all',
+        'published_status' => 1,
 		'visible_event_types' => 'archive'
 	)
 );
@@ -45,7 +45,7 @@ $allfuture_response = $cash_admin->requestAndStore(
 		'cash_request_type' => 'calendar',
 		'cash_action' => 'getevents',
 		'user_id' => $cash_admin->effective_user_id,
-        'published_status' => 'all',
+        'published_status' => 1,
 		'visible_event_types' => 'upcoming'
 	)
 );
@@ -56,24 +56,6 @@ if (is_array($allfuture_response['payload'])) {
     formatEventOutput($allfuture_response);
 
 	$cash_admin->page_data['events_allfuture'] = new ArrayIterator($allfuture_response['payload']);
-}
-
-
-// All events
-$allevents_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'calendar',
-		'cash_action' => 'getevents',
-		'user_id' => $cash_admin->effective_user_id,
-        'published_status' => 'all',
-		'visible_event_types' => 'both'
-	)
-);
-
-
-if (is_array($allevents_response['payload'])) {
-	formatEventOutput($allevents_response);
-	$cash_admin->page_data['events_all'] = new ArrayIterator($allevents_response['payload']);
 }
 
 
