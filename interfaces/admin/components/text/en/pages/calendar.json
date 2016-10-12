@@ -12,17 +12,18 @@
 	"copy":{
         "calendar_title":"Calendar",
         "calendar_subtitle":"Your events",
-        "upcoming_events":"Upcoming Events",
-        "archive_events":"Past Events",
+        "upcoming_events":"All upcoming events",
+        "archive_events":"all past events",
 		"add_an_event":"Add an event",
 		"firstuse":"Calendar is where you'll enter in your upcoming tour dates, in stores, radio performances, etc. <span class='first-para'>Anything you need to tell your fans about and use in one of your campaign elements.</span>",
-    "cant_find_venue":"Can't find the venue you're looking for?",
-    "add_new_venue":"Add a new venue to your list",
-    "this_week":"This week at a glance",
-    "edit_event":"Edit",
+        "cant_find_venue":"Can't find the venue you're looking for?",
+        "add_new_venue":"Add a new venue to your list",
+        "this_week":"This week at a glance",
+        "edit_event":"Edit",
 		"delete_event":"Delete",
-    "no_upcoming_events":"No upcoming events for the next week were found.",
-    "unpublished_events":"Unpublished events",
-    "no_unpublished_events":"No unpublished events were found."
+        "no_events":"No events found. Add one below to get started.",
+        "no_upcoming_events":"No upcoming events for the next week were found.",
+        "unpublished_events":"Unpublished events",
+        "no_unpublished_events":"No unpublished events were found."
    }
 }
