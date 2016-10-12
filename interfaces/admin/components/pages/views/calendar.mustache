@@ -41,21 +41,18 @@
 			{{/events_thisweek}}
 		</ul>
 	</div><!--pure-->
-	{{/events_thisweek}}
+{{/events_thisweek}}
 
-<div class="pure-u-1">
+	<div class="pure-u-1">
 	{{#events_allfuture}}
-		<div class="material">
-			<h5 class="usecolor5">{{copy_upcoming_events}}</h5>
+		<div class="material usecolor5">
+			<h5 class="">{{copy_upcoming_events}}</h5>
 		<ul class="dates">
 			{{#events_allfuture}}
-			<li>
-				<a class="{{#published}}usecolor5{{/published}}" href="{{www_path}}/calendar/events/edit/{{event_id}}"><div class="icon icon-calendar"></div><!--icon--><strong> {{formatted_date}}: {{event_location}}</strong><span class="descriptive spaced fadedtext">@ {{venue_name}}</span> {{#published}}published!{{/published}}</a>
-			</li>
+				<li><a class="{{#published}}published-date{{/published}}" title="Edit Date" href="{{www_path}}/calendar/events/edit/{{event_id}}"><div class="inner"><div class="icon icon-calendar"></div><!--icon--><strong> {{formatted_date}}: </strong><span class="descriptive spaced fadedtext">@ {{venue_name}}</span></div><!--inner--> {{#published}}<span class="state-icons"><div title="Published" class="icon icon-live"></div><!--icon--></span>{{/published}}</a></li>
 			{{/events_allfuture}}
 		</ul></div><!--material-->
 	{{/events_allfuture}}
-
 
 
 	{{^events_allfuture}}
@@ -65,12 +62,11 @@
 	{{/events_allfuture}}
 
 	{{#events_allpast}}
-		<div class="material">
+		<div class="material usecolor5">
 		<h5>{{copy_archive_events}}</h5>
 		<ul class="dates">
 			{{#events_allpast}}
-				<li><a class="files" href="{{www_path}}/calendar/events/edit/{{event_id}}"><div class="icon icon-calendar"></div><!--icon--><strong> {{formatted_date}}: </strong><span class="descriptive spaced fadedtext">@ {{venue_name}}</span> {{#published}}published!{{/published}}</a>
-			</li>
+				<li><a class="{{#published}}published-date{{/published}}" href="{{www_path}}/calendar/events/edit/{{event_id}}"><div class="inner"><div class="icon icon-calendar"></div><!--icon--><strong> {{formatted_date}}: </strong><span class="descriptive spaced fadedtext">@ {{venue_name}}</span></div><!--inner--> {{#published}}<span class="state-icons"><div title="Published" class="icon icon-live"></div><!--icon--></span>{{/published}}</a></li>
 			{{/events_allpast}}
 		</ul></div><!--material-->
 	{{/events_allpast}}
@@ -82,7 +78,8 @@
 		</div>
 {{/events_allpast}}
 	</div><!--pure-->
+
 	<div class="pure-u-1">	
-	<a class="lightboxed button" href="{{www_path}}/calendar/events/">{{label_submit_button}}</a>
+	<a class="button" href="{{www_path}}/calendar/events/">{{label_submit_button}}</a>
 	</div><!--pure-->
 

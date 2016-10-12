@@ -11,7 +11,9 @@
 	"tooltips":{},
 	"copy":{
         "calendar_title":"Calendar",
-        "calendar_subtitle":"Upcoming events",
+        "calendar_subtitle":"Your events",
+        "upcoming_events":"Upcoming Events",
+        "archive_events":"Past Events",
 		"add_an_event":"Add an event",
 		"firstuse":"Calendar is where you'll enter in your upcoming tour dates, in stores, radio performances, etc. <span class='first-para'>Anything you need to tell your fans about and use in one of your campaign elements.</span>",
     "cant_find_venue":"Can't find the venue you're looking for?",

@@ -13,10 +13,7 @@ if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
 		)
 	);
 	if ($event_delete_request->response['status_uid'] == 'calendar_deleteevent_200') {
-		if (isset($_REQUEST['redirectto'])) {
-			AdminHelper::formSuccess('Success. Deleted.',$_REQUEST['redirectto']);
-		} else {
-			AdminHelper::formSuccess('Success. Deleted.','/calendar/events/');
+			AdminHelper::formSuccess('Success. Deleted.','/calendar/');
 		}
 	}
 }

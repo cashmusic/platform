@@ -3633,7 +3633,29 @@ body.login #mainspc:after{
 .material ul.dates li{
 	padding:5px 0;
 	border-bottom:solid 1px #eee;
+	text-align: left;
 }
+
+.material ul.dates li:hover{
+	background:#eee;
+}
+
+.material ul.dates li:last-of-type{
+	border:none;
+}
+
+.material ul.dates li .inner{
+	display: inline-block;
+	width:90%;
+	margin:0;
+}
+
+.material ul.dates li .published-date .state-icons{
+	width:10%;
+	display: inline-block;
+	text-align: right;
+}
+
 
 /* Primary Material Button */
 
