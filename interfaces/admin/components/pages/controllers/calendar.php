@@ -23,22 +23,12 @@ function formatEventOutput(&$response) {
 /*$thisweek_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'calendar',
-		'cash_action' => 'getevents',
+		'cash_action' => 'geteventsnostatus',
 		'user_id' => $cash_admin->effective_user_id,
-		'published_status' => 'all',
 		'visible_event_types' => 'upcoming'
 	)
 );*/
 
-/*$unpublished_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'calendar',
-		'cash_action' => 'getevents',
-		'user_id' => $cash_admin->effective_user_id,
-		'published_status' => false,
-		'visible_event_types' => 'upcoming'
-	)
-);*/
 
 // this week
 if (is_array($thisweek_response['payload'])) {
@@ -52,18 +42,6 @@ if (is_array($unpublished_response['payload'])) {
 	formatEventOutput($unpublished_response);
 	$cash_admin->page_data['events_unpublished'] = new ArrayIterator($unpublished_response['payload']);
 }
-/*
-// Any events at all? (first use)
-$allevents_response = $cash_admin->requestAndStore(
-	array(
-		'cash_request_type' => 'calendar',
-		'cash_action' => 'getevents',
-		'user_id' => $cash_admin->effective_user_id,
-		'published_status' => 'all',
-		'visible_event_types' => 'both'
-
-	)
-);*/
 
 $event = "";
 // Archive events
@@ -76,8 +54,6 @@ $allpast_response = $cash_admin->requestAndStore(
 	)
 );
 
-error_log("allpast_response ".print_r($allpast_response, true));
-
 if (is_array($allpast_response['payload'])) {
     formatEventOutput($allpast_response);
 
@@ -85,15 +61,14 @@ if (is_array($allpast_response['payload'])) {
 }
 
 // Upcoming events
-/*$allfuture_response = $cash_admin->requestAndStore(
+$allfuture_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'calendar',
-		'cash_action' => 'getevents',
+		'cash_action' => 'geteventsnostatus',
 		'user_id' => $cash_admin->effective_user_id,
-        'published_status' => true,
 		'visible_event_types' => 'upcoming'
 	)
-);*/
+);
 
 if (is_array($allfuture_response['payload'])) {
 
@@ -109,10 +84,8 @@ $cash_admin->page_data['options_venues'] = AdminHelper::echoFormOptions('venues'
 $cash_admin->page_data['published'] = isset($event['published']) ? $event['published'] : false;
 $cash_admin->page_data['cancelled'] = isset($event['cancelled']) ? $event['cancelled'] : false;
 
-
-
-$cash_admin->page_data['no_events'] = !$allevents_response['payload'];
-
+$total_count_of_events = count($allfuture_response) + count($allpast_response);
+$cash_admin->page_data['no_events'] = (count($total_count_of_events) > 0) ? false : true;
 
 $cash_admin->setPageContentTemplate('calendar');
 ?>

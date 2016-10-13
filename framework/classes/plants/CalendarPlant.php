@@ -358,24 +358,38 @@ class CalendarPlant extends PlantBase {
 			)
 		);
 
-		error_log("WTF " .print_r($conditions, true));
-
 		$result = $this->db->getData(
 			'CalendarPlant_getDatesBetweenNoStatus',
 			false,
 			$conditions
 		);
 
-		error_log("CalendarPlant_getDatesBetweenNoStatus: ".print_r($result, true));
-
 		if (!is_array($result)) {
 			return false;
 		}
 
-		error_log(
-			"here's your fucking results, man".
-			print_r($result,true)
-		);
+		$events_with_venues = array();
+
+		if (is_array($result)) {
+			foreach ($result as $event) {
+				// if we get a venue result, merge the arrays
+				if ($venue = $this->getVenue($event['venue_id'])) {
+					// remap to venue_
+					$venue = array_combine(
+						array_map(function($k){ return 'venue_'.$k; }, array_keys($venue)),
+						$venue
+					);
+
+					$events_with_venues[] = array_merge($event, $venue);
+				} else {
+					$events_with_venues[] = $event;
+				}
+
+			}
+		}
+
+		return $events_with_venues;
+
 	}
 
 	protected function getVenue($venue_id) {

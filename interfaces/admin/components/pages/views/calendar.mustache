@@ -21,7 +21,7 @@
 
 <div class="pure-u-1">
 	{{#events_thisweek}}
-	<div class="material usecolor5">
+	<div class="material usecolor5" data-event-section="thisweek">
 			<h5 class="">{{copy_this_week}}</h5>
 		<ul class="dates">
 			{{#events_thisweek}}
@@ -31,7 +31,7 @@
 {{/events_thisweek}}
 
 	{{#events_allfuture}}
-		<div class="material usecolor5">
+		<div class="material usecolor5" data-event-section="allfuture">
 			<h5 class="">{{copy_upcoming_events}}</h5>
 		<ul class="dates">
 			{{#events_allfuture}}
@@ -42,7 +42,7 @@
 
 
 	{{^events_allpast}}
-		<div class="material usecolor5">
+		<div class="material usecolor5" data-event-section="allpast">
 		<h5>{{copy_archive_events}}</h5>
 		<ul class="dates">
 			{{#events_allpast}}
@@ -53,7 +53,7 @@
 
             
     {{#events_allpast}}                        
-        <div class="material drawer usecolor5 pure-u-1">
+        <div class="material drawer usecolor5 pure-u-1" data-event-section="allpast">
 			<h5 class="drawerhandle title"><span>{{copy_archive_events}}</span></h5>
 			<div class="drawercontent">
 				<ul class="dates">
