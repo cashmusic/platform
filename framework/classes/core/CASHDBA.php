@@ -286,6 +286,8 @@ class CASHDBA {
 						$valuecount++;
 					}
 					$return_str .= ')';
+
+					error_log($return_str);
 				}
 			} else {
 				if (is_string($details['value'])) {
@@ -586,8 +588,14 @@ class CASHDBA {
 			case 'CalendarPlant_getDatesBetween':
 				$query = "SELECT e.id as 'event_id', e.date as 'date',e.published as 'published',e.cancelled as 'cancelled',e.purchase_url as 'purchase_url',e.comments as 'comments',e.creation_date as 'creation_date',e.modification_date as 'modification_date', e.venue_id as 'venue_id' "
 				. "FROM calendar_events e "
-				. "WHERE e.date > :cutoff_date_low AND e.date < :cutoff_date_high AND e.user_id = :user_id AND e.published = :published_status AND e.cancelled = :cancelled_status ORDER BY e.date ASC";
+				. "WHERE e.date > :cutoff_date_low AND e.date < :cutoff_date_high AND e.user_id = :user_id AND e.published IN :published_status AND e.cancelled = :cancelled_status ORDER BY e.date ASC";
 				break;
+			case 'CalendarPlant_getDatesBetweenNoStatus':
+				$query = "SELECT e.id as 'event_id', e.date as 'date',e.published as 'published',e.cancelled as 'cancelled',e.purchase_url as 'purchase_url',e.comments as 'comments',e.creation_date as 'creation_date',e.modification_date as 'modification_date', e.venue_id as 'venue_id' "
+					. "FROM calendar_events e "
+					. "WHERE e.date > :cutoff_date_low AND e.date < :cutoff_date_high AND e.user_id = :user_id ORDER BY e.date ASC";
+				break;
+
 			case 'CommercePlant_getExternalFulfillmentTiersAndOrderCount':
 				$query = "SELECT (SELECT count(*) FROM commerce_external_fulfillment_orders as o WHERE o.tier_id = t.id) as orders, t.* from commerce_external_fulfillment_tiers as t "
 				. "WHERE t.fulfillment_job_id = :fulfillment_job_id and t.user_id = :user_id";
@@ -630,6 +638,7 @@ class CASHDBA {
 					$values_array[':'.$value] = $details['value'];
 				}
 
+				error_log("values array ".print_r($values_array, true));
 				return $this->doQuery($query,$values_array);
 			} else {
 				return $this->doQuery($query);

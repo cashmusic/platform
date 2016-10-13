@@ -35,6 +35,7 @@ class CalendarPlant extends PlantBase {
 			'getallvenues'      => array('getAllVenues','direct'),
 			'getevent'          => array('getEvent','direct'),
 			'getevents'         => array('getEvents','direct'),
+			'geteventsnostatus' => array('getEventsNoStatus', 'direct'),
 			'getvenue'          => array('getVenue','direct')
 		);
 
@@ -266,6 +267,9 @@ class CalendarPlant extends PlantBase {
 			$cutoff_date_high = time() + $offset;
 		}
 
+		if ($published_status == 'all' || empty($published_status)) $published_status = "0,1";
+		if ($published_status != 'all' && !empty($published_status)) $published_status = $published_status;
+
         $conditions = array(
             "user_id" => array(
                 "condition" => "=",
@@ -282,21 +286,17 @@ class CalendarPlant extends PlantBase {
             "cancelled_status" => array(
                 "condition" => "=",
                 "value" => $cancelled_status
-            )
+            ),
+			"published_status" => array(
+				"condition" => "IN",
+				"value" => $published_status
+			)
         );
 
-        // make it so we don't necessarily have to have published flags--- for admin side
-        if ($published_status != 'all') {
-            $conditions["published_status"] = array(
-                "condition" => "=",
-                "value" => $published_status
-            );
-        }
-
-        $result = $this->db->getData(
+		$result = $this->db->getData(
 			'CalendarPlant_getDatesBetween',
 			false,
-            $conditions
+			$conditions
 		);
 
 		if (!is_array($result)) {
@@ -325,6 +325,57 @@ class CalendarPlant extends PlantBase {
 
 
 		return $events_with_venues;
+	}
+
+	protected function getEventsNoStatus($user_id, $visible_event_types="upcoming") {
+		switch ($visible_event_types) {
+			case 'upcoming':
+				$cutoff_date_low = 'now';
+				$cutoff_date_high = 2051244000;
+				break;
+			case 'archive':
+				$cutoff_date_low = 229305600; // april 8, 1977 -> yes it's significant
+				$cutoff_date_high = 'now';
+				break;
+			case 'both':
+				$cutoff_date_low = 229305600;
+				$cutoff_date_high = 2051244000;
+				break;
+		}
+
+		$conditions = array(
+			"user_id" => array(
+				"condition" => "=",
+				"value" => $user_id
+			),
+			"cutoff_date_low" => array(
+				"condition" => ">",
+				"value" => $cutoff_date_low
+			),
+			"cutoff_date_high" => array(
+				"condition" => "<",
+				"value" => $cutoff_date_high
+			)
+		);
+
+		error_log("WTF " .print_r($conditions, true));
+
+		$result = $this->db->getData(
+			'CalendarPlant_getDatesBetweenNoStatus',
+			false,
+			$conditions
+		);
+
+		error_log("CalendarPlant_getDatesBetweenNoStatus: ".print_r($result, true));
+
+		if (!is_array($result)) {
+			return false;
+		}
+
+		error_log(
+			"here's your fucking results, man".
+			print_r($result,true)
+		);
 	}
 
 	protected function getVenue($venue_id) {
