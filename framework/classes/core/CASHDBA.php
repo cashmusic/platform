@@ -286,8 +286,6 @@ class CASHDBA {
 						$valuecount++;
 					}
 					$return_str .= ')';
-
-					error_log($return_str);
 				}
 			} else {
 				if (is_string($details['value'])) {
@@ -638,7 +636,6 @@ class CASHDBA {
 					$values_array[':'.$value] = $details['value'];
 				}
 
-				error_log("values array ".print_r($values_array, true));
 				return $this->doQuery($query,$values_array);
 			} else {
 				return $this->doQuery($query);
