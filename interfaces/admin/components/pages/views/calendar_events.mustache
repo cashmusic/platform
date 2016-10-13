@@ -1,18 +1,10 @@
 {{! corresponding files: calendar_events.php & calendar_events.json }}
 <header class="page-header">
-		<h4 class="page-title">{{copy_events_title}}</h4>
-		<h5 class="page-subtitle">{{{copy_events_subtitle}}}</h5>
+		<a class="returnlink current" href="{{www_path}}/calendar/"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">{{copy_add_an_event}}</h4>
+		<h5 class="page-subtitle">{{copy_quickly_details}}</h5>
 </header>
 
 	<div class="pure-u-1">
-		<header>
-		<h4>{{copy_add_an_event}}</h4>
-		</header>
-		<p>
-			{{copy_quickly_details}}
-		</p>
-
-
 		<form accept-charset="UTF-8" method="post" action="{{www_path}}/calendar/events/add/" name="add_event">
 			<input type="hidden" name="doeventadd" value="makeitso" />
 
