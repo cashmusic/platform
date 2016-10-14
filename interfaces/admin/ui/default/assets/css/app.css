@@ -3327,6 +3327,7 @@ body.login #mainspc:after{
 .usecolor5 input.checkorradio:checked {background-color:#fa3866;}
 
 #mainspc.usecolor2 a:hover, #mainspc.usecolor3 a:hover, #mainspc.usecolor4 a:hover, #mainspc.usecolor5 a:hover{color:#333;}
+#mainspc.usecolor2 .callout-inner a:hover, #mainspc.usecolor3 .callout-inner a:hover, #mainspc.usecolor4 .callout-inner a:hover, #mainspc.usecolor5 .callout-inner a:hover{color:#f5f5f5; text-decoration: underline;}
 
 /* Active Button State */
 
@@ -3611,6 +3612,8 @@ body.login #mainspc:after{
 	font-size:13px;
 }
 
+/* Material lists */
+
 .material ul{
 	list-style-type:none;
 }
@@ -3629,6 +3632,102 @@ body.login #mainspc:after{
 	text-decoration: none;
 	color:#7d7d7d;
 }
+
+.material ul li a{
+	padding:5px;
+	margin:0 -5px;
+	border-bottom:solid 1px #eee;
+	text-align: left;
+	-webkit-transition: 0.3s  ease-in-out;
+	-moz-transition: 0.3s  ease-in-out;
+	transition:0.3s ease-in-out;
+}
+
+.material ul li:last-of-type a{
+	border:none;
+}
+
+/* Material Calendar Dates */
+
+.material ul.dates li a:hover{
+	background:#eee;
+}
+
+.material ul.dates li a{
+	display: block;
+}
+
+.material ul.dates li a span{
+	display: inline-block;
+	padding:0;
+}
+
+.material ul.dates li a span.fadedtext{
+	font-family: 'Nunito',Helvetica,Arial,sans-serif;
+}
+
+.material ul.dates li .inner{
+	display: inline-block;
+	margin:0;
+}
+
+.material ul.dates li .state-icons{
+	display: inline-block;
+	text-align: right;
+}
+
+/* Unpublished Date */
+
+.material ul.dates li .unpublished-date{
+	-webkit-filter: grayscale(100%); /* Chrome, Safari, Opera */
+    filter: grayscale(100%);
+}
+
+/* Cancelled Date */
+
+.material ul.dates li .cancelled{
+	-webkit-filter: grayscale(100%); /* Chrome, Safari, Opera */
+    filter: grayscale(100%);
+    opacity: 0.7;
+}
+
+.material ul.dates li .cancelled hr{
+	margin:10px 0 -10px 0;
+	opacity: 0.7;
+}
+
+.material ul.dates li .cancelled .fadedtext{
+	text-decoration:line-through;
+}
+
+/* Material Drawers */
+
+.material.drawer .drawerhandle{
+	display: block;
+	margin: -20px -30px -20px -30px;
+    padding: 20px 30px 20px 30px;
+	background:none;
+	border:none;
+	border-radius: 0px;
+}
+
+.material.drawer.open .drawerhandle{
+	margin-bottom: -14px
+}
+
+.material.drawer .drawerhandle:hover span{
+	color:#fff;
+	fill:#fff;
+}
+
+.material.drawer .drawercontent{
+	margin:25px 0 0 0;
+	padding:0;
+}
+
+ #pagedisplay .material.drawer .drawerhandle:hover .icon{
+ 	color:#fff;
+ }
 
 /* Primary Material Button */
 
@@ -3988,6 +4087,7 @@ fieldset{
 	height:100%;
 	z-index: 20;
 }
+
 
 .alt.callout:after{
 	content: '';
@@ -5102,6 +5202,8 @@ margin:18px 0;
 	background:rgba(34,34,34,0.5);
 }
 
+
+/* Lists items */
 
 ul.alternating li .actions a .icon{
 	-webkit-transition: 0.3s  ease-in-out;

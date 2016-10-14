@@ -17,9 +17,11 @@
 				array(
 					'cash_request_type' => 'calendar', 
 					'cash_action' => 'findvenues',
-					'query' => $request_parameters[1]
+					'query' => $request_parameters[1],
+                    'user_id' => $cash_admin->effective_user_id
 				)
 			);
+
 			if (is_array($matchingvenues_response['payload'])) {
 				$options_array = array();
 				foreach ($matchingvenues_response['payload'] as $venue_details) {

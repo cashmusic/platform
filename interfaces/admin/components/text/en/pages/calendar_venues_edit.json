@@ -12,5 +12,7 @@
             "postal_code":"Postal Code",
             "country":"Country"},
 	"tooltips":{},
-	"copy":{"edit_venue":"Edit Venue"}
+	"copy":{"edit_venue":"Edit Venue",
+            "delete_venue":"Delete Venue"
+      }
 }

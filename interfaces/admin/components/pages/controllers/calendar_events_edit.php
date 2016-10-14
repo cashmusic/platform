@@ -21,7 +21,7 @@ if (isset($_POST['doeventedit'])) {
 		)
 	);
 	if ($edit_response['status_uid'] == 'calendar_editevent_200') {
-		AdminHelper::formSuccess('Success. Edited.','/calendar/events/');
+		AdminHelper::formSuccess('Success. Edited.','/calendar/');
 	} else {
 		AdminHelper::formFailure('Error. There was a problem editing.');
 	}
@@ -68,6 +68,7 @@ if ($cash_admin->page_data['published']) {
 }
 $cash_admin->page_data['form_state_action'] = 'doeventedit';
 $cash_admin->page_data['event_button_text'] = 'Save changes';
+$cash_admin->page_data['event_id'] = $event_id = $request_parameters[0];
 
 $cash_admin->setPageContentTemplate('calendar_events_details');
 ?>

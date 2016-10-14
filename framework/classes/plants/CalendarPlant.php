@@ -35,6 +35,7 @@ class CalendarPlant extends PlantBase {
 			'getallvenues'      => array('getAllVenues','direct'),
 			'getevent'          => array('getEvent','direct'),
 			'getevents'         => array('getEvents','direct'),
+			'geteventsnostatus' => array('getEventsNoStatus', 'direct'),
 			'getvenue'          => array('getVenue','direct')
 		);
 
@@ -42,9 +43,11 @@ class CalendarPlant extends PlantBase {
 		$this->plantPrep($request_type,$request);
 	}
 
-	protected function findVenues($query,$page=1,$max_returned=12) {
+	protected function findVenues($query,$user_id,$page=1,$max_returned=12) {
+
 		$limit = (($page - 1) * $max_returned) . ',' . $max_returned;
 		$fuzzy_query = '%' . $query . '%';
+
 
 		$result = $this->db->getData(
 			'CalendarPlant_findVenues',
@@ -53,10 +56,16 @@ class CalendarPlant extends PlantBase {
 				"query" => array(
 					"condition" => "=",
 					"value" => $fuzzy_query
-				)
+				),
+                "user_id" => array(
+                    "condition" => "=",
+                    "value" => $user_id
+                )
 			),
 			$limit
 		);
+
+
 
 		$query_sanitized = preg_replace("/[^a-zA-Z0-9]+/", "", $query);
 		$query_uri = urlencode($query);
@@ -87,11 +96,10 @@ class CalendarPlant extends PlantBase {
 				$result = $namespaced_results;
 			}
 		}
-//		error_log( print_r($result, true) );
 		return $result;
 	}
 
-	protected function addVenue($name,$city,$address1='',$address2='',$region='',$country='',$postalcode='',$url='',$phone='') {
+	protected function addVenue($name,$city,$address1='',$address2='',$region='',$country='',$postalcode='',$url='',$phone='', $user_id) {
 		$result = $this->db->setData(
 			'venues',
 			array(
@@ -103,7 +111,8 @@ class CalendarPlant extends PlantBase {
 				'country' => $country,
 				'postalcode' => $postalcode,
 				'url' => $url,
-				'phone' => $phone
+				'phone' => $phone,
+                'user_id' => $user_id
 			)
 		);
 		return $result;
@@ -234,12 +243,12 @@ class CalendarPlant extends PlantBase {
 		if (!$cutoff_date_low) {
 			switch ($visible_event_types) {
 				case 'upcoming':
-					$cutoff_date_low = 'now';
+					$cutoff_date_low = strtotime('today');
 					$cutoff_date_high = 2051244000;
 					break;
 				case 'archive':
 					$cutoff_date_low = 229305600; // april 8, 1977 -> yes it's significant
-					$cutoff_date_high = 'now';
+					$cutoff_date_high = strtotime('today');
 					break;
 				case 'both':
 					$cutoff_date_low = 229305600;
@@ -258,31 +267,33 @@ class CalendarPlant extends PlantBase {
 			$cutoff_date_high = time() + $offset;
 		}
 
+        $conditions = array(
+            "user_id" => array(
+                "condition" => "=",
+                "value" => $user_id
+            ),
+            "cutoff_date_low" => array(
+                "condition" => ">",
+                "value" => $cutoff_date_low
+            ),
+            "cutoff_date_high" => array(
+                "condition" => "<",
+                "value" => $cutoff_date_high
+            ),
+            "cancelled_status" => array(
+                "condition" => "=",
+                "value" => $cancelled_status
+            ),
+			"published_status" => array(
+				"condition" => "=",
+				"value" => $published_status
+			)
+        );
+
 		$result = $this->db->getData(
 			'CalendarPlant_getDatesBetween',
 			false,
-			array(
-				"user_id" => array(
-					"condition" => "=",
-					"value" => $user_id
-				),
-				"cutoff_date_low" => array(
-					"condition" => ">",
-					"value" => $cutoff_date_low
-				),
-				"cutoff_date_high" => array(
-					"condition" => "<",
-					"value" => $cutoff_date_high
-				),
-				"cancelled_status" => array(
-					"condition" => "=",
-					"value" => $cancelled_status
-				),
-				"published_status" => array(
-					"condition" => "=",
-					"value" => $published_status
-				)
-			)
+			$conditions
 		);
 
 		if (!is_array($result)) {
@@ -311,6 +322,73 @@ class CalendarPlant extends PlantBase {
 
 
 		return $events_with_venues;
+	}
+
+	protected function getEventsNoStatus($user_id, $visible_event_types="upcoming", $cutoff_date_low=false, $cutoff_date_high=false) {
+		if (!$cutoff_date_low) {
+			switch ($visible_event_types) {
+				case 'upcoming':
+					$cutoff_date_low = strtotime('today -1 day');
+					$cutoff_date_high = 2051244000;
+					break;
+				case 'archive':
+					$cutoff_date_low = 229305600; // april 8, 1977 -> yes it's significant
+					$cutoff_date_high = strtotime('today');
+					break;
+				case 'both':
+					$cutoff_date_low = 229305600;
+					$cutoff_date_high = 2051244000;
+					break;
+			}
+		}
+
+		$conditions = array(
+			"user_id" => array(
+				"condition" => "=",
+				"value" => $user_id
+			),
+			"cutoff_date_low" => array(
+				"condition" => ">",
+				"value" => $cutoff_date_low
+			),
+			"cutoff_date_high" => array(
+				"condition" => "<",
+				"value" => $cutoff_date_high
+			)
+		);
+
+		$result = $this->db->getData(
+			'CalendarPlant_getDatesBetweenNoStatus',
+			false,
+			$conditions
+		);
+
+		if (!is_array($result)) {
+			return false;
+		}
+
+		$events_with_venues = array();
+
+		if (is_array($result)) {
+			foreach ($result as $event) {
+				// if we get a venue result, merge the arrays
+				if ($venue = $this->getVenue($event['venue_id'])) {
+					// remap to venue_
+					$venue = array_combine(
+						array_map(function($k){ return 'venue_'.$k; }, array_keys($venue)),
+						$venue
+					);
+
+					$events_with_venues[] = array_merge($event, $venue);
+				} else {
+					$events_with_venues[] = $event;
+				}
+
+			}
+		}
+
+		return $events_with_venues;
+
 	}
 
 	protected function getVenue($venue_id) {
@@ -348,11 +426,23 @@ class CalendarPlant extends PlantBase {
 		}
 	}
 
-	protected function getAllVenues() {
+	protected function getAllVenues($user_id, $visible_event_types) {
+
+        $conditions = [
+            'user_id' => [
+                'condition' => '=',
+                'value' => $user_id
+            ]/*,
+            'status' => [
+                'condition' => '=',
+                'value' => 'processed'
+            ]*/
+        ];
+
 		$result = $this->db->getData(
 			'venues',
 			'*',
-			false,
+			$conditions,
 			false,
 			'name ASC'
 		);

@@ -489,12 +489,13 @@ class CASHDBA {
 				// does not add per-appearance, just on true. slight preference for titles
 				// exact title matches get an additional +1, titles starting with the query an another +1
 				$query = "SELECT * FROM calendar_venues "
-				. "WHERE name LIKE :query OR city LIKE :query "
+				. "WHERE (name LIKE :query OR city LIKE :query) AND user_id = :user_id "
 				. "ORDER BY ("
   				. "(CASE WHEN name LIKE :query THEN 2 ELSE 0 END) + "
   				. "(CASE WHEN city LIKE :query THEN 1 ELSE 0 END)"
 				. ") DESC, name ASC";
 				if ($limit) $query .= " LIMIT $limit";
+
 				break;
 			case 'CommercePlant_getOrder_deep':
 				$query = "SELECT o.id as id, o.user_id as user_id, o.creation_date as creation_date, o.modification_date as modification_date, o.order_contents as order_contents, o.customer_user_id as customer_user_id, o.fulfilled as fulfilled, o.canceled as canceled, o.notes as notes, o.physical as physical, o.digital as digital, o.country_code as country_code, o.currency as currency, o.element_id as element_id, o.transaction_id as transaction_id, o.data as data, "
@@ -585,8 +586,15 @@ class CASHDBA {
 			case 'CalendarPlant_getDatesBetween':
 				$query = "SELECT e.id as 'event_id', e.date as 'date',e.published as 'published',e.cancelled as 'cancelled',e.purchase_url as 'purchase_url',e.comments as 'comments',e.creation_date as 'creation_date',e.modification_date as 'modification_date', e.venue_id as 'venue_id' "
 				. "FROM calendar_events e "
-				. "WHERE e.date > :cutoff_date_low AND e.date < :cutoff_date_high AND e.user_id = :user_id AND e.published = :published_status AND e.cancelled = :cancelled_status ORDER BY e.date ASC";
+				. "WHERE e.date > :cutoff_date_low AND e.date < :cutoff_date_high AND e.user_id = :user_id AND e.published IN :published_status AND e.cancelled = :cancelled_status ORDER BY e.date ASC";
 				break;
+			case 'CalendarPlant_getDatesBetweenNoStatus':
+				$query = "SELECT e.id as 'event_id', e.date as 'date',e.published as 'published',e.cancelled as 'cancelled',e.purchase_url as 'purchase_url',e.comments as 'comments',e.creation_date as 'creation_date',e.modification_date as 'modification_date', e.venue_id as 'venue_id' "
+					. "FROM calendar_events e "
+					. "WHERE e.date > :cutoff_date_low AND e.date < :cutoff_date_high AND e.user_id = :user_id ORDER BY e.date ASC";
+				error_log($query);
+				break;
+
 			case 'CommercePlant_getExternalFulfillmentTiersAndOrderCount':
 				$query = "SELECT (SELECT count(*) FROM commerce_external_fulfillment_orders as o WHERE o.tier_id = t.id) as orders, t.* from commerce_external_fulfillment_tiers as t "
 				. "WHERE t.fulfillment_job_id = :fulfillment_job_id and t.user_id = :user_id";

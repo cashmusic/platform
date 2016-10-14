@@ -1,6 +1,6 @@
 {
 	"pagetip":"",
-	"learn":"<p>You will need to enter in a venue first if it’s not already in our database.</p><p> The good news is any time you add a venue, it gets added to the big list. Which means the more people use the platform, the better and more complete that database will get.</p>",
+	"learn":"<p>You will need to enter in a venue first if it’s not already in our database.</p>",
 	"related":{},
 	"labels":{"submit_button":"Add a venue",
             "name":"Name",
@@ -11,15 +11,18 @@
 
    },
 	"tooltips":{},
-	"copy":{"quick_add":"Quick add a venue",
+	"copy":{
+            "firstuse":"Venues is a place to add event locations that can't be found in our <a href='http://venues.cashmusic.org/' target='_blank'>venue database</a> <span class='first-para'>When you add an event to your calendar the venue field automatically searches the database as well as custom added venues here.<span>",
+            "quick_add":"Quick add a venue",
             "quick_details":"Quickly add a venue with just the basics,",
             "quick_details_2":" or alternatively ",
             "quick_details_3":"add a venue with all details",
+            "add_venue":"Add venue",
             "my_venues":"My venues",
-						"my_venues_description":"(This is your list of manually added venues not found in the <a href='http://venues.cashmusic.org/' target='_blank'>CASH venue database</a>.)",
+						"my_venues_description":"Custom added venues not found in the <a href='http://venues.cashmusic.org/' target='_blank'>CASH venue database</a>.",
             "edit":"Edit",
 						"delete":"Delete",
-            "no_venues":"No venues were found."
+            "no_venues":"No custom venues were found."
 
 
 }

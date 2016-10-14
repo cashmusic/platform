@@ -10,20 +10,20 @@
             "cancelled":"Cancelled?"
 
 
-
-
    },
 	"tooltips":{},
 	"copy":{"quickly_details":"Quickly add a date to the system. Information about published/unpublished status and cancellation can be found in the learn section!",
+            "events_title":"Events",
+            "events_subtitle":"everything events",
             "add_an_event":"Add an event",
             "cant_find":"Can't find the venue you're looking for? ",
             "add_new_venue":"Add a new venue",
-            "button_add_event":"Add That Event",
+            "button_add_event":"Add event",
             "upcoming_events":"All upcoming events",
 						"archive_events":"All past events",
             "no_upcoming_events":"No upcoming events were found.",
 						"no_archive_events":"No past events were found.",
-						"details":"Details",
+						"edit":"Edit",
 						"delete":"Delete"
    }
 }
