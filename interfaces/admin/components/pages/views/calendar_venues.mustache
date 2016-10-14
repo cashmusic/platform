@@ -5,6 +5,22 @@
 		<h4 class="page-title">{{copy_my_venues}}</h4>
 		<h5 class="page-subtitle">{{{copy_my_venues_description}}}</h5>
 		</header>
+
+		{{^all_venues}}
+		<div class="alt callout usecolor5"><div class="callout-inner">
+			<div class="pure-u-1 pure-u-md-1-2">
+				<h3 class="firstuse-title">{{{copy_firstuse}}}</h3>
+			</div>
+			<div class="pure-u-1 pure-u-md-1-2">
+				<div class="browser-header"><span></span><span></span><span></span></div><!--brower-header-->
+				<img src="{{www_path}}/assets/images/firstuse/calendar_venue_screen.jpg" alt="screenshot" />
+			</div>
+		</div><!--callout-inner-->
+		</div><!--callout-->
+
+		{{/all_venues}}
+
+
 		{{#all_venues}}
 		<ul class="alternating">
 			{{#all_venues}}
