@@ -68,6 +68,7 @@ if ($cash_admin->page_data['published']) {
 }
 $cash_admin->page_data['form_state_action'] = 'doeventedit';
 $cash_admin->page_data['event_button_text'] = 'Save changes';
+$cash_admin->page_data['event_id'] = $event_id = $request_parameters[0];
 
 $cash_admin->setPageContentTemplate('calendar_events_details');
 ?>
