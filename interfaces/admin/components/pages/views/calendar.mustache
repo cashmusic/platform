@@ -25,32 +25,20 @@
 			<h5 class="">{{copy_this_week}}</h5>
 		<ul class="dates">
 			{{#events_thisweek}}
-				<li><a class="{{#cancelled}}cancelled{{/cancelled}} {{^published}}unpublished-date{{/published}}{{#published}}published-date{{/published}}" href="{{www_path}}/calendar/events/edit/{{event_id}}"><div class="inner pure-u-1 pure-u-md-2-3"><div class="icon icon-calendar"></div><!--icon--><strong> {{formatted_date}}: </strong><span>@ {{venue_name}}{{#event_location}}, {{event_location}}{{/event_location}}</span></div><!--inner--><span class="fadedtext pure-u-1 pure-u-md-1-6">{{comments}}</span><span class="state-icons pure-u-1 pure-u-md-1-6">{{#published}}<div title="Published" class="icon icon-live"></div><!--icon-->{{/published}}</span>{{#cancelled}}<hr/>{{/cancelled}}</a></li>
+				<li><a class="{{#cancelled}}cancelled{{/cancelled}} {{^published}}unpublished-date{{/published}}{{#published}}published-date{{/published}}" href="{{www_path}}/calendar/events/edit/{{event_id}}">{{#cancelled}}<hr/>{{/cancelled}}<div class="inner pure-u-1 pure-u-md-2-3"><div class="icon icon-calendar"></div><!--icon--><strong> {{formatted_date}}: </strong><span>@ {{venue_name}}{{#event_location}}, {{event_location}}{{/event_location}}</span></div><!--inner--><span class="fadedtext pure-u-1 pure-u-md-1-6">{{comments}}</span><span class="state-icons pure-u-1 pure-u-md-1-6">{{#published}}<div title="Published" class="icon icon-live"></div><!--icon-->{{/published}}</span></a></li>
 			{{/events_thisweek}}
 		</ul></div><!--material-->
-{{/events_thisweek}}
+	{{/events_thisweek}}
 
 	{{#events_allfuture}}
 		<div class="material usecolor5" data-event-section="allfuture">
 			<h5 class="">{{copy_upcoming_events}}</h5>
 		<ul class="dates">
 			{{#events_allfuture}}
-				<li><a class="{{#cancelled}}cancelled{{/cancelled}} {{^published}}unpublished-date{{/published}}{{#published}}published-date{{/published}}" href="{{www_path}}/calendar/events/edit/{{event_id}}"><div class="inner pure-u-1 pure-u-md-2-3"><div class="icon icon-calendar"></div><!--icon--><strong> {{formatted_date}}: </strong><span>@ {{venue_name}}{{#event_location}}, {{event_location}}{{/event_location}}</span></div><!--inner--><span class="fadedtext pure-u-1 pure-u-md-1-6">{{comments}}</span><span class="state-icons pure-u-1 pure-u-md-1-6">{{#published}}<div title="Published" class="icon icon-live"></div><!--icon-->{{/published}}{{^published}}<div title="Not Published" class="icon icon-warn"></div><!--icon-->{{/published}}</span>{{#cancelled}}<hr/>{{/cancelled}}</a></li>
+				<li><a class="{{#cancelled}}cancelled{{/cancelled}} {{^published}}unpublished-date{{/published}}{{#published}}published-date{{/published}}" href="{{www_path}}/calendar/events/edit/{{event_id}}">{{#cancelled}}<hr/>{{/cancelled}}<div class="inner pure-u-1 pure-u-md-2-3"><div class="icon icon-calendar"></div><!--icon--><strong> {{formatted_date}}: </strong><span>@ {{venue_name}}{{#event_location}}, {{event_location}}{{/event_location}}</span></div><!--inner--><span class="fadedtext pure-u-1 pure-u-md-1-6">{{comments}}</span><span class="state-icons pure-u-1 pure-u-md-1-6">{{#published}}<div title="Published" class="icon icon-live"></div><!--icon-->{{/published}}{{^published}}<div title="Not Published" class="icon icon-warn"></div><!--icon-->{{/published}}</span></a></li>
 			{{/events_allfuture}}
 		</ul></div><!--material-->
 	{{/events_allfuture}}
-
-
-	{{^events_allpast}}
-		<div class="material usecolor5" data-event-section="allpast">
-		<h5>{{copy_archive_events}}</h5>
-		<ul class="dates">
-			{{#events_allpast}}
-				<li><a class="{{#cancelled}}cancelled{{/cancelled}} {{^published}}unpublished-date{{/published}}{{#published}}published-date{{/published}}" href="{{www_path}}/calendar/events/edit/{{event_id}}">{{#cancelled}}<hr/>{{/cancelled}}<div class="inner pure-u-1 pure-u-md-2-3"><div class="icon icon-tick"></div><!--icon--><strong> {{formatted_date}}: </strong><span>@ {{venue_name}}{{#event_location}}, {{event_location}}{{/event_location}}</span></div><!--inner--><span class="fadedtext pure-u-1 pure-u-md-1-6">{{comments}}</span><span class="state-icons pure-u-1 pure-u-md-1-6">{{#published}}<div title="Published" class="icon icon-live"></div><!--icon-->{{/published}}</span></a></li>
-			{{/events_allpast}}
-		</ul></div><!--material-->
-	{{/events_allpast}}
-
             
     {{#events_allpast}}                        
         <div class="material drawer usecolor5 pure-u-1" data-event-section="allpast">
