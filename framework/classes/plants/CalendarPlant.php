@@ -328,7 +328,7 @@ class CalendarPlant extends PlantBase {
 		if (!$cutoff_date_low) {
 			switch ($visible_event_types) {
 				case 'upcoming':
-					$cutoff_date_low = strtotime('today');
+					$cutoff_date_low = strtotime('today -1 day');
 					$cutoff_date_high = 2051244000;
 					break;
 				case 'archive':
