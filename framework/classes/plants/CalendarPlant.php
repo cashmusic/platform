@@ -243,12 +243,12 @@ class CalendarPlant extends PlantBase {
 		if (!$cutoff_date_low) {
 			switch ($visible_event_types) {
 				case 'upcoming':
-					$cutoff_date_low = 'now';
+					$cutoff_date_low = strtotime('today');
 					$cutoff_date_high = 2051244000;
 					break;
 				case 'archive':
 					$cutoff_date_low = 229305600; // april 8, 1977 -> yes it's significant
-					$cutoff_date_high = 'now';
+					$cutoff_date_high = strtotime('today');
 					break;
 				case 'both':
 					$cutoff_date_low = 229305600;
@@ -266,9 +266,6 @@ class CalendarPlant extends PlantBase {
 		if ($cutoff_date_high == 'now') {
 			$cutoff_date_high = time() + $offset;
 		}
-
-		if ($published_status == 'all' || empty($published_status)) $published_status = "0,1";
-		if ($published_status != 'all' && !empty($published_status)) $published_status = $published_status;
 
         $conditions = array(
             "user_id" => array(
@@ -288,7 +285,7 @@ class CalendarPlant extends PlantBase {
                 "value" => $cancelled_status
             ),
 			"published_status" => array(
-				"condition" => "IN",
+				"condition" => "=",
 				"value" => $published_status
 			)
         );
@@ -327,20 +324,22 @@ class CalendarPlant extends PlantBase {
 		return $events_with_venues;
 	}
 
-	protected function getEventsNoStatus($user_id, $visible_event_types="upcoming") {
-		switch ($visible_event_types) {
-			case 'upcoming':
-				$cutoff_date_low = strtotime('today UTC');
-				$cutoff_date_high = 2051244000;
-				break;
-			case 'archive':
-				$cutoff_date_low = 229305600; // april 8, 1977 -> yes it's significant
-				$cutoff_date_high = strtotime('today UTC');
-				break;
-			case 'both':
-				$cutoff_date_low = 229305600;
-				$cutoff_date_high = 2051244000;
-				break;
+	protected function getEventsNoStatus($user_id, $visible_event_types="upcoming", $cutoff_date_low=false, $cutoff_date_high=false) {
+		if (!$cutoff_date_low) {
+			switch ($visible_event_types) {
+				case 'upcoming':
+					$cutoff_date_low = strtotime('today');
+					$cutoff_date_high = 2051244000;
+					break;
+				case 'archive':
+					$cutoff_date_low = 229305600; // april 8, 1977 -> yes it's significant
+					$cutoff_date_high = strtotime('today');
+					break;
+				case 'both':
+					$cutoff_date_low = 229305600;
+					$cutoff_date_high = 2051244000;
+					break;
+			}
 		}
 
 		$conditions = array(
@@ -357,8 +356,6 @@ class CalendarPlant extends PlantBase {
 				"value" => $cutoff_date_high
 			)
 		);
-
-		error_log(print_r($conditions, true));
 
 		$result = $this->db->getData(
 			'CalendarPlant_getDatesBetweenNoStatus',

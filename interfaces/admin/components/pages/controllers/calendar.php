@@ -20,15 +20,15 @@ function formatEventOutput(&$response) {
 	}
 }
 
-/*$thisweek_response = $cash_admin->requestAndStore(
+$thisweek_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'calendar',
 		'cash_action' => 'geteventsnostatus',
 		'user_id' => $cash_admin->effective_user_id,
-		'visible_event_types' => 'upcoming'
+		'cutoff_date_low' => strtotime("monday this week"),
+		'cutoff_date_high' => strtotime("sunday this week 11:59PM")
 	)
-);*/
-
+);
 
 // this week
 if (is_array($thisweek_response['payload'])) {
