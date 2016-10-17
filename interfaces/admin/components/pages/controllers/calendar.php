@@ -85,7 +85,7 @@ $cash_admin->page_data['published'] = isset($event['published']) ? $event['publi
 $cash_admin->page_data['cancelled'] = isset($event['cancelled']) ? $event['cancelled'] : false;
 
 // No events
-if (!$allfuture_response['payload'] || $allpast_response['payload']) {
+if (!$allpast_response['payload'] && !$allfuture_response['payload']) {
 	$cash_admin->page_data['no_events'] =  true;
 }
 
