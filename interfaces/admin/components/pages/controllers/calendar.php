@@ -80,12 +80,14 @@ if (is_array($allfuture_response['payload'])) {
 
 $cash_admin->page_data['options_venues'] = AdminHelper::echoFormOptions('venues',0,false,true);
 
-//Is Event Published/Cancelled Page data
+// Is Event Published/Cancelled Page data
 $cash_admin->page_data['published'] = isset($event['published']) ? $event['published'] : false;
 $cash_admin->page_data['cancelled'] = isset($event['cancelled']) ? $event['cancelled'] : false;
 
-$total_count_of_events = count($allfuture_response) + count($allpast_response);
-$cash_admin->page_data['no_events'] = (count($total_count_of_events) > 0) ? false : true;
+// No events
+if (!$allfuture_response['payload'] || $allpast_response['payload']) {
+	$cash_admin->page_data['no_events'] =  true;
+}
 
 $cash_admin->setPageContentTemplate('calendar');
 ?>
