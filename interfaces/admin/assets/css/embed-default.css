@@ -500,7 +500,7 @@ input:focus placeholder{color:#111;}
 	-moz-transition: 0.3s  ease-in-out;
 	trasition:0.3s ease-in-out;
 	margin:0 0 3px 0;
-	padding:12px 30px;
+	padding:12px 0;
 	vertical-align: baseline;
 	border:solid 2px #00cf7f;
 	font-size: 12px;
