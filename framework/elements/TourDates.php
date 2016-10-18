@@ -28,6 +28,7 @@ class TourDates extends ElementBase {
 				'user_id' => $this->element['user_id']
 			)
 		);
+
 		if ($tourdates_request->response['status_uid'] == "calendar_getevents_200") {
 			// spit out the dates
 			$max_dates = 60;
