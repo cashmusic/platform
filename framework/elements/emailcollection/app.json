@@ -12,26 +12,41 @@
 			"description":"Collect an email address, give a download (or not).",
 			"longdescription":"This element can be used as an email-for-download promotion or as a customizable email collection widget.",
 			"instructions":"Leave the asset set to 'none' for just straight email collection, or choose a target asset to try email-for-download."
+		},
+		"is":{
+			"name":"Söfnun Netfanga",
+			"description":"Fáðu netfang, gefðu niðurhal (eða ekki).",
+			"longdescription":"Þessi eining getur verið notuð sem netfang-fyrir-niðurhal kynning, eða sem útfæranlegt innfellingar tæki til netfangasöfnunar.",
+			"instructions":"Settu eign á 'ekkert' fyrir einfalda netfanga söfnun, eða veldu eign til að notast við netfang-fyrir-niðurhal."
 		}
 	},
 	"copy":{
 		"en":{
 			"signup":"sign me up",
 			"verify":"Check your inbox for a verification email with download link."
+		},
+		"en":{
+			"signup":"Skráðu mig",
+			"verify":"Athugaðu pósthólfið þitt eftir póst með niðurhals hlekk."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
-				"en":"Main settings"
+				"en":"Main settings",
+				"is":"Aðal stillingar"
 			},
 			"description":{
-				"en":"Select a target mailing list and an asset to give away (if you want)."
+				"en":"Select a target mailing list and an asset to give away (if you want).",
+				"is":"Veldu netfangaskrá og eign til að gefa (ef þú vilt)."
+
 			},
 			"data":{
 				"email_list_id":{
 					"label":{
-						"en":"Target mailing list"
+						"en":"Target mailing list",
+						"is":"Valin netfangaskrá"
+
 					},
 					"type":"select",
 					"values":"people/lists",
@@ -40,7 +55,8 @@
 				},
 				"asset_id":{
 					"label":{
-						"en":"The downloadable asset"
+						"en":"The downloadable asset",
+						"is":"Eign til niðurhals"
 					},
 					"type":"select",
 					"values":"assets",
@@ -48,7 +64,8 @@
 				},
 				"do_not_verify":{
 					"label":{
-						"en":"Skip email verification (recommended)"
+						"en":"Skip email verification (recommended)",
+						"is":"Sleppa netfanga staðfestingu (mælt með)"
 					},
 					"type":"boolean",
 					"default":true,
@@ -58,49 +75,60 @@
 		},
 		"messages":{
 			"group_label":{
-				"en":"Success/error messages"
+				"en":"Success/error messages",
+				"is":"Velgengnis/villu skilaboð"
+
 			},
 			"description":{
-				"en":"Customize messages shown to people using this element."
+				"en":"Customize messages shown to people using this element.",
+				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu."
 			},
 			"data":{
 				"message_success":{
 					"label":{
-						"en":"Success message"
+						"en":"Success message",
+						"is":"Velgengnis skilaboð"
 					},
 					"type":"text",
 					"default":{
-						"en":"Thanks! You're all signed up."
+						"en":"Thanks! You're all signed up.",
+						"is":"Takk fyrir! Skráning tókst."
 					},
 					"displaysize":"medium"
 				},
 				"message_invalid_email":{
 					"label":{
-						"en":"Invalid email message"
+						"en":"Invalid email message",
+						"is":"Ógilt netfang"
 					},
 					"type":"text",
 					"default":{
-						"en":"Sorry, that email address wasn't valid. Please try again."
+						"en":"Sorry, that email address wasn't valid. Please try again.",
+						"is":"Afsakið, þetta netfang er ógilt. Prófaðu aftur."
 					},
 					"displaysize":"medium"
 				},
 				"message_privacy":{
 					"label":{
-						"en":"Privacy message"
+						"en":"Privacy message",
+						"is":"Friðhelgis skilaboð"
 					},
 					"type":"text",
 					"default":{
-						"en":"We won't share, sell, or be jerks with your email address."
+						"en":"We won't share, sell, or be jerks with your email address.",
+						"is":"Við munum ekki deila, selja, eða fíflast á einhvern hátt með netfangið þitt."
 					},
 					"displaysize":"medium"
 				},
 				"message_verification":{
 					"label":{
-						"en":"Address verification message (only if verifying)"
+						"en":"Address verification message (only if verifying)",
+						"is":"Netfanga staðfestingaskilaboð (aðeins við staðfestingu)"
 					},
 					"type":"text",
 					"default":{
-						"en":"You must verify your email address to continue. An email has been sent. Click the link provided to confirm membership. (If you don't see the message, check your SPAM folder.)"
+						"en":"You must verify your email address to continue. An email has been sent. Click the link provided to confirm membership. (If you don't see the message, check your SPAM folder.)",
+						"is":"Þú verður að staðfesta netfangið þitt til að halda áfram. Tölvupóstur hefur verið sendur. Smelltu á hlekkinn í póstinum til að staðfesta skráningu. (Kíktu í ruslpóstmöppuna ef þú sérð ekki póstinn.)"
 					},
 					"displaysize":"medium"
 				}
@@ -108,29 +136,35 @@
 		},
 		"interface":{
 			"group_label":{
-				"en":"Customize signup form"
+				"en":"Customize signup form",
+				"is":"Sérsníða skráningar eyðublað"
 			},
 			"description":{
-				"en":"Change placeholder and text in the form shown to the public."
+				"en":"Change placeholder and text in the form shown to the public.",
+				"is":"Breyta staðgengil og texta í eyðublaði sýnt almenningi."
 			},
 			"data":{
 				"placeholder_text":{
 					"label":{
-						"en":"Email form placeholder text"
+						"en":"Email form placeholder text",
+						"is":"Staðgengilstexti netfanga eyðublaðs"
 					},
 					"type":"text",
 					"default":{
-						"en":""
+						"en":"",
+						"is":""
 					},
 					"displaysize":"small"
 				},
 				"button_text":{
 					"label":{
-						"en":"Text for submit button"
+						"en":"Text for submit button",
+						"is":"Texti fyrir senda takka"
 					},
 					"type":"text",
 					"default":{
-						"en":"Sign me up"
+						"en":"Sign me up",
+						"is":"Skráðu mig"
 					},
 					"displaysize":"small"
 				}
@@ -138,15 +172,18 @@
 		},
 		"datacollection":{
 			"group_label":{
-				"en":"Data collection options"
+				"en":"Data collection options",
+				"is":"Gagnasöfnunarstillingar"
 			},
 			"description":{
-				"en":"Add a checkbox for age verification, agreeing to terms, etc."
+				"en":"Add a checkbox for age verification, agreeing to terms, etc.",
+				"is":"Bæta við gátreit fyrir sannprófun aldurs, skilmála samþykkis, og svo framvegis."
 			},
 			"data":{
 				"agree_checkbox":{
 					"label":{
-						"en":"Show agreement checkbox"
+						"en":"Show agreement checkbox",
+						"is":"Sýna samþykkis gátreit"
 					},
 					"type":"boolean",
 					"default":false,
@@ -154,11 +191,13 @@
 				},
 				"agree_message":{
 					"label":{
-						"en":"Message to show (I agree...)"
+						"en":"Message to show (I agree...)",
+						"is":"Skilaboð til að sýna (Ég samþykki...)"
 					},
 					"type":"text",
 					"default":{
-						"en":"I checked the checkbox!"
+						"en":"I checked the checkbox!",
+						"is":"Ég fyllti inn gátreitinn!"
 					},
 					"displaysize":"small"
 				}

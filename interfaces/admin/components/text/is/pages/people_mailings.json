@@ -1,0 +1,23 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{"mail_subject":"Mail subject",
+               "from_name":"From name (sent from {{user_email}})",
+               "use_template":"Use template",
+               "send_to_list":"Send to list",
+               "use_mass":"Use mass mailing connection",
+               "message":"Message "
+
+
+   },
+	"tooltips":{},
+	"copy":{"test_message":"Send a test message to a specific list.  ",
+            "youll_need":"  You'll need to add a ",
+            "default":"Default (plain)",
+            "no_template":"No template (include all markup)",
+            "none":"None",
+            "mass_mailing":"mass mailing connection",
+            "to_use":" to use this page."
+}
+}

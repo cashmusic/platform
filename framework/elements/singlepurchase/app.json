@@ -12,6 +12,12 @@
 			"description":"Sell an item with a single click. Great for preorders.",
 			"longdescription":"Just need to sell one thing? Set up a simple single purchase element for the commerce item of your choice.",
 			"instructions":"For physical goods, define regions and shipping costs."
+		},
+		"is":{
+			"name":"Stök kaup",
+			"description":"Seldu hlut með einum smelli. Frábært fyrir forpantanir",
+			"longdescription":"Þarftu bara að selja einn hlut? Settu upp einfalda kaup einingu fyrir stök kaup á hlut af þínu vali.",
+			"instructions":"Fyrir formfasta hluti skal skilgreina svæði og sendingarkostnað."
 		}
 	},
 	"copy":{
@@ -21,20 +27,30 @@
 			"choose_verb":"Choose",
 			"buy":"Buy now",
 			"unavailable":"Sorry, this item is currently unavailable."
+		},
+		"is":{
+			"flexibleprice_suffix":"eða meira",
+			"choose_variants":"Veldu valmöguleika fyrst",
+			"choose_verb":"Veldu",
+			"buy":"Kaupa núna",
+			"unavailable":"Afsakið, þessi hlutur er ekki í boði þessa stundina."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
-				"en":"Main settings"
+				"en":"Main settings",
+				"is":"Aðal stillingar"
 			},
 			"description":{
-				"en":"Choose an inventory item to sell and commerce connection to use."
+				"en":"Choose an inventory item to sell and commerce connection to use.",
+				"is":"Veldu hlut úr birgðaskrá til að selja og verslunar tengingu sem skal nota."
 			},
 			"data":{
 				"item_id":{
 					"label":{
-						"en":"Item for sale"
+						"en":"Item for sale",
+						"is":"Hlutur til sölu"
 					},
 					"type":"select",
 					"values":"commerce/items",
@@ -45,29 +61,35 @@
 		},
 		"messages":{
 			"group_label":{
-				"en":"Success/error messages"
+				"en":"Success/error messages",
+				"is":"Velgengnis/villu skilaboð"
 			},
 			"description":{
-				"en":"Customize messages shown to people using this element."
+				"en":"Customize messages shown to people using this element.",
+				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu."
 			},
 			"data":{
 				"message_success":{
 					"label":{
-						"en":"Success message"
+						"en":"Success message",
+						"is":"Velgengnis skilaboð"
 					},
 					"type":"text",
 					"default":{
-						"en":"Thank you! Here's your download. Mobile users check your inbox and spam folders for a download link."
+						"en":"Thank you! Here's your download. Mobile users check your inbox and spam folders for a download link.",
+						"is":"Takk fyrir! Hér er niðurhalið þitt. Símanotendur gætu þurft að skoða innhólf og ruslpóst möppur eftir niðurhalshlekk."
 					},
 					"displaysize":"medium"
 				},
 				"message_error":{
 					"label":{
-						"en":"Invalid email message"
+						"en":"Invalid email message",
+						"is":"Ógilt netfang"
 					},
 					"type":"text",
 					"default":{
-						"en":"There was an error processing your payment. Please reload and try again."
+						"en":"There was an error processing your payment. Please reload and try again.",
+						"is":"Það kom upp villa við vinnslu færslunar. Prófaðu aftur."
 					},
 					"displaysize":"medium"
 				}

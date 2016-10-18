@@ -12,40 +12,53 @@
 			"description":"Make a single feed from your Twitter and/or Tumblr feeds.",
 			"longdescription":"Combine any number of feeds, filtering Twitter by keyword or exclude @-replies, and filtering Tumblr by post type.",
 			"instructions":"This is basically broken."
+		},
+		"is":{
+			"name":"Samfélagsmiðlastraumar",
+			"description":"Skapaðu straum fyrir Twitter og/eða Tumblr strauma.",
+			"longdescription":"Blandaðu saman eins mörgum straumum og þig lystir, síaðu Twitter eftir orðum eða slepptu @-svörum, og síaðu Tumblr eftir færslutegundum",
+			"instructions":"Þetta er bilað."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
-				"en":"Main settings"
+				"en":"Main settings",
+				"is":"Aðal stillingar"
 			},
 			"description":{
-				"en":"Instructions or clarifications that should appear with this group."
+				"en":"Instructions or clarifications that should appear with this group.",
+				"is":"Leiðbeiningar eða útskýringar á því hvað ætti að birtast í þessum hóp."
 			},
 			"data":{
 				"twitter":{
 					"label":{
-						"en":"Twitter"
+						"en":"Twitter",
+						"is":"Twitter"
 					},
 					"description":{
-						"en":"You'll need to add a Twitter connection for tweets to appear in your feed."
+						"en":"You'll need to add a Twitter connection for tweets to appear in your feed.",
+						"is":"Þú verður að bæta við Twitter tengingu svo að tíst birtist í strauminum þínum."
 					},
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
-						"en":"Add a new Twitter feed"
+						"en":"Add a new Twitter feed",
+						"is":"Bæta við nýjum Twitter straum"
 					},
 					"values":{
 						"twitterusername":{
 							"label":{
-								"en":"Username"
+								"en":"Username",
+								"is":"Notandanafn"
 							},
 							"type":"text",
 							"displaysize":"small"
 						},
 						"twitterfiltertype":{
 							"label":{
-								"en":"Fliter by"
+								"en":"Fliter by",
+								"is":"Sía samkvæmt"
 							},
 							"type":"select",
 							"values":{
@@ -58,14 +71,16 @@
 						},
 						"twitterfiltervalue":{
 							"label":{
-								"en":"Filter value"
+								"en":"Filter value",
+								"is":"Sía gildi"
 							},
 							"type":"text",
 							"displaysize":"small"
 						},
 						"twitterhidereplies":{
 							"label":{
-								"en":"Hide replies"
+								"en":"Hide replies",
+								"is":"Fela svör"
 							},
 							"type":"boolean",
 							"default":true,
@@ -76,44 +91,52 @@
 				},
 				"tumblr":{
 					"label":{
-						"en":"Tumblr"
+						"en":"Tumblr",
+						"is":"Tumblr"
 					},
 					"description":{
-						"en":"No connection is needed to pull Tumblr posts. Just add a URL, select post types, and you're off."
+						"en":"No connection is needed to pull Tumblr posts. Just add a URL, select post types, and you're off.",
+						"is":"Ekki er þörf á tengingu til að ná í Tumblr færslur. Skilgreindu bara vefslóð og færslutegund."
 					},
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
-						"en":"Add a new Tumblr URL"
+						"en":"Add a new Tumblr URL",
+						"is":"Bættu við nýrri Tumblr slóð"
 					},
 					"values":{
 						"tumblrurl":{
 							"label":{
-								"en":"Tumblr URL"
+								"en":"Tumblr URL",
+								"is":"Tumblr slóð"
 							},
 							"type":"text",
 							"displaysize":"small"
 						},
 						"tumblrtag":{
 							"label":{
-								"en":"Filter by tag"
+								"en":"Filter by tag",
+								"is":"Sía samkvæmt merki"
 							},
 							"placeholder":{
-				            "en":"Do not filter"
+				            "en":"Do not filter",
+							"is":"Ekki sía"
 				          },
 							"type":"text",
 							"displaysize":"small"
 						},
 						"post_types":{
 							"label":{
-								"en":"Post types"
+								"en":"Post types",
+								"is":"Færslutegundir"
 							},
 							"type":"options",
 							"displaysize":"large",
 							"values":{
 								"regular":{
 									"label":{
-										"en":"regular"
+										"en":"regular",
+										"is":"venjuleg"
 									},
 									"type":"boolean",
 									"default":true,
@@ -121,7 +144,8 @@
 								},
 								"photo":{
 									"label":{
-										"en":"photo"
+										"en":"photo",
+										"is":"mynd"
 									},
 									"type":"boolean",
 									"default":true,
@@ -129,7 +153,8 @@
 								},
 								"video":{
 									"label":{
-										"en":"video"
+										"en":"video",
+										"is":"myndband"
 									},
 									"type":"boolean",
 									"default":true,
@@ -137,7 +162,8 @@
 								},
 								"link":{
 									"label":{
-										"en":"link"
+										"en":"link",
+										"is":"hlekkur"
 									},
 									"type":"boolean",
 									"default":true,
@@ -145,7 +171,8 @@
 								},
 								"audio":{
 									"label":{
-										"en":"audio"
+										"en":"audio",
+										"is":"hljóð"
 									},
 									"type":"boolean",
 									"default":true,
@@ -153,7 +180,8 @@
 								},
 								"quote":{
 									"label":{
-										"en":"quote"
+										"en":"quote",
+										"is":"tilvitnun"
 									},
 									"type":"boolean",
 									"default":false,
@@ -161,7 +189,8 @@
 								},
 								"answer":{
 									"label":{
-										"en":"answer"
+										"en":"answer",
+										"is":"svar"
 									},
 									"type":"boolean",
 									"default":false,
@@ -174,7 +203,8 @@
 				},
 				"post_limit":{
 					"label":{
-						"en":"Post Limit"
+						"en":"Post Limit",
+						"is":"Færsluhámark"
 					},
 					"type":"number",
 					"default":"40",
