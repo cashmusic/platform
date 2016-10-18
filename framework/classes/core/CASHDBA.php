@@ -586,7 +586,7 @@ class CASHDBA {
 			case 'CalendarPlant_getDatesBetween':
 				$query = "SELECT e.id as 'event_id', e.date as 'date',e.published as 'published',e.cancelled as 'cancelled',e.purchase_url as 'purchase_url',e.comments as 'comments',e.creation_date as 'creation_date',e.modification_date as 'modification_date', e.venue_id as 'venue_id' "
 				. "FROM calendar_events e "
-				. "WHERE e.date > :cutoff_date_low AND e.date < :cutoff_date_high AND e.user_id = :user_id AND e.published IN :published_status AND e.cancelled = :cancelled_status ORDER BY e.date ASC";
+				. "WHERE e.date > :cutoff_date_low AND e.date < :cutoff_date_high AND e.user_id = :user_id AND e.published = :published_status AND e.cancelled = :cancelled_status ORDER BY e.date ASC";
 				break;
 			case 'CalendarPlant_getDatesBetweenNoStatus':
 				$query = "SELECT e.id as 'event_id', e.date as 'date',e.published as 'published',e.cancelled as 'cancelled',e.purchase_url as 'purchase_url',e.comments as 'comments',e.creation_date as 'creation_date',e.modification_date as 'modification_date', e.venue_id as 'venue_id' "
