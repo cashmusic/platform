@@ -37,14 +37,14 @@
 </div><!--pure-->
 
 <div class="pure-u-1 {{^first_time_page}}pure-u-md-1-2{{/first_time_page}}">
-	<h4>{{#show_published}}<span class="fadedtext">{{copy_public_page}}</span>{{/show_published}}{{^show_published}}<span class="fadedtext">{{copy_public_not_live}}</span>{{/show_published}}{{#show_published}}<a class="url-link" href="http://{{user_page_display_uri}}" target="_blank">{{/show_published}} {{user_page_display_uri}}{{#show_published}}</a>{{/show_published}}</h4>
+	<div class="material"><h5>{{#show_published}}{{copy_public_page}}{{/show_published}}{{^show_published}}{{copy_public_not_live}}{{/show_published}}</h5><h4 class="fadedtext">{{#show_published}}<a class="url-link" href="http://{{user_page_display_uri}}" target="_blank">{{/show_published}}<span class="page-url">{{user_page_display_uri}}</span>{{#show_published}}</a>{{/show_published}}</h4>
 		<a id="settings" class="page-update-username settings toggle fadedtext"><span class="icon icon-cog"></span><!--icon--> Update username/url</a>
 
 	{{^first_time_page}}
-	<div>
-		<h5>Publish on/off:</h5><br />
-		{{#show_published}}<!--button href="{{www_path}}/page/unpublish" class="needsconfirmation button unpublish">Unpublish</button--><a href="{{www_path}}/page/unpublish" class=" cm-on-off-toggle-switch on"><span></span></a> <br/><!--small class="fadedtext">(click to unpublish)</small-->{{/show_published}}
-		{{^show_published}}<!--button href="{{www_path}}/page/publish" class="needsconfirmation button publish">Publish</button--> <a href="{{www_path}}/page/publish" class=" cm-on-off-toggle-switch off"><span></span></a> <br/><!--small class="fadedtext">(click to publish)</small-->{{/show_published}}
+	<div class="">
+		<h5>Publish on/off:</h5>
+		{{#show_published}}<a href="{{www_path}}/page/unpublish" class=" cm-on-off-toggle-switch on"><span></span></a>{{/show_published}}
+		{{^show_published}}<a href="{{www_path}}/page/publish" class=" cm-on-off-toggle-switch off"><span></span></a>{{/show_published}}
 	</div>
 	{{/first_time_page}}
 
@@ -52,6 +52,7 @@
 		<p>{{copy_first_time}}</p><br />
 		<a href="{{www_path}}/page/theme/" class="button lightboxed">{{copy_page_theme}}</a>
 	{{/first_time_page}}
+	</div><!--material-->
 </div><!--pure-->
 
 <script type="text/javascript">
