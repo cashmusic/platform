@@ -440,9 +440,10 @@ jQuery.fn.extend({
          e.stopPropagation();
          jQuery.post(this.href,'data_only=1', function(data) {
             $('div.modallightbox').html(
+               '<div class="modal-content"><div class="inner">' +
                '<h4>' + data.ui_title + '</h4>' +
                data.content + //jQuery.param(data) +
-               '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a></div>'
+               '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a></div></div><!--inner--></div><!--modal-content-->'
             );
             $('.store .modallightbox h4').css('width','62%');
 
@@ -1231,14 +1232,12 @@ function doModalLightbox(route,returntocurrentroute) {
       var alreadyopen = $('.modallightbox').length;
       if (!alreadyopen) {
          // markup for the confirmation link
-         //var modalTop = $(document).scrollTop() + 120;
-         var markup = '<div class="modalbg">&nbsp;</div><div class="modallightbox ' + addedClass + '">' +
-         //'<div class="row"><div class="twelve columns">' +
+         var markup = '<div class="modalbg"></div><div class="modallightbox ' + addedClass + '">' +
+         '<div class="modal-content"><div class="inner">' +
          '<h4>' + data.ui_title + '</h4>' +
          data.content + //jQuery.param(data) +
-         //'</div></div>' +
-         '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a></div>' +
-         '</div></div>';
+         '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel"><div class="icon icon-plus"></div><!--icon--></a></div>' +
+         '</div><!--inner--></div><!--modal-content--></div><!--modallightbox-->';
 
          markup = $(markup);
          markup.hide();
