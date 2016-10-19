@@ -2,11 +2,11 @@
 
 @font-face {
   font-family: "cashmusic";
-  src:url("../fonts/cashmusic.eot");
-  src:url("../fonts/cashmusic.eot?#iefix") format("embedded-opentype"),
-    url("../fonts/cashmusic.woff") format("woff"),
-    url("../fonts/cashmusic.ttf") format("truetype"),
-    url("../fonts/cashmusic.svg#cashmusic") format("svg");
+  src:url("fonts/cashmusic.eot");
+  src:url("fonts/cashmusic.eot?#iefix") format("embedded-opentype"),
+    url("fonts/cashmusic.woff") format("woff"),
+    url("fonts/cashmusic.ttf") format("truetype"),
+    url("fonts/cashmusic.svg#cashmusic") format("svg");
   font-weight: normal;
   font-style: normal;
 
@@ -95,9 +95,6 @@
 .icon-list:before {
   content: "\78";
 }
-.icon-unlock:before {
-  content: "\79";
-}
 .icon-user:before {
   content: "\41";
 }
@@ -164,9 +161,6 @@
 .icon-cog:before {
   content: "\4b";
 }
-.icon-logo:before {
-  content: "\4d";
-}
 .icon-map:before {
   content: "\50";
 }
@@ -190,4 +184,13 @@
 }
 .icon-live:before {
   content: "\59";
+}
+.icon-unlock:before {
+  content: "\79";
+}
+.icon-locked:before {
+  content: "\4d";
+}
+.icon-logo:before {
+  content: "\5a";
 }
