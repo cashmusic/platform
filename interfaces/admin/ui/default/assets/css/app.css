@@ -972,7 +972,7 @@ h1,h2,h3,h4,h5,h6{
 
 h1{ font-size:56px; line-height:72px;}
 h2{ font-size:42px; line-height:54px;}
-h3, h4{ font-size:28px; line-height:36px; margin:0 0 18px 0;}
+h3, h4{ font-size:24px; line-height:30px; margin:0 0 18px 0;}
 h5{ font-size:14px; line-height:18px; margin:0 0 6px 0;}
 h6{font-size: 12px; line-height: 18px;}
 /* Text Types */
@@ -1076,6 +1076,10 @@ transform: scale(1.025)!important;
 
 .empty.noevents{
 	height:600px;
+}
+
+.empty a{
+	color:#222;
 }
 
 .empty p{
@@ -1689,7 +1693,7 @@ iframe#preview.preview{
 	color:#666;
 	display: block;
 	font-size: 12px;
-	margin:-10px 0 54px 0;
+	margin:0px 0 36px 0;
 }
 
 .page-update-username:hover{
@@ -2332,8 +2336,8 @@ section[role=main].hero{
 	font-weight: 100;
 	background:#ededed;
 	padding:36px 30px;
-	font-size: 28px;
-	line-height: 36px;
+	font-size: 24px;
+	line-height:30px;
 }
 
 #tertiary .inner h1.paneltitle .icon{
@@ -3453,8 +3457,8 @@ body.login #mainspc:after{
 }
 
 #page_content header .page-title{
-	font-size: 28px;
-	line-height: 36px;
+	font-size: 24px;
+	line-height:30px;
 	margin:0;
 }
 
@@ -3462,7 +3466,7 @@ body.login #mainspc:after{
 
 .secondary-title{
 	display: inline-block;
-	/*margin:2px 10px 20px 10px;*/
+	margin:6px 0 18px 0;
 }
 
 
@@ -3595,6 +3599,10 @@ body.login #mainspc:after{
 	padding:0;
 	margin:0;
 	background: none;
+}
+
+.material h4{
+	margin:0 0 6px 0;
 }
 
 .material h5{
@@ -3761,7 +3769,7 @@ body.login #mainspc:after{
 
 .material h4.number .icon{
 	font-size: 32px;
-  margin: 0 6px 0 0;
+  	margin: 0 6px 0 0;
 	vertical-align: baseline;
 }
 /* Expanded Panels */
@@ -5636,14 +5644,30 @@ label.checklabel{
     left:0;
     margin:0;
     width:100%;
+    height:100vh;
     color:#f5f5f5;
-    padding:10%;
+    padding:0 10%;
     text-align:left;
     z-index:7;
-    -webkit-transition: 0.3s  ease-in-out;
-	-moz-transition: 0.3s  ease-in-out;
-	transition:0.3s ease-in-out;
+    -webkit-transition: 0.3s opacity ease-in-out;
+	-moz-transition: 0.3s opacity ease-in-out;
+	transition:0.3s opacity ease-in-out;
 }
+
+.modallightbox {
+ 	display: table;
+ 	width: 100%;
+}
+
+.modal-content {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.modal-content .inner{
+	min-height: 69%;
+}
+
 
 .modallightbox header{
 	display: none;
@@ -5931,10 +5955,10 @@ label.checklabel{
 
 .store .modallightbox h4{
 	width:90%;
-	font-size:28px;
+	font-size:24px;
 	margin:50px 0 18px 0;
 	padding:0;
-	line-height: 36px;
+	line-height:30px;
 }
 
 /* List of elements types in store */
@@ -6133,18 +6157,29 @@ label.checklabel{
 
 .modallightbox .gallery .example .slider{
 	margin:8% 0;
-	border-top:20px solid #d8d8d8;
+	/*border-top:20px solid #d8d8d8;
 	-webkit-border-top-left-radius: 3px;
 	-webkit-border-top-right-radius: 3px;
 	-moz-border-radius-topleft: 3px;
 	-moz-border-radius-topright: 3px;
 	border-top-left-radius: 3px;
-	border-top-right-radius: 3px;
+	border-top-right-radius: 3px;*/
 	background:#111;
 	overflow:hidden;
 	-moz-box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
    	-webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
   	box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+}
+
+.modallightbox .gallery .example .slider img{
+	margin:0;
+	display: block;
+}
+
+.modallightbox .gallery .example h4{
+	height:60px;
+	margin:0;
+	width:100%;
 }
 
 
@@ -6154,8 +6189,8 @@ label.checklabel{
 
 .modallightbox .gallery h2, .modallightbox .gallery h3{
 	color:#f5f5f5;
-	font-size:28px;
-	line-height: 36px;
+	font-size:24px;
+	line-height:30px;
 }
 
 .modallightbox .gallery h2 span{
@@ -6278,7 +6313,7 @@ label.checklabel{
 	color:#f5f5f5;
 	font-weight: 700;
 	font-size: 30px;
-	line-height: 28px;
+	line-height: 24px;
 	margin:5px 0 10px 0;
 }
 
@@ -6704,7 +6739,7 @@ a.edit-button:hover .icon{
 .options label{
 	padding:0;
 	margin:-5px 18px 6px 0;
-	line-height: 36px;
+	line-height:30px;
 	text-transform: lowercase;
 	display: inline;
 }
@@ -6712,16 +6747,18 @@ a.edit-button:hover .icon{
 
 .url-link{
 	display:inline-block;
-	padding:0px 6px 0 0;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	color:#00cf7f;
-	line-height: 30px;
-	z-index: 50;
 	position: relative;
-	word-break:break-all;
 	text-decoration: underline;
+	font-size: 24px!important;
+    line-height:30px;
+}
+
+.page-url{
+	font-family: 'Montserrat',Helvetica,Arial,sans-serif;
 }
 
 /* Scalar Data */
@@ -6850,7 +6887,6 @@ a.edit-button:hover .icon{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	overflow:auto;
 	position: relative;
 
 }
@@ -7572,7 +7608,7 @@ button.right, .button.right{
 }
 
 #page_content header .page-title{
-	margin:0;
+	margin:6px 0 0 0;
 }
 
 #page_content header .page-subtitle{
@@ -8306,7 +8342,7 @@ ul.alternating li a{ padding:30px; }
 #card .back h2{
 	padding:20px;
 	margin:0;
-	font-size: 28px;
+	font-size: 24px;
 	line-height: 32px;
 	color:#f5f5f5;
 }
