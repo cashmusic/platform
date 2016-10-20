@@ -917,17 +917,40 @@ button .icon, .button .icon{
 .drawer.upload-corral {
 	background:none;
 	border:none;
+	margin:0 0 12px 0;
+}
+
+/* Upload button (two part) */
+.drawer.upload-corral .drawerhandle .icon{
+	padding:0px;
+}
+
+
+.drawer.upload-corral .drawerhandle span{
+	color:#696969!important;
+	margin:0;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	display:inline-block;
 }
 
 .drawer.upload-corral .drawercontent{
 	padding:0;
-	margin:18px 0 0 0;
+	margin:0;
 }
 
+.drawer.upload-corral .drawerhandle, .drawer.upload-corral .drawercontent input{
+	margin-bottom:6px;
+}
 
 .upload-corral{
 	display: none;
 }
+
+.upload-corral.show, .upload-corral.open{
+	display: block;
+}	
 
 
 .upload-corral .icon{
@@ -936,7 +959,6 @@ button .icon, .button .icon{
 
 .upload-corral a{
 	color:#333;
-	margin:0 0 0 10px;
 }
 
 .upload-corral a:hover{
@@ -954,8 +976,7 @@ button .icon, .button .icon{
 }
 
 .file-security{
-	margin:30px 0 0 0;
-	text-align: right;
+	margin:0 0 18px 0;
 }
 
 /* #headers */
@@ -2337,7 +2358,7 @@ section[role=main].hero{
 	background:#ededed;
 	padding:36px 30px;
 	font-size: 24px;
-	line-height:30px;
+	line-height:36px;
 }
 
 #tertiary .inner h1.paneltitle .icon{
@@ -3723,9 +3744,27 @@ body.login #mainspc:after{
 	margin-bottom: -14px
 }
 
-.material.drawer .drawerhandle:hover span{
-	color:#fff;
+.material.drawer .drawerhandle span.notes{
+	text-align: right;
+	font-family: 'Nunito',Helvetica,Arial,sans-serif;
+}
+
+.material.drawer .drawerhandle:hover, .material.drawer .drawerhandle:hover h5, .material.drawer .drawerhandle:hover p,  .material.drawer .drawerhandle:hover a,  .material.drawer .drawerhandle:hover span{
+	color:#fff!important;
 	fill:#fff;
+}
+
+.material.drawer .drawerhandle.hide .drawerhandleaction{
+	display: none;
+}
+
+.material.drawer input{
+	border:solid #ddd 1px;
+	margin-bottom:6px;
+}
+
+.material.drawer input:last-of-type{
+	margin-bottom:0;
 }
 
 .material.drawer .drawercontent{
@@ -3963,7 +4002,7 @@ fieldset{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	margin:0 0 18px 0;
+	margin:0 0 6px 0;
 	border:solid 1px #ccc;
 }
 
@@ -6883,7 +6922,7 @@ a.edit-button:hover .icon{
 /* Featured Release */
 
 .releases{
-	margin:0 0 18px 0;
+	margin:0;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;

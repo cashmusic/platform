@@ -443,7 +443,7 @@ jQuery.fn.extend({
                '<div class="modal-content"><div class="inner">' +
                '<h4>' + data.ui_title + '</h4>' +
                data.content + //jQuery.param(data) +
-               '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a></div></div><!--inner--></div><!--modal-content-->'
+               '<a href="#" class="modalcancel"><div class="icon icon-plus"></div><!--icon--></a><!--modalcancel--></div><!--inner--></div><!--modal-content-->'
             );
             $('.store .modallightbox h4').css('width','62%');
 
@@ -892,7 +892,7 @@ function handleUploadForms() {
    $('#connection_id').each( function() {
       if ( this.value > 0 ) {
          var newUploadEndpoint = $('.file-upload-trigger').data('upload-endpoint') + this.value;
-         $('.upload-corral').fadeIn().find('.file-upload-trigger').data('upload-endpoint', newUploadEndpoint );
+         $('.upload-corral').addClass('show').find('.file-upload-trigger').data('upload-endpoint', newUploadEndpoint );
       }
    });
 }
@@ -911,7 +911,7 @@ function assetFormBehaviors() {
          if (response.success) {
             $('#asset_location').val(response.location);
             $('#connection_id').val('0');
-            $('.upload-corral').fadeOut();
+            $('.upload-corral').removeClass('show');
          }
       });
 
@@ -919,11 +919,12 @@ function assetFormBehaviors() {
 
    // storage connection change handler
    $(document).on('change', '#connection_id', function(e) {
+          console.log(this.value);
       if ( this.value > 0 ) {
          //var connectionID = this.value;
          var newUploadEndpoint = $('.file-upload-trigger').data('upload-endpoint') + this.value;
 
-         var trigger = $('.upload-corral').fadeIn().find('.file-upload-trigger')
+         var trigger = $('.upload-corral').addClass('show').find('.file-upload-trigger')
          trigger.data('upload-endpoint', newUploadEndpoint );
 
          var uploadTo = $.ajax({
@@ -936,24 +937,25 @@ function assetFormBehaviors() {
             //});
          });
       } else {
-         $('.upload-corral').fadeOut();
+         $('.upload-corral').removeClass('show');
       }
    });
 
    // file upload handlers
    $(document).on('click', '.file-upload-trigger', function(e) {
+
       e.preventDefault();
 
       var trigger = $(this),
       iframeSrc = $(this).data('upload-endpoint'),
       connectionID = $('#connection_id').val();
 
+      console.log(connectionID);
+
       if ( connectionID == '0' ) {
          alert('Sorry, can\'t upload without a connection. Have you tried a normal link?');
          return false;
-      } else {
-         trigger.parents('.fadedtext').css('height','0px');
-         trigger.parents('.fadedtext').animate({ opacity: 0 });
+         $('.upload-corral').removeClass('show');
       }
    });
 }
@@ -1251,7 +1253,7 @@ function doModalLightbox(route,returntocurrentroute) {
          var markup = '<h4>' + data.ui_title + '</h4>' +
          data.content + //jQuery.param(data) +
          //'</div></div>' +
-         '<div class="tar" style="position:relative;z-index:9876;"><a href="#" class="modalcancel smalltext"><div class="icon icon-plus"></div><!--icon--></a></div>';
+         '<a href="#" class="modalcancel"><div class="icon icon-plus"></div><!--icon--></a>';
          $('.modallightbox').html(markup);
       }
 

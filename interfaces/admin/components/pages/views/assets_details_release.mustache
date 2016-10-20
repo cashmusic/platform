@@ -1,20 +1,22 @@
 {{! corresponding files: assets_edit.php & assets_edit.json }}
 
-<form accept-charset="UTF-8" method="post" action="" id="add-release-form">
-	<fieldset class="pure-u-1">
-		<input type="hidden" name="doassetedit" value="makeitso" />
-		<input type="hidden" name="asset_type" value="release" />
-		<header>
+<header>
 		<div class="pure-u-1 pure-u-md-1-2">
 			<a class="returnlink current" href="{{www_path}}/assets/"><div class="icon icon-arw-dwn"></div><!--icon--></a>
 			<h4 class="secondary-title">&ldquo;{{title}}&rdquo;<span class="release-artistname">{{#metadata_artist_name}}{{copy_by}} {{metadata_artist_name}}{{/metadata_artist_name}}</span></h4>
 		</div><!--pure-->
 		<div class="pure-u-1 pure-u-md-1-2">
 			<ul class="inline-subnav right">
-				<li><a class="drawer-trigger" href="#"><span class="icon icon-wrench"></span> {{copy_view_asset_settings}}</a></li>
+				<li><a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="lightboxed returntocurrentroute"><span class="icon icon-circle-plus"></span> {{copy_add_to_inventory}}</a></li>
+				
 			</ul>
 		</div><!--pure-->
-		</header>
+</header>
+
+<form accept-charset="UTF-8" method="post" action={{www_path}}/assets/edit/{{id}}"" id="add-release-form">
+		<input type="hidden" name="doassetedit" value="makeitso" />
+		<input type="hidden" name="asset_type" value="release" />
+	
 		<div class="release">
 			<div class="pure-u-1 pure-u-md-1-3">
 				<!--<style type="text/css">
@@ -56,7 +58,6 @@
 			</div><!--release-general-info-->
 		</div><!--release-->
 
-
 					<div class="fulfillment-files pure-u-1">
 						<div class="pure-u-1 pure-u-md-2-3"><h5 class="attachment"><i class="icon icon-paperclip"></i><!--icon-->{{copy_attached_fulfillment_files}}</h5></div><!--pure-->
 						<div class="pure-u-1 pure-u-md-1-3"><a href="{{www_path}}/assets/add/file/setparent/{{id}}/addtometadata/fulfillment" class="add-fulfillment-file lightboxed returntocurrentroute alt-button right">{{copy_attach_a_file}}</a>
@@ -88,7 +89,7 @@
 						<div class="empty pure-u-1"><p class="fadedtext">{{copy_no_files_yet}}</p></div><!--pure-->
 						{{/fulfillment_files}}
 					</div><!--fullfillment-files-->
-	</fieldset>
+	</form><!--add-release-form-->
 <!--
 	<h4>Additional Fields</h4>
 	<div class="pure-u-1">
@@ -174,48 +175,23 @@
 			</div>
 		</div>
 	</div> pure-->
-
 <div class="pure-u-1">
+	<div class="material drawer">
+			<h5 class="drawerhandle hide title"><div class="icon icon-dwnld"></div><!--icon-->{{copy_export_create_download_codes}} <span class="notes">({{#asset_codes_count}}{{copy_there_are}}{{asset_codes_count}}{{copy_codes_for_this_asset}}<a class="usecolor2 noajax" href="{{www_path}}/assets/edit/{{id}}?exportcodes=1"><strong>{{copy_export_them}}</strong></a>{{/asset_codes_count}}
+						{{^asset_codes_count}}
+						{{copy_no_download_codes}}
+						{{/asset_codes_count}})</span></h5>
+					<div class="drawercontent pure-u-1 ">
+						<form accept-charset="UTF-8" method="post" action="{{www_path}}/assets/edit/{{id}}">
+								<div class="pure-u-1">
+								<label for="add_codes_qty">{{label_add_more_codes}}</label>
+								<div class="pure-u-1 pure-u-md-4-5"><input type="text" name="add_codes_qty" id="add_codes_qty" value="500" /></div><div class="pure-u-1 pure-u-md-1-5"><button class="alt-button fullwidth" type="submit">{{copy_add_codes}}</button></div>
+							</div><!--pure-->
+						</form>
+					</div><!--drawercontent-->
+		</div><!--material-->
+
 <button class="nojs" type="submit">{{copy_button_save_changes}}</button>
-<button class="onlyjs externalsubmit" data-cash-target-form="#edit-file-form" type="submit">{{copy_button_save_changes}}</button>
+<button class="onlyjs externalsubmit" data-cash-target-form="#add-release-form" type="submit">{{copy_button_save_changes}}</button>
 <a href="{{www_path}}/assets/delete/{{id}}" class="button usecolor2 needsconfirmation">{{copy_button_delete_release}}</a>
 </div><!--pure-->
-</form><!--add-release-form-->
-
-<div id="settings-drawer" class="drawer prefpanel pure-u-1">
-<div class="itemnav pure-u-1">
-	<h4 class="drawerhandle title"><div class="icon icon-wrench"></div><!--icon--><span>{{copy_asset_settings}}</span></h4>
-	<div class="drawercontent">
-	<div class="pure-u-1 pure-u-md-1-2">
-		<div class="pref-inner">
-				<h5><div class="icon icon-dwnld"></div><!--icon-->{{copy_download_codes}}</h5>
-				<p>
-				{{#asset_codes_count}}
-					<span>{{copy_there_are}}{{asset_codes_count}}{{copy_codes_for_this_asset}}<a class="usecolor2 noajax" href="{{www_path}}/assets/edit/{{id}}?exportcodes=1"><b>{{copy_export_them}}</b></a></span>
-				{{/asset_codes_count}}
-				{{^asset_codes_count}}
-					<span>{{copy_no_download_codes}}</span>
-				{{/asset_codes_count}}
-				</p>
-				<form id="export-dwnld-codes" accept-charset="UTF-8" method="post" action="{{www_path}}/assets/edit/{{id}}">
-					<div class="pure-u-1"><label for="add_codes_qty">{{label_add_more_codes}}</label></div><!--label-->
-					<div class="pure-u-1">
-						<input class="" type="text" name="add_codes_qty" id="add_codes_qty" value="500" />
-					</div><!--pure-->
-					<div class="pure-u-1">
-						<button type="submit"><div class="icon icon-list"></div><!--icon-->{{copy_add_codes}}</button>
-					</div><!--pure-->
-				</form>
-
-		</div><!--pref-inner-->
-	</div><!--pure-->
-	<div class="pure-u-1 pure-u-md-1-2">
-		<div class="pref-inner">
-			<h5><div class="icon icon-card"></div><!--icon-->{{copy_ready_to_sell}}</h5>
-			<p>{{copy_add_release_if_sell}}</p>
-			<a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="button fullwidth lightboxed returntocurrentroute">{{copy_add_to_inventory}}</a>
-		</div><!--pref-inner-->
-	</div><!--pure-->
-	</div><!--drawercontent-->
-</div><!--itemnav-->
-</div><!--drawer prefpanel-->
