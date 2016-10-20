@@ -12,30 +12,41 @@
 			"description":"Allow a list to log in and get exclusive content.",
 			"longdescription":"This element lets you share content to a specific list with a universal password. Think fan club, press, and more.",
 			"instructions":"Choose a list to verify against, customize using markup, and optionally add a universal password for this element."
+		},
+		"is":{
+			"name":"Meðlimasvæði",
+			"description":"Leyfa fólki að skrá sig inn og fá aðgang að sér efni",
+			"longdescription":"Þessi eining leyfir þér að deila efni til sérstaks hóps af fólki með almennu lykilorði. Til dæmis fyrir aðdáendaklúbb, fjölmiðla, og fleira.",
+			"instructions":"Veldu hóp, sérsníddu með 'markup', og ef þú kýst, settu almennt lykilorð á eininguna. "
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
-				"en":"Main settings"
+				"en":"Main settings",
+				"is":"Aðal stillingar"
 			},
 			"description":{
-				"en":"Choose a list and define a password for them to use in unlocking this element's content."
+				"en":"Choose a list and define a password for them to use in unlocking this element's content.",
+				"is":"Veldu hóp"
 			},
 			"data":{
 				"alternate_password":{
 					"label":{
-						"en":"Password"
+						"en":"Password",
+						"is":"Lykilorð"
 					},
 					"placeholder":{
-						"en":"A password or phrase to unlock the content"
+						"en":"A password or phrase to unlock the content",
+						"is":"Lykilorð eða frasi til að opna aðgang að efni"
 					},
 					"type":"text",
 					"displaysize":"small"
 				},
 				"email_list_id":{
 					"label":{
-						"en":"Target mailing list"
+						"en":"Target mailing list",
+						"is":"Valin netfangaskrá"
 					},
 					"type":"select",
 					"values":"people/lists",
@@ -44,11 +55,13 @@
 				},
 				"secure_content":{
 					"label":{
-						"en":"Content"
+						"en":"Content",
+						"is":"Efni"
 					},
 					"type":"text",
 					"default":{
-						"en":""
+						"en":"",
+						"is":""
 					},
 					"displaysize":"large"
 				}

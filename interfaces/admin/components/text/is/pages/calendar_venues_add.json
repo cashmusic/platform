@@ -1,0 +1,20 @@
+{
+	"pagetip":"",
+	"learn":"<p>The venue information you add will be shared with everyone else using the platform. Double check that you have the most up-to-date info for the venue. Also, be careful that you're not putting in the promoter's phone number and address.</p><p> The more people use the platform the bigger this venue list will get. Yay, community!</p>",
+	"related":{},
+	"labels":{"name":"Name",
+            "website":"Website",
+            "phone":"Phone",
+            "address_1":"Address 1",
+            "address_2":"Address 2",
+            "city":"City",
+            "state":"State / Province / Region",
+            "postal_code":"Postal Code",
+            "country":"Country"
+   },
+	"tooltips":{},
+	"copy":{"edit_venue":"Edit Venue"
+
+
+}
+}
