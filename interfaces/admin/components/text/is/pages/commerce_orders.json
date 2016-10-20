@@ -1,0 +1,21 @@
+{
+	"pagetip":"",
+	"learn":"<p>You can export your orders here. Recent orders refers to all orders that have come in since your last export.</p><p>This is where you’ll find basic information on your completed orders. Click on details for more info on an individual order.</p> ",
+	"related":{},
+	"labels":{},
+	"tooltips":{},
+	"copy":{"export_orders":"Export orders",
+            "export_recent":"Export recent orders",
+            "export_all":"Export all orders",
+            "all_completed":"All completed orders",
+            "order_num":"Order #",
+            "date":"Date",
+            "customer":"Customer",
+            "items":"Items",
+            "gross":"Gross",
+            "net":"Net",
+            "no_orders":"Sorry, no completed orders",
+            "no_orders_2":"There are no completed orders right now."
+
+}
+}

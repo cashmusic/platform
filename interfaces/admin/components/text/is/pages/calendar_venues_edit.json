@@ -1,0 +1,16 @@
+{
+	"pagetip":"",
+	"learn":"<p>Keep in mind this info is shared with everyone using the CASH Music platform. Double check that you're not putting in the promoter contact info.</p>",
+	"related":{},
+	"labels":{"name":"Name",
+            "website":"Website",
+            "phone":"Phone",
+            "address_1":"Address 1",
+            "address_2":"Address 2",
+            "city":"City",
+            "state":"State / Province / Region",
+            "postal_code":"Postal Code",
+            "country":"Country"},
+	"tooltips":{},
+	"copy":{"edit_venue":"Edit Venue"}
+}

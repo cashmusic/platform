@@ -12,20 +12,29 @@
 			"description":"List the dates from your calendar.",
 			"longdescription":"Filters let you set up tourdate archives as well as upcoming shows. The element will automatically update itself as dates expire or move to an archive.",
 			"instructions":"All dates and times are in the timezone of their venue."
+		},
+		"is":{
+			"name":"Tónleikadagsetningar",
+			"description":"Sýndu dagsetningar úr dagatalinu þínu.",
+			"longdescription":"Síur leyfa þér að setja upp dagsetningar liðinna jafnt og komandi tónleika. Þessi eining mun uppfæra sig sjálfvirkt er dagsetningar renna úr gildi eða færast í geymslu.",
+			"instructions":"Allar dag og tímasetningar eru í tímabelti tónleikastaðs."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
-				"en":"Main settings"
+				"en":"Main settings",
+				"is":"Aðal stillingar"
 			},
 			"description":{
-				"en":"Customize how many dates you want to display and what type of events to show."
+				"en":"Customize how many dates you want to display and what type of events to show.",
+				"is":"Sérsníddu hversu margar dagsetningar eru sýndar, og hvaða tegundur af tónleikum."
 			},
 			"data":{
 				"max_display_dates":{
 					"label":{
-						"en":"Max display dates"
+						"en":"Max display dates",
+						"is":"Hámark fjölda dagsetninga"
 					},
 					"type":"number",
 					"default":"25",
@@ -46,7 +55,8 @@
 				},
 				"visible_event_types":{
 					"label":{
-						"en":"What events should display?"
+						"en":"What events should display?",
+						"is":"Hverskonar tónleika skal sýna?"
 					},
 					"type":"select",
 					"values":{

@@ -1,0 +1,18 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{
+		"which_connection":"Which storage connection?",
+      "title":"Title / Name",
+      "description":"Description",
+      "location":"Location (uri)"
+   },
+	"tooltips":{},
+	"copy":{
+		"upload_a_file":"Upload a file",
+		"intro":"Simply select a file hosting connection (required) then upload a JPG/GIF/PNG.",
+		"add_connection":"No available storage connections can be found. Get started by",
+		"add_connection_button":"adding one"
+	}
+}

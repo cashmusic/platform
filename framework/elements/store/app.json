@@ -12,6 +12,12 @@
 			"description":"Build your store.",
 			"longdescription":"Sell physical and/or digital items on your web site. Add as many commerce items as you'd like to sell. We do not take a cut.",
 			"instructions":"...."
+		},
+		"is":{
+			"name":"Verslun",
+			"description":"Hannaðu þína verslun",
+			"longdescription":"Seldu hluti og/eða stafræn niðurhöl á heimasíðu þinni. Bættu við eins miklum varning og þú vilt selja. Við tökum ekki hluta af ágóðanum.",
+			"instructions":"...."
 		}
 	},
 	"copy":{
@@ -29,20 +35,38 @@
 			"pleaseselect":"Select shipping region",
 			"qty":"QTY",
 			"checkout":"Begin checkout"
+		},
+		"is":{
+			"cart":"Bæta við í innkaupakerru",
+			"flexibleprice_suffix":"eða meira",
+			"choose_variants":"Veldu valmöguleika fyrst",
+			"choose_verb":"Veldu",
+			"added":"Bætt við í körfu!",
+			"unavailable":"Afsakið, þessi vara er ekki í boði þessa stundina.",
+			"emptycart":"Innkaupakerran þín er tóm.",
+			"subtotal":"Samtals",
+			"total":"Samtals",
+			"shipping":"Sendingarkostnaður",
+			"pleaseselect":"Veldu svæði",
+			"qty":"Magn",
+			"checkout":"Ganga frá kaupum"
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
-				"en":"Main settings"
+				"en":"Main settings",
+				"is":"Aðal stillingar"
 			},
 			"description":{
-				"en":"Choose an inventory item to sell and commerce connection to use."
+				"en":"Choose an inventory item to sell and commerce connection to use.",
+				"is":"Veldu hlut úr birgðum þínum til að selja, ásamt verslunartengingu til að nota."
 			},
 			"data":{
 				"layout":{
 					"label":{
-						"en":"Layout type"
+						"en":"Layout type",
+						"is":"Tegund umbrots"
 					},
 					"type":"select",
 					"values":{
@@ -55,17 +79,20 @@
 				},
 				"featured_items":{
 					"label":{
-						"en":"Featured items"
+						"en":"Featured items",
+						"is":"Sérkynntir hlutir"
 					},
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
-						"en":"Add a new featured item"
+						"en":"Add a new featured item",
+						"is":"Bæta við nýjum sérkynntum hlut"
 					},
 					"values":{
 						"item_id":{
 							"label":{
-								"en":"Selected item"
+								"en":"Selected item",
+								"is":"Valinn hlutur"
 							},
 							"type":"select",
 							"values":"commerce/items",
@@ -77,17 +104,20 @@
 				},
 				"additional_items":{
 					"label":{
-						"en":"Additional items"
+						"en":"Additional items",
+						"is":"Auka hlutir"
 					},
 					"type":"scalar",
 					"displaysize":"large",
 					"actiontext": {
-						"en":"Add another item"
+						"en":"Add another item",
+						"is":"Bæta við öðrum hlut"
 					},
 					"values":{
 						"item_id":{
 							"label":{
-								"en":"Selected item"
+								"en":"Selected item",
+								"is":"Valinn hlutur"
 							},
 							"type":"select",
 							"values":"commerce/items",
@@ -96,11 +126,13 @@
 						},
 						"tags":{
 							"label":{
-								"en":"Tags (optional)"
+								"en":"Tags (optional)",
+								"is":"Merki (valfrjálst)"
 							},
 							"type":"text",
 							"default":{
-								"en":""
+								"en":"",
+								"is":""
 							},
 							"displaysize":"small"
 						}
@@ -111,39 +143,49 @@
 		},
 		"messages":{
 			"group_label":{
-				"en":"Success/error messages"
+				"en":"Success/error messages",
+				"is":"Velgengnis/villu skilaboð"
 			},
 			"description":{
-				"en":"Customize messages shown to people using this element."
+				"en":"Customize messages shown to people using this element.",
+				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu."
+
 			},
 			"data":{
 				"message_success":{
 					"label":{
-						"en":"Success message"
+						"en":"Success message",
+						"is":"Velgengis skilaboð"
 					},
 					"type":"text",
 					"default":{
-						"en":"Thank you! Check your inbox and spam folders for a receipt and link back to this page."
+						"en":"Thank you! Check your inbox and spam folders for a receipt and link back to this page.",
+						"is":"Takk fyrir! Athugaðu innhólf þitt ásamt ruslpóstmöppu eftir kvittun og tengil baka á þessa síðu."
 					},
 					"displaysize":"medium"
 				},
 				"message_error":{
 					"label":{
-						"en":"Invalid email message"
+						"en":"Invalid email message",
+						"is":"Ógilt tölvupóstskeyti"
 					},
 					"type":"text",
 					"default":{
-						"en":"There was an error processing your payment. Please reload and try again."
+						"en":"There was an error processing your payment. Please reload and try again.",
+						"is":"Það kom upp villa við vinnslu færslunar. Prófaðu aftur."
+
 					},
 					"displaysize":"medium"
 				},
 				"message_email":{
 					"label":{
-						"en":"Personalized email message"
+						"en":"Personalized email message",
+						"is":"Persónumiðað tölvupóstskeyti"
 					},
 					"type":"text",
 					"default":{
-						"en":""
+						"en":"",
+						"is":""
 					},
 					"displaysize":"medium"
 				}
