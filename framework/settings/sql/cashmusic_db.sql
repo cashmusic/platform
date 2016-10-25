@@ -152,8 +152,8 @@ CREATE TABLE `commerce_item_variants` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `commerce_offers`;
-CREATE TABLE `commerce_offers` (
+DROP TABLE IF EXISTS `commerce_subscriptions`;
+CREATE TABLE `commerce_subscriptions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -163,19 +163,37 @@ CREATE TABLE `commerce_offers` (
   `flexible_price` bool DEFAULT '0',
   `recurring_payment` bool DEFAULT '0',
   `recurring_interval` int(11) NOT NULL DEFAULT '0',
+  `physical` bool DEFAULT '0',
   `creation_date` int(11) NOT NULL DEFAULT '0',
   `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `commerce_offers_included_items`;
-CREATE TABLE `commerce_offers_included_items` (
+DROP TABLE IF EXISTS `commerce_subscriptions_included_items`;
+CREATE TABLE `commerce_subscriptions_included_items` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `offer_id` int(11) NOT NULL,
+  `subscription_id` int(11) NOT NULL,
   `item_id` int(11) DEFAULT NULL,
   `creation_date` int(11) DEFAULT NULL,
   `modification_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `commerce_subscriptions_members`;
+CREATE TABLE `commerce_subscriptions_members` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `subscription_id` int(11) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `start` int(11) DEFAULT NULL,
+  `end` int(11) DEFAULT NULL,
+  `total_paid_to_date` decimal(9,2) DEFAULT NULL,
+  `data` text,
+  `creation_date` int(11) DEFAULT NULL,
+  `modification_date` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `people_subscr_user_id` (`user_id`),
+  KEY `people_subscr_id` (`subscription_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `commerce_orders`;
