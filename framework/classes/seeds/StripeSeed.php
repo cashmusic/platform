@@ -454,7 +454,33 @@ class StripeSeed extends SeedBase
             $this->setErrorMessage("In StripeSeed::refundPayment. Something went wrong while issuing this refund.");
             return false;
         }
+    }
 
+    public function getSubscriptionPlan() {
+
+    }
+
+    public function createSubscriptionPlan() {
+
+    }
+
+    public function updateSubscriptionPlan() {
+
+    }
+
+    public function deleteSubscriptionPlan() {
+
+    }
+
+    public function createSubscription() {
+
+    }
+
+    public function updateSubscription() {
+
+    }
+
+    public function cancelSubscription() {
 
     }
 } // END class
