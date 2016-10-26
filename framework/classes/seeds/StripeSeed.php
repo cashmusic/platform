@@ -456,20 +456,116 @@ class StripeSeed extends SeedBase
         }
     }
 
-    public function getSubscriptionPlan() {
+    public function getSubscriptionPlan($plan_id) {
 
+        try {
+            $plan = \Stripe\Plan::retrieve($plan_id);
+        } catch(Exception $e) {
+            if (CASH_DEBUG) {
+                error_log(
+                    print_r($e->getMessage())
+                );
+            }
+
+            return false;
+        }
+
+        return $plan;
     }
 
-    public function createSubscriptionPlan() {
+    /**
+     * @param $name
+     * @param int $amount (in cents)
+     * @param string $interval (day|week|month|year)
+     * @param string $currency
+     * @return bool
+     */
+    public function createSubscriptionPlan($name, $amount=100, $interval="month", $currency="usd") {
 
+        try {
+            \Stripe\Plan::create(array(
+                    "amount" => $amount,
+                    "interval" => $interval,
+                    "name" => $name,
+                    "currency" => $currency,
+                    "id" => preg_replace('/[^A-Za-z0-9-]+/', '-', $name))
+            );
+        } catch(Exception $e) {
+            if (CASH_DEBUG) {
+                error_log(
+                    print_r($e->getMessage())
+                );
+            }
+
+            return false;
+        }
+
+        return true;
     }
 
-    public function updateSubscriptionPlan() {
+    /**
+     * updateSubscriptionPlan
+     *
+     * This is minimal: for security reasons you cannot change amount, interval after a plan has
+     * been created.
+     *
+     * @param $plan_id
+     * @param bool $name
+     * @param bool $currency
+     * @return bool
+     */
+    public function updateSubscriptionPlan($plan_id, $name=false, $currency=false) {
 
+        // did we even get passed any values to update?
+        if (!$name) return false;
+
+        // otherwise--first we need to retrieve the plan by id
+        if (!$plan = $this->getSubscriptionPlan($plan_id)) return false;
+
+        // if we've made it this far, the plan exists and we can go ahead and update it
+
+        if ($name) $plan->name = $name;
+        if ($currency) $plan->currency = $currency;
+
+        try {
+            $plan->save();
+        } catch(Exception $e) {
+            if (CASH_DEBUG) {
+                error_log(
+                    print_r($e->getMessage())
+                );
+            }
+
+            return false;
+        }
+
+        // thumbs up!
+        return true;
     }
 
-    public function deleteSubscriptionPlan() {
+    /**
+     * @param $plan_id
+     * @return bool
+     */
 
+    public function deleteSubscriptionPlan($plan_id) {
+
+        // get the plan by id
+        if (!$plan = $this->getSubscriptionPlan($plan_id)) return false;
+
+        try {
+            $plan->delete();
+        } catch (Exception $e) {
+            if (CASH_DEBUG) {
+                error_log(
+                    print_r($e->getMessage())
+                );
+            }
+
+            return false;
+        }
+
+        return true;
     }
 
     public function createSubscription() {
