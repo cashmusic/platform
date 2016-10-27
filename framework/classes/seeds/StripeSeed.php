@@ -456,6 +456,40 @@ class StripeSeed extends SeedBase
         }
     }
 
+    /**
+     * @param bool $limit
+     * @return bool|\Stripe\Collection
+     */
+    public function getAllSubscriptionPlans($limit=false) {
+        try {
+
+            if ($limit) {
+                $plans = \Stripe\Plan::all([
+                    "limit" => $limit
+                ]);
+            } else {
+                $plans = \Stripe\Plan::all();
+            }
+
+        } catch(Exception $e) {
+            if (CASH_DEBUG) {
+                error_log(
+                    print_r($e->getMessage())
+                );
+            }
+
+            return false;
+        }
+
+        //TODO: we'll need to actually parse these, potentially
+        //this is fine for now, though
+        return $plans;
+    }
+
+    /**
+     * @param $plan_id
+     * @return bool|\Stripe\Plan
+     */
     public function getSubscriptionPlan($plan_id) {
 
         try {
@@ -509,7 +543,7 @@ class StripeSeed extends SeedBase
      * This is minimal: for security reasons you cannot change amount, interval after a plan has
      * been created.
      *
-     * @param $plan_id
+     * @param string $plan_id
      * @param bool $name
      * @param bool $currency
      * @return bool
@@ -544,7 +578,7 @@ class StripeSeed extends SeedBase
     }
 
     /**
-     * @param $plan_id
+     * @param string $plan_id
      * @return bool
      */
 
@@ -568,15 +602,116 @@ class StripeSeed extends SeedBase
         return true;
     }
 
-    public function createSubscription() {
+    /**
+     * @param $subscription_id
+     * @return bool
+     */
 
+    public function getSubscription($subscription_id) {
+
+        try {
+            $subscription = \Stripe\Subscription::retrieve($subscription_id);
+
+        } catch (Exception $e) {
+            if (CASH_DEBUG) {
+                error_log(
+                    print_r($e->getMessage())
+                );
+            }
+
+            return false;
+        }
+
+        return $subscription;
     }
 
-    public function updateSubscription() {
+    /**
+     * @param string $token
+     * @param string $plan_id
+     * @param string $email
+     * @param int $quantity
+     * @return bool
+     */
 
+    public function createSubscription($token, $plan_id, $email, $quantity=1) {
+
+        try {
+            $subscription = \Stripe\Subscription::create(array(
+                "source" => $token, // obtained from Stripe.js
+                "plan" => $plan_id,
+                "email" => $email, // customer's email for stripe correspondence
+                "quantity" => $quantity
+            ));
+
+        } catch (Exception $e) {
+            if (CASH_DEBUG) {
+                error_log(
+                    print_r($e->getMessage())
+                );
+            }
+
+            return false;
+        }
+
+        return $subscription;
     }
 
-    public function cancelSubscription() {
+    /**
+     * Pretty simplistic---I believe we can only update plans here. They can be automatically pro-rated.
+     *
+     * @param $subscription_id
+     * @param $plan_id
+     * @param bool $prorate
+     * @param int $quantity
+     * @return bool
+     */
+    public function updateSubscription($subscription_id, $plan_id, $prorate=true, $quantity=1) {
 
+        // first we need to retrieve the subscription by id
+        if (!$subscription = $this->getSubscription($subscription_id)) return false;
+
+        try {
+            $subscription->plan = $plan_id;
+            $subscription->prorate = $prorate;
+            $subscription->quantity = $quantity;
+
+            $subscription->save();
+
+        } catch (Exception $e) {
+            if (CASH_DEBUG) {
+                error_log(
+                    print_r($e->getMessage())
+                );
+            }
+
+            return false;
+        }
+
+        return $subscription;
+    }
+
+    /**
+     * @param $subscription_id
+     * @return bool
+     */
+    public function cancelSubscription($subscription_id) {
+        // first we need to retrieve the subscription by id
+        if (!$subscription = $this->getSubscription($subscription_id)) return false;
+
+        try {
+
+            $subscription->cancel();
+
+        } catch (Exception $e) {
+            if (CASH_DEBUG) {
+                error_log(
+                    print_r($e->getMessage())
+                );
+            }
+
+            return false;
+        }
+
+        return true;
     }
 } // END class
