@@ -195,29 +195,68 @@ class StripeSeedTests extends UnitTestCase {
 
 		if ($this->has_key) {
 
+            $payment_seed = new StripeSeed($this->cash_user_id, $this->stripe_connection_id);
 
-		$payment_seed = new StripeSeed($this->cash_user_id, $this->stripe_connection_id);
+            $token = \Stripe\Token::create(array(
+                "card" => array(
+                    "number" => "4000000000000127",
+                    "exp_month" => 3,
+                    "exp_year" => 2017,
+                    "cvc" => "314"
+                )
+            ));
 
-		$token = \Stripe\Token::create(array(
-			"card" => array(
-				"number" => "4000000000000127",
-				"exp_month" => 3,
-				"exp_year" => 2017,
-				"cvc" => "314"
-			)
-		));
+            $payment_details = $payment_seed->doPayment(
+                15, // total price
+                "test transaction", // description
+                $token,			// token
+                "timothy@mctest.com",	// email
+                "tim mctest",	// name
+                false);	// shipping info
 
-		$payment_details = $payment_seed->doPayment(
-			15, // total price
-			"test transaction", // description
-			$token,			// token
-			"timothy@mctest.com",	// email
-			"tim mctest",	// name
-			false);	// shipping info
-
-		$this->assertFalse($payment_details);
-		//$this->assertIsA($payment_seed, "array");
+            $this->assertFalse($payment_details);
+            //$this->assertIsA($payment_seed, "array");
+	    }
 	}
-	}
+
+    function testCreateSubscriptionPlan() {
+        // there should be no plans existant
+        // create a plan
+        // verify that it was added to the server
+    }
+
+    function testUpdateSubscriptionPlan() {
+        // load the plan and assert it exists
+        // update the plan
+        // load the plan again and assert the changes
+    }
+
+    function testDeleteSubscriptionPlan() {
+        // delete the subscription plan
+        // try to load the plan and assert it does not exist
+    }
+
+    function testAddSubscriber() {
+        // create new plan again
+        // assert that it has no subscribers
+        // create a new subscription
+        // assert that the subscription exists
+        // add subscription to plan
+        // assert subscription belongs to plan
+    }
+
+    function testUpdateSubscriber() {
+        // load subscription
+        // assert exists
+        // update subscription
+        // assert updates
+    }
+
+    function testCancelSubscriber() {
+        // load subscriber
+        // assert exists
+        // cancel subscription
+        // assert cancelled
+    }
 
 }
