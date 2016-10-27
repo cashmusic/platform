@@ -151,10 +151,14 @@
 					// seconds before declaring the script ready.
 					var l = 0;
 					var i = setInterval(function() {
-						if ((l < 50) && (!cm.geo || !cm.sessionid)) {
+						if ((l < 50) && (!cm.geo || (!cm.sessionid && cm.options.indexOf('standalone') === -1))) {
 							l++;
 						} else {
-							cm.debug.store('session id set: ' + cm.sessionid);
+							if (cm.sessionid) {
+								cm.debug.store('session id set: ' + cm.sessionid);
+							} else {
+								cm.debug.store('no session. standalone mode.');
+							}
 							cm.debug.store('geo acquired: ' + cm.geo);
 							cm.debug.store('total delay: ' + l*100 + 'ms');
 							cm.loaded = Date.now(); // ready and loaded
@@ -919,7 +923,7 @@
 			session: {
 				start: function() {
 					var cm = window.cashmusic;
-					if (!cm.sessionid) {
+					if (!cm.sessionid && cm.options.indexOf('standalone') === -1) {
 						if (cm.get['params']['session_id']) {
 							cm.sessionid = cm.get['params']['session_id'];
 						} else {
@@ -981,7 +985,7 @@
 							}
 						}
 					}
-					if (cm.sessionid === null && !cm.embedded) {
+					if (cm.sessionid === null && !cm.embedded && cm.options.indexOf('standalone') === -1) {
 						// before anything else: change cm.sessionid to FALSE to signify that we're requesting
 						// a new session id. that will stop this block from executing a second time
 						cm.sessionid = false;
@@ -998,6 +1002,9 @@
 									cm.session.setid(rp.payload);
 									cm.events.fire(cm,'sessionstarted',rp.payload);
 								}
+							},
+							function(r) {
+								cm.options += ' standalone';
 							}
 						);
 					}
@@ -1114,7 +1121,8 @@
 						}
 
 						// reenable body scrolling
-						db.style.overflow = 'auto';
+						cm.styles.removeClass(db,'cm-noscroll');
+						cm.styles.removeClass(document.documentElement,'cm-noscroll');
 					}
 				},
 
@@ -1157,7 +1165,8 @@
 						self.content.appendChild(positioning);
 
 						// disable body scrolling
-						db.style.overflow = 'hidden';
+						cm.styles.addClass(db,'cm-noscroll');
+						cm.styles.addClass(document.documentElement,'cm-noscroll');
 
 						// if not already showing, go!
 						if (self.content.style.opacity != 1) {
@@ -1175,6 +1184,7 @@
 				addOverlayTrigger: function(content,classname,ref) {
 					var cm = window.cashmusic;
 					var self = cm.overlay;
+					var db = document.body;
 					if (cm.embedded) {
 						cm.events.fire(cm,'addoverlaytrigger',{
 							"content":content,
@@ -1190,7 +1200,7 @@
 							e.preventDefault();
 							return false;
 						});
-						self.wrapper.appendChild(el);
+						db.appendChild(el);
 						cm.storage[ref] = el;
 						cm.events.fire(cm,'triggeradded',ref);
 					}
