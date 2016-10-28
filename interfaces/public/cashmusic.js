@@ -98,7 +98,8 @@
 				cm.session.start();
 
 				// check lightbox options
-				if (cm.options.indexOf('lightboxvideo') !== -1) {
+				var imgTest = document.querySelectorAll('a.cashmusic.gallery,div.cashmusic.gallery');
+				if (cm.options.indexOf('lightboxvideo') !== -1 || imgTest.length > 0) {
 					// load lightbox.js
 					cm.loadScript(cm.path+'/lightbox/lightbox.js');
 				}
