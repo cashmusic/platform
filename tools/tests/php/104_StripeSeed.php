@@ -27,7 +27,7 @@ class StripeSeedTests extends UnitTestCase {
 		);
 
 		$this->cash_user_id = $user_add_request->response['payload'];
-		$this->has_key = getTestEnv("STRIPE_client_secret");
+		$this->has_key = getTestEnv("STRIPE_TESTSECRET");
 		if (empty($this->has_key)) $this->has_key = false;
 
 
@@ -36,9 +36,8 @@ class StripeSeedTests extends UnitTestCase {
 			$c = new CASHConnection($this->cash_user_id); // the '1' sets a user id=1
 			$this->stripe_connection_id = $c->setSettings('Stripe', 'com.stripe',
 				array(
-					"client_id" => getTestEnv("STRIPE_client_id"),
-					"client_secret" => getTestEnv("STRIPE_client_secret"),
-					"publishable_key" => getTestEnv("STRIPE_publishable_key")
+					"client_secret" => getTestEnv("STRIPE_TESTSECRET"),
+					"publishable_key" => getTestEnv("STRIPE_TESTPUBLISHABLE")
 				)
 			);
 
@@ -79,19 +78,17 @@ class StripeSeedTests extends UnitTestCase {
 
 	function testStripeSeed(){
 		if ($this->has_key) {
+            \Stripe\Stripe::setApiKey(getTestEnv("STRIPE_TESTSECRET"));
+			$this->payment_seed = new StripeSeed($this->cash_user_id, $this->stripe_connection_id);
+			$this->assertIsa($this->payment_seed, 'StripeSeed');
 
-			$payment_seed = new StripeSeed($this->cash_user_id, $this->stripe_connection_id);
-			$this->assertIsa($payment_seed, 'StripeSeed');
 
-			\Stripe\Stripe::setApiKey(getTestEnv("STRIPE_client_secret"));
 		}
 	}
 
-	function testDoPaymentNoToken(){
-		if ($this->has_key) {
+	/*function testDoPaymentNoToken(){
 
-			$payment_seed = new StripeSeed($this->cash_user_id, $this->stripe_connection_id);
-			$payment_details = $payment_seed->doPayment(
+			$payment_details = $this->payment_seed->doPayment(
 				15.32, // total price
 				"test transaction", // description
 				false,            // token
@@ -100,15 +97,13 @@ class StripeSeedTests extends UnitTestCase {
 				false);    // shipping info
 
 			$this->assertFalse($payment_details);
-		}
+
 			//$this->assertIsA($payment_seed, "array");
 	}
 
 	function testDoPaymentToken(){
 
-		if ($this->has_key) {
 
-			$payment_seed = new StripeSeed($this->cash_user_id, $this->stripe_connection_id);
 
 			$token = \Stripe\Token::create(array(
 				"card" => array(
@@ -119,7 +114,7 @@ class StripeSeedTests extends UnitTestCase {
 				)
 			));
 
-			$payment_details = $payment_seed->doPayment(
+			$payment_details = $this->payment_seed->doPayment(
 				15.32, // total price
 				"test transaction", // description
 				$token,            // token
@@ -132,14 +127,10 @@ class StripeSeedTests extends UnitTestCase {
 			$this->assertIsA($payment_details['payer'], "array");
 			$this->assertEqual("timothy@mctest.com", $payment_details['payer']['email']);
 			//$this->assertIsA($payment_seed, "array");
-		}
+
 	}
 
 	function testDoPaymentZeroCharge(){
-
-		if ($this->has_key) {
-
-			$payment_seed = new StripeSeed($this->cash_user_id, $this->stripe_connection_id);
 
 			$token = \Stripe\Token::create(array(
 				"card" => array(
@@ -150,7 +141,7 @@ class StripeSeedTests extends UnitTestCase {
 				)
 			));
 
-			$payment_details = $payment_seed->doPayment(
+			$payment_details = $this->payment_seed->doPayment(
 				0, // total price
 				"test transaction", // description
 				$token,            // token
@@ -160,7 +151,6 @@ class StripeSeedTests extends UnitTestCase {
 
 			$this->assertFalse($payment_details);
 			//$this->assertIsA($payment_seed, "array");
-		}
 	}
 
 	function testDoPaymentChargeDeclined(){
@@ -217,23 +207,54 @@ class StripeSeedTests extends UnitTestCase {
             $this->assertFalse($payment_details);
             //$this->assertIsA($payment_seed, "array");
 	    }
-	}
+	}*/
 
     function testCreateSubscriptionPlan() {
-        // there should be no plans existant
+
+        echo "--- testCreateSubscriptionPlan\n";
+
+        $plans = $this->payment_seed->getAllSubscriptionPlans();
+
+        // there should be no plans existent
+        $this->assertFalse(
+            (count($plans['data']) > 0)
+        );
+
         // create a plan
+        $this->plan_id = $this->payment_seed->createSubscriptionPlan("My Test Plan", 100, "month");
+
         // verify that it was added to the server
+        $plan_check = $this->payment_seed->getSubscriptionPlan($this->plan_id);
+
+        $this->assertIsA($plan_check, 'Stripe\Plan');
+        $this->assertEqual($plan_check->name, "My Test Plan");
+
     }
 
     function testUpdateSubscriptionPlan() {
-        // load the plan and assert it exists
+
         // update the plan
+        $this->assertTrue(
+            $this->payment_seed->updateSubscriptionPlan($this->plan_id, "My Test Plan (Changed)")
+        );
+
         // load the plan again and assert the changes
+        $plan_check = $this->payment_seed->getSubscriptionPlan($this->plan_id);
+
+        $this->assertIsA($plan_check, 'Stripe\Plan');
+        $this->assertEqual($plan_check->name, "My Test Plan (Changed)");
     }
 
     function testDeleteSubscriptionPlan() {
         // delete the subscription plan
+        $this->assertTrue(
+            $this->payment_seed->deleteSubscriptionPlan($this->plan_id)
+        );
+
         // try to load the plan and assert it does not exist
+        $this->assertFalse(
+          $this->payment_seed->getSubscriptionPlan($this->plan_id)
+        );
     }
 
     function testAddSubscriber() {

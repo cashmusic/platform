@@ -273,7 +273,7 @@ class StripeSeed extends SeedBase
      * @param $shipping_info
      * @return array|bool
      */
-    public function doPayment($total_price, $description, $token, $email_address=false, $customer_name=false, $currency='USD') {
+    public function doPayment($total_price, $description, $token, $email_address=false, $customer_name=false, $currency='usd') {
 
       if (CASH_DEBUG) {
          error_log(
@@ -516,13 +516,15 @@ class StripeSeed extends SeedBase
      */
     public function createSubscriptionPlan($name, $amount=100, $interval="month", $currency="usd") {
 
+        $id =  preg_replace('/[^A-Za-z0-9-]+/', '-', $name);
+
         try {
             \Stripe\Plan::create(array(
                     "amount" => $amount,
                     "interval" => $interval,
                     "name" => $name,
                     "currency" => $currency,
-                    "id" => preg_replace('/[^A-Za-z0-9-]+/', '-', $name))
+                    "id" => $id)
             );
         } catch(Exception $e) {
             if (CASH_DEBUG) {
@@ -534,7 +536,7 @@ class StripeSeed extends SeedBase
             return false;
         }
 
-        return true;
+        return $id;
     }
 
     /**
