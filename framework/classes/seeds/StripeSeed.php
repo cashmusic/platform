@@ -749,6 +749,6 @@ class StripeSeed extends SeedBase
             return false;
         }
 
-        return true;
+        return $subscription;
     }
 } // END class

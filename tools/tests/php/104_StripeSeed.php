@@ -260,7 +260,7 @@ class StripeSeedTests extends UnitTestCase {
         );
     }
 
-    function testAddSubscriber() {
+    function testAddSubscription() {
         // create new plan again
         $this->plan_id = $this->payment_seed->createSubscriptionPlan("My Awesome Plan", 100, "month");
 
@@ -299,18 +299,33 @@ class StripeSeedTests extends UnitTestCase {
         $this->assertEqual($this->plan_id, $subscription->plan->id);
     }
 
-    function testUpdateSubscriber() {
-        // load subscription
-        // assert exists
+    function testUpdateSubscription() {
         // update subscription
+        $this->payment_seed->updateSubscription($this->subscription_id, $this->plan_id, true, 5);
+
         // assert updates
+        $subscription = $this->payment_seed->getSubscription($this->subscription_id);
+
+        $this->assertEqual(5, $subscription->quantity);
+
     }
 
-    function testCancelSubscriber() {
+    function testCancelSubscription() {
         // load subscriber
-        // assert exists
+        $subscription = $this->payment_seed->getSubscription($this->subscription_id);
+        $this->assertIsA($subscription, '\Stripe\Subscription');
+
         // cancel subscription
+        $subscription = $this->payment_seed->cancelSubscription($this->subscription_id);
+
         // assert cancelled
+        $this->assertEqual("canceled", $subscription->status);
+
+        // clean up
+        $this->assertTrue(
+            $this->payment_seed->deleteSubscriptionPlan($this->plan_id)
+        );
     }
+
 
 }
