@@ -109,7 +109,21 @@ class AccountTest extends TestCase
         $this->assertTrue($deleted->deleted);
     }
 
-    public function testUpdateLegalEntity()
+    public function testReject()
+    {
+        $account = self::createTestAccount();
+
+        $this->mockRequest(
+            'POST',
+            '/v1/accounts/' . $account->id . '/reject',
+            array('reason' => 'fraud'),
+            $this->deletedAccountResponse('acct_ABC')
+        );
+        $rejected = $account->reject(array('reason' => 'fraud'));
+        $this->assertSame($rejected->id, $account->id);
+    }
+
+    public function testSaveLegalEntity()
     {
         $response = $this->managedAccountResponse('acct_ABC');
         $this->mockRequest('POST', '/v1/accounts', array('managed' => 'true'), $response);
@@ -127,6 +141,71 @@ class AccountTest extends TestCase
         $account->save();
 
         $this->assertSame('Bob', $account->legal_entity->first_name);
+    }
+
+    public function testUpdateLegalEntity()
+    {
+        $response = $this->managedAccountResponse('acct_ABC');
+        $this->mockRequest('POST', '/v1/accounts', array('managed' => 'true'), $response);
+
+        $response['legal_entity']['first_name'] = 'Bob';
+        $this->mockRequest(
+            'POST',
+            '/v1/accounts/acct_ABC',
+            array('legal_entity' => array('first_name' => 'Bob')),
+            $response
+        );
+
+        $account = Account::create(array('managed' => true));
+        $account = Account::update($account['id'], array(
+          'legal_entity' => array(
+            'first_name' => 'Bob'
+          )
+        ));
+
+        $this->assertSame('Bob', $account->legal_entity->first_name);
+    }
+
+    public function testCreateAdditionalOwners()
+    {
+        $request = array(
+            'managed' => true,
+            'country' => 'GB',
+            'legal_entity' => array(
+                'additional_owners' => array(
+                    0 => array(
+                        'dob' => array(
+                            'day' => 12,
+                            'month' => 5,
+                            'year' => 1970,
+                        ),
+                        'first_name' => 'xgvukvfrde',
+                        'last_name' => 'rtcyvubhy',
+                    ),
+                    1 => array(
+                        'dob' => array(
+                            'day' => 8,
+                            'month' => 4,
+                            'year' => 1979,
+                        ),
+                        'first_name' => 'yutreuk',
+                        'last_name' => 'dfcgvhbjihmv',
+                    ),
+                ),
+            ),
+        );
+
+        $acct = Account::create($request);
+        $response = $acct->__toArray(true);
+
+        $req_ao = $request['legal_entity']['additional_owners'];
+        $resp_ao = $response['legal_entity']['additional_owners'];
+
+        $this->assertSame($req_ao[0]['dob'], $resp_ao[0]['dob']);
+        $this->assertSame($req_ao[1]['dob'], $resp_ao[1]['dob']);
+
+        $this->assertSame($req_ao[0]['first_name'], $resp_ao[0]['first_name']);
+        $this->assertSame($req_ao[1]['first_name'], $resp_ao[1]['first_name']);
     }
 
     public function testUpdateAdditionalOwners()

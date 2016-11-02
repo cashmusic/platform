@@ -3,17 +3,28 @@
 namespace Stripe;
 
 /**
- * Class Recipient
+ * Class SubscriptionItem
  *
  * @package Stripe
  */
-class Recipient extends ApiResource
+class SubscriptionItem extends ApiResource
 {
     /**
-     * @param string $id The ID of the recipient to retrieve.
+     * This is a special case because the subscription items endpoint has an
+     *    underscore in it. The parent `className` function strips underscores.
+     *
+     * @return string The name of the class.
+     */
+    public static function className()
+    {
+        return 'subscription_item';
+    }
+
+    /**
+     * @param string $id The ID of the subscription item to retrieve.
      * @param array|string|null $opts
      *
-     * @return Recipient
+     * @return SubscriptionItem
      */
     public static function retrieve($id, $opts = null)
     {
@@ -24,7 +35,7 @@ class Recipient extends ApiResource
      * @param array|null $params
      * @param array|string|null $opts
      *
-     * @return Collection of Recipients
+     * @return Collection of SubscriptionItems
      */
     public static function all($params = null, $opts = null)
     {
@@ -35,7 +46,7 @@ class Recipient extends ApiResource
      * @param array|null $params
      * @param array|string|null $opts
      *
-     * @return Recipient The created recipient.
+     * @return SubscriptionItem The created subscription item.
      */
     public static function create($params = null, $opts = null)
     {
@@ -43,11 +54,11 @@ class Recipient extends ApiResource
     }
 
     /**
-     * @param string $id The ID of the recipient to update.
+     * @param string $id The ID of the subscription item to update.
      * @param array|null $params
      * @param array|string|null $options
      *
-     * @return Recipient The updated recipient.
+     * @return SubscriptionItem The updated subscription item.
      */
     public static function update($id, $params = null, $options = null)
     {
@@ -57,7 +68,7 @@ class Recipient extends ApiResource
     /**
      * @param array|string|null $opts
      *
-     * @return Recipient The saved recipient.
+     * @return SubscriptionItem The saved subscription item.
      */
     public function save($opts = null)
     {
@@ -66,27 +77,12 @@ class Recipient extends ApiResource
 
     /**
      * @param array|null $params
+     * @param array|string|null $opts
      *
-     * @return Recipient The deleted recipient.
+     * @return SubscriptionItem The deleted subscription item.
      */
     public function delete($params = null, $opts = null)
     {
         return $this->_delete($params, $opts);
-    }
-
-
-    /**
-     * @param array|null $params
-     *
-     * @return Collection of the Recipient's Transfers
-     */
-    public function transfers($params = null)
-    {
-        if ($params === null) {
-            $params = array();
-        }
-        $params['recipient'] = $this->id;
-        $transfers = Transfer::all($params, $this->_opts);
-        return $transfers;
     }
 }

@@ -3,27 +3,17 @@
 namespace Stripe;
 
 /**
- * Class Event
- *
- * @property string $id
- * @property string $object
- * @property string $api_version
- * @property int $created
- * @property mixed $data
- * @property bool $livemode
- * @property int $pending_webhooks
- * @property string $request
- * @property string $type
+ * Class OrderReturn
  *
  * @package Stripe
  */
-class Event extends ApiResource
+class OrderReturn extends ApiResource
 {
     /**
-     * @param string $id The ID of the event to retrieve.
+     * @param string $id The ID of the OrderReturn to retrieve.
      * @param array|string|null $opts
      *
-     * @return Event
+     * @return Order
      */
     public static function retrieve($id, $opts = null)
     {
@@ -34,7 +24,7 @@ class Event extends ApiResource
      * @param array|null $params
      * @param array|string|null $opts
      *
-     * @return Collection of Events
+     * @return Collection of OrderReturns
      */
     public static function all($params = null, $opts = null)
     {

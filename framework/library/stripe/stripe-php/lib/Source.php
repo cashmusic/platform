@@ -3,27 +3,17 @@
 namespace Stripe;
 
 /**
- * Class Event
- *
- * @property string $id
- * @property string $object
- * @property string $api_version
- * @property int $created
- * @property mixed $data
- * @property bool $livemode
- * @property int $pending_webhooks
- * @property string $request
- * @property string $type
+ * Class Source
  *
  * @package Stripe
  */
-class Event extends ApiResource
+class Source extends ApiResource
 {
     /**
-     * @param string $id The ID of the event to retrieve.
+     * @param string $id The ID of the Source to retrieve.
      * @param array|string|null $opts
      *
-     * @return Event
+     * @return Source
      */
     public static function retrieve($id, $opts = null)
     {
@@ -34,10 +24,21 @@ class Event extends ApiResource
      * @param array|null $params
      * @param array|string|null $opts
      *
-     * @return Collection of Events
+     * @return Collection of Sources
      */
     public static function all($params = null, $opts = null)
     {
         return self::_all($params, $opts);
+    }
+
+    /**
+     * @param array|null $params
+     * @param array|string|null $opts
+     *
+     * @return Source The created Source.
+     */
+    public static function create($params = null, $opts = null)
+    {
+        return self::_create($params, $opts);
     }
 }
