@@ -30,7 +30,21 @@ class CommercePlantSubscriptionsTests extends UnitTestCase {
     }
 
     function testCreateSubscriptionPlan(){
+        echo "*** TEST SUBSCRIPTION PLAN";
+        $result = $this->commerce_plant->createSubscriptionPlan(
+            1, //user ud
+            "Some Test Plan", //plan name (id extracted from this)
+            "Description for xyz plan", // description
+            "sku12345", // sku
+            100, // price (in cents)
+            false, //flexible price
+            true, //recurring plan
+            false, // physical
+            "month", // interval (month, year, week, etc)
+            12, // how many intervals to bill for?
+            "usd"); // currency (lowercase, three letter codes)
 
+        echo print_r($result, true);
     }
 
     function testGetSubscriptionPlan(){
