@@ -2314,5 +2314,49 @@ class CommercePlant extends PlantBase {
          }
     }
 
+    /**
+     * Subscription specific stuff, seriously
+     */
+
+
+    protected function createSubscriptionPlan($user_id=1, $plan_name, $amount, $interval, $currency="usd") {
+
+        //TODO: load seed---> eventually we want this to dynamically switch, but for now
+        $payment_seed = $this->getDefaultPaymentSeed($user_id);
+
+        $plan_id = $payment_seed->createSubscriptionPlan($plan_name, $amount, $interval, $currency);
+
+
+
+    }
+
+    /**
+     * @param $user_id
+     * @return bool
+     */
+    protected function getDefaultPaymentSeed($user_id)
+    {
+        $settings_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'system',
+                'cash_action' => 'getsettings',
+                'type' => 'payment_defaults',
+                'user_id' => $user_id
+            )
+        );
+        if (is_array($settings_request->response['payload'])) {
+            $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
+        } else {
+            return false; // no default PP shit set
+        }
+
+        $seed_class = "StripeSeed";
+        $connection_id = $stripe_default;
+
+        $payment_seed = new $seed_class($user_id, $connection_id);
+
+        return $payment_seed;
+    }
+
 } // END class
 ?>
