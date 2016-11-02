@@ -671,6 +671,10 @@ select:disabled{
   filter: grayscale(100%);
 }
 
+select#connection_id option[value="0"]:nth-of-type(2){
+	display: none;
+}
+
 textarea{
 	font:400 14px/18px 'Montserrat',Helvetica,Arial,sans-serif;
 	width:100%;
@@ -834,6 +838,17 @@ span.invalid{
 	margin: -10px 0 10px 0;
 }
 
+form span.invalid{
+	-webkit-border-top-right-radius: 0px;
+	-webkit-border-top-left-radius: 0px;
+	-moz-border-radius-topright: 0px;
+	-moz-border-radius-topleft: 0px;
+	border-top-right-radius: 0px;
+	border-top-left-radius: 0px;
+	margin-top:-21px;
+	padding-top:13px;
+}
+
 .prefpanel span.invalid{
 	margin:-4px 0 0 0;
 }
@@ -918,11 +933,6 @@ button .icon, .button .icon{
 	background:none;
 	border:none;
 	margin:0 0 12px 0;
-}
-
-/* Upload button (two part) */
-.drawer.upload-corral .drawerhandle .icon{
-	padding:0px;
 }
 
 
@@ -3678,31 +3688,33 @@ body.login #mainspc:after{
 
 /* Material Calendar Dates */
 
-.material ul.dates li a:hover{
+.material ul li a:hover{
 	background:#eee;
+	border-color:#eee;
 }
 
-.material ul.dates li a{
+.material ul li a{
 	display: block;
 }
 
-.material ul.dates li a span{
+.material ul li a span{
 	display: inline-block;
 	padding:0;
 }
 
-.material ul.dates li a span.fadedtext{
+.material ul li a span.fadedtext{
 	font-family: 'Nunito',Helvetica,Arial,sans-serif;
 }
 
-.material ul.dates li .inner{
+.material ul li .inner{
 	display: inline-block;
 	margin:0;
 }
 
-.material ul.dates li .state-icons{
+.material ul li .state-icons{
 	display: inline-block;
 	text-align: right;
+	padding:0;
 }
 
 /* Unpublished Date */
@@ -3733,10 +3745,11 @@ body.login #mainspc:after{
 
 .material.drawer .drawerhandle{
 	display: block;
-	margin: -20px -30px -20px -30px;
-    padding: 20px 30px 20px 30px;
+	margin: -20px;
+    padding: 20px;
 	background:none;
 	border:none;
+	text-decoration: none;
 	border-radius: 0px;
 }
 
@@ -3906,7 +3919,7 @@ body.login #mainspc:after{
 .material.usecolor2 h4.number .icon-lg-arw, .material.usecolor2 .icon, .material.usecolor2 strong, .material.usecolor2 h5, .usecolor2 .notification-marker, .material.usecolor2 .number {color:#fa3838;}
 .material.usecolor3 h4.number .icon-lg-arw, .material.usecolor3 .icon, .material.usecolor3 strong, .material.usecolor3 h5, .usecolor3 .notification-marker, .material.usecolor3 .number {color:#ff7c12;}
 .material.usecolor4 h4.number .icon-lg-arw, .material.usecolor4 .icon, .material.usecolor4 strong, .material.usecolor4 h5, .usecolor4 .notification-marker, .material.usecolor4 .number {color:#6a38fa;}
-.material.usecolor5 h4.number .icon-lg-arw,.material.usecolor5 .icon, .material.usecolor5 strong, .material.usecolor5 h5, .usecolor5 .notification-marker, .material.usecolor5 .number {color:#fa3866;}
+.material.usecolor5 h4.number .icon-lg-arw, .material.usecolor5 .icon, .material.usecolor5 strong, .material.usecolor5 h5, .usecolor5 .notification-marker, .material.usecolor5 .number {color:#fa3866;}
 
 .material.notification.usecolor2 .number, .material.usecolor2 .inner ul li .number, .usecolor2 .alt-button{background:#fa3838;}
 .material.notification.usecolor3 .number, .material.usecolor3 .inner ul li .number, .usecolor3 .alt-button{background:#ff7c12;}
@@ -7136,7 +7149,7 @@ a.edit-button:hover .icon{
 }
 
 #card .back .signifier{
-	margin:20px 0;
+	margin:6px 0;
 }
 
 #card .back .signifier .icon{
@@ -7746,7 +7759,7 @@ section[role=main].hero, .login section[role=main]{ margin:400px 0 0 0; }
 /* Material */
 
 .material{
-	padding:18px 30px;
+	padding:18px 20px;
 }
 
 .material h5{
@@ -8400,8 +8413,9 @@ ul.alternating li a{ padding:30px; }
 	line-height: 20px;
 }
 .additional_releases.drawer #card .back h3{
-	font-size: 16px;
-	padding:0;
+	font-size: 11px;
+	line-height: 14px;
+	padding:0 20px;
 	bottom:40px;
 }
 

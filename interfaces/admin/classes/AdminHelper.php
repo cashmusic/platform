@@ -382,7 +382,7 @@
 				$current_section++;
 			}
 
-			$template .= '<br /><input class="button" type="submit" value="{{element_button_text}}" /></form></div>';
+			$template .= '<input class="button" type="submit" value="{{element_button_text}}" /> {{#element_id}}&nbsp;<a href="{{www_path}}/elements/delete/{{element_id}}" class="button needsconfirmation">Delete</a>{{/element_id}}</form></div>';
 			return $template;
 		} else {
 			return false;
