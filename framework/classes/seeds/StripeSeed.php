@@ -516,7 +516,7 @@ class StripeSeed extends SeedBase
      */
     public function createSubscriptionPlan($name, $amount=100, $interval="month", $currency="usd") {
 
-        $id =  preg_replace('/[^A-Za-z0-9-]+/', '-', $name);
+        $id = strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $name));
 
         try {
             \Stripe\Plan::create(array(
@@ -604,6 +604,26 @@ class StripeSeed extends SeedBase
         return true;
     }
 
+    public function getAllSubscriptionsForPlan($plan_id, $limit=10) {
+        try {
+            $subscriptions = \Stripe\Subscription::all([
+                'plan' => $plan_id,
+                'limit' => $limit
+            ]);
+
+        } catch (Exception $e) {
+            if (CASH_DEBUG) {
+                error_log(
+                    print_r($e->getMessage())
+                );
+            }
+
+            return false;
+        }
+
+        return $subscriptions;
+    }
+
     /**
      * @param $subscription_id
      * @return bool
@@ -627,6 +647,19 @@ class StripeSeed extends SeedBase
         return $subscription;
     }
 
+    private function createCustomer($email, $token) {
+        try {
+            $customer = \Stripe\Customer::create(array(
+                "email" => $email,
+                "source" => $token
+            ));
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return $customer->id;
+    }
+
     /**
      * @param string $token
      * @param string $plan_id
@@ -637,11 +670,13 @@ class StripeSeed extends SeedBase
 
     public function createSubscription($token, $plan_id, $email, $quantity=1) {
 
+
+        $customer = $this->createCustomer($email, $token);
+
         try {
             $subscription = \Stripe\Subscription::create(array(
-                "source" => $token, // obtained from Stripe.js
+                "customer" => $customer, // obtained from Stripe.js
                 "plan" => $plan_id,
-                "email" => $email, // customer's email for stripe correspondence
                 "quantity" => $quantity
             ));
 

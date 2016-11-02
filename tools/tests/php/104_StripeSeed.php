@@ -211,7 +211,10 @@ class StripeSeedTests extends UnitTestCase {
 
     function testCreateSubscriptionPlan() {
 
-        echo "--- testCreateSubscriptionPlan\n";
+        // we need to make sure we didn't get cut off during testing so these all will validate
+        $this->payment_seed->deleteSubscriptionPlan("my-test-plan");
+        $this->payment_seed->deleteSubscriptionPlan("my-awesome-plan");
+
 
         $plans = $this->payment_seed->getAllSubscriptionPlans();
 
@@ -259,11 +262,41 @@ class StripeSeedTests extends UnitTestCase {
 
     function testAddSubscriber() {
         // create new plan again
+        $this->plan_id = $this->payment_seed->createSubscriptionPlan("My Awesome Plan", 100, "month");
+
+        // verify that it was added to the server
+        $plan_check = $this->payment_seed->getSubscriptionPlan($this->plan_id);
+
+        $this->assertIsA($plan_check, 'Stripe\Plan');
+        $this->assertEqual($plan_check->name, "My Awesome Plan");
+
         // assert that it has no subscribers
+        $subscribers = $this->payment_seed->getAllSubscriptionsForPlan($this->plan_id, 1);
+
+        $this->assertFalse(
+            (count($subscribers['data']) > 0)
+        );
+
         // create a new subscription
+        $token = \Stripe\Token::create(array(
+            "card" => array(
+                "number" => "4242424242424242",
+                "exp_month" => 11,
+                "exp_year" => 2017,
+                "cvc" => "314"
+            )
+        ));
+
+        $subscription = $this->payment_seed->createSubscription($token, $this->plan_id, "tom@tom.com", 1);
         // assert that the subscription exists
-        // add subscription to plan
+        $this->subscription_id = $subscription->id;
+
+        $subscription = $this->payment_seed->getSubscription($this->subscription_id);
+
+        $this->assertIsA($subscription, '\Stripe\Subscription');
+
         // assert subscription belongs to plan
+        $this->assertEqual($this->plan_id, $subscription->plan->id);
     }
 
     function testUpdateSubscriber() {
