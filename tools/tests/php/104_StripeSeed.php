@@ -33,13 +33,6 @@ class StripeSeedTests extends UnitTestCase {
 
 
 		if ($this->has_key) {
-			$c = new CASHConnection($this->cash_user_id); // the '1' sets a user id=1
-			$this->stripe_connection_id = $c->setSettings('Stripe', 'com.stripe',
-				array(
-					"client_secret" => getTestEnv("STRIPE_TESTSECRET"),
-					"publishable_key" => getTestEnv("STRIPE_TESTPUBLISHABLE")
-				)
-			);
 
 			$this->transaction_request = new CASHRequest(
 				array(

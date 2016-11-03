@@ -514,29 +514,28 @@ class StripeSeed extends SeedBase
      * @param string $currency
      * @return bool
      */
-    public function createSubscriptionPlan($name, $amount=100, $interval="month", $currency="usd") {
-
-        $id = strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $name));
+    public function createSubscriptionPlan($name, $sku, $amount=100, $interval="month", $currency="usd") {
 
         try {
-            \Stripe\Plan::create(array(
+            $plan = \Stripe\Plan::create(array(
                     "amount" => $amount,
                     "interval" => $interval,
                     "name" => $name,
                     "currency" => $currency,
-                    "id" => $id)
+                    "id" => $sku)
             );
         } catch(Exception $e) {
-            if (CASH_DEBUG) {
                 error_log(
-                    print_r($e->getMessage())
+                    "StripeSeed->createSubscriptionPlan error: \n".
+                    $e->getMessage()
                 );
-            }
+
+            //TODO: if plan exists we should return it maybe
 
             return false;
         }
 
-        return $id;
+        return $sku;
     }
 
     /**

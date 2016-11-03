@@ -89,7 +89,7 @@ class CASHDBA {
 			'mailings' => 'people_mailings',
 			'mailings_analytics' => 'people_mailings_analytics',
 			'metadata' => 'system_metadata',
-			'offers' => 'commerce_offers',
+			'subscriptions' => 'commerce_subscriptions',
 			'orders' => 'commerce_orders',
 			'sessions' => 'system_sessions',
 			'settings' => 'system_settings',

@@ -30,6 +30,7 @@ class CommercePlant extends PlantBase {
             'addtocart'				      => array('addToCart',array('get','post','direct','api_public')),
             'addtransaction'           => array('addTransaction','direct'),
             'cancelorder'			      => array('cancelOrder','direct'),
+            'createsubscriptionplan'   => array('createSubscriptionPlan', array('direct')),
             'deleteitem'               => array('deleteItem','direct'),
             'deleteitemvariant'        => array('deleteItemVariant','direct'),
             'deleteitemvariants'       => array('deleteItemVariants','direct'),
@@ -55,6 +56,7 @@ class CommercePlant extends PlantBase {
             'getordersbycustomer'      => array('getOrdersByCustomer','direct'),
             'getordersbyitem'		      => array('getOrdersByItem','direct'),
             'getordertotals' 		      => array('getOrderTotals','direct'),
+            'getsubscriptionplan'       => array('getSubscriptionPlan', 'direct'),
             'gettransaction'           => array('getTransaction','direct'),
             'finalizepayment'          => array('finalizePayment',array('get','post','direct')),
             'initiatecheckout'         => array('initiateCheckout',array('get','post','direct','api_public')),
@@ -2314,18 +2316,15 @@ class CommercePlant extends PlantBase {
          }
     }
 
-    /**
-     * Subscription specific stuff, seriously
-     */
+    /* Subscription specific stuff */
 
-
-    public function createSubscriptionPlan($user_id=1, $plan_name, $description, $sku, $amount, $flexible_price=false, $recurring=true, $physical=false, $interval="month", $interval_count=12, $currency="usd") {
+    protected function createSubscriptionPlan($user_id, $connection_id, $plan_name, $description, $sku, $amount, $flexible_price=false, $recurring=true, $physical=false, $interval="month", $interval_count=12, $currency="usd") {
 
         //TODO: load seed---> eventually we want this to dynamically switch, but for now
-        $payment_seed = $this->getDefaultPaymentSeed($user_id);
+        $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
 
         // create the plan on payment service (stripe for now) and get plan id
-        if ($plan_id = $payment_seed->createSubscriptionPlan($plan_name, $amount, $interval, $currency)) {
+        if ($plan_id = $payment_seed->createSubscriptionPlan($plan_name, $sku, $amount, $interval, $currency)) {
 
             $result = $this->db->setData(
                 'subscriptions',
@@ -2345,10 +2344,24 @@ class CommercePlant extends PlantBase {
 
             if (!$result) return false;
 
-            return $result;
+            return ['id'=>$sku];
         }
 
+        return false;
+    }
 
+    public function getSubscriptionPlan($user_id, $connection_id, $id) {
+
+        $result = $this->db->getData(
+            'subscriptions',
+            '*',
+            [
+                'user_id' => ['condition' => '=', 'value' => $user_id],
+                'sku'      => ['condition' => '=', 'value' => $id]
+            ]
+        );
+
+        return $result;
 
     }
 
@@ -2356,24 +2369,28 @@ class CommercePlant extends PlantBase {
      * @param $user_id
      * @return bool
      */
-    protected function getDefaultPaymentSeed($user_id)
+    protected function getPaymentSeed($user_id, $connection_id)
     {
-        $settings_request = new CASHRequest(
-            array(
-                'cash_request_type' => 'system',
-                'cash_action' => 'getsettings',
-                'type' => 'payment_defaults',
-                'user_id' => $user_id
-            )
-        );
-        if (is_array($settings_request->response['payload'])) {
-            $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
-        } else {
-            return false; // no default PP shit set
+        if (!$connection_id) {
+            $settings_request = new CASHRequest(
+                array(
+                    'cash_request_type' => 'system',
+                    'cash_action' => 'getsettings',
+                    'type' => 'payment_defaults',
+                    'user_id' => $user_id
+                )
+            );
+            if (is_array($settings_request->response['payload'])) {
+                $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
+            } else {
+                return false; // no default PP shit set
+            }
+
+            $connection_id = $stripe_default;
         }
 
+        //TODO: this should be dynamic
         $seed_class = "StripeSeed";
-        $connection_id = $stripe_default;
 
         $payment_seed = new $seed_class($user_id, $connection_id);
 

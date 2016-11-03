@@ -23,32 +23,65 @@ class CommercePlantSubscriptionsTests extends UnitTestCase {
             $this->session_id = $s['id'];
         }
 
-        $this->has_key = getTestEnv("STRIPE_client_secret");
+        // add a new admin user for this
+        $user_add_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'system',
+                'cash_action' => 'addlogin',
+                'address' => 'email@anothertest.com',
+                'password' => 'thiswillneverbeused',
+                'is_admin' => 1
+            )
+        );
+
+        $this->cash_user_id = $user_add_request->response['payload'];
+        $this->has_key = getTestEnv("STRIPE_TESTSECRET");
         if (empty($this->has_key)) $this->has_key = false;
 
-        $this->commerce_plant = new CommercePlant('commerce', array());
+        $c = new CASHConnection($this->cash_user_id); // the '1' sets a user id=1
+        $this->stripe_connection_id = $c->setSettings('Stripe', 'com.stripe',
+            array(
+                "client_secret" => getTestEnv("STRIPE_TESTSECRET"),
+                "publishable_key" => getTestEnv("STRIPE_TESTPUBLISHABLE")
+            )
+        );
     }
 
     function testCreateSubscriptionPlan(){
-        echo "*** TEST SUBSCRIPTION PLAN";
-        $result = $this->commerce_plant->createSubscriptionPlan(
-            1, //user ud
-            "Some Test Plan", //plan name (id extracted from this)
-            "Description for xyz plan", // description
-            "sku12345", // sku
-            100, // price (in cents)
-            false, //flexible price
-            true, //recurring plan
-            false, // physical
-            "month", // interval (month, year, week, etc)
-            12, // how many intervals to bill for?
-            "usd"); // currency (lowercase, three letter codes)
 
-        echo print_r($result, true);
+        $subscription_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'commerce',
+                'cash_action' => 'createsubscriptionplan',
+                'user_id' => $this->cash_user_id,
+                'connection_id' => $this->stripe_connection_id,
+                'plan_name' => "Some Test Plan",
+                'description' => "Description for xyz plan",
+                'sku' => "cash_user_".$this->cash_user_id."_".uniqid(),
+                'amount' => 1,
+                'interval' => 'month',
+                'interval_count' => 12
+            )
+        );
+
+        $this->assertTrue($subscription_request->response['payload']);
+
+        $this->plan_id = 1;
+
     }
 
     function testGetSubscriptionPlan(){
+        $subscription_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'commerce',
+                'cash_action' => 'getsubscriptionplan',
+                'user_id' => $this->cash_user_id,
+                'connection_id' => $this->stripe_connection_id,
+                'id' => $this->plan_id
+            )
+        );
 
+        $this->assertTrue($subscription_request->response['payload']);
     }
 
     function testUpdateSubscriptionPlan(){
