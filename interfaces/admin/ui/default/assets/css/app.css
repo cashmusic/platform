@@ -5164,7 +5164,7 @@ ul.people.alternating li a span{
 	padding:18px;
 	border:none;
 	background:#f5f5f5;
-	-webkit-border-radius: 0;
+	/*-webkit-border-radius: 0;
 	-moz-border-radius: 0;
 	border-radius: 0;
 	-webkit-border-top-left-radius: 3px;
@@ -5173,7 +5173,7 @@ ul.people.alternating li a span{
 	-moz-border-radius-topright: 3px;
 	border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
-	border-bottom: solid 1px #eee;
+	border-bottom: solid 1px #eee;*/
 }
 
 
