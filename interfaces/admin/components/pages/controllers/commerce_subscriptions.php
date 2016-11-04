@@ -34,6 +34,7 @@
 
     if ($subscription_request->response['payload']) {
         //success
+        echo "successfully added";
     }
 
     ?>
