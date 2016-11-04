@@ -1,8 +1,7 @@
 {{! corresponding files: commerce_export.php & commerce_export.json}}
 
 <form name="export_orders" class="noajax" method="post" action="{{www_path}}/commerce/orders/export">
-	<div class="pure-u-1">
-	<label for="export_options">{{label_export}}</label>
+	<div class="pure-u-1 pure-u-md-2-3">
 	<select name="export_options" onchange="">
 		<option value="all">{{copy_op_all}}</option>
 		<option value="unfulfilled">{{copy_op_unfulfilled}}</option>
@@ -11,8 +10,8 @@
 		<option value="digital">{{copy_op_digital}}</option>
 	</select>
 	</div><!--pure-->
-	<div class="pure-u-1"><input type='checkbox' class='checkorradio' id="mark_fulfilled" name='mark_fulfilled' value='' /><label class="checklabel" for="mark_fulfilled" >{{label_mark}}</label></div><!--pure-->
-	<div class="pure-u-1"> 
-	<button class="" type="submit">{{copy_button_export}}</button>
+	<div class="pure-u-1 pure-u-md-1-3"> 
+	<button class="fullwidth" type="submit">{{copy_button_export}}</button>
 	</div><!--pure-->
+	<div class="pure-u-1"><input type='checkbox' class='checkorradio' id="mark_fulfilled" name='mark_fulfilled' value='' /><label class="checklabel" for="mark_fulfilled" >{{label_mark}}</label></div><!--pure-->
 </form>
