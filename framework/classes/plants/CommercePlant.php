@@ -57,6 +57,7 @@ class CommercePlant extends PlantBase {
             'getordersbyitem'		      => array('getOrdersByItem','direct'),
             'getordertotals' 		      => array('getOrderTotals','direct'),
             'getsubscriptionplan'       => array('getSubscriptionPlan', 'direct'),
+            'getsubscriptionplans'      => array('getAllSubscriptionPlans', 'direct'),
             'gettransaction'           => array('getTransaction','direct'),
             'finalizepayment'          => array('finalizePayment',array('get','post','direct')),
             'initiatecheckout'         => array('initiateCheckout',array('get','post','direct','api_public')),
@@ -2348,6 +2349,18 @@ class CommercePlant extends PlantBase {
         }
 
         return false;
+    }
+
+    public function getAllSubscriptionPlans($user_id, $limit=false) {
+        $result = $this->db->getData(
+            'subscriptions',
+            '*',
+            [
+                'user_id' => ['condition' => '=', 'value' => $user_id]
+            ]
+        );
+
+        return $result;
     }
 
     public function getSubscriptionPlan($user_id, $connection_id, $id) {
