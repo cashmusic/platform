@@ -514,7 +514,7 @@ class StripeSeed extends SeedBase
      * @param string $currency
      * @return bool
      */
-    public function createSubscriptionPlan($name, $sku, $amount=100, $interval="month", $currency="usd") {
+    public function createSubscriptionPlan($name, $sku, $amount=1, $interval="month", $currency="usd") {
 
         try {
             $plan = \Stripe\Plan::create(array(
@@ -647,6 +647,26 @@ class StripeSeed extends SeedBase
     }
 
     private function createCustomer($email, $token) {
+
+        /*
+        we need to check currency to make sure it's not fractional for these
+        BIF: Burundian Franc
+        CLP: Chilean Peso
+        DJF: Djiboutian Franc
+        GNF: Guinean Franc
+        JPY: Japanese Yen
+        KMF: Comorian Franc
+        KRW: South Korean Won
+        MGA: Malagasy Ariary
+        PYG: Paraguayan Guaraní
+        RWF: Rwandan Franc
+        VND: Vietnamese Đồng
+        VUV: Vanuatu Vatu
+        XAF: Central African Cfa Franc
+        XOF: West African Cfa Franc
+        XPF: Cfp Franc
+         */
+
         try {
             $customer = \Stripe\Customer::create(array(
                 "email" => $email,

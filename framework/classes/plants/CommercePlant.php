@@ -2363,14 +2363,14 @@ class CommercePlant extends PlantBase {
         return $result;
     }
 
-    public function getSubscriptionPlan($user_id, $connection_id, $id) {
+    public function getSubscriptionPlan($user_id, $id) {
 
         $result = $this->db->getData(
             'subscriptions',
             '*',
             [
                 'user_id' => ['condition' => '=', 'value' => $user_id],
-                'sku'      => ['condition' => '=', 'value' => $id]
+                'id'      => ['condition' => '=', 'value' => $id]
             ]
         );
 
