@@ -16,50 +16,17 @@
         <input type="hidden" name="action" value="do_change" />
         <input type="hidden" name="id" value="{{id}}">
 
-        <label for="name">{{label_job_title}}</label>
+        <label for="name">Plan name</label>
         <input type="text" id="name" name="name" value="{{name}}" placeholder="Job Name" class="required" />
-        <label for="fulfillment_job_description">{{label_job_description}}</label>
+        <label for="fulfillment_job_description">Description</label>
         <textarea id="fulfillment_job_description" name="fulfillment_job_description">{{description}}</textarea>
 
-        <label for="item_fulfillment_asset">{{label_fulfillment_asset}}</label>
-        <select id="item_fulfillment_asset" name="item_fulfillment_asset">
-            {{{asset_options}}}
-        </select>
+    <label for="price">Price</label>
+    <input type="text" id="price" name="price" value="{{price}}" placeholder="150" class="required" />
 
-        <label>{{copy_rename_tiers}} ({{tiers_count}}) </label>
-        <div class="drawer prefpanel pure-u-1 defaultopen ">
-            <div class="itemnav pure-u-1">
-                <h4 class="drawerhandle title"><div class="icon icon-wrench"></div>&lt;!&ndash;icon&ndash;&gt;<span>{{copy_tier_settings}}</span></h4>
-                <div class="drawercontent">
-                    <div class="pure-u-1">
-                        <div class="pref-inner">
-                            {{#tiers}}<div class="pure-u-1">
-                                <div class="pure-u-1 pure-u-md-1-2">
-                                    <label>{{label_tier_name}} <strong>({{orders}} {{label_order_amount}})</strong></label>
-                                    <input type="text" name="tier_name[{{id}}]" data-id="{{id}}" value="{{name}}" />
-                                </div>
-                                <div class="pure-u-1 pure-u-md-1-4">
-                                    <label>{{label_upc}}</label>
-                                    <input type="text" name="tier_upc[{{id}}]" value="{{upc}}" placeholder="UPC">
-                                </div>
-                                <div class="pure-u-1 pure-u-md-1-4">
-                                    <label>{{label_options}}</label>
-                                    <p><label for="tier_physical[{{id}}]"><input type="checkbox" class="checkorradio" name="tier_physical[{{id}}]" {{#physical}}checked{{/physical}} value="1">{{copy_physical}}</label></p>
-                                    <p><label for="tier_shipped[{{id}}]"><input type="checkbox" class="checkorradio" name="tier_shipped[{{id}}]" {{#shipped}}checked{{/shipped}} value="1">{{copy_shipped}}</label></p>
-                                </div>
-                            </div>{{/tiers}}
-
-                            {{^tiers}}
-                                <div class="empty align-center">{{copy_no_tiers}}</div>
-                            {{/tiers}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="pure-u-1">
-            <button type="submit">{{copy_save}}</button><a class="button needsconfirmation" href="{{www_path}}/commerce/externalfulfillment/delete/{{id}}" type="submit">{{copy_delete}}</a>
+            <button type="submit">Save</button><a class="button needsconfirmation" href="{{www_path}}/commerce/subscriptions/cancel/{{id}}" type="submit">Cancel</a>
         </div>
     </form>
 {{/plan}}
