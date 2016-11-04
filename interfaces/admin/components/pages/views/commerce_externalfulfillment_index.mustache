@@ -52,18 +52,21 @@
         {{/user_jobs}}
       
         {{#user_jobs}}
-      
+
           <div class='job'>
             <ul class="alternating"><li>
               <a href="/admin/commerce/externalfulfillment/detail/{{id}}">
-         <div class="pure-u-1 pure-u-md-1-3">
+         <div class="pure-u-1 pure-u-md-1-4">
           {{label_job_name}} {{name}}<br/>
           <span>{{description}}</span></p>
           </div><!--pure-->
-          <div class="pure-u-1 pure-u-md-1-3">
+          <div class="pure-u-1 pure-u-md-1-4">
+          {{label_status}} <span>{{status}}</span>
+          </div><!--pure-->
+          <div class="pure-u-1 pure-u-md-1-4">
           {{{label_tier_num}}} <span>{{tiers_count}}</span>
           </div><!--pure-->
-          <div class="pure-u-1 pure-u-md-1-3">
+          <div class="pure-u-1 pure-u-md-1-4">
             {{label_attached_file}} <span>{{asset_id}} {{asset_options}}</span>
           <!--div class="loader-circular">
             <div class="loader-progress"></div>
@@ -82,14 +85,7 @@
            </div><!--actions-->
          </div><!--more-->
        </li></ul>
-    
-       <div class="footer">
-      <div class="pure-u-1 pure-u-md-2-3">
-      <a href="/admin/commerce/externalfulfillment/send/{{id}}" class="button lightboxed">{{copy_process_job}}</a>
-    </div>  <div class="pure-u-1 pure-u-md-1-3">
-      <div class="alignright">{{label_status}} <span>{{status}}</span></div>
-      </div>
-    </div><!--footer-->
+  
          </div><!--job-->
         {{/user_jobs}}
     </div><!--fulfillment-jobs-->
