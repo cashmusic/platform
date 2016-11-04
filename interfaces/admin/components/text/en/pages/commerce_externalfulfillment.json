@@ -43,6 +43,9 @@
 		"upload_to":"Upload files to:",
 		"upload_description":"Upload CSV file(s) from Kickstarter export",
 		"select_assets":"Select Release Asset",
-		"add_assets":"Add Asset"
+		"add_assets":"Add Asset",
+		"backer_count":"Total Backer Count:",
+		"completed_orders":"Completed Orders:",
+		"incomplete_orders":"Incomplete Orders:"
 	}
 }
