@@ -1,25 +1,28 @@
 <a href="/admin/commerce/subscriptions">Back to the future</a>
 
 {{#plan}}
-    <h2>{{name}}</h2>
+    <h2>{{name}}
 
-<div class="pure-u-1-2">
-    <ul>
-        <li>{{sku}}</li>
-        <li>{{description}}</li>
-        <li>{{price}}</li>
-        <li>{{interval}}</li>
-    </ul>
+    </h2>
+
+<div class="pure-u-1">
+
+        <h6>{{sku}}
+            <strong style="float:right"><em>Interval: {{interval}}</em></strong>
+        </h6>
+
+    <br>
 </div>
 
-<form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/subscriptions/detail/{{id}}" id="rename_tiers" class="nodefaultajax">
-        <input type="hidden" name="action" value="do_change" />
+<form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/subscriptions/edit/{{id}}" id="rename_tiers" class="nodefaultajax">
+        <input type="hidden" name="action" value="do_update" />
         <input type="hidden" name="id" value="{{id}}">
-
+        <input type="hidden" name="sku" value="{{sku}}">
+        <input type="hidden" name="connection_id" value="{{connection_id}}">
         <label for="name">Plan name</label>
-        <input type="text" id="name" name="name" value="{{name}}" placeholder="Job Name" class="required" />
-        <label for="fulfillment_job_description">Description</label>
-        <textarea id="fulfillment_job_description" name="fulfillment_job_description">{{description}}</textarea>
+        <input type="text" id="name" name="name" value="{{name}}" placeholder="Plan Name" class="required" />
+        <label for="description">Description</label>
+        <textarea id="description" name="description">{{description}}</textarea>
 
     <label for="price">Price</label>
     <input type="text" id="price" name="price" value="{{price}}" placeholder="150" class="required" />

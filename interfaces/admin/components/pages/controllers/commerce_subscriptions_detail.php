@@ -12,7 +12,6 @@
         $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
     }
 
-// plan index
     $subscription_request = new CASHRequest(
         array(
             'cash_request_type' => 'commerce',

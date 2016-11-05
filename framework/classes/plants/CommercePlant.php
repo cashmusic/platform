@@ -61,7 +61,8 @@ class CommercePlant extends PlantBase {
             'gettransaction'           => array('getTransaction','direct'),
             'finalizepayment'          => array('finalizePayment',array('get','post','direct')),
             'initiatecheckout'         => array('initiateCheckout',array('get','post','direct','api_public')),
-            'sendorderreceipt'	      => array('sendOrderReceipt','direct')
+            'sendorderreceipt'	      => array('sendOrderReceipt','direct'),
+            'updatesubscriptionplan'    => array('updateSubscriptionPlan', 'direct'),
         );
         $this->plantPrep($request_type,$request);
     }
@@ -2375,7 +2376,36 @@ class CommercePlant extends PlantBase {
         );
 
         return $result;
+    }
 
+    public function updateSubscriptionPlan($user_id, $connection_id, $id, $sku, $name, $description, $price, $flexible_price, $physical) {
+
+        //TODO: load seed---> eventually we want this to dynamically switch, but for now
+        $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
+
+        if ($payment_seed->updateSubscriptionPlan($sku, $name)) {
+
+            $result = $this->db->setData(
+                'subscriptions',
+                array(
+                    'name' => $name,
+                    'description' => $description,
+                    'price' => $price, // as cents
+                    'flexible_price' => $flexible_price,
+                    'physical' => $physical
+                ),
+                [
+                    'user_id' => ['condition' => '=', 'value' => $user_id],
+                    'id'      => ['condition' => '=', 'value' => $id]
+                ]
+            );
+
+            if (!$result) return false;
+
+            return $result;
+        }
+
+        return false;
     }
 
     /**
