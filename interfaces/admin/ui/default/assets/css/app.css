@@ -4550,7 +4550,7 @@ ul.alternating li a{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	padding:36px;
+	padding:18px 20px;
 	margin:0;
 	background:#f9f9f9;
 	display:inline-block;
@@ -7080,12 +7080,23 @@ a.edit-button:hover .icon{
 	overflow: auto;
 }
 
+#card .front header .description{
+	padding:12px 20px 12px 0;
+	width:25%;
+	display: inline-block;
+	vertical-align: top;
+}
+
+#card .front header .description .icon{
+	margin:0 0 6px 6px;
+}
 
 #card .front header h2{
+	padding:12px 0 12px 20px;
+	display: inline-block;
 	margin:0;
-	padding:12px 20px;
-	width:100%;
-	display: block;
+	width:75%;
+	word-wrap: break-word;
 	font-size: 16px;
 	line-height: 16px;
 	color:#f5f5f5;
@@ -7179,6 +7190,7 @@ a.edit-button:hover .icon{
 #card .back h2{
 	padding:10px;
 	font-size: 24px;
+	word-wrap: break-word;
 	line-height: 20px;
 	color:#f5f5f5;
 }
@@ -8390,8 +8402,6 @@ section[role=main]{ padding:0; }
 
 .modallightbox .storedisplay .list li{ width:100%; }
 
-ul.alternating li a{ padding:30px; }
-
 /* Campaigns */
 
 #campaigns .associated .add{
@@ -8408,7 +8418,7 @@ ul.alternating li a{ padding:30px; }
 	padding:20px;
 	margin:0;
 	font-size: 24px;
-	line-height: 32px;
+	line-height: 30px;
 	color:#f5f5f5;
 }
 

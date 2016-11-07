@@ -39,16 +39,10 @@
 					<div class="front" style="background-image:url({{cover_url}});">
 						<header>
 							{{#artist_name}}<h3>{{artist_name}}</h3>{{/artist_name}}
-							<h2>{{title}}
-							{{#monetized}}
-								<!-- If commerce item associated -->
-								<div class="monetised icon icon-dollar"></div><!--icon-->
-							{{/monetized}}
-							{{#has_fulfillment}}
-								<!-- If files associated -->
-								<div class="attachement icon icon-paperclip"></div><!--icon-->
-							{{/has_fulfillment}}
-							</h2>
+							<h2>{{title}}</h2><div class="description">
+							{{#monetized}}<!-- If commerce item associated --><div class="monetised icon icon-dollar"></div><!--icon-->
+							{{/monetized}}{{#has_fulfillment}}<!-- If files associated --><div class="attachement icon icon-paperclip"></div><!--icon-->{{/has_fulfillment}}
+							</div>
 						</header>
 					</div><!--front-->
 						<a href="{{www_path}}/assets/edit/{{id}}" class="back">
