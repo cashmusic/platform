@@ -5617,9 +5617,9 @@ margin:0 5px 0 0; padding:0;}
 	height:100%;
 	background-color:rgba(34,34,34,0.98);
 	z-index:6;
-	-webkit-transition: 0.3s  ease-in-out;
-	-moz-transition: 0.3s  ease-in-out;
-	transition:0.3s ease-in-out;
+	-webkit-transition: 0.3s opacity ease-in-out;
+	-moz-transition: 0.3s opacity  ease-in-out;
+	transition:0.3s opacity ease-in-out;
 }
 
 .modaldialog {
@@ -5634,9 +5634,9 @@ margin:0 5px 0 0; padding:0;}
 	text-align:center;
 	z-index:10;
 	padding:10%;
-	-webkit-transition: 0.3s  ease-in-out;
-	-moz-transition: 0.3s  ease-in-out;
-	transition:0.3s ease-in-out;
+	-webkit-transition: 0.3s opacity ease-in-out;
+	-moz-transition: 0.3s opacity ease-in-out;
+	transition:0.3s opacity ease-in-out;
 }
 
 .modaldialog input, .modaldialog select, .modaldialog textarea{
@@ -7019,8 +7019,9 @@ a.edit-button:hover .icon{
 	line-height: 20px;
 }
 .additional_releases.drawer #card .back h3{
-	font-size: 12px;
-	padding:0;
+	font-size: 11px;
+	line-height: 14px;
+	padding:0 20px;
 	bottom:20px;
 }
 
@@ -7622,19 +7623,19 @@ button.right, .button.right{
 }
 
 .l-box {
-		padding:0 20px 0 0!important;
+		padding:0 10px 0 0!important;
 }
 
 .r-box {
-		padding:0 0 0 20px!important;
+		padding:0 0 0 10px!important;
 }
 
 
 /* 2 Col Layout */
 
-.pure-u-md-1-2:nth-of-type(odd) { padding:0 10px 0 0; }
-.pure-u-md-1-2:nth-of-type(even) { padding:0 0 0 10px; }
-.pure-u-md-2-3:nth-of-type(odd) { padding:0 20px 0 0; }
+.pure-u-md-1-2:nth-of-type(odd) { padding:0 5px 0 0; }
+.pure-u-md-1-2:nth-of-type(even) { padding:0 0 0 5px; }
+.pure-u-md-2-3:nth-of-type(odd) { padding:0 10px 0 0; }
 
 .prefpanel .pure-u-md-1-2:nth-of-type(odd) { padding:0 5px 0 0; }
 .prefpanel .pure-u-md-1-2:nth-of-type(even) { padding:0 0 0 5px; }
@@ -7877,13 +7878,14 @@ section[role=main].hero, .login section[role=main]{ margin:400px 0 0 0; }
 
 .additional_releases.drawer  #card .back h2{
 	font-size: 12px;
+	line-height: 14px;
 	margin:0;
 	padding:0;
-	line-height: 20px;
 }
 .additional_releases.drawer #card .back h3{
 	font-size: 11px;
-	padding:0;
+	line-height: 14px;
+	padding:0 20px;
 	bottom:20px;
 }
 
@@ -8419,9 +8421,9 @@ ul.alternating li a{ padding:30px; }
 
 .additional_releases.drawer  #card .back h2{
 	font-size: 16px;
+	line-height: 20px;
 	margin:0;
 	padding:5px 0;
-	line-height: 20px;
 }
 .additional_releases.drawer #card .back h3{
 	font-size: 11px;
