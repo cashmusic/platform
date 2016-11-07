@@ -45,27 +45,26 @@
 
 {{#mass_connection}}
     <h4>{{copy_page_title}}</h4>
-    <div class="fulfillment-jobs pure-u-1">
-        
+      
         {{^user_jobs}}
         <div class="empty"><p>{{copy_no_jobs}}</p></div>   
         {{/user_jobs}}
-      
+      <ul class="fulfillment-jobs alternating">
         {{#user_jobs}}
-            <ul class="alternating"><li>
-              <a href="/admin/commerce/externalfulfillment/detail/{{id}}">
+            <li class="">
+              <a class="primary" href="/admin/commerce/externalfulfillment/detail/{{id}}">
          <div class="pure-u-1 pure-u-md-1-4">
-          <p><strong>{{label_job_name}} </strong> {{name}}<br/>
+          <p><strong>{{label_job_name}} </strong>{{name}}<br/>
           <span class="fadedtext">{{description}}</span></p>
           </div><!--pure-->
           <div class="pure-u-1 pure-u-md-1-4">
-           <p><strong>{{label_status}} </strong> <span>{{status}}</span></p>
+           <p><strong>{{label_status}}</strong> <span>{{status}}</span></p>
           </div><!--pure-->
           <div class="pure-u-1 pure-u-md-1-4">
-           <p><strong>{{{label_tier_num}}} </strong> <span>{{tiers_count}}</span>
+           <p><strong>{{{label_tier_num}}}</strong> <span>{{tiers_count}}</span>
           </div><!--pure-->
           <div class="pure-u-1 pure-u-md-1-4">
-            <p><strong>{{label_attached_file}} </strong> <span>{{asset_id}} {{asset_options}}</span>
+            <p><strong>{{label_attached_file}}</strong> <span>{{asset_id}} {{asset_options}}</span>
           <!--div class="loader-circular">
             <div class="loader-progress"></div>
             <div class="loader-mask">
@@ -82,9 +81,9 @@
              </div><!--action-inner-->
            </div><!--actions-->
          </div><!--more-->
-       </li></ul>
+       </li>
         {{/user_jobs}}
-    </div><!--fulfillment-jobs-->
+        </ul>
     
     <a class="button lightboxed" href="{{www_path}}/commerce/externalfulfillment/create">{{copy_create_job}}</a>
     
