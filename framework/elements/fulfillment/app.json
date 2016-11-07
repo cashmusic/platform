@@ -42,7 +42,7 @@
 						"en":"Are you a backer? Please check your email for instructions and a download link."
 					},
 					"required":true,
-					"displaysize":"medium"
+					"displaysize":"large"
 				},
 				"message_success":{
 					"label":{
