@@ -1,11 +1,10 @@
 {{! corresponding files: people_lists_batch_edit.php & people_lists_batch_edit.json }}
-
+<h4>Batch add contacts</h4>
 <div class="pure-u-1">
 	<form accept-charset="UTF-8" name="batchaddcontacts" method="post" action="{{www_path}}{{requested_route}}">
 		<input type="hidden" name="dobatchcontactsadd" value="makeitso" />
 		<p>{{copy_add_multiple}}</p>
-		<label>{{label_batch}}</label>
-		<textarea id="element_content" name="element_content" class="tall"></textarea>
+		<textarea id="element_content" placeholder='your@email.com,another@email.com' name="element_content" class="tall required"></textarea>
 		<button type="submit">{{copy_add}}</button>
 	</form>
 </div><!--pure-->
