@@ -56,9 +56,6 @@
 .icon-file:before {
   content: "\69";
 }
-.icon-rocket:before {
-  content: "\6a";
-}
 .icon-record:before {
   content: "\6b";
 }
@@ -193,4 +190,10 @@
 }
 .icon-logo:before {
   content: "\5a";
+}
+.icon-fulfilment:before {
+  content: "\30";
+}
+.icon-airplane:before {
+  content: "\31";
 }

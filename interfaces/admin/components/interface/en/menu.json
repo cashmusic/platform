@@ -51,7 +51,7 @@
 	"commerce/items/add":
 		{"page_name":"Add an item", "menu_icon":""},
 	"commerce/externalfulfillment":
-		{"page_name":"3rd Party fulfillment", "menu_icon":"cloud-upload", "tagline":"Import external orders", "beta":true},
+		{"page_name":"3rd Party fulfillment", "menu_icon":"fulfilment", "tagline":"Import external orders", "beta":true},
 	"commerce/export":
 		{"page_name":"Export orders", "menu_icon":"dwnld","add_class":"lightboxed"},
 	"commerce/orders/view":
@@ -111,7 +111,7 @@
 	"people/lists/view":
 		{"page_name":"List details", "menu_icon":""},
 	"people/mailings":
-		{"page_name":"Mail campaigns", "menu_icon":"rocket"},
+		{"page_name":"Mail campaigns", "menu_icon":"airplane"},
 	"people/press":
 		{"page_name":"Press coverage", "menu_icon":"paperclip" },
 
