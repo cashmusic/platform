@@ -40,7 +40,7 @@ class StripeSeed extends SeedBase
             $this->access_token = $this->settings->getSetting('access_token');
             $this->stripe_account_id = $this->settings->getSetting('stripe_account_id');
 
-            //if (CASH_DEBUG) {
+            if (CASH_DEBUG) {
                error_log(
                   'Initiated StripeSeed with: '
                   . '$this->client_id='            . (string)$this->client_id
@@ -49,7 +49,7 @@ class StripeSeed extends SeedBase
                   . ', $this->access_token='       . (string)$this->access_token
                   . ', $this->stripe_account_id='  . (string)$this->stripe_account_id
                );
-            //}
+            }
 
             \Stripe\Stripe::setApiKey($this->access_token);
         } else {
@@ -493,12 +493,9 @@ class StripeSeed extends SeedBase
      * @return bool|\Stripe\Plan
      */
     public function getSubscriptionPlan($plan_id) {
-        error_log("getSubscriptionPlan $plan_id");
         try {
             \Stripe\Stripe::setApiKey($this->access_token);
-            error_log("set api key");
             $plan = \Stripe\Plan::retrieve($plan_id);
-            error_log("got plan");
         } catch(Exception $e) {
             if (CASH_DEBUG) {
                 error_log(
@@ -533,10 +530,12 @@ class StripeSeed extends SeedBase
                     "id" => $sku)
             );
         } catch(Exception $e) {
-                error_log(
-                    "StripeSeed->createSubscriptionPlan error: \n".
-                    $e->getMessage()
-                );
+                if (CASH_DEBUG) {
+                    error_log(
+                        "StripeSeed->createSubscriptionPlan error: \n".
+                        $e->getMessage()
+                    );
+                }
 
             //TODO: if plan exists we should return it maybe
 

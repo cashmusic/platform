@@ -14,7 +14,6 @@
 
 if (!empty($_POST['action']) && $_POST['action'] == "do_create") {
     // add plan
-    error_log("do_create");
     $subscription_request = new CASHRequest(
         array(
             'cash_request_type' => 'commerce',
