@@ -36,7 +36,7 @@ if (!empty($_POST['action']) && $_POST['action'] == "do_update") {
 
 
 
-/*        $cash_admin->page_data['status'] = "success";
+        $cash_admin->page_data['status'] = "success";
         $cash_admin->page_data['plan'] = $subscription_request->response['payload'];
 
         $subscription_request = new CASHRequest(
@@ -54,7 +54,7 @@ if (!empty($_POST['action']) && $_POST['action'] == "do_update") {
             $cash_admin->setPageContentTemplate('commerce_subscriptions_detail');
         } else {
             echo "error";
-        }*/
+        }
 
     }
 }

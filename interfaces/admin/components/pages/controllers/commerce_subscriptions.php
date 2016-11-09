@@ -12,17 +12,17 @@
         $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
     }
 
-// add plan
-    /*    $subscription_request = new CASHRequest(
+/*// add plan
+        $subscription_request = new CASHRequest(
             array(
                 'cash_request_type' => 'commerce',
                 'cash_action' => 'createsubscriptionplan',
                 'user_id' => $cash_admin->effective_user_id,
                 'connection_id' => $stripe_default,
-                'plan_name' => "Some Test Plan",
+                'plan_name' => "Right length",
                 'description' => "Description for xyz plan",
-                'sku' => "cash_user_1_".uniqid(),
-                'amount' => 0.1,
+                'sku' => "cash_".$cash_admin->effective_user_id."_".uniqid(),
+                'amount' => 1,
                 'flexible_price' => false,
                 'recurring' => true,
                 'physical' => true,

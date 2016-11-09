@@ -40,7 +40,7 @@ class StripeSeed extends SeedBase
             $this->access_token = $this->settings->getSetting('access_token');
             $this->stripe_account_id = $this->settings->getSetting('stripe_account_id');
 
-            if (CASH_DEBUG) {
+            //if (CASH_DEBUG) {
                error_log(
                   'Initiated StripeSeed with: '
                   . '$this->client_id='            . (string)$this->client_id
@@ -49,9 +49,9 @@ class StripeSeed extends SeedBase
                   . ', $this->access_token='       . (string)$this->access_token
                   . ', $this->stripe_account_id='  . (string)$this->stripe_account_id
                );
-            }
+            //}
 
-            \Stripe\Stripe::setApiKey($this->client_secret);
+            \Stripe\Stripe::setApiKey($this->access_token);
         } else {
             $this->error_message = 'could not get connection settings';
         }
@@ -72,11 +72,13 @@ class StripeSeed extends SeedBase
                 array(
                     'clientId'          => $connections['com.stripe']['client_id'],
                     'clientSecret'      => $connections['com.stripe']['client_secret'],
-                    'redirectUri'       => $redirect_uri,
+                    'redirectUri'       => $redirect_uri
                 )
             );
 
-            $auth_url = $client->getAuthorizationUrl();
+            $auth_url = $client->getAuthorizationUrl([
+                'scope' => ['read_write'] // array or string
+            ]);
 
             $return_markup = '<h4>Stripe</h4>'
                 . '<p>This will redirect you to a secure login at Stripe and bring you right back. Note that you\'ll need a CASH page or secure site (https) to sell using Stripe. <a href="https://stripe.com/docs/security/ssl" target="_blank">Read more.</a></p>'
@@ -290,7 +292,7 @@ class StripeSeed extends SeedBase
     if (!empty($token)) {
 
         try {
-            \Stripe\Stripe::setApiKey($this->client_secret);
+            \Stripe\Stripe::setApiKey($this->access_token);
 
             if (!$payment_results = \Stripe\Charge::create(
                 array(
@@ -402,7 +404,7 @@ class StripeSeed extends SeedBase
 
         // try to contact the stripe API for refund, or fail gracefully
         try {
-            \Stripe\Stripe::setApiKey($this->client_secret);
+            \Stripe\Stripe::setApiKey($this->access_token);
 
             $refund_response = \Stripe\Refund::create(array(
                 "charge" => $sale_id
@@ -462,7 +464,7 @@ class StripeSeed extends SeedBase
      */
     public function getAllSubscriptionPlans($limit=false) {
         try {
-
+            \Stripe\Stripe::setApiKey($this->access_token);
             if ($limit) {
                 $plans = \Stripe\Plan::all([
                     "limit" => $limit
@@ -491,9 +493,12 @@ class StripeSeed extends SeedBase
      * @return bool|\Stripe\Plan
      */
     public function getSubscriptionPlan($plan_id) {
-
+        error_log("getSubscriptionPlan $plan_id");
         try {
+            \Stripe\Stripe::setApiKey($this->access_token);
+            error_log("set api key");
             $plan = \Stripe\Plan::retrieve($plan_id);
+            error_log("got plan");
         } catch(Exception $e) {
             if (CASH_DEBUG) {
                 error_log(
@@ -503,6 +508,8 @@ class StripeSeed extends SeedBase
 
             return false;
         }
+
+        if (empty($plan)) return false;
 
         return $plan;
     }
@@ -517,6 +524,7 @@ class StripeSeed extends SeedBase
     public function createSubscriptionPlan($name, $sku, $amount=1, $interval="month", $currency="usd") {
 
         try {
+            \Stripe\Stripe::setApiKey($this->access_token);
             $plan = \Stripe\Plan::create(array(
                     "amount" => $amount,
                     "interval" => $interval,
@@ -550,11 +558,12 @@ class StripeSeed extends SeedBase
      * @return bool
      */
     public function updateSubscriptionPlan($plan_id, $name=false, $currency=false) {
-
         // did we even get passed any values to update?
-        if (!$name) return false;
+        if (empty($name)) return false;
 
         // otherwise--first we need to retrieve the plan by id
+        \Stripe\Stripe::setApiKey($this->access_token);
+
         if (!$plan = $this->getSubscriptionPlan($plan_id)) return false;
 
         // if we've made it this far, the plan exists and we can go ahead and update it
@@ -605,6 +614,7 @@ class StripeSeed extends SeedBase
 
     public function getAllSubscriptionsForPlan($plan_id, $limit=10) {
         try {
+            \Stripe\Stripe::setApiKey($this->access_token);
             $subscriptions = \Stripe\Subscription::all([
                 'plan' => $plan_id,
                 'limit' => $limit
@@ -631,6 +641,7 @@ class StripeSeed extends SeedBase
     public function getSubscription($subscription_id) {
 
         try {
+            \Stripe\Stripe::setApiKey($this->access_token);
             $subscription = \Stripe\Subscription::retrieve($subscription_id);
 
         } catch (Exception $e) {
@@ -668,6 +679,7 @@ class StripeSeed extends SeedBase
          */
 
         try {
+            \Stripe\Stripe::setApiKey($this->access_token);
             $customer = \Stripe\Customer::create(array(
                 "email" => $email,
                 "source" => $token
@@ -693,6 +705,7 @@ class StripeSeed extends SeedBase
         $customer = $this->createCustomer($email, $token);
 
         try {
+            \Stripe\Stripe::setApiKey($this->access_token);
             $subscription = \Stripe\Subscription::create(array(
                 "customer" => $customer, // obtained from Stripe.js
                 "plan" => $plan_id,

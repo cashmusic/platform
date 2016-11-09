@@ -2380,6 +2380,7 @@ class CommercePlant extends PlantBase {
 
     public function updateSubscriptionPlan($user_id, $connection_id, $id, $sku, $name, $description, $price, $flexible_price, $physical) {
 
+        error_log("updateSubscriptionPlan\n");
         //TODO: load seed---> eventually we want this to dynamically switch, but for now
         $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
 
