@@ -57,6 +57,7 @@ class CommercePlant extends PlantBase {
             'getordersbyitem'		      => array('getOrdersByItem','direct'),
             'getordertotals' 		      => array('getOrderTotals','direct'),
             'getsubscriptionplan'       => array('getSubscriptionPlan', 'direct'),
+            'getsubscriptionplanbysku'       => array('getSubscriptionPlanBySku', 'direct'),
             'getsubscriptionplans'      => array('getAllSubscriptionPlans', 'direct'),
             'gettransaction'           => array('getTransaction','direct'),
             'finalizepayment'          => array('finalizePayment',array('get','post','direct')),
@@ -2372,6 +2373,20 @@ class CommercePlant extends PlantBase {
             [
                 'user_id' => ['condition' => '=', 'value' => $user_id],
                 'id'      => ['condition' => '=', 'value' => $id]
+            ]
+        );
+
+        return $result;
+    }
+
+    public function getSubscriptionPlanBySku($user_id, $sku) {
+
+        $result = $this->db->getData(
+            'subscriptions',
+            '*',
+            [
+                'user_id' => ['condition' => '=', 'value' => $user_id],
+                'sku'      => ['condition' => '=', 'value' => $sku]
             ]
         );
 

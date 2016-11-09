@@ -1,0 +1,41 @@
+<form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/subscriptions/add" id="rename_tiers" class="nodefaultajax">
+        <input type="hidden" name="action" value="do_create" />
+        <input type="hidden" name="id" value="{{id}}">
+        <input type="hidden" name="sku" value="{{sku}}">
+        <input type="hidden" name="connection_id" value="{{connection_id}}">
+        <label for="name">Plan name</label>
+        <input type="text" id="name" name="name" value="{{name}}" placeholder="Plan Name" class="required" />
+        <label for="description">Description</label>
+        <textarea id="description" name="description">{{description}}</textarea>
+    <div class="pure-u-1 section breaker">
+        <label class="checklabel" for="flexible_price">
+            <input type="checkbox" name="flexible_price" id="flexible_price" class="checkorradio" />Flexible price?
+        </label>
+
+        <label class="checklabel" for="recurring">
+            <input type="checkbox" name="recurring" id="recurring" checked="checked" class="checkorradio" />Recurring Subscription
+        </label>
+
+        <label class="checklabel" for="physical">
+            <input type="checkbox" name="physical" id="physical" class="checkorradio" />Physical
+        </label>
+    </div><!--pure-->
+
+    <div class="pure-u-1 pure-u-md-1-3">
+        <label for="item_fulfillment_asset">Subscription interval</label>
+        <select id="item_fulfillment_asset" name="item_fulfillment_asset">
+            <option value="month" selected>month</option>
+            <option value="week">week</option>
+            <option value="day">day</option>
+            <option value="year">year</option>
+        </select>
+    </div><!--pure-->
+
+    <label for="price">Price</label>
+    <input type="text" id="price" name="price" value="{{price}}" placeholder="150" class="required" />
+
+
+        <div class="pure-u-1">
+            <button type="submit">Save</button>
+        </div>
+    </form>

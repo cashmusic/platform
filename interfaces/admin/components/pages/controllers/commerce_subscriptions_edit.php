@@ -34,9 +34,6 @@ if (!empty($_POST['action']) && $_POST['action'] == "do_update") {
 
     if ($subscription_request->response['payload']) {
 
-
-
-        $cash_admin->page_data['status'] = "success";
         $cash_admin->page_data['plan'] = $subscription_request->response['payload'];
 
         $subscription_request = new CASHRequest(
