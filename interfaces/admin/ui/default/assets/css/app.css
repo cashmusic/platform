@@ -3800,6 +3800,10 @@ body.login #mainspc:after{
  	color:#fff;
  }
 
+.material.drawer.variants{
+	margin:-12px 0 30px 0;
+}
+
 /* Primary Material Button */
 
 .material .inner .alt-button{
@@ -3819,6 +3823,9 @@ body.login #mainspc:after{
 	display: inline-block;
 }
 
+.material input.number {
+	color:#222;
+}
 
 .material ul li .number .material .inner .number{
 	margin:0;
@@ -4545,6 +4552,10 @@ ul.alternating li{
 	transition:0.3s ease-in-out;
 }
 
+ul.alternating li:last-of-type{
+	margin:0;
+}
+
 ul.alternating li a{
 	border:solid 1px #ddd;
 	-webkit-border-radius: 3px;
@@ -4569,7 +4580,7 @@ ul.alternating li a{
 
 ul.alternating li .primary strong{
 	float:left;
-	padding:0 20px 0 0;
+	padding:0 10px 0 0;
 }
 
 ul.alternating li a span{
@@ -5144,15 +5155,6 @@ ul.people.alternating li a span{
 	margin:0;
 }
 
-.fulfillment-jobs .job{
-	background:#fff;
-	margin:0 0 6px 0;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	border:solid 1px #ddd;
-}
-
 .fulfillment-jobs .job .alternating, .fulfillment-jobs .job .alternating li{
 	margin:0;
 	-webkit-border-radius: 0;
@@ -5160,20 +5162,17 @@ ul.people.alternating li a span{
 	border-radius: 0;
 }
 
-.fulfillment-jobs .job .alternating li a{
-	padding:18px;
+.fulfillment-jobs.alternating li.job a{
 	border:none;
 	background:#f5f5f5;
-	/*-webkit-border-radius: 0;
-	-moz-border-radius: 0;
-	border-radius: 0;
-	-webkit-border-top-left-radius: 3px;
-	-webkit-border-top-right-radius: 3px;
-	-moz-border-radius-topleft: 3px;
-	-moz-border-radius-topright: 3px;
-	border-top-left-radius: 3px;
-	border-top-right-radius: 3px;
-	border-bottom: solid 1px #eee;*/
+}
+
+.fulfillment-jobs.alternating li.job a span{
+	color:#222;
+}
+
+.fulfillment-jobs.alternating li.job p{
+	margin:0;
 }
 
 

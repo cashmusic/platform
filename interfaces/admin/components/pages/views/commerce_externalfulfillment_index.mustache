@@ -51,20 +51,17 @@
         {{/user_jobs}}
       <ul class="fulfillment-jobs alternating">
         {{#user_jobs}}
-            <li class="">
+            <li class="job">
               <a class="primary" href="/admin/commerce/externalfulfillment/detail/{{id}}">
-         <div class="pure-u-1 pure-u-md-1-4">
-          <p><strong>{{label_job_name}} </strong>{{name}}<br/>
-          <span class="fadedtext">{{description}}</span></p>
+         <div class="pure-u-1 pure-u-md-1-3">
+          <p><strong>{{label_job_name}} </strong><span><strong>{{name}}</strong></span><br/>
+          <span class="fadedtext description">{{description}}</span></p>
           </div><!--pure-->
-          <div class="pure-u-1 pure-u-md-1-4">
-           <p><strong>{{label_status}}</strong> <span>{{status}}</span></p>
+          <div class="pure-u-1 pure-u-md-1-3">
+            <p><strong>{{label_status}}</strong> <span  class="fadedtext">{{status}}</span><br /><strong>{{{label_tier_num}}}</strong> <span  class="fadedtext">{{tiers_count}}</span><br />
           </div><!--pure-->
-          <div class="pure-u-1 pure-u-md-1-4">
-           <p><strong>{{{label_tier_num}}}</strong> <span>{{tiers_count}}</span>
-          </div><!--pure-->
-          <div class="pure-u-1 pure-u-md-1-4">
-            <p><strong>{{label_attached_file}}</strong> <span>{{asset_id}} {{asset_options}}</span>
+          <div class="pure-u-1 pure-u-md-1-3">
+            <p><strong>{{label_attached_file}}</strong> <span  class="fadedtext">{{asset_id}} {{asset_options}}</span></p>
           <!--div class="loader-circular">
             <div class="loader-progress"></div>
             <div class="loader-mask">

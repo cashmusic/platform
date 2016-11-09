@@ -25,7 +25,7 @@
 		"firstuse":"Fulfillment jobs hold all the information about your customer orders from a 3rd party. (like Kickstarter) <span class='first-para'>They are used to consolidate the information into easy, manageable sections so you can make sure everyone gets what they paid for!</span>",
 		"detail_title":"Job details:",
 		"rename_tiers":"Rename Tiers",
-		"tier_settings":"Tier Settings",
+		"tier_settings":"Tiers",
 		"physical":"Physical",
 		"shipped":"Shipped",
 		"no_tiers":"There are currently no tiers set up for this job.",
