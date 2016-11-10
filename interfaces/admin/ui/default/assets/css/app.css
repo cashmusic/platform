@@ -2243,6 +2243,7 @@ section[role=main].hero{
 	text-align: center;
 }
 
+
 /* Menu Resize Toggle */
 
 #flipback{
@@ -3813,6 +3814,10 @@ body.login #mainspc:after{
 
 .material.drawer.variants{
 	margin:-12px 0 30px 0;
+}
+
+.material.drawer .checklabel{
+	margin:10px 10px 6px 0px;
 }
 
 /* Primary Material Button */
@@ -8452,6 +8457,29 @@ section[role=main]{ padding:0; }
 	bottom:40px;
 }
 
+
+/* Connections */
+
+.current-connections p{
+	display: block;
+}
+
+.current-connections .callout{
+	width:49.5%;
+	display: inline-block;
+}
+
+.current-connections .callout:nth-of-type(odd){
+	margin:0 0.5% 0.5% 0;
+}
+
+#tertiary .current-connections .callout{
+	width:100%;
+}
+
+#tertiary .current-connections .callout:nth-of-type(odd){
+	margin:0 0 6px 0;
+}
 
 }  /* Wide END */
 
