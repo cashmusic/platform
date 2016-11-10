@@ -128,18 +128,14 @@
 {{  ORDER NOTES
 {{
 {{  ************************************************************************* }}
-<div class="drawer prefpanel pure-u-1{{#notes}} defaultopen{{/notes}}">
-	<div class="itemnav pure-u-1">
-		<h4 class="drawerhandle title"><div class="icon icon-paperclip"></div><!--icon--><span>{{label_notes}}</span></h4>
-		<div class="drawercontent">
-			<div class="pure-u-1">
-				<div class="pref-inner">
-					<form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/orders/view/{{id}}">
-					<textarea id="ordernotes" name="ordernotes" class="small">{{notes}}</textarea>
-					<button type="submit">{{copy_button_notes}}</button>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="material drawer breaker pure-u-1{{#notes}} defaultopen{{/notes}}">
+    <h5 class="drawerhandle title"><span>{{label_notes}}</span></h5>
+    <div class="drawercontent">
+      <div class="pure-u-1">
+          <form accept-charset="UTF-8" method="post" action="{{www_path}}/commerce/orders/view/{{id}}">
+          <textarea id="ordernotes" name="ordernotes" class="taller">{{notes}}</textarea>
+          <button type="submit">{{copy_button_notes}}</button>
+          </form>
+      </div>
+    </div>
 </div>
