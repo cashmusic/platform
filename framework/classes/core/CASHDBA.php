@@ -90,6 +90,7 @@ class CASHDBA {
 			'mailings_analytics' => 'people_mailings_analytics',
 			'metadata' => 'system_metadata',
 			'subscriptions' => 'commerce_subscriptions',
+			'subscriptions_members' => 'commerce_subscriptions_members',
 			'orders' => 'commerce_orders',
 			'sessions' => 'system_sessions',
 			'settings' => 'system_settings',
@@ -624,6 +625,13 @@ class CASHDBA {
 				."JOIN commerce_external_fulfillment_orders as o ON o.tier_id = t.id AND j.user_id = :user_id "
 				."JOIN system_lock_codes AS l ON l.scope_table_id = o.id "
 				."WHERE j.id = :fulfillment_job_id AND o.email != '' GROUP BY o.id";
+
+				break;
+
+			case 'CommercePlant_getSubscribersByPlan':
+				$query = "SELECT s.*, p.* FROM commerce_subscriptions_members AS s "
+				."JOIN people as p on p.id = s.user_id "
+				."WHERE s.subscription_id = :subscription_id";
 
 				break;
 

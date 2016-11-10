@@ -14,7 +14,17 @@
 </div>
 
     <div class="pure-u-1-2">
-        <h3>Subscribers</h3>
+        <h3>Subscriptions</h3>
+        {{#subscriptions}}
+            <li>
+
+            <h4>{{first_name}} {{last_name}}</h4>
+                <h5>{{email_address}}</h5>
+                <p>start date {{start_date}}<br>end date {{end_date}}</p>
+                <p>total paid to date: {{total_paid_to_date}}</p>
+
+            </li>
+        {{/subscriptions}}
     </div>
 
 {{/plan}}

@@ -12,7 +12,7 @@
         $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
     }
 
-    $subscription_request = new CASHRequest(
+    $plan_request = new CASHRequest(
         array(
             'cash_request_type' => 'commerce',
             'cash_action' => 'getsubscriptionplan',
@@ -21,9 +21,22 @@
         )
     );
 
+    if ($plan_request->response['payload']) {
+
+        $cash_admin->page_data['plan'] = $plan_request->response['payload'];
+    }
+
+    $subscription_request = new CASHRequest(
+        array(
+            'cash_request_type' => 'commerce',
+            'cash_action' => 'getallsubscriptionsbyplan',
+            'id' => $request_parameters[0]
+        )
+    );
+
     if ($subscription_request->response['payload']) {
 
-        $cash_admin->page_data['plan'] = $subscription_request->response['payload'];
+        $cash_admin->page_data['subscriptions'] = $subscription_request->response['payload'];
     }
 
     $cash_admin->setPageContentTemplate('commerce_subscriptions_detail');
