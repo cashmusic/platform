@@ -2404,6 +2404,8 @@ section[role=main].hero{
 	margin:0 0 30px 0;
 	padding:0;
 	overflow:auto;
+	display: flex;
+  	flex-wrap: wrap;
 }
 
 #panel-filter{
@@ -2411,11 +2413,13 @@ section[role=main].hero{
 }
 
 .tertiarynav li{
-	display: inline-block;
+	display: flex;
+	flex-direction: column;
 }
 
 .tertiarynav li a{
-	display: inline-block;
+	flex: 1 0 auto;
+	/*display: inline-block;*/
 	background:#00cf7f;
 	color:#f5f5f5;
 	padding:10px;
