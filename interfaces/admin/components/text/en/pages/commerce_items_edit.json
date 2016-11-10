@@ -9,7 +9,7 @@
       "quantity":"Quantity (-1: unlimited)",
       "fulfillment_asset":"Fulfillment asset",
       "enable":" Enable 'pay-at-least' minimum pricing",
-      "physical":" Physical goods? (Will require shipping address)",
+      "physical":" Physical goods? (Requires shipping address)",
 		"first_shipped":"First shipped",
 		"rest_shipped":"Additional units shipped"
    },

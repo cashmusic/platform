@@ -68,12 +68,21 @@
 			}
 
 			$menulevel = substr_count($page_endpoint, '/');
-			if ($menulevel == 1 && !isset($page['hide'])) { // only show top-level menu items
-				if (!isset($page['add_class'])) {
-					$page['add_class'] = '';
-				}
+
+			if (!isset($page['add_class'])) {
+				$page['add_class'] = " ";
+			}//addclass
+
+			if ((defined('SHOW_BETA')) ? SHOW_BETA : false){
+				if ($menulevel == 1 && !isset($page['hide']) || $menulevel == 1 && isset($page['beta'])){ // only show top-level menu items
 				$menustr .= "<li><a title=\"{$page['page_name']}\" class=\"{$page['add_class']}\" href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><span>{$page['page_name']}</span><div class=\"icon icon-{$page['menu_icon']}\"></div><!--icon--></a></li>";
+				}
+			} else{
+				if ($menulevel == 1 && !isset($page['hide']) && !isset($page['beta'])){ // only show top-level menu items
+				$menustr .= "<li><a title=\"{$page['page_name']}\" class=\"{$page['add_class']}\" href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><span>{$page['page_name']}</span><div class=\"icon icon-{$page['menu_icon']}\"></div><!--icon--></a></li>";
+				}
 			}
+			
 		}
 
 		// find the right page title
