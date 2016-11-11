@@ -6,12 +6,11 @@
 
 <h2>{{plan_name}}</h2>
 <p>{{plan_description}}</p>
-<form action="">
-<div style="float: left; width: 25%; margin-right: 1%">
-    <input type="number" min="{{plan_price}}" name="plan_amount" id="plan_flexible_price" value="{{plan_price}}" autocomplete="off" >
-    <a href="#" class="button">$<span class="amount" id="plan_price">{{plan_price}}</span>/{{plan_interval}} - Subscribe</a>
-</div>
-</form>
+
+    <div style="float: left; width: 25%; margin-right: 1%">
+        <input type="number" min="{{plan_price}}" name="plan_amount" id="plan_flexible_price" value="{{plan_price}}" autocomplete="off" >
+        <a href="#" class="button cm-subscribe" data-price="{{plan_price}}" data-plan-id="{{plan_id}}" id="subscribe">$<span class="amount" id="plan_price">{{plan_price}}</span>/{{plan_interval}} - Subscribe</a>
+    </div>
 <!--<div style="float: right; width: 25%">
     <a href="#" class="button">Login</a>
 </div>-->
@@ -23,14 +22,32 @@
     'use strict';
     var cm = window.cashmusic;
 
-    var plan_price = document.getElementById('plan_price');
-    var flexible_price = document.getElementById('plan_flexible_price');
+    cm.events.add(cm,'ready', function(e) {
+        cm.session.start();
+        var plan_price = document.getElementById('plan_price');
+        var subscribe_button = document.querySelector('.cm-subscribe');
+        var flexible_price = document.getElementById('plan_flexible_price');
 
-    flexible_price.addEventListener('keyup', function() {
-        plan_price.innerHTML = (flexible_price.value != "") ? flexible_price.value : "10.00";
-    }, false);
+        flexible_price.addEventListener('keyup', function() {
+            var price = (flexible_price.value != "") ? flexible_price.value : "10.00";
+            plan_price.innerHTML = price;
 
-    cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"success"});
+            subscribe_button.setAttribute("data-price", price);
+
+        }, false);
+
+        if (subscribe_button) {
+            cm.events.add(subscribe_button, 'click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var price = subscribe_button.getAttribute("data-price");
+                var plan_id = subscribe_button.getAttribute("data-plan-id");
+                cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"checkout"});
+            });
+        }
+        //
+    });
+
 }());
 </script>
 

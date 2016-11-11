@@ -20,6 +20,7 @@ class Subscription extends ElementBase {
 	public $name = 'Subscription';
 
 	public function getData() {
+		$this->element_data['public_url'] = CASH_PUBLIC_URL;
 
 		$plan_request = new CASHRequest(
 			array(
@@ -36,35 +37,20 @@ class Subscription extends ElementBase {
 			$this->element_data['plan_description'] = $plan_request->response['payload'][0]['description'];
 			$this->element_data['plan_price'] = $plan_request->response['payload'][0]['price'];
 			$this->element_data['plan_interval'] = $plan_request->response['payload'][0]['interval'];
+			$this->element_data['plan_id'] = $plan_request->response['payload'][0]['id'];
 
 			$this->element_data['plan_flexible_price'] =
 				($plan_request->response['payload'][0]['flexible_price'] == 1) ? true: false;
 		}
 
-
-
-		if ($this->status_uid == 'asset_redeemcode_400') {
-			$this->element_data['error_message'] = 'That code is not valid or has already been used.';
-		} elseif ($this->status_uid == 'asset_redeemcode_200') {
-			// first we "unlock" the asset, telling the platform it's okay to generate a link for non-private assets
-			/*$this->element_data['asset_id'] = $this->original_response['payload']['scope_table_id'];
-			if ($this->element_data['asset_id'] != 0) {
-				// get all fulfillment assets
-				$fulfillment_request = new CASHRequest(
-					array(
-						'cash_request_type' => 'asset',
-						'cash_action' => 'getfulfillmentassets',
-						'asset_details' => $this->element_data['asset_id'],
-						'session_id' => $this->session_id
-					)
-				);
-				if ($fulfillment_request->response['payload']) {
-					$this->element_data['fulfillment_assets'] = new ArrayIterator($fulfillment_request->response['payload']);
-				}
-			}*/
-
-			$this->setTemplate('success');
+		if (isset($_REQUEST['state'])) {
+			if ($_REQUEST['state'] == "checkout") {
+				$this->setTemplate('checkout');
+			}
 		}
+
+
+
 		return $this->element_data;
 	}
 } // END class
