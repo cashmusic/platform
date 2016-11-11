@@ -1,0 +1,37 @@
+{
+	"pagetip":"",
+	"learn":"<p>The name should include the band’s name, the release title, and format. What you put in here is what the public will see.</p><p>In the item’s description make sure and note important things like limited edition, colored vinyl, t-shirt manufacturer, unreleased songs, etc. Let them know why they should buy it.</p><p>If you're selling something with multiple options make sure and add them by clicking on the show item options button below. This is also where you'll edit your inventory.</p><p>Note that if you leave the quantity as -1 then it it will be considered unlimited. So if this is a physical item make sure and put in the correct quantity or you’ll have some unhappy customers when you sell out.</p><p>Clicking the enable “pay-at-least” minimum pricing box lets your fans pay more than the price that you’ve set for the item if they want to.</p>",
+	"related":{},
+	"labels":{
+		"name":"Name",
+      "description":"Description",
+      "price":"Price ($ USD)",
+      "quantity":"Quantity (-1: unlimited)",
+      "fulfillment_asset":"Fulfillment asset",
+      "enable":" Enable 'pay-at-least' minimum pricing",
+      "physical":" Physical goods? (Will require shipping address)",
+		"first_shipped":"First shipped",
+		"rest_shipped":"Additional units shipped"
+   },
+	"tooltips":{},
+	"copy":{
+		"op_none":"None (No digital fulfillment)",
+		"view_item_settings":"Edit settings",
+      "button_save":"Save changes",
+      "button_delete":"Delete this item",
+      "configure":"item options (size, color, etc.)",
+      "variant_description":"Option description",
+      "available_quantity":"Available Quantity",
+      "button_save_variants":"Save Options",
+      "reconfigure_variants":"Reconfigure Options",
+      "reset_variants":"Need a new set of options? Reset all options and quantities here.",
+      "add_item_variants":"Add Item Options",
+      "variations":"Does your item come in multiple sizes, colors or other formats? Add those options here.",
+      "add_variants":"Add Options",
+		"no_regions":"Please set shipping regions before setting shipping prices:",
+		"commerce_settings":"commerce settings",
+		"find_orders":"Find all orders for this item",
+		"add_image":"Add/change the item image",
+		"show_shipping_prices":"shipping region prices"
+	}
+}

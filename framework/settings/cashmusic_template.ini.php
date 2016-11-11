@@ -9,10 +9,10 @@
 
 [database_connection]
 driver = "mysql" ;* sqlite or mysql
-hostname = "127.0.0.1:8889"
-username = "root"
-password = "root"
-database = "cashmusic"
+hostname = "localhost"
+username = "cash_dev_rw"
+password = ""
+database = "cash_dev"
 
 [security]
 salt = "I was born of sun beams; Warming up our limbs" ;* DO NOT CHANGE, SRSLY
@@ -21,7 +21,7 @@ salt = "I was born of sun beams; Warming up our limbs" ;* DO NOT CHANGE, SRSLY
 debug = no
 
 [api]
-apilocation = "http://localhost/api/"
+apilocation = "https://vagrant-multi1.cashmusic.org/api/"
 venues_api = "https://venues.cashmusic.org"
 
 [system]

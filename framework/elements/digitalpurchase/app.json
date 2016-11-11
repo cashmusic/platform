@@ -12,26 +12,39 @@
 			"description":"Choose this element if you are looking to sell one item. Great for preorders. ",
 			"longdescription":"Just want to sell one thing? Set up a simple single purchase element for the commerce item of your choice.",
 			"instructions":"This element type has been depreciated. It will continue to work, but consider migrating to the Single Purchase element."
+		},
+		"is":{
+			"name":"Stafræn Kaup",
+			"description":"Veldu þessa einingu ef þú vilt selja einn hlut. Hentugt fyrir forpantanir. ",
+			"longdescription":"Langar bara að selja einn hlut? Settu upp einfalda verslunar einingu fyrir stakan hlut að eigin vali.",
+			"instructions":"Þessi eining hefur verið afskrifuð. Hún mun halda áfram að virka, en íhugaðu að skipta yfir í Stök Kaup einingu."
 		}
 	},
 	"copy":{
 		"en":{
 			"buy":"Buy Now",
 			"flexibleprice_suffix":"or more"
+		},
+		"is":{
+			"buy":"Kaupa Núna",
+			"flexibleprice_suffix":"eða meira"
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
-				"en":"Main settings"
+				"en":"Main settings",
+				"is":"Aðal stillingar"
 			},
 			"description":{
-				"en":"These are the basic settings for this element."
+				"en":"These are the basic settings for this element.",
+				"is":"Þetta eru grunn stillingar einingarinnar."
 			},
 			"data":{
 				"item_id":{
 					"label":{
-						"en":"Item for sale"
+						"en":"Item for sale",
+						"is":"Hlutur til sölu"
 					},
 					"type":"select",
 					"values":"commerce/items",
@@ -40,7 +53,8 @@
 				},
 				"connection_id":{
 					"label":{
-						"en":"Commerce connection to use"
+						"en":"Commerce connection to use",
+						"is":"Kaupsýslutenging sem skal nota"
 					},
 					"type":"select",
 					"values":"connections/commerce",
@@ -50,29 +64,35 @@
 		},
 		"messages":{
 			"group_label":{
-				"en":"Success/error messages"
+				"en":"Success/error messages",
+				"is":"Velgengnis/villu skilaboð"
 			},
 			"description":{
-				"en":"Customize messages shown to people using this element."
+				"en":"Customize messages shown to people using this element.",
+				"is":"Sérsníða skilaboð sem sýnd eru fólki sem nota þessa einingu."
 			},
 			"data":{
 				"message_success":{
 					"label":{
-						"en":"Success message"
+						"en":"Success message",
+						"is":"Velgengnis skilaboð"
 					},
 					"type":"text",
 					"default":{
-						"en":"Thank you! Here's your download. Mobile users check your inbox and spam folders for a download link."
+						"en":"Thank you! Here's your download. Mobile users check your inbox and spam folders for a download link.",
+						"is":"Takk fyrir! Hér er niðurhalið þitt. Símanotendur gætu þurft að skoða innhólf og ruslpóst möppur eftir niðurhalshlekk."
 					},
 					"displaysize":"medium"
 				},
 				"message_error":{
 					"label":{
-						"en":"Invalid email message"
+						"en":"Invalid email message",
+						"is":"Ógilt netfang"
 					},
 					"type":"text",
 					"default":{
-						"en":"There was an error processing your payment. Please reload and try again."
+						"en":"There was an error processing your payment. Please reload and try again.",
+						"is":"Það kom upp villa við vinnslu færslunar. Prófaðu aftur."
 					},
 					"displaysize":"medium"
 				}

@@ -1,0 +1,16 @@
+{
+	"pagetip":"",
+	"learn":"",
+	"related":{},
+	"labels":{"submit_button":"Save changes",
+               "name":"Name",
+               "connect":"Connect To",
+               "description":"Description"
+
+
+},
+	"tooltips":{},
+	"copy":{"none":"None (local list only)"
+
+}
+}

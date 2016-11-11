@@ -12,20 +12,29 @@
 			"description":"Allow a list to log in and download a secure asset.",
 			"longdescription":"This lets you give a download only to a certain list of people on a log-in basis.",
 			"instructions":"Choose a list to verify against, an asset for the download, and optionally add a universal password for this element."
+		},
+		"is":{
+			"name":"Öruggt Niðurhal",
+			"description":"Leyfa hóp að skrá sig inn og hlaða niður öruggri eign.",
+			"longdescription":"Þetta leyfir þér að gefa niðurhal til ákveðin hóps af innskráðu fólki.",
+			"instructions":"Veldu hóp til að leyfa niðurhal, eign til þess að hala niður, og ef þú vilt, víðvært lykilorð fyrir þessa einingu."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
-				"en":"Main settings"
+				"en":"Main settings",
+				"is":"Aðal stillingar"
 			},
 			"description":{
-				"en":"Choose a list and an asset for the download."
+				"en":"Choose a list and an asset for the download.",
+				"is":"Veldu hóp og eign fyrir niðurhalið."
 			},
 			"data":{
 				"email_list_id":{
 					"label":{
-						"en":"Target mailing list"
+						"en":"Target mailing list",
+						"is":"Valinn póstlisti"
 					},
 					"type":"select",
 					"values":"people/lists",
@@ -34,7 +43,8 @@
 				},
 				"asset_id":{
 					"label":{
-						"en":"The downloadable asset"
+						"en":"The downloadable asset",
+						"is":"Eign til niðurhals"
 					},
 					"type":"select",
 					"values":"assets",
@@ -45,35 +55,42 @@
 		},
 		"additional":{
 			"group_label":{
-				"en":"Additional settings"
+				"en":"Additional settings",
+				"is":"Aðrar stillingar"
 			},
 			"description":{
-				"en":"Customize messages, define a universal password, or set it to skip login entirely."
+				"en":"Customize messages, define a universal password, or set it to skip login entirely.",
+				"is":"Sérsníddu skilaboð, veldu víðvært lykilorð, eða hafði eininguna opna."
 			},
 			"data":{
 				"message_success":{
 					"label":{
-						"en":"Success message"
+						"en":"Success message",
+						"is":"Velgengnis skilaboð"
 					},
 					"type":"text",
 					"default":{
-						"en":""
+						"en":"",
+						"is":""
 					},
 					"displaysize":"medium"
 				},
 				"alternate_password":{
 					"label":{
-						"en":"Password"
+						"en":"Password",
+						"is":"Lykilorð"
 					},
 					"placeholder":{
-						"en":"A password or phrase to unlock the content"
+						"en":"A password or phrase to unlock the content",
+						"is":"Lykilorð eða frasi til þess að aflæsa efni"
 					},
 					"type":"text",
 					"displaysize":"small"
 				},
 				"skip_login":{
 					"label":{
-						"en":"Do not require login"
+						"en":"Do not require login",
+						"is":"Ekki krefjast innskráningu"
 					},
 					"type":"boolean",
 					"default":true,

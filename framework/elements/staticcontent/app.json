@@ -12,24 +12,34 @@
 			"description":"Use to display text, html, or markdown.",
 			"longdescription":"The future of copy-and-paste! Actually just copy-and-paste, regular. Boring, but useful.",
 			"instructions":"Type. Save. That's it."
+		},
+		"is":{
+			"name":"Hreinn texti",
+			"description":"Notað til að sýna texta, html, eða markdown.",
+			"longdescription":"Klippa-líma framtíðarinnar! Reyndar, bara venjulegt klippa-líma. Ómerkilegt, en gagnlegt.",
+			"instructions":"Skrifaðu. Vistaði. Búið."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
-				"en":"The Content"
+				"en":"The Content",
+				"is":"Efnið"
 			},
 			"description":{
-				"en":"Type what you want to appear. Plain text or markdown."
+				"en":"Type what you want to appear. Plain text or markdown.",
+				"is":"Skrifaðu það sem þú vilt að birtist. Í hreinum texta eða markdown"
 			},
 			"data":{
 				"storedcotent":{
 					"label":{
-						"en":"Content"
+						"en":"Content",
+						"is":"Efni"
 					},
 					"type":"text",
 					"default":{
-						"en":""
+						"en":"",
+						"is":""
 					},
 					"required":true,
 					"displaysize":"large"

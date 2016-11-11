@@ -1,0 +1,130 @@
+{
+	"account":
+		{"page_name":"Þinn aðgangur", "menu_icon":""},
+	"account/delete":
+		{"page_name":"Eyða aðgang", "menu_icon":"", "hide":true},
+		
+		
+	"assets":
+		{"page_name":"Eignir", "menu_icon":"", "tagline":"Útgáfur þínar, lagalistar, og skrár"},
+		
+	"calendar":
+		{"page_name":"Dagatal", "menu_icon":"", "tagline":"Tónleikar og tónleikastaðir"},
+	"calendar/events":
+		{"page_name":"Viðburðir", "menu_icon":"calendar"},
+	"calendar/events/add":
+		{"page_name":"Bæta við viðburð", "menu_icon":""},
+	"calendar/events/edit":
+		{"page_name":"Breyta viðburð", "menu_icon":""},
+	"calendar/venues":
+    	{"page_name":"Staðir", "menu_icon":"map" },
+	"calendar/venues/add":
+		{"page_name":"Bæta við stað", "menu_icon":""},
+	"calendar/venues/delete":
+		{"page_name":"Eyða stað", "menu_icon":""},
+	"calendar/venues/edit":
+		{"page_name":"Breyta stað", "menu_icon":""},
+		
+	
+	"campaigns":
+		{"page_name":"Herferðir", "menu_icon":""},
+	"campaigns/add":
+		{"page_name":"Bæta við herferð", "menu_icon":"plus"},
+	"campaigns/delete":
+		{"page_name":"Eyða herferð", "menu_icon":"", "hide":true},
+	"campaigns/edit":
+		{"page_name":"Breyta herferð", "menu_icon":"", "hide":true},
+	"campaigns/archive":
+		{"page_name":"Setja í geymslu", "menu_icon":"", "hide":true},
+	"campaigns/publish":
+		{"page_name":"Birta herferð", "menu_icon":"", "hide":true},
+
+
+	"commerce":
+		{"page_name":"Verslun", "menu_icon":"", "tagline":"pantanir og hlutir til sölu"},
+	"commerce/items":
+		{"page_name":"Birgðastaða", "menu_icon":"barcode"},
+	"commerce/items/delete":
+		{"page_name":"Eyða hlut", "menu_icon":""},
+	"commerce/items/edit":
+		{"page_name":"Breyta hlut", "menu_icon":""},
+	"commerce/items/add":
+		{"page_name":"Bæta við hlut", "menu_icon":""},
+	"commerce/export":
+		{"page_name":"Færa út", "menu_icon":"dwnld","add_class":"lightboxed"},
+	"commerce/orders/view":
+		{"page_name":"Pöntunarupplýsingar", "menu_icon":""},
+		
+		
+	"elements":
+		{"page_name":"Einingar", "menu_icon":""},
+	"elements/add":
+		{"page_name":"Bæta við einingum", "menu_icon":"plus" },
+	"elements/delete":
+		{"page_name":"Eyða einingum", "menu_icon":"", "hide":true},
+	"elements/edit":
+		{"page_name":"Breyta einingu", "menu_icon":"", "hide":true},
+	"elements/preview":
+		{"page_name":"Skoða einingu", "menu_icon":"", "hide":true},
+	"elements/stats":
+		{"page_name":"Tölfræði eining", "menu_icon":"", "hide":true},
+	"elements/templates":
+		{"page_name":"Síðu/infellingar sniðmát", "menu_icon":"list" },
+	"elements/templates/add":
+		{"page_name":"Bæta við sniðmáti", "menu_icon":"", "hide":true},
+	"elements/templates/edit":
+		{"page_name":"Breyta sniðmáti", "menu_icon":"", "hide":true},
+	"elements/templates/delete":
+		{"page_name":"Eyða sniðmáti", "menu_icon":"", "hide":true},
+		
+		
+	"error":
+		{"page_name":"Síða finnst ekki", "menu_icon":""},
+		
+		
+	"help":
+		{"page_name":"Hjálp", "menu_icon":""},
+		
+		
+	"licenses":
+		{"page_name":"Leyfi opins kóða", "menu_icon":""},		
+		
+	"mainpage":
+		{"page_name":"Aðal síða", "menu_icon":""},
+		
+		
+	"people":
+		{"page_name":"Fólk", "menu_icon":"", "tagline":"Listar og tengiliðir"},
+	"people/contacts":
+		{"page_name":"Tengiliðir", "menu_icon":""},
+	"people/lists/add":
+		{"page_name":"Bæta við lista", "menu_icon":""},
+	"people/lists/delete":
+		{"page_name":"Eyða lista", "menu_icon":""},
+	"people/lists/edit":
+		{"page_name":"Breyta lista", "menu_icon":""},
+	"people/lists/export":
+		{"page_name":"Færa út lista", "menu_icon":""},
+	"people/lists/view":
+		{"page_name":"Upplýsingar um lista", "menu_icon":""},
+	"people/mailings":
+		{"page_name":"Póstherferðir", "menu_icon":"", "hide":true},
+	"people/press":
+		{"page_name":"Fjölmiðlaumfjöllun", "menu_icon":"paperclip" },
+
+
+	"privacy":
+		{"page_name":"Friðhelgisstefna", "menu_icon":""},
+		
+		
+	"settings":
+		{"page_name":"Kerfisstillingar", "menu_icon":""},
+	"settings/connections":
+		{"page_name":"Tengingar", "menu_icon":"cog" },
+	"settings/update":
+		{"page_name":"Kerfisuppfærsla", "menu_icon":"arrw-up" },
+
+
+	"terms":
+		{"page_name":"Skilmálar þjónustu", "menu_icon":""}
+}

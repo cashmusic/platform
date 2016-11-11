@@ -1,0 +1,20 @@
+{
+	"pagetip":"",
+	"learn":"<p>Here you can add all your events - shows, in-stores, radio interviews & performances.</p><p>You will need to enter in a venue first if it’s not already in our database. The good news is any time you add a venue it gets added to the big list. Which means the more people use the platform the better and more complete that database will get.</p><p>Dates are not live until you start a campaign, select a tour date element, and then either publish your page or embed the element widget on another site. If you already have a tour dates element up when you add more events here you will automatically publish them on your page unless you uncheck the published box. If you’re waiting to announce a show or tour make sure you uncheck published so you don’t spill the beans.</p><p>Cancelled show? Make sure and go into that event’s details and select cancelled. You can make notes in the comments section letting fans know about refunds or rescheduling.</p>",
+	"related":{},
+	"labels":{
+		"date":"Date",
+      "venue":"Venue",
+      "comments":"Comments (Support, CD Release, etc)",
+      "ticket_purchase_url":"Ticket Purchase URL",
+      "is_it_published":"Published?",
+      "is_it_cancelled":"Cancelled?"
+   },
+	"tooltips":{},
+	"copy":{
+		"event_details_header":"Event details",
+      "add_a_date":"Add a date to the system. Information about published/unpublished status and cancellation can be found in the page tips.",
+      "not_found":"Can't find the venue you're looking for? ",
+      "new_venue":"Add a new venue"
+   }
+}
