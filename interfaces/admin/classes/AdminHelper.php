@@ -35,20 +35,59 @@
 	 *
 	 *********************************************/
 
-	public static function getLanguageSession($session_language) {
+	public static function getOrSetLanguage($set_language=false) {
 		global $admin_primary_cash_request, $cash_admin;
 
-		//$session_language = $admin_primary_cash_request->sessionGet('session_language');
+		// if we're not trying to change things, let's just get the setting or fall back to americuhn
+		if (!$set_language) {
+			$session_language = $admin_primary_cash_request->sessionGet('session_language');
 
-		/*if (!isset($session_language)) {
-			$session_language = 'en';
-			$admin_primary_cash_request->sessionSet('session_language',$session_language);
-		}*/
+			if (empty($session_language)) {
+
+				$language_response = $cash_admin->requestAndStore(
+					array(
+						'cash_request_type' => 'system',
+						'cash_action' => 'getsettings',
+						'user_id' => $cash_admin->effective_user_id,
+						'type' => 'language'
+					)
+				);
+
+				if (!$language_response['payload']) {
+
+					$session_language = 'en';
+				} else {
+					$session_language = $language_response['payload'];
+				}
+
+				$admin_primary_cash_request->sessionSet('session_language',$session_language);
+			}
+
+		} else {
+			// we're trying to set this so don't get in the way
+			$admin_primary_cash_request->sessionSet('session_language',$set_language);
+			$session_language = $set_language;
+
+			// set in the database as well
+			$language_change_response = $cash_admin->requestAndStore(
+				array(
+					'cash_request_type' => 'system',
+					'cash_action' => 'setsettings',
+					'user_id' => $cash_admin->effective_user_id,
+					'type' => 'language',
+					'value' => $session_language
+				)
+			);
+
+			if (!$language_change_response['payload']) {
+				// danger will robinson
+			}
+		}
 
 		return $session_language;
 	}
 
-	public static function echoLanguageOptions($selected_language) {
+	public static function echoLanguageOptions($selected_language="en") {
 
 		$languages_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/languages.json'),true);
 

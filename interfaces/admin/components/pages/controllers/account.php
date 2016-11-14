@@ -101,50 +101,10 @@ if (is_array($user_response['payload'])) {
 //$data = $current_userdata; // now it's an array
 
 // no form submit so let's check DB
-if (!isset($_POST['dolanguagechange']) ) {
-
-  // check to see if we've got it in the database
-  if (!empty($current_userdata['language'])) {
-    	$session_language = $current_userdata['language'];
-	
-  } else {
-    	$session_language = "en";
-  }
-  
-  //Language default/selection
-
-  $cash_admin->page_data['language'] = AdminHelper::getLanguageSession($session_language);  
-  $cash_admin->page_data['language_as_options'] = AdminHelper::echoLanguageOptions($session_language);
-
-}
-
-if (isset($_POST['dolanguagechange'])) {
-  $language = $_POST['new_language'];
-
-
-$language_change_response = $cash_admin->requestAndStore(
-array(
-  'cash_request_type' => 'system', 
-  'cash_action' => 'setsettings',
-  'user_id' => $cash_admin->effective_user_id,
-  'type' => 'language',
-  'value' => $language
-)
+$cash_admin->page_data['language'] = AdminHelper::getOrSetLanguage();
+$cash_admin->page_data['language_as_options'] = AdminHelper::echoLanguageOptions(
+	$cash_admin->page_data['language']
 );
-
-$session_language = $language;
-
-// check to make sure we didn't fuck it up
-$cash_admin->page_data['language'] = AdminHelper::getLanguageSession($session_language);  
-$cash_admin->page_data['language_as_options'] = AdminHelper::echoLanguageOptions($session_language);
-
-}
-
-
-
-
-
-
 
 // get page url
 if (SUBDOMAIN_USERNAMES) {

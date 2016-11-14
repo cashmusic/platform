@@ -104,6 +104,7 @@ if (!$logged_in) {
 
 			// handle initial login chores
 			$cash_admin->runAtLogin();
+
 		} else {
 			$admin_primary_cash_request->sessionClearAll();
 			$cash_admin->page_data['login_message'] = 'Try Again.';
@@ -204,6 +205,11 @@ $cash_admin->page_data['template_name'] = BASE_PAGENAME;
 if ($logged_in) {
 	// get user-specific settings
 	$current_settings = $cash_admin->getUserSettings();
+
+	// set language session
+	AdminHelper::getOrSetLanguage(
+		(!empty($_POST['new_language'])) ? $_POST['new_language'] : false
+	);
 
 	// we need a session
 	$admin_primary_cash_request->startSession();
