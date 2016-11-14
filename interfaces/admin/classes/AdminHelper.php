@@ -112,7 +112,7 @@
 
 
 	public static function getPageMenuDetails() {
-		$pages_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/interface/en/menu.json'),true);
+		$pages_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/interface/'. AdminHelper::getOrSetLanguage() .'/menu.json'),true);
 		// remove non-multi links
 		$platform_type = CASHSystem::getSystemSettings('instancetype');
 		if ($platform_type == 'multi') {
@@ -191,15 +191,15 @@
 	}
 
 	public static function getUiText() {
-		$text_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/interface/en/interaction.json'),true);
+		$text_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/interface/'. AdminHelper::getOrSetLanguage() .'/interaction.json'),true);
 		return $text_array;
 	}
 
 	public static function getPageComponents() {
-		if (file_exists(dirname(__FILE__).'/../components/text/en/pages/' . BASE_PAGENAME . '.json')) {
-			$components_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/text/en/pages/' . BASE_PAGENAME . '.json'),true);
+		if (file_exists(dirname(__FILE__).'/../components/text/'. AdminHelper::getOrSetLanguage() .'/pages/' . BASE_PAGENAME . '.json')) {
+			$components_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/text/'. AdminHelper::getOrSetLanguage() .'/pages/' . BASE_PAGENAME . '.json'),true);
 		} else {
-			$components_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/text/en/pages/default.json'),true);
+			$components_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/text/'. AdminHelper::getOrSetLanguage() .'/pages/default.json'),true);
 		}
 		return $components_array;
 	}
@@ -449,9 +449,9 @@
 
 			$current_section = 1;
 			foreach ($all_sections as $section_name => $details) {
-				$template .= '<div class=" section part-' . $current_section . '" data-section-name="' . $details['group_label']['en'] . '">' .
-						     '<h5 class="section-header">' . $details['group_label']['en'] . '</h5>' .
-						     '<i data-tooltip="' . $details['description']['en'] .'" class="tooltip icon icon-question"></i>' .
+				$template .= '<div class=" section part-' . $current_section . '" data-section-name="' . $details['group_label'][AdminHelper::getOrSetLanguage()] . '">' .
+						     '<h5 class="section-header">' . $details['group_label'][AdminHelper::getOrSetLanguage()] . '</h5>' .
+						     '<i data-tooltip="' . $details['description'][AdminHelper::getOrSetLanguage()] .'" class="tooltip icon icon-question"></i>' .
 						     '<div class="pure-u-1">';
 				//$current_data = 0;
 				//$current_count = 0;
@@ -570,7 +570,7 @@
 
 		// label (for everything except checkboxes)
 		if ($input_data['type'] !== 'boolean') {
-			$return_str = '<label for="' . $input_name . '">' . $input_data['label']['en'] . '</label>';
+			$return_str = '<label for="' . $input_name . '">' . $input_data['label'][AdminHelper::getOrSetLanguage()] . '</label>';
 		}
 
 		/*
@@ -600,11 +600,11 @@
 		}
 		if ($input_data['type'] == 'scalar') {
 			if (isset($input_data['description'])) {
-				$return_str .= '<div class="description"><p>'.$input_data['description']['en'].'</p></div>';
+				$return_str .= '<div class="description"><p>'.$input_data['description'][AdminHelper::getOrSetLanguage()].'</p></div>';
 			}
 			$return_str .= '<div class="' . $input_data['type'] . '" data-name="' . $input_name . '"';
-			if (isset($input_data['actiontext']['en'])) {
-				$return_str .= ' data-actiontext="' . $input_data['actiontext']['en'] . '"';
+			if (isset($input_data['actiontext'][AdminHelper::getOrSetLanguage()])) {
+				$return_str .= ' data-actiontext="' . $input_data['actiontext'][AdminHelper::getOrSetLanguage()] . '"';
 			}
 			if (isset($input_data['scalar_clone_count'])) {
 				$return_str .= ' data-clonecount="' . $input_data['scalar_clone_count'] . '"';
@@ -659,7 +659,7 @@
 					'}}{{options_' . $input_name . '}}{{/options_' . $input_name . '}}{{^options_' . $input_name . '}}{{element_copy_' . $input_name . '}}{{/options_' . $input_name . '}}</textarea>';
 				} else {
 					if (isset($input_data['placeholder'])) {
-						$return_str .= ' placeholder="' . $input_data['placeholder']['en'] . '"';
+						$return_str .= ' placeholder="' . $input_data['placeholder'][AdminHelper::getOrSetLanguage()] . '"';
 					}
 					$return_str .= '" />';
 				}
@@ -669,7 +669,7 @@
 			}
 			if ($input_data['type'] == 'boolean') {
 				$return_str .= '{{#options_' . $input_name . '}} checked="checked"{{/options_' . $input_name . '}} /> ' .
-							   $input_data['label']['en'] . '</label>';
+							   $input_data['label'][AdminHelper::getOrSetLanguage()] . '</label>';
 			}
 		}
 
