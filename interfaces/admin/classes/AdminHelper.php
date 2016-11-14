@@ -31,9 +31,50 @@
 
 	/**********************************************
 	 *
+	 * LANGUAGE SETTINGS
+	 *
+	 *********************************************/
+
+	public static function getLanguage() {
+		global $admin_primary_cash_request, $cash_admin;
+
+		$session_language = $admin_primary_cash_request->sessionGet('session_language');
+
+		if (!isset($session_language)) {
+			$session_language = 'en';
+			$admin_primary_cash_request->sessionSet('session_language',$session_language);
+		}
+
+		return $session_language;
+	}
+
+	public static function echoLanguageOptions($selected=false,$return=false) {
+
+		global $admin_primary_cash_request, $cash_admin;
+		$selected_language = $admin_primary_cash_request->sessionGet('session_language');
+
+		$languages_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/languages.json'),true);
+
+		$all_languages = ' ';
+
+		// echo out the proper dropdown bits
+		if ($languages_array) {
+			$settings_count = 1;
+			foreach ($languages_array as $language) {
+				$echo_selected = '';
+				if ($selected_language == $language['id']) { $echo_selected = ' selected="selected"'; }
+					$all_languages .= '<option value="' . $language['id'] . '"' . $echo_selected . '>' . $language['title'] . '</option>';
+				}
+		return $all_languages;
+		}
+	}
+
+	/**********************************************
+	 *
 	 * PAGE/UI RENDERING DETAILS
 	 *
 	 *********************************************/
+
 
 	public static function getPageMenuDetails() {
 		$pages_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/interface/en/menu.json'),true);

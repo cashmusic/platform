@@ -97,6 +97,15 @@ if (is_array($user_response['payload'])) {
 	$current_userdata = $user_response['payload']['data'];
 }
 
+//Language default/selection
+$cash_admin->page_data['language'] = AdminHelper::getLanguage();
+$cash_admin->page_data['language_as_options'] = AdminHelper::echoLanguageOptions();
+
+if (isset($_POST['dolanguagechange']) && ) {
+	$cash_admin->page_data['language'] = AdminHelper::getLanguage();
+	//$_POST['new_language'];
+};
+
 // get page url
 if (SUBDOMAIN_USERNAMES) {
 	$cash_admin->page_data['user_page_uri'] = str_replace('https','http',rtrim(str_replace('admin', '', CASH_ADMIN_URL),'/'));
