@@ -370,6 +370,12 @@ jQuery.fn.extend({
          $(this).closest('form').submit();
       });
 
+      // langague dropdown
+      $(document).on('click','.language-switch',function(event) {
+         window.location.reload(); 
+      });
+
+
       $(document).on('change','#current-published-campaign',function(event) {
          //$(this).closest('form').submit();
          var tmplt = $(this).find(':selected').data('template');
