@@ -56,9 +56,6 @@
 .icon-file:before {
   content: "\69";
 }
-.icon-rocket:before {
-  content: "\6a";
-}
 .icon-record:before {
   content: "\6b";
 }
@@ -94,9 +91,6 @@
 }
 .icon-list:before {
   content: "\78";
-}
-.icon-unlock:before {
-  content: "\79";
 }
 .icon-user:before {
   content: "\41";
@@ -164,9 +158,6 @@
 .icon-cog:before {
   content: "\4b";
 }
-.icon-logo:before {
-  content: "\4d";
-}
 .icon-map:before {
   content: "\50";
 }
@@ -190,4 +181,19 @@
 }
 .icon-live:before {
   content: "\59";
+}
+.icon-unlock:before {
+  content: "\79";
+}
+.icon-locked:before {
+  content: "\4d";
+}
+.icon-logo:before {
+  content: "\5a";
+}
+.icon-fulfilment:before {
+  content: "\30";
+}
+.icon-airplane:before {
+  content: "\31";
 }

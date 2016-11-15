@@ -69,7 +69,7 @@ if (isset($request_parameters[0])) {
 	if ($add_type == 'file') {
 		// connection options markup:
 		$cash_admin->page_data['connection_options'] = '<option value="0" selected="selected">None (Normal http:// link)</option>';
-		$cash_admin->page_data['connection_options'] .= AdminHelper::echoConnectionsOptions('assets', 0, true);
+		$cash_admin->page_data['connection_options'] .= AdminHelper::echoConnectionsOptions('assets',0, true);
 
 		$cash_admin->page_data['show_location'] = true;
 	}

@@ -11,13 +11,13 @@
 	<div class="movement">
 	{{#elements_output}}
 		<div id="{{element_type}}" class="example current">
-			<h2>{{element_type_name}}<span>V.{{element_type_version}}</span></h2>
+			<h4>{{element_type_name}} <span class="fadedtext">v.{{element_type_version}}</span></h4>
 			<div class="slider">
+			<div class="browser-header"><span></span><span></span><span></span></div>
 				<img src="{{www_path}}/assets/images/elementheader.php?element={{element_type}}" width="100%" alt="{{element_type_name}}" />
 			</div><!--slider-->
 			<h3>{{element_type_description}}</h3>
 			<p class="longdescription"><span class="altcopystyle">{{element_type_longdescription}}</span></p>
-			<hr />
 			<a class="button" href="{{www_path}}/elements/add/{{element_type}}">{{copy_add_element}}</a>
 			<p class="updated">{{copy_last_updated}}{{element_type_updated}}</p>
 		</div>

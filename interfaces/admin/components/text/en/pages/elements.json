@@ -18,6 +18,8 @@
    "delete":"Delete",
    "embed_title":"Elements",
    "element_add":"Add an element",
+   "editcampaign_desc":"Edit this campaign",
+   "addcampaign_desc":"Add a new campaign",
 	 "no_elements_in_campaign":"You haven't created any elements in this campaign yet. Get started by adding one above.",
    "add_element_to_start":"Add an element to start",
 	 "add_campaign_to_start":"Add a campaign",

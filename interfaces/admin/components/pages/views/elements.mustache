@@ -28,9 +28,9 @@
 			</form>
 		</div><!--selecta-->
 			{{#show_edit}}
-			<a class="lightboxed edit-button" href="{{www_path}}/campaigns/edit/{{selected_campaign}}"><span class="icon icon-pencil"></span><!--icon--></a>
+			<a class="lightboxed edit-button" title="{{copy_editcampaign_desc}}" href="{{www_path}}/campaigns/edit/{{selected_campaign}}"><span class="icon icon-pencil"></span><!--icon--></a>
 			{{/show_edit}}
-			<a class="lightboxed edit-button" href="{{www_path}}/campaigns/add/"><span class="icon icon-plus"></span><!--icon--></a>
+			<a class="lightboxed edit-button" title="{{copy_addcampaign_desc}}" href="{{www_path}}/campaigns/add/"><span class="icon icon-plus"></span><!--icon--></a>
 	</div>
 	<div class="pure-u-1 pure-u-md-1-3 alignright">
 		<a href="{{www_path}}/elements/add/" class="noelement button lightboxed store"><div class="icon icon-plus"></div><!--icon-->{{copy_element_add}}</a><!--noelement-->
@@ -59,7 +59,7 @@
 		<a class="primary" href="{{www_path}}/elements/edit/{{id}}">
 		<span class="element-title">{{name}}</span>
 		<span class="descriptive spaced fadedtext">{{type}}</span></a>
-		<a class="ql copy" title="Copy quick embed code" data-clipboard-text="&lt;script type=&quot;text/javascript&quot; src=&quot;{{public_url}}/cashmusic.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot;&gt; window.cashmusic.embed('{{public_url}}','{{id}}');&lt;/script&gt;" ><div class="icon icon-share"></div><!--icon--></a>
+		<a class="ql copy" title="Copy quick embed code" data-clipboard-text="&lt;script src=&quot;{{public_url}}/cashmusic.js&quot; data-element=&quot;{{id}}&quot;&gt;&lt;/script&gt;" ><div class="icon icon-share"></div><!--icon--></a>
 			<div class="more"><div class="toggle"></div><!--toggle-->
 				<div class="actions">
 					<div class="action-inner">

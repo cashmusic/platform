@@ -12,7 +12,7 @@
 </div><!--pure-->
 <div class="pure-u-1 pure-u-md-1-2">
 	<ul class="inline-subnav right">
-		<li><a class="drawer-trigger" href="#"><span class="icon icon-wrench"></span> {{copy_view_asset_settings}}</a></li>
+		<li><a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="lightboxed returntocurrentroute"><span class="icon icon-circle-plus"></span>{{copy_add_to_inventory}}</a></li>
 	</ul>
 </div><!--pure-->
 </header>
@@ -36,64 +36,45 @@
 		</div><!--pure-->
 
 		<div class="pure-u-1 pure-u-md-1-2">
-			<label for="asset_location">{{label_location}}</label>
+			<label for="asset_location">{{^show_make_public}}<div class="icon icon-unlock"></div><!--icon-->{{/show_make_public}}{{#show_make_public}}<div class="icon icon-locked"></div><!--icon-->{{/show_make_public}} {{label_location}} {{#show_make_public}}
+			<span class="file-security spacedtext">
+					<a href="#" data-publicize-endpoint="{{{www_path}}}/ajax/publicizeasset/{{id}}" class="usecolor2"><strong>{{copy_make_public}}</strong></a>
+			</span><!--file-security-->
+			{{/show_make_public}}</label>
 			<input class="required" type="text" id="asset_location" name="asset_location" value="{{location}}" />
 		</div><!--pure-->
-		<div class="pure-u-1">
-			<div class="drawer noprefix upload-corral">
-				<small class="fadedtext"><div class="icon icon-cloud-upload"></div><!--icon-->{{copy_hosting_connection}}<a href="#" data-upload-endpoint="{{{www_path}}}/assets/uploadform/" class="drawerhandle usecolor2 file-upload-trigger">{{copy_upload_a_file}}</a></small>
-				<div class="drawercontent"></div>
-			</div>
-		</div><!--pure-->
-	{{#parent_id}}
-		<input type="hidden" name="parent_id" value="{{parent_id}}" />
-	{{/parent_id}}
 
-			<div class="pure-u-1">
+		{{#parent_id}}
+		<input type="hidden" name="parent_id" value="{{parent_id}}" />
+		{{/parent_id}}
+
+		<div class="drawer noprefix upload-corral">
+		{{#show_make_public}}<p class="file-upload-trigger">Sorry, you can't currently overwrite a private file</p>{{/show_make_public}}
+				{{^show_make_public}}<a href="#" data-upload-endpoint="{{{www_path}}}/assets/uploadform/" class="drawerhandle usecolor2 file-upload-trigger"><span class="icon icon-cloud-upload"></span><!--icon--><span>{{copy_upload_a_file}}</span></a>{{/show_make_public}}
+			<div class="drawercontent"></div>
+		</div>
+	</form>
+
+
+	<div class="material drawer">
+			<h5 class="drawerhandle hide title"><div class="icon icon-dwnld"></div><!--icon-->{{copy_export_create_download_codes}} <span class="notes">({{#asset_codes_count}}{{copy_there_are}}{{asset_codes_count}}{{copy_codes_for_this_asset}}<a href="{{www_path}}/assets/edit/{{id}}?exportcodes=1"><strong>{{copy_export_them}}</strong></a>{{/asset_codes_count}}
+						{{^asset_codes_count}}
+						{{copy_no_download_codes}}
+						{{/asset_codes_count}})</span></h5>
+					<div class="drawercontent pure-u-1 ">
+						<form accept-charset="UTF-8" method="post" action="{{www_path}}/assets/edit/{{id}}"-->
+								<div class="pure-u-1">
+								<label for="add_codes_qty">{{label_add_more_codes}}</label>
+								<div class="pure-u-1 pure-u-md-4-5 l-box"><input type="text" name="add_codes_qty" id="add_codes_qty" value="500" /></div><div class="pure-u-1 pure-u-md-1-5"><button class="alt-button fullwidth" data-cash-target-form="#add_codes_qty" type="submit">{{copy_add_codes}}</button></div>
+							</div><!--pure-->
+						</form>
+					</div><!--drawercontent-->
+		</div><!--material-->	
+
+
+	<div class="pure-u-1">
 				<button class="nojs" type="submit">Save changes</button>
 				<button class="onlyjs externalsubmit" data-cash-target-form="#edit-file-form" type="submit">{{copy_button_save_changes}}</button>
 				<a href="{{www_path}}/assets/delete/{{id}}" class="button usecolor2 needsconfirmation">{{copy_button_delete_file}}</a>
 			</div><!--pure-->
-
-				{{#show_make_public}}
-			<div class="pure-u-1 pure-u-md-1-2 file-security spacedtext">
-					<div class="icon icon-unlock"></div><!--icon-->{{copy_dont_need_security}}<a href="#" data-publicize-endpoint="{{{www_path}}}/ajax/publicizeasset/{{id}}" class="usecolor2"><strong>{{copy_make_public}}</strong></a>
-			</div><!--pure-->
-			{{/show_make_public}}
-</form>
 </div><!--pure-->
-
-<div id="settings-drawer" class="drawer prefpanel pure-u-1">
-<div class="itemnav pure-u-1">
-	<h4 class="drawerhandle title"><div class="icon icon-wrench"></div><!--icon--><span>{{copy_asset_settings}}</span></h4>
-	<div class="drawercontent">
-		<div class="pure-u-1 pure-u-md-1-2">
-			<div class="pref-inner">
-				<h5><div class="icon icon-dwnld"></div><!--icon-->{{copy_export_create_download_codes}}</h5>
-						<p>
-						{{#asset_codes_count}}
-							<span>{{copy_there_are}}{{asset_codes_count}}{{copy_codes_for_this_asset}}<a class="usecolor2 noajax" href="{{www_path}}/assets/edit/{{id}}?exportcodes=1"><strong>{{copy_export_them}}</strong></a></span >
-						{{/asset_codes_count}}
-						{{^asset_codes_count}}
-							<span>{{copy_no_download_codes}}</span>
-						{{/asset_codes_count}}
-						</p>
-						<form accept-charset="UTF-8" method="post" action="{{www_path}}/assets/edit/{{id}}">
-								<div class="pure-u-1">
-								<label for="add_codes_qty">{{label_add_more_codes}}</label>
-								<input type="text" name="add_codes_qty" id="add_codes_qty" value="500" />
-								<button class="" type="submit">{{copy_add_codes}}</button>
-							</div><!--pure-->
-						</form>
-			</div><!--pref-inner-->
-		</div><!--pure-->
-		<div class="pure-u-1 pure-u-md-1-2">
-			<div class="pref-inner">
-				<h5><div class="icon icon-card"></div><!--icon-->{{copy_ready_to_sell}}</h5>
-				<p>{{copy_add_release_if_sell}}</p>
-				<a href="{{www_path}}/commerce/items/add/selectedasset/{{id}}" class="button fullwidth lightboxed returntocurrentroute">{{copy_add_to_inventory}}</a>
-			</div><!--pref-inner-->
-		</div><!--pure-->
-	</div><!--drawercontent-->
-</div><!--itemnav-->
-</div><!--drawer prefpanel-->

@@ -55,26 +55,23 @@
 
 {{#mass_connection}}
     <h4>{{copy_page_title}}</h4>
-    <div class="fulfillment-jobs pure-u-1">
-        
+      
         {{^user_jobs}}
         <div class="empty"><p>{{copy_no_jobs}}</p></div>   
         {{/user_jobs}}
-      
+      <ul class="fulfillment-jobs alternating">
         {{#user_jobs}}
-      
-          <div class='job'>
-            <ul class="alternating"><li>
-              <a href="/admin/commerce/externalfulfillment/detail/{{id}}">
+            <li class="job">
+              <a class="primary" href="/admin/commerce/externalfulfillment/detail/{{id}}">
          <div class="pure-u-1 pure-u-md-1-3">
-          {{label_job_name}} {{name}}<br/>
-          <span>{{description}}</span></p>
+          <p><strong>{{label_job_name}} </strong><span class="fadedtext"><strong>{{name}}</strong></span><br/>
+          <span class="fadedtext description">{{description}}</span></p>
           </div><!--pure-->
           <div class="pure-u-1 pure-u-md-1-3">
-          {{{label_tier_num}}} <span>{{tiers_count}}</span>
+            <p><strong>{{label_status}}</strong> <span  class="fadedtext">{{status}}</span><br /><strong>{{{label_tier_num}}}</strong> <span  class="fadedtext">{{tiers_count}}</span><br />
           </div><!--pure-->
           <div class="pure-u-1 pure-u-md-1-3">
-            {{label_attached_file}} <span>{{asset_id}} {{asset_options}}</span>
+            <p><strong>{{label_attached_file}}</strong> <span  class="fadedtext">{{asset_id}} {{asset_options}}</span></p>
           <!--div class="loader-circular">
             <div class="loader-progress"></div>
             <div class="loader-mask">
@@ -91,18 +88,9 @@
              </div><!--action-inner-->
            </div><!--actions-->
          </div><!--more-->
-       </li></ul>
-    
-       <div class="footer">
-      <div class="pure-u-1 pure-u-md-2-3">
-      <a href="/admin/commerce/externalfulfillment/send/{{id}}" class="button lightboxed">{{copy_process_job}}</a>
-    </div>  <div class="pure-u-1 pure-u-md-1-3">
-      <div class="alignright">{{label_status}} <span>{{status}}</span></div>
-      </div>
-    </div><!--footer-->
-         </div><!--job-->
+       </li>
         {{/user_jobs}}
-    </div><!--fulfillment-jobs-->
+        </ul>
     
     <a class="button lightboxed" href="{{www_path}}/commerce/externalfulfillment/create">{{copy_create_job}}</a>
     

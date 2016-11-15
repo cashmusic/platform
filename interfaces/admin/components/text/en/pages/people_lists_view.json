@@ -17,6 +17,7 @@
             "comment":"Comment",
             "sorry":"Sorry, no members have joined this list yet.",
             "sorry_2":"Sorry",
-            "error":"Error getting list."
+            "error":"Error getting list.",
+            "batch_add":"Add contacts"
 }
 }

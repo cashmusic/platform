@@ -31,12 +31,88 @@
 
 	/**********************************************
 	 *
+	 * LANGUAGE SETTINGS
+	 *
+	 *********************************************/
+
+	public static function getOrSetLanguage($set_language=false) {
+		global $admin_primary_cash_request, $cash_admin;
+
+		// if we're not trying to change things, let's just get the setting or fall back to americuhn
+		if (!$set_language) {
+			$session_language = $admin_primary_cash_request->sessionGet('session_language');
+
+			if (empty($session_language)) {
+
+				$language_response = $cash_admin->requestAndStore(
+					array(
+						'cash_request_type' => 'system',
+						'cash_action' => 'getsettings',
+						'user_id' => $cash_admin->effective_user_id,
+						'type' => 'language'
+					)
+				);
+
+				if (!$language_response['payload']) {
+
+					$session_language = 'en';
+				} else {
+					$session_language = $language_response['payload'];
+				}
+
+				$admin_primary_cash_request->sessionSet('session_language',$session_language);
+			}
+
+		} else {
+			// we're trying to set this so don't get in the way
+			$admin_primary_cash_request->sessionSet('session_language',$set_language);
+			$session_language = $set_language;
+
+			// set in the database as well
+			$language_change_response = $cash_admin->requestAndStore(
+				array(
+					'cash_request_type' => 'system',
+					'cash_action' => 'setsettings',
+					'user_id' => $cash_admin->effective_user_id,
+					'type' => 'language',
+					'value' => $session_language
+				)
+			);
+
+			if (!$language_change_response['payload']) {
+				// danger will robinson
+			}
+		}
+
+		return $session_language;
+	}
+
+	public static function echoLanguageOptions($selected_language="en") {
+
+		$languages_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/languages.json'),true);
+
+		$all_languages = ' ';
+
+		// echo out the proper dropdown bits
+		if ($languages_array) {
+			foreach ($languages_array as $language) {
+				$echo_selected = '';
+				if ($selected_language == $language['id']) { $echo_selected = ' selected="selected"'; }
+					$all_languages .= '<option value="' . $language['id'] . '"' . $echo_selected . '>' . $language['title'] . '</option>';
+				}
+		return $all_languages;
+		}
+	}
+
+	/**********************************************
+	 *
 	 * PAGE/UI RENDERING DETAILS
 	 *
 	 *********************************************/
 
+
 	public static function getPageMenuDetails() {
-		$pages_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/interface/en/menu.json'),true);
+		$pages_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/interface/'. AdminHelper::getOrSetLanguage() .'/menu.json'),true);
 		// remove non-multi links
 		$platform_type = CASHSystem::getSystemSettings('instancetype');
 		if ($platform_type == 'multi') {
@@ -68,12 +144,21 @@
 			}
 
 			$menulevel = substr_count($page_endpoint, '/');
-			if ($menulevel == 1 && !isset($page['hide'])) { // only show top-level menu items
-				if (!isset($page['add_class'])) {
-					$page['add_class'] = '';
-				}
+
+			if (!isset($page['add_class'])) {
+				$page['add_class'] = " ";
+			}//addclass
+
+			if ((defined('SHOW_BETA')) ? SHOW_BETA : false){
+				if ($menulevel == 1 && !isset($page['hide']) || $menulevel == 1 && isset($page['beta'])){ // only show top-level menu items
 				$menustr .= "<li><a title=\"{$page['page_name']}\" class=\"{$page['add_class']}\" href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><span>{$page['page_name']}</span><div class=\"icon icon-{$page['menu_icon']}\"></div><!--icon--></a></li>";
+				}
+			} else{
+				if ($menulevel == 1 && !isset($page['hide']) && !isset($page['beta'])){ // only show top-level menu items
+				$menustr .= "<li><a title=\"{$page['page_name']}\" class=\"{$page['add_class']}\" href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><span>{$page['page_name']}</span><div class=\"icon icon-{$page['menu_icon']}\"></div><!--icon--></a></li>";
+				}
 			}
+			
 		}
 
 		// find the right page title
@@ -106,15 +191,15 @@
 	}
 
 	public static function getUiText() {
-		$text_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/interface/en/interaction.json'),true);
+		$text_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/interface/'. AdminHelper::getOrSetLanguage() .'/interaction.json'),true);
 		return $text_array;
 	}
 
 	public static function getPageComponents() {
-		if (file_exists(dirname(__FILE__).'/../components/text/en/pages/' . BASE_PAGENAME . '.json')) {
-			$components_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/text/en/pages/' . BASE_PAGENAME . '.json'),true);
+		if (file_exists(dirname(__FILE__).'/../components/text/'. AdminHelper::getOrSetLanguage() .'/pages/' . BASE_PAGENAME . '.json')) {
+			$components_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/text/'. AdminHelper::getOrSetLanguage() .'/pages/' . BASE_PAGENAME . '.json'),true);
 		} else {
-			$components_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/text/en/pages/default.json'),true);
+			$components_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/text/'. AdminHelper::getOrSetLanguage() .'/pages/default.json'),true);
 		}
 		return $components_array;
 	}
@@ -364,9 +449,9 @@
 
 			$current_section = 1;
 			foreach ($all_sections as $section_name => $details) {
-				$template .= '<div class=" section part-' . $current_section . '" data-section-name="' . $details['group_label']['en'] . '">' .
-						     '<h5 class="section-header">' . $details['group_label']['en'] . '</h5>' .
-						     '<i data-tooltip="' . $details['description']['en'] .'" class="tooltip icon icon-question"></i>' .
+				$template .= '<div class=" section part-' . $current_section . '" data-section-name="' . $details['group_label'][AdminHelper::getOrSetLanguage()] . '">' .
+						     '<h5 class="section-header">' . $details['group_label'][AdminHelper::getOrSetLanguage()] . '</h5>' .
+						     '<i data-tooltip="' . $details['description'][AdminHelper::getOrSetLanguage()] .'" class="tooltip icon icon-question"></i>' .
 						     '<div class="pure-u-1">';
 				//$current_data = 0;
 				//$current_count = 0;
@@ -382,7 +467,7 @@
 				$current_section++;
 			}
 
-			$template .= '<br /><input class="button" type="submit" value="{{element_button_text}}" /></form></div>';
+			$template .= '<input class="button" type="submit" value="{{element_button_text}}" /> {{#element_id}}&nbsp;<a href="{{www_path}}/elements/delete/{{element_id}}" class="button needsconfirmation">Delete</a>{{/element_id}}</form></div>';
 			return $template;
 		} else {
 			return false;
@@ -485,7 +570,7 @@
 
 		// label (for everything except checkboxes)
 		if ($input_data['type'] !== 'boolean') {
-			$return_str = '<label for="' . $input_name . '">' . $input_data['label']['en'] . '</label>';
+			$return_str = '<label for="' . $input_name . '">' . $input_data['label'][AdminHelper::getOrSetLanguage()] . '</label>';
 		}
 
 		/*
@@ -515,11 +600,11 @@
 		}
 		if ($input_data['type'] == 'scalar') {
 			if (isset($input_data['description'])) {
-				$return_str .= '<div class="description"><p>'.$input_data['description']['en'].'</p></div>';
+				$return_str .= '<div class="description"><p>'.$input_data['description'][AdminHelper::getOrSetLanguage()].'</p></div>';
 			}
 			$return_str .= '<div class="' . $input_data['type'] . '" data-name="' . $input_name . '"';
-			if (isset($input_data['actiontext']['en'])) {
-				$return_str .= ' data-actiontext="' . $input_data['actiontext']['en'] . '"';
+			if (isset($input_data['actiontext'][AdminHelper::getOrSetLanguage()])) {
+				$return_str .= ' data-actiontext="' . $input_data['actiontext'][AdminHelper::getOrSetLanguage()] . '"';
 			}
 			if (isset($input_data['scalar_clone_count'])) {
 				$return_str .= ' data-clonecount="' . $input_data['scalar_clone_count'] . '"';
@@ -574,7 +659,7 @@
 					'}}{{options_' . $input_name . '}}{{/options_' . $input_name . '}}{{^options_' . $input_name . '}}{{element_copy_' . $input_name . '}}{{/options_' . $input_name . '}}</textarea>';
 				} else {
 					if (isset($input_data['placeholder'])) {
-						$return_str .= ' placeholder="' . $input_data['placeholder']['en'] . '"';
+						$return_str .= ' placeholder="' . $input_data['placeholder'][AdminHelper::getOrSetLanguage()] . '"';
 					}
 					$return_str .= '" />';
 				}
@@ -584,7 +669,7 @@
 			}
 			if ($input_data['type'] == 'boolean') {
 				$return_str .= '{{#options_' . $input_name . '}} checked="checked"{{/options_' . $input_name . '}} /> ' .
-							   $input_data['label']['en'] . '</label>';
+							   $input_data['label'][AdminHelper::getOrSetLanguage()] . '</label>';
 			}
 		}
 

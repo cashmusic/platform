@@ -47,7 +47,7 @@
 					{{/location_analytics}}
 					<p class="codelabel"><strong>{{copy_html5_embed_code}}</strong> <span class="fadedtext">{{copy_embed_anywhere}}</span></p>
 
-					<a class="ql copy" title="Copy quick embed code" data-clipboard-text="&lt;script src=&quot;{{public_url}}/cashmusic.js&quot; data-element=&quot;{{id}}&quot;&gt;" ><div class="icon icon-share"></div><!--icon--></a>
+					<a class="ql copy" title="Copy quick embed code" data-clipboard-text="&lt;script src=&quot;{{public_url}}/cashmusic.js&quot; data-element=&quot;{{id}}&quot;&gt;&lt;/script&gt;" ><div class="icon icon-share"></div><!--icon--></a>
 
 					<code><div class="codearea" contenteditable="true">&lt;script src=&quot;{{public_url}}/cashmusic.js&quot; data-element=&quot;{{id}}&quot;&gt;&lt;/script&gt;</div></code>
 
@@ -82,11 +82,12 @@
 
 <div id="settings-drawer" class="drawer prefpanel pure-u-1">
 	<div class="itemnav pure-u-1">
-	<h4 class="drawerhandle title"><div class="icon icon-wrench"></div><!--icon--><span>{{copy_element_settings}}</span></h4>
+	<h4 class="drawerhandle title"><div class="icon icon-wrench"></div><!--icon--><span>{{copy_element_settings}}</span></h4></div><!--itemnav-->
 	<div class="drawercontent">
 		<div class="pure-u-1">
 			{{{element_rendered_content}}}
 		</div><!--pure-->
 	</div><!--drawercontent-->
-	</div><!--itemnav-->
+
 </div><!--drawer prefpanel-->
+
