@@ -63,6 +63,7 @@ class CommercePlant extends PlantBase {
             'gettransaction'           => array('getTransaction','direct'),
             'finalizepayment'          => array('finalizePayment',array('get','post','direct')),
             'initiatecheckout'         => array('initiateCheckout',array('get','post','direct','api_public')),
+            'initiatesubscription'     => array('initiateSubscription', array('get', 'post', 'direct', 'api_public')),
             'sendorderreceipt'	      => array('sendOrderReceipt','direct'),
             'updatesubscriptionplan'    => array('updateSubscriptionPlan', 'direct'),
         );
@@ -1388,29 +1389,18 @@ class CommercePlant extends PlantBase {
             $is_physical = 0;
             $is_digital = 0;
 
-            $element_request = new CASHRequest(
-              array(
-                  'cash_request_type' => 'element',
-                  'cash_action' => 'getelement',
-                  'id' => $element_id
-              )
-            );
-            $user_id = $element_request->response['payload']['user_id'];
-            $settings_request = new CASHRequest(
-              array(
-                  'cash_request_type' => 'system',
-                  'cash_action' => 'getsettings',
-                  'type' => 'payment_defaults',
-                  'user_id' => $user_id
-              )
-            );
-            if (is_array($settings_request->response['payload'])) {
-              $pp_default = (isset($settings_request->response['payload']['pp_default'])) ? $settings_request->response['payload']['pp_default'] : false;
-              $pp_micro = (isset($settings_request->response['payload']['pp_micro'])) ? $settings_request->response['payload']['pp_micro'] : false;
-              $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
+            $user_id = CASHSystem::getUserIdByElement($element_id);
+
+            $default_connections = CommercePlant::getDefaultConnections($user_id);
+
+            if (is_array($default_connections)) {
+              $pp_default = (!empty($default_connections['paypal'])) ? $default_connections['paypal'] : false;
+              $pp_micro = (!empty($default_connections['paypal_micro'])) ? $default_connections['paypal_micro'] : false;
+              $stripe_default = (!empty($default_connections['stripe'])) ? $default_connections['stripe'] : false;
             } else {
               return false; // no default PP shit set
             }
+
             $cart = $this->getCart($element_id,$session_id);
 
             $shipto = $cart['shipto'];
@@ -1640,8 +1630,48 @@ class CommercePlant extends PlantBase {
         }
     }
 
-    public function initiateSubscription() {
-        return true;
+    public function initiateSubscription($element_id=false,$price=false,$stripe=false,$origin=false,$email_address=false,$customer_name=false,$session_id=false,$geo=false) {
+        $this->startSession($session_id);
+        if (!$element_id) {
+            return false;
+        } else {
+
+        // do shit
+
+            error_log(
+                "initiateSubscription\n
+                element id $element_id\n
+                price $price\n
+                origin $origin\n
+                email $email_address\n
+                name $customer_name\n
+                stripe $stripe\n
+                session id $session_id\n
+                geo $geo"
+            );
+
+            $user_id = CASHSystem::getUserIdByElement($element_id);
+
+            $default_connections = CommercePlant::getDefaultConnections($user_id);
+
+            if (!is_array($default_connections)) {
+                $pp_default = (!empty($default_connections['paypal'])) ? $default_connections['paypal'] : false;
+                $pp_micro = (!empty($default_connections['paypal_micro'])) ? $default_connections['paypal_micro'] : false;
+                $stripe_default = (!empty($default_connections['stripe'])) ? $default_connections['stripe'] : false;
+            } else {
+                return false; // no default PP shit set
+            }
+
+            $seed_class = "StripeSeed";
+            if (!class_exists($seed_class)) {
+                $this->setErrorMessage("1301 Couldn't find payment type $seed_class.");
+                return false;
+            }
+
+            // call the payment seed class --- connection id needs to switch later maybe
+            $payment_seed = new $seed_class($user_id,$stripe_default);
+        }
+
     }
 
     protected function getOrderTotals($order_contents) {
@@ -2486,6 +2516,31 @@ class CommercePlant extends PlantBase {
         $payment_seed = new $seed_class($user_id, $connection_id);
 
         return $payment_seed;
+    }
+
+    public static function getDefaultConnections($user_id) {
+        $settings_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'system',
+                'cash_action' => 'getsettings',
+                'type' => 'payment_defaults',
+                'user_id' => $user_id
+            )
+        );
+
+        if (is_array($settings_request->response['payload'])) {
+            $pp_default = (isset($settings_request->response['payload']['pp_default'])) ? $settings_request->response['payload']['pp_default'] : false;
+            $pp_micro = (isset($settings_request->response['payload']['pp_micro'])) ? $settings_request->response['payload']['pp_micro'] : false;
+            $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
+        } else {
+            return false; // no default shit set
+        }
+
+        return [
+            'stripe' => $stripe_default,
+            'paypal' => $pp_default,
+            'paypal_micro' => $pp_micro
+        ];
     }
 
 } // END class

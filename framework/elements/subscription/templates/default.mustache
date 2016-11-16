@@ -19,6 +19,14 @@
     'use strict';
     var cm = window.cashmusic;
 
+    // get stripe public key
+    {{#stripe_public_key}}
+        var stripe_public_key = "{{stripe_public_key}}";
+    {{/stripe_public_key}}
+    {{^stripe_public_key}}
+        var stripe_public_key = false;
+    {{/stripe_public_key}}
+
     cm.events.add(cm,'ready', function(e) {
         cm.session.start();
         var plan_price = document.getElementById('plan_price');
@@ -56,7 +64,62 @@
                     });
                 });
 
+
+                cm.events.add(cm, 'checkoutdata', function (payment) {
+                    var f = document.createElement('form');
+                    f.method = 'post';
+                    f.action = '';
+
+                    var els = ['cash_request_type','cash_action','element_id','price','stripe','origin','email_address','customer_name','geo'];
+                    for (var i = 0, len = els.length; i < len; i++) {
+                        var inp = document.createElement('input');
+                        inp.type = 'hidden';
+                        inp.name = els[i];
+                        inp.value = '';
+                        f.appendChild(inp);
+                    }
+
+                    f.cash_request_type.value = 'commerce';
+                    f.cash_action.value = 'initiatesubscription';
+                            {{#session_id}}f.session_id = '{{session_id}}';{{/session_id}}
+                    f.element_id.value = {{element_id}};
+                    f.price.value = parseFloat(subscribe_button.getAttribute('data-price'));
+                    f.origin.value = payment.detail.origin;
+                    f.email_address.value = payment.detail.email;
+                    f.customer_name.value = payment.detail.name;
+                    f.geo.value = cm.geo;
+
+                    if (payment.detail.stripe) {
+                        f.stripe.value = payment.detail.stripe;
+                    }
+
+                    initiatePayment(f);
+                });
+
+                cm.loadScript(cm.path + '/checkout/checkout.js', function () {
+                    cm.checkout.prep();
+                });
             });
+        }
+
+        function initiatePayment(f) {
+            document.body.appendChild(f);
+            cm.ajax.send(
+                    '{{public_url}}/request/payload',
+                    cm.ajax.encodeForm(f),
+                    function(details) {
+                        if (details.substring(0,4) == 'http') {
+                            top.location.href = details;
+                        } else if (details == 'success') {
+                            cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"success"});
+                        } else {
+                            cm.overlay.reveal('There was a problem with your payment. Please try again.');
+                        }
+                    },
+                    function(details) {
+                        cm.overlay.reveal('There was a problem with your payment. Please try again.');
+                    }
+            );
         }
         //
     });
