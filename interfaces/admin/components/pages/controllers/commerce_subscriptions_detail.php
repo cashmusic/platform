@@ -34,10 +34,13 @@
         )
     );
 
-    if ($subscription_request->response['payload']) {
+    if ($subscription_request->response['payload']) { 
 
         $cash_admin->page_data['subscriptions'] = $subscription_request->response['payload'];
+
     }
+
+    $cash_admin->page_data['ui_title'] = '' . $plan_request->response['payload']['name'] . '';
 
     $cash_admin->setPageContentTemplate('commerce_subscriptions_detail');
     ?>
