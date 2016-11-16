@@ -46,6 +46,10 @@
 		{"page_name":"Inventory", "menu_icon":"barcode"},
 	"commerce/subscriptions":
 		{"page_name":"Subscriptions", "menu_icon":"recurring", "beta":true},
+	"commerce/subscriptions/add":
+		{"page_name":"Add a subscription plan", "menu_icon":""},
+	"commerce/externalfulfillment":
+		{"page_name":"3rd Party Fulfillment", "menu_icon":"fulfillment", "tagline":"Import external orders"},
 	"commerce/items/delete":
 		{"page_name":"Delete item", "menu_icon":""},
 	"commerce/items/edit":
@@ -55,10 +59,7 @@
 	"commerce/export":
 		{"page_name":"Export", "menu_icon":"dwnld","add_class":"lightboxed"},
 	"commerce/orders/view":
-		{"page_name":"Order details", "menu_icon":""},
-	"commerce/externalfulfillment":
-		{"page_name":"3rd Party Fulfillment", "menu_icon":"cloud-upload", "tagline":"Import external orders"},
-		
+		{"page_name":"Order details", "menu_icon":""},	
 		
 	"elements":
 		{"page_name":"Elements", "menu_icon":""},
