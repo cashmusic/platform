@@ -52,5 +52,7 @@
         $cash_admin->page_data['plans'] = $subscription_request->response['payload'];
     }
 
+    $cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('commerce');
+
     $cash_admin->setPageContentTemplate('commerce_subscriptions');
     ?>
