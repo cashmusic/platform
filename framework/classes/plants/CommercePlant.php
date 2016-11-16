@@ -1640,6 +1640,10 @@ class CommercePlant extends PlantBase {
         }
     }
 
+    public function initiateSubscription() {
+        return true;
+    }
+
     protected function getOrderTotals($order_contents) {
         $contents = json_decode($order_contents,true);
         $return_array = array(

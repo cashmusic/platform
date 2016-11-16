@@ -37,12 +37,28 @@
         }, false);
 
         if (subscribe_button) {
+            // user triggered the subscribe button
             cm.events.add(subscribe_button, 'click', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
+
                 var price = subscribe_button.getAttribute("data-price");
                 var plan_id = subscribe_button.getAttribute("data-plan-id");
-                cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"checkout"});
+
+                var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
+
+                var poststring = 'cash_request_type=commerce&cash_action=initiatesubscription&element_id={{element_id}}&plan_id={{plan_id}}&price=' + price;
+
+                cm.loadScript(cm.path + '/checkout/checkout.js', function () {
+                    cm.checkout.prep();
+                    cm.checkout.begin({
+                        "stripe": stripe_public_key,
+                        "paypal": false,
+                        "currency": "usd", // USD = auto default
+                        "recurring": true
+                    });
+                });
+
             });
         }
         //
