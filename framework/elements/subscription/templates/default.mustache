@@ -1,5 +1,5 @@
 {{#error_message}}
-    <div class="cash_error cash_{{element_type}}_error">
+    <div class="cm-error cm-{{element_type}}-error">
         {{error_message}}
     </div>
 {{/error_message}}
@@ -7,13 +7,10 @@
 <h2>{{plan_name}}</h2>
 <p>{{plan_description}}</p>
 
-    <div style="float: left; width: 25%; margin-right: 1%">
+   
         <input type="number" min="{{plan_price}}" name="plan_amount" id="plan_flexible_price" value="{{plan_price}}" autocomplete="off" >
         <a href="#" class="button cm-subscribe" data-price="{{plan_price}}" data-plan-id="{{plan_id}}" id="subscribe">$<span class="amount" id="plan_price">{{plan_price}}</span>/{{plan_interval}} - Subscribe</a>
-    </div>
-<!--<div style="float: right; width: 25%">
-    <a href="#" class="button">Login</a>
-</div>-->
+    
 
 <div style="clear:both"></div>
 
