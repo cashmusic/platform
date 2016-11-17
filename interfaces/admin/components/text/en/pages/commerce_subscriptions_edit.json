@@ -1,0 +1,18 @@
+{
+	"pagetip": "",
+	"learn": "",
+	"related":{},
+	"labels":{
+		"plan_name":"Plan name",
+		"description":"Description",
+		"interval":"Subscription interval",
+		"price":"Price"
+	},
+	"tooltips":{},
+	"copy":{
+		"firstuse":"",
+		"add_plan":"Create a new plan",
+		"save":"Save",
+		"cancel":"Cancel"
+	}
+}
