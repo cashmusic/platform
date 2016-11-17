@@ -10,7 +10,7 @@
 </header>
 
 
-    {{^subscriptions}}
+    {{#subscriptions}}
     <div class="material single usecolor4">
         <div class="pure-u-1 pure-u-md-1-2">
             <h5>{{label_name}}</h5>
@@ -42,7 +42,7 @@
                 </tr>
             </thead>
             <tbody>
-            {{^subscriptions}}
+            {{#subscriptions}}
                 <tr>
                     <td>{{first_name}}&nbsp;{{last_name}}</td>
                     <td><a href="mailto:{{email_address}}">{{email_address}}</a></td>
