@@ -1630,7 +1630,7 @@ class CommercePlant extends PlantBase {
         }
     }
 
-    public function initiateSubscription($element_id=false,$price=false,$stripe=false,$origin=false,$email_address=false,$customer_name=false,$session_id=false,$geo=false) {
+    public function initiateSubscription($element_id=false,$price=false,$stripe=false,$origin=false,$email_address=false,$subscription_plan=false,$customer_name=false,$session_id=false,$geo=false) {
         $this->startSession($session_id);
         if (!$element_id) {
             return false;
@@ -1640,14 +1640,7 @@ class CommercePlant extends PlantBase {
 
             error_log(
                 "initiateSubscription\n
-                element id $element_id\n
-                price $price\n
-                origin $origin\n
-                email $email_address\n
-                name $customer_name\n
-                stripe $stripe\n
-                session id $session_id\n
-                geo $geo"
+                plan id $subscription_plan"
             );
 
             $user_id = CASHSystem::getUserIdByElement($element_id);
@@ -1669,7 +1662,8 @@ class CommercePlant extends PlantBase {
             }
 
             // call the payment seed class --- connection id needs to switch later maybe
-            $payment_seed = new $seed_class($user_id,$stripe_default);
+            $this->createSubscription($user_id, $stripe_default, $subscription_plan, $stripe, $email_address, $customer_name, 1);
+
         }
 
     }
@@ -2478,7 +2472,15 @@ class CommercePlant extends PlantBase {
 
     }
 
-    public function createSubscription() {
+    public function createSubscription($user_id, $connection_id, $plan_id=false, $token=false, $email_address=false, $customer_name=false, $quantity=1) {
+
+        $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
+
+        if ($payment_seed->createSubscription($token, $plan_id, $email_address, $quantity)) {
+            error_log("success");
+        } else {
+            error_log("poo");
+        }
 
     }
 

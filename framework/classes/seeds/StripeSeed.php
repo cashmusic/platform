@@ -712,11 +712,11 @@ class StripeSeed extends SeedBase
             ));
 
         } catch (Exception $e) {
-            if (CASH_DEBUG) {
+            //if (CASH_DEBUG) {
                 error_log(
                     print_r($e->getMessage())
                 );
-            }
+            //}
 
             return false;
         }
