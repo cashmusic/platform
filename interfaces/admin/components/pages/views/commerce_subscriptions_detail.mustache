@@ -10,39 +10,39 @@
 </header>
 
 
-    {{#subscriptions}}
+    {{^subscriptions}}
     <div class="material single usecolor4">
         <div class="pure-u-1 pure-u-md-1-2">
-            <h5>Name</h5>
+            <h5>{{label_name}}</h5>
             <p{{sku}}<br /><span class="fadedtext">{{description}}</span></p>
         </div><!--pure-->
         <div class="pure-u-1 pure-u-md-1-4">
-            <h5>Price</h5>
+            <h5>{{label_price}}</h5>
             <p>{{price}}</p>
         </div><!--pure-->
             <div class="pure-u-1 pure-u-md-1-4">
-            <h5>Interval</h5>
+            <h5>{{label_interval}}</h5>
             <p>{{interval}}</p>
         </div><!--pure-->
     </div><!--material-->
     {{/subscriptions}}
 
-    <h4 class="section breaker">Subscribers</h4>
+    <h4 class="section breaker">{{copy_subscriber_title}}</h4>
 
     <table style="width:100%;" class="responsive">
         <colgroup style="width:85%;" /><colgroup />
             <thead>
                 <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Start date</th>
+                    <th scope="col">{{label_subscriber_name}}</th>
+                    <th scope="col">{{label_subscriber_email}}</th>
+                    <th scope="col">{{label_subscriber_start_date}}</th>
                     <th></th>
-                    <th scope="col">End date</th>
-                    <th scope="col">Total paid to date</th>
+                    <th scope="col">{{label_subscriber_end_date}}</th>
+                    <th scope="col">{{label_subscriber_total}}</th>
                 </tr>
             </thead>
             <tbody>
-            {{#subscriptions}}
+            {{^subscriptions}}
                 <tr>
                     <td>{{first_name}}&nbsp;{{last_name}}</td>
                     <td><a href="mailto:{{email_address}}">{{email_address}}</a></td>
