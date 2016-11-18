@@ -77,6 +77,7 @@ class Subscription extends ElementBase {
 			$this->element_data['plan_description'] = $plan_request->response['payload'][0]['description'];
 			$this->element_data['plan_price'] = $plan_request->response['payload'][0]['price'];
 			$this->element_data['plan_interval'] = $plan_request->response['payload'][0]['interval'];
+			$this->element_data['plan_interval'] = $plan_request->response['payload'][0]['interval'];
 			$this->element_data['plan_id'] = $plan_request->response['payload'][0]['sku'];
 
 			$this->element_data['plan_flexible_price'] =
@@ -86,8 +87,8 @@ class Subscription extends ElementBase {
 		}
 
 		if (isset($_REQUEST['state'])) {
-			if ($_REQUEST['state'] == "checkout") {
-				$this->setTemplate('checkout');
+			if ($_REQUEST['state'] == "success") {
+				$this->setTemplate('success');
 			}
 		}
 

@@ -1638,16 +1638,11 @@ class CommercePlant extends PlantBase {
 
         // do shit
 
-            error_log(
-                "initiateSubscription\n
-                plan id $subscription_plan"
-            );
-
             $user_id = CASHSystem::getUserIdByElement($element_id);
 
             $default_connections = CommercePlant::getDefaultConnections($user_id);
 
-            if (!is_array($default_connections)) {
+            if (is_array($default_connections)) {
                 $pp_default = (!empty($default_connections['paypal'])) ? $default_connections['paypal'] : false;
                 $pp_micro = (!empty($default_connections['paypal_micro'])) ? $default_connections['paypal_micro'] : false;
                 $stripe_default = (!empty($default_connections['stripe'])) ? $default_connections['stripe'] : false;
@@ -1662,7 +1657,13 @@ class CommercePlant extends PlantBase {
             }
 
             // call the payment seed class --- connection id needs to switch later maybe
-            $this->createSubscription($user_id, $stripe_default, $subscription_plan, $stripe, $email_address, $customer_name, 1);
+            if ($this->createSubscription($user_id, $stripe_default, $subscription_plan, $stripe, $email_address, $customer_name, 1)) {
+
+                // create the subscription data
+                return "success";
+            } else {
+                return "failure";
+            }
 
         }
 
@@ -2356,7 +2357,8 @@ class CommercePlant extends PlantBase {
         $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
 
         // create the plan on payment service (stripe for now) and get plan id
-        if ($plan_id = $payment_seed->createSubscriptionPlan($plan_name, $sku, $amount, $interval, $currency)) {
+        $cent_amount = $amount * 100;
+        if ($plan_id = $payment_seed->createSubscriptionPlan($plan_name, $sku, $cent_amount, $interval, $currency)) {
 
             $result = $this->db->setData(
                 'subscriptions',
@@ -2473,13 +2475,13 @@ class CommercePlant extends PlantBase {
     }
 
     public function createSubscription($user_id, $connection_id, $plan_id=false, $token=false, $email_address=false, $customer_name=false, $quantity=1) {
-
+        error_log("payment seed");
         $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
 
         if ($payment_seed->createSubscription($token, $plan_id, $email_address, $quantity)) {
-            error_log("success");
+            return true;
         } else {
-            error_log("poo");
+            return false;
         }
 
     }

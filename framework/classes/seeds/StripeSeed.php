@@ -676,7 +676,11 @@ class StripeSeed extends SeedBase
         XOF: West African Cfa Franc
         XPF: Cfp Franc
          */
-
+        if (CASH_DEBUG) {
+            error_log(
+                "customer creation start "
+            );
+        }
         try {
             \Stripe\Stripe::setApiKey($this->access_token);
             $customer = \Stripe\Customer::create(array(
@@ -700,8 +704,14 @@ class StripeSeed extends SeedBase
 
     public function createSubscription($token, $plan_id, $email, $quantity=1) {
 
-
-        $customer = $this->createCustomer($email, $token);
+        if (!$customer = $this->createCustomer($email, $token)) {
+            return false;
+        }
+        if (CASH_DEBUG) {
+            error_log(
+                "customer created " . print_r($customer, true)
+            );
+        }
 
         try {
             \Stripe\Stripe::setApiKey($this->access_token);
