@@ -2498,6 +2498,32 @@ class CommercePlant extends PlantBase {
             }
 
             if ($payment_seed->createSubscription($token, $plan_id, $email_address, $quantity)) {
+
+                $full_name = explode(' ', $customer_name, 2);
+
+                if ($user_id = $this->getOrCreateUser([
+                    'customer_email' => $email_address,
+                    'customer_name' => $customer_name,
+                    'customer_first_name' => $full_name[0],
+                    'customer_last_name' => $full_name[1],
+                    'customer_countrycode' => "" // none unless there's shipping
+
+                ])) {
+                    $result = $this->db->setData(
+                        'subscriptions_members',
+                        array(
+                            'user_id' => $user_id,
+                            'subscription_id' => $subscription_plan[0]['id'],
+                            'status' => 'active',
+                            'start_date' => strtotime('today'),
+                            'total_paid_to_date' => $price
+                        )
+                    );
+                }
+
+
+                if (!$result) return false;
+
                 return true;
             }
         }
