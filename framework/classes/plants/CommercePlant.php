@@ -1657,7 +1657,7 @@ class CommercePlant extends PlantBase {
             }
 
             // call the payment seed class --- connection id needs to switch later maybe
-            if ($this->createSubscription($user_id, $stripe_default, $subscription_plan, $stripe, $email_address, $customer_name, 1)) {
+            if ($this->createSubscription($user_id, $price, $stripe_default, $subscription_plan, $stripe, $email_address, $customer_name, 1)) {
 
                 // create the subscription data
                 return "success";
@@ -2357,7 +2357,12 @@ class CommercePlant extends PlantBase {
         $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
 
         // create the plan on payment service (stripe for now) and get plan id
-        $cent_amount = $amount * 100;
+        if ($flexible_price) {
+            $cent_amount = 1;
+        } else {
+            $cent_amount = $amount * 100;
+        }
+
         if ($plan_id = $payment_seed->createSubscriptionPlan($plan_name, $sku, $cent_amount, $interval, $currency)) {
 
             $result = $this->db->setData(
@@ -2474,15 +2479,32 @@ class CommercePlant extends PlantBase {
 
     }
 
-    public function createSubscription($user_id, $connection_id, $plan_id=false, $token=false, $email_address=false, $customer_name=false, $quantity=1) {
-        error_log("payment seed");
+    public function createSubscription($user_id, $price, $connection_id, $plan_id=false, $token=false, $email_address=false, $customer_name=false, $quantity=1) {
+
         $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
 
-        if ($payment_seed->createSubscription($token, $plan_id, $email_address, $quantity)) {
-            return true;
-        } else {
-            return false;
+        if ($subscription_plan = $this->getSubscriptionPlanBySku($user_id, $plan_id)) {
+
+            // if this plan doesn't even exist, then just quit.
+            if (empty($subscription_plan[0])) return false;
+
+            // if this plan is flexible then we need to calculate quantity based on the cent value of the plan.
+            if ($subscription_plan[0]['flexible_price'] == 1) {
+
+                // make sure price is equal or greater than minimum
+                if ($price < $subscription_plan[0]['price']) return false;
+
+                $quantity = ($price*100); // price to cents, which will also be our $quantity because base price is always 1 cent for flexible
+            }
+
+            if ($payment_seed->createSubscription($token, $plan_id, $email_address, $quantity)) {
+                return true;
+            }
         }
+
+        return false;
+
+
 
     }
 

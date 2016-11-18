@@ -7,9 +7,10 @@
 <h2>{{plan_name}}</h2>
 <p>{{plan_description}}</p>
 
-   
+  {{#flexible_price}}
         <input type="number" min="{{plan_price}}" name="plan_amount" id="plan_flexible_price" value="{{plan_price}}" autocomplete="off" >
-        <a href="#" class="button cm-subscribe" data-price="{{plan_price}}" data-plan-id="{{plan_id}}" id="subscribe">$<span class="amount" id="plan_price">{{plan_price}}</span>/{{plan_interval}} - Subscribe</a>
+  {{/flexible_price}}
+<a href="#" class="button cm-subscribe" data-price="{{plan_price}}" data-plan-id="{{plan_id}}" id="subscribe">$<span class="amount" id="plan_price">{{plan_price}}</span>/{{plan_interval}} - Subscribe</a>
     
 
 <div style="clear:both"></div>
@@ -33,13 +34,15 @@
         var subscribe_button = document.querySelector('.cm-subscribe');
         var flexible_price = document.getElementById('plan_flexible_price');
 
-        flexible_price.addEventListener('keyup', function() {
-            var price = (flexible_price.value != "") ? flexible_price.value : "10.00";
-            plan_price.innerHTML = price;
+        if (flexible_price) {
+            flexible_price.addEventListener('keyup', function() {
+                var price = (flexible_price.value != "") ? flexible_price.value : "10.00";
+                plan_price.innerHTML = price;
 
-            subscribe_button.setAttribute("data-price", price);
+                subscribe_button.setAttribute("data-price", price);
 
-        }, false);
+            }, false);
+        }
 
         if (subscribe_button) {
             // user triggered the subscribe button

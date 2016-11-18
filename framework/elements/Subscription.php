@@ -77,7 +77,7 @@ class Subscription extends ElementBase {
 			$this->element_data['plan_description'] = $plan_request->response['payload'][0]['description'];
 			$this->element_data['plan_price'] = $plan_request->response['payload'][0]['price'];
 			$this->element_data['plan_interval'] = $plan_request->response['payload'][0]['interval'];
-			$this->element_data['plan_interval'] = $plan_request->response['payload'][0]['interval'];
+			$this->element_data['flexible_price'] = $plan_request->response['payload'][0]['flexible_price'];
 			$this->element_data['plan_id'] = $plan_request->response['payload'][0]['sku'];
 
 			$this->element_data['plan_flexible_price'] =
