@@ -1,14 +1,7 @@
 {{#plan}}
-    <h2>{{copy_edit}} &ldquo;{{name}}&rdquo;</h2>
+    <h4>{{copy_edit}} &ldquo;{{name}}&rdquo;</h4>
 
-<div class="pure-u-1">
-
-        <h6>{{sku}}
-            <strong style="float:right"><em>{{label_interval}}: {{interval}}</em></strong>
-        </h6>
-
-    <br>
-</div>
+    <div class="pure-u-1"><h6>{{sku}}</h6></div><!--pure-->
 
 <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/subscriptions/edit/{{id}}" id="rename_tiers" class="nodefaultajax">
         <input type="hidden" name="action" value="do_update" />
@@ -20,11 +13,31 @@
         <label for="description">{{label_description}}</label>
         <textarea id="description" name="description">{{description}}</textarea>
 
-    <label for="price">{{label_price}}</label>
-    <input type="text" id="price" name="price" value="{{price}}" placeholder="150" class="required" />
+        <div class="pure-u-1 pure-u-md-1-2">
+            {{label_interval}}:
+            <p>{{interval}}lkhj</p>
+        </div><!--pure-->
+
+        <div class="pure-u-1 pure-u-md-1-2">
+            {{label_price}}:
+            <p>{{price}}</p>
+        </div><!--pure-->
+
+          <div class="pure-u-1">
+        <label class="checklabel" for="physical">
+            <input type="checkbox" name="physical" id="physical" class="checkorradio" />{{label_physical}}
+        </label>
+        <label class="checklabel" for="flexible_price">
+            <input type="checkbox" name="flexible_price" id="flexible_price" class="checkorradio" />{{label_flexible}}
+        </label>
+
+        <label class="checklabel" for="recurring">
+            <input type="checkbox" name="recurring" id="recurring" checked="checked" class="checkorradio" />{{label_recurring}}
+        </label>
+    </div><!--pure-->
 
         <div class="pure-u-1">
-            <button type="submit">Save</button><a class="button needsconfirmation" href="{{www_path}}/commerce/subscriptions/cancel/{{id}}" type="submit">Cancel</a>
+            <button type="submit">{{copy_save}}</button><a class="button needsconfirmation" href="{{www_path}}/commerce/subscriptions/cancel/{{id}}" type="submit">{{copy_cancel}}</a>
         </div>
     </form>
 {{/plan}}

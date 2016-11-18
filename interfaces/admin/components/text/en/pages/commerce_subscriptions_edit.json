@@ -6,13 +6,17 @@
 		"plan_name":"Plan name",
 		"description":"Description",
 		"interval":"Subscription interval",
-		"price":"Price"
+		"price":"Price",
+		"physical":"Physical",
+		"flexible":"Allow flexible price",
+		"recurring":"Recurring Subscription"
 	},
 	"tooltips":{},
 	"copy":{
 		"firstuse":"",
 		"add_plan":"Create a new plan",
-		"save":"Save",
-		"cancel":"Cancel"
+		"save":"Save changes",
+		"cancel":"Cancel subscription",
+		"edit":"Edit"
 	}
 }
