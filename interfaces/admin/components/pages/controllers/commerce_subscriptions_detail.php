@@ -23,7 +23,7 @@
 
     if ($plan_request->response['payload']) {
 
-        $cash_admin->page_data['plan'] = $plan_request->response['payload'];
+        $cash_admin->page_data['plan'] = $plan_request->response['payload'][0];
     }
 
     $subscription_request = new CASHRequest(
@@ -40,7 +40,9 @@
 
     }
 
-    $cash_admin->page_data['ui_title'] = '' . $plan_request->response['payload']['name'] . '';
+    error_log(print_r($cash_admin->page_data['plan'], true));
+
+    $cash_admin->page_data['ui_title'] = $cash_admin->page_data['plan']['name'];
 
     $cash_admin->setPageContentTemplate('commerce_subscriptions_detail');
     ?>

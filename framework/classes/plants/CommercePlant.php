@@ -2521,7 +2521,6 @@ class CommercePlant extends PlantBase {
                     );
                 }
 
-
                 if (!$result) return false;
 
                 return true;
@@ -2529,9 +2528,6 @@ class CommercePlant extends PlantBase {
         }
 
         return false;
-
-
-
     }
 
     public function updateSubscription($id) {
