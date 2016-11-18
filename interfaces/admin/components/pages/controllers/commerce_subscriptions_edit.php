@@ -47,7 +47,7 @@ if (!empty($_POST['action']) && $_POST['action'] == "do_update") {
 
         if ($subscription_request->response['payload']) {
 
-            $cash_admin->page_data['plan'] = $subscription_request->response['payload'];
+            $cash_admin->page_data['plan'] = $subscription_request->response['payload'][0];
             $cash_admin->setPageContentTemplate('commerce_subscriptions_detail');
         } else {
             echo "error";
@@ -57,8 +57,7 @@ if (!empty($_POST['action']) && $_POST['action'] == "do_update") {
 }
 
 if (empty($_POST['action'])) {
-    // plan index
-    $subscription_request = new CASHRequest(
+    $plan_request = new CASHRequest(
         array(
             'cash_request_type' => 'commerce',
             'cash_action' => 'getsubscriptionplan',
@@ -67,10 +66,20 @@ if (empty($_POST['action'])) {
         )
     );
 
-    if ($subscription_request->response['payload']) {
+    error_log(
+        'user id '.    $cash_admin->effective_user_id
+    .   'parameter' . $request_parameters[0])
+    ;
 
-        $cash_admin->page_data['plan'] = $subscription_request->response['payload'];
+    if ($plan_request->response['payload']) {
+
+        $cash_admin->page_data['plan'] = $plan_request->response['payload'][0];
     }
+
+    error_log(
+        "payload".
+        print_r($plan_request->response['payload'], true)
+    );
 
     $cash_admin->setPageContentTemplate('commerce_subscriptions_edit');
 }

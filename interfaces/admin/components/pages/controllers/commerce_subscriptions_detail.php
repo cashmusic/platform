@@ -40,9 +40,9 @@
 
     }
 
-    error_log(print_r($cash_admin->page_data['plan'], true));
 
     $cash_admin->page_data['ui_title'] = $cash_admin->page_data['plan']['name'];
+    $cash_admin->page_data['id'] = $cash_admin->page_data['plan']['id'];
 
     $cash_admin->setPageContentTemplate('commerce_subscriptions_detail');
     ?>
