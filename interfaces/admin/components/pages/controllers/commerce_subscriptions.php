@@ -18,7 +18,7 @@
             'cash_request_type' => 'commerce',
             'cash_action' => 'getsubscriptionplans',
             'user_id' => $cash_admin->effective_user_id,
-            'limit' => 10
+            'limit' => false
         )
     );
 

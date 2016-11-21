@@ -1630,7 +1630,7 @@ class CommercePlant extends PlantBase {
         }
     }
 
-    public function initiateSubscription($element_id=false,$price=false,$stripe=false,$origin=false,$email_address=false,$subscription_plan=false,$customer_name=false,$session_id=false,$geo=false) {
+    public function initiateSubscription($element_id=false,$price=false,$stripe=false,$origin=false,$email_address=false,$subscription_plan=false,$customer_name=false,$session_id=false,$geo=false, $shipping_info=false) {
         $this->startSession($session_id);
         if (!$element_id) {
             return false;
@@ -1657,7 +1657,7 @@ class CommercePlant extends PlantBase {
             }
 
             // call the payment seed class --- connection id needs to switch later maybe
-            if ($this->createSubscription($user_id, $price, $stripe_default, $subscription_plan, $stripe, $email_address, $customer_name, 1)) {
+            if ($this->createSubscription($user_id, $price, $stripe_default, $subscription_plan, $stripe, $email_address, $customer_name, $shipping_info, 1)) {
 
                 // create the subscription data
                 return "success";
@@ -2479,7 +2479,7 @@ class CommercePlant extends PlantBase {
 
     }
 
-    public function createSubscription($user_id, $price, $connection_id, $plan_id=false, $token=false, $email_address=false, $customer_name=false, $quantity=1) {
+    public function createSubscription($user_id, $price, $connection_id, $plan_id=false, $token=false, $email_address=false, $customer_name=false, $shipping_info=false, $quantity=1) {
 
         $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
 
@@ -2509,6 +2509,18 @@ class CommercePlant extends PlantBase {
                     'customer_countrycode' => "" // none unless there's shipping
 
                 ])) {
+
+                    if ($shipping_info) {
+                        $shipping_info = array(
+                            'customer_shipping_name' => $shipping_info['name'],
+                            'customer_address1' => $shipping_info['address1'],
+                            'customer_address2' => $shipping_info['address2'],
+                            'customer_city' => $shipping_info['city'],
+                            'customer_region' => $shipping_info['state'],
+                            'customer_postalcode' => $shipping_info['postalcode'],
+                            'customer_countrycode' => $shipping_info['country']);
+                    }
+
                     $result = $this->db->setData(
                         'subscriptions_members',
                         array(
@@ -2516,7 +2528,8 @@ class CommercePlant extends PlantBase {
                             'subscription_id' => $subscription_plan[0]['id'],
                             'status' => 'active',
                             'start_date' => strtotime('today'),
-                            'total_paid_to_date' => $price
+                            'total_paid_to_date' => $price,
+                            'data' => json_encode($shipping_info)
                         )
                     );
                 }

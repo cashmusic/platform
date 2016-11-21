@@ -36,7 +36,12 @@
 
     if ($subscription_request->response['payload']) { 
 
-        $cash_admin->page_data['subscriptions'] = $subscription_request->response['payload'];
+
+        foreach ($subscription_request->response['payload'] as $subscription) {
+            $subscription['start_date'] = date('m/d/Y', $subscription['start_date']);
+            $subscription['end_date'] = (!empty($subscription['end_date'])) ? date('m/d/Y', $subscription['end_date']) : "recurring";
+            $cash_admin->page_data['subscriptions'][] = $subscription;
+        }
 
     }
 

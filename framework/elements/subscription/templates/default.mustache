@@ -79,7 +79,7 @@
                     f.method = 'post';
                     f.action = '';
 
-                    var els = ['cash_request_type','cash_action','element_id','price','stripe','origin','email_address','subscription_plan','customer_name','geo'];
+                    var els = ['cash_request_type','cash_action','element_id','price','stripe','origin','email_address','subscription_plan','customer_name','geo', 'shipping_info'];
                     for (var i = 0, len = els.length; i < len; i++) {
                         var inp = document.createElement('input');
                         inp.type = 'hidden';
@@ -107,7 +107,7 @@
                     if (payment.detail.shipping) {
                         console.log("there's shipping");
                         f.shipping_info.value = JSON.stringify(payment.detail.shipping);
-                        if (payment.detail.shipping['shipping-region']) {
+                       /* if (payment.detail.shipping['shipping-region']) {
                             var requesturl = '{{api_url}}/verbose/commerce/editcartshipping/element_id/{{element_id}}/region/' + payment.detail.shipping['shipping-region'] + '/';
                             requesturl += '?ts=' + new Date().getTime();
                             cm.ajax.send(requesturl, false,
@@ -115,11 +115,11 @@
                                         initiatePayment(f);
                                     }
                             );
-                        }
+                        }*/
                     } else {
-                        console.log("there's no shipping")
-                        initiatePayment(f);
+
                     }
+                    initiatePayment(f);
                 });
 
                 /*cm.loadScript(cm.path + '/checkout/checkout.js', function () {
