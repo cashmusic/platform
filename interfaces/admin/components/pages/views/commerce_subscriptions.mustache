@@ -4,15 +4,15 @@
 <div class="pure-u-1 pure-u-md-1-2">
 		<h4 class="secondary-title">{{ui_title}}</h4>
 </div><!--pure-->
-		<div class="pure-u-1 pure-u-md-1-2">
+		{{^firstuse}}<div class="pure-u-1 pure-u-md-1-2">
 			<ul class="inline-subnav">
 				<li><a href="{{www_path}}/commerce/subscriptions/add" class="lightboxed"><div class="icon icon-circle-plus"></div> {{copy_add_plan}}</a></li>
 			</ul>
-	</div><!--pure-->
+	</div><!--pure-->{{/firstuse}}
 </header>
 </div><!--pure-->
 
-{{^connection}}
+{{#firstuse}}
 {{! ****************************************************************************
 {{
 {{  SPECIAL FIRST USE SECTION WITH CONNECTION OPTIONS
@@ -28,10 +28,10 @@
 	</div>
 </div><!--callout-inner-->
 </div><!--callout-->
-{{/connection}}
+{{/firstuse}}
 
 
-{{#connection}}
+{{^firstuse}}
 		<ul class="alternating">
 			{{#plans}}
 			<li><a class="material primary" href="{{www_path}}/commerce/subscriptions/detail/{{id}}"><div class="pure-u-1 pure-u-md-1-3"><p><strong>{{name}}</strong></p></div><!--pure--><div class="pure-u-1 pure-u-md-1-3"><p><strong>{{sku}}</strong><span class="fadedtext">{{price}}</span><br></p></div><!--pure--><div class="pure-u-1 pure-u-md-1-3"><p><strong>{{interval}}</strong></p></div><!--pure--></a><div class="more"><div class="toggle"></div><!--toggle--><div class="actions"><div class="action-inner"><a href="{{www_path}}/commerce/subscriptions/detail/{{id}}" class="mininav_flush"><div class="icon icon-pencil"></div><!--icon-->{{copy_edit}}</a><a href="{{www_path}}/commerce/subscriptions/delete/{{id}}" class="mininav_flush needsconfirmation"><div class="icon icon-ban"></div><!--icon-->{{copy_delete3}}</a></div><!--action-inner--></div><!--actions--></div><!--more--></li>
@@ -42,4 +42,4 @@
 {{/plans}}
 
     <a class='button lightboxed' href="{{www_path}}/commerce/subscriptions/add">{{copy_add_plan}}</a>
-{{/connection}}
+{{/firstuse}}
