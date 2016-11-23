@@ -3,14 +3,15 @@
 	"learn": "<p>This is where you’ll find basic information on your subscriptions.</p>",
 	"related":{},
 	"labels":{
-		"name":"Name",
+		"name":"Subscription name",
 		"price":"Price",
 		"interval":"Interval",
-		"subscriber_name":"Subscriber name",
+		"subscriber_name":"Subscriber",
 		"subscriber_email":"Email",
 		"subscriber_start_date":"Start date",
 		"subscriber_end_date":"End date",
-		"subscriber_total":"Total paid to date"
+		"subscriber_total":"Total paid to date",
+		"subscriber_status":"Status"
 	},
 	"tooltips":{},
 	"copy":{

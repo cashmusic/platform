@@ -48,6 +48,8 @@
 		{"page_name":"Subscriptions", "menu_icon":"recurring", "beta":true},
 	"commerce/subscriptions/add":
 		{"page_name":"Add a subscription plan", "menu_icon":""},
+	"commerce/subscriptions/subscriber/detail":
+		{"page_name":"Subscriber details", "menu_icon":"","hide":true},
 	"commerce/externalfulfillment":
 		{"page_name":"3rd Party Fulfillment", "menu_icon":"fulfillment", "tagline":"Import external orders"},
 	"commerce/items/delete":

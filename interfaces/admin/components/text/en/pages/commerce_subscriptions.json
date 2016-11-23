@@ -6,7 +6,7 @@
 	},
 	"tooltips":{},
 	"copy":{
-		"firstuse":"Subscriptions hold information about your recurring payment plans. They can be set to rebill subscribers every day,week,month, or year. You'll need a valid payment connection to get started.<span class='first-para'>Subscriptions can be changed over time so you can update what assets should be delivered to plan subscribers and how often payment and deliver should occur.</span>",
+		"firstuse":"Subscriptions hold information about your recurring payment plans. You'll need a valid payment connection to get started.<span class='first-para'>Subscriptions can be set to rebill subscribers every day,week,month, or year.</span>",
 		"add_plan":"Create a new plan",
 		"edit":"Edit",
 		"delete":"Delete",
