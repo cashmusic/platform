@@ -792,4 +792,20 @@ class StripeSeed extends SeedBase
 
         return $subscription;
     }
+
+    public function webhookTransaction($url, $events=array()) {
+        $_params = array("url" => $url, "events" => $events);
+
+        \Stripe\Stripe::setApiKey($this->access_token);
+
+        // Retrieve the request's body and parse it as JSON
+        $input = @file_get_contents("php://input");
+        $event_json = json_decode($input);
+
+        // Verify the event by fetching it from Stripe
+        $event = \Stripe\Event::retrieve($event_json->id);
+
+
+        return $this->api->call('webhooks/transaction', $_params);
+    }
 } // END class

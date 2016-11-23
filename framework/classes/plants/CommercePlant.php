@@ -28,7 +28,8 @@ class CommercePlant extends PlantBase {
             'additemvariants'          => array('addItemVariants','direct'),
             'addorder'                 => array('addOrder','direct'),
             'addtocart'				      => array('addToCart',array('get','post','direct','api_public')),
-            'addtransaction'           => array('addTransaction','direct'),
+            'addsubscriptiontransaction'  => array('addSubscriptionTransaction','direct', 'api_public'),
+            'addtransaction'              => array('addTransaction','direct'),
             'cancelorder'			      => array('cancelOrder','direct'),
             'createsubscriptionplan'   => array('createSubscriptionPlan', array('direct')),
             'deleteitem'               => array('deleteItem','direct'),
@@ -64,6 +65,7 @@ class CommercePlant extends PlantBase {
             'finalizepayment'          => array('finalizePayment',array('get','post','direct')),
             'initiatecheckout'         => array('initiateCheckout',array('get','post','direct','api_public')),
             'initiatesubscription'     => array('initiateSubscription', array('get', 'post', 'direct', 'api_public')),
+            'processwebhook'         => array('processWebhook',array('direct','api_key','get','post')),
             'sendorderreceipt'	      => array('sendOrderReceipt','direct'),
             'updatesubscriptionplan'    => array('updateSubscriptionPlan', 'direct'),
         );
@@ -1213,7 +1215,9 @@ class CommercePlant extends PlantBase {
         $gross_price=0,
         $service_fee=0,
         $status='abandoned',
-        $currency='USD'
+        $currency='USD',
+        $parent='order',
+        $parent_id='0'
     ) {
         $result = $this->db->setData(
             'transactions',
@@ -1229,7 +1233,9 @@ class CommercePlant extends PlantBase {
                 'gross_price' => $gross_price,
                 'service_fee' => $service_fee,
                 'currency' => $currency,
-                'status' => $status
+                'status' => $status,
+                'parent' => $parent,
+                'parent_id' => $parent_id
             )
         );
         return $result;
@@ -2477,6 +2483,27 @@ class CommercePlant extends PlantBase {
 
     public function getSubscriptionDetails($id) {
 
+        // we can handle this as id or by customer payment token
+        if (is_numeric($id)) {
+            $condition = [
+                'id' => ['condition' => '=', 'value' => $id]
+            ];
+        } else {
+            $condition = [
+                'payment_identifier' => ['condition' => '=', 'value' => $id]
+            ];
+        }
+
+        $result = $this->db->getData(
+            'subscriptions_members',
+            '*',
+            $condition
+        );
+
+        if (!$result) return false;
+
+        return $result;
+
     }
 
     public function createSubscription($user_id, $price, $connection_id, $plan_id=false, $token=false, $email_address=false, $customer_name=false, $shipping_info=false, $quantity=1) {
@@ -2497,44 +2524,86 @@ class CommercePlant extends PlantBase {
                 $quantity = ($price*100); // price to cents, which will also be our $quantity because base price is always 1 cent for flexible
             }
 
-            if ($payment_seed->createSubscription($token, $plan_id, $email_address, $quantity)) {
+            $full_name = explode(' ', $customer_name, 2);
 
-                $full_name = explode(' ', $customer_name, 2);
+            if ($user_id = $this->getOrCreateUser([
+                'customer_email' => $email_address,
+                'customer_name' => $customer_name,
+                'customer_first_name' => $full_name[0],
+                'customer_last_name' => $full_name[1],
+                'customer_countrycode' => "" // none unless there's shipping
 
-                if ($user_id = $this->getOrCreateUser([
-                    'customer_email' => $email_address,
-                    'customer_name' => $customer_name,
-                    'customer_first_name' => $full_name[0],
-                    'customer_last_name' => $full_name[1],
-                    'customer_countrycode' => "" // none unless there's shipping
+            ])) {
 
-                ])) {
+                if ($shipping_info) {
 
-                    if ($shipping_info) {
-                        $shipping_info = array(
-                            'customer_shipping_name' => $shipping_info['name'],
-                            'customer_address1' => $shipping_info['address1'],
-                            'customer_address2' => $shipping_info['address2'],
-                            'customer_city' => $shipping_info['city'],
-                            'customer_region' => $shipping_info['state'],
-                            'customer_postalcode' => $shipping_info['postalcode'],
-                            'customer_countrycode' => $shipping_info['country']);
-                    }
+                    $shipping_info = json_decode($shipping_info, true);
 
-                    $result = $this->db->setData(
-                        'subscriptions_members',
-                        array(
-                            'user_id' => $user_id,
-                            'subscription_id' => $subscription_plan[0]['id'],
-                            'status' => 'active',
-                            'start_date' => strtotime('today'),
-                            'total_paid_to_date' => $price,
-                            'data' => json_encode($shipping_info)
-                        )
-                    );
+                    $shipping_info = array(
+                        'customer_shipping_name' => $shipping_info['name'],
+                        'customer_address1' => $shipping_info['address1'],
+                        'customer_address2' => $shipping_info['address2'],
+                        'customer_city' => $shipping_info['city'],
+                        'customer_region' => $shipping_info['state'],
+                        'customer_postalcode' => $shipping_info['postalcode'],
+                        'customer_countrycode' => $shipping_info['country']);
                 }
 
-                if (!$result) return false;
+                $data = [
+                    'shipping_info' => $shipping_info
+                ];
+
+                // add user to subscription membership and set active
+                $subscription_member_result = $this->db->setData(
+                    'subscriptions_members',
+                    array(
+                        'user_id' => $user_id,
+                        'subscription_id' => $subscription_plan[0]['id'],
+                        'status' => 'canceled',
+                        'start_date' => strtotime('today'),
+                        'total_paid_to_date' => $price,
+                        'data' => json_encode($data)
+                    )
+                );
+
+                if (!$subscription_member_result) return false;
+
+            } else {
+                return false;
+            }
+
+
+            if ($subscription = $payment_seed->createSubscription($token, $plan_id, $email_address, $quantity)) {
+/*                $transaction_id = $this->addTransaction(
+                    $user_id,
+                    $connection_id,
+                    $this->getConnectionType($connection_id),
+                    $subscription->created,
+                    $subscription->id,
+                    '',
+                    json_encode($subscription),               # this is data_returned, dummy
+                    1,
+                    $price, // set price
+                    0,
+                    'abandoned',
+                    $currency
+                );*/
+
+                // we need to add in the customer token so we can actually corollate with the webhooks
+                $add_customer_token_result = $this->db->setData(
+                    'subscriptions_members',
+                    array(
+                        'payment_identifier' => $subscription->customer
+                    ),
+                    array(
+                        "id" => array(
+                            "condition" => "=",
+                            "value" => $subscription_member_result
+                        )
+                    )
+                );
+
+                if (!$add_customer_token_result) return false;
 
                 return true;
             }
@@ -2602,6 +2671,93 @@ class CommercePlant extends PlantBase {
             'paypal' => $pp_default,
             'paypal_micro' => $pp_micro
         ];
+    }
+
+    protected function manageWebhooks($customer_id,$action='transaction') {
+
+            // connection found, api instantiated
+          /*
+                    $mc = $api_connection['api'];
+                    // webhooks
+                    $api_credentials = CASHSystem::getAPICredentials();
+                    $webhook_api_url = CASH_API_URL . '/verbose/commerce/addsubscriptiontransaction/origin/com.stripe/api_key/' . $api_credentials['api_key'];
+                    if ($action == 'remove') {
+                        return $mc->listWebhookDel($webhook_api_url);
+                    } else {
+                        return $mc->listWebhookAdd($webhook_api_url, $actions=null, $sources=null);
+                        // TODO: What do we do when adding a webhook fails?
+                        // TODO: Try multiple times?
+                    }*/
+
+
+    }
+
+    protected function processWebhook($origin,$user_id,$type=false,$data=false, $stripe_events=false) {
+        //error_log("$origin $user_id $type $data $stripe_events");
+        error_log("subscription webhook fired\n");
+        if ($input = @file_get_contents("php://input")) {
+            $event = json_decode($input, true);
+
+            $event_data = $event['data']['object'];
+
+            // get customer info from commerce_subscriptions_members
+            $customer = $this->getSubscriptionDetails($event_data['customer']);
+
+            if (!is_array($customer)) return false;
+
+            $default_connections = CommercePlant::getDefaultConnections($user_id);
+
+            // for now let's just add stripe
+            if (is_array($default_connections)) {
+                $pp_default = (!empty($default_connections['paypal'])) ? $default_connections['paypal'] : false;
+                $pp_micro = (!empty($default_connections['paypal_micro'])) ? $default_connections['paypal_micro'] : false;
+                $stripe_default = (!empty($default_connections['stripe'])) ? $default_connections['stripe'] : false;
+            } else {
+                return false; // no default PP shit set
+            }
+
+            // what type of event is this?
+            switch ($event['type']) {
+                case "invoice.payment_succeeded":
+                    // create the transaction
+                    $this->addTransaction(
+                        $user_id,
+                        $stripe_default,
+                        "com.stripe",
+                        $event['created'],
+                        $event['id'],
+                        '',
+                        json_encode($event),
+                        1,
+                        number_format(($event['total'] /100), 2, '.', ' '),
+                        0,
+                        'success',
+                        'usd',
+                        'sub',
+                        $customer[0]['id']
+                    );
+                    // mark subscription member as active
+                    break;
+                case "invoice.payment_failed":
+                    // create the transaction
+                    error_log("failure");
+
+                    // mark subscription member as canceled
+                    break;
+
+                default:
+                    return false;
+
+            }
+
+        } else {
+            return false;
+        }
+
+    }
+
+    protected function addSubscriptionTransaction() {
+        error_log("transaction webhook");
     }
 
 } // END class
