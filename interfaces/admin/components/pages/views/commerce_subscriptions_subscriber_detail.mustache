@@ -1,66 +1,64 @@
 <header>
 <div class="pure-u-1 pure-u-md-1-2">
-<a class="returnlink current" href="{{www_path}}/commerce/subscriptions/detail/{{id}}"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">&ldquo;{{ui_title}}&rdquo;</h4>
+<a class="returnlink current" href="{{www_path}}/commerce/subscriptions/detail/{{id}}"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">{{ui_title}}</h4>
 </div><!--pure-->
-        <div class="pure-u-1 pure-u-md-1-2">
+    <div class="pure-u-1 pure-u-md-1-2">
             <ul class="inline-subnav">
-                <li><a class="lightboxed" href="{{www_path}}/commerce/subscriptions/edit/{{id}}"><div class="icon icon-pencil"></div> {{copy_edit_plan}}</a></li>
+
+                      <li><a class="lightboxed needsconfirmation" href="{{www_path}}/commerce/subscriptions/subscriber/delete/{{id}}"><div class="icon icon-ban"></div> {{copy_cancel}}</a></li>
+
             </ul>
     </div><!--pure-->
 </header>
 
-
-    {{#subscriptions}}
     <div class="material single usecolor4">
-        <div class="pure-u-1 pure-u-md-1-2">
-            <h5>{{label_name}}</h5>
-            <p{{sku}}<br /><span class="fadedtext">{{description}}</span></p>
+        <div class="pure-u-1 pure-u-md-1-4">
+            <h5>{{label_subscriber_name}}</h5>
+            {{first_name}}&nbsp;{{last_name}} <br /><span>({{email_address}})</span>
+            <br /><br />
+            <p><strong>{{label_subscriber_start_date}}: </strong>{{start_date}}</p>
         </div><!--pure-->
         <div class="pure-u-1 pure-u-md-1-4">
-            <h5>{{label_price}}</h5>
-            <p>{{price}}</p>
+            <h5>Address</h5>
+            <p>{{customer_address1}}<br/>
+            {{#customer_address2}}{{customer_address2}}<br/>{{/customer_address2}}
+             {{customer_city}}<br />{{customer_region}}<br />{{customer_country}}<br/>  {{customer_postalcode}}</p>
         </div><!--pure-->
-            <div class="pure-u-1 pure-u-md-1-4">
-            <h5>{{label_interval}}</h5>
-            <p>{{interval}}</p>
+        <div class="pure-u-1 pure-u-md-1-4">
+            <h5>Subscription Details</h5>
+            {{label_subscription_creation}}: <span>{{creation_date}}</span><br />
+            {{label_interval}}: <span>{{interval}}</span><br />
+            {{label_status}}: <span>{{status}}</span>
         </div><!--pure-->
+        <div class="pure-u-1 pure-u-md-1-4">
+            <h5>{{label_subscriber_total}}</h5>
+            <p><strong>{{total_paid_to_date}}</strong></p>
+        </div><!--pure-->
+         
     </div><!--material-->
-    {{/subscriptions}}
 
-    <h4 class="section breaker">{{copy_subscriber_title}}</h4>
+    <h4 class="section breaker">{{copy_payment_history}}</h4>
 
     <table style="width:100%;" class="responsive">
         <colgroup style="width:85%;" /><colgroup />
             <thead>
                 <tr>
-                    <th scope="col">{{label_subscriber_name}}</th>
-                    <th scope="col">{{label_subscriber_email}}</th>
-                    <th scope="col">{{label_subscriber_start_date}}</th>
-                    <th></th>
-                    <th scope="col">{{label_subscriber_end_date}}</th>
-                    <th scope="col">{{label_subscriber_total}}</th>
+                    <th scope="col">{{label_payment_date}}</th>
+                    <th scope="col">{{label_payment_connection_type}}</th>
+                    <th scope="col">{{label_payment_status}}</th>
+                    <th scope="col">{{label_payment_amount}}</th>
                 </tr>
             </thead>
             <tbody>
-            {{#subscriptions}}
+            {{#subscriptions_payment}}
                 <tr>
-                    <td>{{first_name}}&nbsp;{{last_name}}</td>
-                    <td><a href="mailto:{{email_address}}">{{email_address}}</a></td>
-                    <td>{{start_date}}</td>
-                    <td>&rarr;</td>
-                    <td>{{end_date}}</td>
-                    <td class="block-color">{{total_paid_to_date}}</td>
+                    <td>{{payment_date}}</td>
+                    <td>{{payment_connection_type}}</td>
+                    <td>{{payment_status}}</td>
+                    <td class="block-color">{{payment_amount}}</td>
                 </tr>
-
-                    <!--- lay these out so that you can click through to details brrrroseph -->
-                <div class="pure-u-1 pure-u-md-1-2 ">
-                    <td>{{first_name}}&nbsp;{{last_name}}</td>
-                    <td><a href="mailto:{{email_address}}">{{email_address}}</a></td>
-                    <td>{{start_date}}</td>
-                    <td>&rarr;</td>
-                    <td>{{end_date}}</td>
-                    <td class="block-color">{{total_paid_to_date}}</td>
-                </tr>
-            {{/subscriptions}}    
+            {{/subscriptions_payment}}    
             </tbody>
     </table>
+
+    </div>
