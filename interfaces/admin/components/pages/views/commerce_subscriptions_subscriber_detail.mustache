@@ -1,6 +1,7 @@
 <header>
 <div class="pure-u-1 pure-u-md-1-2">
-<a class="returnlink current" href="{{www_path}}/commerce/subscriptions/detail/{{id}}"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">{{ui_title}}</h4>
+    {{#subscriber}}
+<a class="returnlink current" href="{{www_path}}/commerce/subscriptions/detail/{{subscription_id}}"><div class="icon icon-arw-dwn"></div>{{/subscriber}}<!--icon--></a><h4 class="secondary-title">{{ui_title}}</h4>
 </div><!--pure-->
     <div class="pure-u-1 pure-u-md-1-2">
             <ul class="inline-subnav">
@@ -14,28 +15,35 @@
     <div class="material single usecolor4">
         <div class="pure-u-1 pure-u-md-1-4">
             <h5>{{label_subscriber_name}}</h5>
-            {{first_name}}&nbsp;{{last_name}} <br /><span>({{email_address}})</span>
-            <br /><br />
-            <p><strong>{{label_subscriber_start_date}}: </strong>{{start_date}}</p>
+            {{#customer}}
+            {{customer_name}} <br /><span><a href="mailto:{{customer_email}}">{{customer_email}}</a></span>
+            {{/customer}}
         </div><!--pure-->
         <div class="pure-u-1 pure-u-md-1-4">
             <h5>Address</h5>
-            <p>{{customer_address1}}<br/>
-            {{#customer_address2}}{{customer_address2}}<br/>{{/customer_address2}}
-             {{customer_city}}<br />{{customer_region}}<br />{{customer_country}}<br/>  {{customer_postalcode}}</p>
+            {{#shipping_info}}
+                <p>{{customer_address1}}<br/>
+                {{#customer_address2}}{{customer_address2}}<br/>{{/customer_address2}}
+                 {{customer_city}}<br />{{customer_region}}<br />{{customer_country}}<br/>  {{customer_postalcode}}</p>
+            {{/shipping_info}}
         </div><!--pure-->
         <div class="pure-u-1 pure-u-md-1-4">
             <h5>Subscription Details</h5>
-            {{label_subscription_creation}}: <span>{{creation_date}}</span><br />
-            {{label_interval}}: <span>{{interval}}</span><br />
+
+            {{label_subscription_creation}}:
+
+{{#subscriber}}
+            <span>{{creation_date}}</span><br />
             {{label_status}}: <span>{{status}}</span>
         </div><!--pure-->
         <div class="pure-u-1 pure-u-md-1-4">
             <h5>{{label_subscriber_total}}</h5>
             <p><strong>{{total_paid_to_date}}</strong></p>
+{{/subscriber}}
         </div><!--pure-->
          
     </div><!--material-->
+
 
     <h4 class="section breaker">{{copy_payment_history}}</h4>
 
@@ -52,10 +60,10 @@
             <tbody>
             {{#subscriptions_payment}}
                 <tr>
-                    <td>{{payment_date}}</td>
-                    <td>{{payment_connection_type}}</td>
-                    <td>{{payment_status}}</td>
-                    <td class="block-color">{{payment_amount}}</td>
+                    <td>{{service_timestamp}}</td>
+                    <td>{{connection_type}}</td>
+                    <td>{{status}}</td>
+                    <td class="block-color">{{gross_price}}</td>
                 </tr>
             {{/subscriptions_payment}}    
             </tbody>

@@ -57,10 +57,12 @@ class CommercePlant extends PlantBase {
             'getordersbycustomer'      => array('getOrdersByCustomer','direct'),
             'getordersbyitem'		      => array('getOrdersByItem','direct'),
             'getordertotals' 		      => array('getOrderTotals','direct'),
+            'getsubscriptiondetails'    => array('getSubscriptionDetails', 'direct'),
             'getsubscriptionplan'       => array('getSubscriptionPlan', 'direct'),
             'getsubscriptionplanbysku'       => array('getSubscriptionPlanBySku', 'direct'),
             'getallsubscriptionsbyplan' => array('getAllSubscriptionsByPlan', 'direct'),
             'getsubscriptionplans'      => array('getAllSubscriptionPlans', 'direct'),
+            'getsubscriptiontransactions' => array('getSubscriptionTransactions', 'direct'),
             'gettransaction'           => array('getTransaction','direct'),
             'finalizepayment'          => array('finalizePayment',array('get','post','direct')),
             'initiatecheckout'         => array('initiateCheckout',array('get','post','direct','api_public')),
@@ -2512,7 +2514,26 @@ class CommercePlant extends PlantBase {
         if (!$result) return false;
 
         return $result;
+    }
 
+    public function getSubscriptionTransactions($id) {
+
+        $condition = [
+            'parent_id' => ['condition' => '=', 'value' => $id],
+            'parent' => ['condition' => '=', 'value' => 'sub']
+        ];
+
+        $result = $this->db->getData(
+            'transactions',
+            '*',
+            $condition,
+            false,
+            'service_timestamp DESC'
+        );
+
+        if (!$result) return false;
+
+        return $result;
     }
 
     public function createSubscription($user_id, $price, $connection_id, $plan_id=false, $token=false, $email_address=false, $customer_name=false, $shipping_info=false, $quantity=1) {
@@ -2534,32 +2555,35 @@ class CommercePlant extends PlantBase {
             }
 
             $full_name = explode(' ', $customer_name, 2);
-
-            if ($user_id = $this->getOrCreateUser([
+            $customer = [
                 'customer_email' => $email_address,
                 'customer_name' => $customer_name,
                 'customer_first_name' => $full_name[0],
                 'customer_last_name' => $full_name[1],
                 'customer_countrycode' => "" // none unless there's shipping
 
-            ])) {
+            ];
+
+            if ($user_id = $this->getOrCreateUser($customer)) {
 
                 if ($shipping_info) {
 
                     $shipping_info = json_decode($shipping_info, true);
 
-                    $shipping_info = array(
+                    $shipping_info = [
                         'customer_shipping_name' => $shipping_info['name'],
                         'customer_address1' => $shipping_info['address1'],
                         'customer_address2' => $shipping_info['address2'],
                         'customer_city' => $shipping_info['city'],
                         'customer_region' => $shipping_info['state'],
                         'customer_postalcode' => $shipping_info['postalcode'],
-                        'customer_countrycode' => $shipping_info['country']);
+                        'customer_countrycode' => $shipping_info['country']
+                    ];
                 }
 
                 $data = [
-                    'shipping_info' => $shipping_info
+                    'shipping_info' => $shipping_info,
+                    'customer' => $customer
                 ];
 
                 // add user to subscription membership and set active
@@ -2570,7 +2594,7 @@ class CommercePlant extends PlantBase {
                         'subscription_id' => $subscription_plan[0]['id'],
                         'status' => 'canceled',
                         'start_date' => strtotime('today'),
-                        'total_paid_to_date' => $price,
+                        'total_paid_to_date' => 0, // do we need a second field for pledged amount?
                         'data' => json_encode($data)
                     )
                 );

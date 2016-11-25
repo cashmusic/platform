@@ -629,7 +629,7 @@ class CASHDBA {
 				break;
 
 			case 'CommercePlant_getSubscribersByPlan':
-				$query = "SELECT s.*, p.* FROM commerce_subscriptions_members AS s "
+				$query = "SELECT s.*, p.first_name, p.last_name, p.email_address FROM commerce_subscriptions_members AS s "
 				."JOIN people as p on p.id = s.user_id "
 				."WHERE s.subscription_id = :subscription_id";
 

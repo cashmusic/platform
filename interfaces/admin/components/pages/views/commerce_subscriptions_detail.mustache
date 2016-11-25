@@ -4,15 +4,16 @@
 </div><!--pure-->
         <div class="pure-u-1 pure-u-md-1-2">
             <ul class="inline-subnav">
-                <li><a class="lightboxed" href="{{www_path}}/commerce/subscriptions/edit/{{id}}"><div class="icon icon-pencil"></div> {{copy_edit_plan}}</a></li>
+                <li><a class="lightboxed" href="{{www_path}}/commerce/subscriptions/edit/{{plan_id}}"><div class="icon icon-pencil"></div> {{copy_edit_plan}}</a></li>
             </ul>
     </div><!--pure-->
 </header>
-
+<pre>{{fuck}}</pre>
+{{#plan}}
     <div class="material single usecolor4">
         <div class="pure-u-1 pure-u-md-1-2">
             <h5>{{label_name}}</h5>
-            <p{{sku}}<br /><span class="fadedtext">{{description}}</span></p>
+            <p{{sku}}<br /><span class="fadedtext">{{name}}</span></p>
         </div><!--pure-->
         <div class="pure-u-1 pure-u-md-1-4">
             <h5>{{label_price}}</h5>
@@ -23,6 +24,7 @@
             <p>{{interval}}</p>
         </div><!--pure-->
     </div><!--material-->
+{{/plan}}
 
     <h4 class="section breaker">{{copy_subscriber_title}}</h4>
     
@@ -33,7 +35,7 @@
             <div class="pure-u-1 pure-u-md-1-6"><h5 class="">{{label_subscriber_total}}</h5></div>
         <ul class="dates">
             {{#subscriptions}}
-                <li class="subscriber"><a clas="pure-u-1" href="{{www_path}}/commerce/subscriptions/subscriber/detail/{{sub_id}}"><div class="pure-u-1 pure-u-md-1-2"><div class="icon icon-user"></div><!--icon-->&nbsp;<strong>{{first_name}}&nbsp;{{last_name}}</strong>&nbsp;<span> ({{email_address}})</span></div>
+                <li class="subscriber"><a clas="pure-u-1" href="{{www_path}}/commerce/subscriptions/subscriber/detail/{{id}}"><div class="pure-u-1 pure-u-md-1-2"><div class="icon icon-user"></div><!--icon-->&nbsp;<strong>{{first_name}}&nbsp;{{last_name}}</strong>&nbsp;<span> ({{email_address}})</span></div>
                 <div class="pure-u-1 pure-u-md-1-6">{{start_date}}</div><div class="pure-u-1 pure-u-md-1-6"><strong>{{status}}</strong></div><div class="pure-u-1 pure-u-md-1-6"><strong>{{total_paid_to_date}}</strong></div></a></li><!--subscriber-->
             {{/subscriptions}}
         </ul>

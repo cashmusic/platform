@@ -12,21 +12,41 @@
         $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
     }
 
-    $plan_request = new CASHRequest(
+    $subscriber_request = new CASHRequest(
         array(
             'cash_request_type' => 'commerce',
-            'cash_action' => 'getsubscriptionplan',
-            'user_id' => $cash_admin->effective_user_id,
+            'cash_action' => 'getsubscriptiondetails',
             'id' => $request_parameters[0]
         )
     );
 
-    if ($plan_request->response['payload']) {
+    if ($subscriber_request->response['payload']) {
 
-        $cash_admin->page_data['plan'] = $plan_request->response['payload'][0];
+        // get subscription details
+        $data = json_decode($subscriber_request->response['payload'][0]['data'], true);
+        $cash_admin->page_data['subscriber'] = $subscriber_request->response['payload'][0];
+        $cash_admin->page_data['subscriber']['creation_date'] = date("F jS, Y", $cash_admin->page_data['subscriber']['creation_date']);
+        $cash_admin->page_data['customer'] = $data['customer'];
+        $cash_admin->page_data['shipping_info'] = $data['shipping_info'];
+
+        // get transactions for subscription
+
+        $subscriber_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'commerce',
+                'cash_action' => 'getsubscriptiontransactions',
+                'id' => $request_parameters[0]
+            )
+        );
+
+
+        if ($subscriber_request->response['payload']) {
+            $cash_admin->page_data['subscriptions_payment'] = $subscriber_request->response['payload'];
+        }
+
     }
 
-    $subscription_request = new CASHRequest(
+/*    $subscription_request = new CASHRequest(
         array(
             'cash_request_type' => 'commerce',
             'cash_action' => 'getallsubscriptionsbyplan',
@@ -43,10 +63,10 @@
             $cash_admin->page_data['subscriptions'][] = $subscription;
         }
 
-    }
+    }*/
 
 
-    $cash_admin->page_data['id'] = $cash_admin->page_data['plan']['id'];
+    $cash_admin->page_data['id'] = $cash_admin->page_data['subscriber']['id'];
 
     $cash_admin->setPageContentTemplate('commerce_subscriptions_subscriber_detail');
     ?>
