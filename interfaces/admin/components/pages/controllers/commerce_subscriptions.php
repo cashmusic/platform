@@ -29,5 +29,9 @@
 
     $cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('commerce');
 
+    if (!$cash_admin->page_data['connection']) {
+        $cash_admin->page_data['firstuse'] = true;
+    }
+
     $cash_admin->setPageContentTemplate('commerce_subscriptions');
     ?>
