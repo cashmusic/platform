@@ -72,6 +72,15 @@ class CommercePlant extends PlantBase {
         $this->plantPrep($request_type,$request);
     }
 
+    /**
+     * @param $amount
+     * @return string
+     */
+    public function centsToDollar($amount)
+    {
+        return number_format(($amount / 100), 2, '.', ' ');
+    }
+
     protected function addItem(
         $user_id,
         $name,
@@ -2612,8 +2621,39 @@ class CommercePlant extends PlantBase {
         return false;
     }
 
-    public function updateSubscription($id) {
+    public function updateSubscription($id, $status=false, $total=false, $start_date=false) {
 
+        $values = [];
+
+        if ($status) {
+            $values['status'] = $status;
+        }
+
+        if ($start_date) {
+            $values['start_date'] = $start_date;
+        }
+
+        if ($total) {
+            $values['total_paid_to_date'] = $total;
+        }
+
+        if (count($values) < 1) return false;
+
+        $results = $this->db->setData(
+            'subscriptions_members',
+            $values,
+            array(
+                'id' => array(
+                    'condition' => '=',
+                    'value' => $id
+                )
+            )
+
+        );
+
+        if (!$results) return false;
+
+        return true;
     }
 
     /**
@@ -2674,7 +2714,7 @@ class CommercePlant extends PlantBase {
     }
 
     protected function manageWebhooks($customer_id,$action='transaction') {
-
+        //TODO: we need to add automated webhooks adding
             // connection found, api instantiated
           /*
                     $mc = $api_connection['api'];
@@ -2717,6 +2757,7 @@ class CommercePlant extends PlantBase {
             }
 
             // what type of event is this?
+            //echo print_r($event, true);
             switch ($event['type']) {
                 case "invoice.payment_succeeded":
                     // create the transaction
@@ -2729,20 +2770,48 @@ class CommercePlant extends PlantBase {
                         '',
                         json_encode($event),
                         1,
-                        number_format(($event['total'] /100), 2, '.', ' '),
+                        $this->centsToDollar($event_data['plan']['amount']),
                         0,
                         'success',
                         'usd',
                         'sub',
                         $customer[0]['id']
                     );
+
                     // mark subscription member as active
+                    $this->updateSubscription(
+                        $customer[0]['id'],
+                        "active",
+                        ((integer) $customer[0]['total_paid_to_date'] + (integer) $this->centsToDollar($event_data['plan']['amount']))
+                    );
+
+
                     break;
                 case "invoice.payment_failed":
                     // create the transaction
-                    error_log("failure");
+                    $this->addTransaction(
+                        $user_id,
+                        $stripe_default,
+                        "com.stripe",
+                        $event['created'],
+                        $event['id'],
+                        '',
+                        json_encode($event),
+                        1,
+                        $this->centsToDollar($event_data['plan']['amount']),
+                        0,
+                        'failed',
+                        'usd',
+                        'sub',
+                        $customer[0]['id']
+                    );
 
                     // mark subscription member as canceled
+                    $this->updateSubscription(
+                        $customer[0]['id'],
+                        "canceled"
+                    );
+
                     break;
 
                 default:
@@ -2756,9 +2825,6 @@ class CommercePlant extends PlantBase {
 
     }
 
-    protected function addSubscriptionTransaction() {
-        error_log("transaction webhook");
-    }
 
 } // END class
 ?>
