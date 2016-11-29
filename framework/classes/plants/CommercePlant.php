@@ -2813,7 +2813,10 @@ class CommercePlant extends PlantBase {
             }
 
             // what type of event is this?
-            //echo print_r($event, true);
+            error_log(
+                $event['type']
+            );
+
             switch ($event['type']) {
                 case "invoice.payment_succeeded":
                     // create the transaction
