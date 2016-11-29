@@ -54,7 +54,7 @@ class Stripe extends AbstractProvider
      */
     protected function getDefaultScopes()
     {
-        return ['read_only'];
+        return ['read_write'];
     }
 
     /**
