@@ -2432,13 +2432,12 @@ class CommercePlant extends PlantBase {
         return $result;
     }
 
-    public function getSubscriptionPlanBySku($user_id, $sku) {
+    public function getSubscriptionPlanBySku($sku) {
 
         $result = $this->db->getData(
             'subscriptions',
             '*',
             [
-                'user_id' => ['condition' => '=', 'value' => $user_id],
                 'sku'      => ['condition' => '=', 'value' => $sku]
             ]
         );
@@ -2540,7 +2539,7 @@ class CommercePlant extends PlantBase {
 
         $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
 
-        if ($subscription_plan = $this->getSubscriptionPlanBySku($user_id, $plan_id)) {
+        if ($subscription_plan = $this->getSubscriptionPlanBySku($plan_id)) {
 
             // if this plan doesn't even exist, then just quit.
             if (empty($subscription_plan[0])) return false;
@@ -2753,16 +2752,49 @@ class CommercePlant extends PlantBase {
                         // TODO: Try multiple times?
                     }*/
 
+        $data_request = new CASHRequest(null);
+        $user_id = $data_request->sessionGet('cash_effective_user');
+
+        $default_connections = CommercePlant::getDefaultConnections($user_id);
+
+        $api_credentials = CASHSystem::getAPICredentials();
+
+        // for now let's just add stripe
+        if (is_array($default_connections)) {
+            $pp_default = (!empty($default_connections['paypal'])) ? $default_connections['paypal'] : false;
+            $pp_micro = (!empty($default_connections['paypal_micro'])) ? $default_connections['paypal_micro'] : false;
+            $stripe_default = (!empty($default_connections['stripe'])) ? $default_connections['stripe'] : false;
+        } else {
+            return false; // no default PP shit set
+        }
+
+        // let's just add for now
+        $seed_class = "StripeSeed";
+        if (!class_exists($seed_class)) {
+            $this->setErrorMessage("1301 Couldn't find payment type $seed_class.");
+            return false;
+        }
+
+        // call the payment seed class
+        $payment_seed = new $seed_class($user_id,$stripe_default);
+
 
     }
 
     protected function processWebhook($origin,$user_id,$type=false,$data=false, $stripe_events=false) {
-        //error_log("$origin $user_id $type $data $stripe_events");
+
+        // webhooks for stripe connect are statically made so we need to use one API key and override the user id by subscription plan later
         error_log("subscription webhook fired\n");
         if ($input = @file_get_contents("php://input")) {
             $event = json_decode($input, true);
 
             $event_data = $event['data']['object'];
+            $plan_data = $event_data['plan'];
+
+            // we get the plan to override the user id we get via the webhook
+            $plan = $this->getSubscriptionPlanBySku($plan_data['id']);
+
+            $user_id = $plan[0]['user_id'];
 
             // get customer info from commerce_subscriptions_members
             $customer = $this->getSubscriptionDetails($event_data['customer']);

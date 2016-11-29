@@ -83,16 +83,7 @@ class Subscription extends ElementBase {
 			$this->element_data['plan_flexible_price'] =
 				($plan_request->response['payload'][0]['flexible_price'] == 1) ? true: false;
 
-			$this->element_data['no_shipping'] = false;
-				//($plan_request->response['payload'][0]['physical'] == 0) ? true: false;
-
-
-			if (!$this->element_data['no_shipping']) {
-				$this->element_data['region1_name'] = "foo";
-				$this->element_data['region1_cost'] = 10;
-				$this->element_data['no_shipping'] = "foo2";
-				$this->element_data['no_shipping'] = 12;
-			}
+			$this->element_data['shipping'] = ($plan_request->response['payload'][0]['physical'] == 0) ? "false": "true";
 
 		} else {
 			//error

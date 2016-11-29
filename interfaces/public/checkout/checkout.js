@@ -555,13 +555,16 @@
 						// add in the country selector
 						shippingElements.push({id: "country", type: "select", options: cm.checkout.countries, value: selectedCountry});
 						// and if needed, the shipping region selector
-						if (typeof options.shipping === 'object') {
-							shippingElements.push({id: "shipping-region", type: "select", options: {
-								"":"Select shipping region",
-								"r1":options.shipping.r1,
-								"r2":options.shipping.r2
-							}, required: true});
+						if (!options.recurring) {
+							if (typeof options.shipping === 'object') {
+								shippingElements.push({id: "shipping-region", type: "select", options: {
+									"":"Select shipping region",
+									"r1":options.shipping.r1,
+									"r2":options.shipping.r2
+								}, required: true});
+							}
 						}
+
 						// hey look a button!
 						shippingElements.push({id: "shipping-submit", type: "submit", text: "Set shipping info"});
 						// get the answers

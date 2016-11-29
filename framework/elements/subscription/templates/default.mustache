@@ -28,11 +28,11 @@
         var stripe_public_key = false;
     {{/stripe_public_key}}
 
-    // set shipping with regions, or to false if there is no shipping
-    var shipping = {
-        "r1": "USA ($5)",
-        "r2": "WTDF ($12)"
-    };
+    // set shipping true, or to false if there is no shipping
+    var shipping = {{shipping}};
+    console.log(shipping);
+
+    console.log("there is shipping")
     cm.events.add(cm,'ready', function(e) {
         cm.session.start();
         var plan_price = document.getElementById('plan_price');
