@@ -9,7 +9,7 @@
       "quantity":"Quantity (-1: unlimited)",
       "fulfillment_asset":"Fulfillment asset",
       "enable":" Enable 'pay-at-least' minimum pricing",
-      "physical":" Physical goods? (Will require shipping address)",
+      "physical":" Physical goods? (Requires shipping address)",
 		"first_shipped":"First shipped",
 		"rest_shipped":"Additional units shipped"
    },
@@ -32,6 +32,6 @@
 		"commerce_settings":"commerce settings",
 		"find_orders":"Find all orders for this item",
 		"add_image":"Add/change the item image",
-		"show_shipping_prices":"shipping region prices"
+		"show_shipping_prices":"Shipping region prices"
 	}
 }

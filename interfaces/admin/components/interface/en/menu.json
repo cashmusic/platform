@@ -44,24 +44,20 @@
 		{"page_name":"Commerce", "menu_icon":"", "tagline":"orders and items for sale"},
 	"commerce/items":
 		{"page_name":"Inventory", "menu_icon":"barcode"},
-	"commerce/subscriptions":
-		{"page_name":"Subscriptions", "menu_icon":"recurring", "beta":true},
-	"commerce/subscriptions/add":
-		{"page_name":"Add a subscription plan", "menu_icon":""},
-	"commerce/subscriptions/subscriber/detail":
-		{"page_name":"Subscriber details", "menu_icon":"","hide":true},
-	"commerce/externalfulfillment":
-		{"page_name":"3rd Party Fulfillment", "menu_icon":"fulfillment", "tagline":"Import external orders"},
 	"commerce/items/delete":
 		{"page_name":"Delete item", "menu_icon":""},
 	"commerce/items/edit":
 		{"page_name":"Edit item", "menu_icon":""},
 	"commerce/items/add":
 		{"page_name":"Add an item", "menu_icon":""},
+	"commerce/externalfulfillment":
+		{"page_name":"3rd Party fulfillment", "menu_icon":"fulfilment", "tagline":"Import external orders", "beta":true},
 	"commerce/export":
-		{"page_name":"Export", "menu_icon":"dwnld","add_class":"lightboxed"},
+		{"page_name":"Export orders", "menu_icon":"dwnld","add_class":"lightboxed"},
 	"commerce/orders/view":
-		{"page_name":"Order details", "menu_icon":""},	
+		{"page_name":"Order details", "menu_icon":""},
+	
+		
 		
 	"elements":
 		{"page_name":"Elements", "menu_icon":""},
@@ -115,7 +111,7 @@
 	"people/lists/view":
 		{"page_name":"List details", "menu_icon":""},
 	"people/mailings":
-		{"page_name":"Mail campaigns", "menu_icon":"rocket"},
+		{"page_name":"Mail campaigns", "menu_icon":"airplane","beta":true},
 	"people/press":
 		{"page_name":"Press coverage", "menu_icon":"paperclip" },
 

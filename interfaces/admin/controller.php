@@ -81,7 +81,16 @@ if ($cash_admin->platform_type == 'single') {
  *
  ***************************************************************************************************/
 $logged_in = $admin_primary_cash_request->sessionGet('cash_actual_user');
+
+if ($logged_in) {
+	// set language session
+	AdminHelper::getOrSetLanguage(
+		(!empty($_POST['new_language'])) ? $_POST['new_language'] : false
+	);
+}
+
 if (!$logged_in) {
+	
 	// check for signup
 	$cash_admin->page_data['allow_signups'] = (defined('ALLOW_SIGNUPS')) ? ALLOW_SIGNUPS : true;
 
@@ -104,6 +113,7 @@ if (!$logged_in) {
 
 			// handle initial login chores
 			$cash_admin->runAtLogin();
+
 		} else {
 			$admin_primary_cash_request->sessionClearAll();
 			$cash_admin->page_data['login_message'] = 'Try Again.';

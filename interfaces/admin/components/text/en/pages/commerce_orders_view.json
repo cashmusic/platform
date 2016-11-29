@@ -19,7 +19,7 @@
       "order_total": "Order total: ",
       "items_subtotal": "Items subtotal: ",
       "net_total": "Net total : ",
-      "transaction_fees": "Transaction fees: ",
+      "transaction_fees": "3rd party Transaction fees: ",
       "total_minus_fees": "Total minus connection fees: ",
       "items_included": "Items included",
       "qty": "Qty",

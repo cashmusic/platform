@@ -14,7 +14,7 @@
 		</div><!--pure-->
 {{/service_selected}}
 
-	<div class="pure-u-1 {{^service_selected}} pure-md-1-2 {{/service_selected}}{{#service_selected}}{{/service_selected}}">
+	<div class="current-connections pure-u-1 {{#service_selected}}selected{{/service_selected}}">
 		{{{state_markup}}}
 
 		{{#action_message}}<p><span class="highlightcopy">{{{action_message}}}</span></p>{{/action_message}}

@@ -5,14 +5,24 @@
 {{#job}}
 <div class="pure-u-1">
 <header>
-		<a class="returnlink current" href="{{www_path}}/commerce/externalfulfillment"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">{{copy_detail_title}} &ldquo;{{name}}&rdquo; </h4>
+    <div class="pure-u-1 pure-u-md-1-2">
+		  <a class="returnlink current" href="{{www_path}}/commerce/externalfulfillment"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">{{copy_detail_title}} &quot;{{name}}&quot; </h4>
+    </div><!--pure-->
+
+    <div class="pure-u-1 pure-u-md-1-2">
+      <ul class="inline-subnav">
+        <li><a href="/admin/commerce/externalfulfillment/send/{{id}}" class="lightboxed"><span class="icon icon-airplane"></span>{{copy_process_job}}</a></li>
+      </ul>
+    </div><!--pure-->
 </header>
-
-    <h5>Total Backer Count: {{order_count}}</h5>
-    <h5>Completed Orders: {{completed_orders}}</h5>
-    <h5>Incomplete Orders: {{imcomplete_orders}}</h5>
-
 </div><!--pure-->
+
+  <div id="stats">
+    <div class="pure-u-1 pure-u-md-1-3"><p class="total">{{copy_backer_count}}<span>{{order_count}}</span></p></div><!--pure-->
+    <div class="pure-u-1 pure-u-md-1-3"><p class="inactive">{{copy_completed_orders}}<span>{{completed_orders}}</span></p></div><!--pure-->
+    <div class="pure-u-1 pure-u-md-1-3"><p class="newm">{{copy_incomplete_orders}}<span>{{imcomplete_orders}}</span></p></div><!--pure-->
+  </div><!--stats-->
+
 
 <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/externalfulfillment/detail/{{id}}" id="rename_tiers" class="nodefaultajax">
             <input type="hidden" name="action" value="do_change" />
@@ -28,13 +38,10 @@
                 {{{asset_options}}}
             </select>
             
-            <label>{{copy_rename_tiers}} ({{tiers_count}}) </label>
-            <div class="drawer prefpanel pure-u-1 defaultopen ">
-            	<div class="itemnav pure-u-1">
-            		<h4 class="drawerhandle title"><div class="icon icon-wrench"></div><!--icon--><span>{{copy_tier_settings}}</span></h4>
+            <label>{{copy_rename_tiers}}</label>
+            <div class="drawer material  pure-u-1 defaultopen">
+            		<h5 class="drawerhandle title"><span>{{copy_tier_settings}} ({{tiers_count}})</span></h5>
             		<div class="drawercontent">
-            			<div class="pure-u-1">
-            				<div class="pref-inner">
                       {{#tiers}}<div class="pure-u-1">
                               <div class="pure-u-1 pure-u-md-1-2">
                                   <label>{{label_tier_name}} <strong>({{orders}} {{label_order_amount}})</strong></label>
@@ -46,19 +53,16 @@
                               </div>
                               <div class="pure-u-1 pure-u-md-1-4">
                                   <label>{{label_options}}</label>
-                                  <p><label for="tier_physical[{{id}}]"><input type="checkbox" class="checkorradio" name="tier_physical[{{id}}]" {{#physical}}checked{{/physical}} value="1">{{copy_physical}}</label></p>  
-                                  <p><label for="tier_shipped[{{id}}]"><input type="checkbox" class="checkorradio" name="tier_shipped[{{id}}]" {{#shipped}}checked{{/shipped}} value="1">{{copy_shipped}}</label></p>
+                                  <p><label class="checklabel" for="tier_physical[{{id}}]"><input type="checkbox" class="checkorradio" name="tier_physical[{{id}}]" {{#physical}}checked{{/physical}} value="1">{{copy_physical}}</label></p>  
+                                  <p><label class="checklabel" for="tier_shipped[{{id}}]"><input type="checkbox" class="checkorradio" name="tier_shipped[{{id}}]" {{#shipped}}checked{{/shipped}} value="1">{{copy_shipped}}</label></p>
                               </div>
                           </div>{{/tiers}}
 													
 											{{^tiers}}
 													<div class="empty align-center">{{copy_no_tiers}}</div>
 											{{/tiers}}
-            				</div>
-            			</div>
-            		</div>
-            	</div>
-            </div>
+            	</div><!--drawercontent-->
+            </div><!--drawer-->
 
             <div class="pure-u-1">
             <button type="submit">{{copy_save}}</button><a class="button needsconfirmation" href="{{www_path}}/commerce/externalfulfillment/delete/{{id}}" type="submit">{{copy_delete}}</a>

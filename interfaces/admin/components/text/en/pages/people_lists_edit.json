@@ -8,9 +8,6 @@
 
    },
 	"tooltips":{},
-	"copy":{"edit":"Edit - ",
-            "add_a_lot":"Need to add a lot of contacts to the list in a hurry? ",
-            "batch_add":"Batch add contacts",
-            "none":"None (local list only)"
+	"copy":{"edit":"Edit - "
 }
 }

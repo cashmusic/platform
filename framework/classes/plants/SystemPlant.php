@@ -823,8 +823,28 @@ class SystemPlant extends PlantBase {
 	}
 
 
+	protected function getLanguage($user_id) {
+		$result = $this->db->getData(
+			'contacts',
+			'data',
+			array(
+				"user_id" => array(
+					"condition" => "=",
+					"value" => $user_id
+				)
+			)
+		);
 
+		if (!$result) {
+			return false;
+		}
 
+		error_log(
+			print_r($result, true)
+		);
+
+		return $result;
+	}
 
 	/**
 	 * Removes a user page/embed template

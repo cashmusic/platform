@@ -35,14 +35,14 @@
 			"data":{
 				"message_landing":{
 					"label":{
-						"en":"Landing message (shown to users without a code)"
+						"en":"Landing message - (shown to users without a code - can include html)"
 					},
 					"type":"text",
 					"default":{
 						"en":"Are you a backer? Please check your email for instructions and a download link."
 					},
 					"required":true,
-					"displaysize":"medium"
+					"displaysize":"large"
 				},
 				"message_success":{
 					"label":{

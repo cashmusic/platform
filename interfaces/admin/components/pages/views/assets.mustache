@@ -39,16 +39,10 @@
 					<div class="front" style="background-image:url({{cover_url}});">
 						<header>
 							{{#artist_name}}<h3>{{artist_name}}</h3>{{/artist_name}}
-							<h2>{{title}}
-							{{#monetized}}
-								<!-- If commerce item associated -->
-								<div class="monetised icon icon-dollar"></div><!--icon-->
-							{{/monetized}}
-							{{#has_fulfillment}}
-								<!-- If files associated -->
-								<div class="attachement icon icon-paperclip"></div><!--icon-->
-							{{/has_fulfillment}}
-							</h2>
+							<h2>{{title}}</h2><div class="description">
+							{{#monetized}}<!-- If commerce item associated --><div class="monetised icon icon-dollar"></div><!--icon-->
+							{{/monetized}}{{#has_fulfillment}}<!-- If files associated --><div class="attachement icon icon-paperclip"></div><!--icon-->{{/has_fulfillment}}
+							</div>
 						</header>
 					</div><!--front-->
 						<a href="{{www_path}}/assets/edit/{{id}}" class="back">
@@ -80,8 +74,7 @@
 <div class="additional_releases drawer">
 	<div class="itemnav">
 		<a class="drawerhandle usecolor2">{{copy_additional_releases}}</a>
-	</div><!--itemnav-->
-
+	</div>
 	{{#remaining_releases}}
 	<div class="drawercontent pure-u-1">
 		{{#remaining_releases}}
@@ -122,18 +115,18 @@
 
 <div class="filesection pure-u-1">
 <h4>{{copy_uploads}}</h4>
-<div class="pure-u-1 pure-u-md-1-2">
-		<p>{{copy_not_working}}<br />{{copy_your_spot}}</p>
-
-		<a href="{{www_path}}/assets/add/file" class="button lightboxed">{{copy_button_upload_new_file}}</a>
+<div class="pure-u-1">
+		<p>{{copy_not_working}} {{copy_your_spot}}</p>
 </div><!--pure-->
 
-<div class="display-list pure-u-1 pure-u-md-1-2">
+<div class="pure-u-1 ">
+<div class="material usecolor2">
+	<ul>
 		{{#featured_files}}
-			<a class="files" href="{{www_path}}/assets/edit/{{id}}"><div class="icon icon-file"></div><!--icon-->{{title}} <span class="descriptive fadedtext file-description">({{descriptor_string}})</span>{{#monetized}}<!-- If commerce item associated -->
-					<span class="monetised"><div class="icon icon-dollar"></div><!--icon--></span>{{/monetized}}</a>
+			<li><a href="{{www_path}}/assets/edit/{{id}}"><div class="inner pure-u-1 pure-u-md-2-3"><div class="icon icon-file"></div><!--icon--> <strong> {{title}} </strong> <span class="descriptive fadedtext file-description">({{descriptor_string}})</span></div><!--inner--><span class="state-icons monetised pure-u-1 pure-u-md-1-3">{{#monetized}}<div class="icon icon-dollar"></div><!--icon-->{{/monetized}}</span></a></li>
 		{{/featured_files}}
-
+	</ul>
+</div><!--material-->
 		{{^featured_files}}
 		<div class="empty">
 			<p>{{copy_no_files_added_yet}}</p>
@@ -141,16 +134,19 @@
 		{{/featured_files}}
 
 		{{#more_files}}
-		<div class="drawer pure-u-1">
-		<div class="itemnav"><a class="drawerhandle usecolor2">additional files</a></div>
+		<div class="material drawer pure-u-1">
+		<a class="drawerhandle usecolor2">additional files</a>
 			<div class="drawercontent">
-				{{#remaining_files}}
-					<a class="files" href="{{www_path}}/assets/edit/{{id}}"><div class="icon icon-file"></div><!--icon-->{{title}} <span class="descriptive fadedtext file-description">({{descriptor_string}})</span>{{#monetized}}<!-- If commerce item associated --><span class="monetised"><div class="icon icon-dollar"></div><!--icon--></span>{{/monetized}}</a>
-				{{/remaining_files}}
+				<ul>
+					{{#remaining_files}}
+					<li><a href="{{www_path}}/assets/edit/{{id}}"><div class="inner pure-u-1 pure-u-md-2-3"><div class="icon icon-file"></div><!--icon--> <strong> {{title}} </strong> <span class="descriptive fadedtext file-description">({{descriptor_string}})</span></div><!--inner--><span class="state-icons monetised pure-u-1 pure-u-md-1-3">{{#monetized}}<div class="icon icon-dollar"></div><!--icon-->{{/monetized}}</span></a></li>
+					{{/remaining_files}}
+				</ul>
 			</div><!--drawercontent-->
 		</div><!--drawer-->
 		{{/more_files}}
 </div><!--display-list-->
+<a href="{{www_path}}/assets/add/file" class="button lightboxed">{{copy_button_upload_new_file}}</a>
 
 </div><!--pure-->
 <script type="text/javascript">
