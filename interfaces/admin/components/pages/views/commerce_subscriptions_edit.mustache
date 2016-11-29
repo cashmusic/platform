@@ -1,0 +1,43 @@
+{{#plan}}
+    <h4>{{copy_edit}} &ldquo;{{name}}&rdquo;</h4>
+
+    <div class="pure-u-1"><h6>{{sku}}</h6></div><!--pure-->
+
+<form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/subscriptions/edit/{{id}}" id="rename_tiers" class="nodefaultajax">
+        <input type="hidden" name="action" value="do_update" />
+        <input type="hidden" name="id" value="{{id}}">
+        <input type="hidden" name="sku" value="{{sku}}">
+        <input type="hidden" name="connection_id" value="{{connection_id}}">
+        <label for="name">{{label_plan_name}}</label>
+        <input type="text" id="name" name="name" value="{{name}}" placeholder="Plan Name" class="required" />
+        <label for="description">{{label_description}}</label>
+        <textarea id="description" name="description">{{description}}</textarea>
+
+        <div class="pure-u-1 pure-u-md-1-2">
+            {{label_interval}}:
+            <p>{{interval}}</p>
+        </div><!--pure-->
+
+        <div class="pure-u-1 pure-u-md-1-2">
+            {{label_price}}:
+            <p>{{price}}</p>
+        </div><!--pure-->
+
+          <div class="pure-u-1">
+        <label class="checklabel" for="physical">
+            <input type="checkbox" name="physical" id="physical" class="checkorradio" />{{label_physical}}
+        </label>
+        <label class="checklabel" for="flexible_price">
+            <input type="checkbox" name="flexible_price" id="flexible_price" class="checkorradio" />{{label_flexible}}
+        </label>
+
+        <label class="checklabel" for="recurring">
+            <input type="checkbox" name="recurring" id="recurring" checked="checked" class="checkorradio" />{{label_recurring}}
+        </label>
+    </div><!--pure-->
+
+        <div class="pure-u-1">
+            <button type="submit">{{copy_save}}</button><a class="button needsconfirmation" href="{{www_path}}/commerce/subscriptions/cancel/{{id}}" type="submit">{{copy_cancel}}</a>
+        </div>
+    </form>
+{{/plan}}

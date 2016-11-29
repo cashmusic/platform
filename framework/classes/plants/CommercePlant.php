@@ -28,8 +28,10 @@ class CommercePlant extends PlantBase {
             'additemvariants'          => array('addItemVariants','direct'),
             'addorder'                 => array('addOrder','direct'),
             'addtocart'				      => array('addToCart',array('get','post','direct','api_public')),
-            'addtransaction'           => array('addTransaction','direct'),
+            'addsubscriptiontransaction'  => array('addSubscriptionTransaction','direct', 'api_public'),
+            'addtransaction'              => array('addTransaction','direct'),
             'cancelorder'			      => array('cancelOrder','direct'),
+            'createsubscriptionplan'   => array('createSubscriptionPlan', array('direct')),
             'deleteitem'               => array('deleteItem','direct'),
             'deleteitemvariant'        => array('deleteItemVariant','direct'),
             'deleteitemvariants'       => array('deleteItemVariants','direct'),
@@ -55,12 +57,30 @@ class CommercePlant extends PlantBase {
             'getordersbycustomer'      => array('getOrdersByCustomer','direct'),
             'getordersbyitem'		      => array('getOrdersByItem','direct'),
             'getordertotals' 		      => array('getOrderTotals','direct'),
+            'getsubscriptiondetails'    => array('getSubscriptionDetails', 'direct'),
+            'getsubscriptionplan'       => array('getSubscriptionPlan', 'direct'),
+            'getsubscriptionplanbysku'       => array('getSubscriptionPlanBySku', 'direct'),
+            'getallsubscriptionsbyplan' => array('getAllSubscriptionsByPlan', 'direct'),
+            'getsubscriptionplans'      => array('getAllSubscriptionPlans', 'direct'),
+            'getsubscriptiontransactions' => array('getSubscriptionTransactions', 'direct'),
             'gettransaction'           => array('getTransaction','direct'),
             'finalizepayment'          => array('finalizePayment',array('get','post','direct')),
             'initiatecheckout'         => array('initiateCheckout',array('get','post','direct','api_public')),
-            'sendorderreceipt'	      => array('sendOrderReceipt','direct')
+            'initiatesubscription'     => array('initiateSubscription', array('get', 'post', 'direct', 'api_public')),
+            'processwebhook'         => array('processWebhook',array('direct','api_key','get','post')),
+            'sendorderreceipt'	      => array('sendOrderReceipt','direct'),
+            'updatesubscriptionplan'    => array('updateSubscriptionPlan', 'direct'),
         );
         $this->plantPrep($request_type,$request);
+    }
+
+    /**
+     * @param $amount
+     * @return string
+     */
+    public function centsToDollar($amount)
+    {
+        return number_format(($amount / 100), 2, '.', ' ');
     }
 
     protected function addItem(
@@ -1206,7 +1226,9 @@ class CommercePlant extends PlantBase {
         $gross_price=0,
         $service_fee=0,
         $status='abandoned',
-        $currency='USD'
+        $currency='USD',
+        $parent='order',
+        $parent_id='0'
     ) {
         $result = $this->db->setData(
             'transactions',
@@ -1222,7 +1244,9 @@ class CommercePlant extends PlantBase {
                 'gross_price' => $gross_price,
                 'service_fee' => $service_fee,
                 'currency' => $currency,
-                'status' => $status
+                'status' => $status,
+                'parent' => $parent,
+                'parent_id' => $parent_id
             )
         );
         return $result;
@@ -1382,29 +1406,18 @@ class CommercePlant extends PlantBase {
             $is_physical = 0;
             $is_digital = 0;
 
-            $element_request = new CASHRequest(
-              array(
-                  'cash_request_type' => 'element',
-                  'cash_action' => 'getelement',
-                  'id' => $element_id
-              )
-            );
-            $user_id = $element_request->response['payload']['user_id'];
-            $settings_request = new CASHRequest(
-              array(
-                  'cash_request_type' => 'system',
-                  'cash_action' => 'getsettings',
-                  'type' => 'payment_defaults',
-                  'user_id' => $user_id
-              )
-            );
-            if (is_array($settings_request->response['payload'])) {
-              $pp_default = (isset($settings_request->response['payload']['pp_default'])) ? $settings_request->response['payload']['pp_default'] : false;
-              $pp_micro = (isset($settings_request->response['payload']['pp_micro'])) ? $settings_request->response['payload']['pp_micro'] : false;
-              $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
+            $user_id = CASHSystem::getUserIdByElement($element_id);
+
+            $default_connections = CommercePlant::getDefaultConnections($user_id);
+
+            if (is_array($default_connections)) {
+              $pp_default = (!empty($default_connections['paypal'])) ? $default_connections['paypal'] : false;
+              $pp_micro = (!empty($default_connections['paypal_micro'])) ? $default_connections['paypal_micro'] : false;
+              $stripe_default = (!empty($default_connections['stripe'])) ? $default_connections['stripe'] : false;
             } else {
               return false; // no default PP shit set
             }
+
             $cart = $this->getCart($element_id,$session_id);
 
             $shipto = $cart['shipto'];
@@ -1632,6 +1645,45 @@ class CommercePlant extends PlantBase {
                 return false;
             }
         }
+    }
+
+    public function initiateSubscription($element_id=false,$price=false,$stripe=false,$origin=false,$email_address=false,$subscription_plan=false,$customer_name=false,$session_id=false,$geo=false, $shipping_info=false) {
+        $this->startSession($session_id);
+        if (!$element_id) {
+            return false;
+        } else {
+
+        // do shit
+
+            $user_id = CASHSystem::getUserIdByElement($element_id);
+
+            $default_connections = CommercePlant::getDefaultConnections($user_id);
+
+            if (is_array($default_connections)) {
+                $pp_default = (!empty($default_connections['paypal'])) ? $default_connections['paypal'] : false;
+                $pp_micro = (!empty($default_connections['paypal_micro'])) ? $default_connections['paypal_micro'] : false;
+                $stripe_default = (!empty($default_connections['stripe'])) ? $default_connections['stripe'] : false;
+            } else {
+                return false; // no default PP shit set
+            }
+
+            $seed_class = "StripeSeed";
+            if (!class_exists($seed_class)) {
+                $this->setErrorMessage("1301 Couldn't find payment type $seed_class.");
+                return false;
+            }
+
+            // call the payment seed class --- connection id needs to switch later maybe
+            if ($this->createSubscription($user_id, $price, $stripe_default, $subscription_plan, $stripe, $email_address, $customer_name, $shipping_info, 1)) {
+
+                // create the subscription data
+                return "success";
+            } else {
+                return "failure";
+            }
+
+        }
+
     }
 
     protected function getOrderTotals($order_contents) {
@@ -2313,6 +2365,525 @@ class CommercePlant extends PlantBase {
             }
          }
     }
+
+    /* Subscription specific stuff */
+
+    protected function createSubscriptionPlan($user_id, $connection_id, $plan_name, $description, $sku, $amount, $flexible_price=false, $recurring=true, $physical=false, $interval="month", $interval_count=12, $currency="usd") {
+
+        //TODO: load seed---> eventually we want this to dynamically switch, but for now
+        $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
+
+        // create the plan on payment service (stripe for now) and get plan id
+        if ($flexible_price) {
+            $cent_amount = 1;
+        } else {
+            $cent_amount = $amount * 100;
+        }
+
+        if ($plan_id = $payment_seed->createSubscriptionPlan($plan_name, $sku, $cent_amount, $interval, $currency)) {
+
+            $result = $this->db->setData(
+                'subscriptions',
+                array(
+                    'user_id' => $user_id,
+                    'name' => $plan_name,
+                    'description' => $description,
+                    'sku' => $sku,
+                    'price' => $amount, // as cents
+                    'flexible_price' => $flexible_price,
+                    'recurring_payment' => $recurring,
+                    'physical' => $physical,
+                    'interval' => $interval,
+                    'interval_count' => $interval_count
+                )
+            );
+
+            if (!$result) return false;
+
+            return ['id'=>$sku];
+        }
+
+        return false;
+    }
+
+    public function getAllSubscriptionPlans($user_id, $limit=false) {
+        $result = $this->db->getData(
+            'subscriptions',
+            '*',
+            [
+                'user_id' => ['condition' => '=', 'value' => $user_id]
+            ]
+        );
+
+        return $result;
+    }
+
+    public function getSubscriptionPlan($user_id, $id) {
+
+        $result = $this->db->getData(
+            'subscriptions',
+            '*',
+            [
+                'user_id' => ['condition' => '=', 'value' => $user_id],
+                'id'      => ['condition' => '=', 'value' => $id]
+            ]
+        );
+
+        return $result;
+    }
+
+    public function getSubscriptionPlanBySku($sku) {
+
+        $result = $this->db->getData(
+            'subscriptions',
+            '*',
+            [
+                'sku'      => ['condition' => '=', 'value' => $sku]
+            ]
+        );
+
+        return $result;
+    }
+
+    public function updateSubscriptionPlan($user_id, $connection_id, $id, $sku, $name, $description, $price, $flexible_price, $physical) {
+
+        //TODO: load seed---> eventually we want this to dynamically switch, but for now
+        $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
+
+        if ($payment_seed->updateSubscriptionPlan($sku, $name)) {
+
+            $result = $this->db->setData(
+                'subscriptions',
+                array(
+                    'name' => $name,
+                    'description' => $description,
+                    'price' => $price, // as cents
+                    'flexible_price' => $flexible_price,
+                    'physical' => $physical
+                ),
+                [
+                    'user_id' => ['condition' => '=', 'value' => $user_id],
+                    'id'      => ['condition' => '=', 'value' => $id]
+                ]
+            );
+
+            if (!$result) return false;
+
+            return $result;
+        }
+
+        return false;
+    }
+
+    public function getAllSubscriptionsByPlan($id, $limit=false) {
+        $result = $this->db->getData(
+            'CommercePlant_getSubscribersByPlan',
+            false,
+            [
+                'subscription_id' => ['condition' => '=', 'value' => $id]
+            ]
+        );
+
+        error_log(
+            print_r($result, true)
+        );
+
+        return $result;
+    }
+
+    public function getSubscriptionDetails($id) {
+
+        // we can handle this as id or by customer payment token
+        if (is_numeric($id)) {
+            $condition = [
+                'id' => ['condition' => '=', 'value' => $id]
+            ];
+        } else {
+            $condition = [
+                'payment_identifier' => ['condition' => '=', 'value' => $id]
+            ];
+        }
+
+        $result = $this->db->getData(
+            'subscriptions_members',
+            '*',
+            $condition
+        );
+
+        if (!$result) return false;
+
+        return $result;
+    }
+
+    public function getSubscriptionTransactions($id) {
+
+        $condition = [
+            'parent_id' => ['condition' => '=', 'value' => $id],
+            'parent' => ['condition' => '=', 'value' => 'sub']
+        ];
+
+        $result = $this->db->getData(
+            'transactions',
+            '*',
+            $condition,
+            false,
+            'service_timestamp DESC'
+        );
+
+        if (!$result) return false;
+
+        return $result;
+    }
+
+    public function createSubscription($user_id, $price, $connection_id, $plan_id=false, $token=false, $email_address=false, $customer_name=false, $shipping_info=false, $quantity=1) {
+
+        $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
+
+        if ($subscription_plan = $this->getSubscriptionPlanBySku($plan_id)) {
+
+            // if this plan doesn't even exist, then just quit.
+            if (empty($subscription_plan[0])) return false;
+
+            // if this plan is flexible then we need to calculate quantity based on the cent value of the plan.
+            if ($subscription_plan[0]['flexible_price'] == 1) {
+
+                // make sure price is equal or greater than minimum
+                if ($price < $subscription_plan[0]['price']) return false;
+
+                $quantity = ($price*100); // price to cents, which will also be our $quantity because base price is always 1 cent for flexible
+            }
+
+            $full_name = explode(' ', $customer_name, 2);
+            $customer = [
+                'customer_email' => $email_address,
+                'customer_name' => $customer_name,
+                'customer_first_name' => $full_name[0],
+                'customer_last_name' => $full_name[1],
+                'customer_countrycode' => "" // none unless there's shipping
+
+            ];
+
+            if ($user_id = $this->getOrCreateUser($customer)) {
+
+                if ($shipping_info) {
+
+                    $shipping_info = json_decode($shipping_info, true);
+
+                    $shipping_info = [
+                        'customer_shipping_name' => $shipping_info['name'],
+                        'customer_address1' => $shipping_info['address1'],
+                        'customer_address2' => $shipping_info['address2'],
+                        'customer_city' => $shipping_info['city'],
+                        'customer_region' => $shipping_info['state'],
+                        'customer_postalcode' => $shipping_info['postalcode'],
+                        'customer_countrycode' => $shipping_info['country']
+                    ];
+                }
+
+                $data = [
+                    'shipping_info' => $shipping_info,
+                    'customer' => $customer
+                ];
+
+                // add user to subscription membership and set active
+                $subscription_member_result = $this->db->setData(
+                    'subscriptions_members',
+                    array(
+                        'user_id' => $user_id,
+                        'subscription_id' => $subscription_plan[0]['id'],
+                        'status' => 'canceled',
+                        'start_date' => strtotime('today'),
+                        'total_paid_to_date' => 0, // do we need a second field for pledged amount?
+                        'data' => json_encode($data)
+                    )
+                );
+
+                if (!$subscription_member_result) return false;
+
+            } else {
+                return false;
+            }
+
+
+            if ($subscription = $payment_seed->createSubscription($token, $plan_id, $email_address, $quantity)) {
+/*                $transaction_id = $this->addTransaction(
+                    $user_id,
+                    $connection_id,
+                    $this->getConnectionType($connection_id),
+                    $subscription->created,
+                    $subscription->id,
+                    '',
+                    json_encode($subscription),               # this is data_returned, dummy
+                    1,
+                    $price, // set price
+                    0,
+                    'abandoned',
+                    $currency
+                );*/
+
+                // we need to add in the customer token so we can actually corollate with the webhooks
+                $add_customer_token_result = $this->db->setData(
+                    'subscriptions_members',
+                    array(
+                        'payment_identifier' => $subscription->customer
+                    ),
+                    array(
+                        "id" => array(
+                            "condition" => "=",
+                            "value" => $subscription_member_result
+                        )
+                    )
+                );
+
+                if (!$add_customer_token_result) return false;
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function updateSubscription($id, $status=false, $total=false, $start_date=false) {
+
+        $values = [];
+
+        if ($status) {
+            $values['status'] = $status;
+        }
+
+        if ($start_date) {
+            $values['start_date'] = $start_date;
+        }
+
+        if ($total) {
+            $values['total_paid_to_date'] = $total;
+        }
+
+        if (count($values) < 1) return false;
+
+        $results = $this->db->setData(
+            'subscriptions_members',
+            $values,
+            array(
+                'id' => array(
+                    'condition' => '=',
+                    'value' => $id
+                )
+            )
+
+        );
+
+        if (!$results) return false;
+
+        return true;
+    }
+
+    /**
+     * @param $user_id
+     * @return bool
+     */
+    protected function getPaymentSeed($user_id, $connection_id)
+    {
+        if (!$connection_id) {
+            $settings_request = new CASHRequest(
+                array(
+                    'cash_request_type' => 'system',
+                    'cash_action' => 'getsettings',
+                    'type' => 'payment_defaults',
+                    'user_id' => $user_id
+                )
+            );
+            if (is_array($settings_request->response['payload'])) {
+                $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
+            } else {
+                return false; // no default PP shit set
+            }
+
+            $connection_id = $stripe_default;
+        }
+
+        //TODO: this should be dynamic
+        $seed_class = "StripeSeed";
+
+        $payment_seed = new $seed_class($user_id, $connection_id);
+
+        return $payment_seed;
+    }
+
+    public static function getDefaultConnections($user_id) {
+        $settings_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'system',
+                'cash_action' => 'getsettings',
+                'type' => 'payment_defaults',
+                'user_id' => $user_id
+            )
+        );
+
+        if (is_array($settings_request->response['payload'])) {
+            $pp_default = (isset($settings_request->response['payload']['pp_default'])) ? $settings_request->response['payload']['pp_default'] : false;
+            $pp_micro = (isset($settings_request->response['payload']['pp_micro'])) ? $settings_request->response['payload']['pp_micro'] : false;
+            $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
+        } else {
+            return false; // no default shit set
+        }
+
+        return [
+            'stripe' => $stripe_default,
+            'paypal' => $pp_default,
+            'paypal_micro' => $pp_micro
+        ];
+    }
+
+    protected function manageWebhooks($customer_id,$action='transaction') {
+        //TODO: we need to add automated webhooks adding
+            // connection found, api instantiated
+          /*
+                    $mc = $api_connection['api'];
+                    // webhooks
+                    $api_credentials = CASHSystem::getAPICredentials();
+                    $webhook_api_url = CASH_API_URL . '/verbose/commerce/addsubscriptiontransaction/origin/com.stripe/api_key/' . $api_credentials['api_key'];
+                    if ($action == 'remove') {
+                        return $mc->listWebhookDel($webhook_api_url);
+                    } else {
+                        return $mc->listWebhookAdd($webhook_api_url, $actions=null, $sources=null);
+                        // TODO: What do we do when adding a webhook fails?
+                        // TODO: Try multiple times?
+                    }*/
+
+        $data_request = new CASHRequest(null);
+        $user_id = $data_request->sessionGet('cash_effective_user');
+
+        $default_connections = CommercePlant::getDefaultConnections($user_id);
+
+        $api_credentials = CASHSystem::getAPICredentials();
+
+        // for now let's just add stripe
+        if (is_array($default_connections)) {
+            $pp_default = (!empty($default_connections['paypal'])) ? $default_connections['paypal'] : false;
+            $pp_micro = (!empty($default_connections['paypal_micro'])) ? $default_connections['paypal_micro'] : false;
+            $stripe_default = (!empty($default_connections['stripe'])) ? $default_connections['stripe'] : false;
+        } else {
+            return false; // no default PP shit set
+        }
+
+        // let's just add for now
+        $seed_class = "StripeSeed";
+        if (!class_exists($seed_class)) {
+            $this->setErrorMessage("1301 Couldn't find payment type $seed_class.");
+            return false;
+        }
+
+        // call the payment seed class
+        $payment_seed = new $seed_class($user_id,$stripe_default);
+
+
+    }
+
+    protected function processWebhook($origin,$user_id,$type=false,$data=false, $stripe_events=false) {
+
+        // webhooks for stripe connect are statically made so we need to use one API key and override the user id by subscription plan later
+        error_log("subscription webhook fired\n");
+        if ($input = @file_get_contents("php://input")) {
+            $event = json_decode($input, true);
+
+            $event_data = $event['data']['object'];
+            $plan_data = $event_data['plan'];
+
+            // we get the plan to override the user id we get via the webhook
+            $plan = $this->getSubscriptionPlanBySku($plan_data['id']);
+
+            $user_id = $plan[0]['user_id'];
+
+            // get customer info from commerce_subscriptions_members
+            $customer = $this->getSubscriptionDetails($event_data['customer']);
+
+            if (!is_array($customer)) return false;
+
+            $default_connections = CommercePlant::getDefaultConnections($user_id);
+
+            // for now let's just add stripe
+            if (is_array($default_connections)) {
+                $pp_default = (!empty($default_connections['paypal'])) ? $default_connections['paypal'] : false;
+                $pp_micro = (!empty($default_connections['paypal_micro'])) ? $default_connections['paypal_micro'] : false;
+                $stripe_default = (!empty($default_connections['stripe'])) ? $default_connections['stripe'] : false;
+            } else {
+                return false; // no default PP shit set
+            }
+
+            // what type of event is this?
+            error_log(
+                $event['type']
+            );
+
+            switch ($event['type']) {
+                case "invoice.payment_succeeded":
+                    // create the transaction
+                    $this->addTransaction(
+                        $user_id,
+                        $stripe_default,
+                        "com.stripe",
+                        $event['created'],
+                        $event['id'],
+                        '',
+                        json_encode($event),
+                        1,
+                        $this->centsToDollar($event_data['plan']['amount']),
+                        0,
+                        'success',
+                        'usd',
+                        'sub',
+                        $customer[0]['id']
+                    );
+
+                    // mark subscription member as active
+                    $this->updateSubscription(
+                        $customer[0]['id'],
+                        "active",
+                        ((integer) $customer[0]['total_paid_to_date'] + (integer) $this->centsToDollar($event_data['plan']['amount']))
+                    );
+
+
+                    break;
+                case "invoice.payment_failed":
+                    // create the transaction
+                    $this->addTransaction(
+                        $user_id,
+                        $stripe_default,
+                        "com.stripe",
+                        $event['created'],
+                        $event['id'],
+                        '',
+                        json_encode($event),
+                        1,
+                        $this->centsToDollar($event_data['plan']['amount']),
+                        0,
+                        'failed',
+                        'usd',
+                        'sub',
+                        $customer[0]['id']
+                    );
+
+                    // mark subscription member as canceled
+                    $this->updateSubscription(
+                        $customer[0]['id'],
+                        "canceled"
+                    );
+
+                    break;
+
+                default:
+                    return false;
+
+            }
+
+        } else {
+            return false;
+        }
+
+    }
+
 
 } // END class
 ?>

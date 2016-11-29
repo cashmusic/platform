@@ -165,8 +165,6 @@ class SoundScanSeed extends SeedBase
 
     public function sendReport() {
 
-        // just test this shit for now
-        echo nl2br($this->report);
         //file_put_contents("/var/www/".$this->filename, $this->report);
 
         CASHSystem::sendEmail(

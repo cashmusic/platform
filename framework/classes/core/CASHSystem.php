@@ -1165,5 +1165,22 @@
 
 		return false;
 	}
+
+	/**
+	 * @param $element_id
+	 * @return mixed
+	 */
+	public static function getUserIdByElement($element_id)
+	{
+		$element_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'element',
+				'cash_action' => 'getelement',
+				'id' => $element_id
+			)
+		);
+		$user_id = $element_request->response['payload']['user_id'];
+		return $user_id;
+	}
 } // END class
 ?>

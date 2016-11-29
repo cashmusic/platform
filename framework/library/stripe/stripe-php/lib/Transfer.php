@@ -2,6 +2,38 @@
 
 namespace Stripe;
 
+/**
+ * Class Transfer
+ *
+ * @property string $id
+ * @property string $object
+ * @property int $amount
+ * @property int $amount_reversed
+ * @property mixed $application_fee
+ * @property string $balance_transaction
+ * @property int $created
+ * @property string $currency
+ * @property int $date
+ * @property mixed $description
+ * @property mixed $destination
+ * @property mixed $destination_payment
+ * @property mixed $failure_code
+ * @property mixed $failure_message
+ * @property mixed $fraud_details
+ * @property mixed $invoice
+ * @property bool $livemode
+ * @property mixed $metadata
+ * @property mixed $recipient
+ * @property mixed $reversals
+ * @property bool $reversed
+ * @property mixed $source_transaction
+ * @property string $source_type
+ * @property mixed $statement_descriptor
+ * @property string $status
+ * @property string $type
+ *
+ * @package Stripe
+ */
 class Transfer extends ApiResource
 {
     /**
@@ -38,12 +70,24 @@ class Transfer extends ApiResource
     }
 
     /**
+     * @param string $id The ID of the transfer to update.
+     * @param array|null $params
+     * @param array|string|null $options
+     *
+     * @return Transfer The updated transfer.
+     */
+    public static function update($id, $params = null, $options = null)
+    {
+        return self::_update($id, $params, $options);
+    }
+
+    /**
      * @return TransferReversal The created transfer reversal.
      */
     public function reverse($params = null, $opts = null)
     {
         $url = $this->instanceUrl() . '/reversals';
-        list($response, $opts) = $this->_request('post', $url, $params, $options);
+        list($response, $opts) = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
         return $this;
     }

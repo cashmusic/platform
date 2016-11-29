@@ -2,29 +2,67 @@
 
 namespace Stripe;
 
+/**
+ * Class Subscription
+ *
+ * @package Stripe
+ */
 class Subscription extends ApiResource
 {
     /**
-     * @return string The API URL for this Stripe subscription.
+     * These constants are possible representations of the status field.
+     *
+     * @link https://stripe.com/docs/api#subscription_object-status
      */
-    public function instanceUrl()
-    {
-        $id = $this['id'];
-        $customer = $this['customer'];
-        if (!$id) {
-            throw new Error\InvalidRequest(
-                "Could not determine which URL to request: " .
-                "class instance has invalid ID: $id",
-                null
-            );
-        }
-        $id = Util\Util::utf8($id);
-        $customer = Util\Util::utf8($customer);
+    const STATUS_ACTIVE = 'active';
+    const STATUS_CANCELED = 'canceled';
+    const STATUS_PAST_DUE = 'past_due';
+    const STATUS_TRIALING = 'trialing';
+    const STATUS_UNPAID = 'unpaid';
 
-        $base = Customer::classUrl();
-        $customerExtn = urlencode($customer);
-        $extn = urlencode($id);
-        return "$base/$customerExtn/subscriptions/$extn";
+    /**
+     * @param string $id The ID of the subscription to retrieve.
+     * @param array|string|null $opts
+     *
+     * @return Subscription
+     */
+    public static function retrieve($id, $opts = null)
+    {
+        return self::_retrieve($id, $opts);
+    }
+
+    /**
+     * @param array|null $params
+     * @param array|string|null $opts
+     *
+     * @return Collection of Subscriptions
+     */
+    public static function all($params = null, $opts = null)
+    {
+        return self::_all($params, $opts);
+    }
+
+    /**
+     * @param array|null $params
+     * @param array|string|null $opts
+     *
+     * @return Subscription The created subscription.
+     */
+    public static function create($params = null, $opts = null)
+    {
+        return self::_create($params, $opts);
+    }
+
+    /**
+     * @param string $id The ID of the subscription to retrieve.
+     * @param array|null $params
+     * @param array|string|null $options
+     *
+     * @return Subscription The updated subscription.
+     */
+    public static function update($id, $params = null, $options = null)
+    {
+        return self::_update($id, $params, $options);
     }
 
     /**

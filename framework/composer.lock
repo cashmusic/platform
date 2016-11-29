@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0245c18f8cedae02f7ad04f605300d3b",
-    "content-hash": "1e968a922ed399976878e4bd882e50d1",
+    "hash": "00162c06c9b3edfba293e2aa8bc17203",
+    "content-hash": "c3d9e86c37f556c6f1e0cd8e4bab1f16",
     "packages": [
         {
             "name": "adam-paterson/oauth2-stripe",
@@ -1157,16 +1157,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v3.6.0",
+            "version": "v4.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "9e07df45bceb4a720fd65c4bd5d11c5876b3942f"
+                "reference": "a3c940bd90f0ca1bad07c93ff31900ca4b99af64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/9e07df45bceb4a720fd65c4bd5d11c5876b3942f",
-                "reference": "9e07df45bceb4a720fd65c4bd5d11c5876b3942f",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/a3c940bd90f0ca1bad07c93ff31900ca4b99af64",
+                "reference": "a3c940bd90f0ca1bad07c93ff31900ca4b99af64",
                 "shasum": ""
             },
             "require": {
@@ -1208,7 +1208,7 @@
                 "payment processing",
                 "stripe"
             ],
-            "time": "2016-01-05 20:35:28"
+            "time": "2016-10-21 18:25:10"
         }
     ],
     "packages-dev": [],

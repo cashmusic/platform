@@ -1,0 +1,15 @@
+{
+	"pagetip": "",
+	"learn": "<p>This is where you’ll find basic information on your subscriptions.</p>",
+	"related":{},
+	"labels":{
+	},
+	"tooltips":{},
+	"copy":{
+		"firstuse":"Subscriptions hold information about your recurring payment plans. You'll need a valid payment connection to get started.<span class='first-para'>Subscriptions can be set to rebill subscribers every day,week,month, or year.</span>",
+		"add_plan":"Create a new plan",
+		"edit":"Edit",
+		"delete":"Delete",
+		"no_plans":"You don't have any subscripton plans set up. Get started by adding one below."
+	}
+}

@@ -5,6 +5,11 @@ namespace Stripe;
 use ArrayAccess;
 use InvalidArgumentException;
 
+/**
+ * Class StripeObject
+ *
+ * @package Stripe
+ */
 class StripeObject implements ArrayAccess, JsonSerializable
 {
     /**
@@ -25,7 +30,8 @@ class StripeObject implements ArrayAccess, JsonSerializable
             'metadata', 'legal_entity', 'address', 'dob', 'transfer_schedule', 'verification',
             'tos_acceptance', 'personal_address',
             // will make the array into an AttachedObject: weird, but works for now
-            'additional_owners', 0, 1, 2, 3, 4 // Max 3, but leave the 4th so errors work properly
+            'additional_owners', 0, 1, 2, 3, 4, // Max 3, but leave the 4th so errors work properly
+            'inventory'
         ));
     }
 
@@ -88,7 +94,7 @@ class StripeObject implements ArrayAccess, JsonSerializable
         }
 
         if (self::$nestedUpdatableAttributes->includes($k)
-                && isset($this->$k) && is_array($v)) {
+                && isset($this->$k) && $this->$k instanceof AttachedObject && is_array($v)) {
             $this->$k->replaceWith($v);
         } else {
             // TODO: may want to clear from $_transientValues (Won't be user-visible).
@@ -113,9 +119,9 @@ class StripeObject implements ArrayAccess, JsonSerializable
     {
         // function should return a reference, using $nullval to return a reference to null
         $nullval = null;
-        if (array_key_exists($k, $this->_values)) {
+        if (!empty($this->_values) && array_key_exists($k, $this->_values)) {
             return $this->_values[$k];
-        } else if ($this->_transientValues->includes($k)) {
+        } else if (!empty($this->_transientValues) && $this->_transientValues->includes($k)) {
             $class = get_class($this);
             $attrs = join(', ', array_keys($this->_values));
             $message = "Stripe Notice: Undefined property of $class instance: $k. "
@@ -177,11 +183,15 @@ class StripeObject implements ArrayAccess, JsonSerializable
      * Refreshes this object using the provided values.
      *
      * @param array $values
-     * @param array $opts
+     * @param array|Util\RequestOptions $opts
      * @param boolean $partial Defaults to false.
      */
     public function refreshFrom($values, $opts, $partial = false)
     {
+        if (is_array($opts)) {
+            $opts = Util\RequestOptions::parse($opts);
+        }
+
         $this->_opts = $opts;
 
         // Wipe old state before setting new.  This is useful for e.g. updating a

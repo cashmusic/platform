@@ -2,6 +2,11 @@
 
 namespace Stripe;
 
+/**
+ * Class Order
+ *
+ * @package Stripe
+ */
 class Order extends ApiResource
 {
     /**
@@ -24,6 +29,18 @@ class Order extends ApiResource
     public static function create($params = null, $opts = null)
     {
         return self::_create($params, $opts);
+    }
+
+    /**
+     * @param string $id The ID of the order to update.
+     * @param array|null $params
+     * @param array|string|null $options
+     *
+     * @return Order The updated order.
+     */
+    public static function update($id, $params = null, $options = null)
+    {
+        return self::_update($id, $params, $options);
     }
 
     /**
@@ -56,5 +73,15 @@ class Order extends ApiResource
         list($response, $opts) = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
         return $this;
+    }
+
+    /**
+     * @return OrderReturn The newly created return.
+     */
+    public function returnOrder($params = null, $opts = null)
+    {
+        $url = $this->instanceUrl() . '/returns';
+        list($response, $opts) = $this->_request('post', $url, $params, $opts);
+        return Util\Util::convertToStripeObject($response, $opts);
     }
 }

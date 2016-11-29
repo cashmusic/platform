@@ -1,3 +1,129 @@
+### 4.1.1 2016-10-21
+
+* Add docblock with model properties for `Plan`
+
+### 4.1.0 2016-10-18
+
+* Support for 403 status codes (permission denied)
+
+### 4.0.1 2016-10-17
+
+* Fix transfer reversal materialization
+* Fixes for some property definitions in docblocks
+
+### 4.0.0 2016-09-28
+
+* Support for subscription items
+* Drop attempt to force TLS 1.2: please note that this could be breaking if you're using old OS distributions or packages and upgraded recently (so please make sure to test your integration!)
+
+### 3.23.0 2016-09-15
+
+* Add support for Apple Pay domains
+
+### 3.22.0 2016-09-13
+
+* Add `Stripe::setAppInfo` to allow plugins to register user agent information
+
+### 3.21.0 2016-08-25
+
+* Add `Source` model for generic payment sources
+
+### 3.20.0 2016-08-08
+
+* Add `getDeclineCode` to card errors
+
+### 3.19.0 2016-07-29
+
+* Opt requests directly into TLS 1.2 where OpenSSL >= 1.0.1 (see #277 for context)
+
+### 3.18.0 2016-07-28
+
+* Add new `STATUS_` constants for subscriptions
+
+### 3.17.1 2016-07-28
+
+* Fix auto-paging iterator so that it plays nicely with `iterator_to_array`
+
+### 3.17.0 2016-07-14
+
+* Add field annotations to model classes for better editor hinting
+
+### 3.16.0 2016-07-12
+
+* Add `ThreeDSecure` model for 3-D secure payments
+
+### 3.15.0 2016-06-29
+
+* Add static `update` method to all resources that can be changed.
+
+### 3.14.3 2016-06-20
+
+* Make sure that cURL never sends `Expects: 100-continue`, even on large request bodies
+
+### 3.14.2 2016-06-03
+
+* Add `inventory` under `SKU` to list of keys that have nested data and can be updated
+
+### 3.14.1 2016-05-27
+
+* Fix some inconsistencies in PHPDoc
+
+### 3.14.0 2016-05-25
+
+* Add support for returning Relay orders
+
+### 3.13.0 2016-05-04
+
+* Add `list`, `create`, `update`, `retrieve`, and `delete` methods to the Subscription class
+
+### 3.12.1 2016-04-07
+
+* Additional check on value arrays for some extra safety
+
+### 3.12.0 2016-03-31
+
+* Fix bug `refreshFrom` on `StripeObject` would not take an `$opts` array
+* Fix bug where `$opts` not passed to parent `save` method in `Account`
+* Fix bug where non-existent variable was referenced in `reverse` in `Transfer`
+* Update CA cert bundle for compatibility with OpenSSL versions below 1.0.1
+
+### 3.11.0 2016-03-22
+
+* Allow `CurlClient` to be initialized with default `CURLOPT_*` options
+
+### 3.10.1 2016-03-22
+
+* Fix bug where request params and options were ignored in `ApplicationFee`'s `refund.`
+
+### 3.10.0 2016-03-15
+
+* Add `reject` on `Account` to support the new API feature
+
+### 3.9.2 2016-03-04
+
+* Fix error when an object's metadata is set more than once
+
+### 3.9.1 2016-02-24
+
+* Fix encoding behavior of nested arrays for requests (see #227)
+
+### 3.9.0 2016-02-09
+
+* Add automatic pagination mechanism with `autoPagingIterator()`
+* Allow global account ID to be set with `Stripe::setAccountId()`
+
+### 3.8.0 2016-02-08
+
+* Add `CountrySpec` model for looking up country payment information
+
+### 3.7.1 2016-02-01
+
+* Update bundled CA certs
+
+### 3.7.0 2016-01-27
+
+* Support deleting Relay products and SKUs
+
 ### 3.6.0 2016-01-05
 
 * Allow configuration of HTTP client timeouts

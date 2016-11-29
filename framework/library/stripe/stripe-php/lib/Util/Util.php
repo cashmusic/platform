@@ -6,6 +6,8 @@ use Stripe\StripeObject;
 
 abstract class Util
 {
+    private static $isMbstringAvailable = null;
+
     /**
      * Whether the provided array (or other) is a list rather than a dictionary.
      *
@@ -64,10 +66,12 @@ abstract class Util
         $types = array(
             'account' => 'Stripe\\Account',
             'alipay_account' => 'Stripe\\AlipayAccount',
+            'apple_pay_domain' => 'Stripe\\ApplePayDomain',
             'bank_account' => 'Stripe\\BankAccount',
             'balance_transaction' => 'Stripe\\BalanceTransaction',
             'card' => 'Stripe\\Card',
             'charge' => 'Stripe\\Charge',
+            'country_spec' => 'Stripe\\CountrySpec',
             'coupon' => 'Stripe\\Coupon',
             'customer' => 'Stripe\\Customer',
             'dispute' => 'Stripe\\Dispute',
@@ -78,13 +82,18 @@ abstract class Util
             'file' => 'Stripe\\FileUpload',
             'token' => 'Stripe\\Token',
             'transfer' => 'Stripe\\Transfer',
+            'transfer_reversal' => 'Stripe\\TransferReversal',
             'order' => 'Stripe\\Order',
+            'order_return' => 'Stripe\\OrderReturn',
             'plan' => 'Stripe\\Plan',
             'product' => 'Stripe\\Product',
             'recipient' => 'Stripe\\Recipient',
             'refund' => 'Stripe\\Refund',
             'sku' => 'Stripe\\SKU',
+            'source' => 'Stripe\\Source',
             'subscription' => 'Stripe\\Subscription',
+            'subscription_item' => 'Stripe\\SubscriptionItem',
+            'three_d_secure' => 'Stripe\\ThreeDSecure',
             'fee_refund' => 'Stripe\\ApplicationFeeRefund',
             'bitcoin_receiver' => 'Stripe\\BitcoinReceiver',
             'bitcoin_transaction' => 'Stripe\\BitcoinTransaction',
@@ -115,7 +124,18 @@ abstract class Util
      */
     public static function utf8($value)
     {
-        if (is_string($value) && mb_detect_encoding($value, "UTF-8", true) != "UTF-8") {
+        if (self::$isMbstringAvailable === null) {
+            self::$isMbstringAvailable = function_exists('mb_detect_encoding');
+
+            if (!self::$isMbstringAvailable) {
+                trigger_error("It looks like the mbstring extension is not enabled. " .
+                    "UTF-8 strings will not properly be encoded. Ask your system " .
+                    "administrator to enable the mbstring extension, or write to " .
+                    "support@stripe.com if you have any questions.", E_USER_WARNING);
+            }
+        }
+
+        if (is_string($value) && self::$isMbstringAvailable && mb_detect_encoding($value, "UTF-8", true) != "UTF-8") {
             return utf8_encode($value);
         } else {
             return $value;
