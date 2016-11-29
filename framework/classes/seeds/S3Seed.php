@@ -23,7 +23,7 @@ class S3Seed extends SeedBase {
 		$this->connection_id = $connection_id;
 		$this->connectDB();
 		if ($this->getCASHConnection()) {
-			require_once(CASH_PLATFORM_ROOT.'/lib/S3.php');
+			//require_once(CASH_PLATFORM_ROOT.'/lib/S3.php');
 			$s3_key    = $this->settings->getSetting('key');
 			$s3_secret = $this->settings->getSetting('secret');
 			if (!$s3_key || !$s3_secret) {
@@ -33,7 +33,18 @@ class S3Seed extends SeedBase {
 					$s3_secret = $connections['com.amazon']['secret'];
 				}
 			}
-			$this->s3 = new S3($s3_key,$s3_secret);
+
+			// this is dumb but it's how the new SDK works
+			putenv("AWS_ACCESS_KEY_ID=$s3_key");
+			putenv("AWS_SECRET_ACCESS_KEY=$s3_secret");
+
+			$this->s3 = new \Aws\S3\S3Client([
+				'version' => 'latest',
+				'region'  => 'us-east-1'
+			]);
+
+			//$s3_key,$s3_secret
+
 			$this->bucket = $this->settings->getSetting('bucket');
 		} else {
 			/*
@@ -105,7 +116,7 @@ class S3Seed extends SeedBase {
 			//			   . '<p>We couldn\'t connect with your S3 account. Please check the key and secret.</p>';
 			AdminHelper::formFailure('We couldn\'t connect your S3 account. Please check the key and secret.');
 		}
-		return $return_markup;
+		return true;
 	}
 
 	public static function connectAndAuthorize($key,$secret,$bucket,$email,$auth_type='FULL_CONTROL') {

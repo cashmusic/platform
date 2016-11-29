@@ -13,7 +13,8 @@
         "cfreear/oauth2-mailchimp": "^1.0",
         "mandrill/mandrill": "^1.0",
         "erusev/parsedown": "^1.6",
-        "stripe/stripe-php": "^4.1"
+        "stripe/stripe-php": "^4.1",
+        "aws/aws-sdk-php": "^3.19"
     },
     "license": "AGPL license",
     "authors": [
