@@ -108,7 +108,7 @@ $cash_admin->page_data['language_as_options'] = AdminHelper::echoLanguageOptions
 	$cash_admin->page_data['language']
 );
 
-if ($current_userdata['payload'] !== false) {
+if ($current_userdata['payload']) {
 	if (isset($_POST['dolanguagechange'])) {
 		if (isset($cash_admin->page_data['language'])) {
 			AdminHelper::formSuccess('Success. Language changed.');
@@ -117,6 +117,21 @@ if ($current_userdata['payload'] !== false) {
 		}
 	}
 }
+
+
+$api_response = $cash_admin->requestAndStore(
+	array(
+		'cash_request_type' => 'system',
+		'cash_action' => 'getapicredentials',
+		'user_id' => $cash_admin->effective_user_id
+	)
+);
+
+if ($api_response['payload']) {
+	$cash_admin->page_data['api_credentials'] = $api_response['payload']['api_key'];
+}
+
+
 
 // get page url
 if (SUBDOMAIN_USERNAMES) {
