@@ -18,10 +18,17 @@
             <p>{{interval}}</p>
         </div><!--pure-->
 
-        <div class="pure-u-1 pure-u-md-1-2">
+        <div class="pure-u-1 pure-u-md-1-4">
             {{label_price}}:
             <p>{{price}}</p>
         </div><!--pure-->
+
+    {{#suggested_price}}
+    <div class="pure-u-1 pure-u-md-1-4 suggested_price hide-shit">
+        <label for="price">Suggested Price</label>
+        <input type="text" id="suggested_price" name="suggested_price" value="{{suggested_price}}" placeholder="150"  />
+    </div><!--pure-->
+    {{/suggested_price}}
 
           <div class="pure-u-1">
         <label class="checklabel" for="physical">

@@ -28,6 +28,7 @@ if (!empty($_POST['action']) && $_POST['action'] == "do_update") {
                     'description' => (!empty($_POST['description'])) ? $_POST['description'] : false,
                     'price' => (!empty($_POST['price'])) ? $_POST['price'] : false,
                     'flexible_price' => (!empty($_POST['flexible_price'])) ? $_POST['flexible_price'] : false,
+                    'suggested_price' => (isset($_POST['suggested_price'])) ? $_POST['suggested_price'] : 0,
                     'physical' => (!empty($_POST['physical'])) ? $_POST['physical'] : false
                 )
             );

@@ -1,6 +1,10 @@
 {{! corresponding files: commerce_subscriptions_add.php & commerce_subscriptions_add.json}}
-
-<form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/subscriptions/add" id="rename_tiers" class="nodefaultajax">
+<style>
+    .hide-shit {
+        display: none;
+    }
+</style>
+<form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/subscriptions/add" class="nodefaultajax">
         <input type="hidden" name="action" value="do_create" />
         <input type="hidden" name="id" value="{{id}}">
         <input type="hidden" name="sku" value="{{sku}}">
@@ -18,10 +22,19 @@
             <option value="day">{{label_option_day}}</option>
             <option value="year">{{label_option_month}}</option>
         </select>
-    </div><!--pure-->    <div class="pure-u-1 pure-u-md-1-2">
-    <label for="price">{{label_price}}</label>
-    <input type="text" id="price" name="price" value="{{price}}" placeholder="150" class="required" />
     </div><!--pure-->
+
+    <div class="pure-u-1 pure-u-md-1-4">
+        <label for="price">{{label_price}}</label>
+        <input type="text" id="price" name="price" value="{{price}}" placeholder="150" class="required" />
+    </div><!--pure-->
+
+    <div class="pure-u-1 pure-u-md-1-4 suggested_price hide-shit">
+        <label for="price">Suggested Price</label>
+        <input type="text" id="suggested_price" name="suggested_price" value="{{suggested_price}}" placeholder="150"  />
+    </div><!--pure-->
+
+
 
     <div class="pure-u-1">
         <label class="checklabel" for="physical">
@@ -42,3 +55,11 @@
             <button type="submit">Save</button>
         </div>
     </form>
+
+<script>
+    $(function(){
+       $("#flexible_price").click(function(e) {
+          $(".suggested_price").toggleClass("hide-shit");
+       });
+    });
+</script>

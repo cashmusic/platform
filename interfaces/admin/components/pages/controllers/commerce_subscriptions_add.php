@@ -13,6 +13,7 @@
     }
 
 if (!empty($_POST['action']) && $_POST['action'] == "do_create") {
+
     // add plan
     $subscription_request = new CASHRequest(
         array(
@@ -27,6 +28,7 @@ if (!empty($_POST['action']) && $_POST['action'] == "do_create") {
             'flexible_price' => (isset($_POST['flexible_price'])) ? true : false,
             'recurring' => (isset($_POST['recurring'])) ? true : false,
             'physical' => (isset($_POST['physical'])) ? true : false,
+            'suggested_price' => (isset($_POST['suggested_price'])) ? $_POST['suggested_price'] : 0,
             'interval' => $_POST['interval'],
             'interval_count' => 12,
             'currency' => 'usd'
@@ -36,19 +38,10 @@ if (!empty($_POST['action']) && $_POST['action'] == "do_create") {
 
     if ($subscription_request->response['payload']) {
 
-        $subscription_request = new CASHRequest(
-            array(
-                'cash_request_type' => 'commerce',
-                'cash_action' => 'getsubscriptionplanbysku',
-                'user_id' => $cash_admin->effective_user_id,
-                'sku' => $subscription_request->response['payload']['id']
-            )
-        );
-
-        $cash_admin->page_data['plan'] = $subscription_request->response['payload'];
-        $cash_admin->setPageContentTemplate('commerce_subscriptions_detail');
+        AdminHelper::formSuccess('Success. Subscription plan added.','/commerce/subscriptions/detail/'.$subscription_request->response['payload']['numeric_id']);
+        /*CASHSystem::redirectToUrl(CASH_ADMIN_URL."/commerce/subscriptions/detail/".$subscription_request->response['payload']['numeric_id']);*/
     } else {
-        echo "error";
+        AdminHelper::formFailure('Error. Something just didn\'t work right.',"/commerce/subscriptions/detail/".$subscription_request->response['payload']);
     }
 } else {
     $cash_admin->setPageContentTemplate('commerce_subscriptions_add');
