@@ -67,7 +67,7 @@ class CommercePlant extends PlantBase {
             'finalizepayment'          => array('finalizePayment',array('get','post','direct')),
             'initiatecheckout'         => array('initiateCheckout',array('get','post','direct','api_public')),
             'initiatesubscription'     => array('initiateSubscription', array('get', 'post', 'direct', 'api_public')),
-            'processwebhook'         => array('processWebhook',array('direct','api_key','get','post')),
+            'processwebhook'         => array('processWebhook',array('direct','api_public','public','get','post')),
             'sendorderreceipt'	      => array('sendOrderReceipt','direct'),
             'updatesubscriptionplan'    => array('updateSubscriptionPlan', 'direct'),
         );
@@ -2224,8 +2224,10 @@ class CommercePlant extends PlantBase {
     }
 
     public function setErrorMessage($message) {
-      if (CASH_DEBUG) {
-         error_log($message);
+      if (defined('CASH_DEBUG')) {
+         if (CASH_DEBUG) {
+             error_log($message);
+         }
       }
     }
 
@@ -2683,7 +2685,7 @@ class CommercePlant extends PlantBase {
      * @param $user_id
      * @return bool
      */
-    protected function getPaymentSeed($user_id, $connection_id)
+    protected function getPaymentSeed($user_id, $connection_id=false)
     {
         if (!$connection_id) {
             $settings_request = new CASHRequest(
@@ -2704,9 +2706,7 @@ class CommercePlant extends PlantBase {
         }
 
         //TODO: this should be dynamic
-        $seed_class = "StripeSeed";
-
-        $payment_seed = new $seed_class($user_id, $connection_id);
+        $payment_seed = new StripeSeed($user_id, $connection_id);
 
         return $payment_seed;
     }
@@ -2781,9 +2781,9 @@ class CommercePlant extends PlantBase {
 
     }
 
-    protected function processWebhook($origin,$user_id,$type=false,$data=false, $stripe_events=false) {
+    protected function processWebhook($origin,$type=false,$data=false) {
 
-        // webhooks for stripe connect are statically made so we need to use one API key and override the user id by subscription plan later
+        // webhook is /api/verbose/commerce/processwebhook/origin/com.stripe
         error_log("subscription webhook fired\n");
         if ($input = @file_get_contents("php://input")) {
             $event = json_decode($input, true);
@@ -2801,16 +2801,14 @@ class CommercePlant extends PlantBase {
 
             if (!is_array($customer)) return false;
 
-            $default_connections = CommercePlant::getDefaultConnections($user_id);
-
+            // we need to make sure this is a real event
             // for now let's just add stripe
-            if (is_array($default_connections)) {
-                $pp_default = (!empty($default_connections['paypal'])) ? $default_connections['paypal'] : false;
-                $pp_micro = (!empty($default_connections['paypal_micro'])) ? $default_connections['paypal_micro'] : false;
-                $stripe_default = (!empty($default_connections['stripe'])) ? $default_connections['stripe'] : false;
-            } else {
-                return false; // no default PP shit set
-            }
+            $payment_seed = $this->getPaymentSeed($user_id);
+
+            // is this a fake event?
+            if (!$payment_seed->verifyEvent($event['id'])) return false;
+
+            $default_connections = CommercePlant::getDefaultConnections($user_id);
 
             // what type of event is this?
             error_log(
@@ -2822,7 +2820,7 @@ class CommercePlant extends PlantBase {
                     // create the transaction
                     $this->addTransaction(
                         $user_id,
-                        $stripe_default,
+                        $default_connections['stripe'],
                         "com.stripe",
                         $event['created'],
                         $event['id'],
@@ -2850,7 +2848,7 @@ class CommercePlant extends PlantBase {
                     // create the transaction
                     $this->addTransaction(
                         $user_id,
-                        $stripe_default,
+                        $default_connections['stripe'],
                         "com.stripe",
                         $event['created'],
                         $event['id'],
@@ -2875,7 +2873,6 @@ class CommercePlant extends PlantBase {
 
                 default:
                     return false;
-
             }
 
         } else {

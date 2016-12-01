@@ -165,7 +165,14 @@ class S3Seed extends SeedBase {
 				CASHSystem::getMimeTypeFor($path);
 			}
 		}
-		return $this->s3->getAuthenticatedURL($this->bucket, $path, $timeout, false, false, $headers);
+
+		try {
+			$authenticated_url = $this->s3->getAuthenticatedURL($this->bucket, $path, $timeout, false, false, $headers);
+		} catch (Exception $e) {
+			return false;
+		}
+
+		return $authenticated_url;
 	}
 
 	public function uploadFile($local_file,$remote_key=false,$private=true,$content_type='application/octet-stream') {
