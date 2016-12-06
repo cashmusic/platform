@@ -12,11 +12,30 @@
     <div class="material single usecolor4">
         <div class="pure-u-1 pure-u-md-1-2">
             <h5>{{label_name}}</h5>
-            <p{{sku}}<br /><span class="fadedtext">{{name}}</span></p>
+
+            <p><br /><span class="fadedtext">{{name}}</span></p><br>
+            <br><p>ID {{sku}}</p>
+            <br><p>{{description}}</p>
         </div><!--pure-->
         <div class="pure-u-1 pure-u-md-1-4">
             <h5>{{label_price}}</h5>
-            <p>{{price}}</p>
+            <p>{{#suggested_price}}Minimum price: {{/suggested_price}}{{price}}</p>
+            {{#suggested_price}}
+                <br>
+            <p>Suggested price: {{suggested_price}}</p>
+                {{/suggested_price}}
+
+            {{#recurring_payment}}
+                <br>
+                <p>This is a recurring payment</p>
+            {{/recurring_payment}}
+
+            {{#physical}}
+                <br>
+                <p>Plan includes physical goods</p>
+            {{/physical}}
+
+
         </div><!--pure-->
             <div class="pure-u-1 pure-u-md-1-4">
             <h5>{{label_interval}}</h5>

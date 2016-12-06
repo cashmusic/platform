@@ -2448,7 +2448,7 @@ class CommercePlant extends PlantBase {
         return $result;
     }
 
-    public function updateSubscriptionPlan($user_id, $connection_id, $id, $sku, $name, $description, $price, $flexible_price, $physical) {
+    public function updateSubscriptionPlan($user_id, $connection_id, $id, $sku, $name, $description, $flexible_price=false, $suggested_price=false, $physical=false) {
 
         //TODO: load seed---> eventually we want this to dynamically switch, but for now
         $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
@@ -2460,9 +2460,9 @@ class CommercePlant extends PlantBase {
                 array(
                     'name' => $name,
                     'description' => $description,
-                    'price' => $price, // as cents
                     'flexible_price' => $flexible_price,
-                    'physical' => $physical
+                    'physical' => $physical,
+                    'suggested_price' => $suggested_price
                 ),
                 [
                     'user_id' => ['condition' => '=', 'value' => $user_id],

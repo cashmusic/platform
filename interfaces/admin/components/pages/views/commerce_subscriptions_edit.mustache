@@ -32,15 +32,12 @@
 
           <div class="pure-u-1">
         <label class="checklabel" for="physical">
-            <input type="checkbox" name="physical" id="physical" class="checkorradio" />{{label_physical}}
+            <input type="checkbox" name="physical" id="physical" {{#physical}}checked="checked"{{/physical}} class="checkorradio" />{{label_physical}}
         </label>
         <label class="checklabel" for="flexible_price">
-            <input type="checkbox" name="flexible_price" id="flexible_price" class="checkorradio" />{{label_flexible}}
+            <input type="checkbox" name="flexible_price" id="flexible_price" {{#flexible_price}}checked="checked"{{/flexible_price}} class="checkorradio" value="1" />{{label_flexible}}
         </label>
 
-        <label class="checklabel" for="recurring">
-            <input type="checkbox" name="recurring" id="recurring" checked="checked" class="checkorradio" />{{label_recurring}}
-        </label>
     </div><!--pure-->
 
         <div class="pure-u-1">

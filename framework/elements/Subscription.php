@@ -73,11 +73,19 @@ class Subscription extends ElementBase {
 
 		if ($plan_request->response['payload'] && !empty($plan_request->response['payload'][0])) {
 			$this->element_data['plan_name'] = $plan_request->response['payload'][0]['name'];
+
 			$this->element_data['plan_description'] = $plan_request->response['payload'][0]['description'];
-			$this->element_data['plan_description'] = $plan_request->response['payload'][0]['description'];
-			$this->element_data['plan_price'] = $plan_request->response['payload'][0]['price'];
-			$this->element_data['plan_interval'] = $plan_request->response['payload'][0]['interval'];
 			$this->element_data['flexible_price'] = $plan_request->response['payload'][0]['flexible_price'];
+
+			$this->element_data['plan_price'] = $plan_request->response['payload'][0]['price'];
+
+			// if flexible pricing is set let's set the default to suggested price
+			if (!empty($this->element_data['flexible_price'])) {
+				$this->element_data['plan_price'] = $plan_request->response['payload'][0]['suggested_price'];
+			}
+
+			$this->element_data['plan_interval'] = $plan_request->response['payload'][0]['interval'];
+
 			$this->element_data['plan_id'] = $plan_request->response['payload'][0]['sku'];
 
 			$this->element_data['plan_flexible_price'] =
