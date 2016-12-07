@@ -121,6 +121,10 @@
 			message.id = 'cm-userinput-message';
 			message.innerHTML = '&nbsp;';
 
+			var amount = document.createElement('div');
+			amount.id = 'cm-amount-message';
+			amount.innerHTML = '<p class="cm-pricing">Transaction amount: '+ '$' + cm.storage['checkoutdata']['amount'] + '</p><!--cm-pricing-->';
+
 			if (msg) {
 					message.innerHTML = msg;
 			}
