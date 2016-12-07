@@ -71,6 +71,20 @@ class Subscription extends ElementBase {
 			)
 		);
 
+		$currency_request = new CASHRequest(
+			array(
+				'cash_request_type' => 'system',
+				'cash_action' => 'getsettings',
+				'type' => 'use_currency',
+				'user_id' => $this->element_data['user_id']
+			)
+		);
+		if ($currency_request->response['payload']) {
+			$this->element_data['currency'] = CASHSystem::getCurrencySymbol($currency_request->response['payload']);
+		} else {
+			$this->element_data['currency'] = CASHSystem::getCurrencySymbol('USD');
+		}
+
 		if ($plan_request->response['payload'] && !empty($plan_request->response['payload'][0])) {
 			$this->element_data['plan_name'] = $plan_request->response['payload'][0]['name'];
 

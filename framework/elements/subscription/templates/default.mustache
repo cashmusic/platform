@@ -69,7 +69,8 @@
                         "paypal": false,
                         "currency": "usd", // USD = auto default
                         "recurring": true,
-                        "shipping": shipping
+                        "shipping": shipping,
+                        "total": "{{currency}}" + parseFloat(price)
                     });
                 });
 
