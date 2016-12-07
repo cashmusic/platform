@@ -34,18 +34,15 @@ class S3Seed extends SeedBase {
 				}
 			}
 
-			// this is dumb but it's how the new SDK works
-			putenv("AWS_ACCESS_KEY_ID=$s3_key");
-			putenv("AWS_SECRET_ACCESS_KEY=$s3_secret");
-
-			$this->s3 = new \Aws\S3\S3Client([
-				'version' => 'latest',
-				'region'  => 'us-east-1'
-			]);
-
-			//$s3_key,$s3_secret
-
+			$this->s3 = S3Seed::createS3Client($s3_key, $s3_secret);
 			$this->bucket = $this->settings->getSetting('bucket');
+
+			$this->bucket_region = $this->settings->getSetting('bucket_region');
+
+			if (empty($this->bucket_region) && !empty($this->bucket)) {
+				$this->bucket_region = S3Seed::getBucketRegion($this->s3, $this->bucket);
+			}
+
 		} else {
 			/*
 			 * error: could not get S3 settings
@@ -84,6 +81,7 @@ class S3Seed extends SeedBase {
 	}
 
 	public static function handleRedirectReturn($data=false) {
+
 		$connections = CASHSystem::getSystemSettings('system_connections');
 		if (isset($connections['com.amazon'])) {
 			$s3_default_email = $connections['com.amazon']['email'];
@@ -95,6 +93,7 @@ class S3Seed extends SeedBase {
 			// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
 			// calls would only happen in the admin. If this changes we can fuck around with it later.
 			$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+
 			$connection_name = $data['bucket'] . ' (Amazon S3)';
 			if (substr($connection_name, 0, 10) == 'cashmusic.') {
 				$connection_name = 'Amazon S3 (created ' . date("M j, Y") . ')';
@@ -120,13 +119,15 @@ class S3Seed extends SeedBase {
 	}
 
 	public static function connectAndAuthorize($key,$secret,$bucket,$email,$auth_type='FULL_CONTROL') {
-		require_once(CASH_PLATFORM_ROOT.'/lib/S3.php');
-		$s3_instance = new S3($key,$secret);
-		$bucket_exists = $s3_instance->getBucket($bucket);
-		if (!$bucket_exists) {
-			$bucket_exists = $s3_instance->putBucket($bucket);
-		}
-		if ($bucket_exists) {
+
+		$s3_instance = S3Seed::createS3Client($key, $secret, 'us-east-1');
+		$bucket_region = S3Seed::getBucketRegion($s3_instance, $bucket);
+
+		// check if bucket exists
+		if ($s3_instance->doesBucketExist('psg-static-floop', true, [
+			'@region' => $bucket_region
+		])) {
+
 			$acp = $s3_instance->getAccessControlPolicy($bucket);
 			if (is_array($acp)) {
 				$acp['acl'][] = array('email' => $email,'permission'=>$auth_type);
@@ -134,6 +135,16 @@ class S3Seed extends SeedBase {
 			} else {
 				return false;
 			}
+
+		} else {
+
+			try {
+				$new_bucket = $s3_instance->putBucket($bucket);
+			} catch (Exception $e) {
+				return false;
+			}
+
+			return $new_bucket;
 		}
 	}
 
@@ -326,6 +337,42 @@ class S3Seed extends SeedBase {
 
 	public function getAWSSystemTime() {
 		return $this->s3->getAWSSystemTime();
+	}
+
+	/**
+	 * @param $s3_key
+	 * @param $s3_secret
+	 */
+	public static function createS3Client($s3_key, $s3_secret, $region='us-east-1')
+	{
+// this is dumb but it's how the new SDK works
+		try {
+			$s3_client = new \Aws\S3\S3MultiRegionClient([
+				'version'     => '2006-03-01',
+				'region'      => $region,
+				'credentials' => [
+					'key'    => $s3_key,
+					'secret' => $s3_secret
+				]
+			]);
+
+		} catch (Exception $e) {
+			return false;
+		}
+
+		return $s3_client;
+	}
+
+	public static function getBucketRegion($s3_client, $bucket_name) {
+		try {
+			$bucket_location = $s3_client->getBucketLocation([
+				'Bucket' => $bucket_name
+			]);
+		} catch (Exception $e) {
+			return false;
+		}
+
+		return $bucket_location['LocationConstraint'];
 	}
 } // END class
 ?>
