@@ -6,9 +6,6 @@ require_once(CASH_PLATFORM_ROOT.'/classes/plants/CommercePlant.php');
 require_once(CASH_PLATFORM_ROOT.'/classes/seeds/StripeSeed.php');
 require_once(CASH_PLATFORM_ROOT.'/classes/seeds/PaypalSeed.php');
 
-// and dumbly, we need the libraries for the seeds
-require_once CASH_PLATFORM_ROOT . '/lib/stripe/StripeOAuth.class.php';
-require_once CASH_PLATFORM_ROOT . '/lib/stripe/init.php';
 
 class CommercePlantTests extends UnitTestCase {
 	var $testing_item,$testing_order,$testing_transaction, $session_id;

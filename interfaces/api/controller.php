@@ -23,13 +23,8 @@ if ($cash_settings) {
 }
 
 // set up autoload for core classes
-function cash_autoloadCore($classname) {
-	$file = CASH_PLATFORM_ROOT.'/classes/core/'.$classname.'.php';
-	if (file_exists($file)) {
-		require_once($file);
-	}
-}
-spl_autoload_register('cash_autoloadCore');
+require_once(__DIR__ . '/../../framework/classes/core/CASHSystem.php');
+CASHSystem::startUp();
 
 // push away anyone who's trying to access the controller directly
 if (strrpos($_SERVER['REQUEST_URI'],'controller.php') !== false) {

@@ -51,7 +51,7 @@ class StripeSeed extends SeedBase
                );
             }
 
-            \Stripe\Stripe::setApiKey($this->client_secret);
+            \Stripe\Stripe::setApiKey($this->access_token);
         } else {
             $this->error_message = 'could not get connection settings';
         }
@@ -72,11 +72,13 @@ class StripeSeed extends SeedBase
                 array(
                     'clientId'          => $connections['com.stripe']['client_id'],
                     'clientSecret'      => $connections['com.stripe']['client_secret'],
-                    'redirectUri'       => $redirect_uri,
+                    'redirectUri'       => $redirect_uri
                 )
             );
 
-            $auth_url = $client->getAuthorizationUrl();
+            $auth_url = $client->getAuthorizationUrl([
+                'scope' => ['read_write'] // array or string
+            ]);
 
             $return_markup = '<h4>Stripe</h4>'
                 . '<p>This will redirect you to a secure login at Stripe and bring you right back. Note that you\'ll need a CASH page or secure site (https) to sell using Stripe. <a href="https://stripe.com/docs/security/ssl" target="_blank">Read more.</a></p>'
@@ -273,7 +275,7 @@ class StripeSeed extends SeedBase
      * @param $shipping_info
      * @return array|bool
      */
-    public function doPayment($total_price, $description, $token, $email_address=false, $customer_name=false, $currency='USD') {
+    public function doPayment($total_price, $description, $token, $email_address=false, $customer_name=false, $currency='usd') {
 
       if (CASH_DEBUG) {
          error_log(
@@ -290,7 +292,7 @@ class StripeSeed extends SeedBase
     if (!empty($token)) {
 
         try {
-            \Stripe\Stripe::setApiKey($this->client_secret);
+            \Stripe\Stripe::setApiKey($this->access_token);
 
             if (!$payment_results = \Stripe\Charge::create(
                 array(
@@ -402,7 +404,7 @@ class StripeSeed extends SeedBase
 
         // try to contact the stripe API for refund, or fail gracefully
         try {
-            \Stripe\Stripe::setApiKey($this->client_secret);
+            \Stripe\Stripe::setApiKey($this->access_token);
 
             $refund_response = \Stripe\Refund::create(array(
                 "charge" => $sale_id
@@ -454,7 +456,367 @@ class StripeSeed extends SeedBase
             $this->setErrorMessage("In StripeSeed::refundPayment. Something went wrong while issuing this refund.");
             return false;
         }
-
-
     }
+
+    /**
+     * @param bool $limit
+     * @return bool|\Stripe\Collection
+     */
+    public function getAllSubscriptionPlans($limit=false) {
+        try {
+            \Stripe\Stripe::setApiKey($this->access_token);
+            if ($limit) {
+                $plans = \Stripe\Plan::all([
+                    "limit" => $limit
+                ]);
+            } else {
+                $plans = \Stripe\Plan::all();
+            }
+
+        } catch(Exception $e) {
+            if (CASH_DEBUG) {
+                error_log(
+                    print_r($e->getMessage())
+                );
+            }
+
+            return false;
+        }
+
+        //TODO: we'll need to actually parse these, potentially
+        //this is fine for now, though
+        return $plans;
+    }
+
+    /**
+     * @param $plan_id
+     * @return bool|\Stripe\Plan
+     */
+    public function getSubscriptionPlan($plan_id) {
+        try {
+            \Stripe\Stripe::setApiKey($this->access_token);
+            $plan = \Stripe\Plan::retrieve($plan_id);
+        } catch(Exception $e) {
+            if (CASH_DEBUG) {
+                error_log(
+                    print_r($e->getMessage())
+                );
+            }
+
+            return false;
+        }
+
+        if (empty($plan)) return false;
+
+        return $plan;
+    }
+
+    /**
+     * @param $name
+     * @param int $amount (in cents)
+     * @param string $interval (day|week|month|year)
+     * @param string $currency
+     * @return bool
+     */
+    public function createSubscriptionPlan($name, $sku, $amount=1, $interval="month", $currency="usd") {
+
+        try {
+            \Stripe\Stripe::setApiKey($this->access_token);
+            $plan = \Stripe\Plan::create(array(
+                    "amount" => $amount,
+                    "interval" => $interval,
+                    "name" => $name,
+                    "currency" => $currency,
+                    "id" => $sku)
+            );
+        } catch(Exception $e) {
+                if (CASH_DEBUG) {
+                    error_log(
+                        "StripeSeed->createSubscriptionPlan error: \n".
+                        $e->getMessage()
+                    );
+                }
+
+            //TODO: if plan exists we should return it maybe
+
+            return false;
+        }
+
+        return $sku;
+    }
+
+    /**
+     * updateSubscriptionPlan
+     *
+     * This is minimal: for security reasons you cannot change amount, interval after a plan has
+     * been created.
+     *
+     * @param string $plan_id
+     * @param bool $name
+     * @param bool $currency
+     * @return bool
+     */
+    public function updateSubscriptionPlan($plan_id, $name=false, $currency=false) {
+        // did we even get passed any values to update?
+        if (empty($name)) return false;
+
+        // otherwise--first we need to retrieve the plan by id
+        \Stripe\Stripe::setApiKey($this->access_token);
+
+        if (!$plan = $this->getSubscriptionPlan($plan_id)) return false;
+
+        // if we've made it this far, the plan exists and we can go ahead and update it
+
+        if ($name) $plan->name = $name;
+        if ($currency) $plan->currency = $currency;
+
+        try {
+            $plan->save();
+        } catch(Exception $e) {
+            if (CASH_DEBUG) {
+                error_log(
+                    print_r($e->getMessage())
+                );
+            }
+
+            return false;
+        }
+
+        // thumbs up!
+        return true;
+    }
+
+    /**
+     * @param string $plan_id
+     * @return bool
+     */
+
+    public function deleteSubscriptionPlan($plan_id) {
+
+        // get the plan by id
+        if (!$plan = $this->getSubscriptionPlan($plan_id)) return false;
+
+        try {
+            $plan->delete();
+        } catch (Exception $e) {
+            if (CASH_DEBUG) {
+                error_log(
+                    print_r($e->getMessage())
+                );
+            }
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public function getAllSubscriptionsForPlan($plan_id, $limit=10) {
+        try {
+            \Stripe\Stripe::setApiKey($this->access_token);
+            $subscriptions = \Stripe\Subscription::all([
+                'plan' => $plan_id,
+                'limit' => $limit
+            ]);
+
+        } catch (Exception $e) {
+            if (CASH_DEBUG) {
+                error_log(
+                    print_r($e->getMessage())
+                );
+            }
+
+            return false;
+        }
+
+        return $subscriptions;
+    }
+
+    /**
+     * @param $subscription_id
+     * @return bool
+     */
+
+    public function getSubscription($subscription_id) {
+
+        try {
+            \Stripe\Stripe::setApiKey($this->access_token);
+            $subscription = \Stripe\Subscription::retrieve($subscription_id);
+
+        } catch (Exception $e) {
+            if (CASH_DEBUG) {
+                error_log(
+                    print_r($e->getMessage())
+                );
+            }
+
+            return false;
+        }
+
+        return $subscription;
+    }
+
+    private function createCustomer($email, $token) {
+
+        /*
+        we need to check currency to make sure it's not fractional for these
+        BIF: Burundian Franc
+        CLP: Chilean Peso
+        DJF: Djiboutian Franc
+        GNF: Guinean Franc
+        JPY: Japanese Yen
+        KMF: Comorian Franc
+        KRW: South Korean Won
+        MGA: Malagasy Ariary
+        PYG: Paraguayan Guaraní
+        RWF: Rwandan Franc
+        VND: Vietnamese Đồng
+        VUV: Vanuatu Vatu
+        XAF: Central African Cfa Franc
+        XOF: West African Cfa Franc
+        XPF: Cfp Franc
+         */
+        if (CASH_DEBUG) {
+            error_log(
+                "customer creation start "
+            );
+        }
+        try {
+            \Stripe\Stripe::setApiKey($this->access_token);
+            $customer = \Stripe\Customer::create(array(
+                "email" => $email,
+                "source" => $token
+            ));
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return $customer->id;
+    }
+
+    /**
+     * @param string $token
+     * @param string $plan_id
+     * @param string $email
+     * @param int $quantity
+     * @return bool
+     */
+
+    public function createSubscription($token, $plan_id, $email, $quantity=1) {
+
+        if (!$customer = $this->createCustomer($email, $token)) {
+            return false;
+        }
+        if (CASH_DEBUG) {
+            error_log(
+                "customer created " . print_r($customer, true)
+            );
+        }
+
+        try {
+            \Stripe\Stripe::setApiKey($this->access_token);
+            $subscription = \Stripe\Subscription::create(array(
+                "customer" => $customer, // obtained from Stripe.js
+                "plan" => $plan_id,
+                "quantity" => $quantity
+            ));
+
+        } catch (Exception $e) {
+            //if (CASH_DEBUG) {
+                error_log(
+                    print_r($e->getMessage())
+                );
+            //}
+
+            return false;
+        }
+
+        return $subscription;
+    }
+
+    /**
+     * Pretty simplistic---I believe we can only update plans here. They can be automatically pro-rated.
+     *
+     * @param $subscription_id
+     * @param $plan_id
+     * @param bool $prorate
+     * @param int $quantity
+     * @return bool
+     */
+    public function updateSubscription($subscription_id, $plan_id, $prorate=true, $quantity=1) {
+
+        // first we need to retrieve the subscription by id
+        if (!$subscription = $this->getSubscription($subscription_id)) return false;
+
+        try {
+            $subscription->plan = $plan_id;
+            $subscription->prorate = $prorate;
+            $subscription->quantity = $quantity;
+
+            $subscription->save();
+
+        } catch (Exception $e) {
+            if (CASH_DEBUG) {
+                error_log(
+                    print_r($e->getMessage())
+                );
+            }
+
+            return false;
+        }
+
+        return $subscription;
+    }
+
+    /**
+     * @param $subscription_id
+     * @return bool
+     */
+    public function cancelSubscription($subscription_id) {
+        // first we need to retrieve the subscription by id
+        if (!$subscription = $this->getSubscription($subscription_id)) return false;
+
+        try {
+
+            $subscription->cancel();
+
+        } catch (Exception $e) {
+            if (CASH_DEBUG) {
+                error_log(
+                    print_r($e->getMessage())
+                );
+            }
+
+            return false;
+        }
+
+        return $subscription;
+    }
+
+    public function verifyEvent($event_id) {
+
+        if (!\Stripe\Event::retrieve($event_id)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function webhookTransaction($url, $events=array()) {
+        $_params = array("url" => $url, "events" => $events);
+
+        \Stripe\Stripe::setApiKey($this->access_token);
+
+        // Retrieve the request's body and parse it as JSON
+        $input = @file_get_contents("php://input");
+        $event_json = json_decode($input);
+
+        // Verify the event by fetching it from Stripe
+        $event = \Stripe\Event::retrieve($event_json->id);
+
+
+        return $this->api->call('webhooks/transaction', $_params);
+    }
+
+    
 } // END class

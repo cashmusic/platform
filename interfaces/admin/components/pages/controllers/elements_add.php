@@ -62,12 +62,14 @@ if ($request_parameters) {
 				$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render(AdminHelper::getElementTemplate($element_addtype), $cash_admin->page_data);
 			}
 		} else if (is_array($requirements_response['payload'])) {
+			// select box requirement hash for AdminHelper parsing
 			$requirements_links = array(
 				'assets' => '/assets/',
 				'people/lists' => '/people/',
 				'items' => '/commerce/items/',
 				'commerce/items' => '/commerce/items/',
-				'connections/commerce' => '/settings/connections/'
+				'connections/commerce' => '/settings/connections/',
+				'commerce/subscriptions' => '/commerce/subscriptions/'
 			);
 			$cash_admin->page_data['needed_requirements'] = '<ul>';
 			foreach ($requirements_response['payload'] as $requirement) {

@@ -1525,6 +1525,11 @@
 					$action_name = 'getitemsforuser';
 					$display_information = 'name';
 					break;
+				case 'commerce_subscriptions':
+					$plant_name = 'commerce';
+					$action_name = 'getsubscriptionplans';
+					$display_information = 'name';
+					break;
 			}
 			global $admin_primary_cash_request;
 			$admin_primary_cash_request->processRequest(

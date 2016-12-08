@@ -197,3 +197,6 @@
 .icon-airplane:before {
   content: "\31";
 }
+.icon-recurring:before {
+  content: "\6a";
+}

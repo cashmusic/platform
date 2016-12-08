@@ -1524,7 +1524,18 @@ input[type=number]::-webkit-outer-spin-button {
 
 .cm-store.cm-success .cm-instant-grat .cm-dwld-item .cm-variant{
   font-family:'Montserrat',Helvetica,Arial,sans-serif!important;
-	font-size: 12px!important;
+  font-size: 12px!important;
+}
+
+
+
+/* Subscription Element */
+
+label.cm-add-amount{
+	display: inline-block;
+	text-indent: 0;
+	padding:0 0 10px 0;
+	position: relative;
 }
 
 /* Made by CASH Footer */

@@ -2,6 +2,11 @@
 
 namespace Stripe;
 
+/**
+ * Class Invoice
+ *
+ * @package Stripe
+ */
 class Invoice extends ApiResource
 {
     /**
@@ -35,6 +40,18 @@ class Invoice extends ApiResource
     public static function all($params = null, $opts = null)
     {
         return self::_all($params, $opts);
+    }
+
+    /**
+     * @param string $id The ID of the invoice to update.
+     * @param array|null $params
+     * @param array|string|null $options
+     *
+     * @return Invoice The updated invoice.
+     */
+    public static function update($id, $params = null, $options = null)
+    {
+        return self::_update($id, $params, $options);
     }
 
     /**

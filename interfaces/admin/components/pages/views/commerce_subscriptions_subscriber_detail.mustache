@@ -1,0 +1,73 @@
+<header>
+<div class="pure-u-1 pure-u-md-1-2">
+    {{#subscriber}}
+<a class="returnlink current" href="{{www_path}}/commerce/subscriptions/detail/{{subscription_id}}"><div class="icon icon-arw-dwn"></div>{{/subscriber}}<!--icon--></a><h4 class="secondary-title">{{ui_title}}</h4>
+</div><!--pure-->
+    <div class="pure-u-1 pure-u-md-1-2">
+            <ul class="inline-subnav">
+
+                      <li><a class="lightboxed needsconfirmation" href="{{www_path}}/commerce/subscriptions/subscriber/delete/{{id}}"><div class="icon icon-ban"></div> {{copy_cancel}}</a></li>
+
+            </ul>
+    </div><!--pure-->
+</header>
+
+    <div class="material single usecolor4">
+        <div class="pure-u-1 pure-u-md-1-4">
+            <h5>{{label_subscriber_name}}</h5>
+            {{#customer}}
+            {{customer_name}} <br /><span><a href="mailto:{{customer_email}}">{{customer_email}}</a></span>
+            {{/customer}}
+        </div><!--pure-->
+        <div class="pure-u-1 pure-u-md-1-4">
+            <h5>Address</h5>
+            {{#shipping_info}}
+                <p>{{customer_address1}}<br/>
+                {{#customer_address2}}{{customer_address2}}<br/>{{/customer_address2}}
+                 {{customer_city}}<br />{{customer_region}}<br />{{customer_country}}<br/>  {{customer_postalcode}}</p>
+            {{/shipping_info}}
+        </div><!--pure-->
+        <div class="pure-u-1 pure-u-md-1-4">
+            <h5>Subscription Details</h5>
+            {{label_subscription_creation}}:
+
+{{#subscriber}}
+
+            <span>{{creation_date}}</span><br />
+            {{label_status}}: <span>{{status}}</span>
+    <br>    Payment ID: <span>{{payment_identifier}}</span>
+        </div><!--pure-->
+        <div class="pure-u-1 pure-u-md-1-4">
+            <h5>{{label_subscriber_total}}</h5>
+            <p><strong>{{total_paid_to_date}}</strong></p>
+{{/subscriber}}
+        </div><!--pure-->
+         
+    </div><!--material-->
+
+
+    <h4 class="section breaker">{{copy_payment_history}}</h4>
+
+    <table style="width:100%;" class="responsive">
+        <colgroup style="width:85%;" /><colgroup />
+            <thead>
+                <tr>
+                    <th scope="col">{{label_payment_date}}</th>
+                    <th scope="col">{{label_payment_connection_type}}</th>
+                    <th scope="col">{{label_payment_status}}</th>
+                    <th scope="col">{{label_payment_amount}}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {{#subscriptions_payment}}
+                <tr>
+                    <td>{{service_timestamp}}</td>
+                    <td>{{connection_type}}</td>
+                    <td>{{status}}</td>
+                    <td class="block-color">{{gross_price}}</td>
+                </tr>
+            {{/subscriptions_payment}}    
+            </tbody>
+    </table>
+
+    </div>

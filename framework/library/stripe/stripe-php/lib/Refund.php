@@ -2,6 +2,23 @@
 
 namespace Stripe;
 
+/**
+ * Class Refund
+ *
+ * @property string $id
+ * @property string $object
+ * @property int $amount
+ * @property mixed $balance_transaction
+ * @property string $charge
+ * @property int $created
+ * @property string $currency
+ * @property mixed $metadata
+ * @property mixed $reason
+ * @property mixed $receipt_number
+ * @property string $status
+ *
+ * @package Stripe
+ */
 class Refund extends ApiResource
 {
 
@@ -14,6 +31,18 @@ class Refund extends ApiResource
     public static function retrieve($id, $options = null)
     {
         return self::_retrieve($id, $options);
+    }
+
+    /**
+     * @param string $id The ID of the refund to update.
+     * @param array|null $params
+     * @param array|string|null $options
+     *
+     * @return Refund The updated refund.
+     */
+    public static function update($id, $params = null, $options = null)
+    {
+        return self::_update($id, $params, $options);
     }
 
     /**

@@ -1,0 +1,65 @@
+<header>
+<div class="pure-u-1 pure-u-md-1-2">
+<a class="returnlink current" href="{{www_path}}/commerce/subscriptions/"><div class="icon icon-arw-dwn"></div><!--icon--></a><h4 class="secondary-title">&ldquo;{{ui_title}}&rdquo;</h4>
+</div><!--pure-->
+        <div class="pure-u-1 pure-u-md-1-2">
+            <ul class="inline-subnav">
+                <li><a class="lightboxed" href="{{www_path}}/commerce/subscriptions/edit/{{plan_id}}"><div class="icon icon-pencil"></div> {{copy_edit_plan}}</a></li>
+            </ul>
+    </div><!--pure-->
+</header>
+{{#plan}}
+    <div class="material single usecolor4">
+        <div class="pure-u-1 pure-u-md-1-2">
+            <h5>{{label_name}}</h5>
+
+            <p><br /><span class="fadedtext">{{name}}</span></p><br>
+            <br><p>ID {{sku}}</p>
+            <br><p>{{description}}</p>
+        </div><!--pure-->
+        <div class="pure-u-1 pure-u-md-1-4">
+            <h5>{{label_price}}</h5>
+            <p>{{#suggested_price}}Minimum price: {{/suggested_price}}{{price}}</p>
+            {{#suggested_price}}
+                <br>
+            <p>Suggested price: {{suggested_price}}</p>
+                {{/suggested_price}}
+
+            {{#recurring_payment}}
+                <br>
+                <p>This is a recurring payment</p>
+            {{/recurring_payment}}
+
+            {{#physical}}
+                <br>
+                <p>Plan includes physical goods</p>
+            {{/physical}}
+
+
+        </div><!--pure-->
+            <div class="pure-u-1 pure-u-md-1-4">
+            <h5>{{label_interval}}</h5>
+            <p>{{interval}}</p>
+        </div><!--pure-->
+    </div><!--material-->
+{{/plan}}
+
+    <h4 class="section breaker">{{copy_subscriber_title}}</h4>
+    
+    <div class="material usecolor4" data-event-section="allfuture">
+            <div class="pure-u-1 pure-u-md-1-2"><h5 class="">{{label_subscriber_name}}</h5></div>
+            <div class="pure-u-1 pure-u-md-1-6"><h5>{{label_subscriber_start_date}}</h5></div>
+            <div class="pure-u-1 pure-u-md-1-6"><h5 class="">{{label_subscriber_status}}</h5></div>
+            <div class="pure-u-1 pure-u-md-1-6"><h5 class="">{{label_subscriber_total}}</h5></div>
+        <ul class="dates">
+            {{#subscriptions}}
+                <li class="subscriber"><a clas="pure-u-1" href="{{www_path}}/commerce/subscriptions/subscriber/detail/{{id}}"><div class="pure-u-1 pure-u-md-1-2"><div class="icon icon-user"></div><!--icon-->&nbsp;<strong>{{first_name}}&nbsp;{{last_name}}</strong>&nbsp;<span> ({{email_address}})</span></div>
+                <div class="pure-u-1 pure-u-md-1-6">{{start_date}}</div><div class="pure-u-1 pure-u-md-1-6"><strong>{{status}}</strong></div><div class="pure-u-1 pure-u-md-1-6"><strong>{{total_paid_to_date}}</strong></div></a></li><!--subscriber-->
+            {{/subscriptions}}
+        </ul>
+    </div><!--material-->
+
+
+ 
+
+
