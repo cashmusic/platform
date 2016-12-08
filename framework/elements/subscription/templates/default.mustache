@@ -4,14 +4,14 @@
     </div>
 {{/error_message}}
 
-<h2>{{plan_name}}Cash Music Payment plan</h2>
-<p>{{plan_description}}$99 Suggested price per year</p>
+<h2>{{plan_name}}</h2>
+<p>{{plan_description}}</p>
 
   {{#flexible_price}}
-        <label class="cm-subscribe cm-add-amount">Adjust your payment amount:</label>
-        <input class="cm-subscribe-input" type="number" min="{{plan_price}}" name="plan_amount" id="plan_flexible_price" value="{{plan_price}}" autocomplete="off" >
+        <label class="cm-add-amount">Adjust your payment amount:</label>
+        <input type="number" min="{{plan_price}}" name="plan_amount" id="plan_flexible_price" value="{{plan_price}}" autocomplete="off" >
   {{/flexible_price}}
-<a href="#" class="cm-subscribe button" data-price="{{plan_price}}" data-plan-id="{{plan_id}}" id="subscribe">$<span class="amount" id="plan_price">{{plan_price}}</span>/{{plan_interval}} - Subscribe</a>
+<a href="#" class="button cm-subscribe" data-price="{{plan_price}}" data-plan-id="{{plan_id}}" id="subscribe">$<span class="amount" id="plan_price">{{plan_price}}</span>/{{plan_interval}} - Subscribe</a>
 
 <script type="text/javascript">
 (function() {

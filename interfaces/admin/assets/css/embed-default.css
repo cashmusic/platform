@@ -1531,11 +1531,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* Subscription Element */
 
-.cm-subscribe{
-
-}
-
-label.cm-subscribe.cm-add-amount{
+label.cm-add-amount{
 	display: inline-block;
 	text-indent: 0;
 	padding:0 0 10px 0;
