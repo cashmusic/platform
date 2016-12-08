@@ -7,7 +7,7 @@
 <h2>{{plan_name}}Cash Music Payment plan</h2>
 <p>{{plan_description}}$99 Suggested price per year</p>
 
-  {{^flexible_price}}
+  {{#flexible_price}}
         <label class="cm-subscribe cm-add-amount">Adjust your payment amount:</label>
         <input class="cm-subscribe-input" type="number" min="{{plan_price}}" name="plan_amount" id="plan_flexible_price" value="{{plan_price}}" autocomplete="off" >
   {{/flexible_price}}
