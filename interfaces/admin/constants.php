@@ -32,7 +32,7 @@ $settings['jquery_url'] = '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.
 $settings['jqueryui_url'] = '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js'; // CDN for jQuery UI
 $settings['minimum_password_length'] = 10; // doesn't allow passwords shorter than this value
 $settings['subdomain_usernames'] = true; // subdomain or subdirectory for user URL scheme (x.cashmusic.org v cashmuisc.org/x)
-$settings['show_beta'] = false; // show beta functionality?
+$settings['show_beta'] = true; // show beta functionality?
 
 // finally look for admin.ini.php for custom settings. if it exists pull it in.
 if (file_exists(__DIR__.'/admin.ini.php')) {
