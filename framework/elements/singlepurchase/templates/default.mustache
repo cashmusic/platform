@@ -93,7 +93,8 @@
                            "paypal": paypal,
                            "currency": "{{currency}}", // USD = auto default
                            "shipping": shipping
-                       });
+                       }); /*,
+                            "total": "{{currency}}"+parseFloat(button.getAttribute('data-price')),*/
                      });
    					});
                } else {

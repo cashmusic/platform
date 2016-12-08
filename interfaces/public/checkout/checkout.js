@@ -121,9 +121,14 @@
 			message.id = 'cm-userinput-message';
 			message.innerHTML = '&nbsp;';
 
-			var amount = document.createElement('div');
-			amount.id = 'cm-amount-message';
-			amount.innerHTML = '<p class="cm-pricing">Transaction amount: '+ '$' + cm.storage['checkoutdata']['amount'] + '</p><!--cm-pricing-->';
+			// show the final amount to be charged
+			if (cm.storage.checkoutdata.total) {
+				var total = document.createElement('div');
+				total.id = 'cm-amount-message';
+
+				total.innerHTML = '<p class="cm-pricing">Transaction amount: '+ cm.storage['checkoutdata'].total + '</p><!--cm-pricing-->';
+
+			}
 
 			if (msg) {
 					message.innerHTML = msg;
@@ -168,7 +173,13 @@
 				if (element.required) {
 					input.setAttribute('data-required','1');
 				}
+
+				if (element.id == "stripe-submit" && cm.storage.checkoutdata.total) {
+					form.appendChild(total);
+				}
+
 				form.appendChild(input);
+
 			}
 
 			container.appendChild(message);
@@ -501,7 +512,8 @@
 					'name'     :false,
 					'email'    :false,
 					'recurring':false,
-					'origin'   :window.location.href
+					'origin'   :window.location.href,
+					'total'	   :false
 				};
 				// detect SSL for stripe
 				if (location.protocol !== 'https:' && options.testing !== true) {
@@ -511,6 +523,10 @@
 				// recurring payments
 				if (options.recurring) {
 					cm.storage['checkoutdata'].recurring = true;
+				}
+
+				if (options.total) {
+					cm.storage['checkoutdata'].total = options.total;
 				}
 
 				// choose defaults by currency
@@ -596,7 +612,6 @@
 		initiatepayment: function (options,source) {
 			// just starts the payment flow and does the steps needed based on
 			// the options passed in...
-
 			// Stripe only
 			if (options.stripe && !options.paypal) {
 				cm.stripe.generateToken(options.stripe,source);
