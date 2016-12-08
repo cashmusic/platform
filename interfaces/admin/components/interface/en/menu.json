@@ -50,8 +50,6 @@
 		{"page_name":"Edit item", "menu_icon":""},
 	"commerce/items/add":
 		{"page_name":"Add an item", "menu_icon":""},
-	"commerce/subscriptions":
-		{"page_name":"Subscriptions", "menu_icon":"recurring", "tagline":"Member subscriptions", "beta":true},
 	"commerce/externalfulfillment":
 		{"page_name":"3rd Party fulfillment", "menu_icon":"fulfilment", "tagline":"Import external orders", "beta":true},
 	"commerce/export":
