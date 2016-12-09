@@ -2370,7 +2370,12 @@ class CommercePlant extends PlantBase {
 
     /* Subscription specific stuff */
 
-    protected function createSubscriptionPlan($user_id, $connection_id, $plan_name, $description, $sku, $amount, $suggested_price=false, $flexible_price=false, $recurring=true, $physical=false, $interval="month", $interval_count=12, $currency="usd") {
+    protected function createSubscriptionPlan($user_id, $connection_id, $plan_name, $description, $sku, $amount, $flexible_price=false, $recurring=true, $suggested_price=false, $physical=false, $interval="month", $interval_count=12, $currency="usd") {
+
+        error_log(
+            "createSubscriptionPlan".
+            "$user_id, $connection_id, $plan_name, $description, $sku, $amount, $flexible_price, $recurring, $suggested_price, $physical, $interval, $interval_count, $currency"
+        );
 
         //TODO: load seed---> eventually we want this to dynamically switch, but for now
         $payment_seed = $this->getPaymentSeed($user_id, $connection_id);

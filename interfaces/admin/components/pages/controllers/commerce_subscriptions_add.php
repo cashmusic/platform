@@ -27,8 +27,9 @@ if (!empty($_POST['action']) && $_POST['action'] == "do_create") {
             'amount' => $_POST['price'],
             'flexible_price' => (isset($_POST['flexible_price'])) ? true : false,
             'recurring' => (isset($_POST['recurring'])) ? true : false,
-            'physical' => (isset($_POST['physical'])) ? true : false,
             'suggested_price' => (isset($_POST['suggested_price'])) ? $_POST['suggested_price'] : 0,
+            'physical' => (isset($_POST['physical'])) ? true : false,
+
             'interval' => (isset($_POST['interval'])) ? $_POST['interval'] : "month",
             'interval_count' => 12,
             'currency' => 'usd'
