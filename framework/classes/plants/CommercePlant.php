@@ -2793,7 +2793,7 @@ class CommercePlant extends PlantBase {
                 print_r($event['data']['object']['lines'], true)
             );
             $event_data = $event['data']['object'];
-            $plan_data = $event['data']['object']['lines']['data']['plan'];
+            $plan_data = $event['data']['object']['lines']['data'][0]['plan'];
 
             // we get the plan to override the user id we get via the webhook
             $plan = $this->getSubscriptionPlanBySku($plan_data['id']);
