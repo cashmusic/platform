@@ -2789,7 +2789,8 @@ class CommercePlant extends PlantBase {
         if ($input = file_get_contents("php://input")) {
             $event = json_decode($input, true);
             error_log(
-                print_r($event, true)
+                'lines'.
+                print_r($event['data']['object']['lines'], true)
             );
             $event_data = $event['data']['object'];
             $plan_data = $event['data']['object']['lines']['data']['plan'];
