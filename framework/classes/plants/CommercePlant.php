@@ -2789,7 +2789,7 @@ class CommercePlant extends PlantBase {
         if ($input = file_get_contents("php://input")) {
             $event = json_decode($input, true);
             error_log(
-                'lines'.
+                "lines####\n".
                 print_r($event['data']['object']['lines'], true)
             );
             $event_data = $event['data']['object'];
@@ -2816,7 +2816,7 @@ class CommercePlant extends PlantBase {
 
             // what type of event is this?
             error_log(
-                'event type: '.
+                'event type####: '.
                 $event['type']
             );
 
