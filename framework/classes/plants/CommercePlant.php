@@ -2788,10 +2788,7 @@ class CommercePlant extends PlantBase {
         error_log("subscription webhook fired\n");
         if ($input = file_get_contents("php://input")) {
             $event = json_decode($input, true);
-            error_log(
-                "lines####\n".
-                print_r($event['data']['object']['lines'], true)
-            );
+
             $event_data = $event['data']['object'];
             $plan_data = $event['data']['object']['lines']['data'][0]['plan'];
 
@@ -2814,12 +2811,6 @@ class CommercePlant extends PlantBase {
 
             $default_connections = CommercePlant::getDefaultConnections($user_id);
 
-            // what type of event is this?
-            error_log(
-                'event type####: '.
-                $event['type']
-            );
-
             switch ($event['type']) {
                 case "invoice.payment_succeeded":
                     // create the transaction
@@ -2827,7 +2818,7 @@ class CommercePlant extends PlantBase {
                         $user_id,
                         $default_connections['stripe'],
                         "com.stripe",
-                        $event['created'],
+                        $event['date'],
                         $event['id'],
                         '',
                         json_encode($event),
