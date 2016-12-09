@@ -29,12 +29,15 @@ if (!empty($_POST['action']) && $_POST['action'] == "do_create") {
             'recurring' => (isset($_POST['recurring'])) ? true : false,
             'physical' => (isset($_POST['physical'])) ? true : false,
             'suggested_price' => (isset($_POST['suggested_price'])) ? $_POST['suggested_price'] : 0,
-            'interval' => $_POST['interval'],
+            'interval' => (isset($_POST['interval'])) ? $_POST['interval'] : "month",
             'interval_count' => 12,
             'currency' => 'usd'
         )
     );
 
+    error_log(
+        print_r($subscription_request->response, true)
+    );
 
     if ($subscription_request->response['payload']) {
 
