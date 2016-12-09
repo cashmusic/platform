@@ -51,7 +51,7 @@ class StripeSeed extends SeedBase
                );
             }
 
-            \Stripe\Stripe::setApiKey($this->access_token);
+            \Stripe\Stripe::setApiKey($this->client_secret);
         } else {
             $this->error_message = 'could not get connection settings';
         }
@@ -292,7 +292,7 @@ class StripeSeed extends SeedBase
     if (!empty($token)) {
 
         try {
-            \Stripe\Stripe::setApiKey($this->access_token);
+            \Stripe\Stripe::setApiKey($this->client_secret);
 
             if (!$payment_results = \Stripe\Charge::create(
                 array(
@@ -404,7 +404,7 @@ class StripeSeed extends SeedBase
 
         // try to contact the stripe API for refund, or fail gracefully
         try {
-            \Stripe\Stripe::setApiKey($this->access_token);
+            \Stripe\Stripe::setApiKey($this->client_secret);
 
             $refund_response = \Stripe\Refund::create(array(
                 "charge" => $sale_id
