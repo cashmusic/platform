@@ -36,10 +36,6 @@ if (!empty($_POST['action']) && $_POST['action'] == "do_create") {
         )
     );
 
-    error_log(
-        print_r($subscription_request->response, true)
-    );
-
     if ($subscription_request->response['payload']) {
 
         AdminHelper::formSuccess('Success. Subscription plan added.','/commerce/subscriptions/detail/'.$subscription_request->response['payload']['numeric_id']);
