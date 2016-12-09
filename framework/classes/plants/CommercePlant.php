@@ -2792,7 +2792,7 @@ class CommercePlant extends PlantBase {
                 print_r($event, true)
             );
             $event_data = $event['data']['object'];
-            $plan_data = $event_data['plan'];
+            $plan_data = $event['data']['object']['lines']['data']['plan'];
 
             // we get the plan to override the user id we get via the webhook
             $plan = $this->getSubscriptionPlanBySku($plan_data['id']);
@@ -2815,6 +2815,7 @@ class CommercePlant extends PlantBase {
 
             // what type of event is this?
             error_log(
+                'event type: '.
                 $event['type']
             );
 
@@ -2830,7 +2831,7 @@ class CommercePlant extends PlantBase {
                         '',
                         json_encode($event),
                         1,
-                        $this->centsToDollar($event_data['plan']['amount']),
+                        $this->centsToDollar($plan_data['amount']),
                         0,
                         'success',
                         'usd',
@@ -2842,7 +2843,7 @@ class CommercePlant extends PlantBase {
                     $this->updateSubscription(
                         $customer[0]['id'],
                         "active",
-                        ((integer) $customer[0]['total_paid_to_date'] + (integer) $this->centsToDollar($event_data['plan']['amount']))
+                        ((integer) $customer[0]['total_paid_to_date'] + (integer) $this->centsToDollar($plan_data['amount']))
                     );
 
 
@@ -2853,12 +2854,12 @@ class CommercePlant extends PlantBase {
                         $user_id,
                         $default_connections['stripe'],
                         "com.stripe",
-                        $event['created'],
+                        $event['date'],
                         $event['id'],
                         '',
                         json_encode($event),
                         1,
-                        $this->centsToDollar($event_data['plan']['amount']),
+                        $this->centsToDollar($plan_data['amount']),
                         0,
                         'failed',
                         'usd',
