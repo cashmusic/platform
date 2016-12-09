@@ -9,7 +9,11 @@
 
   {{#flexible_price}}
         <label class="cm-add-amount">Adjust your payment amount:</label>
+        <span class="cm-store-flexible-price">
+            <span class="cm-store-currency">{{currency}}</span>
         <input type="number" min="{{plan_price}}" name="plan_amount" id="plan_flexible_price" value="{{plan_price}}" autocomplete="off" >
+      </span>
+      </span>
   {{/flexible_price}}
 <a href="#" class="button cm-subscribe" data-price="{{plan_price}}" data-plan-id="{{plan_id}}" id="subscribe">$<span class="amount" id="plan_price">{{plan_price}}</span>/{{plan_interval}} - Subscribe</a>
 
