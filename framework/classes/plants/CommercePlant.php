@@ -2787,7 +2787,10 @@ class CommercePlant extends PlantBase {
         // webhook is /api/verbose/commerce/processwebhook/origin/com.stripe
         if ($input = file_get_contents("php://input")) {
             $event = json_decode($input, true);
-
+            error_log(
+                "webhook\n".
+                print_r($event, true)
+            );
             $event_data = $event['data']['object'];
             $plan_data = $event['data']['object']['lines']['data'][0]['plan'];
 
