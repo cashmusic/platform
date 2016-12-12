@@ -88,7 +88,7 @@
                 if (price < 5) {
                     var minimum = subscribe_button.getAttribute('data-min');
                     flexible_price.value = minimum;
-                    plan_price.value = minimum;
+                    plan_price.innerHTML = minimum;
                     subscribe_button.setAttribute("data-price", minimum);
                     flexible_price.className += "shake";
                     return false;
