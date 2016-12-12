@@ -2528,9 +2528,12 @@ class CommercePlant extends PlantBase {
             $conditions
         );
 
-        if (!$result) return false;
 
-        return true;
+        if (!$result) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public function getSubscriptionTransactions($id) {
@@ -2603,7 +2606,7 @@ class CommercePlant extends PlantBase {
                     'customer' => $customer
                 ];
 
-                // add user to subscription membership and set active
+                // add user to subscription membership and set inactive to start
                 if (!$this->subscriptionExists($user_id, $subscription_plan[0]['id'])) {
                     $subscription_member_result = $this->db->setData(
                         'subscriptions_members',
@@ -2637,21 +2640,6 @@ class CommercePlant extends PlantBase {
 
 
             if ($subscription = $payment_seed->createSubscription($token, $plan_id, $email_address, $quantity)) {
-/*                $transaction_id = $this->addTransaction(
-                    $user_id,
-                    $connection_id,
-                    $this->getConnectionType($connection_id),
-                    $subscription->created,
-                    $subscription->id,
-                    '',
-                    json_encode($subscription),               # this is data_returned, dummy
-                    1,
-                    $price, // set price
-                    0,
-                    'abandoned',
-                    $currency
-                );*/
-
                 // we need to add in the customer token so we can actually corollate with the webhooks
                 $add_customer_token_result = $this->db->setData(
                     'subscriptions_members',

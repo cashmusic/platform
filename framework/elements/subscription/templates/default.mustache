@@ -1,29 +1,4 @@
-<style>
-    .shake {
-        animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
-        transform: translate3d(0, 0, 0);
-        backface-visibility: hidden;
-        perspective: 1000px;
-    }
 
-    @keyframes shake {
-        10%, 90% {
-            transform: translate3d(-1px, 0, 0);
-        }
-
-        20%, 80% {
-            transform: translate3d(2px, 0, 0);
-        }
-
-        30%, 50%, 70% {
-            transform: translate3d(-4px, 0, 0);
-        }
-
-        40%, 60% {
-            transform: translate3d(4px, 0, 0);
-        }
-    }
-</style>
 
 {{#error_message}}
     <div class="cm-error cm-{{element_type}}-error">
@@ -88,11 +63,11 @@
                     flexible_price.value = minimum;
                     plan_price.innerHTML = minimum;
                     subscribe_button.setAttribute("data-price", minimum);
-                    flexible_price.className += "shake";
+                    //flexible_price.className += "shake";
                     return false;
                 } else {
-                    flexible_price.className =
-                            flexible_price.className.replace(new RegExp('(?:^|\\s)'+ 'shake' + '(?:\\s|$)'), ' ');
+                    /*flexible_price.className =
+                            flexible_price.className.replace(new RegExp('(?:^|\\s)'+ 'shake' + '(?:\\s|$)'), ' ');*/
                 }
 
                 var plan_id = subscribe_button.getAttribute("data-plan-id");
@@ -170,7 +145,6 @@
                             top.location.href = details;
                         } else if (details == 'success') {
                             cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"success"});
-
                             return true;
                         } else {
                             cm.overlay.reveal('There was a problem with your payment. Please try again.');
