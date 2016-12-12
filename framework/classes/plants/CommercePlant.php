@@ -2514,6 +2514,25 @@ class CommercePlant extends PlantBase {
         return $result;
     }
 
+    public function subscriptionExists($user_id, $subscription_id) {
+
+        // we can handle this as id or by customer payment token
+        $conditions = [
+            'user_id' => ['condition' => '=', 'value' => $user_id],
+            'subscription_id' => ['condition' => '=', 'value' => $subscription_id]
+        ];
+
+        $result = $this->db->getData(
+            'subscriptions_members',
+            '*',
+            $conditions
+        );
+
+        if (!$result) return false;
+
+        return true;
+    }
+
     public function getSubscriptionTransactions($id) {
 
         $condition = [
@@ -2585,17 +2604,20 @@ class CommercePlant extends PlantBase {
                 ];
 
                 // add user to subscription membership and set active
-                $subscription_member_result = $this->db->setData(
-                    'subscriptions_members',
-                    array(
-                        'user_id' => $user_id,
-                        'subscription_id' => $subscription_plan[0]['id'],
-                        'status' => 'canceled',
-                        'start_date' => strtotime('today'),
-                        'total_paid_to_date' => 0, // do we need a second field for pledged amount?
-                        'data' => json_encode($data)
-                    )
-                );
+                if (!$this->subscriptionExists($user_id, $subscription_plan[0]['id'])) {
+                    $subscription_member_result = $this->db->setData(
+                        'subscriptions_members',
+                        array(
+                            'user_id' => $user_id,
+                            'subscription_id' => $subscription_plan[0]['id'],
+                            'status' => 'canceled',
+                            'start_date' => strtotime('today'),
+                            'total_paid_to_date' => 0, // do we need a second field for pledged amount?
+                            'data' => json_encode($data)
+                        )
+                    );
+                }
+
 
                 if (!$subscription_member_result) return false;
 
