@@ -2782,9 +2782,9 @@ class CommercePlant extends PlantBase {
 
         // webhook is /api/verbose/commerce/processwebhook/origin/com.stripe
         if ($input = file_get_contents("php://input")) {
-            $event_json = json_decode($input, true);
+            $event = json_decode($input);
 
-            if ($event = \Stripe\Event::retrieve($event_json['id'])) {
+            //if ($event = \Stripe\Event::retrieve($event['id'])) {
                 // if success or fail
                 error_log("#### stripe event retrieved");
                 error_log(
@@ -2796,8 +2796,8 @@ class CommercePlant extends PlantBase {
                 $plan_id = false;
                 $customer_id = false;
 
-                if ($event_json['type'] == "invoice.payment_succeeded" ||
-                    $event_json['type'] == "invoice.payment_failed"
+                if ($event->type == "invoice.payment_succeeded" ||
+                    $event->type == "invoice.payment_failed"
                 ) {
                     // set data
                     $plan_id = $event->data->object->lines->data[0]->plan->id;
@@ -2805,15 +2805,15 @@ class CommercePlant extends PlantBase {
                     $customer_id = $event->data->object->lines->data[0]->id;
                 }
 
-                if ($event_json['type'] == "customer.subscription.deleted") {
+                if ($event->type == "customer.subscription.deleted") {
                     // set data
                     $plan_id = $event->object->id;
                     $customer_id = $event->data->object->id;
                 }
-            } else {
+/*            } else {
                 error_log("#### stripe event not retrieved");
                 return false;
-            }
+            }*/
 
             // we get the plan to override the user id we get via the webhook
             $plan = $this->getSubscriptionPlanBySku($plan_id);
@@ -2823,15 +2823,15 @@ class CommercePlant extends PlantBase {
             // get customer info from commerce_subscriptions_members
             $customer = $this->getSubscriptionDetails($customer_id);
 
-            if ($event_json['type'] == "invoice.payment_succeeded") {
+            if ($event->type == "invoice.payment_succeeded") {
                 $paid_to_date = ((integer) $customer[0]['total_paid_to_date'] + (integer) $this->centsToDollar($plan_amount));
                 $payment_status = "success";
                 $status = "active";
             } else {
                 $paid_to_date = false;
 
-                if ($event_json['type'] == "invoice.payment_failed") $payment_status = "failed";
-                if ($event_json['type'] == "customer.subscription.deleted") $payment_status = "canceled";
+                if ($event->type == "invoice.payment_failed") $payment_status = "failed";
+                if ($event->type == "customer.subscription.deleted") $payment_status = "canceled";
                 $status = "canceled";
             }
 
