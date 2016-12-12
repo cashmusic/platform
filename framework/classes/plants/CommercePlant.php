@@ -2574,12 +2574,13 @@ class CommercePlant extends PlantBase {
                 $quantity = ($price*100); // price to cents, which will also be our $quantity because base price is always 1 cent for flexible
             }
 
-            $full_name = explode(' ', $customer_name, 2);
+            $name_split = CASHSystem::splitCustomerName($customer_name);
+
             $customer = [
                 'customer_email' => $email_address,
                 'customer_name' => $customer_name,
-                'customer_first_name' => $full_name[0],
-                'customer_last_name' => $full_name[1],
+                'customer_first_name' => $name_split['first_name'],
+                'customer_last_name' => $name_split['last_name'],
                 'customer_countrycode' => "" // none unless there's shipping
 
             ];

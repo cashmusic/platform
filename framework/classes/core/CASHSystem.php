@@ -1182,5 +1182,16 @@
 		$user_id = $element_request->response['payload']['user_id'];
 		return $user_id;
 	}
+
+	public static function splitCustomerName($name) {
+		$parts = explode(" ", $name);
+		$lastname = array_pop($parts);
+		$firstname = implode(" ", $parts);
+
+		return [
+			'first_name' => $firstname,
+			'last_name' => $lastname
+		];
+	}
 } // END class
 ?>
