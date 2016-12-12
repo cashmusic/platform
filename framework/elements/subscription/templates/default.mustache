@@ -42,7 +42,7 @@
       </span>
       </span>
   {{/flexible_price}}
-<a href="#" class="button cm-subscribe" data-price="{{plan_price}}" data-plan-id="{{plan_id}}" id="subscribe">$<span class="amount" id="plan_price">{{plan_price}}</span>/{{plan_interval}} - Subscribe</a>
+<a href="#" class="button cm-subscribe" data-price="{{plan_price}}" data-min="{{plan_price}}" data-plan-id="{{plan_id}}" id="subscribe">$<span class="amount" id="plan_price">{{plan_price}}</span>/{{plan_interval}} - Subscribe</a>
 
 <script type="text/javascript">
 (function() {
@@ -86,9 +86,15 @@
                 var price = subscribe_button.getAttribute("data-price");
 
                 if (price < 5) {
-                    flexible_price.value = 5;
+                    var minimum = subscribe_button.getAttribute('data-min');
+                    flexible_price.value = minimum;
+                    plan_price.value = minimum;
+                    subscribe_button.setAttribute("data-price", minimum);
                     flexible_price.className += "shake";
                     return false;
+                } else {
+                    flexible_price.className =
+                            flexible_price.className.replace(new RegExp('(?:^|\\s)'+ 'shake' + '(?:\\s|$)'), ' ');
                 }
 
                 var plan_id = subscribe_button.getAttribute("data-plan-id");
