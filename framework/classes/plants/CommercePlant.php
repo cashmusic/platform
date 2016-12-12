@@ -2786,15 +2786,18 @@ class CommercePlant extends PlantBase {
 
             if ($event = Stripe\Event::retrieve($event_json['id'])) {
                 // if success or fail
-
+                error_log("#### stripe event retrieved");
+                error_log(
+                    print_r($event, true)
+                );
                 $payment_status = "failed";
                 $plan_amount = 0;
                 $status = "canceled";
                 $plan_id = false;
                 $customer_id = false;
 
-                if ($event->type == "invoice.payment_succeeded" ||
-                    $event->type == "invoice.payment_failed"
+                if ($event_json['type'] == "invoice.payment_succeeded" ||
+                    $event_json['type'] == "invoice.payment_failed"
                 ) {
                     // set data
                     $plan_id = $event->data->object->lines->data[0]->plan->id;
@@ -2802,12 +2805,13 @@ class CommercePlant extends PlantBase {
                     $customer_id = $event->data->object->lines->data[0]->id;
                 }
 
-                if ($event->type == "customer.subscription.deleted") {
+                if ($event_json['type'] == "customer.subscription.deleted") {
                     // set data
                     $plan_id = $event->object->id;
                     $customer_id = $event->data->object->id;
                 }
             } else {
+                error_log("#### stripe event not retrieved");
                 return false;
             }
 
@@ -2819,15 +2823,15 @@ class CommercePlant extends PlantBase {
             // get customer info from commerce_subscriptions_members
             $customer = $this->getSubscriptionDetails($customer_id);
 
-            if ($event->type == "invoice.payment_succeeded") {
+            if ($event_json['type'] == "invoice.payment_succeeded") {
                 $paid_to_date = ((integer) $customer[0]['total_paid_to_date'] + (integer) $this->centsToDollar($plan_amount));
                 $payment_status = "success";
                 $status = "active";
             } else {
                 $paid_to_date = false;
 
-                if ($event->type == "invoice.payment_failed") $payment_status = "failed";
-                if ($event->type == "customer.subscription.deleted") $payment_status = "canceled";
+                if ($event_json['type'] == "invoice.payment_failed") $payment_status = "failed";
+                if ($event_json['type'] == "customer.subscription.deleted") $payment_status = "canceled";
                 $status = "canceled";
             }
 
@@ -2862,6 +2866,8 @@ class CommercePlant extends PlantBase {
                 $status,
                 $paid_to_date
             );
+
+            error_log("we made it to the end.......");
 
         } else {
             return false;
