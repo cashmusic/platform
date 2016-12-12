@@ -80,8 +80,6 @@
         if (subscribe_button) {
             // user triggered the subscribe button
             cm.events.add(subscribe_button, 'click', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
 
                 var price = subscribe_button.getAttribute("data-price");
 
@@ -152,6 +150,8 @@
                     }
 
                     initiatePayment(f);
+                    e.preventDefault();
+                    e.stopPropagation();
                 });
 
                 /*cm.loadScript(cm.path + '/checkout/checkout.js', function () {
@@ -170,6 +170,7 @@
                             top.location.href = details;
                         } else if (details == 'success') {
                             cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"success"});
+                            return true;
                         } else {
                             cm.overlay.reveal('There was a problem with your payment. Please try again.');
                         }
