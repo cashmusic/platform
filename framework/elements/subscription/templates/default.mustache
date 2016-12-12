@@ -83,17 +83,14 @@
                 e.preventDefault();
                 e.stopPropagation();
 
-                if (flexible_price < 5) {
-                    price = 5.00;
-                    flexible_price.value = price;
+                var price = subscribe_button.getAttribute("data-price");
+
+                if (price < 5) {
+                    flexible_price.value = 5;
                     flexible_price.className += "shake";
                     return false;
-                } else {
-                    flexible_price.className =
-                            flexible_price.className.replace(new RegExp('(?:^|\\s)'+ 'shake' + '(?:\\s|$)'), ' ');
                 }
 
-                var price = subscribe_button.getAttribute("data-price");
                 var plan_id = subscribe_button.getAttribute("data-plan-id");
 
                 var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
