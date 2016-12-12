@@ -793,15 +793,6 @@ class StripeSeed extends SeedBase
         return $subscription;
     }
 
-    public function verifyEvent($event_id) {
-
-        if (!\Stripe\Event::retrieve($event_id)) {
-            return false;
-        }
-
-        return true;
-    }
-
     public function webhookTransaction($url, $events=array()) {
         $_params = array("url" => $url, "events" => $events);
 

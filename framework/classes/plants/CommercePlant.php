@@ -2782,29 +2782,34 @@ class CommercePlant extends PlantBase {
 
         // webhook is /api/verbose/commerce/processwebhook/origin/com.stripe
         if ($input = file_get_contents("php://input")) {
-            $event = json_decode($input, true);
+            $event_json = json_decode($input, true);
 
-            $event_data = $event['data']['object'];
+            if ($event = Stripe\Event::retrieve($event_json['id'])) {
+                // if success or fail
 
-            // if this is a cancel/delete event then we won't get this
-            if (!empty($event['data']['object']['lines'])) {
-                $plan_id = $event['data']['object']['lines']['data'][0]['plan']['id'];
-                $plan_amount = $event['data']['object']['lines']['data'][0]['plan']['amount'];
+                $payment_status = "failed";
+                $plan_amount = 0;
+                $status = "canceled";
+                $plan_id = false;
+                $customer_id = false;
+
+                if ($event['type'] == "invoice.payment_succeeded" ||
+                    $event['type'] == "invoice.payment_failed"
+                ) {
+                    // set data
+                    $plan_id = $event->data->object->lines->data[0]->plan->id;
+                    $plan_amount = $event->data->object->lines->data[0]->plan->amount;
+                    $customer_id = $event->data->object->lines->data[0]->id;
+                }
+
+                if ($event['type'] == "customer.subscription.deleted") {
+                    // set data
+                    $plan_id = $event->object->id;
+                    $customer_id = $event->data->object->id;
+                }
             } else {
-                $plan_id = $event['object']['id'];
+                return false;
             }
-
-            if ($event['type'] == "customer.subscription.deleted") {
-                error_log(
-                    "###### webhook customer.subscription.deleted".
-                    print_r($event, true).
-                    "###### --------------"
-                );
-                $customer_id = $event_data['id'];
-            } else {
-                $customer_id = $event['data']['object']['lines']['data'][0]['id'];
-            }
-
 
             // we get the plan to override the user id we get via the webhook
             $plan = $this->getSubscriptionPlanBySku($plan_id);
@@ -2814,103 +2819,49 @@ class CommercePlant extends PlantBase {
             // get customer info from commerce_subscriptions_members
             $customer = $this->getSubscriptionDetails($customer_id);
 
+            if ($event['type'] == "invoice.payment_succeeded") {
+                $paid_to_date = ((integer) $customer[0]['total_paid_to_date'] + (integer) $this->centsToDollar($plan_amount));
+                $payment_status = "success";
+                $status = "active";
+            } else {
+                $paid_to_date = false;
+
+                if ($event['type'] == "invoice.payment_failed") $payment_status = "failed";
+                if ($event['type'] == "customer.subscription.deleted") $payment_status = "canceled";
+                $status = "canceled";
+            }
+
             if (!is_array($customer)) return false;
 
             // we need to make sure this is a real event
             // for now let's just add stripe
             $payment_seed = $this->getPaymentSeed($user_id);
 
-            // is this a fake event?
-            if (!$payment_seed->verifyEvent($event['id'])) return false;
-
             $default_connections = CommercePlant::getDefaultConnections($user_id);
 
-            switch ($event['type']) {
-                case "invoice.payment_succeeded":
-                    // create the transaction
-                    $this->addTransaction(
-                        $user_id,
-                        $default_connections['stripe'],
-                        "com.stripe",
-                        $event['created'],
-                        $event['id'],
-                        '',
-                        json_encode($event),
-                        1,
-                        $this->centsToDollar($plan_amount),
-                        0,
-                        'success',
-                        'usd',
-                        'sub',
-                        $customer[0]['id']
-                    );
+            $this->addTransaction(
+                $user_id,
+                $default_connections['stripe'],
+                "com.stripe",
+                $event['created'],
+                $event['id'],
+                '',
+                json_encode($event),
+                1,
+                $this->centsToDollar($plan_amount),
+                0,
+                $payment_status,
+                'usd',
+                'sub',
+                $customer[0]['id']
+            );
 
-                    // mark subscription member as active
-                    $this->updateSubscription(
-                        $customer[0]['id'],
-                        "active",
-                        ((integer) $customer[0]['total_paid_to_date'] + (integer) $this->centsToDollar($plan_amount))
-                    );
-
-
-                    break;
-                case "invoice.payment_failed":
-                    // create the transaction
-                    $this->addTransaction(
-                        $user_id,
-                        $default_connections['stripe'],
-                        "com.stripe",
-                        $event['created'],
-                        $event['id'],
-                        '',
-                        json_encode($event),
-                        1,
-                        $this->centsToDollar($plan_amount),
-                        0,
-                        'failed',
-                        'usd',
-                        'sub',
-                        $customer[0]['id']
-                    );
-
-                    // mark subscription member as canceled
-                    $this->updateSubscription(
-                        $customer[0]['id'],
-                        "canceled"
-                    );
-
-                    break;
-
-            case "customer.subscription.deleted":
-                // create the transaction
-                $this->addTransaction(
-                    $user_id,
-                    $default_connections['stripe'],
-                    "com.stripe",
-                    $event['created'],
-                    $event['id'],
-                    '',
-                    json_encode($event),
-                    1,
-                    0,
-                    0,
-                    'canceled',
-                    'usd',
-                    'sub',
-                    $customer[0]['id']
-                );
-
-                // mark subscription member as canceled
-                $this->updateSubscription(
-                    $customer[0]['id'],
-                    "canceled"
-                );
-
-                break;
-
-                default:
-                    return false;
-            }
+            // mark subscription member as active
+            $this->updateSubscription(
+                $customer[0]['id'],
+                $status,
+                $paid_to_date
+            );
 
         } else {
             return false;
