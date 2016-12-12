@@ -1,3 +1,30 @@
+<style>
+    .shake {
+        animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+        transform: translate3d(0, 0, 0);
+        backface-visibility: hidden;
+        perspective: 1000px;
+    }
+
+    @keyframes shake {
+        10%, 90% {
+            transform: translate3d(-1px, 0, 0);
+        }
+
+        20%, 80% {
+            transform: translate3d(2px, 0, 0);
+        }
+
+        30%, 50%, 70% {
+            transform: translate3d(-4px, 0, 0);
+        }
+
+        40%, 60% {
+            transform: translate3d(4px, 0, 0);
+        }
+    }
+</style>
+
 {{#error_message}}
     <div class="cm-error cm-{{element_type}}-error">
         {{error_message}}
@@ -32,9 +59,7 @@
 
     // set shipping true, or to false if there is no shipping
     var shipping = {{shipping}};
-    console.log(shipping);
 
-    console.log("there is shipping")
     cm.events.add(cm,'ready', function(e) {
         cm.session.start();
         var plan_price = document.getElementById('plan_price');
@@ -44,6 +69,14 @@
         if (flexible_price) {
             flexible_price.addEventListener('keyup', function() {
                 var price = (flexible_price.value != "") ? flexible_price.value : "10.00";
+                if (price < 5) {
+                    price = 5.00;
+                    flexible_price.value = price;
+                    flexible_price.className += "shake";
+                } else {
+                    flexible_price.className =
+                            flexible_price.className.replace(new RegExp('(?:^|\\s)'+ 'shake' + '(?:\\s|$)'), ' ');
+                }
                 plan_price.innerHTML = price;
 
                 subscribe_button.setAttribute("data-price", price);
