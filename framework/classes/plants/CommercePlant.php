@@ -2616,6 +2616,8 @@ class CommercePlant extends PlantBase {
                             'data' => json_encode($data)
                         )
                     );
+                } else {
+                    return false;
                 }
 
 

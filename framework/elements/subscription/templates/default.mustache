@@ -170,6 +170,7 @@
                             top.location.href = details;
                         } else if (details == 'success') {
                             cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"success"});
+
                             return true;
                         } else {
                             cm.overlay.reveal('There was a problem with your payment. Please try again.');
