@@ -96,6 +96,9 @@ class Subscription extends ElementBase {
 			// if flexible pricing is set let's set the default to suggested price
 			if (!empty($this->element_data['flexible_price'])) {
 				$this->element_data['plan_price'] = $plan_request->response['payload'][0]['suggested_price'];
+				$this->element_data['minimum_price'] = $plan_request->response['payload'][0]['price'];
+			} else {
+				$this->element_data['minimum_price'] = $this->element_data['plan_price'];
 			}
 
 			$this->element_data['plan_interval'] = $plan_request->response['payload'][0]['interval'];
