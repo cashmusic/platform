@@ -2807,7 +2807,7 @@ class CommercePlant extends PlantBase {
 
                 if ($event->type == "customer.subscription.deleted") {
                     // set data
-                    $plan_id = $event->object->plan->id;
+                    $plan_id = $event->data->object->plan->id;
                     $customer_id = $event->data->object->id;
                 }
 /*            } else {
