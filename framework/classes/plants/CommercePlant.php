@@ -2788,7 +2788,10 @@ class CommercePlant extends PlantBase {
 
             // if this is a cancel/delete event then we won't get this
             if (!empty($event['data']['object']['lines'])) {
-                $plan_data = $event['data']['object']['lines']['data'][0]['plan'];
+                $plan_id = $event['data']['object']['lines']['data'][0]['plan']['id'];
+                $plan_amount = $event['data']['object']['lines']['data'][0]['plan']['amount'];
+            } else {
+                $plan_id = $event['object']['id'];
             }
 
             if ($event['type'] == "customer.subscription.deleted") {
@@ -2804,7 +2807,7 @@ class CommercePlant extends PlantBase {
 
 
             // we get the plan to override the user id we get via the webhook
-            $plan = $this->getSubscriptionPlanBySku($plan_data['id']);
+            $plan = $this->getSubscriptionPlanBySku($plan_id);
 
             $user_id = $plan[0]['user_id'];
 
@@ -2834,7 +2837,7 @@ class CommercePlant extends PlantBase {
                         '',
                         json_encode($event),
                         1,
-                        $this->centsToDollar($plan_data['amount']),
+                        $this->centsToDollar($plan_amount),
                         0,
                         'success',
                         'usd',
@@ -2846,7 +2849,7 @@ class CommercePlant extends PlantBase {
                     $this->updateSubscription(
                         $customer[0]['id'],
                         "active",
-                        ((integer) $customer[0]['total_paid_to_date'] + (integer) $this->centsToDollar($plan_data['amount']))
+                        ((integer) $customer[0]['total_paid_to_date'] + (integer) $this->centsToDollar($plan_amount))
                     );
 
 
@@ -2862,7 +2865,7 @@ class CommercePlant extends PlantBase {
                         '',
                         json_encode($event),
                         1,
-                        $this->centsToDollar($plan_data['amount']),
+                        $this->centsToDollar($plan_amount),
                         0,
                         'failed',
                         'usd',
