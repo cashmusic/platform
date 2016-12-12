@@ -2599,6 +2599,14 @@ class CommercePlant extends PlantBase {
 
                 if (!$subscription_member_result) return false;
 
+                CASHSystem::sendEmail(
+                    'Welcome to the CASH Music Family',
+                    $user_id,
+                    $email_address,
+                    "Thanks so much for joining the CASH Music Family. We've got big plans, so expect an email in the new year detailing everything we have to offer. If you have any questions before then just email us at <a href='mailto:family@cashmusic.org'>family@cashmusic.org</a>.",
+                    'Thank you.'
+                );
+
             } else {
                 return false;
             }
@@ -2786,10 +2794,6 @@ class CommercePlant extends PlantBase {
 
             //if ($event = \Stripe\Event::retrieve($event['id'])) {
                 // if success or fail
-                error_log("#### stripe event retrieved");
-                error_log(
-                    print_r($event, true)
-                );
                 $payment_status = "failed";
                 $plan_amount = 0;
                 $status = "canceled";
@@ -2869,8 +2873,6 @@ class CommercePlant extends PlantBase {
                 $status,
                 $paid_to_date
             );
-
-            error_log("we made it to the end.......");
 
         } else {
             return false;
