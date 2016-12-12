@@ -2783,12 +2783,22 @@ class CommercePlant extends PlantBase {
         // webhook is /api/verbose/commerce/processwebhook/origin/com.stripe
         if ($input = file_get_contents("php://input")) {
             $event = json_decode($input, true);
-            error_log(
-                "###### webhook ".
-                $event['type']
-            );
+
+            if ($event['type'] == "customer.subscription.deleted") {
+                error_log(
+                    "###### webhook customer.subscription.deleted".
+                    print_r($event, true).
+                    "###### --------------"
+                );
+            }
+
             $event_data = $event['data']['object'];
-            $plan_data = $event['data']['object']['lines']['data'][0]['plan'];
+
+            // if this is a cancel/delete event then we won't get this
+            if (!empty($event['data']['object']['lines'])) {
+                $plan_data = $event['data']['object']['lines']['data'][0]['plan'];
+            }
+
 
             // we get the plan to override the user id we get via the webhook
             $plan = $this->getSubscriptionPlanBySku($plan_data['id']);
