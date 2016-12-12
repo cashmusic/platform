@@ -2603,7 +2603,7 @@ class CommercePlant extends PlantBase {
                     'Welcome to the CASH Music Family',
                     $user_id,
                     $email_address,
-                    "Thanks so much for joining the CASH Music Family. We've got big plans, so expect an email in the new year detailing everything we have to offer. If you have any questions before then just email us at family@cashmusic.org.",
+                    "Thanks so much for joining the CASH Music Family. We've got big plans, so expect an email in the new year detailing everything we have to offer. If you have any questions before then just email us at <a href='mailto:family@cashmusic.org'>family@cashmusic.org</a>.",
                     'Thank you.'
                 );
 
