@@ -2783,6 +2783,10 @@ class CommercePlant extends PlantBase {
         // webhook is /api/verbose/commerce/processwebhook/origin/com.stripe
         if ($input = file_get_contents("php://input")) {
             $event_json = json_decode($input, true);
+            error_log("~~~~~ process webhook");
+            error_log(
+                print_r($event_json, true)
+            );
 
             if ($event = Stripe\Event::retrieve($event_json['id'])) {
                 // if success or fail
