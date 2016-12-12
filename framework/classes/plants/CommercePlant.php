@@ -2788,7 +2788,7 @@ class CommercePlant extends PlantBase {
                 print_r($event_json, true)
             );
 
-            if ($event = Stripe\Event::retrieve($event_json['id'])) {
+            if ($event = \Stripe\Event::retrieve($event_json['id'])) {
                 // if success or fail
                 error_log("#### stripe event retrieved");
                 error_log(
