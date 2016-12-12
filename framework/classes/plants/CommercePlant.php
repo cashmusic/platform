@@ -2807,7 +2807,7 @@ class CommercePlant extends PlantBase {
 
                 if ($event->type == "customer.subscription.deleted") {
                     // set data
-                    $plan_id = $event->object->id;
+                    $plan_id = $event->object->plan->id;
                     $customer_id = $event->data->object->id;
                 }
 /*            } else {
@@ -2839,7 +2839,7 @@ class CommercePlant extends PlantBase {
 
             // we need to make sure this is a real event
             // for now let's just add stripe
-            $payment_seed = $this->getPaymentSeed($user_id);
+            //$payment_seed = $this->getPaymentSeed($user_id);
 
             $default_connections = CommercePlant::getDefaultConnections($user_id);
 
