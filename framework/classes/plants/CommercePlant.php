@@ -2624,7 +2624,7 @@ class CommercePlant extends PlantBase {
                 $add_customer_token_result = $this->db->setData(
                     'subscriptions_members',
                     array(
-                        'payment_identifier' => $subscription->customer
+                        'payment_identifier' => $subscription->id
                     ),
                     array(
                         "id" => array(
@@ -2784,19 +2784,22 @@ class CommercePlant extends PlantBase {
         if ($input = file_get_contents("php://input")) {
             $event = json_decode($input, true);
 
+            $event_data = $event['data']['object'];
+
+            // if this is a cancel/delete event then we won't get this
+            if (!empty($event['data']['object']['lines'])) {
+                $plan_data = $event['data']['object']['lines']['data'][0]['plan'];
+            }
+
             if ($event['type'] == "customer.subscription.deleted") {
                 error_log(
                     "###### webhook customer.subscription.deleted".
                     print_r($event, true).
                     "###### --------------"
                 );
-            }
-
-            $event_data = $event['data']['object'];
-
-            // if this is a cancel/delete event then we won't get this
-            if (!empty($event['data']['object']['lines'])) {
-                $plan_data = $event['data']['object']['lines']['data'][0]['plan'];
+                $customer_id = $event_data['id'];
+            } else {
+                $customer_id = $event['data']['object']['lines']['data'][0]['id'];
             }
 
 
@@ -2806,7 +2809,7 @@ class CommercePlant extends PlantBase {
             $user_id = $plan[0]['user_id'];
 
             // get customer info from commerce_subscriptions_members
-            $customer = $this->getSubscriptionDetails($event_data['customer']);
+            $customer = $this->getSubscriptionDetails($customer_id);
 
             if (!is_array($customer)) return false;
 
