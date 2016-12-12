@@ -2785,7 +2785,6 @@ class CommercePlant extends PlantBase {
     protected function processWebhook($origin,$type=false,$data=false) {
 
         // webhook is /api/verbose/commerce/processwebhook/origin/com.stripe
-        error_log("subscription webhook fired\n");
         if ($input = file_get_contents("php://input")) {
             $event = json_decode($input, true);
 
@@ -2866,6 +2865,33 @@ class CommercePlant extends PlantBase {
                     );
 
                     break;
+
+            case "customer.subscription.deleted":
+                // create the transaction
+                $this->addTransaction(
+                    $user_id,
+                    $default_connections['stripe'],
+                    "com.stripe",
+                    $event['date'],
+                    $event['id'],
+                    '',
+                    json_encode($event),
+                    1,
+                    0,
+                    0,
+                    'canceled',
+                    'usd',
+                    'sub',
+                    $customer[0]['id']
+                );
+
+                // mark subscription member as canceled
+                $this->updateSubscription(
+                    $customer[0]['id'],
+                    "canceled"
+                );
+
+                break;
 
                 default:
                     return false;
