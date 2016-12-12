@@ -2801,7 +2801,10 @@ class CommercePlant extends PlantBase {
                 ) {
                     // set data
                     $plan_id = $event->data->object->lines->data[0]->plan->id;
-                    $plan_amount = $event->data->object->lines->data[0]->plan->amount;
+                    $plan_amount = (
+                        (integer) $event->data->object->lines->data[0]->plan->amount *
+                        (integer) $event->data->object->lines->data[0]->quantity
+                    );
                     $customer_id = $event->data->object->lines->data[0]->id;
                 }
 
