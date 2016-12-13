@@ -57,9 +57,10 @@
             cm.events.add(subscribe_button, 'click', function (e) {
 
                 var price = subscribe_button.getAttribute("data-price");
+                var minimum = subscribe_button.getAttribute('data-min');
 
-                if (price < 5) {
-                    var minimum = subscribe_button.getAttribute('data-min');
+                if (price < minimum) {
+
                     flexible_price.value = minimum;
                     plan_price.innerHTML = minimum;
                     subscribe_button.setAttribute("data-price", minimum);
