@@ -121,15 +121,6 @@
 			message.id = 'cm-userinput-message';
 			message.innerHTML = '&nbsp;';
 
-			// show the final amount to be charged
-			if (cm.storage.checkoutdata.total) {
-				var total = document.createElement('div');
-				total.id = 'cm-amount-message';
-
-				total.innerHTML = '<p class="cm-pricing">Transaction amount: '+ cm.storage['checkoutdata'].total + '</p><!--cm-pricing-->';
-
-			}
-
 			if (msg) {
 					message.innerHTML = msg;
 			}
@@ -175,6 +166,13 @@
 				}
 
 				if (element.id == "stripe-submit" && cm.storage.checkoutdata.total) {
+					// show the final amount to be charged
+
+					var total = document.createElement('div');
+					total.id = 'cm-amount-message';
+
+					total.innerHTML = '<p class="cm-pricing">Transaction amount: '+ cm.storage['checkoutdata'].total + '</p><!--cm-pricing-->';
+
 					form.appendChild(total);
 				}
 
