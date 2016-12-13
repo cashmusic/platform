@@ -93,7 +93,7 @@
                     var f = document.createElement('form');
                     f.method = 'post';
                     f.action = '';
-                    f.id = "subscription_form";
+                    f.className = "subscription_form";
 
                     var els = ['cash_request_type','cash_action','element_id','price','stripe','origin','email_address','subscription_plan','customer_name','geo', 'shipping_info'];
                     for (var i = 0, len = els.length; i < len; i++) {
@@ -150,7 +150,7 @@
                         } else if (details == 'success') {
                             cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"success"});
 
-                            document.getElementById("subscription_form").remove();
+                            document.getElementsByClassName("subscription_form").remove();
                             return true;
                         } else {
                             cm.overlay.reveal('There was a problem with your payment. Please try again.');
