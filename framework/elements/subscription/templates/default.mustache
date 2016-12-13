@@ -59,7 +59,7 @@
                 var price = subscribe_button.getAttribute("data-price");
                 var minimum = subscribe_button.getAttribute('data-min');
                 console.log(price, minimum);
-                if (price < minimum) {
+                if (parseInt(price) < parseInt(minimum)) {
 
                     flexible_price.value = minimum;
                     plan_price.innerHTML = minimum;
