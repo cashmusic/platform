@@ -91,6 +91,10 @@
 
 
                 cm.events.add(cm, 'checkoutdata', function (payment) {
+
+                    e.preventDefault();
+                    e.stopPropagation();
+
                     var f = document.createElement('form');
                     f.method = 'post';
                     f.action = '';
@@ -107,7 +111,7 @@
 
                     f.cash_request_type.value = 'commerce';
                     f.cash_action.value = 'initiatesubscription';
-                            {{#session_id}}f.session_id = '{{session_id}}';{{/session_id}}
+                    {{#session_id}}f.session_id = '{{session_id}}';{{/session_id}}
                     f.element_id.value = {{element_id}};
                     f.price.value = parseFloat(subscribe_button.getAttribute('data-price'));
                     f.subscription_plan.value = subscribe_button.getAttribute('data-plan-id');
@@ -130,13 +134,9 @@
 
                     initiatePayment(f);
                     var f = undefined;
-                    e.preventDefault();
-                    e.stopPropagation();
+
                 });
 
-                /*cm.loadScript(cm.path + '/checkout/checkout.js', function () {
-                    cm.checkout.prep();
-                });*/
             });
         }
 
