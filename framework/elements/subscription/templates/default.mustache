@@ -58,7 +58,7 @@
 
                 var price = subscribe_button.getAttribute("data-price");
                 var minimum = subscribe_button.getAttribute('data-min');
-                console.log(price, minimum);
+
                 if (parseInt(price) < parseInt(minimum)) {
 
                     flexible_price.value = minimum;
@@ -73,10 +73,6 @@
 
                 var plan_id = subscribe_button.getAttribute("data-plan-id");
 
-                var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
-
-                var poststring = 'cash_request_type=commerce&cash_action=initiatesubscription&element_id={{element_id}}&plan_id={{plan_id}}&price=' + price;
-
                 cm.loadScript(cm.path + '/checkout/checkout.js', function () {
                     cm.checkout.prep();
                     cm.checkout.begin({
@@ -89,11 +85,10 @@
                     });
                 });
 
-
                 cm.events.add(cm, 'checkoutdata', function (payment) {
 
-                    e.preventDefault();
-                    e.stopPropagation();
+/*                    e.preventDefault();
+                    e.stopPropagation();*/
 
                     var f = document.createElement('form');
                     f.method = 'post';
