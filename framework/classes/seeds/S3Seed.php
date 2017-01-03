@@ -26,11 +26,14 @@ class S3Seed extends SeedBase {
 			//require_once(CASH_PLATFORM_ROOT.'/lib/S3.php');
 			$s3_key    = $this->settings->getSetting('key');
 			$s3_secret = $this->settings->getSetting('secret');
+            $s3_account_id = $this->settings->getSetting('account_id');
+
 			if (!$s3_key || !$s3_secret) {
 				$connections = CASHSystem::getSystemSettings('system_connections');
 				if (isset($connections['com.amazon'])) {
 					$s3_key    = $connections['com.amazon']['key'];
 					$s3_secret = $connections['com.amazon']['secret'];
+                    $s3_account_id = $connections['com.amazon']['account_id'];
 				}
 			}
 
@@ -120,26 +123,48 @@ class S3Seed extends SeedBase {
 
 	public static function connectAndAuthorize($key,$secret,$bucket,$email,$auth_type='FULL_CONTROL') {
 
+/*        $shit = new \Aws\Sts\StsClient([
+            'version'     => '2011-06-15',
+            'region'      => 'us-east-1',
+            'credentials' => [
+                'key'    => $key,
+                'secret' => $secret
+            ]
+        ]);
+
+        error_log("stsclient: ". print_r(
+            $shit->GetCallerIdentity([]), true
+        ));*/
+
 		$s3_instance = S3Seed::createS3Client($key, $secret, 'us-east-1');
 		$bucket_region = S3Seed::getBucketRegion($s3_instance, $bucket);
 
+		$system_s3_settings = CASHSystem::getSystemSettings();
+		$s3_settings = $system_s3_settings['system_connections']['com.amazon'];
+
 		// check if bucket exists
-		if ($s3_instance->doesBucketExist('psg-static-floop', true, [
+		if ($s3_instance->doesBucketExist($bucket, true, [
 			'@region' => $bucket_region
 		])) {
 
-			$acp = $s3_instance->getAccessControlPolicy($bucket);
-			if (is_array($acp)) {
-				$acp['acl'][] = array('email' => $email,'permission'=>$auth_type);
-				return $s3_instance->setAccessControlPolicy($bucket,'',$acp);
-			} else {
-				return false;
-			}
+			//TODO: when does this happen?
+            if (!S3Seed::accountHasACL($s3_instance, $bucket, $s3_settings['account_id'])) {
+				S3Seed::putBucketAcl($s3_instance, $bucket, $s3_settings['account_id']);
+            }
 
 		} else {
 
 			try {
-				$new_bucket = $s3_instance->putBucket($bucket);
+				$new_bucket = $s3_instance->createBucket([
+					'Bucket' => $bucket,
+					'GrantFullControl' => 'id='.$s3_settings['account_id']
+				]);
+
+                // make sure the ACLs are set correctly
+				if (!S3Seed::accountHasACL($s3_instance, $bucket, $s3_settings['account_id'])) {
+					return false;
+				}
+
 			} catch (Exception $e) {
 				return false;
 			}
@@ -153,8 +178,43 @@ class S3Seed extends SeedBase {
 	}
 
 	// pass-through to S3 class
-	public function getAccessControlPolicy($bucket,$uri='') {
-		return $this->s3->getAccessControlPolicy($bucket,$uri);
+	public static function getBucketAcl($s3_instance, $bucket) {
+
+		$bucket_acl = $s3_instance->getBucketAcl([
+            'Bucket' => $bucket
+        ]);
+
+		if ($bucket_acl) {
+			// for now let's just send them the first key if it exists
+			if (!empty($bucket_acl['Grants'])) {
+				return $bucket_acl['Grants'];
+			}
+
+			return false;
+		}
+
+		return false;
+	}
+
+	public static function putBucketAcl($s3_instance, $bucket, $account_id) {
+
+		$bucket_acl = $s3_instance->putBucketAcl([
+			'Bucket' => $bucket,
+            'GrantFullControl' => 'id='.$account_id
+
+		]);
+	}
+
+	public static function accountHasACL($s3_instance, $bucket, $account_id) {
+        $acl = S3Seed::getBucketAcl($s3_instance, $bucket);
+
+        foreach($acl as $grants) {
+        	if ($grants['Grantee']['ID'] == $account_id) {
+        		return true;
+			}
+		}
+
+		return false;
 	}
 
 	// pass-through to S3 class
@@ -371,7 +431,7 @@ class S3Seed extends SeedBase {
 		} catch (Exception $e) {
 			return false;
 		}
-
+		error_log("#######".$bucket_location['LocationConstraint']);
 		return $bucket_location['LocationConstraint'];
 	}
 } // END class
