@@ -33,12 +33,21 @@ class ComposerAutoloaderInitafc707eded86cf8dccea3fab343db7ad
             foreach ($map as $namespace => $path) {
                 $loader->set($namespace, $path);
             }
+<<<<<<< c4a831ca013ca6b87c114caf46487fba2373fc86
 
             $map = require __DIR__ . '/autoload_psr4.php';
             foreach ($map as $namespace => $path) {
                 $loader->setPsr4($namespace, $path);
             }
 
+=======
+
+            $map = require __DIR__ . '/autoload_psr4.php';
+            foreach ($map as $namespace => $path) {
+                $loader->setPsr4($namespace, $path);
+            }
+
+>>>>>>> signature class + form build
             $classMap = require __DIR__ . '/autoload_classmap.php';
             if ($classMap) {
                 $loader->addClassMap($classMap);
@@ -67,4 +76,8 @@ function composerRequireafc707eded86cf8dccea3fab343db7ad($fileIdentifier, $file)
 
         $GLOBALS['__composer_autoload_files'][$fileIdentifier] = true;
     }
+<<<<<<< c4a831ca013ca6b87c114caf46487fba2373fc86
 }
+=======
+}
+>>>>>>> signature class + form build
