@@ -18,28 +18,38 @@
 			"description":"Settu upp niðurhalskóða innlausnar eyðublað.",
 			"longdescription":"Þessi eining mun sjá um innlausnir á öllum þínum niðurhalskóðum.",
 			"instructions":"Búðu til kóða fyrir eign þína á síðunni. Þessi eining býr til innlausnar eyðublað sem hægt er að nota við alla þína niðurhalskóða. Einfalt."
+		},
+		"es":{
+			"name":"Códigos de descarga",
+			"description":"Configure un formulario de entregar de código de descarga.",
+			"longdescription":"Todos sus códigos de descarga pueden ser entregar en este elemento.",
+			"instructions":"Haga códigos para su activo en su página. Este elemento crea un formulario de entregar que se puede utilizar para todas sus códigos de descarga. Es sencillo."
 		}
 	},
 	"options":{
 		"main":{
 			"group_label":{
 				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"is":"Aðal stillingar",
+				"es":"Configuración principal"
 			},
 			"description":{
 				"en":"Set the message that you want your customers to see after they redeem their code.",
-				"is":"Stilltu skilaboðin sem þú vilt að viðskiptavinir þínir sjá eftir að þeir nota niðurhalskóðann sinn."
+				"is":"Stilltu skilaboðin sem þú vilt að viðskiptavinir þínir sjá eftir að þeir nota niðurhalskóðann sinn.",
+				"en":"Configure el mensaje que quiere mostrar despues de que un cliente entrega un código de descarga."
 			},
 			"data":{
 				"message_success":{
 					"label":{
 						"en":"Success message",
-						"is":"Velgengnis skilaboð"
+						"is":"Velgengnis skilaboð",
+						"es":"Mensaje de éxito"
 					},
 					"type":"text",
 					"default":{
 						"en":"",
-						"is":""
+						"is":"",
+						"es":""
 					},
 					"required":true,
 					"displaysize":"medium"
