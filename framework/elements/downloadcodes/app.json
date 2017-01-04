@@ -21,7 +21,7 @@
 		},
 		"es":{
 			"name":"Códigos de descarga",
-			"description":"Configure un formulario de entregar de código de descarga.",
+			"description":"Configure un formulario de entregar un código de descarga.",
 			"longdescription":"Todos sus códigos de descarga pueden ser entregar en este elemento.",
 			"instructions":"Haga códigos para su activo en su página. Este elemento crea un formulario de entregar que se puede utilizar para todas sus códigos de descarga. Es sencillo."
 		}
