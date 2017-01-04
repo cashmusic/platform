@@ -1,0 +1,37 @@
+{
+    "name": "eddturtle/direct-upload",
+    "description": "Composer Package to build an AWS Signature ready to Direct Upload to S3",
+    "license": "MIT",
+    "keywords": [
+        "direct",
+        "upload",
+        "aws",
+        "s3",
+        "php",
+        "amazon",
+        "signature"
+    ],
+    "authors": [
+        {
+            "name": "Edd Turtle",
+            "email": "edd@designedbyaturtle.co.uk",
+            "homepage": "https://www.designedbyaturtle.co.uk"
+        }
+    ],
+    "require": {
+        "php" : "~5.5|~7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "EddTurtle\\DirectUpload\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Eddturtle\\DirectUpload\\Tests\\": "tests/"
+        }
+    }
+}

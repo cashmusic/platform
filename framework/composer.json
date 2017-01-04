@@ -14,7 +14,8 @@
         "mandrill/mandrill": "^1.0",
         "erusev/parsedown": "^1.6",
         "stripe/stripe-php": "^4.1",
-        "aws/aws-sdk-php": "^3.19"
+        "aws/aws-sdk-php": "^3.19",
+        "eddturtle/direct-upload": "^1.6"
     },
     "license": "AGPL license",
     "authors": [

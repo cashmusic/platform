@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b1d216cc8d4f0878aaac053aefe05bd7",
-    "content-hash": "eaffe777403ff8b4de8acc74e452f7b9",
+    "hash": "ba773f10e9143d8218b17a9f4907b609",
+    "content-hash": "b1047c9f39ccd90ac1ac778a989e98c1",
     "packages": [
         {
             "name": "adam-paterson/oauth2-stripe",
@@ -239,6 +239,55 @@
             "description": "Super-simple, minimum abstraction MailChimp API v3 wrapper",
             "homepage": "https://github.com/drewm/mailchimp-api",
             "time": "2016-07-01 09:58:24"
+        },
+        {
+            "name": "eddturtle/direct-upload",
+            "version": "v1.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/eddturtle/direct-upload.git",
+                "reference": "2da0ef9c599dc029df3d9fd1441ea5f1c81c2f8e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/eddturtle/direct-upload/zipball/2da0ef9c599dc029df3d9fd1441ea5f1c81c2f8e",
+                "reference": "2da0ef9c599dc029df3d9fd1441ea5f1c81c2f8e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~5.5|~7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "EddTurtle\\DirectUpload\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Edd Turtle",
+                    "email": "edd@designedbyaturtle.co.uk",
+                    "homepage": "https://www.designedbyaturtle.co.uk"
+                }
+            ],
+            "description": "Composer Package to build an AWS Signature ready to Direct Upload to S3",
+            "keywords": [
+                "amazon",
+                "aws",
+                "direct",
+                "php",
+                "s3",
+                "signature",
+                "upload"
+            ],
+            "time": "2016-12-14 18:08:02"
         },
         {
             "name": "erusev/parsedown",

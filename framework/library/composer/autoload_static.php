@@ -10,6 +10,8 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
+        'b067bc7112e384b61c701452d53a14a8' => __DIR__ . '/..' . '/mtdowling/jmespath.php/src/JmesPath.php',
+        '8a9dc1de0ca7e01f3e08231539562f61' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/functions.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
     );
 
@@ -35,6 +37,10 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         array (
             'League\\OAuth2\\Client\\' => 21,
         ),
+        'J' => 
+        array (
+            'JmesPath\\' => 9,
+        ),
         'G' => 
         array (
             'GuzzleHttp\\Psr7\\' => 16,
@@ -46,6 +52,10 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         array (
             'Firebase\\JWT\\' => 13,
         ),
+        'E' => 
+        array (
+            'EddTurtle\\DirectUpload\\' => 23,
+        ),
         'D' => 
         array (
             'DrewM\\MailChimp\\' => 16,
@@ -56,6 +66,7 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         ),
         'A' => 
         array (
+            'Aws\\' => 4,
             'AdamPaterson\\OAuth2\\Client\\' => 27,
         ),
     );
@@ -86,6 +97,10 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
             0 => __DIR__ . '/..' . '/league/oauth2-client/src',
             1 => __DIR__ . '/..' . '/league/oauth2-google/src',
         ),
+        'JmesPath\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mtdowling/jmespath.php/src',
+        ),
         'GuzzleHttp\\Psr7\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
@@ -106,6 +121,10 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
+        'EddTurtle\\DirectUpload\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/eddturtle/direct-upload/src',
+        ),
         'DrewM\\MailChimp\\' => 
         array (
             0 => __DIR__ . '/..' . '/drewm/mailchimp-api/src',
@@ -113,6 +132,10 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         'CFreear\\OAuth2\\Client\\' => 
         array (
             0 => __DIR__ . '/..' . '/cfreear/oauth2-mailchimp/src',
+        ),
+        'Aws\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/aws/aws-sdk-php/src',
         ),
         'AdamPaterson\\OAuth2\\Client\\' => 
         array (

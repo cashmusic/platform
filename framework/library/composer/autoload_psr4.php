@@ -18,6 +18,7 @@ return array(
     'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'Google\\Auth\\' => array($vendorDir . '/google/auth/src'),
     'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
+    'EddTurtle\\DirectUpload\\' => array($vendorDir . '/eddturtle/direct-upload/src'),
     'DrewM\\MailChimp\\' => array($vendorDir . '/drewm/mailchimp-api/src'),
     'CFreear\\OAuth2\\Client\\' => array($vendorDir . '/cfreear/oauth2-mailchimp/src'),
     'Aws\\' => array($vendorDir . '/aws/aws-sdk-php/src'),

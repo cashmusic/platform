@@ -13,6 +13,8 @@
  *
  * This file is generously sponsored by Miles Fender - http://www.streetlightfarm.com
  *
+ * http://docs.aws.amazon.com/aws-sdk-php/v2/api/class-Aws.S3.S3Client.html#_getObject
+ *
  **/
 class S3Seed extends SeedBase {
 	protected $s3,$bucket='';
@@ -147,7 +149,6 @@ class S3Seed extends SeedBase {
 			'@region' => $bucket_region
 		])) {
 
-			//TODO: when does this happen?
             if (!S3Seed::accountHasACL($s3_instance, $bucket, $s3_settings['account_id'])) {
 				S3Seed::putBucketAcl($s3_instance, $bucket, $s3_settings['account_id']);
             }
@@ -217,11 +218,6 @@ class S3Seed extends SeedBase {
 		return false;
 	}
 
-	// pass-through to S3 class
-	public function setAccessControlPolicy($bucket,$uri='',$acp=array()) {
-		return $this->s3->setAccessControlPolicy($bucket,$uri,$acp);
-	}
-
 	public function authorizeEmailForBucket($bucket,$address,$auth_type='FULL_CONTROL') {
 		$acp = $this->s3->getAccessControlPolicy($bucket);
 		$acp['acl'][] = array('email' => $address,'permission'=>$auth_type);
@@ -229,37 +225,61 @@ class S3Seed extends SeedBase {
 	}
 
 	public function getExpiryURL($path,$timeout=1000,$attachment=true,$private=true,$mime_type=true) {
-		// TODO:
-		// move all options after location to a parameters array, so we can have a unified
-		// footprint across seeds.
+		// TODO: move all options after location to a parameters array, so we can have a unified footprint across seeds.
 		$headers = false;
 		if ($attachment || $private) {
-			$headers = array();
+			$headers = array(
+                'Bucket' => $this->bucket,
+                'Key' => $path,
+			);
+
 			if ($attachment) {
-				$headers['response-content-disposition'] = 'attachment';
+				$headers['ResponseContentDisposition'] = 'attachment; filename="'.basename($path).'"';
+			} else {
+                $headers['ResponseContentDisposition'] = 'filename="'.basename($path).'"';
 			}
+
 			if ($private) {
-				$headers['response-cache-control'] = 'no-cache';
+				$headers['ResponseCacheControl'] = 'no-cache';
+			} else {
+				$headers['ResponseExpires'] = 'Expires: Fri, 15 Apr '.date('Y', strtotime("+20 years")).' 20:00:00 GMT';
 			}
+
 			if ($mime_type && $mime_type !== true) {
-				$headers['response-content-type'] = $mime_type;
+				$headers['ResponseContentType'] = $mime_type;
 			} else if ($mime_type === true) {
-				CASHSystem::getMimeTypeFor($path);
+                $headers['ResponseContentType'] = CASHSystem::getMimeTypeFor($path);
 			}
 		}
-		return $this->s3->getAuthenticatedURL($this->bucket, $path, $timeout, false, false, $headers);
+
+        $command = $this->s3->getCommand('GetObject', $headers);
+
+        return $command->createPresignedUrl('+'.($timeout/60).' minutes');
 	}
 
 	public function uploadFile($local_file,$remote_key=false,$private=true,$content_type='application/octet-stream') {
-		if ($private) {
-			$s3_acl = S3::ACL_PRIVATE;
-		} else {
-			$s3_acl = S3::ACL_PUBLIC_READ;
-		}
-		if (!$remote_key) {
-			$remote_key = baseName($local_file);
-		}
-		return $this->s3->putObjectFile($local_file, $this->bucket, $remote_key, $s3_acl, array(), $content_type);
+
+        $filename = strtolower(preg_replace('/[^a-zA-Z 0-9.\-\/]+/','',
+            	(($remote_key) ? $remote_key : basename($local_file))
+			));
+
+        $headers = [
+            'ACL' => (($private) ? "private" : "public"),
+            'Body' => file_get_contents($local_file),
+            'Bucket' => $this->bucket,
+            'ContentDisposition' => 'filename="'.basename($filename).'"',
+            'ContentLength' => filesize($local_file),
+            'ContentType' => $content_type,
+            'Key' => $filename
+        ];
+
+        if ($private) {
+            $headers['CacheControl'] = 'no-cache';
+        } else {
+            $headers['Expires'] = 'Expires: Fri, 15 Apr '.date('Y', strtotime("+20 years")).' 20:00:00 GMT';
+        }
+
+        return $this->s3->putObject($headers);
 	}
 
 	public function createFileFromString($contents,$remote_key,$private=true,$content_type='text/plain') {
@@ -295,35 +315,37 @@ class S3Seed extends SeedBase {
 	}
 
 	public function finalizeUpload($filename) {
-		$content_type = CASHSystem::getMimeTypeFor($filename);
-		return $this->prepareFileMetadata($filename,$content_type);
+		//TODO: this needs to go bye bye
+		return true;
 	}
 
 	public function makePublic($filename) {
-		$content_type = CASHSystem::getMimeTypeFor($filename);
-		if ($this->prepareFileMetadata($filename,$content_type,false)) {
-			return 'https://s3.amazonaws.com/' . $this->getBucketName() . '/' . $filename;
-		} else {
-			return false;
-		}
+        return 'https://s3.amazonaws.com/' . $this->bucket . '/' . $filename;
 	}
 
 	public function deleteFile($remote_key) {
-		return $this->s3->deleteObject($this->bucket, $remote_key);
+		return $this->s3->deleteObject([
+			'Bucket' => $this->bucket,
+			'Key'	 => $remote_key
+		]);
 	}
 
 	public function getFileDetails($remote_key) {
-		return $this->s3->getObjectInfo($this->bucket, $remote_key);
+		return $this->s3->getObjectInfo([
+			'Bucket' => $this->bucket,
+			'Key' => $remote_key
+		]);
 	}
 
 	public function listAllFiles($show_folders=false) {
-		$raw_file_list = $this->s3->getBucket($this->bucket);
+		$raw_file_list = $this->s3->getIterator('ListObjects', array(
+            'Bucket' => $this->bucket
+        ));
+
 		if (!$show_folders) {
 			$return_array = array();
-			foreach ($raw_file_list as $uri => $details) {
-				if (substr($uri,-1) !== '/') {
-					$return_array[$uri] = $details;
-				}
+			foreach ($raw_file_list as $file) {
+					$return_array[$file['Key']] = $file['Key'];
 			}
 		} else {
 			$return_array = $raw_file_list;
@@ -332,40 +354,32 @@ class S3Seed extends SeedBase {
 	}
 
 	public function getUploadParameters($key_preface=false,$success_url=200,$for_flash=false) {
+
 		if (!$key_preface) {
 			$key_preface = 'cashmusic-' . $this->connection_id . $this->settings->creation_date . '/' . time() . '/';
 		}
+
 		if (substr($key_preface, -1) != '/') {
 			$key_preface .= '/';
 		}
-		$upload_url = 'https://' . $this->bucket . '.s3.amazonaws.com/';
-		$params = false;
-		if (!$for_flash) {
-			$params = $this->s3->getHttpUploadPostParams(
-				$this->bucket,
-				$key_preface,
-				S3::ACL_PRIVATE,
-				1200,
-				1610612736,
-				$success_url
-			);
-		} else {
-			$params = $this->s3->getHttpUploadPostParams(
-				$this->bucket,
-				$key_preface,
-				S3::ACL_PRIVATE,
-				1200,
-				2147483648,
-				201,
-				array(),
-				array(),
-				true
-			);
-		}
-		$return_array = (array) $params;
-		$return_array['bucketname'] = $this->bucket;
-		$return_array['connection_type'] = $this->settings_type;
-		return $return_array;
+
+        $upload = \EddTurtle\DirectUpload\Signature(
+        	$this->s3_key,
+			$this->s3_secret,
+			$this->bucket,
+			$this->bucket_region
+		);
+
+		return [
+			'upload' => $upload,
+			'bucketname' => $this->bucket,
+			'connection_type' => $this->settings_type,
+			'key_preface' => $key_preface,
+			'acl' => 'private',
+			'lifetime' => 1200,
+			'max_size' => 5000000000,
+			'success' => $success_url
+		];
 	}
 
 	public function getPOSTUploadHTML($key_preface='',$success_url=200,$for_flash=false) {
@@ -393,10 +407,6 @@ class S3Seed extends SeedBase {
 			$output_html .= '<input type="file" name="file" /><br /><input type="submit" class="button" value="Upload" /></form></body></html>';
 			return $output_html;
 		}
-	}
-
-	public function getAWSSystemTime() {
-		return $this->s3->getAWSSystemTime();
 	}
 
 	/**
