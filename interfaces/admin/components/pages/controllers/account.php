@@ -108,7 +108,7 @@ $cash_admin->page_data['language_as_options'] = AdminHelper::echoLanguageOptions
 	$cash_admin->page_data['language']
 );
 
-if ($current_userdata['payload'] !== false) {
+if (!empty($current_userdata['payload']) && $current_userdata['payload'] !== false) {
 	if (isset($_POST['dolanguagechange'])) {
 		if (isset($cash_admin->page_data['language'])) {
 			AdminHelper::formSuccess('Success. Language changed.');

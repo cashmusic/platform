@@ -17,7 +17,7 @@
  *
  **/
 class S3Seed extends SeedBase {
-	protected $s3,$bucket='';
+	protected $s3,$bucket='',$s3_key,$s3_secret,$s3_account_id;
 
 	public function __construct($user_id,$connection_id) {
 		$this->settings_type = 'com.amazon';
@@ -26,23 +26,24 @@ class S3Seed extends SeedBase {
 		$this->connectDB();
 		if ($this->getCASHConnection()) {
 			//require_once(CASH_PLATFORM_ROOT.'/lib/S3.php');
-			$s3_key    = $this->settings->getSetting('key');
-			$s3_secret = $this->settings->getSetting('secret');
-            $s3_account_id = $this->settings->getSetting('account_id');
+			$this->s3_key    = $this->settings->getSetting('key');
+			$this->s3_secret = $this->settings->getSetting('secret');
+            $this->s3_account_id = $this->settings->getSetting('account_id');
 
-			if (!$s3_key || !$s3_secret) {
+            $this->bucket = $this->settings->getSetting('bucket');
+            $this->bucket_region = $this->settings->getSetting('bucket_region');
+
+
+			if (!$this->s3_key || !$this->s3_secret) {
 				$connections = CASHSystem::getSystemSettings('system_connections');
 				if (isset($connections['com.amazon'])) {
-					$s3_key    = $connections['com.amazon']['key'];
-					$s3_secret = $connections['com.amazon']['secret'];
-                    $s3_account_id = $connections['com.amazon']['account_id'];
+					$this->s3_key    = $connections['com.amazon']['key'];
+					$this->s3_secret = $connections['com.amazon']['secret'];
+                    $this->s3_account_id = $connections['com.amazon']['account_id'];
 				}
 			}
 
-			$this->s3 = S3Seed::createS3Client($s3_key, $s3_secret);
-			$this->bucket = $this->settings->getSetting('bucket');
-
-			$this->bucket_region = $this->settings->getSetting('bucket_region');
+			$this->s3 = S3Seed::createS3Client($this->s3_key, $this->s3_secret);
 
 			if (empty($this->bucket_region) && !empty($this->bucket)) {
 				$this->bucket_region = S3Seed::getBucketRegion($this->s3, $this->bucket);
@@ -93,23 +94,24 @@ class S3Seed extends SeedBase {
 		} else {
 			$s3_default_email = false;
 		}
-		$success = S3Seed::connectAndAuthorize($data['key'],$data['secret'],$data['bucket'],$s3_default_email);
-		if ($success) {
+
+
+		if ($bucket_region = S3Seed::connectAndAuthorize($data['key'],$data['secret'],$data['bucket'],$s3_default_email)) {
 			// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
 			// calls would only happen in the admin. If this changes we can fuck around with it later.
 			$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
 
-			$connection_name = $data['bucket'] . ' (Amazon S3)';
-			if (substr($connection_name, 0, 10) == 'cashmusic.') {
-				$connection_name = 'Amazon S3 (created ' . date("M j, Y") . ')';
-			}
+			$connection_name = 'Amazon S3 (created ' . date("M j, Y") . ')';
+
 			$result = $new_connection->setSettings(
 				$connection_name,
 				'com.amazon',
 				array(
-					'bucket' => $data['bucket']
+					'bucket' => $data['bucket'],
+                    'bucket_region' => $bucket_region
 				)
 			);
+
 			if ($result) {
 				AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
 			} else {
@@ -125,41 +127,34 @@ class S3Seed extends SeedBase {
 
 	public static function connectAndAuthorize($key,$secret,$bucket,$email,$auth_type='FULL_CONTROL') {
 
-/*        $shit = new \Aws\Sts\StsClient([
-            'version'     => '2011-06-15',
-            'region'      => 'us-east-1',
-            'credentials' => [
-                'key'    => $key,
-                'secret' => $secret
-            ]
-        ]);
-
-        error_log("stsclient: ". print_r(
-            $shit->GetCallerIdentity([]), true
-        ));*/
-
 		$s3_instance = S3Seed::createS3Client($key, $secret, 'us-east-1');
-		$bucket_region = S3Seed::getBucketRegion($s3_instance, $bucket);
 
 		$system_s3_settings = CASHSystem::getSystemSettings();
 		$s3_settings = $system_s3_settings['system_connections']['com.amazon'];
 
 		// check if bucket exists
-		if ($s3_instance->doesBucketExist($bucket, true, [
-			'@region' => $bucket_region
-		])) {
+		if ($s3_instance->doesBucketExist($bucket, true, [])) {
 
             if (!S3Seed::accountHasACL($s3_instance, $bucket, $s3_settings['account_id'])) {
 				S3Seed::putBucketAcl($s3_instance, $bucket, $s3_settings['account_id']);
             }
 
+            S3Seed::setBucketCORS($s3_instance, $bucket);
+
+            $bucket_region = S3Seed::getBucketRegion($s3_instance, $bucket);
+
+            return $bucket_region;
+
 		} else {
 
 			try {
-				$new_bucket = $s3_instance->createBucket([
+				$s3_instance->createBucket([
 					'Bucket' => $bucket,
-					'GrantFullControl' => 'id='.$s3_settings['account_id']
+					'GrantFullControl' => 'id='.$s3_settings['account_id'],
+					'LocationConstraint' => 'us-east-1'
 				]);
+
+                S3Seed::setBucketCORS($s3_instance, $bucket);
 
                 // make sure the ACLs are set correctly
 				if (!S3Seed::accountHasACL($s3_instance, $bucket, $s3_settings['account_id'])) {
@@ -167,14 +162,45 @@ class S3Seed extends SeedBase {
 				}
 
 			} catch (Exception $e) {
+				error_log($e->getMessage());
 				return false;
 			}
 
-			return $new_bucket;
+			return 'us-east-1';
 		}
 	}
 
-	public function getBucketName() {
+    /**
+     * @param $bucket
+     * @param $s3_instance
+     */
+    public static function setBucketCORS($s3_instance, $bucket)
+    {
+        try {
+            $s3_instance->putBucketCors([
+                // Bucket is required
+                'Bucket' => $bucket,
+                // CORSRules is required
+                'CORSConfiguration' => ['CORSRules' => [
+						[
+							'AllowedHeaders' => ['*'],
+							'AllowedMethods' => ['PUT', 'POST', 'DELETE', 'GET', 'HEAD'],
+							'AllowedOrigins' => ['*'],
+                            'MaxAgeSeconds' => 3000
+						]
+
+					]
+				]
+            ]);
+		} catch (Exception $e) {
+        	error_log($e->getMessage());
+        	return false;
+		}
+
+		return true;
+    }
+
+    public function getBucketName() {
 		return $this->bucket;
 	}
 
@@ -254,7 +280,7 @@ class S3Seed extends SeedBase {
 
         $command = $this->s3->getCommand('GetObject', $headers);
 
-        return $command->createPresignedUrl('+'.($timeout/60).' minutes');
+        return $this->s3->createPresignedUrl($command, '+'.($timeout/60).' minutes');
 	}
 
 	public function uploadFile($local_file,$remote_key=false,$private=true,$content_type='application/octet-stream') {
@@ -295,32 +321,8 @@ class S3Seed extends SeedBase {
 		}
 	}
 
-	public function prepareFileMetadata($filename,$content_type,$private=true) {
-		if ($private) {
-			$s3_acl = S3::ACL_PRIVATE;
-		} else {
-			$s3_acl = S3::ACL_PUBLIC_READ;
-		}
-		//$new_filename = strtolower(preg_replace('/[^a-zA-Z 0-9.\-\/]+/','',$filename));
-		//error_log('1: '.$filename);
-		//error_log('2: '.strtolower(preg_replace('/[^a-zA-Z 0-9.\-\/]+/','',$filename)));
-		$new_filename = $filename;
-		return $this->s3->copyObject(
-			$this->bucket, $filename, $this->bucket,
-			$new_filename,
-			$s3_acl,
-			array(),
-			array("Content-Type" => $content_type, "Content-Disposition" => 'attachment')
-		);
-	}
-
-	public function finalizeUpload($filename) {
-		//TODO: this needs to go bye bye
-		return true;
-	}
-
 	public function makePublic($filename) {
-        return 'https://s3.amazonaws.com/' . $this->bucket . '/' . $filename;
+        return 'https://s3.amazonaws.com/' . $filename; //$this->bucket . '/' .
 	}
 
 	public function deleteFile($remote_key) {
@@ -331,7 +333,7 @@ class S3Seed extends SeedBase {
 	}
 
 	public function getFileDetails($remote_key) {
-		return $this->s3->getObjectInfo([
+		return $this->s3->getObject([
 			'Bucket' => $this->bucket,
 			'Key' => $remote_key
 		]);
@@ -363,7 +365,7 @@ class S3Seed extends SeedBase {
 			$key_preface .= '/';
 		}
 
-        $upload = \EddTurtle\DirectUpload\Signature(
+        $upload = new \EddTurtle\DirectUpload\Signature(
         	$this->s3_key,
 			$this->s3_secret,
 			$this->bucket,
@@ -371,14 +373,16 @@ class S3Seed extends SeedBase {
 		);
 
 		return [
-			'upload' => $upload,
+			'upload_url' => $upload->getFormUrl(),
+            'inputs' => $upload->getFormInputsAsHtml(),
 			'bucketname' => $this->bucket,
 			'connection_type' => $this->settings_type,
 			'key_preface' => $key_preface,
 			'acl' => 'private',
 			'lifetime' => 1200,
 			'max_size' => 5000000000,
-			'success' => $success_url
+			'success' => $success_url,
+			's3_key' => $this->s3_key
 		];
 	}
 
@@ -407,6 +411,10 @@ class S3Seed extends SeedBase {
 			$output_html .= '<input type="file" name="file" /><br /><input type="submit" class="button" value="Upload" /></form></body></html>';
 			return $output_html;
 		}
+	}
+
+	public function finalizeUpload($arg) {
+		return true;
 	}
 
 	/**
@@ -439,9 +447,10 @@ class S3Seed extends SeedBase {
 				'Bucket' => $bucket_name
 			]);
 		} catch (Exception $e) {
+		    error_log($e->getMessage());
 			return false;
 		}
-		error_log("#######".$bucket_location['LocationConstraint']);
+
 		return $bucket_location['LocationConstraint'];
 	}
 } // END class

@@ -1,71 +1,130 @@
-{{#AWSAccessKeyId}}
-<form accept-charset="UTF-8" id="file_upload" method="post" class="nodefaultajax" action="https://{{bucketname}}.s3.amazonaws.com/" enctype="multipart/form-data">
-	<input type="hidden" name="key" id="file_upload_key" value="{{key}}" />
-	<input type="hidden" name="AWSAccessKeyId" value="{{AWSAccessKeyId}}" />
-	<input type="hidden" name="acl" value="{{acl}}" />
-	<input type="hidden" name="success_action_status" value="{{success_action_status}}" />
-	<input type="hidden" name="policy" value="{{policy}}" />
-	<input type="hidden" name="signature" value="{{signature}}" />
-	<input type="file" name="file" />
-</form>
+{{#s3_key}}
 
-<script src="{{www_path}}/ui/default/assets/scripts/jquery.iframe-transport.js"></script>
-<script src="{{www_path}}/ui/default/assets/scripts/jquery.fileupload.js"></script>
+    <style>
+        /* HEY CHRIS THIS IS FPOEY */
 
-<script type="text/javascript">
-	$(function() {
-		var filename,filekey,connectionId,finalizeUrl;
-		filekey = '{{key}}';
-		connectionId = '{{connection_id}}';
-		finalizeUrl = '{{www_path}}/ajax/finalizeupload';
-		$('#loading').hide();
+        /* show upload progress with bars */
+        .progress-bar-area {
+            margin-top: 20px;
+            border-radius: 0px !important; }
 
-		$('#file_upload').fileupload({
-			forceIframeTransport: true,
-			autoUpload: true,
-			add: function (e, data) {
-				// remember the filename and submit
-				filename = data.files[0].name;
-				filekey = filekey.replace('${filename}','') + filename.replace(/[^a-zA-Z0-9.\-\_]+/g, '').toLowerCase();
+        .progress {
+            display: none;
+            position: relative;
+            width: 100%;
+            height: 40px;
+            background: #C7DA9F;
+            overflow: hidden;
+            margin-top: 10px;
+            border-radius: 0px !important; }
 
-				$('#file_upload_key').val(filekey);//.key.value = filekey;
+        .bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 35px;
+            background: darkred;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            font-size: 11px;
+            border-radius: 0px !important; }
 
-				data.submit();
-			},
-			send: function(e, data) {
-				// spinner, etc
-				$('#loadingmask').css('width','101%');
-			},
-			fail: function(e, data) {
-				// we should do something useful here
-				$('#loadingmask').css('width','1%');
-			},
-			done: function (event, data) {
-				// hide the spinner, add the final key to the location field of the
-				// main form, call ajax/finalizeupload with the key
-				$('.upload-corral').fadeOut();
+        .bar.red {
+            background: tomato; }
 
-				jQuery.post(finalizeUrl, 'connection_id='+connectionId+'&filename='+filekey, function(data) {
-					if (data.success) {
-						//alert('done: ' + finalkey);
-					} else {
-						//alert('done, but could not set MIME type: ' + finalkey);
-					}
-				},'json');
-				$('#asset_location').val(filekey);
-				//$('#asset_location').val(finalkey.replace(/[^a-zA-Z 0-9.\-\/]+/g, '').toLowerCase()); // LEAP OF FAITH! We do the same transform to the file name in the S3Seed finalize call. SUPER DAMN IMPORTANT! SO IMPORTANT THAT I'M TYPING A HELLA LONG UGLY LINE HERE
-				$('#loadingmask').css('width','1%');
+    </style>
 
-				// IF PARENT FORM HAS .autosubmit then submit that shit
-		      var parentForm = $('#asset_location').closest('form');
-				if (parentForm.hasClass('autosubmit')) {
-					parentForm.submit();
-		      }
-			}
-		});
-	});
-</script>
-{{/AWSAccessKeyId}}
-{{^AWSAccessKeyId}}
-	{{copy_choose_connection}}
-{{/AWSAccessKeyId}}
+    <form accept-charset="UTF-8" id="file_upload" method="post" class="direct-upload novalidate" action="{{upload_url}}" enctype="multipart/form-data">
+        {{{inputs}}}
+        <input type="hidden" name="Content-Type">
+
+        <div class="progress-bar-area"></div>
+        <input type="file" name="file" />
+    </form>
+
+    <script src="{{www_path}}/ui/default/assets/scripts/jquery.fileupload.js"></script>
+
+    <script type="text/javascript">
+        $(function() {
+            var filename, file, filekey, connectionId, finalizeUrl;
+            filekey = '{{key}}';
+            connectionId = '{{connection_id}}';
+            finalizeUrl = '{{www_path}}/ajax/finalizeupload';
+
+            var form = $('.direct-upload');
+            var filesUploaded = [];
+
+            $('#loading').hide();
+
+            form.fileupload({
+                url: form.attr('action'),
+                type: form.attr('method'),
+                datatype: 'xml',
+                autoUpload: true,
+                add: function (event, data) {
+                    // Show warning message if your leaving the page during an upload.
+                    window.onbeforeunload = function () {
+                        return 'You have unsaved changes.';
+                    };
+                    // Give the file which is being uploaded it's current content-type (It doesn't retain it otherwise)
+                    // and give it a unique name (so it won't overwrite anything already on s3).
+                    filename = data.files[0].name;
+                    file = data.files[0];
+
+                    var date = new Date();
+                    var timestamp = date.getTime();
+
+                    filekey = "{{bucketname}}" + "/" + timestamp + "/" + filename.replace(/[^a-zA-Z0-9.\-\_]+/g, '').toLowerCase();
+
+                    form.find('input[name="Content-Type"]').val(file.type);
+                    form.find('input[name="key"]').val(filekey);
+                    // Actually submit to form to S3.
+                    data.submit();
+                    // Show the progress bar
+                    // Uses the file size as a unique identifier
+                    var bar = $('<div class="progress" data-mod="' + file.size + '"><div class="bar"></div></div>');
+                    $('.progress-bar-area').append(bar);
+                    bar.slideDown('fast');
+                },
+                progress: function (e, data) {
+                    // This is what makes everything really cool, thanks to that callback
+                    // you can now update the progress bar based on the upload progress.
+                    var percent = Math.round((data.loaded / data.total) * 100);
+                    $('.progress[data-mod="' + data.files[0].size + '"] .bar').css('width', percent + '%').html(percent + '%');
+                },
+                fail: function (e, data) {
+                    // Remove the 'unsaved changes' message.
+                    window.onbeforeunload = null;
+                    $('.progress[data-mod="' + data.files[0].size + '"] .bar').css('width', '100%').addClass('red').html('');
+                },
+                done: function (event, data) {
+                    window.onbeforeunload = null;
+
+                    $('.upload-corral').fadeOut();
+
+                    $.post(finalizeUrl, 'connection_id='+connectionId+'&filename='+filekey, function(data) {
+                        if (data.success) {
+                            //alert('done: ' + finalkey);
+                        } else {
+                            //alert('done, but could not set MIME type: ' + finalkey);
+                        }
+                    },'json');
+
+                    $('#asset_location').val(filekey);
+
+                    // IF PARENT FORM HAS .autosubmit then submit that shit
+                    var parentForm = $('#asset_location').closest('form');
+                    if (parentForm.hasClass('autosubmit')) {
+                        parentForm.submit();
+                    }
+
+                }
+            });
+        });
+    </script>
+{{/s3_key}}
+{{^s3_key}}
+    {{copy_choose_connection}}
+{{/s3_key}}
