@@ -622,13 +622,13 @@ class AssetPlant extends PlantBase {
 		}
 	}
 
-	protected function getUploadParameters($connection_id,$user_id) {
+	protected function getUploadParameters($connection_id,$user_id,$acl=false) {
 		$connection = $this->getConnectionDetails($connection_id);
 		$connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
 		if (is_array($connection_type)) {
 			$seed_type = $connection_type['seed'];
 			$seed = new $seed_type($user_id,$connection_id);
-			return $seed->getUploadParameters();
+			return $seed->getUploadParameters($acl);
 		} else {
 			return false;
 		}
