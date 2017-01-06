@@ -355,7 +355,9 @@ class S3Seed extends SeedBase {
 		return $return_array;
 	}
 
-	public function getUploadParameters($key_preface=false,$success_url=200,$for_flash=false) {
+	public function getUploadParameters($acl=false, $key_preface=false,$success_url=200,$for_flash=false) {
+
+        if (!$acl) $acl = "private";
 
 		if (!$key_preface) {
 			$key_preface = 'cashmusic-' . $this->connection_id . $this->settings->creation_date . '/' . time() . '/';
@@ -369,7 +371,8 @@ class S3Seed extends SeedBase {
         	$this->s3_key,
 			$this->s3_secret,
 			$this->bucket,
-			$this->bucket_region
+			$this->bucket_region,
+            ['acl'=>$acl]
 		);
 
 		return [

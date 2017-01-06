@@ -39,7 +39,6 @@
     <form accept-charset="UTF-8" id="file_upload" method="post" class="direct-upload novalidate" action="{{upload_url}}" enctype="multipart/form-data">
         {{{inputs}}}
         <input type="hidden" name="Content-Type">
-
         <div class="progress-bar-area"></div>
         <input type="file" name="file" />
     </form>
@@ -76,7 +75,7 @@
                     var date = new Date();
                     var timestamp = date.getTime();
 
-                    filekey = "{{bucketname}}" + "/" + timestamp + "/" + filename.replace(/[^a-zA-Z0-9.\-\_]+/g, '').toLowerCase();
+                    filekey = timestamp + "/" + filename.replace(/[^a-zA-Z0-9.\-\_]+/g, '').toLowerCase();
 
                     form.find('input[name="Content-Type"]').val(file.type);
                     form.find('input[name="key"]').val(filekey);
@@ -103,16 +102,7 @@
                     window.onbeforeunload = null;
 
                     $('.upload-corral').fadeOut();
-
-                    $.post(finalizeUrl, 'connection_id='+connectionId+'&filename='+filekey, function(data) {
-                        if (data.success) {
-                            //alert('done: ' + finalkey);
-                        } else {
-                            //alert('done, but could not set MIME type: ' + finalkey);
-                        }
-                    },'json');
-
-                    $('#asset_location').val(filekey);
+                    $('#asset_location').val("{{bucketname}}" + "/" + filekey);
 
                     // IF PARENT FORM HAS .autosubmit then submit that shit
                     var parentForm = $('#asset_location').closest('form');
