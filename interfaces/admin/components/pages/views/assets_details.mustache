@@ -1,7 +1,7 @@
 {{! corresponding files: assets_edit.php & assets_edit.json }}
 
 
-<form accept-charset="UTF-8" method="post" action="{{#assets_add_action}}{{www_path}}/assets/add/{{/assets_add_action}}">
+<form accept-charset="UTF-8" class="novalidate" method="post" action="{{#assets_add_action}}{{www_path}}/assets/add/{{/assets_add_action}}">
 	<input type="hidden" name="{{form_state_action}}" value="makeitso" />
 
 	<label for="asset_title">{{label_title}}</label>
