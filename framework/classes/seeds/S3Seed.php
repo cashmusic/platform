@@ -322,7 +322,47 @@ class S3Seed extends SeedBase {
 	}
 
 	public function makePublic($filename) {
-        return 'https://s3.amazonaws.com/' . $filename; //$this->bucket . '/' .
+		error_log("s3seed make public");
+    	$filename = str_replace($this->bucket."/", "", $filename);
+
+        $public_uri = $this->changeObjectACL($filename, "public-read");
+
+    	if (!empty($public_uri)) {
+    		error_log("changed okay sure");
+            return $public_uri; //$this->bucket . '/' .
+		} else {
+    		error_log("nope");
+    		return false;
+		}
+
+	}
+
+	public function makePrivate($filename) {
+
+        $filename = str_replace($this->bucket."/", "", $filename);
+
+        if ($this->changeObjectACL($filename, "private")) {
+            return $this->bucket . '/' . $filename;
+        } else {
+            return false;
+        }
+
+    }
+
+    public function changeObjectACL($remote_key, $acl) {
+        try {
+            $result = $this->s3->putObjectAcl(array(
+                'ACL' => $acl,
+                // Bucket is required
+                'Bucket' => $this->bucket,
+                'Key' => $remote_key
+            ));
+		} catch (Exception $e) {
+        	error_log($e->getMessage());
+        	return false;
+		}
+
+		return str_replace("?acl", "", $result['@metadata']['effectiveUri']);
 	}
 
 	public function deleteFile($remote_key) {
