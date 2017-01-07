@@ -366,6 +366,10 @@ class S3Seed extends SeedBase {
 	}
 
 	public function deleteFile($remote_key) {
+
+        // we need to remove the bucket from the uri
+        $remote_key = str_replace($this->bucket."/", "", $remote_key);
+
 		return $this->s3->deleteObject([
 			'Bucket' => $this->bucket,
 			'Key'	 => $remote_key

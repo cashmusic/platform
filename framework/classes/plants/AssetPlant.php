@@ -276,9 +276,21 @@ class AssetPlant extends PlantBase {
 		return $result;
 	}
 
-	protected function deleteAsset($id,$user_id=false) {
+	protected function deleteAsset($id,$user_id=false, $connection_id=false) {
 		$asset_details = $this->getAssetInfo($id);
+
+
 		if ($asset_details) {
+
+            $connection = $this->getConnectionDetails($connection_id);
+            $connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
+
+            if (is_array($connection_type)) {
+                $seed_type = $connection_type['seed'];
+                $seed = new $seed_type($user_id,$connection_id);
+                $seed->deleteFile($asset_details['location']);
+            }
+
 			$user_id_match = true;
 			if ($user_id) {
 				if ($asset_details['user_id'] != $user_id) {
@@ -331,6 +343,7 @@ class AssetPlant extends PlantBase {
 			} else {
 				return false;
 			}
+
 		} else {
 			return false;
 		}

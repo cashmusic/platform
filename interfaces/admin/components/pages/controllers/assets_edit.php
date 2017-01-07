@@ -159,9 +159,14 @@ if ($asset_codes) {
 if ($cash_admin->page_data['type'] == 'file') {
 	// parent id options markup:
 	//$cash_admin->page_data['parent_options'] = '<option value="0" selected="selected">None</option>';
+
+    $cash_admin->page_data['parent_options'] = "";
+
 	$cash_admin->page_data['parent_options'] .= AdminHelper::echoFormOptions('assets',$cash_admin->page_data['parent_id'],$cash_admin->getAllFavoriteAssets(),true);
 	// connection options markup:
 	//$cash_admin->page_data['connection_options'] = '<option value="0" selected="selected">None (Normal http:// link)</option>';
+
+    $cash_admin->page_data['connection_options'] = "";
 	$cash_admin->page_data['connection_options'] .= AdminHelper::echoConnectionsOptions('assets', $cash_admin->page_data['connection_id'], true);
 
 	if ($cash_admin->page_data['connection_id'] != 0) {
