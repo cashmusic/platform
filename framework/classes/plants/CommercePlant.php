@@ -35,6 +35,8 @@ class CommercePlant extends PlantBase {
             'deleteitem'               => array('deleteItem','direct'),
             'deleteitemvariant'        => array('deleteItemVariant','direct'),
             'deleteitemvariants'       => array('deleteItemVariants','direct'),
+            'deletesubscription'       => array('deleteSubscription', 'direct'),
+            'deletesubscriptionplan'       => array('deleteSubscriptionPlan', 'direct'),
             'editcartquantity'	      => array('editCartQuantity',array('get','post','direct','api_public')),
             'editcartshipping'	      => array('editCartShipping',array('get','post','direct','api_public')),
             'editfulfillmentorder'     => array('editFulfillmentOrder','direct'),
@@ -2490,6 +2492,29 @@ class CommercePlant extends PlantBase {
         return $result;
     }
 
+    public function deleteSubscriptionPlan($user_id, $id) {
+
+        $results = $this->db->deleteData(
+            'subscriptions',
+            array(
+                'id' => array(
+                    'condition' => '=',
+                    'value' => $id
+                ),
+                'user_id' => array(
+                    'condition' => '=',
+                    'value' => $user_id
+                )
+            )
+
+        );
+
+        if (!$results) return false;
+
+        return true;
+
+    }
+
     public function getSubscriptionDetails($id) {
 
         // we can handle this as id or by customer payment token
@@ -2689,6 +2714,42 @@ class CommercePlant extends PlantBase {
                 'id' => array(
                     'condition' => '=',
                     'value' => $id
+                )
+            )
+
+        );
+
+        if (!$results) return false;
+
+        return true;
+    }
+
+    public function cancelSubscription($user_id, $connection_id, $id) {
+
+        $this->updateSubscription($id, "unsubscribed");
+        $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
+
+        $subscription = $this->getSubscriptionDetails($id);
+
+        if ($payment_seed->cancelSubscription($subscription['payment_identifier'])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function deleteSubscription($id, $subscription_id) {
+
+        $results = $this->db->deleteData(
+            'subscriptions_members',
+            array(
+                'id' => array(
+                    'condition' => '=',
+                    'value' => $id
+                ),
+                'subscription_id' => array(
+                    'condition' => '=',
+                    'value' => $subscription_id
                 )
             )
 
