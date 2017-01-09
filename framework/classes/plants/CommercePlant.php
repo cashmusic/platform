@@ -31,6 +31,7 @@ class CommercePlant extends PlantBase {
             'addsubscriptiontransaction'  => array('addSubscriptionTransaction','direct', 'api_public'),
             'addtransaction'              => array('addTransaction','direct'),
             'cancelorder'			      => array('cancelOrder','direct'),
+            'cancelsubscription'        => array('cancelSubscription', 'direct'),
             'createsubscriptionplan'   => array('createSubscriptionPlan', array('direct')),
             'deleteitem'               => array('deleteItem','direct'),
             'deleteitemvariant'        => array('deleteItemVariant','direct'),

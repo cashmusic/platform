@@ -17,6 +17,8 @@ if (is_array($settings_request->response['payload'])) {
 
         switch ($request_parameters[1]) {
             case "delete":
+
+                error_log("delete");
                 $subscriber_request = new CASHRequest(
                     array(
                         'cash_request_type' => 'commerce',
