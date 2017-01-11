@@ -1,41 +1,4 @@
 {{#s3_key}}
-
-    <style>
-        /* HEY CHRIS THIS IS FPOEY */
-
-        /* show upload progress with bars */
-        .progress-bar-area {
-            margin-top: 20px;
-            border-radius: 0px !important; }
-
-        .progress {
-            display: none;
-            position: relative;
-            width: 100%;
-            height: 40px;
-            background: #C7DA9F;
-            overflow: hidden;
-            margin-top: 10px;
-            border-radius: 0px !important; }
-
-        .bar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 35px;
-            background: darkred;
-            text-align: center;
-            color: white;
-            font-weight: bold;
-            font-size: 11px;
-            border-radius: 0px !important; }
-
-        .bar.red {
-            background: tomato; }
-
-    </style>
-
     <form accept-charset="UTF-8" id="file_upload" method="post" class="direct-upload novalidate" action="{{upload_url}}" enctype="multipart/form-data">
         {{{inputs}}}
         <input type="hidden" name="Content-Type">
@@ -83,7 +46,7 @@
                     data.submit();
                     // Show the progress bar
                     // Uses the file size as a unique identifier
-                    var bar = $('<div class="progress" data-mod="' + file.size + '"><div class="bar"></div></div>');
+                    var bar = $('<div class="progress" data-mod="' + file.size + '"><div class="value"></div><div class="bar"></div></div>');
                     $('.progress-bar-area').append(bar);
                     bar.slideDown('fast');
                 },
@@ -91,12 +54,13 @@
                     // This is what makes everything really cool, thanks to that callback
                     // you can now update the progress bar based on the upload progress.
                     var percent = Math.round((data.loaded / data.total) * 100);
-                    $('.progress[data-mod="' + data.files[0].size + '"] .bar').css('width', percent + '%').html(percent + '%');
+                    $('.progress[data-mod="' + data.files[0].size + '"] .bar').css('width', percent + '%');
+                    $('.progress[data-mod="' + data.files[0].size + '"] .value').html(percent + '%');
                 },
                 fail: function (e, data) {
                     // Remove the 'unsaved changes' message.
                     window.onbeforeunload = null;
-                    $('.progress[data-mod="' + data.files[0].size + '"] .bar').css('width', '100%').addClass('red').html('');
+                    $('.progress[data-mod="' + data.files[0].size + '"] .bar').css('width', '100%').addClass('fail').html('');
                 },
                 done: function (event, data) {
                     window.onbeforeunload = null;
