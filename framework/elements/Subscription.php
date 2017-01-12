@@ -176,6 +176,10 @@ class Subscription extends ElementBase {
             $this->element_data['email_address'] = $this->sessionGet('email_address');
             $this->element_data['user_id'] = $this->sessionGet('user_id');
 
+            if ($_REQUEST['state'] == "success") {
+                $this->setTemplate('success');
+            }
+
 			if ($_REQUEST['state'] == "verified") {
 				$this->setTemplate('settings');
 			}
@@ -209,7 +213,7 @@ class Subscription extends ElementBase {
                 );
 
                 if ($password_request->response['payload'] !== false) {
-					error_log("fuck yeah");
+                    $this->setTemplate('verify_success');
                 } else {
                     $this->element_data['error_message'] = "There was an error setting your password.";
                     $this->setTemplate('settings');
@@ -223,10 +227,6 @@ class Subscription extends ElementBase {
                         'password' => $_REQUEST['password']
                     )
                 );*/
-
-				error_log(
-					json_encode($validate_request)
-				);
 			}
 		}
 
