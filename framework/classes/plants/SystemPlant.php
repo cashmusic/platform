@@ -1045,6 +1045,7 @@ class SystemPlant extends PlantBase {
 			$this->lock_code_chars['code_break'],
 			$this->getLastLockCode()
 		);
+
 		$result = $this->db->setData(
 			'lock_codes',
 			array(

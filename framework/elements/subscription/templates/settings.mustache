@@ -1,4 +1,9 @@
 <h1>Thanks for joining the CASH Family.</h1>
+{{#has_password}}
+    <p>It looks like you already have a CASH Music login. If you want to reset your password use the form below. Otherwise just
+        <a href="#" class="existing-user">click here</a> to continue.</p>
+
+{{/has_password}}
 {{#error_message}}<div class="cm-error">{{error_message}}</div>{{/error_message}}
 <form action="#" id="updatecredentials" method="post">
     <input type="text" name="email" placeholder="email" value="{{email_address}}">
@@ -15,8 +20,14 @@
     var cm = window.cashmusic;
     cm.events.add(cm,'ready', function(e) {
         cm.session.start();
-        var update_settings_button = document.querySelector('.cm-update-settings');
+        var click_here = document.querySelector('.existing-user');
 
+        if (click_here) {
+            cm.events.add(click_here, 'click', function (e) {
+                e.preventDefault();
+                cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"finalize"});
+            });
+        }
 /*        if (update_settings_button) {
             cm.events.add(update_settings_button, 'click', function (e) {
                 e.preventDefault();

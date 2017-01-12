@@ -2687,14 +2687,14 @@ class CommercePlant extends PlantBase {
                 error_log("Thanks so much for joining the CASH Music Family. We've got big plans, so expect an email in the new year detailing everything we have to offer. If you have any questions before then just email us at <a href='mailto:family@cashmusic.org'>family@cashmusic.org</a>."
                     . '<a href="' . $finalize_url . '?key=' . $reset_key . '&address=' . urlencode($email_address) . '&element_id='.$element_id.'">Verify your address</a>');
 
-/*                CASHSystem::sendEmail(
+               CASHSystem::sendEmail(
                     'Welcome to the CASH Music Family',
                     $user_id,
                     $email_address,
-                    "Thanks so much for joining the CASH Music Family. We've got big plans, so expect an email in the new year detailing everything we have to offer. If you have any questions before then just email us at <a href='mailto:family@cashmusic.org'>family@cashmusic.org</a>."
-                    . '<a href="' . CASH_ADMIN_URL . '/verification?key=' . $reset_key . '&address=' . urlencode($email_address) . '">Verify your address</a>',
+                   "Thanks so much for joining the CASH Music Family. We've got big plans, so expect an email in the new year detailing everything we have to offer. If you have any questions before then just email us at <a href='mailto:family@cashmusic.org'>family@cashmusic.org</a>."
+                   . '<a href="' . $finalize_url . '?key=' . $reset_key . '&address=' . urlencode($email_address) . '&element_id='.$element_id.'">Verify your address</a>',
                     'Thank you.'
-                );*/
+                );
 
             } else {
                 return false;

@@ -181,6 +181,24 @@ class Subscription extends ElementBase {
             }
 
 			if ($_REQUEST['state'] == "verified") {
+
+                $user_request = new CASHRequest(
+                    array(
+                        'cash_request_type' => 'people',
+                        'cash_action' => 'getuser',
+                        'user_id' => $this->element_data['user_id']
+                    )
+                );
+
+                $this->element_data['has_password'] = false;
+
+                if ($user_request->response['payload']) {
+                	$user = $user_request->response['payload'];
+
+                	if ($user['is_admin'] > 0) {
+                		$this->element_data['has_password'] = true;
+					}
+				}
 				$this->setTemplate('settings');
 			}
 
@@ -213,7 +231,7 @@ class Subscription extends ElementBase {
                 );
 
                 if ($password_request->response['payload'] !== false) {
-                    $this->setTemplate('verify_success');
+                    $this->setTemplate('finalize');
                 } else {
                     $this->element_data['error_message'] = "There was an error setting your password.";
                     $this->setTemplate('settings');
@@ -227,6 +245,10 @@ class Subscription extends ElementBase {
                         'password' => $_REQUEST['password']
                     )
                 );*/
+			}
+
+			if ($_REQUEST['state'] == "finalize") {
+                $this->setTemplate('finalize');
 			}
 		}
 
