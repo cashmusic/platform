@@ -112,6 +112,9 @@ class SystemPlant extends PlantBase {
 	 *
 	 * @return array|false
 	 */protected function validateLogin($address,$password,$require_admin=false,$verified_address=false,$browserid_assertion=false,$element_id=null,$keep_session=false) {
+
+	 	error_log("$address $password");
+
 		if (!$keep_session) {
 			$this->sessionClearAll();
 		}
@@ -119,15 +122,15 @@ class SystemPlant extends PlantBase {
 		if ($verified_address && !$address) {
 			// claiming verified without an address? false!
 			return false;
-		} else if ((!$address && !$browserid_assertion) && (!$address && !$password)) {
+		} else if ((!$address) && (!$address && !$password)) {
 			// none of the fancy stuff but you're trying to push through no user/pass? bullshit! false!
 			return false;
 		}
-		if (!$password && !$browserid_assertion) {
+		if (!$password) {
 			return false; // seriously no password? lame.
 		}
 
-		if ($browserid_assertion && !$verified_address) {
+/*		if (!$verified_address) {
 			$address = CASHSystem::getBrowserIdStatus($browserid_assertion);
 			if (!$address) {
 				return false;
@@ -135,10 +138,8 @@ class SystemPlant extends PlantBase {
 				$verified_address = true;
 				$login_method = 'browserid';
 			}
-		}
-		if ($browserid_assertion && $verified_address) {
-			$login_method = 'browserid';
-		}
+		}*/
+
 		$result = $this->db->getData(
 			'users',
 			'id,password,is_admin',

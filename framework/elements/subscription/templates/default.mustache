@@ -23,20 +23,30 @@
 (function() {
     'use strict';
     var cm = window.cashmusic;
+    var verification = false;
+    var stripe_public_key = false;
 
     // get stripe public key
     {{#stripe_public_key}}
         var stripe_public_key = "{{stripe_public_key}}";
     {{/stripe_public_key}}
-    {{^stripe_public_key}}
-        var stripe_public_key = false;
-    {{/stripe_public_key}}
+
+    // get stripe public key
+    {{#key}}
+        var verification = true;
+    {{/key}}
 
     // set shipping true, or to false if there is no shipping
     var shipping = {{shipping}};
 
     cm.events.add(cm,'ready', function(e) {
         cm.session.start();
+
+        if (verification !== false) {
+            cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"verified"});
+        }
+
+
         var plan_price = document.getElementById('plan_price');
         var subscribe_button = document.querySelector('.cm-subscribe');
         var flexible_price = document.getElementById('plan_flexible_price');

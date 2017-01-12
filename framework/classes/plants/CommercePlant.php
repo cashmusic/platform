@@ -1702,7 +1702,7 @@ class CommercePlant extends PlantBase {
             }
 
             // call the payment seed class --- connection id needs to switch later maybe
-            if ($this->createSubscription($user_id, $price, $stripe_default, $subscription_plan, $stripe, $email_address, $customer_name, $shipping_info, 1, $finalize_url)) {
+            if ($this->createSubscription($element_id,$user_id, $price, $stripe_default, $subscription_plan, $stripe, $email_address, $customer_name, $shipping_info, 1, $finalize_url)) {
 
                 // create the subscription data
                 return "success";
@@ -2607,7 +2607,7 @@ class CommercePlant extends PlantBase {
         return $result;
     }
 
-    public function createSubscription($user_id, $price, $connection_id, $plan_id=false, $token=false, $email_address=false, $customer_name=false, $shipping_info=false, $quantity=1, $finalize_url=false) {
+    public function createSubscription($element_id, $user_id, $price, $connection_id, $plan_id=false, $token=false, $email_address=false, $customer_name=false, $shipping_info=false, $quantity=1, $finalize_url=false) {
 
 
         error_log("finalize form " . $finalize_url);
@@ -2685,14 +2685,14 @@ class CommercePlant extends PlantBase {
 //
 
                 error_log("Thanks so much for joining the CASH Music Family. We've got big plans, so expect an email in the new year detailing everything we have to offer. If you have any questions before then just email us at <a href='mailto:family@cashmusic.org'>family@cashmusic.org</a>."
-                    . '<a href="' . $finalize_url . '?key=' . $reset_key . '&address=' . urlencode($email_address) . '">Verify your address</a>');
+                    . '<a href="' . $finalize_url . '?key=' . $reset_key . '&address=' . urlencode($email_address) . '&element_id='.$element_id.'">Verify your address</a>');
 
 /*                CASHSystem::sendEmail(
                     'Welcome to the CASH Music Family',
                     $user_id,
                     $email_address,
                     "Thanks so much for joining the CASH Music Family. We've got big plans, so expect an email in the new year detailing everything we have to offer. If you have any questions before then just email us at <a href='mailto:family@cashmusic.org'>family@cashmusic.org</a>."
-                    . '<a href="' . CASH_ADMIN_URL . '/verify?key=' . $reset_key . '&address=' . urlencode($email_address) . '">Verify your address</a>',
+                    . '<a href="' . CASH_ADMIN_URL . '/verification?key=' . $reset_key . '&address=' . urlencode($email_address) . '">Verify your address</a>',
                     'Thank you.'
                 );*/
 
