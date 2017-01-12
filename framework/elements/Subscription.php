@@ -25,6 +25,10 @@ class Subscription extends ElementBase {
 		// payment connection settings
 		$this->element_data['paypal_connection'] = false;
 		$this->element_data['stripe_public_key'] = false;
+        $this->element_data['verification'] = false;
+
+        $this->startSession();
+
 		$settings_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'system',
@@ -114,9 +118,137 @@ class Subscription extends ElementBase {
 			//error
 		}
 
+		if (!empty($_REQUEST['key'])) {
+
+
+            $validate_request = new CASHRequest(
+                array(
+                    'cash_request_type' => 'system',
+                    'cash_action' => 'validateresetflag',
+                    'address' => $_GET['address'],
+                    'key' => $_GET['key']
+                )
+            );
+
+            if ($validate_request->response['payload']) {
+                $this->element_data['key'] = true;
+				$email = isset($_REQUEST['address']) ? $_REQUEST['address'] : "";
+
+				if (empty($email)) {
+                    $this->element_data['error_message'] = "Something went wrong.";
+
+                    return $this->element_data;
+				}
+
+                $this->sessionSet('email_address', $email);
+
+                $user_request = new CASHRequest(
+                    array(
+                        'cash_request_type' => 'people',
+                        'cash_action' => 'getuseridforaddress',
+                        'address' => $email
+                    )
+                );
+                if ($user_request->response['payload']) {
+                    $this->sessionSet('user_id', $user_request->response['payload']);
+				} else {
+                    $this->element_data['error_message'] = "We couldn't find your user.";
+                    return $this->element_data;
+				}
+			} else {
+                $this->element_data['error_message'] = "Something went wrong.";
+			}
+
+
+			//https://s3-us-west-2.amazonaws.com/cashmusic.tests.for.tom/element.html?key=e48fcb1a48d1e0e77bed52addb842f13&address=tom%40tos.com&element_id=3
+
+			//  <script src="https://192.168.33.99/public/cashmusic.js" data-element="3"></script>
+
+			// make sure password reset exists
+
+			// show password
+
+			// or error
+		}
+
 		if (isset($_REQUEST['state'])) {
-			if ($_REQUEST['state'] == "success") {
-				$this->setTemplate('success');
+
+            $this->element_data['email_address'] = $this->sessionGet('email_address');
+            $this->element_data['user_id'] = $this->sessionGet('user_id');
+
+            if ($_REQUEST['state'] == "success") {
+                $this->setTemplate('success');
+            }
+
+			if ($_REQUEST['state'] == "verified") {
+
+                $user_request = new CASHRequest(
+                    array(
+                        'cash_request_type' => 'people',
+                        'cash_action' => 'getuser',
+                        'user_id' => $this->element_data['user_id']
+                    )
+                );
+
+                $this->element_data['has_password'] = false;
+
+                if ($user_request->response['payload']) {
+                	$user = $user_request->response['payload'];
+
+                	if ($user['is_admin'] > 0) {
+                		$this->element_data['has_password'] = true;
+					}
+				}
+				$this->setTemplate('settings');
+			}
+
+			if ($_REQUEST['state'] == "validatelogin") {
+
+				// check if the passwords actually match
+				if($_REQUEST['password'] != $_REQUEST['confirm_password']) {
+					$this->element_data['error_message'] = "Your password confirmation doesn't match.";
+                    $this->setTemplate('settings');
+				}
+
+                if (!defined('MINIMUM_PASSWORD_LENGTH')) {
+                    define('MINIMUM_PASSWORD_LENGTH',10);
+                }
+                if (strlen($_REQUEST['password']) < MINIMUM_PASSWORD_LENGTH) {
+                    $this->element_data['error_message'] = "Minimum password lengh of 10 characters.";
+                    $this->setTemplate('settings');
+                }
+
+
+				// validate the request to change things
+
+                $password_request = new CASHRequest(
+                    array(
+                        'cash_request_type' => 'system',
+                        'cash_action' => 'setlogincredentials',
+                        'user_id' => $this->element_data['user_id'],
+						'password' => $_REQUEST['password']
+                    )
+                );
+
+                if ($password_request->response['payload'] !== false) {
+                    $this->setTemplate('finalize');
+                } else {
+                    $this->element_data['error_message'] = "There was an error setting your password.";
+                    $this->setTemplate('settings');
+				}
+
+/*                $validate_request = new CASHRequest(
+                    array(
+                        'cash_request_type' => 'system',
+                        'cash_action' => 'validatelogin',
+                        'address' => $this->element_data['email_address'],
+                        'password' => $_REQUEST['password']
+                    )
+                );*/
+			}
+
+			if ($_REQUEST['state'] == "finalize") {
+                $this->setTemplate('finalize');
 			}
 		}
 
