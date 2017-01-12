@@ -78,6 +78,31 @@ class CommercePlant extends PlantBase {
     }
 
     /**
+     * @param $cash_admin
+     * @param $add_request
+     */
+    public static function createValidateCustomerURL($user_id, $email_address)
+    {
+
+        $reset_key = new CASHRequest(
+            array(
+                'cash_request_type' => 'system',
+                'cash_action' => 'setresetflag',
+                'address' => $email_address
+            )
+        );
+
+        $reset_key = $reset_key->response['payload'];
+
+        if ($reset_key) {
+            return $reset_key;
+        } else {
+            return false;
+        }
+
+    }
+
+    /**
      * @param $amount
      * @return string
      */
@@ -1650,7 +1675,7 @@ class CommercePlant extends PlantBase {
         }
     }
 
-    public function initiateSubscription($element_id=false,$price=false,$stripe=false,$origin=false,$email_address=false,$subscription_plan=false,$customer_name=false,$session_id=false,$geo=false, $shipping_info=false) {
+    public function initiateSubscription($element_id=false,$price=false,$stripe=false,$origin=false,$email_address=false,$subscription_plan=false,$customer_name=false,$session_id=false,$geo=false, $shipping_info=false, $finalize_url=false) {
         $this->startSession($session_id);
         if (!$element_id) {
             return false;
@@ -1677,7 +1702,7 @@ class CommercePlant extends PlantBase {
             }
 
             // call the payment seed class --- connection id needs to switch later maybe
-            if ($this->createSubscription($user_id, $price, $stripe_default, $subscription_plan, $stripe, $email_address, $customer_name, $shipping_info, 1)) {
+            if ($this->createSubscription($user_id, $price, $stripe_default, $subscription_plan, $stripe, $email_address, $customer_name, $shipping_info, 1, $finalize_url)) {
 
                 // create the subscription data
                 return "success";
@@ -2582,8 +2607,10 @@ class CommercePlant extends PlantBase {
         return $result;
     }
 
-    public function createSubscription($user_id, $price, $connection_id, $plan_id=false, $token=false, $email_address=false, $customer_name=false, $shipping_info=false, $quantity=1) {
+    public function createSubscription($user_id, $price, $connection_id, $plan_id=false, $token=false, $email_address=false, $customer_name=false, $shipping_info=false, $quantity=1, $finalize_url=false) {
 
+
+        error_log("finalize form " . $finalize_url);
         $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
 
         if ($subscription_plan = $this->getSubscriptionPlanBySku($plan_id)) {
@@ -2653,13 +2680,21 @@ class CommercePlant extends PlantBase {
 
                 if (!$subscription_member_result) return false;
 
-                CASHSystem::sendEmail(
+//
+                $reset_key = CommercePlant::createValidateCustomerURL($user_id, $email_address);
+//
+
+                error_log("Thanks so much for joining the CASH Music Family. We've got big plans, so expect an email in the new year detailing everything we have to offer. If you have any questions before then just email us at <a href='mailto:family@cashmusic.org'>family@cashmusic.org</a>."
+                    . '<a href="' . $finalize_url . '?key=' . $reset_key . '&address=' . urlencode($email_address) . '">Verify your address</a>');
+
+/*                CASHSystem::sendEmail(
                     'Welcome to the CASH Music Family',
                     $user_id,
                     $email_address,
-                    "Thanks so much for joining the CASH Music Family. We've got big plans, so expect an email in the new year detailing everything we have to offer. If you have any questions before then just email us at <a href='mailto:family@cashmusic.org'>family@cashmusic.org</a>.",
+                    "Thanks so much for joining the CASH Music Family. We've got big plans, so expect an email in the new year detailing everything we have to offer. If you have any questions before then just email us at <a href='mailto:family@cashmusic.org'>family@cashmusic.org</a>."
+                    . '<a href="' . CASH_ADMIN_URL . '/verify?key=' . $reset_key . '&address=' . urlencode($email_address) . '">Verify your address</a>',
                     'Thank you.'
-                );
+                );*/
 
             } else {
                 return false;

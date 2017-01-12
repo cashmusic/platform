@@ -25,6 +25,8 @@ class Subscription extends ElementBase {
 		// payment connection settings
 		$this->element_data['paypal_connection'] = false;
 		$this->element_data['stripe_public_key'] = false;
+        $this->element_data['verification'] = false;
+
 		$settings_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'system',
@@ -112,6 +114,11 @@ class Subscription extends ElementBase {
 
 		} else {
 			//error
+		}
+		error_log("verify ".$_REQUEST['verification']);
+		if (!empty($_REQUEST['verification'])) {
+			$this->element_data['verification'] = true;
+			//https://s3-us-west-2.amazonaws.com/cashmusic.tests.for.tom/element.html?verification=b8e468db848d808791c5a0abc4187354&address=tom%40jsdfjdf.com
 		}
 
 		if (isset($_REQUEST['state'])) {

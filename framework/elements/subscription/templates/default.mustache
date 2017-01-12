@@ -1,4 +1,4 @@
-
+{{#verification}}FOO{{/verification}}
 
 {{#error_message}}
     <div class="cm-error cm-{{element_type}}-error">
@@ -83,6 +83,7 @@
                         "shipping": shipping,
                         "total": "{{currency}}" + parseFloat(price)
                     });
+
                 });
 
                 cm.events.add(cm, 'checkoutdata', function (payment) {
@@ -93,9 +94,9 @@
                     var f = document.createElement('form');
                     f.method = 'post';
                     f.action = '';
-                    f.className = "subscription_form";
+                    f.id = "subscription_form";
 
-                    var els = ['cash_request_type','cash_action','element_id','price','stripe','origin','email_address','subscription_plan','customer_name','geo', 'shipping_info'];
+                    var els = ['cash_request_type','cash_action','element_id','price','stripe','origin','email_address','subscription_plan','customer_name','geo', 'shipping_info', 'finalize_url'];
                     for (var i = 0, len = els.length; i < len; i++) {
                         var inp = document.createElement('input');
                         inp.type = 'hidden';
@@ -114,6 +115,16 @@
                     f.email_address.value = payment.detail.email;
                     f.customer_name.value = payment.detail.name;
                     f.geo.value = cm.geo;
+
+                    if (cm.embedded) {
+                        if (cm.get['params']['location']) {
+                            f.finalize_url.value = encodeURI(cm.get['params']['location']);
+                        } else {
+                            f.finalize_url.value = encodeURI(window.location.href);
+                        }
+                    } else {
+                        f.finalize_url.value = encodeURI(top.location.href);
+                    }
 
                     if (payment.detail.stripe) {
                         f.stripe.value = payment.detail.stripe;
@@ -146,7 +157,10 @@
                         } else if (details == 'success') {
                             cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"success"});
 
-                            document.getElementsByClassName("subscription_form").remove();
+                            if (document.contains(document.getElementById("subscription_form"))) {
+                                document.getElementById("subscription_form").remove();
+                            }
+
                             return true;
                         } else {
                             cm.overlay.reveal('There was a problem with your payment. Please try again.');
