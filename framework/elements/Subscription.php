@@ -226,7 +226,8 @@ class Subscription extends ElementBase {
                         'cash_request_type' => 'system',
                         'cash_action' => 'setlogincredentials',
                         'user_id' => $this->element_data['user_id'],
-						'password' => $_REQUEST['password']
+						'password' => $_REQUEST['password'],
+						'is_admin' => 1
                     )
                 );
 
