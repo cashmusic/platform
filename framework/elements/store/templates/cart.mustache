@@ -1,236 +1,242 @@
 <div class="cm-store cm-cart">
-{{#error_message}}<div class="cm-error">{{error_message}}</div>{{/error_message}}
-{{#items_in_cart}}
-	<ul class="cm-items">
-	{{#cart}}
-			<li class="cm-item" data-itemid="{{id}}" data-variant="{{variant}}">
-				<div class="cm-remove" data-itemid="{{id}}" data-variant="{{variant}}"></div><!--cm-remove-->
-				<h3 class="cm-title">{{name}}</h3>
-				{{#variant_name}}<p class="cm-variant">{{variant_name}}</p>{{/variant_name}}
-				<div class="cm-info">
-					<p class="cm-price">{{copy_subtotal}} <span>{{currency}}</span><span class="cm-totalprice" data-itemid="{{id}}" data-variant="{{variant}}">{{total_price}}</span></p>
-					<label class="cm-qty">{{copy_qty}}</label>
-					<input type="text" name="cm-current-qty" class="cm-qty" value="{{qty}}" data-itemid="{{id}}" data-variant="{{variant}}" data-price="{{price}}" data-shippingr1="{{shipping_r1}}" data-shippingr1rest="{{shipping_r1rest}}" data-shippingr2="{{shipping_r2}}" data-shippingr2rest="{{shipping_r2rest}}" />
-				</div><!--cm-info-->
-			</li><!--cm-item-->
-	{{/cart}}
-	</ul><!--cm-items-->
-	{{#has_physical}}
-	<div class="cm-destination">
-		<!--span class="cm-shipping">{{copy_shippingto}}:</span-->
-		<select class="cm-region">
-			<option value="">{{copy_pleaseselect}}</option>
-			<option value="r1"{{#shiptor1}} selected="selected"{{/shiptor1}}>{{region1}}</option>
-			<option value="r2"{{#shiptor2}} selected="selected"{{/shiptor2}}>{{region2}}</option>
-		</select>
-	</div><!--cm-destination-->
-	{{/has_physical}}
-	<h2 class="cm-pricing">
-		{{#has_physical}}
-		<span class="cm-subtotal">{{copy_subtotal}}<span class="cm-amount">{{currency}}<span class="cm-subtotal-amount">{{subtotal}}</span></span></span>&#43;
-		<span class="cm-shipping">{{copy_shipping}}<span class="cm-amount">{{currency}}<span class="cm-shipping-amount">{{shipping}}</span></span></span>&#61;
-		{{/has_physical}}
-		<span class="cm-total">{{copy_total}}<span class="cm-amount">{{currency}}<span class="cm-total-amount">{{total}}</span></span>
-	</h2><!--cm-pricing-->
-	<div id="checkoutprimary">
-		<a class="cm-checkout" href="#">{{copy_checkout}}</a>
-	</div>
-	<div id="checkouttbd" style="display:none;">
-		<div class="cm-shippingoption1">
-			<a class="cm-checkout" id="checkoutr1" data-region="r1" href="#">{{copy_shippingto}} {{region1}} (+{{currency}}<span>{{shippingr1}}</span>)</a>
-		</div><div class="cm-shippingoption2">
-			<a class="cm-checkout" id="checkoutr2" data-region="r2" href="#">{{copy_shippingto}} {{region2}} (+{{currency}}<span>{{shippingr2}}</span>)</a>
-		</div>
-	</div>
-{{/items_in_cart}}
-{{^items_in_cart}}
-	<p class="cm-emptycart">{{copy_emptycart}}</p>
-{{/items_in_cart}}
+    {{#error_message}}<div class="cm-error">{{error_message}}</div>{{/error_message}}
+    {{#items_in_cart}}
+        <ul class="cm-items">
+            {{#cart}}
+                <li class="cm-item" data-itemid="{{id}}" data-variant="{{variant}}">
+                    <div class="cm-remove" data-itemid="{{id}}" data-variant="{{variant}}"></div><!--cm-remove-->
+                    <h3 class="cm-title">{{name}}</h3>
+                    {{#variant_name}}<p class="cm-variant">{{variant_name}}</p>{{/variant_name}}
+                    <div class="cm-info">
+                        <p class="cm-price">{{copy_subtotal}} <span>{{currency}}</span><span class="cm-totalprice" data-itemid="{{id}}" data-variant="{{variant}}">{{total_price}}</span></p>
+                        <label class="cm-qty">{{copy_qty}}</label>
+                        <input type="text" name="cm-current-qty" class="cm-qty" value="{{qty}}" data-itemid="{{id}}" data-variant="{{variant}}" data-price="{{price}}" data-shippingr1="{{shipping_r1}}" data-shippingr1rest="{{shipping_r1rest}}" data-shippingr2="{{shipping_r2}}" data-shippingr2rest="{{shipping_r2rest}}" />
+                    </div><!--cm-info-->
+                </li><!--cm-item-->
+            {{/cart}}
+        </ul><!--cm-items-->
+        {{#has_physical}}
+            <div class="cm-destination">
+                <!--span class="cm-shipping">{{copy_shippingto}}:</span-->
+                <select class="cm-region">
+                    <option value="">{{copy_pleaseselect}}</option>
+                    <option value="r1"{{#shiptor1}} selected="selected"{{/shiptor1}}>{{region1}}</option>
+                    <option value="r2"{{#shiptor2}} selected="selected"{{/shiptor2}}>{{region2}}</option>
+                </select>
+            </div><!--cm-destination-->
+        {{/has_physical}}
+        <h2 class="cm-pricing">
+            {{#has_physical}}
+                <span class="cm-subtotal">{{copy_subtotal}}<span class="cm-amount">{{currency}}<span class="cm-subtotal-amount">{{subtotal}}</span></span></span>&#43;
+                <span class="cm-shipping">{{copy_shipping}}<span class="cm-amount">{{currency}}<span class="cm-shipping-amount">{{shipping}}</span></span></span>&#61;
+            {{/has_physical}}
+            <span class="cm-total">{{copy_total}}<span class="cm-amount">{{currency}}<span class="cm-total-amount">{{total}}</span></span>
+        </h2><!--cm-pricing-->
+        <div id="checkoutprimary">
+            <a class="cm-checkout" href="#">{{copy_checkout}}</a>
+        </div>
+        <div id="checkouttbd" style="display:none;">
+            <div class="cm-shippingoption1">
+                <a class="cm-checkout" id="checkoutr1" data-region="r1" href="#">{{copy_shippingto}} {{region1}} (+{{currency}}<span>{{shippingr1}}</span>)</a>
+            </div><div class="cm-shippingoption2">
+            <a class="cm-checkout" id="checkoutr2" data-region="r2" href="#">{{copy_shippingto}} {{region2}} (+{{currency}}<span>{{shippingr2}}</span>)</a>
+        </div>
+        </div>
+    {{/items_in_cart}}
+    {{^items_in_cart}}
+        <p class="cm-emptycart">{{copy_emptycart}}</p>
+    {{/items_in_cart}}
 </div><!--cm-cart-->
 
 {{#items_in_cart}}
-<script type="text/javascript">
-	var cm = window.cashmusic;
+    <script type="text/javascript">
+        var cm = window.cashmusic;
 
-	// get stripe public key
-	{{#stripe_public_key}}
-		var stripe_public_key = "{{stripe_public_key}}";
-	{{/stripe_public_key}}
-	{{^stripe_public_key}}
-		var stripe_public_key = false;
-	{{/stripe_public_key}}
+        // get stripe public key
+            {{#stripe_public_key}}
+            var stripe_public_key = "{{stripe_public_key}}";
+            {{/stripe_public_key}}
+            {{^stripe_public_key}}
+            var stripe_public_key = false;
+            {{/stripe_public_key}}
 
-	// we like paypal?
-	{{#paypal_connection}}
-		var paypal = true;
-	{{/paypal_connection}}
-	{{^paypal_connection}}
-		var paypal = false;
-	{{/paypal_connection}}
+        // we like paypal?
+            {{#paypal_connection}}
+            var paypal = true;
+            {{/paypal_connection}}
+            {{^paypal_connection}}
+            var paypal = false;
+            {{/paypal_connection}}
 
-	function recount() {
-		var qtys = document.querySelectorAll('input.cm-qty');
-		if (qtys.length > 0) {
-			var subtotal = 0;
-			var shipping = 0;
-			var shippingr1 = 0;
-			var shippingr2 = 0;
-			{{#has_physical}}var region = document.querySelector('select.cm-region').value;{{/has_physical}}
-			if (region == '') {
-				shipping = 'TBD';
-			}
-			for (var i = 0, len = qtys.length; i < len; i++) {
-				var itemtotal = qtys[i].value*qtys[i].getAttribute('data-price');
-				var price = document.querySelector('span.cm-totalprice[data-itemid="'+qtys[i].getAttribute('data-itemid')+'"][data-variant="'+qtys[i].getAttribute('data-variant').replace(/["\\]/g, '\\$&')+'"]');
-				price.innerHTML = itemtotal.toFixed(2);
-				subtotal += itemtotal;
-				{{#has_physical}}
-				if (qtys[i].getAttribute('data-shippingr1')) {
-					if (region !== '') {
-						shipping += ((qtys[i].value-1)*parseFloat(qtys[i].getAttribute('data-shipping'+region+'rest')))+parseFloat(qtys[i].getAttribute('data-shipping'+region));
-					}
-					shippingr1 = ((qtys[i].value-1)*parseFloat(qtys[i].getAttribute('data-shippingr1rest')))+parseFloat(qtys[i].getAttribute('data-shippingr1'));
-					shippingr2 = ((qtys[i].value-1)*parseFloat(qtys[i].getAttribute('data-shippingr2rest')))+parseFloat(qtys[i].getAttribute('data-shippingr2'));
-				}
-				{{/has_physical}}
-			}
+        function recount() {
+            var qtys = document.querySelectorAll('input.cm-qty');
+            if (qtys.length > 0) {
+                var subtotal = 0;
+                var shipping = 0;
+                var shippingr1 = 0;
+                var shippingr2 = 0;
+                {{#has_physical}}var region = document.querySelector('select.cm-region').value;
+                    if (region == '') {
+                        shipping = 'TBD';
+                    }
+                {{/has_physical}}
+                {{^has_physical}}
+                    var region = false;
+                {{/has_physical}}
 
-			{{#has_physical}}
-			document.querySelector('.cm-subtotal-amount').innerHTML = subtotal.toFixed(2);
-			document.querySelector('#checkoutr1 span').innerHTML = shippingr1.toFixed(2);
-			document.querySelector('#checkoutr2 span').innerHTML = shippingr2.toFixed(2);
-			if (region !== '') {
-				document.querySelector('.cm-shipping-amount').innerHTML = shipping.toFixed(2);
-			} else {
-				document.querySelector('.cm-shipping-amount').innerHTML = shipping;
-				shipping = 0;
-			}
-			{{/has_physical}}
-			document.querySelector('.cm-total-amount').innerHTML = (subtotal+shipping).toFixed(2);
-		} else {
-			var maindiv = document.querySelector('div.cm-cart');
-			maindiv.innerHTML = '<p class="cm-emptycart">{{copy_emptycart}}</p>';
-		}
-	}
+                for (var i = 0, len = qtys.length; i < len; i++) {
+                    var itemtotal = qtys[i].value*qtys[i].getAttribute('data-price');
+                    var price = document.querySelector('span.cm-totalprice[data-itemid="'+qtys[i].getAttribute('data-itemid')+'"][data-variant="'+qtys[i].getAttribute('data-variant').replace(/["\\]/g, '\\$&')+'"]');
+                    price.innerHTML = itemtotal.toFixed(2);
+                    subtotal += itemtotal;
+                    {{#has_physical}}
+                        if (qtys[i].getAttribute('data-shippingr1')) {
+                            if (region !== '') {
+                                shipping += ((qtys[i].value-1)*parseFloat(qtys[i].getAttribute('data-shipping'+region+'rest')))+parseFloat(qtys[i].getAttribute('data-shipping'+region));
+                            }
+                            shippingr1 = ((qtys[i].value-1)*parseFloat(qtys[i].getAttribute('data-shippingr1rest')))+parseFloat(qtys[i].getAttribute('data-shippingr1'));
+                            shippingr2 = ((qtys[i].value-1)*parseFloat(qtys[i].getAttribute('data-shippingr2rest')))+parseFloat(qtys[i].getAttribute('data-shippingr2'));
+                        }
+                    {{/has_physical}}
+                }
 
-	function removeItem(itemid,variant) {
-		var li = document.querySelector('li[data-itemid="'+itemid+'"][data-variant="'+variant.replace(/["\\]/g, '\\$&')+'"]');
-		var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
-		var poststring = 'cash_request_type=commerce&cash_action=editcartquantity&element_id={{element_id}}&item_id=' + itemid + '&qty=0';
-		if (variant) {
-			poststring += '&item_variant='+encodeURIComponent(variant);
-		}
-		cm.ajax.send(submitUrl, poststring,
-			function() {
-				if (li) {
-					li.parentNode.removeChild(li);
-				}
-				recount();
-			}
-		);
-	}
+                {{#has_physical}}
+                    document.querySelector('.cm-subtotal-amount').innerHTML = subtotal.toFixed(2);
+                    document.querySelector('#checkoutr1 span').innerHTML = shippingr1.toFixed(2);
+                    document.querySelector('#checkoutr2 span').innerHTML = shippingr2.toFixed(2);
+                    if (region !== '') {
+                        document.querySelector('.cm-shipping-amount').innerHTML = shipping.toFixed(2);
+                    } else {
+                        document.querySelector('.cm-shipping-amount').innerHTML = shipping;
+                        shipping = 0;
+                    }
+                {{/has_physical}}
 
-	cm.events.add(cm,'ready', function(e) {
-		cm.session.start();
+                document.querySelector('.cm-total-amount').innerHTML = (subtotal+shipping).toFixed(2);
+            } else {
+                var maindiv = document.querySelector('div.cm-cart');
+                maindiv.innerHTML = '<p class="cm-emptycart">{{copy_emptycart}}</p>';
+            }
+        }
 
-		// itemremove buttons
-		var buttons = document.querySelectorAll('.cm-remove');
-		if (buttons.length > 0) {
-			for (var i = 0, len = buttons.length; i < len; i++) {
-				cm.events.add(buttons[i],'click', function(e) {
-					removeItem(this.getAttribute('data-itemid'),this.getAttribute('data-variant'));
-					e.preventDefault();
-					return false;
-				});
-			}
-		}
+        function removeItem(itemid,variant) {
+            var li = document.querySelector('li[data-itemid="'+itemid+'"][data-variant="'+variant.replace(/["\\]/g, '\\$&')+'"]');
+            var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
+            var poststring = 'cash_request_type=commerce&cash_action=editcartquantity&element_id={{element_id}}&item_id=' + itemid + '&qty=0';
+            if (variant) {
+                poststring += '&item_variant='+encodeURIComponent(variant);
+            }
+            cm.ajax.send(submitUrl, poststring,
+                    function() {
+                        if (li) {
+                            li.parentNode.removeChild(li);
+                        }
+                        recount();
+                    }
+            );
+        }
 
-		// qty inputs
-		// itemremove buttons
-		var qtys = document.querySelectorAll('.cm-qty');
-		if (qtys.length > 0) {
-			for (var i = 0, len = qtys.length; i < len; i++) {
-				cm.events.add(qtys[i],'keyup', function(e) {
-					if ((e.which != 8 && e.which != 46 && e.which > 47 && e.which < 58) || this.value > 0) {
-						if (this.value == 0) {
-							removeItem(this.getAttribute('data-itemid'),this.getAttribute('data-variant'));
-						} else {
-							var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
-							var poststring = 'cash_request_type=commerce&cash_action=editcartquantity&element_id={{element_id}}&item_id=' + this.getAttribute('data-itemid') + '&qty=' + this.value;
-							if (this.getAttribute('data-variant')) {
-								poststring += '&item_variant='+encodeURIComponent(this.getAttribute('data-variant'));
-							}
-							cm.ajax.send(submitUrl, poststring,
-								function() {
-									recount();
-								}
-							);
-						}
-						e.preventDefault();
-						return false;
-					}
-				});
-			}
-		}
+        cm.events.add(cm,'ready', function(e) {
+            cm.session.start();
 
-		{{#has_physical}}
-		// shipping dropdown
-		cm.events.add(document.querySelector('select.cm-region'),'change', function(e) {
-			var requesturl = '{{api_url}}/verbose/commerce/editcartshipping/element_id/{{element_id}}/region/' + this.value + '/session_id/{{session_id}}';
-			requesturl += '?ts=' + new Date().getTime();
-			cm.ajax.send(requesturl, false,
-				function() {
-					recount();
-				}
-			);
-		});
-		{{/has_physical}}
+            // itemremove buttons
+            var buttons = document.querySelectorAll('.cm-remove');
+            if (buttons.length > 0) {
+                for (var i = 0, len = buttons.length; i < len; i++) {
+                    cm.events.add(buttons[i],'click', function(e) {
+                        removeItem(this.getAttribute('data-itemid'),this.getAttribute('data-variant'));
+                        e.preventDefault();
+                        return false;
+                    });
+                }
+            }
 
-		// go go go
-		var checkingout = false;
+            // qty inputs
+            // itemremove buttons
+            var qtys = document.querySelectorAll('.cm-qty');
+            if (qtys.length > 0) {
+                for (var i = 0, len = qtys.length; i < len; i++) {
+                    cm.events.add(qtys[i],'keyup', function(e) {
+                        if ((e.which != 8 && e.which != 46 && e.which > 47 && e.which < 58) || this.value > 0) {
+                            if (this.value == 0) {
+                                removeItem(this.getAttribute('data-itemid'),this.getAttribute('data-variant'));
+                            } else {
+                                var submitUrl = window.location.href.split('/embed/')[0]+'/payload';
+                                var poststring = 'cash_request_type=commerce&cash_action=editcartquantity&element_id={{element_id}}&item_id=' + this.getAttribute('data-itemid') + '&qty=' + this.value;
+                                if (this.getAttribute('data-variant')) {
+                                    poststring += '&item_variant='+encodeURIComponent(this.getAttribute('data-variant'));
+                                }
+                                cm.ajax.send(submitUrl, poststring,
+                                        function() {
+                                            recount();
+                                        }
+                                );
+                            }
+                            e.preventDefault();
+                            return false;
+                        }
+                    });
+                }
+            }
 
-		var checkouts = document.querySelectorAll('a.cm-checkout');
-		if (checkouts.length > 0) {
-			var opt = {
-				"stripe": stripe_public_key,
-				"paypal": paypal,
-				"currency": "{{currency}}",
-				"target": {{element_id}}
-			};
-			for (var i = 0, len = checkouts.length; i < len; i++) {
-				cm.events.add(checkouts[i],'click', function(e) {
-					e.preventDefault();
-					e.stopPropagation();
-					if (document.querySelector('.cm-total-amount').innerHTML > 0) {
-						cm.loadScript(cm.path + '/checkout/checkout.js', function () {
-							cm.checkout.prep();
-							{{^has_physical}}
-								opt.shipping = false;
-							{{/has_physical}}
-							{{#has_physical}}
-								var region = document.querySelector('select.cm-region').value;
-								if (!region) {
-									opt.shipping = {
-										"r1": "{{region1}} (${{shippingr1}})",
-										"r2": "{{region2}} (${{shippingr2}})"
-									};
-								} else {
-									opt.shipping = true;
-								}
-							{{/has_physical}}
-							cm.checkout.begin(opt);
-						});
-					} else {
-						// this is where we change the process for zero dollar transactions
-						// fire an event and use the "target" attribute
-					}
-				});
-			}
-		}
+            {{#has_physical}}
+                // shipping dropdown
+                cm.events.add(document.querySelector('select.cm-region'),'change', function(e) {
+                    var requesturl = '{{api_url}}/verbose/commerce/editcartshipping/element_id/{{element_id}}/region/' + this.value + '/session_id/{{session_id}}';
+                    requesturl += '?ts=' + new Date().getTime();
+                    cm.ajax.send(requesturl, false,
+                            function() {
+                                recount();
+                            }
+                    );
+                });
+            {{/has_physical}}
 
-		cm.loadScript(cm.path + '/checkout/checkout.js', function () {
-			cm.checkout.prep();
-		});
-	});
-</script>
+            // go go go
+            var checkingout = false;
+
+            var checkouts = document.querySelectorAll('a.cm-checkout');
+            if (checkouts.length > 0) {
+                var opt = {
+                    "stripe": stripe_public_key,
+                    "paypal": paypal,
+                    "currency": "{{currency}}",
+                    "target": {{element_id}}
+                };
+                for (var i = 0, len = checkouts.length; i < len; i++) {
+                    cm.events.add(checkouts[i],'click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (document.querySelector('.cm-total-amount').innerHTML > 0) {
+                            cm.loadScript(cm.path + '/checkout/checkout.js', function () {
+                                cm.checkout.prep();
+                                {{^has_physical}}
+                                    opt.shipping = false;
+                                {{/has_physical}}
+                                {{#has_physical}}
+                                    var region = document.querySelector('select.cm-region').value;
+                                    if (!region) {
+                                        opt.shipping = {
+                                            "r1": "{{region1}} (${{shippingr1}})",
+                                            "r2": "{{region2}} (${{shippingr2}})"
+                                        };
+                                    } else {
+                                        opt.shipping = true;
+                                    }
+                                {{/has_physical}}
+                                cm.checkout.begin(opt);
+                            });
+                        } else {
+                            // this is where we change the process for zero dollar transactions
+                            // fire an event and use the "target" attribute
+                        }
+                    });
+                }
+            }
+
+            cm.loadScript(cm.path + '/checkout/checkout.js', function () {
+                cm.checkout.prep();
+            });
+        });
+    </script>
 {{/items_in_cart}}
