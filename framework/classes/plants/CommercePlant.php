@@ -2609,8 +2609,6 @@ class CommercePlant extends PlantBase {
 
     public function createSubscription($element_id, $user_id, $price, $connection_id, $plan_id=false, $token=false, $email_address=false, $customer_name=false, $shipping_info=false, $quantity=1, $finalize_url=false) {
 
-
-        error_log("finalize form " . $finalize_url);
         $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
 
         if ($subscription_plan = $this->getSubscriptionPlanBySku($plan_id)) {
@@ -2682,10 +2680,6 @@ class CommercePlant extends PlantBase {
 
 //
                 $reset_key = CommercePlant::createValidateCustomerURL($user_id, $email_address);
-//
-
-                error_log("Thanks so much for joining the CASH Music Family. We've got big plans, so expect an email in the new year detailing everything we have to offer. If you have any questions before then just email us at <a href='mailto:family@cashmusic.org'>family@cashmusic.org</a>."
-                    . '<a href="' . $finalize_url . '?key=' . $reset_key . '&address=' . urlencode($email_address) . '&element_id='.$element_id.'">Verify your address</a>');
 
                CASHSystem::sendEmail(
                     'Welcome to the CASH Music Family',
