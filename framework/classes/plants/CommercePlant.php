@@ -2671,12 +2671,15 @@ class CommercePlant extends PlantBase {
                             'data' => json_encode($data)
                         )
                     );
+
+                    if (!$subscription_member_result) {
+                        return false;
+                    }
+
                 } else {
                     return false;
                 }
 
-
-                if (!$subscription_member_result) return false;
 
 //
                 $reset_key = CommercePlant::createValidateCustomerURL($user_id, $email_address);

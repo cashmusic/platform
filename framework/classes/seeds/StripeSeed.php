@@ -31,12 +31,32 @@ class StripeSeed extends SeedBase
 
         if ($this->getCASHConnection()) {
 
+            $settings_request = new CASHRequest(
+                array(
+                    'cash_request_type' => 'system',
+                    'cash_action' => 'getsettings',
+                    'type' => 'payment_defaults',
+                    'user_id' => $user_id
+                )
+            );
+
             $connections = CASHSystem::getSystemSettings('system_connections');
             if (isset($connections['com.stripe'])) {
                $this->client_id = $connections['com.stripe']['client_id'];
                $this->client_secret = $connections['com.stripe']['client_secret'];
                $this->publishable_key = $connections['com.stripe']['publishable_key'];
             }
+
+            error_log(
+                "###this should be credentials.\n".
+                json_encode($settings_request->response['payload'])
+            );
+
+            error_log(
+                "### this should be system.\n".
+                json_encode($connections['com.stripe'])
+            );
+
             $this->access_token = $this->settings->getSetting('access_token');
             $this->stripe_account_id = $this->settings->getSetting('stripe_account_id');
 
