@@ -1538,6 +1538,24 @@ label.cm-add-amount{
 	position: relative;
 }
 
+/* Inline pricing */
+
+#cm-amount-message .cm-pricing{
+	color:#bcbcbc!important;
+	font-size: 20px;
+	line-height: 26px;
+	margin:54px 0;
+	font-weight: 100;
+	text-align: center!important;
+	font-family: 'Nunito',Helvetica,Arial,sans-serif!important;
+}
+
+#cm-amount-message .cm-pricing span{
+	margin:0 5px;
+	color:#fff;
+  font-family:'Montserrat',Helvetica,Arial,sans-serif!important;
+}
+
 /* Made by CASH Footer */
 
 .cm-store .madebycash{
