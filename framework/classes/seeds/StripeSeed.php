@@ -47,16 +47,6 @@ class StripeSeed extends SeedBase
                $this->publishable_key = $connections['com.stripe']['publishable_key'];
             }
 
-            error_log(
-                "###this should be credentials.\n".
-                json_encode($settings_request->response['payload'])
-            );
-
-            error_log(
-                "### this should be system.\n".
-                json_encode($connections['com.stripe'])
-            );
-
             $this->access_token = $this->settings->getSetting('access_token');
             $this->stripe_account_id = $this->settings->getSetting('stripe_account_id');
 
