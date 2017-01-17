@@ -1556,13 +1556,13 @@ label.cm-add-amount{
 
 /* Subscription Settings (returning) */
 
-.subscription .cm-subcription-password, .subscription .cm-subcription-confirm-password{
+.cashmusic.element.subscription .cm-subcription-password, .cashmusic.element.subscription .cm-subcription-confirm-password{
 	display:inline-block;
 	width:49.5%;
 	margin:0 0.5% 0 0;
 }
 
-.subscription .cm-subcription-confirm-password{
+.cashmusic.element.subscription .cm-subcription-confirm-password{
 	margin:0 0 0 0.5%;
 }
 
