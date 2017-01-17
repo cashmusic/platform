@@ -1538,6 +1538,36 @@ label.cm-add-amount{
 	position: relative;
 }
 
+/* Inline pricing */
+
+.subscription #cm-amount-message .cm-pricing{
+	color:#bcbcbc!important;
+	font-size: 20px!important;
+	line-height: 26px!important;
+	margin:54px 0!important;
+	font-weight: 100!important;
+	text-align: center!important;
+	font-family: 'Nunito',Helvetica,Arial,sans-serif!important;
+}
+
+.subscription #cm-amount-message .cm-pricing span{
+	margin:0 5px!important;
+	color:#fff!important;
+  	font-family:'Montserrat',Helvetica,Arial,sans-serif!important;
+}
+
+.cashmusic.subscription h2.cm-success{
+	font-size: 20px!important;
+	line-height: 26px!important;
+	font-weight: 100!important;
+	font-family: 'Nunito',Helvetica,Arial,sans-serif!important;
+}
+
+.cashmusic.subscription .cm-success .cm-success-title{
+	font-weight: 100!important;
+  	font-family:'Montserrat',Helvetica,Arial,sans-serif!important;
+}
+
 /* Made by CASH Footer */
 
 .cm-store .madebycash{
