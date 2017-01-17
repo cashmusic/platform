@@ -1548,7 +1548,7 @@ label.cm-add-amount{
 	font-family: 'Nunito',Helvetica,Arial,sans-serif!important;
 }
 
-.subscription .cm-success .cm-success-title{
+.subscription .cm-success-title{
 	font-weight: 100!important;
 	text-align: center!important;
   	font-family:'Montserrat',Helvetica,Arial,sans-serif!important;
@@ -1556,13 +1556,13 @@ label.cm-add-amount{
 
 /* Subscription Settings (returning) */
 
-.subscription .cm-subcription-password, .subscription .cm-subcription-confirm-password{
+.cashmusic.element.subscription .cm-subcription-password, .cashmusic.element.subscription .cm-subcription-confirm-password{
 	display:inline-block;
 	width:49.5%;
 	margin:0 0.5% 0 0;
 }
 
-.subscription .cm-subcription-confirm-password{
+.cashmusic.element.subscription .cm-subcription-confirm-password{
 	margin:0 0 0 0.5%;
 }
 
