@@ -194,14 +194,17 @@
 			for (var i = 0, len = prices.length; i < len; i++) {
 				cm.events.add(prices[i],'keyup', function(e) {
 					var newprice = parseFloat(this.value);
-					if (newprice) {
-						if (newprice > this.getAttribute('data-atleast')) {
-							var pricespan = document.querySelector('button.cm-buynow.cm-item-' + this.getAttribute('data-itemid') + ' span.cm-price');
-							if (pricespan) {
-								pricespan.innerHTML = '{{currency}}' + newprice.toFixed(2);
-							}
-							document.querySelector('button.cm-buynow.cm-item-' + this.getAttribute('data-itemid')).setAttribute('data-price',newprice.toFixed(2))
+               // force 0.00 or 0.50 but nothing in between (for minimum price stuff)
+               if (newprice > 0 && newprice < 0.5) {
+                  newprice = 0.5;
+               }
+
+					if (newprice >= parseFloat(this.getAttribute('data-atleast'))) {
+						var pricespan = document.querySelector('button.cm-buynow.cm-item-' + this.getAttribute('data-itemid') + ' span.cm-price');
+						if (pricespan) {
+							pricespan.innerHTML = '{{currency}}' + newprice.toFixed(2);
 						}
+						document.querySelector('button.cm-buynow.cm-item-' + this.getAttribute('data-itemid')).setAttribute('data-price',newprice.toFixed(2))
 					}
 					e.preventDefault();
 					return false;

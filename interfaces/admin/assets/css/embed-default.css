@@ -1538,6 +1538,35 @@ label.cm-add-amount{
 	position: relative;
 }
 
+/* Success Messages */
+
+.subscription .cm-success{
+	font-size: 20px!important;
+	line-height: 26px!important;
+	font-weight: 100!important;
+	text-align: center!important;
+	font-family: 'Nunito',Helvetica,Arial,sans-serif!important;
+}
+
+.subscription .cm-success-title{
+	font-weight: 100!important;
+	text-align: center!important;
+  	font-family:'Montserrat',Helvetica,Arial,sans-serif!important;
+}
+
+/* Subscription Settings (returning) */
+
+.cashmusic.element.subscription .cm-subcription-password, .cashmusic.element.subscription .cm-subcription-confirm-password{
+	display:inline-block;
+	width:49.5%;
+	margin:0 0.5% 0 0;
+}
+
+.cashmusic.element.subscription .cm-subcription-confirm-password{
+	margin:0 0 0 0.5%;
+}
+
+
 /* Made by CASH Footer */
 
 .cm-store .madebycash{
@@ -1546,8 +1575,8 @@ label.cm-add-amount{
 	padding:20px 0;
 	display:block;
 	font-weight:100!important;
-  color:#fff!important;
-  font-family:'Montserrat',Helvetica,Arial,sans-serif!important;
+  	color:#fff!important;
+  	font-family:'Montserrat',Helvetica,Arial,sans-serif!important;
 	font-size:11px;
 	z-index: 1;
 	text-align: center;
@@ -1558,7 +1587,7 @@ label.cm-add-amount{
 	margin:0;
 	background:none;
 	color:#fff!important;
-  opacity: 0.6!important;
+  	opacity: 0.6!important;
 	font-weight:100!important;
 	-webkit-transition: color 0.3s  ease-in-out;
 	-moz-transition: color 0.3s  ease-in-out;
