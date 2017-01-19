@@ -2680,16 +2680,35 @@ class CommercePlant extends PlantBase {
                     return false;
                 }
 
-
-//
                 $reset_key = CommercePlant::createValidateCustomerURL($user_id, $email_address);
+                $verify_link = $finalize_url . '?key='. $reset_key . '&address='.
+                    urlencode($email_address).
+                    '&element_id='.$element_id;
 
-               CASHSystem::sendEmail(
+                $element_request = new CASHRequest(
+                    array(
+                        'cash_request_type' => 'element',
+                        'cash_action' => 'getelement',
+                        'id' => $element_id
+                    )
+                );
+
+                $email_content = $element_request->response['payload']['options']['message_email'];
+
+                $email_content = CASHSystem::renderMustache(
+                    $email_content, array(
+                        // array of values to be passed to the mustache template
+                        'verify_link' => $verify_link
+                    )
+                );
+
+                if (empty($email_content)) return false;
+
+                CASHSystem::sendEmail(
                     'Welcome to the CASH Music Family',
                     $user_id,
                     $email_address,
-                   "<p>Thanks so much for joining the CASH Music Family. By becoming a part of CASH Music you're helping us grow and continue to serve artists.</p><p>We'll be announcing the CASH Family to the public and launching the Family store in February. You should expect to see your first batch of music at the end of the month as well. If you have any questions before then just email us at <a href='mailto:family@cashmusic.org'>family@cashmusic.org</a>.</p>"
-                   . '<p>Please make sure to <a href="' . $finalize_url . '?key=' . $reset_key . '&address=' . urlencode($email_address) . '&element_id='.$element_id.'">verify your address</a>to complete your subscription.<p><p>Together we&apos;re building a brighter future for musicians.</p>',
+                    $email_content,
                     'Thank you.'
                 );
 

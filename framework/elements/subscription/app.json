@@ -88,14 +88,14 @@
 					},
 					"type":"text",
 					"default":{
-						"en":"Thank you! Here's your download. Mobile users check your inbox and spam folders for a download link.",
+						"en":"Thank you! Here's your download. {{{verify_link}}} Mobile users check your inbox and spam folders for a download link.",
 						"is":"Takk fyrir! Hér er niðurhalið þitt. Símanotendur gætu þurft að skoða innhólf og ruslpóst möppur eftir niðurhalshlekk."
 					},
 					"displaysize":"large"
 				},
 				"message_verify":{
 					"label":{
-						"en":"Email verify message",
+						"en":"Email verified message",
 						"is":"Velgengnis skilaboð"
 					},
 					"type":"text",

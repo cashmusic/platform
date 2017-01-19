@@ -173,11 +173,11 @@
 
                             return true;
                         } else {
-                            cm.overlay.reveal('There was a problem with your payment. Please try again.');
+                            cm.overlay.reveal('{{{message_error}}}');
                         }
                     },
                     function(details) {
-                        cm.overlay.reveal('There was a problem with your payment. Please try again.');
+                        cm.overlay.reveal('{{{message_error}}}');
                     }
             );
         }

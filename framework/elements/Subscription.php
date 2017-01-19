@@ -37,6 +37,7 @@ class Subscription extends ElementBase {
 				'user_id' => $this->element_data['user_id']
 			)
 		);
+
 		if (is_array($settings_request->response['payload'])) {
 
 			if (isset($settings_request->response['payload']['stripe_default'])) {
