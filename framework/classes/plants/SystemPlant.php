@@ -113,8 +113,6 @@ class SystemPlant extends PlantBase {
 	 * @return array|false
 	 */protected function validateLogin($address,$password,$require_admin=false,$verified_address=false,$browserid_assertion=false,$element_id=null,$keep_session=false) {
 
-	 	error_log("$address $password");
-
 		if (!$keep_session) {
 			$this->sessionClearAll();
 		}
