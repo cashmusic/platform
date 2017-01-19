@@ -193,15 +193,10 @@ class Subscription extends ElementBase {
 
                 $this->element_data['has_password'] = false;
 
-                error_log(
-                	"user deets".
-                	json_encode($user_request->response['payload'])
-				);
-
                 if ($user_request->response['payload']) {
                 	$user = $user_request->response['payload'];
 
-                	if ($user['is_admin'] > 0) {
+                	if ($user['is_admin'] == "1") {
                 		$this->element_data['has_password'] = true;
 					}
 				}
