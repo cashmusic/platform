@@ -26,6 +26,10 @@ html,body{
 	color:#222;
 }
 
+body.cm-lightboxed{
+	color:#fff;
+}
+
 /* Device Scrolling */
 @media only screen and (max-device-width: 535px) {
 	html,body{
