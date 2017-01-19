@@ -79,19 +79,43 @@
 						"en":"Thank you! Here's your download. Mobile users check your inbox and spam folders for a download link.",
 						"is":"Takk fyrir! Hér er niðurhalið þitt. Símanotendur gætu þurft að skoða innhólf og ruslpóst möppur eftir niðurhalshlekk."
 					},
-					"displaysize":"medium"
+					"displaysize":"large"
+				},
+				"message_email":{
+					"label":{
+						"en":"Email success message",
+						"is":"Velgengnis skilaboð"
+					},
+					"type":"text",
+					"default":{
+						"en":"Thank you! Here's your download. Mobile users check your inbox and spam folders for a download link.",
+						"is":"Takk fyrir! Hér er niðurhalið þitt. Símanotendur gætu þurft að skoða innhólf og ruslpóst möppur eftir niðurhalshlekk."
+					},
+					"displaysize":"large"
+				},
+				"message_verify":{
+					"label":{
+						"en":"Email verify message",
+						"is":"Velgengnis skilaboð"
+					},
+					"type":"text",
+					"default":{
+						"en":"You did it!",
+						"is":"No translation available."
+					},
+					"displaysize":"large"
 				},
 				"message_error":{
 					"label":{
-						"en":"Invalid email message",
+						"en":"Payment error message",
 						"is":"Ógilt netfang"
 					},
 					"type":"text",
 					"default":{
-						"en":"There was an error processing your payment. Please reload and try again.",
-						"is":"Það kom upp villa við vinnslu færslunar. Prófaðu aftur."
+						"en":"There was a problem with your payment. Please try again.",
+						"is":"No translation available."
 					},
-					"displaysize":"medium"
+					"displaysize":"large"
 				}
 			}
 		}
