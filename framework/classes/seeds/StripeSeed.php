@@ -372,14 +372,14 @@ class StripeSeed extends SeedBase
                 'transaction_id' => $payment_results->id,
                 'sale_id' => $payment_results->id,
                 'items' => array(),
-                'total' => number_format($payment_results->amount / 100),
+                'total' => number_format(($payment_results->amount / 100),2,'.', ''),
                 'other_charges' => array(),
-                'transaction_fees' => number_format($transaction_fees->fee / 100),
+                'transaction_fees' => number_format(($transaction_fees->fee / 100),2,'.', ''),
                 'refund_url' => $payment_results->refunds->url,
                 'status' => "complete"
             );
 
-            return array('total' => number_format($payment_results->amount / 100),
+            return array('total' => number_format(($payment_results->amount / 100),2,'.', ''),
                 'customer_email' => $email_address,
                 'customer_first_name' => $full_name[0],
                 'customer_last_name' => $full_name[1],
@@ -389,7 +389,7 @@ class StripeSeed extends SeedBase
                 'transaction_id' => $payment_results->id,
                 'service_transaction_id' => $payment_results->id,
                 'service_charge_id' => $payment_results->balance_transaction,
-                'service_fee' => number_format($transaction_fees->fee / 100),
+                'service_fee' => number_format(($transaction_fees->fee / 100),2,'.', ''),
                 'order_details' => $order_details
             );
         } else {
@@ -819,5 +819,5 @@ class StripeSeed extends SeedBase
         return $this->api->call('webhooks/transaction', $_params);
     }
 
-    
+
 } // END class
