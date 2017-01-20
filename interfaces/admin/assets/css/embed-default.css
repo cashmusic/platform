@@ -1582,9 +1582,13 @@ label.cm-add-amount{
 
 /* Subscription Settings (returning) */
 
-.cashmusic.element.subscription .cm-subcription-password, .cashmusic.element.subscription .cm-subcription-confirm-password{
-	display:inline-block;
-	width:49.5%;
+.cm-lightboxed .cashmusic.element.subscription .cm-subcription-password, .cm-lightboxed .cashmusic.element.subscription .cm-subcription-confirm-password{
+	width:49.5%!important;
+	margin:0 0.5% 0 0;
+}
+
+.cm-lightboxed .cashmusic.element.subscription .cm-subcription-confirm-password{
+	margin:0  0 0 0.5%;
 }
 
 /* Made by CASH Footer */
