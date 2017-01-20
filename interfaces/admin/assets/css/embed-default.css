@@ -1576,6 +1576,7 @@ label.cm-add-amount{
 
 .subscription .cm-success-title{
 	font-weight: 100!important;
+	margin: 0 0 20px 0!important;
 	text-align: center!important;
   	font-family:'Montserrat',Helvetica,Arial,sans-serif!important;
 }
