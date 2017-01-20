@@ -76,8 +76,8 @@
 					},
 					"type":"text",
 					"default":{
-						"en":"Thank you! Here's your download. Mobile users check your inbox and spam folders for a download link.",
-						"is":"Takk fyrir! Hér er niðurhalið þitt. Símanotendur gætu þurft að skoða innhólf og ruslpóst möppur eftir niðurhalshlekk."
+						"en":"Thank you for signing up. Please check your inbox to verify your email & complete your subscription.",
+						"is":"No translation available."
 					},
 					"displaysize":"large"
 				},
@@ -88,8 +88,8 @@
 					},
 					"type":"text",
 					"default":{
-						"en":"Thank you for signing up. Please check your inbox to verify your email & complete your subscription.",
-						"is":"Þakka þér fyrir að skrá þig. Vinsamlegast athugaðu pósthólfið þitt til að staðfesta netfangið þitt og ljúka áskrift."
+						"en":"Thank you for signing up. Please make sure to verify your address here {{{verify_link}}} to complete your subscription.",
+						"is":"No translation available."
 					},
 					"displaysize":"large"
 				},
