@@ -90,7 +90,13 @@ if (is_array($settings_request->response['payload'])) {
 
 
         if ($subscriber_request->response['payload']) {
-            $cash_admin->page_data['subscriptions_payment'] = $subscriber_request->response['payload'];
+            $payments = $subscriber_request->response['payload'];
+
+            foreach ($payments as $payment) {
+
+                $payment['service_timestamp'] = date('m/d/Y', $payment['service_timestamp']);
+                $cash_admin->page_data['subscriptions_payment'][] = $payment;
+            }
         }
 
     }
