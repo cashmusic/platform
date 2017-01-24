@@ -94,7 +94,7 @@ if (is_array($settings_request->response['payload'])) {
 
             foreach ($payments as $payment) {
 
-                $payment['service_timestamp'] = date('m/d/Y', $payment['service_timestamp']);
+                $payment['service_timestamp'] = date('m/d/Y g:i:sA', $payment['service_timestamp']);
                 $cash_admin->page_data['subscriptions_payment'][] = $payment;
             }
         }
