@@ -1702,13 +1702,9 @@ class CommercePlant extends PlantBase {
             }
 
             // call the payment seed class --- connection id needs to switch later maybe
-            if ($this->createSubscription($element_id,$user_id, $price, $stripe_default, $subscription_plan, $stripe, $email_address, $customer_name, $shipping_info, 1, $finalize_url)) {
+            $response = $this->createSubscription($element_id,$user_id, $price, $stripe_default, $subscription_plan, $stripe, $email_address, $customer_name, $shipping_info, 1, $finalize_url);
 
-                // create the subscription data
-                return "success";
-            } else {
-                return "failure";
-            }
+            return $response;
 
         }
 
@@ -2614,13 +2610,15 @@ class CommercePlant extends PlantBase {
         if ($subscription_plan = $this->getSubscriptionPlanBySku($plan_id)) {
 
             // if this plan doesn't even exist, then just quit.
-            if (empty($subscription_plan[0])) return false;
+            ###ERROR: plan doesn't exist
+            if (empty($subscription_plan[0])) return "404";
 
             // if this plan is flexible then we need to calculate quantity based on the cent value of the plan.
             if ($subscription_plan[0]['flexible_price'] == 1) {
 
                 // make sure price is equal or greater than minimum
-                if ($price < $subscription_plan[0]['price']) return false;
+                ###ERROR: price is less than minimum
+                if ($price < $subscription_plan[0]['price']) return "402";
 
                 $quantity = ($price*100); // price to cents, which will also be our $quantity because base price is always 1 cent for flexible
             }
@@ -2672,12 +2670,34 @@ class CommercePlant extends PlantBase {
                         )
                     );
 
+                    ###ERROR: error creating membership
                     if (!$subscription_member_result) {
-                        return false;
+                        return "412";
                     }
 
                 } else {
-                    return false;
+                    ###ERROR: subscriber already exists for this plan
+                    return "409";
+                }
+
+                // create actual subscription on stripe
+                if ($subscription = $payment_seed->createSubscription($token, $plan_id, $email_address, $quantity)) {
+                    // we need to add in the customer token so we can actually corollate with the webhooks
+                    $add_customer_token_result = $this->db->setData(
+                        'subscriptions_members',
+                        array(
+                            'payment_identifier' => $subscription->id
+                        ),
+                        array(
+                            "id" => array(
+                                "condition" => "=",
+                                "value" => $subscription_member_result
+                            )
+                        )
+                    );
+
+                    ###ERROR: error creating subscription payment
+                    if (!$add_customer_token_result) return "406";
                 }
 
                 $reset_key = CommercePlant::createValidateCustomerURL($user_id, $email_address);
@@ -2702,7 +2722,8 @@ class CommercePlant extends PlantBase {
                     )
                 );
 
-                if (empty($email_content)) return false;
+                ###ERROR: error emailing subscriber
+                if (empty($email_content)) return "417";
 
                 CASHSystem::sendEmail(
                     'Welcome to the CASH Music Family',
@@ -2712,33 +2733,16 @@ class CommercePlant extends PlantBase {
                     'Thank you.'
                 );
 
+                return "200";
+
             } else {
-                return false;
-            }
-
-
-            if ($subscription = $payment_seed->createSubscription($token, $plan_id, $email_address, $quantity)) {
-                // we need to add in the customer token so we can actually corollate with the webhooks
-                $add_customer_token_result = $this->db->setData(
-                    'subscriptions_members',
-                    array(
-                        'payment_identifier' => $subscription->id
-                    ),
-                    array(
-                        "id" => array(
-                            "condition" => "=",
-                            "value" => $subscription_member_result
-                        )
-                    )
-                );
-
-                if (!$add_customer_token_result) return false;
-
-                return true;
+                ###ERROR: error creating user
+                return "403";
             }
         }
 
-        return false;
+        ###ERROR: plan doesn't exist
+        return "404";
     }
 
     public function updateSubscription($id, $status=false, $total=false, $start_date=false) {
