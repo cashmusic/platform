@@ -39,6 +39,17 @@
     // set shipping true, or to false if there is no shipping
     var shipping = {{shipping}};
 
+    var error_messages = {
+        "409": "Whoops, looks like you've already got a subscription with this email and payment method.",
+        "412": "There was an error creating your subscription. Contact info@cashmusic for help.",
+        "404": "The subscription plan you're trying to subscribe to does not appear to exist.",
+        "402": "Sorry, the price you entered is less than the minimum subscription price.",
+        "417": "Your subscription was created, but we tried to email you a verification and failed. Is this a valid email?",
+        "406": "Creation of your subscription failed. Contact info@cashmusic for help.",
+        "403": "We tried to create a user for you and failed. Contact info@cashmusic for help."
+    };
+
+
     cm.events.add(cm,'ready', function(e) {
         cm.session.start();
 
@@ -164,7 +175,7 @@
                     function(details) {
                         if (details.substring(0,4) == 'http') {
                             top.location.href = details;
-                        } else if (details == 'success') {
+                        } else if (details == '200') {
                             cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"success"});
 
                             if (document.contains(document.getElementById("subscription_form"))) {
@@ -173,11 +184,11 @@
 
                             return true;
                         } else {
-                            cm.overlay.reveal('{{{message_error}}}');
+                            cm.overlay.reveal(error_messages[details]);
                         }
                     },
                     function(details) {
-                        cm.overlay.reveal('{{{message_error}}}');
+                        cm.overlay.reveal(error_messages[details]);
                     }
             );
         }
