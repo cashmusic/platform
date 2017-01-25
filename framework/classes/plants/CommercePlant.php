@@ -70,6 +70,7 @@ class CommercePlant extends PlantBase {
             'finalizepayment'          => array('finalizePayment',array('get','post','direct')),
             'initiatecheckout'         => array('initiateCheckout',array('get','post','direct','api_public')),
             'initiatesubscription'     => array('initiateSubscription', array('get', 'post', 'direct', 'api_public')),
+            'loginsubscriber'        => array('loginSubscriber', 'direct'),
             'processwebhook'         => array('processWebhook',array('direct','api_public','public','get','post')),
             'sendorderreceipt'	      => array('sendOrderReceipt','direct'),
             'updatesubscriptionplan'    => array('updateSubscriptionPlan', 'direct'),
@@ -2814,6 +2815,11 @@ class CommercePlant extends PlantBase {
         if (!$results) return false;
 
         return true;
+    }
+
+    public function loginSubscriber($email, $password, $element_id) {
+        error_log("----loginSubscriber----$email $password $element_id");
+        return "8====D";
     }
 
     /**

@@ -1,5 +1,3 @@
-{{#verification}}FOO{{/verification}}
-
 {{#error_message}}
     <div class="cm-error cm-{{element_type}}-error">
         {{error_message}}
@@ -18,6 +16,8 @@
       </span>
   {{/flexible_price}}
 <a href="#" class="button cm-subscribe" data-price="{{plan_price}}" data-min="{{minimum_price}}" data-plan-id="{{plan_id}}" id="subscribe">$<span class="amount" id="plan_price">{{plan_price}}</span>/{{plan_interval}} - Subscribe</a>
+
+<a href="#" class="button cm-login">Login to Family</a>
 
 <script type="text/javascript">
 (function() {
@@ -61,6 +61,15 @@
         var plan_price = document.getElementById('plan_price');
         var subscribe_button = document.querySelector('.cm-subscribe');
         var flexible_price = document.getElementById('plan_flexible_price');
+
+        var login = document.querySelector('.cm-login');
+
+        if (login) {
+            cm.events.add(login, 'click', function (e) {
+                e.preventDefault();
+                cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"login"});
+            });
+        }
 
         if (flexible_price) {
             flexible_price.addEventListener('keyup', function() {

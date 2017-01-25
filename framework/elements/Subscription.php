@@ -234,24 +234,54 @@ class Subscription extends ElementBase {
                 );
 
                 if ($password_request->response['payload'] !== false) {
-                    $this->setTemplate('finalize');
+                    $this->setTemplate('logged_in_index');
                 } else {
                     $this->element_data['error_message'] = "There was an error setting your password.";
                     $this->setTemplate('settings');
 				}
+			}
 
-/*                $validate_request = new CASHRequest(
+            if ($_REQUEST['state'] == "login") {
+                $this->setTemplate('login');
+            }
+
+            if ($_REQUEST['state'] == "validate_login") {
+                // verify login
+				$email = (isset($_REQUEST['email'])) ? trim($_REQUEST['email']) : false;
+				$password = (isset($_REQUEST['password'])) ? trim($_REQUEST['password']) : false;
+
+
+                $validate_request = new CASHRequest(
                     array(
                         'cash_request_type' => 'system',
                         'cash_action' => 'validatelogin',
-                        'address' => $this->element_data['email_address'],
-                        'password' => $_REQUEST['password']
+                        'address' => $email,
+                        'password' => $password,
+                        'keep_session' => true
                     )
-                );*/
-			}
+                );
 
-			if ($_REQUEST['state'] == "finalize") {
-                $this->setTemplate('finalize');
+                // email or password are not set so bail, or they're set but they don't validate
+                if ( (!$email || !$password) || !$validate_request->response['payload'] ) {
+                    $this->element_data['error_message'] = "Sorry, that's not a valid login.";
+                    $this->setTemplate('login');
+                }
+
+                if ($validate_request->response['payload']) {
+                	// we're cool, so we need to login.
+                    $this->element_data['error_message'] = "We're cool bro";
+                    $this->setTemplate('logged_in_index');
+				}
+
+
+                //$this->setTemplate('logged_in_index');
+				// or return to login with errors
+
+            }
+
+
+			if ($_REQUEST['state'] == "logged_in_index") {
+                $this->setTemplate('logged_in_index');
 			}
 		}
 
