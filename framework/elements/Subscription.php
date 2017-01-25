@@ -108,7 +108,7 @@ class Subscription extends ElementBase {
 
 			$this->element_data['plan_interval'] = $plan_request->response['payload'][0]['interval'];
 
-			$this->element_data['plan_id'] = $plan_request->response['payload'][0]['sku'];
+			$this->element_data['plan_id'] = $plan_request->response['payload'][0]['id'];
 
 			$this->element_data['plan_flexible_price'] =
 				($plan_request->response['payload'][0]['flexible_price'] == 1) ? true: false;
@@ -247,32 +247,44 @@ class Subscription extends ElementBase {
 
             if ($_REQUEST['state'] == "validate_login") {
                 // verify login
-				$email = (isset($_REQUEST['email'])) ? trim($_REQUEST['email']) : false;
-				$password = (isset($_REQUEST['password'])) ? trim($_REQUEST['password']) : false;
+                $email = (isset($_REQUEST['email'])) ? trim($_REQUEST['email']) : false;
+                $password = (isset($_REQUEST['password'])) ? trim($_REQUEST['password']) : false;
 
+                $plan_id = (isset($_REQUEST['plan_id'])) ? $_REQUEST['plan_id'] : false;
 
-                $validate_request = new CASHRequest(
+                $password_request = new CASHRequest(
                     array(
-                        'cash_request_type' => 'system',
-                        'cash_action' => 'validatelogin',
-                        'address' => $email,
+                        'cash_request_type' => 'commerce',
+                        'cash_action' => 'loginsubscriber',
+                        'email' => $email,
                         'password' => $password,
-                        'keep_session' => true
+                        'plan_id' => $plan_id
                     )
                 );
 
-                // email or password are not set so bail, or they're set but they don't validate
-                if ( (!$email || !$password) || !$validate_request->response['payload'] ) {
-                    $this->element_data['error_message'] = "Sorry, that's not a valid login.";
-                    $this->setTemplate('login');
-                }
+                if ($password_request->response['payload']) {
+                	// valid login + valid subscription
+                	if ($password_request->response['payload'] == "200") {
 
-                if ($validate_request->response['payload']) {
-                	// we're cool, so we need to login.
-                    $this->element_data['error_message'] = "We're cool bro";
-                    $this->setTemplate('logged_in_index');
+                        // we need to make sure this is isolated by subscription---
+                        // maybe later we can actually have subscriptions switchable
+                        $this->setTemplate('logged_in_index');
+					}
+
+                    if ($password_request->response['payload'] == "401") {
+                        $this->element_data['error_message'] = "Sorry, that's not a valid subscription login.";
+                        $this->setTemplate('login');
+                    }
 				}
 
+
+
+				/*$this->element_data['error_message'] = "We're cool bro";
+
+                $data_request = new CASHRequest(null);
+                $session = $data_request->getAllSessionData();
+
+                $this->setTemplate('logged_in_index');*/
 
                 //$this->setTemplate('logged_in_index');
 				// or return to login with errors
@@ -281,6 +293,9 @@ class Subscription extends ElementBase {
 
 
 			if ($_REQUEST['state'] == "logged_in_index") {
+
+            	// we need to make sure this is isolated by subscription---
+				// maybe later we can actually have subscriptions switchable
                 $this->setTemplate('logged_in_index');
 			}
 		}

@@ -4,11 +4,9 @@
 <form action="" id="cash_{{element_type}}_form_{{element_id}}" method="post">
     <input type="text" class="cm-subcription-email" name="email" placeholder="email" value="{{email_address}}">
     <input type="password" class="cm-subcription-password" name="password" placeholder="password">
-    <input type="hidden" name="cash_request_type" value="commerce">
-    <input type="hidden" name="cash_action" value="loginsubscriber">
     <input type="hidden" name="state" value="validate_login">
     <input type="hidden" name="element_id" value="{{element_id}}">
-    <input type="hidden" name="plan_id" value="{{element_id}}" />
+    <input type="hidden" name="plan_id" value="{{plan_id}}" />
     <button class="cm-login-submit">Login</button>
     <a href="#" class="button">Forgot password</a>
 </form>

@@ -70,10 +70,11 @@ class CommercePlant extends PlantBase {
             'finalizepayment'          => array('finalizePayment',array('get','post','direct')),
             'initiatecheckout'         => array('initiateCheckout',array('get','post','direct','api_public')),
             'initiatesubscription'     => array('initiateSubscription', array('get', 'post', 'direct', 'api_public')),
-            'loginsubscriber'        => array('loginSubscriber', 'direct'),
+            'loginsubscriber'        => array('loginSubscriber', array('get', 'post', 'direct', 'api_public')),
             'processwebhook'         => array('processWebhook',array('direct','api_public','public','get','post')),
             'sendorderreceipt'	      => array('sendOrderReceipt','direct'),
             'updatesubscriptionplan'    => array('updateSubscriptionPlan', 'direct'),
+            'validatesubscription'      => array('validateSubscription', array('get', 'post', 'direct', 'api_public'))
         );
         $this->plantPrep($request_type,$request);
     }
@@ -2817,9 +2818,70 @@ class CommercePlant extends PlantBase {
         return true;
     }
 
-    public function loginSubscriber($email, $password, $element_id) {
-        error_log("----loginSubscriber----$email $password $element_id");
-        return "8====D";
+    public function loginSubscriber($email=false, $password=false, $plan_id=false) {
+
+        $validate_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'system',
+                'cash_action' => 'validatelogin',
+                'address' => $email,
+                'password' => $password,
+                'keep_session' => true
+            )
+        );
+
+        // email or password are not set so bail, or they're set but they don't validate
+        if ( (!$email || !$password || !$plan_id) || !$validate_request->response['payload'] ) {
+            return "401";
+        }
+
+        if ($validate_request->response['payload']) {
+
+            $user_id = $validate_request->response['payload'];
+
+            // this is a valid login--- so now the question is, are they an active subscriber?
+            $is_valid_subscription = $this->validateSubscription($user_id, $plan_id);
+
+            if ($is_valid_subscription) {
+                return "200";
+            } else {
+                return "401";
+            }
+        }
+
+        // all else fail
+        return "401";
+    }
+
+    /**
+     *
+     * Simple lookup to check if a user is an active subscriber
+     * @param $user_id
+     * @param $plan_id
+     * @return bool
+     */
+    public function validateSubscription($user_id, $plan_id) {
+
+        $conditions = [
+            'user_id' => array(
+                "condition" => "=",
+                "value" => $user_id
+            ),
+            'subscription_id' => array(
+                "condition" => "=",
+                "value" => $plan_id
+            ),
+        ];
+
+        $result = $this->db->getData(
+            'subscriptions_members',
+            '*',
+            $conditions
+        );
+
+        if (!$result) return false;
+
+        return true;
     }
 
     /**
