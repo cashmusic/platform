@@ -29,6 +29,13 @@ class Subscription extends ElementBase {
 
         $this->startSession();
 
+        //$session = new CASHRequest(null);
+        $user_id = $this->sessionGet("user_id");
+        $plan_id = $this->sessionGet("plan_id");
+        $authenticated = $this->sessionGet("subscription_authenticated");
+
+        $this->element_data['logged_in'] = false;
+
 		$settings_request = new CASHRequest(
 			array(
 				'cash_request_type' => 'system',
@@ -115,6 +122,11 @@ class Subscription extends ElementBase {
 
 			$this->element_data['shipping'] = ($plan_request->response['payload'][0]['physical'] == 0) ? "false": "true";
 
+			// if we're logged in already, show them the my account button instead of login
+			if ($plan_id == $this->element_data['plan_id'] && $authenticated) {
+                $this->element_data['logged_in'] = true;
+			}
+
 		} else {
 			//error
 		}
@@ -160,16 +172,6 @@ class Subscription extends ElementBase {
                 $this->element_data['error_message'] = "Something went wrong.";
 			}
 
-
-			//https://s3-us-west-2.amazonaws.com/cashmusic.tests.for.tom/element.html?key=e48fcb1a48d1e0e77bed52addb842f13&address=tom%40tos.com&element_id=3
-
-			//  <script src="https://192.168.33.99/public/cashmusic.js" data-element="3"></script>
-
-			// make sure password reset exists
-
-			// show password
-
-			// or error
 		}
 
 		if (isset($_REQUEST['state'])) {
@@ -200,7 +202,6 @@ class Subscription extends ElementBase {
 					}
 				}
 
-
 				$this->setTemplate('settings');
 			}
 
@@ -219,7 +220,6 @@ class Subscription extends ElementBase {
                     $this->element_data['error_message'] = "Minimum password lengh of 10 characters.";
                     $this->setTemplate('settings');
                 }
-
 
 				// validate the request to change things
 
@@ -268,6 +268,7 @@ class Subscription extends ElementBase {
 
                         // we need to make sure this is isolated by subscription---
                         // maybe later we can actually have subscriptions switchable
+
                         $this->setTemplate('logged_in_index');
 					}
 

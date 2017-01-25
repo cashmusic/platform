@@ -2843,6 +2843,13 @@ class CommercePlant extends PlantBase {
             $is_valid_subscription = $this->validateSubscription($user_id, $plan_id);
 
             if ($is_valid_subscription) {
+
+                // this is a valid subscription so bust out the confetti
+                $session = new CASHRequest(null);
+                $session->sessionSet("user_id", $user_id);
+                $session->sessionSet("plan_id", $plan_id);
+                $session->sessionSet("subscription_authenticated", true);
+
                 return "200";
             } else {
                 return "401";
