@@ -2447,15 +2447,20 @@ class CommercePlant extends PlantBase {
         return $result;
     }
 
-    public function getSubscriptionPlan($user_id, $id) {
+    public function getSubscriptionPlan($id, $user_id=false) {
+
+        $conditions = [
+            'id' => ['condition' => '=', 'value' => $id]
+        ];
+
+        if ($user_id) {
+            $conditions['user_id'] = ['condition' => '=', 'value' => $user_id];
+        }
 
         $result = $this->db->getData(
             'subscriptions',
             '*',
-            [
-                'user_id' => ['condition' => '=', 'value' => $user_id],
-                'id'      => ['condition' => '=', 'value' => $id]
-            ]
+            $conditions
         );
 
         return $result;

@@ -15,6 +15,9 @@
  * define FALSE TRUE — Just kidding.
  *
  **/
+
+use Cashmusic\Elements\subscription as SubscriptionElement;
+
 class Subscription extends ElementBase {
 	public $type = 'subscription';
 	public $name = 'Subscription';
@@ -73,63 +76,18 @@ class Subscription extends ElementBase {
 			$this->setError("No valid payment connection found.");
 		}
 
-		// get plan data
-		$plan_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'commerce',
-				'cash_action' => 'getsubscriptionplan',
-				'user_id' => $this->element_data['user_id'],
-				'id' => $this->element_data['plan_id']
-			)
-		);
+		// this is where we get data
+		$subscription_element = new SubscriptionElement\Data(
+            $this->element_data['user_id'],
+            $this->element_data['plan_id']
+			);
 
-		$currency_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'system',
-				'cash_action' => 'getsettings',
-				'type' => 'use_currency',
-				'user_id' => $this->element_data['user_id']
-			)
-		);
-		if ($currency_request->response['payload']) {
-			$this->element_data['currency'] = CASHSystem::getCurrencySymbol($currency_request->response['payload']);
-		} else {
-			$this->element_data['currency'] = CASHSystem::getCurrencySymbol('USD');
-		}
+		$this->element_data = array_merge($this->element_data, $subscription_element->data);
 
-		if ($plan_request->response['payload'] && !empty($plan_request->response['payload'][0])) {
-			$this->element_data['plan_name'] = $plan_request->response['payload'][0]['name'];
-
-			$this->element_data['plan_description'] = $plan_request->response['payload'][0]['description'];
-			$this->element_data['flexible_price'] = $plan_request->response['payload'][0]['flexible_price'];
-
-			$this->element_data['plan_price'] = $plan_request->response['payload'][0]['price'];
-
-			// if flexible pricing is set let's set the default to suggested price
-			if (!empty($this->element_data['flexible_price'])) {
-				$this->element_data['plan_price'] = $plan_request->response['payload'][0]['suggested_price'];
-				$this->element_data['minimum_price'] = $plan_request->response['payload'][0]['price'];
-			} else {
-				$this->element_data['minimum_price'] = $this->element_data['plan_price'];
-			}
-
-			$this->element_data['plan_interval'] = $plan_request->response['payload'][0]['interval'];
-
-			$this->element_data['plan_id'] = $plan_request->response['payload'][0]['id'];
-
-			$this->element_data['plan_flexible_price'] =
-				($plan_request->response['payload'][0]['flexible_price'] == 1) ? true: false;
-
-			$this->element_data['shipping'] = ($plan_request->response['payload'][0]['physical'] == 0) ? "false": "true";
-
-			// if we're logged in already, show them the my account button instead of login
-			if ($plan_id == $this->element_data['plan_id'] && $authenticated) {
-                $this->element_data['logged_in'] = true;
-			}
-
-		} else {
-			//error
-		}
+        // if we're logged in already, show them the my account button instead of login
+        if ($plan_id == $this->element_data['plan_id'] && $authenticated) {
+            $this->element_data['logged_in'] = true;
+        }
 
 		if (!empty($_REQUEST['key'])) {
 
