@@ -23,12 +23,6 @@ class Subscription extends ElementBase {
 	public $name = 'Subscription';
 
 	public function getData() {
-		$this->element_data['public_url'] = CASH_PUBLIC_URL;
-
-		// payment connection settings
-		$this->element_data['paypal_connection'] = false;
-		$this->element_data['stripe_public_key'] = false;
-        $this->element_data['verification'] = false;
 
         $this->startSession();
 
@@ -36,45 +30,6 @@ class Subscription extends ElementBase {
         $user_id = $this->sessionGet("user_id");
         $plan_id = $this->sessionGet("plan_id");
         $authenticated = $this->sessionGet("subscription_authenticated");
-
-        $this->element_data['logged_in'] = false;
-
-		$settings_request = new CASHRequest(
-			array(
-				'cash_request_type' => 'system',
-				'cash_action' => 'getsettings',
-				'type' => 'payment_defaults',
-				'user_id' => $this->element_data['user_id']
-			)
-		);
-
-		if (is_array($settings_request->response['payload'])) {
-
-			if (isset($settings_request->response['payload']['stripe_default'])) {
-				if ($settings_request->response['payload']['stripe_default']) {
-					$payment_seed = new StripeSeed($this->element_data['user_id'],$settings_request->response['payload']['stripe_default']);
-					if (!empty($payment_seed->publishable_key)) {
-						$this->element_data['stripe_public_key'] = $payment_seed->publishable_key;
-					}
-				}
-			}
-		} else {
-			if (isset($this->element_data['connection_id'])) {
-				$connection_settings = CASHSystem::getConnectionTypeSettings($this->element_data['connection_type']);
-				$seed_class = $connection_settings['seed'];
-				if ($seed_class == 'StripeSeed') {
-					$payment_seed = new StripeSeed($this->element_data['user_id'],$this->element_data['connection_id']);
-					if (!empty($payment_seed->publishable_key)) {
-						$this->element_data['stripe_public_key'] = $payment_seed->publishable_key;
-					}
-				}
-			}
-		}
-
-
-		if (!$this->element_data['paypal_connection'] && !$this->element_data['stripe_public_key']) {
-			$this->setError("No valid payment connection found.");
-		}
 
 		// this is where we get data
 		$subscription_element = new SubscriptionElement\Data(
@@ -84,14 +39,17 @@ class Subscription extends ElementBase {
 
 		$this->element_data = array_merge($this->element_data, $subscription_element->data);
 
+        if (!$this->element_data['paypal_connection'] && !$this->element_data['stripe_public_key']) {
+            $this->setError("No valid payment connection found.");
+        }
+
         // if we're logged in already, show them the my account button instead of login
         if ($plan_id == $this->element_data['plan_id'] && $authenticated) {
             $this->element_data['logged_in'] = true;
         }
 
+        // authentication process start
 		if (!empty($_REQUEST['key'])) {
-
-
             $validate_request = new CASHRequest(
                 array(
                     'cash_request_type' => 'system',
