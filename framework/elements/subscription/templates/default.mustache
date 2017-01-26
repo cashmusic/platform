@@ -1,5 +1,3 @@
-{{#verification}}FOO{{/verification}}
-
 {{#error_message}}
     <div class="cm-error cm-{{element_type}}-error">
         {{error_message}}
@@ -18,6 +16,15 @@
       </span>
   {{/flexible_price}}
 <a href="#" class="button cm-subscribe" data-price="{{plan_price}}" data-min="{{minimum_price}}" data-plan-id="{{plan_id}}" id="subscribe">$<span class="amount" id="plan_price">{{plan_price}}</span>/{{plan_interval}} - Subscribe</a>
+
+{{#logged_in}}
+    <a href="#" class="button cm-my-account">My Account</a>
+{{/logged_in}}
+
+{{^logged_in}}
+    <a href="#" class="button cm-login">Login to Family</a>
+{{/logged_in}}
+
 
 <script type="text/javascript">
 (function() {
@@ -57,10 +64,27 @@
             cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"verified"});
         }
 
-
         var plan_price = document.getElementById('plan_price');
         var subscribe_button = document.querySelector('.cm-subscribe');
         var flexible_price = document.getElementById('plan_flexible_price');
+
+        var login = document.querySelector('.cm-login');
+
+        if (login) {
+            cm.events.add(login, 'click', function (e) {
+                e.preventDefault();
+                cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"login"});
+            });
+        }
+
+        var account = document.querySelector('.cm-my-account');
+
+        if (account) {
+            cm.events.add(account, 'click', function (e) {
+                e.preventDefault();
+                cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"logged_in_index"});
+            });
+        }
 
         if (flexible_price) {
             flexible_price.addEventListener('keyup', function() {
@@ -156,8 +180,6 @@
                         f.shipping_info.value = JSON.stringify(payment.detail.shipping);
 
                     }
-
-
 
                     initiatePayment(f);
                     var f = undefined;

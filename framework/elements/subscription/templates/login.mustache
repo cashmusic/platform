@@ -1,2 +1,14 @@
-<h2>Login</h2>
-<p>Coming Soon</p>
+<h1 class="cm-success-title">Login to the CASH Family.</h1>
+
+{{#error_message}}<div class="cm-error">{{error_message}}</div>{{/error_message}}
+<form action="" id="cash_{{element_type}}_form_{{element_id}}" method="post">
+    <input type="text" class="cm-subcription-email" name="email" placeholder="email" value="{{email_address}}">
+    <input type="password" class="cm-subcription-password" name="password" placeholder="password">
+    <input type="hidden" name="state" value="validate_login">
+    <input type="hidden" name="element_id" value="{{element_id}}">
+    <input type="hidden" name="plan_id" value="{{plan_id}}" />
+    <button class="cm-login-submit">Login</button>
+    <a href="#" class="button">Forgot password</a>
+</form>
+
+

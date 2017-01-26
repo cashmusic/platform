@@ -70,9 +70,11 @@ class CommercePlant extends PlantBase {
             'finalizepayment'          => array('finalizePayment',array('get','post','direct')),
             'initiatecheckout'         => array('initiateCheckout',array('get','post','direct','api_public')),
             'initiatesubscription'     => array('initiateSubscription', array('get', 'post', 'direct', 'api_public')),
+            'loginsubscriber'        => array('loginSubscriber', array('get', 'post', 'direct', 'api_public')),
             'processwebhook'         => array('processWebhook',array('direct','api_public','public','get','post')),
             'sendorderreceipt'	      => array('sendOrderReceipt','direct'),
             'updatesubscriptionplan'    => array('updateSubscriptionPlan', 'direct'),
+            'validatesubscription'      => array('validateSubscription', array('get', 'post', 'direct', 'api_public'))
         );
         $this->plantPrep($request_type,$request);
     }
@@ -81,7 +83,7 @@ class CommercePlant extends PlantBase {
      * @param $cash_admin
      * @param $add_request
      */
-    public static function createValidateCustomerURL($user_id, $email_address)
+    public static function createValidateCustomerURL($email_address)
     {
 
         $reset_key = new CASHRequest(
@@ -2445,15 +2447,20 @@ class CommercePlant extends PlantBase {
         return $result;
     }
 
-    public function getSubscriptionPlan($user_id, $id) {
+    public function getSubscriptionPlan($id, $user_id=false) {
+
+        $conditions = [
+            'id' => ['condition' => '=', 'value' => $id]
+        ];
+
+        if ($user_id) {
+            $conditions['user_id'] = ['condition' => '=', 'value' => $user_id];
+        }
 
         $result = $this->db->getData(
             'subscriptions',
             '*',
-            [
-                'user_id' => ['condition' => '=', 'value' => $user_id],
-                'id'      => ['condition' => '=', 'value' => $id]
-            ]
+            $conditions
         );
 
         return $result;
@@ -2635,7 +2642,7 @@ class CommercePlant extends PlantBase {
 
             ];
 
-            if ($user_id = $this->getOrCreateUser($customer)) {
+            if ($subscriber_user_id = $this->getOrCreateUser($customer)) {
 
                 if ($shipping_info) {
 
@@ -2662,7 +2669,7 @@ class CommercePlant extends PlantBase {
                     $subscription_member_result = $this->db->setData(
                         'subscriptions_members',
                         array(
-                            'user_id' => $user_id,
+                            'user_id' => $subscriber_user_id,
                             'subscription_id' => $subscription_plan[0]['id'],
                             'status' => 'canceled',
                             'start_date' => strtotime('today'),
@@ -2701,7 +2708,7 @@ class CommercePlant extends PlantBase {
                     if (!$add_customer_token_result) return "406";
                 }
 
-                $reset_key = CommercePlant::createValidateCustomerURL($user_id, $email_address);
+                $reset_key = CommercePlant::createValidateCustomerURL($email_address);
                 $verify_link = $finalize_url . '?key='. $reset_key . '&address='.
                     urlencode($email_address).
                     '&element_id='.$element_id;
@@ -2814,6 +2821,79 @@ class CommercePlant extends PlantBase {
         );
 
         if (!$results) return false;
+
+        return true;
+    }
+
+    public function loginSubscriber($email=false, $password=false, $plan_id=false) {
+
+        $validate_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'system',
+                'cash_action' => 'validatelogin',
+                'address' => $email,
+                'password' => $password,
+                'keep_session' => true
+            )
+        );
+
+        // email or password are not set so bail, or they're set but they don't validate
+        if ( (!$email || !$password || !$plan_id) || !$validate_request->response['payload'] ) {
+            return "401";
+        }
+
+        if ($validate_request->response['payload']) {
+
+            $user_id = $validate_request->response['payload'];
+
+            // this is a valid login--- so now the question is, are they an active subscriber?
+            $is_valid_subscription = $this->validateSubscription($user_id, $plan_id);
+
+            if ($is_valid_subscription) {
+
+                // this is a valid subscription so bust out the confetti
+                $session = new CASHRequest(null);
+                $session->sessionSet("user_id", $user_id);
+                $session->sessionSet("plan_id", $plan_id);
+                $session->sessionSet("subscription_authenticated", true);
+
+                return "200";
+            } else {
+                return "401";
+            }
+        }
+
+        // all else fail
+        return "401";
+    }
+
+    /**
+     *
+     * Simple lookup to check if a user is an active subscriber
+     * @param $user_id
+     * @param $plan_id
+     * @return bool
+     */
+    public function validateSubscription($user_id, $plan_id) {
+
+        $conditions = [
+            'user_id' => array(
+                "condition" => "=",
+                "value" => $user_id
+            ),
+            'subscription_id' => array(
+                "condition" => "=",
+                "value" => $plan_id
+            ),
+        ];
+
+        $result = $this->db->getData(
+            'subscriptions_members',
+            '*',
+            $conditions
+        );
+
+        if (!$result) return false;
 
         return true;
     }
