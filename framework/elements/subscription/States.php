@@ -22,12 +22,14 @@ class States
     public function router($callback) {
         if (!empty($this->state)) {
 
-            $result = [];
+            $result = [
+                'template' => 'default',
+                'data' => []
+            ];
 
             switch ($this->state) {
                 case "success":
                     $result['template'] = "success";
-                    $result['data'] = [];
                 break;
 
                 case "verified":
