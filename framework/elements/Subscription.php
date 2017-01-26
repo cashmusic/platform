@@ -99,7 +99,7 @@ class Subscription extends ElementBase {
             $this->element_data['email_address'] = $this->sessionGet('email_address');
             $this->element_data['user_id'] = $this->sessionGet('user_id');
 
-            $subscription_state = new SubscriptionElement\States($subscriber_id);
+            $subscription_state = new SubscriptionElement\States($plan_id, $subscriber_id);
 
             $subscription_state->router(function($template, $values) {
                 $this->setTemplate($template);

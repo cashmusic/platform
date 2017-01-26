@@ -13,7 +13,7 @@ class States
 {
     protected $state;
 
-    public function __construct($user_id)
+    public function __construct($plan_id, $user_id)
     {
         $this->state = $_REQUEST['state'];
         $this->user_id = $user_id;
@@ -93,6 +93,13 @@ class States
 
             if ($user_request->response['payload']['is_admin']) {
                 $data['has_password'] = true;
+
+                // this person has a password already, so we should probably make sure session is set
+                $session = new CASHRequest(null);
+
+                if (empty($session->sessionGet('user_id'))) $session->sessionSet("user_id", $this->user_id);
+                if (empty($session->sessionGet('plan_id'))) $session->sessionSet("plan_id", $this->plan_id);
+                if (empty($session->sessionGet('subscription_authenticated'))) $session->sessionSet("subscription_authenticated", true);
             }
         }
 
