@@ -2664,6 +2664,11 @@ class CommercePlant extends PlantBase {
                 ];
 
                 // add user to subscription membership and set inactive to start
+                error_log(
+                    'subscriptionExists:: '.
+                    $subscriber_user_id . "//" . $subscription_plan[0]['id']
+                );
+
                 if (!$this->subscriptionExists($subscriber_user_id, $subscription_plan[0]['id'])) {
                     $subscription_member_result = $this->db->setData(
                         'subscriptions_members',
