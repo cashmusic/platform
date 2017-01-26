@@ -2664,11 +2664,6 @@ class CommercePlant extends PlantBase {
                 ];
 
                 // add user to subscription membership and set inactive to start
-                error_log(
-                    'subscriptionExists:: '.
-                    $subscriber_user_id . "//" . $subscription_plan[0]['id']
-                );
-
                 if (!$this->subscriptionExists($subscriber_user_id, $subscription_plan[0]['id'])) {
                     $subscription_member_result = $this->db->setData(
                         'subscriptions_members',
@@ -2693,7 +2688,7 @@ class CommercePlant extends PlantBase {
                 }
 
                 // create actual subscription on stripe
-                if ($subscription = $payment_seed->createSubscription($token, $plan_id, $email_address, $quantity)) {
+                if ($subscription = $payment_seed->createSubscription($token, $subscription_plan[0]['sku'], $email_address, $quantity)) {
                     // we need to add in the customer token so we can actually corollate with the webhooks
                     $add_customer_token_result = $this->db->setData(
                         'subscriptions_members',
