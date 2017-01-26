@@ -2614,11 +2614,10 @@ class CommercePlant extends PlantBase {
 
         $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
 
-        if ($subscription_plan = $this->getSubscriptionPlanBySku($plan_id)) {
+        if ($subscription_plan = $this->getSubscriptionPlan($plan_id, $user_id)) {
 
             // if this plan doesn't even exist, then just quit.
             ###ERROR: plan doesn't exist
-            error_log("### getsubscription returned true");
             if (empty($subscription_plan[0])) return "404";
 
             // if this plan is flexible then we need to calculate quantity based on the cent value of the plan.
@@ -2665,7 +2664,7 @@ class CommercePlant extends PlantBase {
                 ];
 
                 // add user to subscription membership and set inactive to start
-                if (!$this->subscriptionExists($user_id, $subscription_plan[0]['id'])) {
+                if (!$this->subscriptionExists($subscriber_user_id, $subscription_plan[0]['id'])) {
                     $subscription_member_result = $this->db->setData(
                         'subscriptions_members',
                         array(
@@ -2750,7 +2749,6 @@ class CommercePlant extends PlantBase {
         }
 
         ###ERROR: plan doesn't exist
-        error_log("### getsubscription returned false");
         return "404";
     }
 
