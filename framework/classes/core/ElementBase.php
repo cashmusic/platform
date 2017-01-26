@@ -157,6 +157,12 @@ abstract class ElementBase extends CASHData {
 		}
 	}
 
+	public function updateElementData($data) {
+		if (is_array($data) && count($data) > 0) {
+            $this->element_data = array_merge($this->element_data, $data);
+		}
+	}
+
 	public function setError($msg) {
 		$this->error = $msg;
 	}

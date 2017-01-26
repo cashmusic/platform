@@ -52,6 +52,7 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         ),
         'C' => 
         array (
+            'Cashmusic\\Elements\\' => 19,
             'CFreear\\OAuth2\\Client\\' => 22,
         ),
         'A' => 
@@ -109,6 +110,10 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         'DrewM\\MailChimp\\' => 
         array (
             0 => __DIR__ . '/..' . '/drewm/mailchimp-api/src',
+        ),
+        'Cashmusic\\Elements\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/elements',
         ),
         'CFreear\\OAuth2\\Client\\' => 
         array (
