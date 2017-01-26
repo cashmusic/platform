@@ -54,8 +54,8 @@ class Subscription extends ElementBase {
                 array(
                     'cash_request_type' => 'system',
                     'cash_action' => 'validateresetflag',
-                    'address' => $_GET['address'],
-                    'key' => $_GET['key']
+                    'address' => $_REQUEST['address'],
+                    'key' => $_REQUEST['key']
                 )
             );
 
@@ -92,8 +92,18 @@ class Subscription extends ElementBase {
 
 		if (isset($_REQUEST['state'])) {
 
+        	// set state and fire the appropriate method in Element\State class
+
             $this->element_data['email_address'] = $this->sessionGet('email_address');
             $this->element_data['user_id'] = $this->sessionGet('user_id');
+
+        	$subscription_states = new SubscriptionElement\States($_REQUEST['state']);
+
+			$subscription_states->router(function($template, $values) {
+                $this->setTemplate($template);
+                $this->element_data = array_merge($this->element_data, $values);
+			});
+
 
             if ($_REQUEST['state'] == "success") {
                 $this->setTemplate('success');
