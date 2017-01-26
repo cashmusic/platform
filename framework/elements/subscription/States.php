@@ -17,6 +17,7 @@ class States
     {
         $this->state = $_REQUEST['state'];
         $this->user_id = $user_id;
+        $this->plan_id = $plan_id;
     }
 
     public function router($callback) {
@@ -94,12 +95,9 @@ class States
             if ($user_request->response['payload']['is_admin']) {
                 $data['has_password'] = true;
 
-                // this person has a password already, so we should probably make sure session is set
-                $session = new CASHRequest(null);
+                $this->setLoginState();
+                $data['logged_in'] = true;
 
-                if (empty($session->sessionGet('user_id'))) $session->sessionSet("user_id", $this->user_id);
-                if (empty($session->sessionGet('plan_id'))) $session->sessionSet("plan_id", $this->plan_id);
-                if (empty($session->sessionGet('subscription_authenticated'))) $session->sessionSet("subscription_authenticated", true);
             }
         }
 
@@ -177,6 +175,9 @@ class States
 
                 // we need to make sure this is isolated by subscription---
                 // maybe later we can actually have subscriptions switchable
+                $this->setLoginState();
+                $data['logged_in'] = true;
+
                 $template = 'logged_in_index';
             }
 
@@ -193,9 +194,22 @@ class States
     }
 
     private function stateLoggedInIndex() {
+
+
+
         return [
             'template' => 'logged_in_index',
             'data' => []
         ];
+    }
+
+    private function setLoginState() {
+        // this person has a password already, so we should probably make sure session is set
+        $session = new CASHRequest(null);
+
+        if (empty($session->sessionGet('user_id'))) $session->sessionSet("user_id", $this->user_id);
+        if (empty($session->sessionGet('plan_id'))) $session->sessionSet("plan_id", $this->plan_id);
+        if (empty($session->sessionGet('subscription_authenticated'))) $session->sessionSet("subscription_authenticated", true);
+
     }
 }
