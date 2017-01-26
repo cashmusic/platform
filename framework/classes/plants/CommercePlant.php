@@ -2611,6 +2611,7 @@ class CommercePlant extends PlantBase {
 
             // if this plan doesn't even exist, then just quit.
             ###ERROR: plan doesn't exist
+            error_log("### getsubscription returned true");
             if (empty($subscription_plan[0])) return "404";
 
             // if this plan is flexible then we need to calculate quantity based on the cent value of the plan.
@@ -2742,6 +2743,7 @@ class CommercePlant extends PlantBase {
         }
 
         ###ERROR: plan doesn't exist
+        error_log("### getsubscription returned false");
         return "404";
     }
 
