@@ -2614,7 +2614,7 @@ class CommercePlant extends PlantBase {
 
         $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
 
-        if ($subscription_plan = $this->getSubscriptionPlan($plan_id, $user_id)) {
+        if ($subscription_plan = $this->getSubscriptionPlan($plan_id)) {
 
             // if this plan doesn't even exist, then just quit.
             ###ERROR: plan doesn't exist
