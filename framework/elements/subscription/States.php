@@ -205,7 +205,7 @@ class States
 
     private function setLoginState() {
         // this person has a password already, so we should probably make sure session is set
-        $session = new CASHRequest(null);
+        $session = new \CASHRequest(null);
 
         if (empty($session->sessionGet('user_id'))) $session->sessionSet("user_id", $this->user_id);
         if (empty($session->sessionGet('plan_id'))) $session->sessionSet("plan_id", $this->plan_id);
