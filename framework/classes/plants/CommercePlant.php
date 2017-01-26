@@ -83,7 +83,7 @@ class CommercePlant extends PlantBase {
      * @param $cash_admin
      * @param $add_request
      */
-    public static function createValidateCustomerURL($user_id, $email_address)
+    public static function createValidateCustomerURL($email_address)
     {
 
         $reset_key = new CASHRequest(
@@ -2641,7 +2641,7 @@ class CommercePlant extends PlantBase {
 
             ];
 
-            if ($user_id = $this->getOrCreateUser($customer)) {
+            if ($subscriber_user_id = $this->getOrCreateUser($customer)) {
 
                 if ($shipping_info) {
 
@@ -2668,7 +2668,7 @@ class CommercePlant extends PlantBase {
                     $subscription_member_result = $this->db->setData(
                         'subscriptions_members',
                         array(
-                            'user_id' => $user_id,
+                            'user_id' => $subscriber_user_id,
                             'subscription_id' => $subscription_plan[0]['id'],
                             'status' => 'canceled',
                             'start_date' => strtotime('today'),
@@ -2707,7 +2707,7 @@ class CommercePlant extends PlantBase {
                     if (!$add_customer_token_result) return "406";
                 }
 
-                $reset_key = CommercePlant::createValidateCustomerURL($user_id, $email_address);
+                $reset_key = CommercePlant::createValidateCustomerURL($email_address);
                 $verify_link = $finalize_url . '?key='. $reset_key . '&address='.
                     urlencode($email_address).
                     '&element_id='.$element_id;
