@@ -1557,6 +1557,14 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* Subscription Element */
 
+.cm-secondary-link{
+	width: 100%;
+	text-align: center;
+    margin: 6px auto;
+    font-size: 12px;
+    text-decoration: underline;
+}
+
 label.cm-add-amount{
 	display: inline-block;
 	text-indent: 0;
@@ -1583,14 +1591,15 @@ label.cm-add-amount{
 
 /* Subscription Settings (returning) */
 
-.cm-lightboxed .cashmusic.element.subscription .cm-subcription-password, .cm-lightboxed .cashmusic.element.subscription .cm-subcription-confirm-password{
+.cm-lightboxed .cashmusic.element.subscription .cm-subscription-login .cm-subcription-email ,.cm-lightboxed .cashmusic.element.subscription .cm-subcription-password, .cm-lightboxed .cashmusic.element.subscription .cm-subcription-confirm-password{
 	width:49.5%!important;
 	margin:0 0.5% 0 0;
 }
 
-.cm-lightboxed .cashmusic.element.subscription .cm-subcription-confirm-password{
-	margin:0  0 0 0.5%;
+.cm-lightboxed .cashmusic.element.subscription .cm-subscription-login .cm-subcription-password, .cm-lightboxed .cashmusic.element.subscription .cm-subcription-confirm-password{
+	margin:0 0 0 0.5%;
 }
+
 
 /* Made by CASH Footer */
 
