@@ -195,8 +195,6 @@ class States
 
     private function stateLoggedInIndex() {
 
-
-
         return [
             'template' => 'logged_in_index',
             'data' => []

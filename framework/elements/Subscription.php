@@ -107,7 +107,6 @@ class Subscription extends ElementBase {
             });
 		}
 
-
 		return $this->element_data;
 	}
 } // END class
