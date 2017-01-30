@@ -1560,7 +1560,7 @@ input[type=number]::-webkit-outer-spin-button {
 .cm-secondary-link{
 	width: 100%;
 	text-align: center;
-    margin: 6px auto;
+    margin: 10px auto;
     font-size: 12px;
     text-decoration: underline;
 }
