@@ -1,0 +1,26 @@
+{
+  "name": "cashmusic-platform",
+  "version": "1.0.0",
+  "description": "[![Funded by The Shuttleworth Foundation](https://cloud.githubusercontent.com/assets/368640/11352290/6d23f2fe-91f0-11e5-9104-53eab0a36abe.jpg)](https://www.shuttleworthfoundation.org/)",
+  "main": "index.js",
+  "dependencies": {
+    "gulp": "^3.9.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-closure-compiler-service": "^0.6.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cashmusic/platform.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cashmusic/platform/issues"
+  },
+  "homepage": "https://github.com/cashmusic/platform#readme"
+}
