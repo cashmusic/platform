@@ -8,7 +8,25 @@
     <input type="hidden" name="element_id" value="{{element_id}}">
     <input type="hidden" name="plan_id" value="{{plan_id}}" />
     <button class="cm-login-submit">Login</button>
-    <a href="#" class="cm-secondary-link">Forgot password</a>
+    <a href="#" class="cm-secondary-link forgot-password">Forgot password</a>
 </form>
+
+<script type="text/javascript">
+
+    var cm = window.cashmusic;
+    cm.events.add(cm,'ready', function(e) {
+        cm.session.start();
+        var forgot_password = document.querySelector('.forgot-password');
+
+        if (forgot_password) {
+            cm.events.add(forgot_password, 'click', function (e) {
+                e.preventDefault();
+                cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"forgot_password"});
+            });
+        }
+
+    });
+
+</script>
 
 

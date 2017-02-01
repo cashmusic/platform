@@ -4,6 +4,8 @@ framework/cache/*
 framework/settings/cashmusic.ini.php
 framework/settings/connections.json
 framework/db/*
+node_modules
+element.html
 interfaces/admin/terms.md
 interfaces/admin/privacy.md
 interfaces/admin/admin.ini.php

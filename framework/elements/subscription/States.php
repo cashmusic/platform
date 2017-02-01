@@ -13,11 +13,13 @@ class States
 {
     protected $state;
 
-    public function __construct($plan_id, $user_id)
+    public function __construct($element_id, $user_id, $element_user_id, $plan_id, $email_address)
     {
         $this->state = $_REQUEST['state'];
+        $this->element_id = $element_id;
         $this->user_id = $user_id;
         $this->plan_id = $plan_id;
+        $this->email_address = $email_address;
     }
 
     public function router($callback) {
@@ -52,6 +54,14 @@ class States
 
                 case "logged_in_index":
                     $result = $this->stateLoggedInIndex();
+                    break;
+
+                case "forgot_password":
+                    $result = $this->stateForgotPassword();
+                    break;
+
+                case "reset_password":
+                    $result = $this->stateResetPassword();
                     break;
 
                 default:
@@ -210,4 +220,47 @@ class States
         if (empty($session->sessionGet('subscription_authenticated'))) $session->sessionSet("subscription_authenticated", true);
 
     }
+
+    private function stateForgotPassword() {
+        return [
+            'template' => 'forgot_password',
+            'data' => []
+        ];
+    }
+
+    private function stateResetPassword() {
+
+        $data = [];
+        $template = "reset_password";
+        $email_content = "blueberry acai smoothie {{verify_link}}";
+        $finalize_url = (isset($_REQUEST['finalize_url'])) ? $_REQUEST['finalize_url'] : false;
+
+        if (!$finalize_url) {
+            $data['error_message'] = "There was an error resetting your password";
+            return [
+                'template' => 'forgot_password',
+                'data' => $data
+            ];
+        }
+
+        if (!\CommercePlant::sendResetValidationEmail(
+            $this->element_id,
+            $this->user_id,
+            $this->email_address,
+            $finalize_url,
+            $email_content)) {
+            $data['error_message'] = "There was an error with your reset request.";
+            $template = "forgot_password";
+        }
+
+        // send reset password
+
+        // or fail
+
+        return [
+            'template' => $template,
+            'data' => $data
+        ];
+    }
+
 }

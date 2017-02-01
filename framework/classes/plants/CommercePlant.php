@@ -80,6 +80,48 @@ class CommercePlant extends PlantBase {
     }
 
     /**
+     * @param $element_id
+     * @param $user_id
+     * @param $email_address
+     * @param $finalize_url
+     * @param $email_content
+     */
+    public static function sendResetValidationEmail($element_id, $user_id, $email_address, $finalize_url, $email_content)
+    {
+        $reset_key = CommercePlant::createValidateCustomerURL($email_address);
+        $verify_link = $finalize_url . '?key=' . $reset_key . '&address=' .
+            urlencode($email_address) .
+            '&element_id=' . $element_id;
+
+        $email_content = CASHSystem::renderMustache(
+            $email_content, array(
+                // array of values to be passed to the mustache template
+                'verify_link' => $verify_link
+            )
+        );
+
+        ###ERROR: error emailing subscriber
+        if (empty($email_content)) {
+            error_log("empty email content");
+            return false;
+        }
+
+        if (!CASHSystem::sendEmail(
+            'Welcome to the CASH Music Family',
+            $user_id,
+            $email_address,
+            $email_content,
+            'Thank you.'
+        )
+        ) {
+            error_log("error sending email");
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * @param $cash_admin
      * @param $add_request
      */
@@ -2707,11 +2749,6 @@ class CommercePlant extends PlantBase {
                     if (!$add_customer_token_result) return "406";
                 }
 
-                $reset_key = CommercePlant::createValidateCustomerURL($email_address);
-                $verify_link = $finalize_url . '?key='. $reset_key . '&address='.
-                    urlencode($email_address).
-                    '&element_id='.$element_id;
-
                 $element_request = new CASHRequest(
                     array(
                         'cash_request_type' => 'element',
@@ -2722,23 +2759,14 @@ class CommercePlant extends PlantBase {
 
                 $email_content = $element_request->response['payload']['options']['message_email'];
 
-                $email_content = CASHSystem::renderMustache(
-                    $email_content, array(
-                        // array of values to be passed to the mustache template
-                        'verify_link' => $verify_link
-                    )
-                );
-
-                ###ERROR: error emailing subscriber
-                if (empty($email_content)) return "417";
-
-                CASHSystem::sendEmail(
-                    'Welcome to the CASH Music Family',
+                if (!CommercePlant::sendResetValidationEmail(
+                    $element_id,
                     $user_id,
                     $email_address,
-                    $email_content,
-                    'Thank you.'
-                );
+                    $finalize_url,
+                    $email_content)) {
+                    return "417";
+                }
 
                 return "200";
 

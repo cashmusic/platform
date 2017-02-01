@@ -1,0 +1,26 @@
+<div class="cashmusic soundplayer playlist container">
+	<div class="cashmusic soundplayer playlist nowplaying" data-playerid="" data-content="Press play"></div>
+	<div class="cashmusic soundplayer playlist playtime" data-playerid="" data-content="0:00"></div>
+	<div class="cashmusic soundplayer playlist seekbarcontainer">
+		<div class="cashmusic soundplayer playlist position tween"
+			data-tween='{"play":[
+				{"name":"right","startAt":0,"endAt":100,"startVal":100,"endVal":0,"units":"%","onPlayer":""}
+			]}'
+		></div>
+		<div class="cashmusic soundplayer playlist seekbar tween setstyles"
+			data-tween='{"load":[
+				{"name":"width","startAt":0,"endAt":100,"startVal":0.1,"endVal":100,"units":"%","onPlayer":""}
+			]}'
+			data-styles='{"load":[
+				{"name":"width","val":"100%","onPlayer":""}
+			]}'
+		></div>
+	</div>
+	<div class="cashmusic soundplayer playlist controls">
+		<div class="cashmusic soundplayer playlist prevtrack" data-playerid="" role="button" aria-label="previous track" tabindex="0"></div>
+		<div class="cashmusic soundplayer playlist playpause" data-playerid="" role="button" aria-label="play or pause" tabindex="0"></div>
+		<div class="cashmusic soundplayer playlist nexttrack" data-playerid="" role="button" aria-label="next track" tabindex="0"></div>
+		<div class="cashmusic soundplayer playlist toggletracklist" data-playerid="" role="button" aria-label="show tracklist" tabindex="0" data-content="Show playlist"></div>
+	</div>
+	<div class="cashmusic soundplayer playlist tracklist"></div>
+</div>
