@@ -69,7 +69,7 @@ class Data
             $payload = $plan_request->response['payload'][0];
 
             $this->data['plan_name'] = $payload['name'];
-
+            $this->data['interval'] = $payload['interval'];
             $this->data['plan_description'] = $payload['description'];
             $this->data['flexible_price'] = $payload['flexible_price'];
 
