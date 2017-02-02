@@ -108,11 +108,6 @@ class Subscription extends ElementBase {
             $subscription_state->router(function($template, $values) {
                 $this->setTemplate($template);
                 $this->updateElementData($values);
-
-                error_log(
-                    "\nadded values".
-                    json_encode($this->element_data['has_password'])
-                );
             });
 		}
 
