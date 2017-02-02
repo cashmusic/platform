@@ -250,7 +250,7 @@ class States
             ];
         }
 
-        $element_request = new CASHRequest(
+        $element_request = new \CASHRequest(
             array(
                 'cash_request_type' => 'element',
                 'cash_action' => 'getelement',
