@@ -105,15 +105,13 @@ class Subscription extends ElementBase {
 
             $subscription_state = new SubscriptionElement\States($element_id, $subscriber_id, $plan_user_id, $plan_id, $this->element_data['email_address']);
 
-            error_log("is logged in set? " . $this->element_data['logged_in']);
-
             $subscription_state->router(function($template, $values) {
                 $this->setTemplate($template);
                 $this->updateElementData($values);
 
                 error_log(
                     "\nadded values".
-                    json_encode($values)
+                    json_encode($this->element_data)
                 );
             });
 		}
