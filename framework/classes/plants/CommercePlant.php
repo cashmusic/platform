@@ -3067,12 +3067,14 @@ class CommercePlant extends PlantBase {
             )
         );
 
+        error_log("link\n$verify_link\n");
+
         ###ERROR: error emailing subscriber
         if (empty($email_content)) {
             return false;
         }
 
-        if (!CASHSystem::sendEmail(
+/*        if (!CASHSystem::sendEmail(
             'Welcome to the CASH Music Family',
             $user_id,
             $email_address,
@@ -3081,7 +3083,7 @@ class CommercePlant extends PlantBase {
         )
         ) {
             return false;
-        }
+        }*/
 
         return true;
     }

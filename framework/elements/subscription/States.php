@@ -100,7 +100,7 @@ class States
         );
 
         $data['has_password'] = false;
-
+        error_log(json_encode($user_request->response['payload']));
         if ($user_request->response['payload']) {
 
             if ($user_request->response['payload']['is_admin']) {
