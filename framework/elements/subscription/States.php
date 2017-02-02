@@ -104,7 +104,7 @@ class States
         if ($user_request->response['payload']) {
 
             error_log("login status --- ".$user_request->response['payload']['is_admin']);
-            if (!empty($user_request->response['payload']['is_admin'])) {
+            if ($user_request->response['payload']['is_admin'] == 1) {
                 $data['has_password'] = true;
 
                 $this->setLoginState();
