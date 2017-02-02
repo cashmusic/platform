@@ -103,6 +103,7 @@ class States
         error_log(json_encode($user_request->response['payload']));
         if ($user_request->response['payload']) {
 
+            error_log("login status --- ".$user_request->response['payload']['is_admin']);
             if (!empty($user_request->response['payload']['is_admin'])) {
                 $data['has_password'] = true;
 
