@@ -79,82 +79,6 @@ class CommercePlant extends PlantBase {
         $this->plantPrep($request_type,$request);
     }
 
-    /**
-     * @param $element_id
-     * @param $user_id
-     * @param $email_address
-     * @param $finalize_url
-     * @param $email_content
-     */
-    public static function sendResetValidationEmail($element_id, $user_id, $email_address, $finalize_url, $email_content)
-    {
-        $reset_key = CommercePlant::createValidateCustomerURL($email_address);
-        $verify_link = $finalize_url . '?key=' . $reset_key . '&address=' .
-            urlencode($email_address) .
-            '&element_id=' . $element_id;
-
-        $email_content = CASHSystem::renderMustache(
-            $email_content, array(
-                // array of values to be passed to the mustache template
-                'verify_link' => $verify_link
-            )
-        );
-
-        ###ERROR: error emailing subscriber
-        if (empty($email_content)) {
-            error_log("empty email content");
-            return false;
-        }
-
-        if (!CASHSystem::sendEmail(
-            'Welcome to the CASH Music Family',
-            $user_id,
-            $email_address,
-            $email_content,
-            'Thank you.'
-        )
-        ) {
-            error_log("error sending email");
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @param $cash_admin
-     * @param $add_request
-     */
-    public static function createValidateCustomerURL($email_address)
-    {
-
-        $reset_key = new CASHRequest(
-            array(
-                'cash_request_type' => 'system',
-                'cash_action' => 'setresetflag',
-                'address' => $email_address
-            )
-        );
-
-        $reset_key = $reset_key->response['payload'];
-
-        if ($reset_key) {
-            return $reset_key;
-        } else {
-            return false;
-        }
-
-    }
-
-    /**
-     * @param $amount
-     * @return string
-     */
-    public function centsToDollar($amount)
-    {
-        return number_format(($amount / 100), 2, '.', ' ');
-    }
-
     protected function addItem(
         $user_id,
         $name,
@@ -2342,7 +2266,8 @@ class CommercePlant extends PlantBase {
         $price=false,
         $tier_id=false,
         $order_data=false,
-        $notes=false
+        $notes=false,
+        $data_sent=false
     ) {
         $final_edits = array_filter(
             array(
@@ -2656,10 +2581,11 @@ class CommercePlant extends PlantBase {
 
         $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
 
-        if ($subscription_plan = $this->getSubscriptionPlan($plan_id)) {
+        if ($subscription_plan = $this->getSubscriptionPlan($plan_id, $user_id)) {
 
             // if this plan doesn't even exist, then just quit.
             ###ERROR: plan doesn't exist
+            error_log("### getsubscription returned true");
             if (empty($subscription_plan[0])) return "404";
 
             // if this plan is flexible then we need to calculate quantity based on the cent value of the plan.
@@ -2777,6 +2703,7 @@ class CommercePlant extends PlantBase {
         }
 
         ###ERROR: plan doesn't exist
+        error_log("### getsubscription returned false");
         return "404";
     }
 
@@ -3117,6 +3044,85 @@ class CommercePlant extends PlantBase {
         }
 
     }
+
+    /**
+     * @param $element_id
+     * @param $user_id
+     * @param $email_address
+     * @param $finalize_url
+     * @param $email_content
+     */
+    public static function sendResetValidationEmail($element_id, $user_id, $email_address, $finalize_url, $email_content)
+    {
+        $reset_key = CommercePlant::createValidateCustomerURL($email_address);
+        $verify_link = $finalize_url . '?key=' . $reset_key . '&address=' .
+            urlencode($email_address) .
+            '&element_id=' . $element_id;
+
+        error_log($verify_link);
+
+        $email_content = CASHSystem::renderMustache(
+            $email_content, array(
+                // array of values to be passed to the mustache template
+                'verify_link' => $verify_link
+            )
+        );
+
+        ###ERROR: error emailing subscriber
+        if (empty($email_content)) {
+            error_log("empty email content");
+            return false;
+        }
+
+        if (!CASHSystem::sendEmail(
+            'Welcome to the CASH Music Family',
+            $user_id,
+            $email_address,
+            $email_content,
+            'Thank you.'
+        )
+        ) {
+            error_log("error sending email");
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param $cash_admin
+     * @param $add_request
+     */
+    public static function createValidateCustomerURL($email_address)
+    {
+
+        $reset_key = new CASHRequest(
+            array(
+                'cash_request_type' => 'system',
+                'cash_action' => 'setresetflag',
+                'address' => $email_address
+            )
+        );
+
+        $reset_key = $reset_key->response['payload'];
+
+        if ($reset_key) {
+            return $reset_key;
+        } else {
+            return false;
+        }
+
+    }
+
+    /**
+     * @param $amount
+     * @return string
+     */
+    public function centsToDollar($amount)
+    {
+        return number_format(($amount / 100), 2, '.', ' ');
+    }
+
 
 
 } // END class

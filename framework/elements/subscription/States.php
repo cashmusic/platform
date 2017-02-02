@@ -65,6 +65,7 @@ class States
                     break;
 
                 default:
+                    //
                     break;
             }
 

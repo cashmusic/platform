@@ -133,7 +133,7 @@
                 });
 
                 cm.events.add(cm, 'checkoutdata', function (payment) {
-
+                    console.log("hey hey hey")
 /*                    e.preventDefault();
                     e.stopPropagation();*/
 
@@ -191,19 +191,17 @@
         }
 
         function initiatePayment(f) {
-            document.body.appendChild(f);
+            console.log("initiatePayment fired");
+            //document.body.appendChild(f);
             cm.ajax.send(
                     '{{public_url}}/request/payload',
                     cm.ajax.encodeForm(f),
                     function(details) {
+                        console.log("inside the ajax call response");
                         if (details.substring(0,4) == 'http') {
                             top.location.href = details;
                         } else if (details == '200') {
                             cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"success"});
-
-                            if (document.contains(document.getElementById("subscription_form"))) {
-                                document.getElementById("subscription_form").remove();
-                            }
 
                             return true;
                         } else {
