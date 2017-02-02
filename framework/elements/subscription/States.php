@@ -231,7 +231,6 @@ class States
         $data = [];
         $message = "There was an error resetting your password";
         $template = "reset_password";
-        $email_content = "blueberry acai smoothie {{verify_link}}";
         $finalize_url = (isset($_REQUEST['finalize_url'])) ? $_REQUEST['finalize_url'] : false;
         $submitted_email_address = (isset($_REQUEST['email'])) ? $_REQUEST['email'] : false;
 
@@ -249,6 +248,21 @@ class States
                 'template' => 'forgot_password',
                 'data' => $data
             ];
+        }
+
+        $element_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'element',
+                'cash_action' => 'getelement',
+                'id' => $this->element_id
+            )
+        );
+
+        $email_content = $element_request->response['payload']['options']['message_reset_password_email'];
+
+        if (!$email_content) {
+            $data['error_message'] = $message;
+            $template = "forgot_password";
         }
 
         if (!\CommercePlant::sendResetValidationEmail(
