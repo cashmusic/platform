@@ -232,12 +232,22 @@ class States
     private function stateResetPassword() {
 
         $data = [];
+        $message = "There was an error resetting your password";
         $template = "reset_password";
         $email_content = "blueberry acai smoothie {{verify_link}}";
         $finalize_url = (isset($_REQUEST['finalize_url'])) ? $_REQUEST['finalize_url'] : false;
+        $submitted_email_address = (isset($_REQUEST['email'])) ? $_REQUEST['email'] : false;
 
         if (!$finalize_url) {
-            $data['error_message'] = "There was an error resetting your password";
+            $data['error_message'] = $message;
+            return [
+                'template' => 'forgot_password',
+                'data' => $data
+            ];
+        }
+
+        if (!$submitted_email_address) {
+            $data['error_message'] = "That's not a valid email, try again.";
             return [
                 'template' => 'forgot_password',
                 'data' => $data
@@ -247,10 +257,10 @@ class States
         if (!\CommercePlant::sendResetValidationEmail(
             $this->element_id,
             $this->user_id,
-            $this->email_address,
+            $submitted_email_address,
             $finalize_url,
             $email_content)) {
-            $data['error_message'] = "There was an error with your reset request.";
+            $data['error_message'] = $message;
             $template = "forgot_password";
         }
 
