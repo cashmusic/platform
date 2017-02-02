@@ -103,7 +103,7 @@ class States
         error_log(json_encode($user_request->response['payload']));
         if ($user_request->response['payload']) {
 
-            if ($user_request->response['payload']['is_admin']) {
+            if (!empty($user_request->response['payload']['is_admin'])) {
                 $data['has_password'] = true;
 
                 $this->setLoginState();
@@ -216,9 +216,9 @@ class States
         // this person has a password already, so we should probably make sure session is set
         $session = new \CASHRequest(null);
 
-        if (empty($session->sessionGet('user_id'))) $session->sessionSet("user_id", $this->user_id);
-        if (empty($session->sessionGet('plan_id'))) $session->sessionSet("plan_id", $this->plan_id);
-        if (empty($session->sessionGet('subscription_authenticated'))) $session->sessionSet("subscription_authenticated", true);
+        $session->sessionSet("user_id", $this->user_id);
+        $session->sessionSet("plan_id", $this->plan_id);
+        $session->sessionSet("subscription_authenticated", true);
 
     }
 
