@@ -116,6 +116,16 @@
 						"is":"No translation available."
 					},
 					"displaysize":"large"
+				},
+				"message_reset_password_email":{
+					"label": {
+						"en":"Password reset email message"
+					},
+					"type":"text",
+					"default":{
+						"en":"Default password reset email message with {{{verify_link}}}"
+					},
+					"displaysize":"large"
 				}
 			}
 		}

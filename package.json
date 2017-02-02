@@ -8,7 +8,8 @@
   },
   "devDependencies": {
     "gulp": "^3.9.1",
-    "gulp-closure-compiler-service": "^0.6.0"
+    "gulp-closure-compiler-service": "^0.6.0",
+    "gulp-jsonlint": "^1.2.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
