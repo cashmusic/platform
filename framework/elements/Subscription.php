@@ -111,7 +111,7 @@ class Subscription extends ElementBase {
 
                 error_log(
                     "\nadded values".
-                    json_encode($this->element_data)
+                    json_encode($this->element_data['has_password'])
                 );
             });
 		}
