@@ -99,12 +99,12 @@ class States
             )
         );
 
-        $data['has_password'] = false;
         error_log(json_encode($user_request->response['payload']));
         if ($user_request->response['payload']) {
 
             error_log("login status --- ".$user_request->response['payload']['is_admin']);
             if ($user_request->response['payload']['is_admin'] == 1) {
+                error_log("is admin flag is firing");
                 $data['has_password'] = true;
 
                 $this->setLoginState();
