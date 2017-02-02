@@ -3059,7 +3059,6 @@ class CommercePlant extends PlantBase {
             urlencode($email_address) .
             '&element_id=' . $element_id;
 
-        error_log($verify_link);
 
         $email_content = CASHSystem::renderMustache(
             $email_content, array(
@@ -3070,7 +3069,6 @@ class CommercePlant extends PlantBase {
 
         ###ERROR: error emailing subscriber
         if (empty($email_content)) {
-            error_log("empty email content");
             return false;
         }
 
@@ -3082,7 +3080,6 @@ class CommercePlant extends PlantBase {
             'Thank you.'
         )
         ) {
-            error_log("error sending email");
             return false;
         }
 

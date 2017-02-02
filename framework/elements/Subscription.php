@@ -26,15 +26,18 @@ class Subscription extends ElementBase {
 
         $this->startSession();
 
-        //$session = new CASHRequest(null);
-        $subscriber_id = ($this->sessionGet("user_id")) ? $this->sessionGet("user_id") : false;
+        // to avoid confusion down the line, set an element user ID and a subscriber user ID now
         $plan_user_id =  $this->element_data['user_id'];
+        $subscriber_id = $this->element_data['subscriber_id'] = ($this->sessionGet("user_id")) ? $this->sessionGet("user_id") : false;
 
-        $this->element_data['subscriber_id'] = $subscriber_id;
-
-        $plan_id = $this->sessionGet("plan_id");
+        $plan_id = (!empty($this->sessionGet("plan_id"))) ? $this->sessionGet("plan_id") : $this->element_data['plan_id'];
         $element_id = $this->element_data['element_id'];
-        $authenticated = $this->sessionGet("subscription_authenticated");
+        $authenticated = false;
+
+        if (!empty($this->sessionGet("subscription_authenticated")) || !empty($subscriber_id)) {
+            $authenticated = true;
+            $this->sessionSet("subscription_authenticated", true);
+        }
 
 		// this is where we get data
 		$subscription_element = new SubscriptionElement\Data(
