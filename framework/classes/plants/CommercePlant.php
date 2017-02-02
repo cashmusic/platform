@@ -3074,7 +3074,7 @@ class CommercePlant extends PlantBase {
             return false;
         }
 
-/*        if (!CASHSystem::sendEmail(
+        if (!CASHSystem::sendEmail(
             'Welcome to the CASH Music Family',
             $user_id,
             $email_address,
@@ -3083,7 +3083,7 @@ class CommercePlant extends PlantBase {
         )
         ) {
             return false;
-        }*/
+        }
 
         return true;
     }
