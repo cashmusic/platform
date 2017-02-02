@@ -2266,7 +2266,8 @@ class CommercePlant extends PlantBase {
         $price=false,
         $tier_id=false,
         $order_data=false,
-        $notes=false
+        $notes=false,
+        $data_sent=false
     ) {
         $final_edits = array_filter(
             array(
@@ -2580,10 +2581,11 @@ class CommercePlant extends PlantBase {
 
         $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
 
-        if ($subscription_plan = $this->getSubscriptionPlan($plan_id)) {
+        if ($subscription_plan = $this->getSubscriptionPlan($plan_id, $user_id)) {
 
             // if this plan doesn't even exist, then just quit.
             ###ERROR: plan doesn't exist
+            error_log("### getsubscription returned true");
             if (empty($subscription_plan[0])) return "404";
 
             // if this plan is flexible then we need to calculate quantity based on the cent value of the plan.
@@ -2701,6 +2703,7 @@ class CommercePlant extends PlantBase {
         }
 
         ###ERROR: plan doesn't exist
+        error_log("### getsubscription returned false");
         return "404";
     }
 
