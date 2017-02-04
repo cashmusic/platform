@@ -814,13 +814,13 @@
 					for (var i=0;i<form.length;i++) {
 						if (form[i].type === 'checkbox' || form[i].type === 'radio') {
 							if (form[i].checked) {
-								querystring += (querystring.length ? '&' : '') + form[i].name + '=' + form[i].value;
+								querystring += (querystring.length ? '&' : '') + encodeURIComponent(form[i].name) + '=' + encodeURIComponent(form[i].value);
 							}
 							continue;
 						}
-						querystring += (querystring.length ? '&' : '') + form[i].name +'='+ form[i].value;
+						querystring += (querystring.length ? '&' : '') + encodeURIComponent(form[i].name) +'='+ encodeURIComponent(form[i].value);
 					}
-					return encodeURI(querystring);
+					return querystring;
 				},
 
 				getHeaderForURL: function(url,header,callback) {
