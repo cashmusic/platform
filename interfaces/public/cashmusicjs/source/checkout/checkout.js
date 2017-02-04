@@ -31,8 +31,8 @@
             } else {
                 cm.loadScript('https://js.stripe.com/v2/', function() {
                     var formElements = [];
-                    formElements.push({id: "name", type: "text", placeholder: "Cardholder name"});
-                    formElements.push({id: "email", type: "email", placeholder: "Email address"});
+                    formElements.push({id: "name", type: "text", placeholder: "Cardholder name", required: true});
+                    formElements.push({id: "email", type: "email", placeholder: "Email address", required: true});
                     formElements.push({id: "card-number", type: "text", placeholder: "Credit card number"});
                     formElements.push({id: "card-expiry-month", type: "select", options: {
                         "01":"01: Jan",
