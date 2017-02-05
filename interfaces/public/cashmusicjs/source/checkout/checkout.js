@@ -211,6 +211,7 @@
                     }, 800);
                 } else {
                     cm.events.fire(cm,'userinput',formdata);
+                    container.removeChild(form); // kill the form in the DOM
                 }
             });
 
