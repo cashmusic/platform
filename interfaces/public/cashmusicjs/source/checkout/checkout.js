@@ -671,6 +671,37 @@
             }
         },
 
+        formatCard: function (ccnum) {
+            var v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+            var number, type;
+
+            // sort the type
+            if (v.match(/^4/) !== null) {
+               type = 'visa'; // visa
+            } else if (v.match(/^5[1-5]/) !== null) {
+               type = 'mc'; // mastercard
+            } else if (v.match(/^3[47]/) !== null) {
+               type = 'amex'; // american express
+            } else if (v.match(/^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)/) !== null) {
+               type = 'disc'; // discover
+            } else if (v.match(/^(2131|1800|35\d{3})/) !== null) {
+               type = 'jcb'; // japan credit bureau
+            } else if (v.match(/^3(0[0-5]|[68][0-9])/) !== null) {
+               type = 'dc'; // diner's club
+            } else {
+               type = 'other';
+            }
+
+            // format the number
+            if (type == 'amex') {
+               number = v.replace(/(\d{0,4})(\d{0,6})(\d{0,5})(.+)/, "$1 $2 $3");
+            } else {
+               number = v.replace(/(\d{0,4})(\d{0,4})(\d{0,4})(\d{0,4})(.+)/, "$1 $2 $3 $4");
+            }
+
+            return {"number":number,"type":type};
+        },
+
         showerror: function (type) {
             cm.overlay.reveal('<div class="cm-checkout-error">There are no valid payment types. Please add a payment connection. Check to make sure your site supports SSL (https) if you are using Stripe.</div>');
         }
