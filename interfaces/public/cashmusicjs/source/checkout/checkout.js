@@ -59,7 +59,18 @@
 
                     cm.events.add(document.getElementById('cm-userinput-getstripetoken-card-number'),'input', function(e) {
                        var card = cm.checkout.formatCard(this.value);
-                       console.log(card);
+                       if (!cm.styles.hasClass(this,card.type)) {
+                          cm.styles.removeClass(this,'visa');
+                          cm.styles.removeClass(this,'mc');
+                          cm.styles.removeClass(this,'amex');
+                          cm.styles.removeClass(this,'jcb');
+                          cm.styles.removeClass(this,'dc');
+                          cm.styles.removeClass(this,'other');
+
+                          if (card.number) {
+                             cm.styles.addClass(this,card.type);
+                          }
+                       }
                        this.value = card.number;
                     });
 
