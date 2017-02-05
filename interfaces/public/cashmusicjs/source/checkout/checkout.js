@@ -52,38 +52,41 @@
                     formElements.push({id: "card-cvc", type: "text", placeholder: "CVV"});
                     formElements.push({id: "stripe-submit", type: "submit", text: "Submit Payment"});
                     cm.userinput.getInput(formElements,'getstripetoken', null, ""); //TODO: total price for checkout
-                    if (!cm.stripe.eventAttached) {
-                        cm.events.add(cm,'userinput', function(e) {
-                            if (e.detail['cm-userinput-type'] == 'getstripetoken') {
-                                Stripe.setPublishableKey(key);
-                                Stripe.card.createToken({
-                                    name: e.detail['name'],
-                                    number: e.detail['card-number'],
-                                    cvc: e.detail['card-cvc'],
-                                    exp_month: e.detail['card-expiry-month'],
-                                    exp_year: e.detail['card-expiry-year']
-                                }, function(status, response, evt) {
-                                    if (response.error) {
-                                        // Show the errors on the form
-                                        document.getElementById('cm-userinput-message').innerHTML = response.error.message;
-                                        cm.styles.addClass(document.getElementsByClassName('cm-userinput-container')[0],'nope');
-                                        setTimeout(function(){
-                                            cm.styles.removeClass(document.getElementsByClassName('cm-userinput-container')[0],'nope');
-                                        }, 800);
-                                    } else {
-                                        // response contains id and card, which contains additional card details
-                                        cm.storage['checkoutdata']['stripe'] = response.id;
-                                        cm.storage['checkoutdata']['name']   = e.detail['name'];
-                                        cm.storage['checkoutdata']['email']  = e.detail['email'];
-                                        cm.events.fire(cm,'checkoutdata',cm.storage['checkoutdata'],source);
-                                        cm.overlay.reveal('<div class="cm-loading"></div>');
-                                    }
-                                });
 
-                            }
-                        });
-                        cm.stripe.eventAttached = true;
-                    }
+                    var date = new Date();
+                    document.getElementById('cm-userinput-getstripetoken-card-expiry-month').value = ("0" + (date.getMonth() + 1)).slice(-2);
+
+                    //cm-userinput-getstripetoken-card-number
+
+                     cm.events.add(cm,'userinput', function(e) {
+                         if (e.detail['cm-userinput-type'] == 'getstripetoken') {
+                             Stripe.setPublishableKey(key);
+                             Stripe.card.createToken({
+                                 name: e.detail['name'],
+                                 number: e.detail['card-number'].replace(/\s+/g, ''), // remove any spaces
+                                 cvc: e.detail['card-cvc'],
+                                 exp_month: e.detail['card-expiry-month'],
+                                 exp_year: e.detail['card-expiry-year']
+                             }, function(status, response, evt) {
+                                 if (response.error) {
+                                     // Show the errors on the form
+                                     document.getElementById('cm-userinput-message').innerHTML = response.error.message;
+                                     cm.styles.addClass(document.getElementsByClassName('cm-userinput-container')[0],'nope');
+                                     setTimeout(function(){
+                                         cm.styles.removeClass(document.getElementsByClassName('cm-userinput-container')[0],'nope');
+                                     }, 800);
+                                 } else {
+                                     // response contains id and card, which contains additional card details
+                                     cm.storage['checkoutdata']['stripe'] = response.id;
+                                     cm.storage['checkoutdata']['name']   = e.detail['name'];
+                                     cm.storage['checkoutdata']['email']  = e.detail['email'];
+                                     cm.events.fire(cm,'checkoutdata',cm.storage['checkoutdata'],source);
+                                     cm.overlay.reveal('<div class="cm-loading"></div>');
+                                 }
+                             });
+                         }
+                     });
+
                 });
             }
         }
