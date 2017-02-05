@@ -31,8 +31,8 @@
             } else {
                 cm.loadScript('https://js.stripe.com/v2/', function() {
                     var formElements = [];
-                    formElements.push({id: "name", type: "text", placeholder: "Cardholder name"});
-                    formElements.push({id: "email", type: "email", placeholder: "Email address"});
+                    formElements.push({id: "name", type: "text", placeholder: "Cardholder name", required: true});
+                    formElements.push({id: "email", type: "email", placeholder: "Email address", required: true});
                     formElements.push({id: "card-number", type: "text", placeholder: "Credit card number"});
                     formElements.push({id: "card-expiry-month", type: "select", options: {
                         "01":"01: Jan",
@@ -52,38 +52,57 @@
                     formElements.push({id: "card-cvc", type: "text", placeholder: "CVV"});
                     formElements.push({id: "stripe-submit", type: "submit", text: "Submit Payment"});
                     cm.userinput.getInput(formElements,'getstripetoken', null, ""); //TODO: total price for checkout
-                    if (!cm.stripe.eventAttached) {
-                        cm.events.add(cm,'userinput', function(e) {
-                            if (e.detail['cm-userinput-type'] == 'getstripetoken') {
-                                Stripe.setPublishableKey(key);
-                                Stripe.card.createToken({
-                                    name: e.detail['name'],
-                                    number: e.detail['card-number'],
-                                    cvc: e.detail['card-cvc'],
-                                    exp_month: e.detail['card-expiry-month'],
-                                    exp_year: e.detail['card-expiry-year']
-                                }, function(status, response, evt) {
-                                    if (response.error) {
-                                        // Show the errors on the form
-                                        document.getElementById('cm-userinput-message').innerHTML = response.error.message;
-                                        cm.styles.addClass(document.getElementsByClassName('cm-userinput-container')[0],'nope');
-                                        setTimeout(function(){
-                                            cm.styles.removeClass(document.getElementsByClassName('cm-userinput-container')[0],'nope');
-                                        }, 800);
-                                    } else {
-                                        // response contains id and card, which contains additional card details
-                                        cm.storage['checkoutdata']['stripe'] = response.id;
-                                        cm.storage['checkoutdata']['name']   = e.detail['name'];
-                                        cm.storage['checkoutdata']['email']  = e.detail['email'];
-                                        cm.events.fire(cm,'checkoutdata',cm.storage['checkoutdata'],source);
-                                        cm.overlay.reveal('<div class="cm-loading"></div>');
-                                    }
-                                });
 
-                            }
-                        });
-                        cm.stripe.eventAttached = true;
-                    }
+                    // set month to current
+                    var date = new Date();
+                    document.getElementById('cm-userinput-getstripetoken-card-expiry-month').value = ("0" + (date.getMonth() + 1)).slice(-2);
+
+                    cm.events.add(document.getElementById('cm-userinput-getstripetoken-card-number'),'input', function(e) {
+                       var card = cm.checkout.formatCard(this.value);
+                       if (!cm.styles.hasClass(this,card.type)) {
+                          cm.styles.removeClass(this,'visa');
+                          cm.styles.removeClass(this,'mc');
+                          cm.styles.removeClass(this,'amex');
+                          cm.styles.removeClass(this,'jcb');
+                          cm.styles.removeClass(this,'dc');
+                          cm.styles.removeClass(this,'other');
+
+                          if (card.number) {
+                             cm.styles.addClass(this,card.type);
+                          }
+                       }
+                       this.value = card.number;
+                    });
+
+                     cm.events.add(cm,'userinput', function(e) {
+                         if (e.detail['cm-userinput-type'] == 'getstripetoken') {
+                             Stripe.setPublishableKey(key);
+                             Stripe.card.createToken({
+                                 name: e.detail['name'],
+                                 number: e.detail['card-number'].replace(/\s+/g, ''), // remove any spaces
+                                 cvc: e.detail['card-cvc'],
+                                 exp_month: e.detail['card-expiry-month'],
+                                 exp_year: e.detail['card-expiry-year']
+                             }, function(status, response, evt) {
+                                 if (response.error) {
+                                     // Show the errors on the form
+                                     document.getElementById('cm-userinput-message').innerHTML = response.error.message;
+                                     cm.styles.addClass(document.getElementsByClassName('cm-userinput-container')[0],'nope');
+                                     setTimeout(function(){
+                                         cm.styles.removeClass(document.getElementsByClassName('cm-userinput-container')[0],'nope');
+                                     }, 800);
+                                 } else {
+                                     // response contains id and card, which contains additional card details
+                                     cm.storage['checkoutdata']['stripe'] = response.id;
+                                     cm.storage['checkoutdata']['name']   = e.detail['name'];
+                                     cm.storage['checkoutdata']['email']  = e.detail['email'];
+                                     cm.events.fire(cm,'checkoutdata',cm.storage['checkoutdata'],source);
+                                     cm.overlay.reveal('<div class="cm-loading"></div>');
+                                 }
+                             });
+                         }
+                     });
+
                 });
             }
         }
@@ -211,6 +230,7 @@
                     }, 800);
                 } else {
                     cm.events.fire(cm,'userinput',formdata);
+                    container.removeChild(form); // kill the form in the DOM
                 }
             });
 
@@ -669,6 +689,39 @@
             else {
                 cm.checkout.showerror();
             }
+        },
+
+        formatCard: function (ccnum) {
+            var v = ccnum.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+            var num, type;
+
+            // sort the type
+            if (v.match(/^4/) !== null) {
+               type = 'visa'; // visa
+            } else if (v.match(/^5[1-5]/) !== null) {
+               type = 'mc'; // mastercard
+            } else if (v.match(/^3[47]/) !== null) {
+               type = 'amex'; // american express
+            } else if (v.match(/^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)/) !== null) {
+               type = 'disc'; // discover
+            } else if (v.match(/^(2131|1800|35\d{3})/) !== null) {
+               type = 'jcb'; // japan credit bureau
+            } else if (v.match(/^3(0[0-5]|[68][0-9])/) !== null) {
+               type = 'dc'; // diner's club
+            } else {
+               type = 'other';
+            }
+
+            // format the number
+            // NOTES: using em spaces between match groups — may not be obvious in your IDE
+            //        the final (\d{0.99}) groups are ugly but my best solution for now -jvd
+            if (type == 'amex') {
+               num = v.replace(/(\d{0,4})(\d{0,6})(\d{0,5})(\d{0,99})/, "$1 $2 $3");
+            } else {
+               num = v.replace(/(\d{0,4})(\d{0,4})(\d{0,4})(\d{0,4})(\d{0,99})/, "$1 $2 $3 $4");
+            }
+
+            return {"number":num.trim(),"type":type};
         },
 
         showerror: function (type) {
