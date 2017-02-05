@@ -53,10 +53,15 @@
                     formElements.push({id: "stripe-submit", type: "submit", text: "Submit Payment"});
                     cm.userinput.getInput(formElements,'getstripetoken', null, ""); //TODO: total price for checkout
 
+                    // set month to current
                     var date = new Date();
                     document.getElementById('cm-userinput-getstripetoken-card-expiry-month').value = ("0" + (date.getMonth() + 1)).slice(-2);
 
-                    //cm-userinput-getstripetoken-card-number
+                    cm.events.add(document.getElementById('cm-userinput-getstripetoken-card-number'),'input', function(e) {
+                       var card = cm.checkout.formatCard(this.value);
+                       console.log(card);
+                       this.value = card.number;
+                    });
 
                      cm.events.add(cm,'userinput', function(e) {
                          if (e.detail['cm-userinput-type'] == 'getstripetoken') {
@@ -676,8 +681,8 @@
         },
 
         formatCard: function (ccnum) {
-            var v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-            var number, type;
+            var v = ccnum.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+            var num, type;
 
             // sort the type
             if (v.match(/^4/) !== null) {
@@ -697,13 +702,15 @@
             }
 
             // format the number
+            // NOTES: using em spaces between match groups — may not be obvious in your IDE
+            //        the final (\d{0.99}) groups are ugly but my best solution for now -jvd
             if (type == 'amex') {
-               number = v.replace(/(\d{0,4})(\d{0,6})(\d{0,5})(.+)/, "$1 $2 $3");
+               num = v.replace(/(\d{0,4})(\d{0,6})(\d{0,5})(\d{0,99})/, "$1 $2 $3");
             } else {
-               number = v.replace(/(\d{0,4})(\d{0,4})(\d{0,4})(\d{0,4})(.+)/, "$1 $2 $3 $4");
+               num = v.replace(/(\d{0,4})(\d{0,4})(\d{0,4})(\d{0,4})(\d{0,99})/, "$1 $2 $3 $4");
             }
 
-            return {"number":number,"type":type};
+            return {"number":num.trim(),"type":type};
         },
 
         showerror: function (type) {
