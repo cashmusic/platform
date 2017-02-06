@@ -28,7 +28,6 @@ class CommercePlant extends PlantBase {
             'additemvariants'          => array('addItemVariants','direct'),
             'addorder'                 => array('addOrder','direct'),
             'addtocart'				      => array('addToCart',array('get','post','direct','api_public')),
-            'addsubscriptiontransaction'  => array('addSubscriptionTransaction','direct', 'api_public'),
             'addtransaction'              => array('addTransaction','direct'),
             'cancelorder'			      => array('cancelOrder','direct'),
             'cancelsubscription'        => array('cancelSubscription', 'direct'),
