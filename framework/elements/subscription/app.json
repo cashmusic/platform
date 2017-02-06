@@ -59,6 +59,28 @@
 				}
 			}
 		},
+		"feed":{
+			"group_label":{
+				"en":"Main settings",
+				"is":"Aðal stillingar"
+			},
+			"description":{
+				"en":"Choose a subscription plan for this jammy.",
+				"is":"Veldu hlut úr birgðaskrá til að selja og verslunar tengingu sem skal nota."
+			},
+			"data":{
+				"plan_id":{
+					"label":{
+						"en":"Subscription plan",
+						"is":"Hlutur til sölu"
+					},
+					"type":"select",
+					"values":"commerce/subscriptions",
+					"required":true,
+					"displaysize":"large"
+				}
+			}
+		},
 		"messages":{
 			"group_label":{
 				"en":"Success/error messages",
