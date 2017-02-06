@@ -61,23 +61,77 @@
 		},
 		"feed":{
 			"group_label":{
-				"en":"Main settings",
-				"is":"Aðal stillingar"
+				"en":"Subscription Feed",
+				"is":"Subscription Feed"
 			},
 			"description":{
-				"en":"Choose a subscription plan for this jammy.",
-				"is":"Veldu hlut úr birgðaskrá til að selja og verslunar tengingu sem skal nota."
+				"en":"Add feed items for subscribers",
+				"is":"Add feed items for subscribers"
 			},
 			"data":{
-				"plan_id":{
+				"item":{
 					"label":{
-						"en":"Subscription plan",
-						"is":"Hlutur til sölu"
+						"en":"Feed Item",
+						"is":"Feed Item"
 					},
-					"type":"select",
-					"values":"commerce/subscriptions",
-					"required":true,
-					"displaysize":"large"
+					"description":{
+						"en":"Add a feed item to appear for subscribers on element login",
+						"is":"Add a feed item to appear for subscribers on element login"
+					},
+					"type":"scalar",
+					"displaysize":"large",
+					"actiontext": {
+						"en":"Add a new feed item",
+						"is":"Add a new feed item"
+					},
+					"values":{
+						"title":{
+							"label":{
+								"en":"Title",
+								"is":"Title"
+							},
+							"type":"text",
+							"displaysize":"small"
+						},
+						"item_id":{
+							"label":{
+								"en":"Item for display",
+								"is":"Item for displa"
+							},
+							"type":"select",
+							"values":"commerce/items",
+							"required":true,
+							"displaysize":"small"
+						},
+						"type":{
+							"label":{
+								"en":"Type",
+								"is":"Type"
+							},
+							"type":"select",
+							"values":{
+								"audio":"Audio",
+								"video":"Video",
+								"featured":"Featured"
+							},
+							"required":true,
+							"displaysize":"small"
+						},
+						"description":{
+							"label":{
+								"en":"Description",
+								"is":"Description"
+							},
+							"placeholder":{
+								"en":"Description copy for the feed item",
+								"is":"Description copy for the feed item"
+							},
+							"type":"text",
+							"displaysize":"large"
+						}
+
+					},
+					"required":false
 				}
 			}
 		},
