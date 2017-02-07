@@ -222,14 +222,18 @@ class States
 
             }
 
+            // we need to show newest first
+            $items = array_reverse($items);
+
             if (count($featured) > 0) {
+                $featured = array_reverse($featured);
                 $items = array_merge($featured, $items);
             }
         }
 
         return [
             'template' => 'logged_in_index',
-            'data' => ['items'=>$items, 'turd'=>json_encode($items, JSON_PRETTY_PRINT)]
+            'data' => ['items'=>$items]
         ];
     }
 

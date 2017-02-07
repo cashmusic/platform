@@ -2,19 +2,19 @@
 <div class="cm-verify">{{{message_verify}}}</div><!--cm-verify-->
 
 <style>
-    .audio {
+    .cm-audio {
         color: pink;
     }
 
-    .video {
+    .cm-video {
         color: orangered;
     }
-    .featured {
+    .cm-featured {
         color: orange;
     }
 </style>
 {{#items}}
-    <div class="item {{type}}">
+    <div class="item cm-{{type}}">
         <h2>{{title}}</h2>
         {{#item_image_url}}
             <img src="{{item_image_url}}" alt="" style="max-width: 100px; height: auto;">
