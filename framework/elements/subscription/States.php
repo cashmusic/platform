@@ -13,9 +13,13 @@ class States
 {
     protected $state;
 
-    public function __construct($element_id, $user_id, $element_user_id, $plan_id, $email_address)
+    public function __construct($element_data, $session_id, $element_id, $user_id, $element_user_id, $plan_id, $email_address)
     {
         $this->state = $_REQUEST['state'];
+
+        $this->element_data = $element_data;
+        $this->session_id = $session_id;
+
         $this->element_id = $element_id;
         $this->user_id = $user_id;
         $this->plan_id = $plan_id;
@@ -203,20 +207,30 @@ class States
 
     private function stateLoggedInIndex() {
 
+        $featured = [];
+        $items = [];
+        if (!empty($this->element_data['items'])) {
+            foreach($this->element_data['items'] as $item) {
+                $details = $this->getItemDetails($item['item_id']);
+
+                // we're going to cheat and append featured to begin afterwards
+                if ($item['type'] != "featured") {
+                    $items[] = array_merge($details, $item);
+                } else {
+                    $featured[] = array_merge($details, $item);
+                }
+
+            }
+
+            if (count($featured) > 0) {
+                $items = array_merge($featured, $items);
+            }
+        }
+
         return [
             'template' => 'logged_in_index',
-            'data' => []
+            'data' => ['items'=>$items, 'turd'=>json_encode($items, JSON_PRETTY_PRINT)]
         ];
-    }
-
-    private function setLoginState() {
-        // this person has a password already, so we should probably make sure session is set
-        $session = new \CASHRequest(null);
-
-        $session->sessionSet("user_id", $this->user_id);
-        $session->sessionSet("plan_id", $this->plan_id);
-        $session->sessionSet("subscription_authenticated", true);
-
     }
 
     private function stateForgotPassword() {
@@ -284,5 +298,62 @@ class States
             'data' => $data
         ];
     }
+
+    private function setLoginState() {
+        // this person has a password already, so we should probably make sure session is set
+        $session = new \CASHRequest(null);
+
+        $session->sessionSet("user_id", $this->user_id);
+        $session->sessionSet("plan_id", $this->plan_id);
+        $session->sessionSet("subscription_authenticated", true);
+
+    }
+
+    private function getItemDetails($item_id) {
+        $item_request = new \CASHRequest(
+            array(
+                'cash_request_type' => 'commerce',
+                'cash_action' => 'getitem',
+                'id' => $item_id
+            )
+        );
+
+        $item = $item_request->response['payload'];
+
+        $item['asset'] = $item['fulfillment_asset'];
+        if ($item['descriptive_asset']) {
+            $item_image_request = new \CASHRequest(
+                array(
+                    'cash_request_type' => 'asset',
+                    'cash_action' => 'getpublicurl',
+                    'id' => $item['descriptive_asset'],
+                    'user_id' => $this->user_id
+                )
+            );
+            $item['item_image_url'] = $item_image_request->response['payload'];
+        }
+
+        if (!empty($item['fulfillment_asset'])) {
+            $fulfillment_request = new \CASHRequest(
+                array(
+                    'cash_request_type' => 'asset',
+                    'cash_action' => 'getfulfillmentassets',
+                    'asset_details' => $item['fulfillment_asset'],
+                    'session_id' => $this->session_id
+                )
+            );
+            if ($fulfillment_request->response['payload']) {
+                $item['fulfillment_assets'] = new \ArrayIterator($fulfillment_request->response['payload']);
+            }
+
+        }
+
+        if (!empty($item)) {
+            return $item;
+        } else {
+            return false;
+        }
+    }
+
 
 }

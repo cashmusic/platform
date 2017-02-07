@@ -69,7 +69,7 @@
 				"is":"Add feed items for subscribers"
 			},
 			"data":{
-				"item":{
+				"items":{
 					"label":{
 						"en":"Feed Item",
 						"is":"Feed Item"
