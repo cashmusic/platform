@@ -53,8 +53,9 @@
             <div class="pure-u-1 pure-u-md-1-6"><h5 class="">{{label_subscriber_total}}</h5></div>
         <ul class="dates">
             {{#subscriptions}}
-                <li class="subscriber"><a clas="pure-u-1" href="{{www_path}}/commerce/subscriptions/subscriber/detail/{{id}}"><div class="pure-u-1 pure-u-md-1-2"><div class="icon icon-user"></div><!--icon-->&nbsp;<strong>{{first_name}}&nbsp;{{last_name}}</strong>&nbsp;<span> ({{email_address}})</span></div>
-                <div class="pure-u-1 pure-u-md-1-6">{{start_date}}</div><div class="pure-u-1 pure-u-md-1-6"><strong>{{status}}</strong></div><div class="pure-u-1 pure-u-md-1-6"><strong>{{total_paid_to_date}}</strong></div></a></li><!--subscriber-->
+                <li class="subscriber"><a clas="pure-u-1" href="{{www_path}}/commerce/subscriptions/subscriber/detail/{{id}}"><div class="pure-u-1 pure-u-md-1-2"><div class="icon icon-user"></div><!--icon-->&nbsp;<strong>{{subscriber_name}}</strong>&nbsp;<span> ({{email_address}})</span></div>
+                <div class="pure-u-1 pure-u-md-1-6">{{start_date}}</div><div class="pure-u-1 pure-u-md-1-6"><strong>{{status}}</strong></div><div class="pure-u-1 pure-u-md-1-6"><strong>{{total_paid_to_date}}</strong></div></a>
+                </li><!--subscriber-->
             {{/subscriptions}}
         </ul>
     </div><!--material-->
