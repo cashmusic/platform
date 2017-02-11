@@ -85,7 +85,7 @@
 
 				if (cm.get['params']['debug']) {
 					cm.debug.show = true;
-				}
+				} 
 
 				// if we're running in an iframe assume it's an embed (won't do any harm if not)
 				if (self !== top) {
