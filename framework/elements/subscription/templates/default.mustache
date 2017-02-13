@@ -87,25 +87,22 @@
         }
 
         if (flexible_price) {
-            flexible_price.addEventListener('keyup', function() {
+            cm.events.add(flexible_price,'keyup', function() {
                 var price = (flexible_price.value != "") ? flexible_price.value : "10.00";
-
                 plan_price.innerHTML = price;
-
                 subscribe_button.setAttribute("data-price", price);
-
-            }, false);
+            });
         }
 
         if (subscribe_button) {
             // user triggered the subscribe button
             cm.events.add(subscribe_button, 'click', function (e) {
+               e.preventDefault();
 
                 var price = subscribe_button.getAttribute("data-price");
                 var minimum = subscribe_button.getAttribute('data-min');
 
                 if (parseInt(price) < parseInt(minimum)) {
-
                     flexible_price.value = minimum;
                     plan_price.innerHTML = minimum;
                     subscribe_button.setAttribute("data-price", minimum);
@@ -118,99 +115,91 @@
 
                 var plan_id = subscribe_button.getAttribute("data-plan-id");
 
-                cm.loadScript(cm.path + '/checkout/checkout.js', function () {
-                    cm.checkout.prep();
-                    cm.checkout.begin({
-                        "stripe": stripe_public_key,
-                        "paypal": false,
-                        "currency": "usd", // USD = auto default
-                        "recurring": true,
-                        "shipping": shipping,
-                        "total": "{{currency}}" + parseFloat(price),
-                        "transaction_message": "/{{interval}}"
-                    });
+                 cm.checkout.begin({
+                     "stripe": stripe_public_key,
+                     "paypal": false,
+                     "currency": "usd", // USD = auto default
+                     "recurring": true,
+                     "shipping": shipping,
+                     "total": "{{currency}}" + parseFloat(price),
+                     "transaction_message": "/{{interval}}"
+                 });
+            });
 
-                });
+            cm.events.add(cm, 'checkoutdata', function (payment) {
+                var f = document.createElement('form');
+                f.method = 'post';
+                f.action = '';
+                f.id = "subscription_form";
 
-                cm.events.add(cm, 'checkoutdata', function (payment) {
-                    console.log("hey hey hey")
-/*                    e.preventDefault();
-                    e.stopPropagation();*/
+                var els = ['cash_request_type','cash_action','element_id','price','stripe','origin','email_address','subscription_plan','customer_name','geo', 'shipping_info', 'finalize_url'];
+                for (var i = 0, len = els.length; i < len; i++) {
+                    var inp = document.createElement('input');
+                    inp.type = 'hidden';
+                    inp.name = els[i];
+                    inp.value = '';
+                    f.appendChild(inp);
+                }
 
-                    var f = document.createElement('form');
-                    f.method = 'post';
-                    f.action = '';
-                    f.id = "subscription_form";
+                f.cash_request_type.value = 'commerce';
+                f.cash_action.value = 'initiatesubscription';
+                {{#session_id}}f.session_id = '{{session_id}}';{{/session_id}}
+                f.element_id.value = {{element_id}};
+                f.price.value = parseFloat(subscribe_button.getAttribute('data-price'));
+                f.subscription_plan.value = subscribe_button.getAttribute('data-plan-id');
+                f.origin.value = payment.detail.origin;
+                f.email_address.value = payment.detail.email;
+                f.customer_name.value = payment.detail.name;
+                f.geo.value = cm.geo;
 
-                    var els = ['cash_request_type','cash_action','element_id','price','stripe','origin','email_address','subscription_plan','customer_name','geo', 'shipping_info', 'finalize_url'];
-                    for (var i = 0, len = els.length; i < len; i++) {
-                        var inp = document.createElement('input');
-                        inp.type = 'hidden';
-                        inp.name = els[i];
-                        inp.value = '';
-                        f.appendChild(inp);
-                    }
-
-                    f.cash_request_type.value = 'commerce';
-                    f.cash_action.value = 'initiatesubscription';
-                    {{#session_id}}f.session_id = '{{session_id}}';{{/session_id}}
-                    f.element_id.value = {{element_id}};
-                    f.price.value = parseFloat(subscribe_button.getAttribute('data-price'));
-                    f.subscription_plan.value = subscribe_button.getAttribute('data-plan-id');
-                    f.origin.value = payment.detail.origin;
-                    f.email_address.value = payment.detail.email;
-                    f.customer_name.value = payment.detail.name;
-                    f.geo.value = cm.geo;
-
-                    if (cm.embedded) {
-                        if (cm.get['params']['location']) {
-                            f.finalize_url.value = encodeURI(cm.get['params']['location']);
-                        } else {
-                            f.finalize_url.value = encodeURI(window.location.href);
-                        }
+                if (cm.embedded) {
+                    if (cm.get['params']['location']) {
+                        f.finalize_url.value = encodeURI(cm.get['params']['location']);
                     } else {
-                        f.finalize_url.value = encodeURI(top.location.href);
+                        f.finalize_url.value = encodeURI(window.location.href);
                     }
+                } else {
+                    f.finalize_url.value = encodeURI(top.location.href);
+                }
 
-                    if (payment.detail.stripe) {
-                        f.stripe.value = payment.detail.stripe;
-                    }
+                if (payment.detail.stripe) {
+                    f.stripe.value = payment.detail.stripe;
+                }
 
-                    // add shipping to form
-                    if (payment.detail.shipping) {
-                        f.shipping_info.value = JSON.stringify(payment.detail.shipping);
+                // add shipping to form
+                if (payment.detail.shipping) {
+                    f.shipping_info.value = JSON.stringify(payment.detail.shipping);
 
-                    }
+                }
 
-                    initiatePayment(f);
-                    var f = undefined;
+                initiatePayment(f);
+                //var f = undefined;
 
-                });
+            });
 
+            cm.loadScript(cm.path + '/checkout/checkout.js', function () {
+               cm.checkout.prep();
             });
         }
 
         function initiatePayment(f) {
-            console.log("initiatePayment fired");
-            //document.body.appendChild(f);
             cm.ajax.send(
-                    '{{public_url}}/request/payload',
-                    cm.ajax.encodeForm(f),
-                    function(details) {
-                        console.log("inside the ajax call response");
-                        if (details.substring(0,4) == 'http') {
-                            top.location.href = details;
-                        } else if (details == '200') {
-                            cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"success"});
-
-                            return true;
-                        } else {
-                            cm.overlay.reveal(error_messages[details]);
-                        }
-                    },
-                    function(details) {
-                        cm.overlay.reveal(error_messages[details]);
-                    }
+                 '{{public_url}}/request/payload',
+                 cm.ajax.encodeForm(f),
+                 function(details) {
+                     console.log("inside the ajax call response");
+                     if (details.substring(0,4) == 'http') {
+                         top.location.href = details;
+                     } else if (details == '200') {
+                         cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"success"});
+                         return true;
+                     } else {
+                         cm.overlay.reveal(error_messages[details]);
+                     }
+                 },
+                 function(details) {
+                     cm.overlay.reveal(error_messages[details]);
+                 }
             );
         }
         //
@@ -218,4 +207,3 @@
 
 }());
 </script>
-
