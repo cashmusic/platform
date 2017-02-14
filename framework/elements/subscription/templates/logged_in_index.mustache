@@ -31,3 +31,25 @@
 
     </div>
 {{/items}}
+
+<script type="text/javascript">
+(function() {
+    'use strict';
+    var cm = window.cashmusic;
+
+    cm.loadScript(cm.path + '/share/share-buttons.js', function () {
+        cm.share_buttons.buildButtons(
+                ".share-buttons",
+                {
+                    'title':'This is a share test',
+                    'description':'This is the description and shizz',
+                    'caption':'Caption this',
+                    'preview_image_url':"https://static-cashmusic.netdna-ssl.com/www/img/constant/social/family.jpg",
+                    'url':window.location.href,
+                    'tags':"your,mom"
+                }
+        );
+
+    });
+});
+</script>

@@ -1,6 +1,6 @@
 (function() {
 
-    var share_buttons = new function () {
+    window.cashmusic.share_buttons = new function () {
         this.element = null;
         this.buttons = "";
 
