@@ -210,25 +210,19 @@ class States
         $featured = [];
         $items = [];
         if (!empty($this->element_data['items'])) {
+
+            // get feed items so we can add some stuff
             foreach($this->element_data['items'] as $item) {
                 $details = $this->getItemDetails($item['item_id']);
 
-                // we're going to cheat and append featured to begin afterwards
-                if ($item['type'] != "featured") {
-                    $items[] = array_merge($details, $item);
-                } else {
-                    $featured[] = array_merge($details, $item);
-                }
+                $items[$item['type']] = true;
+                $items[] = array_merge($details, $item);
 
             }
 
             // we need to show newest first
             $items = array_reverse($items);
 
-            if (count($featured) > 0) {
-                $featured = array_reverse($featured);
-                $items = array_merge($featured, $items);
-            }
         }
 
         return [
