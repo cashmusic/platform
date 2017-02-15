@@ -2584,7 +2584,6 @@ class CommercePlant extends PlantBase {
 
             // if this plan doesn't even exist, then just quit.
             ###ERROR: plan doesn't exist
-            error_log("### getsubscription returned true");
             if (empty($subscription_plan[0])) return "404";
 
             // if this plan is flexible then we need to calculate quantity based on the cent value of the plan.
@@ -2600,8 +2599,8 @@ class CommercePlant extends PlantBase {
             $name_split = CASHSystem::splitCustomerName($customer_name);
 
             $customer = [
-                'customer_email' => $email_address,
-                'customer_name' => $customer_name,
+                'customer_email' => trim(strtolower($email_address)),
+                'customer_name' => trim($customer_name),
                 'customer_first_name' => $name_split['first_name'],
                 'customer_last_name' => $name_split['last_name'],
                 'customer_countrycode' => "" // none unless there's shipping
@@ -2630,7 +2629,7 @@ class CommercePlant extends PlantBase {
                     'customer' => $customer
                 ];
 
-                // add user to subscription membership and set inactive to start
+                // add user to subscription membership and set inactive to start, else we'll have a chicken trying to hatch out of an egg before that same chicken laid itself
                 if (!$this->subscriptionExists($subscriber_user_id, $subscription_plan[0]['id'])) {
                     $subscription_member_result = $this->db->setData(
                         'subscriptions_members',
@@ -2699,11 +2698,11 @@ class CommercePlant extends PlantBase {
                 ###ERROR: error creating user
                 return "403";
             }
+        } else {
+            ###ERROR: plan doesn't exist
+            return "404";
         }
 
-        ###ERROR: plan doesn't exist
-        error_log("### getsubscription returned false");
-        return "404";
     }
 
     public function updateSubscription($id, $status=false, $total=false, $start_date=false) {

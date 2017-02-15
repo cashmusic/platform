@@ -12,7 +12,8 @@
      *
      ***************************************************************************************/
     cm.stripe = {
-        eventAttached: false,
+        eventsAttached: false,
+        key: null,
 
         getYears: function() {
             var year =  new Date().getFullYear();
@@ -24,12 +25,32 @@
             return years;
         },
 
+        handleCard: function() {
+           cm.events.add(document.getElementById('cm-userinput-getstripetoken-card-number'),'input', function(e) {
+             var card = cm.checkout.formatCard(this.value);
+             if (!cm.styles.hasClass(this,card.type)) {
+                 cm.styles.removeClass(this,'visa');
+                 cm.styles.removeClass(this,'mc');
+                 cm.styles.removeClass(this,'amex');
+                 cm.styles.removeClass(this,'jcb');
+                 cm.styles.removeClass(this,'dc');
+                 cm.styles.removeClass(this,'other');
+
+                 if (card.number) {
+                    cm.styles.addClass(this,card.type);
+                 }
+             }
+             this.value = card.number;
+           });
+        },
+
         generateToken: function(key,source) {
             var cm = window.cashmusic;
             if (cm.embedded) {
                 cm.events.fire(cm,'stripetokenrequested',params);
             } else {
                 cm.loadScript('https://js.stripe.com/v2/', function() {
+                    var d = new Date();
                     var formElements = [];
                     formElements.push({id: "name", type: "text", placeholder: "Cardholder name", required: true});
                     formElements.push({id: "email", type: "email", placeholder: "Email address", required: true});
@@ -47,62 +68,12 @@
                         "10":"10: Oct",
                         "11":"11: Nov",
                         "12":"12: Dec"
-                    }, value:"01"});
+                    }, value:("0" + (d.getMonth() + 1)).slice(-2)});
                     formElements.push({id: "card-expiry-year", type: "select", options: cm.stripe.getYears(), placeholder: new Date().getFullYear()});
                     formElements.push({id: "card-cvc", type: "text", placeholder: "CVV"});
                     formElements.push({id: "stripe-submit", type: "submit", text: "Submit Payment"});
                     cm.userinput.getInput(formElements,'getstripetoken', null, ""); //TODO: total price for checkout
-
-                    // set month to current
-                    var date = new Date();
-                    document.getElementById('cm-userinput-getstripetoken-card-expiry-month').value = ("0" + (date.getMonth() + 1)).slice(-2);
-
-                    cm.events.add(document.getElementById('cm-userinput-getstripetoken-card-number'),'input', function(e) {
-                       var card = cm.checkout.formatCard(this.value);
-                       if (!cm.styles.hasClass(this,card.type)) {
-                          cm.styles.removeClass(this,'visa');
-                          cm.styles.removeClass(this,'mc');
-                          cm.styles.removeClass(this,'amex');
-                          cm.styles.removeClass(this,'jcb');
-                          cm.styles.removeClass(this,'dc');
-                          cm.styles.removeClass(this,'other');
-
-                          if (card.number) {
-                             cm.styles.addClass(this,card.type);
-                          }
-                       }
-                       this.value = card.number;
-                    });
-
-                     cm.events.add(cm,'userinput', function(e) {
-                         if (e.detail['cm-userinput-type'] == 'getstripetoken') {
-                             Stripe.setPublishableKey(key);
-                             Stripe.card.createToken({
-                                 name: e.detail['name'],
-                                 number: e.detail['card-number'].replace(/\s+/g, ''), // remove any spaces
-                                 cvc: e.detail['card-cvc'],
-                                 exp_month: e.detail['card-expiry-month'],
-                                 exp_year: e.detail['card-expiry-year']
-                             }, function(status, response, evt) {
-                                 if (response.error) {
-                                     // Show the errors on the form
-                                     document.getElementById('cm-userinput-message').innerHTML = response.error.message;
-                                     cm.styles.addClass(document.getElementsByClassName('cm-userinput-container')[0],'nope');
-                                     setTimeout(function(){
-                                         cm.styles.removeClass(document.getElementsByClassName('cm-userinput-container')[0],'nope');
-                                     }, 800);
-                                 } else {
-                                     // response contains id and card, which contains additional card details
-                                     cm.storage['checkoutdata']['stripe'] = response.id;
-                                     cm.storage['checkoutdata']['name']   = e.detail['name'];
-                                     cm.storage['checkoutdata']['email']  = e.detail['email'];
-                                     cm.events.fire(cm,'checkoutdata',cm.storage['checkoutdata'],source);
-                                     cm.overlay.reveal('<div class="cm-loading"></div>');
-                                 }
-                             });
-                         }
-                     });
-
+                    cm.stripe.handleCard();
                 });
             }
         }
@@ -139,7 +110,6 @@
             var message = document.createElement('div');
             message.id = 'cm-userinput-message';
             message.innerHTML = '&nbsp;';
-
             if (msg) {
                 message.innerHTML = msg;
             }
@@ -229,8 +199,9 @@
                         cm.styles.removeClass(document.getElementsByClassName('cm-userinput-container')[0],'nope');
                     }, 800);
                 } else {
+                    var n = container.removeChild(form); // kill the form in the DOM
+                    n = null;
                     cm.events.fire(cm,'userinput',formdata);
-                    container.removeChild(form); // kill the form in the DOM
                 }
             });
 
@@ -516,6 +487,7 @@
             if (!cm.checkout.prepped) {
                 // add in styles
                 cm.styles.injectCSS(cm.path + '/templates/checkout.css',false,true);
+                // don't do it again
                 cm.checkout.prepped = true;
             }
         },
@@ -525,6 +497,40 @@
                 cm.events.fire(cm,'begincheckout',options);
             } else {
                 cm.checkout.prep();
+                // add events
+                if (options.stripe && !cm.checkout.stripeEvents) {
+                   cm.stripe.key = options.stripe;
+                   cm.events.add(cm,'userinput', function(e) {
+                       if (e.detail['cm-userinput-type'] == 'getstripetoken') {
+                          Stripe.setPublishableKey(cm.stripe.key);
+                          Stripe.card.createToken({
+                               name: e.detail['name'],
+                               number: e.detail['card-number'].replace(/\s+/g, ''), // remove any spaces
+                               cvc: e.detail['card-cvc'],
+                               exp_month: e.detail['card-expiry-month'],
+                               exp_year: e.detail['card-expiry-year']
+                          }, function(status, response, evt) {
+                               if (response.error) {
+                                   // Show the errors on the form
+                                   document.getElementById('cm-userinput-message').innerHTML = response.error.message;
+                                   cm.styles.addClass(document.getElementsByClassName('cm-userinput-container')[0],'nope');
+                                   setTimeout(function(){
+                                      cm.styles.removeClass(document.getElementsByClassName('cm-userinput-container')[0],'nope');
+                                   }, 800);
+                               } else {
+                                   // response contains id and card, which contains additional card details
+                                   cm.storage['checkoutdata']['stripe'] = response.id;
+                                   cm.storage['checkoutdata']['name']   = e.detail['name'];
+                                   cm.storage['checkoutdata']['email']  = e.detail['email'];
+                                   cm.events.fire(cm,'checkoutdata',cm.storage['checkoutdata'],source);
+                                   cm.overlay.reveal('<div class="cm-loading"></div>');
+                               }
+                          });
+                       }
+                   });
+                   cm.checkout.stripeEvents = true;
+                }
+
                 // set up the empty object we'll populate in the return
                 cm.storage['checkoutdata'] = {
                     'stripe'   :false,
@@ -535,7 +541,7 @@
                     'email'    :false,
                     'recurring':false,
                     'origin'   :window.location.href,
-                    'total'	   :false,
+                    'total'	 :false,
                     'transaction_message':false
                 };
                 // detect SSL for stripe

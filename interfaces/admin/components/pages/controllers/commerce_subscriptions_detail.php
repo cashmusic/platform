@@ -39,6 +39,10 @@
         foreach ($subscription_request->response['payload'] as $subscription) {
             $subscription['start_date'] = date('m/d/Y', $subscription['start_date']);
             $subscription['end_date'] = (!empty($subscription['end_date'])) ? date('m/d/Y', $subscription['end_date']) : "recurring";
+
+            $data = json_decode($subscription['data'], true);
+
+            $subscription['subscriber_name'] = $data['customer']['customer_name'];
             $cash_admin->page_data['subscriptions'][] = $subscription;
         }
 
