@@ -1,2 +1,59 @@
+{{#firstuse}} 
 <h1 class="cm-success-title">Welcome to the CASH Music Family!</h1>
-<div class="cm-verify">{{{message_verify}}}</div><!--cm-verify-->
+<div class="cm-verify">{{{message_verify}}}</div>
+<div class="test-buttons"></div>
+{{/firstuse}}
+
+
+<div class="cm-sub-logo"></div>
+<div id="cm-subscription-feed">
+{{#items}}
+    <div class="item cm-{{type}}">
+        <h2>{{title}}</h2>
+        {{#item_image_url}}
+            {{#fulfillment_assets}}
+                <a href="{{public_url}}/request?cash_request_type=asset&cash_action=claim&id={{id}}&element_id={{element_id}}&session_id={{session_id}}" class="cm-item-download" style="background-image:url('{{item_image_url}}');"></a>
+            {{/fulfillment_assets}}
+        {{/item_image_url}}
+
+        {{#description}}
+            <p>{{description}}</p>
+        {{/description}}
+
+        {{^item_image_url}}
+            {{#fulfillment_assets}}
+                <div class="fulfillment-assets">
+                    <a target="_blank" href="{{public_url}}/request?cash_request_type=asset&cash_action=claim&id={{id}}&element_id={{element_id}}&session_id={{session_id}}" class="button">Download {{title}}</a>
+                </div><!--cm-singlepurchase-files-->
+            {{/fulfillment_assets}}
+        {{/item_image_url}}
+    </div>
+{{/items}}
+</div><!--cm-subscription-feed-->
+
+{{#firstuse}}
+<script type="text/javascript">
+
+var cm = window.cashmusic;
+
+cm.events.add(cm,'ready', function(e) {
+
+    cm.session.start();
+
+    cm.loadScript(cm.path + '/share/share-buttons.js', function () {
+        cm.shareButtons.buildButtons(
+            ".test-buttons",
+            {
+                'title':'This is a share test',
+                'description':'This is the description and shizz',
+                'caption':'Caption this',
+                'preview_image_url':"https://static-cashmusic.netdna-ssl.com/www/img/constant/social/family.jpg",
+                'url':window.location.href,
+                'tags':"your,mom"
+            }
+        );
+    });
+});
+
+</script>
+{{/firstuse}}
