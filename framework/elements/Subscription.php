@@ -26,8 +26,6 @@ class Subscription extends ElementBase {
 
         $this->startSession();
 
-        $this->setTemplate("logged_in_index");
-
         // to avoid confusion down the line, set an element user ID and a subscriber user ID now
         $plan_user_id =  $this->element_data['user_id'];
         $subscriber_id = $this->element_data['subscriber_id'] = ($this->sessionGet("user_id")) ? $this->sessionGet("user_id") : false;
