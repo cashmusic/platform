@@ -3,7 +3,7 @@
 <div class="cm-verify">{{{message_verify}}}</div>
 {{/firstuse}}
 
-{{^firstuse}}
+
 <div class="cm-sub-logo"></div>
 <div id="cm-subscription-feed">
 {{#items}}
@@ -26,10 +26,11 @@
                 </div><!--cm-singlepurchase-files-->
             {{/fulfillment_assets}}
         {{/item_image_url}}
+    </div>
 {{/items}}
 </div><!--cm-subscription-feed-->
-{{/firstuse}}
 
+{{#firstuse}}
 <script type="text/javascript">
 
 var cm = window.cashmusic;
@@ -50,8 +51,8 @@ cm.events.add(cm,'ready', function(e) {
                 'tags':"your,mom"
             }
         );
-
     });
 });
 
 </script>
+{{/firstuse}}

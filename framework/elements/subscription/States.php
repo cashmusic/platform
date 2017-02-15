@@ -150,6 +150,8 @@ class States
 
         if ($password_request->response['payload'] !== false) {
             $template = 'logged_in_index';
+
+            $data['firstuse'] = true;
         } else {
             $data['error_message'] = "There was an error setting your password.";
             $template = 'settings';
