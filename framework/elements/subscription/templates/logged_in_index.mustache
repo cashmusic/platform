@@ -29,3 +29,29 @@
 {{/items}}
 </div><!--cm-subscription-feed-->
 {{/firstuse}}
+
+<script type="text/javascript">
+
+var cm = window.cashmusic;
+
+cm.events.add(cm,'ready', function(e) {
+
+    cm.session.start();
+
+    cm.loadScript(cm.path + '/share/share-buttons.js', function () {
+        cm.shareButtons.buildButtons(
+                ".test-buttons",
+                {
+                    'title':'This is a share test',
+                    'description':'This is the description and shizz',
+                    'caption':'Caption this',
+                    'preview_image_url':"https://static-cashmusic.netdna-ssl.com/www/img/constant/social/family.jpg",
+                    'url':window.location.href,
+                    'tags':"your,mom"
+                }
+        );
+
+    });
+});
+
+</script>
