@@ -96,7 +96,7 @@
 						"item_id":{
 							"label":{
 								"en":"Item for display",
-								"is":"Item for displa"
+								"is":"Item for display"
 							},
 							"type":"select",
 							"values":"commerce/items",

@@ -217,14 +217,13 @@ class States
             foreach($this->element_data['items'] as $item) {
                 $details = $this->getItemDetails($item['item_id']);
 
-                $items[$item['type']] = true;
+                $details[$item['type']] = true;
                 $items[] = array_merge($details, $item);
 
             }
 
             // we need to show newest first
             $items = array_reverse($items);
-
         }
 
         return [
