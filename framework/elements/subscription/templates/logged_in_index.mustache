@@ -1,6 +1,10 @@
 <h1 class="cm-success-title">Welcome to the CASH Music Family!</h1>
 <div class="cm-verify">{{{message_verify}}}</div><!--cm-verify-->
 
+<div class="test-buttons">
+
+</div>
+
 <style>
     .cm-audio {
         color: pink;
@@ -33,13 +37,16 @@
 {{/items}}
 
 <script type="text/javascript">
-(function() {
-    'use strict';
-    var cm = window.cashmusic;
+
+var cm = window.cashmusic;
+
+cm.events.add(cm,'ready', function(e) {
+
+    cm.session.start();
 
     cm.loadScript(cm.path + '/share/share-buttons.js', function () {
-        cm.share_buttons.buildButtons(
-                ".share-buttons",
+        cm.shareButtons.buildButtons(
+                ".test-buttons",
                 {
                     'title':'This is a share test',
                     'description':'This is the description and shizz',
@@ -52,4 +59,5 @@
 
     });
 });
+
 </script>
