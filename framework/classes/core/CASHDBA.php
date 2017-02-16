@@ -635,6 +635,19 @@ class CASHDBA {
 
 				break;
 
+			case 'CommercePlant_getActiveSubscriberTotal':
+				$query = "select sum(gross_price) as total_active from commerce_transactions as t "
+						 ."join commerce_subscriptions_members as m on t.parent_id = m.id AND t.parent = 'sub' and t.status = 'success' "
+				         ."WHERE m.status = 'active' AND m.subscription_id = :plan_id";
+
+				break;
+
+			case 'CommercePlant_getActiveSubscriberCount':
+				$query = "select count(*) as active_subscribers from commerce_subscriptions_members as m "
+				 		 ."WHERE m.status = 'active' AND m.subscription_id = :plan_id";
+
+				break;
+
 		    default:
 		       return false;
 		}

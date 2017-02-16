@@ -64,6 +64,8 @@ class CommercePlant extends PlantBase {
             'getsubscriptionplanbysku'       => array('getSubscriptionPlanBySku', 'direct'),
             'getallsubscriptionsbyplan' => array('getAllSubscriptionsByPlan', 'direct'),
             'getsubscriptionplans'      => array('getAllSubscriptionPlans', 'direct'),
+            'getsubscriptionstats'      => array('getSubscriptionStats', 'direct'),
+            'getsubscribercount'        => array('getSubscriberCount', 'direct'),
             'getsubscriptiontransactions' => array('getSubscriptionTransactions', 'direct'),
             'gettransaction'           => array('getTransaction','direct'),
             'finalizepayment'          => array('finalizePayment',array('get','post','direct')),
@@ -75,6 +77,7 @@ class CommercePlant extends PlantBase {
             'updatesubscriptionplan'    => array('updateSubscriptionPlan', 'direct'),
             'validatesubscription'      => array('validateSubscription', array('get', 'post', 'direct', 'api_public'))
         );
+
         $this->plantPrep($request_type,$request);
     }
 
@@ -2847,6 +2850,32 @@ class CommercePlant extends PlantBase {
         if (!$result) return false;
 
         return true;
+    }
+
+    public function getSubscriptionStats($plan_id) {
+
+        $result = $this->db->getData(
+            'CommercePlant_getActiveSubscriberTotal',
+            false,
+            [
+                'plan_id' => ['condition' => '=', 'value' => $plan_id]
+            ]
+        );
+
+        return $result;
+    }
+
+    public function getSubscriberCount($plan_id) {
+
+        $result = $this->db->getData(
+            'CommercePlant_getActiveSubscriberCount',
+            false,
+            [
+                'plan_id' => ['condition' => '=', 'value' => $plan_id]
+            ]
+        );
+
+        return $result;
     }
 
     /**
