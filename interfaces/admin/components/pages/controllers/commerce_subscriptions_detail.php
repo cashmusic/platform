@@ -12,6 +12,22 @@
         $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
     }
 
+    $currency_request = new \CASHRequest(
+        array(
+            'cash_request_type' => 'system',
+            'cash_action' => 'getsettings',
+            'type' => 'use_currency',
+            'user_id' => $cash_admin->effective_user_id
+        )
+    );
+
+    // currency stuff
+    if ($currency_request->response['payload']) {
+        $cash_admin->page_data['currency'] = \CASHSystem::getCurrencySymbol($currency_request->response['payload']);
+    } else {
+        $cash_admin->page_data['currency'] = \CASHSystem::getCurrencySymbol('USD');
+    }
+
     $plan_request = new CASHRequest(
         array(
             'cash_request_type' => 'commerce',
@@ -48,9 +64,33 @@
 
     }
 
+    $stats_request = new CASHRequest(
+        array(
+            'cash_request_type' => 'commerce',
+            'cash_action' => 'getsubscriptionstats',
+            'plan_id' => $request_parameters[0]
+        )
+    );
+
+    if ($stats_request->response['payload']) {
+        $cash_admin->page_data['gross_active'] = $stats_request->response['payload'][0]['total_active'];
+    }
+
+    $stats_request = new CASHRequest(
+        array(
+            'cash_request_type' => 'commerce',
+            'cash_action' => 'getsubscribercount',
+            'plan_id' => $request_parameters[0]
+        )
+    );
+
+    if ($stats_request->response['payload']) {
+        $cash_admin->page_data['active_subscribers'] = $stats_request->response['payload'][0]['active_subscribers'];
+    }
+
 
     $cash_admin->page_data['ui_title'] = $cash_admin->page_data['plan']['name'];
     $cash_admin->page_data['plan_id'] = $cash_admin->page_data['plan']['id'];
 
     $cash_admin->setPageContentTemplate('commerce_subscriptions_detail');
-    ?>
+?>
