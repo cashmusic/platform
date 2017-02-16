@@ -33,6 +33,13 @@ class S3Seed extends SeedBase {
             $this->bucket = $this->settings->getSetting('bucket');
             $this->bucket_region = $this->settings->getSetting('bucket_region');
 
+            error_log(
+            	"key".$this->s3_key.
+                "\nsecret".$this->s3_secret.
+                "\naccount_id".$this->s3_account_id.
+                "\nbucket".$this->bucket.
+                "\nbucket_region".$this->bucket_region
+			);
 
 			if (!$this->s3_key || !$this->s3_secret) {
 				$connections = CASHSystem::getSystemSettings('system_connections');
