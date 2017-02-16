@@ -1618,7 +1618,7 @@ label.cm-add-amount{
 /* Subscription Feed */
 
 #cm-subscription-feed{
-    padding:120px 0 10px 0;
+    padding:10px;
     position: absolute;
     top:0;
     left:0;
@@ -1648,12 +1648,14 @@ label.cm-add-amount{
 #cm-subscription-feed .item p{
     text-align: left;
     margin:0;
+    font-family: 'Nunito',Helvetica,Arial,sans-serif;
 }
 
 #cm-subscription-feed .item p a{
     color:#fff;
     opacity: 0.8;
     text-decoration: underline;
+    font-family: 'Nunito',Helvetica,Arial,sans-serif;
 }
 
 #cm-subscription-feed .button{
@@ -1662,6 +1664,7 @@ label.cm-add-amount{
 
 #cm-subscription-feed h2{
     margin:0 0 20px 0;
+    font-family: 'Nunito',Helvetica,Arial,sans-serif;
 }
 
 #cm-subscription-feed img, #cm-subscription-feed iframe{
