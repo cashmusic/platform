@@ -73,7 +73,7 @@
     );
 
     if ($stats_request->response['payload']) {
-        $cash_admin->page_data['plan']['gross_active'] = $stats_request->response['payload'][0]['total_active'];
+        $cash_admin->page_data['gross_active'] = $stats_request->response['payload'][0]['total_active'];
     }
 
     $stats_request = new CASHRequest(
@@ -85,7 +85,7 @@
     );
 
     if ($stats_request->response['payload']) {
-        $cash_admin->page_data['plan']['active_subscribers'] = $stats_request->response['payload'][0]['active_subscribers'];
+        $cash_admin->page_data['active_subscribers'] = $stats_request->response['payload'][0]['active_subscribers'];
     }
 
 

@@ -18,8 +18,6 @@
         </div><!--pure-->
         <div class="pure-u-1 pure-u-md-1-4">
             <h5>{{label_price}}</h5>
-            <p>Total subscribers: {{active_subscribers}}</p><br>
-            <p>Active subscriptions: {{currency}}{{gross_active}}</p><br>
 
             <p>{{#suggested_price}}Minimum price: {{currency}}{{/suggested_price}}{{price}}</p>
             {{#suggested_price}}
@@ -46,7 +44,7 @@
     </div><!--material-->
 {{/plan}}
 
-    <h4 class="section breaker">{{copy_subscriber_title}}</h4>
+    <h4 class="section breaker">{{copy_subscriber_title}} ({{active_subscribers}} active, {{currency}}{{gross_active}}{{#plan}}/{{interval}}{{/plan}})</h4>
     
     <div class="material usecolor4" data-event-section="allfuture">
             <div class="pure-u-1 pure-u-md-1-2"><h5 class="">{{label_subscriber_name}}</h5></div>
