@@ -18,7 +18,7 @@ if (isset($request_parameters[0])) {
 		$cash_admin->page_data = array_merge($cash_admin->page_data,$param_response['payload']);
 		$cash_admin->page_data['connection_id'] = $request_parameters[0];
 
-		$which_form = str_replace('.','',$param_response['payload']['connection_type']);
+        $which_form = str_replace('.','',$param_response['payload']['connection_type']);
 
 		$cash_admin->setPageContentTemplate('assets_uploadform_' . $which_form);
 	}

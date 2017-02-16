@@ -17,29 +17,23 @@
  *
  **/
 class S3Seed extends SeedBase {
-	protected $s3,$bucket='',$s3_key,$s3_secret,$s3_account_id;
+	protected $s3,$bucket='',$s3_key,$s3_secret,$s3_account_id,$bucket_region;
 
 	public function __construct($user_id,$connection_id) {
 		$this->settings_type = 'com.amazon';
 		$this->user_id = $user_id;
 		$this->connection_id = $connection_id;
 		$this->connectDB();
+
 		if ($this->getCASHConnection()) {
-			//require_once(CASH_PLATFORM_ROOT.'/lib/S3.php');
 			$this->s3_key    = $this->settings->getSetting('key');
 			$this->s3_secret = $this->settings->getSetting('secret');
             $this->s3_account_id = $this->settings->getSetting('account_id');
 
+            $this->migrate_acl = false;
+
             $this->bucket = $this->settings->getSetting('bucket');
             $this->bucket_region = $this->settings->getSetting('bucket_region');
-
-            error_log(
-            	"key".$this->s3_key.
-                "\nsecret".$this->s3_secret.
-                "\naccount_id".$this->s3_account_id.
-                "\nbucket".$this->bucket.
-                "\nbucket_region".$this->bucket_region
-			);
 
 			if (!$this->s3_key || !$this->s3_secret) {
 				$connections = CASHSystem::getSystemSettings('system_connections');
@@ -52,8 +46,11 @@ class S3Seed extends SeedBase {
 
 			$this->s3 = S3Seed::createS3Client($this->s3_key, $this->s3_secret);
 
+            // this is likely an old connection before the upgrade. we need to get bucket region and set ACLs properly
 			if (empty($this->bucket_region) && !empty($this->bucket)) {
 				$this->bucket_region = S3Seed::getBucketRegion($this->s3, $this->bucket);
+
+                S3Seed::updateLegacyBucket($this->s3, $this->bucket);
 			}
 
 		} else {
@@ -177,10 +174,28 @@ class S3Seed extends SeedBase {
 		}
 	}
 
+	public static function updateLegacyBucket($s3_instance, $bucket)
+    {
+
+        $system_s3_settings = CASHSystem::getSystemSettings();
+        $s3_settings = $system_s3_settings['system_connections']['com.amazon'];
+
+        // check if bucket exists
+        if ($s3_instance->doesBucketExist($bucket, true, [])) {
+
+            if (!S3Seed::accountHasACL($s3_instance, $bucket, $s3_settings['account_id'])) {
+                S3Seed::putBucketAcl($s3_instance, $bucket, $s3_settings['account_id']);
+            }
+
+            S3Seed::setBucketCORS($s3_instance, $bucket);
+        }
+    }
+
     /**
      * @param $bucket
      * @param $s3_instance
      */
+
     public static function setBucketCORS($s3_instance, $bucket)
     {
         try {
@@ -330,16 +345,13 @@ class S3Seed extends SeedBase {
 	}
 
 	public function makePublic($filename) {
-		error_log("s3seed make public");
     	$filename = str_replace($this->bucket."/", "", $filename);
 
         $public_uri = $this->changeObjectACL($filename, "public-read");
 
     	if (!empty($public_uri)) {
-    		error_log("changed okay sure");
             return $public_uri; //$this->bucket . '/' .
 		} else {
-    		error_log("nope");
     		return false;
 		}
 
@@ -426,19 +438,20 @@ class S3Seed extends SeedBase {
 			$this->bucket_region,
             ['acl'=>$acl]
 		);
-
-		return [
-			'upload_url' => $upload->getFormUrl(),
+        $cool = [
+            'upload_url' => $upload->getFormUrl(),
             'inputs' => $upload->getFormInputsAsHtml(),
-			'bucketname' => $this->bucket,
-			'connection_type' => $this->settings_type,
-			'key_preface' => $key_preface,
-			'acl' => 'private',
-			'lifetime' => 1200,
-			'max_size' => 5000000000,
-			'success' => $success_url,
-			's3_key' => $this->s3_key
-		];
+            'bucketname' => $this->bucket,
+            'connection_type' => $this->settings_type,
+            'key_preface' => $key_preface,
+            'acl' => 'private',
+            'lifetime' => 1200,
+            'max_size' => 5000000000,
+            'success' => $success_url,
+            's3_key' => $this->s3_key
+        ];
+
+		return $cool;
 	}
 
 	public function getPOSTUploadHTML($key_preface='',$success_url=200,$for_flash=false) {
