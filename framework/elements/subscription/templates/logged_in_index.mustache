@@ -11,6 +11,10 @@
     <div class="item cm-{{type}}">
         <h2>{{title}}</h2>
         {{#item_image_url}}
+ +            <img src="{{item_image_url}}" alt="" style="max-width: 100px; height: auto;">
+ +      {{/item_image_url}}
+
+        {{#item_image_url}}
             {{#fulfillment_assets}}
                 <a href="{{public_url}}/request?cash_request_type=asset&cash_action=claim&id={{id}}&element_id={{element_id}}&session_id={{session_id}}" class="cm-item-download" style="background-image:url('{{item_image_url}}');"></a>
             {{/fulfillment_assets}}
@@ -21,11 +25,11 @@
         {{/description}}
 
      
-        {{#fulfillment_assets}}
+        {{#fulfillment_asset}}
             <div class="fulfillment-assets">
                 <a target="_blank" href="{{public_url}}/request?cash_request_type=asset&cash_action=claim&id={{id}}&element_id={{element_id}}&session_id={{session_id}}" class="button">Download {{title}}</a>
                 </div><!--cm-singlepurchase-files-->
-        {{/fulfillment_assets}}
+        {{/fulfillment_asset}}
     </div>
 {{/items}}
 </div><!--cm-subscription-feed-->
