@@ -663,6 +663,7 @@ class AssetPlant extends PlantBase {
 	}
 
 	protected function makePublic($id,$user_id=false,$commit=false) {
+
 		$asset = $this->getAssetInfo($id);
 		if ($user_id) {
 			if ($asset['user_id'] != $user_id) {
@@ -672,6 +673,7 @@ class AssetPlant extends PlantBase {
 		$connection = $this->getConnectionDetails($asset['connection_id']);
 		$connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
 		if (is_array($connection_type)) {
+
 			$seed_type = $connection_type['seed'];
 			$seed = new $seed_type($asset['user_id'],$asset['connection_id']);
 			$public_location = $seed->makePublic($asset['location']);

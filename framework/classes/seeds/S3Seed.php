@@ -309,8 +309,6 @@ class S3Seed extends SeedBase {
         $request = $this->s3->createPresignedRequest($cmd, '+20 minutes');
         $presignedUrl = (string) $request->getUri();
 
-		error_log("why" . $presignedUrl);
-
         return $presignedUrl;
 	}
 
