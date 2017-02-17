@@ -14,6 +14,18 @@ class States implements StatesInterface
 {
     protected $state;
 
+    /**
+     * States constructor. Set the needed values for whatever we're going to do to
+     * react to the element state
+     *
+     * @param $element_data
+     * @param $session_id
+     * @param $element_id
+     * @param $user_id
+     * @param $element_user_id
+     * @param $plan_id
+     * @param $email_address
+     */
     public function __construct($element_data, $session_id, $element_id, $user_id, $element_user_id, $plan_id, $email_address)
     {
         $this->state = $_REQUEST['state'];
@@ -26,6 +38,19 @@ class States implements StatesInterface
         $this->plan_id = $plan_id;
         $this->email_address = $email_address;
     }
+
+    /**
+     * State router. Ideally this will have a switch/case based on $_REQUEST['state'] that
+     * returns an array with template name and data. Data is merged into the element_data array.
+     *
+     * [
+     * 'template' => 'default',
+     * 'data' => [...]
+     * ]
+     *
+     * @param $callback
+     * @return array
+     */
 
     public function router($callback) {
         if (!empty($this->state)) {
@@ -77,6 +102,10 @@ class States implements StatesInterface
             $callback($result['template'], $result['data']);
         }
     }
+
+    /**
+     * Various state methods, to keep the switch/case more legible
+     */
 
     private function stateLogin() {
         return [
@@ -299,6 +328,9 @@ class States implements StatesInterface
         ];
     }
 
+    /**
+     * Helper function to set session vars for logins
+     */
     private function setLoginState() {
         // this person has a password already, so we should probably make sure session is set
         $session = new \CASHRequest(null);
@@ -308,6 +340,13 @@ class States implements StatesInterface
         $session->sessionSet("subscription_authenticated", true);
 
     }
+
+    /**
+     * Get details for items in the subscription feed.
+     *
+     * @param $item_id
+     * @return array|bool
+     */
 
     private function getItemDetails($item_id) {
         $item_request = new \CASHRequest(
@@ -345,7 +384,6 @@ class States implements StatesInterface
             if ($fulfillment_request->response['payload']) {
                 $item['fulfillment_assets'] = new \ArrayIterator($fulfillment_request->response['payload']);
             }
-
         }
 
         if (!empty($item)) {
