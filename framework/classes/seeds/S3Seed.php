@@ -30,8 +30,6 @@ class S3Seed extends SeedBase {
 			$this->s3_secret = $this->settings->getSetting('secret');
             $this->s3_account_id = $this->settings->getSetting('account_id');
 
-            $this->migrate_acl = false;
-
             $this->bucket = $this->settings->getSetting('bucket');
             $this->bucket_region = $this->settings->getSetting('bucket_region');
 
@@ -48,9 +46,8 @@ class S3Seed extends SeedBase {
 
             // this is likely an old connection before the upgrade. we need to get bucket region and set ACLs properly
 			if (empty($this->bucket_region) && !empty($this->bucket)) {
-				$this->bucket_region = S3Seed::getBucketRegion($this->s3, $this->bucket);
-
-                S3Seed::updateLegacyBucket($this->s3, $this->bucket);
+				error_log("legacy upgrade");
+                $this->bucket_region = S3Seed::updateLegacyBucket($this->s3, $this->bucket);
 			}
 
 		} else {
@@ -180,6 +177,8 @@ class S3Seed extends SeedBase {
         $system_s3_settings = CASHSystem::getSystemSettings();
         $s3_settings = $system_s3_settings['system_connections']['com.amazon'];
 
+        $bucket_region = S3Seed::getBucketRegion($s3_instance, $bucket);
+
         // check if bucket exists
         if ($s3_instance->doesBucketExist($bucket, true, [])) {
 
@@ -188,7 +187,20 @@ class S3Seed extends SeedBase {
             }
 
             S3Seed::setBucketCORS($s3_instance, $bucket);
+
+            $new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+
+            $connection_name = 'Amazon S3 (created ' . date("M j, Y") . ')';
+
+            $result = $new_connection->updateSettings(
+                array(
+                	'bucket'	=> $bucket,
+                    'bucket_region' => $bucket_region
+                )
+            );
         }
+
+        return $bucket_region;
     }
 
     /**
