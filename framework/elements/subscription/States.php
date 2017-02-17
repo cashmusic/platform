@@ -8,8 +8,9 @@
 
 namespace Cashmusic\Elements\subscription;
 
+use Cashmusic\Elements\Interfaces\StatesInterface;
 
-class States
+class States implements StatesInterface
 {
     protected $state;
 

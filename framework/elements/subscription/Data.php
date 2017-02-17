@@ -1,15 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tomfilepp
- * Date: 1/25/17
- * Time: 1:57 PM
- */
 
 namespace Cashmusic\Elements\subscription;
 
+use Cashmusic\Elements\Interfaces\DataInterface;
 
-class Data
+class Data implements DataInterface
 {
     protected $user_id, $plan_id;
     public $data;
