@@ -45,9 +45,15 @@ class S3Seed extends SeedBase {
 			$this->s3 = S3Seed::createS3Client($this->s3_key, $this->s3_secret);
 
             // this is likely an old connection before the upgrade. we need to get bucket region and set ACLs properly
-			if (empty($this->bucket_region) && !empty($this->bucket)) {
+
+			error_log(
+				'region '.$this->bucket_region.
+				"\nbucket ".$this->bucket
+			);
+
+			if (empty($this->bucket_region) && isset($this->bucket)) {
 				error_log("legacy upgrade");
-                $this->bucket_region = S3Seed::updateLegacyBucket($this->s3, $this->bucket);
+                $this->bucket_region = $this->updateLegacyBucket();
 			}
 
 		} else {
@@ -171,30 +177,30 @@ class S3Seed extends SeedBase {
 		}
 	}
 
-	public static function updateLegacyBucket($s3_instance, $bucket)
+	public function updateLegacyBucket()
     {
 
         $system_s3_settings = CASHSystem::getSystemSettings();
         $s3_settings = $system_s3_settings['system_connections']['com.amazon'];
 
-        $bucket_region = S3Seed::getBucketRegion($s3_instance, $bucket);
+        $bucket_region = S3Seed::getBucketRegion($this->s3, $this->bucket);
+
+		error_log("look up legacy bucket region '$bucket_region'");
 
         // check if bucket exists
-        if ($s3_instance->doesBucketExist($bucket, true, [])) {
+        if ($this->s3->doesBucketExist($this->bucket, true, [])) {
 
-            if (!S3Seed::accountHasACL($s3_instance, $bucket, $s3_settings['account_id'])) {
-                S3Seed::putBucketAcl($s3_instance, $bucket, $s3_settings['account_id']);
+            if (!S3Seed::accountHasACL($this->s3, $this->bucket, $s3_settings['account_id'])) {
+                S3Seed::putBucketAcl($this->s3, $this->bucket, $s3_settings['account_id']);
             }
 
-            S3Seed::setBucketCORS($s3_instance, $bucket);
+            S3Seed::setBucketCORS($this->s3, $this->bucket);
 
             $new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
 
-            $connection_name = 'Amazon S3 (created ' . date("M j, Y") . ')';
-
             $result = $new_connection->updateSettings(
                 array(
-                	'bucket'	=> $bucket,
+                	'bucket'	=> $this->bucket,
                     'bucket_region' => $bucket_region
                 )
             );
