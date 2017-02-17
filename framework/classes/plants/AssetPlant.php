@@ -574,9 +574,11 @@ class AssetPlant extends PlantBase {
 	protected function getFinalAssetLocation($connection_id,$user_id,$asset_location,$params=false) {
 		$connection = $this->getConnectionDetails($connection_id);
 		$connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
+
 		if (is_array($connection_type)) {
 			$seed_type = $connection_type['seed'];
 			$seed = new $seed_type($user_id,$connection_id);
+
 			return $seed->getExpiryURL($asset_location);
 		} else {
 			if ($asset_location) {
@@ -611,6 +613,7 @@ class AssetPlant extends PlantBase {
 	 */protected function redirectToAsset($id,$element_id=0,$session_id=false) {
 		if ($this->getUnlockedStatus($id,$session_id)) {
 			$asset = $this->getAssetInfo($id);
+
 			$final_asset_location = $this->getFinalAssetLocation(
 				$asset['connection_id'],
 				$asset['user_id'],

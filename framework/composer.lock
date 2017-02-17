@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ba773f10e9143d8218b17a9f4907b609",
+    "hash": "bcc628d008c0582966200d0feb2a43ce",
     "content-hash": "b1047c9f39ccd90ac1ac778a989e98c1",
     "packages": [
         {
@@ -64,16 +64,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.19.33",
+            "version": "3.22.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "8073e8ce3f5d1836ab5a27ce600b82dd12d68dd1"
+                "reference": "081d565ba5c20af78fcde6dcf7fdbfc48739f39f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/8073e8ce3f5d1836ab5a27ce600b82dd12d68dd1",
-                "reference": "8073e8ce3f5d1836ab5a27ce600b82dd12d68dd1",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/081d565ba5c20af78fcde6dcf7fdbfc48739f39f",
+                "reference": "081d565ba5c20af78fcde6dcf7fdbfc48739f39f",
                 "shasum": ""
             },
             "require": {
@@ -140,7 +140,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2016-11-29 19:33:30"
+            "time": "2017-02-15 22:39:19"
         },
         {
             "name": "cfreear/oauth2-mailchimp",

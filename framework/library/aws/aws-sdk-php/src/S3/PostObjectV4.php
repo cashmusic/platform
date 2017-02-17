@@ -35,7 +35,7 @@ class PostObjectV4
      *                                      fields.
      * @param array             $options    Policy condition options
      * @param mixed             $expiration Upload expiration time value. By
-     *                                      default: 1 hour vaild peroid.
+     *                                      default: 1 hour valid period.
      */
     public function __construct(
         S3ClientInterface $client,
@@ -151,8 +151,10 @@ class PostObjectV4
             // Use path-style URLs
             $uri = $uri->withPath($this->bucket);
         } else {
-            // Use virtual-style URLs
-            $uri = $uri->withHost($this->bucket . '.' . $uri->getHost());
+            // Use virtual-style URLs if haven't been set up already
+            if (strpos($uri->getHost(), $this->bucket . '.') !== 0) {
+                $uri = $uri->withHost($this->bucket . '.' . $uri->getHost());
+            }
         }
 
         return (string) $uri;

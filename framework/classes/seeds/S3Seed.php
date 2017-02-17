@@ -275,7 +275,11 @@ class S3Seed extends SeedBase {
 	public function getExpiryURL($path,$timeout=1000,$attachment=true,$private=true,$mime_type=true) {
 		// TODO: move all options after location to a parameters array, so we can have a unified footprint across seeds.
 		$headers = false;
+
 		if ($attachment || $private) {
+
+			$path = str_replace($this->bucket."/", "", $path);
+
 			$headers = array(
                 'Bucket' => $this->bucket,
                 'Key' => $path,
@@ -300,10 +304,14 @@ class S3Seed extends SeedBase {
 			}
 		}
 
+        $cmd = $this->s3->getCommand('GetObject', $headers);
 
-        $command = $this->s3->getCommand('GetObject', $headers);
+        $request = $this->s3->createPresignedRequest($cmd, '+20 minutes');
+        $presignedUrl = (string) $request->getUri();
 
-        return $this->s3->createPresignedUrl($command, '+'.($timeout/60).' minutes');
+		error_log("why" . $presignedUrl);
+
+        return $presignedUrl;
 	}
 
 	public function uploadFile($local_file,$remote_key=false,$private=true,$content_type='application/octet-stream') {
