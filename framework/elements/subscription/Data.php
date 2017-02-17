@@ -27,6 +27,12 @@ class Data implements DataInterface
         $this->getData();
     }
 
+    /**
+     * Various methods for getting data and returning it to the main element controller.
+     *
+     * @return $this
+     */
+
     public function getCurrency() {
         $currency_request = new \CASHRequest(
             array(
@@ -126,6 +132,11 @@ class Data implements DataInterface
         return $this;
     }
 
+    /**
+     * Data to be merged into the element_data array
+     *
+     * @return array
+     */
     public function getData() {
 
         $this->getConnections()
