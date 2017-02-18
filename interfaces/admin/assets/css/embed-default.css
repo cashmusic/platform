@@ -1622,6 +1622,7 @@ label.cm-add-amount{
     position: absolute;
     top:0;
     left:0;
+    padding:120px 15px;
     width: 100%;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
