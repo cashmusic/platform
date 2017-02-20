@@ -212,7 +212,7 @@ class States
         $featured = [];
         $items = [];
 
-        $this->element_data['items'] = new ArrayIterator($this->element_data['items']);
+        $this->element_data['items'] = new \ArrayIterator($this->element_data['items']);
 
         error_log(
             json_encode($this->element_data['items'])
