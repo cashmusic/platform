@@ -212,7 +212,10 @@ class States
         $featured = [];
         $items = [];
 
-        error_log("element items count before: {".count($this->element_data['items'])."}");
+        error_log(
+            json_encode($this->element_data['items'])
+        );
+
         if (!empty($this->element_data['items'])) {
 
             // get feed items so we can add some stuff
@@ -227,8 +230,6 @@ class States
             // we need to show newest first
             $items = array_reverse($items);
         }
-
-        error_log("element items count after: {".count($items)."}");
 
         return [
             'template' => 'logged_in_index',
