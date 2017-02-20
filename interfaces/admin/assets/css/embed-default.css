@@ -1664,7 +1664,8 @@ label.cm-add-amount{
 }
 
 #cm-subscription-feed h2{
-    margin:0 0 20px 0;
+    margin:6px 0 20px 0;
+    display: inline-block;
     font-weight:100;
     font-family: 'Nunito',Helvetica,Arial,sans-serif;
 }
