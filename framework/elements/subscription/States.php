@@ -212,6 +212,8 @@ class States
         $featured = [];
         $items = [];
 
+        $this->element_data['items'] = new ArrayIterator($this->element_data['items']);
+
         error_log(
             json_encode($this->element_data['items'])
         );
@@ -353,6 +355,7 @@ class States
         }
 
         if (!empty($item)) {
+            unset($item['title']);
             return $item;
         } else {
             return false;
