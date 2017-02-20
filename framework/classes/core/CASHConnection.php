@@ -260,7 +260,8 @@
 	 */public function updateSettings($settings_data) {
 		$settings_data = json_encode($settings_data);
 
-		error_log($settings_data, $this->connection_id);
+		error_log("settings update -- {". $this->connection_id."} -- ".$settings_data);
+
 
 		$result = $this->db->setData(
 			'connections',

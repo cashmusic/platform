@@ -46,13 +46,7 @@ class S3Seed extends SeedBase {
 
             // this is likely an old connection before the upgrade. we need to get bucket region and set ACLs properly
 
-			error_log(
-				'region '.$this->bucket_region.
-				"\nbucket ".$this->bucket
-			);
-
 			if (empty($this->bucket_region) && isset($this->bucket)) {
-				error_log("legacy upgrade");
                 $this->bucket_region = $this->updateLegacyBucket();
 			}
 
@@ -185,8 +179,6 @@ class S3Seed extends SeedBase {
 
         $bucket_region = S3Seed::getBucketRegion($this->s3, $this->bucket);
 
-		error_log("look up legacy bucket region '$bucket_region'");
-
         // check if bucket exists
         if ($this->s3->doesBucketExist($this->bucket, true, [])) {
 
@@ -196,9 +188,7 @@ class S3Seed extends SeedBase {
 
             S3Seed::setBucketCORS($this->s3, $this->bucket);
 
-            $new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
-
-            $result = $new_connection->updateSettings(
+            $result = $this->settings->updateSettings(
                 array(
                 	'bucket'	=> $this->bucket,
                     'bucket_region' => $bucket_region
