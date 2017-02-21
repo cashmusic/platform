@@ -212,12 +212,6 @@ class States
         $featured = [];
         $items = [];
 
-        $this->element_data['items'] = new \ArrayIterator($this->element_data['items']);
-
-        error_log(
-            json_encode($this->element_data['items'])
-        );
-
         if (!empty($this->element_data['items'])) {
 
             // get feed items so we can add some stuff
@@ -348,6 +342,7 @@ class States
                     'session_id' => $this->session_id
                 )
             );
+
             if ($fulfillment_request->response['payload']) {
                 $item['fulfillment_assets'] = new \ArrayIterator($fulfillment_request->response['payload']);
             }
@@ -361,6 +356,4 @@ class States
             return false;
         }
     }
-
-
 }
