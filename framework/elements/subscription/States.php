@@ -333,6 +333,10 @@ class States
             $item['item_image_url'] = $item_image_request->response['payload'];
         }
 
+        error_log("***\n***\n***\n***\n");
+        error_log(json_encode($item_image_request->response));
+        error_log("***\n***\n***\n***\n");
+
 
         if (!empty($item['fulfillment_asset'])) {
             $fulfillment_request = new \CASHRequest(
