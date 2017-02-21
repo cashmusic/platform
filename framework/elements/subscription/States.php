@@ -24,6 +24,7 @@ class States
         $this->user_id = $user_id;
         $this->plan_id = $plan_id;
         $this->email_address = $email_address;
+        $this->element_user_id = $element_user_id;
     }
 
     public function router($callback) {
@@ -327,7 +328,7 @@ class States
                     'cash_request_type' => 'asset',
                     'cash_action' => 'getpublicurl',
                     'id' => $item['descriptive_asset'],
-                    'user_id' => $this->user_id
+                    'user_id' => $this->element_user_id
                 )
             );
             $item['item_image_url'] = $item_image_request->response['payload'];
