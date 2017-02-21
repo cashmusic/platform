@@ -322,10 +322,10 @@ class States
         $item = $item_request->response['payload'];
 
         $item['asset'] = $item['fulfillment_asset'];
-        error_log("$$$$$$$\n");
-        error_log("this is the actual item: " . json_encode($item));
-        error_log("$$$$$$$\n");
-        if ($item['descriptive_asset']) {
+
+//        $item['item_image_url'] = false;
+
+/*        if ($item['descriptive_asset']) {
             $item_image_request = new \CASHRequest(
                 array(
                     'cash_request_type' => 'asset',
@@ -334,12 +334,7 @@ class States
                 )
             );
             $item['item_image_url'] = $item_image_request->response['payload'];
-        }
-
-        error_log("***\n***\n***\n***\n");
-        error_log("this is the image request: " . json_encode($item_image_request));
-        error_log("***\n***\n***\n***\n");
-
+        }*/
 
         if (!empty($item['fulfillment_asset'])) {
             $fulfillment_request = new \CASHRequest(
@@ -358,7 +353,6 @@ class States
 
             if (!empty($item['fulfillment_assets']) && !empty($item['item_image_url']))  {
                 $item['has_image_and_download'] = true;
-                error_log("has_image_and_download is true");
             }
 
         }
