@@ -347,8 +347,12 @@ class States
             if ($fulfillment_request->response['payload']) {
                 $item['fulfillment_assets'] = new \ArrayIterator($fulfillment_request->response['payload']);
             }
+            error_log(json_encode($item));
 
-            if ($item['fulfillment_assets'] && $item['item_image_url']) $item['has_image_and_download'] = true;
+            if (!empty($item['fulfillment_assets']) && !empty($item['item_image_url']))  {
+                $item['has_image_and_download'] = true;
+                error_log("has_image_and_download is true");
+            }
 
         }
 
