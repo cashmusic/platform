@@ -276,9 +276,21 @@ class AssetPlant extends PlantBase {
 		return $result;
 	}
 
-	protected function deleteAsset($id,$user_id=false) {
+	protected function deleteAsset($id,$user_id=false, $connection_id=false) {
 		$asset_details = $this->getAssetInfo($id);
+
+
 		if ($asset_details) {
+
+            $connection = $this->getConnectionDetails($connection_id);
+            $connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
+
+            if (is_array($connection_type)) {
+                $seed_type = $connection_type['seed'];
+                $seed = new $seed_type($user_id,$connection_id);
+                $seed->deleteFile($asset_details['location']);
+            }
+
 			$user_id_match = true;
 			if ($user_id) {
 				if ($asset_details['user_id'] != $user_id) {
@@ -331,6 +343,7 @@ class AssetPlant extends PlantBase {
 			} else {
 				return false;
 			}
+
 		} else {
 			return false;
 		}
@@ -561,9 +574,11 @@ class AssetPlant extends PlantBase {
 	protected function getFinalAssetLocation($connection_id,$user_id,$asset_location,$params=false) {
 		$connection = $this->getConnectionDetails($connection_id);
 		$connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
+
 		if (is_array($connection_type)) {
 			$seed_type = $connection_type['seed'];
 			$seed = new $seed_type($user_id,$connection_id);
+
 			return $seed->getExpiryURL($asset_location);
 		} else {
 			if ($asset_location) {
@@ -598,6 +613,7 @@ class AssetPlant extends PlantBase {
 	 */protected function redirectToAsset($id,$element_id=0,$session_id=false) {
 		if ($this->getUnlockedStatus($id,$session_id)) {
 			$asset = $this->getAssetInfo($id);
+
 			$final_asset_location = $this->getFinalAssetLocation(
 				$asset['connection_id'],
 				$asset['user_id'],
@@ -622,13 +638,13 @@ class AssetPlant extends PlantBase {
 		}
 	}
 
-	protected function getUploadParameters($connection_id,$user_id) {
+	protected function getUploadParameters($connection_id,$user_id,$acl=false) {
 		$connection = $this->getConnectionDetails($connection_id);
 		$connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
 		if (is_array($connection_type)) {
 			$seed_type = $connection_type['seed'];
 			$seed = new $seed_type($user_id,$connection_id);
-			return $seed->getUploadParameters();
+			return $seed->getUploadParameters($acl);
 		} else {
 			return false;
 		}
@@ -647,6 +663,7 @@ class AssetPlant extends PlantBase {
 	}
 
 	protected function makePublic($id,$user_id=false,$commit=false) {
+
 		$asset = $this->getAssetInfo($id);
 		if ($user_id) {
 			if ($asset['user_id'] != $user_id) {
@@ -656,6 +673,7 @@ class AssetPlant extends PlantBase {
 		$connection = $this->getConnectionDetails($asset['connection_id']);
 		$connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
 		if (is_array($connection_type)) {
+
 			$seed_type = $connection_type['seed'];
 			$seed = new $seed_type($asset['user_id'],$asset['connection_id']);
 			$public_location = $seed->makePublic($asset['location']);

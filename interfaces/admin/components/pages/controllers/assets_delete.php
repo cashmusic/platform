@@ -8,7 +8,9 @@ if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
 		array(
 			'cash_request_type' => 'asset', 
 			'cash_action' => 'deleteasset',
-			'id' => $request_parameters[0]
+			'id' => $request_parameters[0],
+            'connection_id' => $request_parameters[1],
+            'user_id' => AdminHelper::getPersistentData('cash_effective_user')
 		)
 	);
 	if ($delete_response['status_uid'] == 'asset_deleteasset_200') {

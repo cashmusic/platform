@@ -13,28 +13,43 @@
  *
  * This file is generously sponsored by Miles Fender - http://www.streetlightfarm.com
  *
+ * http://docs.aws.amazon.com/aws-sdk-php/v2/api/class-Aws.S3.S3Client.html#_getObject
+ *
  **/
 class S3Seed extends SeedBase {
-	protected $s3,$bucket='';
+	protected $s3,$bucket='',$s3_key,$s3_secret,$s3_account_id,$bucket_region;
 
 	public function __construct($user_id,$connection_id) {
 		$this->settings_type = 'com.amazon';
 		$this->user_id = $user_id;
 		$this->connection_id = $connection_id;
 		$this->connectDB();
+
 		if ($this->getCASHConnection()) {
-			require_once(CASH_PLATFORM_ROOT.'/lib/S3.php');
-			$s3_key    = $this->settings->getSetting('key');
-			$s3_secret = $this->settings->getSetting('secret');
-			if (!$s3_key || !$s3_secret) {
+			$this->s3_key    = $this->settings->getSetting('key');
+			$this->s3_secret = $this->settings->getSetting('secret');
+            $this->s3_account_id = $this->settings->getSetting('account_id');
+
+            $this->bucket = $this->settings->getSetting('bucket');
+            $this->bucket_region = $this->settings->getSetting('bucket_region');
+
+			if (!$this->s3_key || !$this->s3_secret) {
 				$connections = CASHSystem::getSystemSettings('system_connections');
 				if (isset($connections['com.amazon'])) {
-					$s3_key    = $connections['com.amazon']['key'];
-					$s3_secret = $connections['com.amazon']['secret'];
+					$this->s3_key    = $connections['com.amazon']['key'];
+					$this->s3_secret = $connections['com.amazon']['secret'];
+                    $this->s3_account_id = $connections['com.amazon']['account_id'];
 				}
 			}
-			$this->s3 = new S3($s3_key,$s3_secret);
-			$this->bucket = $this->settings->getSetting('bucket');
+
+			$this->s3 = S3Seed::createS3Client($this->s3_key, $this->s3_secret);
+
+            // this is likely an old connection before the upgrade. we need to get bucket region and set ACLs properly
+
+			if (empty($this->bucket_region) && isset($this->bucket)) {
+                $this->bucket_region = $this->updateLegacyBucket();
+			}
+
 		} else {
 			/*
 			 * error: could not get S3 settings
@@ -73,28 +88,31 @@ class S3Seed extends SeedBase {
 	}
 
 	public static function handleRedirectReturn($data=false) {
+
 		$connections = CASHSystem::getSystemSettings('system_connections');
 		if (isset($connections['com.amazon'])) {
 			$s3_default_email = $connections['com.amazon']['email'];
 		} else {
 			$s3_default_email = false;
 		}
-		$success = S3Seed::connectAndAuthorize($data['key'],$data['secret'],$data['bucket'],$s3_default_email);
-		if ($success) {
+
+
+		if ($bucket_region = S3Seed::connectAndAuthorize($data['key'],$data['secret'],$data['bucket'],$s3_default_email)) {
 			// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
 			// calls would only happen in the admin. If this changes we can fuck around with it later.
 			$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
-			$connection_name = $data['bucket'] . ' (Amazon S3)';
-			if (substr($connection_name, 0, 10) == 'cashmusic.') {
-				$connection_name = 'Amazon S3 (created ' . date("M j, Y") . ')';
-			}
+
+			$connection_name = 'Amazon S3 (created ' . date("M j, Y") . ')';
+
 			$result = $new_connection->setSettings(
 				$connection_name,
 				'com.amazon',
 				array(
-					'bucket' => $data['bucket']
+					'bucket' => $data['bucket'],
+                    'bucket_region' => $bucket_region
 				)
 			);
+
 			if ($result) {
 				AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
 			} else {
@@ -105,39 +123,155 @@ class S3Seed extends SeedBase {
 			//			   . '<p>We couldn\'t connect with your S3 account. Please check the key and secret.</p>';
 			AdminHelper::formFailure('We couldn\'t connect your S3 account. Please check the key and secret.');
 		}
-		return $return_markup;
+		return true;
 	}
 
 	public static function connectAndAuthorize($key,$secret,$bucket,$email,$auth_type='FULL_CONTROL') {
-		require_once(CASH_PLATFORM_ROOT.'/lib/S3.php');
-		$s3_instance = new S3($key,$secret);
-		$bucket_exists = $s3_instance->getBucket($bucket);
-		if (!$bucket_exists) {
-			$bucket_exists = $s3_instance->putBucket($bucket);
-		}
-		if ($bucket_exists) {
-			$acp = $s3_instance->getAccessControlPolicy($bucket);
-			if (is_array($acp)) {
-				$acp['acl'][] = array('email' => $email,'permission'=>$auth_type);
-				return $s3_instance->setAccessControlPolicy($bucket,'',$acp);
-			} else {
+
+		$s3_instance = S3Seed::createS3Client($key, $secret, 'us-east-1');
+
+		$system_s3_settings = CASHSystem::getSystemSettings();
+		$s3_settings = $system_s3_settings['system_connections']['com.amazon'];
+
+		// check if bucket exists
+		if ($s3_instance->doesBucketExist($bucket, true, [])) {
+
+            if (!S3Seed::accountHasACL($s3_instance, $bucket, $s3_settings['account_id'])) {
+				S3Seed::putBucketAcl($s3_instance, $bucket, $s3_settings['account_id']);
+            }
+
+            S3Seed::setBucketCORS($s3_instance, $bucket);
+
+            $bucket_region = S3Seed::getBucketRegion($s3_instance, $bucket);
+
+            return $bucket_region;
+
+		} else {
+
+			try {
+				$s3_instance->createBucket([
+					'Bucket' => $bucket,
+					'GrantFullControl' => 'id='.$s3_settings['account_id'],
+					'LocationConstraint' => 'us-east-1'
+				]);
+
+                S3Seed::setBucketCORS($s3_instance, $bucket);
+
+                // make sure the ACLs are set correctly
+				if (!S3Seed::accountHasACL($s3_instance, $bucket, $s3_settings['account_id'])) {
+					return false;
+				}
+
+			} catch (Exception $e) {
+				error_log($e->getMessage());
 				return false;
 			}
+
+			return 'us-east-1';
 		}
 	}
 
-	public function getBucketName() {
+	public function updateLegacyBucket()
+    {
+
+        $system_s3_settings = CASHSystem::getSystemSettings();
+        $s3_settings = $system_s3_settings['system_connections']['com.amazon'];
+
+        $bucket_region = S3Seed::getBucketRegion($this->s3, $this->bucket);
+
+        // check if bucket exists
+        if ($this->s3->doesBucketExist($this->bucket, true, [])) {
+
+            if (!S3Seed::accountHasACL($this->s3, $this->bucket, $s3_settings['account_id'])) {
+                S3Seed::putBucketAcl($this->s3, $this->bucket, $s3_settings['account_id']);
+            }
+
+            S3Seed::setBucketCORS($this->s3, $this->bucket);
+
+            $result = $this->settings->updateSettings(
+                array(
+                	'bucket'	=> $this->bucket,
+                    'bucket_region' => $bucket_region
+                )
+            );
+        }
+
+        return $bucket_region;
+    }
+
+    /**
+     * @param $bucket
+     * @param $s3_instance
+     */
+
+    public static function setBucketCORS($s3_instance, $bucket)
+    {
+        try {
+            $s3_instance->putBucketCors([
+                // Bucket is required
+                'Bucket' => $bucket,
+                // CORSRules is required
+                'CORSConfiguration' => ['CORSRules' => [
+						[
+							'AllowedHeaders' => ['*'],
+							'AllowedMethods' => ['PUT', 'POST', 'DELETE', 'GET', 'HEAD'],
+							'AllowedOrigins' => ['*'],
+                            'MaxAgeSeconds' => 3000
+						]
+
+					]
+				]
+            ]);
+		} catch (Exception $e) {
+        	error_log($e->getMessage());
+        	return false;
+		}
+
+		return true;
+    }
+
+    public function getBucketName() {
 		return $this->bucket;
 	}
 
 	// pass-through to S3 class
-	public function getAccessControlPolicy($bucket,$uri='') {
-		return $this->s3->getAccessControlPolicy($bucket,$uri);
+	public static function getBucketAcl($s3_instance, $bucket) {
+
+		$bucket_acl = $s3_instance->getBucketAcl([
+            'Bucket' => $bucket
+        ]);
+
+		if ($bucket_acl) {
+			// for now let's just send them the first key if it exists
+			if (!empty($bucket_acl['Grants'])) {
+				return $bucket_acl['Grants'];
+			}
+
+			return false;
+		}
+
+		return false;
 	}
 
-	// pass-through to S3 class
-	public function setAccessControlPolicy($bucket,$uri='',$acp=array()) {
-		return $this->s3->setAccessControlPolicy($bucket,$uri,$acp);
+	public static function putBucketAcl($s3_instance, $bucket, $account_id) {
+
+		$bucket_acl = $s3_instance->putBucketAcl([
+			'Bucket' => $bucket,
+            'GrantFullControl' => 'id='.$account_id
+
+		]);
+	}
+
+	public static function accountHasACL($s3_instance, $bucket, $account_id) {
+        $acl = S3Seed::getBucketAcl($s3_instance, $bucket);
+
+        foreach($acl as $grants) {
+        	if ($grants['Grantee']['ID'] == $account_id) {
+        		return true;
+			}
+		}
+
+		return false;
 	}
 
 	public function authorizeEmailForBucket($bucket,$address,$auth_type='FULL_CONTROL') {
@@ -147,44 +281,68 @@ class S3Seed extends SeedBase {
 	}
 
 	public function getExpiryURL($path,$timeout=1000,$attachment=true,$private=true,$mime_type=true) {
-		// TODO:
-		// move all options after location to a parameters array, so we can have a unified
-		// footprint across seeds.
+		// TODO: move all options after location to a parameters array, so we can have a unified footprint across seeds.
 		$headers = false;
+
 		if ($attachment || $private) {
-			$headers = array();
+
+			$path = str_replace($this->bucket."/", "", $path);
+
+			$headers = array(
+                'Bucket' => $this->bucket,
+                'Key' => $path,
+			);
+
 			if ($attachment) {
-				$headers['response-content-disposition'] = 'attachment';
+				$headers['ResponseContentDisposition'] = 'attachment; filename="'.basename($path).'"';
+			} else {
+                $headers['ResponseContentDisposition'] = 'filename="'.basename($path).'"';
 			}
+
 			if ($private) {
-				$headers['response-cache-control'] = 'no-cache';
+				$headers['ResponseCacheControl'] = 'no-cache';
+			} else {
+				$headers['ResponseExpires'] = 'Expires: Fri, 15 Apr '.date('Y', strtotime("+20 years")).' 20:00:00 GMT';
 			}
+
 			if ($mime_type && $mime_type !== true) {
-				$headers['response-content-type'] = $mime_type;
+				$headers['ResponseContentType'] = $mime_type;
 			} else if ($mime_type === true) {
-				CASHSystem::getMimeTypeFor($path);
+                $headers['ResponseContentType'] = CASHSystem::getMimeTypeFor($path);
 			}
 		}
 
-		try {
-			$authenticated_url = $this->s3->getAuthenticatedURL($this->bucket, $path, $timeout, false, false, $headers);
-		} catch (Exception $e) {
-			return false;
-		}
+        $cmd = $this->s3->getCommand('GetObject', $headers);
 
-		return $authenticated_url;
+        $request = $this->s3->createPresignedRequest($cmd, '+20 minutes');
+        $presignedUrl = (string) $request->getUri();
+
+        return $presignedUrl;
 	}
 
 	public function uploadFile($local_file,$remote_key=false,$private=true,$content_type='application/octet-stream') {
-		if ($private) {
-			$s3_acl = S3::ACL_PRIVATE;
-		} else {
-			$s3_acl = S3::ACL_PUBLIC_READ;
-		}
-		if (!$remote_key) {
-			$remote_key = baseName($local_file);
-		}
-		return $this->s3->putObjectFile($local_file, $this->bucket, $remote_key, $s3_acl, array(), $content_type);
+
+        $filename = strtolower(preg_replace('/[^a-zA-Z 0-9.\-\/]+/','',
+            	(($remote_key) ? $remote_key : basename($local_file))
+			));
+
+        $headers = [
+            'ACL' => (($private) ? "private" : "public"),
+            'Body' => file_get_contents($local_file),
+            'Bucket' => $this->bucket,
+            'ContentDisposition' => 'filename="'.basename($filename).'"',
+            'ContentLength' => filesize($local_file),
+            'ContentType' => $content_type,
+            'Key' => $filename
+        ];
+
+        if ($private) {
+            $headers['CacheControl'] = 'no-cache';
+        } else {
+            $headers['Expires'] = 'Expires: Fri, 15 Apr '.date('Y', strtotime("+20 years")).' 20:00:00 GMT';
+        }
+
+        return $this->s3->putObject($headers);
 	}
 
 	public function createFileFromString($contents,$remote_key,$private=true,$content_type='text/plain') {
@@ -200,55 +358,74 @@ class S3Seed extends SeedBase {
 		}
 	}
 
-	public function prepareFileMetadata($filename,$content_type,$private=true) {
-		if ($private) {
-			$s3_acl = S3::ACL_PRIVATE;
-		} else {
-			$s3_acl = S3::ACL_PUBLIC_READ;
-		}
-		//$new_filename = strtolower(preg_replace('/[^a-zA-Z 0-9.\-\/]+/','',$filename));
-		//error_log('1: '.$filename);
-		//error_log('2: '.strtolower(preg_replace('/[^a-zA-Z 0-9.\-\/]+/','',$filename)));
-		$new_filename = $filename;
-		return $this->s3->copyObject(
-			$this->bucket, $filename, $this->bucket,
-			$new_filename,
-			$s3_acl,
-			array(),
-			array("Content-Type" => $content_type, "Content-Disposition" => 'attachment')
-		);
-	}
-
-	public function finalizeUpload($filename) {
-		$content_type = CASHSystem::getMimeTypeFor($filename);
-		return $this->prepareFileMetadata($filename,$content_type);
-	}
-
 	public function makePublic($filename) {
-		$content_type = CASHSystem::getMimeTypeFor($filename);
-		if ($this->prepareFileMetadata($filename,$content_type,false)) {
-			return 'https://s3.amazonaws.com/' . $this->getBucketName() . '/' . $filename;
+    	$filename = str_replace($this->bucket."/", "", $filename);
+
+        $public_uri = $this->changeObjectACL($filename, "public-read");
+
+    	if (!empty($public_uri)) {
+            return $public_uri; //$this->bucket . '/' .
 		} else {
-			return false;
+    		return false;
 		}
+
+	}
+
+	public function makePrivate($filename) {
+
+        $filename = str_replace($this->bucket."/", "", $filename);
+
+        if ($this->changeObjectACL($filename, "private")) {
+            return $this->bucket . '/' . $filename;
+        } else {
+            return false;
+        }
+
+    }
+
+    public function changeObjectACL($remote_key, $acl) {
+        try {
+            $result = $this->s3->putObjectAcl(array(
+                'ACL' => $acl,
+                // Bucket is required
+                'Bucket' => $this->bucket,
+                'Key' => $remote_key
+            ));
+		} catch (Exception $e) {
+        	error_log($e->getMessage());
+        	return false;
+		}
+
+		return str_replace("?acl", "", $result['@metadata']['effectiveUri']);
 	}
 
 	public function deleteFile($remote_key) {
-		return $this->s3->deleteObject($this->bucket, $remote_key);
+
+        // we need to remove the bucket from the uri
+        $remote_key = str_replace($this->bucket."/", "", $remote_key);
+
+		return $this->s3->deleteObject([
+			'Bucket' => $this->bucket,
+			'Key'	 => $remote_key
+		]);
 	}
 
 	public function getFileDetails($remote_key) {
-		return $this->s3->getObjectInfo($this->bucket, $remote_key);
+		return $this->s3->getObject([
+			'Bucket' => $this->bucket,
+			'Key' => $remote_key
+		]);
 	}
 
 	public function listAllFiles($show_folders=false) {
-		$raw_file_list = $this->s3->getBucket($this->bucket);
+		$raw_file_list = $this->s3->getIterator('ListObjects', array(
+            'Bucket' => $this->bucket
+        ));
+
 		if (!$show_folders) {
 			$return_array = array();
-			foreach ($raw_file_list as $uri => $details) {
-				if (substr($uri,-1) !== '/') {
-					$return_array[$uri] = $details;
-				}
+			foreach ($raw_file_list as $file) {
+					$return_array[$file['Key']] = $file['Key'];
 			}
 		} else {
 			$return_array = $raw_file_list;
@@ -256,41 +433,39 @@ class S3Seed extends SeedBase {
 		return $return_array;
 	}
 
-	public function getUploadParameters($key_preface=false,$success_url=200,$for_flash=false) {
+	public function getUploadParameters($acl=false, $key_preface=false,$success_url=200,$for_flash=false) {
+
+        if (!$acl) $acl = "private";
+
 		if (!$key_preface) {
 			$key_preface = 'cashmusic-' . $this->connection_id . $this->settings->creation_date . '/' . time() . '/';
 		}
+
 		if (substr($key_preface, -1) != '/') {
 			$key_preface .= '/';
 		}
-		$upload_url = 'https://' . $this->bucket . '.s3.amazonaws.com/';
-		$params = false;
-		if (!$for_flash) {
-			$params = $this->s3->getHttpUploadPostParams(
-				$this->bucket,
-				$key_preface,
-				S3::ACL_PRIVATE,
-				1200,
-				1610612736,
-				$success_url
-			);
-		} else {
-			$params = $this->s3->getHttpUploadPostParams(
-				$this->bucket,
-				$key_preface,
-				S3::ACL_PRIVATE,
-				1200,
-				2147483648,
-				201,
-				array(),
-				array(),
-				true
-			);
-		}
-		$return_array = (array) $params;
-		$return_array['bucketname'] = $this->bucket;
-		$return_array['connection_type'] = $this->settings_type;
-		return $return_array;
+
+        $upload = new \EddTurtle\DirectUpload\Signature(
+        	$this->s3_key,
+			$this->s3_secret,
+			$this->bucket,
+			$this->bucket_region,
+            ['acl'=>$acl]
+		);
+        $cool = [
+            'upload_url' => $upload->getFormUrl(),
+            'inputs' => $upload->getFormInputsAsHtml(),
+            'bucketname' => $this->bucket,
+            'connection_type' => $this->settings_type,
+            'key_preface' => $key_preface,
+            'acl' => 'private',
+            'lifetime' => 1200,
+            'max_size' => 5000000000,
+            'success' => $success_url,
+            's3_key' => $this->s3_key
+        ];
+
+		return $cool;
 	}
 
 	public function getPOSTUploadHTML($key_preface='',$success_url=200,$for_flash=false) {
@@ -320,8 +495,45 @@ class S3Seed extends SeedBase {
 		}
 	}
 
-	public function getAWSSystemTime() {
-		return $this->s3->getAWSSystemTime();
+	public function finalizeUpload($arg) {
+		return true;
+	}
+
+	/**
+	 * @param $s3_key
+	 * @param $s3_secret
+	 */
+	public static function createS3Client($s3_key, $s3_secret, $region='us-east-1')
+	{
+// this is dumb but it's how the new SDK works
+		try {
+			$s3_client = new \Aws\S3\S3MultiRegionClient([
+				'version'     => '2006-03-01',
+				'region'      => $region,
+				'credentials' => [
+					'key'    => $s3_key,
+					'secret' => $s3_secret
+				]
+			]);
+
+		} catch (Exception $e) {
+			return false;
+		}
+
+		return $s3_client;
+	}
+
+	public static function getBucketRegion($s3_client, $bucket_name) {
+		try {
+			$bucket_location = $s3_client->getBucketLocation([
+				'Bucket' => $bucket_name
+			]);
+		} catch (Exception $e) {
+		    error_log($e->getMessage());
+			return false;
+		}
+
+		return $bucket_location['LocationConstraint'];
 	}
 } // END class
 ?>

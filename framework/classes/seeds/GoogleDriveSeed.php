@@ -305,5 +305,7 @@ class GoogleDriveSeed extends SeedBase {
 	// required for Asset seeds
 	public function finalizeUpload($filename) {return true;}
 
+	public function deleteFile($remote_key) {return true;}
+
 } // END class
 ?>

@@ -259,6 +259,7 @@
 	 * @return boolean
 	 */public function updateSettings($settings_data) {
 		$settings_data = json_encode($settings_data);
+
 		$result = $this->db->setData(
 			'connections',
 			array(

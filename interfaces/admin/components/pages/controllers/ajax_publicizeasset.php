@@ -4,7 +4,8 @@ if (isset($request_parameters[0])) {
 		array(
 			'cash_request_type' => 'asset', 
 			'cash_action' => 'makepublic',
-			'id' => $request_parameters[0]
+			'id' => $request_parameters[0],
+            'commit' => true
 		)
 	);
 	if ($success_response['payload']) {

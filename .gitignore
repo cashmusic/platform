@@ -20,3 +20,4 @@ __test_environment.json
 .idea
 PayPal.log
 auth.cache
+Dockerfile
