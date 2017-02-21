@@ -333,6 +333,7 @@ class States
             $item['item_image_url'] = $item_image_request->response['payload'];
         }
 
+
         if (!empty($item['fulfillment_asset'])) {
             $fulfillment_request = new \CASHRequest(
                 array(
@@ -350,10 +351,13 @@ class States
         }
 
         if (!empty($item)) {
+
             unset($item['title']);
             return $item;
+
         } else {
             return false;
         }
+
     }
 }
