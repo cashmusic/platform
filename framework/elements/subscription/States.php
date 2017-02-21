@@ -322,6 +322,7 @@ class States
         $item = $item_request->response['payload'];
 
         $item['asset'] = $item['fulfillment_asset'];
+        error_log(json_encode($item));
         if ($item['descriptive_asset']) {
             $item_image_request = new \CASHRequest(
                 array(
@@ -334,7 +335,7 @@ class States
         }
 
         error_log("***\n***\n***\n***\n");
-        error_log(json_encode($item_image_request->response));
+        error_log("this is the image request: " . json_encode($item_image_request));
         error_log("***\n***\n***\n***\n");
 
 
