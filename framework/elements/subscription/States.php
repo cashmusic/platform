@@ -323,9 +323,7 @@ class States
 
         $item['asset'] = $item['fulfillment_asset'];
 
-//        $item['item_image_url'] = false;
-
-/*        if ($item['descriptive_asset']) {
+        if (!empty($item['descriptive_asset'])) {
             $item_image_request = new \CASHRequest(
                 array(
                     'cash_request_type' => 'asset',
@@ -334,7 +332,9 @@ class States
                 )
             );
             $item['item_image_url'] = $item_image_request->response['payload'];
-        }*/
+        } else {
+            $item['item_image_url'] = false;
+        }
 
         if (!empty($item['fulfillment_asset'])) {
             $fulfillment_request = new \CASHRequest(
