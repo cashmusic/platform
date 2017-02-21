@@ -327,8 +327,7 @@ class States
                 array(
                     'cash_request_type' => 'asset',
                     'cash_action' => 'getpublicurl',
-                    'id' => $item['descriptive_asset'],
-                    'user_id' => $this->element_user_id
+                    'id' => $item['descriptive_asset']
                 )
             );
             $item['item_image_url'] = $item_image_request->response['payload'];
