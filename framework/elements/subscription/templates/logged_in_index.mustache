@@ -10,11 +10,9 @@
 {{#items}}
     <div class="item cm-{{type}}">
         <h2>{{title}}</h2>
-        {{#item_image_url}}
-            {{#fulfillment_assets}}
+        {{#has_image_and_download}}
             <a target="_blank" href="{{public_url}}/request?cash_request_type=asset&cash_action=claim&id={{id}}&element_id={{element_id}}&session_id={{session_id}}" class="cm-item-download" style="background-image:url('{{item_image_url}}');"></a>
-            {{/fulfillment_assets}}
-        {{/item_image_url}}
+        {{/has_image_and_download}}
 
         {{#description}}
             <p>{{{description}}}</p>
