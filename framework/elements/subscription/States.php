@@ -150,6 +150,12 @@ class States
         );
 
         if ($password_request->response['payload'] !== false) {
+
+            $this->setLoginState();
+            $data['items'] = $this->stateLoggedInIndex(true);
+            $data['logged_in'] = true;
+
+
             $template = 'logged_in_index';
 
             $data['firstuse'] = true;
