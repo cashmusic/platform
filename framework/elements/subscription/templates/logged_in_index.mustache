@@ -1,17 +1,17 @@
+
+<div class="cm-sub-logo"></div>
+<div id="cm-subscription-feed">
 {{#firstuse}} 
 <h1 class="cm-success-title">Welcome to the CASH Music Family!</h1>
 <div class="cm-verify">{{{message_verify}}}</div>
 <div class="test-buttons"></div>
 {{/firstuse}}
 
-
-<div class="cm-sub-logo"></div>
-<div id="cm-subscription-feed">
 {{#items}}
     <div class="item cm-{{type}}">
         <h2>{{title}}</h2>
         {{#has_image_and_download}}
-            <a target="_blank" href="{{public_url}}/request?cash_request_type=asset&cash_action=claim&id={{id}}&element_id={{element_id}}&session_id={{session_id}}" class="cm-item-download" style="background-image:url('{{item_image_url}}');"></a>
+            <a target="_blank" href="{{www_url}}?cash_request_type=asset&cash_action=claim&id={{id}}&element_id={{element_id}}&session_id={{session_id}}" class="cm-item-download" style="background-image:url('{{item_image_url}}');"></a>
         {{/has_image_and_download}}
 
         {{#description}}
@@ -20,7 +20,7 @@
      
         {{#fulfillment_assets}}
             <div class="fulfillment-assets">
-                <a target="_blank" href="{{public_url}}/request?cash_request_type=asset&cash_action=claim&id={{id}}&element_id={{element_id}}&session_id={{session_id}}" class="button">Download {{title}}</a>
+                <a target="_blank" href="{{www_url}}?cash_request_type=asset&cash_action=claim&id={{id}}&element_id={{element_id}}&session_id={{session_id}}" class="button">Download {{title}}</a>
                 </div><!--cm-singlepurchase-files-->
         {{/fulfillment_assets}}
     </div>
