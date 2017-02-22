@@ -1793,19 +1793,22 @@ label.cm-add-amount{
 
 #cm-subscription-feed .test-buttons{
 	text-align:center;
+	margin:0 0 36px 0;
 }
 
 .cm-share-button{
 	display: inline-block;
-	height:30px;
-	width:30px;
+	height:50px;
+	width:50px;
 	-webkit-border-radius: 50px;
     -moz-border-radius: 50px;
 	border-radius: 50px;
 	border:solid #fff 3px;
 	margin:0 3px;
 	text-indent: -5000px;
-	background-size:20%;
+	background-size:100%;
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
 }
 
 .cm-share-button-facebook{
