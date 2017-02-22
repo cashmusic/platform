@@ -215,8 +215,6 @@ class States
 
         $items = [];
 
-        error_log("YO GABBA GABBA SESSION $this->session_id");
-
         if (!empty($this->element_data['items'])) {
 
             // get feed items so we can add some stuff

@@ -3094,8 +3094,6 @@ class CommercePlant extends PlantBase {
             )
         );
 
-        error_log("link\n$verify_link\n");
-
         ###ERROR: error emailing subscriber
         if (empty($email_content)) {
             return false;

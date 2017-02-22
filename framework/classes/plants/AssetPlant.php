@@ -593,8 +593,6 @@ class AssetPlant extends PlantBase {
 
 		$asset = $this->getAssetInfo($id);
 
-        error_log("### getPublicURL {$user_id} // " . $asset['user_id']);
-
 		if ($user_id) {
 			if ($asset['user_id'] != $user_id) {
 				return false;
