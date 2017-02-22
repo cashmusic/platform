@@ -1791,6 +1791,10 @@ label.cm-add-amount{
 
 /* Subscription feed share */
 
+#cm-subscription-feed .test-buttons{
+	text-align:center;
+}
+
 .cm-share-button{
 	display: inline-block;
 	height:30px;
@@ -1801,6 +1805,7 @@ label.cm-add-amount{
 	border:solid #fff 3px;
 	margin:0 3px;
 	text-indent: -5000px;
+	background-size:20%;
 }
 
 .cm-share-button-facebook{
