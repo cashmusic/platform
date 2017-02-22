@@ -144,6 +144,8 @@ class TwitterSeed extends SeedBase {
 				$data = $this->getCacheData($this->settings_type,$data_name,true);
 			} else {
 				foreach ($data as $tweet) {
+					// format tweet as array
+					$tweet = json_decode(json_encode($tweet),true);
 					// add formatted time to tweet
 					$tweet['formatted_created_at'] = CASHSystem::formatTimeAgo($tweet['created_at']);
 					if ($tweet['user']['profile_image_url_https'] === true) {
