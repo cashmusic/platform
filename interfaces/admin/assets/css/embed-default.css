@@ -1793,7 +1793,7 @@ label.cm-add-amount{
 
 #cm-subscription-feed .test-buttons{
 	text-align:center;
-	margin:0 0 36px 0;
+	margin:36px 0;
 }
 
 .cm-share-button{
@@ -1806,7 +1806,7 @@ label.cm-add-amount{
 	border:solid #fff 3px;
 	margin:0 3px;
 	text-indent: -5000px;
-	background-size:100%;
+	background-size:80%;
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
 }
