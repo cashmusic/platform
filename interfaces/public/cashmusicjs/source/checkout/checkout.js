@@ -55,7 +55,7 @@
                     formElements.push({id: "name", type: "text", placeholder: "Cardholder name", required: true});
                     formElements.push({id: "email", type: "email", placeholder: "Email address", required: true});
                     formElements.push({id: "card-number", type: "text", placeholder: "Credit card number"});
-                    formElements.push({id: "card-expiry-month", type: "select", options: {
+                    formElements.push({id: "card-expiry-month", type: "select", required:true, options: {
                         "01":"01: Jan",
                         "02":"02: Feb",
                         "03":"03: Mar",
@@ -69,8 +69,8 @@
                         "11":"11: Nov",
                         "12":"12: Dec"
                     }, value:("0" + (d.getMonth() + 1)).slice(-2)});
-                    formElements.push({id: "card-expiry-year", type: "select", options: cm.stripe.getYears(), placeholder: new Date().getFullYear()});
-                    formElements.push({id: "card-cvc", type: "text", placeholder: "CVV"});
+                    formElements.push({id: "card-expiry-year", type: "select", required:true, options: cm.stripe.getYears(), placeholder: new Date().getFullYear()});
+                    formElements.push({id: "card-cvc", type: "text", placeholder: "CVV", required:true});
                     formElements.push({id: "stripe-submit", type: "submit", text: "Submit Payment"});
                     cm.userinput.getInput(formElements,'getstripetoken', null, ""); //TODO: total price for checkout
                     cm.stripe.handleCard();

@@ -356,6 +356,15 @@ class States
 
             if ($fulfillment_request->response['payload']) {
                 $item['fulfillment_assets'] = new \ArrayIterator($fulfillment_request->response['payload']);
+                $assets = [];
+                foreach($item['fulfillment_assets'] as $asset) {
+                    unset($asset['public_url']);
+
+                    $assets[] = $asset;
+                }
+
+                $item['fulfillment_assets'] = $assets;
+
             }
 
             if (!empty($item['fulfillment_assets']) && !empty($item['item_image_url']))  {
@@ -365,7 +374,6 @@ class States
         }
 
         if (!empty($item)) {
-
             unset($item['title']);
             return $item;
 
