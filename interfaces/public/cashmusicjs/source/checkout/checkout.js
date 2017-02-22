@@ -199,6 +199,7 @@
                         cm.styles.removeClass(document.getElementsByClassName('cm-userinput-container')[0],'nope');
                     }, 800);
                 } else {
+                    document.getElementById('cm-userinput-message').innerHTML = '';
                     var n = container.removeChild(form); // kill the form in the DOM
                     n = null;
                     cm.events.fire(cm,'userinput',formdata);
