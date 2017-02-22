@@ -186,11 +186,14 @@ class States
 
         if ($password_request->response['payload']) {
             // valid login + valid subscription
-            if ($password_request->response['payload'] == "200") {
+            if ($password_request->response['payload'] != "401") {
 
                 // we need to make sure this is isolated by subscription---
                 // maybe later we can actually have subscriptions switchable
+                $this->user_id = $password_request->response['payload'];
+
                 $this->setLoginState();
+                $data['items'] = $this->stateLoggedInIndex(true);
                 $data['logged_in'] = true;
 
                 $template = 'logged_in_index';
@@ -208,10 +211,11 @@ class States
         ];
     }
 
-    private function stateLoggedInIndex() {
+    private function stateLoggedInIndex($pass_data=false) {
 
-        $featured = [];
         $items = [];
+
+        error_log("YO GABBA GABBA SESSION $this->session_id");
 
         if (!empty($this->element_data['items'])) {
 
@@ -228,10 +232,15 @@ class States
             $items = array_reverse($items);
         }
 
-        return [
-            'template' => 'logged_in_index',
-            'data' => ['items'=>$items]
-        ];
+        if ($pass_data) {
+            return $items;
+        } else {
+            return [
+                'template' => 'logged_in_index',
+                'data' => ['items'=>$items]
+            ];
+        }
+
     }
 
     private function stateForgotPassword() {
@@ -311,6 +320,7 @@ class States
     }
 
     private function getItemDetails($item_id) {
+
         $item_request = new \CASHRequest(
             array(
                 'cash_request_type' => 'commerce',
@@ -355,8 +365,6 @@ class States
             }
 
         }
-
-        error_log(json_encode($item));
 
         if (!empty($item)) {
 

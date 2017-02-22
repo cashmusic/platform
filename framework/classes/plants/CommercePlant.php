@@ -2811,7 +2811,7 @@ class CommercePlant extends PlantBase {
                 $session->sessionSet("plan_id", $plan_id);
                 $session->sessionSet("subscription_authenticated", true);
 
-                return "200";
+                return $user_id;
             } else {
                 return "401";
             }
