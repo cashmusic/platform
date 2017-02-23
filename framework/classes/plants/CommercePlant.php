@@ -2538,7 +2538,7 @@ class CommercePlant extends PlantBase {
     }
 
     public function subscriptionExists($user_id, $subscription_id) {
-
+        error_log("subscriptionExists");
         // we can handle this as id or by customer payment token
         $conditions = [
             'user_id' => ['condition' => '=', 'value' => $user_id],
@@ -2553,9 +2553,11 @@ class CommercePlant extends PlantBase {
 
 
         if (!$result) {
+            error_log("subscriptionExists false");
             return false;
         } else {
-            return true;
+            error_log("subscriptionExists true");
+            return $result;
         }
     }
 
@@ -2633,8 +2635,8 @@ class CommercePlant extends PlantBase {
                 ];
 
                 // add user to subscription membership and set inactive to start, else we'll have a chicken trying to hatch out of an egg before that same chicken laid itself
-                if (!$this->subscriptionExists($subscriber_user_id, $subscription_plan[0]['id'])) {
-                    $subscription_member_result = $this->db->setData(
+                if (!$subscription_exists = $this->subscriptionExists($subscriber_user_id, $subscription_plan[0]['id'])) {
+                    $subscription_member_id = $this->db->setData(
                         'subscriptions_members',
                         array(
                             'user_id' => $subscriber_user_id,
@@ -2647,13 +2649,23 @@ class CommercePlant extends PlantBase {
                     );
 
                     ###ERROR: error creating membership
-                    if (!$subscription_member_result) {
+                    if (!$subscription_member_id) {
                         return "412";
                     }
 
                 } else {
-                    ###ERROR: subscriber already exists for this plan
-                    return "409";
+                    // if subscription exists we need to allow them to subscribe if their status is
+                    // 'canceled'. this raises some questions and problems with race conditions and
+                    // double subscriptions but hey
+                    error_log(json_encode($subscription_exists));
+
+
+                    if ($subscription_exists['status'] == 'active') {
+                        ###ERROR: subscriber already exists for this plan and it's active
+                        return "409";
+                    } else {
+                        $subscription_member_id = $subscription_exists['id'];
+                    }
                 }
 
                 // create actual subscription on stripe
@@ -2667,7 +2679,7 @@ class CommercePlant extends PlantBase {
                         array(
                             "id" => array(
                                 "condition" => "=",
-                                "value" => $subscription_member_result
+                                "value" => $subscription_member_id
                             )
                         )
                     );
@@ -3086,6 +3098,7 @@ class CommercePlant extends PlantBase {
             urlencode($email_address) .
             '&element_id=' . $element_id;
 
+        error_log("/// $verify_link");
 
         $email_content = CASHSystem::renderMustache(
             $email_content, array(
@@ -3098,6 +3111,7 @@ class CommercePlant extends PlantBase {
         if (empty($email_content)) {
             return false;
         }
+
 
         if (!CASHSystem::sendEmail(
             'Welcome to the CASH Music Family',
