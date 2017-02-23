@@ -1,15 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tomfilepp
- * Date: 1/25/17
- * Time: 1:57 PM
- */
 
 namespace Cashmusic\Elements\subscription;
 
+use Cashmusic\Elements\Interfaces\DataInterface;
 
-class Data
+class Data implements DataInterface
 {
     protected $user_id, $plan_id;
     public $data;
@@ -31,6 +26,12 @@ class Data
 
         $this->getData();
     }
+
+    /**
+     * Various methods for getting data and returning it to the main element controller.
+     *
+     * @return $this
+     */
 
     public function getCurrency() {
         $currency_request = new \CASHRequest(
@@ -131,6 +132,11 @@ class Data
         return $this;
     }
 
+    /**
+     * Data to be merged into the element_data array
+     *
+     * @return array
+     */
     public function getData() {
 
         $this->getConnections()
