@@ -294,6 +294,7 @@ class S3Seed extends SeedBase {
 			);
 
 			if ($attachment) {
+                $headers['ResponseContentType'] = 'application/force-download';
 				$headers['ResponseContentDisposition'] = 'attachment; filename="'.basename($path).'"';
 			} else {
                 $headers['ResponseContentDisposition'] = 'filename="'.basename($path).'"';

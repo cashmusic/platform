@@ -443,10 +443,12 @@ class AssetPlant extends PlantBase {
 	 * @return boolean
 	 */protected function getUnlockedStatus($id,$session_id=false) {
 		CASHSystem::startSession($session_id);
-		if ($this->getPublicStatus($id)) {
+/*		if ($this->getPublicStatus($id)) {
 			return true;
-		}
+		}*/
 		$current_unlocked_assets = $this->sessionGet('unlocked_assets');
+
+		error_log("getUnlockedStatus // ". json_encode($current_unlocked_assets));
 
 		if (is_array($current_unlocked_assets)) {
 			if (array_key_exists(""."$id",$current_unlocked_assets)) {
@@ -613,6 +615,7 @@ class AssetPlant extends PlantBase {
 	 * @param {integer} $id - the asset you are trying to retrieve
 	 * @return string
 	 */protected function redirectToAsset($id,$element_id=0,$session_id=false) {
+	 	error_log("redirectToAsset $id // $element_id // $session_id");
 		if ($this->getUnlockedStatus($id,$session_id)) {
 			$asset = $this->getAssetInfo($id);
 

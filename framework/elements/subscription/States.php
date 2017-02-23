@@ -420,6 +420,7 @@ class States implements StatesInterface
 
         if (!empty($item)) {
             unset($item['title']);
+            error_log(json_encode($item));
             return $item;
 
         } else {

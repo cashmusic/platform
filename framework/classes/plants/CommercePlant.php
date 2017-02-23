@@ -2757,14 +2757,19 @@ class CommercePlant extends PlantBase {
 
     public function cancelSubscription($user_id, $connection_id, $id) {
 
-        $this->updateSubscription($id, "unsubscribed");
+        $this->updateSubscription($id, "canceled");
         $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
 
         $subscription = $this->getSubscriptionDetails($id);
 
-        if ($payment_seed->cancelSubscription($subscription['payment_identifier'])) {
-            return true;
+        if(!empty($subscription['payment_identifier'])) {
+            if ($payment_seed->cancelSubscription($subscription['payment_identifier'])) {
+                return true;
+            }
+        } else {
+            return true; // whatevers for now i guess
         }
+
 
         return false;
     }

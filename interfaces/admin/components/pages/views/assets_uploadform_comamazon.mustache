@@ -78,10 +78,11 @@
 
                     var date = new Date();
                     var timestamp = date.getTime();
+                    filename = filename.replace(/[^a-zA-Z0-9.\-\_]+/g, '').toLowerCase();
+                    filekey = timestamp + "/" + filename;
 
-                    filekey = timestamp + "/" + filename.replace(/[^a-zA-Z0-9.\-\_]+/g, '').toLowerCase();
-
-                    form.find('input[name="Content-Type"]').val(file.type);
+                    form.find('input[name="Content-Type"]').val("application/force-download");
+                    form.find('input[name="Content-Disposition"]').val("attachment; filename="+filename);
                     form.find('input[name="key"]').val(filekey);
                     // Actually submit to form to S3.
                     data.submit();
