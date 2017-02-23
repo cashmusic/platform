@@ -2538,7 +2538,6 @@ class CommercePlant extends PlantBase {
     }
 
     public function subscriptionExists($user_id, $subscription_id) {
-        error_log("subscriptionExists");
         // we can handle this as id or by customer payment token
         $conditions = [
             'user_id' => ['condition' => '=', 'value' => $user_id],
@@ -2657,14 +2656,12 @@ class CommercePlant extends PlantBase {
                     // if subscription exists we need to allow them to subscribe if their status is
                     // 'canceled'. this raises some questions and problems with race conditions and
                     // double subscriptions but hey
-                    error_log(json_encode($subscription_exists));
 
-
-                    if ($subscription_exists['status'] == 'active') {
+                    if ($subscription_exists[0]['status'] == 'active') {
                         ###ERROR: subscriber already exists for this plan and it's active
                         return "409";
                     } else {
-                        $subscription_member_id = $subscription_exists['id'];
+                        $subscription_member_id = $subscription_exists[0]['id'];
                     }
                 }
 
