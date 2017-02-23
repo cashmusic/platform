@@ -271,7 +271,7 @@ class States implements StatesInterface
         } else {
             return [
                 'template' => 'logged_in_index',
-                'data' => ['items'=>$items]
+                'data' => ['logged_in'=>true, 'items'=>$items]
             ];
         }
 
