@@ -649,43 +649,81 @@
 				}
 			}
 
-			// deal with SMTP settings later:
-			$smtp = $email_settings['smtp'];
+            // get mandrill connection info
+            $cash_request = new CASHConnection($user_id);
+            $mandrill = $cash_request->getConnectionsByType('com.mandrillapp');
 
-			// include swift mailer
-			include_once CASH_PLATFORM_ROOT . '/lib/swift/swift_required.php';
+            // check viability of using mandrill
+            //TODO: this might be a good place to have a firewall to stop abuse
+            $connection_id = false;
 
-			if ($smtp) {
-				// use SMTP settings for goodtimes robust happy mailing
-				$transport = Swift_SmtpTransport::newInstance($email_settings['smtpserver'], $email_settings['smtpport']);
-				if ($email_settings['smtpusername']) {
-					$transport->setUsername($email_settings['smtpusername']);
-					$transport->setPassword($email_settings['smtppassword']);
-				}
-			} else {
+            // if a viable connection, set connection id with user connection
+            if (is_array($mandrill) && !empty($mandrill[0]['id'])) {
+                $connection_id = $mandrill[0]['id'];
+            }
 
-				//TODO: sendmail is gonna mess shit up
+            // either we've got a valid connection ID, or a fallback api_key
+            if ($connection_id) {
+                $mandrill = new MandrillSeed($user_id, $connection_id);
 
-				// aww shit. use mail() and hope it gets there
-				//$transport = Swift_MailTransport::newInstance();
-			}
+                if ($result = $mandrill->send(
+                    $subject,
+                    $message_text,
+                    $encoded_html,
+                    $fromaddress, // email address (reply-to)
+                    $setname, // display name (reply-to)
+                    [
+                        [
+                            'email' => $toaddress,
+                            'type' => 'to'
+                        ]
+					],
+                    null,
+                    null,
+                    null
+                )) {
+                    return true;
+                }
+            } else {
+            	// crappy old SMTP
+                // deal with SMTP settings later:
+                $smtp = $email_settings['smtp'];
 
-			$swift = Swift_Mailer::newInstance($transport);
+                // include swift mailer
+                include_once CASH_PLATFORM_ROOT . '/lib/swift/swift_required.php';
 
-			$message = new Swift_Message($subject);
-			$message->setFrom($sender);
-			$message->setReplyTo($from);
-			//	$message->setSender($sender);
-			$message->setBody($encoded_html, 'text/html');
-			$message->setTo($toaddress);
-			$message->addPart($message_text, 'text/plain');
-			$headers = $message->getHeaders();
-			$headers->addTextHeader('X-MC-Track', 'opens'); // Mandrill-specific tracking...leave in by defauly, no harm if not Mandrill
+                if ($smtp) {
+                    // use SMTP settings for goodtimes robust happy mailing
+                    $transport = Swift_SmtpTransport::newInstance($email_settings['smtpserver'], $email_settings['smtpport']);
+                    if ($email_settings['smtpusername']) {
+                        $transport->setUsername($email_settings['smtpusername']);
+                        $transport->setPassword($email_settings['smtppassword']);
+                    }
+                } else {
 
-			if ($recipients = $swift->send($message, $failures)) {
-				return true;
-			} else {
-				return false;
+                    //TODO: sendmail is gonna mess shit up
+
+                    // aww shit. use mail() and hope it gets there
+                    //$transport = Swift_MailTransport::newInstance();
+                }
+
+                $swift = Swift_Mailer::newInstance($transport);
+
+                $message = new Swift_Message($subject);
+                $message->setFrom($sender);
+                $message->setReplyTo($from);
+                //	$message->setSender($sender);
+                $message->setBody($encoded_html, 'text/html');
+                $message->setTo($toaddress);
+                $message->addPart($message_text, 'text/plain');
+                $headers = $message->getHeaders();
+                $headers->addTextHeader('X-MC-Track', 'opens'); // Mandrill-specific tracking...leave in by defauly, no harm if not Mandrill
+
+                if ($recipients = $swift->send($message, $failures)) {
+                    return true;
+                } else {
+                    return false;
+                }
 			}
 		}
 		return false;
