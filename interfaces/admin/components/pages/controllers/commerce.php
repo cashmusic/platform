@@ -27,14 +27,6 @@ if (isset($_REQUEST['fulfill'])) {
 	}
 }
 
-CASHSystem::sendEmail(
-    "Testing shit",
-    $cash_admin->effective_user_id,
-    "tom@paperscissorsandglue.com",
-    'Testing this stuff',
-    'Please confirm your test'
-);
-
 /*******************************************************************************
  *
  * 3. SECTION SETTINGS
