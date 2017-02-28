@@ -161,6 +161,7 @@ class MandrillSeed extends SeedBase {
 		$recipient_merge_vars = array();
 		if (is_array($recipients)) {
 			foreach ($recipients as &$recipient) {
+
 				if (isset($recipient['metadata'])) {
 					if (is_array($recipient['metadata'])) {
 						if (!$recipient_metadata) {
@@ -219,6 +220,12 @@ class MandrillSeed extends SeedBase {
 			$user_details['display_name'] = 'Testing CASH Mailer';
 		}
 
+		if (empty($global_merge_vars) && empty($merge_vars)) {
+			$merge = false;
+		} else {
+			$merge = true;
+		}
+
 		$message = array(
 			"html" => $message_html,
 			"text" => $message_txt,
@@ -237,7 +244,7 @@ class MandrillSeed extends SeedBase {
 			"bcc_address" => null,
 			"tracking_domain" => null,
 			"signing_domain" => null,
-			"merge" => true,
+			"merge" => $merge,
 			"global_merge_vars" => $global_merge_vars,
 			"merge_vars" => $merge_vars,
 			"tags" => $tags,
