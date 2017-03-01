@@ -6,7 +6,10 @@
     <input type="password" class="cm-subcription-password" name="password" placeholder="password">
     <input type="hidden" name="state" value="validate_login">
     <input type="hidden" name="element_id" value="{{element_id}}">
-    <input type="hidden" name="plan_id" value="{{plan_id}}" />
+    {{#all_plans}}
+        <input type="hidden" name="plans[]" value="{{plan_id}}" />
+    {{/all_plans}}
+
     <button class="cm-login-submit">Login</button>
     <a href="#" class="cm-secondary-link forgot-password">Forgot password</a>
 </form>

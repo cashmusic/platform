@@ -208,7 +208,7 @@ class States implements StatesInterface
         $email = (isset($_REQUEST['email'])) ? trim($_REQUEST['email']) : false;
         $password = (isset($_REQUEST['password'])) ? trim($_REQUEST['password']) : false;
 
-        $plan_id = (isset($_REQUEST['plan_id'])) ? $_REQUEST['plan_id'] : false;
+        $plans = (isset($_REQUEST['plans'])) ? $_REQUEST['plans'] : false;
 
         $password_request = new \CASHRequest(
             array(
@@ -216,7 +216,7 @@ class States implements StatesInterface
                 'cash_action' => 'loginsubscriber',
                 'email' => $email,
                 'password' => $password,
-                'plan_id' => $plan_id
+                'plans' => $plans
             )
         );
 

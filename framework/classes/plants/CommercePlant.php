@@ -2793,7 +2793,7 @@ class CommercePlant extends PlantBase {
         return true;
     }
 
-    public function loginSubscriber($email=false, $password=false, $plan_id=false) {
+    public function loginSubscriber($email=false, $password=false, $plans=false) {
 
         $validate_request = new CASHRequest(
             array(
@@ -2806,18 +2806,18 @@ class CommercePlant extends PlantBase {
         );
 
         // email or password are not set so bail, or they're set but they don't validate
-        if ( (!$email || !$password || !$plan_id) || !$validate_request->response['payload'] ) {
+        if ( (!$email || !$password || !$plans) || !$validate_request->response['payload'] ) {
             return "401";
         }
 
         if ($validate_request->response['payload']) {
 
             $user_id = $validate_request->response['payload'];
-
+            error_log(json_encode($plans));
             // this is a valid login--- so now the question is, are they an active subscriber?
-            $is_valid_subscription = $this->validateSubscription($user_id, $plan_id);
+            $plan_id = $this->validateSubscription($user_id, $plans);
 
-            if ($is_valid_subscription) {
+            if ($plan_id) {
 
                 // this is a valid subscription so bust out the confetti
                 $session = new CASHRequest(null);
@@ -2842,7 +2842,7 @@ class CommercePlant extends PlantBase {
      * @param $plan_id
      * @return bool
      */
-    public function validateSubscription($user_id, $plan_id) {
+    public function validateSubscription($user_id, $plans) {
 
         $conditions = [
             'user_id' => array(
@@ -2850,8 +2850,8 @@ class CommercePlant extends PlantBase {
                 "value" => $user_id
             ),
             'subscription_id' => array(
-                "condition" => "=",
-                "value" => $plan_id
+                "condition" => "IN",
+                "value" => $plans
             ),
         ];
 
@@ -2863,7 +2863,7 @@ class CommercePlant extends PlantBase {
 
         if (!$result) return false;
 
-        return true;
+        return $result[0]['subscription_id'];
     }
 
     public function getSubscriptionStats($plan_id) {

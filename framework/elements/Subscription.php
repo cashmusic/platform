@@ -41,22 +41,18 @@ class Subscription extends ElementBase {
 
         $plans = [];
 
+        $subscription_data = new SubscriptionElement\Data($plan_user_id);
+
         foreach ($this->element_data['plans'] as $plan) {
-
-            $subscription_plan = new SubscriptionElement\Data(
-                $plan_user_id,
-                $plan['plan_id']
-            );
-
-            $plans[] = $subscription_plan->data;
+            $plans[] = $subscription_data->getPlan($plan['plan_id']);
         }
 
-        $this->element_data['stripe_public_key'] = !empty($plans[0]['stripe_public_key']) ? $plans[0]['stripe_public_key'] : false;
-
-        $this->element_data['paypal_connection'] = !empty($plans['plans'][0]['paypal_connection']) ? $plans['plans'][0]['paypal_connection'] : false;
-
         // this is where we get data
-		$this->updateElementData(['all_plans'=>$plans]);
+        $this->updateElementData(['all_plans'=>$plans]);
+
+        // get
+        $this->updateElementData($subscription_data->getConnections());
+        $this->updateElementData($subscription_data->getCurrency());
 
         if (!$this->element_data['paypal_connection'] && !$this->element_data['stripe_public_key']) {
             $this->setError("No valid payment connection found.");
