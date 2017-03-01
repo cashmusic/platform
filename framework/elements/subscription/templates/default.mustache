@@ -4,18 +4,32 @@
     </div>
 {{/error_message}}
 
-<h2>{{plan_name}}</h2>
-<p>{{plan_description}}</p>
+<h2>{{name}}</h2>
+<p>{{description}}</p>
 
-  {{#flexible_price}}
-        <label class="cm-add-amount">Adjust your payment amount:</label>
-        <span class="cm-store-flexible-price">
-            <span class="cm-store-currency">{{currency}}</span>
-        <input type="number" min="{{minimum_price}}" name="plan_amount" id="plan_flexible_price" value="{{plan_price}}" autocomplete="off" >
-      </span>
-      </span>
-  {{/flexible_price}}
-<a href="#" class="button cm-subscribe" data-price="{{plan_price}}" data-min="{{minimum_price}}" data-plan-id="{{plan_id}}" id="subscribe">$<span class="amount" id="plan_price">{{plan_price}}</span>/{{plan_interval}} - Subscribe</a>
+{{#all_plans}}
+    <input type="hidden" class="plan_id_per_plan" id="plan_id_{{plan_id}}" value="{{plan_id}}">
+    <input type="hidden" class="plan_price_per_plan" id="plan_price_{{plan_id}}" value="{{plan_price}}">
+    <input type="hidden" class="plan_minimum_price_per_plan" id="plan_minimum_price_{{plan_id}}" value="{{minimum_price}}">
+    <input type="hidden" class="plan_interval_per_plan" id="plan_interval_{{plan_id}}" value="{{plan_interval}}">
+    <input type="hidden" class="plan_shipping_per_plan" id="plan_shipping_{{plan_id}}" value="{{shipping}}">
+{{/all_plans}}
+
+{{#flexible_price}}
+    <label class="cm-add-amount">Adjust your payment amount:</label>
+    <span class="cm-store-flexible-price">
+                    <span class="cm-store-currency">{{currency}}</span>
+                <input type="number" min="{{minimum_price}}" name="plan_amount" id="plan_flexible_price" value="{{plan_price}}" autocomplete="off" >
+              </span>
+    </span>
+{{/flexible_price}}
+<select name="plan_id" id="plan_id" required>
+    <option value="">Select a plan</option>
+    {{#all_plans}}
+        <option value="{{plan_id}}">{{plan_name}}</option>
+    {{/all_plans}}
+</select>
+<a href="#" class="button cm-subscribe" data-price="{{plan_price}}" data-min="{{minimum_price}}" data-plan-id="{{plan_id}}" id="subscribe">$<span class="amount" id="plan_price">{{plan_price}}</span>/<span id="plan_interval">{{plan_interval}}</span> - Subscribe</a>
 
 {{#logged_in}}
     <a href="#" class="cm-my-account cm-secondary-link">My Account</a>
@@ -25,26 +39,53 @@
     <a href="#" class="cm-login cm-secondary-link">Login to Family</a>
 {{/logged_in}}
 
+<div style="clear:both;"></div>
 
 <script type="text/javascript">
-(function() {
+    function updatePlanPrice(element, button_element, plan_id) {
+
+        var price = document.querySelector("#plan_price_" + plan_id).value;
+        element.innerText = price;
+        button_element.dataset.price = price;
+
+        document.querySelector("#plan_flexible_price").value = price;
+    }
+
+    function updateMinimumPrice(element, plan_id) {
+        element.dataset.min = document.querySelector("#plan_minimum_price_" + plan_id).value;
+    }
+
+    function updatePlanInterval(element, plan_id) {
+        element.innerText = document.querySelector("#plan_interval_" + plan_id).value;
+    }
+
+    function getShippingStatus(plan_id) {
+        return document.querySelector("#plan_shipping_" + plan_id).value;
+    }
+
+    function getSelectedPlanId(element) {
+        if (element) {
+            var selected_index = 1;
+
+            if (element.selectedIndex > 0) {
+                selected_index = element.selectedIndex;
+            } else {
+                element.selectedIndex = 1;
+            }
+
+            var plan_id = element.options[selected_index].value;
+        } else {
+            var plan_id = document.getElementsByClassName("plan_id_per_plan")[0].value;
+        }
+
+        document.querySelector(".cm-subscribe").setAttribute("data-plan-id", plan_id);
+
+        return plan_id;
+    }
+
+    (function() {
     'use strict';
     var cm = window.cashmusic;
-    var verification = false;
-    var stripe_public_key = false;
-
-    // get stripe public key
-    {{#stripe_public_key}}
-        var stripe_public_key = "{{stripe_public_key}}";
-    {{/stripe_public_key}}
-
-    // get stripe public key
-    {{#key}}
-        var verification = true;
-    {{/key}}
-
-    // set shipping true, or to false if there is no shipping
-    var shipping = {{shipping}};
 
     var error_messages = {
         "409": "Whoops, looks like you've already got a subscription with this email and payment method.",
@@ -57,24 +98,67 @@
     };
 
 
+    var verification = false;
+    var stripe_public_key = false;
+
+    // get stripe public key
+    {{#stripe_public_key}}
+        var stripe_public_key = "{{stripe_public_key}}";
+    {{/stripe_public_key}}
+
+    // is this an email verification run?
+    {{#key}}
+        var verification = true;
+    {{/key}}
+
     cm.events.add(cm,'ready', function(e) {
         cm.session.start();
 
-        if (verification !== false) {
-            cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"verified"});
-        }
+        var login = document.querySelector('.cm-login');
 
         var plan_price = document.getElementById('plan_price');
         var subscribe_button = document.querySelector('.cm-subscribe');
         var flexible_price = document.getElementById('plan_flexible_price');
 
-        var login = document.querySelector('.cm-login');
+        var plan_selection = document.querySelector('#plan_id');
+        var plan_id = getSelectedPlanId(plan_selection);
+
+        // set shipping true, or to false if there is no shipping
+        var shipping = getShippingStatus(plan_id);
+
+        var plan_interval = document.getElementById('plan_interval');
 
         if (login) {
             cm.events.add(login, 'click', function (e) {
                 e.preventDefault();
                 cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"login"});
             });
+        }
+
+
+
+        updatePlanPrice(plan_price, subscribe_button, plan_id);
+        updateMinimumPrice(subscribe_button, plan_id);
+        updatePlanInterval(plan_interval, plan_id);
+
+
+        if (plan_selection) {
+            cm.events.add(plan_selection, 'change', function (e) {
+                var plan_id = getSelectedPlanId(plan_selection);
+
+                updatePlanPrice(plan_price, subscribe_button, plan_id);
+                updateMinimumPrice(subscribe_button, plan_id);
+                updatePlanInterval(plan_interval, plan_id);
+
+                shipping = getShippingStatus(plan_id);
+
+            });
+
+        }
+
+
+        if (verification !== false) {
+            cm.overlay.reveal({"element":"{{element_id}}","endpoint":"{{public_url}}","state":"verified"});
         }
 
         var account = document.querySelector('.cm-my-account');
@@ -88,7 +172,7 @@
 
         if (flexible_price) {
             cm.events.add(flexible_price,'keyup', function() {
-                var price = (flexible_price.value != "") ? flexible_price.value : "10.00";
+                var price = (flexible_price.value != "") ? flexible_price.value : "{{plan_price}}";
                 plan_price.innerHTML = price;
                 subscribe_button.setAttribute("data-price", price);
             });
@@ -97,7 +181,6 @@
         if (subscribe_button) {
             // user triggered the subscribe button
             cm.events.add(subscribe_button, 'click', function (e) {
-               e.preventDefault();
 
                 var price = subscribe_button.getAttribute("data-price");
                 var minimum = subscribe_button.getAttribute('data-min');
@@ -122,7 +205,7 @@
                      "recurring": true,
                      "shipping": shipping,
                      "total": "{{currency}}" + parseFloat(price),
-                     "transaction_message": "/{{interval}}"
+                     "transaction_message": "/"+document.querySelector("#plan_interval").innerText
                  });
             });
 
