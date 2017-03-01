@@ -208,7 +208,7 @@ class States implements StatesInterface
         $email = (isset($_REQUEST['email'])) ? trim($_REQUEST['email']) : false;
         $password = (isset($_REQUEST['password'])) ? trim($_REQUEST['password']) : false;
 
-        $plan_id = (isset($_REQUEST['plan_id'])) ? $_REQUEST['plan_id'] : false;
+        $plans = (isset($_REQUEST['plans'])) ? $_REQUEST['plans'] : false;
 
         $password_request = new \CASHRequest(
             array(
@@ -216,7 +216,7 @@ class States implements StatesInterface
                 'cash_action' => 'loginsubscriber',
                 'email' => $email,
                 'password' => $password,
-                'plan_id' => $plan_id
+                'plans' => $plans
             )
         );
 
@@ -255,7 +255,7 @@ class States implements StatesInterface
 
             // get feed items so we can add some stuff
             foreach($this->element_data['items'] as $item) {
-                $details = $this->getItemDetails($item['item_id']);
+                $details = Data::getItemDetails($item['item_id'], $this->session_id);
 
                 $details[$item['type']] = true;
                 $items[] = array_merge($details, $item);
@@ -356,76 +356,4 @@ class States implements StatesInterface
 
     }
 
-    /**
-     * Get details for items in the subscription feed.
-     *
-     * @param $item_id
-     * @return array|bool
-     */
-
-    private function getItemDetails($item_id) {
-
-        $item_request = new \CASHRequest(
-            array(
-                'cash_request_type' => 'commerce',
-                'cash_action' => 'getitem',
-                'id' => $item_id
-            )
-        );
-
-        $item = $item_request->response['payload'];
-
-        $item['asset'] = $item['fulfillment_asset'];
-
-        if (!empty($item['descriptive_asset'])) {
-            $item_image_request = new \CASHRequest(
-                array(
-                    'cash_request_type' => 'asset',
-                    'cash_action' => 'getpublicurl',
-                    'id' => $item['descriptive_asset']
-                )
-            );
-            $item['item_image_url'] = $item_image_request->response['payload'];
-        } else {
-            $item['item_image_url'] = false;
-        }
-
-        if (!empty($item['fulfillment_asset'])) {
-            $fulfillment_request = new \CASHRequest(
-                array(
-                    'cash_request_type' => 'asset',
-                    'cash_action' => 'getfulfillmentassets',
-                    'asset_details' => $item['fulfillment_asset'],
-                    'session_id' => $this->session_id
-                )
-            );
-
-            if ($fulfillment_request->response['payload']) {
-                $item['fulfillment_assets'] = new \ArrayIterator($fulfillment_request->response['payload']);
-                $assets = [];
-                foreach($item['fulfillment_assets'] as $asset) {
-                    unset($asset['public_url']);
-
-                    $assets[] = $asset;
-                }
-
-                $item['fulfillment_assets'] = $assets;
-
-            }
-
-            if (!empty($item['fulfillment_assets']) && !empty($item['item_image_url']))  {
-                $item['has_image_and_download'] = true;
-            }
-        }
-
-        if (!empty($item)) {
-            unset($item['title']);
-            error_log(json_encode($item));
-            return $item;
-
-        } else {
-            return false;
-        }
-
-    }
 }

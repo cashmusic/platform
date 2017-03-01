@@ -47,15 +47,34 @@
 				"is":"Veldu hlut úr birgðaskrá til að selja og verslunar tengingu sem skal nota."
 			},
 			"data":{
-				"plan_id":{
+				"plans":{
 					"label":{
-						"en":"Subscription plan",
-						"is":"Hlutur til sölu"
+						"en":"Subscription Plan(s)",
+						"is":"Subscription Plan(s)"
 					},
-					"type":"select",
-					"values":"commerce/subscriptions",
-					"required":true,
-					"displaysize":"large"
+					"description":{
+						"en":"Choose one or more subscription plans for this element",
+						"is":"Choose one or more subscription plans for this element"
+					},
+					"type":"scalar",
+					"displaysize":"large",
+					"actiontext": {
+						"en":"Add a new subscription plan",
+						"is":"Add a new subscription plan"
+					},
+					"values":{
+						"plan_id":{
+							"label":{
+								"en":"Subscription plan",
+								"is":"Subscription plan"
+							},
+							"type":"select",
+							"values":"commerce/subscriptions",
+							"required":true,
+							"displaysize":"large"
+						}
+					},
+					"required":false
 				}
 			}
 		},

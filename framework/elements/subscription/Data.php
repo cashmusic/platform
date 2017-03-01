@@ -9,11 +9,11 @@ class Data implements DataInterface
     protected $user_id, $plan_id;
     public $data;
     
-    public function __construct($user_id, $plan_id)
+    public function __construct($user_id)
     {
         $this->data = [];
         $this->user_id = $user_id;
-        $this->plan_id = $plan_id;
+        $this->plan_id = false;
 
         $this->data['public_url'] = CASH_PUBLIC_URL;
 
@@ -23,8 +23,6 @@ class Data implements DataInterface
         $this->data['verification'] = false;
 
         $this->data['logged_in'] = false;
-
-        $this->getData();
     }
 
     /**
@@ -50,51 +48,9 @@ class Data implements DataInterface
             $this->data['currency'] = \CASHSystem::getCurrencySymbol('USD');
         }
 
-        return $this;
+        return $this->data;
     }
 
-    public function getPlan() {
-        // get plan data
-        $plan_request = new \CASHRequest(
-            array(
-                'cash_request_type' => 'commerce',
-                'cash_action' => 'getsubscriptionplan',
-                'user_id' => $this->user_id,
-                'id' => $this->plan_id
-            )
-        );
-
-        // get plan data or bust
-        if ($plan_request->response['payload'] && !empty($plan_request->response['payload'][0])) {
-
-            $payload = $plan_request->response['payload'][0];
-
-            $this->data['plan_name'] = $payload['name'];
-            $this->data['interval'] = $payload['interval'];
-            $this->data['plan_description'] = $payload['description'];
-            $this->data['flexible_price'] = $payload['flexible_price'];
-
-            $this->data['plan_price'] = $payload['price'];
-
-            // if flexible pricing is set let's set the default to suggested price
-            if (!empty($this->data['flexible_price'])) {
-                $this->data['plan_price'] = $payload['suggested_price'];
-                $this->data['minimum_price'] = $payload['price'];
-            } else {
-                $this->data['minimum_price'] = $this->data['plan_price'];
-            }
-
-            $this->data['plan_interval'] = $payload['interval'];
-            $this->data['plan_id'] = $payload['id'];
-
-            $this->data['plan_flexible_price'] = ($payload['flexible_price'] == 1) ? true: false;
-
-            $this->data['shipping'] = ($payload['physical'] == 0) ? "false": "true";
-
-        }
-
-        return $this;
-    }
 
     public function getConnections() {
         $settings_request = new \CASHRequest(
@@ -129,20 +85,121 @@ class Data implements DataInterface
             }
         }
 
-        return $this;
+        return $this->data;
+    }
+
+    public function getPlan($plan_id) {
+        // get plan data
+        $plan_request = new \CASHRequest(
+            array(
+                'cash_request_type' => 'commerce',
+                'cash_action' => 'getsubscriptionplan',
+                'user_id' => $this->user_id,
+                'id' => $plan_id
+            )
+        );
+
+        // get plan data or bust
+        if ($plan_request->response['payload'] && !empty($plan_request->response['payload'][0])) {
+
+            $payload = $plan_request->response['payload'][0];
+
+            $this->data['plan_name'] = $payload['name'];
+            $this->data['interval'] = $payload['interval'];
+            $this->data['plan_description'] = $payload['description'];
+            $this->data['flexible_price'] = $payload['flexible_price'];
+
+            $this->data['plan_price'] = $payload['price'];
+
+            // if flexible pricing is set let's set the default to suggested price
+            if (!empty($this->data['flexible_price'])) {
+                $this->data['plan_price'] = $payload['suggested_price'];
+                $this->data['minimum_price'] = $payload['price'];
+            } else {
+                $this->data['minimum_price'] = $this->data['plan_price'];
+            }
+
+            $this->data['plan_interval'] = $payload['interval'];
+            $this->data['plan_id'] = $payload['id'];
+
+            $this->data['plan_flexible_price'] = ($payload['flexible_price'] == 1) ? true: false;
+
+            $this->data['shipping'] = ($payload['physical'] == 0) ? "false": "true";
+
+        }
+
+        return $this->data;
     }
 
     /**
-     * Data to be merged into the element_data array
+     * Get details for items in the subscription feed.
      *
-     * @return array
+     * @param $item_id
+     * @return array|bool
      */
-    public function getData() {
 
-        $this->getConnections()
-             ->getCurrency()
-             ->getPlan();
+    public static function getItemDetails($item_id, $session_id) {
 
-        return $this->data;
+        $item_request = new \CASHRequest(
+            array(
+                'cash_request_type' => 'commerce',
+                'cash_action' => 'getitem',
+                'id' => $item_id
+            )
+        );
+
+        $item = $item_request->response['payload'];
+
+        $item['asset'] = $item['fulfillment_asset'];
+
+        if (!empty($item['descriptive_asset'])) {
+            $item_image_request = new \CASHRequest(
+                array(
+                    'cash_request_type' => 'asset',
+                    'cash_action' => 'getpublicurl',
+                    'id' => $item['descriptive_asset']
+                )
+            );
+            $item['item_image_url'] = $item_image_request->response['payload'];
+        } else {
+            $item['item_image_url'] = false;
+        }
+
+        if (!empty($item['fulfillment_asset'])) {
+            $fulfillment_request = new \CASHRequest(
+                array(
+                    'cash_request_type' => 'asset',
+                    'cash_action' => 'getfulfillmentassets',
+                    'asset_details' => $item['fulfillment_asset'],
+                    'session_id' => $session_id
+                )
+            );
+
+            if ($fulfillment_request->response['payload']) {
+                $item['fulfillment_assets'] = new \ArrayIterator($fulfillment_request->response['payload']);
+                $assets = [];
+                foreach($item['fulfillment_assets'] as $asset) {
+                    unset($asset['public_url']);
+
+                    $assets[] = $asset;
+                }
+
+                $item['fulfillment_assets'] = $assets;
+
+            }
+
+            if (!empty($item['fulfillment_assets']) && !empty($item['item_image_url']))  {
+                $item['has_image_and_download'] = true;
+            }
+        }
+
+        if (!empty($item)) {
+            unset($item['title']);
+            return $item;
+
+        } else {
+            return false;
+        }
+
     }
 }

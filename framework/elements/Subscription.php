@@ -30,7 +30,7 @@ class Subscription extends ElementBase {
         $plan_user_id =  $this->element_data['user_id'];
         $subscriber_id = $this->element_data['subscriber_id'] = ($this->sessionGet("user_id")) ? $this->sessionGet("user_id") : false;
 
-        $plan_id = (!empty($this->sessionGet("plan_id"))) ? $this->sessionGet("plan_id") : $this->element_data['plan_id'];
+        $plan_id = (!empty($this->sessionGet("plan_id"))) ? $this->sessionGet("plan_id") : false;
         $element_id = $this->element_data['element_id'];
         $authenticated = false;
 
@@ -39,21 +39,35 @@ class Subscription extends ElementBase {
             $this->sessionSet("subscription_authenticated", true);
         }
 
-		// this is where we get data
-		$subscription_element = new SubscriptionElement\Data(
-            $plan_user_id,
-            $this->element_data['plan_id']
-			);
+        $plans = [];
 
-		$this->updateElementData($subscription_element->data);
+        $subscription_data = new SubscriptionElement\Data($plan_user_id);
+
+        foreach ($this->element_data['plans'] as $plan) {
+            $plans[] = $subscription_data->getPlan($plan['plan_id']);
+        }
+
+        // this is where we get data
+        $this->updateElementData(['all_plans'=>$plans]);
+
+        // get
+        $this->updateElementData($subscription_data->getConnections());
+        $this->updateElementData($subscription_data->getCurrency());
 
         if (!$this->element_data['paypal_connection'] && !$this->element_data['stripe_public_key']) {
             $this->setError("No valid payment connection found.");
         }
 
         // if we're logged in already, show them the my account button instead of login
-        if ($plan_id == $this->element_data['plan_id'] && $authenticated) {
+        if (in_array($plan_id, $this->element_data['plans']) && $authenticated) {
             $this->element_data['logged_in'] = true;
+        }
+
+        //TODO: this is also a problem if someone wants one plan to not be flexible price
+        $this->element_data['flexible_price'] = false;
+
+        foreach($this->element_data['all_plans'] as $plan) {
+            if ($plan['flexible_price'] == 1) $this->element_data['flexible_price'] = true;
         }
 
         // authentication process start
