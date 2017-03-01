@@ -49,14 +49,20 @@
         button_element.dataset.price = price;
 
         document.querySelector("#plan_flexible_price").value = price;
+
+        return price;
     }
 
     function updateMinimumPrice(element, plan_id) {
         element.dataset.min = document.querySelector("#plan_minimum_price_" + plan_id).value;
+
+        return document.querySelector("#plan_minimum_price_" + plan_id).value;
     }
 
     function updatePlanInterval(element, plan_id) {
         element.innerText = document.querySelector("#plan_interval_" + plan_id).value;
+
+        return document.querySelector("#plan_interval_" + plan_id).value;
     }
 
     function getShippingStatus(plan_id) {
@@ -135,8 +141,6 @@
             });
         }
 
-
-
         updatePlanPrice(plan_price, subscribe_button, plan_id);
         updateMinimumPrice(subscribe_button, plan_id);
         updatePlanInterval(plan_interval, plan_id);
@@ -181,7 +185,7 @@
         if (subscribe_button) {
             // user triggered the subscribe button
             cm.events.add(subscribe_button, 'click', function (e) {
-
+                e.preventDefault();
                 var price = subscribe_button.getAttribute("data-price");
                 var minimum = subscribe_button.getAttribute('data-min');
 
