@@ -130,4 +130,76 @@ class Data implements DataInterface
 
         return $this->data;
     }
+
+    /**
+     * Get details for items in the subscription feed.
+     *
+     * @param $item_id
+     * @return array|bool
+     */
+
+    public static function getItemDetails($item_id, $session_id) {
+
+        $item_request = new \CASHRequest(
+            array(
+                'cash_request_type' => 'commerce',
+                'cash_action' => 'getitem',
+                'id' => $item_id
+            )
+        );
+
+        $item = $item_request->response['payload'];
+
+        $item['asset'] = $item['fulfillment_asset'];
+
+        if (!empty($item['descriptive_asset'])) {
+            $item_image_request = new \CASHRequest(
+                array(
+                    'cash_request_type' => 'asset',
+                    'cash_action' => 'getpublicurl',
+                    'id' => $item['descriptive_asset']
+                )
+            );
+            $item['item_image_url'] = $item_image_request->response['payload'];
+        } else {
+            $item['item_image_url'] = false;
+        }
+
+        if (!empty($item['fulfillment_asset'])) {
+            $fulfillment_request = new \CASHRequest(
+                array(
+                    'cash_request_type' => 'asset',
+                    'cash_action' => 'getfulfillmentassets',
+                    'asset_details' => $item['fulfillment_asset'],
+                    'session_id' => $session_id
+                )
+            );
+
+            if ($fulfillment_request->response['payload']) {
+                $item['fulfillment_assets'] = new \ArrayIterator($fulfillment_request->response['payload']);
+                $assets = [];
+                foreach($item['fulfillment_assets'] as $asset) {
+                    unset($asset['public_url']);
+
+                    $assets[] = $asset;
+                }
+
+                $item['fulfillment_assets'] = $assets;
+
+            }
+
+            if (!empty($item['fulfillment_assets']) && !empty($item['item_image_url']))  {
+                $item['has_image_and_download'] = true;
+            }
+        }
+
+        if (!empty($item)) {
+            unset($item['title']);
+            return $item;
+
+        } else {
+            return false;
+        }
+
+    }
 }

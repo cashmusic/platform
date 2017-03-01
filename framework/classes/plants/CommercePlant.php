@@ -2813,7 +2813,7 @@ class CommercePlant extends PlantBase {
         if ($validate_request->response['payload']) {
 
             $user_id = $validate_request->response['payload'];
-            error_log(json_encode($plans));
+
             // this is a valid login--- so now the question is, are they an active subscriber?
             $plan_id = $this->validateSubscription($user_id, $plans);
 
