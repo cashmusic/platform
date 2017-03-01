@@ -174,8 +174,7 @@ class States implements StatesInterface
                 'cash_request_type' => 'system',
                 'cash_action' => 'setlogincredentials',
                 'user_id' => $this->user_id,
-                'password' => $_REQUEST['password'],
-                'is_admin' => true
+                'password' => $_REQUEST['password']
             )
         );
 

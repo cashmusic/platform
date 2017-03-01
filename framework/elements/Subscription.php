@@ -72,6 +72,7 @@ class Subscription extends ElementBase {
 
         // authentication process start
 		if (!empty($_REQUEST['key'])) {
+
             $validate_request = new CASHRequest(
                 array(
                     'cash_request_type' => 'system',
@@ -82,6 +83,7 @@ class Subscription extends ElementBase {
             );
 
             if ($validate_request->response['payload']) {
+
                 $this->element_data['key'] = true;
 				$email = isset($_REQUEST['address']) ? $_REQUEST['address'] : "";
 
@@ -115,6 +117,7 @@ class Subscription extends ElementBase {
             // set state and fire the appropriate method in Element\State class
 
             $this->element_data['email_address'] = $this->sessionGet('email_address');
+
             $this->element_data['user_id'] = $this->sessionGet('user_id');
 
             $subscription_state = new SubscriptionElement\States($this->element_data, $this->session_id, $element_id, $subscriber_id, $plan_user_id, $plan_id, $this->element_data['email_address']);
