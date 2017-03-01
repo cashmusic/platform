@@ -32,6 +32,7 @@ class States implements StatesInterface
 
         $this->element_data = $element_data;
         $this->session_id = $session_id;
+        error_log("from state ... ".$this->session_id);
 
         $this->element_id = $element_id;
         $this->user_id = $user_id;

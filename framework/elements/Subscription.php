@@ -93,6 +93,7 @@ class Subscription extends ElementBase {
                     return $this->element_data;
 				}
 
+				// this session ID is completely different than the others <<=== HERE TOM
                 $this->sessionSet('email_address', $email);
 
                 $user_request = new CASHRequest(
@@ -102,8 +103,13 @@ class Subscription extends ElementBase {
                         'address' => $email
                     )
                 );
+
+                $this->element_data['email_address'] = $email;
+
                 if ($user_request->response['payload']) {
                     $this->sessionSet('user_id', $user_request->response['payload']);
+
+                    $subscriber_id = $user_request->response['payload'];
 				} else {
                     $this->element_data['error_message'] = "We couldn't find your user.";
                     return $this->element_data;
@@ -115,10 +121,9 @@ class Subscription extends ElementBase {
 
 		if (isset($_REQUEST['state'])) {
             // set state and fire the appropriate method in Element\State class
-
             $this->element_data['email_address'] = $this->sessionGet('email_address');
-
             $this->element_data['user_id'] = $this->sessionGet('user_id');
+
 
             $subscription_state = new SubscriptionElement\States($this->element_data, $this->session_id, $element_id, $subscriber_id, $plan_user_id, $plan_id, $this->element_data['email_address']);
 
