@@ -183,7 +183,7 @@
 					},
 					"type":"text",
 					"default":{
-						"en":"Thank you for signing up. Please make sure to verify your address here {{{verify_link}}} to complete your subscription.",
+						"en":"Thank you for signing up. Please make sure to verify your address <a href='{{{verify_link}}}'>here</a> to complete your subscription.",
 						"is":"No translation available."
 					},
 					"displaysize":"large"
