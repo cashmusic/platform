@@ -675,7 +675,7 @@
                     $message_text,
                     $encoded_html,
                     $fromaddress, // email address (reply-to)
-                    $setname ? !empty($setname) : "CASH Music", // display name (reply-to)
+                    !empty($setname) ? $setname : "CASH Music", // display name (reply-to)
                     [
                         [
                             'email' => $toaddress,
