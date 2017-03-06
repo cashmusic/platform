@@ -31,29 +31,39 @@ class MandrillSeed extends SeedBase {
 
 			// check if the user has a connection for this service
 			if (!$this->api_key = $this->settings->getSetting('api_key')) {
-				return false;
+                $connections = CASHSystem::getSystemSettings('system_connections');
+
+                if (isset($connections['com.mandrillapp']['api_key'])) {
+                    $this->api_key = $connections['com.mandrillapp']['api_key'];
+                } else {
+                    $this->error_message = 'no API key found';
+                    return false;
+                }
 			}
 
-			$this->api_email = $this->settings->getSetting('api_email');
-			$this->api = new Mandrill($this->api_key);
+			$settings_api_email = $this->settings->getSetting('api_email');
+            $cash_settings = CASHSystem::getSystemSettings();
+
+            $this->api_email = isset($settings_api_email) ? $settings_api_email : $cash_settings['systememail'];
 
 		} else {
+            // if not let's default to the system settings
+            $connections = CASHSystem::getSystemSettings('system_connections');
 
-			$this->error_message = 'No Mandrill API key found';
-			/*// if not let's default to the system settings
-			$connections = CASHSystem::getSystemSettings('system_connections');
+            if (isset($connections['com.mandrillapp']['api_key'])) {
+                $this->api_key = $connections['com.mandrillapp']['api_key'];
+            } else {
+                $this->error_message = 'No Mandrill API key found';
+                return false;
+            }
 
-			if (isset($connections['com.mandrillapp']['api_key'])) {
-				$this->api_key = $connections['com.mandrillapp']['api_key'];
+            $cash_settings = CASHSystem::getSystemSettings();
 
-				$this->api = new Mandrill($this->api_key);
+            $this->api_email = "info@cashmusic.org"; //$cash_settings['systememail'];
 
-				return false;
-			} else {
-				$this->error_message = 'no API key found';
-				return false;
-			}*/
 		}
+
+        $this->api = new Mandrill($this->api_key);
 	}
 
 	public static function getRedirectMarkup($data=false) {

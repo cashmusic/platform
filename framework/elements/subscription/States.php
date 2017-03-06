@@ -26,17 +26,23 @@ class States implements StatesInterface
      * @param $plan_id
      * @param $email_address
      */
-    public function __construct($element_data, $session_id, $element_id, $user_id, $element_user_id, $plan_id, $email_address)
+    public function __construct($element_data, $element_id, $user_id, $element_user_id, $plan_id, $session_id)
     {
-        $this->state = $_REQUEST['state'];
+        $this->state = !empty($_REQUEST['state']) ? $_REQUEST['state'] : "default";
 
         $this->element_data = $element_data;
+
+        if (!empty($session_id)) {
+            $this->session = new \CASHRequest(null);
+            $this->session->startSession($session_id);
+        }
+
         $this->session_id = $session_id;
 
         $this->element_id = $element_id;
-        $this->user_id = $user_id;
+        $this->user_id = $this->element_data['user_id'];
         $this->plan_id = $plan_id;
-        $this->email_address = $email_address;
+        $this->email_address = $this->element_data['email_address'];
         $this->element_user_id = $element_user_id;
     }
 
@@ -96,8 +102,7 @@ class States implements StatesInterface
                     break;
 
                 default:
-                    //
-                    break;
+
             }
 
             $callback($result['template'], $result['data']);
@@ -133,6 +138,8 @@ class States implements StatesInterface
                 'user_id' => $this->user_id
             )
         );
+
+        error_log("stateVerified /".$this->user_id . json_encode($user_request));
 
         if ($user_request->response['payload']) {
 
@@ -174,8 +181,7 @@ class States implements StatesInterface
                 'cash_request_type' => 'system',
                 'cash_action' => 'setlogincredentials',
                 'user_id' => $this->user_id,
-                'password' => $_REQUEST['password'],
-                'is_admin' => true
+                'password' => $_REQUEST['password']
             )
         );
 
@@ -348,11 +354,10 @@ class States implements StatesInterface
      */
     private function setLoginState() {
         // this person has a password already, so we should probably make sure session is set
-        $session = new \CASHRequest(null);
 
-        $session->sessionSet("user_id", $this->user_id);
-        $session->sessionSet("plan_id", $this->plan_id);
-        $session->sessionSet("subscription_authenticated", true);
+        $this->session->sessionSet("user_id", $this->user_id);
+        $this->session->sessionSet("plan_id", $this->plan_id);
+        $this->session->sessionSet("subscription_authenticated", true);
 
     }
 

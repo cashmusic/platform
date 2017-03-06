@@ -2582,6 +2582,20 @@ class CommercePlant extends PlantBase {
 
     public function createSubscription($element_id, $user_id, $price, $connection_id, $plan_id=false, $token=false, $email_address=false, $customer_name=false, $shipping_info=false, $quantity=1, $finalize_url=false) {
 
+        if (CASH_DEBUG) {
+            error_log("Element id $element_id\n".
+            "User id $user_id\n".
+            "Price $price\n".
+            "Connection Id $connection_id\n".
+            "plan id $plan_id\n".
+            "token $token\n".
+            "email $email_address\n".
+            "customer name $customer_name\n".
+            "shipping info $shipping_info\n".
+            "qty $quantity\n".
+            "finalize $finalize_url");
+        }
+
         $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
 
         if ($subscription_plan = $this->getSubscriptionPlan($plan_id, $user_id)) {
@@ -2663,6 +2677,7 @@ class CommercePlant extends PlantBase {
                     } else {
                         $subscription_member_id = $subscription_exists[0]['id'];
                     }
+
                 }
 
                 // create actual subscription on stripe
@@ -2683,6 +2698,8 @@ class CommercePlant extends PlantBase {
 
                     ###ERROR: error creating subscription payment
                     if (!$add_customer_token_result) return "406";
+                } else {
+                    return "406";
                 }
 
                 $element_request = new CASHRequest(

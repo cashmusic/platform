@@ -660,10 +660,14 @@
             // if a viable connection, set connection id with user connection
             if (is_array($mandrill) && !empty($mandrill[0]['id'])) {
                 $connection_id = $mandrill[0]['id'];
-            }
+            } else {
+            	$connection_id = false;
+			}
+
+            $connections = CASHSystem::getSystemSettings('system_connections');
 
             // either we've got a valid connection ID, or a fallback api_key
-            if ($connection_id) {
+            if ($connection_id || !empty($connections['com.mandrillapp']['api_key'])) {
                 $mandrill = new MandrillSeed($user_id, $connection_id);
 
                 if ($result = $mandrill->send(
@@ -671,7 +675,7 @@
                     $message_text,
                     $encoded_html,
                     $fromaddress, // email address (reply-to)
-                    $setname, // display name (reply-to)
+                    $setname ? !empty($setname) : "CASH Music", // display name (reply-to)
                     [
                         [
                             'email' => $toaddress,

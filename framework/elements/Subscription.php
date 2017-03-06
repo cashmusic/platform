@@ -24,11 +24,11 @@ class Subscription extends ElementBase {
 
 	public function getData() {
 
-        $this->startSession();
-
         // to avoid confusion down the line, set an element user ID and a subscriber user ID now
         $plan_user_id =  $this->element_data['user_id'];
         $subscriber_id = $this->element_data['subscriber_id'] = ($this->sessionGet("user_id")) ? $this->sessionGet("user_id") : false;
+
+        $this->element_data['email_address'] = ($this->sessionGet("email_address")) ? $this->sessionGet("email_address") : false;
 
         $plan_id = (!empty($this->sessionGet("plan_id"))) ? $this->sessionGet("plan_id") : false;
         $element_id = $this->element_data['element_id'];
@@ -38,6 +38,7 @@ class Subscription extends ElementBase {
             $authenticated = true;
             $this->sessionSet("subscription_authenticated", true);
         }
+
 
         $plans = [];
 
@@ -70,9 +71,34 @@ class Subscription extends ElementBase {
             if ($plan['flexible_price'] == 1) $this->element_data['flexible_price'] = true;
         }
 
-        // authentication process start
-		if (!empty($_REQUEST['key'])) {
-            $validate_request = new CASHRequest(
+        // check if $_REQUEST['key'] is set and do thingss
+        $this->updateElementData(
+            $this->processVerificationKey()
+        );
+
+        if (!empty($_REQUEST['state'])) {
+
+            // set state and fire the appropriate method in Element\State class
+            $subscription_state = new SubscriptionElement\States($this->element_data, $element_id, $subscriber_id, $plan_user_id, $plan_id, $this->session_id);
+
+            $subscription_state->router(function ($template, $values) {
+                $this->setTemplate($template);
+                $this->updateElementData($values);
+            });
+
+
+        }
+
+		return $this->element_data;
+	}
+
+	private function processVerificationKey() {
+
+        $data = [];
+
+        if (!empty($_REQUEST['key'])) {
+
+            $validate_request = new \CASHRequest(
                 array(
                     'cash_request_type' => 'system',
                     'cash_action' => 'validateresetflag',
@@ -82,50 +108,42 @@ class Subscription extends ElementBase {
             );
 
             if ($validate_request->response['payload']) {
-                $this->element_data['key'] = true;
-				$email = isset($_REQUEST['address']) ? $_REQUEST['address'] : "";
 
-				if (empty($email)) {
-                    $this->element_data['error_message'] = "Something went wrong.";
 
-                    return $this->element_data;
-				}
+                $data['key'] = true;
+                $email = isset($_REQUEST['address']) ? $_REQUEST['address'] : "";
 
-                $this->sessionSet('email_address', $email);
+                if (empty($email)) {
+                    $data['error_message'] = "Something went wrong.";
 
-                $user_request = new CASHRequest(
+                    return $data;
+                }
+
+                $user_request = new \CASHRequest(
                     array(
                         'cash_request_type' => 'people',
                         'cash_action' => 'getuseridforaddress',
                         'address' => $email
                     )
                 );
+
+                $data['email_address'] = $email;
+                $this->sessionSet("email_address", $email);
+
                 if ($user_request->response['payload']) {
-                    $this->sessionSet('user_id', $user_request->response['payload']);
-				} else {
-                    $this->element_data['error_message'] = "We couldn't find your user.";
-                    return $this->element_data;
-				}
-			} else {
-                $this->element_data['error_message'] = "Something went wrong.";
-			}
-		}
+                    $data['user_id'] = $user_request->response['payload'];
+                    $this->sessionSet("user_id", $data['user_id']);
 
-		if (isset($_REQUEST['state'])) {
-            // set state and fire the appropriate method in Element\State class
+                    //$subscriber_id = $user_request->response['payload'];
+                } else {
+                    $data['error_message'] = "We couldn't find your user.";
+                }
+            } else {
+                $data['error_message'] = "Something went wrong.";
+            }
+        }
 
-            $this->element_data['email_address'] = $this->sessionGet('email_address');
-            $this->element_data['user_id'] = $this->sessionGet('user_id');
-
-            $subscription_state = new SubscriptionElement\States($this->element_data, $this->session_id, $element_id, $subscriber_id, $plan_user_id, $plan_id, $this->element_data['email_address']);
-
-            $subscription_state->router(function($template, $values) {
-                $this->setTemplate($template);
-                $this->updateElementData($values);
-            });
-		}
-
-		return $this->element_data;
-	}
+        return $data;
+    }
 } // END class
 ?>

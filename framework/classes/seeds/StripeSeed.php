@@ -713,14 +713,8 @@ class StripeSeed extends SeedBase
      */
 
     public function createSubscription($token, $plan_id, $email, $quantity=1) {
-
         if (!$customer = $this->createCustomer($email, $token)) {
             return false;
-        }
-        if (CASH_DEBUG) {
-            error_log(
-                "customer created " . print_r($customer, true)
-            );
         }
 
         try {
