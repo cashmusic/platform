@@ -30,8 +30,6 @@ class Subscription extends ElementBase {
 
         $this->element_data['email_address'] = ($this->sessionGet("email_address")) ? $this->sessionGet("email_address") : false;
 
-        error_log($_REQUEST['state']."|  session [".$this->session_id."] stuff ".$this->sessionGet("user_id") . "/ ".$this->sessionGet("email_address"));
-
         $plan_id = (!empty($this->sessionGet("plan_id"))) ? $this->sessionGet("plan_id") : false;
         $element_id = $this->element_data['element_id'];
         $authenticated = false;
