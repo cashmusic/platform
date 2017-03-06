@@ -39,6 +39,13 @@ class Subscription extends ElementBase {
             $this->sessionSet("subscription_authenticated", true);
         }
 
+        // check for logged in state
+        $this->element_data['logged_in'] = false;
+
+        if ($this->sessionGet('logged_in')) {
+            $this->element_data['logged_in'] = true;
+        }
+
 
         $plans = [];
 
@@ -75,8 +82,6 @@ class Subscription extends ElementBase {
         $this->updateElementData(
             $this->processVerificationKey()
         );
-
-        error_log("wtf / ".$_REQUEST['state']." / ".$this->sessionGet("subscription_id"));
 
         if (!empty($_REQUEST['state'])) {
 

@@ -139,15 +139,14 @@ class States implements StatesInterface
             )
         );
 
-        error_log("stateVerified /".$this->user_id . json_encode($user_request));
-
         if ($user_request->response['payload']) {
 
             if ($user_request->response['payload']['is_admin'] == 1) {
                 $data['has_password'] = true;
 
                 $this->setLoginState();
-                $data['logged_in'] = true;
+
+                $this->session->sessionSet("logged_in", true);
             }
         }
 
@@ -189,7 +188,9 @@ class States implements StatesInterface
 
             $this->setLoginState();
             $data['items'] = $this->stateLoggedInIndex(true);
-            $data['logged_in'] = true;
+
+            $this->session->sessionSet("logged_in", true);
+
             $template = 'logged_in_index';
 
             $data['firstuse'] = true;
@@ -234,7 +235,8 @@ class States implements StatesInterface
 
                 $this->setLoginState();
                 $data['items'] = $this->stateLoggedInIndex(true);
-                $data['logged_in'] = true;
+
+                $this->session->sessionSet("logged_in", true);
 
                 $template = 'logged_in_index';
             }
