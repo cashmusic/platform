@@ -76,6 +76,8 @@ class Subscription extends ElementBase {
             $this->processVerificationKey()
         );
 
+        error_log("wtf / ".$_REQUEST['state']." / ".$this->sessionGet("subscription_id"));
+
         if (!empty($_REQUEST['state'])) {
 
             // set state and fire the appropriate method in Element\State class
@@ -97,7 +99,6 @@ class Subscription extends ElementBase {
         $data = [];
 
         if (!empty($_REQUEST['key'])) {
-
             $validate_request = new \CASHRequest(
                 array(
                     'cash_request_type' => 'system',
@@ -132,7 +133,8 @@ class Subscription extends ElementBase {
 
                 if ($user_request->response['payload']) {
                     $data['user_id'] = $user_request->response['payload'];
-                    $this->sessionSet("user_id", $data['user_id']);
+                    $data['subscriber_id'] = $data['user_id'];
+                    $this->sessionSet("subscription_id", $user_request->response['payload']);
 
                     //$subscriber_id = $user_request->response['payload'];
                 } else {
@@ -141,9 +143,9 @@ class Subscription extends ElementBase {
             } else {
                 $data['error_message'] = "Something went wrong.";
             }
-        }
 
-        return $data;
+            return $data;
+        }
     }
 } // END class
 ?>

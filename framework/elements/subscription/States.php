@@ -40,7 +40,7 @@ class States implements StatesInterface
         $this->session_id = $session_id;
 
         $this->element_id = $element_id;
-        $this->user_id = $this->element_data['user_id'];
+        $this->user_id = $this->element_data['subscriber_id'];
         $this->plan_id = $plan_id;
         $this->email_address = $this->element_data['email_address'];
         $this->element_user_id = $element_user_id;
