@@ -32,21 +32,17 @@ class Subscription extends ElementBase {
 
         $plan_id = (!empty($this->sessionGet("plan_id"))) ? $this->sessionGet("plan_id") : false;
         $element_id = $this->element_data['element_id'];
-        $authenticated = false;
 
-        if (!empty($this->sessionGet("subscription_authenticated")) || !empty($subscriber_id)) {
-            $authenticated = true;
-            $this->sessionSet("subscription_authenticated", true);
-        }
-
-        // check for logged in state
         $this->element_data['logged_in'] = false;
 
-        if ($this->sessionGet('logged_in')) {
-            $this->element_data['logged_in'] = true;
+        $authenticated = false;
+        if (!empty($subscriber_id) || $this->sessionGet('logged_in')) {
+            $authenticated = true;
         }
 
+        error_log("authed " .json_encode($authenticated));
 
+        // get plan data based on plan ids. works for multiples
         $plans = [];
 
         $subscription_data = new SubscriptionElement\Data($plan_user_id);
@@ -55,10 +51,10 @@ class Subscription extends ElementBase {
             $plans[] = $subscription_data->getPlan($plan['plan_id']);
         }
 
-        // this is where we get data
+        // add plan data to element_data array
         $this->updateElementData(['all_plans'=>$plans]);
 
-        // get
+        // get connections and currency
         $this->updateElementData($subscription_data->getConnections());
         $this->updateElementData($subscription_data->getCurrency());
 
