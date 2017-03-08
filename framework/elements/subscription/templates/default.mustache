@@ -22,9 +22,7 @@
                     <span class="cm-store-currency">{{currency}}</span>
                 <input type="number" min="{{minimum_price}}" name="plan_amount" id="plan_flexible_price" value="{{plan_price}}" autocomplete="off" >
               </span>
-    </span>
-{{/flexible_price}}
-<select name="plan_id" id="plan_id" required>
+    </span>{{/flexible_price}}<select name="plan_id" id="plan_id" required>
     <option value="">Select a plan</option>
     {{#all_plans}}
         <option value="{{plan_id}}">{{plan_name}}</option>
