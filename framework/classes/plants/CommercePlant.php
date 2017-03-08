@@ -81,6 +81,28 @@ class CommercePlant extends PlantBase {
         $this->plantPrep($request_type,$request);
     }
 
+    /**
+     * @param $subscriber_user_id
+     * @param $subscription_plan
+     * @param $data
+     * @return mixed
+     */
+    public function createSubscriptionMember($subscriber_user_id, $plan_id, $data)
+    {
+        $subscription_member_id = $this->db->setData(
+            'subscriptions_members',
+            array(
+                'user_id' => $subscriber_user_id,
+                'subscription_id' => $plan_id,
+                'status' => 'canceled',
+                'start_date' => strtotime('today'),
+                'total_paid_to_date' => 0, // do we need a second field for pledged amount?
+                'data' => json_encode($data)
+            )
+        );
+        return $subscription_member_id;
+    }
+
     protected function addItem(
         $user_id,
         $name,
@@ -2540,16 +2562,21 @@ class CommercePlant extends PlantBase {
     public function subscriptionExists($user_id, $subscription_id) {
         // we can handle this as id or by customer payment token
         $conditions = [
-            'user_id' => ['condition' => '=', 'value' => $user_id],
-            'subscription_id' => ['condition' => '=', 'value' => $subscription_id]
+            'user_id' => ['condition' => '=', 'value' => $user_id]
         ];
+
+        // this enables us to look up one or multiples
+        if (is_array($subscription_id)) {
+            $conditions['subscription_id'] = ['condition' => 'IN', 'value' => $subscription_id];
+        } else {
+            $conditions['subscription_id'] = ['condition' => '=', 'value' => $subscription_id];
+        }
 
         $result = $this->db->getData(
             'subscriptions_members',
             '*',
             $conditions
         );
-
 
         if (!$result) {
             error_log("subscriptionExists false");
@@ -2647,37 +2674,84 @@ class CommercePlant extends PlantBase {
                     'customer' => $customer
                 ];
 
-                // add user to subscription membership and set inactive to start, else we'll have a chicken trying to hatch out of an egg before that same chicken laid itself
-                if (!$subscription_exists = $this->subscriptionExists($subscriber_user_id, $subscription_plan[0]['id'])) {
-                    $subscription_member_id = $this->db->setData(
-                        'subscriptions_members',
-                        array(
-                            'user_id' => $subscriber_user_id,
-                            'subscription_id' => $subscription_plan[0]['id'],
-                            'status' => 'canceled',
-                            'start_date' => strtotime('today'),
-                            'total_paid_to_date' => 0, // do we need a second field for pledged amount?
-                            'data' => json_encode($data)
-                        )
-                    );
+                // for multi-plan element featureset we need to make sure they don't already have another plan
+                // on this same element, so let's get all of the element's plans to check against first
+                if (!$element_data = $this->getElementData($element_id, $user_id)) {
+                    // this is a big problem, if we don't get any element data back.
+                    return "412";
+                }
 
-                    ###ERROR: error creating membership
-                    if (!$subscription_member_id) {
+                if (!empty($element_data['options']['plans'])) {
+                    $element_plans = [];
+
+                    foreach ($element_data['options']['plans'] as $plan) {
+                        $element_plans[] = $plan['plan_id'];
+                    }
+
+                }
+
+                // add user to subscription membership and set inactive to start, so stripe has someone to talk to
+                if (!$existing_subscriptions = $this->subscriptionExists($subscriber_user_id, $element_plans)) {
+
+                    if (!$subscription_member_id = $this->createSubscriptionMember(
+                        $subscriber_user_id,
+                        $subscription_plan[0]['id'],
+                        $data)
+                    ) {
+                        ###ERROR: error creating membership
                         return "412";
                     }
 
                 } else {
-                    // if subscription exists we need to allow them to subscribe if their status is
-                    // 'canceled'. this raises some questions and problems with race conditions and
-                    // double subscriptions but hey
 
-                    if ($subscription_exists[0]['status'] == 'active') {
-                        ###ERROR: subscriber already exists for this plan and it's active
-                        return "409";
-                    } else {
-                        $subscription_member_id = $subscription_exists[0]['id'];
+                    $subscription_member_id = false;
+                    $active = false;
+
+                    // okay, so this user has a subscription for a plan under this element. same as passed plan_id?
+                    foreach($existing_subscriptions as $subscription) {
+
+                        // keep track of which subscriptions are marked as active
+                        if ($subscription['status'] == 'active') {
+                            $active[$subscription['payment_identifier']] = $subscription['id'];
+                        }
+
+                        // if there's a match on passed plan, then we check if it's an active subscription
+                        if ($subscription['subscription_id'] == $subscription_plan[0]['id']) {
+                            // if subscription exists we need to allow them to subscribe if their status is
+                            // 'canceled'. this raises some questions and problems with race conditions and
+                            // double subscriptions but hey
+                            if ($subscription['status'] == 'active') {
+                                ###ERROR: subscriber already exists for this plan and it's active
+                                return "409";
+                            } else {
+                                // return inactive subscription id match
+                                $subscription_member_id = $subscription['id'];
+                            }
+                        }
+
+                    // if not let's cancel currently active one, then subscribe to plan_id
+                    if (!$subscription_member_id) {
+                        if (!empty($active)) {
+                            foreach($active as $payment_identifier => $active_subscription) {
+
+                                $payment_seed->cancelSubscription($payment_identifier);
+
+                                // remember to set the subscription member id
+                                $subscription_member_id = $active_subscription;
+                            }
+                        } else {
+                            // okay, the plan passed does not match the existing subscription, and it's not active.
+                            // this most likely means it's not active and we can modify it anyways.
+                            // it could also mean we're in a race condition where it's in the process of being activated.
+                            // we need to just operate under the assumption that they meant to do this new subscription
+                            // since it doesn't match the previous plan id.
+                            $subscription_member_id = $existing_subscriptions[0]['id'];
+                        }
+
+                        }
+
+                        $this->updateSubscription($subscription_member_id, "canceled", false, false, $subscription_plan[0]['id']);
                     }
-
                 }
 
                 // create actual subscription on stripe
@@ -2702,15 +2776,7 @@ class CommercePlant extends PlantBase {
                     return "406";
                 }
 
-                $element_request = new CASHRequest(
-                    array(
-                        'cash_request_type' => 'element',
-                        'cash_action' => 'getelement',
-                        'id' => $element_id
-                    )
-                );
-
-                $email_content = $element_request->response['payload']['options']['message_email'];
+                $email_content = $element_data['options']['message_email'];
 
                 if (!CommercePlant::sendResetValidationEmail(
                     $element_id,
@@ -2734,7 +2800,7 @@ class CommercePlant extends PlantBase {
 
     }
 
-    public function updateSubscription($id, $status=false, $total=false, $start_date=false) {
+    public function updateSubscription($id, $status=false, $total=false, $start_date=false, $update_plan_id=false) {
 
         $values = [];
 
@@ -2748,6 +2814,10 @@ class CommercePlant extends PlantBase {
 
         if ($total) {
             $values['total_paid_to_date'] = $total;
+        }
+
+        if ($update_plan_id) {
+            $values['subscription_id'] = $update_plan_id;
         }
 
         if (count($values) < 1) return false;
@@ -2907,6 +2977,26 @@ class CommercePlant extends PlantBase {
         );
 
         return $result;
+    }
+
+    public function getElementData($element_id, $user_id) {
+
+        $element_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'element',
+                'cash_action' => 'getelement',
+                'id' => $element_id,
+                'user_id'   => $user_id
+            )
+        );
+
+        if (!empty($element_request->response['payload'])) {
+
+            return $element_request->response['payload'];
+        } else {
+            return false;
+        }
+
     }
 
     /**

@@ -40,6 +40,8 @@ class Subscription extends ElementBase {
             $authenticated = true;
         }
 
+        error_log("auth this".json_encode([$this->session_id, $this->sessionGet('logged_in'), $this->sessionGet('user_id')]));
+
         error_log("authed " .json_encode($authenticated));
 
         // get plan data based on plan ids. works for multiples
@@ -62,6 +64,7 @@ class Subscription extends ElementBase {
             $this->setError("No valid payment connection found.");
         }
 
+        //TODO: predicated on there being a plan set, so maybe this is why it's not persisting
         // if we're logged in already, show them the my account button instead of login
         if (in_array($plan_id, $this->element_data['plans']) && $authenticated) {
             $this->element_data['logged_in'] = true;
