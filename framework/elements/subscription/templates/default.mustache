@@ -16,19 +16,7 @@
     <input type="hidden" class="plan_shipping_per_plan" id="plan_shipping_{{plan_id}}" value="{{shipping}}">
 {{/all_plans}}
 
-{{#flexible_price}}
-    <label class="cm-add-amount">Adjust your payment amount:</label>
-    <span class="cm-store-flexible-price">
-                    <span class="cm-store-currency">{{currency}}</span>
-                <input type="number" min="{{minimum_price}}" name="plan_amount" id="plan_flexible_price" value="{{plan_price}}" autocomplete="off" >
-              </span>
-    </span>{{/flexible_price}}<select name="plan_id" id="plan_id" required>
-    <option value="">Select a plan</option>
-    {{#all_plans}}
-        <option value="{{plan_id}}">{{plan_name}}</option>
-    {{/all_plans}}
-</select>
-<a href="#" class="button cm-subscribe" data-price="{{plan_price}}" data-min="{{minimum_price}}" data-plan-id="{{plan_id}}" id="subscribe">$<span class="amount" id="plan_price">{{plan_price}}</span>/<span id="plan_interval">{{plan_interval}}</span> - Subscribe</a>
+{{#flexible_price}}<label class="cm-add-amount">Adjust your payment amount:</label><div class="cm-store-flexible-price"><span class="cm-store-currency">{{currency}}</span><input type="number" min="{{minimum_price}}" name="plan_amount" id="plan_flexible_price" value="{{plan_price}}" autocomplete="off" ></div>{{/flexible_price}}<select name="plan_id" id="plan_id" required><option value="">Select a plan</option>{{#all_plans}}<option value="{{plan_id}}">{{plan_name}}</option>{{/all_plans}}</select><a href="#" class="button cm-subscribe" data-price="{{plan_price}}" data-min="{{minimum_price}}" data-plan-id="{{plan_id}}" id="subscribe">$<span class="amount" id="plan_price">{{plan_price}}</span>/<span id="plan_interval">{{plan_interval}}</span> - Subscribe</a>
 
 {{#logged_in}}
     <a href="#" class="cm-my-account cm-secondary-link">My Account</a>
