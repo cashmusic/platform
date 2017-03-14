@@ -94,7 +94,7 @@ class CommercePlant extends PlantBase {
             array(
                 'user_id' => $subscriber_user_id,
                 'subscription_id' => $plan_id,
-                'status' => 'canceled',
+                'status' => 'created',
                 'start_date' => strtotime('today'),
                 'total_paid_to_date' => 0, // do we need a second field for pledged amount?
                 'data' => json_encode($data)
@@ -2750,7 +2750,7 @@ class CommercePlant extends PlantBase {
 
                         }
 
-                        $this->updateSubscription($subscription_member_id, "canceled", false, false, $subscription_plan[0]['id']);
+                        $this->updateSubscription($subscription_member_id, "created", false, false, $subscription_plan[0]['id']);
                     }
                 }
 
@@ -3156,7 +3156,7 @@ class CommercePlant extends PlantBase {
 
                 if ($event->type == "invoice.payment_failed") $payment_status = "failed";
                 if ($event->type == "customer.subscription.deleted") $payment_status = "canceled";
-                $status = "canceled";
+                $status = $payment_status;
             }
 
             if (!is_array($customer)) return false;
