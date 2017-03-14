@@ -2940,6 +2940,10 @@ class CommercePlant extends PlantBase {
                 "condition" => "IN",
                 "value" => $plans
             ),
+            'status' => array(
+                "condition" => "=",
+                "value" => "active"
+            )
         ];
 
         $result = $this->db->getData(
