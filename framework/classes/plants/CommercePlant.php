@@ -3108,7 +3108,6 @@ class CommercePlant extends PlantBase {
         // webhook is /api/verbose/commerce/processwebhook/origin/com.stripe
         if ($input = file_get_contents("php://input")) {
             $event = json_decode($input);
-
             //if ($event = \Stripe\Event::retrieve($event['id'])) {
                 // if success or fail
                 $payment_status = "failed";
@@ -3129,10 +3128,11 @@ class CommercePlant extends PlantBase {
                     $customer_id = $event->data->object->lines->data[0]->id;
                 }
 
-                if ($event->type == "customer.subscription.deleted") {
+                if ($event->type == "customer.subscription.deleted" || $event->type == "customer.subscription.updated") {
                     // set data
                     $plan_id = $event->data->object->plan->id;
                     $customer_id = $event->data->object->id;
+
                 }
 /*            } else {
                 error_log("#### stripe event not retrieved");
@@ -3147,6 +3147,20 @@ class CommercePlant extends PlantBase {
             // get customer info from commerce_subscriptions_members
             $customer = $this->getSubscriptionDetails($customer_id);
 
+            // get customer email
+            $user_request = new CASHRequest(
+                array(
+                    'cash_request_type' => 'people',
+                    'cash_action' => 'getuser',
+                    'user_id' => $customer[0]['user_id']
+                )
+            );
+
+            if ($user_request->response['payload']) {
+                $email_address = $user_request->response['payload']['email_address'];
+                error_log($email_address);
+            }
+
             if ($event->type == "invoice.payment_succeeded") {
                 $paid_to_date = ((integer) $customer[0]['total_paid_to_date'] + (integer) $this->centsToDollar($plan_amount));
                 $payment_status = "success";
@@ -3156,6 +3170,28 @@ class CommercePlant extends PlantBase {
 
                 if ($event->type == "invoice.payment_failed") $payment_status = "failed";
                 if ($event->type == "customer.subscription.deleted") $payment_status = "canceled";
+                if ($event->type == "customer.subscription.updated") {
+                    // this is a lapsed account
+                    if (!empty($event->data->object->status == "unpaid")) {
+                        $payment_status = "expired";
+
+                        // send email
+                        if (!empty($email_address)) {
+                            if (!CASHSystem::sendEmail(
+                                'Your CASH Music Family subscription has lapsed.',
+                                $user_id,
+                                $email_address,
+                                "your shit expired",
+                                'ruh roh.'
+                            )
+                            ) {
+                                return false;
+                            }
+                        }
+
+
+                    }
+                }
                 $status = $payment_status;
             }
 
@@ -3210,8 +3246,6 @@ class CommercePlant extends PlantBase {
         $verify_link = $finalize_url . '?key=' . $reset_key . '&address=' .
             urlencode($email_address) .
             '&element_id=' . $element_id;
-
-        error_log("/// $verify_link");
 
         $email_content = CASHSystem::renderMustache(
             $email_content, array(
@@ -3273,8 +3307,6 @@ class CommercePlant extends PlantBase {
     {
         return number_format(($amount / 100), 2, '.', ' ');
     }
-
-
 
 } // END class
 ?>
