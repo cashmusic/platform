@@ -2936,13 +2936,13 @@ class CommercePlant extends PlantBase {
                 "condition" => "=",
                 "value" => $user_id
             ),
-            'subscription_id' => array(
-                "condition" => "IN",
-                "value" => $plans
-            ),
             'status' => array(
                 "condition" => "=",
                 "value" => "active"
+            ),
+            'subscription_id' => array(
+                "condition" => "IN",
+                "value" => $plans
             )
         ];
 
