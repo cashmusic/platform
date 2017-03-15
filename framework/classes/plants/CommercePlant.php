@@ -3181,8 +3181,8 @@ class CommercePlant extends PlantBase {
                                 'Your CASH Music Family subscription has lapsed.',
                                 $user_id,
                                 $email_address,
-                                "your shit expired",
-                                'ruh roh.'
+                                "You can renew your subscription by visiting https://family.cashmusic.org/ and going through the signup process with the same email and credit card used originally.",
+                                'Your CASH Music Family subscription has lapsed.'
                             )
                             ) {
                                 return false;
