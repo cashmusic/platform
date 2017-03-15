@@ -61,7 +61,7 @@ class SocialFeeds extends ElementBase {
 			foreach ($raw_feeds['twitter'] as $feed) {
 				foreach ($feed as $tweet) {
 					$template = file_get_contents(__DIR__.'/'.$this->type.'/templates/tweet.mustache');
-					//error_log(print_r($tweet,true));
+					error_log(print_r($tweet,true));
 					$formatted_feed[strtotime($tweet->created_at)] = array(
 						'type' => 'twitter',
 						'markup' => $this->mustache->render($template,$tweet)
