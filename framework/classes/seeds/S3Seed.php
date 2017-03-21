@@ -45,9 +45,12 @@ class S3Seed extends SeedBase {
 			$this->s3 = S3Seed::createS3Client($this->s3_key, $this->s3_secret);
 
             // this is likely an old connection before the upgrade. we need to get bucket region and set ACLs properly
+
+
+/*			if (empty($this->bucket_region) && isset($this->bucket)) {
             if ((empty($this->bucket_region) || $this->bucket_region == "false") && isset($this->bucket) ) {
                 $this->bucket_region = $this->updateLegacyBucket();
-			}
+			}*/
 
 		} else {
 			/*
