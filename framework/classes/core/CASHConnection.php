@@ -229,27 +229,21 @@
 					'value' => $connection_id
 				)
 			);
-			$allow_action = true;
 		} else {
 			$settings_condition = false;
-			$allow_action = $this->checkUniqueName($settings_name,$settings_type);
 		}
-		if ($allow_action) {
-			$result = $this->db->setData(
-				'connections',
-				array(
-					'name' => $settings_name,
-					'type' => $settings_type,
-					'user_id' => $this->user_id,
-					'data' => base64_encode(CASHSystem::simpleXOR($settings_data))
-				),
-				$settings_condition
-			);
-			return $result;
-		} else {
-			// error: you must specify unique a name when adding settings
-			return false;
-		}
+
+		$result = $this->db->setData(
+			'connections',
+			array(
+				'name' => $settings_name,
+				'type' => $settings_type,
+				'user_id' => $this->user_id,
+				'data' => base64_encode(CASHSystem::simpleXOR($settings_data))
+			),
+			$settings_condition
+		);
+		return $result;
 	}
 
 	/**
