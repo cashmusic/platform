@@ -102,7 +102,7 @@ class S3Seed extends SeedBase {
 			// calls would only happen in the admin. If this changes we can fuck around with it later.
 			$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
 
-			$connection_name = 'Amazon S3 (created ' . date("M j, Y") . ')';
+			$connection_name = 'Amazon S3 ('.$data['bucket'].')';
 
 			$result = $new_connection->setSettings(
 				$connection_name,
@@ -113,7 +113,7 @@ class S3Seed extends SeedBase {
 				)
 			);
 
-			if ($result) {
+            if ($result) {
 				AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
 			} else {
 				AdminHelper::formFailure('Error. Something just didn\'t work right.');
