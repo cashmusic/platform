@@ -319,7 +319,7 @@ class S3Seed extends SeedBase {
 
         $cmd = $this->s3->getCommand('GetObject', $headers);
 
-        $request = $this->s3->createPresignedRequest($cmd, '+20 minutes');
+        $request = $this->s3->createPresignedRequest($cmd, '+60 minutes');
         $presignedUrl = (string) $request->getUri();
 
         return $presignedUrl;
