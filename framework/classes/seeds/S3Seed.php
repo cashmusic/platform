@@ -33,6 +33,8 @@ class S3Seed extends SeedBase {
             $this->bucket = $this->settings->getSetting('bucket');
             $this->bucket_region = $this->settings->getSetting('bucket_region');
 
+            if (!$this->bucket_region) $this->bucket_region = "us-east-1";
+
 			if (!$this->s3_key || !$this->s3_secret) {
 				$connections = CASHSystem::getSystemSettings('system_connections');
 				if (isset($connections['com.amazon'])) {
