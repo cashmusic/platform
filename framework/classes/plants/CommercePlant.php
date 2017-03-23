@@ -2841,13 +2841,13 @@ class CommercePlant extends PlantBase {
 
     public function cancelSubscription($user_id, $connection_id, $id) {
 
-        $this->updateSubscription($id, "canceled");
+        //$this->updateSubscription($id, "canceled");
         $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
 
         $subscription = $this->getSubscriptionDetails($id);
 
-        if(!empty($subscription['payment_identifier'])) {
-            if ($payment_seed->cancelSubscription($subscription['payment_identifier'])) {
+        if(!empty($subscription[0]['payment_identifier'])) {
+            if ($payment_seed->cancelSubscription($subscription[0]['payment_identifier'])) {
                 return true;
             }
         } else {
