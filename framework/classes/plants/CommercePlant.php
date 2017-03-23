@@ -2911,6 +2911,24 @@ class CommercePlant extends PlantBase {
             // this is a valid login--- so now the question is, are they an active subscriber?
             $plan_id = $this->validateSubscription($user_id, $plans);
 
+            $conditions = [
+                'user_id' => array(
+                    "condition" => "=",
+                    "value" => 123
+                ),
+                'status' => array(
+                    "condition" => "IN",
+                    "value" => $this->subscription_active_status
+                ),
+                'subscription_id' => array(
+                    "condition" => "IN",
+                    "value" => $plans
+                )
+            ];
+
+            error_log(json_encode($conditions));
+
+
             if ($plan_id) {
 
                 // this is a valid subscription so bust out the confetti
@@ -2952,6 +2970,8 @@ class CommercePlant extends PlantBase {
                 "value" => $plans
             )
         ];
+
+        error_log(print_r($conditions));
 
         $result = $this->db->getData(
             'subscriptions_members',
