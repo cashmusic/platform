@@ -778,7 +778,11 @@ class StripeSeed extends SeedBase
      */
     public function cancelSubscription($subscription_id) {
         // first we need to retrieve the subscription by id
-        if (!$subscription = $this->getSubscription($subscription_id)) return false;
+        if (!$subscription = $this->getSubscription($subscription_id)) {
+
+            error_log("not getting anything back");
+            return false;
+        }
 
         try {
 
