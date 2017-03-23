@@ -428,7 +428,7 @@
 					array(
 						'id' => array(
 							'condition' => '=',
-							'value' => $data_key_exists['id']
+							'value' => $data_key_exists[0]['id']
 						)
 					)
 				);
