@@ -192,6 +192,35 @@ class ElementPlant extends PlantBase {
 				'template_id' => $result[0]['template_id'],
 				'options' => json_decode($result[0]['options'],true)
 			);
+
+			// CONVERT METADATA STORAGE TYPE OPTIONS (longer posts, generally)
+			$allmetadata = $this->getAllMetaData('elements',$id);
+			if (is_array($allmetadata)) {
+				// Loop through $this->options and turn metadata values into real values
+				foreach ($the_element['options'] as $name => $value) {
+					// now check all metadata, one at a time
+					foreach ($allmetadata as $dataname => $data) {
+						// an array means it's a scalar, loop through
+						if (is_array($value)) {
+							foreach ($value as $count => $item) {
+								// first loop just gives us the count/array key
+								foreach ($item as $suboptionname => $suboption) {
+									// now we loop through every sub-option in the scalar
+									if ($dataname == $suboptionname . '-clone-' . $name . '-' . $count) {
+										// found a match so overwrite
+										$the_element['options'][$name][$count][$suboptionname] = $data;
+									}
+								}
+							}
+						} else {
+							if ($dataname == $name) {
+								$the_element['options'][$name] = $data;
+							}
+						}
+					}
+				}
+			}
+
 			return $the_element;
 		} else {
 			return false;
