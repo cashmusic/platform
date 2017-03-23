@@ -2844,7 +2844,7 @@ class CommercePlant extends PlantBase {
 
     public function cancelSubscription($user_id, $connection_id, $id) {
 
-        //$this->updateSubscription($id, "canceled");
+        $this->updateSubscription($id, "canceled");
         $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
 
         $subscription = $this->getSubscriptionDetails($id);
