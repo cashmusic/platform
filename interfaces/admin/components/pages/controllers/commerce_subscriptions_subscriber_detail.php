@@ -36,7 +36,6 @@ if (is_array($settings_request->response['payload'])) {
                 break;
 
             case "cancel":
-
                 $subscriber_request = new CASHRequest(
                     array(
                         'cash_request_type' => 'commerce',
