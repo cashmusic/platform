@@ -577,7 +577,7 @@
 		 start outputting markup depending on type
 		*/
 		if ($input_data['type'] == 'text' || $input_data['type'] == 'number' || $input_data['type'] == 'metadata') {
-			if ($input_data['type'] == 'text' && $input_data['displaysize'] == 'large') {
+			if (($input_data['type'] == 'text' || $input_data['type'] == 'metadata') && $input_data['displaysize'] == 'large') {
 				$return_str .= '<textarea id="' . $input_name . '" name="' . $input_name . '" class="';
 			} else {
 				$return_str .= '<input type="text" id="' . $input_name . '" name="' . $input_name . '" value="{{#options_' . $input_name .
@@ -654,7 +654,7 @@
 			 close out markup
 			*/
 			if ($input_data['type'] == 'text' || $input_data['type'] == 'number' || $input_data['type'] == 'metadata') {
-				if ($input_data['type'] == 'text' && $input_data['displaysize'] == 'large') {
+				if (($input_data['type'] == 'text' || $input_data['type'] == 'metadata') && $input_data['displaysize'] == 'large') {
 					$return_str .= '">{{#options_' . $input_name .
 					'}}{{options_' . $input_name . '}}{{/options_' . $input_name . '}}{{^options_' . $input_name . '}}{{element_copy_' . $input_name . '}}{{/options_' . $input_name . '}}</textarea>';
 				} else {
