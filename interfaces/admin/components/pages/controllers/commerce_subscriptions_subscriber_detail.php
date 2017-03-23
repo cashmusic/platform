@@ -16,9 +16,29 @@ if (is_array($settings_request->response['payload'])) {
     if (isset($request_parameters[1])) {
 
         switch ($request_parameters[1]) {
+
+            case "comp":
+                $subscriber_request = new CASHRequest(
+                    array(
+                        'cash_request_type' => 'commerce',
+                        'cash_action' => 'updatesubscription',
+                        'id' => $request_parameters[0],
+                        'status' => "comped"
+                    )
+                );
+
+                error_log(print_r($subscriber_request->response, true));
+
+                if ($subscriber_request->response['payload']) {
+                    AdminHelper::formSuccess('Success. Subscriber comped for this plan.','/commerce/subscriptions/subscriber/detail/'.$request_parameters[0]);
+                } else {
+                    AdminHelper::formFailure('Error. Something just didn\'t work right.','/commerce/subscriptions/subscriber/detail/'.$request_parameters[0]);
+                }
+
+                break;
+
             case "delete":
 
-                error_log("delete");
                 $subscriber_request = new CASHRequest(
                     array(
                         'cash_request_type' => 'commerce',

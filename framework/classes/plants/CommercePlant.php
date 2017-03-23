@@ -16,7 +16,7 @@
  *
  **/
 class CommercePlant extends PlantBase {
-
+    protected $subscription_active_status;
 
     public function __construct($request_type,$request) {
         $this->request_type = 'commerce';
@@ -75,10 +75,13 @@ class CommercePlant extends PlantBase {
             'processwebhook'         => array('processWebhook',array('direct','api_public','public','get','post')),
             'sendorderreceipt'	      => array('sendOrderReceipt','direct'),
             'updatesubscriptionplan'    => array('updateSubscriptionPlan', 'direct'),
+            'updatesubscription'    => array('updateSubscription', 'direct', 'public', 'get', 'post'),
             'validatesubscription'      => array('validateSubscription', array('get', 'post', 'direct', 'api_public'))
         );
 
         $this->plantPrep($request_type,$request);
+
+        $this->subscription_active_status = ['active', 'comped'];
     }
 
     /**
@@ -2880,6 +2883,10 @@ class CommercePlant extends PlantBase {
         return true;
     }
 
+    public function createCompedSubscription($id, $subscription_id=false) {
+        //
+    }
+
     public function loginSubscriber($email=false, $password=false, $plans=false) {
 
         $validate_request = new CASHRequest(
@@ -2937,8 +2944,8 @@ class CommercePlant extends PlantBase {
                 "value" => $user_id
             ),
             'status' => array(
-                "condition" => "=",
-                "value" => "active"
+                "condition" => "IN",
+                "value" => $this->subscription_active_status
             ),
             'subscription_id' => array(
                 "condition" => "IN",
