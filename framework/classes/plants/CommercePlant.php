@@ -2957,7 +2957,11 @@ class CommercePlant extends PlantBase {
 
         if (!$result) return false;
 
-        return $result[0]['subscription_id'];
+        if (in_array($result[0]['status'], $this->subscription_active_status)) {
+            return $result[0]['subscription_id'];
+        } else {
+            return false;
+        }
     }
 
     public function getSubscriptionStats($plan_id) {
