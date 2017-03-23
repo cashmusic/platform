@@ -145,7 +145,7 @@
 								"en":"Description copy for the feed item",
 								"is":"Description copy for the feed item"
 							},
-							"type":"text",
+							"type":"metadata",
 							"displaysize":"large"
 						}
 

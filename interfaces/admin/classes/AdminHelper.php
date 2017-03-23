@@ -653,7 +653,7 @@
 			/*
 			 close out markup
 			*/
-			if ($input_data['type'] == 'text' || $input_data['type'] == 'number') {
+			if ($input_data['type'] == 'text' || $input_data['type'] == 'number' || $input_data['type'] == 'metadata') {
 				if ($input_data['type'] == 'text' && $input_data['displaysize'] == 'large') {
 					$return_str .= '">{{#options_' . $input_name .
 					'}}{{options_' . $input_name . '}}{{/options_' . $input_name . '}}{{^options_' . $input_name . '}}{{element_copy_' . $input_name . '}}{{/options_' . $input_name . '}}</textarea>';
@@ -705,7 +705,8 @@
 			//       Requiring metadata types on initial add is weird though. They're for external
 			//       storage, so larger bits of data or in situations where things would need to
 			//       be sorted system-wide based on tags. AKA: not on add
-			$formatted = $admin_primary_cash_request->setMetaData('elements',$element_id,AdminHelper::getPersistentData('cash_effective_user'),$name,$value);
+			$r = new CASHDaemon;
+			$formatted = $r->setMetaData('elements',$element_id,AdminHelper::getPersistentData('cash_effective_user'),$name,$value);
 		} else {
 			if ($type != 'scalar') {
 				$formatted = $value;
