@@ -225,8 +225,6 @@ class States implements StatesInterface
             )
         );
 
-        error_log(json_encode($password_request->response['payload']));
-
         if ($password_request->response['payload']) {
             // valid login + valid subscription
             if ($password_request->response['payload'] != "401") {
