@@ -2957,7 +2957,7 @@ class CommercePlant extends PlantBase {
 
         if (!$result) return false;
 
-        if (in_array($result[0]['status'], $this->subscription_active_status)) {
+        if (in_array($result[0]['status'], ['active', 'comped'])) {
             return $result[0]['subscription_id'];
         } else {
             return false;
