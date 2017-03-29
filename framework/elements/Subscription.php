@@ -24,30 +24,22 @@ class Subscription extends ElementBase {
 
 	public function getData() {
 
-        // to avoid confusion down the line, set an element user ID and a subscriber user ID now
-        $plan_user_id =  $this->element_data['user_id'];
-        $subscriber_id = $this->element_data['subscriber_id'] = ($this->sessionGet("user_id")) ? $this->sessionGet("user_id") : false;
-
+        $this->element_data['subscriber_id'] = ($this->sessionGet("subscription_id")) ? $this->sessionGet("subscription_id") : false;
         $this->element_data['email_address'] = ($this->sessionGet("email_address")) ? $this->sessionGet("email_address") : false;
 
         $plan_id = (!empty($this->sessionGet("plan_id"))) ? $this->sessionGet("plan_id") : false;
-        $element_id = $this->element_data['element_id'];
 
         $this->element_data['logged_in'] = false;
 
         $authenticated = false;
-        if (!empty($subscriber_id) || $this->sessionGet('logged_in')) {
+        if (!empty($this->element_data['subscriber_id']) || $this->sessionGet('logged_in')) {
             $authenticated = true;
         }
-
-        error_log("auth this".json_encode([$this->session_id, $this->sessionGet('logged_in'), $this->sessionGet('user_id')]));
-
-        error_log("authed " .json_encode($authenticated));
 
         // get plan data based on plan ids. works for multiples
         $plans = [];
 
-        $subscription_data = new SubscriptionElement\Data($plan_user_id);
+        $subscription_data = new SubscriptionElement\Data($this->element_data['user_id']);
 
         foreach ($this->element_data['plans'] as $plan) {
             $plans[] = $subscription_data->getPlan($plan['plan_id']);
@@ -85,7 +77,11 @@ class Subscription extends ElementBase {
         if (!empty($_REQUEST['state'])) {
 
             // set state and fire the appropriate method in Element\State class
-            $subscription_state = new SubscriptionElement\States($this->element_data, $element_id, $subscriber_id, $plan_user_id, $plan_id, $this->session_id);
+            $subscription_state = new SubscriptionElement\States(
+                $this->element_data,
+                $plan_id,
+                $this->session_id
+            );
 
             $subscription_state->router(function ($template, $values) {
                 $this->setTemplate($template);
@@ -114,7 +110,6 @@ class Subscription extends ElementBase {
 
             if ($validate_request->response['payload']) {
 
-
                 $data['key'] = true;
                 $email = isset($_REQUEST['address']) ? $_REQUEST['address'] : "";
 
@@ -136,11 +131,11 @@ class Subscription extends ElementBase {
                 $this->sessionSet("email_address", $email);
 
                 if ($user_request->response['payload']) {
-                    $data['user_id'] = $user_request->response['payload'];
-                    $data['subscriber_id'] = $data['user_id'];
-                    $this->sessionSet("subscription_id", $user_request->response['payload']);
+                    //$data['user_id'] = $user_request->response['payload'];
+                    $data['subscriber_id'] = $user_request->response['payload'];
+                    $this->sessionSet("subscription_id", $data['subscriber_id']);
 
-                    //$subscriber_id = $user_request->response['payload'];
+                    //$this->element_data['subscriber_id'] = $user_request->response['payload'];
                 } else {
                     $data['error_message'] = "We couldn't find your user.";
                 }

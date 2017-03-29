@@ -495,6 +495,10 @@ class SystemPlant extends PlantBase {
 			}
 		}
 		if (count($credentials)) {
+
+            // reset the data field for subscriptions
+            $credentials['data'] = "{}";
+
 			$result = $this->db->setData(
 				'users',
 				$credentials,

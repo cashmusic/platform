@@ -12,7 +12,7 @@ use Cashmusic\Elements\Interfaces\StatesInterface;
 
 class States implements StatesInterface
 {
-    protected $state;
+    protected $state, $element_data, $element_id, $session, $session_id, $user_id, $plan_id, $email_address, $element_user_id;
 
     /**
      * States constructor. Set the needed values for whatever we're going to do to
@@ -21,12 +21,10 @@ class States implements StatesInterface
      * @param $element_data
      * @param $session_id
      * @param $element_id
-     * @param $user_id
-     * @param $element_user_id
      * @param $plan_id
      * @param $email_address
      */
-    public function __construct($element_data, $element_id, $user_id, $element_user_id, $plan_id, $session_id)
+    public function __construct($element_data, $plan_id, $session_id)
     {
         $this->state = !empty($_REQUEST['state']) ? $_REQUEST['state'] : "default";
 
@@ -39,11 +37,19 @@ class States implements StatesInterface
 
         $this->session_id = $session_id;
 
-        $this->element_id = $element_id;
-        $this->user_id = !empty($this->element_data['subscriber_id']) ? $this->element_data['subscriber_id'] : $this->session->sessionGet("subscription_id");
+        $this->element_id = $this->element_data['element_id'];
+
+        $this->user_id = false;
+
+        if (!empty($this->element_data['subscriber_id'])) {
+            $this->user_id = $this->element_data['subscriber_id'];
+        } else {
+            if ($session_user_id = $this->session->sessionGet("subscription_id")) $this->user_id = $session_user_id;
+        }
+
         $this->plan_id = $plan_id;
         $this->email_address = $this->element_data['email_address'];
-        $this->element_user_id = $element_user_id;
+        $this->element_user_id = $this->element_data['user_id'];
     }
 
     /**
@@ -121,6 +127,11 @@ class States implements StatesInterface
     }
 
     private function stateSuccess() {
+
+
+        $this->session->sessionClear("subscription_id");
+        $this->session->sessionClear('logged_in');
+
         return [
             'template' => 'success',
             'data' => []
@@ -141,7 +152,9 @@ class States implements StatesInterface
 
         if ($user_request->response['payload']) {
 
-            if ($user_request->response['payload']['is_admin'] == 1) {
+            $user_data = $user_request->response['payload']['data'];
+
+            if (empty($user_data['new_subscriber'])) {
                 $data['has_password'] = true;
 
                 $this->setLoginState();

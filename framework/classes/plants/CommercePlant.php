@@ -1963,7 +1963,9 @@ class CommercePlant extends PlantBase {
                     'display_name' => $payment_details['customer_name'],
                     'first_name' => $payment_details['customer_first_name'],
                     'last_name' => $payment_details['customer_last_name'],
-                    'address_country' => $payment_details['customer_countrycode'])
+                    'address_country' => $payment_details['customer_countrycode'],
+                    'data' => ['new_subscriber' => true]
+                    )
             );
 
             $user_id = $user_request->response['payload'];
@@ -2612,20 +2614,6 @@ class CommercePlant extends PlantBase {
 
     public function createSubscription($element_id, $user_id, $price, $connection_id, $plan_id=false, $token=false, $email_address=false, $customer_name=false, $shipping_info=false, $quantity=1, $finalize_url=false) {
 
-        if (CASH_DEBUG) {
-            error_log("Element id $element_id\n".
-            "User id $user_id\n".
-            "Price $price\n".
-            "Connection Id $connection_id\n".
-            "plan id $plan_id\n".
-            "token $token\n".
-            "email $email_address\n".
-            "customer name $customer_name\n".
-            "shipping info $shipping_info\n".
-            "qty $quantity\n".
-            "finalize $finalize_url");
-        }
-
         $payment_seed = $this->getPaymentSeed($user_id, $connection_id);
 
         if ($subscription_plan = $this->getSubscriptionPlan($plan_id, $user_id)) {
@@ -2899,8 +2887,6 @@ class CommercePlant extends PlantBase {
             )
         );
 
-        error_log("login subscriber request .. ".print_r($validate_request->response['payload'], true));
-
         // email or password are not set so bail, or they're set but they don't validate
         if ( (!$email || !$password || !$plans) || !$validate_request->response['payload'] ) {
             return "401";
@@ -2958,8 +2944,8 @@ class CommercePlant extends PlantBase {
         );
 
         if (!$result) return false;
-        error_log("OMG STATUS ".$result[0]['status']);
-        if (in_array($result[0]['status'], ['active', 'comped'])) {
+
+        if (isset($result[0]['status']) && in_array($result[0]['status'], ['active', 'comped'])) {
             return $result[0]['subscription_id'];
         } else {
             return false;
