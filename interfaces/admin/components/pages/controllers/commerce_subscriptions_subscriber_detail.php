@@ -18,6 +18,18 @@ if (is_array($settings_request->response['payload'])) {
         switch ($request_parameters[1]) {
 
             case "comp":
+
+                // make sure user is unsubscribed first
+                $subscriber_request = new CASHRequest(
+                    array(
+                        'cash_request_type' => 'commerce',
+                        'cash_action' => 'cancelsubscription',
+                        'id' => $request_parameters[0],
+                        'user_id' => $cash_admin->effective_user_id,
+                        'connection_id' => $stripe_default
+                    )
+                );
+
                 $subscriber_request = new CASHRequest(
                     array(
                         'cash_request_type' => 'commerce',
@@ -42,11 +54,24 @@ if (is_array($settings_request->response['payload'])) {
                 $subscriber_request = new CASHRequest(
                     array(
                         'cash_request_type' => 'commerce',
+                        'cash_action' => 'cancelsubscription',
+                        'id' => $request_parameters[0],
+                        'user_id' => $cash_admin->effective_user_id,
+                        'connection_id' => $stripe_default
+                    )
+                );
+
+                $subscriber_request = new CASHRequest(
+                    array(
+                        'cash_request_type' => 'commerce',
                         'cash_action' => 'deletesubscription',
                         'id' => $request_parameters[0],
                         'subscription_id' => $request_parameters[2]
                     )
                 );
+
+
+
                 if ($subscriber_request->response['payload']) {
                     AdminHelper::formSuccess('Success. Subscriber deleted.','/commerce/subscriptions/detail/'.$request_parameters[2]);
                 } else {
