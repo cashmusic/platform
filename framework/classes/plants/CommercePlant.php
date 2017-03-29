@@ -2899,6 +2899,8 @@ class CommercePlant extends PlantBase {
             )
         );
 
+        error_log("login subscriber request .. ".print_r($validate_request->response['payload'], true));
+
         // email or password are not set so bail, or they're set but they don't validate
         if ( (!$email || !$password || !$plans) || !$validate_request->response['payload'] ) {
             return "401";
