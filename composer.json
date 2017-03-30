@@ -1,0 +1,35 @@
+{
+    "name": "cashmusic/platform",
+    "description": "A free and open platform giving all musicians access to tools that let them manage, promote, and sell their music online.",
+    "require": {
+        "google/apiclient":"^2.0",
+        "drewm/mailchimp-api": "^2.2",
+        "mustache/mustache": "^2.10",
+        "adam-paterson/oauth2-stripe": "^1.1",
+        "league/oauth2-google": "^1.0",
+        "cfreear/oauth2-mailchimp": "^1.0",
+        "mandrill/mandrill": "^1.0",
+        "erusev/parsedown": "^1.6",
+        "stripe/stripe-php": "^4.1",
+        "aws/aws-sdk-php": "^3.19",
+        "eddturtle/direct-upload": "^1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "CASHMusic\\Elements\\": "framework/elements",
+            "CASHMusic\\Core\\": "framework/classes/core",
+            "CASHMusic\\Plants\\": "framework/classes/plants",
+            "CASHMusic\\Seeds\\": "framework/classes/seeds",
+            "CASHMusic\\Admin\\": "interfaces/admin/classes",
+            "CASHMusic\\API\\": "interfaces/api/classes"
+        }
+    },
+
+    "license": "AGPL license",
+    "authors": [
+        {
+            "name": "CASH Music",
+            "email": "info@cashmusic.org"
+        }
+    ]
+}

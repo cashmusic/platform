@@ -1,8 +1,8 @@
 <?php
 
-namespace Cashmusic\Elements\subscription;
+namespace CASHMusic\Elements\subscription;
 
-use Cashmusic\Elements\Interfaces\DataInterface;
+use CASHMusic\Elements\Interfaces\DataInterface;
 
 class Data implements DataInterface
 {

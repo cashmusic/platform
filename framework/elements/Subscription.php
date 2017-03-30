@@ -16,7 +16,7 @@
  *
  **/
 
-use Cashmusic\Elements\subscription as SubscriptionElement;
+use CASHMusic\Elements\subscription as SubscriptionElement;
 
 class Subscription extends ElementBase {
 	public $type = 'subscription';

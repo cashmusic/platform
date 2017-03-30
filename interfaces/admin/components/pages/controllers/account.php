@@ -99,16 +99,13 @@ if (is_array($user_response['payload'])) {
 	$current_userdata = $user_response['payload']['data'];
 }
 
-
-//$data = $current_userdata; // now it's an array
-
 // no form submit so let's check DB
 $cash_admin->page_data['language'] = AdminHelper::getOrSetLanguage();
 $cash_admin->page_data['language_as_options'] = AdminHelper::echoLanguageOptions(
 	$cash_admin->page_data['language']
 );
 
-if ($current_userdata['payload']) {
+if (!empty($current_userdata['payload'])) {
 	if (isset($_POST['dolanguagechange'])) {
 		if (isset($cash_admin->page_data['language'])) {
 			AdminHelper::formSuccess('Success. Language changed.');

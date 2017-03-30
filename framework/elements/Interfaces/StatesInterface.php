@@ -1,6 +1,6 @@
 <?php
 
-namespace Cashmusic\Elements\Interfaces;
+namespace CASHMusic\Elements\Interfaces;
 
 interface StatesInterface
 {

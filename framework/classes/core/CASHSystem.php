@@ -53,7 +53,7 @@
 			// set up auto-load
 			spl_autoload_register('CASHSystem::autoloadClasses');
 			// composer autoloader, for seeds initially
-			require_once(CASH_PLATFORM_ROOT . '/library/autoload.php');
+			require_once(CASH_PLATFORM_ROOT . '/../vendor/autoload.php');
 
 			// set timezone
 			date_default_timezone_set($cash_settings['timezone']);

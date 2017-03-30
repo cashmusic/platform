@@ -6,9 +6,9 @@
  * Time: 3:32 PM
  */
 
-namespace Cashmusic\Elements\subscription;
+namespace CASHMusic\Elements\subscription;
 
-use Cashmusic\Elements\Interfaces\StatesInterface;
+use CASHMusic\Elements\Interfaces\StatesInterface;
 
 class States implements StatesInterface
 {
