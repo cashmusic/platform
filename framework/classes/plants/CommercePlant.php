@@ -2884,6 +2884,12 @@ class CommercePlant extends PlantBase {
 
         ];
 
+        $data = [
+            'shipping_info' => [],
+            'customer' => $customer
+        ];
+
+
         if ($subscriber_user_id = $this->getOrCreateUser($customer)) {
 
         } else {
@@ -2896,7 +2902,7 @@ class CommercePlant extends PlantBase {
             if (!$subscription_member_id = $this->createSubscriptionMember(
                 $subscriber_user_id,
                 $plan_id,
-                [])
+                $data)
             ) {
                 ###ERROR: error creating membership
                 return false;
