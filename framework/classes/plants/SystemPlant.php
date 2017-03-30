@@ -151,7 +151,7 @@ class SystemPlant extends PlantBase {
 			)
 		);
 
-		error_log(print_r($result, true));
+		error_log("result validatelogin " . print_r($result, true));
 
 		if ($result) {
 			$ciphers = $this->getCryptConstants();
