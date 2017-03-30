@@ -2910,7 +2910,7 @@ class CommercePlant extends PlantBase {
             5162,
             $user_id,
             $email_address,
-            "https://staging.cashmusic.org/",
+            "https://s3-us-west-2.amazonaws.com/cashmusic.tests.for.tom/family.html",
             "You've been comped for a subscription. <a href=\"{{{verify_link}}}\">Click here</a> to verify your email and set a password.")) {
             error_log("email failed");
             return false;
