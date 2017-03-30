@@ -158,7 +158,7 @@
 				$menustr .= "<li><a title=\"{$page['page_name']}\" class=\"{$page['add_class']}\" href=\"" . ADMIN_WWW_BASE_PATH . "/$page_endpoint/\"><span>{$page['page_name']}</span><div class=\"icon icon-{$page['menu_icon']}\"></div><!--icon--></a></li>";
 				}
 			}
-			
+
 		}
 
 		// find the right page title
@@ -576,8 +576,8 @@
 		/*
 		 start outputting markup depending on type
 		*/
-		if ($input_data['type'] == 'text' || $input_data['type'] == 'number') {
-			if ($input_data['type'] == 'text' && $input_data['displaysize'] == 'large') {
+		if ($input_data['type'] == 'text' || $input_data['type'] == 'number' || $input_data['type'] == 'metadata') {
+			if (($input_data['type'] == 'text' || $input_data['type'] == 'metadata') && $input_data['displaysize'] == 'large') {
 				$return_str .= '<textarea id="' . $input_name . '" name="' . $input_name . '" class="';
 			} else {
 				$return_str .= '<input type="text" id="' . $input_name . '" name="' . $input_name . '" value="{{#options_' . $input_name .
@@ -653,8 +653,8 @@
 			/*
 			 close out markup
 			*/
-			if ($input_data['type'] == 'text' || $input_data['type'] == 'number') {
-				if ($input_data['type'] == 'text' && $input_data['displaysize'] == 'large') {
+			if ($input_data['type'] == 'text' || $input_data['type'] == 'number' || $input_data['type'] == 'metadata') {
+				if (($input_data['type'] == 'text' || $input_data['type'] == 'metadata') && $input_data['displaysize'] == 'large') {
 					$return_str .= '">{{#options_' . $input_name .
 					'}}{{options_' . $input_name . '}}{{/options_' . $input_name . '}}{{^options_' . $input_name . '}}{{element_copy_' . $input_name . '}}{{/options_' . $input_name . '}}</textarea>';
 				} else {
@@ -684,15 +684,48 @@
 		}
 	}
 
+	public static function formatDataForType($name,$type,$value=false,$element_id=false,$allvalues=false) {
+		$formatted = false;
+		if ($type == 'boolean') {
+			if ($value) {
+				$formatted = 1;
+			} else {
+				$formatted = 0;
+			}
+		} elseif ($type == 'options') {
+			if (is_array($allvalues)) {
+				$formatted = array();
+				foreach ($allvalues as $subname => $subvalues) {
+					// here all of $post_data should be the "value"
+					$formatted[$subname] = $value[$name.'-'.$subname];
+				}
+			}
+		} elseif ($type == 'metadata' && $element_id) {
+			// TODO: Currently only processing metadata types on edit, not add
+			//       Requiring metadata types on initial add is weird though. They're for external
+			//       storage, so larger bits of data or in situations where things would need to
+			//       be sorted system-wide based on tags. AKA: not on add
+			$r = new CASHDaemon;
+			$formatted = $r->setMetaData('elements',$element_id,AdminHelper::getPersistentData('cash_effective_user'),$name,$value);
+		} else {
+			if ($type != 'scalar') {
+				$formatted = $value;
+			}
+		}
+		return $formatted;
+	}
+
 	public static function processScalarData($post_data,$app_json) {
 		$return_array = array();
 		$tmp_array = array();
 		$options_in_scalars = array();
+		$alltypes = array();
 		foreach ($app_json['options'] as $section_name => $details) {
 			foreach ($details['data'] as $data => $values) {
 				if ($values['type'] == 'scalar') {
 					if (is_array($values['values'])) {
 						foreach ($values['values'] as $subname => $subvalue) {
+							$alltypes[$subname] = $subvalue['type'];
 							if ($subvalue['type'] == 'options') {
 								$options_in_scalars[] = $subname;
 							}
@@ -717,7 +750,8 @@
 					}
 				}
 				if (!$in_options) {
-					$tmp_array[$origin_and_index[0]][intval($origin_and_index[1])][$root_name] = $data;
+					$element_id = isset($post_data['element_id']) ? $post_data['element_id'] : false;
+					$tmp_array[$origin_and_index[0]][intval($origin_and_index[1])][$root_name] = AdminHelper::formatDataForType($name,$alltypes[$root_name],$data,$element_id);
 				} else {
 					$tmp_array[$origin_and_index[0]][intval($origin_and_index[1])][$in_options][$root_name] = $data;
 				}
@@ -743,23 +777,18 @@
 			if ($app_json) {
 				foreach ($app_json['options'] as $section_name => $details) {
 					foreach ($details['data'] as $data => $values) {
-						if ($values['type'] == 'boolean') {
-							if (isset($post_data[$data])) {
-								$options_array[$data] = 1;
-							} else {
-								$options_array[$data] = 0;
-							}
-						} elseif ($values['type'] == 'options') {
-							if (is_array($values['values'])) {
-								foreach ($values['values'] as $subname => $subvalues) {
-									$options_array[$data][$subname] = $post_data[$data.'-'.$subname];
-								}
-							}
+						// check for element_id, set to false if not known
+						$element_id = isset($post_data['element_id']) ? $post_data['element_id'] : false;
+						// we handle things a little differently for options
+						if ($values['type'] == 'options') {
+							$value = $post_data;
+							$allvalues = $values['values'];
 						} else {
-							if ($values['type'] != 'scalar') {
-								$options_array[$data] = $post_data[$data];
-							}
+							$value = $post_data[$data];
+							$allvalues = false;
 						}
+						// do it!
+						$options_array[$data] = AdminHelper::formatDataForType($data,$values['type'],$value,$element_id,$allvalues);
 					}
 				}
 				$scalars = AdminHelper::processScalarData($post_data,$app_json);
