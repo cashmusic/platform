@@ -167,14 +167,14 @@ class SystemPlant extends PlantBase {
 
 		if ($result && ($result[0]['password'] == $password_hash || $verified_address)) {
 			if (($require_admin && $result[0]['is_admin']) || !$require_admin) {
+                error_log("require admin passing");
 				$this->recordLoginAnalytics($result[0]['id'],$element_id,$login_method);
 				return $result[0]['id'];
 			} else {
+                error_log("require admin failing");
 				return false;
 			}
 		} else {
-
-		    error_log("password failing");
 			return false;
 		}
 	}
