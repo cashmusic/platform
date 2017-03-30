@@ -165,6 +165,8 @@ class SystemPlant extends PlantBase {
 			}
 		}
 
+		error_log("WE MADE IT");
+
 		if ($result && ($result[0]['password'] == $password_hash || $verified_address)) {
 			if (($require_admin && $result[0]['is_admin']) || !$require_admin) {
                 error_log("require admin passing");
