@@ -2937,7 +2937,7 @@ class CommercePlant extends PlantBase {
             )
         );
 
-        error_log(".d.d.d.d.d.d $email .. $password".print_r($validate_request, true));
+        error_log(".d.d.d.d.d.d $email .. $password".print_r($validate_request->response, true));
         error_log(".d.d.d.d " .print_r($plans, true));
 
         // email or password are not set so bail, or they're set but they don't validate
