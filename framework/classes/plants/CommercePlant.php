@@ -3203,7 +3203,6 @@ class CommercePlant extends PlantBase {
 
             if ($user_request->response['payload']) {
                 $email_address = $user_request->response['payload']['email_address'];
-                error_log($email_address);
             }
 
             if ($event->type == "invoice.payment_succeeded") {

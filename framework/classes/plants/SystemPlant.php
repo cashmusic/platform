@@ -152,8 +152,6 @@ class SystemPlant extends PlantBase {
 			)
 		);
 
-		error_log("result validatelogin " . print_r($result, true));
-
 		if ($result) {
 			$ciphers = $this->getCryptConstants();
 			$parts = explode('$', $result[0]['password']);
@@ -165,15 +163,11 @@ class SystemPlant extends PlantBase {
 			}
 		}
 
-		error_log("WE MADE IT");
-
 		if ($result && ($result[0]['password'] == $password_hash || $verified_address)) {
 			if (($require_admin && $result[0]['is_admin']) || !$require_admin) {
-                error_log("require admin passing");
 				$this->recordLoginAnalytics($result[0]['id'],$element_id,$login_method);
 				return $result[0]['id'];
 			} else {
-                error_log("require admin failing");
 				return false;
 			}
 		} else {
