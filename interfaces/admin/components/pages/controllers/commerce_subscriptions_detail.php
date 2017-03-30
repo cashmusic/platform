@@ -1,5 +1,30 @@
 <?php
 
+// comped subscription
+if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
+
+    $comped_request = new CASHRequest(
+        array(
+            'cash_request_type' => 'commerce',
+            'cash_action' => 'createcompedsubscription',
+            'user_id' => $cash_admin->effective_user_id,
+            'plan_id' => $request_parameters[0],
+            'first_name' => $_POST['first_name'],
+            'last_name' => $_POST['last_name'],
+            'email_address' => $_POST['email_address']
+        )
+    );
+
+    error_log(print_r($comped_request->response, true));
+
+    if ($comped_request->response['payload']) {
+        AdminHelper::formSuccess('Success. Comped subscription added to this plan.','/commerce/subscriptions/detail/'.$request_parameters[0]);
+    } else {
+        AdminHelper::formFailure('Error. Something just didn\'t work right.',"/commerce/subscriptions/detail/".$request_parameters[0]);
+    }
+
+
+}
     $settings_request = new CASHRequest(
         array(
             'cash_request_type' => 'system',
