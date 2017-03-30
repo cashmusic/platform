@@ -32,6 +32,7 @@ class CommercePlant extends PlantBase {
             'cancelorder'			      => array('cancelOrder','direct'),
             'cancelsubscription'        => array('cancelSubscription', 'direct'),
             'createsubscriptionplan'   => array('createSubscriptionPlan', array('direct')),
+            'createcompedsubscription' => array('createCompedSubscription', 'direct'),
             'deleteitem'               => array('deleteItem','direct'),
             'deleteitemvariant'        => array('deleteItemVariant','direct'),
             'deleteitemvariants'       => array('deleteItemVariants','direct'),
@@ -2871,8 +2872,51 @@ class CommercePlant extends PlantBase {
         return true;
     }
 
-    public function createCompedSubscription($id, $subscription_id=false) {
+    public function createCompedSubscription($user_id, $plan_id, $first_name, $last_name, $email_address) {
         //
+        // check if user exists by email passed, or else create a new one
+        $customer = [
+            'customer_email' => trim(strtolower($email_address)),
+            'customer_name' => trim($first_name) . " " . trim($last_name),
+            'customer_first_name' => $first_name,
+            'customer_last_name' => $last_name,
+            'customer_countrycode' => "" // none unless there's shipping
+
+        ];
+
+        if ($subscriber_user_id = $this->getOrCreateUser($customer)) {
+
+        } else {
+            return false;
+        }
+
+        // manually create a new subscription and set to comped
+        if (!$existing_subscriptions = $this->subscriptionExists($subscriber_user_id, [$plan_id])) {
+
+            if (!$subscription_member_id = $this->createSubscriptionMember(
+                $subscriber_user_id,
+                $plan_id,
+                [])
+            ) {
+                ###ERROR: error creating membership
+                return false;
+            }
+
+        }
+
+        $this->updateSubscription($subscription_member_id, "comped", false, false, $plan_id);
+
+        if (!CommercePlant::sendResetValidationEmail(
+            5162,
+            $user_id,
+            $email_address,
+            "https://staging.cashmusic.org/",
+            "You've been comped for a subscription. <a href=\"{{{verify_link}}}\">Click here</a> to verify your email and set a password.")) {
+            error_log("email failed");
+            return false;
+        }
+
+        return true;
     }
 
     public function loginSubscriber($email=false, $password=false, $plans=false) {

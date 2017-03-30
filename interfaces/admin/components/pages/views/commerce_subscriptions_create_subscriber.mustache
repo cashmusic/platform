@@ -1,0 +1,24 @@
+<h3>Create comped subscription</h3>
+
+<form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/commerce/subscriptions/detail/{{plan_id}}" id="create_subscription">
+    <input type="hidden" name="action" value="create_subscription" />
+    <input type="hidden" name="plan_id" value="{{plan_id}}">
+    <div class="pure-u-1-2">
+        <label for="name">First name</label>
+        <input type="text" id="first_name" name="first_name" value="{{first_name}}" placeholder="First name" class="required" />
+    </div>
+
+    <div class="pure-u-1-2">
+        <label for="last_name">Last name</label>
+        <input type="text" id="last_name" name="last_name" value="{{last_name}}" placeholder="Last name" class="required" />
+    </div>
+
+    <label for="email_address">Email address</label>
+    <input type="text" id="email_address" name="email_address" value="{{email_address}}" placeholder="Email address" class="required" />
+
+    <p>This is gonna send them a verification email when you submit it and all that stuff.</p>
+
+    <div class="pure-u-1">
+        <button type="submit">Create Subscription</button>
+    </div>
+</form>
