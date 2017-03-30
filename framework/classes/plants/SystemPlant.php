@@ -113,6 +113,8 @@ class SystemPlant extends PlantBase {
 	 * @return array|false
 	 */protected function validateLogin($address,$password,$require_admin=false,$verified_address=false,$browserid_assertion=false,$element_id=null,$keep_session=false) {
 
+	 	$address = trim($address);
+
 		if (!$keep_session) {
 			$this->sessionClearAll();
 		}
@@ -148,6 +150,8 @@ class SystemPlant extends PlantBase {
 				)
 			)
 		);
+
+		error_log(print_r($result, true));
 
 		if ($result) {
 			$ciphers = $this->getCryptConstants();
