@@ -2913,10 +2913,10 @@ class CommercePlant extends PlantBase {
         $this->updateSubscription($subscription_member_id, "comped", false, false, $plan_id);
 
         if (!CommercePlant::sendResetValidationEmail(
-            5162,
+            52,
             $user_id,
             $email_address,
-            "https://s3-us-west-2.amazonaws.com/cashmusic.tests.for.tom/family.html",
+            "https://family.cashmusic.org/",
             "You've been comped for a subscription. <a href=\"{{{verify_link}}}\">Click here</a> to verify your email and set a password.")) {
             error_log("email failed");
             return false;
