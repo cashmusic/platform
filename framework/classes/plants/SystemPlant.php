@@ -114,6 +114,7 @@ class SystemPlant extends PlantBase {
 	 */protected function validateLogin($address,$password,$require_admin=false,$verified_address=false,$browserid_assertion=false,$element_id=null,$keep_session=false) {
 
 	 	$address = trim($address);
+	 	$password = trim($password);
 
 		if (!$keep_session) {
 			$this->sessionClearAll();
@@ -172,6 +173,8 @@ class SystemPlant extends PlantBase {
 				return false;
 			}
 		} else {
+
+		    error_log("password failing");
 			return false;
 		}
 	}
