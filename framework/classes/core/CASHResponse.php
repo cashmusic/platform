@@ -1,4 +1,9 @@
 <?php
+
+namespace CASHMusic\Core;
+
+use CASHMusic\Core\CASHData as CASHData;
+
 /**
  * The CASHRequest / CASHResponse relationship is the core of the CASH framework. 
  * CASHResponse takes output from all Plants and gives consistent output including 

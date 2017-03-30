@@ -1,4 +1,9 @@
 <?php
+
+namespace CASHMusic\Core;
+
+use CASHMusic\Core\CASHData as CASHData;
+
 /**
  * Abstract base for all elements
  *

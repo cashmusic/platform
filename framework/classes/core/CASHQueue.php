@@ -1,5 +1,9 @@
 <?php
 
+namespace CASHMusic\Core;
+
+use CASHMusic\Core\CASHData as CASHData;
+
 class CASHQueue extends CASHData
 {
     public $job_id;

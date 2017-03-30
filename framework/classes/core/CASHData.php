@@ -1,4 +1,8 @@
 <?php
+
+namespace CASHMusic\Core;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
 /**
  * Data access for all Plant and Seed classes. CASHData abstracts out SESSION
  * data handling, provides a CASHDBA object as $this->db, and provides functions
@@ -17,7 +21,8 @@
  * jon luini and chime.com support cashmusic's efforts towards furthering
  * easy-to-use open source tools for musicians!
  *
- */abstract class CASHData {
+ */
+abstract class CASHData {
 	protected $db = false,
 			  $cash_session_timeout = 10800,
 			  $cash_session_data = null,

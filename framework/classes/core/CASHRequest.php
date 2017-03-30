@@ -1,4 +1,10 @@
 <?php
+
+namespace CASHMusic\Core;
+
+use CASHMusic\Core\CASHData as CASHData;
+use CASHMusic\Core\CASHDaemon as CASHDaemon;
+
 /**
  * The CASHRequest / CASHResponse relationship is the core of the CASH framework.
  * CASHRequest looks for direct or indirect (POST/GET) requests for CASH resources

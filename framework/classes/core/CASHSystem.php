@@ -1,4 +1,11 @@
 <?php
+
+namespace CASHMusic\Core;
+
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use CASHMusic\Core\CASHConnection as CASHConnection;
+use Exception;
+
 /**
  * An abstract collection of lower level static functions that are useful
  * across other classes.
@@ -11,7 +18,8 @@
  * Licensed under the GNU Lesser General Public License version 3.
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
- */abstract class CASHSystem  {
+ */
+abstract class CASHSystem  {
 
 	/**
 	 * Handle annoying environment issues like magic quotes, constants and
@@ -698,7 +706,7 @@
 
                 if ($smtp) {
                     // use SMTP settings for goodtimes robust happy mailing
-                    $transport = Swift_SmtpTransport::newInstance($email_settings['smtpserver'], $email_settings['smtpport']);
+                    $transport = \Swift_SmtpTransport::newInstance($email_settings['smtpserver'], $email_settings['smtpport']);
                     if ($email_settings['smtpusername']) {
                         $transport->setUsername($email_settings['smtpusername']);
                         $transport->setPassword($email_settings['smtppassword']);
@@ -711,9 +719,9 @@
                     //$transport = Swift_MailTransport::newInstance();
                 }
 
-                $swift = Swift_Mailer::newInstance($transport);
+                $swift = \Swift_Mailer::newInstance($transport);
 
-                $message = new Swift_Message($subject);
+                $message = new \Swift_Message($subject);
                 $message->setFrom($sender);
                 $message->setReplyTo($from);
                 //	$message->setSender($sender);
@@ -841,7 +849,7 @@
 	 * @return string
 	 */
 	public static function parseMarkdown($markdown) {
-		return Parsedown::instance()
+		return \Parsedown::instance()
 			//->setUrlsLinked(false)
 			->text($markdown);
 	}
@@ -881,7 +889,7 @@
 	public static function renderMustache($template, $vars_array) {
 
 		// try to render the template with the provided vars, or die
-		$mustache_engine = new Mustache_Engine;
+		$mustache_engine = new \Mustache_Engine;
 		try {
 			$rendered_template = $mustache_engine->render($template, $vars_array);
 		} catch (Exception $e) {
