@@ -13,7 +13,15 @@
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
- */abstract class AdminHelper  {
+ */
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHConnection;
+use CASHMusic\Core\CASHDaemon;
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
+
+abstract class AdminHelper  {
 
 	public static function doLogin($email_address,$password,$require_admin=true) {
 		global $admin_primary_cash_request;

@@ -11,7 +11,13 @@
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
- */class AdminCore  {
+ */
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem;
+
+class AdminCore  {
 	protected $stored_responses;
 	protected $stored_data;
 	protected $primary_request;
