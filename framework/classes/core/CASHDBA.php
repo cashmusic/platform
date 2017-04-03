@@ -638,7 +638,8 @@ class CASHDBA {
 			case 'CommercePlant_getActiveSubscriberTotal':
 				$query = "select sum(gross_price) as total_active from commerce_transactions as t "
 						 ."join commerce_subscriptions_members as m on t.parent_id = m.id AND t.parent = 'sub' and t.status = 'success' "
-				         ."WHERE m.status = 'active' AND m.subscription_id = :plan_id";
+				         ."WHERE m.status = 'active' AND m.subscription_id = :plan_id "
+						 ."ORDER BY creation_date DESC LIMIT 1";
 
 				break;
 
