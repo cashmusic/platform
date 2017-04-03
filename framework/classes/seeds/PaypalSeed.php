@@ -18,6 +18,13 @@
  * This file is generously sponsored by Justin Miranda
  *
  **/
+
+namespace CASHMusic\Seeds;
+
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Core\SeedBase;
+
 class PaypalSeed extends SeedBase {
     protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token;
     protected $merchant_email = false;

@@ -16,6 +16,17 @@
  * http://docs.aws.amazon.com/aws-sdk-php/v2/api/class-Aws.S3.S3Client.html#_getObject
  *
  **/
+
+namespace CASHMusic\Seeds;
+
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Core\SeedBase;
+use CASHMusic\Core\CASHConnection;
+
+use EddTurtle\DirectUpload\Signature as S3Signature;
+use Aws\S3\S3MultiRegionClient as S3Client;
+use Exception;
+
 class S3Seed extends SeedBase {
 	protected $s3,$bucket='',$s3_key,$s3_secret,$s3_account_id,$bucket_region;
 
@@ -450,7 +461,7 @@ class S3Seed extends SeedBase {
 			$key_preface .= '/';
 		}
 
-        $upload = new \EddTurtle\DirectUpload\Signature(
+        $upload = new S3Signature(
         	$this->s3_key,
 			$this->s3_secret,
 			$this->bucket,
@@ -512,7 +523,7 @@ class S3Seed extends SeedBase {
 	{
 // this is dumb but it's how the new SDK works
 		try {
-			$s3_client = new \Aws\S3\S3MultiRegionClient([
+			$s3_client = new S3Client([
 				'version'     => '2006-03-01',
 				'region'      => $region,
 				'credentials' => [

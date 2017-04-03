@@ -15,6 +15,13 @@
  * CaseyContrarian Hearts CASH Music
  *
  **/
+
+namespace CASHMusic\Seeds;
+
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Core\SeedBase;
+use CASHMusic\Core\CASHConnection;
+
 class GoogleDriveSeed extends SeedBase {
 	private $client,
 			$drive_service,
@@ -50,7 +57,7 @@ class GoogleDriveSeed extends SeedBase {
 
 				require_once(CASH_PLATFORM_ROOT.'/lib/google/Google_Client.php');
 				require_once(CASH_PLATFORM_ROOT.'/lib/google/contrib/Google_DriveService.php');
-				$this->client = new Google_Client();
+				$this->client = new \Google_Client();
 				$this->client->setUseObjects(false);
 				$this->client->setClientId($this->client_id);
 				$this->client->setClientSecret($this->client_secret);
@@ -81,7 +88,7 @@ class GoogleDriveSeed extends SeedBase {
 				}
 
 				$this->client->setAccessToken($this->access_token);
-				$this->drive_service = new Google_DriveService($this->client);
+				$this->drive_service = new \Google_DriveService($this->client);
 			}
 		} else {
 			$this->error_message = 'could not get connection';
@@ -222,7 +229,7 @@ class GoogleDriveSeed extends SeedBase {
 	public static function exchangeCode($authorization_code,$client_id,$client_secret,$redirect_uri) {
 		require_once(CASH_PLATFORM_ROOT.'/lib/google/Google_Client.php');
 		try {
-			$client = new Google_Client();
+			$client = new \Google_Client();
 			$client->setClientId($client_id);
 			$client->setClientSecret($client_secret);
 			$client->setRedirectUri($redirect_uri);
@@ -241,16 +248,16 @@ class GoogleDriveSeed extends SeedBase {
 	public static function getUserInfo($credentials,$client_id,$client_secret) {
 		require_once(CASH_PLATFORM_ROOT.'/lib/google/Google_Client.php');
 		require_once(CASH_PLATFORM_ROOT.'/lib/google/contrib/Google_Oauth2Service.php');
-		$client = new Google_Client();
+		$client = new \Google_Client();
 		$client->setUseObjects(false);
 		$client->setClientId($client_id);
   		$client->setClientSecret($client_secret);
 		$client->setAccessToken($credentials);
-		$service = new Google_Oauth2Service($client);
+		$service = new \Google_Oauth2Service($client);
 		$user_info = null;
 		try {
 			$user_info = $service->userinfo->get();
-		} catch (Google_Exception $e) {
+		} catch (\Google_Exception $e) {
 			// $this->error_message = 'An error occurred: ' . $e->getMessage();
 			return false;
 		}
@@ -286,7 +293,7 @@ class GoogleDriveSeed extends SeedBase {
 	}
 
 	public function makePublic($filename) {
-		$permission = new Google_Permission();
+		$permission = new \Google_Permission();
 		$permission->setValue('');
 		$permission->setType('anyone');
 		$permission->setRole('reader');

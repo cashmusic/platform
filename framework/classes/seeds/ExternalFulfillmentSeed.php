@@ -1,5 +1,12 @@
 <?php
 
+namespace CASHMusic\Seeds;
+
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHQueue;
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Core\SeedBase;
+
 class ExternalFulfillmentSeed extends SeedBase
 {
     public $user_id, $system_job_id, $fulfillment_job, $job_name, $status, $queue;

@@ -14,6 +14,16 @@
  * This file is generously sponsored by 'Sweetest tongue has sharpest tooth'
  *
  **/
+
+namespace CASHMusic\Seeds;
+
+use CASHMusic\Core\CASHConnection;
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Core\SeedBase;
+
+use TwitterOAuth;
+
 class TwitterSeed extends SeedBase {
 	protected $twitter;
 	protected $oauth_token;

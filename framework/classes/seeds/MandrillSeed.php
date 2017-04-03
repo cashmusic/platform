@@ -14,6 +14,16 @@
  * This file is generously sponsored by TTSCC - http://tts.cc - This code kills fascists
  *
  **/
+
+namespace CASHMusic\Seeds;
+
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Core\SeedBase;
+use CASHMusic\Core\CASHConnection;
+
+use Mandrill;
+
 class MandrillSeed extends SeedBase {
 	private $api;
 	public $api_key, $api_email, $error_code=false, $error_message=false;

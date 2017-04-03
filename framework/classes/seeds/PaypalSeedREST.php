@@ -19,7 +19,10 @@
  *
  **/
 
-require CASH_PLATFORM_ROOT . '/lib/paypal/autoload.php';
+namespace CASHMusic\Seeds;
+
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Core\SeedBase;
 
 use PayPal\Api\Amount;
 use PayPal\Api\Details;
