@@ -15,8 +15,6 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
         )
     );
 
-    error_log(print_r($comped_request->response, true));
-
     if ($comped_request->response['payload']) {
         AdminHelper::formSuccess('Success. Comped subscription added to this plan.','/commerce/subscriptions/detail/'.$request_parameters[0]);
     } else {
