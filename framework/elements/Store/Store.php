@@ -18,6 +18,7 @@ use CASHMusic\Core\ElementBase;
 use CASHMusic\Core\CASHRequest;
 use ArrayIterator;
 use CASHMusic\Core\CASHSystem;
+use CASHMusic\Seeds\StripeSeed;
 
 
 class Store extends ElementBase {
@@ -144,6 +145,7 @@ class Store extends ElementBase {
 			}
 			if (isset($settings_request->response['payload']['stripe_default'])) {
 				if ($settings_request->response['payload']['stripe_default']) {
+					
 					$payment_seed = new StripeSeed($this->element_data['user_id'],$settings_request->response['payload']['stripe_default']);
 					if (!empty($payment_seed->publishable_key)) {
 						$this->element_data['stripe_public_key'] = $payment_seed->publishable_key;

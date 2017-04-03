@@ -22,6 +22,7 @@ namespace CASHMusic\Seeds;
 use CASHMusic\Core\CASHSystem;
 use CASHMusic\Core\SeedBase;
 use CASHMusic\Core\CASHConnection;
+use CASHMusic\Admin\AdminHelper;
 
 use EddTurtle\DirectUpload\Signature as S3Signature;
 use Aws\S3\S3MultiRegionClient as S3Client;

@@ -45,7 +45,7 @@ class MembersArea extends ElementBase {
 			if (file_exists(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php')) {
 				include_once(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php');
 			}
-			$this->element_data['secure_content'] = Markdown($this->element_data['secure_content']);
+			$this->element_data['secure_content'] = \Markdown($this->element_data['secure_content']);
 			$this->setTemplate('success');
 		}
 		return $this->element_data;

@@ -21,6 +21,7 @@ namespace CASHMusic\Seeds;
 use CASHMusic\Core\CASHSystem;
 use CASHMusic\Core\SeedBase;
 use CASHMusic\Core\CASHConnection;
+use CASHMusic\Admin\AdminHelper;
 
 class GoogleDriveSeed extends SeedBase {
 	private $client,

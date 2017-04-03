@@ -29,7 +29,7 @@ class StaticContent extends ElementBase {
 		if (file_exists(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php')) {
 			include_once(CASH_PLATFORM_ROOT . '/lib/markdown/markdown.php');
 		}
-		$this->element_data['storedcotent'] = Markdown($this->element_data['storedcotent']);
+		$this->element_data['storedcotent'] = \Markdown($this->element_data['storedcotent']);
 		return $this->element_data;
 	}
 } // END class 

@@ -20,6 +20,8 @@ namespace CASHMusic\Elements\SocialFeeds;
 
 use CASHMusic\Core\ElementBase;
 use ArrayIterator;
+use CASHMusic\Seeds\TumblrSeed;
+use CASHMusic\Seeds\TwitterSeed;
 
 class SocialFeeds extends ElementBase {
 	public $type = 'socialfeeds';
@@ -28,6 +30,7 @@ class SocialFeeds extends ElementBase {
 	protected $tumblr_seed = false;
 
 	public function getData() {
+
 		$this->twitter_seed = new TwitterSeed($this->element_data['user_id']);
 		$this->tumblr_seed = new TumblrSeed();
 		$raw_feeds = array();

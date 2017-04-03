@@ -4,6 +4,7 @@ namespace CASHMusic\Core;
 
 use CASHMusic\Core\CASHRequest as CASHRequest;
 use CASHMusic\Core\CASHConnection as CASHConnection;
+use CASHMusic\Seeds\MandrillSeed;
 use Exception;
 
 /**
@@ -820,6 +821,7 @@ abstract class CASHSystem  {
 		
 		// either we've got a valid connection ID, or a fallback api_key
 		if ($connection_id) {
+
 			$mandrill = new MandrillSeed($user_id, $connection_id);
 
 			if ($result = $mandrill->send(
@@ -889,6 +891,7 @@ abstract class CASHSystem  {
 	public static function renderMustache($template, $vars_array) {
 
 		// try to render the template with the provided vars, or die
+
 		$mustache_engine = new \Mustache_Engine;
 		try {
 			$rendered_template = $mustache_engine->render($template, $vars_array);

@@ -4,6 +4,8 @@ namespace CASHMusic\Core;
 
 use CASHMusic\Core\CASHData as CASHData;
 use CASHMusic\Core\CASHRequest as CASHRequest;
+use CASHMusic\Seeds\ExternalFulfillmentSeed;
+use CASHMusic\Seeds\SoundScanSeed;
 
 /**
  * GC and background tasks

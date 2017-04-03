@@ -18,6 +18,7 @@ use CASHMusic\Core\ElementBase;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
 use ArrayIterator;
+use CASHMusic\Seeds\StripeSeed;
 
 class SinglePurchase extends ElementBase {
 	public $type = 'singlepurchase';
