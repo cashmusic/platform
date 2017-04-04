@@ -10,7 +10,13 @@
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
- */class APICore  {
+ */
+
+namespace CASHMusic\API;
+
+use CASHMusic\Core\CASHRequest;
+
+class APICore  {
 	public $version;
 	private $cash_framework_core;
 	private $passed_url;

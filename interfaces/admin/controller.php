@@ -13,6 +13,9 @@
  *
  ***************************************************************************************************/
 
+namespace CASHMusic\Admin;
+
+
 if(strrpos($_SERVER['REQUEST_URI'],'controller.php') !== false) {
 	header('Location: ./');
 	exit;
@@ -29,9 +32,9 @@ require_once(__DIR__ . '/constants.php');
 
 // instead of the previous require_once(CASH_PLATFORM_PATH) call, we manually
 // load CASHSystem and set admin_primary_cash_request to the first CASHRequest set
-include_once(dirname(CASH_PLATFORM_PATH) . '/classes/core/CASHSystem.php');
+//include_once(dirname(CASH_PLATFORM_PATH) . '/classes/core/CASHSystem.php');
 include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
-$admin_primary_cash_request = CASHSystem::startUp(true);
+$admin_primary_cash_request = \CASHMusic\Core\CASHSystem::startUp(true);
 
 // admin-specific autoloader
 function cash_admin_autoloadCore($classname) {
@@ -44,10 +47,10 @@ spl_autoload_register('cash_admin_autoloadCore');
 
 // make an object to use throughout the pages
 $cash_admin = new AdminCore($admin_primary_cash_request->sessionGet('cash_effective_user'),$admin_primary_cash_request);
-$cash_admin->mustache_groomer = new Mustache;
+$cash_admin->mustache_groomer = new \Mustache;
 $cash_admin->page_data['www_path'] = ADMIN_WWW_BASE_PATH;
 $cash_admin->page_data['public_url'] = CASH_PUBLIC_URL;
-$cash_admin->page_data['platform_version'] = CASHRequest::$version;
+$cash_admin->page_data['platform_version'] = \CASHMusic\Core\CASHRequest::$version;
 
 // basic script vars
 $pages_path = ADMIN_BASE_PATH . '/components/pages/';
