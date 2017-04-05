@@ -16,6 +16,7 @@ use CASHMusic\Core\CASHSystem as CASHSystem;
 use CASHMusic\Core\CASHRequest as CASHRequest;
 
 // get username and any user data
+
 $user_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'people',
@@ -202,7 +203,9 @@ if (!$whatsnew) {
 
 
 // what about regions, currency, and commerce?
-$connections = AdminHelper::getConnectionsByScope('commerce');
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
+$connections = $admin_helper->getConnectionsByScope('commerce');
 if ($connections) {
 	$settings_response = $cash_admin->requestAndStore(
 		array(

@@ -20,6 +20,10 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         array (
             'phpseclib\\' => 10,
         ),
+        'W' => 
+        array (
+            'Whoops\\' => 7,
+        ),
         'S' => 
         array (
             'Stripe\\' => 7,
@@ -81,6 +85,10 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         'phpseclib\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
+        ),
+        'Whoops\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/filp/whoops/src/Whoops',
         ),
         'Stripe\\' => 
         array (

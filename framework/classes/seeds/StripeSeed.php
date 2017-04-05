@@ -168,7 +168,10 @@ class StripeSeed extends SeedBase
 //                    //get the user information from the returned credentials.
 //                    $user_info = StripeSeed::getUserInfo($credentials['access']);
                     //create new connection and add it to the database.
-                    $new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+
+                    $admin_helper = new AdminHelper();
+
+                    $new_connection = new CASHConnection($admin_helper->getPersistentData('cash_effective_user'));
 
 
                     $result = $new_connection->setSettings(

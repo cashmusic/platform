@@ -90,6 +90,8 @@ class S3Seed extends SeedBase {
 	public static function getRedirectMarkup($data=false) {
 		// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
 		// calls would only happen in the admin. If this changes we can fuck around with it later.
+        $admin_helper = new AdminHelper();
+
 		$return_markup = '<h4>Amazon S3</h4>'
 					   . '<p>You\'ll need your S3 key and secret to proceed. For security reasons '
 					   . 'we don\'t store your key or secret — you\'re granting permission to our own account to access the '
@@ -97,7 +99,7 @@ class S3Seed extends SeedBase {
 					   . '<form accept-charset="UTF-8" method="post" action="' . $data . '">'
 					   . '<label for="key">Key</label><input type="text" name="key" value="" /><br />'
 					   . '<label for="secret">Secret</label><input type="text" name="secret" value="" /><br />'
-					   . '<input type="hidden" name="bucket" value="cashmusic-' . AdminHelper::getPersistentData('cash_effective_user') . '-' . time() . '" /><br />'
+					   . '<input type="hidden" name="bucket" value="cashmusic-' . $admin_helper->getPersistentData('cash_effective_user') . '-' . time() . '" /><br />'
 					   . '<div><input class="button" type="submit" value="Add The Connection" /></div>'
 					   . '</form>';
 		return $return_markup;
@@ -112,11 +114,12 @@ class S3Seed extends SeedBase {
 			$s3_default_email = false;
 		}
 
+        $admin_helper = new AdminHelper();
 
 		if ($bucket_region = S3Seed::connectAndAuthorize($data['key'],$data['secret'],$data['bucket'],$s3_default_email)) {
 			// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
 			// calls would only happen in the admin. If this changes we can fuck around with it later.
-			$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+			$new_connection = new CASHConnection($admin_helper->getPersistentData('cash_effective_user'));
 
 			$connection_name = 'Amazon S3 ('.$data['bucket'].')';
 

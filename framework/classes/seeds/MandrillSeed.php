@@ -114,9 +114,11 @@ class MandrillSeed extends SeedBase {
 
 			$mandrill = new Mandrill($data['api_key']);
 
+            $admin_helper = new AdminHelper();
+
 			// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
 			// calls would only happen in the admin. If this changes we can fuck around with it later.
-			$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+			$new_connection = new CASHConnection($admin_helper->getPersistentData('cash_effective_user'));
 			$result = $new_connection->setSettings(
 				$data['api_email'] . ' (Mandrill)',
 				'com.mandrillapp',

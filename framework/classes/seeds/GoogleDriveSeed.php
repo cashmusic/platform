@@ -44,6 +44,9 @@ class GoogleDriveSeed extends SeedBase {
 		$this->settings_type = 'com.google.drive';
 		$this->user_id = $user_id;
 		$this->connection_id = $connection_id;
+
+        $this->admin_helper = new AdminHelper();
+
 		if ($this->getCASHConnection()) {
 			$connections = CASHSystem::getSystemSettings('system_connections');
 
@@ -151,9 +154,11 @@ class GoogleDriveSeed extends SeedBase {
 				}
 				$credentials_array = json_decode($credentials, true);
 				if (isset($credentials_array['refresh_token'])) {
+
+                    $admin_helper = new AdminHelper();
 					// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
 					// calls would only happen in the admin. If this changes we can fuck around with it later.
-					$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+					$new_connection = new CASHConnection($admin_helper->getPersistentData('cash_effective_user'));
 					$result = $new_connection->setSettings(
 						$email_address . ' (Google Drive)',
 						'com.google.drive',

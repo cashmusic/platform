@@ -20,13 +20,16 @@ use CASHMusic\Core\CASHConnection;
 use CASHMusic\Core\CASHDaemon;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
+use Whoops\Handler\PrettyPageHandler;
 
 class AdminHelper  {
 
-	public function __construct($cash_request, $cash_admin=false) {
+	public function __construct($cash_request_dependency=false, $cash_admin_dependency=false) {
 
-		$this->cash_request = $cash_request;
-		$this->cash_admin = (!empty($cash_admin)) ? $cash_admin : false;
+        global $admin_primary_cash_request, $cash_admin;
+
+		$this->cash_request = (!empty($cash_request_dependency)) ? $cash_request_dependency : $admin_primary_cash_request;
+		$this->cash_admin = (!empty($cash_admin_dependency)) ? $cash_admin_dependency : $cash_admin;
 	}
 
 	public function doLogin($email_address,$password,$require_admin=true) {
@@ -231,9 +234,9 @@ class AdminHelper  {
 	 * Finds settings matching a specified scope and echoes them out formatted
 	 * for a dropdown box in a form
 	 *
-	 */public static function echoConnectionsOptions($scope,$selected=false,$return=false) {
+	 */public function echoConnectionsOptions($scope,$selected=false,$return=false) {
 
-		$applicable_settings_array = AdminHelper::getConnectionsByScope($scope);
+		$applicable_settings_array = $this->getConnectionsByScope($scope);
 
 		$all_connections = '<option value="0">None</option>';
 
@@ -254,10 +257,10 @@ class AdminHelper  {
 	}
 
 	//get connections scope
-	public static function getConnectionsByScope($scope){
+	public function getConnectionsByScope($scope){
 
 		// get system settings:
-		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+		$page_data_object = new CASHConnection($this->getPersistentData('cash_effective_user'));
 		$applicable_settings_array = $page_data_object->getConnectionsByScope($scope);
 
 		return $applicable_settings_array;
@@ -266,8 +269,9 @@ class AdminHelper  {
 	/**
 	 * Returns the name given to a specific Connection
 	 *
-	 */public static function getConnectionName($connection_id) {
-		$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+	 */
+	public function getConnectionName($connection_id) {
+		$page_data_object = new CASHConnection($this->getPersistentData('cash_effective_user'));
 		$connection_name = false;
 		$connection_details = $page_data_object->getConnectionDetails($connection_id);
 		if ($connection_details) {
@@ -701,7 +705,7 @@ class AdminHelper  {
 		}
 	}
 
-	public static function formatDataForType($name,$type,$value=false,$element_id=false,$allvalues=false) {
+	public function formatDataForType($name,$type,$value=false,$element_id=false,$allvalues=false) {
 		$formatted = false;
 		if ($type == 'boolean') {
 			if ($value) {
@@ -723,7 +727,7 @@ class AdminHelper  {
 			//       storage, so larger bits of data or in situations where things would need to
 			//       be sorted system-wide based on tags. AKA: not on add
 			$r = new CASHDaemon;
-			$formatted = $r->setMetaData('elements',$element_id,AdminHelper::getPersistentData('cash_effective_user'),$name,$value);
+			$formatted = $r->setMetaData('elements',$element_id,$this->getPersistentData('cash_effective_user'),$name,$value);
 		} else {
 			if ($type != 'scalar') {
 				$formatted = $value;
@@ -732,7 +736,7 @@ class AdminHelper  {
 		return $formatted;
 	}
 
-	public static function processScalarData($post_data,$app_json) {
+	public function processScalarData($post_data,$app_json) {
 		$return_array = array();
 		$tmp_array = array();
 		$options_in_scalars = array();
@@ -768,7 +772,7 @@ class AdminHelper  {
 				}
 				if (!$in_options) {
 					$element_id = isset($post_data['element_id']) ? $post_data['element_id'] : false;
-					$tmp_array[$origin_and_index[0]][intval($origin_and_index[1])][$root_name] = AdminHelper::formatDataForType($name,$alltypes[$root_name],$data,$element_id);
+					$tmp_array[$origin_and_index[0]][intval($origin_and_index[1])][$root_name] = $this->formatDataForType($name,$alltypes[$root_name],$data,$element_id);
 				} else {
 					$tmp_array[$origin_and_index[0]][intval($origin_and_index[1])][$in_options][$root_name] = $data;
 				}
@@ -783,8 +787,8 @@ class AdminHelper  {
 		return $return_array;
 	}
 
-	public static function handleElementFormPOST($post_data,&$cash_admin) {
-		global $admin_primary_cash_request;
+	public function handleElementFormPOST($post_data,&$cash_admin) {
+
 		if (AdminHelper::elementFormSubmitted($post_data)) {
 
 			// first create the options array
@@ -805,70 +809,70 @@ class AdminHelper  {
 							$allvalues = false;
 						}
 						// do it!
-						$options_array[$data] = AdminHelper::formatDataForType($data,$values['type'],$value,$element_id,$allvalues);
+						$options_array[$data] = $this->formatDataForType($data,$values['type'],$value,$element_id,$allvalues);
 					}
 				}
-				$scalars = AdminHelper::processScalarData($post_data,$app_json);
+				$scalars = $this->processScalarData($post_data,$app_json);
 				$options_array = array_merge($options_array,$scalars);
 			}
 
 			if (isset($post_data['doelementadd'])) {
 				// Adding a new element:
-				$cash_admin->setCurrentElementState('add');
-				$admin_primary_cash_request->processRequest(
+				$this->cash_admin->setCurrentElementState('add');
+				$this->cash_request->processRequest(
 					array(
 						'cash_request_type' => 'element',
 						'cash_action' => 'addelement',
 						'name' => $post_data['element_name'],
 						'type' => $post_data['element_type'],
 						'options_data' => $options_array,
-						'user_id' => AdminHelper::getPersistentData('cash_effective_user')
+						'user_id' => $this->getPersistentData('cash_effective_user')
 					)
 				);
-				if ($admin_primary_cash_request->response['status_uid'] == 'element_addelement_200') {
+				if ($this->cash_request->response['status_uid'] == 'element_addelement_200') {
 
 					$current_campaign = false;
 					if ($post_data['in_campaign']) {
 						$current_campaign = $post_data['in_campaign'];
 					} else {
-						$current_campaign = AdminHelper::getPersistentData('current_campaign');
+						$current_campaign = $this->getPersistentData('current_campaign');
 					}
 
 					if ($current_campaign) {
-						$cash_admin->requestAndStore(
+						$this->cash_admin->requestAndStore(
 							array(
 								'cash_request_type' => 'element',
 								'cash_action' => 'addelementtocampaign',
 								'campaign_id' => $current_campaign,
-								'element_id' => $admin_primary_cash_request->response['payload']
+								'element_id' => $this->cash_request->response['payload']
 							)
 						);
 						// handle differently for AJAX and non-AJAX
-						if ($cash_admin->page_data['data_only']) {
+						if ($this->cash_admin->page_data['data_only']) {
 							AdminHelper::formSuccess('Success. New element added.','/elements/');
 						} else {
-							$cash_admin->setCurrentElement($admin_primary_cash_request->response['payload']);
+							$this->cash_admin->setCurrentElement($this->cash_request->response['payload']);
 						}
 					} else {
 						// handle differently for AJAX and non-AJAX
-						if ($cash_admin->page_data['data_only']) {
-							AdminHelper::formSuccess('Success. New element added.','/elements/edit/' . $admin_primary_cash_request->response['payload']);
+						if ($this->cash_admin->page_data['data_only']) {
+							AdminHelper::formSuccess('Success. New element added.','/elements/edit/' . $this->cash_request->response['payload']);
 						} else {
-							$cash_admin->setCurrentElement($admin_primary_cash_request->response['payload']);
+							$this->cash_admin->setCurrentElement($this->cash_request->response['payload']);
 						}
 					}
 				} else {
 					// handle differently for AJAX and non-AJAX
-					if ($cash_admin->page_data['data_only']) {
+					if ($this->cash_admin->page_data['data_only']) {
 						AdminHelper::formFailure('Error. Something just didn\'t work right.','/elements/add/' . $post_data['element_type']);
 					} else {
-						$cash_admin->setErrorState('element_add_failure');
+						$this->cash_admin->setErrorState('element_add_failure');
 					}
 				}
 			} elseif (isset($post_data['doelementedit'])) {
 				// Editing an existing element:
-				$cash_admin->setCurrentElementState('edit');
-				$admin_primary_cash_request->processRequest(
+				$this->cash_admin->setCurrentElementState('edit');
+				$this->cash_request->processRequest(
 					array(
 						'cash_request_type' => 'element',
 						'cash_action' => 'editelement',
@@ -877,28 +881,28 @@ class AdminHelper  {
 						'options_data' => $options_array
 					)
 				);
-				if ($admin_primary_cash_request->response['status_uid'] == 'element_editelement_200') {
+				if ($this->cash_request->response['status_uid'] == 'element_editelement_200') {
 					// handle differently for AJAX and non-AJAX
-					if ($cash_admin->page_data['data_only']) {
+					if ($this->cash_admin->page_data['data_only']) {
 						// AJAX
 						AdminHelper::formSuccess('Success. Edited.','/elements/edit/' . $post_data['element_id']);
 					} else {
 						// non-AJAX
-						$cash_admin->setCurrentElement($post_data['element_id']);
+						$this->cash_admin->setCurrentElement($post_data['element_id']);
 					}
 				} else {
 					// handle differently for AJAX and non-AJAX
-					if ($cash_admin->page_data['data_only']) {
+					if ($this->cash_admin->page_data['data_only']) {
 						// AJAX
 						AdminHelper::formFailure('Error. Something just didn\'t work right.','/elements/edit/' . $post_data['element_id']);
 					} else {
 						// non-AJAX
-						$cash_admin->setErrorState('element_edit_failure');
+						$this->cash_admin->setErrorState('element_edit_failure');
 					}
 				}
 			}
 
-			AdminHelper::setBasicElementFormData($cash_admin);
+			AdminHelper::setBasicElementFormData($this->cash_admin);
 		}
 	}
 
@@ -915,8 +919,8 @@ class AdminHelper  {
 	 * Finds settings matching a specified scope and echoes them out formatted
 	 * for a dropdown box in a form
 	 *
-	 */public static function echoTemplateOptions($type='page',$selected=null,$return=true) {
-		global $cash_admin;
+	 */
+	public static function echoTemplateOptions($type='page',$selected=null,$return=true) {
 
 				$templates_array = array(
 					array(
@@ -1017,15 +1021,15 @@ class AdminHelper  {
 	 *
 	 */
 
-	public static function getPersistentData($var) {
-		global $admin_primary_cash_request;
-		$result = $admin_primary_cash_request->sessionGet($var);
+	public function getPersistentData($var) {
+
+		$result = $this->cash_request->sessionGet($var);
 		return $result;
 	}
 
-	public static function getActivity($current_userdata=false) {
-		global $admin_primary_cash_request, $cash_admin;
-		$session_news = $admin_primary_cash_request->sessionGet('admin_newsfeed');
+
+	public function getActivity($current_userdata=false) {
+		$session_news = $this->cash_request->sessionGet('admin_newsfeed');
 		if (!$session_news) {
 			/*
 			$tumblr_seed = new TumblrSeed();
@@ -1522,8 +1526,8 @@ class AdminHelper  {
 	 * at the speed of light — it'll make a supersonic nerd of you. Don't stop it.
 	 *
 	 * @return array
-	 */public static function echoFormOptions($base_type,$selected=0,$range=false,$return=false,$shownone=false) {
-		global $admin_primary_cash_request;
+	 */public function echoFormOptions($base_type,$selected=0,$range=false,$return=false,$shownone=false) {
+
 		$available_options = false;
 		$all_options = '';
 		if (is_array($base_type)) {
@@ -1542,7 +1546,7 @@ class AdminHelper  {
 
 			if (substr($base_type,0,7) == 'connect') {
 				$scope = explode('_',$base_type);
-				return AdminHelper::echoConnectionsOptions($scope[1],$selected,true);
+				return $this->echoConnectionsOptions($scope[1],$selected,true);
 			}
 
 			switch ($base_type) {
@@ -1579,17 +1583,18 @@ class AdminHelper  {
 					$display_information = 'name';
 					break;
 			}
-			global $admin_primary_cash_request;
-			$admin_primary_cash_request->processRequest(
+
+			$this->cash_request->processRequest(
 				array(
 					'cash_request_type' => $plant_name,
 					'cash_action' => $action_name,
-					'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
+					'user_id' => $this->getPersistentData('cash_effective_user'),
 					'parent_id' => 0
 				)
 			);
-			if (is_array($admin_primary_cash_request->response['payload']) && ($admin_primary_cash_request->response['status_code'] == 200)) {
-				$available_options = $admin_primary_cash_request->response['payload'];
+			if (is_array($this->cash_request->response['payload'])
+				&& ($this->cash_request->response['status_code'] == 200)) {
+				$available_options = $this->cash_request->response['payload'];
 			}
 		}
 

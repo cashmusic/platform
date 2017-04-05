@@ -2,10 +2,13 @@
 
 namespace CASHMusic\Core;
 
+use Camspiers\JsonPretty\JsonPretty;
 use CASHMusic\Core\CASHRequest as CASHRequest;
 use CASHMusic\Core\CASHConnection as CASHConnection;
 use CASHMusic\Seeds\MandrillSeed;
 use Exception;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
 
 /**
  * An abstract collection of lower level static functions that are useful
@@ -1266,5 +1269,27 @@ abstract class CASHSystem  {
 
         return $className;
     }
+
+    public static function backtrace() {
+		if (CASH_DEBUG) {
+            $whoops = new Run();
+
+// Configure the PrettyPageHandler:
+            $errorPage = new PrettyPageHandler();
+			$backtrace = debug_backtrace();
+
+			// get rid of the reference to this method
+			array_shift($backtrace);
+
+            $errorPage->setPageTitle("Oh shit. It's a backtrace."); // Set the page's title
+            $errorPage->addDataTable("Details", ['details'=>"<pre>".print_r($backtrace, true)."</pre>"]);
+
+            $whoops->pushHandler($errorPage);
+            $whoops->register();
+
+            throw new \RuntimeException("Backtrace fired.");
+		}
+        //if (CASH_DEBUG) error_log(print_r(array_reverse(debug_backtrace()), true));
+	}
 } // END class
 ?>

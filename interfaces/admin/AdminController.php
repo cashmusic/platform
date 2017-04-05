@@ -5,6 +5,9 @@ namespace CASHMusic\Admin;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
 
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Handler\JsonResponseHandler;
+
 
 class AdminController {
     public function __construct()
@@ -30,16 +33,11 @@ class AdminController {
         include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
         $admin_primary_cash_request = CASHSystem::startUp(true);
 
-// admin-specific autoloader
-/*        function cash_admin_autoloadCore($classname) {
-            $file = ADMIN_BASE_PATH . '/classes/'.$classname.'.php';
-            if (file_exists($file)) {
-                require_once($file);
-            }
+        if (CASH_DEBUG) {
+            $this->setErrorHandler();
         }
-        spl_autoload_register('cash_admin_autoloadCore');*/
 
-// make an object to use throughout the pages
+        // make an object to use throughout the pages
         $cash_admin = new AdminCore($admin_primary_cash_request->sessionGet('cash_effective_user'),$admin_primary_cash_request);
 
         $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
@@ -292,6 +290,9 @@ class AdminController {
             $cash_admin->page_data['section_name'] = 'main';
         }
 // include controller for current page
+
+        if (CASH_DEBUG) error_log("Admin page: ".$include_filename);
+
         if ($include_filename !== '.php') { // TODO: Why is this getting called at odd times with blank include name. Shouldn't happen, no?
             include($pages_path . 'controllers/' . $include_filename);
         }
@@ -322,5 +323,28 @@ class AdminController {
             echo $rendered_content;
         }
 
+    }
+
+    public function setErrorHandler() {
+
+        $run     = new \Whoops\Run;
+        $handler = new PrettyPageHandler;
+
+// Set the title of the error page:
+        $handler->setPageTitle("Oh shit! You broke it.");
+
+        $run->pushHandler($handler);
+
+// Add a special handler to deal with AJAX requests with an
+// equally-informative JSON response. Since this handler is
+// first in the stack, it will be executed before the error
+// page handler, and will have a chance to decide if anything
+// needs to be done.
+        if (\Whoops\Util\Misc::isAjaxRequest()) {
+            $run->pushHandler(new JsonResponseHandler);
+        }
+
+// Register the handler with PHP, and you're set!
+        $run->register();
     }
 }

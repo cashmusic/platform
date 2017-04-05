@@ -108,7 +108,9 @@ class TwitterSeed extends SeedBase {
 			require_once(CASH_PLATFORM_ROOT.'/lib/twitter/OAuth.php');
 			require_once(CASH_PLATFORM_ROOT.'/lib/twitter/twitteroauth.php');
 
-			$temporary_credentials = AdminHelper::getPersistentData('twitter_temporary_credentials');
+            $admin_helper = new AdminHelper();
+
+			$temporary_credentials = $admin_helper->getPersistentData('twitter_temporary_credentials');
 
 			$twitter = new TwitterOAuth(
 				$connections['com.twitter']['client_id'],
@@ -122,7 +124,7 @@ class TwitterSeed extends SeedBase {
 			if ($twitter->http_code == 200) {
 				// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
 				// calls would only happen in the admin. If this changes we can fuck around with it later.
-				$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+				$new_connection = new CASHConnection($admin_helper->getPersistentData('cash_effective_user'));
 				$result = $new_connection->setSettings(
 					'@' . $access_token['screen_name'] . ' (Twitter)',
 					'com.twitter',

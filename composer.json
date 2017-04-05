@@ -12,7 +12,8 @@
         "erusev/parsedown": "^1.6",
         "stripe/stripe-php": "^4.1",
         "aws/aws-sdk-php": "^3.19",
-        "eddturtle/direct-upload": "^1.6"
+        "eddturtle/direct-upload": "^1.6",
+        "filp/whoops": "^2.1"
     },
     "autoload": {
         "psr-4": {
