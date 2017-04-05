@@ -10,6 +10,11 @@
  *
  ******************************************************************************/
 
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+
 // get username and any user data
 $user_response = $cash_admin->requestAndStore(
 	array(

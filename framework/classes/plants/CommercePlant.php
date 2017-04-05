@@ -15,6 +15,15 @@
  * This file is generously sponsored by Devin Palmer | www.devinpalmer.com
  *
  **/
+
+namespace CASHMusic\Plants;
+
+use CASHMusic\Core\PlantBase;
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Seeds\PaypalSeed;
+use CASHMusic\Seeds\StripeSeed;
+
 class CommercePlant extends PlantBase {
     protected $subscription_active_status;
 

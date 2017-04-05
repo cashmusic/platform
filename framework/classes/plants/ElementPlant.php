@@ -15,6 +15,13 @@
  * This file is generously sponsored by John 'Warthog9' Hawley
  *
  **/
+
+namespace CASHMusic\Plants;
+
+use CASHMusic\Core\PlantBase;
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
+
 class ElementPlant extends PlantBase {
 	protected $elements_array=array();
 	protected $typenames_array=array();
