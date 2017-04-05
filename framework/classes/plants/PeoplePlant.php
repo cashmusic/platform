@@ -14,6 +14,14 @@
  * violet           hope
  *
  **/
+
+namespace CASHMusic\Plants;
+
+use CASHMusic\Core\PlantBase;
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Seeds\MailchimpSeed;
+
 class PeoplePlant extends PlantBase {
 
 	public function __construct($request_type,$request) {
@@ -475,8 +483,7 @@ class PeoplePlant extends PlantBase {
 					//
 					//
 					//
-					// TO-DO: autoload not firing??? Works for S3Seed,throws error or MailchimpSeed
-					require_once(dirname(__FILE__) . '/../seeds/MailchimpSeed.php');
+
 					$mc = new MailchimpSeed($user_id, $connection_id);
 					return array('connection_type' => $connection_type, 'api' => $mc);
 					break;
