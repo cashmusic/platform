@@ -60,8 +60,9 @@ abstract class CASHSystem  {
 
 			define('CASH_DEBUG',(bool)$cash_settings['debug']);
 			// set up auto-load
-			spl_autoload_register('CASHSystem::autoloadClasses');
-			// composer autoloader, for seeds initially
+			//spl_autoload_register('CASHSystem::autoloadClasses');
+
+			// composer autoloader, in case we haven't loaded via controller first
 			require_once(CASH_PLATFORM_ROOT . '/../vendor/autoload.php');
 
 			// set timezone
@@ -1246,5 +1247,24 @@ abstract class CASHSystem  {
 			'last_name' => $lastname
 		];
 	}
+
+	public static function getFullNamespace($filename) {
+        $lines = file($filename);
+        $namespaceLine = array_shift(preg_grep('/^namespace /', $lines));
+        $match = array();
+        preg_match('/^namespace (.*);$/', $namespaceLine, $match);
+        $fullNamespace = array_pop($match);
+
+        return $fullNamespace;
+    }
+
+    public static function getClassName($filename) {
+        $directoriesAndFilename = explode('/', $filename);
+        $filename = array_pop($directoriesAndFilename);
+        $nameAndExtension = explode('.', $filename);
+        $className = array_shift($nameAndExtension);
+
+        return $className;
+    }
 } // END class
 ?>

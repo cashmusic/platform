@@ -21,11 +21,17 @@ use CASHMusic\Core\CASHDaemon;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
 
-abstract class AdminHelper  {
+class AdminHelper  {
 
-	public static function doLogin($email_address,$password,$require_admin=true) {
-		global $admin_primary_cash_request;
-		$admin_primary_cash_request->processRequest(
+	public function __construct($cash_request, $cash_admin=false) {
+
+		$this->cash_request = $cash_request;
+		$this->cash_admin = (!empty($cash_admin)) ? $cash_admin : false;
+	}
+
+	public function doLogin($email_address,$password,$require_admin=true) {
+
+		$this->cash_request->processRequest(
 			array(
 				'cash_request_type' => 'system',
 				'cash_action' => 'validatelogin',
@@ -34,7 +40,7 @@ abstract class AdminHelper  {
 				'require_admin' => $require_admin
 			)
 		);
-		return $admin_primary_cash_request->response['payload'];
+		return $this->cash_request->response['payload'];
 	}
 
 	/**********************************************
@@ -43,20 +49,19 @@ abstract class AdminHelper  {
 	 *
 	 *********************************************/
 
-	public static function getOrSetLanguage($set_language=false) {
-		global $admin_primary_cash_request, $cash_admin;
+	public function getOrSetLanguage($set_language=false) {
 
 		// if we're not trying to change things, let's just get the setting or fall back to americuhn
 		if (!$set_language) {
-			$session_language = $admin_primary_cash_request->sessionGet('session_language');
+			$session_language = $this->cash_request->sessionGet('session_language');
 
 			if (empty($session_language)) {
 
-				$language_response = $cash_admin->requestAndStore(
+				$language_response = $this->cash_admin->requestAndStore(
 					array(
 						'cash_request_type' => 'system',
 						'cash_action' => 'getsettings',
-						'user_id' => $cash_admin->effective_user_id,
+						'user_id' => $this->cash_admin->effective_user_id,
 						'type' => 'language'
 					)
 				);
@@ -68,20 +73,20 @@ abstract class AdminHelper  {
 					$session_language = $language_response['payload'];
 				}
 
-				$admin_primary_cash_request->sessionSet('session_language',$session_language);
+				$this->cash_request->sessionSet('session_language',$session_language);
 			}
 
 		} else {
 			// we're trying to set this so don't get in the way
-			$admin_primary_cash_request->sessionSet('session_language',$set_language);
+			$this->cash_request->sessionSet('session_language',$set_language);
 			$session_language = $set_language;
 
 			// set in the database as well
-			$language_change_response = $cash_admin->requestAndStore(
+			$language_change_response = $this->cash_admin->requestAndStore(
 				array(
 					'cash_request_type' => 'system',
 					'cash_action' => 'setsettings',
-					'user_id' => $cash_admin->effective_user_id,
+					'user_id' => $this->cash_admin->effective_user_id,
 					'type' => 'language',
 					'value' => $session_language
 				)
@@ -97,7 +102,7 @@ abstract class AdminHelper  {
 
 	public static function echoLanguageOptions($selected_language="en") {
 
-		$languages_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/languages.json'),true);
+		$languages_array = json_decode(file_get_contents(dirname(__FILE__).'/components/languages.json'),true);
 
 		$all_languages = ' ';
 
@@ -119,8 +124,8 @@ abstract class AdminHelper  {
 	 *********************************************/
 
 
-	public static function getPageMenuDetails() {
-		$pages_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/interface/'. AdminHelper::getOrSetLanguage() .'/menu.json'),true);
+	public function getPageMenuDetails() {
+		$pages_array = json_decode(file_get_contents(dirname(__FILE__).'/components/interface/'. $this->getOrSetLanguage() .'/menu.json'),true);
 		// remove non-multi links
 		$platform_type = CASHSystem::getSystemSettings('instancetype');
 		if ($platform_type == 'multi') {
@@ -198,16 +203,20 @@ abstract class AdminHelper  {
 		return $return_array;
 	}
 
-	public static function getUiText() {
-		$text_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/interface/'. AdminHelper::getOrSetLanguage() .'/interaction.json'),true);
+	public function getUiText() {
+		$text_array = json_decode(file_get_contents(dirname(__FILE__).'/components/interface/'. $this->getOrSetLanguage() .'/interaction.json'),true);
 		return $text_array;
 	}
 
-	public static function getPageComponents() {
-		if (file_exists(dirname(__FILE__).'/../components/text/'. AdminHelper::getOrSetLanguage() .'/pages/' . BASE_PAGENAME . '.json')) {
-			$components_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/text/'. AdminHelper::getOrSetLanguage() .'/pages/' . BASE_PAGENAME . '.json'),true);
+	public function getPageComponents() {
+		if (file_exists(
+			dirname(__FILE__).
+			'/components/text/'.
+			$this->getOrSetLanguage() .'/pages/' . BASE_PAGENAME . '.json')
+		) {
+			$components_array = json_decode(file_get_contents(dirname(__FILE__).'/components/text/'. $this->getOrSetLanguage() .'/pages/' . BASE_PAGENAME . '.json'),true);
 		} else {
-			$components_array = json_decode(file_get_contents(dirname(__FILE__).'/../components/text/'. AdminHelper::getOrSetLanguage() .'/pages/default.json'),true);
+			$components_array = json_decode(file_get_contents(dirname(__FILE__).'/components/text/'. $this->getOrSetLanguage() .'/pages/default.json'),true);
 		}
 		return $components_array;
 	}
@@ -1006,7 +1015,9 @@ abstract class AdminHelper  {
 	/**
 	 * Performs a sessionGet() CASH Request for the specified variable
 	 *
-	 */public static function getPersistentData($var) {
+	 */
+
+	public static function getPersistentData($var) {
 		global $admin_primary_cash_request;
 		$result = $admin_primary_cash_request->sessionGet($var);
 		return $result;

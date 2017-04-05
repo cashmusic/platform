@@ -157,7 +157,7 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         ),
         'CASHMusic\\Admin\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/interfaces/admin/classes',
+            0 => __DIR__ . '/../..' . '/interfaces/admin',
         ),
         'CASHMusic\\API\\' => 
         array (

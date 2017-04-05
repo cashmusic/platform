@@ -80,6 +80,9 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 	}
 
 	public function processRequest($request,$method='direct') {
+
+        $namespace = '\CASHMusic\Plants\\';
+
 		// found something, let's make sure it's legit and do work
 		if (is_array($request)) {
 			$this->request = $request;
@@ -89,9 +92,9 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 			if ($requested_plant != '' && count($this->request) > 0) {
 				$this->buildPlantArray();
 				if (isset($this->plant_array[$requested_plant])) {
-					$file_path = CASH_PLATFORM_ROOT.'/classes/plants/'.$this->plant_array[$requested_plant];
-					$class_name = substr_replace($this->plant_array[$requested_plant], '', -4);
-					require_once($file_path);
+					//$file_path = CASH_PLATFORM_ROOT.'/classes/plants/'.$this->plant_array[$requested_plant];
+					$class_name = $namespace.substr_replace($this->plant_array[$requested_plant], '', -4);
+					//require_once($file_path);
 					$this->plant = new $class_name($this->request_method,$this->request);
 					$this->response = $this->plant->processRequest();
 				}

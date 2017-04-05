@@ -25,7 +25,7 @@ return array(
     'CASHMusic\\Plants\\' => array($baseDir . '/framework/classes/plants'),
     'CASHMusic\\Elements\\' => array($baseDir . '/framework/elements'),
     'CASHMusic\\Core\\' => array($baseDir . '/framework/classes/core'),
-    'CASHMusic\\Admin\\' => array($baseDir . '/interfaces/admin/classes'),
+    'CASHMusic\\Admin\\' => array($baseDir . '/interfaces/admin'),
     'CASHMusic\\API\\' => array($baseDir . '/interfaces/api/classes'),
     'Aws\\' => array($vendorDir . '/aws/aws-sdk-php/src'),
     'AdamPaterson\\OAuth2\\Client\\' => array($vendorDir . '/adam-paterson/oauth2-stripe/src'),

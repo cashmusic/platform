@@ -16,8 +16,6 @@ namespace CASHMusic\API;
 
 use CASHMusic\Core\CASHSystem;
 
-require_once(__DIR__ . '/constants.php');
-
 $cash_settings = json_decode(getenv('cashmusic_platform_settings'),true);
 // env settings allow use on multi-server, multi-user instances
 if ($cash_settings) {

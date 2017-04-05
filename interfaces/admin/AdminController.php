@@ -1,26 +1,15 @@
 <?php
-/***************************************************************************************************
- *
- * The CASH admin controller — primary routing for the admin webapp
- *
- * @package admin.org.cashmusic
- * @author CASH Music
- * @link http://cashmusic.org/
- *
- * Copyright (c) 2013, CASH Music
- * Licensed under the Affero General Public License version 3.
- * See http://www.gnu.org/licenses/agpl-3.0.html
- *
- ***************************************************************************************************/
 
 namespace CASHMusic\Admin;
 
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
 
+
 class AdminController {
     public function __construct()
     {
+
         if(strrpos($_SERVER['REQUEST_URI'],'controller.php') !== false) {
             header('Location: ./');
             exit;
@@ -33,7 +22,7 @@ class AdminController {
          * INCLUDES AND STARTUP
          *
          ***************************************************************************************************/
-        require_once(__DIR__ . '/constants.php');
+
 
 // instead of the previous require_once(CASH_PLATFORM_PATH) call, we manually
 // load CASHSystem and set admin_primary_cash_request to the first CASHRequest set
@@ -42,16 +31,19 @@ class AdminController {
         $admin_primary_cash_request = CASHSystem::startUp(true);
 
 // admin-specific autoloader
-        function cash_admin_autoloadCore($classname) {
+/*        function cash_admin_autoloadCore($classname) {
             $file = ADMIN_BASE_PATH . '/classes/'.$classname.'.php';
             if (file_exists($file)) {
                 require_once($file);
             }
         }
-        spl_autoload_register('cash_admin_autoloadCore');
+        spl_autoload_register('cash_admin_autoloadCore');*/
 
 // make an object to use throughout the pages
         $cash_admin = new AdminCore($admin_primary_cash_request->sessionGet('cash_effective_user'),$admin_primary_cash_request);
+
+        $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
         $cash_admin->mustache_groomer = new \Mustache;
         $cash_admin->page_data['www_path'] = ADMIN_WWW_BASE_PATH;
         $cash_admin->page_data['public_url'] = CASH_PUBLIC_URL;
@@ -92,7 +84,7 @@ class AdminController {
 
         if ($logged_in) {
             // set language session
-            AdminHelper::getOrSetLanguage(
+            $admin_helper->getOrSetLanguage(
                 (!empty($_POST['new_language'])) ? $_POST['new_language'] : false
             );
         }
@@ -108,7 +100,7 @@ class AdminController {
             $cash_admin->page_data['loginstatus'] = ' login';
             $cash_admin->page_data['login_message'] = 'OK';
             if (isset($_POST['login'])) {
-                $login_details = AdminHelper::doLogin($_POST['address'],$_POST['password'],true,false);
+                $login_details = $admin_helper->doLogin($_POST['address'],$_POST['password'],true,false);
                 if ($login_details !== false) {
                     $admin_primary_cash_request->startSession();
                     $admin_primary_cash_request->sessionSet('cash_actual_user',$login_details);
@@ -234,7 +226,7 @@ class AdminController {
         }
 
 // set basic data for the template
-        $page_menu_details = AdminHelper::getPageMenuDetails();
+        $page_menu_details = $admin_helper->getPageMenuDetails();
         $cash_admin->page_data['assets_section_menu'] = $page_menu_details['assets_section_menu'];
         $cash_admin->page_data['people_section_menu'] = $page_menu_details['people_section_menu'];
         $cash_admin->page_data['commerce_section_menu'] = $page_menu_details['commerce_section_menu'];
@@ -244,10 +236,10 @@ class AdminController {
 // merge in display links for main template
         $cash_admin->page_data = array_merge($cash_admin->page_data,$page_menu_details['link_text']);
 // global interaction text
-        $ui_interaction_text = AdminHelper::getUiText();
+        $ui_interaction_text = $admin_helper->getUiText();
         $cash_admin->page_data = array_merge($cash_admin->page_data,$ui_interaction_text);
 // page specifics
-        $page_components = AdminHelper::getPageComponents();
+        $page_components = $admin_helper->getPageComponents();
         $cash_admin->page_data['ui_page_tip'] = $page_components['pagetip'];
         $cash_admin->page_data['ui_learn_text'] = $page_components['learn'];
         if (is_array($page_components['labels'])) {
@@ -332,4 +324,3 @@ class AdminController {
 
     }
 }
-?>
