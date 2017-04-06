@@ -156,6 +156,9 @@ class StripeSeed extends SeedBase
      */
     public static function handleRedirectReturn($data = false)
     {
+
+        $admin_helper = new AdminHelper();
+
         if (isset($data['code'])) {
             $connections = CASHSystem::getSystemSettings('system_connections');
             if (isset($connections['com.stripe'])) {
@@ -168,8 +171,6 @@ class StripeSeed extends SeedBase
 //                    //get the user information from the returned credentials.
 //                    $user_info = StripeSeed::getUserInfo($credentials['access']);
                     //create new connection and add it to the database.
-
-                    $admin_helper = new AdminHelper();
 
                     $new_connection = new CASHConnection($admin_helper->getPersistentData('cash_effective_user'));
 
@@ -191,23 +192,41 @@ class StripeSeed extends SeedBase
          						'type' => 'com.stripe'
          					);
                     } else {
-                        AdminHelper::formFailure('Error. Could not save connection.', '/settings/connections/');
-                        return false;
+
+                        return [
+                            'error' => [
+                                'message' => 'Error. Could not save connection.',
+                                'uri' => '/settings/connections/'
+                            ]
+                        ];
                     }
                 } else {
-                    AdminHelper::formFailure('There was an error with the default Stripe app credentials');
-                    return false;
+
+                    return [
+                        'error' => [
+                            'message' => 'There was an error with the default Stripe app credentials',
+                            'uri' => false
+                        ]
+                    ];
+
                 }
             } else {
-                AdminHelper::formFailure('Please add default stripe app credentials.');
-                return false;
+                return [
+                    'error' => [
+                        'message' => 'Please add default stripe app credentials.',
+                        'uri' => false
+                    ]
+                ];
             }
         } else {
-            AdminHelper::formFailure('There was an error. (session) Please try again.');
-            return false;
+            return [
+                'error' => [
+                    'message' => 'There was an error. (session) Please try again.',
+                    'uri' => false
+                ]
+            ];
         }
     }
-
     /**
      *
      * This method is used to exchange the returned code from Stripe with Stripe again to get the user credentials during

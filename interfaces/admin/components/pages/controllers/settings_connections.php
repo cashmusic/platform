@@ -53,7 +53,7 @@ if ($settings_action) {
 	switch ($settings_action) {
 		case 'add':
 			$settings_type = $request_parameters[1];
-			$seed_name = '\CASHMusic\Seeds\\'.$settings_types_data[$settings_type]['seed'];
+			$seed_name = '\\CASHMusic\\Seeds\\'.$settings_types_data[$settings_type]['seed'];
 			if ($cash_admin->platform_type == 'single') {
 				if (!isset($_POST['dosettingsadd'])) {
 					if (array_key_exists($settings_type, $settings_types_data)) {
@@ -137,7 +137,7 @@ if ($settings_action) {
 							$finalize = true;
 						}
 					}
-					$seed_name = $settings_types_data[$settings_type]['seed'];
+					$seed_name = '\\CASHMusic\\Seeds\\'.$settings_types_data[$settings_type]['seed'];
 					if (!$finalize) {
 						$return_url = rtrim(CASHSystem::getCurrentURL(),'/') . '/finalize';
 						// PHP <= 5.2 >>>> $cash_admin->page_data['state_markup'] = call_user_func($seed_name . '::getRedirectMarkup', $return_url);
@@ -148,12 +148,21 @@ if ($settings_action) {
 						// PHP <= 5.2 >>>> $cash_admin->page_data['state_markup'] = call_user_func($seed_name . '::handleRedirectReturn', $_REQUEST);
 						$returned_connection = $seed_name::handleRedirectReturn($_REQUEST);
 
-						if (!is_array($returned_connection)) {
-							$cash_admin->page_data['state_markup'] = $returned_connection;
+						//TODO: move form stuff here
+
+						// failure
+						if (!empty($returned_connection['error'])) {
+							$admin_helper->formFailure($returned_connection['error']['message'], $returned_connection['error']['uri']);
 						} else {
-							$cash_admin->page_data['connection_name'] = $returned_connection['name'];
-							$cash_admin->setPageContentTemplate('settings_connections_added');
+							// success
+                            if (!is_array($returned_connection)) {
+                                $cash_admin->page_data['state_markup'] = $returned_connection;
+                            } else {
+                                $cash_admin->page_data['connection_name'] = $returned_connection['name'];
+                                $cash_admin->setPageContentTemplate('settings_connections_added');
+                            }
 						}
+
 					}
 				}
 			}
