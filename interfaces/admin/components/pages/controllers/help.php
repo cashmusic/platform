@@ -1,4 +1,12 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
 	$help_topics = json_decode(file_get_contents(ADMIN_BASE_PATH . '/components/text/en/help/topics.json'),true);
 	
 	$filtered_topics = array();

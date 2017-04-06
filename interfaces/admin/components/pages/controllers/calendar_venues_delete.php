@@ -1,4 +1,13 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+
 if (!$request_parameters) {
 	AdminHelper::controllerRedirect('/calendar/venues/');
 }

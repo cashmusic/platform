@@ -1,5 +1,13 @@
 <?php
 
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+
     $settings_request = new CASHRequest(
         array(
             'cash_request_type' => 'system',

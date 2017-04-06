@@ -1,4 +1,12 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
 /*******************************************************************************
  *
  * 1. GET USER INFO / URLS
@@ -9,11 +17,6 @@
  * {{public_url}} 				(CASH Instance public url)
  *
  ******************************************************************************/
-
-namespace CASHMusic\Admin;
-
-use CASHMusic\Core\CASHSystem as CASHSystem;
-use CASHMusic\Core\CASHRequest as CASHRequest;
 
 // get username and any user data
 
@@ -27,11 +30,12 @@ $user_response = $cash_admin->requestAndStore(
 if (is_array($user_response['payload'])) {
 	$current_username = $user_response['payload']['username'];
 	$current_userdata = $user_response['payload']['data'];
+
+    $cash_admin->page_data['last_login'] = false;
+
 	if (is_array($current_userdata)) {
 		if (isset($current_userdata['last_login'])) {
 			$cash_admin->page_data['last_login'] = CASHSystem::formatTimeAgo((int)$current_userdata['last_login'],true);
-		} else {
-			$cash_admin->page_data['last_login'] = false;
 		}
 	}
 }
@@ -71,7 +75,7 @@ $activity_request = new CASHRequest(
 		'cash_request_type' => 'people',
 		'cash_action' => 'getrecentactivity',
 		'user_id' => $cash_admin->effective_user_id,
-		'since_date' => $current_userdata['last_login']
+		'since_date' => $cash_admin->page_data['last_login']
 	)
 );
 $activity = $activity_request->response['payload'];

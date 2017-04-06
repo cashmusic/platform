@@ -1,4 +1,12 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
 // allow signups?
 $signups = (defined('ALLOW_SIGNUPS')) ? ALLOW_SIGNUPS : true;
 // filter signups?

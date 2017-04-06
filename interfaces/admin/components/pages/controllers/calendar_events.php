@@ -1,5 +1,12 @@
 <?php
 
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
 function formatEventOutput(&$response) {
     foreach ($response['payload'] as &$event) {
         // fix empty venue name

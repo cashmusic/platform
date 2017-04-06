@@ -1,4 +1,12 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
 $cash_admin->page_data['form_state_action'] = 'doitemadd';
 if (isset($request_parameters[1])) {
 	if ($request_parameters[0] == 'selectedasset') {

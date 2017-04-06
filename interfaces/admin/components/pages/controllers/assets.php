@@ -1,5 +1,14 @@
 <?php
 
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+
 $user_id = $cash_admin->effective_user_id;
 
 // get all assets for page

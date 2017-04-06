@@ -1,5 +1,13 @@
 <?php
 
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+
 // comped subscription
 if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
 

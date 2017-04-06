@@ -1114,10 +1114,10 @@ class AdminHelper  {
 		}
 	}
 
-	public static function formSuccess($message=false,$location=false) {
+	public function formSuccess($message=false,$location=false) {
 		if (!$location) {
-			global $admin_primary_cash_request;
-			$location = $admin_primary_cash_request->sessionGet('last_route');
+
+			$location = $this->cash_request->sessionGet('last_route');
 			if (!$location) {
 				$location = REQUESTED_ROUTE;
 			}
@@ -1139,8 +1139,7 @@ class AdminHelper  {
 		} else {
 			if ($location == REQUESTED_ROUTE) {
 				if ($message) {
-					global $cash_admin;
-					$cash_admin->page_data['page_message'] = $message;
+					$this->cash_admin->page_data['page_message'] = $message;
 				}
 			} else {
 				header('Location: ' . ADMIN_WWW_BASE_PATH . $location);
@@ -1148,10 +1147,9 @@ class AdminHelper  {
 		}
 	}
 
-	public static function formFailure($error_message,$location=false) {
+	public function formFailure($error_message,$location=false) {
 		if (!$location) {
-			global $admin_primary_cash_request;
-			$location = $admin_primary_cash_request->sessionGet('last_route');
+			$location = $this->cash_request->sessionGet('last_route');
 			if (!$location) {
 				$location = REQUESTED_ROUTE;
 			}
@@ -1174,8 +1172,7 @@ class AdminHelper  {
 			);
 			exit();
 		} else {
-			global $cash_admin;
-			$cash_admin->page_data['error_message'] = $error_message;
+			$this->cash_admin->page_data['error_message'] = $error_message;
 		}
 	}
 

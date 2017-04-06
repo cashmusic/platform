@@ -1,5 +1,13 @@
 <?php
 
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+
 // process uploads and shit
 if (!empty($_FILES)) {
     if (CASH_DEBUG) {
