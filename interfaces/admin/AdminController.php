@@ -335,6 +335,8 @@ class AdminController {
 
         $run->pushHandler($handler);
 
+
+
 // Add a special handler to deal with AJAX requests with an
 // equally-informative JSON response. Since this handler is
 // first in the stack, it will be executed before the error

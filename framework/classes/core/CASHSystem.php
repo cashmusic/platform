@@ -1281,11 +1281,27 @@ abstract class CASHSystem  {
 			// get rid of the reference to this method
 			array_shift($backtrace);
 
+			$backtrace_pretty = "";
+
+			foreach($backtrace as $trace) {
+			    $backtrace_pretty .= "<h3>".$trace['file'].":".$trace['line']."</h3>";
+			    $backtrace_pretty .= "<h4>Function: ".$trace['function']."</h4>";
+			    if (!empty($trace['class'])) $backtrace_pretty .= "<h5>in ".$trace['class']."</h5>";
+			    $backtrace_pretty .= "<p>";
+
+                if (!empty($trace['type']) && $trace['type'] != "" && $trace['type'] != "'->") $backtrace_pretty .= "Error type '".$trace['type']."";
+
+			    if (!empty($trace['args'])) $backtrace_pretty .= "<br><small>with arguments:</small> <pre>".print_r($trace['args'], true)."</pre>";
+
+			    $backtrace_pretty .= "</p><hr>";
+            }
+
             $errorPage->setPageTitle("Oh shit. It's a backtrace."); // Set the page's title
-            $errorPage->addDataTable("Details", ['details'=>"<pre>".print_r($backtrace, true)."</pre>"]);
+            $errorPage->addDataTable("Backtrace", ['details'=>"<pre>".print_r($backtrace_pretty, true)."</pre>"]);
 
             $whoops->pushHandler($errorPage);
             $whoops->register();
+
 
             throw new \RuntimeException("Backtrace fired.");
 		}
