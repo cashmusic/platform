@@ -154,7 +154,7 @@ class StripeSeed extends SeedBase
      * @param bool|false $data
      * @return string
      */
-    public static function handleRedirectReturn($data = false)
+    public static function handleRedirectReturn($cash_effective_user=false, $data = false)
     {
 
         $admin_helper = new AdminHelper();
@@ -172,7 +172,7 @@ class StripeSeed extends SeedBase
 //                    $user_info = StripeSeed::getUserInfo($credentials['access']);
                     //create new connection and add it to the database.
 
-                    $new_connection = new CASHConnection($admin_helper->getPersistentData('cash_effective_user'));
+                    $new_connection = new CASHConnection($cash_effective_user);
 
 
                     $result = $new_connection->setSettings(
@@ -221,7 +221,7 @@ class StripeSeed extends SeedBase
         } else {
             return [
                 'error' => [
-                    'message' => 'There was an error. (session) Please try again.',
+                    'message' => 'There was a session error. Please try again.',
                     'uri' => false
                 ]
             ];

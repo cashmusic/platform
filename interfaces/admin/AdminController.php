@@ -200,7 +200,6 @@ class AdminController {
         }
         $cash_admin->page_data['template_name'] = BASE_PAGENAME;
 
-
         /***************************************************************************************************
          *
          * RENDER PAGE

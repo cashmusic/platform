@@ -146,22 +146,32 @@ if ($settings_action) {
 						$connections_base_uri = rtrim(str_replace($request_parameters,'',CASHSystem::getCurrentURL()),'/');
 						$_REQUEST['connections_base_uri'] = $connections_base_uri;
 						// PHP <= 5.2 >>>> $cash_admin->page_data['state_markup'] = call_user_func($seed_name . '::handleRedirectReturn', $_REQUEST);
-						$returned_connection = $seed_name::handleRedirectReturn($_REQUEST);
+						$returned_connection = $seed_name::handleRedirectReturn($admin_helper->getPersistentData('cash_effective_user'), $_REQUEST);
 
 						//TODO: move form stuff here
 
 						// failure
 						if (!empty($returned_connection['error'])) {
-							$admin_helper->formFailure($returned_connection['error']['message'], $returned_connection['error']['uri']);
+                            $this->cash_admin->page_data['error_message'] = $returned_connection['error']['message'];
+							//$admin_helper->formFailure($returned_connection['error']['message'], $returned_connection['error']['uri']);
 						} else {
 							// success
                             if (!is_array($returned_connection)) {
+                                $this->cash_admin->page_data['page_message'] = 'Success. Connection added. You\'ll see it in your list of connections.';
+
+                                //$admin_helper->formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
                                 $cash_admin->page_data['state_markup'] = $returned_connection;
                             } else {
+
+                                $this->cash_admin->page_data['page_message'] = 'Success. Connection added. You\'ll see it in your list of connections.';
+
+
+                                /* $admin_helper->formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');*/
+
                                 $cash_admin->page_data['connection_name'] = $returned_connection['name'];
                                 $cash_admin->setPageContentTemplate('settings_connections_added');
                             }
-						}
+                        }
 
 					}
 				}

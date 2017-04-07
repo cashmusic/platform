@@ -24,7 +24,7 @@ use Whoops\Handler\PrettyPageHandler;
 
 class AdminHelper  {
 
-	public function __construct($cash_request_dependency=false, $cash_admin_dependency=false) {
+	public function __construct(&$cash_request_dependency=false, &$cash_admin_dependency=false) {
 
         global $admin_primary_cash_request, $cash_admin;
 
@@ -1115,6 +1115,7 @@ class AdminHelper  {
 	}
 
 	public function formSuccess($message=false,$location=false) {
+
 		if (!$location) {
 
 			$location = $this->cash_request->sessionGet('last_route');
@@ -1139,7 +1140,7 @@ class AdminHelper  {
 		} else {
 			if ($location == REQUESTED_ROUTE) {
 				if ($message) {
-					$this->cash_admin->page_data['page_message'] = $message;
+					return ['page_message' => $message];
 				}
 			} else {
 				header('Location: ' . ADMIN_WWW_BASE_PATH . $location);

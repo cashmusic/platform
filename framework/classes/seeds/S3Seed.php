@@ -105,7 +105,7 @@ class S3Seed extends SeedBase {
 		return $return_markup;
 	}
 
-	public static function handleRedirectReturn($data=false) {
+	public static function handleRedirectReturn($cash_effective_user=false, $data=false) {
 
 		$connections = CASHSystem::getSystemSettings('system_connections');
 		if (isset($connections['com.amazon'])) {
@@ -114,12 +114,10 @@ class S3Seed extends SeedBase {
 			$s3_default_email = false;
 		}
 
-        $admin_helper = new AdminHelper();
-
 		if ($bucket_region = S3Seed::connectAndAuthorize($data['key'],$data['secret'],$data['bucket'],$s3_default_email)) {
 			// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
 			// calls would only happen in the admin. If this changes we can fuck around with it later.
-			$new_connection = new CASHConnection($admin_helper->getPersistentData('cash_effective_user'));
+			$new_connection = new CASHConnection($cash_effective_user);
 
 			$connection_name = 'Amazon S3 ('.$data['bucket'].')';
 
