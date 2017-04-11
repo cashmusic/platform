@@ -30,12 +30,13 @@ gulp.task('jsonlint', function() {
 });
 
 gulp.task('vagrant-rsync', shell.task([
-    'vagrant rsync '+argv.box
-]))
+    'vagrant rsync f972f79'+argv.box
+]));
 
 gulp.task('watch', function() {
     gulp.watch(paths.scripts, ['compile']);
     gulp.watch(paths.json, ['jsonlint']);
+    gulp.watch("./**/*.*", ['vagrant-rsync']);
 });
 
 gulp.task('watch-rsync', function() {

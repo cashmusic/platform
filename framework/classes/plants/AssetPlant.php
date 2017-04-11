@@ -15,6 +15,16 @@
  *
  * This file is generously sponsored by Rob Morrissey (@robmorrissey)
  **/
+
+namespace CASHMusic\Plants;
+
+use CASHMusic\Core\PlantBase;
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Seeds\PaypalSeed;
+use CASHMusic\Seeds\StripeSeed;
+use CASHMusic\Admin\AdminHelper;
+
 class AssetPlant extends PlantBase {
 	public function __construct($request_type,$request) {
 		$this->request_type = 'asset';
