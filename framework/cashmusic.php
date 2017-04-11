@@ -23,6 +23,11 @@
  * Love you Marisa!
  *
  **/
+namespace CASHMusic\Framework;
+
+require_once(dirname(__FILE__) . '/../vendor/autoload.php');
+
+use CASHMusic\Core\CASHSystem;
 
 if (isset($_SERVER['REQUEST_URI'])) {
 	if(strrpos($_SERVER['REQUEST_URI'],'cashmusic.php') !== false) {
@@ -31,6 +36,5 @@ if (isset($_SERVER['REQUEST_URI'])) {
 	}
 }
 
-require_once(__DIR__ . '/classes/core/CASHSystem.php');
 CASHSystem::startUp();
 ?>

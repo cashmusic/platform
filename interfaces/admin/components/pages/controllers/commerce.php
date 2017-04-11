@@ -2,6 +2,7 @@
 
 namespace CASHMusic\Admin;
 
+use CASHMusic\Core\CASHConnection;
 use CASHMusic\Core\CASHSystem as CASHSystem;
 use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
@@ -12,7 +13,9 @@ use CASHMusic\Admin\AdminHelper;
  * 1. SET UP SCRIPT VARIABLES
  *
  ******************************************************************************/
-$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
+$page_data_object = new CASHConnection($admin_helper->getPersistentData('cash_effective_user'));
 
 /*******************************************************************************
  *
@@ -65,7 +68,7 @@ if (isset($_REQUEST['currency_id'])) {
 		)
 	);
 	if ($settings_response['payload']) {
-		AdminHelper::formSuccess('Success.','/commerce/');
+        $admin_helper->formSuccess('Success.','/commerce/');
 	}
 }
 // now get the current currency setting
@@ -110,8 +113,8 @@ if (is_array($allpp)) {
 		$pp[$ppq['id']] = $ppq['name'];
 	}
 }
-$cash_admin->page_data['paypal_default_options'] = AdminHelper::echoFormOptions($pp,$pp_default,false,true,true);
-$cash_admin->page_data['paypal_micro_options'] = AdminHelper::echoFormOptions($pp,$pp_micro,false,true,true);
+$cash_admin->page_data['paypal_default_options'] = $admin_helper->echoFormOptions($pp,$pp_default,false,true,true);
+$cash_admin->page_data['paypal_micro_options'] = $admin_helper->echoFormOptions($pp,$pp_micro,false,true,true);
 
 // admin stripe defaults
 $stripe = array();
@@ -121,7 +124,7 @@ if (is_array($allstripe)) {
 		$stripe[$stripeq['id']] = $stripeq['name'];
 	}
 }
-$cash_admin->page_data['stripe_options'] = AdminHelper::echoFormOptions($stripe,$stripe_selected,false,true,true);
+$cash_admin->page_data['stripe_options'] = $admin_helper->echoFormOptions($stripe,$stripe_selected,false,true,true);
 
 
 // handle regions
@@ -140,7 +143,7 @@ if (isset($_REQUEST['region1'])) {
 		)
 	);
 	if ($settings_response['payload']) {
-		AdminHelper::formSuccess('Success.','/commerce/');
+        $admin_helper->formSuccess('Success.','/commerce/');
 	}
 }
 // now get the current setting
@@ -225,7 +228,7 @@ $orders_response = $cash_admin->requestAndStore($order_request);
  * 5. GET ALL VALID SERVICE CONNECTIONS FOR FIRST-USE
  *
  ******************************************************************************/
-$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('commerce');
+$cash_admin->page_data['connection'] = $admin_helper->getConnectionsByScope('commerce');
 
 if (!$cash_admin->page_data['connection']) {
 	if (!is_array($orders_response['payload'])) {

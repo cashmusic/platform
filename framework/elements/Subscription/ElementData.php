@@ -3,6 +3,10 @@
 namespace CASHMusic\Elements\Subscription;
 
 use CASHMusic\Elements\Interfaces\DataInterface;
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Seeds\StripeSeed;
+use ArrayIterator;
 
 class ElementData implements DataInterface
 {
@@ -32,7 +36,7 @@ class ElementData implements DataInterface
      */
 
     public function getCurrency() {
-        $currency_request = new \CASHRequest(
+        $currency_request = new CASHRequest(
             array(
                 'cash_request_type' => 'system',
                 'cash_action' => 'getsettings',
@@ -43,9 +47,9 @@ class ElementData implements DataInterface
 
         // currency stuff
         if ($currency_request->response['payload']) {
-            $this->data['currency'] = \CASHSystem::getCurrencySymbol($currency_request->response['payload']);
+            $this->data['currency'] = CASHSystem::getCurrencySymbol($currency_request->response['payload']);
         } else {
-            $this->data['currency'] = \CASHSystem::getCurrencySymbol('USD');
+            $this->data['currency'] = CASHSystem::getCurrencySymbol('USD');
         }
 
         return $this->data;
@@ -53,7 +57,7 @@ class ElementData implements DataInterface
 
 
     public function getConnections() {
-        $settings_request = new \CASHRequest(
+        $settings_request = new CASHRequest(
             array(
                 'cash_request_type' => 'system',
                 'cash_action' => 'getsettings',
@@ -66,7 +70,7 @@ class ElementData implements DataInterface
 
             if (isset($settings_request->response['payload']['stripe_default'])) {
                 if ($settings_request->response['payload']['stripe_default']) {
-                    $payment_seed = new \StripeSeed($this->user_id,$settings_request->response['payload']['stripe_default']);
+                    $payment_seed = new StripeSeed($this->user_id,$settings_request->response['payload']['stripe_default']);
                     if (!empty($payment_seed->publishable_key)) {
                         $this->data['stripe_public_key'] = $payment_seed->publishable_key;
                     }
@@ -74,10 +78,10 @@ class ElementData implements DataInterface
             }
         } else {
             if (isset($this->data['connection_id'])) {
-                $connection_settings = \CASHSystem::getConnectionTypeSettings($this->data['connection_type']);
+                $connection_settings = CASHSystem::getConnectionTypeSettings($this->data['connection_type']);
                 $seed_class = $connection_settings['seed'];
                 if ($seed_class == 'StripeSeed') {
-                    $payment_seed = new \StripeSeed($this->user_id,$this->data['connection_id']);
+                    $payment_seed = new StripeSeed($this->user_id,$this->data['connection_id']);
                     if (!empty($payment_seed->publishable_key)) {
                         $this->data['stripe_public_key'] = $payment_seed->publishable_key;
                     }
@@ -90,7 +94,7 @@ class ElementData implements DataInterface
 
     public function getPlan($plan_id) {
         // get plan data
-        $plan_request = new \CASHRequest(
+        $plan_request = new CASHRequest(
             array(
                 'cash_request_type' => 'commerce',
                 'cash_action' => 'getsubscriptionplan',
@@ -140,7 +144,7 @@ class ElementData implements DataInterface
 
     public static function getItemDetails($item_id, $session_id) {
 
-        $item_request = new \CASHRequest(
+        $item_request = new CASHRequest(
             array(
                 'cash_request_type' => 'commerce',
                 'cash_action' => 'getitem',
@@ -153,7 +157,7 @@ class ElementData implements DataInterface
         $item['asset'] = $item['fulfillment_asset'];
 
         if (!empty($item['descriptive_asset'])) {
-            $item_image_request = new \CASHRequest(
+            $item_image_request = new CASHRequest(
                 array(
                     'cash_request_type' => 'asset',
                     'cash_action' => 'getpublicurl',
@@ -166,7 +170,7 @@ class ElementData implements DataInterface
         }
 
         if (!empty($item['fulfillment_asset'])) {
-            $fulfillment_request = new \CASHRequest(
+            $fulfillment_request = new CASHRequest(
                 array(
                     'cash_request_type' => 'asset',
                     'cash_action' => 'getfulfillmentassets',
@@ -176,7 +180,7 @@ class ElementData implements DataInterface
             );
 
             if ($fulfillment_request->response['payload']) {
-                $item['fulfillment_assets'] = new \ArrayIterator($fulfillment_request->response['payload']);
+                $item['fulfillment_assets'] = new ArrayIterator($fulfillment_request->response['payload']);
                 $assets = [];
                 foreach($item['fulfillment_assets'] as $asset) {
                     unset($asset['public_url']);

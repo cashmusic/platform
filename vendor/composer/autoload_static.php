@@ -68,7 +68,9 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         array (
             'CFreear\\OAuth2\\Client\\' => 22,
             'CASHMusic\\Seeds\\' => 16,
+            'CASHMusic\\PublicInterface\\' => 26,
             'CASHMusic\\Plants\\' => 17,
+            'CASHMusic\\Framework\\' => 20,
             'CASHMusic\\Elements\\' => 19,
             'CASHMusic\\Core\\' => 15,
             'CASHMusic\\Admin\\' => 16,
@@ -151,9 +153,17 @@ class ComposerStaticInitafc707eded86cf8dccea3fab343db7ad
         array (
             0 => __DIR__ . '/../..' . '/framework/classes/seeds',
         ),
+        'CASHMusic\\PublicInterface\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/interfaces',
+        ),
         'CASHMusic\\Plants\\' => 
         array (
             0 => __DIR__ . '/../..' . '/framework/classes/plants',
+        ),
+        'CASHMusic\\Framework\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/framework',
         ),
         'CASHMusic\\Elements\\' => 
         array (

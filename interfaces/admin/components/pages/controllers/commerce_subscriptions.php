@@ -7,6 +7,7 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 
 if (isset($request_parameters[0])) {
     if ($request_parameters[0] == "delete") {
@@ -19,14 +20,10 @@ if (isset($request_parameters[0])) {
             )
         );
 
-        error_log(
-            print_r($subscription_request->response['payload'], true)
-        );
-
         if ($subscription_request->response['payload']) {
-            AdminHelper::formSuccess('Success. Subscription plan deleted. Remember to cancel the plan on Stripe because I don\'t feel comfortable doing it, Dave.','/commerce/subscriptions');
+            $admin_helper->formSuccess('Success. Subscription plan deleted. Remember to cancel the plan on Stripe because I don\'t feel comfortable doing it, Dave.','/commerce/subscriptions');
         } else {
-            AdminHelper::formFailure('Error. Something just didn\'t work right.','/commerce/subscriptions');
+            $admin_helper->formFailure('Error. Something just didn\'t work right.','/commerce/subscriptions');
         }
 
     }
@@ -59,7 +56,7 @@ if (isset($request_parameters[0])) {
         $cash_admin->page_data['plans'] = $subscription_request->response['payload'];
     }
 
-    $cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('commerce');
+    $cash_admin->page_data['connection'] = $admin_helper->getConnectionsByScope('commerce');
 
     if (!$cash_admin->page_data['connection']) {
         $cash_admin->page_data['firstuse'] = true;

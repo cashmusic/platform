@@ -16,6 +16,16 @@
  * This file is generously sponsored by Christine Hughes, with an all-consuming passion in lockstep
  *
  **/
+
+namespace CASHMusic\Plants;
+
+use CASHMusic\Core\PlantBase;
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Seeds\PaypalSeed;
+use CASHMusic\Seeds\StripeSeed;
+use CASHMusic\Admin\AdminHelper;
+
 class CalendarPlant extends PlantBase {
 	public function __construct($request_type,$request) {
 		$this->request_type = 'calendar';

@@ -21,8 +21,10 @@
             "CASHMusic\\Core\\": "framework/classes/core",
             "CASHMusic\\Plants\\": "framework/classes/plants",
             "CASHMusic\\Seeds\\": "framework/classes/seeds",
+            "CASHMusic\\Framework\\":"framework",
             "CASHMusic\\Admin\\": "interfaces/admin",
-            "CASHMusic\\API\\": "interfaces/api/classes"
+            "CASHMusic\\API\\": "interfaces/api/classes",
+            "CASHMusic\\PublicInterface\\": "interfaces"
         }
     },
 

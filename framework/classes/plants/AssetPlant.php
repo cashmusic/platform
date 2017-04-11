@@ -21,8 +21,6 @@ namespace CASHMusic\Plants;
 use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
-use CASHMusic\Seeds\PaypalSeed;
-use CASHMusic\Seeds\StripeSeed;
 use CASHMusic\Admin\AdminHelper;
 
 class AssetPlant extends PlantBase {
@@ -52,6 +50,8 @@ class AssetPlant extends PlantBase {
 			'redeemcode'              => array('redeemLockCode',array('direct','get','post')),
 			'unlock'                  => array('unlockAsset','direct')
 		);
+
+
 		$this->plantPrep($request_type,$request);
 	}
 

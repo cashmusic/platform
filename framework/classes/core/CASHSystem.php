@@ -2,7 +2,6 @@
 
 namespace CASHMusic\Core;
 
-use Camspiers\JsonPretty\JsonPretty;
 use CASHMusic\Core\CASHRequest as CASHRequest;
 use CASHMusic\Core\CASHConnection as CASHConnection;
 use CASHMusic\Seeds\MandrillSeed;
@@ -74,6 +73,7 @@ abstract class CASHSystem  {
 			// fire off new CASHRequest to cover any immediate-need things like GET
 			// asset requests, etc...
 			$cash_page_request = new CASHRequest();
+
 			if (!empty($cash_page_request->response)) {
 				$cash_page_request->sessionSet(
 					'initial_page_request',
@@ -85,7 +85,9 @@ abstract class CASHSystem  {
 					'script'
 				);
 			}
+
 			$cash_page_request->sessionSet('initial_page_request_time',time(),'script');
+
 			if ($return_request) {
 				return $cash_page_request;
 			} else {
@@ -148,6 +150,7 @@ abstract class CASHSystem  {
 				'donottrack' => $donottrack
 			)
 		);
+
 		if ($cash_body_request->response['status_uid'] == 'element_getmarkup_400') {
 			// there was no element found. so you know...punt
 			echo '<div class="cashmusic error">Element #' . $element_id . ' could not be found.</div>';

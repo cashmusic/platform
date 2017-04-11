@@ -7,6 +7,8 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 if (!$request_parameters) {
 	AdminHelper::controllerRedirect('/');
 }
@@ -111,7 +113,7 @@ if ($current_element) {
 		}
 
 		// Detects if element add has happened and deals with POST data if it has
-		AdminHelper::handleElementFormPOST($_POST,$cash_admin);
+		$admin_helper->handleElementFormPOST($_POST,$cash_admin);
 
 		// Set basic id/name stuff for the element
 		AdminHelper::setBasicElementFormData($cash_admin);

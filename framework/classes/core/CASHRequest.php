@@ -40,18 +40,6 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 	 * @param {boolean} $direct_request [default: false] - can only be set when
 	 *        called directly, so set to true to indicate direct request method
 	 */public function __construct($direct_request=false,$method='direct',$authorized_user=false) {
-
-		/*
-		 * stack strace debug for hunting down inefficiencies...
-		 *
-		 $backtrace = debug_backtrace();
-		 $debug_message = "CASHRequest initialized\n";
-		 foreach ($backtrace as $trace) {
-	 		$debug_message .= $trace['file'] . ' / line ' . $trace['line'] . ': ' . $trace['function'] . "\n";
-		 }
-		 error_log($debug_message);
-		*/
-
 		if ($direct_request) {
 			// skip detect on direct requests
 			$this->request = $direct_request;
@@ -112,6 +100,7 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 	 * @return void
 	 */protected function detectRequest() {
 		if (!$this->request) {
+
 			// determine correct request source
 			if (isset($_POST['cash_request_type'])) {
 				$this->request = $_POST;

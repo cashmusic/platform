@@ -24,10 +24,7 @@ class APICore  {
 	public function __construct($incoming_url) {
 		// future: deal with headers/methods before url stuff
 		// present: url stuff
-		if (!class_exists('CASHRequest')) {
-			header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found",true);
-			exit('{"api_error":"API could not connect to the core framework. (class CASHRequest not defined.)"}');
-		}
+
 		$this->version = floatval('1.' . CASHRequest::$version);
 		$this->respond($this->parseURL($incoming_url));
 	}

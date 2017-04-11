@@ -1081,7 +1081,7 @@ class AdminHelper  {
 				array(
 					'cash_request_type' => 'people',
 					'cash_action' => 'getrecentactivity',
-					'user_id' => $cash_admin->effective_user_id,
+					'user_id' => $this->cash_admin->effective_user_id,
 					'since_date' => $last_login
 				)
 			);
@@ -1089,7 +1089,7 @@ class AdminHelper  {
 			$session_news['activity'] = $activity;
 
 			// store it in the session for later
-			$admin_primary_cash_request->sessionSet('admin_newsfeed',$session_news);
+			$this->cash_request->sessionSet('admin_newsfeed',$session_news);
 		}
 		return $session_news;
 	}

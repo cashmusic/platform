@@ -7,6 +7,7 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 
 function formatEventOutput(&$response) {
 	foreach ($response['payload'] as &$event) {
@@ -47,7 +48,7 @@ if (is_array($thisweek_response['payload'])) {
 
 // unpublished
 // most accessed
-if (is_array($unpublished_response['payload'])) {
+if (isset($unpublished_response) && is_array($unpublished_response['payload'])) {
 	formatEventOutput($unpublished_response);
 	$cash_admin->page_data['events_unpublished'] = new ArrayIterator($unpublished_response['payload']);
 }
@@ -87,7 +88,7 @@ if (is_array($allfuture_response['payload'])) {
 }
 
 
-$cash_admin->page_data['options_venues'] = AdminHelper::echoFormOptions('venues',0,false,true);
+$cash_admin->page_data['options_venues'] = $admin_helper->echoFormOptions('venues',0,false,true);
 
 // Is Event Published/Cancelled Page data
 $cash_admin->page_data['published'] = isset($event['published']) ? $event['published'] : false;

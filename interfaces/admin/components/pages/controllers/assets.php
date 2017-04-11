@@ -3,6 +3,7 @@
 
 namespace CASHMusic\Admin;
 
+use CASHMusic\Core\CASHConnection;
 use CASHMusic\Core\CASHSystem as CASHSystem;
 use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
@@ -10,6 +11,8 @@ use CASHMusic\Admin\AdminHelper;
 
 
 $user_id = $cash_admin->effective_user_id;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 
 // get all assets for page
 $releases_response = $cash_admin->requestAndStore(
@@ -52,10 +55,10 @@ $items_response = $cash_admin->requestAndStore(
 );
 
 //Commerce connection, release or files present?
-$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('assets') || $releases_response['payload'] || $files_response['payload'];
+$cash_admin->page_data['connection'] = $admin_helper->getConnectionsByScope('assets') || $releases_response['payload'] || $files_response['payload'];
 
 // Return Connection
-$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+$page_data_object = new CASHConnection($admin_helper->getPersistentData('cash_effective_user'));
 $settings_types_data = $page_data_object->getConnectionTypes('assets');
 
 $all_services = array();
@@ -119,7 +122,7 @@ if (is_array($releases_response['payload'])) {
 							'cash_request_type' => 'asset',
 							'cash_action' => 'getasseturl',
 							'connection_id' => $cover_asset['connection_id'],
-							'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
+							'user_id' => $admin_helper->getPersistentData('cash_effective_user'),
 							'asset_location' => $cover_asset['location'],
 							'inline' => true
 						)
