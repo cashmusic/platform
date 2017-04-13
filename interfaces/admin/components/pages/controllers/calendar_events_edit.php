@@ -7,6 +7,8 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 // parsing posted data:
 if (isset($_POST['doeventedit'])) {
 	// do the actual list add stuffs...
@@ -29,9 +31,9 @@ if (isset($_POST['doeventedit'])) {
 		)
 	);
 	if ($edit_response['status_uid'] == 'calendar_editevent_200') {
-		AdminHelper::formSuccess('Success. Edited.','/calendar/');
+		$admin_helper->formSuccess('Success. Edited.','/calendar/');
 	} else {
-		AdminHelper::formFailure('Error. There was a problem editing.');
+		$admin_helper->formFailure('Error. There was a problem editing.');
 	}
 }
 

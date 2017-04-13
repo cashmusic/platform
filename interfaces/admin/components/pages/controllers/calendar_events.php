@@ -7,6 +7,8 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 function formatEventOutput(&$response) {
     foreach ($response['payload'] as &$event) {
         // fix empty venue name
@@ -65,8 +67,7 @@ if (is_array($allfuture_response['payload'])) {
 	$cash_admin->page_data['events_allfuture'] = new ArrayIterator($allfuture_response['payload']);
 }
 
-
-$cash_admin->page_data['options_venues'] = AdminHelper::echoFormOptions('venues',0,false,true);
+$cash_admin->page_data['options_venues'] = $admin_helper->echoFormOptions('venues',0,false,true);
 
 //Is Event Published Page data
 $cash_admin->page_data['published'] = $event['published'];

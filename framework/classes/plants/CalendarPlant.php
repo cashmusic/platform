@@ -141,7 +141,9 @@ class CalendarPlant extends PlantBase {
 				'url' => $url,
 				'phone' => $phone
 			),
-			'CASHSystem::notExplicitFalse'
+            function($value) {
+                return CASHSystem::notExplicitFalse($value);
+            }
 		);
 		$result = $this->db->setData(
 			'venues',
@@ -219,7 +221,9 @@ class CalendarPlant extends PlantBase {
 				'purchase_url' => $purchase_url,
 				'comments' => $comment
 			),
-			'CASHSystem::notExplicitFalse'
+            function($value) {
+                return CASHSystem::notExplicitFalse($value);
+            }
 		);
 		$result = $this->db->setData(
 			'events',

@@ -1,4 +1,15 @@
 <?php
+
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 // parsing posted data:
 if (isset($_POST['dolistedit'])) {
 	// do the actual list add stuffs...
@@ -13,9 +24,9 @@ if (isset($_POST['dolistedit'])) {
 		)
 	);
 	if ($edit_response['status_uid'] == 'people_editlist_200') {
-		AdminHelper::formSuccess('Success. Edited.');
+		$admin_helper->formSuccess('Success. Edited.');
 	} else {
-		AdminHelper::formFailure('Error. There was a problem editing.');
+		$admin_helper->formFailure('Error. There was a problem editing.');
 	}
 }
 
@@ -38,9 +49,9 @@ if (isset($_POST['dobatchcontactsadd'])) {
 					$total_added++;
 				}
 			}
-			AdminHelper::formSuccess('Success. Added ' . $total_added . ' new people.','/people/lists/view/' . $request_parameters[0]);
+			$admin_helper->formSuccess('Success. Added ' . $total_added . ' new people.','/people/lists/view/' . $request_parameters[0]);
 		} else {
-			AdminHelper::formFailure('Error. There was a problem adding new people.','/people/lists/view/' . $request_parameters[0]);
+			$admin_helper->formFailure('Error. There was a problem adding new people.','/people/lists/view/' . $request_parameters[0]);
 		}
 	} else {
 		$cash_admin->page_data['error_message'] = 'Error. Please try again.';
@@ -66,7 +77,7 @@ if (is_array($current_list)) {
 		$cash_admin->page_data['no_selected_connection'] = false;
 	}
 }
-$cash_admin->page_data['connection_options'] = AdminHelper::echoConnectionsOptions('lists',$current_list['connection_id'],true);
+$cash_admin->page_data['connection_options'] = $admin_helper->echoConnectionsOptions('lists',$current_list['connection_id'],true);
 $cash_admin->page_data['form_state_action'] = 'dolistedit';
 $cash_admin->page_data['list_button_text'] = 'Save changes';
 

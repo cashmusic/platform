@@ -295,7 +295,7 @@ class AdminHelper  {
 		}
 	}
 
-	public static function getValueDefault($value) {
+	public function getValueDefault($value) {
 		$default_val = false;
 		if (isset($value['default']) && $value['type'] !== 'select') {
 			if ($value['type'] == 'boolean') {
@@ -309,7 +309,7 @@ class AdminHelper  {
 			}
 		}
 		if ($value['type'] == 'select') {
-			$default_val = AdminHelper::echoFormOptions($value['values'],0,false,true,false);
+			$default_val = $this->echoFormOptions($value['values'],0,false,true,false);
 		}
 		if ($value['type'] == 'scalar') {
 			$default_val = array();
@@ -323,21 +323,21 @@ class AdminHelper  {
 				}
 			}
 			foreach ($value['values'] as $subdata => $subvalue) {
-				$default_val['options_' . $subdata] = AdminHelper::getValueDefault($subvalue);
+				$default_val['options_' . $subdata] = $this->getValueDefault($subvalue);
 			}
 		}
 		return $default_val;
 	}
 
-	public static function formatElementValue($value,$type,$formatting_data=false) {
+	public function formatElementValue($value,$type,$formatting_data=false) {
 		$return_val = $value;
 		if ($type == 'select') {
-			$return_val = AdminHelper::echoFormOptions($formatting_data,$value,false,true,false);
+			$return_val = $this->echoFormOptions($formatting_data,$value,false,true,false);
 		}
 		return $return_val;
 	}
 
-	public static function getElementValues($storedElement) {
+	public function getElementValues($storedElement) {
 		$return_array = array();
 		$app_json = AdminHelper::getElementAppJSON($storedElement['type']);
 		if ($app_json) {
@@ -354,7 +354,7 @@ class AdminHelper  {
 						if (is_array($value['values'])) {
 							foreach ($value['values'] as $subname => $subvalue) {
 								if (isset($storedElement['options'][$data][$subname])) {
-									$return_array['options_'.$value['name'].'-'.$subname] = AdminHelper::formatElementValue($storedElement['options'][$data][$subname],$subvalue['type'],$formatting_data);
+									$return_array['options_'.$value['name'].'-'.$subname] = $this->formatElementValue($storedElement['options'][$data][$subname],$subvalue['type'],$formatting_data);
 								}
 							}
 						}
@@ -377,20 +377,20 @@ class AdminHelper  {
 												$formatting_data = $sub2value['values'];
 											}
 											if (isset($storedElement['options'][$data][$i][$subname][$sub2name])) {
-												$return_array['options_'.$subname.'-'.$sub2name.'-clone-'.$data.'-'.$i] = AdminHelper::formatElementValue($storedElement['options'][$data][$i][$subname][$sub2name],$sub2value['type'],$formatting_data);
+												$return_array['options_'.$subname.'-'.$sub2name.'-clone-'.$data.'-'.$i] = $this->formatElementValue($storedElement['options'][$data][$i][$subname][$sub2name],$sub2value['type'],$formatting_data);
 											}
 										}
 									}
 								} else {
 									if (isset($storedElement['options'][$data][$i][$subname])) {
-										$return_array['options_' . $subname.'-clone-'.$data.'-'.$i] = AdminHelper::formatElementValue($storedElement['options'][$data][$i][$subname],$subvalue['type'],$formatting_data);
+										$return_array['options_' . $subname.'-clone-'.$data.'-'.$i] = $this->formatElementValue($storedElement['options'][$data][$i][$subname],$subvalue['type'],$formatting_data);
 									}
 								}
 							}
 						}
 					} else {
 						if (isset($storedElement['options'][$data])) {
-							$return_array['options_' . $data] = AdminHelper::formatElementValue($storedElement['options'][$data],$value['type'],$formatting_data);
+							$return_array['options_' . $data] = $this->formatElementValue($storedElement['options'][$data],$value['type'],$formatting_data);
 						}
 					}
 				}
@@ -400,7 +400,7 @@ class AdminHelper  {
 		return $return_array;
 	}
 
-	public static function getElementDefaults($options) {
+	public function getElementDefaults($options) {
 		$return_array = array();
 		foreach ($options as $section_name => $details) {
 
@@ -416,7 +416,7 @@ class AdminHelper  {
 			}
 
 			foreach ($details['data'] as $data => $value) {
-				$default_val = AdminHelper::getValueDefault($value);
+				$default_val = $this->getValueDefault($value);
 				if (is_array($default_val)) {
 					$return_array = array_merge($return_array,$default_val);
 				} else {
@@ -427,7 +427,7 @@ class AdminHelper  {
 		return $return_array;
 	}
 
-	public static function getElementTemplate($element) {
+	public function getElementTemplate($element) {
 		if (is_array($element)) {
 			// all data sent, so you know...set the type
 			$element_type = $element['type'];
@@ -470,9 +470,9 @@ class AdminHelper  {
 
 			$current_section = 1;
 			foreach ($all_sections as $section_name => $details) {
-				$template .= '<div class=" section part-' . $current_section . '" data-section-name="' . $details['group_label'][AdminHelper::getOrSetLanguage()] . '">' .
-						     '<h5 class="section-header">' . $details['group_label'][AdminHelper::getOrSetLanguage()] . '</h5>' .
-						     '<i data-tooltip="' . $details['description'][AdminHelper::getOrSetLanguage()] .'" class="tooltip icon icon-question"></i>' .
+				$template .= '<div class=" section part-' . $current_section . '" data-section-name="' . $details['group_label'][$this->getOrSetLanguage()] . '">' .
+						     '<h5 class="section-header">' . $details['group_label'][$this->getOrSetLanguage()] . '</h5>' .
+						     '<i data-tooltip="' . $details['description'][$this->getOrSetLanguage()] .'" class="tooltip icon icon-question"></i>' .
 						     '<div class="pure-u-1">';
 				//$current_data = 0;
 				//$current_count = 0;
@@ -482,7 +482,7 @@ class AdminHelper  {
 				//
 				//
 				// REFACTOR THIS SHIT OUT FOR SCALAR AND HERE
-				$template .= AdminHelper::drawMarkup($element,$details['data'],count($details));
+				$template .= $this->drawMarkup($element,$details['data'],count($details));
 
 				$template .= '</div></div>';
 				$current_section++;
@@ -495,7 +495,7 @@ class AdminHelper  {
 		}
 	}
 
-	public static function drawMarkup($element,$input_values,$count,$cloneparent=false,$clonecount=false) {
+	public function drawMarkup($element,$input_values,$count,$cloneparent=false,$clonecount=false) {
 		$template = '';
 		$current_data = 0;
 		$current_count = 0;
@@ -554,7 +554,7 @@ class AdminHelper  {
 					}
 					$template .= '<div class="' . $column_width_text . '">' .
 								// contents
-								AdminHelper::drawInput(
+								$this->drawInput(
 									$input_name,
 									$input_data,
 									$cloneparent,
@@ -582,7 +582,7 @@ class AdminHelper  {
 		return $template;
 	}
 
-	public static function drawInput($input_name,$input_data,$cloneparent=false,$clonecount=false) {
+	public function drawInput($input_name,$input_data,$cloneparent=false,$clonecount=false) {
 		// handle appending clone count stuff more intelligently
 		$original_input_name = $input_name;
 		if ($clonecount !== false) {
@@ -591,7 +591,7 @@ class AdminHelper  {
 
 		// label (for everything except checkboxes)
 		if ($input_data['type'] !== 'boolean') {
-			$return_str = '<label for="' . $input_name . '">' . $input_data['label'][AdminHelper::getOrSetLanguage()] . '</label>';
+			$return_str = '<label for="' . $input_name . '">' . $input_data['label'][$this->getOrSetLanguage()] . '</label>';
 		}
 
 		/*
@@ -615,17 +615,17 @@ class AdminHelper  {
 		if ($input_data['type'] == 'options') {
 			$return_str .= '<div class="' . $input_data['type'] . '" data-name="' . $input_name . '">';
 			foreach ($input_data['values'] as $subname => $subdata) {
-				$return_str .= AdminHelper::drawInput($original_input_name.'-'.$subname,$subdata,$cloneparent,$clonecount);
+				$return_str .= $this->drawInput($original_input_name.'-'.$subname,$subdata,$cloneparent,$clonecount);
 			}
 			$return_str .= '</div>';
 		}
 		if ($input_data['type'] == 'scalar') {
 			if (isset($input_data['description'])) {
-				$return_str .= '<div class="description"><p>'.$input_data['description'][AdminHelper::getOrSetLanguage()].'</p></div>';
+				$return_str .= '<div class="description"><p>'.$input_data['description'][$this->getOrSetLanguage()].'</p></div>';
 			}
 			$return_str .= '<div class="' . $input_data['type'] . '" data-name="' . $input_name . '"';
-			if (isset($input_data['actiontext'][AdminHelper::getOrSetLanguage()])) {
-				$return_str .= ' data-actiontext="' . $input_data['actiontext'][AdminHelper::getOrSetLanguage()] . '"';
+			if (isset($input_data['actiontext'][$this->getOrSetLanguage()])) {
+				$return_str .= ' data-actiontext="' . $input_data['actiontext'][$this->getOrSetLanguage()] . '"';
 			}
 			if (isset($input_data['scalar_clone_count'])) {
 				$return_str .= ' data-clonecount="' . $input_data['scalar_clone_count'] . '"';
@@ -633,24 +633,24 @@ class AdminHelper  {
 				$return_str .= ' data-clonecount="0"';
 			}
 			$return_str .= '>';
-			$return_str .= AdminHelper::drawMarkup(false,$input_data['values'],count($input_data['values']));
+			$return_str .= $this->drawMarkup(false,$input_data['values'],count($input_data['values']));
 			/*
 			HEY CHRIS:
 			If we run into any trouble, here's how I was doing stuff before the drawMarkup change...
 			foreach ($input_data['values'] as $subname => $subdata) {
-				$return_str .= AdminHelper::drawInput($subname,$subdata);
+				$return_str .= $this->drawInput($subname,$subdata);
 			}
 			*/
 			$return_str .= '</div>';
 			if (isset($input_data['scalar_clone_count'])) {
 				for ($i=0; $i < $input_data['scalar_clone_count']; $i++) {
 					$return_str .= '<div class="clonedscalar">';
-					$return_str .= AdminHelper::drawMarkup(false,$input_data['values'],count($input_data['values']),$input_name,$i);
+					$return_str .= $this->drawMarkup(false,$input_data['values'],count($input_data['values']),$input_name,$i);
 					/*
 					HEY CHRIS:
 					If we run into any trouble, here's how I was doing stuff before the drawMarkup change...
 					foreach ($input_data['values'] as $subname => $subdata) {
-						$return_str .= AdminHelper::drawInput($subname,$subdata,$input_name,$i);
+						$return_str .= $this->drawInput($subname,$subdata,$input_name,$i);
 					}
 					*/
 					$return_str .= '<a href="#" class="removescalar"><div class="icon icon-plus"></div></a></div>';
@@ -680,7 +680,7 @@ class AdminHelper  {
 					'}}{{options_' . $input_name . '}}{{/options_' . $input_name . '}}{{^options_' . $input_name . '}}{{element_copy_' . $input_name . '}}{{/options_' . $input_name . '}}</textarea>';
 				} else {
 					if (isset($input_data['placeholder'])) {
-						$return_str .= ' placeholder="' . $input_data['placeholder'][AdminHelper::getOrSetLanguage()] . '"';
+						$return_str .= ' placeholder="' . $input_data['placeholder'][$this->getOrSetLanguage()] . '"';
 					}
 					$return_str .= '" />';
 				}
@@ -690,7 +690,7 @@ class AdminHelper  {
 			}
 			if ($input_data['type'] == 'boolean') {
 				$return_str .= '{{#options_' . $input_name . '}} checked="checked"{{/options_' . $input_name . '}} /> ' .
-							   $input_data['label'][AdminHelper::getOrSetLanguage()] . '</label>';
+							   $input_data['label'][$this->getOrSetLanguage()] . '</label>';
 			}
 		}
 
@@ -787,7 +787,7 @@ class AdminHelper  {
 		return $return_array;
 	}
 
-	public function handleElementFormPOST($post_data,&$cash_admin) {
+	public function handleElementFormPOST($post_data) {
 
 		if (AdminHelper::elementFormSubmitted($post_data)) {
 
@@ -849,14 +849,14 @@ class AdminHelper  {
 						);
 						// handle differently for AJAX and non-AJAX
 						if ($this->cash_admin->page_data['data_only']) {
-							AdminHelper::formSuccess('Success. New element added.','/elements/');
+							$this->formSuccess('Success. New element added.','/elements/');
 						} else {
 							$this->cash_admin->setCurrentElement($this->cash_request->response['payload']);
 						}
 					} else {
 						// handle differently for AJAX and non-AJAX
 						if ($this->cash_admin->page_data['data_only']) {
-							AdminHelper::formSuccess('Success. New element added.','/elements/edit/' . $this->cash_request->response['payload']);
+							$this->formSuccess('Success. New element added.','/elements/edit/' . $this->cash_request->response['payload']);
 						} else {
 							$this->cash_admin->setCurrentElement($this->cash_request->response['payload']);
 						}
@@ -864,7 +864,7 @@ class AdminHelper  {
 				} else {
 					// handle differently for AJAX and non-AJAX
 					if ($this->cash_admin->page_data['data_only']) {
-						AdminHelper::formFailure('Error. Something just didn\'t work right.','/elements/add/' . $post_data['element_type']);
+						$this->formFailure('Error. Something just didn\'t work right.','/elements/add/' . $post_data['element_type']);
 					} else {
 						$this->cash_admin->setErrorState('element_add_failure');
 					}
@@ -885,7 +885,7 @@ class AdminHelper  {
 					// handle differently for AJAX and non-AJAX
 					if ($this->cash_admin->page_data['data_only']) {
 						// AJAX
-						AdminHelper::formSuccess('Success. Edited.','/elements/edit/' . $post_data['element_id']);
+						$this->formSuccess('Success. Edited.','/elements/edit/' . $post_data['element_id']);
 					} else {
 						// non-AJAX
 						$this->cash_admin->setCurrentElement($post_data['element_id']);
@@ -894,7 +894,7 @@ class AdminHelper  {
 					// handle differently for AJAX and non-AJAX
 					if ($this->cash_admin->page_data['data_only']) {
 						// AJAX
-						AdminHelper::formFailure('Error. Something just didn\'t work right.','/elements/edit/' . $post_data['element_id']);
+						$this->formFailure('Error. Something just didn\'t work right.','/elements/edit/' . $post_data['element_id']);
 					} else {
 						// non-AJAX
 						$this->cash_admin->setErrorState('element_edit_failure');
@@ -902,16 +902,16 @@ class AdminHelper  {
 				}
 			}
 
-			AdminHelper::setBasicElementFormData($this->cash_admin);
+			$this->setBasicElementFormData();
 		}
 	}
 
-	public static function setBasicElementFormData(&$cash_admin) {
-		$current_element = $cash_admin->getCurrentElement();
+	public function setBasicElementFormData() {
+		$current_element = $this->cash_admin->getCurrentElement();
 		if ($current_element) {
 			// Current element found, so fill in the 'edit' form:
-			$cash_admin->page_data['element_id'] = $current_element['id'];
-			$cash_admin->page_data['element_name'] = $current_element['name'];
+            $this->cash_admin->page_data['element_id'] = $current_element['id'];
+            $this->cash_admin->page_data['element_name'] = $current_element['name'];
 		}
 	}
 

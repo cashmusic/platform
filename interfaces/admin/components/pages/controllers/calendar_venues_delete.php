@@ -7,6 +7,7 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 
 if (!$request_parameters) {
 	AdminHelper::controllerRedirect('/calendar/venues/');
@@ -22,9 +23,9 @@ if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
 		)
 	);
 	if ($venue_delete_request->response['status_uid'] == 'calendar_deletevenue_200') {
-		AdminHelper::formSuccess('Success. Deleted.','/calendar/venues/' . $add_response['payload']);
+		$admin_helper->formSuccess('Success. Deleted.','/calendar/venues/' . $add_response['payload']);
 	} else {
-		AdminHelper::formFailure('Error. There was a problem deleting.');
+		$admin_helper->formFailure('Error. There was a problem deleting.');
 	}
 }
 

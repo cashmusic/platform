@@ -992,7 +992,9 @@ class SystemPlant extends PlantBase {
 				'name' => $name,
 				'template' => $template
 			),
-			'CASHSystem::notExplicitFalse'
+			function($value) {
+               return CASHSystem::notExplicitFalse($value);
+			}
 		);
 		$condition = false;
 		if ($template_id) {

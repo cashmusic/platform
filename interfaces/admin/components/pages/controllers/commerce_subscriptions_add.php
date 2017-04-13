@@ -7,6 +7,7 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 
     $settings_request = new CASHRequest(
         array(
@@ -46,10 +47,10 @@ if (!empty($_POST['action']) && $_POST['action'] == "do_create") {
 
     if ($subscription_request->response['payload']) {
 
-        AdminHelper::formSuccess('Success. Subscription plan added.','/commerce/subscriptions/detail/'.$subscription_request->response['payload']['numeric_id']);
+        $admin_helper->formSuccess('Success. Subscription plan added.','/commerce/subscriptions/detail/'.$subscription_request->response['payload']['numeric_id']);
         /*CASHSystem::redirectToUrl(CASH_ADMIN_URL."/commerce/subscriptions/detail/".$subscription_request->response['payload']['numeric_id']);*/
     } else {
-        AdminHelper::formFailure('Error. Something just didn\'t work right.',"/commerce/subscriptions/detail/".$subscription_request->response['payload']);
+        $admin_helper->formFailure('Error. Something just didn\'t work right.',"/commerce/subscriptions/detail/".$subscription_request->response['payload']);
     }
 } else {
     $cash_admin->setPageContentTemplate('commerce_subscriptions_add');

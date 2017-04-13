@@ -7,6 +7,7 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
     
 $settings_request = new CASHRequest(
     array(
@@ -55,9 +56,9 @@ if (!empty($_POST['action']) && $_POST['action'] == "do_update") {
 
         if ($subscription_request->response['payload']) {
 
-            AdminHelper::formSuccess('Success. Subscription plan updated.','/commerce/subscriptions/detail/'.$request_parameters[0]);
+            $admin_helper->formSuccess('Success. Subscription plan updated.','/commerce/subscriptions/detail/'.$request_parameters[0]);
         } else {
-            AdminHelper::formFailure('Error. Something just didn\'t work right.',"/commerce/subscriptions/detail/".$request_parameters[0]);
+            $admin_helper->formFailure('Error. Something just didn\'t work right.',"/commerce/subscriptions/detail/".$request_parameters[0]);
         }
 
     }

@@ -217,7 +217,9 @@ class PeoplePlant extends PlantBase {
 				'notes' => $notes,
 				'links' => $links
 			),
-			'CASHSystem::notExplicitFalse'
+            function($value) {
+                return CASHSystem::notExplicitFalse($value);
+            }
 		);
 		$condition = array(
 			"id" => array(
@@ -413,7 +415,9 @@ class PeoplePlant extends PlantBase {
 				'description' => $description,
 				'connection_id' => $connection_id
 			),
-			'CASHSystem::notExplicitFalse'
+            function($value) {
+                return CASHSystem::notExplicitFalse($value);
+            }
 		);
 		$result = $this->db->setData(
 			'people_lists',
@@ -1179,7 +1183,9 @@ class PeoplePlant extends PlantBase {
 				'text_content' => $text_content,
 				'send_date' => $send_date
 			),
-			'CASHSystem::notExplicitFalse'
+            function($value) {
+                return CASHSystem::notExplicitFalse($value);
+            }
 		);
 		$result = $this->db->setData(
 			'mailings',

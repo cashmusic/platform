@@ -22,7 +22,7 @@ if (isset($_POST['doaccountchange'])) {
     $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 
 	if (!$valid_user_response['payload']) {
-		AdminHelper::formFailure('Error. There was a problem with your password. Please try again.');
+		$admin_helper->formFailure('Error. There was a problem with your password. Please try again.');
 	} else {
 		$changes = array(
 			'cash_request_type' => 'system', 

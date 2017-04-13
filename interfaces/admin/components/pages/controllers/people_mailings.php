@@ -1,5 +1,15 @@
 <?php
 
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHConnection;
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+
 $template_id = !empty($_POST['template_id']) ? $_POST['template_id'] : "none";
 $html_content = !empty($_POST['html_content']) ? $_POST['html_content'] : "";
 $subject = !empty($_POST['mail_subject']) ? $_POST['mail_subject'] : "";
@@ -8,6 +18,8 @@ $connection_id = !empty($_POST['connection_id']) ? $_POST['connection_id'] : "";
 $mail_from = !empty($_POST['mail_from']) ? $_POST['mail_from'] : "";
 
 $test_recipients = !empty($_POST['test_recipients']) ? preg_replace('/\s+/', '', $_POST['test_recipients']) : "";
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 
 // send a test email
 if (!empty($_POST['action']) && $_POST['action'] == 'dotestsend') {
@@ -60,9 +72,9 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dotestsend') {
     );
 
     if ($mailing_result) {
-        AdminHelper::formSuccess('Test Success. The mail is sent, check it for errors.','/people/mailings/');
+        $admin_helper->formSuccess('Test Success. The mail is sent, check it for errors.','/people/mailings/');
     } else {
-        AdminHelper::formFailure('Test Error. Something just didn\'t work right.','/people/mailings/');
+        $admin_helper->formFailure('Test Error. Something just didn\'t work right.','/people/mailings/');
     }
 
 }
@@ -105,25 +117,25 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dolivesend') {
 	);
 
 	if ($mailing_result) {
-		AdminHelper::formSuccess('Success. The mail is sent, just kick back and watch.','/people/mailings/');
+		$admin_helper->formSuccess('Success. The mail is sent, just kick back and watch.','/people/mailings/');
 	} else {
-		AdminHelper::formFailure('Error. Something just didn\'t work right.','/people/mailings/');
+		$admin_helper->formFailure('Error. Something just didn\'t work right.','/people/mailings/');
 	}
 }
 
-$settings_test_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+$settings_test_object = new CASHConnection($admin_helper->getPersistentData('cash_effective_user'));
 $settings_test_array  = $settings_test_object->getConnectionsByScope('mass_email');
 
 if ($settings_test_array) {
-	$cash_admin->page_data['options_people_lists'] = AdminHelper::echoFormOptions('people_lists',0,false,true);
-	$cash_admin->page_data['connection_options'] = AdminHelper::echoConnectionsOptions('mass_email',0,true);
+	$cash_admin->page_data['options_people_lists'] = $admin_helper->echoFormOptions('people_lists',0,false,true);
+	$cash_admin->page_data['connection_options'] = $admin_helper->echoConnectionsOptions('mass_email',0,true);
 }
 
 $user_request = $cash_admin->requestAndStore(
     array(
         'cash_request_type' => 'people', 
         'cash_action' => 'getuser',
-        'user_id' => $effective_user
+        'user_id' => $cash_admin->effective_user_id
     )
 );
 

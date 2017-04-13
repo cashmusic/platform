@@ -1,4 +1,15 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use DOMDocument;
+use CASHMusic\Admin\AdminHelper;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 $effective_user = $cash_admin->effective_user_id;
 
 if (isset($_POST['press_url'])) {
@@ -52,9 +63,9 @@ if (isset($_POST['press_url'])) {
 			);
 
 			if ($add_response['payload']) {
-				AdminHelper::formSuccess('Success. New link added');
+				$admin_helper->formSuccess('Success. New link added');
 			} else {
-				AdminHelper::formFailure('Error. Something just didn\'t work right.');
+				$admin_helper->formFailure('Error. Something just didn\'t work right.');
 			}
 		} else {
 			$cash_admin->page_data['error_message'] = 'please enter a valid URL';		

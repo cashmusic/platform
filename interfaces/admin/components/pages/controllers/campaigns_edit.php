@@ -7,6 +7,8 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 // parsing posted data:
 if (isset($_POST['docampaignedit'])) {
 	// do the actual list add stuffs...
@@ -20,9 +22,9 @@ if (isset($_POST['docampaignedit'])) {
 		)
 	);
 	if ($edit_response['status_uid'] == 'element_editcampaign_200') {
-		AdminHelper::formSuccess('Success. Edited.','/');
+		$admin_helper->formSuccess('Success. Edited.','/');
 	} else {
-		AdminHelper::formFailure('Error. There was a problem editing your campaign.','/');
+		$admin_helper->formFailure('Error. There was a problem editing your campaign.','/');
 	}
 }
 

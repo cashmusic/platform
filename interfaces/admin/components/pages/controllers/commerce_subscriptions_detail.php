@@ -7,6 +7,7 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 
 // comped subscription
 if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
@@ -24,9 +25,9 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
     );
 
     if ($comped_request->response['payload']) {
-        AdminHelper::formSuccess('Success. Comped subscription added to this plan.','/commerce/subscriptions/detail/'.$request_parameters[0]);
+        $admin_helper->formSuccess('Success. Comped subscription added to this plan.','/commerce/subscriptions/detail/'.$request_parameters[0]);
     } else {
-        AdminHelper::formFailure('Error. Something just didn\'t work right.',"/commerce/subscriptions/detail/".$request_parameters[0]);
+        $admin_helper->formFailure('Error. Something just didn\'t work right.',"/commerce/subscriptions/detail/".$request_parameters[0]);
     }
 
 
@@ -43,7 +44,7 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
         $stripe_default = (isset($settings_request->response['payload']['stripe_default'])) ? $settings_request->response['payload']['stripe_default'] : false;
     }
 
-    $currency_request = new \CASHRequest(
+    $currency_request = new CASHRequest(
         array(
             'cash_request_type' => 'system',
             'cash_action' => 'getsettings',
@@ -54,9 +55,9 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
 
     // currency stuff
     if ($currency_request->response['payload']) {
-        $cash_admin->page_data['currency'] = \CASHSystem::getCurrencySymbol($currency_request->response['payload']);
+        $cash_admin->page_data['currency'] = CASHSystem::getCurrencySymbol($currency_request->response['payload']);
     } else {
-        $cash_admin->page_data['currency'] = \CASHSystem::getCurrencySymbol('USD');
+        $cash_admin->page_data['currency'] = CASHSystem::getCurrencySymbol('USD');
     }
 
     $plan_request = new CASHRequest(

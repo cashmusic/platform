@@ -7,6 +7,9 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 // first handle add
 if (isset($_POST['dotemplateset'])) {
 	// form was submitted. set the template
@@ -26,9 +29,9 @@ if (isset($_POST['dotemplateset'])) {
 		)
 	);
 	if ($template_response['payload']) {
-		AdminHelper::formSuccess('Success.','/elements/templates/' . $template_response['payload']);
+		$admin_helper->formSuccess('Success.','/elements/templates/' . $template_response['payload']);
 	} else {
-		AdminHelper::formFailure('Error. Something just didn\'t work right.','/elements/templates/');
+		$admin_helper->formFailure('Error. Something just didn\'t work right.','/elements/templates/');
 	}
 }
 

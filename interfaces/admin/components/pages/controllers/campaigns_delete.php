@@ -7,6 +7,8 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 if (!$request_parameters) {
 	AdminHelper::controllerRedirect('/');
 }
@@ -55,9 +57,9 @@ if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
 		}
 
 		if (isset($_REQUEST['redirectto'])) {
-			AdminHelper::formSuccess('Success. Deleted.',$_REQUEST['redirectto']);
+			$admin_helper->formSuccess('Success. Deleted.',$_REQUEST['redirectto']);
 		} else {
-			AdminHelper::formSuccess('Success. Deleted.','/elements/view/');
+			$admin_helper->formSuccess('Success. Deleted.','/elements/view/');
 		}
 	}
 }

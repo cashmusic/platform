@@ -113,17 +113,17 @@ if ($current_element) {
 		}
 
 		// Detects if element add has happened and deals with POST data if it has
-		$admin_helper->handleElementFormPOST($_POST,$cash_admin);
+		$admin_helper->handleElementFormPOST($_POST);
 
 		// Set basic id/name stuff for the element
-		AdminHelper::setBasicElementFormData($cash_admin);
+        $admin_helper->setBasicElementFormData();
 
 		// pull stored element data
-		$cash_admin->page_data = array_merge($cash_admin->page_data,AdminHelper::getElementValues($current_element));
+		$cash_admin->page_data = array_merge($cash_admin->page_data,$admin_helper->getElementValues($current_element));
 
 		$cash_admin->page_data['ui_title'] = '' . $current_element['name'] . '';
 		$cash_admin->page_data['element_button_text'] = 'Save changes';
-		$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render(AdminHelper::getElementTemplate($current_element), $cash_admin->page_data);
+		$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render($admin_helper->getElementTemplate($current_element), $cash_admin->page_data);
 
 		$campaign_response = $cash_admin->requestAndStore(
 			array(

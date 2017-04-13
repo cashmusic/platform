@@ -7,6 +7,8 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 if (!$request_parameters) {
 	AdminHelper::controllerRedirect('/elements/templates/');
 }
@@ -20,7 +22,7 @@ if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
 		)
 	);
 	if ($delete_response['status_uid'] == 'system_deletetemplate_200') {
-		AdminHelper::formSuccess('Success. Deleted.','/elements/templates/');
+		$admin_helper->formSuccess('Success. Deleted.','/elements/templates/');
 	}
 }
 $cash_admin->page_data['title'] = 'Elements: Delete template';

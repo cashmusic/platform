@@ -7,6 +7,8 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 // parsing posted data:
 if (isset($_POST['dovenueadd'])) {
 	// do the actual list add stuffs...
@@ -37,9 +39,9 @@ if (isset($_POST['dovenueadd'])) {
 		)
 	);
 	if ($add_response['payload']) {
-		AdminHelper::formSuccess('Success. Venue added.','/calendar/venues/' . $add_response['payload']);
+		$admin_helper->formSuccess('Success. Venue added.','/calendar/venues/' . $add_response['payload']);
 	} else {
-		AdminHelper::formFailure('Error. Something just didn\'t work right.','/calendar/venues/add/');
+		$admin_helper->formFailure('Error. Something just didn\'t work right.','/calendar/venues/add/');
 	}
 }
 

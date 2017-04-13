@@ -399,7 +399,9 @@ class CommercePlant extends PlantBase {
                 'fulfillment_asset' => $fulfillment_asset,
                 'descriptive_asset' => $descriptive_asset
             ),
-            'CASHSystem::notExplicitFalse'
+            function($value) {
+                return CASHSystem::notExplicitFalse($value);
+            }
         );
         if (isset($final_edits['shipping'])) {
             $final_edits['shipping'] = json_encode($shipping);
@@ -988,7 +990,9 @@ class CommercePlant extends PlantBase {
                 'customer_user_id' => $customer_user_id,
                 'data' => $data
             ),
-            'CASHSystem::notExplicitFalse'
+            function($value) {
+                return CASHSystem::notExplicitFalse($value);
+            }
         );
         if (isset($final_edits['order_contents'])) {
             $final_edits['order_contents'] = json_encode($order_contents);
@@ -1340,7 +1344,9 @@ class CommercePlant extends PlantBase {
                 'service_fee' => $service_fee,
                 'status' => $status
             ),
-            'CASHSystem::notExplicitFalse'
+            function($value) {
+                return CASHSystem::notExplicitFalse($value);
+            }
         );
         if (isset($final_edits['data_sent'])) {
             $final_edits['data_sent'] = json_encode($data_sent);
@@ -2326,7 +2332,9 @@ class CommercePlant extends PlantBase {
                 'order_data' => $order_data,
                 'notes' => $notes
             ),
-            'CASHSystem::notExplicitFalse'
+            function($value) {
+                return CASHSystem::notExplicitFalse($value);
+            }
         );
         if (isset($final_edits['order_data'])) {
             $final_edits['order_data'] = json_encode($data_sent);

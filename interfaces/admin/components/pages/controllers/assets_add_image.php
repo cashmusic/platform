@@ -7,6 +7,8 @@ use CASHMusic\Core\CASHRequest as CASHRequest;
 use ArrayIterator;
 use CASHMusic\Admin\AdminHelper;
 
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 // parsing posted data:
 if (isset($_POST['doassetadd'])) {
 
@@ -70,7 +72,7 @@ if (isset($_POST['doassetadd'])) {
 					)
 				);
 			}
-			AdminHelper::formSuccess('Success.','/assets/edit/' . $_POST['parent_id']);
+			$admin_helper->formSuccess('Success.','/assets/edit/' . $_POST['parent_id']);
 		}
 		if ($_POST['parent_type'] == 'item') {
 			// make it public
@@ -94,15 +96,15 @@ if (isset($_POST['doassetadd'])) {
 					'user_id' => $cash_admin->effective_user_id
 				)
 			);
-			AdminHelper::formSuccess('Success.','/commerce/items/edit/' . $_POST['parent_id']);
+			$admin_helper->formSuccess('Success.','/commerce/items/edit/' . $_POST['parent_id']);
 		}
 	} else {
 		if ($_POST['parent_type'] == 'release') {
-			AdminHelper::formFailure('Error. Something didn\'t work.','/assets/edit/' . $_POST['parent_id']);
+			$admin_helper->formFailure('Error. Something didn\'t work.','/assets/edit/' . $_POST['parent_id']);
 		} elseif ($_POST['parent_type'] == 'item') {
-			AdminHelper::formFailure('Error. Something didn\'t work.','/commerce/items/edit/' . $_POST['parent_id']);
+			$admin_helper->formFailure('Error. Something didn\'t work.','/commerce/items/edit/' . $_POST['parent_id']);
 		} else {
-			AdminHelper::formFailure('Error. Something didn\'t work.','/assets/');
+			$admin_helper->formFailure('Error. Something didn\'t work.','/assets/');
 		}
 	}
 }
@@ -111,7 +113,7 @@ $cash_admin->page_data['form_state_action'] = 'doassetadd';
 $cash_admin->page_data['asset_button_text'] = 'Save changes';
 $cash_admin->page_data['ui_title'] = 'Add an image';
 
-$cash_admin->page_data['connection_options'] = AdminHelper::echoConnectionsOptions('assets', 0, true);
+$cash_admin->page_data['connection_options'] = $admin_helper->echoConnectionsOptions('assets', 0, true);
 
 if (isset($request_parameters[1])) {
 	$cash_admin->page_data['parent_type'] = $request_parameters[0];
