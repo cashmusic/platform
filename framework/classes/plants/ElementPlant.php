@@ -668,7 +668,9 @@ class ElementPlant extends PlantBase {
 				'description' => $description,
 				'template_id' => $template_id
 			),
-			'CASHSystem::notExplicitFalse'
+            function($value) {
+                return CASHSystem::notExplicitFalse($value);
+            }
 		);
 		if (is_array($metadata)) {
 			$final_edits['metadata'] = json_encode($metadata);
@@ -760,20 +762,26 @@ class ElementPlant extends PlantBase {
 
 	protected function getElementsForCampaign($id) {
 		$campaign = $this->getCampaign($id);
-		$result = $this->db->getData(
-			'elements',
-			'*',
-			array(
-				"id" => array(
-					"condition" => "IN",
-					"value" => $campaign['elements']
-				)
-			)
-		);
-		foreach ($result as $key => &$val) {
-			$val['options'] = json_decode($val['options'],true);
+
+		if (count($campaign['elements'])) {
+            $result = $this->db->getData(
+                'elements',
+                '*',
+                array(
+                    "id" => array(
+                        "condition" => "IN",
+                        "value" => $campaign['elements']
+                    )
+                )
+            );
+            foreach ($result as $key => &$val) {
+                $val['options'] = json_decode($val['options'],true);
+            }
+            return $result;
+		} else {
+			return false;
 		}
-		return $result;
+
 	}
 
 	protected function getAnalyticsForCampaign($id) {
