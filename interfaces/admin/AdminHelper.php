@@ -289,6 +289,7 @@ class AdminHelper  {
 	 *********************************************/
 	public static function getElementAppJSON($element_type) {
 		$element_dirname = CASH_PLATFORM_ROOT.'/elements/' . $element_type;
+
 		if (file_exists($element_dirname . '/app.json')) {
 			$app_json = json_decode(file_get_contents($element_dirname . '/app.json'),true);
 			return $app_json;
@@ -341,6 +342,8 @@ class AdminHelper  {
 
 	public function getElementValues($storedElement) {
 		$return_array = array();
+        $formatting_data = "";
+
 		$app_json = AdminHelper::getElementAppJSON($storedElement['type']);
 		if ($app_json) {
 			// start by getting defaults. this will populate scalars, etc.

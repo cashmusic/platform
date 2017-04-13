@@ -18,6 +18,7 @@
 
 namespace CASHMusic\Plants;
 
+use CASHMusic\Core\CASHConnection;
 use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Core\CASHSystem;
@@ -74,7 +75,7 @@ class ElementPlant extends PlantBase {
 		foreach ($all_element_files as $file) {
 			if (ctype_alnum($file)) {
 				$tmpKey = strtolower($file);
-				$this->elements_array["$tmpKey"] = $file.".php";
+				$this->elements_array["$tmpKey"] = $file;
 			}
 		}
 	}
@@ -318,7 +319,8 @@ class ElementPlant extends PlantBase {
 	}
 
 	protected function getSupportedTypes($force_all=false) {
-		$return_array = array_keys($this->elements_array);
+		$return_array = array_values($this->elements_array);
+
 		$filter_array = json_decode(file_get_contents(CASH_PLATFORM_ROOT.'/elements/supported.json'),true);
 		if (is_array($filter_array['public']) && !$force_all) {
 			$allowed_types = $filter_array['public'];
@@ -506,12 +508,12 @@ class ElementPlant extends PlantBase {
 
 	protected function getElementMarkup($id,$status_uid,$original_request=false,$original_response=false,$access_method='direct',$location=false,$geo=false,$donottrack=false) {
 		$element = $this->getElement($id);
-		$element_type = $element['type'];
+		$element_type = strtolower($element['type']);
 		$element_options = $element['options'];
 
 		if ($element_type) {
-			$class_name = pathinfo($this->elements_array[$element_type], PATHINFO_FILENAME);
-			$for_include = CASH_PLATFORM_ROOT."/elements/$class_name/".$this->elements_array[$element_type];
+			$class_name = $this->elements_array[$element_type];
+			$for_include = CASH_PLATFORM_ROOT."/elements/$class_name/$class_name.php";
 
 			if (file_exists($for_include)) {
 				$element_object_type = "\\CASHMusic\\Elements\\$class_name\\$class_name";

@@ -51,7 +51,7 @@ if ($request_parameters) {
 				$cash_admin->page_data['ui_title'] = 'Add ' . $app_json['details']['en']['name'] . ' Element';
 				$cash_admin->page_data['ui_page_tip'] = $app_json['details']['en']['instructions'];
 
-				$element_defaults = AdminHelper::getElementDefaults($app_json['options']);
+				$element_defaults = $admin_helper->getElementDefaults($app_json['options']);
 				$cash_admin->page_data = array_merge($cash_admin->page_data,$element_defaults);
 
 				if (isset($app_json['copy'])) {
@@ -112,6 +112,7 @@ if ($request_parameters) {
 	$colcount = 1;
 	foreach ($supported_elements as $element) {
 		$app_json = AdminHelper::getElementAppJSON($element);
+
 		$formatted_element = array(
 			'element_type' => $element,
 			'element_type_name' => $app_json['details']['en']['name'],
