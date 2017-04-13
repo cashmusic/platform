@@ -24,6 +24,8 @@ use Whoops\Handler\PrettyPageHandler;
 
 class AdminHelper  {
 
+	public $cash_request, $cash_admin;
+
 	public function __construct(&$cash_request_dependency=false, &$cash_admin_dependency=false) {
 
         global $admin_primary_cash_request, $cash_admin;

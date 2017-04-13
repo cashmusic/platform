@@ -87,10 +87,9 @@ class S3Seed extends SeedBase {
 	makePublic($filename)
 	*/
 
-	public static function getRedirectMarkup($data=false) {
+	public static function getRedirectMarkup($data=false, $admin_helper=false) {
 		// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
 		// calls would only happen in the admin. If this changes we can fuck around with it later.
-        $admin_helper = new AdminHelper();
 
 		$return_markup = '<h4>Amazon S3</h4>'
 					   . '<p>You\'ll need your S3 key and secret to proceed. For security reasons '
@@ -105,7 +104,7 @@ class S3Seed extends SeedBase {
 		return $return_markup;
 	}
 
-	public static function handleRedirectReturn($cash_effective_user=false, $data=false) {
+	public static function handleRedirectReturn($cash_effective_user=false, $data=false, $admin_helper=false) {
 
 		$connections = CASHSystem::getSystemSettings('system_connections');
 		if (isset($connections['com.amazon'])) {
@@ -131,14 +130,14 @@ class S3Seed extends SeedBase {
 			);
 
             if ($result) {
-				AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
+				$admin_helper->formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
 			} else {
-				AdminHelper::formFailure('Error. Something just didn\'t work right.');
+				$admin_helper->formFailure('Error. Something just didn\'t work right.');
 			}
 		} else {
 			//$return_markup = '<h4>Error</h4>'
 			//			   . '<p>We couldn\'t connect with your S3 account. Please check the key and secret.</p>';
-			AdminHelper::formFailure('We couldn\'t connect your S3 account. Please check the key and secret.');
+			$admin_helper->formFailure('We couldn\'t connect your S3 account. Please check the key and secret.');
 		}
 		return true;
 	}

@@ -130,7 +130,7 @@ class GoogleDriveSeed extends SeedBase {
 		}
 	}
 
-	public static function handleRedirectReturn($data=false) {
+	public static function handleRedirectReturn($effective_user=false, $data=false, $admin_helper=false) {
 		if (isset($data['code'])) {
 			$connections = CASHSystem::getSystemSettings('system_connections');
 			if (isset($connections['com.google.drive'])) {
@@ -155,7 +155,6 @@ class GoogleDriveSeed extends SeedBase {
 				$credentials_array = json_decode($credentials, true);
 				if (isset($credentials_array['refresh_token'])) {
 
-                    $admin_helper = new AdminHelper();
 					// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
 					// calls would only happen in the admin. If this changes we can fuck around with it later.
 					$new_connection = new CASHConnection($admin_helper->getPersistentData('cash_effective_user'));
@@ -205,7 +204,7 @@ class GoogleDriveSeed extends SeedBase {
 	 */
 	public static function getAuthorizationUrl($client_id,$redirect_uri,$scopes,$email_address=false) {
 		require_once(CASH_PLATFORM_ROOT.'/lib/google/Google_Client.php');
-		$client = new Google_Client();
+		$client = new \Google_Client();
 
 		$client->setClientId($client_id);
 		$client->setRedirectUri($redirect_uri);

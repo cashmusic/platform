@@ -54,6 +54,7 @@ if ($settings_action) {
 		case 'add':
 			$settings_type = $request_parameters[1];
 			$seed_name = '\\CASHMusic\\Seeds\\'.$settings_types_data[$settings_type]['seed'];
+
 			if ($cash_admin->platform_type == 'single') {
 				if (!isset($_POST['dosettingsadd'])) {
 					if (array_key_exists($settings_type, $settings_types_data)) {
@@ -141,12 +142,12 @@ if ($settings_action) {
 					if (!$finalize) {
 						$return_url = rtrim(CASHSystem::getCurrentURL(),'/') . '/finalize';
 						// PHP <= 5.2 >>>> $cash_admin->page_data['state_markup'] = call_user_func($seed_name . '::getRedirectMarkup', $return_url);
-						$cash_admin->page_data['state_markup'] = $seed_name::getRedirectMarkup($return_url);
+						$cash_admin->page_data['state_markup'] = $seed_name::getRedirectMarkup($return_url, $admin_helper);
 					} else {
 						$connections_base_uri = rtrim(str_replace($request_parameters,'',CASHSystem::getCurrentURL()),'/');
 						$_REQUEST['connections_base_uri'] = $connections_base_uri;
 						// PHP <= 5.2 >>>> $cash_admin->page_data['state_markup'] = call_user_func($seed_name . '::handleRedirectReturn', $_REQUEST);
-						$returned_connection = $seed_name::handleRedirectReturn($admin_helper->getPersistentData('cash_effective_user'), $_REQUEST);
+						$returned_connection = $seed_name::handleRedirectReturn($admin_helper->getPersistentData('cash_effective_user'), $_REQUEST, $admin_helper);
 
 						//TODO: move form stuff here
 

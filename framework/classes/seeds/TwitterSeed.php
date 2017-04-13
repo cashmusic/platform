@@ -74,7 +74,7 @@ class TwitterSeed extends SeedBase {
 		}
 	}
 
-	public static function getRedirectMarkup($data=false) {
+	public static function getRedirectMarkup($data=false, $admin_helper=false) {
 		$connections = CASHSystem::getSystemSettings('system_connections');
 
 		if (isset($connections['com.twitter'])) {
@@ -99,7 +99,7 @@ class TwitterSeed extends SeedBase {
 		}
 	}
 
-	public static function handleRedirectReturn($data=false) {
+	public static function handleRedirectReturn($data=false, $request=false, $admin_helper=false) {
 		if (isset($data['error'])) {
 			return 'There was an error. (general) Please try again.';
 		} else {
@@ -108,13 +108,11 @@ class TwitterSeed extends SeedBase {
 			require_once(CASH_PLATFORM_ROOT.'/lib/twitter/OAuth.php');
 			require_once(CASH_PLATFORM_ROOT.'/lib/twitter/twitteroauth.php');
 
-            $admin_helper = new AdminHelper();
-
 			$temporary_credentials = $admin_helper->getPersistentData('twitter_temporary_credentials');
 
 			$twitter = new TwitterOAuth(
 				$connections['com.twitter']['client_id'],
-				$connections['com.teitter']['client_secret'],
+				$connections['com.twitter']['client_secret'],
 				$temporary_credentials['oauth_token'],
 				$temporary_credentials['oauth_token_secret']
 			);
@@ -133,12 +131,12 @@ class TwitterSeed extends SeedBase {
 					)
 				);
 				if ($result) {
-					AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
+					$admin_helper->formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
 				} else {
-					AdminHelper::formFailure('Error. Could not save connection.','/settings/connections/');
+					$admin_helper->formFailure('Error. Could not save connection.','/settings/connections/');
 				}
 			} else {
-				AdminHelper::formFailure('Error. Problem communicating with Twitter','/settings/connections/');
+				$admin_helper->formFailure('Error. Problem communicating with Twitter','/settings/connections/');
 			}
 		}
 	}
