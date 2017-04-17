@@ -1,0 +1,84 @@
+{
+	"restfulnouns":{
+		"event":{
+
+		},
+		"events":{
+
+		},
+		"events/search":{
+
+		},
+		"venue":{
+
+		},
+		"venues":{
+
+		},
+		"venues/search":{
+
+		}
+	},
+	"requestactions":{
+		"addevent":{
+			"description":"",
+			"plantfunction":"addEvent",
+			"security":["direct"]
+		},
+		"addvenue":{
+			"description":"",
+			"plantfunction":"addVenue",
+			"security":["direct"]
+		},
+		"deleteevent":{
+			"description":"",
+			"plantfunction":"deleteEvent",
+			"security":["direct"]
+		},
+		"deletevenue":{
+			"description":"",
+			"plantfunction":"deleteVenue",
+			"security":["direct"]
+		},
+		"editevent":{
+			"description":"",
+			"plantfunction":"editEvent",
+			"security":["direct"]
+		},
+		"editvenue":{
+			"description":"",
+			"plantfunction":"editVenue",
+			"security":["direct"]
+		},
+		"findvenues":{
+			"description":"",
+			"plantfunction":"findVenues",
+			"security":["direct"]
+		},
+		"getallvenues":{
+			"description":"",
+			"plantfunction":"getAllVenues",
+			"security":["direct"]
+		},
+		"getevent":{
+			"description":"",
+			"plantfunction":"getEvent",
+			"security":["direct"]
+		},
+		"getevents":{
+			"description":"",
+			"plantfunction":"getEvents",
+			"security":["direct"]
+		},
+		"geteventsnostatus":{
+			"description":"",
+			"plantfunction":"getEventsNoStatus",
+			"security":["direct"]
+		},
+		"getvenue":{
+			"description":"",
+			"plantfunction":"getVenue",
+			"security":["direct"]
+		}
+	}
+}
