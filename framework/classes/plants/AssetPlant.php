@@ -308,7 +308,7 @@ class AssetPlant extends PlantBase {
             $connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
 
             if (is_array($connection_type)) {
-                $seed_type = $connection_type['seed'];
+                $seed_type = '\\CASHMusic\\Seeds\\'.$connection_type['seed'];
                 $seed = new $seed_type($user_id,$connection_id);
                 $seed->deleteFile($asset_details['location']);
             }
@@ -600,7 +600,7 @@ class AssetPlant extends PlantBase {
 		$connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
 
 		if (is_array($connection_type)) {
-			$seed_type = $connection_type['seed'];
+			$seed_type = '\\CASHMusic\\Seeds\\'.$connection_type['seed'];
 			$seed = new $seed_type($user_id,$connection_id);
 
 			return $seed->getExpiryURL($asset_location);
