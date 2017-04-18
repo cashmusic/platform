@@ -14,6 +14,13 @@
  * This file is generously sponsored by echo
  *
  **/
+
+namespace CASHMusic\Seeds;
+
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Core\SeedBase;
+
+
 class FacebookSeed extends SeedBase {
 	protected $twitter;
 

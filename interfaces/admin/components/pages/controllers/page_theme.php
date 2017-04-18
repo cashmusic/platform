@@ -1,4 +1,14 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 // form submit after wizard
 if (isset($_POST['setpage'])) {
 	$new_template = 0;
@@ -50,13 +60,13 @@ if (isset($_POST['setpage'])) {
 			)
 		);
 	} else {
-		AdminHelper::formFailure('Error. Could not create page.','/page/');
+		$admin_helper->formFailure('Error. Could not create page.','/page/');
 	}
 
 	if ($edit_response['payload']) {
-		AdminHelper::formSuccess('Success. Page created. You can edit it any time and publish when you are ready.','/page/');
+		$admin_helper->formSuccess('Success. Page created. You can edit it any time and publish when you are ready.','/page/');
 	} else {
-		AdminHelper::formFailure('Error. Something just didn\'t work right.','/page/');
+		$admin_helper->formFailure('Error. Something just didn\'t work right.','/page/');
 	}
 
 } else {

@@ -16,6 +16,12 @@
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
  **/
+
+namespace CASHMusic\Seeds;
+
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Core\SeedBase;
+
 class SoundScanSeed extends SeedBase
 {
     private $chain_number, $account_number, $end_date, $orders, $report_type, $ftp_domain, $ftp_user, $ftp_password, $filename;

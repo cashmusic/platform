@@ -15,6 +15,15 @@
  *
  * This file is generously sponsored by Rob Morrissey (@robmorrissey)
  **/
+
+namespace CASHMusic\Plants;
+
+use CASHMusic\Core\PlantBase;
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Admin\AdminHelper;
+use CASHMusic\Seeds\S3Seed;
+
 class AssetPlant extends PlantBase {
 	public function __construct($request_type,$request) {
 		$this->request_type = 'asset';
@@ -42,6 +51,8 @@ class AssetPlant extends PlantBase {
 			'redeemcode'              => array('redeemLockCode',array('direct','get','post')),
 			'unlock'                  => array('unlockAsset','direct')
 		);
+
+
 		$this->plantPrep($request_type,$request);
 	}
 
@@ -77,6 +88,13 @@ class AssetPlant extends PlantBase {
 
 	protected function getStoredAssets($asset_details,$type='fulfillment',$session_id=false) {
 		$result = false; // default return
+
+		// i have no idea why this is
+		if (is_array($asset_details) && count($asset_details) == 1
+			&& is_numeric($asset_details[0])) {
+			$asset_details = array_pop($asset_details);
+		}
+
 		if (!is_array($asset_details)) {
 			// if $asset details isn't an array, assume it's an id
 			$asset_details = $this->getAssetInfo($asset_details);
@@ -87,20 +105,24 @@ class AssetPlant extends PlantBase {
 			if ($asset_details['type'] == 'file') {
 				$result = array($asset_details);
 			} elseif ($asset_details['type'] == 'release') {
-				if (isset($asset_details['metadata'][$type])) {
+
+				if (!empty($asset_details['metadata'][$type])) {
 					// check isset first, in case the asset is newly set
 					if (count($asset_details['metadata'][$type])) {
 						$final_assets = array();
+
 						foreach ($asset_details['metadata'][$type] as $fulfillment_id) {
-							$fulfillment_resquest = new CASHRequest(
+							if (is_array($fulfillment_id)) $fulfillment_id = array_pop($fulfillment_id);
+
+							$fulfillment_request = new CASHRequest(
 								array(
 									'cash_request_type' => 'asset',
 									'cash_action' => 'getasset',
 									'id' => $fulfillment_id
 								)
 							);
-							if ($fulfillment_resquest->response['payload']) {
-								$final_assets[] = $fulfillment_resquest->response['payload'];
+							if ($fulfillment_request->response['payload']) {
+								$final_assets[] = $fulfillment_request->response['payload'];
 							}
 						}
 						if (count($final_assets)) {
@@ -182,7 +204,7 @@ class AssetPlant extends PlantBase {
 	 * id and get the asset details associative array, pass in an array of asset ids
 	 * and get an array of asset detail arrays.
 	 *
-	 * @return void
+	 * @return string
 	 */protected function getAssetInfo($id,$user_id=false) {
 		// first set conditions based on single id or array
 		if (!is_array($id)) {
@@ -364,7 +386,9 @@ class AssetPlant extends PlantBase {
 				'hash' => $hash,
 				'metadata' => json_encode($metadata)
 			),
-			'CASHSystem::notExplicitFalse'
+            function($value) {
+                return CASHSystem::notExplicitFalse($value);
+            }
 		);
 		$condition = array(
 			"id" => array(
@@ -644,7 +668,7 @@ class AssetPlant extends PlantBase {
 		$connection = $this->getConnectionDetails($connection_id);
 		$connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
 		if (is_array($connection_type)) {
-			$seed_type = $connection_type['seed'];
+			$seed_type = '\CASHMusic\Seeds\\'. $connection_type['seed'];
 			$seed = new $seed_type($user_id,$connection_id);
 			return $seed->getUploadParameters($acl);
 		} else {
@@ -656,7 +680,7 @@ class AssetPlant extends PlantBase {
 		$connection = $this->getConnectionDetails($connection_id);
 		$connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
 		if (is_array($connection_type)) {
-			$seed_type = $connection_type['seed'];
+			$seed_type = '\CASHMusic\Seeds\\'. $connection_type['seed'];
 			$seed = new $seed_type($connection['user_id'],$connection_id);
 			return $seed->finalizeUpload($filename);
 		} else {
@@ -676,7 +700,7 @@ class AssetPlant extends PlantBase {
 		$connection_type = CASHSystem::getConnectionTypeSettings($connection['type']);
 		if (is_array($connection_type)) {
 
-			$seed_type = $connection_type['seed'];
+			$seed_type = '\CASHMusic\Seeds\\'.$connection_type['seed'];
 			$seed = new $seed_type($asset['user_id'],$asset['connection_id']);
 			$public_location = $seed->makePublic($asset['location']);
 			if ($commit) {

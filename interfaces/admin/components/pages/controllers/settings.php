@@ -1,9 +1,19 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 $misc_message = false;
 if (isset($_POST['domisc'])) {
 	CASHSystem::setSystemSetting('timezone',$_POST['timezone']);
 	CASHSystem::setSystemSetting('systememail',$_POST['systememail']);
-	AdminHelper::formSuccess('Success. All changed.');
+	$admin_helper->formSuccess('Success. All changed.');
 }
 
 $migrate_message = false;
@@ -23,9 +33,9 @@ if (isset($_POST['domigrate'])) {
 		)
 	);
 	if ($migrate_response['payload']) {
-		AdminHelper::formSuccess('Success. Database upgraded. Enjoy!');
+		$admin_helper->formSuccess('Success. Database upgraded. Enjoy!');
 	} else {
-		AdminHelper::formFailure('Error. There was a problem migrating your data.');
+		$admin_helper->formFailure('Error. There was a problem migrating your data.');
 	}
 }
 $platform_settings = CASHSystem::getSystemSettings();

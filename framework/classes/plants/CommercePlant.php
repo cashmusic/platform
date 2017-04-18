@@ -15,6 +15,16 @@
  * This file is generously sponsored by Devin Palmer | www.devinpalmer.com
  *
  **/
+
+namespace CASHMusic\Plants;
+
+use CASHMusic\Core\PlantBase;
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Seeds\PaypalSeed;
+use CASHMusic\Seeds\StripeSeed;
+use CASHMusic\Admin\AdminHelper;
+
 class CommercePlant extends PlantBase {
     protected $subscription_active_status;
 
@@ -389,7 +399,9 @@ class CommercePlant extends PlantBase {
                 'fulfillment_asset' => $fulfillment_asset,
                 'descriptive_asset' => $descriptive_asset
             ),
-            'CASHSystem::notExplicitFalse'
+            function($value) {
+                return CASHSystem::notExplicitFalse($value);
+            }
         );
         if (isset($final_edits['shipping'])) {
             $final_edits['shipping'] = json_encode($shipping);
@@ -978,7 +990,9 @@ class CommercePlant extends PlantBase {
                 'customer_user_id' => $customer_user_id,
                 'data' => $data
             ),
-            'CASHSystem::notExplicitFalse'
+            function($value) {
+                return CASHSystem::notExplicitFalse($value);
+            }
         );
         if (isset($final_edits['order_contents'])) {
             $final_edits['order_contents'] = json_encode($order_contents);
@@ -1330,7 +1344,9 @@ class CommercePlant extends PlantBase {
                 'service_fee' => $service_fee,
                 'status' => $status
             ),
-            'CASHSystem::notExplicitFalse'
+            function($value) {
+                return CASHSystem::notExplicitFalse($value);
+            }
         );
         if (isset($final_edits['data_sent'])) {
             $final_edits['data_sent'] = json_encode($data_sent);
@@ -1531,6 +1547,8 @@ class CommercePlant extends PlantBase {
               }
             }
 
+            $seed_class = '\\CASHMusic\Seeds\\'.$seed_class;
+
             $currency = $this->getCurrencyForUser($user_id);
 
             // merge all this stuff into $data for storage
@@ -1691,7 +1709,7 @@ class CommercePlant extends PlantBase {
                 return false; // no default PP shit set
             }
 
-            $seed_class = "StripeSeed";
+            $seed_class = '\\CASHMusic\Seeds\\'."StripeSeed";
             if (!class_exists($seed_class)) {
                 $this->setErrorMessage("1301 Couldn't find payment type $seed_class.");
                 return false;
@@ -1829,7 +1847,7 @@ class CommercePlant extends PlantBase {
         // get connection type settings so we can extract Seed classname
         $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
 
-        $seed_class = $connection_settings['seed'];
+        $seed_class = '\\CASHMusic\Seeds\\'.$connection_settings['seed'];
 
         if (CASH_DEBUG) {
            error_log(
@@ -2139,7 +2157,7 @@ class CommercePlant extends PlantBase {
 
         // get connection type settings so we can extract Seed classname
         $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
-        $seed_class = $connection_settings['seed'];
+        $seed_class = '\\CASHMusic\Seeds\\'.$connection_settings['seed'];
 
         // we're going to switch seeds by $connection_type, so check to make sure this class even exists
         if (!class_exists($seed_class)) {
@@ -2316,7 +2334,9 @@ class CommercePlant extends PlantBase {
                 'order_data' => $order_data,
                 'notes' => $notes
             ),
-            'CASHSystem::notExplicitFalse'
+            function($value) {
+                return CASHSystem::notExplicitFalse($value);
+            }
         );
         if (isset($final_edits['order_data'])) {
             $final_edits['order_data'] = json_encode($data_sent);
@@ -3136,7 +3156,7 @@ class CommercePlant extends PlantBase {
         }
 
         // let's just add for now
-        $seed_class = "StripeSeed";
+        $seed_class = '\\CASHMusic\Seeds\\'."StripeSeed";
         if (!class_exists($seed_class)) {
             $this->setErrorMessage("1301 Couldn't find payment type $seed_class.");
             return false;

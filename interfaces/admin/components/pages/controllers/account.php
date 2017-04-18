@@ -1,4 +1,12 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
 if (isset($_POST['doaccountchange'])) {
 	$valid_user_response = $cash_admin->requestAndStore(
 		array(
@@ -11,8 +19,10 @@ if (isset($_POST['doaccountchange'])) {
 		)
 	);
 
+    $admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 	if (!$valid_user_response['payload']) {
-		AdminHelper::formFailure('Error. There was a problem with your password. Please try again.');
+		$admin_helper->formFailure('Error. There was a problem with your password. Please try again.');
 	} else {
 		$changes = array(
 			'cash_request_type' => 'system', 
@@ -46,7 +56,7 @@ if (isset($_POST['doaccountchange'])) {
 					define('MINIMUM_PASSWORD_LENGTH',10);
 				}
 				if (strlen($_POST['new_password']) < MINIMUM_PASSWORD_LENGTH) {
-					AdminHelper::formFailure('Error. Your password should be at least ' . MINIMUM_PASSWORD_LENGTH . ' characters long. Please try again.');
+                    $admin_helper->formFailure('Error. Your password should be at least ' . MINIMUM_PASSWORD_LENGTH . ' characters long. Please try again.');
 				}
 				$changes['password'] = $_POST['new_password'];
 			}
@@ -56,9 +66,9 @@ if (isset($_POST['doaccountchange'])) {
 			if (isset($changes['address'])) {
 				$admin_primary_cash_request->sessionSet('cash_effective_user_email',$changes['address']);
 			}
-			AdminHelper::formSuccess('Success. All changed.');
+			$admin_helper->formSuccess('Success. All changed.');
 		} else {
-			AdminHelper::formFailure('Error. We had a problem resetting your login. Please try again. Email addresses and usernames have to be unique.');
+            $admin_helper->formFailure('Error. We had a problem resetting your login. Please try again. Email addresses and usernames have to be unique.');
 		}
 	}
 }
@@ -99,21 +109,18 @@ if (is_array($user_response['payload'])) {
 	$current_userdata = $user_response['payload']['data'];
 }
 
-
-//$data = $current_userdata; // now it's an array
-
 // no form submit so let's check DB
-$cash_admin->page_data['language'] = AdminHelper::getOrSetLanguage();
+$cash_admin->page_data['language'] = $admin_helper->getOrSetLanguage();
 $cash_admin->page_data['language_as_options'] = AdminHelper::echoLanguageOptions(
 	$cash_admin->page_data['language']
 );
 
-if ($current_userdata['payload']) {
+if (!empty($current_userdata['payload'])) {
 	if (isset($_POST['dolanguagechange'])) {
 		if (isset($cash_admin->page_data['language'])) {
-			AdminHelper::formSuccess('Success. Language changed.');
+			$admin_helper->formSuccess('Success. Language changed.');
 		} else {
-			AdminHelper::formFailure('Error. We had a problem resetting your language. Please try again.');
+            $admin_helper->formFailure('Error. We had a problem resetting your language. Please try again.');
 		}
 	}
 }

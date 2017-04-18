@@ -1,4 +1,14 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 // parsing posted data:
 if (isset($_POST['doassetadd'])) {
 	
@@ -53,9 +63,9 @@ if (isset($_POST['doassetadd'])) {
 				);
 			}
 		}
-		AdminHelper::formSuccess('Success. Asset added. Feel free to start adding details.','/assets/edit/' . $add_response['payload']);
+		$admin_helper->formSuccess('Success. Asset added. Feel free to start adding details.','/assets/edit/' . $add_response['payload']);
 	} else {
-		AdminHelper::formFailure('Error. Something just didn\'t work right.','/assets/add/');
+		$admin_helper->formFailure('Error. Something just didn\'t work right.','/assets/add/');
 	}
 }
 
@@ -69,7 +79,7 @@ if (isset($request_parameters[0])) {
 	if ($add_type == 'file') {
 		// connection options markup:
 		$cash_admin->page_data['connection_options'] = '<option value="0" selected="selected">None (Normal http:// link)</option>';
-		$cash_admin->page_data['connection_options'] .= AdminHelper::echoConnectionsOptions('assets',0, true);
+		$cash_admin->page_data['connection_options'] .= $admin_helper->echoConnectionsOptions('assets',0, true);
 
 		$cash_admin->page_data['show_location'] = true;
 	}

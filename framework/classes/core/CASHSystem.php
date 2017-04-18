@@ -1,4 +1,14 @@
 <?php
+
+namespace CASHMusic\Core;
+
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use CASHMusic\Core\CASHConnection as CASHConnection;
+use CASHMusic\Seeds\MandrillSeed;
+use Exception;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
+
 /**
  * An abstract collection of lower level static functions that are useful
  * across other classes.
@@ -11,7 +21,8 @@
  * Licensed under the GNU Lesser General Public License version 3.
  * See http://www.gnu.org/licenses/lgpl-3.0.html
  *
- */abstract class CASHSystem  {
+ */
+abstract class CASHSystem  {
 
 	/**
 	 * Handle annoying environment issues like magic quotes, constants and
@@ -51,9 +62,10 @@
 
 			define('CASH_DEBUG',(bool)$cash_settings['debug']);
 			// set up auto-load
-			spl_autoload_register('CASHSystem::autoloadClasses');
-			// composer autoloader, for seeds initially
-			require_once(CASH_PLATFORM_ROOT . '/library/autoload.php');
+			//spl_autoload_register('CASHSystem::autoloadClasses');
+
+			// composer autoloader, in case we haven't loaded via controller first
+			require_once(CASH_PLATFORM_ROOT . '/../vendor/autoload.php');
 
 			// set timezone
 			date_default_timezone_set($cash_settings['timezone']);
@@ -61,6 +73,7 @@
 			// fire off new CASHRequest to cover any immediate-need things like GET
 			// asset requests, etc...
 			$cash_page_request = new CASHRequest();
+
 			if (!empty($cash_page_request->response)) {
 				$cash_page_request->sessionSet(
 					'initial_page_request',
@@ -72,7 +85,9 @@
 					'script'
 				);
 			}
+
 			$cash_page_request->sessionSet('initial_page_request_time',time(),'script');
+
 			if ($return_request) {
 				return $cash_page_request;
 			} else {
@@ -135,6 +150,7 @@
 				'donottrack' => $donottrack
 			)
 		);
+
 		if ($cash_body_request->response['status_uid'] == 'element_getmarkup_400') {
 			// there was no element found. so you know...punt
 			echo '<div class="cashmusic error">Element #' . $element_id . ' could not be found.</div>';
@@ -698,7 +714,7 @@
 
                 if ($smtp) {
                     // use SMTP settings for goodtimes robust happy mailing
-                    $transport = Swift_SmtpTransport::newInstance($email_settings['smtpserver'], $email_settings['smtpport']);
+                    $transport = \Swift_SmtpTransport::newInstance($email_settings['smtpserver'], $email_settings['smtpport']);
                     if ($email_settings['smtpusername']) {
                         $transport->setUsername($email_settings['smtpusername']);
                         $transport->setPassword($email_settings['smtppassword']);
@@ -711,9 +727,9 @@
                     //$transport = Swift_MailTransport::newInstance();
                 }
 
-                $swift = Swift_Mailer::newInstance($transport);
+                $swift = \Swift_Mailer::newInstance($transport);
 
-                $message = new Swift_Message($subject);
+                $message = new \Swift_Message($subject);
                 $message->setFrom($sender);
                 $message->setReplyTo($from);
                 //	$message->setSender($sender);
@@ -812,6 +828,7 @@
 		
 		// either we've got a valid connection ID, or a fallback api_key
 		if ($connection_id) {
+
 			$mandrill = new MandrillSeed($user_id, $connection_id);
 
 			if ($result = $mandrill->send(
@@ -841,7 +858,7 @@
 	 * @return string
 	 */
 	public static function parseMarkdown($markdown) {
-		return Parsedown::instance()
+		return \Parsedown::instance()
 			//->setUrlsLinked(false)
 			->text($markdown);
 	}
@@ -881,7 +898,8 @@
 	public static function renderMustache($template, $vars_array) {
 
 		// try to render the template with the provided vars, or die
-		$mustache_engine = new Mustache_Engine;
+
+		$mustache_engine = new \Mustache_Engine;
 		try {
 			$rendered_template = $mustache_engine->render($template, $vars_array);
 		} catch (Exception $e) {
@@ -1235,5 +1253,111 @@
 			'last_name' => $lastname
 		];
 	}
+
+	public static function getFullNamespace($filename) {
+        $lines = file($filename);
+        $namespaceLine = array_shift(preg_grep('/^namespace /', $lines));
+        $match = array();
+        preg_match('/^namespace (.*);$/', $namespaceLine, $match);
+        $fullNamespace = array_pop($match);
+
+        return $fullNamespace;
+    }
+
+    public static function getClassName($filename) {
+        $directoriesAndFilename = explode('/', $filename);
+        $filename = array_pop($directoriesAndFilename);
+        $nameAndExtension = explode('.', $filename);
+        $className = array_shift($nameAndExtension);
+
+        return $className;
+    }
+
+    public static function backtrace() {
+		if (CASH_DEBUG) {
+            $whoops = new Run();
+
+// Configure the PrettyPageHandler:
+            $errorPage = new PrettyPageHandler();
+			$backtrace = debug_backtrace();
+
+			// get rid of the reference to this method
+			array_shift($backtrace);
+
+			$backtrace_pretty = "";
+
+			foreach($backtrace as $trace) {
+			    $backtrace_pretty .= "<h3>".$trace['file'].":".$trace['line']."</h3>";
+			    $backtrace_pretty .= "<h4>Function: ".$trace['function']."</h4>";
+			    if (!empty($trace['class'])) $backtrace_pretty .= "<h5>in ".$trace['class']."</h5>";
+			    $backtrace_pretty .= "<p>";
+
+                if (!empty($trace['type']) && $trace['type'] != "" && $trace['type'] != "'->") $backtrace_pretty .= "Error type '".$trace['type']."";
+
+			    if (!empty($trace['args'])) $backtrace_pretty .= "<br><small>with arguments:</small> <pre>".print_r($trace['args'], true)."</pre>";
+
+			    $backtrace_pretty .= "</p><hr>";
+            }
+
+            $errorPage->setPageTitle("Oh shit. It's a backtrace."); // Set the page's title
+            $errorPage->addDataTable("Backtrace", ['details'=>"<pre>".print_r($backtrace_pretty, true)."</pre>"]);
+
+            $whoops->pushHandler($errorPage);
+            $whoops->register();
+
+
+            throw new \RuntimeException("Backtrace fired.");
+		}
+        //if (CASH_DEBUG) error_log(print_r(array_reverse(debug_backtrace()), true));
+	}
+
+    public static function dd($object) {
+        if (CASH_DEBUG) {
+            $whoops = new Run();
+
+// Configure the PrettyPageHandler:
+            $errorPage = new PrettyPageHandler();
+
+            $errorPage->setPageTitle("Oh shit. It's a dd."); // Set the page's title
+            $errorPage->addDataTable("Output", ['output'=>"<pre>".print_r($object, true)."</pre>"]);
+
+            $whoops->pushHandler($errorPage);
+            $whoops->register();
+
+
+            throw new \RuntimeException("dd on ".gettype($object));
+        }
+        //if (CASH_DEBUG) error_log(print_r(array_reverse(debug_backtrace()), true));
+    }
+
+    /**
+     * To ensure compatibility with stored element names, we need to sort of manually match the element directory
+     *
+     * @param $element_type
+     * @return string
+     */
+    public static function getElementDirectory($element_type)
+    {
+        $element_dirname = CASH_PLATFORM_ROOT . '/elements/' . $element_type;
+        $element_directories = array_filter(glob(CASH_PLATFORM_ROOT . '/elements/*'),
+            function ($data) use ($element_dirname) {
+                if (is_dir($data)) {
+
+                    if (strcasecmp($data, $element_dirname) == 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            });
+
+        if (is_array($element_directories) && count($element_directories) > 0) {
+            return array_pop($element_directories);
+        } else {
+            return false;
+        }
+    }
 } // END class
 ?>

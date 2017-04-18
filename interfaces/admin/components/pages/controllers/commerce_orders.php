@@ -1,4 +1,12 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
 $all_order_details = false;
 $orders_response = $cash_admin->requestAndStore(
 	array(

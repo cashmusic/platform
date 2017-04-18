@@ -1,4 +1,11 @@
 <?php
+
+namespace CASHMusic\Core;
+
+use CASHMusic\Core\CASHData as CASHData;
+use CASHMusic\Core\CASHResponse as CASHResponse;
+use ReflectionMethod;
+
 /**
  * Abstract base for all Plant classes
  *

@@ -1,4 +1,9 @@
 <?php
+
+namespace CASHMusic\Core;
+
+use CASHMusic\Core\CASHData as CASHData;
+
 /**
  * Abstract base for all elements
  *
@@ -18,6 +23,7 @@ abstract class ElementBase extends CASHData {
 	public $type  = 'unknown';
 	public $name  = 'Unknown Element';
 	public $error = '';
+	public $extending_class = false;
 
 	abstract public function getData();
 
@@ -78,11 +84,18 @@ abstract class ElementBase extends CASHData {
 		}
 		if (file_exists(CASH_PLATFORM_ROOT . '/lib/mustache/Mustache.php')) {
 			include_once(CASH_PLATFORM_ROOT . '/lib/mustache/Mustache.php');
-			$this->mustache = new Mustache;
+			$this->mustache = new \Mustache;
 		}
 		// check for an init() in the defined element. if it exists, call it
 		if (method_exists($this,'init')) {
 			$this->init();
+		}
+
+		// what's the name of the class calling the ElementBase?
+		$extending_class = explode("\\", get_class($this));
+
+		if (is_array($extending_class)) {
+			$this->extending_class = array_pop($extending_class);
 		}
 	}
 
@@ -141,18 +154,20 @@ abstract class ElementBase extends CASHData {
 	}
 
 	public function getTemplate() {
-		if (file_exists(CASH_PLATFORM_ROOT . '/elements/' . $this->type . '/templates/' . $this->template  . '.mustache')) {
-			return file_get_contents(CASH_PLATFORM_ROOT . '/elements/' . $this->type . '/templates/' . $this->template . '.mustache');
+		if (file_exists(CASH_PLATFORM_ROOT . '/elements/' . $this->extending_class . '/templates/' . $this->template  . '.mustache')) {
+			return file_get_contents(CASH_PLATFORM_ROOT . '/elements/' . $this->extending_class . '/templates/' . $this->template . '.mustache');
 		} else {
 			return false;
 		}
 	}
 
 	public function getAppData() {
-		if (file_exists(CASH_PLATFORM_ROOT . '/elements/' . $this->type . '/app.json')) {
-			$app_json = json_decode(file_get_contents(CASH_PLATFORM_ROOT . '/elements/' . $this->type . '/app.json'),true);
+		if (file_exists(CASHSystem::getElementDirectory($this->type) . '/app.json')) {
+			CASHSystem::errorLog("file exists");
+			$app_json = json_decode(file_get_contents(CASHSystem::getElementDirectory($this->type) . '/app.json'),true);
 			return $app_json;
 		} else {
+            CASHSystem::errorLog("file not exists");
 			return false;
 		}
 	}

@@ -1,4 +1,14 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 if (!$request_parameters) {
 	AdminHelper::controllerRedirect('/commerce/items/');
 }
@@ -12,7 +22,7 @@ if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
 		)
 	);
 	if ($item_delete_response['status_uid'] == 'commerce_deleteitem_200') {
-		AdminHelper::formSuccess('Success. Deleted.','/commerce/items/');
+		$admin_helper->formSuccess('Success. Deleted.','/commerce/items/');
 	}
 }
 $cash_admin->page_data['title'] = 'Commerce: Delete item';

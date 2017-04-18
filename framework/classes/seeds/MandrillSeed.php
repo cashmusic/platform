@@ -14,6 +14,17 @@
  * This file is generously sponsored by TTSCC - http://tts.cc - This code kills fascists
  *
  **/
+
+namespace CASHMusic\Seeds;
+
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Core\SeedBase;
+use CASHMusic\Core\CASHConnection;
+use CASHMusic\Admin\AdminHelper;
+
+use Mandrill;
+
 class MandrillSeed extends SeedBase {
 	private $api;
 	public $api_key, $api_email, $error_code=false, $error_message=false;
@@ -66,7 +77,7 @@ class MandrillSeed extends SeedBase {
         $this->api = new Mandrill($this->api_key);
 	}
 
-	public static function getRedirectMarkup($data=false) {
+	public static function getRedirectMarkup($data=false, $admin_helper=false) {
 		$connections = CASHSystem::getSystemSettings('system_connections');
 
 		// I don't like using ADMIN_WWW_BASE_PATH below, but as this call is always called inside the
@@ -95,23 +106,22 @@ class MandrillSeed extends SeedBase {
 		}
 	}
 
-	public static function handleRedirectReturn($data=false) {
+	public static function handleRedirectReturn($effective_user=false, $request=false, $admin_helper=false) {
 
-		if (!isset($data['api_key'])) {
+		if (!isset($request['api_key'])) {
 			return 'There was an error. (general) Please try again.';
 		} else {
 
-			$mandrill = new Mandrill($data['api_key']);
-
+			$mandrill = new Mandrill($request['api_key']);
 			// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
 			// calls would only happen in the admin. If this changes we can fuck around with it later.
-			$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+			$new_connection = new CASHConnection($admin_helper->getPersistentData('cash_effective_user'));
 			$result = $new_connection->setSettings(
-				$data['api_email'] . ' (Mandrill)',
+                $request['api_email'] . ' (Mandrill)',
 				'com.mandrillapp',
 				array(
-					'api_key' => $data['api_key'],
-					'api_email' => $data['api_email']
+					'api_key' => $request['api_key'],
+					'api_email' => $request['api_email']
 				)
 			);
 			if (!$result) {
@@ -126,7 +136,7 @@ class MandrillSeed extends SeedBase {
 
 			return array(
 				'id' => $result,
-				'name' => $data['api_email'] . ' (Mandrill)',
+				'name' => $request['api_email'] . ' (Mandrill)',
 				'type' => 'com.mandrillapp'
 			);
 		}

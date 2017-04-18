@@ -1,4 +1,14 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 if (!$request_parameters) {
 	AdminHelper::controllerRedirect('/');
 }
@@ -22,6 +32,7 @@ if ($current_element) {
 						'template_id' => $_POST['change_template_id']
 					)
 				);
+
 				if ($new_template_id) {
 					if ($_POST['current_template_id'] > 0) {
 						// delete old custom templates
@@ -40,6 +51,7 @@ if ($current_element) {
 
 		// deal with templates
 		$embed_templates = AdminHelper::echoTemplateOptions('embed',$cash_admin->page_data['template_id']);
+
 		$cash_admin->page_data['template_options'] = $embed_templates;
 
 		if ($cash_admin->page_data['template_id'] >= 0) {
@@ -81,11 +93,15 @@ if ($current_element) {
 			foreach ($locations_array as $key => $location) {
 				// cycle through all locations, push to temp array and combine if necessary
 				$parsed = parse_url($location['access_location']);
-				if (isset($tmp_locations_array[$parsed['host']])) {
-					$tmp_locations_array[$parsed['host']] = $tmp_locations_array[$parsed['host']] + $location['total'];
-				} else {
-					$tmp_locations_array[$parsed['host']] = $location['total'];
+
+				if (isset($parsed['host'])) {
+                    if (isset($tmp_locations_array[$parsed['host']])) {
+                        $tmp_locations_array[$parsed['host']] = $tmp_locations_array[$parsed['host']] + $location['total'];
+                    } else {
+                        $tmp_locations_array[$parsed['host']] = $location['total'];
+                    }
 				}
+
 			}
 			arsort($tmp_locations_array); // sort temp array most to least
 			$tmp_locations_array = array_slice($tmp_locations_array, 0, 5); // trim temp array to no more than 5
@@ -103,17 +119,17 @@ if ($current_element) {
 		}
 
 		// Detects if element add has happened and deals with POST data if it has
-		AdminHelper::handleElementFormPOST($_POST,$cash_admin);
+		$admin_helper->handleElementFormPOST($_POST);
 
 		// Set basic id/name stuff for the element
-		AdminHelper::setBasicElementFormData($cash_admin);
+        $admin_helper->setBasicElementFormData();
 
 		// pull stored element data
-		$cash_admin->page_data = array_merge($cash_admin->page_data,AdminHelper::getElementValues($current_element));
+		$cash_admin->page_data = array_merge($cash_admin->page_data,$admin_helper->getElementValues($current_element));
 
 		$cash_admin->page_data['ui_title'] = '' . $current_element['name'] . '';
 		$cash_admin->page_data['element_button_text'] = 'Save changes';
-		$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render(AdminHelper::getElementTemplate($current_element), $cash_admin->page_data);
+		$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render($admin_helper->getElementTemplate($current_element), $cash_admin->page_data);
 
 		$campaign_response = $cash_admin->requestAndStore(
 			array(

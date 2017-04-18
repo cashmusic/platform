@@ -1,4 +1,12 @@
 <?php
+
+namespace CASHMusic\PublicInterface;
+
+require_once(dirname(__FILE__) . '/../../../vendor/autoload.php');
+
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
+
 // pass basic no-cache headers
 header('P3P: CP="ALL CUR OUR"'); // P3P privacy policy fix
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
@@ -51,12 +59,13 @@ if (!isset($_REQUEST['nooutput'])) {
 		require_once(CASH_PLATFORM_PATH);
 
 		$cash_page_request = new CASHRequest(null);
+
 		$initial_page_request = $cash_page_request->sessionGet('initial_page_request','script');
 
 		if ($requests[0] != 'payload' || $requests[0] != 'json') {
 			// open up some mustache in here:
 			include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
-			$freddiemercury = new Mustache;
+			$freddiemercury = new \Mustache;
 		}
 
 		if ($requests[0] == 'embed' && isset($requests[1])) {
@@ -81,6 +90,7 @@ if (!isset($_REQUEST['nooutput'])) {
 					'return_template' => 1
 				)
 			);
+
 			$template = $template_request->response['payload'];
 
 			$embed_data = array();

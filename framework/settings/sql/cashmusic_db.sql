@@ -115,6 +115,62 @@ CREATE TABLE `calendar_venues` (
 --
 -- Section: COMMERCE
 --
+DROP TABLE IF EXISTS `commerce_external_fulfillment_jobs`;
+CREATE TABLE `commerce_external_fulfillment_jobs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `asset_id` int(11) NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL,
+  `description` text,
+  `status` varchar(255) NOT NULL DEFAULT 'created',
+  `mappable_fields` mediumtext NOT NULL,
+  `has_minimum_mappable_fields` int(11) NOT NULL DEFAULT '0',
+  `modification_date` int(11) DEFAULT NULL,
+  `creation_date` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `commerce_external_fulfillment_tiers`;
+CREATE TABLE `commerce_external_fulfillment_tiers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `system_job_id` int(11) NOT NULL,
+  `fulfillment_job_id` int(11) NOT NULL,
+  `process_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `upc` varchar(255) DEFAULT NULL,
+  `metadata` mediumtext,
+  `status` int(11) NOT NULL DEFAULT '0',
+  `physical` int(11) NOT NULL DEFAULT '0',
+  `shipped` int(11) NOT NULL DEFAULT '0',
+  `modification_date` int(11) DEFAULT NULL,
+  `creation_date` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `commerce_external_fulfillment_orders`;
+CREATE TABLE `commerce_external_fulfillment_orders` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `shipping_address_1` varchar(255) DEFAULT NULL,
+  `shipping_address_2` varchar(255) DEFAULT NULL,
+  `shipping_city` varchar(255) DEFAULT NULL,
+  `shipping_province` varchar(255) DEFAULT NULL,
+  `shipping_postal` varchar(255) DEFAULT NULL,
+  `shipping_country` varchar(255) DEFAULT NULL,
+  `complete` int(11) NOT NULL DEFAULT '0',
+  `fulfilled` int(11) NOT NULL DEFAULT '0',
+  `price` varchar(255) DEFAULT NULL,
+  `tier_id` int(11) NOT NULL,
+  `order_data` mediumtext,
+  `notes` mediumtext,
+  `modification_date` int(11) DEFAULT NULL,
+  `creation_date` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=41935 DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `commerce_items`;
 CREATE TABLE `commerce_items` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

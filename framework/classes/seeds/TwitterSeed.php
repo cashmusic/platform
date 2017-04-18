@@ -14,6 +14,17 @@
  * This file is generously sponsored by 'Sweetest tongue has sharpest tooth'
  *
  **/
+
+namespace CASHMusic\Seeds;
+
+use CASHMusic\Core\CASHConnection;
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Core\SeedBase;
+use CASHMusic\Admin\AdminHelper;
+
+use TwitterOAuth;
+
 class TwitterSeed extends SeedBase {
 	protected $twitter;
 	protected $oauth_token;
@@ -63,7 +74,7 @@ class TwitterSeed extends SeedBase {
 		}
 	}
 
-	public static function getRedirectMarkup($data=false) {
+	public static function getRedirectMarkup($data=false, $admin_helper=false) {
 		$connections = CASHSystem::getSystemSettings('system_connections');
 
 		if (isset($connections['com.twitter'])) {
@@ -88,7 +99,7 @@ class TwitterSeed extends SeedBase {
 		}
 	}
 
-	public static function handleRedirectReturn($data=false) {
+	public static function handleRedirectReturn($data=false, $request=false, $admin_helper=false) {
 		if (isset($data['error'])) {
 			return 'There was an error. (general) Please try again.';
 		} else {
@@ -97,11 +108,11 @@ class TwitterSeed extends SeedBase {
 			require_once(CASH_PLATFORM_ROOT.'/lib/twitter/OAuth.php');
 			require_once(CASH_PLATFORM_ROOT.'/lib/twitter/twitteroauth.php');
 
-			$temporary_credentials = AdminHelper::getPersistentData('twitter_temporary_credentials');
+			$temporary_credentials = $admin_helper->getPersistentData('twitter_temporary_credentials');
 
 			$twitter = new TwitterOAuth(
 				$connections['com.twitter']['client_id'],
-				$connections['com.teitter']['client_secret'],
+				$connections['com.twitter']['client_secret'],
 				$temporary_credentials['oauth_token'],
 				$temporary_credentials['oauth_token_secret']
 			);
@@ -111,7 +122,7 @@ class TwitterSeed extends SeedBase {
 			if ($twitter->http_code == 200) {
 				// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
 				// calls would only happen in the admin. If this changes we can fuck around with it later.
-				$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+				$new_connection = new CASHConnection($admin_helper->getPersistentData('cash_effective_user'));
 				$result = $new_connection->setSettings(
 					'@' . $access_token['screen_name'] . ' (Twitter)',
 					'com.twitter',
@@ -120,12 +131,12 @@ class TwitterSeed extends SeedBase {
 					)
 				);
 				if ($result) {
-					AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
+					$admin_helper->formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
 				} else {
-					AdminHelper::formFailure('Error. Could not save connection.','/settings/connections/');
+					$admin_helper->formFailure('Error. Could not save connection.','/settings/connections/');
 				}
 			} else {
-				AdminHelper::formFailure('Error. Problem communicating with Twitter','/settings/connections/');
+				$admin_helper->formFailure('Error. Problem communicating with Twitter','/settings/connections/');
 			}
 		}
 	}

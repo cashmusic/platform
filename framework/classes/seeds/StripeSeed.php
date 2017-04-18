@@ -12,6 +12,28 @@
  *
  **/
 
+namespace CASHMusic\Seeds;
+
+use CASHMusic\Core\CASHConnection;
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Core\SeedBase;
+use CASHMusic\Admin\AdminHelper;
+
+use Exception;
+use AdamPaterson\OAuth2\Client\Provider\Stripe as StripeOAuth;
+
+use Stripe\Account;
+use Stripe\BalanceTransaction as BalanceTransaction;
+use Stripe\Charge;
+use Stripe\Error as StripeError;
+use Stripe\Event;
+use Stripe\Plan as Plan;
+use Stripe\Stripe;
+use Stripe\Subscription as Subscription;
+use Stripe\Token;
+
+
 class StripeSeed extends SeedBase
 {
     protected $client_id, $client_secret, $error_message;
@@ -61,7 +83,7 @@ class StripeSeed extends SeedBase
                );
             }
 
-            \Stripe\Stripe::setApiKey($this->access_token);
+            Stripe::setApiKey($this->access_token);
         } else {
             $this->error_message = 'could not get connection settings';
         }
@@ -78,7 +100,7 @@ class StripeSeed extends SeedBase
 
             $redirect_uri = CASH_ADMIN_URL . '/settings/connections/add/com.stripe/finalize';
 
-            $client = new \AdamPaterson\OAuth2\Client\Provider\Stripe(
+            $client = new StripeOAuth(
                 array(
                     'clientId'          => $connections['com.stripe']['client_id'],
                     'clientSecret'      => $connections['com.stripe']['client_secret'],
@@ -105,15 +127,15 @@ class StripeSeed extends SeedBase
      * (such as, create new user).
      *
      * This happens before the actual charge occurs.
-     * @return bool|Stripe\Token
+     * @return bool|Token
      */
     public function getTokenInformation()
     {
 
         if ($this->token) {
 
-            \Stripe\Stripe::setApiKey($this->access_token);
-            $tokenInfo = \Stripe\Token::retrieve($this->token);
+            Stripe::setApiKey($this->access_token);
+            $tokenInfo = Token::retrieve($this->token);
             if (!$tokenInfo) {
                 $this->setErrorMessage('getTokenInformation failed: ' . $this->getErrorMessage());
                 return false;
@@ -132,8 +154,11 @@ class StripeSeed extends SeedBase
      * @param bool|false $data
      * @return string
      */
-    public static function handleRedirectReturn($data = false)
+    public static function handleRedirectReturn($cash_effective_user=false, $data = false)
     {
+
+        $admin_helper = new AdminHelper();
+
         if (isset($data['code'])) {
             $connections = CASHSystem::getSystemSettings('system_connections');
             if (isset($connections['com.stripe'])) {
@@ -146,7 +171,8 @@ class StripeSeed extends SeedBase
 //                    //get the user information from the returned credentials.
 //                    $user_info = StripeSeed::getUserInfo($credentials['access']);
                     //create new connection and add it to the database.
-                    $new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+
+                    $new_connection = new CASHConnection($cash_effective_user);
 
 
                     $result = $new_connection->setSettings(
@@ -166,23 +192,41 @@ class StripeSeed extends SeedBase
          						'type' => 'com.stripe'
          					);
                     } else {
-                        AdminHelper::formFailure('Error. Could not save connection.', '/settings/connections/');
-                        return false;
+
+                        return [
+                            'error' => [
+                                'message' => 'Error. Could not save connection.',
+                                'uri' => '/settings/connections/'
+                            ]
+                        ];
                     }
                 } else {
-                    AdminHelper::formFailure('There was an error with the default Stripe app credentials');
-                    return false;
+
+                    return [
+                        'error' => [
+                            'message' => 'There was an error with the default Stripe app credentials',
+                            'uri' => false
+                        ]
+                    ];
+
                 }
             } else {
-                AdminHelper::formFailure('Please add default stripe app credentials.');
-                return false;
+                return [
+                    'error' => [
+                        'message' => 'Please add default stripe app credentials.',
+                        'uri' => false
+                    ]
+                ];
             }
         } else {
-            AdminHelper::formFailure('There was an error. (session) Please try again.');
-            return false;
+            return [
+                'error' => [
+                    'message' => 'There was a session error. Please try again.',
+                    'uri' => false
+                ]
+            ];
         }
     }
-
     /**
      *
      * This method is used to exchange the returned code from Stripe with Stripe again to get the user credentials during
@@ -198,7 +242,7 @@ class StripeSeed extends SeedBase
     public static function getOAuthCredentials($authorization_code, $client_id, $client_secret)
     {
         try {
-            $client = new \AdamPaterson\OAuth2\Client\Provider\Stripe(
+            $client = new StripeOAuth(
                 array(
                 'clientId'          => $client_id,
                 'clientSecret'      => $client_secret
@@ -239,9 +283,9 @@ class StripeSeed extends SeedBase
     public static function getUserInfo($credentials)
     {
         //require_once(CASH_PLATFORM_ROOT.'/lib/stripe/lib/Stripe.php');
-        \Stripe\Stripe::setApiKey($credentials);
+        Stripe::setApiKey($credentials);
 
-        $user_info = \Stripe\Account::retrieve();
+        $user_info = Account::retrieve();
         return $user_info;
     }
 
@@ -302,9 +346,9 @@ class StripeSeed extends SeedBase
     if (!empty($token)) {
 
         try {
-            \Stripe\Stripe::setApiKey($this->access_token);
+            Stripe::setApiKey($this->access_token);
 
-            if (!$payment_results = \Stripe\Charge::create(
+            if (!$payment_results = Charge::create(
                 array(
                     "amount" => ($total_price * 100),
                     "currency" => $currency,
@@ -318,19 +362,19 @@ class StripeSeed extends SeedBase
                 $this->setErrorMessage("In StripeSeed::doPayment. Stripe payment failed.");
                 return false;
             }
-            } catch (\Stripe\Error\Card $e) {
+            } catch (StripeError\Card $e) {
                $this->setErrorMessage("In StripeSeed::doPayment. " . $e->getMessage());
                return false;
-            } catch (\Stripe\Error\InvalidRequest $e) {
+            } catch (StripeError\InvalidRequest $e) {
                $this->setErrorMessage("In StripeSeed::doPayment. " . $e->getMessage());
                return false;
-            } catch (\Stripe\Error\Authentication $e) {
+            } catch (StripeError\Authentication $e) {
                $this->setErrorMessage("In StripeSeed::doPayment. " . $e->getMessage());
                return false;
-            } catch (\Stripe\Error\ApiConnection $e) {
+            } catch (StripeError\ApiConnection $e) {
                $this->setErrorMessage("In StripeSeed::doPayment. " . $e->getMessage());
                return false;
-            } catch (\Stripe\Error\Base $e) {
+            } catch (StripeError\Base $e) {
                $this->setErrorMessage("In StripeSeed::doPayment. " . $e->getMessage());
                return false;
             } catch (Exception $e) {
@@ -349,7 +393,7 @@ class StripeSeed extends SeedBase
         if ($payment_results->status == "succeeded") {
 
             // look up the transaction fees taken off the top, for record
-            $transaction_fees = \Stripe\BalanceTransaction::retrieve($payment_results->balance_transaction,
+            $transaction_fees = BalanceTransaction::retrieve($payment_results->balance_transaction,
                 array("stripe_account" => $this->stripe_account_id));
             // we can actually use the BalanceTransaction::retrieve method as verification that the charge has been placed
             if (!$transaction_fees) {
@@ -414,37 +458,37 @@ class StripeSeed extends SeedBase
 
         // try to contact the stripe API for refund, or fail gracefully
         try {
-            \Stripe\Stripe::setApiKey($this->access_token);
+            Stripe::setApiKey($this->access_token);
 
             $refund_response = \Stripe\Refund::create(array(
                 "charge" => $sale_id
             ),array("stripe_account" => $this->stripe_account_id));
-        } catch (\Stripe\Error\RateLimit $e) {
+        } catch (StripeError\RateLimit $e) {
             // Too many requests made to the API too quickly
             $body = $e->getJsonBody();
             $this->setErrorMessage("In StripeSeed::refundPayment. Stripe API rate limit exceeded: " . $body['error']['message']);
             return false;
 
-        } catch (\Stripe\Error\InvalidRequest $e) {
+        } catch (StripeError\InvalidRequest $e) {
             // Invalid parameters were supplied to Stripe's API
             $body = $e->getJsonBody();
             $this->setErrorMessage("In StripeSeed::refundPayment. Invalid Stripe refund request: " . $body['error']['message']);
             return false;
 
-        } catch (\Stripe\Error\Authentication $e) {
+        } catch (StripeError\Authentication $e) {
             // Authentication with Stripe's API failed
             // (maybe you changed API keys recently)
             $body = $e->getJsonBody();
             $this->setErrorMessage("In StripeSeed::refundPayment. Could not authenticate Stripe: " . $body['error']['message']);
             return false;
 
-        } catch (\Stripe\Error\ApiConnection $e) {
+        } catch (StripeError\ApiConnection $e) {
             // Network communication with Stripe failed
             $body = $e->getJsonBody();
             $this->setErrorMessage("In StripeSeed::refundPayment. Could not communicate with Stripe API: " . $body['error']['message']);
             return false;
 
-        } catch (\Stripe\Error\Base $e) {
+        } catch (StripeError\Base $e) {
             // Display a very generic error to the user, and maybe send
             // yourself an email
             $body = $e->getJsonBody();
@@ -474,13 +518,13 @@ class StripeSeed extends SeedBase
      */
     public function getAllSubscriptionPlans($limit=false) {
         try {
-            \Stripe\Stripe::setApiKey($this->access_token);
+            Stripe::setApiKey($this->access_token);
             if ($limit) {
-                $plans = \Stripe\Plan::all([
+                $plans = Plan::all([
                     "limit" => $limit
                 ]);
             } else {
-                $plans = \Stripe\Plan::all();
+                $plans = Plan::all();
             }
 
         } catch(Exception $e) {
@@ -504,8 +548,8 @@ class StripeSeed extends SeedBase
      */
     public function getSubscriptionPlan($plan_id) {
         try {
-            \Stripe\Stripe::setApiKey($this->access_token);
-            $plan = \Stripe\Plan::retrieve($plan_id);
+            Stripe::setApiKey($this->access_token);
+            $plan = Plan::retrieve($plan_id);
         } catch(Exception $e) {
             if (CASH_DEBUG) {
                 error_log(
@@ -531,8 +575,8 @@ class StripeSeed extends SeedBase
     public function createSubscriptionPlan($name, $sku, $amount=1, $interval="month", $currency="usd") {
 
         try {
-            \Stripe\Stripe::setApiKey($this->access_token);
-            $plan = \Stripe\Plan::create(array(
+            Stripe::setApiKey($this->access_token);
+            $plan = Plan::create(array(
                     "amount" => $amount,
                     "interval" => $interval,
                     "name" => $name,
@@ -571,7 +615,7 @@ class StripeSeed extends SeedBase
         if (empty($name)) return false;
 
         // otherwise--first we need to retrieve the plan by id
-        \Stripe\Stripe::setApiKey($this->access_token);
+        Stripe::setApiKey($this->access_token);
 
         if (!$plan = $this->getSubscriptionPlan($plan_id)) return false;
 
@@ -623,8 +667,8 @@ class StripeSeed extends SeedBase
 
     public function getAllSubscriptionsForPlan($plan_id, $limit=10) {
         try {
-            \Stripe\Stripe::setApiKey($this->access_token);
-            $subscriptions = \Stripe\Subscription::all([
+            Stripe::setApiKey($this->access_token);
+            $subscriptions = Subscription::all([
                 'plan' => $plan_id,
                 'limit' => $limit
             ]);
@@ -650,8 +694,8 @@ class StripeSeed extends SeedBase
     public function getSubscription($subscription_id) {
 
         try {
-            \Stripe\Stripe::setApiKey($this->access_token);
-            $subscription = \Stripe\Subscription::retrieve($subscription_id);
+            Stripe::setApiKey($this->access_token);
+            $subscription = Subscription::retrieve($subscription_id);
 
         } catch (Exception $e) {
             if (CASH_DEBUG) {
@@ -692,7 +736,7 @@ class StripeSeed extends SeedBase
             );
         }
         try {
-            \Stripe\Stripe::setApiKey($this->access_token);
+            Stripe::setApiKey($this->access_token);
             $customer = \Stripe\Customer::create(array(
                 "email" => $email,
                 "source" => $token
@@ -718,8 +762,8 @@ class StripeSeed extends SeedBase
         }
 
         try {
-            \Stripe\Stripe::setApiKey($this->access_token);
-            $subscription = \Stripe\Subscription::create(array(
+            Stripe::setApiKey($this->access_token);
+            $subscription = Subscription::create(array(
                 "customer" => $customer, // obtained from Stripe.js
                 "plan" => $plan_id,
                 "quantity" => $quantity
@@ -804,14 +848,14 @@ class StripeSeed extends SeedBase
     public function webhookTransaction($url, $events=array()) {
         $_params = array("url" => $url, "events" => $events);
 
-        \Stripe\Stripe::setApiKey($this->access_token);
+        Stripe::setApiKey($this->access_token);
 
         // Retrieve the request's body and parse it as JSON
         $input = @file_get_contents("php://input");
         $event_json = json_decode($input);
 
         // Verify the event by fetching it from Stripe
-        $event = \Stripe\Event::retrieve($event_json->id);
+        $event = Event::retrieve($event_json->id);
 
 
         return $this->api->call('webhooks/transaction', $_params);

@@ -31,7 +31,7 @@ gulp.task('jsonlint', function() {
 
 gulp.task('vagrant-rsync', shell.task([
     'vagrant rsync '+argv.box
-]))
+]));
 
 gulp.task('watch', function() {
     gulp.watch(paths.scripts, ['compile']);

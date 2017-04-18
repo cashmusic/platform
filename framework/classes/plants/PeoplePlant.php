@@ -14,6 +14,14 @@
  * violet           hope
  *
  **/
+
+namespace CASHMusic\Plants;
+
+use CASHMusic\Core\PlantBase;
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Seeds\MailchimpSeed;
+
 class PeoplePlant extends PlantBase {
 
 	public function __construct($request_type,$request) {
@@ -209,7 +217,9 @@ class PeoplePlant extends PlantBase {
 				'notes' => $notes,
 				'links' => $links
 			),
-			'CASHSystem::notExplicitFalse'
+            function($value) {
+                return CASHSystem::notExplicitFalse($value);
+            }
 		);
 		$condition = array(
 			"id" => array(
@@ -405,7 +415,9 @@ class PeoplePlant extends PlantBase {
 				'description' => $description,
 				'connection_id' => $connection_id
 			),
-			'CASHSystem::notExplicitFalse'
+            function($value) {
+                return CASHSystem::notExplicitFalse($value);
+            }
 		);
 		$result = $this->db->setData(
 			'people_lists',
@@ -475,8 +487,7 @@ class PeoplePlant extends PlantBase {
 					//
 					//
 					//
-					// TO-DO: autoload not firing??? Works for S3Seed,throws error or MailchimpSeed
-					require_once(dirname(__FILE__) . '/../seeds/MailchimpSeed.php');
+
 					$mc = new MailchimpSeed($user_id, $connection_id);
 					return array('connection_type' => $connection_type, 'api' => $mc);
 					break;
@@ -1172,7 +1183,9 @@ class PeoplePlant extends PlantBase {
 				'text_content' => $text_content,
 				'send_date' => $send_date
 			),
-			'CASHSystem::notExplicitFalse'
+            function($value) {
+                return CASHSystem::notExplicitFalse($value);
+            }
 		);
 		$result = $this->db->setData(
 			'mailings',

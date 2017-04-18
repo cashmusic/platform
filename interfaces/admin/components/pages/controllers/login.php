@@ -1,4 +1,15 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 // allow signups?
 $signups = (defined('ALLOW_SIGNUPS')) ? ALLOW_SIGNUPS : true;
 // filter signups?
@@ -19,7 +30,7 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 				if ($filter_signups) {
 					if (strpos($_POST['address'],$filter_signups) === false) {
 						$approved_address = false;
-						AdminHelper::formFailure('This site restricts signups. Please enter a new email and try again.','/');
+						$admin_helper->formFailure('This site restricts signups. Please enter a new email and try again.','/');
 					}
 				}
 				if ($approved_address) {
@@ -76,14 +87,14 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 								. '',
 							'Welcome to CASH Music'
 						);
-						AdminHelper::formSuccess('Thanks. Check your inbox for instructions.','/');
+						$admin_helper->formSuccess('Thanks. Check your inbox for instructions.','/');
 					}
 				}
 			} else {
-				AdminHelper::formFailure('Please enter a valid email address.','/');
+				$admin_helper->formFailure('Please enter a valid email address.','/');
 			}
 		} else {
-			AdminHelper::formFailure('Make sure you have agreed to the terms of service.','/');
+			$admin_helper->formFailure('Make sure you have agreed to the terms of service.','/');
 		}
 	}
 
@@ -115,12 +126,12 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 					$reset_message,
 					'Reset your password?'
 				);
-				AdminHelper::formSuccess('Thanks. Check your inbox for instructions.','/');
+				$admin_helper->formSuccess('Thanks. Check your inbox for instructions.','/');
 			} else {
-				AdminHelper::formFailure('Please check the address and try again.','/');
+				$admin_helper->formFailure('Please check the address and try again.','/');
 			}
 		} else {
-			AdminHelper::formFailure('Please check the address and try again.','/');
+			$admin_helper->formFailure('Please check the address and try again.','/');
 		}
 	}
 
@@ -184,12 +195,12 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 
 						// handle initial login chores
 						$cash_admin->runAtLogin();
-						AdminHelper::formSuccess('Welcome!','/');
+						$admin_helper->formSuccess('Welcome!','/');
 					} else {
-						AdminHelper::formFailure('Please try again.','/');
+						$admin_helper->formFailure('Please try again.','/');
 					}
 				} else {
-					AdminHelper::formFailure('Please try again.','/');
+					$admin_helper->formFailure('Please try again.','/');
 				}
 			}
 		}
@@ -225,12 +236,12 @@ if (substr(trim($_REQUEST['p'],'/'),0,6) == 'signup' && $signups) {
 					)
 				);
 				if ($change_response['payload'] !== false) {
-					AdminHelper::formSuccess('Successfully changed the password. Go ahead and log in.','/');
+					$admin_helper->formSuccess('Successfully changed the password. Go ahead and log in.','/');
 				} else {
-					AdminHelper::formFailure('There was an error setting your password. Please try again.','/');
+					$admin_helper->formFailure('There was an error setting your password. Please try again.','/');
 				}
 			} else {
-				AdminHelper::formFailure('There was an error setting the password. Please try again.','/');
+				$admin_helper->formFailure('There was an error setting the password. Please try again.','/');
 			}
 		}
 	}

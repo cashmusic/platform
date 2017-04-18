@@ -1,4 +1,14 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 if (isset($_REQUEST['modalconfirm'])) {
 	$new_template = 0;
 	$requested_campaign_id = $request_parameters[0];
@@ -27,12 +37,12 @@ if (isset($_REQUEST['modalconfirm'])) {
 
 	if ($settings_response['payload']) {
 		if ($new_template == 0) {
-			AdminHelper::formSuccess('Success. You have unpublished all campaigns.','/page/');
+			$admin_helper->formSuccess('Success. You have unpublished all campaigns.','/page/');
 		} else {
-			AdminHelper::formSuccess('Success. Campaign published.','/page/');
+			$admin_helper->formSuccess('Success. Campaign published.','/page/');
 		}
 	} else {
-		AdminHelper::formFailure('Error. Something just didn\'t work right.','/page/');
+		$admin_helper->formFailure('Error. Something just didn\'t work right.','/page/');
 	}
 
 } else {

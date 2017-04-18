@@ -1,4 +1,14 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 // parsing posted data:
 if (isset($_POST['docampaignadd'])) {
 	// do the actual list add stuffs...
@@ -26,9 +36,9 @@ if (isset($_POST['docampaignadd'])) {
 			)
 		);
 
-		AdminHelper::formSuccess('Success. Campaign added.','/elements/');
+		$admin_helper->formSuccess('Success. Campaign added.','/elements/');
 	} else {
-		AdminHelper::formFailure('Error. Something just didn\'t work right.','/campaigns/add/');
+		$admin_helper->formFailure('Error. Something just didn\'t work right.','/campaigns/add/');
 	}
 }
 

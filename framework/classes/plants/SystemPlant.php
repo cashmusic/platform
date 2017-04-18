@@ -16,6 +16,14 @@
  * This file is generously sponsored by Howard Lull Music www.turningeyes.com Keep the music coming!
  *
  **/
+
+namespace CASHMusic\Plants;
+
+use CASHMusic\Core\PlantBase;
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Core\CASHRequest;
+
+
 class SystemPlant extends PlantBase {
 	// hard-coded to avoid 0/o, l/1 type confusions on download cards
 	protected $lock_code_chars = array(
@@ -984,7 +992,9 @@ class SystemPlant extends PlantBase {
 				'name' => $name,
 				'template' => $template
 			),
-			'CASHSystem::notExplicitFalse'
+			function($value) {
+               return CASHSystem::notExplicitFalse($value);
+			}
 		);
 		$condition = false;
 		if ($template_id) {

@@ -15,6 +15,14 @@
  * This file is generously sponsored by John 'Warthog9' Hawley
  *
  **/
+
+namespace CASHMusic\Plants;
+
+use CASHMusic\Core\CASHConnection;
+use CASHMusic\Core\PlantBase;
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
+
 class ElementPlant extends PlantBase {
 	protected $elements_array=array();
 	protected $typenames_array=array();
@@ -63,9 +71,10 @@ class ElementPlant extends PlantBase {
 	 * @return void
 	 */protected function buildElementsArray() {
 		$all_element_files = scandir(CASH_PLATFORM_ROOT.'/elements/',0);
+
 		foreach ($all_element_files as $file) {
-			if (substr($file,0,1) != "." && substr($file,-4) == '.php') {
-				$tmpKey = strtolower(substr_replace($file, '', -4));
+			if (ctype_alnum($file)) {
+				$tmpKey = strtolower($file);
 				$this->elements_array["$tmpKey"] = $file;
 			}
 		}
@@ -310,7 +319,8 @@ class ElementPlant extends PlantBase {
 	}
 
 	protected function getSupportedTypes($force_all=false) {
-		$return_array = array_keys($this->elements_array);
+		$return_array = array_values($this->elements_array);
+
 		$filter_array = json_decode(file_get_contents(CASH_PLATFORM_ROOT.'/elements/supported.json'),true);
 		if (is_array($filter_array['public']) && !$force_all) {
 			$allowed_types = $filter_array['public'];
@@ -498,13 +508,16 @@ class ElementPlant extends PlantBase {
 
 	protected function getElementMarkup($id,$status_uid,$original_request=false,$original_response=false,$access_method='direct',$location=false,$geo=false,$donottrack=false) {
 		$element = $this->getElement($id);
-		$element_type = $element['type'];
+		$element_type = strtolower($element['type']);
 		$element_options = $element['options'];
+
 		if ($element_type) {
-			$for_include = CASH_PLATFORM_ROOT.'/elements/'.$this->elements_array[$element_type];
+			$class_name = $this->elements_array[$element_type];
+			$for_include = CASH_PLATFORM_ROOT."/elements/$class_name/$class_name.php";
+
 			if (file_exists($for_include)) {
-				include_once($for_include);
-				$element_object_type = substr_replace($this->elements_array[$element_type], '', -4);
+				$element_object_type = "\\CASHMusic\\Elements\\$class_name\\$class_name";
+
 				$element_object = new $element_object_type($id,$element,$status_uid,$original_request,$original_response);
 				if ($geo) {
 					$access_data = array(
@@ -657,7 +670,9 @@ class ElementPlant extends PlantBase {
 				'description' => $description,
 				'template_id' => $template_id
 			),
-			'CASHSystem::notExplicitFalse'
+            function($value) {
+                return CASHSystem::notExplicitFalse($value);
+            }
 		);
 		if (is_array($metadata)) {
 			$final_edits['metadata'] = json_encode($metadata);
@@ -749,20 +764,26 @@ class ElementPlant extends PlantBase {
 
 	protected function getElementsForCampaign($id) {
 		$campaign = $this->getCampaign($id);
-		$result = $this->db->getData(
-			'elements',
-			'*',
-			array(
-				"id" => array(
-					"condition" => "IN",
-					"value" => $campaign['elements']
-				)
-			)
-		);
-		foreach ($result as $key => &$val) {
-			$val['options'] = json_decode($val['options'],true);
+
+		if (count($campaign['elements'])) {
+            $result = $this->db->getData(
+                'elements',
+                '*',
+                array(
+                    "id" => array(
+                        "condition" => "IN",
+                        "value" => $campaign['elements']
+                    )
+                )
+            );
+            foreach ($result as $key => &$val) {
+                $val['options'] = json_decode($val['options'],true);
+            }
+            return $result;
+		} else {
+			return false;
 		}
-		return $result;
+
 	}
 
 	protected function getAnalyticsForCampaign($id) {

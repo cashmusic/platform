@@ -18,6 +18,13 @@
  * This file is generously sponsored by Justin Miranda
  *
  **/
+
+namespace CASHMusic\Seeds;
+
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Core\SeedBase;
+
 class PaypalSeed extends SeedBase {
     protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token;
     protected $merchant_email = false;
@@ -37,6 +44,7 @@ class PaypalSeed extends SeedBase {
 
             if (!$this->api_username || !$this->api_password || !$this->api_signature) {
                 $connections = CASHSystem::getSystemSettings('system_connections');
+
                 if (isset($connections['com.paypal'])) {
                     $this->merchant_email = $this->settings->getSetting('merchant_email'); // present in multi
                     $this->api_username   = $connections['com.paypal']['username'];
@@ -245,6 +253,7 @@ class PaypalSeed extends SeedBase {
             );
 
             $parsed_response = $this->postToPaypal('DoExpressCheckoutPayment', $nvp_parameters);
+
             if (!$parsed_response) {
                 $this->setErrorMessage($this->getErrorMessage());
                 return false;
