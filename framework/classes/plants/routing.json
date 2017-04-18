@@ -1,0 +1,7 @@
+{
+	"restfulnouns":{
+		"events":"calendar",
+		"venues":"calendar",
+		"venues/search":"calendar"
+	}
+}

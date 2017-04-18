@@ -1,0 +1,123 @@
+{
+	"restfulnouns":{
+		"events":{
+			"verbs":{
+				"POST":{
+					"description":"Add a new event.",
+					"plantfunction":"addEvent",
+					"authrequired":true
+				},
+				"GET":{
+					"description":"Get event by id. Omit the id to get all public events or auth and post parameters for advanced options.",
+					"plantfunction":"getEvent",
+					"authrequired":false
+				},
+				"PATCH":{
+					"description":"Modify and existing event. Only pass the parameters you need changed. Omitted parameters will remain the same.",
+					"plantfunction":"editEvent",
+					"authrequired":true
+				},
+				"DELETE":{
+					"description":"Delete an event. This method fully deletes the event. Use PATCH to mark an event as cancelled.",
+					"plantfunction":"deleteEvent",
+					"authrequired":true
+				}
+			}
+		},
+		"venues":{
+			"verbs":{
+				"POST":{
+					"description":"Add a new venue. This does not add the venue to https://venues.cashmusic.org/.",
+					"plantfunction":"addVenue",
+					"authrequired":true
+				},
+				"GET":{
+					"description":"Get venue by id. Omit the id to get all user-added venues.",
+					"plantfunction":"getEvent",
+					"authrequired":false
+				},
+				"PATCH":{
+					"description":"Modify and existing venue. Only pass the parameters you need changed. Omitted parameters will remain the same. This does not affect the venue on https://venues.cashmusic.org/.",
+					"plantfunction":"editVenue",
+					"authrequired":true
+				},
+				"DELETE":{
+					"description":"Delete a user-defined venue. This does not affect venues pulled from https://venues.cashmusic.org/.",
+					"plantfunction":"deleteVenue",
+					"authrequired":true
+				}
+			}
+		},
+		"venues/search":{
+			"verbs":{
+				"GET":{
+					"description":"Returns an array of all matching venues.",
+					"plantfunction":"findVenues",
+					"authrequired":false
+				}
+			}
+		}
+	},
+	"requestactions":{
+		"addevent":{
+			"description":"Add a new event.",
+			"plantfunction":"addEvent",
+			"security":["direct"]
+		},
+		"addvenue":{
+			"description":"Add a new user-defined venue. This does not add the venue to https://venues.cashmusic.org/.",
+			"plantfunction":"addVenue",
+			"security":["direct"]
+		},
+		"deleteevent":{
+			"description":"Delete an event. This removes it from the system entirely. Use editevent to mark an event as cancelled.",
+			"plantfunction":"deleteEvent",
+			"security":["direct"]
+		},
+		"deletevenue":{
+			"description":"Delete a user-defined venue. This does not affect venues pulled from https://venues.cashmusic.org/.",
+			"plantfunction":"deleteVenue",
+			"security":["direct"]
+		},
+		"editevent":{
+			"description":"Edit an event. Only pass the parameters you need changed. Omitted parameters will remain the same.",
+			"plantfunction":"editEvent",
+			"security":["direct"]
+		},
+		"editvenue":{
+			"description":"Edit a new user-defined venue. Only pass the parameters you need changed. Omitted parameters will remain the same. This does not affect the venue on https://venues.cashmusic.org/.",
+			"plantfunction":"editVenue",
+			"security":["direct"]
+		},
+		"findvenues":{
+			"description":"Returns an array of all matching venues.",
+			"plantfunction":"findVenues",
+			"security":["direct"]
+		},
+		"getallvenues":{
+			"description":"Lists all venues. Yeah I'm not going to lie — this is dumb.",
+			"plantfunction":"getAllVenues",
+			"security":["direct"]
+		},
+		"getevent":{
+			"description":"Get event by id.",
+			"plantfunction":"getEvent",
+			"security":["direct"]
+		},
+		"getevents":{
+			"description":"Returns an array of all matching events.",
+			"plantfunction":"getEvents",
+			"security":["direct"]
+		},
+		"geteventsnostatus":{
+			"description":"Returns an array of all matching events, without having to specify status. *cough* Refactor this. *cough*",
+			"plantfunction":"getEventsNoStatus",
+			"security":["direct"]
+		},
+		"getvenue":{
+			"description":"Get venue by id.",
+			"plantfunction":"getVenue",
+			"security":["direct"]
+		}
+	}
+}
