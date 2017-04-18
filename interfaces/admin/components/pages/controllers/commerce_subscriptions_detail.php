@@ -90,7 +90,9 @@ if (!empty($_POST['action']) && $_POST['action'] == "create_subscription") {
 
             $data = json_decode($subscription['data'], true);
 
-            $subscription['subscriber_name'] = $data['customer']['customer_name'];
+            if (isset($data['customer'])) {
+                $subscription['subscriber_name'] = $data['customer']['customer_name'];
+            }
             $cash_admin->page_data['subscriptions'][] = $subscription;
         }
 

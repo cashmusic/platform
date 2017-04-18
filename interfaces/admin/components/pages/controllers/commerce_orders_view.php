@@ -97,12 +97,11 @@ if ($request_parameters) {
 		$order_all_details['padded_id'] = str_pad($order_all_details['id'],6,0,STR_PAD_LEFT);
 		$order_all_details['order_date'] = date("M j, Y, g:i A", $order_all_details['creation_date']);
 		$order_all_details['formatted_gross_price'] = sprintf("%01.2f",$order_all_details['gross_price']);
-		$order_all_details['formatted_subtotal'] = sprintf("%01.2f",$item_price);
+
 		$order_all_details['formatted_net_price'] = sprintf("%01.2f",$order_all_details['gross_price'] - $order_all_details['service_fee']);
 		$order_all_details['formatted_connection_name'] = preg_replace('/\(|\)/','',$admin_helper->getConnectionName($order_all_details['connection_id']));
 		$order_all_details['order_connection_details'] = $admin_helper->getConnectionName($order_all_details['connection_id']) . ' (' . $order_all_details['connection_type'] . ')';
 		//if ($order_all_details['fulfilled']) { $order_all_details['order_fulfilled'] = 'yes'; } else { $order_all_details['order_fulfilled'] = 'no'; }
-		$cash_admin->page_data = array_merge($cash_admin->page_data,$order_all_details);
 
 		$order_contents = json_decode($order_all_details['order_contents'],true);
 
@@ -127,6 +126,9 @@ if ($request_parameters) {
 				}
 			}
 		}
+
+        $order_all_details['formatted_subtotal'] = sprintf("%01.2f",$item_price);
+        $cash_admin->page_data = array_merge($cash_admin->page_data,$order_all_details);
 
 		$cash_admin->page_data['order_contents'] = new ArrayIterator($order_contents);
 		$cash_admin->page_data['formatted_shipping'] = number_format($order_all_details['gross_price']-$item_price,2);

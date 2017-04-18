@@ -22,8 +22,9 @@ if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
 			'venue_id' => $request_parameters[0]
 		)
 	);
+
 	if ($venue_delete_request->response['status_uid'] == 'calendar_deletevenue_200') {
-		$admin_helper->formSuccess('Success. Deleted.','/calendar/venues/' . $add_response['payload']);
+		$admin_helper->formSuccess('Success. Deleted.','/calendar/venues/' . $venue_delete_request->response['payload']);
 	} else {
 		$admin_helper->formFailure('Error. There was a problem deleting.');
 	}

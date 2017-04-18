@@ -70,7 +70,7 @@ if (is_array($allfuture_response['payload'])) {
 $cash_admin->page_data['options_venues'] = $admin_helper->echoFormOptions('venues',0,false,true);
 
 //Is Event Published Page data
-$cash_admin->page_data['published'] = $event['published'];
+$cash_admin->page_data['published'] = isset($event['published']) ? $event['published'] : false;
 
 $cash_admin->setPageContentTemplate('calendar_events');
 ?>
