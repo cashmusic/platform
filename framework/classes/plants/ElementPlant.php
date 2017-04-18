@@ -856,9 +856,15 @@ class ElementPlant extends PlantBase {
 
 	protected function addElementToCampaign($element_id,$campaign_id) {
 		$campaign = $this->getCampaign($campaign_id);
-		if(($key = array_search($element_id, $campaign['elements'])) === false) {
-			$campaign['elements'][] = $element_id;
+
+		if (is_array($campaign['elements'])) {
+            if(($key = array_search($element_id, $campaign['elements'])) === false) {
+                $campaign['elements'][] = $element_id;
+            }
+		} else {
+            $campaign['elements'][] = $element_id;
 		}
+
 		return $this->editCampaign($campaign_id,false,false,false,$campaign['elements']);
 	}
 

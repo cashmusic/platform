@@ -1076,13 +1076,13 @@ abstract class CASHSystem  {
 		return $file;
 	}
 
-	public static function errorLog($data) {
+	public static function errorLog($data, $json=true) {
 		switch(gettype($data)) {
 			case "string":
 			case "boolean":
 			case "integer":
 			case "double":
-				error_log("### errorLog -> " . $data);
+				error_log("### errorLog (".gettype($data).") -> " . $data);
 				return true;
 			break;
 
@@ -1095,7 +1095,7 @@ abstract class CASHSystem  {
 			case "array":
 			case "object":
 			case "resource":
-				error_log("### errorLog -> ". print_r($data, true));
+                error_log("### errorLog (".gettype($data).") -> " . ($json) ? json_encode($data) : print_r($data, true));
 				return true;
 			break;
 

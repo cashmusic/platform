@@ -803,6 +803,8 @@ class AdminHelper  {
 			// now populate it from the POST data, fixing booleans
 			$app_json = AdminHelper::getElementAppJSON($post_data['element_type']);
 			if ($app_json) {
+
+                $value = false;
 				foreach ($app_json['options'] as $section_name => $details) {
 					foreach ($details['data'] as $data => $values) {
 						// check for element_id, set to false if not known
@@ -812,7 +814,7 @@ class AdminHelper  {
 							$value = $post_data;
 							$allvalues = $values['values'];
 						} else {
-							$value = $post_data[$data];
+							if (isset($post_data[$data])) $value = $post_data[$data];
 							$allvalues = false;
 						}
 						// do it!

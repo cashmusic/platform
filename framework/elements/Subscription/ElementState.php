@@ -8,7 +8,9 @@
 
 namespace CASHMusic\Elements\subscription;
 
+use CASHMusic\Core\CASHRequest;
 use CASHMusic\Elements\Interfaces\StatesInterface;
+use CASHMusic\Plants\CommercePlant;
 
 class ElementState implements StatesInterface
 {
@@ -31,7 +33,7 @@ class ElementState implements StatesInterface
         $this->element_data = $element_data;
 
         if (!empty($session_id)) {
-            $this->session = new \CASHRequest(null);
+            $this->session = new CASHRequest(null);
             $this->session->startSession($session_id);
         }
 
@@ -142,7 +144,7 @@ class ElementState implements StatesInterface
 
         $data = [];
 
-        $user_request = new \CASHRequest(
+        $user_request = new CASHRequest(
             array(
                 'cash_request_type' => 'people',
                 'cash_action' => 'getuser',
@@ -188,7 +190,7 @@ class ElementState implements StatesInterface
         }
 
         // validate the request to change things
-        $password_request = new \CASHRequest(
+        $password_request = new CASHRequest(
             array(
                 'cash_request_type' => 'system',
                 'cash_action' => 'setlogincredentials',
@@ -228,7 +230,7 @@ class ElementState implements StatesInterface
 
         $plans = (isset($_REQUEST['plans'])) ? $_REQUEST['plans'] : false;
 
-        $password_request = new \CASHRequest(
+        $password_request = new CASHRequest(
             array(
                 'cash_request_type' => 'commerce',
                 'cash_action' => 'loginsubscriber',
@@ -327,7 +329,7 @@ class ElementState implements StatesInterface
             ];
         }
 
-        $element_request = new \CASHRequest(
+        $element_request = new CASHRequest(
             array(
                 'cash_request_type' => 'element',
                 'cash_action' => 'getelement',
@@ -342,7 +344,7 @@ class ElementState implements StatesInterface
             $template = "forgot_password";
         }
 
-        if (!\CommercePlant::sendResetValidationEmail(
+        if (!CommercePlant::sendResetValidationEmail(
             $this->element_id,
             $this->user_id,
             $submitted_email_address,

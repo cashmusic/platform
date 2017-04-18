@@ -107,6 +107,10 @@ class PaypalSeed extends SeedBase {
 
     protected function setErrorMessage($msg) {
         $this->error_message = $msg;
+        if (CASH_DEBUG) {
+            CASHSystem::errorLog($msg);
+        }
+
     }
 
     public function getErrorMessage() {
@@ -253,6 +257,8 @@ class PaypalSeed extends SeedBase {
             );
 
             $parsed_response = $this->postToPaypal('DoExpressCheckoutPayment', $nvp_parameters);
+
+            CASHSystem::errorLog("parsed response didn't completely error out");
 
             if (!$parsed_response) {
                 $this->setErrorMessage($this->getErrorMessage());
