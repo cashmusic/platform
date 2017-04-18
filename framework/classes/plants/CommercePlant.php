@@ -1547,6 +1547,8 @@ class CommercePlant extends PlantBase {
               }
             }
 
+            $seed_class = '\\CASHMusic\Seeds\\'.$seed_class;
+
             $currency = $this->getCurrencyForUser($user_id);
 
             // merge all this stuff into $data for storage
@@ -1707,7 +1709,7 @@ class CommercePlant extends PlantBase {
                 return false; // no default PP shit set
             }
 
-            $seed_class = "StripeSeed";
+            $seed_class = '\\CASHMusic\Seeds\\'."StripeSeed";
             if (!class_exists($seed_class)) {
                 $this->setErrorMessage("1301 Couldn't find payment type $seed_class.");
                 return false;
@@ -1845,7 +1847,7 @@ class CommercePlant extends PlantBase {
         // get connection type settings so we can extract Seed classname
         $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
 
-        $seed_class = $connection_settings['seed'];
+        $seed_class = '\\CASHMusic\Seeds\\'.$connection_settings['seed'];
 
         if (CASH_DEBUG) {
            error_log(
@@ -2155,7 +2157,7 @@ class CommercePlant extends PlantBase {
 
         // get connection type settings so we can extract Seed classname
         $connection_settings = CASHSystem::getConnectionTypeSettings($connection_type);
-        $seed_class = $connection_settings['seed'];
+        $seed_class = '\\CASHMusic\Seeds\\'.$connection_settings['seed'];
 
         // we're going to switch seeds by $connection_type, so check to make sure this class even exists
         if (!class_exists($seed_class)) {
@@ -3154,7 +3156,7 @@ class CommercePlant extends PlantBase {
         }
 
         // let's just add for now
-        $seed_class = "StripeSeed";
+        $seed_class = '\\CASHMusic\Seeds\\'."StripeSeed";
         if (!class_exists($seed_class)) {
             $this->setErrorMessage("1301 Couldn't find payment type $seed_class.");
             return false;

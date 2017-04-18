@@ -34,7 +34,7 @@ class AdminHelper  {
 		$this->cash_admin = (!empty($cash_admin_dependency)) ? $cash_admin_dependency : $cash_admin;
 	}
 
-	public function doLogin($email_address,$password,$require_admin=true) {
+    public function doLogin($email_address,$password,$require_admin=true) {
 
 		$this->cash_request->processRequest(
 			array(
@@ -288,10 +288,11 @@ class AdminHelper  {
 	 *
 	 *********************************************/
 	public static function getElementAppJSON($element_type) {
-		$element_dirname = CASH_PLATFORM_ROOT.'/elements/' . $element_type;
 
-		if (file_exists($element_dirname . '/app.json')) {
-			$app_json = json_decode(file_get_contents($element_dirname . '/app.json'),true);
+        $element_directory = CASHSystem::getElementDirectory($element_type);
+
+		if (file_exists($element_directory . '/app.json')) {
+			$app_json = json_decode(file_get_contents($element_directory . '/app.json'),true);
 			return $app_json;
 		} else {
 			return false;
@@ -345,6 +346,7 @@ class AdminHelper  {
         $formatting_data = "";
 
 		$app_json = AdminHelper::getElementAppJSON($storedElement['type']);
+
 		if ($app_json) {
 			// start by getting defaults. this will populate scalars, etc.
 			$return_array = AdminHelper::getElementDefaults($app_json['options']);
@@ -913,6 +915,7 @@ class AdminHelper  {
 
 	public function setBasicElementFormData() {
 		$current_element = $this->cash_admin->getCurrentElement();
+
 		if ($current_element) {
 			// Current element found, so fill in the 'edit' form:
             $this->cash_admin->page_data['element_id'] = $current_element['id'];

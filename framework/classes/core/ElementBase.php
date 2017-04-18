@@ -162,10 +162,12 @@ abstract class ElementBase extends CASHData {
 	}
 
 	public function getAppData() {
-		if (file_exists(CASH_PLATFORM_ROOT . '/elements/' . $this->extending_class . '/app.json')) {
-			$app_json = json_decode(file_get_contents(CASH_PLATFORM_ROOT . '/elements/' . $this->extending_class . '/app.json'),true);
+		if (file_exists(CASHSystem::getElementDirectory($this->type) . '/app.json')) {
+			CASHSystem::errorLog("file exists");
+			$app_json = json_decode(file_get_contents(CASHSystem::getElementDirectory($this->type) . '/app.json'),true);
 			return $app_json;
 		} else {
+            CASHSystem::errorLog("file not exists");
 			return false;
 		}
 	}

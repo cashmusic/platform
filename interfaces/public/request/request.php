@@ -60,15 +60,12 @@ if (!isset($_REQUEST['nooutput'])) {
 
 		$cash_page_request = new CASHRequest(null);
 
-		error_log("cash request");
 		$initial_page_request = $cash_page_request->sessionGet('initial_page_request','script');
-        error_log("initial request");
 
 		if ($requests[0] != 'payload' || $requests[0] != 'json') {
 			// open up some mustache in here:
 			include_once(dirname(CASH_PLATFORM_PATH) . '/lib/mustache/Mustache.php');
 			$freddiemercury = new \Mustache;
-            error_log("not payload, not json");
 		}
 
 		if ($requests[0] == 'embed' && isset($requests[1])) {
@@ -94,10 +91,8 @@ if (!isset($_REQUEST['nooutput'])) {
 				)
 			);
 
-            error_log("template request");
-
 			$template = $template_request->response['payload'];
-			error_log(print_r($template, true));
+
 			$embed_data = array();
 			$element_markup = false;
 			ob_start();

@@ -1329,5 +1329,35 @@ abstract class CASHSystem  {
         }
         //if (CASH_DEBUG) error_log(print_r(array_reverse(debug_backtrace()), true));
     }
+
+    /**
+     * To ensure compatibility with stored element names, we need to sort of manually match the element directory
+     *
+     * @param $element_type
+     * @return string
+     */
+    public static function getElementDirectory($element_type)
+    {
+        $element_dirname = CASH_PLATFORM_ROOT . '/elements/' . $element_type;
+        $element_directories = array_filter(glob(CASH_PLATFORM_ROOT . '/elements/*'),
+            function ($data) use ($element_dirname) {
+                if (is_dir($data)) {
+
+                    if (strcasecmp($data, $element_dirname) == 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            });
+
+        if (is_array($element_directories) && count($element_directories) > 0) {
+            return array_pop($element_directories);
+        } else {
+            return false;
+        }
+    }
 } // END class
 ?>

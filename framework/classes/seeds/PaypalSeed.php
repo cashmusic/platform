@@ -44,6 +44,7 @@ class PaypalSeed extends SeedBase {
 
             if (!$this->api_username || !$this->api_password || !$this->api_signature) {
                 $connections = CASHSystem::getSystemSettings('system_connections');
+
                 if (isset($connections['com.paypal'])) {
                     $this->merchant_email = $this->settings->getSetting('merchant_email'); // present in multi
                     $this->api_username   = $connections['com.paypal']['username'];
@@ -252,6 +253,7 @@ class PaypalSeed extends SeedBase {
             );
 
             $parsed_response = $this->postToPaypal('DoExpressCheckoutPayment', $nvp_parameters);
+
             if (!$parsed_response) {
                 $this->setErrorMessage($this->getErrorMessage());
                 return false;
