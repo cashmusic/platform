@@ -16,7 +16,7 @@
  * This file is generously sponsored by Rob Morrissey (@robmorrissey)
  **/
 
-namespace CASHMusic\Plants;
+namespace CASHMusic\Plants\Asset;
 
 use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHRequest;

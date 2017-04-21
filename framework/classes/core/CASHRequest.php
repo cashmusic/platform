@@ -70,7 +70,6 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 	public function processRequest($request,$method='direct') {
 
         $namespace = '\CASHMusic\Plants\\';
-
 		// found something, let's make sure it's legit and do work
 		if (is_array($request)) {
 			$this->request = $request;
@@ -80,7 +79,10 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 			if ($requested_plant != '' && count($this->request) > 0) {
 				$this->buildPlantArray();
 				if (isset($this->plant_array[$requested_plant])) {
-					$class_name = $namespace.substr_replace($this->plant_array[$requested_plant], '', -4);
+					//$filename = substr_replace($this->plant_array[$requested_plant], '', -4);
+					$directory = str_replace("Plant", "", $this->plant_array[$requested_plant]).'\\';
+
+					$class_name = $namespace.$directory.$this->plant_array[$requested_plant];
 					$this->plant = new $class_name($this->request_method,$this->request);
 					$this->response = $this->plant->processRequest();
 				}
@@ -130,11 +132,12 @@ use CASHMusic\Core\CASHDaemon as CASHDaemon;
 	 *
 	 * @return void
 	 */protected function buildPlantArray() {
+
 		if ($plant_dir = opendir(CASH_PLATFORM_ROOT.'/classes/plants/')) {
 			while (false !== ($file = readdir($plant_dir))) {
-				if (substr($file,0,1) != "." && !is_dir($file)) {
-					$tmpKey = strtolower(substr_replace($file, '', -9));
-					$this->plant_array["$tmpKey"] = $file;
+				if (strpos($file, ".") === false) {
+					$tmpKey = strtolower($file);
+					$this->plant_array["$tmpKey"] = $file."Plant";
 				}
 			}
 			closedir($plant_dir);

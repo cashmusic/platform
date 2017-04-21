@@ -17,7 +17,7 @@
  *
  **/
 
-namespace CASHMusic\Plants;
+namespace CASHMusic\Plants\Calendar;
 
 use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHRequest;

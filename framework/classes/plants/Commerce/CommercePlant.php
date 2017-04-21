@@ -16,7 +16,7 @@
  *
  **/
 
-namespace CASHMusic\Plants;
+namespace CASHMusic\Plants\Commerce;
 
 use CASHMusic\Core\PlantBase;
 use CASHMusic\Core\CASHRequest;

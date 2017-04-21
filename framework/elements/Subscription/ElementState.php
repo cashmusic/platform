@@ -10,7 +10,7 @@ namespace CASHMusic\Elements\subscription;
 
 use CASHMusic\Core\CASHRequest;
 use CASHMusic\Elements\Interfaces\StatesInterface;
-use CASHMusic\Plants\CommercePlant;
+use CASHMusic\Plants\Commerce\CommercePlant;
 
 class ElementState implements StatesInterface
 {
