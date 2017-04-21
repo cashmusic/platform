@@ -42,8 +42,24 @@ class SMTPSeed extends SeedBase {
         $this->transport->setPassword($this->password);
     }
 
-    public function send($subject,$message_txt,$message_html,$from_address,$from_name,$recipients,$metadata=null,$global_merge_vars=null,$merge_vars=null,$tags=null) {
+    public function send($subject,$message_text,$message_html,$from_address,$from_name,$reply_address,$recipients,$metadata=null,$global_merge_vars=null,$merge_vars=null,$tags=null) {
+        $swift = Swift_Mailer::newInstance($this->transport);
 
+        $message = new Swift_Message($subject);
+        $message->setFrom($from_address);
+        $message->setReplyTo($reply_address);
+        //	$message->setSender($sender);
+        $message->setBody($message_html, 'text/html');
+        $message->setTo($recipients);
+        $message->addPart($message_text, 'text/plain');
+        $headers = $message->getHeaders();
+        $headers->addTextHeader('X-MC-Track', 'opens'); // Mandrill-specific tracking...leave in by defauly, no harm if not Mandrill
+
+        if ($recipients = $swift->send($message, $failures)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
