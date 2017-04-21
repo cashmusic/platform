@@ -18,6 +18,7 @@
 
 namespace CASHMusic\Elements\SocialFeeds;
 
+use CASHMusic\Core\CASHSystem;
 use CASHMusic\Core\ElementBase;
 use ArrayIterator;
 use CASHMusic\Seeds\TumblrSeed;
@@ -69,8 +70,8 @@ class SocialFeeds extends ElementBase {
 
 			foreach ($raw_feeds['twitter'] as $feed) {
 				foreach ($feed as $tweet) {
-					$template = file_get_contents(__DIR__.'/'.$this->type.'/templates/tweet.mustache');
-					error_log(print_r($tweet,true));
+					$template = file_get_contents(__DIR__.'/templates/tweet.mustache');
+
 					$formatted_feed[strtotime($tweet->created_at)] = array(
 						'type' => 'twitter',
 						'markup' => $this->mustache->render($template,$tweet)
@@ -80,7 +81,7 @@ class SocialFeeds extends ElementBase {
 
 			foreach ($raw_feeds['tumblr'] as $feed) {
 				foreach ($feed as $post) {
-					$template = file_get_contents(__DIR__.'/'.$this->type.'/templates/tumblrpost_' . $post['type'] . '.mustache');
+					$template = file_get_contents(__DIR__.'/templates/tumblrpost_' . $post['type'] . '.mustache');
 					$formatted_feed[$post['unix-timestamp']] = array(
 						'type' => 'tumblr',
 						'markup' => $this->mustache->render($template,$post)

@@ -2,8 +2,6 @@
 	"public":[
 		"DownloadCodes",
 		"EmailCollection",
-		"MembersArea",
-		"SecureDownload",
 		"SinglePurchase",
 		"Subscription",
 		"SocialFeeds",

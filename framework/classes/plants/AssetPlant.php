@@ -636,7 +636,8 @@ class AssetPlant extends PlantBase {
 	 *
 	 * @param {integer} $id - the asset you are trying to retrieve
 	 * @return string
-	 */protected function redirectToAsset($id,$element_id=0,$session_id=false) {
+	 */
+	protected function redirectToAsset($id,$element_id=0,$session_id=false) {
 		if ($this->getUnlockedStatus($id,$session_id)) {
 			$asset = $this->getAssetInfo($id);
 
@@ -645,6 +646,7 @@ class AssetPlant extends PlantBase {
 				$asset['user_id'],
 				$asset['location']
 			);
+
 			if ($final_asset_location !== false) {
 				$this->pushSuccess(array('asset' => $id),'redirect executed successfully');
 				$this->recordAnalytics($id,$element_id);
