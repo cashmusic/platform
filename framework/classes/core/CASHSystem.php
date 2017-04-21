@@ -750,15 +750,8 @@
 
 	public static function sendMassEmail($user_id, $subject, $recipients, $message_text, $message_title, $global_merge_vars=false, $merge_vars=false, $encoded_html=false, $message_text_html=true, $override_template=false, $sender_name=false, $sender_email=false) {
 
-
-		        if (CASH_DEBUG) {
-		                    error_log(
-		                        'sendMassEmail'
-		                    );
-		                }
 		// handle encoding of HTML if specific HTML isn't passed in:
 		if (!$encoded_html) {
-
 			// need to make sure this isn't already parsed
 			if (!$message_text_html) {
 				$message_body_parsed = CASHSystem::parseMarkdown($message_text);
@@ -767,7 +760,6 @@
 			}
 
 			// we can also just completely override the template. there's a better way to do this maybe, though
-
 			if (!$override_template) {
 				if ($template = CASHSystem::setMustacheTemplate("system_email")) {
 
@@ -780,12 +772,6 @@
 							'cdn_url' => (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL
 						)
 					);
-				} else {
-
-					//TODO: can we move this to
-					$encoded_html .= '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' . $message_title . '</title></head><body>'
-						. "<h1>$message_title</h1>\n" . "<p>" . $encoded_html . "</p>"
-						. "</body></html>";
 				}
 			}
 
@@ -797,24 +783,11 @@
 
 		$message_html = $encoded_html;
 
-		// get mandrill connection info
-		$cash_request = new CASHConnection($user_id);
-		$mandrill = $cash_request->getConnectionsByType('com.mandrillapp');
+        $seed = CASHSystem::getMailSeedConnection($user_id);
 
-		// check viability of using mandrill
-		//TODO: this might be a good place to have a firewall to stop abuse
-		$connection_id = false;
-
-		// if a viable connection, set connection id with user connection
-		if (is_array($mandrill) && !empty($mandrill[0]['id'])) {
-			$connection_id = $mandrill[0]['id'];
-		}
-		
-		// either we've got a valid connection ID, or a fallback api_key
-		if ($connection_id) {
-			$mandrill = new MandrillSeed($user_id, $connection_id);
-
-			if ($result = $mandrill->send(
+        // either we've got a valid connection ID, or a fallback api_key
+		if ($seed) {
+			if ($result = $seed->send(
 				$subject,
 				$message_text,
 				$message_html,
@@ -1235,5 +1208,30 @@
 			'last_name' => $lastname
 		];
 	}
+
+    /**
+     * @param $user_id
+     * @return object|boolean
+     */
+    private static function getMailSeedConnection($user_id)
+    {
+// get mandrill connection info
+        $cash_request = new CASHConnection($user_id);
+        $mandrill = $cash_request->getConnectionsByType('com.mandrillapp');
+
+        // check viability of using mandrill
+        //TODO: this might be a good place to have a firewall to stop abuse
+        $connection_id = false;
+
+        // if a viable connection, set connection id with user connection
+        if (is_array($mandrill) && !empty($mandrill[0]['id'])) {
+            $connection_id = $mandrill[0]['id'];
+            $seed = new MandrillSeed($user_id, $connection_id);
+        } else {
+        	return false;
+		}
+
+        return $seed;
+    }
 } // END class
 ?>
