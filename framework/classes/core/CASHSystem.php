@@ -626,7 +626,7 @@
 			$encoded_html,
 			$fromaddress, // email address (reply-to)
 			!empty($setname) ? $setname : "CASH Music", // display name (reply-to)
-			$reply_address,
+            $email_settings['systememail'],
 			[
                 array('email' => $toaddress, 'type' => 'to')
 			],
