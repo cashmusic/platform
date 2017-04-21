@@ -22,9 +22,9 @@ class MandrillSeed extends SeedBase {
 
 		$this->settings_type = 'com.mandrillapp';
 		$this->user_id = $user_id;
-		
+
 		// if there's no $connection_id, we'll just default to CASH's key
-		
+
 		$this->connection_id = $connection_id;
 
 		if ($this->getCASHConnection()) {
@@ -156,7 +156,7 @@ class MandrillSeed extends SeedBase {
 		$unsubscribe_link = '';
 		if ($metadata) {
 			if (isset($metadata['list_id'])) {
-				$unsubscribe_link = '<a href="' .
+				$unsubscribe_link = '<a style="margin:0;padding:0;" href="' .
 					CASH_PUBLIC_URL .
 					'request/html?cash_request_type=people&cash_action=removeaddress&list_id=' .
 					$metadata['list_id'] .
