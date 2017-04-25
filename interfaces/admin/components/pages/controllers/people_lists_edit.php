@@ -19,9 +19,16 @@ if (isset($_POST['dolistedit'])) {
 	}
 }
 
-if (isset($_POST['dobatchcontactsadd'])) {
-	if (!empty($_POST['element_content'])) {
-		$email_array = array_map('trim',explode(",",str_replace(PHP_EOL,',',$_POST['element_content'])));
+error_log("in controller");
+if (isset($_REQUEST['dobatchcontactsadd'])) {
+    error_log("post set");
+	if (!empty($_REQUEST['element_content'])) {
+        error_log("element content set");
+		$email_array = array_map('trim',explode(",",str_replace(PHP_EOL,',',$_REQUEST['element_content'])));
+        error_log("ijsdkjdjd");
+        error_log(json_encode($email_array));
+
+
 		if (count($email_array) > 0) {
 			$total_added = 0;
 			foreach ($email_array as $address) {

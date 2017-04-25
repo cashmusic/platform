@@ -637,6 +637,7 @@
 			return true;
 		}
 		return false;
+
 	}
 
 	/**
@@ -711,10 +712,13 @@
                 )) {
                     return true;
                 }
+
 			} catch (Mandrill_Error $e) {
 				return false;
 			}
 		}
+
+		error_log("send -> ". json_encode($result));
 
 		// if all else fails, cry
 		return false;
