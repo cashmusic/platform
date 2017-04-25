@@ -1240,6 +1240,7 @@ class PeoplePlant extends PlantBase {
 							$recipients[] = array(
 								'email' => $subscriber['email_address'],
 								'name' => $subscriber['display_name'],
+                                'type' => 'to',
 								'metadata' => array(
 									'user_id' => $subscriber['id']
 								)
@@ -1259,17 +1260,6 @@ class PeoplePlant extends PlantBase {
 					if (!$mailing['from_name']) {
 						$mailing['from_name'] = $user_details['email_address'];
 					}
-
-/*					$mandrill = new MandrillSeed($user_id,$mailing['connection_id']);
-					$result = $mandrill->send(
-						$mailing['subject'],
-						$mailing['text_content'],
-						$mailing['html_content'],
-						$user_details['email_address'],
-						$mailing['from_name'],
-						$recipients,
-						array('mailing_id'=>$mailing_id,'list_id'=>$mailing['list_id'])
-					);*/
 
 					if (CASHSystem::sendMassEmail(
 						$user_id,
@@ -1297,6 +1287,7 @@ class PeoplePlant extends PlantBase {
 						return true;
 
 					} else {
+                        error_log("didn't work");
 						return false;
 					}
 				}

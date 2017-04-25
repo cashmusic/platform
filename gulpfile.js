@@ -23,6 +23,12 @@ gulp.task('compile', function() {
         .pipe(gulp.dest('interfaces/public/'));
 });
 
+gulp.task('compile-admin', function() {
+    return gulp.src(paths.scripts, {base: './interfaces/public/cashmusicjs/source/'})
+        .pipe(closure())
+        .pipe(gulp.dest('interfaces/public/'));
+});
+
 gulp.task('jsonlint', function() {
     return gulp.src(paths.json)
         .pipe(jsonlint())
