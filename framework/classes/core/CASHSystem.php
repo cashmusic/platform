@@ -558,6 +558,12 @@
 		} else {
 			$finaladdress = $address;
 		}
+
+        // if the email is bullshit don't try to send to it:
+        if (!filter_var($finaladdress, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+
 		return $finaladdress;
 	}
 
@@ -570,165 +576,65 @@
 	 *
 	 */
 	public static function sendEmail($subject,$user_id,$toaddress,$message_text,$message_title,$encoded_html=false) {
-		// pulling out just the TO email from a 'Address Name <address@name.com>' style address:
-		if (strpos($toaddress, '>')) {
-			preg_match('/([^<]+)\s<(.*)>/', $toaddress, $matches);
-			if (count($matches)) {
-				$toaddress = $matches[2];
-			}
-		}
-		// if the email is bullshit don't try to send to it:
-		if (!filter_var($toaddress, FILTER_VALIDATE_EMAIL)) {
-			return false;
+
+        if(!$toaddress = CASHSystem::parseEmailAddress($toaddress)) {
+        	return false; // the address is not valid
 		}
 
 		// TODO: look up user settings for email if user_id is set — allow for multiple SMTP settings
 		// on a per-user basis in the multi-user system
 		$email_settings = CASHSystem::getDefaultEmail(true);
-		if ($email_settings['smtp'] && $email_settings['smtpserver']) {
-			if (CASHSystem::getSystemSettings('instancetype') == 'multi' && $user_id) {
-				$user_request = new CASHRequest(
-					array(
-						'cash_request_type' => 'people',
-						'cash_action' => 'getuser',
-						'user_id' => $user_id
+
+        list($setname, $fromaddress) = CASHSystem::parseUserEmailSettings($user_id);
+
+		// let's deal with complex versus simple email addresses. if we find '>' present we try
+		// parsing for name + address from a 'Address Name <address@name.com>' style email:
+		$from = CASHSystem::parseEmailAddress($fromaddress);
+		$sender = CASHSystem::parseEmailAddress($email_settings['systememail']);
+
+		if (is_array($from) && is_array($sender)) {
+			// sets the display name as the username NOT the system name
+			$from_keys = array_keys($from);
+			$sender_keys = array_keys($sender);
+			$sender[$sender_keys[0]] = $from[$from_keys[0]];
+		}
+
+		// handle encoding of HTML if specific HTML isn't passed in:
+		if (!$encoded_html) {
+			$message_text = CASHSystem::parseMarkdown($message_text);
+			if ($template = CASHSystem::setMustacheTemplate("system_email")) {
+				// render the mustache template and return
+				$encoded_html = CASHSystem::renderMustache(
+					$template, array(
+						// array of values to be passed to the mustache template
+						'encoded_html' => $message_text,
+						'message_title' => $message_title,
+						'cdn_url' => (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL
 					)
 				);
-				$user_details = $user_request->response['payload'];
-				$setname = false;
-				if (trim($user_details['display_name'] . '') !== '' && $user_details['display_name'] !== 'Anonymous') {
-					$setname = $user_details['display_name'];
-				}
-				if (!$setname && $user_details['username']) {
-					$setname = $user_details['username'];
-				}
-				if ($setname) {
-					$fromaddress = '"' . str_replace('"','\"',$setname) . '" <' . $user_details['email_address'] . '>';
-				} else {
-					$fromaddress = $user_details['email_address'];
-				}
-			} else {
-				$fromaddress = $email_settings['systememail'];
 			}
+		}
 
-			// let's deal with complex versus simple email addresses. if we find '>' present we try
-			// parsing for name + address from a 'Address Name <address@name.com>' style email:
-			$from = CASHSystem::parseEmailAddress($fromaddress);
-			$sender = CASHSystem::parseEmailAddress($email_settings['systememail']);
+		// there's no mail seed or smtp credentials, so we fail
+        if (!$seed = CASHSystem::getMailSeedConnection($user_id)) {
+			return false;
+		}
 
-			if (is_array($from) && is_array($sender)) {
-				// sets the display name as the username NOT the system name
-				$from_keys = array_keys($from);
-				$sender_keys = array_keys($sender);
-				$sender[$sender_keys[0]] = $from[$from_keys[0]];
-			}
-
-			// handle encoding of HTML if specific HTML isn't passed in:
-			if (!$encoded_html) {
-
-				$message_text = CASHSystem::parseMarkdown($message_text);
-
-				if ($template = CASHSystem::setMustacheTemplate("system_email")) {
-
-					// render the mustache template and return
-					$encoded_html = CASHSystem::renderMustache(
-						$template, array(
-							// array of values to be passed to the mustache template
-							'encoded_html' => $message_text,
-							'message_title' => $message_title,
-							'cdn_url' => (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL
-						)
-					);
-
-				} else {
-
-					//TODO: can we move this to
-					$encoded_html .= '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' . $message_title . '</title></head><body>'
-						. "<h1>$message_title</h1>\n" . "<p>" . $encoded_html . "</p>"
-						. "</body></html>";
-				}
-			}
-
-            // get mandrill connection info
-            $cash_request = new CASHConnection($user_id);
-            $mandrill = $cash_request->getConnectionsByType('com.mandrillapp');
-
-            // check viability of using mandrill
-            //TODO: this might be a good place to have a firewall to stop abuse
-            $connection_id = false;
-
-            // if a viable connection, set connection id with user connection
-            if (is_array($mandrill) && !empty($mandrill[0]['id'])) {
-                $connection_id = $mandrill[0]['id'];
-            } else {
-            	$connection_id = false;
-			}
-
-            $connections = CASHSystem::getSystemSettings('system_connections');
-
-            // either we've got a valid connection ID, or a fallback api_key
-            if ($connection_id || !empty($connections['com.mandrillapp']['api_key'])) {
-                $mandrill = new MandrillSeed($user_id, $connection_id);
-
-                if ($result = $mandrill->send(
-                    $subject,
-                    $message_text,
-                    $encoded_html,
-                    $fromaddress, // email address (reply-to)
-                    !empty($setname) ? $setname : "CASH Music", // display name (reply-to)
-                    [
-                        [
-                            'email' => $toaddress,
-                            'type' => 'to'
-                        ]
-					],
-                    null,
-                    null,
-                    null
-                )) {
-                    return true;
-                }
-            } else {
-            	// crappy old SMTP
-                // deal with SMTP settings later:
-                $smtp = $email_settings['smtp'];
-
-                // include swift mailer
-                include_once CASH_PLATFORM_ROOT . '/lib/swift/swift_required.php';
-
-                if ($smtp) {
-                    // use SMTP settings for goodtimes robust happy mailing
-                    $transport = Swift_SmtpTransport::newInstance($email_settings['smtpserver'], $email_settings['smtpport']);
-                    if ($email_settings['smtpusername']) {
-                        $transport->setUsername($email_settings['smtpusername']);
-                        $transport->setPassword($email_settings['smtppassword']);
-                    }
-                } else {
-
-                    //TODO: sendmail is gonna mess shit up
-
-                    // aww shit. use mail() and hope it gets there
-                    //$transport = Swift_MailTransport::newInstance();
-                }
-
-                $swift = Swift_Mailer::newInstance($transport);
-
-                $message = new Swift_Message($subject);
-                $message->setFrom($sender);
-                $message->setReplyTo($from);
-                //	$message->setSender($sender);
-                $message->setBody($encoded_html, 'text/html');
-                $message->setTo($toaddress);
-                $message->addPart($message_text, 'text/plain');
-                $headers = $message->getHeaders();
-                $headers->addTextHeader('X-MC-Track', 'opens'); // Mandrill-specific tracking...leave in by defauly, no harm if not Mandrill
-
-                if ($recipients = $swift->send($message, $failures)) {
-                    return true;
-                } else {
-                    return false;
-                }
-			}
+		if ($result = $seed->send(
+			$subject,
+			$message_text,
+			$encoded_html,
+			$fromaddress, // email address (reply-to)
+			!empty($setname) ? $setname : "CASH Music", // display name (reply-to)
+            $email_settings['systememail'],
+			[
+                array('email' => $toaddress, 'type' => 'to')
+			],
+			null,
+			null,
+			null
+		)) {
+			return true;
 		}
 		return false;
 	}
@@ -750,15 +656,8 @@
 
 	public static function sendMassEmail($user_id, $subject, $recipients, $message_text, $message_title, $global_merge_vars=false, $merge_vars=false, $encoded_html=false, $message_text_html=true, $override_template=false, $sender_name=false, $sender_email=false) {
 
-
-		        if (CASH_DEBUG) {
-		                    error_log(
-		                        'sendMassEmail'
-		                    );
-		                }
 		// handle encoding of HTML if specific HTML isn't passed in:
 		if (!$encoded_html) {
-
 			// need to make sure this isn't already parsed
 			if (!$message_text_html) {
 				$message_body_parsed = CASHSystem::parseMarkdown($message_text);
@@ -767,7 +666,6 @@
 			}
 
 			// we can also just completely override the template. there's a better way to do this maybe, though
-
 			if (!$override_template) {
 				if ($template = CASHSystem::setMustacheTemplate("system_email")) {
 
@@ -780,12 +678,6 @@
 							'cdn_url' => (defined('CDN_URL')) ? CDN_URL : CASH_ADMIN_URL
 						)
 					);
-				} else {
-
-					//TODO: can we move this to
-					$encoded_html .= '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' . $message_title . '</title></head><body>'
-						. "<h1>$message_title</h1>\n" . "<p>" . $encoded_html . "</p>"
-						. "</body></html>";
 				}
 			}
 
@@ -797,41 +689,35 @@
 
 		$message_html = $encoded_html;
 
-		// get mandrill connection info
-		$cash_request = new CASHConnection($user_id);
-		$mandrill = $cash_request->getConnectionsByType('com.mandrillapp');
+        $seed = CASHSystem::getMailSeedConnection($user_id);
 
-		// check viability of using mandrill
-		//TODO: this might be a good place to have a firewall to stop abuse
-		$connection_id = false;
-
-		// if a viable connection, set connection id with user connection
-		if (is_array($mandrill) && !empty($mandrill[0]['id'])) {
-			$connection_id = $mandrill[0]['id'];
+        // if the seed class is SMTP then we fail, lest we incur the wrath of google
+		if(get_class($seed) == "SMTPSeed") {
+            return false;
 		}
-		
-		// either we've got a valid connection ID, or a fallback api_key
-		if ($connection_id) {
-			$mandrill = new MandrillSeed($user_id, $connection_id);
 
-			if ($result = $mandrill->send(
-				$subject,
-				$message_text,
-				$message_html,
-				$sender_email, // email address (reply-to)
-				$sender_name, // display name (reply-to)
-				$recipients,
-				null,
-				$global_merge_vars,
-				$merge_vars
-			)) {
-				return true;
+		if ($seed) {
+			try {
+                if ($result = $seed->send(
+                    $subject,
+                    $message_text,
+                    $message_html,
+                    $sender_email, // email address (reply-to)
+                    $sender_name, // display name (reply-to)
+                    $recipients,
+                    null,
+                    $global_merge_vars,
+                    $merge_vars
+                )) {
+                    return true;
+                }
+			} catch (Mandrill_Error $e) {
+				return false;
 			}
 		}
 
 		// if all else fails, cry
 		return false;
-
 	}
 	/**
 	 * Parsing markdown, returning an HTML string. Automatically converts URLs to links, using the Parsedown library.
@@ -1235,5 +1121,72 @@
 			'last_name' => $lastname
 		];
 	}
+
+    /**
+     * @param $user_id
+     * @return object|boolean
+     */
+    private static function getMailSeedConnection($user_id)
+    {
+        //TODO: this might be a good place to have some middleware to stop abuse
+    	// get mandrill connection info
+        $cash_request = new CASHConnection($user_id);
+        $mandrill = $cash_request->getConnectionsByType('com.mandrillapp');
+
+        $connection_id = false;
+
+        // if a viable connection, set connection id with user connection
+        if (is_array($mandrill) && !empty($mandrill[0]['id'])) {
+            $connection_id = $mandrill[0]['id'];
+        }
+
+        $system_connections = CASHSystem::getSystemSettings('system_connections');
+
+        // either we've got a valid connection ID, or a fallback api_key
+        if (!empty($connection_id) || !empty($system_connections['com.mandrillapp']['api_key'])) {
+            return new MandrillSeed($user_id, $connection_id);
+        }
+
+        // if we've made it this far we should fall back to SMTP. this will return false if it also fails.
+		return new \CASHMusic\Seeds\SMTPSeed();
+    }
+
+    /**
+     * @param $user_id
+     * @return array
+     */
+    private static function parseUserEmailSettings($user_id)
+    {
+        $setname = false;
+        $fromaddress = false;
+
+        if ($user_id) {
+            $user_request = new CASHRequest(
+                array(
+                    'cash_request_type' => 'people',
+                    'cash_action' => 'getuser',
+                    'user_id' => $user_id
+                )
+            );
+
+            $user_details = $user_request->response['payload'];
+
+            if ($user_details) {
+                if (trim($user_details['display_name'] . '') !== '' && $user_details['display_name'] !== 'Anonymous') {
+                    $setname = $user_details['display_name'];
+                }
+                if (!$setname && $user_details['username']) {
+                    $setname = $user_details['username'];
+                }
+                if ($setname) {
+                    $fromaddress = '"' . str_replace('"', '\"', $setname) . '" <' . $user_details['email_address'] . '>';
+                } else {
+                    $fromaddress = $user_details['email_address'];
+                }
+            }
+        }
+
+        return array($setname, $fromaddress);
+    }
 } // END class
 ?>

@@ -4,7 +4,8 @@
   "description": "[![Funded by The Shuttleworth Foundation](https://cloud.githubusercontent.com/assets/368640/11352290/6d23f2fe-91f0-11e5-9104-53eab0a36abe.jpg)](https://www.shuttleworthfoundation.org/)",
   "main": "index.js",
   "dependencies": {
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "gulp-notify": "^3.0.0"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
