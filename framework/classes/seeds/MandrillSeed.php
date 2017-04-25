@@ -151,7 +151,7 @@ class MandrillSeed extends SeedBase {
 		}
 	}
 	//https://mandrillapp.com/api/docs/messages.html#method=send
-	public function send($subject,$message_txt,$message_html,$from_address,$from_name,$recipients,$metadata=null,$global_merge_vars=null,$merge_vars=null,$tags=null) {
+	public function send($subject,$message_txt,$message_html,$from_address,$from_name,$sender_address,$recipients,$metadata=null,$global_merge_vars=null,$merge_vars=null,$tags=null) {
 
 		$unsubscribe_link = '';
 		if ($metadata) {
@@ -225,7 +225,6 @@ class MandrillSeed extends SeedBase {
 
 		} else {
 			// we're testing so let's just fake this for now
-
 			$user_details['email_address'] = 'info@cashmusic.org';
 			$user_details['display_name'] = 'Testing CASH Mailer';
 		}
@@ -266,7 +265,9 @@ class MandrillSeed extends SeedBase {
 			"images" => null
 		);
 
-		return $this->api->call('messages/send', array("message" => $message, "async" => true));
+		$result = $this->api->call('messages/send', array("message" => $message, "async" => true));
+
+		return $result;
 	}
 
 } // END class

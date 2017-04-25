@@ -636,7 +636,6 @@
 		)) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -692,26 +691,33 @@
 
         $seed = CASHSystem::getMailSeedConnection($user_id);
 
-        // either we've got a valid connection ID, or a fallback api_key
+        // if the seed class is SMTP then we fail, lest we incur the wrath of google
+		if(get_class($seed) == "SMTPSeed") {
+            return false;
+		}
+
 		if ($seed) {
-			if ($result = $seed->send(
-				$subject,
-				$message_text,
-				$message_html,
-				$sender_email, // email address (reply-to)
-				$sender_name, // display name (reply-to)
-				$recipients,
-				null,
-				$global_merge_vars,
-				$merge_vars
-			)) {
-				return true;
+			try {
+                if ($result = $seed->send(
+                    $subject,
+                    $message_text,
+                    $message_html,
+                    $sender_email, // email address (reply-to)
+                    $sender_name, // display name (reply-to)
+                    $recipients,
+                    null,
+                    $global_merge_vars,
+                    $merge_vars
+                )) {
+                    return true;
+                }
+			} catch (Mandrill_Error $e) {
+				return false;
 			}
 		}
 
 		// if all else fails, cry
 		return false;
-
 	}
 	/**
 	 * Parsing markdown, returning an HTML string. Automatically converts URLs to links, using the Parsedown library.

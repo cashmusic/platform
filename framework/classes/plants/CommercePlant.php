@@ -546,7 +546,7 @@ class CommercePlant extends PlantBase {
     protected function emailBuyersByItem($user_id,$connection_id,$item_id,$subject,$message,$include_download=false) {
 
         if (CASH_DEBUG) {
-            error_log(
+            CASHSystem::errorLog(
                 'Requested CommercePlant->emailBuyersByItem with: '
                 .'$user_id='. (string)$user_id
                 .',$item_id='. (string)$item_id
@@ -709,7 +709,7 @@ class CommercePlant extends PlantBase {
                 }
 
                 // by the power of grayskull
-                CASHSystem::sendMassEmail(
+                $success = CASHSystem::sendMassEmail(
                     $user_id,
                     $subject,
                     $recipients,
@@ -720,6 +720,8 @@ class CommercePlant extends PlantBase {
                     false,
                     true
                 );
+
+                CASHSystem::errorLog($success);
 
                 if (!$success) return false;
 

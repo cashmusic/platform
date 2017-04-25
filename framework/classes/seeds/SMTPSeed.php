@@ -10,7 +10,7 @@ use SeedBase;
 
 class SMTPSeed extends SeedBase {
 
-    protected $server, $email, $port, $username, $password;
+    protected $server, $email, $port, $username, $password, $transport, $mailer;
 
     public function __construct($server=false, $email=false, $port=false, $username=false, $password=false) {
 
@@ -40,10 +40,11 @@ class SMTPSeed extends SeedBase {
 
         $this->transport->setUsername($this->username);
         $this->transport->setPassword($this->password);
+
+        $this->mailer = Swift_Mailer::newInstance($this->transport);
     }
 
     public function send($subject,$message_text,$message_html,$from_address,$from_name,$sender_address,$recipients,$metadata=null,$global_merge_vars=null,$merge_vars=null,$tags=null) {
-        $swift = Swift_Mailer::newInstance($this->transport);
 
         $message = new Swift_Message($subject);
         $message->setFrom([$sender_address => $from_name]);
@@ -55,7 +56,7 @@ class SMTPSeed extends SeedBase {
         $headers = $message->getHeaders();
         $headers->addTextHeader('X-MC-Track', 'opens'); // Mandrill-specific tracking...leave in by defauly, no harm if not Mandrill
 
-        if ($recipients = $swift->send($message, $failures)) {
+        if ($recipients = $this->mailer->send($message, $failures)) {
             return true;
         } else {
             return false;
