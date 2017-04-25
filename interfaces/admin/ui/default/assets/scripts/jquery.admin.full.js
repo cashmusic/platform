@@ -925,13 +925,19 @@ jQuery.fn.extend({
 
         // storage connection change handler
         $(document).on('change', '#connection_id', function(e) {
-            console.log(this.value);
+
             if ( this.value > 0 ) {
                 //var connectionID = this.value;
                 var acl = "private";
 
                 if ($(".file-upload-trigger").data('upload-acl') !== undefined) acl = "public-read";
-                var newUploadEndpoint = $('.file-upload-trigger').data('upload-endpoint') + this.value;
+
+                var upload_endpoint = $('.file-upload-trigger').data('upload-endpoint');
+                if (upload_endpoint === null) {
+                    upload_endpoint = "";
+                }
+
+                var newUploadEndpoint = upload_endpoint + this.value;
 
                 var trigger = $('.upload-corral').addClass('show').find('.file-upload-trigger')
                 trigger.data('upload-endpoint', newUploadEndpoint );

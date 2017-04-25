@@ -64,6 +64,7 @@ class MandrillSeed extends SeedBase {
 		}
 
         $this->api = new Mandrill($this->api_key);
+
 	}
 
 	public static function getRedirectMarkup($data=false) {
@@ -169,6 +170,7 @@ class MandrillSeed extends SeedBase {
 
 		$recipient_metadata = null;
 		$recipient_merge_vars = array();
+
 		if (is_array($recipients)) {
 			foreach ($recipients as &$recipient) {
 
