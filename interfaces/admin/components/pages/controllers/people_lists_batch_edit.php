@@ -70,5 +70,9 @@ $cash_admin->page_data['connection_options'] = AdminHelper::echoConnectionsOptio
 $cash_admin->page_data['form_state_action'] = 'dolistedit';
 $cash_admin->page_data['list_button_text'] = 'Save changes';
 
+$cash_admin->page_data['list_id'] = $request_parameters[0];
+
+error_log("fucksdfkjdsjkfesjnfd ".$request_parameters[0]);
+
 $cash_admin->setPageContentTemplate('people_lists_batch_details');
 ?>

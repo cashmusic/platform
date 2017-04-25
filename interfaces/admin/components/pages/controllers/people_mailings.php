@@ -31,6 +31,7 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dotestsend') {
     foreach($test_recipients as $recipient) {
         $recipients[] = [
             'email' => $recipient,
+            'type' => 'to',
             'name' => 'Test recipient',
             'metadata' => array(
                 'user_id' => 0
@@ -39,9 +40,9 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dotestsend') {
     }
 
     // skip the requests and make the request directly for testing
-    CASHSystem::sendMassEmail(
+    $result = CASHSystem::sendMassEmail(
         $cash_admin->effective_user_id,
-        $subject." (test)",
+        $subject,
         $recipients,
         $html_content, // message body
         $subject, // message subject
@@ -58,6 +59,8 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dotestsend') {
         $mail_from,
         false
     );
+
+    CASHSystem::errorLog($result);
 
     if ($mailing_result) {
         AdminHelper::formSuccess('Test Success. The mail is sent, check it for errors.','/people/mailings/');
@@ -100,9 +103,43 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dolivesend') {
 			'cash_request_type' => 'people', 
 			'cash_action' => 'sendmailing',
 			'mailing_id' => $mailing_response['payload'],
-            'test' => 'true'
 		)
 	);
+
+    $mailing_list = $cash_admin->requestAndStore(
+        array(
+            'cash_request_type' => 'people',
+            'cash_action' => 'getlist',
+            'user_id' => $cash_admin->effective_user_id,
+            'list_id' => $list_id
+        )
+    );
+
+    CASHSystem::errorLog($mailing_list['payload']);
+
+
+    // skip the requests and make the request directly for testing
+    $result = CASHSystem::sendMassEmail(
+        $cash_admin->effective_user_id,
+        $subject,
+        $recipients,
+        $html_content, // message body
+        $subject, // message subject
+        [ // global merge vars
+            [
+                'name' => 'unsubscribelink',
+                'content' => "<a href='http://google.com'>Unsubscribe</a>"
+            ]
+        ],
+        [], // local merge vars (per email)
+        false,
+        true,
+        true,
+        $mail_from,
+        false
+    );
+
+    CASHSystem::errorLog($result);
 
 	if ($mailing_result) {
 		AdminHelper::formSuccess('Success. The mail is sent, just kick back and watch.','/people/mailings/');
@@ -123,7 +160,7 @@ $user_request = $cash_admin->requestAndStore(
     array(
         'cash_request_type' => 'people', 
         'cash_action' => 'getuser',
-        'user_id' => $effective_user
+        'user_id' => $cash_admin->effective_user_id
     )
 );
 
