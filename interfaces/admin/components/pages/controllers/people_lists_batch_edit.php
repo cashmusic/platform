@@ -21,7 +21,12 @@ if (isset($_POST['dolistedit'])) {
 
 if (isset($_POST['dobatchcontactsadd'])) {
 	if (!empty($_POST['element_content'])) {
-		$email_array = array_map('trim',explode(",",str_replace(PHP_EOL,',',$_POST['element_content'])));
+/*		$email_array = array_map('trim',explode(",",str_replace(PHP_EOL,',',$_POST['element_content'])));*/
+
+        // give some leeway for spaces between commas, and also newlines will work
+        $email_array = preg_split("/\s*[:,\s]\s*/",trim($_POST['element_content']), -1, PREG_SPLIT_NO_EMPTY);
+        $email_array = array_unique($email_array);
+
 		if (count($email_array) > 0) {
 			$total_added = 0;
 			foreach ($email_array as $address) {
