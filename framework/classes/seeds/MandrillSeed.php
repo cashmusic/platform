@@ -169,8 +169,6 @@ class MandrillSeed extends SeedBase {
             $message_html = str_replace('$UNSUBSCRIBE$','',$message_html);
 		}
 
-		error_log($message_html);
-
 		$recipient_metadata = null;
 		$recipient_merge_vars = array();
 
