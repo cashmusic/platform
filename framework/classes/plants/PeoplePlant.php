@@ -1267,18 +1267,12 @@ class PeoplePlant extends PlantBase {
 						$recipients,
 						$mailing['html_content'], // message body
 						$mailing['subject'], // message subject
-						[ // global merge vars
-							[
-								'name' => 'unsubscribelink',
-								'content' => "<a href='http://google.com'>Unsubscribe</a>"
-							]
-						],
+						[],
 						[], // local merge vars (per email)
 						false,
 						true,
 						true,
-						$mailing['from_name'],
-						false
+						$mailing
 					)) {
 
 						$this->editMailing($mailing_id,time());

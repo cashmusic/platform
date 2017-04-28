@@ -7,6 +7,8 @@ $list_id = !empty($_POST['email_list_id']) ? $_POST['email_list_id'] : "";
 $connection_id = !empty($_POST['connection_id']) ? $_POST['connection_id'] : "";
 $mail_from = !empty($_POST['mail_from']) ? $_POST['mail_from'] : "";
 
+
+
 $test_recipients = !empty($_POST['test_recipients']) ? preg_replace('/\s+/', '', $_POST['test_recipients']) : "";
 
 // send a test email
@@ -39,6 +41,12 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dotestsend') {
         ];
     }
 
+    if (!empty($_POST['template_id'])) {
+        if ($_POST['template_id'] != "default") {
+            $override_template = true;
+        }
+    }
+
     // skip the requests and make the request directly for testing
     $result = CASHSystem::sendMassEmail(
         $cash_admin->effective_user_id,
@@ -46,12 +54,7 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dotestsend') {
         $recipients,
         $html_content, // message body
         $subject, // message subject
-        [ // global merge vars
-            [
-                'name' => 'unsubscribelink',
-                'content' => "<a href='http://google.com'>Unsubscribe</a>"
-            ]
-        ],
+        [],
         [], // local merge vars (per email)
         false,
         true,
@@ -104,8 +107,6 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dolivesend') {
             'user_id' => $cash_admin->effective_user_id
 		)
 	);
-
-	CASHSystem::errorLog($mailing_result);
 
     $mailing_list = $cash_admin->requestAndStore(
         array(
