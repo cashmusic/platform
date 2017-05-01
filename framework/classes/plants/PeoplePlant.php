@@ -23,6 +23,7 @@ class PeoplePlant extends PlantBase {
 			// first value  = target method to call
 			// second value = allowed request methods (string or array of strings)
 			'addaddresstolist'       => array('addAddress','direct'),
+			'addbulkaddresses'		 => array('addBulkAddresses', 'direct'),
 			'addcontact'             => array('addContact','direct'),
 			'addmailing'             => array('addMailing','direct'),
 			'addlist'                => array('addList','direct'),
@@ -713,7 +714,8 @@ class PeoplePlant extends PlantBase {
 	 * @param {string} $additional_data -   any extra data (JSON, etc) a dev might pass with signup for later use
 	 * @param {string} $name -              if the user doesn't exist in the system this will be used as their display name
 	 * @return bool
-	 */protected function addAddress($address,$list_id,$do_not_verify=false,$initial_comment='',$additional_data='',$name='Anonymous',$force_verification_url=false,$request_from_service=false,$service_opt_in=true,$extra_querystring='',$first_name='',$last_name='') {
+	 */
+	protected function addAddress($address,$list_id,$do_not_verify=false,$initial_comment='',$additional_data='',$name='Anonymous',$force_verification_url=false,$request_from_service=false,$service_opt_in=true,$extra_querystring='',$first_name='',$last_name='') {
 		if (filter_var($address, FILTER_VALIDATE_EMAIL)) {
 			// first check to see if the email is already on the list
 			$take_action = false;
@@ -815,6 +817,64 @@ class PeoplePlant extends PlantBase {
 		return false;
 	}
 
+	protected function addBulkAddresses($addresses, $list_id) {
+
+		$address_insert = [];
+		foreach ($addresses as $address) {
+            $address_insert[] =
+				"(" .
+					implode(",",['"'.trim($address).'"', '"'.trim($address).'"', '"'.md5(rand(23456,9876541)).'"', '"bulk_import"', time()])
+				.")";
+		}
+
+		$address_insert = implode(",", $address_insert);
+
+		// insert ignore override, i have no idea
+        $result = $this->db->setData(
+            'users',
+            [
+            	'fields' => array(
+                    'email_address',
+                    'username',
+                    'password',
+                    'data',
+                    'creation_date',
+                ),
+				'data' => $address_insert
+			],
+			false,
+			true // insert ignore
+        );
+
+        error_log(print_r($result, true));
+
+		// bulk create users
+
+		// query users with "bulk_import" as data field.
+		// stash user ids.
+		// compare emails with original $addresses array.
+		// if there are emails in original $addresses not present then we need to query for those as well, merge with user id array
+		// bulk create list member entries
+		/* $result = $this->db->setData(
+            'PeoplePlant_insertBulkUsers',
+            array(
+                'list_id' => $list_id,
+                'addresses' => $address_insert
+            )
+        ); */
+		// query remove "bulk_imprt"
+
+        /*''
+'initial_comment' => "bulk_added",
+'verified' => 1,
+'active' => 1*/
+
+/*
+
+		error_log($list_id . " ".json_encode($addresses));*/
+		return true;
+	}
+
 	/**
 	 * Sets a user inactive for a given list. If the user is not present on the
 	 * list it returns true.
@@ -822,7 +882,8 @@ class PeoplePlant extends PlantBase {
 	 * @param {string} $address -  the email address in question
 	 * @param {int} $list_id -     the id of the list
 	 * @return bool
-	 */protected function removeAddress($address,$list_id) {
+	 */
+	protected function removeAddress($address,$list_id) {
 		$membership_info = $this->getAddressListInfo($address,$list_id);
 		if ($membership_info) {
 			if ($membership_info['active']) {

@@ -356,7 +356,7 @@ class CASHDBA {
 		}
 	}
 
-	public function setData($data_name,$data,$conditions=false) {
+	public function setData($data_name,$data,$conditions=false,$ignore=false) {
 		if (!is_object($this->db)) {
 			$this->connect();
 		}
@@ -387,24 +387,57 @@ class CASHDBA {
 			} else {
 				// no condition? we're doing an INSERT
 				$data['creation_date'] = time();
-				$query = "INSERT INTO $q$table_name$q (";
-				$separator = '';
-				foreach ($data as $fieldname => $value) {
-					$query .= $separator.$q.$fieldname.$q;
-					$separator = ',';
+
+				// is this an INSERT IGNORE
+				if (!$ignore) {
+                    $query = "INSERT INTO $q$table_name$q (";
+                    $separator = '';
+                    foreach ($data as $fieldname => $value) {
+                        $query .= $separator.$q.$fieldname.$q;
+                        $separator = ',';
+                    }
+                    $query .= ") VALUES (";
+                    $separator = '';
+                    foreach ($data as $fieldname => $value) {
+                        $query .= $separator.':'.$fieldname;
+                        $separator = ',';
+                    }
+                    $query .= ")";
+				} else {
+                    $query = "INSERT IGNORE INTO $q$table_name$q (";
+                    $separator = '';
+                    foreach ($data['fields'] as $fieldname) {
+                        $query .= $separator.$q.$fieldname.$q;
+                        $separator = ',';
+                    }
+                    $query .= ") VALUES ";
+/*                    $separator = '';
+
+                    $values = [];
+                    foreach ($data['data'] as $key=>$value) {
+                        $values[] = "(".$q.implode('","', $value).$q.")";
+                    }*/
+
+                    $query .= $data['data'];
 				}
-				$query .= ") VALUES (";
-				$separator = '';
-				foreach ($data as $fieldname => $value) {
-					$query .= $separator.':'.$fieldname;
-					$separator = ',';
-				}
-				$query .= ")";
 			}
 			if ($query) {
 				try {
 					$q = $this->db->prepare($query);
-					$success = $q->execute($data);
+
+					// INSERT IGNORE we have to do this outside of CASHDBA--- at least for now
+					if (!$ignore) {
+                        $success = $q->execute($data);
+					} else {
+                        $success = $q->execute();
+
+                        if ($success) {
+                        	return true;
+						} else {
+                        	return false;
+						}
+					}
+
 					if ($success) {
 						if ($conditions) {
 							if (array_key_exists('id',$conditions)) {
@@ -593,7 +626,6 @@ class CASHDBA {
 				$query = "SELECT e.id as 'event_id', e.date as 'date',e.published as 'published',e.cancelled as 'cancelled',e.purchase_url as 'purchase_url',e.comments as 'comments',e.creation_date as 'creation_date',e.modification_date as 'modification_date', e.venue_id as 'venue_id' "
 					. "FROM calendar_events e "
 					. "WHERE e.date > :cutoff_date_low AND e.date < :cutoff_date_high AND e.user_id = :user_id ORDER BY e.date ASC";
-				error_log($query);
 				break;
 
 			case 'CommercePlant_getExternalFulfillmentTiersAndOrderCount':
