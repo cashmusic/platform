@@ -19,30 +19,65 @@ if (isset($_POST['dolistedit'])) {
 	}
 }
 
+/**
+ * @return array
+ */
+function parseBulkEmailInput($input)
+{
+// give some leeway for spaces between commas, and also newlines will work
+    $email_array = preg_split("/\s*[:,\s]\s*/", trim($input), -1, PREG_SPLIT_NO_EMPTY);
+    $email_array = array_unique($email_array);
+    if (count($email_array) > 0) {
+        return $email_array;
+    }
+
+    return false;
+}
+
 if (isset($_POST['dobatchcontactsadd'])) {
 	if (!empty($_POST['element_content'])) {
 /*		$email_array = array_map('trim',explode(",",str_replace(PHP_EOL,',',$_POST['element_content'])));*/
 
-        // give some leeway for spaces between commas, and also newlines will work
-        $email_array = preg_split("/\s*[:,\s]\s*/",trim($_POST['element_content']), -1, PREG_SPLIT_NO_EMPTY);
-        $email_array = array_unique($email_array);
 
-		if (count($email_array) > 0) {
-			$total_added = 0;
-			foreach ($email_array as $address) {
-				$add_response = $cash_admin->requestAndStore(
-					array(
-						'cash_request_type' => 'people', 
-						'cash_action' => 'addaddresstolist',
-						'do_not_verify' => 1,
-						'address' => $address,
-						'list_id' => $request_parameters[0]
-					)
-				);
-				if ($add_response['payload']) {
-					$total_added++;
-				}
-			}
+        error_log(json_encode($_FILES));
+        if(file_exists($_FILES['element_upload']['tmp_name']) || !
+            is_uploaded_file($_FILES['element_upload']['tmp_name'])) {
+            $uploaded_emails = file_get_contents($_FILES['element_upload']['tmp_name']);
+
+            $email_array = parseBulkEmailInput($uploaded_emails);
+
+            if (count($email_array) > 500) {
+                $email_array_chunks = array_chunk($email_array, 100);
+
+                error_log(json_encode($email_array_chunks));
+            }
+
+
+        } else {
+
+            $email_array = parseBulkEmailInput($_POST['element_content']);
+
+            $total_added = 0;
+            foreach ($email_array as $address) {
+                $add_response = $cash_admin->requestAndStore(
+                    array(
+                        'cash_request_type' => 'people',
+                        'cash_action' => 'addaddresstolist',
+                        'do_not_verify' => 1,
+                        'address' => $address,
+                        'list_id' => $request_parameters[0]
+                    )
+                );
+                if ($add_response['payload']) {
+                    $total_added++;
+                }
+            }
+        }
+
+
+
+
+        if (count($email_array) > 0) {
 			AdminHelper::formSuccess('Success. Added ' . $total_added . ' new people.','/people/lists/view/' . $request_parameters[0]);
 		} else {
 			AdminHelper::formFailure('Error. There was a problem adding new people.','/people/lists/view/' . $request_parameters[0]);
@@ -76,8 +111,6 @@ $cash_admin->page_data['form_state_action'] = 'dolistedit';
 $cash_admin->page_data['list_button_text'] = 'Save changes';
 
 $cash_admin->page_data['list_id'] = $request_parameters[0];
-
-error_log("fucksdfkjdsjkfesjnfd ".$request_parameters[0]);
 
 $cash_admin->setPageContentTemplate('people_lists_batch_details');
 ?>
