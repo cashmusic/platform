@@ -3222,7 +3222,7 @@ class CommercePlant extends PlantBase {
                         $payment_status = "expired";
 
                         // send email
-                        if (!empty($email_address)) {
+                        if (!empty($email_address) && !in_array($customer[0]['status'], ['canceled', 'comped', 'failed'])) {
                             if (!CASHSystem::sendEmail(
                                 'Your CASH Music Family subscription has lapsed.',
                                 $user_id,
