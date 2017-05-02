@@ -17,6 +17,8 @@
             <label for="csv_upload">Select file</label>
             <input type="hidden" name="dobatchcontactsadd" value="makeitso" />
             <input type="file" name="element_upload"/>
+
+            <!--<button type="submit">Import file</button>-->
         </form>
 
         <script src="{{www_path}}/ui/default/assets/scripts/jquery.fileupload.js"></script>
@@ -61,9 +63,19 @@
                         if (window.filecount < 1) {
                             $("#file_upload").attr("action", "{{www_path}}{{requested_route}}");
                             //('#loadingmask').css('width','1%');
-                            $("#file_upload").submit();
+                            //$("#file_upload").submit();
                         }
-                        console.log("done");
+
+                        try {
+                            var result = JSON.parse(data.result);
+                            console.log(result);
+                            if (result.success == "true") {
+                                window.location = "/admin/people/lists/view/{{list_id}}";
+                            }
+
+                        } catch(err) {
+                            console.log("ruh roh");
+                        }
                         //$("#file_upload").submit();
                         //$('.process-import').removeClass("disabled");
                     }

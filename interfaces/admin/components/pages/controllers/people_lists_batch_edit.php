@@ -39,37 +39,8 @@ if (isset($_POST['dobatchcontactsadd'])) {
                 $total_added++;
             }
         }
-//        }
-
     }
-
-    if (1==1){
-        /*if(file_exists($_FILES['element_upload']['tmp_name']) || !
-            is_uploaded_file($_FILES['element_upload']['tmp_name'])) {
-            $uploaded_emails = file_get_contents($_FILES['element_upload']['tmp_name']);
-
-            $email_array = parseBulkEmailInput($uploaded_emails);
-
-            if (count($email_array) > 500) {
-                $email_array_chunks = array_chunk($email_array, 100);
-
-                error_log(json_encode($email_array_chunks));
-            }
-
-
-        } else {*/
-
-        //$cash_admin->page_data['error_message'] = 'Error. Please try again.';
-    }
-
-/*    if (count($email_array) > 0) {
-        AdminHelper::formSuccess('Success. Added ' . $total_added . ' new people.','/people/lists/view/' . $request_parameters[0]);
-    } else {
-        AdminHelper::formFailure('Error. There was a problem adding new people.','/people/lists/view/' . $request_parameters[0]);
-    }*/
 }
-
-$cash_admin->page_data['fuck'] = json_encode($_FILES);
 
 $current_response = $cash_admin->requestAndStore(
 	array(

@@ -15,21 +15,16 @@ function parseBulkEmailInput($input)
     return false;
 }
 
-
 // process uploads and shit
 if (!empty($_FILES)) {
-    if (CASH_DEBUG) {
-        /*        error_log(
-                    print_r($_FILES, true)
-                );*/
-    }
 
+    $total_added = 0;
     $uploaded_emails = file_get_contents($_FILES['element_upload']['tmp_name']);
 
     $email_array = parseBulkEmailInput($uploaded_emails);
 
-    if (count($email_array) > 5000) {
-        $email_array_chunks = array_chunk($email_array, 100);
+    if (count($email_array) > 50000) {
+        $email_array_chunks = array_chunk($email_array, 50000);
         foreach($email_array_chunks as $email_chunk) {
             // skip invalid emails
             //TODO: benchmark this because good glob
@@ -54,16 +49,15 @@ if (!empty($_FILES)) {
                         'list_id' => $request_parameters[0]
                     )
                 );
+
+                $total_added += count($created_user_ids);
             }
-//
         }
     } else {
-        // no chunky
-        $total_added = 0;
-
+        // 50000 or under
         $email_array = filter_var_array($email_array,FILTER_VALIDATE_EMAIL);
 
-        $add_response = $cash_admin->requestAndStore(
+        $created_response = $cash_admin->requestAndStore(
             array(
                 'cash_request_type' => 'people',
                 'cash_action' => 'addbulkaddresses',
@@ -73,15 +67,35 @@ if (!empty($_FILES)) {
             )
         );
 
-/*        foreach ($email_array as $address) {
+        if ($created_user_ids = $created_response['payload']) {
+            $list_response = $cash_admin->requestAndStore(
+                array(
+                    'cash_request_type' => 'people',
+                    'cash_action' => 'addbulklistmembers',
+                    'user_ids' => $created_user_ids,
+                    'list_id' => $request_parameters[0]
+                )
+            );
 
-            if ($add_response['payload']) {
-                $total_added++;
-            }
-        }*/
+            $total_added = count($created_user_ids);
+        }
     }
 
+/*    if (count($email_array) > 0) {
+        AdminHelper::formSuccess('Success. Added ' . $total_added . ' new people.','/people/lists/view/' . $request_parameters[0]);
+    } else {
+        AdminHelper::formFailure('Error. There was a problem adding new people.','/people/lists/view/' . $request_parameters[0]);
+    }*/
+
+    if (count($email_array) > 0) {
+        echo '{"success":"true"}';
+    } else {
+        echo '{"success":"false"}';
+    }
+} else {
+    echo '{"success":"false"}';
 }
 
+exit();
 
 ?>
