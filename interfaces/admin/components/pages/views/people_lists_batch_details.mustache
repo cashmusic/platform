@@ -1,10 +1,86 @@
 {{! corresponding files: people_lists_batch_edit.php & people_lists_batch_edit.json }}
 <h4>Batch add contacts</h4>
 <div class="pure-u-1">
-	<form accept-charset="UTF-8" name="batchaddcontacts" method="post" action="{{www_path}}{{requested_route}}">
-		<input type="hidden" name="dobatchcontactsadd" value="makeitso" />
-		<p>{{copy_add_multiple}}</p>
-		<textarea id="element_content" placeholder='your@email.com,another@email.com' name="element_content" class="tall required"></textarea>
-		<button type="submit">{{copy_add}}</button>
-	</form>
+	<div class="pure-u-1-2">
+
+        <form enctype="multipart/form-data" accept-charset="UTF-8" name="batchaddcontacts" method="post" action="{{www_path}}/people/lists/batch/upload/{{list_id}}">
+            <input type="hidden" name="dobatchcontactsadd" value="makeitso" />
+            <p>{{copy_add_multiple}}</p>
+            <textarea id="element_content" placeholder='your@email.com,another@email.com' name="element_content" class="tall required"></textarea>
+            <button type="submit">{{copy_add}}</button>
+        </form>
+    </div>
+
+    <div class="pure-u-1-2">
+        <p>Alternatively upload a text file of emails in comma separated or list format</p>
+        <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/people/lists/batch/upload/{{list_id}}" name="import_csv" id="file_upload">
+            <label for="csv_upload">Select file</label>
+            <input type="hidden" name="dobatchcontactsadd" value="makeitso" />
+            <input type="file" name="element_upload" accept=".csv, .txt, text/plain"/>
+
+            <!--<button type="submit">Import file</button>-->
+        </form>
+
+        <script src="{{www_path}}/ui/default/assets/scripts/jquery.fileupload.js"></script>
+
+        <script type="text/javascript">
+            $(function() {
+
+                window.filecount = 0;
+
+                $('#file_upload').fileupload({
+                    singleFileUploads: true,
+                    sequentialUploads: false,
+                    autoUpload: true,
+
+                    add: function (e, data) {
+                        // remember the filename and submit
+                        console.log("add");
+                        data.formData = {action: 'do_upload'};
+                        window.filecount++;
+
+                        data.submit();
+                    },
+                    send: function(e, data) {
+                        // spinner, etc
+                        console.log("send");
+                        $('#loadingmask').css('width','101%');
+                    },
+                    fail: function(e, data) {
+                        // we should do something useful here
+                        console.log("fail");
+                        $('#loadingmask').css('width','1%');
+                    },
+                    done: function (event, data) {
+                        // hide the spinner, add the final key to the location field of the
+
+                        // go to the next step
+
+                        if (window.filecount > 0) {
+                            window.filecount--;
+                        }
+
+                        if (window.filecount < 1) {
+                            $("#file_upload").attr("action", "{{www_path}}{{requested_route}}");
+                            //('#loadingmask').css('width','1%');
+                            //$("#file_upload").submit();
+                        }
+
+                        try {
+                            var result = JSON.parse(data.result);
+                            console.log(result);
+                            if (result.success == "true") {
+                                window.location = "/admin/people/lists/view/{{list_id}}";
+                            }
+
+                        } catch(err) {
+                            console.log("ruh roh");
+                        }
+                        //$("#file_upload").submit();
+                        //$('.process-import').removeClass("disabled");
+                    }
+                });
+            });
+        </script>
+    </div>
 </div><!--pure-->

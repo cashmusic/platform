@@ -637,6 +637,7 @@
 			return true;
 		}
 		return false;
+
 	}
 
 	/**
@@ -654,7 +655,17 @@
 	 * @return bool
 	 */
 
-	public static function sendMassEmail($user_id, $subject, $recipients, $message_text, $message_title, $global_merge_vars=false, $merge_vars=false, $encoded_html=false, $message_text_html=true, $override_template=false, $sender_name=false, $sender_email=false) {
+	public static function sendMassEmail($user_id, $subject, $recipients, $message_text, $message_title, $global_merge_vars=false, $merge_vars=false, $encoded_html=false, $message_text_html=true, $override_template=false, $metadata=false) {
+
+        $email_settings = CASHSystem::getDefaultEmail(true);
+        list($setname, $fromaddress) = CASHSystem::parseUserEmailSettings($user_id);
+
+        // if no metadata this is not a mass mailing from a user, so let's make sure it's null
+		if (!$metadata) $metadata = null;
+
+        if (isset($metadata['from_name'])) {
+        	$setname = $metadata['from_name'];
+		}
 
 		// handle encoding of HTML if specific HTML isn't passed in:
 		if (!$encoded_html) {
@@ -668,7 +679,6 @@
 			// we can also just completely override the template. there's a better way to do this maybe, though
 			if (!$override_template) {
 				if ($template = CASHSystem::setMustacheTemplate("system_email")) {
-
 					// render the mustache template and return
 					$encoded_html = CASHSystem::renderMustache(
 						$template, array(
@@ -697,20 +707,24 @@
 		}
 
 		if ($seed) {
+
 			try {
                 if ($result = $seed->send(
                     $subject,
                     $message_text,
                     $message_html,
-                    $sender_email, // email address (reply-to)
-                    $sender_name, // display name (reply-to)
+                    $fromaddress, // email address (reply-to)
+                    !empty($setname) ? $setname : "CASH Music", // display name (reply-to)
+                    $email_settings['systememail'],
                     $recipients,
-                    null,
+                    $metadata,
                     $global_merge_vars,
-                    $merge_vars
+                    $merge_vars,
+                    null
                 )) {
                     return true;
                 }
+
 			} catch (Mandrill_Error $e) {
 				return false;
 			}

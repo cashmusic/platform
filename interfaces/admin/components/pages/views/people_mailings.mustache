@@ -17,7 +17,7 @@
 
 </header>
 	<form method="post" action="/admin/people/mailings" id="mass_mailing">
-		<input type="hidden" name="action" id="action" value="dolivesend">
+		<input type="hidden" name="action" id="action" value="">
 
 		
 			<label for="mail_subject">{{label_mail_subject}}</label>
@@ -100,9 +100,10 @@
         $(".send_email").click(function(e) {
 
             var action = ($(this).attr('name') == "dolivesend") ? "dolivesend" : "dotestsend";
+            $('#action').val(action);
 
             e.preventDefault(); //Prevent the normal submission action
-            $('#action').val(action);
+
 
             if ($("#test_recipients").val() != "" && action == 'dotestsend' || action == 'dolivesend') {
                 $('#mass_mailing').submit();

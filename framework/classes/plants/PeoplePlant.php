@@ -23,6 +23,8 @@ class PeoplePlant extends PlantBase {
 			// first value  = target method to call
 			// second value = allowed request methods (string or array of strings)
 			'addaddresstolist'       => array('addAddress','direct'),
+			'addbulkaddresses'		 => array('addBulkAddresses', 'direct'),
+			'addbulklistmembers'	 => array('addBulkListMembers', 'direct'),
 			'addcontact'             => array('addContact','direct'),
 			'addmailing'             => array('addMailing','direct'),
 			'addlist'                => array('addList','direct'),
@@ -713,7 +715,8 @@ class PeoplePlant extends PlantBase {
 	 * @param {string} $additional_data -   any extra data (JSON, etc) a dev might pass with signup for later use
 	 * @param {string} $name -              if the user doesn't exist in the system this will be used as their display name
 	 * @return bool
-	 */protected function addAddress($address,$list_id,$do_not_verify=false,$initial_comment='',$additional_data='',$name='Anonymous',$force_verification_url=false,$request_from_service=false,$service_opt_in=true,$extra_querystring='',$first_name='',$last_name='') {
+	 */
+	protected function addAddress($address,$list_id,$do_not_verify=false,$initial_comment='',$additional_data='',$name='Anonymous',$force_verification_url=false,$request_from_service=false,$service_opt_in=true,$extra_querystring='',$first_name='',$last_name='') {
 		if (filter_var($address, FILTER_VALIDATE_EMAIL)) {
 			// first check to see if the email is already on the list
 			$take_action = false;
@@ -815,6 +818,147 @@ class PeoplePlant extends PlantBase {
 		return false;
 	}
 
+	protected function addBulkAddresses($addresses) {
+
+		$address_insert = [];
+		foreach ($addresses as $address) {
+            $address_insert[] =
+				"(" .
+					implode(",",['"'.trim($address).'"', '"'.trim($address).'"', '"'.md5(rand(23456,9876541)).'"', '"bulk_import"', time()])
+				.")";
+		}
+
+		$address_insert = implode(",", $address_insert);
+
+		// bulk create users
+        $create_users = $this->db->setData(
+            'users',
+            [
+                'fields' => array(
+                    'email_address',
+                    'username',
+                    'password',
+                    'data',
+                    'creation_date',
+                ),
+                'data' => $address_insert
+            ],
+            false,
+            true // insert ignore
+        );
+
+        if ($create_users) {
+            // query users with "bulk_import" as data field.
+			$get_created_users = $this->db->getData(
+                'users',
+                'id,email_address',
+                array(
+                    "data" => array(
+                        "condition" => "=",
+                        "value" => "bulk_import"
+                    )
+                )
+            );
+
+            $created_user_ids = [];
+            $created_user_emails = [];
+
+            // stash user ids and emails.
+			foreach ($get_created_users as $user) {
+                $created_user_ids[] = $user['id'];
+                $created_user_emails[] = $user['email_address'];
+			}
+
+            // compare emails with original $addresses array.
+			if (count($created_user_emails) < count($addresses)) {
+				$remaining_emails = array_diff($addresses, $created_user_emails);
+
+				// let's double check that these are valid emails, save a query
+                $remaining_emails = filter_var_array($remaining_emails,FILTER_VALIDATE_EMAIL);
+
+                error_log(json_encode($remaining_emails));
+
+                if (count($remaining_emails) > 0) {
+                    $get_existing_users = $this->db->getData(
+                        'users',
+                        'id',
+                        array(
+                            "email_address" => array(
+                                "condition" => "IN",
+                                "value" => $remaining_emails
+                            )
+                        )
+                    );
+
+                    if ($get_existing_users) {
+                        foreach ($get_existing_users as $user) {
+                            $created_user_ids[] = $user['id'];
+                        }
+					}
+				}
+			}
+
+			return $created_user_ids;
+		} else {
+        	return false;
+		}
+
+		return false;
+	}
+
+	protected function addBulkListMembers($user_ids, $list_id) {
+        // bulk create list member entries
+        if (count($user_ids) > 0) {
+
+            error_log("created user ids ".count($user_ids));
+
+            $list_members = [];
+            foreach ($user_ids as $user_id) {
+                $list_members[] =
+                    "(" .
+                    implode(",",['"'.$user_id.'"', '"'.$list_id.'"', time()])
+                    .")";
+            }
+
+            $list_members = implode(",", $list_members);
+
+            $create_list_members = $this->db->setData(
+                'list_members',
+                [
+                    'fields' => array(
+                        'user_id',
+                        'list_id',
+                        'creation_date'
+                    ),
+                    'data' => $list_members
+                ],
+                false,
+                true // insert ignore
+            );
+        }
+
+        $remove_tag = $this->db->setData(
+        	'users',
+			array(
+				'data'=>""
+			),
+            array(
+                "data" => array(
+                    "condition" => "=",
+                    "value" => "bulk_import"
+                )
+            )
+		);
+
+        if ($create_list_members) {
+            return true;
+        } else {
+            return false;
+        }
+
+
+	}
+
 	/**
 	 * Sets a user inactive for a given list. If the user is not present on the
 	 * list it returns true.
@@ -822,7 +966,8 @@ class PeoplePlant extends PlantBase {
 	 * @param {string} $address -  the email address in question
 	 * @param {int} $list_id -     the id of the list
 	 * @return bool
-	 */protected function removeAddress($address,$list_id) {
+	 */
+	protected function removeAddress($address,$list_id) {
 		$membership_info = $this->getAddressListInfo($address,$list_id);
 		if ($membership_info) {
 			if ($membership_info['active']) {
@@ -1240,6 +1385,7 @@ class PeoplePlant extends PlantBase {
 							$recipients[] = array(
 								'email' => $subscriber['email_address'],
 								'name' => $subscriber['display_name'],
+                                'type' => 'to',
 								'metadata' => array(
 									'user_id' => $subscriber['id']
 								)
@@ -1260,35 +1406,18 @@ class PeoplePlant extends PlantBase {
 						$mailing['from_name'] = $user_details['email_address'];
 					}
 
-/*					$mandrill = new MandrillSeed($user_id,$mailing['connection_id']);
-					$result = $mandrill->send(
-						$mailing['subject'],
-						$mailing['text_content'],
-						$mailing['html_content'],
-						$user_details['email_address'],
-						$mailing['from_name'],
-						$recipients,
-						array('mailing_id'=>$mailing_id,'list_id'=>$mailing['list_id'])
-					);*/
-
 					if (CASHSystem::sendMassEmail(
 						$user_id,
 						$mailing['subject'],
 						$recipients,
 						$mailing['html_content'], // message body
 						$mailing['subject'], // message subject
-						[ // global merge vars
-							[
-								'name' => 'unsubscribelink',
-								'content' => "<a href='http://google.com'>Unsubscribe</a>"
-							]
-						],
+						[],
 						[], // local merge vars (per email)
 						false,
 						true,
 						true,
-						$mailing['from_name'],
-						false
+						$mailing
 					)) {
 
 						$this->editMailing($mailing_id,time());
@@ -1297,6 +1426,7 @@ class PeoplePlant extends PlantBase {
 						return true;
 
 					} else {
+                        error_log("didn't work");
 						return false;
 					}
 				}

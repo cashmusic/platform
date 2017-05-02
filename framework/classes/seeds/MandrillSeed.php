@@ -64,6 +64,7 @@ class MandrillSeed extends SeedBase {
 		}
 
         $this->api = new Mandrill($this->api_key);
+
 	}
 
 	public static function getRedirectMarkup($data=false) {
@@ -158,17 +159,19 @@ class MandrillSeed extends SeedBase {
 			if (isset($metadata['list_id'])) {
 				$unsubscribe_link = '<a style="margin:0;padding:0;" href="' .
 					CASH_PUBLIC_URL .
-					'request/html?cash_request_type=people&cash_action=removeaddress&list_id=' .
+					'/request/html?cash_request_type=people&cash_action=removeaddress&list_id=' .
 					$metadata['list_id'] .
 					'&address={{email_address}}' .
 					'">Unsubscribe</a>';
 			}
+			$message_html = str_replace('$UNSUBSCRIBE$','*|UNSUBSCRIBELINK|*',$message_html);
+		} else {
+            $message_html = str_replace('$UNSUBSCRIBE$','',$message_html);
 		}
-
-		$message_html = str_replace('{{{unsubscribe_link}}}','*|UNSUBSCRIBELINK|*',$message_html);
 
 		$recipient_metadata = null;
 		$recipient_merge_vars = array();
+
 		if (is_array($recipients)) {
 			foreach ($recipients as &$recipient) {
 
@@ -200,6 +203,14 @@ class MandrillSeed extends SeedBase {
 		$email_settings = CASHSystem::getDefaultEmail(true);
 		$sender = CASHSystem::parseEmailAddress($email_settings['systememail']);
 		$sender_email = $this->api_email ? $this->api_email : key($sender);
+
+		if (!empty($merge_vars)) {
+			if (!empty($recipient_merge_vars)) {
+				$merge_vars = array_merge($merge_vars, $recipient_merge_vars);
+			}
+		} else {
+			$merge_vars = $recipient_merge_vars;
+		}
 
 		if ($this->user_id) {
 			// get current user details for email
