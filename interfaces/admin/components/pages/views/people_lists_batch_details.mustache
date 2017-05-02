@@ -16,7 +16,7 @@
         <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/people/lists/batch/upload/{{list_id}}" name="import_csv" id="file_upload">
             <label for="csv_upload">Select file</label>
             <input type="hidden" name="dobatchcontactsadd" value="makeitso" />
-            <input type="file" name="element_upload"/>
+            <input type="file" name="element_upload" accept=".csv, .txt, text/plain"/>
 
             <!--<button type="submit">Import file</button>-->
         </form>
