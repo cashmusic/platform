@@ -829,45 +829,116 @@ class PeoplePlant extends PlantBase {
 
 		$address_insert = implode(",", $address_insert);
 
-		// insert ignore override, i have no idea
-        $result = $this->db->setData(
+		// bulk create users
+        $create_users = $this->db->setData(
             'users',
             [
-            	'fields' => array(
+                'fields' => array(
                     'email_address',
                     'username',
                     'password',
                     'data',
                     'creation_date',
                 ),
-				'data' => $address_insert
-			],
-			false,
-			true // insert ignore
+                'data' => $address_insert
+            ],
+            false,
+            true // insert ignore
         );
 
-        error_log(print_r($result, true));
+        if ($create_users) {
+            // query users with "bulk_import" as data field.
+			$get_created_users = $this->db->getData(
+                'users',
+                'id,email_address',
+                array(
+                    "data" => array(
+                        "condition" => "=",
+                        "value" => "bulk_import"
+                    )
+                )
+            );
 
-		// bulk create users
+            $created_user_ids = [];
+            $created_user_emails = [];
 
-		// query users with "bulk_import" as data field.
-		// stash user ids.
-		// compare emails with original $addresses array.
-		// if there are emails in original $addresses not present then we need to query for those as well, merge with user id array
-		// bulk create list member entries
-		/* $result = $this->db->setData(
-            'PeoplePlant_insertBulkUsers',
-            array(
-                'list_id' => $list_id,
-                'addresses' => $address_insert
-            )
-        ); */
-		// query remove "bulk_imprt"
+            // stash user ids and emails.
+			foreach ($get_created_users as $user) {
+                $created_user_ids[] = $user['id'];
+                $created_user_emails[] = $user['email_address'];
+			}
 
-        /*''
-'initial_comment' => "bulk_added",
-'verified' => 1,
-'active' => 1*/
+            // compare emails with original $addresses array.
+			if (count($created_user_emails) < count($addresses)) {
+				$remaining_emails = array_diff($addresses, $created_user_emails);
+
+				// let's double check that these are valid emails, save a query
+                $remaining_emails = filter_var_array($remaining_emails,FILTER_VALIDATE_EMAIL);
+
+                error_log(json_encode($remaining_emails));
+
+                if (count($remaining_emails) > 0) {
+                    $get_existing_users = $this->db->getData(
+                        'users',
+                        'id',
+                        array(
+                            "email_address" => array(
+                                "condition" => "IN",
+                                "value" => $remaining_emails
+                            )
+                        )
+                    );
+
+                    if ($get_existing_users) {
+                        foreach ($get_existing_users as $user) {
+                            $created_user_ids[] = $user['id'];
+                        }
+					}
+				}
+			}
+
+            // bulk create list member entries
+			if (count($created_user_ids) > 0) {
+                $list_members = [];
+                foreach ($created_user_ids as $user_id) {
+                    $list_members[] =
+                        "(" .
+                        implode(",",['"'.$user_id.'"', '"'.$list_id.'"', time()])
+                        .")";
+                }
+
+                $list_members = implode(",", $list_members);
+
+                $create_list_members = $this->db->setData(
+                    'list_members',
+                    [
+                        'fields' => array(
+                            'user_id',
+                            'list_id',
+                            'creation_date'
+                        ),
+                        'data' => $list_members
+                    ],
+                    false,
+                    true // insert ignore
+                );
+			}
+
+			if ($create_list_members) {
+				return true;
+			} else {
+				return false;
+			}
+
+            // query remove "bulk_import"
+
+		} else {
+        	return false;
+		}
+
+
+
+
 
 /*
 
