@@ -24,6 +24,7 @@ class PeoplePlant extends PlantBase {
 			// second value = allowed request methods (string or array of strings)
 			'addaddresstolist'       => array('addAddress','direct'),
 			'addbulkaddresses'		 => array('addBulkAddresses', 'direct'),
+			'addbulklistmembers'	 => array('addBulkListMembers', 'direct'),
 			'addcontact'             => array('addContact','direct'),
 			'addmailing'             => array('addMailing','direct'),
 			'addlist'                => array('addList','direct'),
@@ -817,7 +818,7 @@ class PeoplePlant extends PlantBase {
 		return false;
 	}
 
-	protected function addBulkAddresses($addresses, $list_id) {
+	protected function addBulkAddresses($addresses) {
 
 		$address_insert = [];
 		foreach ($addresses as $address) {
@@ -897,53 +898,65 @@ class PeoplePlant extends PlantBase {
 				}
 			}
 
-            // bulk create list member entries
-			if (count($created_user_ids) > 0) {
-                $list_members = [];
-                foreach ($created_user_ids as $user_id) {
-                    $list_members[] =
-                        "(" .
-                        implode(",",['"'.$user_id.'"', '"'.$list_id.'"', time()])
-                        .")";
-                }
-
-                $list_members = implode(",", $list_members);
-
-                $create_list_members = $this->db->setData(
-                    'list_members',
-                    [
-                        'fields' => array(
-                            'user_id',
-                            'list_id',
-                            'creation_date'
-                        ),
-                        'data' => $list_members
-                    ],
-                    false,
-                    true // insert ignore
-                );
-			}
-
-			if ($create_list_members) {
-				return true;
-			} else {
-				return false;
-			}
-
-            // query remove "bulk_import"
-
+			return $created_user_ids;
 		} else {
         	return false;
 		}
 
+		return false;
+	}
+
+	protected function addBulkListMembers($user_ids, $list_id) {
+        // bulk create list member entries
+        if (count($user_ids) > 0) {
+
+            error_log("created user ids ".count($user_ids));
+
+            $list_members = [];
+            foreach ($user_ids as $user_id) {
+                $list_members[] =
+                    "(" .
+                    implode(",",['"'.$user_id.'"', '"'.$list_id.'"', time()])
+                    .")";
+            }
+
+            $list_members = implode(",", $list_members);
+
+            $create_list_members = $this->db->setData(
+                'list_members',
+                [
+                    'fields' => array(
+                        'user_id',
+                        'list_id',
+                        'creation_date'
+                    ),
+                    'data' => $list_members
+                ],
+                false,
+                true // insert ignore
+            );
+        }
+
+        $remove_tag = $this->db->setData(
+        	'users',
+			array(
+				'data'=>""
+			),
+            array(
+                "data" => array(
+                    "condition" => "=",
+                    "value" => "bulk_import"
+                )
+            )
+		);
+
+        if ($create_list_members) {
+            return true;
+        } else {
+            return false;
+        }
 
 
-
-
-/*
-
-		error_log($list_id . " ".json_encode($addresses));*/
-		return true;
 	}
 
 	/**

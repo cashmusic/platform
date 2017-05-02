@@ -30,13 +30,12 @@ if (!empty($_FILES)) {
 
     if (count($email_array) > 5000) {
         $email_array_chunks = array_chunk($email_array, 100);
-
         foreach($email_array_chunks as $email_chunk) {
             // skip invalid emails
             //TODO: benchmark this because good glob
             $email_chunk = filter_var_array($email_chunk,FILTER_VALIDATE_EMAIL);
 
-            $add_response = $cash_admin->requestAndStore(
+            $created_response = $cash_admin->requestAndStore(
                 array(
                     'cash_request_type' => 'people',
                     'cash_action' => 'addbulkaddresses',
@@ -45,6 +44,18 @@ if (!empty($_FILES)) {
                     'list_id' => $request_parameters[0]
                 )
             );
+
+            if ($created_user_ids = $created_response['payload']) {
+                $list_response = $cash_admin->requestAndStore(
+                    array(
+                        'cash_request_type' => 'people',
+                        'cash_action' => 'addbulklistmembers',
+                        'user_ids' => $created_user_ids,
+                        'list_id' => $request_parameters[0]
+                    )
+                );
+            }
+//
         }
     } else {
         // no chunky
