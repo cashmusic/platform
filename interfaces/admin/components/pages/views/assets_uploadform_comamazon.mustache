@@ -69,7 +69,7 @@
                 autoUpload: true,
                 add: function (event, data) {
                     window.onbeforeunload = function () {
-                        return 'You have unsaved changes.';
+                        return "Your file hasn't completed uploading yet.";
                     };
 
                     filename = data.files[0].name;
