@@ -63,6 +63,9 @@
                 url: form.attr('action'),
                 type: form.attr('method'),
                 datatype: 'xml',
+                multipart: true,
+                maxChunkSize: 10000000,
+
                 autoUpload: true,
                 add: function (event, data) {
                     window.onbeforeunload = function () {
