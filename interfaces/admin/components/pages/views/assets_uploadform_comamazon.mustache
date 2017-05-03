@@ -42,13 +42,11 @@
 
     <form accept-charset="UTF-8" id="file_upload" method="post" class="direct-upload novalidate" action="{{upload_url}}" enctype="multipart/form-data">
         {{{inputs}}}
-        <input type="hidden" name="Content-Type">
         <div class="progress-bar-area"></div>
         <input type="file" name="file" />
     </form>
 
     <script src="{{www_path}}/ui/default/assets/scripts/jquery.fileupload.js"></script>
-
     <script type="text/javascript">
         $(function() {
             var filename, file, filekey, connectionId, finalizeUrl;
@@ -67,12 +65,10 @@
                 datatype: 'xml',
                 autoUpload: true,
                 add: function (event, data) {
-                    // Show warning message if your leaving the page during an upload.
                     window.onbeforeunload = function () {
                         return 'You have unsaved changes.';
                     };
-                    // Give the file which is being uploaded it's current content-type (It doesn't retain it otherwise)
-                    // and give it a unique name (so it won't overwrite anything already on s3).
+
                     filename = data.files[0].name;
                     file = data.files[0];
 
@@ -81,25 +77,19 @@
                     filename = filename.replace(/[^a-zA-Z0-9.\-\_]+/g, '').toLowerCase();
                     filekey = timestamp + "/" + filename;
 
-                    form.find('input[name="Content-Type"]').val("application/force-download");
                     form.find('input[name="Content-Disposition"]').val("attachment; filename="+filename);
                     form.find('input[name="key"]').val(filekey);
                     // Actually submit to form to S3.
                     data.submit();
-                    // Show the progress bar
-                    // Uses the file size as a unique identifier
                     var bar = $('<div class="progress" data-mod="' + file.size + '"><div class="bar"></div></div>');
                     $('.progress-bar-area').append(bar);
                     bar.slideDown('fast');
                 },
                 progress: function (e, data) {
-                    // This is what makes everything really cool, thanks to that callback
-                    // you can now update the progress bar based on the upload progress.
                     var percent = Math.round((data.loaded / data.total) * 100);
                     $('.progress[data-mod="' + data.files[0].size + '"] .bar').css('width', percent + '%').html(percent + '%');
                 },
                 fail: function (e, data) {
-                    // Remove the 'unsaved changes' message.
                     window.onbeforeunload = null;
                     $('.progress[data-mod="' + data.files[0].size + '"] .bar').css('width', '100%').addClass('red').html('');
                 },
@@ -109,7 +99,6 @@
                     $('.upload-corral').fadeOut();
                     $('#asset_location').val("{{bucketname}}" + "/" + filekey);
 
-                    // IF PARENT FORM HAS .autosubmit then submit that shit
                     var parentForm = $('#asset_location').closest('form');
                     if (parentForm.hasClass('autosubmit')) {
                         parentForm.submit();
