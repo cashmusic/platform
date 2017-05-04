@@ -81,12 +81,6 @@ if (!empty($_FILES)) {
         }
     }
 
-/*    if (count($email_array) > 0) {
-        AdminHelper::formSuccess('Success. Added ' . $total_added . ' new people.','/people/lists/view/' . $request_parameters[0]);
-    } else {
-        AdminHelper::formFailure('Error. There was a problem adding new people.','/people/lists/view/' . $request_parameters[0]);
-    }*/
-
     if (count($email_array) > 0) {
         echo '{"success":"true"}';
     } else {

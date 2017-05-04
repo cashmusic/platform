@@ -1,6 +1,15 @@
 <?php
 if ($request_parameters) {
 	$request_list_id = $request_parameters[0];
+
+    if (!empty($_POST['status'])) {
+        if ($_POST['status'] == "success") {
+            AdminHelper::formSuccess('Success. Added bulk emails from upload.');
+        } else {
+            AdminHelper::formFailure('Error. There was a problem importing your file.');
+        }
+    }
+
 	$current_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'people', 
