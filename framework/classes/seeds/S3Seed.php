@@ -457,7 +457,8 @@ class S3Seed extends SeedBase {
 			$this->bucket_region,
             [
             	'acl'=>$acl,
-				'max_file_size'=>5000
+				'max_file_size'=>5000,
+				'expires'=>'+1 days'
 				]
 		);
         $cool = [
