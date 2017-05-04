@@ -184,8 +184,6 @@ if ($cash_admin->page_data['type'] == 'file') {
         $cash_admin->page_data['fulfillment_assets'] = new ArrayIterator($fulfillment_request->response['payload']);
     }
 
-	error_log(json_encode($cash_admin->page_data['fulfillment_assets']));
-
 	// set the view
 	$cash_admin->setPageContentTemplate('assets_details_file');
 } else if ($cash_admin->page_data['type'] == 'release') {
