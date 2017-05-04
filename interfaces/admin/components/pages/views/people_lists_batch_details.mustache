@@ -1,7 +1,7 @@
 {{! corresponding files: people_lists_batch_edit.php & people_lists_batch_edit.json }}
-<h4>Batch add contacts</h4>
+<h4>Manually add contacts</h4>
 <div class="pure-u-1">
-	<div class="pure-u-1-2">
+	<div class="pure-u-1-1">
 
         <form enctype="multipart/form-data" accept-charset="UTF-8" name="batchaddcontacts" method="post" action="{{www_path}}/people/lists/batch/upload/{{list_id}}">
             <input type="hidden" name="dobatchcontactsadd" value="makeitso" />
@@ -11,13 +11,16 @@
         </form>
     </div>
 
-    <div class="pure-u-1-2">
-        <p>Alternatively upload a text file of emails in comma separated or list format</p>
+    <div class="pure-u-1-1">
+        <p>&nbsp;</p>
+        <hr>
+        <p>&nbsp;</p>
+        <h4>Upload file of contacts</h4>
+        <p>Alternatively you can upload a text file of emails in comma separated or list format.</p>
         <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/people/lists/batch/upload/{{list_id}}" name="import_csv" id="file_upload">
             <label for="csv_upload">Select file</label>
             <input type="hidden" name="dobatchcontactsadd" value="makeitso" />
-            <input type="file" name="element_upload" accept=".csv, .txt, text/plain"/>
-
+            <input type="file" name="element_upload" accept=".csv, .txt, text/plain" required class="required"/>
 
             <!--<button type="submit">Import file</button>-->
         </form>
@@ -31,11 +34,29 @@
             $(function() {
 
                 window.filecount = 0;
+                var uploadButton = $('<button/>')
+                        .addClass('button')
+                        .prop('disabled', true)
+                        .text('Processing...')
+                        .on('click', function () {
+                            var $this = $(this),
+                                    data = $this.data();
+                            $this
+                                    .off('click')
+                                    .text('Abort')
+                                    .on('click', function () {
+                                        $this.remove();
+                                        data.abort();
+                                    });
+                            data.submit().always(function () {
+                                $this.remove();
+                            });
+                        });
 
                 $('#file_upload').fileupload({
                     singleFileUploads: true,
                     sequentialUploads: false,
-                    autoUpload: true,
+                    autoUpload: false,
 
                     add: function (e, data) {
                         // remember the filename and submit
@@ -69,12 +90,15 @@
                         setTimeout(function() {
                             $('#loadingmask').css('width','1%');
                             $("#status_form").submit();
-                            }, 2000);
+                        }, 2000);
 
 
                         //$("#file_upload").submit();
                         //$('.process-import').removeClass("disabled");
                     }
+                }).on('fileuploadadd', function (e, data) {
+                    $("#file_upload").append('<br>')
+                            .append(uploadButton.clone(true).data(data));
                 });
             });
         </script>
