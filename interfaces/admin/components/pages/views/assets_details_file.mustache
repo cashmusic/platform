@@ -40,7 +40,16 @@
 			<span class="file-security spacedtext">
 					<a href="#" data-publicize-endpoint="{{{www_path}}}/ajax/publicizeasset/{{id}}" class="usecolor2 needsconfirmation"><strong>{{copy_make_public}}</strong></a>
 			</span><!--file-security-->
-			{{/show_make_public}}</label>
+			{{/show_make_public}}
+
+                <span style="float:right;">
+                    {{#fulfillment_assets}}
+                        <a target="_blank" href="{{public_url}}/request?cash_request_type=asset&cash_action=claim&id={{id}}&element_id={{element_id}}&session_id={{session_id}}" class="download">Test</a>
+                    {{/fulfillment_assets}}
+
+                </span>
+            </label>
+
 			<input class="required" type="text" id="asset_location" name="asset_location" value="{{location}}" />
 		</div><!--pure-->
 
@@ -50,7 +59,9 @@
 
 		<div class="drawer noprefix upload-corral">
 		{{#show_make_public}}<p class="file-upload-trigger">Sorry, you can't currently overwrite a private file</p>{{/show_make_public}}
+
 				{{^show_make_public}}<a href="#" data-upload-endpoint="{{{www_path}}}/assets/uploadform/" class="drawerhandle usecolor2 file-upload-trigger"><span class="icon icon-cloud-upload"></span><!--icon--><span>{{copy_upload_a_file}}</span></a>{{/show_make_public}}
+
 			<div class="drawercontent"></div>
 		</div>
 	</form>
