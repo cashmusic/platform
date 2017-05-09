@@ -694,7 +694,6 @@
 			if ($override_template) {
 				$encoded_html = $message_text;
 			}
-
 		}
 
 		$message_html = $encoded_html;
@@ -707,7 +706,6 @@
 		}
 
 		if ($seed) {
-
 			try {
                 if ($result = $seed->send(
                     $subject,
@@ -1201,6 +1199,37 @@
         }
 
         return array($setname, $fromaddress);
+    }
+
+    /**
+     * @return array
+     */
+    public static function parseBulkEmailInput($input)
+    {
+// give some leeway for spaces between commas, and also newlines will work
+        $email_array = preg_split("/\s*[:,\s]\s*/", trim($input), -1, PREG_SPLIT_NO_EMPTY);
+        $email_array = array_unique($email_array);
+        if (count($email_array) > 0) {
+            return $email_array;
+        }
+
+        return false;
+    }
+
+    public static function searchArrayMulti($array, $key, $value) {
+        $results = array();
+
+        if (is_array($array)) {
+            if (isset($array[$key]) && $array[$key] == $value) {
+                $results[] = $array;
+            }
+
+            foreach ($array as $subarray) {
+                $results = array_merge($results, self::searchArrayMulti($subarray, $key, $value));
+            }
+        }
+
+        return $results;
     }
 } // END class
 ?>

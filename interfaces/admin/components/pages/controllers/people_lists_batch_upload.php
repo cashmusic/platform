@@ -1,27 +1,12 @@
 <?php
 
-/**
- * @return array
- */
-function parseBulkEmailInput($input)
-{
-// give some leeway for spaces between commas, and also newlines will work
-    $email_array = preg_split("/\s*[:,\s]\s*/", trim($input), -1, PREG_SPLIT_NO_EMPTY);
-    $email_array = array_unique($email_array);
-    if (count($email_array) > 0) {
-        return $email_array;
-    }
-
-    return false;
-}
-
 // process uploads and shit
 if (!empty($_FILES)) {
 
     $total_added = 0;
     $uploaded_emails = file_get_contents($_FILES['element_upload']['tmp_name']);
 
-    $email_array = parseBulkEmailInput($uploaded_emails);
+    $email_array = CASHSystem::parseBulkEmailInput($uploaded_emails);
 
     if (count($email_array) > 50000) {
         $email_array_chunks = array_chunk($email_array, 50000);

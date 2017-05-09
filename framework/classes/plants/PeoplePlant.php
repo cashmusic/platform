@@ -42,6 +42,7 @@ class PeoplePlant extends PlantBase {
 			'getlistsforuser'        => array('getListsForUser','direct'),
 			'getlist'                => array('getList',array('direct','api_key')),
 			'getmailing'             => array('getMailing','direct'),
+			'getmailingmetadata'	 => array('getMailingMetaData', 'direct'),
 			'getmailinganalytics'    => array('getMailingAnalytics','direct'),
 			'getrecentactivity'      => array('getRecentActivity','direct'),
 			'getuser'                => array('getUser','direct'),
@@ -1259,7 +1260,7 @@ class PeoplePlant extends PlantBase {
 	 *
 	 * @return bool
 	 */
-	protected function addMailing($user_id,$list_id,$connection_id,$subject,$template_id=0,$html_content='',$text_content='',$from_name='') {
+	protected function addMailing($user_id,$list_id,$connection_id,$subject,$template_id=0,$html_content='',$text_content='',$from_name='',$asset=false) {
 		// insert
 		$result = $this->db->setData(
 			'mailings',
@@ -1275,6 +1276,12 @@ class PeoplePlant extends PlantBase {
 				'send_date' => 0
 			)
 		);
+
+		// asset metadata
+		if ($asset) {
+            $this->setMetaData("people",$result,$user_id,"asset_id",$asset);
+		}
+
 		if ($result) {
 			// setup analytics for this mailing
 			$this->db->setData(
@@ -1352,7 +1359,16 @@ class PeoplePlant extends PlantBase {
 		}
 	}
 
-	protected function sendMailing($mailing_id,$user_id=false) {
+	protected function getMailingMetaData($mailing_id, $user_id=false) {
+        $result = $this->getMetaData("people",$mailing_id,$user_id,"asset_id");
+
+        if ($result) {
+        	return $result;
+		} else {
+        	return false;
+		}
+	}
+	protected function sendMailing($mailing_id,$user_id=false,$asset=false) {
 		$mailing = $this->getMailing($mailing_id,$user_id);
 		if ($mailing) {
 			if ($mailing['send_date'] == 0) {
@@ -1375,6 +1391,22 @@ class PeoplePlant extends PlantBase {
 
 				$list_details = $list_request->response['payload'];
 
+                $merge_vars = [];
+
+                // if there's an asset id we need to look it up and pass for global merge vars
+                if ($asset) {
+                    // lookup asset details
+                    $asset_request = new CASHRequest(
+                        array(
+                            'cash_request_type' => 'asset',
+                            'cash_action' => 'getasset',
+                            'id' => $asset,
+                            'user_id' => $mailing['user_id']
+                        )
+                    );
+                }
+
+
 				if (is_array($list_details)) {
 					$recipients = array();
 					foreach ($list_details['members'] as $subscriber) {
@@ -1391,6 +1423,22 @@ class PeoplePlant extends PlantBase {
 								)
 							);
 						}
+
+                        if ($asset_request->response['payload']) {
+
+                            $merge_vars[] = [
+                                'rcpt' => $subscriber['email_address'],
+                                'vars' => [
+                                    [
+                                        'name' => 'assetbutton',
+                                        'content' => "<a href='".
+                                            $asset_request->response['payload']['location'].
+                                            "' class='button'>".
+                                            htmlentities($asset_request->response['payload']['title']).'</a>'
+                                    ]
+                                ]
+                            ];
+                        }
 					}
 
 					$user_request = new CASHRequest(
@@ -1412,8 +1460,8 @@ class PeoplePlant extends PlantBase {
 						$recipients,
 						$mailing['html_content'], // message body
 						$mailing['subject'], // message subject
-						[],
-						[], // local merge vars (per email)
+                        [],
+						$merge_vars, // local merge vars (per email)
 						false,
 						true,
 						true,
@@ -1663,7 +1711,7 @@ class PeoplePlant extends PlantBase {
 		}
 	}
 
-	protected function buildMailingContent($template_id, $html_content, $title, $subject, $template="user_email") {
+	protected function buildMailingContent($template_id, $html_content, $title, $subject, $template="user_email", $asset=false) {
 
 		// use default template
 		if ($template_id == 'default') {
@@ -1671,6 +1719,12 @@ class PeoplePlant extends PlantBase {
 			$html_content = CASHSystem::parseMarkdown($html_content);
 
 			if ($template = CASHSystem::setMustacheTemplate($template)) {
+
+				if ($asset) {
+					$template = str_replace('$ASSET$', '*|ASSETBUTTON|*', $template);
+				} else {
+					$template = str_replace('$ASSET$', '', $template);
+				}
 
 				// render the mustache template and return
 				$html_content = CASHSystem::renderMustache(

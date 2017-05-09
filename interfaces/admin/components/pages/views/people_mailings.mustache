@@ -18,12 +18,10 @@
 </header>
 	<form method="post" action="/admin/people/mailings" id="mass_mailing">
 		<input type="hidden" name="action" id="action" value="">
+        <label for="mail_subject">{{label_mail_subject}}</label>
+        <input class="required" type="text" id="mail_subject" name="mail_subject" value="{{subject}}"/>
 
-		
-			<label for="mail_subject">{{label_mail_subject}}</label>
-			<input class="required" type="text" id="mail_subject" name="mail_subject" value="{{subject}}"/>
-			
-
+		    <div class="pure-g">
 			<div class="pure-u-1 pure-u-md-1-2">
 				<label for="mail_from">{{{label_from_name}}} <strong>{{email_address}}</strong>)</label>
 				<input class="required" type="text" id="mail_from" name="mail_from" value="{{mail_from}}"/>
@@ -36,24 +34,33 @@
 					<option value="none">{{copy_no_template}}</option>
 				</select>
 			</div><!--pure-->
+            </div>
 			
-			<div class="pure-u-1 pure-u-md-1-2">
-				<label for="email_list_id">{{label_send_to_list}}</label>
-				<select id="email_list_id" name="email_list_id">
-					{{{options_people_lists}}}
-				</select>
-			</div><!--pure-->
-			<div class="pure-u-1 pure-u-md-1-2">
-				<label for="connection_id">{{label_use_mass}}</label>
-				<select id="connection_id" name="connection_id">
-					{{{connection_options}}}
-				</select>
-			</div><!--pure-->
+			<div class="pure-g">
+                <div class="pure-u-1 pure-u-md-1-3">
+                    <label for="email_list_id">{{label_send_to_list}}</label>
+                    <select id="email_list_id" name="email_list_id">
+                        {{{options_people_lists}}}
+                    </select>
+                </div><!--pure-->
+
+                <div class="pure-u-1 pure-u-md-1-3">
+                    <label for="connection_id">{{label_use_mass}}</label>
+                    <select id="connection_id" name="connection_id">
+                        {{{connection_options}}}
+                    </select>
+                </div><!--pure-->
+
+                <div class="pure-u-1 pure-u-md-1-3">
+                    <label for="attached_asset">Attach asset</label>
+                    <select id="attached_asset" name="attached_asset">
+                        {{{asset_options}}}
+                    </select>
+                </div>
+            </div>
 
 				<label for="html_content">{{label_message}}<span class="tooltip" data-tooltip="The message will be formatted as HTML using Markdown, and added to a template. You can use HTML and Markdown to control content.">(markdown/html allowed)</span></label>
 				<textarea class="required taller" rows="3" id="html_content" name="html_content">{{html_content}}</textarea>
-		
-
 			<div id="settings-drawer" class="drawer material pure-u-1">
 
 	<h5 class="drawerhandle hide title"><div class="icon icon-airplane"></div><!--icon--><span>{{copy_test_message_title}}</span></h5>

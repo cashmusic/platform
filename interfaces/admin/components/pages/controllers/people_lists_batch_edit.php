@@ -22,7 +22,7 @@ if (isset($_POST['dolistedit'])) {
 if (isset($_POST['dobatchcontactsadd'])) {
     if (!empty($_POST['element_content'])) {
 
-        $email_array = parseBulkEmailInput($_POST['element_content']);
+        $email_array = CASHSystem::parseBulkEmailInput($_POST['element_content']);
 
         $total_added = 0;
         foreach ($email_array as $address) {
@@ -38,6 +38,12 @@ if (isset($_POST['dobatchcontactsadd'])) {
             if ($add_response['payload']) {
                 $total_added++;
             }
+        }
+
+        if ($total_added > 0) {
+            AdminHelper::formSuccess('Success. Added '.$total_added." contacts.", '/admin/people/lists/view/'.$request_parameters[0]);
+        } else {
+            AdminHelper::formFailure('Error. There was a problem adding contacts.', '/admin/people/lists/view/'.$request_parameters[0]);
         }
     }
 }

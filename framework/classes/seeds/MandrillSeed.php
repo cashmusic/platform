@@ -204,9 +204,20 @@ class MandrillSeed extends SeedBase {
 		$sender = CASHSystem::parseEmailAddress($email_settings['systememail']);
 		$sender_email = $this->api_email ? $this->api_email : key($sender);
 
+		$merged_vars = [];
+
 		if (!empty($merge_vars)) {
 			if (!empty($recipient_merge_vars)) {
-				$merge_vars = array_merge($merge_vars, $recipient_merge_vars);
+				foreach($merge_vars as $merge_var) {
+					$value = $merge_var['rcpt'];
+
+					$unsubscribe_vars = CASHSystem::searchArrayMulti($recipient_merge_vars, "rcpt", $value);
+
+                    $merge_var['vars'] = array_merge($unsubscribe_vars[0]['vars'], $merge_var['vars']);
+					$merged_vars[] = $merge_var;
+				}
+
+				$merge_vars = $merged_vars;
 			}
 		} else {
 			$merge_vars = $recipient_merge_vars;
