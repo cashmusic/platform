@@ -25,7 +25,6 @@ class AssetPlant extends PlantBase {
 			'addasset'                => array('addAsset','direct'),
 			'addlockcode'             => array('addLockCode','direct'),
 			'claim'                   => array('redirectToAsset',array('get','post','direct')),
-            'claimnoredirect'                   => array('returnAssetUrl',array('get','post','direct')),
 			'deleteasset'             => array('deleteAsset','direct'),
 			'editasset'               => array('editAsset','direct'),
 			'finalizeupload'          => array('finalizeUpload','direct'),
@@ -179,19 +178,20 @@ class AssetPlant extends PlantBase {
 		return $result;
 	}
 
-	protected function getAssetFromUnlockCode($scope_table_alias, $scope_table_id, $session_id) {
+	protected function getAssetFromUnlockCode($scope_table_alias, $scope_table_id) {
+
+        $session = CASHSystem::startSession();
+		$session_id = $session['id'];
+
 		$asset = $this->getAllMetaData($scope_table_alias,$scope_table_id,'asset_id');
 
 		if (!empty($asset['asset_id'])) {
-			$stored_asset = $this->getStoredAssets($asset['asset_id'], 'fulfillment', $session_id);
-
-			if(count($stored_asset) > 0) {
-                $asset_url = $this->returnAssetUrl($asset['asset_id'], 0, $session_id);
-
-                error_log(print_r($asset_url, true));
+			if ($this->unlockAsset($asset['asset_id'],$session_id)) {
+				return $this->redirectToAsset($asset['asset_id'],0,$session_id, true);
 			} else {
 				return false;
 			}
+
 
 
 		} else {
@@ -601,7 +601,6 @@ class AssetPlant extends PlantBase {
 		if (is_array($connection_type)) {
 			$seed_type = $connection_type['seed'];
 			$seed = new $seed_type($user_id,$connection_id);
-
 			return $seed->getExpiryURL($asset_location);
 		} else {
 			if ($asset_location) {
@@ -635,7 +634,7 @@ class AssetPlant extends PlantBase {
 	 *
 	 * @param {integer} $id - the asset you are trying to retrieve
 	 * @return string
-	 */protected function redirectToAsset($id,$element_id=0,$session_id=false) {
+	 */protected function redirectToAsset($id,$element_id=0,$session_id=false, $return_only=false) {
 		if ($this->getUnlockedStatus($id,$session_id)) {
 			$asset = $this->getAssetInfo($id);
 
@@ -644,11 +643,17 @@ class AssetPlant extends PlantBase {
 				$asset['user_id'],
 				$asset['location']
 			);
+
 			if ($final_asset_location !== false) {
 				$this->pushSuccess(array('asset' => $id),'redirect executed successfully');
 				$this->recordAnalytics($id,$element_id);
-				CASHSystem::redirectToUrl($final_asset_location);
-				die();
+				if (!$return_only) {
+                    CASHSystem::redirectToUrl($final_asset_location);
+                    die();
+				} else {
+					return $final_asset_location;
+				}
+
 			} else {
 				return $this->response->pushResponse(
 					500,$this->request_type,$this->action,
@@ -657,39 +662,17 @@ class AssetPlant extends PlantBase {
 				);
 			}
 		} else {
-			// fail back to the default embed with an error string
-			CASHSystem::redirectToUrl(CASH_PUBLIC_URL . '/request/embed/' . $element_id . '?redirecterror=1&session_id=' . $session_id);
-			die();
+
+			if (!$return_only) {
+                // fail back to the default embed with an error string
+                CASHSystem::redirectToUrl(CASH_PUBLIC_URL . '/request/embed/' . $element_id . '?redirecterror=1&session_id=' . $session_id);
+                die();
+			} else {
+				return false;
+			}
+
 		}
 	}
-
-    protected function returnAssetUrl($id,$element_id=0,$session_id=false) {
-        if ($this->getUnlockedStatus($id,$session_id)) {
-            $asset = $this->getAssetInfo($id);
-
-            $final_asset_location = $this->getFinalAssetLocation(
-                $asset['connection_id'],
-                $asset['user_id'],
-                $asset['location']
-            );
-            if ($final_asset_location !== false) {
-                $this->pushSuccess(array('asset' => $id),'redirect executed successfully');
-                $this->recordAnalytics($id,$element_id);
-                CASHSystem::redirectToUrl($final_asset_location);
-                die();
-            } else {
-                return $this->response->pushResponse(
-                    500,$this->request_type,$this->action,
-                    $this->request,
-                    'unknown asset type, please as an admin to check the asset type'
-                );
-            }
-        } else {
-            // fail back to the default embed with an error string
-            CASHSystem::redirectToUrl(CASH_PUBLIC_URL . '/request/embed/' . $element_id . '?redirecterror=1&session_id=' . $session_id);
-            die();
-        }
-    }
 
 	protected function getUploadParameters($connection_id,$user_id,$acl=false) {
 		$connection = $this->getConnectionDetails($connection_id);
