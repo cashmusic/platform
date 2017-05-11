@@ -25,6 +25,7 @@ class AssetPlant extends PlantBase {
 			'addasset'                => array('addAsset','direct'),
 			'addlockcode'             => array('addLockCode','direct'),
 			'claim'                   => array('redirectToAsset',array('get','post','direct')),
+            'claimnoredirect'                   => array('returnAssetUrl',array('get','post','direct')),
 			'deleteasset'             => array('deleteAsset','direct'),
 			'editasset'               => array('editAsset','direct'),
 			'finalizeupload'          => array('finalizeUpload','direct'),
@@ -34,6 +35,7 @@ class AssetPlant extends PlantBase {
 			'getassetsforconnection'  => array('getAssetsForConnection','direct'),
 			'getassetsforparent'      => array('getAssetsForParent','direct'),
 			'getassetsforuser'        => array('getAssetsForUser','direct'),
+			'getassetfromunlockcode'  => array('getAssetFromUnlockCode', 'direct'),
 			'getasseturl'             => array('getFinalAssetLocation','direct'),
 			'getfulfillmentassets'    => array('getStoredAssets','direct'),
 			'getuploadparameters'     => array('getUploadParameters','direct'),
@@ -175,6 +177,27 @@ class AssetPlant extends PlantBase {
 		}
 
 		return $result;
+	}
+
+	protected function getAssetFromUnlockCode($scope_table_alias, $scope_table_id, $session_id) {
+		$asset = $this->getAllMetaData($scope_table_alias,$scope_table_id,'asset_id');
+
+		if (!empty($asset['asset_id'])) {
+			$stored_asset = $this->getStoredAssets($asset['asset_id'], 'fulfillment', $session_id);
+
+			if(count($stored_asset) > 0) {
+                $asset_url = $this->returnAssetUrl($asset['asset_id'], 0, $session_id);
+
+                error_log(print_r($asset_url, true));
+			} else {
+				return false;
+			}
+
+
+		} else {
+			return false;
+		}
+
 	}
 
 	/**
@@ -639,6 +662,34 @@ class AssetPlant extends PlantBase {
 			die();
 		}
 	}
+
+    protected function returnAssetUrl($id,$element_id=0,$session_id=false) {
+        if ($this->getUnlockedStatus($id,$session_id)) {
+            $asset = $this->getAssetInfo($id);
+
+            $final_asset_location = $this->getFinalAssetLocation(
+                $asset['connection_id'],
+                $asset['user_id'],
+                $asset['location']
+            );
+            if ($final_asset_location !== false) {
+                $this->pushSuccess(array('asset' => $id),'redirect executed successfully');
+                $this->recordAnalytics($id,$element_id);
+                CASHSystem::redirectToUrl($final_asset_location);
+                die();
+            } else {
+                return $this->response->pushResponse(
+                    500,$this->request_type,$this->action,
+                    $this->request,
+                    'unknown asset type, please as an admin to check the asset type'
+                );
+            }
+        } else {
+            // fail back to the default embed with an error string
+            CASHSystem::redirectToUrl(CASH_PUBLIC_URL . '/request/embed/' . $element_id . '?redirecterror=1&session_id=' . $session_id);
+            die();
+        }
+    }
 
 	protected function getUploadParameters($connection_id,$user_id,$acl=false) {
 		$connection = $this->getConnectionDetails($connection_id);

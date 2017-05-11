@@ -1279,7 +1279,7 @@ class PeoplePlant extends PlantBase {
 
 		// asset metadata
 		if ($asset) {
-            $this->setMetaData("people",$result,$user_id,"asset_id",$asset);
+            $this->setMetaData("mailings",$result,$user_id,"asset_id",$asset);
 		}
 
 		if ($result) {
@@ -1360,7 +1360,7 @@ class PeoplePlant extends PlantBase {
 	}
 
 	protected function getMailingMetaData($mailing_id, $user_id=false) {
-        $result = $this->getMetaData("people",$mailing_id,$user_id,"asset_id");
+        $result = $this->getMetaData("mailings",$mailing_id,$user_id,"asset_id");
 
         if ($result) {
         	return $result;
@@ -1404,11 +1404,43 @@ class PeoplePlant extends PlantBase {
                             'user_id' => $mailing['user_id']
                         )
                     );
-                }
 
+                    if ($asset_request->response['payload']) {
+
+                        $add_code_request = new CASHRequest(
+                            array(
+                                'cash_request_type' => 'system',
+                                'cash_action' => 'addbulklockcodes',
+                                'scope_table_alias' => 'mailings',
+                                'scope_table_id' => $mailing_id,
+								'user_id' => $mailing['user_id'],
+								'count' => count($list_details['members'])
+                            )
+                        );
+
+						if ($add_code_request) {
+
+                            $get_code_request = new CASHRequest(
+                                array(
+                                    'cash_request_type' => 'system',
+                                    'cash_action' => 'getlockcodes',
+                                    'scope_table_alias' => 'mailings',
+                                    'scope_table_id' => $mailing_id,
+                                    'user_id' => $mailing['user_id']
+                                )
+                            );
+
+                            if (is_array($get_code_request->response['payload'])) {
+                                $codes = array_column($get_code_request->response['payload'], 'uid');
+							}
+						}
+
+                    }
+                }
 
 				if (is_array($list_details)) {
 					$recipients = array();
+
 					foreach ($list_details['members'] as $subscriber) {
 						if ($subscriber['active']) {
 							if ($subscriber['display_name'] == 'Anonymous' || $subscriber['display_name'] == '') {
@@ -1424,15 +1456,19 @@ class PeoplePlant extends PlantBase {
 							);
 						}
 
-                        if ($asset_request->response['payload']) {
-
+						// there's a valid asset
+                        if ($asset_request->response['payload'] && !empty($codes) && is_array($codes)) {
+							
+							$code = array_pop($codes);
                             $merge_vars[] = [
                                 'rcpt' => $subscriber['email_address'],
                                 'vars' => [
                                     [
                                         'name' => 'assetbutton',
-                                        'content' => "<a href='".
-                                            $asset_request->response['payload']['location'].
+                                        'content' => "<a href='".CASH_PUBLIC_URL .
+                                        '/request/html?cash_request_type=system&cash_action=redeemlockcode&list_id=' .
+                                            $mailing['list_id'] .
+                                        "&address=".$subscriber['email_address']."&code=$code&handlequery=1".
                                             "' class='button'>".
                                             htmlentities($asset_request->response['payload']['title']).'</a>'
                                     ]
@@ -1454,6 +1490,7 @@ class PeoplePlant extends PlantBase {
 						$mailing['from_name'] = $user_details['email_address'];
 					}
 
+					//TODO: we need to break this array into chunks of 1000
 					if (CASHSystem::sendMassEmail(
 						$user_id,
 						$mailing['subject'],

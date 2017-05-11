@@ -131,6 +131,33 @@ if (!isset($_REQUEST['nooutput'])) {
 				$template = file_get_contents(dirname(__FILE__) . '/templates/system.mustache');
 				if (isset($output['response'])) {
 					$embed_data = $output['response'];
+
+					// if this is a download redemption
+					if ($embed_data['status_code'] == "200" && $embed_data['status_uid'] == "system_redeemlockcode_200") {
+
+						$session = new CASHRequest();
+						$session->startSession();
+						error_log(print_r($session, true));
+                        $fulfillment_request = new CASHRequest(
+                            array(
+                                'cash_request_type' => 'asset',
+                                'cash_action' => 'getassetfromunlockcode',
+                                'scope_table_alias' => $embed_data['payload']['scope_table_alias'],
+                                'scope_table_id' => $embed_data['payload']['scope_table_id'],
+								'session_id' => $session->session_id
+                            )
+                        );
+
+                        if ($asset = $fulfillment_request->response['payload']) {
+
+						} else {
+                            $embed_data = array(
+                                'action' => 'Download not found',
+                                'contextual_message' => 'There was an error processing your download request.'
+                            );
+						}
+					}
+
 				} else {
 					$embed_data = array(
 						'action' => 'Request not found',
