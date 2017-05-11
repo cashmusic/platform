@@ -143,13 +143,14 @@ if (!isset($_REQUEST['nooutput'])) {
                             )
                         );
 
-                        if ($asset_uri = $fulfillment_request->response['payload']) {
-                        	header("Location: ".$asset_uri);
-                            /*$embed_data = array(
+                        if ($asset = $fulfillment_request->response['payload']) {
+                        	/*header("Location: ".$asset_uri);
+                            die();*/
+                            $embed_data = array(
                                 'contextual_name' => 'Your Download',
-                                'contextual_message' => '<a class="button" href="'.$asset_uri.'">Download</a> your file'
-                            );*/
-                            die();
+                                'contextual_message' => '<a class="button cm-subscribe" href="'.$asset['uri'].'">Download '.htmlentities($asset['name']).'</a>'
+                            );
+
 
 						} else {
                             $embed_data = array(

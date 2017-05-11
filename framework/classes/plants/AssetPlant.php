@@ -187,7 +187,14 @@ class AssetPlant extends PlantBase {
 
 		if (!empty($asset['asset_id'])) {
 			if ($this->unlockAsset($asset['asset_id'],$session_id)) {
-				return $this->redirectToAsset($asset['asset_id'],0,$session_id, true);
+
+                $asset_details = $this->getAssetInfo($asset['asset_id']);
+
+				return [
+					'uri'=>"/request/?cash_request_type=asset&cash_action=claim&id=".$asset['asset_id']."&element_id=&session_id=".$session_id,
+					'name'=>$asset_details['title']
+				];
+				//$this->redirectToAsset($asset['asset_id'],0,$session_id, true);
 			} else {
 				return false;
 			}
