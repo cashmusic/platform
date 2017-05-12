@@ -5,9 +5,10 @@
 		"com.mailchimp",
 		"com.paypal",
 		"com.twitter",
-		"com.stripe"
+		"com.stripe",
+		"com.mandrillapp"
 	],
 	"beta":[
-		"com.mandrillapp"
+
 	]
 }
