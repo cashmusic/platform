@@ -1469,7 +1469,7 @@ class PeoplePlant extends PlantBase {
                                         '/request/html?cash_request_type=system&cash_action=redeemlockcode&list_id=' .
                                             $mailing['list_id'] .
                                         "&address=".$subscriber['email_address']."&code=$code&handlequery=1".
-                                            "' class='button'>".
+                                            "' class='button'>Download ".
                                             htmlentities($asset_request->response['payload']['title']).'</a>'
                                     ]
                                 ]

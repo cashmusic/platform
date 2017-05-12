@@ -148,7 +148,7 @@ if (!isset($_REQUEST['nooutput'])) {
                             die();*/
                             $embed_data = array(
                                 'contextual_name' => 'Your Download',
-                                'contextual_message' => '<a class="button cm-subscribe" href="'.$asset['uri'].'">Download '.htmlentities($asset['name']).'</a>'
+                                'contextual_message' => '<p>Click the link below to download. Keep in mind if this is a ZIP file, mobile devices have limited support for opening archives.</p><a class="cm-download-button" href="'.$asset['uri'].'">Download '.htmlentities($asset['name']).'</a><p><small>For all questions contact the vendor that sent this download.</small></p>'
                             );
 
 
