@@ -1438,82 +1438,156 @@ class PeoplePlant extends PlantBase {
                     }
                 }
 
+                // get from details
+                $user_request = new CASHRequest(
+                    array(
+                        'cash_request_type' => 'people',
+                        'cash_action' => 'getuser',
+                        'user_id' => $mailing['user_id']
+                    )
+                );
+                $user_details = $user_request->response['payload'];
+
+                if (!$mailing['from_name']) {
+                    $mailing['from_name'] = $user_details['email_address'];
+                }
+
+                // build recipient arrays
 				if (is_array($list_details)) {
-					$recipients = array();
+					$recipients = [];
+                    $merge_vars = [];
+					$success = true;
 
-					foreach ($list_details['members'] as $subscriber) {
-						if ($subscriber['active']) {
-							if ($subscriber['display_name'] == 'Anonymous' || $subscriber['display_name'] == '') {
-								$subscriber['display_name'] = $subscriber['email_address'];
-							}
-							$recipients[] = array(
-								'email' => $subscriber['email_address'],
-								'name' => $subscriber['display_name'],
-                                'type' => 'to',
-								'metadata' => array(
-									'user_id' => $subscriber['id']
-								)
-							);
-						}
+					if (count($list_details['members']) > 2) {
 
-						// there's a valid asset
-                        if ($asset_request->response['payload'] && !empty($codes) && is_array($codes)) {
-							
-							$code = array_pop($codes);
-                            $merge_vars[] = [
-                                'rcpt' => $subscriber['email_address'],
-                                'vars' => [
-                                    [
-                                        'name' => 'assetbutton',
-                                        'content' => "<a href='".CASH_PUBLIC_URL .
-                                        '/request/html?cash_request_type=system&cash_action=redeemlockcode&list_id=' .
-                                            $mailing['list_id'] .
-                                        "&address=".$subscriber['email_address']."&code=$code&handlequery=1".
-                                            "' class='button'>Download ".
-                                            htmlentities($asset_request->response['payload']['title']).'</a>'
-                                    ]
-                                ]
-                            ];
+                        $recipients_chunked = array_chunk($list_details['members'], 2);
+                        foreach($recipients_chunked as $members) {
+                            // reset these every time or you'll get doubles, or worse
+                            $recipients = [];
+                            $merge_vars = [];
+                            foreach ($members as $subscriber) {
+                                if ($subscriber['active']) {
+                                    if ($subscriber['display_name'] == 'Anonymous' || $subscriber['display_name'] == '') {
+                                        $subscriber['display_name'] = $subscriber['email_address'];
+                                    }
+                                    $recipients[] = array(
+                                        'email' => $subscriber['email_address'],
+                                        'name' => $subscriber['display_name'],
+                                        'type' => 'to',
+                                        'metadata' => array(
+                                            'user_id' => $subscriber['id']
+                                        )
+                                    );
+                                }
+
+                                // there's a valid asset
+                                if ($asset_request->response['payload'] && !empty($codes) && is_array($codes)) {
+
+                                    $code = array_pop($codes);
+                                    $merge_vars[] = [
+                                        'rcpt' => $subscriber['email_address'],
+                                        'vars' => [
+                                            [
+                                                'name' => 'assetbutton',
+                                                'content' => "<a href='".CASH_PUBLIC_URL .
+                                                    '/request/html?cash_request_type=system&cash_action=redeemlockcode&list_id=' .
+                                                    $mailing['list_id'] .
+                                                    "&address=".$subscriber['email_address']."&code=$code&handlequery=1".
+                                                    "' class='button'>Download ".
+                                                    htmlentities($asset_request->response['payload']['title']).'</a>'
+                                            ]
+                                        ]
+                                    ];
+                                }
+                            }
+
+
+
+                            if (CASHSystem::sendMassEmail(
+                                $user_id,
+                                $mailing['subject'],
+                                $recipients,
+                                $mailing['html_content'], // message body
+                                $mailing['subject'], // message subject
+                                [],
+                                $merge_vars, // local merge vars (per email)
+                                false,
+                                true,
+                                true,
+                                $mailing
+                            )) {
+
+                                $this->editMailing($mailing_id,time());
+                                $this->addToMailingAnalytics($mailing_id,count($recipients));
+
+                            } else {
+                                $success = false;
+                            }
+
                         }
-					}
 
-					$user_request = new CASHRequest(
-						array(
-							'cash_request_type' => 'people',
-							'cash_action' => 'getuser',
-							'user_id' => $mailing['user_id']
-						)
-					);
-					$user_details = $user_request->response['payload'];
+                        return $success;
 
-					if (!$mailing['from_name']) {
-						$mailing['from_name'] = $user_details['email_address'];
-					}
+                    } else {
+                        foreach ($list_details['members'] as $subscriber) {
+                            if ($subscriber['active']) {
+                                if ($subscriber['display_name'] == 'Anonymous' || $subscriber['display_name'] == '') {
+                                    $subscriber['display_name'] = $subscriber['email_address'];
+                                }
+                                $recipients[] = array(
+                                    'email' => $subscriber['email_address'],
+                                    'name' => $subscriber['display_name'],
+                                    'type' => 'to',
+                                    'metadata' => array(
+                                        'user_id' => $subscriber['id']
+                                    )
+                                );
+                            }
 
-					//TODO: we need to break this array into chunks of 1000
-					if (CASHSystem::sendMassEmail(
-						$user_id,
-						$mailing['subject'],
-						$recipients,
-						$mailing['html_content'], // message body
-						$mailing['subject'], // message subject
-                        [],
-						$merge_vars, // local merge vars (per email)
-						false,
-						true,
-						true,
-						$mailing
-					)) {
+                            // there's a valid asset
+                            if ($asset_request->response['payload'] && !empty($codes) && is_array($codes)) {
 
-						$this->editMailing($mailing_id,time());
-						$this->addToMailingAnalytics($mailing_id,count($recipients));
+                                $code = array_pop($codes);
+                                $merge_vars[] = [
+                                    'rcpt' => $subscriber['email_address'],
+                                    'vars' => [
+                                        [
+                                            'name' => 'assetbutton',
+                                            'content' => "<a href='".CASH_PUBLIC_URL .
+                                                '/request/html?cash_request_type=system&cash_action=redeemlockcode&list_id=' .
+                                                $mailing['list_id'] .
+                                                "&address=".$subscriber['email_address']."&code=$code&handlequery=1".
+                                                "' class='button'>Download ".
+                                                htmlentities($asset_request->response['payload']['title']).'</a>'
+                                        ]
+                                    ]
+                                ];
+                            }
+                        }
 
-						return true;
+                        if (CASHSystem::sendMassEmail(
+                            $user_id,
+                            $mailing['subject'],
+                            $recipients,
+                            $mailing['html_content'], // message body
+                            $mailing['subject'], // message subject
+                            [],
+                            $merge_vars, // local merge vars (per email)
+                            false,
+                            true,
+                            true,
+                            $mailing
+                        )) {
 
-					} else {
-                        error_log("didn't work");
-						return false;
-					}
+                            $this->editMailing($mailing_id,time());
+                            $this->addToMailingAnalytics($mailing_id,count($recipients));
+
+                            return true;
+
+                        } else {
+                            return false;
+                        }
+                    }
 				}
 			}
 		}
