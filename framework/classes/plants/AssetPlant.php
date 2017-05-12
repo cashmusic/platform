@@ -191,7 +191,6 @@ class AssetPlant extends PlantBase {
             $asset_id = $asset['asset_id'];
 		}
 
-
 		if (!empty($asset_id)) {
 			if ($this->unlockAsset($asset_id,$session_id)) {
 
