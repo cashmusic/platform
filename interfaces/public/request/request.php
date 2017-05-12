@@ -152,13 +152,20 @@ if (!isset($_REQUEST['nooutput'])) {
                             );
 
 
-						} else {
+						}
+						else {
                             $embed_data = array(
                                 'action' => 'Download not found',
                                 'contextual_message' => 'There was an error processing your download request.'
                             );
 						}
-					}
+					} else if ($_REQUEST['test_email_download'] == 1) {
+                        $embed_data = array(
+                            'contextual_name' => 'Your Download',
+                            'contextual_message' => '<p>Click the link below to download. Keep in mind if this is a ZIP file, mobile devices have limited support for opening archives.</p>
+<p><em>*This is a test example page, this is not a valid download link.</em></p><a class="cm-download-button" href="#">Download Test</a><p><small>For all questions contact the vendor that sent this download.</small></p>'
+                        );
+                    }
 
 				} else {
 					$embed_data = array(

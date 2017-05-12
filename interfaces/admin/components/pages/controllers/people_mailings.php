@@ -49,8 +49,9 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dotestsend') {
     );
 
     $html_content = $mailing_result->response['payload'];
-    $test_recipients = explode(",", $test_recipients);
+    $test_recipients = CASHSystem::parseBulkEmailInput($test_recipients);
     $recipients = [];
+    $merge_vars = [];
 
     foreach($test_recipients as $recipient) {
         $recipients[] = [
@@ -61,6 +62,21 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dotestsend') {
                 'user_id' => 0
             )
         ];
+
+        if ((!empty($persisted_values['asset_id']) || !empty($asset_id))) {
+
+            $merge_vars[] = [
+                'rcpt' => $recipient,
+                'vars' => [
+                    [
+                        'name' => 'assetbutton',
+                        'content' => "<a href='".CASH_PUBLIC_URL .
+                            '/request/html?test_email_download=1'.
+                            "' class='button'>Download example link</a>"
+                    ]
+                ]
+            ];
+        }
     }
 
     if (!empty($_POST['template_id'])) {
@@ -77,11 +93,10 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dotestsend') {
         $html_content, // message body
         $subject, // message subject
         [],
-        [], // local merge vars (per email)
+        $merge_vars, // local merge vars (per email)
         false,
         true,
         true,
-        $mail_from,
         false
     );
 
