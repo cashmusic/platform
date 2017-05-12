@@ -67,7 +67,7 @@ if (!empty($_FILES)) {
     }
 
     if (count($email_array) > 0) {
-        echo '{"success":"true"}';
+        echo '{"success":"true", "count":'.$total_added.'}';
     } else {
         echo '{"success":"false"}';
     }

@@ -27,6 +27,7 @@
 
         <form id="status_form" action="{{www_path}}/people/lists/view/{{list_id}}">
             <input type="hidden" name="status" id="status">
+            <input type="hidden" name="count" id="count">
         </form>
 
         <script src="{{www_path}}/ui/default/assets/scripts/jquery.fileupload.js"></script>
@@ -83,8 +84,10 @@
 
                         if (result.success == "true") {
                             $("#status").val("success");
+                            $("#count").val(result.count);
                         } else {
                             $("#status").val("failure");
+                            $("#count").val(0);
                         }
 
                         setTimeout(function() {

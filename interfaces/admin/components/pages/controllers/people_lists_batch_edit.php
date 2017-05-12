@@ -41,9 +41,9 @@ if (isset($_POST['dobatchcontactsadd'])) {
         }
 
         if ($total_added > 0) {
-            AdminHelper::formSuccess('Success. Added '.$total_added." contacts.", '/admin/people/lists/view/'.$request_parameters[0]);
+            AdminHelper::formSuccess('Success. Added '.$total_added." contacts.", '/people/lists/view/'.$request_parameters[0]);
         } else {
-            AdminHelper::formFailure('Error. There was a problem adding contacts.', '/admin/people/lists/view/'.$request_parameters[0]);
+            AdminHelper::formFailure('Error. There was a problem adding contacts.', '/people/lists/view/'.$request_parameters[0]);
         }
     }
 }
