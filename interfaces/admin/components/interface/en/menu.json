@@ -113,7 +113,7 @@
 	"people/lists/view":
 		{"page_name":"List details", "menu_icon":""},
 	"people/mailings":
-		{"page_name":"Mail campaigns", "menu_icon":"airplane","beta":true},
+		{"page_name":"Mail campaigns", "menu_icon":"airplane"},
 	"people/press":
 		{"page_name":"Press coverage", "menu_icon":"paperclip" },
 
