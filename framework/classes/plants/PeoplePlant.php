@@ -1438,19 +1438,6 @@ class PeoplePlant extends PlantBase {
                     }
                 }
 
-                // get from details
-                $user_request = new CASHRequest(
-                    array(
-                        'cash_request_type' => 'people',
-                        'cash_action' => 'getuser',
-                        'user_id' => $mailing['user_id']
-                    )
-                );
-                $user_details = $user_request->response['payload'];
-
-                if (!$mailing['from_name']) {
-                    $mailing['from_name'] = $user_details['email_address'];
-                }
 
                 // build recipient arrays
 				if (is_array($list_details)) {

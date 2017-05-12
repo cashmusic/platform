@@ -131,7 +131,9 @@ if (!isset($_REQUEST['nooutput'])) {
 				$template = file_get_contents(dirname(__FILE__) . '/templates/system.mustache');
 				if (isset($output['response'])) {
 					$embed_data = $output['response'];
-
+                    error_log(json_encode($_REQUEST));
+                    error_log("----");
+                    error_log(json_encode($requests));
 					// if this is a download redemption
 					if ($embed_data['status_code'] == "200" && $embed_data['status_uid'] == "system_redeemlockcode_200") {
                         $fulfillment_request = new CASHRequest(
@@ -142,6 +144,8 @@ if (!isset($_REQUEST['nooutput'])) {
                                 'scope_table_id' => $embed_data['payload']['scope_table_id']
                             )
                         );
+
+                        error_log(json_encode($fulfillment_request));
 
                         if ($asset = $fulfillment_request->response['payload']) {
                         	/*header("Location: ".$asset_uri);
@@ -159,13 +163,7 @@ if (!isset($_REQUEST['nooutput'])) {
                                 'contextual_message' => 'There was an error processing your download request.'
                             );
 						}
-					} else if ($_REQUEST['test_email_download'] == 1) {
-                        $embed_data = array(
-                            'contextual_name' => 'Your Download',
-                            'contextual_message' => '<p>Click the link below to download. Keep in mind if this is a ZIP file, mobile devices have limited support for opening archives.</p>
-<p><em>*This is a test example page, this is not a valid download link.</em></p><a class="cm-download-button" href="#">Download Test</a><p><small>For all questions contact the vendor that sent this download.</small></p>'
-                        );
-                    }
+					}
 
 				} else {
 					$embed_data = array(

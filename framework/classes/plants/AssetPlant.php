@@ -183,15 +183,22 @@ class AssetPlant extends PlantBase {
         $session = CASHSystem::startSession();
 		$session_id = $session['id'];
 
-		$asset = $this->getAllMetaData($scope_table_alias,$scope_table_id,'asset_id');
+		// this is a hack to get test emails working
+		if (!is_numeric($scope_table_id) && strlen($scope_table_id) > 64) {
+            $asset_id = substr($scope_table_id, 64);
+		} else {
+            $asset = $this->getAllMetaData($scope_table_alias,$scope_table_id,'asset_id');
+            $asset_id = $asset['asset_id'];
+		}
 
-		if (!empty($asset['asset_id'])) {
-			if ($this->unlockAsset($asset['asset_id'],$session_id)) {
 
-                $asset_details = $this->getAssetInfo($asset['asset_id']);
+		if (!empty($asset_id)) {
+			if ($this->unlockAsset($asset_id,$session_id)) {
+
+                $asset_details = $this->getAssetInfo($asset_id);
 
 				return [
-					'uri'=>"/request/?cash_request_type=asset&cash_action=claim&id=".$asset['asset_id']."&element_id=&session_id=".$session_id,
+					'uri'=>"/request/?cash_request_type=asset&cash_action=claim&id=".$asset_id."&element_id=&session_id=".$session_id,
 					'name'=>$asset_details['title']
 				];
 				//$this->redirectToAsset($asset['asset_id'],0,$session_id, true);

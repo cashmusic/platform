@@ -53,7 +53,57 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dotestsend') {
     $recipients = [];
     $merge_vars = [];
 
+
+    if (isset($persisted_values['asset_id'])) {
+        $asset_id = $persisted_values['asset_id'];
+    }
+
+    if (!empty($asset_id)) {
+        // lookup asset details
+        $asset_request = new CASHRequest(
+            array(
+                'cash_request_type' => 'asset',
+                'cash_action' => 'getasset',
+                'id' => (isset($persisted_values['asset_id'])) ? $persisted_values['asset_id'] : $asset_id,
+                'user_id' => $cash_admin->effective_user_id
+            )
+        );
+
+        if ($asset_request->response['payload']) {
+
+            $add_code_request = new CASHRequest(
+                array(
+                    'cash_request_type' => 'system',
+                    'cash_action' => 'addbulklockcodes',
+                    'scope_table_alias' => 'mailings',
+                    'scope_table_id' => 0,
+                    'user_id' => $cash_admin->effective_user_id,
+                    'count' => count($test_recipients)
+                )
+            );
+
+            if ($add_code_request) {
+
+                $get_code_request = new CASHRequest(
+                    array(
+                        'cash_request_type' => 'system',
+                        'cash_action' => 'getlockcodes',
+                        'scope_table_alias' => 'mailings',
+                        'scope_table_id' => 0,
+                        'user_id' => $cash_admin->effective_user_id
+                    )
+                );
+
+                if (is_array($get_code_request->response['payload'])) {
+                    $codes = array_column($get_code_request->response['payload'], 'uid');
+                }
+            }
+
+        }
+    }
+
     foreach($test_recipients as $recipient) {
+
         $recipients[] = [
             'email' => $recipient,
             'type' => 'to',
@@ -63,16 +113,22 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dotestsend') {
             )
         ];
 
-        if ((!empty($persisted_values['asset_id']) || !empty($asset_id))) {
+        if ($asset_request->response['payload'] && !empty($codes) && is_array($codes)) {
 
+            $test_hash = hash("sha256", time());
+            $test_id = $test_hash.$asset_id;
+
+            $code = array_pop($codes);
             $merge_vars[] = [
                 'rcpt' => $recipient,
                 'vars' => [
                     [
                         'name' => 'assetbutton',
                         'content' => "<a href='".CASH_PUBLIC_URL .
-                            '/request/html?test_email_download=1'.
-                            "' class='button'>Download example link</a>"
+                            '/request/html?cash_request_type=system&cash_action=redeemlockcode&list_id='.$test_id.
+                            "&address=".$recipient."&code=$code&handlequery=1".
+                            "' class='button'>Download ".
+                            htmlentities($asset_request->response['payload']['title']).'</a>'
                     ]
                 ]
             ];
