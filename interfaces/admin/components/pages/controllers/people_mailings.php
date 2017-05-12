@@ -162,7 +162,7 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dolivesend') {
     $admin_primary_cash_request->sessionClear("mailing_data");
 
 	if ($mailing_result) {
-		AdminHelper::formSuccess('Success. The mail is sent, just kick back and watch.','/people/mailings/');
+		AdminHelper::formSuccess('Success. The mail is queued and sending now.','/people/mailings/');
 	} else {
 		AdminHelper::formFailure('Error. Something just didn\'t work right.','/people/mailings/');
 	}

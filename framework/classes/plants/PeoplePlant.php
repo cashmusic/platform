@@ -1458,9 +1458,9 @@ class PeoplePlant extends PlantBase {
                     $merge_vars = [];
 					$success = true;
 
-					if (count($list_details['members']) > 2) {
+					if (count($list_details['members']) > 1000) {
 
-                        $recipients_chunked = array_chunk($list_details['members'], 2);
+                        $recipients_chunked = array_chunk($list_details['members'], 1000);
                         foreach($recipients_chunked as $members) {
                             // reset these every time or you'll get doubles, or worse
                             $recipients = [];
@@ -1500,8 +1500,6 @@ class PeoplePlant extends PlantBase {
                                     ];
                                 }
                             }
-
-
 
                             if (CASHSystem::sendMassEmail(
                                 $user_id,
