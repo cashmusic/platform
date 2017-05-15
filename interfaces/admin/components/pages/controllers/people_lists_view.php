@@ -1,5 +1,14 @@
 <?php
 
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 if ($request_parameters) {
 	$request_list_id = $request_parameters[0];
 
@@ -50,9 +59,9 @@ if ($request_parameters) {
 
         if (!empty($_POST['status'])) {
             if ($_POST['status'] == "success") {
-                AdminHelper::formSuccess('Success. Added '.$_POST['count'].' bulk emails from upload.');
+                $admin_helper->formSuccess('Success. Added '.$_POST['count'].' bulk emails from upload.');
             } else {
-                AdminHelper::formFailure('Error. There was a problem importing your file.');
+                $admin_helper->formFailure('Error. There was a problem importing your file.');
             }
         }
 

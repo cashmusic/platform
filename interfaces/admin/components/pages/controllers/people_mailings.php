@@ -16,7 +16,7 @@ $subject = !empty($_POST['mail_subject']) ? $_POST['mail_subject'] : false;
 $list_id = !empty($_POST['email_list_id']) ? $_POST['email_list_id'] : false;
 $connection_id = !empty($_POST['connection_id']) ? $_POST['connection_id'] : false;
 $mail_from = !empty($_POST['mail_from']) ? $_POST['mail_from'] : false;
-$asset_id = ($_POST['attached_asset']) ? $_POST['attached_asset'] : false;
+$asset_id = !empty($_POST['attached_asset']) ? $_POST['attached_asset'] : false;
 $test_recipients = !empty($_POST['test_recipients']) ? preg_replace('/\s+/', '', $_POST['test_recipients']) : "";
 
 $persisted_values = $admin_primary_cash_request->sessionGet("mailing_data");
@@ -48,15 +48,6 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dotestsend') {
             'title' => $subject,
             'subject' => $subject,
             'asset' => (isset($persisted_values['asset_id'])) ? $persisted_values['asset_id'] : $asset_id
-        )
-    );
-
-    $metadata_result = $cash_admin->requestAndStore(
-        array(
-            'cash_request_type' => 'people',
-            'cash_action' => 'getmailingmetadata',
-            'mailing_id' => $mailing_response['payload'],
-            'user_id' => $cash_admin->effective_user_id
         )
     );
 
@@ -110,7 +101,6 @@ if (!empty($_POST['action']) && $_POST['action'] == 'dotestsend') {
                     $codes = array_column($get_code_request->response['payload'], 'uid');
                 }
             }
-
         }
     }
 
