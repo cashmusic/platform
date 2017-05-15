@@ -1,4 +1,12 @@
 <?php
+
+namespace CASHMusic\Core;
+
+use CASHMusic\Core\CASHData as CASHData;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use CASHMusic\Seeds\ExternalFulfillmentSeed;
+use CASHMusic\Seeds\SoundScanSeed;
+
 /**
  * GC and background tasks
  *
@@ -14,7 +22,8 @@
  * This file is generously sponsored by Leigh Marble
  * Leigh Marble, independent musician, Portland, OR -- www.leighmarble.com --
  *
- */class CASHDaemon extends CASHData {
+ */
+class CASHDaemon extends CASHData {
 	private $user_id 	= false;
 	private $history 	= false;
 	private $runtime 	= 0;

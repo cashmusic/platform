@@ -14,6 +14,12 @@
  * This file is generously sponsored by sponsored by Bangsplat - blog.bangsplatpresents.com
  *
  **/
+
+namespace CASHMusic\Seeds;
+
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Core\SeedBase;
+
 class TumblrSeed extends SeedBase {
 	protected $twitter;
 

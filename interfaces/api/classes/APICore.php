@@ -10,7 +10,13 @@
  * Licensed under the Affero General Public License version 3.
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
- */class APICore  {
+ */
+
+namespace CASHMusic\API;
+
+use CASHMusic\Core\CASHRequest;
+
+class APICore  {
 	public $version;
 	private $cash_framework_core;
 	private $passed_url;
@@ -18,10 +24,7 @@
 	public function __construct($incoming_url) {
 		// future: deal with headers/methods before url stuff
 		// present: url stuff
-		if (!class_exists('CASHRequest')) {
-			header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found",true);
-			exit('{"api_error":"API could not connect to the core framework. (class CASHRequest not defined.)"}');
-		}
+
 		$this->version = floatval('1.' . CASHRequest::$version);
 		$this->respond($this->parseURL($incoming_url));
 	}

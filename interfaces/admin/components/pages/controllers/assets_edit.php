@@ -1,7 +1,15 @@
 <?php
 
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 //Asset connections?
-$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('assets');
+$cash_admin->page_data['connection'] = $admin_helper->getConnectionsByScope('assets');
 
 // Deal with download code requests
 if (isset($_REQUEST['add_codes_qty']) && $request_parameters[0]) {
@@ -75,16 +83,16 @@ if (isset($_POST['doassetedit'])) {
 			'artist_name' => $_POST['artist_name'],
 			'release_date' => $_POST['release_date'],
 			'matrix_number' => $_POST['matrix_number'],
-			'label_name' => $_POST['label_name'],
-			'genre' => $_POST['genre'],
-			'copyright' => $_POST['copyright'],
-			'publishing' => $_POST['publishing'],
+			'label_name' => isset($_POST['label_name']) ? $_POST['label_name'] : false,
+			'genre' => isset($_POST['genre']) ? $_POST['genre'] : false,
+			'copyright' => isset($_POST['copyright']) ? $_POST['copyright'] : false,
+			'publishing' => isset($_POST['publishing']) ? $_POST['publishing'] : false,
 			'fulfillment' => json_decode($_POST['metadata_fulfillment']),
-			'private' => json_decode($_POST['metadata_private']),
-			'cover' => $_POST['metadata_cover'],
-			'publicist_name' => $_POST['publicist_name'],
-			'publicist_email' => $_POST['publicist_email'],
-			'onesheet' => $_POST['onesheet']
+			'private' => isset($_POST['metadata_private']) ? json_decode($_POST['metadata_private']) : false,
+			'cover' => isset($_POST['metadata_cover']) ? $_POST['metadata_cover'] : false,
+			'publicist_name' => isset($_POST['publicist_name']) ? $_POST['publicist_name'] : false,
+			'publicist_email' => isset($_POST['publicist_email']) ? $_POST['publicist_email'] : false,
+			'onesheet' => isset($_POST['onesheet']) ? $_POST['onesheet'] : false
 		);
 	}
 
@@ -162,12 +170,12 @@ if ($cash_admin->page_data['type'] == 'file') {
 
     $cash_admin->page_data['parent_options'] = "";
 
-	$cash_admin->page_data['parent_options'] .= AdminHelper::echoFormOptions('assets',$cash_admin->page_data['parent_id'],$cash_admin->getAllFavoriteAssets(),true);
+	$cash_admin->page_data['parent_options'] .= $admin_helper->echoFormOptions('assets',$cash_admin->page_data['parent_id'],$cash_admin->getAllFavoriteAssets(),true);
 	// connection options markup:
 	//$cash_admin->page_data['connection_options'] = '<option value="0" selected="selected">None (Normal http:// link)</option>';
 
     $cash_admin->page_data['connection_options'] = "";
-	$cash_admin->page_data['connection_options'] .= AdminHelper::echoConnectionsOptions('assets', $cash_admin->page_data['connection_id'], true);
+	$cash_admin->page_data['connection_options'] .= $admin_helper->echoConnectionsOptions('assets', $cash_admin->page_data['connection_id'], true);
 
 	if ($cash_admin->page_data['connection_id'] != 0) {
 		$cash_admin->page_data['show_make_public'] = true;
@@ -231,7 +239,7 @@ if ($cash_admin->page_data['type'] == 'file') {
 						'cash_request_type' => 'asset',
 						'cash_action' => 'getasseturl',
 						'connection_id' => $cover_asset['connection_id'],
-						'user_id' => AdminHelper::getPersistentData('cash_effective_user'),
+						'user_id' => $admin_helper->getPersistentData('cash_effective_user'),
 						'asset_location' => $cover_asset['location'],
 						'inline' => true
 					)

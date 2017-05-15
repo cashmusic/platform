@@ -16,6 +16,11 @@
  *
  **/
 
+namespace CASHMusic\PublicInterface;
+
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
+
 /* SINGLE USER SUPPORT? UNCOMMENT
  * $user_id = 1; // we can assume 1 for single-user instances
  */

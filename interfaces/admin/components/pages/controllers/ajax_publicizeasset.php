@@ -1,4 +1,14 @@
 <?php
+
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+
 if (isset($request_parameters[0])) {
 	$success_response = $cash_admin->requestAndStore(
 		array(

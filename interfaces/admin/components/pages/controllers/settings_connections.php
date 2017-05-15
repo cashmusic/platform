@@ -1,5 +1,16 @@
 <?php
-$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+use CASHMusic\Core\CASHConnection;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
+$page_data_object = new CASHConnection($admin_helper->getPersistentData('cash_effective_user'));
 $settings_types_data = $page_data_object->getConnectionTypes();
 $settings_for_user = $page_data_object->getAllConnectionsforUser();
 
@@ -42,7 +53,8 @@ if ($settings_action) {
 	switch ($settings_action) {
 		case 'add':
 			$settings_type = $request_parameters[1];
-			$seed_name = $settings_types_data[$settings_type]['seed'];
+			$seed_name = '\\CASHMusic\\Seeds\\'.$settings_types_data[$settings_type]['seed'];
+
 			if ($cash_admin->platform_type == 'single') {
 				if (!isset($_POST['dosettingsadd'])) {
 					if (array_key_exists($settings_type, $settings_types_data)) {
@@ -117,7 +129,7 @@ if ($settings_action) {
 						$cash_admin->setPageContentTemplate('settings_connections_added');
 						//AdminHelper::formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
 					} else {
-						AdminHelper::formFailure('Error. Something just didn\'t work right.','/settings/connections/');
+                        $admin_helper->formFailure('Error. Something just didn\'t work right.','/settings/connections/');
 					}
 				} else {
 					$finalize = false;
@@ -126,23 +138,42 @@ if ($settings_action) {
 							$finalize = true;
 						}
 					}
-					$seed_name = $settings_types_data[$settings_type]['seed'];
+					$seed_name = '\\CASHMusic\\Seeds\\'.$settings_types_data[$settings_type]['seed'];
 					if (!$finalize) {
 						$return_url = rtrim(CASHSystem::getCurrentURL(),'/') . '/finalize';
 						// PHP <= 5.2 >>>> $cash_admin->page_data['state_markup'] = call_user_func($seed_name . '::getRedirectMarkup', $return_url);
-						$cash_admin->page_data['state_markup'] = $seed_name::getRedirectMarkup($return_url);
+						$cash_admin->page_data['state_markup'] = $seed_name::getRedirectMarkup($return_url, $admin_helper);
 					} else {
 						$connections_base_uri = rtrim(str_replace($request_parameters,'',CASHSystem::getCurrentURL()),'/');
 						$_REQUEST['connections_base_uri'] = $connections_base_uri;
 						// PHP <= 5.2 >>>> $cash_admin->page_data['state_markup'] = call_user_func($seed_name . '::handleRedirectReturn', $_REQUEST);
-						$returned_connection = $seed_name::handleRedirectReturn($_REQUEST);
+						$returned_connection = $seed_name::handleRedirectReturn($admin_helper->getPersistentData('cash_effective_user'), $_REQUEST, $admin_helper);
 
-						if (!is_array($returned_connection)) {
-							$cash_admin->page_data['state_markup'] = $returned_connection;
+						//TODO: move form stuff here
+
+						// failure
+						if (!empty($returned_connection['error'])) {
+                            $this->cash_admin->page_data['error_message'] = $returned_connection['error']['message'];
+							//$admin_helper->formFailure($returned_connection['error']['message'], $returned_connection['error']['uri']);
 						} else {
-							$cash_admin->page_data['connection_name'] = $returned_connection['name'];
-							$cash_admin->setPageContentTemplate('settings_connections_added');
-						}
+							// success
+                            if (!is_array($returned_connection)) {
+                                $this->cash_admin->page_data['page_message'] = 'Success. Connection added. You\'ll see it in your list of connections.';
+
+                                //$admin_helper->formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');
+                                $cash_admin->page_data['state_markup'] = $returned_connection;
+                            } else {
+
+                                $this->cash_admin->page_data['page_message'] = 'Success. Connection added. You\'ll see it in your list of connections.';
+
+
+                                /* $admin_helper->formSuccess('Success. Connection added. You\'ll see it in your list of connections.','/settings/connections/');*/
+
+                                $cash_admin->page_data['connection_name'] = $returned_connection['name'];
+                                $cash_admin->setPageContentTemplate('settings_connections_added');
+                            }
+                        }
+
 					}
 				}
 			}
@@ -194,10 +225,10 @@ if ($settings_action) {
 			$connection_id = $request_parameters[1];
 			$result = $page_data_object->deleteSettings($connection_id);
 			if ($result) {
-				AdminHelper::formSuccess('Success. Deleted. Sad.','/');
+				$admin_helper->formSuccess('Success. Deleted. Sad.','/');
 				//$cash_admin->page_data['action_message'] = '<strong>Success.</strong> All gone. Sad.';
 			} else {
-				AdminHelper::formFailure('Something went wrong.','/');
+				$admin_helper->formFailure('Something went wrong.','/');
 				//$cash_admin->page_data['action_message'] = '<strong>Error.</strong> Something went wrong.';
 			}
 			break;

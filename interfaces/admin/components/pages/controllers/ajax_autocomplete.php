@@ -1,4 +1,14 @@
 <?php
+
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+
 	function formatVenueDetails($venue_details) {
 		$display_string = $venue_details['name'];
 		if (strtolower($venue_details['country']) == 'usa' || strtolower($venue_details['country']) == 'canada') {

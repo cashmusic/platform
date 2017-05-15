@@ -1,4 +1,14 @@
 <?php
+
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+
 if (isset($_REQUEST['connection_id']) && isset($_REQUEST['filename'])) {
 	$success_response = $cash_admin->requestAndStore(
 		array(

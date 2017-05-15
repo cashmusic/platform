@@ -1,17 +1,15 @@
 {
 	"public":[
-		"downloadcodes",
-		"emailcollection",
-		"membersarea",
-		"securedownload",
-		"singlepurchase",
-		"subscription",
-		"socialfeeds",
-		"staticcontent",
-		"store",
-		"tourdates"
+		"DownloadCodes",
+		"EmailCollection",
+		"SinglePurchase",
+		"Subscription",
+		"SocialFeeds",
+		"StaticContent",
+		"Store",
+		"Tourdates"
 	],
 	"beta":[
-	  	"fulfillment"
+	  	"Fulfillment"
 	]
 }

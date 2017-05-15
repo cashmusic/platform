@@ -1,4 +1,10 @@
 <?php
+
+namespace CASHMusic\Core;
+
+use CASHMusic\Core\CASHData as CASHData;
+use CASHMusic\Core\CASHSystem as CASHSystem;
+
 /**
  * CASHConnection stores and retrieves 3rd party API connection settings from the
  * database. API settings definitions are stored as JSON flat files in /settings/connections

@@ -1,4 +1,15 @@
 <?php
+
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 // parsing posted data:
 if (isset($_POST['dolistadd'])) {
 	// do the actual list add stuffs...
@@ -14,13 +25,13 @@ if (isset($_POST['dolistadd'])) {
 		)
 	);
 	if ($add_response['payload']) {
-		AdminHelper::formSuccess('Success. List added.','/people/' . $add_response['payload']);
+		$admin_helper->formSuccess('Success. List added.','/people/' . $add_response['payload']);
 	} else {
-		AdminHelper::formFailure('Error. Something just didn\'t work right.','/people/lists/add/');
+		$admin_helper->formFailure('Error. Something just didn\'t work right.','/people/lists/add/');
 	}
 }
 
-$cash_admin->page_data['connection_options'] = AdminHelper::echoConnectionsOptions('lists',0,true);
+$cash_admin->page_data['connection_options'] = $admin_helper->echoConnectionsOptions('lists',0,true);
 $cash_admin->page_data['form_state_action'] = 'dolistadd';
 $cash_admin->page_data['list_button_text'] = 'Add a list';
 

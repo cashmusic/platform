@@ -1,4 +1,12 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
 if (isset($request_parameters[0])) {
 	$effective_user = $cash_admin->effective_user_id;
 	$template_id = $request_parameters[0];

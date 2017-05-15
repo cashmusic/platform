@@ -1,4 +1,14 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 $items_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'commerce',
@@ -16,7 +26,8 @@ $releases_response = $cash_admin->requestAndStore(
 	)
 );
 
-$cash_admin->page_data['assets_options'] = AdminHelper::echoFormOptions('assets',false,$cash_admin->getAllFavoriteAssets(),true);
+
+$cash_admin->page_data['assets_options'] = $admin_helper->echoFormOptions('assets',false,$cash_admin->getAllFavoriteAssets(),true);
 
 if (is_array($items_response['payload'])) {
 	// IF there is an attached asset and IF it's a release then say so

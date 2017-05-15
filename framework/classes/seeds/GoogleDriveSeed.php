@@ -15,6 +15,14 @@
  * CaseyContrarian Hearts CASH Music
  *
  **/
+
+namespace CASHMusic\Seeds;
+
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Core\SeedBase;
+use CASHMusic\Core\CASHConnection;
+use CASHMusic\Admin\AdminHelper;
+
 class GoogleDriveSeed extends SeedBase {
 	private $client,
 			$drive_service,
@@ -36,6 +44,9 @@ class GoogleDriveSeed extends SeedBase {
 		$this->settings_type = 'com.google.drive';
 		$this->user_id = $user_id;
 		$this->connection_id = $connection_id;
+
+        $this->admin_helper = new AdminHelper();
+
 		if ($this->getCASHConnection()) {
 			$connections = CASHSystem::getSystemSettings('system_connections');
 
@@ -50,7 +61,7 @@ class GoogleDriveSeed extends SeedBase {
 
 				require_once(CASH_PLATFORM_ROOT.'/lib/google/Google_Client.php');
 				require_once(CASH_PLATFORM_ROOT.'/lib/google/contrib/Google_DriveService.php');
-				$this->client = new Google_Client();
+				$this->client = new \Google_Client();
 				$this->client->setUseObjects(false);
 				$this->client->setClientId($this->client_id);
 				$this->client->setClientSecret($this->client_secret);
@@ -81,7 +92,7 @@ class GoogleDriveSeed extends SeedBase {
 				}
 
 				$this->client->setAccessToken($this->access_token);
-				$this->drive_service = new Google_DriveService($this->client);
+				$this->drive_service = new \Google_DriveService($this->client);
 			}
 		} else {
 			$this->error_message = 'could not get connection';
@@ -119,7 +130,7 @@ class GoogleDriveSeed extends SeedBase {
 		}
 	}
 
-	public static function handleRedirectReturn($data=false) {
+	public static function handleRedirectReturn($effective_user=false, $data=false, $admin_helper=false) {
 		if (isset($data['code'])) {
 			$connections = CASHSystem::getSystemSettings('system_connections');
 			if (isset($connections['com.google.drive'])) {
@@ -143,9 +154,10 @@ class GoogleDriveSeed extends SeedBase {
 				}
 				$credentials_array = json_decode($credentials, true);
 				if (isset($credentials_array['refresh_token'])) {
+
 					// we can safely assume (AdminHelper::getPersistentData('cash_effective_user') as the OAuth
 					// calls would only happen in the admin. If this changes we can fuck around with it later.
-					$new_connection = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+					$new_connection = new CASHConnection($admin_helper->getPersistentData('cash_effective_user'));
 					$result = $new_connection->setSettings(
 						$email_address . ' (Google Drive)',
 						'com.google.drive',
@@ -192,7 +204,7 @@ class GoogleDriveSeed extends SeedBase {
 	 */
 	public static function getAuthorizationUrl($client_id,$redirect_uri,$scopes,$email_address=false) {
 		require_once(CASH_PLATFORM_ROOT.'/lib/google/Google_Client.php');
-		$client = new Google_Client();
+		$client = new \Google_Client();
 
 		$client->setClientId($client_id);
 		$client->setRedirectUri($redirect_uri);
@@ -222,7 +234,7 @@ class GoogleDriveSeed extends SeedBase {
 	public static function exchangeCode($authorization_code,$client_id,$client_secret,$redirect_uri) {
 		require_once(CASH_PLATFORM_ROOT.'/lib/google/Google_Client.php');
 		try {
-			$client = new Google_Client();
+			$client = new \Google_Client();
 			$client->setClientId($client_id);
 			$client->setClientSecret($client_secret);
 			$client->setRedirectUri($redirect_uri);
@@ -241,16 +253,16 @@ class GoogleDriveSeed extends SeedBase {
 	public static function getUserInfo($credentials,$client_id,$client_secret) {
 		require_once(CASH_PLATFORM_ROOT.'/lib/google/Google_Client.php');
 		require_once(CASH_PLATFORM_ROOT.'/lib/google/contrib/Google_Oauth2Service.php');
-		$client = new Google_Client();
+		$client = new \Google_Client();
 		$client->setUseObjects(false);
 		$client->setClientId($client_id);
   		$client->setClientSecret($client_secret);
 		$client->setAccessToken($credentials);
-		$service = new Google_Oauth2Service($client);
+		$service = new \Google_Oauth2Service($client);
 		$user_info = null;
 		try {
 			$user_info = $service->userinfo->get();
-		} catch (Google_Exception $e) {
+		} catch (\Google_Exception $e) {
 			// $this->error_message = 'An error occurred: ' . $e->getMessage();
 			return false;
 		}
@@ -286,7 +298,7 @@ class GoogleDriveSeed extends SeedBase {
 	}
 
 	public function makePublic($filename) {
-		$permission = new Google_Permission();
+		$permission = new \Google_Permission();
 		$permission->setValue('');
 		$permission->setType('anyone');
 		$permission->setRole('reader');

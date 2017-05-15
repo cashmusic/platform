@@ -1,4 +1,11 @@
 <?php
+
+namespace CASHMusic\Core;
+
+use PDO;
+use PDOException;
+use CASHMusic\Core\CASHSystem as CASHSystem;
+
 /**
  * No frills DBA connection class using PHP's PDO library. CASHDBA provides
  * easy functions for data access using a get/set convention and auto-detection

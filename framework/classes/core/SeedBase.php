@@ -1,4 +1,10 @@
 <?php
+
+namespace CASHMusic\Core;
+
+use CASHMusic\Core\CASHData as CASHData;
+use CASHMusic\Core\CASHConnection as CASHConnection;
+
 /**
  * Abstract base for all Seed classes
  *

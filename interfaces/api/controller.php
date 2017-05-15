@@ -11,7 +11,12 @@
  * See http://www.gnu.org/licenses/agpl-3.0.html
  *
  */
-require_once(__DIR__ . '/constants.php');
+
+namespace CASHMusic\API;
+
+require_once(dirname(__FILE__) . '/../../vendor/autoload.php');
+
+use CASHMusic\Core\CASHSystem;
 
 $cash_settings = json_decode(getenv('cashmusic_platform_settings'),true);
 // env settings allow use on multi-server, multi-user instances
@@ -22,8 +27,6 @@ if ($cash_settings) {
 	}
 }
 
-// set up autoload for core classes
-require_once(__DIR__ . '/../../framework/classes/core/CASHSystem.php');
 CASHSystem::startUp();
 
 // push away anyone who's trying to access the controller directly
@@ -32,12 +35,12 @@ if (strrpos($_SERVER['REQUEST_URI'],'controller.php') !== false) {
 	exit;
 } else {
 	// instantiate the API, pass the request from .htaccess to it
-	require_once('./classes/APICore.php');
 	if (!isset($_REQUEST['p'])) {
 		$final_request = '/';
 	} else {
 		$final_request = $_REQUEST['p'];
 	}
+
 	new APICore($final_request);
 	exit;
 }

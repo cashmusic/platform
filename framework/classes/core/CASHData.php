@@ -1,4 +1,8 @@
 <?php
+
+namespace CASHMusic\Core;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
 /**
  * Data access for all Plant and Seed classes. CASHData abstracts out SESSION
  * data handling, provides a CASHDBA object as $this->db, and provides functions
@@ -17,7 +21,8 @@
  * jon luini and chime.com support cashmusic's efforts towards furthering
  * easy-to-use open source tools for musicians!
  *
- */abstract class CASHData {
+ */
+abstract class CASHData {
 	protected $db = false,
 			  $cash_session_timeout = 10800,
 			  $cash_session_data = null,
@@ -693,7 +698,7 @@
 	 * Setting $decode will tell it to parse the data as JSON or not.
 	 *
 	 * @return string or decoded JSON object/array
-	 */public function getCacheData($cache_name, $data_name, $force_last=false, $decode=true) {
+	 */public function getCacheData($cache_name, $data_name, $force_last=false, $decode=true, $associative=true) {
 	 	$this->primeCache();
 		if ($decode) {
 			$file_extension = '.json';
@@ -704,7 +709,7 @@
 		if ($this->cache_enabled && file_exists($datafile)) {
 			if ($force_last || $this->getCacheExpirationFor($datafile) >= 0) {
 				if ($decode) {
-					return json_decode(@file_get_contents($datafile),true);
+					return json_decode(@file_get_contents($datafile),$associative);
 				} else {
 					return @file_get_contents($datafile);
 				}

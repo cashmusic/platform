@@ -1,4 +1,15 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHConnection;
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 if (isset($_POST['doitemadd'])) {
 	// do the actual list add stuffs...
 	$flexible_price = 0;
@@ -26,9 +37,9 @@ if (isset($_POST['doitemadd'])) {
 		)
 	);
 	if ($add_response['payload']) {
-		AdminHelper::formSuccess('Success. Item added.','/commerce/items/' . $add_response['payload']);
+		$admin_helper->formSuccess('Success. Item added.','/commerce/items/' . $add_response['payload']);
 	} else {
-		AdminHelper::formFailure('Error. Something just didn\'t work right.','/commerce/items/');
+		$admin_helper->formFailure('Error. Something just didn\'t work right.','/commerce/items/');
 	}
 	$item_response = $cash_admin->requestAndStore(
 		array(
@@ -92,9 +103,9 @@ if (isset($_POST['doitemadd'])) {
 		}
 
 		if ($email_response['payload']) {
-			AdminHelper::formSuccess('Success. Email sent.');
+			$admin_helper->formSuccess('Success. Email sent.');
 		} else {
-			AdminHelper::formFailure('Error. Something just didn\'t work right.');
+			$admin_helper->formFailure('Error. Something just didn\'t work right.');
 		}
 	}
 
@@ -146,9 +157,9 @@ if (isset($_POST['doitemadd'])) {
 			)
 		);
 		if ($edit_response['status_uid'] == 'commerce_edititem_200') {
-			AdminHelper::formSuccess('Success. Edited.');
+			$admin_helper->formSuccess('Success. Edited.');
 		} else {
-			AdminHelper::formFailure('Error. There was a problem editing.');
+			$admin_helper->formFailure('Error. There was a problem editing.');
 		}
 	}
 	$item_response = $cash_admin->requestAndStore(
@@ -230,7 +241,7 @@ if (is_array($item_response['payload'])) {
 	if (isset($_POST['doitemadd'])) {
 		$cash_admin->page_data['page_message'] = 'Success. Item added.';
 	}
-	$cash_admin->page_data['asset_options'] = AdminHelper::echoFormOptions('assets',$item_response['payload']['fulfillment_asset'],$cash_admin->getAllFavoriteAssets(),true);
+	$cash_admin->page_data['asset_options'] = $admin_helper->echoFormOptions('assets',$item_response['payload']['fulfillment_asset'],$cash_admin->getAllFavoriteAssets(),true);
 
 	if ($item_response['payload']['physical_fulfillment']) {
 		$item_variant_response = $cash_admin->requestAndStore(

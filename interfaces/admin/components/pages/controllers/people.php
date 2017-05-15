@@ -1,5 +1,13 @@
 <?php
 
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHConnection;
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
 $list_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'people', 
@@ -8,11 +16,13 @@ $list_response = $cash_admin->requestAndStore(
 	)
 );
 
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 //people list connection or list present?
-$cash_admin->page_data['connection'] = AdminHelper::getConnectionsByScope('lists') || $list_response['payload'];
+$cash_admin->page_data['connection'] = $admin_helper->getConnectionsByScope('lists') || $list_response['payload'];
 
 // Return List Connections
-$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+$page_data_object = new CASHConnection($admin_helper->getPersistentData('cash_effective_user'));
 $settings_types_data = $page_data_object->getConnectionTypes('lists');
 
 $all_services = array();
@@ -44,10 +54,10 @@ foreach ($settings_types_data as $key => $data) {
 $cash_admin->page_data['all_services'] = new ArrayIterator($all_services);
 
 //people mass email connection present?
-$cash_admin->page_data['mass_connection'] = AdminHelper::getConnectionsByScope('mass_email');
+$cash_admin->page_data['mass_connection'] = $admin_helper->getConnectionsByScope('mass_email');
 
 // Return Mass Email Connections
-$page_data_object = new CASHConnection(AdminHelper::getPersistentData('cash_effective_user'));
+$page_data_object = new CASHConnection($admin_helper->getPersistentData('cash_effective_user'));
 $settings_mass_types_data = $page_data_object->getConnectionTypes('mass_email');
 
 $all_mass_services = array();
@@ -122,7 +132,7 @@ if (is_array($user_response['payload'])) {
 	$current_userdata = $user_response['payload']['data'];
 }
 
-$session_news = AdminHelper::getActivity($current_userdata);
+$session_news = $admin_helper->getActivity($current_userdata);
 if ($session_news) {
 	// now set up page variables
 	$total_new = false;

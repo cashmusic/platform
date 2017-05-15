@@ -1,4 +1,14 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 $types_response = $cash_admin->requestAndStore(
 	array(
 		'cash_request_type' => 'element',
@@ -14,7 +24,7 @@ if ($request_parameters) {
 
 	if (array_search($element_addtype, $supported_elements) !== false) {
 		// Detects if element add has happened and deals with POST data if it has
-		AdminHelper::handleElementFormPOST($_POST,$cash_admin);
+		$admin_helper->handleElementFormPOST($_POST,$cash_admin);
 
 		// Detects state of element add and routes to /elements/edit if successful
 		if ($cash_admin->getCurrentElementState() == 'add' && !$cash_admin->getErrorState()) {
@@ -41,7 +51,7 @@ if ($request_parameters) {
 				$cash_admin->page_data['ui_title'] = 'Add ' . $app_json['details']['en']['name'] . ' Element';
 				$cash_admin->page_data['ui_page_tip'] = $app_json['details']['en']['instructions'];
 
-				$element_defaults = AdminHelper::getElementDefaults($app_json['options']);
+				$element_defaults = $admin_helper->getElementDefaults($app_json['options']);
 				$cash_admin->page_data = array_merge($cash_admin->page_data,$element_defaults);
 
 				if (isset($app_json['copy'])) {
@@ -59,7 +69,7 @@ if ($request_parameters) {
 
 				$cash_admin->page_data['all_requirements'] = true;
 				$cash_admin->page_data['element_button_text'] = 'Save changes';
-				$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render(AdminHelper::getElementTemplate($element_addtype), $cash_admin->page_data);
+				$cash_admin->page_data['element_rendered_content'] = $cash_admin->mustache_groomer->render($admin_helper->getElementTemplate($element_addtype), $cash_admin->page_data);
 			}
 		} else if (is_array($requirements_response['payload'])) {
 			// select box requirement hash for AdminHelper parsing
@@ -102,6 +112,7 @@ if ($request_parameters) {
 	$colcount = 1;
 	foreach ($supported_elements as $element) {
 		$app_json = AdminHelper::getElementAppJSON($element);
+
 		$formatted_element = array(
 			'element_type' => $element,
 			'element_type_name' => $app_json['details']['en']['name'],

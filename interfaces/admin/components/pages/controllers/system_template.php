@@ -1,4 +1,14 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 if (isset($_POST['dotemplateset'])) {
 	// form was submitted. set the template
 	$effective_user = $cash_admin->effective_user_id;
@@ -18,9 +28,9 @@ if (isset($_POST['dotemplateset'])) {
 		)
 	);
 	if ($template_response['payload']) {
-		AdminHelper::formSuccess('Success.','/system/template/' . $template_response['payload']);
+		$admin_helper->formSuccess('Success.','/system/template/' . $template_response['payload']);
 	} else {
-		AdminHelper::formFailure('Error. Something just didn\'t work right.','/system/template/');
+		$admin_helper->formFailure('Error. Something just didn\'t work right.','/system/template/');
 	}
 }
 

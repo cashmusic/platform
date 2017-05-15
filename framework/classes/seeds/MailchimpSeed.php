@@ -21,6 +21,15 @@
  *
  **/
 
+namespace CASHMusic\Seeds;
+
+use CASHMusic\Core\CASHRequest;
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Core\SeedBase;
+use DrewM\MailChimp\MailChimp;
+use CFreear\OAuth2\Client\Provider\MailChimp as MailChimpOAuth;
+use Exception;
+
 class MailchimpSeed extends SeedBase {
 	private $api;
 	public $url, $key, $list_id, $error_code=false, $error_message=false;
@@ -33,7 +42,7 @@ class MailchimpSeed extends SeedBase {
 
 			$this->key      = $this->settings->getSetting('key');
 			$this->list_id  = $this->settings->getSetting('list');
-			$this->api      = new \DrewM\MailChimp\MailChimp($this->key);
+			$this->api      = new MailChimp($this->key);
 
 			if (!$this->key) {
 				$this->error_message = 'no API key found';
@@ -46,7 +55,7 @@ class MailchimpSeed extends SeedBase {
 	public static function getAuthorizationUrl($client_id, $client_secret, $redirect_uri)
 	{
 
-		$client = new \CFreear\OAuth2\Client\Provider\MailChimp(
+		$client = new MailChimpOAuth(
 			array(
 				'clientId'          => $client_id,
 				'clientSecret'      => $client_secret,
@@ -60,7 +69,7 @@ class MailchimpSeed extends SeedBase {
 	public static function getOAuthCredentials($authorization_code, $client_id, $client_secret)
 	{
 		try {
-			$client = new \CFreear\OAuth2\Client\Provider\MailChimp(
+			$client = new MailChimpOAuth(
 				array(
 					'clientId'          => $client_id,
 					'clientSecret'      => $client_secret
@@ -103,7 +112,7 @@ class MailchimpSeed extends SeedBase {
 
 			$redirect_uri = CASH_ADMIN_URL . '/settings/connections/add/com.mailchimp/finalize';
 
-			$client = new \CFreear\OAuth2\Client\Provider\MailChimp(
+			$client = new MailChimpOAuth(
 				array(
 					'clientId'          => $connections['com.mailchimp']['client_id'],
 					'clientSecret'      => $connections['com.mailchimp']['client_secret'],
@@ -129,7 +138,7 @@ class MailchimpSeed extends SeedBase {
 		} else {
 			$connections = CASHSystem::getSystemSettings('system_connections');
 
-			$client = new \CFreear\OAuth2\Client\Provider\MailChimp(
+			$client = new MailChimpOAuth(
 				array(
 					'redirect_uri'  => $connections['com.mailchimp']['redirect_uri'],
 					'client_id'     => $connections['com.mailchimp']['client_id'],
@@ -145,7 +154,7 @@ class MailchimpSeed extends SeedBase {
 			$api_details = $client->getResourceOwner($credentials['token_object']);
 			$api_key = $credentials['access_token'] . '-' . $api_details->getDC();
 
-			$api = new \DrewM\MailChimp\MailChimp($api_key);
+			$api = new MailChimp($api_key);
 			$lists = $api->get('lists');
 
 			$return_markup = '<h4>Connect to MailChimp</h4>'

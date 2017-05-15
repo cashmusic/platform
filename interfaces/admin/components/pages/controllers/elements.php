@@ -1,4 +1,12 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+
+
 /*******************************************************************************
  *
  * 1. HANDLE CAMPAIGN SELECTION / DRAW SELECTOR

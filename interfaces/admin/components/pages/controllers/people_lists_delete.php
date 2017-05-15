@@ -1,4 +1,15 @@
 <?php
+
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 if (!$request_parameters) {
 	AdminHelper::controllerRedirect('/people/lists/');
 }
@@ -13,9 +24,9 @@ if (isset($_POST['dodelete']) || isset($_REQUEST['modalconfirm'])) {
 	);
 	if ($delete_response['status_uid'] == 'people_deletelist_200') {
 		if (isset($_REQUEST['redirectto'])) {
-			AdminHelper::formSuccess('Success. Deleted.',$_REQUEST['redirectto']);
+			$admin_helper->formSuccess('Success. Deleted.',$_REQUEST['redirectto']);
 		} else {
-			AdminHelper::formSuccess('Success. Deleted.','/people/lists/');
+			$admin_helper->formSuccess('Success. Deleted.','/people/lists/');
 		}
 	}
 }

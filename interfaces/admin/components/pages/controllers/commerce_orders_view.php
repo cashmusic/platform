@@ -1,4 +1,13 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
 /*******************************************************************************
  *
  * 1. SET UP SCRIPT VARIABLES
@@ -22,7 +31,7 @@ if ($request_parameters) {
 				'finalize_url' => $_POST['resend_store_url']
 			)
 		);
-		AdminHelper::formSuccess('Receipt sent!','/commerce/orders/view/' . $request_parameters[0]);
+		$admin_helper->formSuccess('Receipt sent!','/commerce/orders/view/' . $request_parameters[0]);
 	}
 
 	// edit order notes
@@ -35,7 +44,7 @@ if ($request_parameters) {
 				'notes' => $_POST['ordernotes']
 			)
 		);
-		AdminHelper::formSuccess('Changes saved.','/commerce/orders/view/' . $request_parameters[0]);
+		$admin_helper->formSuccess('Changes saved.','/commerce/orders/view/' . $request_parameters[0]);
 	}
 
 	// mark order as fulfilled
@@ -49,7 +58,7 @@ if ($request_parameters) {
 					'fulfilled' => 1
 				)
 			);
-			AdminHelper::formSuccess('Order fulfilled.','/commerce/orders/view/' . $request_parameters[0]);
+			$admin_helper->formSuccess('Order fulfilled.','/commerce/orders/view/' . $request_parameters[0]);
 		}  else if ($request_parameters[1] == 'cancel') {
 
 			$order_cancel_response = $cash_admin->requestAndStore(
@@ -61,9 +70,9 @@ if ($request_parameters) {
 			);
 
 			if ($order_cancel_response['payload']) {
-				AdminHelper::formSuccess('Order cancelled.','/commerce/orders/view/' . $request_parameters[0]);
+				$admin_helper->formSuccess('Order cancelled.','/commerce/orders/view/' . $request_parameters[0]);
 			} else {
-				AdminHelper::formFailure('Try again.','/commerce/orders/view/' . $request_parameters[0]);
+				$admin_helper->formFailure('Try again.','/commerce/orders/view/' . $request_parameters[0]);
 			}
 		}
 	}
@@ -88,12 +97,11 @@ if ($request_parameters) {
 		$order_all_details['padded_id'] = str_pad($order_all_details['id'],6,0,STR_PAD_LEFT);
 		$order_all_details['order_date'] = date("M j, Y, g:i A", $order_all_details['creation_date']);
 		$order_all_details['formatted_gross_price'] = sprintf("%01.2f",$order_all_details['gross_price']);
-		$order_all_details['formatted_subtotal'] = sprintf("%01.2f",$item_price);
+
 		$order_all_details['formatted_net_price'] = sprintf("%01.2f",$order_all_details['gross_price'] - $order_all_details['service_fee']);
-		$order_all_details['formatted_connection_name'] = preg_replace('/\(|\)/','',AdminHelper::getConnectionName($order_all_details['connection_id']));
-		$order_all_details['order_connection_details'] = AdminHelper::getConnectionName($order_all_details['connection_id']) . ' (' . $order_all_details['connection_type'] . ')';
+		$order_all_details['formatted_connection_name'] = preg_replace('/\(|\)/','',$admin_helper->getConnectionName($order_all_details['connection_id']));
+		$order_all_details['order_connection_details'] = $admin_helper->getConnectionName($order_all_details['connection_id']) . ' (' . $order_all_details['connection_type'] . ')';
 		//if ($order_all_details['fulfilled']) { $order_all_details['order_fulfilled'] = 'yes'; } else { $order_all_details['order_fulfilled'] = 'no'; }
-		$cash_admin->page_data = array_merge($cash_admin->page_data,$order_all_details);
 
 		$order_contents = json_decode($order_all_details['order_contents'],true);
 
@@ -118,6 +126,9 @@ if ($request_parameters) {
 				}
 			}
 		}
+
+        $order_all_details['formatted_subtotal'] = sprintf("%01.2f",$item_price);
+        $cash_admin->page_data = array_merge($cash_admin->page_data,$order_all_details);
 
 		$cash_admin->page_data['order_contents'] = new ArrayIterator($order_contents);
 		$cash_admin->page_data['formatted_shipping'] = number_format($order_all_details['gross_price']-$item_price,2);

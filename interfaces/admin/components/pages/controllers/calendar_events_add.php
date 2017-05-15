@@ -1,4 +1,15 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 // parsing posted data:
 if (isset($_POST['doeventadd'])) {
 	// do the actual list add stuffs...
@@ -22,13 +33,13 @@ if (isset($_POST['doeventadd'])) {
 	);
 
 	if ($add_response['payload']) {
-		AdminHelper::formSuccess('Success. Event added.','/calendar/');
+		$admin_helper->formSuccess('Success. Event added.','/calendar/');
 	} else {
-		AdminHelper::formFailure('Error. Something just didn\'t work right.','/calendar/events/add/');
+		$admin_helper->formFailure('Error. Something just didn\'t work right.','/calendar/events/add/');
 	}
 }
 
-$cash_admin->page_data['venue_options'] = AdminHelper::echoFormOptions('venues',0,false,true);
+$cash_admin->page_data['venue_options'] = $admin_helper->echoFormOptions('venues',0,false,true);
 $cash_admin->page_data['form_state_action'] = 'doeventadd';
 $cash_admin->page_data['event_button_text'] = 'Add the event';
 

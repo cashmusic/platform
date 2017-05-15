@@ -1,5 +1,14 @@
 <?php
 
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 $settings_request = new CASHRequest(
     array(
         'cash_request_type' => 'system',
@@ -42,9 +51,9 @@ if (is_array($settings_request->response['payload'])) {
                 error_log(print_r($subscriber_request->response, true));
 
                 if ($subscriber_request->response['payload']) {
-                    AdminHelper::formSuccess('Success. Subscriber comped for this plan.','/commerce/subscriptions/subscriber/detail/'.$request_parameters[0]);
+                    $admin_helper->formSuccess('Success. Subscriber comped for this plan.','/commerce/subscriptions/subscriber/detail/'.$request_parameters[0]);
                 } else {
-                    AdminHelper::formFailure('Error. Something just didn\'t work right.','/commerce/subscriptions/subscriber/detail/'.$request_parameters[0]);
+                    $admin_helper->formFailure('Error. Something just didn\'t work right.','/commerce/subscriptions/subscriber/detail/'.$request_parameters[0]);
                 }
 
                 break;
@@ -73,9 +82,9 @@ if (is_array($settings_request->response['payload'])) {
 
 
                 if ($subscriber_request->response['payload']) {
-                    AdminHelper::formSuccess('Success. Subscriber deleted.','/commerce/subscriptions/detail/'.$request_parameters[2]);
+                    $admin_helper->formSuccess('Success. Subscriber deleted.','/commerce/subscriptions/detail/'.$request_parameters[2]);
                 } else {
-                    AdminHelper::formFailure('Error. Something just didn\'t work right.','/commerce/subscriptions/subscriber/detail/'.$request_parameters[0]);
+                    $admin_helper->formFailure('Error. Something just didn\'t work right.','/commerce/subscriptions/subscriber/detail/'.$request_parameters[0]);
                 }
 
                 break;
@@ -91,9 +100,9 @@ if (is_array($settings_request->response['payload'])) {
                     )
                 );
                 if ($subscriber_request->response['payload']) {
-                    AdminHelper::formSuccess('Success. Subscriber unsubscribed.','/commerce/subscriptions/detail/'.$request_parameters[2]);
+                    $admin_helper->formSuccess('Success. Subscriber unsubscribed.','/commerce/subscriptions/detail/'.$request_parameters[2]);
                 } else {
-                    AdminHelper::formFailure('Error. Something just didn\'t work right.','/commerce/subscriptions/subscriber/detail/'.$request_parameters[0]);
+                    $admin_helper->formFailure('Error. Something just didn\'t work right.','/commerce/subscriptions/subscriber/detail/'.$request_parameters[0]);
                 }
 
                 break;

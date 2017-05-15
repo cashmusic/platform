@@ -1,4 +1,14 @@
 <?php
+
+namespace CASHMusic\Admin;
+
+use CASHMusic\Core\CASHSystem as CASHSystem;
+use CASHMusic\Core\CASHRequest as CASHRequest;
+use ArrayIterator;
+use CASHMusic\Admin\AdminHelper;
+
+$admin_helper = new AdminHelper($admin_primary_cash_request, $cash_admin);
+
 $cash_admin->page_data['country_codes'] = AdminHelper::drawCountryCodeUL();
 $effective_user = $cash_admin->effective_user_id;
 
@@ -22,9 +32,9 @@ if (isset($_POST['docontactadd'])) {
 	);
 
 	if ($add_response['payload']) {
-		AdminHelper::formSuccess('Success. Contact added.');
+		$admin_helper->formSuccess('Success. Contact added.');
 	} else {
-		AdminHelper::formFailure('Error. Something just didn\'t work right.');
+		$admin_helper->formFailure('Error. Something just didn\'t work right.');
 	}
 }
 
