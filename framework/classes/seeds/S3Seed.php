@@ -467,7 +467,11 @@ class S3Seed extends SeedBase {
 			$this->s3_secret,
 			$this->bucket,
 			$this->bucket_region,
-            ['acl'=>$acl]
+            [
+            	'acl'=>$acl,
+				'max_file_size'=>5000,
+				'expires'=>'+1 days'
+				]
 		);
         $cool = [
             'upload_url' => $upload->getFormUrl(),
@@ -477,7 +481,6 @@ class S3Seed extends SeedBase {
             'key_preface' => $key_preface,
             'acl' => 'private',
             'lifetime' => 1200,
-            'max_size' => 5000000000,
             'success' => $success_url,
             's3_key' => $this->s3_key
         ];

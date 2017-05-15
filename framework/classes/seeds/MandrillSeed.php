@@ -33,9 +33,9 @@ class MandrillSeed extends SeedBase {
 
 		$this->settings_type = 'com.mandrillapp';
 		$this->user_id = $user_id;
-		
+
 		// if there's no $connection_id, we'll just default to CASH's key
-		
+
 		$this->connection_id = $connection_id;
 
 		if ($this->getCASHConnection()) {
@@ -75,6 +75,7 @@ class MandrillSeed extends SeedBase {
 		}
 
         $this->api = new Mandrill($this->api_key);
+
 	}
 
 	public static function getRedirectMarkup($data=false, $admin_helper=false) {
@@ -161,24 +162,26 @@ class MandrillSeed extends SeedBase {
 		}
 	}
 	//https://mandrillapp.com/api/docs/messages.html#method=send
-	public function send($subject,$message_txt,$message_html,$from_address,$from_name,$recipients,$metadata=null,$global_merge_vars=null,$merge_vars=null,$tags=null) {
+	public function send($subject,$message_txt,$message_html,$from_address,$from_name,$sender_address,$recipients,$metadata=null,$global_merge_vars=null,$merge_vars=null,$tags=null) {
 
 		$unsubscribe_link = '';
 		if ($metadata) {
 			if (isset($metadata['list_id'])) {
-				$unsubscribe_link = '<a href="' .
+				$unsubscribe_link = '<a style="margin:0;padding:0;" href="' .
 					CASH_PUBLIC_URL .
-					'request/html?cash_request_type=people&cash_action=removeaddress&list_id=' .
+					'/request/html?cash_request_type=people&cash_action=removeaddress&list_id=' .
 					$metadata['list_id'] .
 					'&address={{email_address}}' .
 					'">Unsubscribe</a>';
 			}
+			$message_html = str_replace('$UNSUBSCRIBE$','*|UNSUBSCRIBELINK|*',$message_html);
+		} else {
+            $message_html = str_replace('$UNSUBSCRIBE$','',$message_html);
 		}
-
-		$message_html = str_replace('{{{unsubscribe_link}}}','*|UNSUBSCRIBELINK|*',$message_html);
 
 		$recipient_metadata = null;
 		$recipient_merge_vars = array();
+
 		if (is_array($recipients)) {
 			foreach ($recipients as &$recipient) {
 
@@ -211,6 +214,25 @@ class MandrillSeed extends SeedBase {
 		$sender = CASHSystem::parseEmailAddress($email_settings['systememail']);
 		$sender_email = $this->api_email ? $this->api_email : key($sender);
 
+		$merged_vars = [];
+
+		if (!empty($merge_vars)) {
+			if (!empty($recipient_merge_vars)) {
+				foreach($merge_vars as $merge_var) {
+					$value = $merge_var['rcpt'];
+
+					$unsubscribe_vars = CASHSystem::searchArrayMulti($recipient_merge_vars, "rcpt", $value);
+
+                    $merge_var['vars'] = array_merge($unsubscribe_vars[0]['vars'], $merge_var['vars']);
+					$merged_vars[] = $merge_var;
+				}
+
+				$merge_vars = $merged_vars;
+			}
+		} else {
+			$merge_vars = $recipient_merge_vars;
+		}
+
 		if ($this->user_id) {
 			// get current user details for email
 			$user_request = new CASHRequest(
@@ -235,7 +257,6 @@ class MandrillSeed extends SeedBase {
 
 		} else {
 			// we're testing so let's just fake this for now
-
 			$user_details['email_address'] = 'info@cashmusic.org';
 			$user_details['display_name'] = 'Testing CASH Mailer';
 		}
@@ -276,7 +297,9 @@ class MandrillSeed extends SeedBase {
 			"images" => null
 		);
 
-		return $this->api->call('messages/send', array("message" => $message, "async" => true));
+		$result = $this->api->call('messages/send', array("message" => $message, "async" => true));
+
+		return $result;
 	}
 
 } // END class

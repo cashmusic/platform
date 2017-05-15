@@ -31,31 +31,32 @@ if (isset($_POST['dolistedit'])) {
 }
 
 if (isset($_POST['dobatchcontactsadd'])) {
-	if (!empty($_POST['element_content'])) {
-		$email_array = array_map('trim',explode(",",str_replace(PHP_EOL,',',$_POST['element_content'])));
-		if (count($email_array) > 0) {
-			$total_added = 0;
-			foreach ($email_array as $address) {
-				$add_response = $cash_admin->requestAndStore(
-					array(
-						'cash_request_type' => 'people', 
-						'cash_action' => 'addaddresstolist',
-						'do_not_verify' => 1,
-						'address' => $address,
-						'list_id' => $request_parameters[0]
-					)
-				);
-				if ($add_response['payload']) {
-					$total_added++;
-				}
-			}
-			$admin_helper->formSuccess('Success. Added ' . $total_added . ' new people.','/people/lists/view/' . $request_parameters[0]);
-		} else {
-			$admin_helper->formFailure('Error. There was a problem adding new people.','/people/lists/view/' . $request_parameters[0]);
-		}
-	} else {
-		$cash_admin->page_data['error_message'] = 'Error. Please try again.';
-	}
+    if (!empty($_POST['element_content'])) {
+
+        $email_array = CASHSystem::parseBulkEmailInput($_POST['element_content']);
+
+        $total_added = 0;
+        foreach ($email_array as $address) {
+            $add_response = $cash_admin->requestAndStore(
+                array(
+                    'cash_request_type' => 'people',
+                    'cash_action' => 'addaddresstolist',
+                    'do_not_verify' => 1,
+                    'address' => $address,
+                    'list_id' => $request_parameters[0]
+                )
+            );
+            if ($add_response['payload']) {
+                $total_added++;
+            }
+        }
+
+        if ($total_added > 0) {
+            $admin_helper->formSuccess('Success. Added '.$total_added." contacts.", '/people/lists/view/'.$request_parameters[0]);
+        } else {
+            $admin_helper->formFailure('Error. There was a problem adding contacts.', '/people/lists/view/'.$request_parameters[0]);
+        }
+    }
 }
 
 
@@ -80,6 +81,8 @@ if (is_array($current_list)) {
 $cash_admin->page_data['connection_options'] = $admin_helper->echoConnectionsOptions('lists',$current_list['connection_id'],true);
 $cash_admin->page_data['form_state_action'] = 'dolistedit';
 $cash_admin->page_data['list_button_text'] = 'Save changes';
+
+$cash_admin->page_data['list_id'] = $request_parameters[0];
 
 $cash_admin->setPageContentTemplate('people_lists_batch_details');
 ?>

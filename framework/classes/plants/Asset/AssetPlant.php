@@ -43,6 +43,7 @@ class AssetPlant extends PlantBase {
 			'getassetsforconnection'  => array('getAssetsForConnection','direct'),
 			'getassetsforparent'      => array('getAssetsForParent','direct'),
 			'getassetsforuser'        => array('getAssetsForUser','direct'),
+			'getassetfromunlockcode'  => array('getAssetFromUnlockCode', 'direct'),
 			'getasseturl'             => array('getFinalAssetLocation','direct'),
 			'getfulfillmentassets'    => array('getStoredAssets','direct'),
 			'getuploadparameters'     => array('getUploadParameters','direct'),
@@ -197,6 +198,41 @@ class AssetPlant extends PlantBase {
 		}
 
 		return $result;
+	}
+
+	protected function getAssetFromUnlockCode($scope_table_alias, $scope_table_id) {
+
+        $session = CASHSystem::startSession();
+		$session_id = $session['id'];
+
+		// this is a hack to get test emails working
+		if (!is_numeric($scope_table_id) && strlen($scope_table_id) > 64) {
+            $asset_id = substr($scope_table_id, 64);
+		} else {
+            $asset = $this->getAllMetaData($scope_table_alias,$scope_table_id,'asset_id');
+            $asset_id = $asset['asset_id'];
+		}
+
+		if (!empty($asset_id)) {
+			if ($this->unlockAsset($asset_id,$session_id)) {
+
+                $asset_details = $this->getAssetInfo($asset_id);
+
+				return [
+					'uri'=>"/request/?cash_request_type=asset&cash_action=claim&id=".$asset_id."&element_id=&session_id=".$session_id,
+					'name'=>$asset_details['title']
+				];
+				//$this->redirectToAsset($asset['asset_id'],0,$session_id, true);
+			} else {
+				return false;
+			}
+
+
+
+		} else {
+			return false;
+		}
+
 	}
 
 	/**
@@ -650,8 +686,13 @@ class AssetPlant extends PlantBase {
 			if ($final_asset_location !== false) {
 				$this->pushSuccess(array('asset' => $id),'redirect executed successfully');
 				$this->recordAnalytics($id,$element_id);
-				CASHSystem::redirectToUrl($final_asset_location);
-				die();
+				if (!$return_only) {
+                    CASHSystem::redirectToUrl($final_asset_location);
+                    die();
+				} else {
+					return $final_asset_location;
+				}
+
 			} else {
 				return $this->response->pushResponse(
 					500,$this->request_type,$this->action,
@@ -660,9 +701,15 @@ class AssetPlant extends PlantBase {
 				);
 			}
 		} else {
-			// fail back to the default embed with an error string
-			CASHSystem::redirectToUrl(CASH_PUBLIC_URL . '/request/embed/' . $element_id . '?redirecterror=1&session_id=' . $session_id);
-			die();
+
+			if (!$return_only) {
+                // fail back to the default embed with an error string
+                CASHSystem::redirectToUrl(CASH_PUBLIC_URL . '/request/embed/' . $element_id . '?redirecterror=1&session_id=' . $session_id);
+                die();
+			} else {
+				return false;
+			}
+
 		}
 	}
 

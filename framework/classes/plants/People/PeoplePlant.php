@@ -31,6 +31,8 @@ class PeoplePlant extends PlantBase {
 			// first value  = target method to call
 			// second value = allowed request methods (string or array of strings)
 			'addaddresstolist'       => array('addAddress','direct'),
+			'addbulkaddresses'		 => array('addBulkAddresses', 'direct'),
+			'addbulklistmembers'	 => array('addBulkListMembers', 'direct'),
 			'addcontact'             => array('addContact','direct'),
 			'addmailing'             => array('addMailing','direct'),
 			'addlist'                => array('addList','direct'),
@@ -48,6 +50,7 @@ class PeoplePlant extends PlantBase {
 			'getlistsforuser'        => array('getListsForUser','direct'),
 			'getlist'                => array('getList',array('direct','api_key')),
 			'getmailing'             => array('getMailing','direct'),
+			'getmailingmetadata'	 => array('getMailingMetaData', 'direct'),
 			'getmailinganalytics'    => array('getMailingAnalytics','direct'),
 			'getrecentactivity'      => array('getRecentActivity','direct'),
 			'getuser'                => array('getUser','direct'),
@@ -724,7 +727,8 @@ class PeoplePlant extends PlantBase {
 	 * @param {string} $additional_data -   any extra data (JSON, etc) a dev might pass with signup for later use
 	 * @param {string} $name -              if the user doesn't exist in the system this will be used as their display name
 	 * @return bool
-	 */protected function addAddress($address,$list_id,$do_not_verify=false,$initial_comment='',$additional_data='',$name='Anonymous',$force_verification_url=false,$request_from_service=false,$service_opt_in=true,$extra_querystring='',$first_name='',$last_name='') {
+	 */
+	protected function addAddress($address,$list_id,$do_not_verify=false,$initial_comment='',$additional_data='',$name='Anonymous',$force_verification_url=false,$request_from_service=false,$service_opt_in=true,$extra_querystring='',$first_name='',$last_name='') {
 		if (filter_var($address, FILTER_VALIDATE_EMAIL)) {
 			// first check to see if the email is already on the list
 			$take_action = false;
@@ -826,6 +830,147 @@ class PeoplePlant extends PlantBase {
 		return false;
 	}
 
+	protected function addBulkAddresses($addresses) {
+
+		$address_insert = [];
+		foreach ($addresses as $address) {
+            $address_insert[] =
+				"(" .
+					implode(",",['"'.trim($address).'"', '"'.trim($address).'"', '"'.md5(rand(23456,9876541)).'"', '"bulk_import"', time()])
+				.")";
+		}
+
+		$address_insert = implode(",", $address_insert);
+
+		// bulk create users
+        $create_users = $this->db->setData(
+            'users',
+            [
+                'fields' => array(
+                    'email_address',
+                    'username',
+                    'password',
+                    'data',
+                    'creation_date',
+                ),
+                'data' => $address_insert
+            ],
+            false,
+            true // insert ignore
+        );
+
+        if ($create_users) {
+            // query users with "bulk_import" as data field.
+			$get_created_users = $this->db->getData(
+                'users',
+                'id,email_address',
+                array(
+                    "data" => array(
+                        "condition" => "=",
+                        "value" => "bulk_import"
+                    )
+                )
+            );
+
+            $created_user_ids = [];
+            $created_user_emails = [];
+
+            // stash user ids and emails.
+			foreach ($get_created_users as $user) {
+                $created_user_ids[] = $user['id'];
+                $created_user_emails[] = $user['email_address'];
+			}
+
+            // compare emails with original $addresses array.
+			if (count($created_user_emails) < count($addresses)) {
+				$remaining_emails = array_diff($addresses, $created_user_emails);
+
+				// let's double check that these are valid emails, save a query
+                $remaining_emails = filter_var_array($remaining_emails,FILTER_VALIDATE_EMAIL);
+
+                error_log(json_encode($remaining_emails));
+
+                if (count($remaining_emails) > 0) {
+                    $get_existing_users = $this->db->getData(
+                        'users',
+                        'id',
+                        array(
+                            "email_address" => array(
+                                "condition" => "IN",
+                                "value" => $remaining_emails
+                            )
+                        )
+                    );
+
+                    if ($get_existing_users) {
+                        foreach ($get_existing_users as $user) {
+                            $created_user_ids[] = $user['id'];
+                        }
+					}
+				}
+			}
+
+			return $created_user_ids;
+		} else {
+        	return false;
+		}
+
+		return false;
+	}
+
+	protected function addBulkListMembers($user_ids, $list_id) {
+        // bulk create list member entries
+        if (count($user_ids) > 0) {
+
+            error_log("created user ids ".count($user_ids));
+
+            $list_members = [];
+            foreach ($user_ids as $user_id) {
+                $list_members[] =
+                    "(" .
+                    implode(",",['"'.$user_id.'"', '"'.$list_id.'"', time()])
+                    .")";
+            }
+
+            $list_members = implode(",", $list_members);
+
+            $create_list_members = $this->db->setData(
+                'list_members',
+                [
+                    'fields' => array(
+                        'user_id',
+                        'list_id',
+                        'creation_date'
+                    ),
+                    'data' => $list_members
+                ],
+                false,
+                true // insert ignore
+            );
+        }
+
+        $remove_tag = $this->db->setData(
+        	'users',
+			array(
+				'data'=>""
+			),
+            array(
+                "data" => array(
+                    "condition" => "=",
+                    "value" => "bulk_import"
+                )
+            )
+		);
+
+        if ($create_list_members) {
+            return true;
+        } else {
+            return false;
+        }
+
+
+	}
+
 	/**
 	 * Sets a user inactive for a given list. If the user is not present on the
 	 * list it returns true.
@@ -833,7 +978,8 @@ class PeoplePlant extends PlantBase {
 	 * @param {string} $address -  the email address in question
 	 * @param {int} $list_id -     the id of the list
 	 * @return bool
-	 */protected function removeAddress($address,$list_id) {
+	 */
+	protected function removeAddress($address,$list_id) {
 		$membership_info = $this->getAddressListInfo($address,$list_id);
 		if ($membership_info) {
 			if ($membership_info['active']) {
@@ -1125,7 +1271,7 @@ class PeoplePlant extends PlantBase {
 	 *
 	 * @return bool
 	 */
-	protected function addMailing($user_id,$list_id,$connection_id,$subject,$template_id=0,$html_content='',$text_content='',$from_name='') {
+	protected function addMailing($user_id,$list_id,$connection_id,$subject,$template_id=0,$html_content='',$text_content='',$from_name='',$asset=false) {
 		// insert
 		$result = $this->db->setData(
 			'mailings',
@@ -1141,6 +1287,12 @@ class PeoplePlant extends PlantBase {
 				'send_date' => 0
 			)
 		);
+
+		// asset metadata
+		if ($asset) {
+            $this->setMetaData("mailings",$result,$user_id,"asset_id",$asset);
+		}
+
 		if ($result) {
 			// setup analytics for this mailing
 			$this->db->setData(
@@ -1220,7 +1372,16 @@ class PeoplePlant extends PlantBase {
 		}
 	}
 
-	protected function sendMailing($mailing_id,$user_id=false) {
+	protected function getMailingMetaData($mailing_id, $user_id=false) {
+        $result = $this->getMetaData("mailings",$mailing_id,$user_id,"asset_id");
+
+        if ($result) {
+        	return $result;
+		} else {
+        	return false;
+		}
+	}
+	protected function sendMailing($mailing_id,$user_id=false,$asset=false) {
 		$mailing = $this->getMailing($mailing_id,$user_id);
 		if ($mailing) {
 			if ($mailing['send_date'] == 0) {
@@ -1243,75 +1404,188 @@ class PeoplePlant extends PlantBase {
 
 				$list_details = $list_request->response['payload'];
 
-				if (is_array($list_details)) {
-					$recipients = array();
-					foreach ($list_details['members'] as $subscriber) {
-						if ($subscriber['active']) {
-							if ($subscriber['display_name'] == 'Anonymous' || $subscriber['display_name'] == '') {
-								$subscriber['display_name'] = $subscriber['email_address'];
+                $merge_vars = [];
+
+                // if there's an asset id we need to look it up and pass for global merge vars
+                if ($asset) {
+                    // lookup asset details
+                    $asset_request = new CASHRequest(
+                        array(
+                            'cash_request_type' => 'asset',
+                            'cash_action' => 'getasset',
+                            'id' => $asset,
+                            'user_id' => $mailing['user_id']
+                        )
+                    );
+
+                    if ($asset_request->response['payload']) {
+
+                        $add_code_request = new CASHRequest(
+                            array(
+                                'cash_request_type' => 'system',
+                                'cash_action' => 'addbulklockcodes',
+                                'scope_table_alias' => 'mailings',
+                                'scope_table_id' => $mailing_id,
+								'user_id' => $mailing['user_id'],
+								'count' => count($list_details['members'])
+                            )
+                        );
+
+						if ($add_code_request) {
+
+                            $get_code_request = new CASHRequest(
+                                array(
+                                    'cash_request_type' => 'system',
+                                    'cash_action' => 'getlockcodes',
+                                    'scope_table_alias' => 'mailings',
+                                    'scope_table_id' => $mailing_id,
+                                    'user_id' => $mailing['user_id']
+                                )
+                            );
+
+                            if (is_array($get_code_request->response['payload'])) {
+                                $codes = array_column($get_code_request->response['payload'], 'uid');
 							}
-							$recipients[] = array(
-								'email' => $subscriber['email_address'],
-								'name' => $subscriber['display_name'],
-								'metadata' => array(
-									'user_id' => $subscriber['id']
-								)
-							);
 						}
-					}
 
-					$user_request = new CASHRequest(
-						array(
-							'cash_request_type' => 'people',
-							'cash_action' => 'getuser',
-							'user_id' => $mailing['user_id']
-						)
-					);
-					$user_details = $user_request->response['payload'];
+                    }
+                }
 
-					if (!$mailing['from_name']) {
-						$mailing['from_name'] = $user_details['email_address'];
-					}
 
-/*					$mandrill = new MandrillSeed($user_id,$mailing['connection_id']);
-					$result = $mandrill->send(
-						$mailing['subject'],
-						$mailing['text_content'],
-						$mailing['html_content'],
-						$user_details['email_address'],
-						$mailing['from_name'],
-						$recipients,
-						array('mailing_id'=>$mailing_id,'list_id'=>$mailing['list_id'])
-					);*/
+                // build recipient arrays
+				if (is_array($list_details)) {
+					$recipients = [];
+                    $merge_vars = [];
+					$success = true;
 
-					if (CASHSystem::sendMassEmail(
-						$user_id,
-						$mailing['subject'],
-						$recipients,
-						$mailing['html_content'], // message body
-						$mailing['subject'], // message subject
-						[ // global merge vars
-							[
-								'name' => 'unsubscribelink',
-								'content' => "<a href='http://google.com'>Unsubscribe</a>"
-							]
-						],
-						[], // local merge vars (per email)
-						false,
-						true,
-						true,
-						$mailing['from_name'],
-						false
-					)) {
+					if (count($list_details['members']) > 1000) {
 
-						$this->editMailing($mailing_id,time());
-						$this->addToMailingAnalytics($mailing_id,count($recipients));
+                        $recipients_chunked = array_chunk($list_details['members'], 1000);
+                        foreach($recipients_chunked as $members) {
+                            // reset these every time or you'll get doubles, or worse
+                            $recipients = [];
+                            $merge_vars = [];
+                            foreach ($members as $subscriber) {
+                                if ($subscriber['active']) {
+                                    if ($subscriber['display_name'] == 'Anonymous' || $subscriber['display_name'] == '') {
+                                        $subscriber['display_name'] = $subscriber['email_address'];
+                                    }
+                                    $recipients[] = array(
+                                        'email' => $subscriber['email_address'],
+                                        'name' => $subscriber['display_name'],
+                                        'type' => 'to',
+                                        'metadata' => array(
+                                            'user_id' => $subscriber['id']
+                                        )
+                                    );
+                                }
 
-						return true;
+                                // there's a valid asset
+                                if ($asset_request->response['payload'] && !empty($codes) && is_array($codes)) {
 
-					} else {
-						return false;
-					}
+                                    $code = array_pop($codes);
+                                    $merge_vars[] = [
+                                        'rcpt' => $subscriber['email_address'],
+                                        'vars' => [
+                                            [
+                                                'name' => 'assetbutton',
+                                                'content' => "<a href='".CASH_PUBLIC_URL .
+                                                    '/request/html?cash_request_type=system&cash_action=redeemlockcode&list_id=' .
+                                                    $mailing['list_id'] .
+                                                    "&address=".$subscriber['email_address']."&code=$code&handlequery=1".
+                                                    "' class='button'>Download ".
+                                                    htmlentities($asset_request->response['payload']['title']).'</a>'
+                                            ]
+                                        ]
+                                    ];
+                                }
+                            }
+
+                            if (CASHSystem::sendMassEmail(
+                                $user_id,
+                                $mailing['subject'],
+                                $recipients,
+                                $mailing['html_content'], // message body
+                                $mailing['subject'], // message subject
+                                [],
+                                $merge_vars, // local merge vars (per email)
+                                false,
+                                true,
+                                true,
+                                $mailing
+                            )) {
+
+                                $this->editMailing($mailing_id,time());
+                                $this->addToMailingAnalytics($mailing_id,count($recipients));
+
+                            } else {
+                                $success = false;
+                            }
+
+                        }
+
+                        return $success;
+
+                    } else {
+                        foreach ($list_details['members'] as $subscriber) {
+                            if ($subscriber['active']) {
+                                if ($subscriber['display_name'] == 'Anonymous' || $subscriber['display_name'] == '') {
+                                    $subscriber['display_name'] = $subscriber['email_address'];
+                                }
+                                $recipients[] = array(
+                                    'email' => $subscriber['email_address'],
+                                    'name' => $subscriber['display_name'],
+                                    'type' => 'to',
+                                    'metadata' => array(
+                                        'user_id' => $subscriber['id']
+                                    )
+                                );
+                            }
+
+                            // there's a valid asset
+                            if ($asset_request->response['payload'] && !empty($codes) && is_array($codes)) {
+
+                                $code = array_pop($codes);
+                                $merge_vars[] = [
+                                    'rcpt' => $subscriber['email_address'],
+                                    'vars' => [
+                                        [
+                                            'name' => 'assetbutton',
+                                            'content' => "<a href='".CASH_PUBLIC_URL .
+                                                '/request/html?cash_request_type=system&cash_action=redeemlockcode&list_id=' .
+                                                $mailing['list_id'] .
+                                                "&address=".$subscriber['email_address']."&code=$code&handlequery=1".
+                                                "' class='button'>Download ".
+                                                htmlentities($asset_request->response['payload']['title']).'</a>'
+                                        ]
+                                    ]
+                                ];
+                            }
+                        }
+
+                        if (CASHSystem::sendMassEmail(
+                            $user_id,
+                            $mailing['subject'],
+                            $recipients,
+                            $mailing['html_content'], // message body
+                            $mailing['subject'], // message subject
+                            [],
+                            $merge_vars, // local merge vars (per email)
+                            false,
+                            true,
+                            true,
+                            $mailing
+                        )) {
+
+                            $this->editMailing($mailing_id,time());
+                            $this->addToMailingAnalytics($mailing_id,count($recipients));
+
+                            return true;
+
+                        } else {
+                            return false;
+                        }
+                    }
 				}
 			}
 		}
@@ -1546,7 +1820,7 @@ class PeoplePlant extends PlantBase {
 		}
 	}
 
-	protected function buildMailingContent($template_id, $html_content, $title, $subject, $template="user_email") {
+	protected function buildMailingContent($template_id, $html_content, $title, $subject, $template="user_email", $asset=false) {
 
 		// use default template
 		if ($template_id == 'default') {
@@ -1554,6 +1828,12 @@ class PeoplePlant extends PlantBase {
 			$html_content = CASHSystem::parseMarkdown($html_content);
 
 			if ($template = CASHSystem::setMustacheTemplate($template)) {
+
+				if ($asset) {
+					$template = str_replace('$ASSET$', '*|ASSETBUTTON|*', $template);
+				} else {
+					$template = str_replace('$ASSET$', '', $template);
+				}
 
 				// render the mustache template and return
 				$html_content = CASHSystem::renderMustache(

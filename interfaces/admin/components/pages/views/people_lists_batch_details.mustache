@@ -1,10 +1,109 @@
 {{! corresponding files: people_lists_batch_edit.php & people_lists_batch_edit.json }}
-<h4>Batch add contacts</h4>
+<h4>Manually add contacts</h4>
 <div class="pure-u-1">
-	<form accept-charset="UTF-8" name="batchaddcontacts" method="post" action="{{www_path}}{{requested_route}}">
-		<input type="hidden" name="dobatchcontactsadd" value="makeitso" />
-		<p>{{copy_add_multiple}}</p>
-		<textarea id="element_content" placeholder='your@email.com,another@email.com' name="element_content" class="tall required"></textarea>
-		<button type="submit">{{copy_add}}</button>
-	</form>
+	<div class="pure-u-1-1">
+
+        <form enctype="multipart/form-data" accept-charset="UTF-8" name="batchaddcontacts" method="post" action="{{www_path}}/people/lists/batch/edit/{{list_id}}">
+            <input type="hidden" name="dobatchcontactsadd" value="makeitso" />
+            <p>{{copy_add_multiple}}</p>
+            <textarea id="element_content" placeholder='your@email.com,another@email.com' name="element_content" class="tall required"></textarea>
+            <button type="submit">{{copy_add}}</button>
+        </form>
+    </div>
+
+    <div class="pure-u-1-1">
+        <p>&nbsp;</p>
+        <hr>
+        <p>&nbsp;</p>
+        <h4>Upload file of contacts</h4>
+        <p>Alternatively you can upload a text file of emails in comma separated or list format.</p>
+        <form accept-charset="UTF-8" enctype="multipart/form-data" method="post" action="{{www_path}}/people/lists/batch/upload/{{list_id}}" name="import_csv" id="file_upload">
+            <label for="csv_upload">Select file</label>
+            <input type="hidden" name="dobatchcontactsadd" value="makeitso" />
+            <input type="file" name="element_upload" accept=".csv, .txt, text/plain" required class="required"/>
+
+            <!--<button type="submit">Import file</button>-->
+        </form>
+
+        <form id="status_form" action="{{www_path}}/people/lists/view/{{list_id}}">
+            <input type="hidden" name="status" id="status">
+            <input type="hidden" name="count" id="count">
+        </form>
+
+        <script src="{{www_path}}/ui/default/assets/scripts/jquery.fileupload.js"></script>
+        <script type="text/javascript">
+            $(function() {
+
+                window.filecount = 0;
+                var uploadButton = $('<button/>')
+                        .addClass('button')
+                        .prop('disabled', true)
+                        .text('Processing...')
+                        .on('click', function () {
+                            var $this = $(this),
+                                    data = $this.data();
+                            $this
+                                    .off('click')
+                                    .text('Abort')
+                                    .on('click', function () {
+                                        $this.remove();
+                                        data.abort();
+                                    });
+                            data.submit().always(function () {
+                                $this.remove();
+                            });
+                        });
+
+                $('#file_upload').fileupload({
+                    singleFileUploads: true,
+                    sequentialUploads: false,
+                    autoUpload: false,
+
+                    add: function (e, data) {
+                        // remember the filename and submit
+                        console.log("add");
+                        data.formData = {action: 'do_upload'};
+                        window.filecount++;
+
+                        data.submit();
+                    },
+                    send: function(e, data) {
+                        // spinner, etc
+                        $('#loadingmask').css('width','101%');
+                    },
+                    fail: function(e, data) {
+                        // we should do something useful here
+                        $("#status").val("failure");
+                        $('#loadingmask').css('width','1%');
+
+                        $("#status_form").submit();
+                    },
+                    done: function (event, data) {
+
+                        var result = JSON.parse(data.result);
+
+                        if (result.success == "true") {
+                            $("#status").val("success");
+                            $("#count").val(result.count);
+                        } else {
+                            $("#status").val("failure");
+                            $("#count").val(0);
+                        }
+
+                        setTimeout(function() {
+                            $('#loadingmask').css('width','1%');
+                            $("#status_form").submit();
+                        }, 2000);
+
+
+                        //$("#file_upload").submit();
+                        //$('.process-import').removeClass("disabled");
+                    }
+                }).on('fileuploadadd', function (e, data) {
+                    $("#file_upload").append('<br>')
+                            .append(uploadButton.clone(true).data(data));
+                });
+            });
+        </script>
+    </div>
 </div><!--pure-->

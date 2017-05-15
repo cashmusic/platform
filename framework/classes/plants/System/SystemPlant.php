@@ -37,6 +37,7 @@ class SystemPlant extends PlantBase {
 				// alphabetical for ease of reading
 				// first value  = target method to call
 				// second value = allowed request methods (string or array of strings)
+			    'addbulklockcodes'		  => array('addBulkLockCodes', 'direct'),
 				'addlogin'                => array('addLogin','direct'),
 				'addlockcode'             => array('addLockCode','direct'),
 				'deletelogin'             => array('deleteLogin','direct'),
@@ -1076,6 +1077,58 @@ class SystemPlant extends PlantBase {
 			return false;
 		}
 	}
+
+    protected function addBulkLockCodes($scope_table_alias,$scope_table_id,$user_id, $count){
+
+	 	$codes = [];
+	 	for($i=0; $i<$count;$i++) {
+	 		$codes[] = $this->generateCode(
+                $this->lock_code_chars['all_chars'],
+                $this->lock_code_chars['code_break'],
+                $this->getLastLockCode()
+            );
+		}
+
+        $code_insert = [];
+
+	 	// we can just create o
+		if (count($codes) < 50001) {
+
+            foreach ($codes as $code) {
+                $code_insert[] =
+                    "(" .
+                    implode(",",['"'.$code.'"', '"'.$scope_table_alias.'"', '"'.$scope_table_id.'"', $user_id])
+                    .")";
+            }
+
+            $code_insert = implode(",", $code_insert);
+
+            // bulk create codes for users
+            $create_codes = $this->db->setData(
+                'lock_codes',
+                [
+                    'fields' => array(
+                        'uid',
+                        'scope_table_alias',
+                        'scope_table_id',
+                        'user_id'
+                    ),
+                    'data' => $code_insert
+                ],
+                false,
+                true // insert ignore
+            );
+
+		} else {
+			// we actually don't need this for the foreseeable future. can't think of a single instance where we'd be doing more than 50k codes at once
+		}
+
+        if ($create_codes) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 	/**
 	 * Attempts to redeem a given lock code, returning all details for the code on success or false

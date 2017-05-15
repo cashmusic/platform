@@ -1,6 +1,8 @@
 <?php
+
 if ($request_parameters) {
 	$request_list_id = $request_parameters[0];
+
 	$current_response = $cash_admin->requestAndStore(
 		array(
 			'cash_request_type' => 'people', 
@@ -42,8 +44,18 @@ if ($request_parameters) {
 		$cash_admin->page_data['analytics_active'] = $list_analytics['payload']['active'];
 		$cash_admin->page_data['analytics_inactive'] = $list_analytics['payload']['inactive'];
 		$cash_admin->page_data['analytics_last_week'] = $list_analytics['payload']['last_week'];
+        $cash_admin->page_date['list_id'] = $request_list_id;
 
 		$cash_admin->setPageContentTemplate('people_lists_view');
+
+        if (!empty($_POST['status'])) {
+            if ($_POST['status'] == "success") {
+                AdminHelper::formSuccess('Success. Added '.$_POST['count'].' bulk emails from upload.');
+            } else {
+                AdminHelper::formFailure('Error. There was a problem importing your file.');
+            }
+        }
+
 	} else {
 		header('Location: ' . ADMIN_WWW_BASE_PATH . '/people/lists/');	
 	}

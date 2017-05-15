@@ -141,6 +141,44 @@ if (!isset($_REQUEST['nooutput'])) {
 				$template = file_get_contents(dirname(__FILE__) . '/templates/system.mustache');
 				if (isset($output['response'])) {
 					$embed_data = $output['response'];
+
+					$scope_table_id = $embed_data['payload']['scope_table_id'];
+
+					if (isset($_REQUEST['list_id'])) {
+						if (strlen($_REQUEST['list_id']) > 64) {
+                            $scope_table_id = $_REQUEST['list_id'];
+						}
+					}
+
+					// if this is a download redemption
+					if ($embed_data['status_code'] == "200" && $embed_data['status_uid'] == "system_redeemlockcode_200") {
+                        $fulfillment_request = new CASHRequest(
+                            array(
+                                'cash_request_type' => 'asset',
+                                'cash_action' => 'getassetfromunlockcode',
+                                'scope_table_alias' => $embed_data['payload']['scope_table_alias'],
+                                'scope_table_id' => $scope_table_id
+                            )
+                        );
+
+                        if ($asset = $fulfillment_request->response['payload']) {
+                        	/*header("Location: ".$asset_uri);
+                            die();*/
+                            $embed_data = array(
+                                'contextual_name' => 'Your Download',
+                                'contextual_message' => '<p>Click the link below to download. Keep in mind if this is a ZIP file, mobile devices have limited support for opening archives.</p><a class="cm-download-button" href="'.$asset['uri'].'">Download '.htmlentities($asset['name']).'</a><p><small>For all questions contact the vendor that sent this download.</small></p>'
+                            );
+
+
+						}
+						else {
+                            $embed_data = array(
+                                'action' => 'Download not found',
+                                'contextual_message' => 'There was an error processing your download request.'
+                            );
+						}
+					}
+
 				} else {
 					$embed_data = array(
 						'action' => 'Request not found',
