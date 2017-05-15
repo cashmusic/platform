@@ -46,7 +46,7 @@ use PayPal\Rest\ApiContext;
 use PayPal\Exception\PayPalConnectionException;
 
 
-class PaypalSeed extends SeedBase
+class PaypalSeedREST extends SeedBase
 {
     protected $api_username, $api_password, $api_signature, $api_endpoint, $api_version, $paypal_base_url, $error_message, $token, $experience_id, $LegacySeed;
     public $redirects;

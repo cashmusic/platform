@@ -100,7 +100,8 @@ abstract class CASHSystem  {
 	 * Starts a persistent CASH session in the database, with corresponding cookie
 	 *
 	 * @return none
-	 */public static function startSession($force_session_id=false,$sandbox=false) {
+	 */
+	public static function startSession($force_session_id=false,$sandbox=false) {
 		$cash_page_request = new CASHRequest(null);
 		$session = $cash_page_request->startSession($force_session_id,$sandbox);
 		unset($cash_page_request);

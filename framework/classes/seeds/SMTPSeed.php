@@ -5,8 +5,8 @@ namespace CASHMusic\Seeds;
 use Swift_SmtpTransport;
 use Swift_Mailer;
 use Swift_Message;
-use CASHSystem;
-use SeedBase;
+use CASHMusic\Core\CASHSystem;
+use CASHMusic\Core\SeedBase;
 
 class SMTPSeed extends SeedBase {
 
